@@ -901,6 +901,82 @@ alone cost 14 932 pixels.
 card, the only author label "Ansatt · anonym", the bundle's focus ring on every control,
 send refusing an empty box. No console errors.
 
+### X-019 — The wheel turns: a scheduler, and a queue that holds no credential
+
+The user chose "Build the scheduler too" over rendering the design's OFF state, so
+Årshjulet is backed by `pg_cron` rather than by a screenshot. `cron.schedule
+('orgpuls-wheel', '0 * * * *', …)` runs `app.wheel_tick()` hourly; the tick opens a due
+round, queues its ladder, reminds on the round's own day, closes and freezes, and plans
+the next year from the cadence. It has genuinely planned four rounds for Nordvik — Puls
+Dec 2026, Puls Mar 2027, Puls Jun 2027 and **Grunnlinje Sep 2027**, which is exactly the
+"Neste: september 2027" that Måleoppsett had to omit under D-27.
+
+**The question worth the design work was not scheduling. It was the token.** An invitation
+is a secret in a link, and the obvious asynchronous design parks the plaintext in the queue
+until a dispatcher sends it. That would undo invariant 3 by another route: `app.invitations`
+stores a SHA-256 precisely so no plaintext is ever at rest, and a queue holding live login
+links is that exposure wearing a different name.
+
+So the queue holds an instruction and never a credential. `app.wheel_tick` creates the
+invitation row with the digest of 32 bytes **it then discards** — an invitation nobody has
+been sent is an invitation nobody can redeem — and `public.mint_invitation_link(outbox_id)`
+mints a fresh token at the moment of sending, overwrites the hash, marks the row sent and
+returns the plaintext to the dispatcher once. A second mint on the same row is refused.
+
+**`supabase/tests/wheel_invariants.sql`, 16 of 16.** Assertion 1 asserts the *absence* of
+any column that could hold a token, by name (`token|secret|link|password|key`), so a column
+added later fails there rather than in review. Assertion 14 goes further and searches the
+whole outbox row rendered as text for the token that was actually minted. Neither the tick
+nor the mint is executable by `anon`, `authenticated` or `public`.
+
+**A trap worth writing down.** `select (app.wheel_tick()).*` reported `planned: 0` while
+actually creating four rounds. Postgres re-evaluates the function once per output column;
+the work happened on the first evaluation and the counts came from the last, by which time
+there was nothing left to do. The cron entry and the suite both use the scalar form, and
+the file says why.
+
+**The screen tells the truth about what does not happen.** Nothing empties the outbox —
+there is no mail provider on this project — so the design's `0 manuelle steg` and `20
+varsler sendes automatisk` are replaced by the queue's own counts, and the card's closing
+paragraph says the queue stands until an e-mail integration exists. Three of the round
+timeline's seven steps are omitted for the same reason: the assistant, the AMU case and
+the ownerless-measure escalation are jobs nothing performs. D-29.
+
+**One misreading corrected.** I had coloured the month strip by past / present / future.
+The bundle (3762) colours it by the month's *role*: 20px amber ringed in ink for the
+grunnlinje, 13px mint ringed in green for a puls, 9px otherwise, with Ferie and Forankring
+as labels rather than states. A year wheel describes a shape; the shape does not move with
+today's date.
+
+**Pixel evidence.** Header block, year card, the notification card, the timeline head with
+its Dag 0 row, the Dag 7 closing row and the exceptions card's lower band each diff at
+**0 pixels**; Rytme at 0 after one copy fix (`sjelden` → the bundle's `sjeldent`). The
+column boundaries 158 / 820 / 840 / 1281 match to the pixel. The one residue is 2 424 at
+the seam where the exceptions card's third row lands a pixel low — the D-05 rounding class.
+
+**Six defects the gate found**, every one a control sized by guess rather than transcribed:
+the year card's radius and padding (20/26, not 18/22-24), the month grid's gap and band
+height (4/30, not 6/26), the label row's 10.5px, the ladder row's
+`26px minmax(0,1fr) 108px` grid at `12px 14px`, the lead chips' padding-derived height, and
+the timeline sitting *after* the exceptions card instead of between it and the ladder.
+
+**Migration 0019 was missing from the repository.** It had been applied to the live project
+inline and never written to `supabase/migrations/`, which would have broken CI's rebuild
+on the next run. It is now `0019_year_wheel.sql`, transcribed from the applied statements.
+
+**All six suites re-run green against the live schema:** respondent 21, measure 19, risk
+12, setup 18, conversation 27, wheel 16 — 113 assertions. The design's published figures
+are unmoved: index 61, 64 the year before, 28 av 34 · 82 %.
+
+**Verified in a browser:** tab order is the reading order (back link, rhythm, lead time,
+the three exceptions), arrow keys move within each radio group, the bundle's focus ring
+paints on the control rather than on the hidden input, and a write from an unauthenticated
+caller is refused by the server with *"Bare daglig leder kan endre årshjulet."* No console
+errors, no warnings.
+
+`devIndicators: false` was added to `next.config.ts`: the dev overlay's badge is painted
+into full-page captures in the left margin, and it is not part of the design.
+
 ---
 
 ## Open items
@@ -910,13 +986,16 @@ send refusing an empty box. No console errors.
 - [x] Innsikt rebuilt on the real schema. X-015.
 - [x] Måleoppsett built on migration 0017. X-017.
 - [x] Samtaler built on migration 0018, k-gated. X-018.
-- [ ] Årshjulet, Oppsett, Hjelp and Integrasjoner are unbuilt.
+- [x] Årshjulet built on migrations 0019 and 0020, with a live pg_cron schedule. X-019.
+- [ ] Oppsett, Hjelp and Integrasjoner are unbuilt.
 - [ ] "Lag tiltak" and "Del med verneombud" on a conversation render disabled: both carry
       respondent free text out of the k-gated path and need their own decision (D-28).
-- [ ] Activating a measurement: "Planlegg grunnlinjen", "Neste: september 2027" and the
-      pulse cadence all wait on the årshjul schedule (D-27).
-- [ ] Årshjulet's schedule: two of Innsikt's five year-rail points, and section 1's
-      medvirkning dates, wait on it (D-25).
+- [x] "Neste: september 2027" is now a planned round the wheel created, not a sentence.
+      X-019. "Planlegg grunnlinjen" and the pulse cadence on Måleoppsett still read it
+      from nothing and remain omitted (D-27).
+- [ ] Innsikt's year rail and section 1's medvirkning dates can now be fed from
+      `app.year_wheels` and the rounds the wheel plans; neither screen reads them yet
+      (D-25).
 - [x] Writing measures: the edit panel, "＋ Nytt tiltak" and "Flytt videre". X-014.
 - [ ] No confirmation before "Slett tiltaket". The design specifies no dialog anywhere,
       so none was invented — worth a decision rather than an assumption (D-22).
@@ -925,9 +1004,12 @@ send refusing an empty box. No console errors.
       the round that measured its effect, a k-gated reader over app.extra_answers, and
       records of briefings and training.
 - [x] The published figures — 61, −3, 82 %, 77 % — verified against the live database.
-      X-008. The invariant suite passes 21 of 21.
+      X-008, re-verified at X-019. All six suites pass: 113 assertions.
 - [ ] `ORGPULS_DEV_PASSWORD` unset — no route can be signed into, so `shoot.mjs` and the
       pixel gate still cannot run against the live app. A password cannot be set by an
       agent (X-009); a human sets it on `dev.orgpuls@nordvik.example` and puts it in the
       API-credentials box.
 - [ ] Re-run the pixel gate for `/malinger`: its two row actions became links (D-06).
+- [ ] Nothing empties `app.outbox`. 34 notices are queued and no dispatcher exists; an
+      e-mail integration is the missing piece, and until it lands the årshjul plans and
+      queues but nobody is told (D-29).

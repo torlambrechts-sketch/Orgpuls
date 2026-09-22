@@ -803,3 +803,72 @@ the Button scale; the rules grid is `minmax(250px,1fr)` at gap 13, not 200 at 18
 panel is `padding:22px 24px`, where a 26px guess moved every rule two pixels right and
 cost 14 932. Transcribed, each region went to 0 or to its text-only residue.
 
+
+---
+
+## D-29 — Årshjulet runs; nothing posts. What the screen may claim, and what it may not
+
+Årshjulet is the first screen in this product backed by something that acts on its own.
+`cron.schedule('orgpuls-wheel', '0 * * * *', …)` runs `app.wheel_tick()` every hour, and
+the tick opens a round that is due, queues its notification ladder, queues the reminder on
+the round's own `reminder_day`, closes and freezes a round whose `closes_at` has passed,
+and plans the next year's rounds from the cadence. All of that is real and asserted.
+
+**What is not real is the sending.** The queue in `app.outbox` is a list of instructions
+nobody executes: there is no mail provider, no Teams connector and no SMS gateway wired to
+this project. Thirty-four rows sit in it now, and they will still be sitting in it
+tomorrow. The design's summary card prints two claims about exactly that:
+
+| the design's row | why it cannot be printed |
+| --- | --- |
+| `Manuelt arbeid · 0 manuelle steg` | Sending is a manual step, and there are 34 of them. |
+| `Varsler · 20 varsler sendes automatisk` | Nothing sends. They are queued, not sent. |
+
+Both rows are replaced by the queue's own counts — **I kø** and **Sendt**, read from
+`app.outbox` — which is the same fact without the claim. The card's closing paragraph, the
+design's own `sumYou` slot, carries the sentence that makes it unambiguous: *"Varslene
+legges i kø her. Utsending krever en e-postintegrasjon — uten den blir køen stående, og
+ingen får noe."* Nothing in the design's geometry moved to fit it; it is the paragraph the
+design already draws there.
+
+**Three of the round's seven steps are omitted.** "Hva skjer i hver runde" prints four:
+
+- Dag 0, utsending — the tick opens the round and queues the invitations.
+- Dag *n*, påminnelse — from the round's `reminder_day`, not the design's hard-coded 2.
+- Dag *n*, lukking — from the round's `close_after_days`, not the design's 7.
+- Neste runde — `wheel_tick` really does give a puls only the factors that currently carry
+  an open measure, so "Pulsen måler faktorene med åpne tiltak" is a description of code.
+
+The three left out are *"Tuva skriver utkast til risikovurdering"*, *"AMU-sak opprettes
+med funn og utkast"* and *"Tiltak uten eier eskaleres"*. The first is the assistant, which
+does not exist anywhere in this build; the second needs an AMU case record, and there is
+no such table; the third needs an escalation nothing performs. A timeline that printed
+them would be describing software rather than reporting it.
+
+**The pill has two fills, not three.** The design gives `Årshjulet kjører` #CFE7E4 and
+`Årshjulet er av` #FBD5C4. This build has a third state — switched on, never ticked — and
+it keeps the *on* fill, because a wheel that is on is on. The distinction is carried in
+words, `Årshjulet er slått på, men har ikke gått ennå`, which is the honest reading and
+costs the design nothing.
+
+**The dots are keyed by role, not by date.** My first attempt coloured the month strip
+past / present / future. The bundle (3762) colours it by what the month *is*: 20px amber
+ringed in ink for the grunnlinje, 13px mint ringed in green for a puls, 9px for everything
+else, with `Ferie` and `Forankring` as labels rather than as states. A year wheel
+describes a shape, and the shape does not move with today's date.
+
+**Pixel evidence.** The header block, the whole year card, the "Hvem varsles først" card,
+the timeline's head and its Dag 0 row, and the Dag 7 closing row each diff at **0 pixels**
+against the baseline. Rytme is 0 after one copy fix. The exceptions card is 0 on its lower
+band and 2 424 on its upper, entirely at the seam where the third row lands one pixel low —
+the D-05 rounding class, not a transcription error. The summary card's head is 183 and its
+two unchanged rows 271, both text antialiasing. Every column boundary — 158, 820, 840,
+1281 — is identical to the pixel, so `minmax(0,1.5fr) minmax(280px,1fr)` is exact.
+
+**Defects the gate found**, all the familiar kind: the year card was `rounded-panel` at
+`22px 24px` where the bundle says radius 20 and `padding:26px`; the month grid was at gap
+6 with a 26px band where the bundle says gap 4 and 30px; the label row was 11.5px where it
+is 10.5px; the ladder row was a flex with 15px padding where it is a
+`26px minmax(0,1fr) 108px` grid at `12px 14px`; the lead chips carried a fixed 32px height
+where the bundle sizes them by `6px 12px` padding; and "Hva skjer i hver runde" sat *after*
+"Unntak og eskalering" instead of before it.

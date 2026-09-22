@@ -707,5 +707,109 @@
       "not_found": "The conversation no longer exists."
     },
     "inDialog": "In dialogue"
+  },
+  "arshjulet": {
+    "back": "← Measurements",
+    "title": "Annual cycle and automation",
+    "lead": "Set it up once. After that the sending, reminding, results and follow-up run by themselves — and the verneombud is always warned before the employees.",
+    "lead2": "Everything below happens by itself. You are notified, but you do not have to do anything for it to run.",
+    "lead2Off": "Nothing is sent automatically. Every round has to be started by hand — and that is when it tends to slip.",
+    "running": "The annual cycle is running",
+    "armed": "The annual cycle is switched on, but has not run yet",
+    "off": "The annual cycle is off",
+    "yearHead": "The year — press a month to move the baseline",
+    "point": {
+      "grunnlinje": "Baseline",
+      "puls": "Pulse",
+      "ferie": "Holiday",
+      "forankring": "Consultation"
+    },
+    "rhythmHead": "Rhythm",
+    "cadence": {
+      "minimum": {
+        "label": "Statutory minimum",
+        "note": "One baseline a year. Meets the requirement, but you find things out late."
+      },
+      "kvartalspuls": {
+        "label": "Baseline + quarterly pulse",
+        "note": "Recommended. Four measuring points a year — enough to see whether measures work, rare enough that people still answer."
+      },
+      "manedspuls": {
+        "label": "Baseline + monthly pulse",
+        "note": "For undertakings in transition or at high risk. Requires somebody to actually follow up every month."
+      }
+    },
+    "notifyHead": "Who is warned first",
+    "leadDays": "{days, plural, one {# day before} other {# days before}}",
+    "audience": {
+      "verneombud": {
+        "label": "Verneombud",
+        "note": "Must be involved before a survey starts. aml. § 6-2."
+      },
+      "tillitsvalgte": {
+        "label": "Elected representatives",
+        "note": "Same notice, same time to comment."
+      },
+      "daglig_leder": {
+        "label": "Daglig leder",
+        "note": "Can postpone the round once, or let it go."
+      },
+      "avdelingsledere": {
+        "label": "Department leaders",
+        "note": "See the questions and who on their team receives them."
+      },
+      "alle_ansatte": {
+        "label": "All employees",
+        "note": "A short note that the measurement is coming, and what it is used for."
+      }
+    },
+    "exceptionHead": "Exceptions and escalation",
+    "extendIfLow": "Extend by three days if the response rate is below 50",
+    "extendIfLowNote": "Once per round. A new reminder goes with it.",
+    "skipFellesferie": "Do not send during the summer holiday",
+    "skipFellesferieNote": "Rounds falling in July move to the first week of August.",
+    "notifyVo": "Warn the verneombud when a deadline passes",
+    "notifyVoNote": "At the same time as the owner. Participation without anyone having to ask for it.",
+    "summaryHead": "Your year",
+    "summaryRounds": "{count, plural, one {# measurement a year} other {# measurements a year}}",
+    "summaryBaseline": "Baseline",
+    "summaryForankring": "Consultation",
+    "summaryQueued": "Queued",
+    "queuedValue": "{count, plural, one {# notice} other {# notices}}",
+    "summarySent": "Sent",
+    "sentValue": "{count, plural, one {# notice} other {# notices}}",
+    "nextBaseline": "Next baseline: {month} {year}",
+    "noNextBaseline": "No baseline is planned yet.",
+    "lastRun": "The cycle last ran {when}.",
+    "neverRun": "The cycle has not run yet.",
+    "dispatchNote": "Notices are queued here. Sending them needs an email integration — without one the queue simply stands, and nobody receives anything.",
+    "saved": "Saved",
+    "problem": {
+      "invalid": "Something in the setup could not be read. Try again.",
+      "denied": "Only a daglig leder can change the annual cycle."
+    },
+    "roundHead": "What happens in each round",
+    "step": {
+      "send": {
+        "day": "Day 0",
+        "title": "Sent at 09:00",
+        "note": "Email. Tuesday gives the highest response rate."
+      },
+      "remind": {
+        "day": "Day {day}",
+        "title": "Reminder to those who have not answered",
+        "note": "The system sends it, not the manager. Nobody sees who is missing."
+      },
+      "close": {
+        "day": "Day {day}",
+        "title": "Closes and the result is released",
+        "note": "Groups below the threshold are merged automatically."
+      },
+      "next": {
+        "day": "Next round",
+        "title": "The pulse measures the factors with open measures",
+        "note": "The factor selection is set by which measures are still running."
+      }
+    }
   }
 }

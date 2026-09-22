@@ -707,5 +707,109 @@
       "not_found": "Samtalen finnes ikke lenger."
     },
     "inDialog": "I dialog"
+  },
+  "arshjulet": {
+    "back": "← Målinger",
+    "title": "Årshjul og automatikk",
+    "lead": "Sett det opp én gang. Deretter går utsending, purring, resultat og oppfølging av seg selv — og verneombudet varsles alltid før de ansatte.",
+    "lead2": "Alt under skjer av seg selv. Du blir varslet, men trenger ikke gjøre noe for at det skal gå.",
+    "lead2Off": "Ingenting sendes automatisk. Hver runde må startes for hånd — og det er da det pleier å skli.",
+    "running": "Årshjulet kjører",
+    "armed": "Årshjulet er slått på, men har ikke gått ennå",
+    "off": "Årshjulet er av",
+    "yearHead": "Året — trykk på en måned for å flytte grunnlinjen",
+    "point": {
+      "grunnlinje": "Grunnlinje",
+      "puls": "Puls",
+      "ferie": "Ferie",
+      "forankring": "Forankring"
+    },
+    "rhythmHead": "Rytme",
+    "cadence": {
+      "minimum": {
+        "label": "Lovpålagt minimum",
+        "note": "Én grunnlinje i året. Dekker kravet, men dere oppdager ting sent."
+      },
+      "kvartalspuls": {
+        "label": "Grunnlinje + kvartalspuls",
+        "note": "Anbefalt. Fire målepunkter i året — nok til å se om tiltak virker, sjeldent nok til at folk gidder å svare."
+      },
+      "manedspuls": {
+        "label": "Grunnlinje + puls hver måned",
+        "note": "For virksomheter i omstilling eller med høy risiko. Krever at noen faktisk følger opp hver måned."
+      }
+    },
+    "notifyHead": "Hvem varsles først",
+    "leadDays": "{days, plural, one {# dag før} other {# dager før}}",
+    "audience": {
+      "verneombud": {
+        "label": "Verneombud",
+        "note": "Skal involveres før kartlegging settes i gang. aml. § 6-2."
+      },
+      "tillitsvalgte": {
+        "label": "Tillitsvalgte",
+        "note": "Samme varsel, samme frist til å komme med innspill."
+      },
+      "daglig_leder": {
+        "label": "Daglig leder",
+        "note": "Kan utsette runden én gang, eller la den gå."
+      },
+      "avdelingsledere": {
+        "label": "Avdelingsledere",
+        "note": "Ser spørsmålene og hvem i eget team som får dem."
+      },
+      "alle_ansatte": {
+        "label": "Alle ansatte",
+        "note": "Kort beskjed om at målingen kommer, og hva den brukes til."
+      }
+    },
+    "exceptionHead": "Unntak og eskalering",
+    "extendIfLow": "Forleng tre dager hvis svarprosenten er under 50",
+    "extendIfLowNote": "Én gang per runde. Ny påminnelse følger med.",
+    "skipFellesferie": "Ikke send i fellesferien",
+    "skipFellesferieNote": "Runder som treffer juli flyttes til første uke i august.",
+    "notifyVo": "Varsle verneombud når en frist ryker",
+    "notifyVoNote": "Samtidig som eieren. Gir medvirkning uten at noen må be om det.",
+    "summaryHead": "Året ditt",
+    "summaryRounds": "{count, plural, one {# måling i året} other {# målinger i året}}",
+    "summaryBaseline": "Grunnlinje",
+    "summaryForankring": "Forankring",
+    "summaryQueued": "I kø",
+    "queuedValue": "{count, plural, one {# varsel} other {# varsler}}",
+    "summarySent": "Sendt",
+    "sentValue": "{count, plural, one {# varsel} other {# varsler}}",
+    "nextBaseline": "Neste grunnlinje: {month} {year}",
+    "noNextBaseline": "Ingen grunnlinje er planlagt ennå.",
+    "lastRun": "Årshjulet gikk sist {when}.",
+    "neverRun": "Årshjulet har ikke gått ennå.",
+    "dispatchNote": "Varslene legges i kø her. Utsending krever en e-postintegrasjon — uten den blir køen stående, og ingen får noe.",
+    "saved": "Lagret",
+    "problem": {
+      "invalid": "Noe i oppsettet kunne ikke leses. Prøv igjen.",
+      "denied": "Bare daglig leder kan endre årshjulet."
+    },
+    "roundHead": "Hva skjer i hver runde",
+    "step": {
+      "send": {
+        "day": "Dag 0",
+        "title": "Utsending kl. 09.00",
+        "note": "E-post. Tirsdag gir høyest svarprosent."
+      },
+      "remind": {
+        "day": "Dag {day}",
+        "title": "Påminnelse til dem som ikke har svart",
+        "note": "Systemet sender, ikke lederen. Ingen ser hvem som mangler."
+      },
+      "close": {
+        "day": "Dag {day}",
+        "title": "Lukkes og resultatet frigis",
+        "note": "Grupper under terskel slås sammen automatisk."
+      },
+      "next": {
+        "day": "Neste runde",
+        "title": "Pulsen måler faktorene med åpne tiltak",
+        "note": "Faktorvalget settes av hvilke tiltak som fortsatt løper."
+      }
+    }
   }
 }
