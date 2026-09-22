@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { Button, ButtonLink } from '@/components/ui/Button'
 import { Risikobildet, type FactorRow } from '@/components/resultat/Risikobildet'
-import { deltaColour, heatTone, signedDelta, type Band } from '@/lib/results/read'
+import { bandCounts, deltaColour, heatTone, signedDelta, type Band } from '@/lib/results/read'
 
 /**
  * Resultat, the rendering. Bundle lines 692-908.
@@ -278,13 +278,8 @@ async function Results({
     statements: f.ordinals.map((n) => t(`factor.${f.key}.s${n}`)),
   }))
 
-  const counts = rows.reduce(
-    (acc, r) => {
-      acc[r.band] += 1
-      return acc
-    },
-    { lav: 0, middels: 0, hoy: 0 } as Record<Band, number>,
-  )
+  // the same counting Innsikt prints beneath its index, over the same server bands
+  const counts = bandCounts(rows)
   const top = rows.slice(0, 3)
 
   const scopeLine = [
