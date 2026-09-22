@@ -317,6 +317,63 @@ same pixels as the render measured in X-007, that it produces no console errors,
 Målinger still matches its baseline after its row action became a link. Everything those
 renders would consume has been read out of the database and matches.
 
+### X-010 — Rapport built: the chrome, and three sections of the document
+
+The user chose the plan's order over the dependency order, with the gaps logged: build
+the report now, omit what no table can back, and revisit when Tiltak lands. What ships
+is the chrome, the four audiences, the print path, and the document's front matter,
+section 1, section 2 and section 3. D-18 names the table each omitted section waits for.
+
+Measured the same way the Resultat screen was, against
+`design-reference/orgpuls/baselines/10-rapport-report.png`, tolerance 0.1 % of the
+screen:
+
+| region | displacement | pixels | % of screen | |
+| :-- | --: | --: | --: | :-- |
+| header band | 0 | 0 | 0.0000 % | PASS |
+| chrome: back, title, audiences, filters, period line | 0 | 2 274 | 0.0393 % | PASS |
+| sheet: kicker, title, lead | 0 | 483 | 0.0084 % | PASS |
+| front matter table | 0 | 1 638 | 0.0283 % | PASS |
+| 1. Metode og medvirkning | −62 | 352 | 0.0061 % | PASS |
+| 2. Datagrunnlag | −139 | 5 739 | 0.0993 % | PASS |
+| 3. Kartlegging | −138 | 2 390 | 0.0413 % | PASS |
+
+The displacements are the omissions of D-18 and D-19 accumulating down the sheet: two
+front-matter rows, then the Medvirkning block. The residual inside each band is
+accounted for: the render date (D-21) in three places, and in section 2 the fixture's
+own second round — "Puls 2026, åpen til 27. sep, 6 spørsmål" against the design's
+"Puls 1 · 2026, planlagt 12. okt, 5 spørsmål".
+
+**Two defects the gate found, both in code that looked right.** Measured before being
+changed, as the probe rule requires:
+
+1. **`text-wrap: balance` on headings.** `doc-page.js` injects a document-level
+   stylesheet when it upgrades (lines 609-623), so the baseline carries it: headings
+   balance their lines and body copy avoids a widow. Without it the report's title broke
+   one word later than the design's — line one measured 582px against the baseline's
+   421px — and every line in the sheet below it moved. Transcribed into globals.css,
+   scoped to the sheet, at the zero specificity the component's own comment requires.
+2. **A browser's own 1px padding on `<td>`.** The design's cells say `padding: 7px 0`,
+   which overrides the UA stylesheet's `td { padding: 1px }`. `py-[7px]` sets only the
+   vertical pair, so every cell in the front-matter table sat exactly one pixel right of
+   the baseline's — identical ink, identical y, x off by one. `px-0` is therefore not
+   redundant, and the comment in the file says so, because it looks redundant.
+
+**What the document reads from the database:** the organisation's name, number and
+headcount; the round's opening and closing dates and its question and factor counts; the
+response rate from `participation`; the eleven indices, their bands and the previous
+year's column from `results_summary`; and the withheld groups from `results_by_group` —
+which is what makes the Terskel paragraph name Administrasjon and its three answers
+rather than asserting a rule nobody applied.
+
+The print path is the design's own: `window.print()`, and a print stylesheet that drops
+the shell, the chrome and the desk so the sheet becomes the page. No renderer and no
+server round trip, so a page of results never leaves the browser to become a PDF.
+
+Also in this segment: Resultat's "Lag rapport av dette" now links to the report rather
+than being an inert button, and the Resultat top region was re-measured afterwards at
+3 534 pixels — the same count as before the change, so the substitution cost nothing.
+
 ---
 
 ## Reference-rendering harness
@@ -333,7 +390,8 @@ rasterisation does affect the pixel diff.
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
 - [ ] Auth leaked-password protection is disabled — a dashboard toggle.
-- [ ] S2 onward.
+- [ ] S2 onward. Resultat and Rapport are built; Tiltak is the next dependency, since
+      five of the report's eight sections are waiting on its table (D-18).
 - [x] The published figures — 61, −3, 82 %, 77 % — verified against the live database.
       X-008. The invariant suite passes 21 of 21.
 - [ ] `ORGPULS_DEV_PASSWORD` unset — no route can be signed into, so `shoot.mjs` and the

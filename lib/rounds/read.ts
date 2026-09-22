@@ -33,6 +33,7 @@ import { getParticipation, type Participation } from '@/lib/participation/read'
 const RoundRow = z.object({
   id: z.string(),
   status: z.string(),
+  opens_at: z.string().nullable(),
   closes_at: z.string().nullable(),
   audience: z.string(),
   // a to-one embed comes back as an object, a to-many as an array
@@ -53,6 +54,8 @@ export interface RoundListItem {
   status: string
   audience: string
   questionCount: number
+  /** when it went out — the statutory report prints "sendt 7. september" */
+  opensAt: string | null
   closesAt: string | null
   state: RoundState
   participation: Participation | null
@@ -71,7 +74,7 @@ export async function getRounds(): Promise<RoundListItem[]> {
       // ambiguous — and had PostgREST resolved it the other way, this count would
       // have been answers rather than questions, which is a plausible wrong number
       // rather than an error.
-      'id, status, closes_at, audience, measurements!inner(kind, year), round_factors(factors(statements!statements_factor_key_fkey(ordinal))), round_extra_questions(extra_key)',
+      'id, status, opens_at, closes_at, audience, measurements!inner(kind, year), round_factors(factors(statements!statements_factor_key_fkey(ordinal))), round_extra_questions(extra_key)',
     )
     .order('closes_at', { ascending: false })
 
@@ -91,6 +94,7 @@ export async function getRounds(): Promise<RoundListItem[]> {
     questionCount:
       r.round_factors.reduce((n, rf) => n + rf.factors.statements.length, 0) +
       r.round_extra_questions.length,
+    opensAt: r.opens_at,
     closesAt: r.closes_at,
     state: (i === 0 ? 'lukket' : 'arkivert') as RoundState,
   }))

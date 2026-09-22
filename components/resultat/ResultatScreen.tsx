@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { getLocale, getTranslations } from 'next-intl/server'
-import { Button, ButtonLink } from '@/components/ui/Button'
+import { ButtonLink } from '@/components/ui/Button'
 import { Risikobildet, type FactorRow } from '@/components/resultat/Risikobildet'
 import { bandCounts, deltaColour, heatTone, signedDelta, type Band } from '@/lib/results/read'
 
@@ -136,10 +136,9 @@ export async function ResultatScreen({ view }: { view: ResultatView }) {
         <ButtonLink href="/malinger" size="xxs" tone="ghost">
           {t('resultat.backToMeasure')}
         </ButtonLink>
-        {/* the report screen is its own segment; until it exists the action has no address */}
-        <Button size="xxs" tone="primary" aria-disabled="true">
+        <ButtonLink href="/rapport" size="xxs" tone="primary">
           {t('resultat.makeReport')}
-        </Button>
+        </ButtonLink>
       </span>
 
       <div className="mt-[16px] rounded-note border border-line bg-sf px-[20px] py-[16px]">

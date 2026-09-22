@@ -440,3 +440,95 @@ was inserted out of order.
 **Consequence for the pixel gate:** the chips row is the one band of the filter card that
 cannot match the baseline, because the design's four rounds and their labels are the
 prototype's, not the fixture's.
+
+---
+
+## D-18 — The report prints three of its eight sections
+
+**Design:** the statutory document has eight numbered sections and a signature block —
+1 Metode og medvirkning, 2 Datagrunnlag, 3 Kartlegging, 4 Risikovurdering, 5 Tiltak,
+6 Effektvurdering, 7 Krenkende atferd, 8 Informasjon og opplæring (bundle lines 336-460).
+
+**Built:** the front matter, section 1 without its fourth block, section 2 and section 3.
+Sections 4 to 8 and the signature block are not rendered.
+
+**Constraint that forced each, named rather than summarised:**
+
+| section | what it needs | why it is not there |
+| :-- | :-- | :-- |
+| 1 · Medvirkning | notification dates and an AMU agenda | nothing stores when a verneombud was warned; the årshjul's schema arrives with that segment |
+| 4 · Risikovurdering | a stored probability, consequence and conclusion per factor | the bundle computes them from the index with a hand-written sentence per factor key; a risk assessment is a judgement someone made, and inventing one on a document an inspector reads is the worst case of the fabrication rule |
+| 5 · Tiltak | a measures table — title, factor, owner, due date, status | no such table exists |
+| 6 · Effektvurdering | a measure, its effect and the round that measured it | the same table, plus a link from a measure to the round after it |
+| 7 · Krenkende atferd | counts from `app.extra_answers` | that table has RLS with no policy, no grant and no reader RPC — see D-10 |
+| 8 · Informasjon og opplæring | records of briefings and training | nothing holds them |
+| Signatur | the people who sign | see D-19 |
+
+**Consequence for the pixel gate:** the document is 1 747px of sheet against the design's
+3 269px, and every block below an omission is displaced. Measured at its own offset each
+block matches — the numbers are in DECISION_LOG X-010.
+
+This is the one screen where the omissions are the product rather than a gap in it: a
+document that prints "Samlet vurdering: Krever tiltak" under a heading nobody filled in
+is a document that lies to an inspector about who decided what.
+
+---
+
+## D-19 — The report names no responsible person
+
+**Design:** the front matter carries "Ansvarlig — Tuva Berg, daglig leder" and
+"Verneombud — Kari Nordbø", and the document ends with three signature lines.
+
+**Built:** neither row, and no signature block.
+
+**Constraint that forced it:** `app.profiles` carries one SELECT policy,
+`profile_self_read`, whose predicate is `id = auth.uid()`. A signed-in user can read
+their own name and nobody else's. `app.memberships` is readable per organisation, so the
+application can see *that* somebody holds `daglig_leder` or `verneombud` — it cannot see
+who. Rendering the reader's own name against "Ansvarlig" would print the wrong person
+the moment a verneombud opened the report, which on a statutory document is worse than
+an empty field.
+
+**Not fixed here on purpose:** widening that policy is a change to who may read personal
+data, which CLAUDE.md puts on the stop-and-ask list and which belongs to the Oppsett
+segment, where the employee roster is built and the question gets decided once.
+
+---
+
+## D-20 — The printed document differs from the component's in two ways
+
+`<doc-page>` is recreated rather than shipped (see components/rapport/Sheet.tsx), and two
+of its print behaviours are deliberately not reproduced:
+
+1. **The footer prints once, at the end, not on every page.** The component repeats it
+   by wrapping the document in a table and using `thead`/`tfoot` as running
+   header/footer bands. That machinery exists to satisfy a design this document does not
+   have yet — a page number, a document id — and it constrains the whole flow to a table
+   layout. When the report needs a per-page footer it can come back with the thing that
+   needs it.
+2. **`@page` carries a vertical margin and no paper size.** That is the component's own
+   rule, kept: a flowing document paginates onto whatever paper the reader has, and
+   pinning A4 would crop letter and the other way round.
+
+Also transcribed rather than inherited: `:where(h1…h6){text-wrap:balance}` and
+`:where(p,li,blockquote,figcaption){text-wrap:pretty}`, which the component injects at
+document level and which the baseline was therefore captured with. Without the first
+rule the report's title breaks one word later than the design's and every line in the
+sheet below it moves.
+
+---
+
+## D-21 — Two figures on the report move with the clock
+
+**Design:** the report prints "Periode — 1. januar – 21. september 2026" and
+"Utarbeidet — 21. september 2026", the day the baseline was captured.
+
+**Built:** the same, computed from the day the document is rendered, so both read
+22 September on a page rendered on 22 September.
+
+**Constraint that forced it:** a document dated by a constant is a document that lies
+about when it was prepared. This is D-08's rule on a surface where it matters more: the
+date is part of what makes the document evidence.
+
+**Consequence:** those two strings are excluded from the pixel claims. Everything else on
+the page is pinned and diffed.

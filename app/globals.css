@@ -102,3 +102,72 @@
     transform: none;
   }
 }
+
+/**
+ * Printing the report.
+ *
+ * The design's print path is the browser's own — "Skriv ut eller lagre som PDF" — so
+ * what makes the output a document rather than a screenshot of an application is this
+ * stylesheet. It is the part of doc-page.js that matters for a flowing document, and
+ * nothing more: the desk, the shadow and the sheet's rounded corner are screen
+ * furniture and go; the sheet's own margin becomes the page margin; the application
+ * shell and the report's controls are not part of the document at all.
+ *
+ * `@page` carries no size on purpose. A flowing document paginates onto whatever paper
+ * the person actually has — A4 here, letter elsewhere — and pinning one would crop the
+ * other. doc-page.js says the same thing in its header comment, and it is the one rule
+ * in this file that is a correctness matter rather than a visual one.
+ */
+/**
+ * Typographic defaults inside the document, from doc-page.js lines 609-623.
+ *
+ * The component injects these at document level when it upgrades, so the baseline was
+ * captured with them: headings balance their lines rather than filling the first, and
+ * body copy avoids a widowed last word. Without the first rule the report's title
+ * breaks one word later than the design's and every line below it in the sheet moves.
+ *
+ * `:where()` keeps the specificity at zero, as the component's own comment requires, so
+ * anything authored on an element still wins. Scoped to the sheet because that is the
+ * only document in this application — the screens around it are not.
+ */
+.doc-sheet :where(h1, h2, h3, h4, h5, h6) {
+  text-wrap: balance;
+}
+
+.doc-sheet :where(p, li, blockquote, figcaption) {
+  text-wrap: pretty;
+}
+
+@media print {
+  .report-chrome,
+  body > div > header,
+  body > div > footer {
+    display: none !important;
+  }
+
+  .doc-desk {
+    min-height: 0;
+    background: none;
+    padding: 0;
+  }
+
+  .doc-sheet {
+    width: auto;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none !important;
+    /* the vertical margin is the page's; the horizontal stays the sheet's own */
+    padding: 0 0.85in;
+  }
+
+  /* doc-page.js line 599: a heading never prints as the last thing on a page */
+  .doc-sheet h1,
+  .doc-sheet h2,
+  .doc-sheet h3 {
+    break-after: avoid;
+  }
+
+  @page {
+    margin: 0.85in 0;
+  }
+}
