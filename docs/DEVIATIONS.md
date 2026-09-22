@@ -872,3 +872,157 @@ is 10.5px; the ladder row was a flex with 15px padding where it is a
 `26px minmax(0,1fr) 108px` grid at `12px 14px`; the lead chips carried a fixed 32px height
 where the bundle sizes them by `6px 12px` padding; and "Hva skjer i hver runde" sat *after*
 "Unntak og eskalering" instead of before it.
+
+---
+
+## D-30 — The employee register stays readable by every member of the organisation
+
+`app.employees` carries `employee_read` with `app.is_org_member(org_id)`, so a verneombud
+and every avdelingsleder can list every colleague's name, e-mail and phone number. The
+Ansatte tab puts that on a screen for the first time, which is what made it a question
+rather than a line in a policy nobody had read lately.
+
+Three options were put to the user. They chose to leave it as it is.
+
+It is worth being exact about what that does and does not concede, because the temptation
+is to read it as a hole in the product's promise and it is not one. **What Orgpuls
+protects is the join between a person and an answer, and that join does not exist as a
+column** — `app.responses` has no employee, no invitation and no user, and invariant 13 of
+`respondent_invariants.sql` asserts the absence of all seven names it could plausibly go
+under. Knowing who works here has never been the protected fact; a staff list is on the
+wall of most workplaces this product is for.
+
+What it costs is that the register is a directory anybody signed in can page through. If
+that becomes unwanted, the change is one policy and no data migration:
+`app.has_role(org_id, array['daglig_leder'])` in place of `app.is_org_member(org_id)`. The
+roster is read in exactly two places — `lib/settings/read.ts` and `lib/org/read.ts` — and
+nothing else in the product joins an employee to anything a respondent touched.
+
+The access matrix on the Roller tab prints ✓ in the Ansattregister column for every role
+that really has it, rather than the design's single tick for daglig leder. See D-33.
+
+---
+
+## D-31 — The threshold offers 5, 6, 8 and 10. The design offers 3
+
+`app.k_min()` is a function returning 5, `app.k_threshold` takes the greater of it and the
+organisation's column, and the column's own CHECK is `between 5 and 10`. A chip marked 3
+would therefore be refused by the database, and would be ignored by the gate even if it
+were not. **A control that appears to lower a privacy floor and cannot is worse than no
+control**: it tells a leader they have a setting they do not have, and it invites them to
+believe a number that nothing will honour.
+
+The note under the chips says what is true instead — five is the floor, and it is the
+product's rather than the organisation's.
+
+The consequence runs on into the Personvern tab. The design shows a warning card when the
+threshold is below five ("Terskel 3 er lavt …"). There is no state in which that card can
+be true, so it is absent rather than dead. A warning about a configuration the database
+will not accept is a warning about nothing.
+
+---
+
+## D-32 — Seven tabs, not eight: Assistenten is omitted
+
+The Assistenten tab configures an assistant that does not exist anywhere in this build.
+Innsikt omits her note (D-25), Samtaler omits hers (D-28), Årshjulet omits her draft risk
+assessment from the round timeline (D-29), and the report has never carried her. The tab
+is a toggle, a brand picker, a nine-face gallery, a name field and a tone selector, every
+one of which would configure nothing.
+
+The tab list is data — an array of keys the shell maps over — so dropping one entry is a
+row and not a component change, which is the test CLAUDE.md sets for this kind of thing.
+
+---
+
+## D-33 — Everything else Oppsett does differently, and why
+
+**The access matrix prints what the database enforces.** Four cells and one whole row
+differ from the bundle, and each difference is the schema rather than a preference:
+
+| cell | the design | this build |
+| --- | --- | --- |
+| Avdelingsleder · Risikovurdering | Eget | ✓ — `risk_assessments` is assessed per *round*, not per group, so there is no department to scope it to |
+| Avdelingsleder · Ansattregister | — | ✓ — D-30 |
+| Verneombud · Ansattregister | — | ✓ — D-30 |
+| Tillitsvalgt · everything | same as verneombud | — — a tillitsvalgt is not an `app.org_role`; the act names them as the counterpart for the § 9-2 drøfting, and this product grants them no read at all |
+
+The Egne tall, Hele huset and Kommentarer columns became true rather than aspirational in
+migration 0022 — see X-020. The last column's heading is changed from "Oppsett" to "Endre
+oppsett", because every role can *read* this screen and only daglig leder can change
+anything, and one word was the difference between a claim and a lie.
+
+**Two languages, not four.** The design offers Bokmål, Nynorsk, English and Polski;
+`/messages` holds `no` and `en`, and `organizations.default_lang` refuses anything else. A
+chip that sets a language the respondent form cannot render is a chip that breaks the form.
+
+**Twelve months, not four.** The design offers Januar, Mars, September and Oktober — an
+arbitrary subset of its own. `year_wheels.baseline_month` accepts 1..12 and Årshjulet's
+month strip already lets any of them be chosen, so offering four here would make the same
+setting adjustable in one place and not the other.
+
+**A new location has no headcount field.** The design's add row is three columns — name,
+address, "Legg til" — and creates the location with zero. That is transcribed as drawn. It
+means an added site starts at 0 and the reconciliation line under the list reads as a
+mismatch until somebody fixes the number, which the design has no control for either.
+
+**There is no control for the stated headcount.** `employee_count` is the denominator of
+every response rate in the product, and in the bundle it is a prototype prop with no input
+anywhere. None is invented here. The Enhetsregisteret lookup stores the register's own
+count in a separate column and the screen prints both, so the two are visible side by side
+rather than silently merged — a register's count of registered employment is not the same
+population this measurement asks.
+
+**"Hent fra Brønnøysund" really fetches.** `data.brreg.no` is the authoritative public
+register, no key and no personal data, and an organisation's legal name and næringskode
+are whatever it says they are. What is stored is what came back, with the moment it came
+back; the screen prints that date. The design's note claims the record "oppdateres
+automatisk hvert kvartal" — nothing re-fetches on a schedule here, so that sentence is
+replaced by one that tells the reader to press the button again.
+
+**"Registrert" prints a date and not a register.** The design writes "14.03.2011 i
+Foretaksregisteret". Enhetsregisteret's `registreringsdatoEnhetsregisteret` is a date in
+*that* register; whether the undertaking is also in Foretaksregisteret is a different
+field this does not read.
+
+**The BHT duty is derived, with a third state the design does not have.** Forskrift om
+organisering § 13-1 makes the duty follow from the trade, and the design hard-codes
+"Påbudt" because its fixture is a construction company. Here the NACE section decides: the
+sections the regulation names print "Påbudt", and anything else prints "Avhenger av
+bransjen" with a pointer to the regulation. Asserting "ikke påbudt" from an incomplete
+transcription of a long list would be a statement about somebody's legal obligations, and
+a wrong one is worse than an honest "check".
+
+**Two import sources, not four.** "Koble HR-systemet" and "Koble Microsoft Entra" select a
+source nothing can read from. The Integrasjoner tab says so in the same words.
+
+**Every integration row reads "Ikke satt opp", including e-post.** The design marks e-post
+`locked: true, "Alltid på"`. Nothing sends in this build — `app.outbox` fills and no
+dispatcher empties it (D-29) — and "Alltid på" over a queue that has never moved would be
+the most misleading sentence in the product: a leader would believe their people had been
+asked. The "Sett opp" buttons are omitted for the same reason the design's own "Kommer"
+row has none.
+
+**Bransjesammenligning prints the næringskode and no count.** The design's "118 norske
+virksomheter i sammenligningen" is a number with no source in this schema, and there is no
+benchmark dataset behind it.
+
+**The three Personvern document buttons are omitted.** A "Last ned databehandleravtale"
+that downloads nothing is not a dead button, it is a statement that the agreement exists.
+Two of the eight cards are also rewritten: retention says the automatic deletion routine is
+not configured, and the processor card says the agreement and sub-processor list must be in
+place before real answers are processed. Both were assertions in the design about a service
+that has not been set up here.
+
+**Pixel evidence.** Against `05-oppsett-settings.png`: the title block, the Lovmodus panel
+and the Lokasjoner card each diff at **0 pixels**; the tab row at 89, the Selskap card's
+head at 313 and its fact table at 490, the Plikter card at 2 145 — all passing. The
+Innstillinger card fails at 13 252, entirely on the chip counts above, and its heading and
+Språk block pass at 821 on their own. The fact table and everything under it sit 19 pixels
+higher than the baseline because the fetch note is one line shorter; `--at` carries that
+and the displacement is printed rather than absorbed.
+
+**Defects the gate found:** the organisation number was printed ungrouped where the design
+prints "924 118 742"; the month chips came out of `Intl` lowercase where the design
+capitalises them; the location rows printed a bare number where the design writes "12
+ansatte"; and the add-location row had a fourth column that the design does not draw.

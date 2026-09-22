@@ -811,5 +811,368 @@
         "note": "Faktorvalget settes av hvilke tiltak som fortsatt løper."
       }
     }
+  },
+  "oppsett": {
+    "title": "Oppsett",
+    "lead": "Hvem som jobber her, hvordan de er gruppert, hvem som ser hva — og hva loven krever at dere kan svare for. Har dere ikke HR-system, legger dere inn folk her.",
+    "orgHead": "Virksomheten",
+    "rosterComplete": "Registeret er komplett",
+    "rosterShort": "{count, plural, one {Registeret mangler # person} other {Registeret mangler # personer}}",
+    "statRegistered": "I registeret",
+    "statGroups": "Grupper",
+    "statThreshold": "Terskel",
+    "saved": "Lagret",
+    "tab": {
+      "selskap": "Selskap",
+      "ansatte": "Ansatte",
+      "grupper": "Grupper",
+      "roller": "Roller og tilgang",
+      "integrasjoner": "Integrasjoner",
+      "personvern": "Personvern",
+      "regelverk": "Regelverk"
+    },
+    "problem": {
+      "invalid": "Verdien kunne ikke leses. Prøv igjen.",
+      "denied": "Bare daglig leder kan endre oppsettet.",
+      "no_wheel": "Årshjulet er ikke satt opp ennå, så det er ingen grunnlinjemåned å flytte."
+    },
+    "selskap": {
+      "title": "Selskapet",
+      "lead": "Hentes fra Enhetsregisteret, så dere slipper å skrive inn noe som allerede er registrert. Næringskoden bestemmer hvilken bransje dere sammenlignes mot.",
+      "orgNumberLabel": "Organisasjonsnummer",
+      "orgNumberPlaceholder": "923 456 789",
+      "fetch": "Hent fra Brønnøysund",
+      "refetch": "Hent på nytt",
+      "fetching": "Henter …",
+      "noteUnfetched": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse, organisasjonsform og næringskode.",
+      "noteFetched": "Hentet fra Enhetsregisteret {date}. Trykk «Hent på nytt» hvis noe har endret seg.",
+      "vatYes": "Registrert",
+      "vatNo": "Ikke registrert",
+      "fact": {
+        "name": "Navn",
+        "orgNumber": "Organisasjonsnummer",
+        "form": "Organisasjonsform",
+        "nace": "Næringskode",
+        "registered": "Registrert",
+        "address": "Forretningsadresse",
+        "municipality": "Kommune",
+        "registryEmployees": "Ansatte i Enhetsregisteret",
+        "vat": "Merverdiavgift"
+      },
+      "problem": {
+        "invalid_org_number": "Et organisasjonsnummer er ni siffer. Sjekk tallet og prøv igjen.",
+        "not_found": "Enhetsregisteret kjenner ikke dette nummeret.",
+        "deleted": "Virksomheten står som slettet i Enhetsregisteret.",
+        "unreachable": "Enhetsregisteret svarte ikke. Prøv igjen om litt — ingenting er endret.",
+        "denied": "Bare daglig leder kan hente og lagre selskapsopplysninger."
+      }
+    },
+    "lokasjoner": {
+      "title": "Lokasjoner",
+      "lead": "Arbeidsmiljøet er sjelden likt på kontoret og ute på anlegg. Med lokasjoner kan dere bryte ned resultatet på sted i tillegg til avdeling.",
+      "remove": "Fjern lokasjon",
+      "headcount": "{count, plural, one {# ansatt} other {# ansatte}}",
+      "name": "Navn",
+      "namePlaceholder": "Anlegg Horten",
+      "address": "Adresse",
+      "addressPlaceholder": "Havnegata 3, 3181 Horten",
+      "add": "Legg til",
+      "sumMatches": "Til sammen {count} ansatte — det stemmer med registeret.",
+      "sumDiffers": "Lokasjonene summerer til {sum}, men virksomheten er oppgitt med {stated}. Sjekk fordelingen før dere bryter ned resultater på sted.",
+      "problem": {
+        "invalid": "Lokasjonen mangler navn.",
+        "duplicate": "Dere har allerede en lokasjon med dette navnet.",
+        "denied": "Bare daglig leder kan endre lokasjoner."
+      }
+    },
+    "companySettings": {
+      "title": "Innstillinger for hele selskapet",
+      "language": "Språk",
+      "languageNote": "Språket gjelder invitasjoner og spørsmål. Den ansatte kan bytte selv i skjemaet.",
+      "langNo": "Bokmål",
+      "langEn": "English",
+      "yearStart": "Arbeidsmiljøåret starter",
+      "yearStartNote": "Grunnlinjen legges i denne måneden hvert år. Årshjulet følger etter.",
+      "noWheel": "Årshjulet er ikke satt opp ennå. Måneden settes der, sammen med rytmen.",
+      "benchmark": "Bransjesammenligning",
+      "benchmarkNace": "Næringskode {code} — {label}. Sammenligningstall mot bransjen er ikke koblet til ennå, så resultatene står foreløpig alene.",
+      "benchmarkUnknown": "Næringskoden er ikke hentet ennå. Uten den vet vi ikke hvilken bransje dere hører til."
+    },
+    "lovmodus": {
+      "title": "Lovmodus",
+      "lead": "Styrer hvor tydelig arbeidsmiljøloven er til stede i grensesnittet.",
+      "on": "På",
+      "onNote": "Hjemler vises under hver faktor, resultatet er rammet inn som risiko, og Regelverk-fanen med tilsynsrapporten er tilgjengelig. Verneombud er en egen rolle.",
+      "off": "Av",
+      "offNote": "Samme måling og samme tall, rammet inn som styrker og muligheter. Paragrafene ligger fortsatt i Grunnlag-panelet og i rapportene.",
+      "note": "Dokumentasjonen blir den samme uansett — det er bare språket i grensesnittet som endrer seg. Ingenting slettes når du bytter."
+    },
+    "duty": {
+      "head": "{count, plural, one {Plikter ved # ansatt} other {Plikter ved # ansatte}}",
+      "required": "Påbudt",
+      "notRequired": "Ikke påbudt",
+      "mayBeRequired": "Kan kreves",
+      "verneombudTitle": "Verneombud",
+      "verneombudLaw": "aml. § 6-1 — påbudt fra 5 ansatte",
+      "verneombudNamed": "{name} er registrert som verneombud.",
+      "verneombudNone": "Ingen er registrert som verneombud ennå. Sett rollen på en person under Ansatte.",
+      "verneombudSmall": "Under fem ansatte kan dere avtale en annen ordning skriftlig.",
+      "amuTitle": "Arbeidsmiljøutvalg",
+      "amuLaw": "aml. § 7-1 — påbudt fra 30 ansatte",
+      "amuRequired": "Møtes fire ganger i året. Funn og tiltak legges fram som sak.",
+      "amuMay": "Fra ti ansatte kan en av partene kreve AMU. Dere har det ikke i dag.",
+      "amuSmall": "Under ti ansatte er det ikke krav om AMU.",
+      "dependsOnIndustry": "Avhenger av bransjen",
+      "bhtTitle": "Bedriftshelsetjeneste",
+      "bhtLaw": "forskrift om organisering § 13-1",
+      "bhtRequired": "{industry} er en bransje med BHT-plikt uansett størrelse.",
+      "bhtDepends": "Næringskoden deres står ikke på listen i § 13-1. Sjekk forskriften — listen er lang, og plikten kan følge av risikoen hos dere uansett.",
+      "bhtUnknown": "Næringskoden er ikke hentet ennå, så plikten kan ikke avgjøres her.",
+      "bhtLabel": "Bedriftshelsetjeneste",
+      "bhtPlaceholder": "Navn på BHT"
+    },
+    "ansatte": {
+      "sourceHead": "Hvor kommer de ansatte fra",
+      "sourceManual": "Legg inn manuelt",
+      "sourceManualNote": "Skriv inn navn og e-post. Greit opp til rundt tretti personer.",
+      "sourceCsv": "Importer fra regneark",
+      "sourceCsvNote": "Lim inn kolonnene fra Excel. Den vanligste veien for små virksomheter.",
+      "pasteHead": "Lim inn fra regnearket",
+      "pasteLead": "Marker kolonnene i Excel og lim inn her. Rekkefølgen skal være navn, e-post, gruppe, leder. Overskriftsrad er valgfri.",
+      "pastePlaceholder": "Kari Nordbø, kari@firma.no, Drift, Anne Rygg\nJonas Five, jonas@firma.no, Drift, Anne Rygg",
+      "column": "kolonne {letter}",
+      "colName": "Navn",
+      "colEmail": "E-post",
+      "colGroup": "Gruppe",
+      "colLeader": "Leder",
+      "colRole": "Rolle",
+      "colStatus": "Status",
+      "rowsRead": "{count, plural, one {# rad lest} other {# rader lest}}",
+      "importLabel": "{count, plural, one {Importer # person} other {Importer # personer}}",
+      "imported": "{count, plural, one {# person lagt inn} other {# personer lagt inn}}",
+      "allGood": "Alt ser riktig ut",
+      "reset": "Nullstill",
+      "addHead": "Legg til én person",
+      "name": "Navn",
+      "namePlaceholder": "Kari Nordbø",
+      "email": "E-post",
+      "emailPlaceholder": "kari@firma.no",
+      "group": "Gruppe",
+      "noGroup": "Uten gruppe",
+      "noEmail": "—",
+      "add": "Legg til",
+      "emailNote": "E-post er valgfritt hvis dere sender via lenke eller QR på pauserommet. Uten e-post kan systemet ikke purre.",
+      "registerTitle": "Registeret",
+      "registerCount": "{count, plural, one {# i registeret} other {# i registeret}}",
+      "registerMatches": "Registeret stemmer med antall ansatte. Alle får målingen.",
+      "registerShort": "Registeret har {registered} personer, men virksomheten er oppgitt med {stated} ansatte. Importer resten før utsending — de som mangler får ikke målingen.",
+      "missingGroup": "{count, plural, one {# person mangler gruppe og havner i «Uten gruppe».} other {# personer mangler gruppe og havner i «Uten gruppe».}}",
+      "dutyNone": "Ansatt",
+      "statusActive": "Aktiv",
+      "statusInactive": "Sluttet",
+      "groupFor": "Gruppe for {name}",
+      "roleFor": "Rolle for {name}",
+      "duty": {
+        "daglig_leder": "Daglig leder",
+        "avdelingsleder": "Avdelingsleder",
+        "verneombud": "Verneombud",
+        "tillitsvalgt": "Tillitsvalgt"
+      },
+      "dutyNote": "Rollen her er et verv etter loven, ikke en tilgang. Den sier hvem som er verneombud eller tillitsvalgt — for eksempel i dokumentasjonen etter § 6-2 og § 9-2. Hvem som får lese hva, styres av pålogging og rolle under «Roller og tilgang», og endres ikke av dette feltet.",
+      "problem": {
+        "invalid": "Raden kunne ikke leses. Navn må være fylt ut.",
+        "empty": "Ingen rader å importere.",
+        "too_many": "For mange rader på én gang. Del opp i bolker på under 2000.",
+        "denied": "Bare daglig leder kan endre registeret."
+      }
+    },
+    "grupper": {
+      "title": "Grupper",
+      "lead": "Gruppene bestemmer hva dere kan bryte resultatet ned på. Del opp etter hvor folk faktisk jobber sammen — ikke etter organisasjonskartet.",
+      "headcount": "{count, plural, one {# ansatt} other {# ansatte}}",
+      "answered": "{count, plural, one {# svar sist} other {# svar sist}}",
+      "noRound": "Ingen måling lukket ennå",
+      "alone": "Vises alene",
+      "merged": "Slås sammen",
+      "rule": "Grupper med færre enn {threshold} svar vises aldri alene. De legges i «Øvrige» sammen med andre små grupper, slik at helheten fortsatt stemmer."
+    },
+    "terskel": {
+      "title": "Terskel",
+      "lead": "Hvor mange svar som må til før en gruppe vises for seg selv.",
+      "floorNote": "Fem er gulvet, og det er produktets — ikke deres. Databasen regner alltid med minst fem uansett hva som står her, så terskelen kan heves men ikke senkes."
+    },
+    "roller": {
+      "title": "Hvem ser hva",
+      "lead": "Tilgangen følger rollen, ikke personen. Bytter noen jobb, følger tilgangen etter.",
+      "col": {
+        "ownNumbers": "Egne tall",
+        "wholeHouse": "Hele huset",
+        "comments": "Kommentarer",
+        "risk": "Risikovurdering",
+        "roster": "Ansattregister",
+        "settings": "Endre oppsett"
+      },
+      "role": {
+        "daglig_leder": "Daglig leder",
+        "avdelingsleder": "Avdelingsleder",
+        "verneombud": "Verneombud",
+        "tillitsvalgt": "Tillitsvalgt",
+        "ansatt": "Ansatt"
+      },
+      "mark": {
+        "own_group": "Eget",
+        "own": "Egne"
+      },
+      "matrixNote": "«Eget» betyr bare egen avdeling, «Egne» bare ens egen samtale. Ingen rolle, heller ikke daglig leder, kan se hvilket svar en navngitt person har gitt — den koblingen finnes ikke i databasen. Alt i tabellen er dessuten underlagt terskelen: en leder for fire personer får ikke tall for de fire.",
+      "writeNote": "Bare daglig leder kan endre noe under Oppsett. De andre rollene kan lese det som står her. «Tillitsvalgt» er et verv i registeret og ikke en pålogging — det gir ingen tilgang i seg selv.",
+      "can": {
+        "daglig_leder": "Hele virksomheten, alle faktorer, alle anonyme samtaler. Ser aldri hvem som har svart hva.",
+        "avdelingsleder": "Egen avdeling når terskelen er nådd, og samtalene derfra. Ingen tilgang til andre avdelinger.",
+        "verneombud": "Samme tall og samme risikovurdering som ledelsen. Ingen enkeltkommentarer. Varsles først når en runde settes i gang."
+      }
+    },
+    "integrasjoner": {
+      "title": "Hvor målingen sendes fra",
+      "lead": "Alle integrasjoner leser data. Ingen av dem skriver tilbake til kildesystemet, og ingen av dem får tilgang til svarene.",
+      "statusOff": "Ikke satt opp",
+      "statusSoon": "Kommer",
+      "epost": {
+        "name": "E-post",
+        "what": "Målingen skal sendes med en personlig lenke til hver enkelt. Lenken er personlig, men svaret lagres uten kobling til den.",
+        "need": "Ingen e-postleverandør er koblet til i denne installasjonen. Årshjulet planlegger rundene og legger varslene i kø, men køen blir stående til noen kobler til utsending."
+      },
+      "entra": {
+        "name": "Microsoft Entra ID",
+        "what": "Skal hente ansatte, e-post og gruppetilhørighet automatisk, slik at nye ansatte kommer inn av seg selv og de som slutter tas ut.",
+        "need": "Ikke bygget. Fram til da vedlikeholdes registeret under Ansatte."
+      },
+      "teams": {
+        "name": "Microsoft Teams",
+        "what": "Skal sende målingen som en melding i Teams i stedet for e-post.",
+        "need": "Ikke bygget, og vil uansett kreve Entra ID først — Teams-varselet bruker samme brukerkatalog."
+      },
+      "sms": {
+        "name": "SMS",
+        "what": "For folk uten fast e-postbruk i arbeidstiden — anlegg, verksted, skift. Én melding med lenke, ingen app.",
+        "need": "Ikke bygget. Krever dessuten mobilnummer i ansattregisteret: {withPhone} av {total} har det i dag."
+      },
+      "hr": {
+        "name": "HR-system",
+        "what": "Tripletex, Visma og Huldt & Lillevik. Skal hente stilling, startdato og avdeling.",
+        "need": "Kommer. Fram til da legger dere inn ansatte manuelt eller via regneark under Ansatte."
+      }
+    },
+    "personvern": {
+      "basis": {
+        "head": "Behandlingsgrunnlag",
+        "body": "Rettslig forpliktelse, GDPR art. 6 nr. 1 bokstav c, jf. arbeidsmiljøloven § 3-1 og § 4-3. Ikke samtykke — ansatte kan ikke samtykke fritt til arbeidsgiver, og målingen er uansett en plikt."
+      },
+      "stored": {
+        "head": "Hva lagres om den enkelte",
+        "body": "Navn, e-post og gruppe i registeret. Svarene lagres uten kobling til person: systemet vet at noen i en gruppe har svart, ikke hvem. Det finnes ingen kolonne som kunne holdt koblingen."
+      },
+      "special": {
+        "head": "Særlige kategorier",
+        "body": "Spørsmålene er utformet for å unngå helseopplysninger, jf. aml. § 9-3. Screeningen for krenkende atferd og vold rapporteres kun som antall."
+      },
+      "retention": {
+        "head": "Lagringstid",
+        "body": "Automatisk sletting av enkeltsvar er ikke satt opp i denne installasjonen ennå. Rutinen må beskrives og settes opp før dere tar målingen i bruk for fullt."
+      },
+      "access": {
+        "head": "Innsyn og sletting",
+        "body": "Registeropplysninger kan rettes og slettes på forespørsel. Anonyme svar kan ikke hentes ut eller slettes enkeltvis — de er ikke identifiserbare, jf. GDPR art. 11."
+      },
+      "processor": {
+        "head": "Databehandler",
+        "body": "Databasen kjører i eu-central-1. Databehandleravtale og liste over underleverandører må på plass før dere behandler reelle svar."
+      },
+      "dpia": {
+        "head": "Vurdering av personvernkonsekvenser",
+        "body": "Med terskel {threshold} og anonyme svar er risikoen lav, men en kort DPIA anbefales fordi målingen omfatter alle ansatte."
+      },
+      "protocol": {
+        "head": "Protokoll",
+        "body": "Behandlingen skal føres inn i protokollen over behandlingsaktiviteter, med formål, kategorier og lagringstid. Protokollen føres utenfor Orgpuls i dag."
+      }
+    },
+    "regelverk": {
+      "title": "Hjemmel",
+      "openReport": "Åpne dokumentasjonen",
+      "legal": {
+        "aml31c": {
+          "ref": "aml. § 3-1 c",
+          "what": "Kartlegge, vurdere risiko, utarbeide planer og iverksette tiltak. Orgpuls dekker denne bokstaven. Mål, avvik, sykefravær og systemgjennomgang (a, e, f, h) hører til HMS-arbeidet deres for øvrig."
+        },
+        "aml91": {
+          "ref": "aml. §§ 9-1, 9-2",
+          "what": "Målingen er et kontrolltiltak: saklig grunn, drøfting med tillitsvalgte, informasjon om formål og varighet, jevnlig evaluering."
+        },
+        "aml23": {
+          "ref": "aml. § 2-3",
+          "what": "Arbeidstakers plikt til å medvirke i det systematiske arbeidet — derfor er det å svare en plikt, ikke bare en rettighet."
+        },
+        "aml43": {
+          "ref": "aml. § 4-3",
+          "what": "Krav til det psykososiale arbeidsmiljøet, inkludert vern mot krenkende atferd."
+        },
+        "forskrift1a": {
+          "ref": "forskrift kap. 1A",
+          "what": "Presiseringen fra 1.1.2026: rolleklarhet, motstridende krav, emosjonelle krav, arbeidsmengde, støtte."
+        },
+        "aml62": {
+          "ref": "aml. § 6-2",
+          "what": "Verneombudets rett til å bli tatt med i kartlegging og vurdering av tiltak."
+        }
+      },
+      "coverTitle": "Dekning mot regelverket",
+      "coverLead": "Faktorene Arbeidstilsynet navngir, og hvor de treffes i målingen. Listen i regelverket er eksempler, ikke et minimumskrav — men for de fleste virksomheter er de relevante.",
+      "cover": {
+        "unclear": {
+          "ref": "Uklare eller motstridende krav",
+          "where": "Ingen faktor i målingen dekker dette nå."
+        },
+        "emotional": {
+          "ref": "Emosjonelle krav og belastninger",
+          "where": "Ingen faktor i målingen dekker dette nå."
+        },
+        "workload": {
+          "ref": "Arbeidsmengde og tidspress",
+          "where": "Ingen faktor i målingen dekker dette nå."
+        },
+        "support": {
+          "ref": "Støtte og hjelp",
+          "where": "Ingen faktor i målingen dekker dette nå."
+        },
+        "control": {
+          "ref": "Selvbestemmelse og innflytelse",
+          "where": "Ingen faktor i målingen dekker dette nå."
+        },
+        "integrity": {
+          "ref": "Integritet og verdighet",
+          "where": "Ingen faktor i målingen dekker dette nå."
+        },
+        "contact": {
+          "ref": "Kontakt og kommunikasjon",
+          "where": "Ingen faktor i målingen dekker dette nå."
+        },
+        "harassment": {
+          "ref": "Trakassering og utilbørlig opptreden",
+          "where": "Screening — krever egen varslingsrutine i tillegg"
+        },
+        "violence": {
+          "ref": "Vold og trusler",
+          "where": "Screening — krever hendelseslogg, opplæring og øvelse"
+        }
+      },
+      "gapLead": "Målingen er én kilde. Arbeidstilsynet forventer at dere bruker flere, og at kartlegging følges av informasjon og opplæring. Dette ligger utenfor Orgpuls i dag:",
+      "gap": {
+        "vernerunde": "Vernerunde og avviksmeldinger som kilde inn i kartleggingen",
+        "samtaler": "Medarbeidersamtaler og uformelle samtaler",
+        "informasjon": "Informasjon til ansatte, verneombud og tillitsvalgte om risiko og tiltak",
+        "opplaering": "Opplæring og øvelse der risikoen er høy, og skriftlig instruks ved fare for liv og helse",
+        "bht": "Bedriftshelsetjeneste eller annen sakkyndig bistand"
+      }
+    }
   }
 }

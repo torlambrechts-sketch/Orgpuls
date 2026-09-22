@@ -977,6 +977,90 @@ errors, no warnings.
 `devIndicators: false` was added to `next.config.ts`: the dev overlay's badge is painted
 into full-page captures in the left margin, and it is not part of the design.
 
+### X-020 — Oppsett, and a promise the schema had never kept
+
+Oppsett is the screen where an organisation describes itself, and building it turned up a
+defect that had nothing to do with the screen.
+
+**The access matrix was aspirational.** It promises an avdelingsleder "Eget team" and
+"Ingen tilgang til andre avdelinger". Nothing implemented that. `results_summary`,
+`results_by_group`, `conversations` and the risk tables all gated on `app.is_org_member`,
+so **an avdelingsleder read exactly what a daglig leder read** — the whole undertaking,
+every group, every anonymous comment — and `app.memberships` had no column to scope by. I
+put it to the user with the cost of each option; they chose to implement the scoping.
+
+Migration 0022 adds `app.memberships.group_id`, guarded by a trigger that refuses a group
+from another organisation and refuses one on any role but avdelingsleder, and
+`app.visible_groups(org)` which turns a membership into the set of groups it may see.
+Daglig leder and verneombud get every group; an avdelingsleder gets one, or none if nobody
+has assigned them. `results_by_group` omits the groups outside that set rather than masking
+them — "Verksted: skjult" would still say Verksted answered, and how many.
+
+**`results_summary` now names its own scope.** The same RPC answers differently by role,
+and a single number whose meaning changes silently with the reader is a trap: "61" labelled
+"hele virksomheten" is a different claim from "61" over one department, and nothing in the
+number distinguishes them. The payload carries `scope` and `scope_label`, and the reader
+parses them.
+
+**A read that was wider than its own write.** `reply_to_thread` and `set_thread` have
+always refused anyone who is not daglig leder or avdelingsleder, while `conversations`
+admitted any member — so a verneombud could read every comment in the organisation and
+answer none of them. The design's matrix has said "Ingen enkeltkommentarer" all along.
+`conversations` now carries the same gate as the write path. A verneombud keeps everything
+§ 6-2 gives them: the same figures, the same risk assessment, first notice on every round.
+
+**None of it touches k.** Scoping is applied on top of the gate, never instead of it. A
+leader of a four-person department still gets `insufficient_data` for their own team —
+being its leader is not a reason the four are identifiable to them. Assertion 19 pins it.
+
+**A duty is not a login.** Migration 0021 adds `app.employees.duty_role`, which records the
+verneombud § 6-2 names and the tillitsvalgt § 9-2 requires the drøfting with. It is not
+`app.org_role`: `tillitsvalgt` appears here and in no role, because the act names them as a
+counterpart rather than a reader. Assertion 5 asserts that **no policy and no routine in
+either schema mentions the column** — so writing "verneombud" on a person grants them
+nothing, and a future query that starts keying off it fails the suite. Assertion 6 does the
+same for `law_mode`, which the design promises changes wording and nothing else.
+
+**Enhetsregisteret is really called.** `data.brreg.no` is public, keyless and carries no
+personal data; an organisation number goes out and the company's own registered facts come
+back. It is called by the button and never on render — a page that looked the number up on
+every load would depend on somebody else's uptime and would tell Brønnøysund every time a
+leader opened a tab — and what comes back is stored with the moment it was fetched. All
+four outcomes were exercised in a browser: a real number (the lookup parsed, and the write
+was then refused for an unauthenticated caller, which is both halves proved at once), an
+unassigned number, a nine-digit failure, and the unreachable branch by construction.
+
+**`supabase/tests/settings_invariants.sql`, 26 of 26** against the live schema, including
+the scope assertions, which work by temporarily demoting a real membership inside the one
+transaction that would roll it back on any failure. An avdelingsleder over Drift sees 1 of
+4 groups and 3 of 7 threads; a verneombud sees none of the threads and all of the figures;
+a caller with no membership sees no group at all. The design's published index is unmoved
+at 61 for a daglig leder, which is the regression this refactor most needed to not cause.
+
+**Four decisions were the user's, not mine.** The employee register stays readable by every
+member (D-30) — worth being precise that what this product protects is the join between a
+person and an answer, and that join does not exist as a column. The threshold chips are
+5/6/8/10 because `k_min()` makes 3 unstorable and unhonoured (D-31). The Assistenten tab is
+omitted rather than drawn dead (D-32). The registry lookup is real.
+
+**Pixel evidence.** Title block, Lovmodus panel and the Lokasjoner card at **0 pixels**;
+the tab row at 89, the Selskap card's head at 313, its fact table at 490, the Plikter card
+at 2 145. The Innstillinger card fails at 13 252 entirely on chip counts that were chosen
+against the design on purpose — two message catalogues rather than four languages, twelve
+storable months rather than the design's arbitrary four — and its heading and Språk block
+pass at 821 on their own. Everything from the fact table down sits 19 pixels higher because
+the fetch note is one line shorter than the design's, which claims a quarterly auto-refresh
+that nothing performs.
+
+**Four defects the gate found:** an ungrouped organisation number, lowercase month chips
+straight out of `Intl`, a bare number where the design writes "12 ansatte", and a fourth
+column on the add-location row that the design does not draw.
+
+**Verified in a browser:** sixty-eight selects in the register, every one with an
+aria-label naming its person and its field; the threshold chips reachable and their focus
+ring on the control rather than the hidden input; no console errors or warnings on any of
+the seven tabs.
+
 ---
 
 ## Open items
@@ -987,9 +1071,12 @@ into full-page captures in the left margin, and it is not part of the design.
 - [x] Måleoppsett built on migration 0017. X-017.
 - [x] Samtaler built on migration 0018, k-gated. X-018.
 - [x] Årshjulet built on migrations 0019 and 0020, with a live pg_cron schedule. X-019.
-- [ ] Oppsett, Hjelp and Integrasjoner are unbuilt.
+- [x] Oppsett built on migrations 0021 and 0022, seven tabs. X-020.
+- [ ] Hjelp and the standalone Integrasjoner screen are unbuilt.
 - [ ] "Lag tiltak" and "Del med verneombud" on a conversation render disabled: both carry
       respondent free text out of the k-gated path and need their own decision (D-28).
+- [x] D-19 decided: the employee register stays readable by every member. D-30 records
+      what that does and does not concede, and the one-policy change that would reverse it.
 - [x] "Neste: september 2027" is now a planned round the wheel created, not a sentence.
       X-019. "Planlegg grunnlinjen" and the pulse cadence on Måleoppsett still read it
       from nothing and remain omitted (D-27).
@@ -1013,3 +1100,8 @@ into full-page captures in the left margin, and it is not part of the design.
 - [ ] Nothing empties `app.outbox`. 34 notices are queued and no dispatcher exists; an
       e-mail integration is the missing piece, and until it lands the årshjul plans and
       queues but nobody is told (D-29).
+- [ ] `app.memberships.group_id` is null for every membership on the live project, so no
+      avdelingsleder is scoped to anything yet. Assigning one is a write on the Roller tab
+      that does not exist: the tab prints the matrix and nothing grants a membership. X-020.
+- [ ] Automatic deletion of individual answers is not configured. The Personvern tab says
+      so rather than repeating the design's "slettes automatisk etter 24 måneder" (D-33).

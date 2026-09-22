@@ -811,5 +811,368 @@
         "note": "The factor selection is set by which measures are still running."
       }
     }
+  },
+  "oppsett": {
+    "title": "Settings",
+    "lead": "Who works here, how they are grouped, who sees what — and what the law requires you to be able to answer for. Without an HR system, you add people here.",
+    "orgHead": "The undertaking",
+    "rosterComplete": "The register is complete",
+    "rosterShort": "{count, plural, one {The register is missing # person} other {The register is missing # people}}",
+    "statRegistered": "In the register",
+    "statGroups": "Groups",
+    "statThreshold": "Threshold",
+    "saved": "Saved",
+    "tab": {
+      "selskap": "Company",
+      "ansatte": "People",
+      "grupper": "Groups",
+      "roller": "Roles and access",
+      "integrasjoner": "Integrations",
+      "personvern": "Privacy",
+      "regelverk": "Regulation"
+    },
+    "problem": {
+      "invalid": "The value could not be read. Try again.",
+      "denied": "Only the daglig leder can change the settings.",
+      "no_wheel": "The year wheel is not set up yet, so there is no baseline month to move."
+    },
+    "selskap": {
+      "title": "The company",
+      "lead": "Fetched from the Norwegian company register, so you do not have to type in what is already registered. The industry code decides which sector you are compared against.",
+      "orgNumberLabel": "Organisation number",
+      "orgNumberPlaceholder": "923 456 789",
+      "fetch": "Fetch from Brønnøysund",
+      "refetch": "Fetch again",
+      "fetching": "Fetching …",
+      "noteUnfetched": "Enter the organisation number and we will fetch the name, address, legal form and industry code.",
+      "noteFetched": "Fetched from the company register on {date}. Press “Fetch again” if something has changed.",
+      "vatYes": "Registered",
+      "vatNo": "Not registered",
+      "fact": {
+        "name": "Name",
+        "orgNumber": "Organisation number",
+        "form": "Legal form",
+        "nace": "Industry code",
+        "registered": "Registered",
+        "address": "Business address",
+        "municipality": "Municipality",
+        "registryEmployees": "Employees in the register",
+        "vat": "VAT"
+      },
+      "problem": {
+        "invalid_org_number": "An organisation number is nine digits. Check the number and try again.",
+        "not_found": "The company register does not know this number.",
+        "deleted": "The company is recorded as dissolved in the register.",
+        "unreachable": "The company register did not answer. Try again shortly — nothing was changed.",
+        "denied": "Only the daglig leder can fetch and store company details."
+      }
+    },
+    "lokasjoner": {
+      "title": "Locations",
+      "lead": "The work environment is rarely the same in the office and out on site. Locations let you break the result down by place as well as by department.",
+      "remove": "Remove location",
+      "headcount": "{count, plural, one {# person} other {# people}}",
+      "name": "Name",
+      "namePlaceholder": "Horten site",
+      "address": "Address",
+      "addressPlaceholder": "Havnegata 3, 3181 Horten",
+      "add": "Add",
+      "sumMatches": "{count} people in total — that matches the register.",
+      "sumDiffers": "The locations add up to {sum}, but the undertaking is stated as {stated}. Check the split before breaking results down by place.",
+      "problem": {
+        "invalid": "The location has no name.",
+        "duplicate": "You already have a location with this name.",
+        "denied": "Only the daglig leder can change locations."
+      }
+    },
+    "companySettings": {
+      "title": "Company-wide settings",
+      "language": "Language",
+      "languageNote": "The language applies to invitations and questions. Each employee can switch it in the form.",
+      "langNo": "Bokmål",
+      "langEn": "English",
+      "yearStart": "The work-environment year starts",
+      "yearStartNote": "The baseline is placed in this month every year. The year wheel follows it.",
+      "noWheel": "The year wheel is not set up yet. The month is set there, together with the rhythm.",
+      "benchmark": "Industry comparison",
+      "benchmarkNace": "Industry code {code} — {label}. Benchmark figures against the sector are not connected yet, so results stand on their own for now.",
+      "benchmarkUnknown": "The industry code has not been fetched yet. Without it we do not know which sector you belong to."
+    },
+    "lovmodus": {
+      "title": "Statutory framing",
+      "lead": "Controls how visible the Working Environment Act is in the interface.",
+      "on": "On",
+      "onNote": "Provisions are shown under each factor, the result is framed as risk, and the Regulation tab with the inspectorate report is available. Verneombud is a role of its own.",
+      "off": "Off",
+      "offNote": "The same measurement and the same figures, framed as strengths and opportunities. The provisions are still in the basis panel and in the reports.",
+      "note": "The documentation is the same either way — only the language in the interface changes. Nothing is deleted when you switch."
+    },
+    "duty": {
+      "head": "{count, plural, one {Duties at # employee} other {Duties at # employees}}",
+      "required": "Required",
+      "notRequired": "Not required",
+      "mayBeRequired": "May be required",
+      "verneombudTitle": "Safety representative",
+      "verneombudLaw": "WEA § 6-1 — required from 5 employees",
+      "verneombudNamed": "{name} is recorded as safety representative.",
+      "verneombudNone": "Nobody is recorded as safety representative yet. Set the role on a person under People.",
+      "verneombudSmall": "Below five employees you may agree another arrangement in writing.",
+      "amuTitle": "Working environment committee",
+      "amuLaw": "WEA § 7-1 — required from 30 employees",
+      "amuRequired": "Meets four times a year. Findings and measures are tabled as cases.",
+      "amuMay": "From ten employees either party may demand a committee. You do not have one today.",
+      "amuSmall": "Below ten employees a committee is not required.",
+      "dependsOnIndustry": "Depends on the industry",
+      "bhtTitle": "Occupational health service",
+      "bhtLaw": "Regulation on organisation § 13-1",
+      "bhtRequired": "{industry} is a trade with a duty to be affiliated, whatever the size.",
+      "bhtDepends": "Your industry code is not on the list in § 13-1. Check the regulation — the list is long, and the duty may follow from your own risk in any case.",
+      "bhtUnknown": "The industry code has not been fetched yet, so the duty cannot be decided here.",
+      "bhtLabel": "Occupational health service",
+      "bhtPlaceholder": "Name of the provider"
+    },
+    "ansatte": {
+      "sourceHead": "Where the people come from",
+      "sourceManual": "Add manually",
+      "sourceManualNote": "Type in names and e-mail addresses. Fine up to around thirty people.",
+      "sourceCsv": "Import from a spreadsheet",
+      "sourceCsvNote": "Paste the columns from Excel. The usual route for small undertakings.",
+      "pasteHead": "Paste from the spreadsheet",
+      "pasteLead": "Select the columns in Excel and paste them here. The order is name, e-mail, group, manager. A header row is optional.",
+      "pastePlaceholder": "Kari Nordbø, kari@firma.no, Drift, Anne Rygg\nJonas Five, jonas@firma.no, Drift, Anne Rygg",
+      "column": "column {letter}",
+      "colName": "Name",
+      "colEmail": "E-mail",
+      "colGroup": "Group",
+      "colLeader": "Manager",
+      "colRole": "Role",
+      "colStatus": "Status",
+      "rowsRead": "{count, plural, one {# row read} other {# rows read}}",
+      "importLabel": "{count, plural, one {Import # person} other {Import # people}}",
+      "imported": "{count, plural, one {# person added} other {# people added}}",
+      "allGood": "Everything looks right",
+      "reset": "Clear",
+      "addHead": "Add one person",
+      "name": "Name",
+      "namePlaceholder": "Kari Nordbø",
+      "email": "E-mail",
+      "emailPlaceholder": "kari@firma.no",
+      "group": "Group",
+      "noGroup": "No group",
+      "noEmail": "—",
+      "add": "Add",
+      "emailNote": "E-mail is optional if you send by link or a QR code in the break room. Without one the system cannot send reminders.",
+      "registerTitle": "The register",
+      "registerCount": "{count, plural, one {# in the register} other {# in the register}}",
+      "registerMatches": "The register matches the number of employees. Everyone gets the measurement.",
+      "registerShort": "The register holds {registered} people, but the undertaking is stated as {stated} employees. Import the rest before sending — those missing will not get the measurement.",
+      "missingGroup": "{count, plural, one {# person has no group and falls into “No group”.} other {# people have no group and fall into “No group”.}}",
+      "dutyNone": "Employee",
+      "statusActive": "Active",
+      "statusInactive": "Left",
+      "groupFor": "Group for {name}",
+      "roleFor": "Role for {name}",
+      "duty": {
+        "daglig_leder": "Managing director",
+        "avdelingsleder": "Department manager",
+        "verneombud": "Safety representative",
+        "tillitsvalgt": "Union representative"
+      },
+      "dutyNote": "The role here is a statutory position, not an access grant. It records who is the safety or union representative — for the documentation under § 6-2 and § 9-2, for instance. Who may read what is governed by the login and the role under “Roles and access”, and is not changed by this field.",
+      "problem": {
+        "invalid": "The row could not be read. A name is required.",
+        "empty": "No rows to import.",
+        "too_many": "Too many rows at once. Split them into batches under 2000.",
+        "denied": "Only the daglig leder can change the register."
+      }
+    },
+    "grupper": {
+      "title": "Groups",
+      "lead": "The groups decide what you can break the result down by. Split by where people actually work together — not by the org chart.",
+      "headcount": "{count, plural, one {# employee} other {# employees}}",
+      "answered": "{count, plural, one {# answered last time} other {# answered last time}}",
+      "noRound": "No measurement closed yet",
+      "alone": "Shown on its own",
+      "merged": "Merged",
+      "rule": "Groups with fewer than {threshold} answers are never shown on their own. They go into “Other” together with the other small groups, so that the whole still adds up."
+    },
+    "terskel": {
+      "title": "Threshold",
+      "lead": "How many answers it takes before a group is shown on its own.",
+      "floorNote": "Five is the floor, and it is the product’s rather than yours. The database always counts at least five whatever is set here, so the threshold can be raised but not lowered."
+    },
+    "roller": {
+      "title": "Who sees what",
+      "lead": "Access follows the role, not the person. If somebody changes job, the access follows.",
+      "col": {
+        "ownNumbers": "Own figures",
+        "wholeHouse": "Whole undertaking",
+        "comments": "Comments",
+        "risk": "Risk assessment",
+        "roster": "People register",
+        "settings": "Change settings"
+      },
+      "role": {
+        "daglig_leder": "Managing director",
+        "avdelingsleder": "Department manager",
+        "verneombud": "Safety representative",
+        "tillitsvalgt": "Union representative",
+        "ansatt": "Employee"
+      },
+      "mark": {
+        "own_group": "Own",
+        "own": "Theirs"
+      },
+      "matrixNote": "“Own” means their own department only, “Theirs” only their own conversation. No role, not even the managing director, can see which answer a named person gave — that link does not exist in the database. Everything in the table is also subject to the threshold: a manager of four people gets no figures for the four.",
+      "writeNote": "Only the daglig leder can change anything under Settings. The other roles can read what is here. “Union representative” is a position in the register rather than a login — it grants no access in itself.",
+      "can": {
+        "daglig_leder": "The whole undertaking, every factor, every anonymous conversation. Never sees who answered what.",
+        "avdelingsleder": "Their own department once the threshold is met, and the conversations from it. No access to other departments.",
+        "verneombud": "The same figures and the same risk assessment as management. No individual comments. Notified first when a round starts."
+      }
+    },
+    "integrasjoner": {
+      "title": "Where the measurement is sent from",
+      "lead": "Every integration reads data. None of them writes back to the source system, and none of them gets access to the answers.",
+      "statusOff": "Not set up",
+      "statusSoon": "Coming",
+      "epost": {
+        "name": "E-mail",
+        "what": "The measurement is meant to go out with a personal link to each person. The link is personal, but the answer is stored with no connection to it.",
+        "need": "No mail provider is connected in this installation. The year wheel plans the rounds and queues the notices, but the queue stands until somebody connects sending."
+      },
+      "entra": {
+        "name": "Microsoft Entra ID",
+        "what": "Meant to fetch people, e-mail and group membership automatically, so new employees arrive by themselves and leavers are taken out.",
+        "need": "Not built. Until then the register is maintained under People."
+      },
+      "teams": {
+        "name": "Microsoft Teams",
+        "what": "Meant to send the measurement as a Teams message instead of e-mail.",
+        "need": "Not built, and would need Entra ID first in any case — the Teams notice uses the same directory."
+      },
+      "sms": {
+        "name": "SMS",
+        "what": "For people without regular e-mail use during the working day — sites, workshops, shifts. One message with a link, no app.",
+        "need": "Not built. It would also need mobile numbers in the register: {withPhone} of {total} have one today."
+      },
+      "hr": {
+        "name": "HR system",
+        "what": "Tripletex, Visma and Huldt & Lillevik. Meant to fetch job title, start date and department.",
+        "need": "Coming. Until then you add people manually or from a spreadsheet under People."
+      }
+    },
+    "personvern": {
+      "basis": {
+        "head": "Legal basis",
+        "body": "Legal obligation, GDPR art. 6(1)(c), cf. the Working Environment Act §§ 3-1 and 4-3. Not consent — employees cannot consent freely to their employer, and the measurement is a duty in any case."
+      },
+      "stored": {
+        "head": "What is stored about each person",
+        "body": "Name, e-mail and group in the register. Answers are stored with no connection to a person: the system knows that somebody in a group answered, not who. There is no column that could hold the link."
+      },
+      "special": {
+        "head": "Special categories",
+        "body": "The questions are written to avoid health data, cf. WEA § 9-3. The screening for offensive behaviour and violence is reported as counts only."
+      },
+      "retention": {
+        "head": "Retention",
+        "body": "Automatic deletion of individual answers is not set up in this installation yet. The routine has to be described and configured before you take the measurement fully into use."
+      },
+      "access": {
+        "head": "Access and erasure",
+        "body": "Register details can be corrected and deleted on request. Anonymous answers cannot be retrieved or deleted individually — they are not identifiable, cf. GDPR art. 11."
+      },
+      "processor": {
+        "head": "Processor",
+        "body": "The database runs in eu-central-1. A processing agreement and a list of sub-processors must be in place before you process real answers."
+      },
+      "dpia": {
+        "head": "Data protection impact assessment",
+        "body": "With a threshold of {threshold} and anonymous answers the risk is low, but a short DPIA is recommended because the measurement covers every employee."
+      },
+      "protocol": {
+        "head": "Record of processing",
+        "body": "The processing must be entered in the record of processing activities, with purpose, categories and retention. The record is kept outside Orgpuls today."
+      }
+    },
+    "regelverk": {
+      "title": "Legal basis",
+      "openReport": "Open the documentation",
+      "legal": {
+        "aml31c": {
+          "ref": "WEA § 3-1 c",
+          "what": "Survey, assess risk, draw up plans and put measures in place. Orgpuls covers this letter. Goals, deviations, sick leave and system review (a, e, f, h) belong to your health-and-safety work more broadly."
+        },
+        "aml91": {
+          "ref": "WEA §§ 9-1, 9-2",
+          "what": "The measurement is a control measure: objective grounds, discussion with the union representatives, information about purpose and duration, regular evaluation."
+        },
+        "aml23": {
+          "ref": "WEA § 2-3",
+          "what": "The employee's duty to take part in the systematic work — which is why answering is a duty and not only a right."
+        },
+        "aml43": {
+          "ref": "WEA § 4-3",
+          "what": "Requirements for the psychosocial work environment, including protection against offensive behaviour."
+        },
+        "forskrift1a": {
+          "ref": "Regulation ch. 1A",
+          "what": "The clarification in force from 1 January 2026: role clarity, conflicting demands, emotional demands, workload, support."
+        },
+        "aml62": {
+          "ref": "WEA § 6-2",
+          "what": "The safety representative's right to be involved in surveying and in assessing measures."
+        }
+      },
+      "coverTitle": "Coverage against the regulation",
+      "coverLead": "The factors the Labour Inspection Authority names, and where each is asked in the measurement. The list in the regulation is examples rather than a minimum — but for most undertakings they are relevant.",
+      "cover": {
+        "unclear": {
+          "ref": "Unclear or conflicting demands",
+          "where": "No factor in the measurement covers this now."
+        },
+        "emotional": {
+          "ref": "Emotional demands and strain",
+          "where": "No factor in the measurement covers this now."
+        },
+        "workload": {
+          "ref": "Workload and time pressure",
+          "where": "No factor in the measurement covers this now."
+        },
+        "support": {
+          "ref": "Support and help",
+          "where": "No factor in the measurement covers this now."
+        },
+        "control": {
+          "ref": "Autonomy and influence",
+          "where": "No factor in the measurement covers this now."
+        },
+        "integrity": {
+          "ref": "Integrity and dignity",
+          "where": "No factor in the measurement covers this now."
+        },
+        "contact": {
+          "ref": "Contact and communication",
+          "where": "No factor in the measurement covers this now."
+        },
+        "harassment": {
+          "ref": "Harassment and improper conduct",
+          "where": "Screening — needs a whistleblowing routine as well"
+        },
+        "violence": {
+          "ref": "Violence and threats",
+          "where": "Screening — needs an incident log, training and drills"
+        }
+      },
+      "gapLead": "The measurement is one source. The Labour Inspection Authority expects you to use several, and that surveying is followed by information and training. This lies outside Orgpuls today:",
+      "gap": {
+        "vernerunde": "Safety rounds and deviation reports as a source into the survey",
+        "samtaler": "Appraisals and informal conversations",
+        "informasjon": "Informing employees, safety and union representatives about risk and measures",
+        "opplaering": "Training and drills where the risk is high, and written instructions where life and health are at stake",
+        "bht": "Occupational health services or other expert assistance"
+      }
+    }
   }
 }

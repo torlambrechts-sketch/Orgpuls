@@ -25,6 +25,17 @@ const FactorRow = z.object({
   band: BAND,
 })
 
+/**
+ * `scope` says what the number is an average *of*, and a screen must not assume.
+ *
+ * Since 0022 the same RPC answers differently by role: a daglig leder or verneombud gets
+ * the whole undertaking, an avdelingsleder gets their own department. "61" labelled "hele
+ * virksomheten" is a different claim from "61" over one group, and nothing in the number
+ * distinguishes them — so the payload names its own scope and the screen labels it from
+ * that. `scope_label` carries the department's name when there is one.
+ */
+const SCOPE = z.enum(['org', 'group'])
+
 const Summary = z.discriminatedUnion('status', [
   z.object({
     status: z.literal('ok'),
@@ -32,12 +43,16 @@ const Summary = z.discriminatedUnion('status', [
     threshold: z.coerce.number(),
     index: z.coerce.number(),
     band: BAND,
+    scope: SCOPE.default('org'),
+    scope_label: z.string().nullable().default(null),
     factors: z.array(FactorRow),
   }),
   z.object({
     status: z.literal('insufficient_data'),
     n: z.coerce.number(),
     threshold: z.coerce.number(),
+    scope: SCOPE.default('org'),
+    scope_label: z.string().nullable().default(null),
   }),
 ])
 
@@ -113,6 +128,8 @@ const GroupRow = z.object({
 
 const ByGroup = z.object({
   threshold: z.coerce.number(),
+  /** 'org' when every group was offered, 'groups' when the caller's scope narrowed it */
+  scope: z.enum(['org', 'groups']).default('org'),
   groups: z.array(GroupRow),
 })
 
