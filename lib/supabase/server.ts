@@ -1,7 +1,7 @@
 import 'server-only'
 import { cookies } from 'next/headers'
 import { createServerClient } from '@supabase/ssr'
-import { missingEnvMessage, readSupabaseEnv } from '@/lib/supabase/env'
+import { readSupabaseEnv } from '@/lib/supabase/env'
 
 /**
  * The cookie-bound, anon-key client. RLS applies to everything it does, and every
@@ -14,10 +14,11 @@ import { missingEnvMessage, readSupabaseEnv } from '@/lib/supabase/env'
  */
 export async function createClient() {
   const env = readSupabaseEnv()
-  if ('missing' in env) {
+  if ('problem' in env) {
     // named rather than generic: the library's own message says a URL and key are
-    // required without saying which variable carries them
-    throw new Error(missingEnvMessage(env.missing))
+    // required without saying which variable carries them, and says "Invalid
+    // supabaseUrl" without showing the value that is invalid
+    throw new Error(env.problem)
   }
 
   const cookieStore = await cookies()

@@ -490,6 +490,55 @@ by design, and RLS is what protects the data.
 library's own message says a URL and key are required without saying which variable
 carries them, which is the difference between a five-minute fix and an afternoon.
 
+### X-013 — The middleware can no longer take the site down
+
+The build of X-012's fix succeeded (commit 7cc8d6f, Vercel build log) and the deployment
+still failed. A build never runs middleware, so a green build and a failing middleware
+are consistent — and it ruled out the missing-variable explanation: the project's
+environment holds both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+for all environments.
+
+Two more ways the same 500 happens, both reproduced locally rather than argued:
+
+1. **A malformed value.** `NEXT_PUBLIC_SUPABASE_URL` without a scheme — or with a
+   trailing newline or a pair of quotes, which is what pasting into a dashboard field
+   produces — makes the Supabase client throw `Invalid supabaseUrl: Must be a valid HTTP
+   or HTTPS URL`. Indistinguishable, from the outside, from the variable being absent.
+2. **A call that hangs.** The auth check is a network request to another service on
+   every page view. If it does not answer, the platform kills the function and reports
+   the same `MIDDLEWARE_INVOCATION_FAILED` — and a timeout cannot be caught, so a
+   try/catch does not help. It has to be prevented.
+
+So the middleware no longer has a path that can fail the request. Public paths are
+decided first; everything else runs inside a try/catch; the auth call carries a
+five-second `AbortSignal.timeout`; values are trimmed of whitespace and quotes with a
+warning; and a URL that is not a URL is reported with the value rather than a library
+message that does not name it.
+
+Measured, four builds, each with a different `NEXT_PUBLIC_SUPABASE_URL`:
+
+| value | `/` | `/logg-inn` | `/s/[token]` |
+| :-- | :-- | :-- | :-- |
+| correct | 307 → sign-in | 200 | 200 |
+| trailing newline | 307 → sign-in | 200 | 200, warned |
+| no scheme | 307 → sign-in | 200 | 500, named |
+| unreachable host | 307 → sign-in | 200 | 200 |
+
+No 500 from middleware in any of them. `/s/[token]` still fails when the configuration
+is genuinely unusable, and that is correct: the respondent surface needs the database,
+and showing its "this link does not work" screen would blame the employee for the
+server's problem.
+
+**One log line was removed for being noise.** `getUser()` reports "no session" as an
+error, so the first version logged a line for every page view by an anonymous visitor —
+which is how a real error goes unnoticed. `AuthSessionMissingError` is now the silent
+ordinary case; everything else is loud.
+
+**Still unknown:** which of the two the deployment actually hit. This session has no
+Vercel access, so the answer is in the deployment's own Runtime Logs, which now carry a
+named line instead of a bare 500. The Supabase project itself is healthy — its auth
+endpoint answered in 0.85s from here.
+
 ---
 
 ## Reference-rendering harness
