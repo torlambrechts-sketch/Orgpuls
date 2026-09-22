@@ -443,7 +443,53 @@
     "colAnsvarlig": "Responsible",
     "colFrist": "Deadline",
     "colStatus": "Status",
-    "section5Empty": "No measure is linked to the measurements in this period."
+    "section5Empty": "No measure is linked to the measurements in this period.",
+    "section6": "6. Evaluation of effect",
+    "section6Empty": "No measure is yet linked to a measurement that will show its effect. The evaluation is written once a later round has measured the same factors.",
+    "effectMoved": "{factor} was {from} in {fromYear} and {to} in {toYear}.",
+    "effectWithheld": "{factor} cannot be compared: the figure was withheld by the threshold in at least one of the rounds.",
+    "section7": "7. Offensive behaviour, violence and threats",
+    "section7Empty": "The figures are not available.",
+    "section7Withheld": "Fewer than {threshold} answers in the round. The counts are withheld, as the threshold requires.",
+    "section7NotAsked": "The questions about offensive behaviour and about violence and threats were not part of this round.",
+    "screening": {
+      "krenkende": {
+        "none": "None of the {answered} who answered said yes to the question about offensive behaviour, harassment or bullying in the past twelve months.",
+        "some": "{yes} of the {answered} who answered said yes to the question about offensive behaviour, harassment or bullying in the past twelve months."
+      },
+      "vold": {
+        "none": "None of the {answered} who answered said yes to the question about violence or threats at work in the past twelve months.",
+        "some": "{yes} of the {answered} who answered said yes to the question about violence or threats at work in the past twelve months."
+      }
+    },
+    "screeningDeclined": "{count, plural, one {# chose not to answer.} other {# chose not to answer.}}",
+    "screeningRule": "The counts are for the whole undertaking and are never broken down by group. Individual cases are handled under the undertaking's whistleblowing routine, not as ordinary work-environment measures.",
+    "section8": "8. Information and training",
+    "section8EmptyInfo": "There is no record that the findings were shared. Under § 9-2 employees must be informed of the purpose, the practical consequences and the expected duration.",
+    "section8EmptyTraining": "No training is recorded in the period.",
+    "informationLine": "{audience} — {channel}, {date}.",
+    "trainingLine": "{title} — {audience}, {date}.",
+    "trainingNext": "Next review: {date}.",
+    "audienceName": {
+      "alle_ansatte": "All employees",
+      "verneombud": "Safety representative",
+      "tillitsvalgte": "Union representatives",
+      "ledere": "Managers",
+      "amu": "Working environment committee"
+    },
+    "channel": {
+      "allmote": "all-hands",
+      "skriftlig": "in writing",
+      "epost": "e-mail",
+      "mote": "meeting",
+      "intranett": "intranet"
+    },
+    "signature": "Signature",
+    "signerRole": {
+      "daglig_leder": "Managing director",
+      "verneombud": "Safety representative",
+      "tillitsvalgt": "Union representative"
+    }
   },
   "tiltak": {
     "title": "Measures",

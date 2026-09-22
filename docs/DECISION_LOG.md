@@ -1110,6 +1110,49 @@ bundle's version of that screen is a different screen.
 category chips carry `aria-pressed`, the search input is labelled, and there are no console
 errors or warnings on either screen.
 
+### X-022 — The report is complete
+
+Sections 6, 7 and 8 and the signature block were the last unbuilt part of the
+documentation, and each had been waiting on a fact rather than on a component. Migration
+0023 supplies all three.
+
+**A measure now knows which round measured its effect.** `effect_round_id`, guarded so it
+cannot point at another organisation's round or at the round the measure was raised from —
+a measure cannot be evaluated by the measurement that produced it. Section 6 computes the
+movement from two `results_summary` calls, the same k-gated RPC as every other figure in
+the document, and prints `effect_note` beside it: the arithmetic is the database's and the
+judgement is a person's, which is the split D-18 established when section 4 waited for
+0016.
+
+**`rpc.screening_counts` is the most deliberately limited reader in the product.** The two
+screening questions are the most sensitive rows in the database, and the rule the design
+states for them is stricter than k elsewhere: counts only, for the whole undertaking, never
+per group. So the RPC has no group parameter, and assertion 8 searches its entire output
+for any spelling of a group — the same technique `conversation_invariants.sql` uses for a
+comment, and for the same reason. A round under the threshold yields nothing at all.
+
+The design's figure reproduces exactly: three of 28 said yes to krenkende atferd, none to
+vold og trusler. Assertion 7 pins both.
+
+**Section 8 is two lists.** `round_information` and `trainings` record what was shared and
+what was run. Neither holds a column that could name a respondent, which assertion 13
+asserts by name. Both print their own absence with the provision that requires them.
+
+**The signature block comes from `duty_role`.** The design hard-codes three names; the
+register knows who the verneombud and the tillitsvalgt are, because 0021 added the column
+for exactly this. An organisation that has recorded nobody gets no block rather than three
+ruled lines over vacant titles.
+
+**`supabase/tests/report_invariants.sql`, 16 of 16.** The suite found one defect in itself
+on the first run — its own restore step tried to set a measure's effect round back to the
+round it was raised from, and the trigger refused. That is the trigger working, and the
+suite now restores to the round the fixture chose.
+
+**Pixel evidence.** The signature block at **1 304 pixels** against the baseline: three
+rules, three names, three roles, all where the design puts them. Sections 6 to 8 have no
+comparable diff because their content is records rather than the design's prose — that is
+the deviation, not an approximation of it. D-36.
+
 ---
 
 ## Open items
@@ -1137,9 +1180,7 @@ errors or warnings on either screen.
 - [ ] No confirmation before "Slett tiltaket". The design specifies no dialog anywhere,
       so none was invented — worth a decision rather than an assumption (D-22).
 - [x] Report section 4 prints, from the stored assessment. X-016.
-- [ ] Report sections 6, 7 and 8 and the signature block wait on a link from a measure to
-      the round that measured its effect, a k-gated reader over app.extra_answers, and
-      records of briefings and training.
+- [x] Report sections 6, 7 and 8 and the signature block print. X-022.
 - [x] The published figures — 61, −3, 82 %, 77 % — verified against the live database.
       X-008, re-verified at X-019. All six suites pass: 113 assertions.
 - [ ] `ORGPULS_DEV_PASSWORD` unset — no route can be signed into, so `shoot.mjs` and the
@@ -1159,3 +1200,6 @@ errors or warnings on either screen.
       exists to connect. `/integrasjoner` documents what each one needs instead (D-35).
 - [ ] Hjelp has no chat, no telephone and no status monitor. The design offers all three
       (D-34).
+- [ ] Nothing writes `round_information`, `trainings` or `effect_round_id` from a screen
+      yet. The report reads them and the fixture seeds them; recording a briefing is a
+      control Måleoppsett or Tiltak will need (D-36).

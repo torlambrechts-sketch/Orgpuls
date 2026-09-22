@@ -174,6 +174,46 @@ const REGISTRY = {
 
 const BHT = 'Vestfold Bedriftshelse AS'
 
+/**
+ * The screening answers, and the two sentences section 7 of the report prints.
+ *
+ * The design states the figures exactly: "Tre av 28 svarte ja på spørsmålet om krenkende
+ * atferd" and "Ingen svarte ja på spørsmålet om vold og trusler". The split between
+ * "opplevd selv" and "sett andre" is the fixture's own, because the design gives only the
+ * total — and the total is the only thing the report prints, which is the point of the
+ * question's own rule: counts for the whole undertaking, never per group.
+ *
+ * `vil ikke svare` is seeded deliberately. It is an option a respondent can choose, and a
+ * fixture in which nobody ever chooses it would make "tre av 28" mean something slightly
+ * different from what it says.
+ */
+const SCREENING = {
+  2026: { krenkende: [24, 2, 1, 1], vold: [27, 0, 0, 1] },
+  2025: { krenkende: [22, 1, 0, 1], vold: [24, 0, 0, 0] },
+}
+
+/**
+ * Informasjon og opplæring — section 8, as the design describes it in prose.
+ *
+ * Both tables exist so the section can print a record rather than a paragraph somebody
+ * wrote. `held_on` on the information rows is the design's own 20 September; the AMU
+ * briefing a week earlier is its "en uke før AMU".
+ */
+const INFORMATION = [
+  ['alle_ansatte', 'allmote', '2026-09-20', 'Oppsummering av funnene lagt fram på allmøte.'],
+  ['alle_ansatte', 'skriftlig', '2026-09-20', 'Samme oppsummering skriftlig i personalhåndboka.'],
+  ['verneombud', 'mote', '2026-09-13', 'Saksframlegget delt en uke før AMU.'],
+  ['tillitsvalgte', 'mote', '2026-09-13', 'Saksframlegget delt en uke før AMU.'],
+  ['ledere', 'epost', '2026-09-15', 'Hver leder fikk sine egne tall samme uke som resultatet ble frigitt.'],
+]
+
+const TRAININGS = [
+  ['Oppfølging av psykososiale forhold', 'ledere', '2026-03-10', '2027-02-01',
+   'Kurs for ledere med personalansvar.'],
+  ['Gjennomgang av varslingsrutinen', 'alle_ansatte', '2026-04-14', '2027-02-01',
+   'Gjennomgått i alle team.'],
+]
+
 const sum = (rows, i) => rows.reduce((a, r) => a + r[i], 0)
 const ROSTER = COHORTS[2026]
 const EMPLOYEES = sum(ROSTER, 1)
@@ -241,13 +281,16 @@ const MEASURES = [
     '2026-11-01', null, 'besluttet', 'kollektivt', 'forskrift kap. 1A', []],
   ['ytring', 2025, 'Tuva Berg', 'Varslingsrutinen trykket og hengt opp på alle rigger',
     'Ytringsklima gikk fra 39 til 48 i grunnlinjen etterpå. Effekten er dokumentert og tiltaket lukket.',
-    null, '2026-02-03', 'lukket', 'kollektivt', 'aml. kap. 2A', []],
+    null, '2026-02-03', 'lukket', 'kollektivt', 'aml. kap. 2A', [], 2026,
+    'Tiltaket vurderes som ikke tilstrekkelig alene, og følges opp med fast svarfrist på avviksmeldinger.'],
   ['mengde', 2025, 'Tomas Vik', 'To innleide ekstra i høysesongen',
     'Arbeidsmengde steg fire poeng, men falt tilbake i 2026. Vurder om tiltaket må gjentas.',
-    null, '2026-01-20', 'lukket', 'kollektivt', 'forskrift kap. 1A', []],
+    null, '2026-01-20', 'lukket', 'kollektivt', 'forskrift kap. 1A', [], 2026,
+    'Effekten er borte året etter. Det vurderes om tiltaket må gjentas fast hver høysesong.'],
   ['kollega', 2025, 'Anne Rygg', 'Faste fredagsgjennomganger på Verksted',
     'Kollegastøtte er den høyeste faktoren i 2026. Tiltaket regnes som virksomt og videreføres som rutine.',
-    null, '2026-05-12', 'lukket', 'kollektivt', 'aml. § 4-3', ['Verksted']],
+    null, '2026-05-12', 'lukket', 'kollektivt', 'aml. § 4-3', ['Verksted'], 2026,
+    'Tiltaket regnes som virksomt og videreføres som fast rutine.'],
 ]
 
 /**
@@ -270,18 +313,50 @@ const MEASURES = [
  */
 const sqlDate = (v) => (v === 'yesterday' ? "current_date - 1" : v === null ? 'null' : `date '${v}'`)
 
+/**
+ * One `extra_answers` row per response, assigned by count.
+ *
+ * Responses carry a group and an hour and nothing else, so which response gets which
+ * screening answer is arbitrary by construction — the rows are numbered and cut at the
+ * counts above. That is the same technique `answersFor` uses, and for the same reason:
+ * there is no person to assign anything to.
+ */
+const screeningSql = () => Object.entries(SCREENING).map(([year, qs]) =>
+  Object.entries(qs).map(([key, counts]) => `
+with numbered as (
+  select r.id, row_number() over (order by r.id) as n
+  from app.responses r where r.round_id = '${ROUND[year]}')
+insert into app.extra_answers (response_id, extra_key, option_ordinal)
+select id, '${key}',
+  case ${counts.map((c, i) =>
+    `when n <= ${counts.slice(0, i + 1).reduce((a, b) => a + b, 0)} then ${i + 1}`).join('\n       ')}
+  end
+from numbered
+where n <= ${counts.reduce((a, b) => a + b, 0)};`).join('\n')).join('\n')
+
+const informationSql = () => `
+insert into app.round_information (org_id, round_id, audience, channel, held_on, note) values
+${INFORMATION.map(([aud, chan, on, note]) =>
+  `  ('${ORG}', '${ROUND[2026]}', '${aud}', '${chan}', date '${on}', ${q(note)})`).join(',\n')};
+
+insert into app.trainings (org_id, title, audience, held_on, next_due, note) values
+${TRAININGS.map(([title, aud, on, due, note]) =>
+  `  ('${ORG}', ${q(title)}, '${aud}', date '${on}', date '${due}', ${q(note)})`).join(',\n')};`
+
 const measuresSql = () => `
 insert into app.measures (org_id, factor_key, round_id, owner_employee_id, title, goal,
-                          due_date, completed_on, step, kind, law_ref, created_at)
+                          due_date, completed_on, step, kind, law_ref, created_at,
+                          effect_round_id, effect_note)
 values
-${MEASURES.map(([factor, year, owner, title, goal, due, done, step, kind, law], i) =>
+${MEASURES.map(([factor, year, owner, title, goal, due, done, step, kind, law, , effYear, effNote], i) =>
   `  ('${ORG}', '${factor}', '${ROUND[year]}',
    (select e.id from app.employees e where e.org_id = '${ORG}' and e.full_name = '${owner}'),
    '${title.replace(/'/g, "''")}', '${goal.replace(/'/g, "''")}',
    ${sqlDate(due)}, ${sqlDate(done)}, '${step}', '${kind}', ${law ? `'${law}'` : 'null'},
-   timestamptz '2026-09-15 09:00+02' + ${i} * interval '1 hour')`).join(',\n')};
+   timestamptz '2026-09-15 09:00+02' + ${i} * interval '1 hour',
+   ${effYear ? `'${ROUND[effYear]}'` : 'null'}, ${effNote ? q(effNote) : 'null'})`).join(',\n')};
 
-${MEASURES.flatMap(([, , , title, , , , , , , groups]) =>
+${MEASURES.flatMap(([, , , title, , , , , , , groups = []]) =>
   groups.map((g) => `insert into app.measure_groups (measure_id, group_id)
 select m.id, grp.id from app.measures m
 join app.groups grp on grp.org_id = m.org_id and grp.name = '${g}'
@@ -431,6 +506,7 @@ select id, factor_key, ordinal, case when n <= hi_count then hi_value else lo_va
 from numbered;`
 
 console.log(`-- generated by scripts/seed/design-fixture.mjs — do not edit by hand
+delete from app.trainings       where org_id = '${ORG}';
 delete from app.locations       where org_id = '${ORG}';
 delete from app.comment_threads where org_id = '${ORG}';
 delete from app.risk_assessments where org_id = '${ORG}';
@@ -547,6 +623,8 @@ ${responsesFor(2026)}
 ${answersFor(2025)}
 ${answersFor(2026)}
 ${measuresSql()}
+${screeningSql()}
+${informationSql()}
 ${riskSql()}
 ${conversationsSql()}
 select m.year,

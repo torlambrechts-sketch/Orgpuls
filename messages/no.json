@@ -443,7 +443,53 @@
     "colAnsvarlig": "Ansvarlig",
     "colFrist": "Frist",
     "colStatus": "Status",
-    "section5Empty": "Ingen tiltak er knyttet til målingene i denne perioden."
+    "section5Empty": "Ingen tiltak er knyttet til målingene i denne perioden.",
+    "section6": "6. Effektvurdering",
+    "section6Empty": "Ingen tiltak er ennå knyttet til en måling som skal vise effekten. Effektvurderingen skrives når en senere runde har målt de samme faktorene.",
+    "effectMoved": "{factor} var {from} i {fromYear} og {to} i {toYear}.",
+    "effectWithheld": "{factor} kan ikke sammenlignes: tallet ble holdt tilbake av terskelen i minst én av rundene.",
+    "section7": "7. Krenkende atferd, vold og trusler",
+    "section7Empty": "Tallene er ikke tilgjengelige.",
+    "section7Withheld": "Færre enn {threshold} svar i runden. Antallene holdes tilbake, slik terskelen krever.",
+    "section7NotAsked": "Spørsmålene om krenkende atferd og om vold og trusler var ikke med i denne runden.",
+    "screening": {
+      "krenkende": {
+        "none": "Ingen av de {answered} som svarte, svarte ja på spørsmålet om krenkende atferd, trakassering eller mobbing siste tolv måneder.",
+        "some": "{yes} av {answered} som svarte, svarte ja på spørsmålet om krenkende atferd, trakassering eller mobbing siste tolv måneder."
+      },
+      "vold": {
+        "none": "Ingen av de {answered} som svarte, svarte ja på spørsmålet om vold eller trusler i jobben siste tolv måneder.",
+        "some": "{yes} av {answered} som svarte, svarte ja på spørsmålet om vold eller trusler i jobben siste tolv måneder."
+      }
+    },
+    "screeningDeclined": "{count, plural, one {# valgte å ikke svare.} other {# valgte å ikke svare.}}",
+    "screeningRule": "Antallene gjelder hele virksomheten og brytes aldri ned på gruppe. Enkeltsaker håndteres etter virksomhetens varslingsrutine, ikke som ordinære arbeidsmiljøtiltak.",
+    "section8": "8. Informasjon og opplæring",
+    "section8EmptyInfo": "Det er ikke registrert at funnene er delt. Etter § 9-2 skal de ansatte informeres om formål, praktiske konsekvenser og antatt varighet.",
+    "section8EmptyTraining": "Det er ikke registrert opplæring i perioden.",
+    "informationLine": "{audience} — {channel}, {date}.",
+    "trainingLine": "{title} — {audience}, {date}.",
+    "trainingNext": "Neste gjennomgang: {date}.",
+    "audienceName": {
+      "alle_ansatte": "Alle ansatte",
+      "verneombud": "Verneombud",
+      "tillitsvalgte": "Tillitsvalgte",
+      "ledere": "Ledere",
+      "amu": "Arbeidsmiljøutvalget"
+    },
+    "channel": {
+      "allmote": "allmøte",
+      "skriftlig": "skriftlig",
+      "epost": "e-post",
+      "mote": "møte",
+      "intranett": "intranett"
+    },
+    "signature": "Signatur",
+    "signerRole": {
+      "daglig_leder": "Daglig leder",
+      "verneombud": "Verneombud",
+      "tillitsvalgt": "Tillitsvalgt"
+    }
   },
   "tiltak": {
     "title": "Tiltak",

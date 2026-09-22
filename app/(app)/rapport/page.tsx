@@ -11,6 +11,13 @@ import { getOrganization } from '@/lib/org/read'
 import { getMeasures } from '@/lib/measures/read'
 import { getResultsByGroup, getResultsSummary } from '@/lib/results/read'
 import { getRiskAssessment } from '@/lib/risk/read'
+import {
+  getInformation,
+  getMeasureEffects,
+  getScreeningCounts,
+  getSigners,
+  getTrainings,
+} from '@/lib/report/tail'
 import { getRoundFactorKeys, getRounds, type RoundListItem } from '@/lib/rounds/read'
 
 /**
@@ -75,12 +82,28 @@ export default async function RapportPage({
 
   const inYear = rounds.filter((r) => r.year === year)
 
-  const [summary, prior, byGroup, factorKeyLists, risk] = await Promise.all([
+  const [
+    summary,
+    prior,
+    byGroup,
+    factorKeyLists,
+    risk,
+    effects,
+    screening,
+    information,
+    trainings,
+    signers,
+  ] = await Promise.all([
     primaryRound ? getResultsSummary(primaryRound.id) : Promise.resolve(null),
     prevRound ? getResultsSummary(prevRound.id) : Promise.resolve(null),
     primaryRound ? getResultsByGroup(primaryRound.id) : Promise.resolve(null),
     Promise.all(inYear.map((r) => getRoundFactorKeys(r.id))),
     primaryRound ? getRiskAssessment(primaryRound.id) : Promise.resolve(null),
+    getMeasureEffects(),
+    primaryRound ? getScreeningCounts(primaryRound.id) : Promise.resolve(null),
+    primaryRound ? getInformation(primaryRound.id) : Promise.resolve([]),
+    getTrainings(),
+    getSigners(),
   ])
 
   const threshold = byGroup?.threshold ?? summary?.threshold ?? org?.threshold ?? 5
@@ -204,6 +227,11 @@ export default async function RapportPage({
      * departmental report prints it unchanged, because risk was assessed for the
      * undertaking and § 4-1's "samlet" is exactly that.
      */
+    effects,
+    screening,
+    information,
+    trainings,
+    signers,
     risk: risk
       ? {
           assessedOn: risk.assessedOn,

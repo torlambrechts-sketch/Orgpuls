@@ -6,6 +6,13 @@ import { Sheet } from '@/components/rapport/Sheet'
 import { formatOrgNumber } from '@/lib/org/read'
 import { stepIndex, type MeasureStep } from '@/lib/measures/read'
 import type { Band } from '@/lib/results/read'
+import type {
+  InformationEvent,
+  MeasureEffect,
+  ScreeningCounts,
+  Signer,
+  Training,
+} from '@/lib/report/tail'
 
 /**
  * Rapport, the rendering. Bundle lines 271-500.
@@ -16,11 +23,16 @@ import type { Band } from '@/lib/results/read'
  * response rates from `participation`, the withheld groups from `results_by_group`,
  * the dates from `app.rounds`, the organisation number from `app.organizations`.
  *
- * Sections 6 to 8 and the signature block are not built. They are not omissions of
- * convenience: section 7 needs a reader over `app.extra_answers`, and sections 6 and 8
- * records of effect and training that nothing holds. A statutory document that prints
- * an invented risk assessment is worse than one that prints none — the reader cannot
- * tell which sentences were decided by a person. See docs/DEVIATIONS.md D-18.
+ * Sections 6 to 8 and the signature block print since migration 0023, and each of them
+ * waited on a fact rather than on a component. Section 6 needed a link from a measure to
+ * the round that measured its effect; section 7 a k-gated reader over `app.extra_answers`,
+ * which no client may select from; section 8 a record that findings were shared and people
+ * trained. The signature block needed to know who the verneombud and the tillitsvalgt are,
+ * which `duty_role` now says.
+ *
+ * Every one of them still prints its own absence. A document that says "ingen
+ * effektvurdering er registrert" is worth more to an inspector than one that computes a
+ * sentence nobody wrote — which is D-18's rule, and the reason section 4 waited for 0016.
  */
 
 export type Audience = 'tilsyn' | 'amu' | 'ledelse' | 'ansatte'
@@ -78,6 +90,15 @@ export interface RapportView {
   measures: ReportMeasure[]
   /** section 4: the stored risk assessment of the round the figures come from */
   risk: ReportRisk | null
+  /** section 6: measures whose effect a later round was chosen to show */
+  effects: MeasureEffect[]
+  /** section 7: counts only, whole undertaking, never per group */
+  screening: ScreeningCounts | null
+  /** section 8 */
+  information: InformationEvent[]
+  trainings: Training[]
+  /** the signature block, from duty_role on the register */
+  signers: Signer[]
 }
 
 /**
@@ -690,6 +711,170 @@ export async function RapportScreen({ view }: { view: RapportView }) {
             </tbody>
           </table>
         )}
+
+        {/* ------------------------------------------------ 6. Effektvurdering */}
+        <h2 className="mt-[30px] font-display text-[19px] font-semibold">
+          {t('rapport.section6')}
+        </h2>
+        {view.effects.length === 0 ? (
+          <p className="mt-[8px] text-[12.5px] leading-[1.65] text-body">
+            {t('rapport.section6Empty')}
+          </p>
+        ) : (
+          view.effects.map((e) => (
+            <p key={e.id} className="mt-[11px] text-[12.5px] leading-[1.65] text-body">
+              {/*
+                The movement is computed from two k-gated summaries; the judgement about
+                what it means was written by a person and is printed as written. A
+                document that stated a conclusion nobody reached would be the same defect
+                section 4 waited two migrations to avoid.
+              */}
+              <span className="font-semibold">{e.title}.</span>{' '}
+              {e.before !== null && e.after !== null && e.fromYear !== null && e.toYear !== null
+                ? t('rapport.effectMoved', {
+                    factor: t(`factor.${e.factorKey}.label`),
+                    from: e.before,
+                    to: e.after,
+                    fromYear: e.fromYear,
+                    toYear: e.toYear,
+                  })
+                : t('rapport.effectWithheld', { factor: t(`factor.${e.factorKey}.label`) })}
+              {e.note ? ` ${e.note}` : ''}
+            </p>
+          ))
+        )}
+
+        {/* ------------------- 7. Krenkende atferd, vold og trusler */}
+        <h2 className="mt-[30px] font-display text-[19px] font-semibold">
+          {t('rapport.section7')}
+        </h2>
+        {screeningParagraphs()}
+
+        {/* ------------------------------------------ 8. Informasjon og opplæring */}
+        <h2 className="mt-[30px] font-display text-[19px] font-semibold">
+          {t('rapport.section8')}
+        </h2>
+        {view.information.length === 0 ? (
+          <p className="mt-[8px] text-[12.5px] leading-[1.65] text-body">
+            {t('rapport.section8EmptyInfo')}
+          </p>
+        ) : (
+          <ul className="m-0 mt-[8px] list-none p-0">
+            {view.information.map((i) => (
+              <li key={i.id} className="mt-[6px] text-[12.5px] leading-[1.65] text-body">
+                {t('rapport.informationLine', {
+                  audience: t(`rapport.audienceName.${i.audience}`),
+                  channel: t(`rapport.channel.${i.channel}`),
+                  date: long(i.held_on) ?? i.held_on,
+                })}
+                {i.note ? ` ${i.note}` : ''}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {view.trainings.length === 0 ? (
+          <p className="mt-[10px] text-[12.5px] leading-[1.65] text-body">
+            {t('rapport.section8EmptyTraining')}
+          </p>
+        ) : (
+          <ul className="m-0 mt-[10px] list-none p-0">
+            {view.trainings.map((tr) => (
+              <li key={tr.id} className="mt-[6px] text-[12.5px] leading-[1.65] text-body">
+                {t('rapport.trainingLine', {
+                  title: tr.title,
+                  audience: t(`rapport.audienceName.${tr.audience}`),
+                  date: long(tr.held_on) ?? tr.held_on,
+                })}
+                {tr.next_due
+                  ? ` ${t('rapport.trainingNext', { date: long(tr.next_due) ?? tr.next_due })}`
+                  : ''}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {/* ------------------------------------------------------- Signatur */}
+        {view.signers.length === 0 ? null : (
+          <div className="mt-[36px] [break-inside:avoid]">
+            <div className="text-[10.5px] uppercase tracking-[0.1em] text-mut">
+              {t('rapport.signature')}
+            </div>
+            <div className="mt-[22px] flex flex-wrap gap-[26px]">
+              {view.signers.map((sgn) => (
+                <span key={`${sgn.role}-${sgn.name}`} className="min-w-[150px] flex-1">
+                  <span className="block h-[34px] border-b border-ink" />
+                  <span className="mt-[6px] block text-[12px] font-bold">{sgn.name}</span>
+                  <span className="block text-[11.5px] text-mut">
+                    {t(`rapport.signerRole.${sgn.role}`)}
+                  </span>
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </>
+    )
+  }
+
+  /**
+   * Section 7, in sentences rather than a table.
+   *
+   * The design writes it as prose and the prose is right: a table of four options by two
+   * questions invites a reader to look for a pattern, and the one thing this question may
+   * never be broken down by is the thing a pattern would be about. So it says how many
+   * answered yes out of how many answered, and nothing else.
+   *
+   * `vil ikke svare` is counted in the denominator, because "tre av 28" is a different
+   * claim from "tre av 27".
+   */
+  function screeningParagraphs() {
+    if (view.screening === null) {
+      return (
+        <p className="mt-[8px] text-[12.5px] leading-[1.65] text-body">
+          {t('rapport.section7Empty')}
+        </p>
+      )
+    }
+
+    if (view.screening.status === 'insufficient_data') {
+      return (
+        <p className="mt-[8px] text-[12.5px] leading-[1.65] text-body">
+          {t('rapport.section7Withheld', { threshold: view.screening.threshold })}
+        </p>
+      )
+    }
+
+    const questions = view.screening.questions
+    if (questions.length === 0) {
+      return (
+        <p className="mt-[8px] text-[12.5px] leading-[1.65] text-body">
+          {t('rapport.section7NotAsked')}
+        </p>
+      )
+    }
+
+    return (
+      <>
+        {questions.map((q) => {
+          // option 1 is "Nei" and the last is "Vil ikke svare"; everything between is a yes
+          const yes = q.options
+            .filter((o) => o.ordinal > 1 && o.ordinal < q.options.length)
+            .reduce((a, o) => a + o.n, 0)
+          const declined = q.options.find((o) => o.ordinal === q.options.length)?.n ?? 0
+
+          return (
+            <p key={q.key} className="mt-[8px] text-[12.5px] leading-[1.65] text-body">
+              {yes === 0
+                ? t(`rapport.screening.${q.key}.none`, { answered: q.answered })
+                : t(`rapport.screening.${q.key}.some`, { yes, answered: q.answered })}
+              {declined > 0 ? ` ${t('rapport.screeningDeclined', { count: declined })}` : ''}
+            </p>
+          )
+        })}
+        <p className="mt-[10px] text-[12.5px] leading-[1.65] text-body">
+          {t('rapport.screeningRule')}
+        </p>
       </>
     )
   }

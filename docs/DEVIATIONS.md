@@ -1110,3 +1110,40 @@ faster than any sentence about a feature being unavailable.
 
 There is no route per channel. `/integrasjoner/[kanal]` would be four screens of the same
 refusal.
+
+---
+
+## D-36 — The report's last three sections print records, not prose
+
+Sections 6, 7 and 8 and the signature block print since migration 0023. Each waited on a
+fact rather than on a component, and each is written from that fact rather than from the
+design's narrative.
+
+**6. Effektvurdering.** The design writes it as a paragraph: *"Varslingsrutinen ble
+gjennomgått i alle team i 2025. Ytringsklima steg fra 39 til 48 i grunnlinjen etterpå, men
+har falt tilbake til 41 i 2026."* Half of that is arithmetic and half is a judgement. The
+arithmetic is now computed — both indices come from `results_summary`, the same k-gated RPC
+every other figure in the document comes from — and the judgement is `effect_note`, written
+by a person and printed as written. Where the gate withheld the factor in either round the
+section says the comparison cannot be made, rather than printing one side of it.
+
+**7. Krenkende atferd, vold og trusler.** Counts, and the RPC that produces them refuses to
+break down at all: there is no group parameter on `rpc.screening_counts` and adding one
+would be a change to what the product promises rather than a feature. `vil ikke svare` is
+counted in the denominator, because *"tre av 28"* is a different claim from *"tre av 27"*.
+The design's two extra sentences — that the verneombud was notified on 15 September, and
+that the cases are handled under the whistleblowing routine — are one record this product
+does not hold and one statement about the organisation's own procedure. The first is
+dropped; the second is kept as the general rule it is.
+
+**8. Informasjon og opplæring.** Two lists rather than two paragraphs. `round_information`
+holds who was told, through which channel, on which date; `trainings` holds what was run,
+for whom, and when it is due again. Both print their own absence with the provision that
+requires them — an inspector reading *"det er ikke registrert at funnene er delt"* under a
+citation of § 9-2 learns more than one reading an invented allmøte.
+
+**The signature block is built from the register.** The design hard-codes three names; here
+they come from `duty_role`, which is the column 0021 added for this. An organisation that
+has recorded nobody as verneombud gets no signature block, rather than three ruled lines
+over titles with no holders. It diffs at **1 304 pixels** against the baseline — the three
+rules, the three names and the three roles all land exactly where the design puts them.
