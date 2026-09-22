@@ -88,6 +88,13 @@ to Entra-only sign-in, waiting for an auth design, or a development stub.
 **Consequence:** this is the one surface with no pixel baseline, so the pixel gate cannot
 cover it. It is verified by the other six gates only.
 
+**Superseded on 2026-09-22.** The user supplied `design-reference/orgpuls-start/`, which
+contains a splash page, a sign-up flow and a sign-in panel. The invented screen is gone and
+`/logg-inn` is now built from that bundle. What survives of this entry is the last
+paragraph: the start bundle ships no captured baselines either, so the three marketing
+screens are still outside the pixel gate and still verified by the other gates and by eye.
+See D-37 and D-38 for what the new bundle asks for that this product does not do.
+
 ---
 
 ## D-04 — `rls_enabled_no_policy` on `responses` and `answers` is intended
@@ -1147,3 +1154,83 @@ they come from `duty_role`, which is the column 0021 added for this. An organisa
 has recorded nobody as verneombud gets no signature block, rather than three ruled lines
 over titles with no holders. It diffs at **1 304 pixels** against the baseline — the three
 rules, the three names and the three roles all land exactly where the design puts them.
+
+---
+
+## D-37 — The splash's hero mock-up is an illustration, and says so
+
+The hero puts a small Innsikt card beside the headline: an index of 61, *"−3 siden i
+fjor"*, a band scale, and three things to do. Those are Nordvik's figures — the fixture's,
+the report's, the ones every other screen computes from `results_summary`.
+
+Here they are typed into `messages/no.json`. Nothing on the splash page can compute them,
+and nothing should: the page is served to a visitor with no session and no organisation,
+and a marketing page that queried a real undertaking's arbeidsmiljøindeks to decorate
+itself would be exactly the leak this product exists to prevent.
+
+**Never fabricate data in the UI** forbids rendering a placeholder that looks like data.
+The resolution is not to omit the card — the design's hero is a picture of the product and
+without it the page is a wall of text — but to caption it so it cannot be read as a
+reading. The card's header line is `start.mockCaption`: **"Innsikt · Nordvik Anlegg AS —
+eksempel"**. The bundle's own caption says only *"Innsikt · Nordvik Anlegg AS"*; the em
+dash and the word are this product's, and they are the smallest addition that turns a
+figure into an illustration of a figure.
+
+The same rule applied to the three price plans, which are the design's own numbers and are
+also copy rather than a table: there is no billing in this schema, so there is nothing for
+them to disagree with. They are marked as copy by being in `messages`, where a price
+belongs until something charges one.
+
+---
+
+## D-38 — Sign-up asks two of the bundle's questions and offers neither SSO button
+
+The bundle's step 2 asks four things beyond name, e-mail and password: a role chip
+(*"Daglig leder / HR eller administrasjon / Verneombud / Annet"*), a size band (*"Under 25
+/ 25–50 / 51–100 / Over 100"*), a consent tick, and nothing else. Its sign-in panel offers
+*"Fortsett med Microsoft"* and *"Fortsett med BankID"* under the password field.
+
+**The size band is kept, by becoming a number.** `app.organizations.employee_count` is an
+integer the Selskap tab prints and the participation denominator does not use, so a band
+maps onto it cleanly: the chip sets 20, 38, 75 or 150, and the row that lands in the
+database is a real column holding a real number. It is an estimate, and the Selskap tab
+lets it be corrected before a single round is planned against it, which is what the column
+was always for. The number the
+participation denominator uses is the employee register, not this, so an estimate here can
+never move a published figure.
+
+**The role question is dropped.** There is no column it fits. `app.memberships.role` is the
+three-value `app.app_role` — `daglig_leder`, `avdelingsleder`, `verneombud` — and the
+sign-up's answer is not one of those: *"HR eller administrasjon"* and *"Annet"* have no
+membership to grant, and the first person into an organisation must be `daglig_leder`
+regardless of what they call themselves, because nobody else can grant them anything
+afterwards. `app.employees.duty_role` is a different question again — who holds a statutory
+office in the undertaking — and is answered on the Ansatte tab about a person in the
+register, not about the account creating the organisation. Storing the chip anywhere else
+would mean a column that exists to hold an answer nothing reads, which is the shape of
+every field that later gets used for something it does not mean.
+
+**Both SSO buttons are omitted**, for the reason D-35 omits the Entra card on
+Integrasjoner: there is no Entra application, no BankID merchant, and no provider
+configured in Supabase Auth. A button that opens nothing is worse on a sign-in screen than
+anywhere else, because the person clicking it is already locked out. The bundle's hint
+line — *"Er dere på Microsoft 365, slipper du passordet"* — goes with them; it is a promise
+about an integration that does not exist.
+
+**What is kept exactly** is the flow's shape: three steps, the Brønnøysund lookup on step 1
+against the real register (D-33), the password meter and its three bars, the consent tick,
+the five inclusions, the reassurance line that changes per step, and the "kontoen er klar"
+panel with its three numbered next steps.
+
+**One sentence of the design's step 3 is moved rather than kept.** The bundle's lead reads
+*"Vi har sendt en bekreftelse til <e-post>. <Virksomhet> er opprettet, og du er
+administrator."* — a prototype can say both because nothing happens either way. Here they
+are two different outcomes and only one of them reaches step 3. If Supabase returns a
+session, the account is live, no mail was sent, and `registrer.doneLead` says only what is
+true: *"{company} er opprettet, og du er administrator."* If the project requires the
+address to be confirmed, there is no session, so `create_organisation` cannot be called at
+all — nothing is created, and the form stays on step 2 with
+`registrer.problem.confirm_email`, which tells the person to open the mail and come back.
+Printing "kontoen er klar" over an organisation that does not exist yet is the one failure
+this screen must not have.
+

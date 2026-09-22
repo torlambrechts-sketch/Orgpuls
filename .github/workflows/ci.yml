@@ -113,12 +113,21 @@ jobs:
               end if;
             end \$\$;"
 
-      # k-anonymity, anonymity-by-absence, token replay, expiry, append-only answers.
-      # Every row must report pass = true; the file raises if any does not.
-      - name: Respondent invariants
+      # k-anonymity, anonymity-by-absence, token replay, expiry, append-only answers,
+      # department scoping, the grant surface, and the one write path into the product.
+      # Every row must report pass = true; each file raises if any does not.
+      #
+      # The list is a glob rather than nine named steps on purpose: a suite added in a
+      # later migration is run here the moment it is committed, instead of the day
+      # somebody notices it was never wired up. local_account.sql is not matched -- it is
+      # a fixture, not a suite, and it already ran above.
+      - name: Security invariants
         run: |
-          psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" \
-            -v ON_ERROR_STOP=1 -f supabase/tests/respondent_invariants.sql
+          for suite in supabase/tests/*_invariants.sql; do
+            echo "== $suite"
+            psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" \
+              -v ON_ERROR_STOP=1 -f "$suite"
+          done
 
       - name: supabase db lint
         run: supabase db lint --level warning

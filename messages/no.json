@@ -1,11 +1,29 @@
 {
   "auth": {
+    "badge": "For deg som administrerer",
     "title": "Logg inn",
-    "lead": "Orgpuls er for ansatte og ledere i virksomheten din.",
-    "email": "E-post",
+    "lead": "Her logger du inn hvis du skal sette opp målinger, se resultater eller følge opp tiltak.",
+    "email": "E-post på jobben",
+    "emailPlaceholder": "navn@virksomhet.no",
     "password": "Passord",
+    "passwordPlaceholder": "Passordet ditt",
     "submit": "Logg inn",
-    "error": "Feil e-post eller passord."
+    "error": "E-postadressen eller passordet stemmer ikke.",
+    "invalidEmail": "Skriv inn en gyldig e-postadresse.",
+    "hint": "Bruk adressen du ble registrert med. Har du glemt passordet, sender vi en lenke.",
+    "forgot": "Glemt passord?",
+    "forgotTitle": "Glemt passord",
+    "forgotLead": "Skriv inn e-postadressen din, så sender vi en lenke for å sette et nytt passord.",
+    "sendReset": "Send lenke",
+    "sentHead": "Lenke for nytt passord er sendt",
+    "sentNote": "Finnes det en konto på adressen, ligger lenken i innboksen. Den varer i kort tid, så bruk den med én gang.",
+    "backToSignIn": "Tilbake til innlogging",
+    "noAccount": "Har dere ikke konto ennå? <link>Kom i gang gratis</link>.",
+    "respondentHead": "Skal du svare på en måling?",
+    "respondentTitle": "Da trenger du ingen konto",
+    "respondentBody": "Bruk lenken du fikk tilsendt. Den er personlig, men svaret lagres uten kobling til deg. Verken lederen din eller vi kan se hva du har svart.",
+    "lockedHead": "Får du ikke lenken?",
+    "lockedBody": "Se i søppelposten først. Er du fortsatt låst ute, skriv til hjelp@orgpuls.no — oppgi navn og hvilken virksomhet du jobber i."
   },
   "app": {
     "name": "Orgpuls",
@@ -1493,6 +1511,304 @@
         "vendor": "Hvilket system dere bruker — Tripletex, Visma eller Huldt & Lillevik.",
         "fields": "Hvilke felter som skal leses: stilling, startdato og avdeling. Det er de tre som gjør at nyansatte og ansiennitet kan brukes som segment uten import."
       }
+    }
+  },
+  "start": {
+    "signIn": "Logg inn",
+    "getStarted": "Kom i gang",
+    "footer": "Orgpuls — arbeidsmiljø og medarbeiderundersøkelser for norske virksomheter. Svar lagres i EU og deles ikke med tredjeparter.",
+    "footerHow": "Slik virker det",
+    "footerPrivacy": "Personvern",
+    "footerContact": "Kontakt",
+    "kicker": "Arbeidsmiljø og medarbeiderundersøkelser",
+    "headline": "Fra måling én gang i året til oppfølging hele året",
+    "lead": "Orgpuls viser hva som gir folk energi og hva som tapper den, og gjør funnene om til tiltak med eier og frist. Neste måling viser om de virket. Kravene i arbeidsmiljøloven dekkes underveis.",
+    "ctaFree": "Kom i gang gratis",
+    "ctaHow": "Se hvordan det virker",
+    "ctaHaveAccount": "Jeg har konto — logg inn",
+    "trust": {
+      "trial": "30 dager gratis",
+      "noCard": "Ingen kortopplysninger",
+      "eu": "Svar lagres i EU"
+    },
+    "mockCaption": "Innsikt · Nordvik Anlegg AS — eksempel",
+    "mockIndexLabel": "Arbeidsmiljøindeks",
+    "mockDelta": "−3 siden i fjor",
+    "mockPrev": "Grunnlinje 2025: 64",
+    "mockBandLow": "4 forsvarlig",
+    "mockBandMid": "5 følges opp",
+    "mockBandHigh": "2 høy risiko",
+    "mockDoThree": "Gjør disse tre",
+    "peek": {
+      "ytring": "Ytringsklima på Verksted",
+      "mengde": "Arbeidsmengde på Prosjekt",
+      "leder": "Støtte fra leder"
+    },
+    "whyEyebrow": "Hvorfor det betyr noe",
+    "whyTitle": "Kontinuerlig oppfølging skaper resultater på sikt",
+    "pain": {
+      "trend": {
+        "title": "Dere ser utviklingen, ikke bare tilstanden",
+        "body": "Ett tall i året sier hvor dere står. Fire sier hvilken vei det går, og om det dere gjorde hadde noe å si."
+      },
+      "early": {
+        "title": "Problemer kommer fram mens de er små",
+        "body": "Der folk tør å si fra, får dere høre om feilen i uke to i stedet for i sluttoppgjøret."
+      },
+      "monday": {
+        "title": "Lederne vet hva de skal gjøre på mandag",
+        "body": "Tre konkrete ting for sitt eget team, og et sted å se om det de prøvde virket."
+      }
+    },
+    "howEyebrow": "Slik virker det",
+    "howTitle": "Én runde i året er en rapport. Fire er en vane",
+    "howLead": "Årshjulet sender ut, minner på og varsler verneombudet uten at noen må huske det. Tiden deres går til samtalene og tiltakene, den delen som krever et menneske.",
+    "step": {
+      "listen": {
+        "title": "Lytt",
+        "body": "Alle svarer på fire minutter, på mobilen. Anonymt, på norsk, og de får vite hva som skjer etterpå.",
+        "time": "Oppsettet tar under en time"
+      },
+      "understand": {
+        "title": "Forstå",
+        "body": "Dere får de tre tingene som løfter helheten mest, ikke en liste på ni.",
+        "time": "Klar med én gang"
+      },
+      "work": {
+        "title": "Jobb med det",
+        "body": "Hvert funn blir et tiltak med eier og frist. Ferdige forslag ligger klare å starte fra.",
+        "time": "Ti minutter å sette opp"
+      },
+      "verify": {
+        "title": "Se at det virket",
+        "body": "En puls på fem spørsmål viser om tallet har flyttet seg. Så begynner runden på nytt.",
+        "time": "Under ett minutt for hver ansatt"
+      }
+    },
+    "diffEyebrow": "Det som er annerledes",
+    "diffTitle": "Tre valg som gjør at arbeidet fortsetter",
+    "diff": {
+      "effect": {
+        "title": "Et tiltak kan ikke lukkes før effekten er målt",
+        "tag": "Derfor skjer det noe etter presentasjonen",
+        "body": "Et tiltak blir ikke ferdig ved at noen krysser av. Neste puls må vise at tallet har flyttet seg. Det er strengere, og det er grunnen til at noe faktisk er annerledes i uke tjue."
+      },
+      "five": {
+        "title": "Fem svar, ellers en strek",
+        "tag": "Anonymitet vi ikke tøyer",
+        "body": "Ingen gruppe vises før fem personer har svart — heller ikke for daglig leder, heller ikke når det haster. Grensen håndheves av databasen og kan ikke settes lavere, fordi et anonymitetsløfte med unntak ikke er et løfte."
+      },
+      "twoway": {
+        "title": "Dere kan svare de ansatte uten å vite hvem de er",
+        "tag": "Toveis og fortsatt anonymt",
+        "body": "Skriver noen en kommentar, kan du svare på den. Personen får svaret i appen, du får aldri vite hvem det var. Det er forskjellen mellom å samle inn meninger og å ha en samtale."
+      }
+    },
+    "lawEyebrow": "Og lovkravet?",
+    "lawTitle": "Det ordner seg mens dere jobber",
+    "lawBody": "Arbeidsmiljøloven krever at dere kartlegger, vurderer risikoen, setter tiltak og følger opp om de virket. Det er den samme runden dere går uansett. Dokumentasjonen blir dermed et biprodukt av arbeidet, ikke et eget prosjekt.",
+    "lawNote": "Vil dere ikke ha paragrafene framme i grensesnittet, kan de skrus av. Rapportene ligger der likevel, den dagen noen spør.",
+    "legal": {
+      "aml31c": {
+        "ref": "§ 3-1 c",
+        "what": "Kartlegge, vurdere risiko, planlegge og iverksette tiltak"
+      },
+      "aml43": {
+        "ref": "§ 4-3",
+        "what": "Krav til det psykososiale arbeidsmiljøet"
+      },
+      "aml62": {
+        "ref": "§ 6-2",
+        "what": "Verneombudet tas med på råd og ser de samme tallene"
+      },
+      "aml92": {
+        "ref": "§ 9-2",
+        "what": "Drøfting med tillitsvalgte, dokumentert i årshjulet"
+      }
+    },
+    "quote": {
+      "cancel": {
+        "who": "Månedlig avtale",
+        "title": "Dere kan si opp når som helst",
+        "body": "Ingen bindingstid, ingen oppstartsavgift og ingen automatisk opptrapping av prisen."
+      },
+      "export": {
+        "who": "Eksport hele veien",
+        "title": "Dataene er deres",
+        "body": "Last ned svar, rapporter og tiltakslogg som PDF og regneark når som helst — også etter at avtalen er avsluttet."
+      },
+      "eu": {
+        "who": "Lagring i EU",
+        "title": "Svarene ligger i EU",
+        "body": "Data lagres på servere i EU, under GDPR, og deles ikke med tredjeparter. Ingen svar brukes til å trene modeller."
+      }
+    },
+    "priceEyebrow": "Pris",
+    "priceTitle": "Én pris, alt inkludert",
+    "priceLead": "Ingen tillegg for rapporter, integrasjoner eller antall målinger. Månedlig avtale uten bindingstid.",
+    "priceNote": "Alle priser er uten merverdiavgift. Verneombud og tillitsvalgte har tilgang uten at det koster ekstra.",
+    "planRecommended": "Anbefalt",
+    "plan": {
+      "small": {
+        "name": "Liten",
+        "who": "Til og med 25 ansatte",
+        "price": "265 kr",
+        "unit": "per måned",
+        "cta": "Start gratis",
+        "item": {
+          "a": "Årlig kartlegging og puls mellom",
+          "b": "Rapport klar til Arbeidstilsynet",
+          "c": "Ubegrenset antall tiltak",
+          "d": "Utsending på e-post og SMS"
+        }
+      },
+      "usual": {
+        "name": "Vanlig",
+        "who": "26 til 100 ansatte",
+        "price": "565 kr",
+        "unit": "per måned",
+        "cta": "Start gratis",
+        "item": {
+          "a": "Alt i Liten",
+          "b": "Resultat per avdeling og team",
+          "c": "Anonyme samtaler med de ansatte",
+          "d": "Utvikling over tid, måling for måling"
+        }
+      },
+      "group": {
+        "name": "Flere selskaper",
+        "who": "Konsern og over 100 ansatte",
+        "price": "Etter avtale",
+        "unit": "",
+        "cta": "Snakk med oss",
+        "item": {
+          "a": "Alt i Vanlig",
+          "b": "Felles oversikt på tvers av selskaper",
+          "c": "Egen kontaktperson",
+          "d": "Hjelp til første utsending"
+        }
+      }
+    },
+    "faqEyebrow": "Spørsmål vi får ofte",
+    "faq": {
+      "anonymous": {
+        "q": "Er svarene virkelig anonyme?",
+        "a": "Ja. Vi lagrer aldri navn, e-postadresse eller IP-adresse sammen med svaret — det finnes ingen kolonne som kunne holdt koblingen. Og ingen gruppe vises før minst fem personer har svart. Under den grensen står det bare en strek, også for dere som er administratorer. Fem er gulvet, og det kan ikke settes lavere."
+      },
+      "twelve": {
+        "q": "Hva om vi bare er tolv personer?",
+        "a": "Da får dere tall for hele virksomheten, men ikke brutt ned på avdeling. Det er ikke en begrensning vi har lagt inn, men en konsekvens av tallene: med tolv ansatte er en avdeling på tre personer gjenkjennelig. Da kunne vi ikke holdt løftet om anonymitet."
+      },
+      "inspection": {
+        "q": "Holder dette som dokumentasjon hvis Arbeidstilsynet kommer?",
+        "a": "Orgpuls dokumenterer kartleggingen og risikovurderingen av det psykososiale arbeidsmiljøet, altså kravet i arbeidsmiljøloven § 3-1 bokstav c. Rapporten viser hva som ble målt, hvordan risikoen ble vurdert, hvilke tiltak som ble satt i verk og om de virket. Andre HMS-plikter, som avvikshåndtering og sykefravær, dekker dere et annet sted — det gjør ikke vi."
+      },
+      "time": {
+        "q": "Hvor mye tid tar det for oss?",
+        "a": "Oppsettet tar under en time første gang: legg inn de ansatte, velg terskel og godkjenn spørsmålssettet. Deretter planlegger årshjulet rundene selv. De ansatte bruker fire minutter på den årlige kartleggingen og under ett minutt på en puls."
+      },
+      "leaving": {
+        "q": "Hva skjer med dataene hvis vi slutter å bruke Orgpuls?",
+        "a": "Dere eier dem. Last ned alt som PDF og regneark når som helst, også etter en oppsigelse. Sier dere opp, sletter vi svarene etter 30 dager. Rapportene dere har lastet ned, beholder dere — slik at dokumentasjonen er i orden."
+      }
+    },
+    "finalTitle": "Prøv det på deres egen virksomhet",
+    "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på tre minutter, og trenger ikke oppgi kort før dere har bestemt dere."
+  },
+  "registrer": {
+    "step1": "Virksomhet",
+    "step2": "Deg",
+    "step3": "I gang",
+    "step1Title": "Hvilken virksomhet gjelder det?",
+    "step1Lead": "Skriv inn organisasjonsnummeret. Vi henter navn, adresse og bransje fra Brønnøysundregistrene, så slipper du å fylle ut mer.",
+    "orgNumber": "Organisasjonsnummer",
+    "orgNumberPlaceholder": "9 siffer",
+    "orgNumberHint": "Du finner det på fakturaene deres, eller i Brønnøysundregistrene.",
+    "lookUp": "Hent virksomheten",
+    "looking": "Henter …",
+    "lookupAgain": "Stemmer det ikke? Prøv et annet nummer.",
+    "foundHead": "Funnet i Brønnøysundregistrene",
+    "fact": {
+      "address": "Adresse",
+      "form": "Organisasjonsform",
+      "nace": "Bransje",
+      "employees": "Ansatte"
+    },
+    "confirmCompany": "Ja, dette er oss",
+    "tryAnother": "Prøv et annet nummer",
+    "step2Title": "Og hvem er du?",
+    "step2Lead": "Du blir første administrator og kan invitere resten etterpå. De ansatte som bare skal svare, trenger ingen konto — de bruker lenken de får tilsendt.",
+    "name": "Navn",
+    "namePlaceholder": "Fornavn Etternavn",
+    "email": "E-post på jobben",
+    "emailPlaceholder": "navn@virksomhet.no",
+    "emailHint": "Bruk adressen din på jobben.",
+    "password": "Velg et passord",
+    "passwordPlaceholder": "Minst 8 tegn",
+    "pwHintEmpty": "Minst 8 tegn. Lengde teller mer enn spesialtegn.",
+    "pwHintShort": "For kort — {count} av 8 tegn",
+    "pwHintOk": "Greit. Blir sterkere med noen tegn mer.",
+    "pwHintGood": "Godt passord",
+    "sizeQuestion": "Omtrent hvor mange ansatte er dere?",
+    "size": {
+      "under25": "Under 25",
+      "to50": "25–50",
+      "to100": "51–100",
+      "over100": "Over 100"
+    },
+    "sizeNote": "Tallet brukes som nevner i svarprosenten og kan rettes under Oppsett når registeret er fylt ut.",
+    "consent": "Jeg bekrefter at jeg kan inngå avtaler på vegne av virksomheten, og har lest personvernerklæringen.",
+    "createAccount": "Opprett konto",
+    "creating": "Oppretter …",
+    "back": "Tilbake",
+    "ctaHintReady": "Ingen kortopplysninger nå. Etter 30 dager spør vi om dere vil fortsette.",
+    "ctaHintMissing": "Fyll ut navn, e-post, passord og bekreftelsen for å gå videre.",
+    "doneTitle": "{name}, kontoen er klar",
+    "doneFallbackName": "Velkommen",
+    "doneLead": "{company} er opprettet, og du er administrator. Det som står igjen tar under en time.",
+    "todo": {
+      "people": {
+        "title": "Legg inn de ansatte",
+        "note": "Lim inn fra regneark under Oppsett → Ansatte",
+        "time": "15 min"
+      },
+      "threshold": {
+        "title": "Se over grupper og terskel",
+        "note": "Fem svar er gulvet og kan ikke settes lavere",
+        "time": "5 min"
+      },
+      "send": {
+        "title": "Sett opp målingen",
+        "note": "Verneombudet skal rådspørres før utsending",
+        "time": "20 min"
+      }
+    },
+    "openOrgpuls": "Åpne Orgpuls",
+    "inclHead": "Dette er med fra dag én",
+    "incl": {
+      "instrument": "Hele spørsmålssettet — 11 faktorer, 37 spørsmål",
+      "report": "Rapport klar til Arbeidstilsynet, AMU og styret",
+      "measures": "Tiltak med eier, frist og krav om målt effekt",
+      "conversations": "Anonyme samtaler med de ansatte",
+      "users": "Ubegrenset antall brukere — verneombud og ledere koster ikke ekstra"
+    },
+    "reassure1": "Vi henter bare offentlig informasjon fra Brønnøysundregistrene. Ingenting går ut til de ansatte før du har godkjent utsendingen.",
+    "reassure2": "Ingen kortopplysninger nå, og ingen automatisk fornyelse. Vi spør før noe blir fakturert.",
+    "reassure3": "Trenger du hjelp med det første oppsettet, skriv til hjelp@orgpuls.no. Det koster ingenting.",
+    "haveAccount": "Har dere konto allerede? <link>Logg inn</link>.",
+    "problem": {
+      "invalid": "Noe manglet i skjemaet. Se over feltene og prøv igjen.",
+      "invalid_org_number": "Et organisasjonsnummer er ni siffer. Sjekk tallet og prøv igjen.",
+      "not_found": "Enhetsregisteret kjenner ikke dette nummeret.",
+      "deleted": "Virksomheten står som slettet i Enhetsregisteret.",
+      "unreachable": "Enhetsregisteret svarte ikke. Prøv igjen om litt — ingenting er endret.",
+      "signup_failed": "Kontoen kunne ikke opprettes med disse opplysningene. Sjekk e-postadressen og passordet, eller logg inn hvis du allerede har konto.",
+      "confirm_email": "Kontoen er opprettet. Åpne e-posten vi sendte og bekreft adressen, så kan du logge inn og fullføre oppsettet.",
+      "org_failed": "Virksomheten kunne ikke opprettes. Prøv igjen.",
+      "already_a_member": "Du hører allerede til en virksomhet. Logg inn i stedet.",
+      "already_registered": "Denne virksomheten er allerede registrert i Orgpuls. Be en administrator der om å invitere deg.",
+      "invalid_name": "Virksomheten mangler navn.",
+      "not_signed_in": "Økten er utløpt. Prøv igjen."
     }
   }
 }

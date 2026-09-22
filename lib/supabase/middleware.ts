@@ -43,7 +43,7 @@ import { readSupabaseEnv } from '@/lib/supabase/env'
  * it is logged loudly because "redirected to sign-in" otherwise looks like an expired
  * session, which is the one thing it is not.
  */
-const PUBLIC_PATHS = ['/logg-inn', '/auth', '/primitives', '/s']
+const PUBLIC_PATHS = ['/', '/logg-inn', '/registrer', '/auth', '/primitives', '/s']
 
 /** Long enough for a healthy round trip, short enough that the platform never gets there. */
 const AUTH_TIMEOUT_MS = 5000

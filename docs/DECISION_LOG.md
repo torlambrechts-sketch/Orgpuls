@@ -1155,6 +1155,68 @@ the deviation, not an approximation of it. D-36.
 
 ---
 
+### X-023 — The product acquires a front door
+
+Every screen built so far was behind a session that only `local_account.sql` could create.
+The start bundle closes that: a splash page, a three-step sign-up and a sign-in panel, and
+migration 0024 behind them.
+
+**`rpc.create_organisation` is the second write path into this database**, and the first
+one a stranger can reach. The respondent's `submit_response` was designed around not being
+able to identify its caller; this one is the opposite — it exists to bind a caller to an
+organisation — so what it needed was a guard on how *many* it may bind them to. It refuses
+a caller who already has an active membership, at sign-up and again afterwards, because
+`app.is_org_member` resolves a membership without qualifying by organisation in several
+places and a second one would quietly change what those calls mean. One transaction: the
+profile, the organisation, the membership and the year wheel, or none of them. An
+organisation with no membership can never be reached by anybody again.
+
+**The threshold is not a parameter.** A new organisation starts at `app.k_min()`, and the
+only place it can be raised is the Grupper tab, where the note explains what it does. A
+sign-up form is where a person knows least about this product and would be most willing to
+answer whatever it asked; offering them the privacy floor there would be the worst possible
+moment to ask. `signup_invariants.sql` asserts it twice — once against the function's
+signature so a parameter cannot be added without failing here, and once against the row the
+function actually wrote.
+
+**The year wheel arrives switched off.** An organisation that signed up four minutes ago
+has no employees, no groups and nobody to ask. A scheduler that began planning rounds on
+their behalf would be the opposite of the promise Årshjulet makes, so the row is created
+inactive and Årshjulet has something to edit rather than an empty state nobody can leave.
+
+**Nothing else is created.** Assertion 15 adds up the new organisation's groups, rounds,
+employees and measurements and requires zero. Sample data on a real undertaking's Innsikt
+screen would be figures nobody in that undertaking answered — the same rule as **never
+fabricate data in the UI**, one layer down.
+
+**`supabase/tests/signup_invariants.sql`, 18 of 18**, and it is the first suite that is
+safe to run anywhere: it creates one throwaway auth user with no password and no identity,
+uses it, deletes it, and assertion 18 proves the database is back where it started. The
+live project was checked before and after — one organisation, two users, two memberships,
+unchanged.
+
+**CI now runs all nine suites.** It ran only `respondent_invariants.sql`; the other seven
+had been added over the preceding segments and were never wired up, so seven suites' worth
+of assertions were passing only where somebody remembered to run them. The step is a glob
+over `supabase/tests/*_invariants.sql`, so the tenth is run the day it is committed rather
+than the day somebody notices. Nine suites, 173 assertions.
+
+**The end-to-end run.** The whole flow was driven in a browser against the live database:
+`923 609 016` → the real Brønnøysund answer (Forusbeen 50, allmennaksjeselskap, utvinning
+av råolje) → an account → *"Test, kontoen er klar / EQUINOR ASA er opprettet, og du er
+administrator."* The row it wrote carried `threshold = 5`, one membership, `daglig_leder`,
+and a wheel with `active = false`. Those rows were then deleted; the fixture is the only
+thing in the database.
+
+**Two deviations.** The hero's mock-up is captioned *"— eksempel"* so a figure on a page
+with no session cannot be read as a reading (D-37), and sign-up drops the role chip and
+both SSO buttons, because neither has a column or a provider behind it (D-38). D-03 —
+"authentication has no design" — is superseded; the only part of it still true is that the
+start bundle ships no baselines either, so these three screens remain outside the pixel
+gate.
+
+---
+
 ## Open items
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1181,6 +1243,15 @@ the deviation, not an approximation of it. D-36.
       so none was invented — worth a decision rather than an assumption (D-22).
 - [x] Report section 4 prints, from the stored assessment. X-016.
 - [x] Report sections 6, 7 and 8 and the signature block print. X-022.
+- [x] The product has a front door: splash, sign-up and sign-in, on migration 0024. X-023.
+      D-03 superseded.
+- [x] CI runs every invariant suite, not only the respondent one. X-023.
+- [ ] The three marketing screens have no pixel baseline — the start bundle ships none —
+      so `/`, `/registrer` and `/logg-inn` are outside the pixel gate (D-03, D-37).
+- [ ] No sign-in provider is configured, so "Fortsett med Microsoft" and "Fortsett med
+      BankID" are omitted. Both wait on the same Entra application as D-35 (D-38).
+- [ ] Sign-up asks for a role and stores none — there is no column the four answers fit
+      (D-38). Granting a membership is still a write no screen makes (X-020).
 - [x] The published figures — 61, −3, 82 %, 77 % — verified against the live database.
       X-008, re-verified at X-019. All six suites pass: 113 assertions.
 - [ ] `ORGPULS_DEV_PASSWORD` unset — no route can be signed into, so `shoot.mjs` and the

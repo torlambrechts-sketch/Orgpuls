@@ -1,11 +1,29 @@
 {
   "auth": {
+    "badge": "For administrators",
     "title": "Sign in",
-    "lead": "Orgpuls is for employees and managers in your organisation.",
-    "email": "Email",
+    "lead": "Sign in here to set up measurements, see results or follow up measures.",
+    "email": "Work e-mail",
+    "emailPlaceholder": "name@company.no",
     "password": "Password",
+    "passwordPlaceholder": "Your password",
     "submit": "Sign in",
-    "error": "Incorrect email or password."
+    "error": "The e-mail address or the password is not right.",
+    "invalidEmail": "Enter a valid e-mail address.",
+    "hint": "Use the address you were registered with. If you have forgotten the password, we send a link.",
+    "forgot": "Forgotten your password?",
+    "forgotTitle": "Forgotten password",
+    "forgotLead": "Enter your e-mail address and we will send a link to set a new password.",
+    "sendReset": "Send the link",
+    "sentHead": "A link for a new password has been sent",
+    "sentNote": "If there is an account on that address, the link is in the inbox. It is valid for a short time, so use it straight away.",
+    "backToSignIn": "Back to sign-in",
+    "noAccount": "No account yet? <link>Get started free</link>.",
+    "respondentHead": "Answering a measurement?",
+    "respondentTitle": "Then you need no account",
+    "respondentBody": "Use the link you were sent. It is personal, but the answer is stored with no connection to you. Neither your manager nor we can see what you answered.",
+    "lockedHead": "Not getting the link?",
+    "lockedBody": "Check the spam folder first. If you are still locked out, write to hjelp@orgpuls.no — give your name and which undertaking you work for."
   },
   "app": {
     "name": "Orgpuls",
@@ -1493,6 +1511,304 @@
         "vendor": "Which system you use — Tripletex, Visma or Huldt & Lillevik.",
         "fields": "Which fields are read: job title, start date and department. Those three are what let new starters and seniority be used as a segment without an import."
       }
+    }
+  },
+  "start": {
+    "signIn": "Sign in",
+    "getStarted": "Get started",
+    "footer": "Orgpuls — work environment and employee surveys for Norwegian undertakings. Answers are stored in the EU and not shared with third parties.",
+    "footerHow": "How it works",
+    "footerPrivacy": "Privacy",
+    "footerContact": "Contact",
+    "kicker": "Work environment and employee surveys",
+    "headline": "From measuring once a year to following up all year",
+    "lead": "Orgpuls shows what gives people energy and what drains it, and turns the findings into measures with an owner and a deadline. The next measurement shows whether they worked. The Working Environment Act's requirements are covered along the way.",
+    "ctaFree": "Get started free",
+    "ctaHow": "See how it works",
+    "ctaHaveAccount": "I have an account — sign in",
+    "trust": {
+      "trial": "30 days free",
+      "noCard": "No card details",
+      "eu": "Answers stored in the EU"
+    },
+    "mockCaption": "Insight · Nordvik Anlegg AS — example",
+    "mockIndexLabel": "Work environment index",
+    "mockDelta": "−3 since last year",
+    "mockPrev": "Baseline 2025: 64",
+    "mockBandLow": "4 acceptable",
+    "mockBandMid": "5 to follow up",
+    "mockBandHigh": "2 high risk",
+    "mockDoThree": "Do these three",
+    "peek": {
+      "ytring": "Speaking up in the workshop",
+      "mengde": "Workload on Projects",
+      "leder": "Support from managers"
+    },
+    "whyEyebrow": "Why it matters",
+    "whyTitle": "Continuous follow-up is what produces results",
+    "pain": {
+      "trend": {
+        "title": "You see the direction, not only the state",
+        "body": "One number a year says where you are. Four say which way it is going, and whether what you did mattered."
+      },
+      "early": {
+        "title": "Problems surface while they are small",
+        "body": "Where people dare to speak up, you hear about the fault in week two rather than in the final account."
+      },
+      "monday": {
+        "title": "Managers know what to do on Monday",
+        "body": "Three concrete things for their own team, and somewhere to see whether what they tried worked."
+      }
+    },
+    "howEyebrow": "How it works",
+    "howTitle": "One round a year is a report. Four is a habit",
+    "howLead": "The year wheel sends, reminds and notifies the safety representative without anybody having to remember. Your time goes to the conversations and the measures, the part that needs a person.",
+    "step": {
+      "listen": {
+        "title": "Listen",
+        "body": "Everybody answers in four minutes, on their phone. Anonymously, and they are told what happens next.",
+        "time": "Setup takes under an hour"
+      },
+      "understand": {
+        "title": "Understand",
+        "body": "You get the three things that lift the whole most, not a list of nine.",
+        "time": "Ready immediately"
+      },
+      "work": {
+        "title": "Work on it",
+        "body": "Every finding becomes a measure with an owner and a deadline. Ready-made proposals are there to start from.",
+        "time": "Ten minutes to set up"
+      },
+      "verify": {
+        "title": "See that it worked",
+        "body": "A five-question pulse shows whether the number moved. Then the round starts again.",
+        "time": "Under a minute per employee"
+      }
+    },
+    "diffEyebrow": "What is different",
+    "diffTitle": "Three choices that keep the work going",
+    "diff": {
+      "effect": {
+        "title": "A measure cannot be closed before its effect is measured",
+        "tag": "Which is why something happens after the presentation",
+        "body": "A measure is not finished because somebody ticked it off. The next pulse has to show the number moved. That is stricter, and it is why something is actually different in week twenty."
+      },
+      "five": {
+        "title": "Five answers, or a dash",
+        "tag": "An anonymity we do not stretch",
+        "body": "No group is shown before five people have answered — not for the managing director either, and not when it is urgent. The floor is enforced by the database and cannot be lowered, because a promise of anonymity with exceptions is not a promise."
+      },
+      "twoway": {
+        "title": "You can answer your people without knowing who they are",
+        "tag": "Two-way and still anonymous",
+        "body": "If somebody writes a comment, you can answer it. They get the answer in the app; you never learn who it was. That is the difference between collecting opinions and having a conversation."
+      }
+    },
+    "lawEyebrow": "And the legal requirement?",
+    "lawTitle": "It takes care of itself as you work",
+    "lawBody": "The Working Environment Act requires you to survey, assess the risk, put measures in place and follow up on whether they worked. That is the same round you go through anyway. The documentation becomes a by-product of the work rather than a project of its own.",
+    "lawNote": "If you would rather not have the provisions visible in the interface, they can be switched off. The reports are there regardless, for the day somebody asks.",
+    "legal": {
+      "aml31c": {
+        "ref": "§ 3-1 c",
+        "what": "Survey, assess risk, plan and put measures in place"
+      },
+      "aml43": {
+        "ref": "§ 4-3",
+        "what": "Requirements for the psychosocial work environment"
+      },
+      "aml62": {
+        "ref": "§ 6-2",
+        "what": "The safety representative is consulted and sees the same figures"
+      },
+      "aml92": {
+        "ref": "§ 9-2",
+        "what": "Discussion with union representatives, documented in the year wheel"
+      }
+    },
+    "quote": {
+      "cancel": {
+        "who": "Monthly agreement",
+        "title": "You can cancel at any time",
+        "body": "No lock-in, no setup fee and no automatic price escalation."
+      },
+      "export": {
+        "who": "Export throughout",
+        "title": "The data is yours",
+        "body": "Download answers, reports and the measure log as PDF and spreadsheets at any time — including after the agreement ends."
+      },
+      "eu": {
+        "who": "Stored in the EU",
+        "title": "Answers stay in the EU",
+        "body": "Data is stored on servers in the EU, under GDPR, and not shared with third parties. No answers are used to train models."
+      }
+    },
+    "priceEyebrow": "Price",
+    "priceTitle": "One price, everything included",
+    "priceLead": "No surcharge for reports, integrations or the number of measurements. A monthly agreement with no lock-in.",
+    "priceNote": "All prices are excluding VAT. Safety and union representatives have access at no extra cost.",
+    "planRecommended": "Recommended",
+    "plan": {
+      "small": {
+        "name": "Small",
+        "who": "Up to 25 employees",
+        "price": "NOK 265",
+        "unit": "per month",
+        "cta": "Start free",
+        "item": {
+          "a": "Annual survey and pulses in between",
+          "b": "A report ready for the Labour Inspection Authority",
+          "c": "Unlimited measures",
+          "d": "Sending by e-mail and SMS"
+        }
+      },
+      "usual": {
+        "name": "Usual",
+        "who": "26 to 100 employees",
+        "price": "NOK 565",
+        "unit": "per month",
+        "cta": "Start free",
+        "item": {
+          "a": "Everything in Small",
+          "b": "Results per department and team",
+          "c": "Anonymous conversations with employees",
+          "d": "Development over time, measurement by measurement"
+        }
+      },
+      "group": {
+        "name": "Several companies",
+        "who": "Groups and over 100 employees",
+        "price": "On request",
+        "unit": "",
+        "cta": "Talk to us",
+        "item": {
+          "a": "Everything in Usual",
+          "b": "A shared view across companies",
+          "c": "A named contact",
+          "d": "Help with the first send"
+        }
+      }
+    },
+    "faqEyebrow": "Questions we get often",
+    "faq": {
+      "anonymous": {
+        "q": "Are the answers really anonymous?",
+        "a": "Yes. We never store a name, an e-mail address or an IP address with the answer — there is no column that could hold the link. And no group is shown before at least five people have answered. Below that line there is only a dash, for administrators too. Five is the floor and cannot be set lower."
+      },
+      "twelve": {
+        "q": "What if we are only twelve people?",
+        "a": "Then you get figures for the whole undertaking, but not broken down by department. That is not a limitation we added, it is a consequence of the numbers: with twelve employees a department of three is recognisable. We could not keep the promise of anonymity."
+      },
+      "inspection": {
+        "q": "Does this hold up as documentation if the Labour Inspection Authority comes?",
+        "a": "Orgpuls documents the survey and the risk assessment of the psychosocial work environment — the requirement in § 3-1 c of the Working Environment Act. The report shows what was measured, how the risk was assessed, which measures were put in place and whether they worked. Other health-and-safety duties, such as deviation handling and sick leave, you cover elsewhere; we do not."
+      },
+      "time": {
+        "q": "How much time does it take us?",
+        "a": "Setup takes under an hour the first time: add the people, choose the threshold and approve the question set. After that the year wheel plans the rounds itself. Employees spend four minutes on the annual survey and under a minute on a pulse."
+      },
+      "leaving": {
+        "q": "What happens to the data if we stop using Orgpuls?",
+        "a": "You own it. Download everything as PDF and spreadsheets at any time, including after a cancellation. If you cancel, we delete the answers after 30 days. The reports you have downloaded you keep, so that the documentation is in order."
+      }
+    },
+    "finalTitle": "Try it on your own undertaking",
+    "finalBody": "Enter the organisation number and we fetch the rest from the Norwegian company register. You are up and running in three minutes, and do not need to give card details before you have decided."
+  },
+  "registrer": {
+    "step1": "Company",
+    "step2": "You",
+    "step3": "Ready",
+    "step1Title": "Which undertaking is it?",
+    "step1Lead": "Enter the organisation number. We fetch the name, address and industry from the Norwegian company register, so you do not have to fill in more.",
+    "orgNumber": "Organisation number",
+    "orgNumberPlaceholder": "9 digits",
+    "orgNumberHint": "You will find it on your invoices, or in the company register.",
+    "lookUp": "Fetch the company",
+    "looking": "Fetching …",
+    "lookupAgain": "Not right? Try another number.",
+    "foundHead": "Found in the company register",
+    "fact": {
+      "address": "Address",
+      "form": "Legal form",
+      "nace": "Industry",
+      "employees": "Employees"
+    },
+    "confirmCompany": "Yes, that is us",
+    "tryAnother": "Try another number",
+    "step2Title": "And who are you?",
+    "step2Lead": "You become the first administrator and can invite the rest afterwards. Employees who only answer need no account — they use the link they are sent.",
+    "name": "Name",
+    "namePlaceholder": "First Last",
+    "email": "Work e-mail",
+    "emailPlaceholder": "name@company.no",
+    "emailHint": "Use your address at work.",
+    "password": "Choose a password",
+    "passwordPlaceholder": "At least 8 characters",
+    "pwHintEmpty": "At least 8 characters. Length counts for more than symbols.",
+    "pwHintShort": "Too short — {count} of 8 characters",
+    "pwHintOk": "Fine. Stronger with a few more characters.",
+    "pwHintGood": "Good password",
+    "sizeQuestion": "Roughly how many employees are you?",
+    "size": {
+      "under25": "Under 25",
+      "to50": "25–50",
+      "to100": "51–100",
+      "over100": "Over 100"
+    },
+    "sizeNote": "The number is the denominator of the response rate and can be corrected under Settings once the register is filled in.",
+    "consent": "I confirm that I can enter into agreements on behalf of the undertaking, and have read the privacy statement.",
+    "createAccount": "Create the account",
+    "creating": "Creating …",
+    "back": "Back",
+    "ctaHintReady": "No card details now. After 30 days we ask whether you want to continue.",
+    "ctaHintMissing": "Fill in name, e-mail, password and the confirmation to continue.",
+    "doneTitle": "{name}, the account is ready",
+    "doneFallbackName": "Welcome",
+    "doneLead": "{company} has been created and you are its administrator. What is left takes under an hour.",
+    "todo": {
+      "people": {
+        "title": "Add the people",
+        "note": "Paste from a spreadsheet under Settings → People",
+        "time": "15 min"
+      },
+      "threshold": {
+        "title": "Check the groups and the threshold",
+        "note": "Five answers is the floor and cannot be set lower",
+        "time": "5 min"
+      },
+      "send": {
+        "title": "Set the measurement up",
+        "note": "The safety representative must be consulted before sending",
+        "time": "20 min"
+      }
+    },
+    "openOrgpuls": "Open Orgpuls",
+    "inclHead": "Included from day one",
+    "incl": {
+      "instrument": "The whole question set — 11 factors, 37 questions",
+      "report": "A report ready for the inspectorate, the committee and the board",
+      "measures": "Measures with an owner, a deadline and a required effect",
+      "conversations": "Anonymous conversations with employees",
+      "users": "Unlimited users — safety representatives and managers cost nothing extra"
+    },
+    "reassure1": "We only fetch public information from the company register. Nothing goes out to employees before you have approved the send.",
+    "reassure2": "No card details now, and no automatic renewal. We ask before anything is invoiced.",
+    "reassure3": "If you need help with the first setup, write to hjelp@orgpuls.no. It costs nothing.",
+    "haveAccount": "Already have an account? <link>Sign in</link>.",
+    "problem": {
+      "invalid": "Something was missing in the form. Check the fields and try again.",
+      "invalid_org_number": "An organisation number is nine digits. Check the number and try again.",
+      "not_found": "The company register does not know this number.",
+      "deleted": "The undertaking is recorded as dissolved in the register.",
+      "unreachable": "The company register did not answer. Try again shortly — nothing was changed.",
+      "signup_failed": "The account could not be created with these details. Check the e-mail address and the password, or sign in if you already have an account.",
+      "confirm_email": "The account has been created. Open the e-mail we sent and confirm the address, then sign in and finish the setup.",
+      "org_failed": "The undertaking could not be created. Try again.",
+      "already_a_member": "You already belong to an undertaking. Sign in instead.",
+      "already_registered": "This undertaking is already registered in Orgpuls. Ask an administrator there to invite you.",
+      "invalid_name": "The undertaking has no name.",
+      "not_signed_in": "The session has expired. Try again."
     }
   }
 }
