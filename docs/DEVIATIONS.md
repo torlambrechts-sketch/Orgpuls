@@ -740,3 +740,66 @@ is h38 / pad 16 / radius 11 at **13px**, which is not a size in the Button scale
 `md` through it left the type at 14px and pushed every suggestion chip out of place.
 Transcribed directly, section 5 went to 0.
 
+---
+
+## D-28 — Samtaler withholds more than the design does, and says so on the screen
+
+**Design:** bundle lines 941-1025, baseline `03-samtaler-conv.png`. Anonymous two-way
+conversation over the comments a measurement collected.
+
+**Built:** the screen, the k-gated reader, the reply path and the capability that carries
+a reply back to its author (migration 0018, X-018). Six things differ.
+
+**1. The build is STRICTER than the design about the threshold, and the rule text was
+rewritten to match.** The design's second spillereglene reads *"Kommentarer under terskel
+vises likevel — de er enkeltytringer, ikke gruppestatistikk, og behandles som det."* That
+is a coherent position: a comment is one person's words, not a group statistic, so the
+k-threshold that protects group statistics arguably does not apply to it.
+
+The build takes the opposite position, on the user's explicit instruction: a comment from
+a group that did not clear `app.k_threshold()` is not returned at all. A comment from a
+department of three narrows to one of three whatever it is called, and "handled as an
+individual statement" is a promise about conduct rather than something the schema
+enforces.
+
+So the screen's rule 2 says what this product actually does — *"vises ikke i det hele
+tatt"* — rather than the design's wording. **Printing the design's copy over the stricter
+behaviour would have been a false statement about the product on the screen whose whole
+subject is what the product promises.** This is the one place in the build where the
+bundle loses on copy, and it loses because the copy would otherwise be untrue.
+
+**2. Rule 3 is shortened.** The design continues *"Da anonymiseres detaljer som kan peke
+på en person"*, describing what happens when a comment is shared with the verneombud.
+Sharing is not built (below), so that sentence would describe behaviour that does not
+exist.
+
+**3. "Lag tiltak" and "Del med verneombud" render disabled.** Creating a measure from a
+comment means carrying the comment's text into `app.measures`, which is respondent free
+text leaving the k-gated path — a decision with its own anonymity question. Sharing with
+the verneombud needs the anonymisation rule sentence 2 describes, and nothing implements
+one. Both are drawn exactly as the design draws them, and refuse rather than pretending.
+
+**4. A leader's message is labelled "Ledelsen", not a name.** The design writes "Anne
+Rygg · avdelingsleder". `app.profiles` has one select policy, `id = auth.uid()`, so the
+application can read the viewer's own name and nobody else's; a reply written by another
+leader would print the reader's name against somebody else's words. D-19's constraint,
+and it is resolved in the same place — Oppsett, where the roster is built.
+
+**5. The Tuva note at the foot of Spillereglene is omitted**, as everywhere else: it is
+written by an assistant that does not exist.
+
+**6. The comment ages move with the clock.** The design prints "Venter 6 dager"; the
+fixture seeds `now()` minus the design's own figure, truncated to the hour, so the screen
+stays true tomorrow. D-08's reasoning.
+
+**Pixel evidence.** Title and lead, the status panel and the Spillereglene heading each
+diff at **0 pixels**; the four conversation cards at 342-358; the filter rows at 720. Only
+the rules panel fails, at 4 331 — and that is rules 2 and 3, above.
+
+**Four defects the gate found**, all from a control styled by its nearest neighbour rather
+than transcribed: the action row is `13px 20px` on the canvas fill with 34px buttons at
+radius 9, not 14px with 36px buttons; the send button is 13.5px, which is not a size in
+the Button scale; the rules grid is `minmax(250px,1fr)` at gap 13, not 200 at 18; and the
+panel is `padding:22px 24px`, where a 26px guess moved every rule two pixels right and
+cost 14 932. Transcribed, each region went to 0 or to its text-only residue.
+

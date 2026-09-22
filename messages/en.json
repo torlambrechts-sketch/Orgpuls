@@ -657,5 +657,55 @@
       "capped": "Five of your own questions is the cap."
     },
     "ownSave": "Save"
+  },
+  "samtaler": {
+    "title": "Conversations",
+    "lead": "{count, plural, one {# comment is waiting} other {# comments are waiting}} for a reply. The oldest has waited {days, plural, one {# day} other {# days}}.",
+    "leadClear": "No comments are waiting for a reply right now.",
+    "status": "Status",
+    "seeMeasures": "See the measures",
+    "statWaiting": "Waiting for a reply",
+    "statOldest": "Oldest unanswered",
+    "statDialog": "In dialogue",
+    "days": "{days} d",
+    "filter": {
+      "venter": "Waiting for a reply",
+      "dialog": "In dialogue",
+      "lukket": "Closed",
+      "alle": "All"
+    },
+    "filterCount": "{label} · {count}",
+    "measureLabel": "Measurement",
+    "allRounds": "All measurements",
+    "factorLabel": "Factor",
+    "allFactors": "All",
+    "emptyTitle": "No conversations in this view",
+    "emptyLead": "Change the filter to see the others.",
+    "tone": {
+      "negativ": "Negative",
+      "noytral": "Neutral",
+      "positiv": "Positive"
+    },
+    "waiting": "Waiting {days, plural, one {# day} other {# days}}",
+    "closed": "Closed",
+    "varselNote": "This may be a notification under aml. chapter 2A. Do reply here, but the case must be handled through the whistleblowing procedure — not as an ordinary work-environment measure.",
+    "anonymous": "Employee · anonymous",
+    "leader": "Management",
+    "replyPlaceholder": "Reply anonymously — whoever wrote it gets this in the app …",
+    "send": "Send reply",
+    "makeMeasure": "Create a measure",
+    "shareVerneombud": "Share with the verneombud",
+    "close": "Close the conversation",
+    "rulesHead": "The rules",
+    "rule1": "You never see who wrote it. Your reply reaches the app of whoever wrote it, without the identity being revealed either way.",
+    "rule2": "Comments below the threshold of {threshold} are not shown at all — they are individual statements, not group statistics.",
+    "rule3": "The verneombud does not see comments unless you share them.",
+    "rule4": "Comments that may be notifications under aml. chapter 2A are marked, and must be handled through the whistleblowing procedure — not here.",
+    "problem": {
+      "invalid_body": "The reply could not be read. Write something and try again.",
+      "denied": "You do not have access to reply. A daglig leder or an avdelingsleder does.",
+      "not_found": "The conversation no longer exists."
+    },
+    "inDialog": "In dialogue"
   }
 }

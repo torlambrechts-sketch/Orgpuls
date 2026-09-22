@@ -831,13 +831,88 @@ console errors.
 
 ---
 
+### X-018 — Anonymous two-way, without a linkage
+
+Samtaler is the hardest screen in this product to build honestly, and the reason is one
+sentence in the design: *"Svar anonymt — den som skrev får det i appen."* For a reply to
+reach the person who wrote a comment, something durable has to connect a thread to them.
+Every obvious construction fails invariant 2 — a thread keyed to an invitation reaches
+`employee_id` in one join, and a thread keyed to an employee is exactly the column that
+must not exist, "not a nullable one, none".
+
+**The construction, chosen with the user and not on my own:** a capability the respondent
+holds and the organisation cannot compute.
+
+1. `submit_response` mints 32 random bytes per comment and returns the hex to the
+   caller — the respondent's browser — once, in the submit body.
+2. The database stores only `sha256(key)`. There is no way back, so nobody with database
+   access can produce a key they were not given.
+3. The respondent returns with the key; the server hashes what it is handed and looks the
+   thread up, exactly as it looks an invitation up. A transient comparison, never a stored
+   association.
+
+The thread therefore carries a response, a factor, an ordinal, a state and a hash. No
+employee, no invitation, no user. `app.responses` is already unlinkable to a person by
+construction, so `response_id` reaches (org, round, group, hour) and stops — the same
+reach `app.response_comments` has had since 0003.
+
+**This changes `rpc.submit_response`, which invariant 3 pins.** Deliberately, and with the
+user's sign-off after I put the four options to them. What invariant 3 protects is intact
+and asserted: the token is still looked up by SHA-256 of the plaintext, the write is still
+one transaction, and the function still does not return the id of the row it wrote. A
+capability key is not that id — it names a conversation, it is minted rather than read
+back, and the caller cannot derive the response from it.
+
+**The k gate.** A comment from a group that did not clear `app.k_threshold()` is not
+masked, it is absent; and the group never travels with a comment that is released. A
+comment from a department of three narrows to one of three however it is labelled, and
+"somebody in Verksted wrote this" against eight people is a smaller haystack than the
+product promises. Both are asserted, the second by searching the entire JSON output for
+any spelling of a group.
+
+**`supabase/tests/conversation_invariants.sql`, 27 of 27** against the live schema. The
+ones that matter: neither table is readable by any client role and no policy exists on
+either; a thread references nothing that reaches a person (asserted on the foreign keys,
+so a column added later fails here rather than in review); the below-k thread is withheld
+while the above-k one is returned; no group and no response id anywhere in the output; the
+plaintext key is in no column; a caller without the employer role can neither reply, close,
+flag, nor read a single conversation.
+
+**One assertion was rewritten because it proved nothing.** "A verneombud cannot reply"
+came back SKIPPED — no verneombud is seeded, and a skipped assertion is not evidence. It
+now calls as a signed-in user holding no membership at all, which exercises the same
+`app.has_role` gate and actually runs.
+
+**The screen tells the truth about the stricter behaviour.** The design's own rule says
+comments below the threshold are shown anyway, as individual statements. This build
+withholds them, so the rule on screen was rewritten to say so. Printing the design's copy
+over the stricter behaviour would have been a false claim about the product, on the one
+screen whose subject is what the product promises. D-28 records it as the single place the
+bundle loses on copy.
+
+**Pixel evidence.** Title and lead, status panel and Spillereglene heading at **0 pixels**;
+the four cards at 342-358; filter rows at 720; the rules panel failing at 4 331 for the two
+rule texts above. Four defects the gate found, every one a control styled by its neighbour
+instead of transcribed — the action row's padding and button size, the send button's
+13.5px, the rules grid's columns, and a 26px panel padding where the bundle says 24, which
+alone cost 14 932 pixels.
+
+**Verified in a browser:** no department or person name anywhere inside a conversation
+card, the only author label "Ansatt · anonym", the bundle's focus ring on every control,
+send refusing an empty box. No console errors.
+
+---
+
 ## Open items
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
 - [ ] Auth leaked-password protection is disabled — a dashboard toggle.
 - [x] Innsikt rebuilt on the real schema. X-015.
 - [x] Måleoppsett built on migration 0017. X-017.
-- [ ] Samtaler, Årshjulet, Oppsett, Hjelp and Integrasjoner are unbuilt.
+- [x] Samtaler built on migration 0018, k-gated. X-018.
+- [ ] Årshjulet, Oppsett, Hjelp and Integrasjoner are unbuilt.
+- [ ] "Lag tiltak" and "Del med verneombud" on a conversation render disabled: both carry
+      respondent free text out of the k-gated path and need their own decision (D-28).
 - [ ] Activating a measurement: "Planlegg grunnlinjen", "Neste: september 2027" and the
       pulse cadence all wait on the årshjul schedule (D-27).
 - [ ] Årshjulet's schedule: two of Innsikt's five year-rail points, and section 1's

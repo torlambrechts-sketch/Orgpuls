@@ -46,6 +46,7 @@ const config: Config = {
         rustbar: '#D4633A',
         danger: '#A33A16',
         dangerdeep: '#6B240C',
+        rustdeep: '#5A2410',  // ink on a peach fill — the varsel notice
       },
       fontFamily: {
         display: ['var(--font-playfair)', 'Playfair Display', 'serif'],
