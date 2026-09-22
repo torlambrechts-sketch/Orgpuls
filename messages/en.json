@@ -441,6 +441,34 @@
     "registerEffect": "Record the effect",
     "closed": "Closed",
     "emptyTitle": "No measures in this view",
-    "emptyLead": "Change the status or the measurement to see the others."
+    "emptyLead": "Change the status or the measurement to see the others.",
+    "newTitle": "New measure",
+    "planHead": "Action plan",
+    "fieldTitle": "Measure",
+    "fieldGoal": "Goal — what should be different",
+    "fieldOwner": "Responsible",
+    "fieldDue": "Deadline",
+    "fieldFactor": "Factor",
+    "fieldStatus": "Status",
+    "kindHead": "Type of measure",
+    "kind": {
+      "kollektivt": "Collective",
+      "individuelt": "Individual"
+    },
+    "kindNote": {
+      "kollektivt": "Aimed at how the work is organised. This is what the law prefers.",
+      "individuelt": "The Labour Inspection Authority asks that collective measures be considered first. An individual measure should be justified."
+    },
+    "affectedHead": "Who is affected",
+    "delete": "Delete the measure",
+    "done": "Done",
+    "close": "Close",
+    "problem": {
+      "invalid": "Something in the form could not be read. Check the fields and try again.",
+      "denied": "You do not have access to change measures. A daglig leder or an avdelingsleder does.",
+      "closingRule": "A measure cannot be closed before its effect has been measured.",
+      "gone": "The measure no longer exists.",
+      "noOrg": "No organisation was found to attach the measure to."
+    }
   }
 }

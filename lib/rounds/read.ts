@@ -129,3 +129,28 @@ export async function getRoundFactorKeys(roundId: string): Promise<string[]> {
     .sort((a, b) => a.factors.sort_order - b.factors.sort_order)
     .map((r) => r.factor_key)
 }
+
+/**
+ * The round a new measure hangs off.
+ *
+ * A measure raised today is a response to the most recent measurement whose results
+ * exist — an open round has no result to act on yet, and a planned one has not been
+ * asked. The column decides which that is, not a position in a list built elsewhere.
+ * Null is a legitimate answer: an organisation that has never closed a round can still
+ * record a measure, it just does not cite one.
+ */
+export async function getLatestClosedRoundId(): Promise<string | null> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .schema('app')
+    .from('rounds')
+    .select('id')
+    .eq('status', 'lukket')
+    .order('closes_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+
+  if (error || !data) return null
+  const parsed = z.object({ id: z.string() }).safeParse(data)
+  return parsed.success ? parsed.data.id : null
+}

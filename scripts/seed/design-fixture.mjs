@@ -168,25 +168,25 @@ const cfg = (year) => {
 const MEASURES = [
   ['ytring', 2026, 'Anne Rygg', 'Fast svar på avviksmeldinger innen fem dager',
     'Verksted meldte fire avvik i vår uten å få svar. Tiltaket er å gi hver melding et navngitt svar innen fem virkedager.',
-    'yesterday', null, 'pagar', 'kollektivt', 'aml. § 4-3'],
+    'yesterday', null, 'pagar', 'kollektivt', 'aml. § 4-3', ['Verksted']],
   ['mengde', 2026, 'Tomas Vik', 'Prioriteringsmøte hver mandag på Prosjekt',
     'Tre parallelle prosjekter uten uttalt rekkefølge. Møtet skal ende med én skriftlig prioritert liste.',
-    '2026-10-15', null, 'pagar', 'kollektivt', 'forskrift kap. 1A'],
+    '2026-10-15', null, 'pagar', 'kollektivt', 'forskrift kap. 1A', ['Prosjekt']],
   ['ytring', 2026, 'Tuva Berg', 'Varslingsrutinen gjennomgått i alle team',
     'Effekten måles i pulsen 12. oktober. Tiltaket kan lukkes når ytringsklima er målt på nytt.',
-    null, '2026-09-05', 'effekt_malt', 'kollektivt', 'aml. kap. 2A'],
+    null, '2026-09-05', 'effekt_malt', 'kollektivt', 'aml. kap. 2A', []],
   ['leder', 2026, 'Anne Rygg', 'Fadderordning for nyansatte første åtte uker',
     'Lederstøtte falt mest blant de som har vært her under et år. Fadderen er kollega, ikke leder.',
-    '2026-11-01', null, 'besluttet', 'kollektivt', 'forskrift kap. 1A'],
+    '2026-11-01', null, 'besluttet', 'kollektivt', 'forskrift kap. 1A', []],
   ['ytring', 2025, 'Tuva Berg', 'Varslingsrutinen trykket og hengt opp på alle rigger',
     'Ytringsklima gikk fra 39 til 48 i grunnlinjen etterpå. Effekten er dokumentert og tiltaket lukket.',
-    null, '2026-02-03', 'lukket', 'kollektivt', 'aml. kap. 2A'],
+    null, '2026-02-03', 'lukket', 'kollektivt', 'aml. kap. 2A', []],
   ['mengde', 2025, 'Tomas Vik', 'To innleide ekstra i høysesongen',
     'Arbeidsmengde steg fire poeng, men falt tilbake i 2026. Vurder om tiltaket må gjentas.',
-    null, '2026-01-20', 'lukket', 'kollektivt', 'forskrift kap. 1A'],
+    null, '2026-01-20', 'lukket', 'kollektivt', 'forskrift kap. 1A', []],
   ['kollega', 2025, 'Anne Rygg', 'Faste fredagsgjennomganger på Verksted',
     'Kollegastøtte er den høyeste faktoren i 2026. Tiltaket regnes som virksomt og videreføres som rutine.',
-    null, '2026-05-12', 'lukket', 'kollektivt', 'aml. § 4-3'],
+    null, '2026-05-12', 'lukket', 'kollektivt', 'aml. § 4-3', ['Verksted']],
 ]
 
 /**
@@ -198,6 +198,14 @@ const MEASURES = [
  * the order they were decided and every row of one insert otherwise shares a timestamp
  * to the microsecond — now() is the transaction's clock, so the list would fall back to
  * an arbitrary tiebreak and reorder itself between reseeds.
+ *
+ * The last field is who the measure affects — the handlingsplan's "Hvem berøres", and
+ * what § 3-1 documentation needs to tell a measure aimed at one department from one
+ * aimed at the whole undertaking. It is read out of the design's own goal text rather
+ * than assigned: "Verksted meldte fire avvik", "hver mandag på Prosjekt", "på Verksted".
+ * The four that name no department get no rows, because an empty audience is how the
+ * schema says "everyone" — a default of Verksted, which the prototype carries, would be
+ * an invented fact about four real-looking measures.
  */
 const sqlDate = (v) => (v === 'yesterday' ? "current_date - 1" : v === null ? 'null' : `date '${v}'`)
 
@@ -210,7 +218,13 @@ ${MEASURES.map(([factor, year, owner, title, goal, due, done, step, kind, law], 
    (select e.id from app.employees e where e.org_id = '${ORG}' and e.full_name = '${owner}'),
    '${title.replace(/'/g, "''")}', '${goal.replace(/'/g, "''")}',
    ${sqlDate(due)}, ${sqlDate(done)}, '${step}', '${kind}', ${law ? `'${law}'` : 'null'},
-   timestamptz '2026-09-15 09:00+02' + ${i} * interval '1 hour')`).join(',\n')};`
+   timestamptz '2026-09-15 09:00+02' + ${i} * interval '1 hour')`).join(',\n')};
+
+${MEASURES.flatMap(([, , , title, , , , , , , groups]) =>
+  groups.map((g) => `insert into app.measure_groups (measure_id, group_id)
+select m.id, grp.id from app.measures m
+join app.groups grp on grp.org_id = m.org_id and grp.name = '${g}'
+where m.org_id = '${ORG}' and m.title = '${title.replace(/'/g, "''")}';`)).join('\n')}`
 
 const invitationsFor = (year) => `
 insert into app.invitations (org_id, round_id, employee_id, token_hash, sent_at, expires_at, responded_at)

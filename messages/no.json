@@ -441,6 +441,34 @@
     "registerEffect": "Registrer effekt",
     "closed": "Lukket",
     "emptyTitle": "Ingen tiltak i denne visningen",
-    "emptyLead": "Bytt status eller måling for å se de andre."
+    "emptyLead": "Bytt status eller måling for å se de andre.",
+    "newTitle": "Nytt tiltak",
+    "planHead": "Handlingsplan",
+    "fieldTitle": "Tiltak",
+    "fieldGoal": "Mål — hva skal være annerledes",
+    "fieldOwner": "Ansvarlig",
+    "fieldDue": "Frist",
+    "fieldFactor": "Faktor",
+    "fieldStatus": "Status",
+    "kindHead": "Type tiltak",
+    "kind": {
+      "kollektivt": "Kollektivt",
+      "individuelt": "Individuelt"
+    },
+    "kindNote": {
+      "kollektivt": "Retter seg mot hvordan arbeidet er organisert. Dette er det loven foretrekker.",
+      "individuelt": "Arbeidstilsynet ber om at kollektive tiltak vurderes først. Individrettede tiltak bør begrunnes."
+    },
+    "affectedHead": "Hvem berøres",
+    "delete": "Slett tiltaket",
+    "done": "Ferdig",
+    "close": "Lukk",
+    "problem": {
+      "invalid": "Noe i skjemaet kunne ikke leses. Se over feltene og prøv igjen.",
+      "denied": "Du har ikke tilgang til å endre tiltak. Daglig leder og avdelingsledere kan det.",
+      "closingRule": "Et tiltak kan ikke lukkes før effekten er målt.",
+      "gone": "Tiltaket finnes ikke lenger.",
+      "noOrg": "Fant ingen virksomhet å knytte tiltaket til."
+    }
   }
 }

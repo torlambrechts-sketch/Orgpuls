@@ -551,13 +551,92 @@ rasterisation does affect the pixel diff.
 
 ---
 
+### X-014 — Tiltak writes, and the rule its own lead had only been asserting
+
+**Migration 0015**, applied through the Supabase MCP. Two things, both of which turn a
+sentence on the screen into something the data enforces.
+
+`app.measures_closing_rule()` — a BEFORE UPDATE trigger that refuses `lukket` unless the
+measure is already at `effekt_malt`. The Tiltak lead has always read "kan ikke lukkes før
+effekten er målt"; until now an ordered enum only made `lukket` the last label, and
+nothing stopped an UPDATE going straight there from `pagar`. That shortcut is precisely
+what the documentation exists to prevent — a measure closed without its effect measured
+is a measure nobody can show worked.
+
+The rule is on UPDATE only, deliberately. An INSERT may carry any step, because importing
+a history of measures closed years ago is legitimate and the fixture does exactly that;
+what may not happen is a measure *in this system* reaching `lukket` without passing
+through `effekt_malt`.
+
+`app.measure_groups` — who a measure affects, which the handlingsplan asks for and § 3-1
+wants. A set, so a table, with the same-org trigger the measure itself carries: a row
+pairing this organisation's measure with another's group would otherwise be accepted,
+since neither foreign key alone can see the other's tenancy.
+
+**`supabase/tests/measure_invariants.sql`, 19 of 19 passing** against the live schema —
+the 13 of X-011 plus six: closing from `pagar` refused with the trigger's own message,
+closing from `effekt_malt` accepted, RLS on `measure_groups`, no grant to `anon`, a group
+from another organisation refused, and deleting a measure taking its audience with it.
+The fixture is intact afterwards: 7 measures, 34 employees, 1 organisation, 52 responses,
+no test rows left behind.
+
+**Four server actions, one boundary.** `app/(app)/tiltak/actions.ts` parses every field
+with Zod before it reaches the database. What it deliberately does *not* check is whether
+the caller may write: that is `measure_write` in 0013, enforced against `auth.uid()`. A
+second copy of the rule in the application is the copy that gets forgotten, and a caller
+without the role already gets zero rows and an unchanged screen. `advanceMeasure` reads
+the current step back from the database rather than trusting what the page believed, so
+two people on stale pages cannot skip a step between them. The audience is replaced
+rather than diffed — a delete-then-insert says exactly what the person left the form
+holding, where a diff has to decide what an absent checkbox means and has more ways to
+be wrong about it.
+
+**The controls are the real ones.** The bundle draws the type and audience choices as
+`<button onClick>`, because a prototype has no form. A choice between two options is a
+radio group; a set of affected departments is a group of checkboxes. Both are now exactly
+that, with the input visually hidden rather than `display:none` so it keeps its place in
+the tab order and its focus ring, and the label carrying the bundle's chip styling
+through `peer-checked`. Verified: focusing the type chip lands on `INPUT[type=radio]`,
+and the checked chip renders `#FBEBBE` on `#191510` at weight 700 — the bundle's own
+three values. This is D-06's substitution, not a restyle.
+
+**One hex in the bundle that is not in the palette.** "Slett tiltaket" is `#8A3A16`. It
+occurs exactly once in the whole bundle, where the other 24 danger texts are `#A33A16`.
+A value used once is an instance rather than a token, so it is written inline with the
+reason, and the button gets the bundle's colour rather than the palette's nearest.
+
+**Pixel evidence**, on a render of the real component tree with the rows the database
+holds. The card markup moved into a client component and the status card's action became
+a real posting button; neither moved a pixel:
+
+| region | before | after | |
+| :-- | --: | --: | :-- |
+| the four cards, rails and actions | 0.0017 % | **0.0017 %** | PASS |
+| header, status card, three filter rows | 0.0648 % | **0.0648 %** | PASS |
+
+The open panel has no baseline — the design captures every card closed — so it was
+checked against the bundle's own numbers instead, field by field: 42/74/40px controls at
+radius 11/11/10, chips at 34 and 32, the footer's 36px pair at padding 15 and 18, and the
+note tinted `#8A6A00` only on the choice the design argues against. No console errors.
+
+**The fixture gained the audience it could justify.** Three of the seven measures name a
+department in the design's own goal text — "Verksted meldte fire avvik", "hver mandag på
+Prosjekt", "på Verksted" — and those three now seed a `measure_groups` row. The other
+four get none, which is how the schema says "the whole undertaking". The prototype's
+`["Verksted"]` default was not copied: it would assert something about four measures that
+nothing supports. D-22.
+
+---
+
 ## Open items
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
 - [ ] Auth leaked-password protection is disabled — a dashboard toggle.
 - [ ] S2 onward. Innsikt is still the S1-era stub; Måleoppsett, Samtaler, Årshjulet,
       Oppsett, Hjelp and Integrasjoner are unbuilt.
-- [ ] Writing measures: the edit panel, "＋ Nytt tiltak" and "Flytt videre" (D-22).
+- [x] Writing measures: the edit panel, "＋ Nytt tiltak" and "Flytt videre". X-014.
+- [ ] No confirmation before "Slett tiltaket". The design specifies no dialog anywhere,
+      so none was invented — worth a decision rather than an assumption (D-22).
 - [ ] Report sections 4, 6, 7 and 8 and the signature block still wait on a stored risk
       assessment, effect and training records, and a reader over app.extra_answers.
 - [x] The published figures — 61, −3, 82 %, 77 % — verified against the live database.

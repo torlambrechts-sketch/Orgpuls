@@ -1,5 +1,8 @@
 import { TiltakScreen, type StatusFilter, type TiltakView } from '@/components/tiltak/TiltakScreen'
+import { getFactors } from '@/lib/instrument/read'
 import { getMeasures } from '@/lib/measures/read'
+import { getEmployees, getGroups } from '@/lib/org/read'
+import { getLatestClosedRoundId } from '@/lib/rounds/read'
 
 /**
  * Tiltak — the data half. Bundle lines 1712-1795; the rendering is in
@@ -10,6 +13,12 @@ import { getMeasures } from '@/lib/measures/read'
  * there — the measurements that produced a measure, and the people who own one — rather
  * than from a list written here, so a new owner appears without anyone editing a
  * component.
+ *
+ * The handlingsplan needs four things the list alone cannot supply: everyone who could
+ * own a measure, every department one could affect, the instrument's factors, and the
+ * round a new measure would cite. All four are read here — the panel is a client
+ * component, and a client component that fetched its own options would be holding a
+ * database client in the browser.
  */
 export const dynamic = 'force-dynamic'
 
@@ -21,7 +30,13 @@ export default async function TiltakPage({
   searchParams: Promise<{ status?: string; maling?: string; tildelt?: string }>
 }) {
   const params = await searchParams
-  const measures = await getMeasures()
+  const [measures, employees, groups, factors, newMeasureRoundId] = await Promise.all([
+    getMeasures(),
+    getEmployees(),
+    getGroups(),
+    getFactors(),
+    getLatestClosedRoundId(),
+  ])
 
   const status = STATUSES.includes(params.status as StatusFilter)
     ? (params.status as StatusFilter)
@@ -42,6 +57,10 @@ export default async function TiltakPage({
     ownerId: owners.some((o) => o.id === params.tildelt) ? (params.tildelt ?? null) : null,
     rounds,
     owners,
+    employees,
+    groups,
+    factorKeys: factors.map((f) => f.key),
+    newMeasureRoundId,
   }
 
   return <TiltakScreen view={view} />

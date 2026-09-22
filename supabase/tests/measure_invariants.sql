@@ -141,6 +141,68 @@ begin
   insert into public._mi values (13, 'test rows removed', '0', v_n::text, v_n = 0);
 end $$;
 
+/*
+ * 0015: what a measure may become, and who it affects.
+ *
+ * The closing rule is the Tiltak screen's own lead turned into something the data
+ * enforces — "kan ikke lukkes før effekten er målt" was a sentence on a page until an
+ * UPDATE could be refused for contradicting it.
+ */
+do $$
+declare
+  v_org uuid; v_other uuid := '00000000-0000-4000-8000-0000000000ff';
+  v_m uuid; v_grp uuid; v_other_grp uuid; v_msg text; v_step app.measure_step; v_n int;
+begin
+  select id into v_org from app.organizations where id <> v_other order by id limit 1;
+  select id into v_grp from app.groups where org_id = v_org order by sort_order limit 1;
+
+  insert into app.organizations (id, name, org_number, employee_count, threshold)
+  values (v_other, 'Testvirksomhet AS', '999999999', 1, 5) on conflict (id) do nothing;
+  insert into app.groups (org_id, name, sort_order)
+  values (v_other, 'Annen gruppe', 1) returning id into v_other_grp;
+
+  insert into app.measures (org_id, factor_key, title, step)
+  values (v_org, 'ytring', 'Lukkeregel-test', 'pagar') returning id into v_m;
+
+  begin
+    update app.measures set step = 'lukket' where id = v_m;
+    insert into public._mi values (14, 'closing before the effect is measured is refused', 'rejected', 'ACCEPTED', false);
+  exception when others then
+    get stacked diagnostics v_msg = message_text;
+    insert into public._mi values (14, 'closing before the effect is measured is refused', 'rejected', left(v_msg, 70), true);
+  end;
+
+  update app.measures set step = 'gjennomfort' where id = v_m;
+  update app.measures set step = 'effekt_malt' where id = v_m;
+  update app.measures set step = 'lukket' where id = v_m;
+  select step into v_step from app.measures where id = v_m;
+  insert into public._mi values (15, 'closing after the effect is measured is accepted', 'lukket', v_step::text, v_step = 'lukket');
+
+  insert into public._mi
+  select 16, 'RLS enabled on measure_groups', 'true', relrowsecurity::text, relrowsecurity
+  from pg_class where oid = 'app.measure_groups'::regclass;
+
+  insert into public._mi
+  select 17, 'no grants to anon on measure_groups', '0', count(*)::text, count(*) = 0
+  from information_schema.role_table_grants
+  where table_schema = 'app' and table_name = 'measure_groups' and grantee = 'anon';
+
+  begin
+    insert into app.measure_groups (measure_id, group_id) values (v_m, v_other_grp);
+    insert into public._mi values (18, 'a group from another organisation is refused', 'rejected', 'ACCEPTED', false);
+  exception when others then
+    get stacked diagnostics v_msg = message_text;
+    insert into public._mi values (18, 'a group from another organisation is refused', 'rejected', left(v_msg, 70), true);
+  end;
+
+  insert into app.measure_groups (measure_id, group_id) values (v_m, v_grp);
+  delete from app.measures where id = v_m;
+  select count(*) into v_n from app.measure_groups where measure_id = v_m;
+  insert into public._mi values (19, 'deleting a measure takes its audience with it', '0', v_n::text, v_n = 0);
+
+  delete from app.organizations where id = v_other;
+end $$;
+
 select seq, name, expected, actual, pass from public._mi order by seq;
 
 -- The table above is the report; this is the verdict.

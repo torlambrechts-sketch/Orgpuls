@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getLocale, getTranslations } from 'next-intl/server'
-import { Button } from '@/components/ui/Button'
+import { MeasureCard } from '@/components/tiltak/MeasureCard'
+import { NewMeasureButton } from '@/components/tiltak/NewMeasureButton'
 import { STEP_KEYS, stepIndex, type Measure, type MeasureBucket } from '@/lib/measures/read'
 
 /**
@@ -16,10 +17,9 @@ import { STEP_KEYS, stepIndex, type Measure, type MeasureBucket } from '@/lib/me
  * reader, which derives them from the deadline and the step in the organisation's own
  * time zone; the step order is the database enum's.
  *
- * What the design has and this does not: the edit panel behind "Rediger", and "＋ Nytt
- * tiltak". Both write, and writing measures is its own segment — see
- * docs/DEVIATIONS.md D-22. The controls render as the design draws them, disabled,
- * rather than being removed, because the screen's shape is the point of the pixel gate.
+ * The card and its handlingsplan are in MeasureCard, a client component: the panel
+ * opens and closes, and the type note changes with the choice. Everything it prints is
+ * resolved here, so the client never holds a message catalogue or a step order.
  */
 
 export type StatusFilter = MeasureBucket | 'alle'
@@ -32,6 +32,13 @@ export interface TiltakView {
   ownerId: string | null
   rounds: { id: string; kind: string; year: number }[]
   owners: { id: string; name: string }[]
+  /** everyone who could own a measure, and every department it could affect */
+  employees: { id: string; name: string }[]
+  groups: { id: string; name: string }[]
+  /** the instrument, for the factor select */
+  factorKeys: string[]
+  /** the round a new measure hangs off: the most recent closed one */
+  newMeasureRoundId: string | null
 }
 
 const FILTERS: StatusFilter[] = ['apne', 'frist', 'effekt', 'lukket', 'alle']
@@ -110,6 +117,11 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
     return byStatus && byRound && byOwner
   })
 
+  /** Resolved once and handed to the client, which has no catalogue of its own. */
+  const problems: Record<string, string> = Object.fromEntries(
+    ['invalid', 'denied', 'closingRule', 'gone', 'noOrg'].map((k) => [k, t(`tiltak.problem.${k}`)]),
+  )
+
   const href = (over: Record<string, string | undefined>) => {
     const query: Record<string, string> = {}
     const merged = {
@@ -139,10 +151,12 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
             <span className="text-[11px] uppercase tracking-[0.11em] text-mut">
               {t('tiltak.status')}
             </span>
-            {/* creating a measure is a write, and writes are their own segment (D-22) */}
-            <Button size="tiny" tone="primary" disabled>
-              {t('tiltak.new')}
-            </Button>
+            <NewMeasureButton
+              label={t('tiltak.new')}
+              factorKey={view.factorKeys[0] ?? 'ytring'}
+              roundId={view.newMeasureRoundId}
+              problems={problems}
+            />
           </div>
           <div className="mt-[12px] grid grid-cols-3 gap-[9px]">
             {TILE.map((tile) => (
@@ -228,90 +242,76 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
         {shown.map((m) => {
           const current = stepIndex(m.step)
           const pill = m.late ? PILL.late : current >= stepIndex('effekt_malt') ? PILL.done : PILL.running
+          const closed = current >= stepIndex('lukket')
           return (
-            <div key={m.id} className="rounded-note border border-line bg-sf px-[22px] py-[20px]">
-              <div className="flex flex-wrap items-start justify-between gap-[16px]">
-                <span className="min-w-0 flex-1">
-                  <span className="flex flex-wrap items-center gap-[9px]">
-                    <span className="rounded-pill bg-sbg px-[10px] py-[3px] text-[11px] font-bold uppercase tracking-[0.04em]">
-                      {/* the compact name: a chip and a report column have no room for the full one */}
-                      {t(`factor.${m.factorKey}.short`)}
-                    </span>
-                    <span className="text-[11.5px] text-mut">{m.lawRef}</span>
-                    {m.round ? (
-                      <span className="text-[11.5px] text-mut">
-                        {t('tiltak.fromRound', { round: roundLabel(m.round) })}
-                      </span>
-                    ) : null}
-                  </span>
-                  <span className="mt-[9px] block text-[16px] font-semibold [text-wrap:pretty]">
-                    {m.title}
-                  </span>
-                  <span className="mt-[3px] block text-[12.5px] text-mut">
-                    {(m.owner?.name ?? t('tiltak.ownerUnset')) + ' · ' + dateLine(m)}
-                  </span>
-                </span>
-                <span className="flex-none text-right">
-                  <span
-                    className="inline-block rounded-pill px-[12px] py-[5px] text-[11.5px] font-bold"
-                    style={pill}
-                  >
-                    {m.late ? t('tiltak.overdue') : t(`tiltak.step.${m.step}`)}
-                  </span>
-                </span>
-              </div>
-
-              <div className="mt-[18px] flex items-center overflow-x-auto">
-                {STEP_KEYS.map((step, i) => (
-                  <span key={step} className="min-w-[76px] flex-1 text-center">
-                    <span
-                      className="block h-[6px] rounded-pill"
-                      style={{
-                        background:
-                          i <= current ? (i >= stepIndex('effekt_malt') ? '#2F5D2A' : '#F5C64A') : '#E8DFC9',
-                      }}
-                    />
-                    <span
-                      className={`mt-[6px] block text-[10.5px] ${
-                        i === current ? 'font-bold text-ink' : 'font-medium text-mut'
-                      }`}
-                    >
-                      {t(`tiltak.step.${step}`)}
-                    </span>
-                  </span>
-                ))}
-              </div>
-
-              <div className="mt-[16px] flex flex-wrap items-center justify-between gap-[12px] border-t border-line pt-[14px]">
-                <span className="max-w-[520px] text-[12.5px] text-mut [text-wrap:pretty]">
-                  {m.goal}
-                </span>
-                <span className="flex flex-wrap gap-[8px]">
-                  <Button size="sm" tone="secondary" pad={15} disabled>
-                    {t('tiltak.edit')}
-                  </Button>
-                  <Button
-                    size="sm"
-                    tone="primary"
-                    pad={16}
-                    disabled
-                    style={
-                      current >= stepIndex('lukket')
-                        ? { background: 'transparent' }
-                        : current === stepIndex('gjennomfort')
-                          ? { background: '#CFE7E4' }
-                          : undefined
-                    }
-                  >
-                    {current >= stepIndex('lukket')
-                      ? t('tiltak.closed')
-                      : current === stepIndex('gjennomfort')
-                        ? t('tiltak.registerEffect')
-                        : t('tiltak.advance')}
-                  </Button>
-                </span>
-              </div>
-            </div>
+            <MeasureCard
+              key={m.id}
+              id={m.id}
+              view={{
+                factor: t(`factor.${m.factorKey}.short`),
+                lawRef: m.lawRef,
+                fromRound: m.round ? t('tiltak.fromRound', { round: roundLabel(m.round) }) : null,
+                title: m.title,
+                ownerAndDate: (m.owner?.name ?? t('tiltak.ownerUnset')) + ' · ' + dateLine(m),
+                statusLabel: m.late ? t('tiltak.overdue') : t(`tiltak.step.${m.step}`),
+                statusStyle: pill,
+                steps: STEP_KEYS.map((step, i) => ({
+                  label: t(`tiltak.step.${step}`),
+                  barColour:
+                    i <= current ? (i >= stepIndex('effekt_malt') ? '#2F5D2A' : '#F5C64A') : '#E8DFC9',
+                  current: i === current,
+                })),
+                goal: m.goal,
+                actionLabel: closed
+                  ? t('tiltak.closed')
+                  : current === stepIndex('gjennomfort')
+                    ? t('tiltak.registerEffect')
+                    : t('tiltak.advance'),
+                actionStyle: closed
+                  ? { background: 'transparent' }
+                  : current === stepIndex('gjennomfort')
+                    ? { background: '#CFE7E4' }
+                    : undefined,
+                canAdvance: !closed,
+              }}
+              values={{
+                title: m.title,
+                goal: m.goal ?? '',
+                factorKey: m.factorKey,
+                ownerEmployeeId: m.owner?.id ?? '',
+                dueDate: m.dueDate ?? '',
+                step: m.step,
+                kind: m.kind,
+                groupIds: m.groupIds,
+              }}
+              options={{
+                owners: view.employees.map((e) => ({ value: e.id, label: e.name })),
+                factors: view.factorKeys.map((k) => ({ value: k, label: t(`factor.${k}.label`) })),
+                steps: STEP_KEYS.map((step) => ({ value: step, label: t(`tiltak.step.${step}`) })),
+                groups: view.groups.map((g) => ({ value: g.id, label: g.name })),
+              }}
+              labels={{
+                edit: t('tiltak.edit'),
+                close: t('tiltak.close'),
+                planHead: t('tiltak.planHead'),
+                title: t('tiltak.fieldTitle'),
+                goal: t('tiltak.fieldGoal'),
+                owner: t('tiltak.fieldOwner'),
+                ownerUnset: t('tiltak.ownerUnset'),
+                due: t('tiltak.fieldDue'),
+                factor: t('tiltak.fieldFactor'),
+                status: t('tiltak.fieldStatus'),
+                kindHead: t('tiltak.kindHead'),
+                kindCollective: t('tiltak.kind.kollektivt'),
+                kindIndividual: t('tiltak.kind.individuelt'),
+                noteCollective: t('tiltak.kindNote.kollektivt'),
+                noteIndividual: t('tiltak.kindNote.individuelt'),
+                affectedHead: t('tiltak.affectedHead'),
+                delete: t('tiltak.delete'),
+                done: t('tiltak.done'),
+                problems,
+              }}
+            />
           )
         })}
       </div>

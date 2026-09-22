@@ -46,3 +46,51 @@ export function formatOrgNumber(orgNumber: string | null): string | null {
   const digits = orgNumber.replace(/\s/g, '')
   return /^\d{9}$/.test(digits) ? digits.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3') : orgNumber
 }
+
+/**
+ * The departments, and the people who could own a measure.
+ *
+ * Both are ordinary org-scoped reads through RLS: `group_read` and `employee_read`
+ * admit any member of the organisation. Neither has anything to do with a response —
+ * an employee row is who works here, not who answered, and the two are never joined,
+ * which is the whole reason app.responses carries no employee at all.
+ */
+const GroupRow = z.object({ id: z.string(), name: z.string() })
+
+export type Group = z.infer<typeof GroupRow>
+
+export async function getGroups(): Promise<Group[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .schema('app')
+    .from('groups')
+    .select('id, name')
+    .order('sort_order')
+
+  if (error || !data) return []
+  const parsed = z.array(GroupRow).safeParse(data)
+  return parsed.success ? parsed.data : []
+}
+
+const EmployeeRow = z.object({ id: z.string(), full_name: z.string() })
+
+export interface Person {
+  id: string
+  name: string
+}
+
+/** Only the people still employed: a measure handed to someone who has left is not a plan. */
+export async function getEmployees(): Promise<Person[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .schema('app')
+    .from('employees')
+    .select('id, full_name')
+    .eq('active', true)
+    .order('full_name')
+
+  if (error || !data) return []
+  const parsed = z.array(EmployeeRow).safeParse(data)
+  if (!parsed.success) return []
+  return parsed.data.map((e) => ({ id: e.id, name: e.full_name }))
+}

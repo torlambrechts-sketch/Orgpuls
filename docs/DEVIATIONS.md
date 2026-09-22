@@ -535,29 +535,46 @@ the page is pinned and diffed.
 
 ---
 
-## D-22 — Tiltak reads; it does not yet write
+## D-22 — Tiltak writes, minus a confirmation and a default the prototype invents
 
-**Design:** each card carries "Rediger", which opens a handlingsplan panel — title, goal,
-owner, deadline, factor, status, measure type, who is affected, and a delete — and
-"Flytt videre", which advances the measure one step. The status card carries
-"＋ Nytt tiltak".
+*Superseded the entry that recorded the write path as unbuilt. It is built: migration
+0015, `app/(app)/tiltak/actions.ts`, `components/tiltak/MeasureCard.tsx` and
+`components/tiltak/NewMeasureButton.tsx`. Three smaller things still differ.*
 
-**Built:** the list, the three status tiles, the three filter rows, the six-step rail and
-the card, all from `app.measures`. Every control that writes renders as the design draws
-it and is disabled.
+**1. A refused write says so; the design has nowhere to say it.**
 
-**Constraint that forced it:** this segment built the table, its policies and its
-invariant suite, and the schema is the part the report was waiting for (D-18, section 5,
-now printing). A write path is its own piece of work and has its own questions: who may
-advance a measure (the policy says daglig leder and avdelingsleder, and that is a claim
-worth testing against how an organisation actually delegates), whether a step may go
-backwards, and what "Hvem berøres" is stored as — the design offers a set of groups, and
-no join table exists for it.
+The prototype cannot be refused — it patches its own state, so every control succeeds.
+A real one can: a verneombud may read every measure and write none, and the closing rule
+in 0015 refuses an UPDATE that would close a measure before its effect is measured. Both
+are correct outcomes that a screen must report, so a one-line message appears under the
+card actions (and under "＋ Nytt tiltak") when a write comes back refused. It is styled
+as the screen's other muted text at 12.5px in `#A33A16`, and it is absent until there is
+something to say, so the baseline's card is unchanged — the region still diffs at 39
+pixels.
 
-**Why the controls stay rather than being removed:** the card's shape is what the pixel
-gate measures, and a screen that quietly drops two buttons is a screen that no longer
-matches the design it claims to. `disabled` says the same thing to a keyboard and a
-screen reader that the greyed control says to an eye.
+**2. No confirmation before "Slett tiltaket".**
+
+The design deletes on the first click and so does this. A measure is a decision the
+organisation recorded and § 3-1 documentation of it; losing one to a misclick is a real
+loss, and a confirmation is the obvious guard. It is not built because the design
+specifies no dialog anywhere in the bundle, and inventing one would be inventing a
+component — CLAUDE.md's rule against inventing features outranks my opinion about this
+control. Worth raising with the user rather than deciding alone.
+
+**3. "Hvem berøres" starts empty, where the prototype starts on Verksted.**
+
+The bundle's panel defaults the audience to `["Verksted"]` for every measure
+(`t.groups || ["Verksted"]`), which is a prototype's placeholder, not a fact: it would
+assert that all seven of the design's measures affect the workshop. The fixture instead
+records the audience the design's own goal text names — Verksted for the two that say so,
+Prosjekt for the one that says so — and the other four carry none, which is how the
+schema says "the whole undertaking". A measure with no audience renders with no chip
+selected rather than with a chip the data does not support.
+
+**Also not built: the date field's format.** `<input type="date">` is the bundle's own
+control, and what it prints — `21.09.2026` or `09/21/2026` — is the browser's locale,
+not the page's. Headless Chromium renders it US-style in the screenshots above. That is
+UA behaviour identical to the prototype's, so it is recorded rather than worked around.
 
 ---
 
