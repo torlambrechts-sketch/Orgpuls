@@ -31,9 +31,71 @@ const flatten = (value, prefix = '', out = {}) => {
   return out
 }
 
-/** ICU placeholders, including the `{n, plural, ...}` form's argument name. */
-const placeholders = (s) =>
-  new Set([...s.matchAll(/\{\s*(\w+)/g)].map((m) => m[1]))
+/**
+ * The ICU arguments a message takes — scanned, not matched.
+ *
+ * A regular expression cannot do this. `{count, plural, one {# faktor} other {# faktorer}}`
+ * takes one argument, `count`, but `/\{\s*(\w+)/g` finds three: it cannot tell an
+ * argument from the opening brace of a branch body. The consequence was not theoretical —
+ * it reported "missing {Ingen} {Ett}, unexpected {No} {One}" for a correctly translated
+ * message, and the earlier response was to stop using plural branches, which is the wrong
+ * half of the problem to fix. A select or plural whose branches differ per language is
+ * exactly what ICU is for.
+ *
+ * So this walks the string in the two contexts ICU defines. In a *message* a `{` opens an
+ * argument; in an *argument* the `{...}` blocks that follow a selector are messages again,
+ * and may hold arguments of their own. Single quotes escape a brace, as ICU says.
+ */
+const placeholders = (s) => {
+  const out = new Set()
+  let i = 0
+
+  // a message: text, escapes, and arguments. Returns at the `}` that closes the branch
+  // it sits in, without consuming it — the argument scanner owns that brace.
+  const message = () => {
+    while (i < s.length) {
+      const c = s[i]
+      if (c === '}') return
+      if (c === "'") {
+        i += 1
+        while (i < s.length && s[i] !== "'") i += 1
+        i += 1
+        continue
+      }
+      if (c === '{') {
+        i += 1
+        argument()
+        continue
+      }
+      i += 1
+    }
+  }
+
+  // an argument: a name, optionally a type and selectors whose bodies are messages
+  const argument = () => {
+    while (i < s.length && /\s/.test(s[i])) i += 1
+    let name = ''
+    while (i < s.length && /[\w.]/.test(s[i])) name += s[i++]
+    if (name) out.add(name)
+    while (i < s.length) {
+      const c = s[i]
+      if (c === '}') {
+        i += 1
+        return
+      }
+      if (c === '{') {
+        i += 1
+        message()
+        if (s[i] === '}') i += 1
+        continue
+      }
+      i += 1
+    }
+  }
+
+  message()
+  return out
+}
 
 const locales = readdirSync(DIR)
   .filter((f) => f.endsWith('.json'))

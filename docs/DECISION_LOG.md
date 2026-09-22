@@ -628,17 +628,121 @@ nothing supports. D-22.
 
 ---
 
+### X-015 — Risikovurdering: the middle step of § 3-1, and Innsikt rebuilt on it
+
+The statute names three things in one sentence — kartlegge, "og på denne bakgrunn vurdere
+risikoforholdene", planlegge tiltak. This product had the first since S1 and the third
+since 0013. The middle one was a word printed on two screens and stored nowhere, and that
+one gap is why four separate things could not be rendered: the Sløyfen's "Risikovurdert ·
+19. sep", the "Kartlegging og risikovurdering — Dokumentert" chip, the årshjul's
+"Risikovurdering · 2 av 2 ferdig", and section 4 of the statutory report.
+
+**Migration 0016**, applied through the Supabase MCP. Two tables, because § 4-1 asks for
+both halves: `app.risk_assessments` is the assessment as an act — which kartlegging it
+rests on, the date, the author — and `app.risk_factor_assessments` is one factor's
+probability, consequence, written assessment and conclusion. "Samlet" and "enkeltvis".
+
+Three choices worth stating:
+
+- **Probability and consequence are enums; the assessment is free text and NOT NULL.** The
+  bands are a scale an inspector compares across years and undertakings, so a field that
+  accepts "ganske høy" is a field that cannot be compared. The reasoning cannot be an enum
+  and cannot be absent: a row with a band and nothing behind it is a number wearing a
+  judgement's clothes, which is the thing the table exists to prevent.
+- **A factor may only be assessed if the round carried it.** "På denne bakgrunn" is a
+  constraint, not a preposition — a puls asks about two or three factors, and assessing one
+  it never measured is a judgement resting on no data. `app.round_factors` already says
+  which, so a trigger asks it rather than trusting the caller.
+- **One standing assessment per kartlegging.** A revision replaces it rather than
+  accumulating beside it, so "is this round risk-assessed" has exactly one answer.
+
+The author is ON DELETE SET NULL on the same reasoning 0013 gives for a measure's owner:
+the person leaving does not undo the assessment. It was still made, and on that date.
+
+**`supabase/tests/risk_invariants.sql`, 12 of 12 passing** against the live schema: RLS on
+both tables, both select policies org-scoped, no grant to `anon`, another organisation's
+round refused, another organisation's assessor refused, a factor the round did not measure
+refused with the trigger's own message, a blank assessment refused, a second standing
+assessment refused, the author's departure nulling the link while the record survives, and
+the cascade. The fixture is intact afterwards — 1 assessment, 3 factor rows, 34 employees,
+7 measures, no test rows left behind.
+
+**The fixture carries the design's own assessment**, not one derived from the index. Every
+field is the bundle's (line 3294): which three factors, their bands, the sentence under
+each, the conclusion. The prototype computes all of it from `f.idx`; stored, it is a
+judgement Tuva Berg made on 19 September, which is what the statute asks for and what
+D-18 refused to fake.
+
+**Innsikt rebuilt.** It had been the S1-era stub since S1 — an index and a bar. It is now
+the design's four blocks, split the way every other screen is: `app/(app)/innsikt/page.tsx`
+reads, `components/innsikt/InnsiktScreen.tsx` renders.
+
+"Løper" is `pagar` specifically, not "not closed". A measure decided but not started is
+not running and one whose effect has been measured has stopped. The fixture holds four
+measures short of closed and the design prints **2** — `pagar` is the reading that
+produces the design's own figure from data rather than from a literal, and the overdue
+count beside it (**1**) falls out of the same rows.
+
+**Pixel evidence**, on a render of the real component tree with the rows the database
+holds. Regions are quoted at their own offsets, since the omitted assistant note shortens
+the second card:
+
+| region | pixels | |
+| :-- | --: | :-- |
+| CTA "Se hele resultatet" | **0** | PASS |
+| distribution bar and its three labels | **0** | PASS |
+| card 2 header and the "Dokumentert" chip | **0** | PASS |
+| "Venter på deg" heading and scope | **0** | PASS |
+| todo row frame, tone bar and action | **0** | PASS |
+| org line and headline | 16 | PASS |
+| Sløyfen, all four points | 86 | PASS |
+| index and delta (the omitted benchmark line) | 935 | PASS |
+| lead (numeral for number word, D-26) | 1 191 | PASS |
+
+Four interactive controls, all real links, tab-reachable in document order, each with the
+bundle's `3px solid #191510, offset 2px, radius 6px`. No console errors.
+
+**Two defects the gate found.**
+
+*The chip had no fill at all.* Rendering it through `ButtonLink` with `className="bg-mint"`
+put `bg-transparent` and `bg-mint` at equal specificity, and Tailwind's emit order won —
+the same trap the Button's own `pad` comment records for padding, found again in a
+different utility. 9 923 pixels, 16 % of that region. The chip is not a size in the scale
+anyway: the bundle draws a two-line control that sizes to its content. Transcribed
+directly as a link, the region went to **0**.
+
+*Every short date carried a second full stop.* `nb-NO` formats "14. sep." — the
+abbreviation's own period, which after a day number reads as a sentence ending. The design
+writes "14. sep". Trimming the trailing dot took the index card from 0.0692 % to 0.0566 %
+and left the Sløyfen at 86 pixels, three of whose four dates now match exactly.
+
+**The i18n checker was wrong, and that had been worked around rather than fixed.** Its
+placeholder extractor was `/\{\s*(\w+)/g`, which cannot tell an argument from the opening
+brace of a branch body: it read `{count, plural, one {# faktor} other {# faktorer}}` as
+three arguments. The earlier response (X-011) was to stop using plural branches, which is
+the wrong half of the problem — a select or plural whose branches differ per language is
+what ICU is for, and this screen's lead needs one. It now scans the string in the two
+contexts ICU defines rather than matching. Proven still to catch real drift: an argument
+renamed at top level and one renamed inside a plural branch were both reported, and the
+409-key catalogue passes.
+
+---
+
 ## Open items
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
 - [ ] Auth leaked-password protection is disabled — a dashboard toggle.
-- [ ] S2 onward. Innsikt is still the S1-era stub; Måleoppsett, Samtaler, Årshjulet,
-      Oppsett, Hjelp and Integrasjoner are unbuilt.
+- [x] Innsikt rebuilt on the real schema. X-015.
+- [ ] Måleoppsett, Samtaler, Årshjulet, Oppsett, Hjelp and Integrasjoner are unbuilt.
+- [ ] Årshjulet's schedule: two of Innsikt's five year-rail points, and section 1's
+      medvirkning dates, wait on it (D-25).
 - [x] Writing measures: the edit panel, "＋ Nytt tiltak" and "Flytt videre". X-014.
 - [ ] No confirmation before "Slett tiltaket". The design specifies no dialog anywhere,
       so none was invented — worth a decision rather than an assumption (D-22).
-- [ ] Report sections 4, 6, 7 and 8 and the signature block still wait on a stored risk
-      assessment, effect and training records, and a reader over app.extra_answers.
+- [ ] Report section 4 is now backable — 0016 stores the assessment — and is the next
+      thing to print. Sections 6, 7 and 8 and the signature block still wait on a link
+      from a measure to the round that measured its effect, a reader over
+      app.extra_answers, and records of briefings and training.
 - [x] The published figures — 61, −3, 82 %, 77 % — verified against the live database.
       X-008. The invariant suite passes 21 of 21.
 - [ ] `ORGPULS_DEV_PASSWORD` unset — no route can be signed into, so `shoot.mjs` and the

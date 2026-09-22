@@ -151,11 +151,50 @@
     "indexLabel": "Work environment index",
     "delta": "{delta} since last year",
     "forsvarlig": "{count} sound",
-    "folgesOpp": "{count} being followed up",
+    "folgesOpp": "{count} to follow up",
     "hoyRisiko": "{count} high risk",
     "ansatte": "{count, plural, one {# employee} other {# employees}}",
-    "insufficient": "Fewer than {threshold} answers — the result is not shown",
-    "svarte": "{n} of {total} have answered"
+    "insufficient": "Fewer than {threshold} responses — the result is not shown",
+    "svarte": "{n} of {total} have responded",
+    "seeResult": "See the full result",
+    "head": {
+      "daglig_leder": "You are on track",
+      "avdelingsleder": "Verksted needs you this week",
+      "verneombud": "Two factors need action"
+    },
+    "lead": {
+      "daglig_leder": "{assessed, select, yes {The baseline has been surveyed and risk-assessed.} other {The baseline has been surveyed, but not yet risk-assessed.}} {running, plural, =0 {No measures are under way.} one {One measure is under way.} other {# measures are under way.}} The next pulse measures whether they worked.",
+      "avdelingsleder": "You see your own team. Figures below the threshold are hidden from you too — that is not a fault, it is the agreement with the employees.",
+      "verneombud": "You see the same figures as management, and are alerted when a deadline passes. Individual comments are not available to a verneombud."
+    },
+    "loopHead": "The loop — where the law wants you to be",
+    "loop": {
+      "kartlagt": "Surveyed",
+      "risikovurdert": "Risk-assessed",
+      "tiltak": "Measures under way",
+      "effekt": "Effect measured"
+    },
+    "overdue": "{count, plural, one {# past deadline} other {# past deadline}}",
+    "yearLink": "The work environment year — set up automation",
+    "documentedHead": "Survey and risk assessment",
+    "documentedCta": "Documented — open the report →",
+    "now": "NOW",
+    "rateSub": "{pct} % responded",
+    "closedSub": "closed",
+    "assessedSub": "{done} of {required} done",
+    "questionSub": "{count, plural, one {# question} other {# questions}}",
+    "todoHead": "Waiting for you",
+    "todoScope": {
+      "daglig_leder": "The whole undertaking",
+      "avdelingsleder": "Your department",
+      "verneombud": "The verneombud's cases"
+    },
+    "todoEmpty": "Nothing is waiting right now",
+    "todoMeasureMeta": "Owner {owner} · deadline passed · linked to {factor}",
+    "todoMeasureCta": "Update",
+    "todoRoundTitle": "Approve the pulse closing {date}",
+    "todoRoundMeta": "{count, plural, one {# question} other {# questions}} · {factors}",
+    "todoRoundCta": "See the selection"
   },
   "malinger": {
     "title": "Measurements",

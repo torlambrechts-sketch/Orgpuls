@@ -155,7 +155,46 @@
     "hoyRisiko": "{count} høy risiko",
     "ansatte": "{count, plural, one {# ansatt} other {# ansatte}}",
     "insufficient": "Færre enn {threshold} svar — resultatet vises ikke",
-    "svarte": "{n} av {total} har svart"
+    "svarte": "{n} av {total} har svart",
+    "seeResult": "Se hele resultatet",
+    "head": {
+      "daglig_leder": "Dere er i rute",
+      "avdelingsleder": "Verksted trenger deg denne uka",
+      "verneombud": "To faktorer krever handling"
+    },
+    "lead": {
+      "daglig_leder": "{assessed, select, yes {Grunnlinjen er tatt og risikovurdert.} other {Grunnlinjen er tatt, men ikke risikovurdert ennå.}} {running, plural, =0 {Ingen tiltak løper.} one {Ett tiltak løper.} other {# tiltak løper.}} Neste puls måler om de virket.",
+      "avdelingsleder": "Du ser ditt eget team. Tallene under terskelen er skjult også for deg — det er ikke en feil, det er avtalen med de ansatte.",
+      "verneombud": "Du ser de samme tallene som ledelsen, og får varsel når en frist ryker. Enkeltkommentarer er ikke tilgjengelige for verneombud."
+    },
+    "loopHead": "Sløyfen — der loven vil dere skal være",
+    "loop": {
+      "kartlagt": "Kartlagt",
+      "risikovurdert": "Risikovurdert",
+      "tiltak": "Tiltak løper",
+      "effekt": "Effekt målt"
+    },
+    "overdue": "{count, plural, one {# over frist} other {# over frist}}",
+    "yearLink": "Arbeidsmiljøåret — sett opp automatikk",
+    "documentedHead": "Kartlegging og risikovurdering",
+    "documentedCta": "Dokumentert — åpne rapporten →",
+    "now": "NÅ",
+    "rateSub": "{pct} % svarte",
+    "closedSub": "lukket",
+    "assessedSub": "{done} av {required} ferdig",
+    "questionSub": "{count, plural, one {# spørsmål} other {# spørsmål}}",
+    "todoHead": "Venter på deg",
+    "todoScope": {
+      "daglig_leder": "Hele virksomheten",
+      "avdelingsleder": "Din avdeling",
+      "verneombud": "Verneombudets saker"
+    },
+    "todoEmpty": "Ingenting venter akkurat nå",
+    "todoMeasureMeta": "Ansvarlig {owner} · frist gikk ut · knyttet til {factor}",
+    "todoMeasureCta": "Oppdater",
+    "todoRoundTitle": "Godkjenn pulsen som går ut {date}",
+    "todoRoundMeta": "{count, plural, one {# spørsmål} other {# spørsmål}} · {factors}",
+    "todoRoundCta": "Se utvalget"
   },
   "malinger": {
     "title": "Målinger",

@@ -94,3 +94,38 @@ export async function getEmployees(): Promise<Person[]> {
   if (!parsed.success) return []
   return parsed.data.map((e) => ({ id: e.id, name: e.full_name }))
 }
+
+/**
+ * The signed-in person's role in this organisation.
+ *
+ * The design draws this as a dropdown the viewer changes — a prototype's way of
+ * demonstrating three roles on one screen. A role is not a preference: it is what the
+ * organisation granted, `app.memberships.role`, and every policy in the schema is
+ * already keyed off it through `app.has_role`. So it is read, not chosen, and a viewer
+ * who picked "Daglig leder" from a menu would still be refused by the database. D-06's
+ * substitution, in the other direction: the honest control here is no control.
+ *
+ * `membership_read` admits any member of the organisation, so the filter on the user is
+ * what narrows it to the viewer rather than what authorises the read.
+ */
+const ROLES = ['daglig_leder', 'avdelingsleder', 'verneombud'] as const
+export type Role = (typeof ROLES)[number]
+
+export async function getViewerRole(): Promise<Role | null> {
+  const supabase = await createClient()
+  const { data: auth } = await supabase.auth.getUser()
+  if (!auth.user) return null
+
+  const { data, error } = await supabase
+    .schema('app')
+    .from('memberships')
+    .select('role')
+    .eq('user_id', auth.user.id)
+    .eq('active', true)
+    .limit(1)
+    .maybeSingle()
+
+  if (error || !data) return null
+  const parsed = z.object({ role: z.enum(ROLES) }).safeParse(data)
+  return parsed.success ? parsed.data.role : null
+}

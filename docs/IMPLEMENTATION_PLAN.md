@@ -143,6 +143,12 @@ Rapport + PDF → Tiltak → Samtaler → Årshjulet → Oppsett (8 sub-tabs) �
 Integrasjoner. Each: read the bundle lines, extract its Norwegian, build against
 primitives, run all seven gates, log with evidence.
 
+Built so far: **Målinger, Respondent, Resultat, Rapport, Tiltak, Innsikt.** Not built:
+Måleoppsett, Samtaler, Årshjulet, Oppsett, Hjelp, Integrasjoner. The schema each screen
+needed arrived with it — 0013-0015 for Tiltak, 0016 for the risk assessment Innsikt and
+the report's section 4 both rest on — which is the order that works: a screen cannot be
+built honestly ahead of the table it reads.
+
 ### S14 — Hardening
 Responsive pass, full-suite re-run, advisors, CSP, error and empty states, final pixel
 sweep across twelve screens × two languages × three roles.

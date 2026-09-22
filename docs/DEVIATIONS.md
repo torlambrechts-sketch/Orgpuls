@@ -615,3 +615,78 @@ of them are the label repeated, which is the point: the compact name is a proper
 factor, so a renderer asks for it by name instead of truncating a string it does not
 understand. With it, section 5 of the report diffs at **0 pixels** and the Tiltak cards at
 39.
+
+---
+
+## D-25 — Innsikt renders what the schema holds; five of its blocks it cannot
+
+**Design:** bundle lines 152-268, baseline `01-innsikt-home.png`. A header block, an index
+card carrying the Sløyfen, an årshjul card carrying a five-point year rail and a note from
+the assistant, and a three-item "Venter på deg".
+
+**Built:** all four blocks. Migration 0016 made three things renderable that were not
+before — the Sløyfen's "Risikovurdert", the "Dokumentert" chip, and the year rail's
+"Risikovurdering · 2 av 2 ferdig" — because all three are now a stored assessment rather
+than a band derived from an index. What still differs, with the constraint named:
+
+**1. "Bransjesnitt anlegg: 64" is not rendered.** There is no benchmarks table. An
+invented industry average printed beside a real index is the fabrication rule's own
+example. Its absence displaces the delta line by the height of one 12.5px row inside the
+index card, which is the whole of that region's 935-pixel diff.
+
+**2. The year rail has three points where the design has five.** February's "Forankring —
+AMU og verneombud" and January's "Effekt målt — virket tiltakene?" are årshjul entries and
+nothing stores a schedule. The three that are rendered are real: the kartlegging that
+closed and its response rate, the assessment and how much of it is done, and the round now
+open with the number of questions it asks. Three real points on a timeline is not a claim
+that the year holds only three; five points with two invented would be a claim that two
+things are scheduled which are not. The rail's geometry therefore differs from the
+baseline's and the region is not compared — a three-column grid against a five-column one
+produces a number that means nothing.
+
+**3. The Tuva note is omitted.** It is written by an assistant that does not exist. Its
+absence is why the årshjul card is shorter than the design's, which displaces "Venter på
+deg" by 126 pixels — measured at that offset, its heading and scope line diff at **0**.
+
+**4. "Arbeidsmiljøåret — sett opp automatikk" is not a link.** The design makes it a
+button that opens Årshjulet; that screen is unbuilt, and a link to a route that does not
+exist is worse than no link. The label is rendered exactly as the design styles it and
+becomes a link when the screen arrives.
+
+**5. "Venter på deg" cannot be "på deg".** The design's list is addressed to the reader —
+"Du er ansvarlig", "Verneombudets saker". Nothing joins a signed-in user to an employee
+row: a measure's owner is an `app.employees` id and the viewer is an `auth.users` id, and
+no column relates them. So the rows name their owner instead ("Ansvarlig Anne Rygg"), and
+the design's second row — three anonymous comments awaiting a reply — is absent because
+`app.response_comments` has no reader (D-10, D-14). The rows that are there are real: every
+measure past its deadline, and the round now open. Frame, tone bar and action of each row
+diff at **0**; the text is the record rather than the design's caption.
+
+**Also:** the measure's title on this screen is the title it carries in the database —
+"Fast svar på avviksmeldinger innen fem dager", which is what the Tiltak baseline shows —
+where this baseline writes a shorter "Fast avvikssvar innen fem dager — Verksted". The
+prototype holds two literals for one measure; only one can be the row's title, and the
+screen where the measure lives is the one that decides it.
+
+---
+
+## D-26 — The lead prints a numeral where the design writes a number word
+
+**Design:** "Grunnlinjen er tatt og risikovurdert. To tiltak løper. Neste puls måler om de
+virket."
+
+**Built:** the same sentence with the count read from the database — "2 tiltak løper" —
+and with the first clause selecting on whether the round actually carries a risk
+assessment, so it cannot claim the kartlegging was assessed when no row says so.
+
+**Constraint that forced it:** the design's sentence is a literal. Printed as a literal it
+would say "To tiltak løper" however many run, which is a fabricated count in the first
+paragraph of the landing screen. ICU can pluralise a number and no formatter spells one as
+a Norwegian word, so the numeral is what a real count can render. It costs 1 191 pixels in
+the lead region — the line wraps one word earlier — and the headline above it diffs at
+**16 pixels** across both lines.
+
+**Worth revisiting** if the user would rather have the design's wording: a spelled-number
+table for 0-12 per locale would restore it, at the cost of a message file that has to
+grow when an organisation runs thirteen measures.
+
