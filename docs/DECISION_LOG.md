@@ -449,6 +449,47 @@ the figures the database returns:
 three, which is what made verifying it possible at all after a shared primitive changed.
 The split moved markup without editing it, and the numbers above are the proof.
 
+### X-012 — 500 on every URL, and the two defects behind it
+
+A deployment returned `500 MIDDLEWARE_INVOCATION_FAILED` on every page. This session has
+no Vercel access — no token, no CLI — so the cause was established by reproducing it
+locally rather than by reading the deployment: build and serve with
+`NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` absent, and every route
+returns 500 with `Error: Your project's URL and Key are required to create a Supabase
+client!` in the log. `createServerClient` throws synchronously on a falsy url or key
+(@supabase/ssr createServerClient.js:13), and a middleware that throws fails the request
+before any page runs.
+
+| route | before the fix, no env | after the fix, no env | after the fix, env present |
+| :-- | :-- | :-- | :-- |
+| `/` | 500 | 307 → /logg-inn | 307 → /logg-inn |
+| `/logg-inn` | 500 | **200** | 200 |
+| `/s/[token]` | 500 | 500, named | **200**, the refusal screen |
+| `/tiltak` | 500 | 307 → /logg-inn | 307 → /logg-inn |
+
+**The configuration is the deployment's to fix**, and it is not something an agent can do
+from here: both variables go in the Vercel project's environment for the environment that
+is failing, and the deployment has to be rebuilt, not restarted — `NEXT_PUBLIC_` values
+are inlined at build time. Neither is a secret; the anon key ships in the browser bundle
+by design, and RLS is what protects the data.
+
+**But the 500 was ours**, and two things were wrong independently of any environment:
+
+1. **The Supabase client was built before the public-path check.** So `/logg-inn` — the
+   page you would fix an auth problem from — and `/s/[token]` — the respondent surface,
+   which by design must never require a session — were coupled to configuration they
+   never use. One missing variable took down the one screen an employee ever sees. Public
+   paths now short-circuit before anything else happens. What that gives up: a public
+   path no longer rotates the session cookie, which nothing needs it to do.
+2. **Middleware threw instead of deciding.** A missing configuration or an unreachable
+   auth server is not permission to serve a protected page, so both now fail closed —
+   redirect to sign-in — and log loudly, because "redirected to sign-in" looks like an
+   expired session and the cause is not that.
+
+`lib/supabase/env.ts` reads the two variables in one place and names the missing one. The
+library's own message says a URL and key are required without saying which variable
+carries them, which is the difference between a five-minute fix and an afternoon.
+
 ---
 
 ## Reference-rendering harness
