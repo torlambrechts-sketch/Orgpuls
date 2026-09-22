@@ -36,9 +36,7 @@ now run unchallenged.
 
 ## 2. Environment variables and credentials
 
-claude.ai/code → cloud icon → environment settings. There are **two** boxes, and the
-difference matters: the environment-variables box warns that its contents are visible to
-anyone using the environment, so a credential does not belong in it.
+claude.ai/code → cloud icon → environment settings.
 
 ### Environment variables — `.env` format, `KEY=value`, one per line
 
@@ -53,22 +51,30 @@ A list of names is rejected with "Couldn't parse … Use KEY=value format".
 Both `NEXT_PUBLIC_` values are public by design — they ship in the browser bundle, and
 RLS is what protects the data, not the anon key. They are safe here.
 
-### API credentials — for the two that are actually secret
+### There is no Supabase token to configure
 
-`SB_MCP_PAT` (a Supabase personal access token, account-level reach) and
-`ORGPULS_DEV_PASSWORD`.
+`.mcp.json` used to send `Authorization: Bearer ${SB_MCP_PAT}`, which required a Supabase
+personal access token in the environment. It does not any more, and the reason is worth
+keeping: setting that header **disables the server's OAuth fallback**. The failure read
+`AUTH_HEADER_REJECTED — OAuth fallback is disabled when headers.Authorization is set`,
+which is the endpoint saying it would have authenticated us interactively if we had not
+insisted on a token.
 
-One caveat to verify rather than assume: `.mcp.json` resolves the token as
-`"Authorization": "Bearer ${SB_MCP_PAT}"`, which needs it visible as an environment
-variable at MCP startup. If the Supabase MCP server fails to connect with *"JWT could not
-be decoded"*, the substitution is not being fed — that error means the variable is unset,
-not that the token is wrong. In that case the token has to live in the environment box
-and the visibility trade has to be accepted. Scope it narrowly and rotate it if the
-environment is ever shared.
+With the header gone the server authorises over OAuth, so there is no long-lived
+account-scoped credential to store, leak or rotate. Do not add it back.
 
-Never add a service-role key anywhere. Nothing here needs one; every read goes through an
-RPC that applies k-anonymity, and a service-role key is the single change that would let
-a session read raw answers.
+### API credentials
+
+For `ORGPULS_DEV_PASSWORD` only — the fixture account the screenshot script signs in as.
+
+That section configures credentials **per service**, injected as HTTP headers on calls to
+that service. It does not create environment variables, so it cannot feed a `${VAR}`
+substitution in `.mcp.json`. It is also not the place for an Anthropic API key unless you
+actually want sessions calling the Anthropic API.
+
+Never add a Supabase service-role key anywhere. Nothing here needs one; every read goes
+through an RPC that applies k-anonymity, and a service-role key is the single change that
+would let a session read raw answers.
 
 ---
 
