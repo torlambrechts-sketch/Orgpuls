@@ -374,6 +374,81 @@ Also in this segment: Resultat's "Lag rapport av dette" now links to the report 
 than being an inert button, and the Resultat top region was re-measured afterwards at
 3 534 pixels — the same count as before the change, so the substitution cost nothing.
 
+### X-011 — Tiltak, and the table five of the report's sections were waiting for
+
+Migrations 0013 and 0014, applied through the Supabase MCP (`apply_migration` works in
+this session; X-003 records it being denied in an earlier one). The applied history
+records them as timestamped names rather than 0013/0014 — the repository's numbering is
+what CI replays, and the two agree in content.
+
+**app.measures**, with the three things the design states and a fourth the schema owes
+it:
+- a measure hangs on a factor (`factor_key` NOT NULL) and on the round that raised it,
+  so "· fra Grunnlinje 2026" is a join;
+- the six steps are an ordered enum with `lukket` last, so "closed without an effect
+  measurement" is not a state the data can hold;
+- deleting a round or an employee nulls the reference and keeps the record, because a
+  measure is a decision the organisation made and the owner leaving does not undo it;
+- tenancy is a trigger rather than a composite foreign key. A composite key with ON
+  DELETE SET NULL would null `org_id` too, which is NOT NULL, so deleting a round would
+  fail with an error pointing at the wrong table — the same family as the immutability
+  trap CLAUDE.md records five rediscoveries of.
+
+`supabase/tests/measure_invariants.sql`, **13 of 13 passing** against the live schema:
+RLS on, the select policy org-scoped, no grant to anon, the six steps in order, a round
+and an owner from another organisation both refused, a blank title refused, the step
+advancing, `updated_at` overwritten when a caller supplies one, and both deletes nulling
+their link while the measure survives. It creates a second organisation and a throwaway
+employee and removes them, because assertion 12 deletes the owner it tests and deleting
+a real employee would change the headcount every response rate divides by.
+
+**One assertion was wrong before the schema was.** "updated_at moves past created_at
+after an update" can never pass and does not mean anything: `now()` is the transaction's
+start time, so inside one transaction every `now()` is the same instant. The assertion
+that is worth making — and now passes — is that the trigger overwrites a value the
+client supplies.
+
+**The fixture** gained the design's four named people (the first employee of each group,
+headcount unchanged) and its seven measures, then the whole seed was re-run. Verified
+after: index 61 and 64, 82 % and 77 %, 34 employees — nothing drifted.
+
+**Pixel evidence.** Four screens, measured on renders of the real component trees with
+the figures the database returns:
+
+| screen | region | % of screen | |
+| :-- | :-- | --: | :-- |
+| Tiltak | header, status card, three filter rows | 0.0648 % | PASS |
+| Tiltak | the four cards, rails and actions | **0.0017 %** | PASS |
+| Tiltak | footer | 0.0000 % | PASS |
+| Rapport | 5. Tiltak, now printing | **0.0000 %** | PASS |
+| Målinger | rounds row 2026 | **0.0000 %** | PASS |
+| Målinger | Deltakelse | 0.0241 % | PASS |
+| Målinger | Spørsmålssettet, three bands | 0 / 0.0330 / 0.0561 % | PASS |
+| Resultat, Rapport | every region of X-007 and X-010 | unchanged or better | PASS |
+
+**Three defects the gate found, in order of how much they had been hiding.**
+
+1. **`leading-none` on every button size.** The bundle sets no line-height on a button,
+   so one inherits `normal`. An earlier commit in this session pinned it to 1 on the five
+   transcribed sizes; it survived Innsikt and Målinger because whether the difference
+   shows depends on the fractional y a control lands on, and it failed on the Tiltak
+   card — the actions sat exactly one pixel high, 661 pixels per card, counted row by
+   row. Removed everywhere. **Målinger's 2026 rounds row then went from unverified to 0
+   pixels**, which also settles the question the ButtonLink change left open in X-010.
+2. **A class fighting itself.** `<Button size="xxs" className="h-[30px]">` — two
+   arbitrary Tailwind height utilities of equal specificity, where the emitted order
+   decides the winner, which is the exact trap the Button file documents for padding.
+   The panel action was 2px tall. Fixed by adding the size the design actually uses
+   (h30) rather than overriding one that does not.
+3. **A factor has a compact name.** The design writes "Arbeidsmengde" on a card chip and
+   in the report's Faktor column, and "Arbeidsmengde og tidspress" everywhere else. That
+   is a display name, not a different factor, so `factor.<key>.short` joins the catalogue
+   for all eleven — ten of them the label repeated. Section 5 then diffs at 0.
+
+**Also in this segment:** Målinger was split into a screen and a page, like the other
+three, which is what made verifying it possible at all after a shared primitive changed.
+The split moved markup without editing it, and the numbers above are the proof.
+
 ---
 
 ## Reference-rendering harness
@@ -390,8 +465,11 @@ rasterisation does affect the pixel diff.
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
 - [ ] Auth leaked-password protection is disabled — a dashboard toggle.
-- [ ] S2 onward. Resultat and Rapport are built; Tiltak is the next dependency, since
-      five of the report's eight sections are waiting on its table (D-18).
+- [ ] S2 onward. Innsikt is still the S1-era stub; Måleoppsett, Samtaler, Årshjulet,
+      Oppsett, Hjelp and Integrasjoner are unbuilt.
+- [ ] Writing measures: the edit panel, "＋ Nytt tiltak" and "Flytt videre" (D-22).
+- [ ] Report sections 4, 6, 7 and 8 and the signature block still wait on a stored risk
+      assessment, effect and training records, and a reader over app.extra_answers.
 - [x] The published figures — 61, −3, 82 %, 77 % — verified against the live database.
       X-008. The invariant suite passes 21 of 21.
 - [ ] `ORGPULS_DEV_PASSWORD` unset — no route can be signed into, so `shoot.mjs` and the

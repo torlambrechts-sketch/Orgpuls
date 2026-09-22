@@ -8,6 +8,7 @@ import {
 } from '@/components/rapport/RapportScreen'
 import { getExtraQuestions, getFactors } from '@/lib/instrument/read'
 import { getOrganization } from '@/lib/org/read'
+import { getMeasures } from '@/lib/measures/read'
 import { getResultsByGroup, getResultsSummary } from '@/lib/results/read'
 import { getRoundFactorKeys, getRounds, type RoundListItem } from '@/lib/rounds/read'
 
@@ -41,11 +42,12 @@ export default async function RapportPage({
 }) {
   const params = await searchParams
 
-  const [org, rounds, instrument, extras] = await Promise.all([
+  const [org, rounds, instrument, extras, measures] = await Promise.all([
     getOrganization(),
     getRounds(),
     getFactors(),
     getExtraQuestions(),
+    getMeasures(),
   ])
 
   const audience: Audience = AUDIENCE_KEYS.includes(params.mottaker as Audience)
@@ -167,6 +169,23 @@ export default async function RapportPage({
       extraQuestions: extras.length,
     },
     highRiskCount: factors.filter((f) => f.band === 'hoy').length,
+    /*
+     * Section 5 lists the measures the year's own measurements raised — the join the
+     * table was built for. A measure whose round was deleted keeps its record but loses
+     * its year, so it is not claimed by any period rather than being attached to all.
+     */
+    measures: measures
+      .filter((m) => m.round?.year === year)
+      .map((m) => ({
+        id: m.id,
+        factorKey: m.factorKey,
+        title: m.title,
+        owner: m.owner?.name ?? null,
+        dueDate: m.dueDate,
+        completedOn: m.completedOn,
+        step: m.step,
+        late: m.late,
+      })),
   }
 
   return <RapportScreen view={view} />

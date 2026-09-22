@@ -24,7 +24,7 @@ const NAV: (Omit<NavLink, 'label'> & { messageKey: string })[] = [
   { href: '/innsikt', messageKey: 'innsikt' },
   { href: '/malinger', messageKey: 'malinger' },
   { messageKey: 'samtaler' },
-  { messageKey: 'tiltak' },
+  { href: '/tiltak', messageKey: 'tiltak' },
   { messageKey: 'oppsett' },
 ]
 

@@ -60,6 +60,7 @@
   "factor": {
     "ytring": {
       "label": "Ytringsklima",
+      "short": "Ytringsklima",
       "desc": "Om du tør å si fra — om feil, om uenighet, om det som ikke fungerer — og om det skjer noe når du gjør det. Det er ikke det samme som at alle er enige.",
       "s1": "Jeg kan si fra om kritikkverdige forhold uten å frykte konsekvenser",
       "s2": "Når noen melder fra om et problem, skjer det noe med det",
@@ -67,6 +68,7 @@
     },
     "mengde": {
       "label": "Arbeidsmengde og tidspress",
+      "short": "Arbeidsmengde",
       "desc": "Forholdet mellom det som skal gjøres og tiden, folkene og utstyret dere faktisk har. Vedvarende ubalanse er den vanligste årsaken til helseskadelig belastning.",
       "s1": "Arbeidsmengden min er til å håndtere over tid",
       "s2": "Jeg har nok tid til å gjøre jobben godt nok",
@@ -74,6 +76,7 @@
     },
     "motstrid": {
       "label": "Motstridende krav",
+      "short": "Motstridende krav",
       "desc": "Når to ledere, to systemer eller to hensyn ber om ting som ikke går sammen, og ingen sier hva som skal vike.",
       "s1": "Jeg får sjelden oppgaver uten å vite hva som skal prioriteres ned",
       "s2": "Kravene fra ulike hold henger sammen",
@@ -81,6 +84,7 @@
     },
     "kontakt": {
       "label": "Kontakt og kommunikasjon",
+      "short": "Kontakt og kommunikasjon",
       "desc": "Om arbeidet gir mulighet til kontakt med andre. Alenearbeid gir både sosial isolasjon og en sikkerhetsrisiko — du må kunne tilkalle hjelp.",
       "s1": "Jeg har mulighet til kontakt med kollegaer i løpet av arbeidsdagen",
       "s2": "Jeg kan tilkalle hjelp raskt hvis noe skjer mens jeg er alene",
@@ -88,6 +92,7 @@
     },
     "emosjon": {
       "label": "Emosjonelle krav",
+      "short": "Emosjonelle krav",
       "desc": "Belastningen ved å stå i krevende møter med mennesker — kunder, brukere, kolleger — eller ved å måtte skjule egne reaksjoner.",
       "s1": "Jeg blir sjelden stående alene i følelsesmessig krevende situasjoner",
       "s2": "Vi snakker om vanskelige hendelser etterpå",
@@ -95,6 +100,7 @@
     },
     "leder": {
       "label": "Støtte fra leder",
+      "short": "Støtte fra leder",
       "desc": "Om lederen er tilgjengelig når det brenner, og om støtten er praktisk og ikke bare velmenende.",
       "s1": "Jeg får støtte fra lederen min når jobben blir krevende",
       "s2": "Lederen min vet nok om hva jobben min faktisk innebærer",
@@ -102,6 +108,7 @@
     },
     "medvirk": {
       "label": "Medvirkning og kontroll",
+      "short": "Medvirkning og kontroll",
       "desc": "Innflytelse over egen arbeidsdag: rekkefølge, tempo, metode — og over endringer som treffer deg.",
       "s1": "Jeg har innflytelse over hvordan jeg utfører arbeidet",
       "s2": "Jeg blir hørt når noe skal endres",
@@ -109,6 +116,7 @@
     },
     "integritet": {
       "label": "Integritet og verdighet",
+      "short": "Integritet og verdighet",
       "desc": "Om folk møtes med respekt og likeverd, om grensene deres holdes, og om de får bruke eget faglig og etisk skjønn. Dette er også hjemmelen for vern mot trakassering.",
       "s1": "Jeg blir møtt med respekt uansett hvem jeg er",
       "s2": "Jeg får bruke faglig skjønn når jeg mener noe bør gjøres annerledes",
@@ -116,6 +124,7 @@
     },
     "rolle": {
       "label": "Rolleklarhet",
+      "short": "Rolleklarhet",
       "desc": "Om du vet hva som forventes, hvor ansvaret ditt slutter, og hva som teller som godt nok.",
       "s1": "Jeg vet hva som forventes av meg i jobben min",
       "s2": "Jeg vet hvor mitt ansvar slutter og andres begynner",
@@ -123,6 +132,7 @@
     },
     "kollega": {
       "label": "Støtte fra kollegaer",
+      "short": "Støtte fra kollegaer",
       "desc": "Om folk stiller opp for hverandre i praksis, ikke bare i festtaler.",
       "s1": "Kollegaene mine stiller opp når jeg trenger hjelp",
       "s2": "Vi deler kunnskap i stedet for å holde på den",
@@ -130,6 +140,7 @@
     },
     "mening": {
       "label": "Anerkjennelse og mening",
+      "short": "Anerkjennelse og mening",
       "desc": "Om arbeidet oppleves meningsfullt og om innsats blir sett av noen som betyr noe.",
       "s1": "Arbeidet jeg gjør betyr noe",
       "s2": "Innsatsen min blir lagt merke til",
@@ -381,6 +392,55 @@
     "ansatteAnonymity": "Ingen tall i denne rapporten kan spores tilbake til enkeltpersoner. Grupper med færre enn fem svar er ikke vist for seg selv. Skrev du en kommentar, ligger svaret fra lederen din i appen.",
     "footerLeft": "{org} · {orgnr} · psykososialt arbeidsmiljø {year}",
     "footerRight": "Utarbeidet i Orgpuls",
-    "noData": "Ingen måling i {year} har nok svar til å rapporteres."
+    "noData": "Ingen måling i {year} har nok svar til å rapporteres.",
+    "section5": "5. Tiltak",
+    "colTiltak": "Tiltak",
+    "colAnsvarlig": "Ansvarlig",
+    "colFrist": "Frist",
+    "colStatus": "Status",
+    "section5Empty": "Ingen tiltak er knyttet til målingene i denne perioden."
+  },
+  "tiltak": {
+    "title": "Tiltak",
+    "lead": "Hvert tiltak henger på en faktor og kan ikke lukkes før effekten er målt. Det er den dokumentasjonen Arbeidstilsynet ber om.",
+    "status": "Status",
+    "new": "＋ Nytt tiltak",
+    "statLate": "Over frist",
+    "statOpen": "Åpne tiltak",
+    "statEffect": "Venter effektmåling",
+    "filter": {
+      "apne": "Åpne",
+      "frist": "Over frist",
+      "effekt": "Venter effekt",
+      "lukket": "Lukket",
+      "alle": "Alle"
+    },
+    "filterCount": "{label} · {count}",
+    "measureLabel": "Måling",
+    "ownerLabel": "Tildelt",
+    "allRounds": "Alle målinger",
+    "allOwners": "Alle",
+    "fromRound": "· fra {round}",
+    "step": {
+      "foreslatt": "Foreslått",
+      "besluttet": "Besluttet",
+      "pagar": "Pågår",
+      "gjennomfort": "Gjennomført",
+      "effekt_malt": "Effekt målt",
+      "lukket": "Lukket"
+    },
+    "overdue": "Over frist",
+    "due": "Frist {date}",
+    "dueYesterday": "Frist gikk ut i går",
+    "dueUnset": "Frist ikke satt",
+    "completedOn": "Gjennomført {date}",
+    "closedOn": "Lukket {date}",
+    "ownerUnset": "Ikke satt",
+    "edit": "Rediger",
+    "advance": "Flytt videre",
+    "registerEffect": "Registrer effekt",
+    "closed": "Lukket",
+    "emptyTitle": "Ingen tiltak i denne visningen",
+    "emptyLead": "Bytt status eller måling for å se de andre."
   }
 }

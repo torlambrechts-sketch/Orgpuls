@@ -159,7 +159,7 @@ export async function ResultatScreen({ view }: { view: ResultatView }) {
                       : { maling: r.id },
                 }}
                 aria-current={on ? 'true' : undefined}
-                className={`inline-flex h-[34px] flex-none items-center rounded-pill border px-[14px] text-[12.5px] font-semibold leading-none no-underline hover:no-underline ${
+                className={`inline-flex h-[34px] flex-none items-center rounded-pill border px-[14px] text-[12.5px] font-semibold no-underline hover:no-underline ${
                   on
                     ? 'border-ink bg-ink text-bg hover:text-bg'
                     : 'border-line bg-transparent text-ink hover:text-ink'
@@ -479,7 +479,7 @@ function TeamChip({
     <Link
       href={href}
       aria-current={selected ? 'true' : undefined}
-      className={`inline-flex h-[32px] flex-none items-center rounded-pill border px-[13px] text-[12px] leading-none text-ink no-underline hover:text-ink hover:no-underline ${
+      className={`inline-flex h-[32px] flex-none items-center rounded-pill border px-[13px] text-[12px] text-ink no-underline hover:text-ink hover:no-underline ${
         selected ? 'border-ink bg-sbg font-bold' : 'border-line bg-transparent font-medium'
       }`}
     >

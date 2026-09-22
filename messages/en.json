@@ -60,6 +60,7 @@
   "factor": {
     "ytring": {
       "label": "Freedom to speak up",
+      "short": "Speaking up",
       "desc": "Whether you dare to speak up — about mistakes, about disagreement, about what is not working — and whether anything happens when you do. It is not the same as everyone agreeing.",
       "s1": "I can report censurable conditions without fearing consequences",
       "s2": "When someone reports a problem, something is done about it",
@@ -67,6 +68,7 @@
     },
     "mengde": {
       "label": "Workload and time pressure",
+      "short": "Workload",
       "desc": "The relationship between what has to be done and the time, people and equipment you actually have. Sustained imbalance is the most common cause of health-damaging strain.",
       "s1": "My workload is manageable over time",
       "s2": "I have enough time to do the job well enough",
@@ -74,6 +76,7 @@
     },
     "motstrid": {
       "label": "Conflicting demands",
+      "short": "Conflicting demands",
       "desc": "When two managers, two systems or two concerns ask for things that do not go together, and no one says what should give way.",
       "s1": "I rarely get tasks without knowing what should be deprioritised",
       "s2": "The demands from different quarters hang together",
@@ -81,6 +84,7 @@
     },
     "kontakt": {
       "label": "Contact and communication",
+      "short": "Contact and communication",
       "desc": "Whether the work allows contact with others. Working alone brings both social isolation and a safety risk — you must be able to call for help.",
       "s1": "I have the opportunity for contact with colleagues during the working day",
       "s2": "I can call for help quickly if something happens while I am alone",
@@ -88,6 +92,7 @@
     },
     "emosjon": {
       "label": "Emotional demands",
+      "short": "Emotional demands",
       "desc": "The strain of facing demanding encounters with people — customers, users, colleagues — or of having to conceal your own reactions.",
       "s1": "I am rarely left alone in emotionally demanding situations",
       "s2": "We talk about difficult incidents afterwards",
@@ -95,6 +100,7 @@
     },
     "leder": {
       "label": "Support from manager",
+      "short": "Support from managers",
       "desc": "Whether the manager is available when things get difficult, and whether the support is practical rather than merely well-meaning.",
       "s1": "I get support from my manager when the job becomes demanding",
       "s2": "My manager knows enough about what my job actually involves",
@@ -102,6 +108,7 @@
     },
     "medvirk": {
       "label": "Participation and control",
+      "short": "Influence and control",
       "desc": "Influence over your own working day: order, pace, method — and over changes that affect you.",
       "s1": "I have influence over how I carry out my work",
       "s2": "I am heard when something is to be changed",
@@ -109,6 +116,7 @@
     },
     "integritet": {
       "label": "Integrity and dignity",
+      "short": "Integrity and dignity",
       "desc": "Whether people are met with respect and equality, whether their boundaries are upheld, and whether they may exercise their own professional and ethical judgement. This is also the legal basis for protection against harassment.",
       "s1": "I am met with respect regardless of who I am",
       "s2": "I may use professional judgement when I think something should be done differently",
@@ -116,6 +124,7 @@
     },
     "rolle": {
       "label": "Role clarity",
+      "short": "Role clarity",
       "desc": "Whether you know what is expected, where your responsibility ends, and what counts as good enough.",
       "s1": "I know what is expected of me in my job",
       "s2": "I know where my responsibility ends and others begin",
@@ -123,6 +132,7 @@
     },
     "kollega": {
       "label": "Support from colleagues",
+      "short": "Support from colleagues",
       "desc": "Whether people actually turn up for one another in practice, not just in speeches.",
       "s1": "My colleagues turn up when I need help",
       "s2": "We share knowledge instead of holding on to it",
@@ -130,6 +140,7 @@
     },
     "mening": {
       "label": "Recognition and meaning",
+      "short": "Recognition and meaning",
       "desc": "Whether the work feels meaningful and whether effort is seen by someone who matters.",
       "s1": "The work I do matters",
       "s2": "My effort is noticed",
@@ -381,6 +392,55 @@
     "ansatteAnonymity": "No figure in this report can be traced back to an individual. Groups with fewer than five answers are not shown on their own. If you wrote a comment, your manager's reply is in the app.",
     "footerLeft": "{org} · {orgnr} · psychosocial working environment {year}",
     "footerRight": "Prepared in Orgpuls",
-    "noData": "No measurement in {year} has enough answers to be reported."
+    "noData": "No measurement in {year} has enough answers to be reported.",
+    "section5": "5. Measures",
+    "colTiltak": "Measure",
+    "colAnsvarlig": "Responsible",
+    "colFrist": "Deadline",
+    "colStatus": "Status",
+    "section5Empty": "No measure is linked to the measurements in this period."
+  },
+  "tiltak": {
+    "title": "Measures",
+    "lead": "Every measure hangs on a factor and cannot be closed before its effect has been measured. That is the documentation the Labour Inspection Authority asks for.",
+    "status": "Status",
+    "new": "＋ New measure",
+    "statLate": "Past deadline",
+    "statOpen": "Open measures",
+    "statEffect": "Awaiting effect",
+    "filter": {
+      "apne": "Open",
+      "frist": "Past deadline",
+      "effekt": "Awaiting effect",
+      "lukket": "Closed",
+      "alle": "All"
+    },
+    "filterCount": "{label} · {count}",
+    "measureLabel": "Measurement",
+    "ownerLabel": "Assigned",
+    "allRounds": "All measurements",
+    "allOwners": "All",
+    "fromRound": "· from {round}",
+    "step": {
+      "foreslatt": "Proposed",
+      "besluttet": "Decided",
+      "pagar": "Under way",
+      "gjennomfort": "Carried out",
+      "effekt_malt": "Effect measured",
+      "lukket": "Closed"
+    },
+    "overdue": "Past deadline",
+    "due": "Due {date}",
+    "dueYesterday": "The deadline passed yesterday",
+    "dueUnset": "No deadline set",
+    "completedOn": "Carried out {date}",
+    "closedOn": "Closed {date}",
+    "ownerUnset": "Not assigned",
+    "edit": "Edit",
+    "advance": "Move on",
+    "registerEffect": "Record the effect",
+    "closed": "Closed",
+    "emptyTitle": "No measures in this view",
+    "emptyLead": "Change the status or the measurement to see the others."
   }
 }

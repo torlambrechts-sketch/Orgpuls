@@ -18,6 +18,7 @@ import type {
  *   xs     h34 · pad 0 15 · r9  · 12.5px/700   in-card actions ("Les utkastet")
  *   act    h34 · pad 0 13 · r9  · 12px/600     table row action ("Vurder risiko", 828)
  *   xxs    h32 · pad 0 13 · r9  · 12.5px/600-700 screen-top actions ("← Målinger", 695)
+ *   tiny   h30 · pad 0 13 · r9  · 12px/700      panel-header action ("＋ Nytt tiltak", 1726)
  *
  * Tone:
  *   primary   #F5C64A on a #191510 hairline — the single strongest action on a screen
@@ -40,24 +41,28 @@ import type {
  * the order Tailwind happens to emit them in, not on the order they appear in the
  * className. An inline style is the only reliable override.
  */
-type Size = 'lg' | 'md' | 'panel' | 'sm' | 'xs' | 'act' | 'xxs'
+type Size = 'lg' | 'md' | 'panel' | 'sm' | 'xs' | 'act' | 'xxs' | 'tiny'
 type Tone = 'primary' | 'secondary' | 'quiet' | 'solid' | 'ghost'
 
 /**
- * `leading-none` is part of the size, not of the base, because it is not part of every
- * instance. The bundle sets no line-height on a button, so one inherits `normal`; the
- * five sizes below were transcribed and verified with it pinned to 1, and the two that
- * the Resultat screen adds were measured against the baseline without it. Changing
- * either way moves text by a pixel, which the gate sees.
+ * No line-height anywhere in this map, and that is the point.
+ *
+ * The bundle sets none on a button, so one inherits `normal`. An earlier version of this
+ * file pinned `leading-none` on the five transcribed sizes; it survived two screens
+ * because whether the difference shows depends on the fractional y a button happens to
+ * land on, and it failed on the third — the Tiltak card's actions sat exactly one pixel
+ * high, 661 pixels per card, measured row by row. A value that is invisible until the
+ * layout moves is not a value that was ever right.
  */
 const SIZE: Record<Size, string> = {
-  lg: 'h-[44px] px-[20px] rounded-cta text-[14.5px] leading-none',
-  md: 'h-[42px] px-[18px] rounded-btn text-[14px] leading-none',
-  panel: 'h-[40px] px-[17px] rounded-btn text-[13px] leading-none',
-  sm: 'h-[36px] px-[16px] rounded-ctl text-[12.5px] leading-none',
-  xs: 'h-[34px] px-[15px] rounded-bar text-[12.5px] leading-none',
+  lg: 'h-[44px] px-[20px] rounded-cta text-[14.5px]',
+  md: 'h-[42px] px-[18px] rounded-btn text-[14px]',
+  panel: 'h-[40px] px-[17px] rounded-btn text-[13px]',
+  sm: 'h-[36px] px-[16px] rounded-ctl text-[12.5px]',
+  xs: 'h-[34px] px-[15px] rounded-bar text-[12.5px]',
   act: 'h-[34px] px-[13px] rounded-bar text-[12px]',
   xxs: 'h-[32px] px-[13px] rounded-bar text-[12.5px]',
+  tiny: 'h-[30px] px-[13px] rounded-bar text-[12px]',
 }
 
 const TONE: Record<Tone, string> = {

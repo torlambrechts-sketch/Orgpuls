@@ -532,3 +532,69 @@ date is part of what makes the document evidence.
 
 **Consequence:** those two strings are excluded from the pixel claims. Everything else on
 the page is pinned and diffed.
+
+---
+
+## D-22 — Tiltak reads; it does not yet write
+
+**Design:** each card carries "Rediger", which opens a handlingsplan panel — title, goal,
+owner, deadline, factor, status, measure type, who is affected, and a delete — and
+"Flytt videre", which advances the measure one step. The status card carries
+"＋ Nytt tiltak".
+
+**Built:** the list, the three status tiles, the three filter rows, the six-step rail and
+the card, all from `app.measures`. Every control that writes renders as the design draws
+it and is disabled.
+
+**Constraint that forced it:** this segment built the table, its policies and its
+invariant suite, and the schema is the part the report was waiting for (D-18, section 5,
+now printing). A write path is its own piece of work and has its own questions: who may
+advance a measure (the policy says daglig leder and avdelingsleder, and that is a claim
+worth testing against how an organisation actually delegates), whether a step may go
+backwards, and what "Hvem berøres" is stored as — the design offers a set of groups, and
+no join table exists for it.
+
+**Why the controls stay rather than being removed:** the card's shape is what the pixel
+gate measures, and a screen that quietly drops two buttons is a screen that no longer
+matches the design it claims to. `disabled` says the same thing to a keyboard and a
+screen reader that the greyed control says to an eye.
+
+---
+
+## D-23 — Two chips the fixture cannot produce
+
+**Design:** the Måling row offers "Puls 2 · 2025", and the Tildelt row offers "Tildelt meg
+(Anne Rygg)".
+
+**Built:** neither.
+
+- **"Puls 2 · 2025"** is a round the fixture does not seed. It holds two grunnlinjer and
+  one open puls, and the design's seventh measure — which belongs to that pulse — is
+  attached to Grunnlinje 2025 so it hangs off a measurement that exists rather than a
+  dangling id. The chip list is built from the rounds that actually raised a measure, so
+  it has three entries where the design has four.
+- **"Tildelt meg"** needs to know which employee the signed-in user is, and nothing joins
+  them: `app.profiles` carries a name and a language, `app.memberships` a role, and
+  neither carries an employee id. Matching on name would be a guess that breaks on the
+  first namesake. It is the same missing link as D-19, in a second place.
+
+**Consequence for the pixel gate:** the two filter rows are shorter than the design's, so
+they are the whole of the residual in that band — 1 524 pixels, 0.065 % of the screen,
+inside budget but visibly the design's rows minus two chips.
+
+---
+
+## D-24 — A factor has a compact name as well as its own
+
+**Not a deviation — a note on where a string lives**, because it looks like duplication.
+
+The design names one factor two ways: "Arbeidsmengde og tidspress" in the instrument, the
+result table and section 3 of the report, and "Arbeidsmengde" on a Tiltak card's chip and
+in section 5's Faktor column. The short form is not a different factor; it is the same
+factor where the column is 150px wide.
+
+So `factor.<key>.short` joins `factor.<key>.label` in the catalogue, for all eleven. Ten
+of them are the label repeated, which is the point: the compact name is a property of the
+factor, so a renderer asks for it by name instead of truncating a string it does not
+understand. With it, section 5 of the report diffs at **0 pixels** and the Tiltak cards at
+39.

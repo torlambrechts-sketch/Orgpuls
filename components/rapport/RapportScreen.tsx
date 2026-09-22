@@ -4,6 +4,7 @@ import { ButtonLink } from '@/components/ui/Button'
 import { PrintButton } from '@/components/rapport/PrintButton'
 import { Sheet } from '@/components/rapport/Sheet'
 import { formatOrgNumber } from '@/lib/org/read'
+import { stepIndex, type MeasureStep } from '@/lib/measures/read'
 import type { Band } from '@/lib/results/read'
 
 /**
@@ -74,6 +75,20 @@ export interface RapportView {
   teamAnswers: number | null
   instrument: { factors: number; statementsPerFactor: number[]; extraQuestions: number }
   highRiskCount: number
+  /** section 5: the measures the year's measurements raised */
+  measures: ReportMeasure[]
+}
+
+/** A row of section 5. The status is the report's own wording, not the screen's. */
+export interface ReportMeasure {
+  id: string
+  factorKey: string
+  title: string
+  owner: string | null
+  dueDate: string | null
+  completedOn: string | null
+  step: MeasureStep
+  late: boolean
 }
 
 /** The risk pill in the document's table — fill only, the ink is the document's. */
@@ -164,6 +179,28 @@ export async function RapportScreen({ view }: { view: RapportView }) {
 
   const isFormal = view.audience === 'tilsyn' || view.audience === 'amu'
 
+  /**
+   * Section 5's date column, in the design's own words: the label says what the date is
+   * — a deadline, the day it was carried out, or the day it was closed — because the
+   * column holds all three and a bare date would not say which. Same rule as the Tiltak
+   * card, and the same relative phrasing for a deadline that lapsed yesterday.
+   */
+  const yesterday = (() => {
+    const d = new Date()
+    d.setUTCDate(d.getUTCDate() - 1)
+    return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' }).format(d)
+  })()
+  const measureDate = (m: ReportMeasure) => {
+    const i = stepIndex(m.step)
+    if (i >= stepIndex('lukket') && m.completedOn)
+      return t('tiltak.closedOn', { date: long(m.completedOn, false) ?? '' })
+    if (i >= stepIndex('gjennomfort') && m.completedOn)
+      return t('tiltak.completedOn', { date: long(m.completedOn, false) ?? '' })
+    if (!m.dueDate) return t('tiltak.dueUnset')
+    if (m.dueDate === yesterday) return t('tiltak.dueYesterday')
+    return t('tiltak.due', { date: long(m.dueDate, false) ?? '' })
+  }
+
   return (
     <main className="animate-entry">
       <div className="report-chrome mx-auto max-w-[1180px] px-[28px] pt-[26px]">
@@ -191,7 +228,7 @@ export async function RapportScreen({ view }: { view: RapportView }) {
                 key={a}
                 href={chipQuery({ mottaker: a })}
                 aria-current={on ? 'true' : undefined}
-                className={`inline-flex h-[36px] flex-none items-center rounded-pill border px-[16px] text-[12.5px] font-semibold leading-none no-underline hover:no-underline ${
+                className={`inline-flex h-[36px] flex-none items-center rounded-pill border px-[16px] text-[12.5px] font-semibold no-underline hover:no-underline ${
                   on
                     ? 'border-ink bg-ink text-bg hover:text-bg'
                     : 'border-line bg-transparent text-ink hover:text-ink'
@@ -518,6 +555,66 @@ export async function RapportScreen({ view }: { view: RapportView }) {
             </tbody>
           </table>
         ) : null}
+
+        <h2 className="mt-[30px] font-display text-[19px] font-semibold">
+          {t('rapport.section5')}
+        </h2>
+        {view.measures.length === 0 ? (
+          <p className="mt-[8px] text-[12.5px] leading-[1.65] text-body">
+            {t('rapport.section5Empty')}
+          </p>
+        ) : (
+          <table className="mt-[12px] w-full border-collapse text-[12px]">
+            <thead>
+              <tr>
+                {[
+                  t('rapport.colTiltak'),
+                  t('rapport.colFaktor'),
+                  t('rapport.colAnsvarlig'),
+                  t('rapport.colFrist'),
+                  t('rapport.colStatus'),
+                ].map((h, i) => (
+                  <th
+                    key={i}
+                    className="border-b-2 border-ink px-[6px] py-[8px] text-left text-[10.5px] uppercase tracking-[0.08em]"
+                  >
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {view.measures.map((m) => (
+                <tr key={m.id} className="[break-inside:avoid]">
+                  <td className="border-b border-line px-[6px] py-[7px] font-semibold">{m.title}</td>
+                  <td className="border-b border-line px-[6px] py-[7px] text-mut">
+                    {t(`factor.${m.factorKey}.short`)}
+                  </td>
+                  <td className="border-b border-line px-[6px] py-[7px]">
+                    {m.owner ?? t('tiltak.ownerUnset')}
+                  </td>
+                  <td className="border-b border-line px-[6px] py-[7px] text-mut">
+                    {measureDate(m)}
+                  </td>
+                  <td className="border-b border-line px-[6px] py-[7px] font-semibold">
+                    {/*
+                      The report's own status wording (bundle line 4331), which is coarser
+                      than the screen's six steps on purpose: a document says whether a
+                      measure is closed, waiting on its effect, late, or running.
+                    */}
+                    {stepIndex(m.step) >= stepIndex('lukket')
+                      ? t('tiltak.step.lukket')
+                      : stepIndex(m.step) >= stepIndex('gjennomfort')
+                        ? t('tiltak.statEffect')
+                        : m.late
+                          ? t('tiltak.overdue')
+                          : t('tiltak.step.pagar')}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </>
     )
   }
@@ -594,7 +691,7 @@ function FilterChip({
     <Link
       href={href}
       aria-current={selected ? 'true' : undefined}
-      className={`inline-flex h-[32px] flex-none items-center rounded-pill border leading-none text-ink no-underline hover:text-ink hover:no-underline ${
+      className={`inline-flex h-[32px] flex-none items-center rounded-pill border text-ink no-underline hover:text-ink hover:no-underline ${
         small ? 'px-[13px] text-[12px]' : 'px-[14px] text-[12.5px]'
       } ${selected ? 'border-ink bg-sbg font-bold' : 'border-line bg-transparent font-medium'}`}
     >
