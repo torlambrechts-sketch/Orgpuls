@@ -189,6 +189,75 @@ will also print the fixture's own per-group indices, which are not the design's 
 ones, so that block's numbers will differ from the baseline even though its geometry does
 not.
 
+### X-008 — The database, checked. Nothing has drifted.
+
+`SB_MCP_PAT` was supplied, so everything X-007 could not check was checked. The RPCs were
+called as the dev account (`request.jwt.claims` set transaction-locally to its uuid, which
+is what `app.is_org_member` reads), so these are the functions the screens call, not a
+re-derivation beside them.
+
+**The design's published figures, all exact:**
+
+| | expected | `results_summary` returned |
+| :-- | :-- | :-- |
+| Grunnlinje 2026 | index 61, n 28 | **61**, n 28, band middels |
+| Grunnlinje 2025 | index 64, n 24 | **64**, n 24 — so the delta is **−3** |
+| eleven factors 2026 | 41 44 52 57 58 64 66 69 71 76 78 | identical, in that order |
+| eleven factors 2025 | 48 53 58 57 59 69 63 70 73 75 74 | identical |
+| bands 2026 | 5 lav · 4 middels · 2 hoy | 5 · 4 · 2 |
+| `participation` 2026 | 28 av 34 · 82 % | 28/34, **82 %** |
+| `participation` 2025 | 24 av 31 · 77 % | 24/31, **77 %** |
+
+So Innsikt's "Arbeidsmiljøindeks 61 / −3 siden i fjor / 28 av 34 har svart" and Målinger's
+82 % and 77 % are all live in the database. No migration and no generator has drifted.
+
+**`respondent_invariants.sql`: 21 of 21 pass**, run through the MCP in the two statements
+the file documents, including the anon submit, the replay refusal, the expired token, the
+absence of a linkage column, the missing select policies and grants, immutability, and the
+cascade that puts the fixture back (assertion 21 returned 0 responses, so the open puls is
+untouched). `local_account.sql` was **not** run: the file says local and CI only, because
+it writes a known password hash into `auth.users`, and this is a hosted project.
+
+**Advisors:** four `rls_enabled_no_policy` (responses, answers, extra_answers,
+response_comments — D-04, intended), five `security_definer_function_executable` (the
+sanctioned readers and the two anon-callable respondent functions, with the grants 0005
+set deliberately), and the leaked-password toggle already on the open list. Nothing new.
+
+**What `results_by_group` actually returns for Grunnlinje 2026**, which is what the Team ×
+faktor grid will print:
+
+| group | n | ytring | mengde | motstrid | kontakt | emosjon | leder | medvirk | integritet | rolle | kollega | mening |
+| :-- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
+| Drift | 8 | 38 | 41 | 50 | 50 | 53 | 58 | 63 | 66 | 66 | 75 | 75 |
+| Prosjekt | 9 | 42 | 44 | 50 | 58 | 58 | 64 | 67 | 69 | 71 | 75 | 76 |
+| Verksted | 8 | 47 | 47 | 57 | 63 | 63 | 72 | 72 | 72 | 75 | 78 | 84 |
+| Administrasjon | 3 | — | — | — | — | — | — | — | — | — | — | — |
+
+Administrasjon comes back `insufficient_data` with `factors: null` — the k path, at 3
+against a threshold of 5. The other three are **not** the design's invented per-group
+spread (the bundle has Verksted lowest on ytringsklima at 28; the fixture has it highest
+at 47). That is the fixture's own arithmetic showing through: `answersFor()` splits each
+factor's two adjacent scale points across responses in id order, and responses are
+inserted group by group, so the split lands on group boundaries and the groups come out
+ordered rather than spread. The grid is therefore honest and monotone where the design's
+is dramatic. Changing it means giving the generator per-group targets as well as per-
+factor ones, which is a fixture change with its own evidence, not a side effect of
+building a screen.
+
+**Still blocked, and only this:** the pixel gate against the live routes. Every route is
+behind auth, `ORGPULS_DEV_PASSWORD` is still unset, and there is no way to obtain a
+session without it — the project's JWT secret is not reachable through the MCP, and
+minting one by writing a password into `auth.users` would overwrite the account's real
+credential while producing a secret that could not be handed over anyway (a secret this
+session may not print is a secret nobody can use). So it stays with the human: put the
+password in the **API credentials** box, then
+
+    npx next build && npx next start -p 3000 &
+    node scripts/verify/shoot.mjs /resultat /malinger
+
+and diff the four regions X-007 lists. The figures behind that render are now known-good,
+so what remains unverified is the live page's own rendering, not its arithmetic.
+
 ---
 
 ## Reference-rendering harness
@@ -203,11 +272,11 @@ rasterisation does affect the pixel diff.
 
 ## Open items
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
-- [ ] `SB_MCP_PAT` unset, so the project-scoped `supabase` MCP server fails
-      `AUTH_HEADER_REJECTED`; the claude.ai Supabase connector carried the database work.
+- [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
 - [ ] Auth leaked-password protection is disabled — a dashboard toggle.
 - [ ] S2 onward.
+- [x] The published figures — 61, −3, 82 %, 77 % — verified against the live database.
+      X-008. The invariant suite passes 21 of 21.
 - [ ] `ORGPULS_DEV_PASSWORD` unset — no route can be signed into, so `shoot.mjs` and the
-      pixel gate cannot be run against real data, and the design's published figures are
-      unverified in this session. See X-007.
+      pixel gate still cannot run against the live app. X-008 says what to do.
 - [ ] Re-run the pixel gate for `/malinger`: its two row actions became links (D-06).

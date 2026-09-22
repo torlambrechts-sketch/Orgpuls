@@ -97,6 +97,11 @@ Supabase's own security advisor and will keep being reported:
 
 > `Table app.answers has RLS enabled, but no policies exist`
 > `Table app.responses has RLS enabled, but no policies exist`
+> `Table app.extra_answers has RLS enabled, but no policies exist`
+> `Table app.response_comments has RLS enabled, but no policies exist`
+
+(Four tables as of 2026-09-22; `extra_answers` and `response_comments` arrived with
+migrations 0010 and 0012 and are covered by the same rule.)
 
 That is the invariant, not an oversight. Clients never read raw responses; every result
 read goes through a SECURITY DEFINER aggregate that applies k. RLS is enabled with no
@@ -409,6 +414,13 @@ samlet".
 own values, the block diffs at **8 pixels — 0.0002% of the screen**. The cell geometry,
 palette, radius and masked treatment are the design's; only the number of columns follows
 the round.
+
+**What it will actually print** is not the design's spread, and that is the fixture rather
+than the screen: `results_by_group` returns Drift 38 / Prosjekt 42 / Verksted 47 on
+ytringsklima where the bundle shows 49 / 46 / 28, because the generator splits each
+factor's two scale points across responses in id order and responses are inserted group by
+group. Administrasjon comes back `insufficient_data` at 3 of 5 and renders as dashes, which
+is the design's own treatment. Measured 2026-09-22 — see DECISION_LOG X-008.
 
 ---
 
