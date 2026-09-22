@@ -694,3 +694,49 @@ the lead region — the line wraps one word earlier — and the headline above i
 table for 0-12 per locale would restore it, at the cost of a message file that has to
 grow when an organisation runs thirteen measures.
 
+---
+
+## D-27 — Måleoppsett: three blocks that wait on a schedule, and one number nothing measures
+
+**Design:** bundle lines 1425-1710, baseline `11-plan-maleoppsett.png`. Six numbered
+sections and a sticky summary panel.
+
+**Built:** all six sections, reading and writing through migration 0017. Four things
+differ:
+
+**1. "Tid — ca. 5 minutter å svare" is not rendered.** Nothing measures how long a
+respondent takes. Any seconds-per-question constant that reproduces the design's figure
+would be a number chosen to match a screenshot, which is the fabrication rule's own case.
+Its absence is the whole of the summary panel's 10 041-pixel diff, together with:
+
+**2. "Neste: september 2027" is not rendered, and neither is "Planlegg grunnlinjen".**
+Both need the same missing thing — a schedule. When the next grunnlinje falls, and
+therefore what the CTA would create, is an årshjul entry; nothing stores one. The CTA is
+not rendered disabled either, because a button that cannot ever be pressed on this screen
+is not the design's state, it is a different one. Both arrive with Årshjulet.
+
+**3. Section 4's cadence is one chip, not a set.** `app.measurements` is keyed
+(org, kind, year), so a grunnlinje is one per year by construction and "Årlig" is a fact
+about the schema rather than a choice. The other cadences the design offers describe the
+pulse rhythm, which is the same årshjul table.
+
+**4. "Når skal pulsen stoppe" is absent.** It only appears for a pulse (`showStops`), and
+the stopping rule — after N rounds, when the factor recovers, never — has no column. The
+baseline shows a grunnlinje, so this does not appear in it either.
+
+**Pixel evidence.** Seven of the eight left-column regions diff at **0 pixels**: the back
+action, title and lead; section 1's three kind cards; section 2's factor chips and note;
+section 2's comment regime; section 3's departments and the k warning; section 4's
+cadence, reminder and closing chips; and section 5 in full. Section 6 diffs at 1 987 and
+passes. The summary panel fails at 10 041 — 0.23 % of the screen — for the omissions
+above; its box is identical (x 886..1280, width 395 in both) and the shortfall in height
+is exactly one 13px row plus one 12.5px line.
+
+**Two defects the gate found, both from reusing one component for two boxes.** The bundle
+gives the kind cards `14px 15px` at radius 13 and the comment cards `12px 14px` at radius
+12, with notes at 12px and 12.5px respectively; one component with one padding made card 1
+four pixels short and displaced every card below it. And the "＋ Legg til spørsmål" button
+is h38 / pad 16 / radius 11 at **13px**, which is not a size in the Button scale — forcing
+`md` through it left the type at 14px and pushed every suggestion chip out of place.
+Transcribed directly, section 5 went to 0.
+

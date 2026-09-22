@@ -343,11 +343,22 @@ insert into app.measurements (id, org_id, kind, year, label) values
   ('${MEAS[2026]}','${ORG}','grunnlinje',2026,'Grunnlinje 2026'),
   ('${PULS.meas}','${ORG}','puls',2026,'Puls 2026');
 
-insert into app.rounds (id, org_id, measurement_id, status, opens_at, closes_at, frozen_at) values
-  ('${ROUND[2025]}','${ORG}','${MEAS[2025]}','lukket','${DATES[2025].opens}','${DATES[2025].closes}','${DATES[2025].closes}'),
-  ('${ROUND[2026]}','${ORG}','${MEAS[2026]}','lukket','${DATES[2026].opens}','${DATES[2026].closes}','${DATES[2026].closes}'),
+insert into app.rounds (id, org_id, measurement_id, status, opens_at, closes_at, frozen_at,
+                        reminder_day, close_after_days, comment_policy, allow_dialogue) values
+  ('${ROUND[2025]}','${ORG}','${MEAS[2025]}','lukket','${DATES[2025].opens}','${DATES[2025].closes}','${DATES[2025].closes}',2,7,'lave',true),
+  ('${ROUND[2026]}','${ORG}','${MEAS[2026]}','lukket','${DATES[2026].opens}','${DATES[2026].closes}','${DATES[2026].closes}',2,7,'lave',true),
   ('${PULS.round}','${ORG}','${PULS.meas}','apen',
-   date_trunc('day', now()) - interval '2 days', date_trunc('day', now()) + interval '5 days', null);
+   date_trunc('day', now()) - interval '2 days', date_trunc('day', now()) + interval '5 days', null,2,7,'lave',true);
+
+/*
+ * § 9-2 and § 6-2, as the design's Måleoppsett states them: the verneombud was consulted
+ * on the setup, and need and design were drøftet on 3 February with a named tillitsvalgt.
+ * Only the grunnlinje carries them, because that is the round the design shows the setup
+ * for — the pulses inherit the ordning rather than being separately drøftet.
+ */
+insert into app.round_consultations (round_id, kind, confirmed, held_on, counterpart) values
+  ('${ROUND[2026]}','verneombud_raad',true,null,null),
+  ('${ROUND[2026]}','droftet_tillitsvalgte',true,date '2026-02-03','Kari Sund, tillitsvalgt Fellesforbundet');
 
 insert into app.round_factors (org_id, round_id, factor_key)
 select '${ORG}', r.id, f.key from app.rounds r cross join app.factors f

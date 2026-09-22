@@ -532,5 +532,130 @@
       "krever_tiltak": "Krever tiltak",
       "uforsvarlig_uten_tiltak": "Uforsvarlig uten tiltak"
     }
+  },
+  "maleoppsett": {
+    "back": "← Målinger",
+    "title": {
+      "grunnlinje": "Ny grunnlinje",
+      "puls": "Ny puls",
+      "oppfolging": "Ny oppfølging"
+    },
+    "lead": {
+      "grunnlinje": "Hele spørsmålssettet, én gang i året. Dette er målingen Arbeidstilsynet spør etter, og den som setter nullpunktet alt annet måles mot.",
+      "puls": "Noen få spørsmål mellom grunnlinjene, om det dere har satt tiltak på. Måler om tiltakene virker.",
+      "oppfolging": "Én faktor i dybden, når dere trenger å vite mer om noe bestemt."
+    },
+    "section1": "1 · Hva slags måling",
+    "section2": "2 · Hvilke spørsmål",
+    "section3": "3 · Hvem skal svare",
+    "section4": "4 · Rytme og oppfølging",
+    "section5": "5 · Egne spørsmål",
+    "section6": "6 · Forankring og drøfting",
+    "kind": {
+      "grunnlinje": {
+        "label": "Grunnlinje",
+        "note": "{count, plural, other {# spørsmål}} · årlig · dekker lovkravet"
+      },
+      "puls": {
+        "label": "Puls",
+        "note": "3–8 spørsmål · måler om tiltak virker"
+      },
+      "oppfolging": {
+        "label": "Oppfølging",
+        "note": "én faktor i dybden · ved behov"
+      }
+    },
+    "factorNote": "Grunnlinjen bruker alle elleve. Ordlyden er låst — det er den som gjør tallene sammenliknbare mot i fjor og mot bransjen.",
+    "seeAll": "Se alle {count} spørsmålene",
+    "commentHead": "Kommentarer",
+    "commentLead": "Tallene sier hvor det gjør vondt. Kommentarene sier hvorfor. Du bestemmer her hvor de kan skrives.",
+    "comment": {
+      "hvert": {
+        "label": "På hvert spørsmål",
+        "note": "Kommentarfelt under alle påstandene. Gir mest tekst, men også mest støy."
+      },
+      "lave": {
+        "label": "Bare ved lave svar",
+        "note": "Feltet dukker opp når noen svarer 1 eller 2. Treffer der det gjør vondt."
+      },
+      "slutt": {
+        "label": "Ett åpent felt til slutt",
+        "note": "Roligst for respondenten. Du mister koblingen til hvilken faktor det gjelder."
+      },
+      "av": {
+        "label": "Av",
+        "note": "Ingen fritekst. Da har dere bare tall å gå på."
+      }
+    },
+    "dialogue": "Tillat anonym toveis-samtale på kommentarer",
+    "dialogueOn": "Lederen kan svare på en kommentar uten å få vite hvem som skrev den, og den ansatte kan svare tilbake. Samtalen lever i Samtaler.",
+    "dialogueOff": "Kommentarer blir lest, men ikke besvart. Den som skrev får aldri vite om noen så den.",
+    "groupHead": "{count, plural, one {# ansatt} other {# ansatte}}",
+    "groupHeadAnswered": "{count, plural, one {# ansatt} other {# ansatte}} · {answered} svarte sist",
+    "groupWarnThin": "{group} fikk {answered} svar sist — under terskelen på {threshold}. Gruppa får spørsmålene, men vises bare som del av helheten, ikke som egen rad.",
+    "groupWarnNone": "Grupper med færre enn {threshold} svar vises bare som del av helheten, aldri som egen rad.",
+    "cadenceArlig": "Årlig",
+    "reminderHead": "Påminnelse",
+    "reminderNone": "Ingen",
+    "reminderDay": "Dag {day}",
+    "closeHead": "Lukkes etter",
+    "closeDays": "{days} dager",
+    "ownCount": "{count} av 5",
+    "ownNote": "Egne spørsmål lar dere spørre om noe som gjelder akkurat nå: en omorganisering, et nytt verktøy, et tiltak dere vil vite om traff.",
+    "ownFull": "Fem er taket. Hvert spørsmål utover det koster svarprosent, og de faste faktorene er det som gir dere sammenlikningen.",
+    "ownAdd": "＋ Legg til spørsmål",
+    "ownOr": "eller start fra et forslag:",
+    "ownRemove": "Fjern spørsmålet",
+    "ownPlaceholder": "Skriv spørsmålet …",
+    "suggest1": "Vet du hva som ble besluttet etter forrige måling?",
+    "suggest2": "Har du sett endringer på arbeidsplassen etter forrige måling?",
+    "suggest3": "Fungerer det nye planleggingsverktøyet for deg?",
+    "suggest4": "Hva bør vi slutte med?",
+    "consentLead": "En gjentakende måling med resultat per gruppe regnes som et kontrolltiltak. Da stiller aml. § 9-2 tre krav: drøfting på forhånd, informasjon til de berørte, og jevnlig evaluering av om ordningen fortsatt trengs.",
+    "vo": "Verneombudet tas med på råd i oppsettet",
+    "voLaw": "aml. § 6-2 fjerde ledd",
+    "voNote": "Verneombudet tas med på råd i oppsettet, ikke bare varslet om det, og ser resultatet samtidig som ledelsen. Aml. § 6-2 fjerde ledd.",
+    "tv": "Behov og utforming drøftet med tillitsvalgte",
+    "tvLaw": "aml. § 9-2 første ledd",
+    "tvNote": "Drøftet med",
+    "infoHead": "Dette får de ansatte vite før utsending",
+    "infoLaw": "aml. § 9-2 andre ledd — formål, praktiske konsekvenser og antatt varighet",
+    "infoPurposeKey": "Formålet",
+    "infoPurposeValue": "Kartlegge psykososialt arbeidsmiljø og dokumentere risikovurdering etter aml. § 3-1 bokstav c.",
+    "infoConsequenceKey": "Praktiske konsekvenser",
+    "infoConsequenceValue": "Svar er anonyme. Resultat vises per gruppe først ved {threshold} svar, aldri per person.",
+    "infoDurationKey": "Antatt varighet",
+    "infoDurationValue": "Årlig, løpende til ordningen endres eller avsluttes.",
+    "evalHead": "Evaluering av ordningen",
+    "evalLaw": "aml. § 9-2 tredje ledd — behovet skal vurderes jevnlig, sammen med tillitsvalgte",
+    "evaluation": {
+      "hver_6_mnd": "Hver 6. måned",
+      "arlig": "Årlig",
+      "etter_hver_runde": "Etter hver runde"
+    },
+    "summaryHead": "Slik blir målingen",
+    "summaryQuestions": "{count, plural, one {# spørsmål} other {# spørsmål}}",
+    "summaryPeople": "Mottakere",
+    "summaryPeopleValue": "{invited} av {total} ansatte",
+    "summaryFactors": "Faktorer",
+    "summaryAllFactors": "Alle {count} faktorer",
+    "summarySomeFactors": "{count, plural, one {# faktor} other {# faktorer}}",
+    "summaryCadence": "Rytme",
+    "summaryReminder": "Påminnelse dag {day}, lukkes etter {days} dager",
+    "summaryNoReminder": "Ingen påminnelse, lukkes etter {days} dager",
+    "summaryEval": {
+      "hver_6_mnd": "Evalueres hver 6. måned med tillitsvalgte",
+      "arlig": "Evalueres årlig med tillitsvalgte",
+      "etter_hver_runde": "Evalueres etter hver runde med tillitsvalgte"
+    },
+    "summaryLegal": "Dekker kartleggingsplikten i aml. § 3-1 c og § 4-3, jf. forskrift kap. 1A",
+    "saved": "Lagret",
+    "problem": {
+      "invalid": "Noe i oppsettet kunne ikke leses. Se over feltene og prøv igjen.",
+      "denied": "Du har ikke tilgang til å endre oppsettet. Daglig leder og avdelingsledere kan det.",
+      "gone": "Målingen finnes ikke lenger.",
+      "capped": "Fem egne spørsmål er taket."
+    },
+    "ownSave": "Lagre"
   }
 }

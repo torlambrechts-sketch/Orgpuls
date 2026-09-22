@@ -532,5 +532,130 @@
       "krever_tiltak": "Requires measures",
       "uforsvarlig_uten_tiltak": "Not defensible without measures"
     }
+  },
+  "maleoppsett": {
+    "back": "← Measurements",
+    "title": {
+      "grunnlinje": "New baseline",
+      "puls": "New pulse",
+      "oppfolging": "New follow-up"
+    },
+    "lead": {
+      "grunnlinje": "The whole question set, once a year. This is the measurement Arbeidstilsynet asks for, and the one that sets the zero point everything else is measured against.",
+      "puls": "A few questions between baselines, about what you have taken measures on. Measures whether the measures work.",
+      "oppfolging": "One factor in depth, when you need to know more about something specific."
+    },
+    "section1": "1 · What kind of measurement",
+    "section2": "2 · Which questions",
+    "section3": "3 · Who responds",
+    "section4": "4 · Cadence and follow-up",
+    "section5": "5 · Your own questions",
+    "section6": "6 · Consultation and discussion",
+    "kind": {
+      "grunnlinje": {
+        "label": "Baseline",
+        "note": "{count, plural, other {# questions}} · annual · meets the statutory duty"
+      },
+      "puls": {
+        "label": "Pulse",
+        "note": "3–8 questions · measures whether measures work"
+      },
+      "oppfolging": {
+        "label": "Follow-up",
+        "note": "one factor in depth · as needed"
+      }
+    },
+    "factorNote": "The baseline uses all eleven. The wording is fixed — it is what makes the figures comparable with last year and with the industry.",
+    "seeAll": "See all {count} questions",
+    "commentHead": "Comments",
+    "commentLead": "The figures say where it hurts. The comments say why. You decide here where they can be written.",
+    "comment": {
+      "hvert": {
+        "label": "On every question",
+        "note": "A comment field under every statement. Gathers the most text, and the most noise."
+      },
+      "lave": {
+        "label": "Only on low answers",
+        "note": "The field appears when somebody answers 1 or 2. Lands where it hurts."
+      },
+      "slutt": {
+        "label": "One open field at the end",
+        "note": "Calmest for the respondent. You lose the link to which factor it concerns."
+      },
+      "av": {
+        "label": "Off",
+        "note": "No free text. Then you have only figures to go on."
+      }
+    },
+    "dialogue": "Allow anonymous two-way conversation on comments",
+    "dialogueOn": "A leader can reply to a comment without learning who wrote it, and the employee can reply back. The conversation lives in Samtaler.",
+    "dialogueOff": "Comments are read but not answered. Whoever wrote one never learns whether anybody saw it.",
+    "groupHead": "{count, plural, one {# employee} other {# employees}}",
+    "groupHeadAnswered": "{count, plural, one {# employee} other {# employees}} · {answered} responded last time",
+    "groupWarnThin": "{group} got {answered} responses last time — below the threshold of {threshold}. The group receives the questions but appears only as part of the whole, not as its own row.",
+    "groupWarnNone": "Groups with fewer than {threshold} responses appear only as part of the whole, never as their own row.",
+    "cadenceArlig": "Annual",
+    "reminderHead": "Reminder",
+    "reminderNone": "None",
+    "reminderDay": "Day {day}",
+    "closeHead": "Closes after",
+    "closeDays": "{days} days",
+    "ownCount": "{count} of 5",
+    "ownNote": "Your own questions let you ask about something happening right now: a reorganisation, a new tool, a measure you want to know landed.",
+    "ownFull": "Five is the cap. Every question beyond it costs response rate, and the fixed factors are what give you the comparison.",
+    "ownAdd": "＋ Add question",
+    "ownOr": "or start from a suggestion:",
+    "ownRemove": "Remove the question",
+    "ownPlaceholder": "Write the question …",
+    "suggest1": "Do you know what was decided after the last measurement?",
+    "suggest2": "Have you seen changes at work since the last measurement?",
+    "suggest3": "Does the new planning tool work for you?",
+    "suggest4": "What should we stop doing?",
+    "consentLead": "A recurring measurement with per-group results counts as a control measure. Aml. § 9-2 then makes three demands: discussion beforehand, information to those affected, and regular evaluation of whether the arrangement is still needed.",
+    "vo": "The verneombud is consulted on the setup",
+    "voLaw": "aml. § 6-2 fourth paragraph",
+    "voNote": "The verneombud is consulted on the setup, not merely told about it, and sees the result at the same time as management. Aml. § 6-2 fourth paragraph.",
+    "tv": "Need and design discussed with the elected representatives",
+    "tvLaw": "aml. § 9-2 first paragraph",
+    "tvNote": "Discussed with",
+    "infoHead": "What employees are told before it goes out",
+    "infoLaw": "aml. § 9-2 second paragraph — purpose, practical consequences and expected duration",
+    "infoPurposeKey": "Purpose",
+    "infoPurposeValue": "To survey the psychosocial work environment and document a risk assessment under aml. § 3-1 letter c.",
+    "infoConsequenceKey": "Practical consequences",
+    "infoConsequenceValue": "Answers are anonymous. Results appear per group only at {threshold} responses, never per person.",
+    "infoDurationKey": "Expected duration",
+    "infoDurationValue": "Annual, ongoing until the arrangement is changed or ended.",
+    "evalHead": "Evaluation of the arrangement",
+    "evalLaw": "aml. § 9-2 third paragraph — the need must be assessed regularly, together with the elected representatives",
+    "evaluation": {
+      "hver_6_mnd": "Every 6 months",
+      "arlig": "Annually",
+      "etter_hver_runde": "After every round"
+    },
+    "summaryHead": "How the measurement will look",
+    "summaryQuestions": "{count, plural, one {# question} other {# questions}}",
+    "summaryPeople": "Recipients",
+    "summaryPeopleValue": "{invited} of {total} employees",
+    "summaryFactors": "Factors",
+    "summaryAllFactors": "All {count} factors",
+    "summarySomeFactors": "{count, plural, one {# factor} other {# factors}}",
+    "summaryCadence": "Cadence",
+    "summaryReminder": "Reminder on day {day}, closes after {days} days",
+    "summaryNoReminder": "No reminder, closes after {days} days",
+    "summaryEval": {
+      "hver_6_mnd": "Evaluated every 6 months with the elected representatives",
+      "arlig": "Evaluated annually with the elected representatives",
+      "etter_hver_runde": "Evaluated after every round with the elected representatives"
+    },
+    "summaryLegal": "Meets the survey duty in aml. § 3-1 c and § 4-3, cf. the regulation chapter 1A",
+    "saved": "Saved",
+    "problem": {
+      "invalid": "Something in the setup could not be read. Check the fields and try again.",
+      "denied": "You do not have access to change the setup. A daglig leder or an avdelingsleder does.",
+      "gone": "The measurement no longer exists.",
+      "capped": "Five of your own questions is the cap."
+    },
+    "ownSave": "Save"
   }
 }

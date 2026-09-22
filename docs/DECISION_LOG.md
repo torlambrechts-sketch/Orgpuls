@@ -772,12 +772,74 @@ index 61 against 64. Nothing drifted across 0015 and 0016.
 
 ---
 
+### X-017 — Måleoppsett, and the § 9-2 record that makes the product lawful
+
+Migration 0017 and the screen on top of it. The setup screen is where an organisation
+configures a measurement before it goes out, and almost every control on it was a control
+with nowhere to write: the prototype keeps all of it in `this.state`.
+
+**Section 6 is the one that matters.** A recurring measurement that reports results per
+department is a *kontrolltiltak* under § 9-2, and that paragraph attaches three duties —
+drøfting with the tillitsvalgte beforehand, information to those affected, and periodic
+evaluation of whether the arrangement is still needed. § 6-2 fjerde ledd separately
+requires the verneombud be consulted on its design. This product breaks results down by
+department by default, so § 9-2 is not optional for it. Stated on a screen those four
+things are a promise; `app.round_consultations` makes them documentation, with a date and
+a named counterpart rather than a tick.
+
+**Three schema choices worth stating.**
+
+- **The comment regime is a privacy decision with a default.** Where a respondent may
+  write free text trades detail against exposure — a field on every statement gathers the
+  most and re-identifies the most, since a person is recognisable by what they describe
+  (invariant 7). The column defaults to `lave`, a field that appears only under an answer
+  of 1 or 2, so whoever creates a round without thinking about it gets the design's own
+  answer rather than the most exposing one.
+- **Five own questions, enforced by a trigger.** The instrument's comparability is the
+  product's whole argument; an unbounded tail of local questions turns a standardised
+  measurement into a survey builder. The cap holds for this form, a future API and a
+  hand-written INSERT alike.
+- **An empty `round_groups` means everyone.** Not a row per department — the difference is
+  visible later, because a department added next month is included by the first reading
+  and excluded by the second. The screen ticks every box when there are no rows and writes
+  none when you tick them all back.
+
+**`supabase/tests/setup_invariants.sql`, 18 of 18** against the live schema.
+
+**One assertion passed for the wrong reason and was rewritten.** "A blank own question is
+refused" was asserted after the five-question cap had been filled, so what refused it was
+the cap, with the message "an organisation may have at most five of its own questions" —
+a test that would have kept passing if the blank check were dropped entirely. It now runs
+first, with an explicit precondition assertion that the organisation has none, and matches
+on the constraint that actually fires. Same family as the `updated_at > created_at`
+assertion in X-011: an assertion is worth only the specific thing it rules out.
+
+**Pixel evidence.** Seven of eight left-column regions at **0 pixels** — back action and
+title, section 1, section 2's chips, section 2's comment regime, section 3, section 4,
+section 5 — section 6 at 1 987 (PASS), and the summary panel failing at 10 041 for the
+omissions D-27 names. **Two defects the gate found**, both from one component standing in
+for two boxes the bundle draws differently: the kind cards are `14px 15px` at radius 13
+where the comment cards are `12px 14px` at radius 12, which left card 1 four pixels short
+and displaced everything below it; and the add-question button is 13px where the Button
+scale's nearest size is 14px, which pushed every suggestion chip out of place.
+
+**Behaviour verified in a browser, not inferred:** 16 radios and 18 checkboxes, five named
+radio groups, all real form controls carrying `3px solid #191510` at offset 2px; choosing
+a comment regime changes the checked value and the note under it; unticking a department
+narrows the invited set from four to three; "＋ Legg til spørsmål" opens the draft row. No
+console errors.
+
+---
+
 ## Open items
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
 - [ ] Auth leaked-password protection is disabled — a dashboard toggle.
 - [x] Innsikt rebuilt on the real schema. X-015.
-- [ ] Måleoppsett, Samtaler, Årshjulet, Oppsett, Hjelp and Integrasjoner are unbuilt.
+- [x] Måleoppsett built on migration 0017. X-017.
+- [ ] Samtaler, Årshjulet, Oppsett, Hjelp and Integrasjoner are unbuilt.
+- [ ] Activating a measurement: "Planlegg grunnlinjen", "Neste: september 2027" and the
+      pulse cadence all wait on the årshjul schedule (D-27).
 - [ ] Årshjulet's schedule: two of Innsikt's five year-rail points, and section 1's
       medvirkning dates, wait on it (D-25).
 - [x] Writing measures: the edit panel, "＋ Nytt tiltak" and "Flytt videre". X-014.
