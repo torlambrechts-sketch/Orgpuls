@@ -1174,5 +1174,279 @@
         "bht": "Occupational health services or other expert assistance"
       }
     }
+  },
+  "hjelp": {
+    "back": "← Back",
+    "title": "Help",
+    "lead": "Short articles about what people actually wonder about, and a way to a human when the articles are not enough.",
+    "articles": "Articles",
+    "hitCount": "{count, plural, one {# article} other {# articles}}",
+    "searchPlaceholder": "Search — threshold, response rate, anonymity …",
+    "searchLabel": "Search the articles",
+    "all": "All",
+    "emptyTitle": "No matches",
+    "emptyLead": "Try another word, or send us an e-mail — we are happy to write the article that was missing.",
+    "readMinutes": "{count} min",
+    "quickHead": "Get started quickly",
+    "quick": {
+      "oppsett": {
+        "title": "Get started in 60 minutes",
+        "note": "From an empty register to the first round."
+      },
+      "arshjulet": {
+        "title": "Set up the year wheel",
+        "note": "Fixed rounds and notification."
+      },
+      "rapport": {
+        "title": "See the documentation",
+        "note": "The report an inspection asks for."
+      }
+    },
+    "contactHead": "Talk to us",
+    "contactMailKey": "E-mail",
+    "contactMail": "hjelp@orgpuls.no",
+    "contactMailNote": "An answer within one working day. Attach a screenshot if something looks wrong.",
+    "contactMailCta": "Send an e-mail",
+    "contactOnlyNote": "Chat and telephone are in the design but are not set up in this installation. E-mail is the channel that exists.",
+    "articleBack": "← All articles",
+    "notFound": "This article does not exist.",
+    "category": {
+      "start": "Getting started",
+      "malinger": "Measurements",
+      "resultater": "Results",
+      "anonymitet": "Privacy",
+      "regelverk": "Regulation",
+      "oppsett": "Settings"
+    },
+    "article": {
+      "forsteTimen": {
+        "title": "The first 60 minutes",
+        "lead": "Add people, set the threshold, choose a measurement and send. The shortest route from an empty account to the first round.",
+        "body": {
+          "p1": "Start under Settings → People. Paste names, e-mail addresses and groups from the spreadsheet you already have. The order is name, e-mail, group, manager, and a header row is optional. People without a group are imported anyway and land in “No group” — they get the measurement, but their answers cannot be broken down by department.",
+          "p2": "Then check the groups and the threshold. Groups decide what you can break the result down by, and should follow where people actually work together. The threshold decides how many answers it takes before a group is shown on its own. Five is the floor and cannot be lowered.",
+          "p3": "Finally, set the measurement up under Measurement setup. That is where you confirm that the safety representative was consulted and the need discussed with the union representatives — not a checkbox, but the documentation § 9-2 requires. Only then can the round be planned.",
+          "p4": "One thing to know before you send: sending needs a mail integration that is not connected in this installation. The year wheel plans the rounds and queues the notices, but the queue stands until somebody connects sending."
+        }
+      },
+      "ansatteUtenHr": {
+        "title": "Adding people without an HR system",
+        "lead": "Paste from a spreadsheet, import a CSV, or type them in one at a time.",
+        "body": {
+          "p1": "Under Settings → People you choose between pasting from a spreadsheet and adding one person at a time. The spreadsheet route is faster above about ten people: select the columns in Excel and paste them. The columns are read as name, e-mail, group and manager, and the separator may be a tab, a semicolon or a comma.",
+          "p2": "Before you import you get a preview of the first four rows and a count of what is wrong — rows without a valid e-mail, and rows without a group. Neither stops the import. A person without an e-mail cannot be reminded, and a person without a group cannot be counted in a department's result, but both get the measurement.",
+          "p3": "E-mail is optional because not everybody uses one during the working day. For them a link or a QR code in the break room works just as well — the answer is stored the same way however the person reached the form.",
+          "p4": "The register is continuously compared with the number of employees you have stated. If it says the register is short, the people missing will not get the measurement, and the response rate is a fraction of a number that is wrong."
+        }
+      },
+      "velgTerskel": {
+        "title": "Choosing the right threshold for your size",
+        "lead": "Why five is the default, what happens to groups below it, and why the floor cannot be lowered.",
+        "body": {
+          "p1": "The threshold is how many answers a group must have before its result is shown for that group alone. Below it no figures are shown for the group — it is merged with other small groups, so that the whole still adds up.",
+          "p2": "Five is the default, and in Orgpuls five is also the floor. It is not a setting that can be lowered: the threshold is enforced by a function in the database that always counts at least five, whatever the configuration says. You can raise it to ten if you want to be stricter.",
+          "p3": "The reason is not the Working Environment Act but data protection law. In a group of three a result can in practice be traced back to individuals, and then it is no longer anonymous figures — it is personal data, with a full right of access and erasure.",
+          "p4": "The consequence is worth planning for: with many small departments you get few figures to steer by. Merging groups that actually work together is a better answer than lowering the threshold, which does not work anyway."
+        }
+      },
+      "grunnlinjeEllerPuls": {
+        "title": "Baseline or pulse — what is the difference",
+        "lead": "The baseline sets the zero point once a year. The pulse measures whether the measures worked. When you need both.",
+        "body": {
+          "p1": "A baseline is the whole instrument: eleven factors with three statements each, plus the questions outside the index. It takes a few minutes to answer and gives a complete picture. It is placed in the same month every year, so the figures are comparable over time.",
+          "p2": "A pulse is short. It asks only about the factors that have an open measure — the places where you have already decided to do something. That is the point: a pulse is not a new survey, it is an evaluation of effect.",
+          "p3": "Which factors a pulse asks about is set automatically from which measures are still running. Close a measure and the factor drops out of the next pulse unless something else pulls it in.",
+          "p4": "Most undertakings need both: one baseline a year for the documentation, and three pulses in between to see whether anything moved. That is what the year wheel's default rhythm does."
+        }
+      },
+      "settOppArshjulet": {
+        "title": "Setting up the year wheel",
+        "lead": "Fixed rounds, the notification order, and who hears about it when. Why quarterly beats monthly for most.",
+        "body": {
+          "p1": "The year wheel is a setup you do once. It decides the rhythm — the baseline only, baseline plus a quarterly pulse, or baseline plus a pulse every month — and which month the baseline falls in.",
+          "p2": "Once it is on, it plans the rounds itself. Every hour it looks for rounds that have become due: a planned round that has reached its opening day is opened, the invitations are queued, the reminder is queued on the day the round is configured with, and a round past its deadline is closed and frozen.",
+          "p3": "The notification order is not optional. Safety and union representatives are notified first, then the managing director, then the department managers, and last everybody. The reason is § 6-2 fourth paragraph: the safety representative must be involved before the survey starts, so a wheel that notified everybody at once would automate a breach. How far in advance the notices go is yours to change.",
+          "p4": "Quarterly beats monthly for most. Four measuring points a year is enough to see whether a measure worked, and rare enough that people still bother to answer."
+        }
+      },
+      "egneSporsmal": {
+        "title": "Adding your own questions",
+        "lead": "Five is the ceiling. Why they are reported separately, and why the index stays untouched.",
+        "body": {
+          "p1": "You can add up to five of your own questions to a measurement. The ceiling is enforced by the database rather than by the form — a sixth question is refused.",
+          "p2": "Your own questions are reported separately and never enter the index. That is not a limitation, it is the whole point: the index is built on a validated instrument with known properties, and a question you wrote yourself does not have those properties. Mixed in, it would make the number incomparable both with last year and with other undertakings.",
+          "p3": "Use them for what the instrument does not cover and that is specific to you — a reorganisation, a new shift system, a move. Avoid questions about health: § 9-3 prohibits an employer from collecting health data, and a well-meant “how are you really doing?” is closer to that line than it looks.",
+          "p4": "A question with empty text is refused, and so is one longer than 300 characters."
+        }
+      },
+      "svarprosent": {
+        "title": "Getting the response rate up",
+        "lead": "Tuesday at nine, one reminder, and what matters most: that people saw the last round lead to something.",
+        "body": {
+          "p1": "The timing matters more than people think. The year wheel puts the send on the first Tuesday of the month, at nine. Monday competes with the start of the week and Friday sits until after the weekend.",
+          "p2": "One reminder, not three. It goes to those who have not answered, and it is sent by the system — not by the manager. Nobody learns who is missing, and that matters more to the response rate than the reminder itself: people answer more honestly when they know nobody is keeping track of who answered.",
+          "p3": "If you have people without regular e-mail use during the working day, the channel is the single biggest factor. A link in the break room or an SMS moves the response rate more than any wording in the invitation.",
+          "p4": "What matters most is still the last round. Were the findings shared within two weeks, and did anything happen? If not, the response rate falls next time, and that is a rational reaction from people who spent five minutes on something that led nowhere."
+        }
+      },
+      "lesIndeksen": {
+        "title": "Reading the index correctly",
+        "lead": "What the number means, and why movement matters more than level.",
+        "body": {
+          "p1": "The index is an average of the factors, converted to a scale from 0 to 100. An answer of 1 becomes 0, an answer of 5 becomes 100. The number has no absolute meaning — there is no line at which a work environment becomes “good”.",
+          "p2": "Movement is more informative than level. Three points down on one factor while the rest stands still is a signal; that the index is 61 and not 68 is not, unless you know what it was last year.",
+          "p3": "Look at the factors before the total. The total can stand still while two factors move in opposite directions, and those two are the interesting ones.",
+          "p4": "Remember who the number is about. If you are a department manager, the number you see is your own team's, not the whole undertaking's — the screen says which of the two it is."
+        }
+      },
+      "strekIStedet": {
+        "title": "Why there is a dash instead of a number",
+        "lead": "The threshold applies. What you can do — and why you should not lower it to see the number.",
+        "body": {
+          "p1": "A dash means the group had fewer answers than the threshold. The number is not hidden from you in particular; it has not been calculated for anyone.",
+          "p2": "It is worth noting that the group is not left out of the whole either. The answers count towards the undertaking's figures — they are just not shown for that group alone.",
+          "p3": "What you can do is merge groups that actually work together, or get the response rate up in that group. What you cannot do is lower the threshold below five: the database always counts at least five whatever the configuration says.",
+          "p4": "The temptation is real, and worth resisting. A number for a group of three is not an anonymous number."
+        }
+      },
+      "funnTilTiltak": {
+        "title": "From findings to measures",
+        "lead": "Share the findings within two weeks, hold the meeting, choose three things. The order that decides whether anything happens.",
+        "body": {
+          "p1": "Share the findings within two weeks. It is the single thing that decides the response rate next time, and it is also what § 3-1 assumes: a survey that is not shared is not a system, it is a questionnaire.",
+          "p2": "Hold a meeting where the figures are interpreted by the people they are about. The safety representative should be there — not as a formality, but because the interpretation is often where the work is. Two departments with the same figures can have entirely different causes.",
+          "p3": "Choose three things. Not ten. A measure in Orgpuls has an owner, a deadline and a factor it hangs on, and runs through six steps from proposed to closed. A measure cannot be closed before its effect has been measured — the database refuses it.",
+          "p4": "The effect is measured by the next pulse, which asks about exactly the factors that have open measures. That is the loop § 3-1 c describes: survey, assess risk, act, follow up."
+        }
+      },
+      "hvaVilagrer": {
+        "title": "What we store, and what we do not",
+        "lead": "The answer is stored with no connection to a person. What that means in practice, for administrators too.",
+        "body": {
+          "p1": "About each person we store a name, an e-mail address and a group in the register. That is all.",
+          "p2": "The answer itself is stored in a table that has no column that could hold a link to a person. Not an empty one, not an optional one — none. The row holds which round the answer belongs to, which group the person is in, and which hour it was submitted, truncated to the hour.",
+          "p3": "That applies to administrators as well. There is no view, no export and no query that can answer what a named person answered, because the fact does not exist anywhere. The invitation link is looked up by a cryptographic digest at the moment it is used, and the comparison is not stored.",
+          "p4": "The practical consequence: an individual answer cannot be retrieved on request, and it cannot be deleted individually. GDPR article 11 covers exactly this case — data that can no longer be attributed to a person."
+        }
+      },
+      "svarPaKommentar": {
+        "title": "Answering an anonymous comment",
+        "lead": "A two-way conversation without either of you knowing who the other is. When a comment should leave the track.",
+        "body": {
+          "p1": "When somebody writes a comment on a statement, they are given a key in their browser. The database stores only a digest of the key, so nobody — not even somebody with database access — can work it out.",
+          "p2": "The person can come back with the key, read your answer and write again. You see a conversation with no sender: “Employee · anonymous”, and nothing else. That is not a fact the screen is hiding — it does not exist.",
+          "p3": "Comments from a group that did not reach the threshold are not shown at all. And the group never travels with a comment that is released: “somebody in the workshop wrote this” is a smaller haystack than the promise can carry.",
+          "p4": "An answer does not have to be a solution. “I have read this and will take it to the management meeting on Thursday” is enough for people to write again next time."
+        }
+      },
+      "gdpr": {
+        "title": "GDPR: legal basis and retention",
+        "lead": "Legal obligation, not consent. Why that is right, and what you need in place.",
+        "body": {
+          "p1": "The legal basis is legal obligation, GDPR article 6(1)(c), cf. the Working Environment Act §§ 3-1 and 4-3. Not consent.",
+          "p2": "That is not a technicality. Consent must be freely given, and an employee cannot consent freely to their employer — the power relationship is uneven. The survey is also a duty the undertaking has in any case, and a consent that cannot be withdrawn without the duty falling away is not a consent.",
+          "p3": "The questions are written to avoid health data, which § 9-3 prohibits an employer from collecting. The screening for offensive behaviour and violence is reported as counts only.",
+          "p4": "Three things must be in place before real answers are processed: a routine for deleting individual answers, a processing agreement with a list of sub-processors, and an entry in the record of processing activities. None of them is set up in this installation yet."
+        }
+      },
+      "hvaLovenKrever": {
+        "title": "What the Working Environment Act actually requires",
+        "lead": "§ 3-1 c, § 4-3 and chapter 1A of the regulation. What Orgpuls covers, and what you need elsewhere.",
+        "body": {
+          "p1": "§ 3-1 c requires the undertaking to survey hazards and problems, assess the risk, draw up plans and put measures in place. Orgpuls covers that letter for the psychosocial work environment, and documents all four steps.",
+          "p2": "§ 4-3 sets the requirements for the psychosocial work environment, including protection against offensive behaviour. Chapter 1A of the regulation, in force from 1 January 2026, names the factors: role clarity, conflicting demands, emotional demands, workload and support. The instrument measures all of them.",
+          "p3": "The index is not a legal requirement. No provision mentions a number. What is required is that you can document the four steps — and that is what the report produces.",
+          "p4": "This is what Orgpuls does not cover: goals for the work-environment effort, deviation handling, sick-leave follow-up and review of the system itself — letters a, e, f and h. Nor safety rounds, appraisals, training or occupational health services. The survey is one source, and the Labour Inspection Authority expects you to use several."
+        }
+      },
+      "kontrolltiltak": {
+        "title": "The measurement as a control measure",
+        "lead": "§§ 9-1 and 9-2: discussion with union representatives, information about duration, regular evaluation.",
+        "body": {
+          "p1": "A work-environment measurement is a control measure within the meaning of the Act. § 9-1 requires objective grounds in the undertaking's circumstances, and that the measure does not impose a disproportionate burden.",
+          "p2": "§ 9-2 sets three requirements you must be able to show: the need, the design and the implementation must be discussed with the union representatives before the measure is put into effect; employees must be informed of the purpose, the practical consequences and the expected duration; and the measure must be evaluated regularly.",
+          "p3": "Measurement setup stores this as part of the round rather than as a tick. The discussion is recorded with a date and who it was held with, and the safety representative's involvement under § 6-2 is recorded separately.",
+          "p4": "The evaluation has its own cadence on the measurement. It is the part most often forgotten, because it falls due long after everybody has moved on."
+        }
+      },
+      "rapportTilTilsynet": {
+        "title": "The report to the Labour Inspection Authority",
+        "lead": "What it contains, which period it covers, and what to attach.",
+        "body": {
+          "p1": "The report is built to be the documentation an inspection asks for, not a presentation. It follows the four steps of § 3-1 c in order: what was surveyed, what the risk assessment concluded, which measures were put in place, and what the follow-up showed.",
+          "p2": "It covers the period from the round opening to it closing, and uses the figures as they stood when the round was frozen. Figures that can change afterwards do not belong in documentation.",
+          "p3": "The threshold applies here too. Groups below it are not left out of the whole, but are not shown individually, and the report says why rather than letting it look like missing data.",
+          "p4": "Attach what Orgpuls does not have: minutes from the discussion with the union representatives, safety rounds in the period, and documentation of information and training."
+        }
+      },
+      "rollerOgTilgang": {
+        "title": "Roles and who sees what",
+        "lead": "Managing director, department manager, safety representative, union representative. Where the lines are, and why.",
+        "body": {
+          "p1": "The managing director sees the whole undertaking, every factor and every anonymous conversation, and can change the settings. Neither means seeing who answered what — that link does not exist for anyone.",
+          "p2": "A department manager sees their own department once the threshold is met, and the conversations from it. Other departments are not hidden, they are absent: a group out of reach is not shown at all, because “Workshop: hidden” would still say the workshop answered, and how many.",
+          "p3": "The safety representative sees the same figures and the same risk assessment as management, and is notified first when a round starts. They do not see individual comments — involvement under § 6-2 is about surveying and measures, not correspondence.",
+          "p4": "Union representative is a position in the register, not a login. It is recorded because § 9-2 requires the discussion to be documentable, and it grants no access in itself. The same holds for the role field in the register generally: it says who somebody is under the act, not what they may read."
+        }
+      },
+      "entra": {
+        "title": "Connecting Microsoft Entra ID",
+        "lead": "Which permissions we ask for, which groups sync, and what happens when somebody leaves.",
+        "body": {
+          "p1": "The Entra connection is not built in this installation. This article describes what it will require, so that you know what you would be taking on.",
+          "p2": "The permissions are read access to users and groups, and nothing else. No integration in Orgpuls writes back to the source system, and none of them gets access to the answers — they read who works here, not what anybody answered.",
+          "p3": "You choose which groups are synchronised. A group that is not selected does not exist for Orgpuls, and its members do not get the measurement.",
+          "p4": "When somebody leaves the directory, they are taken out of the register. The answers they have already given stay — they are not linked to the person, so there is nothing to remove. Until the connection exists, the register is maintained under Settings → People."
+        }
+      },
+      "sms": {
+        "title": "Sending by SMS",
+        "lead": "For people without regular e-mail during the working day. What it will require.",
+        "body": {
+          "p1": "SMS sending is not built in this installation. This article describes what it will require.",
+          "p2": "The main requirement is mobile numbers in the register. Settings → Integrations shows how many of the register have one today. Without a number a person cannot be reached by SMS, and falls back to e-mail or a link.",
+          "p3": "The message is short, with a sender name you choose and a personal link appended at the end. The link cannot be used twice, and it says nothing about who answered what.",
+          "p4": "SMS is the channel that moves the response rate most for sites, workshops and shift work. It is billed per message, so it is worth deciding whether it is used for every send or only for the reminders."
+        }
+      }
+    }
+  },
+  "integrasjoner": {
+    "back": "← Settings",
+    "title": "Integrations",
+    "lead": "Where the measurement is sent from, and what it takes to connect each channel. Every integration reads data — none writes back to the source system, and none gets access to the answers.",
+    "statusNone": "No channel is connected",
+    "queueNote": "{count, plural, one {# notice is queued and will not be sent.} other {# notices are queued and will not be sent.}} The year wheel plans the rounds and queues the notices, but with no channel connected the queue stands, and nobody is told there is a measurement.",
+    "needsHead": "What it takes",
+    "mobileLine": "{withPhone} of {total} have a mobile number",
+    "mobileNote": "The number lives in the people register and is read from there. Anyone without one cannot be reached by SMS and falls back to e-mail or a link.",
+    "privacyNote": "None of the channels above gets access to the answers. They read who works here, and they deliver a link — the connection between a person and an answer does not exist in the database, so there is nothing for an integration to leak.",
+    "step": {
+      "epost": {
+        "provider": "A mail provider with an API — sending happens from the server, not from a mailbox somebody signs into.",
+        "sender": "A verified sender address on your own domain, with SPF and DKIM set up. Without it the invitation lands in spam and the response rate goes with it.",
+        "link": "A job that drains the queue: take a row, ask the database for a fresh link for it, send, mark the row sent. The link is minted at the moment it is sent, and never stored."
+      },
+      "entra": {
+        "tenant": "The domain or tenant ID of your directory.",
+        "permissions": "Read access to users and groups, approved by an administrator. Nothing more — we never write back.",
+        "groups": "Which groups are synchronised. A group that is not selected does not exist for Orgpuls, and its members do not get the measurement.",
+        "sync": "How often the directory is read, and what happens to leavers: they are taken out of the register, while the answers they already gave stay — they are not linked to the person."
+      },
+      "teams": {
+        "entraFirst": "Entra ID first. The Teams notice uses the same directory, so without it we do not know who the message is for.",
+        "message": "A message template and an approved app in Teams. The content is the same as the e-mail: one sentence and a personal link."
+      },
+      "sms": {
+        "numbers": "Mobile numbers in the people register. No number, no SMS.",
+        "sender": "A sender name of up to eleven characters, registered with the operator, and a message body. The personal link is appended at the end.",
+        "when": "When SMS is used: for every send, only for reminders, or only for people without an e-mail address.",
+        "cost": "An agreement with an SMS provider. It is billed per message, so the volume is worth working out before you turn it on."
+      },
+      "hr": {
+        "vendor": "Which system you use — Tripletex, Visma or Huldt & Lillevik.",
+        "fields": "Which fields are read: job title, start date and department. Those three are what let new starters and seniority be used as a segment without an import."
+      }
+    }
   }
 }

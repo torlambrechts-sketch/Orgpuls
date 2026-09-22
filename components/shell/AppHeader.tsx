@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { Logo } from './Logo'
 import { AppNav, type NavItem as NavLink } from './AppNav'
@@ -23,9 +24,9 @@ export type Role = 'daglig_leder' | 'avdelingsleder' | 'verneombud'
 const NAV: (Omit<NavLink, 'label'> & { messageKey: string })[] = [
   { href: '/innsikt', messageKey: 'innsikt' },
   { href: '/malinger', messageKey: 'malinger' },
-  { messageKey: 'samtaler' },
+  { href: '/samtaler', messageKey: 'samtaler' },
   { href: '/tiltak', messageKey: 'tiltak' },
-  { messageKey: 'oppsett' },
+  { href: '/oppsett', messageKey: 'oppsett' },
 ]
 
 export async function AppHeader({
@@ -55,10 +56,11 @@ export async function AppHeader({
         />
 
         <span className="flex flex-none items-center gap-[8px]">
-          <button
-            type="button"
+          {/* the help control is navigation, so it is a link — D-06's substitution */}
+          <Link
+            href="/hjelp"
             aria-label={t('header.helpAria')}
-            className="flex h-[34px] cursor-pointer items-center gap-[7px] rounded-ctl border border-line bg-transparent px-[13px] text-[12.5px] font-semibold text-ink"
+            className="flex h-[34px] cursor-pointer items-center gap-[7px] rounded-ctl border border-line bg-transparent px-[13px] text-[12.5px] font-semibold text-ink no-underline hover:text-ink hover:no-underline"
           >
             <span
               aria-hidden="true"
@@ -67,7 +69,7 @@ export async function AppHeader({
               ?
             </span>
             {t('header.help')}
-          </button>
+          </Link>
 
           <button
             type="button"

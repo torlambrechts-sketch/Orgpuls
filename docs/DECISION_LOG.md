@@ -1061,6 +1061,55 @@ aria-label naming its person and its field; the threshold chips reachable and th
 ring on the control rather than the hidden input; no console errors or warnings on any of
 the seven tabs.
 
+### X-021 — Hjelp gets written, and Integrasjoner gets honest
+
+Two screens that look similar in the bundle and turned out to be opposites.
+
+**Hjelp was buildable, so it was built properly.** The design indexes nineteen articles and
+links every one of them to `href="#"` — the titles are real design content, the bodies do
+not exist in the bundle at all. Shipping an index of nineteen dead cards would have been a
+help centre that helps nobody, so the bodies are written: four paragraphs each, in the
+message catalogue like every other string, grounded in what this product actually does.
+Several of them say plainly where something is not built, because that is the most useful
+thing a help article about an unbuilt integration can say.
+
+The registry holds a key, a category and a reading time; the catalogue holds the prose.
+Adding an article is a row and a message key. `lawOnly` on three of them is read from
+`organizations.law_mode`, the column 0021 added and that assertion 6 of the settings suite
+proves nothing else consults.
+
+Three leads are rewritten because the design's are not true here — most sharply the
+threshold one, which advises against going below three when three is not a number this
+product will store. The other eight I had shortened are restored verbatim, which the pixel
+gate caught: the article list went from 11 632 differing pixels to 733.
+
+**Integrasjoner was not buildable, and the honest version is better than a mock.** The
+design is a four-step wizard: tenant ID, Entra group ticks, sync cadence, SMS sender name
+and body with a live character count and a phone mock-up, ending in "Koble til". Nothing
+behind any of it exists. A wizard whose fields discard what you type and whose button
+connects nothing is not an unfinished feature; it is the most elaborate false statement in
+the bundle, and somebody would fill it in and believe their people were about to be asked.
+
+The screen keeps the content and drops the controls: per channel, a numbered list of what
+connecting will require, in the order the wizard would have asked. Two figures on it are
+real — how many of the register carry a mobile number, drawn as the design's own progress
+bar, and how many notices the årshjul has queued that nothing sends. The second is the
+point of the screen, and it is stated as a number rather than as a feature notice.
+
+**The chrome caught up.** Samtaler and Oppsett were still non-links in the header because
+the routes did not exist when it was written; the Hjelp button was a `<button>` for the
+same reason. All three are links now, and so is every entry in the footer except the two
+documents that genuinely do not exist.
+
+**Pixel evidence.** Hjelp's title block at **0 pixels**, the articles head at 299, the
+three bands of the list at 733, 1 999 and 939, the quick row at 3 547, the contact column
+at 1 640 — every region passing. Integrasjoner has no baseline to diff against, because the
+bundle's version of that screen is a different screen.
+
+**Verified in a browser:** the article search narrows nineteen to three on "terskel", the
+category chips carry `aria-pressed`, the search input is labelled, and there are no console
+errors or warnings on either screen.
+
 ---
 
 ## Open items
@@ -1072,7 +1121,8 @@ the seven tabs.
 - [x] Samtaler built on migration 0018, k-gated. X-018.
 - [x] Årshjulet built on migrations 0019 and 0020, with a live pg_cron schedule. X-019.
 - [x] Oppsett built on migrations 0021 and 0022, seven tabs. X-020.
-- [ ] Hjelp and the standalone Integrasjoner screen are unbuilt.
+- [x] Hjelp built, with all nineteen articles written. Integrasjoner built as the
+      requirements it documents rather than the wizard it cannot be. X-021.
 - [ ] "Lag tiltak" and "Del med verneombud" on a conversation render disabled: both carry
       respondent free text out of the k-gated path and need their own decision (D-28).
 - [x] D-19 decided: the employee register stays readable by every member. D-30 records
@@ -1105,3 +1155,7 @@ the seven tabs.
       that does not exist: the tab prints the matrix and nothing grants a membership. X-020.
 - [ ] Automatic deletion of individual answers is not configured. The Personvern tab says
       so rather than repeating the design's "slettes automatisk etter 24 måneder" (D-33).
+- [ ] The design's Integrasjoner wizard is not built and will not be until a channel
+      exists to connect. `/integrasjoner` documents what each one needs instead (D-35).
+- [ ] Hjelp has no chat, no telephone and no status monitor. The design offers all three
+      (D-34).

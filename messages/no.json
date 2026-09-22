@@ -1174,5 +1174,279 @@
         "bht": "Bedriftshelsetjeneste eller annen sakkyndig bistand"
       }
     }
+  },
+  "hjelp": {
+    "back": "← Tilbake",
+    "title": "Hjelp",
+    "lead": "Korte artikler om det folk faktisk lurer på, og en vei til et menneske når artiklene ikke holder.",
+    "articles": "Artikler",
+    "hitCount": "{count, plural, one {# artikkel} other {# artikler}}",
+    "searchPlaceholder": "Søk — terskel, svarprosent, anonymitet …",
+    "searchLabel": "Søk i artiklene",
+    "all": "Alle",
+    "emptyTitle": "Ingen treff",
+    "emptyLead": "Prøv et annet ord, eller send oss en e-post — vi skriver gjerne artikkelen som manglet.",
+    "readMinutes": "{count} min",
+    "quickHead": "Kom raskt i gang",
+    "quick": {
+      "oppsett": {
+        "title": "Kom i gang på 60 minutter",
+        "note": "Fra tomt register til første runde."
+      },
+      "arshjulet": {
+        "title": "Sett opp årshjulet",
+        "note": "Faste runder og varsling."
+      },
+      "rapport": {
+        "title": "Se dokumentasjonen",
+        "note": "Rapporten et tilsyn ber om."
+      }
+    },
+    "contactHead": "Snakk med oss",
+    "contactMailKey": "E-post",
+    "contactMail": "hjelp@orgpuls.no",
+    "contactMailNote": "Svar innen én virkedag. Legg ved skjermbilde hvis noe ser feil ut.",
+    "contactMailCta": "Send e-post",
+    "contactOnlyNote": "Chat og telefon står i designet, men er ikke satt opp i denne installasjonen. E-post er kanalen som finnes.",
+    "articleBack": "← Alle artikler",
+    "notFound": "Denne artikkelen finnes ikke.",
+    "category": {
+      "start": "Kom i gang",
+      "malinger": "Målinger",
+      "resultater": "Resultater",
+      "anonymitet": "Anonymitet",
+      "regelverk": "Regelverk",
+      "oppsett": "Oppsett"
+    },
+    "article": {
+      "forsteTimen": {
+        "title": "De første 60 minuttene",
+        "lead": "Legg inn ansatte, sett terskel, velg måling og send. Den korteste veien fra tom konto til første utsending.",
+        "body": {
+          "p1": "Begynn under Oppsett → Ansatte. Lim inn navn, e-post og gruppe fra regnearket dere allerede har. Rekkefølgen er navn, e-post, gruppe, leder, og overskriftsrad er valgfri. Folk uten gruppe kommer inn likevel og havner i «Uten gruppe» — de får målingen, men resultatet deres kan ikke brytes ned på avdeling.",
+          "p2": "Sjekk så grupper og terskel. Gruppene avgjør hva dere kan bryte resultatet ned på, og bør følge hvor folk faktisk jobber sammen. Terskelen bestemmer hvor mange svar som må til før en gruppe vises for seg selv. Fem er gulvet og kan ikke senkes.",
+          "p3": "Til slutt: sett opp målingen under Måleoppsett. Der bekrefter dere at verneombudet er rådspurt og at behovet er drøftet med tillitsvalgte — det er ikke et skjemapunkt, det er dokumentasjonen § 9-2 krever. Deretter kan runden planlegges.",
+          "p4": "Én ting å vite før dere sender: utsending krever en e-postintegrasjon som ikke er koblet til i denne installasjonen ennå. Årshjulet planlegger rundene og legger varslene i kø, men køen blir stående til noen kobler til utsending."
+        }
+      },
+      "ansatteUtenHr": {
+        "title": "Slik legger du inn ansatte uten HR-system",
+        "lead": "Lim inn fra regneark, importer CSV, eller skriv inn én og én. Hva som skjer med dem som mangler gruppe.",
+        "body": {
+          "p1": "Under Oppsett → Ansatte velger dere mellom å lime inn fra regneark og å legge inn én person av gangen. Regnearkveien er raskest over rundt ti personer: marker kolonnene i Excel og lim dem inn. Kolonnene leses som navn, e-post, gruppe og leder, og skilletegnet kan være tabulator, semikolon eller komma.",
+          "p2": "Før dere importerer får dere en forhåndsvisning med de fire første radene og en telling av hva som er galt — rader uten gyldig e-post, og rader uten gruppe. Ingen av delene stopper importen. En person uten e-post kan ikke purres, og en person uten gruppe kan ikke telles med i en avdelings resultat, men begge får målingen.",
+          "p3": "E-post er valgfritt fordi ikke alle har fast e-postbruk i arbeidstiden. For dem er lenke eller QR-kode på pauserommet et fullgodt alternativ — svaret lagres likt uansett hvordan personen kom til skjemaet.",
+          "p4": "Registeret sammenlignes hele tiden med antall ansatte dere har oppgitt. Står det at registeret mangler folk, får de som mangler ikke målingen, og svarprosenten regnes av et tall som ikke stemmer."
+        }
+      },
+      "velgTerskel": {
+        "title": "Velg riktig terskel for deres størrelse",
+        "lead": "Hvorfor fem er standard, hva som skjer med grupper under, og hvorfor gulvet ikke kan senkes.",
+        "body": {
+          "p1": "Terskelen er hvor mange svar en gruppe må ha før resultatet vises for gruppen alene. Under terskelen vises ingen tall for den gruppen — den legges sammen med andre små grupper, slik at helheten fortsatt stemmer.",
+          "p2": "Fem er standard, og i Orgpuls er fem også gulvet. Det er ikke en innstilling som kan senkes: terskelen håndheves av en funksjon i databasen som alltid regner med minst fem, uansett hva som står i oppsettet. Dere kan heve den til opptil ti hvis dere vil være strengere.",
+          "p3": "Grunnen er ikke arbeidsmiljøloven, men personvernreglene. I en gruppe på tre kan et resultat i praksis tilbakeføres til enkeltpersoner, og da er det ikke lenger anonyme tall — det er personopplysninger, med full innsyns- og sletteplikt.",
+          "p4": "Konsekvensen er verdt å planlegge for: har dere mange små avdelinger, får dere få tall å styre etter. Da er det bedre å slå sammen grupper som faktisk jobber sammen enn å senke terskelen, som uansett ikke går."
+        }
+      },
+      "grunnlinjeEllerPuls": {
+        "title": "Grunnlinje eller puls — hva er forskjellen",
+        "lead": "Grunnlinjen setter nullpunktet én gang i året. Pulsen måler om tiltakene virket. Når dere trenger begge.",
+        "body": {
+          "p1": "En grunnlinje er hele instrumentet: elleve faktorer med tre påstander hver, pluss spørsmålene utenfor indeksen. Den tar noen minutter å svare på og gir et fullstendig bilde. Den legges i samme måned hvert år, slik at tallene er sammenlignbare over tid.",
+          "p2": "En puls er kort. Den måler bare faktorene som har et åpent tiltak — det vil si de stedene dere allerede har bestemt dere for å gjøre noe. Det er poenget: pulsen er ikke en ny kartlegging, den er en effektvurdering.",
+          "p3": "Hvilke faktorer en puls spør om settes automatisk av hvilke tiltak som fortsatt løper. Lukkes et tiltak, faller faktoren ut av neste puls med mindre noe annet trekker den inn.",
+          "p4": "De fleste virksomheter trenger begge: én grunnlinje i året for dokumentasjonen, og tre pulser imellom for å se om noe flytter seg. Det er det årshjulets standardrytme gjør."
+        }
+      },
+      "settOppArshjulet": {
+        "title": "Sett opp årshjulet",
+        "lead": "Faste runder, varslingsrekkefølge og hvem som får beskjed når. Hvorfor kvartalsvis slår månedlig for de fleste.",
+        "body": {
+          "p1": "Årshjulet er et oppsett dere gjør én gang. Det bestemmer rytmen — bare grunnlinjen, grunnlinje pluss kvartalspuls, eller grunnlinje pluss puls hver måned — og hvilken måned grunnlinjen legges i.",
+          "p2": "Når det er slått på, planlegger det rundene selv. Hver time ser det etter runder som er blitt aktuelle: en planlagt runde som har nådd åpningsdagen åpnes, invitasjonene legges i kø, påminnelsen legges i kø på den dagen runden er satt opp med, og en runde som har passert fristen lukkes og fryses.",
+          "p3": "Varslingsrekkefølgen er ikke valgfri. Verneombud og tillitsvalgte varsles først, deretter daglig leder, så avdelingslederne, og til slutt alle ansatte. Grunnen er § 6-2 fjerde ledd: verneombudet skal tas med før kartleggingen settes i gang, så et årshjul som varslet alle samtidig ville automatisert et brudd. Hvor lang tid før varslene går, kan dere endre.",
+          "p4": "Kvartalsvis slår månedlig for de fleste. Fire målepunkter i året er nok til å se om et tiltak virker, og sjeldent nok til at folk fortsatt gidder å svare."
+        }
+      },
+      "egneSporsmal": {
+        "title": "Legg til egne spørsmål",
+        "lead": "Fem er taket. Hvorfor de rapporteres for seg, og hvorfor indeksen ikke skal røres.",
+        "body": {
+          "p1": "Dere kan legge til inntil fem egne spørsmål i en måling. Taket håndheves av databasen, ikke av skjemaet — et sjette spørsmål avvises.",
+          "p2": "Egne spørsmål rapporteres for seg og går aldri inn i indeksen. Det er ikke en begrensning, det er hele poenget: indeksen er bygget på et validert instrument med kjente egenskaper, og et spørsmål dere har formulert selv har ikke de egenskapene. Blandet inn ville det gjort tallet usammenlignbart både med i fjor og med andre virksomheter.",
+          "p3": "Bruk dem til det instrumentet ikke dekker og som er spesifikt for dere — en omorganisering, et nytt skiftsystem, en flytting. Unngå spørsmål om helse: § 9-3 forbyr arbeidsgiver å innhente helseopplysninger, og et velmenende «hvordan har du det egentlig?» er nærmere den grensen enn det ser ut.",
+          "p4": "Et spørsmål med tom tekst avvises, og et spørsmål lengre enn 300 tegn likeså."
+        }
+      },
+      "svarprosent": {
+        "title": "Slik får dere svarprosenten opp",
+        "lead": "Tirsdag klokka ni, én påminnelse, og det som betyr mest: at folk så at forrige runde førte til noe.",
+        "body": {
+          "p1": "Tidspunktet betyr mer enn man tror. Årshjulet legger utsendingen til første tirsdag i måneden, klokka ni. Mandag konkurrerer med ukestarten og fredag blir liggende til over helgen.",
+          "p2": "Én påminnelse, ikke tre. Den går til dem som ikke har svart, og den sendes av systemet — ikke av lederen. Ingen får vite hvem som mangler, og det er viktigere for svarprosenten enn purringen selv: folk svarer ærligere når de vet at ingen holder oversikt over hvem som har svart.",
+          "p3": "Har dere folk uten fast e-postbruk i arbeidstiden, er kanalen den største enkeltfaktoren. En lenke på pauserommet eller en SMS flytter svarprosenten mer enn noen formulering i invitasjonen gjør.",
+          "p4": "Det som betyr mest er likevel forrige runde. Ble funnene delt innen to uker, og skjedde det noe? Hvis ikke, faller svarprosenten neste gang, og det er en rasjonell reaksjon fra folk som brukte fem minutter på noe som ikke førte til noe."
+        }
+      },
+      "lesIndeksen": {
+        "title": "Les indeksen riktig",
+        "lead": "Hva tallet betyr, hvorfor bevegelse er viktigere enn nivå.",
+        "body": {
+          "p1": "Indeksen er et gjennomsnitt av faktorene, regnet om til en skala fra 0 til 100. Et svar på 1 blir 0, et svar på 5 blir 100. Tallet har ingen absolutt betydning — det finnes ingen grense der et arbeidsmiljø blir «godt».",
+          "p2": "Bevegelse er mer informativ enn nivå. Tre poeng ned på én faktor mens resten står stille er et signal; at indeksen er 61 og ikke 68 er det ikke, med mindre dere vet hva den var i fjor.",
+          "p3": "Se på faktorene før dere ser på totalen. Totalen kan stå stille mens to faktorer beveger seg i hver sin retning, og det er de to som er interessante.",
+          "p4": "Husk hvem tallet gjelder. Er du avdelingsleder, er tallet du ser ditt eget teams, ikke hele virksomhetens — skjermen sier hvilket av delene det er."
+        }
+      },
+      "strekIStedet": {
+        "title": "Hvorfor står det en strek i stedet for et tall",
+        "lead": "Terskelen slår inn. Hva dere kan gjøre — og hvorfor dere ikke bør senke den for å se tallet.",
+        "body": {
+          "p1": "En strek betyr at gruppen hadde færre svar enn terskelen. Tallet er ikke skjult for deg spesielt; det er ikke regnet ut for noen.",
+          "p2": "Det er verdt å merke seg at gruppen heller ikke er utelatt fra helheten. Svarene teller med i virksomhetens tall — de vises bare ikke for den gruppen alene.",
+          "p3": "Det dere kan gjøre er å slå sammen grupper som faktisk jobber sammen, eller å få svarprosenten opp i den gruppen. Det dere ikke kan gjøre er å senke terskelen under fem: databasen regner alltid med minst fem uansett hva som står i oppsettet.",
+          "p4": "Fristelsen er reell, og den er verdt å motstå. Et tall for en gruppe på tre er ikke et anonymt tall."
+        }
+      },
+      "funnTilTiltak": {
+        "title": "Fra funn til tiltak",
+        "lead": "Del funnene innen to uker, hold dialogmøtet, velg tre ting. Rekkefølgen som avgjør om noe skjer.",
+        "body": {
+          "p1": "Del funnene innen to uker. Det er den enkeltstående tingen som avgjør svarprosenten neste gang, og det er også det § 3-1 forutsetter: kartlegging som ikke deles er ikke et system, det er en spørreundersøkelse.",
+          "p2": "Hold et møte der tallene tolkes av dem de gjelder. Verneombudet skal være med — ikke som en formalitet, men fordi tolkningen ofte er der arbeidet ligger. To avdelinger med samme tall kan ha helt forskjellige årsaker.",
+          "p3": "Velg tre ting. Ikke ti. Et tiltak i Orgpuls har en eier, en frist og en faktor det henger på, og går gjennom seks trinn fra foreslått til lukket. Et tiltak kan ikke lukkes før effekten er målt — databasen nekter det.",
+          "p4": "Effekten måles av neste puls, som spør om nettopp de faktorene som har åpne tiltak. Det er sløyfen § 3-1 bokstav c beskriver: kartlegge, vurdere risiko, iverksette, følge opp."
+        }
+      },
+      "hvaVilagrer": {
+        "title": "Hva vi lagrer, og hva vi ikke lagrer",
+        "lead": "Svaret lagres uten kobling til person. Hva det betyr i praksis, også for dere som er administratorer.",
+        "body": {
+          "p1": "Om den enkelte lagres navn, e-post og gruppe i ansattregisteret. Det er det.",
+          "p2": "Selve svaret lagres i en tabell som ikke har noen kolonne som kunne holdt en kobling til en person. Ikke en tom kolonne, ikke en valgfri én — ingen. Raden inneholder hvilken runde svaret hører til, hvilken gruppe personen er i, og hvilken time det ble levert, avrundet til nærmeste time.",
+          "p3": "Det gjelder også dere som er administratorer. Det finnes ingen visning, ingen eksport og ingen spørring som kan svare på hva en navngitt person har svart, fordi opplysningen ikke finnes noe sted. Invitasjonslenken slås opp på en kryptografisk sjekksum idet den brukes, og sammenligningen lagres ikke.",
+          "p4": "Praktisk konsekvens: et enkeltsvar kan ikke hentes ut på forespørsel, og det kan ikke slettes enkeltvis. GDPR artikkel 11 dekker akkurat dette tilfellet — opplysninger som ikke lenger kan knyttes til en person."
+        }
+      },
+      "svarPaKommentar": {
+        "title": "Svar på en anonym kommentar",
+        "lead": "Toveis samtale uten at noen av dere vet hvem den andre er. Når en kommentar bør ut av sporet.",
+        "body": {
+          "p1": "Når noen skriver en kommentar til en påstand, får de en nøkkel i nettleseren sin. Databasen lagrer bare en sjekksum av nøkkelen, så ingen — heller ikke den som har tilgang til databasen — kan regne seg fram til den.",
+          "p2": "Personen kan komme tilbake med nøkkelen og lese svaret ditt, og skrive videre. Du ser en samtale uten avsender: «Ansatt · anonym», og ingenting annet. Det er ikke en manglende opplysning som skjermen skjuler — den finnes ikke.",
+          "p3": "Kommentarer fra en gruppe som ikke nådde terskelen vises ikke i det hele tatt. Gruppen følger heller aldri med kommentaren som slippes gjennom: «noen i Verksted skrev dette» er en mindre høystakk enn løftet tåler.",
+          "p4": "Et svar trenger ikke være en løsning. «Jeg har lest dette, og tar det med til ledergruppa på torsdag» er nok til at folk skriver igjen neste gang."
+        }
+      },
+      "gdpr": {
+        "title": "GDPR: behandlingsgrunnlag og lagringstid",
+        "lead": "Rettslig forpliktelse, ikke samtykke. Hvorfor det er riktig, og hva dere må ha på plass.",
+        "body": {
+          "p1": "Behandlingsgrunnlaget er rettslig forpliktelse, GDPR artikkel 6 nr. 1 bokstav c, jf. arbeidsmiljøloven § 3-1 og § 4-3. Ikke samtykke.",
+          "p2": "Det er ikke en teknikalitet. Samtykke må være fritt gitt, og en ansatt kan ikke samtykke fritt til sin arbeidsgiver — maktforholdet er skjevt. Dessuten er kartleggingen en plikt virksomheten har uansett, og et samtykke som ikke kan trekkes tilbake uten at plikten faller bort er ikke et samtykke.",
+          "p3": "Spørsmålene er utformet for å unngå helseopplysninger, som § 9-3 forbyr arbeidsgiver å innhente. Screeningen for krenkende atferd og vold rapporteres bare som antall.",
+          "p4": "Tre ting må være på plass hos dere før reelle svar behandles: en rutine for sletting av enkeltsvar, en databehandleravtale med oversikt over underleverandører, og en oppføring i protokollen over behandlingsaktiviteter. Ingen av dem er satt opp i denne installasjonen ennå."
+        }
+      },
+      "hvaLovenKrever": {
+        "title": "Hva arbeidsmiljøloven faktisk krever",
+        "lead": "§ 3-1 bokstav c, § 4-3 og forskriftens kapittel 1A. Hva Orgpuls dekker, og hva dere må ha andre steder.",
+        "body": {
+          "p1": "§ 3-1 bokstav c krever at virksomheten kartlegger farer og problemer, vurderer risikoen, utarbeider planer og iverksetter tiltak. Orgpuls dekker den bokstaven for det psykososiale arbeidsmiljøet, og dokumenterer alle fire trinnene.",
+          "p2": "§ 4-3 setter kravene til det psykososiale arbeidsmiljøet, inkludert vern mot krenkende atferd. Forskriftens kapittel 1A, i kraft fra 1. januar 2026, navngir faktorene: rolleklarhet, motstridende krav, emosjonelle krav, arbeidsmengde og støtte. Instrumentet måler dem alle.",
+          "p3": "Indeksen er ikke et lovkrav. Ingen paragraf nevner et tall. Det som er et krav, er at dere kan dokumentere de fire trinnene — og det er dokumentasjonen rapporten produserer.",
+          "p4": "Dette dekker Orgpuls ikke: mål for arbeidsmiljøarbeidet, avvikshåndtering, sykefraværsoppfølging og gjennomgang av systemet selv — bokstavene a, e, f og h. Heller ikke vernerunder, medarbeidersamtaler, opplæring eller bedriftshelsetjeneste. Kartleggingen er én kilde, og Arbeidstilsynet forventer at dere bruker flere."
+        }
+      },
+      "kontrolltiltak": {
+        "title": "Målingen som kontrolltiltak",
+        "lead": "§ 9-1 og § 9-2: drøfting med tillitsvalgte, informasjon om varighet, jevnlig evaluering.",
+        "body": {
+          "p1": "En måling av arbeidsmiljøet er et kontrolltiltak i arbeidsmiljølovens forstand. § 9-1 krever saklig grunn i virksomhetens forhold, og at tiltaket ikke innebærer en uforholdsmessig belastning.",
+          "p2": "§ 9-2 stiller tre krav dere må kunne vise: behovet, utformingen og gjennomføringen skal drøftes med tillitsvalgte før tiltaket settes i verk; de ansatte skal informeres om formål, praktiske konsekvenser og antatt varighet; og tiltaket skal evalueres jevnlig.",
+          "p3": "Måleoppsett lagrer dette som en del av runden, ikke som en avkrysning. Drøftingen registreres med dato og hvem den ble holdt med, og verneombudets medvirkning etter § 6-2 registreres for seg.",
+          "p4": "Evalueringen har sin egen kadens på målingen. Det er den delen som oftest glemmes, fordi den forfaller lenge etter at alle har gått videre."
+        }
+      },
+      "rapportTilTilsynet": {
+        "title": "Rapport til Arbeidstilsynet",
+        "lead": "Hva den inneholder, hvilken periode den dekker, og hva dere bør legge ved.",
+        "body": {
+          "p1": "Rapporten er bygget for å være dokumentasjonen et tilsyn ber om, ikke en presentasjon. Den følger de fire trinnene i § 3-1 bokstav c i rekkefølge: hva som ble kartlagt, hva risikovurderingen kom til, hvilke tiltak som ble satt i verk, og hva oppfølgingen viste.",
+          "p2": "Den dekker perioden fra runden åpnet til den ble lukket, og bruker tallene slik de sto da runden ble fryst. Tall som kan endre seg i ettertid hører ikke hjemme i dokumentasjon.",
+          "p3": "Terskelen gjelder også her. Grupper under terskelen er ikke utelatt fra helheten, men vises ikke enkeltvis, og rapporten sier hvorfor i stedet for å la det se ut som manglende data.",
+          "p4": "Legg ved det Orgpuls ikke har: referat fra drøftingen med tillitsvalgte, vernerunder i perioden, og dokumentasjon på informasjon og opplæring."
+        }
+      },
+      "rollerOgTilgang": {
+        "title": "Roller og hvem som ser hva",
+        "lead": "Daglig leder, avdelingsleder, verneombud, tillitsvalgt. Hvor grensene går, og hvorfor.",
+        "body": {
+          "p1": "Daglig leder ser hele virksomheten, alle faktorer og alle anonyme samtaler, og kan endre oppsettet. Ingen av delene betyr å se hvem som har svart hva — den koblingen finnes ikke for noen.",
+          "p2": "Avdelingsleder ser sin egen avdeling når terskelen er nådd, og samtalene derfra. Andre avdelinger er ikke skjult, de er fraværende: en gruppe utenfor rekkevidde vises ikke i det hele tatt, fordi «Verksted: skjult» fortsatt ville fortalt at Verksted svarte, og hvor mange.",
+          "p3": "Verneombud ser de samme tallene og den samme risikovurderingen som ledelsen, og varsles først når en runde settes i gang. Verneombudet ser ikke enkeltkommentarer — medvirkningen etter § 6-2 handler om kartlegging og tiltak, ikke om korrespondanse.",
+          "p4": "Tillitsvalgt er et verv i ansattregisteret, ikke en pålogging. Det registreres fordi § 9-2 krever at drøftingen kan dokumenteres, og det gir ingen tilgang i seg selv. Det samme gjelder rollefeltet i registeret generelt: det sier hvem noen er etter loven, ikke hva de får lese."
+        }
+      },
+      "entra": {
+        "title": "Koble til Microsoft Entra ID",
+        "lead": "Hvilke tillatelser vi ber om, hvilke grupper som synkes, og hva som skjer når noen slutter.",
+        "body": {
+          "p1": "Entra-koblingen er ikke bygget i denne installasjonen. Denne artikkelen beskriver hva den vil kreve, slik at dere vet hva dere går til.",
+          "p2": "Tillatelsene er lesetilgang til brukere og grupper, og ingenting annet. Ingen integrasjon i Orgpuls skriver tilbake til kildesystemet, og ingen av dem får tilgang til svarene — de leser hvem som jobber her, ikke hva noen har svart.",
+          "p3": "Dere velger hvilke grupper som skal synkroniseres. En gruppe som ikke er valgt finnes ikke for Orgpuls, og medlemmene der får ikke målingen.",
+          "p4": "Når noen slutter i katalogen, tas de ut av registeret. Svarene de allerede har gitt blir liggende — de er ikke knyttet til personen, så det er ingenting å fjerne. Fram til koblingen finnes, vedlikeholdes registeret under Oppsett → Ansatte."
+        }
+      },
+      "sms": {
+        "title": "Send på SMS",
+        "lead": "For folk uten fast e-post i arbeidstiden. Hva det vil kreve.",
+        "body": {
+          "p1": "SMS-utsending er ikke bygget i denne installasjonen. Denne artikkelen beskriver hva den vil kreve.",
+          "p2": "Det viktigste kravet er mobilnumre i ansattregisteret. Oppsett → Integrasjoner viser hvor mange av registeret som har ett i dag. Uten nummer kan en person ikke nås på SMS, og faller tilbake til e-post eller lenke.",
+          "p3": "Meldingen er kort, med et avsendernavn dere velger og en personlig lenke som legges til til slutt. Lenken kan ikke brukes to ganger, og den sier ingenting om hvem som svarte hva.",
+          "p4": "SMS er den kanalen som flytter svarprosenten mest for anlegg, verksted og skift. Den faktureres per melding, så det er verdt å bestemme om den skal brukes til alle utsendinger eller bare til påminnelsene."
+        }
+      }
+    }
+  },
+  "integrasjoner": {
+    "back": "← Oppsett",
+    "title": "Integrasjoner",
+    "lead": "Hvor målingen skal sendes fra, og hva som må til for å koble hver kanal. Alle integrasjoner leser data — ingen av dem skriver tilbake til kildesystemet, og ingen av dem får tilgang til svarene.",
+    "statusNone": "Ingen kanal er koblet til",
+    "queueNote": "{count, plural, one {# varsel står i kø og blir ikke sendt.} other {# varsler står i kø og blir ikke sendt.}} Årshjulet planlegger rundene og legger varslene i kø, men uten en kanal koblet til blir køen stående, og ingen får beskjed om at det er en måling.",
+    "needsHead": "Dette må til",
+    "mobileLine": "{withPhone} av {total} har mobilnummer",
+    "mobileNote": "Nummeret ligger i ansattregisteret og hentes derfra. Den som ikke har ett, kan ikke nås på SMS og faller tilbake til e-post eller lenke.",
+    "privacyNote": "Ingen av kanalene over får tilgang til svarene. De leser hvem som jobber her, og de leverer en lenke — koblingen mellom en person og et svar finnes ikke i databasen, så det er ingenting å lekke gjennom en integrasjon.",
+    "step": {
+      "epost": {
+        "provider": "En e-postleverandør med et API — utsendingen skjer fra serveren, ikke fra en postkasse noen logger inn i.",
+        "sender": "En verifisert avsenderadresse på deres eget domene, med SPF og DKIM satt opp. Uten det havner invitasjonen i søppelpost, og svarprosenten forsvinner.",
+        "link": "En jobb som tømmer køen: henter en rad, ber databasen om en fersk lenke for den, sender, og merker raden som sendt. Lenken lages i det øyeblikket den sendes, og lagres aldri."
+      },
+      "entra": {
+        "tenant": "Domenet eller tenant-ID-en til katalogen deres.",
+        "permissions": "Lesetilgang til brukere og grupper, godkjent av en administrator. Ingenting mer — vi skriver aldri tilbake.",
+        "groups": "Hvilke grupper som skal synkroniseres. En gruppe som ikke er valgt finnes ikke for Orgpuls, og medlemmene der får ikke målingen.",
+        "sync": "Hvor ofte katalogen leses, og hva som skjer med dem som slutter: de tas ut av registeret, mens svarene de allerede har gitt blir liggende — de er ikke knyttet til personen."
+      },
+      "teams": {
+        "entraFirst": "Entra ID først. Teams-varselet bruker samme brukerkatalog, så uten den vet vi ikke hvem meldingen skal til.",
+        "message": "En meldingsmal og en godkjent app i Teams. Innholdet er det samme som i e-posten: én setning og en personlig lenke."
+      },
+      "sms": {
+        "numbers": "Mobilnumre i ansattregisteret. Uten nummer ingen SMS.",
+        "sender": "Et avsendernavn på inntil elleve tegn, registrert hos operatøren, og en meldingstekst. Den personlige lenken legges til til slutt.",
+        "when": "Når SMS skal brukes: til alle utsendinger, bare til påminnelsene, eller bare til dem som ikke har e-post.",
+        "cost": "En avtale med en SMS-leverandør. Det faktureres per melding, så volumet er verdt å regne på før dere slår det på."
+      },
+      "hr": {
+        "vendor": "Hvilket system dere bruker — Tripletex, Visma eller Huldt & Lillevik.",
+        "fields": "Hvilke felter som skal leses: stilling, startdato og avdeling. Det er de tre som gjør at nyansatte og ansiennitet kan brukes som segment uten import."
+      }
+    }
   }
 }

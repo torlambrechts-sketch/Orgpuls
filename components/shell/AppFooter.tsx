@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import type { Route } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { LogoMark } from './Logo'
 
@@ -13,13 +15,46 @@ import { LogoMark } from './Logo'
  * to keep: "ingen enkeltsvar kan spores tilbake til en person" is what migration 0003
  * implements by omitting the columns that would make tracing possible.
  */
-const COLUMNS: { head: string; links: string[] }[] = [
-  { head: 'produkt', links: ['innsikt', 'malinger', 'samtaler', 'tiltak'] },
-  { head: 'oppsett', links: ['selskap', 'ansatte', 'integrasjoner', 'arshjulet'] },
-  { head: 'hjelp', links: ['alleArtikler', 'komIGang', 'anonymitet', 'kontaktOss'] },
+/**
+ * Every entry now has a route, so every entry is a link.
+ *
+ * They were `<button>` elements while the screens did not exist — a focusable control
+ * that goes nowhere is at least honest about going nowhere, which a dead `<a>` is not.
+ * Now that the destinations are built they are real links, styled exactly as the bundle
+ * styles that class of control. D-06's substitution, in the direction it was always
+ * heading.
+ */
+const COLUMNS: { head: string; links: { key: string; href: Route }[] }[] = [
+  {
+    head: 'produkt',
+    links: [
+      { key: 'innsikt', href: '/innsikt' },
+      { key: 'malinger', href: '/malinger' },
+      { key: 'samtaler', href: '/samtaler' },
+      { key: 'tiltak', href: '/tiltak' },
+    ],
+  },
+  {
+    head: 'oppsett',
+    links: [
+      { key: 'selskap', href: '/oppsett?fane=selskap' as Route },
+      { key: 'ansatte', href: '/oppsett?fane=ansatte' as Route },
+      { key: 'integrasjoner', href: '/integrasjoner' },
+      { key: 'arshjulet', href: '/arshjulet' },
+    ],
+  },
+  {
+    head: 'hjelp',
+    links: [
+      { key: 'alleArtikler', href: '/hjelp' },
+      { key: 'komIGang', href: '/hjelp/forsteTimen' as Route },
+      { key: 'anonymitet', href: '/hjelp/hvaVilagrer' as Route },
+      { key: 'kontaktOss', href: '/hjelp' },
+    ],
+  },
 ]
 
-/** The Produkt column links to nav destinations; the others to footer-specific ones. */
+/** The Produkt column labels come from the nav's own keys; the others are footer-specific. */
 const NAV_LINKS = new Set(['innsikt', 'malinger', 'samtaler', 'tiltak'])
 
 export async function AppFooter() {
@@ -56,13 +91,13 @@ export async function AppFooter() {
               </span>
               <span className="mt-[11px] flex flex-col items-start gap-[8px]">
                 {col.links.map((link) => (
-                  <button
-                    key={link}
-                    type="button"
-                    className="cursor-pointer border-none bg-transparent p-0 text-left text-[12.5px] text-body"
+                  <Link
+                    key={link.key}
+                    href={link.href}
+                    className="cursor-pointer border-none bg-transparent p-0 text-left text-[12.5px] text-body no-underline hover:text-body hover:no-underline"
                   >
-                    {NAV_LINKS.has(link) ? t(`nav.${link}`) : t(`footer.${link}`)}
-                  </button>
+                    {NAV_LINKS.has(link.key) ? t(`nav.${link.key}`) : t(`footer.${link.key}`)}
+                  </Link>
                 ))}
               </span>
             </div>
@@ -72,14 +107,21 @@ export async function AppFooter() {
         <div className="mt-[26px] flex flex-wrap items-center justify-between gap-[16px] border-t border-line pt-[16px]">
           <span className="text-[11.5px] text-mut">{t('footer.legal')}</span>
           <span className="flex flex-wrap gap-[16px]">
-            {(['databehandleravtale', 'personvern', 'driftsstatus'] as const).map((k) => (
-              <button
-                key={k}
-                type="button"
-                className="cursor-pointer border-none bg-transparent p-0 text-[11.5px] text-mut"
-              >
+            {/*
+              Personvern is a tab that exists; the other two are documents this
+              installation does not have, so they stay non-links rather than becoming
+              links to a page that would have to apologise. D-34.
+            */}
+            <Link
+              href={'/oppsett?fane=personvern' as Route}
+              className="cursor-pointer p-0 text-[11.5px] text-mut no-underline hover:text-mut hover:no-underline"
+            >
+              {t('footer.personvern')}
+            </Link>
+            {(['databehandleravtale', 'driftsstatus'] as const).map((k) => (
+              <span key={k} className="text-[11.5px] text-mut">
                 {t(`footer.${k}`)}
-              </button>
+              </span>
             ))}
           </span>
         </div>

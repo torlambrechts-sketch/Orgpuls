@@ -1026,3 +1026,87 @@ and the displacement is printed rather than absorbed.
 prints "924 118 742"; the month chips came out of `Intl` lowercase where the design
 capitalises them; the location rows printed a bare number where the design writes "12
 ansatte"; and the add-location row had a fourth column that the design does not draw.
+
+---
+
+## D-34 — Hjelp: the articles are written, the service desk is not
+
+The nineteen articles the design indexes are now real: each has a body of four paragraphs
+in `/messages`, and `/hjelp/<key>` renders it. They are product copy, the same class of
+thing as every other string in the application, so they live in the catalogue and
+`lib/help/articles.ts` holds only what the index sorts and filters by. Adding one is a row
+and a message key, which is the shape CLAUDE.md sets for data.
+
+Three leads are rewritten, and each for the same reason — the design's version is not true
+of this build:
+
+- *"…hvorfor dere ikke bør gå lavere enn tre"* becomes *"hvorfor gulvet ikke kan senkes"*.
+  Three is not a choice a leader has: `app.k_min()` returns 5 and the column refuses less.
+  Advising against something impossible implies it is possible.
+- *"Hva tallet 61 betyr … hvordan dere sammenlikner mot bransjen"* loses both halves. 61 is
+  this fixture's index, not a fact about the index, and there is no benchmark dataset.
+- The SMS article's lead promises *"Avsendernavn, meldingstekst og hva det koster"*. None
+  of that is configurable, so the lead says what connecting will require instead.
+
+Everything else is the bundle's own wording, restored verbatim after the pixel gate caught
+eight leads I had shortened.
+
+**The right column is most of what is missing.** The design offers four things there and
+this build has one:
+
+| the design | why it is absent |
+| --- | --- |
+| Chat, *"Nederst til høyre i appen"* | There is no widget, in that corner or any other. |
+| Telefon, 22 00 00 00 | Not a number anybody answers. |
+| *"…setter vi dere i kontakt med en arbeidsmiljørådgiver"* | A service that is not sold here. |
+| *"Alle systemer virker som de skal · sist oppdatert i dag kl. 06.00"* | There is no monitor. An uptime claim with nothing behind it is the least trustworthy sentence a product can print, because it is the one a reader has no way to check. |
+
+What is left is the e-mail address, which is real, and one line saying why the other three
+are not there. It is a thinner column than the design's, and an honest one.
+
+**The third quick card goes elsewhere.** The design's "Se hva de ansatte ser" opens the
+respondent flow. That flow needs an invitation token — `/s/[token]` — and there is no such
+thing as a preview token: one either belongs to a person who has not answered, or it does
+not work. The card points at the report instead, which is a route that exists and a
+question a leader asking "where do I start" actually has.
+
+**The footer's links are links now.** They were `<button>` elements while the screens did
+not exist, which is at least honest about going nowhere. Databehandleravtale and
+Driftsstatus stay non-links, because those two documents still do not exist.
+
+**Pixel evidence.** The title block diffs at **0 pixels**; the articles card's head at 299,
+and the three bands of the article list at 733, 1 999 and 939 — all passing, all of it the
+three rewritten leads. The quick-card row passes at 3 547 on the third card's text. The
+contact column passes at 1 640 against the design's Chat card, which is as close as an
+absent card and a present one get.
+
+---
+
+## D-35 — Integrasjoner keeps the design's content and drops its wizard
+
+The design's Integrasjoner screen is a four-step connection wizard. It asks for a tenant
+ID, ticks which Entra groups to synchronise, picks a sync cadence, writes an SMS sender
+name and message body with a live character count and a phone mock-up, and ends in a
+"Koble til" button.
+
+**None of it is built.** There is no Entra client, no SMS gateway, and no mail provider
+either (D-29). A wizard whose every field discards what you type and whose final button
+connects nothing is not an unfinished feature — it is a false statement about the product,
+and four cards of it is the most elaborate false statement in the bundle. Somebody would
+fill it in and believe their people were about to be asked.
+
+So the screen keeps the content and drops the controls. For each of the five channels it
+prints what connecting will require, numbered in the order the wizard would ask for it:
+what a mail provider needs (an API, a verified sender with SPF and DKIM, and a job that
+drains the queue), what Entra asks for and what happens to leavers, why Teams needs Entra
+first, and what SMS costs. That is what a leader deciding whether to set this up actually
+needs to read, and it is the same information the wizard's labels carried.
+
+Two things on the screen are real and are therefore computed rather than described: how
+many of the register carry a mobile number, drawn as the design's progress bar, and how
+many notices the årshjul has queued that nothing has sent. The second is stated as a number
+in the design's warning tone, because *"34 varsler står i kø og blir ikke sendt"* lands
+faster than any sentence about a feature being unavailable.
+
+There is no route per channel. `/integrasjoner/[kanal]` would be four screens of the same
+refusal.
