@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0}
+*{box-sizing:border-box}
+a{color:#2F5D2A;text-decoration:none}
+a:hover{color:#1E3D1A;text-decoration:underline}
+input,select,button,textarea{font-family:inherit}
+::placeholder{color:#8A8272}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #191510;outline-offset:2px;border-radius:6px}
+@keyframes op-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#FCF6E9;color:#191510;font-family:'DM Sans',system-ui,sans-serif;font-size:14px">
+
+  <div style="position:sticky;top:0;z-index:40;background:#FCF6E9;border-bottom:1px solid #E8DFC9">
+    <div style="max-width:1120px;margin:0 auto;padding:13px 26px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <button onClick="{{ goSplash }}" style="cursor:pointer;display:flex;align-items:center;gap:10px;flex:none;border:none;background:transparent;padding:0;color:#191510">
+        <span style="width:33px;height:33px;border-radius:10px;border:1.5px solid #191510;background:#FFFDF6;display:flex;align-items:center;justify-content:center;flex:none">
+          <svg width="22" height="13" viewBox="0 0 20 12" fill="none" aria-hidden="true" style="display:block"><path d="M1 6.2h3.6l1.7-4.4 2.9 8.8 1.9-4.4h2.4" stroke="#191510" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="17" cy="6.2" r="1.9" fill="#191510"></circle></svg>
+        </span>
+        <span style="font-family:'Playfair Display',serif;font-weight:600;font-size:21px;letter-spacing:-.01em">Orgpuls</span>
+      </button>
+      <span style="flex:1"></span>
+      <span style="display:flex;align-items:center;gap:9px;flex:none;flex-wrap:wrap">
+        <button onClick="{{ goLogin }}" style="cursor:pointer;height:38px;padding:0 15px;border-radius:10px;border:1px solid transparent;background:transparent;font-size:14px;font-weight:600;color:#191510">Logg inn</button>
+        <button onClick="{{ goSignup }}" style="cursor:pointer;height:38px;padding:0 17px;border-radius:10px;border:1px solid #191510;background:#F5C64A;font-size:14px;font-weight:700">Kom i gang</button>
+      </span>
+    </div>
+  </div>
+
+  <sc-if value="{{ isSplash }}" hint-placeholder-val="{{ true }}">
+  <div style="animation:op-in .3s ease">
+
+    <div style="max-width:1120px;margin:0 auto;padding:54px 26px 0">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:36px;align-items:center">
+        <div style="min-width:0">
+          <span style="display:inline-flex;align-items:center;gap:8px;padding:6px 13px;border-radius:999px;background:#FBEBBE;font-size:12px;font-weight:700">
+            <span style="width:7px;height:7px;border-radius:999px;background:#2F5D2A;display:block"></span>
+            Arbeidsmiljø og medarbeiderundersøkelser
+          </span>
+          <h1 style="font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(34px,5.4vw,52px);line-height:1.06;margin:19px 0 0;max-width:17ch;text-wrap:balance">Fra måling én gang i året til oppfølging hele året</h1>
+          <p style="font-size:16.5px;line-height:1.65;color:#3A342A;margin:17px 0 0;max-width:52ch;text-wrap:pretty">Orgpuls viser hva som gir folk energi og hva som tapper den, og gjør funnene om til tiltak med eier og frist. Neste måling viser om de virket. Kravene i arbeidsmiljøloven dekkes underveis.</p>
+
+          <div style="display:flex;gap:10px;margin-top:26px;flex-wrap:wrap">
+            <button onClick="{{ goSignup }}" style="cursor:pointer;height:50px;padding:0 24px;border-radius:13px;border:1px solid #191510;background:#F5C64A;font-size:16px;font-weight:700">Kom i gang gratis</button>
+            <button onClick="{{ scrollHow }}" style="cursor:pointer;height:50px;padding:0 22px;border-radius:13px;border:1px solid #191510;background:transparent;font-size:16px;font-weight:600">Se hvordan det virker</button>
+          </div>
+
+          <div style="display:flex;gap:7px;margin-top:17px;flex-wrap:wrap">
+            <sc-for list="{{ trust }}" as="t" hint-placeholder-count="3">
+              <span style="display:flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;background:#FFFDF6;border:1px solid #E8DFC9;font-size:12.5px;font-weight:500">
+                <span style="width:15px;height:15px;border-radius:5px;background:#CFE7E4;color:#20431C;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex:none">✓</span>
+                {{ t.label }}
+              </span>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="min-width:0">
+          <div style="border-radius:22px;border:1px solid #E8DFC9;background:#FFFDF6;overflow:hidden;box-shadow:0 18px 40px -28px rgba(25,21,16,.35)">
+            <div style="display:flex;align-items:center;gap:8px;padding:11px 18px;border-bottom:1px solid #E8DFC9">
+              <span style="width:9px;height:9px;border-radius:999px;background:#E8DFC9;display:block"></span>
+              <span style="width:9px;height:9px;border-radius:999px;background:#E8DFC9;display:block"></span>
+              <span style="width:9px;height:9px;border-radius:999px;background:#E8DFC9;display:block"></span>
+              <span style="font-size:11.5px;color:#5F5849;margin-left:6px">Innsikt · Nordvik Anlegg AS</span>
+            </div>
+            <div style="padding:22px 24px 24px">
+              <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#5F5849">Arbeidsmiljøindeks</span>
+              <span style="display:flex;align-items:flex-end;gap:14px;margin-top:8px;flex-wrap:wrap">
+                <span style="font-family:'Playfair Display',serif;font-weight:600;font-size:56px;line-height:.85">61</span>
+                <span style="padding-bottom:8px">
+                  <span style="display:block;font-size:13.5px;font-weight:700;color:#A33A16">−3 siden i fjor</span>
+                  <span style="display:block;font-size:12px;color:#5F5849;margin-top:2px">Grunnlinje 2025: 64</span>
+                </span>
+              </span>
+              <span style="display:flex;gap:3px;margin-top:18px;height:26px;border-radius:8px;overflow:hidden">
+                <span style="flex:4;background:#CFE7E4;display:block"></span>
+                <span style="flex:5;background:#F5DC96;display:block"></span>
+                <span style="flex:2;background:#F0B9A0;display:block"></span>
+              </span>
+              <span style="display:flex;justify-content:space-between;gap:10px;margin-top:7px;font-size:11px;color:#5F5849">
+                <span>4 forsvarlig</span><span>5 følges opp</span><span>2 høy risiko</span>
+              </span>
+
+              <span style="display:block;margin-top:20px;padding-top:18px;border-top:1px solid #E8DFC9;font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#5F5849">Gjør disse tre</span>
+              <span style="display:flex;flex-direction:column;gap:7px;margin-top:11px">
+                <sc-for list="{{ peek }}" as="p" hint-placeholder-count="3">
+                  <span style="display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:11px;background:#FCF6E9;border:1px solid #E8DFC9">
+                    <span style="flex:none;width:23px;height:23px;border-radius:999px;background:#191510;color:#FCF6E9;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700">{{ p.n }}</span>
+                    <span style="flex:1;min-width:0;font-size:13px;font-weight:600">{{ p.t }}</span>
+                    <span style="flex:none;font-size:13px;font-weight:700;color:#2F5D2A">{{ p.lift }}</span>
+                  </span>
+                </sc-for>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="max-width:1120px;margin:0 auto;padding:54px 26px 0">
+      <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+        <span style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Hvorfor det betyr noe</span>
+      </div>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(26px,3.6vw,34px);line-height:1.14;margin:9px 0 0;max-width:26ch;text-wrap:balance">Kontinuerlig oppfølging skaper resultater på sikt</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:13px;margin-top:22px">
+        <sc-for list="{{ pains }}" as="p" hint-placeholder-count="3">
+          <div style="padding:22px 23px;border-radius:17px;border:1px solid #E8DFC9;background:#FFFDF6">
+            <span style="display:block;font-size:15.5px;font-weight:700;line-height:1.35;text-wrap:pretty">{{ p.t }}</span>
+            <span style="display:block;font-size:13.5px;line-height:1.6;color:#5F5849;margin-top:8px;text-wrap:pretty">{{ p.b }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div id="how" style="max-width:1120px;margin:0 auto;padding:54px 26px 0">
+      <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Slik virker det</span>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(26px,3.6vw,34px);line-height:1.14;margin:9px 0 0;max-width:24ch;text-wrap:balance">Én runde i året er en rapport. Fire er en vane</h2>
+      <p style="font-size:15px;line-height:1.65;color:#5F5849;margin:11px 0 0;max-width:60ch;text-wrap:pretty">Årshjulet sender ut, minner på og varsler verneombudet uten at noen må huske det. Tiden deres går til samtalene og tiltakene, den delen som krever et menneske.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:13px;margin-top:24px">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
+          <div style="padding:22px 23px;border-radius:17px;border:1px solid {{ s.bd }};background:{{ s.bg }};display:flex;flex-direction:column;gap:10px">
+            <span style="display:flex;align-items:center;gap:10px">
+              <span style="width:29px;height:29px;border-radius:999px;background:#191510;color:#FCF6E9;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex:none">{{ s.n }}</span>
+              <span style="font-size:16px;font-weight:700">{{ s.t }}</span>
+            </span>
+            <span style="font-size:13.5px;line-height:1.6;color:#3A342A;text-wrap:pretty">{{ s.b }}</span>
+            <span style="margin-top:auto;padding-top:10px;font-size:12px;font-weight:700;color:#5F5849">{{ s.time }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="max-width:1120px;margin:0 auto;padding:54px 26px 0">
+      <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Det som er annerledes</span>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(26px,3.6vw,34px);line-height:1.14;margin:9px 0 0;max-width:22ch;text-wrap:balance">Tre valg som gjør at arbeidet fortsetter</h2>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:22px">
+        <sc-for list="{{ diffs }}" as="d" hint-placeholder-count="3">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(262px,1fr));gap:20px;padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;align-items:start">
+            <span style="min-width:0">
+              <span style="display:block;font-family:'Playfair Display',serif;font-weight:600;font-size:22px;line-height:1.2;text-wrap:balance">{{ d.t }}</span>
+              <span style="display:block;font-size:12.5px;font-weight:700;color:#5F5849;margin-top:7px">{{ d.tag }}</span>
+            </span>
+            <span style="min-width:0;font-size:14px;line-height:1.65;text-wrap:pretty">{{ d.b }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="max-width:1120px;margin:0 auto;padding:54px 26px 0">
+      <div style="padding:clamp(24px,3.4vw,34px);border-radius:20px;border:1px solid #E8DFC9;background:#FFFDF6">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:26px;align-items:start">
+          <div style="min-width:0">
+            <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Og lovkravet?</span>
+            <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(24px,3.2vw,30px);line-height:1.15;margin:9px 0 0;max-width:20ch;text-wrap:balance">Det ordner seg mens dere jobber</h2>
+            <p style="font-size:14.5px;line-height:1.65;color:#3A342A;margin:12px 0 0;max-width:50ch;text-wrap:pretty">Arbeidsmiljøloven krever at dere kartlegger, vurderer risikoen, setter tiltak og følger opp om de virket. Det er den samme runden dere går uansett. Dokumentasjonen blir dermed et biprodukt av arbeidet, ikke et eget prosjekt.</p>
+            <p style="font-size:13px;line-height:1.6;color:#5F5849;margin:11px 0 0;max-width:50ch;text-wrap:pretty">Vil dere ikke ha paragrafene framme i grensesnittet, kan de skrus av. Rapportene ligger der likevel, den dagen noen spør.</p>
+          </div>
+          <div style="min-width:0;display:flex;flex-direction:column;gap:9px">
+            <sc-for list="{{ legal }}" as="l" hint-placeholder-count="4">
+              <span style="display:grid;grid-template-columns:90px minmax(0,1fr);gap:13px;align-items:baseline;padding:13px 15px;border-radius:12px;background:#FCF6E9;border:1px solid #E8DFC9">
+                <span style="font-size:12px;font-weight:700">{{ l.ref }}</span>
+                <span style="font-size:13px;line-height:1.5;text-wrap:pretty">{{ l.what }}</span>
+              </span>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="max-width:1120px;margin:0 auto;padding:54px 26px 0">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:13px">
+        <sc-for list="{{ quotes }}" as="q" hint-placeholder-count="3">
+          <div style="padding:24px 25px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;display:flex;flex-direction:column;gap:9px">
+            <span style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#5F5849;font-weight:700">{{ q.who }}</span>
+            <span style="font-family:'Playfair Display',serif;font-weight:600;font-size:19px;line-height:1.25;text-wrap:balance">{{ q.t }}</span>
+            <span style="font-size:13px;line-height:1.6;color:#3A342A;text-wrap:pretty">{{ q.org }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="max-width:1120px;margin:0 auto;padding:54px 26px 0">
+      <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Pris</span>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(26px,3.6vw,34px);line-height:1.14;margin:9px 0 0;max-width:24ch;text-wrap:balance">Én pris, alt inkludert</h2>
+      <p style="font-size:15px;line-height:1.65;color:#5F5849;margin:11px 0 0;max-width:58ch;text-wrap:pretty">Ingen tillegg for rapporter, integrasjoner eller antall målinger. Månedlig avtale uten bindingstid.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:13px;margin-top:22px;align-items:start">
+        <sc-for list="{{ plans }}" as="p" hint-placeholder-count="3">
+          <div style="padding:26px;border-radius:19px;border:{{ p.bd }};background:{{ p.bg }};display:flex;flex-direction:column;gap:13px">
+            <span style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+              <span style="font-size:16.5px;font-weight:700">{{ p.name }}</span>
+              <sc-if value="{{ p.hasTag }}" hint-placeholder-val="{{ false }}">
+                <span style="padding:4px 11px;border-radius:999px;background:#F5C64A;font-size:11px;font-weight:700">{{ p.tag }}</span>
+              </sc-if>
+            </span>
+            <span style="display:block;font-size:12.5px;color:#5F5849">{{ p.who }}</span>
+            <span style="display:flex;align-items:baseline;gap:7px;flex-wrap:wrap">
+              <span style="font-family:'Playfair Display',serif;font-weight:600;font-size:38px;line-height:1">{{ p.price }}</span>
+              <span style="font-size:13px;color:#5F5849">{{ p.unit }}</span>
+            </span>
+            <span style="display:flex;flex-direction:column;gap:7px;margin-top:4px">
+              <sc-for list="{{ p.items }}" as="i" hint-placeholder-count="4">
+                <span style="display:flex;align-items:flex-start;gap:9px">
+                  <span style="flex:none;width:16px;height:16px;border-radius:5px;background:#CFE7E4;color:#20431C;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;margin-top:2px">✓</span>
+                  <span style="font-size:13px;line-height:1.5;text-wrap:pretty">{{ i.t }}</span>
+                </span>
+              </sc-for>
+            </span>
+            <button onClick="{{ p.go }}" style="cursor:pointer;margin-top:8px;height:44px;border-radius:12px;border:1px solid #191510;background:{{ p.btnBg }};color:#191510;font-size:14.5px;font-weight:700">{{ p.cta }}</button>
+          </div>
+        </sc-for>
+      </div>
+      <p style="font-size:12.5px;color:#5F5849;margin:13px 0 0">Alle priser er uten merverdiavgift. Verneombud og tillitsvalgte har tilgang uten at det koster ekstra.</p>
+    </div>
+
+    <div style="max-width:1120px;margin:0 auto;padding:54px 26px 0">
+      <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Spørsmål vi får ofte</span>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-top:18px">
+        <sc-for list="{{ faq }}" as="f" hint-placeholder-count="5">
+          <div style="border-radius:15px;border:1px solid #E8DFC9;background:#FFFDF6;overflow:hidden">
+            <button onClick="{{ f.toggle }}" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;text-align:left;padding:17px 20px;border:none;background:transparent;color:#191510">
+              <span style="font-size:15px;font-weight:600;min-width:0;text-wrap:pretty">{{ f.q }}</span>
+              <span style="flex:none;font-size:19px;color:#5F5849;line-height:1">{{ f.mark }}</span>
+            </button>
+            <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:0 20px 19px;font-size:14px;line-height:1.65;color:#3A342A;max-width:70ch;text-wrap:pretty">{{ f.a }}</div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="max-width:1120px;margin:0 auto;padding:54px 26px 0">
+      <div style="padding:clamp(28px,4vw,44px);border-radius:22px;background:#191510;color:#FCF6E9">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:26px;align-items:center">
+          <div style="min-width:0">
+            <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(25px,3.4vw,33px);line-height:1.14;margin:0;max-width:22ch;text-wrap:balance">Prøv det på deres egen virksomhet</h2>
+            <p style="font-size:15px;line-height:1.65;opacity:.78;margin:13px 0 0;max-width:48ch;text-wrap:pretty">Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på tre minutter, og trenger ikke oppgi kort før dere har bestemt dere.</p>
+          </div>
+          <div style="min-width:0;display:flex;flex-direction:column;gap:11px">
+            <button onClick="{{ goSignup }}" style="cursor:pointer;height:52px;border-radius:13px;border:1px solid #F5C64A;background:#F5C64A;color:#191510;font-size:16.5px;font-weight:700">Kom i gang gratis</button>
+            <button onClick="{{ goLogin }}" style="cursor:pointer;height:48px;border-radius:13px;border:1px solid rgba(252,246,233,.35);background:transparent;color:#FCF6E9;font-size:15px;font-weight:600">Jeg har konto — logg inn</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid #E8DFC9;margin-top:54px;background:#FFFDF6">
+      <div style="max-width:1120px;margin:0 auto;padding:26px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <span style="font-size:12.5px;color:#5F5849;max-width:62ch;text-wrap:pretty">Orgpuls — arbeidsmiljø og medarbeiderundersøkelser for norske virksomheter. Svar lagres i EU og deles ikke med tredjeparter.</span>
+        <span style="display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px">
+          <a href="#how">Slik virker det</a>
+          <a href="#how">Personvern</a>
+          <a href="#how">Kontakt</a>
+        </span>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isSignup }}" hint-placeholder-val="{{ false }}">
+  <div style="max-width:1000px;margin:0 auto;padding:40px 26px 70px;animation:op-in .3s ease">
+    <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+      <sc-for list="{{ su.dots }}" as="d" hint-placeholder-count="3">
+        <span style="display:flex;align-items:center;gap:7px">
+          <span style="width:23px;height:23px;border-radius:999px;background:{{ d.bg }};border:1.5px solid {{ d.bd }};color:{{ d.fg }};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">{{ d.mark }}</span>
+          <span style="font-size:12.5px;font-weight:{{ d.w }};color:{{ d.tcol }}">{{ d.label }}</span>
+          <span style="width:22px;height:1.5px;background:#E8DFC9;display:{{ d.lineDisp }}"></span>
+        </span>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1.25fr) minmax(258px,.75fr);gap:22px;margin-top:26px;align-items:start">
+
+      <div style="min-width:0">
+        <sc-if value="{{ su.isStep1 }}" hint-placeholder-val="{{ true }}">
+          <div style="padding:clamp(24px,3.5vw,32px);border-radius:20px;border:1px solid #E8DFC9;background:#FFFDF6">
+            <h1 style="font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(26px,3.6vw,32px);line-height:1.12;margin:0;max-width:22ch;text-wrap:balance">Hvilken virksomhet gjelder det?</h1>
+            <p style="font-size:14.5px;line-height:1.65;color:#5F5849;margin:11px 0 0;max-width:52ch;text-wrap:pretty">Skriv inn organisasjonsnummeret. Vi henter navn, adresse og bransje fra Brønnøysundregistrene, så slipper du å fylle ut mer.</p>
+
+            <label style="display:block;margin-top:22px;max-width:340px">
+              <span style="display:block;font-size:13px;font-weight:700;margin-bottom:7px">Organisasjonsnummer</span>
+              <input value="{{ su.orgnr }}" onChange="{{ su.onOrgnr }}" placeholder="9 siffer" inputMode="numeric" style="width:100%;height:50px;padding:0 16px;border:1.5px solid {{ su.inputBd }};border-radius:13px;background:#FCF6E9;font-size:19px;font-weight:600;letter-spacing:.06em;color:#191510;outline:none">
+            </label>
+            <div style="font-size:12.5px;color:{{ su.hintCol }};margin-top:8px;line-height:1.5;max-width:52ch;text-wrap:pretty">{{ su.hint }}</div>
+
+            <sc-if value="{{ su.found }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:18px;padding:20px 22px;border-radius:16px;border:1.5px solid #191510;background:#FBEBBE">
+                <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#5F5849">Funnet i Brønnøysundregistrene</span>
+                <span style="display:block;font-family:'Playfair Display',serif;font-weight:600;font-size:23px;line-height:1.2;margin-top:6px">{{ su.coName }}</span>
+                <span style="display:flex;flex-direction:column;gap:5px;margin-top:12px">
+                  <sc-for list="{{ su.coRows }}" as="r" hint-placeholder-count="4">
+                    <span style="display:flex;gap:12px;font-size:13px">
+                      <span style="flex:none;width:94px;color:#5F5849">{{ r.k }}</span>
+                      <span style="font-weight:600;min-width:0">{{ r.v }}</span>
+                    </span>
+                  </sc-for>
+                </span>
+              </div>
+              <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+                <button onClick="{{ su.next }}" style="cursor:pointer;height:48px;padding:0 22px;border-radius:13px;border:1px solid #191510;background:#F5C64A;font-size:15.5px;font-weight:700">Ja, dette er oss</button>
+                <button onClick="{{ su.clear }}" style="cursor:pointer;height:48px;padding:0 18px;border-radius:13px;border:1px solid #E8DFC9;background:transparent;font-size:15px;font-weight:600">Prøv et annet nummer</button>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ su.showManual }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:18px;padding-top:16px;border-top:1px solid #E8DFC9">
+                <span style="font-size:13px;color:#5F5849">Finner du ikke nummeret? </span>
+                <button onClick="{{ su.next }}" style="cursor:pointer;border:none;background:transparent;padding:0;font-size:13px;font-weight:700;color:#2F5D2A;text-decoration:underline">Fyll ut manuelt i stedet</button>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ su.isStep2 }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:clamp(24px,3.5vw,32px);border-radius:20px;border:1px solid #E8DFC9;background:#FFFDF6">
+            <h1 style="font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(26px,3.6vw,32px);line-height:1.12;margin:0;max-width:20ch;text-wrap:balance">Og hvem er du?</h1>
+            <p style="font-size:14.5px;line-height:1.65;color:#5F5849;margin:11px 0 0;max-width:52ch;text-wrap:pretty">Du blir første administrator og kan invitere resten etterpå. De ansatte som bare skal svare, trenger ingen konto — de bruker lenken de får tilsendt.</p>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px;margin-top:22px">
+              <label style="display:block">
+                <span style="display:block;font-size:13px;font-weight:700;margin-bottom:7px">Navn</span>
+                <input value="{{ su.name }}" onChange="{{ su.onName }}" placeholder="Fornavn Etternavn" style="width:100%;height:46px;padding:0 15px;border:1.5px solid #E8DFC9;border-radius:12px;background:#FCF6E9;font-size:15px;color:#191510;outline:none">
+              </label>
+              <label style="display:block">
+                <span style="display:block;font-size:13px;font-weight:700;margin-bottom:7px">E-post på jobben</span>
+                <input value="{{ su.email }}" onChange="{{ su.onEmail }}" placeholder="navn@virksomhet.no" inputMode="email" style="width:100%;height:46px;padding:0 15px;border:1.5px solid {{ su.emailBd }};border-radius:12px;background:#FCF6E9;font-size:15px;color:#191510;outline:none">
+              </label>
+            </div>
+            <div style="font-size:12.5px;color:{{ su.emailHintCol }};margin-top:8px;line-height:1.5;max-width:52ch;text-wrap:pretty">{{ su.emailHint }}</div>
+
+            <label style="display:block;margin-top:16px;max-width:340px">
+              <span style="display:block;font-size:13px;font-weight:700;margin-bottom:7px">Velg et passord</span>
+              <input value="{{ su.pw }}" onChange="{{ su.onPw }}" type="password" placeholder="Minst 8 tegn" style="width:100%;height:46px;padding:0 15px;border:1.5px solid {{ su.pwBd }};border-radius:12px;background:#FCF6E9;font-size:15px;color:#191510;outline:none">
+            </label>
+            <div style="display:flex;align-items:center;gap:9px;margin-top:9px;flex-wrap:wrap">
+              <span style="display:flex;gap:3px;flex:none">
+                <sc-for list="{{ su.pwBars }}" as="b" hint-placeholder-count="3">
+                  <span style="width:28px;height:5px;border-radius:999px;background:{{ b.bg }};display:block"></span>
+                </sc-for>
+              </span>
+              <span style="font-size:12.5px;color:{{ su.pwHintCol }};line-height:1.5">{{ su.pwHint }}</span>
+            </div>
+
+            <div style="margin-top:20px">
+              <span style="display:block;font-size:13px;font-weight:700;margin-bottom:9px">Hva er rollen din?</span>
+              <div style="display:flex;gap:7px;flex-wrap:wrap">
+                <sc-for list="{{ su.roles }}" as="r" hint-placeholder-count="4">
+                  <button onClick="{{ r.pick }}" style="cursor:pointer;padding:10px 15px;border-radius:999px;border:1.5px solid {{ r.bd }};background:{{ r.bg }};color:#191510;font-size:13.5px;font-weight:{{ r.w }}">{{ r.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="margin-top:20px">
+              <span style="display:block;font-size:13px;font-weight:700;margin-bottom:9px">Omtrent hvor mange ansatte er dere?</span>
+              <div style="display:flex;gap:7px;flex-wrap:wrap">
+                <sc-for list="{{ su.sizes }}" as="s" hint-placeholder-count="4">
+                  <button onClick="{{ s.pick }}" style="cursor:pointer;padding:10px 15px;border-radius:999px;border:1.5px solid {{ s.bd }};background:{{ s.bg }};color:#191510;font-size:13.5px;font-weight:{{ s.w }}">{{ s.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+
+            <button onClick="{{ su.onConsent }}" style="display:flex;align-items:flex-start;gap:11px;cursor:pointer;width:100%;text-align:left;margin-top:22px;padding:14px 16px;border-radius:13px;border:1.5px solid {{ su.consentBd }};background:#FCF6E9;color:#191510">
+              <span style="flex:none;width:19px;height:19px;border-radius:6px;border:2px solid #191510;background:{{ su.consentBg }};color:{{ su.consentFg }};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:1px">{{ su.consentMark }}</span>
+              <span style="font-size:13px;line-height:1.55;text-wrap:pretty">Jeg bekrefter at jeg kan inngå avtaler på vegne av virksomheten, og har lest personvernerklæringen.</span>
+            </button>
+
+            <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+              <button onClick="{{ su.next }}" style="cursor:pointer;height:48px;padding:0 22px;border-radius:13px;border:1px solid {{ su.ctaBd }};background:{{ su.ctaBg }};color:{{ su.ctaFg }};font-size:15.5px;font-weight:700">Opprett konto</button>
+              <button onClick="{{ su.back }}" style="cursor:pointer;height:48px;padding:0 18px;border-radius:13px;border:1px solid #E8DFC9;background:transparent;font-size:15px;font-weight:600">Tilbake</button>
+            </div>
+            <div style="font-size:12.5px;color:#5F5849;margin-top:11px;line-height:1.5;max-width:52ch;text-wrap:pretty">{{ su.ctaHint }}</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ su.isStep3 }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:clamp(24px,3.5vw,32px);border-radius:20px;border:1px solid #E8DFC9;background:#FFFDF6">
+            <span style="width:52px;height:52px;border-radius:999px;background:#CFE7E4;color:#20431C;display:flex;align-items:center;justify-content:center;font-size:25px">✓</span>
+            <h1 style="font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(26px,3.6vw,32px);line-height:1.12;margin:17px 0 0;max-width:24ch;text-wrap:balance">{{ su.doneHead }}</h1>
+            <p style="font-size:14.5px;line-height:1.65;color:#3A342A;margin:12px 0 0;max-width:54ch;text-wrap:pretty">{{ su.doneLead }}</p>
+
+            <div style="display:flex;flex-direction:column;gap:9px;margin-top:22px">
+              <sc-for list="{{ su.todo }}" as="t" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:13px;padding:15px 17px;border-radius:14px;border:1px solid #E8DFC9;background:#FCF6E9">
+                  <span style="flex:none;width:26px;height:26px;border-radius:999px;background:#FFFDF6;border:1px solid #E8DFC9;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">{{ t.n }}</span>
+                  <span style="flex:1;min-width:0">
+                    <span style="display:block;font-size:14px;font-weight:600">{{ t.t }}</span>
+                    <span style="display:block;font-size:12.5px;color:#5F5849;margin-top:2px">{{ t.b }}</span>
+                  </span>
+                  <span style="flex:none;font-size:12px;font-weight:700;color:#5F5849">{{ t.time }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <button onClick="{{ su.enter }}" style="cursor:pointer;margin-top:22px;height:50px;padding:0 24px;border-radius:13px;border:1px solid #191510;background:#F5C64A;font-size:16px;font-weight:700">Åpne Orgpuls</button>
+          </div>
+        </sc-if>
+      </div>
+
+      <div style="min-width:0;display:flex;flex-direction:column;gap:12px;position:sticky;top:76px">
+        <div style="padding:20px 22px;border-radius:17px;border:1px solid #E8DFC9;background:#FFFDF6">
+          <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#5F5849">Dette er med fra dag én</span>
+          <span style="display:flex;flex-direction:column;gap:9px;margin-top:13px">
+            <sc-for list="{{ su.incl }}" as="i" hint-placeholder-count="5">
+              <span style="display:flex;align-items:flex-start;gap:9px">
+                <span style="flex:none;width:16px;height:16px;border-radius:5px;background:#CFE7E4;color:#20431C;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;margin-top:2px">✓</span>
+                <span style="font-size:13px;line-height:1.5;text-wrap:pretty">{{ i.t }}</span>
+              </span>
+            </sc-for>
+          </span>
+        </div>
+        <div style="padding:19px 21px;border-radius:17px;border:1px solid #E8DFC9;background:#FBEBBE">
+          <span style="display:block;font-size:13.5px;line-height:1.6;text-wrap:pretty">{{ su.reassure }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ false }}">
+  <div style="max-width:920px;margin:0 auto;padding:44px 26px 70px;animation:op-in .3s ease">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(288px,1fr));gap:20px;align-items:start">
+
+      <div style="padding:clamp(24px,3.5vw,32px);border-radius:20px;border:1px solid #E8DFC9;background:#FFFDF6">
+        <span style="display:inline-block;padding:5px 12px;border-radius:999px;background:#FBEBBE;font-size:11.5px;font-weight:700">For deg som administrerer</span>
+        <h1 style="font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(26px,3.6vw,31px);line-height:1.12;margin:13px 0 0">Logg inn</h1>
+        <p style="font-size:14px;line-height:1.6;color:#5F5849;margin:10px 0 0;max-width:42ch;text-wrap:pretty">{{ li.lead }}</p>
+
+        <sc-if value="{{ li.sent }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:20px;padding:20px 22px;border-radius:15px;background:#CFE7E4">
+            <span style="display:block;font-size:15px;font-weight:700;color:#20431C">{{ li.sentHead }}</span>
+            <span style="display:block;font-size:13.5px;line-height:1.6;color:#20431C;margin-top:6px;text-wrap:pretty">{{ li.sentNote }}</span>
+          </div>
+          <button onClick="{{ li.reset }}" style="cursor:pointer;margin-top:15px;height:42px;padding:0 17px;border-radius:11px;border:1px solid #E8DFC9;background:transparent;font-size:13.5px;font-weight:600">Tilbake</button>
+        </sc-if>
+
+        <sc-if value="{{ li.asking }}" hint-placeholder-val="{{ true }}">
+          <label style="display:block;margin-top:20px">
+            <span style="display:block;font-size:13px;font-weight:700;margin-bottom:7px">E-post på jobben</span>
+            <input value="{{ li.email }}" onChange="{{ li.onEmail }}" placeholder="navn@virksomhet.no" inputMode="email" style="width:100%;height:48px;padding:0 15px;border:1.5px solid {{ li.bd }};border-radius:12px;background:#FCF6E9;font-size:15px;color:#191510;outline:none">
+          </label>
+          <label style="display:block;margin-top:14px">
+            <span style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:7px">
+              <span style="font-size:13px;font-weight:700">Passord</span>
+              <button onClick="{{ li.forgot }}" style="cursor:pointer;border:none;background:transparent;padding:0;font-size:12.5px;font-weight:600;color:#2F5D2A;text-decoration:underline">Glemt passord?</button>
+            </span>
+            <input value="{{ li.pw }}" onChange="{{ li.onPw }}" type="password" placeholder="Passordet ditt" style="width:100%;height:48px;padding:0 15px;border:1.5px solid {{ li.pwBd }};border-radius:12px;background:#FCF6E9;font-size:15px;color:#191510;outline:none">
+          </label>
+          <button onClick="{{ li.send }}" style="cursor:pointer;margin-top:14px;width:100%;height:48px;border-radius:12px;border:1px solid {{ li.btnBd }};background:{{ li.btnBg }};color:{{ li.btnFg }};font-size:15.5px;font-weight:700">Logg inn</button>
+          <div style="font-size:12.5px;color:#5F5849;margin-top:9px;line-height:1.5;text-wrap:pretty">{{ li.hint }}</div>
+
+          <div style="display:flex;align-items:center;gap:12px;margin:20px 0">
+            <span style="flex:1;height:1px;background:#E8DFC9;display:block"></span>
+            <span style="font-size:11.5px;color:#5F5849">eller</span>
+            <span style="flex:1;height:1px;background:#E8DFC9;display:block"></span>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <sc-for list="{{ li.alts }}" as="a" hint-placeholder-count="2">
+              <button onClick="{{ a.go }}" style="display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;height:46px;border-radius:12px;border:1.5px solid #E8DFC9;background:#FCF6E9;color:#191510;font-size:14.5px;font-weight:600">{{ a.label }}</button>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <div style="margin-top:22px;padding-top:18px;border-top:1px solid #E8DFC9;font-size:13px;color:#5F5849">
+          Har dere ikke konto ennå? <button onClick="{{ goSignup }}" style="cursor:pointer;border:none;background:transparent;padding:0;font-size:13px;font-weight:700;color:#2F5D2A;text-decoration:underline">Kom i gang gratis</button>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="padding:22px 24px;border-radius:18px;border:1.5px solid #191510;background:#FBEBBE">
+          <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#5F5849">Skal du svare på en måling?</span>
+          <span style="display:block;font-size:15.5px;font-weight:700;margin-top:7px;line-height:1.35;text-wrap:pretty">Da trenger du ingen konto</span>
+          <span style="display:block;font-size:13.5px;line-height:1.6;margin-top:8px;text-wrap:pretty">Bruk lenken du fikk på e-post, SMS eller i Teams. Den er personlig, men svaret lagres uten kobling til deg. Verken lederen din eller vi kan se hva du har svart.</span>
+        </div>
+        <div style="padding:20px 22px;border-radius:17px;border:1px solid #E8DFC9;background:#FFFDF6">
+          <span style="display:block;font-size:13.5px;font-weight:700">Får du ikke lenken?</span>
+          <span style="display:block;font-size:13px;line-height:1.6;color:#5F5849;margin-top:6px;text-wrap:pretty">Se i søppelposten først. Er du fortsatt låst ute, skriv til hjelp@orgpuls.com — oppgi navn og hvilken virksomhet du jobber i.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180},&quot;headline&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Fra måling én gang i året til oppfølging hele året&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Innhold&quot;},&quot;trialDays&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:30,&quot;min&quot;:7,&quot;max&quot;:90,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Innhold&quot;}}">
+const BRREG = {
+  "923609016": { name:"Nordvik Anlegg AS", rows:[["Adresse","Havnegata 14, 6500 Kristiansund"],["Organisasjonsform","Aksjeselskap"],["Bransje","Grunnarbeid og anlegg"],["Ansatte","34 registrerte"]] },
+  "914778655": { name:"Fjordtre Snekkeri AS", rows:[["Adresse","Verkstedvegen 3, 6800 Førde"],["Organisasjonsform","Aksjeselskap"],["Bransje","Trevarefabrikk"],["Ansatte","22 registrerte"]] }
+};
+
+const PLANS = [
+  { name:"Liten", who:"Til og med 25 ansatte", price:"265 kr", unit:"per måned", cta:"Start gratis", hasTag:false, tag:"",
+    bd:"1px solid #E8DFC9", bg:"#FFFDF6", btnBg:"transparent",
+    items:["Årlig kartlegging og puls mellom","Rapport klar til Arbeidstilsynet","Ubegrenset antall tiltak","E-post og SMS-utsending"] },
+  { name:"Vanlig", who:"26 til 100 ansatte", price:"565 kr", unit:"per måned", cta:"Start gratis", hasTag:true, tag:"Anbefalt",
+    bd:"2px solid #191510", bg:"#FBEBBE", btnBg:"#F5C64A",
+    items:["Alt i Liten","Resultat per avdeling og team","Anonyme samtaler med de ansatte","Entra ID, HR-system og Teams","Utvikling over tid, måling for måling"] },
+  { name:"Flere selskaper", who:"Konsern og over 100 ansatte", price:"Etter avtale", unit:"", cta:"Snakk med oss", hasTag:false, tag:"",
+    bd:"1px solid #E8DFC9", bg:"#FFFDF6", btnBg:"transparent",
+    items:["Alt i Vanlig","Felles oversikt på tvers av selskaper","Egen kontaktperson","Hjelp til første utsending"] }
+];
+
+const FAQ = [
+  ["Er svarene virkelig anonyme?",
+   "Ja. Vi lagrer aldri navn, e-postadresse eller IP-adresse sammen med svaret. Og ingen gruppe vises før minst fem personer har svart. Under den grensen står det bare en strek, også for dere som er administratorer. Fem er grensen vi anbefaler, og den kan ikke settes lavere enn tre."],
+  ["Hva om vi bare er tolv personer?",
+   "Da får dere tall for hele virksomheten, men ikke brutt ned på avdeling. Det er ikke en begrensning vi har lagt inn, men en konsekvens av tallene: med tolv ansatte er en avdeling på tre personer gjenkjennelig. Da kunne vi ikke holdt løftet om anonymitet."],
+  ["Holder dette som dokumentasjon hvis Arbeidstilsynet kommer?",
+   "Orgpuls dokumenterer kartleggingen og risikovurderingen av det psykososiale arbeidsmiljøet, altså kravet i arbeidsmiljøloven § 3-1 bokstav c. Rapporten viser hva som ble målt, hvordan risikoen ble vurdert, hvilke tiltak som ble satt i verk og om de virket. Andre HMS-plikter, som avvikshåndtering og sykefravær, dekker dere et annet sted — det gjør ikke vi."],
+  ["Hvor mye tid tar det for oss?",
+   "Oppsettet tar under en time første gang: legg inn de ansatte eller koble til HR-systemet, velg terskel og godkjenn spørsmålssettet. Deretter går utsending, påminnelser og varsel til verneombudet av seg selv. De ansatte bruker fire minutter på den årlige kartleggingen og under ett minutt på en puls."],
+  ["Hva skjer med dataene hvis vi slutter å bruke Orgpuls?",
+   "Dere eier dem. Last ned alt som PDF og regneark når som helst, også etter en oppsigelse. Sier dere opp, sletter vi svarene etter 30 dager. Rapportene dere har lastet ned, beholder dere — slik at dokumentasjonen er i orden."]
+];
+
+class Component extends DCLogic {
+  state = { screen:"splash", faqOpen:0,
+    orgnr:"", suStep:1, name:"", email:"", role:"", size:"", consent:false,
+    liEmail:"", liPw:"", liSent:false, liMode:"" };
+
+  go(screen){ return () => this.setState({ screen }); }
+
+  renderVals(){
+    const st = this.state;
+    const digits = st.orgnr.replace(/\D/g, "");
+    const co = BRREG[digits] || (digits.length === 9
+      ? { name:"Virksomhet " + digits.slice(0, 3) + " " + digits.slice(3, 6) + " " + digits.slice(6),
+          rows:[["Adresse","Hentet fra registeret"],["Organisasjonsform","Aksjeselskap"],["Bransje","Hentet fra registeret"],["Ansatte","Hentet fra registeret"]] }
+      : null);
+
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(st.email.trim());
+    const emailTouched = st.email.trim().length > 3;
+    const pw = st.pw || "";
+    const pwScore = (pw.length >= 8 ? 1 : 0) + (pw.length >= 12 ? 1 : 0) + (/[^a-zA-ZæøåÆØÅ]/.test(pw) ? 1 : 0);
+    const canCreate = st.name.trim().length > 1 && emailOk && pw.length >= 8 && st.consent;
+    const liOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(st.liEmail.trim());
+    const liReady = liOk && (st.liPw || "").length >= 8;
+
+    const chip = on => ({ bg: on ? "#FBEBBE" : "transparent", bd: on ? "#191510" : "#E8DFC9", w: on ? "700" : "500" });
+    const dotFor = (n, label) => ({ label,
+      mark: st.suStep > n ? "✓" : String(n),
+      bg: st.suStep >= n ? "#F5C64A" : "transparent",
+      bd: st.suStep >= n ? "#191510" : "#C4BCA8",
+      fg: "#191510",
+      w: st.suStep === n ? "700" : "500",
+      tcol: st.suStep >= n ? "#191510" : "#8A8272",
+      lineDisp: n < 3 ? "block" : "none" });
+
+    return {
+      isSplash: st.screen === "splash", isSignup: st.screen === "signup", isLogin: st.screen === "login",
+      goSplash: this.go("splash"),
+      goSignup: () => this.setState({ screen:"signup", suStep:1 }),
+      goLogin: () => this.setState({ screen:"login", liSent:false }),
+      scrollHow: () => { const el = document.getElementById("how");
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 70, behavior:"smooth" }); },
+
+      trust: [{ label:"30 dager gratis" }, { label:"Ingen kortopplysninger" }, { label:"Svar lagres i EU" }],
+      peek: [{ n:"1", t:"Ytringsklima på Verksted", lift:"+6" },
+        { n:"2", t:"Arbeidsmengde på Prosjekt", lift:"+4" },
+        { n:"3", t:"Støtte fra leder", lift:"+3" }],
+
+      pains: [
+        { t:"Dere ser utviklingen, ikke bare tilstanden", b:"Ett tall i året sier hvor dere står. Fire sier hvilken vei det går, og om det dere gjorde hadde noe å si." },
+        { t:"Problemer kommer fram mens de er små", b:"Der folk tør å si fra, får dere høre om feilen i uke to i stedet for i sluttoppgjøret." },
+        { t:"Lederne vet hva de skal gjøre på mandag", b:"Tre konkrete ting for sitt eget team, og et sted å se om det de prøvde virket." }
+      ],
+
+      steps: [
+        { n:"1", t:"Lytt", b:"Alle svarer på fire minutter, på mobilen. Anonymt, på norsk, og de får vite hva som skjer etterpå.", time:"Oppsettet tar under en time", bd:"1px solid #E8DFC9", bg:"#FFFDF6" },
+        { n:"2", t:"Forstå", b:"Dere får de tre tingene som løfter helheten mest, ikke en liste på ni.", time:"Klar med én gang", bd:"1px solid #E8DFC9", bg:"#FFFDF6" },
+        { n:"3", t:"Jobb med det", b:"Hvert funn blir et tiltak med eier og frist. Ferdige forslag ligger klare å starte fra.", time:"Ti minutter å sette opp", bd:"2px solid #191510", bg:"#FBEBBE" },
+        { n:"4", t:"Se at det virket", b:"En puls på fem spørsmål viser om tallet har flyttet seg. Så begynner runden på nytt.", time:"Under ett minutt for hver ansatt", bd:"1px solid #E8DFC9", bg:"#FFFDF6" }
+      ],
+
+      diffs: [
+        { t:"Et tiltak kan ikke lukkes før effekten er målt", tag:"Derfor skjer det noe etter presentasjonen",
+          b:"Et tiltak blir ikke ferdig ved at noen krysser av. Neste puls må vise at tallet har flyttet seg. Det er strengere, og det er grunnen til at noe faktisk er annerledes i uke tjue." },
+        { t:"Fem svar, ellers en strek", tag:"Anonymitet vi ikke tøyer",
+          b:"Ingen gruppe vises før fem personer har svart — heller ikke for daglig leder, heller ikke når det haster. Det gjelder også når det er ubeleilig, fordi et anonymitetsløfte med unntak ikke er et løfte." },
+        { t:"Dere kan svare de ansatte uten å vite hvem de er", tag:"Toveis og fortsatt anonymt",
+          b:"Skriver noen en kommentar, kan du svare på den. Personen får svaret i appen, du får aldri vite hvem det var. Det er forskjellen mellom å samle inn meninger og å ha en samtale." }
+      ],
+
+      legal: [
+        { ref:"§ 3-1 c", what:"Kartlegge, vurdere risiko, planlegge og iverksette tiltak" },
+        { ref:"§ 4-3", what:"Krav til det psykososiale arbeidsmiljøet" },
+        { ref:"§ 6-2", what:"Verneombudet tas med på råd og ser de samme tallene" },
+        { ref:"§ 9-2", what:"Drøfting med tillitsvalgte, dokumentert i årshjulet" }
+      ],
+
+      quotes: [
+        { t:"Dere kan si opp når som helst", who:"Månedlig avtale", org:"Ingen bindingstid, ingen oppstartsavgift og ingen automatisk opptrapping av prisen." },
+        { t:"Dataene er deres", who:"Eksport hele veien", org:"Last ned svar, rapporter og tiltakslogg som PDF og regneark når som helst — også etter at avtalen er avsluttet." },
+        { t:"Svarene ligger i EU", who:"Lagring i EU", org:"Data lagres på servere i EU, under GDPR, og deles ikke med tredjeparter. Ingen svar brukes til å trene modeller." }
+      ],
+
+      plans: PLANS.map(p => Object.assign({}, p,
+        { items: p.items.map(t => ({ t })),
+          go: p.name === "Flere selskaper" ? this.go("login") : () => this.setState({ screen:"signup", suStep:1 }) })),
+
+      faq: FAQ.map(([q, a], i) => ({ q, a, open: st.faqOpen === i,
+        mark: st.faqOpen === i ? "−" : "+",
+        toggle: () => this.setState(s => ({ faqOpen: s.faqOpen === i ? -1 : i })) })),
+
+      su: {
+        dots: [dotFor(1, "Virksomhet"), dotFor(2, "Deg"), dotFor(3, "I gang")],
+        isStep1: st.suStep === 1, isStep2: st.suStep === 2, isStep3: st.suStep === 3,
+
+        orgnr: st.orgnr,
+        onOrgnr: e => { const v = e.target.value.replace(/[^\d ]/g, "").slice(0, 11); this.setState({ orgnr: v }); },
+        inputBd: co ? "#191510" : digits.length > 0 && digits.length < 9 ? "#C4BCA8" : "#E8DFC9",
+        hint: co ? "Stemmer det ikke? Prøv et annet nummer, eller fyll ut manuelt."
+          : digits.length === 0 ? "Du finner det på fakturaene deres, eller i Brønnøysundregistrene. Prøv 923 609 016."
+          : digits.length + " av 9 siffer",
+        hintCol: digits.length > 0 && digits.length < 9 ? "#5F5849" : "#5F5849",
+        found: !!co, showManual: !co,
+        coName: co ? co.name : "",
+        coRows: co ? co.rows.map(([k, v]) => ({ k, v })) : [],
+        clear: () => this.setState({ orgnr:"" }),
+
+        name: st.name, onName: e => { const v = e.target.value; this.setState({ name: v }); },
+        email: st.email, onEmail: e => { const v = e.target.value; this.setState({ email: v }); },
+        emailBd: emailTouched && !emailOk ? "#D4633A" : emailOk ? "#191510" : "#E8DFC9",
+        emailHint: emailTouched && !emailOk
+          ? "Sjekk adressen — den mangler noe."
+          : "Bruk adressen din på jobben. Da kan kolleger med samme domene bli med uten ny godkjenning.",
+        emailHintCol: emailTouched && !emailOk ? "#A33A16" : "#5F5849",
+        pw, onPw: e => { const v = e.target.value; this.setState({ pw: v }); },
+        pwBd: pw.length === 0 ? "#E8DFC9" : pw.length < 8 ? "#D4633A" : "#191510",
+        pwBars: [0, 1, 2].map(i => ({ bg: i < pwScore ? (pwScore >= 3 ? "#5C9A55" : pwScore === 2 ? "#E0A21F" : "#D4633A") : "#E8DFC9" })),
+        pwHint: pw.length === 0 ? "Minst 8 tegn. Lengde teller mer enn spesialtegn."
+          : pw.length < 8 ? "For kort — " + pw.length + " av 8 tegn"
+          : pwScore >= 3 ? "Godt passord" : "Greit. Blir sterkere med noen tegn mer.",
+        pwHintCol: pw.length > 0 && pw.length < 8 ? "#A33A16" : "#5F5849",
+        roles: ["Daglig leder","HR eller administrasjon","Verneombud","Annet"]
+          .map(label => Object.assign({ label, pick: () => this.setState({ role: label }) }, chip(st.role === label))),
+        sizes: ["Under 25","25–50","51–100","Over 100"]
+          .map(label => Object.assign({ label, pick: () => this.setState({ size: label }) }, chip(st.size === label))),
+        consentMark: st.consent ? "✓" : "",
+        consentBg: st.consent ? "#191510" : "transparent",
+        consentFg: st.consent ? "#FCF6E9" : "transparent",
+        consentBd: st.consent ? "#191510" : "#E8DFC9",
+        onConsent: () => this.setState(s => ({ consent: !s.consent })),
+        ctaBd: canCreate ? "#191510" : "#E8DFC9",
+        ctaBg: canCreate ? "#F5C64A" : "#F1EADA",
+        ctaFg: canCreate ? "#191510" : "#8A8272",
+        ctaHint: canCreate
+          ? "Ingen kortopplysninger nå. Etter 30 dager spør vi om dere vil fortsette."
+          : "Fyll ut navn, e-post, passord og bekreftelsen for å gå videre.",
+
+        next: () => this.setState(s => {
+          if (s.suStep === 1) return { suStep:2 };
+          if (s.suStep === 2) return canCreate ? { suStep:3 } : null;
+          return null; }),
+        back: () => this.setState(s => ({ suStep: Math.max(1, s.suStep - 1) })),
+
+        doneHead: (st.name.trim().split(" ")[0] || "Velkommen") + ", kontoen er klar",
+        doneLead: "Vi har sendt en bekreftelse til " + (st.email.trim() || "e-posten din") +
+          ". " + (co ? co.name : "Virksomheten") + " er opprettet, og du er administrator. Det som står igjen tar under en time.",
+        todo: [{ n:"1", t:"Legg inn de ansatte", b:"Lim inn fra regneark, eller koble til Entra ID", time:"15 min" },
+          { n:"2", t:"Velg terskel og grupper", b:"Vi foreslår fem svar — det er forsvarlig minimum", time:"5 min" },
+          { n:"3", t:"Se over spørsmålene og send ut", b:"Verneombudet varsles automatisk før utsending", time:"20 min" }],
+        enter: this.go("splash"),
+
+        incl: [{ t:"Hele spørsmålssettet — 11 faktorer, 37 spørsmål" },
+          { t:"Rapport klar til Arbeidstilsynet, AMU og styret" },
+          { t:"Tiltak med eier, frist og krav om målt effekt" },
+          { t:"Anonyme samtaler med de ansatte" },
+          { t:"Ubegrenset antall brukere — verneombud og ledere koster ikke ekstra" }],
+        reassure: st.suStep === 1
+          ? "Vi henter bare offentlig informasjon fra Brønnøysundregistrene. Ingenting går ut til de ansatte før du har godkjent utsendingen."
+          : st.suStep === 2
+          ? "Ingen kortopplysninger nå, og ingen automatisk fornyelse. Vi spør før noe blir fakturert."
+          : "Trenger du hjelp med det første oppsettet, skriv til hjelp@orgpuls.com. Det koster ingenting."
+      },
+
+      li: {
+        lead: "Her logger du inn hvis du skal sette opp målinger, se resultater eller følge opp tiltak.",
+        asking: !st.liSent, sent: st.liSent,
+        email: st.liEmail, onEmail: e => { const v = e.target.value; this.setState({ liEmail: v }); },
+        pw: st.liPw || "", onPw: e => { const v = e.target.value; this.setState({ liPw: v }); },
+        bd: liOk ? "#191510" : "#E8DFC9",
+        pwBd: (st.liPw || "").length >= 8 ? "#191510" : "#E8DFC9",
+        btnBd: liReady ? "#191510" : "#E8DFC9",
+        btnBg: liReady ? "#F5C64A" : "#F1EADA",
+        btnFg: liReady ? "#191510" : "#8A8272",
+        hint: "Er dere på Microsoft 365, slipper du passordet. Bruk knappen under.",
+        send: () => { if (liReady) this.setState({ liSent:true, liMode:"inn" }); },
+        forgot: () => { if (liOk) this.setState({ liSent:true, liMode:"glemt" }); },
+        sentHead: st.liMode === "glemt" ? "Lenke for nytt passord er sendt" : "Du er logget inn",
+        sentNote: st.liMode === "glemt"
+          ? "Åpne e-posten til " + (st.liEmail.trim() || "deg") + " og følg lenken for å sette et nytt passord. Den varer i 15 minutter."
+          : "Her ville Orgpuls åpnet seg på Innsikt.",
+        reset: () => this.setState({ liSent:false, liPw:"", liMode:"" }),
+        alts: [{ label:"Fortsett med Microsoft", go: () => this.setState({ liSent:true, liMode:"inn" }) },
+          { label:"Fortsett med BankID", go: () => this.setState({ liSent:true, liMode:"inn" }) }]
+      }
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,4 +1,3 @@
-import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { readSupabaseEnv } from '@/lib/supabase/env'
 
@@ -29,6 +28,17 @@ import { readSupabaseEnv } from '@/lib/supabase/env'
  *    failure — and a timeout cannot be caught, so it has to be prevented. Five seconds,
  *    then treat the request as unauthenticated.
  *
+ * 4. **Nothing is imported at module scope that could fail to load.** This is the rule
+ *    the first three did not cover, and the one that produced
+ *    `MIDDLEWARE_INVOCATION_FAILED` on a deployment whose build was green. A `try` inside
+ *    the handler cannot catch a module that throws while the runtime is evaluating it:
+ *    the handler never runs, so the platform reports a failed *invocation* rather than a
+ *    failed request, and every URL on the site returns 500 with no log line from this
+ *    file. `@supabase/ssr` is therefore loaded with a dynamic `import()` from inside the
+ *    try, where a failure to load is an ordinary caught error like any other. The cost is
+ *    one extra microtask per protected request; the benefit is that there is no longer a
+ *    way for this file to take the site down without saying so.
+ *
  * All three fail closed: no session, no protected page. That is the safe direction, and
  * it is logged loudly because "redirected to sign-in" otherwise looks like an expired
  * session, which is the one thing it is not.
@@ -37,6 +47,19 @@ const PUBLIC_PATHS = ['/logg-inn', '/auth', '/primitives', '/s']
 
 /** Long enough for a healthy round trip, short enough that the platform never gets there. */
 const AUTH_TIMEOUT_MS = 5000
+
+/**
+ * `AbortSignal.timeout` is in every runtime this ships to, but referencing it is the kind
+ * of thing that is true until it is not, and the consequence of being wrong is the outage
+ * this whole file exists to prevent. An unbounded call is worse than no bound, so the
+ * fallback is a signal that aborts on its own timer rather than no signal at all.
+ */
+function deadline(ms: number): AbortSignal {
+  if (typeof AbortSignal.timeout === 'function') return AbortSignal.timeout(ms)
+  const controller = new AbortController()
+  setTimeout(() => controller.abort(), ms)
+  return controller.signal
+}
 
 const isPublic = (path: string) =>
   PUBLIC_PATHS.some((p) => path === p || path.startsWith(`${p}/`))
@@ -53,6 +76,24 @@ export async function updateSession(request: NextRequest) {
   }
 }
 
+/**
+ * The last resort, and the only code here that is allowed to be dull.
+ *
+ * If `toSignIn` itself cannot build a URL — a malformed request line, a runtime without
+ * `URL` — there is nothing left to do but let the request through to a page that will
+ * decide for itself. That is the one place this file does not fail closed, and it is
+ * deliberate: a page with no session renders its own sign-in, whereas a 500 renders
+ * nothing and says nothing.
+ */
+export async function safeUpdateSession(request: NextRequest) {
+  try {
+    return await updateSession(request)
+  } catch (error) {
+    console.error('[middleware] the middleware itself failed; passing the request on', error)
+    return NextResponse.next()
+  }
+}
+
 function toSignIn(request: NextRequest) {
   const url = request.nextUrl.clone()
   url.pathname = '/logg-inn'
@@ -60,6 +101,9 @@ function toSignIn(request: NextRequest) {
 }
 
 async function guard(request: NextRequest) {
+  // inside the try, on purpose — see rule 4 above
+  const { createServerClient } = await import('@supabase/ssr')
+
   const env = readSupabaseEnv()
   if ('problem' in env) {
     console.error(`[middleware] refusing the request: ${env.problem}`)
@@ -72,8 +116,7 @@ async function guard(request: NextRequest) {
   const supabase = createServerClient(env.url, env.key, {
     global: {
       // an unbounded call here is an outage waiting for a slow day
-      fetch: (input, init) =>
-        fetch(input, { ...init, signal: AbortSignal.timeout(AUTH_TIMEOUT_MS) }),
+      fetch: (input, init) => fetch(input, { ...init, signal: deadline(AUTH_TIMEOUT_MS) }),
     },
     cookies: {
       getAll: () => request.cookies.getAll(),

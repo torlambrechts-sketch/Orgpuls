@@ -1,8 +1,14 @@
 import type { NextRequest } from 'next/server'
-import { updateSession } from '@/lib/supabase/middleware'
+import { safeUpdateSession } from '@/lib/supabase/middleware'
 
+/**
+ * Middleware runs before every page, so anything it cannot survive, the site cannot
+ * survive. `lib/supabase/middleware.ts` carries the four rules that keep that true; this
+ * file's only job is to import nothing that could fail to load and to call the wrapper
+ * that cannot throw.
+ */
 export async function middleware(request: NextRequest) {
-  return updateSession(request)
+  return safeUpdateSession(request)
 }
 
 export const config = {
