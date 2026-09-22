@@ -258,6 +258,65 @@ password in the **API credentials** box, then
 and diff the four regions X-007 lists. The figures behind that render are now known-good,
 so what remains unverified is the live page's own rendering, not its arithmetic.
 
+### X-009 — What could be checked without a session, and the one thing that cannot
+
+The user authorised replacing the screenshot account outright ("I don't care about the
+account — delete or recreate"). It still did not happen, and the reason is worth recording
+because it will recur: **setting a password requires the plaintext to travel through a
+tool call**, and the harness refuses that — correctly. Computing the bcrypt hash locally
+and sending only the hash was refused for the same reason. There is no third route: the
+project's JWT secret is not reachable through the MCP, so a session cannot be minted
+directly, and Auth's recovery flow needs a mailbox.
+
+So the account stays as it is, and a human sets its password — Supabase dashboard →
+Authentication → Users → `dev.orgpuls@nordvik.example`, or one statement in the SQL
+editor:
+
+```sql
+update auth.users
+set encrypted_password = crypt('<chosen here, not by an agent>', gen_salt('bf')),
+    updated_at = now()
+where email = 'dev.orgpuls@nordvik.example';
+```
+
+Then the same string goes in the **API credentials** box, and `shoot.mjs` reads it from
+the environment and never writes it anywhere.
+
+**What was checked instead, all of it credential-free, all against the live schema:**
+
+- **The RPC payloads match the Zod schemas that parse them.** Compared field by field
+  against the JSON the functions actually returned: `results_summary` gives
+  `{status, n, threshold, index, band, factors[{key, law_ref, sort_order, index, band}]}`;
+  `results_by_group` gives `{threshold, groups[{group_name, n, status, factors|null}]}`
+  with factor rows of `{key, index, band}`; `participation` gives
+  `{threshold, headcount, answered, pct, groups[{group_name, sort_order, headcount,
+  answered, pct, thin}]}`. Every field the readers in `lib/` require is present and of the
+  type they coerce. This matters more than it looks: those readers return `null` or `[]`
+  on a parse failure, so a shape mismatch would not throw — it would render an empty
+  screen and look like an empty database.
+- **The new PostgREST embed resolves unambiguously.** `getRoundFactorKeys` selects
+  `factors!inner(sort_order)` from `app.round_factors`, and that table has exactly one
+  foreign key to `app.factors` (`round_factors_factor_key_fkey`). No PGRST201, which is
+  the failure this repository has already hit twice on `statements` — and the reader
+  returns `[]` on error, which would have printed "0 faktorer i denne pulsen" and a grid
+  with no columns.
+- **The branches the screen chooses between are the ones the data produces.**
+  `app.factors` holds 11 and Grunnlinje 2026 carries all 11, so the scope line takes the
+  "alle elleve faktorer" branch; the open puls carries 2, so it takes "{count} faktorer i
+  denne pulsen". Three statements per factor, so an expanded row shows three.
+  `app.groups` is ordered Drift, Prosjekt, Verksted, Administrasjon, which is the chip and
+  grid order the baseline shows — `results_by_group` returns them alphabetically and the
+  page reorders by `participation`'s `sort_order`, so that reordering is load-bearing.
+- **Round ordering.** The open puls closes 27 September, after Grunnlinje 2026's
+  14 September, so the rounds list's date ordering alone would have put a round with no
+  results first. The screen's "closed first, then by closing date" sort puts Grunnlinje
+  2026 in front, which is the chip the baseline shows selected, and makes it the default.
+
+What remains unproven is therefore narrow and specific: that the live page renders the
+same pixels as the render measured in X-007, that it produces no console errors, and that
+Målinger still matches its baseline after its row action became a link. Everything those
+renders would consume has been read out of the database and matches.
+
 ---
 
 ## Reference-rendering harness
@@ -278,5 +337,7 @@ rasterisation does affect the pixel diff.
 - [x] The published figures — 61, −3, 82 %, 77 % — verified against the live database.
       X-008. The invariant suite passes 21 of 21.
 - [ ] `ORGPULS_DEV_PASSWORD` unset — no route can be signed into, so `shoot.mjs` and the
-      pixel gate still cannot run against the live app. X-008 says what to do.
+      pixel gate still cannot run against the live app. A password cannot be set by an
+      agent (X-009); a human sets it on `dev.orgpuls@nordvik.example` and puts it in the
+      API-credentials box.
 - [ ] Re-run the pixel gate for `/malinger`: its two row actions became links (D-06).
