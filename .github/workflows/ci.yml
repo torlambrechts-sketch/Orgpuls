@@ -1,0 +1,124 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  static:
+    name: types, lint, i18n, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx tsc --noEmit
+      - run: npm run lint
+
+      # Key parity and ICU placeholder parity between no and en. Neither is a type
+      # error and neither fails a build, so a missing key renders as `namespace.key`
+      # on a screen nobody happened to open in that language.
+      - name: i18n parity
+        run: npm run verify:i18n
+
+      - name: Build
+        run: npx next build
+        env:
+          # Build-time only. Every page that reads data is force-dynamic, so nothing
+          # real is fetched here; these exist because the Supabase client constructor
+          # requires them.
+          NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54321
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.CI_SUPABASE_ANON_KEY || 'placeholder' }}
+
+  invariants:
+    name: security invariants
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Start local Supabase
+        run: supabase start -x realtime,storage-api,imgproxy,studio,edge-runtime,logflare,vector,supavisor,mailpit
+
+      # Proves every migration applies from scratch, in order, against an empty
+      # database -- which is the only way to know the twelve of them still compose.
+      - name: Apply migrations
+        run: supabase db reset
+
+      # The fixture is generated, not stored, so this also proves the generator and
+      # the schema have not drifted apart.
+      - name: Seed the design fixture
+        run: |
+          npm ci
+          node scripts/seed/design-fixture.mjs > /tmp/fixture.sql
+          psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" \
+            -v ON_ERROR_STOP=1 -f /tmp/fixture.sql
+
+      # Every result RPC is gated on app.is_org_member(), so without a signed-in user
+      # they all return not_available and the checks below would pass on nothing.
+      - name: Create the local account
+        run: |
+          psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" \
+            -v ON_ERROR_STOP=1 -f supabase/tests/local_account.sql
+
+      # The numbers the statutory report prints must come out of the database. If a
+      # migration or the generator changes in a way that moves them, this fails here
+      # rather than in a screenshot three screens later.
+      - name: Check the design's own figures
+        run: |
+          psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" -v ON_ERROR_STOP=1 -c "
+            do \$\$
+            declare v_uid uuid; v_2026 jsonb; v_2025 jsonb; v_part jsonb;
+            begin
+              select m.user_id into v_uid from app.memberships m limit 1;
+              perform set_config('request.jwt.claims',
+                json_build_object('sub', v_uid, 'role', 'authenticated')::text, true);
+
+              v_2026 := public.results_summary('00000000-0000-4000-8000-000000000002');
+              v_2025 := public.results_summary('00000000-0000-4000-8000-000000000012');
+              v_part := public.participation('00000000-0000-4000-8000-000000000002');
+
+              -- checked explicitly: a refusal makes every comparison below NULL, so
+              -- the IFs would not fire and the job would pass having verified nothing
+              if v_2026->>'index' is null or v_2025->>'index' is null
+                 or v_part->>'pct' is null then
+                raise exception 'an RPC returned no figures: 2026=% 2025=% part=%',
+                  v_2026, v_2025, v_part;
+              end if;
+
+              if (v_2026->>'index')::int <> 61 then
+                raise exception 'index 2026 = %, expected 61', v_2026->>'index';
+              end if;
+              if (v_2025->>'index')::int <> 64 then
+                raise exception 'index 2025 = %, expected 64', v_2025->>'index';
+              end if;
+              if (v_part->>'pct')::int <> 82 or (v_part->>'answered')::int <> 28
+                 or (v_part->>'headcount')::int <> 34 then
+                raise exception 'participation = % of %, %%%',
+                  v_part->>'answered', v_part->>'headcount', v_part->>'pct';
+              end if;
+            end \$\$;"
+
+      # k-anonymity, anonymity-by-absence, token replay, expiry, append-only answers.
+      # Every row must report pass = true; the file raises if any does not.
+      - name: Respondent invariants
+        run: |
+          psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" \
+            -v ON_ERROR_STOP=1 -f supabase/tests/respondent_invariants.sql
+
+      - name: supabase db lint
+        run: supabase db lint --level warning
