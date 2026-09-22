@@ -8,8 +8,8 @@
  *
  * It exists for one other reason: every app route is behind auth, and signing in by
  * hand through the MCP browser means passing the password as a tool argument, which
- * writes it into a transcript. This reads .env.local in-process, uses the credential
- * once, and never writes it anywhere. Nothing is printed but the file paths.
+ * writes it into a transcript. This reads the environment in-process, uses the
+ * credential once, and never writes it anywhere. Nothing is printed but the file paths.
  *
  *   node scripts/verify/shoot.mjs /malinger /innsikt
  *   node scripts/verify/shoot.mjs --out artifacts/shots --base http://localhost:3000 /malinger
@@ -32,13 +32,25 @@ if (routes.length === 0) {
 const base = arg('base', 'http://localhost:3000')
 const outDir = arg('out', 'artifacts/shots')
 
-/** Minimal .env.local reader — dotenv is a devDependency but this needs no expansion. */
+/**
+ * Credentials come from the environment first and `.env.local` second.
+ *
+ * That order matters in a cloud session: `.env.local` is gitignored, so a fresh VM has
+ * no such file and only the environment carries anything. On a laptop it is usually the
+ * other way round. Reading both means this works in either place without a setup step,
+ * and nothing is ever written back out.
+ */
 const env = (() => {
   const out = {}
-  if (!existsSync('.env.local')) return out
-  for (const line of readFileSync('.env.local', 'utf8').split('\n')) {
-    const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/)
-    if (m) out[m[1]] = m[2].replace(/^["']|["']$/g, '')
+  if (existsSync('.env.local')) {
+    for (const line of readFileSync('.env.local', 'utf8').split('\n')) {
+      const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/)
+      if (m) out[m[1]] = m[2].replace(/^["']|["']$/g, '')
+    }
+  }
+  // the environment wins: it is what a cloud session is configured with
+  for (const k of ['ORGPULS_DEV_EMAIL', 'ORGPULS_DEV_PASSWORD']) {
+    if (process.env[k]) out[k] = process.env[k]
   }
   return out
 })()
@@ -72,7 +84,7 @@ page.on('pageerror', (e) => errors.push(String(e)))
 const email = env.ORGPULS_DEV_EMAIL
 const password = env.ORGPULS_DEV_PASSWORD
 if (!email || !password) {
-  console.error('ORGPULS_DEV_EMAIL and ORGPULS_DEV_PASSWORD must be set in .env.local')
+  console.error('ORGPULS_DEV_EMAIL and ORGPULS_DEV_PASSWORD must be set in the environment or .env.local')
   await browser.close()
   process.exit(2)
 }
