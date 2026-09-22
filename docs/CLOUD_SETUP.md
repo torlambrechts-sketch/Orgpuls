@@ -34,24 +34,41 @@ now run unchallenged.
 
 ---
 
-## 2. Environment variables
+## 2. Environment variables and credentials
 
-claude.ai/code → cloud icon → environment settings → **Environment variables**.
+claude.ai/code → cloud icon → environment settings. There are **two** boxes, and the
+difference matters: the environment-variables box warns that its contents are visible to
+anyone using the environment, so a credential does not belong in it.
 
-| Variable | What it is |
-| :-- | :-- |
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL. Safe to expose; it is in the client bundle. |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key. Also public by design — RLS is what protects the data, not this key. |
-| `SB_MCP_PAT` | Supabase personal access token, for the MCP server in `.mcp.json`. **Not** public. |
-| `ORGPULS_DEV_EMAIL` | Sign-in for the dev account, used by `scripts/verify/shoot.mjs` to capture screens. |
-| `ORGPULS_DEV_PASSWORD` | Its password. |
+### Environment variables — `.env` format, `KEY=value`, one per line
 
-`shoot.mjs` reads the environment first and `.env.local` second, so a cloud session needs
-no `.env.local` and a laptop needs no environment changes.
+```
+NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<from Supabase → Project Settings → API>
+ORGPULS_DEV_EMAIL=<the dev account's sign-in>
+```
 
-Never put a service-role key here. Nothing in this project needs one; every read goes
-through an RPC that applies k-anonymity, and adding a service-role key to a session is
-the one change that would let an agent read raw answers.
+A list of names is rejected with "Couldn't parse … Use KEY=value format".
+
+Both `NEXT_PUBLIC_` values are public by design — they ship in the browser bundle, and
+RLS is what protects the data, not the anon key. They are safe here.
+
+### API credentials — for the two that are actually secret
+
+`SB_MCP_PAT` (a Supabase personal access token, account-level reach) and
+`ORGPULS_DEV_PASSWORD`.
+
+One caveat to verify rather than assume: `.mcp.json` resolves the token as
+`"Authorization": "Bearer ${SB_MCP_PAT}"`, which needs it visible as an environment
+variable at MCP startup. If the Supabase MCP server fails to connect with *"JWT could not
+be decoded"*, the substitution is not being fed — that error means the variable is unset,
+not that the token is wrong. In that case the token has to live in the environment box
+and the visibility trade has to be accepted. Scope it narrowly and rotate it if the
+environment is ever shared.
+
+Never add a service-role key anywhere. Nothing here needs one; every read goes through an
+RPC that applies k-anonymity, and a service-role key is the single change that would let
+a session read raw answers.
 
 ---
 
