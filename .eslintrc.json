@@ -1,0 +1,11 @@
+{
+  "root": true,
+  "extends": ["next/core-web-vitals"],
+  "ignorePatterns": [
+    "design-reference/**",
+    ".next/**",
+    "node_modules/**",
+    "artifacts/**",
+    ".playwright-mcp/**"
+  ]
+}

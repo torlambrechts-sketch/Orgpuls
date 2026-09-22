@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "supabase": {
+      "type": "http",
+      "url": "https://mcp.supabase.com/mcp?project_ref=jmhhszsnjfqgclxzhciq&features=docs%2Caccount%2Cdatabase%2Cdebugging%2Cdevelopment%2Cfunctions%2Cbranching",
+      "headers": {
+        "Authorization": "Bearer ${SB_MCP_PAT}"
+      }
+    },
+    "playwright": {
+      "command": "bash",
+      "args": ["scripts/playwright-mcp.sh"]
+    }
+  }
+}

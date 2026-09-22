@@ -1,0 +1,43 @@
+# dependencies
+node_modules/
+
+# env / secrets
+.env
+.env.*
+!.env.example
+
+# next.js
+.next/
+out/
+
+# vercel
+.vercel
+
+# supabase
+supabase/.temp/
+supabase/.branches/
+
+# claude code local settings — records approved commands verbatim,
+# which can include tokens. never commit.
+.claude/settings.local.json
+
+# misc
+.DS_Store
+*.log
+
+# next.js build output
+/.next/
+next-env.d.ts
+*.tsbuildinfo
+
+# verification artifacts — captures are regenerated per run.
+artifacts/*
+test-results/
+playwright-report/
+
+# playwright MCP screenshots and traces — regenerated per session.
+.playwright-mcp/
+
+# design-reference CDN cache — behaviour, not pixels; repopulated by scripts/verify/cdn-cache.ts.
+# fonts/ IS committed: font rasterisation affects the pixel diff, so it must be deterministic.
+design-reference/orgpuls/cdn/
