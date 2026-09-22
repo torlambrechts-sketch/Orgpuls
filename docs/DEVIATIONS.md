@@ -449,15 +449,19 @@ prototype's, not the fixture's.
 1 Metode og medvirkning, 2 Datagrunnlag, 3 Kartlegging, 4 Risikovurdering, 5 Tiltak,
 6 Effektvurdering, 7 Krenkende atferd, 8 Informasjon og opplæring (bundle lines 336-460).
 
-**Built:** the front matter, section 1 without its fourth block, section 2 and section 3.
-Sections 4 to 8 and the signature block are not rendered.
+**Built:** the front matter, section 1 without its fourth block, sections 2, 3, **4** and 5.
+Sections 6 to 8 and the signature block are not rendered.
+
+*Section 4 was added once 0016 gave it something to print (X-016). Its row below is kept
+for the record of why it could not be printed before — the constraint was real, and the
+answer was to store the judgement rather than to derive it.*
 
 **Constraint that forced each, named rather than summarised:**
 
 | section | what it needs | why it is not there |
 | :-- | :-- | :-- |
 | 1 · Medvirkning | notification dates and an AMU agenda | nothing stores when a verneombud was warned; the årshjul's schema arrives with that segment |
-| 4 · Risikovurdering | a stored probability, consequence and conclusion per factor | the bundle computes them from the index with a hand-written sentence per factor key; a risk assessment is a judgement someone made, and inventing one on a document an inspector reads is the worst case of the fabrication rule |
+| 4 · Risikovurdering | ~~a stored probability, consequence and conclusion per factor~~ | **resolved.** The bundle computed them from the index with a hand-written sentence per factor key; migration 0016 stores them instead, and the section prints from the row. Where a kartlegging has not been assessed the section says so rather than deriving one — a state the design has no treatment for, because a prototype is always assessed |
 | 5 · Tiltak | a measures table — title, factor, owner, due date, status | no such table exists |
 | 6 · Effektvurdering | a measure, its effect and the round that measured it | the same table, plus a link from a measure to the round after it |
 | 7 · Krenkende atferd | counts from `app.extra_answers` | that table has RLS with no policy, no grant and no reader RPC — see D-10 |

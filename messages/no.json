@@ -432,6 +432,12 @@
     "footerLeft": "{org} · {orgnr} · psykososialt arbeidsmiljø {year}",
     "footerRight": "Utarbeidet i Orgpuls",
     "noData": "Ingen måling i {year} har nok svar til å rapporteres.",
+    "section4": "4. Risikovurdering",
+    "section4Lead": "Sannsynlighet for uønsket tilstand vurdert mot konsekvens for helse, sikkerhet og velferd.",
+    "section4Empty": "Kartleggingen er ikke risikovurdert. § 3-1 bokstav c krever at forholdene vurderes på grunnlag av kartleggingen; denne rapporten dokumenterer kartleggingen, ikke vurderingen.",
+    "riskHead": "{factor} — indeks {index}",
+    "riskBands": "Sannsynlighet {probability} · Konsekvens {consequence}",
+    "riskConclusion": "Samlet vurdering: {conclusion}",
     "section5": "5. Tiltak",
     "colTiltak": "Tiltak",
     "colAnsvarlig": "Ansvarlig",
@@ -508,6 +514,23 @@
       "closingRule": "Et tiltak kan ikke lukkes før effekten er målt.",
       "gone": "Tiltaket finnes ikke lenger.",
       "noOrg": "Fant ingen virksomhet å knytte tiltaket til."
+    }
+  },
+  "risk": {
+    "probability": {
+      "lav": "Lav",
+      "middels": "Middels",
+      "hoy": "Høy"
+    },
+    "consequence": {
+      "liten": "Liten",
+      "moderat": "Moderat",
+      "alvorlig": "Alvorlig"
+    },
+    "conclusion": {
+      "forsvarlig": "Forsvarlig",
+      "krever_tiltak": "Krever tiltak",
+      "uforsvarlig_uten_tiltak": "Uforsvarlig uten tiltak"
     }
   }
 }

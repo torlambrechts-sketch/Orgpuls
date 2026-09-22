@@ -10,6 +10,7 @@ import { getExtraQuestions, getFactors } from '@/lib/instrument/read'
 import { getOrganization } from '@/lib/org/read'
 import { getMeasures } from '@/lib/measures/read'
 import { getResultsByGroup, getResultsSummary } from '@/lib/results/read'
+import { getRiskAssessment } from '@/lib/risk/read'
 import { getRoundFactorKeys, getRounds, type RoundListItem } from '@/lib/rounds/read'
 
 /**
@@ -74,11 +75,12 @@ export default async function RapportPage({
 
   const inYear = rounds.filter((r) => r.year === year)
 
-  const [summary, prior, byGroup, factorKeyLists] = await Promise.all([
+  const [summary, prior, byGroup, factorKeyLists, risk] = await Promise.all([
     primaryRound ? getResultsSummary(primaryRound.id) : Promise.resolve(null),
     prevRound ? getResultsSummary(prevRound.id) : Promise.resolve(null),
     primaryRound ? getResultsByGroup(primaryRound.id) : Promise.resolve(null),
     Promise.all(inYear.map((r) => getRoundFactorKeys(r.id))),
+    primaryRound ? getRiskAssessment(primaryRound.id) : Promise.resolve(null),
   ])
 
   const threshold = byGroup?.threshold ?? summary?.threshold ?? org?.threshold ?? 5
@@ -131,6 +133,11 @@ export default async function RapportPage({
    * side will not average them into one (D-15).
    */
   const source = team ? (teamResult?.factors ?? []) : summary?.status === 'ok' ? summary.factors : []
+
+  /** the organisation's own index per factor, which is what section 4 quotes */
+  const indexOf = new Map(
+    (summary?.status === 'ok' ? summary.factors : []).map((f) => [f.key, f.index]),
+  )
 
   const factors: ReportFactor[] = source
     .map((f) => ({
@@ -186,6 +193,32 @@ export default async function RapportPage({
         step: m.step,
         late: m.late,
       })),
+
+    /*
+     * Section 4, from the assessment of the round the figures come from.
+     *
+     * The index beside each factor is the one this report already prints in section 3,
+     * looked up rather than restated — so the two sections cannot disagree, and a factor
+     * assessed on a round whose result is withheld shows its assessment without a number
+     * instead of borrowing one from elsewhere. The assessment is organisation-wide; a
+     * departmental report prints it unchanged, because risk was assessed for the
+     * undertaking and § 4-1's "samlet" is exactly that.
+     */
+    risk: risk
+      ? {
+          assessedOn: risk.assessedOn,
+          assessor: risk.assessor?.name ?? null,
+          summary: risk.summary,
+          factors: risk.factors.map((f) => ({
+            factorKey: f.factorKey,
+            index: indexOf.get(f.factorKey) ?? null,
+            probability: f.probability,
+            consequence: f.consequence,
+            assessment: f.assessment,
+            conclusion: f.conclusion,
+          })),
+        }
+      : null,
   }
 
   return <RapportScreen view={view} />

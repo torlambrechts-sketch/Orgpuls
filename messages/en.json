@@ -432,6 +432,12 @@
     "footerLeft": "{org} · {orgnr} · psychosocial working environment {year}",
     "footerRight": "Prepared in Orgpuls",
     "noData": "No measurement in {year} has enough answers to be reported.",
+    "section4": "4. Risk assessment",
+    "section4Lead": "Likelihood of an undesirable condition assessed against its consequence for health, safety and welfare.",
+    "section4Empty": "The survey has not been risk-assessed. § 3-1 letter c requires that conditions be assessed on the basis of the survey; this report documents the survey, not the assessment.",
+    "riskHead": "{factor} — index {index}",
+    "riskBands": "Likelihood {probability} · Consequence {consequence}",
+    "riskConclusion": "Overall assessment: {conclusion}",
     "section5": "5. Measures",
     "colTiltak": "Measure",
     "colAnsvarlig": "Responsible",
@@ -508,6 +514,23 @@
       "closingRule": "A measure cannot be closed before its effect has been measured.",
       "gone": "The measure no longer exists.",
       "noOrg": "No organisation was found to attach the measure to."
+    }
+  },
+  "risk": {
+    "probability": {
+      "lav": "Low",
+      "middels": "Medium",
+      "hoy": "High"
+    },
+    "consequence": {
+      "liten": "Minor",
+      "moderat": "Moderate",
+      "alvorlig": "Serious"
+    },
+    "conclusion": {
+      "forsvarlig": "Sound",
+      "krever_tiltak": "Requires measures",
+      "uforsvarlig_uten_tiltak": "Not defensible without measures"
     }
   }
 }

@@ -728,6 +728,50 @@ renamed at top level and one renamed inside a plural branch were both reported, 
 
 ---
 
+### X-016 — Section 4 prints, from the row rather than from the index
+
+The half of D-18 that 0016 unblocked. The report's section 4 now renders one bordered
+block per assessed factor — "Ytringsklima — indeks 41", "Sannsynlighet Høy · Konsekvens
+Alvorlig", the written assessment, "Samlet vurdering: Uforsvarlig uten tiltak" — every
+field read from `app.risk_factor_assessments`.
+
+**The index beside each factor is looked up, not restated.** It comes from the same
+`results_summary` map section 3 prints, so the two sections cannot disagree, and a factor
+assessed on a round whose result is withheld shows its assessment without a number rather
+than borrowing one from elsewhere. The assessment itself is organisation-wide: a
+departmental report prints it unchanged, because risk was assessed for the undertaking and
+§ 4-1's "samlet" is exactly that.
+
+**An unassessed kartlegging says so.** The design has no empty treatment here, because a
+prototype is always assessed. Rendered and checked in a browser: "Kartleggingen er ikke
+risikovurdert. § 3-1 bokstav c krever at forholdene vurderes på grunnlag av kartleggingen;
+denne rapporten dokumenterer kartleggingen, ikke vurderingen." An inspector reading that
+learns something true, which a derived verdict would not have been.
+
+**Pixel evidence**, quoted at the document's own offset (−242, the three omitted sections
+above it):
+
+| region | pixels | |
+| :-- | --: | :-- |
+| the Motstridende krav block | **10** | PASS |
+| the Ytringsklima block | **31** | PASS |
+| the Arbeidsmengde block | **31** | PASS |
+| heading, lead and all three blocks | 1 380 | PASS |
+
+The 1 380 is 1 310 from two lines of the lead, and it is **not** a text difference: the
+glyph column runs are identical on both lines — 101 runs and 71 runs, at the same x. The
+second line box rounds to 20px against the design's 21px, because `line-height:1.65` on
+12.5px is 20.625 and which way it rounds depends on the fractional y the paragraph starts
+at. That is D-05, already recorded, and the accumulated fraction comes from the sections
+omitted above. Not a defect and not fixable without moving the line-height off the
+bundle's.
+
+Verified against the live database first: all eleven factor indices still read 41/48,
+44/53, 52/58, 57/57, 58/59, 64/69, 66/63, 69/70, 71/73, 76/75, 78/74, with the overall
+index 61 against 64. Nothing drifted across 0015 and 0016.
+
+---
+
 ## Open items
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -739,10 +783,10 @@ renamed at top level and one renamed inside a plural branch were both reported, 
 - [x] Writing measures: the edit panel, "＋ Nytt tiltak" and "Flytt videre". X-014.
 - [ ] No confirmation before "Slett tiltaket". The design specifies no dialog anywhere,
       so none was invented — worth a decision rather than an assumption (D-22).
-- [ ] Report section 4 is now backable — 0016 stores the assessment — and is the next
-      thing to print. Sections 6, 7 and 8 and the signature block still wait on a link
-      from a measure to the round that measured its effect, a reader over
-      app.extra_answers, and records of briefings and training.
+- [x] Report section 4 prints, from the stored assessment. X-016.
+- [ ] Report sections 6, 7 and 8 and the signature block wait on a link from a measure to
+      the round that measured its effect, a k-gated reader over app.extra_answers, and
+      records of briefings and training.
 - [x] The published figures — 61, −3, 82 %, 77 % — verified against the live database.
       X-008. The invariant suite passes 21 of 21.
 - [ ] `ORGPULS_DEV_PASSWORD` unset — no route can be signed into, so `shoot.mjs` and the

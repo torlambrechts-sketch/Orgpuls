@@ -16,9 +16,8 @@ import type { Band } from '@/lib/results/read'
  * response rates from `participation`, the withheld groups from `results_by_group`,
  * the dates from `app.rounds`, the organisation number from `app.organizations`.
  *
- * Sections 4 to 8 and the signature block are not built. They are not omissions of
- * convenience: section 5 needs a measures table that does not exist, section 4 a stored
- * risk assessment, section 7 a reader over `app.extra_answers`, and sections 6 and 8
+ * Sections 6 to 8 and the signature block are not built. They are not omissions of
+ * convenience: section 7 needs a reader over `app.extra_answers`, and sections 6 and 8
  * records of effect and training that nothing holds. A statutory document that prints
  * an invented risk assessment is worse than one that prints none — the reader cannot
  * tell which sentences were decided by a person. See docs/DEVIATIONS.md D-18.
@@ -77,6 +76,31 @@ export interface RapportView {
   highRiskCount: number
   /** section 5: the measures the year's measurements raised */
   measures: ReportMeasure[]
+  /** section 4: the stored risk assessment of the round the figures come from */
+  risk: ReportRisk | null
+}
+
+/**
+ * A block of section 4.
+ *
+ * Every field was written by a person. The bundle derives all four from the factor's
+ * index — `sanns: f.idx < 45 ? "Høy" : "Middels"` — which is why this section went
+ * unprinted until 0016 stored them: a probability computed from a mean is a number, and
+ * printing it under "Samlet vurdering" on a document an inspector reads would assert
+ * that somebody made a judgement nobody made.
+ */
+export interface ReportRisk {
+  assessedOn: string
+  assessor: string | null
+  summary: string | null
+  factors: {
+    factorKey: string
+    index: number | null
+    probability: string
+    consequence: string
+    assessment: string
+    conclusion: string
+  }[]
 }
 
 /** A row of section 5. The status is the report's own wording, not the screen's. */
@@ -555,6 +579,57 @@ export async function RapportScreen({ view }: { view: RapportView }) {
             </tbody>
           </table>
         ) : null}
+
+        <h2 className="mt-[30px] font-display text-[19px] font-semibold">
+          {t('rapport.section4')}
+        </h2>
+        {view.risk === null ? (
+          /*
+           * No assessment, so the section says so rather than deriving one. This is the
+           * whole reason 0016 exists: the design's own section 4 is computed from the
+           * index, and a computed risk assessment on a statutory document is the
+           * fabrication rule's worst case. An unassessed kartlegging is a real state and
+           * an inspector reading "ikke risikovurdert" learns something true.
+           */
+          <p className="mt-[8px] text-[12.5px] leading-[1.65] text-body">
+            {t('rapport.section4Empty')}
+          </p>
+        ) : (
+          <>
+            <p className="mt-[8px] text-[12.5px] leading-[1.65] text-body">
+              {view.risk.summary ?? t('rapport.section4Lead')}
+            </p>
+            {view.risk.factors.map((r) => (
+              <div
+                key={r.factorKey}
+                className="mt-[14px] rounded-ctl border border-line px-[16px] py-[14px] [break-inside:avoid]"
+              >
+                <div className="flex flex-wrap justify-between gap-[12px]">
+                  <span className="text-[13.5px] font-bold">
+                    {r.index === null
+                      ? t(`factor.${r.factorKey}.label`)
+                      : t('rapport.riskHead', {
+                          factor: t(`factor.${r.factorKey}.label`),
+                          index: r.index,
+                        })}
+                  </span>
+                  <span className="text-[12px] text-mut">
+                    {t('rapport.riskBands', {
+                      probability: t(`risk.probability.${r.probability}`),
+                      consequence: t(`risk.consequence.${r.consequence}`),
+                    })}
+                  </span>
+                </div>
+                <p className="mt-[7px] text-[12.5px] leading-[1.6] text-body">{r.assessment}</p>
+                <div className="mt-[7px] text-[12px] font-bold">
+                  {t('rapport.riskConclusion', {
+                    conclusion: t(`risk.conclusion.${r.conclusion}`),
+                  })}
+                </div>
+              </div>
+            ))}
+          </>
+        )}
 
         <h2 className="mt-[30px] font-display text-[19px] font-semibold">
           {t('rapport.section5')}
