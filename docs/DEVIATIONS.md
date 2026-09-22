@@ -257,3 +257,174 @@ person, så ingen kan gjette hvem som svarte hva ut fra når svaret kom inn."
 reloads, different between people. Verified: two invitations to the same round open on
 different statements. A promise printed to a respondent that the code does not keep is a
 worse defect than any layout one.
+
+---
+
+## D-10 — Resultat's header band omits the benchmark, "Anbefaler oss" and "Åpenhet"
+
+**Design:** the dark band prints five figures beside the index — `61`, `−3`, "bransje 64",
+"Anbefaler oss +22", "Svarprosent 82 %" and "Åpenhet Høy" (bundle lines 741-751).
+
+**Built:** the index, the delta against the comparison round, and the response rate. The
+other three are omitted.
+
+**Constraint that forced each:**
+- *bransje 64* — there is no benchmarks table. Same omission, same reason, as on Innsikt.
+- *Anbefaler oss +22* — the recommendation question is answered into `app.extra_answers`,
+  which has RLS enabled with no policy, no grant and **no reader RPC**. Every result read
+  in this product goes through a SECURITY DEFINER aggregate that applies k; none exists
+  for the extra questions yet, and writing one is a migration with its own k reasoning
+  and its own tests, not a side effect of building a screen.
+- *Åpenhet Høy* — a literal in the prototype. Nothing computes it and no column holds it.
+  It is the clearest case in the screen of a value that looks like data and is not.
+
+**What would lift it:** an RPC over `app.extra_answers` that returns the recommendation
+score and the screening counts for the whole organisation only, never per group, with the
+same not-available branch as `results_summary`.
+
+---
+
+## D-11 — "Gjør disse tre" omits the modelled lift, and its lead
+
+**Design:** each of the three proposals carries "Løft helheten +6 / +4 / +3", and the
+block's lead says the three are "Rangert etter hvor mye de kan løfte helheten hos dere —
+ikke etter lavest tall" (bundle lines 3053-3059).
+
+**Built:** the rank badge, the factor, and "Indeks 41 · 28 svar · aml. § 4-3 · § 2A".
+
+**Constraint that forced it:** the lift is `["+6","+4","+3"]` in the bundle — a constant
+list, not a model. Nothing in the schema predicts what an intervention would move, and a
+number printed under "Løft helheten" is a prediction. The lead had to go with it: the
+rows are ordered by index ascending, so a sentence promising the opposite ordering would
+describe a method the screen does not use. That is the same defect as a fabricated
+figure, in prose.
+
+**Consequence for the pixel gate:** the three cards are shorter than the design's — the
+first two lose a quote block as well (D-14) — so everything below "Gjør disse tre" sits
+**182px higher** in the app than in the baseline. The gate's `--at` prints the
+displacement rather than hiding it.
+
+---
+
+## D-12 — The per-factor annotation is omitted
+
+**Design:** four of the eleven rows carry a note beside the delta — "Verksted lavest: 28",
+"Prosjekt lavest: 31", "Drift jobber mest alene", "Størst fall blant nyansatte"
+(`FACTORS[].worst`, bundle line 2522 onward).
+
+**Built:** nothing in that position.
+
+**Constraint that forced it:** the four are not one thing. Two are derivable from
+`results_by_group` (the lowest group and its index); one describes how a group works, and
+one compares seniority, which the schema does not hold at all — `app.responses` carries a
+group and an hour and nothing else, by invariant 2. There is no rule in the data for which
+rows get a note, so deriving the two that can be derived would put annotations on rows the
+design leaves bare and change the screen rather than complete it.
+
+**Measured:** this is the whole of the residual diff in the table's middle column —
+2 093 pixels at x 593..737, across the four rows that carry a note in the baseline.
+
+---
+
+## D-13 — An expanded factor row shows its statements without figures
+
+**Design:** opening a row reveals the factor's description and its three statements, each
+with a five-segment answer distribution and its own index (bundle lines 831-845), plus the
+legend that explains the segments.
+
+**Built:** the description and the three statements. No distribution, no per-statement
+index, no legend.
+
+**Constraint that forced it:** `results_summary` aggregates to the factor. Nothing exposes
+an index per statement, and nothing exposes a distribution at all — the distribution in
+the bundle is `dist(idx)`, a bell curve *computed from the index*, not counted from
+answers. Rendering it would be showing people a shape that no one answered. Counting it
+for real means reading `app.answers`, which no client role may do; it needs an RPC that
+returns counts per value per statement and refuses below k, with its own tests.
+
+The statements themselves are real: `app.statements`, numbered from the ordinals the
+database holds.
+
+---
+
+## D-14 — "Hva de skrev", the Samtaler column and the screening strip are omitted
+
+**Design:** below the grid, a two-column block — automatically grouped free-text themes on
+the left, three comment threads with a reply box on the right — and then a strip reading
+"Krenkende atferd: 3 av 28 svarte ja" (bundle lines 878-936).
+
+**Built:** none of the three. The panel ends with Team × faktor.
+
+**Constraint that forced it:** all three read what respondents wrote or answered outside
+the index. `app.response_comments` and `app.extra_answers` are on the invariant-1 list —
+RLS enabled, no policy, no grant — and have no reader RPC. The reply box would additionally
+need somewhere to put a reply, and the two-way thread arrives with the Samtaler segment
+(D-09). Rendering an input that discards what someone types is the defect D-09 refused
+once already.
+
+Note also that the bundle's own theme list is empty on this screen: `resultData()` returns
+no `themes`, so the baseline shows the heading and the count over blank space. The count
+line ("14 av 28 skrev noe") is real-looking and unbacked, so it goes with the rest.
+
+---
+
+## D-15 — A department has no overall index
+
+**Design:** selecting a department replaces the organisation's 61 with that department's
+own index and a "±N mot huset" delta (bundle lines 2978-2983).
+
+**Built:** the band keeps the department's name, response count, date and response rate,
+and prints no headline number. The factor table, the bands and the grid are all the
+department's.
+
+**Constraint that forced it:** `results_summary` computes the overall index in SQL, as
+`round(avg(factor index))` over the organisation. `results_by_group` returns factor rows
+per group and no headline figure. Averaging those rows in TypeScript would make the client
+the author of a number the statutory report prints — exactly what `lib/results/read.ts`
+refuses in its opening comment, and the kind of divergence that is invisible until a
+labour inspector compares two documents.
+
+**What would lift it:** one more key in `results_by_group`'s per-group object, computed
+the same way `results_summary` computes the whole, in the same migration as its test.
+
+---
+
+## D-16 — The group grid's columns are the round's factors, not a hand-picked five
+
+**Design:** Team × faktor is a five-column grid — Ytringsklima, Arbeidsmengde, Støtte fra
+leder, Rolleklarhet, Anerkjennelse og mening (`HEAT_KEYS`, bundle line 2958).
+
+**Built:** one column per factor the round carries, in the instrument's own order, inside
+the design's own horizontal scroller. For a puls that measures two factors it is two
+columns; for a grunnlinje it is eleven.
+
+**Constraint that forced it:** the five are a list in the prototype with no rule behind
+them — not the lowest five, not the ones in the pulse, not a property of any row. Hard-
+coding them would put a factor list in a component, which the data-not-code rule exists to
+prevent, and would hide six of the eleven factors from the per-group picture on a screen
+whose legal basis (§ 4-1 first paragraph) is that the environment is assessed "enkeltvis og
+samlet".
+
+**Verified against the design's own five:** rendered with the bundle's five columns and its
+own values, the block diffs at **8 pixels — 0.0002% of the screen**. The cell geometry,
+palette, radius and masked treatment are the design's; only the number of columns follows
+the round.
+
+---
+
+## D-17 — A pulse carries no sequence number
+
+**Design:** the Måling filter offers "Grunnlinje 2026 · Puls 2 · 2025 · Grunnlinje 2025 ·
+Puls 1 · 2026" (bundle line 2949).
+
+**Built:** the chips are labelled from the row — `{kind} {year}`, the same composition the
+Målinger list uses — so a pulse reads "Puls 2026" and not "Puls 1 · 2026".
+
+**Constraint that forced it:** `app.measurements` holds kind, year and a label. Nothing
+numbers the pulses within a year, and counting them in the client would invent an ordering
+the database does not keep — it would also renumber every historical pulse the moment one
+was inserted out of order.
+
+**Consequence for the pixel gate:** the chips row is the one band of the filter card that
+cannot match the baseline, because the design's four rounds and their labels are the
+prototype's, not the fixture's.

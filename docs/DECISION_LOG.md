@@ -124,6 +124,71 @@ Two further 404s were fixed to get a clean baseline: `.image-slots.state.json` (
 `/favicon.ico` (the page declares no icon; Chromium requests it regardless). All twelve
 now render with zero failed requests, zero non-2xx and zero console errors.
 
+### X-007 — Resultat built; verified against the baseline, NOT against the database
+
+**The blocker first, because it changes what the rest of this entry can claim.**
+`ORGPULS_DEV_PASSWORD` is not set in this session's environment, and `SB_MCP_PAT` is not
+either. Every application route is behind auth and every result RPC is granted to
+`authenticated` only (0005), so with no credential there is no way to read a single
+figure out of the database and no way to run `scripts/verify/shoot.mjs`, which signs in
+before it captures. The published figures — index 61, "−3 siden i fjor", 82 % and 77 % —
+were therefore **not checked in this session**. They are the first thing to check in the
+next one. Environment reads `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+and `ORGPULS_DEV_EMAIL`; the project itself is reachable (`/auth/v1/health` returns 200),
+so it is the password alone that is missing. It belongs in the API-credentials box, not
+the environment-variables box — docs/CLOUD_SETUP.md §2.
+
+What was run and passed: `npm ci`, `npx tsc --noEmit`, `npm run lint`,
+`npm run verify:i18n` (225 keys, both languages), `npx next build`.
+
+**How the screen was verified anyway.** The screen was split in two — the page reads the
+RPCs and produces a value, `components/resultat/ResultatScreen.tsx` renders it — and a
+throwaway route under `/primitives` (public, per the middleware) rendered that component
+inside the real shell with the bundle's own figures. That is a render of the real
+component tree at the baseline's viewport, so it measures geometry, typography and
+colour. It measures nothing about the data path. The harness was deleted before commit;
+recreating it is twenty lines, and the split that makes it possible is committed.
+
+Regions, against `design-reference/orgpuls/baselines/06-resultat.png`, tolerance 0.1 % of
+the screen:
+
+| region | displacement | pixels | % of screen | |
+| :-- | --: | --: | --: | :-- |
+| header band | 0 | 0 | 0.0000 % | PASS |
+| actions, filter card, result header | 0 | 3 534 | 0.0821 % | PASS |
+| Risikobildet + factor table | −182 | 4 144 | 0.0963 % | PASS |
+| Team × faktor (design's five columns) | −182 | 8 | 0.0002 % | PASS |
+
+The displacement is the documented consequence of D-11 and D-14: the three proposal cards
+are shorter without their lift and quotes, so everything below them sits 182px higher.
+`--at` prints it rather than hiding it.
+
+**Two defects the gate found that review had not.** Both were measured before being
+changed, per the probe rule:
+1. The risk pill in the table read "Høy risiko" where the design reads "Høy". The bundle
+   carries two label sets for the same band — `band()` returns Høy/Middels/Lav for the
+   pill, and the three tiles above the table read Høy risiko/Følges opp/Forsvarlig. Using
+   the tile wording in the pill cost 10 700 pixels, most of the table's diff.
+2. `leading-none` on the Button and RiskBadge primitives. The bundle sets no line-height
+   on either control, so one inherits `normal`; pinned to 1 the risk pill stood 21px tall
+   against the design's 25 and sat 2px low in its row. `leading-none` moved out of the
+   shared base and into the five button sizes that were transcribed and verified with it,
+   so Målinger and Innsikt are untouched.
+
+**One residual that is not a defect.** The row action button sits exactly 1px lower than
+the rest of its row: diffing that column at a displacement of 181 instead of 182 drops it
+from 8 116 to 2 980 pixels. This is the sub-pixel rounding already recorded in D-05 — a
+block at a different fractional y rounds a line box the other way. It is not "fixed" by
+nudging a padding, because the padding would then be wrong once the omitted blocks exist.
+
+**What the Resultat screen needs re-run with a credential:** the whole of it, at
+`/resultat`, plus `/malinger` — its rounds list now links to the result through
+`ButtonLink` rather than rendering an inert button (D-06's substitution, the same one the
+nav uses), and that screen's pixel claims were made before the change. The per-group grid
+will also print the fixture's own per-group indices, which are not the design's invented
+ones, so that block's numbers will differ from the baseline even though its geometry does
+not.
+
 ---
 
 ## Reference-rendering harness
@@ -142,3 +207,7 @@ rasterisation does affect the pixel diff.
       `AUTH_HEADER_REJECTED`; the claude.ai Supabase connector carried the database work.
 - [ ] Auth leaked-password protection is disabled — a dashboard toggle.
 - [ ] S2 onward.
+- [ ] `ORGPULS_DEV_PASSWORD` unset — no route can be signed into, so `shoot.mjs` and the
+      pixel gate cannot be run against real data, and the design's published figures are
+      unverified in this session. See X-007.
+- [ ] Re-run the pixel gate for `/malinger`: its two row actions became links (D-06).

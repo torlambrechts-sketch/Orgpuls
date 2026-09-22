@@ -1,5 +1,5 @@
 import { getLocale, getTranslations } from 'next-intl/server'
-import { Button } from '@/components/ui/Button'
+import { Button, ButtonLink } from '@/components/ui/Button'
 import { getRounds, type RoundListItem } from '@/lib/rounds/read'
 import { getParticipation, rateColour } from '@/lib/participation/read'
 import { getExtraQuestions, getFactors } from '@/lib/instrument/read'
@@ -284,9 +284,19 @@ function RoundRow({
         <Button size="sm" tone="secondary" pad={14}>
           {t(archived ? 'malinger.viewSetup' : 'malinger.setup')}
         </Button>
-        <Button size="sm" tone={archived ? 'secondary' : 'primary'} pad={15}>
+        {/*
+          The result of a round has an address, so the control that opens it is a link
+          and not a button — the documented control substitution (D-06), styled exactly
+          as the bundle styles this button.
+        */}
+        <ButtonLink
+          href={{ pathname: '/resultat', query: { maling: round.id } }}
+          size="sm"
+          tone={archived ? 'secondary' : 'primary'}
+          pad={15}
+        >
           {t(archived ? 'malinger.compare' : 'malinger.viewResult')}
-        </Button>
+        </ButtonLink>
       </span>
     </div>
   )

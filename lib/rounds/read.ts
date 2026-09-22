@@ -49,6 +49,8 @@ export interface RoundListItem {
   id: string
   kind: string
   year: number
+  /** 'planlagt' | 'apen' | 'lukket' — app.round_status, not a computed label */
+  status: string
   audience: string
   questionCount: number
   closesAt: string | null
@@ -80,6 +82,7 @@ export async function getRounds(): Promise<RoundListItem[]> {
 
   const rows = parsed.data.map((r, i) => ({
     id: r.id,
+    status: r.status,
     kind: r.measurements.kind,
     year: r.measurements.year,
     audience: r.audience,
@@ -94,4 +97,31 @@ export async function getRounds(): Promise<RoundListItem[]> {
 
   const participation = await Promise.all(rows.map((r) => getParticipation(r.id)))
   return rows.map((r, i) => ({ ...r, participation: participation[i] ?? null }))
+}
+
+/**
+ * The factors a round carries, in the instrument's own order.
+ *
+ * A grunnlinje carries all eleven; a puls carries the few it was defined with. The
+ * Resultat screen reads this twice — for the scope line ("alle elleve faktorer" against
+ * "2 faktorer i denne pulsen") and for the columns of the group grid, which are the
+ * round's factors rather than a subset chosen in a component.
+ */
+export async function getRoundFactorKeys(roundId: string): Promise<string[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .schema('app')
+    .from('round_factors')
+    .select('factor_key, factors!inner(sort_order)')
+    .eq('round_id', roundId)
+
+  if (error || !data) return []
+  const parsed = z
+    .array(z.object({ factor_key: z.string(), factors: z.object({ sort_order: z.coerce.number() }) }))
+    .safeParse(data)
+  if (!parsed.success) return []
+
+  return parsed.data
+    .sort((a, b) => a.factors.sort_order - b.factors.sort_order)
+    .map((r) => r.factor_key)
 }

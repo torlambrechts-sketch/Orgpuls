@@ -28,19 +28,35 @@ export const BAND_BAR: Record<Band, string> = {
   hoy: '#D4633A',
 }
 
+/**
+ * Two instances of the same pill, transcribed rather than reconciled: the compact one
+ * the Innsikt card uses (10x3, 11px) and the one in the Resultat table's risk column
+ * (11x5, 11.5px — bundle line 827). Same fill, same radius, same weight; the table's
+ * is a shade larger because it carries the column on its own.
+ */
+const BADGE_SIZE = {
+  sm: 'px-[10px] py-[3px] text-[11px] leading-none',
+  // no line-height: the bundle sets none on this pill, so it inherits `normal` and
+  // stands 25px tall rather than 21. Measured — with leading-none the pill was 4px
+  // short and sat 2px low in the row.
+  row: 'px-[11px] py-[5px] text-[11.5px]',
+} as const
+
 export function RiskBadge({
   band,
   label,
+  size = 'sm',
   className = '',
 }: {
   band: Band
   /** The visible text. Always passed in from next-intl — never hard-coded here. */
   label: string
+  size?: keyof typeof BADGE_SIZE
   className?: string
 }) {
   return (
     <span
-      className={`inline-flex flex-none items-center rounded-pill px-[10px] py-[3px] text-[11px] font-bold leading-none ${BAND_STYLE[band]} ${className}`}
+      className={`inline-flex flex-none items-center rounded-pill font-bold ${BADGE_SIZE[size]} ${BAND_STYLE[band]} ${className}`}
     >
       {label}
     </span>
