@@ -1,0 +1,257 @@
+{
+  "auth": {
+    "title": "Logg inn",
+    "lead": "Orgpuls er for ansatte og ledere i virksomheten din.",
+    "email": "E-post",
+    "password": "Passord",
+    "submit": "Logg inn",
+    "error": "Feil e-post eller passord."
+  },
+  "app": {
+    "name": "Orgpuls",
+    "tagline": "Psykososialt arbeidsmiljø for norske virksomheter. Svar lagres i Norge, og ingen enkeltsvar kan spores tilbake til en person."
+  },
+  "nav": {
+    "innsikt": "Innsikt",
+    "malinger": "Målinger",
+    "samtaler": "Samtaler",
+    "tiltak": "Tiltak",
+    "oppsett": "Oppsett"
+  },
+  "header": {
+    "help": "Hjelp",
+    "helpAria": "Hjelp for denne siden",
+    "grunnlag": "Grunnlag",
+    "roleAria": "Din rolle",
+    "assistantAria": "Assistenten — neste steg"
+  },
+  "role": {
+    "daglig_leder": "Daglig leder",
+    "avdelingsleder": "Avdelingsleder",
+    "verneombud": "Verneombud"
+  },
+  "band": {
+    "lav": "Lav",
+    "middels": "Middels",
+    "hoy": "Høy"
+  },
+  "footer": {
+    "dataNorge": "Data i Norge",
+    "gdpr": "GDPR",
+    "produkt": "Produkt",
+    "oppsett": "Oppsett",
+    "hjelp": "Hjelp",
+    "selskap": "Selskap",
+    "ansatte": "Ansatte",
+    "integrasjoner": "Integrasjoner",
+    "arshjulet": "Årshjulet",
+    "alleArtikler": "Alle artikler",
+    "komIGang": "Kom i gang",
+    "anonymitet": "Anonymitet",
+    "kontaktOss": "Kontakt oss",
+    "legal": "© 2026 Orgpuls AS · orgpuls.no · hjelp@orgpuls.no",
+    "databehandleravtale": "Databehandleravtale",
+    "personvern": "Personvern",
+    "driftsstatus": "Driftsstatus"
+  },
+  "results": {
+    "maskedAria": "Færre enn {threshold} svar — resultatet vises ikke"
+  },
+  "factor": {
+    "ytring": {
+      "label": "Ytringsklima",
+      "desc": "Om du tør å si fra — om feil, om uenighet, om det som ikke fungerer — og om det skjer noe når du gjør det. Det er ikke det samme som at alle er enige.",
+      "s1": "Jeg kan si fra om kritikkverdige forhold uten å frykte konsekvenser",
+      "s2": "Når noen melder fra om et problem, skjer det noe med det",
+      "s3": "Uenighet blir tatt opp åpent hos oss, ikke i gangen etterpå"
+    },
+    "mengde": {
+      "label": "Arbeidsmengde og tidspress",
+      "desc": "Forholdet mellom det som skal gjøres og tiden, folkene og utstyret dere faktisk har. Vedvarende ubalanse er den vanligste årsaken til helseskadelig belastning.",
+      "s1": "Arbeidsmengden min er til å håndtere over tid",
+      "s2": "Jeg har nok tid til å gjøre jobben godt nok",
+      "s3": "Jeg kan koble av fra jobben når arbeidsdagen er over"
+    },
+    "motstrid": {
+      "label": "Motstridende krav",
+      "desc": "Når to ledere, to systemer eller to hensyn ber om ting som ikke går sammen, og ingen sier hva som skal vike.",
+      "s1": "Jeg får sjelden oppgaver uten å vite hva som skal prioriteres ned",
+      "s2": "Kravene fra ulike hold henger sammen",
+      "s3": "Jeg vet hvem som bestemmer når to ting kolliderer"
+    },
+    "kontakt": {
+      "label": "Kontakt og kommunikasjon",
+      "desc": "Om arbeidet gir mulighet til kontakt med andre. Alenearbeid gir både sosial isolasjon og en sikkerhetsrisiko — du må kunne tilkalle hjelp.",
+      "s1": "Jeg har mulighet til kontakt med kollegaer i løpet av arbeidsdagen",
+      "s2": "Jeg kan tilkalle hjelp raskt hvis noe skjer mens jeg er alene",
+      "s3": "Jeg føler meg ikke isolert i jobben min"
+    },
+    "emosjon": {
+      "label": "Emosjonelle krav",
+      "desc": "Belastningen ved å stå i krevende møter med mennesker — kunder, brukere, kolleger — eller ved å måtte skjule egne reaksjoner.",
+      "s1": "Jeg blir sjelden stående alene i følelsesmessig krevende situasjoner",
+      "s2": "Vi snakker om vanskelige hendelser etterpå",
+      "s3": "Jeg får lov til å reagere som menneske på jobb"
+    },
+    "leder": {
+      "label": "Støtte fra leder",
+      "desc": "Om lederen er tilgjengelig når det brenner, og om støtten er praktisk og ikke bare velmenende.",
+      "s1": "Jeg får støtte fra lederen min når jobben blir krevende",
+      "s2": "Lederen min vet nok om hva jobben min faktisk innebærer",
+      "s3": "Jeg kan ta opp vanskelige ting med lederen min"
+    },
+    "medvirk": {
+      "label": "Medvirkning og kontroll",
+      "desc": "Innflytelse over egen arbeidsdag: rekkefølge, tempo, metode — og over endringer som treffer deg.",
+      "s1": "Jeg har innflytelse over hvordan jeg utfører arbeidet",
+      "s2": "Jeg blir hørt når noe skal endres",
+      "s3": "Jeg kan påvirke tempoet i eget arbeid"
+    },
+    "integritet": {
+      "label": "Integritet og verdighet",
+      "desc": "Om folk møtes med respekt og likeverd, om grensene deres holdes, og om de får bruke eget faglig og etisk skjønn. Dette er også hjemmelen for vern mot trakassering.",
+      "s1": "Jeg blir møtt med respekt uansett hvem jeg er",
+      "s2": "Jeg får bruke faglig skjønn når jeg mener noe bør gjøres annerledes",
+      "s3": "Grensene mine for privatliv blir respektert på jobb"
+    },
+    "rolle": {
+      "label": "Rolleklarhet",
+      "desc": "Om du vet hva som forventes, hvor ansvaret ditt slutter, og hva som teller som godt nok.",
+      "s1": "Jeg vet hva som forventes av meg i jobben min",
+      "s2": "Jeg vet hvor mitt ansvar slutter og andres begynner",
+      "s3": "Jeg vet hva som regnes som godt arbeid hos oss"
+    },
+    "kollega": {
+      "label": "Støtte fra kollegaer",
+      "desc": "Om folk stiller opp for hverandre i praksis, ikke bare i festtaler.",
+      "s1": "Kollegaene mine stiller opp når jeg trenger hjelp",
+      "s2": "Vi deler kunnskap i stedet for å holde på den",
+      "s3": "Jeg føler meg som en del av laget"
+    },
+    "mening": {
+      "label": "Anerkjennelse og mening",
+      "desc": "Om arbeidet oppleves meningsfullt og om innsats blir sett av noen som betyr noe.",
+      "s1": "Arbeidet jeg gjør betyr noe",
+      "s2": "Innsatsen min blir lagt merke til",
+      "s3": "Jeg er stolt av å jobbe her"
+    }
+  },
+  "innsikt": {
+    "indexLabel": "Arbeidsmiljøindeks",
+    "delta": "{delta} siden i fjor",
+    "forsvarlig": "{count} forsvarlig",
+    "folgesOpp": "{count} følges opp",
+    "hoyRisiko": "{count} høy risiko",
+    "ansatte": "{count, plural, one {# ansatt} other {# ansatte}}",
+    "insufficient": "Færre enn {threshold} svar — resultatet vises ikke",
+    "svarte": "{n} av {total} har svart"
+  },
+  "malinger": {
+    "title": "Målinger",
+    "lead": "Én grunnlinje i året dekker kartleggingsplikten. Pulsene mellom måler bare det dere har satt tiltak på — fem spørsmål, under ett minutt.",
+    "previewAsEmployee": "Forhåndsvis som ansatt",
+    "newMeasurement": "＋ Ny måling",
+    "kind": {
+      "grunnlinje": "Grunnlinje",
+      "puls": "Puls"
+    },
+    "audience": {
+      "alle_ansatte": "Alle ansatte"
+    },
+    "roundTitle": "{kind} {year}",
+    "questionCount": "{count, plural, other {# spørsmål}}",
+    "closedOn": "lukket {date}",
+    "rateLabel": "{answered} av {total} svarte",
+    "notSent": "Ikke sendt",
+    "percent": "{pct} %",
+    "state": {
+      "lukket": "Lukket",
+      "arkivert": "Arkivert"
+    },
+    "setup": "Måleoppsett",
+    "viewSetup": "Se måleoppsettet",
+    "viewResult": "Se resultatet",
+    "compare": "Sammenlign",
+    "deltakelse": "Deltakelse",
+    "cardRoundTitle": "{kind} {year} — lukket",
+    "cardRoundSub": "Lukket {date} · ingen flere svar kommer inn",
+    "rateLine": "{answered} av {total} har svart",
+    "groupLine": "{answered} av {total}",
+    "thinNote": "under terskel — vises bare som deltakelse, aldri som resultat",
+    "privacy": "Systemet vet hvem som ikke har svart, slik at påminnelsen bare går dit. Ingen i virksomheten kan se den lista — verken du, lederne eller verneombudet. Koblingen mellom person og svar finnes ikke i databasen.",
+    "reminderClosed": "Påminnelser kan bare sendes mens en runde er åpen.",
+    "startNextPulse": "Start neste puls nå",
+    "sporsmalssettet": "Spørsmålssettet",
+    "qsLead": "Elleve faktorer — de samme som arbeidsmiljøloven § 4-3 og forskriften navngir etter presiseringen 1. januar 2026, formulert med QPS Nordic-språk. Tre påstander per faktor, besvart 1–5. Dere kan skru av en faktor, men ikke endre ordlyden — det er den som gjør tallene sammenliknbare over tid og mot bransjen.",
+    "statementCount": "{count, plural, one {# påstand} other {# påstander}}",
+    "extraHeading": "I tillegg, utenfor indeksen",
+    "extraCount": "{count, plural, other {# spørsmål}}"
+  },
+  "extra": {
+    "anbefaling": {
+      "label": "Anbefalingsspørsmål",
+      "text": "Hvor sannsynlig er det at du vil anbefale oss som arbeidsplass til en du kjenner?",
+      "note": "Svares 1–5. Rapporteres som eget tall, ikke som del av indeksen.",
+      "o1": "Svært usannsynlig",
+      "o2": "Lite sannsynlig",
+      "o3": "Kanskje",
+      "o4": "Sannsynlig",
+      "o5": "Svært sannsynlig"
+    },
+    "krenkende": {
+      "label": "Krenkende atferd",
+      "text": "Har du opplevd eller sett krenkende atferd, trakassering eller mobbing på jobb siste tolv måneder?",
+      "note": "Ja / nei / vil ikke svare. Vises kun som antall for hele virksomheten, aldri per gruppe.",
+      "o1": "Nei",
+      "o2": "Ja, opplevd selv",
+      "o3": "Ja, sett andre bli utsatt",
+      "o4": "Vil ikke svare"
+    },
+    "vold": {
+      "label": "Vold og trusler",
+      "text": "Har du opplevd vold eller trusler i jobben siste tolv måneder?",
+      "note": "Samme regel: bare antall, aldri nedbrutt.",
+      "o1": "Nei",
+      "o2": "Ja, én gang",
+      "o3": "Ja, flere ganger",
+      "o4": "Vil ikke svare"
+    },
+    "apent_felt": {
+      "label": "Åpent felt",
+      "text": "Hva bør vi gjøre noe med først?",
+      "note": "Frivillig. Grupperes etter tema og sjekkes for gjenkjennelige detaljer før noen leser det."
+    }
+  },
+  "respond": {
+    "scale": {
+      "o1": "Helt uenig",
+      "o2": "Litt uenig",
+      "o3": "Verken eller",
+      "o4": "Litt enig",
+      "o5": "Helt enig"
+    },
+    "faktor": {
+      "helhet": "Helhet",
+      "krenkende": "Krenkende atferd",
+      "vold": "Vold og trusler",
+      "apent": "Åpent felt"
+    },
+    "progress": "{n} / {total}",
+    "next": "Neste",
+    "submit": "Send inn",
+    "skip": "Hopp over",
+    "commentPrompt": "Vil du si mer? Frivillig og anonymt",
+    "commentPlaceholder": "Skriv her …",
+    "openPlaceholder": "Skriv med egne ord …",
+    "openNote": "Frivillig. Teksten grupperes etter tema og sjekkes for gjenkjennelige detaljer før noen leser den.",
+    "doneTitle": "Takk. Det tok fire minutter.",
+    "doneLead": "Svaret er anonymt. Lederen din ser bare tall når minst {threshold} har svart.",
+    "promise1": "Svaret er anonymt. Navn, e-post og IP lagres ikke sammen med det du svarer.",
+    "promise2": "Lederen din ser tall først når minst {threshold} i gruppa har svart.",
+    "promise3": "Du kan hoppe over spørsmål, og du kan svare på mobil i pausa.",
+    "promise4": "Skriver du en kommentar, kan lederen svare deg uten å få vite hvem du er.",
+    "invalid": "Lenken virker ikke",
+    "invalidLead": "Lenken er brukt opp, utløpt eller feil. Har du allerede svart, er svaret registrert — du kan ikke svare igjen.",
+    "submitFailed": "Svaret ble ikke sendt. Prøv igjen."
+  }
+}

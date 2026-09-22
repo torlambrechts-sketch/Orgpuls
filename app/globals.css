@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Transcribed from Orgpuls_Offline_Source.html lines 17-26. These are the bundle's
+ * own resets, not a house style. Do not "improve" them — the pixel gate diffs against
+ * the bundle's rendering, so a nicer value is a failing value.
+ */
+@layer base {
+  /*
+   * The Tailwind theme reads these; app/fonts.css defines the faces. They are plain
+   * family names rather than next/font's generated class names because the fonts are
+   * the bundle's own files, loaded the bundle's own way.
+   */
+  :root {
+    --font-dmsans: 'DM Sans';
+    --font-playfair: 'Playfair Display';
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  /**
+   * Tailwind's preflight sets `html { line-height: 1.5 }`. The bundle sets no
+   * line-height at all, so every element there inherits the browser's `normal`
+   * (~1.2 for these faces). Leaving preflight's value in place made the header 59px
+   * against the design's 56px — a nav button became 14px x 1.5 + 16px padding = 37px,
+   * taller than the 34px controls beside it — and would have skewed text metrics on
+   * every screen, not just this one.
+   *
+   * Matching the bundle means taking its default and setting line-height explicitly
+   * only where the design does.
+   */
+  html {
+    line-height: normal;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    min-height: 100vh;
+    background: #fcf6e9;
+    color: #191510;
+    font-family: var(--font-dmsans), 'DM Sans', system-ui, sans-serif;
+    /* the bundle's root is 14px, not the browser default 16px */
+    font-size: 14px;
+  }
+
+  a {
+    color: #2f5d2a;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #1e3d1a;
+    text-decoration: underline;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font-family: inherit;
+  }
+
+  ::placeholder {
+    color: #8a8272;
+  }
+
+  /* bundle line 23 — the focus ring is specified, so it is implemented, not replaced */
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  a:focus-visible {
+    outline: 3px solid #191510;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+@layer utilities {
+  /* bundle line 24 — every screen root enters with this */
+  .animate-entry {
+    animation: ht-in 0.25s ease;
+  }
+}
+
+@keyframes ht-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

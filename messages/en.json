@@ -1,0 +1,257 @@
+{
+  "auth": {
+    "title": "Sign in",
+    "lead": "Orgpuls is for employees and managers in your organisation.",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "error": "Incorrect email or password."
+  },
+  "app": {
+    "name": "Orgpuls",
+    "tagline": "Psychosocial work environment for Norwegian organisations. Answers are stored in Norway, and no single answer can be traced back to a person."
+  },
+  "nav": {
+    "innsikt": "Insight",
+    "malinger": "Measurements",
+    "samtaler": "Conversations",
+    "tiltak": "Actions",
+    "oppsett": "Settings"
+  },
+  "header": {
+    "help": "Help",
+    "helpAria": "Help for this page",
+    "grunnlag": "Basis",
+    "roleAria": "Your role",
+    "assistantAria": "Assistant — next step"
+  },
+  "role": {
+    "daglig_leder": "Managing director",
+    "avdelingsleder": "Department manager",
+    "verneombud": "Safety representative"
+  },
+  "band": {
+    "lav": "Low",
+    "middels": "Medium",
+    "hoy": "High"
+  },
+  "footer": {
+    "dataNorge": "Data in Norway",
+    "gdpr": "GDPR",
+    "produkt": "Product",
+    "oppsett": "Settings",
+    "hjelp": "Help",
+    "selskap": "Company",
+    "ansatte": "Employees",
+    "integrasjoner": "Integrations",
+    "arshjulet": "Annual cycle",
+    "alleArtikler": "All articles",
+    "komIGang": "Getting started",
+    "anonymitet": "Anonymity",
+    "kontaktOss": "Contact us",
+    "legal": "© 2026 Orgpuls AS · orgpuls.no · hjelp@orgpuls.no",
+    "databehandleravtale": "Data processing agreement",
+    "personvern": "Privacy",
+    "driftsstatus": "System status"
+  },
+  "results": {
+    "maskedAria": "Fewer than {threshold} answers — the result is not shown"
+  },
+  "factor": {
+    "ytring": {
+      "label": "Freedom to speak up",
+      "desc": "Whether you dare to speak up — about mistakes, about disagreement, about what is not working — and whether anything happens when you do. It is not the same as everyone agreeing.",
+      "s1": "I can report censurable conditions without fearing consequences",
+      "s2": "When someone reports a problem, something is done about it",
+      "s3": "Disagreement is raised openly here, not in the corridor afterwards"
+    },
+    "mengde": {
+      "label": "Workload and time pressure",
+      "desc": "The relationship between what has to be done and the time, people and equipment you actually have. Sustained imbalance is the most common cause of health-damaging strain.",
+      "s1": "My workload is manageable over time",
+      "s2": "I have enough time to do the job well enough",
+      "s3": "I can switch off from work when the working day is over"
+    },
+    "motstrid": {
+      "label": "Conflicting demands",
+      "desc": "When two managers, two systems or two concerns ask for things that do not go together, and no one says what should give way.",
+      "s1": "I rarely get tasks without knowing what should be deprioritised",
+      "s2": "The demands from different quarters hang together",
+      "s3": "I know who decides when two things collide"
+    },
+    "kontakt": {
+      "label": "Contact and communication",
+      "desc": "Whether the work allows contact with others. Working alone brings both social isolation and a safety risk — you must be able to call for help.",
+      "s1": "I have the opportunity for contact with colleagues during the working day",
+      "s2": "I can call for help quickly if something happens while I am alone",
+      "s3": "I do not feel isolated in my job"
+    },
+    "emosjon": {
+      "label": "Emotional demands",
+      "desc": "The strain of facing demanding encounters with people — customers, users, colleagues — or of having to conceal your own reactions.",
+      "s1": "I am rarely left alone in emotionally demanding situations",
+      "s2": "We talk about difficult incidents afterwards",
+      "s3": "I am allowed to react as a human being at work"
+    },
+    "leder": {
+      "label": "Support from manager",
+      "desc": "Whether the manager is available when things get difficult, and whether the support is practical rather than merely well-meaning.",
+      "s1": "I get support from my manager when the job becomes demanding",
+      "s2": "My manager knows enough about what my job actually involves",
+      "s3": "I can raise difficult matters with my manager"
+    },
+    "medvirk": {
+      "label": "Participation and control",
+      "desc": "Influence over your own working day: order, pace, method — and over changes that affect you.",
+      "s1": "I have influence over how I carry out my work",
+      "s2": "I am heard when something is to be changed",
+      "s3": "I can influence the pace of my own work"
+    },
+    "integritet": {
+      "label": "Integrity and dignity",
+      "desc": "Whether people are met with respect and equality, whether their boundaries are upheld, and whether they may exercise their own professional and ethical judgement. This is also the legal basis for protection against harassment.",
+      "s1": "I am met with respect regardless of who I am",
+      "s2": "I may use professional judgement when I think something should be done differently",
+      "s3": "My boundaries for privacy are respected at work"
+    },
+    "rolle": {
+      "label": "Role clarity",
+      "desc": "Whether you know what is expected, where your responsibility ends, and what counts as good enough.",
+      "s1": "I know what is expected of me in my job",
+      "s2": "I know where my responsibility ends and others begin",
+      "s3": "I know what counts as good work here"
+    },
+    "kollega": {
+      "label": "Support from colleagues",
+      "desc": "Whether people actually turn up for one another in practice, not just in speeches.",
+      "s1": "My colleagues turn up when I need help",
+      "s2": "We share knowledge instead of holding on to it",
+      "s3": "I feel like part of the team"
+    },
+    "mening": {
+      "label": "Recognition and meaning",
+      "desc": "Whether the work feels meaningful and whether effort is seen by someone who matters.",
+      "s1": "The work I do matters",
+      "s2": "My effort is noticed",
+      "s3": "I am proud to work here"
+    }
+  },
+  "innsikt": {
+    "indexLabel": "Work environment index",
+    "delta": "{delta} since last year",
+    "forsvarlig": "{count} sound",
+    "folgesOpp": "{count} being followed up",
+    "hoyRisiko": "{count} high risk",
+    "ansatte": "{count, plural, one {# employee} other {# employees}}",
+    "insufficient": "Fewer than {threshold} answers — the result is not shown",
+    "svarte": "{n} of {total} have answered"
+  },
+  "malinger": {
+    "title": "Measurements",
+    "lead": "One baseline a year covers the duty to survey. The pulses in between measure only what you have put actions on — five questions, under a minute.",
+    "previewAsEmployee": "Preview as employee",
+    "newMeasurement": "＋ New measurement",
+    "kind": {
+      "grunnlinje": "Baseline",
+      "puls": "Pulse"
+    },
+    "audience": {
+      "alle_ansatte": "All employees"
+    },
+    "roundTitle": "{kind} {year}",
+    "questionCount": "{count, plural, one {# question} other {# questions}}",
+    "closedOn": "closed {date}",
+    "rateLabel": "{answered} of {total} answered",
+    "notSent": "Not sent",
+    "percent": "{pct} %",
+    "state": {
+      "lukket": "Closed",
+      "arkivert": "Archived"
+    },
+    "setup": "Measurement setup",
+    "viewSetup": "View the setup",
+    "viewResult": "See the result",
+    "compare": "Compare",
+    "deltakelse": "Participation",
+    "cardRoundTitle": "{kind} {year} — closed",
+    "cardRoundSub": "Closed {date} · no further answers are coming in",
+    "rateLine": "{answered} of {total} have answered",
+    "groupLine": "{answered} of {total}",
+    "thinNote": "below threshold — shown only as participation, never as a result",
+    "privacy": "The system knows who has not answered, so that the reminder goes only there. No one in the organisation can see that list — not you, not the managers, not the safety representative. The link between person and answer does not exist in the database.",
+    "reminderClosed": "Reminders can only be sent while a round is open.",
+    "startNextPulse": "Start the next pulse now",
+    "sporsmalssettet": "The question set",
+    "qsLead": "Eleven factors — the same ones the Working Environment Act § 4-3 and the regulation name after the clarification of 1 January 2026, phrased in QPS Nordic language. Three statements per factor, answered 1–5. You may switch a factor off, but not change the wording — it is the wording that makes the figures comparable over time and against the industry.",
+    "statementCount": "{count, plural, one {# statement} other {# statements}}",
+    "extraHeading": "In addition, outside the index",
+    "extraCount": "{count, plural, one {# question} other {# questions}}"
+  },
+  "extra": {
+    "anbefaling": {
+      "label": "Recommendation question",
+      "text": "How likely is it that you would recommend us as a place to work to someone you know?",
+      "note": "Answered 1–5. Reported as a figure of its own, not as part of the index.",
+      "o1": "Very unlikely",
+      "o2": "Unlikely",
+      "o3": "Maybe",
+      "o4": "Likely",
+      "o5": "Very likely"
+    },
+    "krenkende": {
+      "label": "Offensive behaviour",
+      "text": "Have you experienced or seen offensive behaviour, harassment or bullying at work in the last twelve months?",
+      "note": "Yes / no / prefer not to answer. Shown only as a count for the whole organisation, never per group.",
+      "o1": "No",
+      "o2": "Yes, experienced it myself",
+      "o3": "Yes, saw others subjected to it",
+      "o4": "Prefer not to answer"
+    },
+    "vold": {
+      "label": "Violence and threats",
+      "text": "Have you experienced violence or threats at work in the last twelve months?",
+      "note": "The same rule: counts only, never broken down.",
+      "o1": "No",
+      "o2": "Yes, once",
+      "o3": "Yes, several times",
+      "o4": "Prefer not to answer"
+    },
+    "apent_felt": {
+      "label": "Open field",
+      "text": "What should we do something about first?",
+      "note": "Voluntary. Grouped by theme and checked for identifying detail before anyone reads it."
+    }
+  },
+  "respond": {
+    "scale": {
+      "o1": "Strongly disagree",
+      "o2": "Slightly disagree",
+      "o3": "Neither",
+      "o4": "Slightly agree",
+      "o5": "Strongly agree"
+    },
+    "faktor": {
+      "helhet": "Overall",
+      "krenkende": "Offensive behaviour",
+      "vold": "Violence and threats",
+      "apent": "Open field"
+    },
+    "progress": "{n} / {total}",
+    "next": "Next",
+    "submit": "Submit",
+    "skip": "Skip",
+    "commentPrompt": "Want to say more? Voluntary and anonymous",
+    "commentPlaceholder": "Write here …",
+    "openPlaceholder": "Write in your own words …",
+    "openNote": "Voluntary. The text is grouped by theme and checked for identifying detail before anyone reads it.",
+    "doneTitle": "Thank you. That took four minutes.",
+    "doneLead": "Your answer is anonymous. Your manager sees only figures once at least {threshold} have answered.",
+    "promise1": "Your answer is anonymous. Name, email and IP are not stored with what you answer.",
+    "promise2": "Your manager sees figures only once at least {threshold} in the group have answered.",
+    "promise3": "You can skip questions, and you can answer on your phone during a break.",
+    "promise4": "If you write a comment, your manager can reply without learning who you are.",
+    "invalid": "The link does not work",
+    "invalidLead": "The link has been used, has expired, or is wrong. If you have already answered, your answer is recorded — you cannot answer again.",
+    "submitFailed": "Your answer was not sent. Please try again."
+  }
+}
