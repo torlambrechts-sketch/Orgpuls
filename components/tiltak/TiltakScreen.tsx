@@ -40,6 +40,8 @@ export interface TiltakView {
   factorKeys: string[]
   /** the round a new measure hangs off: the most recent closed one */
   newMeasureRoundId: string | null
+  /** closed rounds a measure's effect can be read from, newest first (0023, D-52) */
+  effectRounds: { id: string; kind: string; year: number; pulseNo: number | null; opensAt: string | null }[]
 }
 
 const FILTERS: StatusFilter[] = ['apne', 'frist', 'effekt', 'lukket', 'alle']
@@ -117,9 +119,16 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
     return byStatus && byRound && byOwner
   })
 
+  const opened = new Map(view.effectRounds.map((r) => [r.id, r.opensAt]))
+  /** When the measure's own round has no known opening, every other closed round is offered. */
+  const laterThanOwn = (r: { opensAt: string | null }, own: string | null) => {
+    const from = own ? opened.get(own) : null
+    return !from || !r.opensAt || r.opensAt > from
+  }
+
   /** Resolved once and handed to the client, which has no catalogue of its own. */
   const problems: Record<string, string> = Object.fromEntries(
-    ['invalid', 'denied', 'closingRule', 'gone', 'noOrg'].map((k) => [k, t(`tiltak.problem.${k}`)]),
+    ['invalid', 'denied', 'closingRule', 'effectRound', 'gone', 'noOrg'].map((k) => [k, t(`tiltak.problem.${k}`)]),
   )
 
   const href = (over: Record<string, string | undefined>) => {
@@ -283,12 +292,25 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
                 step: m.step,
                 kind: m.kind,
                 groupIds: m.groupIds,
+                effectRoundId: m.effectRoundId ?? '',
+                effectNote: m.effectNote ?? '',
               }}
               options={{
                 owners: view.employees.map((e) => ({ value: e.id, label: e.name })),
                 factors: view.factorKeys.map((k) => ({ value: k, label: t(`factor.${k}.label`) })),
                 steps: STEP_KEYS.map((step) => ({ value: step, label: t(`tiltak.step.${step}`) })),
                 groups: view.groups.map((g) => ({ value: g.id, label: g.name })),
+                // a later round only: never the one the measure came from (0023 refuses that
+                // pairing), and never an earlier one, which cannot show the effect of
+                // something decided after it
+                effectRounds: view.effectRounds
+                  // the stored choice always stays listed, or an unchanged save would clear it
+                  .filter(
+                    (r) =>
+                      r.id === m.effectRoundId ||
+                      (r.id !== m.round?.id && laterThanOwn(r, m.round?.id ?? null)),
+                  )
+                  .map((r) => ({ value: r.id, label: roundLabel(r) })),
               }}
               labels={{
                 edit: t('tiltak.edit'),
@@ -307,6 +329,11 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
                 noteCollective: t('tiltak.kindNote.kollektivt'),
                 noteIndividual: t('tiltak.kindNote.individuelt'),
                 affectedHead: t('tiltak.affectedHead'),
+                effectHead: t('tiltak.effectHead'),
+                effectRound: t('tiltak.effectRound'),
+                effectRoundUnset: t('tiltak.effectRoundUnset'),
+                effectNote: t('tiltak.effectNote'),
+                effectHint: t('tiltak.effectHint'),
                 delete: t('tiltak.delete'),
                 done: t('tiltak.done'),
                 problems,

@@ -1346,6 +1346,14 @@ leder put any user id into their organisation is gone. The shared demo organisat
 locked against invitations, so one evaluator cannot lock the rest out (D-51, migrations
 0028 and 0029, 26 assertions).
 
+### X-032 — The report's last sections can be written, not only read
+
+Sections 6 and 8 printed what the fixture had seeded and nothing a real organisation could
+add. The Tiltak panel now records which later round measured a measure's effect and the
+judgement on it. A register under the report records briefings and trainings in the
+sentences the document prints. Both were verified end to end against the hosted project,
+and every probe row was removed again (D-52).
+
 ## Open items
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1439,9 +1447,8 @@ locked against invitations, so one evaluator cannot lock the rest out (D-51, mig
       exists to connect. `/integrasjoner` documents what each one needs instead (D-35).
 - [ ] Hjelp has no chat, no telephone and no status monitor. The design offers all three
       (D-34).
-- [ ] Nothing writes `round_information`, `trainings` or `effect_round_id` from a screen
-      yet. The report reads them and the fixture seeds them; recording a briefing is a
-      control Måleoppsett or Tiltak will need (D-36).
+- [x] `round_information`, `trainings` and a measure's effect round and note are written
+      from screens: the register under Rapport and the Tiltak panel. X-032, D-52.
 - [ ] The account chip prints "TB" and the role selector defaults to daglig leder for every
       user; both should come from the viewer's profile and membership (D-47).
 - [ ] Innsikt's headline follows the latest closed round of any kind, so it will describe

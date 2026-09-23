@@ -7,7 +7,7 @@ import {
   type ReportScope,
 } from '@/components/rapport/RapportScreen'
 import { getExtraQuestions, getFactors } from '@/lib/instrument/read'
-import { getOrganization } from '@/lib/org/read'
+import { getOrganization, getViewerRole } from '@/lib/org/read'
 import { getMeasures } from '@/lib/measures/read'
 import { getResultsByGroup, getResultsSummary } from '@/lib/results/read'
 import { getRiskAssessment } from '@/lib/risk/read'
@@ -50,12 +50,13 @@ export default async function RapportPage({
 }) {
   const params = await searchParams
 
-  const [org, rounds, instrument, extras, measures] = await Promise.all([
+  const [org, rounds, instrument, extras, measures, role] = await Promise.all([
     getOrganization(),
     getRounds(),
     getFactors(),
     getExtraQuestions(),
     getMeasures(),
+    getViewerRole(),
   ])
 
   const audience: Audience = AUDIENCE_KEYS.includes(params.mottaker as Audience)
@@ -245,6 +246,8 @@ export default async function RapportPage({
     information,
     trainings,
     signers,
+    // styling only: information_write_* and training_write_* (0026) check it themselves
+    canRecord: role === 'daglig_leder' || role === 'verneombud',
     risk: risk
       ? {
           assessedOn: risk.assessedOn,

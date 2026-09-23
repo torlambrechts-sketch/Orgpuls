@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import { roundTitle, type Titled } from '@/lib/rounds/title'
 import { ButtonLink } from '@/components/ui/Button'
 import { PrintButton } from '@/components/rapport/PrintButton'
+import { ReportRegister } from '@/components/rapport/ReportRegister'
 import { Sheet } from '@/components/rapport/Sheet'
 import { formatOrgNumber } from '@/lib/org/read'
 import { stepIndex, type MeasureStep } from '@/lib/measures/read'
@@ -101,6 +102,8 @@ export interface RapportView {
   trainings: Training[]
   /** the signature block, from duty_role on the register */
   signers: Signer[]
+  /** daglig leder or verneombud: may record section 8 under the document (D-52) */
+  canRecord: boolean
 }
 
 /**
@@ -158,6 +161,20 @@ export async function RapportScreen({ view }: { view: RapportView }) {
           ...(withYear ? { year: 'numeric' } : {}),
         }).format(new Date(iso))
       : null
+
+  // section 8's sentences, shared by the document and the register under it
+  const informationLine = (i: InformationEvent) =>
+    t('rapport.informationLine', {
+      audience: t(`rapport.audienceName.${i.audience}`),
+      channel: t(`rapport.channel.${i.channel}`),
+      date: long(i.held_on) ?? i.held_on,
+    })
+  const trainingLine = (tr: Training) =>
+    t('rapport.trainingLine', {
+      title: tr.title,
+      audience: t(`rapport.audienceName.${tr.audience}`),
+      date: long(tr.held_on) ?? tr.held_on,
+    }) + (tr.next_due ? ` ${t('rapport.trainingNext', { date: long(tr.next_due) ?? tr.next_due })}` : '')
 
   const short = (iso: string | null, withYear = false) =>
     iso
@@ -371,6 +388,14 @@ export async function RapportScreen({ view }: { view: RapportView }) {
           </div>
         ) : null}
       </Sheet>
+
+      {view.canRecord ? (
+        <ReportRegister
+          round={view.primary ? { id: view.primary.id, title: roundTitle(t, view.primary) } : null}
+          information={view.information.map((i) => ({ id: i.id, line: informationLine(i), note: i.note }))}
+          trainings={view.trainings.map((tr) => ({ id: tr.id, line: trainingLine(tr), note: tr.note }))}
+        />
+      ) : null}
     </main>
   )
 
@@ -763,11 +788,7 @@ export async function RapportScreen({ view }: { view: RapportView }) {
           <ul className="m-0 mt-[8px] list-none p-0">
             {view.information.map((i) => (
               <li key={i.id} className="mt-[6px] text-[12.5px] leading-[1.65] text-body">
-                {t('rapport.informationLine', {
-                  audience: t(`rapport.audienceName.${i.audience}`),
-                  channel: t(`rapport.channel.${i.channel}`),
-                  date: long(i.held_on) ?? i.held_on,
-                })}
+                {informationLine(i)}
                 {i.note ? ` ${i.note}` : ''}
               </li>
             ))}
@@ -782,14 +803,7 @@ export async function RapportScreen({ view }: { view: RapportView }) {
           <ul className="m-0 mt-[10px] list-none p-0">
             {view.trainings.map((tr) => (
               <li key={tr.id} className="mt-[6px] text-[12.5px] leading-[1.65] text-body">
-                {t('rapport.trainingLine', {
-                  title: tr.title,
-                  audience: t(`rapport.audienceName.${tr.audience}`),
-                  date: long(tr.held_on) ?? tr.held_on,
-                })}
-                {tr.next_due
-                  ? ` ${t('rapport.trainingNext', { date: long(tr.next_due) ?? tr.next_due })}`
-                  : ''}
+                {trainingLine(tr)}
               </li>
             ))}
           </ul>

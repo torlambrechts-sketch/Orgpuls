@@ -2,6 +2,7 @@ import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { callFailed, parseFailed, readFailed } from '@/lib/supabase/read'
+import { INFORMATION_AUDIENCES, INFORMATION_CHANNELS } from '@/lib/report/enums'
 
 /**
  * The report's last three sections.
@@ -150,8 +151,8 @@ export async function getScreeningCounts(roundId: string): Promise<ScreeningCoun
 
 /* -------------------------------------------------- 8. information, training */
 
-const AUDIENCES = ['alle_ansatte', 'verneombud', 'tillitsvalgte', 'ledere', 'amu'] as const
-const CHANNELS = ['allmote', 'skriftlig', 'epost', 'mote', 'intranett'] as const
+const AUDIENCES = INFORMATION_AUDIENCES
+const CHANNELS = INFORMATION_CHANNELS
 
 const InformationRow = z.object({
   id: z.string(),

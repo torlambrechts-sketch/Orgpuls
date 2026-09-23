@@ -1743,3 +1743,39 @@ table has RLS enabled and no policy or grant.
 **Still missing.** The design has no confirmation dialog anywhere, so none was invented
 for removing someone's access; the action is reversible from the same row. Sign-up still
 stores no role (D-38).
+
+## D-52 — Recording section 6 and section 8, which the design only prints
+
+**The constraint.** The report prints three things a person has to record: which later
+round shows whether a measure worked, and the judgement on it (section 6); who was told
+about the findings, how and when (section 8); and what training was held and when it is due
+again (section 8). The bundle writes all three as finished prose and has no control that
+could produce them. Migration 0023 added the columns and tables and the fixture seeds them,
+but no screen wrote them, so for a real organisation these sections could only ever print
+their empty state (D-36).
+
+**Effect, in the Tiltak panel.** Below the design's own fields, the handlingsplan panel
+gains an *Effektmåling* group. It holds a select of closed rounds (*Målt i*) and a text
+field (*Vurdering*), using the panel's own control classes. The panel is closed in the
+baseline, so the design's rendering does not change. The list offers only rounds that
+opened after the measure's own round. That round is excluded because 0023's trigger refuses
+it; earlier rounds are excluded because they cannot show the effect of something decided
+later. A stored choice always stays in the list, so an unchanged save never clears it.
+
+**Section 8, under the document on Rapport.** The register is a panel below the sheet,
+classed with the report's chrome and so hidden in print. It lists the records in the exact
+sentences section 8 prints, since both come from the same function, and gives each a Fjern
+button. It has two forms:
+
+- a briefing, recorded against the year's closed grunnlinje, since that is the round the
+  report documents;
+- a training, which belongs to the organisation rather than to a round.
+
+It is shown to a daglig leder or a verneombud, which is who the 0026 write policies admit.
+A refused write says so rather than reading as saved (`writeFailed`). A second record of the
+same meeting is refused by the table's unique key and reported as such. A next review on or
+before the training date is refused by the form and by the table's check.
+
+**Not built.** Records cannot be edited, only removed and entered again: every field is
+short, and the report prints nothing that an edit could preserve. The design has no
+confirmation dialog, so Fjern has none (as D-22).

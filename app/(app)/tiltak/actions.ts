@@ -45,6 +45,8 @@ const MeasureFields = z.object({
   step: z.enum(STEP_KEYS),
   kind: z.enum(['kollektivt', 'individuelt']),
   groupIds: z.array(Uuid),
+  effectRoundId: Optional(Uuid),
+  effectNote: Optional(z.string().trim().max(2000)),
 })
 
 export type MeasureActionResult = { ok: true } | { ok: false; problem: string }
@@ -97,6 +99,8 @@ export async function updateMeasure(formData: FormData): Promise<MeasureActionRe
     step: formData.get('step'),
     kind: formData.get('kind'),
     groupIds: formData.getAll('groupIds'),
+    effectRoundId: formData.get('effectRoundId'),
+    effectNote: formData.get('effectNote'),
   })
   if (!parsed.success) return problem('invalid')
 
@@ -114,12 +118,19 @@ export async function updateMeasure(formData: FormData): Promise<MeasureActionRe
       due_date: m.dueDate,
       step: m.step,
       kind: m.kind,
+      effect_round_id: m.effectRoundId,
+      effect_note: m.effectNote,
     })
     .eq('id', m.id)
     .select('id')
 
-  // the trigger in 0015 refuses a close that skips the effect measurement
-  if (error) return problem(error.message.includes('effect has been measured') ? 'closingRule' : 'denied')
+  // the trigger in 0015 refuses a close that skips the effect measurement, and the one in
+  // 0023 an effect round that is the measure's own
+  if (error) {
+    if (error.message.includes('effect has been measured')) return problem('closingRule')
+    if (error.message.includes('evaluated by the round')) return problem('effectRound')
+    return problem('denied')
+  }
   if (writeFailed('updateMeasure', null, data)) return problem('denied')
 
   /*

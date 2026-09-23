@@ -516,6 +516,32 @@
       "daglig_leder": "Daglig leder",
       "verneombud": "Verneombud",
       "tillitsvalgt": "Tillitsvalgt"
+    },
+    "register": {
+      "title": "Registrer til rapporten",
+      "lead": "Seksjon 8 skriver ut det som er registrert her, med de samme ordene. Etter § 9-2 skal de ansatte informeres om funnene, og opplæring gjentas når den forfaller.",
+      "infoHead": "Informasjon om funnene",
+      "infoFor": "Knyttes til {round}.",
+      "infoNoRound": "Året har ingen avsluttet grunnlinje å knytte informasjonen til.",
+      "trainingHead": "Opplæring",
+      "trainingFor": "Gjelder virksomheten, ikke én måling.",
+      "none": "Ingenting registrert ennå.",
+      "audience": "Hvem",
+      "channel": "Hvordan",
+      "heldOn": "Dato",
+      "nextDue": "Neste gjennomgang",
+      "note": "Merknad (valgfritt)",
+      "trainingTitle": "Hva",
+      "addInfo": "Registrer informasjon",
+      "addTraining": "Registrer opplæring",
+      "saving": "Lagrer …",
+      "remove": "Fjern",
+      "problem": {
+        "invalid": "Fyll ut hvem, hvordan og dato.",
+        "duplicate": "Dette møtet er allerede registrert.",
+        "nextDue": "Neste gjennomgang må være etter datoen opplæringen ble holdt.",
+        "denied": "Det gikk ikke. Bare daglig leder og verneombud kan registrere — ingenting ble endret."
+      }
     }
   },
   "tiltak": {
@@ -586,8 +612,14 @@
       "denied": "Du har ikke tilgang til å endre tiltak. Daglig leder og avdelingsledere kan det.",
       "closingRule": "Et tiltak kan ikke lukkes før effekten er målt.",
       "gone": "Tiltaket finnes ikke lenger.",
-      "noOrg": "Fant ingen virksomhet å knytte tiltaket til."
-    }
+      "noOrg": "Fant ingen virksomhet å knytte tiltaket til.",
+      "effectRound": "Effekten kan ikke måles i den samme målingen som tiltaket kom fra."
+    },
+    "effectHead": "Effektmåling",
+    "effectRound": "Målt i",
+    "effectRoundUnset": "Ikke valgt ennå",
+    "effectNote": "Vurdering",
+    "effectHint": "Rapporten sammenligner faktoren i målingen tiltaket kom fra med målingen du velger her, og skriver ut vurderingen slik den står."
   },
   "risk": {
     "probability": {

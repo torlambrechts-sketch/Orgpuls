@@ -516,6 +516,32 @@
       "daglig_leder": "Managing director",
       "verneombud": "Safety representative",
       "tillitsvalgt": "Union representative"
+    },
+    "register": {
+      "title": "Record for the report",
+      "lead": "Section 8 prints what is recorded here, in the same words. Under § 9-2 employees must be told what the survey found, and training is repeated when it falls due.",
+      "infoHead": "Sharing the findings",
+      "infoFor": "Recorded against {round}.",
+      "infoNoRound": "This year has no closed baseline to record the briefing against.",
+      "trainingHead": "Training",
+      "trainingFor": "Belongs to the organisation, not to one survey.",
+      "none": "Nothing recorded yet.",
+      "audience": "Who",
+      "channel": "How",
+      "heldOn": "Date",
+      "nextDue": "Next review",
+      "note": "Note (optional)",
+      "trainingTitle": "What",
+      "addInfo": "Record briefing",
+      "addTraining": "Record training",
+      "saving": "Saving …",
+      "remove": "Remove",
+      "problem": {
+        "invalid": "Fill in who, how and the date.",
+        "duplicate": "This meeting is already recorded.",
+        "nextDue": "The next review must be after the date the training was held.",
+        "denied": "That did not work. Only the managing director and the safety representative can record this — nothing was changed."
+      }
     }
   },
   "tiltak": {
@@ -586,8 +612,14 @@
       "denied": "You do not have access to change measures. A daglig leder or an avdelingsleder does.",
       "closingRule": "A measure cannot be closed before its effect has been measured.",
       "gone": "The measure no longer exists.",
-      "noOrg": "No organisation was found to attach the measure to."
-    }
+      "noOrg": "No organisation was found to attach the measure to.",
+      "effectRound": "The effect cannot be measured by the survey the measure came from."
+    },
+    "effectHead": "Effect",
+    "effectRound": "Measured in",
+    "effectRoundUnset": "Not chosen yet",
+    "effectNote": "Assessment",
+    "effectHint": "The report compares the factor in the survey this measure came from with the one you choose here, and prints the assessment as written."
   },
   "risk": {
     "probability": {

@@ -2,7 +2,7 @@ import { TiltakScreen, type StatusFilter, type TiltakView } from '@/components/t
 import { getFactors } from '@/lib/instrument/read'
 import { getMeasures } from '@/lib/measures/read'
 import { getEmployees, getGroups } from '@/lib/org/read'
-import { getLatestClosedRoundId } from '@/lib/rounds/read'
+import { getLatestClosedRoundId, getRounds } from '@/lib/rounds/read'
 
 /**
  * Tiltak — the data half. Bundle lines 1712-1795; the rendering is in
@@ -30,12 +30,13 @@ export default async function TiltakPage({
   searchParams: Promise<{ status?: string; maling?: string; tildelt?: string }>
 }) {
   const params = await searchParams
-  const [measures, employees, groups, factors, newMeasureRoundId] = await Promise.all([
+  const [measures, employees, groups, factors, newMeasureRoundId, allRounds] = await Promise.all([
     getMeasures(),
     getEmployees(),
     getGroups(),
     getFactors(),
     getLatestClosedRoundId(),
+    getRounds(),
   ])
 
   const status = STATUSES.includes(params.status as StatusFilter)
@@ -61,6 +62,10 @@ export default async function TiltakPage({
     groups,
     factorKeys: factors.map((f) => f.key),
     newMeasureRoundId,
+    // a round can be evidence only once it has closed and its result exists
+    effectRounds: allRounds
+      .filter((r) => r.status === 'lukket')
+      .map((r) => ({ id: r.id, kind: r.kind, year: r.year, pulseNo: r.pulseNo, opensAt: r.opensAt })),
   }
 
   return <TiltakScreen view={view} />

@@ -59,12 +59,15 @@ export interface MeasureCardProps {
     step: string
     kind: 'kollektivt' | 'individuelt'
     groupIds: string[]
+    effectRoundId: string
+    effectNote: string
   }
   options: {
     owners: Option[]
     factors: Option[]
     steps: Option[]
     groups: Option[]
+    effectRounds: Option[]
   }
   labels: {
     edit: string
@@ -83,6 +86,11 @@ export interface MeasureCardProps {
     noteCollective: string
     noteIndividual: string
     affectedHead: string
+    effectHead: string
+    effectRound: string
+    effectRoundUnset: string
+    effectNote: string
+    effectHint: string
     delete: string
     done: string
     problems: Record<string, string>
@@ -294,6 +302,40 @@ export function MeasureCard({ id, view, values, options, labels }: MeasureCardPr
                   text="12px"
                 />
               ))}
+            </span>
+          </fieldset>
+
+          {/*
+            Not in the design (D-52): section 6 of the report needs the round that showed
+            whether this worked and a person's judgement on it, and the bundle's panel has
+            no field for either. The same controls as the panel's own fields.
+          */}
+          <fieldset className="mt-[14px] min-w-0 border-0 p-0">
+            <legend className="mb-[7px] block p-0 text-[12px] text-mut">{labels.effectHead}</legend>
+            {/* auto-fill, not the panel's auto-fit: one field keeps one column's width */}
+            <div className="grid gap-[12px] [grid-template-columns:repeat(auto-fill,minmax(190px,1fr))]">
+              <Field label={labels.effectRound}>
+                <select name="effectRoundId" defaultValue={values.effectRoundId} className={CONTROL}>
+                  <option value="">{labels.effectRoundUnset}</option>
+                  {options.effectRounds.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+            </div>
+            <label className="mt-[12px] block">
+              <span className="mb-[5px] block text-[12px] text-mut">{labels.effectNote}</span>
+              <textarea
+                name="effectNote"
+                maxLength={2000}
+                defaultValue={values.effectNote}
+                className="box-border min-h-[64px] w-full resize-y rounded-btn border border-line bg-sf px-[14px] py-[11px] text-[13.5px] leading-[1.55] text-ink outline-none"
+              />
+            </label>
+            <span className="mt-[6px] block max-w-[540px] text-[12px] leading-[1.5] text-mut [text-wrap:pretty]">
+              {labels.effectHint}
             </span>
           </fieldset>
 
