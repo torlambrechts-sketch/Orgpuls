@@ -1462,8 +1462,11 @@ differing from the design's snapshot.
       named in X-033 against a deviation or the fixture's state.
 - [x] Resultat's Samtaler column is built on `public.conversations()`, for the whole
       organisation. Its heading diffs at 0 pixels (D-54).
-- [ ] Resultat's screening strip (D-14) can now be backed by `rpc.screening_counts`, the
-      reader section 7 of the report already uses.
+- [x] Resultat's screening strip reads `rpc.screening_counts` by the same rule as the
+      report's section 7, and prints the design's "3 av 28" (D-55).
+- [ ] "Hva de skrev" (D-14) is the last block of Resultat's lower band still omitted. It
+      would need a k-gated count of respondents who wrote something; its theme list is
+      empty even in the design.
 - [ ] Nothing empties `app.outbox`. 34 notices are queued and no dispatcher exists; an
       e-mail integration is the missing piece, and until it lands the årshjul plans and
       queues but nobody is told (D-29).

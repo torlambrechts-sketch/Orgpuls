@@ -363,8 +363,8 @@ database holds.
 
 ## D-14 — "Hva de skrev", the Samtaler column and the screening strip are omitted
 
-**Partly superseded:** the Samtaler column is built (D-54). "Hva de skrev" and the
-screening strip remain omitted.
+**Mostly superseded:** the Samtaler column is built (D-54) and the screening strip
+(D-55). Only "Hva de skrev" remains omitted.
 
 **Design:** below the grid, a two-column block — automatically grouped free-text themes on
 the left, three comment threads with a reply box on the right — and then a strip reading
@@ -1849,6 +1849,35 @@ comment is not the first comment in the design's hard-coded list.
   The Samtaler column keeps the design's right-hand track and width rather than stretching
   across both, which is also what makes it comparable to the baseline. On a phone it stacks.
 
-**Still omitted from D-14:** "Hva de skrev" and the screening strip. The strip ("Krenkende
-atferd: 3 av 28 svarte ja") could now be backed by `rpc.screening_counts` (0023), the
-same k-gated reader section 7 of the report prints from.
+**Still omitted from D-14:** "Hva de skrev". The screening strip is built (D-55).
+
+## D-55 — Resultat's screening strip is built, from the counts section 7 prints
+
+The strip at the foot of Resultat ("Krenkende atferd: 3 av 28 svarte ja") reads
+`rpc.screening_counts`, the k-gated reader section 7 of the report prints from (0023).
+The two read a "ja" by one rule, `lib/report/screening.ts`. Option 1 is "Nei" and the last
+is "Vil ikke svare", everything between is a yes, and "Vil ikke svare" stays in the
+denominator. Moving that rule out of the report means the strip and the document cannot
+disagree. With the fixture it prints the design's own figure, 3 of 28, and the strip diffs
+at **589 pixels**, all of it the sentence below.
+
+**Differences:**
+
+- **"Verneombud varslet 15. september." is dropped.** It is a record this product does not
+  hold, the same sentence section 7 drops (D-36). The law-mode note keeps "Loven krever
+  håndtering uavhengig av indeks". The other mode keeps the design's "Tre personer har sagt
+  fra — det er tre samtaler som skal tas", spelled from the real count as the Innsikt lead
+  now is.
+- **Violence is printed beside it only when someone said yes.** The design's strip is
+  krenkende atferd alone. A yes to vold eller trusler is not something to leave off this
+  screen, and "0 av 28" under it would be noise.
+- **Whole organisation only.** The RPC has no group parameter, deliberately: screening
+  counts are never broken down. On a department's view the strip would print the whole
+  organisation's count under a department's heading, so it is left out there, as the
+  Samtaler column is (D-54). It is also absent for a round that did not ask about
+  krenkende atferd, and when the round is under the threshold.
+- **"Åpne rutinen" goes to Tiltak**, where the design sends it. The organisation's own
+  varslingsrutine is not a document this product holds.
+
+D-14 is now down to "Hva de skrev". Its count has no reader, and its theme list is empty
+even in the design.

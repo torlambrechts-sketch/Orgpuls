@@ -394,6 +394,15 @@
       "replied": "Ledelsen svarte:",
       "placeholder": "Svar anonymt …",
       "send": "Send"
+    },
+    "screening": {
+      "krenkende": "Krenkende atferd: {yes} av {answered} svarte ja",
+      "vold": "Vold og trusler: {yes} av {answered} svarte ja",
+      "lead": "Screeningen grupperes aldri og viser aldri hvem.",
+      "law": "Loven krever håndtering uavhengig av indeks.",
+      "plain": "Dette håndteres som enkeltsaker, ikke som et tall å forbedre.",
+      "people": "{count, plural, one {Én person har sagt fra — det er én samtale som skal tas.} =2 {To personer har sagt fra — det er to samtaler som skal tas.} =3 {Tre personer har sagt fra — det er tre samtaler som skal tas.} =4 {Fire personer har sagt fra — det er fire samtaler som skal tas.} =5 {Fem personer har sagt fra — det er fem samtaler som skal tas.} =6 {Seks personer har sagt fra — det er seks samtaler som skal tas.} =7 {Sju personer har sagt fra — det er sju samtaler som skal tas.} =8 {Åtte personer har sagt fra — det er åtte samtaler som skal tas.} =9 {Ni personer har sagt fra — det er ni samtaler som skal tas.} =10 {Ti personer har sagt fra — det er ti samtaler som skal tas.} =11 {Elleve personer har sagt fra — det er elleve samtaler som skal tas.} =12 {Tolv personer har sagt fra — det er tolv samtaler som skal tas.} other {# personer har sagt fra — det er # samtaler som skal tas.}}",
+      "open": "Åpne rutinen"
     }
   },
   "rapport": {

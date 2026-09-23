@@ -83,7 +83,21 @@ export type ResultatBody =
       /** the Samtaler column, for the whole organisation only; empty hides it (D-54) */
       threads: ResultThread[]
       canReply: boolean
+      /** krenkende atferd (and vold, when anyone said yes), whole organisation; D-55 */
+      screening: {
+        krenkende: ScreeningLine
+        vold: ScreeningLine | null
+        lawMode: boolean
+      } | null
     }
+
+/** One screening question's counts, read by `screeningTally`. */
+export interface ScreeningLine {
+  key: string
+  answered: number
+  yes: number
+  declined: number
+}
 
 /** A comment on the Samtaler column, as the page read it from `conversations()`. */
 export interface ResultThread {
@@ -504,6 +518,48 @@ async function Results({
               ),
             }}
           />
+        </div>
+      ) : null}
+
+      {body.screening ? (
+        // bundle 919-929: the strip at the foot of the panel
+        <div className="border-t border-line bg-sf px-[28px] pb-[22px] pt-[20px] max-md:px-[18px]">
+          <div className="flex flex-wrap items-start gap-[14px]">
+            <span
+              aria-hidden
+              className="flex h-[34px] w-[34px] flex-none items-center justify-center rounded-pill bg-peach text-[17px] font-bold text-dangerdeep"
+            >
+              !
+            </span>
+            <span className="min-w-[220px] flex-1">
+              <span className="block text-[14px] font-semibold">
+                {t('resultat.screening.krenkende', { yes: body.screening.krenkende.yes, answered: body.screening.krenkende.answered })}
+              </span>
+              {body.screening.vold ? (
+                <span className="block text-[14px] font-semibold">
+                  {t('resultat.screening.vold', { yes: body.screening.vold.yes, answered: body.screening.vold.answered })}
+                </span>
+              ) : null}
+              <span className="mt-[3px] block text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">
+                {[
+                  t('resultat.screening.lead'),
+                  body.screening.lawMode ? t('resultat.screening.law') : t('resultat.screening.plain'),
+                  !body.screening.lawMode && body.screening.krenkende.yes > 0
+                    ? t('resultat.screening.people', { count: body.screening.krenkende.yes })
+                    : null,
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+              </span>
+            </span>
+            {/* the design's button, to where the design sends it: Tiltak (D-06, D-55) */}
+            <Link
+              href="/tiltak"
+              className="inline-flex h-[36px] flex-none items-center rounded-ctl border border-ink bg-transparent px-[16px] text-[12.5px] font-bold text-ink no-underline hover:text-ink hover:no-underline"
+            >
+              {t('resultat.screening.open')}
+            </Link>
+          </div>
         </div>
       ) : null}
     </div>

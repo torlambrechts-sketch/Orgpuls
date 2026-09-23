@@ -8,6 +8,7 @@ import { Sheet } from '@/components/rapport/Sheet'
 import { formatOrgNumber } from '@/lib/org/read'
 import { stepIndex, type MeasureStep } from '@/lib/measures/read'
 import type { Band } from '@/lib/results/read'
+import { screeningTally } from '@/lib/report/screening'
 import type {
   InformationEvent,
   MeasureEffect,
@@ -872,11 +873,7 @@ export async function RapportScreen({ view }: { view: RapportView }) {
     return (
       <>
         {questions.map((q) => {
-          // option 1 is "Nei" and the last is "Vil ikke svare"; everything between is a yes
-          const yes = q.options
-            .filter((o) => o.ordinal > 1 && o.ordinal < q.options.length)
-            .reduce((a, o) => a + o.n, 0)
-          const declined = q.options.find((o) => o.ordinal === q.options.length)?.n ?? 0
+          const { yes, declined } = screeningTally(q.options)
 
           return (
             <p key={q.key} className="mt-[8px] text-[12.5px] leading-[1.65] text-body">

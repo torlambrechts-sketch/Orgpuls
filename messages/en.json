@@ -394,6 +394,15 @@
       "replied": "Management replied:",
       "placeholder": "Reply anonymously …",
       "send": "Send"
+    },
+    "screening": {
+      "krenkende": "Offensive behaviour: {yes} of {answered} answered yes",
+      "vold": "Violence and threats: {yes} of {answered} answered yes",
+      "lead": "The screening is never grouped and never shows who.",
+      "law": "The law requires it to be handled whatever the index says.",
+      "plain": "These are handled as individual cases, not as a number to improve.",
+      "people": "{count, plural, one {One person has spoken up — that is one conversation to be had.} =2 {Two people have spoken up — that is two conversations to be had.} =3 {Three people have spoken up — that is three conversations to be had.} =4 {Four people have spoken up — that is four conversations to be had.} =5 {Five people have spoken up — that is five conversations to be had.} =6 {Six people have spoken up — that is six conversations to be had.} =7 {Seven people have spoken up — that is seven conversations to be had.} =8 {Eight people have spoken up — that is eight conversations to be had.} =9 {Nine people have spoken up — that is nine conversations to be had.} =10 {Ten people have spoken up — that is ten conversations to be had.} =11 {Eleven people have spoken up — that is eleven conversations to be had.} =12 {Twelve people have spoken up — that is twelve conversations to be had.} other {# people have spoken up — that is # conversations to be had.}}",
+      "open": "Open the routine"
     }
   },
   "rapport": {

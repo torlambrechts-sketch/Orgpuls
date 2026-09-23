@@ -10,6 +10,9 @@ import {
 import { getConversations, type Conversation } from '@/lib/conversations/read'
 import { getFactors } from '@/lib/instrument/read'
 import { getViewerRole } from '@/lib/org/read'
+import { getScreeningCounts } from '@/lib/report/tail'
+import { screeningTally } from '@/lib/report/screening'
+import { getShellContext } from '@/lib/shell/read'
 import { getResultsByGroup, getResultsSummary } from '@/lib/results/read'
 import { getRoundFactorKeys, getRounds } from '@/lib/rounds/read'
 
@@ -230,10 +233,35 @@ export default async function ResultatPage({
    * answered; three at most, the rest a click away on Samtaler.
    */
   const RANK: Record<Conversation['state'], number> = { venter: 0, dialog: 1, lukket: 2 }
-  const [conversations, role] =
+  const [conversations, role, screeningCounts, shell] =
     scope.kind === 'org'
-      ? await Promise.all([getConversations(selected.id), getViewerRole()])
-      : [null, null]
+      ? await Promise.all([
+          getConversations(selected.id),
+          getViewerRole(),
+          getScreeningCounts(selected.id),
+          getShellContext(),
+        ])
+      : [null, null, null, null]
+
+  /*
+   * The screening strip (D-55): the same k-gated counts section 7 of the report prints,
+   * read by the same rule. Whole organisation only, as the RPC is — it has no group
+   * parameter, by design — and only for a round that asked about krenkende atferd.
+   */
+  const screeningLines =
+    screeningCounts?.status === 'ok'
+      ? screeningCounts.questions.map((q) => ({ key: q.key, answered: q.answered, ...screeningTally(q.options) }))
+      : []
+  const krenkende = screeningLines.find((q) => q.key === 'krenkende')
+  const screening = krenkende
+    ? {
+        krenkende,
+        // violence is printed beside it only when somebody said yes; the design's strip is
+        // krenkende atferd, and a "0 av 28" line under it would be noise
+        vold: screeningLines.find((q) => q.key === 'vold' && q.yes > 0) ?? null,
+        lawMode: shell?.lawMode ?? true,
+      }
+    : null
   const threads = (conversations?.items ?? [])
     .slice()
     .sort((a, b) => RANK[a.state] - RANK[b.state] || b.waitingDays - a.waitingDays)
@@ -252,6 +280,7 @@ export default async function ResultatPage({
       view={frame({
         kind: 'results',
         threads,
+        screening,
         // styling only; reply_to_thread checks the role itself against auth.uid()
         canReply: role === 'daglig_leder' || role === 'avdelingsleder',
         n,
