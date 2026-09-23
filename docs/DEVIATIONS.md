@@ -363,6 +363,9 @@ database holds.
 
 ## D-14 — "Hva de skrev", the Samtaler column and the screening strip are omitted
 
+**Partly superseded:** the Samtaler column is built (D-54). "Hva de skrev" and the
+screening strip remain omitted.
+
 **Design:** below the grid, a two-column block — automatically grouped free-text themes on
 the left, three comment threads with a reply box on the right — and then a strip reading
 "Krenkende atferd: 3 av 28 svarte ja" (bundle lines 878-936).
@@ -1814,3 +1817,38 @@ puls asks, and each row prints its own real question count.
 closing date carries its year only for a past year ("lukket 11. september 2025") and not
 for a future one ("går ut 12. mars"), because the design prints it that way and the puls
 title already carries the year.
+
+## D-54 — Resultat's Samtaler column is built; "Hva de skrev" and the screening strip still wait
+
+D-14 omitted the column because the two-way thread did not exist. Samtaler (0018) built
+it, so the column now reads the same k-gated `public.conversations()` for the selected
+round. A comment from a group under the threshold is absent here for the same reason it is
+absent on Samtaler, and a reply goes through the same `reply_to_thread`, which checks the
+role itself.
+
+**As the design draws it:** three comments at most. Waiting comments come first, longest
+wait first, then answered ones. Each card shows the factor's compact name, the age ("venter
+· 6 dager", in red from five days, a rule now shared with Samtaler in
+`lib/conversations/rules.ts`), the comment in guillemets, the latest reply, and a reply box
+on a waiting comment for a viewer who may reply. "Se alle →" links to Samtaler (D-06).
+Against the baseline the column's heading strip diffs at **0 pixels**. The first card
+passes at 3 695 pixels, all of it the comment's own words: the fixture's longest-waiting
+comment is not the first comment in the design's hard-coded list.
+
+**Where it differs, and why:**
+
+- **"Ledelsen svarte:", not "Du svarte:".** A reply may have been written by another
+  leader, and the application cannot read another person's name (D-28 point 4). "Du
+  svarte" would put words in the viewer's mouth.
+- **Whole organisation only.** The RPC never returns which department a comment came from:
+  that is the anonymity rule, not an omission. On a department's view the column could not
+  truthfully be "the comments that belong to this selection", so it is not rendered there.
+  It is also not rendered when the round has no comment that cleared the threshold.
+- **The band's left track stays empty.** "Hva de skrev" remains omitted (D-14). Its count
+  ("14 av 28 skrev noe") has no reader, and its theme list is empty even in the design.
+  The Samtaler column keeps the design's right-hand track and width rather than stretching
+  across both, which is also what makes it comparable to the baseline. On a phone it stacks.
+
+**Still omitted from D-14:** "Hva de skrev" and the screening strip. The strip ("Krenkende
+atferd: 3 av 28 svarte ja") could now be backed by `rpc.screening_counts` (0023), the
+same k-gated reader section 7 of the report prints from.

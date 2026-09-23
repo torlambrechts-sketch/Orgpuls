@@ -7,7 +7,9 @@ import {
   type Scope,
   type ScreenFactor,
 } from '@/components/resultat/ResultatScreen'
+import { getConversations, type Conversation } from '@/lib/conversations/read'
 import { getFactors } from '@/lib/instrument/read'
+import { getViewerRole } from '@/lib/org/read'
 import { getResultsByGroup, getResultsSummary } from '@/lib/results/read'
 import { getRoundFactorKeys, getRounds } from '@/lib/rounds/read'
 
@@ -217,10 +219,41 @@ export default async function ResultatPage({
       ? (participation?.groups.find((g) => g.group_name === scope.name)?.pct ?? null)
       : (participation?.pct ?? null)
 
+  /*
+   * The Samtaler column (D-54): this round's comments, from the same k-gated RPC Samtaler
+   * reads. Only for the whole organisation — the RPC never says which department a
+   * comment came from, so on a department's view the column could not honestly be
+   * "the comments that belong to this selection", and it is left out rather than filled
+   * with everyone's.
+   *
+   * The design's order: what is still waiting, longest first, then what has been
+   * answered; three at most, the rest a click away on Samtaler.
+   */
+  const RANK: Record<Conversation['state'], number> = { venter: 0, dialog: 1, lukket: 2 }
+  const [conversations, role] =
+    scope.kind === 'org'
+      ? await Promise.all([getConversations(selected.id), getViewerRole()])
+      : [null, null]
+  const threads = (conversations?.items ?? [])
+    .slice()
+    .sort((a, b) => RANK[a.state] - RANK[b.state] || b.waitingDays - a.waitingDays)
+    .slice(0, 3)
+    .map((c) => ({
+      id: c.id,
+      factorKey: c.factorKey,
+      text: c.opening,
+      state: c.state,
+      waitingDays: c.waitingDays,
+      reply: c.messages.filter((m) => m.author === 'leder').at(-1)?.body ?? null,
+    }))
+
   return (
     <ResultatScreen
       view={frame({
         kind: 'results',
+        threads,
+        // styling only; reply_to_thread checks the role itself against auth.uid()
+        canReply: role === 'daglig_leder' || role === 'avdelingsleder',
         n,
         headcount: participation?.headcount ?? null,
         pct,

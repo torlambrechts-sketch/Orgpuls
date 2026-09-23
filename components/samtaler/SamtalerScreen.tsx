@@ -5,6 +5,7 @@ import { Button, ButtonLink } from '@/components/ui/Button'
 import { ThreadCard, type ThreadCardProps } from '@/components/samtaler/ThreadCard'
 import type { Conversation, ThreadState } from '@/lib/conversations/read'
 import { toneOf } from '@/lib/conversations/read'
+import { LATE_AFTER_DAYS } from '@/lib/conversations/rules'
 
 /**
  * Samtaler, the rendering. Bundle lines 941-1025.
@@ -48,12 +49,6 @@ const TONE: Record<string, { background: string; color: string }> = {
   positiv: { background: '#CFE7E4', color: '#20431C' },
 }
 
-/**
- * "Late" is the bundle's own rule (line 3690): unanswered, not closed, and five days or
- * more. Five, not a round week — a comment that has sat unanswered for a working week is
- * the thing the screen exists to prevent, and the design picked the number.
- */
-const LATE_AFTER_DAYS = 5
 
 export async function SamtalerScreen({ view }: { view: SamtalerView }) {
   const t = await getTranslations()

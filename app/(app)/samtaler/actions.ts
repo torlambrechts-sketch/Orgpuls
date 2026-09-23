@@ -41,6 +41,8 @@ export async function replyToThread(formData: FormData): Promise<ThreadActionRes
 
   revalidatePath('/samtaler')
   revalidatePath('/innsikt')
+  // Resultat's Samtaler column replies through here too (D-54)
+  revalidatePath('/resultat')
   return { ok: true }
 }
 

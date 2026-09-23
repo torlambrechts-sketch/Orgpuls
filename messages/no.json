@@ -384,7 +384,17 @@
     "assess": "Vurder risiko",
     "assessed": "Se vurdering",
     "heatHead": "Team × faktor",
-    "heatThreshold": "Grupper under {threshold} svar vises som —"
+    "heatThreshold": "Grupper under {threshold} svar vises som —",
+    "conv": {
+      "head": "Samtaler",
+      "seeAll": "Se alle →",
+      "lead": "Kommentarene som hører til dette utvalget. Hele tråden ligger i Samtaler.",
+      "waiting": "venter · {days, plural, one {# dag} other {# dager}}",
+      "answered": "besvart",
+      "replied": "Ledelsen svarte:",
+      "placeholder": "Svar anonymt …",
+      "send": "Send"
+    }
   },
   "rapport": {
     "backToInnsikt": "← Innsikt",

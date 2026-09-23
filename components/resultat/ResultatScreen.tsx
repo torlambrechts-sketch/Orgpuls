@@ -4,6 +4,8 @@ import { roundTitle } from '@/lib/rounds/title'
 import { ButtonLink } from '@/components/ui/Button'
 import { Risikobildet, type FactorRow } from '@/components/resultat/Risikobildet'
 import { bandCounts, deltaColour, heatTone, signedDelta, type Band } from '@/lib/results/read'
+import { ConversationColumn } from '@/components/resultat/ConversationColumn'
+import { LATE_AFTER_DAYS } from '@/lib/conversations/rules'
 
 /**
  * Resultat, the rendering. Bundle lines 692-908.
@@ -78,7 +80,21 @@ export type ResultatBody =
       /** how many factors the instrument holds in total, so "alle elleve" stays true */
       instrumentSize: number
       heat: HeatRow[]
+      /** the Samtaler column, for the whole organisation only; empty hides it (D-54) */
+      threads: ResultThread[]
+      canReply: boolean
     }
+
+/** A comment on the Samtaler column, as the page read it from `conversations()`. */
+export interface ResultThread {
+  id: string
+  factorKey: string
+  text: string
+  state: 'venter' | 'dialog' | 'lukket'
+  waitingDays: number
+  /** the latest leadership reply */
+  reply: string | null
+}
 
 export interface ResultatView {
   rounds: RoundChip[]
@@ -454,6 +470,42 @@ async function Results({
           </div>
         </div>
       </div>
+
+      {body.threads.length > 0 ? (
+        /*
+          The design's two-column band on the canvas. "Hva de skrev" is still omitted
+          (D-14) — its count is unbacked and its theme list is empty even in the design —
+          so its track stays empty and the Samtaler column keeps the design's right-hand
+          track and width, rather than stretching across both. Stacked on a phone.
+        */
+        <div className="grid border-t border-line bg-bg md:grid-cols-2">
+          <ConversationColumn
+            threads={body.threads.map((c) => {
+              const waiting = c.state === 'venter'
+              return {
+                id: c.id,
+                factor: t(`factor.${c.factorKey}.short`),
+                text: c.text,
+                age: waiting ? t('resultat.conv.waiting', { days: c.waitingDays }) : t('resultat.conv.answered'),
+                late: waiting && c.waitingDays >= LATE_AFTER_DAYS,
+                reply: c.reply,
+                open: waiting && body.canReply,
+              }
+            })}
+            labels={{
+              head: t('resultat.conv.head'),
+              seeAll: t('resultat.conv.seeAll'),
+              lead: t('resultat.conv.lead'),
+              replied: t('resultat.conv.replied'),
+              placeholder: t('resultat.conv.placeholder'),
+              send: t('resultat.conv.send'),
+              problems: Object.fromEntries(
+                ['invalid_body', 'denied', 'not_found'].map((k) => [k, t(`samtaler.problem.${k}`)]),
+              ),
+            }}
+          />
+        </div>
+      ) : null}
     </div>
   )
 }

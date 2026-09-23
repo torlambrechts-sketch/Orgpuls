@@ -1460,9 +1460,10 @@ differing from the design's snapshot.
 - [x] The pixel gate has per-block claims for all eleven screens, and the real defects it
       found are fixed. Tiltak passes the whole-page budget. Every other residual is
       named in X-033 against a deviation or the fixture's state.
-- [ ] Resultat's Samtaler column (D-14) could now be backed by `public.conversations()`,
-      which Samtaler reads. It is the largest block on any screen still omitted for a
-      reason that no longer holds.
+- [x] Resultat's Samtaler column is built on `public.conversations()`, for the whole
+      organisation. Its heading diffs at 0 pixels (D-54).
+- [ ] Resultat's screening strip (D-14) can now be backed by `rpc.screening_counts`, the
+      reader section 7 of the report already uses.
 - [ ] Nothing empties `app.outbox`. 34 notices are queued and no dispatcher exists; an
       e-mail integration is the missing piece, and until it lands the årshjul plans and
       queues but nobody is told (D-29).

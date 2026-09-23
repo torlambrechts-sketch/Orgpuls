@@ -384,7 +384,17 @@
     "assess": "Assess risk",
     "assessed": "See assessment",
     "heatHead": "Team × factor",
-    "heatThreshold": "Groups with fewer than {threshold} answers appear as —"
+    "heatThreshold": "Groups with fewer than {threshold} answers appear as —",
+    "conv": {
+      "head": "Conversations",
+      "seeAll": "See all →",
+      "lead": "The comments that belong to this selection. The whole thread is in Conversations.",
+      "waiting": "waiting · {days, plural, one {# day} other {# days}}",
+      "answered": "answered",
+      "replied": "Management replied:",
+      "placeholder": "Reply anonymously …",
+      "send": "Send"
+    }
   },
   "rapport": {
     "backToInnsikt": "← Insight",
