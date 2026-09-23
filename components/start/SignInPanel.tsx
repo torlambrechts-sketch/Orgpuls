@@ -108,9 +108,20 @@ export function SignInPanel() {
             />
           </label>
 
-          <label className="mt-[14px] block">
+          {/*
+            The label does not wrap this field, and "Glemt passord?" is why. A <button>
+            inside a <label> is interactive content inside a label: the browser folds its
+            text into the input's accessible name, so the field announces itself as
+            "Passord Glemt passord?", and a click on the link also focuses the input. It
+            is also what broke scripts/verify/shoot.mjs, which looks the password box up
+            by its label and found the link instead. Same box model, same rendering —
+            htmlFor does the association a wrapper was doing.
+          */}
+          <div className="mt-[14px]">
             <span className="mb-[7px] flex items-baseline justify-between gap-[10px]">
-              <span className="text-[13px] font-bold">{t('password')}</span>
+              <label htmlFor="signin-password" className="text-[13px] font-bold">
+                {t('password')}
+              </label>
               <button
                 type="button"
                 onClick={() => setMode('forgot')}
@@ -120,6 +131,7 @@ export function SignInPanel() {
               </button>
             </span>
             <input
+              id="signin-password"
               name="password"
               type="password"
               required
@@ -128,7 +140,7 @@ export function SignInPanel() {
               placeholder={t('passwordPlaceholder')}
               className="h-[48px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[15px] text-ink outline-none"
             />
-          </label>
+          </div>
 
           <button
             type="submit"

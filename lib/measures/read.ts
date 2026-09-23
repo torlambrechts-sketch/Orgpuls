@@ -1,6 +1,7 @@
 import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { parseFailed, readFailed } from '@/lib/supabase/read'
 
 /**
  * Reading tiltak.
@@ -97,16 +98,30 @@ export async function getMeasures(): Promise<Measure[]> {
     .schema('app')
     .from('measures')
     .select(
+      /*
+       * `rounds!measures_round_id_fkey` names the foreign key, and it has to.
+       *
+       * `app.measures` has had two references to `app.rounds` since migration 0023:
+       * `round_id`, the round that raised the measure, and `effect_round_id`, the round
+       * chosen as evidence that it worked. A bare `rounds(...)` embed was unambiguous
+       * before 0023 and is not after it — PostgREST answers `PGRST201 — Could not embed
+       * because more than one relationship was found` and returns no rows at all. The
+       * screen then printed "Ingen tiltak i denne visningen" over seven measures.
+       *
+       * The one wanted here is the round the measure came out of, which is what the
+       * chips filter by and what section 6 of the report compares against.
+       */
       'id, factor_key, law_ref, title, goal, due_date, completed_on, step, kind, created_at,' +
-        ' factors(law_ref), employees(id, full_name), rounds(id, measurements(kind, year)),' +
+        ' factors(law_ref), employees(id, full_name),' +
+        ' rounds!measures_round_id_fkey(id, measurements(kind, year)),' +
         ' measure_groups(group_id)',
     )
     // the order they were decided in; see the fixture's note on created_at
     .order('created_at', { ascending: true })
 
-  if (error || !data) return []
+  if (readFailed('getMeasures', error, data)) return []
   const parsed = z.array(MeasureRow).safeParse(data)
-  if (!parsed.success) return []
+  if (parseFailed('getMeasures', parsed)) return []
 
   // "today" in the organisation's own zone: a deadline is a date, not an instant, and
   // whether it has passed must not depend on where the server happens to run.

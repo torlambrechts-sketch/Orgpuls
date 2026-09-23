@@ -1,6 +1,7 @@
 import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { callFailed } from '@/lib/supabase/read'
 
 /**
  * Reading participation.
@@ -52,7 +53,7 @@ export type ParticipationGroup = z.infer<typeof GroupRow>
 export async function getParticipation(roundId: string): Promise<Participation | null> {
   const supabase = await createClient()
   const { data, error } = await supabase.rpc('participation', { p_round: roundId })
-  if (error) return null
+  if (callFailed('getParticipation', error)) return null
   if (NotAvailable.safeParse(data).success) return null
 
   const parsed = Participation.safeParse(data)

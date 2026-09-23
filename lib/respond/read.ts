@@ -1,6 +1,7 @@
 import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { parseFailed } from '@/lib/supabase/read'
 
 /**
  * Reading the respondent form.
@@ -47,13 +48,23 @@ export async function getRespondForm(
   const supabase = await createClient()
   const { data, error } = await supabase.rpc('respond_form', { p_token: token })
 
-  // a transport failure is not a verdict on the token, but there is nothing to show
+  /*
+   * A transport failure is not a verdict on the token, but there is nothing to show.
+   *
+   * This is the one read in the application that does NOT log its error, and the token is
+   * why. `respond_form` takes the plaintext capability as an argument, and a Postgres
+   * error can quote the argument it choked on — `invalid input syntax for ...` is exactly
+   * that shape. Invariant 3 keeps the plaintext out of every column; putting it in a
+   * deployment log instead would be the same exposure through a different door, and a log
+   * is copied to more places than a table. A respondent's form failing to open is visible
+   * to the respondent, which is who needs to know.
+   */
   if (error) return { refused: 'invalid_token' }
 
   const refusal = Refusal.safeParse(data)
   if (refusal.success) return { refused: refusal.data.error }
 
   const parsed = Form.safeParse(data)
-  if (!parsed.success) return { refused: 'invalid_token' }
+  if (parseFailed('getRespondForm', parsed)) return { refused: 'invalid_token' }
   return { form: parsed.data }
 }

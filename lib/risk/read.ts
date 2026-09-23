@@ -1,6 +1,7 @@
 import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { parseFailed, readFailed } from '@/lib/supabase/read'
 
 /**
  * Reading the risk assessment.
@@ -84,9 +85,9 @@ export async function getRiskAssessment(roundId: string): Promise<RiskAssessment
     .eq('round_id', roundId)
     .maybeSingle()
 
-  if (error || !data) return null
+  if (readFailed('getRiskAssessment', error, data)) return null
   const parsed = AssessmentRow.safeParse(data)
-  if (!parsed.success) return null
+  if (parseFailed('getRiskAssessment', parsed)) return null
   const a = parsed.data
 
   return {

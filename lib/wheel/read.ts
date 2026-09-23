@@ -1,6 +1,7 @@
 import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { parseFailed, readFailed } from '@/lib/supabase/read'
 
 /**
  * Reading the årshjul.
@@ -64,9 +65,9 @@ export async function getWheel(): Promise<Wheel | null> {
     .limit(1)
     .maybeSingle()
 
-  if (error || !data) return null
+  if (readFailed('getWheel', error, data)) return null
   const parsed = WheelRow.safeParse(data)
-  if (!parsed.success) return null
+  if (parseFailed('getWheel', parsed)) return null
   const w = parsed.data
 
   return {
@@ -134,7 +135,7 @@ export async function getLastRun(): Promise<JobRun | null> {
     .limit(1)
     .maybeSingle()
 
-  if (error || !data) return null
+  if (readFailed('getLastRun', error, data)) return null
   const parsed = RunRow.safeParse(data)
   return parsed.success ? parsed.data : null
 }

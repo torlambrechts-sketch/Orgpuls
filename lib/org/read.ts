@@ -1,6 +1,7 @@
 import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { parseFailed, readFailed } from '@/lib/supabase/read'
 
 /**
  * The organisation.
@@ -31,7 +32,7 @@ export async function getOrganization(): Promise<Organization | null> {
     .limit(1)
     .maybeSingle()
 
-  if (error || !data) return null
+  if (readFailed('getOrganization', error, data)) return null
   const parsed = OrgRow.safeParse(data)
   return parsed.success ? parsed.data : null
 }
@@ -67,7 +68,7 @@ export async function getGroups(): Promise<Group[]> {
     .select('id, name')
     .order('sort_order')
 
-  if (error || !data) return []
+  if (readFailed('getGroups', error, data)) return []
   const parsed = z.array(GroupRow).safeParse(data)
   return parsed.success ? parsed.data : []
 }
@@ -89,9 +90,9 @@ export async function getEmployees(): Promise<Person[]> {
     .eq('active', true)
     .order('full_name')
 
-  if (error || !data) return []
+  if (readFailed('getEmployees', error, data)) return []
   const parsed = z.array(EmployeeRow).safeParse(data)
-  if (!parsed.success) return []
+  if (parseFailed('getEmployees', parsed)) return []
   return parsed.data.map((e) => ({ id: e.id, name: e.full_name }))
 }
 
@@ -125,7 +126,7 @@ export async function getViewerRole(): Promise<Role | null> {
     .limit(1)
     .maybeSingle()
 
-  if (error || !data) return null
+  if (readFailed('getViewerRole', error, data)) return null
   const parsed = z.object({ role: z.enum(ROLES) }).safeParse(data)
   return parsed.success ? parsed.data.role : null
 }

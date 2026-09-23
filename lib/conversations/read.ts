@@ -1,6 +1,7 @@
 import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { callFailed, parseFailed } from '@/lib/supabase/read'
 
 /**
  * Reading conversations.
@@ -87,11 +88,11 @@ export interface Conversations {
 export async function getConversations(roundId?: string | null): Promise<Conversations | null> {
   const supabase = await createClient()
   const { data, error } = await supabase.rpc('conversations', { p_round: roundId ?? null })
-  if (error) return null
+  if (callFailed('getConversations', error)) return null
   if (NotAvailable.safeParse(data).success) return null
 
   const parsed = Payload.safeParse(data)
-  if (!parsed.success) return null
+  if (parseFailed('getConversations', parsed)) return null
 
   const now = Date.now()
   return {

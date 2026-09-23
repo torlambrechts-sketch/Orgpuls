@@ -1258,10 +1258,14 @@ gate.
       (D-38). Granting a membership is still a write no screen makes (X-020).
 - [x] The published figures — 61, −3, 82 %, 77 % — verified against the live database.
       X-008, re-verified at X-019. All six suites pass: 113 assertions.
-- [ ] `ORGPULS_DEV_PASSWORD` unset — no route can be signed into, so `shoot.mjs` and the
-      pixel gate still cannot run against the live app. A password cannot be set by an
-      agent (X-009); a human sets it on `dev.orgpuls@nordvik.example` and puts it in the
-      API-credentials box.
+- [x] `ORGPULS_DEV_PASSWORD` and `ORGPULS_DEV_EMAIL` supplied 2026-09-23. `shoot.mjs`
+      signs in and every app route can be captured; the pixel gate runs against the live
+      app for the first time. It found a user-visible regression within minutes (D-40) and
+      an accessibility defect on the way in (D-41). X-009 closed.
+- [ ] The pixel gate now runs but does not yet pass on every screen: Tiltak is at 0.110%
+      against a 0.1% budget and Innsikt at 2.813%. Neither has been attributed to a cause
+      yet — `probe.mjs --rows` puts both headers at y=56, so it is content, not a global
+      offset.
 - [ ] Re-run the pixel gate for `/malinger`: its two row actions became links (D-06).
 - [ ] Nothing empties `app.outbox`. 34 notices are queued and no dispatcher exists; an
       e-mail integration is the missing piece, and until it lands the årshjul plans and

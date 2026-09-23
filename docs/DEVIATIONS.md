@@ -1275,3 +1275,64 @@ applied again is not a migration, and the rule against editing one exists to pro
 database from drifting away from its files — which is the opposite of what was happening
 here.
 
+---
+
+## D-40 — A failed read rendered as an empty screen, and now says so in the log
+
+Not a deviation from the design; a defect the design could not show, recorded here because
+the fix changes how every read in the application behaves on failure.
+
+**What happened.** Migration 0023 added `app.measures.effect_round_id`. That gave
+`app.measures` a *second* foreign key to `app.rounds`, and PostgREST will not guess between
+two: the `rounds(id, measurements(kind, year))` embed in `getMeasures` started answering
+`PGRST201 — Could not embed because more than one relationship was found`, and returned no
+rows at all. The call site is `if (error || !data) return []`, so the screen got an empty
+list.
+
+**What that looked like.** Tiltak printed *"Ingen tiltak i denne visningen"* with every
+chip at · 0 and all three status tiles at 0, over seven measures sitting in the database.
+Innsikt printed *"Ingen tiltak løper"* and left **Tiltak løper** unticked on the sløyfe —
+a statutory progress indicator, reading false. Both are plausible sentences about a real
+organisation, which is exactly why nobody caught it.
+
+**Why no gate caught it.** The SQL suites test the database and the database was correct —
+all seven rows are there and RLS returns all seven to this account. `tsc`, lint, i18n and
+`next build` do not execute a query. The pixel gate would have caught it on sight and could
+not run, because no route could be signed into until `ORGPULS_DEV_PASSWORD` was set
+(X-009). It was found within minutes of the password arriving, by looking at the screen.
+
+**The fix is two things.** The embed now names its foreign key —
+`rounds!measures_round_id_fkey(...)` — which is the round the measure was raised from, the
+one the chips filter by. And `lib/supabase/read.ts` gives every read a log line on failure:
+`readFailed`, `callFailed` and `parseFailed` replace the bare `if (error || !data)` and
+`if (!parsed.success)` at 28 call sites. They return the same empty value the screens
+already expect, so no rendering changes; what changes is that the next one of these
+announces itself.
+
+**The rule it belongs to.** *Never fabricate data in the UI* forbids rendering a
+placeholder that looks like data, because an invented value is indistinguishable from a
+real one. An invented **absence** is the same fault with the sign flipped, and it is the
+worse of the two on this product: *"there is nothing to follow up"* is the answer a leader
+is most willing to accept without checking, and it is the one an inspector would be given.
+
+**One read does not log, on purpose.** `getRespondForm` passes the respondent's plaintext
+token to `rpc.respond_form`, and a Postgres error can quote the argument it choked on.
+Invariant 3 keeps that token out of every column; putting it in a deployment log instead
+would be the same exposure through a wider door. That site keeps its silent refusal and
+carries a comment saying why.
+
+---
+
+## D-41 — "Glemt passord?" left the password field with no usable label
+
+The sign-in panel had the reset link inside the `<label>` that wrapped the password input,
+because the design draws them on one baseline. A `<button>` inside a `<label>` is
+interactive content inside a label: the browser folds the link's text into the input's
+accessible name, so the field announced itself as *"Passord Glemt passord?"*, and a click
+on the link also focused the input.
+
+It surfaced as a test failure rather than a report — `scripts/verify/shoot.mjs` looks the
+password box up by its label and got the link instead, so the pixel gate could not sign in
+on its first run. The markup now associates the two with `htmlFor` and keeps the row as a
+sibling: same box model, same rendering, one accessible name each.
+

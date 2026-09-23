@@ -1,6 +1,7 @@
 import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { parseFailed, readFailed } from '@/lib/supabase/read'
 
 /**
  * Everything Oppsett reads.
@@ -60,7 +61,7 @@ export async function getCompany(): Promise<CompanyRow | null> {
     .limit(1)
     .maybeSingle()
 
-  if (error || !data) return null
+  if (readFailed('getCompany', error, data)) return null
   const parsed = OrgRow.safeParse(data)
   return parsed.success ? parsed.data : null
 }
@@ -83,7 +84,7 @@ export async function getLocations(): Promise<Location[]> {
     .select('id, name, address, headcount')
     .order('sort_order')
 
-  if (error || !data) return []
+  if (readFailed('getLocations', error, data)) return []
   const parsed = z.array(LocationRow).safeParse(data)
   return parsed.success ? parsed.data : []
 }
@@ -131,9 +132,9 @@ export async function getRoster(): Promise<RosterPerson[]> {
     .select('id, full_name, email, active, group_id, duty_role, created_at')
     .order('full_name')
 
-  if (error || !data) return []
+  if (readFailed('getRoster', error, data)) return []
   const parsed = z.array(RosterRow).safeParse(data)
-  if (!parsed.success) return []
+  if (parseFailed('getRoster', parsed)) return []
   return parsed.data.map((r) => ({
     id: r.id,
     name: r.full_name,
@@ -183,7 +184,7 @@ export async function getGroupStats(roundId: string | null): Promise<GroupStat[]
   ])
 
   const g = z.array(z.object({ id: z.string(), name: z.string() })).safeParse(groups.data)
-  if (!g.success) return []
+  if (parseFailed('getGroupStats', g)) return []
 
   const e = z
     .array(z.object({ id: z.string(), group_id: z.string().nullable() }))

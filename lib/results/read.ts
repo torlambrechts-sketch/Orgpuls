@@ -2,6 +2,7 @@ import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import type { Band } from '@/components/ui/Risk'
+import { callFailed } from '@/lib/supabase/read'
 
 /**
  * Reading results.
@@ -71,7 +72,7 @@ export type { Band }
 export async function getResultsSummary(roundId: string): Promise<ResultsSummary | null> {
   const supabase = await createClient()
   const { data, error } = await supabase.rpc('results_summary', { p_round: roundId })
-  if (error) return null
+  if (callFailed('getResultsSummary', error)) return null
 
   if (NotAvailable.safeParse(data).success) return null
 
@@ -140,7 +141,7 @@ export type GroupResult = z.infer<typeof GroupRow>
 export async function getResultsByGroup(roundId: string): Promise<ResultsByGroup | null> {
   const supabase = await createClient()
   const { data, error } = await supabase.rpc('results_by_group', { p_round: roundId })
-  if (error) return null
+  if (callFailed('getResultsByGroup', error)) return null
   if (NotAvailable.safeParse(data).success) return null
 
   const parsed = ByGroup.safeParse(data)

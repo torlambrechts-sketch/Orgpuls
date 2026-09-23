@@ -2,6 +2,7 @@ import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { getParticipation, type Participation } from '@/lib/participation/read'
+import { parseFailed, readFailed } from '@/lib/supabase/read'
 
 /**
  * The rounds list.
@@ -78,10 +79,10 @@ export async function getRounds(): Promise<RoundListItem[]> {
     )
     .order('closes_at', { ascending: false })
 
-  if (error || !data) return []
+  if (readFailed('getRounds', error, data)) return []
 
   const parsed = z.array(RoundRow).safeParse(data)
-  if (!parsed.success) return []
+  if (parseFailed('getRounds', parsed)) return []
 
   const rows = parsed.data.map((r, i) => ({
     id: r.id,
@@ -119,11 +120,11 @@ export async function getRoundFactorKeys(roundId: string): Promise<string[]> {
     .select('factor_key, factors!inner(sort_order)')
     .eq('round_id', roundId)
 
-  if (error || !data) return []
+  if (readFailed('getRoundFactorKeys', error, data)) return []
   const parsed = z
     .array(z.object({ factor_key: z.string(), factors: z.object({ sort_order: z.coerce.number() }) }))
     .safeParse(data)
-  if (!parsed.success) return []
+  if (parseFailed('getRoundFactorKeys', parsed)) return []
 
   return parsed.data
     .sort((a, b) => a.factors.sort_order - b.factors.sort_order)
@@ -150,7 +151,7 @@ export async function getLatestClosedRoundId(): Promise<string | null> {
     .limit(1)
     .maybeSingle()
 
-  if (error || !data) return null
+  if (readFailed('getLatestClosedRoundId', error, data)) return null
   const parsed = z.object({ id: z.string() }).safeParse(data)
   return parsed.success ? parsed.data.id : null
 }

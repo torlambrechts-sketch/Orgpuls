@@ -1,6 +1,7 @@
 import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { parseFailed, readFailed } from '@/lib/supabase/read'
 
 /**
  * The instrument, as data.
@@ -51,9 +52,9 @@ export async function getFactors(): Promise<Factor[]> {
     .select('key, law_ref, sort_order, statements!statements_factor_key_fkey(ordinal)')
     .order('sort_order')
 
-  if (error || !data) return []
+  if (readFailed('getFactors', error, data)) return []
   const parsed = z.array(FactorRow).safeParse(data)
-  if (!parsed.success) return []
+  if (parseFailed('getFactors', parsed)) return []
 
   return parsed.data.map((f) => ({
     key: f.key,
@@ -70,7 +71,7 @@ export async function getExtraQuestions(): Promise<ExtraQuestion[]> {
     .select('key, kind, sort_order, org_only')
     .order('sort_order')
 
-  if (error || !data) return []
+  if (readFailed('getExtraQuestions', error, data)) return []
   const parsed = z.array(ExtraRow).safeParse(data)
   return parsed.success ? parsed.data : []
 }

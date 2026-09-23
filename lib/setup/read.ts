@@ -1,6 +1,7 @@
 import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { readFailed } from '@/lib/supabase/read'
 
 /**
  * Reading a measurement's setup.
@@ -135,7 +136,7 @@ export async function getRoundSetup(roundId: string): Promise<RoundSetup | null>
     .eq('id', roundId)
     .maybeSingle()
 
-  if (error || !data) return null
+  if (readFailed('getRoundSetup', error, data)) return null
   const parsed = SetupRow.safeParse(data)
   return parsed.success ? shape(parsed.data) : null
 }
@@ -160,7 +161,7 @@ export async function getLatestSetupOfKind(kind: string): Promise<RoundSetup | n
     .limit(1)
     .maybeSingle()
 
-  if (error || !data) return null
+  if (readFailed('getLatestSetupOfKind', error, data)) return null
   const parsed = SetupRow.safeParse(data)
   return parsed.success ? shape(parsed.data) : null
 }
@@ -178,7 +179,7 @@ export async function getOrgQuestions(): Promise<OrgQuestion[]> {
     .eq('active', true)
     .order('created_at')
 
-  if (error || !data) return []
+  if (readFailed('getOrgQuestions', error, data)) return []
   const parsed = z.array(OrgQuestionRow).safeParse(data)
   return parsed.success ? parsed.data : []
 }
