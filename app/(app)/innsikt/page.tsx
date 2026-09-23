@@ -12,6 +12,8 @@ import { assessedOfRequired, getRiskAssessment } from '@/lib/risk/read'
 import { bandCounts, getResultsSummary } from '@/lib/results/read'
 import { getRoundFactorKeys, getRounds } from '@/lib/rounds/read'
 import { roundTitle } from '@/lib/rounds/title'
+import { getRoundSetup } from '@/lib/setup/read'
+import { getShellContext } from '@/lib/shell/read'
 
 /**
  * Innsikt — the data half. Bundle lines 152-268; the rendering is in
@@ -54,12 +56,15 @@ export default async function InnsiktPage() {
   // while the fixture had only grunnlinjer closed. D-46.
   const previous = current ? (closed.find((r) => r !== current && r.kind === current.kind) ?? null) : null
 
-  const [summary, prior, risk, measures, openFactorKeys] = await Promise.all([
+  const [summary, prior, risk, measures, openFactorKeys, currentSetup, shell] = await Promise.all([
     current ? getResultsSummary(current.id) : null,
     previous ? getResultsSummary(previous.id) : null,
     current ? getRiskAssessment(current.id) : null,
     getMeasures(),
     open ? getRoundFactorKeys(open.id) : [],
+    // the § 9-2 consultations recorded on that round: the rail's forankring point
+    current ? getRoundSetup(current.id) : null,
+    getShellContext(),
   ])
 
   const ok = summary?.status === 'ok' ? summary : null
@@ -121,22 +126,46 @@ export default async function InnsiktPage() {
   ]
 
   /**
-   * The year rail, from the points that exist.
+   * The year rail: the design's five points (bundle 4234), each from a row. D-25, D-59.
    *
-   * The design draws five — a February forankring and a January effect review as well —
-   * but those are årshjul entries and nothing stores a schedule yet. Three real points
-   * are rendered rather than five with two invented: the kartlegging that closed and its
-   * response rate, the risk assessment and how much of it is done, and the round now
-   * open with the number of questions it asks. D-25.
+   *   forankring   the § 9-2 consultations recorded on the kartlegging's round, when any is
+   *                confirmed — dated by the latest meeting, named by who was consulted
+   *   kartlegging  the round that closed, and its response rate
+   *   now          its risk assessment, and how much of it is done
+   *   next         the round open now, else the next one the year wheel has planned
+   *   after        the planned round after that; a puls is what measures whether the
+   *                measures worked, so it is captioned as the design's "virket tiltakene?"
+   *
+   * A point with no row behind it is left out, never drawn from the design's literals.
    */
   const highRisk = ok ? ok.factors.filter((f) => f.band === 'hoy').map((f) => f.key) : []
   const assessed = assessedOfRequired(risk, highRisk)
+  const monthOf = (iso: string | null) => (date(iso, { month: 'short' }) ?? '').replace(/\.$/, '').toUpperCase()
 
   const year: YearPoint[] = []
+
+  const consulted = (currentSetup?.consultations ?? []).filter((c) => c.confirmed)
+  if (consulted.length > 0) {
+    const held = consulted.map((c) => c.heldOn).filter((d): d is string => !!d).sort().at(-1) ?? null
+    const who = new Set(consulted.map((c) => c.kind))
+    year.push({
+      key: 'forankring',
+      month: held ? monthOf(`${held}T12:00:00Z`) : '',
+      label: t(shell.lawMode ? 'innsikt.forankring.law' : 'innsikt.forankring.plain'),
+      sub: t(
+        who.size > 1
+          ? 'innsikt.forankringSub.begge'
+          : who.has('verneombud_raad')
+            ? 'innsikt.forankringSub.verneombud'
+            : 'innsikt.forankringSub.tillitsvalgte',
+      ),
+      state: 'done',
+    })
+  }
   if (current) {
     year.push({
       key: 'kartlegging',
-      month: (date(current.closesAt, { month: 'short' }) ?? '').replace(/\.$/, '').toUpperCase(),
+      month: monthOf(current.closesAt),
       label: t(`malinger.kind.${current.kind}`),
       sub: current.participation
         ? t('innsikt.rateSub', { pct: current.participation.pct })
@@ -153,12 +182,28 @@ export default async function InnsiktPage() {
       state: 'current',
     })
   }
-  if (open) {
+
+  const planned = rounds
+    .filter((r) => r.status === 'planlagt' && r.opensAt)
+    .sort((a, b) => (a.opensAt ?? '').localeCompare(b.opensAt ?? ''))
+  const next = open ?? planned[0] ?? null
+  const after = planned.find((r) => r.id !== next?.id) ?? null
+  if (next) {
     year.push({
-      key: 'apen',
-      month: (shortDate(open.closesAt) ?? '').toUpperCase(),
-      label: roundTitle(t, open),
-      sub: t('innsikt.questionSub', { count: open.questionCount }),
+      key: 'next',
+      // an open round by the day it closes, as the Sløyfen dates it; a planned one by the day it opens
+      month: (shortDate(next === open ? next.closesAt : next.opensAt) ?? '').toUpperCase(),
+      label: roundTitle(t, next),
+      sub: t('innsikt.questionSub', { count: next.questionCount }),
+      state: 'pending',
+    })
+  }
+  if (after) {
+    year.push({
+      key: 'after',
+      month: monthOf(after.opensAt),
+      label: roundTitle(t, after),
+      sub: after.kind === 'puls' ? t('innsikt.effectSub') : t('innsikt.questionSub', { count: after.questionCount }),
       state: 'pending',
     })
   }

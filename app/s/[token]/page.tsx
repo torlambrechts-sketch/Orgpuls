@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import { getRespondForm } from '@/lib/respond/read'
-import { RespondFlow, type Choice, type Question } from '@/components/respond/RespondFlow'
+import { RespondFlow } from '@/components/respond/RespondFlow'
+import { respondCopy, respondQuestions } from '@/lib/respond/questions'
 
 /**
  * The respondent surface.
@@ -45,49 +46,7 @@ export default async function RespondPage({
 
   const { form } = result
 
-  // the shared 1..5 agreement scale every factor statement is answered on. The range is
-  // the database's: app.answers carries check (value between 1 and 5).
-  const scale: Choice[] = [1, 2, 3, 4, 5].map((n) => ({
-    ordinal: n,
-    label: t(`respond.scale.o${n}`),
-  }))
-
-  const questions: Question[] = [
-    ...form.questions.map(
-      (q): Question => ({
-        kind: 'factor',
-        id: `${q.factor}#${q.ordinal}`,
-        factor: q.factor,
-        ordinal: q.ordinal,
-        factorLabel: t(`factor.${q.factor}.label`),
-        text: t(`factor.${q.factor}.s${q.ordinal}`),
-        choices: scale,
-      }),
-    ),
-    ...form.extra.map((x): Question =>
-      x.kind === 'free_text'
-        ? {
-            kind: 'extra-text',
-            id: x.key,
-            extraKey: x.key,
-            factorLabel: t(`extra.${x.key}.label`),
-            text: t(`extra.${x.key}.text`),
-            note: t('respond.openNote'),
-          }
-        : {
-            kind: 'extra-choice',
-            id: x.key,
-            extraKey: x.key,
-            factorLabel: t(`extra.${x.key}.label`),
-            text: t(`extra.${x.key}.text`),
-            // counted from the database, so a question that gains an option gains it here
-            choices: Array.from({ length: x.options }, (_, i) => ({
-              ordinal: i + 1,
-              label: t(`extra.${x.key}.o${i + 1}`),
-            })),
-          },
-    ),
-  ]
+  const questions = respondQuestions(t, form)
 
   return (
     <main className="animate-entry mx-auto min-h-screen max-w-[420px] bg-bg">
@@ -95,19 +54,7 @@ export default async function RespondPage({
         token={token}
         org={form.org}
         questions={questions}
-        copy={{
-          // the raw template, because the substitution happens per step in the client
-          progress: t.raw('respond.progress'),
-          next: t('respond.next'),
-          submit: t('respond.submit'),
-          skip: t('respond.skip'),
-          commentPrompt: t('respond.commentPrompt'),
-          commentPlaceholder: t('respond.commentPlaceholder'),
-          openPlaceholder: t('respond.openPlaceholder'),
-          doneTitle: t('respond.doneTitle'),
-          doneLead: t('respond.doneLead', { threshold: form.threshold }),
-          submitFailed: t('respond.submitFailed'),
-        }}
+        copy={respondCopy(t, form.threshold)}
       />
     </main>
   )

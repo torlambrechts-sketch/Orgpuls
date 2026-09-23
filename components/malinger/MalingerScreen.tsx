@@ -57,6 +57,8 @@ export interface MalingerView {
   extras: ExtraQuestion[]
   /** the Årshjulet card, or null when the organisation has no wheel */
   strip: WheelStripView | null
+  /** the next round the wheel has planned, which "＋ Ny måling" opens the setup of */
+  nextPlannedId: string | null
   /** each puls's factors, from app.round_factors — the design names them on the row */
   pulseFactors: Record<string, string[]>
 }
@@ -101,8 +103,25 @@ export async function MalingerScreen({ view }: { view: MalingerView }) {
           </p>
         </div>
         <span className="flex flex-none flex-wrap gap-[9px]">
-          <Button tone="secondary">{t('malinger.previewAsEmployee')}</Button>
-          <Button tone="primary">{t('malinger.newMeasurement')}</Button>
+          {/*
+            Both are the design's buttons, as the links they are (D-06). The preview opens
+            the round employees would meet next; "Ny måling" opens the setup of the next
+            round the year wheel has planned, which is where a new measurement is made
+            in this product — the wheel creates rounds, Måleoppsett shapes them (D-58).
+          */}
+          <ButtonLink href={{ pathname: '/forhandsvis' }} tone="secondary">
+            {t('malinger.previewAsEmployee')}
+          </ButtonLink>
+          <ButtonLink
+            href={
+              view.nextPlannedId
+                ? { pathname: '/maleoppsett', query: { runde: view.nextPlannedId } }
+                : { pathname: '/maleoppsett', query: { type: 'grunnlinje' } }
+            }
+            tone="primary"
+          >
+            {t('malinger.newMeasurement')}
+          </ButtonLink>
         </span>
       </div>
 
@@ -333,9 +352,9 @@ function RoundRow({
       <span className="flex flex-wrap justify-start gap-[8px] md:justify-end">
         {closed ? (
           <>
-            <Button size="sm" tone="secondary" pad={14}>
+            <ButtonLink href={setupHref} size="sm" tone="secondary" pad={14}>
               {t(archived ? 'malinger.viewSetup' : 'malinger.setup')}
-            </Button>
+            </ButtonLink>
             {/*
               The result of a round has an address, so the control that opens it is a link
               and not a button — the documented control substitution (D-06), styled exactly
@@ -353,9 +372,14 @@ function RoundRow({
         ) : (
           <>
             {/* the design's second control on a coming round is the respondent preview */}
-            <Button size="sm" tone="secondary" pad={14}>
+            <ButtonLink
+              href={{ pathname: '/forhandsvis', query: { runde: round.id } }}
+              size="sm"
+              tone="secondary"
+              pad={14}
+            >
               {t('malinger.preview')}
-            </Button>
+            </ButtonLink>
             {/*
               A coming round's action opens its setup (bundle 4264, `openPlan`), which has an
               address — a link for the reason the result link is one (D-06). "Definer pulsen"

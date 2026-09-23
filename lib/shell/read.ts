@@ -4,6 +4,8 @@ import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { callFailed, parseFailed, readFailed } from '@/lib/supabase/read'
 import { onlyOrganisation } from '@/lib/org/current'
+import { getViewerRole, type Role } from '@/lib/org/read'
+import { initialsOf } from '@/lib/shell/initials'
 
 /**
  * What the header's "Kom i gang" panel ticks off, read from the rows that make each step
@@ -89,4 +91,28 @@ export const getShellContext = cache(async (): Promise<ShellContext> => {
       maling: (rounds.count ?? 0) > 0,
     },
   }
+})
+
+/**
+ * Who is signed in, for the header's account chip and role: initials from the viewer's own
+ * profile — `profile_self_read` returns that one row and no other — and the role
+ * `viewer_role()` reads from the verified token (0027). D-57.
+ *
+ * Null initials when the profile has no name: the chip is then drawn empty rather than
+ * with letters that belong to nobody, which is what the hard-coded "TB" was.
+ */
+export interface Viewer {
+  initials: string | null
+  role: Role | null
+}
+
+export const getViewer = cache(async (): Promise<Viewer> => {
+  const supabase = await createClient()
+  const [{ data, error }, role] = await Promise.all([
+    supabase.schema('app').from('profiles').select('full_name').limit(1).maybeSingle(),
+    getViewerRole(),
+  ])
+  if (callFailed('getViewer', error)) return { initials: null, role }
+  const parsed = z.object({ full_name: z.string().nullable() }).nullable().safeParse(data)
+  return { initials: parsed.success ? initialsOf(parsed.data?.full_name) : null, role }
 })

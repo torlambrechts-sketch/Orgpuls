@@ -2,7 +2,8 @@ import { getTranslations } from 'next-intl/server'
 import { Logo } from './Logo'
 import { AppNav, type NavItem as NavLink } from './AppNav'
 import { HeaderBar } from './HeaderBar'
-import { getShellContext } from '@/lib/shell/read'
+import { getShellContext, getViewer } from '@/lib/shell/read'
+import type { Role } from '@/lib/org/read'
 
 /**
  * The application header. Transcribed from Orgpuls_Offline_Source.html lines 49-66.
@@ -21,7 +22,6 @@ import { getShellContext } from '@/lib/shell/read'
  * The nav lives in AppNav, a client component: the shell is a layout, so it renders
  * once for every screen beneath it and only the client knows which route is current.
  */
-export type Role = 'daglig_leder' | 'avdelingsleder' | 'verneombud'
 
 /**
  * `href` is omitted for a screen that has not been built yet, so the item renders as a
@@ -35,18 +35,18 @@ const NAV: (Omit<NavLink, 'label'> & { messageKey: string })[] = [
   { href: '/oppsett', messageKey: 'oppsett' },
 ]
 
-export async function AppHeader({
-  role = 'daglig_leder',
-  initials = 'TB',
-  assistantFace = 'av4',
-}: {
-  role?: Role
-  initials?: string
-  assistantFace?: string
-}) {
+export async function AppHeader({ assistantFace = 'av4' }: { assistantFace?: string }) {
   const t = await getTranslations()
-  const { lawMode, progress } = await getShellContext()
+  const [{ lawMode, progress }, viewer] = await Promise.all([getShellContext(), getViewer()])
 
+  /*
+   * The design's selector switches the whole product to another role's view ("Bytt rolle
+   * … for å se nøyaktig det avdelingslederne ser"). That cannot be honest here: every
+   * reader is scoped by the signed-in account in the database, so a switch could only
+   * restyle the same data under another label. The selector is set to the role the viewer
+   * holds and the others are listed but disabled — present, as the design lists them,
+   * which also keeps the control the design's width. No role at all is no selector. D-57.
+   */
   const roles: Role[] = lawMode
     ? ['daglig_leder', 'avdelingsleder', 'verneombud']
     : ['daglig_leder', 'avdelingsleder']
@@ -60,20 +60,25 @@ export async function AppHeader({
       assistantFace={assistantFace}
       trailing={
         <>
-          <select
-            aria-label={t('header.roleAria')}
-            defaultValue={role}
-            className="h-[34px] cursor-pointer rounded-ctl border border-line bg-bg px-[11px] text-[12.5px] font-semibold text-ink"
-          >
-            {roles.map((r) => (
-              <option key={r} value={r}>
-                {t(`role.${r}`)}
-              </option>
-            ))}
-          </select>
+          {viewer.role ? (
+            <select
+              aria-label={t('header.roleAria')}
+              defaultValue={viewer.role}
+              className="h-[34px] cursor-pointer rounded-ctl border border-line bg-bg px-[11px] text-[12.5px] font-semibold text-ink"
+            >
+              {(roles.includes(viewer.role) ? roles : [viewer.role, ...roles]).map((r) => (
+                <option key={r} value={r} disabled={r !== viewer.role}>
+                  {t(`role.${r}`)}
+                </option>
+              ))}
+            </select>
+          ) : null}
 
-          <span className="flex h-[32px] w-[32px] flex-none items-center justify-center rounded-pill bg-sbg text-[12px] font-bold">
-            {initials}
+          <span
+            aria-hidden
+            className="flex h-[32px] w-[32px] flex-none items-center justify-center rounded-pill bg-sbg text-[12px] font-bold"
+          >
+            {viewer.initials}
           </span>
         </>
       }

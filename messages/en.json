@@ -212,7 +212,17 @@
     "todoMeasureCta": "Update",
     "todoRoundTitle": "Approve the pulse closing {date}",
     "todoRoundMeta": "{count, plural, one {# question} other {# questions}} · {factors}",
-    "todoRoundCta": "See the selection"
+    "todoRoundCta": "See the selection",
+    "forankring": {
+      "law": "Consultation",
+      "plain": "Kick-off"
+    },
+    "forankringSub": {
+      "verneombud": "Safety representative",
+      "tillitsvalgte": "Union representatives",
+      "begge": "Safety and union representatives"
+    },
+    "effectSub": "did the measures work?"
   },
   "malinger": {
     "title": "Measurements",
@@ -2068,5 +2078,13 @@
       "not_found": "This link is not valid.",
       "failed": "That did not work. Try again."
     }
+  },
+  "preview": {
+    "back": "← Surveys",
+    "title": "{round} as employees see it",
+    "banner": "Preview — nothing you choose here is sent.",
+    "doneTitle": "The preview is finished",
+    "doneLead": "Nothing was sent. Employees get the statements in a random order; here they appear in the instrument's order.",
+    "none": "There is no survey to preview yet."
   }
 }

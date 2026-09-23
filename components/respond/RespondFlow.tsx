@@ -71,11 +71,17 @@ export function RespondFlow({
   org,
   questions,
   copy,
+  preview,
 }: {
   token: string
   org: string
   questions: Question[]
   copy: RespondCopy
+  /**
+   * A leader's preview (/forhandsvis): the same screens, a banner saying so, and a last
+   * step that sends nothing. There is no token behind it and no answer is ever written.
+   */
+  preview?: string
 }) {
   const [step, setStep] = useState(0)
   const [picked, setPicked] = useState<Record<string, number>>({})
@@ -119,6 +125,10 @@ export function RespondFlow({
       setStep(step + 1)
       return
     }
+    if (preview) {
+      setDone(true)
+      return
+    }
     startTransition(async () => {
       const result: SubmitResult = await submitResponse(build())
       if (result.ok) setDone(true)
@@ -126,8 +136,16 @@ export function RespondFlow({
     })
   }
 
+  const banner = preview ? (
+    <div role="note" className="bg-sbg px-[20px] py-[10px] text-[12.5px] font-semibold leading-[1.45] text-ink">
+      {preview}
+    </div>
+  ) : null
+
   if (done) {
     return (
+      <>
+      {banner}
       <div className="px-[22px] pb-[24px] pt-[34px] text-center">
         <div className="mx-auto flex h-[64px] w-[64px] items-center justify-center rounded-pill bg-mint text-[30px] text-greendeep">
           ✓
@@ -139,6 +157,7 @@ export function RespondFlow({
           {copy.doneLead}
         </div>
       </div>
+      </>
     )
   }
 
@@ -150,6 +169,7 @@ export function RespondFlow({
 
   return (
     <>
+      {banner}
       <div className="flex items-center justify-between px-[20px] pb-[6px] pt-[13px] text-[11.5px] font-semibold text-mut">
         <span>{org}</span>
       </div>

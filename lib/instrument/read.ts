@@ -90,3 +90,19 @@ export const getExtraQuestions = cache(async (): Promise<ExtraQuestion[]> => {
   const parsed = z.array(ExtraRow).safeParse(data)
   return parsed.success ? parsed.data : []
 })
+
+/**
+ * How many options each extra question has — what `respond_form` counts for the
+ * respondent, read here for the leaders' preview. `app.extra_options` is instrument data,
+ * readable by every signed-in member (0009).
+ */
+export const getExtraOptionCounts = cache(async (): Promise<Map<string, number>> => {
+  const supabase = await createClient()
+  const { data, error } = await supabase.schema('app').from('extra_options').select('extra_key')
+  if (readFailed('getExtraOptionCounts', error, data)) return new Map()
+  const parsed = z.array(z.object({ extra_key: z.string() })).safeParse(data)
+  if (parseFailed('getExtraOptionCounts', parsed)) return new Map()
+  const counts = new Map<string, number>()
+  for (const o of parsed.data) counts.set(o.extra_key, (counts.get(o.extra_key) ?? 0) + 1)
+  return counts
+})

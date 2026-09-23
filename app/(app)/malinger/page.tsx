@@ -75,6 +75,11 @@ export default async function MalingerPage() {
   const pulseKeys = await Promise.all(pulses.map((r) => getRoundFactorKeys(r.id)))
   const pulseFactors = Object.fromEntries(pulses.map((r, i) => [r.id, pulseKeys[i] ?? []]))
 
-  const view: MalingerView = { rounds, current, participation, factors, extras, strip, pulseFactors }
+  const nextPlannedId =
+    rounds
+      .filter((r) => r.status === 'planlagt' && r.opensAt)
+      .sort((a, b) => (a.opensAt ?? '').localeCompare(b.opensAt ?? ''))[0]?.id ?? null
+
+  const view: MalingerView = { rounds, current, participation, factors, extras, strip, pulseFactors, nextPlannedId }
   return <MalingerScreen view={view} />
 }

@@ -1397,7 +1397,7 @@ omission, a copy change the product's behaviour requires, or the hosted fixture'
 differing from the design's snapshot.
 
 ## Open items
-- [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
+- [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
 - [ ] Auth leaked-password protection is disabled — a dashboard toggle.
 - [x] Innsikt rebuilt on the real schema. X-015.
@@ -1414,9 +1414,9 @@ differing from the design's snapshot.
 - [x] "Neste: september 2027" is now a planned round the wheel created, not a sentence.
       X-019. "Planlegg grunnlinjen" and the pulse cadence on Måleoppsett still read it
       from nothing and remain omitted (D-27).
-- [ ] Innsikt's year rail and section 1's medvirkning dates can now be fed from
-      `app.year_wheels` and the rounds the wheel plans; neither screen reads them yet
-      (D-25).
+- [x] Innsikt's year rail has the design's five points: forankring from the recorded § 9-2
+      consultations, and the next two rounds from what is open and what the wheel planned
+      (D-59). Report section 1's medvirkning dates still do not read them.
 - [x] Writing measures: the edit panel, "＋ Nytt tiltak" and "Flytt videre". X-014.
 - [ ] No confirmation before "Slett tiltaket". The design specifies no dialog anywhere,
       so none was invented — worth a decision rather than an assumption (D-22).
@@ -1482,8 +1482,11 @@ differing from the design's snapshot.
       (D-34).
 - [x] `round_information`, `trainings` and a measure's effect round and note are written
       from screens: the register under Rapport and the Tiltak panel. X-032, D-52.
-- [ ] The account chip prints "TB" and the role selector defaults to daglig leder for every
-      user; both should come from the viewer's profile and membership (D-47).
+- [x] The account chip prints the viewer's initials and the role selector their real role.
+      Switching to another role's view is not built and cannot be without reading as
+      another account (D-57).
+- [x] Målinger's four dead buttons open real screens. "Forhåndsvis som ansatt" is a preview
+      that sends nothing (D-58).
 - [ ] Innsikt's headline follows the latest closed round of any kind, so it will describe
       a puls once one closes after the grunnlinje. Design question (D-46).
 - [ ] The demo organisation ages: re-run `scripts/seed/demo-org.mjs` to refresh it, which

@@ -650,7 +650,7 @@ invented industry average printed beside a real index is the fabrication rule's 
 example. Its absence displaces the delta line by the height of one 12.5px row inside the
 index card, which is the whole of that region's 935-pixel diff.
 
-**2. The year rail has three points where the design has five.** February's "Forankring —
+**2. (Superseded by D-59: the rail now has five points, each from a row.) The year rail has three points where the design has five.** February's "Forankring —
 AMU og verneombud" and January's "Effekt målt — virket tiltakene?" are årshjul entries and
 nothing stores a schedule. The three that are rendered are real: the kartlegging that
 closed and its response rate, the assessment and how much of it is done, and the round now
@@ -1942,3 +1942,63 @@ Each has its own thread, as every comment does in the product. Reseeded on the h
 project on 2026-09-23 with the user's approval. Signed in as the demo login, Resultat
 shows "13 av 55 skrev noe" and two themes: Arbeidsmengde og tidspress (6 people, Negativ)
 and Støtte fra kollegaer (5, Positiv).
+
+## D-57 — The header shows who is signed in; the role selector cannot switch
+
+**The account chip** prints the viewer's initials from their own `app.profiles` row, which
+`profile_self_read` restricts to exactly that row: "TB" for Tuva Berg, "D" for
+Demobruker. A profile with no name gets an empty chip, not letters that belong to nobody,
+which is what the hard-coded "TB" was.
+
+**The role selector** is set to the role the viewer holds, read by `viewer_role()` from
+the verified token (0027). The design's selector does more: "Bytt rolle … for å se
+nøyaktig det avdelingslederne og verneombudet ser" switches the whole product to another
+role's view. That cannot be built honestly. Every reader is scoped in the database by the
+signed-in account (0022), so a client-side switch could only relabel the viewer's own data
+as someone else's view. A real "view as" would have to let one account read with another's
+permissions. So the other roles stay in the list, as the design lists them, but disabled.
+That says plainly they cannot be switched to, and it keeps the control the design's width:
+with one option the select narrowed and shifted the header by 2 067 pixels on every
+screen. With the options kept, the header diffs at 0 again. An account with no role gets no
+selector.
+
+## D-58 — Målinger's buttons open real screens, and "Forhåndsvis som ansatt" is a preview
+
+Four buttons on Målinger were drawn and did nothing. Each now goes where the design sends
+it, as a link (D-06):
+
+- **"Forhåndsvis som ansatt"** and each coming round's **"Forhåndsvis"** open
+  `/forhandsvis`: the respondent screens, as a signed-in leader sees them.
+  `/s/[token]` builds its form from `respond_form`, which needs an invitation's token, and
+  there is no such thing as a preview token (D-34). So the preview builds the same form
+  from what a leader can already read (the round's factors and extra questions, the same
+  tables `respond_form` reads) and renders it with the same `RespondFlow` and the same
+  strings, shared through `lib/respond/questions.ts` so the two cannot drift. It writes
+  nothing: a banner says so, and the last step ends the preview instead of submitting.
+  The one difference is order. `respond_form` shuffles statements per token, and the
+  preview has no token, so they come in the instrument's order and the end screen says so.
+  With no round asked for, it previews the round employees would meet next: the open
+  one, else the next planned, else the latest closed.
+- **"＋ Ny måling"** opens the setup of the next round the year wheel has planned. In
+  this product the wheel creates rounds and Måleoppsett shapes them, so that is where a
+  new measurement is made. There is no separate "create a round" flow for it to open.
+- **"Måleoppsett" / "Se måleoppsettet"** on a closed round open that round's setup.
+
+## D-59 — Innsikt's year rail has the design's five points, from rows
+
+D-25's second point is superseded. The rail read three points because nothing stored the
+other two. Now:
+
+- **Forankring** is the § 9-2 consultations recorded on the kartlegging's round in
+  Måleoppsett, drawn when any is confirmed: dated by the latest meeting, captioned by
+  who was consulted ("Verneombud og tillitsvalgte"), and labelled "Oppstart" outside law
+  mode, as the design labels it. The fixture's consultation is dated February, so Nordvik
+  reads "FEB Forankring", as the baseline does.
+- **The next round** is the one open now, dated by when it closes, or else the next one the
+  wheel has planned, dated by when it opens.
+- **The one after** is the following planned round. A puls is what measures whether the
+  measures worked, so a puls is captioned with the design's "virket tiltakene?". Its label
+  is the round's own title, not the design's "Effekt målt", which would claim a
+  measurement that has not happened.
+
+A point with no row behind it is left out, as before.

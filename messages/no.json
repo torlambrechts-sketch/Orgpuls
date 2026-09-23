@@ -212,7 +212,17 @@
     "todoMeasureCta": "Oppdater",
     "todoRoundTitle": "Godkjenn pulsen som går ut {date}",
     "todoRoundMeta": "{count, plural, one {# spørsmål} other {# spørsmål}} · {factors}",
-    "todoRoundCta": "Se utvalget"
+    "todoRoundCta": "Se utvalget",
+    "forankring": {
+      "law": "Forankring",
+      "plain": "Oppstart"
+    },
+    "forankringSub": {
+      "verneombud": "Verneombud",
+      "tillitsvalgte": "Tillitsvalgte",
+      "begge": "Verneombud og tillitsvalgte"
+    },
+    "effectSub": "virket tiltakene?"
   },
   "malinger": {
     "title": "Målinger",
@@ -2068,5 +2078,13 @@
       "not_found": "Denne lenken er ikke gyldig.",
       "failed": "Det gikk ikke. Prøv igjen."
     }
+  },
+  "preview": {
+    "back": "← Målinger",
+    "title": "{round} slik de ansatte ser den",
+    "banner": "Forhåndsvisning — ingenting du velger her blir sendt.",
+    "doneTitle": "Forhåndsvisningen er ferdig",
+    "doneLead": "Ingenting ble sendt. De ansatte får påstandene i tilfeldig rekkefølge; her vises de slik instrumentet ordner dem.",
+    "none": "Det finnes ingen måling å forhåndsvise ennå."
   }
 }
