@@ -297,7 +297,11 @@ const RISK = [
  * whenever the file runs (D-08); older rounds' threads are dated from their own round.
  * Messages are [author, hours after opening, body].
  *
- * [round, department, factor, ordinal, state, flagged, age | null, opening, messages]
+ * [round, department, factor, ordinal, state, flagged, age | null, opening, messages, pick?]
+ *
+ * `pick` is 'high' for a comment that praises: it takes one of the highest answers to the
+ * statement instead of the lowest. Several comments on the same statement in the same
+ * department take successive responses, so no response carries two of them.
  */
 const CONVERSATIONS = [
   ['g26', 'Kundeservice', 'emosjon', 1, 'venter', false, 3,
@@ -344,6 +348,43 @@ const CONVERSATIONS = [
   ['g24', 'Renhold', 'integritet', 1, 'lukket', false, null,
     'Tonen på skiftet er hard, og det går mest ut over de nye.',
     [['leder', 36, 'Takk for at du sier det. Vi lager felles forventninger sammen med teamlederne og går gjennom dem på alle skift.']]],
+
+  /*
+   * Enough on two factors of the 2026 grunnlinje for Resultat's "Hva de skrev" to show
+   * them as themes — five or more different people each (0030, D-56). Arbeidsmengde is
+   * six complaints across five departments; Kollegastøtte is five people saying what works,
+   * each on one of the highest answers to that statement ('high'), so the counted tone
+   * comes out as the words read.
+   */
+  ['g26', 'Drift og vedlikehold', 'mengde', 1, 'lukket', false, null,
+    'Vi har fått flere bygg å ta vare på, men ikke flere folk. Det meste blir gjort i en fart.',
+    [['leder', 30, 'Du har rett i at bemanningen ikke har fulgt byggene. Vi ser på det i budsjettet for neste år.']]],
+  ['g26', 'Renhold', 'mengde', 2, 'venter', false, 2,
+    'Rutene er lagt for lange. Vi rekker det bare hvis ingenting går galt, og noe går alltid galt.', []],
+  ['g26', 'Kundeservice', 'mengde', 1, 'lukket', false, null,
+    'Køen blir aldri tom. Du avslutter en samtale, og den neste venter allerede.',
+    [['leder', 26, 'Takk. Vi prøver ut faste pauser mellom samtalene fra oktober.']]],
+  ['g26', 'Salg og marked', 'mengde', 3, 'dialog', false, 5,
+    'Tilbudene skal ut samme dag som forespørselen kommer. Det holder ikke når vi er to.',
+    [['leder', 22, 'Hva ville vært realistisk for deg — to dager?']]],
+  ['g26', 'Prosjekt og teknikk', 'mengde', 2, 'lukket', false, null,
+    'Fristene settes før noen av oss har sett på jobben.',
+    [['leder', 34, 'Fra neste prosjekt er en fra teamet med når fristen settes.']]],
+  ['g26', 'Drift og vedlikehold', 'kollega', 1, 'lukket', false, null,
+    'Når noe skjærer seg, er det alltid noen på laget som stiller opp. Det er grunnen til at jeg blir.',
+    [['leder', 20, 'Takk — det er godt å høre.']], 'high'],
+  ['g26', 'Renhold', 'kollega', 2, 'lukket', false, null,
+    'Vi hjelper hverandre med å bli ferdige. Den som er først ferdig, tar en del av neste rute.',
+    [['leder', 24, 'Det er akkurat slik det skal være. Takk for at du sier det.']], 'high'],
+  ['g26', 'Kundeservice', 'kollega', 1, 'lukket', false, null,
+    'Kollegaene mine er det beste med jobben. Vi snakker ut om de tunge samtalene i pausen.',
+    [['leder', 28, 'Takk. Det tar vi vare på.']], 'high'],
+  ['g26', 'Prosjekt og teknikk', 'kollega', 3, 'lukket', false, null,
+    'Vi deler på det vi kan. Ingen holder på noe for seg selv.',
+    [['leder', 30, 'Godt å høre.']], 'high'],
+  ['g26', 'Salg og marked', 'kollega', 1, 'lukket', false, null,
+    'Godt samhold i teamet, også når tallene går dårlig.',
+    [['leder', 18, 'Takk — det merkes.']], 'high'],
 ]
 
 const INFORMATION = [
@@ -645,14 +686,27 @@ ${RISK.flatMap((r) => r.factors.map(([f, p, c, concl, text]) => `  (${q(r.key)},
 create temp table demo_thread on commit drop as
 select t.*, pick.response_id
 from (values
-${CONVERSATIONS.map(([key, group, factor, ordinal, state, flagged, age, opening], i) =>
-  `  (${i}, ${q(key)}, ${q(group)}, '${factor}', ${ordinal}, '${state}', ${flagged}, ${age ?? 'null'}::int, ${q(opening)})`).join(',\n')}
-) as t(i, rk, grp, factor, ordinal, state, flagged, age, opening)
+${CONVERSATIONS.map(([key, group, factor, ordinal, state, flagged, age, opening, , pick], i) => {
+  // the how-many-th comment on this statement in this department: each takes the next response
+  const nth = CONVERSATIONS.slice(0, i).filter(([k, g, f, o]) => k === key && g === group && f === factor && o === ordinal).length
+  return `  (${i}, ${q(key)}, ${q(group)}, '${factor}', ${ordinal}, '${state}', ${flagged}, ${age ?? 'null'}::int, ${q(opening)}, ${pick === 'high'}, ${nth})`
+}).join(',\n')}
+) as t(i, rk, grp, factor, ordinal, state, flagged, age, opening, high, nth)
 cross join lateral (
   select re.id as response_id from app.responses re
   join app.answers a on a.response_id = re.id and a.factor_key = t.factor and a.ordinal = t.ordinal
   where re.round_id = pg_temp.did('round:' || t.rk) and re.group_id = pg_temp.did('group:' || t.grp)
-  order by a.value, re.id limit 1) pick;
+  order by case when t.high then -a.value else a.value end, re.id
+  offset t.nth limit 1) pick;
+
+-- a comment whose department has no response to hang it on would vanish from the lateral
+-- join without a word; say so instead
+do $$
+begin
+  if (select count(*) from demo_thread) <> ${CONVERSATIONS.length} then
+    raise exception 'demo: % of ${CONVERSATIONS.length} conversations found a response', (select count(*) from demo_thread);
+  end if;
+end $$;
 
 insert into app.response_comments (response_id, factor_key, ordinal, body)
 select response_id, factor, ordinal, opening from demo_thread;

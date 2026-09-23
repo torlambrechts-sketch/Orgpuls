@@ -1934,3 +1934,11 @@ two sentences above. With the fixture, 7 of 28 wrote something and no factor has
 writers, so the theme list is empty, as it is in the baseline. Neither data set has a
 factor that reaches the threshold, so no theme row has been seen rendered against real
 data. Its rule is proved in SQL (assertion 9) and its tone in unit tests.
+
+**Seen since.** The demo organisation now carries enough 2026 comments to reach the
+threshold on two factors: six complaints about workload across five departments, and five
+people praising their colleagues, each on one of the highest answers to that statement.
+Each has its own thread, as every comment does in the product. Reseeded on the hosted
+project on 2026-09-23 with the user's approval. Signed in as the demo login, Resultat
+shows "13 av 55 skrev noe" and two themes: Arbeidsmengde og tidspress (6 people, Negativ)
+and Støtte fra kollegaer (5, Positiv).

@@ -1466,9 +1466,9 @@ differing from the design's snapshot.
       report's section 7, and prints the design's "3 av 28" (D-55).
 - [x] "Hva de skrev" reads `public.comment_themes` (0030): counts only, themes by factor at
       k respondents (D-56). Resultat's lower band is complete; D-14 is closed.
-- [ ] No data set has a factor with five writers, so a theme row has not been seen rendered
-      against real data. A demo reseed with denser comments would show one; it needs the
-      user's go-ahead, because it deletes and re-inserts the demo organisation's rows.
+- [x] The demo organisation carries ten more 2026 comments, reseeded on the hosted project
+      with the user's approval (2026-09-23). Resultat now shows two themes there:
+      Arbeidsmengde og tidspress (6 people, Negativ) and Støtte fra kollegaer (5, Positiv).
 - [ ] Nothing empties `app.outbox`. 34 notices are queued and no dispatcher exists; an
       e-mail integration is the missing piece, and until it lands the årshjul plans and
       queues but nobody is told (D-29).
