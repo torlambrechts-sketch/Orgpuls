@@ -23,6 +23,11 @@ jobs:
       - run: npx tsc --noEmit
       - run: npm run lint
 
+      # The failure helpers and the one-organisation rule. Small functions, each the
+      # difference between a failure the product reports and one it renders as the truth.
+      - name: Unit tests
+        run: npm test
+
       # Key parity and ICU placeholder parity between no and en. Neither is a type
       # error and neither fails a build, so a missing key renders as `namespace.key`
       # on a screen nobody happened to open in that language.
@@ -143,3 +148,44 @@ jobs:
 
       - name: supabase db lint
         run: supabase db lint --level warning
+
+      # ------------------------------------------------------------------ smoke
+      # Every signed-in screen, against the database built above, as the local account.
+      #
+      # This is the gate D-40 needed. A migration added a second foreign key, PostgREST
+      # refused an embed, and Tiltak rendered "Ingen tiltak" over seven measures -- and
+      # every gate passed, because the SQL suites test the database, tsc and the build
+      # never run a query, and nothing else looked at a screen. Every read and write now
+      # logs its failure as [read], [write] or [org] (lib/supabase/read.ts, write.ts,
+      # lib/org/current.ts), so a screen that silently lost its data leaves a line here,
+      # and any such line fails the job.
+      #
+      # The credential is local_account.sql's, which exists only in this throwaway
+      # database and is already public in the repository for that reason.
+      - name: Build against the local database
+        run: |
+          eval "$(supabase status -o env)"
+          echo "NEXT_PUBLIC_SUPABASE_URL=$API_URL" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=$ANON_KEY" >> "$GITHUB_ENV"
+          NEXT_PUBLIC_SUPABASE_URL="$API_URL" NEXT_PUBLIC_SUPABASE_ANON_KEY="$ANON_KEY" npx next build
+
+      - name: Smoke every screen
+        env:
+          ORGPULS_DEV_EMAIL: dev.orgpuls@nordvik.example
+          ORGPULS_DEV_PASSWORD: orgpuls-local-only
+        run: |
+          npx playwright-core install chromium
+          npx next start -p 3000 > smoke.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf -o /dev/null http://localhost:3000/logg-inn && break; sleep 1; done
+          node scripts/verify/shoot.mjs --out artifacts/smoke \
+            /innsikt /malinger /samtaler /tiltak /oppsett /resultat /arshjulet \
+            /hjelp /integrasjoner /rapport /maleoppsett
+          if grep -E '\[(read|write|org|middleware)\] ' smoke.log; then
+            echo "::error::a screen logged a failed read or write -- see the lines above"
+            exit 1
+          fi
+          echo "no screen logged a failure"
+
+      - name: Server log
+        if: always()
+        run: cat smoke.log 2>/dev/null || true

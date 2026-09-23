@@ -2,7 +2,7 @@
   "name": "orgpuls",
   "version": "0.1.0",
   "private": true,
-  "description": "Psykososialt arbeidsmiljø for norske virksomheter.",
+  "description": "Psykososialt arbeidsmilj\u00f8 for norske virksomheter.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -12,7 +12,8 @@
     "seed": "node scripts/seed/design-fixture.mjs",
     "verify:pixel": "node scripts/verify/pixel.mjs",
     "verify:probe": "node scripts/verify/probe.mjs",
-    "verify:i18n": "node scripts/verify/i18n.mjs"
+    "verify:i18n": "node scripts/verify/i18n.mjs",
+    "test": "vitest run"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.5",

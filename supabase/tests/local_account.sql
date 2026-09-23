@@ -25,18 +25,37 @@ begin
     raise exception 'unreachable';
   end if;
 
+  /*
+   * The token columns are set to '' rather than left NULL. GoTrue reads them into plain
+   * strings, so a NULL makes password sign-in fail with a database error rather than a
+   * clean refusal — the usual trap with users inserted by hand rather than through
+   * sign-up. Nothing signed in as this account until CI's smoke job did (Q5), which is
+   * why it had never surfaced.
+   */
   insert into auth.users (
     id, instance_id, aud, role, email,
     encrypted_password, email_confirmed_at, created_at, updated_at,
-    raw_app_meta_data, raw_user_meta_data
+    raw_app_meta_data, raw_user_meta_data,
+    confirmation_token, recovery_token, email_change, email_change_token_new,
+    email_change_token_current, phone_change, phone_change_token, reauthentication_token
   )
   values (
     v_uid, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated',
     'dev.orgpuls@nordvik.example',
     crypt('orgpuls-local-only', gen_salt('bf')), now(), now(), now(),
-    '{"provider":"email","providers":["email"]}'::jsonb, '{}'::jsonb
+    '{"provider":"email","providers":["email"]}'::jsonb, '{}'::jsonb,
+    '', '', '', '', '', '', '', ''
   )
   on conflict (id) do nothing;
+
+  -- password sign-in resolves the user through an email identity on current GoTrue
+  insert into auth.identities (id, user_id, provider_id, provider, identity_data,
+                               created_at, updated_at, last_sign_in_at)
+  values (gen_random_uuid(), v_uid, v_uid::text, 'email',
+          jsonb_build_object('sub', v_uid::text, 'email', 'dev.orgpuls@nordvik.example',
+                             'email_verified', true),
+          now(), now(), now())
+  on conflict do nothing;
 
   insert into app.profiles (id, full_name, lang)
   values (v_uid, 'Tuva Berg', 'no')
