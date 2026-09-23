@@ -1695,3 +1695,51 @@ matrix, the roster, the import preview, the year strip) keep their horizontal sc
 **Held in place.** CI's smoke job now runs `mobile.mjs` over every screen and the three
 marketing pages, and fails on sideways scrolling or text squeezed under 48 px. Milder
 wrapping — a two-word label on two lines in a table cell — is printed as a warning.
+
+## D-51 — Member management and invitations, which the design does not have
+
+**The constraint.** The bundle's Roller og tilgang tab is the access matrix and three
+permission cards. It grants nothing: there is no list of people, no invitation, no way to
+make somebody an avdelingsleder for a department. Until now the only way a membership came
+into existence was sign-up (0024) for the person who registered. A second person could not
+be let in, and no avdelingsleder was scoped to anything (X-020). Meanwhile the
+`membership_admin_insert` policy let any daglig leder insert *any* user id into their
+organisation, which could strand that person with two active memberships (review Q3).
+
+**What was built.** Below the design's matrix and cards, and in the tab's own visual
+vocabulary (panel radius, row tiles, the control and button classes the Oppsett forms
+already use), a panel shown only to a daglig leder:
+
+- **Hvem har tilgang**: every membership with name, e-mail, role and, for an
+  avdelingsleder, the department. Role and department are editable; access can be removed
+  and given back. Your own row has no remove button.
+- **Inviter noen**: address, role, department. The result is a link shown once, with a copy
+  button. Orgpuls sends no e-mail yet (D-29), so the daglig leder sends it.
+- **Åpne invitasjoner**: each open invitation, with a Trekk tilbake button.
+
+A new public page, `/bli-med/<token>`, shows the organisation, role and address. Someone
+not signed in sets or enters a password there; someone signed in with the invited address
+accepts; someone signed in as anybody else is told so and offered sign-out. It is excluded
+from analytics like the respondent link (D-49), because the token is a credential.
+
+**The rules live in the database** (migration 0028), not in the screen:
+
+- no client role writes `app.memberships`;
+- the token is 32 random bytes, stored as SHA-256 and shown once;
+- only the invited address may accept, once, within 14 days, and not from an account that
+  belongs to another organisation;
+- the last daglig leder cannot be demoted or deactivated.
+
+`member_invariants.sql` holds 26 assertions, run locally and against the hosted project.
+
+**The shared demo is locked** (migration 0029). Everybody with the demo credentials signs in
+as the same daglig leder. With invitations, any of them could invite themselves as a second
+daglig leder and then remove the demo account, locking every other evaluator out. An
+organisation listed in `app.member_locks` issues no invitations, and the panel says so
+instead of showing the form. The list is its own table because the daglig leder holds a
+table-wide UPDATE grant on `app.organizations` and could clear a column there. The lock
+table has RLS enabled and no policy or grant.
+
+**Still missing.** The design has no confirmation dialog anywhere, so none was invented
+for removing someone's access; the action is reversible from the same row. Sign-up still
+stores no role (D-38).

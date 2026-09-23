@@ -1336,6 +1336,16 @@ A user found registrering unusable on a phone. The design has no phone layout an
 ran at 1440 px. Every screen now has a stacked layout below 768 px, verified to leave the 1440
 px rendering pixel-identical, and CI checks every screen at 390 px (D-50).
 
+### X-031 — Somebody else can be let in
+
+The Roller tab could print who may see what but could not give that access to anyone. It
+now lists the organisation's people, changes their role and department, and invites by
+address with a link the daglig leder copies, because nothing sends mail yet. Membership is
+written only by five SECURITY DEFINER functions. The direct-insert policy that let a daglig
+leder put any user id into their organisation is gone. The shared demo organisation is
+locked against invitations, so one evaluator cannot lock the rest out (D-51, migrations
+0028 and 0029, 26 assertions).
+
 ## Open items
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1374,7 +1384,7 @@ px rendering pixel-identical, and CI checks every screen at 390 px (D-50).
 - [ ] No sign-in provider is configured, so "Fortsett med Microsoft" and "Fortsett med
       BankID" are omitted. Both wait on the same Entra application as D-35 (D-38).
 - [ ] Sign-up asks for a role and stores none — there is no column the four answers fit
-      (D-38). Granting a membership is still a write no screen makes (X-020).
+      (D-38). Granting a membership is now the Roller tab's invitation (X-031).
 - [x] The published figures — 61, −3, 82 %, 77 % — verified against the live database.
       X-008, re-verified at X-019. All six suites pass: 113 assertions.
 - [x] `ORGPULS_DEV_PASSWORD` and `ORGPULS_DEV_EMAIL` supplied 2026-09-23. `shoot.mjs`
@@ -1421,9 +1431,8 @@ px rendering pixel-identical, and CI checks every screen at 390 px (D-50).
 - [ ] Nothing empties `app.outbox`. 34 notices are queued and no dispatcher exists; an
       e-mail integration is the missing piece, and until it lands the årshjul plans and
       queues but nobody is told (D-29).
-- [ ] `app.memberships.group_id` is null for every membership on the live project, so no
-      avdelingsleder is scoped to anything yet. Assigning one is a write on the Roller tab
-      that does not exist: the tab prints the matrix and nothing grants a membership. X-020.
+- [x] Memberships can be granted, scoped and withdrawn from the Roller tab, by invitation
+      only; the direct-insert policy is gone. X-031, D-51.
 - [ ] Automatic deletion of individual answers is not configured. The Personvern tab says
       so rather than repeating the design's "slettes automatisk etter 24 måneder" (D-33).
 - [ ] The design's Integrasjoner wizard is not built and will not be until a channel

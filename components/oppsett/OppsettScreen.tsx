@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import type { ReactNode } from 'react'
 import { getTranslations } from 'next-intl/server'
 import type { CompanyRow, GroupStat, Location, RosterPerson } from '@/lib/settings/read'
 import type { Group } from '@/lib/org/read'
@@ -52,6 +53,8 @@ export interface OppsettView {
   /** the round the group counts are "svar sist" from — null before anything has closed */
   lastClosedRound: { kind: string; year: number } | null
   canWrite: boolean
+  /** the Roller tab's member panel, built by the page only when that tab is open (D-51) */
+  members?: ReactNode
 }
 
 export async function OppsettScreen({ view }: { view: OppsettView }) {
@@ -136,7 +139,7 @@ export async function OppsettScreen({ view }: { view: OppsettView }) {
       ) : view.tab === 'grupper' ? (
         <GrupperTab view={view} />
       ) : view.tab === 'roller' ? (
-        <RollerTab />
+        <RollerTab members={view.members} />
       ) : view.tab === 'integrasjoner' ? (
         <IntegrasjonerTab roster={view.roster} withPhone={view.withPhone} />
       ) : view.tab === 'personvern' ? (

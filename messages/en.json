@@ -1102,6 +1102,46 @@
         "daglig_leder": "The whole undertaking, every factor, every anonymous conversation. Never sees who answered what.",
         "avdelingsleder": "Their own department once the threshold is met, and the conversations from it. No access to other departments.",
         "verneombud": "The same figures and the same risk assessment as management. No individual comments. Notified first when a round starts."
+      },
+      "members": {
+        "title": "Who has access",
+        "lead": "Access is given with an invitation to one e-mail address. The invited person creates an account — or signs in — with that address and accepts it themselves. Access can be changed or removed here.",
+        "name": "Name",
+        "email": "E-mail",
+        "role": "Role",
+        "group": "Department",
+        "you": "you",
+        "noName": "No name",
+        "chooseGroup": "Choose department",
+        "save": "Save",
+        "saving": "Saving …",
+        "deactivate": "Remove access",
+        "reactivate": "Restore access",
+        "inactive": "No access",
+        "inviteHead": "Invite someone",
+        "invite": "Create invitation",
+        "inviting": "Creating …",
+        "linkHead": "The invitation is ready",
+        "linkNote": "Send the link to {email} yourself — Orgpuls does not send e-mail yet. It works once, only for that address, and expires in 14 days. It is shown only now.",
+        "copy": "Copy link",
+        "copied": "Copied",
+        "openHead": "Open invitations",
+        "expires": "expires {date}",
+        "revoke": "Withdraw",
+        "readOnly": "Only the managing director can give and change access.",
+        "locked": "This is a demo organisation that many people sign in to. You can see who has access here, but not invite anyone.",
+        "problem": {
+          "invalid_email": "That does not look like an e-mail address.",
+          "invalid_role": "Choose a role.",
+          "invalid_group": "A department manager needs a department.",
+          "locked": "The demo organisation cannot invite anyone.",
+          "already_member": "This address already has access.",
+          "last_daglig_leder": "The organisation must keep at least one managing director with access. Give someone else the role first.",
+          "not_allowed": "Only the managing director can do this.",
+          "not_found": "This no longer exists. Reload the page.",
+          "invalid": "Something in the form was invalid.",
+          "failed": "That did not work. Nothing was changed — try again."
+        }
       }
     },
     "integrasjoner": {
@@ -1918,6 +1958,37 @@
       "wheel": "Section 3-1 (g) requires “continuous monitoring of the working environment” when the risk factors call for it — not one measurement a year. Letter (h) requires you also to review whether the system itself works. The notification order in the annual cycle covers the participation requirement in section 3-1 first paragraph and section 6-2 fourth paragraph.",
       "settings": "The threshold is not a requirement of the Working Environment Act but follows from data protection law: with fewer than five answers, results in small groups can be traced back to individuals. The legal basis is legal obligation under GDPR Article 6(1)(c), not consent — employees cannot freely consent to their employer. Section 9-3 also prohibits collecting health information, which is why the questions are designed to avoid it.",
       "report": "The documentation requirement lies in section 3-1 third paragraph, which provides for regulations on “requirements for documentation of the systematic health, environment and safety work”. Section 7-2 fourth paragraph requires medical information of a personal nature to be removed before the working environment committee considers reports, and the sixth paragraph that the committee submits an annual report to governing bodies, the employees’ organisations and the Labour Inspection Authority."
+    }
+  },
+  "bliMed": {
+    "badge": "Invitation",
+    "title": "Join {org}",
+    "lead": "You are invited as {role}.",
+    "leadGroup": "You are invited as {role} for {group}.",
+    "forEmail": "The invitation is for {email}.",
+    "password": "Password",
+    "passwordNote": "If you already have an account, use your password. Otherwise this becomes the password of your new account — at least 8 characters.",
+    "join": "Accept and continue",
+    "joining": "One moment …",
+    "accept": "Accept the invitation",
+    "signedInAs": "You are signed in as {email}, but the invitation is for {invited}.",
+    "signOut": "Sign out",
+    "state": {
+      "not_found": "This link is not valid. It may have been withdrawn, or replaced by a newer one.",
+      "expired": "The invitation has expired. Ask for a new one.",
+      "accepted": "The invitation has already been used."
+    },
+    "toSignIn": "Go to sign-in",
+    "problem": {
+      "wrong_password": "An account with this address already exists, and the password did not match.",
+      "short_password": "The password needs at least 8 characters.",
+      "confirm_email": "Check your e-mail and confirm the account, then open the link again.",
+      "other_organisation": "Your account already belongs to another organisation. An account can belong to only one.",
+      "wrong_account": "The invitation is for another e-mail address.",
+      "expired": "The invitation has expired. Ask for a new one.",
+      "already_accepted": "The invitation has already been used.",
+      "not_found": "This link is not valid.",
+      "failed": "That did not work. Try again."
     }
   }
 }

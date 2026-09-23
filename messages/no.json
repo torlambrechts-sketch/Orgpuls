@@ -1102,6 +1102,46 @@
         "daglig_leder": "Hele virksomheten, alle faktorer, alle anonyme samtaler. Ser aldri hvem som har svart hva.",
         "avdelingsleder": "Egen avdeling når terskelen er nådd, og samtalene derfra. Ingen tilgang til andre avdelinger.",
         "verneombud": "Samme tall og samme risikovurdering som ledelsen. Ingen enkeltkommentarer. Varsles først når en runde settes i gang."
+      },
+      "members": {
+        "title": "Hvem har tilgang",
+        "lead": "Tilgang gis med en invitasjon til én e-postadresse. Den inviterte lager konto — eller logger inn — med den adressen og godtar selv. Tilgangen kan endres eller tas bort her.",
+        "name": "Navn",
+        "email": "E-post",
+        "role": "Rolle",
+        "group": "Avdeling",
+        "you": "deg",
+        "noName": "Uten navn",
+        "chooseGroup": "Velg avdeling",
+        "save": "Lagre",
+        "saving": "Lagrer …",
+        "deactivate": "Fjern tilgang",
+        "reactivate": "Gi tilgang igjen",
+        "inactive": "Uten tilgang",
+        "inviteHead": "Inviter noen",
+        "invite": "Lag invitasjon",
+        "inviting": "Lager …",
+        "linkHead": "Invitasjonen er klar",
+        "linkNote": "Send lenken til {email} selv — Orgpuls sender ikke e-post ennå. Den virker én gang, bare for den adressen, og går ut om 14 dager. Den vises bare nå.",
+        "copy": "Kopier lenken",
+        "copied": "Kopiert",
+        "openHead": "Åpne invitasjoner",
+        "expires": "går ut {date}",
+        "revoke": "Trekk tilbake",
+        "readOnly": "Bare daglig leder kan gi og endre tilgang.",
+        "locked": "Dette er en demovirksomhet som mange logger inn i. Her kan du se hvem som har tilgang, men ikke invitere noen.",
+        "problem": {
+          "invalid_email": "Det ser ikke ut som en e-postadresse.",
+          "invalid_role": "Velg en rolle.",
+          "invalid_group": "En avdelingsleder må ha en avdeling.",
+          "locked": "Demovirksomheten kan ikke invitere noen.",
+          "already_member": "Denne adressen har allerede tilgang.",
+          "last_daglig_leder": "Virksomheten må ha minst én daglig leder med tilgang. Gi noen andre rollen først.",
+          "not_allowed": "Bare daglig leder kan gjøre dette.",
+          "not_found": "Fant ikke dette lenger. Last siden på nytt.",
+          "invalid": "Noe i skjemaet var ugyldig.",
+          "failed": "Det gikk ikke. Ingenting ble endret — prøv igjen."
+        }
       }
     },
     "integrasjoner": {
@@ -1918,6 +1958,37 @@
       "wheel": "§ 3-1 bokstav g krever «løpende kontroll med arbeidsmiljøet» når risikoforholdene tilsier det — ikke én måling i året. Bokstav h krever at dere også gjennomgår om systemet selv virker. Varslingsrekkefølgen i årshjulet dekker medvirkningskravet i § 3-1 første ledd og § 6-2 fjerde ledd.",
       "settings": "Terskelen er ikke et lovkrav i arbeidsmiljøloven, men følger av personvernregelverket: under fem svar kan resultater i små grupper tilbakeføres til enkeltpersoner. Behandlingsgrunnlaget er rettslig forpliktelse etter GDPR artikkel 6 nr. 1 bokstav c, ikke samtykke — ansatte kan ikke samtykke fritt til sin arbeidsgiver. § 9-3 forbyr dessuten å innhente helseopplysninger, og derfor er spørsmålene utformet for å unngå dem.",
       "report": "Dokumentasjonskravet ligger i § 3-1 tredje ledd, som åpner for forskrift om «krav til dokumentasjon av det systematiske helse-, miljø- og sikkerhetsarbeidet». § 7-2 fjerde ledd krever at medisinske opplysninger av personlig karakter tas ut før arbeidsmiljøutvalget behandler rapporter, og sjette ledd at utvalget avgir årsrapport til styrende organer, arbeidstakernes organisasjoner og Arbeidstilsynet."
+    }
+  },
+  "bliMed": {
+    "badge": "Invitasjon",
+    "title": "Bli med i {org}",
+    "lead": "Du er invitert som {role}.",
+    "leadGroup": "Du er invitert som {role} for {group}.",
+    "forEmail": "Invitasjonen gjelder {email}.",
+    "password": "Passord",
+    "passwordNote": "Har du konto fra før, bruker du passordet ditt. Ellers blir dette passordet til den nye kontoen din — minst 8 tegn.",
+    "join": "Godta og fortsett",
+    "joining": "Et øyeblikk …",
+    "accept": "Godta invitasjonen",
+    "signedInAs": "Du er logget inn som {email}, men invitasjonen gjelder {invited}.",
+    "signOut": "Logg ut",
+    "state": {
+      "not_found": "Denne lenken er ikke gyldig. Kanskje den er trukket tilbake, eller erstattet av en nyere.",
+      "expired": "Invitasjonen har gått ut. Be om en ny.",
+      "accepted": "Invitasjonen er allerede brukt."
+    },
+    "toSignIn": "Til innlogging",
+    "problem": {
+      "wrong_password": "Det finnes allerede en konto med denne adressen, og passordet stemte ikke.",
+      "short_password": "Passordet må ha minst 8 tegn.",
+      "confirm_email": "Sjekk e-posten din og bekreft kontoen, og åpne så lenken igjen.",
+      "other_organisation": "Kontoen din hører allerede til en annen virksomhet. En konto kan bare høre til én.",
+      "wrong_account": "Invitasjonen gjelder en annen e-postadresse.",
+      "expired": "Invitasjonen har gått ut. Be om en ny.",
+      "already_accepted": "Invitasjonen er allerede brukt.",
+      "not_found": "Denne lenken er ikke gyldig.",
+      "failed": "Det gikk ikke. Prøv igjen."
     }
   }
 }

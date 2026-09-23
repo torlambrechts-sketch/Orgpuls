@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, type ReactNode } from 'react'
 import { getTranslations } from 'next-intl/server'
 
 /**
@@ -48,7 +48,7 @@ const TONE: Record<Cell, { background: string; color: string }> = {
   no: { background: 'rgba(25,21,16,.04)', color: '#8A8272' },
 }
 
-export async function RollerTab() {
+export async function RollerTab({ members }: { members?: ReactNode }) {
   const t = await getTranslations()
 
   return (
@@ -108,6 +108,7 @@ export async function RollerTab() {
           </div>
         ))}
       </div>
+      {members}
     </>
   )
 }

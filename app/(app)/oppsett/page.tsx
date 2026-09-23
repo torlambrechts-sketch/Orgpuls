@@ -1,3 +1,6 @@
+import { getLocale } from 'next-intl/server'
+import { MembersPanel } from '@/components/oppsett/MembersPanel'
+import { getMembers, getMembersLocked, getOpenInvites } from '@/lib/members/read'
 import { OppsettScreen, TABS, type OppsettView, type Tab } from '@/components/oppsett/OppsettScreen'
 import {
   countWithPhone,
@@ -52,6 +55,16 @@ export default async function OppsettPage({
   const closed = rounds.find((r) => r.state === 'lukket') ?? null
   const groupStats = await getGroupStats(closed?.id ?? null)
 
+  /*
+   * The Roller tab's people and open invitations. Read only on that tab, and only for a
+   * daglig leder: `org_members` refuses anybody else, and the panel is not rendered for
+   * them rather than rendered empty. D-51.
+   */
+  const members =
+    tab === 'roller' && role === 'daglig_leder' ? await getMembers(company.id) : null
+  const invites = members ? await getOpenInvites(company.id) : []
+  const membersLocked = members ? await getMembersLocked(company.id) : false
+
   const view: OppsettView = {
     tab,
     company,
@@ -66,6 +79,16 @@ export default async function OppsettPage({
     lastClosedRound: closed ? { kind: closed.kind, year: closed.year } : null,
     // styling only; every write policy on these tables is daglig_leder and checks itself
     canWrite: role === 'daglig_leder',
+    members: members ? (
+      <MembersPanel
+        members={members}
+        invites={invites}
+        groups={groups}
+        canWrite={role === 'daglig_leder'}
+        locked={membersLocked}
+        locale={await getLocale()}
+      />
+    ) : undefined,
   }
 
   return <OppsettScreen view={view} />

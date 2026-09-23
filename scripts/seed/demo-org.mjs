@@ -487,6 +487,11 @@ insert into app.memberships (org_id, user_id, role, active)
 select ${org}, u.id, 'daglig_leder', true from auth.users u where u.email = '${LOGIN_EMAIL}'
 on conflict (org_id, user_id) do update set role = excluded.role, active = true;
 
+-- everybody with the demo credentials signs in as this one daglig leder: nobody may invite
+-- a second one and use it to lock the others out (0029)
+insert into app.member_locks (org_id) values (${org}) on conflict do nothing;
+delete from app.member_invites where org_id = ${org};
+
 insert into app.locations (org_id, name, address, headcount, sort_order) values
   (${org}, 'Hovedkontor Bergen', 'Demoveien 1, 5003 Bergen', 21, 1),
   (${org}, 'Driftsbase Åsane', 'Eksempelvegen 12, 5116 Ulset', 27, 2),

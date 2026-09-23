@@ -27,6 +27,12 @@ export function scrubUrl(url: string): string | null {
   return `${parsed.origin}${parsed.pathname}`
 }
 
+/**
+ * A path that carries a capability token: the respondent's link (`/s/<token>`) and a
+ * member invitation (`/bli-med/<token>`, 0028). Neither is ever reported.
+ */
+const CAPABILITY_PREFIXES = ['/s', '/bli-med']
+
 export function isRespondentPath(pathname: string): boolean {
-  return pathname === '/s' || pathname.startsWith('/s/')
+  return CAPABILITY_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`))
 }

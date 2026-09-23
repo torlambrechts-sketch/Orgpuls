@@ -18,6 +18,10 @@ describe('scrubUrl', () => {
     expect(scrubUrl('https://www.orgpuls.com/s')).toBeNull()
   })
 
+  it('refuses an invitation link the same way — its path carries a token too', () => {
+    expect(scrubUrl('https://www.orgpuls.com/bli-med/0123abcd')).toBeNull()
+  })
+
   it('does not mistake a path that merely starts with s for a respondent link', () => {
     expect(scrubUrl('https://www.orgpuls.com/samtaler')).toBe('https://www.orgpuls.com/samtaler')
   })
