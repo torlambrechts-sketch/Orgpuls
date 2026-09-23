@@ -1820,5 +1820,104 @@
       "not_signed_in": "The session has expired. Try again.",
       "rate_limited": "Too many lookups in a short time. Wait a few minutes and try again."
     }
+  },
+  "headerPanel": {
+    "grunnlagAria": "Basis — research and legal requirements",
+    "close": "Close",
+    "readMore": "Read more about this",
+    "allHelp": "All help articles →",
+    "tabs": {
+      "forskning": "Research",
+      "lov": "Working Environment Act"
+    },
+    "kicker": {
+      "forskning": "What this builds on",
+      "lov": "What the law requires on this page"
+    },
+    "start": {
+      "title": "Getting started",
+      "left": "{left} of {total} steps left before you are fully set up.",
+      "done": "Everything is set up. I will tell you when something needs you.",
+      "tip": "On this page: {tip}",
+      "step": {
+        "register": "Add your employees",
+        "grupper": "Check groups and threshold",
+        "arshjul": "Switch on the annual cycle",
+        "maling": "Run the first measurement"
+      }
+    },
+    "screen": {
+      "home": {
+        "title": "How to use Insight",
+        "s1": "Read the three items under “Waiting for you”. If they are empty, you are up to date.",
+        "s2": "The loop shows where you stand against the legal requirement. If you are stuck on one step, that is where the work is.",
+        "s2Plain": "The loop shows where you stand in the work. If you are stuck on one step, that is where the work is.",
+        "s3": "Switch role at the top right to see exactly what department managers and the safety representative see.",
+        "s3Plain": "Switch role at the top right to see exactly what department managers see.",
+        "sci": "The index is a weighted average of the eleven factors, converted from 1–5 to 0–100. A change of less than three points is within normal variation and should not be read as a trend. Source: QPS Nordic user guide, STAMI."
+      },
+      "measure": {
+        "title": "How to use Measurements",
+        "s1": "The baseline is the statutory one. It is taken once a year and sets the zero point.",
+        "s1Plain": "The baseline is the big one. It is taken once a year and sets the zero point.",
+        "s2": "The pulse only measures the factors you have open actions on — it tells you whether the actions work.",
+        "s3": "The annual cycle does both automatically, with the safety representative notified first.",
+        "sci": "An annual baseline combined with short pulses gives better data quality than frequent long surveys. Survey fatigue sets in noticeably after about eight questions, and the response rate falls faster than the quality of the answers."
+      },
+      "result": {
+        "title": "How to read the result",
+        "s1": "Start with “Do these three”. They are ranked by effect on the whole, not by lowest score.",
+        "s2": "Tap a factor row to see the three statements and the distribution behind the number.",
+        "s3": "“Assess risk” turns the finding into an action with an owner and a deadline.",
+        "sci": "The prioritisation is a driver analysis: how strongly each factor varies with the overall assessment in your organisation specifically. That is why a factor at 64 can rank above one at 52. Based on the job demands–resources model (Bakker and Demerouti)."
+      },
+      "conv": {
+        "title": "How to handle conversations",
+        "s1": "Reply even if you do not have a solution. “I have read this” is enough.",
+        "s2": "Share with the safety representative if the matter is serious — details are anonymised.",
+        "s3": "Close the conversation when you are done, so it does not keep counting as unanswered.",
+        "sci": "Getting a reply to an anonymous comment is the single factor that best predicts whether people write again at the next measurement. Unanswered comments lead to a lower response rate next round than having no comment field at all."
+      },
+      "tasks": {
+        "title": "How to see actions through",
+        "s1": "Every action should have one named owner. Shared responsibility is no responsibility.",
+        "s2": "Choose collective actions before individual ones — change the work, not the people.",
+        "s3": "An action cannot be closed until its effect has been measured in the next pulse.",
+        "sci": "The Labour Inspection Authority and STAMI both point out that actions aimed at how work is organised work better than individual measures such as stress-management courses. Collective actions are to be considered first."
+      },
+      "plan": {
+        "title": "How to set up a measurement",
+        "s1": "Choose the type. A baseline covers the legal requirement, a pulse measures effect.",
+        "s1Plain": "Choose the type. A baseline gives the whole picture, a pulse measures effect.",
+        "s2": "Choose factors and comment mode. Fewer questions give a higher response rate.",
+        "s3": "Check the groups against the threshold, and leave the notice to the safety representative on.",
+        "sci": "Five questions take under a minute and typically give a response rate 15–20 percentage points higher than a full form. Rotating questions stops people answering on autopilot."
+      },
+      "wheel": {
+        "title": "How the annual cycle works",
+        "s1": "Choose a rhythm. A quarterly pulse is enough for almost everyone.",
+        "s2": "Check the notification order — the safety representative and union representatives must always come first.",
+        "s3": "Turn on the main switch. Sending, reminders and follow-up then run by themselves.",
+        "sci": "Predictability raises the response rate: when employees know the measurement comes in the same month every year, more of them answer. Unannounced measurements are more often read as control than as participation."
+      },
+      "settings": {
+        "title": "How to set up the organisation",
+        "s1": "Add people first — by hand or from a spreadsheet. Everything else builds on the register.",
+        "s2": "Check the groups and the threshold. Small groups are merged automatically.",
+        "s3": "The privacy pages are already filled in. Read them once, and you can answer employees’ questions.",
+        "sci": "A threshold of five is not arbitrary. With fewer than five answers, results in small groups can in practice be traced back to individuals, and they are then personal data under the GDPR — with full rights of access and erasure."
+      }
+    },
+    "law": {
+      "home": "The loop on this page is section 3-1 (c) of the Working Environment Act put into a system: survey, assess risk, implement actions, follow up the effect. The index is not a legal requirement — the documentation of the four steps is. The annual cycle covers section 3-1 first paragraph, that the work is to be done in cooperation with employees and union representatives.",
+      "measure": "The Act requires no particular method and no particular frequency. It requires that the survey is sound and repeated when conditions change, cf. section 3-1 (c) and (g). The factors here are the ones section 4-3 and chapter 1A of the Regulations concerning the performance of work name — which is why the wording is locked.",
+      "result": "The risk assessment is the legal requirement itself: section 3-1 (c) says survey “and on this basis assess the risk factors”. A number alone is not a risk assessment. Section 4-1 first paragraph requires the working environment to be assessed “individually and collectively” — hence both factor rows and an overall index.",
+      "conv": "Anonymous comments are not whistleblowing under chapter 2A, but they can contain it. Section 2-3 second paragraph (d) obliges employees to report harassment and discrimination, and section 4-3 third paragraph prohibits it. If you receive such a message, it leaves this track and goes into the organisation’s whistleblowing procedure.",
+      "tasks": "Section 3-1 (c) requires the survey to result in plans and actions — not just in insight. The Labour Inspection Authority and STAMI both point out that collective actions aimed at how work is organised are to be considered before individual ones. That is why an action cannot be closed until its effect has been measured.",
+      "plan": "A recurring measurement with results per group counts as a control measure. Section 9-1 then applies: an objective reason in the organisation’s circumstances, and no disproportionate burden. Section 9-2 requires discussion with union representatives in advance, information to those affected about purpose, consequences and duration, and regular evaluation. Section 6-2 fourth paragraph gives the safety representative the right to be consulted.",
+      "wheel": "Section 3-1 (g) requires “continuous monitoring of the working environment” when the risk factors call for it — not one measurement a year. Letter (h) requires you also to review whether the system itself works. The notification order in the annual cycle covers the participation requirement in section 3-1 first paragraph and section 6-2 fourth paragraph.",
+      "settings": "The threshold is not a requirement of the Working Environment Act but follows from data protection law: with fewer than five answers, results in small groups can be traced back to individuals. The legal basis is legal obligation under GDPR Article 6(1)(c), not consent — employees cannot freely consent to their employer. Section 9-3 also prohibits collecting health information, which is why the questions are designed to avoid it.",
+      "report": "The documentation requirement lies in section 3-1 third paragraph, which provides for regulations on “requirements for documentation of the systematic health, environment and safety work”. Section 7-2 fourth paragraph requires medical information of a personal nature to be removed before the working environment committee considers reports, and the sixth paragraph that the committee submits an annual report to governing bodies, the employees’ organisations and the Labour Inspection Authority."
+    }
   }
 }

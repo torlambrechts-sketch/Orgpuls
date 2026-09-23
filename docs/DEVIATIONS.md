@@ -1578,3 +1578,47 @@ asks to be confirmed first.
 user — the design's Tuva Berg, a default in `AppHeader` — and the role selector defaults to
 daglig leder rather than the viewer's role. Both predate this and both are covered by the
 pixel baselines, so they are logged rather than changed here.
+
+## D-48 — Hjelp, Grunnlag and the assistant open the design's panel; they were dead controls
+
+**Design:** bundle lines 67-148 and `helpData` at 3082-3190. The three header controls are
+one panel with three modes, opened under the header for the screen you are on: Hjelp (three
+steps and three help articles for this screen), Grunnlag (what the screen rests on — the
+research, and in law mode a second tab with what the Working Environment Act requires
+here), and the assistant, whose panel is not a chat but "Kom i gang": four setup steps,
+ticked when done, each linking to where it is done.
+
+**Built before this:** Grunnlag and the assistant were `<button>`s with no handler — the
+header was transcribed for the pixel gate and the behaviour never followed, and nothing
+here recorded the gap. Hjelp was a link to /hjelp. The earlier omissions of the assistant's
+*notes* (D-25 and the screens after it) are a different thing: those are prose an assistant
+would have written; this panel is fixed copy and a checklist of facts.
+
+**Built now:** `components/shell/HeaderBar.tsx`, a client component, with the server header
+supplying law mode and the checklist's facts (`lib/shell/read.ts`).
+
+- **Copy.** All 69 Norwegian strings are the design's own, checked verbatim against the
+  bundle; English is translated. They live in `headerPanel.*`. A screen with no entry of its
+  own falls back to Innsikt's, as `H[scr] || H.home` does — so Rapport, Integrasjoner and
+  Hjelp show Innsikt's steps, and Rapport alone has its own law text, as in the design.
+- **The checklist's ticks come from rows, not from the prototype's shortcuts.** The bundle
+  hard-codes "grupper" and "måling" as done and counts the register done at ten people. Here:
+  the register is done when it holds every employee the organisation says it has (Oppsett's
+  "Registeret er komplett" rule) and at least one; groups when there is one and no active
+  employee is outside a group; the årshjul when it is switched on; the first measurement
+  when a round has gone out. When those facts cannot be read — no organisation, more than
+  one, a failed read — the panel prints no checklist rather than four unticked steps.
+- **Hjelp is a toggle again**, as the design's control is. The help site is one step on,
+  behind the panel's "Hele hjelpesiden →".
+- **Links, per D-06.** "Hele hjelpesiden", the article cards and the checklist steps change
+  the address, so they are links styled as the bundle's buttons. The design's article cards
+  open the help site filtered to the article's category; here they open the article the
+  card names, since the router can.
+- **The panel belongs to the screen it was opened on** (`panelFor`): navigate and it is
+  closed. The three controls carry `aria-expanded` and `aria-controls`; the Grunnlag tabs
+  `aria-pressed`.
+- **The assistant control is always shown.** The design hides it when `tuvaOn` is off, a
+  setting on Oppsett's Assistenten tab, which is omitted (D-32).
+
+The closed header is unchanged: the header band diffs PASS against `01-innsikt-home.png`
+and `04-tiltak-tasks.png`.

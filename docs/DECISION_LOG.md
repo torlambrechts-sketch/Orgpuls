@@ -1317,6 +1317,13 @@ round state taken from list position, Rapport opening on an empty future year, d
 across a puls and a grunnlinje, and pulses indistinguishable by name. Fixed in the same
 change, because a demo that shows them is not one to evaluate with (D-46).
 
+### X-028 — The header's panel, built
+
+Asked whether Grunnlag and the assistant not working was deliberate: it was not. The header
+had been transcribed for the pixel gate and its panel never built, and nothing recorded the
+gap. Built from the design — Hjelp, Grunnlag with its law tab, and the "Kom i gang"
+checklist ticked from real rows — with every Norwegian string checked verbatim (D-48).
+
 ## Open items
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.

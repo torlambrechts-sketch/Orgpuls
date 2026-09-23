@@ -1820,5 +1820,104 @@
       "not_signed_in": "Økten er utløpt. Prøv igjen.",
       "rate_limited": "For mange oppslag på kort tid. Vent noen minutter og prøv igjen."
     }
+  },
+  "headerPanel": {
+    "grunnlagAria": "Grunnlag — forskning og lovkrav",
+    "close": "Lukk",
+    "readMore": "Les mer om dette",
+    "allHelp": "Hele hjelpesiden →",
+    "tabs": {
+      "forskning": "Forskning",
+      "lov": "Arbeidsmiljøloven"
+    },
+    "kicker": {
+      "forskning": "Hva dette bygger på",
+      "lov": "Hva loven krever på denne siden"
+    },
+    "start": {
+      "title": "Kom i gang",
+      "left": "{left} av {total} steg igjen før dere er helt i gang.",
+      "done": "Alt er satt opp. Jeg sier fra når noe trenger deg.",
+      "tip": "På denne siden: {tip}",
+      "step": {
+        "register": "Legg inn de ansatte",
+        "grupper": "Sjekk grupper og terskel",
+        "arshjul": "Slå på årshjulet",
+        "maling": "Gjennomfør første måling"
+      }
+    },
+    "screen": {
+      "home": {
+        "title": "Slik bruker du Innsikt",
+        "s1": "Les de tre punktene under «Venter på deg». Er de tomme, er du à jour.",
+        "s2": "Sløyfen viser hvor dere står i lovkravet. Står dere fast på ett trinn, er det der jobben ligger.",
+        "s2Plain": "Sløyfen viser hvor dere står i arbeidet. Står dere fast på ett trinn, er det der jobben ligger.",
+        "s3": "Bytt rolle øverst til høyre for å se nøyaktig det avdelingslederne og verneombudet ser.",
+        "s3Plain": "Bytt rolle øverst til høyre for å se nøyaktig det avdelingslederne ser.",
+        "sci": "Indeksen er et vektet snitt av de elleve faktorene, regnet om fra 1–5 til 0–100. En endring under tre poeng ligger innenfor normal variasjon og bør ikke tolkes som en trend. Kilde: QPS Nordic brukerveiledning, STAMI."
+      },
+      "measure": {
+        "title": "Slik bruker du Målinger",
+        "s1": "Grunnlinjen er den lovpålagte. Den tas én gang i året og setter nullpunktet.",
+        "s1Plain": "Grunnlinjen er den store. Den tas én gang i året og setter nullpunktet.",
+        "s2": "Pulsen måler bare faktorene dere har åpne tiltak på — den svarer på om tiltakene virker.",
+        "s3": "Årshjulet gjør begge deler automatisk, med verneombudet varslet først.",
+        "sci": "Årlig grunnlinje kombinert med korte pulser gir bedre datakvalitet enn hyppige lange målinger. Svartretthet slår merkbart inn etter rundt åtte spørsmål, og svarprosenten faller raskere enn kvaliteten på svarene."
+      },
+      "result": {
+        "title": "Slik leser du resultatet",
+        "s1": "Start med «Gjør disse tre». De er rangert etter effekt på helheten, ikke etter lavest tall.",
+        "s2": "Trykk på en faktorrad for å se de tre påstandene og fordelingen bak tallet.",
+        "s3": "«Vurder risiko» gjør funnet om til et tiltak med eier og frist.",
+        "sci": "Prioriteringen er en driveranalyse: hvor sterkt hver faktor samvarierer med helhetsvurderingen hos nettopp dere. Det er derfor en faktor på 64 kan rangeres foran en på 52. Bygger på jobbkrav–ressurser-modellen (Bakker og Demerouti)."
+      },
+      "conv": {
+        "title": "Slik håndterer du samtaler",
+        "s1": "Svar selv om du ikke har en løsning. «Jeg har lest dette» er nok.",
+        "s2": "Del med verneombudet hvis saken er alvorlig — detaljer anonymiseres.",
+        "s3": "Lukk samtalen når dere er ferdige, så den ikke ligger og teller som ubesvart.",
+        "sci": "Å få svar på en anonym kommentar er den enkeltfaktoren som best forutsier om folk skriver igjen ved neste måling. Ubesvarte kommentarer gir lavere svarprosent neste runde enn ingen kommentarfelt i det hele tatt."
+      },
+      "tasks": {
+        "title": "Slik driver du tiltak i mål",
+        "s1": "Hvert tiltak skal ha én navngitt eier. Delt ansvar er ikke ansvar.",
+        "s2": "Velg kollektive tiltak før individuelle — endre arbeidet, ikke folkene.",
+        "s3": "Et tiltak kan ikke lukkes før effekten er målt i neste puls.",
+        "sci": "Arbeidstilsynet og STAMI peker begge på at tiltak rettet mot organisering av arbeidet virker bedre enn individrettede tiltak som kurs i stressmestring. Kollektive tiltak skal vurderes først."
+      },
+      "plan": {
+        "title": "Slik setter du opp en måling",
+        "s1": "Velg type. Grunnlinje dekker lovkravet, puls måler effekt.",
+        "s1Plain": "Velg type. Grunnlinje gir hele bildet, puls måler effekt.",
+        "s2": "Velg faktorer og kommentarmodus. Færre spørsmål gir høyere svarprosent.",
+        "s3": "Sjekk gruppene mot terskelen, og la varselet til verneombudet stå på.",
+        "sci": "Fem spørsmål tar under ett minutt og gir typisk 15–20 prosentpoeng høyere svarprosent enn et fullt skjema. Rotasjon av spørsmål hindrer at folk svarer på autopilot."
+      },
+      "wheel": {
+        "title": "Slik virker årshjulet",
+        "s1": "Velg rytme. Kvartalspuls er nok for de aller fleste.",
+        "s2": "Sjekk varslingsrekkefølgen — verneombud og tillitsvalgte skal alltid ligge først.",
+        "s3": "Slå på hovedbryteren. Da går utsending, purring og oppfølging av seg selv.",
+        "sci": "Forutsigbarhet øker svarprosenten: når ansatte vet at målingen kommer i samme måned hvert år, svarer flere. Uvarslede målinger leses oftere som kontroll enn som medvirkning."
+      },
+      "settings": {
+        "title": "Slik setter du opp virksomheten",
+        "s1": "Legg inn folk først — manuelt eller fra regneark. Alt annet bygger på registeret.",
+        "s2": "Sjekk gruppene og terskelen. Små grupper slås sammen automatisk.",
+        "s3": "Personvernsidene er ferdig utfylt. Les dem én gang, så kan du svare på spørsmål fra ansatte.",
+        "sci": "Terskel på fem er ikke tilfeldig. Under fem svar kan resultater i små grupper i praksis tilbakeføres til enkeltpersoner, og da er de personopplysninger etter GDPR — med full innsyns- og sletteplikt."
+      }
+    },
+    "law": {
+      "home": "Sløyfen på denne siden er arbeidsmiljøloven § 3-1 bokstav c satt i system: kartlegge, vurdere risiko, iverksette tiltak, følge opp effekt. Indeksen er ikke et lovkrav — det er dokumentasjonen av de fire trinnene som er det. Årshjulet dekker § 3-1 første ledd om at arbeidet skal skje i samarbeid med ansatte og tillitsvalgte.",
+      "measure": "Loven krever ingen bestemt målemetode og ingen bestemt frekvens. Den krever at kartleggingen er forsvarlig og gjentas når forholdene endrer seg, jf. § 3-1 bokstav c og g. Faktorene her er de samme som § 4-3 og forskrift om utførelse av arbeid kapittel 1A navngir — derfor er ordlyden låst.",
+      "result": "Risikovurderingen er selve lovkravet: § 3-1 bokstav c sier kartlegge «og på denne bakgrunn vurdere risikoforholdene». Et tall alene er ikke en risikovurdering. § 4-1 første ledd krever at arbeidsmiljøet vurderes «enkeltvis og samlet» — derfor både faktorrader og helhetsindeks.",
+      "conv": "Anonyme kommentarer er ikke varsling etter kapittel 2A, men kan inneholde varsler. § 2-3 andre ledd bokstav d gir ansatte plikt til å melde fra om trakassering og diskriminering, og § 4-3 tredje ledd forbyr det. Får du en slik melding, går den ut av dette sporet og inn i virksomhetens varslingsrutine.",
+      "tasks": "§ 3-1 bokstav c krever at kartleggingen munner ut i planer og tiltak — ikke bare i innsikt. Arbeidstilsynet og STAMI peker begge på at kollektive tiltak rettet mot organiseringen av arbeidet skal vurderes før individrettede tiltak. Derfor kan et tiltak ikke lukkes før effekten er målt.",
+      "plan": "En gjentakende måling med resultat per gruppe regnes som et kontrolltiltak. Da gjelder § 9-1: saklig grunn i virksomhetens forhold, og ingen uforholdsmessig belastning. § 9-2 krever drøfting med tillitsvalgte på forhånd, informasjon til de berørte om formål, konsekvenser og varighet, og jevnlig evaluering. § 6-2 fjerde ledd gir verneombudet rett til å bli tatt med på råd.",
+      "wheel": "§ 3-1 bokstav g krever «løpende kontroll med arbeidsmiljøet» når risikoforholdene tilsier det — ikke én måling i året. Bokstav h krever at dere også gjennomgår om systemet selv virker. Varslingsrekkefølgen i årshjulet dekker medvirkningskravet i § 3-1 første ledd og § 6-2 fjerde ledd.",
+      "settings": "Terskelen er ikke et lovkrav i arbeidsmiljøloven, men følger av personvernregelverket: under fem svar kan resultater i små grupper tilbakeføres til enkeltpersoner. Behandlingsgrunnlaget er rettslig forpliktelse etter GDPR artikkel 6 nr. 1 bokstav c, ikke samtykke — ansatte kan ikke samtykke fritt til sin arbeidsgiver. § 9-3 forbyr dessuten å innhente helseopplysninger, og derfor er spørsmålene utformet for å unngå dem.",
+      "report": "Dokumentasjonskravet ligger i § 3-1 tredje ledd, som åpner for forskrift om «krav til dokumentasjon av det systematiske helse-, miljø- og sikkerhetsarbeidet». § 7-2 fjerde ledd krever at medisinske opplysninger av personlig karakter tas ut før arbeidsmiljøutvalget behandler rapporter, og sjette ledd at utvalget avgir årsrapport til styrende organer, arbeidstakernes organisasjoner og Arbeidstilsynet."
+    }
   }
 }
