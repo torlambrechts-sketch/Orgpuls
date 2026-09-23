@@ -1387,11 +1387,15 @@ the handler, a module failing to load — and each time the failure came back id
 
 That is the uncompiled TypeScript source — the `@/` alias unresolved, the `import`
 untransformed — loaded as CommonJS by Vercel's native Node function runtime. Next's 95 kB
-compiled Edge bundle was never what ran. Vercel's framework-agnostic *Routing Middleware*
-picks up a root `middleware.ts` and deploys it as a plain Node function; the Next.js
-preset is meant to suppress that and let `@vercel/next` compile the file. Here Next's
-matcher was honoured (`/favicon.ico` returned `NOT_FOUND`, not the middleware error) while
-Next's function was replaced. No change inside `middleware.ts` could have helped, because
+compiled Edge bundle was never what ran.
+
+**The cause, confirmed in the dashboard afterwards: the project's Framework Preset was
+"Other".** With that preset Vercel does not hand `middleware.ts` to `@vercel/next`; its
+framework-agnostic *Routing Middleware* picks up any root `middleware.ts` and deploys it as
+a plain Node function. `npm run build` still ran `next build` — which is why every build
+was green — but the deployment was assembled by the generic path, which honoured Next's
+matcher (`/favicon.ico` returned `NOT_FOUND`, not the middleware error) and replaced Next's
+function with the raw file. No change inside `middleware.ts` could have helped, because
 `middleware.ts` was not what was being executed.
 
 **Why it could not be reproduced.** `next start` runs the *compiled* middleware in the
@@ -1401,7 +1405,8 @@ Vercel was which builder claimed it, and that is not visible from a checkout.
 **The fix.** `vercel.json` with `"framework": "nextjs"`. It names the builder in the
 repository, where a dashboard setting cannot undo it, and it was proved on a preview
 deployment before it touched `main`: the splash loaded and `/innsikt` redirected to
-`/logg-inn` with the real middleware in place.
+`/logg-inn` with the real middleware in place. The dashboard preset is set to Next.js as
+well, so the two agree; `vercel.json` is the one that would survive a misclick.
 
 **What stays and what is corrected.** The four rules in `lib/supabase/middleware.ts` stay:
 they are true, cheap, and each closes a real way for a middleware to fail. Rule 4's
