@@ -1251,6 +1251,33 @@ list for `anon` in `app` is four instrument tables and nothing else, verified.
 
 ---
 
+### X-025 — Production came up, and the diagnosis that got it there
+
+`www.orgpuls.com` had returned `MIDDLEWARE_INVOCATION_FAILED` on every request since the
+first deployment. The runtime log, once read, ended the investigation in one line: Vercel
+was executing the *source* of `middleware.ts` as a CommonJS Node function and failing on
+the first `import`. Next's build was green and irrelevant; its compiled middleware was
+never deployed. D-43 has the mechanism.
+
+**The method mattered more than the fix.** Three earlier hardenings of the middleware were
+each aimed at a plausible cause and each verified against a local production build. All
+three were sound changes to a file that was not running. What broke the loop was not a
+fourth theory but two facts: "it has never worked" (so the cause was constant across every
+rewrite) and the runtime log (so the cause was named rather than inferred). The first
+narrowed it to the environment; the second pointed at the exact line.
+
+**The fix was proved before it was merged.** `vercel.json` went to a probe branch carrying
+the real middleware, Vercel built it as a preview, and the preview loaded. Only then did it
+go to `main` — together with S1, S2, P2, P7 and migration 0025 from the review, all
+verified locally, as one deploy.
+
+**Two things are on the record as corrections.** Rule 4 in `lib/supabase/middleware.ts` no
+longer claims to explain this outage. And X-023's note that the middleware fix "was
+verified against a production build locally" was true and insufficient: `next start`
+proves the bundle Next built, and this outage was about which bundle Vercel chose.
+
+---
+
 ## Open items
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1298,9 +1325,13 @@ list for `anon` in `app` is four instrument tables and nothing else, verified.
       an accessibility defect on the way in (D-41). X-009 closed.
 - [x] The årshjul's own row is emitted by the fixture, so a rebuilt database has a wheel
       to turn. It had been switched on by hand against the hosted project. D-42.
-- [ ] **S1 — writes report success when RLS refused them.** Eighteen mutations in
-      `arshjulet`, `maleoppsett`, `oppsett` and `tiltak` decide success from `error` alone.
-      The highest-priority item in the review. X-024.
+- [x] Production is up. Vercel had been running `middleware.ts`'s source as a Node
+      function; `vercel.json` names the framework. D-43, X-025.
+- [x] S1 fixed: every mutation ends in `.select()` and `writeFailed()` reads the rows.
+      `write_invariants.sql`, 15 of 15. Ten suites, 188 assertions.
+- [x] S2: security headers, including `frame-ancestors 'none'` for the respondent surface.
+- [x] P2/P7: `cache()` on twelve shared reads; the report's year lookup is one query.
+- [x] P1/P3: migration 0025, eight indexes. No gain at fixture size, by design.
 - [ ] No security headers are set: no CSP, HSTS, `X-Frame-Options` or `Referrer-Policy`.
       `frame-ancestors` matters most, because `/s/[token]` is public and framable. X-024.
 - [ ] `app.answers` has one index and every aggregation scans it whole; 25 foreign keys

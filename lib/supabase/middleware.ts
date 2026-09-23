@@ -28,16 +28,24 @@ import { readSupabaseEnv } from '@/lib/supabase/env'
  *    failure — and a timeout cannot be caught, so it has to be prevented. Five seconds,
  *    then treat the request as unauthenticated.
  *
- * 4. **Nothing is imported at module scope that could fail to load.** This is the rule
- *    the first three did not cover, and the one that produced
- *    `MIDDLEWARE_INVOCATION_FAILED` on a deployment whose build was green. A `try` inside
- *    the handler cannot catch a module that throws while the runtime is evaluating it:
- *    the handler never runs, so the platform reports a failed *invocation* rather than a
- *    failed request, and every URL on the site returns 500 with no log line from this
- *    file. `@supabase/ssr` is therefore loaded with a dynamic `import()` from inside the
- *    try, where a failure to load is an ordinary caught error like any other. The cost is
- *    one extra microtask per protected request; the benefit is that there is no longer a
- *    way for this file to take the site down without saying so.
+ * 4. **Nothing is imported at module scope that could fail to load.** A `try` inside the
+ *    handler cannot catch a module that throws while the runtime is evaluating it: the
+ *    handler never runs, the platform reports a failed *invocation*, and every URL
+ *    returns 500 with no log line from this file. `@supabase/ssr` is therefore loaded
+ *    with a dynamic `import()` from inside the try. The cost is one extra microtask per
+ *    protected request.
+ *
+ *    **A correction to the record.** This rule was written believing it explained the
+ *    `MIDDLEWARE_INVOCATION_FAILED` that took every URL down on a green build. It did
+ *    not. The runtime log, when it finally arrived, showed `/var/task/middleware.js:1`
+ *    failing on `import { safeUpdateSession } …` with `Cannot use import statement
+ *    outside a module` — Vercel was running the *uncompiled source* of `middleware.ts` as
+ *    a plain Node function, through its framework-agnostic Routing Middleware feature,
+ *    instead of the bundle Next had built. No amount of care inside this file could have
+ *    helped, because this file was never what ran. The fix is `vercel.json` declaring
+ *    `"framework": "nextjs"`, which hands the file back to Next's builder. D-43.
+ *
+ *    The rule stays because it is still true and still cheap. It just was not the cause.
  *
  * All three fail closed: no session, no protected page. That is the safe direction, and
  * it is logged loudly because "redirected to sign-in" otherwise looks like an expired

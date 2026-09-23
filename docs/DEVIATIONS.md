@@ -1364,3 +1364,49 @@ seed. That is also the only place the scheduler is exercised from cold:
 `wheel_invariants.sql` asserts that a *second* tick changes nothing, which proves
 idempotence and says nothing whatever about the first.
 
+---
+
+## D-43 — Vercel ran the middleware's source instead of its build, and the repository now says which framework it is
+
+Not a deviation from the design. A production outage, recorded here because two earlier
+entries in this project's own history explained it wrongly and the correction belongs
+next to them.
+
+**What was wrong.** Every deployment this project ever had returned
+`500 MIDDLEWARE_INVOCATION_FAILED` on every URL, on builds that were green. The middleware
+was hardened three times against causes it did not have — a missing variable, a throw in
+the handler, a module failing to load — and each time the failure came back identical.
+
+**What the runtime log showed.**
+
+    /var/task/middleware.js:1
+    import { safeUpdateSession } from '@/lib/supabase/middleware';
+    SyntaxError: Cannot use import statement outside a module
+        at wrapSafe (node:internal/modules/cjs/loader)
+        at /opt/rust/nodejs.js
+
+That is the uncompiled TypeScript source — the `@/` alias unresolved, the `import`
+untransformed — loaded as CommonJS by Vercel's native Node function runtime. Next's 95 kB
+compiled Edge bundle was never what ran. Vercel's framework-agnostic *Routing Middleware*
+picks up a root `middleware.ts` and deploys it as a plain Node function; the Next.js
+preset is meant to suppress that and let `@vercel/next` compile the file. Here Next's
+matcher was honoured (`/favicon.ico` returned `NOT_FOUND`, not the middleware error) while
+Next's function was replaced. No change inside `middleware.ts` could have helped, because
+`middleware.ts` was not what was being executed.
+
+**Why it could not be reproduced.** `next start` runs the *compiled* middleware in the
+edge-runtime sandbox. Locally, Next always owned the file. The one thing that differed on
+Vercel was which builder claimed it, and that is not visible from a checkout.
+
+**The fix.** `vercel.json` with `"framework": "nextjs"`. It names the builder in the
+repository, where a dashboard setting cannot undo it, and it was proved on a preview
+deployment before it touched `main`: the splash loaded and `/innsikt` redirected to
+`/logg-inn` with the real middleware in place.
+
+**What stays and what is corrected.** The four rules in `lib/supabase/middleware.ts` stay:
+they are true, cheap, and each closes a real way for a middleware to fail. Rule 4's
+comment no longer claims to have been the cause of this outage, because it was not. The
+lesson worth keeping is the general one: *a green build proves the build, not the deploy*,
+and when a failure survives three code changes unchanged, the next thing to question is
+whether the code is what is running.
+
