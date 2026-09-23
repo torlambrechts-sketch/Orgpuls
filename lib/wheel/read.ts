@@ -114,12 +114,17 @@ export function wheelMonths(
   return out
 }
 
+/**
+ * The heartbeat, and only the heartbeat.
+ *
+ * `app.job_runs` also counts what each tick opened, closed, planned and queued — but
+ * across every organisation, because the tick is global. Since sign-up went live any
+ * organisation's users could read those platform-wide counts, and this screen never
+ * rendered them: "Årshjulet gikk sist …" needs the time and nothing else. Migration 0026
+ * narrows the grant to `ran_at`, so asking for more would now be refused outright.
+ */
 const RunRow = z.object({
   ran_at: z.string(),
-  opened: z.coerce.number(),
-  closed: z.coerce.number(),
-  queued: z.coerce.number(),
-  planned: z.coerce.number(),
 })
 
 export type JobRun = z.infer<typeof RunRow>
@@ -130,7 +135,7 @@ export async function getLastRun(): Promise<JobRun | null> {
   const { data, error } = await supabase
     .schema('app')
     .from('job_runs')
-    .select('ran_at, opened, closed, queued, planned')
+    .select('ran_at')
     .order('ran_at', { ascending: false })
     .limit(1)
     .maybeSingle()

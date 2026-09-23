@@ -17,6 +17,9 @@
 -- one row back. An assertion that only proved the first would keep passing if a policy
 -- were widened to admit everybody.
 --
+-- Assertions 16–20 hold migration 0026 in place: no FOR ALL policy, nothing on organisation
+-- data readable by public or anon, job_runs narrowed to its heartbeat, auth.uid() hoisted.
+--
 -- The technique is settings_invariants.sql's: demote a real membership inside the single
 -- transaction this block runs in, so a raise anywhere rolls the role back along with
 -- everything else, and restore it explicitly on the happy path. Assertion 14 proves the
@@ -170,6 +173,49 @@ begin
                         'org_questions','rounds','round_consultations')
     and p.cmd in ('ALL','UPDATE','INSERT','DELETE')
     and coalesce(p.qual, '') || coalesce(p.with_check, '') not like '%has_role%';
+
+  -- 16..20 --------------------------------------------------- 0026, held in place
+  -- Migration 0026 split every FOR ALL policy, re-roled every org-data policy to
+  -- authenticated, hoisted auth.uid() on profiles, and narrowed job_runs to its heartbeat.
+  -- Each of these is a rule a later migration could quietly undo by writing a policy the
+  -- old way, so each is asserted rather than remembered.
+
+  insert into public._wr
+  select 16, 'no FOR ALL policy remains — every write says which command it covers',
+         '0', count(*)::text, count(*) = 0
+  from pg_policies where schemaname = 'app' and cmd = 'ALL';
+
+  -- The instrument is the question text itself, public by nature, and the only thing anon
+  -- may read. Everything else in app is an organisation's data.
+  insert into public._wr
+  select 17, 'no policy on organisation data admits public or anon',
+         '0', count(*)::text, count(*) = 0
+  from pg_policies
+  where schemaname = 'app'
+    and tablename not in ('factors', 'statements', 'extra_questions', 'extra_options')
+    and ('public' = any(roles) or 'anon' = any(roles));
+
+  insert into public._wr
+  select 18, 'job_runs grants no table-wide read to a client role', '0', count(*)::text, count(*) = 0
+  from information_schema.role_table_grants
+  where table_schema = 'app' and table_name = 'job_runs'
+    and grantee in ('anon', 'authenticated') and privilege_type = 'SELECT';
+
+  insert into public._wr
+  select 19, 'and the one column it does grant is the heartbeat', 'ran_at',
+         coalesce(string_agg(column_name, ',' order by column_name), 'none'),
+         coalesce(string_agg(column_name, ',' order by column_name), '') = 'ran_at'
+  from information_schema.column_privileges
+  where table_schema = 'app' and table_name = 'job_runs'
+    and grantee = 'authenticated' and privilege_type = 'SELECT';
+
+  insert into public._wr
+  select 20, 'profiles evaluates auth.uid() once per query, not once per row', '0',
+         count(*)::text, count(*) = 0
+  from pg_policies
+  where schemaname = 'app' and tablename = 'profiles'
+    and coalesce(qual, '') || coalesce(with_check, '') ~ 'auth\.uid\(\)'
+    and coalesce(qual, '') || coalesce(with_check, '') !~* 'select\s+auth\.uid';
 
   perform set_config('request.jwt.claims', '', true);
 end $$;
