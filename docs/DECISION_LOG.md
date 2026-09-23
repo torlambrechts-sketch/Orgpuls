@@ -1407,6 +1407,15 @@ writes the wheel through Årshjulet's own action. Two flaws found on the way are
 puls's "Mottakere" fell to 0 when no puls had closed, and "Alle 11 faktorer" is spelled as
 the design writes it (D-60).
 
+### X-035 — CI runs the PostgREST the CLI will pin next, not the one it pins
+
+The smoke job's PGRST303 refusals (D-45) are a defect in PostgREST v16.2, the version the
+latest Supabase CLI release starts: a cached clock some threads stop refreshing after an
+idle spell, fixed in v16.3 by reading the system clock. No retry schedule reaches a thread
+that never catches up, and the CLI's config cannot name an image, so the workflow tags
+v16.3 under the name the CLI pins before it starts the stack. The step reads the pin and
+retires itself once the CLI moves past v16.2. The retry wrapper stays as written.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.

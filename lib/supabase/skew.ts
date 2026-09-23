@@ -1,12 +1,13 @@
 /**
  * PostgREST sometimes rejects a token Auth issued a moment ago as "issued at future".
  *
- * PGRST303 is raised when a JWT's `iat` is later than PostgREST's notion of now. PostgREST
- * does not read the wall clock per request: it serves a cached time that is meant to lag by
- * at most a second, and in the versions this project meets it can lag by more — the first
- * request after a sign-in or a refresh then carries a token that looks like it comes from
- * the future. Upstream: supabase/supabase#49655, #50651, discussion #48123; the configurable
- * skew that would end it (PostgREST/postgrest#5199) has not landed.
+ * PGRST303 is raised when a JWT's `iat` is more than 30 s later than PostgREST's notion of
+ * now. Up to v16.2 PostgREST did not read the clock per request: it served a time cached by
+ * the auto-update library, and after an idle spell some of its threads stopped seeing the
+ * cache's updates (PostgREST/postgrest#5159, #5196), so the first request such a thread
+ * served was checked against a clock minutes old. v16.3 and v14.18 (September 2026) read
+ * the system clock directly. Supabase's own reports of the same symptom: supabase/supabase
+ * #49655, #50651, discussion #48123.
  *
  * CI found it: the smoke job signed in, opened /innsikt, and `getViewerRole` came back
  * `PGRST303 JWT issued at future`. The screen rendered as though the viewer had no role —
@@ -26,9 +27,11 @@
 
 /*
  * 7.5 s in all, and only ever spent on a refusal. The first schedule stopped at 3.5 s, and
- * a CI runner on 2026-09-23 outlasted it: three retries, all refused, and the smoke job
- * failed on the logged read. The lag is PostgREST's cached clock catching up with Auth's,
- * so a longer last wait is what reaches the moment it has.
+ * a CI runner on 2026-09-23 outlasted it; so did this one, the same day. Both were the
+ * v16.2 defect above: a stale thread does not catch up, and a retry on the same kept-alive
+ * connection reaches the same thread, so no schedule mends that case — CI now runs v16.3
+ * instead. The wrapper stays for the ordinary skew a retry does mend, and because a refused
+ * read otherwise renders as a fact about the person.
  */
 export const SKEW_DELAYS_MS = [500, 1000, 2000, 4000] as const
 

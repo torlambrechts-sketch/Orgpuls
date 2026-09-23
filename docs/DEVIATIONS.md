@@ -1502,6 +1502,27 @@ refused, so the smoke job failed on the logged read. The schedule is now [500, 1
 that proves the wrapper gives up now takes its attempt count from the schedule, so it cannot
 fall out of step with it.
 
+**Root cause found, 2026-09-23.** The widened schedule was outlasted too, on `getRounds`
+after every screen had rendered, and the timing of the run rules out a slow clock: pages
+kept rendering 1.5 s apart while one request was refused four times over 7.5 s. The cause
+is PostgREST's, and it is versioned. Up to v16.2 the time a token's `iat` is checked
+against came from the auto-update library's cache, and after an idle spell some of the
+server's threads stopped seeing the cache's updates (PostgREST/postgrest#5159 upgraded the
+library; #5196 and #5208 removed it and read the system clock, released as v16.3 and v14.18
+in September 2026). PostgREST already allows 30 s of skew, so a refusal means a thread's
+clock was minutes behind; and a retry on the same kept-alive connection reaches the same
+thread, which is why no retry has ever succeeded in CI — the two green runs between the
+failures carry no `[skew]` line at all. CI ran v16.2 because the latest CLI release,
+v2.117.0, pins it; the CLI's develop branch pins v16.3 but has not released.
+
+**What changed.** The workflow pulls PostgREST v16.3 before `supabase start` and tags it
+under the name the CLI asks for, which the CLI inspects locally before pulling. The step
+reads the pin from `supabase services` and does nothing once the pin passes v16.2, so it
+retires itself; delete it then. The wrapper and its schedule are unchanged: the fault it
+was written for is real, the retry is still safe, and a refused read still renders as a
+fact about the person without it. Production's PostgREST version is not readable from
+outside the gateway; it has still logged no PGRST303.
+
 ---
 
 ## D-46 — Round state came from list position, and the year wheel made that visible

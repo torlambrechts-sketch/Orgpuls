@@ -56,6 +56,42 @@ jobs:
         with:
           version: latest
 
+      # PostgREST v16.2, which the latest CLI release (v2.117.0) pins, checks a token's `iat`
+      # against a cached clock that some of its threads stop refreshing once the server has
+      # sat idle (the auto-update defect, PostgREST/postgrest#5196). The first request such
+      # a thread serves after the stack has waited through `next build` is refused with
+      # PGRST303 "JWT issued at future" whatever the token says, and a retry on the same
+      # kept-alive connection reaches the same thread -- which is how the smoke job went red
+      # twice on 2026-09-23 with every screen rendered (D-45). v16.3 (2026-09-11) reads the
+      # system clock on every request. The CLI's develop branch pins v16.3 but no release
+      # carries it yet, and config.toml cannot name an image, so the fixed image is put
+      # under the tag the CLI asks for: it inspects that local name before it pulls. The
+      # step does nothing once the CLI pins v16.3 or later; delete it then.
+      - name: Run PostgREST v16.3 under the tag the CLI pins
+        run: |
+          pin=$(timeout 60 supabase services 2>/dev/null | grep -i postgrest | grep -o -m1 'v[0-9][0-9.]*' || true)
+          echo "the CLI pins PostgREST ${pin:-(unreadable; assuming v16.2)}"
+          pin=${pin:-v16.2}
+          case "$pin" in
+            v16.0|v16.1|v16.2) ;;
+            *) echo "past v16.2 -- nothing to do, and this step can go"; exit 0 ;;
+          esac
+          fixed=
+          for attempt in 1 2 3; do
+            for candidate in public.ecr.aws/supabase/postgrest:v16.3 postgrest/postgrest:v16.3; do
+              if docker pull -q "$candidate" >/dev/null 2>&1; then fixed=$candidate; break 2; fi
+            done
+            sleep $((attempt * 15))
+          done
+          if [ -z "$fixed" ]; then
+            echo "::warning::could not pull PostgREST v16.3; the smoke job runs on v16.2 and may meet PGRST303"
+            exit 0
+          fi
+          for registry in ghcr.io public.ecr.aws; do
+            docker tag "$fixed" "$registry/supabase/postgrest:$pin"
+          done
+          echo "$fixed is now tagged $pin for the CLI"
+
       # The images come from a public registry, and ghcr.io has refused this runner's pulls
       # with "toomanyrequests" twice in a row (2026-09-23) before a single test ran. So a
       # failed start is retried with backoff, and the retries pull from Supabase's other
