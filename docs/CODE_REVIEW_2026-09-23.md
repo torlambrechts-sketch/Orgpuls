@@ -10,6 +10,36 @@ commands are in [Appendix A](#appendix-a--how-to-reproduce-every-measurement).
 
 ---
 
+## 0. Status — what happened to each finding
+
+Updated after the fixes, the same day. Every "done" was verified against the live project
+or a production build, and is held in place by a test or an invariant that CI runs.
+
+| # | Outcome | Where | Held in place by |
+|---|---|---|---|
+| **S1** | **Fixed.** All 18 mutations return their rows; `writeFailed()` reads them. Four child writes that discarded their result entirely now check it too. | `8b7fa25`, `lib/supabase/write.ts` | `write_invariants.sql` 1–15; unit tests (reverting the guard fails two) |
+| **P1** | **Done.** `answers_factor_idx`, `responses_org_round_idx`. No gain at fixture size, by design — the planner rightly prefers a scan at 1 716 rows. | migration 0025 | — |
+| **P2** | **Done.** `cache()` on twelve shared reads. | `c72c672` | — |
+| **S2** | **Done.** HSTS, CSP with `frame-ancestors 'none'`, `X-Frame-Options`, `Referrer-Policy: no-referrer`, `nosniff`, `Permissions-Policy`. Verified on www.orgpuls.com. | `next.config.ts` | — |
+| **S3** | **Done.** Every policy on organisation data is `TO authenticated`. | migration 0026 | `write_invariants.sql` 17 |
+| **S4** | **Partly.** `Referrer-Policy: no-referrer` closes the third-party leak permanently. The token-to-cookie exchange is **not** done: it changes the respondent URL and needs its own decision. | S2 | — |
+| **S5** | **Done, differently.** The throttle table was rejected — with no service-role key its counter would be callable by `anon`, letting anyone lock out another address. Instead: the mod-11 check digit (refuses ~10 of 11 enumerated numbers with no request) and an in-process per-/24 limit. | `lib/brreg/` | unit tests (9) |
+| **P3** | **Eight of 25**, the ones on paths walked every request. The other seventeen wait for a query that needs them. | migration 0025 | — |
+| **P4** | **Done.** `viewer_role()` reads `auth.uid()` from the JWT PostgREST verified; one auth round trip per page, not two. `getSession()` was rejected — its user object is unverified cookie content. | migration 0027 | — |
+| **P5** | **Done.** 21 `FOR ALL` policies split into insert/update/delete. All 21 expressions checked identical to the originals against a snapshot; no read rule changed. The advisor's 73 warnings are gone. | migration 0026 | `write_invariants.sql` 16 |
+| **P6** | **Done for `profiles`** (advisor's 2 warnings gone). Hoisting `is_org_member` out of fifteen read rules is **deliberately not done**: its replacement is a subquery on `memberships`, which has RLS of its own — the recursion `is_org_member` exists to break. | migration 0026 | `write_invariants.sql` 20 |
+| **P7** | **Done.** The report's year lookup is one `in` query. | `c72c672` | — |
+| **Q1** | **Not done.** Distinguishing "failed" from "empty" in the report needs a decision on what the failure treatment looks like. Failures are now logged (D-40) and caught in CI (Q5). | — | smoke job |
+| **Q3** | **Done.** `getCurrentOrgId()` answers only when there is exactly one organisation; also removed a forbidden cast. | `lib/org/current.ts` | unit tests |
+| **Q5** | **Done.** `npm test` (22 tests) and a CI smoke job that signs in, visits all eleven screens, and fails on any `[read]`/`[write]`/`[org]`/`[middleware]` log line — the gate D-40 needed. | `tests/`, `ci.yml` | itself |
+| **S6** | **Waiting on the owner.** Leaked-password protection is a Supabase dashboard toggle. | — | — |
+| **S7** | **Deferred.** The fix is a breaking Next 16 upgrade for a build-time-only exposure; it belongs behind the pixel gate. | — | — |
+| **P8** | **Kept, as recommended.** The advisor now lists 22 "unused" indexes, but that is the project restore after an accidental pause resetting Postgres's statistics — `responses_round_idx` had served 12 617 scans that morning. | — | — |
+| Q2, Q4 | No change: low, and no defect attaches. | — | — |
+| **New** | **`app.job_runs` was readable across tenants.** `USING (true)` plus a table grant: since sign-up, any organisation could read platform-wide scheduler counts. Narrowed to the one column the screen uses, `ran_at`. | migration 0026 | `write_invariants.sql` 18–19 |
+
+---
+
 ## 1. Verdict
 
 This is a well-built codebase. Strict TypeScript with **zero** `any`, zero non-null

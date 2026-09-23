@@ -1278,6 +1278,35 @@ proves the bundle Next built, and this outage was about which bundle Vercel chos
 
 ---
 
+### X-026 — The review's findings, worked through
+
+`docs/CODE_REVIEW_2026-09-23.md` §0 has the per-finding table. Three things about how it
+was done are worth keeping.
+
+**Every authorisation change was proved behaviour-preserving before it went live.** The
+policy rewrite (0026) touched 52 policies. The proof that no one's access changed was not
+an argument alone: the policies were snapshotted first, and afterwards all 21 split
+policies were compared against their originals — identical — and no read rule had moved.
+The migration also ran through CI on a fresh database, with all ten suites, before it was
+applied to the live project.
+
+**Every new assertion was shown to fail first.** Assertions 16–20 were run against the
+schema before 0026 and all five failed; afterwards all five passed. The unit tests were
+checked the same way — reverting the S1 guard fails two of them. A test that has never
+been seen failing has not been shown to test anything.
+
+**Two of the review's own recommendations were rejected on reflection, and the reasons are
+recorded.** The S5 throttle table would have handed `anon` a way to lock other people out
+of sign-up; the P6 `is_org_member` hoist would have routed fifteen read rules through the
+recursion that function exists to prevent. Recommendations are hypotheses too.
+
+**Deploy order was chosen per change, not by habit.** The `job_runs` grant narrowing needed
+the code first (it selects fewer columns, which works under both grants). `viewer_role()`
+needed the database first (the new code calls it). Each was sequenced accordingly, so
+production never ran code against a schema it did not match.
+
+---
+
 ## Open items
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1332,12 +1361,13 @@ proves the bundle Next built, and this outage was about which bundle Vercel chos
 - [x] S2: security headers, including `frame-ancestors 'none'` for the respondent surface.
 - [x] P2/P7: `cache()` on twelve shared reads; the report's year lookup is one query.
 - [x] P1/P3: migration 0025, eight indexes. No gain at fixture size, by design.
-- [ ] No security headers are set: no CSP, HSTS, `X-Frame-Options` or `Referrer-Policy`.
-      `frame-ancestors` matters most, because `/s/[token]` is public and framable. X-024.
-- [ ] `app.answers` has one index and every aggregation scans it whole; 25 foreign keys
-      have no covering index. Neither hurts at fixture size. X-024.
-- [ ] 15 600 lines of TypeScript have no automated test. `vitest` is a devDependency with
-      no test script and no test files — the gap D-40 lived in. X-024.
+- [x] Review findings S1–S5, P1–P7, Q3, Q5 and the `job_runs` cross-tenant read are fixed
+      and held by tests. X-026, and §0 of the review.
+- [ ] Review Q1: the report cannot yet tell a failed section from an empty one. Needs a
+      decision on the failure treatment.
+- [ ] Review S4: the respondent token is still in the URL path. `Referrer-Policy` closes the
+      third-party leak; a token-to-cookie exchange would take it out of access logs.
+- [ ] Review S6: enable leaked-password protection in the Supabase dashboard.
 - [ ] The pixel gate now runs on every screen and passes on none of them yet. Whole-page
       diffs against the baselines, 2026-09-23, 0.1% budget: tiltak **0.110%**, hjelp
       **0.688%**, innsikt **2.813%**, rapport **3.001%**, oppsett **3.160%**, maleoppsett
