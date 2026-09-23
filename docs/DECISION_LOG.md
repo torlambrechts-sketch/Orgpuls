@@ -1262,6 +1262,8 @@ gate.
       signs in and every app route can be captured; the pixel gate runs against the live
       app for the first time. It found a user-visible regression within minutes (D-40) and
       an accessibility defect on the way in (D-41). X-009 closed.
+- [x] The årshjul's own row is emitted by the fixture, so a rebuilt database has a wheel
+      to turn. It had been switched on by hand against the hosted project. D-42.
 - [ ] The pixel gate now runs but does not yet pass on every screen: Tiltak is at 0.110%
       against a 0.1% budget and Innsikt at 2.813%. Neither has been attributed to a cause
       yet — `probe.mjs --rows` puts both headers at y=56, so it is content, not a global

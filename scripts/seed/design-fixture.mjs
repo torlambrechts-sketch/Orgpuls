@@ -207,6 +207,43 @@ const INFORMATION = [
   ['ledere', 'epost', '2026-09-15', 'Hver leder fikk sine egne tall samme uke som resultatet ble frigitt.'],
 ]
 
+/**
+ * Årshjulet's own row, and the notification ladder under it.
+ *
+ * This was the one part of the scenario that had never been emitted here. The wheel was
+ * switched on by hand against the hosted project while the screen was being built, which
+ * is exactly the thing this file exists to stop: a row created ad hoc does not survive a
+ * reset, and CI rebuilds from migrations every run. `app.wheel_tick()` iterates
+ * `app.year_wheels where active`, so a database without this row has a scheduler that
+ * finds nothing to do — and `wheel_invariants.sql` failed four assertions saying so the
+ * first time CI got far enough to run it.
+ *
+ * The settings are the ones the Årshjulet screen shows: baseline in September, a pulse
+ * each quarter, fourteen days' notice, the fellesferie skipped, and a round extended
+ * rather than closed when too few have answered.
+ *
+ * **The ladder's order is the law, not a preference.** § 6-2 requires the verneombud to
+ * be involved before the kartlegging starts, so they and the tillitsvalgte are told
+ * first, at fourteen days; the sort order and the lead times are what make that true of
+ * the rows rather than of a rule written in the scheduler.
+ */
+const WHEEL = {
+  cadence: 'kvartalspuls',
+  baselineMonth: 9,
+  leadDays: 14,
+  skipFellesferie: true,
+  extendIfLow: true,
+  notifyVoOnOverdue: true,
+}
+
+const LADDER = [
+  ['verneombud', 14],
+  ['tillitsvalgte', 14],
+  ['daglig_leder', 14],
+  ['avdelingsledere', 7],
+  ['alle_ansatte', 1],
+]
+
 const TRAININGS = [
   ['Oppfølging av psykososiale forhold', 'ledere', '2026-03-10', '2027-02-01',
    'Kurs for ledere med personalansvar.'],
@@ -548,6 +585,31 @@ on conflict (id) do update set
 
 insert into app.locations (org_id, name, address, headcount, sort_order)
 values ${LOCATIONS.map(([n, a, h], i) => `('${ORG}', ${q(n)}, ${q(a)}, ${h}, ${i + 1})`).join(',\n       ')};
+
+-- Keyed on org_id, not on an id this file invents: app.year_wheels carries UNIQUE (org_id),
+-- one wheel per undertaking, and the hosted project already has a row with an id of its
+-- own. Upserting on the organisation reconciles both without leaving two wheels turning.
+insert into app.year_wheels (org_id, active, cadence, baseline_month, notify_lead_days,
+                             skip_fellesferie, extend_if_low, notify_vo_on_overdue)
+values ('${ORG}', true, '${WHEEL.cadence}', ${WHEEL.baselineMonth}, ${WHEEL.leadDays},
+        ${WHEEL.skipFellesferie}, ${WHEEL.extendIfLow}, ${WHEEL.notifyVoOnOverdue})
+on conflict (org_id) do update set
+  active = excluded.active,
+  cadence = excluded.cadence,
+  baseline_month = excluded.baseline_month,
+  notify_lead_days = excluded.notify_lead_days,
+  skip_fellesferie = excluded.skip_fellesferie,
+  extend_if_low = excluded.extend_if_low,
+  notify_vo_on_overdue = excluded.notify_vo_on_overdue;
+
+delete from app.wheel_notifications
+where wheel_id = (select id from app.year_wheels where org_id = '${ORG}');
+
+insert into app.wheel_notifications (wheel_id, audience, lead_days, sort_order)
+select (select id from app.year_wheels where org_id = '${ORG}'),
+       l.audience::app.notify_audience, l.lead_days, l.sort_order
+from (values ${LADDER.map(([a, d], i) => `('${a}', ${d}, ${i + 1})`).join(', ')})
+  as l(audience, lead_days, sort_order);
 
 insert into app.groups (org_id, name, sort_order)
 select '${ORG}', g.name, g.ord

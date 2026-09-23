@@ -68,6 +68,17 @@ jobs:
           psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" \
             -v ON_ERROR_STOP=1 -f /tmp/fixture.sql
 
+      # The fixture seeds the wheel switched on but not yet turned, so a fresh database
+      # has a scheduler that has never run. One tick brings it to the state the hosted
+      # project is in and the suites assume: the coming rounds planned, the notification
+      # ladder queued. It is also the only place the scheduler is exercised from cold --
+      # wheel_invariants.sql asserts that a SECOND tick changes nothing, which proves
+      # idempotence and says nothing at all about the first.
+      - name: Wind the wheel once
+        run: |
+          psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" -v ON_ERROR_STOP=1 \
+            -c "select opened, closed, queued, planned from app.wheel_tick()"
+
       # Every result RPC is gated on app.is_org_member(), so without a signed-in user
       # they all return not_available and the checks below would pass on nothing.
       - name: Create the local account

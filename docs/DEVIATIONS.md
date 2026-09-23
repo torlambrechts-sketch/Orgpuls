@@ -1336,3 +1336,31 @@ password box up by its label and got the link instead, so the pixel gate could n
 on its first run. The markup now associates the two with `htmlFor` and keeps the row as a
 sibling: same box model, same rendering, one accessible name each.
 
+---
+
+## D-42 — The årshjul was switched on by hand, and the fixture did not know
+
+`scripts/seed/design-fixture.mjs` emitted no `app.year_wheels` row. The wheel on the hosted
+project was switched on directly while the Årshjulet screen was being built — an ad hoc
+write, which CLAUDE.md names as the one thing that must not happen: *"nothing may be
+created ad hoc against a database, because a row not emitted there does not survive a
+reset."*
+
+Nothing noticed, because CI could not rebuild the database at all (D-39). The first run
+that got past that reached `wheel_invariants.sql` and failed four assertions in a row — the
+due round not opened, no invitations, no queue, no token — which all say the same thing:
+`app.wheel_tick()` iterates `app.year_wheels where active`, and on a database built from
+these files there was no such row. The scheduler was not broken; it had nothing to turn.
+
+The fixture now emits the wheel and its five-step notification ladder, upserted on
+`org_id` rather than on an invented id, because `app.year_wheels` carries `UNIQUE (org_id)`
+and the hosted project already had a row with an id of its own. Running it there reconciles
+the two instead of leaving two wheels turning; it was run and the row kept its id, the
+ladder came back at five, and a following tick reported 0/0/0/0.
+
+**CI gained a step rather than the suite gaining a tolerance.** The fixture seeds the wheel
+switched on but not yet turned, so `Wind the wheel once` runs `app.wheel_tick()` after the
+seed. That is also the only place the scheduler is exercised from cold:
+`wheel_invariants.sql` asserts that a *second* tick changes nothing, which proves
+idempotence and says nothing whatever about the first.
+
