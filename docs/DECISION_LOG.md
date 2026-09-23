@@ -1217,6 +1217,40 @@ gate.
 
 ---
 
+### X-024 — A full review, and what it found
+
+`docs/CODE_REVIEW_2026-09-23.md` records a security, performance and quality review of the
+whole codebase and database at `5f42db4`, with every finding backed by something that was
+run: the Supabase security and performance advisors, `EXPLAIN (ANALYZE, BUFFERS)`,
+`pg_stat_user_tables`, live PostgREST probes as the signed-in dev account, and `npm audit`.
+
+**The one finding that is a defect today is S1.** An `UPDATE` or `DELETE` that RLS filters
+to zero rows is not an error — PostgREST answers `204` with an empty body and `supabase-js`
+reports `error: null`. Every server action decides success from `error` alone, so a caller
+without the policy is told their change was saved. Proved against the live project, not
+inferred. Eighteen mutations across four action files; Samtaler is unaffected because it
+writes through RPCs that return `{ok, error}` and checks them, which is the precedent the
+fix should follow.
+
+It is the write-side twin of D-40: that rendered a failed read as a true absence, this
+renders a refused write as a completed one. The pattern in both is the same — the product
+is careful about the database and trusting about everything between the database and the
+person.
+
+**The performance findings are about scale, not today.** `app.answers` carries one index,
+its primary key, and every aggregation scans it whole: 1 677 of 1 716 rows per scan.
+`results_summary` costs 37.8 ms on a 34-employee fixture and `/rapport` computes it three
+to five times for the same rounds in one render. Neither hurts at fixture size; both are
+linear in a number that grows.
+
+**Nothing found breaches an anonymity invariant.** The six `rls_enabled_no_policy`
+advisories are D-04 working as designed, the eighteen `SECURITY DEFINER` advisories are the
+k-gated architecture, and all eleven definer functions checked carry `search_path=""`. The
+`anon` role appearing in thirteen tables' policy lists (S3) is latent, not live: the grant
+list for `anon` in `app` is four instrument tables and nothing else, verified.
+
+---
+
 ## Open items
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1264,6 +1298,15 @@ gate.
       an accessibility defect on the way in (D-41). X-009 closed.
 - [x] The årshjul's own row is emitted by the fixture, so a rebuilt database has a wheel
       to turn. It had been switched on by hand against the hosted project. D-42.
+- [ ] **S1 — writes report success when RLS refused them.** Eighteen mutations in
+      `arshjulet`, `maleoppsett`, `oppsett` and `tiltak` decide success from `error` alone.
+      The highest-priority item in the review. X-024.
+- [ ] No security headers are set: no CSP, HSTS, `X-Frame-Options` or `Referrer-Policy`.
+      `frame-ancestors` matters most, because `/s/[token]` is public and framable. X-024.
+- [ ] `app.answers` has one index and every aggregation scans it whole; 25 foreign keys
+      have no covering index. Neither hurts at fixture size. X-024.
+- [ ] 15 600 lines of TypeScript have no automated test. `vitest` is a devDependency with
+      no test script and no test files — the gap D-40 lived in. X-024.
 - [ ] The pixel gate now runs on every screen and passes on none of them yet. Whole-page
       diffs against the baselines, 2026-09-23, 0.1% budget: tiltak **0.110%**, hjelp
       **0.688%**, innsikt **2.813%**, rapport **3.001%**, oppsett **3.160%**, maleoppsett
