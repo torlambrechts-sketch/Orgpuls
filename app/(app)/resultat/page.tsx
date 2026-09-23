@@ -7,12 +7,13 @@ import {
   type Scope,
   type ScreenFactor,
 } from '@/components/resultat/ResultatScreen'
-import { getConversations, type Conversation } from '@/lib/conversations/read'
+import { getCommentThemes, getConversations, type Conversation } from '@/lib/conversations/read'
 import { getFactors } from '@/lib/instrument/read'
 import { getViewerRole } from '@/lib/org/read'
 import { getScreeningCounts } from '@/lib/report/tail'
 import { screeningTally } from '@/lib/report/screening'
 import { getShellContext } from '@/lib/shell/read'
+import { themeTone } from '@/lib/conversations/rules'
 import { getResultsByGroup, getResultsSummary } from '@/lib/results/read'
 import { getRoundFactorKeys, getRounds } from '@/lib/rounds/read'
 
@@ -233,15 +234,32 @@ export default async function ResultatPage({
    * answered; three at most, the rest a click away on Samtaler.
    */
   const RANK: Record<Conversation['state'], number> = { venter: 0, dialog: 1, lukket: 2 }
-  const [conversations, role, screeningCounts, shell] =
+  const [conversations, role, screeningCounts, shell, commentThemes] =
     scope.kind === 'org'
       ? await Promise.all([
           getConversations(selected.id),
           getViewerRole(),
           getScreeningCounts(selected.id),
           getShellContext(),
+          getCommentThemes(selected.id),
         ])
-      : [null, null, null, null]
+      : [null, null, null, null, null]
+
+  // "Hva de skrev" (D-56): counts only, and only what comment_themes released
+  const written =
+    commentThemes?.status === 'ok'
+      ? {
+          wrote: commentThemes.wrote,
+          n: commentThemes.n,
+          threshold: commentThemes.threshold,
+          themes: commentThemes.themes.map((th) => ({
+            key: th.key,
+            comments: th.comments,
+            people: th.people,
+            tone: themeTone(th),
+          })),
+        }
+      : null
 
   /*
    * The screening strip (D-55): the same k-gated counts section 7 of the report prints,
@@ -280,6 +298,7 @@ export default async function ResultatPage({
       view={frame({
         kind: 'results',
         threads,
+        written,
         screening,
         // styling only; reply_to_thread checks the role itself against auth.uid()
         canReply: role === 'daglig_leder' || role === 'avdelingsleder',

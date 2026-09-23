@@ -139,3 +139,42 @@ export function toneOf(value: number | null): 'negativ' | 'noytral' | 'positiv' 
   if (value >= 4) return 'positiv'
   return 'noytral'
 }
+
+/* -------------------------------------------------------------- "Hva de skrev" */
+
+const Theme = z.object({
+  key: z.string(),
+  comments: z.coerce.number(),
+  people: z.coerce.number(),
+  low: z.coerce.number(),
+  mid: z.coerce.number(),
+  high: z.coerce.number(),
+})
+
+const ThemesPayload = z.discriminatedUnion('status', [
+  z.object({
+    status: z.literal('ok'),
+    n: z.coerce.number(),
+    threshold: z.coerce.number(),
+    wrote: z.coerce.number(),
+    themes: z.array(Theme),
+  }),
+  z.object({ status: z.literal('insufficient_data'), n: z.coerce.number(), threshold: z.coerce.number() }),
+])
+
+export type CommentThemes = z.infer<typeof ThemesPayload>
+
+/**
+ * How many wrote, and which factors k or more people wrote about — counts only, from
+ * `public.comment_themes` (0030). Null is every refusal and every failure, as for
+ * `getConversations`: the RPC does not say which, on purpose.
+ */
+export async function getCommentThemes(roundId: string): Promise<CommentThemes | null> {
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('comment_themes', { p_round: roundId })
+  if (callFailed('getCommentThemes', error)) return null
+  if (NotAvailable.safeParse(data).success) return null
+  const parsed = ThemesPayload.safeParse(data)
+  if (parseFailed('getCommentThemes', parsed)) return null
+  return parsed.data
+}

@@ -363,8 +363,8 @@ database holds.
 
 ## D-14 — "Hva de skrev", the Samtaler column and the screening strip are omitted
 
-**Mostly superseded:** the Samtaler column is built (D-54) and the screening strip
-(D-55). Only "Hva de skrev" remains omitted.
+**Superseded.** The Samtaler column is built (D-54), the screening strip (D-55), and
+"Hva de skrev" (D-56).
 
 **Design:** below the grid, a two-column block — automatically grouped free-text themes on
 the left, three comment threads with a reply box on the right — and then a strip reading
@@ -1858,7 +1858,7 @@ comment is not the first comment in the design's hard-coded list.
   The Samtaler column keeps the design's right-hand track and width rather than stretching
   across both, which is also what makes it comparable to the baseline. On a phone it stacks.
 
-**Still omitted from D-14:** "Hva de skrev". The screening strip is built (D-55).
+**D-14 is closed:** the screening strip is D-55, and "Hva de skrev" is D-56.
 
 ## D-55 — Resultat's screening strip is built, from the counts section 7 prints
 
@@ -1888,5 +1888,49 @@ at **589 pixels**, all of it the sentence below.
 - **"Åpne rutinen" goes to Tiltak**, where the design sends it. The organisation's own
   varslingsrutine is not a document this product holds.
 
-D-14 is now down to "Hva de skrev". Its count has no reader, and its theme list is empty
-even in the design.
+"Hva de skrev" followed as D-56, which closes D-14.
+
+## D-56 — "Hva de skrev" is built, grouped by factor rather than by topic; D-14 is closed
+
+**What it reads.** `public.comment_themes` (migration 0030) is the first reader of
+`app.response_comments` that returns numbers instead of a comment. It returns only these
+counts: how many responses the round has, how many of them wrote something, and, per
+factor, how many comments, from how many people, and how many hang on a low, middle or
+high answer. It returns no text, no response id and no group. `comment_theme_invariants.sql`
+holds 13 assertions, run locally and against the hosted project. Weakening the theme rule
+to k-1 makes assertions 7 and 8 fail.
+
+**Three k rules:**
+
+- Access is `conversations()`'s: a daglig leder reads the whole organisation, an
+  avdelingsleder their own department, anyone else nothing.
+- The round in scope must clear `app.k_threshold`, or no counts come back at all.
+- A factor becomes a theme only when k *different people* wrote about it. That is the
+  design's own rule ("Under fem kommentarer i en gruppe vises de ikke gruppert"), counted
+  in people, because one person may comment on all three statements of a factor.
+
+**Where it differs from the design:**
+
+- **Grouped by factor, not by topic.** The design's themes ("Oppfølging av avvik",
+  "Bemanning i høysesong") are topics someone read the text to find. Nothing here reads
+  the text, and a label invented for a group of comments would be a claim about what
+  people wrote that nobody checked. The factor is a grouping the data already holds,
+  because every comment hangs on one of its statements. A row reads the factor's name,
+  "{n} kommentarer fra {m} personer", and a tone.
+- **The tone is counted, not judged.** Two thirds or more of a theme's comments on answers
+  of 1-2 is Negativ, 4-5 Positiv, 3 Nøytral; anything else is Blandet, the design's word
+  (`themeTone`, unit-tested). The colours are Samtaler's, now shared in
+  `lib/conversations/rules.ts`.
+- **The count line's second sentence is replaced.** The design's "Gruppert automatisk,
+  aldri sitert ordrett uten at teksten er sjekket for gjenkjennelige detaljer" is untrue
+  here twice over: nothing groups automatically, and the Samtaler column beside it does
+  quote comments word for word. The screen says what does happen: "Gruppert etter faktor.
+  En faktor vises først når minst 5 har skrevet om den."
+- **Whole organisation only**, as the rest of the band is (D-54, D-55). It is absent for a
+  verneombud, whom `comment_themes` refuses as `conversations()` does.
+
+**Pixel evidence.** The column heading diffs within budget at 2 579 pixels, all of it the
+two sentences above. With the fixture, 7 of 28 wrote something and no factor has five
+writers, so the theme list is empty, as it is in the baseline. Neither data set has a
+factor that reaches the threshold, so no theme row has been seen rendered against real
+data. Its rule is proved in SQL (assertion 9) and its tone in unit tests.

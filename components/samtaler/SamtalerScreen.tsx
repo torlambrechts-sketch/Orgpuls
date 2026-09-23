@@ -5,7 +5,7 @@ import { Button, ButtonLink } from '@/components/ui/Button'
 import { ThreadCard, type ThreadCardProps } from '@/components/samtaler/ThreadCard'
 import type { Conversation, ThreadState } from '@/lib/conversations/read'
 import { toneOf } from '@/lib/conversations/read'
-import { LATE_AFTER_DAYS } from '@/lib/conversations/rules'
+import { LATE_AFTER_DAYS, TONE_STYLE } from '@/lib/conversations/rules'
 
 /**
  * Samtaler, the rendering. Bundle lines 941-1025.
@@ -42,12 +42,8 @@ const TILE = [
   { key: 'statDialog', background: '#CFE7E4', color: '#20431C' },
 ] as const
 
-/** Tone chip fills, transcribed from the bundle (line 3694). */
-const TONE: Record<string, { background: string; color: string }> = {
-  negativ: { background: '#FBD5C4', color: '#6B240C' },
-  noytral: { background: '#FBEBBE', color: '#5C4600' },
-  positiv: { background: '#CFE7E4', color: '#20431C' },
-}
+/** Tone chip fills, transcribed from the bundle (line 3694); shared with Resultat. */
+const TONE: Record<string, { background: string; color: string }> = TONE_STYLE
 
 
 export async function SamtalerScreen({ view }: { view: SamtalerView }) {

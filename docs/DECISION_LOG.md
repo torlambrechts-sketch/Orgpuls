@@ -1464,9 +1464,11 @@ differing from the design's snapshot.
       organisation. Its heading diffs at 0 pixels (D-54).
 - [x] Resultat's screening strip reads `rpc.screening_counts` by the same rule as the
       report's section 7, and prints the design's "3 av 28" (D-55).
-- [ ] "Hva de skrev" (D-14) is the last block of Resultat's lower band still omitted. It
-      would need a k-gated count of respondents who wrote something; its theme list is
-      empty even in the design.
+- [x] "Hva de skrev" reads `public.comment_themes` (0030): counts only, themes by factor at
+      k respondents (D-56). Resultat's lower band is complete; D-14 is closed.
+- [ ] No data set has a factor with five writers, so a theme row has not been seen rendered
+      against real data. A demo reseed with denser comments would show one; it needs the
+      user's go-ahead, because it deletes and re-inserts the demo organisation's rows.
 - [ ] Nothing empties `app.outbox`. 34 notices are queued and no dispatcher exists; an
       e-mail integration is the missing piece, and until it lands the årshjul plans and
       queues but nobody is told (D-29).

@@ -5,7 +5,7 @@ import { ButtonLink } from '@/components/ui/Button'
 import { Risikobildet, type FactorRow } from '@/components/resultat/Risikobildet'
 import { bandCounts, deltaColour, heatTone, signedDelta, type Band } from '@/lib/results/read'
 import { ConversationColumn } from '@/components/resultat/ConversationColumn'
-import { LATE_AFTER_DAYS } from '@/lib/conversations/rules'
+import { LATE_AFTER_DAYS, TONE_STYLE, type ThemeTone } from '@/lib/conversations/rules'
 
 /**
  * Resultat, the rendering. Bundle lines 692-908.
@@ -83,6 +83,13 @@ export type ResultatBody =
       /** the Samtaler column, for the whole organisation only; empty hides it (D-54) */
       threads: ResultThread[]
       canReply: boolean
+      /** "Hva de skrev": who wrote, and the factors k or more wrote about (D-56) */
+      written: {
+        wrote: number
+        n: number
+        threshold: number
+        themes: { key: string; comments: number; people: number; tone: ThemeTone }[]
+      } | null
       /** krenkende atferd (and vold, when anyone said yes), whole organisation; D-55 */
       screening: {
         krenkende: ScreeningLine
@@ -485,39 +492,72 @@ async function Results({
         </div>
       </div>
 
-      {body.threads.length > 0 ? (
+      {body.threads.length > 0 || body.written ? (
         /*
-          The design's two-column band on the canvas. "Hva de skrev" is still omitted
-          (D-14) — its count is unbacked and its theme list is empty even in the design —
-          so its track stays empty and the Samtaler column keeps the design's right-hand
-          track and width, rather than stretching across both. Stacked on a phone.
+          The design's two-column band on the canvas: "Hva de skrev" on the left (D-56),
+          Samtaler on the right (D-54). Each keeps its own track when the other has
+          nothing to show. Stacked on a phone.
         */
         <div className="grid border-t border-line bg-bg md:grid-cols-2">
-          <ConversationColumn
-            threads={body.threads.map((c) => {
-              const waiting = c.state === 'venter'
-              return {
-                id: c.id,
-                factor: t(`factor.${c.factorKey}.short`),
-                text: c.text,
-                age: waiting ? t('resultat.conv.waiting', { days: c.waitingDays }) : t('resultat.conv.answered'),
-                late: waiting && c.waitingDays >= LATE_AFTER_DAYS,
-                reply: c.reply,
-                open: waiting && body.canReply,
-              }
-            })}
-            labels={{
-              head: t('resultat.conv.head'),
-              seeAll: t('resultat.conv.seeAll'),
-              lead: t('resultat.conv.lead'),
-              replied: t('resultat.conv.replied'),
-              placeholder: t('resultat.conv.placeholder'),
-              send: t('resultat.conv.send'),
-              problems: Object.fromEntries(
-                ['invalid_body', 'denied', 'not_found'].map((k) => [k, t(`samtaler.problem.${k}`)]),
-              ),
-            }}
-          />
+          {body.written ? (
+            <div className="min-w-0 px-[28px] py-[24px] max-md:px-[18px] md:col-start-1 md:row-start-1">
+              <span className="block font-display text-[21px] font-semibold">{t('resultat.written.head')}</span>
+              <span className="mt-[3px] block text-[12.5px] text-mut [text-wrap:pretty]">
+                {t('resultat.written.count', { wrote: body.written.wrote, n: body.written.n })}{' '}
+                {t('resultat.written.grouping', { threshold: body.written.threshold })}
+              </span>
+              {body.written.themes.length > 0 ? (
+                <div className="mt-[14px] flex flex-col gap-[9px]">
+                  {body.written.themes.map((th) => (
+                    <div
+                      key={th.key}
+                      className="flex items-center gap-[12px] rounded-cta border border-line bg-sf px-[14px] py-[12px]"
+                    >
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-[13.5px] font-semibold">{t(`factor.${th.key}.label`)}</span>
+                        <span className="mt-[2px] block text-[11.5px] text-mut">
+                          {t('resultat.written.themeCount', { comments: th.comments, people: th.people })}
+                        </span>
+                      </span>
+                      <span
+                        className="flex-none rounded-pill px-[11px] py-[4px] text-[11.5px] font-bold"
+                        style={TONE_STYLE[th.tone]}
+                      >
+                        {t(`resultat.written.tone.${th.tone}`)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+          {body.threads.length > 0 ? (
+            <ConversationColumn
+              threads={body.threads.map((c) => {
+                const waiting = c.state === 'venter'
+                return {
+                  id: c.id,
+                  factor: t(`factor.${c.factorKey}.short`),
+                  text: c.text,
+                  age: waiting ? t('resultat.conv.waiting', { days: c.waitingDays }) : t('resultat.conv.answered'),
+                  late: waiting && c.waitingDays >= LATE_AFTER_DAYS,
+                  reply: c.reply,
+                  open: waiting && body.canReply,
+                }
+              })}
+              labels={{
+                head: t('resultat.conv.head'),
+                seeAll: t('resultat.conv.seeAll'),
+                lead: t('resultat.conv.lead'),
+                replied: t('resultat.conv.replied'),
+                placeholder: t('resultat.conv.placeholder'),
+                send: t('resultat.conv.send'),
+                problems: Object.fromEntries(
+                  ['invalid_body', 'denied', 'not_found'].map((k) => [k, t(`samtaler.problem.${k}`)]),
+                ),
+              }}
+            />
+          ) : null}
         </div>
       ) : null}
 

@@ -403,6 +403,18 @@
       "plain": "These are handled as individual cases, not as a number to improve.",
       "people": "{count, plural, one {One person has spoken up — that is one conversation to be had.} =2 {Two people have spoken up — that is two conversations to be had.} =3 {Three people have spoken up — that is three conversations to be had.} =4 {Four people have spoken up — that is four conversations to be had.} =5 {Five people have spoken up — that is five conversations to be had.} =6 {Six people have spoken up — that is six conversations to be had.} =7 {Seven people have spoken up — that is seven conversations to be had.} =8 {Eight people have spoken up — that is eight conversations to be had.} =9 {Nine people have spoken up — that is nine conversations to be had.} =10 {Ten people have spoken up — that is ten conversations to be had.} =11 {Eleven people have spoken up — that is eleven conversations to be had.} =12 {Twelve people have spoken up — that is twelve conversations to be had.} other {# people have spoken up — that is # conversations to be had.}}",
       "open": "Open the routine"
+    },
+    "written": {
+      "head": "What they wrote",
+      "count": "{wrote} of {n} wrote something.",
+      "grouping": "Grouped by factor. A factor appears only once at least {threshold} people have written about it.",
+      "themeCount": "{comments, plural, one {# comment} other {# comments}} from {people} people",
+      "tone": {
+        "negativ": "Negative",
+        "noytral": "Neutral",
+        "blandet": "Mixed",
+        "positiv": "Positive"
+      }
     }
   },
   "rapport": {
