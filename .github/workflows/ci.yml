@@ -125,7 +125,8 @@ jobs:
             end \$\$;"
 
       # k-anonymity, anonymity-by-absence, token replay, expiry, append-only answers,
-      # department scoping, the grant surface, and the one write path into the product.
+      # department scoping, the grant surface, what a refused write returns, and the one
+      # write path into the product.
       # Every row must report pass = true; each file raises if any does not.
       #
       # The list is a glob rather than nine named steps on purpose: a suite added in a

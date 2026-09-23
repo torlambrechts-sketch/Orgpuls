@@ -5,6 +5,7 @@ import { getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { STEP_KEYS } from '@/lib/measures/read'
 import { createClient } from '@/lib/supabase/server'
+import { writeFailed } from '@/lib/supabase/write'
 
 /**
  * Writing tiltak.
@@ -67,7 +68,7 @@ export async function createMeasure(formData: FormData): Promise<MeasureActionRe
   const { data: org } = await supabase.schema('app').from('organizations').select('id').limit(1).maybeSingle()
   if (!org) return problem('noOrg')
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .schema('app')
     .from('measures')
     .insert({
@@ -77,8 +78,9 @@ export async function createMeasure(formData: FormData): Promise<MeasureActionRe
       title: t('tiltak.newTitle'),
       step: 'foreslatt',
     })
+    .select('id')
 
-  if (error) return problem('denied')
+  if (writeFailed('createMeasure', error, data)) return problem('denied')
   revalidatePath('/tiltak')
   return { ok: true }
 }
@@ -100,7 +102,7 @@ export async function updateMeasure(formData: FormData): Promise<MeasureActionRe
   const m = parsed.data
   const supabase = await createClient()
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .schema('app')
     .from('measures')
     .update({
@@ -113,9 +115,11 @@ export async function updateMeasure(formData: FormData): Promise<MeasureActionRe
       kind: m.kind,
     })
     .eq('id', m.id)
+    .select('id')
 
   // the trigger in 0015 refuses a close that skips the effect measurement
   if (error) return problem(error.message.includes('effect has been measured') ? 'closingRule' : 'denied')
+  if (writeFailed('updateMeasure', null, data)) return problem('denied')
 
   /*
    * The audience is replaced rather than diffed. It is a small set chosen in one form,
@@ -123,12 +127,26 @@ export async function updateMeasure(formData: FormData): Promise<MeasureActionRe
    * would have to decide what an absent checkbox means, which is the same answer with
    * more ways to be wrong.
    */
-  await supabase.schema('app').from('measure_groups').delete().eq('measure_id', m.id)
+  /*
+   * Checked on `error` only. The measure update above already settled authorisation, and
+   * a row count here would mean "how many departments did you pick", where zero is the
+   * legitimate answer for a measure that affects everybody. An error is still a verdict,
+   * and discarding it was how a bad group id could leave the audience unsaved while the
+   * screen reported success.
+   */
+  const { error: cleared } = await supabase
+    .schema('app')
+    .from('measure_groups')
+    .delete()
+    .eq('measure_id', m.id)
+  if (cleared) return problem('denied')
+
   if (m.groupIds.length) {
-    await supabase
+    const { error: written } = await supabase
       .schema('app')
       .from('measure_groups')
       .insert(m.groupIds.map((group_id) => ({ measure_id: m.id, group_id })))
+    if (written) return problem('denied')
   }
 
   revalidatePath('/tiltak')
@@ -161,13 +179,15 @@ export async function advanceMeasure(formData: FormData): Promise<MeasureActionR
   const next = STEP_KEYS[Math.min(STEP_KEYS.indexOf(step.data) + 1, STEP_KEYS.length - 1)]
   if (next === step.data) return { ok: true }
 
-  const { error } = await supabase
+  const { data: moved, error } = await supabase
     .schema('app')
     .from('measures')
     .update({ step: next })
     .eq('id', parsed.data.id)
+    .select('id')
 
-  if (error) return problem('denied')
+  if (error) return problem(error.message.includes('effect has been measured') ? 'closingRule' : 'denied')
+  if (writeFailed('advanceMeasure', null, moved)) return problem('denied')
   revalidatePath('/tiltak')
   revalidatePath('/rapport')
   return { ok: true }
@@ -178,8 +198,13 @@ export async function deleteMeasure(formData: FormData): Promise<MeasureActionRe
   if (!parsed.success) return problem('invalid')
 
   const supabase = await createClient()
-  const { error } = await supabase.schema('app').from('measures').delete().eq('id', parsed.data.id)
-  if (error) return problem('denied')
+  const { data, error } = await supabase
+    .schema('app')
+    .from('measures')
+    .delete()
+    .eq('id', parsed.data.id)
+    .select('id')
+  if (writeFailed('deleteMeasure', error, data)) return problem('denied')
 
   revalidatePath('/tiltak')
   revalidatePath('/rapport')

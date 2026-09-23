@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { COMMENT_POLICIES, EVALUATION_CADENCES } from '@/lib/setup/read'
 import { createClient } from '@/lib/supabase/server'
+import { writeFailed } from '@/lib/supabase/write'
 
 /**
  * Writing a measurement's setup.
@@ -71,7 +72,14 @@ export async function saveSetup(formData: FormData): Promise<SetupActionResult> 
     .safeParse(round)
   if (!round_.success) return problem('gone')
 
-  const { error } = await supabase
+  /*
+   * This first write is the gate for the whole action. Everything after it -- the
+   * measurement, the factor set, the invited departments -- is written only once this has
+   * come back with a row, because they are all governed by the same policy on the same
+   * organisation. A caller the policy refuses stops here rather than issuing five more
+   * statements that will each silently do nothing.
+   */
+  const { data: savedRound, error } = await supabase
     .schema('app')
     .from('rounds')
     .update({
@@ -81,13 +89,15 @@ export async function saveSetup(formData: FormData): Promise<SetupActionResult> 
       close_after_days: s.closeAfterDays,
     })
     .eq('id', s.roundId)
-  if (error) return problem('denied')
+    .select('id')
+  if (writeFailed('saveRound', error, savedRound)) return problem('denied')
 
-  await supabase
+  const { error: measurementError } = await supabase
     .schema('app')
     .from('measurements')
     .update({ kind: s.kind, evaluation_cadence: s.evaluationCadence })
     .eq('id', round_.data.measurement_id)
+  if (measurementError) return problem('denied')
 
   /*
    * The factor set and the invited departments are replaced rather than diffed, for the
@@ -99,24 +109,49 @@ export async function saveSetup(formData: FormData): Promise<SetupActionResult> 
    * visible later: a department added to the organisation next month is included by the
    * first and excluded by the second.
    */
-  await supabase.schema('app').from('round_factors').delete().eq('round_id', s.roundId)
-  await supabase
+  /*
+   * These four are checked on `error` only, not on a row count, and the distinction is
+   * deliberate. Authorisation was settled by the round update above: they are the same
+   * organisation under the same policy, so a caller who got a row there gets rows here.
+   * What a row count would mean instead is "how many factors did you choose", and zero is
+   * a legitimate answer to that — an empty `invitedGroupIds` is how the schema says
+   * *everyone*. So the count is not a verdict here; an error still is, and discarding it
+   * was how a bad group id could leave the audience unsaved under a success message.
+   */
+  const { error: factorsCleared } = await supabase
     .schema('app')
     .from('round_factors')
-    .insert(
-      s.factorKeys.map((factor_key) => ({
-        org_id: round_.data.org_id,
-        round_id: s.roundId,
-        factor_key,
-      })),
-    )
+    .delete()
+    .eq('round_id', s.roundId)
+  if (factorsCleared) return problem('denied')
 
-  await supabase.schema('app').from('round_groups').delete().eq('round_id', s.roundId)
+  if (s.factorKeys.length) {
+    const { error: factorsWritten } = await supabase
+      .schema('app')
+      .from('round_factors')
+      .insert(
+        s.factorKeys.map((factor_key) => ({
+          org_id: round_.data.org_id,
+          round_id: s.roundId,
+          factor_key,
+        })),
+      )
+    if (factorsWritten) return problem('denied')
+  }
+
+  const { error: groupsCleared } = await supabase
+    .schema('app')
+    .from('round_groups')
+    .delete()
+    .eq('round_id', s.roundId)
+  if (groupsCleared) return problem('denied')
+
   if (s.invitedGroupIds.length) {
-    await supabase
+    const { error: groupsWritten } = await supabase
       .schema('app')
       .from('round_groups')
       .insert(s.invitedGroupIds.map((group_id) => ({ round_id: s.roundId, group_id })))
+    if (groupsWritten) return problem('denied')
   }
 
   revalidatePath('/maleoppsett')
@@ -154,7 +189,7 @@ export async function saveConsultation(formData: FormData): Promise<SetupActionR
 
   const c = parsed.data
   const supabase = await createClient()
-  const { error } = await supabase
+  const { data, error } = await supabase
     .schema('app')
     .from('round_consultations')
     .upsert(
@@ -167,8 +202,9 @@ export async function saveConsultation(formData: FormData): Promise<SetupActionR
       },
       { onConflict: 'round_id,kind' },
     )
+    .select('round_id')
 
-  if (error) return problem('denied')
+  if (writeFailed('saveConsultation', error, data)) return problem('denied')
   revalidatePath('/maleoppsett')
   return { ok: true }
 }
@@ -188,13 +224,15 @@ export async function addOrgQuestion(formData: FormData): Promise<SetupActionRes
     .maybeSingle()
   if (!org) return problem('gone')
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .schema('app')
     .from('org_questions')
     .insert({ org_id: (org as { id: string }).id, body: parsed.data.body })
+    .select('id')
 
   // the cap is a trigger, so its refusal is what tells the screen it is full
   if (error) return problem(error.message.includes('at most five') ? 'capped' : 'denied')
+  if (writeFailed('addOrgQuestion', null, data)) return problem('denied')
   revalidatePath('/maleoppsett')
   return { ok: true }
 }
@@ -204,12 +242,13 @@ export async function removeOrgQuestion(formData: FormData): Promise<SetupAction
   if (!parsed.success) return problem('invalid')
 
   const supabase = await createClient()
-  const { error } = await supabase
+  const { data, error } = await supabase
     .schema('app')
     .from('org_questions')
     .delete()
     .eq('id', parsed.data.id)
-  if (error) return problem('denied')
+    .select('id')
+  if (writeFailed('removeOrgQuestion', error, data)) return problem('denied')
 
   revalidatePath('/maleoppsett')
   return { ok: true }

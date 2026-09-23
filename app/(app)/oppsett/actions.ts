@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { writeFailed } from '@/lib/supabase/write'
 import { lookupOrgNumber } from '@/lib/brreg/lookup'
 import { DUTY_ROLES } from '@/lib/settings/read'
 
@@ -72,7 +73,7 @@ export async function fetchRegistry(formData: FormData): Promise<SettingsResult>
 
   const f = result.facts
   const supabase = await createClient()
-  const { error } = await supabase
+  const { data: refreshed, error } = await supabase
     .schema('app')
     .from('organizations')
     .update({
@@ -91,8 +92,9 @@ export async function fetchRegistry(formData: FormData): Promise<SettingsResult>
       registry_vat: f.vat,
     })
     .eq('id', id)
+    .select('id')
 
-  if (error) return { ok: false, problem: 'denied' }
+  if (writeFailed('refreshFromRegistry', error, refreshed)) return { ok: false, problem: 'denied' }
   revalidate()
   return { ok: true }
 }
@@ -128,8 +130,13 @@ async function updateOrg(patch: Record<string, unknown>): Promise<SettingsResult
   if (!id) return { ok: false, problem: 'denied' }
 
   const supabase = await createClient()
-  const { error } = await supabase.schema('app').from('organizations').update(patch).eq('id', id)
-  if (error) return { ok: false, problem: 'denied' }
+  const { data, error } = await supabase
+    .schema('app')
+    .from('organizations')
+    .update(patch)
+    .eq('id', id)
+    .select('id')
+  if (writeFailed('updateOrg', error, data)) return { ok: false, problem: 'denied' }
 
   revalidate()
   return { ok: true }
@@ -156,13 +163,14 @@ export async function saveBaselineMonth(formData: FormData): Promise<SettingsRes
   const wheel = z.object({ id: z.string() }).safeParse(data)
   if (!wheel.success) return { ok: false, problem: 'no_wheel' }
 
-  const { error } = await supabase
+  const { data: saved, error } = await supabase
     .schema('app')
     .from('year_wheels')
     .update({ baseline_month: parsed.data })
     .eq('id', wheel.data.id)
+    .select('id')
 
-  if (error) return { ok: false, problem: 'denied' }
+  if (writeFailed('setBaselineMonth', error, saved)) return { ok: false, problem: 'denied' }
   revalidate()
   revalidatePath('/arshjulet')
   return { ok: true }
@@ -186,7 +194,7 @@ export async function addLocation(formData: FormData): Promise<SettingsResult> {
   if (!id) return { ok: false, problem: 'denied' }
 
   const supabase = await createClient()
-  const { error } = await supabase
+  const { data, error } = await supabase
     .schema('app')
     .from('locations')
     .insert({
@@ -196,9 +204,11 @@ export async function addLocation(formData: FormData): Promise<SettingsResult> {
       headcount: parsed.data.headcount,
       sort_order: 99,
     })
+    .select('id')
 
   // the one constraint a person can hit by typing: two sites with the same name
   if (error) return { ok: false, problem: error.code === '23505' ? 'duplicate' : 'denied' }
+  if (writeFailed('addLocation', null, data)) return { ok: false, problem: 'denied' }
   revalidate()
   return { ok: true }
 }
@@ -208,8 +218,13 @@ export async function removeLocation(formData: FormData): Promise<SettingsResult
   if (!parsed.success) return { ok: false, problem: 'invalid' }
 
   const supabase = await createClient()
-  const { error } = await supabase.schema('app').from('locations').delete().eq('id', parsed.data)
-  if (error) return { ok: false, problem: 'denied' }
+  const { data, error } = await supabase
+    .schema('app')
+    .from('locations')
+    .delete()
+    .eq('id', parsed.data)
+    .select('id')
+  if (writeFailed('removeLocation', error, data)) return { ok: false, problem: 'denied' }
   revalidate()
   return { ok: true }
 }
@@ -234,14 +249,18 @@ export async function addEmployee(formData: FormData): Promise<SettingsResult> {
   if (!id) return { ok: false, problem: 'denied' }
 
   const supabase = await createClient()
-  const { error } = await supabase.schema('app').from('employees').insert({
-    org_id: id,
-    full_name: parsed.data.name,
-    email: parsed.data.email === '' ? null : parsed.data.email,
-    group_id: parsed.data.groupId === '' ? null : parsed.data.groupId,
-  })
+  const { data, error } = await supabase
+    .schema('app')
+    .from('employees')
+    .insert({
+      org_id: id,
+      full_name: parsed.data.name,
+      email: parsed.data.email === '' ? null : parsed.data.email,
+      group_id: parsed.data.groupId === '' ? null : parsed.data.groupId,
+    })
+    .select('id')
 
-  if (error) return { ok: false, problem: 'denied' }
+  if (writeFailed('addEmployee', error, data)) return { ok: false, problem: 'denied' }
   revalidate()
   return { ok: true }
 }
@@ -310,11 +329,22 @@ export async function importEmployees(formData: FormData): Promise<ImportResult>
 
   if (rows.length === 0) return { ok: false, problem: 'empty' }
 
-  const { error } = await supabase.schema('app').from('employees').insert(rows)
-  if (error) return { ok: false, problem: 'denied' }
+  /*
+   * The import reports what it wrote, not what it was given. `rows.length` is the number
+   * of lines that parsed; `written.length` is the number the database accepted. They are
+   * the same number whenever the policy admits the caller, and the screen should print the
+   * second, because "34 ansatte lagt inn" over a refused insert is the failure this whole
+   * helper exists to stop.
+   */
+  const { data: written, error } = await supabase
+    .schema('app')
+    .from('employees')
+    .insert(rows)
+    .select('id')
+  if (writeFailed('importEmployees', error, written)) return { ok: false, problem: 'denied' }
 
   revalidate()
-  return { ok: true, written: rows.length, skipped }
+  return { ok: true, written: written.length, skipped }
 }
 
 export async function setEmployeeGroup(formData: FormData): Promise<SettingsResult> {
@@ -324,13 +354,14 @@ export async function setEmployeeGroup(formData: FormData): Promise<SettingsResu
   if (!parsed.success) return { ok: false, problem: 'invalid' }
 
   const supabase = await createClient()
-  const { error } = await supabase
+  const { data, error } = await supabase
     .schema('app')
     .from('employees')
     .update({ group_id: parsed.data.groupId === '' ? null : parsed.data.groupId })
     .eq('id', parsed.data.id)
+    .select('id')
 
-  if (error) return { ok: false, problem: 'denied' }
+  if (writeFailed('setEmployeeGroup', error, data)) return { ok: false, problem: 'denied' }
   revalidate()
   return { ok: true }
 }
@@ -350,13 +381,14 @@ export async function setEmployeeDutyRole(formData: FormData): Promise<SettingsR
   if (!parsed.success) return { ok: false, problem: 'invalid' }
 
   const supabase = await createClient()
-  const { error } = await supabase
+  const { data, error } = await supabase
     .schema('app')
     .from('employees')
     .update({ duty_role: parsed.data.dutyRole === '' ? null : parsed.data.dutyRole })
     .eq('id', parsed.data.id)
+    .select('id')
 
-  if (error) return { ok: false, problem: 'denied' }
+  if (writeFailed('setEmployeeDutyRole', error, data)) return { ok: false, problem: 'denied' }
   revalidate()
   return { ok: true }
 }
@@ -378,13 +410,14 @@ export async function setThreshold(formData: FormData): Promise<SettingsResult> 
   if (!id) return { ok: false, problem: 'denied' }
 
   const supabase = await createClient()
-  const { error } = await supabase
+  const { data, error } = await supabase
     .schema('app')
     .from('organizations')
     .update({ threshold: parsed.data })
     .eq('id', id)
+    .select('id')
 
-  if (error) return { ok: false, problem: 'denied' }
+  if (writeFailed('setThreshold', error, data)) return { ok: false, problem: 'denied' }
   revalidate()
   revalidatePath('/resultat')
   revalidatePath('/samtaler')
