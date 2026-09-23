@@ -799,7 +799,7 @@
     "summaryPeople": "Recipients",
     "summaryPeopleValue": "{invited} of {total} employees",
     "summaryFactors": "Factors",
-    "summaryAllFactors": "All {count} factors",
+    "summaryAllFactors": "{count, plural, =2 {All two factors} =3 {All three factors} =4 {All four factors} =5 {All five factors} =6 {All six factors} =7 {All seven factors} =8 {All eight factors} =9 {All nine factors} =10 {All ten factors} =11 {All eleven factors} =12 {All twelve factors} other {All # factors}}",
     "summarySomeFactors": "{count, plural, one {# factor} other {# factors}}",
     "summaryCadence": "Cadence",
     "summaryReminder": "Reminder on day {day}, closes after {days} days",
@@ -817,7 +817,26 @@
       "gone": "The measurement no longer exists.",
       "capped": "Five of your own questions is the cap."
     },
-    "ownSave": "Save"
+    "ownSave": "Save",
+    "cadenceKvartal": "Quarterly",
+    "cadenceManed": "Monthly",
+    "cadenceNone": "No pulse planned",
+    "cadenceRounds": "{label} · {count, plural, one {# round} other {# rounds}} a year",
+    "cadenceWheelNote": "The rhythm is the year wheel's and applies to every pulse, not only this one. The months are shown in the year wheel.",
+    "summaryNext": "Next: {month} {year}",
+    "summaryFirst": "First sending: {date} at {time}",
+    "summaryNoNext": {
+      "grunnlinje": "No baseline is planned yet.",
+      "puls": "No pulse is planned yet."
+    },
+    "planned": {
+      "grunnlinje": "The baseline is planned for {month} {year}.",
+      "puls": "The pulse is planned. First sending {date} at {time}."
+    },
+    "cta": {
+      "grunnlinje": "Plan the baseline",
+      "puls": "Activate the pulse"
+    }
   },
   "samtaler": {
     "title": "Conversations",

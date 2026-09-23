@@ -715,6 +715,9 @@ grow when an organisation runs thirteen measures.
 
 ## D-27 — Måleoppsett: three blocks that wait on a schedule, and one number nothing measures
 
+**Partly superseded.** Blocks 2 and 3 are built from the year wheel (D-60). Block 1 (the
+answering time) and block 4 (the pulse stopping rule) remain out.
+
 **Design:** bundle lines 1425-1710, baseline `11-plan-maleoppsett.png`. Six numbered
 sections and a sticky summary panel.
 
@@ -2002,3 +2005,50 @@ other two. Now:
   measurement that has not happened.
 
 A point with no row behind it is left out, as before.
+
+## D-60 — Måleoppsett's schedule blocks are built from the year wheel; D-27's blocks 2 and 3 are superseded
+
+D-27 left three blocks out because nothing stored a schedule. The year wheel does (0019,
+0020) and plans rounds, so the two that waited on it are built. Block 1, "Tid — ca. 5
+minutter å svare", stays out: nothing measures how long a respondent takes. Block 4, "Når
+skal pulsen stoppe", stays out: no column holds a stopping rule.
+
+**"Neste: september 2027"** is the first line of the summary panel's bordered block, as the
+design places it, read from the round: a round being configured before it opens gives its
+own date; otherwise it is the next round of that kind the wheel has planned. A puls reads
+the design's other form, "Første utsending: 1. desember kl. 09.00", from the planned
+round's opening time in Europe/Oslo. Nothing planned prints "Ingen grunnlinje er planlagt
+ennå.", never the design's literal.
+
+**"Planlegg grunnlinjen".** The design's CTA plans the round and then shows "Grunnlinjen er
+planlagt for september 2027." Here the wheel does the planning, so when a round is planned
+the panel is followed by that post-click state, in the design's own mint box, because it is
+true; a 46px button labelled "Planlegg grunnlinjen" over a plan that already exists would
+promise an action it cannot perform. When nothing is planned, the CTA is rendered as the
+design draws it (h46, radius 12, 15px bold; not a size in the Button scale, so transcribed)
+and links to Årshjulet, where planning happens. A puls reads "Pulsen er planlagt." rather
+than the design's "aktivert", which would claim that pressing something activated it.
+
+**Section 4's cadence set.** A grunnlinje keeps its one "Årlig" chip (D-27's reasoning
+holds: one per year by construction). A puls shows the wheel's pulse cadences with the
+design's labels, "Kvartalsvis" and "Månedlig", the wheel's current one selected. Picking one
+writes the wheel through Årshjulet's own `saveWheel`, so it changes every puls's rhythm,
+not this round's alone, and the chips say so in a line beneath. `wheel_write` admits daglig
+leder only, so the chips are disabled for anyone else. The design's "Hver 2. uke" and
+"Hver 4. uke" have no wheel cadence and are not offered. The summary's Rytme row reads
+"Kvartalsvis · 4 runder i året", the count from `wheelMonths`, the scheduler's own rule.
+Verified round-trip against the hosted project: Månedlig persisted across a reload as
+"Månedlig · 11 runder i året" (twelve months less the fellesferie), then Kvartalsvis was
+restored; the planned rounds were unchanged after.
+
+**Two flaws found on the way.** "Mottakere" read "0 av 34 ansatte" on a puls, because the
+headcount came from the previous round of the same kind and no puls had closed; it now
+falls back to the roster's count per group. "Alle 11 faktorer" is spelled "Alle elleve
+faktorer" as the design writes it, by the ICU exact selectors D-26 now uses.
+
+**Pixel evidence.** The panel sits where the design puts it (offset 0). Its head diffs at
+265 pixels (the design's "37 spørsmål" against the real 33). Below the missing "Tid" row
+everything sits 26 px higher, and compared there the rows "Mottakere…Rytme" diff at **0**,
+the legal box at **0**, and the bordered lines at 473, which is the fixture's "Ingen
+påminnelse" against the design's "Påminnelse dag 2". The design's yellow CTA under the
+panel is the mint planned-state box here, by the reasoning above.

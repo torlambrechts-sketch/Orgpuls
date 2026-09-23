@@ -1396,6 +1396,17 @@ No other styling regression was found. Every remaining difference is a documente
 omission, a copy change the product's behaviour requires, or the hosted fixture's state
 differing from the design's snapshot.
 
+### X-034 — Måleoppsett reads its schedule from the wheel
+
+D-27 had left the summary panel without "Neste: september 2027" and "Planlegg
+grunnlinjen", and section 4 with one cadence chip, because nothing stored a schedule. The
+wheel now does. The panel prints when the next round of the kind opens, from the round the
+wheel planned, and shows the design's planned state in place of a CTA that would promise
+an action the wheel already took; a puls's section 4 offers the wheel's pulse cadences and
+writes the wheel through Årshjulet's own action. Two flaws found on the way are fixed: a
+puls's "Mottakere" fell to 0 when no puls had closed, and "Alle 11 faktorer" is spelled as
+the design writes it (D-60).
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1412,8 +1423,8 @@ differing from the design's snapshot.
 - [x] D-19 decided: the employee register stays readable by every member. D-30 records
       what that does and does not concede, and the one-policy change that would reverse it.
 - [x] "Neste: september 2027" is now a planned round the wheel created, not a sentence.
-      X-019. "Planlegg grunnlinjen" and the pulse cadence on Måleoppsett still read it
-      from nothing and remain omitted (D-27).
+      X-019. "Planlegg grunnlinjen" and the pulse cadence on Måleoppsett followed once the
+      wheel stored a schedule (D-60).
 - [x] Innsikt's year rail has the design's five points: forankring from the recorded § 9-2
       consultations, and the next two rounds from what is open and what the wheel planned
       (D-59). Report section 1's medvirkning dates still do not read them.

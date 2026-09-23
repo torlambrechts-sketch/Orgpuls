@@ -799,7 +799,7 @@
     "summaryPeople": "Mottakere",
     "summaryPeopleValue": "{invited} av {total} ansatte",
     "summaryFactors": "Faktorer",
-    "summaryAllFactors": "Alle {count} faktorer",
+    "summaryAllFactors": "{count, plural, =2 {Alle to faktorer} =3 {Alle tre faktorer} =4 {Alle fire faktorer} =5 {Alle fem faktorer} =6 {Alle seks faktorer} =7 {Alle sju faktorer} =8 {Alle åtte faktorer} =9 {Alle ni faktorer} =10 {Alle ti faktorer} =11 {Alle elleve faktorer} =12 {Alle tolv faktorer} other {Alle # faktorer}}",
     "summarySomeFactors": "{count, plural, one {# faktor} other {# faktorer}}",
     "summaryCadence": "Rytme",
     "summaryReminder": "Påminnelse dag {day}, lukkes etter {days} dager",
@@ -817,7 +817,26 @@
       "gone": "Målingen finnes ikke lenger.",
       "capped": "Fem egne spørsmål er taket."
     },
-    "ownSave": "Lagre"
+    "ownSave": "Lagre",
+    "cadenceKvartal": "Kvartalsvis",
+    "cadenceManed": "Månedlig",
+    "cadenceNone": "Ingen puls planlagt",
+    "cadenceRounds": "{label} · {count, plural, one {# runde} other {# runder}} i året",
+    "cadenceWheelNote": "Rytmen er årshjulets og gjelder alle pulsene, ikke bare denne. Månedene ser du i Årshjulet.",
+    "summaryNext": "Neste: {month} {year}",
+    "summaryFirst": "Første utsending: {date} kl. {time}",
+    "summaryNoNext": {
+      "grunnlinje": "Ingen grunnlinje er planlagt ennå.",
+      "puls": "Ingen puls er planlagt ennå."
+    },
+    "planned": {
+      "grunnlinje": "Grunnlinjen er planlagt for {month} {year}.",
+      "puls": "Pulsen er planlagt. Første utsending {date} kl. {time}."
+    },
+    "cta": {
+      "grunnlinje": "Planlegg grunnlinjen",
+      "puls": "Aktiver pulsen"
+    }
   },
   "samtaler": {
     "title": "Samtaler",

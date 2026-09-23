@@ -9,6 +9,7 @@ import {
   saveSetup,
   type SetupActionResult,
 } from '@/app/(app)/maleoppsett/actions'
+import { saveWheel } from '@/app/(app)/arshjulet/actions'
 
 /**
  * The six sections of Måleoppsett that write.
@@ -80,7 +81,6 @@ export interface SetupFormProps {
     dialogueNote: string
     groupWarn: string
     groupWarnAlert: boolean
-    cadence: string
     reminderHead: string
     closeHead: string
     ownCount: string
@@ -108,11 +108,27 @@ export interface SetupFormProps {
     problems: Record<string, string>
   }
   orgQuestions: { id: string; body: string }[]
+  /**
+   * Section 4's rhythm. A grunnlinje is one per year by construction and shows the one
+   * chip; a puls shows the year wheel's pulse cadences, and picking one writes the wheel —
+   * every puls's rhythm, not this round's alone — through Årshjulet's own action. D-60.
+   */
+  cadence:
+    | { kind: 'fixed'; label: string }
+    | {
+        kind: 'wheel'
+        value: string
+        options: Option[]
+        canWrite: boolean
+        note: string
+        wheel: { notifyLeadDays: number; extendIfLow: boolean; skipFellesferie: boolean; notifyVoOnOverdue: boolean }
+      }
 }
 
 export function SetupForm(props: SetupFormProps) {
-  const { roundId, canWrite, options, labels } = props
+  const { roundId, canWrite, options, labels, cadence } = props
   const [v, setV] = useState(props.values)
+  const [wheelCadence, setWheelCadence] = useState(cadence.kind === 'wheel' ? cadence.value : '')
   const [problem, setProblem] = useState<string | null>(null)
   const [saved, setSaved] = useState(false)
   const [questionsOpen, setQuestionsOpen] = useState(false)
@@ -304,16 +320,47 @@ export function SetupForm(props: SetupFormProps) {
       {/* ------------------------------------------------ 4 · Rytme og oppfølging */}
       <Section head={labels.section4}>
         <div className="mt-[13px] flex flex-wrap gap-[7px]">
-          {/*
-            One chip, not a set. A grunnlinje is one per year by construction —
-            app.measurements is keyed (org, kind, year) — so the cadence is a fact about
-            the schema rather than a choice. The other cadences the design offers belong
-            to the pulse schedule, which is Årshjulet's table. D-27.
-          */}
-          <span className="inline-flex flex-none items-center rounded-pill border border-ink bg-sbg px-[15px] py-[8px] text-[12.5px] font-bold">
-            {labels.cadence}
-          </span>
+          {cadence.kind === 'fixed' ? (
+            /*
+              One chip for a grunnlinje: it is one per year by construction —
+              app.measurements is keyed (org, kind, year) — so the cadence is a fact about
+              the schema rather than a choice. D-27.
+            */
+            <span className="inline-flex flex-none items-center rounded-pill border border-ink bg-sbg px-[15px] py-[8px] text-[12.5px] font-bold">
+              {cadence.label}
+            </span>
+          ) : (
+            cadence.options.map((c) => (
+              <Chip
+                key={c.value}
+                type="radio"
+                name="wheelCadence"
+                value={c.value}
+                label={c.label}
+                checked={wheelCadence === c.value}
+                disabled={!cadence.canWrite}
+                paddingY={8}
+                paddingX={15}
+                text="12.5px"
+                onChange={() => {
+                  setWheelCadence(c.value)
+                  const data = new FormData()
+                  data.set('cadence', c.value)
+                  data.set('notifyLeadDays', String(cadence.wheel.notifyLeadDays))
+                  if (cadence.wheel.extendIfLow) data.set('extendIfLow', 'on')
+                  if (cadence.wheel.skipFellesferie) data.set('skipFellesferie', 'on')
+                  if (cadence.wheel.notifyVoOnOverdue) data.set('notifyVoOnOverdue', 'on')
+                  run(() => saveWheel(data))
+                }}
+              />
+            ))
+          )}
         </div>
+        {cadence.kind === 'wheel' ? (
+          <div className="mt-[12px] max-w-[560px] text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">
+            {cadence.note}
+          </div>
+        ) : null}
 
         <div className="mt-[18px] grid gap-[18px] border-t border-line pt-[16px] [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]">
           <div>

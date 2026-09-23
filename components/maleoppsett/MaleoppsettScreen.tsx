@@ -1,7 +1,9 @@
-import { getTranslations } from 'next-intl/server'
+import Link from 'next/link'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { ButtonLink } from '@/components/ui/Button'
 import { SetupForm, type SetupFormProps } from '@/components/maleoppsett/SetupForm'
 import type { CommentPolicy, EvaluationCadence } from '@/lib/setup/read'
+import type { WheelCadence } from '@/lib/wheel/read'
 
 /**
  * Måleoppsett, the rendering. Bundle lines 1425-1710.
@@ -58,7 +60,31 @@ export interface MaleoppsettView {
   threshold: number
   /** whether the viewer may write; the database decides, this only styles */
   canWrite: boolean
+  /** when the next round of this kind opens — its own date for a planned round (D-60) */
+  nextOpensAt: string | null
+  /** the year wheel, whose cadence is the puls rhythm; null when the organisation has none */
+  wheel: {
+    cadence: WheelCadence
+    active: boolean
+    roundsPerYear: number
+    notifyLeadDays: number
+    extendIfLow: boolean
+    skipFellesferie: boolean
+    notifyVoOnOverdue: boolean
+  } | null
+  /** `wheel_write` is daglig leder only; styling, as canWrite is */
+  canWriteWheel: boolean
 }
+
+/**
+ * The wheel cadences that put pulses in the year, with the design's chip labels
+ * (bundle CADENCES: "Kvartalsvis", "Månedlig"). The design's "Hver 2. uke" and "Hver 4.
+ * uke" have no wheel cadence and are not offered (D-60).
+ */
+const PULSE_CADENCES: { value: WheelCadence; key: string }[] = [
+  { value: 'kvartalspuls', key: 'cadenceKvartal' },
+  { value: 'manedspuls', key: 'cadenceManed' },
+]
 
 /** The three measurement kinds, in the design's order (bundle 1441). */
 const KINDS = ['grunnlinje', 'puls', 'oppfolging'] as const
@@ -69,6 +95,33 @@ const CLOSES = [5, 7, 14]
 
 export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
   const t = await getTranslations()
+  const locale = await getLocale()
+  const isBaseline = view.kind === 'grunnlinje'
+
+  // "september 2027" and "1. desember kl. 09.00", in the organisation's own zone
+  const fmt = (iso: string, opts: Intl.DateTimeFormatOptions) =>
+    new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', ...opts }).format(new Date(iso))
+  const nextArgs = view.nextOpensAt
+    ? {
+        month: fmt(view.nextOpensAt, { month: 'long' }),
+        year: fmt(view.nextOpensAt, { year: 'numeric' }),
+        date: fmt(view.nextOpensAt, { day: 'numeric', month: 'long' }),
+        // the design writes the clock as "09.00"; Norwegian does, English does not
+        time: fmt(view.nextOpensAt, { hour: '2-digit', minute: '2-digit', hour12: false }).replace(
+          ':',
+          locale.startsWith('en') ? ':' : '.',
+        ),
+      }
+    : null
+
+  const cadenceLabel = isBaseline
+    ? t('maleoppsett.cadenceArlig')
+    : view.wheel
+      ? t('maleoppsett.cadenceRounds', {
+          label: t(`maleoppsett.${PULSE_CADENCES.find((c) => c.value === view.wheel?.cadence)?.key ?? 'cadenceNone'}`),
+          count: view.wheel.roundsPerYear,
+        })
+      : t('maleoppsett.cadenceNone')
 
   const invited = view.invitedGroupIds.length
     ? view.groups.filter((g) => view.invitedGroupIds.includes(g.id))
@@ -151,7 +204,6 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
           })
         : t('maleoppsett.groupWarnNone', { threshold: view.threshold }),
       groupWarnAlert: thin.length > 0,
-      cadence: t('maleoppsett.cadenceArlig'),
       reminderHead: t('maleoppsett.reminderHead'),
       closeHead: t('maleoppsett.closeHead'),
       ownCount: t('maleoppsett.ownCount', { count: view.orgQuestions.length }),
@@ -188,6 +240,21 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
       ),
     },
     orgQuestions: view.orgQuestions,
+    cadence: isBaseline || !view.wheel
+      ? { kind: 'fixed', label: cadenceLabel }
+      : {
+          kind: 'wheel',
+          value: view.wheel.cadence,
+          options: PULSE_CADENCES.map((c) => ({ value: c.value, label: t(`maleoppsett.${c.key}`) })),
+          canWrite: view.canWriteWheel,
+          note: t('maleoppsett.cadenceWheelNote'),
+          wheel: {
+            notifyLeadDays: view.wheel.notifyLeadDays,
+            extendIfLow: view.wheel.extendIfLow,
+            skipFellesferie: view.wheel.skipFellesferie,
+            notifyVoOnOverdue: view.wheel.notifyVoOnOverdue,
+          },
+        },
   }
 
   return (
@@ -239,13 +306,15 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
                     : t('maleoppsett.summarySomeFactors', { count: selectedFactors })
                 }
               />
-              <SummaryRow
-                label={t('maleoppsett.summaryCadence')}
-                value={t('maleoppsett.cadenceArlig')}
-              />
+              <SummaryRow label={t('maleoppsett.summaryCadence')} value={cadenceLabel} />
             </div>
 
             <div className="mt-[16px] border-t border-bg/20 pt-[14px] text-[12.5px] leading-[1.55] opacity-80 [text-wrap:pretty]">
+              {/* the design's first line: when this goes out, from the round the wheel planned (D-60) */}
+              {nextArgs
+                ? t(isBaseline ? 'maleoppsett.summaryNext' : 'maleoppsett.summaryFirst', nextArgs)
+                : t(isBaseline ? 'maleoppsett.summaryNoNext.grunnlinje' : 'maleoppsett.summaryNoNext.puls')}
+              <br />
               {view.reminderDay === null
                 ? t('maleoppsett.summaryNoReminder', { days: view.closeAfterDays })
                 : t('maleoppsett.summaryReminder', {
@@ -260,6 +329,26 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
               {t('maleoppsett.summaryLegal')}
             </div>
           </section>
+
+          {/*
+            The design's CTA plans the round and then shows "Grunnlinjen er planlagt for
+            september 2027." Here the year wheel does the planning, so when a round is
+            planned the truthful thing to show is that post-click state, in the design's own
+            box; when nothing is planned, the CTA links to Årshjulet, where planning happens.
+            h46 / r12 / 15px is not a size in the Button scale, so it is transcribed. D-60.
+          */}
+          {nextArgs ? (
+            <div className="rounded-cta bg-mint px-[15px] py-[13px] text-[13px] leading-[1.5] text-greendeep [text-wrap:pretty]">
+              {t(isBaseline ? 'maleoppsett.planned.grunnlinje' : 'maleoppsett.planned.puls', nextArgs)}
+            </div>
+          ) : (
+            <Link
+              href="/arshjulet"
+              className="flex h-[46px] items-center justify-center rounded-cta border border-ink bg-ac text-[15px] font-bold text-ink no-underline hover:text-ink hover:no-underline"
+            >
+              {t(isBaseline ? 'maleoppsett.cta.grunnlinje' : 'maleoppsett.cta.puls')}
+            </Link>
+          )}
         </div>
       </div>
     </main>
