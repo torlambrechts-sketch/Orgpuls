@@ -1,4 +1,5 @@
 import 'server-only'
+import { cache } from 'react'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { parseFailed, readFailed } from '@/lib/supabase/read'
@@ -23,7 +24,21 @@ const OrgRow = z.object({
 
 export type Organization = z.infer<typeof OrgRow>
 
-export async function getOrganization(): Promise<Organization | null> {
+/**
+ * Memoised for the length of one request. P2 in docs/CODE_REVIEW_2026-09-23.md.
+ *
+ * `/rapport` calls fifteen read functions, two of them `getResultsSummary` explicitly, and
+ * `getMeasureEffects` then called it again for every round it found — so the most expensive
+ * aggregation in the product ran three to five times for the same rounds in a single
+ * render, returning identical results each time. Measured in the database on the design
+ * fixture: `results_summary` 12.8 ms warm, 37.8 ms cold, over 1 559 buffers.
+ *
+ * React's `cache()` is per-request and argument-addressable: one render pass makes one call
+ * per distinct argument, and nothing survives into the next request, so there is no
+ * staleness to reason about. It is not a data cache and must not be confused with one — a
+ * second page view recomputes everything.
+ */
+export const getOrganization = cache(async (): Promise<Organization | null> => {
   const supabase = await createClient()
   const { data, error } = await supabase
     .schema('app')
@@ -35,7 +50,7 @@ export async function getOrganization(): Promise<Organization | null> {
   if (readFailed('getOrganization', error, data)) return null
   const parsed = OrgRow.safeParse(data)
   return parsed.success ? parsed.data : null
-}
+})
 
 /**
  * "924118742" -> "924 118 742", the grouping the design prints. Presentation, so it is
@@ -60,7 +75,7 @@ const GroupRow = z.object({ id: z.string(), name: z.string() })
 
 export type Group = z.infer<typeof GroupRow>
 
-export async function getGroups(): Promise<Group[]> {
+export const getGroups = cache(async (): Promise<Group[]> => {
   const supabase = await createClient()
   const { data, error } = await supabase
     .schema('app')
@@ -71,7 +86,7 @@ export async function getGroups(): Promise<Group[]> {
   if (readFailed('getGroups', error, data)) return []
   const parsed = z.array(GroupRow).safeParse(data)
   return parsed.success ? parsed.data : []
-}
+})
 
 const EmployeeRow = z.object({ id: z.string(), full_name: z.string() })
 
@@ -81,7 +96,7 @@ export interface Person {
 }
 
 /** Only the people still employed: a measure handed to someone who has left is not a plan. */
-export async function getEmployees(): Promise<Person[]> {
+export const getEmployees = cache(async (): Promise<Person[]> => {
   const supabase = await createClient()
   const { data, error } = await supabase
     .schema('app')
@@ -94,7 +109,7 @@ export async function getEmployees(): Promise<Person[]> {
   const parsed = z.array(EmployeeRow).safeParse(data)
   if (parseFailed('getEmployees', parsed)) return []
   return parsed.data.map((e) => ({ id: e.id, name: e.full_name }))
-}
+})
 
 /**
  * The signed-in person's role in this organisation.
@@ -112,7 +127,7 @@ export async function getEmployees(): Promise<Person[]> {
 const ROLES = ['daglig_leder', 'avdelingsleder', 'verneombud'] as const
 export type Role = (typeof ROLES)[number]
 
-export async function getViewerRole(): Promise<Role | null> {
+export const getViewerRole = cache(async (): Promise<Role | null> => {
   const supabase = await createClient()
   const { data: auth } = await supabase.auth.getUser()
   if (!auth.user) return null
@@ -129,4 +144,4 @@ export async function getViewerRole(): Promise<Role | null> {
   if (readFailed('getViewerRole', error, data)) return null
   const parsed = z.object({ role: z.enum(ROLES) }).safeParse(data)
   return parsed.success ? parsed.data.role : null
-}
+})

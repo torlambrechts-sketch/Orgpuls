@@ -1,4 +1,5 @@
 import 'server-only'
+import { cache } from 'react'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { parseFailed, readFailed } from '@/lib/supabase/read'
@@ -42,7 +43,21 @@ export interface Factor {
 
 export type ExtraQuestion = z.infer<typeof ExtraRow>
 
-export async function getFactors(): Promise<Factor[]> {
+/**
+ * Memoised for the length of one request. P2 in docs/CODE_REVIEW_2026-09-23.md.
+ *
+ * `/rapport` calls fifteen read functions, two of them `getResultsSummary` explicitly, and
+ * `getMeasureEffects` then called it again for every round it found — so the most expensive
+ * aggregation in the product ran three to five times for the same rounds in a single
+ * render, returning identical results each time. Measured in the database on the design
+ * fixture: `results_summary` 12.8 ms warm, 37.8 ms cold, over 1 559 buffers.
+ *
+ * React's `cache()` is per-request and argument-addressable: one render pass makes one call
+ * per distinct argument, and nothing survives into the next request, so there is no
+ * staleness to reason about. It is not a data cache and must not be confused with one — a
+ * second page view recomputes everything.
+ */
+export const getFactors = cache(async (): Promise<Factor[]> => {
   const supabase = await createClient()
   const { data, error } = await supabase
     .schema('app')
@@ -61,9 +76,9 @@ export async function getFactors(): Promise<Factor[]> {
     lawRef: f.law_ref,
     ordinals: f.statements.map((s) => s.ordinal).sort((a, b) => a - b),
   }))
-}
+})
 
-export async function getExtraQuestions(): Promise<ExtraQuestion[]> {
+export const getExtraQuestions = cache(async (): Promise<ExtraQuestion[]> => {
   const supabase = await createClient()
   const { data, error } = await supabase
     .schema('app')
@@ -74,4 +89,4 @@ export async function getExtraQuestions(): Promise<ExtraQuestion[]> {
   if (readFailed('getExtraQuestions', error, data)) return []
   const parsed = z.array(ExtraRow).safeParse(data)
   return parsed.success ? parsed.data : []
-}
+})

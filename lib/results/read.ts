@@ -1,4 +1,5 @@
 import 'server-only'
+import { cache } from 'react'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import type { Band } from '@/components/ui/Risk'
@@ -69,7 +70,21 @@ export type { Band }
  * does not distinguish them. Callers must treat null as "nothing to show", never as
  * "not found", or they reintroduce the enumeration oracle 0005 removed.
  */
-export async function getResultsSummary(roundId: string): Promise<ResultsSummary | null> {
+/**
+ * Memoised for the length of one request. P2 in docs/CODE_REVIEW_2026-09-23.md.
+ *
+ * `/rapport` calls fifteen read functions, two of them `getResultsSummary` explicitly, and
+ * `getMeasureEffects` then called it again for every round it found — so the most expensive
+ * aggregation in the product ran three to five times for the same rounds in a single
+ * render, returning identical results each time. Measured in the database on the design
+ * fixture: `results_summary` 12.8 ms warm, 37.8 ms cold, over 1 559 buffers.
+ *
+ * React's `cache()` is per-request and argument-addressable: one render pass makes one call
+ * per distinct argument, and nothing survives into the next request, so there is no
+ * staleness to reason about. It is not a data cache and must not be confused with one — a
+ * second page view recomputes everything.
+ */
+export const getResultsSummary = cache(async (roundId: string): Promise<ResultsSummary | null> => {
   const supabase = await createClient()
   const { data, error } = await supabase.rpc('results_summary', { p_round: roundId })
   if (callFailed('getResultsSummary', error)) return null
@@ -82,7 +97,7 @@ export async function getResultsSummary(roundId: string): Promise<ResultsSummary
     return null
   }
   return parsed.data
-}
+})
 
 /**
  * The band distribution printed beneath an index — three counts, "5 forsvarlig ·
@@ -138,7 +153,7 @@ export type ResultsByGroup = z.infer<typeof ByGroup>
 export type GroupResult = z.infer<typeof GroupRow>
 
 /** Null means "nothing to show", never "not found" — see getResultsSummary. */
-export async function getResultsByGroup(roundId: string): Promise<ResultsByGroup | null> {
+export const getResultsByGroup = cache(async (roundId: string): Promise<ResultsByGroup | null> => {
   const supabase = await createClient()
   const { data, error } = await supabase.rpc('results_by_group', { p_round: roundId })
   if (callFailed('getResultsByGroup', error)) return null
@@ -146,7 +161,7 @@ export async function getResultsByGroup(roundId: string): Promise<ResultsByGroup
 
   const parsed = ByGroup.safeParse(data)
   return parsed.success ? parsed.data : null
-}
+})
 
 /**
  * The heat-map cell palette, transcribed from the bundle's `tone()` (line 2651).

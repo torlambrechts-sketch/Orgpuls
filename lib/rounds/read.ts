@@ -1,4 +1,5 @@
 import 'server-only'
+import { cache } from 'react'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { getParticipation, type Participation } from '@/lib/participation/read'
@@ -62,7 +63,21 @@ export interface RoundListItem {
   participation: Participation | null
 }
 
-export async function getRounds(): Promise<RoundListItem[]> {
+/**
+ * Memoised for the length of one request. P2 in docs/CODE_REVIEW_2026-09-23.md.
+ *
+ * `/rapport` calls fifteen read functions, two of them `getResultsSummary` explicitly, and
+ * `getMeasureEffects` then called it again for every round it found — so the most expensive
+ * aggregation in the product ran three to five times for the same rounds in a single
+ * render, returning identical results each time. Measured in the database on the design
+ * fixture: `results_summary` 12.8 ms warm, 37.8 ms cold, over 1 559 buffers.
+ *
+ * React's `cache()` is per-request and argument-addressable: one render pass makes one call
+ * per distinct argument, and nothing survives into the next request, so there is no
+ * staleness to reason about. It is not a data cache and must not be confused with one — a
+ * second page view recomputes everything.
+ */
+export const getRounds = cache(async (): Promise<RoundListItem[]> => {
   const supabase = await createClient()
 
   const { data, error } = await supabase
@@ -102,7 +117,7 @@ export async function getRounds(): Promise<RoundListItem[]> {
 
   const participation = await Promise.all(rows.map((r) => getParticipation(r.id)))
   return rows.map((r, i) => ({ ...r, participation: participation[i] ?? null }))
-}
+})
 
 /**
  * The factors a round carries, in the instrument's own order.
@@ -112,7 +127,7 @@ export async function getRounds(): Promise<RoundListItem[]> {
  * "2 faktorer i denne pulsen") and for the columns of the group grid, which are the
  * round's factors rather than a subset chosen in a component.
  */
-export async function getRoundFactorKeys(roundId: string): Promise<string[]> {
+export const getRoundFactorKeys = cache(async (roundId: string): Promise<string[]> => {
   const supabase = await createClient()
   const { data, error } = await supabase
     .schema('app')
@@ -129,7 +144,7 @@ export async function getRoundFactorKeys(roundId: string): Promise<string[]> {
   return parsed.data
     .sort((a, b) => a.factors.sort_order - b.factors.sort_order)
     .map((r) => r.factor_key)
-}
+})
 
 /**
  * The round a new measure hangs off.
@@ -140,7 +155,7 @@ export async function getRoundFactorKeys(roundId: string): Promise<string[]> {
  * Null is a legitimate answer: an organisation that has never closed a round can still
  * record a measure, it just does not cite one.
  */
-export async function getLatestClosedRoundId(): Promise<string | null> {
+export const getLatestClosedRoundId = cache(async (): Promise<string | null> => {
   const supabase = await createClient()
   const { data, error } = await supabase
     .schema('app')
@@ -154,4 +169,4 @@ export async function getLatestClosedRoundId(): Promise<string | null> {
   if (readFailed('getLatestClosedRoundId', error, data)) return null
   const parsed = z.object({ id: z.string() }).safeParse(data)
   return parsed.success ? parsed.data.id : null
-}
+})

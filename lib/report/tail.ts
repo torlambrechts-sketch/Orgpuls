@@ -69,27 +69,34 @@ export async function getMeasureEffects(): Promise<MeasureEffect[]> {
   const indices = new Map<string, Map<string, number>>()
   const years = new Map<string, number>()
 
+  /*
+   * The years come back in one query rather than one per round. P7.
+   *
+   * This used to issue two requests per distinct round id — the summary and a single-row
+   * lookup for its year — which is 2N round trips for something that is one `in` filter.
+   * The summaries still have to be N calls, because `results_summary` applies k per cell
+   * and takes one round; what `cache()` now does (P2) is stop them being recomputed for
+   * rounds `/rapport` has already asked about elsewhere in the same render.
+   */
+  const { data: roundRows } = await supabase
+    .schema('app')
+    .from('rounds')
+    .select('id, measurements(year)')
+    .in('id', roundIds)
+
+  const YearRow = z.object({ id: z.string(), measurements: z.object({ year: z.coerce.number() }) })
+  const yearRows = z.array(YearRow).safeParse(roundRows)
+  if (yearRows.success) {
+    for (const r of yearRows.data) years.set(r.id, r.measurements.year)
+  }
+
   await Promise.all(
     roundIds.map(async (id) => {
-      const [{ data: summary }, { data: round }] = await Promise.all([
-        supabase.rpc('results_summary', { p_round: id }),
-        supabase
-          .schema('app')
-          .from('rounds')
-          .select('measurements(year)')
-          .eq('id', id)
-          .maybeSingle(),
-      ])
-
+      const { data: summary } = await supabase.rpc('results_summary', { p_round: id })
       const s = Summary.safeParse(summary)
       if (s.success && s.data.status === 'ok' && s.data.factors) {
         indices.set(id, new Map(s.data.factors.map((f) => [f.key, f.index])))
       }
-
-      const y = z
-        .object({ measurements: z.object({ year: z.coerce.number() }) })
-        .safeParse(round)
-      if (y.success) years.set(id, y.data.measurements.year)
     }),
   )
 
