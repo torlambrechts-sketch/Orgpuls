@@ -2,7 +2,8 @@ import 'server-only'
 import { cache } from 'react'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
-import { parseFailed, readFailed } from '@/lib/supabase/read'
+import { onlyOrganisation } from '@/lib/org/current'
+import { callFailed, parseFailed, readFailed } from '@/lib/supabase/read'
 
 /**
  * The organisation.
@@ -44,12 +45,13 @@ export const getOrganization = cache(async (): Promise<Organization | null> => {
     .schema('app')
     .from('organizations')
     .select('id, name, org_number, employee_count, threshold')
-    .limit(1)
-    .maybeSingle()
+    .limit(2)
 
   if (readFailed('getOrganization', error, data)) return null
-  const parsed = OrgRow.safeParse(data)
-  return parsed.success ? parsed.data : null
+  const parsed = z.array(OrgRow).safeParse(data)
+  if (parseFailed('getOrganization', parsed)) return null
+  // two rows means two organisations, and there is no right one to show; lib/org/current.ts
+  return onlyOrganisation('getOrganization', parsed.data)
 })
 
 /**
@@ -128,20 +130,19 @@ const ROLES = ['daglig_leder', 'avdelingsleder', 'verneombud'] as const
 export type Role = (typeof ROLES)[number]
 
 export const getViewerRole = cache(async (): Promise<Role | null> => {
+  /*
+   * One round trip to PostgREST instead of one to Supabase Auth and one to PostgREST.
+   * `viewer_role()` reads the caller from auth.uid(), which the database takes from the
+   * JWT it has already verified — the same fact `getUser()` used to fetch over HTTP on
+   * every page view, after the middleware had just fetched it. Migration 0027, P4.
+   *
+   * null is an ordinary answer here, not a failure: an account with no membership has no
+   * role, and neither does one in two organisations until there is a switcher (Q3).
+   */
   const supabase = await createClient()
-  const { data: auth } = await supabase.auth.getUser()
-  if (!auth.user) return null
+  const { data, error } = await supabase.rpc('viewer_role')
 
-  const { data, error } = await supabase
-    .schema('app')
-    .from('memberships')
-    .select('role')
-    .eq('user_id', auth.user.id)
-    .eq('active', true)
-    .limit(1)
-    .maybeSingle()
-
-  if (readFailed('getViewerRole', error, data)) return null
-  const parsed = z.object({ role: z.enum(ROLES) }).safeParse(data)
-  return parsed.success ? parsed.data.role : null
+  if (callFailed('getViewerRole', error)) return null
+  const parsed = z.enum(ROLES).nullable().safeParse(data)
+  return parsed.success ? parsed.data : null
 })

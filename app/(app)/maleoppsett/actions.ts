@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { COMMENT_POLICIES, EVALUATION_CADENCES } from '@/lib/setup/read'
 import { createClient } from '@/lib/supabase/server'
+import { getCurrentOrgId } from '@/lib/org/current'
 import { writeFailed } from '@/lib/supabase/write'
 
 /**
@@ -215,19 +216,14 @@ export async function addOrgQuestion(formData: FormData): Promise<SetupActionRes
     .safeParse({ body: formData.get('body') })
   if (!parsed.success) return problem('invalid')
 
-  const supabase = await createClient()
-  const { data: org } = await supabase
-    .schema('app')
-    .from('organizations')
-    .select('id')
-    .limit(1)
-    .maybeSingle()
-  if (!org) return problem('gone')
+  const orgId = await getCurrentOrgId()
+  if (!orgId) return problem('gone')
 
+  const supabase = await createClient()
   const { data, error } = await supabase
     .schema('app')
     .from('org_questions')
-    .insert({ org_id: (org as { id: string }).id, body: parsed.data.body })
+    .insert({ org_id: orgId, body: parsed.data.body })
     .select('id')
 
   // the cap is a trigger, so its refusal is what tells the screen it is full

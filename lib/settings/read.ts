@@ -1,6 +1,7 @@
 import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { onlyOrganisation } from '@/lib/org/current'
 import { parseFailed, readFailed } from '@/lib/supabase/read'
 
 /**
@@ -58,12 +59,13 @@ export async function getCompany(): Promise<CompanyRow | null> {
     .schema('app')
     .from('organizations')
     .select(COMPANY_COLUMNS)
-    .limit(1)
-    .maybeSingle()
+    .limit(2)
 
   if (readFailed('getCompany', error, data)) return null
-  const parsed = OrgRow.safeParse(data)
-  return parsed.success ? parsed.data : null
+  const parsed = z.array(OrgRow).safeParse(data)
+  if (parseFailed('getCompany', parsed)) return null
+  // two rows means two organisations, and there is no right one to show; lib/org/current.ts
+  return onlyOrganisation('getCompany', parsed.data)
 }
 
 /** A place, never a person: `headcount` is stated about a site and derived from nothing. */

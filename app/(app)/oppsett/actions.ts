@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { getCurrentOrgId } from '@/lib/org/current'
 import { writeFailed } from '@/lib/supabase/write'
 import { lookupOrgNumber } from '@/lib/brreg/lookup'
 import { DUTY_ROLES } from '@/lib/settings/read'
@@ -23,17 +24,8 @@ import { DUTY_ROLES } from '@/lib/settings/read'
 
 export type SettingsResult = { ok: true } | { ok: false; problem: string }
 
-const orgId = async () => {
-  const supabase = await createClient()
-  const { data } = await supabase
-    .schema('app')
-    .from('organizations')
-    .select('id')
-    .limit(1)
-    .maybeSingle()
-  const parsed = z.object({ id: z.string() }).safeParse(data)
-  return parsed.success ? parsed.data.id : null
-}
+/** Refuses rather than guesses when the caller is in more than one; see lib/org/current.ts. */
+const orgId = getCurrentOrgId
 
 const revalidate = () => {
   revalidatePath('/oppsett')

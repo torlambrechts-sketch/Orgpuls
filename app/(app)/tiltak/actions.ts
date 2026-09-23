@@ -5,6 +5,7 @@ import { getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { STEP_KEYS } from '@/lib/measures/read'
 import { createClient } from '@/lib/supabase/server'
+import { getCurrentOrgId } from '@/lib/org/current'
 import { writeFailed } from '@/lib/supabase/write'
 
 /**
@@ -65,14 +66,14 @@ export async function createMeasure(formData: FormData): Promise<MeasureActionRe
   const t = await getTranslations()
   const supabase = await createClient()
 
-  const { data: org } = await supabase.schema('app').from('organizations').select('id').limit(1).maybeSingle()
-  if (!org) return problem('noOrg')
+  const orgId = await getCurrentOrgId()
+  if (!orgId) return problem('noOrg')
 
   const { data, error } = await supabase
     .schema('app')
     .from('measures')
     .insert({
-      org_id: org.id,
+      org_id: orgId,
       factor_key: parsed.data.factorKey,
       round_id: parsed.data.roundId,
       title: t('tiltak.newTitle'),
