@@ -1264,10 +1264,26 @@ gate.
       an accessibility defect on the way in (D-41). X-009 closed.
 - [x] The årshjul's own row is emitted by the fixture, so a rebuilt database has a wheel
       to turn. It had been switched on by hand against the hosted project. D-42.
-- [ ] The pixel gate now runs but does not yet pass on every screen: Tiltak is at 0.110%
-      against a 0.1% budget and Innsikt at 2.813%. Neither has been attributed to a cause
-      yet — `probe.mjs --rows` puts both headers at y=56, so it is content, not a global
-      offset.
+- [ ] The pixel gate now runs on every screen and passes on none of them yet. Whole-page
+      diffs against the baselines, 2026-09-23, 0.1% budget: tiltak **0.110%**, hjelp
+      **0.688%**, innsikt **2.813%**, rapport **3.001%**, oppsett **3.160%**, maleoppsett
+      **4.560%**, malinger **5.908%**, samtaler **6.367%**, resultat **8.463%**, arshjulet
+      **8.588%**, integrasjoner **10.244%**.
+
+      These are *whole-page* numbers and most of them are not defects. Several screens are
+      documented rebuilds — Integrasjoner dropped a four-card wizard (D-35), the report
+      prints records where the design printed prose (D-36), Resultat, Årshjulet and
+      Måleoppsett each omit a block that cannot be backed (D-25, D-27) — and a whole-page
+      diff of a screen with an omitted block measures the displacement of everything under
+      it, not a colour or a padding. That is what `pixel.mjs --region` and `--at` exist for
+      and how every earlier claim in this log was made (the signature block at 1 304
+      pixels, X-022). Turning these eleven into per-region claims is the next piece of
+      work; until then the only number here that is a like-for-like screen comparison is
+      **tiltak at 0.110%**, ten thousandths of a percent over budget, and **hjelp at
+      0.688%**.
+
+      `probe.mjs --rows` puts the app's header border at y=56 on both innsikt and its
+      baseline, so there is no global vertical offset to chase.
 - [ ] Re-run the pixel gate for `/malinger`: its two row actions became links (D-06).
 - [ ] Nothing empties `app.outbox`. 34 notices are queued and no dispatcher exists; an
       e-mail integration is the missing piece, and until it lands the årshjul plans and
