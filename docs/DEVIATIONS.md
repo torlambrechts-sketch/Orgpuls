@@ -1446,3 +1446,38 @@ superseded.
 made by hand on the hosted project is invisible to every environment built from the
 repository. If the hosted project needs it, the repository must say it.
 
+
+## D-45 — PostgREST refused a token Auth had just issued, and the server client now retries that one refusal
+
+The smoke job's second run got past D-44 and rendered all eleven screens without a console
+error, then failed on one line:
+
+    [read] getViewerRole: PGRST303 JWT issued at future
+
+The first request after sign-in carried a token whose `iat` PostgREST judged to be later
+than its own clock. PostgREST serves a cached time rather than reading the clock per
+request, and that cache can lag by more than it is meant to — an open upstream defect
+(supabase/supabase#49655, #50651, discussion #48123; the configurable skew in
+PostgREST/postgrest#5199 has not landed). CI ran PostgREST v16.2. Production has not logged
+PGRST303 in its retained API logs, but runs the same class of software and has nothing that
+prevents it.
+
+**What it cost the user.** `getViewerRole` answered `null`, and the screen rendered as though
+the signed-in daglig leder had no role. The read helper logged it — which is how CI caught
+it — but the person saw a refusal presented as a fact about themselves.
+
+**The fix** is `lib/supabase/skew.ts`, a `fetch` wrapper on the server client that retries
+exactly one thing: a 401 whose body carries `PGRST303`, on a request whose body can be sent
+again, up to three times at 0.5 s, 1 s and 2 s plus jitter. PGRST303 is decided while
+PostgREST validates the JWT, before any transaction opens, so a request refused with it did
+nothing and retrying it — a write included — cannot apply anything twice. Every other
+status and code is returned untouched; an expired or forged token (PGRST301) is a real
+refusal and is not retried. If every attempt fails, the caller receives the refusal and
+logs it through `read.ts`/`write.ts` exactly as before, so the smoke gate still fails on a
+persistent fault. Each retry logs a `[skew]` line with the attempt number and nothing from
+the URL, which can carry filter values.
+
+The middleware client is unchanged: it speaks only to Auth, never to PostgREST.
+`tests/unit/skew.test.ts` holds the rule (nine cases).
+
+**Remove it** when PostgREST ships a clock-skew allowance and the hosted project runs it.

@@ -2,6 +2,7 @@ import 'server-only'
 import { cookies } from 'next/headers'
 import { createServerClient } from '@supabase/ssr'
 import { readSupabaseEnv } from '@/lib/supabase/env'
+import { withIssuedAtRetry } from '@/lib/supabase/skew'
 
 /**
  * The cookie-bound, anon-key client. RLS applies to everything it does, and every
@@ -24,6 +25,7 @@ export async function createClient() {
   const cookieStore = await cookies()
 
   return createServerClient(env.url, env.key, {
+    global: { fetch: withIssuedAtRetry() },
     cookies: {
       getAll: () => cookieStore.getAll(),
       setAll: (toSet) => {

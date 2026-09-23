@@ -31,7 +31,7 @@ or a production build, and is held in place by a test or an invariant that CI ru
 | **P7** | **Done.** The report's year lookup is one `in` query. | `c72c672` | — |
 | **Q1** | **Not done.** Distinguishing "failed" from "empty" in the report needs a decision on what the failure treatment looks like. Failures are now logged (D-40) and caught in CI (Q5). | — | smoke job |
 | **Q3** | **Done.** `getCurrentOrgId()` answers only when there is exactly one organisation; also removed a forbidden cast. | `lib/org/current.ts` | unit tests |
-| **Q5** | **Done.** `npm test` (22 tests) and a CI smoke job that signs in, visits all eleven screens, and fails on any `[read]`/`[write]`/`[org]`/`[middleware]` log line — the gate D-40 needed. | `tests/`, `ci.yml` | itself |
+| **Q5** | **Done.** `npm test` (31 tests) and a CI smoke job that signs in, visits all eleven screens, and fails on any `[read]`/`[write]`/`[org]`/`[middleware]` log line — the gate D-40 needed. Its first two runs found real faults: the `app` schema not exposed outside the hosted project (D-44), and PostgREST refusing a freshly issued token (D-45). | `tests/`, `ci.yml`, `supabase/config.toml`, `lib/supabase/skew.ts` | itself |
 | **S6** | **Waiting on the owner.** Leaked-password protection is a Supabase dashboard toggle. | — | — |
 | **S7** | **Deferred.** The fix is a breaking Next 16 upgrade for a build-time-only exposure; it belongs behind the pixel gate. | — | — |
 | **P8** | **Kept, as recommended.** The advisor now lists 22 "unused" indexes, but that is the project restore after an accidental pause resetting Postgres's statistics — `responses_round_idx` had served 12 617 scans that morning. | — | — |
