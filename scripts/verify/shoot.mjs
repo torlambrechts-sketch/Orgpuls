@@ -23,7 +23,10 @@ const arg = (name, fallback) => {
   return i === -1 ? fallback : process.argv[i + 1]
 }
 
-const routes = process.argv.slice(2).filter((a) => a.startsWith('/'))
+// a flag's value is not a route: an absolute `--out /tmp/shots` used to be visited as one,
+// and its 404 was the "intermittent" console error the smoke runs reported
+const argv = process.argv.slice(2)
+const routes = argv.filter((a, i) => a.startsWith('/') && !['--out', '--base'].includes(argv[i - 1]))
 if (routes.length === 0) {
   console.error('give at least one route, e.g. node scripts/verify/shoot.mjs /malinger')
   process.exit(2)

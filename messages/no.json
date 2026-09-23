@@ -181,7 +181,7 @@
       "verneombud": "To faktorer krever handling"
     },
     "lead": {
-      "daglig_leder": "{assessed, select, yes {Grunnlinjen er tatt og risikovurdert.} other {Grunnlinjen er tatt, men ikke risikovurdert ennå.}} {running, plural, =0 {Ingen tiltak løper.} one {Ett tiltak løper.} other {# tiltak løper.}} Neste puls måler om de virket.",
+      "daglig_leder": "{assessed, select, yes {Grunnlinjen er tatt og risikovurdert.} other {Grunnlinjen er tatt, men ikke risikovurdert ennå.}} {running, plural, =0 {Ingen tiltak løper.} one {Ett tiltak løper.} =2 {To tiltak løper.} =3 {Tre tiltak løper.} =4 {Fire tiltak løper.} =5 {Fem tiltak løper.} =6 {Seks tiltak løper.} =7 {Sju tiltak løper.} =8 {Åtte tiltak løper.} =9 {Ni tiltak løper.} =10 {Ti tiltak løper.} =11 {Elleve tiltak løper.} =12 {Tolv tiltak løper.} other {# tiltak løper.}} Neste puls måler om de virket.",
       "avdelingsleder": "Du ser ditt eget team. Tallene under terskelen er skjult også for deg — det er ikke en feil, det er avtalen med de ansatte.",
       "verneombud": "Du ser de samme tallene som ledelsen, og får varsel når en frist ryker. Enkeltkommentarer er ikke tilgjengelige for verneombud."
     },
@@ -262,7 +262,22 @@
     "qsLead": "Elleve faktorer — de samme som arbeidsmiljøloven § 4-3 og forskriften navngir etter presiseringen 1. januar 2026, formulert med QPS Nordic-språk. Tre påstander per faktor, besvart 1–5. Dere kan skru av en faktor, men ikke endre ordlyden — det er den som gjør tallene sammenliknbare over tid og mot bransjen.",
     "statementCount": "{count, plural, one {# påstand} other {# påstander}}",
     "extraHeading": "I tillegg, utenfor indeksen",
-    "extraCount": "{count, plural, other {# spørsmål}}"
+    "extraCount": "{count, plural, other {# spørsmål}}",
+    "wheel": {
+      "head": "Årshjulet",
+      "count": "{count, plural, one {# utsending i året} other {# utsendinger i året}}",
+      "next": "Neste: {kind} i {month}",
+      "edit": "Endre",
+      "legend": {
+        "grunnlinje": "Grunnlinje — hele settet",
+        "puls": "Puls — fem spørsmål",
+        "none": "Ingen utsending"
+      },
+      "eachRound": "Hver runde",
+      "before": "−{days} d",
+      "after": "+{days} d",
+      "reminder": "Påminnelse til dem som ikke har svart"
+    }
   },
   "extra": {
     "anbefaling": {

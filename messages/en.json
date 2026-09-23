@@ -181,7 +181,7 @@
       "verneombud": "Two factors need action"
     },
     "lead": {
-      "daglig_leder": "{assessed, select, yes {The baseline has been surveyed and risk-assessed.} other {The baseline has been surveyed, but not yet risk-assessed.}} {running, plural, =0 {No measures are under way.} one {One measure is under way.} other {# measures are under way.}} The next pulse measures whether they worked.",
+      "daglig_leder": "{assessed, select, yes {The baseline has been surveyed and risk-assessed.} other {The baseline has been surveyed, but not yet risk-assessed.}} {running, plural, =0 {No measures are under way.} one {One measure is under way.} =2 {Two measures are under way.} =3 {Three measures are under way.} =4 {Four measures are under way.} =5 {Five measures are under way.} =6 {Six measures are under way.} =7 {Seven measures are under way.} =8 {Eight measures are under way.} =9 {Nine measures are under way.} =10 {Ten measures are under way.} =11 {Eleven measures are under way.} =12 {Twelve measures are under way.} other {# measures are under way.}} The next pulse measures whether they worked.",
       "avdelingsleder": "You see your own team. Figures below the threshold are hidden from you too — that is not a fault, it is the agreement with the employees.",
       "verneombud": "You see the same figures as management, and are alerted when a deadline passes. Individual comments are not available to a verneombud."
     },
@@ -262,7 +262,22 @@
     "qsLead": "Eleven factors — the same ones the Working Environment Act § 4-3 and the regulation name after the clarification of 1 January 2026, phrased in QPS Nordic language. Three statements per factor, answered 1–5. You may switch a factor off, but not change the wording — it is the wording that makes the figures comparable over time and against the industry.",
     "statementCount": "{count, plural, one {# statement} other {# statements}}",
     "extraHeading": "In addition, outside the index",
-    "extraCount": "{count, plural, one {# question} other {# questions}}"
+    "extraCount": "{count, plural, one {# question} other {# questions}}",
+    "wheel": {
+      "head": "Year wheel",
+      "count": "{count, plural, one {# sending a year} other {# sendings a year}}",
+      "next": "Next: {kind} in {month}",
+      "edit": "Change",
+      "legend": {
+        "grunnlinje": "Baseline — the full set",
+        "puls": "Pulse — five questions",
+        "none": "No sending"
+      },
+      "eachRound": "Each round",
+      "before": "−{days} d",
+      "after": "+{days} d",
+      "reminder": "Reminder to those who have not answered"
+    }
   },
   "extra": {
     "anbefaling": {

@@ -1,6 +1,7 @@
 import { getLocale, getTranslations } from 'next-intl/server'
 import { Button, ButtonLink } from '@/components/ui/Button'
 import { Sporsmalssettet } from '@/components/malinger/Sporsmalssettet'
+import { WheelStrip, type WheelStripView } from '@/components/malinger/WheelStrip'
 import type { ExtraQuestion, Factor } from '@/lib/instrument/read'
 import { rateColour, type Participation } from '@/lib/participation/read'
 import type { RoundListItem, RoundState } from '@/lib/rounds/read'
@@ -14,9 +15,8 @@ import { roundTitle } from '@/lib/rounds/title'
  * data half stays a list of reads. The markup is unchanged from the version that was
  * measured against 02-malinger-measure.png.
  *
- * What is deliberately NOT rendered, because the schema does not hold it: the Årshjulet
- * card. See docs/DEVIATIONS.md D-05. The planned-pulse rows D-05 also omitted are rendered
- * since the year wheel (0020) began writing planned rounds — D-46.
+ * The Årshjulet card and the planned-pulse rows D-05 omitted are both rendered now that
+ * the year wheel stores a schedule and plans rounds (D-53, D-46).
  */
 
 /** Status pill and row actions per state. The hexes are the design's (bundle 4249-4263). */
@@ -55,6 +55,10 @@ export interface MalingerView {
   participation: Participation | null
   factors: Factor[]
   extras: ExtraQuestion[]
+  /** the Årshjulet card, or null when the organisation has no wheel */
+  strip: WheelStripView | null
+  /** each puls's factors, from app.round_factors — the design names them on the row */
+  pulseFactors: Record<string, string[]>
 }
 
 export async function MalingerScreen({ view }: { view: MalingerView }) {
@@ -63,11 +67,20 @@ export async function MalingerScreen({ view }: { view: MalingerView }) {
   const { current, participation, factors, extras } = view
   const rounds = listOrder(view.rounds)
 
+  // "ytringsklima og arbeidsmengde": the factors' compact names, in running text
+  const factorList = (keys: string[]) =>
+    keys.length === 0
+      ? null
+      : new Intl.ListFormat(locale, { type: 'conjunction' }).format(
+          keys.map((k) => t(`factor.${k}.short`).toLocaleLowerCase(locale)),
+        )
+
   const closedOn = (iso: string | null, year: number) => {
     if (!iso) return null
-    // the year is printed only when it is not the current one, as the design does:
-    // "lukket 14. september" against "lukket 11. september 2025"
-    const showYear = year !== new Date().getFullYear()
+    // the year is printed only for a past year, as the design does: "lukket 11. september
+    // 2025", but "lukket 14. september" this year and "går ut 12. mars" for a 2027 puls,
+    // whose title already carries its year
+    const showYear = year < new Date().getFullYear()
     return new Intl.DateTimeFormat(locale, {
       day: 'numeric',
       month: 'long',
@@ -93,12 +106,15 @@ export async function MalingerScreen({ view }: { view: MalingerView }) {
         </span>
       </div>
 
+      {view.strip ? <WheelStrip view={view.strip} /> : null}
+
       <div className="mt-[24px] flex flex-col gap-[12px]">
         {rounds.map((round) => (
           <RoundRow
             key={round.id}
             round={round}
             date={closedOn(round.closesAt, round.year)}
+            factors={factorList(view.pulseFactors[round.id] ?? [])}
             month={
               round.opensAt
                 ? new Intl.DateTimeFormat(locale, { month: 'long', timeZone: 'Europe/Oslo' }).format(
@@ -231,10 +247,13 @@ export async function MalingerScreen({ view }: { view: MalingerView }) {
 function RoundRow({
   round,
   date,
+  factors,
   month,
   t,
 }: {
   round: RoundListItem
+  /** a puls's factors in running text, or null */
+  factors: string | null
   /** the round's closing date, formatted: "lukket …" once closed, "går ut …" before */
   date: string | null
   /** the month it opens, for a puls's list title — "Puls · desember 2026" */
@@ -273,6 +292,7 @@ function RoundRow({
             t(`malinger.audience.${round.audience}`),
             t('malinger.questionCount', { count: round.questionCount }),
             date ? t(closed ? 'malinger.closedOn' : 'malinger.closesOn', { date }) : null,
+            factors,
           ]
             .filter(Boolean)
             .join(' · ')}

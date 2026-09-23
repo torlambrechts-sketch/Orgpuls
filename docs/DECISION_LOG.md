@@ -1354,6 +1354,48 @@ judgement on it. A register under the report records briefings and trainings in 
 sentences the document prints. Both were verified end to end against the hosted project,
 and every probe row was removed again (D-52).
 
+### X-033 — The pixel gate, screen by screen
+
+`scripts/verify/regions.mjs` splits each baseline into the blocks the design stacks and
+finds each block in the app's shot. It reports the displacement and the differing pixels,
+counted against the screen's budget. A block that matches at an offset is displaced by a
+documented omission above it; only a block that matches nowhere is a difference to
+explain. Run against all eleven screens on 2026-09-23, with the hosted fixture.
+
+**Real defects found and fixed:**
+
+- The footer's legal links were in the wrong order. When D-34 made Personvern the one real
+  link, it had moved to the front. Every screen paid 658 pixels for it; now 0 to 20.
+- Innsikt's lead printed "2 tiltak" where the design writes "To". D-26's premise that no
+  formatter spells a count was wrong, and the lead now diffs at 0.
+- Innsikt's "Arbeidsmiljøåret — sett opp automatikk" was still a dead label, although
+  Årshjulet exists. It is a link now.
+- Målinger's Årshjulet card, omitted since D-05, is buildable from the stored wheel and is
+  built (D-53). It diffs at 26 pixels, and every block under it matches at 0. Puls rows
+  name their factors, and future dates drop the year, as the design's rows do.
+- `shoot.mjs` visited its own absolute `--out` directory as a route. That was the
+  "intermittent 404" console error of earlier smoke runs.
+
+**Where each screen stands:**
+
+| screen | whole page | what is left |
+| --- | --- | --- |
+| Tiltak | **0.082 % — passes** | the two D-23 chips, and a due date that moved with the clock |
+| Hjelp | 0.67 % | rewritten card leads and a different third card (D-34) |
+| Målinger | 5.4 % | every block matches except the round list. The hosted fixture holds an open September puls and a planned Grunnlinje 2027 that the design's snapshot does not |
+| Innsikt | 2.7 % | header and lead at 0. Year rail, assistant note and "Venter på deg" (D-25) |
+| Oppsett | 3.2 % | fixture state (the design shows a register 24 people short) and D-33's choices |
+| Samtaler | 6.4 % | card order is the prototype's array order, not a rule. Tone chips come from answers the fixture draws two-valued to hit exact indices, so some read "Nøytral". Rules 2 and 3 (D-28) |
+| Resultat | 8.4 % | D-10 to D-16: the benchmark, lift, annotation, comments column and screening strip |
+| Årshjulet | 8.6 % | D-29's omitted steps and summary rows. The baseline was captured mid-scroll: its sticky header and summary card sit 1 300 px down the page |
+| Rapport | 4.4 % | record-based sections (D-36), metadata rows (D-19), and one more round in the table |
+| Måleoppsett | 4.6 % | D-27's schedule blocks. Everything else is displaced by 15 px |
+| Integrasjoner | 10.2 % | the dropped wizard (D-35) |
+
+No other styling regression was found. Every remaining difference is a documented
+omission, a copy change the product's behaviour requires, or the hosted fixture's state
+differing from the design's snapshot.
+
 ## Open items
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1415,27 +1457,12 @@ and every probe row was removed again (D-52).
 - [ ] Review S4: the respondent token is still in the URL path. `Referrer-Policy` closes the
       third-party leak; a token-to-cookie exchange would take it out of access logs.
 - [ ] Review S6: enable leaked-password protection in the Supabase dashboard.
-- [ ] The pixel gate now runs on every screen and passes on none of them yet. Whole-page
-      diffs against the baselines, 2026-09-23, 0.1% budget: tiltak **0.110%**, hjelp
-      **0.688%**, innsikt **2.813%**, rapport **3.001%**, oppsett **3.160%**, maleoppsett
-      **4.560%**, malinger **5.908%**, samtaler **6.367%**, resultat **8.463%**, arshjulet
-      **8.588%**, integrasjoner **10.244%**.
-
-      These are *whole-page* numbers and most of them are not defects. Several screens are
-      documented rebuilds — Integrasjoner dropped a four-card wizard (D-35), the report
-      prints records where the design printed prose (D-36), Resultat, Årshjulet and
-      Måleoppsett each omit a block that cannot be backed (D-25, D-27) — and a whole-page
-      diff of a screen with an omitted block measures the displacement of everything under
-      it, not a colour or a padding. That is what `pixel.mjs --region` and `--at` exist for
-      and how every earlier claim in this log was made (the signature block at 1 304
-      pixels, X-022). Turning these eleven into per-region claims is the next piece of
-      work; until then the only number here that is a like-for-like screen comparison is
-      **tiltak at 0.110%**, ten thousandths of a percent over budget, and **hjelp at
-      0.688%**.
-
-      `probe.mjs --rows` puts the app's header border at y=56 on both innsikt and its
-      baseline, so there is no global vertical offset to chase.
-- [ ] Re-run the pixel gate for `/malinger`: its two row actions became links (D-06).
+- [x] The pixel gate has per-block claims for all eleven screens, and the real defects it
+      found are fixed. Tiltak passes the whole-page budget. Every other residual is
+      named in X-033 against a deviation or the fixture's state.
+- [ ] Resultat's Samtaler column (D-14) could now be backed by `public.conversations()`,
+      which Samtaler reads. It is the largest block on any screen still omitted for a
+      reason that no longer holds.
 - [ ] Nothing empties `app.outbox`. 34 notices are queued and no dispatcher exists; an
       e-mail integration is the missing piece, and until it lands the årshjul plans and
       queues but nobody is told (D-29).

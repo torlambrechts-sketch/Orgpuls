@@ -121,6 +121,8 @@ k-anonymity from the entire product.
 
 ## D-05 — Målinger omits the Årshjulet card and the planned-pulse rows
 
+**Superseded.** The planned-pulse rows are rendered since D-46, and the card since D-53.
+
 **Design:** between the page header and the rounds list, Målinger carries an Årshjulet
 card — a twelve-month ring with a dot per planned sending, a legend, and the per-round
 notification cascade ("Verneombud, tillitsvalgte, daglig leder −14 d" and so on). The
@@ -659,7 +661,7 @@ produces a number that means nothing.
 absence is why the årshjul card is shorter than the design's, which displaces "Venter på
 deg" by 126 pixels — measured at that offset, its heading and scope line diff at **0**.
 
-**4. "Arbeidsmiljøåret — sett opp automatikk" is not a link.** The design makes it a
+**4. (Resolved: it links to Årshjulet since that screen exists.) "Arbeidsmiljøåret — sett opp automatikk" is not a link.** The design makes it a
 button that opens Årshjulet; that screen is unbuilt, and a link to a route that does not
 exist is worse than no link. The label is rendered exactly as the design styles it and
 becomes a link when the screen arrives.
@@ -682,6 +684,11 @@ screen where the measure lives is the one that decides it.
 ---
 
 ## D-26 — The lead prints a numeral where the design writes a number word
+
+**Superseded.** The premise was wrong. ICU's exact-value selectors spell a real count:
+`=2 {To tiltak løper.}` through `=12 {Tolv …}`, the way `one {Ett tiltak løper.}` already
+did. The count is still read from the database, the sentence is the design's, and the
+lead region diffs at **0 pixels**.
 
 **Design:** "Grunnlinjen er tatt og risikovurdert. To tiltak løper. Neste puls måler om de
 virket."
@@ -1779,3 +1786,31 @@ before the training date is refused by the form and by the table's check.
 **Not built.** Records cannot be edited, only removed and entered again: every field is
 short, and the report prints nothing that an edit could preserve. The design has no
 confirmation dialog, so Fjern has none (as D-22).
+
+## D-53 — Målinger's Årshjulet card is built; D-05 is superseded
+
+D-05 omitted the card because nothing stored a schedule. Migrations 0019 and 0020 store
+one, so the card is now read from the database rather than drawn:
+
+- the months that measure come from `wheelMonths`, the same rule the scheduler uses;
+- the forankring month is the one before the grunnlinje, as on Årshjulet;
+- *Neste* is the earliest round the wheel has planned and not yet opened, and is omitted
+  when there is none;
+- the cascade is the stored notification ladder, with audiences told on the same day
+  sharing one chip, as the design groups them. The reminder's day comes from that next
+  round's `reminder_day`, falling back to the schema default of 2, as Årshjulet does;
+- "Endre" is a link to Årshjulet (D-06).
+
+An organisation with no wheel row gets no card. Against the baseline the card diffs at
+**26 pixels**. With it in place, every block below the round list matches at 0 pixels,
+displaced only by the rows the list itself holds.
+
+The legend's "Puls — fem spørsmål" is the design's copy, as is the Målinger lead's "fem
+spørsmål, under ett minutt". Both describe what a puls is meant to be, not what any one
+puls asks, and each row prints its own real question count.
+
+**Two row fixes found on the way.** A puls row now names its factors from
+`app.round_factors` ("· ytringsklima og arbeidsmengde"), as the design's row does. The
+closing date carries its year only for a past year ("lukket 11. september 2025") and not
+for a future one ("går ut 12. mars"), because the design prints it that way and the puls
+title already carries the year.

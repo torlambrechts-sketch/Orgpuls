@@ -112,17 +112,15 @@ export async function AppFooter() {
               installation does not have, so they stay non-links rather than becoming
               links to a page that would have to apologise. D-34.
             */}
+            {/* in the design's order — Personvern is the middle one, link or not */}
+            <span className="text-[11.5px] text-mut">{t('footer.databehandleravtale')}</span>
             <Link
               href={'/oppsett?fane=personvern' as Route}
               className="cursor-pointer p-0 text-[11.5px] text-mut no-underline hover:text-mut hover:no-underline"
             >
               {t('footer.personvern')}
             </Link>
-            {(['databehandleravtale', 'driftsstatus'] as const).map((k) => (
-              <span key={k} className="text-[11.5px] text-mut">
-                {t(`footer.${k}`)}
-              </span>
-            ))}
+            <span className="text-[11.5px] text-mut">{t('footer.driftsstatus')}</span>
           </span>
         </div>
       </div>

@@ -189,14 +189,15 @@ export async function InnsiktScreen({ view }: { view: InnsiktView }) {
         <section className="rounded-card border border-line bg-sf p-[26px]">
           <div className="flex flex-wrap items-start justify-between gap-[14px]">
             {/*
-              The design makes this a button that opens Årshjulet. That screen is not
-              built, so there is nowhere to send anyone: a link to a route that does not
-              exist is worse than no link. The label stays, styled as the design styles
-              it, and the entry point arrives with the screen. D-25.
+              The design's button that opens Årshjulet, as the link it is (D-06). It was a
+              plain label while that screen did not exist (D-25).
             */}
-            <span className="text-[11px] uppercase tracking-[0.11em] text-mut underline">
+            <Link
+              href="/arshjulet"
+              className="text-[11px] uppercase tracking-[0.11em] text-mut underline hover:text-mut"
+            >
               {t('innsikt.yearLink')}
-            </span>
+            </Link>
 
             {/*
               Not a Button: none of the scale's sizes is this control. The bundle draws a
