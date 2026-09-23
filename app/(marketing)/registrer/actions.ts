@@ -2,7 +2,9 @@
 
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { headers } from 'next/headers'
 import { lookupOrgNumber } from '@/lib/brreg/lookup'
+import { lookupAllowed, networkOf } from '@/lib/brreg/throttle'
 
 /**
  * Signing up.
@@ -30,6 +32,12 @@ export async function lookupCompany(_prev: LookupState, formData: FormData): Pro
     .pipe(z.string().regex(/^\d{9}$/))
     .safeParse(String(formData.get('orgNumber') ?? ''))
   if (!parsed.success) return { status: 'problem', problem: 'invalid_org_number' }
+
+  // S5: an outbound request on a public page is an amplifier; see lib/brreg/throttle.ts
+  const h = await headers()
+  if (!lookupAllowed(networkOf(h.get('x-forwarded-for') ?? h.get('x-real-ip')))) {
+    return { status: 'problem', problem: 'rate_limited' }
+  }
 
   const result = await lookupOrgNumber(parsed.data)
   if (!result.ok) return { status: 'problem', problem: result.problem }

@@ -76,9 +76,35 @@ const ENDPOINT = 'https://data.brreg.no/enhetsregisteret/api/enheter'
 const titleCase = (v: string) =>
   v.replace(/\S+/g, (w) => w.charAt(0) + w.slice(1).toLocaleLowerCase('no'))
 
+/**
+ * The check digit every Norwegian organisation number carries (modulus 11, weights
+ * 3 2 7 6 5 4 3 2). S5 in docs/CODE_REVIEW_2026-09-23.md.
+ *
+ * `lookupCompany` is a public server action that makes an outbound request, so a caller
+ * iterating nine-digit numbers would have this server hammer data.brreg.no on their
+ * behalf — and it is this server's address, not theirs, that Brønnøysund would throttle,
+ * which breaks sign-up for everybody. A number that fails the check digit cannot exist in
+ * the register, so it is answered `not_found` — exactly what the register itself would
+ * say — without asking. That refuses about ten of every eleven enumerated numbers before
+ * they leave the building, and it is correct validation whether or not anyone is
+ * enumerating.
+ *
+ * It lives here and not in the database. The design fixture's own number, 924118742, is
+ * fictional and fails this check; the register would not know it either, so the Selskap
+ * tab answers the same way it always did, but a constraint would refuse the fixture.
+ */
+export function hasValidCheckDigit(digits: string): boolean {
+  if (!/^\d{9}$/.test(digits)) return false
+  const weights = [3, 2, 7, 6, 5, 4, 3, 2]
+  const sum = weights.reduce((acc, w, i) => acc + w * Number(digits[i]), 0)
+  const rest = sum % 11
+  const check = rest === 0 ? 0 : 11 - rest
+  return check !== 10 && check === Number(digits[8])
+}
+
 export async function lookupOrgNumber(orgNumber: string): Promise<LookupResult> {
   const digits = orgNumber.replace(/\s/g, '')
-  if (!/^\d{9}$/.test(digits)) return { ok: false, problem: 'not_found' }
+  if (!hasValidCheckDigit(digits)) return { ok: false, problem: 'not_found' }
 
   let response: Response
   try {

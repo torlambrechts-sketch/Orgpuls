@@ -1808,7 +1808,8 @@
       "already_a_member": "Du hører allerede til en virksomhet. Logg inn i stedet.",
       "already_registered": "Denne virksomheten er allerede registrert i Orgpuls. Be en administrator der om å invitere deg.",
       "invalid_name": "Virksomheten mangler navn.",
-      "not_signed_in": "Økten er utløpt. Prøv igjen."
+      "not_signed_in": "Økten er utløpt. Prøv igjen.",
+      "rate_limited": "For mange oppslag på kort tid. Vent noen minutter og prøv igjen."
     }
   }
 }

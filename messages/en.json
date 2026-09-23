@@ -1808,7 +1808,8 @@
       "already_a_member": "You already belong to an undertaking. Sign in instead.",
       "already_registered": "This undertaking is already registered in Orgpuls. Ask an administrator there to invite you.",
       "invalid_name": "The undertaking has no name.",
-      "not_signed_in": "The session has expired. Try again."
+      "not_signed_in": "The session has expired. Try again.",
+      "rate_limited": "Too many lookups in a short time. Wait a few minutes and try again."
     }
   }
 }
