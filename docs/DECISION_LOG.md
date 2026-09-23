@@ -1324,6 +1324,12 @@ had been transcribed for the pixel gate and its panel never built, and nothing r
 gap. Built from the design — Hjelp, Grunnlag with its law tab, and the "Kom i gang"
 checklist ticked from real rows — with every Norwegian string checked verbatim (D-48).
 
+### X-029 — Analytics, with the respondent kept out of it
+
+Vercel Web Analytics and Speed Insights installed at the user's request. The one design
+decision was what they may see: never a respondent's page (the link is a credential and the
+visit a timestamp), and no query strings anywhere (D-49).
+
 ## Open items
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.

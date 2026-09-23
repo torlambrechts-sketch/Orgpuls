@@ -2,7 +2,7 @@
   "name": "orgpuls",
   "version": "0.1.0",
   "private": true,
-  "description": "Psykososialt arbeidsmilj\u00f8 for norske virksomheter.",
+  "description": "Psykososialt arbeidsmiljø for norske virksomheter.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -19,6 +19,8 @@
   "dependencies": {
     "@supabase/ssr": "^0.12.5",
     "@supabase/supabase-js": "^2.114.0",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "next": "^15.5.0",
     "next-intl": "^4.14.2",
     "react": "^19.2.0",

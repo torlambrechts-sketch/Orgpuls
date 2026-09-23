@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
+import { SiteAnalytics } from '@/components/shell/SiteAnalytics'
 import './fonts.css'
 import './globals.css'
 
@@ -27,6 +28,8 @@ export default async function RootLayout({
     <html lang={locale}>
       <body>
         <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+        {/* Vercel sets VERCEL=1 on its own builds and functions; nowhere else serves /_vercel */}
+        {process.env.VERCEL === '1' ? <SiteAnalytics /> : null}
       </body>
     </html>
   )

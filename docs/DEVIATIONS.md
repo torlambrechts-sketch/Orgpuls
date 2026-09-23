@@ -1622,3 +1622,40 @@ supplying law mode and the checklist's facts (`lib/shell/read.ts`).
 
 The closed header is unchanged: the header band diffs PASS against `01-innsikt-home.png`
 and `04-tiltak-tasks.png`.
+
+## D-49 — Vercel Web Analytics and Speed Insights, never on a respondent's page
+
+The user enabled Web Analytics in the Vercel dashboard and asked for it to be installed;
+Speed Insights was enabled too (`/_vercel/speed-insights/script.js` answers 200), so both
+are mounted. They are not in the design; they render nothing visible.
+
+**What is sent, and what is not.** Both tools report the URL of each page view or vitals
+sample. `lib/analytics/scrub.ts` decides what that URL may say:
+
+- **Nothing from `/s/…`.** The respondent's link carries their capability token (review
+  S4), and a page view there is also a timestamp of somebody answering — the fact invariant
+  2 truncates to the hour. On those pages the components do not render at all, so no script
+  loads; `beforeSend` drops any event from there as a second line. Dropped, not redacted: a
+  redacted event would still carry the time.
+- **No query strings or fragments** anywhere. Round ids, tabs and filters are not
+  identities, but nothing needs them counted, and stripping them means a parameter added
+  later cannot leak by default.
+
+What reaches Vercel is origin and path: which screen was used. Vercel already hosts the
+application, so this adds no new party. Web Analytics sets no cookies. The product's
+statements about answers ("svar … deles ikke med tredjeparter") are untouched, because no
+answer, comment or respondent page is ever reported.
+
+**Where it runs.** Only when `VERCEL=1`, which Vercel sets on its own builds and functions.
+Elsewhere — CI's smoke job, a local `next start` — `/_vercel/…` does not exist, and the 404
+would be a console error on every screen. Both scripts are same-origin, so the CSP's
+`'self'` covers them unchanged.
+
+**Installing it.** `npm i` refused both packages with ERESOLVE over an optional SvelteKit
+peer (every framework peer is `optional`; npm 10 resolved it anyway). They were added with
+`--legacy-peer-deps`, and the lockfile was then rebuilt from the committed one plus exactly
+the two new entries, because the legacy resolution had also dropped an unrelated peer
+(`@swc/helpers` under next-intl) and a strict `npm ci` refused that lockfile. The committed
+lockfile was checked with both `npm ci` and `npm install` from clean.
+
+`tests/unit/analytics.test.ts` holds the scrubbing rule (six cases).

@@ -1,0 +1,32 @@
+/**
+ * What an analytics event may say about where it happened.
+ *
+ * Vercel Web Analytics and Speed Insights report the URL of every page view and every
+ * vitals sample. Two things in this product's URLs must not travel:
+ *
+ * 1. **The respondent's link.** `/s/<token>` carries the capability token a respondent
+ *    answers with (review S4). It is a credential, and a page view on it is also a fact
+ *    about when somebody answered — invariant 2's reason for truncating `submitted_hour`
+ *    to the hour. Nothing under `/s/` is reported at all: the event is dropped, not
+ *    redacted, because a redacted event still carries the timestamp.
+ * 2. **Query strings.** `?maling=<round id>`, `?runde=`, `?fane=` are ids and screen state,
+ *    not identities, but nothing in the product needs them counted, and dropping them means
+ *    no future parameter can leak something by being added. Fragments go the same way.
+ *
+ * What remains is the origin and the path: which screen was viewed, which is what the
+ * dashboard is for. `null` means "do not send".
+ */
+export function scrubUrl(url: string): string | null {
+  let parsed: URL
+  try {
+    parsed = new URL(url)
+  } catch {
+    return null
+  }
+  if (isRespondentPath(parsed.pathname)) return null
+  return `${parsed.origin}${parsed.pathname}`
+}
+
+export function isRespondentPath(pathname: string): boolean {
+  return pathname === '/s' || pathname.startsWith('/s/')
+}
