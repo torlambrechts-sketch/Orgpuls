@@ -1,0 +1,26 @@
+# Supabase CLI configuration — only what differs from the CLI's defaults.
+#
+# This file did not exist until the CI smoke job (review Q5) signed in as a real user for
+# the first time and every screen's read failed with
+#
+#   PGRST106 Invalid schema: app — Only the following schemas are exposed: public, graphql_public
+#
+# The hosted project exposes `app` to PostgREST because it was ticked in the dashboard
+# (Settings → API → Exposed schemas), which records it as
+#   pgrst.db_schemas = public, graphql_public, app
+# on the `authenticator` role. A database built from this repository alone had no way to
+# know, so CI's database answered SQL correctly and refused every request the application
+# actually makes. Every data read in this product goes through `.schema('app')`.
+#
+# It is the third dashboard setting this repository was missing (D-39 pg_cron, D-42 the
+# year wheel, D-44 this). The rule they add up to: if the hosted project needs it, the
+# repository must say it, or CI is testing a different system from the one users use.
+#
+# Nothing else is set here on purpose. Every key not named keeps the CLI's default, which is
+# what CI ran with before this file existed.
+
+project_id = "orgpuls"
+
+[api]
+schemas = ["public", "graphql_public", "app"]
+extra_search_path = ["public", "extensions"]

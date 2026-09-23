@@ -1415,3 +1415,34 @@ lesson worth keeping is the general one: *a green build proves the build, not th
 and when a failure survives three code changes unchanged, the next thing to question is
 whether the code is what is running.
 
+---
+
+## D-44 — The `app` schema was exposed to the API by a dashboard tick, and CI never knew
+
+The CI smoke job (review Q5) signed in as a real user for the first time and every screen's
+read failed:
+
+    [read] getMeasures: PGRST106 Invalid schema: app — Only the following schemas are
+    exposed: public, graphql_public
+
+The hosted project exposes `app` to PostgREST because it was ticked in Settings → API; the
+setting lives on the `authenticator` role as `pgrst.db_schemas = public, graphql_public,
+app`. The repository had no `supabase/config.toml`, so the CLI-built database in CI used the
+defaults and refused every request the application makes — all of them go through
+`.schema('app')`.
+
+**Why it had never been noticed.** Every check CI ran spoke to Postgres directly, through
+`psql`: the suites, the figures, the fixture. None went through the API, which is the only
+path the application uses. The database was proved correct and the system was never
+exercised. The smoke job was added precisely to close that gap, and this is the first thing
+it found.
+
+**The fix** is `supabase/config.toml` with `[api] schemas = ["public", "graphql_public",
+"app"]`, the hosted value exactly, and nothing else — every other key keeps the default CI
+ran with before. D-39's remark that "the repository has no `supabase/config.toml`" is
+superseded.
+
+**The pattern, now seen three times** (D-39 pg_cron, D-42 the year wheel, this): a setting
+made by hand on the hosted project is invisible to every environment built from the
+repository. If the hosted project needs it, the repository must say it.
+
