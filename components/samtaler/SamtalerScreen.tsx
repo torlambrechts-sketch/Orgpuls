@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getLocale, getTranslations } from 'next-intl/server'
+import { roundTitle, type Titled } from '@/lib/rounds/title'
 import { Button, ButtonLink } from '@/components/ui/Button'
 import { ThreadCard, type ThreadCardProps } from '@/components/samtaler/ThreadCard'
 import type { Conversation, ThreadState } from '@/lib/conversations/read'
@@ -25,7 +26,7 @@ export interface SamtalerView {
   status: StatusFilter
   roundId: string | null
   factorKey: string | null
-  rounds: { id: string; kind: string; year: number }[]
+  rounds: { id: string; kind: string; year: number; pulseNo: number | null }[]
   factorKeys: string[]
   threshold: number
   canWrite: boolean
@@ -58,8 +59,7 @@ export async function SamtalerScreen({ view }: { view: SamtalerView }) {
   const t = await getTranslations()
   const locale = await getLocale()
 
-  const roundLabel = (r: { kind: string; year: number }) =>
-    t('malinger.roundTitle', { kind: t(`malinger.kind.${r.kind}`), year: r.year })
+  const roundLabel = (r: Titled) => roundTitle(t, r)
 
   const shortDate = (iso: string) =>
     new Intl.DateTimeFormat(locale, {
@@ -219,10 +219,7 @@ export async function SamtalerScreen({ view }: { view: SamtalerView }) {
               factor: t(`factor.${c.factorKey}.label`),
               tone: tone ? t(`samtaler.tone.${tone}`) : null,
               toneStyle: tone ? TONE[tone] : undefined,
-              round: t('malinger.roundTitle', {
-                kind: t(`malinger.kind.${c.roundKind}`),
-                year: c.roundYear,
-              }),
+              round: roundTitle(t, { kind: c.roundKind, year: c.roundYear, pulseNo: c.roundPulseNo }),
               age:
                 c.state === 'lukket'
                   ? t('samtaler.closed')

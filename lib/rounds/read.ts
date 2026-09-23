@@ -19,12 +19,19 @@ import { parseFailed, readFailed } from '@/lib/supabase/read'
  *   closed      app.rounds.closes_at
  *   rate        public.participation(), the same RPC the Deltakelse card reads
  *
- * `state` is not a column. The schema's status says whether a round is open or closed;
- * the design additionally distinguishes the most recently closed round ("Lukket", with
- * the result as the primary action) from earlier ones ("Arkivert", muted, offering a
- * comparison). That is a position in an ordering, not a property of the row, so it is
- * computed here from the ordering rather than stored — storing it would mean rewriting
- * every earlier round each time one closes.
+ * `state` is not a column, but it is derived FROM the column. The schema's status says
+ * whether a round is planned, open or closed; the design additionally distinguishes, among
+ * the closed ones, the most recent ("Lukket", with the result as the primary action) from
+ * earlier ones ("Arkivert", muted, offering a comparison), and among the planned ones the
+ * next ("Neste") from the rest ("Planlagt") — bundle 4249-4267. Those two distinctions are
+ * positions within a status, so they are computed here rather than stored: storing them
+ * would mean rewriting every earlier round each time one closes.
+ *
+ * It used to be position in the whole list: row 0 was "Lukket" and every other row
+ * "Arkivert", whatever its status. That held only while every round was closed. Once the
+ * year wheel planned its first rounds (0020), the farthest-future planned round sorted
+ * first by `closes_at` and was labelled "Lukket", the real latest result was "Arkivert",
+ * and Oppsett read its "svar sist" figures from a round nobody had been asked. D-46.
  *
  * The rows are parsed, not cast. `supabase gen types` only emits the schemas PostgREST
  * exposes by name in its generator, and `app` is not among them even though it is
@@ -46,7 +53,7 @@ const RoundRow = z.object({
   round_extra_questions: z.array(z.object({ extra_key: z.string() })),
 })
 
-export type RoundState = 'lukket' | 'arkivert'
+export type RoundState = 'apen' | 'lukket' | 'neste' | 'planlagt' | 'arkivert'
 
 export interface RoundListItem {
   id: string
@@ -60,7 +67,66 @@ export interface RoundListItem {
   opensAt: string | null
   closesAt: string | null
   state: RoundState
+  /** a puls's number within its year, by opening date — the design's "Puls 2 · 2025" */
+  pulseNo: number | null
   participation: Participation | null
+}
+
+/**
+ * Pulses numbered within their year, in the order they open — "Puls 1 · 2026", "Puls 2 ·
+ * 2026" (bundle 2951-2953). A year can carry several pulses once the wheel runs quarterly,
+ * and "Puls 2026" printed three times on one chip row names none of them.
+ *
+ * Numbered over every round the organisation has, planned ones included, so a puls keeps
+ * its number when it opens and closes. A round with no opening date sorts last.
+ */
+export function numberPulses(
+  rounds: { id: string; kind: string; year: number; opensAt: string | null }[],
+): Map<string, number> {
+  const numbers = new Map<string, number>()
+  const perYear = new Map<number, number>()
+  const byOpening = rounds
+    .filter((r) => r.kind === 'puls')
+    .sort((a, b) =>
+      a.year !== b.year
+        ? a.year - b.year
+        : (a.opensAt ?? '\uffff').localeCompare(b.opensAt ?? '\uffff') || a.id.localeCompare(b.id),
+    )
+  for (const r of byOpening) {
+    const n = (perYear.get(r.year) ?? 0) + 1
+    perYear.set(r.year, n)
+    numbers.set(r.id, n)
+  }
+  return numbers
+}
+
+/**
+ * Which state each round is in, from its status and its place among rounds of that status.
+ * `rows` must be ordered by `closes_at` descending, which is how `getRounds` reads them.
+ */
+export function roundStates(
+  rows: { id: string; status: string; opensAt: string | null }[],
+): Map<string, RoundState> {
+  const states = new Map<string, RoundState>()
+  const latestClosed = rows.find((r) => r.status === 'lukket')
+  const nextPlanned = rows
+    .filter((r) => r.status === 'planlagt')
+    .sort((a, b) => (a.opensAt ?? '\uffff').localeCompare(b.opensAt ?? '\uffff'))[0]
+  for (const r of rows) {
+    states.set(
+      r.id,
+      r.status === 'apen'
+        ? 'apen'
+        : r.status === 'planlagt'
+          ? r.id === nextPlanned?.id
+            ? 'neste'
+            : 'planlagt'
+          : r.id === latestClosed?.id
+            ? 'lukket'
+            : 'arkivert',
+    )
+  }
+  return states
 }
 
 /**
@@ -99,7 +165,19 @@ export const getRounds = cache(async (): Promise<RoundListItem[]> => {
   const parsed = z.array(RoundRow).safeParse(data)
   if (parseFailed('getRounds', parsed)) return []
 
-  const rows = parsed.data.map((r, i) => ({
+  const states = roundStates(
+    parsed.data.map((r) => ({ id: r.id, status: r.status, opensAt: r.opens_at })),
+  )
+  const pulses = numberPulses(
+    parsed.data.map((r) => ({
+      id: r.id,
+      kind: r.measurements.kind,
+      year: r.measurements.year,
+      opensAt: r.opens_at,
+    })),
+  )
+
+  const rows = parsed.data.map((r) => ({
     id: r.id,
     status: r.status,
     kind: r.measurements.kind,
@@ -112,7 +190,8 @@ export const getRounds = cache(async (): Promise<RoundListItem[]> => {
       r.round_extra_questions.length,
     opensAt: r.opens_at,
     closesAt: r.closes_at,
-    state: (i === 0 ? 'lukket' : 'arkivert') as RoundState,
+    state: states.get(r.id) ?? 'arkivert',
+    pulseNo: pulses.get(r.id) ?? null,
   }))
 
   const participation = await Promise.all(rows.map((r) => getParticipation(r.id)))
@@ -169,4 +248,38 @@ export const getLatestClosedRoundId = cache(async (): Promise<string | null> => 
   if (readFailed('getLatestClosedRoundId', error, data)) return null
   const parsed = z.object({ id: z.string() }).safeParse(data)
   return parsed.success ? parsed.data.id : null
+})
+
+/**
+ * The pulse numbers alone, for screens that name a round but do not list them — Tiltak and
+ * Samtaler label a measure or a thread with the round it came from. `getRounds` would do,
+ * but it calls `participation()` once per round, which these screens have no use for.
+ */
+export const getPulseNumbers = cache(async (): Promise<Map<string, number>> => {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .schema('app')
+    .from('rounds')
+    .select('id, opens_at, measurements!inner(kind, year)')
+
+  if (readFailed('getPulseNumbers', error, data)) return new Map()
+  const parsed = z
+    .array(
+      z.object({
+        id: z.string(),
+        opens_at: z.string().nullable(),
+        measurements: z.object({ kind: z.string(), year: z.coerce.number() }),
+      }),
+    )
+    .safeParse(data)
+  if (parseFailed('getPulseNumbers', parsed)) return new Map()
+
+  return numberPulses(
+    parsed.data.map((r) => ({
+      id: r.id,
+      kind: r.measurements.kind,
+      year: r.measurements.year,
+      opensAt: r.opens_at,
+    })),
+  )
 })

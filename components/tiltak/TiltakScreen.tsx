@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getLocale, getTranslations } from 'next-intl/server'
+import { roundTitle, type Titled } from '@/lib/rounds/title'
 import { MeasureCard } from '@/components/tiltak/MeasureCard'
 import { NewMeasureButton } from '@/components/tiltak/NewMeasureButton'
 import { STEP_KEYS, stepIndex, type Measure, type MeasureBucket } from '@/lib/measures/read'
@@ -30,7 +31,7 @@ export interface TiltakView {
   status: StatusFilter
   roundId: string | null
   ownerId: string | null
-  rounds: { id: string; kind: string; year: number }[]
+  rounds: { id: string; kind: string; year: number; pulseNo: number | null }[]
   owners: { id: string; name: string }[]
   /** everyone who could own a measure, and every department it could affect */
   employees: { id: string; name: string }[]
@@ -95,8 +96,7 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
     return t('tiltak.due', { date: dateOf(m.dueDate) ?? '' })
   }
 
-  const roundLabel = (r: { kind: string; year: number }) =>
-    t('malinger.roundTitle', { kind: t(`malinger.kind.${r.kind}`), year: r.year })
+  const roundLabel = (r: Titled) => roundTitle(t, r)
 
   const counts = (bucket: StatusFilter) =>
     bucket === 'alle'

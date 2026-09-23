@@ -63,11 +63,6 @@ export default async function RapportPage({
     : 'tilsyn'
   const scope: ReportScope = params.omfang === 'grunnlinje' ? 'grunnlinje' : 'ar'
 
-  // the years the organisation has measured, most recent first
-  const years = [...new Set(rounds.map((r) => r.year))].sort((a, b) => b - a)
-  const asked = Number(params.ar)
-  const year = years.includes(asked) ? asked : (years[0] ?? new Date().getFullYear())
-
   /**
    * The report's figures come from the year's grunnlinje, not from whatever closed
    * last: a puls measures two factors and cannot carry a "Kartlegging" section. The
@@ -75,6 +70,23 @@ export default async function RapportPage({
    */
   const baselineOf = (y: number) =>
     rounds.find((r) => r.year === y && r.kind === 'grunnlinje' && r.status === 'lukket') ?? null
+
+  /**
+   * The years the organisation has measured, most recent first. "Measured" means at least
+   * one round has gone out: the year wheel plans a year ahead, and a year made only of
+   * planned rounds has nothing to report. The report opens on the latest year with a
+   * closed grunnlinje, because that is the year it can document — it used to open on the
+   * latest year of any round, which since the wheel began planning was next year's, empty.
+   * D-46.
+   */
+  const measured = [...new Set(rounds.filter((r) => r.status !== 'planlagt').map((r) => r.year))]
+  const years = (measured.length > 0 ? measured : [...new Set(rounds.map((r) => r.year))]).sort(
+    (a, b) => b - a,
+  )
+  const asked = Number(params.ar)
+  const year = years.includes(asked)
+    ? asked
+    : (years.find((y) => baselineOf(y) !== null) ?? years[0] ?? new Date().getFullYear())
 
   const primaryRound = baselineOf(year)
   const prevYear = years.find((y) => y < year && baselineOf(y) !== null) ?? null
@@ -124,6 +136,7 @@ export default async function RapportPage({
     id: r.id,
     kind: r.kind,
     year: r.year,
+    pulseNo: r.pulseNo,
     status: r.status,
     opensAt: r.opensAt,
     closesAt: r.closesAt,

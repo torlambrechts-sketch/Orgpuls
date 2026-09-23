@@ -1307,6 +1307,16 @@ production never ran code against a schema it did not match.
 
 ---
 
+### X-027 — A demo organisation, and the round bugs it found
+
+The user asked for a login an evaluator can use, with a lot of data for an undertaking of
+50+. Built as a second generator beside the fixture, not by growing the fixture, because
+the fixture's numbers are what CI and the pixel gate check (D-47). Seeding it surfaced a
+set of bugs that had been live in production since the year wheel began planning rounds:
+round state taken from list position, Rapport opening on an empty future year, deltas
+across a puls and a grunnlinje, and pulses indistinguishable by name. Fixed in the same
+change, because a demo that shows them is not one to evaluate with (D-46).
+
 ## Open items
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1404,3 +1414,9 @@ production never ran code against a schema it did not match.
 - [ ] Nothing writes `round_information`, `trainings` or `effect_round_id` from a screen
       yet. The report reads them and the fixture seeds them; recording a briefing is a
       control Måleoppsett or Tiltak will need (D-36).
+- [ ] The account chip prints "TB" and the role selector defaults to daglig leder for every
+      user; both should come from the viewer's profile and membership (D-47).
+- [ ] Innsikt's headline follows the latest closed round of any kind, so it will describe
+      a puls once one closes after the grunnlinje. Design question (D-46).
+- [ ] The demo organisation ages: re-run `scripts/seed/demo-org.mjs` to refresh it, which
+      on the hosted project is a scoped delete-and-reinsert to confirm first (D-47).

@@ -11,6 +11,7 @@ import { getOrganization, getViewerRole } from '@/lib/org/read'
 import { assessedOfRequired, getRiskAssessment } from '@/lib/risk/read'
 import { bandCounts, getResultsSummary } from '@/lib/results/read'
 import { getRoundFactorKeys, getRounds } from '@/lib/rounds/read'
+import { roundTitle } from '@/lib/rounds/title'
 
 /**
  * Innsikt — the data half. Bundle lines 152-268; the rendering is in
@@ -46,7 +47,12 @@ export default async function InnsiktPage() {
   const open = rounds.find((r) => r.status === 'apen') ?? null
 
   const current = closed[0] ?? null
-  const previous = closed[1] ?? null
+  // "−3 siden i fjor": the comparison is the previous round of the SAME kind. A puls asks
+  // about two factors and a grunnlinje about eleven, so an index across the two compares
+  // different questions; the design's own Resultat pairs 61 with 64 and a puls with the
+  // puls before it (bundle 2950-2953). Any closed round used to do, which was invisible
+  // while the fixture had only grunnlinjer closed. D-46.
+  const previous = current ? (closed.find((r) => r !== current && r.kind === current.kind) ?? null) : null
 
   const [summary, prior, risk, measures, openFactorKeys] = await Promise.all([
     current ? getResultsSummary(current.id) : null,
@@ -151,10 +157,7 @@ export default async function InnsiktPage() {
     year.push({
       key: 'apen',
       month: (shortDate(open.closesAt) ?? '').toUpperCase(),
-      label: t('malinger.roundTitle', {
-        kind: t(`malinger.kind.${open.kind}`),
-        year: open.year,
-      }),
+      label: roundTitle(t, open),
       sub: t('innsikt.questionSub', { count: open.questionCount }),
       state: 'pending',
     })

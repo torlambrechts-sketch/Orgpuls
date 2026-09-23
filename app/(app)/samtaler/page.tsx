@@ -33,7 +33,10 @@ export default async function SamtalerPage({
 
   const rounds = [
     ...new Map(
-      items.map((c) => [c.roundId, { id: c.roundId, kind: c.roundKind, year: c.roundYear }]),
+      items.map((c) => [
+        c.roundId,
+        { id: c.roundId, kind: c.roundKind, year: c.roundYear, pulseNo: c.roundPulseNo },
+      ]),
     ).values(),
   ].sort((a, b) => b.year - a.year)
 

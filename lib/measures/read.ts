@@ -2,6 +2,7 @@ import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { parseFailed, readFailed } from '@/lib/supabase/read'
+import { getPulseNumbers } from '@/lib/rounds/read'
 
 /**
  * Reading tiltak.
@@ -71,7 +72,7 @@ export interface Measure {
   /** the departments it affects — a set, so a table; see migration 0015 */
   groupIds: string[]
   owner: { id: string; name: string } | null
-  round: { id: string; kind: string; year: number } | null
+  round: { id: string; kind: string; year: number; pulseNo: number | null } | null
   /** past its deadline and not yet carried out — derived, never stored */
   late: boolean
   bucket: MeasureBucket
@@ -127,6 +128,7 @@ export async function getMeasures(): Promise<Measure[]> {
   // whether it has passed must not depend on where the server happens to run.
   const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' }).format(new Date())
 
+  const pulses = await getPulseNumbers()
   return parsed.data.map((m) => {
     const late = m.due_date !== null && m.due_date < today && stepIndex(m.step) < stepIndex('gjennomfort')
     return {
@@ -142,7 +144,12 @@ export async function getMeasures(): Promise<Measure[]> {
       groupIds: m.measure_groups.map((g) => g.group_id),
       owner: m.employees ? { id: m.employees.id, name: m.employees.full_name } : null,
       round: m.rounds
-        ? { id: m.rounds.id, kind: m.rounds.measurements.kind, year: m.rounds.measurements.year }
+        ? {
+            id: m.rounds.id,
+            kind: m.rounds.measurements.kind,
+            year: m.rounds.measurements.year,
+            pulseNo: pulses.get(m.rounds.id) ?? null,
+          }
         : null,
       late,
       bucket: bucketOf(m.step, late),

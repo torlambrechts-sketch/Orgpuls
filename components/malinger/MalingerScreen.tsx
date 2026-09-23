@@ -3,7 +3,8 @@ import { Button, ButtonLink } from '@/components/ui/Button'
 import { Sporsmalssettet } from '@/components/malinger/Sporsmalssettet'
 import type { ExtraQuestion, Factor } from '@/lib/instrument/read'
 import { rateColour, type Participation } from '@/lib/participation/read'
-import type { RoundListItem } from '@/lib/rounds/read'
+import type { RoundListItem, RoundState } from '@/lib/rounds/read'
+import { roundTitle } from '@/lib/rounds/title'
 
 /**
  * Målinger, the rendering. Bundle lines 502-658.
@@ -14,14 +15,38 @@ import type { RoundListItem } from '@/lib/rounds/read'
  * measured against 02-malinger-measure.png.
  *
  * What is deliberately NOT rendered, because the schema does not hold it: the Årshjulet
- * card and the planned-pulse rows. See docs/DEVIATIONS.md D-05.
+ * card. See docs/DEVIATIONS.md D-05. The planned-pulse rows D-05 also omitted are rendered
+ * since the year wheel (0020) began writing planned rounds — D-46.
  */
 
 /** Status pill and row actions per state. The hexes are the design's (bundle 4249-4263). */
-const STATE_STYLE = {
+const STATE_STYLE: Record<RoundState, { background: string; color: string }> = {
   lukket: { background: '#CFE7E4', color: '#20431C' },
   arkivert: { background: 'rgba(25,21,16,.07)', color: '#5F5849' },
-} as const
+  neste: { background: '#FBEBBE', color: '#5C4600' },
+  planlagt: { background: 'rgba(25,21,16,.05)', color: '#5F5849' },
+  // the design has no open round on this list; it takes "Neste"'s amber, the design's
+  // colour for the round that is live next, rather than a colour of its own (D-46)
+  apen: { background: '#FBEBBE', color: '#5C4600' },
+}
+
+/**
+ * The order the design lists rounds in (bundle 4249-4267): the latest result, then what is
+ * coming in the order it comes, then the archive. A round taking answers now goes first —
+ * the design has none, and it is the one thing on the list that is happening.
+ */
+const STATE_ORDER: RoundState[] = ['apen', 'lukket', 'neste', 'planlagt', 'arkivert']
+
+function listOrder(rounds: RoundListItem[]): RoundListItem[] {
+  const opening = (r: RoundListItem) => r.opensAt ?? '\uffff'
+  return [...rounds].sort((a, b) => {
+    const byState = STATE_ORDER.indexOf(a.state) - STATE_ORDER.indexOf(b.state)
+    if (byState !== 0) return byState
+    // planned rounds come in the order they open; everything else newest first, which is
+    // the order getRounds already holds them in
+    return a.state === 'planlagt' ? opening(a).localeCompare(opening(b)) : 0
+  })
+}
 
 export interface MalingerView {
   rounds: RoundListItem[]
@@ -35,7 +60,8 @@ export interface MalingerView {
 export async function MalingerScreen({ view }: { view: MalingerView }) {
   const t = await getTranslations()
   const locale = await getLocale()
-  const { rounds, current, participation, factors, extras } = view
+  const { current, participation, factors, extras } = view
+  const rounds = listOrder(view.rounds)
 
   const closedOn = (iso: string | null, year: number) => {
     if (!iso) return null
@@ -72,7 +98,14 @@ export async function MalingerScreen({ view }: { view: MalingerView }) {
           <RoundRow
             key={round.id}
             round={round}
-            closedOn={closedOn(round.closesAt, round.year)}
+            date={closedOn(round.closesAt, round.year)}
+            month={
+              round.opensAt
+                ? new Intl.DateTimeFormat(locale, { month: 'long', timeZone: 'Europe/Oslo' }).format(
+                    new Date(round.opensAt),
+                  )
+                : null
+            }
             t={t}
           />
         ))}
@@ -86,10 +119,7 @@ export async function MalingerScreen({ view }: { view: MalingerView }) {
                 {t('malinger.deltakelse')}
               </h2>
               <span className="mt-[4px] block text-[13px] text-mut">
-                {t('malinger.cardRoundTitle', {
-                  kind: t(`malinger.kind.${current.kind}`),
-                  year: current.year,
-                })}
+                {t('malinger.cardRoundTitle', { title: roundTitle(t, current) })}
                 {' · '}
                 {t('malinger.cardRoundSub', {
                   date: closedOn(current.closesAt, current.year) ?? '',
@@ -200,15 +230,23 @@ export async function MalingerScreen({ view }: { view: MalingerView }) {
 
 function RoundRow({
   round,
-  closedOn,
+  date,
+  month,
   t,
 }: {
   round: RoundListItem
-  closedOn: string | null
+  /** the round's closing date, formatted: "lukket …" once closed, "går ut …" before */
+  date: string | null
+  /** the month it opens, for a puls's list title — "Puls · desember 2026" */
+  month: string | null
   t: Awaited<ReturnType<typeof getTranslations>>
 }) {
-  const p = round.participation
   const archived = round.state === 'arkivert'
+  const closed = round.status === 'lukket'
+  const planned = round.status === 'planlagt'
+  // a planned round has been sent to nobody; the design prints "Ikke sendt" and "—" for it
+  // rather than a 0 % over a roster nobody was asked (bundle 4262)
+  const p = planned ? null : round.participation
 
   /**
    * An archived row's bar is the neutral rule colour, not its rate colour — the design
@@ -217,23 +255,25 @@ function RoundRow({
    */
   const bar = archived ? '#C4BCA8' : p ? rateColour(p.pct) : '#C4BCA8'
 
+  const title =
+    round.kind === 'puls' && month
+      ? t('malinger.pulseListTitle', { kind: t('malinger.kind.puls'), month, year: round.year })
+      : roundTitle(t, round)
+
+  const setupHref = { pathname: '/maleoppsett', query: { runde: round.id } }
+
   return (
     <div
       className="grid items-center gap-[16px] rounded-note border border-line bg-sf px-[22px] py-[18px]"
       style={{ gridTemplateColumns: 'minmax(0,2fr) minmax(0,1.3fr) 118px 250px' }}
     >
       <span className="min-w-0">
-        <span className="block text-[16px] font-semibold">
-          {t('malinger.roundTitle', {
-            kind: t(`malinger.kind.${round.kind}`),
-            year: round.year,
-          })}
-        </span>
+        <span className="block text-[16px] font-semibold">{title}</span>
         <span className="mt-[3px] block text-[12.5px] text-mut">
           {[
             t(`malinger.audience.${round.audience}`),
             t('malinger.questionCount', { count: round.questionCount }),
-            closedOn ? t('malinger.closedOn', { date: closedOn }) : null,
+            date ? t(closed ? 'malinger.closedOn' : 'malinger.closesOn', { date }) : null,
           ]
             .filter(Boolean)
             .join(' · ')}
@@ -272,22 +312,50 @@ function RoundRow({
       </span>
 
       <span className="flex flex-wrap justify-end gap-[8px]">
-        <Button size="sm" tone="secondary" pad={14}>
-          {t(archived ? 'malinger.viewSetup' : 'malinger.setup')}
-        </Button>
-        {/*
-          The result of a round has an address, so the control that opens it is a link
-          and not a button — the documented control substitution (D-06), styled exactly
-          as the bundle styles this button.
-        */}
-        <ButtonLink
-          href={{ pathname: '/resultat', query: { maling: round.id } }}
-          size="sm"
-          tone={archived ? 'secondary' : 'primary'}
-          pad={15}
-        >
-          {t(archived ? 'malinger.compare' : 'malinger.viewResult')}
-        </ButtonLink>
+        {closed ? (
+          <>
+            <Button size="sm" tone="secondary" pad={14}>
+              {t(archived ? 'malinger.viewSetup' : 'malinger.setup')}
+            </Button>
+            {/*
+              The result of a round has an address, so the control that opens it is a link
+              and not a button — the documented control substitution (D-06), styled exactly
+              as the bundle styles this button.
+            */}
+            <ButtonLink
+              href={{ pathname: '/resultat', query: { maling: round.id } }}
+              size="sm"
+              tone={archived ? 'secondary' : 'primary'}
+              pad={15}
+            >
+              {t(archived ? 'malinger.compare' : 'malinger.viewResult')}
+            </ButtonLink>
+          </>
+        ) : (
+          <>
+            {/* the design's second control on a coming round is the respondent preview */}
+            <Button size="sm" tone="secondary" pad={14}>
+              {t('malinger.preview')}
+            </Button>
+            {/*
+              A coming round's action opens its setup (bundle 4264, `openPlan`), which has an
+              address — a link for the reason the result link is one (D-06). "Definer pulsen"
+              on the next puls, as the design words it; "Se oppsett" on everything else.
+            */}
+            <ButtonLink
+              href={setupHref}
+              size="sm"
+              tone={round.state === 'planlagt' ? 'secondary' : 'primary'}
+              pad={15}
+            >
+              {t(
+                round.state === 'neste' && round.kind === 'puls'
+                  ? 'malinger.definePulse'
+                  : 'malinger.seeSetup',
+              )}
+            </ButtonLink>
+          </>
+        )}
       </span>
     </div>
   )

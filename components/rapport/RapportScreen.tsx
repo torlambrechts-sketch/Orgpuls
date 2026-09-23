@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getLocale, getTranslations } from 'next-intl/server'
+import { roundTitle, type Titled } from '@/lib/rounds/title'
 import { ButtonLink } from '@/components/ui/Button'
 import { PrintButton } from '@/components/rapport/PrintButton'
 import { Sheet } from '@/components/rapport/Sheet'
@@ -44,6 +45,7 @@ export interface ReportRun {
   id: string
   kind: string
   year: number
+  pulseNo: number | null
   status: string
   opensAt: string | null
   closesAt: string | null
@@ -182,8 +184,7 @@ export async function RapportScreen({ view }: { view: RapportView }) {
   }
 
   const kindOf = (kind: string) => t(`malinger.kind.${kind}`)
-  const runLabel = (r: { kind: string; year: number }) =>
-    t('malinger.roundTitle', { kind: kindOf(r.kind), year: r.year })
+  const runLabel = (r: Titled) => roundTitle(t, r)
 
   /**
    * The period the report covers. A whole year runs from 1 January to the end of the

@@ -20,8 +20,10 @@ export default async function MalingerPage() {
     getExtraQuestions(),
   ])
 
-  // the Deltakelse card describes the round the screen opens on: the most recent one
-  const current = rounds[0] ?? null
+  // the Deltakelse card describes the latest result — "Grunnlinje 2026 — lukket" — which is
+  // the round in the "Lukket" state, not whichever sorts first: once the year wheel plans
+  // rounds, the first by closing date is one nobody has been sent (D-46)
+  const current = rounds.find((r) => r.state === 'lukket') ?? null
   const participation = current ? await getParticipation(current.id) : null
 
   const view: MalingerView = { rounds, current, participation, factors, extras }

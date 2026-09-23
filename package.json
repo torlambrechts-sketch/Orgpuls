@@ -10,6 +10,7 @@
     "lint": "eslint app components lib",
     "typecheck": "tsc --noEmit",
     "seed": "node scripts/seed/design-fixture.mjs",
+    "seed:demo": "node scripts/seed/demo-org.mjs",
     "verify:pixel": "node scripts/verify/pixel.mjs",
     "verify:probe": "node scripts/verify/probe.mjs",
     "verify:i18n": "node scripts/verify/i18n.mjs",

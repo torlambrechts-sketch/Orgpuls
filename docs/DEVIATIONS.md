@@ -1481,3 +1481,100 @@ The middleware client is unchanged: it speaks only to Auth, never to PostgREST.
 `tests/unit/skew.test.ts` holds the rule (nine cases).
 
 **Remove it** when PostgREST ships a clock-skew allowance and the hosted project runs it.
+
+## D-46 — Round state came from list position, and the year wheel made that visible
+
+`getRounds` labelled row 0 "Lukket" and every other row "Arkivert", whatever the round's
+status. That was true only while every round was closed. The hosted Nordvik fixture has
+carried four wheel-planned rounds since D-42 (December 2026 to September 2027), and they
+sort first by `closes_at`, so production has been showing:
+
+- **Målinger:** "Lukket" on the September 2027 grunnlinje nobody has been sent, and the
+  real latest result as "Arkivert"; the Deltakelse card describing that future round.
+- **Oppsett:** "svar sist" read from the same future round, so every department said 0.
+- **Rapport:** opened on 2027, a year with no closed grunnlinje, so an empty report.
+- **Innsikt and Resultat:** the delta ("siden i fjor") compared against the previous
+  closed round of *any* kind — a puls with two factors against a grunnlinje with eleven.
+
+None of it showed in the pixel baselines, because the fixture's screens were captured
+before the wheel planned anything. The demo organisation (D-47) is what surfaced it: with
+realistic data it was on every screen.
+
+**What changed.**
+- `state` is derived from `status`: the latest closed round is "Lukket", earlier closed
+  ones "Arkivert", the planned round that opens first "Neste", later ones "Planlagt", and
+  an open round "Pågår". The last is not in the design, which has no open round on this
+  list; it takes "Neste"'s amber. The other four are the design's own states and colours
+  (bundle 4249-4267).
+- Målinger lists rounds in the design's order: live, latest result, coming (in the order
+  they open), archive. A planned round prints "går ut …", "Ikke sendt" and "—" rather than
+  "lukket …" and a 0 % over a roster nobody was asked. Its action opens its setup ("Definer
+  pulsen" on the next puls, "Se oppsett" otherwise, both links for D-06's reason) beside
+  the design's "Forhåndsvis". The planned-pulse rows D-05 left out are rendered: the schema
+  now holds them.
+- Innsikt and Resultat compare like with like — a grunnlinje with the previous grunnlinje,
+  a puls with the previous puls — as the design's own Resultat pairs them (61 with 64,
+  47 with 44; bundle 2950-2953). Resultat's chips leave out rounds planned beyond the next
+  one.
+- Rapport offers only years in which a round has gone out, and opens on the latest year
+  with a closed grunnlinje.
+- Pulses are numbered within their year by opening date — "Puls 2 · 2025", the design's
+  chip label — everywhere a round is named except Målinger's list, which uses the design's
+  own "Puls · desember 2026". Several pulses a year is the wheel's ordinary cadence, and
+  three chips reading "Puls 2026" named none of them. `lib/rounds/title.ts`.
+
+`tests/unit/rounds.test.ts` holds the state and numbering rules (eleven cases). Innsikt's
+headline still follows the latest closed round of any kind, so once a puls closes after
+the grunnlinje the index card describes that puls; whether it should stay on the
+grunnlinje is a design question and is left open.
+
+## D-47 — A demo organisation for evaluation, beside the fixture rather than in it
+
+The design fixture is 34 people and two grunnlinjer, built backwards from the design's
+numbers for the pixel gate and CI's figures check. It cannot grow without moving those
+numbers. An evaluator needs the opposite: enough history for every screen to have
+something to say. `scripts/seed/demo-org.mjs` generates a second organisation for that.
+
+**Demobedriften AS**, 64 employees in six departments, three grunnlinjer (2024–2026),
+four closed pulses and one open, 358 responses, 18 measures at every step (three overdue),
+14 anonymous conversations in every state (one flagged as a possible varsel), two risk
+assessments, the § 8 information and training record, three locations, and an active
+year wheel. Økonomi og HR has four people, so its results are withheld everywhere while
+its participation is shown — the k rule, on screen.
+
+**Nothing in it is real.** The name has no entry in Enhetsregisteret; 990000001 fails the
+mod-11 check digit, so no real undertaking can hold it; people are invented; addresses are
+on `.example`.
+
+**Same rules as the fixture.** The generator is the only source of these rows, idempotent,
+and works on an empty database. Responses carry a department and an hour and nothing else.
+Answers are drawn deterministically around per-department targets, so the data looks like
+data rather than a split designed to hit a number — and so a note that quotes a figure
+could become false when the targets are edited. The generator therefore checks every
+quoted figure against the answers it has just written, inside the transaction, and refuses
+to commit if one is off. Writing the notes first found three that were wrong.
+
+**The login** is an ordinary Auth user, `demo@orgpuls.com`, created through the public
+sign-up endpoint (hosted Auth auto-confirms), never by writing `auth.users`. The generator
+gives it a profile and a daglig leder membership in this organisation only, by e-mail; in
+CI the user does not exist and those two statements match nothing. The password is not in
+the repository.
+
+**CI** seeds it next to the fixture, before the wheel turns and before the suites, so all
+ten suites prove their invariants with a second, larger organisation present. The figures
+check used to sign in as "the first membership"; it now names the fixture's organisation,
+because with two organisations the first membership need not be one that can read Nordvik.
+
+**Seeded on the hosted project on 2026-09-23** through the Supabase MCP. The script is
+set-based (44 KB) so it can be passed as text; fifteen table fingerprints compared equal
+between the hosted run and a local one, so the transcription was exact.
+
+**It ages.** The open puls closes five days after seeding and the wheel then plans and
+opens the next rounds, which nobody answers. Re-running the generator refreshes it; on the
+hosted project that deletes and re-inserts this one organisation's rows, which CLAUDE.md
+asks to be confirmed first.
+
+**Seen while checking it, not changed:** the header's account chip prints "TB" for every
+user — the design's Tuva Berg, a default in `AppHeader` — and the role selector defaults to
+daglig leder rather than the viewer's role. Both predate this and both are covered by the
+pixel baselines, so they are logged rather than changed here.

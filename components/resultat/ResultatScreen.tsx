@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getLocale, getTranslations } from 'next-intl/server'
+import { roundTitle } from '@/lib/rounds/title'
 import { ButtonLink } from '@/components/ui/Button'
 import { Risikobildet, type FactorRow } from '@/components/resultat/Risikobildet'
 import { bandCounts, deltaColour, heatTone, signedDelta, type Band } from '@/lib/results/read'
@@ -26,6 +27,7 @@ export interface RoundChip {
   id: string
   kind: string
   year: number
+  pulseNo: number | null
   closesAt: string | null
   closed: boolean
 }
@@ -125,8 +127,7 @@ export async function ResultatScreen({ view }: { view: ResultatView }) {
         }).format(new Date(iso))
       : null
 
-  const roundLabel = (r: RoundChip) =>
-    t('malinger.roundTitle', { kind: t(`malinger.kind.${r.kind}`), year: r.year })
+  const roundLabel = (r: RoundChip) => roundTitle(t, r)
 
   const body = view.body
 

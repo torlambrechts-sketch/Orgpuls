@@ -73,6 +73,17 @@ jobs:
           psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" \
             -v ON_ERROR_STOP=1 -f /tmp/fixture.sql
 
+      # The demo organisation (Demobedriften AS) is seeded next to the fixture, before the
+      # wheel turns and before the suites run, so every invariant below holds with a
+      # second, larger organisation in the database — and so the generator's own check,
+      # that every figure its notes quote is the figure its answers produce, runs on every
+      # push. The demo login does not exist here; its membership statements match nothing.
+      - name: Seed the demo organisation
+        run: |
+          node scripts/seed/demo-org.mjs > /tmp/demo.sql
+          psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" \
+            -v ON_ERROR_STOP=1 -f /tmp/demo.sql
+
       # The fixture seeds the wheel switched on but not yet turned, so a fresh database
       # has a scheduler that has never run. One tick brings it to the state the hosted
       # project is in and the suites assume: the coming rounds planned, the notification
@@ -100,7 +111,10 @@ jobs:
             do \$\$
             declare v_uid uuid; v_2026 jsonb; v_2025 jsonb; v_part jsonb;
             begin
-              select m.user_id into v_uid from app.memberships m limit 1;
+              -- the fixture's own member, named: with a second organisation seeded,
+              -- "the first membership" is no longer necessarily one that can read these
+              select m.user_id into v_uid from app.memberships m
+              where m.org_id = '00000000-0000-4000-8000-000000000001' and m.active limit 1;
               perform set_config('request.jwt.claims',
                 json_build_object('sub', v_uid, 'role', 'authenticated')::text, true);
 

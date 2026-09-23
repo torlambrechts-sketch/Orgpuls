@@ -49,8 +49,12 @@ export default async function ResultatPage({
    * closing date", not the rounds list's plain date order. `getRounds` already returns
    * them by closing date, and Array.prototype.sort is stable, so this only moves the
    * unclosed ones to the back.
+   *
+   * The design's one unsent chip is the next round ("Puls 1 · 2026 — går ut 12. oktober").
+   * Rounds planned beyond it are left out: the year wheel plans a year ahead, and four chips
+   * for rounds with no answers and no date soon would crowd the ones that have results.
    */
-  const ordered = [...rounds].sort(
+  const ordered = [...rounds].filter((r) => r.state !== 'planlagt').sort(
     (a, b) => Number(a.status !== 'lukket') - Number(b.status !== 'lukket'),
   )
   const selected = ordered.find((r) => r.id === params.maling) ?? ordered[0]
@@ -59,6 +63,7 @@ export default async function ResultatPage({
     id: r.id,
     kind: r.kind,
     year: r.year,
+    pulseNo: r.pulseNo,
     closesAt: r.closesAt,
     closed: r.status === 'lukket',
   }))
@@ -78,10 +83,13 @@ export default async function ResultatPage({
     )
   }
 
-  // the round to compare against: the most recent one closed before this one
+  // the round to compare against: the most recent one of the same kind closed before this
+  // one — a puls against the puls before it, a grunnlinje against the last grunnlinje, as
+  // the design pairs them (bundle 2950-2953). D-46.
   const previous = ordered.find(
     (r) =>
       r.id !== selected.id &&
+      r.kind === selected.kind &&
       r.status === 'lukket' &&
       !!r.closesAt &&
       !!selected.closesAt &&
