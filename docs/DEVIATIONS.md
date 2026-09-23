@@ -1492,6 +1492,15 @@ The middleware client is unchanged: it speaks only to Auth, never to PostgREST.
 
 **Remove it** when PostgREST ships a clock-skew allowance and the hosted project runs it.
 
+**Widened, 2026-09-23.** The first schedule ([500, 1000, 2000] ms, 3.5 s in all) was
+outlasted on a CI runner: three retries of `getShellContext` right after a sign-in, all
+refused, so the smoke job failed on the logged read. The schedule is now [500, 1000, 2000,
+4000] ms, 7.5 s in all. It costs nothing unless PostgREST actually refuses, and the test
+that proves the wrapper gives up now takes its attempt count from the schedule, so it cannot
+fall out of step with it.
+
+---
+
 ## D-46 — Round state came from list position, and the year wheel made that visible
 
 `getRounds` labelled row 0 "Lukket" and every other row "Arkivert", whatever the round's

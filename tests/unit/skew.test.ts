@@ -41,7 +41,8 @@ describe('withIssuedAtRetry', () => {
 
   it('gives up after the last delay and returns the refusal for the caller to report', async () => {
     vi.spyOn(console, 'warn').mockImplementation(() => {})
-    const s = scripted(future, future, future, future)
+    // one refusal per attempt: the first request and every retry
+    const s = scripted(...Array.from({ length: SKEW_DELAYS_MS.length + 1 }, () => future))
     const res = await withIssuedAtRetry(s.inner, noSleep)('http://x/rest/v1/a')
     expect(res.status).toBe(401)
     expect(await res.json()).toMatchObject({ code: 'PGRST303' })

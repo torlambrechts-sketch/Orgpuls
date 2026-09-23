@@ -24,7 +24,13 @@
  * returned, and the caller logs it exactly as it would have without this wrapper.
  */
 
-export const SKEW_DELAYS_MS = [500, 1000, 2000] as const
+/*
+ * 7.5 s in all, and only ever spent on a refusal. The first schedule stopped at 3.5 s, and
+ * a CI runner on 2026-09-23 outlasted it: three retries, all refused, and the smoke job
+ * failed on the logged read. The lag is PostgREST's cached clock catching up with Auth's,
+ * so a longer last wait is what reaches the moment it has.
+ */
+export const SKEW_DELAYS_MS = [500, 1000, 2000, 4000] as const
 
 type Fetch = typeof fetch
 
