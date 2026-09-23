@@ -1234,3 +1234,44 @@ all — nothing is created, and the form stays on step 2 with
 Printing "kontoen er klar" over an organisation that does not exist yet is the one failure
 this screen must not have.
 
+---
+
+## D-39 — Migration 0020 creates pg_cron, and this is an edit to an applied migration
+
+**The rule this bends.** CLAUDE.md: *"Schema changes only via `supabase/migrations/`. Never
+edit an applied migration; add a new one that supersedes it."* This entry records the one
+place that was not done, and why nothing else was available.
+
+**What was wrong.** 0020 called `cron.schedule(...)` without ever creating the extension.
+It worked because pg_cron had been switched on from the Supabase dashboard before the
+migration was written, so the `cron` schema was simply there. No migration in this
+repository creates any extension; pgcrypto and the rest happen to exist on both the hosted
+project and the local CLI stack, and pg_cron does not.
+
+**What it cost.** CI's `supabase db reset` died at migration 20 of 24 with `schema "cron"
+does not exist`, and had been dying there since 0020 landed — three runs on `main`, each
+reported as a failure of the whole `security invariants` job. Everything downstream of the
+reset was skipped: the fixture, the design's published figures, and every suite. The
+project believed it had a gate that rebuilds the database from migrations and asserts the
+figures; what it actually had was a gate that failed before reaching either, in a job whose
+red nobody read as "none of this ran".
+
+**Why a superseding migration cannot fix it.** A reset applies the files in order and
+aborts on the first error. 0025 is never reached. There is no configuration route either:
+the repository has no `supabase/config.toml`, and an extension created by hand before the
+reset is dropped by the reset. The failing statement is in 0020, so the fix is in 0020.
+
+**Why the edit is safe.** `create extension if not exists pg_cron;` is a no-op on every
+database that has already run this file — which is every database it has ever run against,
+since it could not have succeeded otherwise. It does not change a table, a policy, a
+function or a grant. pg_cron's control file pins the extension to `pg_catalog`, which is
+where the hosted project has it, and the extension creates the `cron` schema that holds
+`cron.schedule` either way. The hosted project was checked before and after: pg_cron 1.6.4
+in `pg_catalog`, one `orgpuls-wheel` job, unchanged.
+
+**The rule still holds for everything else.** This is a repair to a migration that did not
+compose from scratch, not a change to what it did. An applied migration that cannot be
+applied again is not a migration, and the rule against editing one exists to protect a
+database from drifting away from its files — which is the opposite of what was happening
+here.
+

@@ -1246,6 +1246,10 @@ gate.
 - [x] The product has a front door: splash, sign-up and sign-in, on migration 0024. X-023.
       D-03 superseded.
 - [x] CI runs every invariant suite, not only the respondent one. X-023.
+- [x] CI could not rebuild the database at all: 0020 called `cron.schedule` without
+      creating pg_cron, so `supabase db reset` died at migration 20 of 24 and every step
+      after it was skipped. Fixed in 0020 itself, because a superseding migration is never
+      reached. D-39.
 - [ ] The three marketing screens have no pixel baseline — the start bundle ships none —
       so `/`, `/registrer` and `/logg-inn` are outside the pixel gate (D-03, D-37).
 - [ ] No sign-in provider is configured, so "Fortsett med Microsoft" and "Fortsett med

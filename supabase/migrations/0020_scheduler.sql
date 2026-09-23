@@ -331,5 +331,20 @@ revoke all on function public.mint_invitation_link(uuid) from public, anon, auth
 -- ---------------------------------------------------------------------------
 -- Hourly. The tick is idempotent, so a missed hour catches up and a double run is a
 -- no-op — which is what makes it safe to run from a scheduler nobody is watching.
+--
+-- The extension is created here rather than assumed. It was assumed when this migration
+-- was written, because the hosted project already had pg_cron switched on from the
+-- dashboard, and the `cron` schema was simply there. A database rebuilt from these files
+-- alone has no such history: CI's `supabase db reset` died on the next line with
+-- `schema "cron" does not exist`, at migration 20 of 24, so every suite after it ran
+-- against nothing. An applied migration that cannot be applied again is not a migration.
+--
+-- `if not exists` makes this a no-op wherever pg_cron is already installed — which is
+-- every database this file has ever run against — so it repairs the rebuild without
+-- changing what the migration did. pg_cron's control file pins it to `pg_catalog`, which
+-- is where the hosted project has it, and the extension creates the `cron` schema its own
+-- tables and `cron.schedule` live in either way. See D-39.
 -- ---------------------------------------------------------------------------
+create extension if not exists pg_cron;
+
 select cron.schedule('orgpuls-wheel', '0 * * * *', $cron$select app.wheel_tick()$cron$);
