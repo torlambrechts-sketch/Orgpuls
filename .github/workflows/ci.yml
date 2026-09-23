@@ -56,8 +56,24 @@ jobs:
         with:
           version: latest
 
+      # The images come from a public registry, and ghcr.io has refused this runner's pulls
+      # with "toomanyrequests" twice in a row (2026-09-23) before a single test ran. So a
+      # failed start is retried with backoff, and the retries pull from Supabase's other
+      # official registry, public.ecr.aws. Only the image pull is retried: a failure after
+      # the containers are up still fails here, on the last attempt.
       - name: Start local Supabase
-        run: supabase start -x realtime,storage-api,imgproxy,studio,edge-runtime,logflare,vector,supavisor,mailpit
+        run: |
+          services=realtime,storage-api,imgproxy,studio,edge-runtime,logflare,vector,supavisor,mailpit
+          for attempt in 1 2 3 4; do
+            if [ "$attempt" -gt 1 ]; then
+              export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws
+              echo "start failed; retry $attempt of 4 from $SUPABASE_INTERNAL_IMAGE_REGISTRY"
+              supabase stop --no-backup >/dev/null 2>&1 || true
+              sleep $((attempt * 20))
+            fi
+            supabase start -x "$services" && exit 0
+          done
+          exit 1
 
       # Proves every migration applies from scratch, in order, against an empty
       # database -- which is the only way to know the twelve of them still compose.
