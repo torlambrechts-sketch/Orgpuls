@@ -31,7 +31,7 @@ export default async function ArticlePage({
   const t = await getTranslations()
 
   return (
-    <main className="animate-entry mx-auto max-w-[1180px] px-[28px] pb-[60px] pt-[26px]">
+    <main className="animate-entry mx-auto max-w-[1180px] px-[16px] md:px-[28px] pb-[60px] pt-[26px]">
       <ButtonLink href="/hjelp" size="xxs" tone="ghost">
         {t('hjelp.articleBack')}
       </ButtonLink>

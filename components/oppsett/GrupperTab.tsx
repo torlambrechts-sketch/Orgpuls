@@ -31,7 +31,7 @@ export async function GrupperTab({ view }: { view: OppsettView }) {
             return (
               <div
                 key={g.id}
-                className="grid items-center gap-[14px] rounded-tile border border-line bg-bg px-[16px] py-[14px] [grid-template-columns:minmax(0,1fr)_130px_130px_140px]"
+                className="grid items-center gap-[14px] rounded-tile border border-line bg-bg px-[16px] py-[14px] grid-cols-2 md:[grid-template-columns:minmax(0,1fr)_130px_130px_140px]"
               >
                 <span className="text-[14.5px] font-semibold">{g.name}</span>
                 <span className="text-[12.5px] text-mut">

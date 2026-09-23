@@ -191,7 +191,7 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
   }
 
   return (
-    <main className="animate-entry mx-auto max-w-[1180px] px-[28px] pb-[60px] pt-[26px]">
+    <main className="animate-entry mx-auto max-w-[1180px] px-[16px] md:px-[28px] pb-[60px] pt-[26px]">
       <ButtonLink href="/malinger" size="xxs" tone="ghost">
         {t('maleoppsett.back')}
       </ButtonLink>
@@ -205,7 +205,7 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
         </p>
       </div>
 
-      <div className="mt-[24px] grid items-start gap-[20px] [grid-template-columns:minmax(0,1.6fr)_minmax(280px,0.9fr)]">
+      <div className="mt-[24px] grid items-start gap-[20px] md:[grid-template-columns:minmax(0,1.6fr)_minmax(280px,0.9fr)]">
         <SetupForm {...form} />
 
         <div className="sticky top-[78px] flex min-w-0 flex-col gap-[14px]">

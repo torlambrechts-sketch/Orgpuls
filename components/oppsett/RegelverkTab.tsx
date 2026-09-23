@@ -82,7 +82,7 @@ export async function RegelverkTab({ factorKeys }: { factorKeys: string[] }) {
             return (
               <div
                 key={row.key}
-                className="grid items-center gap-[13px] rounded-btn border border-line bg-bg px-[14px] py-[11px] [grid-template-columns:24px_minmax(0,1fr)_minmax(0,1.4fr)]"
+                className="grid items-center gap-[13px] rounded-btn border border-line bg-bg px-[14px] py-[11px] [grid-template-columns:24px_minmax(0,1fr)] md:[grid-template-columns:24px_minmax(0,1fr)_minmax(0,1.4fr)]"
               >
                 <span
                   className="flex h-[22px] w-[22px] items-center justify-center rounded-pill text-[12px] font-bold"
@@ -97,7 +97,7 @@ export async function RegelverkTab({ factorKeys }: { factorKeys: string[] }) {
                 <span className="text-[13.5px] font-semibold [text-wrap:pretty]">
                   {t(`oppsett.regelverk.cover.${row.key}.ref`)}
                 </span>
-                <span className="text-[12.5px] text-mut [text-wrap:pretty]">
+                <span className="text-[12.5px] text-mut [text-wrap:pretty] max-md:col-start-2">
                   {covered
                     ? row.factors.map((f) => t(`factor.${f}.label`)).join(' · ')
                     : t(`oppsett.regelverk.cover.${row.key}.where`)}

@@ -1330,6 +1330,12 @@ Vercel Web Analytics and Speed Insights installed at the user's request. The one
 decision was what they may see: never a respondent's page (the link is a credential and the
 visit a timestamp), and no query strings anywhere (D-49).
 
+### X-030 — Phones
+
+A user found registrering unusable on a phone. The design has no phone layout and every check
+ran at 1440 px. Every screen now has a stacked layout below 768 px, verified to leave the 1440
+px rendering pixel-identical, and CI checks every screen at 390 px (D-50).
+
 ## Open items
 - [ ] The 353 deletions and the binary baselines need an ordinary `git push`.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.

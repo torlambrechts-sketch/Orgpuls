@@ -249,7 +249,7 @@ export async function RapportScreen({ view }: { view: RapportView }) {
 
   return (
     <main className="animate-entry">
-      <div className="report-chrome mx-auto max-w-[1180px] px-[28px] pt-[26px]">
+      <div className="report-chrome mx-auto max-w-[1180px] px-[16px] md:px-[28px] pt-[26px]">
         <ButtonLink href="/innsikt" size="xxs" tone="ghost">
           {t('rapport.backToInnsikt')}
         </ButtonLink>

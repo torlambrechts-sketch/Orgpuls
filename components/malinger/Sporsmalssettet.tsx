@@ -120,7 +120,7 @@ export function Sporsmalssettet({
           {extras.map((e) => (
             <div
               key={e.key}
-              className="grid gap-[16px] rounded-cta border border-line bg-bg px-[15px] py-[13px] [grid-template-columns:160px_minmax(0,1fr)]"
+              className="grid gap-[16px] rounded-cta border border-line bg-bg px-[15px] py-[13px] md:[grid-template-columns:160px_minmax(0,1fr)]"
             >
               <span className="min-w-0">
                 <span className="block text-[13px] font-bold">{e.label}</span>

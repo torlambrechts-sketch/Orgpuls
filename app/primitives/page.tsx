@@ -30,7 +30,7 @@ export default async function PrimitivesPage() {
   const t = await getTranslations('factor')
 
   return (
-    <main className="animate-entry mx-auto max-w-[1180px] px-[28px] py-[40px]">
+    <main className="animate-entry mx-auto max-w-[1180px] px-[16px] md:px-[28px] py-[40px]">
       <h1 className="font-display text-[34px] font-semibold leading-tight">Primitives</h1>
       <p className="mt-[6px] text-mut">
         Every primitive in every state. This route is what the S2 pixel gate measures.

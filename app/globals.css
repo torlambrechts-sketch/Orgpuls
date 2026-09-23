@@ -138,6 +138,18 @@
   text-wrap: pretty;
 }
 
+/*
+ * On a phone the report's sheet fills the screen rather than holding its 8.5in page, and a
+ * table too wide for it scrolls inside itself instead of dragging the page sideways. Print
+ * media is wider than the breakpoint, so paper is untouched. D-50.
+ */
+@media (max-width: 767px) {
+  .doc-sheet table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
 @media print {
   .report-chrome,
   body > div > header,

@@ -62,8 +62,8 @@ export async function AppFooter() {
 
   return (
     <footer className="border-t border-line bg-sf">
-      <div className="mx-auto max-w-[1180px] px-[28px] pb-[26px] pt-[34px]">
-        <div className="grid gap-[26px] [grid-template-columns:minmax(220px,1.4fr)_repeat(auto-fit,minmax(140px,1fr))]">
+      <div className="mx-auto max-w-[1180px] px-[16px] md:px-[28px] pb-[26px] pt-[34px]">
+        <div className="grid grid-cols-2 gap-[26px] md:[grid-template-columns:minmax(220px,1.4fr)_repeat(auto-fit,minmax(140px,1fr))]">
           <div className="min-w-0">
             <span className="flex items-center gap-[9px]">
               <LogoMark size={28} />

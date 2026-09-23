@@ -134,18 +134,18 @@ export function HeaderBar({
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-sf">
-      <div className="mx-auto flex max-w-[1180px] flex-wrap items-center gap-[18px] px-[28px] py-[11px]">
+      <div className="mx-auto flex max-w-[1180px] flex-wrap items-center gap-x-[12px] gap-y-[10px] px-[16px] py-[11px] md:gap-[18px] md:px-[28px]">
         {logo}
         {nav}
 
-        <span className="flex flex-none items-center gap-[8px]">
+        <span className="flex flex-none items-center gap-[8px] max-md:ml-auto">
           <button
             type="button"
             aria-label={t('header.helpAria')}
             aria-expanded={mode === 'help'}
             aria-controls={mode === 'help' ? panelId : undefined}
             onClick={() => toggle('help')}
-            className={`flex items-center gap-[7px] px-[13px] ${toggleClass(mode === 'help')}`}
+            className={`flex items-center gap-[7px] px-[13px] max-md:px-[8px] ${toggleClass(mode === 'help')}`}
           >
             <span
               aria-hidden="true"
@@ -153,7 +153,8 @@ export function HeaderBar({
             >
               ?
             </span>
-            {t('header.help')}
+            {/* on a phone the ? carries it; the aria-label already names the control */}
+            <span className="max-md:hidden">{t('header.help')}</span>
           </button>
 
           <button
@@ -173,14 +174,14 @@ export function HeaderBar({
             aria-expanded={mode === 'tuva'}
             aria-controls={mode === 'tuva' ? panelId : undefined}
             onClick={() => toggle('tuva')}
-            className={`flex items-center gap-[7px] py-0 pl-[4px] pr-[13px] ${toggleClass(mode === 'tuva')}`}
+            className={`flex items-center gap-[7px] py-0 pl-[4px] pr-[13px] max-md:pr-[4px] ${toggleClass(mode === 'tuva')}`}
           >
             <span
               aria-hidden="true"
               className="block h-[26px] w-[26px] flex-none rounded-btn bg-bg bg-cover bg-center"
               style={avatar}
             />
-            Tuva
+            <span className="max-md:hidden">Tuva</span>
           </button>
 
           {trailing}
@@ -189,7 +190,7 @@ export function HeaderBar({
 
       {mode ? (
         <div id={panelId} className="border-t border-line bg-sbg">
-          <div className="mx-auto flex max-w-[1180px] items-start gap-[16px] px-[28px] pb-[20px] pt-[18px]">
+          <div className="mx-auto flex max-w-[1180px] items-start gap-[16px] px-[16px] md:px-[28px] pb-[20px] pt-[18px]">
             <span className="min-w-0 flex-1">
               {mode === 'help' ? (
                 <>

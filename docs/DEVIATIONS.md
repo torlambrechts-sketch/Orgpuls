@@ -1659,3 +1659,39 @@ the two new entries, because the legacy resolution had also dropped an unrelated
 lockfile was checked with both `npm ci` and `npm install` from clean.
 
 `tests/unit/analytics.test.ts` holds the scrubbing rule (six cases).
+
+## D-50 — The phone layouts are this codebase's, because the design has none
+
+**Found by a user**, on a phone: `/registrer` laid its form out in an 8 px column beside the
+sales card, one word per line. The design bundle renders every screen at 1440 px and has no
+phone layout, and every check in this repository — including the pixel gate — ran at that
+width, so nothing had ever looked.
+
+**What was broken**, measured by the new `scripts/verify/mobile.mjs` at 390 px:
+
+- Every signed-in screen scrolled sideways by 155 px: the header's controls need 444 px.
+- Eight screens set their page as two columns whose right column has a 258–300 px floor, so
+  the left column (the form, or the lead paragraph) was squeezed to 8–14 px: registrering,
+  Samtaler, Tiltak, Oppsett, Selskap, Hjelp, Årshjulet, Måleoppsett.
+- Rows with fixed columns (Målinger's rounds, locations, groups, Regelverk, the question
+  set, integration cards) and the footer did the same at a smaller scale.
+- The report's sheet is a fixed 8.5in page and pushed the screen 451 px wide.
+
+**What changed, and the rule it follows.** Every change is gated below Tailwind's `md`
+breakpoint (768 px), so at 1440 px the rendering is the design's exactly — checked by
+capturing all eleven screens from the previous build and this one with the same data:
+**0 pixels differ on every screen**. Below 768 px:
+
+- page gutters are 16 px instead of 28;
+- two-column pages and fixed-column rows stack into one column;
+- the header's nav moves to its own row and scrolls sideways within itself; Hjelp and the
+  assistant show their icon only, keeping their accessible names;
+- the report sheet fills the width with 20 px margins, and a report table too wide for it
+  scrolls inside itself. Print is untouched: paper is wider than the breakpoint.
+
+Tables that were already wide by design (the risk picture, the team grid, the access
+matrix, the roster, the import preview, the year strip) keep their horizontal scroller.
+
+**Held in place.** CI's smoke job now runs `mobile.mjs` over every screen and the three
+marketing pages, and fails on sideways scrolling or text squeezed under 48 px. Milder
+wrapping — a two-word label on two lines in a table cell — is printed as a warning.

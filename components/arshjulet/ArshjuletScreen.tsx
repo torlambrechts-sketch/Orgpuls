@@ -167,7 +167,7 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
   }))
 
   return (
-    <main className="animate-entry mx-auto max-w-[1180px] px-[28px] pb-[60px] pt-[26px]">
+    <main className="animate-entry mx-auto max-w-[1180px] px-[16px] md:px-[28px] pb-[60px] pt-[26px]">
       <ButtonLink href="/malinger" size="xxs" tone="ghost">
         {t('arshjulet.back')}
       </ButtonLink>
@@ -264,7 +264,7 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
         </div>
       </section>
 
-      <div className="mt-[20px] grid items-start gap-[20px] [grid-template-columns:minmax(0,1.5fr)_minmax(280px,1fr)]">
+      <div className="mt-[20px] grid items-start gap-[20px] md:[grid-template-columns:minmax(0,1.5fr)_minmax(280px,1fr)]">
         {/*
           The design's left column is Rytme, Hvem varsles først, Hva skjer i hver runde,
           Unntak og eskalering — in that order, with the timeline sitting *between* two

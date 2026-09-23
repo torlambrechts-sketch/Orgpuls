@@ -62,17 +62,17 @@ export function LocationForm({
         {locations.map((l) => (
           <div
             key={l.id}
-            className="grid items-center gap-[14px] rounded-tile border border-line bg-bg px-[16px] py-[13px] [grid-template-columns:minmax(0,1fr)_minmax(0,1.4fr)_110px_40px]"
+            className="grid items-center gap-[14px] rounded-tile border border-line bg-bg px-[16px] py-[13px] [grid-template-columns:minmax(0,1fr)_40px] md:[grid-template-columns:minmax(0,1fr)_minmax(0,1.4fr)_110px_40px]"
           >
             <span className="text-[14px] font-semibold">{l.name}</span>
-            <span className="text-[12.5px] text-mut [text-wrap:pretty]">{l.address ?? ''}</span>
-            <span className="text-[12.5px] text-mut">{l.headcountLabel}</span>
+            <span className="text-[12.5px] text-mut [text-wrap:pretty] max-md:col-span-2">{l.address ?? ''}</span>
+            <span className="text-[12.5px] text-mut max-md:col-span-2">{l.headcountLabel}</span>
             <button
               type="button"
               onClick={() => remove(l.id)}
               disabled={!canWrite || pending}
               aria-label={`${labels.remove} ${l.name}`}
-              className="h-[30px] w-[30px] cursor-pointer rounded-focus border border-line bg-transparent p-0 text-[14px] leading-none text-mut"
+              className="h-[30px] w-[30px] cursor-pointer rounded-focus border border-line bg-transparent p-0 text-[14px] leading-none text-mut max-md:col-start-2 max-md:row-start-1"
             >
               ×
             </button>
@@ -94,7 +94,7 @@ export function LocationForm({
             setProblem(result.ok ? null : result.problem)
           })
         }
-        className="mt-[16px] grid items-end gap-[10px] border-t border-line pt-[16px] [grid-template-columns:minmax(150px,1fr)_minmax(190px,1.4fr)_120px]"
+        className="mt-[16px] grid items-end gap-[10px] border-t border-line pt-[16px] md:[grid-template-columns:minmax(150px,1fr)_minmax(190px,1.4fr)_120px]"
       >
         <label className="block">
           <span className="mb-[5px] block text-[11.5px] text-mut">{labels.name}</span>

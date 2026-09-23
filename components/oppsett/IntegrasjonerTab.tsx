@@ -45,7 +45,7 @@ export async function IntegrasjonerTab({
           return (
             <div
               key={k}
-              className="grid items-start gap-[16px] rounded-opt border border-line bg-bg px-[19px] py-[17px] [grid-template-columns:minmax(0,1fr)_136px]"
+              className="grid items-start gap-[16px] rounded-opt border border-line bg-bg px-[19px] py-[17px] md:[grid-template-columns:minmax(0,1fr)_136px]"
             >
               <span className="min-w-0">
                 <span className="flex flex-wrap items-center gap-[9px]">

@@ -109,7 +109,7 @@ export async function ResultatScreen({ view }: { view: ResultatView }) {
   const selected = view.rounds.find((r) => r.id === view.selectedId) ?? view.rounds[0]
   if (!selected) {
     // nothing has been measured, so there is nothing to show and nothing to withhold
-    return <main className="animate-entry mx-auto max-w-[1180px] px-[28px] pb-[60px] pt-[26px]" />
+    return <main className="animate-entry mx-auto max-w-[1180px] px-[16px] md:px-[28px] pb-[60px] pt-[26px]" />
   }
 
   /**
@@ -132,7 +132,7 @@ export async function ResultatScreen({ view }: { view: ResultatView }) {
   const body = view.body
 
   return (
-    <main className="animate-entry mx-auto max-w-[1180px] px-[28px] pb-[60px] pt-[26px]">
+    <main className="animate-entry mx-auto max-w-[1180px] px-[16px] md:px-[28px] pb-[60px] pt-[26px]">
       <span className="flex flex-wrap gap-[8px]">
         <ButtonLink href="/malinger" size="xxs" tone="ghost">
           {t('resultat.backToMeasure')}

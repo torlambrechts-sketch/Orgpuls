@@ -22,9 +22,9 @@ import type { ReactNode } from 'react'
  */
 export function Sheet({ children, footer }: { children: ReactNode; footer?: ReactNode }) {
   return (
-    <div className="doc-desk min-h-screen bg-[#f5f5f4] px-[24px] py-[48px]">
+    <div className="doc-desk min-h-screen bg-[#f5f5f4] px-[24px] py-[48px] max-md:px-[8px] max-md:py-[16px]">
       <div
-        className="doc-sheet mx-auto box-border w-[8.5in] rounded-[7px] bg-white p-[0.85in]"
+        className="doc-sheet mx-auto box-border w-[8.5in] rounded-[7px] bg-white p-[0.85in] max-md:w-full max-md:p-[20px]"
         style={{ boxShadow: '0 2px 10px rgba(20, 20, 19, 0.12)' }}
       >
         <div className="font-sans text-ink">{children}</div>

@@ -94,7 +94,7 @@ export function SignUpFlow() {
         ))}
       </ol>
 
-      <div className="mt-[26px] grid items-start gap-[22px] [grid-template-columns:minmax(0,1.25fr)_minmax(258px,0.75fr)]">
+      <div className="mt-[26px] grid items-start gap-[22px] md:[grid-template-columns:minmax(0,1.25fr)_minmax(258px,0.75fr)]">
         <div className="min-w-0">
           {/* ------------------------------------------------------- step 1 */}
           {step === 1 ? (

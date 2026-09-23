@@ -77,7 +77,7 @@ export async function MalingerScreen({ view }: { view: MalingerView }) {
   }
 
   return (
-    <main className="animate-entry mx-auto max-w-[1180px] px-[28px] pb-[60px] pt-[30px]">
+    <main className="animate-entry mx-auto max-w-[1180px] px-[16px] md:px-[28px] pb-[60px] pt-[30px]">
       <div className="flex flex-wrap items-end justify-between gap-[20px]">
         <div className="min-w-0">
           <h1 className="m-0 font-display text-[32px] font-semibold leading-[1.1]">
@@ -264,8 +264,7 @@ function RoundRow({
 
   return (
     <div
-      className="grid items-center gap-[16px] rounded-note border border-line bg-sf px-[22px] py-[18px]"
-      style={{ gridTemplateColumns: 'minmax(0,2fr) minmax(0,1.3fr) 118px 250px' }}
+      className="grid items-center gap-[16px] rounded-note border border-line bg-sf px-[22px] py-[18px] md:[grid-template-columns:minmax(0,2fr)_minmax(0,1.3fr)_118px_250px]"
     >
       <span className="min-w-0">
         <span className="block text-[16px] font-semibold">{title}</span>
@@ -311,7 +310,7 @@ function RoundRow({
         </span>
       </span>
 
-      <span className="flex flex-wrap justify-end gap-[8px]">
+      <span className="flex flex-wrap justify-start gap-[8px] md:justify-end">
         {closed ? (
           <>
             <Button size="sm" tone="secondary" pad={14}>

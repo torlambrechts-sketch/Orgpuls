@@ -42,7 +42,7 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
   const pct = view.total === 0 ? 0 : Math.round((view.withPhone / view.total) * 100)
 
   return (
-    <main className="animate-entry mx-auto max-w-[1180px] px-[28px] pb-[60px] pt-[26px]">
+    <main className="animate-entry mx-auto max-w-[1180px] px-[16px] md:px-[28px] pb-[60px] pt-[26px]">
       <ButtonLink href="/oppsett" size="xxs" tone="ghost">
         {t('integrasjoner.back')}
       </ButtonLink>

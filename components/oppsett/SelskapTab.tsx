@@ -143,7 +143,7 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
   ]
 
   return (
-    <div className="mt-[20px] grid items-start gap-[16px] [grid-template-columns:minmax(0,1.3fr)_minmax(300px,0.8fr)]">
+    <div className="mt-[20px] grid items-start gap-[16px] md:[grid-template-columns:minmax(0,1.3fr)_minmax(300px,0.8fr)]">
       <div className="flex min-w-0 flex-col gap-[16px]">
         <section className="rounded-panel border border-line bg-sf px-[26px] py-[24px]">
           <h2 className="m-0 font-display text-[21px] font-semibold">

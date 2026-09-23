@@ -194,6 +194,12 @@ jobs:
           node scripts/verify/shoot.mjs --out artifacts/smoke \
             /innsikt /malinger /samtaler /tiltak /oppsett /resultat /arshjulet \
             /hjelp /integrasjoner /rapport /maleoppsett
+          # the same screens at phone width: nothing may scroll sideways or squeeze its text
+          # into a column a word wide (D-50). The marketing pages need no sign-in.
+          node scripts/verify/mobile.mjs --out artifacts/mobile / /registrer /logg-inn
+          node scripts/verify/mobile.mjs --signin --out artifacts/mobile \
+            /innsikt /malinger /samtaler /tiltak /oppsett /resultat /arshjulet \
+            /hjelp /integrasjoner /rapport /maleoppsett
           if grep -E '\[(read|write|org|middleware)\] ' smoke.log; then
             echo "::error::a screen logged a failed read or write -- see the lines above"
             exit 1

@@ -33,7 +33,7 @@ export async function HjelpScreen({ view }: { view: HjelpView }) {
   ] as const
 
   return (
-    <main className="animate-entry mx-auto max-w-[1180px] px-[28px] pb-[60px] pt-[26px]">
+    <main className="animate-entry mx-auto max-w-[1180px] px-[16px] md:px-[28px] pb-[60px] pt-[26px]">
       <ButtonLink href="/innsikt" size="xxs" tone="ghost">
         {t('hjelp.back')}
       </ButtonLink>
@@ -68,7 +68,7 @@ export async function HjelpScreen({ view }: { view: HjelpView }) {
         ))}
       </div>
 
-      <div className="mt-[22px] grid items-start gap-[20px] [grid-template-columns:minmax(0,1.6fr)_minmax(280px,0.85fr)]">
+      <div className="mt-[22px] grid items-start gap-[20px] md:[grid-template-columns:minmax(0,1.6fr)_minmax(280px,0.85fr)]">
         <div className="min-w-0 rounded-panel border border-line bg-sf px-[26px] py-[24px]">
           <ArticleList
             articles={view.articles}

@@ -95,7 +95,7 @@ export async function InnsiktScreen({ view }: { view: InnsiktView }) {
   })
 
   return (
-    <main className="animate-entry mx-auto max-w-[1180px] px-[28px] pb-[60px] pt-[30px]">
+    <main className="animate-entry mx-auto max-w-[1180px] px-[16px] md:px-[28px] pb-[60px] pt-[30px]">
       <div className="flex flex-wrap items-end justify-between gap-[20px]">
         <div className="min-w-0">
           <div className="text-[11px] uppercase tracking-[0.11em] text-mut">

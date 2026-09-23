@@ -39,13 +39,13 @@ export function AppNav({ items }: { items: NavItem[] }) {
   const pathname = usePathname()
 
   return (
-    <nav className="flex min-w-0 flex-1 gap-[2px]">
+    <nav className="flex min-w-0 flex-1 gap-[2px] max-md:order-last max-md:basis-full max-md:overflow-x-auto">
       {items.map((item) => {
         const exact = pathname === item.href
         const tinted =
           exact ||
           (item.href === '/malinger' && UNDER_MEASURE.some((p) => pathname.startsWith(p)))
-        const className = `cursor-pointer rounded-ctl border-none px-[13px] py-[8px] text-[14px] text-ink no-underline hover:text-ink hover:no-underline ${
+        const className = `cursor-pointer rounded-ctl border-none px-[13px] py-[8px] text-[14px] text-ink no-underline hover:text-ink hover:no-underline max-md:flex-none max-md:whitespace-nowrap ${
           tinted ? 'bg-sbg' : 'bg-transparent'
         } ${exact ? 'font-bold' : 'font-medium'}`
 
