@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import { roundTitle } from '@/lib/rounds/title'
 import { ButtonLink } from '@/components/ui/Button'
 import { Risikobildet, type FactorRow } from '@/components/resultat/Risikobildet'
+import { adoptLabels, playbookBlock } from '@/lib/playbook/cards'
 import { bandCounts, deltaColour, heatTone, signedDelta, type Band } from '@/lib/results/read'
 import { ConversationColumn } from '@/components/resultat/ConversationColumn'
 import { LATE_AFTER_DAYS, TONE_STYLE, type ThemeTone } from '@/lib/conversations/rules'
@@ -124,6 +125,8 @@ export interface ResultatView {
   scope: Scope
   threshold: number
   body: ResultatBody
+  /** playbook keys of the organisation's measures — which suggestions read as taken (0031) */
+  adoptedKeys: string[]
 }
 
 /** The band tiles above the table — the design's own fills (bundle line 793). */
@@ -292,6 +295,7 @@ async function Results({
   closed: boolean
 }) {
   const t = await getTranslations()
+  const adopted = new Set(view.adoptedKeys)
 
   const rows: FactorRow[] = body.factors.map((f) => ({
     key: f.key,
@@ -313,6 +317,11 @@ async function Results({
     actionLabel: f.band === 'lav' ? t('resultat.assessed') : t('resultat.assess'),
     description: t(`factor.${f.key}.desc`),
     statements: f.ordinals.map((n) => t(`factor.${f.key}.s${n}`)),
+    // the design's threshold is the index under 66 — the same line as the middels band
+    playbook: {
+      head: f.band === 'lav' ? t('playbook.headHold') : t('playbook.headLift'),
+      ...playbookBlock(t, f.key, adopted),
+    },
   }))
 
   // the same counting Innsikt prints beneath its index, over the same server bands
@@ -432,6 +441,8 @@ async function Results({
         columnFactor={t('resultat.colFactor')}
         columnIndex={t('resultat.colIndex')}
         columnRisk={t('resultat.colRisk')}
+        adopt={adoptLabels(t)}
+        roundId={view.selectedId}
       />
 
       <div className="border-t border-line bg-sf px-[28px] py-[24px]">

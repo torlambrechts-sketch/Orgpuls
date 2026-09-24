@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { STEP_KEYS } from '@/lib/measures/read'
+import { playbookEntry } from '@/lib/playbook/registry'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { writeFailed } from '@/lib/supabase/write'
@@ -85,6 +86,54 @@ export async function createMeasure(formData: FormData): Promise<MeasureActionRe
 
   if (writeFailed('createMeasure', error, data)) return problem('denied')
   revalidatePath('/tiltak')
+  return { ok: true }
+}
+
+/**
+ * "Gjør til tiltak": a measure adopted from the playbook (lib/playbook/registry.ts).
+ *
+ * Unlike createMeasure this one arrives with content — the suggestion's title, and as its
+ * goal the design's own sentence: how it is done, and which statement its effect is read
+ * on. The key is checked against the registry, not just its shape, so a made-up key
+ * creates nothing; and it is stored on the row, which is what lets every screen show the
+ * suggestion as taken. A second press during a slow round-trip meets the unique index
+ * from 0031 and is answered as success: the measure it wanted exists.
+ */
+export async function adoptPlaybookMeasure(formData: FormData): Promise<MeasureActionResult> {
+  const parsed = z
+    .object({ key: z.string().regex(/^[a-z]+\.[1-3]$/), roundId: Optional(Uuid) })
+    .safeParse({ key: formData.get('key'), roundId: formData.get('roundId') })
+  if (!parsed.success) return problem('invalid')
+  const entry = playbookEntry(parsed.data.key)
+  if (!entry) return problem('invalid')
+
+  const t = await getTranslations()
+  const supabase = await createClient()
+
+  const orgId = await getCurrentOrgId()
+  if (!orgId) return problem('noOrg')
+
+  const { data, error } = await supabase
+    .schema('app')
+    .from('measures')
+    .insert({
+      org_id: orgId,
+      factor_key: entry.factorKey,
+      round_id: parsed.data.roundId,
+      title: t(`playbook.${entry.factorKey}.m${entry.n}.title`),
+      goal: t('playbook.goal', {
+        how: t(`playbook.${entry.factorKey}.m${entry.n}.how`),
+        statement: t(`factor.${entry.factorKey}.s${entry.watch}`),
+      }),
+      step: 'foreslatt',
+      playbook_key: entry.key,
+    })
+    .select('id')
+
+  // 23505: already adopted, by this press's twin or by a colleague a moment ago
+  if (error?.code !== '23505' && writeFailed('adoptPlaybookMeasure', error, data)) return problem('denied')
+  revalidatePath('/tiltak')
+  revalidatePath('/resultat')
   return { ok: true }
 }
 

@@ -76,7 +76,7 @@ export async function AppFooter() {
             </p>
             <div className="mt-[13px] flex flex-wrap items-center gap-[8px]">
               <span className="rounded-pill bg-mint px-[10px] py-[4px] text-[11px] font-bold text-greendeep">
-                {t('footer.dataNorge')}
+                {t('footer.dataEu')}
               </span>
               <span className="rounded-pill bg-sbg px-[10px] py-[4px] text-[11px] font-bold text-cautiondeep">
                 {t('footer.gdpr')}

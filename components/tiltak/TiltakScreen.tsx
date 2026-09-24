@@ -3,6 +3,9 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import { roundTitle, type Titled } from '@/lib/rounds/title'
 import { MeasureCard } from '@/components/tiltak/MeasureCard'
 import { NewMeasureButton } from '@/components/tiltak/NewMeasureButton'
+import { SuggestionBank, type BankChip } from '@/components/tiltak/SuggestionBank'
+import { adoptLabels, playbookBlock } from '@/lib/playbook/cards'
+import type { Band } from '@/lib/results/read'
 import { STEP_KEYS, stepIndex, type Measure, type MeasureBucket } from '@/lib/measures/read'
 
 /**
@@ -40,11 +43,16 @@ export interface TiltakView {
   factorKeys: string[]
   /** the round a new measure hangs off: the most recent closed one */
   newMeasureRoundId: string | null
+  /** "Forslag fra resultatene": the factors lowest index first, scored when a round has closed (D-61) */
+  bank: { factors: { key: string; index: number | null; band: Band | null }[]; selectedKey: string | null }
   /** closed rounds a measure's effect can be read from, newest first (0023, D-52) */
   effectRounds: { id: string; kind: string; year: number; pulseNo: number | null; opensAt: string | null }[]
 }
 
 const FILTERS: StatusFilter[] = ['apne', 'frist', 'effekt', 'lukket', 'alle']
+
+/** The score pill behind a bank chip, by the factor's band (bundle 4549: < 50, < 66, else). */
+const SCORE_BG: Record<Band, string> = { hoy: '#F0B9A0', middels: '#F5DC96', lav: '#CFE7E4' }
 
 /** Status pill fills, from the bundle (line 4400). */
 const PILL = {
@@ -120,6 +128,7 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
   })
 
   const opened = new Map(view.effectRounds.map((r) => [r.id, r.opensAt]))
+  const adopted = new Set(view.measures.flatMap((m) => (m.playbookKey ? [m.playbookKey] : [])))
   /** When the measure's own round has no known opening, every other closed round is offered. */
   const laterThanOwn = (r: { opensAt: string | null }, own: string | null) => {
     const from = own ? opened.get(own) : null
@@ -137,6 +146,7 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
       status: view.status,
       maling: view.roundId ?? undefined,
       tildelt: view.ownerId ?? undefined,
+      forslag: view.bank.selectedKey ?? undefined,
       ...over,
     }
     for (const [k, v] of Object.entries(merged)) if (v !== undefined) query[k] = v
@@ -195,6 +205,28 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
           </div>
         </div>
       </div>
+
+      {view.bank.selectedKey ? (
+        <SuggestionBank
+          head={t('playbook.bankHead')}
+          lead={view.bank.factors[0]?.index === null ? t('playbook.bankLeadNoScores') : t('playbook.bankLead')}
+          hideLabel={t('playbook.bankHide')}
+          showLabel={t('playbook.bankShow')}
+          chips={view.bank.factors.map(
+            (f): BankChip => ({
+              key: f.key,
+              label: t(`factor.${f.key}.label`),
+              score: f.index === null ? null : String(f.index),
+              scoreBg: f.band ? SCORE_BG[f.band] : 'transparent',
+              selected: f.key === view.bank.selectedKey,
+              href: href({ forslag: f.key }),
+            }),
+          )}
+          block={playbookBlock(t, view.bank.selectedKey, adopted)}
+          adopt={adoptLabels(t)}
+          roundId={view.newMeasureRoundId}
+        />
+      ) : null}
 
       <div className="mt-[22px] flex flex-wrap items-center gap-[8px]">
         {FILTERS.map((f) => {

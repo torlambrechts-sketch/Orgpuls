@@ -27,7 +27,7 @@
   },
   "app": {
     "name": "Orgpuls",
-    "tagline": "Psykososialt arbeidsmiljø for norske virksomheter. Svar lagres i Norge, og ingen enkeltsvar kan spores tilbake til en person."
+    "tagline": "Psykososialt arbeidsmiljø for norske virksomheter. Svar lagres i EU, og ingen enkeltsvar kan spores tilbake til en person."
   },
   "nav": {
     "innsikt": "Innsikt",
@@ -54,7 +54,7 @@
     "hoy": "Høy"
   },
   "footer": {
-    "dataNorge": "Data i Norge",
+    "dataEu": "Data i EU",
     "gdpr": "GDPR",
     "produkt": "Produkt",
     "oppsett": "Oppsett",
@@ -269,7 +269,7 @@
     "reminderClosed": "Påminnelser kan bare sendes mens en runde er åpen.",
     "startNextPulse": "Start neste puls nå",
     "sporsmalssettet": "Spørsmålssettet",
-    "qsLead": "Elleve faktorer — de samme som arbeidsmiljøloven § 4-3 og forskriften navngir etter presiseringen 1. januar 2026, formulert med QPS Nordic-språk. Tre påstander per faktor, besvart 1–5. Dere kan skru av en faktor, men ikke endre ordlyden — det er den som gjør tallene sammenliknbare over tid og mot bransjen.",
+    "qsLead": "Elleve faktorer — de samme som arbeidsmiljøloven § 4-3 og forskriften navngir etter presiseringen 1. januar 2026, formulert med QPS Nordic-språk. Tre påstander per faktor, besvart 1–5. Dere kan skru av en faktor, men ikke endre ordlyden — det er den som gjør tallene sammenliknbare over tid.",
     "statementCount": "{count, plural, one {# påstand} other {# påstander}}",
     "extraHeading": "I tillegg, utenfor indeksen",
     "extraCount": "{count, plural, other {# spørsmål}}",
@@ -726,7 +726,7 @@
         "note": "én faktor i dybden · ved behov"
       }
     },
-    "factorNote": "Grunnlinjen bruker alle elleve. Ordlyden er låst — det er den som gjør tallene sammenliknbare mot i fjor og mot bransjen.",
+    "factorNote": "Grunnlinjen bruker alle elleve. Ordlyden er låst — det er den som gjør tallene sammenliknbare mot i fjor.",
     "seeAll": "Se alle {count} spørsmålene",
     "commentHead": "Kommentarer",
     "commentLead": "Tallene sier hvor det gjør vondt. Kommentarene sier hvorfor. Du bestemmer her hvor de kan skrives.",
@@ -2105,5 +2105,221 @@
     "doneTitle": "Forhåndsvisningen er ferdig",
     "doneLead": "Ingenting ble sendt. De ansatte får påstandene i tilfeldig rekkefølge; her vises de slik instrumentet ordner dem.",
     "none": "Det finnes ingen måling å forhåndsvise ennå."
+  },
+  "playbook": {
+    "headLift": "Slik kan dere løfte dette",
+    "headHold": "Slik holder dere det der",
+    "kind": {
+      "workshop": "Workshop",
+      "rutine": "Rutine",
+      "lederpraksis": "Lederpraksis"
+    },
+    "watch": "Følg med på: «{statement}»",
+    "adopt": "Gjør til tiltak",
+    "adopted": "Lagt til i Tiltak ✓",
+    "goal": "{how} Effekten måles på påstanden «{statement}».",
+    "bankHead": "Forslag fra resultatene",
+    "bankLead": "Faktorene står fra lavest til høyest skår. Velg en for å se tiltak med støtte i forskningen, og gjør dem til egne tiltak med ett trykk.",
+    "bankLeadNoScores": "Ingen måling er lukket ennå, så faktorene står i instrumentets rekkefølge. Velg en for å se tiltak med støtte i forskningen, og gjør dem til egne tiltak med ett trykk.",
+    "bankHide": "Skjul forslag",
+    "bankShow": "Vis forslag",
+    "ytring": {
+      "ev": "Grunnlag: forskning på psykologisk trygghet (Edmondson). Det som flytter tallet mest, er hva lederen gjør i øyeblikket etter at noen har sagt fra.",
+      "m1": {
+        "title": "Svar på hver melding innen fem dager",
+        "time": "Løpende",
+        "how": "Hver avviksmelding og hvert innspill får et navngitt svar: hva som skjer, eller hvorfor ingenting skjer. Ingen melding blir liggende."
+      },
+      "m2": {
+        "title": "Workshop: Hva hindrer oss i å si fra?",
+        "time": "90 min",
+        "how": "Teamet skriver anonymt ned situasjoner der de lot være å si fra. Lederen lytter uten å forsvare seg, og dere avslutter med to konkrete endringer."
+      },
+      "m3": {
+        "title": "Lederen spør først og snakker sist",
+        "time": "I hvert møte",
+        "how": "Lederen ber om innvendinger før beslutninger og takker for dem som kommer. Uenighet skrives ned i stedet for å glattes over."
+      }
+    },
+    "mengde": {
+      "ev": "Grunnlag: krav–kontroll–støtte-modellen (Karasek) og jobbkrav–ressurser-modellen (Bakker og Demerouti). Tiltak virker best når de ansatte selv er med på å finne løsningene.",
+      "m1": {
+        "title": "Ukentlig prioriteringsmøte",
+        "time": "20 min i uka",
+        "how": "Lederen og teamet går gjennom alt som ligger på bordet og blir enige om hva som skal vike. Resultatet er én skriftlig, rangert liste."
+      },
+      "m2": {
+        "title": "Workshop: Finn tidstyvene",
+        "time": "2 timer",
+        "how": "Teamet noterer arbeidet sitt i en uke og finner oppgaver som kan fjernes, forenkles eller flyttes. Minst tre endringer besluttes før dere går."
+      },
+      "m3": {
+        "title": "Tydelige grenser for når man er tilgjengelig",
+        "time": "Én beslutning",
+        "how": "Avtal når det er greit å sende og svare på meldinger utenom arbeidstid. Lederen går foran."
+      }
+    },
+    "motstrid": {
+      "ev": "Grunnlag: forskning på rollekonflikt. Uklare prioriteringer mellom flere som bestiller arbeid, er en sterk kilde til stress, og det løses i organiseringen, ikke hos den enkelte.",
+      "m1": {
+        "title": "Én som bestemmer når to krav kolliderer",
+        "time": "Én beslutning",
+        "how": "Avklar skriftlig hvem som har siste ord når krav fra ulike hold ikke går sammen, og gjør det kjent for alle."
+      },
+      "m2": {
+        "title": "Workshop: Ansvarskart",
+        "time": "90 min",
+        "how": "Teamet tegner opp de viktigste oppgavene: hvem bestiller, hvem utfører, hvem godkjenner. Der det er to som bestiller, velger dere én."
+      },
+      "m3": {
+        "title": "Ny oppgave inn, en annen ned",
+        "time": "Løpende",
+        "how": "Når lederen gir en ny oppgave, sier hun eller han samtidig hva som skal prioriteres ned."
+      }
+    },
+    "kontakt": {
+      "ev": "Grunnlag: sosial støtte demper virkningen av høye krav (Johnson og Hall). Ved alenearbeid krever regelverket i tillegg at man kan tilkalle hjelp.",
+      "m1": {
+        "title": "Varslingsløsning for alenearbeid",
+        "time": "Én gang, så jevnlig test",
+        "how": "Sørg for at alle som jobber alene har en fast måte å tilkalle hjelp på, og test at den virker."
+      },
+      "m2": {
+        "title": "Fast møtepunkt for dem som jobber alene",
+        "time": "15 min i uka",
+        "how": "Et kort, fast møte, fysisk eller på Teams, der de som jobber alene møter kolleger og leder."
+      },
+      "m3": {
+        "title": "Makkerordning",
+        "time": "Løpende",
+        "how": "Den som ofte jobber alene får en fast kollega å ringe og drøfte saker med."
+      }
+    },
+    "emosjon": {
+      "ev": "Grunnlag: forskning på emosjonelt arbeid (Hochschild). Merk: én enkelt debriefing rett etter en hendelse har ikke vist effekt i systematiske oversikter. Det som virker, er støtte fra kolleger og oppfølging over tid.",
+      "m1": {
+        "title": "Kort kollegaprat etter krevende hendelser",
+        "time": "15 min",
+        "how": "Etter en vanskelig hendelse tar de involverte en kort, frivillig prat samme dag. Lederen følger opp noen dager etterpå."
+      },
+      "m2": {
+        "title": "Workshop: Når jobben går inn på oss",
+        "time": "90 min",
+        "how": "Teamet deler hvilke situasjoner som tapper mest, og blir enige om hvordan de hjelper hverandre gjennom dem."
+      },
+      "m3": {
+        "title": "Ingen står alene i de tyngste møtene",
+        "time": "Én beslutning",
+        "how": "Bestem hvilke møter med kunder eller brukere som alltid skal ha to personer til stede."
+      }
+    },
+    "leder": {
+      "ev": "Grunnlag: studier av lederutvikling viser effekt når opplæringen er praktisk og følges opp over tid. Faste samtaler mellom leder og ansatt er et av de enkleste grepene.",
+      "m1": {
+        "title": "Fast samtale hver 14. dag",
+        "time": "20 min",
+        "how": "Korte, faste samtaler der den ansatte setter dagsordenen. De flyttes, men avlyses ikke."
+      },
+      "m2": {
+        "title": "Lederen jobber en dag med teamet",
+        "time": "Én dag i kvartalet",
+        "how": "Lederen deltar i det vanlige arbeidet en dag for å se hva jobben faktisk innebærer."
+      },
+      "m3": {
+        "title": "Fadder for nyansatte",
+        "time": "De første 8 ukene",
+        "how": "En erfaren kollega følger opp nyansatte, slik at lederen ikke er den eneste de kan spørre."
+      }
+    },
+    "medvirk": {
+      "ev": "Grunnlag: innflytelse over eget arbeid er en av de best dokumenterte beskyttelsesfaktorene (Karasek). Jobbutforming, der de ansatte selv justerer oppgavene sine, gir målbare, men moderate effekter.",
+      "m1": {
+        "title": "Workshop: Jobbutforming",
+        "time": "2 timer",
+        "how": "Hver ansatt går gjennom egne oppgaver og foreslår én endring i hvordan de gjøres. Lederen sier ja, eller begrunner et nei."
+      },
+      "m2": {
+        "title": "De berørte med før endringer besluttes",
+        "time": "Løpende",
+        "how": "Endringer som treffer arbeidshverdagen, legges fram for dem det gjelder før beslutningen tas, ikke etter."
+      },
+      "m3": {
+        "title": "Teamet planlegger egen uke",
+        "time": "Løpende",
+        "how": "Lederen setter mål og frister. Teamet bestemmer rekkefølge og fordeling."
+      }
+    },
+    "integritet": {
+      "ev": "Grunnlag: forskningsgruppen for mobbing ved Universitetet i Bergen (Einarsen m.fl.). Tidlig inngripen fra leder og klare rutiner hindrer at konflikter utvikler seg til mobbing.",
+      "m1": {
+        "title": "Gå gjennom rutinen for krenkende atferd",
+        "time": "30 min per team",
+        "how": "Vis hvordan man melder fra og hva som skjer etterpå. Sørg for at det finnes en vei utenom nærmeste leder."
+      },
+      "m2": {
+        "title": "Workshop: Slik vil vi ha det her",
+        "time": "90 min",
+        "how": "Teamet blir enige om konkrete spilleregler for hvordan de snakker til og om hverandre, og hva de gjør når noen går over streken."
+      },
+      "m3": {
+        "title": "Lederen griper inn tidlig",
+        "time": "Løpende",
+        "how": "Lederen tar tak i nedsettende kommentarer og utestenging med en gang, i en rolig samtale, før det blir en sak."
+      }
+    },
+    "rolle": {
+      "ev": "Grunnlag: rolleklarhet henger tett sammen med jobbtilfredshet og lavere stress, og god opplæring i starten har varig effekt.",
+      "m1": {
+        "title": "Forventningssamtale med hver ansatt",
+        "time": "30 min",
+        "how": "Lederen og den ansatte skriver ned de tre viktigste ansvarsområdene og hva som regnes som godt nok."
+      },
+      "m2": {
+        "title": "Workshop: Hvem gjør hva",
+        "time": "90 min",
+        "how": "Teamet går gjennom gråsonene der det er uklart hvem som har ansvaret, og fordeler dem."
+      },
+      "m3": {
+        "title": "Opplæringsplan for nyansatte",
+        "time": "De første 3 månedene",
+        "how": "En skriftlig plan for hva nyansatte skal lære, av hvem, og når de regnes som ferdig opplært."
+      }
+    },
+    "kollega": {
+      "ev": "Grunnlag: støtte fra kolleger demper virkningen av høye krav. Tiltak som bygger støtte i det daglige arbeidet, virker bedre enn enkeltstående sosiale arrangementer.",
+      "m1": {
+        "title": "Faste læringsmøter",
+        "time": "30 min i måneden",
+        "how": "En kollega deler noe hun eller han har lært eller løst. Kunnskapsdeling blir en vane, ikke en tilfeldighet."
+      },
+      "m2": {
+        "title": "Gjør det vanlig å be om hjelp",
+        "time": "Løpende",
+        "how": "Lederen ber selv om hjelp og løfter fram dem som stiller opp for andre."
+      },
+      "m3": {
+        "title": "Workshop: Slik hjelper vi hverandre",
+        "time": "60 min",
+        "how": "Teamet finner ut når de trenger hverandre mest, og hvordan de gjør det lett å få hjelp."
+      }
+    },
+    "mening": {
+      "ev": "Grunnlag: forskning viser at kontakt med dem arbeidet kommer til gode, øker både motivasjon og innsats (Grant). Anerkjennelse virker best når den er konkret og kommer raskt.",
+      "m1": {
+        "title": "Vis hvem arbeidet gjør en forskjell for",
+        "time": "Løpende",
+        "how": "Del tilbakemeldinger fra kunder og brukere med dem som faktisk gjorde jobben."
+      },
+      "m2": {
+        "title": "Konkret anerkjennelse samme uke",
+        "time": "Løpende",
+        "how": "Ros det som faktisk ble gjort, og si hvorfor det betydde noe. Ikke vent til medarbeidersamtalen."
+      },
+      "m3": {
+        "title": "Workshop: Det vi er stolte av",
+        "time": "60 min",
+        "how": "Teamet deler eksempler på arbeid de er stolte av og hva som gjorde det mulig, og finner ut hva dere bør gjøre mer av."
+      }
+    }
   }
 }

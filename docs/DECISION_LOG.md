@@ -1416,6 +1416,16 @@ that never catches up, and the CLI's config cannot name an image, so the workflo
 v16.3 under the name the CLI pins before it starts the stack. The step reads the pin and
 retires itself once the CLI moves past v16.2. The retry wrapper stays as written.
 
+### X-036 — The playbook is data, adoption is a column, Utløsere waits for its data
+
+The 2026-09-24 design adds research-backed measures per factor and a one-press "Gjør til
+tiltak". The suggestions are a registry plus message keys, never a component; the line
+each is followed up on is the instrument's own statement by ordinal, not a copy; and
+whether a suggestion was taken is `measures.playbook_key` (0031), unique per organisation,
+so every screen and every member reads the same answer. The Årshjulet "Utløsere" card is
+omitted until start dates, projects, two short instruments and a named-answer path exist
+— the last a privacy decision, not a feature (D-61, D-62, D-63).
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1511,3 +1521,11 @@ retires itself once the CLI moves past v16.2. The retry wrapper stays as written
       a puls once one closes after the grunnlinje. Design question (D-46).
 - [ ] The demo organisation ages: re-run `scripts/seed/demo-org.mjs` to refresh it, which
       on the hosted project is a scoped delete-and-reinsert to confirm first (D-47).
+- [x] Playbook: three suggested measures per factor on Resultat and Tiltak, adopted into
+      real measures. X-036, D-61.
+- [ ] Utløsere on Årshjulet: needs employee start dates, projects, two short instruments and
+      a decision on named answers (D-62).
+- [ ] The design's in-page help drawer (three articles per screen under the Hjelp button) is
+      not built; the button opens the help site (D-63).
+- [x] Migration 0031 applied to the hosted project 2026-09-24 (management API, recorded in
+      its migration history) before the code that reads `playbook_key` was deployed.

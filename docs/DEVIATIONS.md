@@ -2073,3 +2073,111 @@ everything sits 26 px higher, and compared there the rows "Mottakere…Rytme" di
 the legal box at **0**, and the bordered lines at 473, which is the fixture's "Ingen
 påminnelse" against the design's "Påminnelse dag 2". The design's yellow CTA under the
 panel is the mint planned-state box here, by the reasoning above.
+
+---
+
+## D-61 — The playbook: three suggested measures per factor, adopted with one press
+
+The design of 2026-09-24 attaches to every factor an evidence line and three measures a
+leader can take — under the open factor row on Resultat ("Slik kan dere løfte dette" /
+"Slik holder dere det der", bundle 846-865) and on Tiltak as "Forslag fra resultatene"
+(1810-1843), with a "Gjør til tiltak" button that turns into "Lagt til i Tiltak ✓".
+
+**Where the content lives.** The prototype holds it in a `PLAYBOOK` constant. Here it is
+data in two halves: the shape in `lib/playbook/registry.ts` (factor, ordinal 1-3, kind,
+and which statement the effect is read on) and the words in `messages/*.json` under
+`playbook.*`, Norwegian verbatim from the bundle, English translated. Adding or changing a
+suggestion is a registry row and its message keys.
+
+**"Følg med på: «…»" is a statement, not a sentence.** Every one of the 33 lines the
+design writes after "Følg med på" is one of the instrument's own statements, word for
+word. So the registry stores a statement ordinal and the screen prints
+`factor.<key>.s<n>` — the one place that wording exists — instead of a second copy that
+would drift the day a statement is corrected.
+
+**"Lagt til i Tiltak ✓" is a fact, not local state.** Migration 0031 adds
+`app.measures.playbook_key` (`<factor>.<n>`, checked by shape), unique per organisation
+where set. `adoptPlaybookMeasure` writes the suggestion's title, and as the goal the
+design's own sentence — how it is done, and the statement its effect is measured on —
+with the key; the screens read the key back from the organisation's measures, so a
+reload, a colleague and this tab all agree. A second press during a slow round-trip meets
+the unique index and is answered as success. Deleting the measure offers the suggestion
+again. `supabase/tests/playbook_invariants.sql` holds the rule (8 assertions);
+`tests/unit/playbook.test.ts` holds the registry to the messages.
+
+**What the bank does without results.** The design sorts the chips by index and opens the
+lowest. When no round has closed, or the latest one is under the threshold, there are no
+indices: the chips stand in the instrument's order without a score pill and the lead
+says so (`playbook.bankLeadNoScores`), rather than printing a number nothing measured.
+Which chip is open is in the URL (`?forslag=`), like the filters above the list; only
+"Skjul forslag" is local.
+
+**Not built:** the prototype's "Vurder risiko" button on the factor row is unchanged (it
+still leads nowhere new); the playbook's colour for the Lederpraksis pill, `#EFE6D2`,
+is a new hex in the bundle and is added to the tokens as `sand`.
+
+---
+
+## D-62 — Utløsere (event-triggered measurements) are not built
+
+The same design adds a fourth card to Årshjulet, "Utløsere" (bundle 1411-1462): two
+switches — "Nyansatte etter 30 og 90 dager" with a choice between an anonymous
+measurement that accumulates until five have answered and an "åpen oppstartssamtale"
+where the new hire answers by name, and "Prosjektstart og prosjektslutt" with a list of
+upcoming projects — plus a warning that six of 34 employees have no start date.
+
+Nothing in the schema can back any of it yet, and a switch that stores a preference
+nothing acts on would be the fake value CLAUDE.md forbids. What it needs, named:
+
+1. **A start date per employee** (`app.employees` has none) and somewhere to enter it —
+   the design's "Legg inn startdato" points at Oppsett › Ansatte, whose form has no such
+   field in the bundle either.
+2. **Projects**: a table of projects with a team, a start and an end, and a source for
+   them. The design lists "Fjordbrua — oppstart" and "Rv. 13 Øvre — avslutning" but gives
+   no screen that creates a project; the only plausible origin is an integration.
+3. **Two short instruments** ("seks spørsmål om rolleklarhet, opplæring og tilhørighet";
+   "fire spørsmål om rolleklarhet, prioritering og samarbeid") as data, with their own
+   round kind, and a tick that opens a per-person round at day 30 and day 90 and pools
+   answers until k — a rolling round the k gate has no notion of today.
+4. **Named answers.** The "åpen oppstartssamtale" mode stores who answered what. That is
+   not a variant of `app.responses`, which by invariant 2 has no column that could hold a
+   person; it is a second, non-anonymous response path with its own table, consent text
+   and retention. It is a product and privacy decision to take explicitly, not a mode to
+   add under a card.
+
+The card is omitted; the three cards above it are as before. The new design file is the
+reference for everything else, so the Årshjulet baseline is re-captured from it and the
+region below "Unntak og eskalering" is the documented gap.
+
+---
+
+## D-63 — The design of 2026-09-24 replaces the reference; two copy corrections ride along
+
+`design-reference/orgpuls/Orgpuls.dc.html` is the file received on 2026-09-24;
+`Orgpuls_Offline_Source.html` is the same file with the Google Fonts link swapped for
+`/fonts/fonts.css`, which is the only transformation the offline copy ever had (D-07). The
+twelve baselines are re-captured from it with the prototype's own runtime, at 1440 px,
+full page, from a cold load and the same navigation as before; the pipeline was checked
+first by re-capturing the previous file and diffing against the committed baselines,
+which came out at 0 pixels. The captures live in the same files under the same names.
+Three of the old ones (Årshjulet, Hjelp, Integrasjoner) had been taken mid-scroll, with the
+sticky header baked in a third of the way down the page; the new set has the header at
+the top on every screen, which is also how `shoot.mjs` captures the app.
+
+Besides the playbook (D-61) and Utløsere (D-62), the design changed two things in the
+copy, both applied:
+
+- **"Data i EU", not "Data i Norge."** The footer chip and the tagline said Norway. The
+  project's Supabase region is eu-central-1 (Frankfurt), so the old chip was a false
+  statement on every page and the new one is the true one. The key is renamed
+  `footer.dataEu`; the Personvern tab's own sentence about where data is stored was already
+  EU-neutral and is unchanged.
+- **No industry benchmark.** "…og mot bransjen" is dropped from the instrument lead and
+  the Måleoppsett factor note; the design's own header line now reads "Grunnlinje 2025: 64"
+  where it read "Bransjesnitt anlegg: 64", which is what this app has printed since D-46.
+  Oppsett › Selskap still says the industry comparison is not connected, which remains
+  true.
+
+Unchanged from the design and not adopted: the help button's in-page drawer with three
+articles per screen (the app's help button opens the help site, as the previous design
+did) — logged as an open item, not a deviation, since nothing is misrepresented.

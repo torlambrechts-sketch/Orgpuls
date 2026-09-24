@@ -261,3 +261,12 @@ jobs:
       - name: Server log
         if: always()
         run: cat smoke.log 2>/dev/null || true
+
+      # The smoke shots are the only capture of every screen against a database built from
+      # the migrations, so they are kept: the pixel tooling can be pointed at them.
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-shots
+          path: artifacts/
+          if-no-files-found: ignore

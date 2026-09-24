@@ -2,6 +2,7 @@ import { TiltakScreen, type StatusFilter, type TiltakView } from '@/components/t
 import { getFactors } from '@/lib/instrument/read'
 import { getMeasures } from '@/lib/measures/read'
 import { getEmployees, getGroups } from '@/lib/org/read'
+import { getResultsSummary } from '@/lib/results/read'
 import { getLatestClosedRoundId, getRounds } from '@/lib/rounds/read'
 
 /**
@@ -27,7 +28,7 @@ const STATUSES: StatusFilter[] = ['apne', 'frist', 'effekt', 'lukket', 'alle']
 export default async function TiltakPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string; maling?: string; tildelt?: string }>
+  searchParams: Promise<{ status?: string; maling?: string; tildelt?: string; forslag?: string }>
 }) {
   const params = await searchParams
   const [measures, employees, groups, factors, newMeasureRoundId, allRounds] = await Promise.all([
@@ -38,6 +39,19 @@ export default async function TiltakPage({
     getLatestClosedRoundId(),
     getRounds(),
   ])
+
+  /*
+   * "Forslag fra resultatene" orders the factors by the latest closed round's indices and
+   * opens the lowest (D-61). With no closed round, or one under the threshold, there are
+   * no indices: the chips then stand in the instrument's order and carry no score, and
+   * the lead says so, rather than printing a number nothing measured.
+   */
+  const summary = newMeasureRoundId ? await getResultsSummary(newMeasureRoundId) : null
+  const scored = summary?.status === 'ok' ? summary.factors : null
+  const bankFactors = scored
+    ? [...scored].sort((a, b) => a.index - b.index).map((f) => ({ key: f.key, index: f.index, band: f.band }))
+    : factors.map((f) => ({ key: f.key, index: null, band: null }))
+  const bankKey = bankFactors.some((f) => f.key === params.forslag) ? (params.forslag as string) : bankFactors[0]?.key ?? null
 
   const status = STATUSES.includes(params.status as StatusFilter)
     ? (params.status as StatusFilter)
@@ -62,6 +76,7 @@ export default async function TiltakPage({
     groups,
     factorKeys: factors.map((f) => f.key),
     newMeasureRoundId,
+    bank: { factors: bankFactors, selectedKey: bankKey },
     // a round can be evidence only once it has closed and its result exists
     effectRounds: allRounds
       .filter((r) => r.status === 'lukket')

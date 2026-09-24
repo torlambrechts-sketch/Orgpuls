@@ -51,6 +51,7 @@ const MeasureRow = z.object({
   kind: z.enum(['kollektivt', 'individuelt']),
   effect_round_id: z.string().nullable(),
   effect_note: z.string().nullable(),
+  playbook_key: z.string().nullable(),
   created_at: z.string(),
   factors: z.object({ law_ref: z.string() }),
   employees: z.object({ id: z.string(), full_name: z.string() }).nullable(),
@@ -77,6 +78,8 @@ export interface Measure {
   /** the later round chosen as evidence the measure worked, and the judgement on it (0023) */
   effectRoundId: string | null
   effectNote: string | null
+  /** the playbook suggestion it was adopted from (`<factor>.<n>`), or null when written by hand — 0031 */
+  playbookKey: string | null
   round: { id: string; kind: string; year: number; pulseNo: number | null } | null
   /** past its deadline and not yet carried out — derived, never stored */
   late: boolean
@@ -117,7 +120,7 @@ export async function getMeasures(): Promise<Measure[]> {
        * The one wanted here is the round the measure came out of, which is what the
        * chips filter by and what section 6 of the report compares against.
        */
-      'id, factor_key, law_ref, title, goal, due_date, completed_on, step, kind, effect_round_id, effect_note, created_at,' +
+      'id, factor_key, law_ref, title, goal, due_date, completed_on, step, kind, effect_round_id, effect_note, playbook_key, created_at,' +
         ' factors(law_ref), employees(id, full_name),' +
         ' rounds!measures_round_id_fkey(id, measurements(kind, year)),' +
         ' measure_groups(group_id)',
@@ -150,6 +153,7 @@ export async function getMeasures(): Promise<Measure[]> {
       owner: m.employees ? { id: m.employees.id, name: m.employees.full_name } : null,
       effectRoundId: m.effect_round_id,
       effectNote: m.effect_note,
+      playbookKey: m.playbook_key,
       round: m.rounds
         ? {
             id: m.rounds.id,

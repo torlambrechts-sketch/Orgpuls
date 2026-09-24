@@ -27,6 +27,7 @@ const config: Config = {
         ac: '#F5C64A',        // primary CTA
         sbg: '#FBEBBE',       // soft yellow: selected chip, accent panel
         band: '#F5DC96',      // middle risk band
+        sand: '#EFE6D2',      // the playbook's Lederpraksis pill
         amberbar: '#E0A21F',
         caution: '#8A6A00',
         cautiondeep: '#5C4600',

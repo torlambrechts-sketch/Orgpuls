@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { BAND_BAR, RiskBadge, type Band } from '@/components/ui/Risk'
+import { PlaybookCards, PlaybookEvidence } from '@/components/playbook/PlaybookCards'
+import type { AdoptLabels, PlaybookBlock } from '@/lib/playbook/cards'
 
 /**
  * Risikobildet — the factor table. Bundle lines 802-861.
@@ -40,6 +42,12 @@ export interface FactorRow {
   actionLabel: string
   description: string
   statements: string[]
+  /**
+   * The playbook under the open row (bundle 846-865): "Slik kan dere løfte dette" on a
+   * factor not yet sound, "Slik holder dere det der" on one that is, then the evidence
+   * line and three cards. Null when the factor has no playbook entry.
+   */
+  playbook: { head: string } & PlaybookBlock | null
 }
 
 /** The bundle's four-column grid, used by the header row and every data row (line 804). */
@@ -57,11 +65,16 @@ export function Risikobildet({
   columnFactor,
   columnIndex,
   columnRisk,
+  adopt,
+  roundId,
 }: {
   rows: FactorRow[]
   columnFactor: string
   columnIndex: string
   columnRisk: string
+  /** the adopt button's words; the round a measure adopted here is filed under */
+  adopt: AdoptLabels
+  roundId: string | null
 }) {
   const [open, setOpen] = useState('')
 
@@ -156,6 +169,13 @@ export function Risikobildet({
                       </div>
                     ))}
                   </div>
+                  {row.playbook ? (
+                    <div className="mt-[18px] rounded-opt border border-line bg-bg px-[18px] py-[16px]">
+                      <div className="font-display text-[17px] font-semibold">{row.playbook.head}</div>
+                      <PlaybookEvidence text={row.playbook.evidence} className="mt-[4px] max-w-[720px]" />
+                      <PlaybookCards cards={row.playbook.cards} minCard={230} labels={adopt} roundId={roundId} />
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
             </div>

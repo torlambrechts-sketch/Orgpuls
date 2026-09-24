@@ -27,7 +27,7 @@
   },
   "app": {
     "name": "Orgpuls",
-    "tagline": "Psychosocial work environment for Norwegian organisations. Answers are stored in Norway, and no single answer can be traced back to a person."
+    "tagline": "Psychosocial work environment for Norwegian organisations. Answers are stored in the EU, and no single answer can be traced back to a person."
   },
   "nav": {
     "innsikt": "Insight",
@@ -54,7 +54,7 @@
     "hoy": "High"
   },
   "footer": {
-    "dataNorge": "Data in Norway",
+    "dataEu": "Data in the EU",
     "gdpr": "GDPR",
     "produkt": "Product",
     "oppsett": "Settings",
@@ -269,7 +269,7 @@
     "reminderClosed": "Reminders can only be sent while a round is open.",
     "startNextPulse": "Start the next pulse now",
     "sporsmalssettet": "The question set",
-    "qsLead": "Eleven factors — the same ones the Working Environment Act § 4-3 and the regulation name after the clarification of 1 January 2026, phrased in QPS Nordic language. Three statements per factor, answered 1–5. You may switch a factor off, but not change the wording — it is the wording that makes the figures comparable over time and against the industry.",
+    "qsLead": "Eleven factors — the same ones the Working Environment Act § 4-3 and the regulation name after the clarification of 1 January 2026, phrased in QPS Nordic language. Three statements per factor, answered 1–5. You may switch a factor off, but not change the wording — it is the wording that makes the figures comparable over time.",
     "statementCount": "{count, plural, one {# statement} other {# statements}}",
     "extraHeading": "In addition, outside the index",
     "extraCount": "{count, plural, one {# question} other {# questions}}",
@@ -726,7 +726,7 @@
         "note": "one factor in depth · as needed"
       }
     },
-    "factorNote": "The baseline uses all eleven. The wording is fixed — it is what makes the figures comparable with last year and with the industry.",
+    "factorNote": "The baseline uses all eleven. The wording is fixed — it is what makes the figures comparable with last year.",
     "seeAll": "See all {count} questions",
     "commentHead": "Comments",
     "commentLead": "The figures say where it hurts. The comments say why. You decide here where they can be written.",
@@ -2105,5 +2105,221 @@
     "doneTitle": "The preview is finished",
     "doneLead": "Nothing was sent. Employees get the statements in a random order; here they appear in the instrument's order.",
     "none": "There is no survey to preview yet."
+  },
+  "playbook": {
+    "headLift": "How you can lift this",
+    "headHold": "How you keep it there",
+    "kind": {
+      "workshop": "Workshop",
+      "rutine": "Routine",
+      "lederpraksis": "Leadership practice"
+    },
+    "watch": "Watch: “{statement}”",
+    "adopt": "Make it a measure",
+    "adopted": "Added to Measures ✓",
+    "goal": "{how} The effect is measured on the statement “{statement}”.",
+    "bankHead": "Suggestions from the results",
+    "bankLead": "The factors run from lowest to highest score. Pick one to see research-backed measures, and make them your own with one press.",
+    "bankLeadNoScores": "No measurement has closed yet, so the factors stand in the instrument's order. Pick one to see research-backed measures, and make them your own with one press.",
+    "bankHide": "Hide suggestions",
+    "bankShow": "Show suggestions",
+    "ytring": {
+      "ev": "Basis: research on psychological safety (Edmondson). What moves the number most is what the leader does in the moment after someone speaks up.",
+      "m1": {
+        "title": "Answer every report within five days",
+        "time": "Ongoing",
+        "how": "Every deviation report and every suggestion gets a named answer: what will happen, or why nothing will. No report is left lying."
+      },
+      "m2": {
+        "title": "Workshop: What stops us from speaking up?",
+        "time": "90 min",
+        "how": "The team writes down, anonymously, situations where they chose not to speak up. The leader listens without defending, and you end with two concrete changes."
+      },
+      "m3": {
+        "title": "The leader asks first and speaks last",
+        "time": "In every meeting",
+        "how": "The leader asks for objections before decisions and thanks those who raise them. Disagreement is written down instead of smoothed over."
+      }
+    },
+    "mengde": {
+      "ev": "Basis: the demand–control–support model (Karasek) and the job demands–resources model (Bakker and Demerouti). Measures work best when the employees themselves help find the solutions.",
+      "m1": {
+        "title": "Weekly prioritisation meeting",
+        "time": "20 min a week",
+        "how": "The leader and the team go through everything on the table and agree on what has to give. The result is one written, ranked list."
+      },
+      "m2": {
+        "title": "Workshop: Find the time thieves",
+        "time": "2 hours",
+        "how": "The team logs its work for a week and finds tasks that can be removed, simplified or moved. At least three changes are decided before you leave."
+      },
+      "m3": {
+        "title": "Clear limits on when you are available",
+        "time": "One decision",
+        "how": "Agree when it is fine to send and answer messages outside working hours. The leader goes first."
+      }
+    },
+    "motstrid": {
+      "ev": "Basis: research on role conflict. Unclear priorities between several people who order work is a strong source of stress, and it is solved in the organisation, not in the individual.",
+      "m1": {
+        "title": "One person decides when two demands collide",
+        "time": "One decision",
+        "how": "Settle in writing who has the last word when demands from different directions do not fit together, and make it known to everyone."
+      },
+      "m2": {
+        "title": "Workshop: Responsibility map",
+        "time": "90 min",
+        "how": "The team maps the most important tasks: who orders, who carries out, who approves. Where two people order, you choose one."
+      },
+      "m3": {
+        "title": "A new task in, another one down",
+        "time": "Ongoing",
+        "how": "When the leader hands out a new task, they say at the same time what is to be deprioritised."
+      }
+    },
+    "kontakt": {
+      "ev": "Basis: social support dampens the effect of high demands (Johnson and Hall). For lone work the regulations also require a way to call for help.",
+      "m1": {
+        "title": "An alarm arrangement for lone work",
+        "time": "Once, then tested regularly",
+        "how": "Make sure everyone who works alone has a fixed way to call for help, and test that it works."
+      },
+      "m2": {
+        "title": "A fixed meeting point for those who work alone",
+        "time": "15 min a week",
+        "how": "A short, fixed meeting, in person or on Teams, where those who work alone meet colleagues and the leader."
+      },
+      "m3": {
+        "title": "Buddy arrangement",
+        "time": "Ongoing",
+        "how": "Whoever often works alone gets a fixed colleague to call and discuss matters with."
+      }
+    },
+    "emosjon": {
+      "ev": "Basis: research on emotional labour (Hochschild). Note: a single debriefing right after an incident has not shown effect in systematic reviews. What works is support from colleagues and follow-up over time.",
+      "m1": {
+        "title": "A short talk with colleagues after demanding incidents",
+        "time": "15 min",
+        "how": "After a difficult incident those involved have a short, voluntary talk the same day. The leader follows up a few days later."
+      },
+      "m2": {
+        "title": "Workshop: When the job gets to us",
+        "time": "90 min",
+        "how": "The team shares which situations drain the most, and agrees on how they help each other through them."
+      },
+      "m3": {
+        "title": "Nobody stands alone in the hardest meetings",
+        "time": "One decision",
+        "how": "Decide which meetings with customers or clients always have two people present."
+      }
+    },
+    "leder": {
+      "ev": "Basis: studies of leadership development show effect when the training is practical and followed up over time. Regular conversations between leader and employee are one of the simplest moves.",
+      "m1": {
+        "title": "A fixed conversation every 14 days",
+        "time": "20 min",
+        "how": "Short, fixed conversations where the employee sets the agenda. They get moved, but never cancelled."
+      },
+      "m2": {
+        "title": "The leader works a day with the team",
+        "time": "One day a quarter",
+        "how": "The leader takes part in the ordinary work for a day to see what the job actually involves."
+      },
+      "m3": {
+        "title": "A mentor for new hires",
+        "time": "The first 8 weeks",
+        "how": "An experienced colleague follows up new hires, so the leader is not the only one they can ask."
+      }
+    },
+    "medvirk": {
+      "ev": "Basis: influence over one's own work is one of the best documented protective factors (Karasek). Job crafting, where employees adjust their own tasks, gives measurable but moderate effects.",
+      "m1": {
+        "title": "Workshop: Job crafting",
+        "time": "2 hours",
+        "how": "Each employee goes through their own tasks and proposes one change in how they are done. The leader says yes, or gives a reason for a no."
+      },
+      "m2": {
+        "title": "Those affected are involved before changes are decided",
+        "time": "Ongoing",
+        "how": "Changes that touch the working day are put to those concerned before the decision is made, not after."
+      },
+      "m3": {
+        "title": "The team plans its own week",
+        "time": "Ongoing",
+        "how": "The leader sets goals and deadlines. The team decides order and distribution."
+      }
+    },
+    "integritet": {
+      "ev": "Basis: the bullying research group at the University of Bergen (Einarsen et al.). Early intervention by the leader and clear routines stop conflicts from developing into bullying.",
+      "m1": {
+        "title": "Go through the routine for offensive behaviour",
+        "time": "30 min per team",
+        "how": "Show how to report and what happens afterwards. Make sure there is a route around the immediate leader."
+      },
+      "m2": {
+        "title": "Workshop: This is how we want it here",
+        "time": "90 min",
+        "how": "The team agrees on concrete ground rules for how they speak to and about each other, and what they do when someone crosses the line."
+      },
+      "m3": {
+        "title": "The leader steps in early",
+        "time": "Ongoing",
+        "how": "The leader deals with belittling comments and exclusion at once, in a calm conversation, before it becomes a case."
+      }
+    },
+    "rolle": {
+      "ev": "Basis: role clarity is closely tied to job satisfaction and lower stress, and good training at the start has a lasting effect.",
+      "m1": {
+        "title": "An expectations conversation with every employee",
+        "time": "30 min",
+        "how": "The leader and the employee write down the three most important areas of responsibility and what counts as good enough."
+      },
+      "m2": {
+        "title": "Workshop: Who does what",
+        "time": "90 min",
+        "how": "The team goes through the grey zones where it is unclear who is responsible, and assigns them."
+      },
+      "m3": {
+        "title": "A training plan for new hires",
+        "time": "The first 3 months",
+        "how": "A written plan for what new hires are to learn, from whom, and when they count as fully trained."
+      }
+    },
+    "kollega": {
+      "ev": "Basis: support from colleagues dampens the effect of high demands. Measures that build support in the daily work do better than one-off social events.",
+      "m1": {
+        "title": "Regular learning meetings",
+        "time": "30 min a month",
+        "how": "A colleague shares something they have learnt or solved. Sharing knowledge becomes a habit, not a coincidence."
+      },
+      "m2": {
+        "title": "Make asking for help normal",
+        "time": "Ongoing",
+        "how": "The leader asks for help themselves and gives credit to those who step up for others."
+      },
+      "m3": {
+        "title": "Workshop: This is how we help each other",
+        "time": "60 min",
+        "how": "The team works out when they need each other most, and how to make it easy to get help."
+      }
+    },
+    "mening": {
+      "ev": "Basis: research shows that contact with those the work benefits raises both motivation and effort (Grant). Recognition works best when it is concrete and comes quickly.",
+      "m1": {
+        "title": "Show who the work makes a difference for",
+        "time": "Ongoing",
+        "how": "Share feedback from customers and clients with those who actually did the job."
+      },
+      "m2": {
+        "title": "Concrete recognition the same week",
+        "time": "Ongoing",
+        "how": "Praise what was actually done, and say why it mattered. Do not wait for the appraisal."
+      },
+      "m3": {
+        "title": "Workshop: What we are proud of",
+        "time": "60 min",
+        "how": "The team shares examples of work they are proud of and what made it possible, and works out what you should do more of."
+      }
+    }
   }
 }

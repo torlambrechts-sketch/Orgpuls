@@ -3,27 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="ext-resource-dependency" content="tuva/av1.png" data-resource-id="av1" />
-<meta name="ext-resource-dependency" content="tuva/av3.png" data-resource-id="av3" />
-<meta name="ext-resource-dependency" content="tuva/av4.png" data-resource-id="av4" />
-<meta name="ext-resource-dependency" content="tuva/av5.png" data-resource-id="av5" />
-<meta name="ext-resource-dependency" content="tuva/av7.png" data-resource-id="av7" />
-<meta name="ext-resource-dependency" content="tuva/av11.png" data-resource-id="av11" />
-<meta name="ext-resource-dependency" content="tuva/av12.png" data-resource-id="av12" />
-<meta name="ext-resource-dependency" content="tuva/av13.png" data-resource-id="av13" />
-<meta name="ext-resource-dependency" content="tuva/av15.png" data-resource-id="av15" />
 <script src="./support.js"></script>
 </head>
 <body>
-<template id="__bundler_thumbnail" data-bg-color="#FCF6E9">
-  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
-    <rect width="1200" height="800" fill="#FCF6E9"/>
-    <rect x="360" y="230" width="480" height="340" rx="64" fill="#FFFDF6" stroke="#191510" stroke-width="14"/>
-    <path d="M420 400 h96 l34 -86 l56 172 l40 -108 l30 22 h104"
-      fill="none" stroke="#191510" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="600" cy="640" r="16" fill="#F5C64A" stroke="#191510" stroke-width="8"/>
-  </svg>
-</template>
 <x-dc>
 <helmet data-dc-atomics>
 <script src="./image-slot.js"></script>
@@ -845,6 +827,24 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
                       </div>
                     </sc-for>
                   </div>
+                  <div style="margin-top:18px;padding:16px 18px;border-radius:14px;background:#FCF6E9;border:1px solid #E8DFC9">
+                    <div style="font-family:'Playfair Display',serif;font-weight:600;font-size:17px">{{ f.fixHead }}</div>
+                    <div style="font-size:12px;line-height:1.55;color:#5F5849;margin-top:4px;max-width:720px;text-wrap:pretty">{{ f.fixEv }}</div>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:12px">
+                      <sc-for list="{{ f.fixes }}" as="x" hint-placeholder-count="3">
+                        <div style="display:flex;flex-direction:column;gap:8px;padding:15px 16px;border-radius:13px;border:1px solid #E8DFC9;background:#FFFDF6;min-width:0">
+                          <span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                            <span style="padding:3px 10px;border-radius:999px;background:{{ x.typeBg }};font-size:11px;font-weight:700">{{ x.type }}</span>
+                            <span style="font-size:11.5px;color:#5F5849">{{ x.time }}</span>
+                          </span>
+                          <span style="font-size:14px;font-weight:700;line-height:1.35;text-wrap:pretty">{{ x.t }}</span>
+                          <span style="font-size:12.5px;line-height:1.55;color:#3A342A;text-wrap:pretty">{{ x.how }}</span>
+                          <span style="font-size:11.5px;line-height:1.5;color:#5F5849;text-wrap:pretty">Følg med på: «{{ x.watch }}»</span>
+                          <button onClick="{{ x.add }}" style="cursor:pointer;margin-top:auto;align-self:flex-start;height:32px;padding:0 13px;border-radius:9px;border:1px solid #191510;background:{{ x.btnBg }};font-size:12px;font-weight:700;color:#191510">{{ x.btnLabel }}</button>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
                   <sc-if value="{{ setup.legendOn }}" hint-placeholder-val="{{ true }}">
                     <div style="display:flex;align-items:center;gap:12px;margin-top:12px;padding:10px 13px;border-radius:11px;background:#FBEBBE;flex-wrap:wrap">
                       <span style="font-size:11.5px;font-weight:700">Fordelingen leses fra venstre:</span>
@@ -1396,6 +1396,59 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
             </sc-for>
           </div>
         </div>
+
+        <div style="padding:22px 24px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#5F5849">Utløsere</div>
+          <p style="font-size:13px;line-height:1.6;color:#3A342A;margin:8px 0 0;max-width:620px;text-wrap:pretty">Korte målinger som sendes når noe skjer, ikke etter kalenderen.</p>
+
+          <button onClick="{{ tr.toggleNew }}" style="display:flex;align-items:center;gap:12px;cursor:pointer;width:100%;text-align:left;margin-top:14px;padding:13px 15px;border-radius:12px;border:1px solid #191510;background:#FFFDF6;color:#191510">
+            <span style="flex:none;width:19px;height:19px;border-radius:5px;border:2px solid #191510;background:{{ tr.newBox.markBg }};color:{{ tr.newBox.markFg }};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">{{ tr.newBox.mark }}</span>
+            <span style="min-width:0">
+              <span style="display:block;font-size:14px;font-weight:600">Nyansatte etter 30 og 90 dager</span>
+              <span style="display:block;font-size:12px;color:#5F5849;margin-top:2px">Seks spørsmål om rolleklarhet, opplæring og tilhørighet</span>
+            </span>
+          </button>
+          <sc-if value="{{ tr.newOn }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;padding-left:12px">
+              <sc-for list="{{ tr.modes }}" as="m" hint-placeholder-count="2">
+                <button onClick="{{ m.pick }}" style="display:flex;align-items:flex-start;gap:11px;cursor:pointer;text-align:left;padding:12px 14px;border-radius:12px;border:1px solid {{ m.bd }};background:{{ m.bg }};color:#191510">
+                  <span style="flex:none;width:17px;height:17px;margin-top:2px;border-radius:999px;border:2px solid #191510;display:flex;align-items:center;justify-content:center"><span style="width:8px;height:8px;border-radius:999px;background:{{ m.dot }};display:block"></span></span>
+                  <span style="min-width:0">
+                    <span style="display:block;font-size:13.5px;font-weight:{{ m.w }}">{{ m.l }}</span>
+                    <span style="display:block;font-size:12.5px;color:#5F5849;margin-top:2px;line-height:1.5;text-wrap:pretty">{{ m.n }}</span>
+                  </span>
+                </button>
+              </sc-for>
+              <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:11px 13px;border-radius:11px;background:#FBEBBE">
+                <span style="flex:1;min-width:200px;font-size:12.5px;line-height:1.5;text-wrap:pretty">{{ tr.missing }}</span>
+                <button onClick="{{ tr.goEmployees }}" style="cursor:pointer;flex:none;height:36px;padding:0 13px;border-radius:10px;border:1px solid #191510;background:#FFFDF6;font-size:12px;font-weight:700;color:#191510;height:32px">Legg inn startdato</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <button onClick="{{ tr.toggleProj }}" style="display:flex;align-items:center;gap:12px;cursor:pointer;width:100%;text-align:left;margin-top:14px;padding:13px 15px;border-radius:12px;border:1px solid #191510;background:#FFFDF6;color:#191510">
+            <span style="flex:none;width:19px;height:19px;border-radius:5px;border:2px solid #191510;background:{{ tr.projBox.markBg }};color:{{ tr.projBox.markFg }};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">{{ tr.projBox.mark }}</span>
+            <span style="min-width:0">
+              <span style="display:block;font-size:14px;font-weight:600">Prosjektstart og prosjektslutt</span>
+              <span style="display:block;font-size:12px;color:#5F5849;margin-top:2px">Fire spørsmål om rolleklarhet, prioritering og samarbeid. Bare til team med minst fem.</span>
+            </span>
+          </button>
+          <sc-if value="{{ tr.projOn }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:7px;margin-top:10px;padding-left:12px">
+              <sc-for list="{{ tr.upcoming }}" as="u" hint-placeholder-count="2">
+                <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 13px;border-radius:11px;background:#FCF6E9;border:1px solid #E8DFC9">
+                  <span style="min-width:0">
+                    <span style="display:block;font-size:13px;font-weight:600">{{ u.p }}</span>
+                    <span style="display:block;font-size:11.5px;color:{{ u.col }};margin-top:2px">{{ u.n }}</span>
+                  </span>
+                  <span style="font-size:12px;font-weight:600">{{ u.d }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <div style="margin-top:14px;font-size:12px;color:#5F5849;line-height:1.5;text-wrap:pretty">Rolleskifte er ikke tatt med. Det gjelder én person om gangen, og da kan svaret ikke være anonymt.</div>
+        </div>
       </div>
 
       <div style="position:sticky;top:78px;display:flex;flex-direction:column;gap:14px;min-width:0">
@@ -1733,6 +1786,41 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
           </sc-for>
         </div>
       </div>
+    </div>
+
+    <div style="margin-top:22px;padding:22px 24px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap">
+        <span style="min-width:0">
+          <span style="display:block;font-family:'Playfair Display',serif;font-weight:600;font-size:21px">Forslag fra resultatene</span>
+          <span style="display:block;font-size:12.5px;color:#5F5849;margin-top:3px;max-width:640px;text-wrap:pretty">Faktorene står fra lavest til høyest skår. Velg en for å se tiltak med støtte i forskningen, og gjør dem til egne tiltak med ett trykk.</span>
+        </span>
+        <button onClick="{{ bankToggle }}" style="cursor:pointer;height:32px;padding:0 13px;border-radius:9px;border:1px solid #E8DFC9;background:transparent;font-size:12px;font-weight:600">{{ bankToggleLabel }}</button>
+      </div>
+      <sc-if value="{{ bankOpen }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;gap:7px;margin-top:14px;flex-wrap:wrap">
+          <sc-for list="{{ bankChips }}" as="c" hint-placeholder-count="11">
+            <button onClick="{{ c.pick }}" style="cursor:pointer;display:flex;align-items:center;gap:7px;height:34px;padding:0 13px;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:#191510;font-size:12.5px;font-weight:{{ c.w }}">
+              <span>{{ c.label }}</span>
+              <span style="padding:1px 7px;border-radius:999px;background:{{ c.scoreBg }};font-size:11px;font-weight:700">{{ c.score }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <div style="font-size:12px;line-height:1.55;color:#5F5849;margin-top:14px;max-width:760px;text-wrap:pretty">{{ bankEv }}</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:12px">
+          <sc-for list="{{ bankFixes }}" as="b" hint-placeholder-count="3">
+            <div style="display:flex;flex-direction:column;gap:8px;padding:15px 16px;border-radius:13px;border:1px solid #E8DFC9;background:#FFFDF6;min-width:0">
+                          <span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                            <span style="padding:3px 10px;border-radius:999px;background:{{ b.typeBg }};font-size:11px;font-weight:700">{{ b.type }}</span>
+                            <span style="font-size:11.5px;color:#5F5849">{{ b.time }}</span>
+                          </span>
+                          <span style="font-size:14px;font-weight:700;line-height:1.35;text-wrap:pretty">{{ b.t }}</span>
+                          <span style="font-size:12.5px;line-height:1.55;color:#3A342A;text-wrap:pretty">{{ b.how }}</span>
+                          <span style="font-size:11.5px;line-height:1.5;color:#5F5849;text-wrap:pretty">Følg med på: «{{ b.watch }}»</span>
+                          <button onClick="{{ b.add }}" style="cursor:pointer;margin-top:auto;align-self:flex-start;height:32px;padding:0 13px;border-radius:9px;border:1px solid #191510;background:{{ b.btnBg }};font-size:12px;font-weight:700;color:#191510">{{ b.btnLabel }}</button>
+                        </div>
+          </sc-for>
+        </div>
+      </sc-if>
     </div>
 
     <div style="display:flex;align-items:center;gap:8px;margin-top:22px;flex-wrap:wrap">
@@ -2486,9 +2574,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
             </span>
             <span style="font-family:'Playfair Display',serif;font-weight:600;font-size:18px;letter-spacing:-.01em">Orgpuls</span>
           </span>
-          <p style="font-size:12.5px;line-height:1.6;color:#5F5849;margin:11px 0 0;max-width:280px;text-wrap:pretty">Psykososialt arbeidsmiljø for norske virksomheter. Svar lagres i Norge, og ingen enkeltsvar kan spores tilbake til en person.</p>
+          <p style="font-size:12.5px;line-height:1.6;color:#5F5849;margin:11px 0 0;max-width:280px;text-wrap:pretty">Psykososialt arbeidsmiljø for norske virksomheter. Svar lagres i EU, og ingen enkeltsvar kan spores tilbake til en person.</p>
           <div style="display:flex;align-items:center;gap:8px;margin-top:13px;flex-wrap:wrap">
-            <span style="padding:4px 10px;border-radius:999px;background:#CFE7E4;color:#20431C;font-size:11px;font-weight:700">Data i Norge</span>
+            <span style="padding:4px 10px;border-radius:999px;background:#CFE7E4;color:#20431C;font-size:11px;font-weight:700">Data i EU</span>
             <span style="padding:4px 10px;border-radius:999px;background:#FBEBBE;color:#5C4600;font-size:11px;font-weight:700">GDPR</span>
           </div>
         </div>
@@ -2518,7 +2606,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;orgName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Nordvik Anlegg AS&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;employees&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:34,&quot;min&quot;:10,&quot;max&quot;:500,&quot;tsType&quot;:&quot;number&quot;},&quot;threshold&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:5,&quot;min&quot;:3,&quot;max&quot;:10,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Personvern&quot;},&quot;showBenchmark&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Rapport&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;orgName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Nordvik Anlegg AS&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;employees&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:34,&quot;min&quot;:10,&quot;max&quot;:500,&quot;tsType&quot;:&quot;number&quot;},&quot;threshold&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:5,&quot;min&quot;:3,&quot;max&quot;:10,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Personvern&quot;},&quot;showBenchmark&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Rapport&quot;}}">
 const FACTORS = [
   { key:"ytring", label:"Ytringsklima", law:"aml. § 4-3 · § 2A", idx:41, prev:48, worst:"Verksted lavest: 28",
     desc:"Om du tør å si fra — om feil, om uenighet, om det som ikke fungerer — og om det skjer noe når du gjør det. Det er ikke det samme som at alle er enige.",
@@ -2576,6 +2664,54 @@ const FACTORS = [
       ["Innsatsen min blir lagt merke til",70],
       ["Jeg er stolt av å jobbe her",80]] }
 ];
+
+const PLAYBOOK = {
+  ytring:{ ev:"Grunnlag: forskning på psykologisk trygghet (Edmondson). Det som flytter tallet mest, er hva lederen gjør i øyeblikket etter at noen har sagt fra.", m:[
+    { t:"Svar på hver melding innen fem dager", type:"Rutine", time:"Løpende", how:"Hver avviksmelding og hvert innspill får et navngitt svar: hva som skjer, eller hvorfor ingenting skjer. Ingen melding blir liggende.", watch:"Når noen melder fra om et problem, skjer det noe med det" },
+    { t:"Workshop: Hva hindrer oss i å si fra?", type:"Workshop", time:"90 min", how:"Teamet skriver anonymt ned situasjoner der de lot være å si fra. Lederen lytter uten å forsvare seg, og dere avslutter med to konkrete endringer.", watch:"Jeg kan si fra om kritikkverdige forhold uten å frykte konsekvenser" },
+    { t:"Lederen spør først og snakker sist", type:"Lederpraksis", time:"I hvert møte", how:"Lederen ber om innvendinger før beslutninger og takker for dem som kommer. Uenighet skrives ned i stedet for å glattes over.", watch:"Uenighet blir tatt opp åpent hos oss, ikke i gangen etterpå" } ] },
+  mengde:{ ev:"Grunnlag: krav–kontroll–støtte-modellen (Karasek) og jobbkrav–ressurser-modellen (Bakker og Demerouti). Tiltak virker best når de ansatte selv er med på å finne løsningene.", m:[
+    { t:"Ukentlig prioriteringsmøte", type:"Rutine", time:"20 min i uka", how:"Lederen og teamet går gjennom alt som ligger på bordet og blir enige om hva som skal vike. Resultatet er én skriftlig, rangert liste.", watch:"Jeg har nok tid til å gjøre jobben godt nok" },
+    { t:"Workshop: Finn tidstyvene", type:"Workshop", time:"2 timer", how:"Teamet noterer arbeidet sitt i en uke og finner oppgaver som kan fjernes, forenkles eller flyttes. Minst tre endringer besluttes før dere går.", watch:"Arbeidsmengden min er til å håndtere over tid" },
+    { t:"Tydelige grenser for når man er tilgjengelig", type:"Rutine", time:"Én beslutning", how:"Avtal når det er greit å sende og svare på meldinger utenom arbeidstid. Lederen går foran.", watch:"Jeg kan koble av fra jobben når arbeidsdagen er over" } ] },
+  motstrid:{ ev:"Grunnlag: forskning på rollekonflikt. Uklare prioriteringer mellom flere som bestiller arbeid, er en sterk kilde til stress, og det løses i organiseringen, ikke hos den enkelte.", m:[
+    { t:"Én som bestemmer når to krav kolliderer", type:"Rutine", time:"Én beslutning", how:"Avklar skriftlig hvem som har siste ord når krav fra ulike hold ikke går sammen, og gjør det kjent for alle.", watch:"Jeg vet hvem som bestemmer når to ting kolliderer" },
+    { t:"Workshop: Ansvarskart", type:"Workshop", time:"90 min", how:"Teamet tegner opp de viktigste oppgavene: hvem bestiller, hvem utfører, hvem godkjenner. Der det er to som bestiller, velger dere én.", watch:"Kravene fra ulike hold henger sammen" },
+    { t:"Ny oppgave inn, en annen ned", type:"Lederpraksis", time:"Løpende", how:"Når lederen gir en ny oppgave, sier hun eller han samtidig hva som skal prioriteres ned.", watch:"Jeg får sjelden oppgaver uten å vite hva som skal prioriteres ned" } ] },
+  kontakt:{ ev:"Grunnlag: sosial støtte demper virkningen av høye krav (Johnson og Hall). Ved alenearbeid krever regelverket i tillegg at man kan tilkalle hjelp.", m:[
+    { t:"Varslingsløsning for alenearbeid", type:"Rutine", time:"Én gang, så jevnlig test", how:"Sørg for at alle som jobber alene har en fast måte å tilkalle hjelp på, og test at den virker.", watch:"Jeg kan tilkalle hjelp raskt hvis noe skjer mens jeg er alene" },
+    { t:"Fast møtepunkt for dem som jobber alene", type:"Rutine", time:"15 min i uka", how:"Et kort, fast møte, fysisk eller på Teams, der de som jobber alene møter kolleger og leder.", watch:"Jeg føler meg ikke isolert i jobben min" },
+    { t:"Makkerordning", type:"Lederpraksis", time:"Løpende", how:"Den som ofte jobber alene får en fast kollega å ringe og drøfte saker med.", watch:"Jeg har mulighet til kontakt med kollegaer i løpet av arbeidsdagen" } ] },
+  emosjon:{ ev:"Grunnlag: forskning på emosjonelt arbeid (Hochschild). Merk: én enkelt debriefing rett etter en hendelse har ikke vist effekt i systematiske oversikter. Det som virker, er støtte fra kolleger og oppfølging over tid.", m:[
+    { t:"Kort kollegaprat etter krevende hendelser", type:"Rutine", time:"15 min", how:"Etter en vanskelig hendelse tar de involverte en kort, frivillig prat samme dag. Lederen følger opp noen dager etterpå.", watch:"Vi snakker om vanskelige hendelser etterpå" },
+    { t:"Workshop: Når jobben går inn på oss", type:"Workshop", time:"90 min", how:"Teamet deler hvilke situasjoner som tapper mest, og blir enige om hvordan de hjelper hverandre gjennom dem.", watch:"Jeg får lov til å reagere som menneske på jobb" },
+    { t:"Ingen står alene i de tyngste møtene", type:"Rutine", time:"Én beslutning", how:"Bestem hvilke møter med kunder eller brukere som alltid skal ha to personer til stede.", watch:"Jeg blir sjelden stående alene i følelsesmessig krevende situasjoner" } ] },
+  leder:{ ev:"Grunnlag: studier av lederutvikling viser effekt når opplæringen er praktisk og følges opp over tid. Faste samtaler mellom leder og ansatt er et av de enkleste grepene.", m:[
+    { t:"Fast samtale hver 14. dag", type:"Lederpraksis", time:"20 min", how:"Korte, faste samtaler der den ansatte setter dagsordenen. De flyttes, men avlyses ikke.", watch:"Jeg kan ta opp vanskelige ting med lederen min" },
+    { t:"Lederen jobber en dag med teamet", type:"Lederpraksis", time:"Én dag i kvartalet", how:"Lederen deltar i det vanlige arbeidet en dag for å se hva jobben faktisk innebærer.", watch:"Lederen min vet nok om hva jobben min faktisk innebærer" },
+    { t:"Fadder for nyansatte", type:"Rutine", time:"De første 8 ukene", how:"En erfaren kollega følger opp nyansatte, slik at lederen ikke er den eneste de kan spørre.", watch:"Jeg får støtte fra lederen min når jobben blir krevende" } ] },
+  medvirk:{ ev:"Grunnlag: innflytelse over eget arbeid er en av de best dokumenterte beskyttelsesfaktorene (Karasek). Jobbutforming, der de ansatte selv justerer oppgavene sine, gir målbare, men moderate effekter.", m:[
+    { t:"Workshop: Jobbutforming", type:"Workshop", time:"2 timer", how:"Hver ansatt går gjennom egne oppgaver og foreslår én endring i hvordan de gjøres. Lederen sier ja, eller begrunner et nei.", watch:"Jeg har innflytelse over hvordan jeg utfører arbeidet" },
+    { t:"De berørte med før endringer besluttes", type:"Rutine", time:"Løpende", how:"Endringer som treffer arbeidshverdagen, legges fram for dem det gjelder før beslutningen tas, ikke etter.", watch:"Jeg blir hørt når noe skal endres" },
+    { t:"Teamet planlegger egen uke", type:"Lederpraksis", time:"Løpende", how:"Lederen setter mål og frister. Teamet bestemmer rekkefølge og fordeling.", watch:"Jeg kan påvirke tempoet i eget arbeid" } ] },
+  integritet:{ ev:"Grunnlag: forskningsgruppen for mobbing ved Universitetet i Bergen (Einarsen m.fl.). Tidlig inngripen fra leder og klare rutiner hindrer at konflikter utvikler seg til mobbing.", m:[
+    { t:"Gå gjennom rutinen for krenkende atferd", type:"Rutine", time:"30 min per team", how:"Vis hvordan man melder fra og hva som skjer etterpå. Sørg for at det finnes en vei utenom nærmeste leder.", watch:"Jeg blir møtt med respekt uansett hvem jeg er" },
+    { t:"Workshop: Slik vil vi ha det her", type:"Workshop", time:"90 min", how:"Teamet blir enige om konkrete spilleregler for hvordan de snakker til og om hverandre, og hva de gjør når noen går over streken.", watch:"Grensene mine for privatliv blir respektert på jobb" },
+    { t:"Lederen griper inn tidlig", type:"Lederpraksis", time:"Løpende", how:"Lederen tar tak i nedsettende kommentarer og utestenging med en gang, i en rolig samtale, før det blir en sak.", watch:"Jeg blir møtt med respekt uansett hvem jeg er" } ] },
+  rolle:{ ev:"Grunnlag: rolleklarhet henger tett sammen med jobbtilfredshet og lavere stress, og god opplæring i starten har varig effekt.", m:[
+    { t:"Forventningssamtale med hver ansatt", type:"Lederpraksis", time:"30 min", how:"Lederen og den ansatte skriver ned de tre viktigste ansvarsområdene og hva som regnes som godt nok.", watch:"Jeg vet hva som forventes av meg i jobben min" },
+    { t:"Workshop: Hvem gjør hva", type:"Workshop", time:"90 min", how:"Teamet går gjennom gråsonene der det er uklart hvem som har ansvaret, og fordeler dem.", watch:"Jeg vet hvor mitt ansvar slutter og andres begynner" },
+    { t:"Opplæringsplan for nyansatte", type:"Rutine", time:"De første 3 månedene", how:"En skriftlig plan for hva nyansatte skal lære, av hvem, og når de regnes som ferdig opplært.", watch:"Jeg vet hva som regnes som godt arbeid hos oss" } ] },
+  kollega:{ ev:"Grunnlag: støtte fra kolleger demper virkningen av høye krav. Tiltak som bygger støtte i det daglige arbeidet, virker bedre enn enkeltstående sosiale arrangementer.", m:[
+    { t:"Faste læringsmøter", type:"Rutine", time:"30 min i måneden", how:"En kollega deler noe hun eller han har lært eller løst. Kunnskapsdeling blir en vane, ikke en tilfeldighet.", watch:"Vi deler kunnskap i stedet for å holde på den" },
+    { t:"Gjør det vanlig å be om hjelp", type:"Lederpraksis", time:"Løpende", how:"Lederen ber selv om hjelp og løfter fram dem som stiller opp for andre.", watch:"Kollegaene mine stiller opp når jeg trenger hjelp" },
+    { t:"Workshop: Slik hjelper vi hverandre", type:"Workshop", time:"60 min", how:"Teamet finner ut når de trenger hverandre mest, og hvordan de gjør det lett å få hjelp.", watch:"Jeg føler meg som en del av laget" } ] },
+  mening:{ ev:"Grunnlag: forskning viser at kontakt med dem arbeidet kommer til gode, øker både motivasjon og innsats (Grant). Anerkjennelse virker best når den er konkret og kommer raskt.", m:[
+    { t:"Vis hvem arbeidet gjør en forskjell for", type:"Rutine", time:"Løpende", how:"Del tilbakemeldinger fra kunder og brukere med dem som faktisk gjorde jobben.", watch:"Arbeidet jeg gjør betyr noe" },
+    { t:"Konkret anerkjennelse samme uke", type:"Lederpraksis", time:"Løpende", how:"Ros det som faktisk ble gjort, og si hvorfor det betydde noe. Ikke vent til medarbeidersamtalen.", watch:"Innsatsen min blir lagt merke til" },
+    { t:"Workshop: Det vi er stolte av", type:"Workshop", time:"60 min", how:"Teamet deler eksempler på arbeid de er stolte av og hva som gjorde det mulig, og finner ut hva dere bør gjøre mer av.", watch:"Jeg er stolt av å jobbe her" } ] }
+};
+const TYPE_BG = { Workshop:"#FBEBBE", Rutine:"#CFE7E4", Lederpraksis:"#EFE6D2" };
 
 const HEAT = [
   { team:"Drift", n:8, vals:[49,51,70,74,81] },
@@ -2719,6 +2855,48 @@ class Component extends DCLogic {
 
   go(screen){ return () => this.setState({ screen }); }
 
+  addFix(fac, i){
+    const p = PLAYBOOK[fac.key]; if (!p) return;
+    const m = p.m[i];
+    this.setState(s => {
+      const list = [{ faktor:fac.label, law:fac.law, title:m.t, owner:"Ikke satt", due:"Frist ikke satt", step:0, late:false,
+        run:"Grunnlinje 2026", isNew:true,
+        next: m.how + " Effekten måles på påstanden «" + m.watch + "»." }].concat(s.tAdded || []);
+      const shiftAll = o => { const out = {}; Object.keys(o || {}).forEach(k => { out[Number(k) + 1] = o[k]; }); return out; };
+      return { tAdded:list, tEdits: shiftAll(s.tEdits), taskStep: shiftAll(s.taskStep), tOpen:0,
+        tFilter:"alle", tOwner:"alle", fixAdded: Object.assign({}, s.fixAdded, { [fac.key + i]: true }) };
+    });
+  }
+
+  triggerData(){
+    const st = this.state;
+    const newOn = st.trNew !== false, projOn = st.trProj !== false, mode = st.trNewMode || "anon";
+    const box = on => ({ mark: on ? "✓" : "", markBg: on ? "#191510" : "transparent", markFg: on ? "#FCF6E9" : "transparent" });
+    return {
+      newBox: box(newOn), projBox: box(projOn), newOn, projOn,
+      toggleNew: () => this.setState({ trNew: !newOn }),
+      toggleProj: () => this.setState({ trProj: !projOn }),
+      modes: [["anon","Anonym, samles over tid","Svarene vises først når fem har svart. Med rundt åtte nyansatte i året tar det omtrent sju måneder."],
+        ["open","Åpen oppstartssamtale","Den nyansatte svarer med navn, og lederen ser svarene. Det står tydelig før første spørsmål."]]
+        .map(([k, l, n]) => ({ l, n, dot: mode === k ? "#191510" : "transparent",
+          bg: mode === k ? "#FBEBBE" : "transparent", bd: mode === k ? "#191510" : "#E8DFC9", w: mode === k ? "700" : "500",
+          pick: () => this.setState({ trNewMode:k }) })),
+      missing: "Startdato mangler for 6 av 34 ansatte. Uten den vet vi ikke når dag 30 og 90 er.",
+      goEmployees: () => this.setState({ screen:"settings" }),
+      upcoming: [{ p:"Fjordbrua — oppstart", d:"7. oktober", n:"9 personer", col:"#5F5849" },
+        { p:"Rv. 13 Øvre — avslutning", d:"30. oktober", n:"4 personer · under terskel, sendes ikke", col:"#A33A16" }]
+    };
+  }
+
+  fixCards(fac){
+    const p = PLAYBOOK[fac.key]; if (!p) return [];
+    const done = this.state.fixAdded || {};
+    return p.m.map((m, i) => { const on = !!done[fac.key + i];
+      return { t:m.t, type:m.type, time:m.time, how:m.how, watch:m.watch, typeBg: TYPE_BG[m.type] || "#EFE6D2",
+        btnLabel: on ? "Lagt til i Tiltak ✓" : "Gjør til tiltak", btnBg: on ? "#CFE7E4" : "#F5C64A",
+        add: () => { if (!on) this.addFix(fac, i); } }; });
+  }
+
   isLaw(){ const v = this.state.lawMode; return v == null ? (this.props.lawMode !== false) : !!v; }
 
   sched(){
@@ -2793,7 +2971,7 @@ class Component extends DCLogic {
       { c:"Målinger", t:"Sett opp årshjulet", d:"Faste runder, varslingsrekkefølge og hvem som får beskjed når. Hvorfor kvartalsvis slår månedlig for de fleste.", read:"5 min" },
       { c:"Målinger", t:"Legg til egne spørsmål", d:"Fem er taket. Hvorfor de rapporteres for seg, og hvorfor indeksen ikke skal røres.", read:"3 min" },
       { c:"Målinger", t:"Slik får dere svarprosenten opp", d:"Tirsdag klokka ni, én påminnelse, og det som betyr mest: at folk så at forrige runde førte til noe.", read:"5 min" },
-      { c:"Resultater", t:"Les indeksen riktig", d:"Hva tallet 61 betyr, hvorfor bevegelse er viktigere enn nivå, og hvordan dere sammenlikner mot bransjen.", read:"6 min" },
+      { c:"Resultater", t:"Les indeksen riktig", d:"Hva tallet 61 betyr, hvorfor bevegelse er viktigere enn nivå.", read:"6 min" },
       { c:"Resultater", t:"Hvorfor står det en strek i stedet for et tall", d:"Terskelen slår inn. Hva dere kan gjøre — og hvorfor dere ikke bør senke den for å se tallet.", read:"3 min" },
       { c:"Resultater", t:"Fra funn til tiltak", d:"Del funnene innen to uker, hold dialogmøtet, velg tre ting. Rekkefølgen som avgjør om noe skjer.", read:"7 min" },
       { c:"Anonymitet", t:"Hva vi lagrer, og hva vi ikke lagrer", d:"Svaret lagres uten kobling til person. Hva det betyr i praksis, også for dere som er administratorer.", read:"4 min" },
@@ -3045,6 +3223,8 @@ class Component extends DCLogic {
           items: f.items.map(([text, v]) => { const tv = team === "alle" ? v : Math.max(8, Math.min(95, v + (r.v - r.base)));
             return { text, idx:String(tv), dist: dist(tv) }; }),
           toggle: () => this.setState(s => ({ openFactor: s.openFactor === f.key ? "" : f.key })),
+          fixes: this.fixCards(f), fixEv: (PLAYBOOK[f.key] || {}).ev || "",
+          fixHead: f.idx < 66 ? "Slik kan dere løfte dette" : "Slik holder dere det der",
           assess: this.go("tasks") }; }),
 
       topHead: sorted.length >= 3 ? "Gjør disse tre" : sorted.length === 2 ? "Gjør disse to" : "Dette må dere gjøre noe med",
@@ -3442,7 +3622,7 @@ class Component extends DCLogic {
       faces: [["av4","Langt hår"],["av1","Bølget hår"],["av3","Krøller"],["av5","Knute"],["av7","Med hodeplagg"],
         ["av11","Kort hår"],["av13","Med bart"],["av15","Med skjegg"],["av12","Bustete hår"]]
         .map(([k, label]) => { const on = (st.tuvaFace || "av4") === k;
-          return { label, src:((window.__resources||{})[k] || ("tuva/" + k + ".png")),
+          return { label, src:"tuva/" + k + ".png",
             bd: on ? "#191510" : "#E8DFC9", bg: on ? "#FBEBBE" : "#FFFDF6",
             w: on ? "700" : "500", ring: on ? "3px solid #F5C64A" : "3px solid transparent",
             pick: () => this.setState({ tuvaFace:k }) }; }),
@@ -3612,7 +3792,7 @@ class Component extends DCLogic {
         { h:"Særlige kategorier", b:"Spørsmålene er utformet for å unngå helseopplysninger. Screeningen for krenkende atferd og vold rapporteres kun som antall, aldri per gruppe." },
         { h:"Lagringstid", b:"Enkeltsvar slettes automatisk etter 24 måneder. Aggregerte resultater og risikovurderinger beholdes i fem år, fordi dokumentasjonsplikten krever det." },
         { h:"Innsyn og sletting", b:"Registeropplysninger kan rettes og slettes på forespørsel. Anonyme svar kan ikke hentes ut eller slettes enkeltvis — de er ikke identifiserbare, jf. GDPR art. 11." },
-        { h:"Databehandler", b:"Orgpuls AS er databehandler. Data lagres i Norge. Databehandleravtale og liste over underleverandører ligger under Databehandleravtale." },
+        { h:"Databehandler", b:"Orgpuls AS er databehandler. Data lagres i EU. Databehandleravtale og liste over underleverandører ligger under Databehandleravtale." },
         { h:"Vurdering av personvernkonsekvenser", b:"Med terskel " + threshold + " og anonyme svar er risikoen lav, men en kort DPIA anbefales fordi målingen omfatter alle ansatte. Mal ligger vedlagt." },
         { h:"Protokoll", b:"Behandlingen føres automatisk inn i protokollen over behandlingsaktiviteter, med formål, kategorier og lagringstid." }
       ],
@@ -3949,7 +4129,7 @@ class Component extends DCLogic {
             this.setState(s => ({ planPick: Object.assign({}, s.planPick, { [f.key]: !s.planPick[f.key] }) })); } },
           chip(isBase ? true : on)); }),
       factorNote: isBase
-        ? "Grunnlinjen bruker alle elleve. Ordlyden er låst — det er den som gjør tallene sammenliknbare mot i fjor og mot bransjen."
+        ? "Grunnlinjen bruker alle elleve. Ordlyden er låst — det er den som gjør tallene sammenliknbare mot i fjor."
         : isPulse && st.planSource === "auto"
         ? "Faktorene følger tiltakene. Du trenger ikke røre dette igjen."
         : "Velg de faktorene dere faktisk jobber med. Færre spørsmål gir høyere svarprosent.",
@@ -4085,7 +4265,7 @@ class Component extends DCLogic {
         use: () => this.setState(s => { const list = s.planQs || []; if (list.length >= 5) return null;
           return { planQs: list.concat([{ text, type: text.indexOf("Hva") === 0 ? "open" : "skala" }]) }; }) })),
       customNote: (st.planQs || []).length
-        ? "Egne spørsmål rapporteres for seg og regnes ikke inn i indeksen. Det er med vilje — indeksen skal kunne sammenliknes mot i fjor og mot bransjen."
+        ? "Egne spørsmål rapporteres for seg og regnes ikke inn i indeksen. Det er med vilje — indeksen skal kunne sammenliknes mot i fjor."
         : "Egne spørsmål lar dere spørre om noe som gjelder akkurat nå: en omorganisering, et nytt verktøy, et tiltak dere vil vite om traff.",
 
       sumCount: nQ,
@@ -4128,7 +4308,7 @@ class Component extends DCLogic {
     const org = this.props.orgName || "Nordvik Anlegg AS";
     const employees = this.props.employees != null ? this.props.employees : 34;
     const threshold = st.threshold || this.props.threshold || 5;
-    const showBench = this.props.showBenchmark !== false;
+    const showBench = this.props.showBenchmark === true;
     const isLeader = st.role === "Avdelingsleder";
     const isVo = this.isLaw() && st.role === "Verneombud";
 
@@ -4151,7 +4331,7 @@ class Component extends DCLogic {
     const tPatch = (i, patch) => this.setState(s => ({ tEdits: Object.assign({}, s.tEdits, { [i]: Object.assign({}, (s.tEdits || {})[i], patch) }) }));
 
     return {
-      tuvaSrc: (function(k){ return (window.__resources||{})[k] || ("tuva/" + k + ".png"); })(st.tuvaFace || "av4"),
+      tuvaSrc: "tuva/" + (st.tuvaFace || "av4") + ".png",
       tuvaName: st.tuvaName || "Tuva",
       tuvaOn: st.tuvaOn !== false,
       brandIsLogo: st.brandMode === "logo" && !!st.logoSrc,
@@ -4163,7 +4343,7 @@ class Component extends DCLogic {
       showBench,
       idx: String(idx),
       idxDelta: (idx - prevIdx > 0 ? "+" : "−") + Math.abs(idx - prevIdx) + " siden i fjor",
-      benchLine: "Bransjesnitt anlegg: 64",
+      benchLine: "Grunnlinje 2025: 64",
       rate: "82 %",
       resultScope: "28 av 34 svarte · lukket 14. september · risikovurdert 19. september · neste puls 12. oktober",
       threshLine: "Grupper under " + threshold + " svar vises som —",
@@ -4180,7 +4360,7 @@ class Component extends DCLogic {
         { head:"Hjelp", links: [["Alle artikler", () => this.setState({ screen:"helpsite", hsFrom: st.screen })], ["Kom i gang", () => this.setState({ screen:"helpsite", hsFrom: st.screen, hsCat:"Kom i gang" })], ["Anonymitet", () => this.setState({ screen:"helpsite", hsFrom: st.screen, hsCat:"Anonymitet" })], ["Kontakt oss", () => this.setState({ screen:"helpsite", hsFrom: st.screen })]] }
       ].map(c => ({ head:c.head, links: c.links.map(([label, go]) => ({ label, go })) })),
       goHelp: () => this.setState({ screen:"helpsite", hsFrom: st.screen }),
-      isWheel: st.screen === "wheel", wheel: this.wheelData(),
+      isWheel: st.screen === "wheel", wheel: this.wheelData(), tr: this.triggerData(),
       isConv: st.screen === "conv", conv: this.convData(),
       setup: this.setupData(), help: this.helpData(), res: this.resultData(), co: this.companyData(),
       rep: this.reportData(), isReport: st.screen === "report", goReport: this.go("report"),
@@ -4220,8 +4400,8 @@ class Component extends DCLogic {
         ? "Én grunnlinje i året dekker kartleggingsplikten. Pulsene mellom måler bare det dere har satt tiltak på — fem spørsmål, under ett minutt."
         : "Én grunnlinje i året setter nullpunktet. Pulsene mellom måler bare det dere har satt tiltak på — fem spørsmål, under ett minutt.",
       qsLead: lawMode
-        ? "Elleve faktorer — de samme som arbeidsmiljøloven § 4-3 og forskriften navngir etter presiseringen 1. januar 2026, formulert med QPS Nordic-språk. Tre påstander per faktor, besvart 1–5. Dere kan skru av en faktor, men ikke endre ordlyden — det er den som gjør tallene sammenliknbare over tid og mot bransjen."
-        : "Elleve faktorer fra arbeidsmiljøforskningen, formulert med QPS Nordic-språk. Tre påstander per faktor, besvart 1–5. Dere kan skru av en faktor, men ikke endre ordlyden — det er den som gjør tallene sammenliknbare over tid og mot bransjen.",
+        ? "Elleve faktorer — de samme som arbeidsmiljøloven § 4-3 og forskriften navngir etter presiseringen 1. januar 2026, formulert med QPS Nordic-språk. Tre påstander per faktor, besvart 1–5. Dere kan skru av en faktor, men ikke endre ordlyden — det er den som gjør tallene sammenliknbare over tid."
+        : "Elleve faktorer fra arbeidsmiljøforskningen, formulert med QPS Nordic-språk. Tre påstander per faktor, besvart 1–5. Dere kan skru av en faktor, men ikke endre ordlyden — det er den som gjør tallene sammenliknbare over tid.",
       tasksLead: lawMode
         ? "Hvert tiltak henger på en faktor og kan ikke lukkes før effekten er målt. Det er den dokumentasjonen Arbeidstilsynet ber om."
         : "Hvert tiltak henger på en faktor og kan ikke lukkes før effekten er målt. Folk slutter å svare hvis ingenting skjer.",
@@ -4296,6 +4476,8 @@ class Component extends DCLogic {
           btnBd: f.idx < 50 ? "#191510" : "#E8DFC9",
           items: f.items.map(([text, v]) => ({ text, idx:String(v), dist: dist(v) })),
           toggle: () => this.setState(s => ({ openFactor: s.openFactor === f.key ? "" : f.key })),
+          fixes: this.fixCards(f), fixEv: (PLAYBOOK[f.key] || {}).ev || "",
+          fixHead: f.idx < 66 ? "Slik kan dere løfte dette" : "Slik holder dere det der",
           assess: this.go("tasks") }; }),
 
       top3: [
@@ -4340,6 +4522,20 @@ class Component extends DCLogic {
         { v:"1", l:"Venter effektmåling", bg:"#CFE7E4", fg:"#20431C" }],
       lateCount: "1 over frist",
       openCount: ALLT.filter((t, i) => taskStepOf(tOf(i), i) < 5).length + " åpne tiltak",
+
+      bankOpen: st.bankOpen !== false,
+      bankToggleLabel: st.bankOpen !== false ? "Skjul forslag" : "Vis forslag",
+      bankToggle: () => this.setState(s => ({ bankOpen: s.bankOpen === false })),
+      ...(() => { const sortedF = FACTORS.slice().sort((a, b) => a.idx - b.idx);
+        const cur = FACTORS.filter(x => x.key === st.bankKey)[0] || sortedF[0];
+        return {
+          bankChips: sortedF.map(x => { const on = x.key === cur.key;
+            return { label:x.label, score:String(x.idx),
+              scoreBg: x.idx < 50 ? "#F0B9A0" : x.idx < 66 ? "#F5DC96" : "#CFE7E4",
+              bg: on ? "#FBEBBE" : "transparent", bd: on ? "#191510" : "#E8DFC9", w: on ? "700" : "500",
+              pick: () => this.setState({ bankKey:x.key }) }; }),
+          bankEv: (PLAYBOOK[cur.key] || {}).ev || "",
+          bankFixes: this.fixCards(cur) }; })(),
 
       tNew: () => this.setState(s => { const list = [{ faktor:"Ytringsklima", law:"aml. § 4-3",
           title:"Nytt tiltak", owner:"Ikke satt", due:"Frist ikke satt", step:0, late:false, run:"Grunnlinje 2026",

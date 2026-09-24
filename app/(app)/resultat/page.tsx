@@ -9,6 +9,7 @@ import {
 } from '@/components/resultat/ResultatScreen'
 import { getCommentThemes, getConversations, type Conversation } from '@/lib/conversations/read'
 import { getFactors } from '@/lib/instrument/read'
+import { getMeasures } from '@/lib/measures/read'
 import { getViewerRole } from '@/lib/org/read'
 import { getScreeningCounts } from '@/lib/report/tail'
 import { screeningTally } from '@/lib/report/screening'
@@ -47,7 +48,9 @@ export default async function ResultatPage({
   searchParams: Promise<{ maling?: string; avdeling?: string }>
 }) {
   const params = await searchParams
-  const [rounds, instrument] = await Promise.all([getRounds(), getFactors()])
+  const [rounds, instrument, measures] = await Promise.all([getRounds(), getFactors(), getMeasures()])
+  // which playbook suggestions this organisation has already made into measures
+  const adoptedKeys = measures.flatMap((m) => (m.playbookKey ? [m.playbookKey] : []))
 
   /**
    * Chip order. The design lists the rounds that have been run, most recent first, and
@@ -84,6 +87,7 @@ export default async function ResultatPage({
           scope: { kind: 'org' },
           threshold: 5,
           body: { kind: 'masked', group: null },
+          adoptedKeys,
         }}
       />
     )
@@ -144,6 +148,7 @@ export default async function ResultatPage({
     scope,
     threshold,
     body,
+    adoptedKeys,
   })
 
   // a round nobody has been asked yet: the design's dashed empty card
