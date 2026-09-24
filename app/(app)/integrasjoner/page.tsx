@@ -3,7 +3,7 @@ import {
   type IntegrasjonerView,
 } from '@/components/integrasjoner/IntegrasjonerScreen'
 import { getOrganization } from '@/lib/org/read'
-import { countWithPhone, getRoster } from '@/lib/settings/read'
+import { countWithPhone, getRoster, getSmsSettings } from '@/lib/settings/read'
 import { getQueueCounts } from '@/lib/wheel/read'
 
 /**
@@ -16,11 +16,12 @@ import { getQueueCounts } from '@/lib/wheel/read'
 export const dynamic = 'force-dynamic'
 
 export default async function IntegrasjonerPage() {
-  const [withPhone, roster, queue, org] = await Promise.all([
+  const [withPhone, roster, queue, org, sms] = await Promise.all([
     countWithPhone(),
     getRoster(),
     getQueueCounts(),
     getOrganization(),
+    getSmsSettings(),
   ])
 
   const view: IntegrasjonerView = {
@@ -28,6 +29,7 @@ export default async function IntegrasjonerPage() {
     total: roster.filter((p) => p.active).length,
     queue,
     mailOn: org?.mail_enabled ?? false,
+    smsOn: sms?.enabled ?? false,
   }
 
   return <IntegrasjonerScreen view={view} />

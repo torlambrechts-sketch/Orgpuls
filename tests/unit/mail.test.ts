@@ -9,6 +9,7 @@ import {
   renderAuth,
   renderNotice,
   roundName,
+  smsLead,
   type MailCatalogue,
   type NoticeJob,
 } from '@/supabase/functions/_shared/mail'
@@ -27,11 +28,13 @@ const job = (over: Partial<NoticeJob> = {}): NoticeJob => ({
   id: 'x',
   kind: 'invitasjon',
   audience: null,
+  channel: 'email',
+  sms_text: null,
   lang: 'no',
   org: 'Nordvik Anlegg AS',
   k: 5,
   round: { kind: 'grunnlinje', year: 2026, pulse: null, opens_at: '2026-10-06T07:00:00Z', closes_at: '2026-10-13T07:00:00Z' },
-  recipients: [{ email: 'ola@firma.no', name: 'Ola', lang: null, member: false }],
+  recipients: [{ email: 'ola@firma.no', phone: null, name: 'Ola', lang: null, member: false }],
   token: TOKEN,
   ...over,
 })
@@ -104,18 +107,31 @@ describe('notices', () => {
   })
 })
 
+describe('sms', () => {
+  it('uses the organisation\'s own text for an invitation, and the default without one', () => {
+    expect(smsLead(cat, job({ channel: 'sms', sms_text: 'Svar på målingen:' }), 'no')).toBe('Svar på målingen:')
+    expect(smsLead(cat, job({ channel: 'sms' }), 'no')).toBe('Hei! Nordvik Anlegg AS spør hvordan du har det på jobb. Svaret er helt anonymt:')
+  })
+
+  it('tells a reminder that the earlier link is dead, whatever the organisation wrote', () => {
+    const lead = smsLead(cat, job({ kind: 'paminnelse', channel: 'sms', sms_text: 'Egen tekst:' }), 'no')
+    expect(lead).toContain('Lenken i forrige melding virker ikke lenger.')
+    expect(lead).toContain('13. oktober')
+  })
+})
+
 describe('grouping', () => {
   it('sends each invitation to one person, and a role notice once per language and kind of reader', () => {
     const two = [
-      { email: 'a@firma.no', name: 'A', lang: null, member: false },
-      { email: 'b@firma.no', name: 'B', lang: null, member: false },
+      { email: 'a@firma.no', phone: null, name: 'A', lang: null, member: false },
+      { email: 'b@firma.no', phone: null, name: 'B', lang: null, member: false },
     ]
     expect(groupsOf(job({ recipients: two }))).toHaveLength(2)
     const roles = groupsOf(
       job({
         kind: 'resultat',
         token: null,
-        recipients: [...two, { email: 'c@firma.no', name: 'C', lang: 'en', member: true }],
+        recipients: [...two, { email: 'c@firma.no', phone: null, name: 'C', lang: 'en', member: true }],
       }),
     )
     expect(roles).toHaveLength(2)

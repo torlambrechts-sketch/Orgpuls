@@ -1119,8 +1119,8 @@
       "sourceCsv": "Import from a spreadsheet",
       "sourceCsvNote": "Paste the columns from Excel. The usual route for small undertakings.",
       "pasteHead": "Paste from the spreadsheet",
-      "pasteLead": "Select the columns in Excel and paste them here. The order is name, e-mail, group, manager. A header row is optional.",
-      "pastePlaceholder": "Kari Nordbø, kari@firma.no, Drift, Anne Rygg\nJonas Five, jonas@firma.no, Drift, Anne Rygg",
+      "pasteLead": "Select the columns in Excel and paste them here. The order is name, e-mail, group, manager and mobile. A header row is optional. Where the e-mail address already exists, that person only gets the mobile number.",
+      "pastePlaceholder": "Kari Nordbø, kari@firma.no, Drift, Anne Rygg, 912 34 567\nJonas Five, jonas@firma.no, Drift, Anne Rygg, 480 12 345",
       "column": "column {letter}",
       "colName": "Name",
       "colEmail": "E-mail",
@@ -1164,8 +1164,13 @@
         "invalid": "The row could not be read. A name is required.",
         "empty": "No rows to import.",
         "too_many": "Too many rows at once. Split them into batches under 2000.",
-        "denied": "Only the daglig leder can change the register."
-      }
+        "denied": "Only the daglig leder can change the register.",
+        "phone": "The mobile number cannot be used. Enter a Norwegian mobile number or a number with a country code."
+      },
+      "colMobile": "Mobile",
+      "phone": "Mobile",
+      "phonePlaceholder": "912 34 567",
+      "phonesAdded": "{count, plural, one {# person already in the register got a mobile number.} other {# people already in the register got a mobile number.}}"
     },
     "grupper": {
       "title": "Groups",
@@ -1285,7 +1290,10 @@
         "need": "Coming. Until then you add people manually or from a spreadsheet under People."
       },
       "statusAlways": "Always on",
-      "statusMailOff": "Switched off"
+      "statusMailOff": "Switched off",
+      "statusOn": "Connected",
+      "btnSetup": "Set up",
+      "btnSettings": "Settings"
     },
     "personvern": {
       "basis": {
@@ -1294,7 +1302,7 @@
       },
       "stored": {
         "head": "What is stored about each person",
-        "body": "Name, e-mail and group in the register. Answers are stored with no connection to a person: the system knows that somebody in a group answered, not who. There is no column that could hold the link."
+        "body": "Name, e-mail, mobile number and group in the register. Answers are stored with no connection to a person: the system knows that somebody in a group answered, not who. There is no column that could hold the link."
       },
       "special": {
         "head": "Special categories",
@@ -1655,12 +1663,6 @@
         "entraFirst": "Entra ID first. The Teams notice uses the same directory, so without it we do not know who the message is for.",
         "message": "A message template and an approved app in Teams. The content is the same as the e-mail: one sentence and a personal link."
       },
-      "sms": {
-        "numbers": "Mobile numbers in the people register. No number, no SMS.",
-        "sender": "A sender name of up to eleven characters, registered with the operator, and a message body. The personal link is appended at the end.",
-        "when": "When SMS is used: for every send, only for reminders, or only for people without an e-mail address.",
-        "cost": "An agreement with an SMS provider. It is billed per message, so the volume is worth working out before you turn it on."
-      },
       "hr": {
         "vendor": "Which system you use — Tripletex, Visma or Huldt & Lillevik.",
         "fields": "Which fields are read: job title, start date and department. Those three are what let new starters and seniority be used as a segment without an import."
@@ -1670,7 +1672,8 @@
     "statusMailOff": "Sending is switched off",
     "queueOn": "Notices are sent by e-mail from no-reply@orgpuls.com every five minutes when they fall due. {sent, plural, =0 {None has been sent yet} one {# has been sent} other {# have been sent}}, {pending, plural, =0 {none is queued} one {# is queued} other {# are queued}} and {failed, plural, =0 {none has failed} one {# could not be sent} other {# could not be sent}}.",
     "queueOff": "Sending is switched off for this organisation. {count, plural, one {# notice is queued and will not be sent.} other {# notices are queued and will not be sent.}}",
-    "mailReady": "Nothing to set up. The sender domain is verified with DKIM and DMARC, and the link is made at the moment the e-mail is sent."
+    "mailReady": "Nothing to set up. The sender domain is verified with DKIM and DMARC, and the link is made at the moment the e-mail is sent.",
+    "smsSetup": "Set up SMS"
   },
   "start": {
     "signIn": "Sign in",
@@ -2390,6 +2393,10 @@
         "cta": "Accept the invitation",
         "ignore": "If you are not expecting this invitation, you can ignore this e-mail."
       }
+    },
+    "sms": {
+      "default": "Hi! {org} is asking how you are doing at work. Your answer is completely anonymous:",
+      "reminder": "Reminder from {org}: you have not answered yet. Deadline {date}. The link in the previous message no longer works. Answer anonymously here:"
     }
   },
   "newPassword": {
@@ -2407,5 +2414,53 @@
     "expiredTitle": "The link has been used or has expired",
     "expiredLead": "A link for a new password works once, for one hour. Ask for a new one on the sign-in page.",
     "toSignIn": "To sign-in"
+  },
+  "smsSetup": {
+    "back": "← Integrations",
+    "title": "SMS",
+    "lead": "For people who are not on e-mail during working hours. One message with a personal link — no app, no sign-in.",
+    "statusOn": "Connected",
+    "statusOff": "Not connected",
+    "step1": "1 · Mobile numbers",
+    "mobileLine": "{withPhone} of {total} have a mobile number in the register",
+    "mobileNote": "Numbers are entered under Employees, or imported from CSV with the rest. Without a number the person gets e-mail instead — nobody is left without the survey.",
+    "step2": "2 · Sender and message",
+    "sender": "Sender name",
+    "senderFixed": "Fixed",
+    "senderNote": "Every sender name has to be registered with the operators before it can be used, so every organisation sends as Orgpuls.",
+    "text": "Message text",
+    "counterOne": "{chars} characters · 1 message",
+    "counterMany": "{chars} characters · {parts} messages",
+    "linkNote": "The personal link is added automatically at the end. Each person gets their own — it cannot be used twice, and it says nothing about who answered what.",
+    "step3": "3 · When to use SMS",
+    "mode": {
+      "mangler": "Only those without e-mail",
+      "paaminn": "Only as a reminder",
+      "alle": "Everyone"
+    },
+    "modeNote": {
+      "mangler": "{count, plural, =0 {Nobody today} one {# person today} other {# people today}}. The rest get the survey by e-mail as before.",
+      "paaminn": "Everyone gets e-mail first. Those who have not answered when the reminder goes out get an SMS.",
+      "alle": "Highest response rate, highest cost. Can feel intrusive."
+    },
+    "cost": {
+      "exact": "{count} messages per round · {parts} SMS per message",
+      "atMost": "Up to {count} messages per round · {parts} SMS per message"
+    },
+    "costUnits": "≈ {units} SMS",
+    "preview": "What it looks like",
+    "now": "now",
+    "legal": "The survey is a duty under the Working Environment Act, not marketing. That is why consent is not required to send it — but the number must come from the employment, not from private sources.",
+    "activate": "Activate SMS",
+    "deactivate": "Disconnect",
+    "toggleNote": "Activating does nothing until the next send-out. You can switch it off again without losing anything.",
+    "creditsNote": "If an SMS cannot be sent, the link goes by e-mail instead.",
+    "readOnly": "Only the managing director can change the SMS setup.",
+    "saving": "Saving …",
+    "problem": {
+      "invalid": "The setup could not be saved. The text can have up to 300 characters.",
+      "denied": "Only the managing director can change the SMS setup.",
+      "noOrg": "Your organisation was not found."
+    }
   }
 }

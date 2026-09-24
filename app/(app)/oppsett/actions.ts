@@ -7,6 +7,7 @@ import { getCurrentOrgId } from '@/lib/org/current'
 import { writeFailed } from '@/lib/supabase/write'
 import { lookupOrgNumber } from '@/lib/brreg/lookup'
 import { DUTY_ROLES } from '@/lib/settings/read'
+import { normalizePhone } from '@/supabase/functions/_shared/sms'
 
 /**
  * Writing Oppsett.
@@ -227,6 +228,8 @@ const Person = z.object({
   name: z.string().trim().min(1).max(120),
   email: z.union([z.literal(''), z.string().trim().email()]),
   groupId: z.union([z.literal(''), z.string().uuid()]),
+  // what was typed; normalised below, and refused rather than guessed when unusable (D-66)
+  phone: z.string().trim().max(40),
 })
 
 export async function addEmployee(formData: FormData): Promise<SettingsResult> {
@@ -234,8 +237,11 @@ export async function addEmployee(formData: FormData): Promise<SettingsResult> {
     name: String(formData.get('name') ?? ''),
     email: String(formData.get('email') ?? ''),
     groupId: String(formData.get('groupId') ?? ''),
+    phone: String(formData.get('phone') ?? ''),
   })
   if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const phone = parsed.data.phone === '' ? null : normalizePhone(parsed.data.phone)
+  if (parsed.data.phone !== '' && !phone) return { ok: false, problem: 'phone' }
 
   const id = await orgId()
   if (!id) return { ok: false, problem: 'denied' }
@@ -249,6 +255,7 @@ export async function addEmployee(formData: FormData): Promise<SettingsResult> {
       full_name: parsed.data.name,
       email: parsed.data.email === '' ? null : parsed.data.email,
       group_id: parsed.data.groupId === '' ? null : parsed.data.groupId,
+      phone,
     })
     .select('id')
 
@@ -267,11 +274,17 @@ export async function addEmployee(formData: FormData): Promise<SettingsResult> {
  * A row with no group is imported without one rather than refused. The design says as
  * much — those people land in "Uten gruppe" and the register says how many — and refusing
  * the whole paste because one line is short is how a leader gives up and does it by hand.
+ *
+ * Column E is the mobile number (D-66). A row whose e-mail already belongs to someone in
+ * the register is not a new person: it gives that person their number, and nothing else
+ * about them changes. That is how a register of 34 gets its numbers — paste the same sheet
+ * again with the column added — without 34 duplicates. An unusable number is left out,
+ * never guessed at.
  */
 const MAX_ROWS = 2000
 
 export type ImportResult =
-  | { ok: true; written: number; skipped: number }
+  | { ok: true; written: number; updated: number; skipped: number }
   | { ok: false; problem: string }
 
 export async function importEmployees(formData: FormData): Promise<ImportResult> {
@@ -289,6 +302,10 @@ export async function importEmployees(formData: FormData): Promise<ImportResult>
   const byName = new Map(
     (groups.success ? groups.data : []).map((g) => [g.name.toLocaleLowerCase('no'), g.id]),
   )
+  const { data: known } = await supabase.schema('app').from('employees').select('id, email').not('email', 'is', null)
+  const existing = z.array(z.object({ id: z.string(), email: z.string() })).safeParse(known ?? [])
+  const byEmail = new Map((existing.success ? existing.data : []).map((e) => [e.email.toLowerCase(), e.id]))
+  const phoneUpdates: { id: string; phone: string }[] = []
 
   const lines = text
     .split('\n')
@@ -296,8 +313,13 @@ export async function importEmployees(formData: FormData): Promise<ImportResult>
     .filter(Boolean)
   if (lines.length > MAX_ROWS) return { ok: false, problem: 'too_many' }
 
-  const rows: { org_id: string; full_name: string; email: string | null; group_id: string | null }[] =
-    []
+  const rows: {
+    org_id: string
+    full_name: string
+    email: string | null
+    group_id: string | null
+    phone: string | null
+  }[] = []
   let skipped = 0
 
   for (const [index, line] of lines.entries()) {
@@ -311,15 +333,40 @@ export async function importEmployees(formData: FormData): Promise<ImportResult>
     }
     const email = cells[1] ?? ''
     const group = cells[2] ?? ''
+    const phone = normalizePhone(cells[4] ?? '')
+    const already = email.includes('@') ? byEmail.get(email.toLowerCase()) : undefined
+    if (already) {
+      if (phone) phoneUpdates.push({ id: already, phone })
+      else skipped += 1
+      continue
+    }
     rows.push({
       org_id: id,
       full_name: name.slice(0, 120),
       email: email.includes('@') ? email : null,
       group_id: byName.get(group.toLocaleLowerCase('no')) ?? null,
+      phone,
     })
   }
 
-  if (rows.length === 0) return { ok: false, problem: 'empty' }
+  if (rows.length === 0 && phoneUpdates.length === 0) return { ok: false, problem: 'empty' }
+
+  // numbers for people already in the register, one row each: RLS decides each update
+  let updated = 0
+  for (const u of phoneUpdates) {
+    const { data: done, error } = await supabase
+      .schema('app')
+      .from('employees')
+      .update({ phone: u.phone })
+      .eq('id', u.id)
+      .select('id')
+    if (writeFailed('importEmployees', error, done)) return { ok: false, problem: 'denied' }
+    updated += done.length
+  }
+  if (rows.length === 0) {
+    revalidate()
+    return { ok: true, written: 0, updated, skipped }
+  }
 
   /*
    * The import reports what it wrote, not what it was given. `rows.length` is the number
@@ -336,7 +383,7 @@ export async function importEmployees(formData: FormData): Promise<ImportResult>
   if (writeFailed('importEmployees', error, written)) return { ok: false, problem: 'denied' }
 
   revalidate()
-  return { ok: true, written: written.length, skipped }
+  return { ok: true, written: written.length, updated, skipped }
 }
 
 export async function setEmployeeGroup(formData: FormData): Promise<SettingsResult> {

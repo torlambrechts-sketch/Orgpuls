@@ -36,6 +36,10 @@ export interface NoticeJob {
   id: string
   kind: 'forvarsel' | 'invitasjon' | 'paminnelse' | 'resultat'
   audience: string | null
+  /** the channel the database chose for the link (0033); role notices are always e-mail */
+  channel: 'email' | 'sms'
+  /** the organisation's own SMS text, or null for the default */
+  sms_text: string | null
   lang: string
   org: string
   k: number
@@ -45,7 +49,10 @@ export interface NoticeJob {
 }
 
 export interface Recipient {
-  email: string
+  /** null for a person reached only by SMS */
+  email: string | null
+  /** present only when SMS may carry this person's link (0033) */
+  phone: string | null
   name: string | null
   lang: string | null
   member: boolean
@@ -249,6 +256,20 @@ export function renderAuth(cat: MailCatalogue, action: AuthAction, lang: Lang, e
       footer: 'Orgpuls · orgpuls.com',
     }),
   }
+}
+
+/**
+ * The SMS for an invitation or a reminder, before its link: the organisation's own text for
+ * an invitation (the default when it has none), and for a reminder a fixed text that says
+ * the previous link no longer works — a reminder mints a new one (0032, rule 2).
+ */
+export function smsLead(cat: MailCatalogue, job: NoticeJob, lang: Lang): string {
+  const m = cat[lang]
+  const round = roundName(m, job.round)
+  if (job.kind === 'paminnelse') {
+    return fill(pick(m, 'sms.reminder'), { org: job.org, round, date: dateOf(job.round.closes_at, lang) })
+  }
+  return job.sms_text?.trim() ? job.sms_text : fill(pick(m, 'sms.default'), { org: job.org })
 }
 
 /** The app route that turns an Auth token hash into a session (app/auth/confirm/route.ts). */

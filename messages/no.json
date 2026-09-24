@@ -1119,8 +1119,8 @@
       "sourceCsv": "Importer fra regneark",
       "sourceCsvNote": "Lim inn kolonnene fra Excel. Den vanligste veien for små virksomheter.",
       "pasteHead": "Lim inn fra regnearket",
-      "pasteLead": "Marker kolonnene i Excel og lim inn her. Rekkefølgen skal være navn, e-post, gruppe, leder. Overskriftsrad er valgfri.",
-      "pastePlaceholder": "Kari Nordbø, kari@firma.no, Drift, Anne Rygg\nJonas Five, jonas@firma.no, Drift, Anne Rygg",
+      "pasteLead": "Marker kolonnene i Excel og lim inn her. Rekkefølgen skal være navn, e-post, gruppe, leder og mobil. Overskriftsrad er valgfri. Finnes e-postadressen fra før, får den personen bare mobilnummeret.",
+      "pastePlaceholder": "Kari Nordbø, kari@firma.no, Drift, Anne Rygg, 912 34 567\nJonas Five, jonas@firma.no, Drift, Anne Rygg, 480 12 345",
       "column": "kolonne {letter}",
       "colName": "Navn",
       "colEmail": "E-post",
@@ -1164,8 +1164,13 @@
         "invalid": "Raden kunne ikke leses. Navn må være fylt ut.",
         "empty": "Ingen rader å importere.",
         "too_many": "For mange rader på én gang. Del opp i bolker på under 2000.",
-        "denied": "Bare daglig leder kan endre registeret."
-      }
+        "denied": "Bare daglig leder kan endre registeret.",
+        "phone": "Mobilnummeret kan ikke brukes. Skriv et norsk mobilnummer eller et nummer med landkode."
+      },
+      "colMobile": "Mobil",
+      "phone": "Mobil",
+      "phonePlaceholder": "912 34 567",
+      "phonesAdded": "{count, plural, one {# person som allerede fantes, fikk mobilnummer.} other {# personer som allerede fantes, fikk mobilnummer.}}"
     },
     "grupper": {
       "title": "Grupper",
@@ -1285,7 +1290,10 @@
         "need": "Kommer. Fram til da legger dere inn ansatte manuelt eller via regneark under Ansatte."
       },
       "statusAlways": "Alltid på",
-      "statusMailOff": "Slått av"
+      "statusMailOff": "Slått av",
+      "statusOn": "Tilkoblet",
+      "btnSetup": "Sett opp",
+      "btnSettings": "Innstillinger"
     },
     "personvern": {
       "basis": {
@@ -1294,7 +1302,7 @@
       },
       "stored": {
         "head": "Hva lagres om den enkelte",
-        "body": "Navn, e-post og gruppe i registeret. Svarene lagres uten kobling til person: systemet vet at noen i en gruppe har svart, ikke hvem. Det finnes ingen kolonne som kunne holdt koblingen."
+        "body": "Navn, e-post, mobilnummer og gruppe i registeret. Svarene lagres uten kobling til person: systemet vet at noen i en gruppe har svart, ikke hvem. Det finnes ingen kolonne som kunne holdt koblingen."
       },
       "special": {
         "head": "Særlige kategorier",
@@ -1655,12 +1663,6 @@
         "entraFirst": "Entra ID først. Teams-varselet bruker samme brukerkatalog, så uten den vet vi ikke hvem meldingen skal til.",
         "message": "En meldingsmal og en godkjent app i Teams. Innholdet er det samme som i e-posten: én setning og en personlig lenke."
       },
-      "sms": {
-        "numbers": "Mobilnumre i ansattregisteret. Uten nummer ingen SMS.",
-        "sender": "Et avsendernavn på inntil elleve tegn, registrert hos operatøren, og en meldingstekst. Den personlige lenken legges til til slutt.",
-        "when": "Når SMS skal brukes: til alle utsendinger, bare til påminnelsene, eller bare til dem som ikke har e-post.",
-        "cost": "En avtale med en SMS-leverandør. Det faktureres per melding, så volumet er verdt å regne på før dere slår det på."
-      },
       "hr": {
         "vendor": "Hvilket system dere bruker — Tripletex, Visma eller Huldt & Lillevik.",
         "fields": "Hvilke felter som skal leses: stilling, startdato og avdeling. Det er de tre som gjør at nyansatte og ansiennitet kan brukes som segment uten import."
@@ -1670,7 +1672,8 @@
     "statusMailOff": "Utsending er slått av",
     "queueOn": "Varslene sendes på e-post fra no-reply@orgpuls.com hvert femte minutt når de forfaller. {sent, plural, =0 {Ingen er sendt ennå} one {# er sendt} other {# er sendt}}, {pending, plural, =0 {ingen står i kø} one {# står i kø} other {# står i kø}} og {failed, plural, =0 {ingen har feilet} one {# kunne ikke sendes} other {# kunne ikke sendes}}.",
     "queueOff": "Utsending er slått av for denne virksomheten. {count, plural, one {# varsel står i kø og blir ikke sendt.} other {# varsler står i kø og blir ikke sendt.}}",
-    "mailReady": "Ingenting å sette opp. Avsenderdomenet er verifisert med DKIM og DMARC, og lenken lages i det øyeblikket e-posten sendes."
+    "mailReady": "Ingenting å sette opp. Avsenderdomenet er verifisert med DKIM og DMARC, og lenken lages i det øyeblikket e-posten sendes.",
+    "smsSetup": "Sett opp SMS"
   },
   "start": {
     "signIn": "Logg inn",
@@ -2390,6 +2393,10 @@
         "cta": "Godta invitasjonen",
         "ignore": "Venter du ikke denne invitasjonen, kan du se bort fra e-posten."
       }
+    },
+    "sms": {
+      "default": "Hei! {org} spør hvordan du har det på jobb. Svaret er helt anonymt:",
+      "reminder": "Påminnelse fra {org}: du har ikke svart ennå. Svarfrist {date}. Lenken i forrige melding virker ikke lenger. Svar anonymt her:"
     }
   },
   "newPassword": {
@@ -2407,5 +2414,53 @@
     "expiredTitle": "Lenken er brukt eller utløpt",
     "expiredLead": "En lenke for nytt passord virker én gang og i én time. Be om en ny på innloggingssiden.",
     "toSignIn": "Til innlogging"
+  },
+  "smsSetup": {
+    "back": "← Integrasjoner",
+    "title": "SMS",
+    "lead": "For folk som ikke sitter på e-post i arbeidstiden. Én melding med en personlig lenke — ingen app, ingen innlogging.",
+    "statusOn": "Tilkoblet",
+    "statusOff": "Ikke tilkoblet",
+    "step1": "1 · Mobilnumre",
+    "mobileLine": "{withPhone} av {total} har mobilnummer i registeret",
+    "mobileNote": "Numrene legges inn under Ansatte, eller importeres fra CSV sammen med resten. Uten nummer får personen e-post i stedet — ingen blir stående uten måling.",
+    "step2": "2 · Avsender og melding",
+    "sender": "Avsendernavn",
+    "senderFixed": "Fast",
+    "senderNote": "Hvert avsendernavn må registreres hos operatørene før det kan brukes, så alle virksomheter sender som Orgpuls.",
+    "text": "Meldingstekst",
+    "counterOne": "{chars} tegn · 1 melding",
+    "counterMany": "{chars} tegn · {parts} meldinger",
+    "linkNote": "Den personlige lenken legges til automatisk til slutt. Hver person får sin egen — den kan ikke brukes to ganger, og den sier ingenting om hvem som svarte hva.",
+    "step3": "3 · Når skal SMS brukes",
+    "mode": {
+      "mangler": "Bare de uten e-post",
+      "paaminn": "Bare som påminnelse",
+      "alle": "Alle"
+    },
+    "modeNote": {
+      "mangler": "{count, plural, =0 {Ingen i dag} one {# person i dag} other {# personer i dag}}. Resten får målingen på e-post som før.",
+      "paaminn": "Alle får e-post først. De som ikke har svart når påminnelsen går ut, får SMS.",
+      "alle": "Høyest svarprosent, høyest kostnad. Kan oppleves som påtrengende."
+    },
+    "cost": {
+      "exact": "{count} meldinger per runde · {parts} SMS per melding",
+      "atMost": "Inntil {count} meldinger per runde · {parts} SMS per melding"
+    },
+    "costUnits": "≈ {units} SMS",
+    "preview": "Slik ser den ut",
+    "now": "nå",
+    "legal": "Målingen er en plikt etter arbeidsmiljøloven, ikke markedsføring. Derfor kreves ikke samtykke for å sende den — men nummeret må komme fra arbeidsforholdet, ikke fra private kilder.",
+    "activate": "Aktiver SMS",
+    "deactivate": "Koble fra",
+    "toggleNote": "Aktivering gjør ingenting før neste utsending. Dere kan slå den av igjen uten å miste noe.",
+    "creditsNote": "Kan en SMS ikke sendes, går lenken på e-post i stedet.",
+    "readOnly": "Bare daglig leder kan endre SMS-oppsettet.",
+    "saving": "Lagrer …",
+    "problem": {
+      "invalid": "Oppsettet kunne ikke lagres. Teksten kan ha inntil 300 tegn.",
+      "denied": "Bare daglig leder kan endre SMS-oppsettet.",
+      "noOrg": "Fant ikke virksomheten din."
+    }
   }
 }

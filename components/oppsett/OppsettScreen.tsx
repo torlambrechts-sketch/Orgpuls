@@ -47,6 +47,8 @@ export interface OppsettView {
   withPhone: number
   /** whether the dispatcher sends this organisation's notices (0032) */
   mailOn: boolean
+  /** whether this organisation has SMS on (0033) */
+  smsOn: boolean
   baselineMonth: number | null
   /** the names the register records as verneombud — a duty, never a grant (0021) */
   verneombud: string[]
@@ -143,7 +145,7 @@ export async function OppsettScreen({ view }: { view: OppsettView }) {
       ) : view.tab === 'roller' ? (
         <RollerTab members={view.members} />
       ) : view.tab === 'integrasjoner' ? (
-        <IntegrasjonerTab roster={view.roster} withPhone={view.withPhone} mailOn={view.mailOn} />
+        <IntegrasjonerTab roster={view.roster} withPhone={view.withPhone} mailOn={view.mailOn} smsOn={view.smsOn} />
       ) : view.tab === 'personvern' ? (
         <PersonvernTab threshold={view.company.threshold} />
       ) : (

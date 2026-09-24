@@ -19,7 +19,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 const REF = process.env.SUPABASE_PROJECT_REF ?? 'jmhhszsnjfqgclxzhciq'
 const TOKEN = process.env.SB_MCP_PAT ?? process.env.SUPABASE_ACCESS_TOKEN
 const FUNCTIONS = ['orgpuls-dispatch', 'orgpuls-auth-mail']
-const SHARED = ['_shared/mail.ts', '_shared/brevo.ts', '_shared/messages.gen.ts']
+const SHARED = ['_shared/mail.ts', '_shared/brevo.ts', '_shared/sms.ts', '_shared/messages.gen.ts']
 const ROOT = 'supabase/functions'
 
 const mail = (lang) => JSON.parse(readFileSync(`messages/${lang}.json`, 'utf8')).mail

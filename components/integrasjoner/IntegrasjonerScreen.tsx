@@ -29,13 +29,15 @@ export interface IntegrasjonerView {
   queue: { pending: number; sent: number; failed: number }
   /** whether the dispatcher sends this organisation's notices (0032) */
   mailOn: boolean
+  /** whether this organisation has SMS on (0033) */
+  smsOn: boolean
 }
 
 const CHANNELS = [
   { key: 'epost', steps: [] },
   { key: 'entra', steps: ['tenant', 'permissions', 'groups', 'sync'] },
   { key: 'teams', steps: ['entraFirst', 'message'] },
-  { key: 'sms', steps: ['numbers', 'sender', 'when', 'cost'] },
+  { key: 'sms', steps: [] },
   { key: 'hr', steps: ['vendor', 'fields'] },
 ] as const
 
@@ -104,7 +106,9 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
                 style={
                   c.key === 'epost' && view.mailOn
                     ? { background: 'rgba(25,21,16,.07)', color: '#5F5849' }
-                    : c.key === 'hr'
+                    : c.key === 'sms' && view.smsOn
+                      ? { background: '#CFE7E4', color: '#20431C' }
+                      : c.key === 'hr'
                       ? { background: 'rgba(25,21,16,.05)', color: '#8A8272' }
                       : { background: '#FBEBBE', color: '#5C4600' }
                 }
@@ -113,9 +117,11 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
                   ? view.mailOn
                     ? t('oppsett.integrasjoner.statusAlways')
                     : t('oppsett.integrasjoner.statusMailOff')
-                  : c.key === 'hr'
-                    ? t('oppsett.integrasjoner.statusSoon')
-                    : t('oppsett.integrasjoner.statusOff')}
+                  : c.key === 'sms' && view.smsOn
+                    ? t('oppsett.integrasjoner.statusOn')
+                    : c.key === 'hr'
+                      ? t('oppsett.integrasjoner.statusSoon')
+                      : t('oppsett.integrasjoner.statusOff')}
               </span>
             </div>
 
@@ -148,8 +154,19 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
               </div>
             ) : null}
 
+            {c.key === 'sms' ? (
+              <ButtonLink
+                href="/integrasjoner/sms"
+                size="xxs"
+                tone={view.smsOn ? 'secondary' : 'primary'}
+                className="mt-[16px]"
+              >
+                {view.smsOn ? t('oppsett.integrasjoner.btnSettings') : t('integrasjoner.smsSetup')}
+              </ButtonLink>
+            ) : null}
+
             {/* e-mail is connected for the whole product: its only state is on or off */}
-            {c.key === 'epost' ? (
+            {c.key === 'sms' ? null : c.key === 'epost' ? (
               <p className="mt-[10px] max-w-[640px] text-[13px] leading-[1.55] text-mut [text-wrap:pretty]">
                 {view.mailOn ? t('integrasjoner.mailReady') : t('oppsett.integrasjoner.epost.needOff')}
               </p>

@@ -235,3 +235,41 @@ export async function countWithPhone(): Promise<number> {
 
   return error || count === null ? 0 : count
 }
+
+/**
+ * Who SMS could reach, as counts only (D-66). `head: true` keeps the numbers themselves in
+ * the database: the SMS screen needs to know how many, never whose.
+ */
+export async function getSmsReach(): Promise<{ total: number; withPhone: number; phoneNoEmail: number }> {
+  const supabase = await createClient()
+  const active = () =>
+    supabase.schema('app').from('employees').select('id', { count: 'exact', head: true }).eq('active', true)
+  const [total, withPhone, phoneNoEmail] = await Promise.all([
+    active(),
+    active().not('phone', 'is', null),
+    active().not('phone', 'is', null).is('email', null),
+  ])
+  return { total: total.count ?? 0, withPhone: withPhone.count ?? 0, phoneNoEmail: phoneNoEmail.count ?? 0 }
+}
+
+const SmsSettingsRow = z.object({
+  sms_enabled: z.boolean(),
+  sms_when: z.enum(['mangler', 'paaminn', 'alle']),
+  sms_text: z.string().nullable(),
+})
+export type SmsSettings = { enabled: boolean; when: 'mangler' | 'paaminn' | 'alle'; text: string | null }
+
+/** The organisation's SMS choices (0033). */
+export async function getSmsSettings(): Promise<SmsSettings | null> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .schema('app')
+    .from('organizations')
+    .select('sms_enabled, sms_when, sms_text')
+    .limit(2)
+  if (readFailed('getSmsSettings', error, data)) return null
+  const parsed = z.array(SmsSettingsRow).safeParse(data)
+  if (parseFailed('getSmsSettings', parsed)) return null
+  const row = onlyOrganisation('getSmsSettings', parsed.data)
+  return row ? { enabled: row.sms_enabled, when: row.sms_when, text: row.sms_text } : null
+}

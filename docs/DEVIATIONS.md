@@ -2291,3 +2291,72 @@ demo login went Auth → signed hook → reserved-domain guard, logged and not s
 **Not built:** SMS (no employee has a number, and the sender name is not registered yet);
 member invitations by mail (the daglig leder still copies the link, D-51); bounce and
 delivery events (the webhook would need a public endpoint and a table for them).
+
+---
+
+## D-66 — SMS: the design's connection screen, on the same dispatcher
+
+The design draws SMS as a connection screen reached from Oppsett › Integrasjoner: 1 ·
+mobile numbers, 2 · sender and message (with a character counter and a phone-shaped
+preview), 3 · when SMS is used — "Bare de uten e-post", "Bare som påminnelse", "Alle" —
+and "Aktiver SMS" / "Koble fra". D-35 dropped it while nothing stood behind it. It is
+built now, at `/integrasjoner/sms`, and every control on it is real.
+
+**Data (0033).** `organizations.sms_enabled` (off by default: every message is billed),
+`sms_when` and `sms_text` (null means the default text, so a better default reaches everyone
+who never wrote their own). `employees.phone` must be E.164; the app normalises what people
+type — "912 34 567", "+47…", "0047…" — and refuses rather than guesses anything else: an
+eight-digit number counts as Norwegian only in the mobile ranges (4 and 9), because a
+landline cannot receive an SMS and a guessed country sends a survey link to a stranger.
+
+**The rule the claim applies**, for the two messages that carry a respondent link: SMS when
+SMS is on, the person has a number and the mode says so ("alle" always, "påminnelse" for a
+reminder, "uten e-post" when there is no address); otherwise e-mail; and SMS when there is
+no address but a number — nobody is left without the survey, which is the design's own
+promise ("Uten nummer får personen e-post i stedet"). Notices to a role stay e-mail. The
+number is handed to the function only when SMS may carry the link. The outbox records which
+channel carried each message. `dispatch_invariants.sql` now holds 28 rules, one per branch.
+
+**Sending.** Brevo's transactional SMS API, sender "Orgpuls". An SMS that cannot be sent —
+no credits, an unregistered sender, a refused number — falls back to e-mail with the same
+link when the person has an address; a rejected key stops the run as for e-mail. Segments
+are counted the way operators bill them (GSM-7, where æøå are ordinary characters: 160,
+then 153 per part; 70/67 when a character forces unicode). A reminder always uses a fixed
+text that says the previous link no longer works, whatever the organisation wrote for the
+invitation.
+
+**Numbers into the register.** A Mobil field on the manual form, and a fifth column (E) on
+the paste import, flagged in the preview when a number cannot be used. A pasted row whose
+e-mail already belongs to someone gives that person their number and changes nothing else —
+that is how an existing register gets its numbers without duplicates. The Personvern tab's
+list of what is stored now names the mobile number.
+
+**Three differences from the design, each because the design's value cannot be true here:**
+- *Sender.* The design's field is free text (11 characters). Every sender name must be
+  registered with the operators before it can be used, so the field shows "Orgpuls",
+  read-only, and says why. A free-text name would fail on every message.
+- *Price.* "0,49 kr per melding · ≈ 4,41 kr per utsending" is a number nobody measured.
+  The line counts what is real: messages per round from the register, times billed SMS
+  per message from the text — "≈ N SMS".
+- *Link.* The design counts a 17-character short link (`orgpuls.no/n/7fK2`). The real link
+  is the personal one, 90 characters, and the counter counts it — so the default text is
+  two billed SMS. Shortening it means a shorter respondent token, which is a change to the
+  respondent credential and is not made here.
+
+**Also on the way:** the Oppsett SMS row now carries the design's "Sett opp" /
+"Innstillinger" button (the only row that does: the others still have nothing behind them),
+and `/integrasjoner` links to the screen instead of listing what SMS would need.
+
+**Verified on the hosted project:** the screen opened from the Oppsett row; a mode, the text
+and "Aktiver SMS" persisted across a reload and were restored; a drain ran with the new
+claim. **Not verified: a real SMS.** The Brevo account has no SMS credits, and whether
+"Orgpuls" is registered as a sender cannot be read from the API. Until both are in place,
+an organisation that switches SMS on gets its links by e-mail — the fallback — and the
+failures are visible in the queue.
+
+**The HeiTuva leftovers named in D-65 are deleted** (2026-09-24, at the owner's request): the
+`mail-worker` function, its two Vault entries, the `pgmq` extension (no queues, nothing
+depending on it), the secrets `MAIL_FROM`, `MAIL_FROM_NAME` and `NEXT_PUBLIC_APP_URL`, and
+three empty storage buckets (`org-logos`, `report-exports`, `survey-media`) that predate
+this repository and are referenced nowhere in it. The Brevo account still lists the
+unauthenticated domain `heituva.com`; that account entry is the owner's.

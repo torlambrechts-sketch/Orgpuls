@@ -59,3 +59,53 @@ export async function brevoSend(key: string, m: BrevoMessage, opts: { sandbox?: 
   if (res.status === 429 || res.status >= 500) return { ok: false, retryable: true, auth: false, code }
   return { ok: false, retryable: false, auth: false, code }
 }
+
+// ---------------------------------------------------------------------------------------
+// SMS (D-66). The same reduction: a status, a decision, and never the number in a log.
+// ---------------------------------------------------------------------------------------
+
+export interface BrevoSms {
+  /** registered with the operators; at most 11 characters */
+  sender: string
+  /** E.164, "+4791234567" */
+  recipient: string
+  content: string
+  unicode: boolean
+  tag: string
+}
+
+const SMS_ENDPOINT = 'https://api.brevo.com/v3/transactionalSMS/send'
+
+export async function brevoSendSms(key: string, m: BrevoSms): Promise<SendResult> {
+  let res: Response
+  try {
+    res = await fetch(SMS_ENDPOINT, {
+      method: 'POST',
+      headers: { 'api-key': key, 'content-type': 'application/json', accept: 'application/json' },
+      body: JSON.stringify({
+        sender: m.sender,
+        recipient: m.recipient.replace(/^\+/, ''),
+        content: m.content,
+        type: 'transactional',
+        tag: m.tag,
+        unicodeEnabled: m.unicode,
+      }),
+      signal: AbortSignal.timeout(15000),
+    })
+  } catch {
+    return { ok: false, retryable: true, auth: false, code: 'sms_network' }
+  }
+
+  if (res.ok) {
+    const json = (await res.json().catch(() => ({}))) as { messageId?: number | string; reference?: string }
+    return { ok: true, id: String(json.messageId ?? json.reference ?? '') }
+  }
+  // the error code only; Brevo's message can quote the number
+  const body = (await res.json().catch(() => ({}))) as { code?: string }
+  const code = `sms_http_${res.status}${body.code ? `_${String(body.code).slice(0, 40)}` : ''}`
+  if (res.status === 401 || res.status === 403) return { ok: false, retryable: true, auth: true, code }
+  // no credits is a state the account can leave: worth trying again later
+  if (res.status === 402 || body.code === 'not_enough_credits') return { ok: false, retryable: true, auth: false, code }
+  if (res.status === 429 || res.status >= 500) return { ok: false, retryable: true, auth: false, code }
+  return { ok: false, retryable: false, auth: false, code }
+}

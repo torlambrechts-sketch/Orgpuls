@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import type { RosterPerson } from '@/lib/settings/read'
 
@@ -14,6 +15,8 @@ import type { RosterPerson } from '@/lib/settings/read'
  *
  * The "Sett opp" buttons are omitted for the same reason the design's own "Kommer" row has
  * none: there is nothing behind them. A button that opens nothing is a promise. D-33.
+ * SMS is the exception since D-66: its row carries the design's button, "Sett opp" while
+ * off and "Innstillinger" once connected, and it opens the real SMS screen.
  *
  * The SMS row's "9 av 34 har mobilnummer" is counted from the register rather than
  * written, because it is the one number here that is real and it is the one that decides
@@ -26,10 +29,13 @@ export async function IntegrasjonerTab({
   roster,
   withPhone,
   mailOn,
+  smsOn,
 }: {
   roster: RosterPerson[]
   withPhone: number
   mailOn: boolean
+  /** whether this organisation has SMS on (0033) */
+  smsOn: boolean
 }) {
   const t = await getTranslations()
 
@@ -60,7 +66,9 @@ export async function IntegrasjonerTab({
                     style={
                       k === 'epost' && mailOn
                         ? { background: 'rgba(25,21,16,.07)', color: '#5F5849' }
-                        : soon
+                        : k === 'sms' && smsOn
+                          ? { background: '#CFE7E4', color: '#20431C' }
+                          : soon
                           ? { background: 'rgba(25,21,16,.05)', color: '#8A8272' }
                           : { background: '#FBEBBE', color: '#5C4600' }
                     }
@@ -69,9 +77,11 @@ export async function IntegrasjonerTab({
                       ? mailOn
                         ? t('oppsett.integrasjoner.statusAlways')
                         : t('oppsett.integrasjoner.statusMailOff')
-                      : soon
-                        ? t('oppsett.integrasjoner.statusSoon')
-                        : t('oppsett.integrasjoner.statusOff')}
+                      : k === 'sms' && smsOn
+                        ? t('oppsett.integrasjoner.statusOn')
+                        : soon
+                          ? t('oppsett.integrasjoner.statusSoon')
+                          : t('oppsett.integrasjoner.statusOff')}
                   </span>
                 </span>
                 <span className="mt-[7px] block text-[13px] leading-[1.55] text-body [text-wrap:pretty]">
@@ -92,6 +102,16 @@ export async function IntegrasjonerTab({
                       : t(`oppsett.integrasjoner.${k}.need`)}
                 </span>
               </span>
+              {k === 'sms' ? (
+                <Link
+                  href="/integrasjoner/sms"
+                  className={`inline-flex h-[38px] items-center justify-center rounded-ctl border border-ink px-[14px] text-[12.5px] font-bold text-ink no-underline hover:text-ink hover:no-underline ${
+                    smsOn ? 'bg-transparent' : 'bg-ac'
+                  }`}
+                >
+                  {smsOn ? t('oppsett.integrasjoner.btnSettings') : t('oppsett.integrasjoner.btnSetup')}
+                </Link>
+              ) : null}
             </div>
           )
         })}

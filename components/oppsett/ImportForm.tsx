@@ -3,6 +3,7 @@
 import { useMemo, useState, useTransition } from 'react'
 import { useTranslations } from 'next-intl'
 import { addEmployee, importEmployees } from '@/app/(app)/oppsett/actions'
+import { normalizePhone } from '@/supabase/functions/_shared/sms'
 import type { Group } from '@/lib/org/read'
 
 /**
@@ -30,6 +31,7 @@ interface Labels {
   colEmail: string
   colGroup: string
   colLeader: string
+  colMobile: string
   allGood: string
   reset: string
   addHead: string
@@ -41,6 +43,8 @@ interface Labels {
   noGroup: string
   add: string
   emailNote: string
+  phone: string
+  phonePlaceholder: string
   problems: Record<string, string>
 }
 
@@ -68,7 +72,7 @@ export function ImportForm({
   const [source, setSource] = useState<'csv' | 'manual'>('csv')
   const [text, setText] = useState('')
   const [problem, setProblem] = useState<string | null>(null)
-  const [done, setDone] = useState<{ written: number; skipped: number } | null>(null)
+  const [done, setDone] = useState<{ written: number; updated: number; skipped: number } | null>(null)
   const [pending, startTransition] = useTransition()
 
   const rows = useMemo(() => {
@@ -83,6 +87,8 @@ export function ImportForm({
 
   const badEmail = rows.filter((r) => (r[1] ?? '') !== '' && !(r[1] ?? '').includes('@')).length
   const noGroup = rows.filter((r) => (r[2] ?? '') === '').length
+  // column E: a number that cannot be used is imported without it, and said so here first
+  const badPhone = rows.filter((r) => (r[4] ?? '') !== '' && !normalizePhone(r[4])).length
 
   return (
     <>
@@ -144,7 +150,7 @@ export function ImportForm({
           />
 
           <div className="mt-[12px] flex flex-wrap gap-[7px]">
-            {[labels.colName, labels.colEmail, labels.colGroup, labels.colLeader].map(
+            {[labels.colName, labels.colEmail, labels.colGroup, labels.colLeader, labels.colMobile].map(
               (label, i) => (
                 <span
                   key={label}
@@ -152,7 +158,7 @@ export function ImportForm({
                 >
                   <span className="text-[12.5px] font-bold">{label}</span>
                   <span className="text-[11.5px] text-mut">
-                    {t('column', { letter: 'ABCD'.charAt(i) })}
+                    {t('column', { letter: 'ABCDE'.charAt(i) })}
                   </span>
                 </span>
               ),
@@ -168,12 +174,13 @@ export function ImportForm({
                   </span>
                   <span
                     className="text-[12.5px] font-semibold"
-                    style={{ color: badEmail || noGroup ? '#A33A16' : '#2F5D2A' }}
+                    style={{ color: badEmail || noGroup || badPhone ? '#A33A16' : '#2F5D2A' }}
                   >
-                    {badEmail || noGroup
+                    {badEmail || noGroup || badPhone
                       ? [
                           badEmail ? `${badEmail} ${labels.colEmail.toLocaleLowerCase('no')}` : '',
                           noGroup ? `${noGroup} ${labels.noGroup.toLocaleLowerCase('no')}` : '',
+                          badPhone ? `${badPhone} ${labels.colMobile.toLocaleLowerCase('no')}` : '',
                         ]
                           .filter(Boolean)
                           .join(' · ')
@@ -181,17 +188,18 @@ export function ImportForm({
                   </span>
                 </div>
                 <div className="overflow-x-auto">
-                  <div className="min-w-[520px]">
-                    <div className="grid grid-cols-4 gap-[12px] px-[15px] py-[9px] text-[10.5px] uppercase tracking-[0.08em] text-mut">
+                  <div className="min-w-[640px]">
+                    <div className="grid grid-cols-5 gap-[12px] px-[15px] py-[9px] text-[10.5px] uppercase tracking-[0.08em] text-mut">
                       <span>{labels.colName}</span>
                       <span>{labels.colEmail}</span>
                       <span>{labels.colGroup}</span>
                       <span>{labels.colLeader}</span>
+                      <span>{labels.colMobile}</span>
                     </div>
                     {rows.slice(0, 4).map((r, i) => (
                       <div
                         key={i}
-                        className="grid grid-cols-4 gap-[12px] border-t border-line px-[15px] py-[10px] text-[13px]"
+                        className="grid grid-cols-5 gap-[12px] border-t border-line px-[15px] py-[10px] text-[13px]"
                       >
                         <span className="font-semibold">{r[0] || '—'}</span>
                         <span
@@ -206,6 +214,9 @@ export function ImportForm({
                         </span>
                         <span>{r[2] || '—'}</span>
                         <span className="text-mut">{r[3] || '—'}</span>
+                        <span style={{ color: (r[4] ?? '') !== '' && !normalizePhone(r[4]) ? '#A33A16' : '#191510' }}>
+                          {r[4] || '—'}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -224,7 +235,7 @@ export function ImportForm({
                       if (result.ok) {
                         setText('')
                         setProblem(null)
-                        setDone({ written: result.written, skipped: result.skipped })
+                        setDone({ written: result.written, updated: result.updated, skipped: result.skipped })
                       } else {
                         setProblem(result.problem)
                       }
@@ -251,13 +262,13 @@ export function ImportForm({
             startTransition(async () => {
               const result = await addEmployee(data)
               setProblem(result.ok ? null : result.problem)
-              setDone(result.ok ? { written: 1, skipped: 0 } : null)
+              setDone(result.ok ? { written: 1, updated: 0, skipped: 0 } : null)
             })
           }
           className="mt-[20px] border-t border-line pt-[18px]"
         >
           <div className="text-[14.5px] font-semibold">{labels.addHead}</div>
-          <div className="mt-[12px] grid items-end gap-[10px] [grid-template-columns:repeat(auto-fit,minmax(160px,1fr))_130px]">
+          <div className="mt-[12px] grid items-end gap-[10px] [grid-template-columns:repeat(auto-fit,minmax(150px,1fr))_130px]">
             <label className="block">
               <span className="mb-[5px] block text-[11.5px] text-mut">{labels.name}</span>
               <input
@@ -276,6 +287,19 @@ export function ImportForm({
                 type="email"
                 disabled={!canWrite}
                 placeholder={labels.emailPlaceholder}
+                className="box-border h-[40px] w-full rounded-ctl border border-line bg-bg px-[13px] text-[13.5px] text-ink outline-none"
+              />
+            </label>
+            <label className="block">
+              <span className="mb-[5px] block text-[11.5px] text-mut">{labels.phone}</span>
+              <input
+                name="phone"
+                type="tel"
+                inputMode="tel"
+                autoComplete="off"
+                maxLength={40}
+                disabled={!canWrite}
+                placeholder={labels.phonePlaceholder}
                 className="box-border h-[40px] w-full rounded-ctl border border-line bg-bg px-[13px] text-[13.5px] text-ink outline-none"
               />
             </label>
@@ -315,6 +339,7 @@ export function ImportForm({
       ) : done ? (
         <p className="mt-[11px] text-[12.5px] leading-[1.5] text-link">
           {t('imported', { count: done.written })}
+          {done.updated ? ` ${t('phonesAdded', { count: done.updated })}` : ''}
         </p>
       ) : null}
     </>

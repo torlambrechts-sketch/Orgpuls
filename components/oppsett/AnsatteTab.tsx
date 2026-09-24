@@ -55,6 +55,7 @@ export async function AnsatteTab({
             colEmail: t('oppsett.ansatte.colEmail'),
             colGroup: t('oppsett.ansatte.colGroup'),
             colLeader: t('oppsett.ansatte.colLeader'),
+            colMobile: t('oppsett.ansatte.colMobile'),
             allGood: t('oppsett.ansatte.allGood'),
             reset: t('oppsett.ansatte.reset'),
             addHead: t('oppsett.ansatte.addHead'),
@@ -66,8 +67,10 @@ export async function AnsatteTab({
             noGroup: t('oppsett.ansatte.noGroup'),
             add: t('oppsett.ansatte.add'),
             emailNote: t('oppsett.ansatte.emailNote'),
+            phone: t('oppsett.ansatte.phone'),
+            phonePlaceholder: t('oppsett.ansatte.phonePlaceholder'),
             problems: Object.fromEntries(
-              ['invalid', 'empty', 'too_many', 'denied'].map((k) => [
+              ['invalid', 'empty', 'too_many', 'denied', 'phone'].map((k) => [
                 k,
                 t(`oppsett.ansatte.problem.${k}`),
               ]),

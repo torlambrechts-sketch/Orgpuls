@@ -10,6 +10,9 @@
 --   * a reminder for a closed round is marked stale rather than sent (13)
 --   * done marks the row and its invitation sent (14); a failure keeps it for retry (15)
 --     and the fifth failure ends it (16); a release gives the attempt back (17)
+--   * SMS (0033): a number outside E.164 is refused (19); each branch of the channel rule
+--     picks the channel it should (20-26); a number is handed out only when SMS may carry
+--     the link (27); done records the channel (28)
 --
 -- Everything is written inside a block that rolls itself back: the rows are never
 -- committed, so the live dispatcher cannot see them, let alone mail them. Assertion 18
@@ -35,6 +38,9 @@ declare
   -- captured before the rollback
   c_tok_len int; c_hash_ok boolean; c_again int; c_o2 text; c_fv_rcpt text; c_fv_tok boolean;
   c_off int; c_stale text; c_sent text; c_retry text; c_dead boolean; c_release int;
+  -- SMS
+  v_e uuid; v_i uuid; v_o uuid; v_j jsonb;
+  c_e164 text; c_ch text[] := '{}'; c_phone_off text; c_phone_on text; c_sms_done text;
 begin
   begin
     insert into app.organizations (id, name, org_number, employee_count) values
@@ -114,6 +120,42 @@ begin
     perform public.dispatch_release(array[v_ofv], 'provider_unauthorised');
     c_release := (select attempts from app.outbox where id = v_ofv and claimed_at is null);
 
+
+    -- 19: the register holds E.164 or nothing
+    begin
+      insert into app.employees (org_id, full_name, phone) values (v_org, 'Feil Nummer', '912 34 567');
+      c_e164 := 'accepted';
+    exception when check_violation then c_e164 := 'check constraint'; end;
+
+    -- 20-26: the channel rule. Each case is its own person, so one claim cannot see another's row.
+    for v_j in select * from jsonb_array_elements('[
+        {"case":"off, both",           "on":false, "when":"alle",    "kind":"invitasjon", "email":"a1@dispatch-test.no", "phone":"+4791000001"},
+        {"case":"mangler, both",       "on":true,  "when":"mangler", "kind":"invitasjon", "email":"a2@dispatch-test.no", "phone":"+4791000002"},
+        {"case":"mangler, phone only", "on":true,  "when":"mangler", "kind":"invitasjon", "email":null,                  "phone":"+4791000003"},
+        {"case":"paaminn, invitation", "on":true,  "when":"paaminn", "kind":"invitasjon", "email":"a4@dispatch-test.no", "phone":"+4791000004"},
+        {"case":"paaminn, reminder",   "on":true,  "when":"paaminn", "kind":"paminnelse", "email":"a5@dispatch-test.no", "phone":"+4791000005"},
+        {"case":"alle, both",          "on":true,  "when":"alle",    "kind":"invitasjon", "email":"a6@dispatch-test.no", "phone":"+4791000006"},
+        {"case":"off, phone only",     "on":false, "when":"alle",    "kind":"invitasjon", "email":null,                  "phone":"+4791000007"}
+      ]'::jsonb)
+    loop
+      update app.organizations set sms_enabled = (v_j->>'on')::boolean, sms_when = v_j->>'when' where id = v_org;
+      insert into app.employees (org_id, full_name, email, phone)
+        values (v_org, v_j->>'case', v_j->>'email', v_j->>'phone') returning id into v_e;
+      insert into app.invitations (org_id, round_id, employee_id, token_hash, expires_at)
+        values (v_org, v_open, v_e, extensions.digest(v_j->>'case', 'sha256'), now() + interval '7 days') returning id into v_i;
+      insert into app.outbox (org_id, round_id, kind, employee_id, invitation_id, due_at)
+        values (v_org, v_open, (v_j->>'kind')::app.outbox_kind, v_e, v_i, now() - interval '1 minute') returning id into v_o;
+      v_claim := public.dispatch_claim(100);
+      select e into v_mine from jsonb_array_elements(v_claim) e where (e->>'id')::uuid = v_o;
+      c_ch := c_ch || coalesce(v_mine->>'channel', (select 'failed:' || last_error from app.outbox where id = v_o));
+      if v_j->>'case' = 'off, both' then c_phone_off := coalesce(v_mine->'recipients'->0->>'phone', 'none'); end if;
+      if v_j->>'case' = 'alle, both' then
+        c_phone_on := coalesce(v_mine->'recipients'->0->>'phone', 'none');
+        perform public.dispatch_done(v_o, true, null, false, 'brevo-sms-1', 'sms');
+        c_sms_done := (select channel from app.outbox where id = v_o);
+      end if;
+    end loop;
+
     raise exception 'rollback-probe';
   exception when others then
     if sqlerrm <> 'rollback-probe' then raise; end if;
@@ -127,13 +169,13 @@ begin
          and not has_function_privilege('authenticated', 'public.dispatch_claim(int)', 'execute');
   insert into public._di
   select 2, 'nor finish or release a row', 'false',
-         (has_function_privilege('authenticated', 'public.dispatch_done(uuid,boolean,text,boolean,text)', 'execute')
+         (has_function_privilege('authenticated', 'public.dispatch_done(uuid,boolean,text,boolean,text,text)', 'execute')
           or has_function_privilege('authenticated', 'public.dispatch_release(uuid[],text)', 'execute')
-          or has_function_privilege('anon', 'public.dispatch_done(uuid,boolean,text,boolean,text)', 'execute')
+          or has_function_privilege('anon', 'public.dispatch_done(uuid,boolean,text,boolean,text,text)', 'execute')
           or has_function_privilege('authenticated', 'app.dispatch_recipients(uuid)', 'execute'))::text,
-         not (has_function_privilege('authenticated', 'public.dispatch_done(uuid,boolean,text,boolean,text)', 'execute')
+         not (has_function_privilege('authenticated', 'public.dispatch_done(uuid,boolean,text,boolean,text,text)', 'execute')
           or has_function_privilege('authenticated', 'public.dispatch_release(uuid[],text)', 'execute')
-          or has_function_privilege('anon', 'public.dispatch_done(uuid,boolean,text,boolean,text)', 'execute')
+          or has_function_privilege('anon', 'public.dispatch_done(uuid,boolean,text,boolean,text,text)', 'execute')
           or has_function_privilege('authenticated', 'app.dispatch_recipients(uuid)', 'execute'));
   insert into public._di
   select 3, 'service_role may', 'true',
@@ -162,6 +204,18 @@ begin
   insert into public._di values (15, 'a failure is kept for retry', 'true,true,1,http_500', coalesce(c_retry, 'none'), c_retry = 'true,true,1,http_500');
   insert into public._di values (16, 'the fifth failure ends it', 'true', coalesce(c_dead::text, 'none'), coalesce(c_dead, false));
   insert into public._di values (17, 'a release gives the attempt back', '1', coalesce(c_release::text, 'none'), c_release = 1);
+
+  insert into public._di values (19, 'a number outside E.164 is refused', 'check constraint', coalesce(c_e164, 'none'), c_e164 = 'check constraint');
+  insert into public._di values (20, 'SMS off: e-mail, even with a number', 'email', c_ch[1], c_ch[1] = 'email');
+  insert into public._di values (21, 'only-without-e-mail, has e-mail: e-mail', 'email', c_ch[2], c_ch[2] = 'email');
+  insert into public._di values (22, 'only-without-e-mail, number only: SMS', 'sms', c_ch[3], c_ch[3] = 'sms');
+  insert into public._di values (23, 'reminders-only, an invitation: e-mail', 'email', c_ch[4], c_ch[4] = 'email');
+  insert into public._di values (24, 'reminders-only, a reminder: SMS', 'sms', c_ch[5], c_ch[5] = 'sms');
+  insert into public._di values (25, 'everyone: SMS when there is a number', 'sms', c_ch[6], c_ch[6] = 'sms');
+  insert into public._di values (26, 'SMS off and no address: no_address', 'failed:no_address', c_ch[7], c_ch[7] = 'failed:no_address');
+  insert into public._di values (27, 'a number is handed out only when SMS may carry the link', 'none,+4791000006',
+    coalesce(c_phone_off, '?') || ',' || coalesce(c_phone_on, '?'), c_phone_off = 'none' and c_phone_on = '+4791000006');
+  insert into public._di values (28, 'done records the channel', 'sms', coalesce(c_sms_done, 'none'), c_sms_done = 'sms');
 
   insert into public._di
   select 18, 'nothing from the test survives', '0', count(*)::text, count(*) = 0

@@ -1439,6 +1439,15 @@ links to a server-side confirm route and a new-password page. Employees reached 
 statutory duty are not mailed until the owner decides whether the duty_role tripwire may be
 relaxed for recipients (D-65).
 
+### X-038 — SMS is a channel choice the database makes, per person
+
+SMS rides the e-mail dispatcher: the claim decides, per invitation or reminder, whether the
+link goes by SMS or e-mail, from the organisation's mode and what the register holds, and
+the function falls back to e-mail when an SMS cannot be sent. The design's connection screen
+is built as a real page. Its sender name is fixed to "Orgpuls" (every name must be registered
+with the operators), its price line counts messages instead of kroner, and its counter
+counts the real 90-character link (D-66).
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1548,7 +1557,9 @@ relaxed for recipients (D-65).
 - [ ] Decide whether notices may be addressed by `employees.duty_role` (tillitsvalgte,
       verneombud without an account). It needs settings_invariants 5 relaxed (D-65).
 - [ ] `hjelp@orgpuls.no` cannot receive mail: neither domain has an MX record (D-65).
-- [ ] Delete the earlier product's leftovers on the Supabase project: the `mail-worker`
-      function, its two Vault entries, the `pgmq` extension and three function secrets (D-65).
-- [ ] SMS: a mobile-number field on Ansatte, a registered sender name, then the channel on
-      the same dispatcher.
+- [x] The earlier product's leftovers on the Supabase project are deleted (D-66).
+- [x] SMS: numbers on Ansatte and the import, the design's SMS screen, the channel on the
+      dispatcher with an e-mail fallback (X-038, D-66).
+- [ ] SMS needs, on the owner's side: SMS credits in Brevo (the account has none) and the
+      sender name "Orgpuls" registered for Norway. Until then SMS falls back to e-mail.
+- [ ] Consider a shorter respondent token so the default SMS fits one message (D-66).
