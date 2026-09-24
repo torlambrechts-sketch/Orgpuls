@@ -14,6 +14,7 @@ import { getGroups, getOrganization, getViewerRole } from '@/lib/org/read'
 import { getFactors } from '@/lib/instrument/read'
 import { getWheel } from '@/lib/wheel/read'
 import { getRounds } from '@/lib/rounds/read'
+import { getResultsByGroup } from '@/lib/results/read'
 
 /**
  * Oppsett — the data half. Bundle lines 1958-2472; the rendering is in
@@ -55,7 +56,10 @@ export default async function OppsettPage({
 
   // the round the group counts are "svar sist" from: the most recent one that closed
   const closed = rounds.find((r) => r.state === 'lukket') ?? null
-  const groupStats = await getGroupStats(closed?.id ?? null)
+  const [groupStats, release] = await Promise.all([
+    getGroupStats(closed?.id ?? null),
+    closed ? getResultsByGroup(closed.id) : Promise.resolve(null),
+  ])
 
   /*
    * The Roller tab's people and open invitations. Read only on that tab, and only for a
@@ -81,6 +85,8 @@ export default async function OppsettPage({
     baselineMonth: wheel?.baselineMonth ?? null,
     verneombud: roster.filter((p) => p.dutyRole === 'verneombud').map((p) => p.name),
     lastClosedRound: closed ? { kind: closed.kind, year: closed.year } : null,
+    // what that round released per group, as the result readers decide it (0034, 0042)
+    groupRelease: Object.fromEntries((release?.groups ?? []).map((g) => [g.group_name, g.status])),
     // styling only; every write policy on these tables is daglig_leder and checks itself
     canWrite: role === 'daglig_leder',
     members: members ? (

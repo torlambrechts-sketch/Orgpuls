@@ -3143,3 +3143,54 @@ Two states are left out:
     token-gated functions, each of which checks its caller inside;
   - leaked-password protection needs the Supabase Pro plan, which is a billing decision
     for the owner.
+
+## D-78 — Small groups are withheld, not merged; a respondent can read a reply
+
+### The wording
+Five places said a group under the threshold is "slått sammen", or put in «Øvrige» with
+other small groups. The product does neither. Such a group gets no figures of its own and
+counts only in the whole, and a larger group can be held back with it (0034). Each line
+now says what happens, in `no` and `en`:
+- Måleoppsett's timeline;
+- the header panel's Kom i gang;
+- the help article "Velg riktig terskel";
+- Oppsett › Grupper's badge and its rule.
+
+**Oppsett › Grupper also said the wrong thing about Drift.** It worked "Vises alene" out
+from the count, so Drift, with 8 answers, showed as alone although 2026 holds it back.
+The badge now reads `results_by_group` for the last closed round:
+- "Vises alene" (`ok`);
+- "Bare i helheten" (`insufficient_data`);
+- "Holdes tilbake" (`protected`).
+
+With no closed round it draws no badge rather than a guess. The design's "Slås sammen"
+pill keeps its colour for the two withheld states.
+
+### The reply screen
+The design draws no respondent side to a conversation (both bundles were searched), so
+this is built from the respondent flow's own components and tokens: its card, option,
+textarea and primary button.
+
+**On the done screen.** Each comment the person wrote gets:
+- a link to its conversation, and "Kopier lenken";
+- a sentence saying the link is the only way back, cannot be sent again, and lets anyone
+  who has it read the conversation.
+
+**`/s/samtale#<key>`.** The key is the fragment, which a browser never sends. It reaches no
+server log, no Referer and no URL the app sees. The page reads it and posts it in an
+action body to `thread_by_key` and `follow_up` (0018), which answer a malformed, unknown or
+wrong key alike. The page shows:
+- the comment, and management's replies as "Ledelsen";
+- the person's own messages as "Deg";
+- a field to answer while the thread is open.
+
+A message is stored to the hour, so the thread prints the day, never a clock time. The
+page asks search engines not to index it.
+
+`scripts/verify/samtale-behaviour.mjs` checks 16 things, through the app only:
+- the link, the fragment and the server's view of it;
+- that a leader sees the comment only once its group has k respondents;
+- the reply, the answer back, the leader reading that answer;
+- refused keys, phone width, and the console.
+
+It writes to the fixture's open puls, and the fixture is reseeded after it.

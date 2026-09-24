@@ -5,14 +5,19 @@ import type { OppsettView } from '@/components/oppsett/OppsettScreen'
 /**
  * Grupper. Bundle lines 2246-2264.
  *
- * Each row's second number is how many of that group answered the last round that closed,
- * and it decides whether the group is shown on its own or merged. It is a count per group
- * from `participation`, never per person and never from an answer. Participation is not
- * a result.
+ * Each row's second number is how many of that group answered the last round that closed:
+ * a count per group from `participation`, never per person and never from an answer.
  *
- * A group with nobody in it still prints, with 0 and "Slås sammen". The design shows only
- * populated groups because its fixture has no empty ones; hiding an empty group would hide
- * the reason a department's results never appear.
+ * The badge is what that round released for the group, read from `results_by_group` rather
+ * than worked out here from the count. A group is never merged into another (the design's
+ * "Slås sammen" and «Øvrige» described something the product does not do): under the
+ * threshold it has no figures of its own and counts only in the whole, and a group over it
+ * can be held back too, when the small ones would otherwise be the whole minus the rest
+ * (0034). With no closed round there is nothing to say, and no badge is drawn.
+ *
+ * A group with nobody in it still prints. The design shows only populated groups because
+ * its fixture has no empty ones; hiding an empty group would hide the reason a department's
+ * results never appear.
  */
 export async function GrupperTab({ view }: { view: OppsettView }) {
   const t = await getTranslations()
@@ -27,7 +32,8 @@ export async function GrupperTab({ view }: { view: OppsettView }) {
 
         <div className="mt-[16px] flex flex-col gap-[9px]">
           {view.groupStats.map((g) => {
-            const alone = g.answered >= view.company.threshold
+            const status =
+              view.lastClosedRound === null ? null : (view.groupRelease[g.name] ?? 'insufficient_data')
             return (
               <div
                 key={g.id}
@@ -43,16 +49,18 @@ export async function GrupperTab({ view }: { view: OppsettView }) {
                     : t('oppsett.grupper.answered', { count: g.answered })}
                 </span>
                 <span className="text-right">
-                  <span
-                    className="inline-block rounded-pill px-[12px] py-[5px] text-[11.5px] font-bold"
-                    style={
-                      alone
-                        ? { background: '#CFE7E4', color: '#20431C' }
-                        : { background: '#FBEBBE', color: '#5C4600' }
-                    }
-                  >
-                    {alone ? t('oppsett.grupper.alone') : t('oppsett.grupper.merged')}
-                  </span>
+                  {status ? (
+                    <span
+                      className="inline-block rounded-pill px-[12px] py-[5px] text-[11.5px] font-bold"
+                      style={
+                        status === 'ok'
+                          ? { background: '#CFE7E4', color: '#20431C' }
+                          : { background: '#FBEBBE', color: '#5C4600' }
+                      }
+                    >
+                      {t(`oppsett.grupper.release.${status}`)}
+                    </span>
+                  ) : null}
                 </span>
               </div>
             )

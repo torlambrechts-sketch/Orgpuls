@@ -456,7 +456,31 @@
     "promise4": "Skriver du en kommentar, kan lederen svare deg uten å få vite hvem du er.",
     "invalid": "Lenken virker ikke",
     "invalidLead": "Lenken er brukt opp, utløpt eller feil. Har du allerede svart, er svaret registrert — du kan ikke svare igjen.",
-    "submitFailed": "Svaret ble ikke sendt. Prøv igjen."
+    "submitFailed": "Svaret ble ikke sendt. Prøv igjen.",
+    "keys": {
+      "title": "{count, plural, one {Du skrev en kommentar} other {Du skrev # kommentarer}}",
+      "lead": "Ledelsen kan svare deg uten å vite hvem du er. Lenken under er den eneste veien tilbake til svaret. Lagre den nå: vi kan ikke sende den på nytt, og alle som har lenken kan lese samtalen.",
+      "open": "{count, plural, one {Åpne samtalen} other {Åpne samtale {n}}}",
+      "copy": "Kopier lenken",
+      "copied": "Kopiert"
+    },
+    "thread": {
+      "title": "Samtalen din",
+      "lead": "Ingen i ledelsen ser hvem du er, og du ser ikke hvem som svarer. Bare det som står her.",
+      "about": "Om {factor}",
+      "you": "Deg",
+      "leader": "Ledelsen",
+      "waiting": "Ingen har svart ennå. Lagre lenken og kom tilbake senere.",
+      "closed": "Samtalen er avsluttet. Du kan lese den, men ikke svare.",
+      "replyLabel": "Svar ledelsen",
+      "replyPlaceholder": "Skriv et svar …",
+      "send": "Send",
+      "sent": "Sendt.",
+      "loading": "Henter samtalen …",
+      "invalid": "Lenken er ikke gyldig",
+      "invalidLead": "Den kan være kopiert feil, eller samtalen finnes ikke lenger. En lenke kan ikke hentes på nytt.",
+      "problem": "Det gikk ikke å sende. Prøv igjen."
+    }
   },
   "rapport": {
     "backToInnsikt": "← Innsikt",
@@ -1050,7 +1074,7 @@
       "close": {
         "day": "Dag {day}",
         "title": "Lukkes og resultatet frigis",
-        "note": "Grupper under terskel slås sammen automatisk."
+        "note": "Grupper under terskel vises bare som del av helheten."
       },
       "next": {
         "day": "Neste runde",
@@ -1246,9 +1270,12 @@
       "headcount": "{count, plural, one {# ansatt} other {# ansatte}}",
       "answered": "{count, plural, one {# svar sist} other {# svar sist}}",
       "noRound": "Ingen måling lukket ennå",
-      "alone": "Vises alene",
-      "merged": "Slås sammen",
-      "rule": "Grupper med færre enn {threshold} svar vises aldri alene. De legges i «Øvrige» sammen med andre små grupper, slik at helheten fortsatt stemmer."
+      "rule": "Grupper med færre enn {threshold} svar vises aldri alene, bare som del av helheten. Har de små gruppene til sammen færre enn {threshold} svar, holdes også den minste av de andre tilbake, så ingen kan regne dem ut ved å trekke fra.",
+      "release": {
+        "ok": "Vises alene",
+        "insufficient_data": "Bare i helheten",
+        "protected": "Holdes tilbake"
+      }
     },
     "terskel": {
       "title": "Terskel",
@@ -1544,7 +1571,7 @@
         "title": "Velg riktig terskel for deres størrelse",
         "lead": "Hvorfor fem er standard, hva som skjer med grupper under, og hvorfor gulvet ikke kan senkes.",
         "body": {
-          "p1": "Terskelen er hvor mange svar en gruppe må ha før resultatet vises for gruppen alene. Under terskelen vises ingen tall for den gruppen — den legges sammen med andre små grupper, slik at helheten fortsatt stemmer.",
+          "p1": "Terskelen er hvor mange svar en gruppe må ha før resultatet vises for gruppen alene. Under terskelen vises ingen tall for den gruppen alene — svarene teller med i helheten. Har de små gruppene til sammen færre svar enn terskelen, holdes også den minste av de andre gruppene tilbake, slik at ingen kan regne seg fram til dem ved å trekke fra.",
           "p2": "Fem er standard, og i Orgpuls er fem også gulvet. Det er ikke en innstilling som kan senkes: terskelen håndheves av en funksjon i databasen som alltid regner med minst fem, uansett hva som står i oppsettet. Dere kan heve den til opptil ti hvis dere vil være strengere.",
           "p3": "Grunnen er ikke arbeidsmiljøloven, men personvernreglene. I en gruppe på tre kan et resultat i praksis tilbakeføres til enkeltpersoner, og da er det ikke lenger anonyme tall — det er personopplysninger, med full innsyns- og sletteplikt.",
           "p4": "Konsekvensen er verdt å planlegge for: har dere mange små avdelinger, får dere få tall å styre etter. Da er det bedre å slå sammen grupper som faktisk jobber sammen enn å senke terskelen, som uansett ikke går."
@@ -2123,7 +2150,7 @@
       "settings": {
         "title": "Slik setter du opp virksomheten",
         "s1": "Legg inn folk først — manuelt eller fra regneark. Alt annet bygger på registeret.",
-        "s2": "Sjekk gruppene og terskelen. Små grupper slås sammen automatisk.",
+        "s2": "Sjekk gruppene og terskelen. Små grupper vises bare som del av helheten.",
         "s3": "Personvernsidene er ferdig utfylt. Les dem én gang, så kan du svare på spørsmål fra ansatte.",
         "sci": "Terskel på fem er ikke tilfeldig. Under fem svar kan resultater i små grupper i praksis tilbakeføres til enkeltpersoner, og da er de personopplysninger etter GDPR — med full innsyns- og sletteplikt."
       }

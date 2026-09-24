@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { submitResponse, type SubmitResult } from '@/app/s/[token]/actions'
+import { ThreadLinks } from './ThreadLinks'
 
 /**
  * The respondent flow. Bundle lines 1893-1929.
@@ -88,6 +89,7 @@ export function RespondFlow({
   const [text, setText] = useState<Record<string, string>>({})
   const [commentOpen, setCommentOpen] = useState(false)
   const [done, setDone] = useState(false)
+  const [threads, setThreads] = useState<string[]>([])
   const [failed, setFailed] = useState(false)
   const [pending, startTransition] = useTransition()
 
@@ -131,8 +133,10 @@ export function RespondFlow({
     }
     startTransition(async () => {
       const result: SubmitResult = await submitResponse(build())
-      if (result.ok) setDone(true)
-      else setFailed(true)
+      if (result.ok) {
+        setThreads(result.threads)
+        setDone(true)
+      } else setFailed(true)
     })
   }
 
@@ -157,6 +161,7 @@ export function RespondFlow({
           {copy.doneLead}
         </div>
       </div>
+      <ThreadLinks keys={threads} />
       </>
     )
   }

@@ -1555,6 +1555,14 @@ From Norway, with a floor of tens of milliseconds, Kommentarer and Oppsett are i
 screen's per-round `results_summary` calls into one RPC is what closes that gap, and is in
 the open items.
 
+### X-048 — Groups are described as withheld, and respondents can read replies
+
+No line says a small group is merged any more. Oppsett › Grupper shows what the last closed
+round released for each group, from the result readers, so a group held back by
+complementary suppression says so. The done screen gives each comment's author a link whose
+key stays in the fragment, and `/s/samtale` shows the conversation and takes an answer
+back (D-78).
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1691,7 +1699,7 @@ the open items.
 - [x] P7: the Veiviser, Oversikt's "Veiviser" and Oppsett's "Kjør veiviseren" (X-046, D-76).
 - [ ] No action creates or renames a group; the wizard points to Oppsett › Grupper (D-76).
 - [ ] Microsoft Entra import, and a CSV parser that understands quoted fields (D-76).
-- [ ] Several lines still say small groups are merged ("slås sammen", «Øvrige»): Måleoppsett's timeline, the header panel's Kom i gang, Oppsett › Grupper. The schema withholds them rather than merging (D-76, D-77).
+- [x] No line says small groups are merged; Grupper shows each group's real release (X-048, D-78).
 - [x] P8: the security pass (0042), FK indexes (0043), the v3 pixel run and functions in fra1 (X-047, D-77).
-- [ ] The respondent screen does not show a comment's thread key, so a respondent cannot read a reply (D-77).
+- [x] A respondent gets a private link to each comment's conversation and can read and answer replies (X-048, D-78).
 - [ ] Innsikt, Tiltak and Målinger could read their history in one RPC, as Resultater does (D-77).

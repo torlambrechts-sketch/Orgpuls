@@ -456,7 +456,31 @@
     "promise4": "If you write a comment, your manager can reply without learning who you are.",
     "invalid": "The link does not work",
     "invalidLead": "The link has been used, has expired, or is wrong. If you have already answered, your answer is recorded — you cannot answer again.",
-    "submitFailed": "Your answer was not sent. Please try again."
+    "submitFailed": "Your answer was not sent. Please try again.",
+    "keys": {
+      "title": "{count, plural, one {You wrote a comment} other {You wrote # comments}}",
+      "lead": "Management can answer you without knowing who you are. The link below is the only way back to the reply. Save it now: we cannot send it again, and anyone with the link can read the conversation.",
+      "open": "{count, plural, one {Open the conversation} other {Open conversation {n}}}",
+      "copy": "Copy the link",
+      "copied": "Copied"
+    },
+    "thread": {
+      "title": "Your conversation",
+      "lead": "Nobody in management sees who you are, and you do not see who answers. Only what is written here.",
+      "about": "About {factor}",
+      "you": "You",
+      "leader": "Management",
+      "waiting": "Nobody has answered yet. Save the link and come back later.",
+      "closed": "The conversation is closed. You can read it, but not answer.",
+      "replyLabel": "Answer management",
+      "replyPlaceholder": "Write an answer …",
+      "send": "Send",
+      "sent": "Sent.",
+      "loading": "Loading the conversation …",
+      "invalid": "The link is not valid",
+      "invalidLead": "It may have been copied wrongly, or the conversation no longer exists. A link cannot be fetched again.",
+      "problem": "It could not be sent. Try again."
+    }
   },
   "rapport": {
     "backToInnsikt": "← Insight",
@@ -1050,7 +1074,7 @@
       "close": {
         "day": "Day {day}",
         "title": "Closes and the result is released",
-        "note": "Groups below the threshold are merged automatically."
+        "note": "Groups below the threshold are shown only as part of the whole."
       },
       "next": {
         "day": "Next round",
@@ -1246,9 +1270,12 @@
       "headcount": "{count, plural, one {# employee} other {# employees}}",
       "answered": "{count, plural, one {# answered last time} other {# answered last time}}",
       "noRound": "No measurement closed yet",
-      "alone": "Shown on its own",
-      "merged": "Merged",
-      "rule": "Groups with fewer than {threshold} answers are never shown on their own. They go into “Other” together with the other small groups, so that the whole still adds up."
+      "rule": "Groups with fewer than {threshold} answers are never shown alone, only as part of the whole. When the small groups together have fewer than {threshold} answers, the smallest of the others is held back too, so nobody can work them out by subtraction.",
+      "release": {
+        "ok": "Shown alone",
+        "insufficient_data": "Only in the whole",
+        "protected": "Held back"
+      }
     },
     "terskel": {
       "title": "Threshold",
@@ -1544,7 +1571,7 @@
         "title": "Choosing the right threshold for your size",
         "lead": "Why five is the default, what happens to groups below it, and why the floor cannot be lowered.",
         "body": {
-          "p1": "The threshold is how many answers a group must have before its result is shown for that group alone. Below it no figures are shown for the group — it is merged with other small groups, so that the whole still adds up.",
+          "p1": "The threshold is how many answers a group must have before its result is shown for that group alone. Below it no figures are shown for the group on its own — its answers count in the whole. When the small groups together have fewer answers than the threshold, the smallest of the other groups is held back too, so that nobody can work them out by subtraction.",
           "p2": "Five is the default, and in Orgpuls five is also the floor. It is not a setting that can be lowered: the threshold is enforced by a function in the database that always counts at least five, whatever the configuration says. You can raise it to ten if you want to be stricter.",
           "p3": "The reason is not the Working Environment Act but data protection law. In a group of three a result can in practice be traced back to individuals, and then it is no longer anonymous figures — it is personal data, with a full right of access and erasure.",
           "p4": "The consequence is worth planning for: with many small departments you get few figures to steer by. Merging groups that actually work together is a better answer than lowering the threshold, which does not work anyway."
@@ -2123,7 +2150,7 @@
       "settings": {
         "title": "How to set up the organisation",
         "s1": "Add people first — by hand or from a spreadsheet. Everything else builds on the register.",
-        "s2": "Check the groups and the threshold. Small groups are merged automatically.",
+        "s2": "Check the groups and the threshold. Small groups are shown only as part of the whole.",
         "s3": "The privacy pages are already filled in. Read them once, and you can answer employees’ questions.",
         "sci": "A threshold of five is not arbitrary. With fewer than five answers, results in small groups can in practice be traced back to individuals, and they are then personal data under the GDPR — with full rights of access and erasure."
       }

@@ -151,7 +151,7 @@ export async function getRoster(): Promise<RosterPerson[]> {
 /**
  * Each group's headcount, and how many of them answered the last round that closed.
  *
- * The second number decides whether the design prints "Vises alene" or "Slås sammen", so
+ * The second number is how many answered the last closed round, so
  * it has to be the real count and not the headcount. It comes from `participation`, as
  * counts per group: since 0042 no client reads `app.invitations`, because a person's
  * `responded_at` beside the moment a figure moved said whose answers had just arrived.

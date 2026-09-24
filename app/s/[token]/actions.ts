@@ -42,8 +42,14 @@ const Payload = z.object({
   extra: z.array(Extra).max(50),
 })
 
+/**
+ * `threads` are the keys to the conversations the comments opened, one per comment, in the
+ * order they were written (0018, 0042). This is the only moment they exist in plaintext;
+ * the database keeps a digest. They go back to the browser that wrote the comments and
+ * nowhere else — never into a log, a URL the server sees, or a cookie.
+ */
 export type SubmitResult =
-  | { ok: true; answers: number }
+  | { ok: true; answers: number; threads: string[] }
   | { ok: false; error: string }
 
 export async function submitResponse(input: unknown): Promise<SubmitResult> {
@@ -61,7 +67,11 @@ export async function submitResponse(input: unknown): Promise<SubmitResult> {
   if (error) return { ok: false, error: 'submit_failed' }
 
   const Result = z.union([
-    z.object({ ok: z.literal(true), answers: z.coerce.number() }),
+    z.object({
+      ok: z.literal(true),
+      answers: z.coerce.number(),
+      threads: z.array(z.string().regex(/^[0-9a-f]{64}$/)).default([]),
+    }),
     z.object({ ok: z.literal(false), error: z.string() }),
   ])
   const result = Result.safeParse(data)

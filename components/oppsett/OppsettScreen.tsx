@@ -57,6 +57,8 @@ export interface OppsettView {
   factorKeys: string[]
   /** the round the group counts are "svar sist" from — null before anything has closed */
   lastClosedRound: { kind: string; year: number } | null
+  /** per group name, what that round released: alone, only in the whole, or held back */
+  groupRelease: Record<string, 'ok' | 'insufficient_data' | 'protected'>
   canWrite: boolean
   /** the Roller tab's member panel, built by the page only when that tab is open (D-51) */
   members?: ReactNode
