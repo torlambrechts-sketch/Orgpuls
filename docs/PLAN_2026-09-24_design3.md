@@ -9,7 +9,8 @@
 - **P4 is done:** Kommentarer (D-73).
 - **P5 is done:** Målinger and "Start neste puls nå" (D-74).
 - **P6 is done:** Tiltak — the Tavle, the plan and a measure's target (D-75).
-- **P7 (Veiviser and Oppsett) is next.**
+- **P7 is done:** the Veiviser and a real first send-out (D-76).
+- **P8 (hardening) is next.**
 
 The design was reviewed in a browser. The offline copy of `dc_2` was rendered with the
 same runtime as the baselines. Every screen and state was captured: the Enkel and Full

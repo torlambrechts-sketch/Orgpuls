@@ -978,6 +978,10 @@
         "label": "Baseline + quarterly pulse",
         "note": "Recommended. Four measuring points a year — enough to see whether measures work, rare enough that people still answer."
       },
+      "halvarspuls": {
+        "label": "Baseline + half-yearly pulse",
+        "note": "One short follow-up in the middle of the year."
+      },
       "manedspuls": {
         "label": "Baseline + monthly pulse",
         "note": "For undertakings in transition or at high risk. Requires somebody to actually follow up every month."
@@ -2790,5 +2794,249 @@
       "not_found": "The conversation no longer exists."
     },
     "notYours": "Single comments are shown to the general manager and department heads, who can reply to them. As safety representative you see the same figures under Results."
+  },
+  "veiviser": {
+    "aria": "Get started with Orgpuls",
+    "head": "Get started · {n} of {total}",
+    "steps": {
+      "velkommen": "Welcome",
+      "virksomheten": "Your organisation",
+      "ansatte": "Employees",
+      "grupper": "Groups and threshold",
+      "verneombud": "Safety representative",
+      "maling": "What you measure",
+      "rytme": "Rhythm and follow-up",
+      "utsending": "First send-out",
+      "klart": "Done"
+    },
+    "stepsAria": "Steps",
+    "later": "Continue later",
+    "skip": "Skip",
+    "back": "Back",
+    "next": "Next",
+    "start": "Get started",
+    "plan": "Plan the send-out",
+    "finish": "To the overview",
+    "loading": "Loading the setup …",
+    "loadFailed": "The setup could not be loaded. Close and try again.",
+    "open": "Setup guide",
+    "run": "Run the setup guide",
+    "welcome": "We'll go through the setup together. It takes about twenty minutes, and everything can be changed later under Settings.",
+    "welcomeList": {
+      "w1": "Who you are and where you are",
+      "w2": "Employees — paste, upload or fetch from the HR system",
+      "w3": "Groups, and how many must answer before a figure is shown",
+      "w4": "Safety representatives and union representatives",
+      "w5": "What you measure",
+      "w6": "How often you follow up, and who is notified",
+      "w7": "When the first survey goes out"
+    },
+    "org": {
+      "lead": "Enter the organisation number and we'll fetch the name, address and industry. The industry is used for comparison once we have enough organisations.",
+      "number": "Organisation number",
+      "fetch": "Fetch from Brønnøysund",
+      "fetching": "Fetching …",
+      "fetched": "Fetched from Brønnøysund ✓",
+      "name": "Name",
+      "address": "Address",
+      "industry": "Industry",
+      "registered": "Registered employees",
+      "problem": {
+        "invalid_org_number": "The organisation number has nine digits.",
+        "invalid_check_digit": "The check digit does not match. Check the number.",
+        "not_found": "The number was not found in the register.",
+        "deleted": "The organisation is deleted in the register.",
+        "unreachable": "Brønnøysund is not answering. Try again shortly.",
+        "denied": "Only the managing director can change the organisation.",
+        "invalid": "The name cannot be empty."
+      }
+    },
+    "people": {
+      "lead": "We need a name, an email or mobile number, and which group each person belongs to. {count, plural, =0 {No employees are registered yet.} one {# employee is already registered. New people are added without overwriting.} other {# employees are already registered. New people are added without overwriting.}}",
+      "method": {
+        "csv": {
+          "label": "Upload CSV",
+          "note": "From the payroll system or a spreadsheet. Name, email, group."
+        },
+        "paste": {
+          "label": "Paste",
+          "note": "One person per line. We read the columns."
+        },
+        "entra": {
+          "label": "Microsoft Entra",
+          "note": "Fetches employees automatically and keeps the list up to date."
+        },
+        "hand": {
+          "label": "Type in",
+          "note": "For small teams. One name at a time."
+        }
+      },
+      "fileNote": "Drop the file here, or press to choose one. The first line should be headings.",
+      "fileChosen": "{name} · {count, plural, one {# line} other {# lines}} are read in when you press Next.",
+      "fileAria": "Choose a CSV file",
+      "entraNote": "Entra is not connected yet. Upload a CSV exported from Entra, or paste the list, and we will connect once the integration is ready.",
+      "pastePlaceholder": "Kari Nordmann, kari@firma.no, Drift\nOla Hansen, 912 34 567, Verksted",
+      "pasteAria": "Employees, one per line",
+      "register": "Open the register and add people →",
+      "imported": "{written, plural, =0 {None new} one {# new} other {# new}} added, {updated} updated, {skipped} skipped.",
+      "problem": {
+        "empty": "No lines to read in.",
+        "too_many": "At most 2000 lines at a time.",
+        "denied": "Only the managing director can add employees.",
+        "unreadable": "The file could not be read."
+      }
+    },
+    "groups": {
+      "lead": "Groups decide what managers can see separately. The threshold is how many must have answered before a group's figure is shown. It protects the individual.",
+      "count": "{count, plural, one {# employee} other {# employees}}",
+      "small": "below the threshold — shown only as part of the whole",
+      "none": "No groups yet. Groups are added under Settings › Groups, and each employee is linked to theirs.",
+      "threshold": "Threshold",
+      "chip": "{n} answers",
+      "allLarge": "Every group is large enough to be shown on its own.",
+      "someSmall": "{names} have fewer than {n}. They are shown only as part of the whole.",
+      "problem": {
+        "denied": "Only the managing director can change the threshold.",
+        "invalid": "The threshold must be between 5 and 10."
+      }
+    },
+    "safety": {
+      "duty": "{count, plural, one {With # employee} other {With # employees}} you must have a safety representative. They see the results at the same time as management and are notified before each send-out.",
+      "dutySmall": "Below five employees you may agree another arrangement, but we recommend choosing one person.",
+      "vo": "Safety representative",
+      "tv": "Union representative",
+      "nobody": "None chosen",
+      "amuMust": "You must also have a working environment committee. The report prepares its agenda item automatically.",
+      "amuMay": "A working environment committee is optional for you, but either party may require one.",
+      "empty": "Add the employees first, then choose the safety representative among them.",
+      "problem": {
+        "denied": "Only the managing director can set roles."
+      }
+    },
+    "law": {
+      "lead": "Both use the same research-based questions. The difference is whether the results are linked to the requirements of the Working Environment Act.",
+      "on": {
+        "label": "Working Environment Act",
+        "note": "Eleven areas, including harassment and violence. Gives the documentation the law requires."
+      },
+      "off": {
+        "label": "Employee survey",
+        "note": "The same eleven areas on well-being, leadership and cooperation. Without the legal link."
+      },
+      "note": "The wording is locked so figures can be compared over time. Your own questions can be added later, up to five.",
+      "problem": {
+        "denied": "Only the managing director can change this."
+      }
+    },
+    "rhythm": {
+      "lead": "The main survey runs once a year. Pulses are short follow-ups of five questions that check whether the measures work. Everything is sent automatically.",
+      "preset": {
+        "kvartalspuls": {
+          "label": "Every quarter",
+          "note": "Recommended. Three short follow-ups between the main surveys."
+        },
+        "halvarspuls": {
+          "label": "Every six months",
+          "note": "One short follow-up in the middle of the year."
+        },
+        "manedspuls": {
+          "label": "Every month",
+          "note": "For those with measures to follow closely. People need to see that something happens."
+        },
+        "minimum": {
+          "label": "Main survey only",
+          "note": "One measurement a year. Meets the legal requirement, but does not tell you whether measures work."
+        }
+      },
+      "year": "The year · {count, plural, one {# send-out} other {# send-outs}} a year",
+      "cellsNote": "Press a month to move the main survey. The pulses follow.",
+      "monthAria": "{month}: {what}",
+      "cell": {
+        "hoved": "Main",
+        "puls": "Pulse",
+        "avklaring": "Review",
+        "ferie": "Holiday",
+        "ingen": "no send-out"
+      },
+      "pause": "No send-out in July",
+      "voFirst": "The safety representative is notified {days, plural, =0 {at the same time} one {one day before} =2 {two days before} other {# days before}}",
+      "voFirstNote": "Recommended. Gives time to say if anything should change.",
+      "each": "Each send-out",
+      "who": {
+        "vo": "Safety and union representatives",
+        "dl": "Managing director",
+        "all": "Employees",
+        "result": "Results to managers"
+      },
+      "lead0": "at the same time",
+      "leadDays": "{days, plural, one {# day before} other {# days before}}",
+      "at9": "09:00",
+      "day7": "day {day}",
+      "summary": {
+        "kvartalspuls": "Main survey in {month}, a pulse every quarter",
+        "halvarspuls": "Main survey in {month}, a pulse every six months",
+        "manedspuls": "Main survey in {month}, a pulse every month",
+        "minimum": "Main survey in {month}, no pulse"
+      },
+      "summaryPause": " · a pause in July",
+      "problem": {
+        "denied": "Only the managing director can change the rhythm.",
+        "no_wheel": "The organisation has no year wheel yet.",
+        "invalid": "The rhythm could not be saved."
+      }
+    },
+    "send": {
+      "lead": "Tuesday at nine gives the highest response rate. Choose a date and the year wheel does the rest.",
+      "how": "How it goes",
+      "t1k": "{days, plural, =0 {At the same time} one {# day before} other {# days before}}",
+      "t1v": "Safety and union representatives see the setup",
+      "t2k": "09:00",
+      "t2v": "Invitation to {count, plural, one {# employee} other {# employees}} by {sms, select, true {email and SMS} other {email}}",
+      "t3k": "Day {day}",
+      "t3v": "One reminder to those who have not answered",
+      "t4k": "Day {day}",
+      "t4v": "The survey closes and the results are ready",
+      "survey": "The survey",
+      "q": "{questions} questions · {areas} areas",
+      "meta": "about {minutes} minutes to answer · {count, plural, one {# employee} other {# employees}} · {groups, plural, one {# group} other {# groups}}",
+      "cadence": "The rhythm from the previous step applies. Everything after this runs by itself.",
+      "measured": "You have already measured. The year wheel plans the next rounds itself, and they can be moved under Measurements.",
+      "planned": "Planned: {date} at 09:00. Choose another day to move it.",
+      "problem": {
+        "not_available": "Only the managing director can plan the send-out.",
+        "already_measured": "You have already measured, so the year wheel plans ahead.",
+        "weekend": "Choose a weekday.",
+        "too_soon": "The send-out must be at least three days ahead, so the safety representative can see it.",
+        "too_far": "Choose a day within four months.",
+        "no_employees": "Add the employees before planning the send-out.",
+        "invalid": "Choose a day."
+      }
+    },
+    "done": {
+      "note": "Everything is saved. You can run this guide again from Settings at any time.",
+      "org": "Organisation",
+      "orgV": "{name} · {count, plural, one {# employee} other {# employees}}",
+      "people": "Employees",
+      "peopleV": "{count} added",
+      "groups": "Groups",
+      "groupsV": "{count, plural, one {# group} other {# groups}} · threshold {n} answers",
+      "vo": "Safety representative",
+      "voTv": "{vo} · union representative {tv}",
+      "voNone": "Not chosen yet",
+      "measure": "Measurement",
+      "measureV": "{mode} · {areas} areas",
+      "rhythm": "Rhythm",
+      "rhythmV": {
+        "kvartalspuls": "A pulse every quarter · main survey in {month}",
+        "halvarspuls": "A pulse every six months · main survey in {month}",
+        "manedspuls": "A pulse every month · main survey in {month}",
+        "minimum": "Main survey only · in {month}"
+      },
+      "first": "First send-out",
+      "firstV": "{date} at 09:00",
+      "firstMeasured": "Already done — the year wheel plans ahead",
+      "firstNone": "Not planned yet"
+    },
+    "problem": "It could not be saved. Try again."
   }
 }

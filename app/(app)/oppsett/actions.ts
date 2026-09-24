@@ -111,6 +111,16 @@ export async function saveLawMode(formData: FormData): Promise<SettingsResult> {
   return updateOrg({ law_mode: parsed.data === 'on' })
 }
 
+/**
+ * The name the product prints, where it differs from the register's — a trading name, or
+ * the register's capitals. The Veiviser's "Navn" field (D-76); the column refuses blank.
+ */
+export async function saveOrgName(formData: FormData): Promise<SettingsResult> {
+  const parsed = z.string().trim().min(1).max(120).safeParse(String(formData.get('name') ?? ''))
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  return updateOrg({ name: parsed.data })
+}
+
 export async function saveBht(formData: FormData): Promise<SettingsResult> {
   const parsed = z.string().trim().max(120).safeParse(String(formData.get('bhtName') ?? ''))
   if (!parsed.success) return { ok: false, problem: 'invalid' }

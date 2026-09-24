@@ -1520,6 +1520,15 @@ scores, so k applies as in Resultater. The design's "Mål" becomes `app.measures
 selection follows a finding into the measure it becomes. The plan draws what the schema
 holds: recorded to deadline, plus the planned rounds (D-75).
 
+### X-046 — The Veiviser writes through the existing actions, and plans a real first round
+
+The design's wizard is a dialog in the shell, over `app.setup_progress` (0041). Each step
+saves through the action that already owns its table. "Planlegg utsendingen" becomes
+`plan_first_round`, which plans the first grunnlinje on the chosen Tuesday and switches the
+wheel on. The wheel now plans by month, keeps a grunnlinje yearly, and plans a puls only
+while a measure is open. The threshold offers 5 and 8 (S1), and the verneombud is a person
+in the register (D-76).
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1653,4 +1662,7 @@ holds: recorded to deadline, plus the planned rounds (D-75).
 - [x] `/arshjulet` became Målinger's Årshjul tab in P5, with a 308 (D-70, D-74).
 - [x] P6: Tiltak — the Tavle, its detail panel, the plan, and a target on each measure (X-045, D-75).
 - [ ] A measure has no start date, so the plan draws its bar from when it was recorded (D-75).
-- [ ] Oversikt's "Veiviser" link arrives with the wizard (P7, D-71).
+- [x] P7: the Veiviser, Oversikt's "Veiviser" and Oppsett's "Kjør veiviseren" (X-046, D-76).
+- [ ] No action creates or renames a group; the wizard points to Oppsett › Grupper (D-76).
+- [ ] Microsoft Entra import, and a CSV parser that understands quoted fields (D-76).
+- [ ] Two older lines still say small groups "slås sammen automatisk" (Måleoppsett's timeline, the header panel's Kom i gang); the schema withholds them rather than merging (D-76).

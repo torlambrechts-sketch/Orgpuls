@@ -2912,3 +2912,121 @@ Where the build differs, and why:
   - the third finding is Kontakt og kommunikasjon, not Rolleklarhet;
   - Liste has no "Puls 2 · 2025" chip (no such round);
   - Liste has no "Tildelt meg": the signed-in account is not an employee.
+
+## D-76 — The Veiviser: nine steps over the existing writes, and a first grunnlinje (P7)
+
+**Built:** design 3's wizard (v3 191-406), a dialog over whichever screen is open, mounted
+once in the signed-in shell.
+- **When it opens:**
+  - by itself on the first run: no round at all, and the wizard neither finished nor put
+    aside (`getWizardGate`);
+  - from Oversikt's "Veiviser";
+  - from Oppsett's "Kjør veiviseren", in the title row where the design draws it.
+
+  It is offered to a daglig leder only, the one role every step's write admits.
+- **Its nine steps.** Each writes through the action that already owns its table, and moves
+  on only when that write is confirmed:
+  - Virksomheten: `fetchRegistry`, plus a new `saveOrgName`;
+  - Ansatte: `importEmployees`;
+  - Grupper og terskel: `setThreshold`;
+  - Verneombud: `setEmployeeDutyRole`;
+  - Hva dere måler: `saveLawMode`;
+  - Rytme og oppfølging: the new `saveWizardRhythm`;
+  - Første utsending: the new `planFirstRound`.
+
+  A wizard left half-way therefore leaves the organisation in a state every other screen
+  already understands.
+- **Leaving and resuming:**
+  - Every move saves the step in `app.setup_progress` (0041: RLS, a read policy and two
+    write policies to authenticated, no delete).
+  - "Fortsett senere" and Escape close it there, and the next session opens it at the same
+    step. A session flag keeps it from reopening in the current session.
+  - "Hopp over" puts it aside, so it no longer opens by itself.
+  - "Til oversikten" finishes it; run again from Oppsett, it starts from the beginning.
+- **Focus.** It is a modal dialog labelled by its step title: focus starts on the title, Tab
+  stays inside it, and closing returns focus.
+- **Phone.** The step list folds away, and the footer carries "Fortsett senere" and
+  "n av 9".
+
+**What 0041 adds beneath it:**
+- **`public.plan_first_round(org, day)`**, the design's "Planlegg utsendingen":
+  - It plans the first grunnlinje at 09:00 on the chosen day in the organisation's zone. The
+    round carries every factor and the four questions outside the index, a reminder on day
+    four and a close on day seven, as the step's own timeline says.
+  - It switches the wheel on, so the wheel opens, reminds and closes this round and every
+    round after it. Nothing had set `year_wheels.active` before, so a new organisation's
+    wheel never turned.
+  - It refuses anyone but a daglig leder, an organisation that has already measured, a
+    weekend, anything under three days or over 120 days ahead, and an empty register.
+  - Pressed again, it moves the round it planned.
+- **`wheel_tick()` plans by month rather than by exact instant.** Without that, a first round
+  on the second Tuesday would gain a twin on the first. It also:
+  - keeps a grunnlinje yearly: none within six months after another;
+  - plans a puls only while a measure is open for it to follow. An organisation with none
+    would otherwise be sent a survey with no questions.
+- **`halvarspuls`**, the design's "Hvert halvår": one puls six months after the baseline. The
+  Årshjul tab lists it only once it has been chosen, so the design's three options stay as
+  drawn.
+- **Proof:** `wizard_invariants.sql` proves 19 rules. Run against 0020's tick, the three
+  planning rules fail (a twin, three grunnlinjer, five empty pulses), so the suite tests
+  them rather than passing by accident.
+
+**The fixture's first run.** `design-fixture.mjs --first-run` emits the same organisation
+before its first measurement:
+- the people, groups and duties;
+- a wheel that is described but not switched on, and no notice ladder;
+- no register fetch, and nothing measured.
+
+The wizard is checked in that state, and a plain rerun brings the design's scenario back.
+The normal output gains one line, which clears `setup_progress`.
+
+**Pixel checks.** The dialog was compared against `baselines-v3/30`–`38` in the first-run
+state:
+- **0 px:** Velkommen, Virksomheten and Rytme og oppfølging.
+- **Everything else under 0.1 %, from data or from the choices below:** Ansatte 262 px,
+  Grupper 615, Verneombud 599, Hva dere måler 1 164, Første utsending 628, Klart 481.
+- **Unchanged beneath it:** Oversikt's metrics row, now with "Veiviser", is 0 px against
+  `01`. Oppsett's title row, now with "Kjør veiviseren", is 0 px against `15`.
+
+`scripts/verify/veiviser-behaviour.mjs` checks 35 things against the first-run state and
+writes; the fixture is reseeded after it.
+
+Where the build differs, and why:
+- **Terskel offers 5 and 8, not 3, 4, 5 and 8 (S1).** k is 5 and cannot be lowered. An
+  organisation that has chosen 6 or 10 under Oppsett sees its own value as a third chip.
+- **No "Daglig leder" row from Brønnøysund.** The register's API does not return one. The
+  other three rows are the stored register facts, and "Navn" saves only when it was changed.
+- **Microsoft Entra is drawn and says it is not connected.** There is no integration. A
+  CSV exported from Entra, or a pasted list, is the way in.
+- **A CSV is read in the browser and imported by the same parser as a pasted list.** Columns
+  are name, email and group, and a mobile number in the fifth column. There is no CSV
+  library, and a quoted comma is not understood.
+- **A group below the threshold says "vises bare som del av helheten"**, not "slås sammen i
+  rapporten". The report withholds a small group; it does not merge it into another. With
+  no groups, the step says where they are made (Oppsett › Grupper): no action creates a
+  group yet.
+- **Verneombud and tillitsvalgt are chosen from the register, not typed.** The duty is
+  `employees.duty_role` (0021), which names a person. A typed name would be a second record
+  that could disagree with it. One person holds one duty, so the verneombud is not offered
+  as tillitsvalgt; the design's "Kari Sund" in both fields cannot be stored.
+- **"Medarbeiderundersøkelse" says "De samme elleve områdene", not "Ni områder".** Law mode
+  frames the result; it does not change the instrument. The design's own filter would
+  remove one factor and give ten, not nine.
+- **The cascade is the notice ladder's**, written by the wizard: verneombud and
+  tillitsvalgte two days before (or at the same time, unticked), daglig leder one day
+  before, avdelingsledere at the opening for the result. An existing ladder keeps its own
+  lead times, and only the verneombud's and tillitsvalgtes' move with the box.
+- **The three dates are the next Tuesdays from a week ahead.** The design's third, "Mandag
+  20. oktober", is a Tuesday. The invitation line says "e-post og SMS" only where SMS is
+  switched on.
+- **"37 spørsmål · 11 områder" and "ca. 5 minutter" are computed.** The first is statements
+  plus questions outside the index. The second assumes eight seconds a question.
+- **Klart's rows read what was stored**, not the drafts: the name, the people counted, the
+  groups and threshold, the verneombud, the mode, the rhythm and the planned round.
+
+Resolves D-71's "No 'Veiviser' link yet".
+
+While verifying: `respondent_invariants.sql` took the latest open round across every
+organisation. Locally, the demo organisation's opens at the same instant as the fixture's,
+and after a reseed the tie picked the demo round, whose tokens follow another scheme. Both
+of its reads now name the fixture organisation.

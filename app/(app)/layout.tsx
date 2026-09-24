@@ -7,6 +7,8 @@ import { SideRail } from '@/components/shell/SideRail'
 import { NAV_ROUTES, type NavEntry } from '@/lib/shell/nav'
 import { getShellPrefs } from '@/lib/shell/prefs.server'
 import { getUnansweredCount } from '@/lib/shell/read'
+import { getWizardGate } from '@/lib/wizard/read'
+import { WizardProvider } from '@/components/veiviser/WizardProvider'
 
 /**
  * The signed-in shell. Every application screen renders inside this, so the header, the
@@ -23,7 +25,7 @@ const ASSISTANT_FACE = 'av4'
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations()
-  const [prefs, unanswered] = await Promise.all([getShellPrefs(), getUnansweredCount()])
+  const [prefs, unanswered, wizard] = await Promise.all([getShellPrefs(), getUnansweredCount(), getWizardGate()])
 
   const items: NavEntry[] = NAV_ROUTES.map((r) => ({
     ...r,
@@ -35,13 +37,15 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   return (
     <ShellPrefsProvider initial={prefs}>
-      <ShellFrame
-        rail={<SideRail items={items} assistantFace={ASSISTANT_FACE} />}
-        header={<AppHeader items={items} assistantFace={ASSISTANT_FACE} />}
-        footer={<AppFooter />}
-      >
-        {children}
-      </ShellFrame>
+      <WizardProvider gate={wizard} face={ASSISTANT_FACE}>
+        <ShellFrame
+          rail={<SideRail items={items} assistantFace={ASSISTANT_FACE} />}
+          header={<AppHeader items={items} assistantFace={ASSISTANT_FACE} />}
+          footer={<AppFooter />}
+        >
+          {children}
+        </ShellFrame>
+      </WizardProvider>
     </ShellPrefsProvider>
   )
 }

@@ -978,6 +978,10 @@
         "label": "Grunnlinje + kvartalspuls",
         "note": "Anbefalt. Fire målepunkter i året — nok til å se om tiltak virker, sjeldent nok til at folk gidder å svare."
       },
+      "halvarspuls": {
+        "label": "Grunnlinje + puls hvert halvår",
+        "note": "Én kort oppfølging midt i året."
+      },
       "manedspuls": {
         "label": "Grunnlinje + puls hver måned",
         "note": "For virksomheter i omstilling eller med høy risiko. Krever at noen faktisk følger opp hver måned."
@@ -2790,5 +2794,249 @@
       "not_found": "Samtalen finnes ikke lenger."
     },
     "notYours": "Enkeltkommentarer vises for daglig leder og avdelingsledere, som kan svare på dem. Som verneombud ser du de samme tallene under Resultat."
+  },
+  "veiviser": {
+    "aria": "Kom i gang med Orgpuls",
+    "head": "Kom i gang · {n} av {total}",
+    "steps": {
+      "velkommen": "Velkommen",
+      "virksomheten": "Virksomheten",
+      "ansatte": "Ansatte",
+      "grupper": "Grupper og terskel",
+      "verneombud": "Verneombud",
+      "maling": "Hva dere måler",
+      "rytme": "Rytme og oppfølging",
+      "utsending": "Første utsending",
+      "klart": "Klart"
+    },
+    "stepsAria": "Stegene",
+    "later": "Fortsett senere",
+    "skip": "Hopp over",
+    "back": "Tilbake",
+    "next": "Neste",
+    "start": "Kom i gang",
+    "plan": "Planlegg utsendingen",
+    "finish": "Til oversikten",
+    "loading": "Henter oppsettet …",
+    "loadFailed": "Oppsettet kunne ikke hentes. Lukk og prøv igjen.",
+    "open": "Veiviser",
+    "run": "Kjør veiviseren",
+    "welcome": "Vi går gjennom oppsettet sammen. Det tar rundt tjue minutter, og alt kan endres senere under Oppsett.",
+    "welcomeList": {
+      "w1": "Hvem dere er og hvor dere holder til",
+      "w2": "Ansatte — lim inn, last opp eller hent fra HR-systemet",
+      "w3": "Grupper og hvor mange som må svare før et tall vises",
+      "w4": "Verneombud og tillitsvalgte",
+      "w5": "Hva dere måler",
+      "w6": "Hvor ofte dere følger opp, og hvem som varsles",
+      "w7": "Når den første undersøkelsen skal gå ut"
+    },
+    "org": {
+      "lead": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje. Bransjen brukes til sammenligning når vi har nok virksomheter.",
+      "number": "Organisasjonsnummer",
+      "fetch": "Hent fra Brønnøysund",
+      "fetching": "Henter …",
+      "fetched": "Hentet fra Brønnøysund ✓",
+      "name": "Navn",
+      "address": "Adresse",
+      "industry": "Bransje",
+      "registered": "Ansatte registrert",
+      "problem": {
+        "invalid_org_number": "Organisasjonsnummeret skal ha ni sifre.",
+        "invalid_check_digit": "Kontrollsifferet stemmer ikke. Sjekk nummeret.",
+        "not_found": "Fant ikke nummeret i Enhetsregisteret.",
+        "deleted": "Virksomheten er slettet i Enhetsregisteret.",
+        "unreachable": "Brønnøysund svarer ikke nå. Prøv igjen om litt.",
+        "denied": "Bare daglig leder kan endre virksomheten.",
+        "invalid": "Navnet kan ikke være tomt."
+      }
+    },
+    "people": {
+      "lead": "Vi trenger navn, e-post eller mobil, og hvilken gruppe hver person tilhører. {count, plural, =0 {Ingen ansatte ligger inne ennå.} one {# ansatt ligger inne fra før. Nye legges til uten å overskrive.} other {# ansatte ligger inne fra før. Nye legges til uten å overskrive.}}",
+      "method": {
+        "csv": {
+          "label": "Last opp CSV",
+          "note": "Fra lønnssystemet eller et regneark. Navn, e-post, gruppe."
+        },
+        "paste": {
+          "label": "Lim inn",
+          "note": "Én person per linje. Vi tolker kolonnene."
+        },
+        "entra": {
+          "label": "Microsoft Entra",
+          "note": "Henter ansatte automatisk og holder listen oppdatert."
+        },
+        "hand": {
+          "label": "Skriv inn",
+          "note": "For dere som er få. Ett navn om gangen."
+        }
+      },
+      "fileNote": "Slipp fila her, eller trykk for å velge. Første linje skal være overskrifter.",
+      "fileChosen": "{name} · {count, plural, one {# linje} other {# linjer}} leses inn når du trykker Neste.",
+      "fileAria": "Velg en CSV-fil",
+      "entraNote": "Entra er ikke koblet til ennå. Last opp en CSV fra Entra, eller lim inn listen, så kobler vi til når integrasjonen er klar.",
+      "pastePlaceholder": "Kari Nordmann, kari@firma.no, Drift\nOla Hansen, 912 34 567, Verksted",
+      "pasteAria": "Ansatte, én per linje",
+      "register": "Åpne registeret og legg inn folk →",
+      "imported": "{written, plural, =0 {Ingen nye} one {# ny} other {# nye}} lagt inn, {updated, plural, one {# oppdatert} other {# oppdatert}}, {skipped, plural, one {# hoppet over} other {# hoppet over}}.",
+      "problem": {
+        "empty": "Fant ingen linjer å lese inn.",
+        "too_many": "Maks 2000 linjer om gangen.",
+        "denied": "Bare daglig leder kan legge inn ansatte.",
+        "unreadable": "Fila kunne ikke leses."
+      }
+    },
+    "groups": {
+      "lead": "Gruppene bestemmer hva lederne kan se hver for seg. Terskelen er hvor mange som må ha svart før et tall for gruppen vises. Det beskytter den enkelte.",
+      "count": "{count, plural, one {# ansatt} other {# ansatte}}",
+      "small": "under terskel — vises bare som del av helheten",
+      "none": "Ingen grupper ennå. Grupper legges inn under Oppsett › Grupper, og hver ansatt kobles til sin.",
+      "threshold": "Terskel",
+      "chip": "{n} svar",
+      "allLarge": "Alle grupper er store nok til å vises hver for seg.",
+      "someSmall": "{names} har færre enn {n}. De vises bare som del av helheten.",
+      "problem": {
+        "denied": "Bare daglig leder kan endre terskelen.",
+        "invalid": "Terskelen må være mellom 5 og 10."
+      }
+    },
+    "safety": {
+      "duty": "{count, plural, one {Med # ansatt} other {Med # ansatte}} skal dere ha verneombud. Verneombudet får se resultatet samtidig som ledelsen og varsles før hver utsending.",
+      "dutySmall": "Under fem ansatte kan dere avtale en annen ordning, men vi anbefaler å velge én person.",
+      "vo": "Verneombud",
+      "tv": "Tillitsvalgt",
+      "nobody": "Ingen valgt",
+      "amuMust": "Dere skal også ha arbeidsmiljøutvalg. Rapporten lager AMU-sak automatisk.",
+      "amuMay": "Arbeidsmiljøutvalg er frivillig for dere, men kan kreves av én av partene.",
+      "empty": "Legg inn de ansatte først, så kan du velge verneombud blant dem.",
+      "problem": {
+        "denied": "Bare daglig leder kan sette roller."
+      }
+    },
+    "law": {
+      "lead": "Begge bruker samme forskningsbaserte spørsmål. Forskjellen er om resultatet kobles til kravene i arbeidsmiljøloven.",
+      "on": {
+        "label": "Arbeidsmiljøloven",
+        "note": "Elleve områder, inkludert krenkende atferd og vold. Gir dokumentasjonen loven krever."
+      },
+      "off": {
+        "label": "Medarbeiderundersøkelse",
+        "note": "De samme elleve områdene om trivsel, ledelse og samarbeid. Uten lovkoblingen."
+      },
+      "note": "Ordlyden er låst, så tallene kan sammenliknes over tid. Egne spørsmål kan legges til senere, inntil fem.",
+      "problem": {
+        "denied": "Bare daglig leder kan endre dette."
+      }
+    },
+    "rhythm": {
+      "lead": "Hovedundersøkelsen tas én gang i året. Pulsene er korte oppfølginger på fem spørsmål som sjekker om tiltakene virker. Alt sendes ut automatisk.",
+      "preset": {
+        "kvartalspuls": {
+          "label": "Hvert kvartal",
+          "note": "Anbefalt. Tre korte oppfølginger mellom hovedundersøkelsene."
+        },
+        "halvarspuls": {
+          "label": "Hvert halvår",
+          "note": "Én kort oppfølging midt i året."
+        },
+        "manedspuls": {
+          "label": "Hver måned",
+          "note": "For dere som har tiltak dere vil følge tett. Krever at folk ser at det skjer noe."
+        },
+        "minimum": {
+          "label": "Bare hovedundersøkelse",
+          "note": "Én måling i året. Dekker lovkravet, men sier ikke om tiltakene virker."
+        }
+      },
+      "year": "Året · {count, plural, one {# utsending} other {# utsendinger}} i året",
+      "cellsNote": "Trykk på en måned for å flytte hovedundersøkelsen. Pulsene følger etter.",
+      "monthAria": "{month}: {what}",
+      "cell": {
+        "hoved": "Hoved",
+        "puls": "Puls",
+        "avklaring": "Avklaring",
+        "ferie": "Ferie",
+        "ingen": "ingen utsending"
+      },
+      "pause": "Ingen utsending i juli",
+      "voFirst": "Verneombudet varsles {days, plural, =0 {samtidig} one {én dag før} =2 {to dager før} other {# dager før}}",
+      "voFirstNote": "Anbefalt. Gir tid til å si fra om noe bør endres.",
+      "each": "Hver utsending",
+      "who": {
+        "vo": "Verneombud og tillitsvalgte",
+        "dl": "Daglig leder",
+        "all": "Ansatte",
+        "result": "Resultat til ledere"
+      },
+      "lead0": "samtidig",
+      "leadDays": "{days, plural, one {# dag før} other {# dager før}}",
+      "at9": "kl. 09.00",
+      "day7": "dag {day}",
+      "summary": {
+        "kvartalspuls": "Hovedundersøkelse i {month}, puls hvert kvartal",
+        "halvarspuls": "Hovedundersøkelse i {month}, puls hvert halvår",
+        "manedspuls": "Hovedundersøkelse i {month}, puls hver måned",
+        "minimum": "Hovedundersøkelse i {month}, ingen puls"
+      },
+      "summaryPause": " · pause i juli",
+      "problem": {
+        "denied": "Bare daglig leder kan endre rytmen.",
+        "no_wheel": "Virksomheten har ikke et årshjul ennå.",
+        "invalid": "Rytmen kunne ikke lagres."
+      }
+    },
+    "send": {
+      "lead": "Tirsdag klokka ni gir høyest svarprosent. Velg dato, så tar årshjulet resten.",
+      "how": "Slik går det",
+      "t1k": "{days, plural, =0 {Samtidig} one {# dag før} other {# dager før}}",
+      "t1v": "Verneombud og tillitsvalgte får se oppsettet",
+      "t2k": "Kl. 09.00",
+      "t2v": "Invitasjon til {count, plural, one {# ansatt} other {# ansatte}} på {sms, select, true {e-post og SMS} other {e-post}}",
+      "t3k": "Dag {day}",
+      "t3v": "Én påminnelse til dem som ikke har svart",
+      "t4k": "Dag {day}",
+      "t4v": "Undersøkelsen lukkes og resultatet er klart",
+      "survey": "Undersøkelsen",
+      "q": "{questions} spørsmål · {areas} områder",
+      "meta": "ca. {minutes} minutter å svare · {count, plural, one {# ansatt} other {# ansatte}} · {groups, plural, one {# gruppe} other {# grupper}}",
+      "cadence": "Rytmen fra forrige steg gjelder. Alt etter dette går av seg selv.",
+      "measured": "Dere har allerede målt. Årshjulet planlegger de neste rundene selv, og de kan flyttes under Målinger.",
+      "planned": "Planlagt: {date} kl. 09.00. Velg en annen dag for å flytte den.",
+      "problem": {
+        "not_available": "Bare daglig leder kan planlegge utsendingen.",
+        "already_measured": "Dere har allerede målt, så årshjulet planlegger videre.",
+        "weekend": "Velg en ukedag.",
+        "too_soon": "Utsendingen må være minst tre dager fram i tid, så verneombudet rekker å se den.",
+        "too_far": "Velg en dag innen fire måneder.",
+        "no_employees": "Legg inn de ansatte før utsendingen planlegges.",
+        "invalid": "Velg en dag."
+      }
+    },
+    "done": {
+      "note": "Alt er lagret. Du kan kjøre denne veiviseren igjen fra Oppsett når som helst.",
+      "org": "Virksomhet",
+      "orgV": "{name} · {count, plural, one {# ansatt} other {# ansatte}}",
+      "people": "Ansatte",
+      "peopleV": "{count} lagt inn",
+      "groups": "Grupper",
+      "groupsV": "{count, plural, one {# gruppe} other {# grupper}} · terskel {n} svar",
+      "vo": "Verneombud",
+      "voTv": "{vo} · tillitsvalgt {tv}",
+      "voNone": "Ikke valgt ennå",
+      "measure": "Måling",
+      "measureV": "{mode} · {areas} områder",
+      "rhythm": "Rytme",
+      "rhythmV": {
+        "kvartalspuls": "Puls hvert kvartal · hovedundersøkelse i {month}",
+        "halvarspuls": "Puls hvert halvår · hovedundersøkelse i {month}",
+        "manedspuls": "Puls hver måned · hovedundersøkelse i {month}",
+        "minimum": "Bare hovedundersøkelse · i {month}"
+      },
+      "first": "Første utsending",
+      "firstV": "{date} kl. 09.00",
+      "firstMeasured": "Allerede gjennomført — årshjulet planlegger videre",
+      "firstNone": "Ikke planlagt ennå"
+    },
+    "problem": "Det gikk ikke å lagre. Prøv igjen."
   }
 }

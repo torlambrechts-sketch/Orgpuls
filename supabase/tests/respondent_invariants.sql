@@ -26,7 +26,9 @@ declare
   v_res jsonb; v_before int; v_after int;
   v_answers jsonb; v_extra jsonb := '[]'::jsonb;
 begin
-  select r.id into v_round from app.rounds r where r.status = 'apen' order by r.opens_at desc limit 1;
+  select r.id into v_round from app.rounds r  -- the fixture organisation's open puls; the demo's opens at the same instant
+  where r.status = 'apen' and r.org_id = '00000000-0000-4000-8000-000000000001'
+  order by r.opens_at desc limit 1;
   if v_round is null then
     raise exception 'no open round: re-run scripts/seed/design-fixture.mjs';
   end if;
@@ -101,7 +103,9 @@ do $$
 declare
   v_round uuid; v_resp uuid; v_msg text; v_n int;
 begin
-  select r.id into v_round from app.rounds r where r.status = 'apen' order by r.opens_at desc limit 1;
+  select r.id into v_round from app.rounds r  -- the fixture organisation's open puls; the demo's opens at the same instant
+  where r.status = 'apen' and r.org_id = '00000000-0000-4000-8000-000000000001'
+  order by r.opens_at desc limit 1;
   select id into v_resp from app.responses where round_id = v_round limit 1;
 
   -- anonymity is structural: absent columns, not nullable ones

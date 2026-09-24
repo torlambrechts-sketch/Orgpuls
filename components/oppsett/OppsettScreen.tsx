@@ -10,6 +10,7 @@ import { RollerTab } from '@/components/oppsett/RollerTab'
 import { IntegrasjonerTab } from '@/components/oppsett/IntegrasjonerTab'
 import { PersonvernTab } from '@/components/oppsett/PersonvernTab'
 import { RegelverkTab } from '@/components/oppsett/RegelverkTab'
+import { WizardButton } from '@/components/veiviser/WizardProvider'
 
 /**
  * Oppsett. Bundle lines 1958-2472.
@@ -72,9 +73,12 @@ export async function OppsettScreen({ view }: { view: OppsettView }) {
     <main className="animate-entry mx-auto max-w-page px-[16px] md:px-[28px] pb-[60px] pt-[30px]">
       <div className="grid items-start gap-[20px] md:[grid-template-columns:minmax(0,1.25fr)_minmax(300px,0.75fr)]">
         <div className="min-w-0">
-          <h1 className="m-0 font-display text-[32px] font-semibold leading-[1.1]">
-            {t('oppsett.title')}
-          </h1>
+          <div className="flex flex-wrap items-center gap-[14px]">
+            <h1 className="m-0 font-display text-[32px] font-semibold leading-[1.1]">{t('oppsett.title')}</h1>
+            <WizardButton className="h-[34px] cursor-pointer rounded-ctl border border-ink bg-sbg px-[14px] text-[12.5px] font-bold leading-[normal] text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+              {t('veiviser.run')}
+            </WizardButton>
+          </div>
           <p className="mt-[9px] max-w-[620px] text-[14.5px] leading-[1.6] text-mut [text-wrap:pretty]">
             {t('oppsett.lead')}
           </p>

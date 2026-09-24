@@ -11,6 +11,7 @@ import { getRiskAssessment } from '@/lib/risk/read'
 import { getRoundFactorKeys, getRounds } from '@/lib/rounds/read'
 import { getShellContext } from '@/lib/shell/read'
 import { getWheel } from '@/lib/wheel/read'
+import { WizardButton } from '@/components/veiviser/WizardProvider'
 
 /**
  * Oversikt — design 3's Enkel landing page (bundle 3, `isOverview`, 410-518). D-71.
@@ -188,6 +189,7 @@ export async function Oversikt() {
             {t('oversikt.seeAll')}
           </FullLink>
         ) : null}
+        <WizardButton className={`${ok ? '' : 'ml-auto '}text-[13px] leading-[normal] ${link}`}>{t('veiviser.open')}</WizardButton>
       </div>
 
       {ok ? (

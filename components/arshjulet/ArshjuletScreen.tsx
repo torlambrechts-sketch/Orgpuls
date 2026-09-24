@@ -105,7 +105,11 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
       notifyVoOnOverdue: view.wheel.notifyVoOnOverdue,
     },
     options: {
-      cadences: (['minimum', 'kvartalspuls', 'manedspuls'] as const).map((c) => ({
+      // the design's three; "Hvert halvår" is the Veiviser's (0041), listed once it is chosen
+      cadences: (view.wheel.cadence === 'halvarspuls'
+        ? (['minimum', 'kvartalspuls', 'halvarspuls', 'manedspuls'] as const)
+        : (['minimum', 'kvartalspuls', 'manedspuls'] as const)
+      ).map((c) => ({
         value: c,
         label: t(`arshjulet.cadence.${c}.label`),
         note: t(`arshjulet.cadence.${c}.note`),
