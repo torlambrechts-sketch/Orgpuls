@@ -74,7 +74,7 @@ export function Kommentarer({
     set('maling', round, 'alle')
     set('faktor', factor, null)
     set('status', status, 'alle')
-    window.history.replaceState(window.history.state, '', url)
+    window.history.replaceState(null, '', url)
   }, [round, factor, status])
 
   const inRound = items.filter((c) => round === 'alle' || c.roundId === round)

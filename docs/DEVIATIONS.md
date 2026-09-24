@@ -2820,3 +2820,95 @@ Where the build differs, and why:
   which have no write path yet.
 - **Question counts and dates are the rows'**: "9 spørsmål", "går ut 1. desember" (the
   wheel's first Tuesday), not the design's "5 spørsmål" and "12. desember".
+
+## D-75 — Tiltak: the Tavle, its detail panel, the plan, and a measure's target (P6)
+
+**Built:** `/tiltak` is design 3's Tiltak (v3 2380-3000), in two tabs:
+- **Tavle** (the default) is four columns read from `measure_step`:
+  - **Funn:** the three lowest-scoring factors with no open measure, each with its first
+    playbook suggestion not yet taken;
+  - **Valgt fokus:** `besluttet`;
+  - **Tiltak pågår:** `pagar` and `gjennomfort`;
+  - **Effekt målt:** `effekt_malt`.
+
+  `foreslatt` measures sit in Funn beside the findings, and `lukket` measures leave the board.
+- **The detail panel** for the card pressed shows:
+  - the status, department, factor and score;
+  - Tiltak / Eier / Frist;
+  - the factor's playbook suggestions with "Velg";
+  - the five Trinn;
+  - "Velg som fokus" or "Flytt til «…»", through the existing writes
+    (`adoptPlaybookMeasure`, `advanceMeasure`).
+- **"Slik måler vi effekten"** shows:
+  - the followed statement;
+  - its index now against the measure's target;
+  - the next three planned rounds that measure the factor.
+- **The plan** is a Gantt of the focus and running measures over this month and the four
+  after it, with the planned rounds as pills.
+- **Liste** is the existing list, with one new field: the target.
+
+The tab and the card pressed are the address (`?fane=liste`, `?kort=`).
+
+**A measure has a target (0040).** `app.measures.target` is an index from 0 to 100, or null
+until someone sets it. The Tavle's "Mål" reads it, Liste edits it, and the fixture sets the
+design's 33 on "Fast svar", plus a target on the three other measures still open.
+`measure_invariants.sql` checks 20 and 21 prove the range and the round trip.
+
+**Scores are the released ones.** A card is scored from the latest grunnlinje through
+`results_workspace` (0037), so k and complementary suppression apply as they do in
+Resultater:
+- a measure aimed at one released department is scored on that department, against the
+  average;
+- anything else is scored on the organisation, against last year.
+
+**Pixel checks** against `baselines-v3/13` and `14` (`scripts/verify/cardmatch.mjs`):
+- **0 px:** the header, the tabs, the board's head, every card whose data matches the
+  design (Motstridende krav, both running cards, Effekt målt), the detail panel's head and
+  grid, the plan's head, and the footer.
+- **The suggestion rows are 686 px off.** That is the text of rows the fixture has; their
+  pills were corrected to the bundle's white with a border.
+- **Liste is 0 px** except where the data differs (below).
+
+`scripts/verify/tiltak-behaviour.mjs` checks 27 things:
+- the tabs and their counts;
+- the columns;
+- the initial card;
+- the address;
+- the department filter;
+- a plan row;
+- the keyboard and focus;
+- "Velg som fokus" and "Flytt til «Pågår»" as writes;
+- the target field and its range;
+- phone width.
+
+It writes, and the fixture is reseeded after it.
+
+**The address now survives a write, on every screen that mirrors state into it.** Tavle,
+the year rail, Resultater's workspace and Kommentarer wrote `?…` with
+`replaceState(window.history.state, …)`. Next.js treats a state carrying its own markers as
+internal and does not sync it, so the refresh after a server action restored the old
+address. They now pass `null`, the documented form, and the router adopts the address.
+
+Where the build differs, and why:
+- **No "Når målet er nådd i to målinger på rad, foreslår Orgpuls å lukke tiltaket."**
+  Nothing suggests closing a measure. A sentence promising it would describe a feature
+  that does not exist.
+- **A bar starts when the measure was recorded.** The schema has no start date. A late
+  measure's bar runs to today, because it is still being done, not to the lapsed date.
+  "Fast svar" is therefore short on the fixture (15 to 24 September), where the design
+  draws it to late November.
+- **"Flytt til «Gjennomført»" from Tiltak pågår**, not "«Effekt målt»". `gjennomfort` is a
+  step of its own between them (0013), and `advanceMeasure` moves one step at a time, so a
+  measure is recorded as carried out before its effect is.
+- **The Funn hint is "Foreslått ut fra skår"**, without "og betydning". Findings are
+  ordered by score. Importance (D4) is an organisation-level correlation and does not
+  choose between departments.
+- **The filter chips are the departments.** "Under 1 år" is a tenure segment, which D3
+  rules out.
+- **Measurement points are named by kind and date** ("Puls", "1. des"), not "Puls 1". Their
+  question count is the round's own: 9, not the design's 5.
+- **Data differs where the fixture differs:**
+  - Støtte fra leder is 64 for Alle, not 52 for "Under 1 år";
+  - the third finding is Kontakt og kommunikasjon, not Rolleklarhet;
+  - Liste has no "Puls 2 · 2025" chip (no such round);
+  - Liste has no "Tildelt meg": the signed-in account is not an employee.

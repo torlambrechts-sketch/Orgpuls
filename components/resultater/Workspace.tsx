@@ -56,7 +56,7 @@ export function Workspace({ model }: { model: ResultaterModel }) {
     url.searchParams.set('gruppe', sel.row)
     url.searchParams.set('faktor', sel.factor)
     if (view === 'varmekart') url.searchParams.delete('visning')
-    window.history.replaceState(window.history.state, '', url)
+    window.history.replaceState(null, '', url)
   }, [view, sel])
 
   const adopted = useMemo(() => new Set([...model.adopted, ...justAdopted]), [model.adopted, justAdopted])

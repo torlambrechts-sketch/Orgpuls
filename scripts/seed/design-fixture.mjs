@@ -548,6 +548,18 @@ const cfgRows = () => plan.flatMap(({ key, group, factor, slots, split }) => spl
  * the design shows as overdue — "Frist gikk ut i går" — and a fixed date would make that
  * sentence false tomorrow. Same reasoning as the open puls, docs/DEVIATIONS.md D-08.
  */
+/**
+ * What the running measures aim for (0040): the followed statement's index they should
+ * reach. The design prints one, "Mål 33" for the Verksted measure; the others are set the
+ * same way, about ten points over where their statement stands.
+ */
+const TARGET = {
+  'Fast svar på avviksmeldinger innen fem dager': 33,
+  'Prioriteringsmøte hver mandag på Prosjekt': 40,
+  'Varslingsrutinen gjennomgått i alle team': 46,
+  'Fadderordning for nyansatte første åtte uker': 70,
+}
+
 const MEASURES = [
   ['ytring', 2026, 'Anne Rygg', 'Fast svar på avviksmeldinger innen fem dager',
     'Verksted meldte fire avvik i vår uten å få svar. Tiltaket er å gi hver melding et navngitt svar innen fem virkedager.',
@@ -628,7 +640,7 @@ ${TRAININGS.map(([title, aud, on, due, note]) =>
 const measuresSql = () => `
 insert into app.measures (org_id, factor_key, round_id, owner_employee_id, title, goal,
                           due_date, completed_on, step, kind, law_ref, created_at,
-                          effect_round_id, effect_note)
+                          effect_round_id, effect_note, target)
 values
 ${MEASURES.map(([factor, year, owner, title, goal, due, done, step, kind, law, , effYear, effNote], i) =>
   `  ('${ORG}', '${factor}', '${ROUND[year]}',
@@ -636,7 +648,7 @@ ${MEASURES.map(([factor, year, owner, title, goal, due, done, step, kind, law, ,
    '${title.replace(/'/g, "''")}', '${goal.replace(/'/g, "''")}',
    ${sqlDate(due)}, ${sqlDate(done)}, '${step}', '${kind}', ${law ? `'${law}'` : 'null'},
    timestamptz '2026-09-15 09:00+02' + ${i} * interval '1 hour',
-   ${effYear ? `'${ROUND[effYear]}'` : 'null'}, ${effNote ? q(effNote) : 'null'})`).join(',\n')};
+   ${effYear ? `'${ROUND[effYear]}'` : 'null'}, ${effNote ? q(effNote) : 'null'}, ${TARGET[title] ?? 'null'})`).join(',\n')};
 
 ${MEASURES.flatMap(([, , , title, , , , , , , groups = []]) =>
   groups.map((g) => `insert into app.measure_groups (measure_id, group_id)

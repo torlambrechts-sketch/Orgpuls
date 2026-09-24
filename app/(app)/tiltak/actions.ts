@@ -48,9 +48,11 @@ const MeasureFields = z.object({
   groupIds: z.array(Uuid),
   effectRoundId: Optional(Uuid),
   effectNote: Optional(z.string().trim().max(2000)),
+  target: Optional(z.coerce.number().int().min(0).max(100)),
 })
 
-export type MeasureActionResult = { ok: true } | { ok: false; problem: string }
+/** `id` is the measure a press created, so the board can keep it selected */
+export type MeasureActionResult = { ok: true; id?: string } | { ok: false; problem: string }
 
 /**
  * A new measure, deliberately almost empty.
@@ -98,11 +100,26 @@ export async function createMeasure(formData: FormData): Promise<MeasureActionRe
  * creates nothing; and it is stored on the row, which is what lets every screen show the
  * suggestion as taken. A second press during a slow round-trip meets the unique index
  * from 0031 and is answered as success: the measure it wanted exists.
+ *
+ * Tiltak's Tavle adopts the same way with "Velg som fokus" (D-75): the suggestion becomes a
+ * measure that is already decided (`besluttet`), for the department the finding was in.
+ * Anything else a caller sends for `step` is refused, so this cannot open a measure part-way
+ * through its rail.
  */
 export async function adoptPlaybookMeasure(formData: FormData): Promise<MeasureActionResult> {
   const parsed = z
-    .object({ key: z.string().regex(/^[a-z]+\.[1-3]$/), roundId: Optional(Uuid) })
-    .safeParse({ key: formData.get('key'), roundId: formData.get('roundId') })
+    .object({
+      key: z.string().regex(/^[a-z]+\.[1-3]$/),
+      roundId: Optional(Uuid),
+      step: z.enum(['foreslatt', 'besluttet']).default('foreslatt'),
+      groupId: Optional(Uuid),
+    })
+    .safeParse({
+      key: formData.get('key'),
+      roundId: formData.get('roundId'),
+      step: formData.get('step') ?? undefined,
+      groupId: formData.get('groupId'),
+    })
   if (!parsed.success) return problem('invalid')
   const entry = playbookEntry(parsed.data.key)
   if (!entry) return problem('invalid')
@@ -125,16 +142,26 @@ export async function adoptPlaybookMeasure(formData: FormData): Promise<MeasureA
         how: t(`playbook.${entry.factorKey}.m${entry.n}.how`),
         statement: t(`factor.${entry.factorKey}.s${entry.watch}`),
       }),
-      step: 'foreslatt',
+      step: parsed.data.step,
       playbook_key: entry.key,
     })
     .select('id')
 
   // 23505: already adopted, by this press's twin or by a colleague a moment ago
   if (error?.code !== '23505' && writeFailed('adoptPlaybookMeasure', error, data)) return problem('denied')
+
+  // the department the finding was in is the measure's audience (measure_groups, 0015)
+  const created = data?.[0]?.id
+  if (created && parsed.data.groupId) {
+    const { error: grouped } = await supabase
+      .schema('app')
+      .from('measure_groups')
+      .insert({ measure_id: created, group_id: parsed.data.groupId })
+    if (grouped) return problem('denied')
+  }
   revalidatePath('/tiltak')
   revalidatePath('/resultater')
-  return { ok: true }
+  return created ? { ok: true, id: created } : { ok: true }
 }
 
 export async function updateMeasure(formData: FormData): Promise<MeasureActionResult> {
@@ -150,6 +177,7 @@ export async function updateMeasure(formData: FormData): Promise<MeasureActionRe
     groupIds: formData.getAll('groupIds'),
     effectRoundId: formData.get('effectRoundId'),
     effectNote: formData.get('effectNote'),
+    target: formData.get('target'),
   })
   if (!parsed.success) return problem('invalid')
 
@@ -169,6 +197,7 @@ export async function updateMeasure(formData: FormData): Promise<MeasureActionRe
       kind: m.kind,
       effect_round_id: m.effectRoundId,
       effect_note: m.effectNote,
+      target: m.target,
     })
     .eq('id', m.id)
     .select('id')

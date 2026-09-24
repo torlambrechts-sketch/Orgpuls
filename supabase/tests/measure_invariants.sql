@@ -195,6 +195,17 @@ begin
     insert into public._mi values (18, 'a group from another organisation is refused', 'rejected', left(v_msg, 70), true);
   end;
 
+  -- 0040: a target is on the index's own scale, or absent
+  begin
+    update app.measures set target = 101 where id = v_m;
+    insert into public._mi values (20, 'a target above 100 is refused', 'rejected', 'ACCEPTED', false);
+  exception when check_violation then
+    insert into public._mi values (20, 'a target above 100 is refused', 'rejected', 'rejected', true);
+  end;
+  update app.measures set target = 33 where id = v_m;
+  select count(*) into v_n from app.measures where id = v_m and target = 33;
+  insert into public._mi values (21, 'a target on the scale is kept', '1', v_n::text, v_n = 1);
+
   insert into app.measure_groups (measure_id, group_id) values (v_m, v_grp);
   delete from app.measures where id = v_m;
   select count(*) into v_n from app.measure_groups where measure_id = v_m;

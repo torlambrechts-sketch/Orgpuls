@@ -707,7 +707,90 @@
     "effectRound": "Measured in",
     "effectRoundUnset": "Not chosen yet",
     "effectNote": "Assessment",
-    "effectHint": "The report compares the factor in the survey this measure came from with the one you choose here, and prints the assessment as written."
+    "effectHint": "The report compares the factor in the survey this measure came from with the one you choose here, and prints the assessment as written.",
+    "fieldTarget": "Target (index 0–100)",
+    "tabsAria": "Measures: board and list",
+    "tab": {
+      "tavle": "Board",
+      "liste": "List"
+    },
+    "board": {
+      "title": "From finding to effect",
+      "lead": "Press a card to see the measure, its steps and how it is measured.",
+      "all": "All",
+      "col": {
+        "funn": {
+          "title": "Findings",
+          "hint": "Suggested from the scores"
+        },
+        "fokus": {
+          "title": "Chosen focus",
+          "hint": "Decided to work on — choose a measure"
+        },
+        "pagar": {
+          "title": "In progress",
+          "hint": "Owner and deadline are set"
+        },
+        "effekt": {
+          "title": "Effect measured",
+          "hint": "A new survey shows whether it worked"
+        }
+      },
+      "deltaAvg": "{delta} against the average",
+      "deltaYear": "{delta} since last year",
+      "suggestion": "Suggestion: {title}",
+      "noOwner": "Not set",
+      "notChosen": "Not chosen",
+      "chooseFocus": "Choose as focus",
+      "effectMeasured": "Effect measured",
+      "setOwner": "Set owner and deadline",
+      "dueUnset": "No deadline",
+      "empty": "No cards here",
+      "measure": "Measure",
+      "owner": "Owner",
+      "due": "Deadline",
+      "notChosenYet": "Not chosen yet",
+      "suggested": "Suggested measures",
+      "chosen": "Chosen",
+      "choose": "Choose",
+      "stepsHead": "Steps",
+      "steps": {
+        "focus": "Choose focus",
+        "focusNote": "The finding is prioritised",
+        "owner": "Choose measure and owner",
+        "noOwner": "No owner",
+        "do": "Carry out",
+        "noDue": "No deadline",
+        "measure": "Measure effect",
+        "noPoint": "No survey planned",
+        "close": "Review and close",
+        "closeNote": "Once the effect is measured"
+      },
+      "moveTo": "Move to “{step}”",
+      "editInList": "Change owner and deadline in the list →",
+      "effectHead": "How we measure the effect",
+      "followed": "Statement we follow",
+      "now": "Now",
+      "target": "Target",
+      "noTarget": "No target set yet. Set it in the list.",
+      "effectNote": "Measured effect: {note}",
+      "points": "Measurement points",
+      "noPoints": "No survey planned on this factor.",
+      "planNote": "Chosen focus and measures in progress · lighter = not started",
+      "planEmpty": "No measures in the plan for this selection.",
+      "pointPill": "{title} {date}",
+      "dueYesterday": "Deadline passed yesterday",
+      "dueLapsed": "Deadline passed {date}",
+      "dueOn": "Deadline {date}",
+      "allFactors": "all factors",
+      "planTitle": "Plan for {season} {year}",
+      "season": {
+        "vinter": "the winter",
+        "var": "the spring",
+        "sommer": "the summer",
+        "host": "the autumn"
+      }
+    }
   },
   "risk": {
     "probability": {

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { roundTitle, type Titled } from '@/lib/rounds/title'
 import { MeasureCard } from '@/components/tiltak/MeasureCard'
+import { Board, type BoardModel } from '@/components/tiltak/Board'
 import { NewMeasureButton } from '@/components/tiltak/NewMeasureButton'
 import { SuggestionBank, type BankChip } from '@/components/tiltak/SuggestionBank'
 import { adoptLabels, playbookBlock } from '@/lib/playbook/cards'
@@ -29,6 +30,9 @@ import { STEP_KEYS, stepIndex, type Measure, type MeasureBucket } from '@/lib/me
 export type StatusFilter = MeasureBucket | 'alle'
 
 export interface TiltakView {
+  /** design 3: the Tavle, or the list this screen was before it (D-75) */
+  tab: 'tavle' | 'liste'
+  board: BoardModel | null
   measures: Measure[]
   /** the filters as chosen, already validated against what exists */
   status: StatusFilter
@@ -147,6 +151,7 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
       maling: view.roundId ?? undefined,
       tildelt: view.ownerId ?? undefined,
       forslag: view.bank.selectedKey ?? undefined,
+      fane: 'liste',
       ...over,
     }
     for (const [k, v] of Object.entries(merged)) if (v !== undefined) query[k] = v
@@ -206,6 +211,28 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
         </div>
       </div>
 
+      <nav className="mt-[22px] flex flex-wrap gap-[6px] border-b border-line" aria-label={t('tiltak.tabsAria')}>
+        {(['tavle', 'liste'] as const).map((k) => (
+          <Link
+            key={k}
+            href={k === 'tavle' ? { pathname: '/tiltak' } : { pathname: '/tiltak', query: { fane: 'liste' } }}
+            aria-current={view.tab === k ? 'page' : undefined}
+            className={`flex items-center gap-[8px] border-b-[3px] px-[16px] pb-[12px] pt-[10px] text-[14.5px] no-underline hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ink ${
+              view.tab === k ? 'border-ink font-bold text-ink hover:text-ink' : 'border-transparent font-medium text-mut hover:text-mut'
+            }`}
+          >
+            {t(`tiltak.tab.${k}`)}
+            <span className="rounded-pill bg-track px-[8px] py-[2px] text-[11px] font-bold text-mut">
+              {k === 'tavle' ? view.measures.filter((m) => m.step !== 'foreslatt' && m.step !== 'lukket').length : view.measures.length}
+            </span>
+          </Link>
+        ))}
+      </nav>
+
+      {view.tab === 'tavle' && view.board ? (
+        <Board model={view.board} />
+      ) : (
+        <>
       {view.bank.selectedKey ? (
         <SuggestionBank
           head={t('playbook.bankHead')}
@@ -326,6 +353,7 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
                 groupIds: m.groupIds,
                 effectRoundId: m.effectRoundId ?? '',
                 effectNote: m.effectNote ?? '',
+                target: m.target === null ? '' : String(m.target),
               }}
               options={{
                 owners: view.employees.map((e) => ({ value: e.id, label: e.name })),
@@ -353,6 +381,7 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
                 owner: t('tiltak.fieldOwner'),
                 ownerUnset: t('tiltak.ownerUnset'),
                 due: t('tiltak.fieldDue'),
+                target: t('tiltak.fieldTarget'),
                 factor: t('tiltak.fieldFactor'),
                 status: t('tiltak.fieldStatus'),
                 kindHead: t('tiltak.kindHead'),
@@ -374,6 +403,8 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
           )
         })}
       </div>
+        </>
+      )}
     </main>
   )
 }

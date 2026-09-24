@@ -53,7 +53,7 @@ export function YearRail({ view }: { view: RailView }) {
   useEffect(() => {
     const url = new URL(window.location.href)
     url.searchParams.set('maned', String(selected))
-    window.history.replaceState(window.history.state, '', url)
+    window.history.replaceState(null, '', url)
   }, [selected])
 
   const hrefWith = (over: Record<string, string | null>) => {

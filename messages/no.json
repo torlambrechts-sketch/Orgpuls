@@ -707,7 +707,90 @@
     "effectRound": "Målt i",
     "effectRoundUnset": "Ikke valgt ennå",
     "effectNote": "Vurdering",
-    "effectHint": "Rapporten sammenligner faktoren i målingen tiltaket kom fra med målingen du velger her, og skriver ut vurderingen slik den står."
+    "effectHint": "Rapporten sammenligner faktoren i målingen tiltaket kom fra med målingen du velger her, og skriver ut vurderingen slik den står.",
+    "fieldTarget": "Mål (indeks 0–100)",
+    "tabsAria": "Tiltak: tavle og liste",
+    "tab": {
+      "tavle": "Tavle",
+      "liste": "Liste"
+    },
+    "board": {
+      "title": "Fra funn til effekt",
+      "lead": "Trykk på et kort for å se tiltak, trinn og måling.",
+      "all": "Alle",
+      "col": {
+        "funn": {
+          "title": "Funn",
+          "hint": "Foreslått ut fra skår"
+        },
+        "fokus": {
+          "title": "Valgt fokus",
+          "hint": "Bestemt å jobbe med — velg tiltak"
+        },
+        "pagar": {
+          "title": "Tiltak pågår",
+          "hint": "Eier og frist er satt"
+        },
+        "effekt": {
+          "title": "Effekt målt",
+          "hint": "Ny måling viser om det virket"
+        }
+      },
+      "deltaAvg": "{delta} mot snittet",
+      "deltaYear": "{delta} siden i fjor",
+      "suggestion": "Forslag: {title}",
+      "noOwner": "Ikke satt",
+      "notChosen": "Ikke valgt",
+      "chooseFocus": "Velg som fokus",
+      "effectMeasured": "Effekt målt",
+      "setOwner": "Sett eier og frist",
+      "dueUnset": "Frist ikke satt",
+      "empty": "Ingen kort her",
+      "measure": "Tiltak",
+      "owner": "Eier",
+      "due": "Frist",
+      "notChosenYet": "Ikke valgt ennå",
+      "suggested": "Foreslåtte tiltak",
+      "chosen": "Valgt",
+      "choose": "Velg",
+      "stepsHead": "Trinn",
+      "steps": {
+        "focus": "Velg fokus",
+        "focusNote": "Funnet er prioritert",
+        "owner": "Velg tiltak og eier",
+        "noOwner": "Mangler eier",
+        "do": "Gjennomfør",
+        "noDue": "Frist mangler",
+        "measure": "Mål effekt",
+        "noPoint": "Ingen måling planlagt",
+        "close": "Vurder og lukk",
+        "closeNote": "Når effekten er målt"
+      },
+      "moveTo": "Flytt til «{step}»",
+      "editInList": "Endre eier og frist i listen →",
+      "effectHead": "Slik måler vi effekten",
+      "followed": "Påstand vi følger",
+      "now": "Nå",
+      "target": "Mål",
+      "noTarget": "Ingen mål satt ennå. Sett det i listen.",
+      "effectNote": "Målt effekt: {note}",
+      "points": "Målepunkter",
+      "noPoints": "Ingen måling planlagt på denne faktoren.",
+      "planNote": "Valgt fokus og pågående tiltak · lysere = ikke startet",
+      "planEmpty": "Ingen tiltak i planen for dette utvalget.",
+      "pointPill": "{title} {date}",
+      "dueYesterday": "Frist gikk ut i går",
+      "dueLapsed": "Frist gikk ut {date}",
+      "dueOn": "Frist {date}",
+      "allFactors": "alle faktorer",
+      "planTitle": "Plan {season} {year}",
+      "season": {
+        "vinter": "vinteren",
+        "var": "våren",
+        "sommer": "sommeren",
+        "host": "høsten"
+      }
+    }
   },
   "risk": {
     "probability": {

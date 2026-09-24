@@ -61,6 +61,8 @@ export interface MeasureCardProps {
     groupIds: string[]
     effectRoundId: string
     effectNote: string
+    /** 0040: the index the followed statement should reach, '' when unset */
+    target: string
   }
   options: {
     owners: Option[]
@@ -78,6 +80,7 @@ export interface MeasureCardProps {
     owner: string
     ownerUnset: string
     due: string
+    target: string
     factor: string
     status: string
     kindHead: string
@@ -233,6 +236,10 @@ export function MeasureCard({ id, view, values, options, labels }: MeasureCardPr
 
             <Field label={labels.due}>
               <input type="date" name="dueDate" defaultValue={values.dueDate} className={CONTROL} />
+            </Field>
+
+            <Field label={labels.target}>
+              <input type="number" name="target" min={0} max={100} step={1} inputMode="numeric" defaultValue={values.target} className={CONTROL} />
             </Field>
 
             <Field label={labels.factor}>

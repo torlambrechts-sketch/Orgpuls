@@ -8,7 +8,8 @@
 - **P3 is done:** Resultater, its five views and the puls view (D-72).
 - **P4 is done:** Kommentarer (D-73).
 - **P5 is done:** Målinger and "Start neste puls nå" (D-74).
-- **P6 (Tiltak) is next.**
+- **P6 is done:** Tiltak — the Tavle, the plan and a measure's target (D-75).
+- **P7 (Veiviser and Oppsett) is next.**
 
 The design was reviewed in a browser. The offline copy of `dc_2` was rendered with the
 same runtime as the baselines. Every screen and state was captured: the Enkel and Full

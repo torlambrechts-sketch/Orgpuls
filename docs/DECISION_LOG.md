@@ -1512,6 +1512,14 @@ sends, and recorded in `app.round_starts`. It adds a puls rather than moving the
 planned one, because the wheel re-plans a month whose round went missing (D-74).
 Årshjulet is now a tab of Målinger, and `/arshjulet` answers 308.
 
+### X-045 — Tiltak is a board from finding to effect, with a target on each measure
+
+The design's Tavle is read from `measure_step`, with findings taken from the released
+scores, so k applies as in Resultater. The design's "Mål" becomes `app.measures.target`
+(0040), set in Liste. "Velg som fokus" and "Flytt til" use the existing writes, and the
+selection follows a finding into the measure it becomes. The plan draws what the schema
+holds: recorded to deadline, plus the planned rounds (D-75).
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1642,5 +1650,7 @@ planned one, because the wheel re-plans a month whose round went missing (D-74).
 - [x] P4: Kommentarer under Resultater's frame, with no group anywhere (X-043, D-73).
 - [x] P5: Målinger — the year rail, four tabs, and a real "Start neste puls nå" (X-044, D-74).
 - [ ] The rail's "Legg til puls" / "Hopp over denne", and Deltakelse's "Lukk runden" / "Send påminnelse" while a round is open, need write paths of their own (D-74).
-- [ ] `/arshjulet` becomes Målinger's Årshjul tab in P5, with a redirect then (D-70).
+- [x] `/arshjulet` became Målinger's Årshjul tab in P5, with a 308 (D-70, D-74).
+- [x] P6: Tiltak — the Tavle, its detail panel, the plan, and a target on each measure (X-045, D-75).
+- [ ] A measure has no start date, so the plan draws its bar from when it was recorded (D-75).
 - [ ] Oversikt's "Veiviser" link arrives with the wizard (P7, D-71).
