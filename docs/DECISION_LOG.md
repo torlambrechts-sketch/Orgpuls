@@ -1620,6 +1620,26 @@ After 0045:
 The rest of `cell_release`'s time is its loop building the cells as jsonb, one append at a
 time. That is the next thing to fold if Resultater needs it.
 
+**Production, after the deploy.** Measured with curl and the app's own session cookie,
+from a US-hosted session, as the median of six after one warm-up, the same way as X-047.
+The login page is the network floor at 0.68 s from here, so what matters is the time
+above it.
+
+| Screen | X-047 | Now | Above the floor, then → now |
+| :-- | --: | --: | --: |
+| Oversikt (Enkel) | — | 0.83 s | — → 0.15 s |
+| Innsikt | 1.0 s | 0.69 s | ≈0.4 s → ≈0.01 s |
+| Resultater | 1.0 s | 0.83 s | ≈0.4 s → 0.15 s |
+| Kommentarer | 0.73 s | 0.75 s | ≈0.13 s → 0.06 s |
+| Tiltak | 1.1 s | 0.92 s | ≈0.5 s → 0.23 s |
+| Målinger | 1.0 s | 0.75 s | ≈0.4 s → 0.07 s |
+| Rapport | — | 0.89 s | — → 0.21 s |
+
+Both floors were measured from here and each varies by tens of milliseconds, so the right
+column is approximate. From Norway, where the floor is tens of milliseconds, every screen
+is now inside the 400 ms budget. Tiltak and Rapport sit highest, and the workspace is most
+of Tiltak's time.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
