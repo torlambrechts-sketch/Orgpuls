@@ -3,6 +3,7 @@ import type { Route } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { Workspace } from './Workspace'
 import { PulseView } from './PulseView'
+import { ResultaterShell } from './ResultaterShell'
 import type { Participation } from '@/lib/participation/read'
 import type { ResultsRecommendation, ResultsSummary } from '@/lib/results/read'
 import { ORG, meanOf, trustLevel, type ResultaterModel, type RoundRef } from '@/lib/results/resultater'
@@ -81,143 +82,110 @@ export async function ResultaterFrame(props: FrameProps) {
   const chipBase =
     'cursor-pointer rounded-pill border px-[13px] py-[6px] text-[12.5px] font-bold leading-[normal] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink'
 
-  return (
-    <div className="mx-auto max-w-page animate-ht-in px-[28px] pb-[60px] pt-[30px] max-sm:px-[16px]">
-      <div className="border-b border-line">
-        <div className="flex flex-wrap items-end justify-between gap-x-[24px] gap-y-[12px]">
-          <span>
-            <span className="block text-[11px] uppercase tracking-[.11em] text-mut">
-              {t(isPulse ? 'kickerPulse' : 'kicker', {
-                date: date(round.closesAt, {
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric',
-                }),
-              })}
-            </span>
-            <h1 className="mt-[6px] block font-display text-[32px] font-semibold leading-[1.1]">{round.title}</h1>
-          </span>
-          <span className="flex flex-wrap gap-x-[26px] gap-y-[10px] pb-[4px] text-[12.5px] text-mut">
-            {index !== null ? (
-              <span className="whitespace-nowrap">
-                {t('stat.index')} <strong className="text-[17px] text-ink">{index}</strong>{' '}
-                {deltaText ? (
-                  <span className="font-bold" style={{ color: deltaCol }}>
-                    {deltaText}
-                  </span>
-                ) : null}
-              </span>
-            ) : null}
-            {rate ? (
-              <span className="whitespace-nowrap">
-                {t('stat.rate')} <strong className="text-[17px] text-ink">{rate}</strong>
-              </span>
-            ) : null}
-            {score ? (
-              <span className="whitespace-nowrap">
-                {t('stat.recommend')} <strong className="text-[17px] text-ink">{score}</strong>
-              </span>
-            ) : null}
-            {next ? (
-              <span className="whitespace-nowrap">
-                {t('stat.nextPulse')} <strong className="text-[17px] text-ink">{next}</strong>
-              </span>
-            ) : null}
-          </span>
-        </div>
-
-        <div className="mt-[14px] flex flex-wrap items-center gap-x-[22px] gap-y-[10px]">
-          <span className="flex flex-wrap items-center gap-[6px]">
-            <span className="mr-[2px] text-[11px] uppercase tracking-[.09em] text-mut">{t('chips.round')}</span>
-            {grunnlinjer.map((g) => (
-              <Link
-                key={g.id}
-                href={href({
-                  maling: g.id,
-                  mot: model.compare?.id !== g.id ? model.compare?.id : undefined,
-                })}
-                aria-current={g.id === round.id ? 'page' : undefined}
-                className={`${chipBase} ${chip(g.id === round.id)}`}
-              >
-                {g.label}
-              </Link>
-            ))}
-            {pulses.length ? (
-              <>
-                <span className="mx-[4px] h-[20px] w-px bg-line" aria-hidden />
-                <span className="mr-[2px] text-[11px] uppercase tracking-[.09em] text-mut">{t('chips.pulse')}</span>
-                {pulses.map((p) => (
-                  <Link
-                    key={p.id}
-                    href={href({ maling: p.id })}
-                    aria-current={p.id === round.id ? 'page' : undefined}
-                    className={`${chipBase} ${pulseChip(p.id === round.id)}`}
-                  >
-                    {p.label}
-                  </Link>
-                ))}
-              </>
-            ) : null}
-          </span>
-          {!isPulse && grunnlinjer.length > 1 ? (
-            <span className="flex flex-wrap items-center gap-[6px]">
-              <span className="mr-[2px] text-[11px] uppercase tracking-[.09em] text-mut">{t('chips.compare')}</span>
-              {[null, ...grunnlinjer.filter((g) => g.id !== round.id)].map((g) => {
-                const on = (model.compare?.id ?? null) === (g?.id ?? null)
-                return (
-                  <Link
-                    key={g?.id ?? 'none'}
-                    href={href({ maling: round.id, mot: g?.id })}
-                    aria-current={on ? 'true' : undefined}
-                    className={`${chipBase} text-ink ${cmpChip(on)}`}
-                  >
-                    {g?.label ?? t('chips.none')}
-                  </Link>
-                )
-              })}
+  const stats = (
+    <span className="flex flex-wrap gap-x-[26px] gap-y-[10px] pb-[4px] text-[12.5px] text-mut">
+      {index !== null ? (
+        <span className="whitespace-nowrap">
+          {t('stat.index')} <strong className="text-[17px] text-ink">{index}</strong>{' '}
+          {deltaText ? (
+            <span className="font-bold" style={{ color: deltaCol }}>
+              {deltaText}
             </span>
           ) : null}
-        </div>
+        </span>
+      ) : null}
+      {rate ? (
+        <span className="whitespace-nowrap">
+          {t('stat.rate')} <strong className="text-[17px] text-ink">{rate}</strong>
+        </span>
+      ) : null}
+      {score ? (
+        <span className="whitespace-nowrap">
+          {t('stat.recommend')} <strong className="text-[17px] text-ink">{score}</strong>
+        </span>
+      ) : null}
+      {next ? (
+        <span className="whitespace-nowrap">
+          {t('stat.nextPulse')} <strong className="text-[17px] text-ink">{next}</strong>
+        </span>
+      ) : null}
+    </span>
+  )
 
-        <nav className="mt-[16px] flex gap-[6px] overflow-x-auto" aria-label={t('tabsAria')}>
-          <Tab
-            href={href({
-              maling: round.id === props.latestGrunnlinjeId ? undefined : round.id,
-            })}
-            on
-            label={t('tab.result')}
-          />
-          <Tab href={'/kommentarer' as Route} label={t('tab.comments')} n={props.unanswered} />
-          <Tab href={'/tiltak' as Route} label={t('tab.plan')} n={props.planCount} />
-        </nav>
-      </div>
-
-      <div className="pt-[22px]">
-        {isPulse ? (
-          <PulseView model={model} participation={participation} index={index} deltaText={deltaText} deltaCol={deltaCol} />
-        ) : (
+  const chips = (
+    <div className="mt-[14px] flex flex-wrap items-center gap-x-[22px] gap-y-[10px]">
+      <span className="flex flex-wrap items-center gap-[6px]">
+        <span className="mr-[2px] text-[11px] uppercase tracking-[.09em] text-mut">{t('chips.round')}</span>
+        {grunnlinjer.map((g) => (
+          <Link
+            key={g.id}
+            href={href({ maling: g.id, mot: model.compare?.id !== g.id ? model.compare?.id : undefined })}
+            aria-current={g.id === round.id ? 'page' : undefined}
+            className={`${chipBase} ${chip(g.id === round.id)}`}
+          >
+            {g.label}
+          </Link>
+        ))}
+        {pulses.length ? (
           <>
-            <KeyFigures model={model} summary={summary} participation={participation} deltaText={deltaText} deltaCol={deltaCol} />
-            <Workspace model={model} />
+            <span className="mx-[4px] h-[20px] w-px bg-line" aria-hidden />
+            <span className="mr-[2px] text-[11px] uppercase tracking-[.09em] text-mut">{t('chips.pulse')}</span>
+            {pulses.map((p) => (
+              <Link
+                key={p.id}
+                href={href({ maling: p.id })}
+                aria-current={p.id === round.id ? 'page' : undefined}
+                className={`${chipBase} ${pulseChip(p.id === round.id)}`}
+              >
+                {p.label}
+              </Link>
+            ))}
           </>
-        )}
-      </div>
+        ) : null}
+      </span>
+      {!isPulse && grunnlinjer.length > 1 ? (
+        <span className="flex flex-wrap items-center gap-[6px]">
+          <span className="mr-[2px] text-[11px] uppercase tracking-[.09em] text-mut">{t('chips.compare')}</span>
+          {[null, ...grunnlinjer.filter((g) => g.id !== round.id)].map((g) => {
+            const on = (model.compare?.id ?? null) === (g?.id ?? null)
+            return (
+              <Link
+                key={g?.id ?? 'none'}
+                href={href({ maling: round.id, mot: g?.id })}
+                aria-current={on ? 'true' : undefined}
+                className={`${chipBase} text-ink ${cmpChip(on)}`}
+              >
+                {g?.label ?? t('chips.none')}
+              </Link>
+            )
+          })}
+        </span>
+      ) : null}
     </div>
   )
-}
 
-function Tab({ href, label, n, on = false }: { href: Route; label: string; n?: number; on?: boolean }) {
   return (
-    <Link
-      href={href}
-      aria-current={on ? 'page' : undefined}
-      className={`flex shrink-0 items-center gap-[8px] whitespace-nowrap border-b-[3px] px-[16px] pb-[12px] pt-[10px] text-[14.5px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ink ${
-        on ? 'border-ink font-bold text-ink' : 'border-transparent font-medium text-mut'
-      }`}
+    <ResultaterShell
+      kicker={t(isPulse ? 'kickerPulse' : 'kicker', {
+        date: date(round.closesAt, { day: 'numeric', month: 'long', year: 'numeric' }),
+      })}
+      title={round.title}
+      stats={stats}
+      chips={chips}
+      active="result"
+      resultHref={href({ maling: round.id === props.latestGrunnlinjeId ? undefined : round.id })}
+      unanswered={props.unanswered}
+      planCount={props.planCount}
     >
-      {label}
-      {n ? <span className="rounded-pill bg-ac px-[8px] py-[2px] text-[11px] font-bold text-ink">{n}</span> : null}
-    </Link>
+      {isPulse ? (
+        <PulseView model={model} participation={participation} index={index} deltaText={deltaText} deltaCol={deltaCol} />
+      ) : (
+        <>
+          <KeyFigures model={model} summary={summary} participation={participation} deltaText={deltaText} deltaCol={deltaCol} />
+          <Workspace model={model} />
+        </>
+      )}
+    </ResultaterShell>
   )
 }
 

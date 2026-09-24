@@ -2703,3 +2703,58 @@ Where the build differs, and why:
   design's four "betyr mye".
 - Every printed index, group figure and count is unchanged; `design_figures.sql` passes
   locally and on hosted.
+
+## D-73 — Kommentarer: every comment under Resultater's frame (P4)
+
+**Built:** `/kommentarer` is design 3's Kommentarer (v3 2640-2720), under the same header
+and tabs as Resultater (`components/resultater/ResultaterShell.tsx`). The old Samtaler
+screen (`components/samtaler/`) is removed; the 308 from `/samtaler` still lands here.
+
+It shows:
+- Temaer: the factors the selected rounds have comments on, most comments first, each with
+  its tone;
+- the comments, with Alle / Ubesvart / Besvart and the round as filters;
+- per comment: the factor, the round (and the date, for an earlier round), the tone, the
+  age or "Besvart", the text, the thread, and the inline reply.
+
+It reads one RPC, `conversations()` (0018, 0022), which has applied k and stripped the
+group. The filters are mirrored to `?maling=&faktor=&status=`, which Resultater's
+drill-down links into.
+
+**Pixel checks** against `baselines-v3/12-kommentarer.png`: the header and tabs, the Temaer
+card, the theme rows and the list's head are at 0 px. The same comment is identical apart
+from the group label (below). The Temaer subline and the round chips differ with the data:
+the fixture's comments come from 3 rounds, the design's from 5 (D-69 places the two puls
+comments on Grunnlinje 2025, because those pulses did not measure the factors they are
+about).
+
+`scripts/verify/kommentarer-behaviour.mjs` checks 16 things (18 with `--reply`), among
+them:
+- the counts and the badge agree;
+- no group is named anywhere;
+- the theme, status and round filters, and the URL;
+- the links to and from Resultater;
+- the keyboard;
+- a reply read back from the thread;
+- the phone.
+
+Where the build differs, and why:
+- **No group, anywhere (D2).** The design prints "Verksted · Grunnlinje 2026" or "Gruppe
+  skjult" on every comment and filters by group. A comment never travels with its group
+  (0018), so there is no group on a comment and no "Gruppe" row. The yellow note says what
+  this product does: the group is never shown, not "only when five have answered".
+- **The waiting comments come longest-waiting first**, then the answered ones newest first.
+  The design lists them in its data's order. The rule is Oversikt's (D-71).
+- **A comment waits again when its author answers back.** Its age counts from what they
+  wrote last. The prototype has no second turn; the product has since 0018.
+- **A theme's tone is the design's majority rule** (more answers at the low end than the
+  high gives Negativ, the other way Positiv, otherwise Blandet), read from the answers the
+  comments hang on. Resultater's "Hva de skrev" keeps D-56's two-thirds rule. A single
+  comment on a 3 is "Blandet", the design's word.
+- **No "Avslutt samtalen".** The design has no close action. A thread can still be closed
+  (`set_thread`), and a closed one reads "Lukket".
+- **A comment flagged as a possible varsel** carries D-28's note under its text. The flag
+  is a legal marker (aml. kap. 2A), and dropping it with the old screen would lose it.
+- **A verneombud reads an explanation, not the list.** `conversations()` refuses the role
+  (0022): a verneombud keeps every figure and does not read single comments they could
+  never answer. The screen says so instead of "Ingen kommentarer".

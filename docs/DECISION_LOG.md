@@ -1497,6 +1497,13 @@ group's own index, a benchmark), it is left out rather than averaged on the clie
 D-72). The fixture now reproduces the design's per-statement spread and its importance
 ordering, without moving any printed figure.
 
+### X-043 — Kommentarer is a route under Resultater's frame, and never names a group
+
+The prototype makes Kommentarer a tab of Resultater. Here it is its own address sharing
+the frame, so Resultater's drill-down can link to a factor's comments and a reload keeps
+the filters. The group filter and the group on each comment are left out under D2. A
+comment waits again when its author answers back (D-73).
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1624,5 +1631,6 @@ ordering, without moving any printed figure.
       baselines-v3 (X-040, D-70).
 - [x] P2: Oversikt, and the Enkel default for a small organisation's daglig leder (X-041, D-71).
 - [x] P3: Resultater — five views, the drill-down, Forslag and the puls view (X-042, D-72).
+- [x] P4: Kommentarer under Resultater's frame, with no group anywhere (X-043, D-73).
 - [ ] `/arshjulet` becomes Målinger's Årshjul tab in P5, with a redirect then (D-70).
 - [ ] Oversikt's "Veiviser" link arrives with the wizard (P7, D-71).

@@ -802,56 +802,6 @@
       "puls": "Aktiver pulsen"
     }
   },
-  "samtaler": {
-    "title": "Samtaler",
-    "lead": "{count, plural, one {# kommentar venter} other {# kommentarer venter}} på svar. Den eldste har ventet {days, plural, one {# dag} other {# dager}}.",
-    "leadClear": "Ingen kommentarer venter på svar akkurat nå.",
-    "status": "Status",
-    "seeMeasures": "Se tiltakene",
-    "statWaiting": "Venter på svar",
-    "statOldest": "Eldste ubesvart",
-    "statDialog": "I dialog",
-    "days": "{days} d",
-    "filter": {
-      "venter": "Venter på svar",
-      "dialog": "I dialog",
-      "lukket": "Lukket",
-      "alle": "Alle"
-    },
-    "filterCount": "{label} · {count}",
-    "measureLabel": "Måling",
-    "allRounds": "Alle målinger",
-    "factorLabel": "Faktor",
-    "allFactors": "Alle",
-    "emptyTitle": "Ingen samtaler i denne visningen",
-    "emptyLead": "Bytt filter for å se de andre.",
-    "tone": {
-      "negativ": "Negativ",
-      "noytral": "Nøytral",
-      "positiv": "Positiv"
-    },
-    "waiting": "Venter {days, plural, one {# dag} other {# dager}}",
-    "closed": "Lukket",
-    "varselNote": "Kan være et varsel etter aml. kap. 2A. Svar gjerne her, men saken skal håndteres i varslingsrutinen — ikke som et vanlig arbeidsmiljøtiltak.",
-    "anonymous": "Ansatt · anonym",
-    "leader": "Ledelsen",
-    "replyPlaceholder": "Svar anonymt — den som skrev får det i appen …",
-    "send": "Send svar",
-    "makeMeasure": "Lag tiltak",
-    "shareVerneombud": "Del med verneombud",
-    "close": "Lukk samtalen",
-    "rulesHead": "Spillereglene",
-    "rule1": "Du ser aldri hvem som skrev. Svaret ditt havner i appen til den som skrev, uten at identiteten avsløres noen vei.",
-    "rule2": "Kommentarer under terskelen på {threshold} vises ikke i det hele tatt — de er enkeltytringer, ikke gruppestatistikk.",
-    "rule3": "Verneombudet ser ikke kommentarer med mindre du deler dem.",
-    "rule4": "Kommentarer som kan være varsler etter aml. kap. 2A merkes, og skal håndteres i varslingsrutinen — ikke her.",
-    "problem": {
-      "invalid_body": "Svaret kunne ikke leses. Skriv noe og prøv igjen.",
-      "denied": "Du har ikke tilgang til å svare. Daglig leder og avdelingsledere kan det.",
-      "not_found": "Samtalen finnes ikke lenger."
-    },
-    "inDialog": "I dialog"
-  },
   "arshjulet": {
     "back": "← Målinger",
     "title": "Årshjul og automatikk",
@@ -2650,5 +2600,45 @@
       "title": "Resultater",
       "note": "Ingen måling er lukket ennå. Resultatene kommer her når den første målingen er avsluttet."
     }
+  },
+  "kommentarer": {
+    "kicker": "Anonyme kommentarer fra alle målinger · du svarer uten å vite hvem",
+    "title": "Kommentarer",
+    "themes": "Temaer",
+    "total": "{count, plural, one {# kommentar} other {# kommentarer}} fra {rounds, plural, one {# måling} other {# målinger}}. {waiting} venter på svar.",
+    "allThemes": "Alle temaer",
+    "count": "{count, plural, one {# kommentar} other {# kommentarer}}",
+    "note": "Du svarer uten å vite hvem som skrev. Gruppen vises aldri ved en kommentar, heller ikke når den har mange svar.",
+    "all": "Alle kommentarer",
+    "toResults": "Se tallene og forslagene →",
+    "status": {
+      "alle": "Alle · {count}",
+      "ubesvart": "Ubesvart · {count}",
+      "besvart": "Besvart · {count}"
+    },
+    "round": "Måling",
+    "allRounds": "Alle målinger",
+    "empty": "Ingen kommentarer i dette utvalget.",
+    "tone": {
+      "negativ": "Negativ",
+      "blandet": "Blandet",
+      "positiv": "Positiv",
+      "noytral": "Nøytral"
+    },
+    "waiting": "Venter · {days, plural, one {# dag} other {# dager}}",
+    "answered": "Besvart",
+    "closed": "Lukket",
+    "youReplied": "Du svarte:",
+    "theyReplied": "Svar fra ansatt:",
+    "placeholder": "Svar anonymt …",
+    "replyAria": "Svar anonymt på kommentaren om {factor}",
+    "send": "Send",
+    "varselNote": "Kan være et varsel etter aml. kap. 2A. Svar gjerne her, men saken skal håndteres i varslingsrutinen — ikke som et vanlig arbeidsmiljøtiltak.",
+    "problem": {
+      "invalid_body": "Svaret kunne ikke leses. Skriv noe og prøv igjen.",
+      "denied": "Du har ikke tilgang til å svare. Daglig leder og avdelingsledere kan det.",
+      "not_found": "Samtalen finnes ikke lenger."
+    },
+    "notYours": "Enkeltkommentarer vises for daglig leder og avdelingsledere, som kan svare på dem. Som verneombud ser du de samme tallene under Resultat."
   }
 }

@@ -4,6 +4,7 @@ import { ResultaterEmpty, ResultaterFrame } from '@/components/resultater/Result
 import { getConversations } from '@/lib/conversations/read'
 import { getMeasures } from '@/lib/measures/read'
 import { getParticipation } from '@/lib/participation/read'
+import { roundNamer } from '@/lib/rounds/design-name'
 import { getRoundFactorKeys, getRoundRows, type RoundRow } from '@/lib/rounds/read'
 import { getUnansweredCount } from '@/lib/shell/read'
 import { getResultsWorkspace } from '@/lib/results/workspace'
@@ -71,28 +72,7 @@ export default async function ResultaterPage({
   const selected = closed.find((r) => r.id === params.maling) ?? latestGrunnlinje ?? closed.at(-1) ?? null
   if (!selected) return <ResultaterEmpty />
 
-  const month = monthLabeller(locale)
-  const ref = (r: RoundRow): RoundRef => {
-    const at = r.status === 'lukket' ? r.closesAt : r.opensAt
-    const kind = r.kind === 'puls' ? 'puls' : 'grunnlinje'
-    return {
-      id: r.id,
-      kind,
-      label: kind === 'grunnlinje' ? String(r.year) : month.short(at, r.year),
-      title:
-        kind === 'grunnlinje'
-          ? t('malinger.roundTitle', {
-              kind: t('malinger.kind.grunnlinje'),
-              year: r.year,
-            })
-          : t('resultater.pulseTitle', { month: month.long(at), year: r.year }),
-      year: r.year,
-      closesAt: r.closesAt,
-      month: month.short(at, r.year),
-      planned: r.status !== 'lukket',
-      open: r.status === 'apen',
-    }
-  }
+  const ref = roundNamer(t, locale)
 
   const isPulse = selected.kind === 'puls'
   const compareRow =
@@ -265,23 +245,4 @@ export default async function ResultaterPage({
       planCount={measures.filter((m) => m.step === 'besluttet' || m.step === 'pagar').length}
     />
   )
-}
-
-/**
- * The month a round is named by: "Mai 25" on a chip and the time line, "mai" in a
- * pulse's title. Intl's short Norwegian month carries a full stop ("aug."), which the
- * design does not print.
- */
-function monthLabeller(locale: string) {
-  const fmt = (opts: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', ...opts })
-  const short = fmt({ month: 'short' })
-  const long = fmt({ month: 'long' })
-  return {
-    short: (iso: string | null, year: number) => {
-      if (!iso) return String(year)
-      const m = short.format(new Date(iso)).replace(/\.$/, '')
-      return `${m.charAt(0).toLocaleUpperCase(locale)}${m.slice(1)} ${String(new Date(iso).getUTCFullYear()).slice(2)}`
-    },
-    long: (iso: string | null) => (iso ? long.format(new Date(iso)) : ''),
-  }
 }
