@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import { ArshjuletScreen, type ArshjuletView, type YearPoint } from '@/components/arshjulet/ArshjuletScreen'
 import { getOrganization, getViewerRole } from '@/lib/org/read'
 import { getRounds } from '@/lib/rounds/read'
@@ -6,8 +6,8 @@ import { getRoundSetup } from '@/lib/setup/read'
 import { getLastRun, getQueueCounts, getWheel, wheelMonths } from '@/lib/wheel/read'
 
 /**
- * Årshjulet — the data half. Bundle lines 1253-1424; the rendering is in
- * components/arshjulet/ArshjuletScreen.tsx.
+ * Målinger's Årshjul tab — the Årshjulet screen's data half, moved here when the screen
+ * became a tab (design 3, D-74). `/arshjulet` answers with a 308 to `/malinger?fane=arshjul`.
  *
  * The month strip is twelve points whatever the cadence, because the design draws a year
  * and a year has twelve months. Which of them carry a label comes from `wheelMonths`, the
@@ -16,9 +16,7 @@ import { getLastRun, getQueueCounts, getWheel, wheelMonths } from '@/lib/wheel/r
  * baseline — § 9-2's drøfting has to happen before the kartlegging, so it has a place on
  * the year rather than being remembered.
  */
-export const dynamic = 'force-dynamic'
-
-export default async function ArshjuletPage() {
+export async function ArshjulTab() {
   const [wheel, role, rounds, lastRun, queue, org] = await Promise.all([
     getWheel(),
     getViewerRole(),
@@ -28,7 +26,8 @@ export default async function ArshjuletPage() {
     getOrganization(),
   ])
 
-  if (!wheel) notFound()
+  // no wheel stored yet: the tab has nothing to draw a year from
+  if (!wheel) return <ArshjulMissing />
 
   const measured = wheelMonths(wheel.cadence, wheel.baselineMonth, wheel.skipFellesferie)
   const labelOf = new Map(measured.map((m) => [m.month, m.kind as YearPoint['role']]))
@@ -82,4 +81,13 @@ export default async function ArshjuletPage() {
   }
 
   return <ArshjuletScreen view={view} />
+}
+
+async function ArshjulMissing() {
+  const t = await getTranslations()
+  return (
+    <div className="mt-[22px] rounded-note border border-dashed border-rule px-[22px] py-[20px] text-[13px] leading-[1.55] text-mut">
+      {t('malinger.noWheel')}
+    </div>
+  )
 }

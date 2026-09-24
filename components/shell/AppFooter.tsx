@@ -43,7 +43,7 @@ const COLUMNS: { head: string; links: { key: string; href: Route }[] }[] = [
       { key: 'selskap', href: '/oppsett?fane=selskap' as Route },
       { key: 'ansatte', href: '/oppsett?fane=ansatte' as Route },
       { key: 'integrasjoner', href: '/integrasjoner' },
-      { key: 'arshjulet', href: '/arshjulet' },
+      { key: 'arshjulet', href: '/malinger?fane=arshjul' },
     ],
   },
   {

@@ -286,13 +286,9 @@
       "neste": "Next",
       "planlagt": "Planned"
     },
-    "setup": "Measurement setup",
-    "viewSetup": "View the setup",
     "viewResult": "See the result",
-    "compare": "Compare",
     "definePulse": "Define the pulse",
     "seeSetup": "See setup",
-    "preview": "Preview",
     "deltakelse": "Participation",
     "cardRoundTitle": "{title} — closed",
     "cardRoundSub": "Closed {date} · no further answers are coming in",
@@ -307,21 +303,93 @@
     "statementCount": "{count, plural, one {# statement} other {# statements}}",
     "extraHeading": "In addition, outside the index",
     "extraCount": "{count, plural, one {# question} other {# questions}}",
-    "wheel": {
-      "head": "Year wheel",
-      "count": "{count, plural, one {# sending a year} other {# sendings a year}}",
-      "next": "Next: {kind} in {month}",
-      "edit": "Change",
-      "legend": {
-        "grunnlinje": "Baseline — the full set",
-        "puls": "Pulse — five questions",
-        "none": "No sending"
+    "tabsAria": "Surveys: upcoming, history, year wheel and question set",
+    "tab": {
+      "kommende": "Upcoming",
+      "historikk": "History",
+      "arshjul": "Year wheel",
+      "sporsmal": "Question set"
+    },
+    "table": {
+      "round": "Survey · {count, plural, one {# survey} other {# surveys}}",
+      "type": "Type",
+      "answers": "Responses",
+      "status": "Status",
+      "index": "Index"
+    },
+    "showInWheel": "Show in the year wheel",
+    "noneUpcoming": "No planned surveys. Switch on the year wheel or create a new survey.",
+    "latestLine": "Last completed: {title}, closed {date} — {answered} of {total} responded.",
+    "seeHistory": "See history →",
+    "compareWith": "Compare with {year}",
+    "factorCount": "{count, plural, one {# factor} other {# factors}}",
+    "noWheel": "The year wheel is not set up yet, so there is no rhythm to show.",
+    "hist": {
+      "type": "Type",
+      "year": "Year",
+      "all": "All",
+      "sort": "Sort",
+      "sortAria": "Sort surveys",
+      "kind": {
+        "alle": "All",
+        "grunnlinje": "Baselines",
+        "puls": "Pulses"
       },
-      "eachRound": "Each round",
-      "before": "−{days} d",
-      "after": "+{days} d",
-      "reminder": "Reminder to those who have not answered"
-    }
+      "sorts": {
+        "nyest": "Newest first",
+        "eldst": "Oldest first",
+        "svar": "Highest response rate",
+        "indeks": "Lowest index"
+      },
+      "fromYear": "{delta} from {year}",
+      "fromPulse": "{delta} from the previous pulse",
+      "firstBaseline": "First baseline",
+      "firstPulse": "First pulse",
+      "empty": "No surveys in this selection."
+    },
+    "rail": {
+      "aria": "The year wheel",
+      "head": "Year wheel",
+      "next": "Next:",
+      "change": "Change rhythm",
+      "kind": {
+        "grunnlinje": "Baseline",
+        "puls": "Pulse",
+        "forankring": "Anchoring"
+      },
+      "legend": "✓ = completed · press a month for details",
+      "index": "Index {index}",
+      "answered": "{answered} of {total} responded ({pct} %)",
+      "indexText": "index {index}",
+      "plannedTitle": "{kind} {month} {year}",
+      "baselineText": "The whole question set. Goes out automatically from the year wheel.",
+      "pulseText": "From the year wheel. {count, plural, other {# questions}} about {factors}, sent {date} at {time}.",
+      "openMeasures": "the factors with open measures",
+      "leadText": "The safety representative is told {days, plural, one {# day} other {# days}} before.",
+      "now": "Now",
+      "monthTitle": "{month} {year}",
+      "forankring": "Anchoring: the safety representative and union representatives go through the survey before the baseline.",
+      "none": "No survey this month.",
+      "nonePlanned": "Nothing planned this month.",
+      "count": "{count, plural, one {# survey} other {# surveys}} in {year} · {done} completed",
+      "nextIn": "{kind} in {month}",
+      "nextInYear": "{kind} in {month} {year}"
+    },
+    "start": {
+      "label": "Start the next pulse now",
+      "confirm": "The pulse goes out today to all employees, with the factors of the next planned pulse. The safety representative and the others on the notice ladder are told at the same time, not days before.",
+      "cancel": "Cancel",
+      "send": "Send the pulse now",
+      "open": "A round is open now. The next pulse can start once it has closed.",
+      "started": "The pulse has been sent. It is at the top under Upcoming.",
+      "problem": {
+        "not_available": "Only the general manager can start a pulse.",
+        "round_open": "A round is already open.",
+        "too_soon": "The last round closed less than 14 days ago. The next pulse can start from {date}.",
+        "no_factors": "Nothing to ask about: no pulse is planned and no measures are open."
+      }
+    },
+    "closesAt": "closes {date}"
   },
   "extra": {
     "anbefaling": {
@@ -803,7 +871,6 @@
     }
   },
   "arshjulet": {
-    "back": "← Measurements",
     "title": "Annual cycle and automation",
     "lead": "Set it up once. After that the sending, reminding, results and follow-up run by themselves — and the verneombud is always warned before the employees.",
     "lead2": "Everything below happens by itself. You are notified, but you do not have to do anything for it to run.",

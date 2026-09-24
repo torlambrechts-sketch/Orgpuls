@@ -1504,6 +1504,14 @@ the frame, so Resultater's drill-down can link to a factor's comments and a relo
 the filters. The group filter and the group on each comment are left out under D2. A
 comment waits again when its author answers back (D-73).
 
+### X-044 — "Start neste puls nå" sends an extra puls, guarded in the database
+
+The design's button becomes `start_next_pulse` (0038): daglig leder only, never beside an
+open round, never within 14 days of the last close, sent through the outbox as the wheel
+sends, and recorded in `app.round_starts`. It adds a puls rather than moving the next
+planned one, because the wheel re-plans a month whose round went missing (D-74).
+Årshjulet is now a tab of Målinger, and `/arshjulet` answers 308.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1632,5 +1640,7 @@ comment waits again when its author answers back (D-73).
 - [x] P2: Oversikt, and the Enkel default for a small organisation's daglig leder (X-041, D-71).
 - [x] P3: Resultater — five views, the drill-down, Forslag and the puls view (X-042, D-72).
 - [x] P4: Kommentarer under Resultater's frame, with no group anywhere (X-043, D-73).
+- [x] P5: Målinger — the year rail, four tabs, and a real "Start neste puls nå" (X-044, D-74).
+- [ ] The rail's "Legg til puls" / "Hopp over denne", and Deltakelse's "Lukk runden" / "Send påminnelse" while a round is open, need write paths of their own (D-74).
 - [ ] `/arshjulet` becomes Målinger's Årshjul tab in P5, with a redirect then (D-70).
 - [ ] Oversikt's "Veiviser" link arrives with the wizard (P7, D-71).

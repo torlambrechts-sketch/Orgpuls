@@ -286,13 +286,9 @@
       "neste": "Neste",
       "planlagt": "Planlagt"
     },
-    "setup": "Måleoppsett",
-    "viewSetup": "Se måleoppsettet",
     "viewResult": "Se resultatet",
-    "compare": "Sammenlign",
     "definePulse": "Definer pulsen",
     "seeSetup": "Se oppsett",
-    "preview": "Forhåndsvis",
     "deltakelse": "Deltakelse",
     "cardRoundTitle": "{title} — lukket",
     "cardRoundSub": "Lukket {date} · ingen flere svar kommer inn",
@@ -307,21 +303,93 @@
     "statementCount": "{count, plural, one {# påstand} other {# påstander}}",
     "extraHeading": "I tillegg, utenfor indeksen",
     "extraCount": "{count, plural, other {# spørsmål}}",
-    "wheel": {
-      "head": "Årshjulet",
-      "count": "{count, plural, one {# utsending i året} other {# utsendinger i året}}",
-      "next": "Neste: {kind} i {month}",
-      "edit": "Endre",
-      "legend": {
-        "grunnlinje": "Grunnlinje — hele settet",
-        "puls": "Puls — fem spørsmål",
-        "none": "Ingen utsending"
+    "tabsAria": "Målinger: kommende, historikk, årshjul og spørsmålssett",
+    "tab": {
+      "kommende": "Kommende",
+      "historikk": "Historikk",
+      "arshjul": "Årshjul",
+      "sporsmal": "Spørsmålssett"
+    },
+    "table": {
+      "round": "Måling · {count, plural, one {# måling} other {# målinger}}",
+      "type": "Type",
+      "answers": "Svar",
+      "status": "Status",
+      "index": "Indeks"
+    },
+    "showInWheel": "Vis i årshjulet",
+    "noneUpcoming": "Ingen planlagte målinger. Slå på årshjulet eller lag en ny måling.",
+    "latestLine": "Siste gjennomførte: {title}, lukket {date} — {answered} av {total} svarte.",
+    "seeHistory": "Se historikk →",
+    "compareWith": "Sammenlign med {year}",
+    "factorCount": "{count, plural, one {# faktor} other {# faktorer}}",
+    "noWheel": "Årshjulet er ikke satt opp ennå, så det er ingen rytme å vise.",
+    "hist": {
+      "type": "Type",
+      "year": "År",
+      "all": "Alle",
+      "sort": "Sorter",
+      "sortAria": "Sorter målinger",
+      "kind": {
+        "alle": "Alle",
+        "grunnlinje": "Grunnlinjer",
+        "puls": "Pulser"
       },
-      "eachRound": "Hver runde",
-      "before": "−{days} d",
-      "after": "+{days} d",
-      "reminder": "Påminnelse til dem som ikke har svart"
-    }
+      "sorts": {
+        "nyest": "Nyeste først",
+        "eldst": "Eldste først",
+        "svar": "Høyest svarprosent",
+        "indeks": "Lavest indeks"
+      },
+      "fromYear": "{delta} fra {year}",
+      "fromPulse": "{delta} fra forrige puls",
+      "firstBaseline": "Første grunnlinje",
+      "firstPulse": "Første puls",
+      "empty": "Ingen målinger i dette utvalget."
+    },
+    "rail": {
+      "aria": "Årshjulet",
+      "head": "Årshjulet",
+      "next": "Neste:",
+      "change": "Endre rytme",
+      "kind": {
+        "grunnlinje": "Grunnlinje",
+        "puls": "Puls",
+        "forankring": "Forankring"
+      },
+      "legend": "✓ = gjennomført · trykk på en måned for detaljer",
+      "index": "Indeks {index}",
+      "answered": "{answered} av {total} svarte ({pct} %)",
+      "indexText": "indeks {index}",
+      "plannedTitle": "{kind} {month} {year}",
+      "baselineText": "Hele spørsmålssettet. Går ut automatisk i årshjulet.",
+      "pulseText": "Fra årshjulet. {count, plural, other {# spørsmål}} om {factors}, sendes {date} kl. {time}.",
+      "openMeasures": "faktorene med åpne tiltak",
+      "leadText": "Verneombudet varsles {days, plural, one {# dag} other {# dager}} før.",
+      "now": "Nå",
+      "monthTitle": "{month} {year}",
+      "forankring": "Forankring: verneombud og tillitsvalgte går gjennom målingen før grunnlinjen.",
+      "none": "Ingen måling denne måneden.",
+      "nonePlanned": "Ingen utsending planlagt denne måneden.",
+      "count": "{count, plural, one {# måling} other {# målinger}} i {year} · {done} gjennomført",
+      "nextIn": "{kind} i {month}",
+      "nextInYear": "{kind} i {month} {year}"
+    },
+    "start": {
+      "label": "Start neste puls nå",
+      "confirm": "Pulsen går ut i dag til alle ansatte, med faktorene fra neste planlagte puls. Verneombudet og de andre i varslingsrekka varsles samtidig, ikke dager før.",
+      "cancel": "Avbryt",
+      "send": "Send pulsen nå",
+      "open": "En runde er åpen nå. Neste puls kan startes når den er lukket.",
+      "started": "Pulsen er sendt. Den står øverst under Kommende.",
+      "problem": {
+        "not_available": "Bare daglig leder kan starte en puls.",
+        "round_open": "En runde er allerede åpen.",
+        "too_soon": "Siste runde lukket for under 14 dager siden. Neste puls kan startes fra {date}.",
+        "no_factors": "Ingen faktorer å spørre om: ingen puls er planlagt, og ingen tiltak er åpne."
+      }
+    },
+    "closesAt": "lukkes {date}"
   },
   "extra": {
     "anbefaling": {
@@ -803,7 +871,6 @@
     }
   },
   "arshjulet": {
-    "back": "← Målinger",
     "title": "Årshjul og automatikk",
     "lead": "Sett det opp én gang. Deretter går utsending, purring, resultat og oppfølging av seg selv — og verneombudet varsles alltid før de ansatte.",
     "lead2": "Alt under skjer av seg selv. Du blir varslet, men trenger ikke gjøre noe for at det skal gå.",

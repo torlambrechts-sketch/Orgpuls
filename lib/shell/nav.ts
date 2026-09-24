@@ -38,7 +38,7 @@ export const ENKEL_KEYS: NavKey[] = ['innsikt', 'oppsett']
  * trail visible (bundle 3, `n.bg`: result, respond, plan, wheel).
  */
 const UNDER: Partial<Record<NavKey, string[]>> = {
-  malinger: ['/malinger/', '/maleoppsett', '/arshjulet', '/forhandsvis'],
+  malinger: ['/malinger/', '/maleoppsett', '/forhandsvis'],
 }
 
 const matches = (pathname: string, href: string) => pathname === href || pathname.startsWith(`${href}/`)

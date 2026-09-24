@@ -44,12 +44,7 @@ export async function saveWheel(formData: FormData): Promise<WheelActionResult> 
   const w = parsed.data
   const supabase = await createClient()
 
-  const { data: row } = await supabase
-    .schema('app')
-    .from('year_wheels')
-    .select('id')
-    .limit(1)
-    .maybeSingle()
+  const { data: row } = await supabase.schema('app').from('year_wheels').select('id').limit(1).maybeSingle()
 
   const id = z.object({ id: z.string() }).safeParse(row)
   if (!id.success) return { ok: false, problem: 'denied' }
@@ -69,7 +64,7 @@ export async function saveWheel(formData: FormData): Promise<WheelActionResult> 
 
   if (writeFailed('saveWheel', error, saved)) return { ok: false, problem: 'denied' }
 
-  revalidatePath('/arshjulet')
+  revalidatePath('/malinger')
   revalidatePath('/innsikt')
   revalidatePath('/maleoppsett')
   return { ok: true }

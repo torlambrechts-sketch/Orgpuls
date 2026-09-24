@@ -343,7 +343,7 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
             </div>
           ) : (
             <Link
-              href="/arshjulet"
+              href={{ pathname: '/malinger', query: { fane: 'arshjul' } }}
               className="flex h-[46px] items-center justify-center rounded-cta border border-ink bg-ac text-[15px] font-bold text-ink no-underline hover:text-ink hover:no-underline"
             >
               {t(isBaseline ? 'maleoppsett.cta.grunnlinje' : 'maleoppsett.cta.puls')}

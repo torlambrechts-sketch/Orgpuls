@@ -34,7 +34,7 @@ export async function ResultaterShell({
 }) {
   const t = await getTranslations('resultater')
   return (
-    <div className="mx-auto max-w-page animate-ht-in px-[28px] pb-[60px] pt-[30px] max-sm:px-[16px]">
+    <main className="mx-auto max-w-page animate-ht-in px-[28px] pb-[60px] pt-[30px] max-sm:px-[16px]">
       <div className="border-b border-line">
         <div className="flex flex-wrap items-end justify-between gap-x-[24px] gap-y-[12px]">
           <span>
@@ -51,7 +51,7 @@ export async function ResultaterShell({
         </nav>
       </div>
       <div className="pt-[22px]">{children}</div>
-    </div>
+    </main>
   )
 }
 

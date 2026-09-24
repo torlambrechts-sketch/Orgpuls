@@ -2758,3 +2758,65 @@ Where the build differs, and why:
 - **A verneombud reads an explanation, not the list.** `conversations()` refuses the role
   (0022): a verneombud keeps every figure and does not read single comments they could
   never answer. The screen says so instead of "Ingen kommentarer".
+
+## D-74 — Målinger: the year rail, four tabs, and "Start neste puls nå" (P5)
+
+**Built:** `/malinger` is design 3's Målinger (v3 870-1330):
+- **the year rail:** twelve months of a year (2025–2027), each showing what closed that
+  month with its index, or what is planned or open; the forankring month; and a detail line
+  for the month pressed;
+- **Kommende:** every round not closed yet, in the order it goes out, then the latest
+  result's line and the Deltakelse card;
+- **Historikk:** every closed round, filtered by type and year and sorted four ways, with
+  its response rate, its index and the change from the round of its kind before;
+- **Årshjul:** the Årshjulet screen, re-hosted as a tab. `/arshjulet` answers 308 to
+  `/malinger?fane=arshjul`, and every link that pointed there now points at the tab;
+- **Spørsmålssett:** the instrument, as before.
+
+The tab, the rail's year and the pressed month are the address (`?fane=&ar=&maned=`).
+
+**"Start neste puls nå" is real (0038, plan S7).** It was a button that did nothing.
+`public.start_next_pulse` holds the guards:
+- only a daglig leder;
+- never while a round is open;
+- never within 14 days of the last close.
+
+It opens an extra puls today, with the factors, extra questions and settings of the next
+planned puls, and leaves the planned rounds alone: the wheel re-plans any month whose round
+went missing, so moving one would only bring it back. It sends through the outbox exactly as
+the wheel opens a round, including the notice ladder, due now. Every start is recorded in
+`app.round_starts`. The button asks once before it sends and prints the database's refusal
+in words. `start_pulse_invariants.sql` proves 14 rules. 0039 names the audit policy's role,
+a rule the write suite caught.
+
+**Pixel checks** against `baselines-v3/03`–`06` (`scripts/verify/cardmatch.mjs`):
+- **0 px:** the header, the rail's head, the twelve tiles, the detail line and the legend,
+  the tables' heads and rows, the Deltakelse card, Historikk's filters and rows, and the
+  Årshjul tab's title and year strip.
+- **The tab counts differ with the data:** the wheel plans a year ahead, so 5 rounds are
+  upcoming, against the design's 7.
+- **Spørsmålssett is wider than the design.** The prototype shrinks each screen to its
+  content (D-71).
+
+`scripts/verify/malinger-behaviour.mjs` checks 27 things. Among them: the rail by pointer
+and keyboard, a year, "Vis i årshjulet", Historikk's filters and sort, the links into
+Resultater and Måleoppsett, the 308, and every tab at phone width. The start button's
+confirm, send and refusal were exercised once against hosted with the open puls closed; the
+database refused ("too soon"), and nothing was started.
+
+Where the build differs, and why:
+- **No "＋ Legg til puls" or "Hopp over denne" on the rail.** The wheel re-plans every month
+  its cadence names (0020), so a skip needs a record of its own before a button can promise
+  one. The detail line keeps the actions the data backs.
+- **A puls in Historikk is compared with the puls before, on the factors both measured.**
+  This reproduces the design's −3 (March 2026 against August 2025) and +3; a mean over
+  different factors would have said +3 for March.
+- **An open round is drawn on the rail** with its kind's colour and "Pågår". The prototype
+  has no open round.
+- **The open puls on Kommende says when it closes** ("lukkes 29. september"), not when it
+  goes out.
+- **Deltakelse describes the latest closed round (D-46).** While a round is open, the card
+  says why no puls can start, instead of the design's "Lukk runden" and "Send påminnelse",
+  which have no write path yet.
+- **Question counts and dates are the rows'**: "9 spørsmål", "går ut 1. desember" (the
+  wheel's first Tuesday), not the design's "5 spørsmål" and "12. desember".

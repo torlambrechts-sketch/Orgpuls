@@ -1,5 +1,4 @@
 import { getLocale, getTranslations } from 'next-intl/server'
-import { ButtonLink } from '@/components/ui/Button'
 import { WheelForm, type WheelFormProps } from '@/components/arshjulet/WheelForm'
 import type { JobRun, NotifyAudience, Wheel } from '@/lib/wheel/read'
 
@@ -80,6 +79,10 @@ const AUDIENCE_TONE: Record<NotifyAudience, { background: string; mark: string }
   alle_ansatte: { background: '#FCF6E9', mark: '#191510' },
 }
 
+/**
+ * Design 3 renders this as the Årshjul tab of Målinger (v3 943-1132, D-74): the body under
+ * Målinger's frame, with an h2 of 24px under the page's h1.
+ */
 export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
   const t = await getTranslations()
   const locale = await getLocale()
@@ -90,8 +93,7 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
       .replace(/\.$/, '')
       .toUpperCase()
 
-  const monthLong = (m: number) =>
-    new Intl.DateTimeFormat(locale, { month: 'long' }).format(new Date(Date.UTC(2026, m - 1, 1)))
+  const monthLong = (m: number) => new Intl.DateTimeFormat(locale, { month: 'long' }).format(new Date(Date.UTC(2026, m - 1, 1)))
 
   const form: WheelFormProps = {
     canWrite: view.canWrite,
@@ -133,9 +135,7 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
       notifyVo: t('arshjulet.notifyVo'),
       notifyVoNote: t('arshjulet.notifyVoNote'),
       saved: t('arshjulet.saved'),
-      problems: Object.fromEntries(
-        ['invalid', 'denied'].map((k) => [k, t(`arshjulet.problem.${k}`)]),
-      ),
+      problems: Object.fromEntries(['invalid', 'denied'].map((k) => [k, t(`arshjulet.problem.${k}`)])),
     },
   }
 
@@ -169,19 +169,11 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
   }))
 
   return (
-    <main className="animate-entry mx-auto max-w-page px-[16px] md:px-[28px] pb-[60px] pt-[26px]">
-      <ButtonLink href="/malinger" size="xxs" tone="ghost">
-        {t('arshjulet.back')}
-      </ButtonLink>
-
-      <div className="mt-[16px] flex flex-wrap items-end justify-between gap-[20px]">
+    <div>
+      <div className="mt-[22px] flex flex-wrap items-end justify-between gap-[20px]">
         <div className="min-w-0">
-          <h1 className="m-0 font-display text-[32px] font-semibold leading-[1.1]">
-            {t('arshjulet.title')}
-          </h1>
-          <p className="mt-[9px] max-w-[600px] text-[14.5px] leading-[1.6] text-mut [text-wrap:pretty]">
-            {t('arshjulet.lead')}
-          </p>
+          <h2 className="m-0 font-display text-[24px] font-semibold leading-[1.15]">{t('arshjulet.title')}</h2>
+          <p className="mt-[9px] max-w-[600px] text-[14.5px] leading-[1.6] text-mut [text-wrap:pretty]">{t('arshjulet.lead')}</p>
         </div>
 
         {/*
@@ -192,17 +184,9 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
         */}
         <span
           className="flex h-[46px] flex-none items-center gap-[11px] rounded-cta border border-ink px-[18px] text-[14.5px] font-bold"
-          style={
-            view.wheel.active
-              ? { background: '#CFE7E4', color: '#20431C' }
-              : { background: '#FBD5C4', color: '#6B240C' }
-          }
+          style={view.wheel.active ? { background: '#CFE7E4', color: '#20431C' } : { background: '#FBD5C4', color: '#6B240C' }}
         >
-          {view.wheel.active
-            ? view.lastRun
-              ? t('arshjulet.running')
-              : t('arshjulet.armed')
-            : t('arshjulet.off')}
+          {view.wheel.active ? (view.lastRun ? t('arshjulet.running') : t('arshjulet.armed')) : t('arshjulet.off')}
         </span>
       </div>
 
@@ -217,18 +201,13 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
         future: a wheel describes a shape, and the shape does not move with today's date.
       */}
       <section className="mt-[24px] rounded-card border border-line bg-sf p-[26px]">
-        <div className="text-[11px] uppercase tracking-[0.11em] text-mut">
-          {t('arshjulet.yearHead')}
-        </div>
+        <div className="text-[11px] uppercase tracking-[0.11em] text-mut">{t('arshjulet.yearHead')}</div>
 
         <div className="mt-[16px] overflow-x-auto">
           <div className="min-w-[680px]">
             <div className="grid grid-cols-12 gap-[4px] text-center text-[10.5px]">
               {view.year.map((p) => (
-                <span
-                  key={p.month}
-                  className={p.role === 'grunnlinje' ? 'font-bold text-ink' : 'font-medium text-mut'}
-                >
+                <span key={p.month} className={p.role === 'grunnlinje' ? 'font-bold text-ink' : 'font-medium text-mut'}>
                   {monthShort(p.month)}
                 </span>
               ))}
@@ -277,9 +256,7 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
 
         <div className="sticky top-[78px] flex min-w-0 flex-col gap-[14px]">
           <section className="rounded-panel border border-line bg-ink px-[24px] py-[22px] text-bg">
-            <div className="text-[11px] uppercase tracking-[0.11em] opacity-65">
-              {t('arshjulet.summaryHead')}
-            </div>
+            <div className="text-[11px] uppercase tracking-[0.11em] opacity-65">{t('arshjulet.summaryHead')}</div>
             <div className="mt-[8px] font-display text-[26px] font-semibold leading-[1.15]">
               {t('arshjulet.summaryRounds', { count: view.plannedPerYear })}
             </div>
@@ -291,22 +268,10 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
               D-29, D-65.
             */}
             <div className="mt-[16px] flex flex-col gap-[9px]">
-              <Row
-                label={t('arshjulet.summaryBaseline')}
-                value={monthShort(view.wheel.baselineMonth)}
-              />
-              <Row
-                label={t('arshjulet.summaryForankring')}
-                value={monthShort(((view.wheel.baselineMonth + 10) % 12) + 1)}
-              />
-              <Row
-                label={t('arshjulet.summaryQueued')}
-                value={t('arshjulet.queuedValue', { count: view.queue.pending })}
-              />
-              <Row
-                label={t('arshjulet.summarySent')}
-                value={t('arshjulet.sentValue', { count: view.queue.sent })}
-              />
+              <Row label={t('arshjulet.summaryBaseline')} value={monthShort(view.wheel.baselineMonth)} />
+              <Row label={t('arshjulet.summaryForankring')} value={monthShort(((view.wheel.baselineMonth + 10) % 12) + 1)} />
+              <Row label={t('arshjulet.summaryQueued')} value={t('arshjulet.queuedValue', { count: view.queue.pending })} />
+              <Row label={t('arshjulet.summarySent')} value={t('arshjulet.sentValue', { count: view.queue.sent })} />
             </div>
 
             <div className="mt-[16px] border-t border-bg/20 pt-[14px] text-[12.5px] leading-[1.55] opacity-80 [text-wrap:pretty]">
@@ -332,7 +297,7 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
           </section>
         </div>
       </div>
-    </main>
+    </div>
   )
 }
 
@@ -342,18 +307,11 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
  * 2px surface-coloured border and a 1px ring, so it reads as a bead threaded on the line
  * rather than a disc sitting beside it.
  */
-function RoundTimeline({
-  steps,
-}: {
-  steps: { key: string; day: string; tone: string; what: string; who: string }[]
-}) {
+function RoundTimeline({ steps }: { steps: { key: string; day: string; tone: string; what: string; who: string }[] }) {
   return (
     <div className="flex flex-col gap-0">
       {steps.map((s) => (
-        <div
-          key={s.key}
-          className="grid items-start gap-[13px] py-[10px] [grid-template-columns:86px_14px_minmax(0,1fr)]"
-        >
+        <div key={s.key} className="grid items-start gap-[13px] py-[10px] [grid-template-columns:86px_14px_minmax(0,1fr)]">
           <span className="pt-[3px] text-right text-[12px] font-bold text-mut">{s.day}</span>
           <span className="flex flex-col items-center self-stretch">
             <span
@@ -364,9 +322,7 @@ function RoundTimeline({
           </span>
           <span className="min-w-0">
             <span className="block text-[14px] font-semibold [text-wrap:pretty]">{s.what}</span>
-            <span className="mt-[2px] block text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
-              {s.who}
-            </span>
+            <span className="mt-[2px] block text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">{s.who}</span>
           </span>
         </div>
       ))}

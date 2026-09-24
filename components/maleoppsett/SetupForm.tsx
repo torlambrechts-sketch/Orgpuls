@@ -9,7 +9,7 @@ import {
   saveSetup,
   type SetupActionResult,
 } from '@/app/(app)/maleoppsett/actions'
-import { saveWheel } from '@/app/(app)/arshjulet/actions'
+import { saveWheel } from '@/app/(app)/malinger/arshjul-actions'
 
 /**
  * The six sections of Måleoppsett that write.

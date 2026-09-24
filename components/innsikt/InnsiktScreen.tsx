@@ -193,7 +193,7 @@ export async function InnsiktScreen({ view }: { view: InnsiktView }) {
               plain label while that screen did not exist (D-25).
             */}
             <Link
-              href="/arshjulet"
+              href={{ pathname: '/malinger', query: { fane: 'arshjul' } }}
               className="text-[11px] uppercase tracking-[0.11em] text-mut underline hover:text-mut"
             >
               {t('innsikt.yearLink')}

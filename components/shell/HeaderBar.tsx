@@ -46,7 +46,6 @@ const SCREENS: [string, string][] = [
   ['/innsikt', 'home'],
   ['/malinger', 'measure'],
   ['/maleoppsett', 'plan'],
-  ['/arshjulet', 'wheel'],
   ['/resultater', 'result'],
   ['/kommentarer', 'conv'],
   ['/tiltak', 'tasks'],
@@ -82,7 +81,7 @@ const DEFAULT_ARTICLES = ['forsteTimen', 'lesIndeksen', 'hvaVilagrer']
 const STEPS: { key: keyof SetupProgress; href: Route }[] = [
   { key: 'register', href: '/oppsett?fane=ansatte' as Route },
   { key: 'grupper', href: '/oppsett?fane=grupper' as Route },
-  { key: 'arshjul', href: '/arshjulet' },
+  { key: 'arshjul', href: '/malinger?fane=arshjul' as Route },
   { key: 'maling', href: '/malinger' },
 ]
 

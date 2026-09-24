@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { saveWheel, type WheelActionResult } from '@/app/(app)/arshjulet/actions'
+import { saveWheel, type WheelActionResult } from '@/app/(app)/malinger/arshjul-actions'
 
 /**
  * The three cards of Årshjulet that write: the rhythm, the notification ladder's lead

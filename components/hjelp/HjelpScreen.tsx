@@ -28,7 +28,7 @@ export async function HjelpScreen({ view }: { view: HjelpView }) {
 
   const quick = [
     { key: 'oppsett', href: '/oppsett' },
-    { key: 'arshjulet', href: '/arshjulet' },
+    { key: 'arshjulet', href: '/malinger?fane=arshjul' },
     { key: 'rapport', href: '/rapport' },
   ] as const
 

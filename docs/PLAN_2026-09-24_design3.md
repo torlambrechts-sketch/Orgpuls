@@ -7,7 +7,8 @@
 - **P2 is done:** Oversikt, and Enkel as a small organisation's default (D-71).
 - **P3 is done:** Resultater, its five views and the puls view (D-72).
 - **P4 is done:** Kommentarer (D-73).
-- **P5 (Målinger) is next.**
+- **P5 is done:** Målinger and "Start neste puls nå" (D-74).
+- **P6 (Tiltak) is next.**
 
 The design was reviewed in a browser. The offline copy of `dc_2` was rendered with the
 same runtime as the baselines. Every screen and state was captured: the Enkel and Full

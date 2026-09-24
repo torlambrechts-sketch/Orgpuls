@@ -74,6 +74,8 @@ const nextConfig: NextConfig = {
     return [
       { source: '/resultat', destination: '/resultater', permanent: true },
       { source: '/samtaler', destination: '/kommentarer', permanent: true },
+      // Årshjulet became a tab of Målinger (D-74); a mail's link still opens it
+      { source: '/arshjulet', destination: '/malinger?fane=arshjul', permanent: true },
     ]
   },
   // The dev overlay's badge is painted into full-page screenshots, in the left margin at

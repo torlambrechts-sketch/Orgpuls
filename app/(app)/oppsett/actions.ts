@@ -165,7 +165,7 @@ export async function saveBaselineMonth(formData: FormData): Promise<SettingsRes
 
   if (writeFailed('setBaselineMonth', error, saved)) return { ok: false, problem: 'denied' }
   revalidate()
-  revalidatePath('/arshjulet')
+  revalidatePath('/malinger')
   return { ok: true }
 }
 
