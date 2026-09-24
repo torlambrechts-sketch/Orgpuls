@@ -20,6 +20,8 @@ await p.goto(base + '/logg-inn', { waitUntil: 'networkidle' })
 await p.getByLabel(/e-post|email/i).fill(process.env.ORGPULS_DEV_EMAIL)
 await p.getByLabel(/passord|password/i).fill(process.env.ORGPULS_DEV_PASSWORD)
 await Promise.all([p.waitForURL((u) => !u.pathname.startsWith('/logg-inn')), p.getByRole('button', { name: /logg inn|sign in/i }).click()])
+// the shell's checks are about Full; a small organisation's daglig leder now starts in Enkel (D-71)
+await ctx.addCookies([{ name: 'op_view', value: 'full', url: base }])
 const railWidth = () => p.evaluate(() => { const a = document.querySelector('aside'); return a && getComputedStyle(a).display !== 'none' ? Math.round(a.getBoundingClientRect().width) : 0 })
 const navNames = () => p.evaluate(() => [...document.querySelectorAll('header nav a')].filter((a) => a.offsetParent).map((a) => a.innerText.replace(/\s+/g, ' ').trim()))
 

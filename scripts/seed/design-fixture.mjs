@@ -758,8 +758,11 @@ const conversationsSql = () => `
 with c(n, round_id, grp, seq, factor_key, ordinal, body, reply, opened) as (values
 ${COMMENTS.map(([key, , factor, , text, reply, opened], i) => {
   const a = attachments[i]
+  // comments of the same age are an hour apart in the design's own order, so "the oldest
+  // two" on Oversikt are the design's two rather than whichever id sorts first
+  const sameAgeBefore = COMMENTS.slice(0, i).filter((c) => c[6] === opened).length
   const at = typeof opened === 'number'
-    ? `date_trunc('hour', now() - interval '${opened} days')`
+    ? `date_trunc('hour', now() - interval '${opened} days') - interval '${COMMENTS.filter((c) => c[6] === opened).length - sameAgeBefore} hours'`
     : `timestamptz '${opened} 12:00:00+02'`
   return `  (${i + 1}, '${ROUND[key]}'::uuid, '${a.group}', ${a.seq}, '${factor}', ${a.ordinal}, ${q(text)}, ${reply ? q(reply) : 'null'}, ${at})`
 }).join(',\n')}),

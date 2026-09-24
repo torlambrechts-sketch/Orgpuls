@@ -2541,3 +2541,68 @@ comments (ten waiting, eight answered), with two exceptions:
 
 The hosted fixture was reseeded with it (the owner's go-ahead for the fixture reseed,
 2026-09-24).
+
+---
+
+## D-71 — Oversikt, and Enkel as a small organisation's default (P2)
+
+**Built:** design 3's Enkel landing page at `/innsikt`. Enkel is now the default for a
+daglig leder of an organisation with fewer than 50 employees. A choice stored in the
+cookie always wins.
+
+Oversikt shows:
+- the sentence about the latest grunnlinje;
+- the index, the change from last year and the response rate;
+- every factor as a bar, lowest first;
+- "Gjør dette nå": the measures decided or running;
+- "Venter på svar fra deg": the two oldest waiting comments, with the inline reply;
+- Kommende målinger;
+- Lag rapport;
+- the law line.
+
+Its links into screens only Full has switch to Full on the way, as the prototype does.
+
+**Pixel checks** against `baselines-v3/01-oversikt-enkel.png`:
+- **0 px:** the header, kicker and headline; "Gjør dette nå"; "Venter på svar fra deg".
+- **12 px:** the law line's ✓, a fallback glyph one pixel lower.
+- `scripts/verify/cardmatch.mjs` compares each card at the offset where it sits, because
+  the area card above is taller.
+
+`scripts/verify/oversikt-behaviour.mjs` checks:
+- the default view;
+- the checklist's writes, by mouse and keyboard;
+- the reply;
+- the links into Full;
+- 880/1040px in the two layouts;
+- a phone with no horizontal scroll.
+
+The design itself overflows to 444px at a 390px width.
+
+Where the build differs, and why:
+- **Eleven area rows, not nine.** The rows are the factors the grunnlinje measured, and the
+  fixture's measures eleven (D-69).
+- **Area names.** They are the design 3 result screens' own (`factor.<key>.name`):
+  "Medvirkning", "Mening og anerkjennelse".
+- **No "Veiviser" link yet.** The wizard is P7; the link arrives with it.
+- **Kommende målinger shows the planned rounds as they are.** They open on the 1st, and
+  each note gives the round's real question count and factors ("9 spørsmål om
+  ytringsklima, arbeidsmengde og støtte fra leder"). The design says the 12th and "Fem
+  spørsmål". The footer line gives the ladder's real lead ("13 dager før de ansatte"),
+  not the design's "to dager".
+- **"Lag rapport" drops "på fire sider".** The report is not four pages, and the sentence
+  would be a claim about it.
+- **The checklist writes.** In the prototype the box only strikes the line through. Here
+  checking marks the measure carried out (`gjennomfort`, dated today), and unchecking puts
+  it back; the write is conditional on the current step. It is not closing: a measure
+  still closes only once its effect is measured (0015). The row stays struck through for
+  the visit, as drawn.
+- **The two oldest comments are the design's two.** The fixture gives same-age comments
+  an hour's order, so the choice does not depend on ids.
+- **Placeholders are #8A8272 everywhere.** Tailwind's preflight rule
+  `input::placeholder` had outranked the global `::placeholder` since the start, and
+  every field showed #9CA3AF. Found by the gate on this screen.
+- **Every screen takes the full page column.** In the prototype each screen is a flex item
+  with auto margins inside a column, so it shrinks to its own longest line. Innsikt is
+  1160px wide in the design because of one paragraph (the Tuva draft note, omitted here
+  per D-25). Reproducing that made our Innsikt collapse to 808px. The screens keep the
+  page column, and Innsikt stays 20px wider than the design.

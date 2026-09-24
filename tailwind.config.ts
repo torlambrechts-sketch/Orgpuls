@@ -96,6 +96,8 @@ const config: Config = {
        */
       maxWidth: {
         page: 'var(--page-w, 1180px)',
+        // Oversikt's narrower column (`ovW`): 880px, or 1040px in the side layout
+        overview: 'var(--overview-w, 880px)',
       },
       keyframes: {
         // bundle line 24: @keyframes ht-in

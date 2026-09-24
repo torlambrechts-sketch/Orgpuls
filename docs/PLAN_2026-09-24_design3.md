@@ -4,7 +4,8 @@
 - **P0 is done:** the release rule (D-68), "Anbefaler oss" (0035), the v3 baselines (D-67)
   and the fixture's history (D-69).
 - **P1 is done:** the shell, at 0 px against the v3 baselines (D-70).
-- **P2 is next.**
+- **P2 is done:** Oversikt, and Enkel as a small organisation's default (D-71).
+- **P3 (Resultater) is next.**
 
 The design was reviewed in a browser. The offline copy of `dc_2` was rendered with the
 same runtime as the baselines. Every screen and state was captured: the Enkel and Full

@@ -1479,6 +1479,15 @@ returns rather than applying a second set of rules. The two cannot drift, and th
 cannot reveal a comment the reader could not open. Enkel is not anyone's default until
 Oversikt exists (P2). Old addresses redirect permanently (D-70).
 
+### X-041 — Enkel starts a small organisation's leader on Oversikt; a checked box is a fact
+
+Design 3's rule is taken as written: a daglig leder of an organisation under 50 starts in
+Enkel, and Enkel's home is Oversikt at the same address as Innsikt. The prototype's "Gjør
+dette nå" checkbox only strikes a line through. Here it records the one thing a checked box
+can honestly mean: the measure is carried out (`gjennomfort`, today). Closing still needs
+the effect measured. The copy says what the data holds wherever the design's sentence would
+state something the data does not (D-71).
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1604,5 +1613,6 @@ Oversikt exists (P2). Old addresses redirect permanently (D-70).
 - [x] P1: design 3's shell — six-screen nav with the Kommentarer badge, Enkel/Full, the side
       layout, the tabbed help panel; header, rail, footer and panel at 0 px against
       baselines-v3 (X-040, D-70).
-- [ ] P2: Oversikt, and switch on the Enkel default for a small organisation's daglig leder.
+- [x] P2: Oversikt, and the Enkel default for a small organisation's daglig leder (X-041, D-71).
 - [ ] `/arshjulet` becomes Målinger's Årshjul tab in P5, with a redirect then (D-70).
+- [ ] Oversikt's "Veiviser" link arrives with the wizard (P7, D-71).

@@ -69,7 +69,14 @@
     font-family: inherit;
   }
 
-  ::placeholder {
+  /*
+   * `input::placeholder`, not a bare `::placeholder`: Tailwind's preflight sets
+   * `input::placeholder, textarea::placeholder` to its own grey (#9CA3AF), which outranks a
+   * bare pseudo-element and had been winning on every field. Found by the pixel gate on
+   * Oversikt's reply field (D-71). The bundle's colour is #8A8272 (line 22).
+   */
+  input::placeholder,
+  textarea::placeholder {
     color: #8a8272;
   }
 

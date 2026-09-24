@@ -94,7 +94,8 @@
       "desc": "Om du tør å si fra — om feil, om uenighet, om det som ikke fungerer — og om det skjer noe når du gjør det. Det er ikke det samme som at alle er enige.",
       "s1": "Jeg kan si fra om kritikkverdige forhold uten å frykte konsekvenser",
       "s2": "Når noen melder fra om et problem, skjer det noe med det",
-      "s3": "Uenighet blir tatt opp åpent hos oss, ikke i gangen etterpå"
+      "s3": "Uenighet blir tatt opp åpent hos oss, ikke i gangen etterpå",
+      "name": "Ytringsklima"
     },
     "mengde": {
       "label": "Arbeidsmengde og tidspress",
@@ -102,7 +103,8 @@
       "desc": "Forholdet mellom det som skal gjøres og tiden, folkene og utstyret dere faktisk har. Vedvarende ubalanse er den vanligste årsaken til helseskadelig belastning.",
       "s1": "Arbeidsmengden min er til å håndtere over tid",
       "s2": "Jeg har nok tid til å gjøre jobben godt nok",
-      "s3": "Jeg kan koble av fra jobben når arbeidsdagen er over"
+      "s3": "Jeg kan koble av fra jobben når arbeidsdagen er over",
+      "name": "Arbeidsmengde"
     },
     "motstrid": {
       "label": "Motstridende krav",
@@ -110,7 +112,8 @@
       "desc": "Når to ledere, to systemer eller to hensyn ber om ting som ikke går sammen, og ingen sier hva som skal vike.",
       "s1": "Jeg får sjelden oppgaver uten å vite hva som skal prioriteres ned",
       "s2": "Kravene fra ulike hold henger sammen",
-      "s3": "Jeg vet hvem som bestemmer når to ting kolliderer"
+      "s3": "Jeg vet hvem som bestemmer når to ting kolliderer",
+      "name": "Motstridende krav"
     },
     "kontakt": {
       "label": "Kontakt og kommunikasjon",
@@ -118,7 +121,8 @@
       "desc": "Om arbeidet gir mulighet til kontakt med andre. Alenearbeid gir både sosial isolasjon og en sikkerhetsrisiko — du må kunne tilkalle hjelp.",
       "s1": "Jeg har mulighet til kontakt med kollegaer i løpet av arbeidsdagen",
       "s2": "Jeg kan tilkalle hjelp raskt hvis noe skjer mens jeg er alene",
-      "s3": "Jeg føler meg ikke isolert i jobben min"
+      "s3": "Jeg føler meg ikke isolert i jobben min",
+      "name": "Kontakt og kommunikasjon"
     },
     "emosjon": {
       "label": "Emosjonelle krav",
@@ -126,7 +130,8 @@
       "desc": "Belastningen ved å stå i krevende møter med mennesker — kunder, brukere, kolleger — eller ved å måtte skjule egne reaksjoner.",
       "s1": "Jeg blir sjelden stående alene i følelsesmessig krevende situasjoner",
       "s2": "Vi snakker om vanskelige hendelser etterpå",
-      "s3": "Jeg får lov til å reagere som menneske på jobb"
+      "s3": "Jeg får lov til å reagere som menneske på jobb",
+      "name": "Emosjonelle krav"
     },
     "leder": {
       "label": "Støtte fra leder",
@@ -134,7 +139,8 @@
       "desc": "Om lederen er tilgjengelig når det brenner, og om støtten er praktisk og ikke bare velmenende.",
       "s1": "Jeg får støtte fra lederen min når jobben blir krevende",
       "s2": "Lederen min vet nok om hva jobben min faktisk innebærer",
-      "s3": "Jeg kan ta opp vanskelige ting med lederen min"
+      "s3": "Jeg kan ta opp vanskelige ting med lederen min",
+      "name": "Støtte fra leder"
     },
     "medvirk": {
       "label": "Medvirkning og kontroll",
@@ -142,7 +148,8 @@
       "desc": "Innflytelse over egen arbeidsdag: rekkefølge, tempo, metode — og over endringer som treffer deg.",
       "s1": "Jeg har innflytelse over hvordan jeg utfører arbeidet",
       "s2": "Jeg blir hørt når noe skal endres",
-      "s3": "Jeg kan påvirke tempoet i eget arbeid"
+      "s3": "Jeg kan påvirke tempoet i eget arbeid",
+      "name": "Medvirkning"
     },
     "integritet": {
       "label": "Integritet og verdighet",
@@ -150,7 +157,8 @@
       "desc": "Om folk møtes med respekt og likeverd, om grensene deres holdes, og om de får bruke eget faglig og etisk skjønn. Dette er også hjemmelen for vern mot trakassering.",
       "s1": "Jeg blir møtt med respekt uansett hvem jeg er",
       "s2": "Jeg får bruke faglig skjønn når jeg mener noe bør gjøres annerledes",
-      "s3": "Grensene mine for privatliv blir respektert på jobb"
+      "s3": "Grensene mine for privatliv blir respektert på jobb",
+      "name": "Integritet og verdighet"
     },
     "rolle": {
       "label": "Rolleklarhet",
@@ -158,7 +166,8 @@
       "desc": "Om du vet hva som forventes, hvor ansvaret ditt slutter, og hva som teller som godt nok.",
       "s1": "Jeg vet hva som forventes av meg i jobben min",
       "s2": "Jeg vet hvor mitt ansvar slutter og andres begynner",
-      "s3": "Jeg vet hva som regnes som godt arbeid hos oss"
+      "s3": "Jeg vet hva som regnes som godt arbeid hos oss",
+      "name": "Rolleklarhet"
     },
     "kollega": {
       "label": "Støtte fra kollegaer",
@@ -166,7 +175,8 @@
       "desc": "Om folk stiller opp for hverandre i praksis, ikke bare i festtaler.",
       "s1": "Kollegaene mine stiller opp når jeg trenger hjelp",
       "s2": "Vi deler kunnskap i stedet for å holde på den",
-      "s3": "Jeg føler meg som en del av laget"
+      "s3": "Jeg føler meg som en del av laget",
+      "name": "Støtte fra kollegaer"
     },
     "mening": {
       "label": "Anerkjennelse og mening",
@@ -174,7 +184,8 @@
       "desc": "Om arbeidet oppleves meningsfullt og om innsats blir sett av noen som betyr noe.",
       "s1": "Arbeidet jeg gjør betyr noe",
       "s2": "Innsatsen min blir lagt merke til",
-      "s3": "Jeg er stolt av å jobbe her"
+      "s3": "Jeg er stolt av å jobbe her",
+      "name": "Mening og anerkjennelse"
     }
   },
   "innsikt": {
@@ -2482,5 +2493,58 @@
       "denied": "Bare daglig leder kan endre SMS-oppsettet.",
       "noOrg": "Fant ikke virksomheten din."
     }
+  },
+  "oversikt": {
+    "kicker": "{org} · arbeidsmiljøet",
+    "sentence": "Folk trives med {high}. Det som trekker ned, er {low1} og {low2}.",
+    "noResult": "Når den første kartleggingen er lukket, står resultatet her.",
+    "index": "Indeks",
+    "deltaDown": "{n} poeng lavere enn i fjor",
+    "deltaUp": "{n} poeng høyere enn i fjor",
+    "deltaSame": "Samme som i fjor",
+    "rate": "{answered} av {headcount} svarte",
+    "seeAll": "Se alle tall →",
+    "areasTitle": "Slik står det til på hvert område",
+    "areasNote": "Skala 0–100. Under 50 bør dere gjøre noe med. Trykk på et område for tallene bak.",
+    "word": {
+      "low": "Trenger innsats",
+      "mid": "Følg med",
+      "high": "Bra"
+    },
+    "todoTitle": "Gjør dette nå",
+    "todoAll": "Alle tiltak →",
+    "todoEmpty": "Ingen tiltak ennå. Se forslagene under resultatene.",
+    "noOwner": "Ingen eier",
+    "dueYesterday": "frist gikk ut i går",
+    "dueLapsed": "frist gikk ut {date}",
+    "due": "frist {date}",
+    "dueUnset": "ingen frist",
+    "markDone": "Merk «{title}» som gjennomført",
+    "saveProblem": "Kunne ikke lagre. Prøv igjen.",
+    "waitingTitle": "Venter på svar fra deg",
+    "waitingAll": "Alle {count} →",
+    "waitingSub": "Du svarer uten å vite hvem som skrev.",
+    "waitingAge": "Venter · {days, plural, one {# dag} other {# dager}}",
+    "replyPlaceholder": "Svar anonymt …",
+    "replyAria": "Ditt svar på kommentaren",
+    "send": "Send",
+    "waitingEmpty": "Alle kommentarer er besvart.",
+    "replySent": "Sendt. Svaret ligger under Kommentarer.",
+    "replyProblem": "Svaret ble ikke sendt. Prøv igjen.",
+    "upcomingTitle": "Kommende målinger",
+    "upcomingChange": "Endre →",
+    "upcomingEmpty": "Ingen målinger er planlagt.",
+    "kind": {
+      "puls": "Kort oppfølging",
+      "grunnlinje": "Hovedundersøkelse"
+    },
+    "pulsNote": "{count, plural, one {# spørsmål} other {# spørsmål}} om {factors}.",
+    "grunnlinjeNote": "Alle spørsmål, alle ansatte. Setter årets nullpunkt.",
+    "auto": "Går ut av seg selv.",
+    "voLead": "Verneombudet får beskjed {days, plural, one {# dag} other {# dager}} før de ansatte.",
+    "reportKicker": "Til personalmøtet eller styret",
+    "reportTitle": "Lag rapport →",
+    "reportBody": "Funn, vurdering og tiltak. Du leser gjennom og godkjenner.",
+    "lawOk": "Kartleggingen for {year} er gjort og risikovurdert. Dokumentasjonen er klar hvis Arbeidstilsynet spør."
   }
 }

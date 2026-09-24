@@ -94,7 +94,8 @@
       "desc": "Whether you dare to speak up — about mistakes, about disagreement, about what is not working — and whether anything happens when you do. It is not the same as everyone agreeing.",
       "s1": "I can report censurable conditions without fearing consequences",
       "s2": "When someone reports a problem, something is done about it",
-      "s3": "Disagreement is raised openly here, not in the corridor afterwards"
+      "s3": "Disagreement is raised openly here, not in the corridor afterwards",
+      "name": "Freedom to speak up"
     },
     "mengde": {
       "label": "Workload and time pressure",
@@ -102,7 +103,8 @@
       "desc": "The relationship between what has to be done and the time, people and equipment you actually have. Sustained imbalance is the most common cause of health-damaging strain.",
       "s1": "My workload is manageable over time",
       "s2": "I have enough time to do the job well enough",
-      "s3": "I can switch off from work when the working day is over"
+      "s3": "I can switch off from work when the working day is over",
+      "name": "Workload"
     },
     "motstrid": {
       "label": "Conflicting demands",
@@ -110,7 +112,8 @@
       "desc": "When two managers, two systems or two concerns ask for things that do not go together, and no one says what should give way.",
       "s1": "I rarely get tasks without knowing what should be deprioritised",
       "s2": "The demands from different quarters hang together",
-      "s3": "I know who decides when two things collide"
+      "s3": "I know who decides when two things collide",
+      "name": "Conflicting demands"
     },
     "kontakt": {
       "label": "Contact and communication",
@@ -118,7 +121,8 @@
       "desc": "Whether the work allows contact with others. Working alone brings both social isolation and a safety risk — you must be able to call for help.",
       "s1": "I have the opportunity for contact with colleagues during the working day",
       "s2": "I can call for help quickly if something happens while I am alone",
-      "s3": "I do not feel isolated in my job"
+      "s3": "I do not feel isolated in my job",
+      "name": "Contact and communication"
     },
     "emosjon": {
       "label": "Emotional demands",
@@ -126,7 +130,8 @@
       "desc": "The strain of facing demanding encounters with people — customers, users, colleagues — or of having to conceal your own reactions.",
       "s1": "I am rarely left alone in emotionally demanding situations",
       "s2": "We talk about difficult incidents afterwards",
-      "s3": "I am allowed to react as a human being at work"
+      "s3": "I am allowed to react as a human being at work",
+      "name": "Emotional demands"
     },
     "leder": {
       "label": "Support from manager",
@@ -134,7 +139,8 @@
       "desc": "Whether the manager is available when things get difficult, and whether the support is practical rather than merely well-meaning.",
       "s1": "I get support from my manager when the job becomes demanding",
       "s2": "My manager knows enough about what my job actually involves",
-      "s3": "I can raise difficult matters with my manager"
+      "s3": "I can raise difficult matters with my manager",
+      "name": "Support from manager"
     },
     "medvirk": {
       "label": "Participation and control",
@@ -142,7 +148,8 @@
       "desc": "Influence over your own working day: order, pace, method — and over changes that affect you.",
       "s1": "I have influence over how I carry out my work",
       "s2": "I am heard when something is to be changed",
-      "s3": "I can influence the pace of my own work"
+      "s3": "I can influence the pace of my own work",
+      "name": "Participation"
     },
     "integritet": {
       "label": "Integrity and dignity",
@@ -150,7 +157,8 @@
       "desc": "Whether people are met with respect and equality, whether their boundaries are upheld, and whether they may exercise their own professional and ethical judgement. This is also the legal basis for protection against harassment.",
       "s1": "I am met with respect regardless of who I am",
       "s2": "I may use professional judgement when I think something should be done differently",
-      "s3": "My boundaries for privacy are respected at work"
+      "s3": "My boundaries for privacy are respected at work",
+      "name": "Integrity and dignity"
     },
     "rolle": {
       "label": "Role clarity",
@@ -158,7 +166,8 @@
       "desc": "Whether you know what is expected, where your responsibility ends, and what counts as good enough.",
       "s1": "I know what is expected of me in my job",
       "s2": "I know where my responsibility ends and others begin",
-      "s3": "I know what counts as good work here"
+      "s3": "I know what counts as good work here",
+      "name": "Role clarity"
     },
     "kollega": {
       "label": "Support from colleagues",
@@ -166,7 +175,8 @@
       "desc": "Whether people actually turn up for one another in practice, not just in speeches.",
       "s1": "My colleagues turn up when I need help",
       "s2": "We share knowledge instead of holding on to it",
-      "s3": "I feel like part of the team"
+      "s3": "I feel like part of the team",
+      "name": "Support from colleagues"
     },
     "mening": {
       "label": "Recognition and meaning",
@@ -174,7 +184,8 @@
       "desc": "Whether the work feels meaningful and whether effort is seen by someone who matters.",
       "s1": "The work I do matters",
       "s2": "My effort is noticed",
-      "s3": "I am proud to work here"
+      "s3": "I am proud to work here",
+      "name": "Meaning and recognition"
     }
   },
   "innsikt": {
@@ -2482,5 +2493,58 @@
       "denied": "Only the managing director can change the SMS setup.",
       "noOrg": "Your organisation was not found."
     }
+  },
+  "oversikt": {
+    "kicker": "{org} · the work environment",
+    "sentence": "People thrive on {high}. What pulls down is {low1} and {low2}.",
+    "noResult": "When the first survey has closed, the result appears here.",
+    "index": "Index",
+    "deltaDown": "{n} points lower than last year",
+    "deltaUp": "{n} points higher than last year",
+    "deltaSame": "Same as last year",
+    "rate": "{answered} of {headcount} answered",
+    "seeAll": "See all figures →",
+    "areasTitle": "How each area stands",
+    "areasNote": "Scale 0–100. Below 50 is worth acting on. Select an area for the figures behind it.",
+    "word": {
+      "low": "Needs effort",
+      "mid": "Keep an eye on",
+      "high": "Good"
+    },
+    "todoTitle": "Do this now",
+    "todoAll": "All measures →",
+    "todoEmpty": "No measures yet. See the suggestions under the results.",
+    "noOwner": "No owner",
+    "dueYesterday": "deadline passed yesterday",
+    "dueLapsed": "deadline passed {date}",
+    "due": "due {date}",
+    "dueUnset": "no deadline",
+    "markDone": "Mark “{title}” as carried out",
+    "saveProblem": "Could not save. Try again.",
+    "waitingTitle": "Waiting for your reply",
+    "waitingAll": "All {count} →",
+    "waitingSub": "You reply without knowing who wrote.",
+    "waitingAge": "Waiting · {days, plural, one {# day} other {# days}}",
+    "replyPlaceholder": "Reply anonymously …",
+    "replyAria": "Your reply to the comment",
+    "send": "Send",
+    "waitingEmpty": "Every comment has a reply.",
+    "replySent": "Sent. The reply is under Comments.",
+    "replyProblem": "The reply was not sent. Try again.",
+    "upcomingTitle": "Coming surveys",
+    "upcomingChange": "Change →",
+    "upcomingEmpty": "No surveys are planned.",
+    "kind": {
+      "puls": "Short follow-up",
+      "grunnlinje": "Main survey"
+    },
+    "pulsNote": "{count, plural, one {# question} other {# questions}} about {factors}.",
+    "grunnlinjeNote": "Every question, every employee. Sets the year’s baseline.",
+    "auto": "Goes out by itself.",
+    "voLead": "The safety representative is told {days, plural, one {# day} other {# days}} before the employees.",
+    "reportKicker": "For the staff meeting or the board",
+    "reportTitle": "Make a report →",
+    "reportBody": "Findings, assessment and measures. You read it through and approve it.",
+    "lawOk": "The {year} survey is done and risk-assessed. The documentation is ready if the Labour Inspection asks."
   }
 }

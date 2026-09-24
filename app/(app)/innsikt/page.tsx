@@ -14,6 +14,8 @@ import { getRoundFactorKeys, getRounds } from '@/lib/rounds/read'
 import { roundTitle } from '@/lib/rounds/title'
 import { getRoundSetup } from '@/lib/setup/read'
 import { getShellContext } from '@/lib/shell/read'
+import { getShellPrefs } from '@/lib/shell/prefs.server'
+import { Oversikt } from '@/components/oversikt/Oversikt'
 
 /**
  * Innsikt — the data half. Bundle lines 152-268; the rendering is in
@@ -36,6 +38,10 @@ import { getShellContext } from '@/lib/shell/read'
 export const dynamic = 'force-dynamic'
 
 export default async function InnsiktPage() {
+  // Enkel's landing page is Oversikt at the same address (design 3: `isOverview` is the
+  // home screen in Enkel), so the nav's first entry is one place in either view. D-71.
+  if ((await getShellPrefs()).view === 'enkel') return <Oversikt />
+
   const t = await getTranslations()
   const locale = await getLocale()
   const [org, role, rounds] = await Promise.all([

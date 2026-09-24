@@ -25,6 +25,12 @@ export type PanelMode = 'help' | 'science' | 'tuva'
 interface ShellState {
   prefs: ShellPrefs
   setPref: <K extends keyof ShellPrefs>(key: K, value: ShellPrefs[K]) => void
+  /**
+   * Go to a Full screen from Enkel. Oversikt's "Se alle tall", "Alle tiltak" and the rest
+   * switch the view as they go, as the prototype's `viewMode:"full"` does, so the screen
+   * arrives with the nav that reaches it.
+   */
+  goFull: (href: string) => void
   panel: PanelMode | null
   togglePanel: () => void
   pickPanel: (mode: PanelMode) => void
@@ -60,12 +66,22 @@ export function ShellPrefsProvider({ initial, children }: { initial: ShellPrefs;
     [pathname, router],
   )
 
+  const goFull = useCallback(
+    (href: string) => {
+      setPrefs((p) => ({ ...p, view: 'full' }))
+      writeCookie(PREF_COOKIE.view, 'full')
+      router.push(href as Parameters<typeof router.push>[0])
+    },
+    [router],
+  )
+
   const panel = panelState && panelState.for === pathname ? panelState.mode : null
 
   const value = useMemo<ShellState>(
     () => ({
       prefs,
       setPref,
+      goFull,
       panel,
       togglePanel: () => setPanelState(panel ? null : { mode: lastPanel, for: pathname }),
       pickPanel: (mode) => {
@@ -74,7 +90,7 @@ export function ShellPrefsProvider({ initial, children }: { initial: ShellPrefs;
       },
       closePanel: () => setPanelState(null),
     }),
-    [prefs, setPref, panel, lastPanel, pathname],
+    [prefs, setPref, goFull, panel, lastPanel, pathname],
   )
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
