@@ -2181,3 +2181,24 @@ copy, both applied:
 Unchanged from the design and not adopted: the help button's in-page drawer with three
 articles per screen (the app's help button opens the help site, as the previous design
 did) — logged as an open item, not a deviation, since nothing is misrepresented.
+
+---
+
+## D-64 — A favicon, from the mark
+
+The bundle ships no favicon: its `favicon.ico` is a 71-byte 1×1 placeholder, and the app
+had been serving that same file, so the tab showed the browser's default. The design does
+have a mark — the header's 30 px rounded square with the pulse glyph and trailing dot,
+which `components/shell/Logo.tsx` transcribes — and a favicon is that mark and nothing
+else.
+
+`app/icon.svg` draws it at 32 × 32 with the frame filling the tile: the radius keeps the
+mark's 9/30 proportion, the border its 1.5/30, and the glyph is the bundle's own path,
+scaled and centred. `scripts/icons/render.mjs` renders it with Chromium to a real
+`app/favicon.ico` (16 and 32 px) for the browsers that still ask for one, and to
+`app/apple-icon.png` (180 px) on the app canvas, since iOS composites nothing behind a
+home-screen icon. Next.js serves all three from their file names and writes the link tags.
+Regenerate the rasters with the script whenever the SVG changes; nothing is drawn by hand.
+
+Not done: a web manifest and a maskable icon. Nothing installs the app yet, and a manifest
+would name a theme colour and a display mode the design has not chosen.

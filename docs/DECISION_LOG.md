@@ -1529,3 +1529,4 @@ omitted until start dates, projects, two short instruments and a named-answer pa
       not built; the button opens the help site (D-63).
 - [x] Migration 0031 applied to the hosted project 2026-09-24 (management API, recorded in
       its migration history) before the code that reads `playbook_key` was deployed.
+- [x] Favicon: the header mark at 32 px, with ICO and Apple rasters rendered from it (D-64).

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!--
+    The Orgpuls mark as a favicon: the header's 30 px rounded square with the pulse glyph
+    (components/shell/Logo.tsx, bundle line 57), scaled so the frame fills the tile. The
+    radius keeps the mark's 9/30 proportion, the border its 1.5/30, and the glyph is the
+    bundle's own path, not a redrawing. The bundle ships no favicon of its own (its
+    favicon.ico is a 1x1 placeholder), so this is the mark and nothing else. D-64.
+  -->
+  <rect x="0.8" y="0.8" width="30.4" height="30.4" rx="9.6" fill="#FFFDF6" stroke="#191510" stroke-width="1.6"/>
+  <g transform="translate(5.333 9.6) scale(1.0667)" fill="none">
+    <path d="M1 6.2h3.6l1.7-4.4 2.9 8.8 1.9-4.4h2.4" stroke="#191510" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="17" cy="6.2" r="1.9" fill="#191510"/>
+  </g>
+</svg>
