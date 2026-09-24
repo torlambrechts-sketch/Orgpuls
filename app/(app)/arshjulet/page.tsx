@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { ArshjuletScreen, type ArshjuletView, type YearPoint } from '@/components/arshjulet/ArshjuletScreen'
-import { getViewerRole } from '@/lib/org/read'
+import { getOrganization, getViewerRole } from '@/lib/org/read'
 import { getRounds } from '@/lib/rounds/read'
 import { getRoundSetup } from '@/lib/setup/read'
 import { getLastRun, getQueueCounts, getWheel, wheelMonths } from '@/lib/wheel/read'
@@ -19,12 +19,13 @@ import { getLastRun, getQueueCounts, getWheel, wheelMonths } from '@/lib/wheel/r
 export const dynamic = 'force-dynamic'
 
 export default async function ArshjuletPage() {
-  const [wheel, role, rounds, lastRun, queue] = await Promise.all([
+  const [wheel, role, rounds, lastRun, queue, org] = await Promise.all([
     getWheel(),
     getViewerRole(),
     getRounds(),
     getLastRun(),
     getQueueCounts(),
+    getOrganization(),
   ])
 
   if (!wheel) notFound()
@@ -61,6 +62,7 @@ export default async function ArshjuletPage() {
     year,
     lastRun,
     queue,
+    mailOn: org?.mail_enabled ?? false,
     plannedPerYear: measured.length,
     nextBaseline: nextBaselineRound?.opensAt
       ? {

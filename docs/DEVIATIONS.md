@@ -828,6 +828,9 @@ cost 14 932. Transcribed, each region went to 0 or to its text-only residue.
 
 ## D-29 — Årshjulet runs; nothing posts. What the screen may claim, and what it may not
 
+> **Superseded in part by D-65 (2026-09-24):** a dispatcher now sends the queue through Brevo.
+> The screen's closing sentence follows the organisation's mail switch instead.
+
 Årshjulet is the first screen in this product backed by something that acts on its own.
 `cron.schedule('orgpuls-wheel', '0 * * * *', …)` runs `app.wheel_tick()` every hour, and
 the tick opens a round that is due, queues its notification ladder, queues the reminder on
@@ -2202,3 +2205,89 @@ Regenerate the rasters with the script whenever the SVG changes; nothing is draw
 
 Not done: a web manifest and a maskable icon. Nothing installs the app yet, and a manifest
 would name a theme colour and a display mode the design has not chosen.
+
+---
+
+## D-65 — Mail is sent: the outbox dispatcher and Auth's mail, both through Brevo
+
+D-29 recorded that the year wheel queued notices and nothing sent them, and that Auth's own
+mail ran on Supabase's built-in sender: two messages an hour, linking to
+`http://localhost:3000`. Both are closed. Brevo (EU-hosted, one account for e-mail and later
+SMS) sends from `no-reply@orgpuls.com`; the domain is authenticated there with DKIM and
+DMARC.
+
+**The outbox.** Migration 0032 gives it a sender's half in the database and
+`supabase/functions/orgpuls-dispatch` the other. pg_cron posts to the function every five
+minutes through pg_net, with a secret of its own held in Vault (not the service-role key).
+The function claims a batch, renders, sends and reports each row. Four rules:
+
+1. *A lease, not a mark.* 0020's `mint_invitation_link` marked a row sent before anything was
+   delivered, so a failed send stranded that person. A row is now claimed for ten minutes
+   and marked sent only once Brevo has accepted it; delivery is at-least-once.
+2. *The link is minted at claim and stored nowhere*, as before. A reminder or a retry mints a
+   new token, which replaces the previous one, and the reminder says so ("Lenken i den
+   forrige virker ikke lenger"). Keeping every earlier link alive would need several hashes
+   per invitation — a change to the respondent write path, not made here.
+3. *Nothing stale is sent*: an invitation for a closed round, a reminder to someone who has
+   answered, a "starts on …" for a round already open, a result notice more than 14 days
+   late. Each is marked failed with its reason.
+4. *Nothing goes to a fictional address, and an organisation can be switched off.*
+   `organizations.mail_enabled` defaults to on; organisations whose every address is under a
+   reserved test domain start off, and those domains are refused per recipient besides. Both
+   demo organisations are off, so their 73 queued reminders stay queued. Mail to a domain that
+   cannot exist bounces, and bounces are what spoil a new sender domain.
+
+A rejected key stops a run and gives every unsent claim back without spending an attempt; a
+row is given up after five failed attempts. Log lines carry row ids and HTTP codes, never an
+address or a link. `sent_at` means *accepted by Brevo*, not delivered: bounces are not
+reported back yet.
+
+**Who a notice reaches.** An invitation or reminder: that employee. A notice to a role:
+the members holding that account role, and "alle ansatte" by the round's own scope. Only a
+member, who can sign in, gets a link into the app; nobody gets a respondent link but the
+respondent. **Not reached: employees whose only claim is a statutory duty** (a tillitsvalgt,
+or a verneombud without an account). 0021 made `employees.duty_role` a tripwire — no policy
+and no routine may read it (settings_invariants 5) — and picking recipients is a routine.
+Relaxing that invariant is the owner's decision, so until it is made a notice to
+"tillitsvalgte" finds nobody and fails as `no_address`, visibly, in the queue.
+
+**Auth's mail** goes through a send-email hook, `supabase/functions/orgpuls-auth-mail`,
+verified by a Standard Webhooks signature. It builds its own link to `/auth/confirm`, which
+verifies the token hash on the server and sets the session; a reset then lands signed in on
+`/nytt-passord`, a page that did not exist (the reset mail used to lead nowhere). Handled:
+recovery, sign-up confirmation, magic link, invite; e-mail change and reauthentication have
+no screen here and are refused. Auth's Site URL is now `https://www.orgpuls.com` with the
+production and local origins allowed, and its mail limit is 30 an hour.
+
+**Texts** are messages like any other: `mail.*` in `messages/no.json` and `en.json`, held to
+parity by `verify:i18n`. `scripts/functions/deploy.mjs` generates the functions' copy from
+them, type-checks both functions with Deno and deploys through the Management API.
+`tests/unit/mail.test.ts` runs the same renderer against the same files; the invariants
+suite `dispatch_invariants.sql` (18 assertions) holds the database half.
+
+**Screens.** Oppsett › Integrasjoner now shows the design's own locked e-post row ("Alltid
+på", "Ingenting å sette opp") where mail is on, with the real sender address — the design
+wrote `orgpuls.no`, which has no mail set up. Where mail is off it says "Slått av" and that
+nobody receives the notices. `/integrasjoner` and Årshjulet's summary follow the same switch,
+and the queue counts now separate *waiting*, *sent* and *given up*. The e-post card on
+`/integrasjoner` no longer lists what connecting would require — a provider, a verified
+sender, a job that empties the queue — because all three exist; it says on or off.
+
+**Verified on the hosted project:** both functions refuse unauthenticated calls (403, 401);
+Brevo accepts the sender in its sandbox; the first scheduled call at 10:05 returned 200 and
+claimed nothing, as both organisations are switched off; a password reset requested for the
+demo login went Auth → signed hook → reserved-domain guard, logged and not sent.
+
+**Found on the way, not changed:**
+- Neither `orgpuls.no` nor `orgpuls.com` has an MX record, so `hjelp@orgpuls.no`, which the
+  app prints in five places, cannot receive mail. The mails say they are automatic.
+- The Supabase project carries an edge function `mail-worker`, its two Vault entries
+  (`mail_worker_url`, `mail_worker_secret`), the `pgmq` extension and three function secrets
+  (`MAIL_FROM`, `MAIL_FROM_NAME`, `NEXT_PUBLIC_APP_URL`) from an earlier product, HeiTuva,
+  deployed 10 September. The function authenticates callers with a database function that no
+  longer exists, so it refuses every call; nothing schedules it. Left in place for the owner
+  to delete.
+
+**Not built:** SMS (no employee has a number, and the sender name is not registered yet);
+member invitations by mail (the daglig leder still copies the link, D-51); bounce and
+delivery events (the webhook would need a public endpoint and a table for them).

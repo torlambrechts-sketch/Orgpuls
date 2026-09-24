@@ -962,7 +962,6 @@
     "noNextBaseline": "No baseline is planned yet.",
     "lastRun": "The cycle last ran {when}.",
     "neverRun": "The cycle has not run yet.",
-    "dispatchNote": "Notices are queued here. Sending them needs an email integration — without one the queue simply stands, and nobody receives anything.",
     "saved": "Saved",
     "problem": {
       "invalid": "Something in the setup could not be read. Try again.",
@@ -990,7 +989,9 @@
         "title": "The pulse measures the factors with open measures",
         "note": "The factor selection is set by which measures are still running."
       }
-    }
+    },
+    "dispatchOn": "Notices are sent by e-mail every five minutes when they fall due.",
+    "dispatchOff": "Sending is switched off for this organisation, so notices stay in the queue and nobody receives them."
   },
   "oppsett": {
     "title": "Settings",
@@ -1259,7 +1260,9 @@
       "epost": {
         "name": "E-mail",
         "what": "The measurement is meant to go out with a personal link to each person. The link is personal, but the answer is stored with no connection to it.",
-        "need": "No mail provider is connected in this installation. The year wheel plans the rounds and queues the notices, but the queue stands until somebody connects sending."
+        "whatOn": "The survey is sent from no-reply@orgpuls.com with a link to each person. The link is personal, but the answer is stored without any connection to it.",
+        "needOn": "Nothing to set up.",
+        "needOff": "Sending is switched off for this organisation, so notices stay in the queue and nobody receives them."
       },
       "entra": {
         "name": "Microsoft Entra ID",
@@ -1280,7 +1283,9 @@
         "name": "HR system",
         "what": "Tripletex, Visma and Huldt & Lillevik. Meant to fetch job title, start date and department.",
         "need": "Coming. Until then you add people manually or from a spreadsheet under People."
-      }
+      },
+      "statusAlways": "Always on",
+      "statusMailOff": "Switched off"
     },
     "personvern": {
       "basis": {
@@ -1635,18 +1640,11 @@
     "back": "← Settings",
     "title": "Integrations",
     "lead": "Where the measurement is sent from, and what it takes to connect each channel. Every integration reads data — none writes back to the source system, and none gets access to the answers.",
-    "statusNone": "No channel is connected",
-    "queueNote": "{count, plural, one {# notice is queued and will not be sent.} other {# notices are queued and will not be sent.}} The year wheel plans the rounds and queues the notices, but with no channel connected the queue stands, and nobody is told there is a measurement.",
     "needsHead": "What it takes",
     "mobileLine": "{withPhone} of {total} have a mobile number",
     "mobileNote": "The number lives in the people register and is read from there. Anyone without one cannot be reached by SMS and falls back to e-mail or a link.",
     "privacyNote": "None of the channels above gets access to the answers. They read who works here, and they deliver a link — the connection between a person and an answer does not exist in the database, so there is nothing for an integration to leak.",
     "step": {
-      "epost": {
-        "provider": "A mail provider with an API — sending happens from the server, not from a mailbox somebody signs into.",
-        "sender": "A verified sender address on your own domain, with SPF and DKIM set up. Without it the invitation lands in spam and the response rate goes with it.",
-        "link": "A job that drains the queue: take a row, ask the database for a fresh link for it, send, mark the row sent. The link is minted at the moment it is sent, and never stored."
-      },
       "entra": {
         "tenant": "The domain or tenant ID of your directory.",
         "permissions": "Read access to users and groups, approved by an administrator. Nothing more — we never write back.",
@@ -1667,7 +1665,12 @@
         "vendor": "Which system you use — Tripletex, Visma or Huldt & Lillevik.",
         "fields": "Which fields are read: job title, start date and department. Those three are what let new starters and seniority be used as a segment without an import."
       }
-    }
+    },
+    "statusMail": "E-mail is connected",
+    "statusMailOff": "Sending is switched off",
+    "queueOn": "Notices are sent by e-mail from no-reply@orgpuls.com every five minutes when they fall due. {sent, plural, =0 {None has been sent yet} one {# has been sent} other {# have been sent}}, {pending, plural, =0 {none is queued} one {# is queued} other {# are queued}} and {failed, plural, =0 {none has failed} one {# could not be sent} other {# could not be sent}}.",
+    "queueOff": "Sending is switched off for this organisation. {count, plural, one {# notice is queued and will not be sent.} other {# notices are queued and will not be sent.}}",
+    "mailReady": "Nothing to set up. The sender domain is verified with DKIM and DMARC, and the link is made at the moment the e-mail is sent."
   },
   "start": {
     "signIn": "Sign in",
@@ -2321,5 +2324,88 @@
         "how": "The team shares examples of work they are proud of and what made it possible, and works out what you should do more of."
       }
     }
+  },
+  "mail": {
+    "round": {
+      "grunnlinje": "the {year} baseline",
+      "puls": "the {year} pulse",
+      "pulsN": "pulse {n} · {year}",
+      "oppfolging": "the {year} follow-up"
+    },
+    "greeting": "Hi {name},",
+    "greetingPlain": "Hi,",
+    "automatic": "This is an automatic e-mail from Orgpuls on behalf of {org}. Replies are not received.",
+    "invitasjon": {
+      "subject": "{org}: answer {round}",
+      "lead": "{org} is surveying the working environment, and you are invited to answer {round}. It takes a few minutes.",
+      "anonymous": "Your answer is anonymous. No single answer can be traced back to you, and results are shown only for groups where at least {k} have answered.",
+      "cta": "Answer now",
+      "deadline": "Deadline: {date}.",
+      "personal": "The link is personal. Do not forward it."
+    },
+    "paminnelse": {
+      "subject": "Reminder: {round} at {org}",
+      "lead": "You have not answered {round} yet. It takes a few minutes, and every answer makes the result more reliable.",
+      "replaces": "Use the link in this e-mail. The link in the previous one no longer works."
+    },
+    "forvarsel": {
+      "subject": "{round} at {org} starts {date}",
+      "lead": "{org} sends out {round} on {date}.",
+      "daglig_leder": "You can still change the setup or move the round in Orgpuls.",
+      "avdelingsledere": "You can see the questions and who in your team receives them in Orgpuls.",
+      "verneombud": "The safety representative is to be involved before the survey starts (Working Environment Act § 6-2). You can see the setup in Orgpuls.",
+      "tillitsvalgte": "You have the same deadline as the safety representative to give input.",
+      "alle_ansatte": "You will get a separate e-mail with the link when the round opens. Your answer is anonymous.",
+      "cta": "Open Orgpuls"
+    },
+    "resultat": {
+      "subject": "The result of {round} is ready",
+      "lead": "{round} at {org} has closed.",
+      "member": "The result can be read in Orgpuls now.",
+      "employee": "Management will go through the result with you, and the measures are followed up together with the safety representative.",
+      "cta": "See the result"
+    },
+    "auth": {
+      "recovery": {
+        "subject": "A new password for Orgpuls",
+        "lead": "Someone asked to set a new password for {email} in Orgpuls. If it was you, press the button. The link works for one hour.",
+        "cta": "Set a new password",
+        "ignore": "If you did not ask for this, you can ignore this e-mail. Your password is unchanged."
+      },
+      "signup": {
+        "subject": "Confirm your e-mail address",
+        "lead": "Press the button to confirm that {email} is yours and finish signing up for Orgpuls. The link works for one hour.",
+        "cta": "Confirm the address",
+        "ignore": "If you did not sign up, you can ignore this e-mail."
+      },
+      "magiclink": {
+        "subject": "Sign in to Orgpuls",
+        "lead": "Press the button to sign in as {email}. The link works for one hour and can be used once.",
+        "cta": "Sign in",
+        "ignore": "If you did not ask for this, you can ignore this e-mail."
+      },
+      "invite": {
+        "subject": "You are invited to Orgpuls",
+        "lead": "You are invited to Orgpuls as {email}. Press the button to choose a password.",
+        "cta": "Accept the invitation",
+        "ignore": "If you are not expecting this invitation, you can ignore this e-mail."
+      }
+    }
+  },
+  "newPassword": {
+    "badge": "New password",
+    "title": "Choose a new password",
+    "lead": "You are signed in through the link in the e-mail. Choose a password you do not use anywhere else.",
+    "password": "New password",
+    "repeat": "Repeat the password",
+    "hint": "At least eight characters. A long sentence is safer than a short word with symbols in it.",
+    "submit": "Save the password",
+    "saving": "Saving …",
+    "tooShort": "The password must have at least eight characters.",
+    "mismatch": "The two passwords are not the same.",
+    "failed": "The password was not saved. Ask for a new link and try again.",
+    "expiredTitle": "The link has been used or has expired",
+    "expiredLead": "A link for a new password works once, for one hour. Ask for a new one on the sign-in page.",
+    "toSignIn": "To sign-in"
   }
 }

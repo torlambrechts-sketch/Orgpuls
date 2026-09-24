@@ -9,7 +9,7 @@ import {
   getLocations,
   getRoster,
 } from '@/lib/settings/read'
-import { getGroups, getViewerRole } from '@/lib/org/read'
+import { getGroups, getOrganization, getViewerRole } from '@/lib/org/read'
 import { getFactors } from '@/lib/instrument/read'
 import { getWheel } from '@/lib/wheel/read'
 import { getRounds } from '@/lib/rounds/read'
@@ -36,7 +36,7 @@ export default async function OppsettPage({
   const params = await searchParams
   const tab: Tab = TABS.includes(params.fane as Tab) ? (params.fane as Tab) : 'selskap'
 
-  const [company, locations, groups, roster, factors, wheel, rounds, withPhone, role] =
+  const [company, locations, groups, roster, factors, wheel, rounds, withPhone, role, org] =
     await Promise.all([
       getCompany(),
       getLocations(),
@@ -47,6 +47,7 @@ export default async function OppsettPage({
       getRounds(),
       countWithPhone(),
       getViewerRole(),
+      getOrganization(),
     ])
 
   if (!company) return null
@@ -73,6 +74,7 @@ export default async function OppsettPage({
     groupStats,
     roster,
     withPhone,
+    mailOn: org?.mail_enabled ?? false,
     factorKeys: factors.map((f) => f.key),
     baselineMonth: wheel?.baselineMonth ?? null,
     verneombud: roster.filter((p) => p.dutyRole === 'verneombud').map((p) => p.name),

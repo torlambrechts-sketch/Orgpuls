@@ -962,7 +962,6 @@
     "noNextBaseline": "Ingen grunnlinje er planlagt ennå.",
     "lastRun": "Årshjulet gikk sist {when}.",
     "neverRun": "Årshjulet har ikke gått ennå.",
-    "dispatchNote": "Varslene legges i kø her. Utsending krever en e-postintegrasjon — uten den blir køen stående, og ingen får noe.",
     "saved": "Lagret",
     "problem": {
       "invalid": "Noe i oppsettet kunne ikke leses. Prøv igjen.",
@@ -990,7 +989,9 @@
         "title": "Pulsen måler faktorene med åpne tiltak",
         "note": "Faktorvalget settes av hvilke tiltak som fortsatt løper."
       }
-    }
+    },
+    "dispatchOn": "Varslene sendes på e-post hvert femte minutt når de forfaller.",
+    "dispatchOff": "Utsending er slått av for denne virksomheten, så varslene blir stående i køen og ingen får dem."
   },
   "oppsett": {
     "title": "Oppsett",
@@ -1259,7 +1260,9 @@
       "epost": {
         "name": "E-post",
         "what": "Målingen skal sendes med en personlig lenke til hver enkelt. Lenken er personlig, men svaret lagres uten kobling til den.",
-        "need": "Ingen e-postleverandør er koblet til i denne installasjonen. Årshjulet planlegger rundene og legger varslene i kø, men køen blir stående til noen kobler til utsending."
+        "whatOn": "Målingen sendes fra no-reply@orgpuls.com med lenken til den enkelte. Lenken er personlig, men svaret lagres uten kobling til den.",
+        "needOn": "Ingenting å sette opp.",
+        "needOff": "Utsending er slått av for denne virksomheten, så varslene blir liggende i køen og ingen får dem."
       },
       "entra": {
         "name": "Microsoft Entra ID",
@@ -1280,7 +1283,9 @@
         "name": "HR-system",
         "what": "Tripletex, Visma og Huldt & Lillevik. Skal hente stilling, startdato og avdeling.",
         "need": "Kommer. Fram til da legger dere inn ansatte manuelt eller via regneark under Ansatte."
-      }
+      },
+      "statusAlways": "Alltid på",
+      "statusMailOff": "Slått av"
     },
     "personvern": {
       "basis": {
@@ -1635,18 +1640,11 @@
     "back": "← Oppsett",
     "title": "Integrasjoner",
     "lead": "Hvor målingen skal sendes fra, og hva som må til for å koble hver kanal. Alle integrasjoner leser data — ingen av dem skriver tilbake til kildesystemet, og ingen av dem får tilgang til svarene.",
-    "statusNone": "Ingen kanal er koblet til",
-    "queueNote": "{count, plural, one {# varsel står i kø og blir ikke sendt.} other {# varsler står i kø og blir ikke sendt.}} Årshjulet planlegger rundene og legger varslene i kø, men uten en kanal koblet til blir køen stående, og ingen får beskjed om at det er en måling.",
     "needsHead": "Dette må til",
     "mobileLine": "{withPhone} av {total} har mobilnummer",
     "mobileNote": "Nummeret ligger i ansattregisteret og hentes derfra. Den som ikke har ett, kan ikke nås på SMS og faller tilbake til e-post eller lenke.",
     "privacyNote": "Ingen av kanalene over får tilgang til svarene. De leser hvem som jobber her, og de leverer en lenke — koblingen mellom en person og et svar finnes ikke i databasen, så det er ingenting å lekke gjennom en integrasjon.",
     "step": {
-      "epost": {
-        "provider": "En e-postleverandør med et API — utsendingen skjer fra serveren, ikke fra en postkasse noen logger inn i.",
-        "sender": "En verifisert avsenderadresse på deres eget domene, med SPF og DKIM satt opp. Uten det havner invitasjonen i søppelpost, og svarprosenten forsvinner.",
-        "link": "En jobb som tømmer køen: henter en rad, ber databasen om en fersk lenke for den, sender, og merker raden som sendt. Lenken lages i det øyeblikket den sendes, og lagres aldri."
-      },
       "entra": {
         "tenant": "Domenet eller tenant-ID-en til katalogen deres.",
         "permissions": "Lesetilgang til brukere og grupper, godkjent av en administrator. Ingenting mer — vi skriver aldri tilbake.",
@@ -1667,7 +1665,12 @@
         "vendor": "Hvilket system dere bruker — Tripletex, Visma eller Huldt & Lillevik.",
         "fields": "Hvilke felter som skal leses: stilling, startdato og avdeling. Det er de tre som gjør at nyansatte og ansiennitet kan brukes som segment uten import."
       }
-    }
+    },
+    "statusMail": "E-post er koblet til",
+    "statusMailOff": "Utsending er slått av",
+    "queueOn": "Varslene sendes på e-post fra no-reply@orgpuls.com hvert femte minutt når de forfaller. {sent, plural, =0 {Ingen er sendt ennå} one {# er sendt} other {# er sendt}}, {pending, plural, =0 {ingen står i kø} one {# står i kø} other {# står i kø}} og {failed, plural, =0 {ingen har feilet} one {# kunne ikke sendes} other {# kunne ikke sendes}}.",
+    "queueOff": "Utsending er slått av for denne virksomheten. {count, plural, one {# varsel står i kø og blir ikke sendt.} other {# varsler står i kø og blir ikke sendt.}}",
+    "mailReady": "Ingenting å sette opp. Avsenderdomenet er verifisert med DKIM og DMARC, og lenken lages i det øyeblikket e-posten sendes."
   },
   "start": {
     "signIn": "Logg inn",
@@ -2321,5 +2324,88 @@
         "how": "Teamet deler eksempler på arbeid de er stolte av og hva som gjorde det mulig, og finner ut hva dere bør gjøre mer av."
       }
     }
+  },
+  "mail": {
+    "round": {
+      "grunnlinje": "grunnlinjen {year}",
+      "puls": "pulsen {year}",
+      "pulsN": "puls {n} · {year}",
+      "oppfolging": "oppfølgingen {year}"
+    },
+    "greeting": "Hei {name},",
+    "greetingPlain": "Hei,",
+    "automatic": "Dette er en automatisk e-post fra Orgpuls på vegne av {org}. Svar på den kommer ikke fram.",
+    "invitasjon": {
+      "subject": "{org}: svar på {round}",
+      "lead": "{org} kartlegger arbeidsmiljøet, og du er invitert til å svare på {round}. Det tar noen få minutter.",
+      "anonymous": "Svaret ditt er anonymt. Ingen enkeltsvar kan spores tilbake til deg, og resultater vises bare for grupper der minst {k} har svart.",
+      "cta": "Svar nå",
+      "deadline": "Svarfrist: {date}.",
+      "personal": "Lenken er personlig. Ikke send den videre."
+    },
+    "paminnelse": {
+      "subject": "Påminnelse: {round} i {org}",
+      "lead": "Du har ikke svart på {round} ennå. Det tar noen få minutter, og hvert svar gjør resultatet mer til å stole på.",
+      "replaces": "Bruk lenken i denne e-posten. Lenken i den forrige virker ikke lenger."
+    },
+    "forvarsel": {
+      "subject": "{round} i {org} starter {date}",
+      "lead": "{org} sender ut {round} {date}.",
+      "daglig_leder": "Du kan fortsatt endre oppsettet eller flytte runden i Orgpuls.",
+      "avdelingsledere": "Du kan se spørsmålene og hvem i ditt team som får dem, i Orgpuls.",
+      "verneombud": "Verneombudet skal involveres før kartleggingen settes i gang (arbeidsmiljøloven § 6-2). Du kan se oppsettet i Orgpuls.",
+      "tillitsvalgte": "Dere har samme frist som verneombudet til å komme med innspill.",
+      "alle_ansatte": "Du får en egen e-post med lenken når runden åpner. Svaret er anonymt.",
+      "cta": "Åpne Orgpuls"
+    },
+    "resultat": {
+      "subject": "Resultatet fra {round} er klart",
+      "lead": "{round} i {org} er avsluttet.",
+      "member": "Resultatet kan leses i Orgpuls nå.",
+      "employee": "Ledelsen går gjennom resultatet med dere, og tiltakene følges opp sammen med verneombudet.",
+      "cta": "Se resultatet"
+    },
+    "auth": {
+      "recovery": {
+        "subject": "Nytt passord til Orgpuls",
+        "lead": "Noen ba om å sette nytt passord for {email} i Orgpuls. Var det deg, trykk på knappen. Lenken virker i én time.",
+        "cta": "Sett nytt passord",
+        "ignore": "Ba du ikke om dette, kan du se bort fra e-posten. Passordet ditt er uendret."
+      },
+      "signup": {
+        "subject": "Bekreft e-postadressen din",
+        "lead": "Trykk på knappen for å bekrefte at {email} er din, og fullføre registreringen i Orgpuls. Lenken virker i én time.",
+        "cta": "Bekreft e-postadressen",
+        "ignore": "Har du ikke registrert deg, kan du se bort fra e-posten."
+      },
+      "magiclink": {
+        "subject": "Logg inn i Orgpuls",
+        "lead": "Trykk på knappen for å logge inn som {email}. Lenken virker i én time og kan brukes én gang.",
+        "cta": "Logg inn",
+        "ignore": "Ba du ikke om dette, kan du se bort fra e-posten."
+      },
+      "invite": {
+        "subject": "Du er invitert til Orgpuls",
+        "lead": "Du er invitert til Orgpuls som {email}. Trykk på knappen for å velge passord.",
+        "cta": "Godta invitasjonen",
+        "ignore": "Venter du ikke denne invitasjonen, kan du se bort fra e-posten."
+      }
+    }
+  },
+  "newPassword": {
+    "badge": "Nytt passord",
+    "title": "Velg et nytt passord",
+    "lead": "Du er logget inn via lenken i e-posten. Velg et passord du ikke bruker andre steder.",
+    "password": "Nytt passord",
+    "repeat": "Gjenta passordet",
+    "hint": "Minst åtte tegn. En lang setning er sikrere enn et kort ord med tegn i.",
+    "submit": "Lagre passordet",
+    "saving": "Lagrer …",
+    "tooShort": "Passordet må ha minst åtte tegn.",
+    "mismatch": "De to passordene er ikke like.",
+    "failed": "Passordet ble ikke lagret. Be om en ny lenke og prøv igjen.",
+    "expiredTitle": "Lenken er brukt eller utløpt",
+    "expiredLead": "En lenke for nytt passord virker én gang og i én time. Be om en ny på innloggingssiden.",
+    "toSignIn": "Til innlogging"
   }
 }

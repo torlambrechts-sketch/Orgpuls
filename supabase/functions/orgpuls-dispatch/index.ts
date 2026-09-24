@@ -1,0 +1,133 @@
+/**
+ * orgpuls-dispatch — empties app.outbox through Brevo. D-65.
+ *
+ * Called every five minutes by pg_cron through pg_net (migration 0032), with a secret of
+ * its own in `x-dispatch-secret`. Not the service-role key: this caller needs to be able to
+ * start a drain, nothing else, and a leaked drain trigger is a nuisance where a leaked
+ * service key is the database. `verify_jwt` is off because pg_net sends no JWT.
+ *
+ * The loop: claim a batch (the database mints each respondent link and leases the row),
+ * render, send, and report each row as done or failed. A rejected key stops the run and
+ * gives every unsent claim back without spending an attempt, so a bad key cannot exhaust
+ * the queue. Log lines carry row ids and HTTP codes — never an address, never a link.
+ *
+ *   POST                  drain until the queue is empty or 40 s have passed
+ *   POST ?probe=1         report the Brevo account's state, send nothing
+ *   POST ?probe=send      send one sample invitation in Brevo's sandbox (validated, dropped)
+ */
+import { createClient } from 'npm:@supabase/supabase-js@2'
+import { brevoSend } from '../_shared/brevo.ts'
+import { groupsOf, renderNotice, type MailCatalogue, type NoticeJob } from '../_shared/mail.ts'
+import { MAIL } from '../_shared/messages.gen.ts'
+
+const BATCH = 25
+const BUDGET_MS = 40_000
+
+function same(a: string, b: string): boolean {
+  const x = new TextEncoder().encode(a)
+  const y = new TextEncoder().encode(b)
+  if (x.length !== y.length) return false
+  let d = 0
+  for (let i = 0; i < x.length; i++) d |= x[i] ^ y[i]
+  return d === 0
+}
+
+function env(name: string): string {
+  const v = Deno.env.get(name)
+  if (!v) throw new Error(`missing setting ${name}`)
+  return v
+}
+
+const json = (body: unknown, status = 200) =>
+  new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } })
+
+Deno.serve(async (req) => {
+  if (req.method !== 'POST') return json({ error: 'method' }, 405)
+  const secret = Deno.env.get('ORGPULS_DISPATCH_SECRET') ?? ''
+  if (!secret || !same(req.headers.get('x-dispatch-secret') ?? '', secret)) return json({ error: 'unauthorised' }, 403)
+
+  const key = env('BREVO_API_KEY')
+  const sender = { email: env('ORGPULS_MAIL_FROM'), name: Deno.env.get('ORGPULS_MAIL_FROM_NAME') ?? 'Orgpuls' }
+  const appUrl = env('ORGPULS_APP_URL')
+  const cat = MAIL as unknown as MailCatalogue
+  const probe = new URL(req.url).searchParams.get('probe')
+
+  if (probe === '1') {
+    const h = { 'api-key': key, accept: 'application/json' }
+    const [acc, dom] = await Promise.all([
+      fetch('https://api.brevo.com/v3/account', { headers: h }),
+      fetch('https://api.brevo.com/v3/senders/domains', { headers: h }),
+    ])
+    const domains = dom.ok ? ((await dom.json()) as { domains?: Array<{ domain_name: string; authenticated: boolean }> }).domains ?? [] : []
+    if (acc.ok) await acc.body?.cancel()
+    return json({
+      account: acc.status,
+      senderDomain: sender.email.split('@')[1],
+      senderDomainAuthenticated: domains.some((d) => d.domain_name === sender.email.split('@')[1] && d.authenticated),
+      appHost: new URL(appUrl).host,
+    })
+  }
+
+  if (probe === 'send') {
+    const job: NoticeJob = {
+      id: 'probe', kind: 'invitasjon', audience: null, lang: 'no', org: 'Orgpuls', k: 5,
+      round: { kind: 'grunnlinje', year: 2026, pulse: null, opens_at: null, closes_at: new Date().toISOString() },
+      recipients: [{ email: 'probe@orgpuls.com', name: 'Probe', lang: 'no', member: false }],
+      token: '0'.repeat(64),
+    }
+    const r = renderNotice(cat, job, { lang: 'no', member: false, name: 'Probe' }, appUrl)
+    const res = await brevoSend(key, { sender, to: job.recipients, subject: r.subject, html: r.html, text: r.text, tag: 'orgpuls-probe' }, { sandbox: true })
+    return json(res.ok ? { ok: true } : res)
+  }
+
+  const svc = createClient(env('SUPABASE_URL'), env('SUPABASE_SERVICE_ROLE_KEY'), { auth: { persistSession: false } })
+  const started = Date.now()
+  const tally = { claimed: 0, sent: 0, failed: 0, retry: 0, released: 0 }
+
+  while (Date.now() - started < BUDGET_MS) {
+    const { data, error } = await svc.rpc('dispatch_claim', { p_batch: BATCH })
+    if (error) {
+      console.error(`[dispatch] claim failed: ${error.code ?? ''} ${error.message}`)
+      return json({ error: 'claim', ...tally }, 500)
+    }
+    const jobs = (data ?? []) as NoticeJob[]
+    if (jobs.length === 0) break
+    tally.claimed += jobs.length
+
+    for (let i = 0; i < jobs.length; i++) {
+      const job = jobs[i]
+      let outcome: { ok: true; id: string } | { ok: false; retryable: boolean; auth: boolean; code: string } = { ok: true, id: '' }
+      try {
+        for (const g of groupsOf(job)) {
+          const r = renderNotice(cat, job, g, appUrl)
+          outcome = await brevoSend(key, { sender, to: g.to, subject: r.subject, html: r.html, text: r.text, tag: `orgpuls-${job.kind}` })
+          if (!outcome.ok) break
+        }
+      } catch (e) {
+        // a rendering fault is a bug in this code, not a property of the row: keep it for a fix
+        console.error(`[dispatch] ${job.id}: render failed: ${(e as Error).message}`)
+        outcome = { ok: false, retryable: true, auth: false, code: 'render' }
+      }
+
+      if (outcome.ok) {
+        await svc.rpc('dispatch_done', { p_id: job.id, p_ok: true, p_provider_id: outcome.id || null })
+        tally.sent++
+      } else if (outcome.auth) {
+        const rest = jobs.slice(i).map((j) => j.id)
+        await svc.rpc('dispatch_release', { p_ids: rest, p_error: 'provider_unauthorised' })
+        tally.released += rest.length
+        console.error(`[dispatch] Brevo refused the key (${outcome.code}); ${rest.length} claims given back`)
+        return json({ error: 'provider_unauthorised', ...tally }, 502)
+      } else {
+        await svc.rpc('dispatch_done', { p_id: job.id, p_ok: false, p_error: outcome.code, p_permanent: !outcome.retryable })
+        if (outcome.retryable) tally.retry++
+        else tally.failed++
+        console.error(`[dispatch] ${job.id}: ${outcome.code}${outcome.retryable ? ', will retry' : ', given up'}`)
+      }
+    }
+    if (jobs.length < BATCH) break
+  }
+
+  if (tally.claimed) console.log(`[dispatch] claimed ${tally.claimed}, sent ${tally.sent}, retry ${tally.retry}, failed ${tally.failed}`)
+  return json(tally)
+})

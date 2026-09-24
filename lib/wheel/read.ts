@@ -145,12 +145,18 @@ export async function getLastRun(): Promise<JobRun | null> {
   return parsed.success ? parsed.data : null
 }
 
-/** How much is queued and how much of it has gone out. */
-export async function getQueueCounts(): Promise<{ pending: number; sent: number }> {
+/**
+ * How much is queued, how much has gone out, and how much never will (0032): a row the
+ * dispatcher gave up on — stale, no address, or five failed attempts — is neither waiting
+ * nor sent, and counting it as waiting would promise a mail that is not coming.
+ */
+export async function getQueueCounts(): Promise<{ pending: number; sent: number; failed: number }> {
   const supabase = await createClient()
-  const [pending, sent] = await Promise.all([
-    supabase.schema('app').from('outbox').select('id', { count: 'exact', head: true }).is('sent_at', null),
-    supabase.schema('app').from('outbox').select('id', { count: 'exact', head: true }).not('sent_at', 'is', null),
+  const outbox = () => supabase.schema('app').from('outbox').select('id', { count: 'exact', head: true })
+  const [pending, sent, failed] = await Promise.all([
+    outbox().is('sent_at', null).is('failed_at', null),
+    outbox().not('sent_at', 'is', null),
+    outbox().is('sent_at', null).not('failed_at', 'is', null),
   ])
-  return { pending: pending.count ?? 0, sent: sent.count ?? 0 }
+  return { pending: pending.count ?? 0, sent: sent.count ?? 0, failed: failed.count ?? 0 }
 }

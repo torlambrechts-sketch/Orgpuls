@@ -7,7 +7,8 @@ import { ButtonLink } from '@/components/ui/Button'
  * **The design's screen is a connection wizard, and this is not one.** Its four cards ask
  * for a tenant ID, tick the Entra groups to sync, choose a sync cadence, write an SMS
  * sender name and a message body, and end in a "Koble til" button. None of that is built:
- * there is no Entra client, no SMS gateway, and no mail provider either (D-29). A wizard
+ * there is no Entra client and no SMS gateway. E-mail is the exception since 0032 — it is
+ * connected for the whole product, through Brevo, and needs nothing set up (D-65). A wizard
  * whose every field discards what you type and whose final button connects nothing is not
  * an unfinished feature, it is a false statement about the product, and four screens of it
  * is the most elaborate false statement in the bundle.
@@ -24,12 +25,14 @@ import { ButtonLink } from '@/components/ui/Button'
 export interface IntegrasjonerView {
   withPhone: number
   total: number
-  /** every notice the wheel has queued and nothing has sent */
-  queued: number
+  /** the outbox's own counts: waiting, accepted by the provider, given up on */
+  queue: { pending: number; sent: number; failed: number }
+  /** whether the dispatcher sends this organisation's notices (0032) */
+  mailOn: boolean
 }
 
 const CHANNELS = [
-  { key: 'epost', steps: ['provider', 'sender', 'link'] },
+  { key: 'epost', steps: [] },
   { key: 'entra', steps: ['tenant', 'permissions', 'groups', 'sync'] },
   { key: 'teams', steps: ['entraFirst', 'message'] },
   { key: 'sms', steps: ['numbers', 'sender', 'when', 'cost'] },
@@ -55,9 +58,9 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
             </h1>
             <span
               className="rounded-pill px-[12px] py-[4px] text-[11.5px] font-bold"
-              style={{ background: '#FBEBBE', color: '#5C4600' }}
+              style={view.mailOn ? { background: '#CFE7E4', color: '#20431C' } : { background: '#FBEBBE', color: '#5C4600' }}
             >
-              {t('integrasjoner.statusNone')}
+              {view.mailOn ? t('integrasjoner.statusMail') : t('integrasjoner.statusMailOff')}
             </span>
           </span>
           <p className="mt-[9px] max-w-[620px] text-[14.5px] leading-[1.6] text-mut [text-wrap:pretty]">
@@ -67,15 +70,24 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
       </div>
 
       {/*
-        The queue is the concrete consequence of nothing being connected, so it is stated
-        as a number rather than as a warning. A leader who reads "34 varsler står i kø"
-        understands the situation faster than one who reads that sending is unavailable.
+        The queue is stated as numbers rather than as a status: a leader who reads how many
+        went out and how many could not be sent knows more than one who reads "connected".
+        Where the organisation's mail is switched off, the same box says so, in the warning
+        colours, because then the queue is the whole story.
       */}
-      <div className="mt-[20px] rounded-panel border border-orange bg-peach px-[24px] py-[18px]">
-        <div className="text-[13.5px] leading-[1.6] text-rustdeep [text-wrap:pretty]">
-          {t('integrasjoner.queueNote', { count: view.queued })}
+      {view.mailOn ? (
+        <div className="mt-[20px] rounded-panel border border-line bg-mint px-[24px] py-[18px]">
+          <div className="text-[13.5px] leading-[1.6] text-greendeep [text-wrap:pretty]">
+            {t('integrasjoner.queueOn', view.queue)}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="mt-[20px] rounded-panel border border-orange bg-peach px-[24px] py-[18px]">
+          <div className="text-[13.5px] leading-[1.6] text-rustdeep [text-wrap:pretty]">
+            {t('integrasjoner.queueOff', { count: view.queue.pending })}
+          </div>
+        </div>
+      )}
 
       <div className="mt-[20px] flex flex-col gap-[14px]">
         {CHANNELS.map((c) => (
@@ -90,19 +102,27 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
               <span
                 className="rounded-pill px-[10px] py-[3px] text-[11px] font-bold"
                 style={
-                  c.key === 'hr'
-                    ? { background: 'rgba(25,21,16,.05)', color: '#8A8272' }
-                    : { background: '#FBEBBE', color: '#5C4600' }
+                  c.key === 'epost' && view.mailOn
+                    ? { background: 'rgba(25,21,16,.07)', color: '#5F5849' }
+                    : c.key === 'hr'
+                      ? { background: 'rgba(25,21,16,.05)', color: '#8A8272' }
+                      : { background: '#FBEBBE', color: '#5C4600' }
                 }
               >
-                {c.key === 'hr'
-                  ? t('oppsett.integrasjoner.statusSoon')
-                  : t('oppsett.integrasjoner.statusOff')}
+                {c.key === 'epost'
+                  ? view.mailOn
+                    ? t('oppsett.integrasjoner.statusAlways')
+                    : t('oppsett.integrasjoner.statusMailOff')
+                  : c.key === 'hr'
+                    ? t('oppsett.integrasjoner.statusSoon')
+                    : t('oppsett.integrasjoner.statusOff')}
               </span>
             </div>
 
             <p className="mt-[7px] max-w-[640px] text-[13.5px] leading-[1.6] text-body [text-wrap:pretty]">
-              {t(`oppsett.integrasjoner.${c.key}.what`)}
+              {c.key === 'epost' && view.mailOn
+                ? t('oppsett.integrasjoner.epost.whatOn')
+                : t(`oppsett.integrasjoner.${c.key}.what`)}
             </p>
 
             {c.key === 'sms' ? (
@@ -128,6 +148,12 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
               </div>
             ) : null}
 
+            {/* e-mail is connected for the whole product: its only state is on or off */}
+            {c.key === 'epost' ? (
+              <p className="mt-[10px] max-w-[640px] text-[13px] leading-[1.55] text-mut [text-wrap:pretty]">
+                {view.mailOn ? t('integrasjoner.mailReady') : t('oppsett.integrasjoner.epost.needOff')}
+              </p>
+            ) : (
             <div className="mt-[16px]">
               <div className="text-[11px] uppercase tracking-[0.11em] text-mut">
                 {t('integrasjoner.needsHead')}
@@ -148,6 +174,7 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
                 ))}
               </ol>
             </div>
+            )}
           </section>
         ))}
       </div>

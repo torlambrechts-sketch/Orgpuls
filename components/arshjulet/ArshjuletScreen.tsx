@@ -11,11 +11,11 @@ import type { JobRun, NotifyAudience, Wheel } from '@/lib/wheel/read'
  * next year — so the claim is now checkable, and this screen checks it: the running pill
  * reads a job log, not a boolean somebody set.
  *
- * The one thing the wheel cannot do is deliver. A dispatcher mints the link at the moment
- * it sends (`public.mint_invitation_link`), and nothing is configured to do that yet, so
- * the queue fills and waits. The panel says how many are waiting rather than claiming
- * they went out — the difference between a scheduler and a mailer, stated rather than
- * blurred.
+ * Delivery is the dispatcher's (0032, D-65): every five minutes it mints each link at the
+ * moment it sends and mails it through Brevo. The panel prints the queue's own counts, and
+ * its closing sentence depends on the organisation's switch — "sent every five minutes"
+ * where mail is on, "switched off, nobody receives them" where it is not — so the screen
+ * never claims a delivery the organisation has turned off.
  */
 
 /**
@@ -36,7 +36,9 @@ export interface ArshjuletView {
   wheel: Wheel
   year: YearPoint[]
   lastRun: JobRun | null
-  queue: { pending: number; sent: number }
+  queue: { pending: number; sent: number; failed: number }
+  /** whether the dispatcher sends this organisation's notices (0032) */
+  mailOn: boolean
   /** rounds the wheel has planned, which is what "4 målinger i året" counts */
   plannedPerYear: number
   nextBaseline: { month: number; year: number } | null
@@ -284,9 +286,9 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
 
             {/*
               The design's third and fourth rows read "0 manuelle steg" and "20 varsler
-              sendes automatisk". Neither is true here: the scheduler plans rounds and
-              queues notices, and nothing empties the queue. These two rows print the
-              queue's own counts instead, which is the same fact without the claim. D-29.
+              sendes automatisk". These two rows print the queue's own counts instead —
+              waiting and sent — which is the same fact without a number nobody measured.
+              D-29, D-65.
             */}
             <div className="mt-[16px] flex flex-col gap-[9px]">
               <Row
@@ -325,7 +327,7 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
                     }).format(new Date(view.lastRun.ran_at)),
                   })
                 : t('arshjulet.neverRun')}{' '}
-              {t('arshjulet.dispatchNote')}
+              {view.mailOn ? t('arshjulet.dispatchOn') : t('arshjulet.dispatchOff')}
             </div>
           </section>
         </div>

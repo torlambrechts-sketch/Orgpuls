@@ -583,6 +583,9 @@ on conflict (id) do update set
   registry_employees = excluded.registry_employees,
   registry_vat = excluded.registry_vat;
 
+-- a demo organisation's addresses are fictional; the dispatcher must never try them (0032)
+update app.organizations set mail_enabled = false where id = '${ORG}';
+
 insert into app.locations (org_id, name, address, headcount, sort_order)
 values ${LOCATIONS.map(([n, a, h], i) => `('${ORG}', ${q(n)}, ${q(a)}, ${h}, ${i + 1})`).join(',\n       ')};
 

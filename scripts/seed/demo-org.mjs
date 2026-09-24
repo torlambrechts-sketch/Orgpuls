@@ -520,6 +520,9 @@ on conflict (id) do update set
   registry_municipality_no = excluded.registry_municipality_no,
   registry_employees = excluded.registry_employees, registry_vat = excluded.registry_vat;
 
+-- a demo organisation's addresses are fictional; the dispatcher must never try them (0032)
+update app.organizations set mail_enabled = false where id = ${org};
+
 -- the demo login, when it exists: a profile and a daglig leder membership, nothing else
 insert into app.profiles (id, full_name)
 select u.id, 'Demobruker' from auth.users u where u.email = '${LOGIN_EMAIL}'

@@ -1426,6 +1426,19 @@ so every screen and every member reads the same answer. The Årshjulet "Utløser
 omitted until start dates, projects, two short instruments and a named-answer path exist
 — the last a privacy decision, not a feature (D-61, D-62, D-63).
 
+### X-037 — Mail goes out through Brevo, from an edge function, on a lease
+
+E-mail and Auth's mail both go through Brevo: EU-hosted, one account that will also carry
+SMS, and the key already sat in the project's function secrets. The dispatcher is a
+Supabase edge function rather than a Vercel route, so the service-role key stays out of the
+app's environment; pg_cron triggers it every five minutes with a secret of its own. Rows are
+leased and marked sent only on the provider's acceptance, links are minted at claim and
+stored as hashes, stale and fictional recipients are refused, and an organisation can be
+switched off — both demo organisations are. Auth's mail uses a signed send-email hook that
+links to a server-side confirm route and a new-password page. Employees reached only by a
+statutory duty are not mailed until the owner decides whether the duty_role tripwire may be
+relaxed for recipients (D-65).
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1530,3 +1543,12 @@ omitted until start dates, projects, two short instruments and a named-answer pa
 - [x] Migration 0031 applied to the hosted project 2026-09-24 (management API, recorded in
       its migration history) before the code that reads `playbook_key` was deployed.
 - [x] Favicon: the header mark at 32 px, with ICO and Apple rasters rendered from it (D-64).
+- [x] E-mail is sent: the outbox dispatcher and Auth's mail through Brevo, from
+      no-reply@orgpuls.com; password reset works end to end (X-037, D-65).
+- [ ] Decide whether notices may be addressed by `employees.duty_role` (tillitsvalgte,
+      verneombud without an account). It needs settings_invariants 5 relaxed (D-65).
+- [ ] `hjelp@orgpuls.no` cannot receive mail: neither domain has an MX record (D-65).
+- [ ] Delete the earlier product's leftovers on the Supabase project: the `mail-worker`
+      function, its two Vault entries, the `pgmq` extension and three function secrets (D-65).
+- [ ] SMS: a mobile-number field on Ansatte, a registered sender name, then the channel on
+      the same dispatcher.

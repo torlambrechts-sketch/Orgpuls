@@ -21,6 +21,8 @@ const OrgRow = z.object({
   org_number: z.string().nullable(),
   employee_count: z.coerce.number(),
   threshold: z.coerce.number(),
+  /** whether the dispatcher sends this organisation's notices (0032) */
+  mail_enabled: z.boolean(),
 })
 
 export type Organization = z.infer<typeof OrgRow>
@@ -44,7 +46,7 @@ export const getOrganization = cache(async (): Promise<Organization | null> => {
   const { data, error } = await supabase
     .schema('app')
     .from('organizations')
-    .select('id, name, org_number, employee_count, threshold')
+    .select('id, name, org_number, employee_count, threshold, mail_enabled')
     .limit(2)
 
   if (readFailed('getOrganization', error, data)) return null
