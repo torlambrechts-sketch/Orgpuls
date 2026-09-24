@@ -122,7 +122,8 @@ for (const route of routes) {
     return { overflow, squeezed: squeezed.slice(0, 6), wide: wide.slice(0, 6) }
   }, width)
 
-  const file = join(outDir, `${route.replace(/^\//, '').replace(/\//g, '-') || 'root'}.png`)
+  // a query string names the file too, in characters every file system and CI artifact accepts
+  const file = join(outDir, `${route.replace(/^\//, '').replace(/[/?&=]/g, '-') || 'root'}.png`)
   await page.screenshot({ path: file, fullPage: true })
 
   // failures: the page scrolls sideways, or text is squeezed below FAIL_WIDTH (the /registrer

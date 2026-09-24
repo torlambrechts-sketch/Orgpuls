@@ -36,7 +36,8 @@ describe('navState', () => {
   })
 
   it('keeps Målinger tinted on the screens reached from it', () => {
-    for (const path of ['/maleoppsett', '/arshjulet', '/forhandsvis', '/malinger/ny']) {
+    // Årshjulet is a tab of Målinger now (D-74), so it is Målinger itself, not a screen below it
+    for (const path of ['/maleoppsett', '/forhandsvis', '/malinger/ny']) {
       expect(navState(byKey('malinger'), path)).toBe(path === '/malinger/ny' ? 'current' : 'trail')
     }
   })

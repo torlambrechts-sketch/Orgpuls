@@ -130,7 +130,8 @@ for (const route of routes) {
     await page.getByRole('button', { name, exact: true }).or(page.getByRole('tab', { name, exact: true })).first().click()
     await page.waitForTimeout(400)
   }
-  const file = join(outDir, `${route.replace(/^\//, '').replace(/\//g, '-') || 'root'}.png`)
+  // a query string names the file too, in characters every file system and CI artifact accepts
+  const file = join(outDir, `${route.replace(/^\//, '').replace(/[/?&=]/g, '-') || 'root'}.png`)
   await page.screenshot({ path: file, fullPage: !viewportOnly })
   console.log(`${route} -> ${file}`)
 }
