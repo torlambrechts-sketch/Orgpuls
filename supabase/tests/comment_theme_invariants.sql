@@ -41,6 +41,7 @@ declare
   v_at_k    jsonb;
   v_one_voice jsonb;
   v_k       int;
+  v_factor  text;
 begin
   select m.user_id into v_dl from app.memberships m
     where m.org_id = v_org and m.active and m.role = 'daglig_leder' order by m.id limit 1;
@@ -51,6 +52,17 @@ begin
     order by r.id limit 1;
   select g.id into v_small from app.groups g where g.org_id = v_org and g.name = 'Administrasjon';
   v_k := app.k_threshold(v_org);
+  -- a factor the round asked that nobody commented on, so the probes below are the only
+  -- voices on it; the fixture's own comments must not decide what these checks see
+  select rf.factor_key into v_factor
+  from app.round_factors rf join app.factors f on f.key = rf.factor_key
+  where rf.round_id = v_round
+    and not exists (select 1 from app.response_comments c join app.responses r on r.id = c.response_id
+                    where r.round_id = v_round and c.factor_key = rf.factor_key)
+  order by f.sort_order limit 1;
+  if v_factor is null then
+    raise exception 'comment theme invariants: every factor of the round has comments; nothing to probe';
+  end if;
 
   insert into auth.users (id, email) values
     (v_vo, 'vo@comment-test.example'), (v_al, 'al@comment-test.example'), (v_out, 'out@comment-test.example');
@@ -85,31 +97,35 @@ begin
 
   -- 7..9 ------------------------------------------ the k rule, on rows that never commit
   begin
-    -- k-1 people on 'kollega', statement 1 — below the rule
+    -- k-1 people on one uncommented factor, statement 1, all in groups that clear k (0034)
     insert into app.response_comments (response_id, factor_key, ordinal, body)
-    select r.id, 'kollega', 1, 'probe'
+    select r.id, v_factor, 1, 'probe'
     from app.responses r
     where r.round_id = v_round
-      and not exists (select 1 from app.response_comments c where c.response_id = r.id and c.factor_key = 'kollega')
+      and not exists (select 1 from app.response_comments c where c.response_id = r.id and c.factor_key = v_factor)
+      and (select count(*) from app.responses r2
+           where r2.round_id = r.round_id and r2.group_id is not distinct from r.group_id) >= v_k
     order by r.id limit v_k - 1;
-    v_at_k1 := exists (select 1 from jsonb_array_elements(public.comment_themes(v_round)->'themes') t where t->>'key' = 'kollega');
+    v_at_k1 := exists (select 1 from jsonb_array_elements(public.comment_themes(v_round)->'themes') t where t->>'key' = v_factor);
 
     -- one person's two further comments on the same factor: more comments, not more people
     insert into app.response_comments (response_id, factor_key, ordinal, body)
-    select c.response_id, 'kollega', o, 'probe'
-    from (select response_id from app.response_comments where factor_key = 'kollega' and body = 'probe'
+    select c.response_id, v_factor, o, 'probe'
+    from (select response_id from app.response_comments where factor_key = v_factor and body = 'probe'
           order by response_id limit 1) c
     cross join (values (2), (3)) v(o);
-    v_one_voice := (select t from jsonb_array_elements(public.comment_themes(v_round)->'themes') t where t->>'key' = 'kollega');
+    v_one_voice := (select t from jsonb_array_elements(public.comment_themes(v_round)->'themes') t where t->>'key' = v_factor);
 
     -- the k-th person
     insert into app.response_comments (response_id, factor_key, ordinal, body)
-    select r.id, 'kollega', 1, 'probe'
+    select r.id, v_factor, 1, 'probe'
     from app.responses r
     where r.round_id = v_round
-      and not exists (select 1 from app.response_comments c where c.response_id = r.id and c.factor_key = 'kollega')
+      and not exists (select 1 from app.response_comments c where c.response_id = r.id and c.factor_key = v_factor)
+      and (select count(*) from app.responses r2
+           where r2.round_id = r.round_id and r2.group_id is not distinct from r.group_id) >= v_k
     order by r.id limit 1;
-    v_at_k := (select t from jsonb_array_elements(public.comment_themes(v_round)->'themes') t where t->>'key' = 'kollega');
+    v_at_k := (select t from jsonb_array_elements(public.comment_themes(v_round)->'themes') t where t->>'key' = v_factor);
 
     raise exception 'rollback-probe';
   exception when others then
