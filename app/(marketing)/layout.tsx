@@ -1,6 +1,8 @@
+import type { Route } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { LogoMark } from '@/components/shell/Logo'
+import { CONTACT_MAIL } from '@/lib/marketing/site'
 
 /**
  * The public chrome. Orgpuls_Start.dc.html lines 28-42 and 265-275.
@@ -52,9 +54,12 @@ export default async function MarketingLayout({ children }: { children: React.Re
             {t('start.footer')}
           </span>
           <span className="flex flex-wrap gap-[16px] text-[12.5px]">
-            <Link href="/hjelp">{t('start.footerHow')}</Link>
+            {/* public pages only: /hjelp is behind the sign-in, so a visitor landed on the
+                sign-in form from "Slik virker det" and "Kontakt" (D-79) */}
+            <Link href={'/#how' as Route}>{t('start.footerHow')}</Link>
+            <Link href={'/artikler' as Route}>{t('seo.common.articles')}</Link>
             <Link href="/hjelp/gdpr">{t('start.footerPrivacy')}</Link>
-            <Link href="/hjelp">{t('start.footerContact')}</Link>
+            <a href={`mailto:${CONTACT_MAIL}`}>{t('start.footerContact')}</a>
           </span>
         </div>
       </div>

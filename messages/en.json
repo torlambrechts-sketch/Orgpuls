@@ -3065,5 +3065,1459 @@
       "firstNone": "Not planned yet"
     },
     "problem": "It could not be saved. Try again."
+  },
+  "seo": {
+    "common": {
+      "home": "Home",
+      "breadcrumb": "Breadcrumb",
+      "articles": "Articles",
+      "priceLine": "From NOK 265/month excl. VAT · 30 days free · no card",
+      "readMore": "Read more",
+      "readArticle": "Read the article →",
+      "byline": "Updated {date} · {minutes} min read",
+      "sources": "Sources",
+      "disclaimer": "This article is general information, not legal advice. The legal references were checked against Lovdata and Arbeidstilsynet in September 2026.",
+      "nextTitle": "How do we do this in practice?",
+      "nextLink": "More on this: {page} →"
+    },
+    "home": {
+      "title": "Orgpuls – employee surveys and work environment mapping",
+      "description": "Map the psychosocial working environment, act on it and see whether the measures work. Covers the Working Environment Act. 30 days free, no card.",
+      "groupSubject": "Orgpuls for several companies",
+      "articlesEyebrow": "Articles",
+      "articlesTitle": "Read up before you start",
+      "articlesAll": "All articles →"
+    },
+    "forWho": {
+      "eyebrow": "Who it is for",
+      "title": "Find the page that fits you"
+    },
+    "index": {
+      "title": "Articles on the work environment and mapping | Orgpuls",
+      "description": "Practical articles on mapping the psychosocial working environment, employee surveys, anonymity and the safety representative's role – with references to the law.",
+      "crumb": "Articles",
+      "eyebrow": "Articles",
+      "h1": "The work environment, explained",
+      "lead": "What the law requires, which questions give answers, and how to build a rhythm that lasts. Written for managing directors, HR and safety representatives in Norwegian organisations."
+    },
+    "lp": {
+      "lovkrav": {
+        "title": "Mapping the psychosocial working environment | Orgpuls",
+        "description": "The Working Environment Act requires mapping, risk assessment, measures and follow-up of the psychosocial working environment. See what is required – and how to do it.",
+        "crumb": "The legal requirement",
+        "card": {
+          "title": "The legal requirement",
+          "text": "What the Act and the regulation require of mapping, and how you document it."
+        },
+        "kicker": "Working Environment Act § 3-1 and § 4-3",
+        "h1": "Mapping the psychosocial working environment – without a separate project",
+        "lead": "The Working Environment Act requires you to map the psychosocial working environment, assess the risk, put measures in place and follow up. Since 1 January 2026 the regulation says more clearly how. Orgpuls makes each step part of work you do anyway.",
+        "cta": "Start free – 30 days, no card",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the law requires – four steps"
+          },
+          {
+            "t": "p",
+            "text": "The requirement is in section 3-1, second paragraph, letter c of the Working Environment Act: the employer shall map hazards and problems, assess the risks on that basis, draw up plans and implement measures to reduce the risk. For the psychosocial working environment, chapter 1A of the regulation on the performance of work expands on this, in force since 1 January 2026."
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "AML § 3-1 (2) c",
+                "text": "Map, assess risk, make plans and put measures in place. **How Orgpuls does it:** one survey is the mapping, the result shows the risk per factor, and the findings become measures with an owner and a deadline."
+              },
+              {
+                "ref": "AML § 4-3",
+                "text": "The psychosocial working environment shall be fully satisfactory. **How Orgpuls does it:** eleven factors covering what the section names, among them unclear and conflicting demands, emotional demands, workload and support."
+              },
+              {
+                "ref": "Regulation § 1A-2",
+                "text": "Mapping shall be done together with the employees, repeated regularly and documented. **How Orgpuls does it:** the annual wheel plans the rounds, and every round is stored with its date."
+              },
+              {
+                "ref": "AML § 6-2",
+                "text": "The safety representative shall be consulted. **How Orgpuls does it:** the safety representative sees the same figures as management, at no extra cost."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "The documentation builds itself"
+          },
+          {
+            "t": "p",
+            "text": "The regulation requires the mapping and risk assessment to be documented and to form part of the systematic health, safety and environment work. In Orgpuls every survey, every risk assessment and every measure is stored with a date and an owner. The report follows the four steps of section 3-1 letter c in order: what was mapped, what the risk assessment concluded, which measures were put in place, and what the follow-up showed."
+          },
+          {
+            "t": "p",
+            "text": "The figures stay as they were when the round closed, so the documentation does not change afterwards. The report can be printed or saved as PDF the day someone asks."
+          },
+          {
+            "t": "box",
+            "title": "What Orgpuls does not cover",
+            "text": "Orgpuls covers the mapping and risk assessment of the psychosocial working environment. HSE goals, deviation handling, sickness absence follow-up and safety inspections live elsewhere. Arbeidstilsynet expects mapping to draw on several sources – a survey is one of them."
+          },
+          {
+            "t": "h2",
+            "text": "What a year looks like"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Baseline",
+                "text": "The full question set once a year: 33 statements across eleven factors. About four minutes per employee."
+              },
+              {
+                "title": "Measures",
+                "text": "The result points to what lifts the most. You choose measures and give each an owner and a deadline."
+              },
+              {
+                "title": "Pulse",
+                "text": "Short surveys between baselines, only on the factors where a measure is running. Under a minute."
+              },
+              {
+                "title": "Report",
+                "text": "Mapping, risk assessment, measures and follow-up – together, dated, ready for an inspection."
+              }
+            ]
+          }
+        ],
+        "faq": [
+          {
+            "q": "Does the mapping requirement apply to small organisations?",
+            "a": "Yes. Section 3-1 applies to every employer with employees. The regulation says mapping shall be adapted to the organisation's nature, activities and size – a small organisation can keep it simple, but not skip it."
+          },
+          {
+            "q": "Is an employee survey enough?",
+            "a": "It is a good source, but rarely the only one. Arbeidstilsynet also points to safety inspections and appraisal conversations. What counts is that you map, assess risk, put measures in place and follow up – and can show it."
+          },
+          {
+            "q": "What changed on 1 January 2026?",
+            "a": "The regulation on the performance of work gained a new chapter 1A on the psychosocial working environment. Arbeidstilsynet writes that the changes bring no new requirements, but clarify the ones that already applied."
+          },
+          {
+            "q": "How often must we map?",
+            "a": "The regulation says mapping shall be repeated regularly and when changes may affect the risk. It sets no fixed interval. A common rhythm is one main survey a year with short pulses in between."
+          }
+        ],
+        "finalTitle": "Do all four steps in one rhythm",
+        "finalBody": "Enter your organisation number and we fetch the rest from the Brønnøysund registers. You are up and running in three minutes, and you give no card details until you have decided."
+      },
+      "verneombud": {
+        "title": "Safety representatives and work environment mapping | Orgpuls",
+        "description": "As a safety representative you shall be consulted on the working environment. In Orgpuls you see the same figures as management and follow the measures – at no extra cost.",
+        "crumb": "For safety representatives",
+        "card": {
+          "title": "Safety representatives",
+          "text": "Access to the mapping and the measures at no extra cost – and a ready e-mail you can send to management."
+        },
+        "kicker": "Working Environment Act § 6-2",
+        "h1": "As safety representative you see the same figures as management",
+        "lead": "You shall be consulted when the organisation maps the working environment and puts measures in place. For that you need access to the same basis as management – not a summary afterwards.",
+        "cta": "I am a manager – start free",
+        "tip": {
+          "label": "Tip your manager",
+          "subject": "Mapping the working environment",
+          "body": "Hi,\n\nWe are due to map the psychosocial working environment and follow up the measures. I have looked at Orgpuls: the answers are anonymous, it takes about four minutes per employee, and as safety representative I get access at no extra cost. It costs from NOK 265 a month excl. VAT and can be tried free for 30 days: https://www.orgpuls.com/verneombud\n\nCan we talk about it?\n"
+        },
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What you are entitled to"
+          },
+          {
+            "t": "p",
+            "text": "Section 6-2 of the Working Environment Act says the safety representative shall see to it that the employees' psychosocial working environment is safeguarded, and shall be consulted during the planning and implementation of measures that matter for the working environment. Section 1A-2 of the regulation on the performance of work also requires the mapping and risk assessment to be done together with the employees and their representatives."
+          },
+          {
+            "t": "h2",
+            "text": "What you get in Orgpuls"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "The same figures as management",
+                "text": "You see the result for the whole organisation, as the managing director sees it – not a presentation afterwards."
+              },
+              {
+                "title": "Measures with an owner and a deadline",
+                "text": "You see which measures are set, who owns them, and when they are due."
+              },
+              {
+                "title": "Anonymity you can vouch for",
+                "text": "No group is shown until at least five have answered. The limit cannot be lowered – not even by an administrator."
+              },
+              {
+                "title": "At no cost",
+                "text": "The safety representative has access at no extra cost to the organisation."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "When you want to raise it with management"
+          },
+          {
+            "t": "p",
+            "text": "Many safety representatives know the mapping should be done, but not how to raise it. The «Tip your manager» button at the top of this page opens a ready e-mail in your own mail program. You can change it before you send it, and we never see it."
+          },
+          {
+            "t": "box",
+            "title": "Advice from practice",
+            "text": "Raise it as a question of rhythm, not of a tool: «When did we last map, and what happened to the findings?» The answer usually says more than any survey."
+          },
+          {
+            "t": "h2",
+            "text": "When a department is not shown"
+          },
+          {
+            "t": "p",
+            "text": "When a small department is not shown, nothing is being hidden from you. The figure is not calculated for anyone. The answers still count in the whole, so no voice is lost. Read more about [what anonymous means in an employee survey](/artikler/anonym-medarbeiderundersokelse)."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Must we have a safety representative?",
+            "a": "The main rule in section 6-1 of the Working Environment Act is yes: a safety representative shall be elected in every organisation. Only organisations with fewer than five employees may agree in writing on another arrangement."
+          },
+          {
+            "q": "Can management see who answered what?",
+            "a": "No. The answer is stored without name, e-mail address or IP address, and no group is shown until at least five have answered."
+          },
+          {
+            "q": "Does it cost me anything as safety representative?",
+            "a": "No. The organisation pays for the subscription, and the safety representative has access at no extra cost."
+          },
+          {
+            "q": "What if management does not want to?",
+            "a": "The mapping requirement applies whatever tool you use – Orgpuls is one way to meet it. If the organisation has a working environment committee, you can raise it there."
+          }
+        ],
+        "finalTitle": "Tip management, or start yourself",
+        "finalBody": "Both manager and safety representative in a small organisation? Start with the organisation number – you are up and running in three minutes."
+      },
+      "smaaBedrifter": {
+        "title": "Employee survey for small businesses | Orgpuls",
+        "description": "The Working Environment Act applies to small organisations too. Map, act and follow up for NOK 265/month excl. VAT. Anonymous, in Norwegian, set up in under an hour.",
+        "crumb": "Small businesses",
+        "card": {
+          "title": "Small businesses",
+          "text": "5–25 employees and no HR department: an anonymous employee survey for NOK 265 a month."
+        },
+        "kicker": "For organisations with 5–25 employees",
+        "h1": "An employee survey for small businesses – set up in under an hour",
+        "lead": "You have no HR department, but you have the same legal requirements as large organisations. Orgpuls handles sending, reminders and documentation, so you can spend the time on what comes out of it.",
+        "cta": "Start free with your organisation number",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What about anonymity when we are few?"
+          },
+          {
+            "t": "p",
+            "text": "It is the first question in a small organisation, and it is the right one to ask. In Orgpuls no group is shown until at least five people have answered. If you are twelve, you see figures for the whole organisation, but not for a department of three. The limit lives in the database and cannot be lowered – not even by the managing director."
+          },
+          {
+            "t": "p",
+            "text": "The answer is stored without name, e-mail address or IP address. There is no column that could link an answer to a person."
+          },
+          {
+            "t": "h2",
+            "text": "The time it takes"
+          },
+          {
+            "t": "table",
+            "head": [
+              "What",
+              "Time"
+            ],
+            "rows": [
+              [
+                "Signing up with the organisation number",
+                "About three minutes"
+              ],
+              [
+                "First-time setup",
+                "Under an hour"
+              ],
+              [
+                "The main survey, per employee",
+                "About four minutes"
+              ],
+              [
+                "A pulse, per employee",
+                "Under a minute"
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "When people do not sit at a PC"
+          },
+          {
+            "t": "p",
+            "text": "The survey is sent by e-mail or SMS, and can also be shared as a link or a QR code in the break room. Everyone answers on their phone, in Norwegian. Employees can be pasted in from a spreadsheet – you do not need an HR system."
+          },
+          {
+            "t": "h2",
+            "text": "What you get"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Annual mapping of eleven factors, with short pulses in between",
+              "The findings that lift the most, turned into measures with an owner and a deadline",
+              "A report that follows section 3-1 letter c of the Working Environment Act",
+              "Access for the safety representative at no extra cost"
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Price",
+            "text": "Small: NOK 265 a month excl. VAT for up to 25 employees. Everything included, no start-up fee and no lock-in. Try it free for 30 days – no card details."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Do small businesses have to map the working environment?",
+            "a": "Yes. Section 3-1 of the Working Environment Act applies to every organisation with employees. The regulation says mapping shall be adapted to the organisation's size, so it can be simple – but it must be done and documented."
+          },
+          {
+            "q": "What if only four answer?",
+            "a": "Then a dash is shown instead of a number. The figure is not hidden from you in particular – it is not calculated for anyone. That is the price of nobody being able to recognise an answer."
+          },
+          {
+            "q": "Do we need an HR system?",
+            "a": "No. You can paste employees in from a spreadsheet or add them one at a time. An e-mail address is optional."
+          },
+          {
+            "q": "Can we cancel at any time?",
+            "a": "Yes. The agreement is monthly, with no lock-in and no start-up fee."
+          }
+        ],
+        "finalTitle": "Try it on your own organisation",
+        "finalBody": "Enter your organisation number and we fetch the rest from the Brønnøysund registers. You are up and running in three minutes, and you give no card details until you have decided."
+      },
+      "byggOgAnlegg": {
+        "title": "Work environment survey for construction | Orgpuls",
+        "description": "When people are spread across sites, rigs and workshops, the survey has to reach them on their phones. Sent by SMS, anonymous, in Norwegian. 30 days free.",
+        "crumb": "Construction",
+        "card": {
+          "title": "Construction",
+          "text": "Sent by SMS to people on site and in the workshop, with results per department."
+        },
+        "kicker": "Construction, civil works and workshops",
+        "h1": "A work environment survey that reaches people on site, rig and workshop",
+        "lead": "Many employees do not sit at a PC, and the e-mail goes unread. Orgpuls sends the survey by SMS, and everyone answers on their phone in about four minutes.",
+        "cta": "Start free – try it on the next project",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "When the channel decides the response rate"
+          },
+          {
+            "t": "p",
+            "text": "Where people work outdoors, the channel is the biggest single factor in the response rate. An SMS or a QR code in the site hut moves more than any wording in the invitation. Orgpuls sends one reminder to those who have not answered – from the system, not the manager – and nobody learns who is missing."
+          },
+          {
+            "t": "h2",
+            "text": "See the difference between site and workshop"
+          },
+          {
+            "t": "p",
+            "text": "With the Usual plan you see the result per department and team, so you see where workload, time pressure and speaking up differ. A department is shown once at least five have answered."
+          },
+          {
+            "t": "p",
+            "text": "The example on the front page is Nordvik Anlegg AS, an imaginary company with departments on site, in the workshop and in administration. The departments with enough answers are shown there, while administration – five employees and three answers – only counts in the whole."
+          },
+          {
+            "t": "h2",
+            "text": "What matters most outdoors"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Workload and time pressure** – when progress runs the day",
+              "**Contact and communication** – when people work alone or on different rigs",
+              "**Speaking up** – whether it is safe to report mistakes before they get expensive",
+              "**Conflicting demands** – when the client, the project manager and the foreman each want something else"
+            ]
+          },
+          {
+            "t": "box",
+            "title": "When people speak up early",
+            "text": "A deviation that surfaces in week two costs less than one that surfaces at the final settlement. Speaking up is not just wellbeing – it is money."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Does everyone need an e-mail address?",
+            "a": "No. The survey can be sent by SMS, or shared as a link and a QR code. An e-mail address is optional."
+          },
+          {
+            "q": "How long does it take an employee?",
+            "a": "About four minutes for the main survey and under a minute for a pulse. Everything can be answered on a phone."
+          },
+          {
+            "q": "Can we see results per project or department?",
+            "a": "Yes, per group as you set the groups up, on the Usual plan. A group is shown once at least five have answered."
+          },
+          {
+            "q": "What does it cost?",
+            "a": "Small costs NOK 265 a month for up to 25 employees, Usual NOK 565 for 26–100 employees. Prices exclude VAT, with no lock-in and 30 days free."
+          }
+        ],
+        "finalTitle": "Try it on the next project",
+        "finalBody": "Enter the organisation number, add the crew and send by SMS. You are up and running in three minutes, without card details."
+      }
+    },
+    "articles": {
+      "nyeRegler2026": {
+        "title": "New rules on the psychosocial work environment, 2026 | Orgpuls",
+        "description": "Since 1 January 2026 the regulation has its own chapter on the psychosocial working environment. What the change means for mapping, measures and documentation.",
+        "h1": "New rules on the psychosocial working environment from 1 January 2026",
+        "lead": "On 1 January 2026 the regulation on the performance of work gained a new chapter 1A on the psychosocial working environment. Arbeidstilsynet says the requirements are not new, but are now written more clearly. For many organisations it is still a good reason to look at how they map.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "In short"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Chapter 1A of the regulation on the performance of work applies from 1 January 2026.",
+              "The employer shall map psychosocial working environment factors, assess the risk and put measures in place.",
+              "Mapping shall be done together with the employees and their representatives, repeated regularly and documented.",
+              "According to Arbeidstilsynet the rules clarify requirements that already applied – they introduce no new ones."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "What the regulation actually says"
+          },
+          {
+            "t": "p",
+            "text": "Chapter 1A has five sections: a fully satisfactory psychosocial working environment (§ 1A-1), mapping and risk assessment (§ 1A-2), measures (§ 1A-3), information and training (§ 1A-4) and the employee's duty to take part (§ 1A-5). In practice, § 1A-2 and § 1A-3 matter most."
+          },
+          {
+            "t": "quote",
+            "text": "The employer shall map psychosocial working environment factors that may affect the employees' health, safety or welfare.",
+            "cite": "Regulation on the performance of work § 1A-2, first paragraph (our translation)"
+          },
+          {
+            "t": "p",
+            "text": "The employer shall then assess the risk of harmful effects, both in the short and the long term. The risk assessment shall cover the factors one by one, how they affect each other, and whether together they amount to a risk."
+          },
+          {
+            "t": "h3",
+            "text": "Four requirements for how it is done"
+          },
+          {
+            "t": "p",
+            "text": "The fourth paragraph of § 1A-2 says the mapping and risk assessment shall be:"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "carried out together with the employees and their representatives",
+              "adapted to the organisation's nature, activities and size",
+              "repeated regularly and when changes may matter for the risk in the organisation",
+              "documented and part of the organisation's systematic health, safety and environment work"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "§ 1A-3 follows on: on the basis of the risk assessment the employer shall draw up the necessary plans and implement the necessary measures to remove or reduce the risk. That too shall be done together with the employees and their representatives."
+          },
+          {
+            "t": "h2",
+            "text": "What is new, and what is not?"
+          },
+          {
+            "t": "p",
+            "text": "The duty to map and assess risk is not new. It is in section 3-1 of the Working Environment Act, and section 4-3 requires the psychosocial working environment to be fully satisfactory. What is new is that the regulation describes how: that the factors are to be assessed one by one and together, and that the work is to be repeated and documented."
+          },
+          {
+            "t": "p",
+            "text": "Section 4-3, second paragraph, of the Act names among other things unclear or conflicting demands and expectations, emotional demands in work with people, workload and time pressure, and support and help at work. Those are the factors a good mapping should cover."
+          },
+          {
+            "t": "box",
+            "title": "Three questions to ask internally",
+            "text": "When did we last map the psychosocial working environment? Who took part – the safety representative and the union representatives? And can we show what happened to the findings? If any of the answers is unclear, that is where to start."
+          },
+          {
+            "t": "h2",
+            "text": "What this means in practice"
+          },
+          {
+            "t": "h3",
+            "text": "1. Look at the factors one by one – and together"
+          },
+          {
+            "t": "p",
+            "text": "One overall wellbeing score is not enough. The regulation asks you to look at the factors one by one and at how they interact. A high workload is one thing. A high workload combined with little support from the manager is a different and bigger risk."
+          },
+          {
+            "t": "h3",
+            "text": "2. Involve the safety and union representatives from the start"
+          },
+          {
+            "t": "p",
+            "text": "Working together means more than reporting the result afterwards. Under section 6-2 of the Working Environment Act the safety representative shall be consulted during the planning and implementation of measures. Let the safety representative see the same basis as management. Read more about [the safety representative's role in mapping](/artikler/verneombudets-rolle-i-kartleggingen)."
+          },
+          {
+            "t": "h3",
+            "text": "3. Make it a rhythm"
+          },
+          {
+            "t": "p",
+            "text": "«Repeated regularly», it says, but the regulation sets no fixed interval. Many choose one main survey a year with short pulses in between, so they can see whether the measures work. Read more in [How often should you measure the working environment?](/artikler/hvor-ofte-bor-dere-male-arbeidsmiljoet)"
+          },
+          {
+            "t": "h3",
+            "text": "4. Document as you go"
+          },
+          {
+            "t": "p",
+            "text": "The documentation shall be part of the systematic HSE work. The simplest way is for it to be produced while you work: what was measured, what you assessed, which measures you chose, who owns them, and what the next survey showed."
+          },
+          {
+            "t": "h2",
+            "text": "How Orgpuls covers the requirements"
+          },
+          {
+            "t": "h2",
+            "text": "Information, training and the employees' duty"
+          },
+          {
+            "t": "p",
+            "text": "§ 1A-4 says the employer shall give employees the necessary information about the risk factors and the measures put in place, and ensure the necessary training. In practice the result of the mapping cannot stay with management. Employees shall know what came out, and what will be done."
+          },
+          {
+            "t": "p",
+            "text": "§ 1A-5 goes the other way: employees themselves have a duty to take part in the work for a fully satisfactory psychosocial working environment, with reference to section 2-3 of the Working Environment Act. Answering the mapping and taking part in the follow-up is part of that."
+          },
+          {
+            "t": "h2",
+            "text": "Common questions about the change"
+          },
+          {
+            "t": "h3",
+            "text": "Do we have to change tools or write new routines?"
+          },
+          {
+            "t": "p",
+            "text": "Not necessarily. If you already map the psychosocial working environment, assess risk, put measures in place and document it, you are on the right track. Go through the four requirements in the fourth paragraph of § 1A-2 and see whether anything is missing – often it is the follow-up and the documentation."
+          },
+          {
+            "t": "h3",
+            "text": "Does it apply to small organisations?"
+          },
+          {
+            "t": "p",
+            "text": "Yes. The rules apply to every employer. Mapping shall be adapted to the organisation's nature, activities and size, so an organisation of ten can keep it simpler than one of two hundred – but cannot skip it."
+          },
+          {
+            "t": "h3",
+            "text": "Is an annual employee survey enough?"
+          },
+          {
+            "t": "p",
+            "text": "It can be a good part of the mapping, but it rarely covers everything. Arbeidstilsynet recommends several sources, for example safety inspections and appraisal conversations. And a survey without risk assessment, measures and follow-up does not meet the requirement on its own."
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls measures eleven psychosocial factors with three statements each, and shows the risk per factor. The findings become measures with an owner and a deadline, and short pulses measure whether the measures work. The safety representative sees the same figures as management. Everything is stored with a date, and the report follows the steps of section 3-1 letter c. See [what the law requires, and how Orgpuls does it](/lovkrav)."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Regulation on the performance of work (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/dokument/SF/forskrift/2011-12-06-1357"
+          },
+          {
+            "label": "Amending regulation of 16 December 2025 no. 2615 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/dokument/LTI/forskrift/2025-12-16-2615"
+          },
+          {
+            "label": "Regulation on the performance of work, chapter 1A (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Psychosocial working environment (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          },
+          {
+            "label": "Working Environment Act § 4-3 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          },
+          {
+            "label": "Working Environment Act § 6-2 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A76-2"
+          }
+        ],
+        "ctaTitle": "Map under the new rules – without a separate project",
+        "ctaBody": "Orgpuls turns mapping, risk assessment, measures and follow-up into one rhythm. 30 days free, no card."
+      },
+      "kravKartlegging": {
+        "title": "Requirements for mapping the work environment | Orgpuls",
+        "description": "The Working Environment Act requires every organisation to map the psychosocial working environment. The four steps, who should take part, and common mistakes.",
+        "h1": "Requirements for mapping the psychosocial working environment",
+        "lead": "Every organisation with employees shall map the psychosocial working environment, assess the risk, put measures in place and follow up. The requirement is in section 3-1 of the Working Environment Act and is expanded on in the regulation on the performance of work. Here is what it means, step by step.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "The short answer"
+          },
+          {
+            "t": "p",
+            "text": "The employer shall map hazards and problems in the working environment, assess the risk, make plans and put measures in place. That includes the psychosocial side – workload, role clarity, support, speaking up and the like. The work shall be done together with the employees and their union representatives, repeated regularly and documented."
+          },
+          {
+            "t": "h2",
+            "text": "Where is the requirement?"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "AML § 3-1 (1)",
+                "text": "The employer shall ensure systematic health, safety and environment work at every level of the organisation, together with the employees and their union representatives."
+              },
+              {
+                "ref": "AML § 3-1 (2) c",
+                "text": "Map hazards and problems, assess the risks, draw up plans and implement measures to reduce the risk."
+              },
+              {
+                "ref": "AML § 4-3",
+                "text": "The psychosocial working environment shall be fully satisfactory. The second paragraph names among other things unclear demands, emotional demands, workload and support."
+              },
+              {
+                "ref": "Regulation § 1A-2",
+                "text": "Mapping and risk assessment of the psychosocial factors – together, adapted to the organisation, repeated regularly and documented."
+              },
+              {
+                "ref": "AML § 6-2",
+                "text": "The safety representative shall see to it that the psychosocial working environment is safeguarded, and be consulted on measures."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "The four steps"
+          },
+          {
+            "t": "h3",
+            "text": "1. Map"
+          },
+          {
+            "t": "p",
+            "text": "Find out how employees experience the working environment. An anonymous survey is the most common tool, but Arbeidstilsynet recommends several sources, for example safety inspections and appraisal conversations. The mapping should cover what section 4-3 names: demands and expectations, emotional demands, workload and time pressure, support, integrity and dignity, contact with others, and protection from harassment."
+          },
+          {
+            "t": "h3",
+            "text": "2. Assess the risk"
+          },
+          {
+            "t": "p",
+            "text": "What do the findings mean? Where is the risk that people get ill, leave or stop speaking up? The regulation asks you to look at the factors one by one, at how they affect each other, and at whether together they amount to a risk – in both the short and the long term."
+          },
+          {
+            "t": "h3",
+            "text": "3. Put measures in place"
+          },
+          {
+            "t": "p",
+            "text": "Choose measures that remove or reduce the risk, and give each measure an owner and a deadline. Arbeidstilsynet writes that collective measures should be considered before individual ones, and mentions among others clear role descriptions and regular meetings with the manager."
+          },
+          {
+            "t": "h3",
+            "text": "4. Follow up"
+          },
+          {
+            "t": "p",
+            "text": "Did the measure work? You only know when you measure again. Many skip this step, and that is why the next mapping often shows the same as the last."
+          },
+          {
+            "t": "box",
+            "title": "Three findings, not nine",
+            "text": "A mapping that produces ten measures usually produces none. Choose the two or three findings that matter most, do them properly, and measure whether they worked before taking on the next."
+          },
+          {
+            "t": "h2",
+            "text": "Who should take part?"
+          },
+          {
+            "t": "p",
+            "text": "Mapping is the employer's responsibility, but it shall be done together with the employees and their representatives. In practice this means the safety representative and the union representatives help plan the mapping, see the result and take part when measures are chosen. If the organisation has a working environment committee – required where at least 30 people are regularly employed, and between 10 and 30 if one of the parties demands it – the work naturally belongs there too."
+          },
+          {
+            "t": "p",
+            "text": "Many organisations treat a work environment survey as a control measure under chapter 9 of the Working Environment Act, and therefore discuss its purpose, design and implementation with the union representatives before sending it. It is a good principle in any case: people answer a survey more honestly when they know why they are getting it."
+          },
+          {
+            "t": "h2",
+            "text": "Common mistakes"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Measuring without acting.** The findings are presented and then nothing happens. Next time the response rate falls.",
+              "**Measures without an owner.** «We will get better at communicating» is not a measure. «The department head introduces a weekly board meeting from 1 March» is.",
+              "**No follow-up.** A measure is not done until the next survey shows whether it worked.",
+              "**Small groups that can be recognised.** Figures for a department of three are not anonymous. Set a lower limit, and keep it.",
+              "**No documentation.** If you cannot show what you did, in practice it is as if it was not done."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Checklist before you start"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "Decide who takes part: management, the safety representative and the union representatives.",
+              "Tell employees about the purpose, the anonymity and when the result will come.",
+              "Choose a tool that covers the factors in section 4-3 and has a fixed anonymity limit.",
+              "Set aside time to go through the result within two weeks of the survey closing.",
+              "Choose two or three measures with an owner and a deadline.",
+              "Plan the next survey before you close this one."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "What the documentation should contain"
+          },
+          {
+            "t": "p",
+            "text": "The regulation says the mapping and risk assessment shall be documented, but not in what form. Good documentation answers what an inspector or a new safety representative will ask:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "When the mapping was done, and who helped plan it",
+              "How it was done: method, who was asked, and the response rate",
+              "What came out, factor by factor",
+              "How the risk was assessed, and what was prioritised",
+              "Which measures were chosen, with owner and deadline",
+              "What the follow-up showed – whether the measures worked"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Attach what does not come from the survey: minutes from the discussion with the union representatives, safety inspections in the period, and how employees were told about the result."
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls covers the four steps for the psychosocial working environment and documents them while you work. Read more about [the legal requirement and how Orgpuls meets it](/lovkrav), or about [the new rules from 2026](/artikler/nye-regler-psykososialt-arbeidsmiljo-2026)."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Working Environment Act § 3-1 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A73-1"
+          },
+          {
+            "label": "Working Environment Act § 4-3 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          },
+          {
+            "label": "Working Environment Act § 6-2 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A76-2"
+          },
+          {
+            "label": "Working Environment Act § 7-1 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A77-1"
+          },
+          {
+            "label": "Regulation on the performance of work (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/dokument/SF/forskrift/2011-12-06-1357"
+          },
+          {
+            "label": "Regulation on the performance of work, chapter 1A (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Psychosocial working environment (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          }
+        ],
+        "ctaTitle": "Do all four steps in Orgpuls",
+        "ctaBody": "Mapping, risk assessment, measures and follow-up – documented while you work. 30 days free, no card."
+      },
+      "sporsmal": {
+        "title": "Employee survey: the questions that give answers | Orgpuls",
+        "description": "Which questions belong in an employee survey? The topics that matter, eleven example questions with an answer scale, and why fewer questions give better answers.",
+        "h1": "Employee survey: the questions that give answers",
+        "lead": "A good employee survey is short, covers what actually affects the working environment, and asks questions people can answer honestly. Here are the topics to include, example questions and what to do with the answers.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Fewer questions give better answers"
+          },
+          {
+            "t": "p",
+            "text": "It is tempting to ask about everything. But every question costs time, and fatigue gives worse answers towards the end. More importantly: every question quietly promises that someone will act on the answer. Only ask what you are willing to follow up."
+          },
+          {
+            "t": "p",
+            "text": "A main survey of around 30 statements takes about four minutes to answer. Short pulses between main surveys should take under a minute."
+          },
+          {
+            "t": "h2",
+            "text": "The topics to include"
+          },
+          {
+            "t": "p",
+            "text": "Section 4-3 of the Working Environment Act and chapter 1A of the regulation on the performance of work point to the factors that matter most for the psychosocial working environment. A survey used for mapping should cover them:"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Topic",
+              "What it is about"
+            ],
+            "rows": [
+              [
+                "Workload and time pressure",
+                "Whether the tasks and the time available are in balance"
+              ],
+              [
+                "Role clarity",
+                "Whether people know what is expected, and where their responsibility ends"
+              ],
+              [
+                "Conflicting demands",
+                "Whether demands from different directions fit together"
+              ],
+              [
+                "Emotional demands",
+                "The strain of working with people, and whether anyone shares it with you"
+              ],
+              [
+                "Support from the manager",
+                "Whether the manager steps in when the job gets demanding"
+              ],
+              [
+                "Support from colleagues",
+                "Whether people help each other and share knowledge"
+              ],
+              [
+                "Speaking up",
+                "Whether it is safe to speak up – and whether anything happens when you do"
+              ],
+              [
+                "Influence and control",
+                "Whether people have a say over their own work"
+              ],
+              [
+                "Integrity and dignity",
+                "Whether people are treated with respect"
+              ],
+              [
+                "Contact and communication",
+                "Whether people have contact with others during the working day"
+              ],
+              [
+                "Recognition and meaning",
+                "Whether effort is noticed, and whether the work feels meaningful"
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Eleven example questions"
+          },
+          {
+            "t": "p",
+            "text": "The questions work best as statements people take a position on, on a five-point scale: **strongly disagree, somewhat disagree, neither, somewhat agree, strongly agree**. Here is one statement per topic, as they appear in Orgpuls (translated):"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "I can speak up about unacceptable conditions without fearing the consequences",
+              "My workload is manageable over time",
+              "I rarely get tasks without knowing what should be deprioritised",
+              "I can be in contact with colleagues during the working day",
+              "I am rarely left alone in emotionally demanding situations",
+              "I get support from my manager when the job gets demanding",
+              "I have a say in how I carry out my work",
+              "I am treated with respect whoever I am",
+              "I know what is expected of me in my job",
+              "My colleagues step in when I need help",
+              "The work I do matters"
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Write statements, not questions",
+            "text": "«I know what is expected of me in my job» is easier to answer honestly than «Is your role clear?». The statement is concrete, is about one's own experience and has no right answer."
+          },
+          {
+            "t": "h2",
+            "text": "Questions outside the index"
+          },
+          {
+            "t": "p",
+            "text": "Some questions do not fit an overall index, but are worth asking:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Recommendation:** «How likely is it that you would recommend us as a workplace to someone you know?» Reported as a figure of its own.",
+              "**Offensive behaviour:** «Have you experienced or witnessed offensive behaviour, harassment or bullying at work in the last twelve months?» Should only be shown as a count for the whole organisation, never per group."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "An open comment field often gives the most important findings. But free text can reveal who wrote it, even when no name is stored. Treat comments with the same care as figures for small groups."
+          },
+          {
+            "t": "h2",
+            "text": "Anonymity: why a limit of five answers"
+          },
+          {
+            "t": "p",
+            "text": "People answer honestly when they know the answer cannot be traced back. That takes more than not storing the name: a department of three people is recognisable regardless. So no group should be shown until a minimum has answered. In Orgpuls the limit is five, and it cannot be lowered. Read more in [Anonymous employee survey: what does anonymous mean?](/artikler/anonym-medarbeiderundersokelse)"
+          },
+          {
+            "t": "h2",
+            "text": "What to do with the answers"
+          },
+          {
+            "t": "p",
+            "text": "The result is not the answer – it is the start of a conversation. Share it with employees within two weeks. Choose the two or three findings that matter most and turn them into measures with an owner and a deadline. Do not take on nine things at once."
+          },
+          {
+            "t": "h2",
+            "text": "How to read the result"
+          },
+          {
+            "t": "p",
+            "text": "In Orgpuls the answers are converted to an index from 0 to 100: strongly disagree becomes 0, strongly agree becomes 100, and each factor gets the average of its three statements. A factor at 65 or above counts as low risk, 50–64 as medium and below 50 as high."
+          },
+          {
+            "t": "p",
+            "text": "The level is still less interesting than the movement. A factor at 61 says little on its own. A fall from 64 to 61 since last year, while the rest stand still, is a signal. Look at the factors before the total – the total can stand still while two factors move in opposite directions."
+          },
+          {
+            "t": "h2",
+            "text": "Why five answer options"
+          },
+          {
+            "t": "p",
+            "text": "A five-point scale with a midpoint lets people say «neither» when that is what they mean. Without a midpoint they are forced to take a side, and that adds noise. More steps rarely give better data – the difference between 6 and 7 on a ten-point scale means different things to different people."
+          },
+          {
+            "t": "p",
+            "text": "Then measure again on the factors where measures are running. You see whether anything has moved, and employees see that their answers led somewhere. That is what keeps the response rate up next time."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Working Environment Act § 4-3 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          },
+          {
+            "label": "Regulation on the performance of work (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/dokument/SF/forskrift/2011-12-06-1357"
+          },
+          {
+            "label": "Psychosocial working environment (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          }
+        ],
+        "ctaTitle": "Use a question set that is ready made",
+        "ctaBody": "Orgpuls has eleven factors with three statements each, plus the questions outside the index. 30 days free, no card."
+      },
+      "hvorOfte": {
+        "title": "How often should you measure the work environment? | Orgpuls",
+        "description": "Once a year, every quarter or more often? What the rules say, why one survey a year only shows a state, and an example annual wheel with pulses.",
+        "h1": "How often should you measure the working environment?",
+        "lead": "The short answer: one main survey a year, and short pulses in between. The main survey documents the state. The pulses show whether the measures work. Here is why – and what an annual wheel can look like.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the rules say"
+          },
+          {
+            "t": "p",
+            "text": "The Working Environment Act sets no fixed interval. Section 1A-2 of the regulation on the performance of work says the mapping and risk assessment shall be repeated regularly and when changes may matter for the risk in the organisation. A reorganisation, a merger, a new system or a demanding period is therefore a reason to map again, whenever you last did it."
+          },
+          {
+            "t": "h2",
+            "text": "One survey a year shows a state, not a direction"
+          },
+          {
+            "t": "p",
+            "text": "An annual survey gives a snapshot. It tells you where you stand, but not whether last year's measures worked, because so much else has happened between two surveys. Twelve months is also a long time to wait to know whether something helped."
+          },
+          {
+            "t": "p",
+            "text": "When a year passes between each time, the survey also becomes a project. It is planned, presented and forgotten. That is the most common reason work on the working environment stalls."
+          },
+          {
+            "t": "h2",
+            "text": "Baseline and pulse"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Baseline – once a year",
+                "text": "The full question set. Sets the zero point and documents the mapping. Put it in the same month every year, so the figures can be compared."
+              },
+              {
+                "title": "Pulse – between baselines",
+                "text": "A few statements, only on the factors where you have put measures in place. The pulse is not a new mapping, but a measurement of whether the measure works."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "An example annual wheel"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Month",
+              "What",
+              "Time per employee"
+            ],
+            "rows": [
+              [
+                "February",
+                "Baseline: the full question set",
+                "About four minutes"
+              ],
+              [
+                "March",
+                "Review, risk assessment and measures with an owner and a deadline",
+                "–"
+              ],
+              [
+                "May",
+                "Pulse on the factors with open measures",
+                "Under a minute"
+              ],
+              [
+                "September",
+                "Pulse",
+                "Under a minute"
+              ],
+              [
+                "November",
+                "Pulse, and planning next year",
+                "Under a minute"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "July is holiday, and December is busy for many. Keep the surveys out of both."
+          },
+          {
+            "t": "h2",
+            "text": "How long can a pulse be?"
+          },
+          {
+            "t": "p",
+            "text": "Short. A pulse that takes more than a couple of minutes starts to feel like a new survey, and then the response rate falls. Keep it to the factors where a measure is running – often two or three factors with three statements each – and it takes under a minute."
+          },
+          {
+            "t": "h2",
+            "text": "What about the response rate?"
+          },
+          {
+            "t": "p",
+            "text": "More frequent surveys do not lower the response rate by themselves. What makes the response rate fall is people not seeing that the last round led to anything. When the findings are shared and the measures are visible, it is easier to get people to answer again."
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Send at the same time every time, for example the first Tuesday of the month at nine.",
+              "Send one reminder, not three – and let the system send it, not the manager.",
+              "Use SMS or a QR code where people do not sit at a PC.",
+              "Say what happened after the last round before you send the next."
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Rule of thumb",
+            "text": "Measure as often as you can follow up. A survey you do not have time to act on is worse than none."
+          },
+          {
+            "t": "h2",
+            "text": "When to measure outside the rhythm"
+          },
+          {
+            "t": "p",
+            "text": "The rules mention changes that may matter for the risk. Typical examples:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "reorganisation, a merger or downsizing",
+              "new management or new managers across much of the organisation",
+              "a move, new premises or a shift to working from home",
+              "new systems or ways of working that change the day for many",
+              "a demanding event or period – an accident, a conflict, a large project"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Then it is better to map the affected factors now than to wait for the next baseline. A pulse aimed at, say, workload and role clarity can do the job."
+          },
+          {
+            "t": "h2",
+            "text": "Compare like with like"
+          },
+          {
+            "t": "p",
+            "text": "A baseline should be compared with the previous baseline, ideally measured in the same month. A pulse is compared with the pulse before. Mix the two and you compare different question sets – and then a change may be due to the questions, not the working environment."
+          },
+          {
+            "t": "h2",
+            "text": "Small organisations"
+          },
+          {
+            "t": "p",
+            "text": "In a small organisation it is tempting to drop the pulses. But that is exactly where they are cheapest: a few statements, under a minute per person. Remember that no group should be shown under five answers. If you are few, you see the figures for the whole organisation, not per department."
+          },
+          {
+            "t": "p",
+            "text": "In Orgpuls the annual wheel plans the rounds itself: one baseline a year and pulses in between, where the pulse only asks about the factors with open measures. Read more about [the questions to include](/artikler/medarbeiderundersokelse-sporsmal)."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Regulation on the performance of work (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/dokument/SF/forskrift/2011-12-06-1357"
+          },
+          {
+            "label": "Regulation on the performance of work, chapter 1A (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          },
+          {
+            "label": "Psychosocial working environment (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          }
+        ],
+        "ctaTitle": "Set the rhythm once – and it runs by itself",
+        "ctaBody": "The annual wheel in Orgpuls plans baseline and pulses for the whole year. 30 days free, no card."
+      },
+      "anonym": {
+        "title": "Anonymous employee survey: what does anonymous mean?",
+        "description": "When is an employee survey really anonymous? Why the name is not enough, why small groups must be hidden, and what to ask the supplier.",
+        "h1": "Anonymous employee survey: what does anonymous mean?",
+        "lead": "Not storing the name is not enough. A survey is only anonymous when nobody can work out who answered what – not from the data, not from small groups, and not from what is written in a comment. Here is what it takes.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Why anonymity decides the quality"
+          },
+          {
+            "t": "p",
+            "text": "People answer honestly when they are confident the answer cannot be traced back. If they are in doubt, they answer politely – or not at all. A survey with doubtful anonymity gives figures that look good but are not true."
+          },
+          {
+            "t": "h2",
+            "text": "Three ways anonymity breaks"
+          },
+          {
+            "t": "h3",
+            "text": "1. The answer can be linked to the person"
+          },
+          {
+            "t": "p",
+            "text": "Many tools send a personal link and store who has answered, so they can send reminders. If that link sits alongside the answers, anonymity is a promise, not a property. Ask whether the answer is stored with anything that could identify the person who gave it: name, e-mail, IP address or an exact time."
+          },
+          {
+            "t": "h3",
+            "text": "2. The group is too small"
+          },
+          {
+            "t": "p",
+            "text": "A department of three is recognisable even if no name is written anywhere. The solution is a lower limit: no group is shown until a minimum has answered. Five is common. The limit must apply to everyone – administrators too – and it should not be possible to lower it to «see the figure anyway»."
+          },
+          {
+            "t": "h3",
+            "text": "3. You can calculate your way there"
+          },
+          {
+            "t": "p",
+            "text": "This is the one most often overlooked. If you see the figure for the whole organisation and for every department but one, you can calculate the last. Then it does not help that the small department is hidden. A good tool therefore holds back one more department when that is needed so the sum does not add up."
+          },
+          {
+            "t": "box",
+            "title": "Why is there a dash?",
+            "text": "A dash instead of a number means the group had too few answers. The figure is not hidden from you in particular – it is not calculated for anyone. The answers still count in the whole."
+          },
+          {
+            "t": "h2",
+            "text": "Comments are the hardest"
+          },
+          {
+            "t": "p",
+            "text": "Free text can reveal who wrote it, even when no name is stored. «As the only woman in the workshop …» needs no signature. Comments should therefore only be shown when the group has enough answers, and management should be able to reply without learning who they are replying to."
+          },
+          {
+            "t": "h2",
+            "text": "Anonymous, but still a conversation"
+          },
+          {
+            "t": "p",
+            "text": "Anonymity does not have to mean one-way communication. In Orgpuls (the Usual plan) management can reply to a comment without knowing who wrote it. The writer gets a private link and can read the reply and answer back – without anyone learning who it was."
+          },
+          {
+            "t": "h2",
+            "text": "Questions to ask the supplier"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "Is the answer stored with a name, e-mail, IP address or exact time?",
+              "What is the smallest group that is shown – and can an administrator lower the limit?",
+              "Does the tool prevent calculating your way to a hidden group?",
+              "How are comments from small groups handled?",
+              "Where is the data stored, and is it shared with anyone?"
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "How Orgpuls does it"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "The answer is stored without name, e-mail or IP address, and the time is rounded to the hour. There is no column that could hold a link.",
+              "No group is shown until at least five have answered. The limit lives in the database and cannot be lowered, only raised.",
+              "When the figures for the other groups would reveal a hidden group, one more group is held back.",
+              "Answers are stored in the EU and are not shared with third parties."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Reminders without knowing who is missing"
+          },
+          {
+            "t": "p",
+            "text": "Reminders raise the response rate, but they are also where anonymity most often leaks. If the manager sends reminders, the manager must know who has not answered – and then also who has. The fix is for the system to send the reminder, once, and for the list of who is missing to be unreadable by anyone in the organisation."
+          },
+          {
+            "t": "h2",
+            "text": "How to explain anonymity to employees"
+          },
+          {
+            "t": "p",
+            "text": "People believe in anonymity when it is explained concretely, not when they are given a promise. A short text before the survey goes out can read like this:"
+          },
+          {
+            "t": "box",
+            "title": "Example text",
+            "text": "«Your answers are stored without name, e-mail or IP address. No group is shown until at least five have answered – not even to management. There is no list of who answered what, and nobody can make one. We get the figures, not you.»"
+          },
+          {
+            "t": "p",
+            "text": "Also say what happens with the result, and when. Anonymity makes people safe enough to answer. Seeing something happen afterwards makes them bother."
+          },
+          {
+            "t": "p",
+            "text": "Read also about [the questions to include](/artikler/medarbeiderundersokelse-sporsmal), or see how anonymity works [when you are few](/smaa-bedrifter)."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Psychosocial working environment (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
+          },
+          {
+            "label": "Working Environment Act § 4-3 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
+          }
+        ],
+        "ctaTitle": "Anonymous – in a way that holds",
+        "ctaBody": "Five answers, or a dash – and no administrator who can change it. 30 days free, no card."
+      },
+      "verneombud": {
+        "title": "The safety representative's role in mapping",
+        "description": "What is the safety representative entitled and obliged to do when the working environment is mapped? Access, involvement and raising it with management – with references to the law.",
+        "h1": "The safety representative's role in mapping the working environment",
+        "lead": "The safety representative shall see to it that the psychosocial working environment is safeguarded, and be consulted when measures are planned. That brings both rights and a role in the mapping itself. Here is what the law says, and what it means in practice.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the law says"
+          },
+          {
+            "t": "quote",
+            "text": "The safety representative shall safeguard the employees' interests in matters concerning the working environment.",
+            "cite": "Working Environment Act § 6-2, first paragraph (our translation)"
+          },
+          {
+            "t": "p",
+            "text": "The section lists what the safety representative shall in particular see to. One of the points is that the employees' psychosocial working environment is safeguarded. The fourth paragraph says the safety representative shall be consulted during the planning and implementation of measures that matter for the working environment, including the organisation's systematic HSE work."
+          },
+          {
+            "t": "p",
+            "text": "Section 1A-2 of the regulation on the performance of work also says the mapping and risk assessment of the psychosocial working environment shall be done together with the employees and their representatives. The safety representative is one of those representatives."
+          },
+          {
+            "t": "h2",
+            "text": "Must every organisation have a safety representative?"
+          },
+          {
+            "t": "p",
+            "text": "The main rule in section 6-1 is yes: a safety representative shall be elected in every organisation. Organisations with fewer than five employees may agree in writing on another arrangement. With more than ten employees, several safety representatives may be elected."
+          },
+          {
+            "t": "h2",
+            "text": "The safety representative's role, phase by phase"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Phase",
+              "The safety representative's role"
+            ],
+            "rows": [
+              [
+                "Planning",
+                "Consulted on how the mapping is done, what it covers and how anonymity is secured"
+              ],
+              [
+                "Carrying it out",
+                "Can help employees know why they are getting the survey, and that it is safe to answer"
+              ],
+              [
+                "Result",
+                "Should see the same basis as management, not a summary afterwards"
+              ],
+              [
+                "Measures",
+                "Consulted when measures are chosen and planned"
+              ],
+              [
+                "Follow-up",
+                "Sees to it that the measures are actually carried out, and that the psychosocial working environment is safeguarded"
+              ]
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Access in practice"
+          },
+          {
+            "t": "p",
+            "text": "The law uses the words «consulted» and «see to». It is hard to give good advice about something you have only seen a summary of. So the safety representative should have access to the same result as management – for the whole organisation and for the groups large enough to be shown."
+          },
+          {
+            "t": "p",
+            "text": "Access does not mean access to individual answers. Anonymity applies to the safety representative as much as to management: nobody shall be able to see who answered what, and small groups shall not be shown to anyone."
+          },
+          {
+            "t": "box",
+            "title": "In Orgpuls",
+            "text": "The safety representative sees the same figures as the managing director, and follows the measures with their owner and deadline. The safety representative has access at no extra cost to the organisation."
+          },
+          {
+            "t": "h2",
+            "text": "How to raise it with management"
+          },
+          {
+            "t": "p",
+            "text": "Many safety representatives know the mapping should be done, but not how to raise it. Some advice:"
+          },
+          {
+            "t": "ol",
+            "items": [
+              "**Start with questions, not demands.** «When did we last map the psychosocial working environment, and what happened to the findings?»",
+              "**Point to the rules.** Since 1 January 2026 the regulation says clearly that mapping shall be repeated regularly and documented.",
+              "**Propose a rhythm.** One main survey a year with short pulses in between is easier to achieve than a large project.",
+              "**Offer to take part.** A safety representative who helps explain the survey gives employees a reason to trust it."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "On [the page for safety representatives](/verneombud) you will find a ready e-mail you can send to the managing director."
+          },
+          {
+            "t": "h2",
+            "text": "If the organisation has a working environment committee"
+          },
+          {
+            "t": "h2",
+            "text": "The union representatives' role"
+          },
+          {
+            "t": "p",
+            "text": "Section 3-1, first paragraph, of the Working Environment Act says systematic HSE work shall be done together with the employees and their union representatives. Where the safety representative is responsible for the working environment, the union representatives represent the employees more broadly. Many organisations discuss a work environment survey with the union representatives before it goes out, treating it as a control measure under chapter 9 of the Act."
+          },
+          {
+            "t": "h2",
+            "text": "Situations you may meet"
+          },
+          {
+            "t": "h3",
+            "text": "The result is poor for one department"
+          },
+          {
+            "t": "p",
+            "text": "Raise it as a finding, not a verdict. Ask what lies behind the figure, and let the department help choose the measures. Measures handed down without explanation rarely work."
+          },
+          {
+            "t": "h3",
+            "text": "Someone wants to see the figures for a small group"
+          },
+          {
+            "t": "p",
+            "text": "Stand firm. The limit on how small a group can be shown exists to protect employees, and it is why people dare to answer honestly. A group too small to be shown still counts in the figures for the whole."
+          },
+          {
+            "t": "h3",
+            "text": "Nothing happens after the survey"
+          },
+          {
+            "t": "p",
+            "text": "Ask about the measures: who owns them, and when are they due? Without an owner and a deadline, measures become intentions. The next survey is the best argument – it shows whether anything has moved."
+          },
+          {
+            "t": "p",
+            "text": "Organisations where at least 30 people are regularly employed shall have a working environment committee (AMU). Between 10 and 30 employees, one shall be set up when one of the parties demands it. If there is an AMU, it is a natural place to raise the mapping and its follow-up."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Working Environment Act § 6-1 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A76-1"
+          },
+          {
+            "label": "Working Environment Act § 6-2 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A76-2"
+          },
+          {
+            "label": "Working Environment Act § 7-1 (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A77-1"
+          },
+          {
+            "label": "Regulation on the performance of work (Lovdata, Norwegian)",
+            "url": "https://lovdata.no/dokument/SF/forskrift/2011-12-06-1357"
+          },
+          {
+            "label": "Regulation on the performance of work, chapter 1A (Arbeidstilsynet, Norwegian)",
+            "url": "https://www.arbeidstilsynet.no/regelverk/forskrifter/forskrift-om-utforelse-av-arbeid/1/1a/"
+          }
+        ],
+        "ctaTitle": "Give the safety representative the same basis as management",
+        "ctaBody": "In Orgpuls the safety representative has access at no extra cost. 30 days free, no card."
+      }
+    }
   }
 }

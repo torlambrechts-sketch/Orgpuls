@@ -3195,3 +3195,62 @@ page asks search engines not to index it.
 - refused keys, phone width, and the console.
 
 It writes to the fixture's open puls, and the fixture is reseeded after it.
+
+## D-79 — The public site: SEO, four landing pages and six articles
+
+The design draws one public page, the start page. The owner asked for the site to be
+optimised for search and for landing pages and articles that bring in visitors. This entry
+says what departs from the design, and why.
+
+### The start page
+The hero is unchanged, and so is every section the design draws. What changed:
+- **Title and description.** The design's `<title>` was "Orgpuls". It is now "Orgpuls –
+  medarbeiderundersøkelse og arbeidsmiljøkartlegging", with a description that names the
+  law, the trial and "no card". Canonical URL and an Open Graph card (`public/og.png`,
+  rendered from the bundle's fonts and tokens) come with it.
+- **Two new sections, in the design's own components.** "For hvem" (four cards to the
+  landing pages) sits after the four steps. "Artikler" (three article cards) sits after the
+  FAQ. Both reuse the pain cards' surface and type.
+- **Structured data.** Organization, WebSite, SoftwareApplication with the two published
+  prices, and FAQPage from the five questions on the page.
+- **FAQ answers are in the HTML while closed.** They were only rendered when open, so four
+  of the five answers were invisible to a search engine. They now carry `hidden` until
+  opened, which looks the same and reads the same to a screen reader.
+- **"Snakk med oss" is an e-mail** to hjelp@orgpuls.no, the address the product already
+  prints. In the bundle it opened sign-in, which no prospective group customer can use.
+- **Footer.** "Slik virker det" and "Kontakt" pointed at `/hjelp`, which is behind the
+  sign-in, so a visitor landed on the login form. They now go to `/#how` and to the
+  e-mail. "Artikler" is added. "Personvern" still points at `/hjelp/gdpr` and is
+  therefore still behind the sign-in; making that article public is its own change.
+- **Phone width.** The auto-fit grids' column minimums are wrapped in `min(…, 100%)`. From
+  390 px up nothing moves. At 320 px the closing block no longer overflows by 16 px, which
+  it did before this change.
+
+### Landing pages and articles
+- **Routes:** `/lovkrav`, `/verneombud`, `/smaa-bedrifter`, `/bygg-og-anlegg`, `/artikler`
+  and six articles under it. All are public and static.
+- **Content as data.** The content is data: `seo.*` in /messages, one block renderer
+  (`components/marketing/Blocks.tsx`), and a registry of slugs, dates and links
+  (`lib/marketing/site.ts`).
+- **Design treatment.** The design has no drawing for these pages. They use the start
+  page's header, footer, type scale, pill, cards, law rows and closing band, and nothing
+  that is not in the bundle.
+- **Legal statements.** Every legal statement is quoted from, or paraphrases, text read on
+  Lovdata or Arbeidstilsynet in September 2026. Each article lists those pages as its
+  sources and says it is not legal advice.
+- **Product claims.** The claims are the ones the product makes good on, or that the start
+  page already states. The prices and the 30-day trial are the start page's.
+- **Deliberately not claimed.**
+  - Tillitsvalgte are not described as having access: the product's roles are daglig
+    leder, avdelingsleder and verneombud.
+  - Export to spreadsheet is not mentioned.
+- **Search and sitemap.** `sitemap.xml` lists the public pages. `robots.txt` keeps the
+  survey, invitation and password links, the component gallery and the application out of
+  the index. The middleware's public paths include the new routes.
+
+### Checked
+- **Pages:** every page returns 200 to an anonymous request, has one H1, a canonical URL
+  and valid JSON-LD. An unknown article is a 404.
+- **Browser:** no horizontal overflow at 320, 390, 768 or 1440 px on the 14 public pages,
+  and no console errors.
+- **i18n:** parity passes for `no` and `en`.

@@ -1,6 +1,12 @@
+import type { Metadata, Route } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { ArticleCards } from '@/components/marketing/ArticleCards'
+import { JsonLd } from '@/components/marketing/JsonLd'
 import { Faq } from '@/components/start/Faq'
+import { pageMeta } from '@/lib/marketing/meta'
+import { faqPage, graph, organization, software, website } from '@/lib/marketing/schema'
+import { ARTICLES, CONTACT_MAIL, LANDING_PAGES, landingKey } from '@/lib/marketing/site'
 
 /**
  * The splash page. Orgpuls_Start.dc.html lines 44-274.
@@ -19,6 +25,16 @@ import { Faq } from '@/components/start/Faq'
  * the same place.
  */
 export const dynamic = 'force-static'
+
+/**
+ * The title and description a search result shows. They name what people search for —
+ * medarbeiderundersøkelse, arbeidsmiljøkartlegging — which the design's "Orgpuls" alone did
+ * not. D-79.
+ */
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations()
+  return pageMeta({ title: t('seo.home.title'), description: t('seo.home.description'), path: '/' })
+}
 
 const TRUST = ['trial', 'noCard', 'eu'] as const
 const PEEK = [
@@ -39,7 +55,7 @@ const QUOTES = ['cancel', 'export', 'eu'] as const
 const PLANS = [
   { key: 'small', accent: false, cta: 'registrer' },
   { key: 'usual', accent: true, cta: 'registrer' },
-  { key: 'group', accent: false, cta: 'logg-inn' },
+  { key: 'group', accent: false, cta: 'kontakt' },
 ] as const
 const FAQ = ['anonymous', 'twelve', 'inspection', 'time', 'leaving'] as const
 
@@ -61,11 +77,14 @@ export default async function SplashPage() {
     </div>
   )
 
+  const faq = FAQ.map((k) => ({ key: k, q: t(`start.faq.${k}.q`), a: t(`start.faq.${k}.a`) }))
+
   return (
     <div className="animate-entry">
+      <JsonLd data={graph(organization(), website(), software(t('seo.home.description')), faqPage(faq))} />
       {/* ------------------------------------------------------------ hero */}
       <div className="mx-auto max-w-[1120px] px-[26px] pt-[54px]">
-        <div className="grid items-center gap-[36px] [grid-template-columns:repeat(auto-fit,minmax(310px,1fr))]">
+        <div className="grid items-center gap-[36px] [grid-template-columns:repeat(auto-fit,minmax(min(310px,100%),1fr))]">
           <div className="min-w-0">
             <span className="inline-flex items-center gap-[8px] rounded-pill bg-sbg px-[13px] py-[6px] text-[12px] font-bold">
               <span className="block h-[7px] w-[7px] rounded-pill bg-link" />
@@ -170,7 +189,7 @@ export default async function SplashPage() {
         <h2 className="mt-[9px] max-w-[26ch] font-display text-[clamp(26px,3.6vw,34px)] font-semibold leading-[1.14] [text-wrap:balance]">
           {t('start.whyTitle')}
         </h2>
-        <div className="mt-[22px] grid gap-[13px] [grid-template-columns:repeat(auto-fit,minmax(255px,1fr))]">
+        <div className="mt-[22px] grid gap-[13px] [grid-template-columns:repeat(auto-fit,minmax(min(255px,100%),1fr))]">
           {PAINS.map((k) => (
             <div key={k} className="rounded-note border border-line bg-sf px-[23px] py-[22px]">
               <span className="block text-[15.5px] font-bold leading-[1.35] [text-wrap:pretty]">
@@ -195,7 +214,7 @@ export default async function SplashPage() {
         <p className="mt-[11px] max-w-[60ch] text-[15px] leading-[1.65] text-mut [text-wrap:pretty]">
           {t('start.howLead')}
         </p>
-        <div className="mt-[24px] grid gap-[13px] [grid-template-columns:repeat(auto-fit,minmax(190px,1fr))]">
+        <div className="mt-[24px] grid gap-[13px] [grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr))]">
           {STEPS.map((s) => (
             <div
               key={s.n}
@@ -220,6 +239,29 @@ export default async function SplashPage() {
         </div>
       </div>
 
+      {/* ---------------------------------------------------------- for hvem */}
+      <Section eyebrow={t('seo.forWho.eyebrow')}>
+        <h2 className="mt-[9px] max-w-[24ch] font-display text-[clamp(26px,3.6vw,34px)] font-semibold leading-[1.14] [text-wrap:balance]">
+          {t('seo.forWho.title')}
+        </h2>
+        <div className="mt-[22px] grid gap-[13px] [grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))]">
+          {LANDING_PAGES.map((slug) => (
+            <Link
+              key={slug}
+              href={`/${slug}` as Route}
+              className="group flex flex-col gap-[8px] rounded-note border border-line bg-sf px-[23px] py-[22px] text-ink no-underline hover:border-ink hover:text-ink hover:no-underline"
+            >
+              <span className="text-[15.5px] font-bold leading-[1.35] [text-wrap:pretty] group-hover:underline">
+                {t(`seo.lp.${landingKey(slug)}.card.title`)}
+              </span>
+              <span className="text-[13.5px] leading-[1.6] text-mut [text-wrap:pretty]">
+                {t(`seo.lp.${landingKey(slug)}.card.text`)}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </Section>
+
       {/* ------------------------------------------------------------ diffs */}
       <Section eyebrow={t('start.diffEyebrow')}>
         <h2 className="mt-[9px] max-w-[22ch] font-display text-[clamp(26px,3.6vw,34px)] font-semibold leading-[1.14] [text-wrap:balance]">
@@ -229,7 +271,7 @@ export default async function SplashPage() {
           {DIFFS.map((k) => (
             <div
               key={k}
-              className="grid items-start gap-[20px] rounded-panel border border-line bg-sf px-[26px] py-[24px] [grid-template-columns:repeat(auto-fit,minmax(262px,1fr))]"
+              className="grid items-start gap-[20px] rounded-panel border border-line bg-sf px-[26px] py-[24px] [grid-template-columns:repeat(auto-fit,minmax(min(262px,100%),1fr))]"
             >
               <span className="min-w-0">
                 <span className="block font-display text-[22px] font-semibold leading-[1.2] [text-wrap:balance]">
@@ -250,7 +292,7 @@ export default async function SplashPage() {
       {/* ------------------------------------------------------------- law */}
       <div className="mx-auto max-w-[1120px] px-[26px] pt-[54px]">
         <div className="rounded-card border border-line bg-sf p-[clamp(24px,3.4vw,34px)]">
-          <div className="grid items-start gap-[26px] [grid-template-columns:repeat(auto-fit,minmax(272px,1fr))]">
+          <div className="grid items-start gap-[26px] [grid-template-columns:repeat(auto-fit,minmax(min(272px,100%),1fr))]">
             <div className="min-w-0">
               <span className="block text-[11px] uppercase tracking-[0.12em] text-mut">
                 {t('start.lawEyebrow')}
@@ -284,7 +326,7 @@ export default async function SplashPage() {
 
       {/* ----------------------------------------------------------- quotes */}
       <div className="mx-auto max-w-[1120px] px-[26px] pt-[54px]">
-        <div className="grid gap-[13px] [grid-template-columns:repeat(auto-fit,minmax(255px,1fr))]">
+        <div className="grid gap-[13px] [grid-template-columns:repeat(auto-fit,minmax(min(255px,100%),1fr))]">
           {QUOTES.map((k) => (
             <div
               key={k}
@@ -305,6 +347,7 @@ export default async function SplashPage() {
       </div>
 
       {/* ------------------------------------------------------------ price */}
+      <div id="pris" />
       <Section eyebrow={t('start.priceEyebrow')}>
         <h2 className="mt-[9px] max-w-[24ch] font-display text-[clamp(26px,3.6vw,34px)] font-semibold leading-[1.14] [text-wrap:balance]">
           {t('start.priceTitle')}
@@ -312,7 +355,7 @@ export default async function SplashPage() {
         <p className="mt-[11px] max-w-[58ch] text-[15px] leading-[1.65] text-mut [text-wrap:pretty]">
           {t('start.priceLead')}
         </p>
-        <div className="mt-[22px] grid items-start gap-[13px] [grid-template-columns:repeat(auto-fit,minmax(272px,1fr))]">
+        <div className="mt-[22px] grid items-start gap-[13px] [grid-template-columns:repeat(auto-fit,minmax(min(272px,100%),1fr))]">
           {PLANS.map((p) => (
             <div
               key={p.key}
@@ -345,14 +388,25 @@ export default async function SplashPage() {
                   </span>
                 ))}
               </span>
-              <Link
-                href={p.cta === 'registrer' ? '/registrer' : '/logg-inn'}
-                className={`mt-[8px] inline-flex h-[44px] items-center justify-center rounded-cta border border-ink text-[14.5px] font-bold text-ink no-underline hover:text-ink hover:no-underline ${
-                  p.accent ? 'bg-ac' : 'bg-transparent'
-                }`}
-              >
-                {t(`start.plan.${p.key}.cta`)}
-              </Link>
+              {p.cta === 'registrer' ? (
+                <Link
+                  href="/registrer"
+                  className={`mt-[8px] inline-flex h-[44px] items-center justify-center rounded-cta border border-ink text-[14.5px] font-bold text-ink no-underline hover:text-ink hover:no-underline ${
+                    p.accent ? 'bg-ac' : 'bg-transparent'
+                  }`}
+                >
+                  {t(`start.plan.${p.key}.cta`)}
+                </Link>
+              ) : (
+                // "Snakk med oss" is a conversation, not a sign-in: an e-mail to the address
+                // the product already gives for help (D-79)
+                <a
+                  href={`mailto:${CONTACT_MAIL}?subject=${encodeURIComponent(t('seo.home.groupSubject'))}`}
+                  className="mt-[8px] inline-flex h-[44px] items-center justify-center rounded-cta border border-ink bg-transparent text-[14.5px] font-bold text-ink no-underline hover:text-ink hover:no-underline"
+                >
+                  {t(`start.plan.${p.key}.cta`)}
+                </a>
+              )}
             </div>
           ))}
         </div>
@@ -361,13 +415,24 @@ export default async function SplashPage() {
 
       {/* -------------------------------------------------------------- faq */}
       <Section eyebrow={t('start.faqEyebrow')}>
-        <Faq items={FAQ.map((k) => ({ key: k, q: t(`start.faq.${k}.q`), a: t(`start.faq.${k}.a`) }))} />
+        <Faq items={faq} />
+      </Section>
+
+      {/* ---------------------------------------------------------- articles */}
+      <Section eyebrow={t('seo.home.articlesEyebrow')}>
+        <h2 className="mt-[9px] max-w-[26ch] font-display text-[clamp(26px,3.6vw,34px)] font-semibold leading-[1.14] [text-wrap:balance]">
+          {t('seo.home.articlesTitle')}
+        </h2>
+        <ArticleCards slugs={ARTICLES.slice(0, 3).map((a) => a.slug)} />
+        <Link href={'/artikler' as Route} className="mt-[14px] inline-block text-[14px] font-semibold">
+          {t('seo.home.articlesAll')}
+        </Link>
       </Section>
 
       {/* --------------------------------------------------------- final cta */}
       <div className="mx-auto max-w-[1120px] px-[26px] pt-[54px]">
         <div className="rounded-[22px] bg-ink p-[clamp(28px,4vw,44px)] text-bg">
-          <div className="grid items-center gap-[26px] [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
+          <div className="grid items-center gap-[26px] [grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))]">
             <div className="min-w-0">
               <h2 className="m-0 max-w-[22ch] font-display text-[clamp(25px,3.4vw,33px)] font-semibold leading-[1.14] [text-wrap:balance]">
                 {t('start.finalTitle')}

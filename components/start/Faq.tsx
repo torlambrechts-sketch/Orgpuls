@@ -30,11 +30,14 @@ export function Faq({ items }: { items: { key: string; q: string; a: string }[] 
                 {isOpen ? '−' : '+'}
               </span>
             </button>
-            {isOpen ? (
-              <div className="max-w-[70ch] px-[20px] pb-[19px] text-[14px] leading-[1.65] text-body [text-wrap:pretty]">
-                {item.a}
-              </div>
-            ) : null}
+            {/* in the HTML while closed, so an answer can be found and indexed; `hidden` keeps
+                it out of view and out of the accessibility tree until it is opened */}
+            <div
+              hidden={!isOpen}
+              className="max-w-[70ch] px-[20px] pb-[19px] text-[14px] leading-[1.65] text-body [text-wrap:pretty]"
+            >
+              {item.a}
+            </div>
           </div>
         )
       })}

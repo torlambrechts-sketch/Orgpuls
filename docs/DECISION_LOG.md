@@ -1640,6 +1640,38 @@ column is approximate. From Norway, where the floor is tens of milliseconds, eve
 is now inside the 400 ms budget. Tiltak and Rapport sit highest, and the workspace is most
 of Tiltak's time.
 
+### X-050 — A public site that search can find
+
+The start page was the only public page, and its title was one word. From the owner's
+marketing plan (the Claude Docs document "Orgpuls – markedsplan og innhold") the site now
+has:
+- **Four landing pages**, one per search intent: the legal requirement, safety
+  representatives, small businesses, and construction.
+- **Six articles.** Four are the plan's. Two are added: the rules in force since 1 January
+  2026, and what "anonymous" has to mean.
+- **Search basics:** a sitemap, robots.txt, structured data and an Open Graph card.
+
+The content is Norwegian first, with English at parity. Every legal statement is sourced
+to Lovdata or Arbeidstilsynet, as read when written:
+- **Chapter 1A.** Chapter 1A of the regulation on the performance of work has applied
+  since 1 January 2026.
+- **The 2026 change.** Arbeidstilsynet describes it as a clarification, not a new
+  requirement.
+- **Working environment committee.** An AMU is required from 30 employees, and between 10
+  and 30 when a party demands it.
+- **Safety representative.** A safety representative is required in every organisation;
+  under 5 employees the parties may agree otherwise in writing.
+
+What changed on the start page, and why, is D-79.
+
+**Two findings for the owner, not acted on:**
+- **Spreadsheet export.** The start page promises export "som PDF og regneark". No
+  spreadsheet export exists; the report can be printed or saved as PDF.
+- **§ 9-2.** The start page cites § 9-2 as "drøfting med tillitsvalgte". § 9-2 governs
+  control measures, so the line is right only if the survey is treated as one, which is
+  the product's position (hjelp: kontrolltiltak). The new articles say that plainly
+  rather than as settled law.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1780,3 +1812,6 @@ of Tiltak's time.
 - [x] P8: the security pass (0042), FK indexes (0043), the v3 pixel run and functions in fra1 (X-047, D-77).
 - [x] A respondent gets a private link to each comment's conversation and can read and answer replies (X-048, D-78).
 - [x] Every results screen reads its results in one RPC, `results_digest` (X-049, 0044); `cell_release` counts in one pass (0045).
+- [x] Public site for search: four landing pages, six articles, sitemap, robots, structured data (X-050, D-79).
+- [ ] The start page promises spreadsheet export, which does not exist (X-050).
+- [ ] "Personvern" in the public footer points at /hjelp/gdpr, which is behind the sign-in (D-79).

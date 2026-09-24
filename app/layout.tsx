@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
 import { SiteAnalytics } from '@/components/shell/SiteAnalytics'
+import { SITE_URL } from '@/lib/marketing/site'
 import './fonts.css'
 import './globals.css'
 
@@ -11,7 +12,13 @@ import './globals.css'
  * here; the reason is recorded at the top of that file.
  */
 
+/**
+ * `metadataBase` makes every relative URL in a page's metadata (canonical, Open Graph image)
+ * absolute on the production host. The start page and the public pages set their own title
+ * and description (lib/marketing/meta.ts); the application's screens keep this one.
+ */
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: 'Orgpuls',
   description: 'Psykososialt arbeidsmiljø for norske virksomheter.',
 }

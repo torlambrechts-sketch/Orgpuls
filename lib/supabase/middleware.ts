@@ -51,8 +51,26 @@ import { readSupabaseEnv } from '@/lib/supabase/env'
  * it is logged loudly because "redirected to sign-in" otherwise looks like an expired
  * session, which is the one thing it is not.
  */
-// '/bli-med' is an invitation link (0028): opened before the invitee has an account
-const PUBLIC_PATHS = ['/', '/logg-inn', '/registrer', '/auth', '/primitives', '/s', '/bli-med', '/nytt-passord']
+// '/bli-med' is an invitation link (0028): opened before the invitee has an account.
+// The landing pages, the articles, the sitemap and robots.txt are the public site; the
+// same list of pages is in lib/marketing/site.ts, which this file does not import (rule 4).
+const PUBLIC_PATHS = [
+  '/',
+  '/logg-inn',
+  '/registrer',
+  '/auth',
+  '/primitives',
+  '/s',
+  '/bli-med',
+  '/nytt-passord',
+  '/lovkrav',
+  '/verneombud',
+  '/smaa-bedrifter',
+  '/bygg-og-anlegg',
+  '/artikler',
+  '/sitemap.xml',
+  '/robots.txt',
+]
 
 /** Long enough for a healthy round trip, short enough that the platform never gets there. */
 const AUTH_TIMEOUT_MS = 5000
