@@ -116,3 +116,16 @@ export const getViewer = cache(async (): Promise<Viewer> => {
   const parsed = z.object({ full_name: z.string().nullable() }).nullable().safeParse(data)
   return { initials: parsed.success ? initialsOf(parsed.data?.full_name) : null, role }
 })
+
+/**
+ * The number on the nav's Kommentarer badge: the comments waiting for an answer that this
+ * viewer could open on the Kommentarer screen (0036 counts `conversations()`'s own rows).
+ * A failed read is no badge, never a guessed number.
+ */
+export const getUnansweredCount = cache(async (): Promise<number> => {
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('unanswered_threads')
+  if (callFailed('getUnansweredCount', error)) return 0
+  const parsed = z.number().int().min(0).safeParse(data)
+  return parsed.success ? parsed.data : 0
+})

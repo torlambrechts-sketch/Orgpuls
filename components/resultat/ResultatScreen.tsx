@@ -156,7 +156,7 @@ export async function ResultatScreen({ view }: { view: ResultatView }) {
   const selected = view.rounds.find((r) => r.id === view.selectedId) ?? view.rounds[0]
   if (!selected) {
     // nothing has been measured, so there is nothing to show and nothing to withhold
-    return <main className="animate-entry mx-auto max-w-[1180px] px-[16px] md:px-[28px] pb-[60px] pt-[26px]" />
+    return <main className="animate-entry mx-auto max-w-page px-[16px] md:px-[28px] pb-[60px] pt-[26px]" />
   }
 
   /**
@@ -179,7 +179,7 @@ export async function ResultatScreen({ view }: { view: ResultatView }) {
   const body = view.body
 
   return (
-    <main className="animate-entry mx-auto max-w-[1180px] px-[16px] md:px-[28px] pb-[60px] pt-[26px]">
+    <main className="animate-entry mx-auto max-w-page px-[16px] md:px-[28px] pb-[60px] pt-[26px]">
       <span className="flex flex-wrap gap-[8px]">
         <ButtonLink href="/malinger" size="xxs" tone="ghost">
           {t('resultat.backToMeasure')}
@@ -200,7 +200,7 @@ export async function ResultatScreen({ view }: { view: ResultatView }) {
               <Link
                 key={r.id}
                 href={{
-                  pathname: '/resultat',
+                  pathname: '/resultater',
                   query:
                     view.scope.kind === 'group'
                       ? { maling: r.id, avdeling: view.scope.name }
@@ -224,14 +224,14 @@ export async function ResultatScreen({ view }: { view: ResultatView }) {
             {t('resultat.teamLabel')}
           </span>
           <TeamChip
-            href={{ pathname: '/resultat', query: { maling: selected.id } }}
+            href={{ pathname: '/resultater', query: { maling: selected.id } }}
             selected={view.scope.kind === 'org'}
             label={t('resultat.wholeOrg')}
           />
           {view.groups.map((g) => (
             <TeamChip
               key={g.name}
-              href={{ pathname: '/resultat', query: { maling: selected.id, avdeling: g.name } }}
+              href={{ pathname: '/resultater', query: { maling: selected.id, avdeling: g.name } }}
               selected={view.scope.kind === 'group' && view.scope.name === g.name}
               label={t('resultat.groupChip', { group: g.name, n: g.n })}
             />

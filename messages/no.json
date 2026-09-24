@@ -32,16 +32,27 @@
   "nav": {
     "innsikt": "Innsikt",
     "malinger": "Målinger",
-    "samtaler": "Samtaler",
     "tiltak": "Tiltak",
-    "oppsett": "Oppsett"
+    "oppsett": "Oppsett",
+    "resultater": "Resultater",
+    "kommentarer": "Kommentarer",
+    "oversikt": "Oversikt",
+    "badgeAria": "{count} venter på svar",
+    "primaryAria": "Hovedmeny"
   },
   "header": {
     "help": "Hjelp",
-    "helpAria": "Hjelp for denne siden",
-    "grunnlag": "Grunnlag",
+    "helpAria": "Hjelp, grunnlag og assistent",
     "roleAria": "Din rolle",
-    "assistantAria": "Assistenten — neste steg"
+    "layoutToSide": "Bytt til sidemeny og full bredde",
+    "layoutToTop": "Bytt til toppmeny",
+    "railCollapse": "Trekk sammen menyen",
+    "railExpand": "Utvid menyen",
+    "railCollapseLabel": "Trekk sammen",
+    "modeTitle": "Enkel visning viser bare det du trenger. Full visning har alle analyser.",
+    "modeAria": "Visning",
+    "modeEnkel": "Enkel",
+    "modeFull": "Full"
   },
   "role": {
     "daglig_leder": "Daglig leder",
@@ -1979,7 +1990,6 @@
     }
   },
   "headerPanel": {
-    "grunnlagAria": "Grunnlag — forskning og lovkrav",
     "close": "Lukk",
     "readMore": "Les mer om dette",
     "allHelp": "Hele hjelpesiden →",
@@ -2075,6 +2085,12 @@
       "wheel": "§ 3-1 bokstav g krever «løpende kontroll med arbeidsmiljøet» når risikoforholdene tilsier det — ikke én måling i året. Bokstav h krever at dere også gjennomgår om systemet selv virker. Varslingsrekkefølgen i årshjulet dekker medvirkningskravet i § 3-1 første ledd og § 6-2 fjerde ledd.",
       "settings": "Terskelen er ikke et lovkrav i arbeidsmiljøloven, men følger av personvernregelverket: under fem svar kan resultater i små grupper tilbakeføres til enkeltpersoner. Behandlingsgrunnlaget er rettslig forpliktelse etter GDPR artikkel 6 nr. 1 bokstav c, ikke samtykke — ansatte kan ikke samtykke fritt til sin arbeidsgiver. § 9-3 forbyr dessuten å innhente helseopplysninger, og derfor er spørsmålene utformet for å unngå dem.",
       "report": "Dokumentasjonskravet ligger i § 3-1 tredje ledd, som åpner for forskrift om «krav til dokumentasjon av det systematiske helse-, miljø- og sikkerhetsarbeidet». § 7-2 fjerde ledd krever at medisinske opplysninger av personlig karakter tas ut før arbeidsmiljøutvalget behandler rapporter, og sjette ledd at utvalget avgir årsrapport til styrende organer, arbeidstakernes organisasjoner og Arbeidstilsynet."
+    },
+    "tabsAria": "Hjelp, grunnlag og assistent",
+    "tab": {
+      "help": "Hjelp",
+      "science": "Grunnlag",
+      "scienceLaw": "Grunnlag og lov"
     }
   },
   "bliMed": {

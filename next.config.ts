@@ -64,6 +64,18 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }]
   },
+  /**
+   * Design 3 renames two screens (P1, D-70): Resultat is Resultater and Samtaler is
+   * Kommentarer. The old addresses are in mail that has already gone out and in people's
+   * bookmarks, so they answer with a permanent redirect rather than a 404. The query string
+   * travels with it: `/resultat?maling=…&avdeling=…` lands on the same round and group.
+   */
+  async redirects() {
+    return [
+      { source: '/resultat', destination: '/resultater', permanent: true },
+      { source: '/samtaler', destination: '/kommentarer', permanent: true },
+    ]
+  },
   // The dev overlay's badge is painted into full-page screenshots, in the left margin at
   // the viewport's bottom edge. It is not part of the design, and a pixel region that
   // happens to reach that margin fails on a control the product does not ship.

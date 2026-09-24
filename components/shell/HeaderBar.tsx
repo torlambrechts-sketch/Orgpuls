@@ -7,6 +7,9 @@ import { useId, useState, type ReactNode } from 'react'
 import { useTranslations } from 'next-intl'
 import { articleByKey } from '@/lib/help/articles'
 import type { SetupProgress } from '@/lib/shell/read'
+import { labelOf, navState, type NavEntry } from '@/lib/shell/nav'
+import { AppNav } from './AppNav'
+import { useShell, type PanelMode } from './ShellPrefs'
 
 /**
  * The header bar and the panel that opens under it. Bundle lines 49-148 (markup) and
@@ -24,18 +27,19 @@ import type { SetupProgress } from '@/lib/shell/read'
  * navigate and it is gone. That is derived, not effected — the state remembers which path
  * it was opened for, and a different path simply reads as closed.
  *
- * Until this component existed Grunnlag and the assistant were buttons with no handler,
- * and Hjelp was a link to /hjelp. Hjelp is a toggle again, because the design's control
- * opens the panel; the help site is one step further, behind the panel's own "Hele
- * hjelpesiden →". Everything inside the panel that changes the address is a link styled
- * as the bundle's button (D-06). D-48.
+ * Design 3 gives the three one button, "Hjelp" with Tuva's face, and puts the modes on a
+ * row of tabs inside the panel; the button reopens the tab last chosen. The panel's state
+ * lives in ShellPrefs, because in the side layout the rail's Hjelp opens it. The bar
+ * around it carries the layout toggle and the Enkel/Full switch (D-70). The help site is
+ * one step further, behind the panel's own "Hele hjelpesiden →". Everything inside the
+ * panel that changes the address is a link styled as the bundle's button (D-06). D-48.
  *
  * The texts are the design's, per screen, in `headerPanel.*`. A screen the design has no
  * entry for falls back to Innsikt's, as `H[scr] || H.home` does; the law text falls back
  * the same way, and Rapport has one of its own.
  */
 
-type Mode = 'help' | 'science' | 'tuva'
+type Mode = PanelMode
 type SciTab = 'forskning' | 'lov'
 
 const SCREENS: [string, string][] = [
@@ -43,8 +47,8 @@ const SCREENS: [string, string][] = [
   ['/malinger', 'measure'],
   ['/maleoppsett', 'plan'],
   ['/arshjulet', 'wheel'],
-  ['/resultat', 'result'],
-  ['/samtaler', 'conv'],
+  ['/resultater', 'result'],
+  ['/kommentarer', 'conv'],
   ['/tiltak', 'tasks'],
   ['/oppsett', 'settings'],
   ['/integrasjoner', 'conn'],
@@ -85,21 +89,19 @@ const STEPS: { key: keyof SetupProgress; href: Route }[] = [
 const screenOf = (pathname: string) =>
   SCREENS.find(([prefix]) => pathname === prefix || pathname.startsWith(`${prefix}/`))?.[1] ?? 'home'
 
-const toggleClass = (on: boolean) =>
-  `h-[34px] cursor-pointer rounded-ctl border border-line text-[12.5px] font-semibold text-ink ${
-    on ? 'bg-sbg' : 'bg-transparent'
-  }`
+const PANEL_TABS: Mode[] = ['help', 'science', 'tuva']
 
 export function HeaderBar({
   logo,
-  nav,
+  items,
   trailing,
   lawMode,
   progress,
   assistantFace,
 }: {
   logo: ReactNode
-  nav: ReactNode
+  /** the nav model (lib/shell/nav.ts), shared with the side rail */
+  items: NavEntry[]
   /** the role selector and the account chip, rendered by the server header */
   trailing: ReactNode
   lawMode: boolean
@@ -109,12 +111,9 @@ export function HeaderBar({
   const t = useTranslations()
   const pathname = usePathname()
   const panelId = useId()
-  const [panel, setPanel] = useState<{ mode: Mode; for: string } | null>(null)
+  const { prefs, setPref, panel: mode, togglePanel, pickPanel, closePanel } = useShell()
   const [sciTab, setSciTab] = useState<SciTab>('forskning')
-
-  const mode = panel && panel.for === pathname ? panel.mode : null
-  const toggle = (m: Mode) =>
-    setPanel((p) => (p && p.for === pathname && p.mode === m ? null : { mode: m, for: pathname }))
+  const side = prefs.layout === 'side'
 
   const screen = screenOf(pathname)
   const helpKey = WITH_HELP.includes(screen) ? screen : 'home'
@@ -132,57 +131,78 @@ export function HeaderBar({
   const left = progress ? STEPS.filter((s) => !progress[s.key]).length : 0
   const avatar = { backgroundImage: `url(/tuva/${assistantFace}.png)` }
 
+  // the side layout's page title: the screen's own nav label, as the prototype's `curLabel`
+  const current = items.find((i) => navState(i, pathname) === 'current')
+  const title = current ? labelOf(current, prefs.view) : ''
+
+  const tabLabel = (m: Mode) =>
+    m === 'help' ? t('headerPanel.tab.help') : m === 'science' ? t(lawMode ? 'headerPanel.tab.scienceLaw' : 'headerPanel.tab.science') : 'Tuva'
+
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-sf">
-      <div className="mx-auto flex max-w-[1180px] flex-wrap items-center gap-x-[12px] gap-y-[10px] px-[16px] py-[11px] md:gap-[18px] md:px-[28px]">
-        {logo}
-        {nav}
+      <div className="mx-auto flex max-w-page flex-wrap items-center gap-x-[12px] gap-y-[10px] px-[16px] py-[11px] md:gap-[18px] md:px-[28px]">
+        {/* in the side layout the rail carries the brand and the nav, except on a phone */}
+        <span className={side ? 'contents md:hidden' : 'contents'}>
+          {logo}
+          <AppNav items={items} ariaLabel={t('nav.primaryAria')} />
+        </span>
+        {side ? (
+          <span className="min-w-0 flex-auto font-display text-[17px] font-semibold max-md:hidden">{title}</span>
+        ) : null}
 
         <span className="flex flex-none items-center gap-[8px] max-md:ml-auto">
           <button
             type="button"
+            title={side ? t('header.layoutToTop') : t('header.layoutToSide')}
+            aria-label={side ? t('header.layoutToTop') : t('header.layoutToSide')}
+            onClick={() => setPref('layout', side ? 'top' : 'side')}
+            className="flex h-[34px] w-[34px] cursor-pointer items-center justify-center rounded-ctl border border-line bg-transparent p-0 text-ink max-md:hidden"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <rect x="1.5" y="2" width="13" height="12" rx="2" stroke="#191510" strokeWidth="1.5" />
+              <path d={side ? 'M1.5 5.5h13' : 'M6 2v12'} stroke="#191510" strokeWidth="1.5" />
+            </svg>
+          </button>
+
+          <button
+            type="button"
             aria-label={t('header.helpAria')}
-            aria-expanded={mode === 'help'}
-            aria-controls={mode === 'help' ? panelId : undefined}
-            onClick={() => toggle('help')}
-            className={`flex items-center gap-[7px] px-[13px] max-md:px-[8px] ${toggleClass(mode === 'help')}`}
+            aria-expanded={mode !== null}
+            aria-controls={mode ? panelId : undefined}
+            onClick={togglePanel}
+            className={`flex h-[34px] cursor-pointer items-center gap-[8px] rounded-ctl border py-0 pl-[4px] pr-[13px] text-[12.5px] font-semibold text-ink max-md:pr-[4px] ${
+              mode ? 'border-ink bg-sbg' : 'border-line bg-transparent'
+            } ${side ? 'md:hidden' : ''}`}
           >
             <span
               aria-hidden="true"
-              className="flex h-[17px] w-[17px] items-center justify-center rounded-pill border-[1.5px] border-ink text-[11px] font-bold leading-none"
-            >
-              ?
-            </span>
-            {/* on a phone the ? carries it; the aria-label already names the control */}
+              className="block h-[26px] w-[26px] flex-none rounded-btn bg-bg bg-cover bg-center bg-no-repeat"
+              style={avatar}
+            />
+            {/* on a phone the face carries it; the aria-label already names the control */}
             <span className="max-md:hidden">{t('header.help')}</span>
           </button>
 
-          <button
-            type="button"
-            aria-label={t('headerPanel.grunnlagAria')}
-            aria-expanded={mode === 'science'}
-            aria-controls={mode === 'science' ? panelId : undefined}
-            onClick={() => toggle('science')}
-            className={`px-[13px] ${toggleClass(mode === 'science')}`}
+          <span
+            role="group"
+            aria-label={t('header.modeAria')}
+            title={t('header.modeTitle')}
+            className="flex rounded-bar bg-track p-[2px]"
           >
-            {t('header.grunnlag')}
-          </button>
-
-          <button
-            type="button"
-            aria-label={t('header.assistantAria')}
-            aria-expanded={mode === 'tuva'}
-            aria-controls={mode === 'tuva' ? panelId : undefined}
-            onClick={() => toggle('tuva')}
-            className={`flex items-center gap-[7px] py-0 pl-[4px] pr-[13px] max-md:pr-[4px] ${toggleClass(mode === 'tuva')}`}
-          >
-            <span
-              aria-hidden="true"
-              className="block h-[26px] w-[26px] flex-none rounded-btn bg-bg bg-cover bg-center"
-              style={avatar}
-            />
-            <span className="max-md:hidden">Tuva</span>
-          </button>
+            {(['enkel', 'full'] as const).map((v) => (
+              <button
+                key={v}
+                type="button"
+                aria-pressed={prefs.view === v}
+                onClick={() => prefs.view !== v && setPref('view', v)}
+                className={`cursor-pointer rounded-[7px] border-none px-[11px] py-[6px] text-[12px] font-bold ${
+                  prefs.view === v ? 'bg-ink text-bg' : 'bg-transparent text-mut'
+                }`}
+              >
+                {v === 'enkel' ? t('header.modeEnkel') : t('header.modeFull')}
+              </button>
+            ))}
+          </span>
 
           {trailing}
         </span>
@@ -190,8 +210,34 @@ export function HeaderBar({
 
       {mode ? (
         <div id={panelId} className="border-t border-line bg-sbg">
-          <div className="mx-auto flex max-w-[1180px] items-start gap-[16px] px-[16px] md:px-[28px] pb-[20px] pt-[18px]">
+          <div className="mx-auto flex max-w-page items-start gap-[16px] px-[16px] pb-[20px] pt-[14px] md:px-[28px]">
             <span className="min-w-0 flex-1">
+              <span
+                role="group"
+                aria-label={t('headerPanel.tabsAria')}
+                className="mb-[14px] flex w-fit gap-[4px] rounded-btn bg-[rgba(25,21,16,.06)] p-[3px]"
+              >
+                {PANEL_TABS.map((m) => (
+                  <button
+                    key={m}
+                    type="button"
+                    aria-pressed={mode === m}
+                    onClick={() => pickPanel(m)}
+                    className={`flex cursor-pointer items-center gap-[7px] rounded-[8px] border-none px-[13px] py-[6px] text-[12.5px] text-ink ${
+                      mode === m ? 'bg-sf font-bold' : 'bg-transparent font-medium'
+                    }`}
+                  >
+                    {m === 'tuva' ? (
+                      <span
+                        aria-hidden="true"
+                        className="block h-[20px] w-[20px] rounded-[7px] bg-bg bg-cover bg-center bg-no-repeat"
+                        style={avatar}
+                      />
+                    ) : null}
+                    {tabLabel(m)}
+                  </button>
+                ))}
+              </span>
               {mode === 'help' ? (
                 <>
                   <span className="block text-[15px] font-bold">
@@ -328,7 +374,7 @@ export function HeaderBar({
             <button
               type="button"
               aria-label={t('headerPanel.close')}
-              onClick={() => setPanel(null)}
+              onClick={closePanel}
               className="h-[30px] w-[30px] flex-none cursor-pointer rounded-pill border border-ink bg-transparent p-0 text-[15px] leading-none text-ink"
             >
               ×

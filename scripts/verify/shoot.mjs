@@ -13,6 +13,14 @@
  *
  *   node scripts/verify/shoot.mjs /malinger /innsikt
  *   node scripts/verify/shoot.mjs --out artifacts/shots --base http://localhost:3000 /malinger
+ *   node scripts/verify/shoot.mjs --cookie op_layout=side --cookie op_rail=closed /innsikt
+ *
+ * `--cookie` sets a shell preference (lib/shell/prefs.ts) before the first page, so the side
+ * layout, a narrowed rail or Enkel can be captured the way a returning person sees them.
+ *
+ * `--press "Hjelp" --press "Tuva"` presses buttons by accessible name, in order, after each
+ * route loads — a state behind a control (an open panel, a tab) captured the way a person
+ * reaches it. `--viewport` captures the window instead of the full page, for an overlay.
  */
 import { readFileSync, mkdirSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
@@ -26,7 +34,11 @@ const arg = (name, fallback) => {
 // a flag's value is not a route: an absolute `--out /tmp/shots` used to be visited as one,
 // and its 404 was the "intermittent" console error the smoke runs reported
 const argv = process.argv.slice(2)
-const routes = argv.filter((a, i) => a.startsWith('/') && !['--out', '--base'].includes(argv[i - 1]))
+const VALUE_FLAGS = ['--out', '--base', '--cookie', '--press', '--width']
+const routes = argv.filter((a, i) => a.startsWith('/') && !VALUE_FLAGS.includes(argv[i - 1]))
+const cookieArgs = argv.filter((_, i) => argv[i - 1] === '--cookie')
+const presses = argv.filter((_, i) => argv[i - 1] === '--press')
+const viewportOnly = argv.includes('--viewport')
 if (routes.length === 0) {
   console.error('give at least one route, e.g. node scripts/verify/shoot.mjs /malinger')
   process.exit(2)
@@ -74,7 +86,15 @@ const browser = await chromium.launch({
   ...(executablePath ? { executablePath } : {}),
 })
 
-const context = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+const context = await browser.newContext({ viewport: { width: Number(arg('width', 1440)), height: 900 } })
+if (cookieArgs.length) {
+  await context.addCookies(
+    cookieArgs.map((c) => {
+      const [name, value] = c.split('=')
+      return { name, value, url: base }
+    }),
+  )
+}
 const page = await context.newPage()
 
 const errors = []
@@ -106,8 +126,12 @@ for (const route of routes) {
   // the ht-in entry animation is .25s; capture after it has settled, or the shot
   // catches the 6px translate and every region diffs
   await page.waitForTimeout(500)
+  for (const name of presses) {
+    await page.getByRole('button', { name, exact: true }).or(page.getByRole('tab', { name, exact: true })).first().click()
+    await page.waitForTimeout(400)
+  }
   const file = join(outDir, `${route.replace(/^\//, '').replace(/\//g, '-') || 'root'}.png`)
-  await page.screenshot({ path: file, fullPage: true })
+  await page.screenshot({ path: file, fullPage: !viewportOnly })
   console.log(`${route} -> ${file}`)
 }
 

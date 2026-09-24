@@ -48,7 +48,7 @@ export function ReportRegister({
   const t = useTranslations('rapport.register')
 
   return (
-    <section className="report-chrome mx-auto max-w-[1180px] px-[16px] pb-[48px] md:px-[28px]">
+    <section className="report-chrome mx-auto max-w-page px-[16px] pb-[48px] md:px-[28px]">
       <div className="rounded-panel border border-line bg-sf px-[26px] py-[24px] max-md:px-[18px]">
         <h2 className="m-0 font-display text-[21px] font-semibold">{t('title')}</h2>
         <p className="mt-[6px] max-w-[680px] text-[13.5px] leading-[1.6] text-mut [text-wrap:pretty]">

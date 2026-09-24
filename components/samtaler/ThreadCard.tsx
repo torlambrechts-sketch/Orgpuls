@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { Button } from '@/components/ui/Button'
-import { closeThread, replyToThread, type ThreadActionResult } from '@/app/(app)/samtaler/actions'
+import { closeThread, replyToThread, type ThreadActionResult } from '@/app/(app)/kommentarer/actions'
 
 /**
  * One conversation. Bundle lines 990-1013.

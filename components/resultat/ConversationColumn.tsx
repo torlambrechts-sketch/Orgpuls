@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState, useTransition } from 'react'
-import { replyToThread } from '@/app/(app)/samtaler/actions'
+import { replyToThread } from '@/app/(app)/kommentarer/actions'
 
 /**
  * Resultat's Samtaler column: the round's comments, three at most, with a reply box on
@@ -49,7 +49,7 @@ export function ConversationColumn({ threads, labels }: { threads: ColumnThread[
         <span className="font-display text-[21px] font-semibold">{labels.head}</span>
         {/* the design's button to Samtaler, as the link it is (D-06) */}
         <Link
-          href="/samtaler"
+          href="/kommentarer"
           className="inline-flex h-[30px] items-center rounded-bar border border-line bg-transparent px-[12px] text-[12px] font-semibold text-ink no-underline hover:text-ink hover:no-underline"
         >
           {labels.seeAll}

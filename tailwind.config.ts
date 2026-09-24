@@ -28,6 +28,7 @@ const config: Config = {
         sbg: '#FBEBBE',       // soft yellow: selected chip, accent panel
         band: '#F5DC96',      // middle risk band
         sand: '#EFE6D2',      // the playbook's Lederpraksis pill
+        track: '#F2EAD6',     // design 3: the Enkel/Full track, a side-rail icon at rest
         amberbar: '#E0A21F',
         caution: '#8A6A00',
         cautiondeep: '#5C4600',
@@ -87,6 +88,14 @@ const config: Config = {
         panel: '18px',
         card: '20px',
         pill: '999px',
+      },
+      /**
+       * The page column. Design 3 (`pageW`) caps it at 1180px in the top layout and
+       * lifts the cap in the side layout, so every screen reads it from one variable the
+       * shell sets rather than each hard-coding the number.
+       */
+      maxWidth: {
+        page: 'var(--page-w, 1180px)',
       },
       keyframes: {
         // bundle line 24: @keyframes ht-in

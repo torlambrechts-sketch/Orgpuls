@@ -1,67 +1,55 @@
 'use client'
 
 import Link from 'next/link'
-import type { Route } from 'next'
 import { usePathname } from 'next/navigation'
+import { useShell } from './ShellPrefs'
+import { labelOf, navState, visibleNav, type NavEntry } from '@/lib/shell/nav'
 
 /**
- * The header's five nav items.
+ * The top bar's nav: design 3's six screens, or Oversikt and Oppsett in Enkel.
  *
- * Split out of AppHeader as a client component for one reason: the shell is a layout,
- * so it renders once for every screen underneath it and cannot be told which screen
- * that is through props without threading the value through each page. `usePathname`
- * reads it where it is actually known.
+ * A client component because the shell is a layout and only the client knows the current
+ * route (`usePathname`). The model is lib/shell/nav.ts, shared with the side rail.
  *
- * Two behaviours from the bundle that are easy to miss and are deliberate:
- *
- * 1. Målinger stays tinted while you are on a screen reached from it — the result,
- *    respondent preview, måleoppsett or årshjul — because the design keeps the trail
- *    visible (bundle line 95).
- * 2. The bold weight is applied only on an exact match, so a tinted Målinger and a
- *    current Målinger remain distinguishable.
- *
- * The bundle uses a <button onClick> here because a prototype has no router. This is
- * the documented control substitution (D-06): a nav item that changes the address is a
- * link, which is what makes middle-click, back, and a screen reader's link list work.
- * It is styled exactly as the bundle styles that button, and the global anchor colour
- * and hover underline are overridden so the rendering is unchanged.
- *
- * An item whose screen does not exist yet carries no href and renders as the same
- * element with aria-disabled, rather than linking to a 404. It stays focusable, so the
- * tab order matches the finished nav, and it becomes a link the moment its route lands.
+ * The bundle's `<button onClick>` is the documented control substitution (D-06): an entry
+ * that changes the address is a link, styled exactly as the bundle styles the button. The
+ * entry is tinted when it is the screen or a screen under it, and bold only when it is the
+ * screen. Kommentarer carries the badge (the count the server read; 0 draws none), with its
+ * meaning spelled out for a screen reader.
  */
-export type NavItem = { href?: Route; label: string }
-
-/** Routes that keep Målinger tinted without being Målinger. */
-const UNDER_MEASURE = ['/malinger/', '/resultat']
-
-export function AppNav({ items }: { items: NavItem[] }) {
+export function AppNav({ items, ariaLabel }: { items: NavEntry[]; ariaLabel: string }) {
   const pathname = usePathname()
+  const { prefs } = useShell()
 
   return (
-    <nav className="flex min-w-0 flex-1 gap-[2px] max-md:order-last max-md:basis-full max-md:overflow-x-auto">
-      {items.map((item) => {
-        const exact = pathname === item.href
-        const tinted =
-          exact ||
-          (item.href === '/malinger' && UNDER_MEASURE.some((p) => pathname.startsWith(p)))
-        const className = `cursor-pointer rounded-ctl border-none px-[13px] py-[8px] text-[14px] text-ink no-underline hover:text-ink hover:no-underline max-md:flex-none max-md:whitespace-nowrap ${
-          tinted ? 'bg-sbg' : 'bg-transparent'
-        } ${exact ? 'font-bold' : 'font-medium'}`
-
-        return item.href ? (
+    <nav
+      aria-label={ariaLabel}
+      className="flex min-w-0 flex-auto gap-[2px] max-md:order-last max-md:basis-full max-md:overflow-x-auto"
+    >
+      {visibleNav(items, prefs.view).map((item) => {
+        const state = navState(item, pathname)
+        return (
           <Link
-            key={item.label}
+            key={item.key}
             href={item.href}
-            aria-current={exact ? 'page' : undefined}
-            className={className}
+            aria-current={state === 'current' ? 'page' : undefined}
+            className={`flex cursor-pointer items-center gap-[7px] rounded-ctl border-none px-[13px] py-[8px] text-[14px] text-ink no-underline hover:text-ink hover:no-underline max-md:flex-none max-md:whitespace-nowrap ${
+              state ? 'bg-sbg' : 'bg-transparent'
+            } ${state === 'current' ? 'font-bold' : 'font-medium'}`}
           >
-            {item.label}
+            {labelOf(item, prefs.view)}
+            {item.badge ? (
+              <>
+                <span
+                  aria-hidden="true"
+                  className="inline-flex h-[20px] min-w-[20px] items-center justify-center rounded-pill bg-rustbar px-[6px] text-[11px] font-bold leading-none text-sf"
+                >
+                  {item.badge}
+                </span>
+                <span className="sr-only">{item.badgeAria}</span>
+              </>
+            ) : null}
           </Link>
-        ) : (
-          <button key={item.label} type="button" aria-disabled="true" className={className}>
-            {item.label}
-          </button>
         )
       })}
     </nav>

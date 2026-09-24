@@ -92,7 +92,7 @@ export async function MalingerScreen({ view }: { view: MalingerView }) {
   }
 
   return (
-    <main className="animate-entry mx-auto max-w-[1180px] px-[16px] md:px-[28px] pb-[60px] pt-[30px]">
+    <main className="animate-entry mx-auto max-w-page px-[16px] md:px-[28px] pb-[60px] pt-[30px]">
       <div className="flex flex-wrap items-end justify-between gap-[20px]">
         <div className="min-w-0">
           <h1 className="m-0 font-display text-[32px] font-semibold leading-[1.1]">
@@ -361,7 +361,7 @@ function RoundRow({
               as the bundle styles this button.
             */}
             <ButtonLink
-              href={{ pathname: '/resultat', query: { maling: round.id } }}
+              href={{ pathname: '/resultater', query: { maling: round.id } }}
               size="sm"
               tone={archived ? 'secondary' : 'primary'}
               pad={15}

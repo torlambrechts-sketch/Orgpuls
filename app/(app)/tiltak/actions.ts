@@ -133,7 +133,7 @@ export async function adoptPlaybookMeasure(formData: FormData): Promise<MeasureA
   // 23505: already adopted, by this press's twin or by a colleague a moment ago
   if (error?.code !== '23505' && writeFailed('adoptPlaybookMeasure', error, data)) return problem('denied')
   revalidatePath('/tiltak')
-  revalidatePath('/resultat')
+  revalidatePath('/resultater')
   return { ok: true }
 }
 

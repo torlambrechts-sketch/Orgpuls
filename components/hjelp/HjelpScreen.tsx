@@ -33,7 +33,7 @@ export async function HjelpScreen({ view }: { view: HjelpView }) {
   ] as const
 
   return (
-    <main className="animate-entry mx-auto max-w-[1180px] px-[16px] md:px-[28px] pb-[60px] pt-[26px]">
+    <main className="animate-entry mx-auto max-w-page px-[16px] md:px-[28px] pb-[60px] pt-[26px]">
       <ButtonLink href="/innsikt" size="xxs" tone="ghost">
         {t('hjelp.back')}
       </ButtonLink>

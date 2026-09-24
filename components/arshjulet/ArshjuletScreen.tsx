@@ -169,7 +169,7 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
   }))
 
   return (
-    <main className="animate-entry mx-auto max-w-[1180px] px-[16px] md:px-[28px] pb-[60px] pt-[26px]">
+    <main className="animate-entry mx-auto max-w-page px-[16px] md:px-[28px] pb-[60px] pt-[26px]">
       <ButtonLink href="/malinger" size="xxs" tone="ghost">
         {t('arshjulet.back')}
       </ButtonLink>

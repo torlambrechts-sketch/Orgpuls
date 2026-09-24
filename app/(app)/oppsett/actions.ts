@@ -458,7 +458,7 @@ export async function setThreshold(formData: FormData): Promise<SettingsResult> 
 
   if (writeFailed('setThreshold', error, data)) return { ok: false, problem: 'denied' }
   revalidate()
-  revalidatePath('/resultat')
-  revalidatePath('/samtaler')
+  revalidatePath('/resultater')
+  revalidatePath('/kommentarer')
   return { ok: true }
 }

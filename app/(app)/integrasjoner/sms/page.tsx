@@ -72,7 +72,7 @@ export default async function SmsPage() {
   }
 
   return (
-    <main className="animate-entry mx-auto max-w-[1180px] px-[16px] pb-[60px] pt-[26px] md:px-[28px]">
+    <main className="animate-entry mx-auto max-w-page px-[16px] pb-[60px] pt-[26px] md:px-[28px]">
       <ButtonLink href={{ pathname: '/oppsett', query: { fane: 'integrasjoner' } }} size="xxs" tone="ghost">
         {t('smsSetup.back')}
       </ButtonLink>

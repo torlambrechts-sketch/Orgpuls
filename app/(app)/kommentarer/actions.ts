@@ -39,10 +39,10 @@ export async function replyToThread(formData: FormData): Promise<ThreadActionRes
     return { ok: false, problem: result.success ? (result.data.error ?? 'denied') : 'denied' }
   }
 
-  revalidatePath('/samtaler')
+  revalidatePath('/kommentarer')
   revalidatePath('/innsikt')
   // Resultat's Samtaler column replies through here too (D-54)
-  revalidatePath('/resultat')
+  revalidatePath('/resultater')
   return { ok: true }
 }
 
@@ -63,7 +63,7 @@ export async function closeThread(formData: FormData): Promise<ThreadActionResul
     return { ok: false, problem: result.success ? (result.data.error ?? 'denied') : 'denied' }
   }
 
-  revalidatePath('/samtaler')
+  revalidatePath('/kommentarer')
   revalidatePath('/innsikt')
   return { ok: true }
 }

@@ -1470,6 +1470,15 @@ P0 lays the ground without new UI:
 - a fixture that holds the design's full history (D-69), asserted by
   `supabase/tests/design_figures.sql` in CI.
 
+### X-040 — The shell's preferences are cookies; the badge counts what its reader could open
+
+Design 3's layout, rail and Enkel/Full choices are stored in first-party cookies the server
+reads, so the first paint is right and no page view pays a database read for them. The
+Kommentarer badge is `unanswered_threads()` (0036), which counts the rows `conversations()`
+returns rather than applying a second set of rules. The two cannot drift, and the badge
+cannot reveal a comment the reader could not open. Enkel is not anyone's default until
+Oversikt exists (P2). Old addresses redirect permanently (D-70).
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1589,6 +1598,11 @@ P0 lays the ground without new UI:
 - [x] Design 3 reviewed and planned (docs/PLAN_2026-09-24_design3.md); decisions D1–D6
       taken as recommended (X-039). P0 done; P1 (shell) next.
 - [x] A withheld group can no longer be recovered by subtraction (0034, D-68).
-- [ ] Reseed the hosted fixture organisation with the extended generator (2023, 2024 and
-      three pulses). It is a scoped delete-and-reinsert on a remote project, so it waits for
-      the owner's go-ahead (D-69).
+- [x] The hosted fixture organisation is reseeded with the extended generator (owner's
+      go-ahead, 2026-09-24): `design_figures.sql` and `suppression_invariants.sql` pass
+      against the live project (D-69).
+- [x] P1: design 3's shell — six-screen nav with the Kommentarer badge, Enkel/Full, the side
+      layout, the tabbed help panel; header, rail, footer and panel at 0 px against
+      baselines-v3 (X-040, D-70).
+- [ ] P2: Oversikt, and switch on the Enkel default for a small organisation's daglig leder.
+- [ ] `/arshjulet` becomes Målinger's Årshjul tab in P5, with a redirect then (D-70).

@@ -628,36 +628,124 @@ ${RISK.factors.map(([key, prob, cons, concl, text]) =>
   `  ('${RISK_ID}', '${key}', '${prob}', '${cons}', '${concl}', ${q(text)})`).join(',\n')};`
 
 /**
- * The design's four open conversations and three closed ones (baseline 03).
+ * The design's comments (design 3's V2KOM): eighteen across five rounds, ten waiting for
+ * an answer, which is the "10" on the nav's Kommentarer badge. Every text and reply is the
+ * design's own.
  *
- * Every comment is the bundle's own text. What is NOT the bundle's is how old each one
- * is: the design prints "Venter 6 dager", "Venter 9 dager", and those are relative to
- * the day it was captured. Pinned dates would make the screen say something false
- * tomorrow, so `opened_hour` is `now()` minus the design's own figure, truncated to the
- * hour like every other timestamp a respondent touches. Same reasoning as the open puls,
- * docs/DEVIATIONS.md D-08.
+ * Each is [round, group, factor, tone, text, reply, opened]:
+ *   group   the design's `seg`; `null` for its "Hele virksomheten", which is a comment the
+ *           design does not place — it goes to the first released group that has an
+ *           answer of the right tone, since every response carries a group
+ *   tone    the design's chip. The product derives it from the writer's own answer on the
+ *           statement the comment hangs on (1–2 negativ, 3 blandet, 4–5 positiv), so the
+ *           comment is attached to a response whose answer is in that band — see `tone`.
+ *   opened  days ago for the current round, as the design's "Venter · 6 dager" is relative
+ *           to the day it is read (D-08); a fixed date for the older rounds
  *
- * The comments attach to responses in Drift, Prosjekt and Verksted — never
- * Administrasjon, which has three responses against a threshold of five. A comment from
- * a group that small is withheld by `public.conversations()`, and seeding one there would
- * be seeding a row the product is built never to show.
+ * Two of the design's comments cannot exist as drawn: it files "omleggingen av
+ * morgenmøtet" (mening) under Puls august 2025 and "Ny leder er engasjert" (leder) under
+ * Puls mai 2025, but those pulses asked about ytringsklima and arbeidsmengde only, and a
+ * comment hangs on a statement the round asked. Both go to Grunnlinje 2025, the nearest
+ * round that asked their factor (D-70).
+ *
+ * Nothing goes to Administrasjon: three responses against a threshold of five, and
+ * `conversations()` withholds a comment from a group that small.
  */
-const CONVERSATIONS = [
-  ['Drift', 'ytring', 1, 6, 'venter', false,
-    'Det hjelper ikke å si fra. Vi meldte avvik på riggingen i vår og hørte aldri noe.'],
-  ['Verksted', 'integritet', 1, 9, 'venter', true,
-    'Det blir sagt ting i pausen som jeg ikke synes hører hjemme på en arbeidsplass. Jeg vet ikke om jeg skal melde det som varsel eller bare la det ligge.'],
-  ['Drift', 'kontakt', 1, 4, 'venter', false,
-    'Jeg er alene på lageret store deler av dagen. Hvis noe skjer, vet jeg ærlig talt ikke hvem jeg skal ringe.'],
-  ['Prosjekt', 'mengde', 1, 2, 'venter', false,
-    'Tre prosjekter samtidig og ingen som sier hva som skal vike.'],
-  ['Verksted', 'ytring', 2, 21, 'lukket', false,
-    'Vi rakk ikke gjennomgangen før skiftet begynte. Det gjentar seg.'],
-  ['Prosjekt', 'leder', 1, 25, 'lukket', false,
-    'Jeg fikk aldri svar da jeg spurte om hvem som bestemmer rekkefølgen.'],
-  ['Drift', 'rolle', 1, 30, 'lukket', false,
-    'Det er uklart hvem som eier oppfølgingen når en sak går på tvers.'],
+const COMMENTS = [
+  ['2025', 'Prosjekt', 'mengde', 'neg', 'Høysesongen er umulig med dagens bemanning.',
+    'Vi leier inn to ekstra fra januar. Si fra om det monner.', '2025-09-11'],
+  ['2025', 'Verksted', 'ytring', 'neg', 'Vi har meldt om den samme feilen på løfteutstyret tre ganger.',
+    'Utstyret er byttet 3. oktober. Takk for at du sto på.', '2025-09-11'],
+  ['2025', 'Drift', 'mening', 'pos', 'Vil bare si at omleggingen av morgenmøtet var et godt grep.',
+    'Godt å høre — vi beholder det.', '2025-09-11'],
+  ['2025', null, 'leder', 'blandet', 'Ny leder er engasjert, men vi ser henne for lite ute.',
+    'Jeg setter opp faste besøk på anleggene hver tirsdag fra juni.', '2025-09-11'],
+  ['2024', 'Verksted', 'kollega', 'pos', 'Fredagsgjennomgangene har gjort at vi faktisk snakker sammen.',
+    'Da fortsetter vi med dem.', '2024-09-13'],
+  ['2024', 'Prosjekt', 'mengde', 'neg', 'Alle prosjektene har frist samme uke i november. Hvert år.',
+    'Vi tar det opp med kundene før neste kontraktsrunde.', '2024-09-13'],
+  ['2026', 'Verksted', 'ytring', 'neg', 'Det hjelper ikke å si fra. Vi meldte avvik på riggingen i vår og hørte aldri noe.', null, 6],
+  ['2026', 'Verksted', 'ytring', 'neg', 'Man blir fort stemplet som vanskelig hvis man tar opp ting på morgenmøtet.', null, 6],
+  ['2026', 'Drift', 'ytring', 'neg', 'Avviksskjemaet er så tungvint at folk heller lar være.', null, 5],
+  ['2026', null, 'ytring', 'pos', 'Lederen min tar det på alvor når jeg sier fra. Det burde gjelde alle.',
+    'Takk — vi tar det med inn i arbeidet med ytringsklima.', 4],
+  ['2026', 'Prosjekt', 'mengde', 'neg', 'Tre prosjekter samtidig og ingen som sier hva som skal vike.', null, 2],
+  ['2026', 'Prosjekt', 'mengde', 'neg', 'Jeg jobber kveld nesten hver uke i høysesong.', null, 3],
+  ['2026', 'Prosjekt', 'motstrid', 'neg', 'To prosjektledere ber om det samme mannskapet samme uke.', null, 3],
+  ['2026', null, 'emosjon', 'neg', 'Etter ulykken i mai snakket vi aldri om det.', null, 5],
+  ['2026', null, 'leder', 'blandet', 'Lederen er flink, men sitter aldri ute hos oss.', null, 4],
+  ['2026', 'Verksted', 'kollega', 'pos', 'Samholdet på laget er det beste med jobben.', null, 6],
+  ['2026', 'Drift', 'mening', 'pos', 'Omleggingen av morgenmøtet var et godt grep.',
+    'Så fint å høre — vi fortsetter med det.', 5],
+  ['2026', null, 'medvirk', 'pos', 'Fint at vi fikk være med å velge nytt verktøy.', null, 4],
 ]
+
+const TONE_BAND = { neg: [1, 2], blandet: [3, 3], pos: [4, 5] }
+
+/**
+ * Where every comment hangs, and the answers that had to move for it to hang there.
+ *
+ * The answers are two adjacent scale points per group and factor (`plan`), so a group whose
+ * emosjon is 58 has only 3s and 4s — no answer a negative comment could sit on. Where the
+ * design's tone has no answer in its band, one answer moves into the band and another on
+ * the same statement in the same group moves the opposite way by the same step (3→2 with
+ * 3→4, say). Group sums, statement sums and so every index stay exactly where `plan` put
+ * them; the only thing that changes is that one person's answer now matches what they
+ * wrote. The overrides are emitted with the answers.
+ */
+const slotValue = (row, seq, ordinal) => {
+  const q = Math.floor(row.S / row.slots), r = row.S % row.slots
+  return (seq - 1) * 3 + ordinal <= r ? q + 2 : q + 1
+}
+const { attachments, overrides } = (() => {
+  const overrides = new Map() // `${key}|${group}|${seq}|${factor}|${ordinal}` -> value
+  const used = new Set() // one comment per response and statement
+  const attachments = []
+  const valueAt = (row, seq, o) => overrides.get(`${row.key}|${row.group}|${seq}|${row.factor}|${o}`) ?? slotValue(row, seq, o)
+  const released = (key) => COHORTS[key].filter(([, , a]) => a >= 5).map(([g]) => g)
+  for (const [key, group, factor, tone, , , ] of COMMENTS) {
+    const [lo, hi] = TONE_BAND[tone]
+    const groups = group ? [group] : released(key)
+    let found = null
+    // first choice: an answer already in the band
+    for (const g of groups) {
+      const row = plan.find((p) => p.key === key && p.group === g && p.factor === factor)
+      if (!row) continue
+      for (let seq = 1; seq <= row.slots / 3 && !found; seq++) {
+        for (let o = 1; o <= 3 && !found; o++) {
+          const v = valueAt(row, seq, o)
+          if (v >= lo && v <= hi && !used.has(`${key}|${g}|${seq}|${factor}|${o}`)) found = { row, seq, o }
+        }
+      }
+      if (found) break
+    }
+    // otherwise: move one answer into the band and a partner on the same statement back
+    for (const g of found ? [] : groups) {
+      const row = plan.find((p) => p.key === key && p.group === g && p.factor === factor)
+      if (!row) continue
+      const n = row.slots / 3
+      for (let o = 1; o <= 3 && !found; o++) {
+        for (let seq = 1; seq <= n && !found; seq++) {
+          const v = valueAt(row, seq, o)
+          const d = v < lo ? lo - v : v > hi ? hi - v : 0
+          if (Math.abs(d) !== 1 || used.has(`${key}|${g}|${seq}|${factor}|${o}`)) continue
+          for (let p = 1; p <= n && !found; p++) {
+            const w = valueAt(row, p, o)
+            if (p === seq || w - d < 1 || w - d > 5) continue
+            overrides.set(`${key}|${g}|${seq}|${factor}|${o}`, v + d)
+            overrides.set(`${key}|${g}|${p}|${factor}|${o}`, w - d)
+            found = { row, seq, o }
+          }
+        }
+      }
+      if (found) break
+    }
+    if (!found) throw new Error(`${key} ${group ?? 'hele'} ${factor}: no answer can carry a ${tone} comment`)
+    used.add(`${key}|${found.row.group}|${found.seq}|${factor}|${found.o}`)
+    attachments.push({ group: found.row.group, seq: found.seq, ordinal: found.o })
+  }
+  return { attachments, overrides }
+})()
 
 /*
  * The capability key is minted here exactly as `submit_response` mints it — 32 random
@@ -667,28 +755,43 @@ const CONVERSATIONS = [
  * a file.
  */
 const conversationsSql = () => `
-${CONVERSATIONS.map(([group, factor, ordinal, days, state, flagged, body], i) => `
-with picked as (
-  select re.id from app.responses re
-  join app.groups g on g.id = re.group_id
-  where re.round_id = '${ROUND[2026]}' and g.name = '${group}'
-  order by re.id offset ${i} limit 1
+with c(n, round_id, grp, seq, factor_key, ordinal, body, reply, opened) as (values
+${COMMENTS.map(([key, , factor, , text, reply, opened], i) => {
+  const a = attachments[i]
+  const at = typeof opened === 'number'
+    ? `date_trunc('hour', now() - interval '${opened} days')`
+    : `timestamptz '${opened} 12:00:00+02'`
+  return `  (${i + 1}, '${ROUND[key]}'::uuid, '${a.group}', ${a.seq}, '${factor}', ${a.ordinal}, ${q(text)}, ${reply ? q(reply) : 'null'}, ${at})`
+}).join(',\n')}),
+picked as (
+  select c.*, re.id as response_id
+  from c join (
+    select re.id, re.round_id, g.name as grp,
+           row_number() over (partition by re.round_id, re.group_id order by re.id) as seq
+    from app.responses re join app.groups g on g.id = re.group_id
+    where re.org_id = '${ORG}'
+  ) re on re.round_id = c.round_id and re.grp = c.grp and re.seq = c.seq
+),
+comments as (
+  insert into app.response_comments (response_id, factor_key, ordinal, body)
+  select response_id, factor_key, ordinal, body from picked
+  returning response_id
+),
+threads as (
+  insert into app.comment_threads
+    (org_id, response_id, factor_key, ordinal, key_hash, state, flagged_varsel, opened_hour)
+  select '${ORG}', p.response_id, p.factor_key, p.ordinal,
+         extensions.digest(encode(extensions.gen_random_bytes(32), 'hex'), 'sha256'),
+         case when p.reply is null then 'venter' else 'dialog' end::app.thread_state, false, p.opened
+  from picked p
+  where exists (select 1 from comments x where x.response_id = p.response_id)
+  returning id, response_id, factor_key, ordinal
 )
-insert into app.response_comments (response_id, factor_key, ordinal, body)
-select id, '${factor}', ${ordinal}, ${q(body)} from picked;
-
-with picked as (
-  select re.id from app.responses re
-  join app.groups g on g.id = re.group_id
-  where re.round_id = '${ROUND[2026]}' and g.name = '${group}'
-  order by re.id offset ${i} limit 1
-)
-insert into app.comment_threads
-  (org_id, response_id, factor_key, ordinal, key_hash, state, flagged_varsel, opened_hour)
-select '${ORG}', id, '${factor}', ${ordinal},
-       extensions.digest(encode(extensions.gen_random_bytes(32), 'hex'), 'sha256'),
-       '${state}', ${flagged}, date_trunc('hour', now() - interval '${days} days')
-from picked;`).join('\n')}`
+insert into app.thread_messages (thread_id, author, body, sent_hour)
+select t.id, 'leder', p.reply, p.opened + interval '1 day'
+from threads t
+join picked p on p.response_id = t.response_id and p.factor_key = t.factor_key and p.ordinal = t.ordinal
+where p.reply is not null;`
 
 const invitationsFor = (year) => `
 insert into app.invitations (org_id, round_id, employee_id, token_hash, sent_at, expires_at, responded_at)
@@ -720,9 +823,16 @@ where r.id = '${ROUND[year]}';`
  * gets its sum as two adjacent scale points over that group's answers, so the group's
  * figure and the company's both land where the design prints them.
  */
+const overrideRows = () => [...overrides].map(([k, v]) => {
+  const [key, group, seq, factor, ordinal] = k.split('|')
+  return `('${ROUND[key]}'::uuid,'${group}',${seq},'${factor}',${ordinal},${v})`
+})
+
 const answersSql = () => `
 with cfg(round_id, grp, factor_key, hi_count, hi_value, lo_value) as (values
   ${cfgRows()}),
+ovr(round_id, grp, seq, factor_key, ordinal, value) as (values
+  ${overrideRows().join(',\n  ') || "(null::uuid, null, null::int, null, null::int, null::int)"}),
 resp as (
   select re.id, re.round_id, g.name as grp,
          row_number() over (partition by re.round_id, re.group_id order by re.id) as seq
@@ -730,12 +840,15 @@ resp as (
   where re.org_id = '${ORG}'),
 slots as (select r.id, r.round_id, r.grp, r.seq, o.ordinal from resp r cross join (values (1),(2),(3)) as o(ordinal)),
 numbered as (
-  select c.factor_key, s.id, s.ordinal, c.hi_count, c.hi_value, c.lo_value,
+  select c.round_id, c.grp, s.seq, c.factor_key, s.id, s.ordinal, c.hi_count, c.hi_value, c.lo_value,
          row_number() over (partition by c.round_id, c.grp, c.factor_key order by s.seq, s.ordinal) as n
   from cfg c join slots s on s.round_id = c.round_id and s.grp = c.grp)
 insert into app.answers (response_id, factor_key, ordinal, value)
-select id, factor_key, ordinal, case when n <= hi_count then hi_value else lo_value end
-from numbered;`
+select nb.id, nb.factor_key, nb.ordinal,
+       coalesce(o.value, case when nb.n <= nb.hi_count then nb.hi_value else nb.lo_value end)
+from numbered nb
+left join ovr o on o.round_id = nb.round_id and o.grp = nb.grp and o.seq = nb.seq
+               and o.factor_key = nb.factor_key and o.ordinal = nb.ordinal;`
 
 /**
  * "Anbefaler oss", assigned by count exactly as the screening answers are: responses are

@@ -32,16 +32,27 @@
   "nav": {
     "innsikt": "Insight",
     "malinger": "Measurements",
-    "samtaler": "Conversations",
     "tiltak": "Actions",
-    "oppsett": "Settings"
+    "oppsett": "Settings",
+    "resultater": "Results",
+    "kommentarer": "Comments",
+    "oversikt": "Overview",
+    "badgeAria": "{count} awaiting a reply",
+    "primaryAria": "Main menu"
   },
   "header": {
     "help": "Help",
-    "helpAria": "Help for this page",
-    "grunnlag": "Basis",
+    "helpAria": "Help, basis and assistant",
     "roleAria": "Your role",
-    "assistantAria": "Assistant — next step"
+    "layoutToSide": "Switch to side menu and full width",
+    "layoutToTop": "Switch to top menu",
+    "railCollapse": "Collapse the menu",
+    "railExpand": "Expand the menu",
+    "railCollapseLabel": "Collapse",
+    "modeTitle": "Simple view shows only what you need. Full view has every analysis.",
+    "modeAria": "View",
+    "modeEnkel": "Simple",
+    "modeFull": "Full"
   },
   "role": {
     "daglig_leder": "Managing director",
@@ -1979,7 +1990,6 @@
     }
   },
   "headerPanel": {
-    "grunnlagAria": "Basis — research and legal requirements",
     "close": "Close",
     "readMore": "Read more about this",
     "allHelp": "All help articles →",
@@ -2075,6 +2085,12 @@
       "wheel": "Section 3-1 (g) requires “continuous monitoring of the working environment” when the risk factors call for it — not one measurement a year. Letter (h) requires you also to review whether the system itself works. The notification order in the annual cycle covers the participation requirement in section 3-1 first paragraph and section 6-2 fourth paragraph.",
       "settings": "The threshold is not a requirement of the Working Environment Act but follows from data protection law: with fewer than five answers, results in small groups can be traced back to individuals. The legal basis is legal obligation under GDPR Article 6(1)(c), not consent — employees cannot freely consent to their employer. Section 9-3 also prohibits collecting health information, which is why the questions are designed to avoid it.",
       "report": "The documentation requirement lies in section 3-1 third paragraph, which provides for regulations on “requirements for documentation of the systematic health, environment and safety work”. Section 7-2 fourth paragraph requires medical information of a personal nature to be removed before the working environment committee considers reports, and the sixth paragraph that the committee submits an annual report to governing bodies, the employees’ organisations and the Labour Inspection Authority."
+    },
+    "tabsAria": "Help, basis and assistant",
+    "tab": {
+      "help": "Help",
+      "science": "Basis",
+      "scienceLaw": "Basis and the law"
     }
   },
   "bliMed": {

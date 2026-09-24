@@ -4,9 +4,11 @@ import { getTranslations } from 'next-intl/server'
 import { LogoMark } from './Logo'
 
 /**
- * The application footer. Transcribed from Orgpuls_Offline_Source.html lines 2478-2515.
+ * The application footer. Transcribed from Orgpuls_Offline_Source.html lines 2478-2515, with
+ * design 3's Produkt column (Resultater and Kommentarer where Samtaler was).
  *
- * #FFFDF6 above a #E8DFC9 hairline, inner rail capped at 1180px with 34/28/26 padding.
+ * #FFFDF6 above a #E8DFC9 hairline, inner rail on the page column (`max-w-page`) with
+ * 34/28/26 padding.
  * The first column is the mark, the promise and the two compliance chips; the rest are
  * auto-fitting link columns. A second hairline separates the legal line.
  *
@@ -30,7 +32,8 @@ const COLUMNS: { head: string; links: { key: string; href: Route }[] }[] = [
     links: [
       { key: 'innsikt', href: '/innsikt' },
       { key: 'malinger', href: '/malinger' },
-      { key: 'samtaler', href: '/samtaler' },
+      { key: 'resultater', href: '/resultater' },
+      { key: 'kommentarer', href: '/kommentarer' },
       { key: 'tiltak', href: '/tiltak' },
     ],
   },
@@ -55,14 +58,14 @@ const COLUMNS: { head: string; links: { key: string; href: Route }[] }[] = [
 ]
 
 /** The Produkt column labels come from the nav's own keys; the others are footer-specific. */
-const NAV_LINKS = new Set(['innsikt', 'malinger', 'samtaler', 'tiltak'])
+const NAV_LINKS = new Set(['innsikt', 'malinger', 'resultater', 'kommentarer', 'tiltak'])
 
 export async function AppFooter() {
   const t = await getTranslations()
 
   return (
     <footer className="border-t border-line bg-sf">
-      <div className="mx-auto max-w-[1180px] px-[16px] md:px-[28px] pb-[26px] pt-[34px]">
+      <div className="mx-auto max-w-page px-[16px] md:px-[28px] pb-[26px] pt-[34px]">
         <div className="grid grid-cols-2 gap-[26px] md:[grid-template-columns:minmax(220px,1.4fr)_repeat(auto-fit,minmax(140px,1fr))]">
           <div className="min-w-0">
             <span className="flex items-center gap-[9px]">

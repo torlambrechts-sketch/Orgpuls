@@ -1,41 +1,28 @@
 import { getTranslations } from 'next-intl/server'
 import { Logo } from './Logo'
-import { AppNav, type NavItem as NavLink } from './AppNav'
 import { HeaderBar } from './HeaderBar'
+import type { NavEntry } from '@/lib/shell/nav'
 import { getShellContext, getViewer } from '@/lib/shell/read'
 import type { Role } from '@/lib/org/read'
 
 /**
- * The application header. Transcribed from Orgpuls_Offline_Source.html lines 49-66.
+ * The application header, design 3 (bundle 3, the sticky bar under `topNav`/`sideNav`).
  *
- * Sticky, z-40, #FFFDF6 on a #E8DFC9 hairline; inner rail capped at 1180px with
- * 11px/28px padding. Five nav items, then the help and basis controls, the assistant,
- * the role selector and the account chip.
+ * Sticky, z-40, #FFFDF6 on a #E8DFC9 hairline; the inner rail follows the page column
+ * (`max-w-page`: 1180px in the top layout, the full width in the side layout) with
+ * 11px/28px padding. In the top layout: the brand, the six-screen nav, then the layout
+ * toggle, Hjelp, the Enkel/Full switch, the role selector and the account chip. In the side
+ * layout the rail carries the brand, the nav and Hjelp, and the bar carries the screen's
+ * title instead.
  *
- * Verneombud only appears in the role list when law mode is on (bundle line 4146). Law mode
- * is the organisation's own `law_mode`, read with the setup checklist in `getShellContext`.
+ * The bar is HeaderBar, a client component, because its toggles and the help panel are
+ * state. This file supplies what only the server knows: translations, law mode, the setup
+ * checklist and the viewer's role. The nav model itself comes from the layout, which reads
+ * it once for the bar and the rail.
  *
- * The bar itself — and the Hjelp / Grunnlag / assistant panel under it — is HeaderBar, a
- * client component, because the panel is state. This file supplies what only the server
- * knows: the translations for the nav, law mode, and the checklist's facts. D-48.
- *
- * The nav lives in AppNav, a client component: the shell is a layout, so it renders
- * once for every screen beneath it and only the client knows which route is current.
+ * Verneombud only appears in the role list when law mode is on (bundle line 4146).
  */
-
-/**
- * `href` is omitted for a screen that has not been built yet, so the item renders as a
- * focusable non-link instead of a link to a 404. Adding the route is what turns it on.
- */
-const NAV: (Omit<NavLink, 'label'> & { messageKey: string })[] = [
-  { href: '/innsikt', messageKey: 'innsikt' },
-  { href: '/malinger', messageKey: 'malinger' },
-  { href: '/samtaler', messageKey: 'samtaler' },
-  { href: '/tiltak', messageKey: 'tiltak' },
-  { href: '/oppsett', messageKey: 'oppsett' },
-]
-
-export async function AppHeader({ assistantFace = 'av4' }: { assistantFace?: string }) {
+export async function AppHeader({ items, assistantFace }: { items: NavEntry[]; assistantFace: string }) {
   const t = await getTranslations()
   const [{ lawMode, progress }, viewer] = await Promise.all([getShellContext(), getViewer()])
 
@@ -54,7 +41,7 @@ export async function AppHeader({ assistantFace = 'av4' }: { assistantFace?: str
   return (
     <HeaderBar
       logo={<Logo />}
-      nav={<AppNav items={NAV.map((item) => ({ href: item.href, label: t(`nav.${item.messageKey}`) }))} />}
+      items={items}
       lawMode={lawMode}
       progress={progress}
       assistantFace={assistantFace}

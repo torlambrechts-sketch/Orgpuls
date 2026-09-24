@@ -154,7 +154,7 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
   }
 
   return (
-    <main className="animate-entry mx-auto max-w-[1180px] px-[16px] md:px-[28px] pb-[60px] pt-[30px]">
+    <main className="animate-entry mx-auto max-w-page px-[16px] md:px-[28px] pb-[60px] pt-[30px]">
       <div className="grid items-start gap-[20px] md:[grid-template-columns:minmax(0,1.25fr)_minmax(300px,0.75fr)]">
         <div className="min-w-0">
           <h1 className="m-0 font-display text-[32px] font-semibold leading-[1.1]">

@@ -100,6 +100,9 @@ const STATES = [
   ['20-side-sammentrukket', full([['title', 'Bytt til sidemeny og full bredde'], ['title', 'Trekk sammen menyen']])],
   ['21-hjelp', [['press', 'Hjelp']]],
   ['22-oversikt-telefon', [], { width: 390 }],
+  ['23-panel-hjelp', full([['press', 'Hjelp']]), { viewport: true }],
+  ['24-panel-grunnlag', full([['press', 'Hjelp'], ['press', 'Grunnlag og lov']]), { viewport: true }],
+  ['25-panel-tuva', full([['press', 'Hjelp'], ['press', 'Tuva']]), { viewport: true }],
   ...WIZARD.map((step, i) => [
     `${String(30 + i)}-veiviser-${i + 1}`,
     [['press', 'Veiviser'], ...Array.from({ length: i }, (_, j) => ['press', j === 0 ? 'Kom i gang' : j === 7 ? 'Planlegg utsendingen' : 'Neste'])],

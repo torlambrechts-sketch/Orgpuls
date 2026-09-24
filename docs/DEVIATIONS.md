@@ -2465,6 +2465,79 @@ Three figures cannot be produced by whole answers:
 - **Administrasjon answers in full in every puls.** With three or four answering, the
   release rule would withhold Verksted, whose puls values are the design's whole story.
 
-**Not yet reseeded on the hosted project.** The generator deletes and re-inserts the
-fixture organisation's rows. On a remote project that is a bulk delete, which waits for the
-owner.
+**Reseeded on the hosted project on 2026-09-24**, with the owner's go-ahead: the
+generator deletes and re-inserts the fixture organisation's rows, which on a remote project
+is a bulk delete. The wheel was then wound once, as CI does. `design_figures.sql` passes
+against the live data.
+
+---
+
+## D-70 — Design 3's shell: six screens, Enkel/Full, the side layout (P1)
+
+**Built from the design:**
+- the nav: Innsikt · Målinger · Resultater · Kommentarer (with a badge) · Tiltak · Oppsett;
+- one Hjelp button with Tuva's face, opening a panel with Hjelp, Grunnlag (og lov) and Tuva
+  as tabs;
+- the layout toggle, and the side layout: a 220px rail that narrows to 62px, with the page
+  column at full width and the screen's name in the bar;
+- the Enkel/Full switch: Enkel's nav is Oversikt and Oppsett;
+- the footer's new Produkt column.
+
+**Pixel checks.** Against `baselines-v3` at 1440px, **0 pixels differ** in each of these:
+- the top header on Innsikt, Resultater and Kommentarer;
+- the Enkel header;
+- the side rail, expanded and narrow;
+- the side layout's bar;
+- the footer in both layouts;
+- the three panel tabs.
+
+From P1 the shell is gated against `baselines-v3`. The body of a screen not yet rebuilt is
+still gated against `baselines/`, where the old header and footer are now expected to
+show as unmatched blocks in `regions.mjs`.
+
+`scripts/verify/shell-behaviour.mjs` checks what pixels cannot show:
+- persistence across reloads;
+- Enkel from another screen;
+- keyboard order with a visible focus ring at every stop;
+- the panel by keyboard;
+- the phone width.
+
+Where the build differs from the design, and why:
+
+- **Resultater and Kommentarer are new addresses for the current screens.** `/resultat`
+  and `/samtaler` answer with a permanent redirect (308, query kept), because links to
+  them are in mail that has already gone out. P3 and P4 rebuild the screens behind the new
+  addresses. `/arshjulet` stays a screen of its own until P5 gives Målinger its Årshjul
+  tab. The plan had it redirected in P1, but it would have had nowhere to go.
+- **Nobody starts in Enkel yet.** The design starts a daglig leder of a small organisation
+  there (fewer than 50 employees). Enkel's landing page is Oversikt, which is P2. Until
+  then the switch works and is remembered, but the default is Full.
+- **Preferences are cookies, read on the server.** Layout, rail and view are conveniences,
+  not data. A cookie gives the first paint the right layout without a flash and without a
+  database read on every page. Unknown values fall back to the defaults.
+- **No side layout on a phone.** Below `md` the rail is not drawn and the bar shows the top
+  nav: a 220px rail on a 390px screen leaves no page. The layout toggle is hidden there.
+- **The badge is a count of `conversations()`'s own rows** (0036, SECURITY INVOKER). So it
+  can never count a comment its reader could not open. A verneombud, who reads no
+  comments (0022), gets no badge.
+- **The panel's tabs are pressed-state buttons in a labelled group**, not ARIA tabs. The
+  design draws them as a segmented control, and a tab pattern without arrow keys and a
+  tab panel would be half a pattern. The rendering is unchanged.
+- **The rail's brand is a link to Innsikt** (the prototype's `goHomeNav` button). This is
+  D-06's substitution.
+
+**The design's comments moved into the fixture now rather than in P4.** The badge must
+count real rows, and the design's badge reads 10: "10" is wider than the fixture's old
+"4", and every nav entry after it moves. The generator now holds the design's eighteen
+comments (ten waiting, eight answered), with two exceptions:
+- **Two comments can't hang where the design puts them.** It files a comment on mening
+  under Puls august 2025 and one on leder under Puls mai 2025. Those pulses asked about
+  ytringsklima and arbeidsmengde only, so both go to Grunnlinje 2025.
+- **Some answers move to match a comment's tone.** A comment's tone chip is the writer's
+  own answer, so each comment sits on an answer in its tone's band. Where the fixture had
+  none, one answer moves into the band and another on the same statement moves back by the
+  same step. Every index and statement sum stays exact, and `design_figures.sql` still
+  passes.
+
+The hosted fixture was reseeded with it (the owner's go-ahead for the fixture reseed,
+2026-09-24).
