@@ -5,7 +5,8 @@
   and the fixture's history (D-69).
 - **P1 is done:** the shell, at 0 px against the v3 baselines (D-70).
 - **P2 is done:** Oversikt, and Enkel as a small organisation's default (D-71).
-- **P3 (Resultater) is next.**
+- **P3 is done:** Resultater, its five views and the puls view (D-72).
+- **P4 (Kommentarer) is next.**
 
 The design was reviewed in a browser. The offline copy of `dc_2` was rendered with the
 same runtime as the baselines. Every screen and state was captured: the Enkel and Full

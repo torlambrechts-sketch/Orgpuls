@@ -128,6 +128,20 @@ const TEAM_TARGETS = {
  * whole number of people (6/28 is 21, 7/28 is 25), 6 over 27 is. 2023's +8 needs 13 of
  * 19 answering — the first year the question was asked.
  */
+/**
+ * Who answers what on the recommendation question. The counts above fix the figure; which
+ * respondent gives which answer is ordered by their own answers, weighted by the design's
+ * importance per factor (RES2 `imp`). So the people who score the workplace lowest are the
+ * ones least likely to recommend it. Prioritet's "betydning" (0037) is the correlation
+ * between the two. Assigned by id, as the screening answers are, it came out negative on
+ * every factor: an artefact of the fixture, not a finding. Kontakt and integritet are not
+ * in RES2 and take a middling weight.
+ */
+const IMPORTANCE = {
+  ytring: 0.84, mengde: 0.76, motstrid: 0.44, emosjon: 0.3, leder: 0.7, medvirk: 0.52,
+  rolle: 0.36, kollega: 0.46, mening: 0.62, kontakt: 0.4, integritet: 0.4,
+}
+
 const RECOMMEND = {
   2026: [1, 1, 3, 11, 11],
   2025: [0, 1, 3, 8, 10],
@@ -451,11 +465,57 @@ const plan = (() => {
   return out
 })()
 
-/** The two-adjacent-points split of one (round, group, factor) sum, as a cfg row. */
-const cfgRows = () => plan.map(({ key, group, factor, slots, S }) => {
-  const q = Math.floor(S / slots), r = S % slots
-  return `('${ROUND[key]}'::uuid,'${group}','${factor}',${r},${q + 2},${q + 1})`
-}).join(',\n  ')
+/**
+ * How far each statement sits from its factor in the design (v3 `FACTORS[].items` minus
+ * `idx`: Ytringsklima's 38, 36 and 49 around 41). Resultater's drill-down prints the three
+ * statements of a factor, and three equal numbers under every factor would be a fixture
+ * artefact, not the design. The offsets sum to zero, so a factor's index does not move.
+ */
+const ITEM_OFFSET = {
+  ytring: [-3, -5, 8], mengde: [-3, -5, 8], motstrid: [-5, -2, 7], kontakt: [5, -8, 3],
+  emosjon: [-3, -4, 7], leder: [-3, -1, 4], medvirk: [4, -6, 2], integritet: [7, -6, -1],
+  rolle: [3, -4, 1], kollega: [4, -5, 1], mening: [6, -8, 2],
+}
+
+/**
+ * One (round, group, factor) sum split over its three statements: a third each, moved by
+ * the design's offset (one answer a step up is 25/n index points on its statement), by
+ * largest remainder so the three add back to exactly the sum, and kept inside 0..4n.
+ */
+const statementSums = ({ factor, slots, S }) => {
+  const n = slots / 3
+  const off = ITEM_OFFSET[factor] ?? [0, 0, 0]
+  const raw = off.map((d) => S / 3 + (d * n) / 25)
+  const out = raw.map((x) => Math.max(0, Math.min(4 * n, Math.floor(x))))
+  let left = S - out.reduce((a, b) => a + b, 0)
+  const order = [0, 1, 2].sort((a, b) => raw[b] - Math.floor(raw[b]) - (raw[a] - Math.floor(raw[a])))
+  for (let guard = 0; left !== 0 && guard < 12 * n; guard++) {
+    for (const o of left > 0 ? order : [...order].reverse()) {
+      if (left > 0 && out[o] < 4 * n) { out[o] += 1; left -= 1 }
+      else if (left < 0 && out[o] > 0) { out[o] -= 1; left += 1 }
+      if (left === 0) break
+    }
+  }
+  if (left !== 0) throw new Error(`${factor}: ${S} does not split over three statements of ${n}`)
+  return out
+}
+for (const row of plan) row.split = statementSums(row)
+
+/**
+ * Which of a group's respondents carry the higher of the two points, per factor. Without
+ * it the same few respondents would be high on every factor, every factor would move with
+ * every other, and Prioritet's correlations (D4) would say nothing about any one factor.
+ * Each factor starts its run of higher answers at its own place in the group — a rotation,
+ * so it can be written the same way here and in SQL.
+ */
+const FACTOR_POS = Object.fromEntries(Object.keys(ITEM_OFFSET).map((k, i) => [k, i]))
+const shiftOf = (factor, n) => Math.floor((n * (FACTOR_POS[factor] ?? 0)) / Object.keys(FACTOR_POS).length)
+
+/** Each statement's sum as two adjacent scale points over the group's answers, as cfg rows. */
+const cfgRows = () => plan.flatMap(({ key, group, factor, slots, split }) => split.map((So, i) => {
+  const n = slots / 3, q = Math.floor(So / n), r = So % n
+  return `('${ROUND[key]}'::uuid,'${group}','${factor}',${i + 1},${r},${q + 2},${q + 1},${shiftOf(factor, n)},${n})`
+})).join(',\n  ')
 
 /**
  * Invitations exist so the Deltakelse card can count who was asked and who answered.
@@ -694,8 +754,9 @@ const TONE_BAND = { neg: [1, 2], blandet: [3, 3], pos: [4, 5] }
  * wrote. The overrides are emitted with the answers.
  */
 const slotValue = (row, seq, ordinal) => {
-  const q = Math.floor(row.S / row.slots), r = row.S % row.slots
-  return (seq - 1) * 3 + ordinal <= r ? q + 2 : q + 1
+  const n = row.slots / 3, So = row.split[ordinal - 1]
+  const q = Math.floor(So / n), r = So % n
+  return ((seq - 1 + shiftOf(row.factor, n)) % n) + 1 <= r ? q + 2 : q + 1
 }
 const { attachments, overrides } = (() => {
   const overrides = new Map() // `${key}|${group}|${seq}|${factor}|${ordinal}` -> value
@@ -823,8 +884,9 @@ where r.id = '${ROUND[year]}';`
 
 /**
  * Every answer of every closed round, from the solved plan: each (round, group, factor)
- * gets its sum as two adjacent scale points over that group's answers, so the group's
- * figure and the company's both land where the design prints them.
+ * sum is split over its statements (`statementSums`), and each statement's share is two
+ * adjacent scale points over that group's answers, so the group's figure and the
+ * company's both land where the design prints them.
  */
 const overrideRows = () => [...overrides].map(([k, v]) => {
   const [key, group, seq, factor, ordinal] = k.split('|')
@@ -832,7 +894,7 @@ const overrideRows = () => [...overrides].map(([k, v]) => {
 })
 
 const answersSql = () => `
-with cfg(round_id, grp, factor_key, hi_count, hi_value, lo_value) as (values
+with cfg(round_id, grp, factor_key, ordinal, hi_count, hi_value, lo_value, shift, n) as (values
   ${cfgRows()}),
 ovr(round_id, grp, seq, factor_key, ordinal, value) as (values
   ${overrideRows().join(',\n  ') || "(null::uuid, null, null::int, null, null::int, null::int)"}),
@@ -844,8 +906,8 @@ resp as (
 slots as (select r.id, r.round_id, r.grp, r.seq, o.ordinal from resp r cross join (values (1),(2),(3)) as o(ordinal)),
 numbered as (
   select c.round_id, c.grp, s.seq, c.factor_key, s.id, s.ordinal, c.hi_count, c.hi_value, c.lo_value,
-         row_number() over (partition by c.round_id, c.grp, c.factor_key order by s.seq, s.ordinal) as n
-  from cfg c join slots s on s.round_id = c.round_id and s.grp = c.grp)
+         (s.seq - 1 + c.shift) % c.n + 1 as n
+  from cfg c join slots s on s.round_id = c.round_id and s.grp = c.grp and s.ordinal = c.ordinal)
 insert into app.answers (response_id, factor_key, ordinal, value)
 select nb.id, nb.factor_key, nb.ordinal,
        coalesce(o.value, case when nb.n <= nb.hi_count then nb.hi_value else nb.lo_value end)
@@ -858,8 +920,19 @@ left join ovr o on o.round_id = nb.round_id and o.grp = nb.grp and o.seq = nb.se
  * numbered and cut at the counts, and the ones past the total skip the question.
  */
 const recommendSql = () => Object.entries(RECOMMEND).map(([year, counts]) => `
-with numbered as (
-  select r.id, row_number() over (order by r.id) as n
+with weight(factor_key, w) as (values ${Object.entries(IMPORTANCE).map(([k, w]) => `('${k}', ${w})`).join(', ')}),
+means as (
+  select a.response_id, a.factor_key, avg(a.value)::float8 as m
+  from app.answers a join app.responses r on r.id = a.response_id
+  where r.round_id = '${ROUND[year]}' group by 1, 2),
+z as (
+  select response_id, factor_key,
+         coalesce((m - avg(m) over (partition by factor_key)) / nullif(stddev_pop(m) over (partition by factor_key), 0), 0) as z
+  from means),
+numbered as (
+  select r.id, row_number() over (order by (
+    select coalesce(sum(power(w.w, 4) * z.z), 0) from z join weight w on w.factor_key = z.factor_key
+    where z.response_id = r.id), r.id) as n
   from app.responses r where r.round_id = '${ROUND[year]}')
 insert into app.extra_answers (response_id, extra_key, option_ordinal)
 select id, 'anbefaling',

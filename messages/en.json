@@ -95,7 +95,8 @@
       "s1": "I can report censurable conditions without fearing consequences",
       "s2": "When someone reports a problem, something is done about it",
       "s3": "Disagreement is raised openly here, not in the corridor afterwards",
-      "name": "Freedom to speak up"
+      "name": "Freedom to speak up",
+      "abbr": "Voice"
     },
     "mengde": {
       "label": "Workload and time pressure",
@@ -104,7 +105,8 @@
       "s1": "My workload is manageable over time",
       "s2": "I have enough time to do the job well enough",
       "s3": "I can switch off from work when the working day is over",
-      "name": "Workload"
+      "name": "Workload",
+      "abbr": "Load"
     },
     "motstrid": {
       "label": "Conflicting demands",
@@ -113,7 +115,8 @@
       "s1": "I rarely get tasks without knowing what should be deprioritised",
       "s2": "The demands from different quarters hang together",
       "s3": "I know who decides when two things collide",
-      "name": "Conflicting demands"
+      "name": "Conflicting demands",
+      "abbr": "Conflict"
     },
     "kontakt": {
       "label": "Contact and communication",
@@ -122,7 +125,8 @@
       "s1": "I have the opportunity for contact with colleagues during the working day",
       "s2": "I can call for help quickly if something happens while I am alone",
       "s3": "I do not feel isolated in my job",
-      "name": "Contact and communication"
+      "name": "Contact and communication",
+      "abbr": "Contact"
     },
     "emosjon": {
       "label": "Emotional demands",
@@ -131,7 +135,8 @@
       "s1": "I am rarely left alone in emotionally demanding situations",
       "s2": "We talk about difficult incidents afterwards",
       "s3": "I am allowed to react as a human being at work",
-      "name": "Emotional demands"
+      "name": "Emotional demands",
+      "abbr": "Emotion"
     },
     "leder": {
       "label": "Support from manager",
@@ -140,7 +145,8 @@
       "s1": "I get support from my manager when the job becomes demanding",
       "s2": "My manager knows enough about what my job actually involves",
       "s3": "I can raise difficult matters with my manager",
-      "name": "Support from manager"
+      "name": "Support from manager",
+      "abbr": "Manager"
     },
     "medvirk": {
       "label": "Participation and control",
@@ -149,7 +155,8 @@
       "s1": "I have influence over how I carry out my work",
       "s2": "I am heard when something is to be changed",
       "s3": "I can influence the pace of my own work",
-      "name": "Participation"
+      "name": "Participation",
+      "abbr": "Influence"
     },
     "integritet": {
       "label": "Integrity and dignity",
@@ -158,7 +165,8 @@
       "s1": "I am met with respect regardless of who I am",
       "s2": "I may use professional judgement when I think something should be done differently",
       "s3": "My boundaries for privacy are respected at work",
-      "name": "Integrity and dignity"
+      "name": "Integrity and dignity",
+      "abbr": "Integr."
     },
     "rolle": {
       "label": "Role clarity",
@@ -167,7 +175,8 @@
       "s1": "I know what is expected of me in my job",
       "s2": "I know where my responsibility ends and others begin",
       "s3": "I know what counts as good work here",
-      "name": "Role clarity"
+      "name": "Role clarity",
+      "abbr": "Role"
     },
     "kollega": {
       "label": "Support from colleagues",
@@ -176,7 +185,8 @@
       "s1": "My colleagues turn up when I need help",
       "s2": "We share knowledge instead of holding on to it",
       "s3": "I feel like part of the team",
-      "name": "Support from colleagues"
+      "name": "Support from colleagues",
+      "abbr": "Peers"
     },
     "mening": {
       "label": "Recognition and meaning",
@@ -185,7 +195,8 @@
       "s1": "The work I do matters",
       "s2": "My effort is noticed",
       "s3": "I am proud to work here",
-      "name": "Meaning and recognition"
+      "name": "Meaning and recognition",
+      "abbr": "Meaning"
     }
   },
   "innsikt": {
@@ -378,79 +389,6 @@
     "invalid": "The link does not work",
     "invalidLead": "The link has been used, has expired, or is wrong. If you have already answered, your answer is recorded — you cannot answer again.",
     "submitFailed": "Your answer was not sent. Please try again."
-  },
-  "resultat": {
-    "backToMeasure": "← Measurements",
-    "makeReport": "Make a report from this",
-    "measureLabel": "Measurement",
-    "teamLabel": "Department",
-    "wholeOrg": "The whole organisation",
-    "groupChip": "{group} · {n}",
-    "notSentTitle": "No results yet",
-    "notSentNote": "{label} has not been sent yet. It goes out {date} and measures {factors}.",
-    "maskedTitle": "Withheld by the threshold",
-    "maskedNote": "{group} has too few answers ({n} against a threshold of {threshold}). The figures appear only as part of the whole.",
-    "maskedProtectedNote": "{group} has enough answers ({n}), but its figures are held back. Together with the whole, they would otherwise reveal a group below the threshold of {threshold}.",
-    "maskedOrgNote": "Fewer than {threshold} answers — the result is not shown.",
-    "kickerOrg": "The whole organisation · psychosocial work environment",
-    "kickerGroup": "{group} · psychosocial work environment",
-    "deltaNew": "new baseline",
-    "rateLabel": "Response rate",
-    "scopeOrg": "{n} of {total} answered",
-    "scopeGroup": "{n} answers in {group}",
-    "closesOn": "goes out {date}",
-    "scopeAllFactors": "all eleven factors",
-    "scopePulseFactors": "{count} factors in this pulse",
-    "topHeadThree": "Do these three",
-    "topHeadTwo": "Do these two",
-    "topHeadOne": "This is what you must act on",
-    "topMeta": "Index {index} · {n} answers · {law}",
-    "tableHead": "The risk picture",
-    "tableLead": "Sorted by risk. Select a row for the statements behind the number.",
-    "colFactor": "Factor",
-    "colIndex": "Index and development",
-    "colRisk": "Risk",
-    "band": {
-      "lav": "Sound",
-      "middels": "Follow up",
-      "hoy": "High risk"
-    },
-    "assess": "Assess risk",
-    "assessed": "See assessment",
-    "heatHead": "Team × factor",
-    "heatThreshold": "Groups with fewer than {threshold} answers appear as —",
-    "heatProtected": "A group with enough answers may also appear as — when its figures would otherwise reveal a smaller group.",
-    "conv": {
-      "head": "Conversations",
-      "seeAll": "See all →",
-      "lead": "The comments that belong to this selection. The whole thread is in Conversations.",
-      "waiting": "waiting · {days, plural, one {# day} other {# days}}",
-      "answered": "answered",
-      "replied": "Management replied:",
-      "placeholder": "Reply anonymously …",
-      "send": "Send"
-    },
-    "screening": {
-      "krenkende": "Offensive behaviour: {yes} of {answered} answered yes",
-      "vold": "Violence and threats: {yes} of {answered} answered yes",
-      "lead": "The screening is never grouped and never shows who.",
-      "law": "The law requires it to be handled whatever the index says.",
-      "plain": "These are handled as individual cases, not as a number to improve.",
-      "people": "{count, plural, one {One person has spoken up — that is one conversation to be had.} =2 {Two people have spoken up — that is two conversations to be had.} =3 {Three people have spoken up — that is three conversations to be had.} =4 {Four people have spoken up — that is four conversations to be had.} =5 {Five people have spoken up — that is five conversations to be had.} =6 {Six people have spoken up — that is six conversations to be had.} =7 {Seven people have spoken up — that is seven conversations to be had.} =8 {Eight people have spoken up — that is eight conversations to be had.} =9 {Nine people have spoken up — that is nine conversations to be had.} =10 {Ten people have spoken up — that is ten conversations to be had.} =11 {Eleven people have spoken up — that is eleven conversations to be had.} =12 {Twelve people have spoken up — that is twelve conversations to be had.} other {# people have spoken up — that is # conversations to be had.}}",
-      "open": "Open the routine"
-    },
-    "written": {
-      "head": "What they wrote",
-      "count": "{wrote} of {n} wrote something.",
-      "grouping": "Grouped by factor. A factor appears only once at least {threshold} people have written about it.",
-      "themeCount": "{comments, plural, one {# comment} other {# comments}} from {people} people",
-      "tone": {
-        "negativ": "Negative",
-        "noytral": "Neutral",
-        "blandet": "Mixed",
-        "positiv": "Positive"
-      }
-    }
   },
   "rapport": {
     "backToInnsikt": "← Insight",
@@ -2546,5 +2484,171 @@
     "reportTitle": "Make a report →",
     "reportBody": "Findings, assessment and measures. You read it through and approve it.",
     "lawOk": "The {year} survey is done and risk-assessed. The documentation is ready if the Labour Inspection asks."
+  },
+  "resultater": {
+    "kicker": "Employee survey · closed {date}",
+    "kickerPulse": "Pulse survey · closed {date}",
+    "pulseTitle": "Pulse {month} {year}",
+    "dayMonth": "{day} {month}",
+    "tabsAria": "Results, comments and measures",
+    "viewsAria": "View",
+    "stat": {
+      "index": "Index",
+      "rate": "Responses",
+      "recommend": "Would recommend",
+      "nextPulse": "Next pulse"
+    },
+    "delta": {
+      "yearBefore": "{delta} from the year before",
+      "span": "{delta} {span}",
+      "first": "First survey",
+      "prevMeasure": "{delta} from the previous survey"
+    },
+    "chips": {
+      "round": "Survey",
+      "pulse": "Pulse",
+      "compare": "Compare with",
+      "none": "None"
+    },
+    "tab": {
+      "result": "Results",
+      "comments": "Comments",
+      "plan": "Measures →"
+    },
+    "kpi": {
+      "index": "Work environment index",
+      "band": {
+        "lav": "{count} strong",
+        "middels": "{count} to follow up",
+        "hoy": "{count} pulling down"
+      },
+      "withheld": "Fewer than {threshold} responses — the index is not shown.",
+      "trend": "Trend",
+      "rate": "Response rate",
+      "rateN": "{answered} of {headcount}",
+      "trust": "Confidence in the figures",
+      "trustGroups": "{over} of {total} groups over the threshold",
+      "protected": "{group} has enough responses ({n}), but the index is withheld. Together with the whole it would otherwise reveal the figures of a group under the threshold of {threshold}.",
+      "indexScope": "Work environment index · {scope}"
+    },
+    "trust": {
+      "hoy": "High",
+      "middels": "Medium",
+      "lav": "Low"
+    },
+    "view": {
+      "varmekart": "Heat map",
+      "prioritet": "Priority",
+      "segment": "Segment profile",
+      "sammenlign": "Compare",
+      "utvikling": "Trend"
+    },
+    "hint": {
+      "varmekart": "Press a cell to see the group and the factor",
+      "prioritet": "Bottom left: low score and high importance — start there",
+      "segment": "Choose a group and press a factor",
+      "sammenlign": "Two baselines side by side — choose the year above",
+      "utvikling": "Every survey over time — baselines and pulses. Press a pulse to open it"
+    },
+    "heat": {
+      "title": "Group × factor",
+      "org": "Whole organisation",
+      "n": "{n} responses",
+      "masked": "— = under the threshold of {threshold} responses",
+      "protected": "A group with enough responses can also show — when its figures would otherwise reveal a smaller group.",
+      "cellAria": "{group}, {factor}: {index}"
+    },
+    "legend": {
+      "under40": "Under 40",
+      "from40": "40–49",
+      "from50": "50–61",
+      "from62": "62–71",
+      "from72": "72+"
+    },
+    "drill": {
+      "none": "No group you have access to has figures that can be shown in this survey.",
+      "below": "{diff} below the whole organisation ({org})",
+      "above": "{diff} above the whole organisation ({org})",
+      "yearBefore": "Change from the year before: {delta}",
+      "firstBaseline": "First baseline",
+      "span": "Change {span}: {delta} ({year}: {value})",
+      "comments": "{count, plural, one {See the comment about this →} other {See all # comments about this →}}",
+      "suggested": "Suggested measures",
+      "add": "Add to plan",
+      "inPlan": "In the plan ✓"
+    },
+    "quadrant": {
+      "fiks": "Fix first",
+      "hold": "Maintain",
+      "folg": "Keep an eye on",
+      "lav": "Low priority"
+    },
+    "flash": "“{title}” has been added to Measures.",
+    "openPlan": "Open the plan →",
+    "recs": {
+      "title": "Suggestions based on the results · {scope}",
+      "scopeOrg": "whole organisation",
+      "hint": "The three lowest factors in the selection. Choose another group above to change the suggestions."
+    },
+    "prio": {
+      "title": "Score against importance · {scope}",
+      "up": "↑ Matters a lot overall",
+      "low": "Low score",
+      "high": "High score →",
+      "tooFew": "Priority needs at least {minimum} answers to the question about recommending the workplace. This survey has fewer.",
+      "notYours": "Priority is computed for the whole organisation and shown to the general manager and the safety representative.",
+      "dotAria": "{factor}: score {index}, importance {r}"
+    },
+    "seg": {
+      "team": "Team",
+      "none": "No group has at least {threshold} responses in this survey.",
+      "alone": "There is no other group over the threshold to compare with.",
+      "factor": "Factor",
+      "below": "Below the rest",
+      "above": "Above the rest",
+      "here": "Here",
+      "rest": "Rest"
+    },
+    "cmp": {
+      "title": "{a} against {b}",
+      "titleNone": "Compare",
+      "none": "There is no earlier baseline to compare with.",
+      "noRows": "The group does not have figures in both surveys.",
+      "best": "Largest improvement",
+      "worst": "Largest decline",
+      "change": "Change {span}"
+    },
+    "tl": {
+      "title": "Every survey over time",
+      "grunnlinje": "Baseline",
+      "puls": "Pulse",
+      "planned": "Planned",
+      "index": "Index",
+      "note": "· = not measured in this pulse. Pulses measure only the factors you have measures on, so they have no index of their own.",
+      "open": "In progress"
+    },
+    "pulse": {
+      "index": "Pulse index",
+      "indexNote": "Mean of the factors measured",
+      "count": "{factors, plural, one {# factor} other {# factors}} · {questions} questions",
+      "trendTitle": "Trend for the factors in the pulse",
+      "trendNote": "Every measurement — baselines and pulses — with this pulse highlighted.",
+      "this": "This pulse",
+      "againstBaseline": "against baseline {year}",
+      "againstPulse": "against {title}",
+      "groups": "By group",
+      "groupsNote": "Change since the group was last measured on the factor",
+      "underK": "under threshold",
+      "protected": "withheld",
+      "statements": "The statements in the pulse",
+      "plan": "The measures this pulse follows up",
+      "noOwner": "No owner",
+      "noEffect": "Not measured before",
+      "noPlan": "No running measures on the factors in this pulse."
+    },
+    "empty": {
+      "title": "Results",
+      "note": "No survey has closed yet. Results appear here once the first survey has ended."
+    }
   }
 }

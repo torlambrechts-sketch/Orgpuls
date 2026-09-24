@@ -1488,6 +1488,15 @@ can honestly mean: the measure is carried out (`gjennomfort`, today). Closing st
 the effect measured. The copy says what the data holds wherever the design's sentence would
 state something the data does not (D-71).
 
+### X-042 — Resultater reads one composite; the fixture carries statements and importance
+
+Resultater is design 3's workspace on `results_workspace` (0037), which composes the gated
+readers without adding a privilege. The drill-down, the heat map and Prioritet draw only
+what those readers released. Where the design shows a figure no reader computes (a
+group's own index, a benchmark), it is left out rather than averaged on the client (D-15,
+D-72). The fixture now reproduces the design's per-statement spread and its importance
+ordering, without moving any printed figure.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1614,5 +1623,6 @@ state something the data does not (D-71).
       layout, the tabbed help panel; header, rail, footer and panel at 0 px against
       baselines-v3 (X-040, D-70).
 - [x] P2: Oversikt, and the Enkel default for a small organisation's daglig leder (X-041, D-71).
+- [x] P3: Resultater — five views, the drill-down, Forslag and the puls view (X-042, D-72).
 - [ ] `/arshjulet` becomes Målinger's Årshjul tab in P5, with a redirect then (D-70).
 - [ ] Oversikt's "Veiviser" link arrives with the wizard (P7, D-71).

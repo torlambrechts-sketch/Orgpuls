@@ -29,6 +29,11 @@ const config: Config = {
         band: '#F5DC96',      // middle risk band
         sand: '#EFE6D2',      // the playbook's Lederpraksis pill
         track: '#F2EAD6',     // design 3: the Enkel/Full track, a side-rail icon at rest
+        pulse: '#E4EEEC',     // design 3: a puls — its chip, its type pill, its summary card
+        sage: '#9DB8B3',      // design 3: a puls chip's border, a puls bar, the compared year
+        stone: '#D9CFB8',     // design 3: a grunnlinje bar on the time line
+        cream: '#F7EDD2',     // design 3: Prioritet's "Følg med" quadrant
+        mint3: '#8FC7BE',     // design 3: Segmentprofil's "over resten" bar
         amberbar: '#E0A21F',
         caution: '#8A6A00',
         cautiondeep: '#5C4600',

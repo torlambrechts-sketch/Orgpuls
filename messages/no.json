@@ -95,7 +95,8 @@
       "s1": "Jeg kan si fra om kritikkverdige forhold uten å frykte konsekvenser",
       "s2": "Når noen melder fra om et problem, skjer det noe med det",
       "s3": "Uenighet blir tatt opp åpent hos oss, ikke i gangen etterpå",
-      "name": "Ytringsklima"
+      "name": "Ytringsklima",
+      "abbr": "Ytring"
     },
     "mengde": {
       "label": "Arbeidsmengde og tidspress",
@@ -104,7 +105,8 @@
       "s1": "Arbeidsmengden min er til å håndtere over tid",
       "s2": "Jeg har nok tid til å gjøre jobben godt nok",
       "s3": "Jeg kan koble av fra jobben når arbeidsdagen er over",
-      "name": "Arbeidsmengde"
+      "name": "Arbeidsmengde",
+      "abbr": "Mengde"
     },
     "motstrid": {
       "label": "Motstridende krav",
@@ -113,7 +115,8 @@
       "s1": "Jeg får sjelden oppgaver uten å vite hva som skal prioriteres ned",
       "s2": "Kravene fra ulike hold henger sammen",
       "s3": "Jeg vet hvem som bestemmer når to ting kolliderer",
-      "name": "Motstridende krav"
+      "name": "Motstridende krav",
+      "abbr": "Motstrid"
     },
     "kontakt": {
       "label": "Kontakt og kommunikasjon",
@@ -122,7 +125,8 @@
       "s1": "Jeg har mulighet til kontakt med kollegaer i løpet av arbeidsdagen",
       "s2": "Jeg kan tilkalle hjelp raskt hvis noe skjer mens jeg er alene",
       "s3": "Jeg føler meg ikke isolert i jobben min",
-      "name": "Kontakt og kommunikasjon"
+      "name": "Kontakt og kommunikasjon",
+      "abbr": "Kontakt"
     },
     "emosjon": {
       "label": "Emosjonelle krav",
@@ -131,7 +135,8 @@
       "s1": "Jeg blir sjelden stående alene i følelsesmessig krevende situasjoner",
       "s2": "Vi snakker om vanskelige hendelser etterpå",
       "s3": "Jeg får lov til å reagere som menneske på jobb",
-      "name": "Emosjonelle krav"
+      "name": "Emosjonelle krav",
+      "abbr": "Emosjon"
     },
     "leder": {
       "label": "Støtte fra leder",
@@ -140,7 +145,8 @@
       "s1": "Jeg får støtte fra lederen min når jobben blir krevende",
       "s2": "Lederen min vet nok om hva jobben min faktisk innebærer",
       "s3": "Jeg kan ta opp vanskelige ting med lederen min",
-      "name": "Støtte fra leder"
+      "name": "Støtte fra leder",
+      "abbr": "Leder"
     },
     "medvirk": {
       "label": "Medvirkning og kontroll",
@@ -149,7 +155,8 @@
       "s1": "Jeg har innflytelse over hvordan jeg utfører arbeidet",
       "s2": "Jeg blir hørt når noe skal endres",
       "s3": "Jeg kan påvirke tempoet i eget arbeid",
-      "name": "Medvirkning"
+      "name": "Medvirkning",
+      "abbr": "Medvirk."
     },
     "integritet": {
       "label": "Integritet og verdighet",
@@ -158,7 +165,8 @@
       "s1": "Jeg blir møtt med respekt uansett hvem jeg er",
       "s2": "Jeg får bruke faglig skjønn når jeg mener noe bør gjøres annerledes",
       "s3": "Grensene mine for privatliv blir respektert på jobb",
-      "name": "Integritet og verdighet"
+      "name": "Integritet og verdighet",
+      "abbr": "Integr."
     },
     "rolle": {
       "label": "Rolleklarhet",
@@ -167,7 +175,8 @@
       "s1": "Jeg vet hva som forventes av meg i jobben min",
       "s2": "Jeg vet hvor mitt ansvar slutter og andres begynner",
       "s3": "Jeg vet hva som regnes som godt arbeid hos oss",
-      "name": "Rolleklarhet"
+      "name": "Rolleklarhet",
+      "abbr": "Rolle"
     },
     "kollega": {
       "label": "Støtte fra kollegaer",
@@ -176,7 +185,8 @@
       "s1": "Kollegaene mine stiller opp når jeg trenger hjelp",
       "s2": "Vi deler kunnskap i stedet for å holde på den",
       "s3": "Jeg føler meg som en del av laget",
-      "name": "Støtte fra kollegaer"
+      "name": "Støtte fra kollegaer",
+      "abbr": "Kolleger"
     },
     "mening": {
       "label": "Anerkjennelse og mening",
@@ -185,7 +195,8 @@
       "s1": "Arbeidet jeg gjør betyr noe",
       "s2": "Innsatsen min blir lagt merke til",
       "s3": "Jeg er stolt av å jobbe her",
-      "name": "Mening og anerkjennelse"
+      "name": "Mening og anerkjennelse",
+      "abbr": "Mening"
     }
   },
   "innsikt": {
@@ -378,79 +389,6 @@
     "invalid": "Lenken virker ikke",
     "invalidLead": "Lenken er brukt opp, utløpt eller feil. Har du allerede svart, er svaret registrert — du kan ikke svare igjen.",
     "submitFailed": "Svaret ble ikke sendt. Prøv igjen."
-  },
-  "resultat": {
-    "backToMeasure": "← Målinger",
-    "makeReport": "Lag rapport av dette",
-    "measureLabel": "Måling",
-    "teamLabel": "Avdeling",
-    "wholeOrg": "Hele virksomheten",
-    "groupChip": "{group} · {n}",
-    "notSentTitle": "Ingen resultater ennå",
-    "notSentNote": "{label} er ikke sendt ennå. Den går ut {date} og måler {factors}.",
-    "maskedTitle": "Skjult av terskelen",
-    "maskedNote": "{group} har for få svar ({n} av terskel {threshold}). Tallene vises bare som del av helheten.",
-    "maskedProtectedNote": "{group} har nok svar ({n}), men tallene holdes tilbake. Sammen med helheten ville de ellers vist tallene for en gruppe under terskelen på {threshold}.",
-    "maskedOrgNote": "Færre enn {threshold} svar — resultatet vises ikke.",
-    "kickerOrg": "Hele virksomheten · psykososialt arbeidsmiljø",
-    "kickerGroup": "{group} · psykososialt arbeidsmiljø",
-    "deltaNew": "ny grunnlinje",
-    "rateLabel": "Svarprosent",
-    "scopeOrg": "{n} av {total} svarte",
-    "scopeGroup": "{n} svar i {group}",
-    "closesOn": "går ut {date}",
-    "scopeAllFactors": "alle elleve faktorer",
-    "scopePulseFactors": "{count} faktorer i denne pulsen",
-    "topHeadThree": "Gjør disse tre",
-    "topHeadTwo": "Gjør disse to",
-    "topHeadOne": "Dette må dere gjøre noe med",
-    "topMeta": "Indeks {index} · {n} svar · {law}",
-    "tableHead": "Risikobildet",
-    "tableLead": "Sortert etter risiko. Trykk på en rad for påstandene bak tallet.",
-    "colFactor": "Faktor",
-    "colIndex": "Indeks og utvikling",
-    "colRisk": "Risiko",
-    "band": {
-      "lav": "Forsvarlig",
-      "middels": "Følges opp",
-      "hoy": "Høy risiko"
-    },
-    "assess": "Vurder risiko",
-    "assessed": "Se vurdering",
-    "heatHead": "Team × faktor",
-    "heatThreshold": "Grupper under {threshold} svar vises som —",
-    "heatProtected": "En gruppe med nok svar kan også vises som — når tallene ellers ville avslørt en mindre gruppe.",
-    "conv": {
-      "head": "Samtaler",
-      "seeAll": "Se alle →",
-      "lead": "Kommentarene som hører til dette utvalget. Hele tråden ligger i Samtaler.",
-      "waiting": "venter · {days, plural, one {# dag} other {# dager}}",
-      "answered": "besvart",
-      "replied": "Ledelsen svarte:",
-      "placeholder": "Svar anonymt …",
-      "send": "Send"
-    },
-    "screening": {
-      "krenkende": "Krenkende atferd: {yes} av {answered} svarte ja",
-      "vold": "Vold og trusler: {yes} av {answered} svarte ja",
-      "lead": "Screeningen grupperes aldri og viser aldri hvem.",
-      "law": "Loven krever håndtering uavhengig av indeks.",
-      "plain": "Dette håndteres som enkeltsaker, ikke som et tall å forbedre.",
-      "people": "{count, plural, one {Én person har sagt fra — det er én samtale som skal tas.} =2 {To personer har sagt fra — det er to samtaler som skal tas.} =3 {Tre personer har sagt fra — det er tre samtaler som skal tas.} =4 {Fire personer har sagt fra — det er fire samtaler som skal tas.} =5 {Fem personer har sagt fra — det er fem samtaler som skal tas.} =6 {Seks personer har sagt fra — det er seks samtaler som skal tas.} =7 {Sju personer har sagt fra — det er sju samtaler som skal tas.} =8 {Åtte personer har sagt fra — det er åtte samtaler som skal tas.} =9 {Ni personer har sagt fra — det er ni samtaler som skal tas.} =10 {Ti personer har sagt fra — det er ti samtaler som skal tas.} =11 {Elleve personer har sagt fra — det er elleve samtaler som skal tas.} =12 {Tolv personer har sagt fra — det er tolv samtaler som skal tas.} other {# personer har sagt fra — det er # samtaler som skal tas.}}",
-      "open": "Åpne rutinen"
-    },
-    "written": {
-      "head": "Hva de skrev",
-      "count": "{wrote} av {n} skrev noe.",
-      "grouping": "Gruppert etter faktor. En faktor vises først når minst {threshold} har skrevet om den.",
-      "themeCount": "{comments, plural, one {# kommentar} other {# kommentarer}} fra {people} personer",
-      "tone": {
-        "negativ": "Negativ",
-        "noytral": "Nøytral",
-        "blandet": "Blandet",
-        "positiv": "Positiv"
-      }
-    }
   },
   "rapport": {
     "backToInnsikt": "← Innsikt",
@@ -2546,5 +2484,171 @@
     "reportTitle": "Lag rapport →",
     "reportBody": "Funn, vurdering og tiltak. Du leser gjennom og godkjenner.",
     "lawOk": "Kartleggingen for {year} er gjort og risikovurdert. Dokumentasjonen er klar hvis Arbeidstilsynet spør."
+  },
+  "resultater": {
+    "kicker": "Medarbeiderundersøkelse · lukket {date}",
+    "kickerPulse": "Pulsundersøkelse · lukket {date}",
+    "pulseTitle": "Puls {month} {year}",
+    "dayMonth": "{day}. {month}",
+    "tabsAria": "Resultater, kommentarer og tiltak",
+    "viewsAria": "Visning",
+    "stat": {
+      "index": "Indeks",
+      "rate": "Svar",
+      "recommend": "Anbefaler oss",
+      "nextPulse": "Neste puls"
+    },
+    "delta": {
+      "yearBefore": "{delta} fra året før",
+      "span": "{delta} {span}",
+      "first": "Første måling",
+      "prevMeasure": "{delta} fra forrige måling"
+    },
+    "chips": {
+      "round": "Måling",
+      "pulse": "Puls",
+      "compare": "Sammenlign med",
+      "none": "Ingen"
+    },
+    "tab": {
+      "result": "Resultat",
+      "comments": "Kommentarer",
+      "plan": "Tiltak →"
+    },
+    "kpi": {
+      "index": "Arbeidsmiljøindeks",
+      "band": {
+        "lav": "{count} sterke",
+        "middels": "{count} følges opp",
+        "hoy": "{count} trekker ned"
+      },
+      "withheld": "Færre enn {threshold} svar — indeksen vises ikke.",
+      "trend": "Utvikling",
+      "rate": "Svarprosent",
+      "rateN": "{answered} av {headcount}",
+      "trust": "Tillit til tallene",
+      "trustGroups": "{over} av {total} grupper over terskel",
+      "protected": "{group} har nok svar ({n}), men indeksen holdes tilbake. Sammen med helheten ville den ellers vist tallene for en gruppe under terskelen på {threshold}.",
+      "indexScope": "Arbeidsmiljøindeks · {scope}"
+    },
+    "trust": {
+      "hoy": "Høy",
+      "middels": "Middels",
+      "lav": "Lav"
+    },
+    "view": {
+      "varmekart": "Varmekart",
+      "prioritet": "Prioritet",
+      "segment": "Segmentprofil",
+      "sammenlign": "Sammenlign",
+      "utvikling": "Utvikling"
+    },
+    "hint": {
+      "varmekart": "Trykk på en celle for å se gruppen og faktoren",
+      "prioritet": "Nede til venstre: lav skår og stor betydning — start der",
+      "segment": "Velg en gruppe og trykk på en faktor",
+      "sammenlign": "To grunnlinjer side om side — velg år over",
+      "utvikling": "Alle målinger over tid — grunnlinjer og pulser. Trykk på en puls for å åpne den"
+    },
+    "heat": {
+      "title": "Gruppe × faktor",
+      "org": "Hele virksomheten",
+      "n": "{n} svar",
+      "masked": "— = under terskelen på {threshold} svar",
+      "protected": "En gruppe med nok svar kan også vises som — når tallene ellers ville avslørt en mindre gruppe.",
+      "cellAria": "{group}, {factor}: {index}"
+    },
+    "legend": {
+      "under40": "Under 40",
+      "from40": "40–49",
+      "from50": "50–61",
+      "from62": "62–71",
+      "from72": "72+"
+    },
+    "drill": {
+      "none": "Ingen gruppe du har tilgang til, har tall som kan vises i denne målingen.",
+      "below": "{diff} under hele virksomheten ({org})",
+      "above": "{diff} over hele virksomheten ({org})",
+      "yearBefore": "Endring fra året før: {delta}",
+      "firstBaseline": "Første grunnlinje",
+      "span": "Endring {span}: {delta} ({year}: {value})",
+      "comments": "{count, plural, one {Se kommentaren om dette →} other {Se alle # kommentarer om dette →}}",
+      "suggested": "Foreslåtte tiltak",
+      "add": "Legg i plan",
+      "inPlan": "I planen ✓"
+    },
+    "quadrant": {
+      "fiks": "Fiks først",
+      "hold": "Hold ved like",
+      "folg": "Følg med",
+      "lav": "Lav prioritet"
+    },
+    "flash": "«{title}» er lagt til i Tiltak.",
+    "openPlan": "Åpne planen →",
+    "recs": {
+      "title": "Forslag basert på resultatene · {scope}",
+      "scopeOrg": "hele virksomheten",
+      "hint": "De tre laveste faktorene i utvalget. Velg en annen gruppe over for å endre forslagene."
+    },
+    "prio": {
+      "title": "Skår mot betydning · {scope}",
+      "up": "↑ Betyr mye for helheten",
+      "low": "Lav skår",
+      "high": "Høy skår →",
+      "tooFew": "Prioritet trenger minst {minimum} svar på spørsmålet om å anbefale arbeidsplassen. Denne målingen har færre.",
+      "notYours": "Prioritet regnes på hele virksomheten og vises for daglig leder og verneombud.",
+      "dotAria": "{factor}: skår {index}, betydning {r}"
+    },
+    "seg": {
+      "team": "Team",
+      "none": "Ingen gruppe har minst {threshold} svar i denne målingen.",
+      "alone": "Det er ingen annen gruppe over terskelen å sammenligne med.",
+      "factor": "Faktor",
+      "below": "Under resten",
+      "above": "Over resten",
+      "here": "Her",
+      "rest": "Resten"
+    },
+    "cmp": {
+      "title": "{a} mot {b}",
+      "titleNone": "Sammenlign",
+      "none": "Det finnes ingen tidligere grunnlinje å sammenligne med.",
+      "noRows": "Gruppen har ikke tall i begge målingene.",
+      "best": "Størst fremgang",
+      "worst": "Størst tilbakegang",
+      "change": "Endring {span}"
+    },
+    "tl": {
+      "title": "Alle målinger over tid",
+      "grunnlinje": "Grunnlinje",
+      "puls": "Puls",
+      "planned": "Planlagt",
+      "index": "Indeks",
+      "note": "· = ikke målt i denne pulsen. Pulsene måler bare faktorene dere har tiltak på, så de har ikke egen indeks.",
+      "open": "Pågår"
+    },
+    "pulse": {
+      "index": "Pulsindeks",
+      "indexNote": "Snitt av faktorene som ble målt",
+      "count": "{factors, plural, one {# faktor} other {# faktorer}} · {questions} spørsmål",
+      "trendTitle": "Utvikling for faktorene i pulsen",
+      "trendNote": "Alle målepunkter — grunnlinjer og pulser — med denne pulsen uthevet.",
+      "this": "Denne pulsen",
+      "againstBaseline": "mot grunnlinje {year}",
+      "againstPulse": "mot {title}",
+      "groups": "Per gruppe",
+      "groupsNote": "Endring fra forrige gang gruppen ble målt på faktoren",
+      "underK": "under terskel",
+      "protected": "holdt tilbake",
+      "statements": "Påstandene i pulsen",
+      "plan": "Tiltakene pulsen måler",
+      "noOwner": "Ingen eier",
+      "noEffect": "Ikke målt før",
+      "noPlan": "Ingen pågående tiltak på faktorene i denne pulsen."
+    },
+    "empty": {
+      "title": "Resultater",
+      "note": "Ingen måling er lukket ennå. Resultatene kommer her når den første målingen er avsluttet."
+    }
   }
 }

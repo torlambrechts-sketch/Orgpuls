@@ -2606,3 +2606,100 @@ Where the build differs, and why:
   1160px wide in the design because of one paragraph (the Tuva draft note, omitted here
   per D-25). Reproducing that made our Innsikt collapse to 808px. The screens keep the
   page column, and Innsikt stays 20px wider than the design.
+
+## D-72 — Resultater: design 3's result workspace (P3)
+
+**Built:** `/resultater` is design 3's Resultater. The old Resultat screen
+(`components/resultat/`) is removed; the 308 from `/resultat` still lands here.
+
+Its parts:
+- the header, with MÅLING, PULS and SAMMENLIGN MED chips and the Resultat / Kommentarer /
+  Tiltak → tabs;
+- the key figures: the index with its bands, the trend of grunnlinjer, the response rate
+  and "Tillit til tallene";
+- five views: Varmekart, Prioritet, Segmentprofil, Sammenlign, Utvikling;
+- the drill-down: the selected cell, its statements, a comment, and the playbook with
+  "Legg i plan";
+- "Forslag basert på resultatene";
+- a puls in its own view (v3 `v2p()`).
+
+It reads one composite, `results_workspace` (0037), plus the round list, participation,
+this round's comments and the measures. The composite runs in 95 ms in the database and
+returns 20 KB. The round and the comparison are links. The view, the group and the factor
+are client state, mirrored to `?visning=&gruppe=&faktor=`.
+
+**Pixel checks** against `baselines-v3/07`–`11` (`scripts/verify/cardmatch.mjs`):
+- **0 px:** the kicker and title, the chip rows, the tabs, the response-rate, trust and
+  trend cards, the view switcher and its hint, the heat-map title, the drill-down head,
+  the legend, Forslag's head, the footer, the Segmentprofil and Sammenlign rows, and
+  Prioritet's labels.
+- **The stats line differs** on "Neste puls" alone: it is the date of the planned puls in
+  the data.
+- **Forslag's cards:** their element boxes are identical to the design's to the
+  hundredth of a pixel (measured). They differ by 0.4 % because the text rasterises at a
+  different sub-pixel offset. The cause is the shorter drill-down above them (the quote,
+  below).
+
+`scripts/verify/resultater-behaviour.mjs` checks 26 things (28 with `--adopt`), among them:
+- the default cell;
+- the withheld rows cannot be pressed;
+- pointer and keyboard selection;
+- the URL keeps the cell;
+- "Sammenlign med";
+- all five views;
+- a puls;
+- "Legg i plan" survives a reload;
+- no horizontal scroll at 390px.
+
+`scripts/verify/mobile.mjs` passes for every view.
+
+Where the build differs, and why:
+- **Eleven columns, not nine.** The heat map has one column per factor the round measured
+  (D-69). The short labels are message keys (`factor.<key>.abbr`). The design has none for
+  Kontakt and Integritet; they are "Kontakt" and "Integr." so that eleven fit.
+- **Drift is "—" in 2026.** It has enough answers but is withheld, because otherwise it
+  would give away Administrasjon (D-68). A second legend line says so. Its leader sees
+  "har nok svar (8), men indeksen holdes tilbake", not "færre enn 5".
+- **No quote under a group (D2).** A comment never travels with a group (0018). The
+  drill-down shows the newest comment on the factor only when the whole organisation is
+  selected. The link to the comments is always there, and it counts the whole
+  organisation's comments.
+- **No "EU-snitt 64".** There is no benchmark (D-10).
+- **Prioritet's importance is measured (D4).** It is the correlation of each factor with
+  "anbefale oss", for the whole organisation, from 20 answers. The quadrant splits at the
+  median r and a score of 60. The dots are scaled to the round's spread, so the median
+  sits on the middle line. An avdelingsleder, or a round under 20 answers, gets the
+  design's dashed empty treatment with the reason.
+- **Segmentprofil has Team only (D3).** It has no "59 −2 mot resten" head: no reader
+  computes a group's own index, and this side does not average factors into a headline
+  (D-15). "Resten" is the other groups whose figures are released, weighted by answers. A
+  withheld group contributes nothing to it.
+- **Sammenlign's two index tiles appear only for the whole organisation**, for the same
+  reason.
+- **Utvikling keeps its own group, and so does Sammenlign**, as the prototype's
+  `v2TlSeg` and `v2CmpSeg` do. A withheld cell is "—"; a factor a puls did not measure is
+  "·". The dashed column is the round now running ("Pågår"), not a planned one.
+- **The puls view omits "why this puls"** (no row records a reason). A measure's effect is
+  read on the whole organisation against the grunnlinje before.
+- **"Legg i plan" is the playbook adoption of 0031.** It is once per organisation, not
+  once per group, and the new measure carries no group. The design's per-group plan card
+  is Tavle's (P6).
+- **No "Kommentarer og plan gjelder grunnlinje 2026" note** on older rounds. The
+  drill-down's comments are the selected round's, so the note would be false.
+- **The avdelingsleder's index card says whose it is** ("Arbeidsmiljøindeks · Verksted").
+  `results_summary` answers them for their department.
+- **Buttons have normal line height.** Tailwind's preflight makes a button inherit 1.5.
+  The prototype's buttons keep the browser's `normal`, and rows were 3px taller until they
+  did.
+
+**The fixture changed so that the drill-down and Prioritet show the design's content:**
+- Each factor's sum is split over its three statements by the design's offsets (v3
+  `FACTORS[].items`), so Ytringsklima's statements are 39/36/49 against the design's
+  38/36/49.
+- The higher answers rotate per factor, so factors no longer move in lockstep.
+- "Anbefaler oss" is ordered by the standardised factor means, weighted by the design's
+  importance to the fourth power.
+- The 2026 correlations put Ytringsklima, Arbeidsmengde, Mening and Leder highest, the
+  design's four "betyr mye".
+- Every printed index, group figure and count is unchanged; `design_figures.sql` passes
+  locally and on hosted.

@@ -38,7 +38,7 @@ const FactorRow = z.object({
  */
 const SCOPE = z.enum(['org', 'group'])
 
-const Summary = z.discriminatedUnion('status', [
+export const Summary = z.discriminatedUnion('status', [
   z.object({
     status: z.literal('ok'),
     n: z.coerce.number(),
@@ -69,7 +69,7 @@ const Summary = z.discriminatedUnion('status', [
   }),
 ])
 
-const NotAvailable = z.object({ error: z.literal('not_available') })
+export const NotAvailable = z.object({ error: z.literal('not_available') })
 
 export type ResultsSummary = z.infer<typeof Summary>
 export type FactorResult = z.infer<typeof FactorRow>
@@ -157,7 +157,7 @@ const GroupRow = z.object({
   factors: z.array(GroupFactorRow).nullable(),
 })
 
-const ByGroup = z.object({
+export const ByGroup = z.object({
   threshold: z.coerce.number(),
   /** 'org' when every group was offered, 'groups' when the caller's scope narrowed it */
   scope: z.enum(['org', 'groups']).default('org'),
@@ -178,39 +178,7 @@ export const getResultsByGroup = cache(async (roundId: string): Promise<ResultsB
   return parsed.success ? parsed.data : null
 })
 
-/**
- * The heat-map cell palette, transcribed from the bundle's `tone()` (line 2651).
- *
- * Five steps rather than the three risk bands, because the grid is read as a picture:
- * the extra steps are what make a 31 legible against a 47 at a glance. It is
- * presentation and nothing in the database branches on it, so it lives here beside
- * rateColour() rather than in an RPC — but the number it colours is always the
- * server's.
- */
-export function heatTone(index: number): { bg: string; fg: string } {
-  if (index < 40) return { bg: '#E38258', fg: '#4A1706' }
-  if (index < 50) return { bg: '#EC9B77', fg: '#5E1F09' }
-  if (index < 62) return { bg: '#F5DC96', fg: '#5C4600' }
-  if (index < 72) return { bg: '#CFE7E4', fg: '#20431C' }
-  return { bg: '#B5DAD4', fg: '#20431C' }
-}
-
-/** The delta colour from the bundle (line 3047): a fall of 3 or more is rust, a rise of 3 or more green. */
-export function deltaColour(delta: number): string {
-  if (delta <= -3) return '#A33A16'
-  if (delta >= 3) return '#2F5D2A'
-  return '#5F5849'
-}
-
-/**
- * The bundle prints a signed delta with a typographic minus and keeps the sign on
- * zero — "−0" for a factor that did not move (bundle line 3046, visible on Kontakt og
- * kommunikasjon in the baseline). Reproduced rather than tidied: it is the design's
- * rendering, and "0" would be a different string in the same place.
- */
-export function signedDelta(delta: number): string {
-  return `${delta > 0 ? '+' : '−'}${Math.abs(delta)}`
-}
+export { deltaColour, heatTone, signedDelta } from './tone'
 
 /**
  * "Anbefaler oss" — the recommendation figure (0035): 100 × (answers of 5 − answers of
@@ -218,7 +186,7 @@ export function signedDelta(delta: number): string {
  * arrives here as null like every other refusal. `not_asked` and `insufficient_data`
  * carry no score, and the screen renders nothing for either — never a zero.
  */
-const Recommendation = z.discriminatedUnion('status', [
+export const Recommendation = z.discriminatedUnion('status', [
   z.object({
     status: z.literal('ok'),
     threshold: z.coerce.number(),

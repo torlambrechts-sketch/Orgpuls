@@ -143,7 +143,14 @@ export function roundStates(
  * staleness to reason about. It is not a data cache and must not be confused with one — a
  * second page view recomputes everything.
  */
-export const getRounds = cache(async (): Promise<RoundListItem[]> => {
+export type RoundRow = Omit<RoundListItem, 'participation'>
+
+/**
+ * The rounds without their participation. `getRounds` asks `participation` once per round,
+ * which a screen that shows one round's response rate does not need: Resultater lists
+ * eight rounds as chips and prints the rate of one.
+ */
+export const getRoundRows = cache(async (): Promise<RoundRow[]> => {
   const supabase = await createClient()
 
   const { data, error } = await supabase
@@ -194,6 +201,11 @@ export const getRounds = cache(async (): Promise<RoundListItem[]> => {
     pulseNo: pulses.get(r.id) ?? null,
   }))
 
+  return rows
+})
+
+export const getRounds = cache(async (): Promise<RoundListItem[]> => {
+  const rows = await getRoundRows()
   const participation = await Promise.all(rows.map((r) => getParticipation(r.id)))
   return rows.map((r, i) => ({ ...r, participation: participation[i] ?? null }))
 })
