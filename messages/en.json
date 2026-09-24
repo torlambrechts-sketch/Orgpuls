@@ -73,7 +73,8 @@
     "driftsstatus": "System status"
   },
   "results": {
-    "maskedAria": "Fewer than {threshold} answers — the result is not shown"
+    "maskedAria": "Fewer than {threshold} answers — the result is not shown",
+    "protectedAria": "Held back to protect a group below {threshold} answers"
   },
   "factor": {
     "ytring": {
@@ -367,6 +368,7 @@
     "notSentNote": "{label} has not been sent yet. It goes out {date} and measures {factors}.",
     "maskedTitle": "Withheld by the threshold",
     "maskedNote": "{group} has too few answers ({n} against a threshold of {threshold}). The figures appear only as part of the whole.",
+    "maskedProtectedNote": "{group} has enough answers ({n}), but its figures are held back. Together with the whole, they would otherwise reveal a group below the threshold of {threshold}.",
     "maskedOrgNote": "Fewer than {threshold} answers — the result is not shown.",
     "kickerOrg": "The whole organisation · psychosocial work environment",
     "kickerGroup": "{group} · psychosocial work environment",
@@ -395,6 +397,7 @@
     "assessed": "See assessment",
     "heatHead": "Team × factor",
     "heatThreshold": "Groups with fewer than {threshold} answers appear as —",
+    "heatProtected": "A group with enough answers may also appear as — when its figures would otherwise reveal a smaller group.",
     "conv": {
       "head": "Conversations",
       "seeAll": "See all →",
@@ -485,6 +488,7 @@
     "terskelBody": "Results are not shown for groups with fewer than {threshold} answers.",
     "terskelWithheld": "{groups} is therefore included only in the whole, not as a group of its own.",
     "terskelGroup": "{group} ({count, plural, one {# answer} other {# answers}})",
+    "terskelProtected": "{groups} is also held back, so the figures for the groups below the threshold cannot be worked out by subtraction.",
     "section2": "2. Basis of data",
     "section2Lead": "The measurements included in this report, and those left out.",
     "colMaling": "Measurement",

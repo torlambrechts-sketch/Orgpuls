@@ -48,6 +48,91 @@ const FACTORS = [
 const COHORTS = {
   2026: [['Drift', 12, 8], ['Prosjekt', 9, 9], ['Verksted', 8, 8], ['Administrasjon', 5, 3]],
   2025: [['Drift', 11, 8], ['Prosjekt', 8, 7], ['Verksted', 7, 6], ['Administrasjon', 5, 3]],
+  // The history the design of 24 September adds (RES2.YRS and PULS, Målinger › Historikk):
+  // "19 av 27", "22 av 29", and the pulses "29 av 32", "27 av 32", "26 av 33". The
+  // totals are the design's; the splits are the fixture's own, like 2025's.
+  //
+  // Administrasjon answers in full in every puls. That is a constraint, not a flourish:
+  // three or four respondents there would leave a remainder under k, and complementary
+  // suppression (0034) would then withhold Verksted too — the group whose puls values
+  // the design's whole story is about. In the grunnlinjer it answers three, as in 2025
+  // and 2026, and the release rule protects one more group, which the design does not
+  // print for those years.
+  //
+  // Group sizes are not free either. With n answers a group's index moves in steps of
+  // 25/3n, so a printed figure is reachable only for some n: Verksted's 52 on mengde in
+  // May 2025 is not reachable with six answers. The splits below are ones where every
+  // printed puls figure is reachable, and `plan` refuses any that is not.
+  2024: [['Drift', 10, 7], ['Prosjekt', 8, 6], ['Verksted', 6, 6], ['Administrasjon', 5, 3]],
+  2023: [['Drift', 9, 6], ['Prosjekt', 7, 5], ['Verksted', 6, 5], ['Administrasjon', 5, 3]],
+  p2505: [['Drift', 11, 9], ['Prosjekt', 9, 8], ['Verksted', 7, 7], ['Administrasjon', 5, 5]],
+  p2508: [['Drift', 11, 8], ['Prosjekt', 9, 8], ['Verksted', 7, 6], ['Administrasjon', 5, 5]],
+  p2603: [['Drift', 12, 8], ['Prosjekt', 9, 7], ['Verksted', 7, 6], ['Administrasjon', 5, 5]],
+}
+
+/**
+ * The design's nine-factor order (RES2.F): the eleven without kontakt and integritet.
+ * The history screens print these nine per round; the database holds eleven, so the two
+ * the design leaves out get values of the fixture's own, chosen so the eleven-factor
+ * index lands on the design's published one (60 and 63).
+ */
+const NINE = ['ytring', 'mengde', 'motstrid', 'emosjon', 'leder', 'medvirk', 'rolle', 'kollega', 'mening']
+const nine = (values, extra = {}) => ({ ...Object.fromEntries(NINE.map((k, i) => [k, values[i]])), ...extra })
+
+/**
+ * Company-wide targets per round and factor. 2025 and 2026 are FACTORS above; the rest are
+ * the design's RES2.YRS (2023, 2024) and RES2.PULS (the three pulses, which ask about two
+ * or three factors each). The puls index is the mean of what it measured: 47, 49.5 → 50,
+ * and 53.3 → 53, which is what Historikk prints.
+ */
+const TARGETS = {
+  2026: Object.fromEntries(FACTORS.map(([k, y26]) => [k, y26])),
+  2025: Object.fromEntries(FACTORS.map(([k, , y25]) => [k, y25])),
+  2024: nine([53, 56, 59, 58, 67, 61, 72, 74, 71], { kontakt: 57, integritet: 65 }),
+  2023: nine([50, 55, 56, 57, 63, 57, 68, 71, 67], { kontakt: 55, integritet: 60 }),
+  p2505: { ytring: 44, mengde: 50 },
+  p2508: { ytring: 47, mengde: 52 },
+  p2603: { ytring: 45, mengde: 49, leder: 66 },
+}
+
+/**
+ * Per-group targets where the design prints them: the Varmekart's TEAMS for 2026 and each
+ * puls's `teams`. A group or factor with no target takes what is left of the company-wide
+ * sum (Administrasjon, and kontakt and integritet everywhere), spread evenly over the
+ * groups that have none, so every published figure is exact and nothing else is steered.
+ */
+const TEAM_TARGETS = {
+  // Drift's emosjon is left out: with eight answers a group moves in steps of 25/24, and
+  // the design's 62 falls between two of them — no whole set of answers produces it. The
+  // row is not shown in 2026 either way: Administrasjon's three responses leave a
+  // remainder under k, and 0034 withholds the smallest released group with it, Drift.
+  2026: {
+    Drift: (({ emosjon, ...rest }) => rest)(nine([49, 51, 60, 62, 70, 68, 74, 78, 81])),
+    Prosjekt: nine([46, 31, 44, 57, 58, 64, 59, 74, 75]),
+    Verksted: nine([28, 47, 53, 55, 55, 66, 72, 77, 77]),
+  },
+  p2505: { Drift: { ytring: 50, mengde: 55 }, Prosjekt: { ytring: 45, mengde: 40 }, Verksted: { ytring: 36, mengde: 52 } },
+  p2508: { Drift: { ytring: 52, mengde: 56 }, Prosjekt: { ytring: 47, mengde: 41 }, Verksted: { ytring: 40, mengde: 53 } },
+  p2603: {
+    Drift: { ytring: 50, mengde: 54, leder: 70 },
+    Prosjekt: { ytring: 44, mengde: 38, leder: 63 },
+    Verksted: { ytring: 33, mengde: 50, leder: 64 },
+  },
+}
+
+/**
+ * "Anbefaler oss" per grunnlinje, as answer counts for options 1..5 (0035's figure:
+ * 100 × (fives − ones-to-threes) / answers). The design prints +8, +19, +27 and +22.
+ * The question is optional, and the counts are chosen to land on those figures exactly,
+ * which is only possible with some respondents skipping it: +22 over 28 answers is not a
+ * whole number of people (6/28 is 21, 7/28 is 25), 6 over 27 is. 2023's +8 needs 13 of
+ * 19 answering — the first year the question was asked.
+ */
+const RECOMMEND = {
+  2026: [1, 1, 3, 11, 11],
+  2025: [0, 1, 3, 8, 10],
+  2024: [1, 1, 3, 7, 9],
+  2023: [1, 1, 2, 4, 5],
 }
 
 /**
@@ -64,11 +149,39 @@ const COHORTS = {
 const DATES = {
   2025: { opens: '2025-08-21 07:00:00+02', closes: '2025-09-11 21:00:00+02' },
   2026: { opens: '2026-09-07 07:00:00+02', closes: '2026-09-14 21:00:00+02' },
+  // Historikk's own dates: "lukket 15. september 2023", "13. september 2024", and the
+  // pulses' "22. mai 2025", "14. august 2025", "3. mars 2026". Each ran a week.
+  2023: { opens: '2023-09-08 07:00:00+02', closes: '2023-09-15 21:00:00+02' },
+  2024: { opens: '2024-09-06 07:00:00+02', closes: '2024-09-13 21:00:00+02' },
+  p2505: { opens: '2025-05-15 07:00:00+02', closes: '2025-05-22 21:00:00+02' },
+  p2508: { opens: '2025-08-07 07:00:00+02', closes: '2025-08-14 21:00:00+02' },
+  p2603: { opens: '2026-02-24 07:00:00+01', closes: '2026-03-03 21:00:00+01' },
 }
 
 const ORG = '00000000-0000-4000-8000-000000000001'
-const ROUND = { 2025: '00000000-0000-4000-8000-000000000012', 2026: '00000000-0000-4000-8000-000000000002' }
-const MEAS = { 2025: '00000000-0000-4000-8000-000000000013', 2026: '00000000-0000-4000-8000-000000000003' }
+const ROUND = {
+  2025: '00000000-0000-4000-8000-000000000012', 2026: '00000000-0000-4000-8000-000000000002',
+  2024: '00000000-0000-4000-8000-000000000032', 2023: '00000000-0000-4000-8000-000000000042',
+  p2505: '00000000-0000-4000-8000-000000000052', p2508: '00000000-0000-4000-8000-000000000062',
+  p2603: '00000000-0000-4000-8000-000000000072',
+}
+const MEAS = {
+  2025: '00000000-0000-4000-8000-000000000013', 2026: '00000000-0000-4000-8000-000000000003',
+  2024: '00000000-0000-4000-8000-000000000033', 2023: '00000000-0000-4000-8000-000000000043',
+  p2505: '00000000-0000-4000-8000-000000000053', p2508: '00000000-0000-4000-8000-000000000063',
+  p2603: '00000000-0000-4000-8000-000000000073',
+}
+
+/** Every closed round, oldest first, with what the measurements row records. */
+const CLOSED = [
+  ['2023', 'grunnlinje', 2023, 'Grunnlinje 2023'],
+  ['2024', 'grunnlinje', 2024, 'Grunnlinje 2024'],
+  ['p2505', 'puls', 2025, 'Puls mai 2025'],
+  ['p2508', 'puls', 2025, 'Puls august 2025'],
+  ['2025', 'grunnlinje', 2025, 'Grunnlinje 2025'],
+  ['p2603', 'puls', 2026, 'Puls mars 2026'],
+  ['2026', 'grunnlinje', 2026, 'Grunnlinje 2026'],
+]
 const RISK_ID = '00000000-0000-4000-8000-000000000004'
 
 /**
@@ -190,6 +303,9 @@ const BHT = 'Vestfold Bedriftshelse AS'
 const SCREENING = {
   2026: { krenkende: [24, 2, 1, 1], vold: [27, 0, 0, 1] },
   2025: { krenkende: [22, 1, 0, 1], vold: [24, 0, 0, 0] },
+  // the fixture's own: the design prints section 7 for the latest year only
+  2024: { krenkende: [19, 1, 1, 1], vold: [21, 0, 0, 1] },
+  2023: { krenkende: [16, 2, 0, 1], vold: [18, 0, 0, 1] },
 }
 
 /**
@@ -262,15 +378,84 @@ const EMPLOYEES = sum(ROSTER, 1)
  */
 const SENIORITY = 'order by length(e.full_name), e.full_name'
 
-/** The two-adjacent-points split that lands a factor exactly on its target index. */
-const cfg = (year) => {
-  const slots = sum(COHORTS[year], 2) * 3
-  return FACTORS.map(([key, y26, y25]) => {
-    const S = Math.round(((year === 2026 ? y26 : y25) * slots) / 25)
-    const q = Math.floor(S / slots), r = S % slots
-    return `('${key}',${r},${q + 2},${q + 1})`
-  }).join(',')
+/**
+ * The index the database computes for a sum of (v − 1) over `slots` answers:
+ * round(avg((v − 1) × 25)), with Postgres's half-away-from-zero rounding, done in integers
+ * so no float can land on the wrong side of a .5.
+ */
+const indexOf = (S, slots) => Math.floor((50 * S + slots) / (2 * slots))
+
+/** Every sum over `slots` answers that the database rounds to `target`. */
+const sumsFor = (target, slots) => {
+  const out = []
+  for (let S = 0; S <= 4 * slots; S++) if (indexOf(S, slots) === target) out.push(S)
+  return out
 }
+
+/**
+ * The answer sum for each (round, group, factor), solved backwards from the targets.
+ *
+ * A group with a design target gets the sum nearest its exact value that rounds to it.
+ * The company-wide sum is then chosen among those that round to the company target, so
+ * that what is left for the groups without a target is as close as possible to the same
+ * average — nothing unprinted is steered anywhere unusual. What is left is spread over
+ * those groups in proportion to their answers. If any printed figure cannot be reached
+ * with whole answers, the generator stops rather than seeding a number that is off by one.
+ */
+const plan = (() => {
+  const out = []
+  for (const [key] of CLOSED) {
+    const cohorts = COHORTS[key].filter(([, , a]) => a > 0)
+    const teams = TEAM_TARGETS[key] ?? {}
+    for (const [factor, target] of Object.entries(TARGETS[key])) {
+      const slots = Object.fromEntries(cohorts.map(([g, , a]) => [g, 3 * a]))
+      const total = Object.values(slots).reduce((a, b) => a + b, 0)
+      const fixed = {}
+      for (const [g, t] of Object.entries(teams)) {
+        if (t[factor] === undefined) continue
+        const options = sumsFor(t[factor], slots[g])
+        if (!options.length) throw new Error(`${key} ${g} ${factor}: ${t[factor]} is unreachable with ${slots[g] / 3} answers`)
+        const exact = (t[factor] * slots[g]) / 25
+        fixed[g] = options.reduce((a, b) => (Math.abs(b - exact) < Math.abs(a - exact) ? b : a))
+      }
+      const free = cohorts.map(([g]) => g).filter((g) => !(g in fixed))
+      const freeSlots = free.reduce((a, g) => a + slots[g], 0)
+      const fixedSum = Object.values(fixed).reduce((a, b) => a + b, 0)
+      const candidates = sumsFor(target, total).filter((S) => {
+        const rest = S - fixedSum
+        return free.length ? rest >= 0 && rest <= 4 * freeSlots : rest === 0
+      })
+      if (!candidates.length) throw new Error(`${key} ${factor}: no company sum reaches ${target} with the group targets`)
+      const want = fixedSum + (target * freeSlots) / 25
+      const S = candidates.reduce((a, b) => (Math.abs(b - want) < Math.abs(a - want) ? b : a))
+      // spread the rest over the free groups by largest remainder
+      let rest = S - fixedSum
+      const share = free.map((g) => ({ g, raw: freeSlots ? (rest * slots[g]) / freeSlots : 0 }))
+      share.forEach((x) => (x.S = Math.floor(x.raw)))
+      let left = rest - share.reduce((a, x) => a + x.S, 0)
+      for (const x of [...share].sort((a, b) => b.raw - Math.floor(b.raw) - (a.raw - Math.floor(a.raw)))) {
+        if (left <= 0) break
+        x.S += 1
+        left -= 1
+      }
+      const sums = { ...fixed, ...Object.fromEntries(share.map((x) => [x.g, x.S])) }
+      for (const [g, gs] of Object.entries(sums)) {
+        if (gs < 0 || gs > 4 * slots[g]) throw new Error(`${key} ${g} ${factor}: sum ${gs} outside 0..${4 * slots[g]}`)
+        out.push({ key, group: g, factor, slots: slots[g], S: gs })
+      }
+      if (indexOf(Object.values(sums).reduce((a, b) => a + b, 0), total) !== target) {
+        throw new Error(`${key} ${factor}: the company index does not land on ${target}`)
+      }
+    }
+  }
+  return out
+})()
+
+/** The two-adjacent-points split of one (round, group, factor) sum, as a cfg row. */
+const cfgRows = () => plan.map(({ key, group, factor, slots, S }) => {
+  const q = Math.floor(S / slots), r = S % slots
+  return `('${ROUND[key]}'::uuid,'${group}','${factor}',${r},${q + 2},${q + 1})`
+}).join(',\n  ')
 
 /**
  * Invitations exist so the Deltakelse card can count who was asked and who answered.
@@ -530,17 +715,43 @@ join app.groups grp on grp.org_id = '${ORG}' and grp.name = c.name
 cross join lateral generate_series(1, c.answered)
 where r.id = '${ROUND[year]}';`
 
-const answersFor = (year) => `
-with cfg(factor_key, hi_count, hi_value, lo_value) as (values ${cfg(year)}),
-resp as (select id, row_number() over (order by id) as seq from app.responses where round_id = '${ROUND[year]}'),
-slots as (select r.id, r.seq, o.ordinal from resp r cross join (values (1),(2),(3)) as o(ordinal)),
+/**
+ * Every answer of every closed round, from the solved plan: each (round, group, factor)
+ * gets its sum as two adjacent scale points over that group's answers, so the group's
+ * figure and the company's both land where the design prints them.
+ */
+const answersSql = () => `
+with cfg(round_id, grp, factor_key, hi_count, hi_value, lo_value) as (values
+  ${cfgRows()}),
+resp as (
+  select re.id, re.round_id, g.name as grp,
+         row_number() over (partition by re.round_id, re.group_id order by re.id) as seq
+  from app.responses re join app.groups g on g.id = re.group_id
+  where re.org_id = '${ORG}'),
+slots as (select r.id, r.round_id, r.grp, r.seq, o.ordinal from resp r cross join (values (1),(2),(3)) as o(ordinal)),
 numbered as (
   select c.factor_key, s.id, s.ordinal, c.hi_count, c.hi_value, c.lo_value,
-         row_number() over (partition by c.factor_key order by s.seq, s.ordinal) as n
-  from cfg c cross join slots s)
+         row_number() over (partition by c.round_id, c.grp, c.factor_key order by s.seq, s.ordinal) as n
+  from cfg c join slots s on s.round_id = c.round_id and s.grp = c.grp)
 insert into app.answers (response_id, factor_key, ordinal, value)
 select id, factor_key, ordinal, case when n <= hi_count then hi_value else lo_value end
 from numbered;`
+
+/**
+ * "Anbefaler oss", assigned by count exactly as the screening answers are: responses are
+ * numbered and cut at the counts, and the ones past the total skip the question.
+ */
+const recommendSql = () => Object.entries(RECOMMEND).map(([year, counts]) => `
+with numbered as (
+  select r.id, row_number() over (order by r.id) as n
+  from app.responses r where r.round_id = '${ROUND[year]}')
+insert into app.extra_answers (response_id, extra_key, option_ordinal)
+select id, 'anbefaling',
+  case ${counts.map((c, i) =>
+    `when n <= ${counts.slice(0, i + 1).reduce((a, b) => a + b, 0)} then ${i + 1}`).join('\n       ')}
+  end
+from numbered
+where n <= ${counts.reduce((a, b) => a + b, 0)};`).join('\n')
 
 console.log(`-- generated by scripts/seed/design-fixture.mjs — do not edit by hand
 delete from app.trainings       where org_id = '${ORG}';
@@ -633,14 +844,13 @@ from (values ${Object.entries(DUTIES).map(([n, r]) => `(${q(n)},'${r}')`).join('
 where e.org_id = '${ORG}' and e.full_name = d.name;
 
 insert into app.measurements (id, org_id, kind, year, label) values
-  ('${MEAS[2025]}','${ORG}','grunnlinje',2025,'Grunnlinje 2025'),
-  ('${MEAS[2026]}','${ORG}','grunnlinje',2026,'Grunnlinje 2026'),
+${CLOSED.map(([key, kind, year, label]) => `  ('${MEAS[key]}','${ORG}','${kind}',${year},${q(label)}),`).join('\n')}
   ('${PULS.meas}','${ORG}','puls',2026,'Puls 2026');
 
 insert into app.rounds (id, org_id, measurement_id, status, opens_at, closes_at, frozen_at,
                         reminder_day, close_after_days, comment_policy, allow_dialogue) values
-  ('${ROUND[2025]}','${ORG}','${MEAS[2025]}','lukket','${DATES[2025].opens}','${DATES[2025].closes}','${DATES[2025].closes}',2,7,'lave',true),
-  ('${ROUND[2026]}','${ORG}','${MEAS[2026]}','lukket','${DATES[2026].opens}','${DATES[2026].closes}','${DATES[2026].closes}',2,7,'lave',true),
+${CLOSED.map(([key]) =>
+  `  ('${ROUND[key]}','${ORG}','${MEAS[key]}','lukket','${DATES[key].opens}','${DATES[key].closes}','${DATES[key].closes}',2,7,'lave',true),`).join('\n')}
   ('${PULS.round}','${ORG}','${PULS.meas}','apen',
    date_trunc('day', now()) - interval '2 days', date_trunc('day', now()) + interval '5 days', null,2,7,'lave',true);
 
@@ -656,13 +866,19 @@ insert into app.round_consultations (round_id, kind, confirmed, held_on, counter
 
 insert into app.round_factors (org_id, round_id, factor_key)
 select '${ORG}', r.id, f.key from app.rounds r cross join app.factors f
-where r.id in ('${ROUND[2025]}','${ROUND[2026]}');
+where r.id in (${CLOSED.filter(([, kind]) => kind === 'grunnlinje').map(([key]) => `'${ROUND[key]}'`).join(',')});
 
--- both grunnlinjer carry the full set, which is what makes the rounds list print
+-- every grunnlinje carries the full set, which is what makes the rounds list print
 -- "37 spørsmål": 11 factors x 3 statements, plus the four outside the index
 insert into app.round_extra_questions (org_id, round_id, extra_key)
 select '${ORG}', r.id, x.key from app.rounds r cross join app.extra_questions x
-where r.id in ('${ROUND[2025]}','${ROUND[2026]}');
+where r.id in (${CLOSED.filter(([, kind]) => kind === 'grunnlinje').map(([key]) => `'${ROUND[key]}'`).join(',')});
+
+-- a closed puls asks what Historikk says it asked, and nothing outside the index
+insert into app.round_factors (org_id, round_id, factor_key)
+select '${ORG}', v.round_id::uuid, v.factor_key
+from (values ${CLOSED.filter(([, kind]) => kind === 'puls').flatMap(([key]) =>
+  Object.keys(TARGETS[key]).map((f) => `('${ROUND[key]}','${f}')`)).join(',')}) as v(round_id, factor_key);
 
 -- the puls asks about two factors and nothing outside the index
 insert into app.round_factors (org_id, round_id, factor_key)
@@ -678,15 +894,13 @@ select '${ORG}', r.id, e.id,
 from app.rounds r
 join app.employees e on e.org_id = '${ORG}' and e.active
 where r.id = '${PULS.round}';
-${invitationsFor(2025)}
-${invitationsFor(2026)}
+${CLOSED.map(([key]) => invitationsFor(key)).join('\n')}
 
 -- responses carry the group and nothing else that could identify anyone, so they are
 -- inserted by count per group and never joined back to an invitation
-${responsesFor(2025)}
-${responsesFor(2026)}
-${answersFor(2025)}
-${answersFor(2026)}
+${CLOSED.map(([key]) => responsesFor(key)).join('\n')}
+${answersSql()}
+${recommendSql()}
 ${measuresSql()}
 ${screeningSql()}
 ${informationSql()}
@@ -699,4 +913,4 @@ select m.year,
   (select count(*) from app.answers a join app.responses re on re.id = a.response_id
     where re.round_id = r.id) as answers
 from app.rounds r join app.measurements m on m.id = r.measurement_id
-where r.org_id = '${ORG}' order by m.year;`)
+where r.org_id = '${ORG}' order by r.closes_at nulls last;`)

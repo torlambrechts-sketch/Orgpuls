@@ -2364,3 +2364,107 @@ depending on it), the secrets `MAIL_FROM`, `MAIL_FROM_NAME` and `NEXT_PUBLIC_APP
 three empty storage buckets (`org-logos`, `report-exports`, `survey-media`) that predate
 this repository and are referenced nowhere in it. The Brevo account still lists the
 unauthenticated domain `heituva.com`; that account entry is the owner's.
+
+---
+
+## D-67 — Design 3 sits next to the current reference until its screens are built
+
+`design-reference/orgpuls/Orgpuls_v3.dc.html` is the design received on 2026-09-24.
+`Orgpuls_v3_Offline_Source.html` is the same file with the Google Fonts link swapped for
+`/fonts/fonts.css`. That is the only transformation, as for D-07 and D-63; the two differ
+by that one line.
+
+**Why beside, not in place of, the reference.** D-63 replaced the reference in place,
+because that update touched two screens. This one changes almost every screen and is
+built over nine phases. Until a phase rebuilds a screen, that screen is still the previous
+design's and is still gated by `baselines/`. The v3 set becomes the reference screen by
+screen, and replaces the old files in P8.
+
+**`baselines-v3/`:** 31 states captured by `scripts/verify/baseline-v3.mjs`, from a cold
+load, by pressing the design's own buttons.
+- 22 full-page states:
+  - Enkel and Full;
+  - every tab of Målinger and Resultater;
+  - Kommentarer, Tiltak Tavle and Liste, Oppsett;
+  - Innsikt as verneombud and as avdelingsleder;
+  - the side layout expanded, collapsed and on Resultater;
+  - Hjelp;
+  - Oversikt at 390 px.
+- The wizard's nine steps, captured at the viewport, because the wizard is a fixed
+  overlay.
+- **Serving root.** The prototype is served over HTTP with the files it loads next to it:
+  - `support.js`, `doc-page.js`, `image-slot.js`, `tuva/`, `fonts/`;
+  - `cdn/react.production.min.js`, `cdn/react-dom.production.min.js` and
+    `cdn/babel.min.js` (React 18.3.1 UMD, Babel standalone).
+- **Pipeline check.** Before capturing, the pipeline was checked the way D-63 checked
+  it: it re-captured the current reference's home screen and diffed that against
+  `baselines/01-innsikt-home.png`, which gave 0 pixels. A second capture of a v3 state
+  matched the first.
+
+Three things in the design itself, recorded so a later phase doesn't treat them as ours:
+- At 390 px Oversikt is 444 px wide: the prototype overflows horizontally at phone width.
+- Historikk labels Puls mars 2026 "−3 fra forrige puls", but 53 against 50 is +3.
+- Spørsmålssett uses a narrower content column than the other Målinger tabs.
+
+---
+
+## D-68 — A group with enough answers can be withheld to protect a smaller one
+
+**Design:** the Varmekart prints every group with at least five answers. In 2026 that is
+Drift, Prosjekt and Verksted, with only Administrasjon (3 svar) as "—".
+
+**Built:** Administrasjon *and Drift* are withheld in 2026. Drift says why: "{group} har nok
+svar (8), men tallene holdes tilbake…". The heatmap legend gains one sentence. The report's
+threshold paragraph names the protected group next to the one under the threshold.
+
+**The constraint (0034, decision D1).** The organisation's figure includes every
+response, and the parts published beside it add up to it. So the whole minus the published
+groups is the hidden remainder:
+- in the fixture that is Administrasjon's three people, recoverable to about ±3 points;
+- for a group of one it is about ±9 points, against answer steps of 8.3, which is close to
+  that person's answers.
+
+The release rule withholds the smallest released groups until the remainder is 0 or at
+least k:
+- the order is by count and then name, never by score;
+- the decision is made over the whole organisation, then filtered by the caller's scope;
+- an avdelingsleder of a protected department gets `protected` from `results_summary`
+  too.
+
+`comment_themes` now counts only comments that `conversations` releases. Its counts
+minus the visible threads had given away a withheld group's comments and their tone.
+
+`suppression_invariants.sql` proves it on a group of one, including the reader's own
+subtraction. It also checks every round in the database, both fixtures included.
+
+---
+
+## D-69 — The fixture carries the design's history, with three figures it cannot reach
+
+The generator now emits every closed round the design prints:
+- the grunnlinjer for 2023, 2024, 2025 and 2026;
+- the pulses for May 2025, August 2025 and March 2026.
+
+Each round gets its index, response rate, nine-factor values and "Anbefaler oss". Where the
+design prints team values (2026's Varmekart and the three pulses), each group gets its own
+answer sum, solved backwards so group and company figures both land exactly.
+`design_figures.sql` checks all of it in CI.
+
+What the design does not state, the fixture chooses, and says so:
+- the group splits behind the totals;
+- kontakt and integritet for 2023/2024, set so the 11-factor index lands on 60 and 63;
+- screening answers for 2023/2024.
+
+Three figures cannot be produced by whole answers:
+- **2026 Drift emosjon 62.** With eight answers a group moves in steps of 25/24 and 62
+  falls between two of them. The figure is omitted, and the row is withheld in 2026 anyway
+  (D-68).
+- **"Anbefaler oss" +22 and +8.** No whole number of 28 people gives +22. The fixture has
+  one respondent skip the question (27 answers: 11 for, 5 against). 2023's +8 needs 13 of
+  19 answering.
+- **Administrasjon answers in full in every puls.** With three or four answering, the
+  release rule would withhold Verksted, whose puls values are the design's whole story.
+
+**Not yet reseeded on the hosted project.** The generator deletes and re-inserts the
+fixture organisation's rows. On a remote project that is a bulk delete, which waits for the
+owner.

@@ -86,7 +86,7 @@ export default async function ResultatPage({
           groups: [],
           scope: { kind: 'org' },
           threshold: 5,
-          body: { kind: 'masked', group: null },
+          body: { kind: 'masked', group: null, protected: false },
           adoptedKeys,
         }}
       />
@@ -160,11 +160,19 @@ export default async function ResultatPage({
   const withheld =
     scope.kind === 'group' ? groupResult?.status !== 'ok' : summary?.status !== 'ok'
   if (withheld) {
+    // an avdelingsleder's own department comes back from results_summary, named by it
+    const ownProtected =
+      summary?.status === 'protected' && summary.scope_label
+        ? { name: summary.scope_label, n: summary.n }
+        : null
     return (
       <ResultatScreen
         view={frame({
           kind: 'masked',
-          group: groupResult ? { name: groupResult.group_name, n: groupResult.n } : null,
+          group: groupResult ? { name: groupResult.group_name, n: groupResult.n } : ownProtected,
+          protected: groupResult
+            ? groupResult.status === 'protected'
+            : summary?.status === 'protected',
         })}
       />
     )
@@ -216,6 +224,7 @@ export default async function ResultatPage({
       values: row?.factors
         ? Object.fromEntries(row.factors.map((f) => [f.key, f.index]))
         : null,
+      protected: row?.status === 'protected',
     }
   })
 

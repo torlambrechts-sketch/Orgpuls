@@ -73,7 +73,8 @@
     "driftsstatus": "Driftsstatus"
   },
   "results": {
-    "maskedAria": "Færre enn {threshold} svar — resultatet vises ikke"
+    "maskedAria": "Færre enn {threshold} svar — resultatet vises ikke",
+    "protectedAria": "Holdt tilbake for å verne en gruppe under {threshold} svar"
   },
   "factor": {
     "ytring": {
@@ -367,6 +368,7 @@
     "notSentNote": "{label} er ikke sendt ennå. Den går ut {date} og måler {factors}.",
     "maskedTitle": "Skjult av terskelen",
     "maskedNote": "{group} har for få svar ({n} av terskel {threshold}). Tallene vises bare som del av helheten.",
+    "maskedProtectedNote": "{group} har nok svar ({n}), men tallene holdes tilbake. Sammen med helheten ville de ellers vist tallene for en gruppe under terskelen på {threshold}.",
     "maskedOrgNote": "Færre enn {threshold} svar — resultatet vises ikke.",
     "kickerOrg": "Hele virksomheten · psykososialt arbeidsmiljø",
     "kickerGroup": "{group} · psykososialt arbeidsmiljø",
@@ -395,6 +397,7 @@
     "assessed": "Se vurdering",
     "heatHead": "Team × faktor",
     "heatThreshold": "Grupper under {threshold} svar vises som —",
+    "heatProtected": "En gruppe med nok svar kan også vises som — når tallene ellers ville avslørt en mindre gruppe.",
     "conv": {
       "head": "Samtaler",
       "seeAll": "Se alle →",
@@ -485,6 +488,7 @@
     "terskelBody": "Resultater vises ikke for grupper med færre enn {threshold} svar.",
     "terskelWithheld": "{groups} er derfor kun med i helheten, ikke som egen gruppe.",
     "terskelGroup": "{group} ({count, plural, one {# svar} other {# svar}})",
+    "terskelProtected": "{groups} holdes også utenfor, slik at tallene for gruppene under terskelen ikke kan regnes ut ved å trekke fra.",
     "section2": "2. Datagrunnlag",
     "section2Lead": "Målingene som inngår i denne rapporten, og de som er utelatt.",
     "colMaling": "Måling",

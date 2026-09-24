@@ -125,7 +125,11 @@ export default async function RapportPage({
     .filter((g) => g.status === 'ok')
     .map((g) => ({ name: g.group_name, n: g.n }))
   const withheld = (byGroup?.groups ?? [])
-    .filter((g) => g.status !== 'ok')
+    .filter((g) => g.status === 'insufficient_data')
+    .map((g) => ({ name: g.group_name, n: g.n }))
+  // enough answers, held back so the groups above cannot be recovered by subtraction (0034)
+  const protectedGroups = (byGroup?.groups ?? [])
+    .filter((g) => g.status === 'protected')
     .map((g) => ({ name: g.group_name, n: g.n }))
 
   const teamResult = params.avdeling
@@ -206,6 +210,7 @@ export default async function RapportPage({
     prevYear: team ? null : prior?.status === 'ok' ? prevYear : null,
     factors,
     withheld,
+    protectedGroups,
     teamAnswers: teamResult?.n ?? null,
     instrument: {
       factors: instrument.length,

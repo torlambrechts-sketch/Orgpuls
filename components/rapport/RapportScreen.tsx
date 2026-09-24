@@ -86,6 +86,8 @@ export interface RapportView {
   factors: ReportFactor[]
   /** groups the server withheld, for the threshold paragraph */
   withheld: { name: string; n: number }[]
+  /** groups at or above the threshold, withheld to protect the ones under it (0034) */
+  protectedGroups: { name: string; n: number }[]
   /** responses in scope, when a department is selected */
   teamAnswers: number | null
   instrument: { factors: number; statementsPerFactor: number[]; extraQuestions: number }
@@ -482,6 +484,14 @@ export async function RapportScreen({ view }: { view: RapportView }) {
               ? ' ' +
                 t('rapport.terskelWithheld', {
                   groups: view.withheld
+                    .map((g) => t('rapport.terskelGroup', { group: g.name, count: g.n }))
+                    .join(', '),
+                })
+              : '') +
+            (view.protectedGroups.length
+              ? ' ' +
+                t('rapport.terskelProtected', {
+                  groups: view.protectedGroups
                     .map((g) => t('rapport.terskelGroup', { group: g.name, count: g.n }))
                     .join(', '),
                 })

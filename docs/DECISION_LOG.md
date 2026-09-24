@@ -1448,6 +1448,28 @@ is built as a real page. Its sender name is fixed to "Orgpuls" (every name must 
 with the operators), its price line counts messages instead of kroner, and its counter
 counts the real 90-character link (D-66).
 
+### X-039 — Design 3 is built in phases; the owner took the six recommendations
+
+The design of 24 September (`Orgpuls.dc_2`: Enkel mode, a wizard, Resultater and
+Kommentarer, a side layout) is reviewed in `docs/PLAN_2026-09-24_design3.md` and built in
+phases P0–P8. The owner took every recommendation on the six decisions it named:
+
+- **D1:** close the subtraction gap with complementary suppression (0034, D-68);
+- **D2:** a comment never travels with its group, so no group filter on comments;
+- **D3:** no tenure segments now;
+- **D4:** Prioritet's importance is a whole-organisation correlation with
+  "anbefaling" at n ≥ 20, or the design's empty state;
+- **D5:** "Anbefaler oss" = 100 × (fives − ones-to-threes) / answers, whole
+  organisation only (0035);
+- **D6:** the side layout is built with the shell in P1.
+
+P0 lays the ground without new UI:
+- the v3 reference and its baselines next to the current ones (D-67);
+- the release rule;
+- the recommendation reader;
+- a fixture that holds the design's full history (D-69), asserted by
+  `supabase/tests/design_figures.sql` in CI.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1564,3 +1586,9 @@ counts the real 90-character link (D-66).
 - [x] SMS verified end to end on 2026-09-24: one test SMS sent through the dispatcher's
       `?probe=sms` route, accepted by Brevo and received on the owner's phone from "Orgpuls".
 - [ ] Consider a shorter respondent token so the default SMS fits one message (D-66).
+- [x] Design 3 reviewed and planned (docs/PLAN_2026-09-24_design3.md); decisions D1–D6
+      taken as recommended (X-039). P0 done; P1 (shell) next.
+- [x] A withheld group can no longer be recovered by subtraction (0034, D-68).
+- [ ] Reseed the hosted fixture organisation with the extended generator (2023, 2024 and
+      three pulses). It is a scoped delete-and-reinsert on a remote project, so it waits for
+      the owner's go-ahead (D-69).

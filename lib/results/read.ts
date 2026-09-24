@@ -56,6 +56,17 @@ const Summary = z.discriminatedUnion('status', [
     scope: SCOPE.default('org'),
     scope_label: z.string().nullable().default(null),
   }),
+  /**
+   * The caller's department has enough answers but is withheld to protect a smaller one
+   * (0034): its figures together with the organisation's would give that group away.
+   */
+  z.object({
+    status: z.literal('protected'),
+    n: z.coerce.number(),
+    threshold: z.coerce.number(),
+    scope: SCOPE.default('group'),
+    scope_label: z.string().nullable().default(null),
+  }),
 ])
 
 const NotAvailable = z.object({ error: z.literal('not_available') })
@@ -138,7 +149,11 @@ const GroupFactorRow = z.object({
 const GroupRow = z.object({
   group_name: z.string(),
   n: z.coerce.number(),
-  status: z.enum(['ok', 'insufficient_data']),
+  /**
+   * `protected`: at or above the threshold, withheld all the same, because the groups
+   * under it would otherwise be the published whole minus the published parts (0034).
+   */
+  status: z.enum(['ok', 'insufficient_data', 'protected']),
   factors: z.array(GroupFactorRow).nullable(),
 })
 
@@ -196,3 +211,34 @@ export function deltaColour(delta: number): string {
 export function signedDelta(delta: number): string {
   return `${delta > 0 ? '+' : '−'}${Math.abs(delta)}`
 }
+
+/**
+ * "Anbefaler oss" — the recommendation figure (0035): 100 × (answers of 5 − answers of
+ * 1–3) / answers, for the whole organisation only. An avdelingsleder is refused, which
+ * arrives here as null like every other refusal. `not_asked` and `insufficient_data`
+ * carry no score, and the screen renders nothing for either — never a zero.
+ */
+const Recommendation = z.discriminatedUnion('status', [
+  z.object({
+    status: z.literal('ok'),
+    threshold: z.coerce.number(),
+    n: z.coerce.number(),
+    answered: z.coerce.number(),
+    score: z.coerce.number().int().min(-100).max(100),
+  }),
+  z.object({ status: z.literal('insufficient_data'), threshold: z.coerce.number() }),
+  z.object({ status: z.literal('not_asked'), threshold: z.coerce.number() }),
+])
+
+export type ResultsRecommendation = z.infer<typeof Recommendation>
+
+export const getRecommendation = cache(
+  async (roundId: string): Promise<ResultsRecommendation | null> => {
+    const supabase = await createClient()
+    const { data, error } = await supabase.rpc('results_recommendation', { p_round: roundId })
+    if (callFailed('getRecommendation', error)) return null
+    if (NotAvailable.safeParse(data).success) return null
+    const parsed = Recommendation.safeParse(data)
+    return parsed.success ? parsed.data : null
+  },
+)

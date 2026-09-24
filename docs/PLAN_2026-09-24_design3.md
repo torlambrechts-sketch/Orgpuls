@@ -1,8 +1,8 @@
 # Design 3 (24 September, `Orgpuls.dc_2`): review and implementation plan
 
-**Status:** proposal for the owner's review. Nothing here is built yet. Section 3 lists
-the decisions to settle first. Four of them touch anonymity, and CLAUDE.md requires the
-owner's sign-off before those change.
+**Status:** D1–D6 decided as recommended (X-039). **P0 is done:** the release rule
+(D-68), "Anbefaler oss" (0035), the v3 baselines (D-67) and the fixture's history (D-69).
+**P1 is next.**
 
 The design was reviewed in a browser. The offline copy of `dc_2` was rendered with the
 same runtime as the baselines. Every screen and state was captured: the Enkel and Full

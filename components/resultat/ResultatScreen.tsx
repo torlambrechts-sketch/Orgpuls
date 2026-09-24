@@ -57,13 +57,20 @@ export interface HeatRow {
   name: string
   n: number
   values: Record<string, number> | null
+  /** enough answers, withheld to protect a smaller group (0034) */
+  protected: boolean
 }
 
 export type Scope = { kind: 'org' } | { kind: 'group'; name: string }
 
 export type ResultatBody =
   | { kind: 'notSent'; factorKeys: string[] }
-  | { kind: 'masked'; group: GroupChip | null }
+  | {
+      kind: 'masked'
+      group: GroupChip | null
+      /** withheld to protect a smaller group, not for want of answers (0034) */
+      protected: boolean
+    }
   | {
       kind: 'results'
       /** responses in scope — the number k was applied to */
@@ -260,13 +267,19 @@ export async function ResultatScreen({ view }: { view: ResultatView }) {
             className="mt-[5px] max-w-[560px] text-[13px] leading-[1.55] [text-wrap:pretty]"
             style={{ color: MASKED_CARD.ink }}
           >
-            {body.group
-              ? t('resultat.maskedNote', {
+            {body.group && body.protected
+              ? t('resultat.maskedProtectedNote', {
                   group: body.group.name,
                   n: body.group.n,
                   threshold: view.threshold,
                 })
-              : t('resultat.maskedOrgNote', { threshold: view.threshold })}
+              : body.group
+                ? t('resultat.maskedNote', {
+                    group: body.group.name,
+                    n: body.group.n,
+                    threshold: view.threshold,
+                  })
+                : t('resultat.maskedOrgNote', { threshold: view.threshold })}
           </div>
         </div>
       ) : null}
@@ -450,6 +463,7 @@ async function Results({
           <span className="font-display text-[21px] font-semibold">{t('resultat.heatHead')}</span>
           <span className="text-[11.5px] text-mut">
             {t('resultat.heatThreshold', { threshold: view.threshold })}
+            {body.heat.some((row) => row.protected) ? ` ${t('resultat.heatProtected')}` : null}
           </span>
         </div>
         <div className="overflow-x-auto">
@@ -483,7 +497,11 @@ async function Results({
                       key={key}
                       className="rounded-[7px] py-[12px] text-center font-bold"
                       style={MASKED_CELL}
-                      title={t('results.maskedAria', { threshold: view.threshold })}
+                      title={
+                        row.protected
+                          ? t('results.protectedAria', { threshold: view.threshold })
+                          : t('results.maskedAria', { threshold: view.threshold })
+                      }
                     >
                       —
                     </span>
