@@ -1561,6 +1561,6 @@ counts the real 90-character link (D-66).
 - [x] SMS: numbers on Ansatte and the import, the design's SMS screen, the channel on the
       dispatcher with an e-mail fallback (X-038, D-66).
 - [x] SMS credits in Brevo: 600, confirmed by the dispatcher's probe on 2026-09-24.
-- [ ] Confirm the sender name "Orgpuls" is approved for Norway. The API cannot show it; the
-      first real SMS will (a refusal falls back to e-mail and is logged by the dispatcher).
+- [x] SMS verified end to end on 2026-09-24: one test SMS sent through the dispatcher's
+      `?probe=sms` route, accepted by Brevo and received on the owner's phone from "Orgpuls".
 - [ ] Consider a shorter respondent token so the default SMS fits one message (D-66).

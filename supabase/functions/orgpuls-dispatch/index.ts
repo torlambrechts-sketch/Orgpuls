@@ -16,11 +16,16 @@
  *   POST                  drain until the queue is empty or 40 s have passed
  *   POST ?probe=1         report the Brevo account's state, send nothing
  *   POST ?probe=send      send one sample invitation in Brevo's sandbox (validated, dropped)
+ *   POST ?probe=sms       send one real test SMS to {"to": "<number>"}: proves the sender name
+ *                         and credits end to end. The number is used once and never logged.
+ *   POST ?probe=smsstatus&id=<messageId>
+ *                         the delivery events Brevo holds for one SMS: event names, dates
+ *                         and reasons only — the number is dropped before anything is returned.
  */
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import { brevoSend, brevoSendSms, type SendResult } from '../_shared/brevo.ts'
 import { groupsOf, langOf, renderNotice, smsLead, type MailCatalogue, type NoticeJob } from '../_shared/mail.ts'
-import { smsContent, smsLength } from '../_shared/sms.ts'
+import { normalizePhone, smsContent, smsLength } from '../_shared/sms.ts'
 import { MAIL } from '../_shared/messages.gen.ts'
 
 const BATCH = 25
@@ -71,6 +76,31 @@ Deno.serve(async (req) => {
       senderDomain: sender.email.split('@')[1],
       senderDomainAuthenticated: domains.some((d) => d.domain_name === sender.email.split('@')[1] && d.authenticated),
       appHost: new URL(appUrl).host,
+    })
+  }
+
+  if (probe === 'sms') {
+    const body = (await req.json().catch(() => ({}))) as { to?: string }
+    const to = normalizePhone(body.to)
+    if (!to) return json({ ok: false, code: 'bad_number' }, 400)
+    const content = 'Test fra Orgpuls: SMS-utsendingen virker. Du trenger ikke gjøre noe med denne meldingen.'
+    const res = await brevoSendSms(key, { sender: smsSender, recipient: to, content, unicode: smsLength(content).unicode, tag: 'orgpuls-probe' })
+    return json(res.ok ? { ok: true, id: res.id, sender: smsSender, parts: smsLength(content).parts } : res)
+  }
+
+  if (probe === 'smsstatus') {
+    const id = new URL(req.url).searchParams.get('id') ?? ''
+    if (!/^\d{1,30}$/.test(id)) return json({ ok: false, code: 'bad_id' }, 400)
+    const res = await fetch('https://api.brevo.com/v3/transactionalSMS/statistics/events?limit=100&days=2&sort=desc', {
+      headers: { 'api-key': key, accept: 'application/json' },
+    })
+    if (!res.ok) return json({ ok: false, code: `http_${res.status}` })
+    const events = ((await res.json()) as { events?: Array<{ messageId?: number | string; event?: string; date?: string; reason?: string }> }).events ?? []
+    return json({
+      ok: true,
+      events: events
+        .filter((e) => String(e.messageId) === id)
+        .map((e) => ({ event: e.event, date: e.date, reason: e.reason ?? null })),
     })
   }
 

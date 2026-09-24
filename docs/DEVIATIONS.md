@@ -2351,9 +2351,12 @@ and `/integrasjoner` links to the screen instead of listing what SMS would need.
 and "Aktiver SMS" persisted across a reload and were restored; a drain ran with the new
 claim. **Not verified: a real SMS.** The Brevo account had no SMS credits at first (600 were
 added the same day, confirmed by the probe), and whether "Orgpuls" is registered as a sender
-cannot be read from the API. Until both are in place,
-an organisation that switches SMS on gets its links by e-mail — the fallback — and the
-failures are visible in the queue.
+cannot be read from the API. **Verified the same day:** one test SMS through the
+dispatcher's `?probe=sms` route (secret-guarded; the number is used once and never logged)
+was accepted by Brevo and received on the owner's phone with the sender "Orgpuls". A second
+route, `?probe=smsstatus&id=…`, returns Brevo's delivery events for one message by id,
+without the number. Should the sender ever be refused, an organisation with SMS on still
+gets its links by e-mail — the fallback — and the refusal is in the dispatcher's log.
 
 **The HeiTuva leftovers named in D-65 are deleted** (2026-09-24, at the owner's request): the
 `mail-worker` function, its two Vault entries, the `pgmq` extension (no queues, nothing
