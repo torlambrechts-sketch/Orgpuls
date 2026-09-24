@@ -6,7 +6,6 @@ import {
 } from '@/components/maleoppsett/MaleoppsettScreen'
 import { getFactors } from '@/lib/instrument/read'
 import { getGroups, getOrganization, getViewerRole } from '@/lib/org/read'
-import { getParticipation } from '@/lib/participation/read'
 import { getRounds } from '@/lib/rounds/read'
 import { getLatestSetupOfKind, getOrgQuestions, getRoundSetup } from '@/lib/setup/read'
 import { getGroupStats } from '@/lib/settings/read'
@@ -69,7 +68,7 @@ export default async function MaleoppsettPage({
    */
   const previous =
     rounds.find((r) => r.kind === setup.kind && r.id !== setup.id && r.status === 'lukket') ?? null
-  const participation = previous ? await getParticipation(previous.id) : null
+  const participation = previous?.participation ?? null
 
   /*
    * participation() returns group names, not ids — it is a k-applying RPC and an id is

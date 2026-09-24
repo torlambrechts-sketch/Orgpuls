@@ -2,7 +2,8 @@ import 'server-only'
 import { cache } from 'react'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
-import { getParticipation, type Participation } from '@/lib/participation/read'
+import type { Participation } from '@/lib/participation/read'
+import { getResultsDigest, type ResultsDigest } from '@/lib/results/digest'
 import { parseFailed, readFailed } from '@/lib/supabase/read'
 
 /**
@@ -146,9 +147,9 @@ export function roundStates(
 export type RoundRow = Omit<RoundListItem, 'participation'>
 
 /**
- * The rounds without their participation. `getRounds` asks `participation` once per round,
- * which a screen that shows one round's response rate does not need: Resultater lists
- * eight rounds as chips and prints the rate of one.
+ * The rounds without their participation. A screen that prints some rounds' response
+ * rates reads these and asks `getResultsDigest` for exactly those rates, together with
+ * whatever else it prints, in one call (0044).
  */
 export const getRoundRows = cache(async (): Promise<RoundRow[]> => {
   const supabase = await createClient()
@@ -204,11 +205,20 @@ export const getRoundRows = cache(async (): Promise<RoundRow[]> => {
   return rows
 })
 
+/**
+ * The rounds with every round's participation, in one call (0044). A screen that also
+ * prints indices or a workspace reads the rows and asks `getResultsDigest` for all of it
+ * at once instead, then joins with `withParticipation`.
+ */
 export const getRounds = cache(async (): Promise<RoundListItem[]> => {
   const rows = await getRoundRows()
-  const participation = await Promise.all(rows.map((r) => getParticipation(r.id)))
-  return rows.map((r, i) => ({ ...r, participation: participation[i] ?? null }))
+  return withParticipation(rows, await getResultsDigest({ participation: rows.map((r) => r.id) }))
 })
+
+/** The rows, each with its participation from a digest; null where the digest has none. */
+export function withParticipation(rows: RoundRow[], digest: ResultsDigest): RoundListItem[] {
+  return rows.map((r) => ({ ...r, participation: digest.participation.get(r.id) ?? null }))
+}
 
 /**
  * The factors a round carries, in the instrument's own order.

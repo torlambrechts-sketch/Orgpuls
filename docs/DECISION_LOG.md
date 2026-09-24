@@ -1563,6 +1563,63 @@ complementary suppression says so. The done screen gives each comment's author a
 key stays in the fragment, and `/s/samtale` shows the conversation and takes an answer
 back (D-78).
 
+### X-049 — Each screen reads its results in one call
+
+The per-round fan-out was `participation`, not `results_summary`: `getRounds` asked for it
+once per round, twelve calls on the fixture, on every screen that listed rounds.
+`results_summary` came on top, once or twice. `results_digest` (0044) takes the ids a
+screen prints and returns every part in one response:
+- the rounds whose rate it shows;
+- the rounds whose index it shows;
+- at most one round in depth, as a workspace.
+
+It is SECURITY INVOKER and composes the same gated readers, so each part is exactly
+what the caller gets asking one at a time. `digest_invariants.sql` proves that part by
+part, for a daglig leder, an avdelingsleder and another organisation's round.
+
+Which screen asks for what:
+- **Innsikt and Oversikt:** the current rate and two indices.
+- **Målinger:** every rate and every closed round's index. It no longer computes a
+  workspace it only read summaries from.
+- **Tiltak:** the latest grunnlinje's workspace, whose history holds the Forslag index.
+- **Resultater:** the workspace and one rate.
+- **Rapport:** the year's rates and both indices. The effect section's summaries become one
+  more digest.
+- **`getRounds`:** now makes one call, for the screens that still use it.
+
+Measured locally, as Supabase requests per page view with the RPCs among them:
+
+| Screen | Before | After |
+| :-- | --: | --: |
+| Oversikt (Enkel) | 35 (17 rpc) | 22 (4) |
+| Innsikt | 32 (16) | 19 (3) |
+| Resultater | 19 (5) | 18 (4) |
+| Tiltak | 36 (16) | 23 (3) |
+| Målinger | 33 (15) | 21 (3) |
+| Rapport | 45 (20) | 31 (6) |
+
+The rest are the shell's `viewer_role` and badge, and PostgREST table reads.
+
+**Where the remaining database time went.** Timed in the hosted database, the digest
+takes:
+- Innsikt: 15 ms;
+- Målinger: 36 ms;
+- Tiltak and Resultater: 200 ms, almost all of it the workspace.
+
+130 ms of that was `results_by_group` over seven rounds, each running `app.cell_release`.
+That function counted respondents with one query per statement: 33 per round. 0045 counts
+them in one pass and leaves the release rule untouched. Its output was compared with
+0042's row for row, 2 156 rows over every closed round of both organisations, locally
+and on hosted, and was identical. `release_invariants.sql` now checks every count
+against a direct count.
+
+After 0045:
+- `cell_release` takes 11 ms, down from 19;
+- the workspace takes 133 ms, down from 203.
+
+The rest of `cell_release`'s time is its loop building the cells as jsonb, one append at a
+time. That is the next thing to fold if Resultater needs it.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1702,4 +1759,4 @@ back (D-78).
 - [x] No line says small groups are merged; Grupper shows each group's real release (X-048, D-78).
 - [x] P8: the security pass (0042), FK indexes (0043), the v3 pixel run and functions in fra1 (X-047, D-77).
 - [x] A respondent gets a private link to each comment's conversation and can read and answer replies (X-048, D-78).
-- [ ] Innsikt, Tiltak and Målinger could read their history in one RPC, as Resultater does (D-77).
+- [x] Every results screen reads its results in one RPC, `results_digest` (X-049, 0044); `cell_release` counts in one pass (0045).

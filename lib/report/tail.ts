@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { callFailed, parseFailed, readFailed } from '@/lib/supabase/read'
 import { INFORMATION_AUDIENCES, INFORMATION_CHANNELS } from '@/lib/report/enums'
+import { getResultsDigest } from '@/lib/results/digest'
 
 /**
  * The report's last three sections.
@@ -62,11 +63,6 @@ export async function getMeasureEffects(): Promise<MeasureEffect[]> {
     ...new Set(parsed.data.flatMap((m) => [m.round_id, m.effect_round_id]).filter(Boolean)),
   ] as string[]
 
-  const Summary = z.object({
-    status: z.string(),
-    factors: z.array(z.object({ key: z.string(), index: z.coerce.number() })).optional(),
-  })
-
   const indices = new Map<string, Map<string, number>>()
   const years = new Map<string, number>()
 
@@ -75,15 +71,13 @@ export async function getMeasureEffects(): Promise<MeasureEffect[]> {
    *
    * This used to issue two requests per distinct round id — the summary and a single-row
    * lookup for its year — which is 2N round trips for something that is one `in` filter.
-   * The summaries still have to be N calls, because `results_summary` applies k per cell
-   * and takes one round; what `cache()` now does (P2) is stop them being recomputed for
-   * rounds `/rapport` has already asked about elsewhere in the same render.
+   * The summaries are one call too: `results_digest` (0044) runs `results_summary` per
+   * round in the database, each still k-gated per cell as when asked alone.
    */
-  const { data: roundRows } = await supabase
-    .schema('app')
-    .from('rounds')
-    .select('id, measurements(year)')
-    .in('id', roundIds)
+  const [{ data: roundRows }, digest] = await Promise.all([
+    supabase.schema('app').from('rounds').select('id, measurements(year)').in('id', roundIds),
+    getResultsDigest({ summaries: roundIds }),
+  ])
 
   const YearRow = z.object({ id: z.string(), measurements: z.object({ year: z.coerce.number() }) })
   const yearRows = z.array(YearRow).safeParse(roundRows)
@@ -91,15 +85,9 @@ export async function getMeasureEffects(): Promise<MeasureEffect[]> {
     for (const r of yearRows.data) years.set(r.id, r.measurements.year)
   }
 
-  await Promise.all(
-    roundIds.map(async (id) => {
-      const { data: summary } = await supabase.rpc('results_summary', { p_round: id })
-      const s = Summary.safeParse(summary)
-      if (s.success && s.data.status === 'ok' && s.data.factors) {
-        indices.set(id, new Map(s.data.factors.map((f) => [f.key, f.index])))
-      }
-    }),
-  )
+  for (const [id, s] of digest.summaries) {
+    if (s?.status === 'ok') indices.set(id, new Map(s.factors.map((f) => [f.key, f.index])))
+  }
 
   return parsed.data.map((m) => ({
     id: m.id,

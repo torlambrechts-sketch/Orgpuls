@@ -6,9 +6,10 @@ import { WaitingList, type WaitingItem } from './WaitingList'
 import { getConversations } from '@/lib/conversations/read'
 import { getMeasures } from '@/lib/measures/read'
 import { getOrganization } from '@/lib/org/read'
-import { heatTone, getResultsSummary } from '@/lib/results/read'
+import { getResultsDigest } from '@/lib/results/digest'
+import { heatTone } from '@/lib/results/read'
 import { getRiskAssessment } from '@/lib/risk/read'
-import { getRoundFactorKeys, getRounds } from '@/lib/rounds/read'
+import { getRoundFactorKeys, getRoundRows } from '@/lib/rounds/read'
 import { getShellContext } from '@/lib/shell/read'
 import { getWheel } from '@/lib/wheel/read'
 import { WizardButton } from '@/components/veiviser/WizardProvider'
@@ -41,7 +42,7 @@ export async function Oversikt() {
   const locale = await getLocale()
   const [org, rounds, measures, conversations, wheel, shell] = await Promise.all([
     getOrganization(),
-    getRounds(),
+    getRoundRows(),
     getMeasures(),
     getConversations(null),
     getWheel(),
@@ -56,13 +57,16 @@ export async function Oversikt() {
     .sort((a, b) => (a.opensAt ?? '').localeCompare(b.opensAt ?? ''))
     .slice(0, 3)
 
-  const [summary, prior, risk, plannedFactors] = await Promise.all([
-    current ? getResultsSummary(current.id) : null,
-    previous ? getResultsSummary(previous.id) : null,
+  // both indices and the response rate in one call (0044)
+  const [digest, risk, plannedFactors] = await Promise.all([
+    getResultsDigest({ participation: [current?.id], summaries: [current?.id, previous?.id] }),
     current ? getRiskAssessment(current.id) : null,
     Promise.all(planned.map((r) => getRoundFactorKeys(r.id))),
   ])
 
+  const summary = current ? (digest.summaries.get(current.id) ?? null) : null
+  const prior = previous ? (digest.summaries.get(previous.id) ?? null) : null
+  const currentRate = current ? (digest.participation.get(current.id) ?? null) : null
   const ok = summary?.status === 'ok' ? summary : null
   const before = new Map((prior?.status === 'ok' ? prior.factors : []).map((f) => [f.key, f.index]))
   const name = (key: string) => t(`factor.${key}.name`)
@@ -176,11 +180,11 @@ export async function Oversikt() {
                 : t('oversikt.deltaSame')}
           </span>
         ) : null}
-        {current?.participation ? (
+        {currentRate ? (
           <span>
             {t('oversikt.rate', {
-              answered: current.participation.answered,
-              headcount: current.participation.headcount,
+              answered: currentRate.answered,
+              headcount: currentRate.headcount,
             })}
           </span>
         ) : null}

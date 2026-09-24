@@ -33,7 +33,7 @@ const GroupRow = z.object({
   thin: z.boolean(),
 })
 
-const Participation = z.object({
+export const Participation = z.object({
   threshold: z.coerce.number(),
   headcount: z.coerce.number(),
   answered: z.coerce.number(),

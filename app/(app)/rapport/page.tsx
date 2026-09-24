@@ -9,7 +9,8 @@ import {
 import { getExtraQuestions, getFactors } from '@/lib/instrument/read'
 import { getOrganization, getViewerRole } from '@/lib/org/read'
 import { getMeasures } from '@/lib/measures/read'
-import { getResultsByGroup, getResultsSummary } from '@/lib/results/read'
+import { getResultsDigest } from '@/lib/results/digest'
+import { getResultsByGroup } from '@/lib/results/read'
 import { getRiskAssessment } from '@/lib/risk/read'
 import {
   getInformation,
@@ -18,7 +19,7 @@ import {
   getSigners,
   getTrainings,
 } from '@/lib/report/tail'
-import { getRoundFactorKeys, getRounds, type RoundListItem } from '@/lib/rounds/read'
+import { getRoundFactorKeys, getRoundRows, withParticipation, type RoundListItem } from '@/lib/rounds/read'
 
 /**
  * Rapport — the data half. Bundle lines 271-500; the rendering is in
@@ -50,9 +51,9 @@ export default async function RapportPage({
 }) {
   const params = await searchParams
 
-  const [org, rounds, instrument, extras, measures, role] = await Promise.all([
+  const [org, rows, instrument, extras, measures, role] = await Promise.all([
     getOrganization(),
-    getRounds(),
+    getRoundRows(),
     getFactors(),
     getExtraQuestions(),
     getMeasures(),
@@ -70,7 +71,7 @@ export default async function RapportPage({
    * comparison is the most recent closed grunnlinje of an earlier year.
    */
   const baselineOf = (y: number) =>
-    rounds.find((r) => r.year === y && r.kind === 'grunnlinje' && r.status === 'lukket') ?? null
+    rows.find((r) => r.year === y && r.kind === 'grunnlinje' && r.status === 'lukket') ?? null
 
   /**
    * The years the organisation has measured, most recent first. "Measured" means at least
@@ -80,8 +81,8 @@ export default async function RapportPage({
    * latest year of any round, which since the wheel began planning was next year's, empty.
    * D-46.
    */
-  const measured = [...new Set(rounds.filter((r) => r.status !== 'planlagt').map((r) => r.year))]
-  const years = (measured.length > 0 ? measured : [...new Set(rounds.map((r) => r.year))]).sort(
+  const measured = [...new Set(rows.filter((r) => r.status !== 'planlagt').map((r) => r.year))]
+  const years = (measured.length > 0 ? measured : [...new Set(rows.map((r) => r.year))]).sort(
     (a, b) => b - a,
   )
   const asked = Number(params.ar)
@@ -93,11 +94,10 @@ export default async function RapportPage({
   const prevYear = years.find((y) => y < year && baselineOf(y) !== null) ?? null
   const prevRound = prevYear === null ? null : baselineOf(prevYear)
 
-  const inYear = rounds.filter((r) => r.year === year)
+  const inYear = rows.filter((r) => r.year === year)
 
   const [
-    summary,
-    prior,
+    digest,
     byGroup,
     factorKeyLists,
     risk,
@@ -107,8 +107,8 @@ export default async function RapportPage({
     trainings,
     signers,
   ] = await Promise.all([
-    primaryRound ? getResultsSummary(primaryRound.id) : Promise.resolve(null),
-    prevRound ? getResultsSummary(prevRound.id) : Promise.resolve(null),
+    // the year's response rates and both indices in one call (0044)
+    getResultsDigest({ participation: inYear.map((r) => r.id), summaries: [primaryRound?.id, prevRound?.id] }),
     primaryRound ? getResultsByGroup(primaryRound.id) : Promise.resolve(null),
     Promise.all(inYear.map((r) => getRoundFactorKeys(r.id))),
     primaryRound ? getRiskAssessment(primaryRound.id) : Promise.resolve(null),
@@ -118,6 +118,8 @@ export default async function RapportPage({
     getTrainings(),
     getSigners(),
   ])
+  const summary = primaryRound ? (digest.summaries.get(primaryRound.id) ?? null) : null
+  const prior = prevRound ? (digest.summaries.get(prevRound.id) ?? null) : null
 
   const threshold = byGroup?.threshold ?? summary?.threshold ?? org?.threshold ?? 5
 
@@ -156,7 +158,7 @@ export default async function RapportPage({
       r.status === 'lukket' && (scope === 'ar' || r.id === (primaryRound?.id ?? '')),
   })
 
-  const runs = inYear.map((r, i) => runOf(r, factorKeyLists[i]?.length ?? 0))
+  const runs = withParticipation(inYear, digest).map((r, i) => runOf(r, factorKeyLists[i]?.length ?? 0))
   const primary = primaryRound
     ? (runs.find((r) => r.id === primaryRound.id) ?? null)
     : null

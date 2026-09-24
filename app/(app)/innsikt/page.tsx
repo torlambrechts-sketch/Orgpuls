@@ -9,8 +9,9 @@ import {
 import { getMeasures, stepIndex } from '@/lib/measures/read'
 import { getOrganization, getViewerRole } from '@/lib/org/read'
 import { assessedOfRequired, getRiskAssessment } from '@/lib/risk/read'
-import { bandCounts, getResultsSummary } from '@/lib/results/read'
-import { getRoundFactorKeys, getRounds } from '@/lib/rounds/read'
+import { getResultsDigest } from '@/lib/results/digest'
+import { bandCounts } from '@/lib/results/read'
+import { getRoundFactorKeys, getRoundRows } from '@/lib/rounds/read'
 import { roundTitle } from '@/lib/rounds/title'
 import { getRoundSetup } from '@/lib/setup/read'
 import { getShellContext } from '@/lib/shell/read'
@@ -47,7 +48,7 @@ export default async function InnsiktPage() {
   const [org, role, rounds] = await Promise.all([
     getOrganization(),
     getViewerRole(),
-    getRounds(),
+    getRoundRows(),
   ])
 
   const closed = rounds.filter((r) => r.status === 'lukket')
@@ -62,9 +63,9 @@ export default async function InnsiktPage() {
   // while the fixture had only grunnlinjer closed. D-46.
   const previous = current ? (closed.find((r) => r !== current && r.kind === current.kind) ?? null) : null
 
-  const [summary, prior, risk, measures, openFactorKeys, currentSetup, shell] = await Promise.all([
-    current ? getResultsSummary(current.id) : null,
-    previous ? getResultsSummary(previous.id) : null,
+  // both indices and the response rate in one call (0044)
+  const [digest, risk, measures, openFactorKeys, currentSetup, shell] = await Promise.all([
+    getResultsDigest({ participation: [current?.id], summaries: [current?.id, previous?.id] }),
     current ? getRiskAssessment(current.id) : null,
     getMeasures(),
     open ? getRoundFactorKeys(open.id) : [],
@@ -73,6 +74,9 @@ export default async function InnsiktPage() {
     getShellContext(),
   ])
 
+  const summary = current ? (digest.summaries.get(current.id) ?? null) : null
+  const prior = previous ? (digest.summaries.get(previous.id) ?? null) : null
+  const currentRate = current ? (digest.participation.get(current.id) ?? null) : null
   const ok = summary?.status === 'ok' ? summary : null
   const bands = ok ? bandCounts(ok.factors) : null
   const delta = ok && prior?.status === 'ok' ? ok.index - prior.index : null
@@ -173,8 +177,8 @@ export default async function InnsiktPage() {
       key: 'kartlegging',
       month: monthOf(current.closesAt),
       label: t(`malinger.kind.${current.kind}`),
-      sub: current.participation
-        ? t('innsikt.rateSub', { pct: current.participation.pct })
+      sub: currentRate
+        ? t('innsikt.rateSub', { pct: currentRate.pct })
         : t('innsikt.closedSub'),
       state: 'done',
     })

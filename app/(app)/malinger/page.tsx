@@ -8,10 +8,10 @@ import { Sporsmalssettet } from '@/components/malinger/Sporsmalssettet'
 import type { RailCell, RailView } from '@/components/malinger/YearRail'
 import { getExtraQuestions, getFactors } from '@/lib/instrument/read'
 import { getViewerRole } from '@/lib/org/read'
+import { getResultsDigest } from '@/lib/results/digest'
 import { meanOf } from '@/lib/results/resultater'
-import { getResultsWorkspace } from '@/lib/results/workspace'
 import { roundNamer } from '@/lib/rounds/design-name'
-import { getRoundFactorKeys, getRounds, type RoundListItem } from '@/lib/rounds/read'
+import { getRoundFactorKeys, getRoundRows, withParticipation, type RoundListItem, type RoundRow } from '@/lib/rounds/read'
 import { getWheel } from '@/lib/wheel/read'
 
 /**
@@ -23,9 +23,9 @@ import { getWheel } from '@/lib/wheel/read'
  * `/arshjulet` lands on the Årshjul tab (308, next.config.ts).
  *
  * Every figure is a row or a gated reader: the rounds and their response rates
- * (`participation`), each closed round's index from `results_workspace` (the same
- * `results_summary` Resultater prints; a puls's is the mean of what it measured, labelled
- * so there), the wheel's forankring month and its notice ladder.
+ * (`participation`), each closed round's index (the same `results_summary` Resultater
+ * prints; a puls's is the mean of what it measured, labelled so there), both in one
+ * `results_digest` call (0044), and the wheel's forankring month and its notice ladder.
  */
 export const dynamic = 'force-dynamic'
 
@@ -48,7 +48,7 @@ export default async function MalingerPage({
   const t = await getTranslations()
   const locale = await getLocale()
 
-  const [rounds, wheel, factors, role] = await Promise.all([getRounds(), getWheel(), getFactors(), getViewerRole()])
+  const [rows, wheel, factors, role] = await Promise.all([getRoundRows(), getWheel(), getFactors(), getViewerRole()])
 
   const oslo = (iso: string, opts: Intl.DateTimeFormatOptions) =>
     new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', ...opts }).format(new Date(iso))
@@ -61,21 +61,22 @@ export default async function MalingerPage({
   const now = ym(new Date().toISOString())
   const name = roundNamer(t, locale)
 
-  const byClose = (a: RoundListItem, b: RoundListItem) => (a.closesAt ?? '').localeCompare(b.closesAt ?? '')
-  const closed = rounds.filter((r) => r.status === 'lukket').sort(byClose)
-  const upcoming = rounds
+  const byClose = (a: RoundRow, b: RoundRow) => (a.closesAt ?? '').localeCompare(b.closesAt ?? '')
+  const closedRows = rows.filter((r) => r.status === 'lukket').sort(byClose)
+  const comingRows = rows
     .filter((r) => r.status === 'apen' || r.status === 'planlagt')
     .sort((a, b) => (a.opensAt ?? '￿').localeCompare(b.opensAt ?? '￿'))
+
+  // every round's response rate and every closed round's index, in one call (0044)
+  const [digest, upcomingKeys] = await Promise.all([
+    getResultsDigest({ participation: rows.map((r) => r.id), summaries: closedRows.map((r) => r.id) }),
+    Promise.all(comingRows.map((r) => getRoundFactorKeys(r.id))),
+  ])
+  const closed = withParticipation(closedRows, digest)
+  const upcoming = withParticipation(comingRows, digest)
   const latest = closed.at(-1) ?? null
   const latestG = closed.filter((r) => r.kind === 'grunnlinje').at(-1) ?? null
-
-  // every closed round's index, in one call: the latest closed round's workspace carries
-  // the history of all of them, each as results_summary answered it
-  const [workspace, upcomingKeys] = await Promise.all([
-    latest ? getResultsWorkspace(latest.id) : Promise.resolve(null),
-    Promise.all(upcoming.map((r) => getRoundFactorKeys(r.id))),
-  ])
-  const summaries = new Map((workspace?.history ?? []).map((h) => [h.round_id, h.summary]))
+  const summaries = digest.summaries
   const indexOf = (r: RoundListItem): number | null => {
     const s = summaries.get(r.id)
     if (s?.status !== 'ok') return null

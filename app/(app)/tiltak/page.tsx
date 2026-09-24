@@ -2,14 +2,13 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import type { BoardCard, BoardModel, Column, MeasurePoint } from '@/components/tiltak/Board'
 import { TiltakScreen, type StatusFilter, type TiltakView } from '@/components/tiltak/TiltakScreen'
 import { playbookEntry, playbookFor } from '@/lib/playbook/registry'
-import { getResultsWorkspace } from '@/lib/results/workspace'
-import { getRoundFactorKeys } from '@/lib/rounds/read'
+import { getResultsDigest, type ResultsDigest } from '@/lib/results/digest'
+import { getRoundFactorKeys, type RoundRow } from '@/lib/rounds/read'
 import type { Measure } from '@/lib/measures/read'
 import { getFactors } from '@/lib/instrument/read'
 import { getMeasures } from '@/lib/measures/read'
 import { getEmployees, getGroups } from '@/lib/org/read'
-import { getResultsSummary } from '@/lib/results/read'
-import { getLatestClosedRoundId, getRounds } from '@/lib/rounds/read'
+import { getLatestClosedRoundId, getRoundRows } from '@/lib/rounds/read'
 
 /**
  * Tiltak — the data half. Bundle lines 1712-1795; the rendering is in
@@ -43,8 +42,24 @@ export default async function TiltakPage({
     getGroups(),
     getFactors(),
     getLatestClosedRoundId(),
-    getRounds(),
+    getRoundRows(),
   ])
+  const tab = params.fane === 'liste' ? 'liste' : 'tavle'
+
+  // Forslag's indices and the Tavle's scores in one call (0044). The Tavle reads the latest
+  // grunnlinje's workspace, whose history already holds every closed round's summary, so
+  // the latest closed round's is asked for separately only when there is no workspace.
+  const latestG =
+    tab === 'tavle'
+      ? (allRounds
+          .filter((r) => r.status === 'lukket' && r.kind === 'grunnlinje')
+          .sort((a, b) => (a.closesAt ?? '').localeCompare(b.closesAt ?? ''))
+          .at(-1) ?? null)
+      : null
+  const digest = await getResultsDigest({
+    summaries: latestG ? [] : [newMeasureRoundId],
+    workspace: latestG?.id ?? null,
+  })
 
   /*
    * "Forslag fra resultatene" orders the factors by the latest closed round's indices and
@@ -52,7 +67,11 @@ export default async function TiltakPage({
    * no indices: the chips then stand in the instrument's order and carry no score, and
    * the lead says so, rather than printing a number nothing measured.
    */
-  const summary = newMeasureRoundId ? await getResultsSummary(newMeasureRoundId) : null
+  const summary = newMeasureRoundId
+    ? (digest.summaries.get(newMeasureRoundId) ??
+      digest.workspace?.history.find((h) => h.round_id === newMeasureRoundId)?.summary ??
+      null)
+    : null
   const scored = summary?.status === 'ok' ? summary.factors : null
   const bankFactors = scored
     ? [...scored].sort((a, b) => a.index - b.index).map((f) => ({ key: f.key, index: f.index, band: f.band }))
@@ -71,8 +90,7 @@ export default async function TiltakPage({
     (a, b) => a.name.localeCompare(b.name, 'nb'),
   )
 
-  const tab = params.fane === 'liste' ? 'liste' : 'tavle'
-  const board = tab === 'tavle' ? await buildBoard(measures, groups, allRounds, params.kort ?? null) : null
+  const board = tab === 'tavle' ? await buildBoard(measures, groups, allRounds, digest, params.kort ?? null) : null
 
   const view: TiltakView = {
     tab,
@@ -107,14 +125,16 @@ const COLUMN_OF: Partial<Record<Measure['step'], Column>> = {
 
 /**
  * The Tavle's model (D-75). Scores come from the latest grunnlinje through
- * `results_workspace` (0037): a measure for one released department is scored on that
- * department, anything else on the whole organisation. A finding is a factor nobody has a
- * measure on, at its lowest released score — the three lowest make the Funn column.
+ * `results_workspace` (0037), which the page reads in its one `results_digest` call (0044):
+ * a measure for one released department is scored on that department, anything else on the
+ * whole organisation. A finding is a factor nobody has a measure on, at its lowest released
+ * score — the three lowest make the Funn column.
  */
 async function buildBoard(
   measures: Measure[],
   groups: { id: string; name: string }[],
-  rounds: Awaited<ReturnType<typeof getRounds>>,
+  rounds: RoundRow[],
+  digest: ResultsDigest,
   kort: string | null,
 ): Promise<BoardModel> {
   const t = await getTranslations()
@@ -127,10 +147,10 @@ async function buildBoard(
     .filter((r) => r.status === 'planlagt' && r.opensAt)
     .sort((a, b) => (a.opensAt ?? '').localeCompare(b.opensAt ?? ''))
 
-  const [workspace, upcomingKeys] = await Promise.all([
-    latestG ? getResultsWorkspace(latestG.id) : Promise.resolve(null),
-    Promise.all(upcoming.map((r) => (r.kind === 'puls' ? getRoundFactorKeys(r.id) : Promise.resolve(null)))),
-  ])
+  const workspace = latestG ? digest.workspace : null
+  const upcomingKeys = await Promise.all(
+    upcoming.map((r) => (r.kind === 'puls' ? getRoundFactorKeys(r.id) : Promise.resolve(null))),
+  )
 
   const history = new Map((workspace?.history ?? []).map((h) => [h.round_id, h]))
   const now = latestG ? history.get(latestG.id) : undefined

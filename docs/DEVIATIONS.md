@@ -3131,7 +3131,8 @@ Two states are left out:
 - **One RPC per screen is true of Resultater** (`results_workspace`). Innsikt, Tiltak and
   Målinger call `results_summary` once per round of history they draw, in parallel. With
   the functions beside the database, each call is a few milliseconds, and folding them
-  into one RPC is left for when a screen needs it.
+  into one RPC is left for when a screen needs it. *Since folded: every screen reads its
+  results in one `results_digest` call (0044, X-049).*
 
 ### Supabase advisors
 - **Performance:**

@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import { ArshjuletScreen, type ArshjuletView, type YearPoint } from '@/components/arshjulet/ArshjuletScreen'
 import { getOrganization, getViewerRole } from '@/lib/org/read'
-import { getRounds } from '@/lib/rounds/read'
+import { getRoundRows } from '@/lib/rounds/read'
 import { getRoundSetup } from '@/lib/setup/read'
 import { getLastRun, getQueueCounts, getWheel, wheelMonths } from '@/lib/wheel/read'
 
@@ -20,7 +20,7 @@ export async function ArshjulTab() {
   const [wheel, role, rounds, lastRun, queue, org] = await Promise.all([
     getWheel(),
     getViewerRole(),
-    getRounds(),
+    getRoundRows(),
     getLastRun(),
     getQueueCounts(),
     getOrganization(),

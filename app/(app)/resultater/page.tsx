@@ -3,11 +3,10 @@ import { z } from 'zod'
 import { ResultaterEmpty, ResultaterFrame } from '@/components/resultater/ResultaterFrame'
 import { getConversations } from '@/lib/conversations/read'
 import { getMeasures } from '@/lib/measures/read'
-import { getParticipation } from '@/lib/participation/read'
 import { roundNamer } from '@/lib/rounds/design-name'
 import { getRoundFactorKeys, getRoundRows, type RoundRow } from '@/lib/rounds/read'
 import { getUnansweredCount } from '@/lib/shell/read'
-import { getResultsWorkspace } from '@/lib/results/workspace'
+import { getResultsDigest } from '@/lib/results/digest'
 import {
   ORG,
   VIEWS,
@@ -27,7 +26,8 @@ import {
  *   workspace      `results_workspace` (0037): every closed round's summary and groups,
  *                  this round's statements, "Anbefaler oss" and Prioritet's importance,
  *                  each already gated by the reader it came from
- *   participation  this round's response rate and the group order
+ *   participation  this round's response rate and the group order, with the workspace in
+ *                  one `results_digest` call (0044)
  *   conversations  this round's comments, for the drill-down's count and quote
  *   measures       which playbook suggestions are already measures, and the plan count
  *
@@ -79,15 +79,17 @@ export default async function ResultaterPage({
     !isPulse && params.mot && params.mot !== selected.id ? (grunnlinjer.find((r) => r.id === params.mot) ?? null) : null
   const previousRow = [...(isPulse ? closed : grunnlinjer)].filter((r) => byClose(r, selected) < 0).at(-1) ?? null
 
-  const [workspace, participation, factors, conversations, measures, unanswered] = await Promise.all([
-    getResultsWorkspace(selected.id),
-    getParticipation(selected.id),
+  const [digest, factors, conversations, measures, unanswered] = await Promise.all([
+    // the workspace and this round's participation, in one call (0044)
+    getResultsDigest({ participation: [selected.id], workspace: selected.id }),
     getRoundFactorKeys(selected.id),
     getConversations(selected.id),
     getMeasures(),
     getUnansweredCount(),
   ])
 
+  const workspace = digest.workspace
+  const participation = digest.participation.get(selected.id) ?? null
   const history = new Map((workspace?.history ?? []).map((h) => [h.round_id, h]))
   const current = history.get(selected.id)
   const summary = current?.summary ?? null
