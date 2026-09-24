@@ -2349,8 +2349,9 @@ and `/integrasjoner` links to the screen instead of listing what SMS would need.
 
 **Verified on the hosted project:** the screen opened from the Oppsett row; a mode, the text
 and "Aktiver SMS" persisted across a reload and were restored; a drain ran with the new
-claim. **Not verified: a real SMS.** The Brevo account has no SMS credits, and whether
-"Orgpuls" is registered as a sender cannot be read from the API. Until both are in place,
+claim. **Not verified: a real SMS.** The Brevo account had no SMS credits at first (600 were
+added the same day, confirmed by the probe), and whether "Orgpuls" is registered as a sender
+cannot be read from the API. Until both are in place,
 an organisation that switches SMS on gets its links by e-mail — the fallback — and the
 failures are visible in the queue.
 
