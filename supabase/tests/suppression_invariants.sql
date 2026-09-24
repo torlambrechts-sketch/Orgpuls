@@ -5,7 +5,7 @@
 --
 --   * the release decision is internal: no client role may call app.group_release (1)
 --   * a group of one is withheld, and the smallest visible group is withheld with it,
---     ties broken by name (2)
+--     ties broken by id (2; by name until 0042, which a leader could change after close)
 --   * a protected group carries its count and no figures (3)
 --   * the subtraction a reader can do lands on k or more people, never on one (4)
 --   * which group is protected depends on counts, never on scores (5)
@@ -71,8 +71,12 @@ begin
     insert into app.organizations (id, name, org_number, employee_count)
     values (v_org, 'Suppression Test AS', '999000222', 40);
     v_k := app.k_threshold(v_org);
-    foreach v_name in array array['Anlegg', 'Bygg', 'Drift', 'Kontor'] loop
-      insert into app.groups (org_id, name) values (v_org, v_name) returning id into v_gid;
+    -- fixed ids in the names' order, so a tie broken by id (0042) is the same tie as before
+    for v_i in 1..4 loop
+      v_name := (array['Anlegg', 'Bygg', 'Drift', 'Kontor'])[v_i];
+      insert into app.groups (id, org_id, name)
+      values (('00000000-0000-4000-8000-00000000c1' || lpad(v_i::text, 2, '0'))::uuid, v_org, v_name)
+      returning id into v_gid;
       v_g := v_g || jsonb_build_object(v_name, v_gid);
     end loop;
 
@@ -113,7 +117,7 @@ begin
       into v_status
     from app.group_release(v_r[1]) rel left join app.groups g on g.id = rel.group_id;
     v_rows := v_rows || jsonb_build_object('seq', 2,
-      'name', 'a group of one is withheld, and the smallest visible group with it (ties by name)',
+      'name', 'a group of one is withheld, and the smallest visible group with it (ties by id)',
       'expected', 'Anlegg:insufficient_data Bygg:protected Drift:ok Kontor:ok', 'actual', v_status,
       'pass', v_status = 'Anlegg:insufficient_data Bygg:protected Drift:ok Kontor:ok');
 

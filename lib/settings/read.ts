@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { onlyOrganisation } from '@/lib/org/current'
 import { parseFailed, readFailed } from '@/lib/supabase/read'
+import { getParticipation } from '@/lib/participation/read'
 
 /**
  * Everything Oppsett reads.
@@ -11,9 +12,8 @@ import { parseFailed, readFailed } from '@/lib/supabase/read'
  * a result. A company's registry record, its sites, its roster and its groups are facts
  * about an organisation; the k gate exists to protect what people *answered*, and no
  * query in this file touches `app.responses`, `app.answers` or `app.response_comments`.
- * The one number here that comes from a round — how many answered in each group — is
- * counted from `app.invitations`, which records that a person was asked and that they
- * came back, and never what they said.
+ * The one number here that comes from a round — how many answered in each group — comes
+ * from `participation` as a count per group, never per person and never what they said.
  *
  * **On the roster being readable at all.** `employee_read` admits any member of the
  * organisation, so a verneombud or an avdelingsleder can list every colleague's name and
@@ -152,10 +152,9 @@ export async function getRoster(): Promise<RosterPerson[]> {
  * Each group's headcount, and how many of them answered the last round that closed.
  *
  * The second number decides whether the design prints "Vises alene" or "Slås sammen", so
- * it has to be the real count and not the headcount. It is counted from `app.invitations`
- * — a row that says a person was asked and whether they came back. That is participation,
- * not a result: it carries no answer, and the group's *index* still goes through the
- * k-gated RPC like every other cell.
+ * it has to be the real count and not the headcount. It comes from `participation`, as
+ * counts per group: since 0042 no client reads `app.invitations`, because a person's
+ * `responded_at` beside the moment a figure moved said whose answers had just arrived.
  *
  * A group with no invitation in that round returns 0 rather than being absent, because
  * "nobody answered" and "the group did not exist yet" look identical on the screen
@@ -173,16 +172,10 @@ export type GroupStat = z.infer<typeof GroupStatRow>
 export async function getGroupStats(roundId: string | null): Promise<GroupStat[]> {
   const supabase = await createClient()
 
-  const [groups, employees, invitations] = await Promise.all([
+  const [groups, employees, participation] = await Promise.all([
     supabase.schema('app').from('groups').select('id, name').order('sort_order'),
     supabase.schema('app').from('employees').select('id, group_id').eq('active', true),
-    roundId
-      ? supabase
-          .schema('app')
-          .from('invitations')
-          .select('employee_id, responded_at')
-          .eq('round_id', roundId)
-      : Promise.resolve({ data: [], error: null }),
+    roundId ? getParticipation(roundId) : Promise.resolve(null),
   ])
 
   const g = z.array(z.object({ id: z.string(), name: z.string() })).safeParse(groups.data)
@@ -191,28 +184,19 @@ export async function getGroupStats(roundId: string | null): Promise<GroupStat[]
   const e = z
     .array(z.object({ id: z.string(), group_id: z.string().nullable() }))
     .safeParse(employees.data)
-  const i = z
-    .array(z.object({ employee_id: z.string(), responded_at: z.string().nullable() }))
-    .safeParse(invitations.data)
-
-  const groupOf = new Map((e.success ? e.data : []).map((r) => [r.id, r.group_id]))
   const heads = new Map<string, number>()
   for (const r of e.success ? e.data : []) {
     if (r.group_id) heads.set(r.group_id, (heads.get(r.group_id) ?? 0) + 1)
   }
 
-  const answered = new Map<string, number>()
-  for (const r of i.success ? i.data : []) {
-    if (r.responded_at === null) continue
-    const gid = groupOf.get(r.employee_id)
-    if (gid) answered.set(gid, (answered.get(gid) ?? 0) + 1)
-  }
+  // participation names its groups; a group's name is unique within the organisation
+  const answeredByName = new Map((participation?.groups ?? []).map((g) => [g.group_name, g.answered]))
 
   return g.data.map((row) => ({
     id: row.id,
     name: row.name,
     headcount: heads.get(row.id) ?? 0,
-    answered: answered.get(row.id) ?? 0,
+    answered: answeredByName.get(row.name) ?? 0,
   }))
 }
 

@@ -20,9 +20,8 @@ import { getRounds } from '@/lib/rounds/read'
  * components/oppsett/OppsettScreen.tsx.
  *
  * Every read here is an ordinary RLS-scoped table read, because none of it is a result.
- * The one number that comes from a round — how many of each group answered — is counted
- * from `app.invitations`, which records that somebody was asked and that they came back,
- * and never what they said.
+ * The one number that comes from a round — how many of each group answered — comes from
+ * `participation` as a count per group, never per person and never what they said.
  *
  * The tab comes from the query string and is validated against the list rather than cast:
  * `?fane=noe-annet` falls back to Selskap instead of rendering nothing.

@@ -386,6 +386,15 @@ const ROSTER = COHORTS[2026]
 const EMPLOYEES = sum(ROSTER, 1)
 
 /**
+ * The groups' ids, fixed and in the order of their names. Complementary suppression breaks
+ * a tie between equal groups by id (0042) — not by name, which a leader could change after
+ * a round has closed — and 2026 has one: Drift and Verksted, 8 each. Ids in name order
+ * give the same answer the name did, Drift, on every reseed and on every database.
+ */
+const GROUP_ID = (name) =>
+  `00000000-0000-4000-8000-0000000a${String([...ROSTER.map(([n]) => n)].sort().indexOf(name) + 1).padStart(4, '0')}`
+
+/**
  * Employees are named "Drift 1" … "Drift 12", so lexical order puts 10 before 2.
  * Ordering by length first restores the numeric order, which is what makes "the first
  * eleven of Drift" mean the same thing on every run.
@@ -1039,9 +1048,9 @@ select (select id from app.year_wheels where org_id = '${ORG}'),
 from (values ${LADDER.map(([a, d], i) => `('${a}', ${d}, ${i + 1})`).join(', ')})
   as l(audience, lead_days, sort_order);`}
 
-insert into app.groups (org_id, name, sort_order)
-select '${ORG}', g.name, g.ord
-from (values ${ROSTER.map(([n], i) => `('${n}',${i + 1})`).join(',')}) as g(name, ord);
+insert into app.groups (id, org_id, name, sort_order)
+select g.id::uuid, '${ORG}', g.name, g.ord
+from (values ${ROSTER.map(([n], i) => `('${GROUP_ID(n)}','${n}',${i + 1})`).join(',')}) as g(id, name, ord);
 
 insert into app.employees (org_id, group_id, full_name, email)
 select '${ORG}', grp.id,

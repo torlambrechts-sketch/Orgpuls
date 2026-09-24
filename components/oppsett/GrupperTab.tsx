@@ -6,9 +6,9 @@ import type { OppsettView } from '@/components/oppsett/OppsettScreen'
  * Grupper. Bundle lines 2246-2264.
  *
  * Each row's second number is how many of that group answered the last round that closed,
- * and it decides whether the group is shown on its own or merged. It is counted from
- * `app.invitations` — a row that says a person was asked and whether they came back — and
- * never from an answer. Participation is not a result.
+ * and it decides whether the group is shown on its own or merged. It is a count per group
+ * from `participation`, never per person and never from an answer. Participation is not
+ * a result.
  *
  * A group with nobody in it still prints, with 0 and "Slås sammen". The design shows only
  * populated groups because its fixture has no empty ones; hiding an empty group would hide

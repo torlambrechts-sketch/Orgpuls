@@ -1529,10 +1529,18 @@ wheel on. The wheel now plans by month, keeps a grunnlinje yearly, and plans a p
 while a measure is open. The threshold offers 5 and 8 (S1), and the verneombud is a person
 in the register (D-76).
 
+### X-047 — P8: the security pass closes four ways around k; functions move to Frankfurt
+
+An adversarial review of design 3's readers found four ways around k, each reproduced and
+closed in 0042: results of open rounds, per-person response times, groups reshaped after
+close, and statements answered by fewer than k. Comments now open their threads, so they
+reach Kommentarer. The v3 pixel run is a regression gate over 31 states. Functions run in
+`fra1`, beside the database and inside the EU; they had been running in `iad1` (D-77).
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
-- [ ] Auth leaked-password protection is disabled — a dashboard toggle.
+- [ ] Auth leaked-password protection is disabled: it needs the Supabase Pro plan (D-77).
 - [x] Innsikt rebuilt on the real schema. X-015.
 - [x] Måleoppsett built on migration 0017. X-017.
 - [x] Samtaler built on migration 0018, k-gated. X-018.
@@ -1665,4 +1673,7 @@ in the register (D-76).
 - [x] P7: the Veiviser, Oversikt's "Veiviser" and Oppsett's "Kjør veiviseren" (X-046, D-76).
 - [ ] No action creates or renames a group; the wizard points to Oppsett › Grupper (D-76).
 - [ ] Microsoft Entra import, and a CSV parser that understands quoted fields (D-76).
-- [ ] Two older lines still say small groups "slås sammen automatisk" (Måleoppsett's timeline, the header panel's Kom i gang); the schema withholds them rather than merging (D-76).
+- [ ] Several lines still say small groups are merged ("slås sammen", «Øvrige»): Måleoppsett's timeline, the header panel's Kom i gang, Oppsett › Grupper. The schema withholds them rather than merging (D-76, D-77).
+- [x] P8: the security pass (0042), FK indexes (0043), the v3 pixel run and functions in fra1 (X-047, D-77).
+- [ ] The respondent screen does not show a comment's thread key, so a respondent cannot read a reply (D-77).
+- [ ] Innsikt, Tiltak and Målinger could read their history in one RPC, as Resultater does (D-77).

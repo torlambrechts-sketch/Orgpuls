@@ -205,7 +205,8 @@ begin
 
   v_json := public.submit_response(v_tok,
     jsonb_build_array(jsonb_build_object('factor','ytring','ordinal',1,'value',2,
-                                         'comment','Skrevet av noen vi aldri får vite hvem er.')));
+                                         'comment','Skrevet av noen vi aldri får vite hvem er.')),
+    '[]'::jsonb);
 
   insert into public._ci
   select 17, 'submit_response returns one key per comment', '1',

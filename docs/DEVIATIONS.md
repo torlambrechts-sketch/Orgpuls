@@ -3030,3 +3030,116 @@ While verifying: `respondent_invariants.sql` took the latest open round across e
 organisation. Locally, the demo organisation's opens at the same instant as the fixture's,
 and after a reseed the tie picked the demo round, whose tokens follow another scheme. Both
 of its reads now name the fixture organisation.
+
+## D-77 — Hardening: a security pass, the v3 pixel run, performance, advisors (P8)
+
+### Security: an adversarial review of 0034–0041, and 0042
+A review agent traced every result reader, write function and grant added in design 3.
+Each finding below was reproduced against the schema before it was fixed.
+`hardening_invariants.sql` proves 12 rules and passes locally and on hosted.
+
+- **Results answered for open rounds (critical).**
+  - **The attack:** two reads of `results_items` a few minutes apart differenced one new
+    respondent's answers exactly, and `invitations.responded_at` named that person.
+  - **The fix:** every reader now finds an open round as it finds none, `not_available`.
+    The workspace and the UI read closed rounds only, so no screen changes.
+- **Who answered when was readable (critical, and it also allowed padding).**
+  - **The attack:** `invitations` gave every member `employee_id` beside `responded_at`,
+    which also tied a comment's hour to a person. It also let a leader insert invitations
+    with tokens of their own, pad a small group to k with known answers, and subtract them.
+  - **The fix:** the table now has RLS, no policy and no grant, like the answer tables.
+    Every reader of it is a definer function. Oppsett › Grupper reads its counts from
+    `participation`.
+- **A closed round's groups could be reshaped (critical).**
+  - **The attack:** deleting a group moved its responses into "Uten gruppe", and renaming
+    one chose which of two equal groups was protected. Together they recovered a group of
+    one.
+  - **The fix:** a group that holds responses cannot be deleted, and ties are broken by id,
+    not name. The fixture's groups have fixed ids in name order, so 2026's tie (Drift and
+    Verksted, 8 each) still protects Drift, as the design and D-68 have it.
+- **k counted respondents, not answers (high).**
+  - **The attack:** a statement can be skipped ("Hopp over"), so a group of six in which
+    five skipped released one person's answer.
+  - **The fix:** `app.cell_release` decides each statement cell per group from the people
+    who answered it, with 0034's complementary suppression applied per cell. A factor cell
+    is released only where every statement of it is. For the house, a statement or factor
+    needs k answers.
+  - The fixture answers every statement, so no figure it prints moved.
+- **A round's life was a client write (medium).**
+  - **The problem:** a leader could close a round early to read it, then reopen it.
+  - **The fix:** clients may now change four settings (Måleoppsett's), never status, dates
+    or existence. The wheel takes `start_next_pulse`'s lock.
+- **Smaller:**
+  - `comment_themes` counts writers only in released groups;
+  - importance needs 20 pairs per factor;
+  - `setup_progress_touch` runs as invoker.
+- **One write path, and comments that reach Kommentarer.**
+  - **The bug:** 0018 wrote comment threads onto a two-argument `submit_response` that 0010
+    had replaced. The form calls the three-argument one, so a real respondent's comment was
+    stored but opened no thread, and Kommentarer, which reads threads, never showed it.
+  - **The fix:** the threads now live in the function the form calls, and the stray one is
+    dropped.
+  - **Still missing:** the respondent screen does not show the thread key yet, so a
+    respondent cannot come back to a reply. That is a screen to build, not a hole.
+
+### The v3 pixel run
+`scripts/verify/v3-run.mjs` captures every state design 3 draws, as `baseline-v3.mjs`
+captured it from the prototype:
+- **How it compares:** in 240 × 100 tiles, each searched ±40 px, at the gate's 0.1 %.
+- **The claims:** `scripts/verify/v3-claims.json` records the 2 403 tiles that match
+  across 31 states. The run fails if a claimed tile stops matching.
+
+Coverage and the reason for every unclaimed area:
+
+| State | Tiles | What differs, and why |
+| :-- | --: | :-- |
+| 01 Oversikt | 83/114 | factor rows and waiting comments are the fixture's; eleven factors against nine (D-71) |
+| 02 Innsikt | 55/72 | the fixture's figures and rounds (D-71) |
+| 03 Kommende | 78/108 | five upcoming rounds against seven; question counts and dates are the rows' (D-74) |
+| 04 Historikk | 90/90 | — |
+| 05 Årshjul | 143/204 | timeline rows for automations that do not exist, "Utløsere" and the Tuva note are not drawn (D-29, D-62); the page is 827 px shorter |
+| 06 Spørsmålssett | 68/102 | wider than the prototype, which shrinks each screen to its content (D-71) |
+| 07–11, 19 Resultater | 78–112/126 | Drift withheld with Administrasjon (D1, D-68); Utvikling's extra history (D-72) |
+| 12 Kommentarer | 107/192 | no group label on a comment (D2, D-73) |
+| 13 Tavle | 116/120 | the fixture's measures and findings (D-75) |
+| 14 Liste | 132/132 | — |
+| 15 Oppsett | 119/126 | the register's facts and the roster |
+| 18, 20 side layout | 52/72, 45/72 | the Innsikt figures, as in 02 |
+| 21, 23–25 help panel | 104/132, 47–49/54 | the page beneath it, as in 01 and 02 |
+| 30–38 Veiviser | 47–52/54 | the page behind the backdrop: a first-run Oversikt; the dialog itself is D-76's |
+
+Two states are left out:
+- **16 and 17** are the verneombud's and an avdelingsleder's Innsikt. A role is a
+  membership, not a menu, and the fixture has one login.
+- **22** is the phone. The prototype overflows to 444 px there (D-71); `mobile.mjs` checks
+  overflow instead.
+
+### Performance
+- **The cause: the functions ran in Washington.** Production's `x-vercel-id` read
+  `iad1::iad1`, so every function ran in Washington, D.C., against a database in Frankfurt.
+  An authenticated screen makes 16–36 Supabase requests, and each crossed the Atlantic.
+  Measured from here, with the login page as the network floor (≈0.4 s), authenticated
+  TTFB was 1.3–2.5 s.
+- **It was also a residency fault.** Answers, comments and the register passed through a
+  US function, while the footer promises "Svar lagres i EU".
+- **The fix:** `vercel.json` pins the functions to `fra1`.
+- **Measurement:** `scripts/verify/perf.mjs` measures TTFB and LCP in a browser. Against
+  production this session could not use it: the proxy does not let the bundled Chromium
+  verify orgpuls.com's chain (ISRG Root YR), and trusting extra keys to get round that was
+  refused. Production TTFB was measured with curl and the app's own session cookie; the
+  figures after the move are in X-047.
+- **One RPC per screen is true of Resultater** (`results_workspace`). Innsikt, Tiltak and
+  Målinger call `results_summary` once per round of history they draw, in parallel. With
+  the functions beside the database, each call is a few milliseconds, and folding them
+  into one RPC is left for when a screen needs it.
+
+### Supabase advisors
+- **Performance:**
+  - the 21 unindexed foreign keys have covering indexes (0043);
+  - what remains is "unused index", which includes the 20 new ones.
+- **Security:**
+  - "RLS enabled, no policy" on the answer tables and `invitations` is invariant 1;
+  - "security definer executable" lists the k-gated readers and the respondent's
+    token-gated functions, each of which checks its caller inside;
+  - leaked-password protection needs the Supabase Pro plan, which is a billing decision
+    for the owner.

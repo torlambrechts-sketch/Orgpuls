@@ -1,6 +1,6 @@
 # Orgpuls — Implementation Plan
 
-**Status: S0 and S1 complete. S2 next.**
+**Status: this file records the original segment plan. Current work follows `docs/PLAN_2026-09-24_design3.md`, whose phases P0–P8 are complete (D-77).**
 
 ---
 
