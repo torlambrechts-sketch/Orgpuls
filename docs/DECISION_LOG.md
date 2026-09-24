@@ -1537,6 +1537,24 @@ close, and statements answered by fewer than k. Comments now open their threads,
 reach Kommentarer. The v3 pixel run is a regression gate over 31 states. Functions run in
 `fra1`, beside the database and inside the EU; they had been running in `iad1` (D-77).
 
+**Measured after the deploy** (curl with the app's own session cookie, from a US-hosted
+session, median of six; `x-vercel-id` now `iad1::fra1`). The login page, which touches no
+database, is the network floor at about 0.6 s from here.
+
+| Screen | Before (iad1) | After (fra1) |
+| :-- | --: | --: |
+| Innsikt | 2.4 s | 1.0 s |
+| Resultater | 1.4 s | 1.0 s |
+| Kommentarer | 1.7 s | 0.73 s |
+| Tiltak | 1.7 s | 1.1 s |
+| Målinger | 1.7 s | 1.0 s |
+
+Less the floor, the server's own time is now about 0.15 s (Kommentarer) to 0.5 s (Tiltak).
+From Norway, with a floor of tens of milliseconds, Kommentarer and Oppsett are inside the
+400 ms budget; Resultater, Målinger and Tiltak sit at or just over it. Folding each
+screen's per-round `results_summary` calls into one RPC is what closes that gap, and is in
+the open items.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
