@@ -3162,7 +3162,7 @@
         },
         "kicker": "Working Environment Act § 3-1 and § 4-3",
         "h1": "Mapping the psychosocial working environment – without a separate project",
-        "lead": "The Working Environment Act requires you to map the psychosocial working environment, assess the risk, put measures in place and follow up. Since 1 January 2026 the regulation says more clearly how. Orgpuls makes each step part of work you do anyway.",
+        "lead": "The Working Environment Act requires you to map the psychosocial working environment, assess the risk, put measures in place and follow up. Orgpuls makes each step part of work you do anyway.",
         "blocks": [
           {
             "t": "h2",
@@ -3213,6 +3213,10 @@
           {
             "t": "h2",
             "text": "What a year looks like"
+          },
+          {
+            "t": "shot",
+            "id": "arshjul"
           },
           {
             "t": "cards",

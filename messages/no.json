@@ -3162,7 +3162,7 @@
         },
         "kicker": "Arbeidsmiljøloven § 3-1 og § 4-3",
         "h1": "Kartlegging av psykososialt arbeidsmiljø – uten et eget prosjekt",
-        "lead": "Arbeidsmiljøloven krever at dere kartlegger det psykososiale arbeidsmiljøet, vurderer risikoen, setter tiltak og følger opp. Fra 1. januar 2026 sier forskriften tydeligere hvordan. Orgpuls gjør hvert steg til en del av jobben dere uansett gjør.",
+        "lead": "Arbeidsmiljøloven krever at dere kartlegger det psykososiale arbeidsmiljøet, vurderer risikoen, setter tiltak og følger opp. Orgpuls gjør hvert steg til en del av jobben dere uansett gjør.",
         "blocks": [
           {
             "t": "h2",
@@ -3213,6 +3213,10 @@
           {
             "t": "h2",
             "text": "Slik ser et år ut"
+          },
+          {
+            "t": "shot",
+            "id": "arshjul"
           },
           {
             "t": "cards",
