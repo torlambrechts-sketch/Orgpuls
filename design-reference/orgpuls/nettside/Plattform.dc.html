@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0}
+*{box-sizing:border-box}
+body{background:#FCF6E9;color:#191510;font-family:'DM Sans',system-ui,sans-serif}
+a{color:#2F5D2A;text-decoration:none}a:hover{color:#1E3D1A;text-decoration:underline}
+input,button{font-family:inherit}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #191510;outline-offset:2px;border-radius:6px}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#FCF6E9;color:#191510;font-size:14px">
+
+  <header style="position:sticky;top:0;z-index:40;background:#FFFDF6;border-bottom:1px solid #E8DFC9">
+    <div style="max-width:1120px;margin:0 auto;padding:13px 26px;display:flex;align-items:center;gap:22px;flex-wrap:wrap">
+      <a href="Forside.dc.html" style="display:flex;align-items:center;gap:10px;flex:none;color:#191510">
+        <span style="width:33px;height:33px;border-radius:10px;border:1.5px solid #191510;background:#FFFDF6;display:flex;align-items:center;justify-content:center"><svg width="22" height="13" viewBox="0 0 20 12" fill="none" aria-hidden="true" style="display:block"><path d="M1 6.2h3.6l1.7-4.4 2.9 8.8 1.9-4.4h2.4" stroke="#191510" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="17" cy="6.2" r="1.9" fill="#191510"></circle></svg></span>
+        <span style="font-family:'Playfair Display',serif;font-weight:600;font-size:21px;letter-spacing:-.01em">Orgpuls</span>
+      </a>
+      <nav aria-label="Hovedmeny" style="display:flex;gap:4px;flex:1;min-width:0;flex-wrap:wrap">
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5"><a href="{{ n.href }}" style="padding:8px 12px;border-radius:9px;font-size:14px;font-weight:600;color:#191510">{{ n.l }}</a></sc-for>
+      </nav>
+      <span style="display:flex;gap:9px;flex:none">
+        <a href="#" style="height:38px;padding:0 15px;border-radius:10px;font-size:14px;font-weight:600;color:#191510;display:flex;align-items:center">Logg inn</a>
+        <a href="#kom-i-gang" style="height:38px;padding:0 17px;border-radius:10px;border:1px solid #191510;background:#F5C64A;color:#191510;font-size:14px;font-weight:700;display:flex;align-items:center">Kom i gang</a>
+      </span>
+    </div>
+  </header>
+  <div style="position:sticky;top:65px;z-index:30;background:rgba(252,246,233,.94);border-bottom:1px solid #E8DFC9;backdrop-filter:blur(6px)">
+    <div style="max-width:1120px;margin:0 auto;padding:0 26px;overflow-x:auto;scrollbar-width:none">
+      <nav aria-label="Seksjoner" style="display:flex;gap:2px;min-width:max-content">
+        <sc-for list="{{ secNav }}" as="s" hint-placeholder-count="10">
+          <a href="{{ s.href }}" onClick="{{ s.go }}" style="display:block;padding:13px 9px 11px;font-size:12px;font-weight:{{ s.w }};color:#191510;border-bottom:2px solid {{ s.bd }};white-space:nowrap;text-decoration:none">{{ s.l }}</a>
+        </sc-for>
+      </nav>
+    </div>
+  </div>
+
+  <section style="max-width:1120px;margin:0 auto;padding:60px 26px 0">
+    <nav aria-label="Du er her" style="font-size:12.5px;color:#5F5849;display:flex;gap:8px;align-items:center"><a href="Forside.dc.html" style="color:#5F5849">Orgpuls</a><span>›</span><span style="color:#191510;font-weight:600">Plattform</span></nav>
+    <span style="display:inline-block;margin-top:18px;padding:6px 13px;border-radius:999px;background:#FBEBBE;font-size:12px;font-weight:700">Plattform</span>
+    <h1 style="font-family:'Playfair Display',serif;font-weight:600;font-size:50px;line-height:1.06;margin:16px 0 0;max-width:20ch;text-wrap:balance">Fire deler som henger sammen</h1>
+    <p style="font-size:17px;line-height:1.65;color:#3A342A;margin:16px 0 0;max-width:56ch;text-wrap:pretty">Målingen er starten. Resultatet peker på hva som trekker, kommentarene forklarer hvorfor, og tiltakene lukkes først når neste måling viser om de virket.</p>
+    <div style="display:flex;gap:10px;margin-top:24px;flex-wrap:wrap">
+      <a href="#kom-i-gang" style="height:48px;padding:0 22px;border-radius:12px;border:1px solid #191510;background:#F5C64A;color:#191510;font-size:15px;font-weight:700;display:flex;align-items:center">Prøv gratis i 30 dager</a>
+      <a href="Bruksomrader.dc.html" style="height:48px;padding:0 20px;border-radius:12px;border:1px solid #191510;color:#191510;font-size:15px;font-weight:600;display:flex;align-items:center">Se bruksområdene →</a>
+    </div>
+
+    <div style="margin-top:40px;border-radius:22px;border:1px solid #E8DFC9;background:#FFFDF6;overflow:hidden;box-shadow:0 30px 60px -36px rgba(25,21,16,.45)">
+      <div style="display:flex;align-items:center;gap:8px;padding:11px 18px;border-bottom:1px solid #E8DFC9;background:#FCF6E9"><span style="width:9px;height:9px;border-radius:999px;background:#E8DFC9;display:block"></span><span style="width:9px;height:9px;border-radius:999px;background:#E8DFC9;display:block"></span><span style="width:9px;height:9px;border-radius:999px;background:#E8DFC9;display:block"></span><span style="display:flex;gap:2px;margin-left:12px"><sc-for list="{{ appNav }}" as="n" hint-placeholder-count="6"><span style="padding:5px 10px;border-radius:8px;background:{{ n.bg }};font-size:11.5px;font-weight:{{ n.w }}">{{ n.l }}</span></sc-for></span><span style="margin-left:auto;font-size:11px;color:#5F5849">Demo Bedrift · 34 ansatte</span></div>
+      <div style="display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;padding:20px 22px 22px">
+        <div style="padding:20px 22px;border-radius:16px;border:1px solid #E8DFC9;background:#FCF6E9">
+          <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#5F5849">Arbeidsmiljøindeks · grunnlinje 2026</span>
+          <span style="display:flex;align-items:flex-end;gap:14px;margin-top:8px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:60px;line-height:.85">61</span><span style="padding-bottom:8px"><span style="display:block;font-size:13.5px;font-weight:700;color:#A33A16">−3 siden i fjor</span><span style="display:block;font-size:12px;color:#5F5849;margin-top:2px">28 av 34 svarte · 82 %</span></span></span>
+          <span style="display:flex;gap:3px;margin-top:18px;height:26px;border-radius:8px;overflow:hidden"><span style="flex:4;background:#CFE7E4;display:block"></span><span style="flex:5;background:#F5DC96;display:block"></span><span style="flex:2;background:#F0B9A0;display:block"></span></span>
+          <span style="display:flex;justify-content:space-between;font-size:11px;color:#5F5849;margin-top:7px"><span>4 forsvarlig</span><span>5 følges opp</span><span>2 høy risiko</span></span>
+          <span style="display:block;margin-top:18px;padding:12px 14px;border-radius:12px;background:#FBEBBE;font-size:12.5px;line-height:1.5"><strong>Tuva:</strong> Ytringsklima falt mest på Verksted. Åtte har svart der, så tallet er trygt å bruke. Jeg har skrevet et utkast til risikovurdering.</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#5F5849">Venter på deg</span>
+          <sc-for list="{{ heroTodo }}" as="t" hint-placeholder-count="3"><span style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:13px;border:1px solid #E8DFC9;background:#FFFDF6"><span style="flex:none;width:6px;align-self:stretch;border-radius:999px;background:{{ t.c }};display:block"></span><span style="flex:1;min-width:0"><span style="display:block;font-size:13px;font-weight:600;text-wrap:pretty">{{ t.t }}</span><span style="display:block;font-size:11.5px;color:#5F5849;margin-top:2px">{{ t.m }}</span></span><span style="flex:none;height:30px;padding:0 12px;border-radius:9px;border:1px solid #191510;background:{{ t.bg }};font-size:11.5px;font-weight:700;display:flex;align-items:center">{{ t.cta }}</span></span></sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:6px;margin-top:22px;flex-wrap:wrap">
+      <sc-for list="{{ modules }}" as="m" hint-placeholder-count="8"><a href="{{ m.href }}" style="padding:8px 14px;border-radius:999px;border:1px solid #E8DFC9;background:#FFFDF6;font-size:13px;font-weight:600;color:#191510">{{ m.l }}</a></sc-for>
+    </div>
+  </section>
+
+  <section id="plattform" style="max-width:1120px;margin:0 auto;padding:56px 26px 0">
+    <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:30px;line-height:1.14;margin:0;max-width:24ch;text-wrap:balance">Det du får</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:13px;margin-top:24px">
+      <sc-for list="{{ features }}" as="f" hint-placeholder-count="4">
+        <div style="padding:20px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;display:flex;flex-direction:column;gap:10px">
+          <span style="align-self:flex-start;padding:4px 10px;border-radius:999px;background:#FBEBBE;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase">{{ f.k }}</span>
+          <span style="display:flex;gap:3px;height:40px;align-items:flex-end"><sc-for list="{{ f.bars }}" as="b" hint-placeholder-count="5"><span style="flex:1;height:{{ b.h }};background:{{ b.bg }};border-radius:4px 4px 0 0;display:block"></span></sc-for></span>
+          <span style="font-size:16px;font-weight:700;line-height:1.3;text-wrap:pretty">{{ f.t }}</span>
+          <span style="font-size:13px;line-height:1.55;color:#5F5849;text-wrap:pretty">{{ f.d }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;margin-top:22px;align-items:start">
+      <div style="border-radius:20px;border:1px solid #E8DFC9;background:#FFFDF6;padding:22px 24px;min-width:0">
+        <span style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><span style="font-size:16px;font-weight:700">Team × faktor</span><span style="font-size:12px;color:#5F5849">Grupper under terskelen vises som —</span></span>
+        <div style="overflow-x:auto"><div style="min-width:560px;display:grid;grid-template-columns:120px repeat(5,1fr);gap:4px;margin-top:14px;font-size:12px">
+          <span></span><sc-for list="{{ heatCols }}" as="c" hint-placeholder-count="5"><span style="text-align:center;color:#5F5849">{{ c.l }}</span></sc-for>
+          <sc-for list="{{ heat }}" as="r" hint-placeholder-count="4">
+            <span style="display:flex;align-items:center;font-weight:600">{{ r.team }}</span>
+            <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="5"><span style="text-align:center;padding:12px 0;border-radius:7px;background:{{ c.bg }};color:{{ c.fg }};font-weight:700">{{ c.txt }}</span></sc-for>
+          </sc-for>
+        </div></div>
+        <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap"><span style="padding:5px 11px;border-radius:999px;background:#FBEBBE;font-size:11.5px;font-weight:700">Heatmap</span><span style="padding:5px 11px;border-radius:999px;border:1px solid #E8DFC9;font-size:11.5px;font-weight:600">Prioritet</span><span style="padding:5px 11px;border-radius:999px;border:1px solid #E8DFC9;font-size:11.5px;font-weight:600">Segmentprofil</span><span style="padding:5px 11px;border-radius:999px;border:1px solid #E8DFC9;font-size:11.5px;font-weight:600">Utvikling</span></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ callouts }}" as="c" hint-placeholder-count="4">
+          <div style="display:flex;gap:12px;padding:14px 16px;border-radius:14px;background:#FFFDF6;border:1px solid #E8DFC9"><span style="flex:none;width:26px;height:26px;border-radius:999px;background:#F5C64A;border:1px solid #191510;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">{{ c.n }}</span><span><span style="display:block;font-size:14px;font-weight:700">{{ c.t }}</span><span style="display:block;font-size:12.5px;line-height:1.5;color:#5F5849;margin-top:3px;text-wrap:pretty">{{ c.d }}</span></span></div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+
+
+
+  <section id="malinger" style="max-width:1120px;margin:0 auto;padding:56px 26px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:36px;align-items:center">
+    <div>
+      <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Målinger</span>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.14;margin:9px 0 0;max-width:22ch;text-wrap:balance">Årshjulet går av seg selv</h2>
+      <p style="font-size:15px;line-height:1.65;color:#3A342A;margin:12px 0 0;max-width:50ch;text-wrap:pretty">Én hovedundersøkelse i året setter nullpunktet. Pulsene mellom måler bare det dere har satt tiltak på — fem spørsmål, under ett minutt. Alt sendes ut, minnes på og varsles automatisk.</p>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-top:18px">
+        <sc-for list="{{ mPoints }}" as="p" hint-placeholder-count="4"><span style="display:flex;gap:10px;font-size:14px;line-height:1.5;text-wrap:pretty"><span style="flex:none;width:18px;height:18px;border-radius:6px;background:#CFE7E4;color:#20431C;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;margin-top:2px">✓</span>{{ p.l }}</span></sc-for>
+      </div>
+    </div>
+    <div style="border-radius:20px;border:1px solid #E8DFC9;background:#FFFDF6;padding:22px 24px">
+      <span style="display:flex;justify-content:space-between;align-items:baseline;gap:10px"><span style="font-size:15px;font-weight:700">Årshjul 2026</span><span style="font-size:12px;color:#5F5849">4 utsendinger · pause i juli</span></span>
+      <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:5px;margin-top:16px">
+        <sc-for list="{{ wheel12 }}" as="m" hint-placeholder-count="12"><span style="text-align:center"><span style="display:block;font-size:10px;font-weight:700;color:#5F5849">{{ m.m }}</span><span style="width:22px;height:22px;border-radius:999px;background:{{ m.dot }};border:2px solid {{ m.bd }};display:block;margin:8px auto 0"></span><span style="display:block;font-size:10px;font-weight:600;margin-top:6px;min-height:13px;color:{{ m.lc }}">{{ m.l }}</span></span></sc-for>
+      </div>
+      <div style="margin-top:18px;padding:14px 16px;border-radius:14px;background:#FCF6E9;border:1px solid #E8DFC9">
+        <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#5F5849">Hver utsending</span>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:9px"><sc-for list="{{ cascade }}" as="c" hint-placeholder-count="4"><span style="display:flex;justify-content:space-between;gap:10px;font-size:12.5px"><span>{{ c.who }}</span><strong style="white-space:nowrap">{{ c.when }}</strong></span></sc-for></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><span style="padding:5px 11px;border-radius:999px;background:#FBEBBE;font-size:11.5px;font-weight:700">Grunnlinje · 31 spørsmål</span><span style="padding:5px 11px;border-radius:999px;background:#CFE7E4;font-size:11.5px;font-weight:700;color:#20431C">Puls · 5 spørsmål</span><span style="padding:5px 11px;border-radius:999px;border:1px solid #E8DFC9;font-size:11.5px;font-weight:600">Oppfølging · én faktor</span></div>
+    </div>
+  </section>
+
+  <section id="respondent" style="max-width:1120px;margin:0 auto;padding:56px 26px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:36px;align-items:center">
+    <div style="display:flex;justify-content:center;order:1">
+      <div style="width:240px;background:#191510;border-radius:28px;padding:7px">
+        <div style="border-radius:22px;background:#FCF6E9;overflow:hidden">
+          <div style="display:flex;justify-content:space-between;padding:9px 15px 4px;font-size:10px;font-weight:600;color:#5F5849"><span>09:41</span><span>Demo Bedrift</span></div>
+          <div style="padding:6px 15px 0"><span style="display:flex;align-items:center;gap:10px"><span style="flex:1;height:5px;border-radius:999px;background:rgba(25,21,16,.1);overflow:hidden"><span style="display:block;height:100%;width:42%;background:#F5C64A;border-radius:999px"></span></span><span style="font-size:11px;color:#5F5849;font-weight:600">13 / 31</span></span></div>
+          <div style="padding:14px 15px 10px">
+            <span style="display:inline-block;padding:3px 8px;border-radius:999px;background:#FBEBBE;font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase">Ytringsklima</span>
+            <span style="display:block;font-family:'Playfair Display',serif;font-weight:500;font-size:16px;line-height:1.3;margin-top:9px;text-wrap:pretty">Jeg kan si fra om kritikkverdige forhold uten å frykte konsekvenser</span>
+            <div style="display:flex;flex-direction:column;gap:5px;margin-top:11px">
+              <sc-for list="{{ likert }}" as="o" hint-placeholder-count="5"><span style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:9px;border:1px solid {{ o.bd }};background:{{ o.bg }}"><span style="flex:none;width:15px;height:15px;border-radius:999px;border:2px solid {{ o.dbd }};background:{{ o.dbg }};display:block"></span><span style="font-size:11px;font-weight:{{ o.w }}">{{ o.l }}</span></span></sc-for>
+            </div>
+            <span style="display:block;margin-top:8px;padding:8px 10px;border-radius:9px;border:1px dashed #C4BCA8;font-size:10.5px;color:#5F5849">Vil du si mer? Frivillig +</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 15px 13px;border-top:1px solid #E8DFC9"><span style="font-size:11px;color:#5F5849;font-weight:600">Hopp over</span><span style="height:32px;padding:0 16px;border-radius:9px;background:#191510;color:#FCF6E9;font-size:12px;font-weight:700;display:flex;align-items:center">Neste</span></div>
+        </div>
+      </div>
+    </div>
+    <div style="order:2">
+      <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Slik er det å svare</span>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.14;margin:9px 0 0;max-width:22ch;text-wrap:balance">Fire minutter, på mobilen, i pausa</h2>
+      <p style="font-size:15px;line-height:1.65;color:#3A342A;margin:12px 0 0;max-width:50ch;text-wrap:pretty">Ett spørsmål om gangen, faktoren synlig, kommentar frivillig. Rekkefølgen er tilfeldig per person, så ingen kan gjette hvem som svarte hva ut fra når svaret kom inn.</p>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-top:18px">
+        <sc-for list="{{ rPoints }}" as="p" hint-placeholder-count="4"><span style="display:flex;gap:10px;font-size:14px;line-height:1.5;text-wrap:pretty"><span style="flex:none;width:18px;height:18px;border-radius:6px;background:#CFE7E4;color:#20431C;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;margin-top:2px">✓</span>{{ p.l }}</span></sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="resultater" style="max-width:1120px;margin:0 auto;padding:56px 26px 0">
+    <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Resultater</span>
+    <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.14;margin:9px 0 0;max-width:24ch;text-wrap:balance">Sortert etter hva som trekker helheten — ikke etter lavest tall</h2>
+    <p style="font-size:15px;line-height:1.65;color:#3A342A;margin:12px 0 0;max-width:60ch;text-wrap:pretty">Ni til elleve faktorer med indeks 0–100, utvikling fra i fjor og risikonivå. Trykk på en faktor og se påstandene bak tallet, svarfordelingen og tre forslag til tiltak.</p>
+    <div style="display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:16px;margin-top:24px;align-items:start">
+      <div style="border-radius:20px;border:1px solid #E8DFC9;background:#FFFDF6;overflow:hidden">
+        <div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr) 80px;gap:12px;padding:12px 20px;font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849;background:#FCF6E9"><span>Faktor</span><span>Indeks og utvikling</span><span style="text-align:right">Risiko</span></div>
+        <sc-for list="{{ riskRows }}" as="r" hint-placeholder-count="6">
+          <div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr) 80px;gap:12px;align-items:center;padding:12px 20px;border-top:1px solid #E8DFC9;background:{{ r.rowBg }}">
+            <span style="min-width:0"><span style="display:block;font-size:13.5px;font-weight:600">{{ r.l }}</span><span style="display:block;font-size:11px;color:#5F5849;margin-top:1px">{{ r.law }}</span></span>
+            <span style="min-width:0"><span style="display:flex;align-items:baseline;gap:8px"><span style="font-size:18px;font-weight:700;line-height:1">{{ r.v }}</span><span style="font-size:12px;font-weight:600;color:{{ r.dc }}">{{ r.d }}</span></span><span style="display:block;height:6px;border-radius:999px;background:rgba(25,21,16,.08);margin-top:6px;overflow:hidden"><span style="display:block;height:100%;width:{{ r.v }}%;background:{{ r.bar }};border-radius:999px"></span></span></span>
+            <span style="text-align:right"><span style="display:inline-block;padding:4px 10px;border-radius:999px;background:{{ r.rbg }};color:{{ r.rfg }};font-size:11px;font-weight:700">{{ r.risk }}</span></span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="padding:18px 20px;border-radius:16px;border:1px solid #E8DFC9;background:#FFFDF6">
+          <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#5F5849">Gjør disse tre</span>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px"><sc-for list="{{ top3 }}" as="t" hint-placeholder-count="3"><span style="display:flex;align-items:center;gap:10px"><span style="flex:none;width:24px;height:24px;border-radius:999px;background:#191510;color:#FCF6E9;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700">{{ t.n }}</span><span style="flex:1;min-width:0"><span style="display:block;font-size:13px;font-weight:600">{{ t.t }}</span><span style="display:block;font-size:11px;color:#5F5849">{{ t.m }}</span></span><span style="font-size:13px;font-weight:700;color:#2F5D2A;flex:none">{{ t.lift }}</span></span></sc-for></div>
+        </div>
+        <div style="padding:18px 20px;border-radius:16px;border:1px solid #E8DFC9;background:#FFFDF6">
+          <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#5F5849">Utvikling · ytringsklima</span>
+          <svg viewBox="0 0 240 70" width="100%" height="70" style="display:block;margin-top:10px" aria-hidden="true"><polyline points="0,30 60,24 120,38 180,46 240,30" fill="none" stroke="#191510" stroke-width="2" stroke-linejoin="round"></polyline><circle cx="180" cy="46" r="4.5" fill="#F5C64A" stroke="#191510" stroke-width="1.5"></circle><circle cx="240" cy="30" r="4" fill="#2F5D2A"></circle></svg>
+          <span style="display:flex;justify-content:space-between;font-size:10px;color:#5F5849;margin-top:2px"><span>2023</span><span>2024</span><span>2025</span><span>Tiltak</span><span>Puls</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="segment" style="max-width:1120px;margin:0 auto;padding:56px 26px 0">
+    <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Fire visninger</span>
+    <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.14;margin:9px 0 0;max-width:24ch;text-wrap:balance">Samme tall, fire spørsmål</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:13px;margin-top:24px">
+      <sc-for list="{{ views }}" as="v" hint-placeholder-count="4">
+        <div style="padding:18px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;display:flex;flex-direction:column;gap:12px">
+          <div style="height:110px;border-radius:12px;background:#FCF6E9;border:1px solid #E8DFC9;padding:12px;overflow:hidden">
+            <sc-if value="{{ v.isHeat }}" hint-placeholder-val="{{ true }}"><span style="display:grid;grid-template-columns:repeat(5,1fr);gap:3px;height:100%"><sc-for list="{{ heatCells }}" as="c" hint-placeholder-count="15"><span style="border-radius:4px;background:{{ c.bg }};display:block"></span></sc-for></span></sc-if>
+            <sc-if value="{{ v.isPrio }}" hint-placeholder-val="{{ false }}"><span style="display:flex;flex-direction:column;gap:6px;height:100%;justify-content:center"><sc-for list="{{ prioBars }}" as="b" hint-placeholder-count="4"><span style="display:flex;align-items:center;gap:6px"><span style="width:44px;font-size:9px;color:#5F5849;text-align:right">{{ b.l }}</span><span style="flex:1;height:12px;border-radius:4px;background:rgba(25,21,16,.06);overflow:hidden"><span style="display:block;height:100%;width:{{ b.w }};background:{{ b.bg }};border-radius:4px"></span></span></span></sc-for></span></sc-if>
+            <sc-if value="{{ v.isSeg }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 200 86" width="100%" height="100%" aria-hidden="true"><polyline points="10,60 50,40 90,56 130,30 170,36 195,50" fill="none" stroke="#C4BCA8" stroke-width="2" stroke-dasharray="3 3"></polyline><polyline points="10,64 50,66 90,72 130,40 170,44 195,60" fill="none" stroke="#D4633A" stroke-width="2.5" stroke-linejoin="round"></polyline><circle cx="90" cy="72" r="4" fill="#D4633A"></circle></svg></sc-if>
+            <sc-if value="{{ v.isTrend }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 200 86" width="100%" height="100%" aria-hidden="true"><polyline points="10,50 60,44 110,58 160,64 195,42" fill="none" stroke="#191510" stroke-width="2.5" stroke-linejoin="round"></polyline><polyline points="10,54 60,52 110,50 160,48 195,46" fill="none" stroke="#C4BCA8" stroke-width="1.5" stroke-dasharray="3 3"></polyline><circle cx="160" cy="64" r="4" fill="#F5C64A" stroke="#191510" stroke-width="1.5"></circle></svg></sc-if>
+          </div>
+          <span><span style="display:block;font-size:15.5px;font-weight:700">{{ v.t }}</span><span style="display:block;font-size:13px;line-height:1.5;color:#5F5849;margin-top:4px;text-wrap:pretty">{{ v.d }}</span></span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="kommentarer" style="max-width:1120px;margin:0 auto;padding:56px 26px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:36px;align-items:center">
+    <div>
+      <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Kommentarer</span>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.14;margin:9px 0 0;max-width:22ch;text-wrap:balance">Anonym samtale, ikke innboks</h2>
+      <p style="font-size:15px;line-height:1.65;color:#3A342A;margin:12px 0 0;max-width:50ch;text-wrap:pretty">Frisvar grupperes automatisk etter tema og tone. Lederen svarer uten å vite hvem som skrev, og den ansatte får svaret i appen. Kommentarer som kan være et varsel, merkes og går til rutinen.</p>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-top:18px">
+        <sc-for list="{{ kPoints }}" as="p" hint-placeholder-count="4"><span style="display:flex;gap:10px;font-size:14px;line-height:1.5;text-wrap:pretty"><span style="flex:none;width:18px;height:18px;border-radius:6px;background:#CFE7E4;color:#20431C;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;margin-top:2px">✓</span>{{ p.l }}</span></sc-for>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <sc-for list="{{ themes }}" as="t" hint-placeholder-count="4"><span style="padding:10px 12px;border-radius:11px;border:1px solid {{ t.bd }};background:{{ t.bg }}"><span style="display:block;font-size:12px;font-weight:700">{{ t.l }}</span><span style="display:block;font-size:10.5px;color:#5F5849;margin-top:1px">{{ t.n }}</span></span></sc-for>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="padding:14px 16px;border-radius:14px;border:1px solid #E8DFC9;background:#FFFDF6">
+          <span style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span style="padding:2px 8px;border-radius:999px;background:#FCF6E9;border:1px solid #E8DFC9;font-size:10.5px;font-weight:700">Ytringsklima</span><span style="padding:2px 8px;border-radius:999px;background:#FBD5C4;color:#6B240C;font-size:10px;font-weight:700">Negativ</span><span style="margin-left:auto;font-size:11px;color:#A33A16;font-weight:600">Venter · 6 dager</span></span>
+          <span style="display:block;font-size:13.5px;line-height:1.5;margin-top:8px;text-wrap:pretty">«Det hjelper ikke å si fra. Vi meldte avvik på riggingen i vår og hørte aldri noe.»</span>
+          <span style="display:flex;gap:7px;margin-top:10px"><span style="flex:1;height:34px;padding:0 12px;border-radius:9px;border:1px solid #E8DFC9;background:#FCF6E9;color:#8A8272;font-size:12px;display:flex;align-items:center">Svar anonymt …</span><span style="height:34px;padding:0 14px;border-radius:9px;border:1px solid #191510;background:#F5C64A;font-size:12px;font-weight:700;display:flex;align-items:center">Send</span></span>
+        </div>
+        <div style="padding:14px 16px;border-radius:14px;border:1px solid #E8DFC9;background:#FFFDF6">
+          <span style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span style="padding:2px 8px;border-radius:999px;background:#FCF6E9;border:1px solid #E8DFC9;font-size:10.5px;font-weight:700">Mening</span><span style="padding:2px 8px;border-radius:999px;background:#CFE7E4;color:#20431C;font-size:10px;font-weight:700">Positiv</span><span style="margin-left:auto;font-size:11px;color:#2F5D2A;font-weight:600">Besvart</span></span>
+          <span style="display:block;font-size:13.5px;line-height:1.5;margin-top:8px;text-wrap:pretty">«Omleggingen av morgenmøtet var et godt grep.»</span>
+          <span style="display:block;margin-top:9px;padding:9px 11px;border-radius:9px;background:#CFE7E4;font-size:12px;line-height:1.45"><strong>Du svarte:</strong> Så fint å høre — vi fortsetter med det.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tiltak" style="max-width:1120px;margin:0 auto;padding:56px 26px 0">
+    <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Tiltak</span>
+    <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.14;margin:9px 0 0;max-width:24ch;text-wrap:balance">Fra funn til effekt, med eier og frist</h2>
+    <p style="font-size:15px;line-height:1.65;color:#3A342A;margin:12px 0 0;max-width:60ch;text-wrap:pretty">Hver faktor har tre ferdige forslag bygget på forskning — workshop, rutine eller lederpraksis — med tidsbruk og hvilken påstand som skal måles. Tiltaket henger på faktoren og lukkes først når neste puls viser om det virket.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:13px;margin-top:24px">
+      <div style="padding:20px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+        <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#5F5849">Forslag · ytringsklima (41)</span>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+          <sc-for list="{{ suggest }}" as="s" hint-placeholder-count="3"><span style="padding:12px 14px;border-radius:12px;background:#FCF6E9;border:1px solid #E8DFC9"><span style="display:flex;gap:6px;align-items:center"><span style="padding:2px 8px;border-radius:999px;background:{{ s.tbg }};font-size:10px;font-weight:700">{{ s.type }}</span><span style="font-size:10.5px;color:#5F5849">{{ s.time }}</span></span><span style="display:block;font-size:13px;font-weight:600;margin-top:6px;text-wrap:pretty">{{ s.t }}</span><span style="display:block;font-size:11.5px;color:#5F5849;margin-top:3px">Måles på: {{ s.q }}</span></span></sc-for>
+        </div>
+      </div>
+      <div style="padding:20px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+        <span style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><span style="padding:3px 9px;border-radius:999px;background:#FBEBBE;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em">Ytringsklima</span><span style="padding:3px 9px;border-radius:999px;background:#FBD5C4;color:#6B240C;font-size:10.5px;font-weight:700">Over frist</span></span>
+        <span style="display:block;font-size:16px;font-weight:700;margin-top:10px;text-wrap:pretty">Fast svar på avviksmeldinger innen fem dager</span>
+        <span style="display:block;font-size:12.5px;color:#5F5849;margin-top:3px">Anne Rygg · frist gikk ut i går · fra grunnlinje 2026</span>
+        <div style="display:flex;gap:0;margin-top:18px"><sc-for list="{{ steps }}" as="s" hint-placeholder-count="6"><span style="flex:1;text-align:center"><span style="height:6px;border-radius:999px;background:{{ s.bg }};display:block;margin:0 1px"></span><span style="display:block;font-size:9.5px;color:{{ s.c }};margin-top:6px;font-weight:{{ s.w }}">{{ s.l }}</span></span></sc-for></div>
+        <span style="display:block;margin-top:16px;padding:12px 14px;border-radius:12px;background:#FCF6E9;font-size:12.5px;line-height:1.5;text-wrap:pretty">Effekten måles i pulsen 12. oktober på påstanden «Når noen melder fra om et problem, skjer det noe med det». Tiltaket kan lukkes når indeksen er målt på nytt.</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="rapport" style="max-width:1120px;margin:0 auto;padding:56px 26px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:36px;align-items:center">
+    <div>
+      <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Rapport og dokumentasjon</span>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.14;margin:9px 0 0;max-width:22ch;text-wrap:balance">Fire sider til styret, AMU eller Arbeidstilsynet</h2>
+      <p style="font-size:15px;line-height:1.65;color:#3A342A;margin:12px 0 0;max-width:50ch;text-wrap:pretty">Rapporten skrives fra tallene: funn, risikovurdering, tiltak og hjemmel per faktor. Velg år, periode og mottaker. Du leser gjennom og godkjenner — ingenting går ut automatisk.</p>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-top:18px">
+        <sc-for list="{{ rapPoints }}" as="p" hint-placeholder-count="4"><span style="display:flex;gap:10px;font-size:14px;line-height:1.5;text-wrap:pretty"><span style="flex:none;width:18px;height:18px;border-radius:6px;background:#CFE7E4;color:#20431C;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;margin-top:2px">✓</span>{{ p.l }}</span></sc-for>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <sc-for list="{{ pages }}" as="p" hint-placeholder-count="4"><div style="aspect-ratio:1/1.3;border-radius:10px;border:1px solid #E8DFC9;background:#FFFDF6;padding:14px;display:flex;flex-direction:column;gap:6px;box-shadow:0 10px 24px -18px rgba(25,21,16,.4)"><span style="font-size:8.5px;text-transform:uppercase;letter-spacing:.1em;color:#5F5849">{{ p.k }}</span><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:12.5px;line-height:1.2">{{ p.t }}</span><span style="display:flex;flex-direction:column;gap:4px;margin-top:4px"><sc-for list="{{ p.lines }}" as="l" hint-placeholder-count="5"><span style="height:5px;border-radius:999px;background:{{ l.bg }};width:{{ l.w }};display:block"></span></sc-for></span><span style="margin-top:auto;font-size:8px;color:#8A8272">{{ p.f }}</span></div></sc-for>
+    </div>
+  </section>
+
+  <section id="roller" style="max-width:1120px;margin:0 auto;padding:56px 26px 0">
+    <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Roller og tilgang</span>
+    <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.14;margin:9px 0 0;max-width:24ch;text-wrap:balance">Hvem ser hva</h2>
+    <p style="font-size:15px;line-height:1.65;color:#3A342A;margin:12px 0 0;max-width:60ch;text-wrap:pretty">Rollen styrer visningen. Ingen ser enkeltpersoner, og terskelen (anbefalt 5, minst 3) gjelder også administratorer. Enkel visning gir daglig leder én side; full visning gir HR alle analysene.</p>
+    <div style="overflow-x:auto;margin-top:24px"><div style="min-width:640px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;overflow:hidden">
+      <div style="display:grid;grid-template-columns:1.6fr repeat(4,1fr);padding:12px 20px;background:#FCF6E9;font-size:11.5px;font-weight:700;color:#5F5849"><span></span><span style="text-align:center">Daglig leder</span><span style="text-align:center">HR</span><span style="text-align:center">Avdelingsleder</span><span style="text-align:center">Verneombud</span></div>
+      <sc-for list="{{ perms }}" as="r" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:1.6fr repeat(4,1fr);padding:12px 20px;border-top:1px solid #E8DFC9;font-size:13px;align-items:center"><span style="font-weight:600">{{ r.k }}</span><sc-for list="{{ r.c }}" as="c" hint-placeholder-count="4"><span style="text-align:center;font-size:12px;color:{{ c.col }};font-weight:{{ c.w }}">{{ c.v }}</span></sc-for></div></sc-for>
+    </div></div>
+  </section>
+
+  <section id="oppsett" style="max-width:1120px;margin:0 auto;padding:56px 26px 0">
+    <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Oppsett og integrasjoner</span>
+    <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.14;margin:9px 0 0;max-width:24ch;text-wrap:balance">Klart på 20 minutter, med eller uten HR-system</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:13px;margin-top:24px">
+      <sc-for list="{{ setup }}" as="s" hint-placeholder-count="6"><div style="padding:18px;border-radius:16px;border:1px solid #E8DFC9;background:#FFFDF6"><span style="width:38px;height:38px;border-radius:11px;background:#FBEBBE;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700">{{ s.i }}</span><span style="display:block;font-size:15px;font-weight:700;margin-top:12px">{{ s.t }}</span><span style="display:block;font-size:13px;line-height:1.5;color:#5F5849;margin-top:4px;text-wrap:pretty">{{ s.d }}</span></div></sc-for>
+    </div>
+    <div style="display:flex;gap:7px;margin-top:16px;flex-wrap:wrap;align-items:center"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849;margin-right:4px">Integrasjoner</span><sc-for list="{{ integ }}" as="i" hint-placeholder-count="9"><span style="display:flex;align-items:center;gap:7px;padding:7px 13px;border-radius:999px;border:1px {{ i.bs }} {{ i.bd }};background:{{ i.bg }};color:{{ i.col }};font-size:12.5px;font-weight:600">{{ i.l }}<sc-if value="{{ i.soon }}" hint-placeholder-val="{{ false }}"><span style="padding:1px 7px;border-radius:999px;background:#FBEBBE;color:#5C4600;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase">Kommer</span></sc-if></span></sc-for></div>
+    <p style="font-size:12.5px;color:#5F5849;margin:12px 0 0;max-width:60ch;text-wrap:pretty">Alt fungerer uten HR-system: lim inn eller last opp CSV, så holder Orgpuls registeret. Koblinger merket «kommer» er under arbeid — si fra hvilket system dere bruker.</p>
+  </section>
+
+  <section id="assistent" style="max-width:1120px;margin:0 auto;padding:56px 26px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:36px;align-items:center">
+    <div>
+      <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Assistenten</span>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.14;margin:9px 0 0;max-width:22ch;text-wrap:balance">Tuva forklarer tallene og skriver utkastene</h2>
+      <p style="font-size:15px;line-height:1.65;color:#3A342A;margin:12px 0 0;max-width:50ch;text-wrap:pretty">Hun står i hjørnet av hver side, sier hva som er verdt å se på, skriver utkast til risikovurdering og minner om frister. Hun leser aldri enkeltsvar — bare de samme aggregerte tallene som du. Kan skrus av, kan hete noe annet.</p>
+    </div>
+    <div style="padding:22px 24px;border-radius:20px;background:#FBEBBE">
+      <div style="display:flex;align-items:flex-start;gap:14px"><img src="../tuva/av4.png" alt="" style="width:52px;height:52px;border-radius:14px;object-fit:cover;background:#FFFDF6;flex:none"><span><span style="display:block;font-size:14px;line-height:1.6;text-wrap:pretty"><strong>Tuva:</strong> Ytringsklima falt sju poeng, mest på Verksted. Åtte har svart der, så tallet er trygt å bruke. Jeg har skrevet et utkast til risikovurdering — du trenger bare å lese gjennom.</span><span style="display:inline-flex;margin-top:12px;height:34px;padding:0 14px;border-radius:9px;border:1px solid #191510;background:#FFFDF6;font-size:12.5px;font-weight:700;align-items:center">Les utkastet</span></span></div>
+      <div style="display:flex;gap:8px;margin-top:18px;padding-top:16px;border-top:1px solid rgba(25,21,16,.15);flex-wrap:wrap"><span style="padding:5px 11px;border-radius:999px;background:#FFFDF6;font-size:11.5px;font-weight:600">Hjelp per side</span><span style="padding:5px 11px;border-radius:999px;background:#FFFDF6;font-size:11.5px;font-weight:600">Grunnlag og lov</span><span style="padding:5px 11px;border-radius:999px;background:#FFFDF6;font-size:11.5px;font-weight:600">Veiviser ved oppstart</span><span style="padding:5px 11px;border-radius:999px;background:#FFFDF6;font-size:11.5px;font-weight:600">Uformell eller nøytral tone</span></div>
+    </div>
+  </section>
+
+
+  <section id="kom-i-gang" style="max-width:1120px;margin:64px auto 0;padding:0 26px 72px">
+    <div style="padding:36px 40px;border-radius:24px;border:1px solid #E8DFC9;background:#FFFDF6;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:26px;align-items:center">
+      <div><h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.14;margin:0;max-width:22ch;text-wrap:balance">Prøv det på deres egen virksomhet</h2><p style="font-size:15px;line-height:1.65;color:#3A342A;margin:12px 0 0;max-width:48ch;text-wrap:pretty">Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Gratis i 30 dager. Ingen kort.</p></div>
+      <form onSubmit="{{ onSubmit }}" style="display:flex;gap:9px;flex-wrap:wrap">
+        <input value="{{ org }}" onChange="{{ onOrg }}" inputMode="numeric" placeholder="Organisasjonsnummer" aria-label="Organisasjonsnummer" style="flex:1;min-width:200px;height:52px;padding:0 16px;border-radius:13px;border:1px solid #E8DFC9;background:#FCF6E9;color:#191510;font-size:15px">
+        <button type="submit" style="cursor:pointer;height:52px;padding:0 22px;border-radius:13px;border:1px solid #191510;background:#F5C64A;color:#191510;font-size:16px;font-weight:700">Kom i gang</button>
+        <sc-if value="{{ hasNote }}" hint-placeholder-val="{{ false }}"><span style="flex-basis:100%;font-size:13px;color:{{ noteCol }};line-height:1.5">{{ note }}</span></sc-if>
+      </form>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid #E8DFC9;background:#FFFDF6">
+    <div style="max-width:1120px;margin:0 auto;padding:36px 26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px">
+      <div><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:19px">Orgpuls</span><p style="font-size:12.5px;line-height:1.6;color:#5F5849;margin:8px 0 0;max-width:26ch">Medarbeiderundersøkelse og arbeidsmiljøkartlegging for norske virksomheter. Data lagres i EU.</p></div>
+      <sc-for list="{{ foot }}" as="c" hint-placeholder-count="4">
+        <div><span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#5F5849;font-weight:700">{{ c.head }}</span><span style="display:flex;flex-direction:column;gap:6px;margin-top:10px"><sc-for list="{{ c.links }}" as="l" hint-placeholder-count="5"><a href="#" style="font-size:13px;color:#191510">{{ l.l }}</a></sc-for></span></div>
+      </sc-for>
+    </div>
+    <div style="max-width:1120px;margin:0 auto;padding:0 26px 22px;font-size:11.5px;color:#5F5849">© 2026 Orgpuls · Personvern · Vilkår</div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+const HC = ["#E38258","#EC9B77","#F5DC96","#CFE7E4","#B5DAD4"];
+const HF = ["#4A1706","#5E1F09","#5C4600","#20431C","#20431C"];
+const HV = ["28","41","58","66","78"];
+const cell = i => ({ bg: HC[i], fg: HF[i], txt: HV[i] });
+const L = a => a.map(l => ({ l }));
+
+const SECS = [["malinger","Målinger og årshjul"],["respondent","Slik er det å svare"],["resultater","Resultater"],["segment","Fire visninger"],["kommentarer","Kommentarer"],["tiltak","Tiltak"],["rapport","Rapport"],["roller","Roller og tilgang"],["oppsett","Oppsett og integrasjoner"],["assistent","Assistenten"]].map(([id, l]) => ({ id, l }));
+
+class Component extends DCLogic {
+  state = { org:"", note:"", activeSec:"" };
+  componentDidMount(){
+    this._onScroll = () => {
+      let cur = "";
+      for (const s of SECS){ const el = document.getElementById(s.id); if (el && el.getBoundingClientRect().top <= 130) cur = s.id; }
+      if (cur !== this.state.activeSec) this.setState({ activeSec: cur });
+    };
+    window.addEventListener("scroll", this._onScroll, { passive:true });
+    this._onScroll();
+  }
+  componentWillUnmount(){ window.removeEventListener("scroll", this._onScroll); }
+  renderVals(){
+    const st = this.state;
+    const act = st.activeSec;
+    const secNav = SECS.map(s => ({ l:s.l, href:"#" + s.id, w: act === s.id ? "700" : "500", bd: act === s.id ? "#191510" : "transparent",
+      go: e => { e.preventDefault(); const el = document.getElementById(s.id); if (!el) return;
+        window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 118); } }));
+    const digits = st.org.replace(/\D/g, "");
+    return {
+      secNav,
+      nav: [["Plattform","Plattform.dc.html"],["Bruksområder","Bruksomrader.dc.html"],["Hvorfor Orgpuls","Hvorfor.dc.html"],["Om oss","Om oss.dc.html"],["Pris","Forside.dc.html#pris"]].map(([l, href]) => ({ l, href })),
+      stats: [{ v:"20 min", l:"fra org.nr. til første utsending" },{ v:"4 min", l:"å svare på hovedundersøkelsen" },{ v:"5 svar", l:"anbefalt terskel før en gruppe vises" }],
+      roles: [
+        { i:"DL", t:"Daglig leder", s:"Uten HR-avdeling", bg:"#FFFDF6", href:"#plattform", get:L(["Én side: hva står bra til, hva gjør vi nå","Rapport til styret på fire sider","Lovkravet dekket uten å lese paragrafer"]), cta:"Se for daglig leder" },
+        { i:"HR", t:"HR", s:"75–500 ansatte", bg:"#FBEBBE", href:"#plattform", get:L(["Resultat per avdeling, team og segment","Utvikling over år, måling for måling","Roller og tilgang styrt fra ett sted"]), cta:"Se for HR" },
+        { i:"AL", t:"Avdelingsleder", s:"Eget team", bg:"#FFFDF6", href:"#plattform", get:L(["Bare ditt team, over terskelen","Anonyme kommentarer du kan svare på","Tre forslag til tiltak, klare til å velge"]), cta:"Se for avdelingsleder" },
+        { i:"VO", t:"Verneombud", s:"Og tillitsvalgte", bg:"#CFE7E4", href:"#plattform", get:L(["Samme tall som ledelsen, samtidig","Varsel før hver utsending","Risikovurderingen med hjemmel per faktor"]), cta:"Se for verneombud" }
+      ],
+      features: [
+        { k:"Målinger", t:"Årshjul som går av seg selv", d:"Hovedundersøkelse i året, korte pulser mellom. Utsending, påminnelser og varsel til verneombud skjer automatisk.", bars:[["40%","#F5C64A"],["22%","#A8D5D2"],["22%","#A8D5D2"],["22%","#A8D5D2"],["40%","#F5C64A"]] },
+        { k:"Resultater", t:"Hva trekker opp, hva trekker ned", d:"Indeks per faktor og team, med terskel som verner anonymiteten. Forslag til tiltak ligger under tallene.", bars:[["28%","#E38258"],["45%","#EC9B77"],["60%","#F5DC96"],["70%","#CFE7E4"],["85%","#B5DAD4"]] },
+        { k:"Kommentarer", t:"Svar de ansatte uten å vite hvem", d:"Anonyme kommentarer gruppert etter tema. Du svarer i appen, og den som skrev får svaret.", bars:[["60%","#F2EAD6"],["35%","#F2EAD6"],["75%","#FBEBBE"],["40%","#F2EAD6"],["55%","#F2EAD6"]] },
+        { k:"Tiltak", t:"Eier, frist og målt effekt", d:"Hvert tiltak henger på en faktor og lukkes først når neste måling viser om det virket.", bars:[["100%","#F5C64A"],["100%","#F5C64A"],["100%","#F5C64A"],["100%","#2F5D2A"],["30%","#E8DFC9"]] }
+      ].map(f => Object.assign({}, f, { bars: f.bars.map(([h, bg]) => ({ h, bg })) })),
+      heatCols: L(["Ytringsklima","Arbeidsmengde","Lederstøtte","Rolleklarhet","Mening"]),
+      heat: [{ team:"Drift · 8", cells:[2,2,3,4,4].map(cell) },{ team:"Prosjekt · 9", cells:[2,0,2,2,3].map(cell) },{ team:"Verksted · 8", cells:[0,1,2,4,4].map(cell) },{ team:"Adm. · 3", cells:[0,0,0,0,0].map(() => ({ bg:"rgba(25,21,16,.05)", fg:"#8A8272", txt:"—" })) }],
+      callouts: [
+        { n:"1", t:"Terskel på fem, justerbar til tre", d:"Grupper med færre svar vises som en strek — også for administratorer. Aldri under tre." },
+        { n:"2", t:"Fire visninger", d:"Heatmap, prioritet, segmentprofil og utvikling. Samme data, ulikt spørsmål." },
+        { n:"3", t:"Forslag under tallene", d:"Trykk på en faktor og få tre tiltak bygget på forskning, med tidsbruk og hva som skal måles." },
+        { n:"4", t:"Rollen styrer visningen", d:"Avdelingslederen ser sitt team. Verneombudet ser helheten. Ingen ser enkeltpersoner." }
+      ],
+      three: [
+        { n:"1", t:"Måling", d:"Hovedundersøkelse i året, puls hvert kvartal. Sendes ut, minnes på og varsles automatisk.", kind:"wheel" },
+        { n:"2", t:"Terskel", d:"Grupper under terskelen vises som en strek, også for administratorer. Anbefalt fem svar, kan settes ned til tre — aldri lavere.", kind:"thresh" },
+        { n:"3", t:"Tiltak", d:"Eier, frist og en påstand som måles på nytt. Ingenting lukkes før effekten er sett.", kind:"tasks" }
+      ].map(x => Object.assign({}, x, { isWheel: x.kind === "wheel", isThresh: x.kind === "thresh", isTasks: x.kind === "tasks" })),
+      wheel: ["J","F","M","A","M","J","J","A","S","O","N","D"].map((m, i) => ({ m, bg: i === 8 ? "#F5C64A" : [2, 5, 11].indexOf(i) > -1 ? "#A8D5D2" : "#F2EAD6", bd: i === 8 ? "#191510" : [2, 5, 11].indexOf(i) > -1 ? "#2F5D2A" : "transparent" })),
+      rows: [{ t:"Drift · 8", v:"49", bg:"#EC9B77" },{ t:"Prosjekt · 9", v:"46", bg:"#EC9B77" },{ t:"Verksted · 8", v:"28", bg:"#E38258" },{ t:"Adm. · 3", v:"—", bg:"#F2EAD6" }],
+      tasks: [{ t:"Fast avvikssvar innen fem dager", s:"Anne Rygg · pågår", bg:"#F5C64A" },{ t:"Prioriteringsmøte hver mandag", s:"Tomas Vik · besluttet", bg:"#F5C64A" },{ t:"Varslingsrutinen gjennomgått", s:"Effekt målt · +7", bg:"#2F5D2A" }],
+      scen: [
+        { t:"Etter en omorganisering", d:"Puls på rolleklarhet og lederstøtte fire uker etter, så dere ser om folk vet hva som forventes.", tags:L(["Daglig leder","HR"]) },
+        { t:"Høy turnover i ett team", d:"Segmentprofilen viser om det er arbeidsmengde, ledelse eller mening som skiller teamet fra resten.", tags:L(["HR","Avdelingsleder"]) },
+        { t:"Tilsyn fra Arbeidstilsynet", d:"Rapporten samler kartlegging, risikovurdering og tiltak med hjemmel. Klar på minutter.", tags:L(["Daglig leder","Verneombud"]) },
+        { t:"Ny leder i avdelingen", d:"Grunnlinjen før og pulsen etter viser om lederstøtten endrer seg — uten å peke på personen.", tags:L(["HR","Avdelingsleder"]) },
+        { t:"Kommentarer som må følges opp", d:"Svar anonymt i appen. Den som skrev får svaret, og saken merkes hvis den kan være et varsel.", tags:L(["Avdelingsleder","Daglig leder"]) },
+        { t:"AMU-møtet", d:"Verneombudet ser de samme tallene som ledelsen, og tiltakene har eier og frist før møtet starter.", tags:L(["Verneombud","HR"]) }
+      ],
+      without: L(["Ett tall i året, presentert i et møte","Fritekst noen leser og legger bort","Tiltak i et referat uten eier","Loven som et eget dokument"]),
+      withO: L(["Grunnlinje og puls gjennom året","Kommentarer gruppert, besvart anonymt","Tiltak med eier, frist og målt effekt","Hjemmel per faktor, rapport på minutter"]),
+      team: [{ src:"../tuva/av1.png", n:"Produkt", r:"HR og ledelse" },{ src:"../tuva/av5.png", n:"Fag", r:"Arbeidsmiljø og forskning" },{ src:"../tuva/av7.png", n:"Kunder", r:"Oppstart og support" }],
+      foot: [
+        { head:"Produkt", links:L(["Plattform","Målinger og årshjul","Resultater","Kommentarer","Tiltak","Pris"]) },
+        { head:"Bruksområder", links:L(["Arbeidsmiljøkartlegging","Medarbeiderundersøkelse","Pulsmålinger","Rapport til Arbeidstilsynet","Verneombud og AMU"]) },
+        { head:"Ressurser", links:L(["Slik virker det","Arbeidsmiljøloven forklart","Spørsmålssettet","Personvern og anonymitet","Ofte stilte spørsmål"]) },
+        { head:"Om oss", links:L(["Hvorfor Orgpuls","Teamet","Kontakt","Personvernerklæring","Vilkår"]) }
+      ],
+      appNav: ["Innsikt","Målinger","Resultater","Kommentarer","Tiltak","Oppsett"].map((l, i) => ({ l, bg: i === 0 ? "#FBEBBE" : "transparent", w: i === 0 ? "700" : "500" })),
+      heroTodo: [{ t:"Fast avvikssvar innen fem dager — Verksted", m:"Du er ansvarlig · frist gikk ut i går", c:"#D4633A", bg:"#F5C64A", cta:"Oppdater" },{ t:"To anonyme kommentarer venter på svar", m:"Eldste har ventet seks dager", c:"#F5C64A", bg:"transparent", cta:"Åpne" },{ t:"Godkjenn pulsen 12. oktober", m:"Fem spørsmål fra de to høyrisikofaktorene", c:"#C4BCA8", bg:"transparent", cta:"Se utvalget" }],
+      modules: [["Målinger og årshjul","#malinger"],["Slik er det å svare","#respondent"],["Resultater","#resultater"],["Fire visninger","#segment"],["Kommentarer","#kommentarer"],["Tiltak","#tiltak"],["Rapport","#rapport"],["Roller og tilgang","#roller"],["Oppsett og integrasjoner","#oppsett"],["Assistenten","#assistent"]].map(([l, href]) => ({ l, href })),
+      mPoints: L(["Grunnlinje: 31 spørsmål, alle ansatte, én gang i året","Puls: 5 spørsmål trukket fra faktorene med åpne tiltak","Oppfølging: én faktor i dybden når dere trenger å forstå mer","Legg til en puls i en måned direkte i årshjulet"]),
+      wheel12: ["Jan","Feb","Mar","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Des"].map((m, i) => { const base = i === 8, pulse = [11, 2, 5].indexOf(i) > -1;
+        return { m, dot: base ? "#F5C64A" : pulse ? "#A8D5D2" : "#FFFDF6", bd: base ? "#191510" : pulse ? "#2F5D2A" : "#E8DFC9", l: base ? "Hoved" : pulse ? "Puls" : i === 6 ? "Ferie" : "", lc: base || pulse ? "#191510" : "#8A8272" }; }),
+      cascade: [["Verneombud og tillitsvalgte","2 dager før"],["Daglig leder","1 dag før"],["Ansatte","tirsdag kl. 09.00"],["Påminnelse","dag 2 og 4"],["Resultat til ledere","dag 7"]].map(([who, when]) => ({ who, when })),
+      likert: ["Helt uenig","Litt uenig","Verken eller","Litt enig","Helt enig"].map((l, i) => { const on = i === 3; return { l, w: on ? "700" : "500", bg: on ? "#FBEBBE" : "#FFFDF6", bd: on ? "#191510" : "#E8DFC9", dbd: on ? "#191510" : "#C4BCA8", dbg: on ? "#191510" : "transparent" }; }),
+      rPoints: L(["Svaret er anonymt — navn, e-post og IP lagres ikke sammen med det","Lederen ser tall først når terskelen er nådd — anbefalt fem, aldri under tre","Spørsmål kan hoppes over; kommentar er frivillig","Sendes som e-post eller SMS til de som ikke sitter ved en skjerm"]),
+      riskRows: [["Ytringsklima","aml. § 4-3",41,-7],["Arbeidsmengde","forskrift kap. 1A",44,-9],["Motstridende krav","forskrift kap. 1A",52,-6],["Emosjonelle krav","forskrift kap. 1A",58,-1],["Støtte fra leder","forskrift kap. 1A",64,-5],["Rolleklarhet","forskrift kap. 1A",71,-2]].map(([l, law, v, d]) => {
+        const risk = v < 50 ? ["Høy","#F0B9A0","#6B240C","#D4633A"] : v < 66 ? ["Middels","#F5DC96","#5C4600","#E0A21F"] : ["Lav","#CFE7E4","#20431C","#5C9A55"];
+        return { l, law, v: String(v), d: (d > 0 ? "+" : "−") + Math.abs(d), dc: d <= -3 ? "#A33A16" : d >= 3 ? "#2F5D2A" : "#5F5849", risk: risk[0], rbg: risk[1], rfg: risk[2], bar: risk[3], rowBg: v < 50 ? "rgba(251,213,196,.3)" : "transparent" }; }),
+      top3: [{ n:"1", t:"Ytringsklima på Verksted", m:"Indeks 28 · 8 svar", lift:"+6" },{ n:"2", t:"Arbeidsmengde på Prosjekt", m:"Indeks 31 · 9 svar", lift:"+4" },{ n:"3", t:"Støtte fra leder", m:"Størst fall blant nyansatte", lift:"+3" }],
+      views: [{ t:"Heatmap", d:"Team × faktor med terskelsperre. Grupper under fem svar vises som —.", kind:"heat" },{ t:"Prioritet", d:"Hva trekker helheten mest — ikke hva som har lavest tall.", kind:"prio" },{ t:"Segmentprofil", d:"Ett team mot resten. Hvor skiller det seg, og på hva?", kind:"seg" },{ t:"Utvikling", d:"Grunnlinje og puls på samme linje, med tiltaket markert.", kind:"trend" }].map(v => Object.assign({}, v, { isHeat: v.kind === "heat", isPrio: v.kind === "prio", isSeg: v.kind === "seg", isTrend: v.kind === "trend" })),
+      heatCells: [2,2,3,4,4, 2,0,2,2,3, 0,1,2,4,4].map(i => ({ bg: HC[i] })),
+      prioBars: [["Ytring","92%","#E38258"],["Mengde","74%","#EC9B77"],["Leder","48%","#F5DC96"],["Rolle","22%","#CFE7E4"]].map(([l, w, bg]) => ({ l, w, bg })),
+      kPoints: L(["Tema og tone gjøres automatisk, aldri sitert uten sjekk for gjenkjennelige detaljer","Svar går tilbake til den som skrev — i appen, uten at noen vet hvem","Filter på måling, gruppe og status; historikk fra alle år","Mulig varsel merkes og håndteres i egen rutine"]),
+      themes: [["Alle temaer","18 kommentarer",true],["Oppfølging av avvik","9 · negativ",false],["Bemanning i høysesong","6 · negativ",false],["Samholdet på laget","5 · positiv",false]].map(([l, n, on]) => ({ l, n, bg: on ? "#FBEBBE" : "#FFFDF6", bd: on ? "#191510" : "#E8DFC9" })),
+      suggest: [{ type:"Workshop", tbg:"#FBEBBE", time:"2 timer · hele teamet", t:"Start–stopp–fortsett om hvordan avvik følges opp", q:"Når noen melder fra om et problem, skjer det noe" },{ type:"Rutine", tbg:"#CFE7E4", time:"Løpende", t:"Fast, navngitt svar på hver avviksmelding innen fem dager", q:"Jeg kan si fra uten å frykte konsekvenser" },{ type:"Lederpraksis", tbg:"#F2EAD6", time:"15 min · hver uke", t:"Ta opp én uenighet åpent i morgenmøtet", q:"Uenighet blir tatt opp åpent hos oss" }],
+      steps: ["Foreslått","Besluttet","Pågår","Gjennomført","Effekt målt","Lukket"].map((l, i) => ({ l, bg: i <= 2 ? "#F5C64A" : "#E8DFC9", c: i === 2 ? "#191510" : "#5F5849", w: i === 2 ? "700" : "500" })),
+      rapPoints: L(["Velg år, periode og mottaker: styret, AMU, Arbeidstilsynet eller personalmøtet","Hjemmel per faktor: aml. § 3-1 c, § 4-3, forskrift kap. 1A","Drøfting med tillitsvalgte og varsel til verneombud dokumenteres","Eksport som PDF; dataene er deres"]),
+      pages: [{ k:"Side 1", t:"Sammendrag og indeks", f:"Demo Bedrift · 2026", lines:[["70%","#F5C64A"],["100%","#E8DFC9"],["90%","#E8DFC9"],["60%","#E8DFC9"]] },{ k:"Side 2", t:"Risikovurdering per faktor", f:"aml. § 3-1 c", lines:[["100%","#F0B9A0"],["100%","#F5DC96"],["100%","#CFE7E4"],["80%","#E8DFC9"],["60%","#E8DFC9"]] },{ k:"Side 3", t:"Tiltak med eier og frist", f:"4 tiltak · 1 effekt målt", lines:[["90%","#E8DFC9"],["100%","#E8DFC9"],["50%","#2F5D2A"],["85%","#E8DFC9"]] },{ k:"Side 4", t:"Medvirkning og hjemmel", f:"Verneombud · tillitsvalgt", lines:[["100%","#E8DFC9"],["70%","#E8DFC9"],["100%","#E8DFC9"],["40%","#E8DFC9"]] }].map(p => Object.assign({}, p, { lines: p.lines.map(([w, bg]) => ({ w, bg })) })),
+      perms: [["Hele virksomheten",["Ja","Ja","—","Ja"]],["Eget team over terskel",["Ja","Ja","Ja","Ja"]],["Anonyme kommentarer",["Alle","Alle","Egne","—"]],["Risikovurdering og hjemmel",["Ja","Ja","—","Ja"]],["Tiltak: sette eier og frist",["Ja","Ja","Egne","Foreslå"]],["Varsel før utsending",["Ja","Ja","—","2 dager før"]]].map(([k, c]) => ({ k, c: c.map(v => ({ v, col: v === "—" ? "#8A8272" : "#191510", w: v === "Ja" ? "700" : "500" })) })),
+      setup: [{ i:"§", t:"Brønnøysund", d:"Skriv org.nr. — navn, adresse, bransje og lokasjoner hentes." },{ i:"⇪", t:"Ansatte", d:"Lim inn, last opp CSV eller hent fra Microsoft Entra ID. Gruppe og rolle rett i tabellen." },{ i:"◔", t:"Grupper og terskel", d:"Små grupper slås sammen automatisk. Anbefalt terskel 5, kan settes ned til 3 — aldri lavere." },{ i:"✎", t:"Veiviser", d:"Ni steg fra virksomhet til første utsending. Kan kjøres igjen." },{ i:"◐", t:"Logo og assistent", d:"Egen logo, Tuvas navn og ansikt, uformell eller nøytral tone." },{ i:"⚑", t:"Personvern", d:"Data i EU, sletting etter plan, innsynslogg. Behandlingsgrunnlag dokumentert." }],
+      integ: [["CSV",""],["Lim inn liste",""],["E-post",""],["SMS",""],["Microsoft Entra ID",""],["Microsoft Teams","kommer"],["Tripletex","kommer"],["Visma","kommer"],["Simployer","kommer"]].map(([l, s]) => ({ l, soon: s === "kommer", bg: s ? "transparent" : "#FFFDF6", bd: s ? "#E8DFC9" : "#E8DFC9", col: s ? "#8A8272" : "#191510", bs: s ? "dashed" : "solid" })),
+      uses: [
+        { n:"01", t:"Årlig arbeidsmiljøkartlegging", d:"Hele spørsmålssettet én gang i året. Dekker kartleggingsplikten i arbeidsmiljøloven § 3-1 c og gir nullpunktet alt annet måles mot.", bg:"#FBEBBE" },
+        { n:"02", t:"Puls mellom målingene", d:"Fem spørsmål om faktorene dere jobber med. Viser om tiltakene virker, uten å slite ut de som skal svare.", bg:"#CFE7E4" },
+        { n:"03", t:"Følge opp tiltak", d:"Hvert tiltak har eier, frist og en påstand som måles på nytt. Ingenting lukkes før effekten er sett.", bg:"#F2EAD6" },
+        { n:"04", t:"Rapport til styret og Arbeidstilsynet", d:"Funn, risikovurdering og tiltak på fire sider, generert fra tallene. Du leser gjennom og godkjenner.", bg:"#FBD5C4" }
+      ],
+      sectors: [
+        { s:"Bygg og anlegg · 34 ansatte", t:"Verksted, prosjekt og drift hver for seg", d:"Tre team med helt ulik hverdag. Heatmap per team viser hvor ytringsklimaet svikter, uten å peke på personer." },
+        { s:"Helse og omsorg · 120 ansatte", t:"Emosjonelle krav og turnus", d:"Pulsen følger emosjonelle krav og lederstøtte gjennom året, med SMS til de som ikke sitter ved en skjerm." },
+        { s:"Teknologi · 60 ansatte", t:"Rolleklarhet etter vekst", d:"Etter dobling på ett år: måling før og etter ny struktur viser om folk vet hva som forventes." }
+      ],
+      why3: [
+        { n:"1", t:"Positivt fokus", d:"Vi viser hva som gir folk energi før vi viser hva som tapper den. Det som er sterkt, er det dere bygger på." },
+        { n:"2", t:"Kontinuerlig oppfølging", d:"Målingen er starten. Tiltak med eier og frist, og en puls som viser om det virket." },
+        { n:"3", t:"Loven dekket underveis", d:"Kartlegging, risikovurdering og dokumentasjon etter arbeidsmiljøloven skjer som en del av arbeidet, ikke i tillegg." }
+      ],
+      proofs: [
+        { n:"1", t:"Spørsmålene er ikke våre", d:"Faktorene bygger på QPS Nordic, det nordiske spørreskjemaet for psykologiske og sosiale faktorer i arbeid. Ordlyden er låst, så tallene kan sammenlignes over tid.", src:"QPS Nordic · STAMI" },
+        { n:"2", t:"Loven krever en sløyfe, ikke en rapport", d:"Arbeidsmiljøloven § 3-1 c ber om kartlegging, risikovurdering, planer og tiltak. Orgpuls er bygget rundt akkurat den rekkefølgen.", src:"Arbeidsmiljøloven § 3-1 c, § 4-3" },
+        { n:"3", t:"Terskelen er justerbar, ikke fri", d:"Vi anbefaler fem svar før en gruppe vises. Dere kan sette den ned til tre, men aldri lavere — under det kan tall knyttes til enkeltpersoner, og da er det personopplysninger. Terskelen gjelder også administratorer.", src:"GDPR · Datatilsynets veiledning" }
+      ],
+      faq: [
+        { q:"Kan lederen se hvem som svarte hva?", a:"Nei. Svar knyttes aldri til navn, e-post eller IP. Grupper vises først når terskelen er nådd — anbefalt fem svar, aldri under tre — og det gjelder også administratorer." },
+        { q:"Hvor lagres dataene?", a:"På servere i EU, under GDPR. Ingen svar deles med tredjeparter eller brukes til å trene modeller." },
+        { q:"Hva koster det?", a:"265 kr i måneden til og med 25 ansatte, 565 kr for 26–100. Alt er inkludert. Konsern og over 100 ansatte får pris etter avtale." },
+        { q:"Trenger vi et HR-system?", a:"Nei. Ansatte kan limes inn, lastes opp som CSV eller hentes fra Microsoft Entra ID. Kobling til Tripletex, Visma og Simployer kommer." },
+        { q:"Dekker dette kravene i arbeidsmiljøloven?", a:"Orgpuls dekker kartleggingsplikten i § 3-1 c og kravene til psykososialt arbeidsmiljø i § 4-3, med dokumentasjon. Øvrige HMS-plikter ligger utenfor." }
+      ],
+      org: st.org,
+      onOrg: e => { const v = e.target.value; this.setState({ org: v, note:"" }); },
+      onSubmit: e => { e.preventDefault();
+        this.setState({ note: digits.length === 9 ? "Vi henter " + digits.replace(/(\d{3})(\d{3})(\d{3})/, "$1 $2 $3") + " fra Brønnøysundregistrene …" : "Et organisasjonsnummer har ni sifre." }); },
+      hasNote: !!st.note, note: st.note, noteCol: digits.length === 9 ? "#2F5D2A" : "#A33A16"
+    };
+  }
+}
+</script>
+</body>
+</html>

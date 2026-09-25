@@ -1775,6 +1775,32 @@ the leader's profile, and nothing else, which check 4 asserts.
 - Vercel: hosting, with functions in fra1.
 - Brevo: e-mail and SMS.
 
+### X-056 — A design's claims are checked against the product before they ship
+
+The public-site bundle (D-88) described a product that was partly not this one: a threshold
+that can be lowered to 3, an HR role, an assistant that writes drafts, Entra import, comment
+screening, and 31 questions. A drawing can be made pixel-true; a claim cannot be made true
+by drawing it.
+
+**The rule used:**
+- Build each page with the design's own words first, and prove the layout against the
+  baseline.
+- Then audit every claim against migrations and code, and reword only the false ones, to the
+  nearest true statement of about the same length.
+- Log each correction, so the remaining pixel difference is explained word for word.
+
+A claim about anonymity or the threshold is a security statement, so CLAUDE.md decides it.
+For any other claim, the product decides.
+
+**Words and drawings are kept apart:**
+- The words are messages under `site.*` (`chrome`, `home`, `plattform`, `story`, `hvorfor`,
+  `bruksomrader`, `omOss`).
+- Each page's drawing data — tones, bar lengths, which month is the main survey — is a
+  table in the page.
+- `lib/site/zip` pairs the two index for index, and throws if their lengths differ.
+- Hvorfor and Bruksområder share one section component (`components/site/Story`), with six
+  kinds of drawing.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1932,3 +1958,8 @@ the leader's profile, and nothing else, which check 4 asserts.
 - [ ] Orgpuls AS's organisation number and address on the processor's side of the agreement (D-87).
 - [ ] Orgpuls's own DPAs with Supabase, Vercel and Brevo: outside the repository (X-055).
 - [ ] An automated retention and deletion routine; the agreement promises deletion within 30 days of termination (D-87).
+- [x] The public site follows design-reference/orgpuls/nettside, pixel-diffed page by page, with the design's untrue claims corrected (D-88, X-056).
+- [ ] Names and photographs for the team cards on Om oss, or a decision to keep the roles (D-88).
+- [ ] A privacy statement and terms page; the footer lists both and registration refers to the first (D-88).
+- [ ] A stored inbox for the contact form, if wanted; today it writes the message in the visitor's own e-mail program (D-88).
+- [ ] App copy still says "fem spørsmål" for a pulse (malinger.lead, veiviser.rhythm.lead, start.step.verify.body); a pulse is three statements per factor with open measures (X-056).

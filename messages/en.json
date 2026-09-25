@@ -1829,56 +1829,7 @@
     "smsSetup": "Set up SMS"
   },
   "start": {
-    "signIn": "Sign in",
-    "getStarted": "Get started",
-    "footer": "Orgpuls — work environment and employee surveys for Norwegian undertakings. Answers are stored in the EU and not shared with third parties.",
-    "footerHow": "How it works",
-    "footerPrivacy": "Privacy",
-    "footerContact": "Contact",
-    "kicker": "Work environment and employee surveys",
-    "headline": "From one employee survey a year to following up all year",
-    "lead": "Orgpuls is an employee survey that shows what gives people energy and what drains it, and turns the findings into measures with an owner and a deadline. The next measurement shows whether they worked. The Working Environment Act's requirements are covered along the way.",
     "ctaFree": "Get started free",
-    "ctaHow": "See how it works",
-    "ctaHaveAccount": "I have an account — sign in",
-    "trust": {
-      "trial": "30 days free",
-      "noCard": "No card details",
-      "eu": "Answers stored in the EU",
-      "five": "No department is shown until at least five have answered"
-    },
-    "mockCaption": "Insight · Nordvik Anlegg AS — example",
-    "mockIndexLabel": "Work environment index",
-    "mockDelta": "−3 since last year",
-    "mockPrev": "Baseline 2025: 64",
-    "mockBandLow": "4 acceptable",
-    "mockBandMid": "5 to follow up",
-    "mockBandHigh": "2 high risk",
-    "mockDoThree": "Do these three",
-    "peek": {
-      "ytring": "Speaking up in the workshop",
-      "mengde": "Workload on Projects",
-      "leder": "Support from managers"
-    },
-    "whyEyebrow": "Why it matters",
-    "whyTitle": "Continuous follow-up is what produces results",
-    "pain": {
-      "trend": {
-        "title": "You see the direction, not only the state",
-        "body": "One number a year says where you are. Four say which way it is going, and whether what you did mattered."
-      },
-      "early": {
-        "title": "Problems surface while they are small",
-        "body": "Where people dare to speak up, you hear about the fault in week two rather than in the final account."
-      },
-      "monday": {
-        "title": "Managers know what to do on Monday",
-        "body": "Three concrete things for their own team, and somewhere to see whether what they tried worked."
-      }
-    },
-    "howEyebrow": "How it works",
-    "howTitle": "One round a year is a report. Four is a habit",
-    "howLead": "The year wheel sends, reminds and notifies the safety representative without anybody having to remember. Your time goes to the conversations and the measures, the part that needs a person.",
     "step": {
       "listen": {
         "title": "Listen",
@@ -1901,68 +1852,6 @@
         "time": "Under a minute per employee"
       }
     },
-    "diffEyebrow": "What is different",
-    "diffTitle": "Three choices that keep the work going",
-    "diff": {
-      "effect": {
-        "title": "A measure cannot be closed before its effect is measured",
-        "tag": "Which is why something happens after the presentation",
-        "body": "A measure is not finished because somebody ticked it off. The next pulse has to show the number moved. That is stricter, and it is why something is actually different in week twenty."
-      },
-      "five": {
-        "title": "Five answers, or a dash",
-        "tag": "An anonymity we do not stretch",
-        "body": "No group is shown before five people have answered — not for the managing director either, and not when it is urgent. The floor is enforced by the database and cannot be lowered, because a promise of anonymity with exceptions is not a promise."
-      },
-      "twoway": {
-        "title": "You can answer your people without knowing who they are",
-        "tag": "Two-way and still anonymous",
-        "body": "If somebody writes a comment, you can answer it. They get the answer in the app; you never learn who it was. That is the difference between collecting opinions and having a conversation."
-      }
-    },
-    "lawEyebrow": "And the legal requirement?",
-    "lawTitle": "It takes care of itself as you work",
-    "lawBody": "The Working Environment Act requires you to survey, assess the risk, put measures in place and follow up on whether they worked. That is the same round you go through anyway. The documentation becomes a by-product of the work rather than a project of its own.",
-    "lawNote": "If you would rather not have the provisions visible in the interface, they can be switched off. The reports are there regardless, for the day somebody asks.",
-    "legal": {
-      "aml31c": {
-        "ref": "§ 3-1 c",
-        "what": "Survey, assess risk, plan and put measures in place"
-      },
-      "aml43": {
-        "ref": "§ 4-3",
-        "what": "Requirements for the psychosocial work environment"
-      },
-      "aml62": {
-        "ref": "§ 6-2",
-        "what": "The safety representative is consulted and sees the same figures"
-      },
-      "aml92": {
-        "ref": "§ 9-2",
-        "what": "Discussion with union representatives, documented in the year wheel"
-      }
-    },
-    "quote": {
-      "cancel": {
-        "who": "Monthly agreement",
-        "title": "You can cancel at any time",
-        "body": "No lock-in, no setup fee and no automatic price escalation."
-      },
-      "export": {
-        "who": "Export throughout",
-        "title": "The data is yours",
-        "body": "Download answers, reports and the measure log as PDF at any time — including after the agreement ends."
-      },
-      "eu": {
-        "who": "Stored in the EU",
-        "title": "Answers stay in the EU",
-        "body": "Data is stored on servers in the EU, under GDPR, and not shared with third parties. No answers are used to train models."
-      }
-    },
-    "priceEyebrow": "Price",
-    "priceTitle": "One price, everything included",
-    "priceLead": "No surcharge for reports, integrations or the number of measurements. A monthly agreement with no lock-in.",
-    "priceNote": "All prices are excluding VAT. The safety representative has access at no extra cost.",
     "planRecommended": "Recommended",
     "plan": {
       "small": {
@@ -4714,24 +4603,6 @@
         "ctaBody": "In Orgpuls the safety representative has access at no extra cost. 30 days free, no card."
       }
     },
-    "nav": {
-      "plattform": "Platform",
-      "bruksomrader": "Use cases",
-      "priser": "Pricing",
-      "artikler": "Articles",
-      "omOss": "About",
-      "sikkerhet": "Security and privacy",
-      "kontakt": "Contact",
-      "menu": "Menu"
-    },
-    "footer": {
-      "produkt": "Product",
-      "bruksomrader": "Use cases",
-      "ressurser": "Resources",
-      "selskap": "Company",
-      "newRules": "New rules from 2026",
-      "company": "© {year} Orgpuls AS"
-    },
     "pages": {
       "plattform": {
         "title": "The platform: mapping, measures and follow-up | Orgpuls",
@@ -5361,5 +5232,1486 @@
         ]
       }
     ]
+  },
+  "site": {
+    "chrome": {
+      "nav": {
+        "plattform": "Platform",
+        "bruksomrader": "Use cases",
+        "hvorfor": "Why Orgpuls",
+        "omOss": "About us",
+        "pris": "Pricing"
+      },
+      "navLabel": "Main menu",
+      "menu": "Menu",
+      "signIn": "Sign in",
+      "getStarted": "Get started",
+      "sections": "Sections",
+      "crumbs": "You are here",
+      "trial": "Try free for 30 days",
+      "start": {
+        "title": "Try it on your own organisation",
+        "lead": "Enter your organisation number and we'll fetch the name, address and industry from the Brønnøysund Register Centre. Free for 30 days. No card.",
+        "placeholder": "Organisation number",
+        "submit": "Get started",
+        "fetching": "Fetching {orgnr} from the Brønnøysund Register Centre …",
+        "invalid": "An organisation number has nine digits."
+      },
+      "footer": {
+        "about": "Employee surveys and working environment surveys for Norwegian organisations. Data is stored in the EU.",
+        "bottom": "© {year} Orgpuls · Privacy · Terms",
+        "head": {
+          "produkt": "Product",
+          "bruksomrader": "Use cases",
+          "ressurser": "Resources",
+          "omOss": "About us",
+          "hvorfor": "Why Orgpuls"
+        },
+        "link": {
+          "plattform": "Platform",
+          "malinger": "Surveys and annual cycle",
+          "resultater": "Results",
+          "kommentarer": "Comments",
+          "tiltak": "Measures",
+          "pris": "Pricing",
+          "kartleggingNoun": "Working environment survey",
+          "medarbeiderundersokelse": "Employee survey",
+          "pulsmalinger": "Pulse surveys",
+          "rapportArbeidstilsynet": "Labour Inspection report",
+          "amu": "Safety representative and AMU",
+          "slikVirker": "How it works",
+          "lovenForklart": "The Working Environment Act explained",
+          "sporsmalssettet": "The question set",
+          "personvernAnonymitet": "Privacy and anonymity",
+          "faq": "Frequently asked questions",
+          "hvorfor": "Why Orgpuls",
+          "teamet": "The team",
+          "kontakt": "Contact",
+          "personvernerklaering": "Privacy policy",
+          "vilkar": "Terms",
+          "arlig": "Annual survey",
+          "puls": "Pulse between surveys",
+          "utenHr": "Without an HR department",
+          "tilsyn": "Inspections and documentation",
+          "positivt": "Positive focus",
+          "anonymitet": "Anonymity",
+          "forskning": "The research behind it",
+          "sammenlignet": "Compared",
+          "oppdraget": "Our mission",
+          "lofter": "Our promises"
+        }
+      }
+    },
+    "home": {
+      "pill": "Employee surveys and working environment",
+      "h1": "First survey out before lunch.",
+      "lead": "Fetch your organisation from Brønnøysund, paste in the staff list, pick a date. Orgpuls sends it out, sends reminders and notifies the safety representative. Results come with suggested measures — and each role gets its own way in.",
+      "how": "See how it works",
+      "stats": [
+        {
+          "v": "20 min",
+          "l": "from org. no. to first send-out"
+        },
+        {
+          "v": "4 min",
+          "l": "to answer the main survey"
+        },
+        {
+          "v": "5 responses",
+          "l": "minimum before a group is shown"
+        }
+      ],
+      "who": "Who are you?",
+      "roles": [
+        {
+          "i": "MD",
+          "t": "Managing director",
+          "s": "No HR department",
+          "get": [
+            "One page: what's going well, what we do now",
+            "A two-page report for management",
+            "The legal requirement met without reading the Act"
+          ],
+          "cta": "See it for managing directors"
+        },
+        {
+          "i": "HR",
+          "t": "HR",
+          "s": "75–500 employees",
+          "get": [
+            "Results per department, team and segment",
+            "Trends over the years, survey by survey",
+            "Roles and access managed in one place"
+          ],
+          "cta": "See it for HR"
+        },
+        {
+          "i": "DM",
+          "t": "Department manager",
+          "s": "Your own team",
+          "get": [
+            "Only your team, above the threshold",
+            "Anonymous comments you can reply to",
+            "Three suggested measures, ready to choose"
+          ],
+          "cta": "See it for department managers"
+        },
+        {
+          "i": "SR",
+          "t": "Safety representative",
+          "s": "And union representatives",
+          "get": [
+            "The same figures as management, at the same time",
+            "Notice before every send-out",
+            "The risk assessment with legal basis per factor"
+          ],
+          "cta": "See it for safety representatives"
+        }
+      ],
+      "explore": "Explore",
+      "teasers": [
+        {
+          "k": "Platform",
+          "t": "Four parts that fit together",
+          "d": "Surveys, results, comments and measures in one loop. Built on a fixed question set and a threshold that never goes below five responses.",
+          "cta": "See the platform"
+        },
+        {
+          "k": "Use cases",
+          "t": "Eight situations where Orgpuls makes the job easier",
+          "d": "From the annual survey and pulses to a new manager, reorganisation, inspections and the AMU meeting.",
+          "cta": "See the use cases"
+        },
+        {
+          "k": "Why Orgpuls",
+          "t": "Continuous follow-up delivers results over time",
+          "d": "Positive focus, measures with an owner and a deadline, and the law covered along the way. With sources.",
+          "cta": "Read why"
+        }
+      ],
+      "about": {
+        "k": "About us",
+        "t": "Small team, direct lines",
+        "d": "Orgpuls is made by a small Norwegian team with backgrounds in HR, management and product development. You talk to the people who build the product, not a support centre. Data is stored in the EU, and we don't sell it on.",
+        "cta": "Meet the team",
+        "team": [
+          {
+            "n": "Product",
+            "r": "HR and management"
+          },
+          {
+            "n": "Expertise",
+            "r": "Working environment and research"
+          },
+          {
+            "n": "Customers",
+            "r": "Onboarding and support"
+          }
+        ]
+      },
+      "price": {
+        "k": "Pricing",
+        "t": "From NOK 265 a month. Everything included.",
+        "d": "NOK 565 for 26–100 employees. No lock-in period. Safety and union representatives cost nothing extra.",
+        "see": "See pricing",
+        "start": "Get started for free"
+      }
+    },
+    "story": {
+      "months": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ],
+      "base": "Main",
+      "pulse": "Pulse",
+      "holiday": "Holiday",
+      "source": "Source: {src}",
+      "use": {
+        "mal": "Surveys and annual cycle",
+        "svar": "What answering is like",
+        "res": "Results",
+        "vis": "Four views",
+        "kom": "Comments",
+        "tilt": "Measures",
+        "rap": "Report",
+        "rol": "Roles and access",
+        "opp": "Setup",
+        "ast": "The assistant"
+      }
+    },
+    "bruksomrader": {
+      "crumb": "Use cases",
+      "h1": "From statutory survey to management tool",
+      "lead": "Same questions, same threshold and same list of measures — used in eight different ways. Pick the situation that resembles yours and see how it is handled in practice.",
+      "next": "See the platform →",
+      "usesLabel": "What you use",
+      "sections": [
+        {
+          "k": "Annual survey",
+          "t": "The survey the law requires, done in an hour",
+          "d": "One main survey a year covers the survey duty in § 3-1 c of the Working Environment Act and sets the baseline everything else is measured against. The questions are ready, the threshold is set and the report writes itself.",
+          "points": [
+            "33 statements across eleven factors, four minutes to answer",
+            "The safety representative is notified two days before send-out",
+            "One reminder, and the round closes after seven days",
+            "Risk assessment per factor with legal basis, ready for the working environment committee (AMU)"
+          ],
+          "m": {
+            "title": "Annual cycle 2026",
+            "note": "1 main survey · 3 pulses",
+            "foot": "The main survey in September gives results ahead of the budget and action-planning work in the autumn."
+          }
+        },
+        {
+          "k": "Pulse between surveys",
+          "t": "See whether measures work — before next year",
+          "d": "The pulse asks the three statements for each factor you have put measures on, and shows whether the curve turns while there is still time to adjust.",
+          "points": [
+            "Questions are drawn from the factors with open measures",
+            "Same wording as the main survey, so the figures can be compared",
+            "A factor drops out once its measures are closed"
+          ],
+          "m": {
+            "title": "Speaking up · whole organisation",
+            "note": "dashed line = target 60",
+            "labels": [
+              "Baseline 25",
+              "Baseline 26",
+              "Pulse Dec",
+              "Pulse Mar",
+              "Pulse Jun"
+            ],
+            "foot": "The measure “always reply to incident reports” started in October. The pulses show it is working, but not enough yet."
+          }
+        },
+        {
+          "k": "Without an HR department",
+          "t": "Managing director, 20 employees, no HR department",
+          "d": "Simple view gives one page: what people are happy with, what pulls down, and three things to do now. Tuva shows what remains before you're up and running, and help is on every page.",
+          "points": [
+            "The overview opens automatically for managing directors with fewer than 50 employees",
+            "Employees are pasted in or uploaded as a CSV — no HR system needed",
+            "The wizard takes you from org. no. to first send-out in 20 minutes"
+          ],
+          "m": {
+            "title": "Do this now",
+            "note": "Overview · simple view",
+            "cards": [
+              {
+                "tag": "Speaking up",
+                "t": "Always reply to incident reports within five days",
+                "meta": "Due 15 Oct"
+              },
+              {
+                "tag": "Workload",
+                "t": "Priorities meeting every Monday",
+                "meta": "You · due 1 Nov"
+              },
+              {
+                "tag": "Comments",
+                "t": "Two anonymous comments are awaiting a reply",
+                "meta": "6 days"
+              }
+            ],
+            "foot": "People value the meaning in their work. What pulls down is speaking up and workload."
+          }
+        },
+        {
+          "k": "One team stands out",
+          "t": "When one team has it harder than the rest",
+          "d": "The heatmap shows team against factor. The segment profile compares one team with the rest and points to where the difference is greatest — without any individual being identifiable.",
+          "points": [
+            "Groups below the threshold are shown as a dash, for administrators too",
+            "The department manager sees only their own team",
+            "Three suggested measures per factor, ready to choose"
+          ],
+          "m": {
+            "title": "Team × factor",
+            "note": "threshold 5 responses",
+            "cols": [
+              "Speak",
+              "Load",
+              "Mgr",
+              "Role",
+              "Meaning"
+            ],
+            "teams": [
+              "Operations · 8",
+              "Projects · 9",
+              "Workshop · 8",
+              "Admin · 3"
+            ],
+            "foot": "Workshop and Projects each stand out on a different factor. Those are two different problems, and they need two different measures."
+          }
+        },
+        {
+          "k": "Reorganisation and change",
+          "t": "Measure before and after a change",
+          "d": "Add an extra pulse to the annual cycle four to six weeks after a reorganisation, a system change or a merger. Then you see whether people know what is expected of them, and whether support from managers holds up.",
+          "points": [
+            "Add a pulse in any month with one click",
+            "Choose the affected factors: role clarity, conflicting demands, support from manager",
+            "Compare with the baseline from before the change"
+          ],
+          "m": {
+            "title": "Role clarity · before and after",
+            "note": "baseline vs pulse 6 weeks after",
+            "rows": [
+              "Knows what is expected · before",
+              "Knows what is expected · after",
+              "Knows where responsibility ends · before",
+              "Knows where responsibility ends · after"
+            ],
+            "foot": "The drop is largest on the limits of responsibility. A short role map per team is often enough to put it right."
+          }
+        },
+        {
+          "k": "New manager",
+          "t": "Give a new manager an honest starting point",
+          "d": "The baseline from before the change of manager and the pulse afterwards show how the team experiences support, role clarity and speaking up. The figures apply to the team as a whole — never individuals, and never the manager as a person.",
+          "points": [
+            "The team must have at least five responses before anything is shown",
+            "The manager gets their own leadership practice suggestions per factor",
+            "Anonymous comments can be answered without knowing who wrote them"
+          ],
+          "m": {
+            "title": "Support from manager · Projects",
+            "note": "9 responses",
+            "rows": [
+              "Gets support when the job gets demanding",
+              "The manager knows what the job involves",
+              "Can raise difficult issues",
+              "Is heard when something is to change"
+            ]
+          }
+        },
+        {
+          "k": "Inspections and documentation",
+          "t": "When the Labour Inspection Authority asks for documentation",
+          "d": "The report brings together the survey, risk assessment, measures and participation, with legal basis per factor. Choose year and scope, read it through and save as PDF.",
+          "points": [
+            "Covers aml. § 3-1 c and § 4-3, cf. regulation ch. 1A",
+            "Shows that the safety representative was notified and union representatives were involved",
+            "Log of measures with owner, deadline and measured effect"
+          ],
+          "m": {
+            "title": "Report · 2026",
+            "note": "PDF",
+            "steps": [
+              {
+                "t": "Summary and index",
+                "d": "What is going well, what pulls down"
+              },
+              {
+                "t": "Risk assessment per factor",
+                "d": "Likelihood, consequence and legal basis"
+              },
+              {
+                "t": "Measures with owner and deadline",
+                "d": "Status and measured effect"
+              },
+              {
+                "t": "Participation and legal basis",
+                "d": "Safety representative, union representatives and consultation"
+              }
+            ]
+          }
+        },
+        {
+          "k": "Safety reps, union reps and AMU",
+          "t": "The same figures on the table for all parties",
+          "d": "The safety representative sees the same figures and the same risk assessment as management, at the same time. Consultation with union representatives is documented before the first send-out, as § 9-2 requires for a recurring survey.",
+          "points": [
+            "The safety representative is notified before every send-out",
+            "Measures have an owner and a deadline before the AMU meeting starts",
+            "Nobody in any role sees individual responses"
+          ],
+          "m": {
+            "title": "Before the AMU meeting",
+            "note": "sent automatically",
+            "cards": [
+              {
+                "tag": "§ 6-2",
+                "t": "Safety representative notified 2 days before send-out",
+                "meta": "Done 12 Sep"
+              },
+              {
+                "tag": "§ 9-2",
+                "t": "Need and design discussed with union representative",
+                "meta": "Done 3 Feb"
+              },
+              {
+                "tag": "Risk",
+                "t": "Two high-risk factors — measures decided",
+                "meta": "For review"
+              }
+            ]
+          }
+        }
+      ],
+      "sectors": {
+        "k": "Industries",
+        "t": "Same tool, different working days",
+        "d": "The questions are the same everywhere, so the figures can be compared over time. What sets industries apart is which factors tend to weigh most, and how people are reached.",
+        "items": [
+          {
+            "t": "Building and construction",
+            "d": "Teams with very different days — workshop, projects and operations. The heatmap shows where the differences are, without pointing at people.",
+            "f": [
+              "Speaking up",
+              "Workload"
+            ]
+          },
+          {
+            "t": "Health and care",
+            "d": "Shift rotas and many without a fixed screen. Send-outs by SMS, and the pulse tracks emotional demands through the year.",
+            "f": [
+              "Emotional demands",
+              "Support from manager"
+            ]
+          },
+          {
+            "t": "Retail and services",
+            "d": "Many part-time staff and several locations. Location groups that are too small are not shown, but count towards the whole.",
+            "f": [
+              "Role clarity",
+              "Recognition"
+            ]
+          },
+          {
+            "t": "Municipal and public sector",
+            "d": "Clear requirements for participation and documentation. Consultation and notice to the safety representative are logged in the report.",
+            "f": [
+              "Conflicting demands",
+              "Participation"
+            ]
+          },
+          {
+            "t": "Technology and consulting",
+            "d": "Rapid growth and frequent change. Extra pulses after a reorganisation show whether the structure holds.",
+            "f": [
+              "Role clarity",
+              "Workload"
+            ]
+          },
+          {
+            "t": "Industry and manufacturing",
+            "d": "Shifts and physical work. A short survey on mobile, and steady follow-up of incident reports and speaking up.",
+            "f": [
+              "Speaking up",
+              "Support from colleagues"
+            ]
+          }
+        ]
+      }
+    },
+    "hvorfor": {
+      "seoTitle": "Why Orgpuls – continuous follow-up of the working environment",
+      "seoDescription": "Positive focus, measures with an owner and a deadline, anonymity that cannot be switched off, and the Working Environment Act covered along the way. The choices Orgpuls is built on, and why.",
+      "crumb": "Why Orgpuls",
+      "h1": "Continuous follow-up delivers results over time",
+      "lead": "A survey once a year tells you how people were doing in September. Orgpuls is built for what happens next: building on what works, giving every finding an owner, and seeing whether it worked. Here are the choices we have made, and why.",
+      "next": "See the use cases →",
+      "usesLabel": "See it in the platform",
+      "sections": [
+        {
+          "k": "Positive focus",
+          "t": "Start with what works",
+          "d": "The summary first says what gives people energy, then what drains it. What is strong is what you build on — and it is easier to get people on board to improve something when they see that the good is noticed too.",
+          "points": [
+            "The summary starts with what people enjoy",
+            "Every area gets a label — including “Good”, not just “Needs work”",
+            "Comments with a positive tone are shown alongside the critical ones"
+          ],
+          "m": {
+            "title": "What people are most satisfied with",
+            "note": "baseline 2026",
+            "rows": [
+              "Recognition and meaning",
+              "Support from colleagues",
+              "Role clarity",
+              "Participation and control"
+            ],
+            "foot": "People value the meaning in their work and each other. That is a good starting point for working on speaking up."
+          }
+        },
+        {
+          "k": "Continuous follow-up",
+          "t": "One survey is a snapshot. Four are a direction.",
+          "d": "The main survey sets the baseline. Short pulses in between measure only what you are working on, so you see whether the curve turns while there is still time to adjust — not twelve months later.",
+          "points": [
+            "The annual cycle sends out, reminds and notifies by itself",
+            "The pulse asks only about the factors you have open measures on",
+            "A factor drops out of the pulse when its measures are closed, so people are not asked the same thing forever"
+          ],
+          "m": {
+            "title": "Workload · Projects",
+            "note": "target 60",
+            "labels": [
+              "Baseline 25",
+              "Baseline 26",
+              "Pulse Dec",
+              "Pulse Mar",
+              "Pulse Jun"
+            ]
+          }
+        },
+        {
+          "k": "From finding to action",
+          "t": "Every finding gets an owner and a deadline",
+          "d": "A figure without an owner gets left lying. Every measure in Orgpuls is tied to a factor, has an owner and a deadline, and cannot be closed until the next survey has shown whether it worked.",
+          "points": [
+            "Three suggestions per factor: workshop, routine or leadership practice",
+            "Each suggestion says which statement to measure again",
+            "Measures carry over into the report to management and the working environment committee (AMU)"
+          ],
+          "m": {
+            "title": "Always reply to incident reports",
+            "note": "Anne Rygg · due 15 Oct",
+            "steps": [
+              {
+                "t": "Proposed",
+                "d": "From the result for speaking up"
+              },
+              {
+                "t": "Decided",
+                "d": "With the safety representative 24 Sep"
+              },
+              {
+                "t": "In progress",
+                "d": "Reply to every report within five days"
+              },
+              {
+                "t": "Effect measured",
+                "d": "Pulse in December"
+              },
+              {
+                "t": "Closed",
+                "d": "When speaking up is above 60"
+              }
+            ]
+          }
+        },
+        {
+          "k": "Anonymity",
+          "t": "Anonymity that cannot be switched off",
+          "d": "No response is linked to a name, email or IP. A group is shown only once enough people have answered — and that applies to administrators too. The threshold is five responses and can be raised, but never lowered.",
+          "points": [
+            "Small groups are not shown, but count towards the whole",
+            "The question order is random for each person",
+            "Comments on a factor are shown only once at least five have written"
+          ],
+          "src": "GDPR and the Norwegian Data Protection Authority's guidance on anonymisation",
+          "m": {
+            "title": "What the manager sees",
+            "note": "threshold 5 responses",
+            "cols": [
+              "Speak",
+              "Load",
+              "Mgr",
+              "Role",
+              "Meaning"
+            ],
+            "teams": [
+              "Operations · 8",
+              "Projects · 9",
+              "Admin · 3",
+              "Warehouse · 4"
+            ],
+            "foot": "Admin and Warehouse have too few responses. They count towards the whole, but are never shown as a row of their own."
+          }
+        },
+        {
+          "k": "The research behind it",
+          "t": "Questions with research behind them",
+          "d": "The factors are based on QPS Nordic, the Nordic questionnaire for psychological and social factors at work. The wording is locked, so the figures can be compared from year to year.",
+          "points": [
+            "Eleven factors, three statements each, scale 1–5",
+            "Converted to an index of 0–100 to make it easy to read",
+            "The suggested measures build on established research into what works"
+          ],
+          "src": "QPS Nordic · National Institute of Occupational Health (STAMI)",
+          "m": {
+            "title": "A selection of the factors",
+            "note": "11 in total",
+            "cards": [
+              {
+                "tag": "Speaking up",
+                "t": "I can speak up about wrongdoing without fearing the consequences",
+                "meta": "3 statements"
+              },
+              {
+                "tag": "Workload",
+                "t": "My workload is manageable over time",
+                "meta": "3 statements"
+              },
+              {
+                "tag": "Role clarity",
+                "t": "I know what is expected of me in my job",
+                "meta": "3 statements"
+              }
+            ]
+          }
+        },
+        {
+          "k": "The law covered",
+          "t": "The law covered along the way — not on top",
+          "d": "The Working Environment Act calls for surveying, risk assessment, plans and measures. Orgpuls is built around exactly that sequence, so the documentation takes shape while you work. If you'd rather not see sections of the Act, they can be switched off in the interface.",
+          "points": [
+            "The survey duty in § 3-1 c and the requirements in § 4-3",
+            "Notice to the safety representative and consultation with union representatives are logged",
+            "A dedicated report for the Norwegian Labour Inspection Authority, ready to save as PDF"
+          ],
+          "src": "Working Environment Act §§ 3-1 c, 4-3, 6-2 and 9-2 · Regulation on the Performance of Work ch. 1A",
+          "m": {
+            "title": "Legal basis per factor",
+            "note": "from the report",
+            "cards": [
+              {
+                "tag": "§ 3-1 c",
+                "t": "Survey, risk assessment and measures",
+                "meta": "Covered"
+              },
+              {
+                "tag": "§ 4-3",
+                "t": "Psychosocial working environment",
+                "meta": "Covered"
+              },
+              {
+                "tag": "§ 9-2",
+                "t": "Consultation with union representatives before recurring surveys",
+                "meta": "Documented"
+              }
+            ],
+            "foot": "Orgpuls covers the survey of the psychosocial working environment. Other HSE duties are outside its scope."
+          }
+        }
+      ],
+      "compare": {
+        "k": "Compared",
+        "t": "Against spreadsheets and large HR systems",
+        "d": "Most people we talk to use either their own form in a spreadsheet or a survey module in a large HR system. Both can work. Here is where the difference lies.",
+        "cols": [
+          "Spreadsheet and form",
+          "Large HR system",
+          "Orgpuls"
+        ],
+        "rows": [
+          {
+            "k": "Time to first survey",
+            "a": "Days",
+            "b": "Weeks to months",
+            "c": "20 minutes"
+          },
+          {
+            "k": "Ready-made, research-based question set",
+            "a": "No",
+            "b": "Often",
+            "c": "QPS Nordic"
+          },
+          {
+            "k": "Anonymity with threshold",
+            "a": "Manual",
+            "b": "Yes",
+            "c": "Yes, for admins too"
+          },
+          {
+            "k": "Shows strengths before weaknesses",
+            "a": "No",
+            "b": "Varies",
+            "c": "Yes"
+          },
+          {
+            "k": "Suggested measures",
+            "a": "No",
+            "b": "Rarely",
+            "c": "Three per factor"
+          },
+          {
+            "k": "Checks whether measures worked",
+            "a": "No",
+            "b": "Partly",
+            "c": "Pulse on the measures"
+          },
+          {
+            "k": "Working Environment Act built in",
+            "a": "No",
+            "b": "Rarely",
+            "c": "Legal basis per factor"
+          },
+          {
+            "k": "Price for 30 employees",
+            "a": "Your own time",
+            "b": "By agreement",
+            "c": "NOK 565/month"
+          }
+        ]
+      },
+      "faq": {
+        "k": "Frequently asked questions",
+        "nav": "Questions",
+        "t": "What people ask before they start",
+        "d": "Can't find the answer? Write to us using the <link>contact form</link>. We reply personally, in Norwegian.",
+        "items": [
+          {
+            "q": "Can the manager see who answered what?",
+            "a": "No. Responses are never linked to a name, email or IP. Groups are shown only once the threshold is reached — at least five responses — and that applies to administrators too."
+          },
+          {
+            "q": "Why not just one survey a year?",
+            "a": "One survey shows how things stood at one point in time. It doesn't tell you whether the measures worked. The pulse measures only the factors you are working on, so you see the trend without asking about everything every time."
+          },
+          {
+            "q": "Won't people get tired of answering?",
+            "a": "The pulse asks only about the factors you have open measures on, and a factor drops out once its measures are closed. What wears people out is answering without seeing anything happen — which is why everyone gets to see the measures."
+          },
+          {
+            "q": "Do we need an HR system?",
+            "a": "No. Employees can be pasted in, uploaded as a CSV or added by hand."
+          },
+          {
+            "q": "Can we change the questions?",
+            "a": "You can switch off a factor, but not change the wording. That is what makes the figures comparable over time."
+          },
+          {
+            "q": "Does this cover all the requirements of the Working Environment Act?",
+            "a": "Orgpuls covers the survey duty in § 3-1 c and the requirements for the psychosocial working environment in § 4-3, with documentation. Other HSE duties, such as incident reporting systems and sickness absence follow-up, are outside its scope."
+          }
+        ]
+      }
+    },
+    "omOss": {
+      "crumb": "About us",
+      "h1": "We make the tool we were missing ourselves",
+      "lead": "Orgpuls is made in Norway, for Norwegian organisations with 10 to 500 employees. We believe satisfied employees are something you work towards, not something you measure your way to — and that the work must be simple enough to actually get done.",
+      "facts": [
+        {
+          "v": "Norway",
+          "l": "made here, for Norwegian rules"
+        },
+        {
+          "v": "EU",
+          "l": "where the data is stored"
+        },
+        {
+          "v": "10–500",
+          "l": "employees in the organisations we build for"
+        }
+      ],
+      "sections": {
+        "oppdrag": "Our mission",
+        "prinsipper": "How we think",
+        "lofter": "Our promises",
+        "team": "The team",
+        "grunnlag": "Foundations",
+        "kontakt": "Contact"
+      },
+      "mission": {
+        "t": "The survey is the start, not the end",
+        "p1": "Far too many employee surveys end up as a report that is presented at one meeting and then left on the shelf. Not because nobody cares, but because the tool stops where the work should have begun.",
+        "p2": "We are building Orgpuls for what happens next: seeing what works, giving every finding an owner, and measuring whether it helped. The requirements of the Working Environment Act should be covered along the way — without anyone having to read sections of the Act.",
+        "quote": "“What is measured and followed up gets better. What is only measured becomes a report.”",
+        "loop": [
+          {
+            "t": "Measure",
+            "d": "anonymously, four minutes"
+          },
+          {
+            "t": "Understand",
+            "d": "what pulls up and down"
+          },
+          {
+            "t": "Act",
+            "d": "measures with owner and deadline"
+          },
+          {
+            "t": "See the effect",
+            "d": "the next pulse shows whether it worked"
+          }
+        ]
+      },
+      "principles": {
+        "t": "Six principles we build by",
+        "d": "When we have to choose between two solutions, these decide. They are here so you can hold us to them.",
+        "inPractice": "In practice:",
+        "items": [
+          {
+            "t": "Start with what works",
+            "d": "Strengths are mentioned before weaknesses. It is easier to improve something when people see that the good is noticed too.",
+            "x": "The summary starts with what people enjoy."
+          },
+          {
+            "t": "Anonymity comes first",
+            "d": "No feature is important enough to weaken anonymity. Better one figure too few than one that can be traced to a person.",
+            "x": "The threshold applies to administrators too and can never be set below five."
+          },
+          {
+            "t": "Every finding needs an owner",
+            "d": "A figure without an owner gets left lying. A measure without a deadline never gets done.",
+            "x": "Measures cannot be closed until the effect has been measured."
+          },
+          {
+            "t": "Simple enough for 20 employees",
+            "d": "A managing director without an HR department should manage alone. Those who have HR should get the depth.",
+            "x": "Simple and full view of the same data."
+          },
+          {
+            "t": "Don't ask more than necessary",
+            "d": "Every question costs respondents time. We only ask about what you actually intend to act on.",
+            "x": "The pulse asks only about factors with open measures."
+          },
+          {
+            "t": "Say what we don't do",
+            "d": "We cover the survey of the psychosocial working environment. We don't pretend to cover everything else.",
+            "x": "The report states clearly which HSE duties are outside its scope."
+          }
+        ]
+      },
+      "promises": {
+        "t": "To you as a customer, and to those who answer",
+        "d": "A survey only works if people trust it. That is why we make two sets of promises: one to the organisation that pays, and one to the employees who answer.",
+        "orgHead": "To the organisation",
+        "org": [
+          "Monthly agreement, no lock-in period and no set-up fee",
+          "Everything included: surveys, reports, measures and integrations",
+          "The data is yours — the report can be saved as PDF at any time",
+          "Data is stored in the EU and never sold on",
+          "A reply in Norwegian within one working day"
+        ],
+        "empHead": "To the employees",
+        "emp": [
+          "Your answer is never linked to your name, email or IP",
+          "The manager sees figures only when enough people in the group have answered",
+          "Responses are not used to train language models",
+          "You can skip questions and answer on your phone",
+          "If you write a comment, the manager can reply without knowing who you are"
+        ]
+      },
+      "team": {
+        "t": "Small team, direct lines",
+        "d": "Orgpuls is made by a small team with backgrounds in HR, management and product development. You talk to the people who build the product, not to a support centre.",
+        "members": [
+          {
+            "n": "Product",
+            "r": "Product and design",
+            "d": "Responsible for making it easy to get started, and for results that are easy to understand."
+          },
+          {
+            "n": "Expertise",
+            "r": "Expertise and working environment",
+            "d": "Responsible for the question set, the suggested measures and for keeping us within the regulations."
+          },
+          {
+            "n": "Customers",
+            "r": "Customers and onboarding",
+            "d": "Helps you with the first send-out and replies when you write."
+          },
+          {
+            "n": "Tuva",
+            "r": "The in-product assistant",
+            "d": "Shows the way on every page and what remains in the setup. Never reads responses."
+          }
+        ]
+      },
+      "basis": {
+        "t": "What we build on",
+        "d": "We didn't invent the questions or the rules. We have put together what already exists and made it easy to use.",
+        "items": [
+          {
+            "k": "Questionnaire",
+            "t": "QPS Nordic",
+            "d": "The Nordic questionnaire for psychological and social factors at work. The basis for the factors and the wording.",
+            "cta": "Read about the questions"
+          },
+          {
+            "k": "Law",
+            "t": "The Working Environment Act",
+            "d": "The survey duty in § 3-1 c, the requirements for the psychosocial working environment in § 4-3, participation in § 6-2 and consultation in § 9-2.",
+            "cta": "See how the law is covered"
+          },
+          {
+            "k": "Regulation",
+            "t": "The Regulation on the Performance of Work",
+            "d": "Chapter 1A on organisational and psychosocial factors: role clarity, workload, conflicting and emotional demands.",
+            "cta": "See the factors"
+          },
+          {
+            "k": "Privacy",
+            "t": "GDPR",
+            "d": "The threshold, and holding back small groups, mean the results are not personal data. The legal basis for processing is documented.",
+            "cta": "Read about anonymity"
+          }
+        ]
+      },
+      "contact": {
+        "t": "Write to us",
+        "d": "Questions about the product, pricing for corporate groups, or help with the first send-out. We reply personally, in Norwegian, within one working day.",
+        "topics": [
+          "Questions about the product",
+          "Pricing for groups or over 100 employees",
+          "Help with the first send-out",
+          "Privacy and data processing agreement"
+        ],
+        "topicsLabel": "What is it about?",
+        "name": "Name",
+        "mail": "Email",
+        "org": "Organisation",
+        "orgPlaceholder": "Optional",
+        "msg": "Message",
+        "send": "Send message",
+        "invalid": "Enter your name and a valid email address.",
+        "opened": "Your email program opens with the message ready to send to {mail}. Send it from there, and we'll reply within one working day.",
+        "mailBody": "{msg}\n\n— {name}\nEmail: {mail}\nOrganisation: {org}"
+      }
+    },
+    "plattform": {
+      "crumb": "Platform",
+      "h1": "Four parts that fit together",
+      "lead": "The survey is the start. The results point to what moves the score, the comments explain why, and measures are closed only when the next survey shows whether they worked.",
+      "next": "See the use cases →",
+      "sections": {
+        "malinger": "Surveys and annual cycle",
+        "respondent": "What answering is like",
+        "resultater": "Results",
+        "segment": "Four views",
+        "kommentarer": "Comments",
+        "tiltak": "Measures",
+        "rapport": "Report",
+        "roller": "Roles and access",
+        "oppsett": "Setup and integrations",
+        "assistent": "The assistant"
+      },
+      "app": {
+        "nav": [
+          "Insight",
+          "Surveys",
+          "Results",
+          "Comments",
+          "Measures",
+          "Setup"
+        ],
+        "org": "Demo Company · 34 employees",
+        "indexLabel": "Working environment index · baseline 2026",
+        "index": "61",
+        "delta": "−3 since last year",
+        "answered": "28 of 34 responded · 82%",
+        "bands": [
+          "4 satisfactory",
+          "5 to follow up",
+          "2 high risk"
+        ],
+        "tuva": "Workshop has eight responses, above the threshold of five, so its figure is shown. Admin has three and is shown as a dash.",
+        "waiting": "Waiting for you",
+        "todo": [
+          {
+            "t": "Always reply to incident reports within five days — Workshop",
+            "m": "You are responsible · deadline passed yesterday",
+            "cta": "Update"
+          },
+          {
+            "t": "Two anonymous comments are awaiting a reply",
+            "m": "The oldest has waited six days",
+            "cta": "Open"
+          },
+          {
+            "t": "Approve the pulse on 12 October",
+            "m": "Six statements from the two high-risk factors",
+            "cta": "See the selection"
+          }
+        ]
+      },
+      "get": "What you get",
+      "features": [
+        {
+          "k": "Surveys",
+          "t": "An annual cycle that runs itself",
+          "d": "A main survey each year, short pulses in between. Send-outs, reminders and notices to the safety representative happen automatically."
+        },
+        {
+          "k": "Results",
+          "t": "What pulls up, what pulls down",
+          "d": "An index per factor and team, with a threshold that protects anonymity. Suggested measures sit beneath the figures."
+        },
+        {
+          "k": "Comments",
+          "t": "Reply to employees without knowing who",
+          "d": "Anonymous comments grouped by factor. You reply in the app, and the writer sees the reply through their own link."
+        },
+        {
+          "k": "Measures",
+          "t": "Owner, deadline and measured effect",
+          "d": "Each measure is tied to a factor and closed only when the next survey shows whether it worked."
+        }
+      ],
+      "heat": {
+        "title": "Team × factor",
+        "note": "Groups below the threshold are shown as —",
+        "cols": [
+          "Speaking up",
+          "Workload",
+          "Support from manager",
+          "Role clarity",
+          "Meaning"
+        ],
+        "teams": [
+          "Operations · 8",
+          "Projects · 9",
+          "Workshop · 8",
+          "Admin · 3"
+        ],
+        "tabs": [
+          "Heatmap",
+          "Priority",
+          "Segment profile",
+          "Trend"
+        ]
+      },
+      "callouts": [
+        {
+          "t": "Threshold of five, can be raised to ten",
+          "d": "Groups with fewer responses are shown as a dash — for administrators too. Never below five."
+        },
+        {
+          "t": "Four views",
+          "d": "Heatmap, priority, segment profile and trend. Same data, different question."
+        },
+        {
+          "t": "Suggestions beneath the figures",
+          "d": "Tap a factor to get three research-based measures, with time required and what to measure."
+        },
+        {
+          "t": "The role sets the view",
+          "d": "The department manager sees their team. The safety representative sees the whole. Nobody sees individuals."
+        }
+      ],
+      "malinger": {
+        "k": "Surveys",
+        "t": "The annual cycle runs itself",
+        "d": "One main survey a year sets the baseline. The pulses in between measure only what you have put measures on — three statements per factor. Send-outs, reminders and notices are all automatic.",
+        "points": [
+          "Baseline: 37 questions, all employees, once a year",
+          "Pulse: three statements from each factor with open measures",
+          "A factor drops out of the pulse when its measures are closed",
+          "Add a pulse to any month directly in the annual cycle"
+        ],
+        "wheelTitle": "Annual cycle 2026",
+        "wheelNote": "4 send-outs · break in July",
+        "months": [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec"
+        ],
+        "base": "Main",
+        "pulse": "Pulse",
+        "holiday": "Holiday",
+        "each": "Each send-out",
+        "cascade": [
+          {
+            "who": "Safety and union representatives",
+            "when": "2 days before"
+          },
+          {
+            "who": "Managing director",
+            "when": "1 day before"
+          },
+          {
+            "who": "Employees",
+            "when": "Tuesday 09:00"
+          },
+          {
+            "who": "Reminder",
+            "when": "day 4"
+          },
+          {
+            "who": "Results to management and safety representative",
+            "when": "day 7"
+          }
+        ],
+        "chips": [
+          "Baseline · 37 questions",
+          "Pulse · 3 per factor",
+          "Reminder · one"
+        ]
+      },
+      "respondent": {
+        "k": "What answering is like",
+        "t": "Four minutes, on a phone, on a break",
+        "d": "One question at a time, factor visible, comment optional. The order is random for each person, so nobody can guess who answered what from when the answer came in.",
+        "points": [
+          "The answer is anonymous — name, email and IP are not stored with it",
+          "The manager sees figures only once the threshold is reached — at least five responses",
+          "Questions can be skipped; comments are optional",
+          "Sent by email or SMS to those who don't work at a screen"
+        ],
+        "phone": {
+          "time": "09:41",
+          "org": "Demo Company",
+          "progress": "13 / 37",
+          "factor": "Speaking up",
+          "statement": "I can speak up about wrongdoing without fearing the consequences",
+          "options": [
+            "Strongly disagree",
+            "Somewhat disagree",
+            "Neutral",
+            "Somewhat agree",
+            "Strongly agree"
+          ],
+          "more": "Want to say more? Optional +",
+          "skip": "Skip",
+          "next": "Next"
+        }
+      },
+      "resultater": {
+        "k": "Results",
+        "t": "Sorted by what moves the whole — not by the lowest figure",
+        "d": "Nine to eleven factors with an index of 0–100, change since last year and risk level. Tap a factor to see the statements behind the figure, the distribution of answers and three suggested measures.",
+        "head": [
+          "Factor",
+          "Index and trend",
+          "Risk"
+        ],
+        "rows": [
+          {
+            "l": "Speaking up",
+            "law": "aml. § 4-3"
+          },
+          {
+            "l": "Workload",
+            "law": "regulation ch. 1A"
+          },
+          {
+            "l": "Conflicting demands",
+            "law": "regulation ch. 1A"
+          },
+          {
+            "l": "Emotional demands",
+            "law": "regulation ch. 1A"
+          },
+          {
+            "l": "Support from manager",
+            "law": "regulation ch. 1A"
+          },
+          {
+            "l": "Role clarity",
+            "law": "regulation ch. 1A"
+          }
+        ],
+        "risk": {
+          "high": "High",
+          "mid": "Medium",
+          "low": "Low"
+        },
+        "top3": "Do these three",
+        "top": [
+          {
+            "t": "Speaking up in Workshop",
+            "m": "Index 28 · 8 responses"
+          },
+          {
+            "t": "Workload in Projects",
+            "m": "Index 31 · 9 responses"
+          },
+          {
+            "t": "Support from manager",
+            "m": "Largest drop among new hires"
+          }
+        ],
+        "trend": "Trend · speaking up",
+        "trendLabels": [
+          "2023",
+          "2024",
+          "2025",
+          "Measure",
+          "Pulse"
+        ]
+      },
+      "segment": {
+        "k": "Four views",
+        "t": "Same figures, four questions",
+        "views": [
+          {
+            "t": "Heatmap",
+            "d": "Team × factor with a threshold lock. Groups under five responses are shown as —."
+          },
+          {
+            "t": "Priority",
+            "d": "What moves the whole most — not what has the lowest figure."
+          },
+          {
+            "t": "Segment profile",
+            "d": "One team against the rest. Where does it differ, and on what?"
+          },
+          {
+            "t": "Trend",
+            "d": "Baseline and pulse on the same line, with the measure marked."
+          }
+        ],
+        "prio": [
+          "Speak",
+          "Load",
+          "Mgr",
+          "Role"
+        ]
+      },
+      "kommentarer": {
+        "k": "Comments",
+        "t": "An anonymous conversation, not an inbox",
+        "d": "Free-text answers are grouped automatically by factor and tone. The manager replies without knowing who wrote, and the employee reads the reply via their private link.",
+        "points": [
+          "Grouped by factor, with tone taken from the answer the comment belongs to",
+          "The reply reaches the writer — via a private link, without anyone knowing who",
+          "Filter by survey, factor and status",
+          "A factor is shown only once at least five have answered"
+        ],
+        "themes": [
+          {
+            "l": "All factors",
+            "n": "18 comments"
+          },
+          {
+            "l": "Speaking up",
+            "n": "9 · negative"
+          },
+          {
+            "l": "Workload",
+            "n": "6 · negative"
+          },
+          {
+            "l": "Support from colleagues",
+            "n": "5 · positive"
+          }
+        ],
+        "c1": {
+          "factor": "Speaking up",
+          "tone": "Negative",
+          "status": "Waiting · 6 days",
+          "text": "“Speaking up doesn't help. We reported a problem with the rigging in the spring and never heard anything.”",
+          "reply": "Write a reply …",
+          "send": "Send"
+        },
+        "c2": {
+          "factor": "Recognition and meaning",
+          "tone": "Positive",
+          "status": "Answered",
+          "text": "“Changing the morning meeting was a good move.”",
+          "youLabel": "You replied:",
+          "you": "Great to hear — we'll keep it up."
+        }
+      },
+      "tiltak": {
+        "k": "Measures",
+        "t": "From finding to effect, with owner and deadline",
+        "d": "Each factor has three ready-made, research-based suggestions — a workshop, a routine or a leadership practice — with time required and which statement to measure. The measure is tied to the factor and closed only when the next pulse shows whether it worked.",
+        "suggestTitle": "Suggestions · speaking up (41)",
+        "measuredOn": "Measured on: {q}",
+        "suggest": [
+          {
+            "type": "Routine",
+            "time": "Ongoing",
+            "t": "Reply to every report within five days",
+            "q": "When someone reports a problem, something is done about it"
+          },
+          {
+            "type": "Workshop",
+            "time": "90 min",
+            "t": "Workshop: What stops us speaking up?",
+            "q": "I can speak up about wrongdoing without fearing the consequences"
+          },
+          {
+            "type": "Leadership practice",
+            "time": "Every meeting",
+            "t": "The manager asks first and speaks last",
+            "q": "Disagreement is raised openly here, not in the corridor afterwards"
+          }
+        ],
+        "card": {
+          "factor": "Speaking up",
+          "late": "Overdue",
+          "t": "Always reply to incident reports within five days",
+          "m": "Anne Rygg · deadline passed yesterday · from baseline 2026",
+          "steps": [
+            "Proposed",
+            "Decided",
+            "In progress",
+            "Completed",
+            "Effect measured",
+            "Closed"
+          ],
+          "note": "The effect is measured in the pulse on 12 October on the statement “When someone reports a problem, something is done about it”. The measure can be closed once the index has been measured again."
+        }
+      },
+      "rapport": {
+        "k": "Report and documentation",
+        "t": "Report to AMU, management or the Labour Inspection Authority",
+        "d": "The report is written from the figures: findings, risk assessment, measures and legal basis per factor. Choose the year, scope and recipient. You read it through and approve it — nothing goes out automatically.",
+        "points": [
+          "Choose year, scope and recipient: the Norwegian Labour Inspection Authority, the working environment committee (AMU), the management team or employees",
+          "Legal basis per factor: aml. § 3-1 c, § 4-3, regulation ch. 1A",
+          "Consultation with union representatives and notice to the safety representative are documented",
+          "Save as PDF; the data is yours"
+        ],
+        "pages": [
+          {
+            "k": "Page 1",
+            "t": "Summary and index",
+            "f": "Demo Company · 2026"
+          },
+          {
+            "k": "Page 2",
+            "t": "Risk assessment per factor",
+            "f": "aml. § 3-1 c"
+          },
+          {
+            "k": "Page 3",
+            "t": "Measures with owner and deadline",
+            "f": "4 measures · 1 effect measured"
+          },
+          {
+            "k": "Page 4",
+            "t": "Participation and legal basis",
+            "f": "Safety rep · union rep"
+          }
+        ]
+      },
+      "roller": {
+        "k": "Roles and access",
+        "t": "Who sees what",
+        "d": "The role sets the view. Nobody sees individuals, and the threshold (at least 5 responses) applies to administrators too. Simple view gives one page; full view gives all the analyses.",
+        "roles": [
+          "Managing director",
+          "Department manager",
+          "Safety representative"
+        ],
+        "rows": [
+          {
+            "k": "Whole organisation",
+            "c": [
+              "Yes",
+              "—",
+              "Yes"
+            ]
+          },
+          {
+            "k": "Own team above threshold",
+            "c": [
+              "Yes",
+              "Yes",
+              "Yes"
+            ]
+          },
+          {
+            "k": "Anonymous comments",
+            "c": [
+              "All",
+              "Own",
+              "—"
+            ]
+          },
+          {
+            "k": "Risk assessment and legal basis",
+            "c": [
+              "Yes",
+              "—",
+              "Yes"
+            ]
+          },
+          {
+            "k": "Measures: set owner and deadline",
+            "c": [
+              "Yes",
+              "Own",
+              "—"
+            ]
+          },
+          {
+            "k": "Notice before send-out",
+            "c": [
+              "1 day before",
+              "Same day",
+              "2 days before"
+            ]
+          }
+        ],
+        "yes": "Yes",
+        "none": "—"
+      },
+      "oppsett": {
+        "k": "Setup and integrations",
+        "t": "Ready in 20 minutes, with or without an HR system",
+        "cards": [
+          {
+            "t": "Brønnøysund",
+            "d": "Enter the org. no. — name, address, industry and headcount are fetched."
+          },
+          {
+            "t": "Employees",
+            "d": "Paste, upload a CSV or add by hand. Group and role right in the table."
+          },
+          {
+            "t": "Groups and threshold",
+            "d": "Small groups are not shown, but count towards the whole. Threshold 5, can be raised to 10 — never lower."
+          },
+          {
+            "t": "Wizard",
+            "d": "Nine steps from organisation to first send-out. Can be run again."
+          },
+          {
+            "t": "Email and SMS",
+            "d": "Invitations by email, and by SMS when you turn it on — for those without a fixed screen."
+          },
+          {
+            "t": "Privacy",
+            "d": "Data in the EU. The legal basis for processing is documented, and the data processing agreement is signed in the app."
+          }
+        ],
+        "integrations": "Integrations",
+        "soon": "Coming",
+        "list": [
+          "CSV",
+          "Paste a list",
+          "Email",
+          "SMS",
+          "Microsoft Entra ID",
+          "Microsoft Teams",
+          "Tripletex",
+          "Visma",
+          "Simployer"
+        ],
+        "note": "Everything works without an HR system: paste or upload a CSV, and Orgpuls keeps the register. Connections marked “coming” are in progress — tell us which system you use."
+      },
+      "assistent": {
+        "k": "The assistant",
+        "t": "Tuva shows the way on every page",
+        "d": "She sits in the corner of every page: three steps for the screen you're on, the research and legal requirement it rests on, and what remains before you're up and running. She never reads responses, and neither does any language model.",
+        "tuvaName": "Tuva:",
+        "tuva": "Two of four steps remain before you're fully up and running. Next is checking groups and threshold — then you're ready for the first survey.",
+        "draft": "Continue setup",
+        "chips": [
+          "Help on every page",
+          "Basis and law",
+          "Wizard at start-up",
+          "Getting-started list"
+        ]
+      }
+    }
   }
 }

@@ -3545,3 +3545,103 @@ The owner should have these, and the whole text, reviewed by a lawyer.
 **v3 claims, state 12-kommentarer.** Re-written with `--only 12 --write`. The page grew
 with D-82's "Be om direkte kontakt" rows, so its seven bottom tiles moved. A build
 without this change fails the same way.
+
+## D-88 — The public site follows design-reference/orgpuls/nettside
+
+**The request:** "update the front page; all pages pixel perfect", with the bundle
+`Copy of Orgpuls.com.zip`. It holds five pages: Forside, Plattform, Hvorfor, Bruksområder and
+Om oss. They are stored in `design-reference/orgpuls/nettside/`, next to the `tuva/` faces
+they point to.
+
+**Pixel gate.** `scripts/verify/site-baseline.mjs` renders the five pages into
+`nettside/baselines/` the same way the app's baselines were made, with the design's own font
+files. `scripts/verify/site-pixel.mjs` then diffs each whole page against the site: the
+heights must match, the page must be within 0.1 %, and so must every 900 px band. Built with
+the design's own words, the pages measured:
+
+| Page | Differing pixels |
+|---|---|
+| Forside | 204 |
+| Plattform | 244 |
+| Hvorfor | 35 |
+| Bruksområder | 0 |
+| Om oss | only the team cards, below |
+
+With the corrections below applied, the differences sit where the words changed.
+
+**Where the site departs from the design, and why:**
+- **Claims the product does not keep are corrected, not published.** An audit of every claim
+  against the code found these untrue, and each was reworded to what the product does:
+  - The threshold. The design says "anbefalt fem, kan settes ned til tre, aldri under tre".
+    The database fixes it at a minimum of 5, and an organisation may raise it to 10
+    (`app.k_min()`, organizations.threshold). This is a security invariant, so CLAUDE.md
+    wins.
+  - The question count. It is 37, not 31: 33 statements plus 4 questions outside the index.
+  - The pulse. It asks the three statements of each factor that has open measures. It is
+    not "fem spørsmål, under ett minutt", and it does not "stop at 60"; a factor drops out
+    when its measures are closed.
+  - Reminders. There is one reminder, not reminders on day 2 and day 4.
+  - The HR role. There is none, so the HR column is removed from the "Hvem ser hva" table.
+    The verneombud row reads "—", not "Foreslå", for measures, and the avdelingsleder row
+    reads "Samme dag" for the notice before send-out.
+  - Microsoft Entra ID. It is not connected, so it is marked "Kommer" like Teams, Tripletex,
+    Visma and Simployer.
+  - Brønnøysund. The lookup gets name, address, industry and employee count. It does not
+    get locations.
+  - Comments. They are grouped by factor, with a tone taken from their answer. They are not
+    grouped by topic, not screened for recognisable details, and not routed as a varsel
+    (whistleblowing notice). The writer reads the reply through their private link.
+  - Small groups. They are withheld and still counted in the whole, not merged.
+  - The report. Its audiences are Arbeidstilsynet, AMU, the management group and the
+    employees, not "styret" or "personalmøtet". Its page count is not fixed. It is saved as
+    PDF; there is no spreadsheet export.
+  - Assistenten. Tuva is the help panel: help and grounds for each screen, and the "Kom i
+    gang" list. It does not write drafts, cannot be renamed, has no tone setting, and there
+    is no customer logo. Setup's "Logo og assistent" card becomes "E-post og SMS", which
+    exists.
+  - Personvern. Deletion is not automated and there is no access log. The card now names
+    what exists: EU storage, the documented basis, and the signed data processing agreement.
+  - The Tiltak drawing now shows the playbook's real three suggestions for Ytringsklima, not
+    three invented ones.
+  - "Positivt fokus". The overview's summary starts with what people thrive with, but the
+    areas are listed lowest first. The words say the former.
+- **Om oss, team cards.** The design has photo slots and "Navn". There are no names or
+  photographs to show, and a placeholder that looks like a person is invented data. Each card
+  shows its role and the illustrated face the start page gives that role; the fourth card is
+  Tuva, as drawn.
+- **Om oss, the contact form.** Nothing on the site receives a message (D-83). "Send melding"
+  opens the visitor's own e-mail program with the message addressed to hjelp@orgpuls.no and
+  the topic as the subject. Nothing is stored or sent by the site. A stored inbox would be a
+  new processing of personal data, and it is left to the owner to decide.
+- **Links.** The design's links point at its own files and at `#`, so each is mapped to a real
+  page or section (lib/site/nav). The header's "Kom i gang" opens /registrer; "Pris" is the
+  start page's price band; "Se prisene" opens /priser.
+  - Two footer entries, Personvernerklæring and Vilkår, have no page and are set as text.
+    Registration already asks people to confirm that they have read the privacy statement,
+    which does not exist yet. That is an open item.
+- **Two footers.** The design gives Forside and Plattform one footer, and Hvorfor,
+  Bruksområder and Om oss another. Each page gets the one it draws. Every other public page
+  gets the second.
+- **The rest of the public site** (priser, sikkerhet, kontakt, the landing pages, the
+  articles) keeps its pages under the new header and footer. The header no longer links
+  Priser and Artikler, and the footer no longer lists the landing pages. They stay in the
+  sitemap, and "Arbeidsmiljøloven forklart", "Medarbeiderundersøkelse" and "Personvern og
+  anonymitet" link to three of them.
+- **Phone.** Below 1024 px the design's header wraps into three rows of sticky header, so it
+  folds into "Meny" as before (D-85). Below 768 px, Plattform's product drawing stacks its
+  two halves. Neither affects the 1440 gate.
+- **Fallback faces.** They now cover only their web font's character ranges. A glyph DM Sans
+  lacks, such as → or ✓, fell through to the scaled Arial and was drawn differently from the
+  design. It now falls to system-ui, as in the design.
+- **What the design gives up, kept as drawn:**
+  - The start page's H1, "Første måling ute før lunsj.", no longer carries the search term.
+    D-85 put it there after the landing-page guide. The page's title and description still
+    carry it, and so does the pill above the H1.
+  - The organisation-number field is at the foot of the page, not above the fold.
+  - The drawings' faint labels (#8A8272 on the cream fills: "Ferie", the report pages'
+    footers, the "kommer" chips) are under 4.5:1. axe flags them; changing the colour would
+    change the design.
+  - On phones, the logo, "Møt teamet" and the footer links get 44 px targets. The scrollable
+    tables can be focused from the keyboard. Neither changes anything at 1440.
+- **English.** Every `site.*` message has an English twin, with the same structure and the
+  same placeholders. The public pages are static and render in Norwegian.

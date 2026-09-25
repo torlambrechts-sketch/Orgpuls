@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<title>Hvorfor Orgpuls – positivt fokus, kontinuerlig oppfølging og loven dekket | Orgpuls</title>
+<meta name="description" content="Hvorfor Orgpuls: start med det som fungerer, følg opp gjennom året, gi hvert funn en eier. Anonymitet som ikke kan skrus av, spørsmål fra QPS Nordic og arbeidsmiljøloven dekket underveis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0}
+*{box-sizing:border-box}
+body{background:#FCF6E9;color:#191510;font-family:'DM Sans',system-ui,sans-serif}
+a{color:#2F5D2A;text-decoration:none}a:hover{color:#1E3D1A;text-decoration:underline}
+input,button{font-family:inherit}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #191510;outline-offset:2px;border-radius:6px}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#FCF6E9;color:#191510;font-size:14px">
+
+  <header style="position:sticky;top:0;z-index:40;background:#FFFDF6;border-bottom:1px solid #E8DFC9">
+    <div style="max-width:1120px;margin:0 auto;padding:13px 26px;display:flex;align-items:center;gap:22px;flex-wrap:wrap">
+      <a href="Forside.dc.html" style="display:flex;align-items:center;gap:10px;flex:none;color:#191510">
+        <span style="width:33px;height:33px;border-radius:10px;border:1.5px solid #191510;background:#FFFDF6;display:flex;align-items:center;justify-content:center"><svg width="22" height="13" viewBox="0 0 20 12" fill="none" aria-hidden="true" style="display:block"><path d="M1 6.2h3.6l1.7-4.4 2.9 8.8 1.9-4.4h2.4" stroke="#191510" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="17" cy="6.2" r="1.9" fill="#191510"></circle></svg></span>
+        <span style="font-family:'Playfair Display',serif;font-weight:600;font-size:21px;letter-spacing:-.01em">Orgpuls</span>
+      </a>
+      <nav aria-label="Hovedmeny" style="display:flex;gap:4px;flex:1;min-width:0;flex-wrap:wrap">
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5"><a href="{{ n.href }}" style="padding:8px 12px;border-radius:9px;font-size:14px;font-weight:600;color:#191510;background:{{ n.bg }}">{{ n.l }}</a></sc-for>
+      </nav>
+      <span style="display:flex;gap:9px;flex:none">
+        <a href="../Orgpuls Start.dc.html" style="height:38px;padding:0 15px;border-radius:10px;font-size:14px;font-weight:600;color:#191510;display:flex;align-items:center">Logg inn</a>
+        <a href="#kom-i-gang" style="height:38px;padding:0 17px;border-radius:10px;border:1px solid #191510;background:#F5C64A;color:#191510;font-size:14px;font-weight:700;display:flex;align-items:center">Kom i gang</a>
+      </span>
+    </div>
+  </header>
+  <div style="position:sticky;top:65px;z-index:30;background:rgba(252,246,233,.94);border-bottom:1px solid #E8DFC9;backdrop-filter:blur(6px)">
+    <div style="max-width:1120px;margin:0 auto;padding:0 26px;overflow-x:auto;scrollbar-width:none">
+      <nav aria-label="Seksjoner" style="display:flex;gap:2px;min-width:max-content">
+        <sc-for list="{{ secNav }}" as="s" hint-placeholder-count="9">
+          <a href="{{ s.href }}" onClick="{{ s.go }}" style="display:block;padding:13px 9px 11px;font-size:12px;font-weight:{{ s.w }};color:#191510;border-bottom:2px solid {{ s.bd }};white-space:nowrap;text-decoration:none">{{ s.l }}</a>
+        </sc-for>
+      </nav>
+    </div>
+  </div>
+
+  <section style="max-width:1120px;margin:0 auto;padding:60px 26px 0">
+    <nav aria-label="Du er her" style="font-size:12.5px;color:#5F5849;display:flex;gap:8px;align-items:center"><a href="Forside.dc.html" style="color:#5F5849">Orgpuls</a><span>›</span><span style="color:#191510;font-weight:600">Hvorfor Orgpuls</span></nav>
+    <span style="display:inline-block;margin-top:18px;padding:6px 13px;border-radius:999px;background:#FBEBBE;font-size:12px;font-weight:700">Hvorfor Orgpuls</span>
+    <h1 style="font-family:'Playfair Display',serif;font-weight:600;font-size:50px;line-height:1.06;margin:16px 0 0;max-width:20ch;text-wrap:balance">Kontinuerlig oppfølging skaper resultater på sikt</h1>
+    <p style="font-size:17px;line-height:1.65;color:#3A342A;margin:16px 0 0;max-width:58ch;text-wrap:pretty">En undersøkelse i året forteller hvordan folk hadde det i september. Orgpuls er bygget for det som skjer etterpå: å bygge på det som fungerer, gi hvert funn en eier, og se om det virket. Her er valgene vi har tatt, og hvorfor.</p>
+    <div style="display:flex;gap:10px;margin-top:24px;flex-wrap:wrap">
+      <a href="#kom-i-gang" style="height:48px;padding:0 22px;border-radius:12px;border:1px solid #191510;background:#F5C64A;color:#191510;font-size:15px;font-weight:700;display:flex;align-items:center">Prøv gratis i 30 dager</a>
+      <a href="Bruksomrader.dc.html" style="height:48px;padding:0 20px;border-radius:12px;border:1px solid #191510;color:#191510;font-size:15px;font-weight:600;display:flex;align-items:center">Se bruksområdene →</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:12px;margin-top:36px">
+      <sc-for list="{{ overview }}" as="o" hint-placeholder-count="6">
+        <a href="{{ o.href }}" onClick="{{ o.go }}" style="display:flex;flex-direction:column;gap:6px;padding:18px 20px;border-radius:16px;border:1px solid #E8DFC9;background:#FFFDF6;color:#191510;text-decoration:none">
+          <span style="display:flex;align-items:center;gap:9px"><span style="flex:none;width:28px;height:28px;border-radius:9px;background:{{ o.bg }};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">{{ o.n }}</span><span style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#5F5849">{{ o.k }}</span></span>
+          <span style="font-size:15px;font-weight:700;line-height:1.35;text-wrap:pretty">{{ o.t }}</span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+
+  <sc-for list="{{ sections }}" as="s" hint-placeholder-count="3">
+  <section id="{{ s.id }}" style="max-width:1120px;margin:0 auto;padding:56px 26px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:36px;align-items:center">
+    <div style="order:{{ s.o1 }}">
+      <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">{{ s.k }}</span>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.14;margin:9px 0 0;max-width:22ch;text-wrap:balance">{{ s.t }}</h2>
+      <p style="font-size:15px;line-height:1.65;color:#3A342A;margin:12px 0 0;max-width:52ch;text-wrap:pretty">{{ s.d }}</p>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-top:18px">
+        <sc-for list="{{ s.points }}" as="p" hint-placeholder-count="3"><span style="display:flex;gap:10px;font-size:14px;line-height:1.5;text-wrap:pretty"><span style="flex:none;width:18px;height:18px;border-radius:6px;background:#CFE7E4;color:#20431C;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;margin-top:2px">✓</span>{{ p.l }}</span></sc-for>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;margin-top:18px;flex-wrap:wrap">
+        <span style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849;margin-right:4px">Se i plattformen</span>
+        <sc-for list="{{ s.uses }}" as="u" hint-placeholder-count="2"><a href="{{ u.href }}" style="padding:6px 12px;border-radius:999px;border:1px solid #E8DFC9;background:#FFFDF6;font-size:12.5px;font-weight:600;color:#191510">{{ u.l }} →</a></sc-for>
+      </div>
+      <sc-if value="{{ s.hasSrc }}" hint-placeholder-val="{{ true }}"><span style="display:inline-block;margin-top:12px;padding:5px 11px;border-radius:999px;background:#F2EAD6;font-size:11.5px;font-weight:600;color:#5F5849">Kilde: {{ s.src }}</span></sc-if>
+    </div>
+    <div style="order:{{ s.o2 }};min-width:0">
+      <div style="border-radius:20px;border:1px solid #E8DFC9;background:#FFFDF6;padding:22px 24px;box-shadow:0 18px 40px -32px rgba(25,21,16,.4)">
+        <span style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap"><span style="font-size:15px;font-weight:700">{{ s.m.title }}</span><span style="font-size:12px;color:#5F5849">{{ s.m.note }}</span></span>
+
+        <sc-if value="{{ s.m.isBars }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
+            <sc-for list="{{ s.m.rows }}" as="r" hint-placeholder-count="4">
+              <span style="display:grid;grid-template-columns:130px minmax(0,1fr) 34px;gap:10px;align-items:center;font-size:12.5px"><span style="color:#3A342A;line-height:1.3">{{ r.k }}</span><span style="height:10px;border-radius:999px;background:rgba(25,21,16,.07);overflow:hidden"><span style="display:block;height:100%;width:{{ r.w }};background:{{ r.bg }};border-radius:999px"></span></span><span style="text-align:right;font-weight:700">{{ r.v }}</span></span>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ s.m.isHeat }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:96px repeat(5,minmax(0,1fr));gap:4px;margin-top:16px;font-size:11px">
+            <span></span><sc-for list="{{ s.m.cols }}" as="c" hint-placeholder-count="5"><span style="text-align:center;color:#5F5849;line-height:1.2">{{ c.l }}</span></sc-for>
+            <sc-for list="{{ s.m.hrows }}" as="r" hint-placeholder-count="4">
+              <span style="display:flex;align-items:center;font-weight:600;font-size:12px">{{ r.team }}</span>
+              <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="5"><span style="text-align:center;padding:11px 0;border-radius:7px;background:{{ c.bg }};color:{{ c.fg }};font-weight:700;outline:{{ c.ol }};outline-offset:-2px">{{ c.txt }}</span></sc-for>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ s.m.isWheel }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:4px;margin-top:16px">
+            <sc-for list="{{ s.m.months }}" as="m" hint-placeholder-count="12"><span style="text-align:center"><span style="display:block;font-size:10px;font-weight:700;color:#5F5849">{{ m.m }}</span><span style="width:20px;height:20px;border-radius:999px;background:{{ m.dot }};border:2px solid {{ m.bd }};display:block;margin:7px auto 0"></span><span style="display:block;font-size:9.5px;font-weight:600;margin-top:5px;min-height:12px;color:{{ m.lc }}">{{ m.l }}</span></span></sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ s.m.isSteps }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:0;margin-top:14px">
+            <sc-for list="{{ s.m.steps }}" as="t" hint-placeholder-count="4">
+              <span style="display:flex;gap:12px;padding:10px 0;border-top:1px solid #E8DFC9"><span style="flex:none;width:26px;height:26px;border-radius:999px;background:{{ t.bg }};color:{{ t.fg }};border:1px solid #191510;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700">{{ t.n }}</span><span style="min-width:0"><span style="display:block;font-size:13.5px;font-weight:700">{{ t.t }}</span><span style="display:block;font-size:12px;color:#5F5849;line-height:1.45;margin-top:2px;text-wrap:pretty">{{ t.d }}</span></span></span>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ s.m.isCards }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px">
+            <sc-for list="{{ s.m.cards }}" as="c" hint-placeholder-count="3">
+              <span style="display:block;padding:12px 14px;border-radius:12px;border:1px solid #E8DFC9;background:#FCF6E9"><span style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span style="padding:2px 9px;border-radius:999px;background:{{ c.tBg }};color:{{ c.tFg }};font-size:10.5px;font-weight:700">{{ c.tag }}</span><span style="margin-left:auto;font-size:11px;font-weight:600;color:{{ c.mc }}">{{ c.meta }}</span></span><span style="display:block;font-size:13px;line-height:1.5;margin-top:7px;font-weight:600;text-wrap:pretty">{{ c.t }}</span></span>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ s.m.isTrend }}" hint-placeholder-val="{{ false }}">
+          <svg viewBox="0 0 300 110" width="100%" height="130" style="display:block;margin-top:14px" aria-hidden="true">
+            <line x1="0" y1="{{ s.m.goalY }}" x2="300" y2="{{ s.m.goalY }}" stroke="#2F5D2A" stroke-width="1.2" stroke-dasharray="4 4"></line>
+            <polyline points="{{ s.m.pts }}" fill="none" stroke="#191510" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"></polyline>
+            <circle cx="{{ s.m.lastX }}" cy="{{ s.m.lastY }}" r="6" fill="#F5C64A" stroke="#191510" stroke-width="1.5"></circle>
+          </svg>
+          <div style="display:grid;grid-template-columns:repeat({{ s.m.nPts }},minmax(0,1fr));gap:4px;margin-top:4px">
+            <sc-for list="{{ s.m.labels }}" as="l" hint-placeholder-count="5"><span style="text-align:center;font-size:10.5px;color:#5F5849;line-height:1.3"><strong style="display:block;font-size:12.5px;color:#191510">{{ l.v }}</strong>{{ l.l }}</span></sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ s.m.hasFoot }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:16px;padding:12px 14px;border-radius:12px;background:#FBEBBE;font-size:12.5px;line-height:1.55;text-wrap:pretty">{{ s.m.foot }}</div>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+  </sc-for>
+
+  <section id="sammenlignet" style="max-width:1120px;margin:0 auto;padding:56px 26px 0">
+    <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Sammenlignet</span>
+    <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.14;margin:9px 0 0;max-width:24ch;text-wrap:balance">Mot regneark og mot store HR-systemer</h2>
+    <p style="font-size:15px;line-height:1.65;color:#3A342A;margin:12px 0 0;max-width:60ch;text-wrap:pretty">De fleste vi snakker med, bruker enten et eget skjema i et regneark, eller en undersøkelsesmodul i et stort HR-system. Begge kan fungere. Her er hvor forskjellen ligger.</p>
+    <div style="margin-top:24px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;overflow:hidden">
+      <div style="display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr));padding:14px 22px;background:#FCF6E9;border-bottom:1px solid #E8DFC9;font-size:12.5px;font-weight:700"><span></span><span style="text-align:center;color:#5F5849">Regneark og skjema</span><span style="text-align:center;color:#5F5849">Stort HR-system</span><span style="text-align:center;padding:6px 0;border-radius:8px;background:#FBEBBE">Orgpuls</span></div>
+      <sc-for list="{{ compare }}" as="r" hint-placeholder-count="8"><div style="display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr));padding:14px 22px;border-top:1px solid #E8DFC9;font-size:13.5px;align-items:center"><span style="font-weight:600">{{ r.k }}</span><span style="text-align:center;color:#5F5849">{{ r.a }}</span><span style="text-align:center;color:#5F5849">{{ r.b }}</span><span style="text-align:center;font-weight:700">{{ r.c }}</span></div></sc-for>
+    </div>
+  </section>
+
+  <section id="sporsmal" style="max-width:1120px;margin:0 auto;padding:56px 26px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:36px;align-items:start">
+    <div>
+      <span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#5F5849">Ofte stilte spørsmål</span>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.14;margin:9px 0 0;max-width:18ch;text-wrap:balance">Det folk lurer på før de starter</h2>
+      <p style="font-size:15px;line-height:1.65;color:#3A342A;margin:12px 0 0;max-width:44ch;text-wrap:pretty">Finner du ikke svaret, skriv til oss fra <a href="Om oss.dc.html#kontakt" style="font-weight:700">kontaktskjemaet</a>. Vi svarer selv, på norsk.</p>
+    </div>
+    <div style="display:flex;flex-direction:column">
+      <sc-for list="{{ faq }}" as="q" hint-placeholder-count="6">
+        <div style="border-top:1px solid #E8DFC9">
+          <button onClick="{{ q.toggle }}" aria-expanded="{{ q.exp }}" style="cursor:pointer;display:flex;justify-content:space-between;gap:14px;width:100%;padding:16px 0;border:none;background:transparent;text-align:left;font-size:15.5px;font-weight:700;color:#191510"><span>{{ q.q }}</span><span style="flex:none;color:#5F5849;font-weight:400">{{ q.mark }}</span></button>
+          <sc-if value="{{ q.open }}" hint-placeholder-val="{{ false }}"><p style="font-size:14px;line-height:1.65;color:#3A342A;margin:0 0 16px;max-width:60ch;text-wrap:pretty">{{ q.a }}</p></sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="kom-i-gang" style="max-width:1120px;margin:64px auto 0;padding:0 26px 72px">
+    <div style="padding:36px 40px;border-radius:24px;border:1px solid #E8DFC9;background:#FFFDF6;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:26px;align-items:center">
+      <div><h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.14;margin:0;max-width:22ch;text-wrap:balance">Prøv det på deres egen virksomhet</h2><p style="font-size:15px;line-height:1.65;color:#3A342A;margin:12px 0 0;max-width:48ch;text-wrap:pretty">Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Gratis i 30 dager. Ingen kort.</p></div>
+      <form onSubmit="{{ onSubmit }}" style="display:flex;gap:9px;flex-wrap:wrap">
+        <input value="{{ org }}" onChange="{{ onOrg }}" inputMode="numeric" placeholder="Organisasjonsnummer" aria-label="Organisasjonsnummer" style="flex:1;min-width:200px;height:52px;padding:0 16px;border-radius:13px;border:1px solid #E8DFC9;background:#FCF6E9;color:#191510;font-size:15px">
+        <button type="submit" style="cursor:pointer;height:52px;padding:0 22px;border-radius:13px;border:1px solid #191510;background:#F5C64A;color:#191510;font-size:16px;font-weight:700">Kom i gang</button>
+        <sc-if value="{{ hasNote }}" hint-placeholder-val="{{ false }}"><span style="flex-basis:100%;font-size:13px;color:{{ noteCol }};line-height:1.5">{{ note }}</span></sc-if>
+      </form>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid #E8DFC9;background:#FFFDF6">
+    <div style="max-width:1120px;margin:0 auto;padding:36px 26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px">
+      <div><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:19px">Orgpuls</span><p style="font-size:12.5px;line-height:1.6;color:#5F5849;margin:8px 0 0;max-width:26ch">Medarbeiderundersøkelse og arbeidsmiljøkartlegging for norske virksomheter. Data lagres i EU.</p></div>
+      <sc-for list="{{ foot }}" as="c" hint-placeholder-count="4">
+        <div><span style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#5F5849;font-weight:700">{{ c.head }}</span><span style="display:flex;flex-direction:column;gap:6px;margin-top:10px"><sc-for list="{{ c.links }}" as="l" hint-placeholder-count="5"><a href="{{ l.href }}" style="font-size:13px;color:#191510">{{ l.l }}</a></sc-for></span></div>
+      </sc-for>
+    </div>
+    <div style="max-width:1120px;margin:0 auto;padding:0 26px 22px;font-size:11.5px;color:#5F5849">© 2026 Orgpuls · Personvern · Vilkår</div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const L = a => a.map(l => ({ l }));
+const TONE = v => v < 40 ? "#E38258" : v < 50 ? "#EC9B77" : v < 62 ? "#F5DC96" : v < 72 ? "#CFE7E4" : "#B5DAD4";
+const TFG = v => v < 40 ? "#4A1706" : v < 50 ? "#5E1F09" : v < 62 ? "#5C4600" : "#20431C";
+const U = { mal:["Målinger og årshjul","Plattform.dc.html#malinger"], svar:["Slik er det å svare","Plattform.dc.html#respondent"], res:["Resultater","Plattform.dc.html#resultater"], vis:["Fire visninger","Plattform.dc.html#segment"], kom:["Kommentarer","Plattform.dc.html#kommentarer"], tilt:["Tiltak","Plattform.dc.html#tiltak"], rap:["Rapport","Plattform.dc.html#rapport"], rol:["Roller og tilgang","Plattform.dc.html#roller"], opp:["Oppsett","Plattform.dc.html#oppsett"], ast:["Assistenten","Plattform.dc.html#assistent"] };
+const uses = ks => ks.map(k => ({ l:U[k][0], href:U[k][1] }));
+const MN = ["Jan","Feb","Mar","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Des"];
+
+function mock(kind, o){
+  const m = Object.assign({ isBars:kind === "bars", isHeat:kind === "heat", isWheel:kind === "wheel", isSteps:kind === "steps", isCards:kind === "cards", isTrend:kind === "trend", note:"", foot:"" }, o);
+  m.hasFoot = !!m.foot;
+  if (m.isBars) m.rows = o.rows.map(([k, v, bg]) => ({ k, v:String(v), w: v + "%", bg: bg || TONE(v) }));
+  if (m.isHeat) { m.cols = L(o.cols); m.hrows = o.rows.map(([team, vals, mark]) => ({ team, cells: vals.map((v, i) => v == null ? { txt:"—", bg:"rgba(25,21,16,.05)", fg:"#8A8272", ol:"none" } : { txt:String(v), bg:TONE(v), fg:TFG(v), ol: mark === i ? "2px solid #191510" : "none" }) })); }
+  if (m.isWheel) m.months = MN.map((mm, i) => { const b = o.base === i, p = o.pulses.indexOf(i) > -1, x = (o.extra || {})[i];
+    return { m:mm, dot: b ? "#F5C64A" : p ? "#A8D5D2" : x ? "#FBD5C4" : "#FFFDF6", bd: b ? "#191510" : p ? "#2F5D2A" : x ? "#A33A16" : "#E8DFC9", l: b ? "Hoved" : p ? "Puls" : x || (i === 6 ? "Ferie" : ""), lc: b || p || x ? "#191510" : "#8A8272" }; });
+  if (m.isSteps) m.steps = o.steps.map(([t, d, st], i) => ({ n: st === "done" ? "✓" : String(i + 1), t, d, bg: st === "done" ? "#2F5D2A" : st === "now" ? "#F5C64A" : "#FFFDF6", fg: st === "done" ? "#FCF6E9" : "#191510" }));
+  if (m.isCards) m.cards = o.cards.map(([tag, tone, t, meta, late]) => ({ tag, t, meta, tBg: tone === "neg" ? "#FBD5C4" : tone === "pos" ? "#CFE7E4" : "#FBEBBE", tFg: tone === "neg" ? "#6B240C" : tone === "pos" ? "#20431C" : "#5C4600", mc: late ? "#A33A16" : "#5F5849" }));
+  if (m.isTrend) { const vs = o.vals, n = vs.length, x = i => Math.round(10 + i * (280 / (n - 1))), y = v => Math.round(100 - (v - 20) * 1.2);
+    m.pts = vs.map((v, i) => x(i) + "," + y(v)).join(" "); m.lastX = String(x(n - 1)); m.lastY = String(y(vs[n - 1])); m.goalY = String(y(o.goal || 60)); m.nPts = String(n);
+    m.labels = vs.map((v, i) => ({ v:String(v), l:o.lab[i] })); }
+  return m;
+}
+
+const SECTIONS = [
+  { id:"positivt", k:"Positivt fokus", t:"Start med det som fungerer",
+    d:"Resultatet viser først hva som gir folk energi, så hva som tapper den. Det som er sterkt, er det dere bygger på — og det er lettere å få med folk på å forbedre noe når de ser at det gode også blir sett.",
+    points:L(["Styrkene står øverst, før risikoen","Hver faktor har et forslag til hvordan dere holder det som fungerer","Positive kommentarer løftes fram, ikke bare problemene"]),
+    uses:uses(["res","kom"]), src:"",
+    m:mock("bars", { title:"Det folk er mest fornøyd med", note:"grunnlinje 2026", rows:[["Anerkjennelse og mening",78],["Støtte fra kollegaer",76],["Rolleklarhet",71],["Medvirkning og kontroll",66]], foot:"Tuva: Folk trives med meningen i arbeidet og med hverandre. Det er et godt utgangspunkt for å ta tak i ytringsklimaet." }) },
+  { id:"kontinuerlig", k:"Kontinuerlig oppfølging", t:"Én måling er et øyeblikksbilde. Fire er en retning.",
+    d:"Hovedundersøkelsen setter nullpunktet. Korte pulser mellom måler bare det dere jobber med, så dere ser om kurven snur mens det fortsatt er tid til å justere — ikke tolv måneder senere.",
+    points:L(["Årshjulet sender ut, minner på og varsler av seg selv","Pulsen er fem spørsmål og tar under ett minutt","Stopper når faktoren er løst, så folk ikke blir spurt om det samme i evighet"]),
+    uses:uses(["mal","vis"]), src:"",
+    m:mock("trend", { title:"Arbeidsmengde · Prosjekt", note:"mål 60", vals:[36,31,39,46,55], lab:["Grunnl. 25","Grunnl. 26","Puls des","Puls mar","Puls jun"], goal:60 }) },
+  { id:"handling", k:"Fra funn til handling", t:"Hvert funn får en eier og en frist",
+    d:"Et tall uten eier blir liggende. Hvert tiltak i Orgpuls henger på en faktor, har en ansvarlig og en frist, og kan ikke lukkes før neste måling har vist om det virket.",
+    points:L(["Tre forslag per faktor: workshop, rutine eller lederpraksis","Hvert forslag sier hvilken påstand som skal måles på nytt","Tiltakene følger med inn i rapporten til styret og AMU"]),
+    uses:uses(["tilt"]), src:"",
+    m:mock("steps", { title:"Fast svar på avviksmeldinger", note:"Anne Rygg · frist 15. okt", steps:[["Foreslått","Fra resultatet for ytringsklima","done"],["Besluttet","Med verneombud 24. sep","done"],["Pågår","Svar innen fem dager på hver melding","now"],["Effekt målt","Puls i desember","" ],["Lukket","Når ytringsklima er over 60",""]] }) },
+  { id:"anonymitet", k:"Anonymitet", t:"Anonymitet som ikke kan skrus av",
+    d:"Ingen svar knyttes til navn, e-post eller IP. En gruppe vises først når nok folk har svart — og det gjelder også administratorer. Terskelen kan settes ned fra fem til tre, men aldri lavere.",
+    points:L(["Små grupper slås sammen automatisk i rapporten","Rekkefølgen på spørsmålene er tilfeldig per person","Kommentarer sjekkes for gjenkjennelige detaljer før de vises"]),
+    uses:uses(["rol","svar"]), src:"GDPR og Datatilsynets veiledning om anonymisering",
+    m:mock("heat", { title:"Det lederen ser", note:"terskel 5 svar", cols:["Ytring","Mengde","Leder","Rolle","Mening"], rows:[["Drift · 8",[49,51,70,74,81]],["Prosjekt · 9",[46,31,58,59,75]],["Adm. · 3",[null,null,null,null,null]],["Lager · 4",[null,null,null,null,null]]], foot:"Administrasjon og Lager har for få svar. De teller med i helheten, men vises aldri som egen rad." }) },
+  { id:"forskning", k:"Forskningen bak", t:"Spørsmål med forskning bak",
+    d:"Faktorene bygger på QPS Nordic, det nordiske spørreskjemaet for psykologiske og sosiale faktorer i arbeid. Ordlyden er låst, slik at tallene kan sammenlignes fra år til år.",
+    points:L(["Elleve faktorer, tre påstander hver, skala 1–5","Regnes om til en indeks 0–100 for å være lett å lese","Forslagene til tiltak bygger på kjent forskning om hva som virker"]),
+    uses:uses(["svar","res"]), src:"QPS Nordic · Statens arbeidsmiljøinstitutt (STAMI)",
+    m:mock("cards", { title:"Et utvalg av faktorene", note:"11 totalt", cards:[["Ytringsklima","neu","Jeg kan si fra om kritikkverdige forhold uten å frykte konsekvenser","3 påstander"],["Arbeidsmengde","neu","Arbeidsmengden min er til å håndtere over tid","3 påstander"],["Rolleklarhet","neu","Jeg vet hva som forventes av meg i jobben min","3 påstander"]] }) },
+  { id:"loven", k:"Loven dekket", t:"Loven dekket underveis — ikke i tillegg",
+    d:"Arbeidsmiljøloven ber om kartlegging, risikovurdering, planer og tiltak. Orgpuls er bygget rundt akkurat den rekkefølgen, så dokumentasjonen blir til mens dere jobber. Vil dere ikke se paragrafer, kan de skrus av i grensesnittet.",
+    points:L(["Kartleggingsplikten i § 3-1 c og kravene i § 4-3","Varsel til verneombud og drøfting med tillitsvalgte logges","Rapport til Arbeidstilsynet på fire sider"]),
+    uses:uses(["rap","rol"]), src:"Arbeidsmiljøloven §§ 3-1 c, 4-3, 6-2 og 9-2 · forskrift om utførelse av arbeid kap. 1A",
+    m:mock("cards", { title:"Hjemmel per faktor", note:"fra rapporten", cards:[["§ 3-1 c","pos","Kartlegging, risikovurdering og tiltak","Dekket"],["§ 4-3","pos","Psykososialt arbeidsmiljø","Dekket"],["§ 9-2","pos","Drøfting med tillitsvalgte før gjentakende måling","Dokumentert"]], foot:"Orgpuls dekker kartleggingen av det psykososiale arbeidsmiljøet. Øvrige HMS-plikter ligger utenfor." }) }
+].map((s, i) => Object.assign({}, s, { hasSrc: !!s.src, o1: i % 2 ? "2" : "1", o2: i % 2 ? "1" : "2" }));
+
+const SECS = SECTIONS.map(s => ({ id:s.id, l:s.k })).concat([{ id:"sammenlignet", l:"Sammenlignet" },{ id:"sporsmal", l:"Spørsmål" }]);
+const NAV = [["Plattform","Plattform.dc.html"],["Bruksområder","Bruksomrader.dc.html"],["Hvorfor Orgpuls","Hvorfor.dc.html"],["Om oss","Om oss.dc.html"],["Pris","Forside.dc.html#pris"]];
+const FOOT = [
+  { head:"Produkt", links:[["Plattform","Plattform.dc.html"],["Målinger og årshjul","Plattform.dc.html#malinger"],["Resultater","Plattform.dc.html#resultater"],["Tiltak","Plattform.dc.html#tiltak"],["Pris","Forside.dc.html#pris"]] },
+  { head:"Bruksområder", links:[["Årlig kartlegging","Bruksomrader.dc.html#kartlegging"],["Puls mellom målingene","Bruksomrader.dc.html#puls"],["Uten HR-avdeling","Bruksomrader.dc.html#uten-hr"],["Tilsyn og dokumentasjon","Bruksomrader.dc.html#tilsyn"]] },
+  { head:"Hvorfor Orgpuls", links:[["Positivt fokus","#positivt"],["Anonymitet","#anonymitet"],["Forskningen bak","#forskning"],["Sammenlignet","#sammenlignet"]] },
+  { head:"Om oss", links:[["Oppdraget","Om oss.dc.html#oppdrag"],["Løftene våre","Om oss.dc.html#lofter"],["Teamet","Om oss.dc.html#team"],["Kontakt","Om oss.dc.html#kontakt"]] }
+].map(c => ({ head:c.head, links:c.links.map(([l, href]) => ({ l, href })) }));
+const FAQ = [
+  ["Kan lederen se hvem som svarte hva?","Nei. Svar knyttes aldri til navn, e-post eller IP. Grupper vises først når terskelen er nådd — anbefalt fem svar, aldri under tre — og det gjelder også administratorer."],
+  ["Hvorfor ikke bare én undersøkelse i året?","Én måling viser hvordan det sto til på ett tidspunkt. Den sier ikke om tiltakene virket. Pulsen måler bare de faktorene dere jobber med, så dere ser utviklingen uten å spørre om alt hver gang."],
+  ["Blir ikke folk lei av å svare?","Pulsen er fem spørsmål og tar under ett minutt. Den stopper av seg selv når faktoren er løst. Det som sliter ut folk, er å svare uten å se at noe skjer — derfor får alle se tiltakene."],
+  ["Trenger vi et HR-system?","Nei. Ansatte kan limes inn, lastes opp som regneark eller hentes fra Microsoft Entra ID."],
+  ["Kan vi endre spørsmålene?","Dere kan skru av en faktor, men ikke endre ordlyden. Det er den som gjør tallene sammenlignbare over tid."],
+  ["Dekker dette alle kravene i arbeidsmiljøloven?","Orgpuls dekker kartleggingsplikten i § 3-1 c og kravene til psykososialt arbeidsmiljø i § 4-3, med dokumentasjon. Øvrige HMS-plikter, som avvikssystem og sykefraværsoppfølging, ligger utenfor."]
+];
+
+class Component extends DCLogic {
+  state = { org:"", note:"", activeSec:"", openQ:0 };
+  componentDidMount(){
+    this._onScroll = () => { let cur = "";
+      for (const s of SECS){ const el = document.getElementById(s.id); if (el && el.getBoundingClientRect().top <= 130) cur = s.id; }
+      if (cur !== this.state.activeSec) this.setState({ activeSec:cur }); };
+    window.addEventListener("scroll", this._onScroll, { passive:true }); this._onScroll();
+  }
+  componentWillUnmount(){ window.removeEventListener("scroll", this._onScroll); }
+  jump(id){ return e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 118); }; }
+  renderVals(){
+    const st = this.state, act = st.activeSec, digits = st.org.replace(/\D/g, "");
+    return {
+      nav: NAV.map(([l, href]) => ({ l, href, bg: l === "Hvorfor Orgpuls" ? "#FBEBBE" : "transparent" })),
+      secNav: SECS.map(s => ({ l:s.l, href:"#" + s.id, go:this.jump(s.id), w: act === s.id ? "700" : "500", bd: act === s.id ? "#191510" : "transparent" })),
+      overview: SECTIONS.map((s, i) => ({ n:String(i + 1), k:s.k, t:s.t, href:"#" + s.id, go:this.jump(s.id), bg: ["#FBEBBE","#CFE7E4","#F2EAD6","#FBD5C4"][i % 4] })),
+      sections: SECTIONS,
+      compare: [
+        ["Tid til første måling","Dager","Uker til måneder","20 minutter"],
+        ["Ferdig spørsmålssett med forskning bak","Nei","Ofte","QPS Nordic"],
+        ["Anonymitet med terskel","Manuelt","Ja","Ja, også for admin"],
+        ["Viser styrker før svakheter","Nei","Varierer","Ja"],
+        ["Forslag til tiltak","Nei","Sjelden","Tre per faktor"],
+        ["Måler om tiltak virket","Nei","Delvis","Puls på tiltakene"],
+        ["Arbeidsmiljøloven innebygd","Nei","Sjelden","Hjemmel per faktor"],
+        ["Pris for 30 ansatte","Egen tid","Etter avtale","565 kr/mnd"]
+      ].map(([k, a, b, c]) => ({ k, a, b, c })),
+      faq: FAQ.map(([q, a], i) => { const open = st.openQ === i; return { q, a, open, exp: open ? "true" : "false", mark: open ? "−" : "+", toggle: () => this.setState(s0 => ({ openQ: s0.openQ === i ? -1 : i })) }; }),
+      foot: FOOT,
+      org: st.org,
+      onOrg: e => { const v = e.target.value; this.setState({ org:v, note:"" }); },
+      onSubmit: e => { e.preventDefault(); this.setState({ note: digits.length === 9 ? "Vi henter " + digits.replace(/(\d{3})(\d{3})(\d{3})/, "$1 $2 $3") + " fra Brønnøysundregistrene …" : "Et organisasjonsnummer har ni sifre." }); },
+      hasNote: !!st.note, note: st.note, noteCol: digits.length === 9 ? "#2F5D2A" : "#A33A16"
+    };
+  }
+}
+</script>
+</body>
+</html>

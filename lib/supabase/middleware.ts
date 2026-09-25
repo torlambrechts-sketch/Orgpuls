@@ -69,6 +69,7 @@ const PUBLIC_PATHS = [
   '/bygg-og-anlegg',
   '/helse-og-omsorg',
   '/plattform',
+  '/hvorfor',
   '/bruksomrader',
   '/priser',
   '/om-oss',
