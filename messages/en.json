@@ -1794,7 +1794,7 @@
     "footerContact": "Contact",
     "kicker": "Work environment and employee surveys",
     "headline": "From one employee survey a year to following up all year",
-    "lead": "Orgpuls is an employee survey that shows what gives people energy and what drains it, and turns the findings into measures with an owner and a deadline. The next measurement shows whether they worked. The Working Environment Act's requirements are covered along the way.",
+    "lead": "Orgpuls is an employee survey that shows what gives people energy and what drains it, and turns the findings into measures with an owner and a deadline. The next measurement shows whether they worked.",
     "ctaFree": "Get started free",
     "ctaHow": "See how it works",
     "ctaHaveAccount": "I have an account — sign in",
@@ -3128,14 +3128,6 @@
           "title": "The overview says it in words",
           "body": "A manager first reads one sentence on what lifts and what drags, then all eleven factors on one scale from 0 to 100. Under 50 is where you should act."
         },
-        "varmekart": {
-          "title": "A heatmap by department",
-          "body": "The factors against the departments. Tap a cell to see the statements behind it and suggested measures. A department that cannot be shown without revealing someone gets a dash."
-        },
-        "tiltak": {
-          "title": "From finding to effect",
-          "body": "Measures sit on a board with an owner and a deadline. A measure is not closed until a new survey has shown whether it worked."
-        },
         "sporsmal": {
           "title": "About four minutes on a phone",
           "body": "Employees answer from the link they receive, without signing in. One statement at a time, on a five-point scale, and an optional field for anyone who wants to say more."
@@ -3144,11 +3136,7 @@
           "title": "The annual cycle runs itself",
           "body": "One baseline a year and short pulses in between. Surveys go out on the dates you set, and the safety representative is told before the employees."
         },
-        "more": "See the whole platform",
-        "samtaler": {
-          "title": "Reply without knowing who",
-          "body": "Comments are gathered by theme. A manager replies anonymously and can ask for direct contact, but only the employee can choose to say who they are."
-        }
+        "more": "See the whole platform"
       }
     },
     "forWho": {

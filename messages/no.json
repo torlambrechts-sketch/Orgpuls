@@ -1794,7 +1794,7 @@
     "footerContact": "Kontakt",
     "kicker": "Arbeidsmiljø og medarbeiderundersøkelser",
     "headline": "Fra én medarbeider­undersøkelse i året til oppfølging hele året",
-    "lead": "Orgpuls er en medarbeiderundersøkelse som viser hva som gir folk energi og hva som tapper den, og gjør funnene om til tiltak med eier og frist. Neste måling viser om de virket. Kravene i arbeidsmiljøloven dekkes underveis.",
+    "lead": "Orgpuls er en medarbeiderundersøkelse som viser hva som gir folk energi og hva som tapper den, og gjør funnene om til tiltak med eier og frist. Neste måling viser om de virket.",
     "ctaFree": "Kom i gang gratis",
     "ctaHow": "Se hvordan det virker",
     "ctaHaveAccount": "Jeg har konto — logg inn",
@@ -3128,14 +3128,6 @@
           "title": "Oversikten sier det med ord",
           "body": "Lederen ser først en setning om hva som løfter og hva som trekker ned, og så alle de elleve faktorene på én skala fra 0 til 100. Under 50 bør dere gjøre noe med."
         },
-        "varmekart": {
-          "title": "Varmekart per avdeling",
-          "body": "Faktorene mot avdelingene. Trykk på en celle for å se påstandene bak og forslag til tiltak. En avdeling som ikke kan vises uten å avsløre noen, får en strek."
-        },
-        "tiltak": {
-          "title": "Fra funn til effekt",
-          "body": "Tiltakene ligger på en tavle med eier og frist. Et tiltak lukkes ikke før en ny måling har vist om det virket."
-        },
         "sporsmal": {
           "title": "Rundt fire minutter på mobilen",
           "body": "De ansatte svarer fra lenken de får, uten å logge inn. Én påstand om gangen, på en femdelt skala, og et frivillig felt for den som vil si mer."
@@ -3144,11 +3136,7 @@
           "title": "Årshjulet går av seg selv",
           "body": "Én grunnlinje i året og korte pulser imellom. Målingene går ut på datoene dere har satt, og verneombudet får beskjed før de ansatte."
         },
-        "more": "Se hele plattformen",
-        "samtaler": {
-          "title": "Svar uten å vite hvem",
-          "body": "Kommentarene samles per tema. Lederen svarer anonymt, og kan be om direkte kontakt, men bare den ansatte kan velge å si hvem de er."
-        }
+        "more": "Se hele plattformen"
       }
     },
     "forWho": {
