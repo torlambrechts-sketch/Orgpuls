@@ -54,7 +54,7 @@ export async function PageTemplate({
   const trail = [{ name: t('seo.common.home'), path: '/' }, ...(parent ? [parent] : []), { name: t(`${k}.crumb`), path }]
 
   return (
-    <div className="animate-entry">
+    <div>
       <JsonLd
         data={graph(
           organization(),
@@ -107,7 +107,7 @@ export async function PageTemplate({
           </div>
           {heroShot ? (
             <div className="flex min-w-0 justify-center lg:justify-end">
-              <ProductShot id={heroShot} />
+              <ProductShot id={heroShot} priority />
             </div>
           ) : null}
         </div>

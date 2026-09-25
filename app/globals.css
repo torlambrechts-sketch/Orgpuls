@@ -7,15 +7,42 @@
  * own resets, not a house style. Do not "improve" them — the pixel gate diffs against
  * the bundle's rendering, so a nicer value is a failing value.
  */
+/*
+ * Metric-matched fallbacks (the method next/font uses; values from @capsizecss/metrics):
+ * Arial scaled to DM Sans's average width and vertical metrics, Times New Roman to
+ * Playfair Display's. Liberation Sans and Serif are the same metrics under a free name.
+ */
+@font-face {
+  font-family: 'DM Sans Fallback';
+  src: local('Arial'), local('Liberation Sans');
+  size-adjust: 104.53%;
+  ascent-override: 94.9%;
+  descent-override: 29.66%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Playfair Display Fallback';
+  src: local('Times New Roman'), local('Liberation Serif');
+  size-adjust: 111.26%;
+  ascent-override: 97.25%;
+  descent-override: 22.56%;
+  line-gap-override: 0%;
+}
+
 @layer base {
   /*
    * The Tailwind theme reads these; app/fonts.css defines the faces. They are plain
    * family names rather than next/font's generated class names because the fonts are
    * the bundle's own files, loaded the bundle's own way.
+   *
+   * Each is followed by a fallback face sized to its metrics (below), so the text a
+   * browser paints before the woff2 arrives takes the same room, and nothing moves when
+   * it swaps in. Once the fonts load the fallback is never used: the rendering is theirs.
    */
   :root {
-    --font-dmsans: 'DM Sans';
-    --font-playfair: 'Playfair Display';
+    --font-dmsans: 'DM Sans', 'DM Sans Fallback';
+    --font-playfair: 'Playfair Display', 'Playfair Display Fallback';
   }
 
   html,

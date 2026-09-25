@@ -23,7 +23,7 @@ export default async function NewPasswordPage() {
   } = await supabase.auth.getUser()
 
   return (
-    <main className="animate-entry mx-auto max-w-[520px] px-[26px] pb-[70px] pt-[44px]">
+    <div className="animate-entry mx-auto max-w-[520px] px-[26px] pb-[70px] pt-[44px]">
       <div className="rounded-card border border-line bg-sf p-[clamp(24px,3.5vw,32px)]">
         <span className="inline-block rounded-pill bg-sbg px-[12px] py-[5px] text-[11.5px] font-bold">
           {t('badge')}
@@ -57,6 +57,6 @@ export default async function NewPasswordPage() {
           </Link>
         )}
       </div>
-    </main>
+    </div>
   )
 }

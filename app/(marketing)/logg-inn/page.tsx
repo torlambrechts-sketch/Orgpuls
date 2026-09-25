@@ -16,7 +16,7 @@ export default async function SignInPage() {
   const t = await getTranslations()
 
   return (
-    <main className="animate-entry mx-auto max-w-[920px] px-[26px] pb-[70px] pt-[44px]">
+    <div className="animate-entry mx-auto max-w-[920px] px-[26px] pb-[70px] pt-[44px]">
       <div className="grid items-start gap-[20px] [grid-template-columns:repeat(auto-fit,minmax(288px,1fr))]">
         <SignInPanel />
 
@@ -40,6 +40,6 @@ export default async function SignInPage() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   )
 }

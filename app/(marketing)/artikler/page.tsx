@@ -18,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ArticleIndex() {
   const t = await getTranslations()
   return (
-    <div className="animate-entry">
+    <div>
       <JsonLd
         data={graph(
           organization(),

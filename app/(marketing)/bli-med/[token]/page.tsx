@@ -81,8 +81,8 @@ export default async function BliMedPage({ params }: { params: Promise<{ token: 
   }
 
   return (
-    <main className="animate-entry mx-auto max-w-[560px] px-[16px] pb-[70px] pt-[44px] md:px-[26px]">
+    <div className="animate-entry mx-auto max-w-[560px] px-[16px] pb-[70px] pt-[44px] md:px-[26px]">
       {body}
-    </main>
+    </div>
   )
 }

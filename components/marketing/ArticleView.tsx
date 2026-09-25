@@ -38,7 +38,7 @@ export async function ArticleView({ article: a }: { article: Article }) {
   const lk = `seo.lp.${landingKey(a.landing)}`
 
   return (
-    <article className="animate-entry">
+    <article>
       <JsonLd
         data={graph(
           organization(),

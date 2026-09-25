@@ -128,7 +128,7 @@ export default async function SplashPage() {
   const faq = FAQ.map((k) => ({ key: k, q: t(`start.faq.${k}.q`), a: t(`start.faq.${k}.a`) }))
 
   return (
-    <div className="animate-entry">
+    <div>
       <JsonLd data={graph(organization(), website(), software(t('seo.home.description')), faqPage(faq))} />
       {/* ------------------------------------------------------------ hero */}
       <div className="mx-auto max-w-[1120px] px-[26px] pt-[clamp(20px,4vw,54px)]">
