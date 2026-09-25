@@ -1793,15 +1793,16 @@
     "footerPrivacy": "Privacy",
     "footerContact": "Contact",
     "kicker": "Work environment and employee surveys",
-    "headline": "From measuring once a year to following up all year",
-    "lead": "Orgpuls shows what gives people energy and what drains it, and turns the findings into measures with an owner and a deadline. The next measurement shows whether they worked. The Working Environment Act's requirements are covered along the way.",
+    "headline": "From one employee survey a year to following up all year",
+    "lead": "Orgpuls is an employee survey that shows what gives people energy and what drains it, and turns the findings into measures with an owner and a deadline. The next measurement shows whether they worked. The Working Environment Act's requirements are covered along the way.",
     "ctaFree": "Get started free",
     "ctaHow": "See how it works",
     "ctaHaveAccount": "I have an account — sign in",
     "trust": {
       "trial": "30 days free",
       "noCard": "No card details",
-      "eu": "Answers stored in the EU"
+      "eu": "Answers stored in the EU",
+      "five": "No department is shown until at least five have answered"
     },
     "mockCaption": "Insight · Nordvik Anlegg AS — example",
     "mockIndexLabel": "Work environment index",
@@ -3112,8 +3113,8 @@
       "related": "Related pages"
     },
     "home": {
-      "title": "Orgpuls – employee surveys and work environment mapping",
-      "description": "Map the psychosocial working environment, act on it and see whether the measures work. Covers the Working Environment Act. 30 days free, no card.",
+      "title": "Employee survey and work environment mapping | Orgpuls",
+      "description": "An employee survey that maps the psychosocial working environment, turns the findings into measures and shows whether they work. 30 days free.",
       "articlesEyebrow": "Articles",
       "articlesTitle": "Read up before you start",
       "articlesAll": "All articles →",

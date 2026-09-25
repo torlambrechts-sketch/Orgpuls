@@ -1793,15 +1793,16 @@
     "footerPrivacy": "Personvern",
     "footerContact": "Kontakt",
     "kicker": "Arbeidsmiljø og medarbeiderundersøkelser",
-    "headline": "Fra måling én gang i året til oppfølging hele året",
-    "lead": "Orgpuls viser hva som gir folk energi og hva som tapper den, og gjør funnene om til tiltak med eier og frist. Neste måling viser om de virket. Kravene i arbeidsmiljøloven dekkes underveis.",
+    "headline": "Fra én medarbeider­undersøkelse i året til oppfølging hele året",
+    "lead": "Orgpuls er en medarbeiderundersøkelse som viser hva som gir folk energi og hva som tapper den, og gjør funnene om til tiltak med eier og frist. Neste måling viser om de virket. Kravene i arbeidsmiljøloven dekkes underveis.",
     "ctaFree": "Kom i gang gratis",
     "ctaHow": "Se hvordan det virker",
     "ctaHaveAccount": "Jeg har konto — logg inn",
     "trust": {
       "trial": "30 dager gratis",
       "noCard": "Ingen kortopplysninger",
-      "eu": "Svar lagres i EU"
+      "eu": "Svar lagres i EU",
+      "five": "Ingen avdeling vises før minst fem har svart"
     },
     "mockCaption": "Innsikt · Nordvik Anlegg AS — eksempel",
     "mockIndexLabel": "Arbeidsmiljøindeks",
@@ -3112,8 +3113,8 @@
       "related": "Relaterte sider"
     },
     "home": {
-      "title": "Orgpuls – medarbeiderundersøkelse og arbeidsmiljøkartlegging",
-      "description": "Kartlegg det psykososiale arbeidsmiljøet, sett tiltak og se om de virker. Dekker kravene i arbeidsmiljøloven. 30 dager gratis, ingen kort.",
+      "title": "Medarbeiderundersøkelse og arbeidsmiljøkartlegging | Orgpuls",
+      "description": "Medarbeiderundersøkelse som kartlegger det psykososiale arbeidsmiljøet, gjør funnene om til tiltak og viser om de virker. 30 dager gratis.",
       "articlesEyebrow": "Artikler",
       "articlesTitle": "Les deg opp før dere starter",
       "articlesAll": "Alle artikler →",

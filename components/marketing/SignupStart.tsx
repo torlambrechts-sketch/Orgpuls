@@ -53,7 +53,7 @@ export function SignupStart({ label, submit, invalid }: { label: string; submit:
           aria-invalid={error}
           aria-describedby={error ? `${id}-error` : undefined}
           onChange={() => error && setError(false)}
-          className={`h-[50px] min-w-0 flex-[1_1_180px] rounded-tile border-[1.5px] bg-sf px-[16px] text-[18px] font-semibold tracking-[0.06em] text-ink ${
+          className={`h-[50px] min-w-0 flex-[1_1_150px] rounded-tile border-[1.5px] bg-sf px-[16px] text-[18px] font-semibold tracking-[0.06em] text-ink ${
             error ? 'border-danger' : 'border-line'
           }`}
         />

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { ArticleCards } from '@/components/marketing/ArticleCards'
 import { Plans } from '@/components/marketing/Plans'
+import { SignupStart } from '@/components/marketing/SignupStart'
 import { ProductShot } from '@/components/marketing/ProductShot'
 import { Tick } from '@/components/marketing/Tick'
 import { JsonLd } from '@/components/marketing/JsonLd'
@@ -39,7 +40,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return pageMeta({ title: t('seo.home.title'), description: t('seo.home.description'), path: '/' })
 }
 
-const TRUST = ['trial', 'noCard', 'eu'] as const
+const TRUST = ['trial', 'noCard', 'eu', 'five'] as const
 const PEEK = [
   { n: 1, key: 'ytring', lift: '+6' },
   { n: 2, key: 'mengde', lift: '+4' },
@@ -130,34 +131,30 @@ export default async function SplashPage() {
     <div className="animate-entry">
       <JsonLd data={graph(organization(), website(), software(t('seo.home.description')), faqPage(faq))} />
       {/* ------------------------------------------------------------ hero */}
-      <div className="mx-auto max-w-[1120px] px-[26px] pt-[54px]">
+      <div className="mx-auto max-w-[1120px] px-[26px] pt-[clamp(20px,4vw,54px)]">
         <div className="grid items-center gap-[36px] [grid-template-columns:repeat(auto-fit,minmax(min(310px,100%),1fr))]">
           <div className="min-w-0">
             <span className="inline-flex items-center gap-[8px] rounded-pill bg-sbg px-[13px] py-[6px] text-[12px] font-bold">
               <span className="block h-[7px] w-[7px] rounded-pill bg-link" />
               {t('start.kicker')}
             </span>
-            <h1 className="mt-[19px] max-w-[17ch] font-display text-[clamp(34px,5.4vw,52px)] font-semibold leading-[1.06] [text-wrap:balance]">
+            {/* the headline's long compound carries a soft hyphen, so a phone breaks it rather than the page */}
+            <h1 className="mt-[19px] max-w-[17ch] font-display text-[clamp(34px,5.4vw,52px)] font-semibold leading-[1.06] [overflow-wrap:break-word] [text-wrap:balance]">
               {t('start.headline')}
             </h1>
             <p className="mt-[17px] max-w-[52ch] text-[16.5px] leading-[1.65] text-body [text-wrap:pretty]">
               {t('start.lead')}
             </p>
 
-            <div className="mt-[26px] flex flex-wrap gap-[10px]">
-              <Link
-                href="/registrer"
-                className="inline-flex h-[50px] items-center rounded-tile border border-ink bg-ac px-[24px] text-[16px] font-bold text-ink no-underline hover:text-ink hover:no-underline"
-              >
-                {t('start.ctaFree')}
-              </Link>
-              <a
-                href="#how"
-                className="inline-flex h-[50px] items-center rounded-tile border border-ink bg-transparent px-[22px] text-[16px] font-semibold text-ink no-underline hover:text-ink hover:no-underline"
-              >
+            <div className="mt-[24px]">
+              <SignupStart label={t('seo.signup.label')} submit={t('seo.signup.submit')} invalid={t('seo.signup.invalid')} />
+            </div>
+            <p className="mb-0 mt-[12px] flex flex-wrap items-baseline gap-x-[14px] gap-y-[4px] text-[13px] text-mut">
+              <span>{t('seo.common.priceFrom')}</span>
+              <a href="#how" className="inline-flex min-h-[44px] items-center font-semibold underline decoration-[1px] underline-offset-[3px]">
                 {t('start.ctaHow')}
               </a>
-            </div>
+            </p>
 
             <div className="mt-[17px] flex flex-wrap gap-[7px]">
               {TRUST.map((k) => (
@@ -173,7 +170,10 @@ export default async function SplashPage() {
           </div>
 
           <div className="min-w-0">
-            <div className="overflow-hidden rounded-[22px] border border-line bg-sf shadow-[0_18px_40px_-28px_rgba(25,21,16,.35)]">
+            <div
+              data-product
+              className="overflow-hidden rounded-[22px] border border-line bg-sf shadow-[0_18px_40px_-28px_rgba(25,21,16,.35)]"
+            >
               <div className="flex items-center gap-[8px] border-b border-line px-[18px] py-[11px]">
                 <span className="block h-[9px] w-[9px] rounded-pill bg-line" />
                 <span className="block h-[9px] w-[9px] rounded-pill bg-line" />
@@ -433,7 +433,7 @@ export default async function SplashPage() {
           {t('seo.home.articlesTitle')}
         </h2>
         <ArticleCards slugs={ARTICLES.slice(0, 3).map((a) => a.slug)} />
-        <Link href={'/artikler' as Route} className="mt-[14px] inline-block text-[14px] font-semibold">
+        <Link href={'/artikler' as Route} className="mt-[6px] inline-flex min-h-[44px] items-center text-[14px] font-semibold">
           {t('seo.home.articlesAll')}
         </Link>
       </Section>

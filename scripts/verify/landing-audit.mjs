@@ -34,12 +34,14 @@ const PAGES = [
   { path: '/smaa-bedrifter', keyword: 'medarbeiderundersøkelse små bedrifter' },
   { path: '/bygg-og-anlegg', keyword: 'arbeidsmiljøundersøkelse bygg og anlegg' },
 ]
-const only = process.argv.slice(2).filter((a, i, all) => a.startsWith('/') && !all[i - 1]?.startsWith('--'))
+const VALUED = ['--base', '--label']
+const only = process.argv.slice(2).filter((a, i, all) => a.startsWith('/') && !VALUED.includes(all[i - 1]))
 const pages = PAGES.filter((p) => !only.length || only.includes(p.path))
 
 /** Every word of the keyword appears (as a word stem) in the text, in any order. */
 const hasKeyword = (text, keyword) => {
-  const t = text.toLowerCase()
+  // a soft hyphen (U+00AD) is where a long word may break; it is not part of the word
+  const t = text.replace(/\u00ad/g, '').toLowerCase()
   return keyword
     .toLowerCase()
     .split(/\s+/)
