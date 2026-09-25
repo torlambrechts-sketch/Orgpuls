@@ -3449,3 +3449,30 @@ is a preview. The script removes that banner. What remains is the page an employ
   horizontal overflow.
 - Every picture loads and has alt text, and every caption names Nordvik Anlegg AS.
 - There are no console errors.
+
+## D-85 — The landing-page review: an orgnr field in the hero, no entry animation on reading pages
+
+**The request:** the owner's guide, `docs/landingsside-gjennomgang.md`. The findings, page by
+page, are in `docs/reviews/landing-2026-09-25.md`.
+
+**Where it departs from the design:**
+- **The hero's first button is a form.** The design's "Kom i gang gratis" is now the
+  organisation number and "Start gratis", with the price, "30 dager gratis · Ingen kort ·
+  Svar lagres i EU" and "Ingen avdeling vises før minst fem har svart" under it. The guide
+  asks for the field above the fold on a phone and on a desktop.
+- **The start page's H1 carries the search term.** The design's "Fra måling én gang i året
+  til oppfølging hele året" is now "Fra én medarbeiderundersøkelse i året til oppfølging
+  hele året". The compound has a soft hyphen for narrow screens.
+- **Landing pages show the product beside their hero**, an image from D-84.
+- **On a phone, "Logg inn" and "Kom i gang" move into the menu.** The header is one row, and
+  its controls are 44 px tall.
+- **The reading pages have no entry animation.** These are the start page, landing and site
+  pages, and articles. The bundle's `ht-in` held the paragraph Lighthouse measures as LCP at
+  opacity 0 for 0.25 s. Sign-in, sign-up and the application keep it, and
+  `prefers-reduced-motion` turns it off everywhere.
+- **Fallback faces are metric-matched.** The design's own fonts are unchanged (D-07). Arial
+  and Times scaled to their metrics stand in only until the woff2 arrives.
+- **"Snakk med oss" opens /kontakt**, the page D-83 added, not an e-mail.
+
+**What is left out:** Orgpuls AS's organisation number in the footer. It is not known, and
+it is not invented.

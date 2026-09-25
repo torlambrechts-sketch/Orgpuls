@@ -7,6 +7,7 @@ import { SignupStart } from '@/components/marketing/SignupStart'
 import { ProductShot } from '@/components/marketing/ProductShot'
 import { Tick } from '@/components/marketing/Tick'
 import { JsonLd } from '@/components/marketing/JsonLd'
+import { LawRef } from '@/components/marketing/LawRef'
 import { Faq } from '@/components/start/Faq'
 import { pageMeta } from '@/lib/marketing/meta'
 import { faqPage, graph, organization, software, website } from '@/lib/marketing/schema'
@@ -376,7 +377,7 @@ export default async function SplashPage() {
                   key={k}
                   className="grid items-baseline gap-[13px] rounded-cta border border-line bg-bg px-[15px] py-[13px] [grid-template-columns:90px_minmax(0,1fr)]"
                 >
-                  <span className="text-[12px] font-bold">{t(`start.legal.${k}.ref`)}</span>
+                  <LawRef text={t(`start.legal.${k}.ref`)} className="text-[12px] font-bold" />
                   <span className="text-[13px] leading-[1.5] [text-wrap:pretty]">
                     {t(`start.legal.${k}.what`)}
                   </span>

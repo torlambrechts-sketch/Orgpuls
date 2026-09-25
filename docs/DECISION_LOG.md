@@ -1713,6 +1713,32 @@ The start page gets tighter crops than Plattform, where the half-width cards wou
 make the text too small to read: the heatmap without its drill-down, and one comment
 instead of the list. See D-84.
 
+### X-053 — Client messages are scoped per route group
+
+**The problem:** the root layout gave `NextIntlClientProvider` the whole catalogue. That is
+about 270 kB of JSON, serialised into the HTML of every page: the start page, a landing
+page, and a respondent's survey on a phone.
+
+**The change:** now each part of the site sends what its client components read
+(`lib/i18n/client.ts`):
+- **Root layout:** the public namespaces (registrer, auth, bliMed).
+- **The application's layout:** everything, since its screens read from most of it.
+- **The respondent's routes (`app/s/layout.tsx`):** respond and factor.
+
+**The effect:**
+- /lovkrav went from 80 kB to 17 kB gzip.
+- /s/samtale is 23 kB of HTML.
+
+A client component that reads a namespace its route group does not provide shows a missing
+key in review. Adding one is a line in `lib/i18n/client.ts`.
+
+**Also decided in the landing review (D-85):**
+- **Conversion events** go to the Vercel Web Analytics the site already loads: first-party,
+  cookieless, nothing new to consent to. They carry the page and the campaign tags, never
+  an organisation number.
+- **`scrubUrl` keeps the five `utm_*` keys**, capped at 80 characters, and still drops
+  every other parameter.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1862,3 +1888,6 @@ instead of the list. See D-84.
 - [ ] Narrow `reply_to_thread` and `set_thread` to `app.thread_visible`, as `conversations` reads (D-82).
 - [x] The public site has a menu, a footer of sections, and Plattform, Bruksområder, Priser, Om oss, Sikkerhet, Kontakt and Helse og omsorg (X-051, D-83).
 - [x] The start page and Plattform show real screens of the product, captured from the fixture (X-052, D-84).
+- [x] Landing-page review: orgnr field in the hero, product beside it, Lovdata links, 44 px targets, LCP (X-053, D-85; docs/reviews/landing-2026-09-25.md).
+- [ ] Orgpuls AS's organisation number in the public footer: not known (D-85).
+- [ ] Confirm the Vercel plan records custom events (signup_started, signup_completed, pricing_viewed) (X-053).
