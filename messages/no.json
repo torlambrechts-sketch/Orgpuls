@@ -3477,8 +3477,8 @@
           "text": "Utsending på SMS til folk på prosjekt og verksted, og resultat per avdeling."
         },
         "kicker": "Bygg, anlegg og verksted",
-        "h1": "Arbeidsmiljø­undersøkelse for bygg og anlegg – som når folk på prosjekt, rigg og verksted",
-        "lead": "I bygg og anlegg sitter mange av de ansatte ikke ved en PC, og e-posten blir liggende. Orgpuls sender arbeidsmiljøundersøkelsen på SMS, og alle svarer på mobilen på rundt fire minutter.",
+        "h1": "Arbeidsmiljø­undersøkelse for bygg og anlegg",
+        "lead": "En arbeidsmiljøundersøkelse som når folk på prosjekt, rigg og verksted. I bygg og anlegg sitter mange ikke ved en PC, så Orgpuls sender den på SMS, og alle svarer på mobilen på rundt fire minutter.",
         "blocks": [
           {
             "t": "h2",
@@ -3487,6 +3487,10 @@
           {
             "t": "p",
             "text": "I virksomheter der folk jobber ute, er kanalen den største enkeltfaktoren for svarprosenten. En SMS eller en QR-kode i brakka flytter mer enn noen formulering i invitasjonen. Orgpuls sender én påminnelse til dem som ikke har svart – fra systemet, ikke fra lederen – og ingen får vite hvem som mangler."
+          },
+          {
+            "t": "shot",
+            "id": "sporsmal"
           },
           {
             "t": "h2",

@@ -3477,8 +3477,8 @@
           "text": "Sent by SMS to people on site and in the workshop, with results per department."
         },
         "kicker": "Construction, civil works and workshops",
-        "h1": "A work environment survey for construction – reaching people on site, rig and workshop",
-        "lead": "In construction many employees do not sit at a PC, and the e-mail goes unread. Orgpuls sends the work environment survey by SMS, and everyone answers on their phone in about four minutes.",
+        "h1": "A work environment survey for construction",
+        "lead": "A work environment survey that reaches people on site, rig and workshop. In construction many do not sit at a PC, so Orgpuls sends it by SMS, and everyone answers on their phone in about four minutes.",
         "blocks": [
           {
             "t": "h2",
@@ -3487,6 +3487,10 @@
           {
             "t": "p",
             "text": "Where people work outdoors, the channel is the biggest single factor in the response rate. An SMS or a QR code in the site hut moves more than any wording in the invitation. Orgpuls sends one reminder to those who have not answered – from the system, not the manager – and nobody learns who is missing."
+          },
+          {
+            "t": "shot",
+            "id": "sporsmal"
           },
           {
             "t": "h2",
