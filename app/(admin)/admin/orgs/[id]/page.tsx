@@ -3,10 +3,10 @@ import { getTranslations } from 'next-intl/server'
 import { ExtendTrialForm, NoteForm } from '@/components/admin/ActionForms'
 import { ALink, Badge, Card, day, nok, PageHead, pct, Problem, Table, Td, when, type BadgeTone } from '@/components/admin/ui'
 import { canSee } from '@/lib/admin/access'
-import { auditList, emailLog, isError, orgAttribution, orgDetail, orgTickets, whoami } from '@/lib/admin/api'
+import { auditList, emailLog, isError, orgAttribution, orgDetail, orgTickets, STATUSES, whoami } from '@/lib/admin/api'
 import { STATUS_TONE } from '@/components/admin/tones'
 
-const TONE: Record<'trial' | 'active' | 'expired', BadgeTone> = { trial: 'yellow', active: 'green', expired: 'red' }
+const TONE: Record<(typeof STATUSES)[number], BadgeTone> = { trial: 'yellow', grace: 'red', read_only: 'grey', active: 'green' }
 
 /**
  * One organisation (D-90): the company, its billing and agreement, its structure, the people

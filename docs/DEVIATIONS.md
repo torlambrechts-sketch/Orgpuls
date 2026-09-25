@@ -3953,3 +3953,60 @@ was deleted afterwards:
   product 15), what happens at trial end, the accounting system, and whether to take cards;
 - accounts and keys that do not exist: Stripe, the accounting-system integration, and Orgpuls
   AS's MVA registration and bank details.
+
+## D-94 — When a trial ends unconfirmed: 14 days' grace, then read-only
+
+**Decided by the owner:**
+- the trial is 15 days;
+- 14 days' grace follow it, then read-only access until a plan is confirmed;
+- the accounting system is Fiken.
+
+The specification's "30-day trial" is superseded.
+
+**What was built (0052):**
+- **One rule in one place.** `app.org_access()` returns `trial`, `grace`, `read_only` or
+  `active`.
+  - `app.grace_days()` is 14, a function like `app.trial_days()`, so no row can change it.
+  - The admin's organisation status now reads the same function. Its "expired" became
+    "grace" and "read-only".
+- **Read-only means nothing new is sent. Nothing is taken away.**
+  - Members sign in and read every result and report as before.
+  - Starting a pulse (`start_next_pulse`) and planning the first round (`plan_first_round`)
+    are refused with "read_only". The originals were moved to `app` unchanged, and the
+    public names check access first.
+  - The scheduler sends no forvarsel and opens no planned round. A round that falls due is
+    held a day at a time, so it opens with its full length once the plan is confirmed.
+  - A round that is already open runs on: its reminders go out and it closes on its date.
+- **Confirming a plan, or an admin extending the trial, lifts it at once.** The held round
+  opens on the next tick.
+- **A line over every screen** during grace and read-only: what still works and until when.
+  - The daglig leder gets "Bekreft abonnement", linking to Oppsett › Betaling.
+  - Everyone else is told the daglig leder does it.
+  - During the trial and once confirmed, nothing is drawn, so every pixel-gated screen is
+    unchanged.
+- **Oppsett › Betaling:**
+  - The pill counts the days until read-only, then reads "Bare lesetilgang".
+  - The trial text states the rule.
+  - After the trial, the first invoice runs from the day of confirming, not from a date
+    already past.
+
+`supabase/tests/trial_end_invariants.sql`: 10 checks, locally and on the hosted project.
+They cover:
+- the ladder of states;
+- both refusals;
+- a due round held while an open round still closes;
+- the held round opening with its full length after confirming;
+- members-only state;
+- rollback.
+
+**Verified in the browser** by moving Nordvik Anlegg AS's trial dates on the hosted
+project, and then restoring them exactly:
+- grace showed the yellow line and "9 dager til bare lesetilgang";
+- read-only showed the line and "Bare lesetilgang".
+
+The pulse refusal could not be pressed there, because a round is open. The SQL suite covers
+it.
+
+**Left open:**
+- **E-mail warnings** before the trial ends, when grace begins, and before read-only.
+- **Fiken's integration,** which needs Orgpuls AS's Fiken account and an API token.

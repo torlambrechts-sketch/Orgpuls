@@ -1,6 +1,7 @@
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations } from 'next-intl/server'
 import { AppHeader } from '@/components/shell/AppHeader'
+import { AccessNotice } from '@/components/shell/AccessNotice'
 import { AppFooter } from '@/components/shell/AppFooter'
 import { ShellFrame } from '@/components/shell/ShellFrame'
 import { ShellPrefsProvider } from '@/components/shell/ShellPrefs'
@@ -18,6 +19,9 @@ import { WizardProvider } from '@/components/veiviser/WizardProvider'
  * The nav model is read here once and handed to both the top bar and the rail, so the two
  * layouts cannot disagree. The layout preferences come from cookies (lib/shell/prefs.ts),
  * so the first paint is already in the chosen layout. D-70.
+ *
+ * Over the screens, only once a trial has ended unconfirmed, a line about what still works
+ * (AccessNotice, D-94).
  *
  * The page background is #FCF6E9 from globals.css; the header, rail and footer are
  * #FFFDF6, and that contrast is what separates the chrome from the content in the design.
@@ -51,6 +55,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
             header={<AppHeader items={items} assistantFace={ASSISTANT_FACE} />}
             footer={<AppFooter />}
           >
+            <AccessNotice />
             {children}
           </ShellFrame>
         </WizardProvider>

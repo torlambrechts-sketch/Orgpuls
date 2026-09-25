@@ -59,7 +59,7 @@ export async function whoami(): Promise<Who | null> {
 }
 
 // ---------------------------------------------------------------- organisations
-export const STATUSES = ['trial', 'active', 'expired'] as const
+export const STATUSES = ['trial', 'grace', 'read_only', 'active'] as const
 const OrgRow = z.object({
   id: z.string(),
   name: z.string(),

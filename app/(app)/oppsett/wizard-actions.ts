@@ -149,7 +149,7 @@ export async function saveWizardRhythm(formData: FormData): Promise<WizardResult
 const PlanResult = z.union([
   z.object({ ok: z.literal(true), round_id: z.string().uuid(), opens_at: z.string() }),
   z.object({
-    error: z.enum(['not_available', 'already_measured', 'weekend', 'too_soon', 'too_far', 'no_employees']),
+    error: z.enum(['not_available', 'already_measured', 'weekend', 'too_soon', 'too_far', 'no_employees', 'read_only']),
   }),
 ])
 

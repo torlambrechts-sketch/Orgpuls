@@ -392,7 +392,8 @@
         "not_available": "Only the general manager can start a pulse.",
         "round_open": "A round is already open.",
         "too_soon": "The last round closed less than 14 days ago. The next pulse can start from {date}.",
-        "no_factors": "Nothing to ask about: no pulse is planned and no measures are open."
+        "no_factors": "Nothing to ask about: no pulse is planned and no measures are open.",
+        "read_only": "The trial and the deadline to confirm are over. The managing director confirms the subscription under Settings › Payment, and then you can send again."
       }
     },
     "closesAt": "closes {date}"
@@ -1567,10 +1568,8 @@
       "trialHead": "Trial",
       "subscriptionHead": "Subscription",
       "pillLeft": "{count, plural, =0 {Last day} one {# day left} other {# days left}}",
-      "pillExpired": "The trial has ended",
       "pillConfirmed": "Confirmed",
-      "trialBody": "The trial started {start} and runs until {end} — {total} days, free and without a card. Choose a plan and invoice details below before it ends.",
-      "expiredBody": "The trial ended {end}. Choose a plan and enter the invoice details below to continue.",
+      "trialBody": "The trial started on {start} and runs until {end} — {total} days, free and without a card. Choose a plan and invoice details below before it ends. After the trial you have {grace} days to confirm; after that you can read results, but not send new surveys until the subscription is confirmed.",
       "confirmedBody": "{plan} is confirmed. The subscription starts {start}, and the invoice goes to {mail}.",
       "confirmedGroupBody": "You have asked for an offer on {plan}. We will contact you at {mail} before {start}.",
       "progress": "Days used of the trial",
@@ -1608,7 +1607,12 @@
         "ehf_needs_orgnr": "EHF needs an organisation number.",
         "not_allowed": "Only the managing director can change payment.",
         "failed": "It could not be saved. Try again."
-      }
+      },
+      "pillGrace": "{count, plural, one {# day} other {# days}} until read-only",
+      "pillReadOnly": "Read-only",
+      "graceBody": "The trial ended on {end}. Everything works until {until}. Confirm the subscription below before then, or you will only be able to read results until you do.",
+      "readOnlyBody": "The trial ended on {end}, and the deadline to confirm has passed. You can read results and reports, and a survey already running will finish. Confirm the subscription below and you can send again straight away.",
+      "termsAfterTrial": "Prices exclude VAT. The first invoice runs from the day you confirm. Monthly agreement, no lock-in and no setup fee."
     }
   },
   "hjelp": {
@@ -3076,7 +3080,8 @@
         "too_soon": "The send-out must be at least three days ahead, so the safety representative can see it.",
         "too_far": "Choose a day within four months.",
         "no_employees": "Add the employees before planning the send-out.",
-        "invalid": "Choose a day."
+        "invalid": "Choose a day.",
+        "read_only": "The trial and the deadline to confirm are over. Confirm the subscription under Settings › Payment first."
       }
     },
     "done": {
@@ -6887,8 +6892,9 @@
       "status": "Status",
       "statusLabel": {
         "trial": "Trial",
-        "active": "Active",
-        "expired": "Trial expired"
+        "grace": "Grace (trial ended)",
+        "read_only": "Read-only",
+        "active": "Active"
       },
       "head": {
         "name": "Organisation",
@@ -7296,5 +7302,13 @@
         "invalid": "That change is not allowed."
       }
     }
+  },
+  "access": {
+    "graceHead": "The trial has ended.",
+    "graceBody": "It ended on {end}. Everything works until {until}; after that you can read results, but not send new surveys until the subscription is confirmed.",
+    "readOnlyHead": "Read-only access.",
+    "readOnlyBody": "The trial ended on {end}, and the subscription is not confirmed. You can read results and reports, and a survey already running will finish. New surveys are sent once the subscription is confirmed.",
+    "confirm": "Confirm subscription",
+    "askLeader": "The managing director confirms the subscription under Settings › Payment."
   }
 }

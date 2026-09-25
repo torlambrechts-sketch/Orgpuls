@@ -15,14 +15,14 @@ import { createClient } from '@/lib/supabase/server'
 const Result = z.union([
   z.object({ ok: z.literal(true), round_id: z.string().uuid() }),
   z.object({
-    error: z.enum(['not_available', 'round_open', 'too_soon', 'no_factors']),
+    error: z.enum(['not_available', 'round_open', 'too_soon', 'no_factors', 'read_only']),
     available_from: z.string().optional(),
   }),
 ])
 
 export type StartResult =
   | { ok: true }
-  | { ok: false; problem: 'not_available' | 'round_open' | 'too_soon' | 'no_factors'; from?: string }
+  | { ok: false; problem: 'not_available' | 'round_open' | 'too_soon' | 'no_factors' | 'read_only'; from?: string }
 
 export async function startNextPulse(): Promise<StartResult> {
   const org = await getCurrentOrgId()

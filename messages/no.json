@@ -392,7 +392,8 @@
         "not_available": "Bare daglig leder kan starte en puls.",
         "round_open": "En runde er allerede åpen.",
         "too_soon": "Siste runde lukket for under 14 dager siden. Neste puls kan startes fra {date}.",
-        "no_factors": "Ingen faktorer å spørre om: ingen puls er planlagt, og ingen tiltak er åpne."
+        "no_factors": "Ingen faktorer å spørre om: ingen puls er planlagt, og ingen tiltak er åpne.",
+        "read_only": "Prøveperioden og fristen for å bekrefte er over. Daglig leder bekrefter abonnementet under Oppsett › Betaling, så kan dere sende igjen."
       }
     },
     "closesAt": "lukkes {date}"
@@ -1567,10 +1568,8 @@
       "trialHead": "Prøveperiode",
       "subscriptionHead": "Abonnement",
       "pillLeft": "{count, plural, =0 {Siste dag} one {# dag igjen} other {# dager igjen}}",
-      "pillExpired": "Prøveperioden er over",
       "pillConfirmed": "Bekreftet",
-      "trialBody": "Prøveperioden startet {start} og varer til {end} — {total} dager, gratis og uten kort. Velg plan og fakturaopplysninger under før den er over.",
-      "expiredBody": "Prøveperioden gikk ut {end}. Velg plan og legg inn fakturaopplysningene under for å fortsette.",
+      "trialBody": "Prøveperioden startet {start} og varer til {end} — {total} dager, gratis og uten kort. Velg plan og fakturaopplysninger under før den er over. Etter prøveperioden har dere {grace} dager på å bekrefte; deretter kan dere lese resultatene, men ikke sende nye undersøkelser før abonnementet er bekreftet.",
       "confirmedBody": "{plan} er bekreftet. Abonnementet starter {start}, og fakturaen sendes til {mail}.",
       "confirmedGroupBody": "Dere har bedt om et tilbud på {plan}. Vi tar kontakt på {mail} før {start}.",
       "progress": "Dager brukt av prøveperioden",
@@ -1608,7 +1607,12 @@
         "ehf_needs_orgnr": "EHF krever et organisasjonsnummer.",
         "not_allowed": "Bare daglig leder kan endre betalingen.",
         "failed": "Det gikk ikke å lagre. Prøv igjen."
-      }
+      },
+      "pillGrace": "{count, plural, one {# dag} other {# dager}} til bare lesetilgang",
+      "pillReadOnly": "Bare lesetilgang",
+      "graceBody": "Prøveperioden gikk ut {end}. Alt virker fram til {until}. Bekreft abonnementet under før det, ellers kan dere bare lese resultatene til det er gjort.",
+      "readOnlyBody": "Prøveperioden gikk ut {end}, og fristen for å bekrefte er passert. Dere kan lese resultater og rapporter, og en undersøkelse som er i gang, fullføres. Bekreft abonnementet under, så kan dere sende igjen med en gang.",
+      "termsAfterTrial": "Prisene er eks. mva. Første faktura gjelder fra dagen dere bekrefter. Månedlig avtale, ingen bindingstid og ingen oppstartsavgift."
     }
   },
   "hjelp": {
@@ -3076,7 +3080,8 @@
         "too_soon": "Utsendingen må være minst tre dager fram i tid, så verneombudet rekker å se den.",
         "too_far": "Velg en dag innen fire måneder.",
         "no_employees": "Legg inn de ansatte før utsendingen planlegges.",
-        "invalid": "Velg en dag."
+        "invalid": "Velg en dag.",
+        "read_only": "Prøveperioden og fristen for å bekrefte er over. Bekreft abonnementet under Oppsett › Betaling først."
       }
     },
     "done": {
@@ -6887,8 +6892,9 @@
       "status": "Status",
       "statusLabel": {
         "trial": "Trial",
-        "active": "Active",
-        "expired": "Trial expired"
+        "grace": "Grace (trial ended)",
+        "read_only": "Read-only",
+        "active": "Active"
       },
       "head": {
         "name": "Organisation",
@@ -7296,5 +7302,13 @@
         "invalid": "That change is not allowed."
       }
     }
+  },
+  "access": {
+    "graceHead": "Prøveperioden er over.",
+    "graceBody": "Den gikk ut {end}. Alt virker fram til {until}; etter det kan dere lese resultatene, men ikke sende nye undersøkelser før abonnementet er bekreftet.",
+    "readOnlyHead": "Bare lesetilgang.",
+    "readOnlyBody": "Prøveperioden gikk ut {end}, og abonnementet er ikke bekreftet. Dere kan lese resultater og rapporter, og en undersøkelse som er i gang, fullføres. Nye undersøkelser sendes når abonnementet er bekreftet.",
+    "confirm": "Bekreft abonnement",
+    "askLeader": "Daglig leder bekrefter abonnementet under Oppsett › Betaling."
   }
 }

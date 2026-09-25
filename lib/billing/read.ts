@@ -44,3 +44,26 @@ export async function getBilling(orgId: string): Promise<Billing | null> {
 /** The plan the price list puts an organisation of this size on. */
 export const fittingPlan = (employees: number): Plan =>
   employees <= PLAN_MAX.small ? 'small' : employees <= PLAN_MAX.usual ? 'usual' : 'group'
+
+/** Days after the trial before an unconfirmed organisation is read-only; mirrors app.grace_days() (0052). */
+export const GRACE_DAYS = 14
+
+const AccessState = z.object({
+  access: z.enum(['trial', 'grace', 'read_only', 'active']),
+  trial_ends_at: z.string(),
+  read_only_from: z.string(),
+})
+export type AccessState = z.infer<typeof AccessState>
+
+/**
+ * Where the organisation stands after its trial (0052, D-94), for every member: the banner
+ * over the app reads this. The database decides; this only reports it.
+ */
+export async function getAccessState(orgId: string): Promise<AccessState | null> {
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('org_access_state', { p_org: orgId })
+  if (callFailed('getAccessState', error) || !data) return null
+  const parsed = AccessState.safeParse(data)
+  if (parseFailed('getAccessState', parsed)) return null
+  return parsed.data
+}

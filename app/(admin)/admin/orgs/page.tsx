@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { ALink, Badge, Card, day, nok, PageHead, pct, Problem, Table, Td, type BadgeTone } from '@/components/admin/ui'
 import { isError, orgList, STATUSES } from '@/lib/admin/api'
 
-const TONE: Record<(typeof STATUSES)[number], BadgeTone> = { trial: 'yellow', active: 'green', expired: 'red' }
+const TONE: Record<(typeof STATUSES)[number], BadgeTone> = { trial: 'yellow', grace: 'red', read_only: 'grey', active: 'green' }
 
 /** Organisations (D-90): search and status, and the columns support and finance start from. */
 export default async function AdminOrgs({ searchParams }: { searchParams: Promise<{ q?: string; status?: string }> }) {

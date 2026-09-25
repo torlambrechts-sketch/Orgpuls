@@ -1,5 +1,5 @@
 import { getFormatter, getTranslations } from 'next-intl/server'
-import { fittingPlan, PLAN_MAX, PLANS, type Billing } from '@/lib/billing/read'
+import { fittingPlan, GRACE_DAYS, PLAN_MAX, PLANS, type Billing } from '@/lib/billing/read'
 import { BillingForm, ExtendTrialButton } from './BillingForms'
 
 const DAY = 86_400_000
@@ -47,13 +47,19 @@ export async function BillingTab({
   const total = Math.max(1, Math.round((ends - started) / DAY))
   const used = Math.min(1, Math.max(0, (now - started) / (ends - started)))
   const expired = ends <= now
+  // after the trial, 14 days' grace; then read-only until a plan is confirmed (0052, D-94)
+  const readOnlyFrom = ends + GRACE_DAYS * DAY
+  const readOnly = now >= readOnlyFrom
+  const graceLeft = Math.max(0, Math.ceil((readOnlyFrom - now) / DAY))
   const confirmed = billing.confirmed_at !== null
   const planKey = { small: 'small', usual: 'usual', group: 'group' } as const
 
   const pill = confirmed
     ? { text: t('pillConfirmed'), cls: 'bg-mint text-greendeep' }
-    : expired
-      ? { text: t('pillExpired'), cls: 'bg-peach text-dangerdeep' }
+    : readOnly
+      ? { text: t('pillReadOnly'), cls: 'bg-peach text-dangerdeep' }
+      : expired
+        ? { text: t('pillGrace', { count: graceLeft }), cls: 'bg-peach text-dangerdeep' }
       : { text: t('pillLeft', { count: left }), cls: left <= 3 ? 'bg-peach text-dangerdeep' : 'bg-sbg text-ink' }
 
   const suggested = fittingPlan(company.employees)
@@ -87,9 +93,16 @@ export async function BillingTab({
                 start: date(billing.trial_ends_at),
                 mail: billing.invoice_email ?? '',
               })
-            : expired
-              ? t('expiredBody', { end: date(billing.trial_ends_at) })
-              : t('trialBody', { start: date(billing.trial_started_at), end: date(billing.trial_ends_at), total })}
+            : readOnly
+              ? t('readOnlyBody', { end: date(billing.trial_ends_at) })
+              : expired
+                ? t('graceBody', { end: date(billing.trial_ends_at), until: date(new Date(readOnlyFrom).toISOString()) })
+                : t('trialBody', {
+                    start: date(billing.trial_started_at),
+                    end: date(billing.trial_ends_at),
+                    total,
+                    grace: GRACE_DAYS,
+                  })}
         </p>
         {confirmed ? null : (
           <div
@@ -153,7 +166,8 @@ export async function BillingTab({
             invoiceRefHint: t('invoiceRefHint'),
             ehf: t('ehf', { orgnr: company.orgNumber ?? '' }),
             ehfNoOrgnr: t('ehfNoOrgnr'),
-            terms: t('terms', { end: date(billing.trial_ends_at) }),
+            // billing starts when the trial ends, or on the day of confirming if that is later
+            terms: expired ? t('termsAfterTrial') : t('terms', { end: date(billing.trial_ends_at) }),
             save: confirmed ? t('saveChanges') : t('save'),
             confirm: t('confirm'),
             confirmGroup: t('confirmGroup'),

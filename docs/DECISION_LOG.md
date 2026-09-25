@@ -2103,7 +2103,7 @@ and user. Migration 0051 builds its core:
 - [x] A stored inbox for the contact form: it files a ticket in the admin's queue (0051, D-92).
 - [ ] App copy still says "fem spørsmål" for a pulse (malinger.lead, veiviser.rhythm.lead, start.step.verify.body); a pulse is three statements per factor with open measures (X-056).
 - [x] Oppsett › Betaling: a 15-day trial, extendable once, plan and invoice details, confirmation (0048, D-89, X-057).
-- [ ] Decide what happens when a trial ends unconfirmed; today nothing is locked (D-89).
+- [x] Decide what happens when a trial ends unconfirmed: 14 days' grace, then read-only (0052, D-94).
 - [x] Tell Orgpuls when a customer confirms a plan or asks for an offer: the admin's organisation list and dashboard show confirmations and offers requested (D-90). A push notification is still open.
 - [ ] Invoicing itself (sending invoices, EHF via an access point) is outside the product; the details are collected (D-89).
 - [x] A platform admin on its own host: separate accounts, TOTP required, every read audited, trials extended with a reason (0049, D-90, X-058).
@@ -2121,5 +2121,8 @@ and user. Migration 0051 builds its core:
 - [ ] Norwegian public holidays in the business-hours calendar (D-92).
 - [ ] A help button in the help panel that files a request with the current page (D-92).
 - [x] A recommendation for subscriptions and invoices: Stripe as ledger, EHF through the accounting system, a mirror written by webhook, lifecycle enforced in the database (docs/BILLING_RECOMMENDATION.md, D-93).
-- [ ] Decide: trial 15 or 30 days; trial end (grace, then read-only?); accounting system; card or not; annual prices; payment terms (D-93).
+- [x] Decided: trial 15 days; 14 days' grace then read-only; Fiken (D-94).
+- [ ] Decide: card or not; annual prices; payment terms; Orgpuls AS's invoice details (D-93).
+- [ ] Fiken: an account for Orgpuls AS with API access, and its token as a Supabase secret, before invoices can be sent (D-94).
+- [ ] E-mail the daglig leder before the trial ends, when grace begins, and before read-only; today the app's banner and Betaling tab say it (D-94).
 - [ ] Build the billing plan in docs/BILLING_RECOMMENDATION.md once Stripe and the accounting integration exist (D-93).

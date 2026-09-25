@@ -5,6 +5,15 @@ on the decisions already recorded in the Platform Admin Specification:*
 - *Stripe, with EHF invoices through the accounting system;*
 - *a band upgrade only after the customer confirms.*
 
+> **Decided 25 September 2026:**
+> - The trial is 15 days.
+> - 14 days' grace follow it, then read-only access until the plan is confirmed. Built in
+>   migration 0052 (D-94).
+> - The accounting system is **Fiken**.
+>
+> Still open: whether to take cards, annual prices, payment terms, and Orgpuls AS's invoice
+> details.
+
 ## In one paragraph
 
 Make **Stripe Billing the ledger**: one customer and one subscription per organisation, and
@@ -206,11 +215,13 @@ Steps 2–4 are what make money arrive. The rest can follow.
 
 ## Decisions needed from you
 
-1. **Trial length:** 15 days (the product and site today) or 30 (the specification)?
-2. **When a trial ends unconfirmed:** the proposal is 14 days' grace, then read-only
-   (`suspended`) until confirmed. Or keep today's behaviour, where nothing locks.
-3. **Accounting system:** Fiken, Tripletex or PowerOffice. Whichever the accountant uses
-   decides the EHF route.
+1. ~~Trial length~~: **15 days** (decided).
+2. ~~When a trial ends unconfirmed~~: **14 days' grace, then read-only** (decided, built in
+   0052).
+3. ~~Accounting system~~: **Fiken** (decided).
+   - Fiken sends EHF itself.
+   - The integration needs a Fiken account for Orgpuls AS with API access, and an API token
+     stored as a Supabase secret.
 4. **Card at all?** Offering card self-serve means rewording "Ingen kort" to "Ingen kort
    nødvendig".
 5. **Annual prices:** offer them, and at what discount?
