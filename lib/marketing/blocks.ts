@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { SHOT_IDS } from './shot-ids'
 
 /**
  * The content blocks the public pages are written in. An article or a landing page is an
@@ -30,6 +31,8 @@ export const Block = z.discriminatedUnion('t', [
   }),
   /** the three plans, exactly as the start page shows them (components/marketing/Plans) */
   z.object({ t: z.literal('plans') }),
+  /** a picture of the product, by id (lib/marketing/shot-ids); its words are `seo.shots.<id>` */
+  z.object({ t: z.literal('shot'), id: z.enum(SHOT_IDS) }),
 ])
 export type Block = z.infer<typeof Block>
 
@@ -59,6 +62,7 @@ export function wordCount(blocks: Block[]): number {
         case 'links':
           return b.items.map((i) => `${i.title} ${i.text}`)
         case 'plans':
+        case 'shot':
           return []
         case 'table':
           return [...b.head, ...b.rows.flat()]

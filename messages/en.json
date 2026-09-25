@@ -3114,7 +3114,37 @@
       "groupSubject": "Orgpuls for several companies",
       "articlesEyebrow": "Articles",
       "articlesTitle": "Read up before you start",
-      "articlesAll": "All articles →"
+      "articlesAll": "All articles →",
+      "showcase": {
+        "eyebrow": "What it looks like",
+        "title": "From answers to action, on a few screens",
+        "lead": "These screenshots are from Orgpuls with the demo company Nordvik Anlegg AS: 34 employees in four departments, and a baseline that 28 answered.",
+        "oversikt": {
+          "title": "The overview says it in words",
+          "body": "A manager first reads one sentence on what lifts and what drags, then all eleven factors on one scale from 0 to 100. Under 50 is where you should act."
+        },
+        "varmekart": {
+          "title": "A heatmap by department",
+          "body": "The factors against the departments. Tap a cell to see the statements behind it and suggested measures. A department that cannot be shown without revealing someone gets a dash."
+        },
+        "tiltak": {
+          "title": "From finding to effect",
+          "body": "Measures sit on a board with an owner and a deadline. A measure is not closed until a new survey has shown whether it worked."
+        },
+        "sporsmal": {
+          "title": "About four minutes on a phone",
+          "body": "Employees answer from the link they receive, without signing in. One statement at a time, on a five-point scale, and an optional field for anyone who wants to say more."
+        },
+        "arshjul": {
+          "title": "The annual cycle runs itself",
+          "body": "One baseline a year and short pulses in between. Surveys go out on the dates you set, and the safety representative is told before the employees."
+        },
+        "more": "See the whole platform",
+        "samtaler": {
+          "title": "Reply without knowing who",
+          "body": "Comments are gathered by theme. A manager replies anonymously and can ask for direct contact, but only the employee can choose to say who they are."
+        }
+      }
     },
     "forWho": {
       "eyebrow": "Who it is for",
@@ -4698,6 +4728,10 @@
             "text": "The survey is sent by e-mail or SMS, or shared as a link and a QR code. One reminder goes to those who have not answered, from the system and not the manager."
           },
           {
+            "t": "shot",
+            "id": "sporsmal"
+          },
+          {
             "t": "h2",
             "text": "Results"
           },
@@ -4706,12 +4740,20 @@
             "text": "The answers become an index from 0 to 100 per factor, with a risk band: 65 or above is low risk, 50–64 medium and below 50 high. The result can be read in several ways:"
           },
           {
+            "t": "shot",
+            "id": "oversikt"
+          },
+          {
             "t": "ul",
             "items": [
               "**Heatmap** – the factors against the departments, with the statements behind each figure",
               "**Priority** – which factors matter most for whether people would recommend the workplace",
               "**Segment profile, Compare and Development** – one department, two surveys, or the development over time"
             ]
+          },
+          {
+            "t": "shot",
+            "id": "resultater"
           },
           {
             "t": "p",
@@ -4726,12 +4768,20 @@
             "text": "Employees can write a comment on a statement. Management can reply without knowing who wrote it, and the writer can read the reply and answer back through a private link. If a manager wants to talk directly, they can ask – and the employee alone decides whether to make themselves known, by writing an e-mail from their own e-mail."
           },
           {
+            "t": "shot",
+            "id": "kommentarer"
+          },
+          {
             "t": "h2",
             "text": "Measures"
           },
           {
             "t": "p",
             "text": "The findings become measures on a board, from finding to effect. Each measure has an owner, a deadline and the factor it is meant to move, and ready suggestions are there to start from. **A measure cannot be closed before its effect is measured** – the next pulse must show whether the figure has moved."
+          },
+          {
+            "t": "shot",
+            "id": "tiltak"
           },
           {
             "t": "h2",
@@ -4749,6 +4799,14 @@
                 "text": "The report follows the four steps of section 3-1 letter c of the Act: mapping, risk assessment, measures and follow-up. The figures are frozen when the round closes, and the report can be printed or saved as PDF."
               }
             ]
+          },
+          {
+            "t": "shot",
+            "id": "arshjul"
+          },
+          {
+            "t": "shot",
+            "id": "rapport"
           },
           {
             "t": "h2",
@@ -5071,6 +5129,45 @@
             "text": "Would you rather try it yourself first? Sign up with your organisation number – you are up and running in three minutes, without card details."
           }
         ]
+      }
+    },
+    "shots": {
+      "caption": "{screen} · Nordvik Anlegg AS",
+      "oversikt": {
+        "screen": "Overview",
+        "alt": "Screenshot of the Orgpuls overview (Norwegian interface): index 61, three points lower than last year, 28 of 34 answered, and the eleven factors scored from 41 to 78."
+      },
+      "varmekart": {
+        "screen": "Results",
+        "alt": "Screenshot of the heatmap (Norwegian interface): the eleven factors against the departments, with speaking up in the Workshop at 28 as the lowest cell. Two departments are shown as a dash, under the threshold of five answers."
+      },
+      "resultater": {
+        "screen": "Results",
+        "alt": "Screenshot of the heatmap (Norwegian interface): the eleven factors against the departments. Two departments are shown as a dash. Speaking up in the Workshop is selected, scored 28, with the statements behind it and three suggested measures."
+      },
+      "kommentarer": {
+        "screen": "Comments",
+        "alt": "Screenshot of Comments (Norwegian interface): themes on the left, and anonymous comments with a reply field and a button to ask for direct contact."
+      },
+      "samtaler": {
+        "screen": "Comments",
+        "alt": "Screenshot of an anonymous comment about speaking up (Norwegian interface), with a field to reply anonymously and a button to ask for direct contact."
+      },
+      "tiltak": {
+        "screen": "Measures",
+        "alt": "Screenshot of the measures board (Norwegian interface), with four columns: finding, chosen focus, in progress and effect measured."
+      },
+      "arshjul": {
+        "screen": "Surveys",
+        "alt": "Screenshot of the 2026 annual cycle (Norwegian interface): a pulse in March, the baseline in September at index 61, and a planned pulse in December."
+      },
+      "sporsmal": {
+        "screen": "Questionnaire",
+        "alt": "Screenshot of the questionnaire on a phone (Norwegian interface): one statement about speaking up without fear of consequences, with five answers from strongly disagree to strongly agree."
+      },
+      "rapport": {
+        "screen": "Report",
+        "alt": "Screenshot of the report for the Labour Inspection Authority (Norwegian interface), part 3: the eleven factors with their legal basis, scores for 2026 and 2025, and risk level."
       }
     }
   }

@@ -3409,3 +3409,43 @@ oss", "bruksområder" and whatever else divides the content naturally.
 - The phone menu opens, navigates, closes on navigation and on Escape, and works from the
   keyboard.
 - There are no console errors.
+
+## D-84 — The public site shows real screens of the product
+
+**The design:** the start page shows the product once, in the hero, as a drawn card
+("Innsikt · Nordvik Anlegg AS", D-37). No other public page shows the product.
+
+**The request:** the owner asked for more pictures of the product on the product page and
+the start page, "so we get more of a feel for the product and the solutions", with a
+reference that pairs short texts with pieces of the interface.
+
+**What was built:**
+- **Nine pictures, none of them drawn.** Each is a crop of a real screen, captured by
+  `scripts/marketing/product-shots.mjs` from the running app, signed in as a daglig leder of
+  the design fixture's organisation. Every figure in them is the fixture's own: index 61,
+  28 av 34, Ytringsklima 28 on Verksted.
+  - The crops are found by the words each page shows, not by coordinates, so a rerun after
+    a screen changes captures the same region.
+  - They are captured at twice the pixel density and written as WebP to `assets/produkt`,
+    about 700 kB in all. The site imports them, so they get hashed, immutable URLs and
+    `next/image` sizes them per device.
+- **Each picture says whose data it is.** The frame's caption is "{screen} · Nordvik Anlegg
+  AS", as the hero card's is. The start page's section says the pictures come from the demo
+  company. Alt text describes what each shows. A desktop screen sits in the hero's browser
+  window; the questionnaire sits in a phone, since that is where employees answer it.
+- **Start page:** a section "Slik ser det ut" after "Slik fungerer det".
+  - Two wide cards: Oversikt, and the questionnaire.
+  - Two pairs: the heatmap and the measures board; a comment and the annual cycle.
+- **Plattform:** each section shows its screen. The questionnaire, Oversikt, the heatmap
+  with its drill-down, Kommentarer, the measures board, the annual cycle and part 3 of the
+  report. This is a new block kind, `shot`, whose ids are `lib/marketing/shot-ids.ts`.
+
+**One element is removed before capture.** The questionnaire is taken from the leader's
+preview (/forhandsvis), which renders the respondent's own flow with a banner saying that it
+is a preview. The script removes that banner. What remains is the page an employee sees.
+
+**Checked:**
+- At 320, 390, 768, 1024 and 1440 px, on the start page and Plattform, there is no
+  horizontal overflow.
+- Every picture loads and has alt text, and every caption names Nordvik Anlegg AS.
+- There are no console errors.

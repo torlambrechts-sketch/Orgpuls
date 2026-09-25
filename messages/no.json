@@ -3114,7 +3114,37 @@
       "groupSubject": "Orgpuls for flere selskaper",
       "articlesEyebrow": "Artikler",
       "articlesTitle": "Les deg opp før dere starter",
-      "articlesAll": "Alle artikler →"
+      "articlesAll": "Alle artikler →",
+      "showcase": {
+        "eyebrow": "Slik ser det ut",
+        "title": "Fra svar til tiltak, på noen få skjermer",
+        "lead": "Skjermbildene er tatt i Orgpuls med demobedriften Nordvik Anlegg AS: 34 ansatte i fire avdelinger, og en grunnlinje der 28 svarte.",
+        "oversikt": {
+          "title": "Oversikten sier det med ord",
+          "body": "Lederen ser først en setning om hva som løfter og hva som trekker ned, og så alle de elleve faktorene på én skala fra 0 til 100. Under 50 bør dere gjøre noe med."
+        },
+        "varmekart": {
+          "title": "Varmekart per avdeling",
+          "body": "Faktorene mot avdelingene. Trykk på en celle for å se påstandene bak og forslag til tiltak. En avdeling som ikke kan vises uten å avsløre noen, får en strek."
+        },
+        "tiltak": {
+          "title": "Fra funn til effekt",
+          "body": "Tiltakene ligger på en tavle med eier og frist. Et tiltak lukkes ikke før en ny måling har vist om det virket."
+        },
+        "sporsmal": {
+          "title": "Rundt fire minutter på mobilen",
+          "body": "De ansatte svarer fra lenken de får, uten å logge inn. Én påstand om gangen, på en femdelt skala, og et frivillig felt for den som vil si mer."
+        },
+        "arshjul": {
+          "title": "Årshjulet går av seg selv",
+          "body": "Én grunnlinje i året og korte pulser imellom. Målingene går ut på datoene dere har satt, og verneombudet får beskjed før de ansatte."
+        },
+        "more": "Se hele plattformen",
+        "samtaler": {
+          "title": "Svar uten å vite hvem",
+          "body": "Kommentarene samles per tema. Lederen svarer anonymt, og kan be om direkte kontakt, men bare den ansatte kan velge å si hvem de er."
+        }
+      }
     },
     "forWho": {
       "eyebrow": "For hvem",
@@ -4698,6 +4728,10 @@
             "text": "Undersøkelsen sendes på e-post eller SMS, eller deles som lenke og QR-kode. Én påminnelse går til dem som ikke har svart, fra systemet og ikke fra lederen."
           },
           {
+            "t": "shot",
+            "id": "sporsmal"
+          },
+          {
             "t": "h2",
             "text": "Resultater"
           },
@@ -4706,12 +4740,20 @@
             "text": "Svarene blir en indeks fra 0 til 100 per faktor, med et risikobånd: 65 eller mer er lav risiko, 50–64 middels og under 50 høy. Resultatet kan leses på flere måter:"
           },
           {
+            "t": "shot",
+            "id": "oversikt"
+          },
+          {
             "t": "ul",
             "items": [
               "**Varmekart** – faktorene mot avdelingene, med påstandene bak hvert tall",
               "**Prioritet** – hvilke faktorer som betyr mest for om folk vil anbefale arbeidsplassen",
               "**Segmentprofil, Sammenlign og Utvikling** – én avdeling, to målinger, eller utviklingen over tid"
             ]
+          },
+          {
+            "t": "shot",
+            "id": "resultater"
           },
           {
             "t": "p",
@@ -4726,12 +4768,20 @@
             "text": "De ansatte kan skrive en kommentar til en påstand. Ledelsen kan svare uten å vite hvem som skrev, og den som skrev kan lese svaret og svare tilbake via en privat lenke. Vil en leder snakke direkte, kan de be om det – og den ansatte bestemmer selv om de vil gi seg til kjenne, ved å skrive en e-post fra sin egen e-post."
           },
           {
+            "t": "shot",
+            "id": "kommentarer"
+          },
+          {
             "t": "h2",
             "text": "Tiltak"
           },
           {
             "t": "p",
             "text": "Funnene blir tiltak på en tavle, fra funn til effekt. Hvert tiltak har en eier, en frist og faktoren det skal flytte, og ferdige forslag ligger klare å starte fra. **Et tiltak kan ikke lukkes før effekten er målt** – neste puls må vise om tallet har flyttet seg."
+          },
+          {
+            "t": "shot",
+            "id": "tiltak"
           },
           {
             "t": "h2",
@@ -4749,6 +4799,14 @@
                 "text": "Rapporten følger de fire stegene i arbeidsmiljøloven § 3-1 bokstav c: kartlegging, risikovurdering, tiltak og oppfølging. Tallene fryses når runden lukkes, og rapporten kan skrives ut eller lagres som PDF."
               }
             ]
+          },
+          {
+            "t": "shot",
+            "id": "arshjul"
+          },
+          {
+            "t": "shot",
+            "id": "rapport"
           },
           {
             "t": "h2",
@@ -5071,6 +5129,45 @@
             "text": "Vil dere heller prøve selv først? Registrer med organisasjonsnummeret – dere er i gang på tre minutter, uten kortopplysninger."
           }
         ]
+      }
+    },
+    "shots": {
+      "caption": "{screen} · Nordvik Anlegg AS",
+      "oversikt": {
+        "screen": "Oversikt",
+        "alt": "Skjermbilde av Oversikt i Orgpuls: indeks 61, tre poeng lavere enn i fjor, 28 av 34 svarte, og de elleve faktorene med skår fra 41 til 78."
+      },
+      "varmekart": {
+        "screen": "Resultater",
+        "alt": "Skjermbilde av varmekartet: de elleve faktorene mot avdelingene, med Verksted og Ytringsklima på 28 som laveste celle. To avdelinger vises med strek, under terskelen på fem svar."
+      },
+      "resultater": {
+        "screen": "Resultater",
+        "alt": "Skjermbilde av varmekartet: de elleve faktorene mot avdelingene. To avdelinger vises med strek. Ytringsklima på Verksted er valgt, med skår 28, påstandene bak og tre foreslåtte tiltak."
+      },
+      "kommentarer": {
+        "screen": "Kommentarer",
+        "alt": "Skjermbilde av Kommentarer: temaene til venstre, og anonyme kommentarer med et svarfelt og knappen «Be om direkte kontakt»."
+      },
+      "samtaler": {
+        "screen": "Kommentarer",
+        "alt": "Skjermbilde av en anonym kommentar om ytringsklima, med et felt for å svare anonymt og knappen «Be om direkte kontakt»."
+      },
+      "tiltak": {
+        "screen": "Tiltak",
+        "alt": "Skjermbilde av tiltakstavla med fire kolonner: Funn, Valgt fokus, Tiltak pågår og Effekt målt."
+      },
+      "arshjul": {
+        "screen": "Målinger",
+        "alt": "Skjermbilde av årshjulet for 2026: en puls i mars, grunnlinjen i september med indeks 61, og en planlagt puls i desember."
+      },
+      "sporsmal": {
+        "screen": "Spørreskjema",
+        "alt": "Skjermbilde av spørreskjemaet på en mobil: påstanden «Jeg kan si fra om kritikkverdige forhold uten å frykte konsekvenser» med fem svar fra Helt uenig til Helt enig."
+      },
+      "rapport": {
+        "screen": "Rapport",
+        "alt": "Skjermbilde av rapporten til Arbeidstilsynet, del 3 Kartlegging: de elleve faktorene med hjemmel, skår for 2026 og 2025 og risikonivå."
       }
     }
   }

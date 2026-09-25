@@ -2,6 +2,7 @@ import type { Route } from 'next'
 import Link from 'next/link'
 import type { Block } from '@/lib/marketing/blocks'
 import { Plans } from './Plans'
+import { ProductShot } from './ProductShot'
 import { Rich } from './Rich'
 
 /**
@@ -115,6 +116,8 @@ function BlockView({ block: b }: { block: Block }) {
       )
     case 'plans':
       return <Plans />
+    case 'shot':
+      return <ProductShot id={b.id} className="my-[8px]" />
     case 'table':
       return (
         <div className="max-w-[76ch] overflow-x-auto rounded-note border border-line bg-sf">

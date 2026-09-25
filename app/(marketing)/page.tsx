@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { ArticleCards } from '@/components/marketing/ArticleCards'
 import { Plans } from '@/components/marketing/Plans'
+import { ProductShot } from '@/components/marketing/ProductShot'
 import { Tick } from '@/components/marketing/Tick'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { Faq } from '@/components/start/Faq'
@@ -52,6 +53,11 @@ const STEPS = [
   { n: 4, key: 'verify', accent: false },
 ] as const
 const DIFFS = ['effect', 'five', 'twoway'] as const
+/** The product pictures below the steps, two to a row (D-84); the wide ones are their own rows. */
+const SHOWCASE_PAIRS = [
+  ['varmekart', 'tiltak'],
+  ['samtaler', 'arshjul'],
+] as const
 const LEGAL = ['aml31c', 'aml43', 'aml62', 'aml92'] as const
 const QUOTES = ['cancel', 'export', 'eu'] as const
 const FAQ = ['anonymous', 'twelve', 'inspection', 'time', 'leaving'] as const
@@ -71,6 +77,50 @@ export default async function SplashPage() {
         <span className="block text-[11px] uppercase tracking-[0.12em] text-mut">{eyebrow}</span>
       ) : null}
       {children}
+    </div>
+  )
+
+  /** A wide card: the words on one side, the picture on the other; they stack on a phone. */
+  const ShowcaseWide = ({ id, more = false }: { id: 'oversikt' | 'sporsmal'; more?: boolean }) => (
+    <div
+      className={`grid items-center gap-[clamp(20px,3vw,34px)] rounded-card border border-line bg-sf p-[clamp(20px,3vw,32px)] ${
+        id === 'sporsmal' ? 'md:grid-cols-2' : 'lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1.75fr)]'
+      }`}
+    >
+      <div className={`min-w-0 ${id === 'sporsmal' ? 'md:order-last' : ''}`}>
+        <h3 className="m-0 font-display text-[clamp(22px,2.8vw,27px)] font-semibold leading-[1.2] [text-wrap:balance]">
+          {t(`seo.home.showcase.${id}.title`)}
+        </h3>
+        <p className="mt-[10px] max-w-[46ch] text-[15px] leading-[1.65] text-body [text-wrap:pretty]">
+          {t(`seo.home.showcase.${id}.body`)}
+        </p>
+        {more ? (
+          <Link
+            href={'/plattform' as Route}
+            className="mt-[20px] inline-flex h-[44px] items-center rounded-tile border border-ink bg-transparent px-[18px] text-[14.5px] font-semibold text-ink no-underline hover:text-ink hover:no-underline"
+          >
+            {t('seo.home.showcase.more')} →
+          </Link>
+        ) : null}
+      </div>
+      <div className={`flex min-w-0 ${id === 'sporsmal' ? 'justify-center' : 'justify-end'}`}>
+        <ProductShot id={id} />
+      </div>
+    </div>
+  )
+
+  /** Two cards in a row: the words above, the picture below. */
+  const ShowcasePair = ({ ids }: { ids: readonly ('varmekart' | 'tiltak' | 'samtaler' | 'arshjul')[] }) => (
+    <div className="grid gap-[13px] [grid-template-columns:repeat(auto-fit,minmax(min(400px,100%),1fr))]">
+      {ids.map((id) => (
+        <div key={id} className="flex min-w-0 flex-col rounded-card border border-line bg-sf px-[clamp(20px,3vw,28px)] pb-[clamp(20px,3vw,28px)] pt-[24px]">
+          <h3 className="m-0 text-[18px] font-bold leading-[1.3]">{t(`seo.home.showcase.${id}.title`)}</h3>
+          <p className="mt-[8px] max-w-[52ch] text-[14px] leading-[1.6] text-mut [text-wrap:pretty]">{t(`seo.home.showcase.${id}.body`)}</p>
+          <div className="mt-auto pt-[20px]">
+            <ProductShot id={id} />
+          </div>
+        </div>
+      ))}
     </div>
   )
 
@@ -235,6 +285,22 @@ export default async function SplashPage() {
           ))}
         </div>
       </div>
+
+      {/* ----------------------------------------------------------- product */}
+      <Section eyebrow={t('seo.home.showcase.eyebrow')}>
+        <h2 className="mt-[9px] max-w-[26ch] font-display text-[clamp(26px,3.6vw,34px)] font-semibold leading-[1.14] [text-wrap:balance]">
+          {t('seo.home.showcase.title')}
+        </h2>
+        <p className="mt-[11px] max-w-[60ch] text-[15px] leading-[1.65] text-mut [text-wrap:pretty]">
+          {t('seo.home.showcase.lead')}
+        </p>
+        <div className="mt-[24px] flex flex-col gap-[13px]">
+          <ShowcaseWide id="oversikt" more />
+          <ShowcasePair ids={SHOWCASE_PAIRS[0]} />
+          <ShowcaseWide id="sporsmal" />
+          <ShowcasePair ids={SHOWCASE_PAIRS[1]} />
+        </div>
+      </Section>
 
       {/* ---------------------------------------------------------- for hvem */}
       <Section eyebrow={t('seo.forWho.eyebrow')}>
