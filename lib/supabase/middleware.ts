@@ -72,7 +72,6 @@ const PUBLIC_PATHS = [
   '/hvorfor',
   '/bruksomrader',
   '/priser',
-  '/om-oss',
   '/sikkerhet',
   '/kontakt',
   '/artikler',

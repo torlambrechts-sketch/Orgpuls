@@ -145,12 +145,6 @@ export default async function StartPage() {
             {t('about.t')}
           </h2>
           <p className="m-0 mt-[13px] max-w-[50ch] text-[15px] leading-[1.7] text-body [text-wrap:pretty]">{t('about.d')}</p>
-          <Link
-            href="/om-oss#team"
-            className="mt-[14px] inline-block text-[14px] font-bold max-lg:inline-flex max-lg:min-h-[44px] max-lg:items-center"
-          >
-            {t('about.cta')} →
-          </Link>
         </div>
         <div className="grid grid-cols-3 gap-[12px]">
           {team.map((m) => (

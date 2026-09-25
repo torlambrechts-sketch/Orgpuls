@@ -27,7 +27,7 @@ import { chromium } from 'playwright-core'
 
 const TOLERANCE = 0.1 // percent
 const BAND = 900
-const PAGES = { Forside: '/', Plattform: '/plattform', Hvorfor: '/hvorfor', Bruksomrader: '/bruksomrader', 'Om oss': '/om-oss' }
+const PAGES = { Forside: '/', Plattform: '/plattform', Hvorfor: '/hvorfor', Bruksomrader: '/bruksomrader' }
 
 const arg = (name, fallback) => {
   const i = process.argv.indexOf(`--${name}`)

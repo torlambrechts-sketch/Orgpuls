@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { sendContact } from '@/app/(marketing)/om-oss/actions'
+import { sendContact } from '@/app/(marketing)/kontakt/actions'
 
 type Words = {
   k: string
@@ -23,7 +23,7 @@ type Words = {
 }
 
 /**
- * "Skriv til oss" (D-88; Om oss.dc.html lines 167-186): four topics, then name, e-mail,
+ * "Skriv til oss" (D-88; Om oss.dc.html lines 167-186; on /kontakt since D-95): four topics, then name, e-mail,
  * company and message.
  *
  * "Send melding" files the message as a ticket in the admin's queue (D-92), with the topic

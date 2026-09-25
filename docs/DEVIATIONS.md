@@ -4010,3 +4010,31 @@ it.
 **Left open:**
 - **E-mail warnings** before the trial ends, when grace begins, and before read-only.
 - **Fiken's integration,** which needs Orgpuls AS's Fiken account and an API token.
+
+## D-95 — Om oss is removed
+
+**The request:** "Remove om oss page".
+
+**What changed:**
+- **The page is gone.** `/om-oss` answers with a permanent redirect to `/kontakt`, so old
+  links and search results land somewhere real. It is out of the sitemap and the public
+  paths.
+- **The contact form moved to `/kontakt`**, under the page's cards, at `#skriv`. It is the
+  same ContactBlock, and it still files a ticket (D-92). Its words moved from
+  `site.omOss.contact` to `site.contact`.
+- **The menu** no longer has "Om oss".
+- **The footers:**
+  - The first footer's "Om oss" column keeps Hvorfor Orgpuls and Kontakt (now `/kontakt#skriv`),
+    and loses "Teamet".
+  - The second footer's column became Personvern og anonymitet (`/sikkerhet`) and Kontakt.
+- **Hvorfor:** the FAQ's "skriv til oss" link points to `/kontakt#skriv`.
+- **The start page** keeps its short "about us" section with the team faces, but its
+  "Møt teamet" link is removed, since the page it opened no longer exists.
+  - That link is gone from the pixel comparison with the design (the site gate already
+    differs where D-88 corrected words).
+  - Om oss is dropped from `site-pixel.mjs` and `site-baseline.mjs`. The design bundle and
+    its baseline image stay in `design-reference`, as the source.
+
+The messages that only Om oss used were removed from both languages: the page, its SEO
+title, the menu entry, the footer's "Teamet", "Oppdraget" and "Løftene", and the start page's
+"Møt teamet".

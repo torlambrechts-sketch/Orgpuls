@@ -124,7 +124,6 @@ export const SITE_PAGES = [
   { slug: 'bruksomrader', key: 'bruksomrader' },
   { slug: 'hvorfor', key: 'hvorfor' },
   { slug: 'priser', key: 'priser' },
-  { slug: 'om-oss', key: 'omOss' },
   { slug: 'sikkerhet', key: 'sikkerhet' },
   { slug: 'kontakt', key: 'kontakt' },
 ] as const

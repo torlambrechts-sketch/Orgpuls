@@ -4971,69 +4971,6 @@
           }
         ]
       },
-      "omOss": {
-        "title": "About Orgpuls",
-        "description": "Orgpuls makes the tool for the part of work environment work that often gets left behind: mapping that becomes measures, and measures followed until they work.",
-        "crumb": "About",
-        "kicker": "About Orgpuls",
-        "h1": "We make the tool for the part of work environment work that often gets left behind",
-        "lead": "The Working Environment Act requires every organisation to map the psychosocial working environment, put measures in place and follow up. Most manage the mapping. It is the follow-up that disappears. Orgpuls exists to make it a rhythm instead of a project.",
-        "blocks": [
-          {
-            "t": "h2",
-            "text": "Why Orgpuls exists"
-          },
-          {
-            "t": "p",
-            "text": "An employee survey once a year quickly becomes a report. It is presented, and then little happens, because the next step is unclear: who does what, by when, and how do we know whether it helped?"
-          },
-          {
-            "t": "p",
-            "text": "Orgpuls is built around that question. The findings become measures with an owner and a deadline, and a measure cannot be closed until the next survey shows the figure has moved. The documentation the Act requires is produced along the way."
-          },
-          {
-            "t": "h2",
-            "text": "What we stand for"
-          },
-          {
-            "t": "cards",
-            "items": [
-              {
-                "title": "Anonymity in the structure",
-                "text": "The answer is stored without anything that can be linked to a person, and no group is shown under five answers. It is not a promise we keep – it is something the system cannot do."
-              },
-              {
-                "title": "Measures until they work",
-                "text": "A measure is not done because someone ticks a box. It is done when the survey shows that something has changed."
-              },
-              {
-                "title": "Norwegian law, Norwegian language",
-                "text": "Made for the Working Environment Act and the regulation, with questions in Norwegian and a report that follows the steps of the law."
-              },
-              {
-                "title": "Data in the EU",
-                "text": "The answers are stored in the EU and not shared with third parties. No answers are used to train models."
-              }
-            ]
-          },
-          {
-            "t": "h2",
-            "text": "The instrument"
-          },
-          {
-            "t": "p",
-            "text": "Orgpuls measures eleven psychosocial factors – the same as section 4-3 of the Working Environment Act and chapter 1A of the regulation on the performance of work name. The wording builds on QPS Nordic, the General Nordic Questionnaire for Psychological and Social Factors at Work. The wording cannot be changed, because that is what makes the figures comparable over time."
-          },
-          {
-            "t": "h2",
-            "text": "The company"
-          },
-          {
-            "t": "p",
-            "text": "Orgpuls is provided by Orgpuls AS. For questions about the product, privacy or an agreement for several companies, write to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no). See also [security and privacy](/sikkerhet)."
-          }
-        ]
-      },
       "sikkerhet": {
         "title": "Security, privacy and anonymity | Orgpuls",
         "description": "How Orgpuls keeps answers anonymous: no link to a person, at least five answers per group, data in the EU. What we store, and what we do not.",
@@ -5323,7 +5260,6 @@
         "plattform": "Platform",
         "bruksomrader": "Use cases",
         "hvorfor": "Why Orgpuls",
-        "omOss": "About us",
         "pris": "Pricing"
       },
       "navLabel": "Main menu",
@@ -5369,7 +5305,6 @@
           "personvernAnonymitet": "Privacy and anonymity",
           "faq": "Frequently asked questions",
           "hvorfor": "Why Orgpuls",
-          "teamet": "The team",
           "kontakt": "Contact",
           "personvernerklaering": "Privacy policy",
           "vilkar": "Terms",
@@ -5380,9 +5315,7 @@
           "positivt": "Positive focus",
           "anonymitet": "Anonymity",
           "forskning": "The research behind it",
-          "sammenlignet": "Compared",
-          "oppdraget": "Our mission",
-          "lofter": "Our promises"
+          "sammenlignet": "Compared"
         }
       }
     },
@@ -5477,7 +5410,6 @@
         "k": "About us",
         "t": "Small team, direct lines",
         "d": "Orgpuls is made by a small Norwegian team with backgrounds in HR, management and product development. You talk to the people who build the product, not a support centre. Data is stored in the EU, and we don't sell it on.",
-        "cta": "Meet the team",
         "team": [
           {
             "n": "Product",
@@ -6074,191 +6006,6 @@
         ]
       }
     },
-    "omOss": {
-      "crumb": "About us",
-      "h1": "We make the tool we were missing ourselves",
-      "lead": "Orgpuls is made in Norway, for Norwegian organisations with 10 to 500 employees. We believe satisfied employees are something you work towards, not something you measure your way to — and that the work must be simple enough to actually get done.",
-      "facts": [
-        {
-          "v": "Norway",
-          "l": "made here, for Norwegian rules"
-        },
-        {
-          "v": "EU",
-          "l": "where the data is stored"
-        },
-        {
-          "v": "10–500",
-          "l": "employees in the organisations we build for"
-        }
-      ],
-      "sections": {
-        "oppdrag": "Our mission",
-        "prinsipper": "How we think",
-        "lofter": "Our promises",
-        "team": "The team",
-        "grunnlag": "Foundations",
-        "kontakt": "Contact"
-      },
-      "mission": {
-        "t": "The survey is the start, not the end",
-        "p1": "Far too many employee surveys end up as a report that is presented at one meeting and then left on the shelf. Not because nobody cares, but because the tool stops where the work should have begun.",
-        "p2": "We are building Orgpuls for what happens next: seeing what works, giving every finding an owner, and measuring whether it helped. The requirements of the Working Environment Act should be covered along the way — without anyone having to read sections of the Act.",
-        "quote": "“What is measured and followed up gets better. What is only measured becomes a report.”",
-        "loop": [
-          {
-            "t": "Measure",
-            "d": "anonymously, four minutes"
-          },
-          {
-            "t": "Understand",
-            "d": "what pulls up and down"
-          },
-          {
-            "t": "Act",
-            "d": "measures with owner and deadline"
-          },
-          {
-            "t": "See the effect",
-            "d": "the next pulse shows whether it worked"
-          }
-        ]
-      },
-      "principles": {
-        "t": "Six principles we build by",
-        "d": "When we have to choose between two solutions, these decide. They are here so you can hold us to them.",
-        "inPractice": "In practice:",
-        "items": [
-          {
-            "t": "Start with what works",
-            "d": "Strengths are mentioned before weaknesses. It is easier to improve something when people see that the good is noticed too.",
-            "x": "The summary starts with what people enjoy."
-          },
-          {
-            "t": "Anonymity comes first",
-            "d": "No feature is important enough to weaken anonymity. Better one figure too few than one that can be traced to a person.",
-            "x": "The threshold applies to administrators too and can never be set below five."
-          },
-          {
-            "t": "Every finding needs an owner",
-            "d": "A figure without an owner gets left lying. A measure without a deadline never gets done.",
-            "x": "Measures cannot be closed until the effect has been measured."
-          },
-          {
-            "t": "Simple enough for 20 employees",
-            "d": "A managing director without an HR department should manage alone. Those who have HR should get the depth.",
-            "x": "Simple and full view of the same data."
-          },
-          {
-            "t": "Don't ask more than necessary",
-            "d": "Every question costs respondents time. We only ask about what you actually intend to act on.",
-            "x": "The pulse asks only about factors with open measures."
-          },
-          {
-            "t": "Say what we don't do",
-            "d": "We cover the survey of the psychosocial working environment. We don't pretend to cover everything else.",
-            "x": "The report states clearly which HSE duties are outside its scope."
-          }
-        ]
-      },
-      "promises": {
-        "t": "To you as a customer, and to those who answer",
-        "d": "A survey only works if people trust it. That is why we make two sets of promises: one to the organisation that pays, and one to the employees who answer.",
-        "orgHead": "To the organisation",
-        "org": [
-          "Monthly agreement, no lock-in period and no set-up fee",
-          "Everything included: surveys, reports, measures and integrations",
-          "The data is yours — the report can be saved as PDF at any time",
-          "Data is stored in the EU and never sold on",
-          "A reply in Norwegian within one working day"
-        ],
-        "empHead": "To the employees",
-        "emp": [
-          "Your answer is never linked to your name, email or IP",
-          "The manager sees figures only when enough people in the group have answered",
-          "Responses are not used to train language models",
-          "You can skip questions and answer on your phone",
-          "If you write a comment, the manager can reply without knowing who you are"
-        ]
-      },
-      "team": {
-        "t": "Small team, direct lines",
-        "d": "Orgpuls is made by a small team with backgrounds in HR, management and product development. You talk to the people who build the product, not to a support centre.",
-        "members": [
-          {
-            "n": "Product",
-            "r": "Product and design",
-            "d": "Responsible for making it easy to get started, and for results that are easy to understand."
-          },
-          {
-            "n": "Expertise",
-            "r": "Expertise and working environment",
-            "d": "Responsible for the question set, the suggested measures and for keeping us within the regulations."
-          },
-          {
-            "n": "Customers",
-            "r": "Customers and onboarding",
-            "d": "Helps you with the first send-out and replies when you write."
-          },
-          {
-            "n": "Tuva",
-            "r": "The in-product assistant",
-            "d": "Shows the way on every page and what remains in the setup. Never reads responses."
-          }
-        ]
-      },
-      "basis": {
-        "t": "What we build on",
-        "d": "We didn't invent the questions or the rules. We have put together what already exists and made it easy to use.",
-        "items": [
-          {
-            "k": "Questionnaire",
-            "t": "QPS Nordic",
-            "d": "The Nordic questionnaire for psychological and social factors at work. The basis for the factors and the wording.",
-            "cta": "Read about the questions"
-          },
-          {
-            "k": "Law",
-            "t": "The Working Environment Act",
-            "d": "The survey duty in § 3-1 c, the requirements for the psychosocial working environment in § 4-3, participation in § 6-2 and consultation in § 9-2.",
-            "cta": "See how the law is covered"
-          },
-          {
-            "k": "Regulation",
-            "t": "The Regulation on the Performance of Work",
-            "d": "Chapter 1A on organisational and psychosocial factors: role clarity, workload, conflicting and emotional demands.",
-            "cta": "See the factors"
-          },
-          {
-            "k": "Privacy",
-            "t": "GDPR",
-            "d": "The threshold, and holding back small groups, mean the results are not personal data. The legal basis for processing is documented.",
-            "cta": "Read about anonymity"
-          }
-        ]
-      },
-      "contact": {
-        "t": "Write to us",
-        "d": "Questions about the product, pricing for corporate groups, or help with the first send-out. We reply personally, in Norwegian, within one working day.",
-        "topics": [
-          "Questions about the product",
-          "Pricing for groups or over 100 employees",
-          "Help with the first send-out",
-          "Privacy and data processing agreement"
-        ],
-        "topicsLabel": "What is it about?",
-        "name": "Name",
-        "mail": "Email",
-        "org": "Organisation",
-        "orgPlaceholder": "Optional",
-        "msg": "Message",
-        "send": "Send message",
-        "invalid": "Enter your name and a valid email address.",
-        "sent": "Thank you! We’ve received your message and will reply by email within one working day.",
-        "limited": "You’ve sent several messages in the last hour. Wait a little, or email us.",
-        "failed": "The message didn’t go through. Email us at {mail}, and we’ll reply within one working day."
-      }
-    },
     "plattform": {
       "crumb": "Platform",
       "h1": "Four parts that fit together",
@@ -6797,6 +6544,28 @@
           "Getting-started list"
         ]
       }
+    },
+    "contact": {
+      "k": "Contact",
+      "t": "Write to us",
+      "d": "Questions about the product, pricing for corporate groups, or help with the first send-out. We reply personally, in Norwegian, within one working day.",
+      "topics": [
+        "Questions about the product",
+        "Pricing for groups or over 100 employees",
+        "Help with the first send-out",
+        "Privacy and data processing agreement"
+      ],
+      "topicsLabel": "What is it about?",
+      "name": "Name",
+      "mail": "Email",
+      "org": "Organisation",
+      "orgPlaceholder": "Optional",
+      "msg": "Message",
+      "send": "Send message",
+      "invalid": "Enter your name and a valid email address.",
+      "sent": "Thank you! We’ve received your message and will reply by email within one working day.",
+      "limited": "You’ve sent several messages in the last hour. Wait a little, or email us.",
+      "failed": "The message didn’t go through. Email us at {mail}, and we’ll reply within one working day."
     }
   },
   "admin": {

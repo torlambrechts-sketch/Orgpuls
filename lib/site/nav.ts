@@ -6,6 +6,9 @@
  * answers it. Two footer entries have nowhere to go yet — there is no privacy statement and
  * no terms page — so they have no `href` and render as text, not as links to nothing.
  *
+ * Om oss was removed (D-95): the menu no longer names it, and the footers' "Om oss" columns
+ * link to the contact form on /kontakt (and to Hvorfor, or to Sikkerhet where Hvorfor has its own column).
+ *
  * The design gives the pages two footers. Forside and Plattform carry the first (Produkt,
  * Bruksområder, Ressurser, Om oss); Hvorfor, Bruksområder and Om oss the second, whose
  * columns link into the new pages' sections, and Bruksområder's own adds "Verneombud og
@@ -18,7 +21,6 @@ export const SITE_NAV_V2: SiteLink[] = [
   { key: 'plattform', href: '/plattform' },
   { key: 'bruksomrader', href: '/bruksomrader' },
   { key: 'hvorfor', href: '/hvorfor' },
-  { key: 'omOss', href: '/om-oss' },
   { key: 'pris', href: '/#pris' },
 ]
 
@@ -58,8 +60,7 @@ const FOOTER_FIRST: FooterColumn[] = [
     head: 'omOss',
     links: [
       { key: 'hvorfor', href: '/hvorfor' },
-      { key: 'teamet', href: '/om-oss#team' },
-      { key: 'kontakt', href: '/om-oss#kontakt' },
+      { key: 'kontakt', href: '/kontakt#skriv' },
       { key: 'personvernerklaering' },
       { key: 'vilkar' },
     ],
@@ -99,10 +100,8 @@ const secondFooter = (withAmu: boolean): FooterColumn[] => [
   {
     head: 'omOss',
     links: [
-      { key: 'oppdraget', href: '/om-oss#oppdrag' },
-      { key: 'lofter', href: '/om-oss#lofter' },
-      { key: 'teamet', href: '/om-oss#team' },
-      { key: 'kontakt', href: '/om-oss#kontakt' },
+      { key: 'personvernAnonymitet', href: '/sikkerhet' },
+      { key: 'kontakt', href: '/kontakt#skriv' },
     ],
   },
 ]
@@ -120,5 +119,4 @@ export const DESIGNED_FOOTER: Record<string, FooterId> = {
   '/plattform': 'first',
   '/hvorfor': 'second',
   '/bruksomrader': 'bruksomrader',
-  '/om-oss': 'second',
 }

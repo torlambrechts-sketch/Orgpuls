@@ -31,6 +31,7 @@ export async function PageTemplate({
   related,
   schemaType = 'WebPage',
   extraSchema = [],
+  children,
 }: {
   /** the page's message key, e.g. `seo.pages.plattform` */
   k: string
@@ -44,6 +45,8 @@ export async function PageTemplate({
   related?: { href: string; title: string; text: string }[]
   schemaType?: 'WebPage' | 'AboutPage' | 'ContactPage' | 'CollectionPage'
   extraSchema?: Record<string, unknown>[]
+  /** a page's own section after its blocks: the contact form on /kontakt (D-95) */
+  children?: React.ReactNode
 }) {
   const t = await getTranslations()
   const blocks = BlocksSchema.parse(t.raw(`${k}.blocks`))
@@ -116,6 +119,8 @@ export async function PageTemplate({
       <div className="mx-auto max-w-[1120px] px-[26px] pt-[40px]">
         <Blocks blocks={blocks} />
       </div>
+
+      {children}
 
       {faq.length ? (
         <div className="mx-auto max-w-[1120px] px-[26px] pt-[54px]">

@@ -36,7 +36,6 @@ export const PAGES = {
   Plattform: '/plattform',
   Hvorfor: '/hvorfor',
   Bruksomrader: '/bruksomrader',
-  'Om oss': '/om-oss',
 }
 
 const arg = (name, fallback) => {

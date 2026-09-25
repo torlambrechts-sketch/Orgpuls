@@ -4971,69 +4971,6 @@
           }
         ]
       },
-      "omOss": {
-        "title": "Om Orgpuls",
-        "description": "Orgpuls lager verktøyet for den delen av arbeidsmiljøarbeidet som ofte blir liggende: kartlegging som blir til tiltak, og tiltak som følges til de virker.",
-        "crumb": "Om oss",
-        "kicker": "Om Orgpuls",
-        "h1": "Vi lager verktøyet for den delen av arbeidsmiljøarbeidet som ofte blir liggende",
-        "lead": "Arbeidsmiljøloven krever at alle virksomheter kartlegger det psykososiale arbeidsmiljøet, setter tiltak og følger opp. De fleste får til kartleggingen. Det er oppfølgingen som blir borte. Orgpuls finnes for å gjøre den til en rytme i stedet for et prosjekt.",
-        "blocks": [
-          {
-            "t": "h2",
-            "text": "Hvorfor Orgpuls finnes"
-          },
-          {
-            "t": "p",
-            "text": "En medarbeiderundersøkelse én gang i året blir fort en rapport. Den presenteres, og så skjer det lite, fordi neste steg er uklart: hvem gjør hva, innen når, og hvordan vet vi om det hjalp?"
-          },
-          {
-            "t": "p",
-            "text": "Orgpuls er bygget rundt det spørsmålet. Funnene blir tiltak med eier og frist, og et tiltak kan ikke lukkes før neste måling viser at tallet har flyttet seg. Dokumentasjonen arbeidsmiljøloven krever, lages underveis."
-          },
-          {
-            "t": "h2",
-            "text": "Det vi står for"
-          },
-          {
-            "t": "cards",
-            "items": [
-              {
-                "title": "Anonymitet i strukturen",
-                "text": "Svaret lagres uten noe som kan kobles til en person, og ingen gruppe vises under fem svar. Det er ikke et løfte vi holder – det er noe systemet ikke kan."
-              },
-              {
-                "title": "Tiltak til de virker",
-                "text": "Et tiltak er ikke ferdig fordi noen krysser av. Det er ferdig når målingen viser at noe har endret seg."
-              },
-              {
-                "title": "Norsk lov, norsk språk",
-                "text": "Laget for arbeidsmiljøloven og forskriften, med spørsmål på norsk og rapport som følger lovens steg."
-              },
-              {
-                "title": "Data i EU",
-                "text": "Svarene lagres i EU og deles ikke med tredjeparter. Ingen svar brukes til å trene modeller."
-              }
-            ]
-          },
-          {
-            "t": "h2",
-            "text": "Instrumentet"
-          },
-          {
-            "t": "p",
-            "text": "Orgpuls måler elleve psykososiale faktorer – de samme som arbeidsmiljøloven § 4-3 og forskrift om utførelse av arbeid kapittel 1A navngir. Formuleringene bygger på QPS Nordic, et nordisk spørreskjema for psykologiske og sosiale faktorer i arbeidet. Ordlyden kan ikke endres, fordi det er den som gjør tallene sammenlignbare over tid."
-          },
-          {
-            "t": "h2",
-            "text": "Selskapet"
-          },
-          {
-            "t": "p",
-            "text": "Orgpuls leveres av Orgpuls AS. Har dere spørsmål om produktet, om personvern eller om avtale for flere selskaper, skriv til [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no). Se også [sikkerhet og personvern](/sikkerhet)."
-          }
-        ]
-      },
       "sikkerhet": {
         "title": "Sikkerhet, personvern og anonymitet | Orgpuls",
         "description": "Hvordan Orgpuls holder svarene anonyme: ingen kobling til person, minst fem svar per gruppe, data i EU. Hva vi lagrer, og hva vi ikke lagrer.",
@@ -5323,7 +5260,6 @@
         "plattform": "Plattform",
         "bruksomrader": "Bruksområder",
         "hvorfor": "Hvorfor Orgpuls",
-        "omOss": "Om oss",
         "pris": "Pris"
       },
       "navLabel": "Hovedmeny",
@@ -5369,7 +5305,6 @@
           "personvernAnonymitet": "Personvern og anonymitet",
           "faq": "Ofte stilte spørsmål",
           "hvorfor": "Hvorfor Orgpuls",
-          "teamet": "Teamet",
           "kontakt": "Kontakt",
           "personvernerklaering": "Personvernerklæring",
           "vilkar": "Vilkår",
@@ -5380,9 +5315,7 @@
           "positivt": "Positivt fokus",
           "anonymitet": "Anonymitet",
           "forskning": "Forskningen bak",
-          "sammenlignet": "Sammenlignet",
-          "oppdraget": "Oppdraget",
-          "lofter": "Løftene våre"
+          "sammenlignet": "Sammenlignet"
         }
       }
     },
@@ -5477,7 +5410,6 @@
         "k": "Om oss",
         "t": "Små team, korte veier",
         "d": "Orgpuls lages av et lite norsk team med bakgrunn fra HR, ledelse og produktutvikling. Du snakker med de som bygger produktet, ikke et supportsenter. Data lagres i EU, og vi selger dem ikke videre.",
-        "cta": "Møt teamet",
         "team": [
           {
             "n": "Produkt",
@@ -6613,190 +6545,27 @@
         ]
       }
     },
-    "omOss": {
-      "crumb": "Om oss",
-      "h1": "Vi lager verktøyet vi selv manglet",
-      "lead": "Orgpuls er laget i Norge, for norske virksomheter med 10 til 500 ansatte. Vi tror at fornøyde ansatte er noe man jobber fram, ikke noe man måler seg til — og at arbeidet må være enkelt nok til at det faktisk blir gjort.",
-      "facts": [
-        {
-          "v": "Norge",
-          "l": "laget her, for norske regler"
-        },
-        {
-          "v": "EU",
-          "l": "der dataene lagres"
-        },
-        {
-          "v": "10–500",
-          "l": "ansatte i virksomhetene vi bygger for"
-        }
+    "contact": {
+      "k": "Kontakt",
+      "t": "Skriv til oss",
+      "d": "Spørsmål om produktet, pris for konsern, eller hjelp til første utsending. Vi svarer selv, på norsk, innen én virkedag.",
+      "topics": [
+        "Spørsmål om produktet",
+        "Pris for konsern eller over 100 ansatte",
+        "Hjelp til første utsending",
+        "Personvern og databehandleravtale"
       ],
-      "sections": {
-        "oppdrag": "Oppdraget",
-        "prinsipper": "Slik tenker vi",
-        "lofter": "Løftene våre",
-        "team": "Teamet",
-        "grunnlag": "Faglig grunnlag",
-        "kontakt": "Kontakt"
-      },
-      "mission": {
-        "t": "Målingen er starten, ikke slutten",
-        "p1": "Altfor mange medarbeiderundersøkelser ender som en rapport som presenteres i ett møte og så blir liggende. Ikke fordi noen ikke bryr seg, men fordi verktøyet stopper der arbeidet skulle begynt.",
-        "p2": "Vi bygger Orgpuls for det som skjer etterpå: å se hva som fungerer, gi hvert funn en eier, og måle om det hjalp. Kravene i arbeidsmiljøloven skal dekkes underveis — uten at noen må lese paragrafer.",
-        "quote": "«Det som måles og følges opp, blir bedre. Det som bare måles, blir en rapport.»",
-        "loop": [
-          {
-            "t": "Mål",
-            "d": "anonymt, fire minutter"
-          },
-          {
-            "t": "Forstå",
-            "d": "hva som trekker opp og ned"
-          },
-          {
-            "t": "Handle",
-            "d": "tiltak med eier og frist"
-          },
-          {
-            "t": "Se effekten",
-            "d": "neste puls viser om det virket"
-          }
-        ]
-      },
-      "principles": {
-        "t": "Seks prinsipper vi bygger etter",
-        "d": "Når vi må velge mellom to løsninger, er det disse som avgjør. De står her så dere kan holde oss til dem.",
-        "inPractice": "I praksis:",
-        "items": [
-          {
-            "t": "Start med det som fungerer",
-            "d": "Styrker nevnes før svakheter. Det er lettere å forbedre noe når folk ser at det gode også blir sett.",
-            "x": "Oppsummeringen starter med det folk trives med."
-          },
-          {
-            "t": "Anonymitet går foran alt",
-            "d": "Ingen funksjon er viktig nok til å svekke anonymiteten. Heller et tall for lite enn ett som kan knyttes til en person.",
-            "x": "Terskelen gjelder også administratorer og kan aldri settes under fem."
-          },
-          {
-            "t": "Hvert funn skal ha en eier",
-            "d": "Et tall uten eier blir liggende. Et tiltak uten frist blir aldri ferdig.",
-            "x": "Tiltak kan ikke lukkes før effekten er målt."
-          },
-          {
-            "t": "Enkelt nok for 20 ansatte",
-            "d": "Daglig leder uten HR-avdeling skal klare seg alene. Den som har HR, skal få dybden.",
-            "x": "Enkel og full visning av de samme dataene."
-          },
-          {
-            "t": "Ikke spør mer enn nødvendig",
-            "d": "Hvert spørsmål koster tid for de som svarer. Vi spør bare om det dere faktisk vil gjøre noe med.",
-            "x": "Pulsen spør bare om faktorer med åpne tiltak."
-          },
-          {
-            "t": "Si hva vi ikke gjør",
-            "d": "Vi dekker kartleggingen av det psykososiale arbeidsmiljøet. Vi later ikke som om vi dekker alt annet.",
-            "x": "Rapporten sier tydelig hvilke HMS-plikter som ligger utenfor."
-          }
-        ]
-      },
-      "promises": {
-        "t": "Til dere som kunde, og til de som svarer",
-        "d": "En undersøkelse virker bare hvis folk stoler på den. Derfor gir vi to sett løfter: ett til virksomheten som betaler, og ett til de ansatte som svarer.",
-        "orgHead": "Til virksomheten",
-        "org": [
-          "Månedlig avtale, ingen bindingstid og ingen oppstartsavgift",
-          "Alt inkludert: målinger, rapporter, tiltak og integrasjoner",
-          "Dataene er deres — rapporten kan lagres som PDF når som helst",
-          "Data lagres i EU og selges aldri videre",
-          "Svar på norsk innen én virkedag"
-        ],
-        "empHead": "Til de ansatte",
-        "emp": [
-          "Svaret ditt knyttes aldri til navn, e-post eller IP",
-          "Lederen ser bare tall når nok i gruppa har svart",
-          "Svarene brukes ikke til å trene språkmodeller",
-          "Du kan hoppe over spørsmål og svare på mobil",
-          "Skriver du en kommentar, kan lederen svare uten å vite hvem du er"
-        ]
-      },
-      "team": {
-        "t": "Små team, korte veier",
-        "d": "Orgpuls lages av et lite team med bakgrunn fra HR, ledelse og produktutvikling. Du snakker med de som bygger produktet, ikke med et supportsenter.",
-        "members": [
-          {
-            "n": "Produkt",
-            "r": "Produkt og design",
-            "d": "Ansvar for at det er enkelt å komme i gang, og at resultatene er lette å forstå."
-          },
-          {
-            "n": "Fag",
-            "r": "Fag og arbeidsmiljø",
-            "d": "Ansvar for spørsmålssettet, forslagene til tiltak og at vi følger regelverket."
-          },
-          {
-            "n": "Kunder",
-            "r": "Kunder og oppstart",
-            "d": "Hjelper dere med første utsending og svarer når dere skriver."
-          },
-          {
-            "n": "Tuva",
-            "r": "Assistenten i produktet",
-            "d": "Viser vei på hver side og hva som gjenstår i oppsettet. Leser aldri svar."
-          }
-        ]
-      },
-      "basis": {
-        "t": "Det vi bygger på",
-        "d": "Vi har ikke funnet opp spørsmålene eller reglene. Vi har satt sammen det som allerede finnes, og gjort det enkelt å bruke.",
-        "items": [
-          {
-            "k": "Spørreskjema",
-            "t": "QPS Nordic",
-            "d": "Det nordiske spørreskjemaet for psykologiske og sosiale faktorer i arbeid. Grunnlaget for faktorene og ordlyden.",
-            "cta": "Les om spørsmålene"
-          },
-          {
-            "k": "Lov",
-            "t": "Arbeidsmiljøloven",
-            "d": "Kartleggingsplikten i § 3-1 c, kravene til psykososialt arbeidsmiljø i § 4-3, medvirkning i § 6-2 og drøfting i § 9-2.",
-            "cta": "Se hvordan loven dekkes"
-          },
-          {
-            "k": "Forskrift",
-            "t": "Forskrift om utførelse av arbeid",
-            "d": "Kapittel 1A om organisatoriske og psykososiale faktorer: rolleklarhet, arbeidsmengde, motstridende og emosjonelle krav.",
-            "cta": "Se faktorene"
-          },
-          {
-            "k": "Personvern",
-            "t": "GDPR",
-            "d": "Terskelen, og at små grupper holdes tilbake, gjør at resultatene ikke er personopplysninger. Behandlingsgrunnlaget er dokumentert.",
-            "cta": "Les om anonymitet"
-          }
-        ]
-      },
-      "contact": {
-        "t": "Skriv til oss",
-        "d": "Spørsmål om produktet, pris for konsern, eller hjelp til første utsending. Vi svarer selv, på norsk, innen én virkedag.",
-        "topics": [
-          "Spørsmål om produktet",
-          "Pris for konsern eller over 100 ansatte",
-          "Hjelp til første utsending",
-          "Personvern og databehandleravtale"
-        ],
-        "topicsLabel": "Hva gjelder det?",
-        "name": "Navn",
-        "mail": "E-post",
-        "org": "Virksomhet",
-        "orgPlaceholder": "Valgfritt",
-        "msg": "Melding",
-        "send": "Send melding",
-        "invalid": "Fyll inn navn og en gyldig e-postadresse.",
-        "sent": "Takk! Vi har fått meldingen og svarer deg på e-post innen én virkedag.",
-        "limited": "Du har sendt flere meldinger den siste timen. Vent litt, eller skriv til oss på e-post.",
-        "failed": "Meldingen kom ikke fram. Skriv til oss på {mail}, så svarer vi innen én virkedag."
-      }
+      "topicsLabel": "Hva gjelder det?",
+      "name": "Navn",
+      "mail": "E-post",
+      "org": "Virksomhet",
+      "orgPlaceholder": "Valgfritt",
+      "msg": "Melding",
+      "send": "Send melding",
+      "invalid": "Fyll inn navn og en gyldig e-postadresse.",
+      "sent": "Takk! Vi har fått meldingen og svarer deg på e-post innen én virkedag.",
+      "limited": "Du har sendt flere meldinger den siste timen. Vent litt, eller skriv til oss på e-post.",
+      "failed": "Meldingen kom ikke fram. Skriv til oss på {mail}, så svarer vi innen én virkedag."
     }
   },
   "admin": {

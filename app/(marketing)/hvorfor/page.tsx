@@ -137,7 +137,7 @@ export default async function HvorforPage() {
           <p className="m-0 mt-[12px] max-w-[44ch] text-[15px] leading-[1.65] text-body [text-wrap:pretty]">
             {t.rich('faq.d', {
               link: (chunks) => (
-                <Link href="/om-oss#kontakt" className="font-bold">
+                <Link href="/kontakt#skriv" className="font-bold">
                   {chunks}
                 </Link>
               ),

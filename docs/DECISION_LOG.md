@@ -2098,7 +2098,7 @@ and user. Migration 0051 builds its core:
 - [ ] Orgpuls's own DPAs with Supabase, Vercel and Brevo: outside the repository (X-055).
 - [ ] An automated retention and deletion routine; the agreement promises deletion within 30 days of termination (D-87).
 - [x] The public site follows design-reference/orgpuls/nettside, pixel-diffed page by page, with the design's untrue claims corrected (D-88, X-056).
-- [ ] Names and photographs for the team cards on Om oss, or a decision to keep the roles (D-88).
+- [x] Names and photographs for the team cards on Om oss: moot, the page is removed (D-95).
 - [ ] A privacy statement and terms page; the footer lists both and registration refers to the first (D-88).
 - [x] A stored inbox for the contact form: it files a ticket in the admin's queue (0051, D-92).
 - [ ] App copy still says "fem spørsmål" for a pulse (malinger.lead, veiviser.rhythm.lead, start.step.verify.body); a pulse is three statements per factor with open measures (X-056).
@@ -2126,3 +2126,4 @@ and user. Migration 0051 builds its core:
 - [ ] Fiken: an account for Orgpuls AS with API access, and its token as a Supabase secret, before invoices can be sent (D-94).
 - [ ] E-mail the daglig leder before the trial ends, when grace begins, and before read-only; today the app's banner and Betaling tab say it (D-94).
 - [ ] Build the billing plan in docs/BILLING_RECOMMENDATION.md once Stripe and the accounting integration exist (D-93).
+- [x] Om oss removed; /om-oss redirects to /kontakt, where the contact form now is (D-95).
