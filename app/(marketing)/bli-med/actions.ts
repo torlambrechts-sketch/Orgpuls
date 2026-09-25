@@ -3,6 +3,7 @@
 import type { Route } from 'next'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+import { restoreLocale } from '@/lib/i18n/server'
 import { createClient } from '@/lib/supabase/server'
 import { callFailed } from '@/lib/supabase/read'
 import { getInvitePreview } from '@/lib/members/read'
@@ -28,6 +29,8 @@ async function accept(token: string): Promise<JoinState> {
   const verdict = Verdict.safeParse(data)
   if (!verdict.success) return { problem: 'failed' }
   if (!verdict.data.ok) return { problem: verdict.data.error }
+  // the language saved on the profile, or the organisation's (D-96)
+  await restoreLocale(supabase)
   redirect('/innsikt')
 }
 

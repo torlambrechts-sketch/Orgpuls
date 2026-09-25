@@ -2127,3 +2127,4 @@ and user. Migration 0051 builds its core:
 - [ ] E-mail the daglig leder before the trial ends, when grace begins, and before read-only; today the app's banner and Betaling tab say it (D-94).
 - [ ] Build the billing plan in docs/BILLING_RECOMMENDATION.md once Stripe and the accounting integration exist (D-93).
 - [x] Om oss removed; /om-oss redirects to /kontakt, where the contact form now is (D-95).
+- [x] Language selection: NEXT_LOCALE cookie, saved on the profile and restored at sign-in; NO | EN in the public header, the phone menu and the app's account menu (D-96).

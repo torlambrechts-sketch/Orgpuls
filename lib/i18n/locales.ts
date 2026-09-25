@@ -12,3 +12,6 @@ export const DEFAULT_LOCALE: Locale = 'no'
 export function isLocale(value: string | undefined | null): value is Locale {
   return !!value && (LOCALES as readonly string[]).includes(value)
 }
+
+/** The chosen language, set by the switch (lib/i18n/actions) and restored at sign-in. */
+export const LOCALE_COOKIE = 'NEXT_LOCALE'

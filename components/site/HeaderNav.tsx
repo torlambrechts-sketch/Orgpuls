@@ -3,7 +3,7 @@
 import type { Route } from 'next'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useId, useState, type ReactNode } from 'react'
 
 type Item = { href: string; label: string }
 
@@ -20,11 +20,14 @@ export function HeaderNav({
   label,
   menuLabel,
   account,
+  language,
 }: {
   items: Item[]
   label: string
   menuLabel: string
   account: Item[]
+  /** the language switch, at the foot of the phone menu (D-96) */
+  language?: ReactNode
 }) {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
@@ -106,6 +109,7 @@ export function HeaderNav({
               </Link>
             ))}
           </span>
+          {language ? <span className="mt-[8px] flex sm:hidden">{language}</span> : null}
         </nav>
       ) : null}
     </>

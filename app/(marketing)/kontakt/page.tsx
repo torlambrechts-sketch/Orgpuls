@@ -11,7 +11,6 @@ import { CONTACT_MAIL } from '@/lib/marketing/site'
  * PageTemplate. Since Om oss was removed (D-95), the contact form that files a ticket lives
  * here, under the page's cards.
  */
-export const dynamic = 'force-static'
 
 const Strs = z.array(z.string())
 

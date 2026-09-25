@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+import { restoreLocale } from '@/lib/i18n/server'
 import { createClient } from '@/lib/supabase/server'
 
 /**
@@ -28,6 +29,8 @@ export async function signIn(_prev: SignInState, formData: FormData): Promise<Si
   const { error } = await supabase.auth.signInWithPassword(parsed.data)
   if (error) return { error: 'invalid' }
 
+  // the language saved on the profile, or the organisation's (D-96)
+  await restoreLocale(supabase)
   redirect('/innsikt')
 }
 

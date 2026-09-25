@@ -17,7 +17,6 @@ import { zip } from '@/lib/site/zip'
  * oss. The three people in "Små team, korte veier" are roles drawn as Tuva's faces, as the
  * design draws them — nobody's name or photograph.
  */
-export const dynamic = 'force-static'
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()

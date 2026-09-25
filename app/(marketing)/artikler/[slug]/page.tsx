@@ -6,7 +6,6 @@ import { pageMeta } from '@/lib/marketing/meta'
 import { ARTICLES, articleBySlug } from '@/lib/marketing/site'
 
 /** An article, one per entry in lib/marketing/site.ts; any other slug is a 404. */
-export const dynamic = 'force-static'
 export const dynamicParams = false
 
 export function generateStaticParams() {

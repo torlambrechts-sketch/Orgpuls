@@ -8,7 +8,6 @@ import { breadcrumbs, graph, organization } from '@/lib/marketing/schema'
 import { absolute, ARTICLES } from '@/lib/marketing/site'
 
 /** The article index: every article, newest first, as lib/marketing/site.ts lists them. */
-export const dynamic = 'force-static'
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()

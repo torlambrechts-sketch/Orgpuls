@@ -57,7 +57,8 @@
       "aria": "Account: {who}",
       "ariaPlain": "Account",
       "settings": "Settings",
-      "signOut": "Sign out"
+      "signOut": "Sign out",
+      "language": "Language"
     }
   },
   "role": {
@@ -3386,7 +3387,7 @@
           "text": "5–25 employees and no HR department: an anonymous employee survey for NOK 265 a month."
         },
         "kicker": "For organisations with 5–25 employees",
-        "h1": "Medarbeider­undersøkelse for små bedrifter – satt opp på under en time",
+        "h1": "Employee survey for small businesses – set up in under an hour",
         "lead": "Small businesses rarely have an HR department, but they have the same legal requirements as large organisations. Orgpuls is an employee survey that handles sending, reminders and documentation, so you can spend the time on what comes out of it.",
         "blocks": [
           {
@@ -5317,7 +5318,8 @@
           "forskning": "The research behind it",
           "sammenlignet": "Compared"
         }
-      }
+      },
+      "language": "Language"
     },
     "home": {
       "pill": "Employee surveys and working environment",

@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server'
 import { HeaderNav } from '@/components/site/HeaderNav'
 import { SiteFooter, type FooterData } from '@/components/site/SiteFooter'
 import { SiteBeacon } from '@/components/marketing/SiteBeacon'
+import { LanguageSwitch } from '@/components/i18n/LanguageSwitch'
 import { DESIGNED_FOOTER, FOOTERS, SITE_NAV_V2, type FooterId } from '@/lib/site/nav'
 
 /**
@@ -13,7 +14,7 @@ import { DESIGNED_FOOTER, FOOTERS, SITE_NAV_V2, type FooterId } from '@/lib/site
  * and no assistant, because nobody reading it is signed in. The header is the logo, the
  * site's five sections and the two account buttons; the footer is the one each page's design
  * draws (lib/site/nav). The page you are on, and which footer it has, are read from the path
- * by two small client components, so every page stays static.
+ * by two small client components. Beside "Logg inn", Norsk / English (D-96).
  */
 export default async function MarketingLayout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations('site.chrome')
@@ -51,13 +52,15 @@ export default async function MarketingLayout({ children }: { children: React.Re
             items={SITE_NAV_V2.map((i) => ({ href: i.href!, label: t(`nav.${i.key}`) }))}
             label={t('navLabel')}
             menuLabel={t('menu')}
+            language={<LanguageSwitch label={t('language')} size="lg" />}
             account={[
               { href: '/logg-inn', label: t('signIn') },
               { href: '/registrer', label: t('getStarted') },
             ]}
           />
           {/* on a phone these two move into the menu, so the header is one row and the page starts sooner */}
-          <span className="hidden flex-none gap-[9px] sm:flex">
+          <span className="hidden flex-none items-center gap-[9px] sm:flex">
+            <LanguageSwitch label={t('language')} />
             <Link
               href="/logg-inn"
               className="flex h-[38px] items-center rounded-ctl px-[15px] text-[14px] font-semibold text-ink hover:text-ink"

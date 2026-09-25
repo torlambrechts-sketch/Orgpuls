@@ -17,7 +17,6 @@ import { zip } from '@/lib/site/zip'
  * the product is built on, each beside a drawing of it, then a comparison and the questions
  * people ask. The words are `site.hvorfor`; the drawings' numbers are here.
  */
-export const dynamic = 'force-static'
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('site.hvorfor')

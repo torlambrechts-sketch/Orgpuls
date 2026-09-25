@@ -1,6 +1,7 @@
 'use server'
 
 import { z } from 'zod'
+import { restoreLocale } from '@/lib/i18n/server'
 import { createClient } from '@/lib/supabase/server'
 import { headers } from 'next/headers'
 import { lookupOrgNumber } from '@/lib/brreg/lookup'
@@ -128,6 +129,8 @@ export async function createAccount(
   if (!outcome.data.ok) return { status: 'problem', problem: outcome.data.error }
 
   await recordSource(supabase, formData.get('attribution'))
+  // a language chosen on the site before signing up is saved on the new profile (D-96)
+  await restoreLocale(supabase)
   return { status: 'idle' }
 }
 

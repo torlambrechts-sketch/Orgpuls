@@ -57,7 +57,8 @@
       "aria": "Konto: {who}",
       "ariaPlain": "Konto",
       "settings": "Oppsett",
-      "signOut": "Logg ut"
+      "signOut": "Logg ut",
+      "language": "Språk"
     }
   },
   "role": {
@@ -5317,7 +5318,8 @@
           "forskning": "Forskningen bak",
           "sammenlignet": "Sammenlignet"
         }
-      }
+      },
+      "language": "Språk"
     },
     "home": {
       "pill": "Medarbeiderundersøkelse og arbeidsmiljø",

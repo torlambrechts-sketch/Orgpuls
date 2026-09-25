@@ -5,7 +5,6 @@ import { pageMeta } from '@/lib/marketing/meta'
 import { software } from '@/lib/marketing/schema'
 
 /** A page of the public site (seo.pages.priser, D-83); the words are messages, the shape is PageTemplate. */
-export const dynamic = 'force-static'
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()

@@ -17,7 +17,6 @@ import { zip } from '@/lib/site/zip'
  * colours, bar lengths and the values the colours stand for are here, beside the markup
  * that draws them.
  */
-export const dynamic = 'force-static'
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()

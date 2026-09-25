@@ -4038,3 +4038,62 @@ it.
 The messages that only Om oss used were removed from both languages: the page, its SEO
 title, the menu entry, the footer's "Teamet", "Oppdraget" and "Løftene", and the start page's
 "Møt teamet".
+
+## D-96 — Language selection: Norsk / English, on the site and in the app
+
+**The request:** "What about the English translation and language selection? Implement if
+not there, also on front page."
+
+**What was there:**
+- **The translation was.** `messages/en.json` holds every key (`verify:i18n` enforces
+  parity), and a scan found one untranslated heading, the small-business landing page's h1.
+  It is now translated.
+- **Selection was not.**
+  - `lib/i18n/request.ts` said the locale came from the profile, the organisation or a
+    cookie, but read only `requestLocale`, which is empty without locale routing.
+  - Everyone got Norwegian, and the public pages were pre-rendered in Norwegian at build
+    time (`force-static`).
+
+**What was built:**
+- **The locale is the `NEXT_LOCALE` cookie, or Norwegian.**
+  - It is set by the switch (`lib/i18n/actions`) and kept for a year.
+  - There is no locale routing, as CLAUDE.md fixes, so the address stays the same.
+  - The browser's language is deliberately not used. A search engine or a first visit
+    always gets the Norwegian site, which is the source language and the market.
+- **Signed in, the choice follows the person.**
+  - Switching also saves it on their profile (`app.profiles.lang`; RLS allows only their
+    own row).
+  - At sign-in and on accepting an invitation, the profile's language is restored into the
+    cookie. With none saved, a choice made on this device is saved to the profile. With
+    neither, the organisation's default (Oppsett › Selskap) applies.
+  - A language chosen on the site before signing up is saved on the new profile.
+- **Where the switch is:**
+  - The public header, beside "Logg inn", on every page including the front page. It is a
+    small NO | EN control.
+  - The phone menu, as "Norsk | English".
+  - The app's account menu, as a "Språk / Language" row.
+  - Each language is named in itself.
+- **The public pages are rendered per request.** `force-static` was removed from 15 pages,
+  so the language can be read.
+
+**Deviation from the design:** the design has no language control. The header's NO | EN
+control is new and sits left of "Logg inn". It changes the public header on every page, so
+the site pixel comparison differs there. The app's header is unchanged: the switch is inside
+the account menu.
+
+**Verified in the browser:**
+- A browser set to English still got Norwegian by default.
+- Choosing EN on the front page redrew it in English at the same address.
+- Plattform, Priser, Kontakt, Hvorfor, Lovkrav, Registrer and Logg inn showed no Norwegian
+  words.
+- The phone menu has the switch.
+- In the app, the account menu switched to English.
+  - Målinger, Resultater, Tiltak, Oppsett › Betaling and Hjelp then showed no Norwegian
+    words.
+  - The choice was saved on the profile. The dev account's language was restored to
+    Norwegian afterwards.
+- No sideways scroll at 390, 640, 768, 1024 or 1100 px.
+
+**Left as it is:**
+- **JSON-LD says `inLanguage: nb-NO`.** That is what a crawler, which has no cookie, reads.
+- **The platform admin stays English,** as decided (D-90).

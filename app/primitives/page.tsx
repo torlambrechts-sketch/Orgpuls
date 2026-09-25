@@ -15,7 +15,6 @@ import { BAND_BAR, MaskedCell, RiskBadge, StackedBar, type Band } from '@/compon
  * It renders real factor data from the message catalogue rather than lorem text, so it
  * also exercises the i18n path and shows the primitives at realistic content lengths.
  */
-export const dynamic = 'force-static'
 
 const FACTORS: { key: string; index: number; band: Band }[] = [
   { key: 'ytring', index: 41, band: 'hoy' },

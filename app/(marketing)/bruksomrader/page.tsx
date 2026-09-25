@@ -15,7 +15,6 @@ import { zip } from '@/lib/site/zip'
  * situations, each beside a drawing of how the product meets it, then six industries. The
  * words are `site.bruksomrader`; the drawings' numbers are here.
  */
-export const dynamic = 'force-static'
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()

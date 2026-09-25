@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useEffect, useId, useRef, useState } from 'react'
 import { signOut } from '@/app/(app)/account-actions'
+import { LanguageSwitch } from '@/components/i18n/LanguageSwitch'
 
 /**
  * The account chip and its menu (D-80).
@@ -105,6 +106,10 @@ export function AccountMenu({
             >
               {t('settings')}
             </Link>
+            <div className="flex h-[40px] items-center justify-between gap-[10px] px-[12px] text-[13.5px] font-semibold">
+              <span>{t('language')}</span>
+              <LanguageSwitch label={t('language')} />
+            </div>
             <form action={signOut}>
               <button
                 type="submit"
