@@ -26,7 +26,7 @@ const railWidth = () => p.evaluate(() => { const a = document.querySelector('asi
 const navNames = () => p.evaluate(() => [...document.querySelectorAll('header nav a')].filter((a) => a.offsetParent).map((a) => a.innerText.replace(/\s+/g, ' ').trim()))
 
 await p.goto(base + '/tiltak', { waitUntil: 'networkidle' })
-ok('top layout: six nav entries, Kommentarer carries 10', JSON.stringify(await navNames()) === JSON.stringify(['Innsikt', 'Målinger', 'Resultater', 'Kommentarer 10 10 venter på svar', 'Tiltak', 'Oppsett']), JSON.stringify(await navNames()))
+ok('top layout: five nav entries, Kommentarer carries 10', JSON.stringify(await navNames()) === JSON.stringify(['Innsikt', 'Målinger', 'Resultater', 'Kommentarer 10 10 venter på svar', 'Tiltak']), JSON.stringify(await navNames()))
 ok('Tiltak is the current page', (await p.locator('header nav a[aria-current="page"]').innerText()) === 'Tiltak')
 await p.getByRole('button', { name: 'Bytt til sidemeny og full bredde' }).click(); await p.waitForTimeout(400)
 ok('layout toggle draws the rail at 220px', (await railWidth()) === 220, String(await railWidth()))
@@ -45,11 +45,20 @@ ok('back to the top layout', (await railWidth()) === 0 && await p.evaluate(() =>
 
 await p.getByRole('button', { name: 'Enkel', exact: true }).click(); await p.waitForURL('**/innsikt'); await p.waitForLoadState('networkidle')
 ok('Enkel on Tiltak goes to Innsikt', new URL(p.url()).pathname === '/innsikt')
-ok('Enkel nav is Oversikt and Oppsett', JSON.stringify(await navNames()) === JSON.stringify(['Oversikt', 'Oppsett']), JSON.stringify(await navNames()))
+ok('Enkel nav is Oversikt alone', JSON.stringify(await navNames()) === JSON.stringify(['Oversikt']), JSON.stringify(await navNames()))
 await p.reload({ waitUntil: 'networkidle' })
-ok('Enkel survives a reload', (await navNames()).length === 2)
+ok('Enkel survives a reload', (await navNames()).length === 1)
 await p.getByRole('button', { name: 'Full', exact: true }).click(); await p.waitForTimeout(800)
-ok('Full brings the six back', (await navNames()).length === 6)
+ok('Full brings the five back', (await navNames()).length === 5)
+
+// Oppsett is reached from the account menu (D-81), and Enkel keeps you there
+await p.getByRole('button', { name: /^Konto/ }).click()
+await Promise.all([p.waitForURL('**/oppsett'), p.getByRole('link', { name: 'Oppsett', exact: true }).click()])
+ok('Oppsett opens from the account menu', new URL(p.url()).pathname === '/oppsett')
+ok('on Oppsett, no nav entry is current and the menu marks the page', (await p.locator('header nav a[aria-current="page"]').count()) === 0)
+await p.getByRole('button', { name: 'Enkel', exact: true }).click(); await p.waitForTimeout(1000)
+ok('switching to Enkel on Oppsett stays on Oppsett', new URL(p.url()).pathname === '/oppsett')
+await p.getByRole('button', { name: 'Full', exact: true }).click(); await p.waitForTimeout(800)
 
 // keyboard
 await p.goto(base + '/innsikt', { waitUntil: 'networkidle' })
@@ -75,7 +84,7 @@ ok('the panel belongs to its page', !(await p.locator('header').getByText('Kom i
 await ctx.addCookies([{ name: 'op_layout', value: 'side', url: base }])
 await p.setViewportSize({ width: 390, height: 844 }); await p.goto(base + '/innsikt', { waitUntil: 'networkidle' })
 ok('phone: no rail even in the side layout', (await railWidth()) === 0)
-ok('phone: the top nav is there', (await navNames()).length === 6, JSON.stringify(await navNames()))
+ok('phone: the top nav is there', (await navNames()).length === 5, JSON.stringify(await navNames()))
 ok('phone: no layout toggle', !(await p.getByRole('button', { name: 'Bytt til toppmeny' }).isVisible()))
 ok('phone: no horizontal scroll', await p.evaluate(() => document.documentElement.scrollWidth <= 390), String(await p.evaluate(() => document.documentElement.scrollWidth)))
 ok('no console errors', errors.length === 0, errors.slice(0, 3).join(' / '))

@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useEffect, useId, useRef, useState } from 'react'
 import { signOut } from '@/app/(app)/account-actions'
@@ -11,8 +12,9 @@ import { signOut } from '@/app/(app)/account-actions'
  * The design draws the chip — a 32px round mark with the viewer's initials — and nothing
  * behind it, because the prototype has no accounts to sign out of. A product with sign-in
  * needs the way out. So the chip is a button, drawn exactly as the design draws the mark,
- * and it opens a small menu in the header's own materials: who is signed in, a way to
- * Oppsett, and "Logg ut". Nothing is offered that the product does not have — there is no
+ * and it opens a small menu in the header's own materials: who is signed in, Oppsett, and
+ * "Logg ut". Oppsett lives only here (D-81), so on Oppsett the chip carries the ring the
+ * open menu has. Nothing is offered that the product does not have — there is no
  * profile page, so there is no profile link.
  *
  * It behaves as a disclosure: Escape and a click outside close it, and focus returns to the
@@ -37,6 +39,8 @@ export function AccountMenu({
   const root = useRef<HTMLDivElement>(null)
   const chip = useRef<HTMLButtonElement>(null)
   const first = useRef<HTMLAnchorElement>(null)
+  // Oppsett has no nav entry (D-81), so on Oppsett the chip is what shows where you are
+  const here = usePathname().startsWith('/oppsett')
 
   useEffect(() => {
     if (!open) return
@@ -71,7 +75,7 @@ export function AccountMenu({
         aria-controls={open ? menuId : undefined}
         onClick={() => setOpen((o) => !o)}
         className={`flex h-[32px] w-[32px] cursor-pointer items-center justify-center rounded-pill border-none bg-sbg text-[12px] font-bold text-ink ${
-          open ? 'ring-[1.5px] ring-ink' : ''
+          open || here ? 'ring-[1.5px] ring-ink' : ''
         }`}
       >
         {mark}
@@ -95,6 +99,7 @@ export function AccountMenu({
             <Link
               ref={first}
               href="/oppsett"
+              aria-current={here ? 'page' : undefined}
               onClick={() => setOpen(false)}
               className="flex h-[38px] items-center rounded-ctl px-[12px] text-[13.5px] font-semibold text-ink no-underline hover:bg-bg hover:text-ink hover:no-underline"
             >

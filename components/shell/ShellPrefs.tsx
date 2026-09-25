@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { ENKEL_KEYS, NAV_ROUTES } from '@/lib/shell/nav'
+import { ENKEL_PATHS } from '@/lib/shell/nav'
 import { PREF_COOKIE, PREF_MAX_AGE, type ShellPrefs } from '@/lib/shell/prefs'
 
 /**
@@ -43,8 +43,6 @@ function writeCookie(name: string, value: string) {
   const secure = typeof location !== 'undefined' && location.protocol === 'https:' ? '; Secure' : ''
   document.cookie = `${name}=${value}; Path=/; Max-Age=${PREF_MAX_AGE}; SameSite=Lax${secure}`
 }
-
-const ENKEL_PATHS = NAV_ROUTES.filter((r) => ENKEL_KEYS.includes(r.key)).map((r) => r.href as string)
 
 export function ShellPrefsProvider({ initial, children }: { initial: ShellPrefs; children: ReactNode }) {
   const router = useRouter()

@@ -3296,3 +3296,22 @@ express a real need. What changed:
 - no console errors.
 
 Shell suite 24/24, and the v3 pixel run is unchanged.
+
+## D-81 — Oppsett moves from the main nav to the account menu
+
+The owner asked for Oppsett to leave the main nav now that the account menu (D-80) has a
+way to it. The design has six nav entries, and Enkel's nav is Oversikt and Oppsett.
+
+- **The nav:** five entries in Full (Innsikt, Målinger, Resultater, Kommentarer, Tiltak)
+  and Oversikt alone in Enkel. It is one model (`lib/shell/nav.ts`), so the top bar, the
+  side rail and the phone layout agree.
+- **Oppsett is reached from the account chip's menu.** The app footer's Oppsett column
+  (Selskap, Ansatte) still links into it.
+- **On Oppsett no nav entry is current.** The chip carries the ring the open menu has, and
+  the menu's Oppsett link is `aria-current="page"`, so the page still says where you are.
+- **Switching to Enkel on Oppsett keeps you there.** `ENKEL_PATHS` lists the screens Enkel
+  allows, separately from the nav.
+- **Checked:**
+  - the shell suite passes 27/27, three checks of them new for this;
+  - the v3 pixel run keeps every claimed tile (the nav entries were not among them);
+  - screenshots of the header in Full, Enkel and on Oppsett.

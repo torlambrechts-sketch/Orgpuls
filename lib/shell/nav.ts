@@ -2,13 +2,15 @@ import type { Route } from 'next'
 import type { ViewMode } from './prefs'
 
 /**
- * Design 3's navigation: six screens, the same list in the top bar and in the side rail.
+ * Design 3's navigation, the same list in the top bar and in the side rail. The design has
+ * six screens; Oppsett has moved to the account menu (AccountMenu, D-81), so the nav
+ * carries five.
  *
  * One model for both, so the two layouts cannot disagree about what is where. The labels
  * are resolved on the server (next-intl); the icon glyphs are the design's own and carry no
  * words, so they are not messages. `badge` is a count the server read, or null for none.
  */
-export type NavKey = 'innsikt' | 'malinger' | 'resultater' | 'kommentarer' | 'tiltak' | 'oppsett'
+export type NavKey = 'innsikt' | 'malinger' | 'resultater' | 'kommentarer' | 'tiltak'
 
 export interface NavEntry {
   key: NavKey
@@ -27,11 +29,16 @@ export const NAV_ROUTES: { key: NavKey; href: Route; icon: string }[] = [
   { key: 'resultater', href: '/resultater', icon: '▤' },
   { key: 'kommentarer', href: '/kommentarer', icon: '❝' },
   { key: 'tiltak', href: '/tiltak', icon: '✓' },
-  { key: 'oppsett', href: '/oppsett', icon: '⚙' },
 ]
 
-/** In Enkel the nav is Oversikt and Oppsett, nothing else (design 3, `simpleMode`). */
-export const ENKEL_KEYS: NavKey[] = ['innsikt', 'oppsett']
+/** In Enkel the nav is Oversikt alone (design 3's `simpleMode` also had Oppsett; D-81). */
+export const ENKEL_KEYS: NavKey[] = ['innsikt']
+
+/**
+ * The screens Enkel keeps you on when you switch to it: Oversikt, and Oppsett, which the
+ * account menu reaches in either view. Anywhere else, switching to Enkel goes to Oversikt.
+ */
+export const ENKEL_PATHS = ['/innsikt', '/oppsett']
 
 /**
  * Screens reached from Målinger keep it tinted without being it: the design keeps the
