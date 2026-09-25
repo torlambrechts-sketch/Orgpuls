@@ -44,6 +44,8 @@ const Thread = z.object({
   answer_value: z.number().nullable(),
   opening: z.string(),
   messages: z.array(Message),
+  // a leader's request for direct contact (0046): who asked, and whether it was the caller
+  contact: z.object({ name: z.string().nullable(), mine: z.boolean() }).nullable().optional(),
 })
 
 const Payload = z.object({
@@ -73,6 +75,8 @@ export interface Conversation {
   answerValue: number | null
   opening: string
   messages: ConversationMessage[]
+  /** a request for direct contact on this thread, by name, and whether the caller made it */
+  contact: { name: string | null; mine: boolean } | null
   /** whole days since it was opened, in the organisation's own zone */
   waitingDays: number
 }
@@ -117,6 +121,7 @@ export async function getConversations(roundId?: string | null): Promise<Convers
         body: m.body,
         sentHour: m.sent_hour,
       })),
+      contact: t.contact ?? null,
       // whole days, floored: "venter 6 dager" should not become 7 at teatime
       waitingDays: Math.max(
         0,

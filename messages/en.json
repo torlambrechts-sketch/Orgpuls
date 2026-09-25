@@ -485,7 +485,16 @@
       "loading": "Loading the conversation …",
       "invalid": "The link is not valid",
       "invalidLead": "It may have been copied wrongly, or the conversation no longer exists. A link cannot be fetched again.",
-      "problem": "It could not be sent. Try again."
+      "problem": "It could not be sent. Try again.",
+      "contact": {
+        "someone": "Your manager",
+        "title": "{name} would like to talk with you directly",
+        "body": "If you want to, you can write to {name} by e-mail. Then {name} will know who you are. It is entirely your choice: if you do not write, nobody learns anything, and the conversation here stays anonymous.",
+        "cta": "E-mail {name}",
+        "note": "The e-mail is sent from your own e-mail to {email}. Orgpuls does not see it, and nobody learns whether you send it.",
+        "subject": "My comment about {factor}",
+        "mailBody": "Hi {name},\n\nI am the one who wrote the comment about {factor} in the employee survey. You asked to talk with me directly.\n\n"
+      }
     }
   },
   "rapport": {
@@ -2824,9 +2833,22 @@
     "problem": {
       "invalid_body": "The reply could not be read. Write something and try again.",
       "denied": "You do not have access to reply. A daglig leder or an avdelingsleder does.",
-      "not_found": "The conversation no longer exists."
+      "not_found": "The conversation no longer exists.",
+      "no_email": "Your account has no e-mail address the employee can write to.",
+      "closed": "The conversation is closed.",
+      "not_available": "You do not have access to this conversation."
     },
-    "notYours": "Single comments are shown to the general manager and department heads, who can reply to them. As safety representative you see the same figures under Results."
+    "notYours": "Single comments are shown to the general manager and department heads, who can reply to them. As safety representative you see the same figures under Results.",
+    "contact": {
+      "ask": "Ask for direct contact",
+      "explain": "The employee is offered to write to you by e-mail, from their own e-mail. Then you learn who it is – but only if the employee chooses to. You will not learn whether the request has been seen.",
+      "confirm": "Send request",
+      "cancel": "Cancel",
+      "mine": "You have asked for direct contact. The employee sees the request next time the conversation is opened, and can write to you by e-mail.",
+      "other": "{name} has asked for direct contact.",
+      "otherUnnamed": "A manager has asked for direct contact.",
+      "withdraw": "Withdraw"
+    }
   },
   "veiviser": {
     "aria": "Get started with Orgpuls",

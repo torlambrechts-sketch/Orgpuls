@@ -67,3 +67,33 @@ export async function closeThread(formData: FormData): Promise<ThreadActionResul
   revalidatePath('/innsikt')
   return { ok: true }
 }
+
+/**
+ * Ask the author of a comment to get in touch directly (0046), or take the request back.
+ * The database decides who may: the same leaders who can read the thread. Nothing about
+ * the author is sent anywhere — the request only puts this leader's name and work address
+ * on the author's private thread page, where writing is their choice.
+ */
+async function contactCall(fn: 'request_contact' | 'withdraw_contact', formData: FormData): Promise<ThreadActionResult> {
+  const parsed = z.object({ id: Uuid }).safeParse({ id: formData.get('id') })
+  if (!parsed.success) return { ok: false, problem: 'not_available' }
+
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc(fn, { p_thread: parsed.data.id })
+  if (error) return { ok: false, problem: 'denied' }
+
+  const result = z.object({ ok: z.boolean(), error: z.string().optional() }).safeParse(data)
+  if (!result.success || !result.data.ok) {
+    return { ok: false, problem: result.success ? (result.data.error ?? 'denied') : 'denied' }
+  }
+  revalidatePath('/kommentarer')
+  return { ok: true }
+}
+
+export async function requestContact(formData: FormData): Promise<ThreadActionResult> {
+  return contactCall('request_contact', formData)
+}
+
+export async function withdrawContact(formData: FormData): Promise<ThreadActionResult> {
+  return contactCall('withdraw_contact', formData)
+}

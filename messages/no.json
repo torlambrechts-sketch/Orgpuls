@@ -485,7 +485,16 @@
       "loading": "Henter samtalen …",
       "invalid": "Lenken er ikke gyldig",
       "invalidLead": "Den kan være kopiert feil, eller samtalen finnes ikke lenger. En lenke kan ikke hentes på nytt.",
-      "problem": "Det gikk ikke å sende. Prøv igjen."
+      "problem": "Det gikk ikke å sende. Prøv igjen.",
+      "contact": {
+        "someone": "Lederen",
+        "title": "{name} vil gjerne snakke med deg direkte",
+        "body": "Hvis du vil, kan du skrive til {name} på e-post. Da får {name} vite hvem du er. Det er helt ditt valg: skriver du ikke, får ingen vite noe, og samtalen her fortsetter anonymt.",
+        "cta": "Skriv e-post til {name}",
+        "note": "E-posten sendes fra din egen e-post til {email}. Orgpuls ser den ikke, og ingen får vite om du sender den.",
+        "subject": "Kommentaren min om {factor}",
+        "mailBody": "Hei {name},\n\nJeg er den som skrev kommentaren om {factor} i medarbeiderundersøkelsen. Du ba om å få snakke med meg direkte.\n\n"
+      }
     }
   },
   "rapport": {
@@ -2824,9 +2833,22 @@
     "problem": {
       "invalid_body": "Svaret kunne ikke leses. Skriv noe og prøv igjen.",
       "denied": "Du har ikke tilgang til å svare. Daglig leder og avdelingsledere kan det.",
-      "not_found": "Samtalen finnes ikke lenger."
+      "not_found": "Samtalen finnes ikke lenger.",
+      "no_email": "Kontoen din har ingen e-postadresse den ansatte kan skrive til.",
+      "closed": "Samtalen er avsluttet.",
+      "not_available": "Du har ikke tilgang til denne samtalen."
     },
-    "notYours": "Enkeltkommentarer vises for daglig leder og avdelingsledere, som kan svare på dem. Som verneombud ser du de samme tallene under Resultat."
+    "notYours": "Enkeltkommentarer vises for daglig leder og avdelingsledere, som kan svare på dem. Som verneombud ser du de samme tallene under Resultat.",
+    "contact": {
+      "ask": "Be om direkte kontakt",
+      "explain": "Den ansatte får tilbud om å skrive til deg på e-post, fra sin egen e-post. Da får du vite hvem det er – men bare hvis den ansatte selv velger det. Du får ikke vite om forespørselen er sett.",
+      "confirm": "Send forespørsel",
+      "cancel": "Avbryt",
+      "mine": "Du har bedt om direkte kontakt. Den ansatte ser forespørselen neste gang samtalen åpnes, og kan skrive til deg på e-post.",
+      "other": "{name} har bedt om direkte kontakt.",
+      "otherUnnamed": "En leder har bedt om direkte kontakt.",
+      "withdraw": "Trekk tilbake"
+    }
   },
   "veiviser": {
     "aria": "Kom i gang med Orgpuls",

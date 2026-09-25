@@ -94,6 +94,8 @@ export function RespondentThread() {
         <p className="mb-0 mt-[14px] text-[13px] leading-[1.55] text-mut">{t('waiting')}</p>
       ) : null}
 
+      {open && thread.contact ? <ContactOffer contact={thread.contact} factor={tf(`factor.${thread.factor_key}.label`)} /> : null}
+
       {open ? (
         <div className="mt-[18px]">
           <label className="block text-[13px] font-semibold" htmlFor="svar">
@@ -130,5 +132,35 @@ export function RespondentThread() {
         </p>
       )}
     </div>
+  )
+}
+
+/**
+ * A leader has asked to talk directly (0046, D-82). The offer is an e-mail from the
+ * person's own mail program to that leader: sending it is what tells the leader who they
+ * are, and it never passes through Orgpuls. Not sending it tells nobody anything, and the
+ * conversation above stays as anonymous as it was.
+ */
+function ContactOffer({ contact, factor }: { contact: { name: string | null; email: string }; factor: string }) {
+  const t = useTranslations('respond.thread.contact')
+  const name = contact.name ?? t('someone')
+  const mail =
+    `mailto:${contact.email}` +
+    `?subject=${encodeURIComponent(t('subject', { factor }))}` +
+    `&body=${encodeURIComponent(t('mailBody', { name, factor }))}`
+  return (
+    <section aria-labelledby="kontakt" className="mt-[18px] rounded-opt border-2 border-ink bg-sbg px-[16px] py-[15px]">
+      <h2 id="kontakt" className="m-0 text-[15px] font-bold leading-[1.35]">
+        {t('title', { name })}
+      </h2>
+      <p className="mb-0 mt-[6px] text-[13.5px] leading-[1.6] [text-wrap:pretty]">{t('body', { name })}</p>
+      <a
+        href={mail}
+        className="mt-[12px] inline-flex h-[42px] items-center rounded-opt border border-ink bg-ac px-[18px] text-[14px] font-bold text-ink no-underline hover:text-ink hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+      >
+        {t('cta', { name })}
+      </a>
+      <p className="mb-0 mt-[10px] text-[12px] leading-[1.55] text-mut [text-wrap:pretty]">{t('note', { email: contact.email })}</p>
+    </section>
   )
 }

@@ -1817,3 +1817,5 @@ What changed on the start page, and why, is D-79.
 - [ ] "Personvern" in the public footer points at /hjelp/gdpr, which is behind the sign-in (D-79).
 - [x] The header's account chip opens a menu with the signed-in identity, Oppsett and "Logg ut" (D-80).
 - [x] Oppsett is in the account menu, not the main nav (D-81).
+- [x] A leader can ask for direct contact; the employee alone decides, by writing from their own e-mail (0046, D-82).
+- [ ] Narrow `reply_to_thread` and `set_thread` to `app.thread_visible`, as `conversations` reads (D-82).

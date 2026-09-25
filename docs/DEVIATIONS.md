@@ -3315,3 +3315,46 @@ way to it. The design has six nav entries, and Enkel's nav is Oversikt and Oppse
   - the shell suite passes 27/27, three checks of them new for this;
   - the v3 pixel run keeps every claimed tile (the nav entries were not among them);
   - screenshots of the header in Full, Enkel and on Oppsett.
+
+## D-82 — A leader can ask for direct contact; only the employee can say yes
+
+The owner asked for a way to move from an anonymous conversation ("kan jeg ta med akkurat
+dette tilfellet?" — "Ja, gjerne.") to a named one. The design has no such flow.
+
+**Why the system cannot send the e-mail.** Orgpuls does not know who wrote a comment. A
+thread reaches a response and stops, and a response carries no person (invariant 2). To
+e-mail the author it would have to know them, which is exactly what the product promises
+it cannot. So the step is the employee's own.
+
+**The flow:**
+1. **The leader asks.** In Kommentarer, a leader who can read the thread chooses "Be om
+   direkte kontakt". Before sending, they are told what the employee is offered, and that
+   they will not learn whether it was seen.
+2. **The employee is offered an e-mail.** Their private thread page (reached only with
+   the key they hold) shows "{name} vil gjerne snakke med deg direkte" and a button that
+   opens their own mail program with the leader's work address, a subject and a short
+   body. Sending it is what reveals who they are. Not sending it reveals nothing, and the
+   conversation stays anonymous.
+3. **The leader can withdraw it.** Then it is no longer offered.
+
+**The database side (0046):**
+- **`app.contact_requests`** holds the thread and the leader, never anyone on the author's
+  side. Its only foreign keys are `comment_threads` and `profiles`. It has RLS on, no
+  policy and no grant.
+- **`request_contact` and `withdraw_contact`** gate on `app.thread_visible`, which is the
+  predicate `conversations` uses: role, department scope and k. A leader can ask only on a
+  thread they can read, and every refusal is `not_available`. A closed thread and an
+  account without an e-mail address are refused with their own codes.
+- **`thread_by_key`** adds the leader's name and e-mail, only while that leader still
+  holds a leader role in the organisation.
+- **`conversations`** adds who asked and whether it was the caller.
+
+**Tests:**
+- `contact_invariants.sql` has 14 checks, passing locally and on hosted.
+- `samtale-behaviour.mjs` gains four steps: asking, the offer and its mailto, the phone
+  width, and withdrawing. 22/22.
+
+**Noted, not changed:** `reply_to_thread` and `set_thread` (0018) gate on role only, not
+on the department scope and k that `conversations` applies. A leader can only reply to
+thread ids they were shown, so this is a narrowing to make, not a leak seen in use.
+`app.thread_visible` is the predicate to narrow them with.

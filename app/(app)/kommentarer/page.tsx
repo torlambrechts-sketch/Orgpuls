@@ -88,6 +88,7 @@ export default async function KommentarerPage({
       flagged: c.flaggedVarsel,
       waitingDays: Math.max(0, Math.floor((now - new Date(since).getTime()) / DAY)),
       openedHour: c.openedHour,
+      contact: c.contact,
     }
   })
 

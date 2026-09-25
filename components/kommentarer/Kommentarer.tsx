@@ -4,7 +4,7 @@ import Link from 'next/link'
 import type { Route } from 'next'
 import { useEffect, useState, useTransition } from 'react'
 import { useTranslations } from 'next-intl'
-import { replyToThread } from '@/app/(app)/kommentarer/actions'
+import { replyToThread, requestContact, withdrawContact } from '@/app/(app)/kommentarer/actions'
 import { LATE_AFTER_DAYS, TONE_STYLE, type ThemeTone } from '@/lib/conversations/rules'
 import { ORG } from '@/lib/results/resultater'
 
@@ -35,6 +35,8 @@ export interface CommentItem {
   flagged: boolean
   waitingDays: number
   openedHour: string
+  /** a request for direct contact (0046, D-82): who asked, and whether it was you */
+  contact: { name: string | null; mine: boolean } | null
 }
 
 export interface RoundChip {
@@ -308,11 +310,84 @@ function Comment({ c, canReply }: { c: CommentItem; canReply: boolean }) {
           </button>
         </form>
       ) : null}
+      {canReply && !c.closed ? <ContactRow c={c} onProblem={setProblem} /> : null}
       {problem ? (
         <div role="alert" className="mt-[6px] text-[11.5px] text-danger">
           {t.has(`kommentarer.problem.${problem}`) ? t(`kommentarer.problem.${problem}`) : t('kommentarer.problem.denied')}
         </div>
       ) : null}
+    </div>
+  )
+}
+
+/**
+ * A request for direct contact (D-82). The leader asks; the author's private thread page
+ * then offers them an e-mail to this leader, from their own mail program. Only sending it
+ * tells the leader who they are, so the leader is told exactly that before asking, and
+ * nothing here ever shows whether the author has seen the request.
+ */
+function ContactRow({ c, onProblem }: { c: CommentItem; onProblem: (p: string | null) => void }) {
+  const t = useTranslations('kommentarer.contact')
+  const [confirming, setConfirming] = useState(false)
+  const [pending, start] = useTransition()
+
+  const call = (fn: typeof requestContact) =>
+    start(async () => {
+      const data = new FormData()
+      data.set('id', c.id)
+      const result = await fn(data)
+      onProblem(result.ok ? null : result.problem)
+      if (result.ok) setConfirming(false)
+    })
+
+  const quiet =
+    'h-[30px] flex-none cursor-pointer rounded-ctl border border-line bg-sf px-[11px] text-[12px] font-semibold text-ink disabled:cursor-default disabled:opacity-60'
+
+  if (c.contact) {
+    return (
+      <div className="mt-[10px] flex flex-wrap items-center gap-[10px] rounded-ctl border border-line bg-sf px-[12px] py-[9px] text-[12.5px] leading-[1.5]">
+        <span className="min-w-0 flex-1 [text-wrap:pretty]">
+          {c.contact.mine
+            ? t('mine')
+            : c.contact.name
+              ? t('other', { name: c.contact.name })
+              : t('otherUnnamed')}
+        </span>
+        {c.contact.mine ? (
+          <button type="button" disabled={pending} onClick={() => call(withdrawContact)} className={quiet}>
+            {t('withdraw')}
+          </button>
+        ) : null}
+      </div>
+    )
+  }
+
+  if (!confirming) {
+    return (
+      <div className="mt-[9px]">
+        <button type="button" onClick={() => setConfirming(true)} className={quiet}>
+          {t('ask')}
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="mt-[10px] rounded-ctl border border-ink bg-sbg px-[12px] py-[11px]">
+      <p className="m-0 text-[12.5px] leading-[1.55] [text-wrap:pretty]">{t('explain')}</p>
+      <div className="mt-[9px] flex flex-wrap gap-[8px]">
+        <button
+          type="button"
+          disabled={pending}
+          onClick={() => call(requestContact)}
+          className="h-[30px] flex-none cursor-pointer rounded-ctl border border-ink bg-ac px-[12px] text-[12px] font-bold text-ink disabled:cursor-default disabled:opacity-60"
+        >
+          {t('confirm')}
+        </button>
+        <button type="button" onClick={() => setConfirming(false)} className={quiet}>
+          {t('cancel')}
+        </button>
+      </div>
     </div>
   )
 }

@@ -25,6 +25,8 @@ const Thread = z.object({
       sent_hour: z.string(),
     }),
   ),
+  // a leader's request for direct contact (0046): their name and work address, or none
+  contact: z.object({ name: z.string().nullable(), email: z.string().email() }).nullable().optional(),
 })
 
 export type RespondentThread = z.infer<typeof Thread>

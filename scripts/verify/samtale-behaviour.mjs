@@ -2,12 +2,13 @@
  * A respondent's conversation, end to end in a browser (D-78): a comment written in the
  * survey gives its author a private link on the done screen; the link opens the thread with
  * the key in the fragment only; a leader replies in Kommentarer without learning who wrote
- * it; the author reads the reply and answers back; and a wrong key is refused like an
- * unknown one. Also the phone width and the console.
+ * it; the author reads the reply and answers back; a leader asks for direct contact and
+ * the author is offered an e-mail to them, which the leader can withdraw (D-82); and a
+ * wrong key is refused like an unknown one. Also the phone width and the console.
  *
  * It WRITES, through the app only: five responses to the fixture's open puls in one group
- * (a leader sees a thread once its group has k respondents), a leader's reply and a
- * follow-up. Reseed afterwards (`node scripts/seed/design-fixture.mjs`).
+ * (a leader sees a thread once its group has k respondents), a leader's reply, a
+ * follow-up, and a contact request that is then withdrawn. Reseed afterwards (`node scripts/seed/design-fixture.mjs`).
  *
  * SAMTALE_TOKENS holds five invitation tokens of one group in the open puls, comma-
  * separated. The fixture's tokens are `fixture.<round>.<employee>` (design-fixture.mjs).
@@ -133,6 +134,35 @@ if (shots) await thread.screenshot({ path: `${shots}/samtale-thread.png`, fullPa
 ok('phone: the thread does not scroll sideways', await thread.evaluate(() => document.documentElement.scrollWidth <= 390))
 await leader.goto(base + '/kommentarer?status=alle', { waitUntil: 'networkidle' })
 ok('the leader sees the answer in Kommentarer', (await leader.getByText('Det hadde hjulpet mye, takk.').count()) > 0)
+
+// 4b ------------------------------------------------- direct contact, the author's choice
+const kcard = leader
+  .locator('article, li, div')
+  .filter({ hasText: COMMENT })
+  .filter({ has: leader.getByRole('button', { name: 'Be om direkte kontakt' }) })
+  .last()
+await kcard.getByRole('button', { name: 'Be om direkte kontakt' }).click()
+ok('asking first explains what the employee is offered', await kcard.getByText(/bare hvis den ansatte selv velger det/).isVisible())
+await kcard.getByRole('button', { name: 'Send forespørsel' }).click()
+await leader.getByText(/Du har bedt om direkte kontakt/).first().waitFor({ timeout: 15000 })
+ok('the leader sees the request as theirs', await leader.getByText(/Du har bedt om direkte kontakt/).first().isVisible())
+await thread.reload({ waitUntil: 'networkidle' })
+await thread.getByRole('heading', { name: 'Samtalen din' }).waitFor({ timeout: 15000 })
+const offer = thread.getByRole('link', { name: /^Skriv e-post til / })
+const mailto = (await offer.getAttribute('href').catch(() => '')) ?? ''
+ok(
+  "the author is offered an e-mail to that leader's own address",
+  mailto.startsWith(`mailto:${process.env.ORGPULS_DEV_EMAIL}?subject=`),
+  mailto.split('?')[0].replace(/[^:]+@/, '…@'),
+)
+ok('and told it is their choice, and that nobody learns whether they send it', await thread.getByText(/Det er helt ditt valg/).isVisible())
+if (shots) await thread.screenshot({ path: `${shots}/samtale-kontakt.png`, fullPage: true })
+ok('phone: the offer does not scroll sideways', await thread.evaluate(() => document.documentElement.scrollWidth <= 390))
+await leader.getByRole('button', { name: 'Trekk tilbake' }).first().click()
+await leader.waitForTimeout(2000)
+await thread.reload({ waitUntil: 'networkidle' })
+await thread.getByRole('heading', { name: 'Samtalen din' }).waitFor({ timeout: 15000 })
+ok('withdrawn, the author is no longer offered it', (await thread.getByRole('link', { name: /^Skriv e-post til / }).count()) === 0)
 
 // 5 ----------------------------------------------------------------- keys that are not
 const wrong = await page()
