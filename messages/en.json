@@ -1118,7 +1118,8 @@
       "integrasjoner": "Integrations",
       "personvern": "Privacy",
       "regelverk": "Regulation",
-      "databehandleravtale": "Data processing agreement"
+      "databehandleravtale": "Data processing agreement",
+      "betaling": "Payment"
     },
     "problem": {
       "invalid": "The value could not be read. Try again.",
@@ -1559,6 +1560,55 @@
         "unsigned": "The data processing agreement is not signed yet.",
         "open": "Read and sign the agreement"
       }
+    },
+    "billing": {
+      "head": "Payment",
+      "onlyLeader": "The managing director chooses the plan and enters the invoice details. The trial and payment are shown to the managing director only.",
+      "trialHead": "Trial",
+      "subscriptionHead": "Subscription",
+      "pillLeft": "{count, plural, =0 {Last day} one {# day left} other {# days left}}",
+      "pillExpired": "The trial has ended",
+      "pillConfirmed": "Confirmed",
+      "trialBody": "The trial started {start} and runs until {end} — {total} days, free and without a card. Choose a plan and invoice details below before it ends.",
+      "expiredBody": "The trial ended {end}. Choose a plan and enter the invoice details below to continue.",
+      "confirmedBody": "{plan} is confirmed. The subscription starts {start}, and the invoice goes to {mail}.",
+      "confirmedGroupBody": "You have asked for an offer on {plan}. We will contact you at {mail} before {start}.",
+      "progress": "Days used of the trial",
+      "extend": "Extend the trial by 15 days",
+      "extending": "Extending …",
+      "extendNote": "Can be done once.",
+      "extendedOn": "The trial was extended {when}. It can be extended once.",
+      "planHead": "Plan and invoice",
+      "planLead": "The invoice goes to {name}, org. no. {orgnr}. The plan follows the number of employees you have stated: {count}.",
+      "noOrgnr": "not registered",
+      "planLegend": "Choose a plan",
+      "suggested": "Fits you",
+      "tooMany": "You have {count} employees, more than the plan covers.",
+      "invoiceEmail": "Send invoices to (e-mail)",
+      "invoiceEmailHint": "For example accounts or the finance department.",
+      "invoiceRef": "Your reference (optional)",
+      "invoiceRefHint": "Purchase order number, department or contact person to print on the invoice.",
+      "ehf": "Send as an EHF invoice to org. no. {orgnr}",
+      "ehfNoOrgnr": "An EHF invoice needs an organisation number. Add it under Company.",
+      "terms": "Prices exclude VAT. The first invoice runs from {end}, when the trial ends. Monthly agreement, no lock-in and no start-up fee.",
+      "save": "Save draft",
+      "saveChanges": "Save changes",
+      "confirm": "Confirm subscription",
+      "confirmGroup": "Ask for an offer",
+      "saving": "Saving …",
+      "saved": "Saved.",
+      "confirmedNow": "Confirmed. Thank you!",
+      "problem": {
+        "already_extended": "The trial has already been extended once.",
+        "already_subscribed": "The subscription is confirmed, so the trial cannot be extended.",
+        "invalid_plan": "Choose a plan.",
+        "plan_too_small": "That plan does not cover so many employees. Choose a larger one.",
+        "invalid_email": "Enter a valid e-mail address for the invoice.",
+        "invalid_ref": "The reference can be at most 60 characters.",
+        "ehf_needs_orgnr": "EHF needs an organisation number.",
+        "not_allowed": "Only the managing director can change payment.",
+        "failed": "It could not be saved. Try again."
+      }
     }
   },
   "hjelp": {
@@ -1966,7 +2016,7 @@
     "createAccount": "Create the account",
     "creating": "Creating …",
     "back": "Back",
-    "ctaHintReady": "No card details now. After 30 days we ask whether you want to continue.",
+    "ctaHintReady": "No card details now. After 15 days we ask whether you want to continue.",
     "ctaHintMissing": "Fill in name, e-mail, password and the confirmation to continue.",
     "doneTitle": "{name}, the account is ready",
     "doneFallbackName": "Welcome",
@@ -3032,7 +3082,7 @@
       "home": "Home",
       "breadcrumb": "Breadcrumb",
       "articles": "Articles",
-      "priceLine": "From NOK 265/month excl. VAT · 30 days free · No card · Answers stored in the EU",
+      "priceLine": "From NOK 265/month excl. VAT · 15 days free · No card · Answers stored in the EU",
       "readMore": "Read more",
       "readArticle": "Read the article →",
       "byline": "Updated {date} · {minutes} min read",
@@ -3046,7 +3096,7 @@
     },
     "home": {
       "title": "Employee survey and work environment mapping | Orgpuls",
-      "description": "An employee survey that maps the psychosocial working environment, turns the findings into measures and shows whether they work. 30 days free.",
+      "description": "An employee survey that maps the psychosocial working environment, turns the findings into measures and shows whether they work. 15 days free.",
       "articlesEyebrow": "Articles",
       "articlesTitle": "Read up before you start",
       "articlesAll": "All articles →",
@@ -3096,7 +3146,7 @@
     "lp": {
       "lovkrav": {
         "title": "Mapping the psychosocial working environment | Orgpuls",
-        "description": "Mapping the psychosocial working environment under the Working Environment Act: what is required, and how to do it in one steady rhythm. 30 days free.",
+        "description": "Mapping the psychosocial working environment under the Working Environment Act: what is required, and how to do it in one steady rhythm. 15 days free.",
         "crumb": "The legal requirement",
         "card": {
           "title": "The legal requirement",
@@ -3201,7 +3251,7 @@
       },
       "verneombud": {
         "title": "Safety representatives and work environment mapping | Orgpuls",
-        "description": "As a safety representative you shall be consulted on the mapping. In Orgpuls you see the same figures as management, at no extra cost. 30 days free.",
+        "description": "As a safety representative you shall be consulted on the mapping. In Orgpuls you see the same figures as management, at no extra cost. 15 days free.",
         "crumb": "For safety representatives",
         "card": {
           "title": "Safety representatives",
@@ -3213,7 +3263,7 @@
         "tip": {
           "label": "Tip your manager",
           "subject": "Mapping the working environment",
-          "body": "Hi,\n\nWe are due to map the psychosocial working environment and follow up the measures. I have looked at Orgpuls: the answers are anonymous, it takes about four minutes per employee, and as safety representative I get access at no extra cost. It costs from NOK 265 a month excl. VAT and can be tried free for 30 days: https://www.orgpuls.com/verneombud\n\nCan we talk about it?\n"
+          "body": "Hi,\n\nWe are due to map the psychosocial working environment and follow up the measures. I have looked at Orgpuls: the answers are anonymous, it takes about four minutes per employee, and as safety representative I get access at no extra cost. It costs from NOK 265 a month excl. VAT and can be tried free for 15 days: https://www.orgpuls.com/verneombud\n\nCan we talk about it?\n"
         },
         "blocks": [
           {
@@ -3295,7 +3345,7 @@
       },
       "smaaBedrifter": {
         "title": "Employee survey for small businesses | Orgpuls",
-        "description": "Employee survey for small businesses: map, act and follow up for NOK 265/month excl. VAT. Anonymous, in Norwegian. 30 days free.",
+        "description": "Employee survey for small businesses: map, act and follow up for NOK 265/month excl. VAT. Anonymous, in Norwegian. 15 days free.",
         "crumb": "Small businesses",
         "card": {
           "title": "Small businesses",
@@ -3370,7 +3420,7 @@
           {
             "t": "box",
             "title": "Price",
-            "text": "Small: NOK 265 a month excl. VAT for up to 25 employees. Everything included, no start-up fee and no lock-in. Try it free for 30 days – no card details."
+            "text": "Small: NOK 265 a month excl. VAT for up to 25 employees. Everything included, no start-up fee and no lock-in. Try it free for 15 days – no card details."
           }
         ],
         "faq": [
@@ -3396,7 +3446,7 @@
       },
       "byggOgAnlegg": {
         "title": "Work environment survey for construction | Orgpuls",
-        "description": "A work environment survey for construction that reaches people on site, rig and workshop: by SMS, anonymous and in Norwegian. 30 days free.",
+        "description": "A work environment survey for construction that reaches people on site, rig and workshop: by SMS, anonymous and in Norwegian. 15 days free.",
         "crumb": "Construction",
         "card": {
           "title": "Construction",
@@ -3460,7 +3510,7 @@
           },
           {
             "q": "What does it cost?",
-            "a": "Small costs NOK 265 a month for up to 25 employees, Usual NOK 565 for 26–100 employees. Prices exclude VAT, with no lock-in and 30 days free."
+            "a": "Small costs NOK 265 a month for up to 25 employees, Usual NOK 565 for 26–100 employees. Prices exclude VAT, with no lock-in and 15 days free."
           }
         ],
         "finalTitle": "Try it on the next project",
@@ -3468,7 +3518,7 @@
       },
       "helseOgOmsorg": {
         "title": "Work environment mapping in health and care | Orgpuls",
-        "description": "Emotional demands, violence and threats, shift work: map the psychosocial working environment in health and care, anonymously and on mobile. 30 days free.",
+        "description": "Emotional demands, violence and threats, shift work: map the psychosocial working environment in health and care, anonymously and on mobile. 15 days free.",
         "crumb": "Health and care",
         "card": {
           "title": "Health and care",
@@ -3554,7 +3604,7 @@
           },
           {
             "q": "What does it cost?",
-            "a": "Small costs NOK 265 a month for up to 25 employees, Usual NOK 565 for 26–100 employees. Prices exclude VAT, with no lock-in and 30 days free."
+            "a": "Small costs NOK 265 a month for up to 25 employees, Usual NOK 565 for 26–100 employees. Prices exclude VAT, with no lock-in and 15 days free."
           }
         ],
         "finalTitle": "Try it on your own organisation",
@@ -3748,7 +3798,7 @@
           }
         ],
         "ctaTitle": "Map under the new rules – without a separate project",
-        "ctaBody": "Orgpuls turns mapping, risk assessment, measures and follow-up into one rhythm. 30 days free, no card."
+        "ctaBody": "Orgpuls turns mapping, risk assessment, measures and follow-up into one rhythm. 15 days free, no card."
       },
       "kravKartlegging": {
         "title": "Requirements for mapping the work environment | Orgpuls",
@@ -3934,7 +3984,7 @@
           }
         ],
         "ctaTitle": "Do all four steps in Orgpuls",
-        "ctaBody": "Mapping, risk assessment, measures and follow-up – documented while you work. 30 days free, no card."
+        "ctaBody": "Mapping, risk assessment, measures and follow-up – documented while you work. 15 days free, no card."
       },
       "sporsmal": {
         "title": "Employee survey: the questions that give answers | Orgpuls",
@@ -4119,7 +4169,7 @@
           }
         ],
         "ctaTitle": "Use a question set that is ready made",
-        "ctaBody": "Orgpuls has eleven factors with three statements each, plus the questions outside the index. 30 days free, no card."
+        "ctaBody": "Orgpuls has eleven factors with three statements each, plus the questions outside the index. 15 days free, no card."
       },
       "hvorOfte": {
         "title": "How often should you measure the work environment? | Orgpuls",
@@ -4295,7 +4345,7 @@
           }
         ],
         "ctaTitle": "Set the rhythm once – and it runs by itself",
-        "ctaBody": "The annual wheel in Orgpuls plans baseline and pulses for the whole year. 30 days free, no card."
+        "ctaBody": "The annual wheel in Orgpuls plans baseline and pulses for the whole year. 15 days free, no card."
       },
       "anonym": {
         "title": "Anonymous employee survey: what does anonymous mean?",
@@ -4428,7 +4478,7 @@
           }
         ],
         "ctaTitle": "Anonymous – in a way that holds",
-        "ctaBody": "Five answers, or a dash – and no administrator who can change it. 30 days free, no card."
+        "ctaBody": "Five answers, or a dash – and no administrator who can change it. 15 days free, no card."
       },
       "verneombud": {
         "title": "The safety representative's role in mapping",
@@ -4600,7 +4650,7 @@
           }
         ],
         "ctaTitle": "Give the safety representative the same basis as management",
-        "ctaBody": "In Orgpuls the safety representative has access at no extra cost. 30 days free, no card."
+        "ctaBody": "In Orgpuls the safety representative has access at no extra cost. 15 days free, no card."
       }
     },
     "pages": {
@@ -4840,11 +4890,11 @@
       },
       "priser": {
         "title": "Pricing: employee surveys from NOK 265/month | Orgpuls",
-        "description": "Small NOK 265 and Usual NOK 565 a month excl. VAT. No add-ons, no start-up fee and no lock-in. Try free for 30 days without a card.",
+        "description": "Small NOK 265 and Usual NOK 565 a month excl. VAT. No add-ons, no start-up fee and no lock-in. Try free for 15 days without a card.",
         "crumb": "Pricing",
         "kicker": "Pricing",
         "h1": "One price a month, everything included",
-        "lead": "No add-ons for reports, integrations or number of surveys. A monthly agreement with no lock-in, and 30 days free without card details.",
+        "lead": "No add-ons for reports, integrations or number of surveys. A monthly agreement with no lock-in, and 15 days free without card details.",
         "blocks": [
           {
             "t": "plans"
@@ -4871,7 +4921,7 @@
         "faq": [
           {
             "q": "Do we need a card to try it?",
-            "a": "No. You sign up with your organisation number and can use Orgpuls for 30 days without card details."
+            "a": "No. You sign up with your organisation number and can use Orgpuls for 15 days without card details."
           },
           {
             "q": "Is there a lock-in?",
@@ -5248,10 +5298,10 @@
       "getStarted": "Get started",
       "sections": "Sections",
       "crumbs": "You are here",
-      "trial": "Try free for 30 days",
+      "trial": "Try free for 15 days",
       "start": {
         "title": "Try it on your own organisation",
-        "lead": "Enter your organisation number and we'll fetch the name, address and industry from the Brønnøysund Register Centre. Free for 30 days. No card.",
+        "lead": "Enter your organisation number and we'll fetch the name, address and industry from the Brønnøysund Register Centre. Free for 15 days. No card.",
         "placeholder": "Organisation number",
         "submit": "Get started",
         "fetching": "Fetching {orgnr} from the Brønnøysund Register Centre …",

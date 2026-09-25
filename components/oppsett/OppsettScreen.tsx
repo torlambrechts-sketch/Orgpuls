@@ -10,6 +10,8 @@ import { RollerTab } from '@/components/oppsett/RollerTab'
 import { IntegrasjonerTab } from '@/components/oppsett/IntegrasjonerTab'
 import { PersonvernTab } from '@/components/oppsett/PersonvernTab'
 import { DpaTab } from '@/components/oppsett/DpaTab'
+import { BillingTab } from '@/components/oppsett/BillingTab'
+import type { Billing } from '@/lib/billing/read'
 import type { DpaSignature } from '@/lib/legal/read'
 import { RegelverkTab } from '@/components/oppsett/RegelverkTab'
 import { WizardButton } from '@/components/veiviser/WizardProvider'
@@ -37,6 +39,8 @@ export const TABS = [
   // the data processing agreement and its signature (D-87): not in the design, which had a dead
   // "Last ned databehandleravtale" button (D-33)
   'databehandleravtale',
+  // the trial and the payment details (D-89): not in the design, which has no billing at all
+  'betaling',
   'regelverk',
 ] as const
 
@@ -67,6 +71,8 @@ export interface OppsettView {
   canWrite: boolean
   /** the agreement's signatures and who is looking: read only on Personvern and Databehandleravtale (D-87) */
   dpa?: { signatures: DpaSignature[]; viewerName: string }
+  /** the trial and the invoice details: read only on Betaling, and only the daglig leder gets a row (D-89) */
+  billing?: { row: Billing | null; now: number }
   /** the Roller tab's member panel, built by the page only when that tab is open (D-51) */
   members?: ReactNode
 }
@@ -167,6 +173,13 @@ export async function OppsettScreen({ view }: { view: OppsettView }) {
           signatures={view.dpa?.signatures ?? []}
           canSign={view.canWrite}
           viewerName={view.dpa?.viewerName ?? ''}
+        />
+      ) : view.tab === 'betaling' ? (
+        <BillingTab
+          billing={view.billing?.row ?? null}
+          canWrite={view.canWrite}
+          company={{ name: view.company.name, orgNumber: view.company.org_number, employees: view.company.employee_count }}
+          now={view.billing?.now ?? 0}
         />
       ) : (
         <RegelverkTab factorKeys={view.factorKeys} />

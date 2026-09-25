@@ -16,6 +16,7 @@ import { getWheel } from '@/lib/wheel/read'
 import { getRounds } from '@/lib/rounds/read'
 import { getResultsByGroup } from '@/lib/results/read'
 import { getDpaSignatures } from '@/lib/legal/read'
+import { getBilling } from '@/lib/billing/read'
 import { getViewer } from '@/lib/shell/read'
 
 /**
@@ -76,6 +77,8 @@ export default async function OppsettPage({
   const dpaTab = tab === 'databehandleravtale' || tab === 'personvern'
   const [dpaSignatures, viewer] = dpaTab ? await Promise.all([getDpaSignatures(company.id), getViewer()]) : [[], null]
   const membersLocked = members ? await getMembersLocked(company.id) : false
+  // the trial and the payment details (D-89): RLS gives the row to the daglig leder only
+  const billing = tab === 'betaling' ? { row: await getBilling(company.id), now: Date.now() } : undefined
 
   const view: OppsettView = {
     tab,
@@ -96,6 +99,7 @@ export default async function OppsettPage({
     // styling only; every write policy on these tables is daglig_leder and checks itself
     canWrite: role === 'daglig_leder',
     dpa: dpaTab ? { signatures: dpaSignatures, viewerName: viewer?.name ?? '' } : undefined,
+    billing,
     members: members ? (
       <MembersPanel
         members={members}

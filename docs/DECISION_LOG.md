@@ -1801,6 +1801,28 @@ For any other claim, the product decides.
 - Hvorfor and Bruksområder share one section component (`components/site/Story`), with six
   kinds of drawing.
 
+### X-057 — The trial and billing live in their own table, written only by RPC
+
+**Why a separate table.** `app.organizations` is updatable by its daglig leder
+(org_update). A trial end kept there could be set by the customer. So migration 0048 adds
+`app.billing`, one row per organisation:
+- A trigger creates the row with the organisation, starting a trial of `app.trial_days()`,
+  which is 15. It is a function, like `app.k_min()`, so no row can change the length.
+- Existing organisations got the full 15 days from the migration.
+- Only the daglig leder can read the row (RLS). No client role can write it.
+
+**The two RPCs** (SECURITY DEFINER) are the only write paths:
+- `extend_trial`: once, before confirmation, by 15 days.
+- `save_billing`: validates the plan against the stated headcount, the invoice address,
+  the reference length, and that EHF has an organisation number. It records who confirmed
+  and when.
+
+`supabase/tests/billing_invariants.sql` proves this in 17 checks, locally and on the
+hosted project.
+
+**How Orgpuls sees confirmations.** For now, in `app.billing` through the service role.
+Nothing notifies Orgpuls when a customer confirms.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1963,3 +1985,7 @@ For any other claim, the product decides.
 - [ ] A privacy statement and terms page; the footer lists both and registration refers to the first (D-88).
 - [ ] A stored inbox for the contact form, if wanted; today it writes the message in the visitor's own e-mail program (D-88).
 - [ ] App copy still says "fem spørsmål" for a pulse (malinger.lead, veiviser.rhythm.lead, start.step.verify.body); a pulse is three statements per factor with open measures (X-056).
+- [x] Oppsett › Betaling: a 15-day trial, extendable once, plan and invoice details, confirmation (0048, D-89, X-057).
+- [ ] Decide what happens when a trial ends unconfirmed; today nothing is locked (D-89).
+- [ ] Tell Orgpuls when a customer confirms a plan or asks for an offer (an e-mail to hjelp@orgpuls.no, or an admin view); today it is only in app.billing (X-057).
+- [ ] Invoicing itself (sending invoices, EHF via an access point) is outside the product; the details are collected (D-89).

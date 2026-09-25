@@ -1118,7 +1118,8 @@
       "integrasjoner": "Integrasjoner",
       "personvern": "Personvern",
       "regelverk": "Regelverk",
-      "databehandleravtale": "Databehandleravtale"
+      "databehandleravtale": "Databehandleravtale",
+      "betaling": "Betaling"
     },
     "problem": {
       "invalid": "Verdien kunne ikke leses. Prøv igjen.",
@@ -1559,6 +1560,55 @@
         "unsigned": "Databehandleravtalen er ikke signert ennå.",
         "open": "Les og signer avtalen"
       }
+    },
+    "billing": {
+      "head": "Betaling",
+      "onlyLeader": "Daglig leder velger plan og legger inn fakturaopplysningene. Prøveperioden og betalingen vises bare for daglig leder.",
+      "trialHead": "Prøveperiode",
+      "subscriptionHead": "Abonnement",
+      "pillLeft": "{count, plural, =0 {Siste dag} one {# dag igjen} other {# dager igjen}}",
+      "pillExpired": "Prøveperioden er over",
+      "pillConfirmed": "Bekreftet",
+      "trialBody": "Prøveperioden startet {start} og varer til {end} — {total} dager, gratis og uten kort. Velg plan og fakturaopplysninger under før den er over.",
+      "expiredBody": "Prøveperioden gikk ut {end}. Velg plan og legg inn fakturaopplysningene under for å fortsette.",
+      "confirmedBody": "{plan} er bekreftet. Abonnementet starter {start}, og fakturaen sendes til {mail}.",
+      "confirmedGroupBody": "Dere har bedt om et tilbud på {plan}. Vi tar kontakt på {mail} før {start}.",
+      "progress": "Dager brukt av prøveperioden",
+      "extend": "Forleng prøveperioden med 15 dager",
+      "extending": "Forlenger …",
+      "extendNote": "Kan gjøres én gang.",
+      "extendedOn": "Prøveperioden ble forlenget {when}. Den kan forlenges én gang.",
+      "planHead": "Plan og faktura",
+      "planLead": "Fakturaen sendes til {name}, org.nr. {orgnr}. Planen følger antall ansatte dere har oppgitt: {count}.",
+      "noOrgnr": "ikke registrert",
+      "planLegend": "Velg plan",
+      "suggested": "Passer dere",
+      "tooMany": "Dere har {count} ansatte, flere enn planen gjelder for.",
+      "invoiceEmail": "Faktura sendes til (e-post)",
+      "invoiceEmailHint": "For eksempel regnskap eller økonomiavdelingen.",
+      "invoiceRef": "Deres referanse (valgfritt)",
+      "invoiceRefHint": "Innkjøpsnummer, avdeling eller kontaktperson som skal stå på fakturaen.",
+      "ehf": "Send som EHF-faktura til org.nr. {orgnr}",
+      "ehfNoOrgnr": "EHF-faktura krever et organisasjonsnummer. Legg det inn under Selskap.",
+      "terms": "Prisene er eks. mva. Første faktura gjelder fra {end}, når prøveperioden er over. Månedlig avtale, ingen bindingstid og ingen oppstartsavgift.",
+      "save": "Lagre utkast",
+      "saveChanges": "Lagre endringer",
+      "confirm": "Bekreft abonnement",
+      "confirmGroup": "Be om tilbud",
+      "saving": "Lagrer …",
+      "saved": "Lagret.",
+      "confirmedNow": "Bekreftet. Takk!",
+      "problem": {
+        "already_extended": "Prøveperioden er allerede forlenget én gang.",
+        "already_subscribed": "Abonnementet er bekreftet, så prøveperioden kan ikke forlenges.",
+        "invalid_plan": "Velg en plan.",
+        "plan_too_small": "Planen gjelder ikke for så mange ansatte. Velg en større.",
+        "invalid_email": "Skriv inn en gyldig e-postadresse for fakturaen.",
+        "invalid_ref": "Referansen kan være på høyst 60 tegn.",
+        "ehf_needs_orgnr": "EHF krever et organisasjonsnummer.",
+        "not_allowed": "Bare daglig leder kan endre betalingen.",
+        "failed": "Det gikk ikke å lagre. Prøv igjen."
+      }
     }
   },
   "hjelp": {
@@ -1966,7 +2016,7 @@
     "createAccount": "Opprett konto",
     "creating": "Oppretter …",
     "back": "Tilbake",
-    "ctaHintReady": "Ingen kortopplysninger nå. Etter 30 dager spør vi om dere vil fortsette.",
+    "ctaHintReady": "Ingen kortopplysninger nå. Etter 15 dager spør vi om dere vil fortsette.",
     "ctaHintMissing": "Fyll ut navn, e-post, passord og bekreftelsen for å gå videre.",
     "doneTitle": "{name}, kontoen er klar",
     "doneFallbackName": "Velkommen",
@@ -3032,7 +3082,7 @@
       "home": "Forside",
       "breadcrumb": "Brødsmulesti",
       "articles": "Artikler",
-      "priceLine": "Fra 265 kr/mnd eks. mva · 30 dager gratis · Ingen kort · Svar lagres i EU",
+      "priceLine": "Fra 265 kr/mnd eks. mva · 15 dager gratis · Ingen kort · Svar lagres i EU",
       "readMore": "Les mer",
       "readArticle": "Les artikkelen →",
       "byline": "Oppdatert {date} · {minutes} min lesing",
@@ -3046,7 +3096,7 @@
     },
     "home": {
       "title": "Medarbeiderundersøkelse og arbeidsmiljøkartlegging | Orgpuls",
-      "description": "Medarbeiderundersøkelse som kartlegger det psykososiale arbeidsmiljøet, gjør funnene om til tiltak og viser om de virker. 30 dager gratis.",
+      "description": "Medarbeiderundersøkelse som kartlegger det psykososiale arbeidsmiljøet, gjør funnene om til tiltak og viser om de virker. 15 dager gratis.",
       "articlesEyebrow": "Artikler",
       "articlesTitle": "Les deg opp før dere starter",
       "articlesAll": "Alle artikler →",
@@ -3096,7 +3146,7 @@
     "lp": {
       "lovkrav": {
         "title": "Kartlegging av psykososialt arbeidsmiljø | Orgpuls",
-        "description": "Kartlegging av psykososialt arbeidsmiljø etter arbeidsmiljøloven: hva som kreves, og hvordan dere gjør det i én fast rytme. 30 dager gratis.",
+        "description": "Kartlegging av psykososialt arbeidsmiljø etter arbeidsmiljøloven: hva som kreves, og hvordan dere gjør det i én fast rytme. 15 dager gratis.",
         "crumb": "Lovkravet",
         "card": {
           "title": "Lovkravet",
@@ -3201,7 +3251,7 @@
       },
       "verneombud": {
         "title": "Verneombud og kartlegging av arbeidsmiljøet | Orgpuls",
-        "description": "Som verneombud skal du tas med på råd i kartleggingen. I Orgpuls ser du de samme tallene som ledelsen, uten ekstra kostnad. 30 dager gratis.",
+        "description": "Som verneombud skal du tas med på råd i kartleggingen. I Orgpuls ser du de samme tallene som ledelsen, uten ekstra kostnad. 15 dager gratis.",
         "crumb": "For verneombud",
         "card": {
           "title": "Verneombud",
@@ -3213,7 +3263,7 @@
         "tip": {
           "label": "Tips daglig leder",
           "subject": "Kartlegging av arbeidsmiljøet",
-          "body": "Hei,\n\nVi skal kartlegge det psykososiale arbeidsmiljøet og følge opp tiltakene. Jeg har sett på Orgpuls: svarene er anonyme, det tar rundt fire minutter per ansatt, og jeg som verneombud får innsyn uten ekstra kostnad. Det koster fra 265 kr i måneden eks. mva, og kan prøves gratis i 30 dager: https://www.orgpuls.com/verneombud\n\nKan vi ta en prat om det?\n"
+          "body": "Hei,\n\nVi skal kartlegge det psykososiale arbeidsmiljøet og følge opp tiltakene. Jeg har sett på Orgpuls: svarene er anonyme, det tar rundt fire minutter per ansatt, og jeg som verneombud får innsyn uten ekstra kostnad. Det koster fra 265 kr i måneden eks. mva, og kan prøves gratis i 15 dager: https://www.orgpuls.com/verneombud\n\nKan vi ta en prat om det?\n"
         },
         "blocks": [
           {
@@ -3295,7 +3345,7 @@
       },
       "smaaBedrifter": {
         "title": "Medarbeiderundersøkelse for små bedrifter | Orgpuls",
-        "description": "Medarbeiderundersøkelse for små bedrifter: kartlegg, sett tiltak og følg opp for 265 kr/mnd eks. mva. Anonymt, på norsk. 30 dager gratis.",
+        "description": "Medarbeiderundersøkelse for små bedrifter: kartlegg, sett tiltak og følg opp for 265 kr/mnd eks. mva. Anonymt, på norsk. 15 dager gratis.",
         "crumb": "Små bedrifter",
         "card": {
           "title": "Små bedrifter",
@@ -3370,7 +3420,7 @@
           {
             "t": "box",
             "title": "Pris",
-            "text": "Liten: 265 kr i måneden eks. mva for til og med 25 ansatte. Alt inkludert, ingen oppstartsavgift og ingen bindingstid. Prøv gratis i 30 dager – uten kortopplysninger."
+            "text": "Liten: 265 kr i måneden eks. mva for til og med 25 ansatte. Alt inkludert, ingen oppstartsavgift og ingen bindingstid. Prøv gratis i 15 dager – uten kortopplysninger."
           }
         ],
         "faq": [
@@ -3396,7 +3446,7 @@
       },
       "byggOgAnlegg": {
         "title": "Arbeidsmiljøundersøkelse for bygg og anlegg | Orgpuls",
-        "description": "Arbeidsmiljøundersøkelse for bygg og anlegg som når folk på prosjekt, rigg og verksted: på SMS, anonymt og på norsk. 30 dager gratis.",
+        "description": "Arbeidsmiljøundersøkelse for bygg og anlegg som når folk på prosjekt, rigg og verksted: på SMS, anonymt og på norsk. 15 dager gratis.",
         "crumb": "Bygg og anlegg",
         "card": {
           "title": "Bygg og anlegg",
@@ -3460,7 +3510,7 @@
           },
           {
             "q": "Hva koster det?",
-            "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, Vanlig 565 kr for 26–100 ansatte. Prisene er eks. mva, uten binding og med 30 dager gratis."
+            "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, Vanlig 565 kr for 26–100 ansatte. Prisene er eks. mva, uten binding og med 15 dager gratis."
           }
         ],
         "finalTitle": "Prøv på neste prosjekt",
@@ -3468,7 +3518,7 @@
       },
       "helseOgOmsorg": {
         "title": "Arbeidsmiljøkartlegging i helse og omsorg | Orgpuls",
-        "description": "Emosjonelle krav, vold og trusler, turnus: kartlegg det psykososiale arbeidsmiljøet i helse og omsorg, anonymt og på mobilen. 30 dager gratis.",
+        "description": "Emosjonelle krav, vold og trusler, turnus: kartlegg det psykososiale arbeidsmiljøet i helse og omsorg, anonymt og på mobilen. 15 dager gratis.",
         "crumb": "Helse og omsorg",
         "card": {
           "title": "Helse og omsorg",
@@ -3554,7 +3604,7 @@
           },
           {
             "q": "Hva koster det?",
-            "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, Vanlig 565 kr for 26–100 ansatte. Prisene er eks. mva., uten binding og med 30 dager gratis."
+            "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, Vanlig 565 kr for 26–100 ansatte. Prisene er eks. mva., uten binding og med 15 dager gratis."
           }
         ],
         "finalTitle": "Prøv det på deres egen virksomhet",
@@ -3748,7 +3798,7 @@
           }
         ],
         "ctaTitle": "Kartlegg etter de nye reglene – uten et eget prosjekt",
-        "ctaBody": "Orgpuls gjør kartlegging, risikovurdering, tiltak og oppfølging til én rytme. 30 dager gratis, ingen kort."
+        "ctaBody": "Orgpuls gjør kartlegging, risikovurdering, tiltak og oppfølging til én rytme. 15 dager gratis, ingen kort."
       },
       "kravKartlegging": {
         "title": "Krav til kartlegging av psykososialt arbeidsmiljø | Orgpuls",
@@ -3934,7 +3984,7 @@
           }
         ],
         "ctaTitle": "Gjør alle fire stegene i Orgpuls",
-        "ctaBody": "Kartlegging, risikovurdering, tiltak og oppfølging – dokumentert mens dere jobber. 30 dager gratis, ingen kort."
+        "ctaBody": "Kartlegging, risikovurdering, tiltak og oppfølging – dokumentert mens dere jobber. 15 dager gratis, ingen kort."
       },
       "sporsmal": {
         "title": "Medarbeiderundersøkelse: spørsmålene som gir svar | Orgpuls",
@@ -4119,7 +4169,7 @@
           }
         ],
         "ctaTitle": "Bruk et spørsmålssett som er ferdig laget",
-        "ctaBody": "Orgpuls har elleve faktorer med tre påstander hver, og spørsmålene utenfor indeksen. 30 dager gratis, ingen kort."
+        "ctaBody": "Orgpuls har elleve faktorer med tre påstander hver, og spørsmålene utenfor indeksen. 15 dager gratis, ingen kort."
       },
       "hvorOfte": {
         "title": "Hvor ofte bør dere måle arbeidsmiljøet? | Orgpuls",
@@ -4295,7 +4345,7 @@
           }
         ],
         "ctaTitle": "Sett rytmen én gang – så går den av seg selv",
-        "ctaBody": "Årshjulet i Orgpuls planlegger grunnlinje og puls for hele året. 30 dager gratis, ingen kort."
+        "ctaBody": "Årshjulet i Orgpuls planlegger grunnlinje og puls for hele året. 15 dager gratis, ingen kort."
       },
       "anonym": {
         "title": "Anonym medarbeiderundersøkelse: hva betyr anonymt?",
@@ -4428,7 +4478,7 @@
           }
         ],
         "ctaTitle": "Anonymt – på en måte som holder",
-        "ctaBody": "Fem svar, ellers en strek – og ingen administrator som kan endre det. 30 dager gratis, ingen kort."
+        "ctaBody": "Fem svar, ellers en strek – og ingen administrator som kan endre det. 15 dager gratis, ingen kort."
       },
       "verneombud": {
         "title": "Verneombudets rolle i kartleggingen av arbeidsmiljøet",
@@ -4600,7 +4650,7 @@
           }
         ],
         "ctaTitle": "Gi verneombudet det samme grunnlaget som ledelsen",
-        "ctaBody": "I Orgpuls har verneombudet tilgang uten ekstra kostnad. 30 dager gratis, ingen kort."
+        "ctaBody": "I Orgpuls har verneombudet tilgang uten ekstra kostnad. 15 dager gratis, ingen kort."
       }
     },
     "pages": {
@@ -4840,11 +4890,11 @@
       },
       "priser": {
         "title": "Priser: medarbeiderundersøkelse fra 265 kr/mnd | Orgpuls",
-        "description": "Liten 265 kr og Vanlig 565 kr i måneden eks. mva. Ingen tillegg, ingen oppstartsavgift og ingen binding. Prøv gratis i 30 dager uten kort.",
+        "description": "Liten 265 kr og Vanlig 565 kr i måneden eks. mva. Ingen tillegg, ingen oppstartsavgift og ingen binding. Prøv gratis i 15 dager uten kort.",
         "crumb": "Priser",
         "kicker": "Priser",
         "h1": "Én pris i måneden, alt inkludert",
-        "lead": "Ingen tillegg for rapporter, integrasjoner eller antall målinger. Månedlig avtale uten bindingstid, og 30 dager gratis uten kortopplysninger.",
+        "lead": "Ingen tillegg for rapporter, integrasjoner eller antall målinger. Månedlig avtale uten bindingstid, og 15 dager gratis uten kortopplysninger.",
         "blocks": [
           {
             "t": "plans"
@@ -4871,7 +4921,7 @@
         "faq": [
           {
             "q": "Må vi oppgi kort for å prøve?",
-            "a": "Nei. Dere registrerer med organisasjonsnummeret og kan bruke Orgpuls i 30 dager uten kortopplysninger."
+            "a": "Nei. Dere registrerer med organisasjonsnummeret og kan bruke Orgpuls i 15 dager uten kortopplysninger."
           },
           {
             "q": "Er det bindingstid?",
@@ -5248,10 +5298,10 @@
       "getStarted": "Kom i gang",
       "sections": "Seksjoner",
       "crumbs": "Du er her",
-      "trial": "Prøv gratis i 30 dager",
+      "trial": "Prøv gratis i 15 dager",
       "start": {
         "title": "Prøv det på deres egen virksomhet",
-        "lead": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Gratis i 30 dager. Ingen kort.",
+        "lead": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Gratis i 15 dager. Ingen kort.",
         "placeholder": "Organisasjonsnummer",
         "submit": "Kom i gang",
         "fetching": "Vi henter {orgnr} fra Brønnøysundregistrene …",

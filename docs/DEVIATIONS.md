@@ -3645,3 +3645,40 @@ With the corrections below applied, the differences sit where the words changed.
     tables can be focused from the keyboard. Neither changes anything at 1440.
 - **English.** Every `site.*` message has an English twin, with the same structure and the
   same placeholders. The public pages are static and render in Norwegian.
+
+## D-89 — Oppsett has a Betaling tab: a 15-day trial, one extension, and the invoice details
+
+**The request:** a payment section in the admin settings that sets the customer up for
+payment, a 15-day trial, and a button that extends the trial.
+
+**What was built:**
+- **The tab.** Oppsett gets a tenth tab, "Betaling", after Databehandleravtale. The design
+  has no billing anywhere.
+- **The trial panel.** It shows how many days are left, when the trial started and ends,
+  and a bar.
+  - "Forleng prøveperioden med 15 dager" can be used once, before a plan is confirmed.
+  - An expired trial is extended from today, not from its old end date.
+- **The plan.** Plans come from the price list: Liten up to 25 employees, Vanlig up to 100,
+  and Flere selskaper by agreement. A plan the organisation's stated headcount has outgrown
+  is shown but cannot be chosen, and the one that fits is marked.
+- **The invoice.** An invoice e-mail address, an optional reference, and EHF when the
+  organisation has an organisation number. "Bekreft abonnement" confirms. For Flere
+  selskaper the button reads "Be om tilbud".
+- **Who sees it.** Only the daglig leder. Others read a line saying who handles payment.
+
+**Choices made where the request was open:**
+- **Invoice, not card.** Norwegian customers of this size pay by invoice or EHF, and a card
+  needs a payment provider with its own keys and agreement. Nothing here holds or asks for a
+  card, so "Ingen kort" on the site stays true.
+- **One extension of 15 days, by the daglig leder.** The number of extensions and their
+  length are in the RPC. Changing them is a new migration.
+- **Nothing is locked when a trial runs out.** The tab says so and asks for a plan. Whether an
+  expired, unconfirmed organisation loses access, and how, is a product decision. It is left
+  open rather than guessed.
+
+**The trial is 15 days everywhere it is promised.** 23 messages per language changed from
+30 to 15 days: the site, the landing pages, the articles, Priser and registration. The link
+preview images in public/og were rendered again. These keep "30 dager" because they are not
+the trial:
+- the data processing agreement's notice, audit and deletion periods;
+- the start page's answer about deleting answers after cancellation.

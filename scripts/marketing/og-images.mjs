@@ -33,7 +33,7 @@ const PAGES = [
   { slug: 'bygg-og-anlegg', key: 'byggOgAnlegg', shot: 'sporsmal' },
   { slug: 'helse-og-omsorg', key: 'helseOgOmsorg', shot: 'samtaler' },
 ]
-const PILLS = ['30 dager gratis', 'Dekker arbeidsmiljøloven', 'Anonymt – minst 5 svar']
+const PILLS = ['15 dager gratis', 'Dekker arbeidsmiljøloven', 'Anonymt – minst 5 svar']
 // the mark's own path and dot, read from the component rather than redrawn here
 const logoSrc = readFileSync('components/shell/Logo.tsx', 'utf8')
 const markPath = logoSrc.match(/d="([^"]+)"/)?.[1]

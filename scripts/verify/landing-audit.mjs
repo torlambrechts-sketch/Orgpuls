@@ -122,7 +122,7 @@ for (const pg of pages) {
     `description ${r.description?.length} characters`,
   )
   need(r.description && hasKeyword(r.description, pg.keyword), 'keyword not in description')
-  need(r.description && /30 dager gratis/i.test(r.description), 'description does not offer 30 days free')
+  need(r.description && /15 dager gratis/i.test(r.description), 'description does not offer 15 days free')
   need(r.h1.length === 1, `${r.h1.length} H1`)
   need(r.h1[0] && hasKeyword(r.h1[0], pg.keyword), 'keyword not in H1')
   need(hasKeyword(r.firstParagraph, pg.keyword), 'keyword not in first paragraph')
