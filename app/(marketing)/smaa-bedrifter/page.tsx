@@ -10,7 +10,7 @@ export const dynamic = 'force-static'
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()
   const k = `seo.lp.${landingKey('smaa-bedrifter')}`
-  return pageMeta({ title: t(`${k}.title`), description: t(`${k}.description`), path: '/smaa-bedrifter' })
+  return pageMeta({ title: t(`${k}.title`), description: t(`${k}.description`), path: '/smaa-bedrifter', image: '/og/smaa-bedrifter.png' })
 }
 
 export default function Page() {

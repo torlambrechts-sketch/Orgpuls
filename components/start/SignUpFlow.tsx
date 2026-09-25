@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useActionState, useState, useTransition } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useActionState, useEffect, useRef, useState, useTransition } from 'react'
 import { useTranslations } from 'next-intl'
 import {
   createAccount,
@@ -10,6 +10,7 @@ import {
   type LookupState,
   type SignUpState,
 } from '@/app/(marketing)/registrer/actions'
+import { trackEvent } from '@/lib/marketing/events'
 
 /**
  * Sign-up. Orgpuls_Start.dc.html lines 276-434.
@@ -56,6 +57,19 @@ export function SignUpFlow() {
 
   const found = lookup.status === 'found' ? lookup : null
 
+  // Arriving from a landing page's form (SignupStart) with ?orgnr=: fill it in and look it
+  // up at once, so the visitor lands on their company rather than on an empty field.
+  const prefill = (useSearchParams().get('orgnr') ?? '').replace(/\s/g, '')
+  const prefilled = /^\d{9}$/.test(prefill) ? prefill : ''
+  const looked = useRef(false)
+  useEffect(() => {
+    if (!prefilled || looked.current) return
+    looked.current = true
+    const data = new FormData()
+    data.set('orgNumber', prefilled)
+    startTransition(() => lookupAction(data))
+  }, [prefilled, lookupAction])
+
   /** Length counts twice and a non-letter once — the design's own meter (line 551). */
   const strength =
     (password.length >= 8 ? 1 : 0) +
@@ -99,7 +113,12 @@ export function SignUpFlow() {
           {/* ------------------------------------------------------- step 1 */}
           {step === 1 ? (
             <form
-              action={lookupAction}
+              action={(data) => {
+                // a lookup typed here starts a sign-up; one prefilled from a landing page was counted there
+                if (!looked.current) trackEvent('signup_started')
+                looked.current = true
+                lookupAction(data)
+              }}
               className="rounded-card border border-line bg-sf p-[clamp(24px,3.5vw,32px)]"
             >
               <h1 className="m-0 max-w-[22ch] font-display text-[clamp(26px,3.6vw,32px)] font-semibold leading-[1.12] [text-wrap:balance]">
@@ -115,7 +134,7 @@ export function SignUpFlow() {
                   name="orgNumber"
                   inputMode="numeric"
                   required
-                  defaultValue={found?.orgNumber ?? ''}
+                  defaultValue={found?.orgNumber ?? prefilled}
                   placeholder={t('orgNumberPlaceholder')}
                   className="h-[50px] w-full rounded-tile border-[1.5px] bg-bg px-[16px] text-[19px] font-semibold tracking-[0.06em] text-ink outline-none"
                   style={{ borderColor: found ? '#191510' : '#E8DFC9' }}
@@ -197,7 +216,10 @@ export function SignUpFlow() {
                   const result = await createAccount({ status: 'idle' }, data)
                   setCreating(false)
                   setSignUp(result)
-                  if (result.status === 'idle') setStep(3)
+                  if (result.status === 'idle') {
+                    trackEvent('signup_completed')
+                    setStep(3)
+                  }
                 })
               }}
             >

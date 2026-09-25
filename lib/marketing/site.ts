@@ -4,6 +4,8 @@
  * holds only what is not words — slugs, dates, and the links between pages — so adding an
  * article is an entry here and a message key, never a component change.
  */
+import type { ShotId } from './shot-ids'
+
 export const SITE_URL = 'https://www.orgpuls.com'
 
 export const absolute = (path: string) => `${SITE_URL}${path === '/' ? '' : path}`
@@ -88,6 +90,29 @@ export const LANDING_ARTICLES: Record<LandingSlug, [string, string]> = {
   'smaa-bedrifter': ['anonym-medarbeiderundersokelse', 'medarbeiderundersokelse-sporsmal'],
   'bygg-og-anlegg': ['hvor-ofte-bor-dere-male-arbeidsmiljoet', 'medarbeiderundersokelse-sporsmal'],
   'helse-og-omsorg': ['medarbeiderundersokelse-sporsmal', 'anonym-medarbeiderundersokelse'],
+}
+
+/**
+ * The picture of the product each landing page shows beside its hero (D-85): the screen
+ * that answers that reader's question — the report for the legal requirement, the heatmap
+ * for the safety representative who sees the same numbers, the questionnaire on a phone for
+ * people on site.
+ */
+export const LANDING_HERO: Record<LandingSlug, ShotId> = {
+  lovkrav: 'rapport',
+  verneombud: 'varmekart',
+  'smaa-bedrifter': 'oversikt',
+  'bygg-og-anlegg': 'sporsmal',
+  'helse-og-omsorg': 'samtaler',
+}
+
+/** Two other landing pages each one points to, for the reader whose case is next door. */
+export const LANDING_RELATED: Record<LandingSlug, [LandingSlug, LandingSlug]> = {
+  lovkrav: ['verneombud', 'smaa-bedrifter'],
+  verneombud: ['lovkrav', 'bygg-og-anlegg'],
+  'smaa-bedrifter': ['lovkrav', 'verneombud'],
+  'bygg-og-anlegg': ['helse-og-omsorg', 'smaa-bedrifter'],
+  'helse-og-omsorg': ['bygg-og-anlegg', 'verneombud'],
 }
 
 /**

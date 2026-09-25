@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { CONTACT_MAIL } from '@/lib/marketing/site'
+import { PricingSeen } from './PricingSeen'
 import { Tick } from './Tick'
 
 /**
@@ -18,6 +18,7 @@ export async function Plans() {
   const t = await getTranslations()
   return (
     <div className="mt-[22px] grid items-start gap-[13px] [grid-template-columns:repeat(auto-fit,minmax(min(272px,100%),1fr))]">
+      <PricingSeen />
       {PLANS.map((p) => (
         <div
           key={p.key}
@@ -54,14 +55,13 @@ export async function Plans() {
               {t(`start.plan.${p.key}.cta`)}
             </Link>
           ) : (
-            // "Snakk med oss" is a conversation, not a sign-in: an e-mail to the address
-            // the product already gives for help (D-79)
-            <a
-              href={`mailto:${CONTACT_MAIL}?subject=${encodeURIComponent(t('seo.home.groupSubject'))}`}
+            // "Snakk med oss" is a conversation, not a sign-in: the contact page (D-79, D-85)
+            <Link
+              href="/kontakt"
               className="mt-[8px] inline-flex h-[44px] items-center justify-center rounded-cta border border-ink bg-transparent text-[14.5px] font-bold text-ink no-underline hover:text-ink hover:no-underline"
             >
               {t(`start.plan.${p.key}.cta`)}
-            </a>
+            </Link>
           )}
         </div>
       ))}

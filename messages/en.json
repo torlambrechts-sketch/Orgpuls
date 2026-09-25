@@ -3099,19 +3099,21 @@
       "home": "Home",
       "breadcrumb": "Breadcrumb",
       "articles": "Articles",
-      "priceLine": "From NOK 265/month excl. VAT · 30 days free · no card",
+      "priceLine": "From NOK 265/month excl. VAT · 30 days free · No card · Answers stored in the EU",
       "readMore": "Read more",
       "readArticle": "Read the article →",
       "byline": "Updated {date} · {minutes} min read",
       "sources": "Sources",
       "disclaimer": "This article is general information, not legal advice. The legal references were checked against Lovdata and Arbeidstilsynet in September 2026.",
       "nextTitle": "How do we do this in practice?",
-      "nextLink": "More on this: {page} →"
+      "nextLink": "More on this: {page} →",
+      "priceFrom": "From NOK 265/month excl. VAT",
+      "anonymity": "No department is shown until at least five have answered.",
+      "related": "Related pages"
     },
     "home": {
       "title": "Orgpuls – employee surveys and work environment mapping",
       "description": "Map the psychosocial working environment, act on it and see whether the measures work. Covers the Working Environment Act. 30 days free, no card.",
-      "groupSubject": "Orgpuls for several companies",
       "articlesEyebrow": "Articles",
       "articlesTitle": "Read up before you start",
       "articlesAll": "All articles →",
@@ -3170,7 +3172,6 @@
         "kicker": "Working Environment Act § 3-1 and § 4-3",
         "h1": "Mapping the psychosocial working environment – without a separate project",
         "lead": "The Working Environment Act requires you to map the psychosocial working environment, assess the risk, put measures in place and follow up. Since 1 January 2026 the regulation says more clearly how. Orgpuls makes each step part of work you do anyway.",
-        "cta": "Start free – 30 days, no card",
         "blocks": [
           {
             "t": "h2",
@@ -3276,7 +3277,6 @@
         "kicker": "Working Environment Act § 6-2",
         "h1": "As safety representative you see the same figures as management",
         "lead": "You shall be consulted when the organisation maps the working environment and puts measures in place. For that you need access to the same basis as management – not a summary afterwards.",
-        "cta": "I am a manager – start free",
         "tip": {
           "label": "Tip your manager",
           "subject": "Mapping the working environment",
@@ -3370,7 +3370,6 @@
         "kicker": "For organisations with 5–25 employees",
         "h1": "An employee survey for small businesses – set up in under an hour",
         "lead": "You have no HR department, but you have the same legal requirements as large organisations. Orgpuls handles sending, reminders and documentation, so you can spend the time on what comes out of it.",
-        "cta": "Start free with your organisation number",
         "blocks": [
           {
             "t": "h2",
@@ -3472,7 +3471,6 @@
         "kicker": "Construction, civil works and workshops",
         "h1": "A work environment survey that reaches people on site, rig and workshop",
         "lead": "Many employees do not sit at a PC, and the e-mail goes unread. Orgpuls sends the survey by SMS, and everyone answers on their phone in about four minutes.",
-        "cta": "Start free – try it on the next project",
         "blocks": [
           {
             "t": "h2",
@@ -3545,7 +3543,6 @@
         "kicker": "Health, care and work with people",
         "h1": "Work environment mapping in health and care – where the emotional demands are greatest",
         "lead": "In work with people the strain is often something other than workload alone. Orgpuls measures the emotional demands, whether anyone is left alone with them, and whether people have experienced violence or threats – anonymously, on mobile, across shifts.",
-        "cta": "Start free – 30 days, no card",
         "blocks": [
           {
             "t": "h2",
@@ -4687,7 +4684,8 @@
       "bruksomrader": "Use cases",
       "ressurser": "Resources",
       "selskap": "Company",
-      "newRules": "New rules from 2026"
+      "newRules": "New rules from 2026",
+      "company": "© {year} Orgpuls AS"
     },
     "pages": {
       "plattform": {
@@ -5169,6 +5167,11 @@
         "screen": "Report",
         "alt": "Screenshot of the report for the Labour Inspection Authority (Norwegian interface), part 3: the eleven factors with their legal basis, scores for 2026 and 2025, and risk level."
       }
+    },
+    "signup": {
+      "label": "Organisation number",
+      "submit": "Start free",
+      "invalid": "An organisation number has nine digits. Check that they are all there."
     }
   }
 }

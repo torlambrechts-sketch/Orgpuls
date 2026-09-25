@@ -1,6 +1,7 @@
 import type { Route } from 'next'
 import Link from 'next/link'
 import type { Block } from '@/lib/marketing/blocks'
+import { LawRef } from './LawRef'
 import { Plans } from './Plans'
 import { ProductShot } from './ProductShot'
 import { Rich } from './Rich'
@@ -68,7 +69,7 @@ function BlockView({ block: b }: { block: Block }) {
               key={i}
               className="grid items-baseline gap-[13px] rounded-cta border border-line bg-sf px-[15px] py-[13px] [grid-template-columns:110px_minmax(0,1fr)]"
             >
-              <span className="text-[12.5px] font-bold">{item.ref}</span>
+              <LawRef text={item.ref} className="text-[12.5px] font-bold" />
               <span className="text-[14px] leading-[1.55] [text-wrap:pretty]">
                 <Rich text={item.text} />
               </span>

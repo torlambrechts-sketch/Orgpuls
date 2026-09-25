@@ -99,6 +99,13 @@
   }
 }
 
+/* a visitor who has asked for less motion gets the page without its entry */
+@media (prefers-reduced-motion: reduce) {
+  .animate-entry {
+    animation: none;
+  }
+}
+
 @keyframes ht-in {
   from {
     opacity: 0;

@@ -3099,19 +3099,21 @@
       "home": "Forside",
       "breadcrumb": "Brødsmulesti",
       "articles": "Artikler",
-      "priceLine": "Fra 265 kr/mnd eks. mva · 30 dager gratis · ingen kort",
+      "priceLine": "Fra 265 kr/mnd eks. mva · 30 dager gratis · Ingen kort · Svar lagres i EU",
       "readMore": "Les mer",
       "readArticle": "Les artikkelen →",
       "byline": "Oppdatert {date} · {minutes} min lesing",
       "sources": "Kilder",
       "disclaimer": "Artikkelen er generell informasjon, ikke juridisk rådgivning. Lovhenvisningene er kontrollert mot Lovdata og Arbeidstilsynet i september 2026.",
       "nextTitle": "Hvordan gjør vi dette i praksis?",
-      "nextLink": "Mer om dette: {page} →"
+      "nextLink": "Mer om dette: {page} →",
+      "priceFrom": "Fra 265 kr/mnd eks. mva",
+      "anonymity": "Ingen avdeling vises før minst fem har svart.",
+      "related": "Relaterte sider"
     },
     "home": {
       "title": "Orgpuls – medarbeiderundersøkelse og arbeidsmiljøkartlegging",
       "description": "Kartlegg det psykososiale arbeidsmiljøet, sett tiltak og se om de virker. Dekker kravene i arbeidsmiljøloven. 30 dager gratis, ingen kort.",
-      "groupSubject": "Orgpuls for flere selskaper",
       "articlesEyebrow": "Artikler",
       "articlesTitle": "Les deg opp før dere starter",
       "articlesAll": "Alle artikler →",
@@ -3170,7 +3172,6 @@
         "kicker": "Arbeidsmiljøloven § 3-1 og § 4-3",
         "h1": "Kartlegging av psykososialt arbeidsmiljø – uten et eget prosjekt",
         "lead": "Arbeidsmiljøloven krever at dere kartlegger det psykososiale arbeidsmiljøet, vurderer risikoen, setter tiltak og følger opp. Fra 1. januar 2026 sier forskriften tydeligere hvordan. Orgpuls gjør hvert steg til en del av jobben dere uansett gjør.",
-        "cta": "Start gratis – 30 dager, ingen kort",
         "blocks": [
           {
             "t": "h2",
@@ -3276,7 +3277,6 @@
         "kicker": "Arbeidsmiljøloven § 6-2",
         "h1": "Som verneombud ser du de samme tallene som ledelsen",
         "lead": "Du skal tas med på råd når virksomheten kartlegger arbeidsmiljøet og setter tiltak. Da trenger du innsyn i det samme grunnlaget som ledelsen – ikke et sammendrag i etterkant.",
-        "cta": "Jeg er leder – start gratis",
         "tip": {
           "label": "Tips daglig leder",
           "subject": "Kartlegging av arbeidsmiljøet",
@@ -3370,7 +3370,6 @@
         "kicker": "For virksomheter med 5–25 ansatte",
         "h1": "Medarbeiderundersøkelse for små bedrifter – satt opp på under en time",
         "lead": "Dere har ikke HR-avdeling, men dere har de samme lovkravene som store virksomheter. Orgpuls tar seg av utsending, påminnelser og dokumentasjon, så dere kan bruke tiden på det som kommer fram.",
-        "cta": "Start gratis med organisasjonsnummeret",
         "blocks": [
           {
             "t": "h2",
@@ -3472,7 +3471,6 @@
         "kicker": "Bygg, anlegg og verksted",
         "h1": "Arbeidsmiljømåling som når folk på prosjekt, rigg og verksted",
         "lead": "Mange av de ansatte sitter ikke ved en PC, og e-posten blir liggende. Orgpuls sender undersøkelsen på SMS, og alle svarer på mobilen på rundt fire minutter.",
-        "cta": "Start gratis – prøv på neste prosjekt",
         "blocks": [
           {
             "t": "h2",
@@ -3545,7 +3543,6 @@
         "kicker": "Helse, omsorg og arbeid med mennesker",
         "h1": "Arbeidsmiljøkartlegging i helse og omsorg – der de emosjonelle kravene er størst",
         "lead": "I arbeid med mennesker er belastningen ofte en annen enn arbeidsmengde alene. Orgpuls måler de emosjonelle kravene, om noen står alene i dem, og om folk har opplevd vold eller trusler – anonymt, på mobilen, på tvers av turnus.",
-        "cta": "Start gratis – 30 dager, ingen kort",
         "blocks": [
           {
             "t": "h2",
@@ -4687,7 +4684,8 @@
       "bruksomrader": "Bruksområder",
       "ressurser": "Ressurser",
       "selskap": "Selskap",
-      "newRules": "Nye regler fra 2026"
+      "newRules": "Nye regler fra 2026",
+      "company": "© {year} Orgpuls AS"
     },
     "pages": {
       "plattform": {
@@ -5169,6 +5167,11 @@
         "screen": "Rapport",
         "alt": "Skjermbilde av rapporten til Arbeidstilsynet, del 3 Kartlegging: de elleve faktorene med hjemmel, skår for 2026 og 2025 og risikonivå."
       }
+    },
+    "signup": {
+      "label": "Organisasjonsnummer",
+      "submit": "Start gratis",
+      "invalid": "Organisasjonsnummeret har ni siffer. Sjekk at alle er med."
     }
   }
 }

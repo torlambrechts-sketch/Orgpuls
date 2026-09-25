@@ -1,3 +1,5 @@
+import { utmFrom } from '@/lib/marketing/utm'
+
 /**
  * What an analytics event may say about where it happened.
  *
@@ -12,9 +14,12 @@
  * 2. **Query strings.** `?maling=<round id>`, `?runde=`, `?fane=` are ids and screen state,
  *    not identities, but nothing in the product needs them counted, and dropping them means
  *    no future parameter can leak something by being added. Fragments go the same way.
+ *    The one exception is a campaign's tags, the five standard `utm_*` keys, kept by name
+ *    and capped in length (lib/marketing/utm), so a visit can be traced to the campaign
+ *    that brought it. Nothing else survives, `?orgnr=` on /registrer included.
  *
- * What remains is the origin and the path: which screen was viewed, which is what the
- * dashboard is for. `null` means "do not send".
+ * What remains is the origin, the path and those tags: which screen was viewed, which is
+ * what the dashboard is for. `null` means "do not send".
  */
 export function scrubUrl(url: string): string | null {
   let parsed: URL
@@ -24,7 +29,8 @@ export function scrubUrl(url: string): string | null {
     return null
   }
   if (isRespondentPath(parsed.pathname)) return null
-  return `${parsed.origin}${parsed.pathname}`
+  const utm = new URLSearchParams(utmFrom(parsed.search)).toString()
+  return `${parsed.origin}${parsed.pathname}${utm ? `?${utm}` : ''}`
 }
 
 /**

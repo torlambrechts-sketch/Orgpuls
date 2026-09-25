@@ -6,7 +6,10 @@ import { Fragment, type ReactNode } from 'react'
  * A message's two inline marks, `**bold**` and `[label](href)`, as React nodes. Nothing else
  * is interpreted, and nothing becomes HTML: the text stays text. An internal href is a
  * `Link`; an external one opens in a new tab and says nothing about where it came from.
+ * A link in running text is underlined, so it is told apart from the words around it by
+ * more than its colour.
  */
+const INLINE = 'underline decoration-[1px] underline-offset-[3px]'
 const MARK = /\*\*(.+?)\*\*|\[([^\]]+)\]\(([^)\s]+)\)/g
 
 export function Rich({ text }: { text: string }) {
@@ -25,15 +28,15 @@ export function Rich({ text }: { text: string }) {
       const [label, href] = [m[2] as string, m[3] as string]
       out.push(
         href.startsWith('/') ? (
-          <Link key={at} href={href as Route}>
+          <Link key={at} href={href as Route} className={INLINE}>
             {label}
           </Link>
         ) : href.startsWith('mailto:') ? (
-          <a key={at} href={href}>
+          <a key={at} href={href} className={INLINE}>
             {label}
           </a>
         ) : (
-          <a key={at} href={href} target="_blank" rel="noopener noreferrer">
+          <a key={at} href={href} target="_blank" rel="noopener noreferrer" className={INLINE}>
             {label}
           </a>
         ),

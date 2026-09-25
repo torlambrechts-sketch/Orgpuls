@@ -1,4 +1,5 @@
-import { getTranslations } from 'next-intl/server'
+import { NextIntlClientProvider } from 'next-intl'
+import { getMessages, getTranslations } from 'next-intl/server'
 import { AppHeader } from '@/components/shell/AppHeader'
 import { AppFooter } from '@/components/shell/AppFooter'
 import { ShellFrame } from '@/components/shell/ShellFrame'
@@ -25,7 +26,12 @@ const ASSISTANT_FACE = 'av4'
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations()
-  const [prefs, unanswered, wizard] = await Promise.all([getShellPrefs(), getUnansweredCount(), getWizardGate()])
+  const [prefs, unanswered, wizard, messages] = await Promise.all([
+    getShellPrefs(),
+    getUnansweredCount(),
+    getWizardGate(),
+    getMessages(),
+  ])
 
   const items: NavEntry[] = NAV_ROUTES.map((r) => ({
     ...r,
@@ -36,16 +42,19 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   }))
 
   return (
-    <ShellPrefsProvider initial={prefs}>
-      <WizardProvider gate={wizard} face={ASSISTANT_FACE}>
-        <ShellFrame
-          rail={<SideRail items={items} assistantFace={ASSISTANT_FACE} />}
-          header={<AppHeader items={items} assistantFace={ASSISTANT_FACE} />}
-          footer={<AppFooter />}
-        >
-          {children}
-        </ShellFrame>
-      </WizardProvider>
-    </ShellPrefsProvider>
+    // the application's client screens read from most of the catalogue, so it gets all of it (lib/i18n/client)
+    <NextIntlClientProvider messages={messages}>
+      <ShellPrefsProvider initial={prefs}>
+        <WizardProvider gate={wizard} face={ASSISTANT_FACE}>
+          <ShellFrame
+            rail={<SideRail items={items} assistantFace={ASSISTANT_FACE} />}
+            header={<AppHeader items={items} assistantFace={ASSISTANT_FACE} />}
+            footer={<AppFooter />}
+          >
+            {children}
+          </ShellFrame>
+        </WizardProvider>
+      </ShellPrefsProvider>
+    </NextIntlClientProvider>
   )
 }

@@ -13,9 +13,11 @@ export function pageMeta(m: {
   type?: 'website' | 'article'
   published?: string
   modified?: string
+  /** the page's own card (public/og/<slug>.png, scripts/marketing/og-images.mjs); the site's otherwise */
+  image?: string
 }): Metadata {
   const url = absolute(m.path)
-  const image = { url: absolute('/og.png'), width: 1200, height: 630, alt: 'Orgpuls' }
+  const image = { url: absolute(m.image ?? '/og.png'), width: 1200, height: 630, alt: m.title }
   return {
     title: { absolute: m.title },
     description: m.description,

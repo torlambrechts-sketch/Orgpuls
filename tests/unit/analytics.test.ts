@@ -22,6 +22,17 @@ describe('scrubUrl', () => {
     expect(scrubUrl('https://www.orgpuls.com/bli-med/0123abcd')).toBeNull()
   })
 
+  it('keeps a campaign\'s utm tags, and nothing else, from the query string', () => {
+    expect(scrubUrl('https://www.orgpuls.com/lovkrav?utm_source=linkedin&orgnr=924118742&utm_campaign=vår&x=1')).toBe(
+      'https://www.orgpuls.com/lovkrav?utm_source=linkedin&utm_campaign=v%C3%A5r',
+    )
+  })
+
+  it('caps a tag\'s length', () => {
+    const long = 'a'.repeat(200)
+    expect(scrubUrl(`https://www.orgpuls.com/?utm_content=${long}`)).toBe(`https://www.orgpuls.com/?utm_content=${'a'.repeat(80)}`)
+  })
+
   it('does not mistake a path that merely starts with s for a respondent link', () => {
     expect(scrubUrl('https://www.orgpuls.com/samtaler')).toBe('https://www.orgpuls.com/samtaler')
   })
