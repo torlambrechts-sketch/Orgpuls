@@ -3269,15 +3269,15 @@
       },
       "verneombud": {
         "title": "Verneombud og kartlegging av arbeidsmiljøet | Orgpuls",
-        "description": "Som verneombud skal du tas med på råd om arbeidsmiljøet. I Orgpuls ser du de samme tallene som ledelsen og følger tiltakene – uten ekstra kostnad.",
+        "description": "Som verneombud skal du tas med på råd i kartleggingen. I Orgpuls ser du de samme tallene som ledelsen, uten ekstra kostnad. 30 dager gratis.",
         "crumb": "For verneombud",
         "card": {
           "title": "Verneombud",
           "text": "Innsyn i kartlegging og tiltak uten ekstra kostnad – og en ferdig e-post du kan sende til ledelsen."
         },
         "kicker": "Arbeidsmiljøloven § 6-2",
-        "h1": "Som verneombud ser du de samme tallene som ledelsen",
-        "lead": "Du skal tas med på råd når virksomheten kartlegger arbeidsmiljøet og setter tiltak. Da trenger du innsyn i det samme grunnlaget som ledelsen – ikke et sammendrag i etterkant.",
+        "h1": "Verneombud i kartleggingen: du ser de samme tallene som ledelsen",
+        "lead": "Som verneombud skal du tas med på råd når virksomheten kartlegger arbeidsmiljøet og setter tiltak. Da trenger du innsyn i det samme grunnlaget som ledelsen – ikke et sammendrag i etterkant.",
         "tip": {
           "label": "Tips daglig leder",
           "subject": "Kartlegging av arbeidsmiljøet",
@@ -3358,7 +3358,8 @@
           }
         ],
         "finalTitle": "Tips ledelsen, eller start selv",
-        "finalBody": "Er du både leder og verneombud i en liten virksomhet? Start med organisasjonsnummeret – dere er i gang på tre minutter."
+        "finalBody": "Er du både leder og verneombud i en liten virksomhet? Start med organisasjonsnummeret – dere er i gang på tre minutter.",
+        "signupLabel": "Er du leder? Organisasjonsnummer"
       },
       "smaaBedrifter": {
         "title": "Medarbeiderundersøkelse for små bedrifter | Orgpuls",

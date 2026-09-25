@@ -3269,15 +3269,15 @@
       },
       "verneombud": {
         "title": "Safety representatives and work environment mapping | Orgpuls",
-        "description": "As a safety representative you shall be consulted on the working environment. In Orgpuls you see the same figures as management and follow the measures – at no extra cost.",
+        "description": "As a safety representative you shall be consulted on the mapping. In Orgpuls you see the same figures as management, at no extra cost. 30 days free.",
         "crumb": "For safety representatives",
         "card": {
           "title": "Safety representatives",
           "text": "Access to the mapping and the measures at no extra cost – and a ready e-mail you can send to management."
         },
         "kicker": "Working Environment Act § 6-2",
-        "h1": "As safety representative you see the same figures as management",
-        "lead": "You shall be consulted when the organisation maps the working environment and puts measures in place. For that you need access to the same basis as management – not a summary afterwards.",
+        "h1": "Safety representatives in the mapping: you see the same figures as management",
+        "lead": "As a safety representative you shall be consulted when the organisation maps the working environment and puts measures in place. For that you need access to the same basis as management – not a summary afterwards.",
         "tip": {
           "label": "Tip your manager",
           "subject": "Mapping the working environment",
@@ -3358,7 +3358,8 @@
           }
         ],
         "finalTitle": "Tip management, or start yourself",
-        "finalBody": "Both manager and safety representative in a small organisation? Start with the organisation number – you are up and running in three minutes."
+        "finalBody": "Both manager and safety representative in a small organisation? Start with the organisation number – you are up and running in three minutes.",
+        "signupLabel": "Are you a manager? Organisation number"
       },
       "smaaBedrifter": {
         "title": "Employee survey for small businesses | Orgpuls",
