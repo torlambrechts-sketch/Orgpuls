@@ -1794,7 +1794,7 @@
     "footerContact": "Kontakt",
     "kicker": "Arbeidsmiljø og medarbeiderundersøkelser",
     "headline": "Fra én medarbeider­undersøkelse i året til oppfølging hele året",
-    "lead": "Orgpuls er en medarbeiderundersøkelse som viser hva som gir folk energi og hva som tapper den, og gjør funnene om til tiltak med eier og frist. Neste måling viser om de virket.",
+    "lead": "Orgpuls er en medarbeiderundersøkelse som viser hva som gir folk energi og hva som tapper den, og gjør funnene om til tiltak med eier og frist. Neste måling viser om de virket. Kravene i arbeidsmiljøloven dekkes underveis.",
     "ctaFree": "Kom i gang gratis",
     "ctaHow": "Se hvordan det virker",
     "ctaHaveAccount": "Jeg har konto — logg inn",
@@ -3110,9 +3110,7 @@
       "nextLink": "Mer om dette: {page} →",
       "priceFrom": "Fra 265 kr/mnd eks. mva",
       "anonymity": "Ingen avdeling vises før minst fem har svart.",
-      "related": "Relaterte sider",
-      "faqLead": "Står ikke spørsmålet ditt her, kan du [skrive til oss](/kontakt).",
-      "articlesTitle": "Artikler om temaet"
+      "related": "Relaterte sider"
     },
     "home": {
       "title": "Medarbeiderundersøkelse og arbeidsmiljøkartlegging | Orgpuls",
@@ -3128,6 +3126,14 @@
           "title": "Oversikten sier det med ord",
           "body": "Lederen ser først en setning om hva som løfter og hva som trekker ned, og så alle de elleve faktorene på én skala fra 0 til 100. Under 50 bør dere gjøre noe med."
         },
+        "varmekart": {
+          "title": "Varmekart per avdeling",
+          "body": "Faktorene mot avdelingene. Trykk på en celle for å se påstandene bak og forslag til tiltak. En avdeling som ikke kan vises uten å avsløre noen, får en strek."
+        },
+        "tiltak": {
+          "title": "Fra funn til effekt",
+          "body": "Tiltakene ligger på en tavle med eier og frist. Et tiltak lukkes ikke før en ny måling har vist om det virket."
+        },
         "sporsmal": {
           "title": "Rundt fire minutter på mobilen",
           "body": "De ansatte svarer fra lenken de får, uten å logge inn. Én påstand om gangen, på en femdelt skala, og et frivillig felt for den som vil si mer."
@@ -3136,7 +3142,11 @@
           "title": "Årshjulet går av seg selv",
           "body": "Én grunnlinje i året og korte pulser imellom. Målingene går ut på datoene dere har satt, og verneombudet får beskjed før de ansatte."
         },
-        "more": "Se hele plattformen"
+        "more": "Se hele plattformen",
+        "samtaler": {
+          "title": "Svar uten å vite hvem",
+          "body": "Kommentarene samles per tema. Lederen svarer anonymt, og kan be om direkte kontakt, men bare den ansatte kan velge å si hvem de er."
+        }
       }
     },
     "forWho": {
@@ -3162,7 +3172,7 @@
         },
         "kicker": "Arbeidsmiljøloven § 3-1 og § 4-3",
         "h1": "Kartlegging av psykososialt arbeidsmiljø – uten et eget prosjekt",
-        "lead": "Arbeidsmiljøloven krever at dere kartlegger det psykososiale arbeidsmiljøet, vurderer risikoen, setter tiltak og følger opp. Orgpuls gjør hvert steg til en del av jobben dere uansett gjør.",
+        "lead": "Arbeidsmiljøloven krever at dere kartlegger det psykososiale arbeidsmiljøet, vurderer risikoen, setter tiltak og følger opp. Fra 1. januar 2026 sier forskriften tydeligere hvordan. Orgpuls gjør hvert steg til en del av jobben dere uansett gjør.",
         "blocks": [
           {
             "t": "h2",
@@ -3213,10 +3223,6 @@
           {
             "t": "h2",
             "text": "Slik ser et år ut"
-          },
-          {
-            "t": "shot",
-            "id": "arshjul"
           },
           {
             "t": "cards",
@@ -3331,10 +3337,6 @@
           {
             "t": "p",
             "text": "Når en liten avdeling ikke vises, er det ikke fordi noe skjules for deg. Tallet er ikke regnet ut for noen. Svarene teller likevel med i helheten, så ingen stemmer går tapt. Les mer om [hva anonymt betyr i en medarbeiderundersøkelse](/artikler/anonym-medarbeiderundersokelse)."
-          },
-          {
-            "t": "shot",
-            "id": "varmekart"
           }
         ],
         "faq": [
@@ -3369,7 +3371,7 @@
         },
         "kicker": "For virksomheter med 5–25 ansatte",
         "h1": "Medarbeider­undersøkelse for små bedrifter – satt opp på under en time",
-        "lead": "Små bedrifter har sjelden en HR-avdeling, men de samme lovkravene som store. Orgpuls er en medarbeiderundersøkelse som tar seg av utsending, påminnelser og dokumentasjon.",
+        "lead": "Små bedrifter har sjelden en HR-avdeling, men de har de samme lovkravene som store virksomheter. Orgpuls er en medarbeiderundersøkelse som tar seg av utsending, påminnelser og dokumentasjon, så dere kan bruke tiden på det som kommer fram.",
         "blocks": [
           {
             "t": "h2",
@@ -3382,10 +3384,6 @@
           {
             "t": "p",
             "text": "Svaret lagres uten navn, e-postadresse eller IP-adresse. Det finnes ingen kolonne som kunne koblet et svar til en person."
-          },
-          {
-            "t": "shot",
-            "id": "varmekart"
           },
           {
             "t": "h2",
@@ -3423,10 +3421,6 @@
           {
             "t": "p",
             "text": "Undersøkelsen sendes på e-post eller SMS, og kan også deles som lenke eller QR-kode på pauserommet. Alle svarer på mobilen, på norsk. De ansatte kan limes inn fra et regneark – dere trenger ikke et HR-system."
-          },
-          {
-            "t": "shot",
-            "id": "sporsmal"
           },
           {
             "t": "h2",
@@ -3477,8 +3471,8 @@
           "text": "Utsending på SMS til folk på prosjekt og verksted, og resultat per avdeling."
         },
         "kicker": "Bygg, anlegg og verksted",
-        "h1": "Arbeidsmiljø­undersøkelse for bygg og anlegg",
-        "lead": "En arbeidsmiljøundersøkelse som når folk på prosjekt, rigg og verksted. I bygg og anlegg sitter mange ikke ved en PC, så Orgpuls sender den på SMS, og alle svarer på mobilen på rundt fire minutter.",
+        "h1": "Arbeidsmiljø­undersøkelse for bygg og anlegg – som når folk på prosjekt, rigg og verksted",
+        "lead": "I bygg og anlegg sitter mange av de ansatte ikke ved en PC, og e-posten blir liggende. Orgpuls sender arbeidsmiljøundersøkelsen på SMS, og alle svarer på mobilen på rundt fire minutter.",
         "blocks": [
           {
             "t": "h2",
@@ -3487,10 +3481,6 @@
           {
             "t": "p",
             "text": "I virksomheter der folk jobber ute, er kanalen den største enkeltfaktoren for svarprosenten. En SMS eller en QR-kode i brakka flytter mer enn noen formulering i invitasjonen. Orgpuls sender én påminnelse til dem som ikke har svart – fra systemet, ikke fra lederen – og ingen får vite hvem som mangler."
-          },
-          {
-            "t": "shot",
-            "id": "sporsmal"
           },
           {
             "t": "h2",

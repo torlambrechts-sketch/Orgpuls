@@ -222,9 +222,6 @@ jobs:
           node scripts/verify/mobile.mjs --signin --out artifacts/mobile \
             /innsikt /malinger /kommentarer /tiltak /oppsett /resultater "/malinger?fane=arshjul" \
             /hjelp /integrasjoner /rapport /maleoppsett
-          # the landing pages use the width of the screen, and the hero is above the fold
-          # (docs/landingsside-gjennomgang.md 4.7)
-          npx playwright test tests/landing-layout.spec.ts
           if grep -E '\[(read|write|org|middleware)\] ' smoke.log; then
             echo "::error::a screen logged a failed read or write -- see the lines above"
             exit 1

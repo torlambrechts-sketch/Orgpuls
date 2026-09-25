@@ -25,10 +25,10 @@ Språk: norsk bokmål. Stack: Next.js (App Router), TypeScript, Tailwind, shadcn
 
 1. **Kartlegg.** List hver side: route, `metadata`, H1–H3, CTA-er, bilder, interne lenker, JSON-LD.
 2. **Ta skjermbilder** med Playwright i 375, 768 og 1440 px bredde, lys og mørk modus, før endringer.
-3. **Vurder** hver side mot sjekklistene i punkt 3–7. Noter funn i rapporten (punkt 9).
+3. **Vurder** hver side mot sjekklistene i punkt 3–6. Noter funn i rapporten (punkt 8).
 4. **Rett** funnene. Én commit per side, meldingen starter med `landing(<side>):`.
 5. **Ta nye skjermbilder** og sammenlign med før-bildene.
-6. **Kjør verifisering** (punkt 8). Siden er ferdig først når alle mål er nådd.
+6. **Kjør verifisering** (punkt 7). Siden er ferdig først når alle mål er nådd.
 
 ---
 
@@ -73,139 +73,7 @@ Språk: norsk bokmål. Stack: Next.js (App Router), TypeScript, Tailwind, shadcn
 
 ---
 
-## 4. Layout og plassutnyttelse
-
-Landingssidene skal bruke skjermen. Den vanligste feilen er smale, sentrerte kolonner og små kort med store tomrom rundt på desktop. Reglene under gjør plassbruken målbar, og testen i 4.7 stopper sider som ikke følger dem.
-
-Grunnlaget er etablert praksis: 12-kolonners grid, 8-punkts avstandssystem, F-mønster for lesing (Nielsen Norman Group) og 60-30-10-regelen for farger.
-
-### 4.1 Grid og bredde
-
-| Element | Regel | Tailwind |
-| --- | --- | --- |
-| Innholdscontainer | Maks 1280 px, sidemarg 24 px mobil / 32 px tablet / 48 px desktop | `max-w-7xl mx-auto px-6 md:px-8 lg:px-12` |
-| Seksjonsbakgrunn | Alltid full bredde (full-bleed), innholdet i container | `<section class="w-full">` + container inni |
-| Grid | 12 kolonner fra `lg`, 24–32 px gutter | `grid grid-cols-12 gap-6 lg:gap-8` |
-| Brødtekst | 60–75 tegn per linje – begrens *tekstblokken*, ikke seksjonen | `max-w-prose` på `<p>`, ikke på seksjonen |
-
-**Hovedregel:** Smal tekst er riktig, smal *seksjon* er feil. En tekstkolonne på 7 av 12 kolonner skal ha bilde, eksempel eller tall i de resterende 5 – ikke tomrom.
-
-### 4.2 Seksjonsmønstre
-
-| Seksjon | Desktop-layout (12 kol.) | Mobil |
-| --- | --- | --- |
-| Hero | Tekst + orgnr.-felt 6–7 kol. venstre, produktbilde 5–6 kol. høyre. Bildet kan gå ut over containerkanten | Tekst først, bilde under |
-| Slik virker det (4 steg) | 4 × 3 kol. over hele containeren | Stablet, nummerert |
-| Differensiering / funksjon | Vekslende 6/6 – tekst og produktutsnitt bytter side per rad | Tekst, så bilde |
-| Lovkrav (§-liste) | Overskrift 4 kol. venstre, liste 8 kol. høyre | Stablet |
-| Pris | 3 × 4 kol., anbefalt pakke visuelt fremhevet | Stablet, anbefalt først |
-| FAQ | Overskrift + kort ingress 4 kol., spørsmål 8 kol. – ikke én smal sentrert kolonne | Stablet |
-| Avsluttende CTA | Full-bleed bakgrunn i aksentflate, innhold 8 kol. | Full bredde |
-
-- [ ] Venstrejustert tekst som standard. Sentrering bare for korte blokker (avsluttende CTA, én setning).
-- [ ] Kort i rader fyller hele containerbredden. Tre kort = 3 × 4 kolonner, aldri tre smale kort midt på siden.
-- [ ] Ingen seksjon består bare av en sentrert tekstblokk på desktop.
-
-### 4.3 Høyde og rytme
-
-| Element | Regel |
-| --- | --- |
-| Hero, desktop | `min-h-[70svh]`–`min-h-[85svh]`; H1, orgnr.-felt og produktbilde synlig uten scroll på 1440 × 900 |
-| Hero, mobil | H1 + knapp innenfor første 600 px |
-| Vertikal seksjonsavstand | 96–128 px desktop, 64–80 px mobil (`py-24 lg:py-32` / `py-16`) |
-| Avstandsskala | Kun multipler av 8 px (4 px for finjustering) |
-| Seksjonsrytme | Veksle bakgrunn (base / flate) mellom seksjoner så sideoppbygningen leses uten rammer |
-
-### 4.4 Bilder
-
-- [ ] Hero-bildet er et ekte produktskjermbilde (rapport, puls, tiltak) – ikke illustrasjon eller stockfoto.
-- [ ] Hero-bildet dekker minst 40 % av viewport-bredden på desktop.
-- [ ] Produktbilder vises stort nok til at tall og tekst kan leses: minimum 560 px bredt på desktop.
-- [ ] Faste formater: 16:10 for skjermbilder, 4:5 for mobilskjermer, 1200 × 630 for OG-bilde.
-- [ ] Levert i 2× oppløsning, WebP/AVIF via `next/image`, med `sizes` satt riktig per breakpoint.
-- [ ] Beskjæringer: vis det relevante utsnittet (f.eks. «Gjør disse tre») i stedet for hele dashbordet i små størrelser.
-
-### 4.5 Typografisk skala
-
-| Nivå | Størrelse | Tailwind |
-| --- | --- | --- |
-| H1 | 40 px mobil → 64–72 px desktop | `text-4xl lg:text-7xl` eller `clamp(2.5rem, 5vw, 4.5rem)` |
-| H2 | 32 → 44–48 px | `text-3xl lg:text-5xl` |
-| H3 | 20 → 24 px | `text-xl lg:text-2xl` |
-| Ingress | 18 → 20–22 px | `text-lg lg:text-xl` |
-| Brødtekst | 17–18 px, linjehøyde 1,6 | `text-[17px] lg:text-lg leading-relaxed` |
-
-Store overskrifter tar naturlig plass – de er en del av løsningen på tomme flater, ikke pynt.
-
-### 4.6 Farger (60-30-10)
-
-| Andel | Rolle | Bruk |
-| --- | --- | --- |
-| 60 % | Base | Sidebakgrunn, det meste av flaten |
-| 30 % | Flate / sekundær | Vekslende seksjonsbakgrunner, produktrammer, pris-kort |
-| 10 % | Aksent | Kun primær-CTA, anbefalt pakke og nøkkeltall i eksempelet |
-
-- [ ] Primærknappen er det eneste elementet med full aksentfarge i hero.
-- [ ] Statusfarger (grønn / gul / rød for forsvarlig / følges opp / høy risiko) brukes bare i produktbilder og eksempler – aldri som dekor.
-- [ ] Alle farger er tokens med lys og mørk variant.
-- [ ] Kontrast som i punkt 3 (4.5:1 tekst, 3:1 UI).
-
-### 4.7 Automatisk layouttest
-
-Legg til `tests/landing-layout.spec.ts`. Testen feiler hvis en seksjon ikke utnytter bredden på desktop.
-
-```ts
-import { test, expect } from "@playwright/test";
-
-const pages = ["/", "/lovkrav", "/verneombud", "/smaa-bedrifter", "/bygg-og-anlegg"];
-
-for (const path of pages) {
-  test(`layout ${path} @1440`, async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto(path);
-
-    // 1. Ingen horisontal scroll
-    const overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth > window.innerWidth
-    );
-    expect(overflow, "horisontal scroll").toBe(false);
-
-    // 2. Innholdet i hver seksjon spenner minst 75 % av containerbredden (1280 - 2*48)
-    const MIN = (1280 - 96) * 0.75;
-    const widths = await page.$$eval("main > section", (sections) =>
-      sections.map((s) => {
-        const kids = Array.from(s.querySelectorAll("*")).filter((el) => {
-          const r = el.getBoundingClientRect();
-          return r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== "hidden";
-        });
-        const left = Math.min(...kids.map((k) => k.getBoundingClientRect().left));
-        const right = Math.max(...kids.map((k) => k.getBoundingClientRect().right));
-        return { id: s.id || s.className.slice(0, 40), span: right - left };
-      })
-    );
-    for (const w of widths) {
-      expect(w.span, `seksjon ${w.id} bruker for lite bredde`).toBeGreaterThanOrEqual(MIN);
-    }
-
-    // 3. Hero: H1, orgnr.-felt og produktbilde over folden
-    for (const sel of ["h1", "[data-testid=orgnr-input]", "[data-testid=hero-image]"]) {
-      const box = await page.locator(sel).first().boundingBox();
-      expect(box, `${sel} mangler`).not.toBeNull();
-      expect(box!.y + box!.height, `${sel} under folden`).toBeLessThanOrEqual(900);
-    }
-
-    // 4. Hero-bildet dekker minst 40 % av bredden
-    const img = await page.locator("[data-testid=hero-image]").boundingBox();
-    expect(img!.width).toBeGreaterThanOrEqual(1440 * 0.4);
-  });
-}
-```
-
-Unntak (f.eks. en bevisst smal sitatseksjon) markeres med `data-layout="narrow"` på `<section>` og filtreres ut i testen – med begrunnelse i rapporten.
-
----
-
-## 5. SEO – innhold
+## 4. SEO – innhold
 
 - [ ] **Title** ≤ 60 tegn, hovedsøkeordet først, «| Orgpuls» til slutt.
 - [ ] **Meta description** 120–155 tegn, inneholder søkeordet og et konkret tilbud (30 dager gratis).
@@ -220,7 +88,7 @@ Unntak (f.eks. en bevisst smal sitatseksjon) markeres med `data-layout="narrow"`
 
 ---
 
-## 6. SEO – teknisk (Next.js)
+## 5. SEO – teknisk (Next.js)
 
 - [ ] `export const metadata` eller `generateMetadata` per route med `title`, `description`, `alternates.canonical`.
 - [ ] `openGraph` og `twitter` med tittel, beskrivelse og bilde 1200 × 630 per side (`opengraph-image.tsx` eller statisk fil).
@@ -238,7 +106,7 @@ Unntak (f.eks. en bevisst smal sitatseksjon) markeres med `data-layout="narrow"`
 
 ---
 
-## 7. Ytelse
+## 6. Ytelse
 
 | Mål | Krav |
 | --- | --- |
@@ -255,16 +123,13 @@ Unntak (f.eks. en bevisst smal sitatseksjon) markeres med `data-layout="narrow"`
 
 ---
 
-## 8. Verifisering
+## 7. Verifisering
 
 Kjør før siden regnes som ferdig:
 
 ```bash
 # Skjermbilder før/etter
 npx playwright test tests/landing-screenshots.spec.ts
-
-# Plassutnyttelse og hero over folden
-npx playwright test tests/landing-layout.spec.ts
 
 # Lighthouse (mobil) for hver side
 npx lhci autorun --collect.url=http://localhost:3000/lovkrav
@@ -284,7 +149,7 @@ Sjekk i tillegg manuelt:
 
 ---
 
-## 9. Rapport
+## 8. Rapport
 
 Lever én rapport per gjennomgang i `docs/reviews/landing-<dato>.md`:
 
@@ -296,7 +161,6 @@ Lever én rapport per gjennomgang i `docs/reviews/landing-<dato>.md`:
 | Område | Funn | Rettet |
 | --- | --- | --- |
 | Visuelt | Orgnr.-felt under folden på 375 px | Ja |
-| Layout | FAQ i smal sentrert kolonne (58 % bredde) → 4/8-split | Ja |
 | SEO | Title 68 tegn | Ja |
 | Ytelse | LCP 3,1 s (hero-bilde uten priority) | Ja |
 
@@ -307,7 +171,7 @@ Lever én rapport per gjennomgang i `docs/reviews/landing-<dato>.md`:
 
 ---
 
-## 10. Regler
+## 9. Regler
 
 - Endre ikke betydningen av tekst. Språkvask og kortere formuleringer er greit; nye påstander om funksjoner, lovkrav eller kunder er det ikke. Er noe uklart, list det under «Åpne spørsmål».
 - Ingen fiktive kundesitater, logoer, tall eller sertifiseringer.

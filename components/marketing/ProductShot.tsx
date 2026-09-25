@@ -8,59 +8,56 @@ import { SHOTS } from '@/lib/marketing/shots'
  * design fixture's organisation. The caption names that organisation, as the start page's
  * hero card does (D-37), so it cannot be read as anyone's own figures.
  *
- * A desktop screen is 16:10 and sits in a browser window, the frame the hero card already
- * draws. The questionnaire is 4:5 and sits in a phone, since that is where employees answer
- * it (docs/landingsside-gjennomgang.md 4.4). Both fill the column they are given, which the
- * page keeps at 560 px or more on a desktop so the figures can be read.
- *
- * `bleed` lets the hero's picture run past the container to the window's edge (4.2).
+ * A desktop screen sits in a browser window, the frame the hero card already draws; the
+ * questionnaire sits in a phone, since that is where employees answer it. Neither is
+ * wider than the picture was captured, so it is never scaled up.
  */
 export async function ProductShot({
   id,
   priority = false,
-  bleed = false,
-  testId,
   className = '',
 }: {
   id: ShotId
   priority?: boolean
-  bleed?: boolean
-  testId?: string
   className?: string
 }) {
   const t = await getTranslations()
   const { img, frame } = SHOTS[id]
   const caption = t('seo.shots.caption', { screen: t(`seo.shots.${id}.screen`) })
-  const alt = t(`seo.shots.${id}.alt`)
+  const width = Math.round(img.width / 2)
 
   if (frame === 'phone') {
     return (
-      <figure data-testid={testId} className={`m-0 w-full max-w-[36rem] ${className}`}>
-        <div className="overflow-hidden rounded-device border-8 border-ink bg-ink shadow-phone">
-          <Image src={img} alt={alt} sizes="(min-width: 640px) 576px, 100vw" priority={priority} className="block h-auto w-full rounded-screen" />
+      <figure className={`m-0 w-full max-w-[290px] ${className}`}>
+        <div className="overflow-hidden rounded-[34px] border-[7px] border-ink bg-ink shadow-[0_18px_40px_-24px_rgba(25,21,16,.45)]">
+          <Image
+            src={img}
+            alt={t(`seo.shots.${id}.alt`)}
+            sizes="290px"
+            priority={priority}
+            className="block h-auto w-full rounded-[27px]"
+          />
         </div>
-        <figcaption className="mt-3 text-center text-mk-small text-mut">{caption}</figcaption>
+        <figcaption className="mt-[10px] text-center text-[11.5px] text-mut">{caption}</figcaption>
       </figure>
     )
   }
 
   return (
     <figure
-      data-testid={testId}
-      className={`m-0 w-full overflow-hidden rounded-frame border border-line bg-sf shadow-shot ${
-        bleed ? 'lg:w-[calc(100%+3rem+max(0px,(100vw-80rem)/2))] lg:max-w-none lg:rounded-r-none lg:border-r-0' : ''
-      } ${className}`}
+      className={`m-0 w-full overflow-hidden rounded-[22px] border border-line bg-sf shadow-[0_18px_40px_-28px_rgba(25,21,16,.35)] ${className}`}
+      style={{ maxWidth: width }}
     >
-      <figcaption className="flex items-center gap-2 border-b border-line px-4 py-3">
-        <span aria-hidden="true" className="block h-2 w-2 flex-none rounded-pill bg-line" />
-        <span aria-hidden="true" className="block h-2 w-2 flex-none rounded-pill bg-line" />
-        <span aria-hidden="true" className="block h-2 w-2 flex-none rounded-pill bg-line" />
-        <span className="ml-2 min-w-0 truncate text-mk-small text-mut">{caption}</span>
+      <figcaption className="flex items-center gap-[8px] border-b border-line px-[18px] py-[11px]">
+        <span aria-hidden="true" className="block h-[9px] w-[9px] flex-none rounded-pill bg-line" />
+        <span aria-hidden="true" className="block h-[9px] w-[9px] flex-none rounded-pill bg-line" />
+        <span aria-hidden="true" className="block h-[9px] w-[9px] flex-none rounded-pill bg-line" />
+        <span className="ml-[6px] min-w-0 truncate text-[11.5px] text-mut">{caption}</span>
       </figcaption>
       <Image
         src={img}
-        alt={alt}
-        sizes={bleed ? '(min-width: 1024px) 45vw, 100vw' : '(min-width: 1024px) 50vw, 100vw'}
+        alt={t(`seo.shots.${id}.alt`)}
+        sizes={`(max-width: ${width + 60}px) 100vw, ${width}px`}
         priority={priority}
         className="block h-auto w-full"
       />

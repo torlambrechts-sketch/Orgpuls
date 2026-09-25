@@ -93,17 +93,16 @@ export const LANDING_ARTICLES: Record<LandingSlug, [string, string]> = {
 }
 
 /**
- * The picture of the product each landing page shows beside its hero (D-85, D-86): the
- * screen that answers that reader's question — the report for the legal requirement, the
- * measures board the safety representative follows, the heatmap that sets project against
- * workshop. A desktop screen, 16:10, since the hero's picture is at least 40 % of the width;
- * the questionnaire on a phone appears further down the page.
+ * The picture of the product each landing page shows beside its hero (D-85): the screen
+ * that answers that reader's question — the report for the legal requirement, the heatmap
+ * for the safety representative who sees the same numbers, the questionnaire on a phone for
+ * people on site.
  */
 export const LANDING_HERO: Record<LandingSlug, ShotId> = {
   lovkrav: 'rapport',
-  verneombud: 'tiltak',
+  verneombud: 'varmekart',
   'smaa-bedrifter': 'oversikt',
-  'bygg-og-anlegg': 'varmekart',
+  'bygg-og-anlegg': 'sporsmal',
   'helse-og-omsorg': 'samtaler',
 }
 

@@ -1794,7 +1794,7 @@
     "footerContact": "Contact",
     "kicker": "Work environment and employee surveys",
     "headline": "From one employee survey a year to following up all year",
-    "lead": "Orgpuls is an employee survey that shows what gives people energy and what drains it, and turns the findings into measures with an owner and a deadline. The next measurement shows whether they worked.",
+    "lead": "Orgpuls is an employee survey that shows what gives people energy and what drains it, and turns the findings into measures with an owner and a deadline. The next measurement shows whether they worked. The Working Environment Act's requirements are covered along the way.",
     "ctaFree": "Get started free",
     "ctaHow": "See how it works",
     "ctaHaveAccount": "I have an account — sign in",
@@ -3110,9 +3110,7 @@
       "nextLink": "More on this: {page} →",
       "priceFrom": "From NOK 265/month excl. VAT",
       "anonymity": "No department is shown until at least five have answered.",
-      "related": "Related pages",
-      "faqLead": "If your question is not here, you can [write to us](/kontakt).",
-      "articlesTitle": "Articles on the subject"
+      "related": "Related pages"
     },
     "home": {
       "title": "Employee survey and work environment mapping | Orgpuls",
@@ -3128,6 +3126,14 @@
           "title": "The overview says it in words",
           "body": "A manager first reads one sentence on what lifts and what drags, then all eleven factors on one scale from 0 to 100. Under 50 is where you should act."
         },
+        "varmekart": {
+          "title": "A heatmap by department",
+          "body": "The factors against the departments. Tap a cell to see the statements behind it and suggested measures. A department that cannot be shown without revealing someone gets a dash."
+        },
+        "tiltak": {
+          "title": "From finding to effect",
+          "body": "Measures sit on a board with an owner and a deadline. A measure is not closed until a new survey has shown whether it worked."
+        },
         "sporsmal": {
           "title": "About four minutes on a phone",
           "body": "Employees answer from the link they receive, without signing in. One statement at a time, on a five-point scale, and an optional field for anyone who wants to say more."
@@ -3136,7 +3142,11 @@
           "title": "The annual cycle runs itself",
           "body": "One baseline a year and short pulses in between. Surveys go out on the dates you set, and the safety representative is told before the employees."
         },
-        "more": "See the whole platform"
+        "more": "See the whole platform",
+        "samtaler": {
+          "title": "Reply without knowing who",
+          "body": "Comments are gathered by theme. A manager replies anonymously and can ask for direct contact, but only the employee can choose to say who they are."
+        }
       }
     },
     "forWho": {
@@ -3162,7 +3172,7 @@
         },
         "kicker": "Working Environment Act § 3-1 and § 4-3",
         "h1": "Mapping the psychosocial working environment – without a separate project",
-        "lead": "The Working Environment Act requires you to map the psychosocial working environment, assess the risk, put measures in place and follow up. Orgpuls makes each step part of work you do anyway.",
+        "lead": "The Working Environment Act requires you to map the psychosocial working environment, assess the risk, put measures in place and follow up. Since 1 January 2026 the regulation says more clearly how. Orgpuls makes each step part of work you do anyway.",
         "blocks": [
           {
             "t": "h2",
@@ -3213,10 +3223,6 @@
           {
             "t": "h2",
             "text": "What a year looks like"
-          },
-          {
-            "t": "shot",
-            "id": "arshjul"
           },
           {
             "t": "cards",
@@ -3331,10 +3337,6 @@
           {
             "t": "p",
             "text": "When a small department is not shown, nothing is being hidden from you. The figure is not calculated for anyone. The answers still count in the whole, so no voice is lost. Read more about [what anonymous means in an employee survey](/artikler/anonym-medarbeiderundersokelse)."
-          },
-          {
-            "t": "shot",
-            "id": "varmekart"
           }
         ],
         "faq": [
@@ -3369,7 +3371,7 @@
         },
         "kicker": "For organisations with 5–25 employees",
         "h1": "Medarbeider­undersøkelse for små bedrifter – satt opp på under en time",
-        "lead": "Small businesses rarely have an HR department, but they have the same legal requirements as large ones. Orgpuls is an employee survey that handles sending, reminders and documentation.",
+        "lead": "Small businesses rarely have an HR department, but they have the same legal requirements as large organisations. Orgpuls is an employee survey that handles sending, reminders and documentation, so you can spend the time on what comes out of it.",
         "blocks": [
           {
             "t": "h2",
@@ -3382,10 +3384,6 @@
           {
             "t": "p",
             "text": "The answer is stored without name, e-mail address or IP address. There is no column that could link an answer to a person."
-          },
-          {
-            "t": "shot",
-            "id": "varmekart"
           },
           {
             "t": "h2",
@@ -3423,10 +3421,6 @@
           {
             "t": "p",
             "text": "The survey is sent by e-mail or SMS, and can also be shared as a link or a QR code in the break room. Everyone answers on their phone, in Norwegian. Employees can be pasted in from a spreadsheet – you do not need an HR system."
-          },
-          {
-            "t": "shot",
-            "id": "sporsmal"
           },
           {
             "t": "h2",
@@ -3477,8 +3471,8 @@
           "text": "Sent by SMS to people on site and in the workshop, with results per department."
         },
         "kicker": "Construction, civil works and workshops",
-        "h1": "A work environment survey for construction",
-        "lead": "A work environment survey that reaches people on site, rig and workshop. In construction many do not sit at a PC, so Orgpuls sends it by SMS, and everyone answers on their phone in about four minutes.",
+        "h1": "A work environment survey for construction – reaching people on site, rig and workshop",
+        "lead": "In construction many employees do not sit at a PC, and the e-mail goes unread. Orgpuls sends the work environment survey by SMS, and everyone answers on their phone in about four minutes.",
         "blocks": [
           {
             "t": "h2",
@@ -3487,10 +3481,6 @@
           {
             "t": "p",
             "text": "Where people work outdoors, the channel is the biggest single factor in the response rate. An SMS or a QR code in the site hut moves more than any wording in the invitation. Orgpuls sends one reminder to those who have not answered – from the system, not the manager – and nobody learns who is missing."
-          },
-          {
-            "t": "shot",
-            "id": "sporsmal"
           },
           {
             "t": "h2",

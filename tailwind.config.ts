@@ -62,23 +62,6 @@ const config: Config = {
       fontSize: {
         // the bundle's base is 14px, not Tailwind's 16px
         base: ['14px', '1.5'],
-        /**
-         * The public site's type scale (docs/landingsside-gjennomgang.md 4.5, D-86), from a
-         * phone to 1440 px. Headings in the bundle's display face, text in its sans; only the
-         * sizes are the guide's. `mk-` so nothing in the application picks them up.
-         */
-        'mk-h1': ['clamp(2.5rem, 4.45vw, 4rem)', { lineHeight: '1.06', letterSpacing: '-0.01em' }], // 40 → 64
-        'mk-h2': ['clamp(2rem, 3.2vw, 2.875rem)', { lineHeight: '1.12' }], // 32 → 46
-        'mk-h3': ['clamp(1.25rem, 1.67vw, 1.5rem)', { lineHeight: '1.3' }], // 20 → 24
-        'mk-lead': ['clamp(1.125rem, 1.39vw, 1.25rem)', { lineHeight: '1.6' }], // 18 → 20
-        'mk-body': ['clamp(1.0625rem, 1.25vw, 1.125rem)', { lineHeight: '1.65' }], // 17 → 18
-        'mk-card': ['1rem', { lineHeight: '1.6' }], // 16: a card's sentence
-        'mk-small': ['0.875rem', { lineHeight: '1.55' }], // 14: captions, notes, labels
-      },
-      boxShadow: {
-        // the hero card's lift (Orgpuls_Start.dc.html), used by every picture of the product
-        shot: '0 18px 40px -28px rgba(25, 21, 16, 0.35)',
-        phone: '0 18px 40px -24px rgba(25, 21, 16, 0.45)',
       },
       /**
        * Orgpuls does NOT have a single corner radius. It has a scale, and which value
@@ -109,11 +92,6 @@ const config: Config = {
         note: '16px',
         panel: '18px',
         card: '20px',
-        // the start page's hero card and final band (Orgpuls_Start.dc.html): 22
-        frame: '22px',
-        // the phone that holds the questionnaire on the public site (D-84)
-        device: '36px',
-        screen: '28px',
         pill: '999px',
       },
       /**
