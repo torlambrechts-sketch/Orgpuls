@@ -3369,7 +3369,7 @@
         },
         "kicker": "For organisations with 5–25 employees",
         "h1": "Medarbeider­undersøkelse for små bedrifter – satt opp på under en time",
-        "lead": "Small businesses rarely have an HR department, but they have the same legal requirements as large organisations. Orgpuls is an employee survey that handles sending, reminders and documentation, so you can spend the time on what comes out of it.",
+        "lead": "Small businesses rarely have an HR department, but they have the same legal requirements as large ones. Orgpuls is an employee survey that handles sending, reminders and documentation.",
         "blocks": [
           {
             "t": "h2",
@@ -3382,6 +3382,10 @@
           {
             "t": "p",
             "text": "The answer is stored without name, e-mail address or IP address. There is no column that could link an answer to a person."
+          },
+          {
+            "t": "shot",
+            "id": "varmekart"
           },
           {
             "t": "h2",
@@ -3419,6 +3423,10 @@
           {
             "t": "p",
             "text": "The survey is sent by e-mail or SMS, and can also be shared as a link or a QR code in the break room. Everyone answers on their phone, in Norwegian. Employees can be pasted in from a spreadsheet – you do not need an HR system."
+          },
+          {
+            "t": "shot",
+            "id": "sporsmal"
           },
           {
             "t": "h2",

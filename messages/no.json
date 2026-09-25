@@ -3369,7 +3369,7 @@
         },
         "kicker": "For virksomheter med 5–25 ansatte",
         "h1": "Medarbeider­undersøkelse for små bedrifter – satt opp på under en time",
-        "lead": "Små bedrifter har sjelden en HR-avdeling, men de har de samme lovkravene som store virksomheter. Orgpuls er en medarbeiderundersøkelse som tar seg av utsending, påminnelser og dokumentasjon, så dere kan bruke tiden på det som kommer fram.",
+        "lead": "Små bedrifter har sjelden en HR-avdeling, men de samme lovkravene som store. Orgpuls er en medarbeiderundersøkelse som tar seg av utsending, påminnelser og dokumentasjon.",
         "blocks": [
           {
             "t": "h2",
@@ -3382,6 +3382,10 @@
           {
             "t": "p",
             "text": "Svaret lagres uten navn, e-postadresse eller IP-adresse. Det finnes ingen kolonne som kunne koblet et svar til en person."
+          },
+          {
+            "t": "shot",
+            "id": "varmekart"
           },
           {
             "t": "h2",
@@ -3419,6 +3423,10 @@
           {
             "t": "p",
             "text": "Undersøkelsen sendes på e-post eller SMS, og kan også deles som lenke eller QR-kode på pauserommet. Alle svarer på mobilen, på norsk. De ansatte kan limes inn fra et regneark – dere trenger ikke et HR-system."
+          },
+          {
+            "t": "shot",
+            "id": "sporsmal"
           },
           {
             "t": "h2",
