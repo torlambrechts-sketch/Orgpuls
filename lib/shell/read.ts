@@ -103,18 +103,29 @@ export const getShellContext = cache(async (): Promise<ShellContext> => {
  */
 export interface Viewer {
   initials: string | null
+  /** the profile's name, for the account menu; null when the profile has none */
+  name: string | null
+  /** the address the account signs in with */
+  email: string | null
   role: Role | null
 }
 
+/**
+ * Who is signed in, for the header's account chip and menu. The profile is read by the
+ * account's own id — the policy allows nothing else, and the filter says so here too.
+ */
 export const getViewer = cache(async (): Promise<Viewer> => {
   const supabase = await createClient()
-  const [{ data, error }, role] = await Promise.all([
-    supabase.schema('app').from('profiles').select('full_name').limit(1).maybeSingle(),
-    getViewerRole(),
-  ])
-  if (callFailed('getViewer', error)) return { initials: null, role }
+  const [{ data: auth }, role] = await Promise.all([supabase.auth.getUser(), getViewerRole()])
+  const user = auth.user
+  if (!user) return { initials: null, name: null, email: null, role }
+
+  const { data, error } = await supabase.schema('app').from('profiles').select('full_name').eq('id', user.id).maybeSingle()
+  const email = user.email ?? null
+  if (callFailed('getViewer', error)) return { initials: null, name: null, email, role }
   const parsed = z.object({ full_name: z.string().nullable() }).nullable().safeParse(data)
-  return { initials: parsed.success ? initialsOf(parsed.data?.full_name) : null, role }
+  const name = parsed.success ? (parsed.data?.full_name?.trim() || null) : null
+  return { initials: initialsOf(name), name, email, role }
 })
 
 /**

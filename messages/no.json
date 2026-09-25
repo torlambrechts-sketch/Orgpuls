@@ -52,7 +52,13 @@
     "modeTitle": "Enkel visning viser bare det du trenger. Full visning har alle analyser.",
     "modeAria": "Visning",
     "modeEnkel": "Enkel",
-    "modeFull": "Full"
+    "modeFull": "Full",
+    "account": {
+      "aria": "Konto: {who}",
+      "ariaPlain": "Konto",
+      "settings": "Oppsett",
+      "signOut": "Logg ut"
+    }
   },
   "role": {
     "daglig_leder": "Daglig leder",

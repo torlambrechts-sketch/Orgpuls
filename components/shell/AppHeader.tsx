@@ -1,9 +1,10 @@
 import { getTranslations } from 'next-intl/server'
+import { AccountMenu } from './AccountMenu'
 import { Logo } from './Logo'
 import { HeaderBar } from './HeaderBar'
 import type { NavEntry } from '@/lib/shell/nav'
 import { getShellContext, getViewer } from '@/lib/shell/read'
-import type { Role } from '@/lib/org/read'
+import { getOrganization, type Role } from '@/lib/org/read'
 
 /**
  * The application header, design 3 (bundle 3, the sticky bar under `topNav`/`sideNav`).
@@ -11,7 +12,8 @@ import type { Role } from '@/lib/org/read'
  * Sticky, z-40, #FFFDF6 on a #E8DFC9 hairline; the inner rail follows the page column
  * (`max-w-page`: 1180px in the top layout, the full width in the side layout) with
  * 11px/28px padding. In the top layout: the brand, the six-screen nav, then the layout
- * toggle, Hjelp, the Enkel/Full switch, the role selector and the account chip. In the side
+ * toggle, Hjelp, the Enkel/Full switch, the role selector and the account chip, which opens
+ * the account menu (AccountMenu, D-80). In the side
  * layout the rail carries the brand, the nav and Hjelp, and the bar carries the screen's
  * title instead.
  *
@@ -24,7 +26,7 @@ import type { Role } from '@/lib/org/read'
  */
 export async function AppHeader({ items, assistantFace }: { items: NavEntry[]; assistantFace: string }) {
   const t = await getTranslations()
-  const [{ lawMode, progress }, viewer] = await Promise.all([getShellContext(), getViewer()])
+  const [{ lawMode, progress }, viewer, org] = await Promise.all([getShellContext(), getViewer(), getOrganization()])
 
   /*
    * The design's selector switches the whole product to another role's view ("Bytt rolle
@@ -61,12 +63,13 @@ export async function AppHeader({ items, assistantFace }: { items: NavEntry[]; a
             </select>
           ) : null}
 
-          <span
-            aria-hidden
-            className="flex h-[32px] w-[32px] flex-none items-center justify-center rounded-pill bg-sbg text-[12px] font-bold"
-          >
-            {viewer.initials}
-          </span>
+          <AccountMenu
+            initials={viewer.initials}
+            name={viewer.name}
+            email={viewer.email}
+            organisation={org?.name ?? null}
+            role={viewer.role ? t(`role.${viewer.role}`) : null}
+          />
         </>
       }
     />

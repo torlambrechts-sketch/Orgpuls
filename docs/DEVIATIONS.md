@@ -3260,3 +3260,39 @@ The hero is unchanged, and so is every section the design draws. What changed:
 - **Browser:** no horizontal overflow at 320, 390, 768 or 1440 px on the 14 public pages,
   and no console errors.
 - **i18n:** parity passes for `no` and `en`.
+
+## D-80 — The account chip opens a menu with "Logg ut"
+
+The design draws the header's account chip, a 32 px round mark with the viewer's
+initials, and nothing behind it. The prototype has no accounts, so it never needed a way
+out. The product has sign-in, and until now had no sign-out anywhere in the application:
+the only one was on the invitation page.
+
+This is the control-substitution case CLAUDE.md allows: the prototype's control cannot
+express a real need. What changed:
+- **The chip is a `<button>`,** drawn exactly as the design draws the mark (same size, fill
+  and type). The v3 pixel run keeps every claimed tile.
+- **It opens a small menu,** built from the header's own materials: surface `sf`, hairline
+  `line`, the panel radius, and rows at the nav button's radius. The menu holds:
+  - who is signed in: name, e-mail, organisation and role;
+  - a link to Oppsett;
+  - "Logg ut".
+- **Nothing the product lacks is offered.** There is no profile page, so there is no
+  profile link.
+- **"Logg ut"** is a form posting to a server action (`app/(app)/account-actions.ts`). It
+  ends this browser's session only (Supabase `local` scope) and lands on /logg-inn. It
+  works before hydration.
+- **Keyboard and dismissal.** Escape and a click outside close the menu, and focus returns
+  to the chip. Opening it moves focus to the first item.
+- **`getViewer` reads the profile by the signed-in user's id.** The policy already allowed
+  only one's own row; the filter now says so too. It also returns the name and e-mail.
+  When a profile has no name, the chip shows the e-mail's first letter instead of an
+  empty circle.
+
+**Checked** (in a browser):
+- opening and closing, focus, and Oppsett;
+- the side layout and 390 px;
+- signing out, after which /innsikt redirects to sign-in;
+- no console errors.
+
+Shell suite 24/24, and the v3 pixel run is unchanged.

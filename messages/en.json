@@ -52,7 +52,13 @@
     "modeTitle": "Simple view shows only what you need. Full view has every analysis.",
     "modeAria": "View",
     "modeEnkel": "Simple",
-    "modeFull": "Full"
+    "modeFull": "Full",
+    "account": {
+      "aria": "Account: {who}",
+      "ariaPlain": "Account",
+      "settings": "Settings",
+      "signOut": "Sign out"
+    }
   },
   "role": {
     "daglig_leder": "Managing director",
