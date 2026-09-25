@@ -3929,3 +3929,27 @@ was deleted afterwards:
 - The dispatcher's next run handed all six queued test replies to Brevo (`tickets: sent 6`).
   They went to `.invalid` test addresses, so they bounce.
 - The test's tickets and admin account were deleted afterwards.
+
+## D-93 — A recommendation for subscriptions and invoices, not yet built
+
+**The request:** "recommend subscription and invoice håndtering".
+
+**The recommendation** is in `docs/BILLING_RECOMMENDATION.md`:
+- **Stripe Billing is the ledger** for card and invoice customers alike.
+- **Invoice customers** get a *send invoice* subscription. The accounting system delivers the
+  invoice as EHF over PEPPOL, or as a PDF when the buyer cannot receive EHF.
+- **Orgpuls keeps a mirror** of plans (as rows, with price versions), subscriptions,
+  invoices and events.
+  - The mirror is written only by a signed webhook.
+  - Access follows the lifecycle: trial, active, past due, suspended (read-only), cancelled,
+    deleted.
+  - The database enforces it, and a running survey is never cut off.
+- **Band upgrades** wait for the customer's confirmation, as decided.
+- **The admin gets** subscriptions, invoices, dunning, credits and coupons through audited
+  `finance` RPCs.
+
+**Nothing of it is built,** because it needs:
+- decisions only the owner can make: the trial length (the specification says 30 days, the
+  product 15), what happens at trial end, the accounting system, and whether to take cards;
+- accounts and keys that do not exist: Stripe, the accounting-system integration, and Orgpuls
+  AS's MVA registration and bank details.

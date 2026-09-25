@@ -2120,3 +2120,6 @@ and user. Migration 0051 builds its core:
 - [ ] Ticketing Phase 2: CSAT, reporting, canned replies editable in the admin, attachments, @mentions, service requests executed from the ticket (D-92).
 - [ ] Norwegian public holidays in the business-hours calendar (D-92).
 - [ ] A help button in the help panel that files a request with the current page (D-92).
+- [x] A recommendation for subscriptions and invoices: Stripe as ledger, EHF through the accounting system, a mirror written by webhook, lifecycle enforced in the database (docs/BILLING_RECOMMENDATION.md, D-93).
+- [ ] Decide: trial 15 or 30 days; trial end (grace, then read-only?); accounting system; card or not; annual prices; payment terms (D-93).
+- [ ] Build the billing plan in docs/BILLING_RECOMMENDATION.md once Stripe and the accounting integration exist (D-93).
