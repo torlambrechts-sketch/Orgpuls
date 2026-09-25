@@ -3331,6 +3331,10 @@
           {
             "t": "p",
             "text": "When a small department is not shown, nothing is being hidden from you. The figure is not calculated for anyone. The answers still count in the whole, so no voice is lost. Read more about [what anonymous means in an employee survey](/artikler/anonym-medarbeiderundersokelse)."
+          },
+          {
+            "t": "shot",
+            "id": "varmekart"
           }
         ],
         "faq": [

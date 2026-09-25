@@ -3331,6 +3331,10 @@
           {
             "t": "p",
             "text": "Når en liten avdeling ikke vises, er det ikke fordi noe skjules for deg. Tallet er ikke regnet ut for noen. Svarene teller likevel med i helheten, så ingen stemmer går tapt. Les mer om [hva anonymt betyr i en medarbeiderundersøkelse](/artikler/anonym-medarbeiderundersokelse)."
+          },
+          {
+            "t": "shot",
+            "id": "varmekart"
           }
         ],
         "faq": [
