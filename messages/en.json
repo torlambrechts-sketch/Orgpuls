@@ -3464,15 +3464,15 @@
       },
       "byggOgAnlegg": {
         "title": "Work environment survey for construction | Orgpuls",
-        "description": "When people are spread across sites, rigs and workshops, the survey has to reach them on their phones. Sent by SMS, anonymous, in Norwegian. 30 days free.",
+        "description": "A work environment survey for construction that reaches people on site, rig and workshop: by SMS, anonymous and in Norwegian. 30 days free.",
         "crumb": "Construction",
         "card": {
           "title": "Construction",
           "text": "Sent by SMS to people on site and in the workshop, with results per department."
         },
         "kicker": "Construction, civil works and workshops",
-        "h1": "A work environment survey that reaches people on site, rig and workshop",
-        "lead": "Many employees do not sit at a PC, and the e-mail goes unread. Orgpuls sends the survey by SMS, and everyone answers on their phone in about four minutes.",
+        "h1": "A work environment survey for construction – reaching people on site, rig and workshop",
+        "lead": "In construction many employees do not sit at a PC, and the e-mail goes unread. Orgpuls sends the work environment survey by SMS, and everyone answers on their phone in about four minutes.",
         "blocks": [
           {
             "t": "h2",

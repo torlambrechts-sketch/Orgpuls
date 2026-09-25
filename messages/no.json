@@ -3464,15 +3464,15 @@
       },
       "byggOgAnlegg": {
         "title": "Arbeidsmiljøundersøkelse for bygg og anlegg | Orgpuls",
-        "description": "Når folk er spredt på prosjekt, rigg og verksted, må målingen nå dem på mobilen. Utsending på SMS, anonymt, på norsk. 30 dager gratis.",
+        "description": "Arbeidsmiljøundersøkelse for bygg og anlegg som når folk på prosjekt, rigg og verksted: på SMS, anonymt og på norsk. 30 dager gratis.",
         "crumb": "Bygg og anlegg",
         "card": {
           "title": "Bygg og anlegg",
           "text": "Utsending på SMS til folk på prosjekt og verksted, og resultat per avdeling."
         },
         "kicker": "Bygg, anlegg og verksted",
-        "h1": "Arbeidsmiljømåling som når folk på prosjekt, rigg og verksted",
-        "lead": "Mange av de ansatte sitter ikke ved en PC, og e-posten blir liggende. Orgpuls sender undersøkelsen på SMS, og alle svarer på mobilen på rundt fire minutter.",
+        "h1": "Arbeidsmiljø­undersøkelse for bygg og anlegg – som når folk på prosjekt, rigg og verksted",
+        "lead": "I bygg og anlegg sitter mange av de ansatte ikke ved en PC, og e-posten blir liggende. Orgpuls sender arbeidsmiljøundersøkelsen på SMS, og alle svarer på mobilen på rundt fire minutter.",
         "blocks": [
           {
             "t": "h2",
