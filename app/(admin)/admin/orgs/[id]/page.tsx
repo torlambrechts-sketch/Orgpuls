@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server'
 import { ExtendTrialForm, NoteForm } from '@/components/admin/ActionForms'
 import { ALink, Badge, Card, day, nok, PageHead, pct, Problem, Table, Td, when, type BadgeTone } from '@/components/admin/ui'
 import { canSee } from '@/lib/admin/access'
-import { auditList, emailLog, isError, orgDetail, whoami } from '@/lib/admin/api'
+import { auditList, emailLog, isError, orgAttribution, orgDetail, whoami } from '@/lib/admin/api'
 
 const TONE: Record<'trial' | 'active' | 'expired', BadgeTone> = { trial: 'yellow', active: 'green', expired: 'red' }
 
@@ -17,7 +17,7 @@ export default async function AdminOrg({ params }: { params: Promise<{ id: strin
   if (!/^[0-9a-f-]{36}$/.test(id)) notFound()
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const who = await whoami()
-  const d = await orgDetail(id)
+  const [d, source] = await Promise.all([orgDetail(id), orgAttribution(id)])
   if (isError(d)) {
     if (d.error === 'not_found') notFound()
     return <Problem text={d.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
@@ -63,6 +63,34 @@ export default async function AdminOrg({ params }: { params: Promise<{ id: strin
             k={t('org.channels')}
             v={`${t('org.mail')} ${o.mail_enabled ? t('org.on') : t('org.off')} · ${t('org.sms')} ${o.sms_enabled ? t('org.on') : t('org.off')}`}
           />
+          {isError(source) ? null : (
+            <div className="mt-[10px]">
+              <h3 className="m-0 mb-[4px] text-[13.5px] font-bold">{t('org.source.title')}</h3>
+              {source.row ? (
+                <>
+                  <Row k={t('org.source.channel')} v={t(`web.channel.${source.row.channel}`)} />
+                  <Row k={t('org.source.landing')} v={source.row.first_landing ?? '—'} />
+                  <Row k={t('org.source.referrer')} v={source.row.first_referrer ?? '—'} />
+                  <Row
+                    k={t('org.source.first')}
+                    v={
+                      [source.row.first_source, source.row.first_medium, source.row.first_campaign].filter(Boolean).join(' / ') ||
+                      '—'
+                    }
+                  />
+                  <Row
+                    k={t('org.source.last')}
+                    v={
+                      [source.row.last_source, source.row.last_medium, source.row.last_campaign].filter(Boolean).join(' / ') ||
+                      '—'
+                    }
+                  />
+                </>
+              ) : (
+                <p className="m-0 text-[13px] text-mut">{t('org.source.none')}</p>
+              )}
+            </div>
+          )}
         </Card>
 
         <Card title={t('org.billing')}>

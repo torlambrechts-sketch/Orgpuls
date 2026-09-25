@@ -1,3 +1,4 @@
+import { countView } from '@/lib/analytics/product'
 import type { Route } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
@@ -52,6 +53,7 @@ export default async function KommentarerPage({
     getViewerRole(),
     getUnansweredCount(),
     getMeasures(),
+    countView('comments_viewed'),
   ])
 
   const name = roundNamer(t, locale)

@@ -11,6 +11,7 @@ import {
   type SignUpState,
 } from '@/app/(marketing)/registrer/actions'
 import { trackEvent } from '@/lib/marketing/events'
+import { currentUtm, firstTouch } from '@/lib/marketing/utm'
 
 /**
  * Sign-up. Orgpuls_Start.dc.html lines 276-434.
@@ -211,6 +212,7 @@ export function SignUpFlow() {
                 data.set('orgNumber', company.orgNumber)
                 data.set('companyName', company.name)
                 data.set('employeeCount', String(SIZES.find((s) => s.key === size)!.count))
+                data.set('attribution', JSON.stringify({ first: firstTouch(), last: currentUtm() }))
                 setCreating(true)
                 startTransition(async () => {
                   const result = await createAccount({ status: 'idle' }, data)

@@ -1,3 +1,4 @@
+import { countView } from '@/lib/analytics/product'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { ResultaterEmpty, ResultaterFrame } from '@/components/resultater/ResultaterFrame'
@@ -86,6 +87,7 @@ export default async function ResultaterPage({
     getConversations(selected.id),
     getMeasures(),
     getUnansweredCount(),
+    countView('results_viewed'),
   ])
 
   const workspace = digest.workspace

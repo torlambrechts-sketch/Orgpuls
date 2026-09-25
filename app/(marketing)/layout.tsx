@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { HeaderNav } from '@/components/site/HeaderNav'
 import { SiteFooter, type FooterData } from '@/components/site/SiteFooter'
-import { UtmKeeper } from '@/components/marketing/UtmKeeper'
+import { SiteBeacon } from '@/components/marketing/SiteBeacon'
 import { DESIGNED_FOOTER, FOOTERS, SITE_NAV_V2, type FooterId } from '@/lib/site/nav'
 
 /**
@@ -75,7 +75,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
       </header>
 
       <main>{children}</main>
-      <UtmKeeper />
+      <SiteBeacon />
 
       <SiteFooter
         columns={columns}

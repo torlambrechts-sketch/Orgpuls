@@ -44,3 +44,51 @@ export function currentUtm(): Utm {
     return {}
   }
 }
+
+/**
+ * The first page of the visit: where the tab landed, the host that sent it and the tags it
+ * carried (D-91). Kept once per tab, beside the tags, so a sign-up later in the visit can be
+ * attributed to its first touch as well as its last. The referrer is a host only; a full
+ * referring URL can carry someone else's query string.
+ */
+const FIRST = 'op_first'
+export type FirstTouch = Utm & { landing?: string; referrer?: string }
+
+export function referrerHost(referrer: string, self: string): string | undefined {
+  try {
+    const host = new URL(referrer).hostname.toLowerCase()
+    return host && host !== self.toLowerCase() ? host : undefined
+  } catch {
+    return undefined
+  }
+}
+
+export function rememberFirstTouch(): void {
+  try {
+    if (window.sessionStorage.getItem(FIRST)) return
+    const first: FirstTouch = {
+      landing: window.location.pathname.slice(0, 160),
+      referrer: referrerHost(document.referrer, window.location.hostname),
+      ...utmFrom(window.location.search),
+    }
+    window.sessionStorage.setItem(FIRST, JSON.stringify(first))
+  } catch {
+    // as above: without storage the sign-up is simply unattributed
+  }
+}
+
+export function firstTouch(): FirstTouch {
+  try {
+    const raw: unknown = JSON.parse(window.sessionStorage.getItem(FIRST) ?? '{}')
+    if (!raw || typeof raw !== 'object') return {}
+    const r = raw as Record<string, unknown>
+    const out: FirstTouch = {}
+    for (const k of [...UTM_KEYS, 'landing', 'referrer'] as const) {
+      const v = r[k]
+      if (typeof v === 'string' && v) out[k] = v.slice(0, k === 'landing' || k === 'referrer' ? 160 : MAX)
+    }
+    return out
+  } catch {
+    return {}
+  }
+}

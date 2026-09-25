@@ -78,6 +78,8 @@ const PUBLIC_PATHS = [
   '/artikler',
   '/sitemap.xml',
   '/robots.txt',
+  // the public site's analytics beacon (D-91)
+  '/api/wv',
   // the platform admin's sign-in (D-90); everything else under /admin needs a session
   '/admin/login',
 ]

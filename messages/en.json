@@ -6975,7 +6975,16 @@
         "failed": "It did not work. Try again."
       },
       "inactive": "inactive",
-      "confirmation": "Confirmation"
+      "confirmation": "Confirmation",
+      "source": {
+        "title": "Source",
+        "channel": "Channel",
+        "landing": "First page",
+        "referrer": "Referred by",
+        "first": "Tags at first visit",
+        "last": "Tags at signup",
+        "none": "Not recorded: the signup came before attribution, or the browser kept nothing."
+      }
     },
     "users": {
       "title": "Users",
@@ -7064,6 +7073,54 @@
         "not_allowed": "Only a super-admin can do this.",
         "failed": "It did not work. Try again."
       }
+    },
+    "web": {
+      "title": "Web analytics",
+      "lead": "The public site, from first visit to paying customer. Counted by the site's own beacon: no cookie, no address, and a visitor hash that changes every day.",
+      "period": "Period",
+      "days": "{count} days",
+      "visitors": "Visitors",
+      "visitorsHint": "Counted per day and summed",
+      "sessions": "Sessions",
+      "perSession": "Pages per session",
+      "views": "{count, plural, one {# page view} other {# page views}}",
+      "viewsCol": "Views",
+      "bounce": "Bounce",
+      "signups": "Signups",
+      "activated": "Sent a survey",
+      "paid": "Paid",
+      "daily": "Visitors per day",
+      "dailyLabel": "Visitors per day over the period",
+      "funnel": "Site funnel",
+      "step": "Step",
+      "count": "Count",
+      "ofSessions": "Of sessions",
+      "funnelStep": {
+        "sessions": "Visit",
+        "sawOffer": "Saw Priser or Plattform",
+        "clicked": "Pressed “Kom i gang” or entered an org.nr",
+        "reachedSignup": "Reached registration",
+        "created": "Organisation created"
+      },
+      "funnelNote": "Organisations created counts every signup in the period, including any whose visit was not counted (a browser that asks not to be tracked sends nothing).",
+      "channels": "Sources",
+      "channel": {
+        "title": "Source",
+        "organic": "Organic search",
+        "paid": "Paid",
+        "social": "Social",
+        "email": "E-mail",
+        "referral": "Referral",
+        "campaign": "Other campaign",
+        "direct": "Direct",
+        "unknown": "Not recorded"
+      },
+      "campaigns": "Campaigns (utm_campaign)",
+      "campaign": "Campaign",
+      "landing": "Landing pages",
+      "pages": "Most viewed pages",
+      "page": "Page",
+      "privacy": "The respondent's survey link, invitations and the product are never counted here."
     }
   }
 }

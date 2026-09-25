@@ -1,3 +1,4 @@
+import { countView } from '@/lib/analytics/product'
 import {
   RapportScreen,
   type Audience,
@@ -58,6 +59,7 @@ export default async function RapportPage({
     getExtraQuestions(),
     getMeasures(),
     getViewerRole(),
+    countView('report_viewed'),
   ])
 
   const audience: Audience = AUDIENCE_KEYS.includes(params.mottaker as Audience)

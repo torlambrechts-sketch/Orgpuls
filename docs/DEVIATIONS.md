@@ -3780,3 +3780,59 @@ was deleted afterwards:
   negative. Only sends after signup should count. This goes in the next migration, because
   0049 is applied.
 - **Round kinds and statuses** are shown as the database's codes (`grunnlinje`, `lukket`).
+
+## D-91 — The admin's web analytics and signup attribution
+
+**The request:** the part of the admin specification's Phase 1 about marketing:
+- web analytics built in-house and cookieless;
+- UTM attribution stored on signup;
+- a single view from website visit to paying customer.
+
+**What was built (0050, X-059):**
+- **A beacon on the public site** (components/marketing/SiteBeacon). It counts every page
+  view and every press on something that leads to /registrer: a "Kom i gang" link or the
+  organisation-number form. It sends them to /api/wv, which answers 204 whatever happens.
+  It replaces UtmKeeper and still keeps the utm tags.
+- **Signup attribution.** The registration form sends the tab's first page, its referring
+  host and utm tags (first touch), and the tags at signup (last touch). The server records
+  them once for the new organisation. A signup never fails because of this.
+- **Admin › Web analytics**, over 7, 30, 90 or 365 days:
+  - visitors, sessions, pages per session, bounce and signups;
+  - visitors per day;
+  - the site funnel: visit → Priser or Plattform → "Kom i gang" → registration →
+    organisation created;
+  - sources and campaigns, each with signups, organisations that sent a survey, and paid;
+  - landing pages with bounce and signups;
+  - the most viewed pages.
+- **An organisation's page** shows its source: channel, first page, referrer, and the tags
+  at first visit and at signup.
+- **Product usage.** Opening Resultater, Rapport, Kommentarer or Tiltak counts once per user
+  and day (0049's `track_product_event`). This backs the funnel's "results viewed" step.
+- **The funnel's median** now counts only sends after signup. It was negative for the demo
+  organisation (D-90).
+
+**Choices made where the specification was open:**
+- **Visitors are per day.** A hash that rotates daily cannot count one visitor across days.
+  The alternative is a stable identifier, which is what the specification rules out.
+- **"Organisation created" has no percentage in the site funnel.** It counts every signup
+  in the period, including those whose visit was not counted. It is not a subset of the
+  sessions above it.
+- **No persona clicks.** The specification names four "Hvem er du?" cards. The current site
+  (D-88) has no such cards, so there is nothing to count.
+
+**Left open, each for a stated reason:**
+- **Search Console** needs a Google service account and its key in the environment. Neither
+  exists.
+- **Cost per paid customer** needs campaign spend, which the specification says is entered
+  by hand. There is no form for it yet.
+- **A legal confirmation that no banner is needed**, as the specification asks.
+
+**Verified in the browser** against the hosted project:
+- A visit from Google with utm tags, through Priser to "Kom i gang", recorded four events.
+  Each had the right path, host, tags and a 32-character hash, and no cookie was set.
+- A browser with GPC sent nothing.
+- The registration action's body carried the first and last touch. The request was aborted
+  before an account was created.
+- The four product pages each counted once.
+- The Web analytics page showed the visit.
+- The test's events and admin account were deleted afterwards.

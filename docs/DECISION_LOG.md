@@ -1870,6 +1870,45 @@ project. Among them:
 - the audit log cannot be changed;
 - no admin function references an answer table.
 
+### X-059 — The site counts its own visits, and keeps nothing that follows a person
+
+The specification asks for in-house, cookieless web analytics that join up with the
+product funnel. Migration 0050 builds it:
+
+- **Nothing on the device except what the site already kept.** The beacon sets no cookie.
+  - The visit's utm tags were already kept in sessionStorage, which ends with the tab
+    (lib/marketing/utm).
+  - The visit's first page and referring host are kept beside them, so a signup can carry
+    its first and last touch.
+  - A browser with Global Privacy Control or Do Not Track sends nothing.
+- **The visitor hash cannot outlive its day.**
+  - /api/wv hands the IP address and user agent to `track_web_event`.
+  - The function hashes them with a random salt made that day, keeps 128 bits of the hash,
+    and stores neither the address nor the agent.
+  - The salt is deleted the next day. After that, no hash can be recomputed or joined
+    across days.
+  - Visitors are therefore counted per day. A period's figure is a sum, and says so.
+- **Only the public site.**
+  - The beacon is mounted in the marketing layout.
+  - Both the client and the database refuse /s, /bli-med, /auth, /admin and /api.
+  - The respondent's link is never counted, even if someone posts it by hand.
+- **Bots are filtered by user agent** (headless browsers included). One visitor is capped at
+  300 events a day.
+- **Where a signup came from** is recorded once, by the new organisation's daglig leder,
+  within the hour it was created (`record_signup_source`).
+  - The channel is classified in SQL (`app.web_channel`) as organic, paid, social, e-mail,
+    referral, other campaign or direct.
+  - The admin can then report signups, activation (a survey sent) and payment per source
+    and per campaign.
+- **Raw events are kept 13 months** and deleted daily by cron.
+
+`web_events`, `web_salts` and `org_attribution` have RLS, no policy and no grant.
+`supabase/tests/web_invariants.sql` proves 16 checks, locally and on the hosted project.
+
+**Consent.** No cookie is set and no new storage is added. By the specification's own test,
+this should need no consent banner, but the specification asks for that to be confirmed
+legally. It is an open item.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -2039,4 +2078,9 @@ project. Among them:
 - [x] A platform admin on its own host: separate accounts, TOTP required, every read audited, trials extended with a reason (0049, D-90, X-058).
 - [ ] DNS and Vercel for admin.orgpuls.com, and `ADMIN_HOST=admin.orgpuls.com` in the production env (D-90).
 - [ ] Create the first super-admin account (D-90, "Becoming an admin").
-- [ ] The funnel's median hours to first send counts sends from before signup for imported organisations; only count sends after signup (D-90).
+- [x] The funnel's median hours to first send counts only sends after signup (0050, D-91).
+- [x] The public site's own analytics: page views, sources, landing pages, campaigns, the site funnel, and each signup's first and last touch (0050, D-91, X-059).
+- [ ] Confirm legally that the cookieless beacon needs no consent banner (X-059).
+- [ ] Search Console import (queries, impressions, position): needs a Google service account (D-91).
+- [ ] Campaign spend per channel, entered by hand, for cost per paid customer (D-91).
+- [ ] Vercel Web Analytics still runs beside the site's own beacon; decide whether to keep both (D-91).

@@ -264,3 +264,37 @@ const AdminRow = z.object({
 })
 export type AdminRow = z.infer<typeof AdminRow>
 export const listAdmins = () => call('admin_list_admins', {}, z.object({ rows: z.array(AdminRow) }))
+
+// ---------------------------------------------------------------- the public site (0050)
+const Web = z.object({
+  days: num,
+  totals: z.object({ visitors: num, sessions: num, views: num, bounced: num, signups: num }),
+  daily: z.array(z.object({ day: z.string(), visitors: num, sessions: num, views: num })),
+  channels: z.array(z.object({ channel: z.string(), sessions: num, signups: num, activated: num, paid: num })),
+  landing: z.array(z.object({ path: z.string(), sessions: num, bounced: num, signups: num })),
+  pages: z.array(z.object({ path: z.string(), views: num })),
+  campaigns: z.array(z.object({ campaign: z.string(), sessions: num, signups: num, paid: num })),
+  funnel: z.object({ sessions: num, saw_offer: num, clicked: num, reached_signup: num, created: num }),
+})
+export type Web = z.infer<typeof Web>
+export const WEB_PERIODS = [7, 30, 90, 365] as const
+export const web = (days: number) => call('admin_web', { p_days: days }, Web)
+
+const Attribution = z.object({
+  row: z
+    .object({
+      first_landing: z.string().nullable(),
+      first_referrer: z.string().nullable(),
+      first_source: z.string().nullable(),
+      first_medium: z.string().nullable(),
+      first_campaign: z.string().nullable(),
+      last_source: z.string().nullable(),
+      last_medium: z.string().nullable(),
+      last_campaign: z.string().nullable(),
+      channel: z.string(),
+      recorded_at: ts,
+    })
+    .nullable(),
+})
+export type Attribution = z.infer<typeof Attribution>['row']
+export const orgAttribution = (org: string) => call('admin_org_attribution', { p_org: org }, Attribution)
