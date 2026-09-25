@@ -3363,15 +3363,15 @@
       },
       "smaaBedrifter": {
         "title": "Medarbeiderundersøkelse for små bedrifter | Orgpuls",
-        "description": "Arbeidsmiljøloven gjelder også små virksomheter. Kartlegg, sett tiltak og følg opp for 265 kr/mnd eks. mva. Anonymt, på norsk, oppsett under en time.",
+        "description": "Medarbeiderundersøkelse for små bedrifter: kartlegg, sett tiltak og følg opp for 265 kr/mnd eks. mva. Anonymt, på norsk. 30 dager gratis.",
         "crumb": "Små bedrifter",
         "card": {
           "title": "Små bedrifter",
           "text": "5–25 ansatte og ingen HR-avdeling: anonym medarbeiderundersøkelse for 265 kr i måneden."
         },
         "kicker": "For virksomheter med 5–25 ansatte",
-        "h1": "Medarbeiderundersøkelse for små bedrifter – satt opp på under en time",
-        "lead": "Dere har ikke HR-avdeling, men dere har de samme lovkravene som store virksomheter. Orgpuls tar seg av utsending, påminnelser og dokumentasjon, så dere kan bruke tiden på det som kommer fram.",
+        "h1": "Medarbeider­undersøkelse for små bedrifter – satt opp på under en time",
+        "lead": "Små bedrifter har sjelden en HR-avdeling, men de har de samme lovkravene som store virksomheter. Orgpuls er en medarbeiderundersøkelse som tar seg av utsending, påminnelser og dokumentasjon, så dere kan bruke tiden på det som kommer fram.",
         "blocks": [
           {
             "t": "h2",

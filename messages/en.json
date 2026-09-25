@@ -3363,15 +3363,15 @@
       },
       "smaaBedrifter": {
         "title": "Employee survey for small businesses | Orgpuls",
-        "description": "The Working Environment Act applies to small organisations too. Map, act and follow up for NOK 265/month excl. VAT. Anonymous, in Norwegian, set up in under an hour.",
+        "description": "Employee survey for small businesses: map, act and follow up for NOK 265/month excl. VAT. Anonymous, in Norwegian. 30 days free.",
         "crumb": "Small businesses",
         "card": {
           "title": "Small businesses",
           "text": "5–25 employees and no HR department: an anonymous employee survey for NOK 265 a month."
         },
         "kicker": "For organisations with 5–25 employees",
-        "h1": "An employee survey for small businesses – set up in under an hour",
-        "lead": "You have no HR department, but you have the same legal requirements as large organisations. Orgpuls handles sending, reminders and documentation, so you can spend the time on what comes out of it.",
+        "h1": "Medarbeider­undersøkelse for små bedrifter – satt opp på under en time",
+        "lead": "Small businesses rarely have an HR department, but they have the same legal requirements as large organisations. Orgpuls is an employee survey that handles sending, reminders and documentation, so you can spend the time on what comes out of it.",
         "blocks": [
           {
             "t": "h2",
