@@ -45,7 +45,8 @@ const hasKeyword = (text, keyword) => {
   return keyword
     .toLowerCase()
     .split(/\s+/)
-    .every((w) => t.includes(w.slice(0, Math.max(4, w.length - 2))))
+    // a stem, so an inflection counts: "kartlegging" is found in "kartlegger"
+    .every((w) => t.includes(w.slice(0, Math.max(4, w.length - 3))))
 }
 
 mkdirSync(out, { recursive: true })
