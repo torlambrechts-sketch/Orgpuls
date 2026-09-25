@@ -9,7 +9,7 @@ export const SITE_URL = 'https://www.orgpuls.com'
 export const absolute = (path: string) => `${SITE_URL}${path === '/' ? '' : path}`
 
 /** Landing pages, one per search intent. The slug is the route and the message key. */
-export const LANDING_PAGES = ['lovkrav', 'verneombud', 'smaa-bedrifter', 'bygg-og-anlegg'] as const
+export const LANDING_PAGES = ['lovkrav', 'verneombud', 'smaa-bedrifter', 'bygg-og-anlegg', 'helse-og-omsorg'] as const
 export type LandingSlug = (typeof LANDING_PAGES)[number]
 
 /** A landing page's message key: slugs with hyphens are camel-cased in the messages. */
@@ -87,6 +87,65 @@ export const LANDING_ARTICLES: Record<LandingSlug, [string, string]> = {
   verneombud: ['verneombudets-rolle-i-kartleggingen', 'anonym-medarbeiderundersokelse'],
   'smaa-bedrifter': ['anonym-medarbeiderundersokelse', 'medarbeiderundersokelse-sporsmal'],
   'bygg-og-anlegg': ['hvor-ofte-bor-dere-male-arbeidsmiljoet', 'medarbeiderundersokelse-sporsmal'],
+  'helse-og-omsorg': ['medarbeiderundersokelse-sporsmal', 'anonym-medarbeiderundersokelse'],
+}
+
+/**
+ * The site's own pages (D-83), besides the start page, the landing pages and the articles.
+ * The slug is the route; the message key is `seo.pages.<key>`.
+ */
+export const SITE_PAGES = [
+  { slug: 'plattform', key: 'plattform' },
+  { slug: 'bruksomrader', key: 'bruksomrader' },
+  { slug: 'priser', key: 'priser' },
+  { slug: 'om-oss', key: 'omOss' },
+  { slug: 'sikkerhet', key: 'sikkerhet' },
+  { slug: 'kontakt', key: 'kontakt' },
+] as const
+export type SitePageSlug = (typeof SITE_PAGES)[number]['slug']
+export const sitePageKey = (slug: SitePageSlug) => SITE_PAGES.find((p) => p.slug === slug)!.key
+
+/** The public header's menu, in order: what it is, who it is for, what it costs, reading, who we are. */
+export const SITE_NAV: { href: string; key: string }[] = [
+  { href: '/plattform', key: 'plattform' },
+  { href: '/bruksomrader', key: 'bruksomrader' },
+  { href: '/priser', key: 'priser' },
+  { href: '/artikler', key: 'artikler' },
+  { href: '/om-oss', key: 'omOss' },
+]
+
+/** The public footer's columns; each link's label is `seo.nav.<key>` or a page's crumb. */
+export const SITE_FOOTER: { head: string; links: { href: string; label: string }[] }[] = [
+  {
+    head: 'produkt',
+    links: [
+      { href: '/plattform', label: 'seo.nav.plattform' },
+      { href: '/priser', label: 'seo.nav.priser' },
+      { href: '/sikkerhet', label: 'seo.nav.sikkerhet' },
+    ],
+  },
+  {
+    head: 'bruksomrader',
+    links: landingFooterLinks(),
+  },
+  {
+    head: 'ressurser',
+    links: [
+      { href: '/artikler', label: 'seo.nav.artikler' },
+      { href: '/artikler/nye-regler-psykososialt-arbeidsmiljo-2026', label: 'seo.footer.newRules' },
+    ],
+  },
+  {
+    head: 'selskap',
+    links: [
+      { href: '/om-oss', label: 'seo.nav.omOss' },
+      { href: '/kontakt', label: 'seo.nav.kontakt' },
+    ],
+  },
+]
+
+function landingFooterLinks() {
+  return LANDING_PAGES.map((s) => ({ href: `/${s}`, label: `seo.lp.${landingKey(s)}.crumb` }))
 }
 
 /** The support address the product already prints (messages: registrer, oppsett). */

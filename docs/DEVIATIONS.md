@@ -3358,3 +3358,54 @@ it cannot. So the step is the employee's own.
 on the department scope and k that `conversations` applies. A leader can only reply to
 thread ids they were shown, so this is a narrowing to make, not a leak seen in use.
 `app.thread_visible` is the predicate to narrow them with.
+
+## D-83 — The public site has sections, not one page
+
+**The design:** it drew one public page: the start page, with the logo, "Logg inn" and "Kom i
+gang" in the header, and a one-line footer.
+
+**The request:** the owner asked for more than a single landing page: "plattform", "om
+oss", "bruksområder" and whatever else divides the content naturally.
+
+**What was built:**
+- **A header menu.** Plattform, Bruksområder, Priser, Artikler and Om oss sit between the
+  logo and the two buttons, using the application nav's own treatment: a 10 px pill, and
+  `bg-sbg` for the page you are on. Below 1024 px the row folds into a "Meny" button. It
+  opens the same links as a list and closes when a link is chosen, on any other
+  navigation, and on Escape.
+- **A footer of sections.** It has four columns: Produkt, Bruksområder, Ressurser and
+  Selskap, plus the contact address. The old footer's "Personvern" link pointed at
+  /hjelp/gdpr, which is behind the sign-in. It now points at /sikkerhet, which is public.
+- **Seven pages**, all built from one template (`PageTemplate`) and written as messages in
+  the same block format as the articles:
+  - `/plattform`: grunnlinje, puls, egne spørsmål, results, comments and conversations,
+    measures, the annual cycle and the report.
+  - `/bruksomrader`: the landing pages grouped by need, role, size and industry. It is a
+    CollectionPage.
+  - `/helse-og-omsorg`: a new landing page, beside construction.
+  - `/priser`: the start page's three plans, extracted into `components/marketing/Plans`
+    so that both pages render the same plans.
+  - `/om-oss`: an AboutPage.
+  - `/sikkerhet`: k = 5, what is and is not stored, and where the data lives.
+  - `/kontakt`: a ContactPage.
+- **Two new block kinds:** `links` (cards that are links to other pages, internal paths
+  only) and `plans`.
+
+**What is left out, and why:**
+- **Om oss names no people.** The schema holds no team, so the page says what the company
+  is and why it exists, and gives Orgpuls AS and hjelp@orgpuls.no. It makes no invented
+  claims about founders, a headcount or customers.
+- **Sikkerhet makes no data processing agreement (DPA) claim.** The GDPR help article says
+  the DPA and the processing register are not yet in place, so the page says only what
+  the schema enforces.
+- **Kontakt has no form.** Nothing receives one. The page gives the address the product
+  already prints, as a mailto.
+
+**Checked:**
+- All 16 public pages have no horizontal overflow at 320, 390, 768 and 1440 px.
+- Each page has one H1, valid JSON-LD, and no missing message keys.
+- Every internal link resolves.
+- Each section's menu entry is marked on its own page.
+- The phone menu opens, navigates, closes on navigation and on Escape, and works from the
+  keyboard.
+- There are no console errors.

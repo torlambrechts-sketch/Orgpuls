@@ -3503,6 +3503,101 @@
         ],
         "finalTitle": "Try it on the next project",
         "finalBody": "Enter the organisation number, add the crew and send by SMS. You are up and running in three minutes, without card details."
+      },
+      "helseOgOmsorg": {
+        "title": "Work environment mapping in health and care | Orgpuls",
+        "description": "Emotional demands, violence and threats, shift work: map the psychosocial working environment in health and care, anonymously and on mobile. 30 days free.",
+        "crumb": "Health and care",
+        "card": {
+          "title": "Health and care",
+          "text": "Emotional demands, violence and threats, shift work: mapping that reaches every shift."
+        },
+        "kicker": "Health, care and work with people",
+        "h1": "Work environment mapping in health and care – where the emotional demands are greatest",
+        "lead": "In work with people the strain is often something other than workload alone. Orgpuls measures the emotional demands, whether anyone is left alone with them, and whether people have experienced violence or threats – anonymously, on mobile, across shifts.",
+        "cta": "Start free – 30 days, no card",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What the law points to in work with people"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "AML § 4-3 (2) b",
+                "text": "Psychosocial working environment factors include emotional demands and strain in work with people."
+              },
+              {
+                "ref": "AML § 4-3 (6)",
+                "text": "The employee shall, as far as possible, be protected against violence, threats and undue strain from contact with others."
+              },
+              {
+                "ref": "Regulation § 1A-2",
+                "text": "The factors shall be mapped and risk-assessed one by one and together, with the employees, and repeated regularly."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "What we ask about"
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls measures eleven factors with three statements each. Some of them fit work with people particularly well (translated):"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«I am rarely left alone in emotionally demanding situations»",
+              "«We talk about difficult incidents afterwards»",
+              "«I am allowed to react as a human being at work»",
+              "«I can call for help quickly if something happens while I am alone»",
+              "«I get support from my manager when the job gets demanding»"
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Violence and threats are shown only as a count",
+            "text": "The question «Have you experienced violence or threats at work in the last twelve months?» is reported only as a count for the whole organisation, never per department. So nobody can work out who answered yes – not even in a small department."
+          },
+          {
+            "t": "h2",
+            "text": "When people work in shifts"
+          },
+          {
+            "t": "p",
+            "text": "The survey is sent by e-mail or SMS, or shared as a link and a QR code in the staff room. It stays open for several days, so every shift has time to answer. The main survey takes about four minutes, a pulse under a minute. One reminder goes to those who have not answered – from the system, not the manager."
+          },
+          {
+            "t": "h2",
+            "text": "Small units, the same anonymity"
+          },
+          {
+            "t": "p",
+            "text": "No group is shown until at least five have answered, and the limit cannot be lowered. If a department has too few answers, they still count in the organisation's figures. When a department could be worked out from the others, one more is held back."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Can we ask about violence and threats?",
+            "a": "Yes, and assessing that risk is a requirement under section 4-3, sixth paragraph, of the Working Environment Act. In Orgpuls the answer is reported only as a count for the whole organisation, so nobody can be identified."
+          },
+          {
+            "q": "What about employees without a work e-mail?",
+            "a": "The survey can be sent by SMS or shared as a link and a QR code. An e-mail address is optional."
+          },
+          {
+            "q": "Can we see results per department or ward?",
+            "a": "Yes, on the Usual plan, for departments with at least five answers."
+          },
+          {
+            "q": "What does it cost?",
+            "a": "Small costs NOK 265 a month for up to 25 employees, Usual NOK 565 for 26–100 employees. Prices exclude VAT, with no lock-in and 30 days free."
+          }
+        ],
+        "finalTitle": "Try it on your own organisation",
+        "finalBody": "Enter your organisation number and we fetch the rest from the Brønnøysund registers. You are up and running in three minutes, without card details."
       }
     },
     "articles": {
@@ -4545,6 +4640,437 @@
         ],
         "ctaTitle": "Give the safety representative the same basis as management",
         "ctaBody": "In Orgpuls the safety representative has access at no extra cost. 30 days free, no card."
+      }
+    },
+    "nav": {
+      "plattform": "Platform",
+      "bruksomrader": "Use cases",
+      "priser": "Pricing",
+      "artikler": "Articles",
+      "omOss": "About",
+      "sikkerhet": "Security and privacy",
+      "kontakt": "Contact",
+      "menu": "Menu"
+    },
+    "footer": {
+      "produkt": "Product",
+      "bruksomrader": "Use cases",
+      "ressurser": "Resources",
+      "selskap": "Company",
+      "newRules": "New rules from 2026"
+    },
+    "pages": {
+      "plattform": {
+        "title": "The platform: mapping, measures and follow-up | Orgpuls",
+        "description": "Anonymous mapping, results per factor and department, measures with owner and deadline, a pulse that shows whether they worked, and a report for inspection.",
+        "crumb": "Platform",
+        "kicker": "The platform",
+        "h1": "One platform for the whole round: map, understand, act and see that it worked",
+        "lead": "Orgpuls brings what the Working Environment Act requires of mapping into one steady rhythm. Each part can be used on its own, but the value is in how they connect: the survey becomes measures, and the next survey shows whether they worked.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Mapping"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Baseline",
+                "text": "Eleven psychosocial factors with three statements each, answered on a five-point scale. The wording builds on QPS Nordic and covers the factors named in section 4-3 of the Act and in the regulation. About four minutes per employee."
+              },
+              {
+                "title": "Pulse",
+                "text": "Short surveys between baselines, only on the factors where a measure is running. The pulse is not a new mapping but a measurement of whether the measure works. Under a minute."
+              },
+              {
+                "title": "Your own questions",
+                "text": "Up to five of your own questions per survey, for what is particular to you. They are reported separately and never enter the index."
+              },
+              {
+                "title": "Outside the index",
+                "text": "A recommendation question, screening for offensive behaviour and for violence and threats – only as a count for the whole organisation – and an open field."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The survey is sent by e-mail or SMS, or shared as a link and a QR code. One reminder goes to those who have not answered, from the system and not the manager."
+          },
+          {
+            "t": "h2",
+            "text": "Results"
+          },
+          {
+            "t": "p",
+            "text": "The answers become an index from 0 to 100 per factor, with a risk band: 65 or above is low risk, 50–64 medium and below 50 high. The result can be read in several ways:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Heatmap** – the factors against the departments, with the statements behind each figure",
+              "**Priority** – which factors matter most for whether people would recommend the workplace",
+              "**Segment profile, Compare and Development** – one department, two surveys, or the development over time"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "A department is shown once at least five have answered. When a department could be worked out from the others, one more is held back. Read more about [anonymity and security](/sikkerhet)."
+          },
+          {
+            "t": "h2",
+            "text": "Comments and conversations"
+          },
+          {
+            "t": "p",
+            "text": "Employees can write a comment on a statement. Management can reply without knowing who wrote it, and the writer can read the reply and answer back through a private link. If a manager wants to talk directly, they can ask – and the employee alone decides whether to make themselves known, by writing an e-mail from their own e-mail."
+          },
+          {
+            "t": "h2",
+            "text": "Measures"
+          },
+          {
+            "t": "p",
+            "text": "The findings become measures on a board, from finding to effect. Each measure has an owner, a deadline and the factor it is meant to move, and ready suggestions are there to start from. **A measure cannot be closed before its effect is measured** – the next pulse must show whether the figure has moved."
+          },
+          {
+            "t": "h2",
+            "text": "Annual wheel and report"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "The annual wheel",
+                "text": "You choose the rhythm once – from one baseline a year to a pulse every month – and the wheel plans the rounds itself. The safety representative and the union representatives are notified first, before the employees."
+              },
+              {
+                "title": "Report for inspection",
+                "text": "The report follows the four steps of section 3-1 letter c of the Act: mapping, risk assessment, measures and follow-up. The figures are frozen when the round closes, and the report can be printed or saved as PDF."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Roles and access"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Role",
+              "Sees"
+            ],
+            "rows": [
+              [
+                "Managing director",
+                "The whole organisation, every factor and the anonymous conversations"
+              ],
+              [
+                "Department head",
+                "Their own department once the threshold is met, and the conversations from it"
+              ],
+              [
+                "Safety representative",
+                "The same figures and the same risk assessment as management, at no extra cost"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "No role sees who answered what. That link does not exist."
+          },
+          {
+            "t": "h2",
+            "text": "Getting started"
+          },
+          {
+            "t": "p",
+            "text": "Sign up with the organisation number and we fetch the name and address from the Brønnøysund registers. Add employees from a spreadsheet or one at a time, and follow the setup wizard. See [pricing](/priser), or the [use cases](/bruksomrader) for how other organisations use Orgpuls."
+          }
+        ],
+        "finalTitle": "See the platform on your own organisation"
+      },
+      "bruksomrader": {
+        "title": "Use cases: work environment mapping for everyone | Orgpuls",
+        "description": "Orgpuls for the legal requirement, for safety representatives, for small businesses, for construction and for health and care. Find the page that fits you.",
+        "crumb": "Use cases",
+        "kicker": "Use cases",
+        "h1": "The same legal requirement, different workplaces",
+        "lead": "Every organisation with employees must map the psychosocial working environment. But what matters most, and how you reach people, varies. Here are the pages for the most common needs.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "By need"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "The legal requirement",
+                "text": "What the Act and the regulation require of mapping, and how you document it.",
+                "href": "/lovkrav"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "By role"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "For safety representatives",
+                "text": "Access to the mapping and the measures at no extra cost, and a ready e-mail to management.",
+                "href": "/verneombud"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "By size"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Small businesses",
+                "text": "5–25 employees and no HR department: an anonymous employee survey for NOK 265 a month.",
+                "href": "/smaa-bedrifter"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "By industry"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Construction",
+                "text": "Sent by SMS to people on site and in the workshop, with results per department.",
+                "href": "/bygg-og-anlegg"
+              },
+              {
+                "title": "Health and care",
+                "text": "Emotional demands, violence and threats, shift work: mapping that reaches every shift.",
+                "href": "/helse-og-omsorg"
+              }
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Not finding yours?",
+            "text": "The requirements are the same in every industry, and Orgpuls works the same way. See [how the platform fits together](/plattform), or [write to us](/kontakt)."
+          }
+        ]
+      },
+      "priser": {
+        "title": "Pricing: employee surveys from NOK 265/month | Orgpuls",
+        "description": "Small NOK 265 and Usual NOK 565 a month excl. VAT. No add-ons, no start-up fee and no lock-in. Try free for 30 days without a card.",
+        "crumb": "Pricing",
+        "kicker": "Pricing",
+        "h1": "One price a month, everything included",
+        "lead": "No add-ons for reports, integrations or number of surveys. A monthly agreement with no lock-in, and 30 days free without card details.",
+        "blocks": [
+          {
+            "t": "plans"
+          },
+          {
+            "t": "h2",
+            "text": "What you get on any plan"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Annual mapping with pulses in between, as many rounds as you like",
+              "A report that follows section 3-1 letter c of the Working Environment Act",
+              "Unlimited measures, with ready suggestions",
+              "Access for the safety representative at no extra cost",
+              "No start-up fee and no lock-in"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "All prices exclude VAT. The Usual plan adds results per department and team, anonymous conversations with employees and development over time."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Do we need a card to try it?",
+            "a": "No. You sign up with your organisation number and can use Orgpuls for 30 days without card details."
+          },
+          {
+            "q": "Is there a lock-in?",
+            "a": "No. The agreement is monthly, with no lock-in and no start-up fee."
+          },
+          {
+            "q": "Does the safety representative cost extra?",
+            "a": "No. The safety representative has access at no extra cost."
+          },
+          {
+            "q": "We are more than 100, or several companies?",
+            "a": "Then Several companies applies, by agreement. [Write to us](/kontakt) and we will find a solution."
+          }
+        ]
+      },
+      "omOss": {
+        "title": "About Orgpuls",
+        "description": "Orgpuls makes the tool for the part of work environment work that often gets left behind: mapping that becomes measures, and measures followed until they work.",
+        "crumb": "About",
+        "kicker": "About Orgpuls",
+        "h1": "We make the tool for the part of work environment work that often gets left behind",
+        "lead": "The Working Environment Act requires every organisation to map the psychosocial working environment, put measures in place and follow up. Most manage the mapping. It is the follow-up that disappears. Orgpuls exists to make it a rhythm instead of a project.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Why Orgpuls exists"
+          },
+          {
+            "t": "p",
+            "text": "An employee survey once a year quickly becomes a report. It is presented, and then little happens, because the next step is unclear: who does what, by when, and how do we know whether it helped?"
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls is built around that question. The findings become measures with an owner and a deadline, and a measure cannot be closed until the next survey shows the figure has moved. The documentation the Act requires is produced along the way."
+          },
+          {
+            "t": "h2",
+            "text": "What we stand for"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Anonymity in the structure",
+                "text": "The answer is stored without anything that can be linked to a person, and no group is shown under five answers. It is not a promise we keep – it is something the system cannot do."
+              },
+              {
+                "title": "Measures until they work",
+                "text": "A measure is not done because someone ticks a box. It is done when the survey shows that something has changed."
+              },
+              {
+                "title": "Norwegian law, Norwegian language",
+                "text": "Made for the Working Environment Act and the regulation, with questions in Norwegian and a report that follows the steps of the law."
+              },
+              {
+                "title": "Data in the EU",
+                "text": "The answers are stored in the EU and not shared with third parties. No answers are used to train models."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "The instrument"
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls measures eleven psychosocial factors – the same as section 4-3 of the Working Environment Act and chapter 1A of the regulation on the performance of work name. The wording builds on QPS Nordic, the General Nordic Questionnaire for Psychological and Social Factors at Work. The wording cannot be changed, because that is what makes the figures comparable over time."
+          },
+          {
+            "t": "h2",
+            "text": "The company"
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls is provided by Orgpuls AS. For questions about the product, privacy or an agreement for several companies, write to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no). See also [security and privacy](/sikkerhet)."
+          }
+        ]
+      },
+      "sikkerhet": {
+        "title": "Security, privacy and anonymity | Orgpuls",
+        "description": "How Orgpuls keeps answers anonymous: no link to a person, at least five answers per group, data in the EU. What we store, and what we do not.",
+        "crumb": "Security and privacy",
+        "kicker": "Security and privacy",
+        "h1": "Anonymity that does not depend on anyone keeping a promise",
+        "lead": "Orgpuls promises that nobody can see who answered what. That promise is built into how the data is stored, not into a routine someone has to follow. Here is what that means in practice.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "What we store, and what we do not"
+          },
+          {
+            "t": "p",
+            "text": "For each employee, the register holds name, e-mail and group, and a mobile number if you use SMS. The answer itself is stored in a table that **has no column that could hold a link to a person**. The row holds which round the answer belongs to, which group the person is in, and the hour it was submitted, rounded to the hour."
+          },
+          {
+            "t": "p",
+            "text": "The invitation link is looked up by a cryptographic checksum when it is used. The invitation records that it has been used, so the reminder does not go to you – but never which answer it gave. There is no view, export or query that can say what a named person answered – not even for administrators – because the information does not exist."
+          },
+          {
+            "t": "h2",
+            "text": "Five answers, or a dash"
+          },
+          {
+            "t": "p",
+            "text": "No group is shown until at least five have answered. The limit is enforced by the database and cannot be lowered, only raised. When the figures for the other groups would reveal a hidden group, one more group is held back, so nobody can calculate their way there."
+          },
+          {
+            "t": "h2",
+            "text": "Comments and conversations"
+          },
+          {
+            "t": "p",
+            "text": "A comment is shown only when the group it comes from has enough answers, and the group never travels with the comment. The writer gets a private key to the conversation; the database stores only a checksum of it. If a manager wants to talk directly, they can ask – but only the employee can make themselves known, by writing from their own e-mail."
+          },
+          {
+            "t": "h2",
+            "text": "Legal basis"
+          },
+          {
+            "t": "p",
+            "text": "The legal basis is legal obligation, GDPR article 6(1)(c), with sections 3-1 and 4-3 of the Working Environment Act – not consent, because an employee cannot consent freely to their employer. The questions are designed to avoid health information, which an employer shall not collect. The screening for offensive behaviour and for violence and threats is reported only as a count."
+          },
+          {
+            "t": "h2",
+            "text": "Storage"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "The data is stored on servers in the EU (Frankfurt), under the GDPR",
+              "Answers are not shared with third parties, and no answers are used to train models",
+              "A single answer cannot be retrieved or deleted on its own, because it cannot be linked to a person (GDPR article 11)"
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Questions about privacy?",
+            "text": "Write to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no). Read also [what anonymous has to mean in an employee survey](/artikler/anonym-medarbeiderundersokelse)."
+          }
+        ]
+      },
+      "kontakt": {
+        "title": "Contact Orgpuls",
+        "description": "Questions about Orgpuls, help with setup, or an agreement for several companies? Write to hjelp@orgpuls.no.",
+        "crumb": "Contact",
+        "kicker": "Contact",
+        "h1": "Talk to us",
+        "lead": "The quickest way to reach us is e-mail. Say what it is about and how many employees you have, and we will reply.",
+        "blocks": [
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Several companies or over 100 employees",
+                "text": "The Several companies plan is by agreement. Write to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no?subject=Orgpuls%20for%20flere%20selskaper)."
+              },
+              {
+                "title": "Help with setup",
+                "text": "If you need help with the first setup, write to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no?subject=Hjelp%20med%20oppsett). It costs nothing."
+              },
+              {
+                "title": "Privacy",
+                "text": "Questions about what we store and how: [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no?subject=Personvern). See also [security and privacy](/sikkerhet)."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Would you rather try it yourself first? Sign up with your organisation number – you are up and running in three minutes, without card details."
+          }
+        ]
       }
     }
   }

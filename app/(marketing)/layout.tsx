@@ -1,14 +1,17 @@
 import type { Route } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { SiteNav } from '@/components/marketing/SiteNav'
 import { LogoMark } from '@/components/shell/Logo'
-import { CONTACT_MAIL } from '@/lib/marketing/site'
+import { CONTACT_MAIL, SITE_FOOTER, SITE_NAV } from '@/lib/marketing/site'
 
 /**
  * The public chrome. Orgpuls_Start.dc.html lines 28-42 and 265-275.
  *
- * A separate shell from the application's, and deliberately so: this one has no nav, no
- * role, no account chip and no assistant, because nobody reading it is signed in. The rail
+ * A separate shell from the application's, and deliberately so: no role, no account chip
+ * and no assistant, because nobody reading it is signed in. Since D-83 it carries the public
+ * site's menu (SiteNav) and a footer of the site's sections, where the design drew one page
+ * with two buttons and three footer links. The rail
  * is 1120px rather than the application's 1180, which is the design's own difference —
  * marketing reads at a slightly narrower measure than a dashboard.
  */
@@ -28,7 +31,9 @@ export default async function MarketingLayout({ children }: { children: React.Re
               Orgpuls
             </span>
           </Link>
-          <span className="flex-1" />
+          <span className="flex-1 lg:flex-none" />
+          <SiteNav items={SITE_NAV.map((i) => ({ href: i.href, label: t(`seo.nav.${i.key}`) }))} menuLabel={t('seo.nav.menu')} />
+          <span className="hidden flex-1 lg:block" />
           <span className="flex flex-none flex-wrap items-center gap-[9px]">
             <Link
               href="/logg-inn"
@@ -48,21 +53,32 @@ export default async function MarketingLayout({ children }: { children: React.Re
 
       {children}
 
-      <div className="mt-[54px] border-t border-line bg-sf">
-        <div className="mx-auto flex max-w-[1120px] flex-wrap items-center justify-between gap-[16px] p-[26px]">
-          <span className="max-w-[62ch] text-[12.5px] text-mut [text-wrap:pretty]">
+      <footer className="mt-[54px] border-t border-line bg-sf">
+        <div className="mx-auto max-w-[1120px] px-[26px] pb-[26px] pt-[34px]">
+          <div className="grid gap-[26px] [grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr))]">
+            {SITE_FOOTER.map((col) => (
+              <nav key={col.head} aria-label={t(`seo.footer.${col.head}`)}>
+                <span className="block text-[11px] uppercase tracking-[0.12em] text-mut">{t(`seo.footer.${col.head}`)}</span>
+                <ul className="m-0 mt-[10px] flex list-none flex-col gap-[7px] p-0 text-[13.5px]">
+                  {col.links.map((l) => (
+                    <li key={l.href}>
+                      <Link href={l.href as Route}>{t(l.label)}</Link>
+                    </li>
+                  ))}
+                  {col.head === 'selskap' ? (
+                    <li>
+                      <a href={`mailto:${CONTACT_MAIL}`}>{CONTACT_MAIL}</a>
+                    </li>
+                  ) : null}
+                </ul>
+              </nav>
+            ))}
+          </div>
+          <p className="mb-0 mt-[28px] max-w-[62ch] border-t border-line pt-[18px] text-[12.5px] text-mut [text-wrap:pretty]">
             {t('start.footer')}
-          </span>
-          <span className="flex flex-wrap gap-[16px] text-[12.5px]">
-            {/* public pages only: /hjelp is behind the sign-in, so a visitor landed on the
-                sign-in form from "Slik virker det" and "Kontakt" (D-79) */}
-            <Link href={'/#how' as Route}>{t('start.footerHow')}</Link>
-            <Link href={'/artikler' as Route}>{t('seo.common.articles')}</Link>
-            <Link href="/hjelp/gdpr">{t('start.footerPrivacy')}</Link>
-            <a href={`mailto:${CONTACT_MAIL}`}>{t('start.footerContact')}</a>
-          </span>
+          </p>
         </div>
-      </div>
+      </footer>
     </div>
   )
 }

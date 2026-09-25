@@ -23,6 +23,13 @@ export const Block = z.discriminatedUnion('t', [
   /** cards in a row, each with a heading and a sentence or two */
   z.object({ t: z.literal('cards'), items: z.array(z.object({ title: z.string(), text: z.string() })).min(1) }),
   z.object({ t: z.literal('table'), head: z.array(z.string()).min(2), rows: z.array(z.array(z.string())).min(1) }),
+  /** cards that are links to other pages of the site, by internal path */
+  z.object({
+    t: z.literal('links'),
+    items: z.array(z.object({ title: z.string(), text: z.string(), href: z.string().regex(/^\/[a-z0-9/#-]*$/) })).min(1),
+  }),
+  /** the three plans, exactly as the start page shows them (components/marketing/Plans) */
+  z.object({ t: z.literal('plans') }),
 ])
 export type Block = z.infer<typeof Block>
 
@@ -49,7 +56,10 @@ export function wordCount(blocks: Block[]): number {
         case 'box':
           return [b.title, b.text]
         case 'cards':
+        case 'links':
           return b.items.map((i) => `${i.title} ${i.text}`)
+        case 'plans':
+          return []
         case 'table':
           return [...b.head, ...b.rows.flat()]
         default:

@@ -1672,6 +1672,28 @@ What changed on the start page, and why, is D-79.
   the product's position (hjelp: kontrolltiltak). The new articles say that plainly
   rather than as settled law.
 
+### X-051 — The public site is divided by what a visitor came to find out
+
+A visitor to a B2B site comes with one of five questions:
+- what the product does;
+- whether it fits their case;
+- what it costs;
+- whether it can be trusted;
+- who is behind it.
+
+The header asks those five in that order: Plattform, Bruksområder, Priser, Artikler, Om
+oss. Sikkerhet and Kontakt sit in the footer, where a buyer checking them looks.
+
+**Bruksområder** gathers the landing pages rather than repeating them. The landing pages
+stay one per search intent (X-050), and the index groups them by need, role, size and
+industry, so a new industry page is one registry entry and one card. Health and care was
+added as the second industry. Emotional demands, violence and threats, and shift work are
+the factors where this sector differs most, and all three are already in the instrument.
+
+**Every page is data.** The registry is `lib/marketing/site.ts`; the words are messages,
+and one template renders them. Adding a page is a route file, a registry entry and a
+message key, never a component change. See D-83.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1814,8 +1836,9 @@ What changed on the start page, and why, is D-79.
 - [x] Every results screen reads its results in one RPC, `results_digest` (X-049, 0044); `cell_release` counts in one pass (0045).
 - [x] Public site for search: four landing pages, six articles, sitemap, robots, structured data (X-050, D-79).
 - [x] The start page no longer promises spreadsheet export, and names only the verneombud as having free access (X-050, D-79).
-- [ ] "Personvern" in the public footer points at /hjelp/gdpr, which is behind the sign-in (D-79).
+- [x] "Personvern" in the public footer points at /hjelp/gdpr, which is behind the sign-in (D-79); it now points at the public /sikkerhet (D-83).
 - [x] The header's account chip opens a menu with the signed-in identity, Oppsett and "Logg ut" (D-80).
 - [x] Oppsett is in the account menu, not the main nav (D-81).
 - [x] A leader can ask for direct contact; the employee alone decides, by writing from their own e-mail (0046, D-82).
 - [ ] Narrow `reply_to_thread` and `set_thread` to `app.thread_visible`, as `conversations` reads (D-82).
+- [x] The public site has a menu, a footer of sections, and Plattform, Bruksområder, Priser, Om oss, Sikkerhet, Kontakt and Helse og omsorg (X-051, D-83).

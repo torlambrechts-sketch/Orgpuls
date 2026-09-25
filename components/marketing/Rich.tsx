@@ -28,6 +28,10 @@ export function Rich({ text }: { text: string }) {
           <Link key={at} href={href as Route}>
             {label}
           </Link>
+        ) : href.startsWith('mailto:') ? (
+          <a key={at} href={href}>
+            {label}
+          </a>
         ) : (
           <a key={at} href={href} target="_blank" rel="noopener noreferrer">
             {label}

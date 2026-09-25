@@ -1,4 +1,7 @@
+import type { Route } from 'next'
+import Link from 'next/link'
 import type { Block } from '@/lib/marketing/blocks'
+import { Plans } from './Plans'
 import { Rich } from './Rich'
 
 /**
@@ -94,6 +97,24 @@ function BlockView({ block: b }: { block: Block }) {
           ))}
         </div>
       )
+    case 'links':
+      // auto-fill, not auto-fit: a section with one page keeps a card's width instead of a banner's
+      return (
+        <div className="grid gap-[13px] [grid-template-columns:repeat(auto-fill,minmax(min(400px,100%),1fr))]">
+          {b.items.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href as Route}
+              className="group flex flex-col gap-[8px] rounded-note border border-line bg-sf px-[23px] py-[22px] text-ink no-underline hover:border-ink hover:text-ink hover:no-underline"
+            >
+              <span className="text-[15.5px] font-bold leading-[1.35] [text-wrap:pretty] group-hover:underline">{item.title}</span>
+              <span className="text-[13.5px] leading-[1.6] text-mut [text-wrap:pretty]">{item.text}</span>
+            </Link>
+          ))}
+        </div>
+      )
+    case 'plans':
+      return <Plans />
     case 'table':
       return (
         <div className="max-w-[76ch] overflow-x-auto rounded-note border border-line bg-sf">

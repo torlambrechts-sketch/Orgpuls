@@ -2,11 +2,13 @@ import type { Metadata, Route } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { ArticleCards } from '@/components/marketing/ArticleCards'
+import { Plans } from '@/components/marketing/Plans'
+import { Tick } from '@/components/marketing/Tick'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { Faq } from '@/components/start/Faq'
 import { pageMeta } from '@/lib/marketing/meta'
 import { faqPage, graph, organization, software, website } from '@/lib/marketing/schema'
-import { ARTICLES, CONTACT_MAIL, LANDING_PAGES, landingKey } from '@/lib/marketing/site'
+import { ARTICLES, LANDING_PAGES, landingKey } from '@/lib/marketing/site'
 
 /**
  * The splash page. Orgpuls_Start.dc.html lines 44-274.
@@ -52,11 +54,6 @@ const STEPS = [
 const DIFFS = ['effect', 'five', 'twoway'] as const
 const LEGAL = ['aml31c', 'aml43', 'aml62', 'aml92'] as const
 const QUOTES = ['cancel', 'export', 'eu'] as const
-const PLANS = [
-  { key: 'small', accent: false, cta: 'registrer' },
-  { key: 'usual', accent: true, cta: 'registrer' },
-  { key: 'group', accent: false, cta: 'kontakt' },
-] as const
 const FAQ = ['anonymous', 'twelve', 'inspection', 'time', 'leaving'] as const
 
 export default async function SplashPage() {
@@ -355,61 +352,7 @@ export default async function SplashPage() {
         <p className="mt-[11px] max-w-[58ch] text-[15px] leading-[1.65] text-mut [text-wrap:pretty]">
           {t('start.priceLead')}
         </p>
-        <div className="mt-[22px] grid items-start gap-[13px] [grid-template-columns:repeat(auto-fit,minmax(min(272px,100%),1fr))]">
-          {PLANS.map((p) => (
-            <div
-              key={p.key}
-              className={`flex flex-col gap-[13px] rounded-[19px] p-[26px] ${
-                p.accent ? 'border-2 border-ink bg-sbg' : 'border border-line bg-sf'
-              }`}
-            >
-              <span className="flex flex-wrap items-center justify-between gap-[10px]">
-                <span className="text-[16.5px] font-bold">{t(`start.plan.${p.key}.name`)}</span>
-                {p.accent ? (
-                  <span className="rounded-pill bg-ac px-[11px] py-[4px] text-[11px] font-bold">
-                    {t('start.planRecommended')}
-                  </span>
-                ) : null}
-              </span>
-              <span className="block text-[12.5px] text-mut">{t(`start.plan.${p.key}.who`)}</span>
-              <span className="flex flex-wrap items-baseline gap-[7px]">
-                <span className="font-display text-[38px] font-semibold leading-none">
-                  {t(`start.plan.${p.key}.price`)}
-                </span>
-                <span className="text-[13px] text-mut">{t(`start.plan.${p.key}.unit`)}</span>
-              </span>
-              <span className="mt-[4px] flex flex-col gap-[7px]">
-                {['a', 'b', 'c', 'd'].map((i) => (
-                  <span key={i} className="flex items-start gap-[9px]">
-                    <Tick />
-                    <span className="text-[13px] leading-[1.5] [text-wrap:pretty]">
-                      {t(`start.plan.${p.key}.item.${i}`)}
-                    </span>
-                  </span>
-                ))}
-              </span>
-              {p.cta === 'registrer' ? (
-                <Link
-                  href="/registrer"
-                  className={`mt-[8px] inline-flex h-[44px] items-center justify-center rounded-cta border border-ink text-[14.5px] font-bold text-ink no-underline hover:text-ink hover:no-underline ${
-                    p.accent ? 'bg-ac' : 'bg-transparent'
-                  }`}
-                >
-                  {t(`start.plan.${p.key}.cta`)}
-                </Link>
-              ) : (
-                // "Snakk med oss" is a conversation, not a sign-in: an e-mail to the address
-                // the product already gives for help (D-79)
-                <a
-                  href={`mailto:${CONTACT_MAIL}?subject=${encodeURIComponent(t('seo.home.groupSubject'))}`}
-                  className="mt-[8px] inline-flex h-[44px] items-center justify-center rounded-cta border border-ink bg-transparent text-[14.5px] font-bold text-ink no-underline hover:text-ink hover:no-underline"
-                >
-                  {t(`start.plan.${p.key}.cta`)}
-                </a>
-              )}
-            </div>
-          ))}
-        </div>
+        <Plans />
         <p className="mt-[13px] text-[12.5px] text-mut">{t('start.priceNote')}</p>
       </Section>
 
@@ -459,14 +402,5 @@ export default async function SplashPage() {
         </div>
       </div>
     </div>
-  )
-}
-
-/** The design's 15/16px mint tick, used in the trust row and the plan lists. */
-function Tick() {
-  return (
-    <span className="mt-[2px] flex h-[16px] w-[16px] flex-none items-center justify-center rounded-focus bg-mint text-[9px] font-bold text-greendeep">
-      ✓
-    </span>
   )
 }

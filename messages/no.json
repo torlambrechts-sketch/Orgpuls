@@ -3503,6 +3503,101 @@
         ],
         "finalTitle": "Prøv på neste prosjekt",
         "finalBody": "Skriv inn organisasjonsnummeret, legg inn mannskapet og send på SMS. Dere er i gang på tre minutter, uten kortopplysninger."
+      },
+      "helseOgOmsorg": {
+        "title": "Arbeidsmiljøkartlegging i helse og omsorg | Orgpuls",
+        "description": "Emosjonelle krav, vold og trusler, turnus: kartlegg det psykososiale arbeidsmiljøet i helse og omsorg, anonymt og på mobilen. 30 dager gratis.",
+        "crumb": "Helse og omsorg",
+        "card": {
+          "title": "Helse og omsorg",
+          "text": "Emosjonelle krav, vold og trusler, turnus: kartlegging som når alle skift."
+        },
+        "kicker": "Helse, omsorg og arbeid med mennesker",
+        "h1": "Arbeidsmiljøkartlegging i helse og omsorg – der de emosjonelle kravene er størst",
+        "lead": "I arbeid med mennesker er belastningen ofte en annen enn arbeidsmengde alene. Orgpuls måler de emosjonelle kravene, om noen står alene i dem, og om folk har opplevd vold eller trusler – anonymt, på mobilen, på tvers av turnus.",
+        "cta": "Start gratis – 30 dager, ingen kort",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Det loven peker på i arbeid med mennesker"
+          },
+          {
+            "t": "law",
+            "items": [
+              {
+                "ref": "AML § 4-3 (2) b",
+                "text": "Psykososiale arbeidsmiljøfaktorer er blant annet «emosjonelle krav og belastninger i arbeid med mennesker»."
+              },
+              {
+                "ref": "AML § 4-3 (6)",
+                "text": "Arbeidstaker skal, så langt det er mulig, «beskyttes mot vold, trusler og uheldige belastninger som følge av kontakt med andre»."
+              },
+              {
+                "ref": "Forskriften § 1A-2",
+                "text": "Faktorene skal kartlegges og risikovurderes hver for seg og samlet, i samarbeid med de ansatte, og gjentas regelmessig."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Hva vi spør om"
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls måler elleve faktorer med tre påstander hver. Noen av dem treffer arbeid med mennesker særlig godt:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "«Jeg blir sjelden stående alene i følelsesmessig krevende situasjoner»",
+              "«Vi snakker om vanskelige hendelser etterpå»",
+              "«Jeg får lov til å reagere som menneske på jobb»",
+              "«Jeg kan tilkalle hjelp raskt hvis noe skjer mens jeg er alene»",
+              "«Jeg får støtte fra lederen min når jobben blir krevende»"
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Vold og trusler vises bare som antall",
+            "text": "Spørsmålet «Har du opplevd vold eller trusler i jobben siste tolv måneder?» rapporteres bare som antall for hele virksomheten, aldri per avdeling. Da kan ingen regne seg fram til hvem som svarte ja – heller ikke i en liten avdeling."
+          },
+          {
+            "t": "h2",
+            "text": "Når folk går i turnus"
+          },
+          {
+            "t": "p",
+            "text": "Undersøkelsen sendes på e-post eller SMS, eller deles som lenke og QR-kode på vaktrommet. Den er åpen i flere dager, så alle skift rekker å svare. Hovedmålingen tar rundt fire minutter, en puls under ett minutt. Én påminnelse går til dem som ikke har svart – fra systemet, ikke fra lederen."
+          },
+          {
+            "t": "h2",
+            "text": "Små enheter, samme anonymitet"
+          },
+          {
+            "t": "p",
+            "text": "Ingen gruppe vises før minst fem har svart, og grensen kan ikke senkes. Har en avdeling for få svar, teller svarene likevel med i virksomhetens tall. Når en avdeling ville kunne regnes ut fra de andre, holdes en til tilbake."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Kan vi spørre om vold og trusler?",
+            "a": "Ja, og det er et krav å vurdere risikoen, jf. arbeidsmiljøloven § 4-3 sjette ledd. I Orgpuls rapporteres svaret bare som antall for hele virksomheten, slik at ingen kan identifiseres."
+          },
+          {
+            "q": "Hva med ansatte uten fast e-post?",
+            "a": "Undersøkelsen kan sendes på SMS eller deles som lenke og QR-kode. E-postadresse er valgfritt."
+          },
+          {
+            "q": "Kan vi se resultat per avdeling eller post?",
+            "a": "Ja, i pakken Vanlig, for avdelinger med minst fem svar."
+          },
+          {
+            "q": "Hva koster det?",
+            "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, Vanlig 565 kr for 26–100 ansatte. Prisene er eks. mva., uten binding og med 30 dager gratis."
+          }
+        ],
+        "finalTitle": "Prøv det på deres egen virksomhet",
+        "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på tre minutter, uten kortopplysninger."
       }
     },
     "articles": {
@@ -4545,6 +4640,437 @@
         ],
         "ctaTitle": "Gi verneombudet det samme grunnlaget som ledelsen",
         "ctaBody": "I Orgpuls har verneombudet tilgang uten ekstra kostnad. 30 dager gratis, ingen kort."
+      }
+    },
+    "nav": {
+      "plattform": "Plattform",
+      "bruksomrader": "Bruksområder",
+      "priser": "Priser",
+      "artikler": "Artikler",
+      "omOss": "Om oss",
+      "sikkerhet": "Sikkerhet og personvern",
+      "kontakt": "Kontakt",
+      "menu": "Meny"
+    },
+    "footer": {
+      "produkt": "Produkt",
+      "bruksomrader": "Bruksområder",
+      "ressurser": "Ressurser",
+      "selskap": "Selskap",
+      "newRules": "Nye regler fra 2026"
+    },
+    "pages": {
+      "plattform": {
+        "title": "Plattformen: kartlegging, tiltak og oppfølging | Orgpuls",
+        "description": "Anonym kartlegging, resultater per faktor og avdeling, tiltak med eier og frist, puls som viser om de virket, og rapport til tilsyn.",
+        "crumb": "Plattform",
+        "kicker": "Plattformen",
+        "h1": "Én plattform for hele runden: kartlegge, forstå, handle og se at det virket",
+        "lead": "Orgpuls samler det arbeidsmiljøloven krever av kartlegging i én fast rytme. Hver del kan brukes for seg, men verdien ligger i at de henger sammen: målingen blir til tiltak, og neste måling viser om tiltakene virket.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Kartlegging"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Grunnlinje",
+                "text": "Elleve psykososiale faktorer med tre påstander hver, besvart på en femdelt skala. Formuleringene bygger på QPS Nordic og dekker faktorene arbeidsmiljøloven § 4-3 og forskriften navngir. Rundt fire minutter per ansatt."
+              },
+              {
+                "title": "Puls",
+                "text": "Korte målinger mellom grunnlinjene, bare om faktorene der et tiltak løper. Pulsen er ikke en ny kartlegging, men en måling av om tiltaket virker. Under ett minutt."
+              },
+              {
+                "title": "Egne spørsmål",
+                "text": "Inntil fem egne spørsmål per måling, for det som er spesielt for dere. De rapporteres for seg og går aldri inn i indeksen."
+              },
+              {
+                "title": "Utenfor indeksen",
+                "text": "Et anbefalingsspørsmål, screening for krenkende atferd og for vold og trusler – bare som antall for hele virksomheten – og et åpent felt."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Undersøkelsen sendes på e-post eller SMS, eller deles som lenke og QR-kode. Én påminnelse går til dem som ikke har svart, fra systemet og ikke fra lederen."
+          },
+          {
+            "t": "h2",
+            "text": "Resultater"
+          },
+          {
+            "t": "p",
+            "text": "Svarene blir en indeks fra 0 til 100 per faktor, med et risikobånd: 65 eller mer er lav risiko, 50–64 middels og under 50 høy. Resultatet kan leses på flere måter:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Varmekart** – faktorene mot avdelingene, med påstandene bak hvert tall",
+              "**Prioritet** – hvilke faktorer som betyr mest for om folk vil anbefale arbeidsplassen",
+              "**Segmentprofil, Sammenlign og Utvikling** – én avdeling, to målinger, eller utviklingen over tid"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "En avdeling vises når minst fem har svart. Når en avdeling ville kunne regnes ut fra de andre, holdes en til tilbake. Les mer om [anonymitet og sikkerhet](/sikkerhet)."
+          },
+          {
+            "t": "h2",
+            "text": "Kommentarer og samtaler"
+          },
+          {
+            "t": "p",
+            "text": "De ansatte kan skrive en kommentar til en påstand. Ledelsen kan svare uten å vite hvem som skrev, og den som skrev kan lese svaret og svare tilbake via en privat lenke. Vil en leder snakke direkte, kan de be om det – og den ansatte bestemmer selv om de vil gi seg til kjenne, ved å skrive en e-post fra sin egen e-post."
+          },
+          {
+            "t": "h2",
+            "text": "Tiltak"
+          },
+          {
+            "t": "p",
+            "text": "Funnene blir tiltak på en tavle, fra funn til effekt. Hvert tiltak har en eier, en frist og faktoren det skal flytte, og ferdige forslag ligger klare å starte fra. **Et tiltak kan ikke lukkes før effekten er målt** – neste puls må vise om tallet har flyttet seg."
+          },
+          {
+            "t": "h2",
+            "text": "Årshjul og rapport"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Årshjulet",
+                "text": "Dere velger rytmen én gang – fra én grunnlinje i året til puls hver måned – og årshjulet planlegger rundene selv. Verneombud og tillitsvalgte varsles først, før de ansatte."
+              },
+              {
+                "title": "Rapport til tilsyn",
+                "text": "Rapporten følger de fire stegene i arbeidsmiljøloven § 3-1 bokstav c: kartlegging, risikovurdering, tiltak og oppfølging. Tallene fryses når runden lukkes, og rapporten kan skrives ut eller lagres som PDF."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Roller og tilgang"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Rolle",
+              "Ser"
+            ],
+            "rows": [
+              [
+                "Daglig leder",
+                "Hele virksomheten, alle faktorer og de anonyme samtalene"
+              ],
+              [
+                "Avdelingsleder",
+                "Egen avdeling når terskelen er nådd, og samtalene derfra"
+              ],
+              [
+                "Verneombud",
+                "De samme tallene og den samme risikovurderingen som ledelsen, uten ekstra kostnad"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Ingen rolle ser hvem som har svart hva. Den koblingen finnes ikke."
+          },
+          {
+            "t": "h2",
+            "text": "Kom i gang"
+          },
+          {
+            "t": "p",
+            "text": "Registrer med organisasjonsnummeret, så henter vi navn og adresse fra Brønnøysundregistrene. Legg inn de ansatte fra et regneark eller én og én, og følg veiviseren gjennom oppsettet. Se [priser](/priser), eller [bruksområdene](/bruksomrader) for hvordan andre virksomheter bruker Orgpuls."
+          }
+        ],
+        "finalTitle": "Se plattformen på deres egen virksomhet"
+      },
+      "bruksomrader": {
+        "title": "Bruksområder: arbeidsmiljøkartlegging for alle | Orgpuls",
+        "description": "Orgpuls for lovkravet, for verneombud, for små bedrifter, for bygg og anlegg og for helse og omsorg. Finn siden som passer dere.",
+        "crumb": "Bruksområder",
+        "kicker": "Bruksområder",
+        "h1": "Samme lovkrav, ulike arbeidsplasser",
+        "lead": "Alle virksomheter med ansatte skal kartlegge det psykososiale arbeidsmiljøet. Men hva som betyr mest, og hvordan man når folk, varierer. Her er sidene for de vanligste behovene.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Etter behov"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Lovkravet",
+                "text": "Hva arbeidsmiljøloven og forskriften krever av kartlegging, og hvordan dere dokumenterer det.",
+                "href": "/lovkrav"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Etter rolle"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "For verneombud",
+                "text": "Innsyn i kartlegging og tiltak uten ekstra kostnad, og en ferdig e-post til ledelsen.",
+                "href": "/verneombud"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Etter størrelse"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Små bedrifter",
+                "text": "5–25 ansatte og ingen HR-avdeling: anonym medarbeiderundersøkelse for 265 kr i måneden.",
+                "href": "/smaa-bedrifter"
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Etter bransje"
+          },
+          {
+            "t": "links",
+            "items": [
+              {
+                "title": "Bygg og anlegg",
+                "text": "Utsending på SMS til folk på prosjekt og verksted, og resultat per avdeling.",
+                "href": "/bygg-og-anlegg"
+              },
+              {
+                "title": "Helse og omsorg",
+                "text": "Emosjonelle krav, vold og trusler, turnus: kartlegging som når alle skift.",
+                "href": "/helse-og-omsorg"
+              }
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Finner dere ikke deres?",
+            "text": "Kravene er de samme for alle bransjer, og Orgpuls fungerer likt. Se [hvordan plattformen henger sammen](/plattform), eller [skriv til oss](/kontakt)."
+          }
+        ]
+      },
+      "priser": {
+        "title": "Priser: medarbeiderundersøkelse fra 265 kr/mnd | Orgpuls",
+        "description": "Liten 265 kr og Vanlig 565 kr i måneden eks. mva. Ingen tillegg, ingen oppstartsavgift og ingen binding. Prøv gratis i 30 dager uten kort.",
+        "crumb": "Priser",
+        "kicker": "Priser",
+        "h1": "Én pris i måneden, alt inkludert",
+        "lead": "Ingen tillegg for rapporter, integrasjoner eller antall målinger. Månedlig avtale uten bindingstid, og 30 dager gratis uten kortopplysninger.",
+        "blocks": [
+          {
+            "t": "plans"
+          },
+          {
+            "t": "h2",
+            "text": "Dette får dere uansett pakke"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Årlig kartlegging og puls imellom, så mange runder dere vil",
+              "Rapport som følger arbeidsmiljøloven § 3-1 bokstav c",
+              "Ubegrenset antall tiltak, med ferdige forslag",
+              "Tilgang for verneombudet uten ekstra kostnad",
+              "Ingen oppstartsavgift og ingen bindingstid"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Alle priser er uten merverdiavgift. Pakken Vanlig legger til resultat per avdeling og team, anonyme samtaler med de ansatte og utvikling over tid."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Må vi oppgi kort for å prøve?",
+            "a": "Nei. Dere registrerer med organisasjonsnummeret og kan bruke Orgpuls i 30 dager uten kortopplysninger."
+          },
+          {
+            "q": "Er det bindingstid?",
+            "a": "Nei. Avtalen er månedlig, uten bindingstid og uten oppstartsavgift."
+          },
+          {
+            "q": "Koster det noe for verneombudet?",
+            "a": "Nei. Verneombudet har tilgang uten ekstra kostnad."
+          },
+          {
+            "q": "Vi er flere enn 100, eller flere selskaper?",
+            "a": "Da gjelder Flere selskaper, etter avtale. [Skriv til oss](/kontakt), så finner vi en løsning."
+          }
+        ]
+      },
+      "omOss": {
+        "title": "Om Orgpuls",
+        "description": "Orgpuls lager verktøyet for den delen av arbeidsmiljøarbeidet som ofte blir liggende: kartlegging som blir til tiltak, og tiltak som følges til de virker.",
+        "crumb": "Om oss",
+        "kicker": "Om Orgpuls",
+        "h1": "Vi lager verktøyet for den delen av arbeidsmiljøarbeidet som ofte blir liggende",
+        "lead": "Arbeidsmiljøloven krever at alle virksomheter kartlegger det psykososiale arbeidsmiljøet, setter tiltak og følger opp. De fleste får til kartleggingen. Det er oppfølgingen som blir borte. Orgpuls finnes for å gjøre den til en rytme i stedet for et prosjekt.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hvorfor Orgpuls finnes"
+          },
+          {
+            "t": "p",
+            "text": "En medarbeiderundersøkelse én gang i året blir fort en rapport. Den presenteres, og så skjer det lite, fordi neste steg er uklart: hvem gjør hva, innen når, og hvordan vet vi om det hjalp?"
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls er bygget rundt det spørsmålet. Funnene blir tiltak med eier og frist, og et tiltak kan ikke lukkes før neste måling viser at tallet har flyttet seg. Dokumentasjonen arbeidsmiljøloven krever, lages underveis."
+          },
+          {
+            "t": "h2",
+            "text": "Det vi står for"
+          },
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Anonymitet i strukturen",
+                "text": "Svaret lagres uten noe som kan kobles til en person, og ingen gruppe vises under fem svar. Det er ikke et løfte vi holder – det er noe systemet ikke kan."
+              },
+              {
+                "title": "Tiltak til de virker",
+                "text": "Et tiltak er ikke ferdig fordi noen krysser av. Det er ferdig når målingen viser at noe har endret seg."
+              },
+              {
+                "title": "Norsk lov, norsk språk",
+                "text": "Laget for arbeidsmiljøloven og forskriften, med spørsmål på norsk og rapport som følger lovens steg."
+              },
+              {
+                "title": "Data i EU",
+                "text": "Svarene lagres i EU og deles ikke med tredjeparter. Ingen svar brukes til å trene modeller."
+              }
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Instrumentet"
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls måler elleve psykososiale faktorer – de samme som arbeidsmiljøloven § 4-3 og forskrift om utførelse av arbeid kapittel 1A navngir. Formuleringene bygger på QPS Nordic, et nordisk spørreskjema for psykologiske og sosiale faktorer i arbeidet. Ordlyden kan ikke endres, fordi det er den som gjør tallene sammenlignbare over tid."
+          },
+          {
+            "t": "h2",
+            "text": "Selskapet"
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls leveres av Orgpuls AS. Har dere spørsmål om produktet, om personvern eller om avtale for flere selskaper, skriv til [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no). Se også [sikkerhet og personvern](/sikkerhet)."
+          }
+        ]
+      },
+      "sikkerhet": {
+        "title": "Sikkerhet, personvern og anonymitet | Orgpuls",
+        "description": "Hvordan Orgpuls holder svarene anonyme: ingen kobling til person, minst fem svar per gruppe, data i EU. Hva vi lagrer, og hva vi ikke lagrer.",
+        "crumb": "Sikkerhet og personvern",
+        "kicker": "Sikkerhet og personvern",
+        "h1": "Anonymitet som ikke avhenger av at noen holder et løfte",
+        "lead": "Orgpuls lover at ingen kan se hvem som har svart hva. Det løftet er bygget inn i hvordan dataene lagres, ikke i en rutine noen må følge. Her er hva det betyr i praksis.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hva vi lagrer, og hva vi ikke lagrer"
+          },
+          {
+            "t": "p",
+            "text": "Om den enkelte ansatte lagres navn, e-post og gruppe i ansattregisteret, og mobilnummer hvis dere bruker SMS. Selve svaret lagres i en tabell som **ikke har noen kolonne som kunne holdt en kobling til en person**. Raden inneholder hvilken runde svaret hører til, hvilken gruppe personen er i, og timen det ble levert, avrundet til hele timer."
+          },
+          {
+            "t": "p",
+            "text": "Invitasjonslenken slås opp på en kryptografisk sjekksum idet den brukes. Invitasjonen husker at den er brukt, slik at påminnelsen ikke går til deg – men aldri hvilket svar den ga. Det finnes ingen visning, eksport eller spørring som kan svare på hva en navngitt person har svart – heller ikke for administratorer – fordi opplysningen ikke finnes."
+          },
+          {
+            "t": "h2",
+            "text": "Fem svar, ellers en strek"
+          },
+          {
+            "t": "p",
+            "text": "Ingen gruppe vises før minst fem har svart. Grensen håndheves av databasen og kan ikke senkes, bare heves. Når tallene for de andre gruppene ville avslørt en skjult gruppe, holdes en gruppe til tilbake, slik at ingen kan regne seg fram."
+          },
+          {
+            "t": "h2",
+            "text": "Kommentarer og samtaler"
+          },
+          {
+            "t": "p",
+            "text": "En kommentar vises bare når gruppen den kommer fra har nok svar, og gruppen følger aldri med kommentaren. Den som skrev får en privat nøkkel til samtalen; databasen lagrer bare en sjekksum av den. Vil en leder snakke direkte, kan de be om det – men bare den ansatte kan gi seg til kjenne, ved å skrive fra sin egen e-post."
+          },
+          {
+            "t": "h2",
+            "text": "Behandlingsgrunnlag"
+          },
+          {
+            "t": "p",
+            "text": "Behandlingsgrunnlaget er rettslig forpliktelse, GDPR artikkel 6 nr. 1 bokstav c, jf. arbeidsmiljøloven § 3-1 og § 4-3 – ikke samtykke, fordi en ansatt ikke kan samtykke fritt overfor sin arbeidsgiver. Spørsmålene er utformet for å unngå helseopplysninger, som arbeidsgiver ikke skal innhente. Screeningen for krenkende atferd og for vold og trusler rapporteres bare som antall."
+          },
+          {
+            "t": "h2",
+            "text": "Lagring"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Dataene lagres på servere i EU (Frankfurt), under GDPR",
+              "Svarene deles ikke med tredjeparter, og ingen svar brukes til å trene modeller",
+              "Et enkeltsvar kan ikke hentes ut eller slettes enkeltvis, fordi det ikke kan knyttes til en person (GDPR artikkel 11)"
+            ]
+          },
+          {
+            "t": "box",
+            "title": "Spørsmål om personvern?",
+            "text": "Skriv til [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no). Les også [hva anonymt må bety i en medarbeiderundersøkelse](/artikler/anonym-medarbeiderundersokelse)."
+          }
+        ]
+      },
+      "kontakt": {
+        "title": "Kontakt Orgpuls",
+        "description": "Spørsmål om Orgpuls, hjelp med oppsettet eller avtale for flere selskaper? Skriv til hjelp@orgpuls.no.",
+        "crumb": "Kontakt",
+        "kicker": "Kontakt",
+        "h1": "Snakk med oss",
+        "lead": "Den raskeste veien til oss er e-post. Skriv hva det gjelder og hvor mange ansatte dere er, så svarer vi.",
+        "blocks": [
+          {
+            "t": "cards",
+            "items": [
+              {
+                "title": "Flere selskaper eller over 100 ansatte",
+                "text": "Pakken Flere selskaper er etter avtale. Skriv til [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no?subject=Orgpuls%20for%20flere%20selskaper)."
+              },
+              {
+                "title": "Hjelp med oppsettet",
+                "text": "Trenger dere hjelp med det første oppsettet, skriv til [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no?subject=Hjelp%20med%20oppsett). Det koster ingenting."
+              },
+              {
+                "title": "Personvern",
+                "text": "Spørsmål om hva vi lagrer og hvordan: [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no?subject=Personvern). Se også [sikkerhet og personvern](/sikkerhet)."
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Vil dere heller prøve selv først? Registrer med organisasjonsnummeret – dere er i gang på tre minutter, uten kortopplysninger."
+          }
+        ]
       }
     }
   }
