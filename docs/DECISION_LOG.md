@@ -1909,6 +1909,37 @@ product funnel. Migration 0050 builds it:
 this should need no consent banner, but the specification asks for that to be confirmed
 legally. It is an open item.
 
+### X-060 — Tickets live in the database, behind the admin's own door
+
+The specification asks for an in-house ITSM module with one queue linked to organisation
+and user. Migration 0051 builds its core:
+
+- **Two ways in, both RPCs.**
+  - `submit_contact` is for anyone. It has a honeypot, a limit of three messages an hour per
+    address, and 60 an hour in total.
+    - An address that belongs to a customer links the ticket to that customer, marked
+      unverified, because the form proves nothing about who sent it.
+  - `submit_help_request` is for a signed-in member. It takes the organisation and role from
+    the session. A page, when one is given, is kept without its query string.
+- **Priority is derived, not chosen.**
+  - It is computed from impact × blocking. Personvern and security are never below high.
+  - Deadlines follow the agreed targets in business hours (Monday–Friday, 08–16, Oslo).
+  - A personvern request also carries its 30-day legal deadline.
+- **History is append-only.**
+  - `ticket_messages` and `ticket_events` refuse updates and deletes.
+  - They still leave with their ticket, per the "referential maintenance" rule.
+- **Replies are mail, sent by the dispatcher that already sends notices.**
+  - A reply is queued in `ticket_mail`. Only the service role can claim or complete a row.
+  - The Reply-To is the support inbox.
+  - Internal notes are never queued.
+- **Only support and super-admin, with a second factor, see ticket content.** Finance and
+  analyst see none, as the specification restricts it.
+  - Every read and change is in `admin_audit`, and every change is also a ticket event.
+- **No respondent channel, and no survey answer.** Nothing in 0051 references a
+  response-level table (test 3). The in-app form asks people not to paste answers.
+
+`supabase/tests/ticket_invariants.sql`: 18 checks, locally and on the hosted project.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -2069,7 +2100,7 @@ legally. It is an open item.
 - [x] The public site follows design-reference/orgpuls/nettside, pixel-diffed page by page, with the design's untrue claims corrected (D-88, X-056).
 - [ ] Names and photographs for the team cards on Om oss, or a decision to keep the roles (D-88).
 - [ ] A privacy statement and terms page; the footer lists both and registration refers to the first (D-88).
-- [ ] A stored inbox for the contact form, if wanted; today it writes the message in the visitor's own e-mail program (D-88).
+- [x] A stored inbox for the contact form: it files a ticket in the admin's queue (0051, D-92).
 - [ ] App copy still says "fem spørsmål" for a pulse (malinger.lead, veiviser.rhythm.lead, start.step.verify.body); a pulse is three statements per factor with open measures (X-056).
 - [x] Oppsett › Betaling: a 15-day trial, extendable once, plan and invoice details, confirmation (0048, D-89, X-057).
 - [ ] Decide what happens when a trial ends unconfirmed; today nothing is locked (D-89).
@@ -2084,3 +2115,8 @@ legally. It is an open item.
 - [ ] Search Console import (queries, impressions, position): needs a Google service account (D-91).
 - [ ] Campaign spend per channel, entered by hand, for cost per paid customer (D-91).
 - [ ] Vercel Web Analytics still runs beside the site's own beacon; decide whether to keep both (D-91).
+- [x] Ticketing core: contact form and in-app help create tickets; queues, types, derived priority, business-hour deadlines, replies by e-mail, notes, problem links (0051, D-92, X-060).
+- [ ] E-mail in: replies to hjelp@orgpuls.no do not yet thread onto the ticket; they arrive in that inbox (D-92).
+- [ ] Ticketing Phase 2: CSAT, reporting, canned replies editable in the admin, attachments, @mentions, service requests executed from the ticket (D-92).
+- [ ] Norwegian public holidays in the business-hours calendar (D-92).
+- [ ] A help button in the help panel that files a request with the current page (D-92).

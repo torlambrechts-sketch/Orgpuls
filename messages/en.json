@@ -1845,6 +1845,31 @@
           "p4": "SMS is the channel that moves the response rate most for sites, workshops and shift work. It is billed per message, so it is worth deciding whether it is used for every send or only for the reminders."
         }
       }
+    },
+    "form": {
+      "head": "Write to us here",
+      "note": "We can see which organisation and role you are writing from, so you do not need to explain.",
+      "open": "Write a message",
+      "category": "What is it about?",
+      "categories": {
+        "getting_started": "Getting started",
+        "survey_delivery": "Sending and invitations",
+        "results_anonymity": "Results and anonymity",
+        "tiltak": "Measures",
+        "billing": "Payment and invoice",
+        "bug": "Something is not working",
+        "feature_request": "Suggestion",
+        "personvern": "Privacy"
+      },
+      "subject": "Subject (optional)",
+      "body": "Message",
+      "bodyHint": "Do not paste answers or comments from the survey. We do not need them to help you.",
+      "send": "Send",
+      "sending": "Sending …",
+      "sent": "Thank you! Your case number is #{number}. We will reply by email.",
+      "invalid": "Write a message first.",
+      "limited": "You have sent many messages in the last hour. Wait a little, or email us.",
+      "failed": "The message did not go through. Try again, or email us."
     }
   },
   "integrasjoner": {
@@ -2495,6 +2520,10 @@
     "sms": {
       "default": "Hi! {org} is asking how you are doing at work. Your answer is completely anonymous:",
       "reminder": "Reminder from {org}: you have not answered yet. Deadline {date}. The link in the previous message no longer works. Answer anonymously here:"
+    },
+    "ticket": {
+      "replyHint": "Reply to this e-mail to continue the case. Case number #{number}.",
+      "footer": "You are receiving this e-mail because you wrote to Orgpuls."
     }
   },
   "newPassword": {
@@ -6220,8 +6249,9 @@
         "msg": "Message",
         "send": "Send message",
         "invalid": "Enter your name and a valid email address.",
-        "opened": "Your email program opens with the message ready to send to {mail}. Send it from there, and we'll reply within one working day.",
-        "mailBody": "{msg}\n\n— {name}\nEmail: {mail}\nOrganisation: {org}"
+        "sent": "Thank you! We’ve received your message and will reply by email within one working day.",
+        "limited": "You’ve sent several messages in the last hour. Wait a little, or email us.",
+        "failed": "The message didn’t go through. Email us at {mail}, and we’ll reply within one working day."
       }
     },
     "plattform": {
@@ -6984,7 +7014,8 @@
         "first": "Tags at first visit",
         "last": "Tags at signup",
         "none": "Not recorded: the signup came before attribution, or the browser kept nothing."
-      }
+      },
+      "tickets": "Tickets"
     },
     "users": {
       "title": "Users",
@@ -7121,6 +7152,149 @@
       "pages": "Most viewed pages",
       "page": "Page",
       "privacy": "The respondent's survey link, invitations and the product are never counted here."
+    },
+    "tickets": {
+      "title": "Tickets",
+      "lead": "Every request from the contact form and the in-app help, linked to the organisation and user it concerns. Priority follows impact and urgency; deadlines are in business hours.",
+      "queue": "Queue",
+      "view": "View",
+      "allQueues": "All queues",
+      "search": "Search subject, e-mail, organisation or #number",
+      "queues": {
+        "support": "Support",
+        "billing": "Billing",
+        "sales": "Sales",
+        "personvern": "Personvern"
+      },
+      "views": {
+        "open": "Open",
+        "mine": "Mine",
+        "unassigned": "Unassigned",
+        "overdue": "Overdue",
+        "resolved": "Resolved",
+        "all": "All"
+      },
+      "col": {
+        "number": "#",
+        "subject": "Subject",
+        "from": "From",
+        "priority": "Priority",
+        "status": "Status",
+        "assignee": "Assignee",
+        "due": "Due",
+        "created": "Created"
+      },
+      "types": {
+        "question": "Question",
+        "service_request": "Service request",
+        "incident": "Incident",
+        "problem": "Problem"
+      },
+      "statuses": {
+        "new": "New",
+        "open": "Open",
+        "waiting_customer": "Waiting on customer",
+        "waiting_us": "Waiting on us",
+        "resolved": "Resolved",
+        "closed": "Closed"
+      },
+      "priorities": {
+        "urgent": "Urgent",
+        "high": "High",
+        "normal": "Normal",
+        "low": "Low"
+      },
+      "impacts": {
+        "one_user": "One user",
+        "one_org": "One organisation",
+        "many_orgs": "Many organisations"
+      },
+      "categories": {
+        "getting_started": "Getting started",
+        "survey_delivery": "Survey delivery",
+        "results_anonymity": "Results and anonymity",
+        "tiltak": "Tiltak",
+        "billing": "Billing",
+        "bug": "Bug",
+        "feature_request": "Feature request",
+        "sales": "Sales",
+        "personvern": "Personvern request"
+      },
+      "channels": {
+        "contact_form": "Contact form",
+        "in_app": "In-app help",
+        "email": "E-mail",
+        "admin": "Admin"
+      },
+      "overdue": "Overdue",
+      "dueFirst": "first response",
+      "dueResolve": "resolution",
+      "back": "All tickets",
+      "conversation": "Conversation",
+      "system": "Orgpuls",
+      "internalNote": "internal note",
+      "mail": {
+        "pending": "e-mail queued",
+        "sending": "e-mail sending",
+        "sent": "e-mail sent",
+        "failed": "e-mail failed"
+      },
+      "respond": "Reply or note",
+      "replyLabel": "Reply to {email}",
+      "canned": "Canned reply",
+      "cannedNone": "Start from a canned reply …",
+      "internal": "Internal note",
+      "internalHint": "(not sent; only admins see it)",
+      "thenStatus": "Then set status to",
+      "keepStatus": "Waiting on customer (default) / unchanged for a note",
+      "send": "Send reply",
+      "saveNote": "Save note",
+      "timeline": "Timeline",
+      "events": {
+        "created": "Created",
+        "updated": "Changed",
+        "reply": "Replied",
+        "note": "Note added",
+        "round_linked": "Survey linked",
+        "round_unlinked": "Survey unlinked"
+      },
+      "requester": "Requester",
+      "name": "Name",
+      "email": "E-mail",
+      "company": "Company (as typed)",
+      "org": "Organisation",
+      "unverified": "Linked by e-mail address from the contact form: not verified.",
+      "role": "Role",
+      "page": "Page",
+      "browser": "Browser",
+      "deadlines": "Deadlines",
+      "firstResponse": "First response",
+      "resolveBy": "Resolve by",
+      "legalDue": "Legal deadline (30 days)",
+      "respondedAt": "answered {at}",
+      "resolvedAt": "resolved {at}",
+      "slaNote": "Business hours: Monday–Friday 08–16, Oslo. Public holidays are not subtracted.",
+      "fields": "Fields",
+      "type": "Type",
+      "category": "Category",
+      "impact": "Impact",
+      "blocking": "Urgency",
+      "blockingNo": "Not blocking a send",
+      "blockingYes": "Blocking a send",
+      "unassigned": "Unassigned",
+      "problemLink": "Caused by problem",
+      "noProblem": "None",
+      "priorityNote": "Priority is derived from impact × urgency; personvern and security are at least high.",
+      "serviceRequest": "Service request",
+      "serviceRequestNote": "Trial extensions and the organisation's other actions are carried out on its page, with a reason, and logged there.",
+      "openOrg": "Open the organisation",
+      "rounds": "Linked surveys",
+      "incidents": "Incidents caused by this problem",
+      "history": "Other tickets from this organisation or address",
+      "problem": {
+        "invalid_reply": "Write the reply first.",
+        "invalid": "That change is not allowed."
+      }
     }
   }
 }

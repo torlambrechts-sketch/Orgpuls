@@ -14,6 +14,8 @@ export interface BrevoMessage {
   html: string
   text: string
   tag: string
+  /** where the recipient's answer goes; a ticket reply is answered to the support inbox */
+  replyTo?: { email: string; name?: string }
 }
 
 export type SendResult =
@@ -31,6 +33,7 @@ export async function brevoSend(key: string, m: BrevoMessage, opts: { sandbox?: 
     textContent: m.text,
     tags: [m.tag],
   }
+  if (m.replyTo) body.replyTo = m.replyTo
   // one version per person: nobody sees anybody else's address
   if (m.to.length === 1) body.to = [person(m.to[0])]
   else body.messageVersions = m.to.map((r) => ({ to: [person(r)] }))

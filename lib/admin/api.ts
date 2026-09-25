@@ -298,3 +298,119 @@ const Attribution = z.object({
 })
 export type Attribution = z.infer<typeof Attribution>['row']
 export const orgAttribution = (org: string) => call('admin_org_attribution', { p_org: org }, Attribution)
+
+// ---------------------------------------------------------------- tickets (0051)
+export const TICKET_QUEUES = ['support', 'billing', 'sales', 'personvern'] as const
+export const TICKET_VIEWS = ['open', 'mine', 'unassigned', 'overdue', 'resolved', 'all'] as const
+export const TICKET_TYPES = ['question', 'service_request', 'incident', 'problem'] as const
+export const TICKET_STATUSES = ['new', 'open', 'waiting_customer', 'waiting_us', 'resolved', 'closed'] as const
+export const TICKET_PRIORITIES = ['urgent', 'high', 'normal', 'low'] as const
+export const TICKET_IMPACTS = ['one_user', 'one_org', 'many_orgs'] as const
+export const TICKET_CATEGORIES = [
+  'getting_started',
+  'survey_delivery',
+  'results_anonymity',
+  'tiltak',
+  'billing',
+  'bug',
+  'feature_request',
+  'sales',
+  'personvern',
+] as const
+
+const TicketRow = z.object({
+  id: z.string(),
+  number: num,
+  subject: z.string(),
+  type: z.enum(TICKET_TYPES),
+  status: z.enum(TICKET_STATUSES),
+  priority: z.enum(TICKET_PRIORITIES),
+  queue: z.enum(TICKET_QUEUES),
+  category: z.enum(TICKET_CATEGORIES),
+  channel: z.string(),
+  requester_name: z.string().nullable(),
+  requester_email: z.string(),
+  org_name: z.string().nullable(),
+  org_id: z.string().nullable(),
+  assignee_email: z.string().nullable(),
+  created_at: ts,
+  first_response_due: ts,
+  resolve_due: ts,
+  first_responded_at: tsn,
+  legal_due: tsn,
+  overdue: z.boolean(),
+  last_message_at: tsn,
+})
+export type TicketRow = z.infer<typeof TicketRow>
+export const tickets = (queue: string | null, view: string, search: string | null) =>
+  call(
+    'admin_tickets',
+    { p_queue: queue, p_view: view, p_search: search },
+    z.object({ counts: z.record(z.string(), num), rows: z.array(TicketRow) }),
+  )
+
+const Ticket = z.object({
+  ticket: z.object({
+    id: z.string(),
+    number: num,
+    subject: z.string(),
+    type: z.enum(TICKET_TYPES),
+    status: z.enum(TICKET_STATUSES),
+    priority: z.enum(TICKET_PRIORITIES),
+    queue: z.enum(TICKET_QUEUES),
+    category: z.enum(TICKET_CATEGORIES),
+    impact: z.enum(TICKET_IMPACTS),
+    blocking: z.boolean(),
+    channel: z.string(),
+    org_id: z.string().nullable(),
+    org_name: z.string().nullable(),
+    user_id: z.string().nullable(),
+    requester_name: z.string().nullable(),
+    requester_email: z.string(),
+    requester_org: z.string().nullable(),
+    context: z.record(z.string(), z.unknown()),
+    assignee_id: z.string().nullable(),
+    assignee_email: z.string().nullable(),
+    problem_id: z.string().nullable(),
+    problem_number: numn,
+    first_response_due: ts,
+    resolve_due: ts,
+    legal_due: tsn,
+    first_responded_at: tsn,
+    resolved_at: tsn,
+    created_at: ts,
+  }),
+  messages: z.array(
+    z.object({
+      id: z.string(),
+      author_kind: z.enum(['customer', 'admin', 'system']),
+      author_email: z.string().nullable(),
+      body: z.string(),
+      internal: z.boolean(),
+      created_at: ts,
+      mail: z.string().nullable(),
+    }),
+  ),
+  events: z.array(
+    z.object({ at: ts, kind: z.string(), actor_email: z.string().nullable(), detail: z.record(z.string(), z.unknown()) }),
+  ),
+  rounds: z.array(z.object({ id: z.string(), kind: z.string(), year: num, status: z.string(), linked: z.boolean() })),
+  incidents: z.array(z.object({ id: z.string(), number: num, subject: z.string(), status: z.string() })),
+  problems: z.array(z.object({ id: z.string(), number: num, subject: z.string() })),
+  admins: z.array(z.object({ id: z.string(), email: z.string().nullable() })),
+  canned: z.array(z.object({ key: z.string(), title: z.string(), body: z.string() })),
+  history: z.array(z.object({ id: z.string(), number: num, subject: z.string(), status: z.string(), created_at: ts })),
+})
+export type Ticket = z.infer<typeof Ticket>
+export const ticket = (id: string) => call('admin_ticket', { p_id: id }, Ticket)
+
+export const orgTickets = (org: string) =>
+  call(
+    'admin_org_tickets',
+    { p_org: org },
+    z.object({
+      rows: z.array(
+        z.object({ id: z.string(), number: num, subject: z.string(), status: z.string(), priority: z.string(), created_at: ts }),
+      ),
+    }),
+  )

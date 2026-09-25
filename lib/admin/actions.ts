@@ -129,3 +129,60 @@ export async function setAdmin(_prev: AdminResult | null, formData: FormData): P
   if (r.ok) revalidatePath('/admin/admins')
   return r
 }
+
+// ---------------------------------------------------------------- tickets (0051, D-92)
+export async function replyTicket(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({
+      id: z.string().uuid(),
+      body: z.string().trim().min(1).max(10000),
+      internal: z.boolean(),
+      status: z.enum(['', 'open', 'waiting_customer', 'waiting_us', 'resolved', 'closed']),
+    })
+    .safeParse({
+      id: formData.get('id'),
+      body: formData.get('body'),
+      internal: formData.get('internal') === 'on',
+      status: formData.get('status') ?? '',
+    })
+  if (!parsed.success) return { ok: false, problem: 'invalid_reply' }
+  const r = await rpc('admin_ticket_reply', {
+    p_id: parsed.data.id,
+    p_body: parsed.data.body,
+    p_internal: parsed.data.internal,
+    p_status: parsed.data.status || null,
+  })
+  if (r.ok) revalidatePath(`/admin/tickets/${parsed.data.id}`)
+  return r
+}
+
+const FIELDS = ['status', 'type', 'impact', 'blocking', 'queue', 'category', 'assignee', 'problem'] as const
+
+export async function updateTicket(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const id = z.string().uuid().safeParse(formData.get('id'))
+  if (!id.success) return { ok: false, problem: 'invalid' }
+  const changes: Record<string, string | boolean> = {}
+  for (const f of FIELDS) {
+    const v = formData.get(f)
+    if (typeof v !== 'string') continue
+    if (!/^[a-z_0-9-]{0,40}$/.test(v)) return { ok: false, problem: 'invalid' }
+    changes[f] = f === 'blocking' ? v === 'yes' : v
+  }
+  const r = await rpc('admin_ticket_update', { p_id: id.data, p_changes: changes })
+  if (r.ok) revalidatePath(`/admin/tickets/${id.data}`)
+  return r
+}
+
+export async function linkRound(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({ id: z.string().uuid(), round: z.string().uuid(), linked: z.enum(['yes', 'no']) })
+    .safeParse({ id: formData.get('id'), round: formData.get('round'), linked: formData.get('linked') })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_ticket_link_round', {
+    p_id: parsed.data.id,
+    p_round: parsed.data.round,
+    p_linked: parsed.data.linked === 'yes',
+  })
+  if (r.ok) revalidatePath(`/admin/tickets/${parsed.data.id}`)
+  return r
+}

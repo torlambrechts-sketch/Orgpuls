@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { ButtonLink } from '@/components/ui/Button'
 import { ArticleList, type ArticleCard } from '@/components/hjelp/ArticleList'
+import { HelpRequestForm } from '@/components/hjelp/HelpRequestForm'
+import { REQUEST_CATEGORIES } from '@/lib/help/request'
 
 /**
  * Hjelp. Bundle lines 1057-1142.
@@ -17,6 +19,9 @@ import { ArticleList, type ArticleCard } from '@/components/hjelp/ArticleList'
  * reading "Alle systemer virker som de skal · sist oppdatert i dag kl. 06.00" (there is no
  * monitor, and an uptime claim with nothing behind it is the worst kind of reassurance).
  * What is left is the e-mail address, which is real, and one line saying why. D-34.
+ *
+ * Below it, a form that files a request in Orgpuls' own queue (D-92), in place of the
+ * design's chat, which does not exist.
  */
 export interface HjelpView {
   articles: ArticleCard[]
@@ -102,6 +107,29 @@ export async function HjelpScreen({ view }: { view: HjelpView }) {
                 >
                   {t('hjelp.contactMailCta')}
                 </a>
+              </div>
+              <div className="rounded-tile border border-line bg-bg px-[16px] py-[14px]">
+                <span className="text-[13.5px] font-bold">{t('hjelp.form.head')}</span>
+                <div className="mt-[5px] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">{t('hjelp.form.note')}</div>
+                <HelpRequestForm
+                  labels={{
+                    open: t('hjelp.form.open'),
+                    category: t('hjelp.form.category'),
+                    categories: Object.fromEntries(REQUEST_CATEGORIES.map((c) => [c, t(`hjelp.form.categories.${c}`)])) as Record<
+                      (typeof REQUEST_CATEGORIES)[number],
+                      string
+                    >,
+                    subject: t('hjelp.form.subject'),
+                    body: t('hjelp.form.body'),
+                    bodyHint: t('hjelp.form.bodyHint'),
+                    send: t('hjelp.form.send'),
+                    sending: t('hjelp.form.sending'),
+                    sent: t.raw('hjelp.form.sent') as string,
+                    invalid: t('hjelp.form.invalid'),
+                    limited: t('hjelp.form.limited'),
+                    failed: t('hjelp.form.failed'),
+                  }}
+                />
               </div>
             </div>
             <p className="mt-[13px] text-[12px] leading-[1.5] text-mut [text-wrap:pretty]">

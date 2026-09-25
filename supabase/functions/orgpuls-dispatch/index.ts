@@ -6,6 +6,9 @@
  * start a drain, nothing else, and a leaked drain trigger is a nuisance where a leaked
  * service key is the database. `verify_jwt` is off because pg_net sends no JWT.
  *
+ * After the notices, replies to support tickets (0051) are drained the same way, each sent
+ * with the support inbox as Reply-To.
+ *
  * The loop: claim a batch (the database mints each respondent link, leases the row and,
  * since 0033, picks the channel), render, send, and report each row as done or failed. An
  * SMS that cannot be sent — no credits, an unregistered sender, a number the operator
@@ -24,7 +27,7 @@
  */
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import { brevoSend, brevoSendSms, type SendResult } from '../_shared/brevo.ts'
-import { groupsOf, langOf, renderNotice, smsLead, type MailCatalogue, type NoticeJob } from '../_shared/mail.ts'
+import { groupsOf, langOf, renderNotice, renderTicketReply, smsLead, type MailCatalogue, type NoticeJob, type TicketJob } from '../_shared/mail.ts'
 import { normalizePhone, smsContent, smsLength } from '../_shared/sms.ts'
 import { MAIL } from '../_shared/messages.gen.ts'
 
@@ -194,5 +197,50 @@ Deno.serve(async (req) => {
   }
 
   if (tally.claimed) console.log(`[dispatch] claimed ${tally.claimed}, sent ${tally.sent} (${tally.sms} by SMS), retry ${tally.retry}, failed ${tally.failed}`)
-  return json(tally)
+
+  // replies to support tickets (0051, D-92), answered to the support inbox
+  const replyTo = { email: Deno.env.get('ORGPULS_SUPPORT_MAIL') ?? 'hjelp@orgpuls.no', name: 'Orgpuls' }
+  const tickets = { sent: 0, retry: 0, failed: 0 }
+  while (Date.now() - started < BUDGET_MS) {
+    const { data, error } = await svc.rpc('ticket_mail_claim', { p_batch: BATCH })
+    if (error) {
+      console.error(`[dispatch] ticket claim failed: ${error.code ?? ''} ${error.message}`)
+      break
+    }
+    const jobs = (data ?? []) as TicketJob[]
+    if (jobs.length === 0) break
+    for (const job of jobs) {
+      let outcome: SendResult
+      try {
+        const r = renderTicketReply(cat, job)
+        outcome = await brevoSend(key, {
+          sender,
+          to: [{ email: job.to_email, name: job.to_name }],
+          subject: r.subject,
+          html: r.html,
+          text: r.text,
+          tag: 'orgpuls-ticket',
+          replyTo,
+        })
+      } catch (e) {
+        console.error(`[dispatch] ticket ${job.id}: render failed: ${(e as Error).message}`)
+        outcome = { ok: false, retryable: true, auth: false, code: 'render' }
+      }
+      await svc.rpc('ticket_mail_done', {
+        p_id: job.id,
+        p_ok: outcome.ok,
+        p_provider_id: outcome.ok ? outcome.id || null : null,
+        p_error: outcome.ok ? null : outcome.code,
+        p_permanent: !outcome.ok && !outcome.retryable,
+      })
+      if (outcome.ok) tickets.sent++
+      else if (outcome.retryable) tickets.retry++
+      else tickets.failed++
+      if (!outcome.ok) console.error(`[dispatch] ticket ${job.id}: ${outcome.code}`)
+      if (!outcome.ok && outcome.auth) return json({ error: 'provider_unauthorised', ...tally, tickets }, 502)
+    }
+    if (jobs.length < BATCH) break
+  }
+  if (tickets.sent + tickets.retry + tickets.failed) console.log(`[dispatch] ticket replies: sent ${tickets.sent}, retry ${tickets.retry}, failed ${tickets.failed}`)
+  return json({ ...tally, tickets })
 })

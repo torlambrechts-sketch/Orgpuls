@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
+import { sendContact } from '@/app/(marketing)/om-oss/actions'
 
 type Words = {
   k: string
@@ -15,21 +16,20 @@ type Words = {
   msg: string
   send: string
   invalid: string
+  sent: string
+  limited: string
   /** with `{mail}` */
-  opened: string
-  /** with `{msg}`, `{name}`, `{mail}`, `{org}` */
-  mailBody: string
+  failed: string
 }
 
 /**
  * "Skriv til oss" (D-88; Om oss.dc.html lines 167-186): four topics, then name, e-mail,
  * company and message.
  *
- * Nothing on the site receives a message, so "Send melding" does what the site can honestly
- * do: it opens the visitor's own e-mail program with the message written out to Orgpuls'
- * address, the topic as its subject. Nothing is stored here or sent from here; the visitor
- * sends it, from their own address. The design's check stays: a name and an e-mail address
- * that looks like one, or the line under the button says what is missing.
+ * "Send melding" files the message as a ticket in the admin's queue (D-92), with the topic
+ * choosing the queue. The design's check stays: a name and an e-mail address that looks like
+ * one, or the line under the button says what is missing. If the message cannot be filed,
+ * the line gives the address to write to instead. A field no person sees catches form bots.
  */
 export function ContactBlock({ words: w, to }: { words: Words; to: string }) {
   const [topic, setTopic] = useState(0)
@@ -37,7 +37,9 @@ export function ContactBlock({ words: w, to }: { words: Words; to: string }) {
   const [mail, setMail] = useState('')
   const [org, setOrg] = useState('')
   const [msg, setMsg] = useState('')
+  const [trap, setTrap] = useState('')
   const [note, setNote] = useState<{ ok: boolean; text: string } | null>(null)
+  const [sending, startSending] = useTransition()
 
   const field = 'h-[46px] rounded-cta border border-line bg-bg px-[14px] text-[14.5px] font-normal text-ink'
 
@@ -80,13 +82,15 @@ export function ContactBlock({ words: w, to }: { words: Words; to: string }) {
             setNote({ ok: false, text: w.invalid })
             return
           }
-          const body = w.mailBody
-            .replace('{msg}', msg.trim())
-            .replace('{name}', name.trim())
-            .replace('{mail}', mail.trim())
-            .replace('{org}', org.trim() || '—')
-          window.location.href = `mailto:${to}?subject=${encodeURIComponent(w.topics[topic] ?? '')}&body=${encodeURIComponent(body)}`
-          setNote({ ok: true, text: w.opened.replace('{mail}', to) })
+          startSending(async () => {
+            const r = await sendContact({ topic, name, mail, org, msg, trap }).catch(() => null)
+            if (r?.ok) {
+              setMsg('')
+              setNote({ ok: true, text: w.sent })
+            } else if (r?.problem === 'invalid') setNote({ ok: false, text: w.invalid })
+            else if (r?.problem === 'rate_limited') setNote({ ok: false, text: w.limited })
+            else setNote({ ok: false, text: w.failed.replace('{mail}', to) })
+          })
         }}
         className="flex flex-col gap-[12px]"
       >
@@ -123,8 +127,19 @@ export function ContactBlock({ words: w, to }: { words: Words; to: string }) {
             className="resize-y rounded-cta border border-line bg-bg px-[14px] py-[12px] text-[14.5px] font-normal leading-[1.5] text-ink"
           />
         </label>
+        {/* for form bots only: off screen, out of the tab order, hidden from assistive technology */}
+        <input
+          name="website"
+          value={trap}
+          onChange={(e) => setTrap(e.target.value)}
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          className="absolute left-[-10000px] h-px w-px overflow-hidden"
+        />
         <button
           type="submit"
+          disabled={sending}
           className="h-[50px] cursor-pointer rounded-tile border border-ink bg-ac text-[15.5px] font-bold text-ink"
         >
           {w.send}

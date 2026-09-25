@@ -3836,3 +3836,96 @@ was deleted afterwards:
 - The four product pages each counted once.
 - The Web analytics page showed the visit.
 - The test's events and admin account were deleted afterwards.
+
+## D-92 — Tickets: the contact form and in-app help land in one queue in the admin
+
+**The request:** the ticketing part of the admin specification's Phase 1. It asks for:
+- the contact form, in-app help and e-mail as ways in;
+- ticket types, statuses and queues;
+- tickets linked to an organisation and user;
+- canned replies.
+
+**What was built (0051, X-060):**
+- **The contact form on Om oss files a ticket.** Its four topics choose the queue:
+  - product question → Support;
+  - pricing → Sales;
+  - first send → Support;
+  - personvern → Personvern.
+
+  The visitor reads "Takk! Vi har fått meldingen …". It no longer opens the visitor's own
+  mail program (D-88). A field that only form bots fill in is kept off screen. The page
+  renders exactly as before.
+- **Hjelp has a request form.** "Skriv til oss her" sits below the e-mail card in the right
+  column, where the design draws a chat that does not exist (D-34).
+  - It files a ticket with the member's organisation, role and browser.
+  - It does not record the page the member came from. The product sends
+    `Referrer-Policy: no-referrer` to protect the respondent's token, so that page is
+    unknown.
+    - The first version sent the referrer and so always recorded /hjelp. It was removed.
+    - The specification's "current page" would need a help button on every screen, in the
+      help panel. That is left open.
+  - It answers with the case number.
+  - It is the only change to that screen, and it is not in the pixel gate (the gate's
+    21-hjelp is the help panel).
+- **Admin › Tickets.**
+  - Queues (Support, Billing, Sales, Personvern) with open counts.
+  - Views: open, mine, unassigned, overdue, resolved, all.
+  - A search.
+  - Overdue first, then by priority.
+- **A ticket's page:**
+  - the conversation, with internal notes marked and whether each reply's e-mail was sent;
+  - a reply or note, starting from a Norwegian canned reply if wanted, then a status;
+  - the fields (status, type, queue, category, impact, urgency, assignee, caused-by
+    problem);
+  - the deadlines;
+  - the organisation's surveys, to link;
+  - the incidents a problem caused;
+  - other tickets from the same organisation or address;
+  - the timeline.
+- **Replies are e-mailed by the dispatcher** (orgpuls-dispatch, deployed). They use the
+  product's mail layout and the case number, with hjelp@orgpuls.no as Reply-To.
+- **An organisation's page lists its tickets.**
+
+**Choices made where the specification was open:**
+- **Priority matrix.**
+  - Blocking a send for one or many organisations is urgent.
+  - Blocking for one user, or affecting many organisations without blocking, is high.
+  - Personvern is at least high.
+  - A feature request or sales question is low.
+  - Everything else is normal.
+- **Business hours** are Monday to Friday, 08–16 in Oslo. A business day is eight hours.
+  Public holidays are not subtracted yet.
+- **A service request is carried out on the organisation's page**, where the action already
+  is and is audited with its reason. The ticket links there. Running actions from the ticket
+  is Phase 2 in the specification.
+- **Contact-form tickets are linked by e-mail address** to an existing customer, and the
+  admin sees that the link is unverified.
+
+**Left open:**
+- **E-mail in.** It needs an inbound route at the mail provider. Until then, a customer's
+  answer to a reply reaches hjelp@orgpuls.no, not the ticket.
+- **CSAT, reporting, attachments and @mentions,** and editing canned replies in the admin.
+  These are Phase 2 in the specification.
+- **Ticket numbers are not consecutive.** They come from a sequence, and the SQL suite's
+  rolled-back probes use numbers up.
+
+**Found and fixed while testing:**
+- **Stale fields.** The fields form kept the values it was first drawn with. Saving it after
+  a reply had moved the status to "waiting on customer" put the status back to "new".
+  - The form now sends only the fields changed in it.
+  - It is redrawn from the ticket's current values after every change.
+- **An invalid module.** A "use server" file exported a constant, which fails the build.
+  The categories moved to lib/help/request.
+
+**Verified in the browser** against the hosted project:
+- The contact form filed a ticket, and the honeypot is invisible.
+- The dev account's Hjelp form filed #1008 with its organisation and role.
+- In the admin:
+  - a canned reply was sent and queued as e-mail;
+  - an internal note was saved and not queued;
+  - impact "one organisation" with a blocked send made the ticket urgent;
+  - a survey was linked;
+  - the organisation's page listed the ticket.
+- The dispatcher's next run handed all six queued test replies to Brevo (`tickets: sent 6`).
+  They went to `.invalid` test addresses, so they bounce.
+- The test's tickets and admin account were deleted afterwards.

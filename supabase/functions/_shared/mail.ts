@@ -139,7 +139,8 @@ function layout(p: Parts): { text: string; html: string } {
     p.footer,
   ].join('\n\n')
 
-  const para = (s: string, style = 'margin:0 0 14px;font-size:15px;line-height:1.6;color:#191510') =>
+  // pre-line: a ticket reply's own line breaks (a signature) survive; notices have none
+  const para = (s: string, style = 'margin:0 0 14px;font-size:15px;line-height:1.6;color:#191510;white-space:pre-line') =>
     `<p style="${style}">${escapeHtml(s)}</p>`
 
   const button = p.cta
@@ -279,4 +280,35 @@ export function authLink(appUrl: string, action: AuthAction, tokenHash: string):
   const next = action === 'recovery' ? '/nytt-passord' : '/innsikt'
   const q = new URLSearchParams({ token_hash: tokenHash, type, next })
   return `${appUrl.replace(/\/+$/, '')}/auth/confirm?${q.toString()}`
+}
+
+// ---------------------------------------------------------------------------------------
+// A reply to a support ticket (D-92). The admin writes the whole message, greeting and
+// signature included; this lays it out in the product's mail and adds the case number.
+// ---------------------------------------------------------------------------------------
+
+export interface TicketJob {
+  id: string
+  to_email: string
+  to_name: string | null
+  subject: string
+  number: number
+  body: string
+}
+
+export function renderTicketReply(cat: MailCatalogue, job: TicketJob, lang: Lang = 'no'): Rendered {
+  const m = cat[lang]
+  const paragraphs = job.body
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean)
+  const { text, html } = layout({
+    lang,
+    greeting: paragraphs[0] ?? '',
+    paragraphs: paragraphs.slice(1),
+    cta: null,
+    after: [fill(pick(m, 'ticket.replyHint'), { number: job.number })],
+    footer: pick(m, 'ticket.footer'),
+  })
+  return { subject: job.subject, text, html }
 }

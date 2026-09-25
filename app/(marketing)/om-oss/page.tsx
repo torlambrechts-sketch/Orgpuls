@@ -17,8 +17,8 @@ import { zip } from '@/lib/site/zip'
  * Two places differ from the drawing, both because the drawing holds a place for something
  * that does not exist yet. The team cards have a photo slot and "Navn": until there are
  * names and photographs to show, each card shows its role and the illustrated face the start
- * page gives the same role. And nothing receives the contact form, so it writes the message
- * in the visitor's own e-mail program (ContactBlock).
+ * page gives the same role. The contact form files a ticket in the admin's queue (ContactBlock,
+ * D-92).
  */
 export const dynamic = 'force-static'
 
@@ -240,8 +240,9 @@ export default async function OmOssPage() {
             msg: t('contact.msg'),
             send: t('contact.send'),
             invalid: t('contact.invalid'),
-            opened: t.raw('contact.opened') as string,
-            mailBody: t.raw('contact.mailBody') as string,
+            sent: t('contact.sent'),
+            limited: t('contact.limited'),
+            failed: t.raw('contact.failed') as string,
           }}
         />
       </section>

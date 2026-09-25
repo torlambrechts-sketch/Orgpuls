@@ -3,7 +3,8 @@ import { getTranslations } from 'next-intl/server'
 import { ExtendTrialForm, NoteForm } from '@/components/admin/ActionForms'
 import { ALink, Badge, Card, day, nok, PageHead, pct, Problem, Table, Td, when, type BadgeTone } from '@/components/admin/ui'
 import { canSee } from '@/lib/admin/access'
-import { auditList, emailLog, isError, orgAttribution, orgDetail, whoami } from '@/lib/admin/api'
+import { auditList, emailLog, isError, orgAttribution, orgDetail, orgTickets, whoami } from '@/lib/admin/api'
+import { STATUS_TONE } from '@/components/admin/tones'
 
 const TONE: Record<'trial' | 'active' | 'expired', BadgeTone> = { trial: 'yellow', active: 'green', expired: 'red' }
 
@@ -23,7 +24,9 @@ export default async function AdminOrg({ params }: { params: Promise<{ id: strin
     return <Problem text={d.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   }
   const support = who?.role === 'super_admin' || who?.role === 'support'
-  const [mail, trail] = support ? await Promise.all([emailLog(id), auditList(id, 100)]) : [null, null]
+  const [mail, trail, cases] = support
+    ? await Promise.all([emailLog(id), auditList(id, 100), orgTickets(id)])
+    : [null, null, null]
   const o = d.org
   const b = d.billing
   const problems = {
@@ -184,6 +187,30 @@ export default async function AdminOrg({ params }: { params: Promise<{ id: strin
           </ul>
         </Card>
       </div>
+
+      {cases && !isError(cases) ? (
+        <Card title={t('org.tickets')} className="mt-[14px]">
+          <Table
+            head={[t('tickets.col.number'), t('tickets.col.subject'), t('tickets.col.status'), t('tickets.col.created')]}
+            empty={cases.rows.length ? undefined : t('common.none')}
+          >
+            {cases.rows.map((c) => (
+              <tr key={c.id}>
+                <Td className="font-semibold">
+                  <ALink href={`/admin/tickets/${c.id}`}>#{c.number}</ALink>
+                </Td>
+                <Td wrap className="min-w-[240px]">
+                  <ALink href={`/admin/tickets/${c.id}`}>{c.subject}</ALink>
+                </Td>
+                <Td>
+                  <Badge tone={STATUS_TONE[c.status] ?? 'grey'}>{t(`tickets.statuses.${c.status}`)}</Badge>
+                </Td>
+                <Td>{when(c.created_at)}</Td>
+              </tr>
+            ))}
+          </Table>
+        </Card>
+      ) : null}
 
       {d.users ? (
         <Card title={t('org.users')} className="mt-[14px]">
