@@ -1892,7 +1892,7 @@
       "export": {
         "who": "Export throughout",
         "title": "The data is yours",
-        "body": "Download answers, reports and the measure log as PDF and spreadsheets at any time — including after the agreement ends."
+        "body": "Download answers, reports and the measure log as PDF at any time — including after the agreement ends."
       },
       "eu": {
         "who": "Stored in the EU",
@@ -1903,7 +1903,7 @@
     "priceEyebrow": "Price",
     "priceTitle": "One price, everything included",
     "priceLead": "No surcharge for reports, integrations or the number of measurements. A monthly agreement with no lock-in.",
-    "priceNote": "All prices are excluding VAT. Safety and union representatives have access at no extra cost.",
+    "priceNote": "All prices are excluding VAT. The safety representative has access at no extra cost.",
     "planRecommended": "Recommended",
     "plan": {
       "small": {
@@ -1966,7 +1966,7 @@
       },
       "leaving": {
         "q": "What happens to the data if we stop using Orgpuls?",
-        "a": "You own it. Download everything as PDF and spreadsheets at any time, including after a cancellation. If you cancel, we delete the answers after 30 days. The reports you have downloaded you keep, so that the documentation is in order."
+        "a": "You own it. Download everything as PDF at any time, including after a cancellation. If you cancel, we delete the answers after 30 days. The reports you have downloaded you keep, so that the documentation is in order."
       }
     },
     "finalTitle": "Try it on your own undertaking",

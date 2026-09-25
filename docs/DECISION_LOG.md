@@ -1813,5 +1813,5 @@ What changed on the start page, and why, is D-79.
 - [x] A respondent gets a private link to each comment's conversation and can read and answer replies (X-048, D-78).
 - [x] Every results screen reads its results in one RPC, `results_digest` (X-049, 0044); `cell_release` counts in one pass (0045).
 - [x] Public site for search: four landing pages, six articles, sitemap, robots, structured data (X-050, D-79).
-- [ ] The start page promises spreadsheet export, which does not exist (X-050).
+- [x] The start page no longer promises spreadsheet export, and names only the verneombud as having free access (X-050, D-79).
 - [ ] "Personvern" in the public footer points at /hjelp/gdpr, which is behind the sign-in (D-79).

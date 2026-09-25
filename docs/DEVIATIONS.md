@@ -3244,6 +3244,12 @@ The hero is unchanged, and so is every section the design draws. What changed:
   - Tillitsvalgte are not described as having access: the product's roles are daglig
     leder, avdelingsleder and verneombud.
   - Export to spreadsheet is not mentioned.
+- **Two design lines corrected on the start page, at the owner's request.**
+  - "som PDF og regneark" is now "som PDF", in the "Dataene er deres" card and in the
+    FAQ answer about leaving. No spreadsheet export exists.
+  - The price note's "Verneombud og tillitsvalgte har tilgang" is now "Verneombudet har
+    tilgang". Tillitsvalgt is not a role that can sign in.
+  - The English strings are changed to match.
 - **Search and sitemap.** `sitemap.xml` lists the public pages. `robots.txt` keeps the
   survey, invitation and password links, the component gallery and the application out of
   the index. The middleware's public paths include the new routes.

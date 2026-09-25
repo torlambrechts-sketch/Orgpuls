@@ -1892,7 +1892,7 @@
       "export": {
         "who": "Eksport hele veien",
         "title": "Dataene er deres",
-        "body": "Last ned svar, rapporter og tiltakslogg som PDF og regneark når som helst — også etter at avtalen er avsluttet."
+        "body": "Last ned svar, rapporter og tiltakslogg som PDF når som helst — også etter at avtalen er avsluttet."
       },
       "eu": {
         "who": "Lagring i EU",
@@ -1903,7 +1903,7 @@
     "priceEyebrow": "Pris",
     "priceTitle": "Én pris, alt inkludert",
     "priceLead": "Ingen tillegg for rapporter, integrasjoner eller antall målinger. Månedlig avtale uten bindingstid.",
-    "priceNote": "Alle priser er uten merverdiavgift. Verneombud og tillitsvalgte har tilgang uten at det koster ekstra.",
+    "priceNote": "Alle priser er uten merverdiavgift. Verneombudet har tilgang uten at det koster ekstra.",
     "planRecommended": "Anbefalt",
     "plan": {
       "small": {
@@ -1966,7 +1966,7 @@
       },
       "leaving": {
         "q": "Hva skjer med dataene hvis vi slutter å bruke Orgpuls?",
-        "a": "Dere eier dem. Last ned alt som PDF og regneark når som helst, også etter en oppsigelse. Sier dere opp, sletter vi svarene etter 30 dager. Rapportene dere har lastet ned, beholder dere — slik at dokumentasjonen er i orden."
+        "a": "Dere eier dem. Last ned alt som PDF når som helst, også etter en oppsigelse. Sier dere opp, sletter vi svarene etter 30 dager. Rapportene dere har lastet ned, beholder dere — slik at dokumentasjonen er i orden."
       }
     },
     "finalTitle": "Prøv det på deres egen virksomhet",
