@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { SiteNav } from '@/components/marketing/SiteNav'
 import { UtmKeeper } from '@/components/marketing/UtmKeeper'
+import { Container } from '@/components/marketing/Section'
 import { LogoMark } from '@/components/shell/Logo'
 import { CONTACT_MAIL, SITE_FOOTER, SITE_NAV } from '@/lib/marketing/site'
 
@@ -22,10 +23,10 @@ export default async function MarketingLayout({ children }: { children: React.Re
   return (
     <div className="min-h-screen bg-bg text-ink">
       <header className="sticky top-0 z-40 border-b border-line bg-bg">
-        <div className="mx-auto flex max-w-[1120px] flex-wrap items-center gap-[16px] px-[26px] py-[13px]">
+        <Container className="flex flex-wrap items-center gap-4 py-3">
           <Link
             href="/"
-            className="flex min-h-[44px] flex-none items-center gap-[10px] text-ink no-underline hover:text-ink hover:no-underline"
+            className="flex min-h-11 flex-none items-center gap-2 text-ink no-underline hover:text-ink hover:no-underline"
           >
             <LogoMark size={33} />
             <span className="font-display text-[21px] font-semibold tracking-[-0.01em]">
@@ -43,43 +44,43 @@ export default async function MarketingLayout({ children }: { children: React.Re
           />
           <span className="hidden flex-1 lg:block" />
           {/* on a phone these two move into the menu, so the header is one row and the page starts sooner */}
-          <span className="hidden flex-none flex-wrap items-center gap-[9px] sm:flex">
+          <span className="hidden flex-none flex-wrap items-center gap-2 sm:flex">
             <Link
               href="/logg-inn"
-              className="inline-flex h-[38px] items-center rounded-ctl border border-transparent px-[15px] text-[14px] font-semibold text-ink no-underline hover:text-ink hover:no-underline"
+              className="inline-flex h-10 items-center rounded-ctl border border-transparent px-4 text-mk-small font-semibold text-ink no-underline hover:text-ink hover:no-underline"
             >
               {t('start.signIn')}
             </Link>
             <Link
               href="/registrer"
-              className="inline-flex h-[38px] items-center rounded-ctl border border-ink bg-ac px-[17px] text-[14px] font-bold text-ink no-underline hover:text-ink hover:no-underline"
+              className="inline-flex h-10 items-center rounded-ctl border border-ink bg-ac px-4 text-mk-small font-bold text-ink no-underline hover:text-ink hover:no-underline"
             >
               {t('start.getStarted')}
             </Link>
           </span>
-        </div>
+        </Container>
       </header>
 
       <main>{children}</main>
       <UtmKeeper />
 
-      <footer className="mt-[54px] border-t border-line bg-sf">
-        <div className="mx-auto max-w-[1120px] px-[26px] pb-[26px] pt-[34px]">
-          <div className="grid gap-[26px] [grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr))]">
+      <footer className="border-t border-line bg-sf">
+        <Container className="pb-8 pt-12">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {SITE_FOOTER.map((col) => (
               <nav key={col.head} aria-label={t(`seo.footer.${col.head}`)}>
-                <span className="block text-[11px] uppercase tracking-[0.12em] text-mut">{t(`seo.footer.${col.head}`)}</span>
-                <ul className="m-0 mt-[10px] flex list-none flex-col gap-0 p-0 text-[13.5px] lg:gap-[7px]">
+                <span className="block text-mk-small font-bold text-mut">{t(`seo.footer.${col.head}`)}</span>
+                <ul className="m-0 mt-3 flex list-none flex-col gap-0 p-0 text-mk-small lg:gap-2">
                   {col.links.map((l) => (
                     <li key={l.href}>
-                      <Link href={l.href as Route} className="inline-flex min-h-[44px] min-w-[44px] items-center lg:min-h-0 lg:min-w-0">
+                      <Link href={l.href as Route} className="inline-flex min-h-11 min-w-11 items-center lg:min-h-0 lg:min-w-0">
                         {t(l.label)}
                       </Link>
                     </li>
                   ))}
                   {col.head === 'selskap' ? (
                     <li>
-                      <a href={`mailto:${CONTACT_MAIL}`} className="inline-flex min-h-[44px] min-w-[44px] items-center lg:min-h-0 lg:min-w-0">
+                      <a href={`mailto:${CONTACT_MAIL}`} className="inline-flex min-h-11 min-w-11 items-center lg:min-h-0 lg:min-w-0">
                         {CONTACT_MAIL}
                       </a>
                     </li>
@@ -88,11 +89,11 @@ export default async function MarketingLayout({ children }: { children: React.Re
               </nav>
             ))}
           </div>
-          <div className="mt-[28px] flex flex-wrap items-baseline justify-between gap-x-[26px] gap-y-[8px] border-t border-line pt-[18px] text-[12.5px] text-mut">
+          <div className="mt-8 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 border-t border-line pt-4 text-mk-small text-mut">
             <p className="m-0 max-w-[62ch] [text-wrap:pretty]">{t('start.footer')}</p>
             <p className="m-0">{t('seo.footer.company', { year: new Date().getFullYear() })}</p>
           </div>
-        </div>
+        </Container>
       </footer>
     </div>
   )

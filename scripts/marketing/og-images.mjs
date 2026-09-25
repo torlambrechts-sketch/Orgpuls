@@ -28,9 +28,9 @@ const fonts = readFileSync('app/fonts.css', 'utf8')
 // the same pairs as LANDING_HERO in lib/marketing/site.ts
 const PAGES = [
   { slug: 'lovkrav', key: 'lovkrav', shot: 'rapport' },
-  { slug: 'verneombud', key: 'verneombud', shot: 'varmekart' },
+  { slug: 'verneombud', key: 'verneombud', shot: 'tiltak' },
   { slug: 'smaa-bedrifter', key: 'smaaBedrifter', shot: 'oversikt' },
-  { slug: 'bygg-og-anlegg', key: 'byggOgAnlegg', shot: 'sporsmal' },
+  { slug: 'bygg-og-anlegg', key: 'byggOgAnlegg', shot: 'varmekart' },
   { slug: 'helse-og-omsorg', key: 'helseOgOmsorg', shot: 'samtaler' },
 ]
 const PILLS = ['30 dager gratis', 'Dekker arbeidsmiljøloven', 'Anonymt – minst 5 svar']

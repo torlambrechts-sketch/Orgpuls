@@ -7,10 +7,12 @@ import { breadcrumbs, faqPage, graph, organization } from '@/lib/marketing/schem
 import type { ShotId } from '@/lib/marketing/shot-ids'
 import { absolute } from '@/lib/marketing/site'
 import { ArticleCards } from './ArticleCards'
-import { Blocks } from './Blocks'
+import { BlockSections, LinkCards, sectionCount } from './Blocks'
 import { CtaBand } from './CtaBand'
 import { JsonLd } from './JsonLd'
 import { ProductShot } from './ProductShot'
+import { Rich } from './Rich'
+import { Container, H2, Section } from './Section'
 import { SignupStart } from './SignupStart'
 
 /**
@@ -53,8 +55,14 @@ export async function PageTemplate({
     : null
   const trail = [{ name: t('seo.common.home'), path: '/' }, ...(parent ? [parent] : []), { name: t(`${k}.crumb`), path }]
 
+  // bands alternate base and surface down the page: the hero is base, the body starts on surface
+  const bodyBands = sectionCount(blocks)
+  const tone = (n: number): 'base' | 'surface' => ((bodyBands + n) % 2 === 0 ? 'surface' : 'base')
+  const extras = [faq.length > 0, !!related?.length, !!articles?.length]
+  const toneOf = (which: number) => tone(extras.slice(0, which).filter(Boolean).length)
+
   return (
-    <div>
+    <>
       <JsonLd
         data={graph(
           organization(),
@@ -65,85 +73,98 @@ export async function PageTemplate({
         )}
       />
 
-      <div className="mx-auto max-w-[1120px] px-[26px] pt-[clamp(20px,4vw,54px)]">
-        <div className={heroShot ? 'grid items-center gap-[36px] lg:[grid-template-columns:minmax(0,1.05fr)_minmax(0,1fr)]' : ''}>
-          <div className="min-w-0">
-            <nav aria-label={t('seo.common.breadcrumb')} className="text-[12.5px] text-mut">
-              {trail.slice(0, -1).map((c) => (
-                <span key={c.path}>
-                  <Link href={c.path as Route}>{c.name}</Link>
-                  <span aria-hidden="true"> / </span>
-                </span>
-              ))}
-              <span aria-current="page">{t(`${k}.crumb`)}</span>
-            </nav>
-            <span className="mt-[16px] inline-flex items-center gap-[8px] rounded-pill bg-sbg px-[13px] py-[6px] text-[12px] font-bold">
-              <span className="block h-[7px] w-[7px] rounded-pill bg-link" />
-              {t(`${k}.kicker`)}
-            </span>
-            <h1 className="mt-[16px] max-w-[22ch] font-display text-[clamp(28px,5vw,50px)] font-semibold leading-[1.08] [overflow-wrap:break-word] [hyphens:auto] [text-wrap:balance]">
-              {t(`${k}.h1`)}
-            </h1>
-            <p className="mt-[14px] max-w-[58ch] text-[16.5px] leading-[1.6] text-body [text-wrap:pretty]">{t(`${k}.lead`)}</p>
-            <div className="mt-[22px]">
-              <SignupStart
-                label={t.has(`${k}.signupLabel`) ? t(`${k}.signupLabel`) : t('seo.signup.label')}
-                submit={t('seo.signup.submit')}
-                invalid={t('seo.signup.invalid')}
-              />
-            </div>
-            <p className="mb-0 mt-[12px] text-[13px] leading-[1.6] text-mut">
-              <span className="block">{t('seo.common.priceLine')}</span>
-              <span className="block">{t('seo.common.anonymity')}</span>
-            </p>
-            {tip ? (
-              <a
-                href={tip}
-                className="mt-[16px] inline-flex min-h-[48px] items-center rounded-tile border border-ink bg-transparent px-[20px] py-[10px] text-[15px] font-semibold text-ink no-underline hover:text-ink hover:no-underline"
+      {/* hero: words and the orgnr field on 7 of 12 columns, the product on 5 running past the edge (4.2) */}
+      <section aria-labelledby="hero-title" className="w-full overflow-x-clip bg-bg pb-8 pt-4 sm:pt-8 lg:flex lg:min-h-[70svh] lg:items-center lg:py-16">
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-8">
+            <div className={`min-w-0 ${heroShot ? 'lg:col-span-7' : 'lg:col-span-9'}`}>
+              <nav aria-label={t('seo.common.breadcrumb')} className="hidden text-mk-small text-mut sm:block">
+                {trail.slice(0, -1).map((c) => (
+                  <span key={c.path}>
+                    <Link href={c.path as Route}>{c.name}</Link>
+                    <span aria-hidden="true"> / </span>
+                  </span>
+                ))}
+                <span aria-current="page">{t(`${k}.crumb`)}</span>
+              </nav>
+              <span className="mt-4 hidden items-center gap-2 rounded-pill bg-sbg px-3 py-1 text-mk-small font-bold sm:inline-flex">
+                <span className="block h-2 w-2 rounded-pill bg-link" />
+                {t(`${k}.kicker`)}
+              </span>
+              <h1
+                id="hero-title"
+                className="m-0 font-display text-mk-h1 font-semibold [overflow-wrap:break-word] [text-wrap:balance] sm:mt-4"
               >
-                {t(`${k}.tip.label`)}
-              </a>
+                {t(`${k}.h1`)}
+              </h1>
+              <p className="m-0 mt-4 max-w-prose text-mk-lead text-body [text-wrap:pretty] lg:mt-6">{t(`${k}.lead`)}</p>
+              <div className="mt-5 lg:mt-8">
+                <SignupStart
+                  label={t.has(`${k}.signupLabel`) ? t(`${k}.signupLabel`) : t('seo.signup.label')}
+                  submit={t('seo.signup.submit')}
+                  invalid={t('seo.signup.invalid')}
+                />
+              </div>
+              <p className="m-0 mt-3 text-mk-small text-mut">
+                <span className="block">{t('seo.common.priceLine')}</span>
+                <span className="block">{t('seo.common.anonymity')}</span>
+              </p>
+              {tip ? (
+                <a
+                  href={tip}
+                  className="mt-6 inline-flex min-h-12 items-center rounded-tile border border-ink bg-transparent px-5 py-2 text-mk-card font-semibold text-ink no-underline hover:text-ink hover:no-underline"
+                >
+                  {t(`${k}.tip.label`)}
+                </a>
+              ) : null}
+            </div>
+            {heroShot ? (
+              <div className="min-w-0 lg:col-span-5">
+                <ProductShot id={heroShot} priority bleed testId="hero-image" />
+              </div>
             ) : null}
           </div>
-          {heroShot ? (
-            <div className="flex min-w-0 justify-center lg:justify-end">
-              <ProductShot id={heroShot} priority />
-            </div>
-          ) : null}
-        </div>
-      </div>
+        </Container>
+      </section>
 
-      <div className="mx-auto max-w-[1120px] px-[26px] pt-[40px]">
-        <Blocks blocks={blocks} />
-      </div>
+      <BlockSections blocks={blocks} />
 
       {faq.length ? (
-        <div className="mx-auto max-w-[1120px] px-[26px] pt-[54px]">
-          <span className="block text-[11px] uppercase tracking-[0.12em] text-mut">{t('start.faqEyebrow')}</span>
-          <Faq items={faq.map((f, i) => ({ key: String(i), q: f.q, a: f.a }))} />
-        </div>
+        <Section tone={toneOf(0)} label="faq-title">
+          <div className="grid gap-8 lg:grid-cols-12">
+            <div className="min-w-0 lg:col-span-4">
+              <H2 id="faq-title">{t('start.faqEyebrow')}</H2>
+              <p className="m-0 mt-4 max-w-prose text-mk-lead text-mut [text-wrap:pretty]">
+                <Rich text={t('seo.common.faqLead')} />
+              </p>
+            </div>
+            <div className="min-w-0 lg:col-span-8">
+              <Faq items={faq.map((f, i) => ({ key: String(i), q: f.q, a: f.a }))} />
+            </div>
+          </div>
+        </Section>
       ) : null}
 
       {related?.length ? (
-        <div className="mx-auto max-w-[1120px] px-[26px] pt-[54px]">
-          <h2 className="m-0 font-display text-[clamp(23px,3vw,29px)] font-semibold leading-[1.18]">{t('seo.common.related')}</h2>
-          <div className="mt-[16px]">
-            <Blocks blocks={[{ t: 'links', items: related }]} />
+        <Section tone={toneOf(1)} label="related-title">
+          <H2 id="related-title">{t('seo.common.related')}</H2>
+          <div className="mt-8">
+            <LinkCards items={related} />
           </div>
-        </div>
+        </Section>
       ) : null}
 
       {articles?.length ? (
-        <div className="mx-auto max-w-[1120px] px-[26px] pt-[54px]">
-          <span className="block text-[11px] uppercase tracking-[0.12em] text-mut">{t('seo.common.readMore')}</span>
+        <Section tone={toneOf(2)} label="articles-title">
+          <H2 id="articles-title">{t('seo.common.articlesTitle')}</H2>
           <ArticleCards slugs={articles} />
-        </div>
+        </Section>
       ) : null}
 
       <CtaBand
         title={t.has(`${k}.finalTitle`) ? t(`${k}.finalTitle`) : t('start.finalTitle')}
         body={t.has(`${k}.finalBody`) ? t(`${k}.finalBody`) : t('start.finalBody')}
       />
-    </div>
+    </>
   )
 }

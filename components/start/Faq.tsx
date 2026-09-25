@@ -14,7 +14,7 @@ export function Faq({ items }: { items: { key: string; q: string; a: string }[] 
   const [open, setOpen] = useState<string | null>(items[0]?.key ?? null)
 
   return (
-    <div className="mt-[18px] flex flex-col gap-[9px]">
+    <div className="flex flex-col gap-3">
       {items.map((item) => {
         const isOpen = open === item.key
         return (
@@ -23,10 +23,10 @@ export function Faq({ items }: { items: { key: string; q: string; a: string }[] 
               type="button"
               aria-expanded={isOpen}
               onClick={() => setOpen(isOpen ? null : item.key)}
-              className="flex w-full cursor-pointer items-center justify-between gap-[14px] border-none bg-transparent px-[20px] py-[17px] text-left text-ink"
+              className="flex min-h-14 w-full cursor-pointer items-center justify-between gap-4 border-none bg-transparent px-5 py-4 text-left text-ink"
             >
-              <span className="min-w-0 text-[15px] font-semibold [text-wrap:pretty]">{item.q}</span>
-              <span aria-hidden="true" className="flex-none text-[19px] leading-none text-mut">
+              <span className="min-w-0 text-mk-card font-semibold [text-wrap:pretty]">{item.q}</span>
+              <span aria-hidden="true" className="flex-none text-mk-h3 leading-none text-mut">
                 {isOpen ? '−' : '+'}
               </span>
             </button>
@@ -34,7 +34,7 @@ export function Faq({ items }: { items: { key: string; q: string; a: string }[] 
                 it out of view and out of the accessibility tree until it is opened */}
             <div
               hidden={!isOpen}
-              className="max-w-[70ch] px-[20px] pb-[19px] text-[14px] leading-[1.65] text-body [text-wrap:pretty]"
+              className="max-w-prose px-5 pb-5 text-mk-card text-body [text-wrap:pretty]"
             >
               {item.a}
             </div>

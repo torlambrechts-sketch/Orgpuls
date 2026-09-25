@@ -40,7 +40,7 @@ export function SiteNav({ items, menuLabel, account }: { items: Item[]; menuLabe
       href={href as Route}
       aria-current={current(href) ? 'page' : undefined}
       onClick={block ? () => setOpen(false) : undefined}
-      className={`${block ? 'flex h-[44px] w-full' : 'inline-flex h-[36px]'} items-center rounded-ctl px-[13px] text-[14px] font-semibold text-ink no-underline hover:text-ink hover:no-underline ${
+      className={`${block ? 'flex h-11 w-full' : 'inline-flex h-9'} items-center rounded-ctl px-3 text-mk-small font-semibold text-ink no-underline hover:text-ink hover:no-underline ${
         current(href) ? 'bg-sbg' : 'hover:bg-sf'
       }`}
     >
@@ -50,7 +50,7 @@ export function SiteNav({ items, menuLabel, account }: { items: Item[]; menuLabe
 
   return (
     <>
-      <nav aria-label={menuLabel} className="hidden items-center gap-[2px] lg:flex">
+      <nav aria-label={menuLabel} className="hidden items-center gap-1 lg:flex">
         {items.map((i) => link(i.href, i.label, false))}
       </nav>
       <div className="lg:hidden">
@@ -59,24 +59,24 @@ export function SiteNav({ items, menuLabel, account }: { items: Item[]; menuLabe
           aria-expanded={open}
           aria-controls={listId}
           onClick={() => setOpen((o) => !o)}
-          className="inline-flex h-[44px] cursor-pointer items-center gap-[8px] rounded-ctl border border-line bg-transparent px-[13px] text-[14px] font-semibold text-ink sm:h-[38px]"
+          className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-ctl border border-line bg-transparent px-3 text-mk-small font-semibold text-ink sm:h-10"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d={open ? 'M3.5 3.5l9 9M12.5 3.5l-9 9' : 'M2 4h12M2 8h12M2 12h12'} stroke="#191510" strokeWidth="1.6" strokeLinecap="round" />
+            <path d={open ? 'M3.5 3.5l9 9M12.5 3.5l-9 9' : 'M2 4h12M2 8h12M2 12h12'} stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
           </svg>
           {menuLabel}
         </button>
       </div>
       {open ? (
-        <nav id={listId} aria-label={menuLabel} className="order-last flex w-full flex-col gap-[2px] border-t border-line pt-[8px] lg:hidden">
+        <nav id={listId} aria-label={menuLabel} className="order-last flex w-full flex-col gap-1 border-t border-line pt-2 lg:hidden">
           {items.map((i) => link(i.href, i.label, true))}
-          <span className="mt-[6px] flex gap-[9px] border-t border-line pt-[10px] sm:hidden">
+          <span className="mt-2 flex gap-2 border-t border-line pt-3 sm:hidden">
             {account.map((a, n) => (
               <Link
                 key={a.href}
                 href={a.href as Route}
                 onClick={() => setOpen(false)}
-                className={`inline-flex h-[44px] flex-1 items-center justify-center rounded-ctl border px-[15px] text-[14px] text-ink no-underline hover:text-ink hover:no-underline ${
+                className={`inline-flex h-11 flex-1 items-center justify-center rounded-ctl border px-4 text-mk-small text-ink no-underline hover:text-ink hover:no-underline ${
                   n === account.length - 1 ? 'border-ink bg-ac font-bold' : 'border-line font-semibold'
                 }`}
               >

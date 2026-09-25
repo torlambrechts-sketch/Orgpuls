@@ -3110,7 +3110,9 @@
       "nextLink": "More on this: {page} →",
       "priceFrom": "From NOK 265/month excl. VAT",
       "anonymity": "No department is shown until at least five have answered.",
-      "related": "Related pages"
+      "related": "Related pages",
+      "faqLead": "If your question is not here, you can [write to us](/kontakt).",
+      "articlesTitle": "Articles on the subject"
     },
     "home": {
       "title": "Employee survey and work environment mapping | Orgpuls",

@@ -38,9 +38,16 @@ const panel = (text) => ({ text, up: "contains(@class,'rounded')" })
 const at = (text) => ({ text, up: null })
 
 /**
- * `anchors` are unioned; `pad` is added round them; `maxHeight` cuts a long list off
- * where a reader has seen enough of it; `hide` removes one element, by its words, first. Widths are CSS pixels at the given viewport.
+ * `anchors` are unioned and `pad` is added round them. `hide` removes one element, by its
+ * words, first. Widths are CSS pixels at the given viewport.
+ *
+ * Every picture then takes one of two fixed formats (docs/landingsside-gjennomgang.md 4.4):
+ * 16:10 for a desktop screen and 4:5 for a phone. The region keeps its width and its top;
+ * its height is cut, or extended down the page, to the format. A phone is captured at three
+ * times the density, since it is shown about 560 px wide.
  */
+const DESKTOP = 16 / 10
+const PHONE = 4 / 5
 const SHOTS = [
   {
     id: 'oversikt',
@@ -48,55 +55,65 @@ const SHOTS = [
     width: 1440,
     anchors: [at('Nordvik Anlegg · Arbeidsmiljøet'), card('Slik står det til på hvert område')],
     pad: 20,
+    aspect: DESKTOP,
   },
-  { id: 'resultater', route: '/resultater', width: 1440, anchors: [card('Gruppe × faktor'), card('Fiks først')], pad: 12 },
-  // the heatmap alone, for a half-width card on the start page, where both would be too small to read
-  { id: 'varmekart', route: '/resultater', width: 1440, anchors: [card('Gruppe × faktor')], pad: 12, maxHeight: 400 },
-  {
-    id: 'kommentarer',
-    route: '/kommentarer',
-    width: 1440,
-    anchors: [card('Temaer'), card('Alle kommentarer')],
-    pad: 20,
-    maxHeight: 560,
-  },
-  { id: 'samtaler', route: '/kommentarer', width: 1440, anchors: [card('Alle kommentarer')], pad: 12, maxHeight: 304 },
+  { id: 'resultater', route: '/resultater', width: 1440, anchors: [card('Gruppe × faktor'), card('Fiks først')], pad: 12, aspect: DESKTOP },
+  // the heatmap alone, where both would be too small to read
+  { id: 'varmekart', route: '/resultater', width: 1440, anchors: [card('Gruppe × faktor')], pad: 12, aspect: DESKTOP },
+  { id: 'kommentarer', route: '/kommentarer', width: 1440, anchors: [card('Temaer'), card('Alle kommentarer')], pad: 20, aspect: DESKTOP },
+  // one comment and the controls under it, rather than the whole list
+  { id: 'samtaler', route: '/kommentarer', width: 1440, anchors: [card('Alle kommentarer')], pad: 12, aspect: DESKTOP },
   {
     id: 'tiltak',
     route: '/tiltak',
     width: 1440,
     anchors: [at('Fra funn til effekt'), panel('Ny måling viser om det virket'), panel('Foreslått ut fra skår')],
     pad: 12,
+    aspect: DESKTOP,
   },
-  { id: 'arshjul', route: '/malinger', width: 1440, anchors: [card('Årshjulet')], pad: 20 },
+  { id: 'arshjul', route: '/malinger', width: 1440, anchors: [card('Årshjulet')], pad: 20, aspect: DESKTOP },
   {
     id: 'sporsmal',
     route: '/forhandsvis',
     width: 390,
     anchors: [card('Hopp over')],
     pad: 14,
+    aspect: PHONE,
+    scale: 3,
     // the leader's preview is the respondent's own flow plus this banner; without it, the
     // picture is what an employee sees
     hide: 'Forhåndsvisning — ingenting du velger her blir sendt.',
   },
-  { id: 'rapport', route: '/rapport', width: 1440, anchors: [at('3. Kartlegging'), at('Anerkjennelse og mening')], pad: 24 },
+  { id: 'rapport', route: '/rapport', width: 1440, anchors: [at('3. Kartlegging'), at('Anerkjennelse og mening')], pad: 24, aspect: DESKTOP },
 ]
 
 const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-sandbox'] })
-const ctx = await b.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2 })
-const p = await ctx.newPage()
-
-await p.goto(`${base}/logg-inn`, { waitUntil: 'networkidle' })
-await p.getByLabel(/e-post|email/i).fill(process.env.ORGPULS_DEV_EMAIL ?? '')
-await p.getByLabel(/passord|password/i).fill(process.env.ORGPULS_DEV_PASSWORD ?? '')
+const signin = await b.newContext({ viewport: { width: 1440, height: 900 } })
+const login = await signin.newPage()
+await login.goto(`${base}/logg-inn`, { waitUntil: 'networkidle' })
+await login.getByLabel(/e-post|email/i).fill(process.env.ORGPULS_DEV_EMAIL ?? '')
+await login.getByLabel(/passord|password/i).fill(process.env.ORGPULS_DEV_PASSWORD ?? '')
 await Promise.all([
-  p.waitForURL((u) => !u.pathname.startsWith('/logg-inn')),
-  p.getByRole('button', { name: /logg inn|sign in/i }).click(),
+  login.waitForURL((u) => !u.pathname.startsWith('/logg-inn')),
+  login.getByRole('button', { name: /logg inn|sign in/i }).click(),
 ])
+const session = await signin.storageState()
+await signin.close()
+
+/** One signed-in context per density, so a phone can be captured sharper than a desktop. */
+const contexts = new Map()
+const pageAt = async (scale) => {
+  if (!contexts.has(scale)) {
+    const c = await b.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: scale, storageState: session })
+    contexts.set(scale, await c.newPage())
+  }
+  return contexts.get(scale)
+}
 
 mkdirSync(out, { recursive: true })
 let failed = 0
 for (const s of SHOTS.filter((s) => !only.length || only.includes(s.id))) {
+  const p = await pageAt(s.scale ?? 2)
   await p.setViewportSize({ width: s.width, height: 900 })
   await p.goto(base + s.route, { waitUntil: 'networkidle' })
   await p.mouse.move(0, 0)
@@ -126,9 +143,10 @@ for (const s of SHOTS.filter((s) => !only.length || only.includes(s.id))) {
   const x0 = Math.max(0, Math.min(...boxes.map((r) => r.x)) - s.pad)
   const y0 = Math.max(0, Math.min(...boxes.map((r) => r.y)) + scrollY - s.pad)
   const x1 = Math.min(s.width, Math.max(...boxes.map((r) => r.x + r.width)) + s.pad)
-  let y1 = Math.max(...boxes.map((r) => r.y + r.height)) + scrollY + s.pad
-  if (s.maxHeight) y1 = Math.min(y1, y0 + s.maxHeight)
-  const clip = { x: Math.round(x0), y: Math.round(y0), width: Math.round(x1 - x0), height: Math.round(y1 - y0) }
+  // the format sets the height from the width: cut below, or extend down the page
+  const pageHeight = await p.evaluate(() => document.documentElement.scrollHeight)
+  const height = Math.min((x1 - x0) / s.aspect, pageHeight - y0)
+  const clip = { x: Math.round(x0), y: Math.round(y0), width: Math.round(x1 - x0), height: Math.round(height) }
 
   const png = await p.screenshot({ clip, fullPage: true })
   const file = join(out, `${s.id}.webp`)

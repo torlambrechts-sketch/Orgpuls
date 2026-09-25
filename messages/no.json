@@ -3110,7 +3110,9 @@
       "nextLink": "Mer om dette: {page} →",
       "priceFrom": "Fra 265 kr/mnd eks. mva",
       "anonymity": "Ingen avdeling vises før minst fem har svart.",
-      "related": "Relaterte sider"
+      "related": "Relaterte sider",
+      "faqLead": "Står ikke spørsmålet ditt her, kan du [skrive til oss](/kontakt).",
+      "articlesTitle": "Artikler om temaet"
     },
     "home": {
       "title": "Medarbeiderundersøkelse og arbeidsmiljøkartlegging | Orgpuls",
