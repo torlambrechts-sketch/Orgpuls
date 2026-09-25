@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { parsePrefs, PREF_COOKIE } from '@/lib/shell/prefs'
-import { labelOf, navState, NAV_ROUTES, visibleNav, type NavEntry } from '@/lib/shell/nav'
+import { ENKEL_PATHS, labelOf, navState, NAV_ROUTES, visibleNav, type NavEntry } from '@/lib/shell/nav'
 
 const jar = (values: Record<string, string>) => (name: string) => values[name]
 
@@ -32,7 +32,12 @@ const byKey = (k: string) => entries.find((e) => e.key === k)!
 describe('navState', () => {
   it('marks the screen and anything below it as current', () => {
     expect(navState(byKey('resultater'), '/resultater')).toBe('current')
-    expect(navState(byKey('oppsett'), '/oppsett')).toBe('current')
+    expect(navState(byKey('tiltak'), '/tiltak')).toBe('current')
+  })
+
+  it('has no entry for Oppsett, which is in the account menu (D-81)', () => {
+    expect(NAV_ROUTES.map((r) => r.href)).not.toContain('/oppsett')
+    expect(entries.every((e) => navState(e, '/oppsett') === null)).toBe(true)
   })
 
   it('keeps Målinger tinted on the screens reached from it', () => {
@@ -49,14 +54,18 @@ describe('navState', () => {
 })
 
 describe('Enkel', () => {
-  it('shows Oversikt and Oppsett only, with Innsikt renamed', () => {
+  it('shows Oversikt only, with Innsikt renamed', () => {
     const shown = visibleNav(entries, 'enkel')
-    expect(shown.map((e) => e.key)).toEqual(['innsikt', 'oppsett'])
-    expect(shown.map((e) => labelOf(e, 'enkel'))).toEqual(['oversikt', 'oppsett'])
+    expect(shown.map((e) => e.key)).toEqual(['innsikt'])
+    expect(shown.map((e) => labelOf(e, 'enkel'))).toEqual(['oversikt'])
+  })
+
+  it('keeps Oversikt and Oppsett as the screens Enkel stays on', () => {
+    expect(ENKEL_PATHS).toEqual(['/innsikt', '/oppsett'])
   })
 
   it('leaves Full untouched', () => {
-    expect(visibleNav(entries, 'full')).toHaveLength(6)
+    expect(visibleNav(entries, 'full')).toHaveLength(5)
     expect(labelOf(byKey('innsikt'), 'full')).toBe('innsikt')
   })
 })
