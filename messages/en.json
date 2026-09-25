@@ -6763,5 +6763,307 @@
         ]
       }
     }
+  },
+  "admin": {
+    "title": "Orgpuls Admin",
+    "nav": {
+      "dashboard": "Dashboard",
+      "orgs": "Organisations",
+      "users": "Users",
+      "ops": "Operations",
+      "audit": "Audit log",
+      "admins": "Admins",
+      "web": "Web analytics",
+      "tickets": "Tickets",
+      "signOut": "Sign out",
+      "navLabel": "Admin"
+    },
+    "role": {
+      "super_admin": "Super-admin",
+      "support": "Support",
+      "finance": "Finance",
+      "analyst": "Analyst"
+    },
+    "common": {
+      "notAllowed": "Your role cannot see this.",
+      "failed": "It could not be loaded. Try again.",
+      "none": "Nothing yet.",
+      "reason": "Reason (logged)",
+      "reasonHint": "Say why, in a sentence. It is written to the audit log with your name.",
+      "search": "Search",
+      "all": "All",
+      "save": "Save",
+      "saving": "Saving …",
+      "done": "Done.",
+      "privacy": "Anonymity holds here too: respondents appear only as counts, and no screen shows an answer."
+    },
+    "login": {
+      "title": "Sign in",
+      "lead": "Admin accounts are separate from customer accounts. You will be asked for a code from your authenticator app.",
+      "email": "E-mail",
+      "password": "Password",
+      "submit": "Continue",
+      "pending": "Signing in …",
+      "invalid": "That did not work. Check the e-mail and password, and that the account is an admin account.",
+      "idle": "You were signed out after thirty minutes without activity."
+    },
+    "mfa": {
+      "title": "Second factor",
+      "enrollLead": "Admin access needs an authenticator app (such as 1Password, Google Authenticator or Microsoft Authenticator). Scan the code, then enter the six digits it shows.",
+      "enrollStart": "Set up authenticator",
+      "secret": "Or enter this key by hand:",
+      "verifyLead": "Enter the six-digit code from your authenticator app.",
+      "code": "Code",
+      "submit": "Verify",
+      "pending": "Checking …",
+      "invalid_code": "That code was not accepted. Codes change every 30 seconds; try the current one.",
+      "failed": "The authenticator could not be set up. Try again.",
+      "already_enrolled": "An authenticator is already set up for this account."
+    },
+    "notAdmin": {
+      "title": "Not an admin account",
+      "body": "This account has no active admin role. Admin accounts are separate from customer accounts; ask a super-admin to grant one."
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "lead": "Are trials turning into organisations that run surveys and act on them?",
+      "mrr": "MRR",
+      "arr": "ARR {value}",
+      "paying": "Paying organisations",
+      "offers": "{count} offers requested",
+      "trials": "Trials active",
+      "expiring": "{count} expire within 7 days",
+      "expired": "Trials expired unconfirmed",
+      "conversion": "Trial → paid",
+      "conversionHint": "of trials that have run their course",
+      "funnel": "Activation funnel by signup month",
+      "funnelNote": "Each column counts organisations that reached the step; percentages are of those created that month.",
+      "cohort": "Cohort",
+      "created": "Created",
+      "employees": "Employees added",
+      "scheduled": "Survey planned",
+      "sent": "Survey sent",
+      "unlocked": "Result unlocked",
+      "viewed": "Results viewed",
+      "measure": "Measure created",
+      "converted": "Paid",
+      "median": "Median to first send",
+      "hours": "{value} h"
+    },
+    "orgs": {
+      "title": "Organisations",
+      "lead": "Search by name, organisation number or a user's e-mail.",
+      "placeholder": "Name, org.nr. or e-mail",
+      "status": "Status",
+      "statusLabel": {
+        "trial": "Trial",
+        "active": "Active",
+        "expired": "Trial expired"
+      },
+      "head": {
+        "name": "Organisation",
+        "orgnr": "Org.nr.",
+        "status": "Status",
+        "plan": "Plan",
+        "employees": "Employees",
+        "lastSent": "Last survey sent",
+        "rate": "Last response rate",
+        "mrr": "MRR",
+        "signup": "Signed up"
+      },
+      "trialEnds": "ends {date}",
+      "registered": "{registered} of {stated}",
+      "count": "{count, plural, one {# organisation} other {# organisations}}"
+    },
+    "org": {
+      "back": "All organisations",
+      "facts": "Company",
+      "orgnr": "Org.nr.",
+      "form": "Form",
+      "nace": "Industry",
+      "address": "Address",
+      "stated": "Employees stated",
+      "brreg": "Brønnøysund employees",
+      "fetched": "Fetched from Brønnøysund",
+      "threshold": "Threshold",
+      "channels": "Channels",
+      "mail": "E-mail",
+      "sms": "SMS",
+      "on": "on",
+      "off": "off",
+      "billing": "Billing",
+      "plan": "Plan",
+      "trial": "Trial",
+      "trialRange": "{start} → {end}",
+      "extended": "Extended by the customer {date}",
+      "confirmed": "Confirmed {date}",
+      "unconfirmed": "Not confirmed",
+      "invoiceTo": "Invoice to",
+      "ref": "Reference",
+      "ehf": "EHF",
+      "yes": "yes",
+      "no": "no",
+      "dpa": "Data processing agreement",
+      "dpaSigned": "Version {version}, signed {date} by {name} ({title})",
+      "dpaUnsigned": "Not signed",
+      "structure": "Structure",
+      "groups": "Groups",
+      "registered": "Employees registered",
+      "withPhone": "With a mobile number",
+      "locations": "Locations",
+      "measures": "Measures",
+      "measuresLine": "{open} open · {overdue} overdue · {closed} closed · {total} in all",
+      "users": "Users",
+      "usersHead": {
+        "name": "Name",
+        "email": "E-mail",
+        "role": "Role",
+        "lastSignIn": "Last sign-in",
+        "mfa": "MFA",
+        "joined": "Joined"
+      },
+      "rounds": "Surveys (metadata only)",
+      "roundsHead": {
+        "kind": "Kind",
+        "status": "Status",
+        "opens": "Opens",
+        "closes": "Closes",
+        "invited": "Invited",
+        "answered": "Answered",
+        "rate": "Rate",
+        "below": "Groups below threshold",
+        "notices": "Notices sent / failed / pending",
+        "reminders": "Reminders"
+      },
+      "timeline": "Timeline",
+      "event": {
+        "signed_up": "Signed up",
+        "employees_added": "First employees added",
+        "first_survey_planned": "First survey planned",
+        "first_survey_sent": "First survey sent",
+        "results_viewed": "Results first viewed",
+        "first_measure": "First measure created",
+        "dpa_signed": "Data processing agreement signed",
+        "trial_extended": "Trial extended by the customer",
+        "plan_confirmed": "Plan confirmed"
+      },
+      "emailLog": "E-mail and SMS log (counts)",
+      "emailHead": {
+        "day": "Day",
+        "kind": "Kind",
+        "channel": "Channel",
+        "audience": "To",
+        "total": "Total",
+        "sent": "Sent",
+        "failed": "Failed",
+        "pending": "Pending"
+      },
+      "notes": "Internal notes",
+      "notePlaceholder": "A note for colleagues. Not visible to the customer.",
+      "addNote": "Add note",
+      "extend": "Extend trial",
+      "extendLead": "Adds days from today, or from the current end if that is later. Only while the plan is unconfirmed.",
+      "days": "Days",
+      "extendSubmit": "Extend",
+      "audit": "Audit trail for this organisation",
+      "problem": {
+        "reason_required": "Give a reason of at least five characters.",
+        "invalid_days": "Choose between 1 and 60 days.",
+        "not_in_trial": "The plan is confirmed; there is no trial to extend.",
+        "invalid_note": "Write a note of up to 4,000 characters.",
+        "not_allowed": "Your role cannot do this.",
+        "failed": "It did not work. Try again."
+      },
+      "inactive": "inactive",
+      "confirmation": "Confirmation"
+    },
+    "users": {
+      "title": "Users",
+      "lead": "People who sign in. Employees who answer surveys are respondents and are never listed here.",
+      "placeholder": "E-mail or name",
+      "head": {
+        "email": "E-mail",
+        "name": "Name",
+        "orgs": "Organisations and roles",
+        "invites": "Pending invites",
+        "lastSignIn": "Last sign-in",
+        "mfa": "MFA",
+        "created": "Created"
+      },
+      "empty": "Type at least two characters."
+    },
+    "ops": {
+      "title": "Operations",
+      "lead": "The scheduler and the notice queue. Addresses in provider errors are masked.",
+      "runs": "Scheduler runs",
+      "runsHead": {
+        "at": "Ran",
+        "opened": "Opened",
+        "closed": "Closed",
+        "queued": "Queued",
+        "planned": "Planned",
+        "note": "Note"
+      },
+      "queue": "Notice queue, last 14 days",
+      "queueHead": {
+        "kind": "Kind",
+        "channel": "Channel",
+        "sent": "Sent",
+        "failed": "Failed",
+        "due": "Due now",
+        "scheduled": "Scheduled"
+      },
+      "failures": "Failures and retries",
+      "failuresHead": {
+        "org": "Organisation",
+        "kind": "Kind",
+        "channel": "Channel",
+        "due": "Due",
+        "attempts": "Attempts",
+        "error": "Error"
+      }
+    },
+    "audit": {
+      "title": "Audit log",
+      "lead": "Every admin read of customer data and every change, newest first. It cannot be edited or deleted.",
+      "head": {
+        "at": "When",
+        "who": "Who",
+        "action": "Action",
+        "org": "Organisation",
+        "target": "Target",
+        "reason": "Reason",
+        "detail": "Detail"
+      }
+    },
+    "admins": {
+      "title": "Admins",
+      "lead": "Admin accounts are separate from customer accounts. A role only works after the second factor.",
+      "head": {
+        "email": "E-mail",
+        "role": "Role",
+        "active": "Active",
+        "mfa": "Authenticator",
+        "lastSignIn": "Last sign-in",
+        "created": "Added"
+      },
+      "grant": "Grant or change a role",
+      "grantLead": "The person first creates an account with this e-mail (it must not belong to a customer). Then grant the role here.",
+      "email": "E-mail",
+      "roleLabel": "Role",
+      "active": "Active",
+      "deactivate": "Deactivate",
+      "submit": "Save role",
+      "problem": {
+        "no_such_account": "No account has that e-mail.",
+        "customer_account": "That account belongs to a customer organisation. Admins need a separate account.",
+        "not_yourself": "You cannot remove your own super-admin role.",
+        "invalid_role": "Choose a role.",
+        "reason_required": "Give a reason of at least five characters.",
+        "invalid": "Check the e-mail and role.",
+        "not_allowed": "Only a super-admin can do this.",
+        "failed": "It did not work. Try again."
+      }
+    }
   }
 }

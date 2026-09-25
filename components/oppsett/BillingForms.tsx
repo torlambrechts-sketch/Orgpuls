@@ -66,6 +66,10 @@ export function BillingForm({
 }) {
   const id = useId()
   const [plan, setPlan] = useState(initial.plan ?? plans.find((p) => p.suggested)?.key ?? plans[0]?.key ?? '')
+  // controlled, so a refused save keeps what was typed rather than React's reset to the defaults
+  const [invoiceEmail, setInvoiceEmail] = useState(initial.invoiceEmail)
+  const [invoiceRef, setInvoiceRef] = useState(initial.invoiceRef)
+  const [ehf, setEhf] = useState(initial.ehf)
   const [state, action, pending] = useActionState<BillingResult | null, FormData>(saveBilling, null)
   const problem = state && !state.ok ? (labels.problems[state.problem] ?? labels.problems.failed) : null
   const done = state?.ok ? (state.confirmed ? labels.confirmedNow : labels.saved) : null
@@ -120,7 +124,8 @@ export function BillingForm({
             required
             maxLength={254}
             autoComplete="email"
-            defaultValue={initial.invoiceEmail}
+            value={invoiceEmail}
+            onChange={(e) => setInvoiceEmail(e.target.value)}
             aria-describedby={`${id}-email`}
             className="box-border h-[40px] w-full rounded-ctl border border-line bg-bg px-[13px] text-[13.5px] text-ink outline-none"
           />
@@ -133,7 +138,8 @@ export function BillingForm({
           <input
             name="invoiceRef"
             maxLength={60}
-            defaultValue={initial.invoiceRef}
+            value={invoiceRef}
+            onChange={(e) => setInvoiceRef(e.target.value)}
             aria-describedby={`${id}-ref`}
             className="box-border h-[40px] w-full rounded-ctl border border-line bg-bg px-[13px] text-[13.5px] text-ink outline-none"
           />
@@ -147,7 +153,8 @@ export function BillingForm({
         <input
           name="ehf"
           type="checkbox"
-          defaultChecked={initial.ehf}
+          checked={ehf}
+          onChange={(e) => setEhf(e.target.checked)}
           disabled={!orgNumber}
           className="mt-[3px] h-[16px] w-[16px] flex-none accent-ink"
         />

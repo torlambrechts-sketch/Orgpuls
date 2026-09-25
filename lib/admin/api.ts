@@ -1,0 +1,266 @@
+import 'server-only'
+import { z } from 'zod'
+import { createClient } from '@/lib/supabase/server'
+import { callFailed, parseFailed } from '@/lib/supabase/read'
+
+/**
+ * The platform admin's reads (D-90), one per SECURITY DEFINER function in 0049. Each checks
+ * the caller's admin role — with a second factor — and writes an audit row before it
+ * returns anything; this file only calls them and parses what comes back. Nothing here
+ * can reach a customer table directly: the anon-key client has no policy that would let it.
+ */
+export const ROLES = ['super_admin', 'support', 'finance', 'analyst'] as const
+export type AdminRole = (typeof ROLES)[number]
+
+const Reply = z.object({ ok: z.boolean(), error: z.string().optional() }).passthrough()
+
+async function call<T extends z.ZodTypeAny>(
+  fn: string,
+  args: Record<string, unknown>,
+  schema: T,
+): Promise<z.infer<T> | { error: string }> {
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc(fn, args)
+  if (callFailed(fn, error)) return { error: 'failed' }
+  const reply = Reply.safeParse(data)
+  if (!reply.success) return { error: 'failed' }
+  if (!reply.data.ok) return { error: reply.data.error ?? 'failed' }
+  const parsed = schema.safeParse(data)
+  if (parseFailed(fn, parsed)) return { error: 'failed' }
+  return parsed.data
+}
+export const isError = (x: unknown): x is { error: string } => typeof x === 'object' && x !== null && 'error' in x && !('ok' in x)
+
+const ts = z.string()
+const tsn = z.string().nullable()
+const num = z.coerce.number()
+const numn = z.coerce.number().nullable()
+
+// ---------------------------------------------------------------- who
+const Who = z.object({
+  is_admin: z.boolean(),
+  role: z.enum(ROLES).nullable(),
+  mfa_enforced: z.boolean(),
+  aal: z.string(),
+  email: z.string().nullable(),
+})
+export type Who = z.infer<typeof Who>
+
+/** Null when nobody is signed in. */
+export async function whoami(): Promise<Who | null> {
+  const supabase = await createClient()
+  const { data: user } = await supabase.auth.getUser()
+  if (!user.user) return null
+  const { data, error } = await supabase.rpc('admin_whoami')
+  if (callFailed('admin_whoami', error)) return null
+  const parsed = Who.safeParse(data)
+  if (parseFailed('admin_whoami', parsed)) return null
+  return parsed.data
+}
+
+// ---------------------------------------------------------------- organisations
+export const STATUSES = ['trial', 'active', 'expired'] as const
+const OrgRow = z.object({
+  id: z.string(),
+  name: z.string(),
+  org_number: z.string().nullable(),
+  employee_count: num,
+  created_at: ts,
+  status: z.enum(STATUSES),
+  plan: z.string().nullable(),
+  trial_ends_at: ts,
+  confirmed_at: tsn,
+  mrr: numn,
+  registered: num,
+  users: num,
+  last_sent: tsn,
+  last_invited: num,
+  last_answered: num,
+})
+export type OrgRow = z.infer<typeof OrgRow>
+
+export const orgList = (search: string | null, status: string | null) =>
+  call('admin_org_list', { p_search: search, p_status: status }, z.object({ rows: z.array(OrgRow) }))
+
+const Round = z.object({
+  id: z.string(),
+  kind: z.string(),
+  year: num,
+  status: z.string(),
+  opens_at: tsn,
+  closes_at: tsn,
+  invited: numn,
+  answered: numn,
+  groups_below_threshold: numn,
+  reminders_sent: num,
+  notices_sent: num,
+  notices_failed: num,
+  notices_pending: num,
+})
+const OrgDetail = z.object({
+  org: z.object({
+    id: z.string(),
+    name: z.string(),
+    org_number: z.string().nullable(),
+    employee_count: num,
+    threshold: num,
+    created_at: ts,
+    status: z.enum(STATUSES),
+    registry_address: z.string().nullable(),
+    registry_municipality: z.string().nullable(),
+    registry_nace_code: z.string().nullable(),
+    registry_nace_label: z.string().nullable(),
+    registry_form_label: z.string().nullable(),
+    registry_employees: numn,
+    registry_fetched_at: tsn,
+    mail_enabled: z.boolean().nullable(),
+    sms_enabled: z.boolean().nullable(),
+  }),
+  billing: z
+    .object({
+      plan: z.string().nullable(),
+      trial_started_at: ts,
+      trial_ends_at: ts,
+      trial_extended_at: tsn,
+      invoice_email: z.string().nullable(),
+      invoice_ref: z.string().nullable(),
+      ehf: z.boolean(),
+      confirmed_at: tsn,
+      mrr: numn,
+    })
+    .nullable(),
+  dpa: z.object({ version: z.string(), signed_at: ts, signer_name: z.string(), signer_title: z.string() }).nullable(),
+  structure: z.object({ groups: num, employees: num, with_phone: num, locations: num }),
+  users: z
+    .array(
+      z.object({
+        user_id: z.string(),
+        name: z.string().nullable(),
+        email: z.string().nullable(),
+        role: z.string(),
+        active: z.boolean(),
+        joined_at: ts,
+        last_sign_in_at: tsn,
+        mfa_factors: num,
+      }),
+    )
+    .nullable(),
+  rounds: z.array(Round).nullable(),
+  measures: z.object({ total: num, open: num, closed: num, overdue: num }),
+  timeline: z.array(z.object({ at: ts, event: z.string() })).nullable(),
+  notes: z.array(z.object({ id: z.string(), body: z.string(), author_email: z.string().nullable(), created_at: ts })),
+})
+export type OrgDetail = z.infer<typeof OrgDetail>
+export const orgDetail = (id: string) => call('admin_org_detail', { p_org: id }, OrgDetail)
+
+const EmailRow = z.object({
+  day: z.string(),
+  kind: z.string(),
+  channel: z.string().nullable(),
+  audience: z.string(),
+  total: num,
+  sent: num,
+  failed: num,
+  pending: num,
+})
+export const emailLog = (org: string) => call('admin_email_log', { p_org: org }, z.object({ rows: z.array(EmailRow) }))
+
+// ---------------------------------------------------------------- users
+const UserRow = z.object({
+  user_id: z.string(),
+  email: z.string().nullable(),
+  name: z.string().nullable(),
+  created_at: ts,
+  last_sign_in_at: tsn,
+  mfa_factors: num,
+  memberships: z.array(
+    z.object({ org_id: z.string(), org_name: z.string(), role: z.string(), active: z.boolean(), joined_at: ts }),
+  ),
+  pending_invites: z.array(z.object({ org_name: z.string(), role: z.string(), created_at: ts, expires_at: tsn })),
+})
+export type UserRow = z.infer<typeof UserRow>
+export const userSearch = (q: string) => call('admin_user_search', { p_q: q }, z.object({ rows: z.array(UserRow) }))
+
+// ---------------------------------------------------------------- audit
+const AuditRow = z.object({
+  id: num,
+  at: ts,
+  admin_email: z.string().nullable(),
+  admin_role: z.string().nullable(),
+  action: z.string(),
+  org_id: z.string().nullable(),
+  org_name: z.string().nullable(),
+  target_type: z.string().nullable(),
+  target_id: z.string().nullable(),
+  reason: z.string().nullable(),
+  detail: z.record(z.string(), z.unknown()).nullable(),
+})
+export type AuditRow = z.infer<typeof AuditRow>
+export const auditList = (org: string | null, limit = 200) =>
+  call('admin_audit_list', { p_org: org, p_limit: limit }, z.object({ rows: z.array(AuditRow) }))
+
+// ---------------------------------------------------------------- operations
+const Ops = z.object({
+  runs: z.array(z.object({ ran_at: ts, opened: num, closed: num, queued: num, planned: num, note: z.string().nullable() })),
+  queue: z.array(
+    z.object({ kind: z.string(), channel: z.string().nullable(), sent: num, failed: num, due: num, scheduled: num }),
+  ),
+  failures: z.array(
+    z.object({
+      org_id: z.string(),
+      org_name: z.string(),
+      kind: z.string(),
+      channel: z.string().nullable(),
+      due_at: ts,
+      attempts: num,
+      failed_at: tsn,
+      error: z.string(),
+    }),
+  ),
+})
+export type Ops = z.infer<typeof Ops>
+export const ops = () => call('admin_ops', {}, Ops)
+
+// ---------------------------------------------------------------- the business
+const Kpis = z.object({
+  orgs: num,
+  paying: num,
+  offers_requested: num,
+  trials_active: num,
+  trials_expiring_7d: num,
+  trials_expired: num,
+  mrr: num,
+  arr: num,
+  conversion: numn,
+})
+export type Kpis = z.infer<typeof Kpis>
+export const kpis = () => call('admin_kpis', {}, Kpis)
+
+const Cohort = z.object({
+  cohort: z.string(),
+  created: num,
+  employees_uploaded: num,
+  survey_scheduled: num,
+  survey_sent: num,
+  result_unlocked: num,
+  results_viewed: num,
+  measure_created: num,
+  converted: num,
+  median_hours_to_first_send: numn,
+})
+export type Cohort = z.infer<typeof Cohort>
+export const funnel = (months = 12) => call('admin_funnel', { p_months: months }, z.object({ rows: z.array(Cohort) }))
+
+// ---------------------------------------------------------------- admins
+const AdminRow = z.object({
+  user_id: z.string(),
+  email: z.string().nullable(),
+  role: z.enum(ROLES),
+  active: z.boolean(),
+  mfa_enforced: z.boolean(),
+  created_at: ts,
+  last_sign_in_at: tsn,
+  mfa_factors: num,
+})
+export type AdminRow = z.infer<typeof AdminRow>
+export const listAdmins = () => call('admin_list_admins', {}, z.object({ rows: z.array(AdminRow) }))

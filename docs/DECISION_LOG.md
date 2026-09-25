@@ -1823,6 +1823,53 @@ hosted project.
 **How Orgpuls sees confirmations.** For now, in `app.billing` through the service role.
 Nothing notifies Orgpuls when a customer confirms.
 
+### X-058 — The platform admin is a second door, locked in the database
+
+Orgpuls staff need to see customers, trials and failed jobs, and to extend a trial. The
+customer model is one organisation per account, with RLS scoped to that organisation. A
+staff view could not fit into it without weakening it. Migration 0049 adds a second,
+separate door instead:
+
+- **Separate accounts.** `app.platform_admins` holds the staff role (`super_admin`,
+  `support`, `finance`, `analyst`) and a `product_id`, so the admin can later serve more
+  than one product.
+  - A trigger refuses an admin row for a user with a customer membership, and another
+    refuses a membership for an admin.
+  - No account is ever both.
+- **The role counts only after a second factor.** `app.admin_role()` returns the role only
+  when the session's `aal` claim is `aal2` (TOTP verified in this session) and the admin
+  is active.
+  - A stolen password alone reaches nothing.
+  - The check is in the database, so it holds even if the app's own check were skipped.
+- **Every call is a SECURITY DEFINER RPC that logs itself.** Each `admin_*` function checks
+  the role, writes a row to `app.admin_audit`, then answers.
+  - Actions that change something (`admin_extend_trial`, `admin_set_admin`) require a
+    written reason, which is kept in the audit row.
+  - `app.admin_audit` is append-only and has no foreign keys. It copies the admin's
+    e-mail and the organisation's name, so the log survives either being deleted.
+  - No client role can select from it. Admins read it through `admin_audit_list`.
+- **Respondents are counts.** No admin function reads `responses`, `answers`,
+  `extra_answers` or `response_comments`.
+  - Surveys appear as invited, answered and groups below the threshold.
+  - E-mail and SMS appear as counts per day and kind.
+  - Provider error texts are masked for addresses before they are shown.
+  - Employees are never listed as users.
+- **Roles decide the reads.**
+
+  | Role | Can see and do |
+  |---|---|
+  | `finance` | Organisations and billing. Not users, rounds or the timeline. |
+  | `support` | The above, plus users, operations and one organisation's audit trail. Can extend trials. |
+  | `super_admin` | Everything, including the full audit log and the admin list. |
+  | `analyst` | The KPIs and the funnel only. |
+
+`supabase/tests/admin_invariants.sql` proves 18 of these, locally and on the hosted
+project. Among them:
+- a role without aal2 reaches nothing;
+- a member cannot be made an admin;
+- the audit log cannot be changed;
+- no admin function references an answer table.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1987,5 +2034,9 @@ Nothing notifies Orgpuls when a customer confirms.
 - [ ] App copy still says "fem spørsmål" for a pulse (malinger.lead, veiviser.rhythm.lead, start.step.verify.body); a pulse is three statements per factor with open measures (X-056).
 - [x] Oppsett › Betaling: a 15-day trial, extendable once, plan and invoice details, confirmation (0048, D-89, X-057).
 - [ ] Decide what happens when a trial ends unconfirmed; today nothing is locked (D-89).
-- [ ] Tell Orgpuls when a customer confirms a plan or asks for an offer (an e-mail to hjelp@orgpuls.no, or an admin view); today it is only in app.billing (X-057).
+- [x] Tell Orgpuls when a customer confirms a plan or asks for an offer: the admin's organisation list and dashboard show confirmations and offers requested (D-90). A push notification is still open.
 - [ ] Invoicing itself (sending invoices, EHF via an access point) is outside the product; the details are collected (D-89).
+- [x] A platform admin on its own host: separate accounts, TOTP required, every read audited, trials extended with a reason (0049, D-90, X-058).
+- [ ] DNS and Vercel for admin.orgpuls.com, and `ADMIN_HOST=admin.orgpuls.com` in the production env (D-90).
+- [ ] Create the first super-admin account (D-90, "Becoming an admin").
+- [ ] The funnel's median hours to first send counts sends from before signup for imported organisations; only count sends after signup (D-90).

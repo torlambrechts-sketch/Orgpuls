@@ -3682,3 +3682,101 @@ preview images in public/og were rendered again. These keep "30 dager" because t
 the trial:
 - the data processing agreement's notice, audit and deletion periods;
 - the start page's answer about deleting answers after cancellation.
+
+## D-90 — A platform admin for Orgpuls staff, on its own host
+
+**The request:** build the admin described in "Orgpuls — Platform Admin Specification", and
+recommend how to handle subscriptions and invoices. This entry covers Phase 1 of the
+specification ("run the business"), built in stages. The admin is in English, as the
+specification decides. It has no design in `design-reference/`. It uses the product's tokens
+and plain cards and tables, so there is no pixel gate for it.
+
+**What was built (0049, X-058):**
+- **Sign-in.** Sign-in is at `/admin/login`, and every admin needs a TOTP authenticator.
+  - An account without an admin role gets the same refusal as a wrong password.
+  - On first sign-in the account enrols an authenticator: QR code plus a key to type in.
+  - Every later sign-in asks for a code.
+  - Thirty minutes without a request signs the admin out.
+- **Dashboard:**
+  - MRR and ARR;
+  - paying organisations and offers requested;
+  - active trials and those ending within seven days;
+  - expired, unconfirmed trials;
+  - trial-to-paid conversion;
+  - the activation funnel per signup month: employees added, survey planned, sent, result
+    unlocked, results viewed, measure created, paid, and median hours to the first send.
+- **Organisations.** A search and a status filter (trial, active, expired). Each row shows:
+  - plan and MRR;
+  - employees registered against employees stated;
+  - the last survey and its response rate.
+- **An organisation.** One page with:
+  - the company, from Brønnøysund;
+  - billing and the data processing agreement;
+  - structure as counts;
+  - users and their MFA;
+  - surveys, as metadata only;
+  - a timeline;
+  - the e-mail and SMS log, as counts;
+  - internal notes;
+  - the organisation's audit trail.
+  - "Extend trial" takes days (1–60) and a reason, and both go to the audit log.
+- **Users.** A search over people who sign in, with their organisations, roles, pending
+  invitations, last sign-in and MFA. Employees who answer surveys are never listed.
+- **Operations:**
+  - the scheduler's recent runs;
+  - the notice queue for the last 14 days;
+  - failures and retries, with addresses masked in the provider's error text.
+- **Audit log.** Every admin read and action, newest first.
+- **Admins.** The admin list. A super-admin grants, changes or removes a role, with a reason.
+
+**The admin host.** The admin is served under `/admin`. When `ADMIN_HOST` is set, e.g.
+`admin.orgpuls.com`:
+- that host serves only the admin, and every path on it maps to `/admin`;
+- every other host answers `/admin` with 404;
+- the session cookie belongs to the admin host alone, apart from the product's.
+
+Without `ADMIN_HOST`, as in local development, `/admin` works on the one host.
+
+**Becoming an admin.** An admin account must not belong to a customer, so it cannot come
+from registration, which creates an organisation. For the first super-admin:
+1. In the Supabase dashboard, open Authentication › Users › Add user. Use an address that is
+   not used for any organisation, set a password and tick "Auto confirm".
+2. In the SQL editor, run:
+   `insert into app.platform_admins (user_id, role) select id, 'super_admin' from auth.users where email = '<that address>';`
+3. Sign in at `/admin/login` and enrol an authenticator.
+
+Later admins are created the same way in step 1. A super-admin then grants their role on the
+Admins page, and the audit log records it.
+
+**Verified in the browser** against the hosted project, with a throwaway admin account that
+was deleted afterwards:
+- A wrong password, and a customer account, are refused with the same line.
+- `/admin` without a second factor goes to the code step.
+- A wrong code is refused; the right one opens the dashboard.
+- Every page loads with no console errors.
+- A reason under five characters and a day count outside 1–60 are refused, with the field
+  that failed named.
+- Granting an admin role to a customer account is refused.
+- Thirty minutes idle returns to the sign-in with a notice.
+- With `ADMIN_HOST` set, `/admin` on the product host is 404, and the admin host serves the
+  admin from its root.
+
+**Found and fixed during that run:**
+- **Refused forms lost their input.** React resets a form after its action runs, so a
+  refused "Extend trial" put the days field back to 15. The next press then sent 15, not what
+  was typed.
+  - The admin's forms are now controlled and clear only on success.
+  - Oppsett › Betaling had the same flaw with the invoice fields, and is fixed the same way.
+  - This is how the test extended Demobedriften AS's trial by 15 days instead of 1. Its trial
+    now ends 25 October 2026, and the audit log records the extension.
+- **The wrong field was named.** A reason that was present but too short was reported as a
+  bad day count.
+- **Table cells wrapped.** The funnel and survey tables wrapped figures such as "86 %".
+  Cells now keep figures on one line.
+
+**Left open:**
+- **The funnel's median can be negative.** It counts sends from before signup, which exist
+  for organisations whose history was imported (the demo organisation), so its median is
+  negative. Only sends after signup should count. This goes in the next migration, because
+  0049 is applied.
+- **Round kinds and statuses** are shown as the database's codes (`grunnlinje`, `lukket`).

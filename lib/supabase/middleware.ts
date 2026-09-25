@@ -78,7 +78,19 @@ const PUBLIC_PATHS = [
   '/artikler',
   '/sitemap.xml',
   '/robots.txt',
+  // the platform admin's sign-in (D-90); everything else under /admin needs a session
+  '/admin/login',
 ]
+
+/**
+ * The platform admin (D-90). It is served under /admin, and — once `ADMIN_HOST` names its own
+ * host, e.g. admin.orgpuls.com — only there: on that host every path is the admin's, and on any
+ * other host /admin does not exist. Its session is the host's own cookie, apart from the
+ * product's. An admin idle for thirty minutes signs in again.
+ */
+const ADMIN_IDLE_MS = 30 * 60 * 1000
+const ADMIN_IDLE_COOKIE = 'op_admin_seen'
+const isAdminPath = (path: string) => path === '/admin' || path.startsWith('/admin/')
 
 /** Long enough for a healthy round trip, short enough that the platform never gets there. */
 const AUTH_TIMEOUT_MS = 5000
@@ -96,18 +108,33 @@ function deadline(ms: number): AbortSignal {
   return controller.signal
 }
 
-const isPublic = (path: string) =>
-  PUBLIC_PATHS.some((p) => path === p || path.startsWith(`${p}/`))
+const isPublic = (path: string) => PUBLIC_PATHS.some((p) => path === p || path.startsWith(`${p}/`))
 
 export async function updateSession(request: NextRequest) {
+  const adminHost = process.env.ADMIN_HOST?.trim().toLowerCase() || null
+  const host = (request.headers.get('host') ?? '').split(':')[0]?.toLowerCase() ?? ''
+  let path = request.nextUrl.pathname
+  let rewrite: URL | null = null
+  if (adminHost) {
+    if (host === adminHost) {
+      if (!isAdminPath(path)) {
+        rewrite = request.nextUrl.clone()
+        rewrite.pathname = path === '/' ? '/admin' : `/admin${path}`
+        path = rewrite.pathname
+      }
+    } else if (isAdminPath(path)) {
+      return new NextResponse(null, { status: 404 })
+    }
+  }
+
   // no session needed here, so nothing here may depend on one being obtainable
-  if (isPublic(request.nextUrl.pathname)) return NextResponse.next({ request })
+  if (isPublic(path)) return rewrite ? NextResponse.rewrite(rewrite, { request }) : NextResponse.next({ request })
 
   try {
-    return await guard(request)
+    return await guard(request, path, rewrite)
   } catch (error) {
     console.error('[middleware] refusing the request: the access check failed', error)
-    return toSignIn(request)
+    return toSignIn(request, path)
   }
 }
 
@@ -129,24 +156,26 @@ export async function safeUpdateSession(request: NextRequest) {
   }
 }
 
-function toSignIn(request: NextRequest) {
+function toSignIn(request: NextRequest, path = request.nextUrl.pathname) {
   const url = request.nextUrl.clone()
-  url.pathname = '/logg-inn'
+  url.pathname = isAdminPath(path) ? (process.env.ADMIN_HOST ? '/login' : '/admin/login') : '/logg-inn'
+  url.search = ''
   return NextResponse.redirect(url)
 }
 
-async function guard(request: NextRequest) {
+async function guard(request: NextRequest, path: string, rewrite: URL | null) {
   // inside the try, on purpose — see rule 4 above
   const { createServerClient } = await import('@supabase/ssr')
 
   const env = readSupabaseEnv()
   if ('problem' in env) {
     console.error(`[middleware] refusing the request: ${env.problem}`)
-    return toSignIn(request)
+    return toSignIn(request, path)
   }
   for (const warning of env.warnings) console.warn(`[middleware] ${warning}`)
 
-  let response = NextResponse.next({ request })
+  const pass = () => (rewrite ? NextResponse.rewrite(rewrite, { request }) : NextResponse.next({ request }))
+  let response = pass()
 
   const supabase = createServerClient(env.url, env.key, {
     global: {
@@ -157,7 +186,7 @@ async function guard(request: NextRequest) {
       getAll: () => request.cookies.getAll(),
       setAll: (toSet) => {
         toSet.forEach(({ name, value }) => request.cookies.set(name, value))
-        response = NextResponse.next({ request })
+        response = pass()
         toSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options))
       },
     },
@@ -174,9 +203,22 @@ async function guard(request: NextRequest) {
    */
   if (error && error.name !== 'AuthSessionMissingError') {
     console.error('[middleware] refusing the request: the auth check failed', error.message)
-    return toSignIn(request)
+    return toSignIn(request, path)
   }
-  if (!data.user) return toSignIn(request)
+  if (!data.user) return toSignIn(request, path)
+
+  if (isAdminPath(path)) {
+    const seen = Number(request.cookies.get(ADMIN_IDLE_COOKIE)?.value ?? '0')
+    if (!seen || Date.now() - seen > ADMIN_IDLE_MS) {
+      const url = request.nextUrl.clone()
+      url.pathname = process.env.ADMIN_HOST ? '/login' : '/admin/login'
+      url.search = '?idle=1'
+      const redirect = NextResponse.redirect(url)
+      redirect.cookies.delete(ADMIN_IDLE_COOKIE)
+      return redirect
+    }
+    response.cookies.set(ADMIN_IDLE_COOKIE, String(Date.now()), { httpOnly: true, sameSite: 'strict', secure: true, path: '/' })
+  }
 
   return response
 }
