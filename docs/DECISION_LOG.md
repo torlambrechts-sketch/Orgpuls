@@ -1739,6 +1739,33 @@ key in review. Adding one is a line in `lib/i18n/client.ts`.
 - **`scrubUrl` keeps the five `utm_*` keys**, capped at 80 characters, and still drops
   every other parameter.
 
+### X-054 — The public site is laid out in full-width bands, and a test holds it there
+
+**The rule:** the guide's layout rules (section 4) are measurable, and the owner asked for them
+to be tested.
+
+**How the pages are built:**
+- Every page of the public site is a sequence of `<section>` bands (`components/marketing/Section`).
+- A landing page's words are still data. `BlockSections` makes each `h2` of a page's blocks
+  a band. A band that holds a `shot` block is laid out 6 + 6, and the rest 5 + 7. Adding a
+  picture to a page is one entry in its messages.
+
+**How it is tested:** `tests/landing-layout.spec.ts` (Playwright Test, now a dev dependency,
+and a step in CI's smoke job) checks, at 1440 px:
+- no horizontal scroll;
+- every band's visible content spans at least 75 % of the container;
+- the H1, the orgnr field and the product picture are above the fold;
+- the picture is at least 40 % of the width.
+
+At 375 px it checks that the H1 and the button are within 600 px, and that there are no
+touch targets under 44 px.
+
+**Where it is stricter than the guide's sketch:** the sketch measured every element in a band,
+and a band's own full-width container always passes that. The test measures what a reader
+sees: text, pictures and controls.
+
+`tests/landing-screenshots.spec.ts` captures the before and after images.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1891,3 +1918,5 @@ key in review. Adding one is a line in `lib/i18n/client.ts`.
 - [x] Landing-page review: orgnr field in the hero, product beside it, Lovdata links, 44 px targets, LCP (X-053, D-85; docs/reviews/landing-2026-09-25.md).
 - [ ] Orgpuls AS's organisation number in the public footer: not known (D-85).
 - [ ] Confirm the Vercel plan records custom events (signup_started, signup_completed, pricing_viewed) (X-053).
+- [x] Landing-page review, round 2: the guide's grid, bands, type scale, 16:10/4:5 pictures and a layout test in CI (X-054, D-86).
+- [ ] Dark variants of the colour tokens: the guide asks for them, the design has none (D-86).

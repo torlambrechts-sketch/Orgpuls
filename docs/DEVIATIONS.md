@@ -3476,3 +3476,45 @@ page, are in `docs/reviews/landing-2026-09-25.md`.
 
 **What is left out:** Orgpuls AS's organisation number in the footer. It is not known, and
 it is not invented.
+
+## D-86 — The public site's layout follows the landing-page guide's grid, type scale and spacing
+
+**The request:** the owner's updated guide, `docs/landingsside-gjennomgang.md` section 4 ("Layout
+og plassutnyttelse"). The findings are in `docs/reviews/landing-2026-09-25-runde-2.md`.
+
+**Where it departs from the design:**
+- **Container.** 1280 px with 24, 32 and 48 px margins (`max-w-7xl px-6 md:px-8 lg:px-12`)
+  replaces the design's 1120 px and 26 px. The header and footer use the same container.
+- **Bands.** Every section is a full-width band (`main > section`). Bands alternate between
+  `bg` and `sf`, with 64 px of padding on a phone and 96 px on a desktop.
+- **Grid.** A 12-column grid from `lg`:
+  - The hero is 7 + 5 on the landing pages, with the picture running to the window's edge,
+    and 6 + 6 on the start page.
+  - Text bands are 5 + 7. The guide gives no ratio for these, and at its H2 size a
+    Norwegian compound does not fit 4 columns.
+  - The law list and the questions are 4 + 8.
+  - The steps are 4 × 3. Rows of text and a picture are 6 + 6 and change side.
+  - Cards fill the row. The plans are 3 × 4, with the recommended one first on a phone.
+- **Type.** The guide's scale, as `mk-` tokens in `tailwind.config.ts`: H1 40 → 64, H2
+  32 → 46, H3 20 → 24, lead 18 → 20, text 17 → 18. The faces are unchanged (D-07).
+- **Labels over headings are in sentence case**, not the design's small capitals. The guide
+  says so twice, in its first and its updated version.
+- **Spacing is Tailwind's 4 px scale** on the public pages, not the design's 13, 22 and 26 px.
+- **Pictures of the product are 16:10 (desktop) and 4:5 (phone)**, shown 560 px wide or more
+  on a desktop. The hero's picture is at least 40 % of the width. The landing pages carry
+  five more pictures in their text bands.
+- **The start page's sections are rearranged into the guide's patterns.** The words are the
+  design's, apart from the leads, which are shortened (below). "Tre valg som gjør at
+  arbeidet fortsetter" is now three text-and-picture rows. The showcase keeps Oversikt, the
+  questionnaire and the annual cycle.
+- **The hero leads on the start page, /lovkrav and /smaa-bedrifter are one sentence
+  shorter.** Otherwise the orgnr field did not fit within the first 600 px of a phone
+  (guide 4.3). What they dropped is said further down each page.
+- **/bygg-og-anlegg's H1 is "Arbeidsmiljøundersøkelse for bygg og anlegg".** Its lead
+  carries "som når folk på prosjekt, rigg og verksted".
+
+**What is not done, and why:** see the report's open questions.
+- **Dark tokens.** "Alle farger er tokens med lys og mørk variant" would mean inventing a
+  dark palette the design does not have.
+- **next/font.** D-07.
+- **The organisation number in the footer.** It is not known.
