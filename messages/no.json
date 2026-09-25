@@ -1117,7 +1117,8 @@
       "roller": "Roller og tilgang",
       "integrasjoner": "Integrasjoner",
       "personvern": "Personvern",
-      "regelverk": "Regelverk"
+      "regelverk": "Regelverk",
+      "databehandleravtale": "Databehandleravtale"
     },
     "problem": {
       "invalid": "Verdien kunne ikke leses. Prøv igjen.",
@@ -1412,7 +1413,7 @@
       },
       "stored": {
         "head": "Hva lagres om den enkelte",
-        "body": "Navn, e-post, mobilnummer og gruppe i registeret. Svarene lagres uten kobling til person: systemet vet at noen i en gruppe har svart, ikke hvem. Det finnes ingen kolonne som kunne holdt koblingen."
+        "body": "Om de ansatte lagres bare navn, e-postadresse og mobilnummer (hvis dere legger det inn), og hvilken avdeling de hører til. Per måling registreres om invitasjonen er sendt og om personen har svart, slik at påminnelser bare går til dem som ikke har svart. Svarene lagres uten kobling til person: det finnes ingen kolonne som kunne holdt koblingen."
       },
       "special": {
         "head": "Særlige kategorier",
@@ -1428,7 +1429,7 @@
       },
       "processor": {
         "head": "Databehandler",
-        "body": "Databasen kjører i eu-central-1. Databehandleravtale og liste over underleverandører må på plass før dere behandler reelle svar."
+        "body": "Orgpuls AS er databehandler. Underleverandørene er Supabase (database, Frankfurt), Vercel (drift, Frankfurt) og Brevo (e-post og SMS). Avtalen ligger under Databehandleravtale, der daglig leder signerer den."
       },
       "dpia": {
         "head": "Vurdering av personvernkonsekvenser",
@@ -1515,6 +1516,48 @@
         "informasjon": "Informasjon til ansatte, verneombud og tillitsvalgte om risiko og tiltak",
         "opplaering": "Opplæring og øvelse der risikoen er høy, og skriftlig instruks ved fare for liv og helse",
         "bht": "Bedriftshelsetjeneste eller annen sakkyndig bistand"
+      }
+    },
+    "dpa": {
+      "signedHead": "Databehandleravtalen er signert",
+      "unsignedHead": "Databehandleravtalen er ikke signert",
+      "signedPill": "Signert",
+      "unsignedPill": "Ikke signert",
+      "signedBy": "Signert av {name}, {title}, {when}. Versjon {version}.",
+      "checksum": "Kontrollsum for avtaleteksten (SHA-256): {sha}",
+      "print": "Skriv ut eller lagre som PDF",
+      "unsignedBody": "Les avtalen under. Den gjelder fra daglig leder har signert den, i versjonen fra {version}. Orgpuls behandler personopplysninger for dere, og avtalen er dokumentasjonen på at det skjer etter personvernforordningen artikkel 28.",
+      "onlyLeader": "Daglig leder signerer avtalen.",
+      "earlier": "Tidligere versjon {version}, signert av {name}, {when}",
+      "versionLabel": "Versjon {version}",
+      "controller": "Behandlingsansvarlig",
+      "processor": "Databehandler",
+      "orgWithNumber": "{name}, org.nr. {number}",
+      "forController": "For behandlingsansvarlig",
+      "forProcessor": "For databehandler",
+      "signatureLine": "Signert elektronisk av {name}, {title}, {when}",
+      "notYetSigned": "Ikke signert ennå",
+      "processorLine": "Orgpuls AS. Avtalen er Orgpuls' standardvilkår og binder Orgpuls fra virksomheten signerer.",
+      "form": {
+        "name": "Navn",
+        "title": "Stilling",
+        "titleDefault": "Daglig leder",
+        "confirm": "Jeg har lest avtalen og har fullmakt til å signere den for {org}.",
+        "submit": "Signer avtalen",
+        "signing": "Signerer …"
+      },
+      "problem": {
+        "not_confirmed": "Kryss av for at du har lest avtalen og kan signere.",
+        "invalid_signer": "Skriv inn navn og stilling, minst to tegn hver.",
+        "not_allowed": "Bare daglig leder kan signere avtalen.",
+        "not_current": "Det er kommet en ny versjon av avtalen. Last siden på nytt.",
+        "already_signed": "Avtalen er allerede signert. Last siden på nytt.",
+        "failed": "Signeringen ble ikke lagret. Prøv igjen."
+      },
+      "status": {
+        "signed": "Databehandleravtalen er signert av {name}, {when}.",
+        "unsigned": "Databehandleravtalen er ikke signert ennå.",
+        "open": "Les og signer avtalen"
       }
     }
   },
@@ -1689,7 +1732,7 @@
           "p1": "Behandlingsgrunnlaget er rettslig forpliktelse, GDPR artikkel 6 nr. 1 bokstav c, jf. arbeidsmiljøloven § 3-1 og § 4-3. Ikke samtykke.",
           "p2": "Det er ikke en teknikalitet. Samtykke må være fritt gitt, og en ansatt kan ikke samtykke fritt til sin arbeidsgiver — maktforholdet er skjevt. Dessuten er kartleggingen en plikt virksomheten har uansett, og et samtykke som ikke kan trekkes tilbake uten at plikten faller bort er ikke et samtykke.",
           "p3": "Spørsmålene er utformet for å unngå helseopplysninger, som § 9-3 forbyr arbeidsgiver å innhente. Screeningen for krenkende atferd og vold rapporteres bare som antall.",
-          "p4": "Tre ting må være på plass hos dere før reelle svar behandles: en rutine for sletting av enkeltsvar, en databehandleravtale med oversikt over underleverandører, og en oppføring i protokollen over behandlingsaktiviteter. Ingen av dem er satt opp i denne installasjonen ennå."
+          "p4": "Tre ting må være på plass hos dere før reelle svar behandles: en rutine for sletting av enkeltsvar, en databehandleravtale med oversikt over underleverandører, og en oppføring i protokollen over behandlingsaktiviteter. Databehandleravtalen ligger under Oppsett › Databehandleravtale, der daglig leder signerer den. Sletterutinen og protokollen må dere fortsatt sette opp selv."
         }
       },
       "hvaLovenKrever": {
@@ -5093,6 +5136,14 @@
             ]
           },
           {
+            "t": "h2",
+            "text": "Databehandleravtale"
+          },
+          {
+            "t": "p",
+            "text": "Virksomheten er behandlingsansvarlig, og Orgpuls AS er databehandler. Databehandleravtalen etter GDPR artikkel 28 ligger i Orgpuls under Oppsett, der daglig leder leser og signerer den, og kan skrives ut eller lagres som PDF. Underleverandørene er Supabase (database og innlogging, Frankfurt), Vercel (drift, Frankfurt) og Brevo (e-post og SMS)."
+          },
+          {
             "t": "box",
             "title": "Spørsmål om personvern?",
             "text": "Skriv til [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no). Les også [hva anonymt må bety i en medarbeiderundersøkelse](/artikler/anonym-medarbeiderundersokelse)."
@@ -5175,5 +5226,140 @@
       "submit": "Start gratis",
       "invalid": "Organisasjonsnummeret har ni siffer. Sjekk at alle er med."
     }
+  },
+  "dpa": {
+    "title": "Databehandleravtale",
+    "lead": "Avtalen regulerer hvordan Orgpuls AS behandler personopplysninger på vegne av virksomheten, jf. personvernforordningen (GDPR) artikkel 28. Den følger kravene Datatilsynet beskriver for databehandleravtaler, og strukturen i EU-kommisjonens standard databehandleravtale (gjennomføringsbeslutning (EU) 2021/915).",
+    "sections": [
+      {
+        "h": "1. Parter og roller",
+        "p": [
+          "Virksomheten som bruker Orgpuls er behandlingsansvarlig. Orgpuls AS er databehandler.",
+          "Virksomheten bestemmer formålet med behandlingen og hvilke opplysninger som legges inn. Orgpuls behandler opplysningene bare for å levere tjenesten."
+        ]
+      },
+      {
+        "h": "2. Formål og instruks",
+        "p": [
+          "Orgpuls behandler personopplysninger bare for å gjennomføre kartlegging av det psykososiale arbeidsmiljøet etter arbeidsmiljøloven § 3-1 og § 4-3, slik virksomheten setter det opp i tjenesten: sende invitasjoner og påminnelser, samle anonyme svar og vise resultater, tiltak og rapport.",
+          "Denne avtalen og virksomhetens innstillinger i Orgpuls er den dokumenterte instruksen. Orgpuls skal varsle virksomheten straks dersom en instruks etter Orgpuls' vurdering er i strid med personvernregelverket.",
+          "Opplysningene brukes ikke til andre formål, selges ikke og deles ikke med andre enn underdatabehandlerne i vedlegg 3."
+        ]
+      },
+      {
+        "h": "3. Personopplysningene",
+        "p": [
+          "Orgpuls er laget for å behandle så få personopplysninger som mulig. Om de ansatte lagres bare navn, e-postadresse og, hvis virksomheten legger det inn, mobilnummer, i tillegg til avdeling. Svarene i kartleggingen lagres uten kobling til den som svarte. Vedlegg 1 beskriver behandlingen i sin helhet."
+        ]
+      },
+      {
+        "h": "4. Taushetsplikt",
+        "p": [
+          "Alle som får tilgang til personopplysningene hos Orgpuls, har taushetsplikt. Tilgang gis bare til dem som trenger den for å drifte og feilsøke tjenesten."
+        ]
+      },
+      {
+        "h": "5. Sikkerhet",
+        "p": [
+          "Orgpuls gjennomfører tekniske og organisatoriske tiltak som gir et sikkerhetsnivå tilpasset risikoen, jf. GDPR artikkel 32. Tiltakene står i vedlegg 2."
+        ]
+      },
+      {
+        "h": "6. Underdatabehandlere",
+        "p": [
+          "Virksomheten godkjenner underdatabehandlerne i vedlegg 3. Orgpuls skal varsle virksomheten på e-post minst 30 dager før en underdatabehandler legges til eller byttes ut, og virksomheten kan protestere. Blir partene ikke enige, kan virksomheten si opp avtalen før endringen trer i kraft.",
+          "Orgpuls skal pålegge underdatabehandlerne de samme pliktene som følger av denne avtalen, og er ansvarlig overfor virksomheten for at de oppfyller dem."
+        ]
+      },
+      {
+        "h": "7. Overføring ut av EØS",
+        "p": [
+          "Personopplysningene lagres i EØS, i Frankfurt i Tyskland. Enkelte underdatabehandlere har hovedsete i USA (vedlegg 3). Overføring ut av EØS, også tilgang fra slike land, skjer bare i samsvar med GDPR kapittel V, for eksempel på grunnlag av EU-kommisjonens standardkontraktsklausuler i underdatabehandlerens avtale."
+        ]
+      },
+      {
+        "h": "8. Bistand til virksomheten",
+        "p": [
+          "Orgpuls bistår virksomheten, så langt det er mulig, med å oppfylle de registrertes rettigheter, som innsyn, retting og sletting, og med pliktene i GDPR artikkel 32 til 36: sikkerhet, melding om avvik, vurdering av personvernkonsekvenser og forhåndsdrøfting.",
+          "Opplysningene om de ansatte kan virksomheten selv rette og slette i Orgpuls. Anonyme svar kan ikke knyttes til en person, og kan derfor ikke hentes ut eller slettes for én bestemt person, jf. GDPR artikkel 11."
+        ]
+      },
+      {
+        "h": "9. Brudd på personopplysningssikkerheten",
+        "p": [
+          "Orgpuls skal varsle virksomheten uten ugrunnet opphold, og senest 36 timer etter at Orgpuls ble kjent med et brudd på personopplysningssikkerheten. Varselet skal beskrive hva som har skjedd, hvilke opplysninger og omtrent hvor mange registrerte som er berørt, sannsynlige konsekvenser og hvilke tiltak som er satt i verk, slik at virksomheten kan melde bruddet til Datatilsynet innen 72 timer, jf. GDPR artikkel 33."
+        ]
+      },
+      {
+        "h": "10. Dokumentasjon og revisjon",
+        "p": [
+          "Orgpuls gjør tilgjengelig den informasjonen virksomheten trenger for å vise at pliktene i GDPR artikkel 28 er oppfylt, og legger til rette for revisjoner, også inspeksjoner, utført av virksomheten eller en revisor virksomheten har gitt fullmakt. Revisjon varsles minst 30 dager i forveien. Virksomheten dekker kostnadene, med mindre revisjonen avdekker vesentlige brudd på avtalen."
+        ]
+      },
+      {
+        "h": "11. Varighet, opphør og sletting",
+        "p": [
+          "Avtalen gjelder så lenge virksomheten bruker Orgpuls. Når avtalen opphører, sletter Orgpuls virksomhetens personopplysninger innen 30 dager, med mindre lov krever at de lagres. Før det kan virksomheten skrive ut eller lagre rapportene sine som PDF. Sikkerhetskopier slettes i underdatabehandlerens faste syklus."
+        ]
+      },
+      {
+        "h": "12. Endringer",
+        "p": [
+          "Orgpuls kan legge fram en ny versjon av avtalen i Orgpuls. Virksomheten blir varslet, og den nye versjonen gjelder fra den er signert. Fram til da gjelder den versjonen som sist ble signert."
+        ]
+      },
+      {
+        "h": "13. Lovvalg og forrang",
+        "p": [
+          "Avtalen reguleres av norsk rett. Ved motstrid går denne avtalen foran andre avtaler mellom partene når det gjelder behandling av personopplysninger."
+        ]
+      },
+      {
+        "h": "Vedlegg 1 – Behandlingen",
+        "p": [
+          "Formål: kartlegging og oppfølging av det psykososiale arbeidsmiljøet etter arbeidsmiljøloven § 3-1 og § 4-3 og forskrift om utførelse av arbeid kapittel 1A. Virksomhetens behandlingsgrunnlag er rettslig forpliktelse, GDPR artikkel 6 nr. 1 bokstav c.",
+          "De registrerte er de ansatte virksomheten inviterer til kartleggingen, og virksomhetens brukere av Orgpuls: daglig leder, avdelingsledere og verneombud.",
+          "Om de ansatte lagres:"
+        ],
+        "ul": [
+          "navn og e-postadresse",
+          "mobilnummer, bare hvis virksomheten legger det inn, for utsending på SMS",
+          "hvilken avdeling den ansatte hører til, og eventuelt en rolle som verneombud, tillitsvalgt eller leder",
+          "for hver måling: om invitasjon og påminnelse er sendt, og om den ansatte har svart, slik at påminnelser bare går til dem som ikke har svart – aldri hva den ansatte svarte",
+          "navnet på den som er ansvarlig for et tiltak, hvis virksomheten velger en ansatt som ansvarlig"
+        ]
+      },
+      {
+        "h": "Vedlegg 1 – Svar, brukere og tekniske opplysninger",
+        "p": [
+          "Svarene lagres uten navn, e-postadresse, invitasjon eller annen kobling til den som svarte: bare hvilken avdeling svaret gjelder, og hvilken time det kom inn. Resultater for en avdeling vises ikke før minst fem har svart. Kommentarer og svar i anonyme samtaler lagres på samme måte. De kan inneholde personopplysninger hvis den som skriver tar det med, og vises aldri med navn.",
+          "Om brukerne lagres navn, e-postadresse, rolle og avdeling. Passord lagres bare som en kryptografisk hash.",
+          "Spørsmålene er utformet for ikke å samle inn helseopplysninger eller andre særlige kategorier av personopplysninger, jf. GDPR artikkel 9 og arbeidsmiljøloven § 9-3. Spørsmålene om krenkende atferd og vold rapporteres bare som antall for hele virksomheten.",
+          "Underdatabehandlerne registrerer IP-adresse og tidspunkt i driftslogger, som brukes til drift og sikkerhet. Statistikken over bruk av nettsidene bruker ikke informasjonskapsler og sier ikke hvem som besøker.",
+          "Lagringstid: så lenge avtalen gjelder, med mindre virksomheten sletter opplysningene tidligere eller ber Orgpuls gjøre det."
+        ]
+      },
+      {
+        "h": "Vedlegg 2 – Sikkerhetstiltak",
+        "ul": [
+          "Opplysningene lagres i en database i Frankfurt i Tyskland, og er kryptert under overføring og lagring.",
+          "Tilgangskontroll på hver tabell i databasen: en bruker ser bare sin egen virksomhet, og bare det rollen gir tilgang til.",
+          "Tabellene med svar er stengt for alle brukere. Resultater hentes bare gjennom funksjoner som holder tilbake avdelinger med færre enn fem svar.",
+          "Lenken en ansatt svarer med, lagres bare som en SHA-256-hash. Tidspunktet for et svar lagres avrundet til hel time.",
+          "Innlogging med e-postadresse og passord. Passord lagres som hash.",
+          "Fritekst fra ansatte skrives ikke til logger eller analyseverktøy.",
+          "Orgpuls' personell får tilgang til produksjonsdata bare når drift eller feilsøking krever det.",
+          "Databasen endres bare gjennom versjonerte endringsskript, og sikkerhetsreglene testes automatisk ved hver endring."
+        ]
+      },
+      {
+        "h": "Vedlegg 3 – Underdatabehandlere",
+        "ul": [
+          "Supabase Inc. (USA): database, innlogging og bakgrunnsjobber. Data lagres i Frankfurt, Tyskland.",
+          "Vercel Inc. (USA): drift av nettsidene og applikasjonen. Serverfunksjonene kjøres i Frankfurt, Tyskland.",
+          "Brevo SAS (Frankrike): utsending av e-post og SMS."
+        ]
+      }
+    ]
   }
 }

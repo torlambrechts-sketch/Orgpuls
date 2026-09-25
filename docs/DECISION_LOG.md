@@ -1739,6 +1739,42 @@ key in review. Adding one is a line in `lib/i18n/client.ts`.
 - **`scrubUrl` keeps the five `utm_*` keys**, capped at 80 characters, and still drops
   every other parameter.
 
+### X-055 — The data processing agreement is versioned, hashed and signed in the database
+
+**Datatilsynet has no template any more.** It used to publish model agreements, and it
+dropped them. It now points to GDPR Art. 28 and to the EU Commission's standard contractual
+clauses between controller and processor (Implementing Decision (EU) 2021/915). So the
+agreement follows the Art. 28 list and the Commission's structure, in plain Norwegian, and
+states facts about this product: what it stores, where, and who processes it.
+
+**The words are messages; the version is data.** The text lives in `messages/*.json` under
+`dpa`. Norwegian is the authoritative version, and the English one says so.
+- `app.dpa_versions` holds each version with the SHA-256 of its canonical Norwegian text.
+- `lib/legal/dpa.ts` pins the same pair.
+- `tests/unit/dpa.test.ts` fails if a word changes without a new version.
+- A trigger stops a published version's hash from being edited.
+
+**Signing** (migration 0047):
+- `public.sign_dpa` is SECURITY DEFINER. Only a daglig leder of the organisation may sign,
+  and only the current version.
+- The signer gives their name and title, which must be 2 to 120 characters.
+- The hash is copied from `app.dpa_versions` and never taken from the caller.
+- One signature per organisation and version.
+
+**The signature, once made:**
+- Every member of the organisation can read it. Nobody can change or delete it.
+- The immutability trigger still permits the database's own FK maintenance: `signed_by`
+  goes null when a profile is deleted, and the rows go when the organisation does.
+- `supabase/tests/dpa_invariants.sql` proves this in 17 checks.
+
+**Nothing concerns respondents.** A signature points to the organisation, the version and
+the leader's profile, and nothing else, which check 4 asserts.
+
+**Sub-processors** (verified in the repository):
+- Supabase: database, sign-in and background jobs, in eu-central-1 (Frankfurt).
+- Vercel: hosting, with functions in fra1.
+- Brevo: e-mail and SMS.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -1891,3 +1927,8 @@ key in review. Adding one is a line in `lib/i18n/client.ts`.
 - [x] Landing-page review: orgnr field in the hero, product beside it, Lovdata links, 44 px targets, LCP (X-053, D-85; docs/reviews/landing-2026-09-25.md).
 - [ ] Orgpuls AS's organisation number in the public footer: not known (D-85).
 - [ ] Confirm the Vercel plan records custom events (signup_started, signup_completed, pricing_viewed) (X-053).
+- [x] A data processing agreement under Oppsett. A daglig leder signs it; the signature is versioned, hashed and immutable (0047, X-055, D-87).
+- [ ] Have a lawyer review the agreement, including the chosen terms: 36 h breach notice, 30 days for sub-processors, audits, deletion (D-87).
+- [ ] Orgpuls AS's organisation number and address on the processor's side of the agreement (D-87).
+- [ ] Orgpuls's own DPAs with Supabase, Vercel and Brevo: outside the repository (X-055).
+- [ ] An automated retention and deletion routine; the agreement promises deletion within 30 days of termination (D-87).

@@ -9,6 +9,8 @@ import { GrupperTab } from '@/components/oppsett/GrupperTab'
 import { RollerTab } from '@/components/oppsett/RollerTab'
 import { IntegrasjonerTab } from '@/components/oppsett/IntegrasjonerTab'
 import { PersonvernTab } from '@/components/oppsett/PersonvernTab'
+import { DpaTab } from '@/components/oppsett/DpaTab'
+import type { DpaSignature } from '@/lib/legal/read'
 import { RegelverkTab } from '@/components/oppsett/RegelverkTab'
 import { WizardButton } from '@/components/veiviser/WizardProvider'
 
@@ -32,6 +34,9 @@ export const TABS = [
   'roller',
   'integrasjoner',
   'personvern',
+  // the data processing agreement and its signature (D-87): not in the design, which had a dead
+  // "Last ned databehandleravtale" button (D-33)
+  'databehandleravtale',
   'regelverk',
 ] as const
 
@@ -60,6 +65,8 @@ export interface OppsettView {
   /** per group name, what that round released: alone, only in the whole, or held back */
   groupRelease: Record<string, 'ok' | 'insufficient_data' | 'protected'>
   canWrite: boolean
+  /** the agreement's signatures and who is looking: read only on Personvern and Databehandleravtale (D-87) */
+  dpa?: { signatures: DpaSignature[]; viewerName: string }
   /** the Roller tab's member panel, built by the page only when that tab is open (D-51) */
   members?: ReactNode
 }
@@ -73,7 +80,7 @@ export async function OppsettScreen({ view }: { view: OppsettView }) {
 
   return (
     <main className="animate-entry mx-auto max-w-page px-[16px] md:px-[28px] pb-[60px] pt-[30px]">
-      <div className="grid items-start gap-[20px] md:[grid-template-columns:minmax(0,1.25fr)_minmax(300px,0.75fr)]">
+      <div className="grid items-start gap-[20px] print:hidden md:[grid-template-columns:minmax(0,1.25fr)_minmax(300px,0.75fr)]">
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-[14px]">
             <h1 className="m-0 font-display text-[32px] font-semibold leading-[1.1]">{t('oppsett.title')}</h1>
@@ -122,7 +129,7 @@ export async function OppsettScreen({ view }: { view: OppsettView }) {
         </div>
       </div>
 
-      <div className="mt-[20px] flex flex-wrap gap-[8px]">
+      <div className="mt-[20px] flex flex-wrap gap-[8px] print:hidden">
         {TABS.map((tab) => {
           const on = tab === view.tab
           return (
@@ -153,7 +160,14 @@ export async function OppsettScreen({ view }: { view: OppsettView }) {
       ) : view.tab === 'integrasjoner' ? (
         <IntegrasjonerTab roster={view.roster} withPhone={view.withPhone} mailOn={view.mailOn} smsOn={view.smsOn} />
       ) : view.tab === 'personvern' ? (
-        <PersonvernTab threshold={view.company.threshold} />
+        <PersonvernTab threshold={view.company.threshold} signed={view.dpa?.signatures ?? []} />
+      ) : view.tab === 'databehandleravtale' ? (
+        <DpaTab
+          org={{ name: view.company.name, orgNumber: view.company.org_number }}
+          signatures={view.dpa?.signatures ?? []}
+          canSign={view.canWrite}
+          viewerName={view.dpa?.viewerName ?? ''}
+        />
       ) : (
         <RegelverkTab factorKeys={view.factorKeys} />
       )}

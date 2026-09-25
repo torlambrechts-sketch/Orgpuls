@@ -1117,7 +1117,8 @@
       "roller": "Roles and access",
       "integrasjoner": "Integrations",
       "personvern": "Privacy",
-      "regelverk": "Regulation"
+      "regelverk": "Regulation",
+      "databehandleravtale": "Data processing agreement"
     },
     "problem": {
       "invalid": "The value could not be read. Try again.",
@@ -1412,7 +1413,7 @@
       },
       "stored": {
         "head": "What is stored about each person",
-        "body": "Name, e-mail, mobile number and group in the register. Answers are stored with no connection to a person: the system knows that somebody in a group answered, not who. There is no column that could hold the link."
+        "body": "About employees, only name, e-mail address and mobile number (if you enter it) are stored, and which department they belong to. For each survey, whether the invitation was sent and whether the person has answered is recorded, so that reminders go only to those who have not. Answers are stored without any link to a person: there is no column that could hold one."
       },
       "special": {
         "head": "Special categories",
@@ -1428,7 +1429,7 @@
       },
       "processor": {
         "head": "Processor",
-        "body": "The database runs in eu-central-1. A processing agreement and a list of sub-processors must be in place before you process real answers."
+        "body": "Orgpuls AS is the processor. The sub-processors are Supabase (database, Frankfurt), Vercel (hosting, Frankfurt) and Brevo (e-mail and SMS). The agreement is under Data processing agreement, where the managing director signs it."
       },
       "dpia": {
         "head": "Data protection impact assessment",
@@ -1515,6 +1516,48 @@
         "informasjon": "Informing employees, safety and union representatives about risk and measures",
         "opplaering": "Training and drills where the risk is high, and written instructions where life and health are at stake",
         "bht": "Occupational health services or other expert assistance"
+      }
+    },
+    "dpa": {
+      "signedHead": "The data processing agreement is signed",
+      "unsignedHead": "The data processing agreement is not signed",
+      "signedPill": "Signed",
+      "unsignedPill": "Not signed",
+      "signedBy": "Signed by {name}, {title}, {when}. Version {version}.",
+      "checksum": "Checksum of the agreement text (SHA-256): {sha}",
+      "print": "Print or save as PDF",
+      "unsignedBody": "Read the agreement below. It applies once the managing director has signed it, in the version of {version}. Orgpuls processes personal data on your behalf, and the agreement documents that this is done under Article 28 of the GDPR.",
+      "onlyLeader": "The managing director signs the agreement.",
+      "earlier": "Earlier version {version}, signed by {name}, {when}",
+      "versionLabel": "Version {version}",
+      "controller": "Controller",
+      "processor": "Processor",
+      "orgWithNumber": "{name}, org. no. {number}",
+      "forController": "For the controller",
+      "forProcessor": "For the processor",
+      "signatureLine": "Signed electronically by {name}, {title}, {when}",
+      "notYetSigned": "Not signed yet",
+      "processorLine": "Orgpuls AS. The agreement is Orgpuls' standard terms and binds Orgpuls once the organisation signs.",
+      "form": {
+        "name": "Name",
+        "title": "Position",
+        "titleDefault": "Managing director",
+        "confirm": "I have read the agreement and am authorised to sign it for {org}.",
+        "submit": "Sign the agreement",
+        "signing": "Signing …"
+      },
+      "problem": {
+        "not_confirmed": "Tick the box to confirm you have read the agreement and may sign it.",
+        "invalid_signer": "Enter a name and a position, at least two characters each.",
+        "not_allowed": "Only the managing director can sign the agreement.",
+        "not_current": "A new version of the agreement has been published. Reload the page.",
+        "already_signed": "The agreement is already signed. Reload the page.",
+        "failed": "The signature was not saved. Try again."
+      },
+      "status": {
+        "signed": "The data processing agreement was signed by {name}, {when}.",
+        "unsigned": "The data processing agreement is not signed yet.",
+        "open": "Read and sign the agreement"
       }
     }
   },
@@ -1689,7 +1732,7 @@
           "p1": "The legal basis is legal obligation, GDPR article 6(1)(c), cf. the Working Environment Act §§ 3-1 and 4-3. Not consent.",
           "p2": "That is not a technicality. Consent must be freely given, and an employee cannot consent freely to their employer — the power relationship is uneven. The survey is also a duty the undertaking has in any case, and a consent that cannot be withdrawn without the duty falling away is not a consent.",
           "p3": "The questions are written to avoid health data, which § 9-3 prohibits an employer from collecting. The screening for offensive behaviour and violence is reported as counts only.",
-          "p4": "Three things must be in place before real answers are processed: a routine for deleting individual answers, a processing agreement with a list of sub-processors, and an entry in the record of processing activities. None of them is set up in this installation yet."
+          "p4": "Three things must be in place before real answers are processed: a routine for deleting individual answers, a data processing agreement with a list of sub-processors, and an entry in the record of processing activities. The data processing agreement is under Settings › Data processing agreement, where the managing director signs it. You still need to set up the deletion routine and the record yourselves."
         }
       },
       "hvaLovenKrever": {
@@ -5093,6 +5136,14 @@
             ]
           },
           {
+            "t": "h2",
+            "text": "Data processing agreement"
+          },
+          {
+            "t": "p",
+            "text": "The organisation is the controller, and Orgpuls AS is the processor. The data processing agreement under GDPR Article 28 is in Orgpuls under Settings, where the managing director reads and signs it, and can print or save it as PDF. The sub-processors are Supabase (database and sign-in, Frankfurt), Vercel (hosting, Frankfurt) and Brevo (e-mail and SMS)."
+          },
+          {
             "t": "box",
             "title": "Questions about privacy?",
             "text": "Write to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no). Read also [what anonymous has to mean in an employee survey](/artikler/anonym-medarbeiderundersokelse)."
@@ -5175,5 +5226,140 @@
       "submit": "Start free",
       "invalid": "An organisation number has nine digits. Check that they are all there."
     }
+  },
+  "dpa": {
+    "title": "Data processing agreement",
+    "lead": "This agreement governs how Orgpuls AS processes personal data on behalf of the organisation, under the General Data Protection Regulation (GDPR) Article 28. It follows the requirements the Norwegian Data Protection Authority (Datatilsynet) sets out for data processing agreements, and the structure of the European Commission's standard contractual clauses between controllers and processors (Implementing Decision (EU) 2021/915). This is a translation; the Norwegian version governs.",
+    "sections": [
+      {
+        "h": "1. Parties and roles",
+        "p": [
+          "The organisation using Orgpuls is the controller. Orgpuls AS is the processor.",
+          "The organisation decides the purpose of the processing and which data is entered. Orgpuls processes the data only to provide the service."
+        ]
+      },
+      {
+        "h": "2. Purpose and instructions",
+        "p": [
+          "Orgpuls processes personal data only to carry out the mapping of the psychosocial working environment under the Working Environment Act sections 3-1 and 4-3, as the organisation sets it up in the service: sending invitations and reminders, collecting anonymous answers, and showing results, measures and the report.",
+          "This agreement and the organisation's settings in Orgpuls are the documented instructions. Orgpuls shall inform the organisation at once if, in Orgpuls' view, an instruction infringes data protection law.",
+          "The data is not used for any other purpose, is not sold and is not shared with anyone other than the sub-processors in Annex 3."
+        ]
+      },
+      {
+        "h": "3. The personal data",
+        "p": [
+          "Orgpuls is built to process as little personal data as possible. About employees, only name, e-mail address and, if the organisation enters it, mobile number are stored, together with their department. Answers are stored without any link to the person who gave them. Annex 1 describes the processing in full."
+        ]
+      },
+      {
+        "h": "4. Confidentiality",
+        "p": [
+          "Everyone at Orgpuls with access to the personal data is bound by confidentiality. Access is given only to those who need it to operate and troubleshoot the service."
+        ]
+      },
+      {
+        "h": "5. Security",
+        "p": [
+          "Orgpuls implements technical and organisational measures that ensure a level of security appropriate to the risk, under GDPR Article 32. The measures are set out in Annex 2."
+        ]
+      },
+      {
+        "h": "6. Sub-processors",
+        "p": [
+          "The organisation authorises the sub-processors in Annex 3. Orgpuls shall notify the organisation by e-mail at least 30 days before a sub-processor is added or replaced, and the organisation may object. If the parties cannot agree, the organisation may terminate the agreement before the change takes effect.",
+          "Orgpuls shall impose the same obligations on sub-processors as follow from this agreement, and is liable to the organisation for their performance."
+        ]
+      },
+      {
+        "h": "7. Transfers outside the EEA",
+        "p": [
+          "The personal data is stored in the EEA, in Frankfurt, Germany. Some sub-processors are headquartered in the USA (Annex 3). Any transfer outside the EEA, including access from such countries, takes place only in accordance with GDPR Chapter V, for example on the basis of the European Commission's standard contractual clauses in the sub-processor's agreement."
+        ]
+      },
+      {
+        "h": "8. Assistance",
+        "p": [
+          "Orgpuls assists the organisation, as far as possible, in meeting the data subjects' rights, such as access, rectification and erasure, and with the obligations in GDPR Articles 32 to 36: security, breach notification, data protection impact assessment and prior consultation.",
+          "The organisation can correct and delete employee data in Orgpuls itself. Anonymous answers cannot be linked to a person, and therefore cannot be retrieved or deleted for one particular person, under GDPR Article 11."
+        ]
+      },
+      {
+        "h": "9. Personal data breaches",
+        "p": [
+          "Orgpuls shall notify the organisation without undue delay, and no later than 36 hours after becoming aware of a personal data breach. The notice shall describe what happened, which data and approximately how many data subjects are affected, the likely consequences and the measures taken, so that the organisation can notify Datatilsynet within 72 hours under GDPR Article 33."
+        ]
+      },
+      {
+        "h": "10. Documentation and audits",
+        "p": [
+          "Orgpuls makes available the information the organisation needs to demonstrate compliance with GDPR Article 28, and allows for audits, including inspections, by the organisation or an auditor it has mandated. Audits are announced at least 30 days in advance. The organisation bears the cost, unless the audit reveals material breaches of the agreement."
+        ]
+      },
+      {
+        "h": "11. Duration, termination and deletion",
+        "p": [
+          "The agreement applies for as long as the organisation uses Orgpuls. When it ends, Orgpuls deletes the organisation's personal data within 30 days, unless the law requires it to be kept. Before then, the organisation can print or save its reports as PDF. Backups are deleted in the sub-processor's regular cycle."
+        ]
+      },
+      {
+        "h": "12. Changes",
+        "p": [
+          "Orgpuls may present a new version of the agreement in Orgpuls. The organisation is notified, and the new version applies once it is signed. Until then, the version last signed applies."
+        ]
+      },
+      {
+        "h": "13. Governing law and precedence",
+        "p": [
+          "The agreement is governed by Norwegian law. In case of conflict, this agreement takes precedence over other agreements between the parties as regards the processing of personal data."
+        ]
+      },
+      {
+        "h": "Annex 1 – The processing",
+        "p": [
+          "Purpose: mapping and follow-up of the psychosocial working environment under the Working Environment Act sections 3-1 and 4-3 and chapter 1A of the Regulations concerning the performance of work. The organisation's legal basis is legal obligation, GDPR Article 6(1)(c).",
+          "The data subjects are the employees the organisation invites to the mapping, and the organisation's users of Orgpuls: the managing director, department managers and safety representatives.",
+          "About employees, the following is stored:"
+        ],
+        "ul": [
+          "name and e-mail address",
+          "mobile number, only if the organisation enters it, for sending by SMS",
+          "which department the employee belongs to, and any role as safety representative, union representative or manager",
+          "for each survey: whether an invitation and a reminder were sent and whether the employee has answered, so that reminders go only to those who have not – never what the employee answered",
+          "the name of the person responsible for a measure, if the organisation chooses an employee as responsible"
+        ]
+      },
+      {
+        "h": "Annex 1 – Answers, users and technical data",
+        "p": [
+          "Answers are stored without name, e-mail address, invitation or any other link to the person who gave them: only which department the answer concerns and the hour it arrived. Results for a department are not shown until at least five have answered. Comments and replies in anonymous conversations are stored the same way. They may contain personal data if the writer includes it, and are never shown with a name.",
+          "About users, name, e-mail address, role and department are stored. Passwords are stored only as a cryptographic hash.",
+          "The questions are designed not to collect health data or other special categories of personal data, under GDPR Article 9 and the Working Environment Act section 9-3. The questions on offensive behaviour and violence are reported only as counts for the whole organisation.",
+          "The sub-processors record IP address and time in operational logs, used for operation and security. The statistics on use of the website use no cookies and do not identify visitors.",
+          "Retention: for as long as the agreement applies, unless the organisation deletes the data earlier or asks Orgpuls to do so."
+        ]
+      },
+      {
+        "h": "Annex 2 – Security measures",
+        "ul": [
+          "The data is stored in a database in Frankfurt, Germany, and is encrypted in transit and at rest.",
+          "Access control on every database table: a user sees only their own organisation, and only what their role allows.",
+          "The tables holding answers are closed to all users. Results are read only through functions that withhold departments with fewer than five answers.",
+          "The link an employee answers with is stored only as a SHA-256 hash. The time of an answer is stored rounded to the hour.",
+          "Sign-in with e-mail address and password. Passwords are stored as hashes.",
+          "Free text from employees is not written to logs or analytics tools.",
+          "Orgpuls' personnel access production data only when operation or troubleshooting requires it.",
+          "The database is changed only through versioned migration scripts, and the security rules are tested automatically on every change."
+        ]
+      },
+      {
+        "h": "Annex 3 – Sub-processors",
+        "ul": [
+          "Supabase Inc. (USA): database, sign-in and background jobs. Data is stored in Frankfurt, Germany.",
+          "Vercel Inc. (USA): hosting of the website and the application. The server functions run in Frankfurt, Germany.",
+          "Brevo SAS (France): sending of e-mail and SMS."
+        ]
+      }
+    ]
   }
 }

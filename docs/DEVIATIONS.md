@@ -3476,3 +3476,72 @@ page, are in `docs/reviews/landing-2026-09-25.md`.
 
 **What is left out:** Orgpuls AS's organisation number in the footer. It is not known, and
 it is not invented.
+
+## D-87 — Oppsett has a Databehandleravtale tab, and the agreement is signed in the product
+
+(D-86 and X-054 were the landing-page layout round that was rolled back in e3721f4; the
+numbers are not reused.)
+
+**The request:** a basic data processing agreement (DPA) and GDPR agreement, based on
+Datatilsynet. The agreement goes under Oppsett, the signed copy is kept there too, and it
+must say plainly how little personal data is stored.
+
+**Where it departs from the design:**
+- **A ninth Oppsett tab, "Databehandleravtale", after Personvern.** The design has no such
+  tab. Its Personvern tab had a "Last ned databehandleravtale" button, which D-33 omitted
+  because no agreement existed. Now one does. The tab shows:
+  - the agreement itself: parties, 17 sections and 3 appendices;
+  - its status: who signed, their title, when, which version, and the text's SHA-256;
+  - "Skriv ut eller lagre som PDF".
+- **Personvern opens with a status line** ("Databehandleravtalen er signert av …" or
+  "… ikke signert ennå", with a link to the tab). The cards "Hva lagres" and
+  "Databehandler" are rewritten to match the agreement: the data actually stored, and the
+  three sub-processors named.
+- **The footer's "Databehandleravtale" is a link** to that tab. D-33 had kept it as a
+  non-link because the document did not exist. Driftsstatus is still a non-link.
+- **Sikkerhet (the public page) now mentions the agreement.** D-83 had it make no claim
+  about a DPA, because none existed.
+- **Printing hides the whole app shell.** The rail, header and footer are wrapped in
+  `print:hidden`. The old `body > div > header` rule in globals no longer matched the
+  nested shell, so the report had printed with the app header on it. There is no visible
+  change on screen: the shell suite passes 27/27.
+
+**What the agreement says is stored** (Appendix 1, taken from the hosted schema, not from
+the design):
+- **About employees:**
+  - name and e-mail address;
+  - a mobile number, only if the organisation enters one;
+  - department and statutory role (verneombud, tillitsvalgt, leader);
+  - for each survey, whether an invitation and a reminder were sent and whether the person
+    answered. What they answered is never stored against them.
+  - the name of whoever owns a measure.
+- **Answers:** stored with only a group and an hour, and no link to anyone.
+- **Free text:** comments and conversation messages may contain personal data if the
+  writer puts it there.
+- **About users:** name, e-mail, role, department and a password hash.
+- **Nothing else:** no special categories of personal data. Operational logs hold IP
+  addresses. The web statistics set no cookies.
+
+So the data is more than "only name, e-mail and phone". The agreement says so, rather than
+claiming less than the schema holds.
+
+**The terms Orgpuls chose** where Art. 28 leaves a number open:
+- a breach is reported to the controller within 36 hours;
+- 30 days' notice before a new sub-processor;
+- an audit is announced 30 days ahead, at the controller's cost;
+- data is deleted within 30 days of the agreement ending;
+- Norwegian law applies.
+
+The owner should have these, and the whole text, reviewed by a lawyer.
+
+**What is left out:**
+- Orgpuls AS's organisation number and postal address: they are not known and are not
+  invented. The processor's side names Orgpuls AS and hjelp@orgpuls.no.
+- An automatic deletion routine: the agreement describes deletion on request and at the
+  end of the agreement. The retention card still says the routine is not automated.
+- Orgpuls's own agreements with Supabase, Vercel and Brevo: they are outside this
+  repository.
+
+**v3 claims, state 12-kommentarer.** Re-written with `--only 12 --write`. The page grew
+with D-82's "Be om direkte kontakt" rows, so its seven bottom tiles moved. A build
+without this change fails the same way.

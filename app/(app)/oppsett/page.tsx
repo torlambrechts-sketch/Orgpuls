@@ -15,6 +15,8 @@ import { getFactors } from '@/lib/instrument/read'
 import { getWheel } from '@/lib/wheel/read'
 import { getRounds } from '@/lib/rounds/read'
 import { getResultsByGroup } from '@/lib/results/read'
+import { getDpaSignatures } from '@/lib/legal/read'
+import { getViewer } from '@/lib/shell/read'
 
 /**
  * Oppsett — the data half. Bundle lines 1958-2472; the rendering is in
@@ -69,6 +71,10 @@ export default async function OppsettPage({
   const members =
     tab === 'roller' && role === 'daglig_leder' ? await getMembers(company.id) : null
   const invites = members ? await getOpenInvites(company.id) : []
+
+  // the data processing agreement's signatures: on its own tab, and the status on Personvern (D-87)
+  const dpaTab = tab === 'databehandleravtale' || tab === 'personvern'
+  const [dpaSignatures, viewer] = dpaTab ? await Promise.all([getDpaSignatures(company.id), getViewer()]) : [[], null]
   const membersLocked = members ? await getMembersLocked(company.id) : false
 
   const view: OppsettView = {
@@ -89,6 +95,7 @@ export default async function OppsettPage({
     groupRelease: Object.fromEntries((release?.groups ?? []).map((g) => [g.group_name, g.status])),
     // styling only; every write policy on these tables is daglig_leder and checks itself
     canWrite: role === 'daglig_leder',
+    dpa: dpaTab ? { signatures: dpaSignatures, viewerName: viewer?.name ?? '' } : undefined,
     members: members ? (
       <MembersPanel
         members={members}

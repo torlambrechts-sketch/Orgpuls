@@ -30,9 +30,15 @@ export function ShellFrame({
       className="flex min-h-screen items-stretch"
       style={{ '--page-w': side ? 'none' : '1180px', '--overview-w': side ? '1040px' : '880px' } as CSSProperties}
     >
-      {side ? rail : null}
+      {/*
+        The chrome sits in `display: contents` wrappers: no box of their own, so the layout is
+        exactly as before, and `print:hidden` drops the rail, the header and the footer from a
+        printed report or agreement. globals.css's `body > div > header` rule no longer reached
+        them once the shell nested its column one level deeper.
+      */}
+      {side ? <div className="contents print:hidden">{rail}</div> : null}
       <div className="flex min-w-0 flex-1 flex-col">
-        {header}
+        <div className="contents print:hidden">{header}</div>
         {/*
           A block, not the prototype's flex column. There each screen shrinks to its own
           longest line (auto margins in a column flexbox), so a page's width depends on its
@@ -40,7 +46,7 @@ export function ShellFrame({
           screen without that paragraph collapses. Every screen takes the page column (D-71).
         */}
         <div className="flex-1">{children}</div>
-        {footer}
+        <div className="contents print:hidden">{footer}</div>
       </div>
     </div>
   )

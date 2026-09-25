@@ -111,12 +111,17 @@ export async function AppFooter() {
           <span className="text-[11.5px] text-mut">{t('footer.legal')}</span>
           <span className="flex flex-wrap gap-[16px]">
             {/*
-              Personvern is a tab that exists; the other two are documents this
-              installation does not have, so they stay non-links rather than becoming
-              links to a page that would have to apologise. D-34.
+              Databehandleravtale and Personvern are tabs that exist (D-87); Driftsstatus is a
+              page this installation does not have, so it stays a non-link rather than a link
+              to a page that would have to apologise. D-34.
             */}
-            {/* in the design's order — Personvern is the middle one, link or not */}
-            <span className="text-[11.5px] text-mut">{t('footer.databehandleravtale')}</span>
+            {/* in the design's order */}
+            <Link
+              href={'/oppsett?fane=databehandleravtale' as Route}
+              className="cursor-pointer p-0 text-[11.5px] text-mut no-underline hover:text-mut hover:no-underline"
+            >
+              {t('footer.databehandleravtale')}
+            </Link>
             <Link
               href={'/oppsett?fane=personvern' as Route}
               className="cursor-pointer p-0 text-[11.5px] text-mut no-underline hover:text-mut hover:no-underline"
