@@ -159,10 +159,12 @@ punkt 5.
 
 Avtalen er månedlig og har ingen bindingstid.
 
-- **Kundens oppsigelse:** skriftlig til [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)
-  **[BESLUTNING: eller med en knapp i Orgpuls, som ikke finnes i dag]**. Oppsigelsen får
-  virkning **[BESLUTNING: ved utgangen av inneværende måned]**. Betalt periode refunderes
-  ikke **[BESLUTNING]**.
+- **Kundens oppsigelse:** daglig leder sier opp i Orgpuls under Oppsett › Betaling, eller
+  skriftlig til [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no).
+  - Et bekreftet abonnement gjelder ut inneværende måned. En prøveperiode avsluttes samme
+    dag.
+  - Oppsigelsen kan angres frem til slettingen er utført.
+  - Betalt periode refunderes ikke **[BESLUTNING]**.
 - **Orgpuls' oppsigelse:** med **[BESLUTNING: tre måneders]** varsel. Ved vesentlig
   mislighold, for eksempel forsøk på å identifisere respondenter eller manglende betaling
   etter punkt 4, kan Orgpuls heve avtalen med umiddelbar virkning.
@@ -177,8 +179,7 @@ Avtalen er månedlig og har ingen bindingstid.
 >   appen.
 > - 30 dager etter avtalens slutt slettes alt automatisk, og slettingen logges.
 >
-> **[BESLUTNING]** som gjenstår: skal kunden også kunne si opp med en knapp i Orgpuls, eller
-> bare skriftlig til hjelp@orgpuls.no?
+> Kunden kan også si opp selv i Orgpuls (Oppsett › Betaling, D-110).
 
 ## 11. Endringer i vilkårene
 
@@ -230,7 +231,8 @@ Beslutninger som trengs, samlet:
 3. Varsel ved prisendring og ved endring av vilkår.
 4. Oppetidsløfte (eller ikke) og svartid på kundestøtte.
 5. Ansvarstak.
-6. Hvordan og når en oppsigelse får virkning, og refusjon.
+6. Refusjon ved oppsigelse (virkningstidspunktet følger nå produktet: utgangen av
+   måneden, eller samme dag i prøveperioden).
 7. Orgpuls' egen oppsigelsesfrist.
 8. Verneting.
 9. Om anonymiserte tall på tvers av kunder skal kunne brukes.

@@ -1637,7 +1637,33 @@
       "pillReadOnly": "Read-only",
       "graceBody": "The trial ended on {end}. Everything works until {until}. Confirm the subscription below before then, or you will only be able to read results until you do.",
       "readOnlyBody": "The trial ended on {end}, and the deadline to confirm has passed. You can read results and reports, and a survey already running will finish. Confirm the subscription below and you can send again straight away.",
-      "termsAfterTrial": "Prices exclude VAT. The first invoice runs from the day you confirm. Monthly agreement, no lock-in and no setup fee."
+      "termsAfterTrial": "Prices exclude VAT. The first invoice runs from the day you confirm. Monthly agreement, no lock-in and no setup fee.",
+      "cancel": {
+        "head": "Cancel the subscription",
+        "doneHead": "The subscription has been cancelled",
+        "leadPaying": "The agreement is monthly. If you cancel now, it runs until and including {last}. After that you can sign in, read and download everything until {deleted}. Then all data is deleted.",
+        "leadTrial": "If you cancel during the trial, it ends today. You can sign in, read and download everything until {deleted}. Then all data is deleted.",
+        "open": "Cancel …",
+        "reasonLegend": "Why are you cancelling? (optional)",
+        "reason": {
+          "price": "It costs too much",
+          "not_needed": "We no longer need it",
+          "missing": "Orgpuls lacks something we need",
+          "switching": "We are moving to another tool",
+          "other": "Other"
+        },
+        "download": "Download the report first",
+        "confirm": "I understand that all data for {org} – the employee list, the answers, the comments, the measures and the users – is deleted on {deleted} and cannot be brought back.",
+        "submit": "Cancel the subscription",
+        "back": "Keep it",
+        "doneBody": "The agreement runs until and including {last}, and all data is deleted on {deleted}. Download the report before then. If you change your mind, you can take the cancellation back until then.",
+        "withdraw": "Take the cancellation back",
+        "problem": {
+          "confirm_required": "Tick the box to confirm you understand what is deleted.",
+          "already_cancelled": "The subscription has already been cancelled.",
+          "not_cancelled": "The subscription has not been cancelled."
+        }
+      }
     }
   },
   "hjelp": {
@@ -7098,7 +7124,19 @@
           "already_cancelled": "A cancellation is already registered.",
           "not_cancelled": "No cancellation is registered.",
           "confirm_mismatch": "The number does not match this organisation."
-        }
+        },
+        "source": {
+          "customer": "by the customer in Oppsett › Betaling",
+          "admin": "by support"
+        },
+        "reason": {
+          "price": "It costs too much",
+          "not_needed": "No longer needed",
+          "missing": "Missing something",
+          "switching": "Moving to another tool",
+          "other": "Other"
+        },
+        "why": "Reason given"
       }
     },
     "users": {

@@ -1,6 +1,6 @@
 import { getFormatter, getTranslations } from 'next-intl/server'
-import { fittingPlan, GRACE_DAYS, PLAN_MAX, PLANS, type Billing } from '@/lib/billing/read'
-import { BillingForm, ExtendTrialButton } from './BillingForms'
+import { CANCEL_REASONS, fittingPlan, GRACE_DAYS, PLAN_MAX, PLANS, type Billing } from '@/lib/billing/read'
+import { BillingForm, CancelSubscription, ExtendTrialButton, WithdrawCancellation } from './BillingForms'
 
 const DAY = 86_400_000
 
@@ -15,6 +15,9 @@ const DAY = 86_400_000
  *
  * The row is the daglig leder's alone (RLS). Anyone else is told who handles payment and
  * sees nothing of it.
+ *
+ * Last, cancelling (0066, D-110): the dates it would have, and the step itself; once
+ * cancelled, the dates and a way to take it back until everything is deleted.
  */
 export async function BillingTab({
   billing,
@@ -61,6 +64,18 @@ export async function BillingTab({
       : expired
         ? { text: t('pillGrace', { count: graceLeft }), cls: 'bg-peach text-dangerdeep' }
       : { text: t('pillLeft', { count: left }), cls: left <= 3 ? 'bg-peach text-dangerdeep' : 'bg-sbg text-ink' }
+
+  // a cancellation now: a paid month runs out, a trial ends today (0066); both in Oslo's calendar
+  const oslo = (ms: number) => new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' }).format(new Date(ms))
+  const today = oslo(now)
+  const paying = confirmed && !readOnly
+  const [y, m] = today.split('-').map(Number)
+  const lastDay = paying ? new Date(Date.UTC(y!, m!, 0)).toISOString().slice(0, 10) : today
+  // deletion begins at midnight 31 days after the last day (0065), so that is the day named
+  const deleteDay = new Date(Date.parse(`${lastDay}T12:00:00Z`) + 31 * DAY).toISOString().slice(0, 10)
+  const day = (d: string) => format.dateTime(new Date(`${d}T12:00:00Z`), { dateStyle: 'long', timeZone: 'Europe/Oslo' })
+  const cancelled = billing.cancelled_at !== null && billing.cancel_effective_at !== null && billing.deletion_due_at !== null
+  const cancelledLast = cancelled ? date(new Date(Date.parse(billing.cancel_effective_at!) - 1000).toISOString()) : ''
 
   const suggested = fittingPlan(company.employees)
   const plans = PLANS.map((p) => ({
@@ -185,6 +200,58 @@ export async function BillingTab({
             },
           }}
         />
+      </section>
+
+      {/* ------------------------------------------------------------ cancelling */}
+      <section
+        aria-labelledby="billing-cancel"
+        className={`rounded-panel border px-[22px] py-[20px] ${cancelled ? 'border-ink bg-peach' : 'border-line bg-sf'}`}
+      >
+        <h2 id="billing-cancel" className="m-0 text-[16px] font-bold">
+          {cancelled ? t('cancel.doneHead') : t('cancel.head')}
+        </h2>
+        {cancelled ? (
+          <>
+            <p className="mb-0 mt-[8px] text-[13.5px] leading-[1.6] [text-wrap:pretty]">
+              {t('cancel.doneBody', { last: cancelledLast, deleted: date(billing.deletion_due_at!) })}
+            </p>
+            <WithdrawCancellation
+              labels={{
+                submit: t('cancel.withdraw'),
+                pending: t('saving'),
+                problems: { not_cancelled: t('cancel.problem.not_cancelled'), not_allowed: t('problem.not_allowed'), failed: t('problem.failed') },
+              }}
+            />
+          </>
+        ) : (
+          <>
+            <p className="mb-0 mt-[8px] text-[13.5px] leading-[1.6] [text-wrap:pretty]">
+              {paying
+                ? t('cancel.leadPaying', { last: day(lastDay), deleted: day(deleteDay) })
+                : t('cancel.leadTrial', { deleted: day(deleteDay) })}
+            </p>
+            <CancelSubscription
+              reasons={CANCEL_REASONS}
+              labels={{
+                open: t('cancel.open'),
+                reasonLegend: t('cancel.reasonLegend'),
+                reasons: Object.fromEntries(CANCEL_REASONS.map((r) => [r, t(`cancel.reason.${r}`)])),
+                confirm: t('cancel.confirm', { org: company.name, deleted: day(deleteDay) }),
+                download: t('cancel.download'),
+                submit: t('cancel.submit'),
+                pending: t('saving'),
+                back: t('cancel.back'),
+                problems: {
+                  confirm_required: t('cancel.problem.confirm_required'),
+                  already_cancelled: t('cancel.problem.already_cancelled'),
+                  invalid_reason: t('problem.failed'),
+                  not_allowed: t('problem.not_allowed'),
+                  failed: t('problem.failed'),
+                },
+              }}
+            />
+          </>
+        )}
       </section>
     </div>
   )

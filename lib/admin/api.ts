@@ -567,6 +567,9 @@ const Cancellation = z.object({
       effective_at: tsn,
       deletion_due_at: tsn,
       org_number: z.string().nullable(),
+      // 0066 (D-110): who cancelled, and the answer a customer gave
+      source: z.enum(['admin', 'customer']).nullable().optional(),
+      reason: z.string().nullable().optional(),
     })
     .nullable(),
 })

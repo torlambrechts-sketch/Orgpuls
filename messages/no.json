@@ -1637,7 +1637,33 @@
       "pillReadOnly": "Bare lesetilgang",
       "graceBody": "Prøveperioden gikk ut {end}. Alt virker fram til {until}. Bekreft abonnementet under før det, ellers kan dere bare lese resultatene til det er gjort.",
       "readOnlyBody": "Prøveperioden gikk ut {end}, og fristen for å bekrefte er passert. Dere kan lese resultater og rapporter, og en undersøkelse som er i gang, fullføres. Bekreft abonnementet under, så kan dere sende igjen med en gang.",
-      "termsAfterTrial": "Prisene er eks. mva. Første faktura gjelder fra dagen dere bekrefter. Månedlig avtale, ingen bindingstid og ingen oppstartsavgift."
+      "termsAfterTrial": "Prisene er eks. mva. Første faktura gjelder fra dagen dere bekrefter. Månedlig avtale, ingen bindingstid og ingen oppstartsavgift.",
+      "cancel": {
+        "head": "Si opp abonnementet",
+        "doneHead": "Abonnementet er sagt opp",
+        "leadPaying": "Avtalen er månedlig. Sier dere opp nå, gjelder den til og med {last}. Etter det kan dere logge inn, lese og laste ned alt til {deleted}. Da slettes alle opplysninger.",
+        "leadTrial": "Sier dere opp i prøveperioden, avsluttes den i dag. Dere kan logge inn, lese og laste ned alt til {deleted}. Da slettes alle opplysninger.",
+        "open": "Si opp …",
+        "reasonLegend": "Hvorfor sier dere opp? (valgfritt)",
+        "reason": {
+          "price": "Det koster for mye",
+          "not_needed": "Vi trenger det ikke lenger",
+          "missing": "Vi mangler noe i Orgpuls",
+          "switching": "Vi bytter til et annet verktøy",
+          "other": "Annet"
+        },
+        "download": "Last ned rapporten først",
+        "confirm": "Jeg forstår at alle opplysningene til {org} – ansattlisten, svarene, kommentarene, tiltakene og brukerne – slettes {deleted} og ikke kan hentes tilbake.",
+        "submit": "Si opp abonnementet",
+        "back": "Avbryt",
+        "doneBody": "Avtalen gjelder til og med {last}, og alle opplysninger slettes {deleted}. Last ned rapporten før det. Angrer dere, kan dere ta oppsigelsen tilbake frem til da.",
+        "withdraw": "Angre oppsigelsen",
+        "problem": {
+          "confirm_required": "Kryss av for at dere forstår hva som slettes.",
+          "already_cancelled": "Abonnementet er allerede sagt opp.",
+          "not_cancelled": "Abonnementet er ikke sagt opp."
+        }
+      }
     }
   },
   "hjelp": {
@@ -7098,7 +7124,19 @@
           "already_cancelled": "A cancellation is already registered.",
           "not_cancelled": "No cancellation is registered.",
           "confirm_mismatch": "The number does not match this organisation."
-        }
+        },
+        "source": {
+          "customer": "by the customer in Oppsett › Betaling",
+          "admin": "by support"
+        },
+        "reason": {
+          "price": "It costs too much",
+          "not_needed": "No longer needed",
+          "missing": "Missing something",
+          "switching": "Moving to another tool",
+          "other": "Other"
+        },
+        "why": "Reason given"
       }
     },
     "users": {

@@ -1,7 +1,8 @@
 'use client'
 
 import { useActionState, useId, useState } from 'react'
-import { extendTrial, saveBilling, type BillingResult } from '@/app/(app)/oppsett/billing-actions'
+import Link from 'next/link'
+import { cancelSubscription, extendTrial, saveBilling, withdrawCancellation, type BillingResult } from '@/app/(app)/oppsett/billing-actions'
 import { Button } from '@/components/ui/Button'
 
 /**
@@ -182,6 +183,118 @@ export function BillingForm({
           </span>
         ) : null}
       </div>
+    </form>
+  )
+}
+
+type CancelLabels = {
+  open: string
+  reasonLegend: string
+  reasons: Record<string, string>
+  confirm: string
+  download: string
+  submit: string
+  pending: string
+  back: string
+  problems: Record<string, string>
+}
+
+/**
+ * Cancelling (0066, D-110): a quiet button that opens the step itself — both dates, why (one
+ * of five answers, or none), the report to download first, and a box to tick that says what
+ * is deleted and when. Nothing is sent until that box is ticked and the red button pressed.
+ */
+export function CancelSubscription({ reasons, labels }: { reasons: readonly string[]; labels: CancelLabels }) {
+  const id = useId()
+  const [open, setOpen] = useState(false)
+  const [reason, setReason] = useState('')
+  const [sure, setSure] = useState(false)
+  const [state, action, pending] = useActionState<BillingResult | null, FormData>(cancelSubscription, null)
+  const problem = state && !state.ok ? (labels.problems[state.problem] ?? labels.problems.failed) : null
+
+  if (!open) {
+    return (
+      <div className="mt-[14px]">
+        <Button type="button" size="md" tone="secondary" onClick={() => setOpen(true)}>
+          {labels.open}
+        </Button>
+      </div>
+    )
+  }
+  return (
+    <form action={action} className="mt-[14px] flex flex-col gap-[14px] rounded-panel border border-line bg-bg px-[18px] py-[16px]">
+      <fieldset className="m-0 border-0 p-0">
+        <legend className="mb-[8px] p-0 text-[13px] font-bold">{labels.reasonLegend}</legend>
+        <span className="flex flex-wrap gap-[7px]">
+          {reasons.map((r) => (
+            <label key={r} className="inline-flex flex-none">
+              <input
+                type="radio"
+                name="reason"
+                value={r}
+                checked={reason === r}
+                onChange={() => setReason(r)}
+                className="peer absolute h-px w-px overflow-hidden opacity-0"
+              />
+              <span
+                className={`inline-flex cursor-pointer items-center rounded-pill border-[1.5px] px-[13px] py-[8px] text-[13px] peer-focus-visible:outline peer-focus-visible:outline-[3px] peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink ${
+                  reason === r ? 'border-ink bg-sbg font-bold' : 'border-line bg-transparent font-medium'
+                }`}
+              >
+                {labels.reasons[r]}
+              </span>
+            </label>
+          ))}
+        </span>
+      </fieldset>
+      <Link href="/rapport" className="self-start text-[13px] font-semibold">
+        {labels.download}
+      </Link>
+      <label htmlFor={`${id}-sure`} className="flex cursor-pointer items-start gap-[10px] text-[13px] leading-[1.55]">
+        <input
+          id={`${id}-sure`}
+          type="checkbox"
+          name="confirm"
+          checked={sure}
+          onChange={(e) => setSure(e.target.checked)}
+          className="mt-[3px] h-[16px] w-[16px] flex-none cursor-pointer accent-ink"
+        />
+        <span>{labels.confirm}</span>
+      </label>
+      <span className="flex flex-wrap items-center gap-[10px]">
+        <button
+          type="submit"
+          disabled={!sure || pending}
+          className="inline-flex h-[44px] cursor-pointer items-center rounded-tile border border-danger bg-danger px-[18px] text-[14px] font-bold text-bg disabled:cursor-default disabled:opacity-50"
+        >
+          {pending ? labels.pending : labels.submit}
+        </button>
+        <Button type="button" size="md" tone="ghost" onClick={() => (setOpen(false), setSure(false))}>
+          {labels.back}
+        </Button>
+      </span>
+      {problem ? (
+        <span role="alert" className="text-[12.5px] font-semibold text-danger">
+          {problem}
+        </span>
+      ) : null}
+    </form>
+  )
+}
+
+export function WithdrawCancellation({ labels }: { labels: { submit: string; pending: string; problems: Record<string, string> } }) {
+  const [state, action, pending] = useActionState<BillingResult | null>(withdrawCancellation, null)
+  const problem = state && !state.ok ? (labels.problems[state.problem] ?? labels.problems.failed) : null
+  return (
+    <form action={action} className="mt-[14px] flex flex-wrap items-center gap-[12px]">
+      <Button type="submit" size="md" tone="primary" disabled={pending}>
+        {pending ? labels.pending : labels.submit}
+      </Button>
+      {problem ? (
+        <span role="alert" className="basis-full text-[12.5px] font-semibold text-danger">
+          {problem}
+        </span>
+      ) : null}
     </form>
   )
 }

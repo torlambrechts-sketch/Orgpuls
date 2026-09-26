@@ -2029,7 +2029,7 @@ search data, and revenue figures. Step 1 is D-104. Three decisions shape the res
 - [ ] Terms page (`Vilkår`): draft for review in `docs/legal/vilkar-utkast.md`, with nine decisions
   marked; publish as `/vilkar` once approved (D-104).
 - [x] Deletion within 30 days after termination (DPA § 11, the home page FAQ): registered by
-  support, carried out daily, logged (D-108). A customer-side cancel button waits on the terms.
+  support or by the daglig leder in Oppsett › Betaling, carried out daily, logged (D-108, D-110).
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
 - [x] 2026-09-26: the `.mcp.json` `supabase` server removed; it could not authorise in a cloud

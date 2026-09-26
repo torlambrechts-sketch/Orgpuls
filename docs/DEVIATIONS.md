@@ -4882,3 +4882,42 @@ Reported: pressing Norwegian on the public site kept the page in English.
   - The return path must be a path on this site (`lib/i18n/switch.ts`, unit-tested). Any
     other host, `//host` or backslash form falls back to the start page, so the route is no
     open redirect.
+
+## D-110 — The daglig leder can cancel in Oppsett › Betaling, and take it back
+
+- **Where.** A new last section, "Si opp abonnementet", on Oppsett › Betaling. The tab is
+  the daglig leder's alone (RLS, D-89). It is built from the tab's own cards, chips and
+  buttons; the design has no billing.
+- **When it ends** (`cancel_subscription`, 0066):
+  - A confirmed subscription runs to the end of the current month, the monthly agreement
+    the site promises.
+  - A trial, a grace period or a read-only organisation has nothing to pay for, so it ends
+    today.
+  - The same Oslo-calendar rule as 0065 then applies: read-only from the midnight after the
+    last day, and everything is deleted at the midnight 31 days after it. The section names
+    both dates before anything is pressed.
+- **A deliberate act.**
+  - "Si opp …" opens the step. It has five optional reasons (fixed answers, never free
+    text), a link to download the report first, and a box that says what is deleted and
+    when.
+  - The red button is disabled until the box is ticked, and the database refuses a call
+    without the confirmation.
+- **After.** The section turns into "Abonnementet er sagt opp", with the dates and "Angre
+  oppsigelsen". The app's banner (D-108) and the service mail follow, as for a cancellation
+  support registers.
+- **Undo** (`withdraw_cancellation`): the daglig leder can take back any cancellation, theirs
+  or one support registered, until the deletion is carried out.
+- **What support sees.** The organisation's card says who cancelled (the customer in
+  Oppsett › Betaling, or support) and the reason given. A trigger clears who and why
+  whenever a cancellation is withdrawn, by either path.
+
+Verified:
+- `customer_cancel_invariants.sql` 8/8; all 38 suites and 155 unit tests;
+- applied to hosted;
+- in the browser against hosted, as Nordvik's daglig leder (mail is off for it):
+  - the section's dates;
+  - the button disabled until ticked, and the box ticked by keyboard;
+  - cancelled: the section and the banner agree on the dates (26 September, deleted
+    27 October);
+  - no sideways scroll at 390 px;
+  - taken back, and hosted left with no cancellation.

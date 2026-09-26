@@ -196,7 +196,11 @@ export default async function AdminOrg({ params }: { params: Promise<{ id: strin
         <Card title={t('org.cancel.title')} className="mt-[14px]">
           {cancel.row.cancelled_at && cancel.row.effective_at && cancel.row.deletion_due_at ? (
             <>
-              <Row k={t('org.cancel.registered')} v={`${when(cancel.row.cancelled_at)}${cancel.row.cancelled_by ? ` · ${cancel.row.cancelled_by}` : ''}`} />
+              <Row
+                k={t('org.cancel.registered')}
+                v={`${when(cancel.row.cancelled_at)} · ${t(`org.cancel.source.${cancel.row.source ?? 'admin'}`)}${cancel.row.cancelled_by ? ` (${cancel.row.cancelled_by})` : ''}`}
+              />
+              {cancel.row.reason ? <Row k={t('org.cancel.why')} v={t(`org.cancel.reason.${cancel.row.reason}`)} /> : null}
               <Row k={t('org.cancel.lastDay')} v={day(new Date(new Date(cancel.row.effective_at).getTime() - 1000).toISOString())} />
               <Row k={t('org.cancel.deletion')} v={day(cancel.row.deletion_due_at)} />
               <p className="mb-0 mt-[8px] text-[12px] text-mut">{t('org.cancel.after')}</p>

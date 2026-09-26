@@ -22,15 +22,21 @@ const BillingRow = z.object({
   invoice_ref: z.string().nullable(),
   ehf: z.boolean(),
   confirmed_at: z.string().nullable(),
+  // a cancellation (0064, 0066; D-108, D-110)
+  cancelled_at: z.string().nullable(),
+  cancel_effective_at: z.string().nullable(),
+  deletion_due_at: z.string().nullable(),
+  cancel_source: z.enum(['admin', 'customer']).nullable(),
 })
 export type Billing = z.infer<typeof BillingRow>
+export const CANCEL_REASONS = ['price', 'not_needed', 'missing', 'switching', 'other'] as const
 
 export async function getBilling(orgId: string): Promise<Billing | null> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .schema('app')
     .from('billing')
-    .select('trial_started_at, trial_ends_at, trial_extended_at, plan, invoice_email, invoice_ref, ehf, confirmed_at')
+    .select('trial_started_at, trial_ends_at, trial_extended_at, plan, invoice_email, invoice_ref, ehf, confirmed_at, cancelled_at, cancel_effective_at, deletion_due_at, cancel_source')
     .eq('org_id', orgId)
     .maybeSingle()
 

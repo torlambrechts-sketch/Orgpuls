@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
-import { PLANS } from '@/lib/billing/read'
+import { CANCEL_REASONS, PLANS } from '@/lib/billing/read'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { createClient } from '@/lib/supabase/server'
 
@@ -66,4 +66,39 @@ export async function saveBilling(_prev: BillingResult | null, formData: FormDat
   if (!reply.data.ok) return { ok: false, problem: reply.data.error ?? 'failed' }
   revalidatePath('/oppsett')
   return { ok: true, confirmed: parsed.data.intent === 'confirm' }
+}
+
+/**
+ * The daglig leder cancels (0066, D-110). The database decides the last day (the end of a
+ * paid month, or today in a trial) and refuses without the explicit confirmation; the reason
+ * is one of five fixed answers or none.
+ */
+export async function cancelSubscription(_prev: BillingResult | null, formData: FormData): Promise<BillingResult> {
+  const parsed = z
+    .object({ reason: z.enum(CANCEL_REASONS).nullable(), confirm: z.literal('on') })
+    .safeParse({ reason: formData.get('reason') || null, confirm: formData.get('confirm') })
+  if (!parsed.success) return { ok: false, problem: 'confirm_required' }
+  const org = await getCurrentOrgId()
+  if (!org) return { ok: false, problem: 'not_allowed' }
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('cancel_subscription', { p_org: org, p_reason: parsed.data.reason, p_confirm: true })
+  if (error) return { ok: false, problem: 'failed' }
+  const reply = Reply.safeParse(data)
+  if (!reply.success) return { ok: false, problem: 'failed' }
+  if (!reply.data.ok) return { ok: false, problem: reply.data.error ?? 'failed' }
+  revalidatePath('/', 'layout')
+  return { ok: true }
+}
+
+export async function withdrawCancellation(_prev: BillingResult | null): Promise<BillingResult> {
+  const org = await getCurrentOrgId()
+  if (!org) return { ok: false, problem: 'not_allowed' }
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('withdraw_cancellation', { p_org: org })
+  if (error) return { ok: false, problem: 'failed' }
+  const reply = Reply.safeParse(data)
+  if (!reply.success) return { ok: false, problem: 'failed' }
+  if (!reply.data.ok) return { ok: false, problem: reply.data.error ?? 'failed' }
+  revalidatePath('/', 'layout')
+  return { ok: true }
 }
