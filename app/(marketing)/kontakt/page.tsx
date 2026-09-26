@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { PageTemplate } from '@/components/marketing/PageTemplate'
 import { ContactBlock } from '@/components/site/ContactBlock'
@@ -21,11 +21,14 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Page() {
   const t = await getTranslations('site.contact')
+  const n = await getTranslations('newsletter')
+  const lang = (await getLocale()) === 'en' ? 'en' : 'no'
   return (
     <PageTemplate k="seo.pages.kontakt" path="/kontakt" schemaType="ContactPage">
       <section id="skriv" className="mx-auto max-w-[1120px] scroll-mt-[118px] px-[26px] pt-[40px]">
         <ContactBlock
           to={CONTACT_MAIL}
+          lang={lang}
           words={{
             k: t('k'),
             t: t('t'),
@@ -42,6 +45,7 @@ export default async function Page() {
             sent: t('sent'),
             limited: t('limited'),
             failed: t.raw('failed') as string,
+            optIn: n('contactOptIn'),
           }}
         />
       </section>

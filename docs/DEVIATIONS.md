@@ -4291,3 +4291,101 @@ the operator's city, not the visitor's. Visits recorded before 0054 show "Not kn
 - Beacons with Vercel's headers through `next start` stored `NO | 46 | Tønsberg |
   198.51.100.0/24`, and the admin page showed them in all three new cards. The probe rows
   and the probe admin were deleted afterwards.
+
+## D-101 — The marketing CRM: contacts, consent, segments, campaigns
+
+**The request:** "there is no CRM". The admin specification's Marketing CRM, built to its
+Phase 2 scope ("CRM basics: contacts, consent, segments, newsletter and one-off campaigns").
+Migration 0055, X-061.
+
+**What was built:**
+- **Contacts** (admin › CRM):
+  - Every person who signs in, synced from their account with its organisation and role.
+  - Prospects who said yes: the newsletter page (/nyhetsbrev), the contact form's new
+    checkbox, a CSV import, or an admin who records the consent.
+  - Each contact shows its type (prospect, trial user, customer, former), source, basis
+    (consent, existing customer, none), status, and whether a campaign would reach it now.
+  - A contact page shows every CRM mail with its delivery, open, click and unsubscribe, and
+    offers an unsubscribe on the person's behalf, or erasure.
+- **Respondents are never contacts.** No CRM table references, and no CRM function reads,
+  the employee, invitation or answer tables. `crm_invariants.sql` proves it.
+- **Consent and compliance:**
+  - Newsletter signups are double opt-in. The confirmation link carries a token, kept only
+    as a hash, valid for seven days, written as text in the mail (D-97).
+  - An import row without a consent source is refused; an admin adding someone must say
+    where the consent came from.
+  - **Every campaign mail carries a one-click unsubscribe:** List-Unsubscribe and
+    List-Unsubscribe-Post (RFC 8058) to /api/avmeld, and a footer link to /avmeld, which asks
+    for one press so a link scanner cannot unsubscribe anyone. The footer also says who sends
+    and why.
+  - **The suppression list holds sha256 hashes, not addresses.** It catches unsubscribes,
+    hard bounces, spam complaints and blocks, and it outlives an erased contact.
+  - List hygiene: a contact with no engagement (or consent) in 12 months is not mailed.
+- **Segments:** saved filters on:
+  - type, role, source, tags and language;
+  - the organisation's employee count and NACE code;
+  - "no survey opened in N days";
+  - mailable only.
+
+  Counts and a preview are live.
+- **Campaigns:** newsletter, campaign, promotion or product announcement.
+  - An editor of blocks (heading, text, button), with a subject and preheader.
+  - A preview drawn by the same module the dispatcher sends with, at phone and desktop width.
+  - A test to the admin's own address, then scheduling or sending now, and cancelling.
+  - Links to orgpuls.com get `utm_source=orgpuls&utm_medium=email&utm_campaign=…`.
+- **Reporting:**
+  - Audience, sent, delivered, bounced, opened, clicked, unsubscribed and complaints.
+  - From the site's own analytics: visits, page views, organisations created and paid,
+    joined on utm_campaign.
+  - Opens and clicks come from Brevo's webhook, which now asks for them. They are kept only
+    for CRM sends; for the product's own mail they are still dropped (D-97).
+- **A separate marketing stream.** The dispatcher sends CRM mail only from
+  `ORGPULS_MARKETING_FROM`, and only when:
+  - its domain differs from the product's sender;
+  - Brevo reports that domain as authenticated.
+
+  Otherwise marketing waits and nothing is sent, so a campaign cannot hurt the survey
+  invitations' reputation.
+- **A new admin role, marketing**, sees the dashboard, web analytics and the CRM. An analyst
+  may read the CRM; only a super-admin may turn on the existing-customer exception.
+
+**Deviations and limits:**
+- **Existing-customer exception off by default.** Markedsføringsloven § 15 lets a business
+  mail its customers about similar products without consent, only if they could reserve
+  themselves when the address was collected. Orgpuls' registration does not offer that, so
+  the exception is a setting, off until a super-admin turns it on with a reason. Until then
+  only consented contacts are mailed.
+- **Not built (the specification's Phase 3, or waiting on Billing):**
+  - A/B tests on the subject;
+  - automated sequences;
+  - promotion coupon codes (Billing has no coupons yet);
+  - "site visits after a click" per contact. The site's analytics is built so that no visit
+    can be tied to a person (X-059), and that stays.
+- **A campaign goes only to contacts whose language is the campaign's.** Write one campaign
+  per language.
+- **Sending is blocked until the owner acts:**
+  - a marketing subdomain (e.g. `nyheter.orgpuls.com`) is authenticated in Brevo, with SPF,
+    DKIM and DMARC;
+  - `ORGPULS_MARKETING_FROM` is set as a function secret.
+
+  Until then, confirmations and campaigns wait in the queue. The admin shows how many are
+  waiting.
+- **No design exists** for /nyhetsbrev, /avmeld or the contact form's checkbox:
+  - the pages are the new-password page's card with the contact form's fields;
+  - the checkbox uses the form's own text styles.
+
+**Verified:**
+- `crm_invariants.sql`: 17 checks, locally and on hosted. All 33 SQL suites pass locally.
+- Unit tests of the campaign and opt-in renderers: UTM on own links only, escaping, the
+  unsubscribe link and text, and the opt-in link as text.
+- In the browser against hosted:
+  - a newsletter signup, then confirmed with the real token;
+  - the contact form with the box ticked (a ticket plus a pending contact);
+  - a contact added, and a CSV import with one row refused for missing consent;
+  - a segment previewed (4 contacts, 3 mailable) and saved;
+  - a campaign written, previewed, tested and sent now;
+  - the dispatcher's claim queued exactly the 3 mailable contacts;
+  - an open and a click recorded, and an unsubscribe from the mail's token that suppressed
+    the address;
+  - the report and the contact's timeline showed it all.
+- Every test row, the test ticket and the probe admin were deleted afterwards.

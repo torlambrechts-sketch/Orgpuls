@@ -16,6 +16,8 @@ export interface BrevoMessage {
   tag: string
   /** where the recipient's answer goes; a ticket reply is answered to the support inbox */
   replyTo?: { email: string; name?: string }
+  /** extra headers; a marketing mail's List-Unsubscribe and List-Unsubscribe-Post (D-101) */
+  headers?: Record<string, string>
 }
 
 export type SendResult =
@@ -38,7 +40,8 @@ export async function brevoSend(key: string, m: BrevoMessage, opts: { sandbox?: 
   if (m.to.length === 1) body.to = [person(m.to[0])]
   else body.messageVersions = m.to.map((r) => ({ to: [person(r)] }))
   // Brevo validates and then drops the message: proves the key, the sender and the payload
-  if (opts.sandbox) body.headers = { 'X-Sib-Sandbox': 'drop' }
+  const headers = { ...(m.headers ?? {}), ...(opts.sandbox ? { 'X-Sib-Sandbox': 'drop' } : {}) }
+  if (Object.keys(headers).length) body.headers = headers
 
   let res: Response
   try {

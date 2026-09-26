@@ -2547,6 +2547,20 @@
     "ticket": {
       "replyHint": "Reply to this e-mail to continue the case. Case number #{number}.",
       "footer": "You are receiving this e-mail because you wrote to Orgpuls."
+    },
+    "optin": {
+      "subject": "Confirm your subscription to the Orgpuls newsletter",
+      "lead": "You, or someone who entered your address, signed up for the Orgpuls newsletter. We send nothing until you confirm.",
+      "cta": "Confirm the subscription",
+      "ignore": "Wasn’t you? Then there is nothing to do. The link stops working after seven days, and the address gets no mail from us.",
+      "footer": "Orgpuls · orgpuls.com"
+    },
+    "crm": {
+      "test": "[Test]",
+      "why": "You receive this e-mail from Orgpuls because you said yes to news from us, or are a customer of ours.",
+      "unsubscribe": "Unsubscribe",
+      "unsubscribeText": "Unsubscribe: {url}",
+      "sender": "Orgpuls · orgpuls.com"
     }
   },
   "newPassword": {
@@ -6600,13 +6614,15 @@
       "web": "Web analytics",
       "tickets": "Tickets",
       "signOut": "Sign out",
-      "navLabel": "Admin"
+      "navLabel": "Admin",
+      "crm": "CRM"
     },
     "role": {
       "super_admin": "Super-admin",
       "support": "Support",
       "finance": "Finance",
-      "analyst": "Analyst"
+      "analyst": "Analyst",
+      "marketing": "Marketing"
     },
     "common": {
       "notAllowed": "Your role cannot see this.",
@@ -7125,6 +7141,295 @@
         "invalid_reply": "Write the reply first.",
         "invalid": "That change is not allowed."
       }
+    },
+    "crm": {
+      "title": "CRM",
+      "lead": "People who sign in, and prospects who said yes. Respondents are never contacts: nothing here reads the employee register.",
+      "tabs": {
+        "contacts": "Contacts",
+        "segments": "Segments",
+        "campaigns": "Campaigns",
+        "label": "CRM sections"
+      },
+      "type": {
+        "prospect": "Prospect",
+        "trial": "Trial user",
+        "customer": "Customer",
+        "former": "Former",
+        "all": "All types"
+      },
+      "roleName": {
+        "daglig_leder": "Daglig leder",
+        "hr": "HR",
+        "leder": "Leader",
+        "verneombud": "Verneombud",
+        "annet": "Other"
+      },
+      "source": {
+        "user": "Account",
+        "newsletter": "Newsletter",
+        "contact_form": "Contact form",
+        "import": "Import",
+        "manual": "Added by admin",
+        "event": "Event"
+      },
+      "basis": {
+        "consent": "Consent",
+        "customer": "Existing customer",
+        "none": "No basis"
+      },
+      "status": {
+        "pending": "Awaiting confirmation",
+        "active": "Active",
+        "unsubscribed": "Unsubscribed"
+      },
+      "stats": {
+        "total": "Contacts",
+        "mailable": "Mailable",
+        "mailableHint": "Active, not suppressed, a basis, and engaged in the last 12 months",
+        "pending": "Awaiting confirmation",
+        "unsubscribed": "Unsubscribed",
+        "suppressed": "Suppressed addresses",
+        "waiting": "Mails waiting",
+        "waitingHint": "Sent every five minutes once the marketing sender is set up"
+      },
+      "search": "Search e-mail, name, company or tag",
+      "col": {
+        "contact": "Contact",
+        "type": "Type",
+        "company": "Company",
+        "role": "Role",
+        "source": "Source",
+        "basis": "Basis",
+        "status": "Status",
+        "added": "Added",
+        "engaged": "Last engaged",
+        "tags": "Tags"
+      },
+      "mailableBadge": "Mailable",
+      "notMailable": "Not mailable",
+      "suppressedBadge": "Suppressed",
+      "add": {
+        "title": "Add a contact",
+        "lead": "Only someone who said yes to hearing from us. Say where and when they did: it is stored as the consent's source.",
+        "email": "E-mail",
+        "name": "Name",
+        "company": "Company",
+        "orgNumber": "Org.nr",
+        "role": "Role",
+        "none": "—",
+        "tags": "Tags (comma-separated)",
+        "lang": "Language",
+        "consentSource": "Consent source (e.g. “Arendalsuka 2026, sign-up sheet”)",
+        "consentAt": "Consent date",
+        "event": "Met at an event",
+        "submit": "Add contact"
+      },
+      "import": {
+        "title": "Import from CSV",
+        "lead": "A header row with email and consent_source is required; name, company, org_number, role, tags (separated by ;), consent_at and lang are optional. A row without a consent source is refused.",
+        "file": "CSV file",
+        "rows": "Rows read: {count}",
+        "submit": "Import",
+        "result": "Added {inserted}, updated {updated}. {suppressed} already suppressed and will not be mailed.",
+        "rejected": "Refused rows",
+        "row": "Row",
+        "reason": "Reason",
+        "noHeader": "The file has no email column.",
+        "empty": "No rows found."
+      },
+      "settings": {
+        "title": "Existing-customer exception",
+        "lead": "Markedsføringsloven § 15 lets a business mail its own customers about similar products without consent, but only if they could reserve themselves when the address was collected. Orgpuls' signup does not offer that yet. While this is off, only contacts who gave consent are mailed.",
+        "on": "On: paying customers' users may be mailed without separate consent",
+        "off": "Off",
+        "toggle": "Allow the exception",
+        "submit": "Save",
+        "superOnly": "Only a super-admin can change this."
+      },
+      "contact": {
+        "back": "All contacts",
+        "details": "Details",
+        "consent": "Consent",
+        "consentNone": "No consent recorded.",
+        "org": "Organisation",
+        "timeline": "Mails",
+        "timelineNone": "No mail has been sent to this contact.",
+        "col": {
+          "mail": "Mail",
+          "status": "Status",
+          "sent": "Sent",
+          "delivery": "Delivery",
+          "opened": "Opened",
+          "clicked": "Clicked",
+          "unsubscribed": "Unsubscribed"
+        },
+        "kind": {
+          "campaign": "Campaign",
+          "test": "Test",
+          "optin": "Confirmation"
+        },
+        "edit": "Edit",
+        "save": "Save",
+        "unsubscribe": "Unsubscribe",
+        "unsubscribeLead": "For someone who asked by phone or mail. The address goes on the suppression list.",
+        "erase": "Erase",
+        "eraseLead": "Deletes the contact and its mail history. The address is kept only as a hash on the suppression list, so a later import cannot mail it again; only the person's own double opt-in lifts that.",
+        "accountNote": "This contact is an account; its name, e-mail and organisation come from the account.",
+        "consentSource": "Source",
+        "consentAt": "Given"
+      },
+      "segments": {
+        "title": "Segments",
+        "lead": "Saved filters on contacts and their organisations. Counts are live.",
+        "col": {
+          "name": "Name",
+          "filter": "Filter",
+          "total": "Contacts",
+          "mailable": "Mailable"
+        },
+        "new": "New segment",
+        "edit": "Edit segment",
+        "name": "Name",
+        "types": "Type",
+        "roles": "Role",
+        "sources": "Source",
+        "tags": "Any of these tags",
+        "lang": "Language",
+        "anyLang": "Any",
+        "employees": "Employees in the organisation",
+        "min": "From",
+        "max": "To",
+        "nace": "Industry (NACE code, e.g. 86 or 41.2)",
+        "noSurvey": "No survey opened in the last … days",
+        "mailableOnly": "Only mailable contacts",
+        "preview": "Preview",
+        "previewResult": "{total} contacts, {mailable} mailable",
+        "sample": "First 20",
+        "save": "Save segment",
+        "delete": "Delete segment",
+        "cancel": "Cancel",
+        "any": "Everyone"
+      },
+      "campaigns": {
+        "title": "Campaigns",
+        "lead": "Newsletters and one-off campaigns, sent on the marketing sender. Every mail has a one-click unsubscribe.",
+        "col": {
+          "number": "#",
+          "name": "Name",
+          "kind": "Kind",
+          "status": "Status",
+          "segment": "Segment",
+          "when": "When",
+          "audience": "Audience",
+          "delivered": "Delivered",
+          "opened": "Opened",
+          "clicked": "Clicked",
+          "unsubscribed": "Unsubscribed"
+        },
+        "kind": {
+          "newsletter": "Newsletter",
+          "campaign": "Campaign",
+          "promotion": "Promotion",
+          "announcement": "Product announcement"
+        },
+        "status": {
+          "draft": "Draft",
+          "scheduled": "Scheduled",
+          "sending": "Sending",
+          "sent": "Sent",
+          "cancelled": "Cancelled"
+        },
+        "new": "New campaign",
+        "name": "Name",
+        "kind_": "Kind",
+        "lang": "Language",
+        "create": "Create draft"
+      },
+      "campaign": {
+        "back": "All campaigns",
+        "content": "Content",
+        "subject": "Subject",
+        "preheader": "Preheader (shown after the subject)",
+        "segment": "Segment",
+        "noSegment": "Choose a segment",
+        "utm": "utm_campaign",
+        "utmHint": "Added to links to orgpuls.com, with utm_source=orgpuls and utm_medium=email.",
+        "blocks": "Blocks",
+        "heading": "Heading",
+        "text": "Text",
+        "button": "Button",
+        "url": "Address (https://…)",
+        "addHeading": "+ Heading",
+        "addText": "+ Text",
+        "addButton": "+ Button",
+        "remove": "Remove",
+        "up": "Move up",
+        "down": "Move down",
+        "save": "Save draft",
+        "locked": "Only a draft can be edited.",
+        "preview": "Preview",
+        "mobile": "Phone",
+        "desktop": "Desktop",
+        "send": "Send",
+        "test": "Send a test to me",
+        "testSent": "Test queued to {to}.",
+        "tests": "{count, plural, =0 {No tests sent yet.} one {# test sent.} other {# tests sent.}}",
+        "at": "Send at (Oslo time)",
+        "schedule": "Schedule",
+        "now": "Send now",
+        "cancel": "Cancel sending",
+        "unschedule": "Back to draft",
+        "scheduledFor": "Scheduled for {when}.",
+        "language": "Only contacts whose language is the campaign's receive it.",
+        "report": "Report",
+        "audience": "Audience",
+        "queued": "Waiting",
+        "sent": "Sent",
+        "delivered": "Delivered",
+        "bounced": "Bounced",
+        "opened": "Opened",
+        "clicked": "Clicked",
+        "unsubscribed": "Unsubscribed",
+        "complaints": "Spam complaints",
+        "failed": "Failed",
+        "skipped": "Skipped",
+        "openNote": "Opens are a lower bound and a guess: many mail programs block the pixel, and Apple's proxy opens are not counted.",
+        "site": "On the site (utm_campaign)",
+        "sessions": "Visits",
+        "views": "Page views",
+        "signups": "Organisations created",
+        "paid": "Paid"
+      },
+      "problem": {
+        "failed": "It could not be saved. Try again.",
+        "not_allowed": "Your role cannot do this.",
+        "invalid": "Something in the form is not valid.",
+        "invalid_email": "That e-mail address does not look right.",
+        "consent_required": "Say where the consent came from.",
+        "invalid_consent_at": "The consent date is not valid.",
+        "exists": "That already exists.",
+        "invalid_tags": "Tags are lowercase letters, digits, - and _.",
+        "invalid_role": "Choose a role from the list.",
+        "invalid_org_number": "An org.nr is nine digits.",
+        "reason_required": "Give a reason of at least five characters.",
+        "not_found": "It no longer exists.",
+        "invalid_filter": "The filter is not valid.",
+        "invalid_name": "Give it a name.",
+        "in_use": "A scheduled or sending campaign uses this segment.",
+        "invalid_blocks": "Every block needs text; a button needs an https address.",
+        "invalid_utm": "utm_campaign is lowercase letters, digits, - and _.",
+        "too_long": "The subject or preheader is too long.",
+        "invalid_segment": "Choose a segment that exists.",
+        "not_draft": "Only a draft can be changed.",
+        "no_subject": "Write a subject first.",
+        "no_segment": "Choose a segment first.",
+        "invalid_time": "Choose a time from now and within a year.",
+        "rate_limited": "Ten tests an hour at most. Try again later.",
+        "not_cancellable": "This campaign cannot be cancelled now.",
+        "invalid_file": "The file could not be read.",
+        "invalid_kind": "Choose a kind."
+      }
     }
   },
   "access": {
@@ -7134,5 +7439,42 @@
     "readOnlyBody": "The trial ended on {end}, and the subscription is not confirmed. You can read results and reports, and a survey already running will finish. New surveys are sent once the subscription is confirmed.",
     "confirm": "Confirm subscription",
     "askLeader": "The managing director confirms the subscription under Settings › Payment."
+  },
+  "newsletter": {
+    "badge": "Newsletter",
+    "title": "News from Orgpuls",
+    "lead": "About the legal requirement, the psychosocial work environment and what is new in Orgpuls. You can unsubscribe at any time.",
+    "mail": "E-mail",
+    "name": "Name (optional)",
+    "company": "Organisation (optional)",
+    "submit": "Sign me up",
+    "sending": "Sending …",
+    "invalid": "Enter an e-mail address that looks right.",
+    "limited": "Many signups right now. Try again in an hour.",
+    "failed": "The signup did not go through. Try again a little later.",
+    "sentTitle": "Check your e-mail",
+    "sentLead": "We have sent a link to {mail}. The subscription starts only when you confirm it.",
+    "privacy": "We use the address only for the newsletter, and do not share it.",
+    "confirmTitle": "Confirm the subscription",
+    "confirmLead": "Press the button to confirm that you want the Orgpuls newsletter.",
+    "confirm": "Confirm",
+    "confirmedTitle": "You are subscribed",
+    "confirmedLead": "Thank you. You will get the next Orgpuls newsletter, and can unsubscribe from each of them.",
+    "expiredTitle": "The link no longer works",
+    "expiredLead": "The link has been used, or is older than seven days. Sign up again and we will send a new one.",
+    "again": "Sign me up again",
+    "contactOptIn": "Also send me the Orgpuls newsletter. You can unsubscribe at any time."
+  },
+  "unsubscribe": {
+    "badge": "Newsletter",
+    "title": "Unsubscribe",
+    "lead": "You will get no more newsletters or campaigns from Orgpuls. Mail that belongs to a survey or to your account comes as before.",
+    "submit": "Unsubscribe me",
+    "sending": "Unsubscribing …",
+    "doneTitle": "You are unsubscribed",
+    "doneLead": "You will get no more newsletters or campaigns from us. If you change your mind, you can sign up again.",
+    "invalidTitle": "The link does not work",
+    "invalidLead": "We could not find the link. Write to us at {mail} and we will unsubscribe you.",
+    "again": "Sign me up again"
   }
 }

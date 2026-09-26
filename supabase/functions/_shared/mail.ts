@@ -321,3 +321,110 @@ export function renderTicketReply(cat: MailCatalogue, job: TicketJob, lang: Lang
   })
   return { subject: job.subject, text, html }
 }
+
+// ---------------------------------------------------------------------------------------
+// Marketing (0055, D-101): a campaign written in the admin, and the newsletter's
+// confirmation. Both go out on the marketing sender, never the product's.
+// ---------------------------------------------------------------------------------------
+
+export type CampaignBlock = { type: 'heading' | 'text' | 'button'; text: string; url?: string }
+
+export interface CrmJob {
+  id: string
+  kind: 'campaign' | 'test' | 'optin'
+  to_email: string
+  token: string
+  name: string | null
+  lang: string | null
+  campaign: { kind: string; subject: string; preheader: string; blocks: CampaignBlock[]; utm_campaign: string } | null
+}
+
+const OWN_HOSTS = /(^|\.)orgpuls\.(com|no)$/
+
+/**
+ * A link to Orgpuls' own site carries the campaign's utm tags, so the site's analytics
+ * (0050) can count the visits and signups it brought. Tags already on the link are kept;
+ * links elsewhere are left as written.
+ */
+export function withUtm(url: string, utmCampaign: string): string {
+  let u: URL
+  try {
+    u = new URL(url)
+  } catch {
+    return url
+  }
+  if (u.protocol !== 'https:' || !OWN_HOSTS.test(u.hostname)) return url
+  const set = (k: string, v: string) => {
+    if (!u.searchParams.has(k)) u.searchParams.set(k, v)
+  }
+  set('utm_source', 'orgpuls')
+  set('utm_medium', 'email')
+  set('utm_campaign', utmCampaign)
+  return u.toString()
+}
+
+export const unsubscribeUrl = (siteUrl: string, token: string) => `${siteUrl.replace(/\/+$/, '')}/avmeld?t=${token}`
+export const unsubscribeApi = (siteUrl: string, token: string) => `${siteUrl.replace(/\/+$/, '')}/api/avmeld?t=${token}`
+export const confirmUrl = (siteUrl: string, token: string) => `${siteUrl.replace(/\/+$/, '')}/nyhetsbrev?t=${token}`
+
+export function renderCampaign(cat: MailCatalogue, job: CrmJob, siteUrl: string): Rendered {
+  const lang = langOf(job.lang)
+  const m = cat[lang]
+  const c = job.campaign
+  if (!c) throw new Error('campaign job without a campaign')
+  const unsub = unsubscribeUrl(siteUrl, job.token)
+  const subject = job.kind === 'test' ? `${pick(m, 'crm.test')} ${c.subject}` : c.subject
+
+  const text: string[] = []
+  const html: string[] = []
+  for (const b of c.blocks) {
+    if (b.type === 'heading') {
+      text.push(b.text.toUpperCase())
+      html.push(`<h2 style="margin:6px 0 12px;font-family:Georgia,'Times New Roman',serif;font-size:21px;font-weight:600;line-height:1.3;color:#191510">${escapeHtml(b.text)}</h2>`)
+    } else if (b.type === 'text') {
+      for (const p of b.text.split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean)) {
+        text.push(p)
+        html.push(`<p style="margin:0 0 14px;font-size:15px;line-height:1.6;color:#191510;white-space:pre-line">${escapeHtml(p)}</p>`)
+      }
+    } else if (b.type === 'button' && b.url) {
+      const href = withUtm(b.url, c.utm_campaign)
+      text.push(`${b.text}: ${href}`)
+      html.push(`<p style="margin:20px 0 20px"><a href="${escapeHtml(href)}" style="display:inline-block;padding:12px 20px;border-radius:12px;border:1px solid #191510;background:#F5C64A;color:#191510;font-size:15px;font-weight:700;text-decoration:none">${escapeHtml(b.text)}</a></p>`)
+    }
+  }
+  const why = pick(m, 'crm.why')
+  const sender = pick(m, 'crm.sender')
+  const textOut = [...text, '—', why, fill(pick(m, 'crm.unsubscribeText'), { url: unsub }), sender].join('\n\n')
+  // the preheader is the line mail programs show after the subject; hidden in the body
+  const pre = c.preheader
+    ? `<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent">${escapeHtml(c.preheader)}</div>`
+    : ''
+  const htmlOut = `<!doctype html>
+<html lang="${lang === 'en' ? 'en' : 'nb'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(subject)}</title></head>
+<body style="margin:0;padding:0;background:#FCF6E9;font-family:'DM Sans',Arial,Helvetica,sans-serif">
+${pre}
+<div style="max-width:560px;margin:0 auto;padding:28px 16px">
+<div style="font-family:Georgia,'Times New Roman',serif;font-size:20px;font-weight:600;color:#191510;margin:0 0 16px">Orgpuls</div>
+<div style="background:#FFFDF6;border:1px solid #E8DFC9;border-radius:20px;padding:26px 24px">
+${html.join('\n')}
+</div>
+<p style="margin:16px 4px 0;font-size:12px;line-height:1.55;color:#5F5849">${escapeHtml(why)} <a href="${escapeHtml(unsub)}" style="color:#5F5849">${escapeHtml(pick(m, 'crm.unsubscribe'))}</a>.</p>
+<p style="margin:6px 4px 0;font-size:12px;line-height:1.55;color:#5F5849">${escapeHtml(sender)}</p>
+</div></body></html>`
+  return { subject, text: textOut, html: htmlOut }
+}
+
+/** The double opt-in. The link carries the token, so it is written as text (D-97). */
+export function renderOptin(cat: MailCatalogue, job: CrmJob, siteUrl: string): Rendered {
+  const lang = langOf(job.lang)
+  const m = cat[lang]
+  const { text, html } = layout({
+    lang,
+    greeting: job.name ? fill(pick(m, 'greeting'), { name: job.name }) : pick(m, 'greetingPlain'),
+    paragraphs: [pick(m, 'optin.lead')],
+    cta: { label: pick(m, 'optin.cta'), url: confirmUrl(siteUrl, job.token), plain: true },
+    after: [pick(m, 'optin.ignore')],
+    footer: pick(m, 'optin.footer'),
+  })
+  return { subject: pick(m, 'optin.subject'), text, html }
+}

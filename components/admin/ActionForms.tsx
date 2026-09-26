@@ -14,7 +14,7 @@ type Action = (prev: AdminResult | null, formData: FormData) => Promise<AdminRes
  * back to their defaults — a days field back to 15 — so the next press sends something the
  * admin did not type. The fields are controlled instead, and cleared only on success.
  */
-function useKeptAction(action: Action, clear: () => void) {
+export function useKeptAction(action: Action, clear: () => void) {
   return useActionState<AdminResult | null, FormData>(async (prev, formData) => {
     const result = await action(prev, formData)
     if (result.ok) clear()
@@ -22,7 +22,7 @@ function useKeptAction(action: Action, clear: () => void) {
   }, null)
 }
 
-function Outcome({ state, problems, done }: { state: AdminResult | null; problems: Record<string, string>; done: string }) {
+export function Outcome({ state, problems, done }: { state: AdminResult | null; problems: Record<string, string>; done: string }) {
   if (!state) return null
   return state.ok ? (
     <span role="status" className="text-[12.5px] font-semibold text-link">

@@ -8,8 +8,14 @@
  *
  * Each event goes to `record_mail_event` (0053) as its kind, the provider's message id, its
  * time and the provider's reason. The recipient's address in the payload is never passed on,
- * stored or logged. Opens and clicks are ignored even if they arrive: an open or a click is a
- * per-person timestamp of engaging with a survey link, and none is kept.
+ * stored or logged. Opens and clicks of the product's own mail are dropped: an open or a click
+ * is a per-person timestamp of engaging with a survey link, and none is kept.
+ *
+ * Marketing mail (0055, D-101) is the exception. Every event is first offered to
+ * `record_crm_event`, which matches only the CRM's own sends: delivery, bounces that
+ * suppress the address, and the opens and clicks a campaign's report counts. An event it
+ * does not match goes on to `record_mail_event` as before, and an unmatched open or click
+ * goes nowhere. Apple's proxy opens are not counted as opens.
  *
  * SMS reports (D-98) come from a second webhook whose address ends `&channel=sms`. They carry
  * `msg_status`, `messageId` and `description` instead; the number, and any reply text, are
@@ -30,6 +36,14 @@ const KINDS: Record<string, string> = {
   deferred: 'deferred',
   unsubscribed: 'unsubscribed',
   error: 'error',
+}
+
+// opens and clicks, for CRM sends only
+const ENGAGEMENT: Record<string, string> = {
+  opened: 'opened',
+  unique_opened: 'opened',
+  uniqueOpened: 'opened',
+  click: 'click',
 }
 
 // Brevo's SMS statuses, in the spellings its reports and its webhook settings use
@@ -101,7 +115,7 @@ function normalise(e: BrevoEvent, sms: boolean): Normalised {
       reason: why ? maskNumbers(why).slice(0, 300) : null,
     }
   }
-  return { kind: e.event ? KINDS[e.event] : undefined, id: e['message-id'], at, reason: e.reason ?? null }
+  return { kind: e.event ? KINDS[e.event] ?? ENGAGEMENT[e.event] : undefined, id: e['message-id'], at, reason: e.reason ?? null }
 }
 
 Deno.serve(async (req) => {
@@ -126,6 +140,22 @@ Deno.serve(async (req) => {
   for (const e of events.slice(0, 500)) {
     const { kind, id, at, reason } = normalise(e, sms)
     if (!kind || !at || !id) {
+      tally.ignored++
+      continue
+    }
+    if (!sms) {
+      const crm = await svc.rpc('record_crm_event', { p_event: kind, p_message_id: id, p_at: at })
+      if (crm.error) {
+        tally.failed++
+        console.error(`[mail-events] crm record failed: ${crm.error.code ?? ''}`)
+        continue
+      }
+      if ((crm.data as { matched?: boolean } | null)?.matched) {
+        tally.recorded++
+        continue
+      }
+    }
+    if (kind === 'opened' || kind === 'click') {
       tally.ignored++
       continue
     }

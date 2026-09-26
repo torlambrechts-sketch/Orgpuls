@@ -7,9 +7,13 @@ import {
   groupsOf,
   isReservedAddress,
   renderAuth,
+  renderCampaign,
   renderNotice,
+  renderOptin,
   roundName,
+  withUtm,
   smsLead,
+  type CrmJob,
   type MailCatalogue,
   type NoticeJob,
 } from '@/supabase/functions/_shared/mail'
@@ -171,5 +175,64 @@ describe('auth mails', () => {
         expect(r.text).not.toMatch(/\{\w+\}/)
       }
     }
+  })
+})
+
+describe('marketing mail (D-101)', () => {
+  const crm = (over: Partial<CrmJob> = {}): CrmJob => ({
+    id: 'c',
+    kind: 'campaign',
+    to_email: 'leser@firma.no',
+    token: TOKEN,
+    name: 'Kari',
+    lang: 'no',
+    campaign: {
+      kind: 'newsletter',
+      subject: 'Nytt fra Orgpuls',
+      preheader: 'Tre ting om lovkravet',
+      utm_campaign: 'host-2026',
+      blocks: [
+        { type: 'heading', text: 'Hei <alle>' },
+        { type: 'text', text: 'Første avsnitt.\n\nAndre & siste.' },
+        { type: 'button', text: 'Les mer', url: 'https://www.orgpuls.com/lovkrav' },
+        { type: 'button', text: 'Arbeidstilsynet', url: 'https://www.arbeidstilsynet.no/x' },
+      ],
+    },
+    ...over,
+  })
+
+  it('tags only links to Orgpuls, and keeps tags already there', () => {
+    expect(withUtm('https://www.orgpuls.com/priser', 'x')).toBe(
+      'https://www.orgpuls.com/priser?utm_source=orgpuls&utm_medium=email&utm_campaign=x',
+    )
+    expect(withUtm('https://en.orgpuls.com/?utm_campaign=keep', 'x')).toContain('utm_campaign=keep')
+    expect(withUtm('https://www.arbeidstilsynet.no/x', 'x')).toBe('https://www.arbeidstilsynet.no/x')
+    expect(withUtm('http://www.orgpuls.com/', 'x')).toBe('http://www.orgpuls.com/')
+  })
+
+  it('renders blocks escaped, with the sender, the reason and an unsubscribe link', () => {
+    const r = renderCampaign(cat, crm(), APP)
+    expect(r.subject).toBe('Nytt fra Orgpuls')
+    expect(r.html).toContain('Hei &lt;alle&gt;')
+    expect(r.html).toContain('Andre &amp; siste.')
+    expect(r.html).toContain('utm_campaign=host-2026')
+    expect(r.html).toContain('href="https://www.arbeidstilsynet.no/x"')
+    expect(r.html).toContain(`${APP}/avmeld?t=${TOKEN}`)
+    expect(r.html).toContain('Tre ting om lovkravet')
+    expect(r.text).toContain(`Meld deg av: ${APP}/avmeld?t=${TOKEN}`)
+    expect(r.text).toContain('Orgpuls · orgpuls.com')
+  })
+
+  it('marks a test send in the subject, in the campaign language', () => {
+    expect(renderCampaign(cat, crm({ kind: 'test' }), APP).subject).toBe('[Test] Nytt fra Orgpuls')
+    expect(renderCampaign(cat, crm({ lang: 'en' }), APP).text).toContain('Unsubscribe:')
+  })
+
+  it('writes the confirmation link as text, since it carries the token', () => {
+    const r = renderOptin(cat, crm({ kind: 'optin', campaign: null }), APP)
+    expect(r.subject).toBe('Bekreft påmeldingen til nyhetsbrevet fra Orgpuls')
+    expect(r.html).not.toContain(`href="${APP}/nyhetsbrev`)
+    expect(r.html).toContain(`${APP}/nyhetsbrev?t=${TOKEN}`)
+    expect(r.html).toContain('Hei Kari,')
   })
 })

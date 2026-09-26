@@ -1940,6 +1940,34 @@ and user. Migration 0051 builds its core:
 
 `supabase/tests/ticket_invariants.sql`: 18 checks, locally and on the hosted project.
 
+### X-061 — The CRM keeps contacts and consent in Orgpuls, and never touches a respondent
+
+The specification decided that the contact store, segments and consent belong in Orgpuls'
+own database, and that the campaign editor is built in-house. Migration 0055 does that:
+
+- **Contacts are account holders or opted-in prospects, by construction.**
+  - The sync reads auth users with a membership.
+  - Prospects arrive only with consent: double opt-in, an import row with a consent source,
+    or an admin who records one.
+  - No CRM table references, and no CRM function reads, the employee, invitation or answer
+    tables. A test enforces this, so the rule survives later changes.
+- **The basis is data.**
+  - 'consent' carries its date and source, or the row is refused.
+  - 'customer' follows the organisation's confirmed plan. It is honoured only when the
+    existing-customer exception is on, a super-admin's decision with a reason.
+- **Addresses leave as soon as they are not needed.**
+  - A send holds the address only while it waits.
+  - Tokens are stored as hashes.
+  - The suppression list is sha256 of the address, so it can outlive an erasure.
+- **Marketing is its own stream.** The dispatcher refuses to send marketing from the
+  product's domain, or from a domain Brevo has not authenticated. Survey invitations'
+  deliverability cannot be spent on a campaign.
+- **Opens and clicks are recorded for CRM sends only.** The webhook now carries them;
+  `record_crm_event` matches CRM sends and nothing else. The product's mail still keeps none
+  (D-97).
+
+`crm_invariants.sql` proves 17 checks. D-101 lists what is not built.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -2134,3 +2162,7 @@ and user. Migration 0051 builds its core:
 - [ ] Per-recipient ids for notices to several leaders; delivery state on the ticket page (D-97).
 - [x] Web analytics: country, region, city, the latest visits one by one, and the IP address as its /24 or /48 network (0054, D-100).
 - [ ] Decide whether the site may keep full IP addresses. It would need new wording in the privacy notice and in the databehandleravtale's vedlegg 1, which today says the statistics "sier ikke hvem som besøker" (D-100).
+- [x] Marketing CRM: contacts, consent, segments, campaigns, one-click unsubscribe, suppression, UTM reporting (0055, D-101, X-061).
+- [ ] Marketing sender: authenticate a subdomain (e.g. nyheter.orgpuls.com) in Brevo with SPF, DKIM and DMARC, then set `ORGPULS_MARKETING_FROM` (and optionally `ORGPULS_MARKETING_FROM_NAME`) as function secrets. Until then no confirmation or campaign is sent (D-101).
+- [ ] Offer a reservation against marketing at registration, then decide whether to turn on the existing-customer exception (D-101).
+- [ ] CRM Phase 3: A/B subject tests, automated sequences, coupon codes once Billing has them (D-101).

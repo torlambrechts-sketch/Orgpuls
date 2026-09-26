@@ -109,7 +109,7 @@ export async function setAdmin(_prev: AdminResult | null, formData: FormData): P
   const parsed = z
     .object({
       email: z.string().trim().email(),
-      role: z.enum(['super_admin', 'support', 'finance', 'analyst']),
+      role: z.enum(['super_admin', 'support', 'finance', 'analyst', 'marketing']),
       active: z.boolean(),
       reason: z.string().trim().min(5).max(500),
     })

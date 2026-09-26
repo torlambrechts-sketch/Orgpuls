@@ -80,6 +80,10 @@ const PUBLIC_PATHS = [
   '/robots.txt',
   // the public site's analytics beacon (D-91)
   '/api/wv',
+  // the newsletter: signup and confirmation, unsubscribing, and one-click unsubscribe (D-101)
+  '/nyhetsbrev',
+  '/avmeld',
+  '/api/avmeld',
   // the platform admin's sign-in (D-90); everything else under /admin needs a session
   '/admin/login',
 ]

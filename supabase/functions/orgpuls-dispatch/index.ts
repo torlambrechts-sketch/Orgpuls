@@ -9,6 +9,12 @@
  * After the notices, replies to support tickets (0051) are drained the same way, each sent
  * with the support inbox as Reply-To.
  *
+ * Then marketing (0055, D-101): newsletter confirmations and campaigns, on the marketing
+ * sender (ORGPULS_MARKETING_FROM). Without one, or with one on the product's own sending
+ * domain, nothing marketing is sent: a campaign must never be able to hurt the reputation
+ * the survey invitations depend on. Each campaign mail carries a one-click unsubscribe
+ * (List-Unsubscribe and List-Unsubscribe-Post, RFC 8058).
+ *
  * The loop: claim a batch (the database mints each respondent link, leases the row and,
  * since 0033, picks the channel), render, send, and report each row as done or failed. An
  * SMS that cannot be sent — no credits, an unregistered sender, a number the operator
@@ -23,14 +29,29 @@
  *                         and credits end to end. The number is used once and never logged.
  *   POST ?probe=tracking  whether Brevo counts opens and clicks: 30-day totals, the hosts clicked
  *                         links went through, the registered webhooks — counts and hosts only (D-97)
- *   POST ?probe=webhook   register Brevo's delivery-event webhook for orgpuls-mail-events, once (D-97)
+ *   POST ?probe=webhook   register Brevo's delivery-event webhook for orgpuls-mail-events, once (D-97);
+ *                         since D-101 it also asks for opens and clicks, which only CRM sends keep
+ *   POST ?probe=marketing whether the marketing sender is set, on its own domain, and verified in Brevo
  *   POST ?probe=smsstatus&id=<messageId>
  *                         the delivery events Brevo holds for one SMS: event names, dates
  *                         and reasons only — the number is dropped before anything is returned.
  */
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import { brevoSend, brevoSendSms, type SendResult } from '../_shared/brevo.ts'
-import { groupsOf, langOf, renderNotice, renderTicketReply, smsLead, type MailCatalogue, type NoticeJob, type TicketJob } from '../_shared/mail.ts'
+import {
+  groupsOf,
+  langOf,
+  renderCampaign,
+  renderNotice,
+  renderOptin,
+  renderTicketReply,
+  smsLead,
+  unsubscribeApi,
+  type CrmJob,
+  type MailCatalogue,
+  type NoticeJob,
+  type TicketJob,
+} from '../_shared/mail.ts'
 import { normalizePhone, smsContent, smsLength } from '../_shared/sms.ts'
 import { MAIL } from '../_shared/messages.gen.ts'
 
@@ -66,6 +87,32 @@ Deno.serve(async (req) => {
   const appUrl = env('ORGPULS_APP_URL')
   const cat = MAIL as unknown as MailCatalogue
   const probe = new URL(req.url).searchParams.get('probe')
+  // the marketing stream (D-101): its own sender, on a domain that is not the product's
+  const marketingFrom = Deno.env.get('ORGPULS_MARKETING_FROM') ?? ''
+  const domainOf = (a: string) => a.split('@')[1]?.toLowerCase() ?? ''
+  const marketing =
+    marketingFrom.includes('@') && domainOf(marketingFrom) !== domainOf(sender.email)
+      ? { email: marketingFrom, name: Deno.env.get('ORGPULS_MARKETING_FROM_NAME') ?? 'Orgpuls' }
+      : null
+  const siteUrl = Deno.env.get('ORGPULS_SITE_URL') ?? appUrl
+
+  if (probe === 'marketing') {
+    const h = { 'api-key': key, accept: 'application/json' }
+    const res = await fetch('https://api.brevo.com/v3/senders/domains', { headers: h })
+    const domains = res.ok
+      ? ((await res.json()) as { domains?: Array<{ domain_name?: string; authenticated?: boolean; verified?: boolean }> }).domains ?? []
+      : []
+    const d = domains.find((x) => x.domain_name?.toLowerCase() === domainOf(marketingFrom))
+    return json({
+      set: marketingFrom.includes('@'),
+      domain: domainOf(marketingFrom) || null,
+      product_domain: domainOf(sender.email),
+      separate: marketing !== null,
+      brevo: d ? { authenticated: d.authenticated ?? null, verified: d.verified ?? null } : null,
+      domains: domains.map((x) => ({ domain: x.domain_name, authenticated: x.authenticated ?? null })),
+      status: res.status,
+    })
+  }
 
   if (probe === '1') {
     const h = { 'api-key': key, accept: 'application/json' }
@@ -125,6 +172,17 @@ Deno.serve(async (req) => {
     // one webhook per channel (D-98): `?probe=webhook&channel=sms` registers the SMS one
     const channel = new URL(req.url).searchParams.get('channel') === 'sms' ? 'sms' : 'email'
     const ours = hooks.find((w) => (w.url ?? '').startsWith(target) && (w.url ?? '').includes('channel=sms') === (channel === 'sms'))
+    const emailEvents = ['delivered', 'hardBounce', 'softBounce', 'blocked', 'spam', 'invalid', 'deferred', 'unsubscribed', 'opened', 'click']
+    if (ours && channel === 'email' && emailEvents.some((e) => !(ours.events ?? []).includes(e))) {
+      // D-101: opens and clicks are asked for now; orgpuls-mail-events keeps them for CRM sends only
+      const upd = await fetch(`https://api.brevo.com/v3/webhooks/${ours.id}`, {
+        method: 'PUT',
+        headers: { ...h, 'content-type': 'application/json' },
+        body: JSON.stringify({ events: emailEvents }),
+      })
+      await upd.body?.cancel()
+      return json({ ok: upd.ok, updated: true, id: ours.id, channel, status: upd.status, events: emailEvents })
+    }
     if (ours) return json({ ok: true, existing: true, id: ours.id, channel, type: ours.type, events: ours.events ?? [] })
     const created = await fetch('https://api.brevo.com/v3/webhooks', {
       method: 'POST',
@@ -138,7 +196,7 @@ Deno.serve(async (req) => {
         events:
           channel === 'sms'
             ? ['delivered', 'softBounce', 'hardBounce', 'unsubscribe', 'rejected', 'skip']
-            : ['delivered', 'hardBounce', 'softBounce', 'blocked', 'spam', 'invalid', 'deferred', 'unsubscribed'],
+            : emailEvents,
       }),
     })
     const out = (await created.json().catch(() => ({}))) as { id?: number; code?: string; message?: string }
@@ -317,5 +375,65 @@ Deno.serve(async (req) => {
     if (jobs.length < BATCH) break
   }
   if (tickets.sent + tickets.retry + tickets.failed) console.log(`[dispatch] ticket replies: sent ${tickets.sent}, retry ${tickets.retry}, failed ${tickets.failed}`)
-  return json({ ...tally, tickets })
+
+  // marketing (0055, D-101): confirmations and campaigns, on the marketing sender only
+  const crm = { sent: 0, retry: 0, failed: 0, held: false }
+  // Brevo refuses a sender on a domain it has not authenticated, and a refusal would fail the
+  // sends for good; so the domain is checked first, and an unready stream simply waits
+  let ready = false
+  if (marketing) {
+    const d = await fetch('https://api.brevo.com/v3/senders/domains', { headers: { 'api-key': key, accept: 'application/json' } })
+    const list = d.ok ? ((await d.json()) as { domains?: Array<{ domain_name?: string; authenticated?: boolean }> }).domains ?? [] : []
+    if (!d.ok) await d.body?.cancel()
+    ready = list.some((x) => x.domain_name?.toLowerCase() === domainOf(marketing.email) && x.authenticated === true)
+  }
+  if (!marketing || !ready) {
+    crm.held = true
+  } else {
+    while (Date.now() - started < BUDGET_MS) {
+      const { data, error } = await svc.rpc('crm_mail_claim', { p_batch: BATCH })
+      if (error) {
+        console.error(`[dispatch] crm claim failed: ${error.code ?? ''} ${error.message}`)
+        break
+      }
+      const jobs = (data ?? []) as CrmJob[]
+      if (jobs.length === 0) break
+      for (const job of jobs) {
+        let outcome: SendResult
+        try {
+          const optin = job.kind === 'optin'
+          const r = optin ? renderOptin(cat, job, siteUrl) : renderCampaign(cat, job, siteUrl)
+          outcome = await brevoSend(key, {
+            sender: marketing,
+            to: [{ email: job.to_email, name: job.name }],
+            subject: r.subject,
+            html: r.html,
+            text: r.text,
+            tag: optin ? 'orgpuls-optin' : job.kind === 'test' ? 'orgpuls-crm-test' : 'orgpuls-crm',
+            headers: optin
+              ? undefined
+              : { 'List-Unsubscribe': `<${unsubscribeApi(siteUrl, job.token)}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' },
+          })
+        } catch (e) {
+          console.error(`[dispatch] crm ${job.id}: render failed: ${(e as Error).message}`)
+          outcome = { ok: false, retryable: false, auth: false, code: 'render' }
+        }
+        await svc.rpc('crm_mail_done', {
+          p_id: job.id,
+          p_ok: outcome.ok,
+          p_provider_id: outcome.ok ? outcome.id || null : null,
+          p_error: outcome.ok ? null : outcome.code,
+          p_permanent: !outcome.ok && !outcome.retryable,
+        })
+        if (outcome.ok) crm.sent++
+        else if (outcome.retryable) crm.retry++
+        else crm.failed++
+        if (!outcome.ok) console.error(`[dispatch] crm ${job.id}: ${outcome.code}`)
+        if (!outcome.ok && outcome.auth) return json({ error: 'provider_unauthorised', ...tally, tickets, crm }, 502)
+      }
+      if (jobs.length < BATCH) break
+    }
+    if (crm.sent + crm.retry + crm.failed) console.log(`[dispatch] marketing: sent ${crm.sent}, retry ${crm.retry}, failed ${crm.failed}`)
+  }
+  return json({ ...tally, tickets, crm })
 })

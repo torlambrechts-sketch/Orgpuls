@@ -9,12 +9,12 @@ import { callFailed, parseFailed } from '@/lib/supabase/read'
  * returns anything; this file only calls them and parses what comes back. Nothing here
  * can reach a customer table directly: the anon-key client has no policy that would let it.
  */
-export const ROLES = ['super_admin', 'support', 'finance', 'analyst'] as const
+export const ROLES = ['super_admin', 'support', 'finance', 'analyst', 'marketing'] as const
 export type AdminRole = (typeof ROLES)[number]
 
 const Reply = z.object({ ok: z.boolean(), error: z.string().optional() }).passthrough()
 
-async function call<T extends z.ZodTypeAny>(
+export async function call<T extends z.ZodTypeAny>(
   fn: string,
   args: Record<string, unknown>,
   schema: T,

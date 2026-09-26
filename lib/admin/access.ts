@@ -5,14 +5,16 @@ import type { AdminRole } from './api'
  * it. The database decides what each call returns; this only keeps a role from being offered
  * a page that would answer "not allowed".
  */
-export const SECTIONS = ['dashboard', 'orgs', 'users', 'ops', 'web', 'tickets', 'audit', 'admins'] as const
+export const SECTIONS = ['dashboard', 'orgs', 'users', 'ops', 'web', 'crm', 'tickets', 'audit', 'admins'] as const
 export type Section = (typeof SECTIONS)[number]
 
 const BY_ROLE: Record<AdminRole, readonly Section[]> = {
   super_admin: SECTIONS,
   support: ['dashboard', 'orgs', 'users', 'ops', 'web', 'tickets'],
   finance: ['dashboard', 'orgs', 'web'],
-  analyst: ['dashboard', 'web'],
+  analyst: ['dashboard', 'web', 'crm'],
+  // the CRM (0055, D-101): contacts, segments and campaigns, and the site they drive traffic to
+  marketing: ['dashboard', 'web', 'crm'],
 }
 
 export const HREF: Record<Section, string> = {
@@ -21,6 +23,7 @@ export const HREF: Record<Section, string> = {
   users: '/admin/users',
   ops: '/admin/ops',
   web: '/admin/web',
+  crm: '/admin/crm',
   tickets: '/admin/tickets',
   audit: '/admin/audit',
   admins: '/admin/admins',
