@@ -32,6 +32,10 @@
  *   POST ?probe=webhook   register Brevo's delivery-event webhook for orgpuls-mail-events, once (D-97);
  *                         since D-101 it also asks for opens and clicks, which only CRM sends keep
  *   POST ?probe=marketing whether the marketing sender is set, on its own domain, and verified in Brevo
+ *   POST ?probe=marketing-setup[&authenticate=1]
+ *                         register the marketing domain (the sender's, else nyheter.orgpuls.com) in
+ *                         Brevo, once, and return the DNS records it asks for; with authenticate=1,
+ *                         ask Brevo to check them and, once authenticated, register the sender
  *   POST ?probe=smsstatus&id=<messageId>
  *                         the delivery events Brevo holds for one SMS: event names, dates
  *                         and reasons only — the number is dropped before anything is returned.
@@ -95,6 +99,52 @@ Deno.serve(async (req) => {
       ? { email: marketingFrom, name: Deno.env.get('ORGPULS_MARKETING_FROM_NAME') ?? 'Orgpuls' }
       : null
   const siteUrl = Deno.env.get('ORGPULS_SITE_URL') ?? appUrl
+
+  if (probe === 'marketing-setup') {
+    // D-101: only a subdomain of orgpuls.com, never the product's own sending domain
+    const from = marketingFrom.includes('@') ? marketingFrom : 'hei@nyheter.orgpuls.com'
+    const domain = domainOf(from)
+    if (!/^[a-z0-9-]+\.orgpuls\.com$/.test(domain) || domain === domainOf(sender.email)) return json({ ok: false, code: 'bad_domain', domain })
+    const h = { 'api-key': key, accept: 'application/json' }
+    const hj = { ...h, 'content-type': 'application/json' }
+    const url = `https://api.brevo.com/v3/senders/domains/${domain}`
+    let got = await fetch(url, { headers: h })
+    let created: number | null = null
+    if (got.status === 404) {
+      await got.body?.cancel()
+      const c = await fetch('https://api.brevo.com/v3/senders/domains', { method: 'POST', headers: hj, body: JSON.stringify({ name: domain }) })
+      created = c.status
+      await c.body?.cancel()
+      got = await fetch(url, { headers: h })
+    }
+    const info = got.ok ? ((await got.json()) as { authenticated?: boolean; verified?: boolean; dns_records?: unknown }) : null
+    if (!got.ok) await got.body?.cancel()
+    let authenticate: number | null = null
+    let senderStatus: number | null = null
+    let authenticated = info?.authenticated ?? false
+    if (new URL(req.url).searchParams.get('authenticate') === '1') {
+      const a = await fetch(`${url}/authenticate`, { method: 'PUT', headers: h })
+      authenticate = a.status
+      await a.body?.cancel()
+      const again = await fetch(url, { headers: h })
+      authenticated = again.ok ? (((await again.json()) as { authenticated?: boolean }).authenticated ?? false) : authenticated
+      // the sender, once the domain is ours: Brevo verifies it through the domain
+      if (authenticated) {
+        const list = await fetch('https://api.brevo.com/v3/senders', { headers: h })
+        const senders = list.ok ? ((await list.json()) as { senders?: Array<{ email?: string }> }).senders ?? [] : []
+        if (list.ok && !senders.some((x) => x.email?.toLowerCase() === from.toLowerCase())) {
+          const cs = await fetch('https://api.brevo.com/v3/senders', {
+            method: 'POST',
+            headers: hj,
+            body: JSON.stringify({ name: Deno.env.get('ORGPULS_MARKETING_FROM_NAME') ?? 'Orgpuls', email: from }),
+          })
+          senderStatus = cs.status
+          await cs.body?.cancel()
+        } else senderStatus = list.ok ? 200 : list.status
+      }
+    }
+    return json({ ok: got.ok, domain, from, created, authenticated, verified: info?.verified ?? null, dns: info?.dns_records ?? null, authenticate, sender: senderStatus })
+  }
 
   if (probe === 'marketing') {
     const h = { 'api-key': key, accept: 'application/json' }
@@ -410,6 +460,8 @@ Deno.serve(async (req) => {
             html: r.html,
             text: r.text,
             tag: optin ? 'orgpuls-optin' : job.kind === 'test' ? 'orgpuls-crm-test' : 'orgpuls-crm',
+            // the marketing subdomain has no inbox; an answer goes to the support address
+            replyTo,
             headers: optin
               ? undefined
               : { 'List-Unsubscribe': `<${unsubscribeApi(siteUrl, job.token)}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' },

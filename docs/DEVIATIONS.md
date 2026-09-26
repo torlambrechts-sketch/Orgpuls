@@ -4389,3 +4389,21 @@ Migration 0055, X-061.
     the address;
   - the report and the contact's timeline showed it all.
 - Every test row, the test ticket and the probe admin were deleted afterwards.
+
+**Update, the marketing domain (26 September):**
+- `nyheter.orgpuls.com` is registered in Brevo through the dispatcher's new
+  `?probe=marketing-setup`. The probe is idempotent; with `&authenticate=1` it asks Brevo to
+  check DNS and, once authenticated, registers the sender.
+- The function secrets are set: `ORGPULS_MARKETING_FROM=hei@nyheter.orgpuls.com` and
+  `ORGPULS_MARKETING_FROM_NAME=Orgpuls`.
+- Marketing mail answers to the support inbox (Reply-To), since the subdomain has none.
+- orgpuls.com's DNS is at Spaceship, which this project cannot reach, so the owner adds the
+  records Brevo asked for, in the orgpuls.com zone:
+
+| Type | Host | Value |
+|---|---|---|
+| CNAME | `brevo1._domainkey.nyheter` | `b1.nyheter-orgpuls-com.dkim.brevo.com` |
+| CNAME | `brevo2._domainkey.nyheter` | `b2.nyheter-orgpuls-com.dkim.brevo.com` |
+| TXT | `nyheter` | `brevo-code:a767ee2c6ea6890305b5686e6513f70f` |
+
+- DMARC is inherited from `_dmarc.orgpuls.com`, and Brevo already reports it as valid.

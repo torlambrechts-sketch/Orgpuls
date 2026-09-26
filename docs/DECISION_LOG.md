@@ -2163,6 +2163,7 @@ own database, and that the campaign editor is built in-house. Migration 0055 doe
 - [x] Web analytics: country, region, city, the latest visits one by one, and the IP address as its /24 or /48 network (0054, D-100).
 - [ ] Decide whether the site may keep full IP addresses. It would need new wording in the privacy notice and in the databehandleravtale's vedlegg 1, which today says the statistics "sier ikke hvem som besøker" (D-100).
 - [x] Marketing CRM: contacts, consent, segments, campaigns, one-click unsubscribe, suppression, UTM reporting (0055, D-101, X-061).
-- [ ] Marketing sender: authenticate a subdomain (e.g. nyheter.orgpuls.com) in Brevo with SPF, DKIM and DMARC, then set `ORGPULS_MARKETING_FROM` (and optionally `ORGPULS_MARKETING_FROM_NAME`) as function secrets. Until then no confirmation or campaign is sent (D-101).
+- [x] Marketing sender: nyheter.orgpuls.com registered in Brevo, `ORGPULS_MARKETING_FROM=hei@nyheter.orgpuls.com` set (D-101).
+- [ ] Add the DNS records for nyheter.orgpuls.com at Spaceship (two DKIM CNAMEs and the brevo-code TXT; DMARC is inherited), then run `?probe=marketing-setup&authenticate=1`. Until Brevo reports the domain authenticated, no confirmation or campaign is sent (D-101).
 - [ ] Offer a reservation against marketing at registration, then decide whether to turn on the existing-customer exception (D-101).
 - [ ] CRM Phase 3: A/B subject tests, automated sequences, coupon codes once Billing has them (D-101).
