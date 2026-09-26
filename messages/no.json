@@ -5462,7 +5462,8 @@
     "signup": {
       "label": "Organisasjonsnummer",
       "submit": "Start gratis",
-      "invalid": "Organisasjonsnummeret har ni siffer. Sjekk at alle er med."
+      "invalid": "Organisasjonsnummeret har ni siffer. Sjekk at alle er med.",
+      "invalidChecksum": "Sjekk nummeret – det ser ikke ut som et gyldig organisasjonsnummer."
     }
   },
   "dpa": {
@@ -8400,5 +8401,53 @@
     "back": "Alle utgaver",
     "badge": "Nyhetsbrev",
     "readMore": "Les mer"
+  },
+  "industry": {
+    "tagModule": "{module}: {factor}",
+    "tagCore": "Dekkes av hovedundersøkelsen",
+    "measuredIn": "Påstand i {module}",
+    "measuredCore": "Påstand i hovedundersøkelsen",
+    "coreFactor": "Faktor: {factor}",
+    "seeAll": "Se alle tre påstander og tiltakene",
+    "seeQuestions": "Se hele spørsmålssettet",
+    "helpline": "Trenger du noen å snakke med nå? Mental Helse Hjelpetelefonen er åpen hele døgnet på <number>116 123</number>.",
+    "facts": {
+      "factors": "faktorer",
+      "statements": "påstander, tre per faktor",
+      "minutes": "ekstra svartid",
+      "minutesValue": "{n} min",
+      "threshold": "svar før en gruppe vises"
+    },
+    "coreCovered": "Hovedundersøkelsen dekker allerede {list}.",
+    "loopExample": "Eksempel · {factor} · {group}",
+    "loopSteps": "Tiltakets steg",
+    "remeasure": "Måles på nytt med «{statement}».",
+    "faqTitle": "Spørsmål vi får ofte",
+    "sources": "Kilder",
+    "related": "Andre bransjer",
+    "board": {
+      "label": "Eksempel på resultat per gruppe for {company}, en tenkt virksomhet",
+      "scroll": "Tabellen kan rulles sidelengs",
+      "factor": "Faktor",
+      "low": "Lav risiko 65+",
+      "mid": "Middels 50–64",
+      "high": "Høy under 50"
+    },
+    "versionPill": "{module} · versjon {version}",
+    "scaleHead": "Svarskala og indeks",
+    "tocLabel": "Innhold",
+    "tocCount": "Ja/nei-spørsmål",
+    "tocReporting": "Rapportering",
+    "statements": "Påstandene",
+    "legal": "Hjemmel",
+    "suggestions": "Tre forslag til tiltak",
+    "remeasureCode": "Måles på nytt med {code}",
+    "countOnly": "Vises bare som antall for hele virksomheten.",
+    "actionType": {
+      "workshop": "Workshop",
+      "rutine": "Rutine",
+      "lederpraksis": "Lederpraksis"
+    },
+    "preview": "Forhåndsvisning. Siden er ikke publisert ennå og vises ikke i søk."
   }
 }

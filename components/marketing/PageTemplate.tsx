@@ -98,6 +98,7 @@ export async function PageTemplate({
                     label={t.has(`${k}.signupLabel`) ? t(`${k}.signupLabel`) : t('seo.signup.label')}
                     submit={t('seo.signup.submit')}
                     invalid={t('seo.signup.invalid')}
+                    invalidChecksum={t('seo.signup.invalidChecksum')}
                   />
                 </div>
                 <p className="mb-0 mt-[12px] text-[13px] leading-[1.6] text-mut">

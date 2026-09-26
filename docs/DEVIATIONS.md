@@ -5133,3 +5133,79 @@ Verified for D-112 to D-117:
   - no console errors.
 
   Afterwards the selection and the pilot were removed and the module is a draft again.
+
+## D-118 — Industry pages: /bygg-og-anlegg and its question page, from data
+
+The hand-off's Part B (§ B1–B5). The pages are built from `content/industries/*` and from the
+module file. There is no pixel baseline, because the design bundle has no industry page; they
+use the site's own tokens, header, footer and start form, with the reference HTML as the
+spec.
+
+- **Routes.**
+  - `app/(marketing)/[bransje]` and `[bransje]/sporsmal`, with `generateStaticParams` from the
+    registry and `dynamicParams = false`. The two static folders are gone, and every URL is the
+    same.
+  - The pages render per request, like every public page: the locale comes from the host,
+    D-98. So they are not SSG, which the hand-off asks for.
+  - An unknown slug gets the site's redirect to the login, as any unknown path does, not a 404.
+- **What a visitor sees.** These rules keep § 0.7 ("copy may only claim shipped features"):
+  - The new bygg page is live only when its content file says `launched: true`. Launching needs
+    every law item reviewed (the build fails otherwise), and is meant to coincide with
+    publishing the module after sign-off.
+  - Until then `/bygg-og-anlegg` shows the landing page it always had. The new page and
+    `/sporsmal` can be reviewed with `?forhandsvis=1`: a banner, `noindex, nofollow`, and
+    internal links that keep the flag.
+  - Måleoppsett's "Se spørsmålene" link carries the flag too until launch.
+  - en.orgpuls.com keeps its English landing pages, unchanged, as the hand-off asks. The
+    question page has no English twin, and its metadata says so: canonical on www, no
+    hreflang.
+- **/helse-og-omsorg** keeps its current copy and look, through the same route; its registry
+  entry has no page.
+  - Moving its copy into the industry template needs each of its points tied to a core
+    statement, which is copy work for Tor.
+  - A module of its own is open decision 7.
+- **Data, not code.**
+  - Every statement on both pages comes from the module file by its code, or from the core
+    instrument's messages. `content/industries/validate.ts` fails the build (from
+    `generateStaticParams`) and the unit tests on a missing code, a missing core statement, a
+    `{{cite:key}}` with no source, an example naming a factor or suggestion the module lacks,
+    or a launch with unreviewed law items.
+  - Citations are numbered in reading order. The source list is the page's citations, then
+    the other sources the module's factors cite.
+  - The chrome (labels, legend, helpline) is next-intl, in no and en.
+- **Changed from the reference, until flags ship:**
+  - "Dere kan også velge bare de faktorene som gjelder dere" is its own FAQ item behind
+    `module_factor_toggles`.
+  - The example board's "Verksted" has a samordning score instead of "not asked there", and
+    its footnote drops that sentence.
+  - On the question page, the background questions and the "Segmenter" and "Velg det som
+    gjelder" rules are behind `module_segments` and `module_factor_toggles`.
+- **Start form.** `SignupStart` now checks the organisation number's mod-11 check digit and says
+  "Sjekk nummeret – det ser ikke ut som et gyldig organisasjonsnummer." The function moved to
+  `lib/brreg/orgnr.ts`, which is client-safe; the register lookup uses the same one. It applies
+  on every page with the form.
+- **SEO.**
+  - Canonical www URLs.
+  - JSON-LD: BreadcrumbList on both pages, and FAQPage from the visible FAQ items.
+  - `/…/sporsmal` joins the sitemap when launched, Norwegian only.
+  - Bruksområder and the neighbouring pages already link to the industry pages.
+  - The article /artikler/medarbeiderundersokelse-sporsmal gets its link to `/sporsmal` at
+    launch, not before.
+- **Not done:**
+  - Lighthouse: no Lighthouse runs in this container. axe is checked instead.
+  - The `signup_industry_hint` field, because /registrer does not read `?bransje=` (open
+    decision 6).
+
+Verified in the browser, on both preview pages:
+- no sideways scroll at 360, 390 and 768 px;
+- one h1;
+- axe clean of serious and critical findings, after underlining the inline "Se hele
+  spørsmålssettet" link;
+- every in-page anchor resolves; the eight "Se alle tre påstander" links land on the eight
+  factor sections;
+- every quoted statement matches the module file verbatim;
+- the start form refuses 123456789 with the check-digit message and 12345 with the length one;
+- no console errors.
+
+Status codes: `/bygg-og-anlegg` and `/helse-og-omsorg` are 200 with their current copy, and
+`/…/sporsmal` without the flag and `/helse-og-omsorg/sporsmal` are 404. Unit tests: 174.

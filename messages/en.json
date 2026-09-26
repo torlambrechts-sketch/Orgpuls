@@ -5462,7 +5462,8 @@
     "signup": {
       "label": "Organisation number",
       "submit": "Start free",
-      "invalid": "An organisation number has nine digits. Check that they are all there."
+      "invalid": "An organisation number has nine digits. Check that they are all there.",
+      "invalidChecksum": "Check the number – it does not look like a valid organisation number."
     }
   },
   "dpa": {
@@ -8400,5 +8401,53 @@
     "back": "All issues",
     "badge": "Newsletter",
     "readMore": "Read more"
+  },
+  "industry": {
+    "tagModule": "{module}: {factor}",
+    "tagCore": "Covered by the main survey",
+    "measuredIn": "Statement in {module}",
+    "measuredCore": "Statement in the main survey",
+    "coreFactor": "Factor: {factor}",
+    "seeAll": "See all three statements and the measures",
+    "seeQuestions": "See the full question set",
+    "helpline": "Need someone to talk to now? The Mental Helse helpline is open around the clock on <number>116 123</number>.",
+    "facts": {
+      "factors": "factors",
+      "statements": "statements, three per factor",
+      "minutes": "extra answering time",
+      "minutesValue": "{n} min",
+      "threshold": "answers before a group is shown"
+    },
+    "coreCovered": "The main survey already covers {list}.",
+    "loopExample": "Example · {factor} · {group}",
+    "loopSteps": "The measure’s steps",
+    "remeasure": "Re-measured with “{statement}”.",
+    "faqTitle": "Frequently asked questions",
+    "sources": "Sources",
+    "related": "Other industries",
+    "board": {
+      "label": "Example results by group for {company}, a fictional company",
+      "scroll": "The table scrolls sideways",
+      "factor": "Factor",
+      "low": "Low risk 65+",
+      "mid": "Medium 50–64",
+      "high": "High under 50"
+    },
+    "versionPill": "{module} · version {version}",
+    "scaleHead": "Answer scale and index",
+    "tocLabel": "Contents",
+    "tocCount": "Yes/no questions",
+    "tocReporting": "Reporting",
+    "statements": "The statements",
+    "legal": "Legal basis",
+    "suggestions": "Three suggested measures",
+    "remeasureCode": "Re-measured with {code}",
+    "countOnly": "Shown only as counts for the whole organisation.",
+    "actionType": {
+      "workshop": "Workshop",
+      "rutine": "Routine",
+      "lederpraksis": "Leadership practice"
+    },
+    "preview": "Preview. This page is not published yet and is hidden from search."
   }
 }

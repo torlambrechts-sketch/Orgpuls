@@ -11,6 +11,7 @@ import { getLatestSetupOfKind, getOrgQuestions, getRoundSetup } from '@/lib/setu
 import { getGroupStats } from '@/lib/settings/read'
 import { getWheel, wheelMonths } from '@/lib/wheel/read'
 import { INDUSTRY_META, industryForNace } from '@/content/industries/meta'
+import { getIndustry } from '@/content/industries'
 import { flag } from '@/lib/flags'
 import { getOrgNaceCode, getPublishedModules, getRoundModules, getModulesById } from '@/lib/modules/read'
 
@@ -182,7 +183,8 @@ export default async function MaleoppsettPage({
               statements: m.factors.reduce((n, f) => n + f.items.length, 0),
               countItems: m.countItems.length,
               minutes: m.estimatedMinutes,
-              href: slug ? `/${slug}/sporsmal` : null,
+              // before the page is launched its question page is a preview (D-118)
+              href: slug ? `/${slug}/sporsmal${getIndustry(slug)?.page?.launched ? '' : '?forhandsvis=1'}` : null,
               factors: m.factors.map((f) => ({ key: f.key, name: f.name })),
               enabled: Boolean(row),
               includeCountItems: row ? row.includeCountItems : true,

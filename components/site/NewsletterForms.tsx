@@ -152,6 +152,9 @@ export function TokenAction({ words: w, token, action }: { words: TokenWords; to
         <p className="m-0 font-display text-[22px] font-semibold leading-[1.2]">{state === 'done' ? w.doneTitle : w.invalidTitle}</p>
         <p className="m-0 mt-[8px] max-w-[46ch] text-[14px] leading-[1.6] text-body">{state === 'done' ? w.doneLead : w.invalidLead}</p>
         {state === 'invalid' || action === 'unsubscribe' ? (
+          // a full load on purpose: it starts the signup form over, which a client navigation to
+          // the same route would not (the rule now matches /nyhetsbrev against [bransje], D-118)
+          // eslint-disable-next-line @next/next/no-html-link-for-pages
           <a
             href="/nyhetsbrev"
             className="mt-[16px] inline-flex h-[44px] items-center rounded-cta border border-ink bg-sf px-[18px] text-[14.5px] font-bold text-ink no-underline hover:text-ink hover:no-underline"
@@ -239,6 +242,8 @@ export function PreferenceCentre({
       <div role="status" className="mt-[18px]">
         <p className="m-0 font-display text-[22px] font-semibold leading-[1.2]">{w.allTitle}</p>
         <p className="m-0 mt-[8px] max-w-[46ch] text-[14px] leading-[1.6] text-body">{w.allLead}</p>
+        {/* a full load on purpose, as above */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a
           href="/nyhetsbrev"
           className="mt-[16px] inline-flex h-[44px] items-center rounded-cta border border-ink bg-sf px-[18px] text-[14.5px] font-bold text-ink no-underline hover:text-ink hover:no-underline"

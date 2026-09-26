@@ -1,5 +1,6 @@
 import 'server-only'
 import { z } from 'zod'
+import { hasValidCheckDigit } from './orgnr'
 
 /**
  * Enhetsregisteret.
@@ -93,14 +94,7 @@ const titleCase = (v: string) =>
  * fictional and fails this check; the register would not know it either, so the Selskap
  * tab answers the same way it always did, but a constraint would refuse the fixture.
  */
-export function hasValidCheckDigit(digits: string): boolean {
-  if (!/^\d{9}$/.test(digits)) return false
-  const weights = [3, 2, 7, 6, 5, 4, 3, 2]
-  const sum = weights.reduce((acc, w, i) => acc + w * Number(digits[i]), 0)
-  const rest = sum % 11
-  const check = rest === 0 ? 0 : 11 - rest
-  return check !== 10 && check === Number(digits[8])
-}
+export { hasValidCheckDigit }
 
 export async function lookupOrgNumber(orgNumber: string): Promise<LookupResult> {
   const digits = orgNumber.replace(/\s/g, '')
