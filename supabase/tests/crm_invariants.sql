@@ -55,12 +55,12 @@ begin
 
   -- 2 ------------------------------------------------------------------ who may call what
   v_txt := concat_ws(',',
-    has_function_privilege('anon', 'public.crm_newsletter_signup(text,text,text,text,text,text)', 'execute'),
+    has_function_privilege('anon', 'public.crm_newsletter_signup(text,text,text,text,text,text,text[])', 'execute'),
     has_function_privilege('anon', 'public.crm_confirm(text)', 'execute'),
-    has_function_privilege('anon', 'public.crm_unsubscribe(text)', 'execute'),
+    has_function_privilege('anon', 'public.crm_unsubscribe(text,text)', 'execute'),
     has_function_privilege('anon', 'public.admin_crm_contacts(text,text,int)', 'execute'),
     has_function_privilege('authenticated', 'public.crm_mail_claim(int)', 'execute'),
-    has_function_privilege('authenticated', 'public.record_crm_event(text,text,timestamptz)', 'execute'),
+    has_function_privilege('authenticated', 'public.record_crm_event(text,text,timestamptz,text)', 'execute'),
     has_function_privilege('authenticated', 'app.crm_sync()', 'execute'),
     has_function_privilege('service_role', 'public.crm_mail_claim(int)', 'execute'));
   v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'anyone signs up or unsubscribes; only the service role sends',
