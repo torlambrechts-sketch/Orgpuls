@@ -26,6 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     type: 'article',
     published: item.published_at,
     modified: item.published_at,
+    norwegianOnly: true,
   })
 }
 

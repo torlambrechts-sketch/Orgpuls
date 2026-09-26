@@ -61,7 +61,7 @@ const FOOTER_FIRST: FooterColumn[] = [
     links: [
       { key: 'hvorfor', href: '/hvorfor' },
       { key: 'kontakt', href: '/kontakt#skriv' },
-      { key: 'personvernerklaering' },
+      { key: 'personvernerklaering', href: '/personvernerklaering' },
       { key: 'vilkar' },
     ],
   },

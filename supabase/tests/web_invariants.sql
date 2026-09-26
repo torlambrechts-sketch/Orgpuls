@@ -10,7 +10,10 @@
 --   * only today's salt exists after a beacon (8)
 --   * a visitor is capped at 300 events a day (9)
 --   * sources are classified as the specification names them (10)
---   * a new organisation's daglig leder records its source once; an old one cannot (11, 12)
+--   * a new organisation's daglig leder records its source once, read from today's events on
+--     the server (first touch, last tags); an old one cannot (11, 12, 0059)
+--   * AI assistants are a channel; utm_term and utm_content are kept (10, 19)
+--   * "how did you hear of us" takes only the fixed answers, from a new organisation (18)
 --   * the site's numbers are for admins only, and reading them is audited (13, 14)
 --   * the funnel's median hours to first send is never negative (15)
 --   * nothing written here survives (16)
@@ -49,18 +52,19 @@ begin
 
   v_txt := concat_ws(',',
     has_function_privilege('anon', 'public.track_web_event(text,text,text,text,text,jsonb,text,jsonb)', 'execute'),
-    has_function_privilege('anon', 'public.record_signup_source(jsonb,jsonb)', 'execute'),
+    has_function_privilege('anon', 'public.record_signup_source(text,text)', 'execute'),
     has_function_privilege('anon', 'public.admin_web(int)', 'execute'),
     has_function_privilege('anon', 'public.admin_org_attribution(uuid)', 'execute'),
+    has_function_privilege('anon', 'public.record_signup_heard(text)', 'execute'),
     has_function_privilege('authenticated', 'app.web_visitor(text,text)', 'execute'));
-  v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'anon may send a beacon and nothing else here', 'expected', 't,f,f,f,f',
-    'actual', v_txt, 'pass', v_txt = 't,f,f,f,f');
+  v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'anon may send a beacon and nothing else here', 'expected', 't,f,f,f,f,f',
+    'actual', v_txt, 'pass', v_txt = 't,f,f,f,f,f');
 
   select string_agg(column_name, ',' order by ordinal_position) into v_txt
   from information_schema.columns where table_schema = 'app' and table_name = 'web_events';
   v_rows := v_rows || jsonb_build_object('seq', 3, 'name', 'web_events has no column for an address, user agent or account',
-    'expected', 'id,product_id,at,day,visitor,kind,path,referrer_host,utm_source,utm_medium,utm_campaign,label,country,region,city,network',
-    'actual', v_txt, 'pass', v_txt = 'id,product_id,at,day,visitor,kind,path,referrer_host,utm_source,utm_medium,utm_campaign,label,country,region,city,network');
+    'expected', 'id,product_id,at,day,visitor,kind,path,referrer_host,utm_source,utm_medium,utm_campaign,label,country,region,city,network,utm_term,utm_content',
+    'actual', v_txt, 'pass', v_txt = 'id,product_id,at,day,visitor,kind,path,referrer_host,utm_source,utm_medium,utm_campaign,label,country,region,city,network,utm_term,utm_content');
 
   select m.user_id into v_dl from app.memberships m where m.org_id = v_org and m.role = 'daglig_leder' and m.active limit 1;
 
@@ -136,26 +140,53 @@ begin
     v_txt := concat_ws(',',
       app.web_channel(null, 'google', 'cpc'), app.web_channel(null, 'brevo', 'email'), app.web_channel('www.linkedin.com', null, null),
       app.web_channel('www.google.no', null, null), app.web_channel('www.arbeidstilsynet.no', null, null),
-      app.web_channel(null, 'partner', 'referral'), app.web_channel(null, null, null));
+      app.web_channel(null, 'partner', 'referral'), app.web_channel(null, null, null),
+      app.web_channel('chatgpt.com', null, null), app.web_channel('gemini.google.com', null, null), app.web_channel(null, 'chatgpt.com', null));
     v_rows := v_rows || jsonb_build_object('seq', 10, 'name', 'sources are classified by the specification''s names',
-      'expected', 'paid,email,social,organic,referral,campaign,direct', 'actual', v_txt,
-      'pass', v_txt = 'paid,email,social,organic,referral,campaign,direct');
+      'expected', 'paid,email,social,organic,referral,campaign,direct,ai,ai,ai', 'actual', v_txt,
+      'pass', v_txt = 'paid,email,social,organic,referral,campaign,direct,ai,ai,ai');
 
-    -- 11, 12 ----------------------------------------------------------- attribution
+    -- 11, 12 ----------------------------------------------------------- attribution, read on the server (0059)
     delete from app.org_attribution where org_id = v_org;
+    v_a := app.web_visitor('192.0.2.40', v_ua);
+    insert into app.web_events (visitor, at, kind, path, referrer_host, utm_source, utm_medium, utm_campaign) values
+      (v_a, now() - interval '3 hours', 'view', '/web-probe/lovkrav', 'www.google.no', null, null, null),
+      (v_a, now() - interval '175 minutes', 'view', '/web-probe/x', null, 'old', null, 'old'),
+      (v_a, now() - interval '10 minutes', 'view', '/web-probe/priser', null, 'nyhetsbrev', 'email', 'vår'),
+      (v_a, now() - interval '5 minutes', 'view', '/web-probe/registrer', null, null, null, null);
     update app.organizations set created_at = now() - interval '2 hours' where id = v_org;
     perform set_config('request.jwt.claims', format(claims, v_dl, 'aal1'), true);
-    v_json := public.record_signup_source('{"landing":"/lovkrav","referrer":"www.google.no"}', '{"utm_source":"x"}');
+    v_json := public.record_signup_source('192.0.2.40', v_ua);
     v_txt := coalesce(v_json->>'error', 'ok');
     update app.organizations set created_at = now() - interval '5 minutes' where id = v_org;
-    v_json := public.record_signup_source('{"landing":"/Lovkrav/","referrer":"www.google.no","utm_campaign":"vår"}', '{"utm_source":"nyhetsbrev","utm_medium":"email"}');
-    perform public.record_signup_source('{"landing":"/priser"}', '{}');
-    select concat_ws('|', first_landing, first_referrer, first_campaign, last_source, channel) into v_a from app.org_attribution where org_id = v_org;
-    v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'a new organisation records its source once',
-      'expected', 'ok: /lovkrav|www.google.no|vår|nyhetsbrev|organic', 'actual', coalesce(v_json->>'error', 'ok') || ': ' || coalesce(v_a, 'none'),
-      'pass', v_json->>'ok' = 'true' and v_a = '/lovkrav|www.google.no|vår|nyhetsbrev|organic');
+    v_json := public.record_signup_source('192.0.2.40', v_ua);
+    perform public.record_signup_source('192.0.2.41', v_ua);
+    select concat_ws('|', first_landing, first_referrer, coalesce(first_campaign, '-'), last_source, last_campaign, channel) into v_a
+    from app.org_attribution where org_id = v_org;
+    v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'a new organisation records its source once, from today''s events',
+      'expected', 'ok: /web-probe/lovkrav|www.google.no|-|nyhetsbrev|vår|organic', 'actual', coalesce(v_json->>'error', 'ok') || ': ' || coalesce(v_a, 'none'),
+      'pass', v_json->>'ok' = 'true' and v_a = '/web-probe/lovkrav|www.google.no|-|nyhetsbrev|vår|organic');
     v_rows := v_rows || jsonb_build_object('seq', 12, 'name', 'an organisation older than an hour cannot', 'expected', 'not_allowed',
       'actual', v_txt, 'pass', v_txt = 'not_allowed');
+
+    -- 18 --------------------------------------------------------------- how they heard (0059)
+    v_txt := coalesce(public.record_signup_heard('tv')->>'error', 'ok');
+    v_txt := v_txt || ',' || coalesce(public.record_signup_heard('ai')->>'error', 'ok');
+    v_txt := v_txt || ',' || coalesce(public.record_signup_heard('bht')->>'error', 'ok');
+    select v_txt || ',' || coalesce(heard, '-') || ',' || coalesce(first_landing, '-') into v_txt from app.org_attribution where org_id = v_org;
+    update app.organizations set created_at = now() - interval '2 days' where id = v_org;
+    v_txt := v_txt || ',' || coalesce(public.record_signup_heard('ai')->>'error', 'ok');
+    update app.organizations set created_at = now() - interval '5 minutes' where id = v_org;
+    v_rows := v_rows || jsonb_build_object('seq', 18, 'name', 'how they heard: fixed answers only, kept with the source, a new organisation only',
+      'expected', 'invalid,ok,ok,bht,/web-probe/lovkrav,not_allowed', 'actual', v_txt,
+      'pass', v_txt = 'invalid,ok,ok,bht,/web-probe/lovkrav,not_allowed');
+
+    -- 19 --------------------------------------------------------------- utm_term and utm_content (0059)
+    perform public.track_web_event('192.0.2.42', v_ua, 'view', '/web-probe/terms', null,
+      '{"utm_source":"google","utm_medium":"cpc","utm_term":"arbeidsmiljø kartlegging","utm_content":"hero"}', null);
+    select concat_ws('|', utm_term, utm_content) into v_txt from app.web_events where path = '/web-probe/terms';
+    v_rows := v_rows || jsonb_build_object('seq', 19, 'name', 'utm_term and utm_content are kept',
+      'expected', 'arbeidsmiljø kartlegging|hero', 'actual', coalesce(v_txt, 'none'), 'pass', v_txt = 'arbeidsmiljø kartlegging|hero');
 
     -- 13, 14 ----------------------------------------------------------- admin reads
     insert into auth.users (id, email) values (v_analyst, 'analyst@web-test.example'), (v_finance, 'finance@web-test.example');
@@ -210,7 +241,7 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._wbi;
   if v_failed is not null then raise exception 'web invariants failed: %', v_failed; end if;
-  if v_count <> 17 then raise exception 'web invariants: expected 17 rows, got %', v_count; end if;
+  if v_count <> 19 then raise exception 'web invariants: expected 19 rows, got %', v_count; end if;
 end $$;
 
 drop table public._wbi;

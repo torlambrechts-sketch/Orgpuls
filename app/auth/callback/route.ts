@@ -33,7 +33,6 @@ const Pending = z.object({
   orgNumber: z.string().regex(/^\d{9}$/),
   companyName: z.string().min(1).max(200),
   employeeCount: z.number().int().min(0).max(100_000),
-  attribution: z.string().max(4000).nullable(),
 })
 
 export async function GET(request: NextRequest) {
@@ -94,7 +93,7 @@ export async function GET(request: NextRequest) {
       const why = outcome.success && outcome.data.error && /^[a-z_]{1,40}$/.test(outcome.data.error) ? outcome.data.error : 'org_failed'
       redirect(`/registrer?feil=${why}` as Route)
     }
-    await recordSource(supabase, pending.attribution)
+    await recordSource(supabase)
     await restoreLocale(supabase)
     redirect('/registrer?ferdig=1')
   }

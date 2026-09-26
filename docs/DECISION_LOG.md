@@ -1991,7 +1991,25 @@ own database, and that the campaign editor is built in-house. Migration 0055 doe
 
 `crm_pipeline_invariants.sql` proves 18 checks. D-103 lists the limits.
 
+### X-063 — The admin, marketing and SEO review: measure without storing on the device
+
+A review against current SaaS practice set four steps: fixes, trial mail and scoring,
+search data, and revenue figures. Step 1 is D-104. Three decisions shape the rest:
+
+- **The server remembers; the browser does not.**
+  - Ekomlov § 3-15 makes any storage on the device a consent question.
+  - Attribution is therefore read from the events the server already has, keyed by the
+    day's hash. Nothing new is stored about the visitor.
+- **Self-reported source is a first-class signal.** Assistants and word of mouth arrive as
+  "direct". A fixed-answer question at signup counts them without free text.
+- **Opens are not evidence.** Winners, scores and reports use clicks, activation and
+  payment, not opens.
+
 ## Open items
+- [ ] Legal read of `/personvernerklaering` (D-104), and of whether the cookieless beacon and
+  Vercel Web Analytics need consent under ekomlov § 3-15 (the research found no regulator's
+  ruling either way).
+- [ ] Terms page (`Vilkår`): needs the billing decisions and a liability position (D-104).
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
 - [x] 2026-09-26: the `.mcp.json` `supabase` server removed; it could not authorise in a cloud

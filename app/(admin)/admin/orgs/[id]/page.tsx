@@ -73,6 +73,7 @@ export default async function AdminOrg({ params }: { params: Promise<{ id: strin
                 <>
                   <Row k={t('org.source.channel')} v={t(`web.channel.${source.row.channel}`)} />
                   <Row k={t('org.source.landing')} v={source.row.first_landing ?? '—'} />
+                  <Row k={t('org.source.heard')} v={source.row.heard ? t(`web.heard.${source.row.heard}`) : '—'} />
                   <Row k={t('org.source.referrer')} v={source.row.first_referrer ?? '—'} />
                   <Row
                     k={t('org.source.first')}

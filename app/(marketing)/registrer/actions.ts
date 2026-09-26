@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server'
 import { headers } from 'next/headers'
 import { lookupOrgNumber } from '@/lib/brreg/lookup'
 import { lookupAllowed, networkOf } from '@/lib/brreg/throttle'
+import { HEARD } from '@/lib/signup/heard'
 import { recordSource } from '@/lib/signup/source'
 
 /**
@@ -129,8 +130,21 @@ export async function createAccount(
   if (!outcome.success) return { status: 'problem', problem: 'org_failed' }
   if (!outcome.data.ok) return { status: 'problem', problem: outcome.data.error }
 
-  await recordSource(supabase, formData.get('attribution'))
+  await recordSource(supabase)
   // a language chosen on the site before signing up is saved on the new profile (D-96)
   await restoreLocale(supabase)
   return { status: 'idle' }
+}
+
+/**
+ * "Hvordan hørte du om oss?" on the signup's last step (D-104): one of a fixed list, never
+ * free text, saved beside the signup's source. Optional, and a failure is not shown: the
+ * account exists either way.
+ */
+export async function saveHeard(heard: string): Promise<{ ok: boolean }> {
+  const parsed = z.enum(HEARD).safeParse(heard)
+  if (!parsed.success) return { ok: false }
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('record_signup_heard', { p_heard: parsed.data })
+  return { ok: !error && z.object({ ok: z.literal(true) }).safeParse(data).success }
 }

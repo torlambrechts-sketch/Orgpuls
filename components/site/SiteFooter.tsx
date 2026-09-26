@@ -24,7 +24,7 @@ export function SiteFooter({
   columns: FooterData
   designed: Record<string, FooterId>
   about: string
-  bottom: string
+  bottom: React.ReactNode
 }) {
   const pathname = usePathname()
   const id = designed[pathname] ?? 'second'

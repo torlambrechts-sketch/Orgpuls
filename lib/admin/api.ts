@@ -300,6 +300,8 @@ const Web = z.object({
   pages: z.array(z.object({ path: z.string(), views: num })),
   campaigns: z.array(z.object({ campaign: z.string(), sessions: num, signups: num, paid: num })),
   funnel: z.object({ sessions: num, saw_offer: num, clicked: num, reached_signup: num, created: num }),
+  // 0059 (D-104): what new organisations answered to "how did you hear of us"
+  heard: z.array(z.object({ heard: z.string(), signups: num, activated: num, paid: num })),
   // 0054 (D-100): where visits came from, and the latest ones one by one
   countries: z.array(z.object({ country: z.string(), sessions: num, visitors: num })),
   cities: z.array(z.object({ country: z.string().nullable(), region: z.string().nullable(), city: z.string(), sessions: num })),
@@ -338,6 +340,7 @@ const Attribution = z.object({
       last_medium: z.string().nullable(),
       last_campaign: z.string().nullable(),
       channel: z.string(),
+      heard: z.string().nullable(),
       recorded_at: ts,
     })
     .nullable(),

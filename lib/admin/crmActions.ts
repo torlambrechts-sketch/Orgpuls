@@ -255,7 +255,7 @@ export async function saveCampaign(_prev: AdminResult | null, formData: FormData
       signature: formData.get('signature') ?? '',
       subject_b: formData.get('subject_b') ?? '',
       ab_percent: formData.get('ab_percent') ?? 20,
-      ab_metric: formData.get('ab_metric') ?? 'open',
+      ab_metric: formData.get('ab_metric') ?? 'click',
       ab_wait_hours: formData.get('ab_wait_hours') ?? 4,
       publish_web: formData.get('publish_web') === 'on',
       slug: formData.get('slug') ?? '',

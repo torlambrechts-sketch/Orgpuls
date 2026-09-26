@@ -88,7 +88,15 @@ export default async function MarketingLayout({ children }: { children: React.Re
         columns={columns}
         designed={DESIGNED_FOOTER}
         about={t('footer.about')}
-        bottom={t('footer.bottom', { year: new Date().getFullYear() })}
+        bottom={t.rich('footer.bottom', {
+          year: new Date().getFullYear(),
+          // the design's words, now a link to the page they name (D-104); drawn as the text around it
+          privacy: (chunks) => (
+            <Link href="/personvernerklaering" className="text-inherit hover:text-ink">
+              {chunks}
+            </Link>
+          ),
+        })}
       />
     </div>
   )

@@ -126,6 +126,7 @@ export const SITE_PAGES = [
   { slug: 'priser', key: 'priser' },
   { slug: 'sikkerhet', key: 'sikkerhet' },
   { slug: 'kontakt', key: 'kontakt' },
+  { slug: 'personvernerklaering', key: 'personvernerklaering' },
 ] as const
 /** The support address the product already prints (messages: registrer, oppsett). */
 export const CONTACT_MAIL = 'hjelp@orgpuls.no'

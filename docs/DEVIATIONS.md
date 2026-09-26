@@ -4573,3 +4573,68 @@ Migrations 0056–0058, X-062.
   - the archive page with canonical, `og:type` article and JSON-LD;
   - the preference centre saved a list choice, and one-click left only that mail's list.
 - Every test row, both imported companies and the probe admin were deleted afterwards.
+
+## D-104 — Attribution read on the server, AI as a channel, "how did you hear of us", a privacy statement
+
+The first step of the admin, marketing and SEO review (X-063).
+
+- **Nothing is stored on the visitor's device for analytics.**
+  - Before: the site kept the visit's first page and campaign tags in sessionStorage
+    (`op_first`, `op_utm`), and the signup form sent them.
+  - Why it changed: ekomlov § 3-15, in force since 1 January 2025, asks consent for
+    storing anything on the device, not only cookies. Analytics is not one of its
+    exemptions.
+  - Now: each page's beacon carries the tags of its own address.
+    `record_signup_source(p_ip, p_ua)` recomputes today's visitor hash from the signup
+    request and reads first touch (the day's first event) and last touch (the latest tags
+    in the latest session) from `app.web_events` (0059).
+  - The cost: a visit that began yesterday, changed network, or asked not to be tracked is
+    recorded as direct. That is what it is to a server that remembers nothing.
+  - The Google signup cookie and the app's preference cookies stay. Each serves a function
+    the user asked for.
+- **AI assistants are a channel**: chatgpt.com, perplexity.ai, Copilot, Gemini, Claude,
+  or `utm_source=chatgpt.com`. They are checked before organic search, since
+  gemini.google.com would otherwise read as Google.
+- **`utm_term` and `utm_content` are stored.** The beacon always sent them, and they were
+  dropped.
+- **"Hvordan hørte du om oss?"**
+  - It is asked under the finished signup (step 3). It is optional, in the style of the
+    size question on step 2.
+  - The answer is one of eight fixed values, never free text.
+  - The admin shows it on Web analytics (with signups, activated and paid) and on the
+    organisation.
+  - The design has no such question. It is the only way to count a colleague's tip or a
+    mention in ChatGPT.
+- **A/B tests default to clicks.** Apple Mail Privacy Protection loads every image. Old
+  campaigns keep their setting.
+- **Newsletter issues are Norwegian only in their metadata too.** An issue page is
+  canonical on www and names no English twin. The newsletter's signup and archive index
+  are translated, and the sitemap now says so.
+- **The privacy statement exists: `/personvernerklaering`.**
+  - The footer link (D-88) and the design's "Personvern" in the bottom line now lead to it.
+    The bottom line's link is drawn as its surrounding text: 5 pixels of 42,560 changed
+    against the previous build.
+  - It is written from what the code does:
+    - the beacon's fields and 13-month retention;
+    - signup and Google sign-in;
+    - newsletter consent, events and the hashed suppression;
+    - B2B role addresses;
+    - cookies;
+    - the four suppliers;
+    - rights and Datatilsynet.
+  - The page uses PageTemplate with `plain`: no signup field in a legal page's hero.
+  - It names no organisation number or address, because none is recorded (D-85). **It
+    should be read by whoever answers for Orgpuls AS legally before it is relied on.**
+- **Terms (`Vilkår`) is still not a page.** Terms need the decisions still open with
+  billing (card or invoice, payment terms, annual prices) and a liability position. None of
+  those is the implementer's to invent.
+- The old `record_signup_source(jsonb, jsonb)` stays until the app that calls it is gone
+  from production. 0060 drops it.
+
+Verified: `web_invariants.sql` 19/19, locally and against hosted. In the browser:
+- no sessionStorage, localStorage or cookie after a tagged visit and a second page;
+- the beacon stored `utm_term`/`utm_content` (the test rows were deleted);
+- step 3's question with keyboard focus;
+- the privacy page at 1440 and 390 with no sideways scroll;
+- the admin's new card;
+- no console errors.

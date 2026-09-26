@@ -75,6 +75,7 @@ const PUBLIC_PATHS = [
   '/priser',
   '/sikkerhet',
   '/kontakt',
+  '/personvernerklaering',
   '/artikler',
   '/sitemap.xml',
   '/robots.txt',

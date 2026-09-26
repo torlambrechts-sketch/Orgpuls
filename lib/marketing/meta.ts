@@ -18,18 +18,22 @@ export async function pageMeta(m: {
   modified?: string
   /** the page's own card (public/og/<slug>.png, scripts/marketing/og-images.mjs); the site's otherwise */
   image?: string
+  /** a page written in Norwegian only (a newsletter issue): canonical on www, no English twin (D-104) */
+  norwegianOnly?: boolean
 }): Promise<Metadata> {
-  const en = (await getLocale()) === 'en'
+  const en = (await getLocale()) === 'en' && !m.norwegianOnly
   const path = m.path || '/'
   const url = `${en ? EN_URL : MAIN_URL}${path}`
   const image = { url: absolute(m.image ?? '/og.png'), width: 1200, height: 630, alt: m.title }
   return {
     title: { absolute: m.title },
     description: m.description,
-    alternates: {
-      canonical: url,
-      languages: { nb: `${MAIN_URL}${path}`, en: `${EN_URL}${path}`, 'x-default': `${MAIN_URL}${path}` },
-    },
+    alternates: m.norwegianOnly
+      ? { canonical: url }
+      : {
+          canonical: url,
+          languages: { nb: `${MAIN_URL}${path}`, en: `${EN_URL}${path}`, 'x-default': `${MAIN_URL}${path}` },
+        },
     openGraph: {
       type: m.type ?? 'website',
       url,

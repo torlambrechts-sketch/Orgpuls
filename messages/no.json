@@ -2123,7 +2123,22 @@
     },
     "googleOr": "eller",
     "google": "Fortsett med Google",
-    "googleHint": "Kryss av for vilkårene over først. Navnet og e-postadressen hentes fra Google-kontoen."
+    "googleHint": "Kryss av for vilkårene over først. Navnet og e-postadressen hentes fra Google-kontoen.",
+    "heard": {
+      "question": "Hvordan hørte du om oss?",
+      "note": "Valgfritt – det hjelper oss å vite hva som fungerer.",
+      "thanks": "Takk!",
+      "option": {
+        "search": "Google eller annet søk",
+        "ai": "ChatGPT eller annen KI",
+        "linkedin": "LinkedIn",
+        "colleague": "Kollega eller bekjent",
+        "bht": "Bedriftshelsetjeneste eller HMS-rådgiver",
+        "event": "Kurs, konferanse eller webinar",
+        "newsletter": "Nyhetsbrev eller e-post",
+        "other": "Annet"
+      }
+    }
   },
   "headerPanel": {
     "close": "Lukk",
@@ -5123,6 +5138,119 @@
             "text": "Vil dere heller prøve selv først? Registrer med organisasjonsnummeret – dere er i gang på tre minutter, uten kortopplysninger."
           }
         ]
+      },
+      "personvernerklaering": {
+        "title": "Personvernerklæring | Orgpuls",
+        "description": "Hvilke personopplysninger Orgpuls AS behandler når du besøker nettsidene, registrerer en virksomhet, abonnerer på nyhetsbrevet eller kontakter oss – og hvilke rettigheter du har.",
+        "crumb": "Personvernerklæring",
+        "kicker": "Personvern",
+        "h1": "Personvernerklæring",
+        "lead": "Her står hva Orgpuls AS samler inn om deg, hvorfor, hvor lenge vi beholder det og hvem som hjelper oss. Sist oppdatert 26. september 2026.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "Hvem som er ansvarlig"
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls AS er behandlingsansvarlig for opplysningene som beskrives her: besøk på nettsidene, registrering av virksomheter, nyhetsbrev, markedsføring og kundestøtte. Spørsmål om personvern sender du til [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)."
+          },
+          {
+            "t": "box",
+            "title": "Svar på medarbeiderundersøkelser",
+            "text": "Når en virksomhet bruker Orgpuls til å kartlegge arbeidsmiljøet, er virksomheten behandlingsansvarlig og Orgpuls AS databehandler etter en databehandleravtale. Svarene lagres uten kobling til den som svarte. Hvordan det er bygget, står under [Sikkerhet og personvern](/sikkerhet). Spørsmål om en kartlegging du er med i, retter du til arbeidsgiveren din."
+          },
+          {
+            "t": "h2",
+            "text": "Når du besøker nettsidene"
+          },
+          {
+            "t": "p",
+            "text": "Vi fører vår egen statistikk over bruken av orgpuls.com, uten informasjonskapsler og uten å lagre noe på enheten din. For hver sidevisning lagres siden, nettstedet du kom fra (bare domenet), eventuelle kampanjemerker i adressen (utm), omtrentlig sted (land, region og by, avledet av IP-adressen) og nettverket IP-adressen tilhører, avkortet til de første tre av fire deler (/24, eller /48 for IPv6). Selve IP-adressen og nettleserens identifikasjon lagres ikke. De brukes bare til å lage en besøkskode som byttes hvert døgn, slik at vi kan telle besøk samme dag uten å kunne følge deg fra dag til dag."
+          },
+          {
+            "t": "p",
+            "text": "Ber nettleseren din om ikke å bli sporet (Global Privacy Control eller Do Not Track), sendes ingenting. Statistikken slettes etter 13 måneder. I tillegg måler Vercel, som drifter nettsidene, sidevisninger og lastetid uten informasjonskapsler. Grunnlaget er vår berettigede interesse i å forstå hvordan nettsidene brukes, GDPR artikkel 6 nr. 1 bokstav f."
+          },
+          {
+            "t": "h2",
+            "text": "Når du registrerer en virksomhet"
+          },
+          {
+            "t": "p",
+            "text": "Vi lagrer navnet ditt, e-postadressen, passordet (bare som en kryptografisk hash), virksomhetens navn, organisasjonsnummer og antall ansatte, og opplysninger vi henter fra Brønnøysundregistrene. Vi lagrer også hvor registreringen kom fra: første side og eventuelle kampanjemerker fra samme dags besøksstatistikk, og svaret ditt hvis du forteller hvordan du hørte om oss. Grunnlaget er avtalen med virksomheten, artikkel 6 nr. 1 bokstav b, og vår berettigede interesse i å vite hvilke kanaler som fungerer, bokstav f."
+          },
+          {
+            "t": "p",
+            "text": "Logger du inn med Google, får vi navnet og e-postadressen din fra Google. Vi får aldri passordet ditt der."
+          },
+          {
+            "t": "h2",
+            "text": "Nyhetsbrev og e-post om Orgpuls"
+          },
+          {
+            "t": "p",
+            "text": "Melder du deg på nyhetsbrevet, lagrer vi e-postadressen, eventuelt navn og virksomhet, hvilke lister du har valgt og når du bekreftet påmeldingen. Grunnlaget er samtykket ditt, artikkel 6 nr. 1 bokstav a. Vi registrerer om en utsendelse ble levert, åpnet eller klikket, for å vite hva som er nyttig. Du kan melde deg av med lenken nederst i hver e-post, eller velge lister på nytt. Etter avmelding beholder vi bare en kryptografisk hash av adressen, slik at vi ikke sender til den igjen."
+          },
+          {
+            "t": "p",
+            "text": "Til virksomheter kan vi sende e-post om Orgpuls til funksjonsadresser (for eksempel post@), med grunnlag i berettiget interesse. Personlige adresser får e-post fra oss bare med samtykke, eller når du allerede er kunde og ikke har reservert deg. Hver e-post har en avmeldingslenke."
+          },
+          {
+            "t": "h2",
+            "text": "Når du kontakter oss"
+          },
+          {
+            "t": "p",
+            "text": "Skriver du til oss, via skjemaet eller på e-post, lagrer vi navnet ditt, e-postadressen og det du skriver, for å kunne svare og følge opp saken. Grunnlaget er vår berettigede interesse i å svare på henvendelser, eller avtalen hvis du er kunde."
+          },
+          {
+            "t": "h2",
+            "text": "Informasjonskapsler"
+          },
+          {
+            "t": "p",
+            "text": "Vi bruker bare informasjonskapsler som trengs for at tjenesten skal virke: innlogging, språkvalget ditt, visningsvalg i appen, og en kortvarig kapsel som husker virksomheten mens du registrerer deg med Google. Ingen brukes til statistikk eller annonser."
+          },
+          {
+            "t": "h2",
+            "text": "Hvem som hjelper oss"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Supabase Inc. (USA): database, innlogging og bakgrunnsjobber. Data lagres i Frankfurt, Tyskland.",
+              "Vercel Inc. (USA): drift av nettsidene og applikasjonen, og den cookiefrie målingen av sidevisninger. Serverfunksjonene kjøres i Frankfurt.",
+              "Brevo SAS (Frankrike): utsending av e-post og SMS, og registrering av levering, åpning og klikk på e-post.",
+              "Google (Irland): innlogging med Google, bare hvis du velger det."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Leverandører utenfor EØS er bundet av EU-kommisjonens standardavtaler for overføring. Vi selger ikke personopplysninger og deler dem ikke med andre for deres markedsføring."
+          },
+          {
+            "t": "h2",
+            "text": "Hvor lenge vi beholder opplysningene"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "Besøksstatistikk: 13 måneder. Besøkskoden byttes hvert døgn.",
+              "Kontoen og virksomhetens opplysninger: så lenge kundeforholdet varer, og deretter så lenge regnskapsloven krever for det som inngår i regnskapet.",
+              "Nyhetsbrev: til du melder deg av. Deretter bare hashen som hindrer nye utsendelser.",
+              "Henvendelser til kundestøtte: så lenge det trengs for å følge opp saken og kundeforholdet."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "Dine rettigheter"
+          },
+          {
+            "t": "p",
+            "text": "Du kan be om innsyn i, retting og sletting av opplysninger om deg, be oss begrense behandlingen, protestere mot behandling som bygger på berettiget interesse, og få opplysninger du har gitt oss utlevert i et maskinlesbart format. Skriv til [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no); vi svarer innen 30 dager. Mener du at vi behandler opplysninger i strid med regelverket, kan du klage til [Datatilsynet](https://www.datatilsynet.no)."
+          }
+        ]
       }
     },
     "shots": {
@@ -5330,7 +5458,7 @@
       },
       "footer": {
         "about": "Medarbeiderundersøkelse og arbeidsmiljøkartlegging for norske virksomheter. Data lagres i EU.",
-        "bottom": "© {year} Orgpuls · Personvern · Vilkår",
+        "bottom": "© {year} Orgpuls · <privacy>Personvern</privacy> · Vilkår",
         "head": {
           "produkt": "Produkt",
           "bruksomrader": "Bruksområder",
@@ -6845,7 +6973,8 @@
         "referrer": "Referred by",
         "first": "Tags at first visit",
         "last": "Tags at signup",
-        "none": "Not recorded: the signup came before attribution, or the browser kept nothing."
+        "none": "Not recorded: the signup came before attribution, or the browser kept nothing.",
+        "heard": "Heard of us via"
       },
       "tickets": "Tickets",
       "addressProblems": "{count, plural, one {# address does not take mail} other {# addresses do not take mail}}"
@@ -6992,7 +7121,8 @@
         "referral": "Referral",
         "campaign": "Other campaign",
         "direct": "Direct",
-        "unknown": "Not recorded"
+        "unknown": "Not recorded",
+        "ai": "AI assistant"
       },
       "campaigns": "Campaigns (utm_campaign)",
       "campaign": "Campaign",
@@ -7015,7 +7145,21 @@
       "outcome": "Outcome",
       "outcomeSignup": "Reached registration",
       "outcomeClicked": "Pressed “Kom i gang”",
-      "outcomeNone": "—"
+      "outcomeNone": "—",
+      "heardTitle": "How they heard of us",
+      "heardAnswer": "Answer",
+      "heardNote": "Asked on the last step of signup; optional, so “Not answered” includes everyone who skipped it.",
+      "heard": {
+        "search": "Search engine",
+        "ai": "ChatGPT or other AI",
+        "linkedin": "LinkedIn",
+        "colleague": "Colleague or acquaintance",
+        "bht": "Occupational health / HSE adviser",
+        "event": "Course, conference or webinar",
+        "newsletter": "Newsletter or e-mail",
+        "other": "Other",
+        "unanswered": "Not answered"
+      }
     },
     "tickets": {
       "title": "Tickets",

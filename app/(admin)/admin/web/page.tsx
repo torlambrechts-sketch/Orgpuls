@@ -121,6 +121,23 @@ export default async function AdminWeb({ searchParams }: { searchParams: Promise
           </Table>
         </Card>
 
+        <Card title={t('web.heardTitle')}>
+          <Table
+            head={[t('web.heardAnswer'), t('web.signups'), t('web.activated'), t('web.paid')]}
+            empty={w.heard.length ? undefined : t('common.none')}
+          >
+            {w.heard.map((h) => (
+              <tr key={h.heard}>
+                <Td className="font-semibold">{t(`web.heard.${h.heard}`)}</Td>
+                <Td>{h.signups}</Td>
+                <Td>{h.activated}</Td>
+                <Td>{h.paid}</Td>
+              </tr>
+            ))}
+          </Table>
+          <p className="mb-0 mt-[10px] text-[12px] text-mut">{t('web.heardNote')}</p>
+        </Card>
+
         <Card title={t('web.campaigns')}>
           <Table
             head={[t('web.campaign'), t('web.sessions'), t('web.signups'), t('web.paid')]}

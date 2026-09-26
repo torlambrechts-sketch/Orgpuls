@@ -3,20 +3,18 @@
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 import { sendBeacon } from '@/lib/marketing/beacon'
-import { rememberFirstTouch, rememberUtm } from '@/lib/marketing/utm'
 
 const toSignup = (href: string | null) => href === '/registrer' || !!href?.startsWith('/registrer?')
 
 /**
- * Mounted on the public site only (D-91): remembers the visit's campaign tags and first page
- * (lib/marketing/utm), counts each page view, and counts a press on anything that leads to
- * /registrer, a link or the organisation-number form. It is never on the respondent's pages.
+ * Mounted on the public site only (D-91): counts each page view with its address's campaign
+ * tags, and counts a press on anything that leads to /registrer, a link or the
+ * organisation-number form. It stores nothing on the device (D-104). It is never on the
+ * respondent's pages.
  */
 export function SiteBeacon() {
   const pathname = usePathname()
   useEffect(() => {
-    rememberUtm()
-    rememberFirstTouch()
     sendBeacon('view')
   }, [pathname])
 

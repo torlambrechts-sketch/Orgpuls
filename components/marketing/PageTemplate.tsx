@@ -32,6 +32,7 @@ export async function PageTemplate({
   schemaType = 'WebPage',
   extraSchema = [],
   children,
+  plain = false,
 }: {
   /** the page's message key, e.g. `seo.pages.plattform` */
   k: string
@@ -47,6 +48,8 @@ export async function PageTemplate({
   extraSchema?: Record<string, unknown>[]
   /** a page's own section after its blocks: the contact form on /kontakt (D-95) */
   children?: React.ReactNode
+  /** a document page (the privacy statement, D-104): no signup field or price line in the hero */
+  plain?: boolean
 }) {
   const t = await getTranslations()
   const blocks = BlocksSchema.parse(t.raw(`${k}.blocks`))
@@ -88,17 +91,21 @@ export async function PageTemplate({
               {t(`${k}.h1`)}
             </h1>
             <p className="mt-[14px] max-w-[58ch] text-[16.5px] leading-[1.6] text-body [text-wrap:pretty]">{t(`${k}.lead`)}</p>
-            <div className="mt-[22px]">
-              <SignupStart
-                label={t.has(`${k}.signupLabel`) ? t(`${k}.signupLabel`) : t('seo.signup.label')}
-                submit={t('seo.signup.submit')}
-                invalid={t('seo.signup.invalid')}
-              />
-            </div>
-            <p className="mb-0 mt-[12px] text-[13px] leading-[1.6] text-mut">
-              <span className="block">{t('seo.common.priceLine')}</span>
-              <span className="block">{t('seo.common.anonymity')}</span>
-            </p>
+            {plain ? null : (
+              <>
+                <div className="mt-[22px]">
+                  <SignupStart
+                    label={t.has(`${k}.signupLabel`) ? t(`${k}.signupLabel`) : t('seo.signup.label')}
+                    submit={t('seo.signup.submit')}
+                    invalid={t('seo.signup.invalid')}
+                  />
+                </div>
+                <p className="mb-0 mt-[12px] text-[13px] leading-[1.6] text-mut">
+                  <span className="block">{t('seo.common.priceLine')}</span>
+                  <span className="block">{t('seo.common.anonymity')}</span>
+                </p>
+              </>
+            )}
             {tip ? (
               <a
                 href={tip}

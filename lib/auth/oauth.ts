@@ -28,7 +28,6 @@ const Flow = z.discriminatedUnion('flow', [
     companyName: z.string().trim().min(1).max(200),
     employeeCount: z.coerce.number().int().min(0).max(100_000),
     consent: z.literal('on'),
-    attribution: z.string().max(4000).optional(),
   }),
 ])
 
@@ -54,7 +53,6 @@ export async function continueWithGoogle(formData: FormData): Promise<void> {
         orgNumber: f.orgNumber,
         companyName: f.companyName,
         employeeCount: f.employeeCount,
-        attribution: f.attribution ?? null,
       }),
       { httpOnly: true, secure: callback.protocol === 'https:', sameSite: 'lax', path: '/', maxAge: 1800 },
     )

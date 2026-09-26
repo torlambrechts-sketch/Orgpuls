@@ -12,7 +12,7 @@ import {
 } from '@/app/(marketing)/registrer/actions'
 import { GoogleButton, GoogleDivider } from '@/components/start/GoogleButton'
 import { trackEvent } from '@/lib/marketing/events'
-import { currentUtm, firstTouch } from '@/lib/marketing/utm'
+import { HeardAbout } from '@/components/start/HeardAbout'
 
 /**
  * Sign-up. Orgpuls_Start.dc.html lines 276-434.
@@ -60,7 +60,6 @@ export function SignUpFlow({
   const [size, setSize] = useState<(typeof SIZES)[number]['key']>('under25')
   const [password, setPassword] = useState('')
   const [firstName, setFirstName] = useState(done?.firstName ?? '')
-  const attributionRef = useRef<HTMLInputElement>(null)
   // a Google signup is only complete when the callback lands back here with the organisation made
   const counted = useRef(false)
   useEffect(() => {
@@ -240,7 +239,6 @@ export function SignUpFlow({
                 data.set('orgNumber', company.orgNumber)
                 data.set('companyName', company.name)
                 data.set('employeeCount', String(SIZES.find((s) => s.key === size)!.count))
-                data.set('attribution', JSON.stringify({ first: firstTouch(), last: currentUtm() }))
                 setCreating(true)
                 startTransition(async () => {
                   const result = await createAccount({ status: 'idle' }, data)
@@ -438,16 +436,7 @@ export function SignUpFlow({
                   <input type="hidden" name="orgNumber" value={company.orgNumber} />
                   <input type="hidden" name="companyName" value={company.name} />
                   <input type="hidden" name="employeeCount" value={String(SIZES.find((s) => s.key === size)!.count)} />
-                  <input ref={attributionRef} type="hidden" name="attribution" value="" />
-                  <GoogleButton
-                    inForm
-                    label={t('google')}
-                    disabled={!consent}
-                    onClick={() => {
-                      if (attributionRef.current)
-                        attributionRef.current.value = JSON.stringify({ first: firstTouch(), last: currentUtm() })
-                    }}
-                  />
+                  <GoogleButton inForm label={t('google')} disabled={!consent} />
                   <div className="mt-[9px] max-w-[52ch] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">{t('googleHint')}</div>
                 </>
               ) : null}
@@ -498,6 +487,8 @@ export function SignUpFlow({
               >
                 {t('openOrgpuls')}
               </button>
+
+              <HeardAbout />
             </div>
           ) : null}
         </div>
