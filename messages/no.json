@@ -503,7 +503,12 @@
         "subject": "Kommentaren min om {factor}",
         "mailBody": "Hei {name},\n\nJeg er den som skrev kommentaren om {factor} i medarbeiderundersøkelsen. Du ba om å få snakke med meg direkte.\n\n"
       }
-    }
+    },
+    "countLabel": "Telles for hele virksomheten",
+    "countLead": "{count, plural, =1 {Et kort spørsmål som bare telles for hele virksomheten} =2 {To korte spørsmål som bare telles for hele virksomheten} =3 {Tre korte spørsmål som bare telles for hele virksomheten} other {# korte spørsmål som bare telles for hele virksomheten}}",
+    "segmentLabel": "Frivillig",
+    "segmentLead": "Frivillig: brukes bare til å sammenligne grupper med minst {threshold} svar",
+    "doneTitleMinutes": "Takk. Det tok rundt {minutes} minutter."
   },
   "rapport": {
     "backToInnsikt": "← Innsikt",
@@ -677,6 +682,25 @@
         "nextDue": "Neste gjennomgang må være etter datoen opplæringen ble holdt.",
         "denied": "Det gikk ikke. Bare daglig leder og verneombud kan registrere — ingenting ble endret."
       }
+    },
+    "module": {
+      "head": "Bransjemodul: {name} v{version}",
+      "lead": "Faktorene i bransjemodulen er målt i tillegg til hovedundersøkelsen og inngår ikke i indeksen. En verdi vises bare når minst {threshold} har svart på hver påstand.",
+      "factor": "Faktor",
+      "index": "Indeks",
+      "risk": "Risiko",
+      "legal": "Hjemmel",
+      "measures": "Tiltak",
+      "noMeasures": "Ingen tiltak",
+      "band": {
+        "lav": "Lav",
+        "middels": "Middels",
+        "hoy": "Høy"
+      },
+      "countHead": "Telles for hele virksomheten",
+      "countSuppressed": "Vises ikke: færre enn {threshold} har svart.",
+      "countLine": "Ja: {ja}. Nei: {nei}. Vet ikke: {vetIkke}. Av {total} svar.",
+      "footer": "{name} v{version}"
     }
   },
   "tiltak": {
@@ -837,6 +861,17 @@
         "sommer": "sommeren",
         "host": "høsten"
       }
+    },
+    "module": {
+      "head": "Tiltak fra bransjemodulen",
+      "lead": "Samme steg, eier og frist som andre tiltak. Pulsen spør påstanden som måler tiltaket, så lenge det er åpent.",
+      "factor": "{module} · {factor}",
+      "remeasure": "Måles på nytt med {code}: «{statement}»",
+      "saved": "Lagret.",
+      "problem": {
+        "denied": "Endringen ble ikke lagret.",
+        "closingRule": "Et tiltak kan ikke lukkes før effekten er målt."
+      }
     }
   },
   "risk": {
@@ -977,7 +1012,9 @@
       "invalid": "Noe i oppsettet kunne ikke leses. Se over feltene og prøv igjen.",
       "denied": "Du har ikke tilgang til å endre oppsettet. Daglig leder og avdelingsledere kan det.",
       "gone": "Målingen finnes ikke lenger.",
-      "capped": "Fem egne spørsmål er taket."
+      "capped": "Fem egne spørsmål er taket.",
+      "locked": "Målingen har startet, så spørsmålene kan ikke endres.",
+      "moduleFactorRequired": "Minst én faktor må være med."
     },
     "ownSave": "Lagre",
     "cadenceKvartal": "Kvartalsvis",
@@ -998,6 +1035,18 @@
     "cta": {
       "grunnlinje": "Planlegg grunnlinjen",
       "puls": "Aktiver pulsen"
+    },
+    "module": {
+      "head": "Bransjemodul",
+      "helper": "Kommer i tillegg til hovedundersøkelsen. Svarene vises med samme terskel på {threshold}.",
+      "suggest": "Virksomheten er registrert i {industry}. Vil dere ta med {module}?",
+      "stats": "{count} påstander, ca. {minutes} minutter ekstra",
+      "countItems": "Ta med {count, plural, =1 {ja/nei-spørsmålet} =2 {de to ja/nei-spørsmålene} =3 {de tre ja/nei-spørsmålene} other {de # ja/nei-spørsmålene}} som bare telles for hele virksomheten",
+      "seeQuestions": "Se spørsmålene",
+      "factorsHead": "Faktorer som tas med",
+      "locked": "Målingen har startet, så spørsmålene er låst. Endringer gjelder neste måling.",
+      "summary": "Bransjemodul",
+      "summaryValue": "{name} · {count} spørsmål til"
     }
   },
   "arshjulet": {
@@ -2961,6 +3010,40 @@
     "empty": {
       "title": "Resultater",
       "note": "Ingen måling er lukket ennå. Resultatene kommer her når den første målingen er avsluttet."
+    },
+    "module": {
+      "pill": "Bransjemodul",
+      "title": "{name}",
+      "version": "{name} v{version}",
+      "lead": "Faktorene i bransjemodulen regnes på samme måte som hovedundersøkelsen, men inngår ikke i indeksen. En gruppe vises bare når minst {threshold} har svart på hver påstand.",
+      "tableLabel": "Resultat for {name} per gruppe",
+      "factor": "Faktor",
+      "org": "Hele virksomheten",
+      "groupN": "{name} · {n}",
+      "withheld": "Vises ikke: for få svar",
+      "foot": "– betyr at cellen holdes tilbake fordi færre enn {threshold} har svart, eller for å beskytte en annen gruppe.",
+      "legal": "Hjemmel",
+      "statements": "Påstandene",
+      "band": {
+        "lav": "Lav risiko",
+        "middels": "Middels risiko",
+        "hoy": "Høy risiko"
+      },
+      "countTitle": "Telles for hele virksomheten",
+      "countLead": "Disse spørsmålene lagres uten gruppe og vises bare som antall for hele virksomheten, aldri per gruppe.",
+      "countSuppressed": "Vises når minst {threshold} har svart.",
+      "countTotal": "{n} svar",
+      "actionType": {
+        "workshop": "Workshop",
+        "rutine": "Rutine",
+        "lederpraksis": "Lederpraksis"
+      },
+      "remeasure": "Måles på nytt med: «{statement}»",
+      "suggestions": "Tre forslag til tiltak",
+      "create": "Lag tiltak",
+      "created": "Lagt til i Tiltak.",
+      "openTiltak": "Åpne Tiltak",
+      "createFailed": "Tiltaket ble ikke laget. Bare daglig leder og avdelingsleder kan lage tiltak."
     }
   },
   "kommentarer": {
@@ -6848,7 +6931,8 @@
       "crm": "CRM",
       "health": "Account health",
       "seo": "Search and content",
-      "acquisition": "Cost per customer"
+      "acquisition": "Cost per customer",
+      "modules": "Bransjemoduler"
     },
     "role": {
       "super_admin": "Super-admin",
@@ -8194,6 +8278,52 @@
       "noDone": "Nothing has been deleted yet.",
       "note": "The log keeps the organisation number and name, the dates, who ran it and how many rows of each kind: the record that the promise in the data processing agreement (§ 11) was kept. It holds no person's data.",
       "countsLine": "{responses} answers · {employees} employees · {accounts} accounts · {tickets} tickets"
+    },
+    "modules": {
+      "title": "Bransjemoduler",
+      "lead": "Spørsmålsmoduler som utvider undersøkelsen for én bransje. Et utkast skrives fra modules/*.json av seed-skriptet; publisering gjør det tilgjengelig for alle virksomheter, og en publisert versjon kan aldri endres. Ny ordlyd betyr ny versjon.",
+      "versions": "Versjoner",
+      "none": "Ingen moduler er lagt inn.",
+      "col": {
+        "module": "Modul",
+        "status": "Status",
+        "published": "Publisert",
+        "content": "Innhold",
+        "rounds": "Runder",
+        "pilots": "Piloter",
+        "nace": "Næringskode",
+        "baselines": "Hovedmålinger (12 mnd)",
+        "withModule": "Med modul"
+      },
+      "status": {
+        "draft": "Utkast",
+        "published": "Publisert",
+        "retired": "Trukket tilbake"
+      },
+      "content": "{factors} faktorer, {items} påstander",
+      "actions": "{name} {version}",
+      "reason": "Begrunnelse (i revisjonsloggen)",
+      "saving": "Lagrer …",
+      "done": "Utført.",
+      "publish": "Publiser",
+      "retire": "Trekk tilbake",
+      "publishWarning": "Publisering gjør versjonen tilgjengelig for alle virksomheter. Den kan ikke avpubliseres eller endres, bare trekkes tilbake.",
+      "retireWarning": "Å trekke tilbake stopper nye målinger fra å bruke versjonen. Runder som spurte den, beholder resultatene.",
+      "pilotOrg": "Virksomhetens id",
+      "pilotAdd": "Legg til pilot",
+      "pilotRemove": "Fjern pilot",
+      "adoption": "Bruk per bransje",
+      "noAdoption": "Ingen hovedmålinger de siste tolv månedene.",
+      "problem": {
+        "not_allowed": "Bare en superadmin kan gjøre dette.",
+        "reason_required": "Skriv en begrunnelse på minst fem tegn.",
+        "not_found": "Fant ikke virksomheten eller modulen.",
+        "not_draft": "Bare et utkast kan pilotes.",
+        "in_use": "En planlagt runde i virksomheten spør fortsatt utkastet; fjern det der først.",
+        "invalid_transition": "En modul går bare fra utkast til publisert til trukket tilbake.",
+        "invalid": "Sjekk feltene.",
+        "failed": "Noe gikk galt."
+      }
     }
   },
   "access": {

@@ -46,3 +46,14 @@ describe('scoring', () => {
     expect(riskBand(49)).toBe('hoy')
   })
 })
+
+describe('segment filter', () => {
+  it('needs k in the segment and k in the rest of the group', async () => {
+    const { segmentCellOk } = await import('@/lib/modules/segments')
+    expect(segmentCellOk(5, 5, 10)).toBe(true)
+    expect(segmentCellOk(5, 6, 10)).toBe(false) // the complement is 4
+    expect(segmentCellOk(5, 4, 12)).toBe(false)
+    expect(segmentCellOk(3, 5, 10)).toBe(true) // never below five
+    expect(segmentCellOk(7, 6, 14)).toBe(false)
+  })
+})

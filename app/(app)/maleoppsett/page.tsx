@@ -10,6 +10,9 @@ import { getRounds } from '@/lib/rounds/read'
 import { getLatestSetupOfKind, getOrgQuestions, getRoundSetup } from '@/lib/setup/read'
 import { getGroupStats } from '@/lib/settings/read'
 import { getWheel, wheelMonths } from '@/lib/wheel/read'
+import { INDUSTRY_META, industryForNace } from '@/content/industries/meta'
+import { flag } from '@/lib/flags'
+import { getOrgNaceCode, getPublishedModules, getRoundModules, getModulesById } from '@/lib/modules/read'
 
 /**
  * Måleoppsett — the data half. Bundle lines 1425-1710; the rendering is in
@@ -59,6 +62,23 @@ export default async function MaleoppsettPage({
 
   // nothing to configure: no round of this kind has ever existed
   if (!setup || !org) notFound()
+
+  /*
+   * Industry modules (D-112). A grunnlinje may add the newest published version of a module;
+   * a round that already asks one shows that version, whatever has been published since. The
+   * organisation's industry code decides which is suggested, never which is allowed.
+   */
+  const [published, chosen, nace] = await Promise.all([
+    getPublishedModules(org.id),
+    getRoundModules([setup.id]),
+    getOrgNaceCode(),
+  ])
+  const chosenModules = await getModulesById(chosen.map((c) => c.moduleId))
+  const industry = industryForNace(nace)
+  const offered = [
+    ...chosenModules,
+    ...published.filter((m) => !chosenModules.some((c) => c.key === m.key)),
+  ].sort((a, b) => Number(b.key === industry?.moduleKey) - Number(a.key === industry?.moduleKey))
 
   /*
    * "8 svarte sist" is the previous round of the same kind, not this one. Configuring a
@@ -149,6 +169,33 @@ export default async function MaleoppsettPage({
         }
       : null,
     canWriteWheel: role === 'daglig_leder',
+    modules:
+      setup.kind === 'grunnlinje'
+        ? offered.map((m) => {
+            const row = chosen.find((c) => c.moduleId === m.id)
+            const asked = new Set(row?.itemIds ?? [])
+            const slug = INDUSTRY_META.find((i) => i.moduleKey === m.key)?.slug
+            return {
+              id: m.id,
+              name: m.name,
+              version: m.version,
+              statements: m.factors.reduce((n, f) => n + f.items.length, 0),
+              countItems: m.countItems.length,
+              minutes: m.estimatedMinutes,
+              href: slug ? `/${slug}/sporsmal` : null,
+              factors: m.factors.map((f) => ({ key: f.key, name: f.name })),
+              enabled: Boolean(row),
+              includeCountItems: row ? row.includeCountItems : true,
+              factorKeys: row
+                ? m.factors.filter((f) => f.items.some((i) => asked.has(i.id))).map((f) => f.key)
+                : m.factors.map((f) => f.key),
+              suggested: !row && m.key === industry?.moduleKey,
+              industry: m.key === industry?.moduleKey ? industry : null,
+            }
+          })
+        : [],
+    moduleFactorToggles: flag('module_factor_toggles'),
+    locked: setup.status !== 'planlagt',
   }
 
   return <MaleoppsettScreen view={view} />

@@ -7,6 +7,7 @@ import { respondCopy, respondQuestions } from '@/lib/respond/questions'
 import { getRounds, type RoundListItem } from '@/lib/rounds/read'
 import { roundTitle } from '@/lib/rounds/title'
 import { getRoundSetup } from '@/lib/setup/read'
+import { getModulesById, getRoundModules } from '@/lib/modules/read'
 
 /**
  * "Forhåndsvis som ansatt": the respondent screens for a round, as a signed-in leader sees
@@ -78,6 +79,26 @@ export default async function PreviewPage({ searchParams }: { searchParams: Prom
       options: optionCounts.get(x.key) ?? 0,
     }))
 
+  // the round's industry module, as respond_form would send it, in the registry's order (D-113)
+  const roundModules = await getRoundModules([round.id])
+  const moduleRows = await getModulesById(roundModules.map((r) => r.moduleId))
+  const modules = roundModules.flatMap((rm) => {
+    const m = moduleRows.find((x) => x.id === rm.moduleId)
+    if (!m) return []
+    const asked = new Set(rm.itemIds)
+    return [
+      {
+        name: m.name,
+        minutes: m.estimatedMinutes,
+        statements: m.factors.flatMap((f) =>
+          f.items.filter((i) => asked.has(i.id)).map((i) => ({ item: i.id, factor: f.name, text: i.text })),
+        ),
+        count: rm.includeCountItems ? m.countItems.map((i) => ({ item: i.id, text: i.text, options: i.options })) : [],
+        segments: rm.includeSegments ? m.segments.map((i) => ({ item: i.id, text: i.text, options: i.options })) : [],
+      },
+    ]
+  })
+
   return (
     <main className="animate-entry mx-auto max-w-[480px] px-[16px] pb-[60px] pt-[30px]">
       <Link href="/malinger" className="text-[12.5px] font-semibold text-ink no-underline hover:no-underline">
@@ -90,7 +111,7 @@ export default async function PreviewPage({ searchParams }: { searchParams: Prom
         <RespondFlow
           token=""
           org={org.name}
-          questions={respondQuestions(t, { questions, extra })}
+          questions={respondQuestions(t, { questions, extra, modules, threshold: org.threshold })}
           copy={{
             ...respondCopy(t, org.threshold),
             doneTitle: t('preview.doneTitle'),

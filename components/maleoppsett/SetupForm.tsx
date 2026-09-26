@@ -6,6 +6,7 @@ import {
   addOrgQuestion,
   removeOrgQuestion,
   saveConsultation,
+  saveRoundModule,
   saveSetup,
   type SetupActionResult,
 } from '@/app/(app)/maleoppsett/actions'
@@ -108,6 +109,23 @@ export interface SetupFormProps {
     problems: Record<string, string>
   }
   orgQuestions: { id: string; body: string }[]
+  /** industry modules this grunnlinje can add (D-112); empty for a puls */
+  modules: {
+    id: string
+    name: string
+    enabled: boolean
+    includeCountItems: boolean
+    factorKeys: string[]
+    factors: Option[]
+    href: string | null
+    suggestion: string | null
+    stats: string
+    countLabel: string
+  }[]
+  moduleLabels: { head: string; helper: string; seeQuestions: string; factorsHead: string; locked: string }
+  moduleFactorToggles: boolean
+  /** the round has opened, so its question set is fixed */
+  locked: boolean
   /**
    * Section 4's rhythm. A grunnlinje is one per year by construction and shows the one
    * chip; a puls shows the year wheel's pulse cadences, and picking one writes the wheel —
@@ -128,6 +146,7 @@ export interface SetupFormProps {
 export function SetupForm(props: SetupFormProps) {
   const { roundId, canWrite, options, labels, cadence } = props
   const [v, setV] = useState(props.values)
+  const [mods, setMods] = useState(props.modules)
   const [wheelCadence, setWheelCadence] = useState(cadence.kind === 'wheel' ? cadence.value : '')
   const [problem, setProblem] = useState<string | null>(null)
   const [saved, setSaved] = useState(false)
@@ -149,6 +168,22 @@ export function SetupForm(props: SetupFormProps) {
     setV(merged)
     if (!canWrite) return
     run(() => saveSetup(formOf(roundId, merged)))
+  }
+
+  /** A module is written on its own, per click, like every other section (D-112). */
+  const saveModule = (id: string, next: Partial<SetupFormProps['modules'][number]>) => {
+    const current = mods.find((m) => m.id === id)
+    if (!current) return
+    const merged = { ...current, ...next }
+    setMods(mods.map((m) => (m.id === id ? merged : m)))
+    if (!canWrite || props.locked) return
+    const data = new FormData()
+    data.set('roundId', roundId)
+    data.set('moduleId', id)
+    data.set('enabled', merged.enabled ? 'on' : '')
+    data.set('includeCountItems', merged.includeCountItems ? 'on' : '')
+    for (const k of merged.factorKeys) data.append('moduleFactors', k)
+    run(() => saveRoundModule(data))
   }
 
   const consultationOf = (kind: 'verneombud_raad' | 'droftet_tillitsvalgte') =>
@@ -238,6 +273,81 @@ export function SetupForm(props: SetupFormProps) {
         >
           {labels.seeAll}
         </Button>
+
+        {mods.length ? (
+          <div className="mt-[18px] border-t border-line pt-[16px]">
+            <div className="text-[13.5px] font-semibold">{props.moduleLabels.head}</div>
+            <div className="mt-[3px] max-w-[560px] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
+              {props.locked ? props.moduleLabels.locked : props.moduleLabels.helper}
+            </div>
+            <div className="mt-[12px] flex flex-col gap-[12px]">
+              {mods.map((m) => {
+                const off = !canWrite || props.locked
+                return (
+                  <div key={m.id} className="flex flex-col gap-[8px]">
+                    {m.suggestion && !m.enabled ? (
+                      <p className="m-0 max-w-[560px] rounded-tile bg-sbg px-[14px] py-[10px] text-[12.5px] font-semibold leading-[1.5] [text-wrap:pretty]">
+                        {m.suggestion}
+                      </p>
+                    ) : null}
+                    <CheckRow
+                      name={`module-${m.id}`}
+                      label={m.name}
+                      sub={m.stats}
+                      checked={m.enabled}
+                      disabled={off}
+                      onChange={() => saveModule(m.id, { enabled: !m.enabled })}
+                    />
+                    {m.href ? (
+                      <a href={m.href} target="_blank" rel="noopener" className="w-fit text-[12.5px] font-semibold text-link">
+                        {props.moduleLabels.seeQuestions}
+                      </a>
+                    ) : null}
+                    {m.enabled ? (
+                      <>
+                        <CheckRow
+                          name={`module-count-${m.id}`}
+                          label={m.countLabel}
+                          checked={m.includeCountItems}
+                          disabled={off}
+                          onChange={() => saveModule(m.id, { includeCountItems: !m.includeCountItems })}
+                        />
+                        {props.moduleFactorToggles ? (
+                          <fieldset className="m-0 border-0 p-0">
+                            <legend className="p-0 text-[12.5px] text-mut">{props.moduleLabels.factorsHead}</legend>
+                            <div className="mt-[8px] flex flex-wrap gap-[7px]">
+                              {m.factors.map((f) => (
+                                <Chip
+                                  key={f.value}
+                                  type="checkbox"
+                                  name={`moduleFactors-${m.id}`}
+                                  value={f.value}
+                                  label={f.label}
+                                  checked={m.factorKeys.includes(f.value)}
+                                  disabled={off}
+                                  paddingY={8}
+                                  paddingX={14}
+                                  text="12.5px"
+                                  onChange={() =>
+                                    saveModule(m.id, {
+                                      factorKeys: m.factorKeys.includes(f.value)
+                                        ? m.factorKeys.filter((k) => k !== f.value)
+                                        : [...m.factorKeys, f.value],
+                                    })
+                                  }
+                                />
+                              ))}
+                            </div>
+                          </fieldset>
+                        ) : null}
+                      </>
+                    ) : null}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        ) : null}
 
         <div className="mt-[18px] border-t border-line pt-[16px]">
           <div className="text-[13.5px] font-semibold">{labels.commentHead}</div>

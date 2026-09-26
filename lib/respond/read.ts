@@ -27,6 +27,18 @@ const Form = z.object({
       options: z.coerce.number(),
     }),
   ),
+  // the round's industry module (0069): its wording is the registry's, not a message key
+  modules: z
+    .array(
+      z.object({
+        name: z.string(),
+        minutes: z.coerce.number(),
+        statements: z.array(z.object({ item: z.string().uuid(), factor: z.string(), text: z.string() })),
+        count: z.array(z.object({ item: z.string().uuid(), text: z.string(), options: z.array(z.string()).length(3) })),
+        segments: z.array(z.object({ item: z.string().uuid(), text: z.string(), options: z.array(z.string()).min(2) })),
+      }),
+    )
+    .default([]),
 })
 
 /**

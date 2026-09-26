@@ -27,6 +27,8 @@ interface FrameProps {
   nextPulseAt: string | null
   unanswered: number
   planCount: number
+  /** the round's industry module, under the workspace (D-114) */
+  after?: React.ReactNode
 }
 
 const href = (query: Record<string, string | undefined>) => {
@@ -185,6 +187,7 @@ export async function ResultaterFrame(props: FrameProps) {
           <Workspace model={model} />
         </>
       )}
+      {props.after}
     </ResultaterShell>
   )
 }

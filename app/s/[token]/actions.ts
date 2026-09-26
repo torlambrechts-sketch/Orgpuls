@@ -36,10 +36,22 @@ const Extra = z.object({
   text: z.string().max(4000).optional(),
 })
 
+/**
+ * The round's industry module (0069): statements, count questions answered ja / nei /
+ * vet_ikke, and optional background questions. The database refuses any item the round does
+ * not ask, and writes the count answers with nothing that leads back to this response.
+ */
+const Module = z.object({
+  answers: z.array(z.object({ item: z.string().uuid(), value: z.number().int().min(1).max(5) })).max(100),
+  count: z.array(z.object({ item: z.string().uuid(), answer: z.enum(['ja', 'nei', 'vet_ikke']) })).max(20),
+  segments: z.array(z.object({ item: z.string().uuid(), option: z.number().int().min(1).max(9) })).max(20),
+})
+
 const Payload = z.object({
   token: z.string().min(16).max(512),
   answers: z.array(Answer).max(200),
   extra: z.array(Extra).max(50),
+  module: Module.optional(),
 })
 
 /**
@@ -61,6 +73,7 @@ export async function submitResponse(input: unknown): Promise<SubmitResult> {
     p_token: parsed.data.token,
     p_answers: parsed.data.answers,
     p_extra: parsed.data.extra,
+    ...(parsed.data.module ? { p_module: parsed.data.module } : {}),
   })
 
   // the message is deliberately not read: it can quote the statement that failed

@@ -9,6 +9,9 @@ import type { Measure } from '@/lib/measures/read'
 import { getFactors } from '@/lib/instrument/read'
 import { getMeasures } from '@/lib/measures/read'
 import { getEmployees, getGroups } from '@/lib/org/read'
+import { getModuleMeasures } from '@/lib/modules/measures'
+import { STEP_KEYS } from '@/lib/measures/read'
+import { ModuleMeasures } from '@/components/tiltak/ModuleMeasures'
 import { getLatestClosedRoundId, getRoundRows } from '@/lib/rounds/read'
 
 /**
@@ -114,7 +117,46 @@ export default async function TiltakPage({
       .map((r) => ({ id: r.id, kind: r.kind, year: r.year, pulseNo: r.pulseNo, opensAt: r.opensAt })),
   }
 
-  return <TiltakScreen view={view} />
+  // measures from an industry module, beside the board (D-115)
+  const moduleMeasures = await getModuleMeasures()
+  const tt = await getTranslations()
+  return (
+    <>
+      <TiltakScreen view={view} />
+      {moduleMeasures.length ? (
+        <div className="mx-auto max-w-page px-[16px] pb-[60px] md:px-[28px]">
+          <ModuleMeasures
+            rows={moduleMeasures.map((m) => ({
+              id: m.id,
+              title: m.title,
+              goal: m.goal,
+              step: m.step,
+              dueDate: m.dueDate,
+              ownerId: m.ownerId,
+              factor: tt('tiltak.module.factor', { module: m.moduleName, factor: m.factorName }),
+              remeasure: tt('tiltak.module.remeasure', { code: m.statement.code, statement: m.statement.text }),
+            }))}
+            steps={STEP_KEYS.map((k) => ({ value: k, label: tt(`tiltak.step.${k}`) }))}
+            owners={employees.map((e) => ({ value: e.id, label: e.name }))}
+            labels={{
+              head: tt('tiltak.module.head'),
+              lead: tt('tiltak.module.lead'),
+              step: tt('tiltak.fieldStatus'),
+              due: tt('tiltak.fieldDue'),
+              owner: tt('tiltak.fieldOwner'),
+              ownerUnset: tt('tiltak.ownerUnset'),
+              saved: tt('tiltak.module.saved'),
+              problems: {
+                invalid: tt('tiltak.module.problem.denied'),
+                denied: tt('tiltak.module.problem.denied'),
+                closingRule: tt('tiltak.module.problem.closingRule'),
+              },
+            }}
+          />
+        </div>
+      ) : null}
+    </>
+  )
 }
 
 const COLUMN_OF: Partial<Record<Measure['step'], Column>> = {

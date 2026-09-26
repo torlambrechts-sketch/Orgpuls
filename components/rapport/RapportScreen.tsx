@@ -107,6 +107,18 @@ export interface RapportView {
   signers: Signer[]
   /** daglig leder or verneombud: may record section 8 under the document (D-52) */
   canRecord: boolean
+  /**
+   * The primary round's industry modules (D-116): per factor its index and band where the
+   * database released one, its legal basis and the measures on it; the count questions for
+   * the whole undertaking only. Empty when the round asked none.
+   */
+  modules: {
+    name: string
+    version: string
+    factors: { name: string; index: number | null; band: 'lav' | 'middels' | 'hoy' | null; legalBasis: string[]; measures: string[] }[]
+    counts: { text: string; suppressed: boolean; ja: number | null; nei: number | null; vetIkke: number | null; total: number | null }[]
+    threshold: number
+  }[]
 }
 
 /**
@@ -367,7 +379,10 @@ export async function RapportScreen({ view }: { view: RapportView }) {
                   year: view.year,
                 })}
               </span>
-              <span>{t('rapport.footerRight')}</span>
+              <span>
+                {t('rapport.footerRight')}
+                {view.modules.map((m) => ` · ${t('rapport.module.footer', { name: m.name, version: m.version })}`).join('')}
+              </span>
             </>
           ) : null
         }
@@ -819,6 +834,55 @@ export async function RapportScreen({ view }: { view: RapportView }) {
             ))}
           </ul>
         )}
+
+        {/* ------------------------------------------ Bransjemodul (D-116) */}
+        {view.modules.map((m) => (
+          <div key={`${m.name}-${m.version}`} className="[break-inside:avoid-page]">
+            <h2 className="mt-[30px] font-display text-[19px] font-semibold">
+              {t('rapport.module.head', { name: m.name, version: m.version })}
+            </h2>
+            <p className="mt-[8px] text-[12.5px] leading-[1.65] text-body">
+              {t('rapport.module.lead', { threshold: m.threshold })}
+            </p>
+            <table className="mt-[10px] w-full border-collapse text-[12px] leading-[1.5]">
+              <thead>
+                <tr className="text-left text-mut">
+                  <th scope="col" className="border-b border-line py-[5px] pr-[8px] font-semibold">{t('rapport.module.factor')}</th>
+                  <th scope="col" className="border-b border-line px-[8px] py-[5px] text-right font-semibold">{t('rapport.module.index')}</th>
+                  <th scope="col" className="border-b border-line px-[8px] py-[5px] font-semibold">{t('rapport.module.risk')}</th>
+                  <th scope="col" className="border-b border-line px-[8px] py-[5px] font-semibold">{t('rapport.module.legal')}</th>
+                  <th scope="col" className="border-b border-line py-[5px] pl-[8px] font-semibold">{t('rapport.module.measures')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {m.factors.map((f) => (
+                  <tr key={f.name} className="align-top">
+                    <th scope="row" className="border-b border-line py-[6px] pr-[8px] text-left font-semibold">{f.name}</th>
+                    <td className="border-b border-line px-[8px] py-[6px] text-right tabular-nums">{f.index ?? '–'}</td>
+                    <td className="border-b border-line px-[8px] py-[6px]">{f.band ? t(`rapport.module.band.${f.band}`) : '–'}</td>
+                    <td className="border-b border-line px-[8px] py-[6px] text-body">{f.legalBasis.join('; ')}</td>
+                    <td className="border-b border-line py-[6px] pl-[8px] text-body">
+                      {f.measures.length ? f.measures.join('; ') : t('rapport.module.noMeasures')}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {m.counts.length ? (
+              <>
+                <h3 className="mt-[16px] text-[13px] font-semibold">{t('rapport.module.countHead')}</h3>
+                {m.counts.map((c) => (
+                  <p key={c.text} className="mt-[6px] text-[12.5px] leading-[1.65] text-body">
+                    {c.text}{' '}
+                    {c.suppressed || c.total === null
+                      ? t('rapport.module.countSuppressed', { threshold: m.threshold })
+                      : t('rapport.module.countLine', { ja: c.ja ?? 0, nei: c.nei ?? 0, vetIkke: c.vetIkke ?? 0, total: c.total })}
+                  </p>
+                ))}
+              </>
+            ) : null}
+          </div>
+        ))}
 
         {/* ------------------------------------------------------- Signatur */}
         {view.signers.length === 0 ? null : (

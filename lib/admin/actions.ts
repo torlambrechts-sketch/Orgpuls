@@ -255,3 +255,32 @@ export async function deleteOrgNow(_prev: AdminResult | null, formData: FormData
   if (r.ok) redirect('/admin/ops#deletions')
   return r
 }
+
+// ---------------------------------------------------------------- industry modules (0067, 0068, D-117)
+const ModuleRef = { key: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/), version: z.string().regex(/^\d+\.\d+\.\d+$/) }
+
+/** Publish a draft or retire a published version: super-admin, with a reason; the database audits it. */
+export async function moduleSetStatus(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({ ...ModuleRef, status: z.enum(['published', 'retired']), reason: z.string().trim().min(5).max(500) })
+    .safeParse({ key: formData.get('key'), version: formData.get('version'), status: formData.get('status'), reason: formData.get('reason') })
+  if (!parsed.success) return { ok: false, problem: failedField(parsed.error) === 'reason' ? 'reason_required' : 'invalid' }
+  const r = await rpc('admin_module_set_status', {
+    p_key: parsed.data.key, p_version: parsed.data.version, p_status: parsed.data.status, p_reason: parsed.data.reason,
+  })
+  if (r.ok) revalidatePath('/admin/modules')
+  return r
+}
+
+/** Let an organisation try a draft (0068), or stop: super-admin, with a reason, audited. */
+export async function modulePilot(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({ ...ModuleRef, org: z.string().uuid(), on: z.enum(['on', 'off']), reason: z.string().trim().min(5).max(500) })
+    .safeParse({ key: formData.get('key'), version: formData.get('version'), org: formData.get('org'), on: formData.get('on'), reason: formData.get('reason') })
+  if (!parsed.success) return { ok: false, problem: failedField(parsed.error) === 'reason' ? 'reason_required' : failedField(parsed.error) === 'org' ? 'not_found' : 'invalid' }
+  const r = await rpc('admin_module_pilot', {
+    p_key: parsed.data.key, p_version: parsed.data.version, p_org: parsed.data.org, p_on: parsed.data.on === 'on', p_reason: parsed.data.reason,
+  })
+  if (r.ok) revalidatePath('/admin/modules')
+  return r
+}

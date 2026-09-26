@@ -54,7 +54,7 @@ export default async function RespondPage({
         token={token}
         org={form.org}
         questions={questions}
-        copy={respondCopy(t, form.threshold)}
+        copy={respondCopy(t, form.threshold, form.modules.reduce((n, m) => n + m.minutes, 0))}
       />
     </main>
   )

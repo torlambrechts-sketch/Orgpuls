@@ -8,6 +8,9 @@ import { roundNamer } from '@/lib/rounds/design-name'
 import { getRoundFactorKeys, getRoundRows, type RoundRow } from '@/lib/rounds/read'
 import { getUnansweredCount } from '@/lib/shell/read'
 import { getResultsDigest } from '@/lib/results/digest'
+import { ModuleResults } from '@/components/resultater/ModuleResults'
+import { getModulesById, getRoundModules } from '@/lib/modules/read'
+import { getCountTotals, getModuleResults } from '@/lib/modules/results'
 import {
   ORG,
   VIEWS,
@@ -89,6 +92,16 @@ export default async function ResultaterPage({
     getUnansweredCount(),
     countView('results_viewed'),
   ])
+
+  // the round's industry module, when it asked one (D-114)
+  const roundModules = await getRoundModules([selected.id])
+  const [moduleResults, countTotals, moduleRows] = roundModules.length
+    ? await Promise.all([
+        getModuleResults(selected.id),
+        getCountTotals(selected.id),
+        getModulesById(roundModules.map((r) => r.moduleId)),
+      ])
+    : [null, null, []]
 
   const workspace = digest.workspace
   const participation = digest.participation.get(selected.id) ?? null
@@ -247,6 +260,11 @@ export default async function ResultaterPage({
       nextPulseAt={nextPulse?.opensAt ?? null}
       unanswered={unanswered}
       planCount={measures.filter((m) => m.step === 'besluttet' || m.step === 'pagar').length}
+      after={
+        moduleResults && moduleResults.modules.length ? (
+          <ModuleResults roundId={selected.id} results={moduleResults} totals={countTotals} modules={moduleRows} />
+        ) : null
+      }
     />
   )
 }

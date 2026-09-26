@@ -6,6 +6,7 @@ import { COMMENT_POLICIES, EVALUATION_CADENCES } from '@/lib/setup/read'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { writeFailed } from '@/lib/supabase/write'
+import { flag } from '@/lib/flags'
 
 /**
  * Writing a measurement's setup.
@@ -247,6 +248,93 @@ export async function removeOrgQuestion(formData: FormData): Promise<SetupAction
   if (writeFailed('removeOrgQuestion', error, data)) return problem('denied')
 
   revalidatePath('/maleoppsett')
+  return { ok: true }
+}
+
+/**
+ * An industry module on a planned round (D-112): on or off, whether its count-only questions
+ * are asked, and — behind `module_factor_toggles` — which of its factors.
+ *
+ * The statements written are derived here from the published module, never taken from the
+ * form: the form says which factors, the registry says which statements those are. The
+ * database checks the rest (0067 `round_module_ok`): only a published module's statements,
+ * and nothing changes once the round has opened, which comes back as `locked`.
+ */
+const RoundModule = z.object({
+  roundId: Uuid,
+  moduleId: Uuid,
+  enabled: z.boolean(),
+  includeCountItems: z.boolean(),
+  factorKeys: z.array(z.string().regex(/^[a-z][a-z0-9_]*$/)).max(40),
+})
+
+export async function saveRoundModule(formData: FormData): Promise<SetupActionResult> {
+  const parsed = RoundModule.safeParse({
+    roundId: formData.get('roundId'),
+    moduleId: formData.get('moduleId'),
+    enabled: formData.get('enabled') === 'on',
+    includeCountItems: formData.get('includeCountItems') === 'on',
+    factorKeys: formData.getAll('moduleFactors'),
+  })
+  if (!parsed.success) return problem('invalid')
+  const m = parsed.data
+  const supabase = await createClient()
+
+  const { data: round } = await supabase
+    .schema('app')
+    .from('rounds')
+    .select('id, org_id, status')
+    .eq('id', m.roundId)
+    .maybeSingle()
+  const round_ = z.object({ id: Uuid, org_id: Uuid, status: z.string() }).safeParse(round)
+  if (!round_.success) return problem('gone')
+  if (round_.data.status !== 'planlagt') return problem('locked')
+
+  if (!m.enabled) {
+    const { error } = await supabase.schema('app').from('round_modules').delete()
+      .eq('round_id', m.roundId).eq('module_id', m.moduleId)
+    if (error) return problem(error.message.includes('fixed once') ? 'locked' : 'denied')
+    revalidatePath('/maleoppsett')
+    revalidatePath('/malinger')
+    return { ok: true }
+  }
+
+  const [{ data: factors }, { data: items }] = await Promise.all([
+    supabase.schema('app').from('module_factors').select('id, key').eq('module_id', m.moduleId),
+    supabase.schema('app').from('module_items').select('id, factor_id').eq('module_id', m.moduleId).eq('kind', 'likert5'),
+  ])
+  const f = z.array(z.object({ id: Uuid, key: z.string() })).safeParse(factors)
+  const it = z.array(z.object({ id: Uuid, factor_id: Uuid })).safeParse(items)
+  if (!f.success || !it.success || !f.data.length) return problem('gone')
+
+  // without the toggles every factor is asked; with them, at least one must stay on
+  const chosen = flag('module_factor_toggles')
+    ? f.data.filter((x) => m.factorKeys.includes(x.key))
+    : f.data
+  if (!chosen.length) return problem('moduleFactorRequired')
+  const factorIds = new Set(chosen.map((x) => x.id))
+  const itemIds = it.data.filter((i) => factorIds.has(i.factor_id)).map((i) => i.id)
+
+  const { data, error } = await supabase
+    .schema('app')
+    .from('round_modules')
+    .upsert(
+      {
+        org_id: round_.data.org_id,
+        round_id: m.roundId,
+        module_id: m.moduleId,
+        item_ids: itemIds,
+        include_count_items: m.includeCountItems,
+        include_segments: false,
+      },
+      { onConflict: 'round_id,module_id' },
+    )
+    .select('round_id')
+  if (error) return problem(error.message.includes('fixed once') ? 'locked' : 'denied')
+  if (writeFailed('saveRoundModule', null, data)) return problem('denied')
+
+  revalidatePath('/maleoppsett')
+  revalidatePath('/malinger')
   return { ok: true }
 }
 

@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react'
 import { submitResponse, type SubmitResult } from '@/app/s/[token]/actions'
 import { ThreadLinks } from './ThreadLinks'
+import { COUNT_ANSWERS } from '@/lib/respond/answers'
 
 /**
  * The respondent flow. Bundle lines 1893-1929.
@@ -46,6 +47,23 @@ export type Question =
       choices: Choice[]
     }
   | {
+      /** an industry module's statement (0069): the wording is the registry's */
+      kind: 'module'
+      id: string
+      item: string
+      factorLabel: string
+      text: string
+      choices: Choice[]
+    }
+  | ({
+      /** counted only for the whole organisation; the lead says so before it is answered */
+      kind: 'count'
+    } & LeadQuestion)
+  | ({
+      /** an optional background question, used only to compare groups of at least k */
+      kind: 'segment'
+    } & LeadQuestion)
+  | {
       kind: 'extra-text'
       id: string
       factorLabel: string
@@ -53,6 +71,15 @@ export type Question =
       text: string
       note: string
     }
+
+interface LeadQuestion {
+  id: string
+  item: string
+  factorLabel: string
+  lead: string
+  text: string
+  choices: Choice[]
+}
 
 export interface RespondCopy {
   progress: string
@@ -99,8 +126,22 @@ export function RespondFlow({
   function build() {
     const answers = []
     const extra = []
+    const mod = {
+      answers: [] as { item: string; value: number }[],
+      count: [] as { item: string; answer: (typeof COUNT_ANSWERS)[number] }[],
+      segments: [] as { item: string; option: number }[],
+    }
     for (const q of questions) {
-      if (q.kind === 'factor') {
+      if (q.kind === 'module' || q.kind === 'count' || q.kind === 'segment') {
+        const value = picked[q.id]
+        if (value === undefined) continue
+        if (q.kind === 'module') mod.answers.push({ item: q.item, value })
+        else if (q.kind === 'segment') mod.segments.push({ item: q.item, option: value })
+        else {
+          const answer = COUNT_ANSWERS[value - 1]
+          if (answer) mod.count.push({ item: q.item, answer })
+        }
+      } else if (q.kind === 'factor') {
         const value = picked[q.id]
         const comment = text[`${q.id}:comment`]?.trim()
         if (value === undefined && !comment) continue
@@ -118,7 +159,8 @@ export function RespondFlow({
         if (body) extra.push({ key: q.extraKey, text: body })
       }
     }
-    return { token, answers, extra }
+    const asked = questions.some((q) => q.kind === 'module' || q.kind === 'count' || q.kind === 'segment')
+    return { token, answers, extra, ...(asked ? { module: mod } : {}) }
   }
 
   function advance() {
@@ -200,6 +242,11 @@ export function RespondFlow({
         <div className="inline-block rounded-pill bg-sbg px-[11px] py-[4px] text-[11px] font-bold uppercase tracking-[0.05em]">
           {current.factorLabel}
         </div>
+        {'lead' in current ? (
+          <div className="mt-[12px] text-[13px] font-semibold leading-[1.5] text-mut [text-wrap:pretty]">
+            {current.lead}
+          </div>
+        ) : null}
         <div className="mt-[14px] font-display text-[24px] font-medium leading-[1.27] [text-wrap:pretty]">
           {current.text}
         </div>

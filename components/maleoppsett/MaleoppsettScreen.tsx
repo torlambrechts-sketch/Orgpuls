@@ -4,6 +4,7 @@ import { ButtonLink } from '@/components/ui/Button'
 import { SetupForm, type SetupFormProps } from '@/components/maleoppsett/SetupForm'
 import type { CommentPolicy, EvaluationCadence } from '@/lib/setup/read'
 import type { WheelCadence } from '@/lib/wheel/read'
+import type { IndustryMeta } from '@/content/industries/meta'
 
 /**
  * Måleoppsett, the rendering. Bundle lines 1425-1710.
@@ -74,6 +75,25 @@ export interface MaleoppsettView {
   } | null
   /** `wheel_write` is daglig leder only; styling, as canWrite is */
   canWriteWheel: boolean
+  /** industry modules this grunnlinje can add, the organisation's own industry first (D-112) */
+  modules: {
+    id: string
+    name: string
+    version: string
+    statements: number
+    countItems: number
+    minutes: number
+    href: string | null
+    factors: { key: string; name: string }[]
+    enabled: boolean
+    includeCountItems: boolean
+    factorKeys: string[]
+    suggested: boolean
+    industry: IndustryMeta | null
+  }[]
+  moduleFactorToggles: boolean
+  /** the round has opened: its question set, modules included, is fixed */
+  locked: boolean
 }
 
 /**
@@ -236,9 +256,36 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
       evalLaw: t('maleoppsett.evalLaw'),
       saved: t('maleoppsett.saved'),
       problems: Object.fromEntries(
-        ['invalid', 'denied', 'gone', 'capped'].map((k) => [k, t(`maleoppsett.problem.${k}`)]),
+        ['invalid', 'denied', 'gone', 'capped', 'locked', 'moduleFactorRequired'].map((k) => [k, t(`maleoppsett.problem.${k}`)]),
       ),
     },
+    modules: view.modules.map((m) => {
+      const lang = locale.startsWith('en') ? 'en' : 'no'
+      return {
+        id: m.id,
+        name: m.name,
+        enabled: m.enabled,
+        includeCountItems: m.includeCountItems,
+        factorKeys: m.factorKeys,
+        factors: m.factors.map((f) => ({ value: f.key, label: f.name })),
+        href: m.href,
+        suggestion:
+          m.suggested && m.industry?.moduleLabel
+            ? t('maleoppsett.module.suggest', { industry: m.industry.label[lang], module: m.industry.moduleLabel[lang] })
+            : null,
+        stats: t('maleoppsett.module.stats', { count: m.statements, minutes: m.minutes }),
+        countLabel: t('maleoppsett.module.countItems', { count: m.countItems }),
+      }
+    }),
+    moduleLabels: {
+      head: t('maleoppsett.module.head'),
+      helper: t('maleoppsett.module.helper', { threshold: view.threshold }),
+      seeQuestions: t('maleoppsett.module.seeQuestions'),
+      factorsHead: t('maleoppsett.module.factorsHead'),
+      locked: t('maleoppsett.module.locked'),
+    },
+    moduleFactorToggles: view.moduleFactorToggles,
+    locked: view.locked,
     orgQuestions: view.orgQuestions,
     cadence: isBaseline || !view.wheel
       ? { kind: 'fixed', label: cadenceLabel }
@@ -306,6 +353,18 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
                     : t('maleoppsett.summarySomeFactors', { count: selectedFactors })
                 }
               />
+              {view.modules
+                .filter((m) => m.enabled)
+                .map((m) => (
+                  <SummaryRow
+                    key={m.id}
+                    label={t('maleoppsett.module.summary')}
+                    value={t('maleoppsett.module.summaryValue', {
+                      name: m.name,
+                      count: m.factorKeys.length * 3 + (m.includeCountItems ? m.countItems : 0),
+                    })}
+                  />
+                ))}
               <SummaryRow label={t('maleoppsett.summaryCadence')} value={cadenceLabel} />
             </div>
 

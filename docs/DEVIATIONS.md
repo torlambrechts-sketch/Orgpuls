@@ -4983,3 +4983,153 @@ Verified:
 - `module_invariants.sql` 13/13;
 - all 39 suites and the design figures pass on a database rebuilt from migrations, with the
   module seeded.
+
+## D-112 — Industry modules, PR 2: choosing a module in Måleoppsett, and pilots
+
+- **Where.** A "Bransjemodul" block in Måleoppsett's section 2, under the factor chips. It
+  shows for a grunnlinje only, built from the section's own controls (the checkbox row, the
+  chips); the design has no module.
+- **What it offers.**
+  - The newest published version of each module, with "24 påstander, ca. 3 minutter
+    ekstra", a link to the public question page, and "ta med de to ja/nei-spørsmålene"
+    (on by default).
+  - A round that already asks a version shows that version.
+  - When the organisation's Brønnøysund code starts with one of an industry's prefixes
+    (`content/industries/meta.ts`: 41/42/43 construction, 86/87/88 health), the suggestion
+    reads "Virksomheten er registrert i bygg og anlegg. Vil dere ta med bygg-modulen?". It
+    disappears once the module is on.
+  - The summary card gains a row, "Bransjemodul · Bygg og anlegg · 26 spørsmål til", so the
+    card never undercounts what respondents get.
+- **Writing** (`saveRoundModule`): the statements asked are derived from the registry, never
+  from the form. A round that has opened answers `locked`.
+- **Flags** (`lib/flags.ts`, all off; `ORGPULS_FLAGS` switches one on for a deployment):
+  - `module_factor_toggles`: one chip per factor, at least one on;
+  - `module_segments`;
+  - `signup_industry_hint`.
+- **Pilots (0068), not in the hand-off.**
+  - The hand-off's definition of done needs a real test survey with the module before it is
+    published, and a published version can never be withdrawn.
+  - So a super-admin can name organisations that may use a draft, with a reason, audited
+    (`admin_module_pilot`). Their leaders see and choose it like a published version;
+    nobody else sees it.
+  - A draft some round has asked cannot be re-seeded, so a pilot's answers always name the
+    wording they were asked.
+- **Not done:** the year wheel does not carry a module from one grunnlinje to the next. Each
+  grunnlinje is chosen in Måleoppsett, like its factors.
+- **Found while verifying.** `round_module_ok` ran as the calling leader and read
+  `app.responses` and `app.module_pilots`, which clients may not read, so saving would have
+  failed with "permission denied". Both checks are now small definer functions
+  (`app.round_answered`, `app.module_usable`, 0071). `module_measure_invariants` exercises the
+  client path.
+
+## D-113 — Industry modules, PR 3: the respondent answers the module
+
+- **Order:**
+  1. the core statements, shuffled per token;
+  2. the module's statements, shuffled per token within the module;
+  3. the questions outside the index;
+  4. the module's count questions;
+  5. background questions last, and only when the round asks them (flag off).
+- **Count questions** carry the pill "Telles for hele virksomheten" and the lead "To korte
+  spørsmål som bare telles for hele virksomheten". Background questions carry "Frivillig:
+  brukes bare til å sammenligne grupper med minst {k} svar".
+- **The write path** (0069) stays one function. `submit_response` gains `p_module` with a
+  default, so every existing call is unchanged. In the same transaction:
+  - statements and background answers go onto the unlinked response row;
+  - count answers go to `org_count_answers` with no reference to the response, the group or a
+    segment, and only the Oslo date.
+
+  Anything the round does not ask, or a value out of range, is refused before a row is
+  written.
+- **Time.** The last screen says "Takk. Det tok rundt {4 + minutter} minutter." when a module
+  was asked. The 4 is the design's own closing line ("Det tok fire minutter"); the extra
+  minutes are the module file's estimate. The invitation already says "noen få minutter" and
+  is unchanged.
+- **Not done:**
+  - comments on module statements (`response_comments` is keyed to core statements);
+  - respondent languages other than bokmål (open decision 4).
+- **The leader preview** (/forhandsvis) shows the module exactly as it will be asked,
+  unshuffled, as it shows the core.
+
+## D-114 — Industry modules, PR 4: results, and counts for the whole organisation
+
+- **The same rule, proven.**
+  - `app.release_cells` is `cell_release`'s decision for one statement: k per group and
+    complementary suppression. `module_results_invariants` proves it decides every core cell
+    of every closed round exactly as `cell_release` does.
+  - When a module factor is answered by the same people with the same values as ytring, it is
+    released for exactly the same groups, with the same index per group and for the house.
+- **Results** (`module_results`): closed rounds only, members only.
+  - The house (daglig leder, verneombud) sees a factor where every asked statement has k
+    answers.
+  - Groups see only their released factor cells; a department leader sees only their visible
+    groups.
+- **Counts** (`get_count_item_totals(round)`):
+  - one argument, and no group or segment exists to pass;
+  - closed rounds, the house's readers only;
+  - below k it returns no numbers at all, not even how many answered.
+- **Where.** A panel under Resultater's workspace, from the page's own parts: the card, the
+  Varmekart's `heatTone` palette, and "–" for a withheld cell. It is not inside the core
+  factor list, because the index is the eleven QPS factors (D-111).
+  - Each factor opens to show its summary, rationale with sources, legal basis and
+    statements.
+  - The "Telles for hele virksomheten" card shows a stacked bar and the counts, or "Vises når
+    minst {k} har svart".
+- **Not done:**
+  - module factors in the positive-first summary and on the Oversikt screens;
+  - segment filter chips (flag off; the rule is `app.segment_cell_ok` and
+    `lib/modules/segments.ts`, with a unit test).
+- **Verified visually** through a throwaway route with sample figures, deleted before the
+  commit: no closed round has module answers yet, and none may be invented in the fixture.
+
+## D-115 — Industry modules, PR 5: measures from module factors, and the puls
+
+- **A measure on a module factor** is a row in `app.measures` like any other (0071). It names
+  the module factor and its re-measure statement instead of a core factor:
+  - exactly one of the two;
+  - the statement must be the factor's own.
+
+  Every existing reader of measures reads core measures only, so the Tavle, Plan, Liste and
+  the report's sections 5–6 are unchanged.
+- **Making one.** Each module factor in Resultater lists its three suggestions (workshop,
+  rutine, lederpraksis), each with "Måles på nytt med: «…»" and "Lag tiltak".
+- **Following it.** Tiltak shows "Tiltak fra bransjemodulen" under the board, with step, owner
+  and deadline, saved on change, under the same rules. A close that skips the effect
+  measurement is refused (0015).
+- **The puls.** A new puls, planned by the wheel or started now, asks the re-measure statement
+  of every open module measure (trigger `round_pulse_modules`). A module factor with no open
+  measure drops out. Core factors follow their measures as before, and a puls with module
+  statements only is allowed.
+
+## D-116 — Industry modules: the report
+
+In the AMU and Arbeidstilsynet documents, after section 8, each module the year's grunnlinje
+asked has a section:
+- factor, index, risk band, legal basis and open measures;
+- the count questions for the whole undertaking, or "Vises ikke: færre enn {k} har svart".
+
+The footer adds "Bygg og anlegg v1.0.0". Values come from the same definer functions as
+Resultater, so the report prints nothing the release rule withheld.
+
+## D-117 — Industry modules: the admin's Moduler page
+
+`/admin/modules` (super-admin, analyst) shows:
+- every version with status, publication date, content hash, size, the rounds that asked it,
+  and its pilots;
+- adoption: of last year's grunnlinjer, how many asked a module, by industry code.
+
+A super-admin can publish or retire a version, and add or remove a pilot, each with a reason
+and each audited. Publishing warns that it cannot be undone.
+
+Verified for D-112 to D-117:
+- all 42 SQL suites and the design figures on a database rebuilt from migrations, with the
+  four new module suites: 15, 8, 8 and 6 checks;
+- applied to hosted, where the module suites pass, all rolled back;
+- 168 unit tests;
+- in the browser against hosted, as Nordvik's daglig leder with Nordvik piloting the draft:
+  - the suggestion, the keyboard toggle, "Lagret" and the summary row;
+  - no sideways scroll at 390 px;
+  - the preview walks 59 questions: 33 core, then 24 module, then 2 counted;
+  - no console errors.
+
+  Afterwards the selection and the pilot were removed and the module is a draft again.

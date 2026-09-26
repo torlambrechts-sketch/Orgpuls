@@ -53,6 +53,8 @@ export async function getMeasureEffects(): Promise<MeasureEffect[]> {
     .from('measures')
     .select('id, factor_key, title, effect_note, round_id, effect_round_id')
     .not('effect_round_id', 'is', null)
+    // core measures only (0071)
+    .not('factor_key', 'is', null)
     .order('created_at')
 
   if (readFailed('getMeasureEffects', error, data)) return []

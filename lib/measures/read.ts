@@ -130,6 +130,9 @@ export async function getMeasures(): Promise<Measure[]> {
         ' rounds!measures_round_id_fkey(id, measurements(kind, year)),' +
         ' measure_groups(group_id)',
     )
+    // core measures only: a module measure (0071) has no core factor and is read by
+    // lib/modules/measures.ts
+    .not('factor_key', 'is', null)
     // the order they were decided in; see the fixture's note on created_at
     .order('created_at', { ascending: true })
 

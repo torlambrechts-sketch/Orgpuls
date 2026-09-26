@@ -595,3 +595,26 @@ const Deletions = z.object({
 })
 export type Deletions = z.infer<typeof Deletions>
 export const deletions = () => call('admin_deletions', {}, Deletions)
+
+// ---------------------------------------------------------------- industry modules (0067, 0068, D-117)
+const Modules = z.object({
+  ok: z.literal(true),
+  modules: z.array(
+    z.object({
+      key: z.string(),
+      version: z.string(),
+      name: z.string(),
+      status: z.enum(['draft', 'published', 'retired']),
+      published_at: tsn,
+      retired_at: tsn,
+      content_hash: z.string(),
+      factors: num,
+      items: num,
+      rounds: num,
+      pilots: z.array(z.object({ org_id: z.string().uuid(), name: z.string() })).default([]),
+    }),
+  ),
+  adoption: z.array(z.object({ nace: z.string(), rounds: num, with_module: num })),
+})
+export type AdminModules = z.infer<typeof Modules>
+export const modules = () => call('admin_modules', {}, Modules)

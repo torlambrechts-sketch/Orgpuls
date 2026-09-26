@@ -9,13 +9,62 @@ type T = Awaited<ReturnType<typeof getTranslations>>
  * string from next-intl. Shared by the real respondent page (/s/[token]) and the leaders'
  * preview (/forhandsvis), so a preview cannot drift from what employees are sent.
  */
-export function respondQuestions(t: T, form: Pick<RespondForm, 'questions' | 'extra'>): Question[] {
+/**
+ * The core survey's time, as the design's own closing line states it ("Takk. Det tok fire
+ * minutter."). A module adds its `estimated_minutes` to it (D-113).
+ */
+export const CORE_MINUTES = 4
+
+export function respondQuestions(
+  t: T,
+  form: Pick<RespondForm, 'questions' | 'extra' | 'threshold'> & { modules?: RespondForm['modules'] },
+): Question[] {
   // the shared 1..5 agreement scale every factor statement is answered on. The range is
   // the database's: app.answers carries check (value between 1 and 5).
   const scale: Choice[] = [1, 2, 3, 4, 5].map((n) => ({
     ordinal: n,
     label: t(`respond.scale.o${n}`),
   }))
+
+  const modules = form.modules ?? []
+  const countTotal = modules.reduce((n, m) => n + m.count.length, 0)
+
+  /*
+   * The order a respondent meets them in (D-113): the core statements, shuffled; the
+   * module's statements, shuffled within the module; the questions outside the index; the
+   * module's count questions; its background questions, last and optional.
+   */
+  const moduleStatements = modules.flatMap((m) =>
+    m.statements.map(
+      (q): Question => ({ kind: 'module', id: q.item, item: q.item, factorLabel: q.factor, text: q.text, choices: scale }),
+    ),
+  )
+  const countQuestions = modules.flatMap((m) =>
+    m.count.map(
+      (q): Question => ({
+        kind: 'count',
+        id: q.item,
+        item: q.item,
+        factorLabel: t('respond.countLabel'),
+        lead: t('respond.countLead', { count: countTotal }),
+        text: q.text,
+        choices: q.options.map((label, i) => ({ ordinal: i + 1, label })),
+      }),
+    ),
+  )
+  const segmentQuestions = modules.flatMap((m) =>
+    m.segments.map(
+      (q): Question => ({
+        kind: 'segment',
+        id: q.item,
+        item: q.item,
+        factorLabel: t('respond.segmentLabel'),
+        lead: t('respond.segmentLead', { threshold: form.threshold }),
+        text: q.text,
+        choices: q.options.map((label, i) => ({ ordinal: i + 1, label })),
+      }),
+    ),
+  )
 
   return [
     ...form.questions.map(
@@ -29,6 +78,7 @@ export function respondQuestions(t: T, form: Pick<RespondForm, 'questions' | 'ex
         choices: scale,
       }),
     ),
+    ...moduleStatements,
     ...form.extra.map((x): Question =>
       x.kind === 'free_text'
         ? {
@@ -52,11 +102,12 @@ export function respondQuestions(t: T, form: Pick<RespondForm, 'questions' | 'ex
             })),
           },
     ),
+    ...countQuestions,
+    ...segmentQuestions,
   ]
-
 }
 
-export function respondCopy(t: T, threshold: number): RespondCopy {
+export function respondCopy(t: T, threshold: number, moduleMinutes = 0): RespondCopy {
   return {
     // the raw template, because the substitution happens per step in the client
     progress: t.raw('respond.progress'),
@@ -66,7 +117,10 @@ export function respondCopy(t: T, threshold: number): RespondCopy {
     commentPrompt: t('respond.commentPrompt'),
     commentPlaceholder: t('respond.commentPlaceholder'),
     openPlaceholder: t('respond.openPlaceholder'),
-    doneTitle: t('respond.doneTitle'),
+    // the design's line when the survey is the core one; with a module, the sum (D-113)
+    doneTitle: moduleMinutes
+      ? t('respond.doneTitleMinutes', { minutes: CORE_MINUTES + moduleMinutes })
+      : t('respond.doneTitle'),
     doneLead: t('respond.doneLead', { threshold }),
     submitFailed: t('respond.submitFailed'),
   }

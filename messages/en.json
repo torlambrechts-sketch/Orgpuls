@@ -503,7 +503,12 @@
         "subject": "My comment about {factor}",
         "mailBody": "Hi {name},\n\nI am the one who wrote the comment about {factor} in the employee survey. You asked to talk with me directly.\n\n"
       }
-    }
+    },
+    "countLabel": "Counted for the whole organisation",
+    "countLead": "{count, plural, =1 {A short question counted only for the whole organisation} =2 {Two short questions counted only for the whole organisation} =3 {Three short questions counted only for the whole organisation} other {# short questions counted only for the whole organisation}}",
+    "segmentLabel": "Optional",
+    "segmentLead": "Optional: used only to compare groups with at least {threshold} answers",
+    "doneTitleMinutes": "Thank you. That took about {minutes} minutes."
   },
   "rapport": {
     "backToInnsikt": "← Insight",
@@ -677,6 +682,25 @@
         "nextDue": "The next review must be after the date the training was held.",
         "denied": "That did not work. Only the managing director and the safety representative can record this — nothing was changed."
       }
+    },
+    "module": {
+      "head": "Industry module: {name} v{version}",
+      "lead": "The module’s factors were measured in addition to the main survey and are not part of the index. A value is shown only when at least {threshold} have answered every statement.",
+      "factor": "Factor",
+      "index": "Index",
+      "risk": "Risk",
+      "legal": "Legal basis",
+      "measures": "Measures",
+      "noMeasures": "No measures",
+      "band": {
+        "lav": "Low",
+        "middels": "Medium",
+        "hoy": "High"
+      },
+      "countHead": "Counted for the whole organisation",
+      "countSuppressed": "Not shown: fewer than {threshold} answered.",
+      "countLine": "Yes: {ja}. No: {nei}. Don’t know: {vetIkke}. Of {total} answers.",
+      "footer": "{name} v{version}"
     }
   },
   "tiltak": {
@@ -837,6 +861,17 @@
         "sommer": "the summer",
         "host": "the autumn"
       }
+    },
+    "module": {
+      "head": "Measures from the industry module",
+      "lead": "The same steps, owner and deadline as other measures. The pulse asks the statement that measures it for as long as it is open.",
+      "factor": "{module} · {factor}",
+      "remeasure": "Re-measured with {code}: “{statement}”",
+      "saved": "Saved.",
+      "problem": {
+        "denied": "The change was not saved.",
+        "closingRule": "A measure cannot be closed before its effect is measured."
+      }
     }
   },
   "risk": {
@@ -977,7 +1012,9 @@
       "invalid": "Something in the setup could not be read. Check the fields and try again.",
       "denied": "You do not have access to change the setup. A daglig leder or an avdelingsleder does.",
       "gone": "The measurement no longer exists.",
-      "capped": "Five of your own questions is the cap."
+      "capped": "Five of your own questions is the cap.",
+      "locked": "The survey has started, so its questions cannot change.",
+      "moduleFactorRequired": "At least one factor must be included."
     },
     "ownSave": "Save",
     "cadenceKvartal": "Quarterly",
@@ -998,6 +1035,18 @@
     "cta": {
       "grunnlinje": "Plan the baseline",
       "puls": "Activate the pulse"
+    },
+    "module": {
+      "head": "Industry module",
+      "helper": "Asked in addition to the main survey. Answers are shown with the same threshold of {threshold}.",
+      "suggest": "Your organisation is registered in {industry}. Add {module}?",
+      "stats": "{count} statements, about {minutes} minutes extra",
+      "countItems": "Include {count, plural, =1 {the yes/no question} =2 {the two yes/no questions} =3 {the three yes/no questions} other {the # yes/no questions}} counted only for the whole organisation",
+      "seeQuestions": "See the questions",
+      "factorsHead": "Factors included",
+      "locked": "The survey has started, so its questions are locked. Changes apply to the next survey.",
+      "summary": "Industry module",
+      "summaryValue": "{name} · {count} more questions"
     }
   },
   "arshjulet": {
@@ -2961,6 +3010,40 @@
     "empty": {
       "title": "Results",
       "note": "No survey has closed yet. Results appear here once the first survey has ended."
+    },
+    "module": {
+      "pill": "Industry module",
+      "title": "{name}",
+      "version": "{name} v{version}",
+      "lead": "The module’s factors are scored the same way as the main survey but are not part of the index. A group is shown only when at least {threshold} have answered every statement.",
+      "tableLabel": "Results for {name} by group",
+      "factor": "Factor",
+      "org": "Whole organisation",
+      "groupN": "{name} · {n}",
+      "withheld": "Not shown: too few answers",
+      "foot": "– means the cell is withheld because fewer than {threshold} answered, or to protect another group.",
+      "legal": "Legal basis",
+      "statements": "Statements",
+      "band": {
+        "lav": "Low risk",
+        "middels": "Medium risk",
+        "hoy": "High risk"
+      },
+      "countTitle": "Counted for the whole organisation",
+      "countLead": "These questions are stored without a group and shown only as counts for the whole organisation, never by group.",
+      "countSuppressed": "Shown when at least {threshold} have answered.",
+      "countTotal": "{n} answers",
+      "actionType": {
+        "workshop": "Workshop",
+        "rutine": "Routine",
+        "lederpraksis": "Leadership practice"
+      },
+      "remeasure": "Re-measured with: “{statement}”",
+      "suggestions": "Three suggested measures",
+      "create": "Create measure",
+      "created": "Added to Measures.",
+      "openTiltak": "Open Measures",
+      "createFailed": "The measure was not created. Only the managing director and department leaders can create measures."
     }
   },
   "kommentarer": {
@@ -6848,7 +6931,8 @@
       "crm": "CRM",
       "health": "Account health",
       "seo": "Search and content",
-      "acquisition": "Cost per customer"
+      "acquisition": "Cost per customer",
+      "modules": "Industry modules"
     },
     "role": {
       "super_admin": "Super-admin",
@@ -8194,6 +8278,52 @@
       "noDone": "Nothing has been deleted yet.",
       "note": "The log keeps the organisation number and name, the dates, who ran it and how many rows of each kind: the record that the promise in the data processing agreement (§ 11) was kept. It holds no person's data.",
       "countsLine": "{responses} answers · {employees} employees · {accounts} accounts · {tickets} tickets"
+    },
+    "modules": {
+      "title": "Industry modules",
+      "lead": "Question modules that extend the survey for one industry. A draft is written from modules/*.json by the seed script; publishing makes it available to every organisation, and a published version can never change. Changing wording means a new version.",
+      "versions": "Versions",
+      "none": "No modules seeded.",
+      "col": {
+        "module": "Module",
+        "status": "Status",
+        "published": "Published",
+        "content": "Content",
+        "rounds": "Rounds",
+        "pilots": "Pilots",
+        "nace": "Industry code",
+        "baselines": "Baselines (12 months)",
+        "withModule": "With a module"
+      },
+      "status": {
+        "draft": "Draft",
+        "published": "Published",
+        "retired": "Retired"
+      },
+      "content": "{factors} factors, {items} statements",
+      "actions": "{name} {version}",
+      "reason": "Reason (in the audit log)",
+      "saving": "Saving …",
+      "done": "Done.",
+      "publish": "Publish",
+      "retire": "Retire",
+      "publishWarning": "Publishing makes this version available to every organisation. It cannot be unpublished or changed; only retired.",
+      "retireWarning": "Retiring stops new surveys from using this version. Rounds that asked it keep their results.",
+      "pilotOrg": "Organisation id",
+      "pilotAdd": "Add pilot",
+      "pilotRemove": "Remove pilot",
+      "adoption": "Adoption by industry",
+      "noAdoption": "No baselines in the last twelve months.",
+      "problem": {
+        "not_allowed": "Only a super-admin can do this.",
+        "reason_required": "Give a reason of at least five characters.",
+        "not_found": "No such organisation or module.",
+        "not_draft": "Only a draft can be piloted.",
+        "in_use": "A planned round of this organisation still asks the draft; remove it there first.",
+        "invalid_transition": "A module moves draft → published → retired only.",
+        "invalid": "Check the fields.",
+        "failed": "Something went wrong."
+      }
     }
   },
   "access": {

@@ -1,4 +1,7 @@
 import { countView } from '@/lib/analytics/product'
+import { getRoundModules } from '@/lib/modules/read'
+import { getCountTotals, getModuleResults } from '@/lib/modules/results'
+import { getModuleMeasures } from '@/lib/modules/measures'
 import {
   RapportScreen,
   type Audience,
@@ -196,7 +199,7 @@ export default async function RapportPage({
     }))
     .sort((a, b) => (positionOf.get(a.key) ?? 0) - (positionOf.get(b.key) ?? 0))
 
-  const view: RapportView = {
+  const view: Omit<RapportView, 'modules'> = {
     audience,
     year,
     scope,
@@ -274,5 +277,44 @@ export default async function RapportPage({
       : null,
   }
 
-  return <RapportScreen view={view} />
+  return <RapportScreen view={{ ...view, modules: await reportModules(primaryRound?.id ?? null) }} />
+}
+
+/**
+ * The primary round's industry modules for the report (D-116): factor, index, band and legal
+ * basis from module_results, whose release rule decides what may print; the count questions
+ * from get_count_item_totals, for the whole undertaking; and the measures on each factor.
+ */
+async function reportModules(roundId: string | null): Promise<RapportView['modules']> {
+  if (!roundId) return []
+  const rms = await getRoundModules([roundId])
+  if (!rms.length) return []
+  const [results, totals, measures] = await Promise.all([
+    getModuleResults(roundId),
+    getCountTotals(roundId),
+    getModuleMeasures(),
+  ])
+  if (!results) return []
+  return results.modules.map((m) => ({
+    name: m.name,
+    version: m.version,
+    threshold: results.threshold,
+    factors: m.factors.map((f) => ({
+      name: f.name,
+      index: f.index,
+      band: f.band,
+      legalBasis: f.legal_basis,
+      measures: measures
+        .filter((x) => x.factorKey === f.key && x.moduleName === m.name && x.step !== 'lukket')
+        .map((x) => x.title),
+    })),
+    counts: (totals?.items ?? []).map((c) => ({
+      text: c.text,
+      suppressed: c.suppressed,
+      ja: c.n_ja,
+      nei: c.n_nei,
+      vetIkke: c.n_vet_ikke,
+      total: c.n_total,
+    })),
+  }))
 }
