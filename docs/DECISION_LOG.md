@@ -2130,4 +2130,7 @@ and user. Migration 0051 builds its core:
 - [x] Language selection: NEXT_LOCALE cookie, saved on the profile and restored at sign-in; NO | EN in the public header, the phone menu and the app's account menu (D-96).
 - [x] Delivery events from Brevo (bounce, block, spam, unsubscribe) in the admin and on Oppsett › Ansatte; no opens or clicks; token links written as text (0053, D-97).
 - [ ] In Brevo, switch transactional tracking to "anonymous" so opens are not tied to an address; the API cannot change it (D-97).
-- [ ] SMS delivery reports; per-recipient ids for notices to several leaders; delivery state on the ticket page (D-97).
+- [x] SMS delivery reports through a second Brevo webhook (D-99).
+- [ ] Per-recipient ids for notices to several leaders; delivery state on the ticket page (D-97).
+- [x] Web analytics: country, region, city, the latest visits one by one, and the IP address as its /24 or /48 network (0054, D-100).
+- [ ] Decide whether the site may keep full IP addresses. It would need new wording in the privacy notice and in the databehandleravtale's vedlegg 1, which today says the statistics "sier ikke hvem som besøker" (D-100).

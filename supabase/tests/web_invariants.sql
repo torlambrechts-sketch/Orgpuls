@@ -3,6 +3,7 @@
 --   * the three tables have RLS on and no client privilege; anon may send a beacon and
 --     nothing else here (1, 2)
 --   * web_events has no column that could hold an address, a user agent or an account (3)
+--   * location is sanitised and an address is kept only as its /24 or /48 network (17)
 --   * bots are dropped; the respondent's link, invitations, auth and admin are never recorded (4, 5)
 --   * a path is normalised, Orgpuls's own host is not a referrer, a tag is capped (6)
 --   * the visitor hash is the same for one device on one day, and differs between devices (7)
@@ -47,7 +48,7 @@ begin
     'actual', v_ok::text, 'pass', v_ok);
 
   v_txt := concat_ws(',',
-    has_function_privilege('anon', 'public.track_web_event(text,text,text,text,text,jsonb,text)', 'execute'),
+    has_function_privilege('anon', 'public.track_web_event(text,text,text,text,text,jsonb,text,jsonb)', 'execute'),
     has_function_privilege('anon', 'public.record_signup_source(jsonb,jsonb)', 'execute'),
     has_function_privilege('anon', 'public.admin_web(int)', 'execute'),
     has_function_privilege('anon', 'public.admin_org_attribution(uuid)', 'execute'),
@@ -58,8 +59,8 @@ begin
   select string_agg(column_name, ',' order by ordinal_position) into v_txt
   from information_schema.columns where table_schema = 'app' and table_name = 'web_events';
   v_rows := v_rows || jsonb_build_object('seq', 3, 'name', 'web_events has no column for an address, user agent or account',
-    'expected', 'id,product_id,at,day,visitor,kind,path,referrer_host,utm_source,utm_medium,utm_campaign,label',
-    'actual', v_txt, 'pass', v_txt = 'id,product_id,at,day,visitor,kind,path,referrer_host,utm_source,utm_medium,utm_campaign,label');
+    'expected', 'id,product_id,at,day,visitor,kind,path,referrer_host,utm_source,utm_medium,utm_campaign,label,country,region,city,network',
+    'actual', v_txt, 'pass', v_txt = 'id,product_id,at,day,visitor,kind,path,referrer_host,utm_source,utm_medium,utm_campaign,label,country,region,city,network');
 
   select m.user_id into v_dl from app.memberships m where m.org_id = v_org and m.role = 'daglig_leder' and m.active limit 1;
 
@@ -118,6 +119,18 @@ begin
     select count(*) into v_cnt from app.web_events where path = '/web-probe/cap';
     v_rows := v_rows || jsonb_build_object('seq', 9, 'name', 'a visitor is capped at 300 events a day', 'expected', '300',
       'actual', v_cnt::text, 'pass', v_cnt = 300);
+
+    -- 17 --------------------------------------------------------------- location and network (0054)
+    perform public.track_web_event('198.51.100.77', v_ua, 'view', '/web-probe/geo', null, '{}', null,
+      '{"country":"no","region":"03","city":"Oslo<script>"}');
+    perform public.track_web_event('2001:db8:1234:5678::1', v_ua, 'view', '/web-probe/geo6', null, '{}', null,
+      '{"country":"Norway","region":"../../etc"}');
+    select string_agg(concat_ws('|', coalesce(country, '-'), coalesce(region, '-'), coalesce(city, '-'), coalesce(network, '-')), ';' order by path)
+      into v_txt from app.web_events where path in ('/web-probe/geo', '/web-probe/geo6');
+    v_rows := v_rows || jsonb_build_object('seq', 17, 'name', 'location is kept clean and the address only as its network',
+      'expected', 'NO|03|Osloscript|198.51.100.0/24;-|-|-|2001:db8:1234::/48', 'actual', v_txt,
+      'pass', v_txt = 'NO|03|Osloscript|198.51.100.0/24;-|-|-|2001:db8:1234::/48'
+        and not exists (select 1 from app.web_events e where e.network like '198.51.100.77%' or e.network like '2001:db8:1234:5678%'));
 
     -- 10 --------------------------------------------------------------- channels
     v_txt := concat_ws(',',
@@ -197,7 +210,7 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._wbi;
   if v_failed is not null then raise exception 'web invariants failed: %', v_failed; end if;
-  if v_count <> 16 then raise exception 'web invariants: expected 16 rows, got %', v_count; end if;
+  if v_count <> 17 then raise exception 'web invariants: expected 17 rows, got %', v_count; end if;
 end $$;
 
 drop table public._wbi;

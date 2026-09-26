@@ -4249,3 +4249,45 @@ was invisible.
 
 **Limit:** Brevo reports an SMS as delivered when the operator confirms it. An operator
 that sends no confirmation leaves the row with no delivery state, not a failure.
+
+## D-100 — Web analytics: location, time and network, not the full IP address
+
+**The request:** "to the web can we add source, location, time, country and IP address".
+
+**What already existed:**
+- **Source:** the referring host, utm tags and channel (0050).
+- **Time:** each event's `at`.
+
+**What changed (migration 0054):**
+- **Location.** `app.web_events` gains `country`, `region` and `city`.
+  - Vercel's edge fills them from the request (`x-vercel-ip-country`, `-country-region`,
+    `-city`); /api/wv passes them on. Nothing is looked up by Orgpuls.
+  - They are cleaned in SQL: a two-letter country, a short region code, and a city of at
+    most 80 characters with control characters and markup removed.
+- **Network.** `network` holds the IP address cut to its network: /24 for IPv4, /48 for
+  IPv6.
+  - The full address is still only an input to the day's visitor hash, as before.
+- **The admin's Web page** gains three cards:
+  - Countries;
+  - Cities;
+  - Latest visits: the newest 100 sessions, each with its time (Oslo), source (channel,
+    source, medium, campaign), landing page, pages seen, location, network and outcome.
+
+**Deviation: the full IP address is not stored.**
+- The signed databehandleravtale (vedlegg 1) says the site statistics "sier ikke hvem som
+  besøker".
+- X-059 built the analytics so that nothing can follow a person.
+- A full address identifies an office or a household. A /24 or /48 network is the level
+  Google Analytics' IP anonymisation keeps.
+- Keeping the full address is a one-line change in `track_web_event`. It first needs a
+  decision and new privacy wording; this is logged as an open item.
+
+**Limit:** location is where the network says it is. Mobile networks and VPNs often report
+the operator's city, not the visitor's. Visits recorded before 0054 show "Not known".
+
+**Verified:**
+- `web_invariants.sql`: 17 checks, locally and on hosted. The new check covers a cleaned
+  city, a rejected region, and IPv4 and IPv6 cut to /24 and /48.
+- Beacons with Vercel's headers through `next start` stored `NO | 46 | Tønsberg |
+  198.51.100.0/24`, and the admin page showed them in all three new cards. The probe rows
+  and the probe admin were deleted afterwards.

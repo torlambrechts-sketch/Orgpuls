@@ -8,6 +8,10 @@ import { readSupabaseEnv } from '@/lib/supabase/env'
  * user agent to `track_web_event`, which turns them into a hash with the day's salt, drops
  * bots and paths it must not record, and stores neither. The answer is always 204: a beacon
  * has nobody to tell, and a different answer would tell a prober what was kept.
+ *
+ * Since 0054 (D-100) it also passes the country, region and city Vercel's edge reads from the
+ * address. The database keeps those and the address cut to its /24 or /48 network, never the
+ * address itself.
  */
 const Body = z.object({
   k: z.enum(['view', 'cta']),
@@ -16,6 +20,17 @@ const Body = z.object({
   u: z.record(z.string().max(20), z.string().max(200)).optional(),
   l: z.string().max(40).optional(),
 })
+
+// Vercel URI-encodes the city (e.g. `T%C3%B8nsberg`); a header that is not valid encoding is dropped
+function header(request: NextRequest, name: string): string | null {
+  const raw = request.headers.get(name)
+  if (!raw) return null
+  try {
+    return decodeURIComponent(raw).slice(0, 80)
+  } catch {
+    return null
+  }
+}
 
 const done = () => new NextResponse(null, { status: 204 })
 
@@ -52,6 +67,11 @@ export async function POST(request: NextRequest) {
     p_referrer: body.data.r ?? null,
     p_utm: body.data.u ?? {},
     p_label: body.data.l ?? null,
+    p_geo: {
+      country: header(request, 'x-vercel-ip-country'),
+      region: header(request, 'x-vercel-ip-country-region'),
+      city: header(request, 'x-vercel-ip-city'),
+    },
   })
   return done()
 }

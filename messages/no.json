@@ -6921,7 +6921,7 @@
     },
     "web": {
       "title": "Web analytics",
-      "lead": "The public site, from first visit to paying customer. Counted by the site's own beacon: no cookie, no address, and a visitor hash that changes every day.",
+      "lead": "The public site, from first visit to paying customer. Counted by the site's own beacon: no cookie, a visitor hash that changes every day, and the address kept only as its network.",
       "period": "Period",
       "days": "{count} days",
       "visitors": "Visitors",
@@ -6965,7 +6965,23 @@
       "landing": "Landing pages",
       "pages": "Most viewed pages",
       "page": "Page",
-      "privacy": "The respondent's survey link, invitations and the product are never counted here."
+      "privacy": "The respondent's survey link, invitations and the product are never counted here.",
+      "countries": "Countries",
+      "country": "Country",
+      "cities": "Cities",
+      "city": "City",
+      "unknownPlace": "Not known",
+      "recent": "Latest visits",
+      "recentLead": "The latest 100 visits in the period, newest first. Location is what the network reports, often the provider's city rather than the visitor's.",
+      "time": "Time (Oslo)",
+      "source": "Source",
+      "location": "Location",
+      "network": "Network",
+      "networkHint": "The IP address cut to /24 (IPv4) or /48 (IPv6); the full address is never stored.",
+      "outcome": "Outcome",
+      "outcomeSignup": "Reached registration",
+      "outcomeClicked": "Pressed “Kom i gang”",
+      "outcomeNone": "—"
     },
     "tickets": {
       "title": "Tickets",

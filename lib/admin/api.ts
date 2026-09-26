@@ -300,6 +300,27 @@ const Web = z.object({
   pages: z.array(z.object({ path: z.string(), views: num })),
   campaigns: z.array(z.object({ campaign: z.string(), sessions: num, signups: num, paid: num })),
   funnel: z.object({ sessions: num, saw_offer: num, clicked: num, reached_signup: num, created: num }),
+  // 0054 (D-100): where visits came from, and the latest ones one by one
+  countries: z.array(z.object({ country: z.string(), sessions: num, visitors: num })),
+  cities: z.array(z.object({ country: z.string().nullable(), region: z.string().nullable(), city: z.string(), sessions: num })),
+  recent: z.array(
+    z.object({
+      started_at: ts,
+      channel: z.string(),
+      referrer_host: z.string().nullable(),
+      utm_source: z.string().nullable(),
+      utm_medium: z.string().nullable(),
+      utm_campaign: z.string().nullable(),
+      landing: z.string().nullable(),
+      views: num,
+      clicked: z.boolean(),
+      reached_signup: z.boolean(),
+      country: z.string().nullable(),
+      region: z.string().nullable(),
+      city: z.string().nullable(),
+      network: z.string().nullable(),
+    }),
+  ),
 })
 export type Web = z.infer<typeof Web>
 export const WEB_PERIODS = [7, 30, 90, 365] as const

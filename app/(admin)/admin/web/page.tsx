@@ -7,6 +7,9 @@ import { isError, web, WEB_PERIODS } from '@/lib/admin/api'
  * site's funnel down to an organisation created — then, per source, how many of those
  * organisations sent a survey and paid. Counted by the site's own beacon (0050): no cookie,
  * and a visitor hash that changes every day, so visitors are counted per day and summed.
+ *
+ * Since 0054 (D-100): countries, cities and the latest visits one by one, with time, source,
+ * landing page, location and network. The network is the address cut to /24 or /48.
  */
 export default async function AdminWeb({ searchParams }: { searchParams: Promise<{ d?: string }> }) {
   const { d } = await searchParams
@@ -14,6 +17,19 @@ export default async function AdminWeb({ searchParams }: { searchParams: Promise
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const w = await web(days)
   if (isError(w)) return <Problem text={w.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
+
+  const regions = new Intl.DisplayNames(['en'], { type: 'region' })
+  const countryName = (c: string | null) => {
+    if (!c || c === '??') return t('web.unknownPlace')
+    try {
+      return regions.of(c) ?? c
+    } catch {
+      return c
+    }
+  }
+  const place = (v: { city: string | null; region: string | null; country: string | null }) =>
+    v.country ? [v.city, v.region, countryName(v.country)].filter(Boolean).join(', ') : t('web.unknownPlace')
+  const when = new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Europe/Oslo' })
 
   const max = Math.max(1, ...w.daily.map((x) => x.visitors))
   const f = w.funnel
@@ -147,7 +163,58 @@ export default async function AdminWeb({ searchParams }: { searchParams: Promise
             ))}
           </Table>
         </Card>
+
+        <Card title={t('web.countries')}>
+          <Table head={[t('web.country'), t('web.sessions'), t('web.visitors')]} empty={w.countries.length ? undefined : t('common.none')}>
+            {w.countries.map((c) => (
+              <tr key={c.country}>
+                <Td className="font-semibold">{countryName(c.country)}</Td>
+                <Td>{c.sessions}</Td>
+                <Td>{c.visitors}</Td>
+              </tr>
+            ))}
+          </Table>
+        </Card>
+
+        <Card title={t('web.cities')}>
+          <Table head={[t('web.city'), t('web.sessions')]} empty={w.cities.length ? undefined : t('common.none')}>
+            {w.cities.map((c) => (
+              <tr key={`${c.country}-${c.region}-${c.city}`}>
+                <Td>{place(c)}</Td>
+                <Td>{c.sessions}</Td>
+              </tr>
+            ))}
+          </Table>
+        </Card>
       </div>
+
+      <Card title={t('web.recent')} className="mt-[16px]">
+        <p className="mb-[10px] mt-0 text-[12.5px] text-mut">{t('web.recentLead')}</p>
+        <Table
+          head={[t('web.time'), t('web.source'), t('web.page'), t('web.viewsCol'), t('web.location'), t('web.network'), t('web.outcome')]}
+          empty={w.recent.length ? undefined : t('common.none')}
+        >
+          {w.recent.map((r) => (
+            <tr key={`${r.started_at}-${r.network}-${r.landing}`}>
+              <Td>{when.format(new Date(r.started_at))}</Td>
+              <Td>
+                <span className="font-semibold">{t(`web.channel.${r.channel}`)}</span>
+                {r.utm_source || r.referrer_host ? (
+                  <span className="block text-[12px] text-mut">
+                    {[r.utm_source ?? r.referrer_host, r.utm_medium, r.utm_campaign].filter(Boolean).join(' · ')}
+                  </span>
+                ) : null}
+              </Td>
+              <Td>{r.landing ?? '—'}</Td>
+              <Td>{r.views}</Td>
+              <Td>{place(r)}</Td>
+              <Td className="font-mono text-[12px]">{r.network ?? '—'}</Td>
+              <Td>{r.reached_signup ? t('web.outcomeSignup') : r.clicked ? t('web.outcomeClicked') : t('web.outcomeNone')}</Td>
+            </tr>
+          ))}
+        </Table>
+        <p className="mb-0 mt-[10px] text-[12px] text-mut">{t('web.networkHint')}</p>
+      </Card>
       <p className="mb-0 mt-[16px] text-[12px] text-mut">{t('web.privacy')}</p>
     </>
   )
