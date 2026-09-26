@@ -4921,3 +4921,65 @@ Verified:
     27 October);
   - no sideways scroll at 390 px;
   - taken back, and hosted left with no cancellation.
+
+## D-111 — Industry modules: a registry beside the core instrument, not inside it
+
+The hand-off `docs/implementation/bransjesider-og-tilleggsmoduler.md` asks for industry
+question modules, starting with Bygg og anlegg 1.0.0. The file `modules/bygg-og-anlegg/v1.json`
+is the only source of their wording. The Step 0 findings are in
+`docs/implementation/step0-findings.md`. This entry is PR 1 of the hand-off's plan: the
+schema, validation, registry, seed and publish. Nothing a customer sees changes yet.
+
+- **Not rows of `app.factors`.**
+  - The hand-off says to extend an existing registry. Here that would put module factors into
+    about twenty readers that assume every factor is one of the eleven: the organisation
+    index, the heatmap, grunnlinje round creation, Måleoppsett, the Veiviser and the report.
+  - The published index would then change the first time a customer answered a module, and
+    stop being comparable with last year's and with the benchmark.
+  - So module answers hang off the same anonymous `app.responses` row in tables of their own
+    (`app.module_answers`, `app.module_segment_answers`), with the same "no policy, no grant"
+    rule as `app.answers`. None of the core readers change.
+- **Count-only answers have no link at all.** `app.org_count_answers` holds a round, an item,
+  the answer and a date. It has no response, no group and no segment, so a per-group report is
+  impossible by construction, not by a rule someone must remember. A SQL test asserts the
+  column list.
+- **Published is immutable.**
+  - Triggers compare content, not operations: no insert, update or delete under a published or
+    retired module, and no deleting a published module.
+  - Status only moves draft → published → retired.
+  - A delete whose parent is already gone (the cascade from a draft) is allowed, as CLAUDE.md
+    requires of immutability triggers.
+- **Reading and writing.**
+  - A published or retired version is readable by anyone, like the core instrument; a draft
+    only by a platform admin.
+  - No client writes the registry. `app.module_seed` and `app.module_set_status` are
+    owner-only.
+  - `public.admin_module_set_status` is super-admin only, needs a reason, and writes
+    `module.publish` or `module.retire` to the audit log.
+  - `write_invariants` #17 lists the registry tables beside the instrument as the only public
+    reference data.
+- **A round's module selection** (`app.round_modules`, the spec's `survey_modules`) names the
+  exact statements asked, as `round_factors` does. It can only name a published module's
+  statements and is fixed once the round opens. Its policies are `round_factors`'s, one per
+  command.
+- **Seeding.** `npm run -s modules:seed | psql` calls `app.module_seed(file, sha256)`:
+  - a new version becomes a draft;
+  - the same content is a no-op;
+  - a changed draft is replaced;
+  - a published version with different content is refused.
+
+  CI validates the files, seeds them after the migrations, and runs `module_invariants.sql`.
+  Nothing is published until Tor signs off the open decisions (DECISION_LOG).
+- **Adapted to this repository:**
+  - npm rather than pnpm;
+  - `lib/` rather than `src/lib`;
+  - the `app` schema;
+  - `app.is_platform_admin(array[…])`;
+  - the seed prints SQL for psql, the way the design fixture is applied.
+
+Verified:
+- `modules:validate` passes; 12 new unit tests cover the schema's refusals, canonical hashing,
+  scoring and bands;
+- `module_invariants.sql` 13/13;
+- all 39 suites and the design figures pass on a database rebuilt from migrations, with the
+  module seeded.

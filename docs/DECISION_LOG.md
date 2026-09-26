@@ -2232,3 +2232,7 @@ search data, and revenue figures. Step 1 is D-104. Three decisions shape the res
 - [x] CRM pipeline: prospects from Brønnøysund, lists with a preference centre, six templates, A/B subject tests, click map, web archive (0056–0058, D-103, X-062).
 - [ ] CRM: automated sequences (lifecycle mail) and coupon codes once Billing has them (D-103).
 - [ ] Google sign-in: create a Google OAuth web client (redirect URI `https://jmhhszsnjfqgclxzhciq.supabase.co/auth/v1/callback`) and enable Google in Supabase › Authentication with its ID and secret; the buttons appear by themselves (D-102).
+- [x] Industry modules, PR 1: module schema and validation, registry (0067), immutability, seed and publish scripts, round selection and answer tables (D-111).
+- [ ] Industry modules, open decisions for Tor (bransjesider-og-tilleggsmoduler.md § 3). Defaults hold until decided: (1) the construction module is included in Liten and Vanlig, with no pricing copy changes; (2) factor toggles are built behind `module_factor_toggles`, off; (3) segment questions are behind `module_segments`, off, and "Vil ikke svare" is added before they are enabled; (4) respondents answer in bokmål only; (5) the count-item wording stays as in v1.0.0; (6) `/registrer` does not preselect from `?bransje=`; (7) no separate health module.
+- [ ] Legal check of every `law` item and `legal_basis` against Lovdata and Arbeidstilsynet before `bygg-og-anlegg@1.0.0` is published in production (§ B6).
+

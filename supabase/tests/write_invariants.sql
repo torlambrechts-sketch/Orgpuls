@@ -186,13 +186,17 @@ begin
   from pg_policies where schemaname = 'app' and cmd = 'ALL';
 
   -- The instrument is the question text itself, public by nature, and the only thing anon
-  -- may read. Everything else in app is an organisation's data.
+  -- may read: the core instrument, and the industry modules' published versions (0067), which
+  -- a respondent reads through a token and the public pages print. Everything else in app is
+  -- an organisation's data.
   insert into public._wr
   select 17, 'no policy on organisation data admits public or anon',
          '0', count(*)::text, count(*) = 0
   from pg_policies
   where schemaname = 'app'
-    and tablename not in ('factors', 'statements', 'extra_questions', 'extra_options')
+    and tablename not in ('factors', 'statements', 'extra_questions', 'extra_options',
+                          'question_modules', 'module_sources', 'module_factors', 'module_items',
+                          'module_action_suggestions')
     and ('public' = any(roles) or 'anon' = any(roles));
 
   insert into public._wr

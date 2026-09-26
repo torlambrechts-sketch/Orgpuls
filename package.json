@@ -14,7 +14,10 @@
     "verify:pixel": "node scripts/verify/pixel.mjs",
     "verify:probe": "node scripts/verify/probe.mjs",
     "verify:i18n": "node scripts/verify/i18n.mjs",
-    "test": "vitest run"
+    "test": "vitest run",
+    "modules:validate": "tsx scripts/modules/validate.ts",
+    "modules:seed": "tsx scripts/modules/seed.ts",
+    "modules:publish": "tsx scripts/modules/publish.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.5",

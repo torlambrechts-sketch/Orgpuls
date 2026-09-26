@@ -22,6 +22,8 @@ jobs:
       - run: npm ci
       - run: npx tsc --noEmit
       - run: npm run lint
+      # every industry module file under modules/ must parse (lib/modules/schema.ts)
+      - run: npm run -s modules:validate
 
       # The failure helpers and the one-organisation rule. Small functions, each the
       # difference between a failure the product reports and one it renders as the truth.
@@ -116,11 +118,21 @@ jobs:
       - name: Apply migrations
         run: supabase db reset
 
+      # Industry modules (0067) are reference data written from modules/*/v*.json, the single
+      # source of truth for their wording. The file must parse, and the registry rows come from
+      # it, before anything that reads them runs.
+      - name: Seed the question modules
+        run: |
+          npm ci
+          npm run -s modules:validate
+          npm run -s modules:seed > /tmp/modules.sql
+          psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" \
+            -v ON_ERROR_STOP=1 -f /tmp/modules.sql
+
       # The fixture is generated, not stored, so this also proves the generator and
       # the schema have not drifted apart.
       - name: Seed the design fixture
         run: |
-          npm ci
           node scripts/seed/design-fixture.mjs > /tmp/fixture.sql
           psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" \
             -v ON_ERROR_STOP=1 -f /tmp/fixture.sql

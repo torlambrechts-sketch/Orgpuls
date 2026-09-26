@@ -1,0 +1,630 @@
+{
+  "module_id": "bygg-og-anlegg",
+  "version": "1.0.0",
+  "locale": "nb-NO",
+  "name": "Bygg og anlegg",
+  "description": "Tilleggsmodul til hovedundersøkelsen for bygg, anlegg og verksted. Åtte faktorer med tre påstander hver, pluss to spørsmål som bare rapporteres som antall.",
+  "estimated_minutes": 3,
+  "scale": {
+    "type": "likert5",
+    "labels": [
+      "Helt uenig",
+      "Litt uenig",
+      "Verken eller",
+      "Litt enig",
+      "Helt enig"
+    ],
+    "to_index": {
+      "1": 0,
+      "2": 25,
+      "3": 50,
+      "4": 75,
+      "5": 100
+    }
+  },
+  "scoring": {
+    "factor_index": "mean of item indices",
+    "risk_bands": [
+      {
+        "band": "lav",
+        "min": 65
+      },
+      {
+        "band": "middels",
+        "min": 50,
+        "max": 64
+      },
+      {
+        "band": "høy",
+        "max": 49
+      }
+    ]
+  },
+  "anonymity": {
+    "min_responses": 5,
+    "can_lower": false,
+    "count_items_reported_at": "organisation_only",
+    "segments_require_min": 5,
+    "block_differencing": true
+  },
+  "relation_to_core": {
+    "covered_by_core_factors": [
+      "Arbeidsmengde og tidspress",
+      "Motstridende krav",
+      "Ytringsklima",
+      "Støtte fra leder",
+      "Integritet og verdighet",
+      "Kontakt og kommunikasjon"
+    ],
+    "core_count_item_reused": "krenkende_atferd"
+  },
+  "factors": [
+    {
+      "id": "sikkerhet_foran_fremdrift",
+      "name": "Sikkerhet foran fremdrift",
+      "summary": "Om sikkerheten holder når planen sprekker – og om det er trygt å stanse og melde.",
+      "rationale": "Tidspress og prispress er de faktorene som oftest trekkes fram som hindre for sikkerhetskultur i bygg, sammen med taushetskultur og uklare mandater. Nordisk forskning på sikkerhetsklima viser at det som teller, er hva ledelsen faktisk prioriterer når det blir trangt.",
+      "rationale_sources": [
+        "av_kultur",
+        "nosacq"
+      ],
+      "legal_basis": [
+        "aml § 2-3 (plikt til å avbryte arbeid ved fare og melde fra)",
+        "aml § 3-1 (systematisk HMS-arbeid)",
+        "aml § 4-1 (fullt forsvarlig arbeidsmiljø)"
+      ],
+      "items": [
+        {
+          "id": "BA-SF-1",
+          "text": "Når det blir dårlig tid, går sikkerheten fortsatt foran fremdriften",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "BA-SF-2",
+          "text": "Jeg kan stanse en jobb jeg mener er utrygg, uten å få problemer for det",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "BA-SF-3",
+          "text": "Den som melder en nestenulykke, blir møtt med takk og ikke med skyld",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Når planen ryker",
+          "description": "Laget går gjennom tre situasjoner der fremdrift og sikkerhet kolliderte, og blir enige om hvem som tar beslutningen og hvordan.",
+          "remeasure_item": "BA-SF-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Stopp og meld",
+          "description": "En fast rutine for å stanse et arbeid: stans, varsle bas, avklar før oppstart. Bas bekrefter samme dag.",
+          "remeasure_item": "BA-SF-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Takk først",
+          "description": "Leder svarer på hver melding om uønsket hendelse med takk og en tilbakemelding om hva som skjer videre, innen fem dager.",
+          "remeasure_item": "BA-SF-3"
+        }
+      ]
+    },
+    {
+      "id": "sikkerhet_i_laget",
+      "name": "Sikkerhet i laget",
+      "summary": "Om kollegaer sier fra til hverandre, holder igjen på snarveier og lærer av hendelser.",
+      "rationale": "Sikkerhetsklima handler også om laget: om man sier fra til hverandre og tar lærdom av det som nesten gikk galt. Norsk forskning har funnet at melding av hendelser kan oppleves som å «tyste», og at noen følger ordre uten selv å vurdere risikoen.",
+      "rationale_sources": [
+        "fafo",
+        "nosacq"
+      ],
+      "legal_basis": [
+        "aml § 2-3 (arbeidstakers medvirkningsplikt)",
+        "aml § 3-1 (avvik skal meldes, følges opp og læres av)"
+      ],
+      "items": [
+        {
+          "id": "BA-SL-1",
+          "text": "På laget mitt tar vi ikke snarveier som øker risikoen, selv når det haster",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "BA-SL-2",
+          "text": "Vi sier fra til hverandre når vi ser noe som er utrygt",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "BA-SL-3",
+          "text": "Uønskede hendelser blir gått gjennom, så vi lærer noe av dem",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Nestenulykken vi lærte mest av",
+          "description": "Tjue minutter på tavlemøtet: hver forteller om én hendelse som kunne gått galt, og laget velger én ting å gjøre annerledes.",
+          "remeasure_item": "BA-SL-3"
+        },
+        {
+          "type": "rutine",
+          "title": "Fem minutter på fredag",
+          "description": "Ukens meldte hendelser gjennomgås med laget hver fredag, med hva som ble gjort.",
+          "remeasure_item": "BA-SL-3"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Dagens mest risikable",
+          "description": "Bas avslutter dagen med ett spørsmål: hva var det mest risikable vi gjorde i dag?",
+          "remeasure_item": "BA-SL-2"
+        }
+      ]
+    },
+    {
+      "id": "planlegging_og_fremdrift",
+      "name": "Planlegging og fremdrift",
+      "summary": "Om tidsplanen er realistisk, og om materialer, utstyr og beskjeder er på plass i tide.",
+      "rationale": "I bygg er tidspresset sjelden bare arbeidsmengde – det kommer ofte fra urealistiske tidsplaner og dårlig planlegging. Det danske Arbejdstilsynet peker på at tidspress gir ulykker fordi det ryddes mindre og hjelpemidler ikke brukes. I en europeisk undersøkelse svarte 74 prosent i svensk byggbransje at de jobbet under tidspress, mot 47 prosent i EU.",
+      "rationale_sources": [
+        "at_dk",
+        "ki_osa"
+      ],
+      "legal_basis": [
+        "aml § 4-3 (arbeidsmengde og tidspress som psykososial faktor)",
+        "byggherreforskriften (byggherrens ansvar for planlegging og tidsplan)"
+      ],
+      "items": [
+        {
+          "id": "BA-PF-1",
+          "text": "Tidsplanen er realistisk for jobben vi skal gjøre",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "BA-PF-2",
+          "text": "Materialer, utstyr og tegninger er på plass når vi skal starte",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "BA-PF-3",
+          "text": "Vi får beskjed i god tid når planen endres",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Ukeplan med dem som gjør jobben",
+          "description": "Laget planlegger neste uke sammen med bas og sier fra om hva som mangler før oppstart.",
+          "remeasure_item": "BA-PF-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Klar-til-start",
+          "description": "En sjekk dagen før hver ny operasjon: materialer, utstyr, tegninger og tillatelser. Mangler noe, flyttes starten.",
+          "remeasure_item": "BA-PF-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Svar fra byggemøtet",
+          "description": "Prosjektleder tar tidsplankonflikter med til byggemøtet og gir laget svar samme uke.",
+          "remeasure_item": "BA-PF-3"
+        }
+      ]
+    },
+    {
+      "id": "samordning_pa_byggeplassen",
+      "name": "Samordning på byggeplassen",
+      "summary": "Om ansvar og risiko er tydelig når flere firma jobber på samme sted.",
+      "rationale": "Svenske Arbetsmiljöverket fant i 2026 at sikkerhetsarbeidet svekkes i prosjekter med mange aktører, særlig når ansvaret ligger hos personer uten tid, ressurser eller mandat til å følge det opp.",
+      "rationale_sources": [
+        "av_kultur",
+        "at_kompass24"
+      ],
+      "legal_basis": [
+        "aml § 2-2 (hovedbedriftens samordningsansvar når flere arbeidsgivere er på samme arbeidsplass)",
+        "byggherreforskriften (SHA-plan og koordinator)"
+      ],
+      "items": [
+        {
+          "id": "BA-SB-1",
+          "text": "Det er tydelig hvem som har ansvaret når flere firma jobber på samme sted",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "BA-SB-2",
+          "text": "Vi får vite om risikoen i arbeidet andre firma gjør rundt oss",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "BA-SB-3",
+          "text": "Samarbeidet med underentreprenører og andre fag fungerer godt",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Hvem bestemmer her?",
+          "description": "Laget tegner ansvarskartet for plassen: hovedbedrift, koordinator, bas per firma, og hvem man går til med hva.",
+          "remeasure_item": "BA-SB-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Felles tavlemøte",
+          "description": "Et kort morgenmøte med alle firma på plassen: hvem jobber hvor i dag, og hva kan gå galt mellom oss.",
+          "remeasure_item": "BA-SB-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Presenter nye firma",
+          "description": "Bas presenterer nye underentreprenører for laget første dag, med navn på deres bas.",
+          "remeasure_item": "BA-SB-3"
+        }
+      ]
+    },
+    {
+      "id": "sprak_og_beskjeder",
+      "name": "Språk og beskjeder",
+      "summary": "Om sikkerhetsinformasjon forstås, og om det er greit å spørre igjen.",
+      "rationale": "Manglende felles språk, kulturforskjeller og mangelfull opplæring trekker fortsatt HMS-standarden ned på norske byggeplasser. Fra 2024 må minst én på hvert arbeidslag kunne kommunisere både med laget og på norsk eller engelsk, der det er nødvendig for sikkerheten.",
+      "rationale_sources": [
+        "fafo",
+        "at_sprak_krav"
+      ],
+      "legal_basis": [
+        "Arbeidstilsynets språkkrav for arbeidslag på bygge- og anleggsplasser",
+        "aml § 3-2 (opplæring og instruksjon)"
+      ],
+      "items": [
+        {
+          "id": "BA-SP-1",
+          "text": "Sikkerhetsinformasjon blir gitt på et språk jeg forstår godt",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "BA-SP-2",
+          "text": "På laget mitt er det alltid noen som kan formidle beskjeder mellom språkene",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "BA-SP-3",
+          "text": "Det er greit å spørre igjen når man ikke har forstått en beskjed",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Beskjeden som ble misforstått",
+          "description": "Laget deler eksempler på beskjeder som ble misforstått, og lager en kort liste med ord og tegn alle skal kunne.",
+          "remeasure_item": "BA-SP-3"
+        },
+        {
+          "type": "rutine",
+          "title": "Språkperson på tavla",
+          "description": "Hvert lag har en navngitt person som formidler mellom språkene, synlig på tavla og i SJA.",
+          "remeasure_item": "BA-SP-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Si det tilbake",
+          "description": "Bas ber om å få kritiske beskjeder gjenfortalt før arbeidet starter.",
+          "remeasure_item": "BA-SP-1"
+        }
+      ]
+    },
+    {
+      "id": "nye_og_unge",
+      "name": "Nye og unge på laget",
+      "summary": "Om nye og lærlinger får opplæring, en fast person å spørre og tid til å lære.",
+      "rationale": "Arbeidstakere under 25 år er de som oftest skades i bygg og anlegg. Samtidig slutter rundt en av fem lærlinger innen de første ti månedene, ifølge tall fra Trondhjems Byggmesterlaug.",
+      "rationale_sources": [
+        "at_kompass",
+        "nho_laerling"
+      ],
+      "legal_basis": [
+        "aml § 3-2 (opplæring, øvelse og instruksjon)",
+        "aml § 4-1 (tilpasning etter arbeidstakers forutsetninger)"
+      ],
+      "items": [
+        {
+          "id": "BA-NU-1",
+          "text": "Nye får opplæring før de får oppgaver med risiko",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "BA-NU-2",
+          "text": "Nye og lærlinger på laget har en fast person å spørre",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "BA-NU-3",
+          "text": "Man får tid til å lære en ny oppgave skikkelig før det forventes tempo",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Første uke",
+          "description": "Laget lager sin egen sjekkliste for hva en ny må kunne før første risikooppgave.",
+          "remeasure_item": "BA-NU-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Fadder i tre måneder",
+          "description": "Alle nye og lærlinger får en navngitt fadder på laget de første tre månedene.",
+          "remeasure_item": "BA-NU-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Dag én, uke én, måned én",
+          "description": "Bas tar en kort prat med hver nye etter første dag, første uke og første måned.",
+          "remeasure_item": "BA-NU-3"
+        }
+      ]
+    },
+    {
+      "id": "a_si_at_man_ikke_har_det_bra",
+      "name": "Å si at man ikke har det bra",
+      "summary": "Om det er rom for å snakke om belastning, også etter ulykker og nestenulykker.",
+      "rationale": "Sykefraværet i bygg og anlegg økte mest av de store næringene fra 2019 til 2023, og psykiske plager forklarer nesten halvparten av økningen i sykefraværet totalt. Internasjonalt er menn i bygg overrepresentert i statistikk over psykisk uhelse, og bransjen kjennetegnes av en kultur der man bærer det selv.",
+      "rationale_sources": [
+        "nav",
+        "ciob",
+        "at_dk"
+      ],
+      "legal_basis": [
+        "aml § 4-3 (psykososiale arbeidsmiljøfaktorer skal være fullt forsvarlige)"
+      ],
+      "items": [
+        {
+          "id": "BA-PH-1",
+          "text": "Det er greit å si at man ikke har det bra, også her",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "BA-PH-2",
+          "text": "Etter en ulykke eller nestenulykke blir det tatt en prat med dem som var der",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "BA-PH-3",
+          "text": "Jeg vet hvor jeg kan få hjelp hvis jeg sliter",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Bak hjelmen",
+          "description": "Tretti minutter med bedriftshelsetjenesten om stress og om å se hverandre, holdt på riggen i arbeidstiden.",
+          "remeasure_item": "BA-PH-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Prat etter hendelser",
+          "description": "Etter en alvorlig hendelse eller nestenulykke samles de som var der samme uke, med leder eller BHT.",
+          "remeasure_item": "BA-PH-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Spør to ganger",
+          "description": "Når noen svarer «greit» på hvordan det går, spør leder én gang til og venter på svaret.",
+          "remeasure_item": "BA-PH-1"
+        }
+      ]
+    },
+    {
+      "id": "arbeidstid_og_restitusjon",
+      "name": "Arbeidstid og restitusjon",
+      "summary": "Om arbeidstid, overtid og reisevei gir nok hvile over tid.",
+      "rationale": "Lange arbeidsuker er vanligere i anlegg enn i arbeidslivet ellers, og øker risikoen for feilhandlinger og ulykker. Pendling og lange perioder borte kommer i tillegg.",
+      "rationale_sources": [
+        "noa",
+        "lighthouse"
+      ],
+      "legal_basis": [
+        "aml § 10-2 (arbeidstidsordninger uten uheldige belastninger)",
+        "aml § 10-8 (daglig og ukentlig hviletid)"
+      ],
+      "items": [
+        {
+          "id": "BA-AR-1",
+          "text": "Arbeidstiden gir meg nok hvile mellom arbeidsdagene",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "BA-AR-2",
+          "text": "Reisetid og pendling er til å leve med over tid",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "BA-AR-3",
+          "text": "Overtid er unntaket og ikke normalen",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Hva spiser tiden?",
+          "description": "Laget kartlegger en uke: hvor går tiden til venting, reise og overtid, og hva kan flyttes.",
+          "remeasure_item": "BA-AR-3"
+        },
+        {
+          "type": "rutine",
+          "title": "Varsel ved overtid",
+          "description": "En fast grense for overtid per måned, med varsel til leder når noen nærmer seg den.",
+          "remeasure_item": "BA-AR-3"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Reisevei i bemanningen",
+          "description": "Prosjektleder ser på reisetid når folk settes på prosjekt, og roterer der det er mulig.",
+          "remeasure_item": "BA-AR-2"
+        }
+      ]
+    }
+  ],
+  "count_items": [
+    {
+      "id": "BA-T-1",
+      "text": "Har du de siste tre månedene vært med på eller sett en nestenulykke som ikke ble meldt?",
+      "options": [
+        "Ja",
+        "Nei",
+        "Vet ikke"
+      ],
+      "why": "Viser hvor mye som ikke kommer fram i avvikssystemet."
+    },
+    {
+      "id": "BA-T-2",
+      "text": "Har du de siste tre månedene blitt bedt om å gjøre en jobb du mente var utrygg?",
+      "options": [
+        "Ja",
+        "Nei",
+        "Vet ikke"
+      ],
+      "why": "Viser om fremdriftspress blir til konkrete krav på laget."
+    }
+  ],
+  "segments": [
+    {
+      "id": "arbeidssted",
+      "text": "Hvor jobber du mest?",
+      "options": [
+        "Prosjekt eller byggeplass",
+        "Verksted eller lager",
+        "Kontor eller administrasjon"
+      ]
+    },
+    {
+      "id": "ansiennitet",
+      "text": "Hvor lenge har du jobbet her?",
+      "options": [
+        "Under ett år",
+        "Ett til fem år",
+        "Mer enn fem år"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "key": "at_kompass",
+      "title": "Arbeidstilsynet og STAMI: Kompass – Ulykker i bygg og anlegg, rapport 2025",
+      "url": "https://www.arbeidstilsynet.no/nyheter/unge--er-mest-utsatt-for-ulykker-i-bygg-og-anlegg/"
+    },
+    {
+      "key": "at_kompass24",
+      "title": "Arbeidstilsynet: Kompass – Helseproblemer og ulykker i bygg og anlegg, rapport 2024",
+      "url": "https://www.arbeidstilsynet.no/globalassets/rapportar/kompass/kompass-tema-nr-1.-2025-helseproblemer-og-ulykker-i-bygg-og-anlegg.pdf"
+    },
+    {
+      "key": "noa",
+      "title": "STAMI NOA: Fakta om arbeidsmiljøet i anleggsvirksomheter",
+      "url": "https://noa.stami.no/yrker-og-naeringer/noa/anlegg/"
+    },
+    {
+      "key": "nav",
+      "title": "NAV Arbeid og velferd 2/2024: Hvorfor er sykefraværet fortsatt høyt?",
+      "url": "https://arbeidogvelferd.nav.no/journal/2024/2/m-1546/Hvorfor_er_sykefrav%C3%A6ret_fortsatt_h%C3%B8yt_3%E2%80%934_%C3%A5r_etter_starten_av_pandemien"
+    },
+    {
+      "key": "fafo",
+      "title": "Fafo-rapport 2025:33: Østeuropeisk arbeidskraft og HMS i bygg",
+      "url": "https://www.fafo.no/en/publications/fafo-reports/osteuropeisk-arbeidskraft-og-hms-i-bygg-2"
+    },
+    {
+      "key": "at_sprak",
+      "title": "Arbeidstilsynet: Språk og kommunikasjon på bygge- og anleggsplasser",
+      "url": "https://www.arbeidstilsynet.no/hms/hms-i-bygg-og-anlegg/sprak-og-kommunikasjon-pa-bygge--og-anleggplasser/"
+    },
+    {
+      "key": "at_sprak_krav",
+      "title": "Arbeidstilsynet: Skjerpede krav til kommunikasjon og språkferdigheter",
+      "url": "https://kommunikasjon.ntb.no/pressemelding/18031968/1-januar-skjerpes-kravene-til-kommunikasjon-og-sprakferdigheter-i-bygg-og-anleggsbransjen?publisherId=14974413&lang=no"
+    },
+    {
+      "key": "av_kultur",
+      "title": "Arbetsmiljöverket: rapport om byggbranschens säkerhetskultur (2026)",
+      "url": "https://www.nordicconstruction.se/2026/02/18/faktorerna-som-hindrar-och-starker-byggbranschens-sakerhetskultur/"
+    },
+    {
+      "key": "ki_osa",
+      "title": "Karolinska institutet/CAMM: organisatorisk og social arbetsmiljö i byggbranschen",
+      "url": "https://www.camm.regionstockholm.se/aktuellt/forskare-och-byggforetag-samarbetar-for-att-ta-fram-riktlinjer-for-battre-organisatorisk-och-social-arbetsmiljo-i-byggbranschen/"
+    },
+    {
+      "key": "av_bygg",
+      "title": "Arbetsmiljöverket: granskning av säkerheten i byggprojekt",
+      "url": "https://www.av.se/press/arbetsmiljoverket-granskar-sakerheten-i-byggprojekt--fokus-pa-tidiga-skeden/"
+    },
+    {
+      "key": "at_dk",
+      "title": "Arbejdstilsynet (DK): Psykisk arbejdsmiljø i bygge og anlæg",
+      "url": "https://at.dk/arbejdsmiljoe/arbejdsulykker/forebyg-typiske-ulykker/byggeriet/psykisk-arbejdsmiljoe-i-bygge-og-anlaeg/"
+    },
+    {
+      "key": "nosacq",
+      "title": "Kines mfl. (2011): Nordic Safety Climate Questionnaire (NOSACQ-50)",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S0169814111001028"
+    },
+    {
+      "key": "nho_laerling",
+      "title": "NHO Byggenæringen: 20 prosent av lærlingene slutter",
+      "url": "https://norskbyggebransje.no/nyheter/nho-advarer-mange-laerlinger-faller-fra"
+    },
+    {
+      "key": "ciob",
+      "title": "CIOB: Understanding Mental Health in the Built Environment 2025",
+      "url": "https://www.ciob.org/blog/construction%E2%80%99s-mental-health-crisis-continues-despite-increased-support"
+    },
+    {
+      "key": "lighthouse",
+      "title": "FMB og Lighthouse Construction Industry Charity: mental helse i bygg",
+      "url": "https://www.fmb.org.uk/resource/tackling-mental-health-challenges-in-construction-with-the-lighthouse-construction-industry-charity.html"
+    },
+    {
+      "key": "samforsk",
+      "title": "NTNU Samfunnsforskning: Utradisjonelle utdanningsvalg blant elever og lærlinger",
+      "url": "https://samforsk.no/uploads/files/Publikasjoner/Utradisjonelle-utdanningsvalg-blant-elever-og-laerlinger-ferdig-rapport.pdf"
+    },
+    {
+      "key": "nho_syk",
+      "title": "NHO: Sykefravær i NHO-bedrifter fordelt på bransje",
+      "url": "https://arbinn.nho.no/arbeidsrett/sykefravar_og_permisjoner/sykefravar-statistikk/artikler/sykefravar-i-nho-bedrifter/"
+    },
+    {
+      "key": "stami_psyk",
+      "title": "STAMI: Psykososialt arbeidsmiljø",
+      "url": "https://stami.no/tema/psykososialt-arbeidsmiljo/"
+    }
+  ]
+}

@@ -1,0 +1,239 @@
+<!doctype html><html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Arbeidsmiljøundersøkelse for bygg og anlegg | Orgpuls</title><meta name="description" content="Medarbeiderundersøkelse for bygg og anlegg med egen bygg-modul: sikkerhet under tidspress, samordning, språk, nye og unge, psykisk helse og arbeidstid. Anonymt, på SMS, med tiltak."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet"><style>
+:root{--bg:#FCF6E9;--sf:#FFFDF6;--cream:#F7EDD2;--track:#F2EAD6;--ink:#191510;--body:#3A342A;--mut:#5F5849;--line:#E8DFC9;--ac:#F5C64A;--sbg:#FBEBBE;--link:#2F5D2A;--danger:#A33A16;--amber:#E0A21F;--mint:#CFE7E4;--peach:#FBD5C4;--stone:#D9CFB8;
+--display:"Playfair Display","Playfair Display Fallback",Georgia,"Times New Roman",serif;--sans:"DM Sans","DM Sans Fallback",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17140F;--sf:#201C16;--cream:#2A251C;--track:#2A251C;--ink:#F6EEDC;--body:#DCD2BE;--mut:#ABA08A;--line:#3A3328;--ac:#F5C64A;--sbg:#3B321C;--link:#A6CC98;--danger:#E8916D;--amber:#E9B545;--mint:#20332F;--peach:#3B2A22;--stone:#3A3328;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17140F;--sf:#201C16;--cream:#2A251C;--track:#2A251C;--ink:#F6EEDC;--body:#DCD2BE;--mut:#ABA08A;--line:#3A3328;--ac:#F5C64A;--sbg:#3B321C;--link:#A6CC98;--danger:#E8916D;--amber:#E9B545;--mint:#20332F;--peach:#3B2A22;--stone:#3A3328;color-scheme:dark}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 76px);-webkit-text-size-adjust:100%}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+img,svg{max-width:100%}
+a{color:var(--link);text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 26px}
+@media (max-width:560px){.wrap{padding:0 18px}}
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--sf);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:20px;min-height:62px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none}
+.brand-mark{width:33px;height:33px;border:1.5px solid var(--ink);border-radius:10px;display:grid;place-items:center;background:var(--sf)}
+.brand-name{font-family:var(--display);font-size:21px;font-weight:600;letter-spacing:-.01em}
+.nav{display:flex;gap:4px;flex:1}
+.nav a{color:var(--ink);font-weight:600;font-size:14px;padding:8px 12px;border-radius:9px;text-decoration:none}
+.nav a:hover{background:var(--track)}
+.nav a[aria-current]{background:var(--track)}
+.top-cta{display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:10px;font-weight:700;font-size:14.5px;text-decoration:none;cursor:pointer;font-family:inherit;border:1px solid var(--ink)}
+.btn-ac{background:var(--ac);color:#191510}
+.btn-ac:hover{filter:brightness(.97)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-sm{min-height:38px;padding:0 15px;font-size:14px}
+@media (max-width:900px){.nav{display:none}.top .wrap{justify-content:space-between}}
+@media (max-width:420px){.top-cta .btn-ghost{display:none}}
+.crumbs{font-size:12.5px;color:var(--mut);padding-top:clamp(18px,3.5vw,44px)}
+.crumbs a{color:var(--mut)}
+.pill{display:inline-flex;align-items:center;gap:8px;background:var(--sbg);border-radius:999px;padding:6px 13px;font-size:12.5px;font-weight:700;color:var(--ink)}
+.pill .dot{width:7px;height:7px;border-radius:999px;background:var(--link)}
+h1,h2,h3{font-family:var(--display);font-weight:600;color:var(--ink);letter-spacing:-.01em;text-wrap:balance}
+h1{font-size:clamp(30px,5vw,50px);line-height:1.08;margin:16px 0 0;max-width:22ch;hyphens:auto;overflow-wrap:break-word}
+h2{font-size:clamp(25px,3.4vw,36px);line-height:1.15;margin:0}
+h3{font-size:21px;line-height:1.25;margin:0}
+.lead{font-size:16.5px;line-height:1.6;color:var(--body);max-width:58ch;margin:14px 0 0;text-wrap:pretty}
+.sec{padding:clamp(48px,7vw,88px) 0 0}
+.sec-intro{max-width:62ch;color:var(--body);font-size:16px;margin:12px 0 0}
+.muted{color:var(--mut)}
+.small{font-size:13px}
+sup{line-height:0}sup a{font-size:11px;text-decoration:none;font-weight:700;padding:0 1px}
+/* start form */
+.start{margin-top:22px;max-width:460px}
+.start label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}
+.start-row{display:flex;gap:8px}
+.start input{flex:1;min-width:0;min-height:48px;border:1.5px solid var(--ink);border-radius:10px;background:var(--sf);color:var(--ink);font:inherit;font-size:16px;padding:0 14px}
+.start .btn{min-height:48px}
+.start-note{font-size:12.5px;color:var(--mut);margin:9px 0 0}
+.start-msg{font-size:13px;margin:6px 0 0;color:var(--danger)}.start-msg:empty{display:none}
+/* result card */
+.card{background:var(--sf);border:1px solid var(--line);border-radius:20px}
+.board{padding:18px 18px 16px}
+.board-head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
+.board-title{font-weight:700;font-size:14px}
+.board-sub{font-size:12px;color:var(--mut)}
+.tbl-scroll{overflow-x:auto;margin-top:12px}
+table.res{border-collapse:separate;border-spacing:0;width:100%;min-width:420px;font-size:13px}
+table.res th{font-weight:600;color:var(--mut);text-align:right;padding:6px 6px;font-size:12px;white-space:nowrap}
+table.res th:first-child,table.res td:first-child{text-align:left;padding-left:0}
+table.res td{padding:7px 6px;border-top:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+.sc{display:inline-block;min-width:34px;padding:3px 6px;border-radius:7px;font-weight:700;text-align:center}
+.sc-lo{background:var(--mint)}
+.sc-mid{background:var(--sbg)}
+.sc-hi{background:var(--peach);color:var(--ink)}
+.sc-na{color:var(--mut);font-weight:500}
+.board-foot{font-size:12px;color:var(--mut);margin:10px 0 0}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:4px;display:inline-block}
+.hero{display:grid;gap:40px;align-items:center;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}
+@media (max-width:980px){.hero{grid-template-columns:minmax(0,1fr)}}
+/* challenges */
+.chal{margin-top:34px;border-top:1.5px solid var(--ink)}
+.chal-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:18px 48px;padding:30px 0;border-bottom:1px solid var(--line)}
+@media (max-width:860px){.chal-row{grid-template-columns:1fr}}
+.chal-row p{margin:10px 0 0;color:var(--body);max-width:62ch}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:4px 11px;margin-top:12px}
+.tag-core{background:var(--track);color:var(--mut)}
+.tag-mod{background:var(--ac);color:#191510}
+.measure{background:var(--cream);border-radius:14px;padding:16px 18px;align-self:start}
+.measure-k{font-size:12.5px;color:var(--mut);font-weight:600}
+.measure q{display:block;font-family:var(--display);font-size:18.5px;line-height:1.35;margin-top:6px;quotes:"«" "»"}
+.measure-f{font-size:13px;margin-top:10px;color:var(--body)}
+.helpline{margin-top:12px;font-size:13px;color:var(--mut)}
+/* module */
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:28px;border:1px solid var(--line);border-radius:20px;background:var(--sf);overflow:hidden}
+.facts div{padding:18px 18px;border-right:1px solid var(--line)}
+.facts div:last-child{border-right:0}
+.facts b{display:block;font-family:var(--display);font-size:26px;font-weight:600}
+.facts span{font-size:13px;color:var(--mut)}
+@media (max-width:760px){.facts{grid-template-columns:1fr 1fr}.facts div:nth-child(2){border-right:0}.facts div:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+.flist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px;margin-top:26px}
+@media (max-width:760px){.flist{grid-template-columns:1fr}}
+.flist a{display:block;padding:15px 0;border-top:1px solid var(--line);color:var(--ink);text-decoration:none}
+.flist a:hover .fn{text-decoration:underline}
+.fn{font-weight:700;font-size:15.5px}
+.fs{display:block;font-size:13.5px;color:var(--mut);margin-top:3px}
+.core-note{margin-top:22px;font-size:14px;color:var(--body);max-width:70ch}
+/* loop */
+.loop{list-style:none;padding:0;margin:28px 0 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;counter-reset:s}
+@media (max-width:860px){.loop{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.loop{grid-template-columns:1fr}}
+.loop li{counter-increment:s;border-top:3px solid var(--ink);padding-top:14px}
+.loop li::before{content:counter(s);font-family:var(--display);font-size:30px;font-weight:600;line-height:1;display:block;margin-bottom:8px}
+.loop b{display:block;font-size:15px}
+.loop span{font-size:14px;color:var(--body)}
+.example{margin-top:30px;padding:20px 22px}
+.ex-steps{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.ex-steps span{font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:999px;background:var(--track);color:var(--mut)}
+.ex-steps span.on{background:var(--mint);color:var(--ink)}
+/* law */
+.law{margin-top:26px;display:grid;gap:0}
+.law div{display:grid;grid-template-columns:200px minmax(0,1fr);gap:8px 24px;padding:16px 0;border-top:1px solid var(--line)}
+@media (max-width:640px){.law div{grid-template-columns:1fr}}
+.law b{font-weight:700}
+.law span{color:var(--body)}
+/* faq */
+details{border-top:1px solid var(--line);padding:4px 0}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;padding:14px 32px 14px 0;font-weight:700;font-size:15.5px;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:4px;top:10px;font-size:22px;font-weight:500;color:var(--mut)}
+details[open] summary::after{content:"−"}
+details p{margin:0 0 16px;color:var(--body);max-width:68ch}
+.faq{margin-top:20px;max-width:820px}
+/* sources */
+.src{margin:18px 0 0;padding-left:20px;color:var(--body);font-size:13.5px;max-width:84ch}
+.src li{margin:6px 0}
+/* cta */
+.cta{margin-top:clamp(56px,8vw,96px);background:var(--ink);color:var(--bg);border-radius:20px;padding:clamp(26px,5vw,48px)}
+.cta h2{color:var(--bg)}
+.cta p{color:var(--bg);opacity:.85;max-width:56ch}
+.cta .start label{color:var(--bg)}
+.cta .start input{background:var(--bg);color:#191510;border-color:var(--bg)}
+.cta .start-note{color:var(--bg);opacity:.75}
+.cta .start-msg{color:var(--ac)}
+footer{margin-top:64px;border-top:1px solid var(--line);padding:36px 0 44px;font-size:13.5px;color:var(--mut)}
+.fgrid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:24px}
+@media (max-width:760px){.fgrid{grid-template-columns:1fr 1fr}}
+footer h4{margin:0 0 8px;font-size:13px;color:var(--ink)}
+footer a{color:var(--mut);display:block;padding:3px 0;text-decoration:none}
+footer a:hover{color:var(--ink)}
+/* question page */
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.toc a{font-size:13px;font-weight:600;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--sf);color:var(--ink);text-decoration:none}
+.toc a:hover{border-color:var(--ink)}
+.factor{padding:clamp(40px,6vw,64px) 0 0}
+.factor-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 48px;margin-top:18px}
+@media (max-width:900px){.factor-grid{grid-template-columns:1fr}}
+.items{list-style:none;padding:0;margin:0}
+.items li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;padding:13px 0;border-top:1px solid var(--line);align-items:baseline}
+.items li:last-child{border-bottom:1px solid var(--line)}
+.iid{min-width:64px;font-size:12px;font-weight:700;color:var(--mut);font-variant-numeric:tabular-nums;white-space:nowrap}
+.itext{font-family:var(--display);font-size:18px;line-height:1.35}
+.kv{font-size:13px;color:var(--mut);font-weight:600;margin:18px 0 6px}
+.acts{display:grid;gap:10px}
+.act{background:var(--cream);border-radius:14px;padding:14px 16px}
+.act-type{font-size:12px;font-weight:700;color:var(--mut)}
+.act b{display:block;margin-top:3px;font-size:15px}
+.act p{margin:5px 0 0;font-size:14px;color:var(--body)}
+.act small{display:block;margin-top:7px;font-size:12.5px;color:var(--mut)}
+.leg{margin:0;padding-left:18px;font-size:14px;color:var(--body)}
+.leg li{margin:4px 0}
+.scale{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:14px;max-width:620px}
+.scale div{background:var(--sf);border:1px solid var(--line);border-radius:10px;padding:10px 8px;text-align:center;font-size:12.5px}
+.scale b{display:block;font-size:17px;font-family:var(--display)}
+@media (max-width:520px){.scale{grid-template-columns:repeat(5,minmax(52px,1fr));overflow-x:auto}}
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px;margin-top:20px}
+@media (max-width:760px){.rules{grid-template-columns:1fr}}
+.rules div{padding:14px 0;border-top:1px solid var(--line)}
+.rules b{display:block}
+.rules span{color:var(--body);font-size:14px}
+.qbox{padding:18px 20px;margin-top:14px}
+.qbox .itext{display:block}
+.opts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.opts span{font-size:12.5px;border:1px solid var(--line);border-radius:999px;padding:4px 10px;color:var(--mut)}
+@media (prefers-reduced-motion:no-preference){.rise{animation:rise .6s ease-out both}.rise2{animation:rise .6s .12s ease-out both}@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}}
+</style></head><body>
+<header class="top"><div class="wrap"><a class="brand" href="https://www.orgpuls.com/"><span class="brand-mark"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M1 9h3l2-5 3 10 2-5h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="brand-name">Orgpuls</span></a>
+<nav class="nav" aria-label="Hovedmeny"><a href="https://www.orgpuls.com/plattform">Plattform</a><a href="https://www.orgpuls.com/bruksomrader" aria-current="page">Bruksområder</a><a href="https://www.orgpuls.com/hvorfor">Hvorfor Orgpuls</a><a href="https://www.orgpuls.com/priser">Pris</a></nav>
+<div class="top-cta"><a class="btn btn-ghost btn-sm" href="https://www.orgpuls.com/logg-inn">Logg inn</a><a class="btn btn-ac btn-sm" href="#start">Kom i gang</a></div></div></header><main id="innhold">
+<div class="wrap"><div class="crumbs"><a href="https://www.orgpuls.com/">Forside</a> / <a href="https://www.orgpuls.com/bruksomrader">Bruksområder</a> / Bygg og anlegg</div>
+<section class="hero"><div class="rise"><span class="pill"><span class="dot"></span>Bygg, anlegg og verksted</span>
+<h1>Arbeidsmiljø&shy;undersøkelse for bygg og anlegg</h1>
+<p class="lead">Hovedundersøkelsen dekker det som gjelder alle arbeidsplasser. Bygg-modulen legger til det som skjer på en byggeplass: sikkerhet under tidspress, mange firma på samme sted, språk på laget, nye og unge, og om det er rom for å si at man ikke har det bra. Alt anonymt, på mobilen, med tiltak som følger opp.</p>
+<div id="start"><form class="start" data-start novalidate><label for="orgnr-top">Organisasjonsnummer</label><div class="start-row"><input id="orgnr-top" name="orgnr" inputmode="numeric" autocomplete="off" placeholder="9 siffer" maxlength="11" aria-describedby="orgnr-top-msg"><button class="btn btn-ac" type="submit">Start gratis</button></div><p class="start-msg" id="orgnr-top-msg" role="status" aria-live="polite"></p><p class="start-note">Fra 265 kr/mnd eks. mva · 15 dager gratis · Ingen kort · Svar lagres i EU</p></form></div><p class="small muted" style="margin:6px 0 0">Ingen gruppe vises før minst fem har svart.</p></div>
+<div class="card board rise2" role="figure" aria-label="Eksempel på resultat fra bygg-modulen per prosjekt"><div class="board-head"><span class="board-title">Bygg-modulen · Nordvik Anlegg AS</span><span class="board-sub">Hovedmåling september · indeks 0–100</span></div>
+<div class="tbl-scroll"><table class="res"><thead><tr><th scope="col">Faktor</th><th scope="col">Prosjekt Nord · 14</th><th scope="col">Verksted · 9</th><th scope="col">Prosjekt Sør · 11</th></tr></thead><tbody><tr><td>Sikkerhet foran fremdrift</td><td><span class="sc sc-mid">58</span></td><td><span class="sc sc-lo">71</span></td><td><span class="sc sc-hi">48</span></td></tr><tr><td>Planlegging og fremdrift</td><td><span class="sc sc-hi">44</span></td><td><span class="sc sc-lo">66</span></td><td><span class="sc sc-hi">39</span></td></tr><tr><td>Samordning på byggeplassen</td><td><span class="sc sc-mid">51</span></td><td><span class="sc sc-na">–</span></td><td><span class="sc sc-hi">47</span></td></tr><tr><td>Språk og beskjeder</td><td><span class="sc sc-mid">63</span></td><td><span class="sc sc-lo">78</span></td><td><span class="sc sc-mid">55</span></td></tr><tr><td>Nye og unge på laget</td><td><span class="sc sc-lo">69</span></td><td><span class="sc sc-lo">74</span></td><td><span class="sc sc-mid">61</span></td></tr><tr><td>Å si at man ikke har det bra</td><td><span class="sc sc-mid">55</span></td><td><span class="sc sc-mid">62</span></td><td><span class="sc sc-mid">52</span></td></tr></tbody></table></div>
+<div class="legend"><span><i style="background:var(--mint)"></i>Lav risiko 65+</span><span><i style="background:var(--sbg)"></i>Middels 50–64</span><span><i style="background:var(--peach)"></i>Høy under 50</span></div>
+<p class="board-foot">Verkstedet deler ikke underentreprenører med prosjektene, så samordning er ikke spurt der. Administrasjonen har tre svar og vises ikke som egen kolonne. Eksempelet er en tenkt virksomhet.</p></div></section>
+
+<section class="sec" aria-labelledby="h-chal"><h2 id="h-chal">Åtte utfordringer som går igjen på byggeplassen</h2>
+<p class="sec-intro">Hentet fra norsk, svensk og dansk tilsyn og forskning, og fra internasjonale funn der de nordiske tallene mangler. Alle åtte kan måles anonymt og følges opp med tiltak – på samme måte som resten av arbeidsmiljøet.</p>
+<div class="chal"><div class="chal-row"><div><h3>Fremdriften går foran sikkerheten</h3><p>Dødsfallene i bygg og anlegg er de laveste på ti år, men næringen hadde fortsatt 3 902 registrerte arbeidsskader i 2024.<sup><a href="#k-at_kompass" title="Arbeidstilsynet og STAMI: Kompass – Ulykker i bygg og anlegg, rapport 2025">1</a></sup> Svenske Arbetsmiljöverket fant i 2026 at tidspress, prispress og taushetskultur er det som oftest hindrer en god sikkerhetskultur på byggeplassen.<sup><a href="#k-av_kultur" title="Arbetsmiljöverket: rapport om byggbranschens säkerhetskultur (2026)">4</a></sup> Tallene i avvikssystemet sier lite om dette. Det gjør svarene på om folk tør å stanse en jobb.</p><span class="tag tag-mod">Bygg-modulen: Sikkerhet foran fremdrift</span></div><div class="measure"><div class="measure-k">Påstand i bygg-modulen</div><q>Jeg kan stanse en jobb jeg mener er utrygg, uten å få problemer for det</q><div class="measure-f"><a href="https://www.orgpuls.com/bygg-og-anlegg/sporsmal#sikkerhet_foran_fremdrift">Se alle tre påstander og tiltakene</a></div></div></div><div class="chal-row"><div><h3>Tidsplanen er laget uten dem som skal gjøre jobben</h3><p>I en europeisk undersøkelse svarte 74 prosent i svensk byggbransje at de jobbet under tidspress, mot 47 prosent i EU.<sup><a href="#k-ki_osa" title="Karolinska institutet/CAMM: organisatorisk og social arbetsmiljö i byggbranschen">3</a></sup> Det danske Arbejdstilsynet peker på urealistiske tidsplaner og dårlig planlegging som årsak, og på at tidspress gir ulykker fordi det ryddes mindre og hjelpemidler blir stående.<sup><a href="#k-at_dk" title="Arbejdstilsynet (DK): Psykisk arbejdsmiljø i bygge og anlæg">5</a></sup> Hovedundersøkelsen måler arbeidsmengden. Bygg-modulen måler hvor den kommer fra.</p><span class="tag tag-mod">Bygg-modulen: Planlegging og fremdrift</span></div><div class="measure"><div class="measure-k">Påstand i bygg-modulen</div><q>Tidsplanen er realistisk for jobben vi skal gjøre</q><div class="measure-f"><a href="https://www.orgpuls.com/bygg-og-anlegg/sporsmal#planlegging_og_fremdrift">Se alle tre påstander og tiltakene</a></div></div></div><div class="chal-row"><div><h3>Mange firma, uklart ansvar</h3><p>På en byggeplass jobber hovedentreprenør, underentreprenører og innleide side om side. Når ansvaret for sikkerheten ligger hos noen uten tid, ressurser eller mandat, svekkes arbeidet – og det skjer oftest i prosjekter med mange aktører.<sup><a href="#k-av_kultur" title="Arbetsmiljöverket: rapport om byggbranschens säkerhetskultur (2026)">4</a></sup> Folk på laget merker det før noen andre.</p><span class="tag tag-mod">Bygg-modulen: Samordning på byggeplassen</span></div><div class="measure"><div class="measure-k">Påstand i bygg-modulen</div><q>Det er tydelig hvem som har ansvaret når flere firma jobber på samme sted</q><div class="measure-f"><a href="https://www.orgpuls.com/bygg-og-anlegg/sporsmal#samordning_pa_byggeplassen">Se alle tre påstander og tiltakene</a></div></div></div><div class="chal-row"><div><h3>Beskjeden som ikke ble forstått</h3><p>Manglende felles språk, kulturforskjeller og mangelfull opplæring trekker fortsatt HMS-standarden ned på norske byggeplasser, viser Fafo.<sup><a href="#k-fafo" title="Fafo-rapport 2025:33: Østeuropeisk arbeidskraft og HMS i bygg">6</a></sup> Siden 2024 må minst én på hvert arbeidslag kunne kommunisere både med laget og på norsk eller engelsk, når sikkerheten krever det.<sup><a href="#k-at_sprak_krav" title="Arbeidstilsynet: Skjerpede krav til kommunikasjon og språkferdigheter">7</a></sup> Om det fungerer i praksis, vet bare de som står på laget.</p><span class="tag tag-mod">Bygg-modulen: Språk og beskjeder</span></div><div class="measure"><div class="measure-k">Påstand i bygg-modulen</div><q>Det er greit å spørre igjen når man ikke har forstått en beskjed</q><div class="measure-f"><a href="https://www.orgpuls.com/bygg-og-anlegg/sporsmal#sprak_og_beskjeder">Se alle tre påstander og tiltakene</a></div></div></div><div class="chal-row"><div><h3>De nye og de unge</h3><p>Arbeidstakere under 25 år er de som oftest skades i bygg og anlegg.<sup><a href="#k-at_kompass" title="Arbeidstilsynet og STAMI: Kompass – Ulykker i bygg og anlegg, rapport 2025">1</a></sup> Rundt en av fem lærlinger slutter innen de første ti månedene.<sup><a href="#k-nho_laerling" title="NHO Byggenæringen: 20 prosent av lærlingene slutter">8</a></sup> Begge deler handler om det samme: om nye får opplæring, en fast person å spørre og tid til å lære før tempoet settes opp.</p><span class="tag tag-mod">Bygg-modulen: Nye og unge på laget</span></div><div class="measure"><div class="measure-k">Påstand i bygg-modulen</div><q>Nye får opplæring før de får oppgaver med risiko</q><div class="measure-f"><a href="https://www.orgpuls.com/bygg-og-anlegg/sporsmal#nye_og_unge">Se alle tre påstander og tiltakene</a></div></div></div><div class="chal-row"><div><h3>Det psykiske bak hjelmen</h3><p>Fra 2019 til 2023 økte sykefraværet i bygg og anlegg med 22 prosent – mest av de store næringene.<sup><a href="#k-nav" title="NAV Arbeid og velferd 2/2024: Hvorfor er sykefraværet fortsatt høyt?">9</a></sup> I Storbritannia er mannlige bygningsarbeidere om lag tre ganger så utsatt for selvmord som menn i andre næringer, og bransjen beskrives som en der man bærer det alene.<sup><a href="#k-ciob" title="CIOB: Understanding Mental Health in the Built Environment 2025">10</a></sup> En anonym undersøkelse kan vise om det er rom for å si fra, uten at noen må stå fram.</p><span class="tag tag-mod">Bygg-modulen: Å si at man ikke har det bra</span><p class="helpline">Trenger du noen å snakke med nå? Mental Helse Hjelpetelefonen er åpen hele døgnet på <a href="tel:116123">116 123</a>.</p></div><div class="measure"><div class="measure-k">Påstand i bygg-modulen</div><q>Det er greit å si at man ikke har det bra, også her</q><div class="measure-f"><a href="https://www.orgpuls.com/bygg-og-anlegg/sporsmal#a_si_at_man_ikke_har_det_bra">Se alle tre påstander og tiltakene</a></div></div></div><div class="chal-row"><div><h3>Lange dager og lang vei hjem</h3><p>12 prosent i anlegg jobber mer enn 48 timer i uka, mot 8 prosent i arbeidslivet ellers, og halvparten jobber i kulde.<sup><a href="#k-noa" title="STAMI NOA: Fakta om arbeidsmiljøet i anleggsvirksomheter">2</a></sup> Lange uker øker risikoen for feil og ulykker. Pendling og perioder borte kommer i tillegg, og tapper mer enn det som synes i timelistene.</p><span class="tag tag-mod">Bygg-modulen: Arbeidstid og restitusjon</span></div><div class="measure"><div class="measure-k">Påstand i bygg-modulen</div><q>Arbeidstiden gir meg nok hvile mellom arbeidsdagene</q><div class="measure-f"><a href="https://www.orgpuls.com/bygg-og-anlegg/sporsmal#arbeidstid_og_restitusjon">Se alle tre påstander og tiltakene</a></div></div></div><div class="chal-row"><div><h3>Tonen på riggen</h3><p>Bygg og anlegg har den laveste andelen kvinner og en utpreget mannsdominert kultur. Kvinnelige lærlinger forteller om arbeidstøy og brakkefasiliteter som ikke passer, og om oppmerksomhet de helst ville vært foruten.<sup><a href="#k-samforsk" title="NTNU Samfunnsforskning: Utradisjonelle utdanningsvalg blant elever og lærlinger">11</a></sup> Dette måles i hovedundersøkelsen med faktoren Integritet og verdighet, og med spørsmålet om krenkende atferd – som bare vises som antall for hele virksomheten.</p><span class="tag tag-core">Dekkes av hovedundersøkelsen</span></div><div class="measure"><div class="measure-k">Påstand i hovedundersøkelsen</div><q>Jeg blir møtt med respekt uansett hvem jeg er</q><div class="measure-f">Faktor: Integritet og verdighet</div></div></div></div></section>
+
+<section class="sec" aria-labelledby="h-mod"><h2 id="h-mod">Bygg-modulen</h2>
+<p class="sec-intro">Et tillegg til hovedundersøkelsen, bygget på samme måte: påstander på en femdelt skala, regnet om til en indeks fra 0 til 100, med tre forslag til tiltak per faktor. Sikkerhetsfaktorene bygger på dimensjonene i det nordiske sikkerhetsklimaskjemaet NOSACQ-50, som ble utviklet på byggeplasser i de fem nordiske landene.<sup><a href="#k-nosacq" title="Kines mfl. (2011): Nordic Safety Climate Questionnaire (NOSACQ-50)">12</a></sup></p>
+<div class="facts"><div><b>8</b><span>faktorer</span></div><div><b>24</b><span>påstander, tre per faktor</span></div><div><b>3 min</b><span>ekstra svartid</span></div><div><b>5</b><span>svar før en gruppe vises</span></div></div>
+<div class="flist"><a href="https://www.orgpuls.com/bygg-og-anlegg/sporsmal#sikkerhet_foran_fremdrift"><span class="fn">Sikkerhet foran fremdrift</span><span class="fs">Om sikkerheten holder når planen sprekker – og om det er trygt å stanse og melde.</span></a><a href="https://www.orgpuls.com/bygg-og-anlegg/sporsmal#sikkerhet_i_laget"><span class="fn">Sikkerhet i laget</span><span class="fs">Om kollegaer sier fra til hverandre, holder igjen på snarveier og lærer av hendelser.</span></a><a href="https://www.orgpuls.com/bygg-og-anlegg/sporsmal#planlegging_og_fremdrift"><span class="fn">Planlegging og fremdrift</span><span class="fs">Om tidsplanen er realistisk, og om materialer, utstyr og beskjeder er på plass i tide.</span></a><a href="https://www.orgpuls.com/bygg-og-anlegg/sporsmal#samordning_pa_byggeplassen"><span class="fn">Samordning på byggeplassen</span><span class="fs">Om ansvar og risiko er tydelig når flere firma jobber på samme sted.</span></a><a href="https://www.orgpuls.com/bygg-og-anlegg/sporsmal#sprak_og_beskjeder"><span class="fn">Språk og beskjeder</span><span class="fs">Om sikkerhetsinformasjon forstås, og om det er greit å spørre igjen.</span></a><a href="https://www.orgpuls.com/bygg-og-anlegg/sporsmal#nye_og_unge"><span class="fn">Nye og unge på laget</span><span class="fs">Om nye og lærlinger får opplæring, en fast person å spørre og tid til å lære.</span></a><a href="https://www.orgpuls.com/bygg-og-anlegg/sporsmal#a_si_at_man_ikke_har_det_bra"><span class="fn">Å si at man ikke har det bra</span><span class="fs">Om det er rom for å snakke om belastning, også etter ulykker og nestenulykker.</span></a><a href="https://www.orgpuls.com/bygg-og-anlegg/sporsmal#arbeidstid_og_restitusjon"><span class="fn">Arbeidstid og restitusjon</span><span class="fs">Om arbeidstid, overtid og reisevei gir nok hvile over tid.</span></a></div>
+<p class="core-note">Hovedundersøkelsen dekker allerede Arbeidsmengde og tidspress, Motstridende krav, Ytringsklima, Støtte fra leder, Integritet og verdighet og Kontakt og kommunikasjon. Bygg-modulen gjentar ikke disse, men går et lag dypere der byggeplassen er annerledes. <a href="https://www.orgpuls.com/bygg-og-anlegg/sporsmal">Se hele spørsmålssettet</a></p></section>
+
+<section class="sec" aria-labelledby="h-loop"><h2 id="h-loop">Fra svar til tiltak på neste prosjektmøte</h2>
+<ol class="loop"><li><b>Mål</b><span>Hovedmåling med bygg-modulen, på SMS eller QR-kode i brakka.</span></li><li><b>Se per prosjekt</b><span>Resultat per prosjekt og verksted, for grupper med minst fem svar.</span></li><li><b>Velg tiltak</b><span>Tre forslag per faktor. Hvert tiltak får en eier og en frist.</span></li><li><b>Mål igjen</b><span>Pulsen spør bare om faktorene dere jobber med, til tiltaket har virket.</span></li></ol>
+<div class="card example"><div class="measure-k">Eksempel · Sikkerhet foran fremdrift · Prosjekt Sør</div><h3 style="margin-top:6px">Stopp og meld</h3><p class="muted" style="margin:6px 0 0;max-width:70ch">En fast rutine for å stanse et arbeid: stans, varsle bas, avklar før oppstart. Bas bekrefter samme dag. Måles på nytt med «Jeg kan stanse en jobb jeg mener er utrygg, uten å få problemer for det».</p>
+<div class="ex-steps"><span class="on">Foreslått</span><span class="on">Besluttet med verneombud</span><span class="on">Pågår</span><span>Effekt målt i pulsen</span><span>Lukket over 60</span></div></div></section>
+
+<section class="sec" aria-labelledby="h-law"><h2 id="h-law">Det loven peker på</h2>
+<p class="sec-intro">Bygg-modulen gir dokumentasjon for kartleggingen der byggeplassen har egne krav. Hver faktor viser hjemmelen i rapporten.</p>
+<div class="law"><div><b>aml § 4-3 og forskriften kap. 1A</b><span>Fra 1. januar 2026 stiller loven tydeligere krav til det psykososiale arbeidsmiljøet. Faktorene skal kartlegges og risikovurderes systematisk, i samarbeid med de ansatte.</span></div><div><b>aml § 2-2</b><span>Når flere arbeidsgivere er på samme arbeidsplass, skal hovedbedriften samordne HMS-arbeidet.</span></div><div><b>aml § 2-3</b><span>Arbeidstaker skal avbryte arbeidet ved fare for liv eller helse, og melde fra om feil og mangler.</span></div><div><b>aml § 3-2</b><span>Arbeidsgiver skal sørge for nødvendig opplæring, øvelse og instruksjon.</span></div><div><b>Språkkravet</b><span>Minst én på hvert arbeidslag på bygge- og anleggsplassen skal kunne kommunisere med de andre og på norsk eller engelsk, der sikkerheten krever det.</span></div><div><b>aml kapittel 10</b><span>Arbeidstidsordninger skal ikke gi uheldige belastninger, og kravene til hviletid gjelder også på prosjekt.</span></div></div></section>
+
+<section class="sec" aria-labelledby="h-faq"><h2 id="h-faq">Spørsmål vi får ofte</h2><div class="faq"><details open><summary>Hvor mye lenger blir undersøkelsen?</summary><p>Bygg-modulen er 24 påstander og to korte ja/nei-spørsmål, rundt tre minutter ekstra. Hovedmålingen tar rundt fire minutter. Dere kan også velge bare de faktorene som gjelder dere, for eksempel uten samordning i et verksted uten underentreprenører.</p></details><details><summary>Kan vi sende til underentreprenører og innleide?</summary><p>Undersøkelsen går til deres egne ansatte. Hvordan samarbeidet med andre firma oppleves, fanges opp gjennom faktoren Samordning på byggeplassen. Innleide som er en del av laget kan legges inn i ansattlista på vanlig måte.</p></details><details><summary>Hva med ansatte uten e-post?</summary><p>Undersøkelsen kan sendes på SMS, eller deles som lenke og QR-kode i brakka. E-postadresse er valgfritt.</p></details><details><summary>Ser lederen hvem som har svart nei på sikkerhetsspørsmålene?</summary><p>Nei. Ingen gruppe vises før minst fem har svart, og grensen kan ikke senkes. De to ja/nei-spørsmålene om nestenulykker og utrygge jobber vises bare som antall for hele virksomheten, aldri per prosjekt.</p></details><details><summary>Kan vi se resultat per prosjekt?</summary><p>Ja, i pakken Vanlig, for grupper med minst fem svar. Har et prosjekt for få svar, teller svarene med i virksomhetens tall.</p></details><details><summary>Hva koster det?</summary><p>Liten koster 265 kr i måneden for til og med 25 ansatte, Vanlig 565 kr for 26–100 ansatte. Prisene er eks. mva, uten binding og med 15 dager gratis.</p></details></div></section>
+
+<section class="cta" aria-labelledby="h-cta"><h2 id="h-cta">Prøv på neste prosjekt</h2><p>Skriv inn organisasjonsnummeret, legg inn mannskapet og send på SMS. Dere er i gang på tre minutter, uten kortopplysninger.</p><form class="start" data-start novalidate><label for="orgnr-bottom">Organisasjonsnummer</label><div class="start-row"><input id="orgnr-bottom" name="orgnr" inputmode="numeric" autocomplete="off" placeholder="9 siffer" maxlength="11" aria-describedby="orgnr-bottom-msg"><button class="btn btn-ac" type="submit">Kom i gang gratis</button></div><p class="start-msg" id="orgnr-bottom-msg" role="status" aria-live="polite"></p><p class="start-note">Fra 265 kr/mnd eks. mva · 15 dager gratis · Ingen kort · Svar lagres i EU</p></form></section>
+
+<section class="sec" aria-labelledby="h-src" style="padding-top:56px"><h3 id="h-src">Kilder</h3><ol class="src"><li id="k-at_kompass"><a href="https://www.arbeidstilsynet.no/nyheter/unge--er-mest-utsatt-for-ulykker-i-bygg-og-anlegg/" rel="noopener" target="_blank">Arbeidstilsynet og STAMI: Kompass – Ulykker i bygg og anlegg, rapport 2025</a></li><li id="k-noa"><a href="https://noa.stami.no/yrker-og-naeringer/noa/anlegg/" rel="noopener" target="_blank">STAMI NOA: Fakta om arbeidsmiljøet i anleggsvirksomheter</a></li><li id="k-ki_osa"><a href="https://www.camm.regionstockholm.se/aktuellt/forskare-och-byggforetag-samarbetar-for-att-ta-fram-riktlinjer-for-battre-organisatorisk-och-social-arbetsmiljo-i-byggbranschen/" rel="noopener" target="_blank">Karolinska institutet/CAMM: organisatorisk og social arbetsmiljö i byggbranschen</a></li><li id="k-av_kultur"><a href="https://www.nordicconstruction.se/2026/02/18/faktorerna-som-hindrar-och-starker-byggbranschens-sakerhetskultur/" rel="noopener" target="_blank">Arbetsmiljöverket: rapport om byggbranschens säkerhetskultur (2026)</a></li><li id="k-at_dk"><a href="https://at.dk/arbejdsmiljoe/arbejdsulykker/forebyg-typiske-ulykker/byggeriet/psykisk-arbejdsmiljoe-i-bygge-og-anlaeg/" rel="noopener" target="_blank">Arbejdstilsynet (DK): Psykisk arbejdsmiljø i bygge og anlæg</a></li><li id="k-fafo"><a href="https://www.fafo.no/en/publications/fafo-reports/osteuropeisk-arbeidskraft-og-hms-i-bygg-2" rel="noopener" target="_blank">Fafo-rapport 2025:33: Østeuropeisk arbeidskraft og HMS i bygg</a></li><li id="k-at_sprak_krav"><a href="https://kommunikasjon.ntb.no/pressemelding/18031968/1-januar-skjerpes-kravene-til-kommunikasjon-og-sprakferdigheter-i-bygg-og-anleggsbransjen?publisherId=14974413&lang=no" rel="noopener" target="_blank">Arbeidstilsynet: Skjerpede krav til kommunikasjon og språkferdigheter</a></li><li id="k-nho_laerling"><a href="https://norskbyggebransje.no/nyheter/nho-advarer-mange-laerlinger-faller-fra" rel="noopener" target="_blank">NHO Byggenæringen: 20 prosent av lærlingene slutter</a></li><li id="k-nav"><a href="https://arbeidogvelferd.nav.no/journal/2024/2/m-1546/Hvorfor_er_sykefrav%C3%A6ret_fortsatt_h%C3%B8yt_3%E2%80%934_%C3%A5r_etter_starten_av_pandemien" rel="noopener" target="_blank">NAV Arbeid og velferd 2/2024: Hvorfor er sykefraværet fortsatt høyt?</a></li><li id="k-ciob"><a href="https://www.ciob.org/blog/construction%E2%80%99s-mental-health-crisis-continues-despite-increased-support" rel="noopener" target="_blank">CIOB: Understanding Mental Health in the Built Environment 2025</a></li><li id="k-samforsk"><a href="https://samforsk.no/uploads/files/Publikasjoner/Utradisjonelle-utdanningsvalg-blant-elever-og-laerlinger-ferdig-rapport.pdf" rel="noopener" target="_blank">NTNU Samfunnsforskning: Utradisjonelle utdanningsvalg blant elever og lærlinger</a></li><li id="k-nosacq"><a href="https://www.sciencedirect.com/science/article/abs/pii/S0169814111001028" rel="noopener" target="_blank">Kines mfl. (2011): Nordic Safety Climate Questionnaire (NOSACQ-50)</a></li><li id="k-at_kompass24"><a href="https://www.arbeidstilsynet.no/globalassets/rapportar/kompass/kompass-tema-nr-1.-2025-helseproblemer-og-ulykker-i-bygg-og-anlegg.pdf" rel="noopener" target="_blank">Arbeidstilsynet: Kompass – Helseproblemer og ulykker i bygg og anlegg, rapport 2024</a></li><li id="k-lighthouse"><a href="https://www.fmb.org.uk/resource/tackling-mental-health-challenges-in-construction-with-the-lighthouse-construction-industry-charity.html" rel="noopener" target="_blank">FMB og Lighthouse Construction Industry Charity: mental helse i bygg</a></li></ol></section>
+</div></main><footer><div class="wrap fgrid"><div><div class="brand"><span class="brand-mark"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M1 9h3l2-5 3 10 2-5h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="brand-name">Orgpuls</span></div><p>Medarbeiderundersøkelse og arbeidsmiljøkartlegging for norske virksomheter. Data lagres i EU.</p></div>
+<div><h4>Produkt</h4><a href="https://www.orgpuls.com/plattform">Plattform</a><a href="https://www.orgpuls.com/priser">Pris</a></div>
+<div><h4>Bruksområder</h4><a href="https://www.orgpuls.com/bygg-og-anlegg">Bygg og anlegg</a><a href="https://www.orgpuls.com/helse-og-omsorg">Helse og omsorg</a><a href="https://www.orgpuls.com/smaa-bedrifter">Små bedrifter</a><a href="https://www.orgpuls.com/verneombud">Verneombud</a></div>
+<div><h4>Om oss</h4><a href="https://www.orgpuls.com/hvorfor">Hvorfor Orgpuls</a><a href="https://www.orgpuls.com/kontakt">Kontakt</a><a href="https://www.orgpuls.com/personvernerklaering">Personvern</a></div></div>
+<div class="wrap small" style="margin-top:24px">© 2026 Orgpuls</div></footer>
+<script>
+(function(){
+  function mod11(d){var w=[3,2,7,6,5,4,3,2],s=0;for(var i=0;i<8;i++)s+=+d[i]*w[i];var r=11-(s%11);if(r===11)r=0;return r!==10&&r===+d[8];}
+  document.querySelectorAll('[data-start]').forEach(function(f){
+    var inp=f.querySelector('input'),msg=f.querySelector('.start-msg');
+    f.addEventListener('submit',function(ev){ev.preventDefault();var d=(inp.value||'').replace(/\D/g,'');
+      if(d.length!==9){msg.textContent='Organisasjonsnummeret har 9 siffer.';inp.focus();return;}
+      if(!mod11(d)){msg.textContent='Sjekk nummeret – det ser ikke ut som et gyldig organisasjonsnummer.';inp.focus();return;}
+      msg.textContent='';window.open('https://www.orgpuls.com/registrer?orgnr='+d,'_blank','noopener');});
+    inp.addEventListener('input',function(){msg.textContent='';});
+  });
+})();
+</script></body></html>
