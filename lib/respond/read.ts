@@ -33,9 +33,34 @@ const Form = z.object({
       z.object({
         name: z.string(),
         minutes: z.coerce.number(),
-        statements: z.array(z.object({ item: z.string().uuid(), factor: z.string(), text: z.string() })),
-        count: z.array(z.object({ item: z.string().uuid(), text: z.string(), options: z.array(z.string()).length(3) })),
-        segments: z.array(z.object({ item: z.string().uuid(), text: z.string(), options: z.array(z.string()).min(2) })),
+        // English beside the Norwegian where the module has it (0072); the page picks by locale
+        statements: z.array(
+          z.object({
+            item: z.string().uuid(),
+            factor: z.string(),
+            text: z.string(),
+            factor_en: z.string().nullish(),
+            text_en: z.string().nullish(),
+          }),
+        ),
+        count: z.array(
+          z.object({
+            item: z.string().uuid(),
+            text: z.string(),
+            options: z.array(z.string()).length(3),
+            text_en: z.string().nullish(),
+            options_en: z.array(z.string().nullable()).nullish(),
+          }),
+        ),
+        segments: z.array(
+          z.object({
+            item: z.string().uuid(),
+            text: z.string(),
+            options: z.array(z.string()).min(2),
+            text_en: z.string().nullish(),
+            options_en: z.array(z.string().nullable()).nullish(),
+          }),
+        ),
       }),
     )
     .default([]),

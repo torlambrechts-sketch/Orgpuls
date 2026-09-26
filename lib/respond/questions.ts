@@ -18,7 +18,12 @@ export const CORE_MINUTES = 4
 export function respondQuestions(
   t: T,
   form: Pick<RespondForm, 'questions' | 'extra' | 'threshold'> & { modules?: RespondForm['modules'] },
+  /** the respondent's language: a module's English where it has one (0072), else its Norwegian */
+  lang: string = 'no',
 ): Question[] {
+  const en = lang === 'en'
+  const pick = (nb: string, tr?: string | null) => (en && tr ? tr : nb)
+  const picks = (nb: string[], tr?: (string | null)[] | null) => nb.map((o, i) => pick(o, tr?.[i]))
   // the shared 1..5 agreement scale every factor statement is answered on. The range is
   // the database's: app.answers carries check (value between 1 and 5).
   const scale: Choice[] = [1, 2, 3, 4, 5].map((n) => ({
@@ -36,7 +41,14 @@ export function respondQuestions(
    */
   const moduleStatements = modules.flatMap((m) =>
     m.statements.map(
-      (q): Question => ({ kind: 'module', id: q.item, item: q.item, factorLabel: q.factor, text: q.text, choices: scale }),
+      (q): Question => ({
+        kind: 'module',
+        id: q.item,
+        item: q.item,
+        factorLabel: pick(q.factor, q.factor_en),
+        text: pick(q.text, q.text_en),
+        choices: scale,
+      }),
     ),
   )
   const countQuestions = modules.flatMap((m) =>
@@ -47,8 +59,8 @@ export function respondQuestions(
         item: q.item,
         factorLabel: t('respond.countLabel'),
         lead: t('respond.countLead', { count: countTotal }),
-        text: q.text,
-        choices: q.options.map((label, i) => ({ ordinal: i + 1, label })),
+        text: pick(q.text, q.text_en),
+        choices: picks(q.options, q.options_en).map((label, i) => ({ ordinal: i + 1, label })),
       }),
     ),
   )
@@ -60,8 +72,8 @@ export function respondQuestions(
         item: q.item,
         factorLabel: t('respond.segmentLabel'),
         lead: t('respond.segmentLead', { threshold: form.threshold }),
-        text: q.text,
-        choices: q.options.map((label, i) => ({ ordinal: i + 1, label })),
+        text: pick(q.text, q.text_en),
+        choices: picks(q.options, q.options_en).map((label, i) => ({ ordinal: i + 1, label })),
       }),
     ),
   )

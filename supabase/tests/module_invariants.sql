@@ -11,6 +11,7 @@
 --   * module answers are append-only, and go with their round (11)
 --   * publishing from the admin: super-admin only, with a reason, audited (12)
 --   * nothing written here survives (13)
+--   * a translation (0072) is stored on seeding and frozen with the published version (16)
 --   * a pilot (0068): the draft is visible to its organisation's members only, and only its
 --     rounds may ask it; adding one is a super-admin's, audited (14, 15)
 --
@@ -278,6 +279,42 @@ begin
       'expected', 'not_allowed,reason_required,ok,1,retired', 'actual', v_txt,
       'pass', v_txt = 'not_allowed,reason_required,ok,1,retired');
 
+    -- 16 --------------------------------------------------------------- English travels with the version (0072)
+    perform app.module_seed(jsonb_build_object(
+      'module_id', 'probe-en', 'version', '0.0.1', 'name', 'Probe', 'description', 'Probe', 'estimated_minutes', 1,
+      'scale', '{}'::jsonb, 'scoring', '{}'::jsonb, 'anonymity', '{"min_responses": 5, "can_lower": false}'::jsonb,
+      'sources', '[]'::jsonb,
+      'factors', jsonb_build_array(jsonb_build_object(
+        'id', 'f', 'name', 'Faktor', 'summary', 'S', 'rationale', 'R', 'rationale_sources', '[]'::jsonb, 'legal_basis', '[]'::jsonb,
+        'items', '[{"id":"PE-FF-1","text":"En","reverse":false,"pulse_eligible":true},
+                   {"id":"PE-FF-2","text":"To","reverse":false,"pulse_eligible":true},
+                   {"id":"PE-FF-3","text":"Tre","reverse":false,"pulse_eligible":true}]'::jsonb,
+        'action_suggestions', '[]'::jsonb)),
+      'count_items', '[]'::jsonb, 'segments', '[]'::jsonb,
+      'translations', jsonb_build_object('en', jsonb_build_object(
+        'name', 'Probe EN', 'description', 'Probe EN',
+        'factors', jsonb_build_object('f', jsonb_build_object('name', 'Factor', 'summary', 'S', 'rationale', 'R', 'legal_basis', '[]'::jsonb,
+          'items', '{"PE-FF-1":"One","PE-FF-2":"Two","PE-FF-3":"Three"}'::jsonb))))), repeat('c', 64));
+    select concat_ws(',', m.i18n->'en'->>'name', f.i18n->'en'->>'name', i.text->>'en', i.text->>'nb')
+      into v_txt
+    from app.question_modules m join app.module_factors f on f.module_id = m.id join app.module_items i on i.factor_id = f.id
+    where m.key = 'probe-en' and i.code = 'PE-FF-2';
+    perform app.module_set_status('probe-en', '0.0.1', 'published');
+    begin
+      update app.question_modules set i18n = '{"en":{"name":"Rewritten"}}' where key = 'probe-en';
+      v_txt := v_txt || ',rewritten';
+    exception when restrict_violation then v_txt := v_txt || ',refused';
+    end;
+    begin
+      update app.module_items i set text = jsonb_set(i.text, '{en}', '"Rewritten"')
+      from app.question_modules m where m.id = i.module_id and m.key = 'probe-en' and i.code = 'PE-FF-2';
+      v_txt := v_txt || ',rewritten';
+    exception when restrict_violation then v_txt := v_txt || ',refused';
+    end;
+    v_rows := v_rows || jsonb_build_object('seq', 16, 'name', 'a seeded translation is stored, and frozen once published',
+      'expected', 'Probe EN,Factor,Two,To,refused,refused', 'actual', v_txt,
+      'pass', v_txt = 'Probe EN,Factor,Two,To,refused,refused');
+
     raise exception 'rollback-probe';
   exception when others then
     if sqlerrm <> 'rollback-probe' then raise; end if;
@@ -300,7 +337,7 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._mod;
   if v_failed is not null then raise exception 'module invariants failed: %', v_failed; end if;
-  if v_count <> 15 then raise exception 'module invariants: expected 15 rows, got %', v_count; end if;
+  if v_count <> 16 then raise exception 'module invariants: expected 16 rows, got %', v_count; end if;
 end $$;
 
 drop table public._mod;

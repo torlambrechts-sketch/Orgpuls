@@ -5209,3 +5209,51 @@ Verified in the browser, on both preview pages:
 
 Status codes: `/bygg-og-anlegg` and `/helse-og-omsorg` are 200 with their current copy, and
 `/…/sporsmal` without the flag and `/helse-og-omsorg/sporsmal` are 404. Unit tests: 174.
+
+## D-119 — Industry modules in English, and the demo regenerated after the full test
+
+The user asked for the construction module in English (answer "Modulen på engelsk"). The
+Norwegian stays the source; the English is a translation that travels with the version.
+
+- **The file.** `modules/<key>/v*.json` takes an optional `translations.en` block covering:
+  - the module's name and description;
+  - each factor's name, summary, rationale and legal basis;
+  - every statement;
+  - every action suggestion;
+  - the count questions and their options;
+  - the segments;
+  - the covered core factors.
+
+  `lib/modules/schema.ts` refuses a translation that is incomplete: a missing statement, a
+  legal-basis or suggestion list of a different length, or options of a different count. A
+  half-English module therefore cannot be published. The content hash covers the whole
+  file, so a translation is part of the version. Correcting the English of a published
+  module means publishing a new version, exactly as it does for the Norwegian.
+- **The database (0072).**
+  - `question_modules`, `module_factors` and `module_action_suggestions` gain `i18n jsonb`.
+  - Items and options were already `{nb, en?}`.
+  - `module_seed` writes the English, and `module_frozen` now compares `i18n` too.
+  - `respond_form`, `module_results` and `get_count_item_totals` return the English beside
+    the Norwegian under `_en` keys; they do not choose.
+  - The readers (`lib/modules/read.ts`, `lib/modules/results.ts`, `lib/respond/*`) choose by
+    the request's locale and fall back to Norwegian wherever an English value is missing, so
+    no screen branches on language.
+  - `module_invariants.sql` #16 proves a seeded translation is stored and cannot be changed
+    once published.
+- **Hosted.** 0072 is applied and recorded. `bygg-og-anlegg@1.0.0` was re-seeded as a draft
+  with its English; the hash is now `fd6d9da1aa3b`. Nothing referenced the earlier draft.
+- **Verified in the browser with `NEXT_LOCALE=en`:**
+  - in Demobedriften, the module on a planned round in Måleoppsett shows "Construction, 24
+    statements, about 3 minutes extra" with the yes/no toggle;
+  - the respondent form asks 59 questions: 33 core, 24 module statements under their
+    English factor headings, and 2 counts with "Yes / No / Don't know";
+  - Resultater shows the module table and the count block in English;
+  - there were no console errors.
+
+  Afterwards the test round, its invitation and the pilot were removed. Demobedriften was
+  then regenerated from `scripts/seed/demo-org.mjs`: 8 rounds, no modules or pilots, and the
+  demo login intact. That was also the user's answer for the earlier full test ("Fjern
+  testrunden, lag demoen på nytt").
+- **Not translated here:** the English law references in `legal_basis` are translations of
+  Norwegian statute names, not an official English text, and are marked as such nowhere in
+  the product. They are reviewed together with the English industry page (D-120).

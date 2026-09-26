@@ -1,6 +1,7 @@
 import 'server-only'
 import { cache } from 'react'
 import { z } from 'zod'
+import { getLocale } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { parseFailed, readFailed } from '@/lib/supabase/read'
 
@@ -25,6 +26,10 @@ const ModuleRow = z.object({
   status: z.enum(['draft', 'published', 'retired']),
   estimated_minutes: z.coerce.number(),
   relation_to_core: z.object({ covered_by_core_factors: z.array(z.string()).optional() }).passthrough(),
+  i18n: z
+    .object({ en: z.object({ name: z.string(), description: z.string(), covered_by_core_factors: z.array(z.string()).optional() }).partial() })
+    .partial()
+    .default({}),
 })
 const FactorRow = z.object({
   id: z.string().uuid(),
@@ -36,8 +41,12 @@ const FactorRow = z.object({
   rationale_sources: z.array(z.string()),
   legal_basis: z.array(z.string()),
   sort: z.coerce.number(),
+  i18n: z
+    .object({ en: z.object({ name: z.string(), summary: z.string(), rationale: z.string(), legal_basis: z.array(z.string()) }).partial() })
+    .partial()
+    .default({}),
 })
-const Locale = z.object({ nb: z.string() }).passthrough()
+const Locale = z.object({ nb: z.string(), en: z.string().optional() }).passthrough()
 const ItemRow = z.object({
   id: z.string().uuid(),
   module_id: z.string().uuid(),
@@ -56,6 +65,7 @@ const ActionRow = z.object({
   description: z.string(),
   remeasure_item_id: z.string().uuid(),
   sort: z.coerce.number(),
+  i18n: z.object({ en: z.object({ title: z.string(), description: z.string() }).partial() }).partial().default({}),
 })
 const SourceRow = z.object({ key: z.string(), title: z.string(), url: z.string(), sort: z.coerce.number() })
 
@@ -108,7 +118,7 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
   let q = supabase
     .schema('app')
     .from('question_modules')
-    .select('id, key, version, name, description, status, estimated_minutes, relation_to_core')
+    .select('id, key, version, name, description, status, estimated_minutes, relation_to_core, i18n')
   if (filter.ids) q = q.in('id', filter.ids)
   if (filter.status) q = q.eq('status', filter.status)
   const { data: mods, error } = await q
@@ -119,11 +129,11 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
 
   const [factors, items, actions, sources] = await Promise.all([
     supabase.schema('app').from('module_factors')
-      .select('id, module_id, key, name, summary, rationale, rationale_sources, legal_basis, sort').in('module_id', ids),
+      .select('id, module_id, key, name, summary, rationale, rationale_sources, legal_basis, sort, i18n').in('module_id', ids),
     supabase.schema('app').from('module_items')
       .select('id, module_id, factor_id, code, kind, text, options, sort').in('module_id', ids),
     supabase.schema('app').from('module_action_suggestions')
-      .select('id, module_id, factor_id, type, title, description, remeasure_item_id, sort').in('module_id', ids),
+      .select('id, module_id, factor_id, type, title, description, remeasure_item_id, sort, i18n').in('module_id', ids),
     supabase.schema('app').from('module_sources').select('module_id, key, title, url, sort').in('module_id', ids),
   ])
   if (readFailed('module_factors', factors.error, factors.data)) return []
@@ -137,11 +147,14 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
   if (parseFailed('module_factors', f) || parseFailed('module_items', it)) return []
   if (parseFailed('module_action_suggestions', ac) || parseFailed('module_sources', so)) return []
 
+  // the reader's language where the module has it (0072), Norwegian otherwise
+  const en = (await getLocale()) === 'en'
+  const pick = (l: z.infer<typeof Locale>) => (en && l.en ? l.en : l.nb)
   const item = (r: z.infer<typeof ItemRow>): ModuleItem => ({
     id: r.id,
     code: r.code,
-    text: r.text.nb,
-    options: (r.options ?? []).map((o) => o.nb),
+    text: pick(r.text),
+    options: (r.options ?? []).map(pick),
   })
   const itemById = new Map(it.data.map((r) => [r.id, item(r)]))
   const bySort = <T extends { sort: number }>(a: T, b: T) => a.sort - b.sort
@@ -152,22 +165,22 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
       id: m.id,
       key: m.key,
       version: m.version,
-      name: m.name,
-      description: m.description,
+      name: (en && m.i18n.en?.name) || m.name,
+      description: (en && m.i18n.en?.description) || m.description,
       status: m.status,
       estimatedMinutes: m.estimated_minutes,
-      coveredByCore: m.relation_to_core.covered_by_core_factors ?? [],
+      coveredByCore: (en && m.i18n.en?.covered_by_core_factors) || m.relation_to_core.covered_by_core_factors || [],
       factors: f.data
         .filter((r) => r.module_id === m.id)
         .sort(bySort)
         .map((r) => ({
           id: r.id,
           key: r.key,
-          name: r.name,
-          summary: r.summary,
-          rationale: r.rationale,
+          name: (en && r.i18n.en?.name) || r.name,
+          summary: (en && r.i18n.en?.summary) || r.summary,
+          rationale: (en && r.i18n.en?.rationale) || r.rationale,
           rationaleSources: r.rationale_sources,
-          legalBasis: r.legal_basis,
+          legalBasis: (en && r.i18n.en?.legal_basis) || r.legal_basis,
           items: mine.filter((i) => i.factor_id === r.id && i.kind === 'likert5').map(item),
           actions: ac.data
             .filter((a) => a.factor_id === r.id)
@@ -175,7 +188,15 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
             .flatMap((a) => {
               const remeasureItem = itemById.get(a.remeasure_item_id)
               return remeasureItem
-                ? [{ id: a.id, type: a.type, title: a.title, description: a.description, remeasureItem }]
+                ? [
+                    {
+                      id: a.id,
+                      type: a.type,
+                      title: (en && a.i18n.en?.title) || a.title,
+                      description: (en && a.i18n.en?.description) || a.description,
+                      remeasureItem,
+                    },
+                  ]
                 : []
             }),
         })),

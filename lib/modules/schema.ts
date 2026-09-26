@@ -59,6 +59,32 @@ const Segment = z.object({
   options: z.array(Text).min(2).max(9),
 })
 
+/**
+ * A translation of the whole module (open decision 4: English for respondents and leaders).
+ * It lives in the same file, so the content hash covers it and a published version's English
+ * can no more change than its Norwegian. When present it must be complete: a statement asked
+ * in Norwegian because its English was forgotten would be a different question.
+ */
+const Translation = z.object({
+  name: Text,
+  description: Text,
+  scale_labels: z.array(Text).length(5),
+  covered_by_core_factors: z.array(Text).optional(),
+  factors: z.record(
+    z.string(),
+    z.object({
+      name: Text,
+      summary: Text,
+      rationale: Text,
+      legal_basis: z.array(Text),
+      items: z.record(z.string(), Text),
+      action_suggestions: z.array(z.object({ title: Text, description: Text })),
+    }),
+  ),
+  count_items: z.record(z.string(), z.object({ text: Text, options: z.array(Text).length(3), why: Text.optional() })),
+  segments: z.record(z.string(), z.object({ text: Text, options: z.array(Text) })),
+})
+
 const Source = z.object({ key: z.string().regex(/^[a-z][a-z0-9_]*$/), title: Text, url: z.url() })
 
 export const ModuleFile = z
@@ -97,6 +123,7 @@ export const ModuleFile = z
     count_items: z.array(CountItem),
     segments: z.array(Segment),
     sources: z.array(Source),
+    translations: z.object({ en: Translation }).partial().optional(),
   })
   .superRefine((m, ctx) => {
     const issue = (path: (string | number)[], message: string) => ctx.addIssue({ code: 'custom', path, message })
@@ -142,6 +169,33 @@ export const ModuleFile = z
       if (segIds.has(s.id)) issue(['segments', si, 'id'], `duplicate segment ${s.id}`)
       segIds.add(s.id)
     })
+
+    for (const [lang, tr] of Object.entries(m.translations ?? {})) {
+      if (!tr) continue
+      const at = (...p: (string | number)[]) => ['translations', lang, ...p]
+      m.factors.forEach((f) => {
+        const t = tr.factors[f.id]
+        if (!t) return issue(at('factors', f.id), `${lang}: factor ${f.id} is not translated`)
+        if (t.legal_basis.length !== f.legal_basis.length) issue(at('factors', f.id, 'legal_basis'), `${lang}: legal basis count differs`)
+        if (t.action_suggestions.length !== f.action_suggestions.length) issue(at('factors', f.id, 'action_suggestions'), `${lang}: suggestion count differs`)
+        f.items.forEach((i) => {
+          if (!t.items[i.id]) issue(at('factors', f.id, 'items', i.id), `${lang}: ${i.id} is not translated`)
+        })
+        for (const code of Object.keys(t.items)) if (!f.items.some((i) => i.id === code)) issue(at('factors', f.id, 'items', code), `${lang}: ${code} is not an item of ${f.id}`)
+      })
+      for (const k of Object.keys(tr.factors)) if (!m.factors.some((f) => f.id === k)) issue(at('factors', k), `${lang}: no factor ${k}`)
+      m.count_items.forEach((c) => {
+        if (!tr.count_items[c.id]) issue(at('count_items', c.id), `${lang}: ${c.id} is not translated`)
+      })
+      m.segments.forEach((sg) => {
+        const t = tr.segments[sg.id]
+        if (!t) issue(at('segments', sg.id), `${lang}: segment ${sg.id} is not translated`)
+        else if (t.options.length !== sg.options.length) issue(at('segments', sg.id, 'options'), `${lang}: option count differs`)
+      })
+      if ((tr.covered_by_core_factors?.length ?? 0) !== (m.relation_to_core?.covered_by_core_factors.length ?? 0)) {
+        issue(at('covered_by_core_factors'), `${lang}: covered factors differ`)
+      }
+    }
 
     const modulePrefix = new Set([...codes].map((c) => c.slice(0, 2)))
     if (modulePrefix.size > 1) issue(['factors'], 'every item code shares one module prefix')

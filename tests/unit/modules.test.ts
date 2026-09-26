@@ -57,3 +57,13 @@ describe('segment filter', () => {
     expect(segmentCellOk(7, 6, 14)).toBe(false)
   })
 })
+
+describe('translations', () => {
+  it('refuses an English translation that misses a statement', () => {
+    expect(fails((m) => delete m.translations.en.factors.sikkerhet_foran_fremdrift.items['BA-SF-2'])).toBe(true)
+  })
+  it('refuses a missing suggestion or count question', () => {
+    expect(fails((m) => m.translations.en.factors.nye_og_unge.action_suggestions.pop())).toBe(true)
+    expect(fails((m) => delete m.translations.en.count_items['BA-T-1'])).toBe(true)
+  })
+})

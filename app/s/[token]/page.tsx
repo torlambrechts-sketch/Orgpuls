@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { getRespondForm } from '@/lib/respond/read'
 import { RespondFlow } from '@/components/respond/RespondFlow'
 import { respondCopy, respondQuestions } from '@/lib/respond/questions'
@@ -46,7 +46,7 @@ export default async function RespondPage({
 
   const { form } = result
 
-  const questions = respondQuestions(t, form)
+  const questions = respondQuestions(t, form, await getLocale())
 
   return (
     <main className="animate-entry mx-auto min-h-screen max-w-[420px] bg-bg">

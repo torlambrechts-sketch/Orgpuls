@@ -626,5 +626,290 @@
       "title": "STAMI: Psykososialt arbeidsmiljø",
       "url": "https://stami.no/tema/psykososialt-arbeidsmiljo/"
     }
-  ]
+  ],
+  "translations": {
+    "en": {
+      "name": "Construction",
+      "description": "Add-on module to the main survey for construction, civil engineering and workshops. Eight factors with three statements each, plus two questions reported only as counts.",
+      "scale_labels": [
+        "Strongly disagree",
+        "Slightly disagree",
+        "Neither",
+        "Slightly agree",
+        "Strongly agree"
+      ],
+      "covered_by_core_factors": [
+        "Workload and time pressure",
+        "Conflicting demands",
+        "Freedom to speak up",
+        "Support from manager",
+        "Integrity and dignity",
+        "Contact and communication"
+      ],
+      "factors": {
+        "sikkerhet_foran_fremdrift": {
+          "name": "Safety before progress",
+          "summary": "Whether safety holds when the schedule slips – and whether it is safe to stop work and report.",
+          "rationale": "Time pressure and price pressure are the factors most often named as obstacles to safety culture in construction, along with a culture of silence and unclear mandates. Nordic research on safety climate shows that what counts is what management actually prioritises when things get tight.",
+          "legal_basis": [
+            "aml § 2-3 (duty to stop work in case of danger and to report it)",
+            "aml § 3-1 (systematic health, safety and environment work)",
+            "aml § 4-1 (a fully satisfactory working environment)"
+          ],
+          "items": {
+            "BA-SF-1": "When time is short, safety still comes before progress",
+            "BA-SF-2": "I can stop a job I think is unsafe without getting into trouble for it",
+            "BA-SF-3": "Anyone who reports a near miss is met with thanks, not blame"
+          },
+          "action_suggestions": [
+            {
+              "title": "When the plan breaks",
+              "description": "The team goes through three situations where progress and safety collided, and agrees who makes the decision and how."
+            },
+            {
+              "title": "Stop and report",
+              "description": "A fixed routine for stopping work: stop, alert the foreman, clarify before restarting. The foreman confirms the same day."
+            },
+            {
+              "title": "Thanks first",
+              "description": "The manager answers every report of an unwanted incident with thanks and word of what happens next, within five days."
+            }
+          ]
+        },
+        "sikkerhet_i_laget": {
+          "name": "Safety in the team",
+          "summary": "Whether colleagues speak up to each other, hold back on shortcuts and learn from incidents.",
+          "rationale": "Safety climate is also about the team: whether people speak up to each other and learn from what nearly went wrong. Norwegian research has found that reporting incidents can feel like telling on colleagues, and that some follow orders without assessing the risk themselves.",
+          "legal_basis": [
+            "aml § 2-3 (employees' duty to take part)",
+            "aml § 3-1 (deviations must be reported, followed up and learned from)"
+          ],
+          "items": {
+            "BA-SL-1": "In my team we don't take shortcuts that increase the risk, even when we're in a hurry",
+            "BA-SL-2": "We speak up to each other when we see something unsafe",
+            "BA-SL-3": "Unwanted incidents are gone through so that we learn something from them"
+          },
+          "action_suggestions": [
+            {
+              "title": "The near miss we learned most from",
+              "description": "Twenty minutes at the morning meeting: everyone tells of one incident that could have gone wrong, and the team picks one thing to do differently."
+            },
+            {
+              "title": "Five minutes on Friday",
+              "description": "The week's reported incidents are gone through with the team every Friday, with what was done."
+            },
+            {
+              "title": "Today's riskiest moment",
+              "description": "The foreman ends the day with one question: what was the riskiest thing we did today?"
+            }
+          ]
+        },
+        "planlegging_og_fremdrift": {
+          "name": "Planning and progress",
+          "summary": "Whether the schedule is realistic, and whether materials, equipment and messages are in place in time.",
+          "rationale": "In construction, time pressure is rarely just workload – it often comes from unrealistic schedules and poor planning. The Danish Working Environment Authority points out that time pressure causes accidents because less gets tidied up and equipment goes unused. In a European survey, 74 per cent in Swedish construction said they worked under time pressure, against 47 per cent in the EU.",
+          "legal_basis": [
+            "aml § 4-3 (workload and time pressure as a psychosocial factor)",
+            "the Construction Client Regulations (the client's responsibility for planning and schedule)"
+          ],
+          "items": {
+            "BA-PF-1": "The schedule is realistic for the job we are to do",
+            "BA-PF-2": "Materials, equipment and drawings are in place when we are due to start",
+            "BA-PF-3": "We are told in good time when the plan changes"
+          },
+          "action_suggestions": [
+            {
+              "title": "Weekly plan with those who do the work",
+              "description": "The team plans next week together with the foreman and says what is missing before the start."
+            },
+            {
+              "title": "Ready to start",
+              "description": "A check the day before every new operation: materials, equipment, drawings and permits. If something is missing, the start is moved."
+            },
+            {
+              "title": "Answers from the site meeting",
+              "description": "The project manager takes schedule conflicts to the site meeting and gives the team an answer the same week."
+            }
+          ]
+        },
+        "samordning_pa_byggeplassen": {
+          "name": "Coordination on site",
+          "summary": "Whether responsibility and risk are clear when several companies work in the same place.",
+          "rationale": "The Swedish Work Environment Authority found in 2026 that safety work weakens in projects with many parties, especially when responsibility lies with people who lack the time, resources or mandate to follow it up.",
+          "legal_basis": [
+            "aml § 2-2 (the principal enterprise's duty to coordinate when several employers share a workplace)",
+            "the Construction Client Regulations (health and safety plan and coordinator)"
+          ],
+          "items": {
+            "BA-SB-1": "It is clear who is responsible when several companies work in the same place",
+            "BA-SB-2": "We are told about the risks in the work other companies do around us",
+            "BA-SB-3": "Cooperation with subcontractors and other trades works well"
+          },
+          "action_suggestions": [
+            {
+              "title": "Who decides here?",
+              "description": "The team draws the site's map of responsibility: principal enterprise, coordinator, foreman per company, and who to go to with what."
+            },
+            {
+              "title": "Joint morning meeting",
+              "description": "A short morning meeting with every company on site: who works where today, and what can go wrong between us."
+            },
+            {
+              "title": "Introduce new companies",
+              "description": "The foreman introduces new subcontractors to the team on their first day, with the name of their foreman."
+            }
+          ]
+        },
+        "sprak_og_beskjeder": {
+          "name": "Language and instructions",
+          "summary": "Whether safety information is understood, and whether it is fine to ask again.",
+          "rationale": "Lack of a common language, cultural differences and inadequate training still pull down health and safety standards on Norwegian building sites. Since 2024, at least one person in every work team must be able to communicate both with the team and in Norwegian or English where safety requires it.",
+          "legal_basis": [
+            "the Labour Inspection Authority's language requirement for work teams on building and construction sites",
+            "aml § 3-2 (training and instruction)"
+          ],
+          "items": {
+            "BA-SP-1": "Safety information is given in a language I understand well",
+            "BA-SP-2": "In my team there is always someone who can pass messages between the languages",
+            "BA-SP-3": "It is fine to ask again when you haven't understood an instruction"
+          },
+          "action_suggestions": [
+            {
+              "title": "The message that was misunderstood",
+              "description": "The team shares examples of instructions that were misunderstood, and makes a short list of words and signs everyone should know."
+            },
+            {
+              "title": "Language person on the board",
+              "description": "Each team has a named person who passes messages between the languages, visible on the board and in the job safety analysis."
+            },
+            {
+              "title": "Say it back",
+              "description": "The foreman asks for critical instructions to be repeated back before work starts."
+            }
+          ]
+        },
+        "nye_og_unge": {
+          "name": "New and young people in the team",
+          "summary": "Whether newcomers and apprentices get training, a fixed person to ask and time to learn.",
+          "rationale": "Employees under 25 are those most often injured in construction. At the same time, around one in five apprentices quits within the first ten months, according to figures from Trondhjems Byggmesterlaug.",
+          "legal_basis": [
+            "aml § 3-2 (training, practice and instruction)",
+            "aml § 4-1 (adaptation to the employee's abilities)"
+          ],
+          "items": {
+            "BA-NU-1": "Newcomers are trained before they are given risky tasks",
+            "BA-NU-2": "Newcomers and apprentices in the team have a fixed person to ask",
+            "BA-NU-3": "You get time to learn a new task properly before pace is expected"
+          },
+          "action_suggestions": [
+            {
+              "title": "The first week",
+              "description": "The team makes its own checklist of what a newcomer must know before their first risky task."
+            },
+            {
+              "title": "A buddy for three months",
+              "description": "Every newcomer and apprentice gets a named buddy in the team for their first three months."
+            },
+            {
+              "title": "Day one, week one, month one",
+              "description": "The foreman has a short talk with every newcomer after the first day, the first week and the first month."
+            }
+          ]
+        },
+        "a_si_at_man_ikke_har_det_bra": {
+          "name": "Saying you're not doing well",
+          "summary": "Whether there is room to talk about strain, also after accidents and near misses.",
+          "rationale": "Sickness absence in construction rose the most of the large industries from 2019 to 2023, and mental health problems explain almost half of the rise in sickness absence overall. Internationally, men in construction are overrepresented in mental ill-health statistics, and the industry is marked by a culture of carrying it alone.",
+          "legal_basis": [
+            "aml § 4-3 (psychosocial working conditions must be fully satisfactory)"
+          ],
+          "items": {
+            "BA-PH-1": "It is fine to say you're not doing well, here too",
+            "BA-PH-2": "After an accident or near miss, someone talks with those who were there",
+            "BA-PH-3": "I know where I can get help if I'm struggling"
+          },
+          "action_suggestions": [
+            {
+              "title": "Behind the helmet",
+              "description": "Thirty minutes with the occupational health service about stress and looking out for each other, held on site in working hours."
+            },
+            {
+              "title": "A talk after incidents",
+              "description": "After a serious incident or near miss, those who were there meet the same week, with the manager or the occupational health service."
+            },
+            {
+              "title": "Ask twice",
+              "description": "When someone answers “fine” to how things are going, the manager asks once more and waits for the answer."
+            }
+          ]
+        },
+        "arbeidstid_og_restitusjon": {
+          "name": "Working hours and recovery",
+          "summary": "Whether working hours, overtime and travel give enough rest over time.",
+          "rationale": "Long working weeks are more common in civil engineering than in working life in general, and they raise the risk of errors and accidents. Commuting and long periods away come on top.",
+          "legal_basis": [
+            "aml § 10-2 (working hours arrangements without undue strain)",
+            "aml § 10-8 (daily and weekly rest)"
+          ],
+          "items": {
+            "BA-AR-1": "My working hours give me enough rest between working days",
+            "BA-AR-2": "Travel and commuting are manageable over time",
+            "BA-AR-3": "Overtime is the exception, not the norm"
+          },
+          "action_suggestions": [
+            {
+              "title": "What eats the time?",
+              "description": "The team maps one week: where does time go on waiting, travel and overtime, and what can be moved."
+            },
+            {
+              "title": "Overtime alert",
+              "description": "A fixed monthly overtime limit, with an alert to the manager when someone is getting close to it."
+            },
+            {
+              "title": "Travel time in staffing",
+              "description": "The project manager considers travel time when people are put on projects, and rotates where possible."
+            }
+          ]
+        }
+      },
+      "count_items": {
+        "BA-T-1": {
+          "text": "In the last three months, have you been part of or seen a near miss that was not reported?",
+          "options": [
+            "Yes",
+            "No",
+            "Don't know"
+          ],
+          "why": "Shows how much never reaches the deviation system."
+        },
+        "BA-T-2": {
+          "text": "In the last three months, have you been asked to do a job you thought was unsafe?",
+          "options": [
+            "Yes",
+            "No",
+            "Don't know"
+          ],
+          "why": "Shows whether pressure to make progress turns into concrete demands on the team."
+        }
+      },
+      "segments": {
+        "arbeidssted": {
+          "text": "Where do you mostly work?",
+          "options": [
+            "Project or building site",
+            "Workshop or warehouse",
+            "Office or administration"
+          ]
+        },
+        "ansiennitet": {
+          "text": "How long have you worked here?",
+          "options": [
+            "Under a year",
+            "One to five years",
+            "More than five years"
+          ]
+        }
+      }
+    }
+  }
 }
