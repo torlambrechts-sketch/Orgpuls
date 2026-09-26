@@ -6,6 +6,7 @@ import { useTransition } from 'react'
 import { setLanguage } from '@/lib/i18n/actions'
 import { LOCALES } from '@/lib/i18n/locales'
 import { EN_HOST, MAIN_URL } from '@/lib/hosts'
+import { switchUrl } from '@/lib/i18n/switch'
 
 const SHORT = { no: 'NO', en: 'EN' } as const
 const NAME = { no: 'Norsk', en: 'English' } as const
@@ -18,6 +19,11 @@ const NAME = { no: 'Norsk', en: 'English' } as const
  * a plain link to the same page on the other one: `hosts` is passed then. Otherwise the choice
  * is saved (lib/i18n/actions) and the page drawn again in place; leaving the English host for
  * Norwegian goes to www, since that host is English whatever is chosen.
+ *
+ * Choosing Norwegian goes through www's own /api/sprak (D-109): a choice is a cookie, and a
+ * cookie belongs to one host, so an English choice made on www earlier would otherwise keep
+ * www English after pressing NO. The link's href stays the page itself, for crawlers and for
+ * opening in a new tab; a press goes through the route.
  */
 export function LanguageSwitch({
   label,
@@ -54,6 +60,12 @@ export function LanguageSwitch({
               lang={l === 'no' ? 'nb' : 'en'}
               aria-current={on ? 'true' : undefined}
               aria-label={NAME[l]}
+              onClick={(e) => {
+                // the host decides on en.orgpuls.com; on www the saved choice must be Norwegian too
+                if (l !== 'no' || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
+                e.preventDefault()
+                window.location.href = switchUrl(hosts.no, 'no', pathname)
+              }}
               className={cls}
             >
               {size === 'lg' ? NAME[l] : SHORT[l]}
@@ -71,9 +83,13 @@ export function LanguageSwitch({
             onClick={() => {
               if (on) return
               start(async () => {
+                if (l === 'no' && window.location.hostname === EN_HOST) {
+                  // www's own cookie is the one that counts there (D-109)
+                  window.location.href = switchUrl(MAIN_URL, 'no', pathname)
+                  return
+                }
                 await setLanguage(l)
-                if (l === 'no' && window.location.hostname === EN_HOST) window.location.href = `${MAIN_URL}${pathname}`
-                else router.refresh()
+                router.refresh()
               })
             }}
             className={`${h} min-w-[34px] cursor-pointer rounded-[7px] border-none px-[8px] text-[12.5px] font-bold ${

@@ -87,6 +87,8 @@ const PUBLIC_PATHS = [
   '/nyhetsbrev',
   '/avmeld',
   '/api/avmeld',
+  // choosing a language on this host, then back to the page (D-109)
+  '/api/sprak',
   // the platform admin's sign-in (D-90); everything else under /admin needs a session
   '/admin/login',
 ]

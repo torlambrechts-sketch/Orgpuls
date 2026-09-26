@@ -4861,3 +4861,24 @@ Verified:
   - the admin card and the Operations list;
   - the customer's banner at 1440 and 390 px;
   - the cancellation withdrawn again, and hosted left with none.
+
+## D-109 — Pressing NO on the public site can no longer leave it in English
+
+Reported: pressing Norwegian on the public site kept the page in English.
+
+- **Cause.** A language choice is a cookie (D-96), and a cookie belongs to one host. On the
+  production hosts the public site's switch is a plain link across them (D-98): NO leads to
+  the same page on www.orgpuls.com.
+  - www honours the cookie, since the app there follows a user's choice. If English had
+    been chosen on www before (in the app's account menu, or restored from a profile at
+    sign-in), the link landed on www with that choice still saved, and the page stayed
+    English.
+  - The app's switch on en.orgpuls.com had the same flaw: it saved Norwegian in en's cookie,
+    then went to www.
+- **Fix.** `/api/sprak?l=no&til=/path` saves the choice on the host it runs on (and on a
+  signed-in user's profile, as the in-app switch does), then redirects with 303 to the page.
+  - Both switches send NO through www's own route.
+  - The link's `href` stays the page itself, for crawlers and for opening in a new tab.
+  - The return path must be a path on this site (`lib/i18n/switch.ts`, unit-tested). Any
+    other host, `//host` or backslash form falls back to the start page, so the route is no
+    open redirect.
