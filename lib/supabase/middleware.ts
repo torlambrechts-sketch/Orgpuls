@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
+import { ADMIN_HOST, hostOf, PUBLIC_HOSTS } from '@/lib/hosts'
 import { readSupabaseEnv } from '@/lib/supabase/env'
 
 /**
@@ -84,9 +85,9 @@ const PUBLIC_PATHS = [
 ]
 
 /**
- * The platform admin (D-90). It is served under /admin, and — once `ADMIN_HOST` names its own
- * host, e.g. admin.orgpuls.com — only there: on that host every path is the admin's, and on any
- * other host /admin does not exist. Its session is the host's own cookie, apart from the
+ * The platform admin (D-90). It is served under /admin. On its own host (lib/hosts,
+ * admin.orgpuls.com) every path is the admin's, and on the public hosts /admin does not exist.
+ * Local and preview hosts serve /admin as it is. Its session is the host's own cookie, apart from the
  * product's. An admin idle for thirty minutes signs in again.
  */
 const ADMIN_IDLE_MS = 30 * 60 * 1000
@@ -112,20 +113,18 @@ function deadline(ms: number): AbortSignal {
 const isPublic = (path: string) => PUBLIC_PATHS.some((p) => path === p || path.startsWith(`${p}/`))
 
 export async function updateSession(request: NextRequest) {
-  const adminHost = process.env.ADMIN_HOST?.trim().toLowerCase() || null
-  const host = (request.headers.get('host') ?? '').split(':')[0]?.toLowerCase() ?? ''
+  const host = hostOf(request.headers.get('host'))
   let path = request.nextUrl.pathname
   let rewrite: URL | null = null
-  if (adminHost) {
-    if (host === adminHost) {
-      if (!isAdminPath(path)) {
-        rewrite = request.nextUrl.clone()
-        rewrite.pathname = path === '/' ? '/admin' : `/admin${path}`
-        path = rewrite.pathname
-      }
-    } else if (isAdminPath(path)) {
-      return new NextResponse(null, { status: 404 })
+  if (host === ADMIN_HOST) {
+    if (!isAdminPath(path)) {
+      rewrite = request.nextUrl.clone()
+      rewrite.pathname = path === '/' ? '/admin' : `/admin${path}`
+      path = rewrite.pathname
     }
+  } else if (isAdminPath(path) && PUBLIC_HOSTS.includes(host)) {
+    // on the public site the admin does not exist; local and preview hosts keep /admin
+    return new NextResponse(null, { status: 404 })
   }
 
   // no session needed here, so nothing here may depend on one being obtainable
@@ -159,7 +158,7 @@ export async function safeUpdateSession(request: NextRequest) {
 
 function toSignIn(request: NextRequest, path = request.nextUrl.pathname) {
   const url = request.nextUrl.clone()
-  url.pathname = isAdminPath(path) ? (process.env.ADMIN_HOST ? '/login' : '/admin/login') : '/logg-inn'
+  url.pathname = isAdminPath(path) ? (hostOf(request.headers.get('host')) === ADMIN_HOST ? '/login' : '/admin/login') : '/logg-inn'
   url.search = ''
   return NextResponse.redirect(url)
 }
@@ -212,7 +211,7 @@ async function guard(request: NextRequest, path: string, rewrite: URL | null) {
     const seen = Number(request.cookies.get(ADMIN_IDLE_COOKIE)?.value ?? '0')
     if (!seen || Date.now() - seen > ADMIN_IDLE_MS) {
       const url = request.nextUrl.clone()
-      url.pathname = process.env.ADMIN_HOST ? '/login' : '/admin/login'
+      url.pathname = hostOf(request.headers.get('host')) === ADMIN_HOST ? '/login' : '/admin/login'
       url.search = '?idle=1'
       const redirect = NextResponse.redirect(url)
       redirect.cookies.delete(ADMIN_IDLE_COOKIE)

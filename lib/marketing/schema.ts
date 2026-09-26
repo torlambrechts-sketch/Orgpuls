@@ -49,7 +49,7 @@ export const software = (description: string) => ({
   ].map((o) => ({
     '@type': 'Offer',
     name: o.name,
-    url: `${SITE_URL}/#pris`,
+    url: `${SITE_URL}/priser`,
     priceSpecification: {
       '@type': 'UnitPriceSpecification',
       price: o.price,

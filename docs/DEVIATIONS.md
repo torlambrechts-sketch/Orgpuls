@@ -4189,3 +4189,35 @@ address. It is an account setting that the API cannot change.
   Deliverability card counts them.
 
 Source for the rewriting limitation: elan-registry/registry#2151 (a tested report).
+
+## D-98 — en.orgpuls.com and admin.orgpuls.com; "Pris" goes to /priser
+
+**The request:** the owner pointed admin.orgpuls.com and en.orgpuls.com at the project, and
+noted that "Pris" on the front page does not open /priser.
+
+**What changed:**
+- **Hosts are known in code** (lib/hosts), so no Vercel variable is needed. `ADMIN_HOST`
+  and `EN_HOST` still override.
+  - **admin.orgpuls.com** serves only the admin, at its root (`/login`, `/orgs` …).
+  - **/admin answers 404 on the public hosts:** www.orgpuls.com, orgpuls.com and
+    en.orgpuls.com. Local and preview builds keep /admin.
+  - **en.orgpuls.com is the English site.** The host decides the language there, whatever
+    the cookie says. On www the saved choice applies, otherwise Norwegian (D-96).
+- **Each public page declares its twin:**
+  - `hreflang` nb (www), en (en.orgpuls.com) and x-default (www);
+  - a canonical address on its own host;
+  - Open Graph locale nb_NO or en_GB.
+  - The sitemap lists every page with its English alternate.
+- **The public NO | EN switch is a link** to the same page on the other host, on the
+  production hosts. Locally and on previews it still sets the cookie.
+  - In the app, choosing Norsk while on the English host moves to www.
+- **"Pris"** in the menu and both footers opens /priser, not the price section of the front
+  page. The JSON-LD offer points there too.
+
+**Verified** with each host name against a production build:
+- www `/` and `/priser` are Norwegian; en `/priser` is English, with the canonical and
+  `hreflang` as above.
+- `/admin` answers 404 on www and en.
+- admin.orgpuls.com `/` goes to its `/login`.
+- localhost keeps `/admin`.
+- The sitemap has 19 English alternates.

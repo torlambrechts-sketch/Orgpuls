@@ -1,5 +1,7 @@
 import Link from 'next/link'
+import { headers } from 'next/headers'
 import { getTranslations } from 'next-intl/server'
+import { EN_URL, hostOf, MAIN_URL, PUBLIC_HOSTS } from '@/lib/hosts'
 import { HeaderNav } from '@/components/site/HeaderNav'
 import { SiteFooter, type FooterData } from '@/components/site/SiteFooter'
 import { SiteBeacon } from '@/components/marketing/SiteBeacon'
@@ -18,6 +20,8 @@ import { DESIGNED_FOOTER, FOOTERS, SITE_NAV_V2, type FooterId } from '@/lib/site
  */
 export default async function MarketingLayout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations('site.chrome')
+  // on the production hosts each language has its own; the switch links across (D-98)
+  const hosts = PUBLIC_HOSTS.includes(hostOf((await headers()).get('host'))) ? { no: MAIN_URL, en: EN_URL } : undefined
 
   const columns = Object.fromEntries(
     (Object.keys(FOOTERS) as FooterId[]).map((id) => [
@@ -52,7 +56,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
             items={SITE_NAV_V2.map((i) => ({ href: i.href!, label: t(`nav.${i.key}`) }))}
             label={t('navLabel')}
             menuLabel={t('menu')}
-            language={<LanguageSwitch label={t('language')} size="lg" />}
+            language={<LanguageSwitch label={t('language')} size="lg" hosts={hosts} />}
             account={[
               { href: '/logg-inn', label: t('signIn') },
               { href: '/registrer', label: t('getStarted') },
@@ -60,7 +64,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
           />
           {/* on a phone these two move into the menu, so the header is one row and the page starts sooner */}
           <span className="hidden flex-none items-center gap-[9px] sm:flex">
-            <LanguageSwitch label={t('language')} />
+            <LanguageSwitch label={t('language')} hosts={hosts} />
             <Link
               href="/logg-inn"
               className="flex h-[38px] items-center rounded-ctl px-[15px] text-[14px] font-semibold text-ink hover:text-ink"

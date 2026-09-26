@@ -21,7 +21,7 @@ export const SITE_NAV_V2: SiteLink[] = [
   { key: 'plattform', href: '/plattform' },
   { key: 'bruksomrader', href: '/bruksomrader' },
   { key: 'hvorfor', href: '/hvorfor' },
-  { key: 'pris', href: '/#pris' },
+  { key: 'pris', href: '/priser' },
 ]
 
 const FOOTER_FIRST: FooterColumn[] = [
@@ -33,7 +33,7 @@ const FOOTER_FIRST: FooterColumn[] = [
       { key: 'resultater', href: '/plattform#resultater' },
       { key: 'kommentarer', href: '/plattform#kommentarer' },
       { key: 'tiltak', href: '/plattform#tiltak' },
-      { key: 'pris', href: '/#pris' },
+      { key: 'pris', href: '/priser' },
     ],
   },
   {
@@ -75,7 +75,7 @@ const secondFooter = (withAmu: boolean): FooterColumn[] => [
       { key: 'malinger', href: '/plattform#malinger' },
       { key: 'resultater', href: '/plattform#resultater' },
       { key: 'tiltak', href: '/plattform#tiltak' },
-      { key: 'pris', href: '/#pris' },
+      { key: 'pris', href: '/priser' },
     ],
   },
   {
