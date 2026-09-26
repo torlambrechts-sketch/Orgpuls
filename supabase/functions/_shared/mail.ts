@@ -323,11 +323,24 @@ export function renderTicketReply(cat: MailCatalogue, job: TicketJob, lang: Lang
 }
 
 // ---------------------------------------------------------------------------------------
-// Marketing (0055, D-101): a campaign written in the admin, and the newsletter's
-// confirmation. Both go out on the marketing sender, never the product's.
+// Marketing (0055, D-101; 0056, D-103): a campaign written in the admin, and the
+// newsletter's confirmation. Both go out on the marketing sender, never the product's.
+//
+// What makes a campaign mail work, and so what this renders:
+//   - one column, 600 px at most, one primary button the reader meets without scrolling;
+//   - buttons as tables around a link ("bulletproof"): Outlook draws them, and a tap target
+//     is at least 44 px high;
+//   - a preheader, and alt text on every image, since many readers see neither the image
+//     nor anything but the first line;
+//   - every link to orgpuls.com tagged with the campaign and the block it sits in
+//     (utm_content = b3-button), so the report can say which link worked;
+//   - a footer that says who sends, why this reader gets it, and how to stop.
+// The 'letter' style is the plain personal mail first contact with a company should be:
+// no logo, no card, links as text links, a signature.
 // ---------------------------------------------------------------------------------------
 
-export type CampaignBlock = { type: 'heading' | 'text' | 'button'; text: string; url?: string }
+export type CampaignBlockType = 'heading' | 'text' | 'button' | 'article' | 'bullets' | 'image' | 'divider' | 'quote' | 'event' | 'ps'
+export type CampaignBlock = { type: CampaignBlockType; text?: string; url?: string; title?: string; label?: string; alt?: string; href?: string }
 
 export interface CrmJob {
   id: string
@@ -335,18 +348,31 @@ export interface CrmJob {
   to_email: string
   token: string
   name: string | null
+  company?: string | null
+  basis?: string | null
   lang: string | null
-  campaign: { kind: string; subject: string; preheader: string; blocks: CampaignBlock[]; utm_campaign: string } | null
+  lists?: Array<{ name_no: string; name_en: string }> | null
+  campaign: {
+    kind: string
+    style?: 'branded' | 'letter'
+    signature?: string
+    subject: string
+    preheader: string
+    blocks: CampaignBlock[]
+    utm_campaign: string
+    web_slug?: string | null
+    list?: { name_no: string; name_en: string } | null
+  } | null
 }
 
 const OWN_HOSTS = /(^|\.)orgpuls\.(com|no)$/
 
 /**
  * A link to Orgpuls' own site carries the campaign's utm tags, so the site's analytics
- * (0050) can count the visits and signups it brought. Tags already on the link are kept;
- * links elsewhere are left as written.
+ * (0050) can count the visits and signups it brought, and `content` names the block the
+ * link sits in. Tags already on the link are kept; links elsewhere are left as written.
  */
-export function withUtm(url: string, utmCampaign: string): string {
+export function withUtm(url: string, utmCampaign: string, content?: string): string {
   let u: URL
   try {
     u = new URL(url)
@@ -360,57 +386,154 @@ export function withUtm(url: string, utmCampaign: string): string {
   set('utm_source', 'orgpuls')
   set('utm_medium', 'email')
   set('utm_campaign', utmCampaign)
+  if (content) set('utm_content', content)
   return u.toString()
 }
 
 export const unsubscribeUrl = (siteUrl: string, token: string) => `${siteUrl.replace(/\/+$/, '')}/avmeld?t=${token}`
 export const unsubscribeApi = (siteUrl: string, token: string) => `${siteUrl.replace(/\/+$/, '')}/api/avmeld?t=${token}`
 export const confirmUrl = (siteUrl: string, token: string) => `${siteUrl.replace(/\/+$/, '')}/nyhetsbrev?t=${token}`
+export const archiveUrl = (siteUrl: string, slug: string) => `${siteUrl.replace(/\/+$/, '')}/nyhetsbrev/arkiv/${slug}`
+
+/** {firma} and {navn} in a campaign's text: the only placeholders, filled from the recipient. */
+export function personalise(s: string, v: { company: string; firstName: string }): string {
+  return s.replace(/\{firma\}/g, v.company).replace(/\{navn\}/g, v.firstName)
+}
+
+const INK = '#191510'
+const MUTED = '#5F5849'
+const para = 'margin:0 0 14px;font-size:15px;line-height:1.6;color:#191510;white-space:pre-line'
+
+function button(label: string, href: string): string {
+  return `<table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:20px 0"><tr><td bgcolor="#F5C64A" style="border-radius:12px;border:1px solid ${INK}"><a href="${escapeHtml(href)}" style="display:inline-block;padding:13px 22px;font-size:15px;font-weight:700;line-height:1.3;color:${INK};text-decoration:none;border-radius:12px">${escapeHtml(label)}</a></td></tr></table>`
+}
 
 export function renderCampaign(cat: MailCatalogue, job: CrmJob, siteUrl: string): Rendered {
   const lang = langOf(job.lang)
   const m = cat[lang]
   const c = job.campaign
   if (!c) throw new Error('campaign job without a campaign')
+  const letter = c.style === 'letter'
+  const vars = {
+    company: job.company?.trim() || pick(m, 'crm.companyFallback'),
+    firstName: job.name?.trim().split(/\s+/)[0] ?? '',
+  }
+  const fillIn = (s: string) => personalise(s, vars)
   const unsub = unsubscribeUrl(siteUrl, job.token)
-  const subject = job.kind === 'test' ? `${pick(m, 'crm.test')} ${c.subject}` : c.subject
+  const subjectText = fillIn(c.subject)
+  const subject = job.kind === 'test' ? `${pick(m, 'crm.test')} ${subjectText}` : subjectText
+  const tag = (i: number, t: string) => `b${i + 1}-${t}`
+  const link = (url: string, i: number, t: string) => withUtm(url, c.utm_campaign, tag(i, t))
 
   const text: string[] = []
   const html: string[] = []
-  for (const b of c.blocks) {
-    if (b.type === 'heading') {
-      text.push(b.text.toUpperCase())
-      html.push(`<h2 style="margin:6px 0 12px;font-family:Georgia,'Times New Roman',serif;font-size:21px;font-weight:600;line-height:1.3;color:#191510">${escapeHtml(b.text)}</h2>`)
-    } else if (b.type === 'text') {
-      for (const p of b.text.split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean)) {
-        text.push(p)
-        html.push(`<p style="margin:0 0 14px;font-size:15px;line-height:1.6;color:#191510;white-space:pre-line">${escapeHtml(p)}</p>`)
+  c.blocks.forEach((b, i) => {
+    const body = fillIn(b.text ?? '')
+    const title = fillIn(b.title ?? '')
+    switch (b.type) {
+      case 'heading':
+        text.push(body.toUpperCase())
+        html.push(`<h2 style="margin:6px 0 12px;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:600;line-height:1.3;color:${INK}">${escapeHtml(body)}</h2>`)
+        break
+      case 'text':
+        for (const p of body.split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean)) {
+          text.push(p)
+          html.push(`<p style="${para}">${escapeHtml(p)}</p>`)
+        }
+        break
+      case 'button': {
+        if (!b.url) break
+        const href = link(b.url, i, 'button')
+        text.push(`${body}: ${href}`)
+        html.push(letter ? `<p style="${para}"><a href="${escapeHtml(href)}" style="color:#2F5D2A;font-weight:700">${escapeHtml(body)}</a></p>` : button(body, href))
+        break
       }
-    } else if (b.type === 'button' && b.url) {
-      const href = withUtm(b.url, c.utm_campaign)
-      text.push(`${b.text}: ${href}`)
-      html.push(`<p style="margin:20px 0 20px"><a href="${escapeHtml(href)}" style="display:inline-block;padding:12px 20px;border-radius:12px;border:1px solid #191510;background:#F5C64A;color:#191510;font-size:15px;font-weight:700;text-decoration:none">${escapeHtml(b.text)}</a></p>`)
+      case 'article': {
+        if (!b.url) break
+        const href = link(b.url, i, 'article')
+        const more = b.label?.trim() || (lang === 'en' ? 'Read more' : 'Les mer')
+        text.push([title, body, `${more}: ${href}`].filter(Boolean).join('\n'))
+        html.push(`<div style="margin:0 0 18px"><h3 style="margin:0 0 6px;font-size:17px;font-weight:700;line-height:1.35"><a href="${escapeHtml(href)}" style="color:${INK};text-decoration:none">${escapeHtml(title)}</a></h3>${body ? `<p style="margin:0 0 6px;font-size:14.5px;line-height:1.6;color:${INK}">${escapeHtml(body)}</p>` : ''}<a href="${escapeHtml(href)}" style="font-size:14.5px;font-weight:700;color:#2F5D2A">${escapeHtml(more)} →</a></div>`)
+        break
+      }
+      case 'bullets': {
+        const items = body.split('\n').map((s) => s.trim()).filter(Boolean)
+        text.push(items.map((s) => `– ${s}`).join('\n'))
+        html.push(`<table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 16px">${items
+          .map((s) => `<tr><td valign="top" style="padding:0 10px 8px 0;font-size:15px;line-height:1.5;color:#2F5D2A;font-weight:700">✓</td><td style="padding:0 0 8px;font-size:15px;line-height:1.5;color:${INK}">${escapeHtml(s)}</td></tr>`)
+          .join('')}</table>`)
+        break
+      }
+      case 'image': {
+        if (!b.url) break
+        const img = `<img src="${escapeHtml(b.url)}" alt="${escapeHtml(b.alt ?? '')}" width="512" style="display:block;width:100%;max-width:512px;height:auto;border:0;border-radius:12px">`
+        text.push(`[${b.alt ?? ''}]`)
+        html.push(`<div style="margin:0 0 16px">${b.href ? `<a href="${escapeHtml(link(b.href, i, 'image'))}">${img}</a>` : img}</div>`)
+        break
+      }
+      case 'divider':
+        text.push('—')
+        html.push(`<hr style="border:0;border-top:1px solid #E8DFC9;margin:20px 0">`)
+        break
+      case 'quote':
+        text.push(`«${body}»${title ? ` — ${title}` : ''}`)
+        html.push(`<blockquote style="margin:0 0 16px;padding:4px 0 4px 16px;border-left:3px solid #F5C64A"><p style="margin:0;font-size:16px;line-height:1.55;font-style:italic;color:${INK}">«${escapeHtml(body)}»</p>${title ? `<p style="margin:6px 0 0;font-size:13px;color:${MUTED}">${escapeHtml(title)}</p>` : ''}</blockquote>`)
+        break
+      case 'event': {
+        const href = b.url ? link(b.url, i, 'event') : null
+        const label = b.label?.trim() || (lang === 'en' ? 'Sign up' : 'Meld deg på')
+        const lines = body.split('\n').map((s) => s.trim()).filter(Boolean)
+        text.push([title, ...lines, href ? `${label}: ${href}` : ''].filter(Boolean).join('\n'))
+        html.push(`<div style="margin:0 0 18px;padding:18px 18px 4px;border:1px solid #E8DFC9;border-radius:14px;background:#FCF6E9"><p style="margin:0 0 8px;font-size:17px;font-weight:700;line-height:1.35;color:${INK}">${escapeHtml(title)}</p>${lines
+          .map((l) => `<p style="margin:0 0 4px;font-size:14.5px;line-height:1.5;color:${INK}">${escapeHtml(l)}</p>`)
+          .join('')}${href ? (letter ? `<p style="${para}"><a href="${escapeHtml(href)}">${escapeHtml(label)}</a></p>` : button(label, href)) : '<div style="height:14px"></div>'}</div>`)
+        break
+      }
+      case 'ps':
+        text.push(`${pick(m, 'crm.ps')} ${body}`)
+        html.push(`<p style="margin:18px 0 0;font-size:14px;line-height:1.6;color:${MUTED}"><strong>${escapeHtml(pick(m, 'crm.ps'))}</strong> ${escapeHtml(body)}</p>`)
+        break
     }
-  }
-  const why = pick(m, 'crm.why')
+  })
+
+  const why = c.list
+    ? fill(pick(m, 'crm.listWhy'), { list: lang === 'en' ? c.list.name_en : c.list.name_no })
+    : job.basis === 'business'
+      ? fill(pick(m, 'crm.businessWhy'), { company: vars.company })
+      : pick(m, 'crm.why')
   const sender = pick(m, 'crm.sender')
-  const textOut = [...text, '—', why, fill(pick(m, 'crm.unsubscribeText'), { url: unsub }), sender].join('\n\n')
+  const prefs = pick(m, 'crm.preferences')
+  const web = c.web_slug ? withUtm(archiveUrl(siteUrl, c.web_slug), c.utm_campaign, 'web-version') : null
+  const signature = (c.signature ?? '').trim()
+
+  const textOut = [...text, ...(signature ? [signature] : []), '—', why, `${prefs}: ${unsub}`, sender].join('\n\n')
   // the preheader is the line mail programs show after the subject; hidden in the body
   const pre = c.preheader
-    ? `<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent">${escapeHtml(c.preheader)}</div>`
+    ? `<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent">${escapeHtml(fillIn(c.preheader))}${'&#8199;&#847;'.repeat(40)}</div>`
     : ''
-  const htmlOut = `<!doctype html>
-<html lang="${lang === 'en' ? 'en' : 'nb'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(subject)}</title></head>
-<body style="margin:0;padding:0;background:#FCF6E9;font-family:'DM Sans',Arial,Helvetica,sans-serif">
-${pre}
-<div style="max-width:560px;margin:0 auto;padding:28px 16px">
-<div style="font-family:Georgia,'Times New Roman',serif;font-size:20px;font-weight:600;color:#191510;margin:0 0 16px">Orgpuls</div>
+  const top = web
+    ? `<p style="margin:0 0 10px;text-align:right;font-size:12px"><a href="${escapeHtml(web)}" style="color:${MUTED}">${escapeHtml(pick(m, 'crm.viewInBrowser'))}</a></p>`
+    : ''
+  const sig = signature ? `<p style="${para};margin-top:18px">${escapeHtml(signature)}</p>` : ''
+  const footer = `<p style="margin:16px 4px 0;font-size:12px;line-height:1.55;color:${MUTED}">${escapeHtml(why)} <a href="${escapeHtml(unsub)}" style="color:${MUTED}">${escapeHtml(prefs)}</a>.</p>
+<p style="margin:6px 4px 0;font-size:12px;line-height:1.55;color:${MUTED}">${escapeHtml(sender)}</p>`
+
+  const body = letter
+    ? `<div style="max-width:600px;margin:0 auto;padding:24px 20px;background:#FFFFFF">${top}${html.join('\n')}${sig}<hr style="border:0;border-top:1px solid #E8DFC9;margin:24px 0 8px">${footer}</div>`
+    : `<div style="max-width:600px;margin:0 auto;padding:24px 16px">${top}
+<div style="font-family:Georgia,'Times New Roman',serif;font-size:20px;font-weight:600;color:${INK};margin:0 0 16px">Orgpuls</div>
 <div style="background:#FFFDF6;border:1px solid #E8DFC9;border-radius:20px;padding:26px 24px">
-${html.join('\n')}
+${html.join('\n')}${sig}
 </div>
-<p style="margin:16px 4px 0;font-size:12px;line-height:1.55;color:#5F5849">${escapeHtml(why)} <a href="${escapeHtml(unsub)}" style="color:#5F5849">${escapeHtml(pick(m, 'crm.unsubscribe'))}</a>.</p>
-<p style="margin:6px 4px 0;font-size:12px;line-height:1.55;color:#5F5849">${escapeHtml(sender)}</p>
-</div></body></html>`
+${footer}
+</div>`
+
+  const htmlOut = `<!doctype html>
+<html lang="${lang === 'en' ? 'en' : 'nb'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light"><title>${escapeHtml(subject)}</title></head>
+<body style="margin:0;padding:0;background:${letter ? '#FFFFFF' : '#FCF6E9'};font-family:'DM Sans',Arial,Helvetica,sans-serif;-webkit-text-size-adjust:100%">
+${pre}
+${body}
+</body></html>`
   return { subject, text: textOut, html: htmlOut }
 }
 
@@ -418,10 +541,11 @@ ${html.join('\n')}
 export function renderOptin(cat: MailCatalogue, job: CrmJob, siteUrl: string): Rendered {
   const lang = langOf(job.lang)
   const m = cat[lang]
+  const names = (job.lists ?? []).map((l) => (lang === 'en' ? l.name_en : l.name_no))
   const { text, html } = layout({
     lang,
     greeting: job.name ? fill(pick(m, 'greeting'), { name: job.name }) : pick(m, 'greetingPlain'),
-    paragraphs: [pick(m, 'optin.lead')],
+    paragraphs: [pick(m, 'optin.lead'), ...(names.length ? [fill(pick(m, 'optin.lists'), { lists: names.join(', ') })] : [])],
     cta: { label: pick(m, 'optin.cta'), url: confirmUrl(siteUrl, job.token), plain: true },
     after: [pick(m, 'optin.ignore')],
     footer: pick(m, 'optin.footer'),

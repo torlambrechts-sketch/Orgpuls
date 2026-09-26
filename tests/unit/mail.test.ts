@@ -216,16 +216,17 @@ describe('marketing mail (D-101)', () => {
     expect(r.html).toContain('Hei &lt;alle&gt;')
     expect(r.html).toContain('Andre &amp; siste.')
     expect(r.html).toContain('utm_campaign=host-2026')
+    expect(r.html).toContain('utm_content=b3-button')
     expect(r.html).toContain('href="https://www.arbeidstilsynet.no/x"')
     expect(r.html).toContain(`${APP}/avmeld?t=${TOKEN}`)
     expect(r.html).toContain('Tre ting om lovkravet')
-    expect(r.text).toContain(`Meld deg av: ${APP}/avmeld?t=${TOKEN}`)
+    expect(r.text).toContain(`Meld deg av eller velg hva du får: ${APP}/avmeld?t=${TOKEN}`)
     expect(r.text).toContain('Orgpuls · orgpuls.com')
   })
 
   it('marks a test send in the subject, in the campaign language', () => {
     expect(renderCampaign(cat, crm({ kind: 'test' }), APP).subject).toBe('[Test] Nytt fra Orgpuls')
-    expect(renderCampaign(cat, crm({ lang: 'en' }), APP).text).toContain('Unsubscribe:')
+    expect(renderCampaign(cat, crm({ lang: 'en' }), APP).text).toContain('Unsubscribe or choose what you get:')
   })
 
   it('writes the confirmation link as text, since it carries the token', () => {
@@ -234,5 +235,79 @@ describe('marketing mail (D-101)', () => {
     expect(r.html).not.toContain(`href="${APP}/nyhetsbrev`)
     expect(r.html).toContain(`${APP}/nyhetsbrev?t=${TOKEN}`)
     expect(r.html).toContain('Hei Kari,')
+  })
+})
+
+describe('campaign blocks and styles (D-103)', () => {
+  const job = (over: Partial<CrmJob> = {}, campaign: Partial<NonNullable<CrmJob['campaign']>> = {}): CrmJob => ({
+    id: 'c',
+    kind: 'campaign',
+    to_email: 'post@firma.no',
+    token: TOKEN,
+    name: 'Kari Nordmann',
+    company: 'Nordvik Anlegg AS',
+    basis: 'consent',
+    lang: 'no',
+    campaign: {
+      kind: 'campaign',
+      style: 'branded',
+      subject: 'Kartleggingen i {firma}',
+      preheader: 'Hei {navn}',
+      utm_campaign: 'q4',
+      blocks: [
+        { type: 'article', title: 'Lovkravet', text: 'Kort om kravet.', url: 'https://www.orgpuls.com/lovkrav' },
+        { type: 'bullets', text: 'Én\nTo & tre' },
+        { type: 'image', url: 'https://www.orgpuls.com/og.png', alt: 'Skjermbilde av <rapporten>', href: 'https://www.orgpuls.com/plattform' },
+        { type: 'divider' },
+        { type: 'quote', text: 'Det virker.', title: 'Daglig leder' },
+        { type: 'event', title: 'Webinar', text: 'Torsdag kl. 09\nTeams', url: 'https://www.orgpuls.com/kontakt' },
+        { type: 'ps', text: 'Svar gjerne.' },
+      ],
+      ...campaign,
+    },
+    ...over,
+  })
+
+  it('fills {firma} and {navn} from the recipient, and falls back when unknown', () => {
+    expect(renderCampaign(cat, job(), APP).subject).toBe('Kartleggingen i Nordvik Anlegg AS')
+    expect(renderCampaign(cat, job(), APP).html).toContain('Hei Kari')
+    expect(renderCampaign(cat, job({ company: null }), APP).subject).toBe('Kartleggingen i virksomheten')
+  })
+
+  it('tags every own link with the block it sits in, and escapes alt text', () => {
+    const r = renderCampaign(cat, job(), APP)
+    expect(r.html).toContain('utm_content=b1-article')
+    expect(r.html).toContain('utm_content=b3-image')
+    expect(r.html).toContain('utm_content=b6-event')
+    expect(r.html).toContain('alt="Skjermbilde av &lt;rapporten&gt;"')
+    expect(r.html).toContain('To &amp; tre')
+    expect(r.text).toContain('P.S. Svar gjerne.')
+  })
+
+  it('draws buttons as tables in the branded style, and as text links in a letter', () => {
+    const b = job({}, { blocks: [{ type: 'button', text: 'Se mer', url: 'https://www.orgpuls.com/' }] })
+    expect(renderCampaign(cat, b, APP).html).toContain('<table role="presentation"')
+    const l = job({}, { style: 'letter', signature: 'Tor\nOrgpuls', blocks: [{ type: 'button', text: 'Se mer', url: 'https://www.orgpuls.com/' }] })
+    const r = renderCampaign(cat, l, APP)
+    expect(r.html).not.toContain('<table role="presentation"')
+    expect(r.html).not.toContain('>Orgpuls</div>')
+    expect(r.text).toContain('Tor\nOrgpuls')
+  })
+
+  it('says why: the list, the register, or consent', () => {
+    expect(renderCampaign(cat, job({}, { list: { name_no: 'Produktnyheter', name_en: 'Product news' } }), APP).text).toContain(
+      'fordi du abonnerer på Produktnyheter',
+    )
+    expect(renderCampaign(cat, job({ basis: 'business' }), APP).text).toContain('Nordvik Anlegg AS er oppført med denne adressen')
+  })
+
+  it('links a published campaign to its web version', () => {
+    expect(renderCampaign(cat, job({}, { web_slug: 'hostbrev' }), APP).html).toContain(`${APP}/nyhetsbrev/arkiv/hostbrev?utm_source=orgpuls`)
+    expect(renderCampaign(cat, job(), APP).html).not.toContain('/nyhetsbrev/arkiv/')
+  })
+
+  it('names the lists a confirmation is for', () => {
+    const r = renderOptin(cat, job({ kind: 'optin', campaign: null, lists: [{ name_no: 'Nyhetsbrevet', name_en: 'The newsletter' }] }), APP)
+    expect(r.text).toContain('Du meldte deg på: Nyhetsbrevet.')
   })
 })

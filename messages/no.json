@@ -2566,14 +2566,19 @@
       "lead": "Du, eller noen som skrev inn adressen din, meldte deg på nyhetsbrevet fra Orgpuls. Vi sender ingenting før du har bekreftet.",
       "cta": "Bekreft påmeldingen",
       "ignore": "Var det ikke deg? Da trenger du ikke gjøre noe. Lenken slutter å virke etter sju dager, og adressen får ingen e-post fra oss.",
-      "footer": "Orgpuls · orgpuls.com"
+      "footer": "Orgpuls · orgpuls.com",
+      "lists": "Du meldte deg på: {lists}."
     },
     "crm": {
       "test": "[Test]",
       "why": "Du får denne e-posten fra Orgpuls fordi du har sagt ja til nyheter fra oss, eller er kunde hos oss.",
-      "unsubscribe": "Meld deg av",
-      "unsubscribeText": "Meld deg av: {url}",
-      "sender": "Orgpuls · orgpuls.com"
+      "sender": "Orgpuls · orgpuls.com",
+      "listWhy": "Du får denne e-posten fordi du abonnerer på {list} fra Orgpuls.",
+      "businessWhy": "Du får denne e-posten fordi {company} er oppført med denne adressen i Enhetsregisteret.",
+      "preferences": "Meld deg av eller velg hva du får",
+      "viewInBrowser": "Se i nettleser",
+      "companyFallback": "virksomheten",
+      "ps": "P.S."
     }
   },
   "newPassword": {

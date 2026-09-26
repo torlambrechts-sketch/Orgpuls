@@ -190,7 +190,7 @@ begin
       'expected', '1,1,8 → b,8', 'actual', v_txt, 'pass', v_txt = '1,1,8 → b,8');
 
     -- 12 --------------------------------------------------------------- one-click leaves the list
-    select (j->>'id')::uuid, j->>'token' into v_send, v_token from jsonb_array_elements(v_jobs) j limit 1;
+    select (j->>'id')::uuid, j->>'token' into v_send, v_token from jsonb_array_elements(v_jobs) j where j->>'to_email' like 'ab_@probe-cpi.example' limit 1;
     perform public.crm_mail_done(v_send, true, '<cpi-uns@relay.example>', null, false);
     v_json := public.crm_unsubscribe(v_token);
     select concat_ws(',', v_json->>'scope', m.status, c.status, app.crm_suppressed(c.email)::text) into v_txt

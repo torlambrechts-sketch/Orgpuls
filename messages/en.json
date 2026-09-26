@@ -2566,14 +2566,19 @@
       "lead": "You, or someone who entered your address, signed up for the Orgpuls newsletter. We send nothing until you confirm.",
       "cta": "Confirm the subscription",
       "ignore": "Wasn’t you? Then there is nothing to do. The link stops working after seven days, and the address gets no mail from us.",
-      "footer": "Orgpuls · orgpuls.com"
+      "footer": "Orgpuls · orgpuls.com",
+      "lists": "You signed up for: {lists}."
     },
     "crm": {
       "test": "[Test]",
       "why": "You receive this e-mail from Orgpuls because you said yes to news from us, or are a customer of ours.",
-      "unsubscribe": "Unsubscribe",
-      "unsubscribeText": "Unsubscribe: {url}",
-      "sender": "Orgpuls · orgpuls.com"
+      "sender": "Orgpuls · orgpuls.com",
+      "listWhy": "You receive this e-mail because you subscribe to {list} from Orgpuls.",
+      "businessWhy": "You receive this e-mail because {company} is listed with this address in the Norwegian register of legal entities.",
+      "preferences": "Unsubscribe or choose what you get",
+      "viewInBrowser": "View in browser",
+      "companyFallback": "your organisation",
+      "ps": "P.S."
     }
   },
   "newPassword": {

@@ -15,7 +15,8 @@
  * `record_crm_event`, which matches only the CRM's own sends: delivery, bounces that
  * suppress the address, and the opens and clicks a campaign's report counts. An event it
  * does not match goes on to `record_mail_event` as before, and an unmatched open or click
- * goes nowhere. Apple's proxy opens are not counted as opens.
+ * goes nowhere. Apple's proxy opens are not counted as opens. A click carries its link, of
+ * which the database keeps the path and utm_content, for the campaign's click map (D-103).
  *
  * SMS reports (D-98) come from a second webhook whose address ends `&channel=sms`. They carry
  * `msg_status`, `messageId` and `description` instead; the number, and any reply text, are
@@ -86,9 +87,10 @@ type BrevoEvent = {
   ts?: number
   date?: string
   reason?: string
+  link?: string
 }
 
-type Normalised = { kind?: string; id?: string; at: string | null; reason: string | null }
+type Normalised = { kind?: string; id?: string; at: string | null; reason: string | null; link?: string }
 
 function timeOf(e: BrevoEvent): string | null {
   if (typeof e.ts_epoch === 'number') return new Date(e.ts_epoch).toISOString()
@@ -115,7 +117,13 @@ function normalise(e: BrevoEvent, sms: boolean): Normalised {
       reason: why ? maskNumbers(why).slice(0, 300) : null,
     }
   }
-  return { kind: e.event ? KINDS[e.event] ?? ENGAGEMENT[e.event] : undefined, id: e['message-id'], at, reason: e.reason ?? null }
+  return {
+    kind: e.event ? KINDS[e.event] ?? ENGAGEMENT[e.event] : undefined,
+    id: e['message-id'],
+    at,
+    reason: e.reason ?? null,
+    link: typeof e.link === 'string' ? e.link.slice(0, 2000) : undefined,
+  }
 }
 
 Deno.serve(async (req) => {
@@ -138,13 +146,14 @@ Deno.serve(async (req) => {
 
   const tally = { recorded: 0, ignored: 0, failed: 0 }
   for (const e of events.slice(0, 500)) {
-    const { kind, id, at, reason } = normalise(e, sms)
+    const { kind, id, at, reason, link } = normalise(e, sms)
     if (!kind || !at || !id) {
       tally.ignored++
       continue
     }
     if (!sms) {
-      const crm = await svc.rpc('record_crm_event', { p_event: kind, p_message_id: id, p_at: at })
+      // the clicked link: record_crm_event keeps its path and utm_content, never its query (0056)
+      const crm = await svc.rpc('record_crm_event', { p_event: kind, p_message_id: id, p_at: at, p_link: kind === 'click' ? link ?? null : null })
       if (crm.error) {
         tally.failed++
         console.error(`[mail-events] crm record failed: ${crm.error.code ?? ''}`)
