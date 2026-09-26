@@ -64,10 +64,13 @@ export function ContactForm({
   m,
   common,
   contact,
+  companyId,
 }: {
   m: CrmMessages
   common: Common
   contact?: { id: string; name: string | null; company: string | null; org_number: string | null; role: string | null; tags: string[]; lang: string }
+  /** a person added on a company's page belongs to it, and the page stays */
+  companyId?: string
 }) {
   const [email, setEmail] = useState('')
   const [name, setName] = useState(contact?.name ?? '')
@@ -83,6 +86,12 @@ export function ContactForm({
   return (
     <form action={action} className="flex flex-col gap-[10px]">
       {contact ? <input type="hidden" name="id" value={contact.id} /> : null}
+      {companyId ? (
+        <>
+          <input type="hidden" name="company_id" value={companyId} />
+          <input type="hidden" name="stay" value="1" />
+        </>
+      ) : null}
       <div className="grid gap-[10px] [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]">
         {contact ? null : <Text name="email" labelText={m.add.email} value={email} set={setEmail} type="email" required max={254} />}
         <Text name="name" labelText={m.add.name} value={name} set={setName} max={120} />
@@ -266,7 +275,17 @@ export function SettingsForm({ m, common, on }: { m: CrmMessages; common: Common
 }
 
 // ---------------------------------------------------------------- segments
-export function SegmentForm({ m, common, segment }: { m: CrmMessages; common: Common; segment?: { id: string; name: string; filter: Filter } }) {
+export function SegmentForm({
+  m,
+  common,
+  segment,
+  lists = [],
+}: {
+  m: CrmMessages
+  common: Common
+  segment?: { id: string; name: string; filter: Filter }
+  lists?: { key: string; name: string }[]
+}) {
   const f = segment?.filter ?? {}
   const [name, setName] = useState(segment?.name ?? '')
   const [tags, setTags] = useState((f.tags ?? []).join(', '))
@@ -275,10 +294,13 @@ export function SegmentForm({ m, common, segment }: { m: CrmMessages; common: Co
   const [max, setMax] = useState(f.max_employees?.toString() ?? '')
   const [nace, setNace] = useState(f.nace ?? '')
   const [days, setDays] = useState(f.no_survey_days?.toString() ?? '')
-  const [picked, setPicked] = useState<{ types: string[]; roles: string[]; sources: string[] }>({
+  const [picked, setPicked] = useState<Record<'types' | 'roles' | 'sources' | 'stages' | 'bases' | 'lists', string[]>>({
     types: f.types ?? [],
     roles: f.roles ?? [],
     sources: f.sources ?? [],
+    stages: f.stages ?? [],
+    bases: f.bases ?? [],
+    lists: f.lists ?? [],
   })
   const [mailable, setMailable] = useState(f.mailable_only ?? false)
   const [preview, setPreview] = useState<Preview | null>(null)
@@ -286,7 +308,7 @@ export function SegmentForm({ m, common, segment }: { m: CrmMessages; common: Co
   const [state, action, pending] = useKeptAction(saveSegment, () => undefined)
   const [delState, del, deleting] = useKeptAction(deleteSegment, () => undefined)
 
-  const group = (key: 'types' | 'roles' | 'sources', title: string, options: Record<string, string>) => (
+  const group = (key: keyof typeof picked, title: string, options: Record<string, string>) => (
     <fieldset className="m-0 min-w-0 border-0 p-0">
       <legend className={label}>{title}</legend>
       <div className="flex flex-wrap gap-x-[14px] gap-y-[6px]">
@@ -317,6 +339,9 @@ export function SegmentForm({ m, common, segment }: { m: CrmMessages; common: Co
       {group('types', m.segments.types, m.type)}
       {group('roles', m.segments.roles, m.roleName)}
       {group('sources', m.segments.sources, m.source)}
+      {group('stages', m.segmentsX.stages, m.stage)}
+      {group('bases', m.segmentsX.bases, m.basis)}
+      {lists.length ? group('lists', m.segmentsX.lists, Object.fromEntries(lists.map((l) => [l.key, l.name]))) : null}
       <div className="grid gap-[10px] [grid-template-columns:repeat(auto-fit,minmax(170px,1fr))]">
         <Text name="tags" labelText={m.segments.tags} value={tags} set={setTags} max={400} />
         <label className="block">
@@ -432,44 +457,117 @@ export function NewCampaignForm({ m, common }: { m: CrmMessages; common: Common 
   )
 }
 
+const EMPTY: Record<Block['type'], Block> = {
+  heading: { type: 'heading', text: '' },
+  text: { type: 'text', text: '' },
+  button: { type: 'button', text: '', url: 'https://www.orgpuls.com/' },
+  article: { type: 'article', title: '', text: '', url: 'https://www.orgpuls.com/', label: '' },
+  bullets: { type: 'bullets', text: '' },
+  image: { type: 'image', url: 'https://', alt: '', href: '' },
+  divider: { type: 'divider' },
+  quote: { type: 'quote', text: '', title: '' },
+  event: { type: 'event', title: '', text: '', url: 'https://www.orgpuls.com/', label: '' },
+  ps: { type: 'ps', text: '' },
+}
+
+/** Only the keys a block kind uses are sent, and empty optional ones are dropped. */
+function clean(b: Block): Block {
+  const keep: Record<Block['type'], (keyof Block)[]> = {
+    heading: ['text'],
+    text: ['text'],
+    button: ['text', 'url'],
+    article: ['title', 'text', 'url', 'label'],
+    bullets: ['text'],
+    image: ['url', 'alt', 'href'],
+    divider: [],
+    quote: ['text', 'title'],
+    event: ['title', 'text', 'url', 'label'],
+    ps: ['text'],
+  }
+  const out: Block = { type: b.type }
+  for (const k of keep[b.type]) {
+    const v = b[k]
+    if (typeof v === 'string' && v.trim() !== '' && !(k === 'url' && b.type === 'event' && v === 'https://www.orgpuls.com/' && !b.label))
+      (out as Record<string, string>)[k] = v
+  }
+  return out
+}
+
 export function CampaignEditor({
   m,
   common,
   campaign,
   segments,
+  lists,
 }: {
   m: CrmMessages
   common: Common
   campaign: Campaign
   segments: { id: string; name: string; mailable: number }[]
+  lists: { id: string; name: string; subscribed: number }[]
 }) {
+  const x = m.campaignX
   const [name, setName] = useState(campaign.name)
   const [kind, setKind] = useState<string>(campaign.kind)
   const [lang, setLang] = useState<string>(campaign.lang)
   const [subject, setSubject] = useState(campaign.subject)
+  const [subjectB, setSubjectB] = useState(campaign.subject_b)
   const [preheader, setPreheader] = useState(campaign.preheader)
   const [segment, setSegment] = useState(campaign.segment_id ?? '')
+  const [list, setList] = useState(campaign.list_id ?? '')
   const [utm, setUtm] = useState(campaign.utm_campaign)
-  const [blocks, setBlocks] = useState<Block[]>(campaign.blocks.length ? campaign.blocks : [{ type: 'text', text: '' }])
+  const [style, setStyle] = useState<string>(campaign.style)
+  const [signature, setSignature] = useState(campaign.signature)
+  const [abPercent, setAbPercent] = useState(String(campaign.ab_percent))
+  const [abMetric, setAbMetric] = useState<string>(campaign.ab_metric)
+  const [abWait, setAbWait] = useState(String(campaign.ab_wait_hours))
+  const [publish, setPublish] = useState(campaign.publish_web)
+  const [slug, setSlug] = useState(campaign.slug ?? '')
+  const [webDescription, setWebDescription] = useState(campaign.web_description)
+  const [blocks, setBlocks] = useState<Block[]>(campaign.blocks.length ? campaign.blocks : [EMPTY.text])
+  const [adding, setAdding] = useState<Block['type']>('text')
   const [state, action, pending] = useKeptAction(saveCampaign, () => undefined)
 
-  const setBlock = (i: number, b: Partial<Block>) => setBlocks(blocks.map((x, j) => (j === i ? { ...x, ...b } : x)))
+  const setBlock = (i: number, b: Partial<Block>) => setBlocks(blocks.map((v, j) => (j === i ? { ...v, ...b } : v)))
   const move = (i: number, d: -1 | 1) => {
     const j = i + d
-    if (j < 0 || j >= blocks.length) return
-    const next = [...blocks]
-    const a = next[i]
-    const b = next[j]
+    const a = blocks[i]
+    const b = blocks[j]
     if (!a || !b) return
+    const next = [...blocks]
     next[i] = b
     next[j] = a
     setBlocks(next)
   }
+  const blockName = (t: Block['type']) => (t === 'heading' || t === 'text' || t === 'button' ? m.campaign[t] : x.block[t])
+  const meter = (n: number, ok: boolean) => `mt-[4px] block text-[11.5px] ${ok ? 'text-mut' : 'text-cautiondeep'}`
+  const small = (i: number, key: keyof Block, text: string, max: number, type = 'text') => (
+    <input
+      type={type}
+      value={(blocks[i]?.[key] as string | undefined) ?? ''}
+      maxLength={max}
+      placeholder={text}
+      aria-label={text}
+      onChange={(e) => setBlock(i, { [key]: e.target.value })}
+      className={`${input} mt-[6px]`}
+    />
+  )
+  const area = (i: number, text: string, rows: number, max: number) => (
+    <textarea
+      rows={rows}
+      value={blocks[i]?.text ?? ''}
+      maxLength={max}
+      placeholder={text}
+      aria-label={text}
+      onChange={(e) => setBlock(i, { text: e.target.value })}
+      className={`${field} mt-[6px] py-[9px] leading-[1.5]`}
+    />
+  )
 
   return (
     <form action={action} className="flex flex-col gap-[12px]">
       <input type="hidden" name="id" value={campaign.id} />
-      <input type="hidden" name="blocks" value={JSON.stringify(blocks.map((b) => (b.type === 'button' ? b : { type: b.type, text: b.text })))} />
+      <input type="hidden" name="blocks" value={JSON.stringify(blocks.map(clean))} />
       <div className="grid gap-[10px] [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]">
         <Text name="name" labelText={m.campaigns.name} value={name} set={setName} required max={120} />
         <label className="block">
@@ -490,6 +588,27 @@ export function CampaignEditor({
           </select>
         </label>
         <label className="block">
+          <span className={label}>{x.style}</span>
+          <select name="style" value={style} onChange={(e) => setStyle(e.target.value)} className={input}>
+            <option value="branded">{x.styleName.branded}</option>
+            <option value="letter">{x.styleName.letter}</option>
+          </select>
+        </label>
+      </div>
+
+      <fieldset className="m-0 grid min-w-0 gap-[10px] border-0 p-0 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
+        <label className="block">
+          <span className={label}>{x.list}</span>
+          <select name="list_id" value={list} onChange={(e) => setList(e.target.value)} className={input}>
+            <option value="">{x.noList}</option>
+            {lists.map((l) => (
+              <option key={l.id} value={l.id}>
+                {l.name} ({l.subscribed})
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="block">
           <span className={label}>{m.campaign.segment}</span>
           <select name="segment_id" value={segment} onChange={(e) => setSegment(e.target.value)} className={input}>
             <option value="">{m.campaign.noSegment}</option>
@@ -500,19 +619,29 @@ export function CampaignEditor({
             ))}
           </select>
         </label>
-      </div>
-      <Text name="subject" labelText={m.campaign.subject} value={subject} set={setSubject} max={150} />
-      <Text name="preheader" labelText={m.campaign.preheader} value={preheader} set={setPreheader} max={200} />
+        <span className="text-[11.5px] leading-[1.5] text-mut [grid-column:1/-1]">{x.audienceHint}</span>
+      </fieldset>
+
       <div>
-        <Text name="utm_campaign" labelText={m.campaign.utm} value={utm} set={setUtm} max={60} />
-        <span className="mt-[4px] block text-[11.5px] text-mut">{m.campaign.utmHint}</span>
+        <Text name="subject" labelText={m.campaign.subject} value={subject} set={setSubject} max={150} />
+        <span className={meter(subject.length, subject.length <= 50)}>{fill(x.subjectMeter, { count: subject.length })}</span>
       </div>
+      <div>
+        <Text name="preheader" labelText={m.campaign.preheader} value={preheader} set={setPreheader} max={200} />
+        <span className={meter(preheader.length, preheader.length === 0 || (preheader.length >= 40 && preheader.length <= 90))}>
+          {fill(x.preheaderMeter, { count: preheader.length })}
+        </span>
+      </div>
+      <span className="text-[11.5px] text-mut">{x.placeholders}</span>
+
       <fieldset className="m-0 flex min-w-0 flex-col gap-[10px] border-0 p-0">
         <legend className={label}>{m.campaign.blocks}</legend>
         {blocks.map((b, i) => (
           <div key={i} className="rounded-panel border border-line bg-bg px-[12px] py-[10px]">
-            <div className="mb-[6px] flex flex-wrap items-center justify-between gap-[8px]">
-              <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-mut">{m.campaign[b.type]}</span>
+            <div className="flex flex-wrap items-center justify-between gap-[8px]">
+              <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-mut">
+                {i + 1}. {blockName(b.type)}
+              </span>
               <span className="flex gap-[6px]">
                 <Button size="sm" tone="ghost" onClick={() => move(i, -1)} disabled={i === 0} aria-label={m.campaign.up}>
                   ↑
@@ -525,48 +654,115 @@ export function CampaignEditor({
                 </Button>
               </span>
             </div>
-            {b.type === 'text' ? (
-              <textarea
-                rows={5}
-                value={b.text}
-                maxLength={3000}
-                aria-label={m.campaign.text}
-                onChange={(e) => setBlock(i, { text: e.target.value })}
-                className={`${field} py-[9px] leading-[1.5]`}
-              />
-            ) : (
-              <input
-                value={b.text}
-                maxLength={b.type === 'heading' ? 150 : 60}
-                aria-label={m.campaign[b.type]}
-                onChange={(e) => setBlock(i, { text: e.target.value })}
-                className={input}
-              />
-            )}
+            {b.type === 'heading' ? small(i, 'text', m.campaign.heading, 150) : null}
+            {b.type === 'text' ? area(i, m.campaign.text, 5, 3000) : null}
             {b.type === 'button' ? (
-              <input
-                value={b.url ?? ''}
-                maxLength={500}
-                placeholder="https://www.orgpuls.com/…"
-                aria-label={m.campaign.url}
-                onChange={(e) => setBlock(i, { url: e.target.value })}
-                className={`${input} mt-[6px]`}
-              />
+              <>
+                {small(i, 'text', m.campaign.button, 60)}
+                {small(i, 'url', m.campaign.url, 500, 'url')}
+              </>
             ) : null}
+            {b.type === 'article' ? (
+              <>
+                {small(i, 'title', x.field.title, 150)}
+                {area(i, m.campaign.text, 3, 1000)}
+                {small(i, 'url', m.campaign.url, 500, 'url')}
+                {small(i, 'label', x.field.label, 60)}
+              </>
+            ) : null}
+            {b.type === 'bullets' ? area(i, x.field.lines, 4, 2000) : null}
+            {b.type === 'image' ? (
+              <>
+                {small(i, 'url', m.campaign.url, 500, 'url')}
+                {small(i, 'alt', x.field.alt, 150)}
+                {small(i, 'href', x.field.href, 500, 'url')}
+              </>
+            ) : null}
+            {b.type === 'quote' ? (
+              <>
+                {area(i, x.block.quote, 2, 600)}
+                {small(i, 'title', x.field.attribution, 150)}
+              </>
+            ) : null}
+            {b.type === 'event' ? (
+              <>
+                {small(i, 'title', x.field.title, 150)}
+                {area(i, x.field.when, 3, 600)}
+                {small(i, 'url', m.campaign.url, 500, 'url')}
+                {small(i, 'label', x.field.label, 60)}
+              </>
+            ) : null}
+            {b.type === 'ps' ? area(i, x.block.ps, 2, 600) : null}
           </div>
         ))}
-        <span className="flex flex-wrap gap-[6px]">
-          <Button size="sm" tone="secondary" onClick={() => setBlocks([...blocks, { type: 'heading', text: '' }])}>
-            {m.campaign.addHeading}
-          </Button>
-          <Button size="sm" tone="secondary" onClick={() => setBlocks([...blocks, { type: 'text', text: '' }])}>
-            {m.campaign.addText}
-          </Button>
-          <Button size="sm" tone="secondary" onClick={() => setBlocks([...blocks, { type: 'button', text: '', url: 'https://www.orgpuls.com/' }])}>
-            {m.campaign.addButton}
+        <span className="flex flex-wrap items-center gap-[6px]">
+          <select value={adding} onChange={(e) => setAdding(e.target.value as Block['type'])} aria-label={x.add} className={`${input} w-auto`}>
+            {(Object.keys(EMPTY) as Block['type'][]).map((t) => (
+              <option key={t} value={t}>
+                {blockName(t)}
+              </option>
+            ))}
+          </select>
+          <Button size="sm" tone="secondary" onClick={() => setBlocks([...blocks, { ...EMPTY[adding] }])}>
+            {x.add}
           </Button>
         </span>
       </fieldset>
+
+      <label className="block">
+        <span className={label}>{x.signature}</span>
+        <textarea
+          name="signature"
+          rows={2}
+          maxLength={200}
+          value={signature}
+          onChange={(e) => setSignature(e.target.value)}
+          className={`${field} py-[9px] leading-[1.5]`}
+        />
+        <span className="mt-[4px] block text-[11.5px] text-mut">{x.signatureHint}</span>
+      </label>
+
+      <fieldset className="m-0 min-w-0 rounded-panel border border-line px-[12px] py-[10px]">
+        <legend className="px-[4px] text-[12px] font-bold">{x.abTitle}</legend>
+        <Text name="subject_b" labelText={x.subjectB} value={subjectB} set={setSubjectB} max={150} />
+        <div className="mt-[8px] grid gap-[10px] [grid-template-columns:repeat(auto-fit,minmax(150px,1fr))]">
+          <Text name="ab_percent" labelText={x.abPercent} value={abPercent} set={setAbPercent} type="number" />
+          <label className="block">
+            <span className={label}>{x.abMetric}</span>
+            <select name="ab_metric" value={abMetric} onChange={(e) => setAbMetric(e.target.value)} className={input}>
+              <option value="open">{x.metric.open}</option>
+              <option value="click">{x.metric.click}</option>
+            </select>
+          </label>
+          <Text name="ab_wait_hours" labelText={x.abWait} value={abWait} set={setAbWait} type="number" />
+        </div>
+        <span className="mt-[6px] block text-[11.5px] text-mut">{x.abHint}</span>
+      </fieldset>
+
+      <fieldset className="m-0 min-w-0 rounded-panel border border-line px-[12px] py-[10px]">
+        <legend className="px-[4px] text-[12px] font-bold">{x.webTitle}</legend>
+        <label className="flex items-center gap-[8px] text-[13px]">
+          <input type="checkbox" name="publish_web" checked={publish} onChange={(e) => setPublish(e.target.checked)} />
+          {x.publishWeb}
+        </label>
+        {publish ? (
+          <div className="mt-[8px] grid gap-[10px] [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]">
+            <Text name="slug" labelText={x.slug} value={slug} set={setSlug} max={80} />
+            <Text name="web_description" labelText={x.webDescription} value={webDescription} set={setWebDescription} max={200} />
+          </div>
+        ) : (
+          <>
+            <input type="hidden" name="slug" value={slug} />
+            <input type="hidden" name="web_description" value={webDescription} />
+          </>
+        )}
+        <span className="mt-[6px] block text-[11.5px] text-mut">{x.webHint}</span>
+      </fieldset>
+
+      <div>
+        <Text name="utm_campaign" labelText={m.campaign.utm} value={utm} set={setUtm} max={60} />
+        <span className="mt-[4px] block text-[11.5px] text-mut">{m.campaign.utmHint}</span>
+      </div>
       <span className="flex flex-wrap items-center gap-[10px]">
         <Button type="submit" size="sm" disabled={pending}>
           {pending ? common.saving : m.campaign.save}

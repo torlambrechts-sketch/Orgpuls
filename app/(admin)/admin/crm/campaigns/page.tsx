@@ -22,11 +22,14 @@ export default async function CrmCampaigns() {
       {canWrite ? (
         <Card title={m.campaigns.new} className="mb-[16px]">
           <NewCampaignForm m={m} common={common} />
+          <p className="mb-0 mt-[8px] text-[12.5px]">
+            <ALink href="/admin/crm/templates">{m.templates.title}</ALink>
+          </p>
         </Card>
       ) : null}
       <Card>
         <Table
-          head={[c.number, c.name, c.kind, c.status, c.segment, c.when, c.audience, c.delivered, c.opened, c.clicked, c.unsubscribed]}
+          head={[c.number, c.name, c.kind, c.status, m.campaignsCol.list, c.when, c.audience, m.campaignsCol.openRate, m.campaignsCol.clickRate, c.unsubscribed, m.campaignsCol.signups]}
           empty={data.rows.length ? undefined : t('common.none')}
         >
           {data.rows.map((r) => (
@@ -40,13 +43,24 @@ export default async function CrmCampaigns() {
               <Td>
                 <Badge tone={STATUS_TONE[r.status]}>{m.campaigns.status[r.status]}</Badge>
               </Td>
-              <Td>{r.segment ?? '—'}</Td>
+              <Td wrap>
+                {r.list ?? r.segment ?? '—'}
+                {r.list && r.segment ? <span className="block text-[12px] text-mut">{r.segment}</span> : null}
+                {r.ab ? (
+                  <span className="mt-[2px] block">
+                    <Badge tone={r.ab_winner ? 'green' : 'yellow'}>
+                      {m.campaignsCol.ab}
+                      {r.ab_winner ? ` · ${r.ab_winner.toUpperCase()}` : ''}
+                    </Badge>
+                  </span>
+                ) : null}
+              </Td>
               <Td>{when(r.finished_at ?? r.scheduled_at)}</Td>
               <Td>{r.audience ?? '—'}</Td>
-              <Td>{r.stats.delivered}</Td>
               <Td>{pct(r.stats.opened, r.stats.sent)}</Td>
               <Td>{pct(r.stats.clicked, r.stats.sent)}</Td>
               <Td>{r.stats.unsubscribed}</Td>
+              <Td>{r.signups}</Td>
             </tr>
           ))}
         </Table>

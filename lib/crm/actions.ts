@@ -19,6 +19,7 @@ const Signup = z.object({
   lang: z.enum(['no', 'en']),
   source: z.enum(['newsletter', 'contact_form']),
   trap: z.string().max(500),
+  lists: z.array(z.string().regex(/^[a-z0-9-]{2,40}$/)).max(20).optional(),
 })
 const Reply = z.object({ ok: z.boolean(), error: z.string().optional() })
 const Token = z.string().regex(/^[0-9a-f]{64}$/)
@@ -35,6 +36,7 @@ export async function signUpNewsletter(input: z.input<typeof Signup>): Promise<S
     p_lang: d.lang,
     p_source: d.source,
     p_trap: d.trap,
+    p_lists: d.lists && d.lists.length ? d.lists : null,
   })
   if (error) return { ok: false, problem: 'failed' }
   const r = Reply.safeParse(data)
@@ -60,4 +62,17 @@ export async function confirmNewsletter(token: string): Promise<TokenResult> {
 
 export async function unsubscribeNewsletter(token: string): Promise<TokenResult> {
   return withToken('crm_unsubscribe', token)
+}
+
+/** The preference centre: the lists ticked, or leaving all (D-103). */
+export async function savePreferences(token: string, lists: string[], allOff: boolean): Promise<TokenResult> {
+  const t = Token.safeParse(token)
+  const l = z.array(z.string().regex(/^[a-z0-9-]{2,40}$/)).max(20).safeParse(lists)
+  if (!t.success || !l.success) return { ok: false, problem: 'invalid' }
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('crm_set_preferences', { p_token: t.data, p_lists: l.data, p_all_off: allOff })
+  if (error) return { ok: false, problem: 'failed' }
+  const r = Reply.safeParse(data)
+  if (!r.success) return { ok: false, problem: 'failed' }
+  return r.data.ok ? { ok: true } : { ok: false, problem: 'invalid' }
 }

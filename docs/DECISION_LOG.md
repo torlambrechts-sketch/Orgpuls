@@ -1968,6 +1968,29 @@ own database, and that the campaign editor is built in-house. Migration 0055 doe
 
 `crm_invariants.sql` proves 17 checks. D-101 lists what is not built.
 
+### X-062 — The CRM grows into a pipeline, and consent stays per purpose
+
+0056–0058 turn the contact store of X-061 into what a small B2B team works from:
+
+- **Companies are the unit of sales; people are the unit of consent.**
+  - A company has a stage, an owner, a next step and a log.
+  - A person has a basis and list memberships.
+  - Mail goes to people, never to "a company".
+- **Consent per purpose.**
+  - Each list is its own subscription, joined by double opt-in, the preference centre, or
+    an admin who names the source.
+  - One-click leaves the mail's list, and "everything" suppresses the address.
+- **A B2B role address is the one exception to consent.** It is recognised by its local
+  part, and never for an enkeltpersonforetak. The mail says why the address gets it.
+- **Templates and lists are data**, seeded by migration, as factors and statements are:
+  adding one is a row, not a component.
+- **Measurement stays privacy-bounded.**
+  - Clicks are kept per send as path and block, never with a query.
+  - The site's own analytics joins on `utm_campaign`, so a signup can be credited to a
+    campaign without following a person.
+
+`crm_pipeline_invariants.sql` proves 18 checks. D-103 lists the limits.
+
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
@@ -2166,5 +2189,6 @@ own database, and that the campaign editor is built in-house. Migration 0055 doe
 - [x] Marketing sender: nyheter.orgpuls.com registered in Brevo, `ORGPULS_MARKETING_FROM=hei@nyheter.orgpuls.com` set (D-101).
 - [ ] Add the DNS records for nyheter.orgpuls.com at Spaceship (two DKIM CNAMEs and the brevo-code TXT; DMARC is inherited), then run `?probe=marketing-setup&authenticate=1`. Until Brevo reports the domain authenticated, no confirmation or campaign is sent (D-101).
 - [ ] Offer a reservation against marketing at registration, then decide whether to turn on the existing-customer exception (D-101).
-- [ ] CRM Phase 3: A/B subject tests, automated sequences, coupon codes once Billing has them (D-101).
+- [x] CRM pipeline: prospects from Brønnøysund, lists with a preference centre, six templates, A/B subject tests, click map, web archive (0056–0058, D-103, X-062).
+- [ ] CRM: automated sequences (lifecycle mail) and coupon codes once Billing has them (D-103).
 - [ ] Google sign-in: create a Google OAuth web client (redirect URI `https://jmhhszsnjfqgclxzhciq.supabase.co/auth/v1/callback`) and enable Google in Supabase › Authentication with its ID and secret; the buttons appear by themselves (D-102).

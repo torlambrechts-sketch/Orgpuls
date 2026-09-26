@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { NewsletterSignup, TokenAction } from '@/components/site/NewsletterForms'
+import { publicLists } from '@/lib/crm/read'
+import { pageMeta } from '@/lib/marketing/meta'
 
 /**
  * The newsletter (D-101): signing up, and confirming from the mailed link (`?t=`). The
@@ -9,9 +11,11 @@ import { NewsletterSignup, TokenAction } from '@/components/site/NewsletterForms
  */
 export const dynamic = 'force-dynamic'
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({ searchParams }: { searchParams: Promise<{ t?: string }> }): Promise<Metadata> {
   const t = await getTranslations('newsletter')
-  return { title: `${t('title')} · Orgpuls`, robots: { index: false, follow: false } }
+  // the signup is a page worth finding; a confirmation link is a credential and is not
+  if ((await searchParams).t) return { title: `${t('title')} · Orgpuls`, robots: { index: false, follow: false } }
+  return pageMeta({ title: `${t('title')} · Orgpuls`, description: t('lead'), path: '/nyhetsbrev' })
 }
 
 export default async function NewsletterPage({ searchParams }: { searchParams: Promise<{ t?: string }> }) {
@@ -19,6 +23,7 @@ export default async function NewsletterPage({ searchParams }: { searchParams: P
   const t = await getTranslations('newsletter')
   const lang = (await getLocale()) === 'en' ? 'en' : 'no'
   const confirming = typeof token === 'string' && token.length > 0
+  const lists = confirming ? [] : await publicLists()
 
   return (
     <div className="animate-entry mx-auto max-w-[520px] px-[26px] pb-[70px] pt-[44px]">
@@ -47,6 +52,11 @@ export default async function NewsletterPage({ searchParams }: { searchParams: P
         ) : (
           <NewsletterSignup
             lang={lang}
+            lists={lists.map((l) => ({
+              key: l.key,
+              name: lang === 'en' ? l.name_en : l.name_no,
+              description: lang === 'en' ? l.description_en : l.description_no,
+            }))}
             words={{
               mail: t('mail'),
               name: t('name'),
@@ -59,6 +69,9 @@ export default async function NewsletterPage({ searchParams }: { searchParams: P
               sentTitle: t('sentTitle'),
               sentLead: t.raw('sentLead') as string,
               privacy: t('privacy'),
+              listsTitle: t('listsTitle'),
+              listsHint: t('listsHint'),
+              noLists: t('noLists'),
             }}
           />
         )}

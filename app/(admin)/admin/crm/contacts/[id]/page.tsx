@@ -1,9 +1,10 @@
 import { getTranslations } from 'next-intl/server'
 import { ContactActionForm, ContactForm, type CrmMessages } from '@/components/admin/CrmForms'
+import { ContactListForms } from '@/components/admin/CrmPipelineForms'
 import { CrmTabs } from '@/components/admin/CrmTabs'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
-import { crmContact } from '@/lib/admin/crm'
+import { crmContact, crmLists } from '@/lib/admin/crm'
 
 /**
  * One contact (D-101): who they are, the consent we hold and where it came from, every mail
@@ -14,7 +15,8 @@ export default async function CrmContact({ params }: { params: Promise<{ id: str
   const { id } = await params
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
-  const [data, who] = await Promise.all([crmContact(id), whoami()])
+  const [data, who, lists] = await Promise.all([crmContact(id), whoami(), crmLists()])
+  const listOptions = isError(lists) ? [] : lists.rows.filter((l) => !l.archived).map((l) => ({ id: l.id, key: l.key, name: l.name_no }))
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const c = data.contact
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
@@ -29,7 +31,7 @@ export default async function CrmContact({ params }: { params: Promise<{ id: str
   return (
     <>
       <PageHead title={c.name ?? c.email} lead={c.name ? c.email : undefined}>
-        <ALink href="/admin/crm">{m.contact.back}</ALink>
+        <ALink href="/admin/crm/contacts">{m.contact.back}</ALink>
       </PageHead>
       <CrmTabs current="contacts" labels={m.tabs} />
 
@@ -37,6 +39,7 @@ export default async function CrmContact({ params }: { params: Promise<{ id: str
         <Card title={m.contact.details}>
           {row(m.col.type, m.type[c.type])}
           {row(m.contact.org, c.org_id ? <ALink href={`/admin/orgs/${c.org_id}`}>{c.org_name ?? '—'}</ALink> : (c.company ?? '—'))}
+          {row(m.contactLists.company, c.company_id ? <ALink href={`/admin/crm/prospects/${c.company_id}`}>{c.company ?? '—'}</ALink> : m.contactLists.noCompany)}
           {row(m.add.orgNumber, c.org_number ?? '—')}
           {row(m.col.role, c.role ? m.roleName[c.role as keyof typeof m.roleName] : '—')}
           {row(m.col.source, m.source[c.source as keyof typeof m.source] ?? c.source)}
@@ -66,6 +69,16 @@ export default async function CrmContact({ params }: { params: Promise<{ id: str
           {c.source === 'user' ? <p className="mb-0 mt-[10px] text-[12px] text-mut">{m.contact.accountNote}</p> : null}
         </Card>
       </div>
+
+      <Card title={m.contactLists.title} className="mt-[16px]">
+        {canWrite ? (
+          <ContactListForms m={m} common={common} contact={c.id} lists={listOptions} member={c.lists ?? []} />
+        ) : (
+          <p className="m-0 text-[13px]">
+            {(c.lists ?? []).map((k) => listOptions.find((l) => l.key === k)?.name ?? k).join(', ') || m.contactLists.none}
+          </p>
+        )}
+      </Card>
 
       <Card title={m.contact.timeline} className="mt-[16px]">
         <Table

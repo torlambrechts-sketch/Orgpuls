@@ -4454,3 +4454,122 @@ Migration 0055, X-061.
   - the error messages show;
   - pressing the button starts the redirect to Supabase's authorize endpoint.
 - With the provider off, as on production now, neither page changes.
+
+## D-103 — The CRM in full: prospects, lists, templates, A/B tests and reporting
+
+**The request:** "add full CRM details; so we can have prospect list; email distribution and
+campaigns with success measurements. Implement best practice — different email lists and
+segments and 5–6 templates with all SEO, analytics and optimized for click."
+Migrations 0056–0058, X-062.
+
+**What was built:**
+- **Prospects (admin › CRM › Prospects):**
+  - Every company we sell to or serve, by stage: new → contacted → engaged → meeting →
+    trial → customer, or lost / not relevant.
+  - Each has an owner, a next step with a date, and a log of calls, mails, meetings,
+    notes, tasks and stage changes.
+  - A first call, mail or meeting moves a new prospect to "contacted".
+  - Customer organisations are synced in. A prospect that signs up is linked by org.nr and
+    its stage then follows its plan.
+  - **Finding companies:** a Brønnøysund picker searches Enhetsregisteret by industry code,
+    municipality, size and organisation form, marks those already in the CRM, and adds the
+    chosen ones with their register data.
+  - The overview lists the tasks that are due.
+- **The business-address basis.**
+  - Markedsføringsloven § 15 covers e-mail to natural persons. A company's role address
+    from the register (post@, firmapost@, kontakt@ …) is not a person, and may receive a
+    relevant B2B offer without consent, with an opt-out in every mail.
+  - Only such role addresses get basis 'business'.
+  - An address that looks like a person's, or any enkeltpersonforetak's, is kept with no
+    basis and is not mailed until the person consents.
+  - The mail's footer says why the address gets it: the company is listed with it in
+    Enhetsregisteret.
+- **Lists (admin › CRM › Lists):** subscriptions by purpose, each with its own consent.
+  - Seeded: Nyhetsbrevet, Produktnyheter, Webinarer og kurs, Tilbud.
+  - The signup page lets a visitor choose lists; double opt-in confirms them all.
+  - An admin can add a consented contact to a list, naming the consent's source, or take
+    one off with a reason.
+  - Growth over 30 days and each list's open and click rates are shown.
+- **Unsubscribing, best practice:**
+  - The one-click header (RFC 8058) leaves the mail's own list.
+  - The footer link opens a **preference centre** (/avmeld) with every list to tick, or
+    "unsubscribe from everything", which suppresses the address.
+  - The preference centre shows no address and changes nothing until a button is pressed.
+- **Segments** gain company stage, list membership and basis.
+- **Six templates (admin › CRM › Templates), stored as data** and previewed as they render:
+  - monthly newsletter;
+  - product news;
+  - webinar invitation;
+  - offer;
+  - trial onboarding;
+  - first contact with a company, in a plain letter style: no logo, links as text, a
+    signature.
+- **Built to be clicked:**
+  - one column, at most 600 px wide;
+  - one primary button above the fold, drawn as a table so Outlook shows it, with a 44 px
+    tap target;
+  - a hidden preheader;
+  - alt text required on images;
+  - `color-scheme: light`;
+  - personalisation with `{firma}` and `{navn}`;
+  - the editor meters the subject (under 50 characters) and the preheader (40–90).
+- **Blocks:** heading, text, button, article, bullet list, image, event, quote, divider, P.S.
+- **A/B subject tests:**
+  - A test group of 10–50 % gets subject A or B.
+  - After 1–48 hours, the variant with more opens (or clicks) goes to the rest.
+- **Analytics and measurement:**
+  - Every link to orgpuls.com gets `utm_source=orgpuls`, `utm_medium=email`,
+    `utm_campaign` and `utm_content` naming its block (`b3-button`).
+  - The campaign report shows audience, sent, delivered, open, click, click-to-open,
+    unsubscribe and bounce rates, each against the last ten campaigns.
+  - It also shows: the A/B result; a **click map** by link and block; opens and clicks per
+    hour for 72 hours (with a table view); and visits, organisations created and paid from
+    the site's own analytics.
+  - The CRM overview adds 90-day mail rates, subscriber growth, the pipeline, deals won,
+    trials started and signups from e-mail.
+- **SEO: a web archive.** A newsletter or announcement can be published at
+  `/nyhetsbrev/arkiv/<slug>` once it has gone out:
+  - the same content, with no personal data;
+  - its own title and description, a canonical URL and Open Graph `article`;
+  - Article and BreadcrumbList structured data;
+  - an entry in the sitemap;
+  - links tagged `utm_medium=archive`, so archive visits are not counted as mail.
+
+  The mail links to it with "Se i nettleser". The archive index, and the signup page
+  itself, are indexable; confirmation and preference links are not.
+
+**Deviations and limits:**
+- **Clicks are stored as path and utm_content only**, never with a query string, so no token
+  reaches the table. A click on a link to another site is recorded by its path as well.
+- **Open rates are a lower bound:** pixels are often blocked, and Apple's proxy opens are not
+  counted. The A/B test can therefore choose by clicks.
+- **List campaigns go to every subscriber, whatever their language setting.** A segment-only
+  campaign still goes to contacts in its language only.
+- **Templates are in Norwegian.** An English campaign starts from them and is translated in
+  the editor.
+- **Not built:**
+  - automated sequences (lifecycle mail);
+  - send-time optimisation;
+  - coupon codes, until Billing has them.
+- **No design exists** for the preference centre, the archive or the list choice at signup.
+  They use the sign-in card and the contact form's styles, and the archive uses the article
+  pages' type.
+
+**Verified:**
+- SQL tests on hosted, and all 35 suites locally:
+  - `crm_pipeline_invariants.sql`: 18 checks;
+  - `crm_invariants.sql`: 17 checks, updated for the new signatures.
+- Unit tests of the renderer: blocks, escaping, `utm_content`, `{firma}`/`{navn}`, letter
+  style, footers, the web-version link, and the confirmation's lists.
+- In the browser against hosted:
+  - a signup to two lists, confirmed with its real token;
+  - 40 companies found in Brønnøysund (86.221, Oslo, 5–30 employees) and two added;
+  - a logged call moved one to "contacted"; a task and a consented person were added;
+  - six template previews;
+  - a campaign started from the newsletter template, sent to its list, with an A/B subject
+    and publishing to the web;
+  - its report after a delivery, an open and a tracked click (rates, click map `b4-article`,
+    the 72-hour chart);
+  - the archive page with canonical, `og:type` article and JSON-LD;
+  - the preference centre saved a list choice, and one-click left only that mail's list.
+- Every test row, both imported companies and the probe admin were deleted afterwards.

@@ -3,7 +3,7 @@ import { SegmentForm, type CrmMessages } from '@/components/admin/CrmForms'
 import { CrmTabs } from '@/components/admin/CrmTabs'
 import { ALink, Card, PageHead, Problem, Table, Td } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
-import { crmSegments, type Filter } from '@/lib/admin/crm'
+import { crmLists, crmSegments, type Filter } from '@/lib/admin/crm'
 
 /**
  * Segments (D-101): saved filters on contacts and their organisations, with live counts of
@@ -14,7 +14,8 @@ export default async function CrmSegments({ searchParams }: { searchParams: Prom
   const sp = await searchParams
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
-  const [data, who] = await Promise.all([crmSegments(), whoami()])
+  const [data, who, lists] = await Promise.all([crmSegments(), whoami(), crmLists()])
+  const listOptions = isError(lists) ? [] : lists.rows.filter((l) => !l.archived).map((l) => ({ key: l.key, name: l.name_no }))
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
@@ -31,6 +32,9 @@ export default async function CrmSegments({ searchParams }: { searchParams: Prom
     if (f.min_employees !== undefined || f.max_employees !== undefined) parts.push(`${f.min_employees ?? 0}–${f.max_employees ?? '∞'}`)
     if (f.nace) parts.push(`NACE ${f.nace}`)
     if (f.no_survey_days) parts.push(`> ${f.no_survey_days} d`)
+    if (f.stages?.length) parts.push(f.stages.map((k) => m.stage[k]).join('/'))
+    if (f.bases?.length) parts.push(f.bases.map((k) => m.basis[k]).join('/'))
+    if (f.lists?.length) parts.push(f.lists.map((k) => listOptions.find((l) => l.key === k)?.name ?? k).join('/'))
     if (f.mailable_only) parts.push(m.mailableBadge)
     return parts.join(' · ') || m.segments.any
   }
@@ -44,7 +48,7 @@ export default async function CrmSegments({ searchParams }: { searchParams: Prom
 
       {open ? (
         <Card title={editing ? m.segments.edit : m.segments.new} className="mb-[16px]" aside={<ALink href="/admin/crm/segments">{m.segments.cancel}</ALink>}>
-          <SegmentForm key={editing?.id ?? 'new'} m={m} common={common} segment={editing} />
+          <SegmentForm key={editing?.id ?? 'new'} m={m} common={common} segment={editing} lists={listOptions} />
         </Card>
       ) : null}
 

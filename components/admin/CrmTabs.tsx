@@ -4,13 +4,19 @@ import type { BadgeTone } from './ui'
 
 export const STATUS_TONE: Record<string, BadgeTone> = { draft: 'grey', scheduled: 'yellow', sending: 'yellow', sent: 'green', cancelled: 'red' }
 
-/** Contacts, segments, campaigns: the CRM's three pages (D-101). */
-export function CrmTabs({ current, labels }: { current: 'contacts' | 'segments' | 'campaigns'; labels: Record<string, string> }) {
-  const tabs = [
-    { key: 'contacts', href: '/admin/crm' },
+export type CrmTab = 'overview' | 'prospects' | 'contacts' | 'lists' | 'segments' | 'campaigns' | 'templates'
+
+/** The CRM's pages (D-101, D-103). */
+export function CrmTabs({ current, labels }: { current: CrmTab; labels: Record<string, string> }) {
+  const tabs: { key: CrmTab; href: string }[] = [
+    { key: 'overview', href: '/admin/crm' },
+    { key: 'prospects', href: '/admin/crm/prospects' },
+    { key: 'contacts', href: '/admin/crm/contacts' },
+    { key: 'lists', href: '/admin/crm/lists' },
     { key: 'segments', href: '/admin/crm/segments' },
     { key: 'campaigns', href: '/admin/crm/campaigns' },
-  ] as const
+    { key: 'templates', href: '/admin/crm/templates' },
+  ]
   return (
     <nav aria-label={labels.label} className="mb-[18px] flex flex-wrap gap-[6px]">
       {tabs.map((t) => (
@@ -27,4 +33,15 @@ export function CrmTabs({ current, labels }: { current: 'contacts' | 'segments' 
       ))}
     </nav>
   )
+}
+
+export const STAGE_TONE: Record<string, BadgeTone> = {
+  new: 'grey',
+  contacted: 'yellow',
+  engaged: 'yellow',
+  meeting: 'yellow',
+  trial: 'green',
+  customer: 'ink',
+  lost: 'red',
+  not_relevant: 'grey',
 }
