@@ -1,0 +1,235 @@
+<!doctype html><html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Spørsmålssettet for helse og omsorg | Orgpuls</title><meta name="description" content="Alle 24 påstander i helse-modulen, med begrunnelse, hjemmel og tre forslag til tiltak per faktor."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet"><style>
+:root{--bg:#FCF6E9;--sf:#FFFDF6;--cream:#F7EDD2;--track:#F2EAD6;--ink:#191510;--body:#3A342A;--mut:#5F5849;--line:#E8DFC9;--ac:#F5C64A;--sbg:#FBEBBE;--link:#2F5D2A;--danger:#A33A16;--amber:#E0A21F;--mint:#CFE7E4;--peach:#FBD5C4;--stone:#D9CFB8;
+--display:"Playfair Display","Playfair Display Fallback",Georgia,"Times New Roman",serif;--sans:"DM Sans","DM Sans Fallback",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17140F;--sf:#201C16;--cream:#2A251C;--track:#2A251C;--ink:#F6EEDC;--body:#DCD2BE;--mut:#ABA08A;--line:#3A3328;--ac:#F5C64A;--sbg:#3B321C;--link:#A6CC98;--danger:#E8916D;--amber:#E9B545;--mint:#20332F;--peach:#3B2A22;--stone:#3A3328;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17140F;--sf:#201C16;--cream:#2A251C;--track:#2A251C;--ink:#F6EEDC;--body:#DCD2BE;--mut:#ABA08A;--line:#3A3328;--ac:#F5C64A;--sbg:#3B321C;--link:#A6CC98;--danger:#E8916D;--amber:#E9B545;--mint:#20332F;--peach:#3B2A22;--stone:#3A3328;color-scheme:dark}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 76px);-webkit-text-size-adjust:100%}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+img,svg{max-width:100%}
+a{color:var(--link);text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 26px}
+@media (max-width:560px){.wrap{padding:0 18px}}
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--sf);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:20px;min-height:62px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none}
+.brand-mark{width:33px;height:33px;border:1.5px solid var(--ink);border-radius:10px;display:grid;place-items:center;background:var(--sf)}
+.brand-name{font-family:var(--display);font-size:21px;font-weight:600;letter-spacing:-.01em}
+.nav{display:flex;gap:4px;flex:1}
+.nav a{color:var(--ink);font-weight:600;font-size:14px;padding:8px 12px;border-radius:9px;text-decoration:none}
+.nav a:hover{background:var(--track)}
+.nav a[aria-current]{background:var(--track)}
+.top-cta{display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:10px;font-weight:700;font-size:14.5px;text-decoration:none;cursor:pointer;font-family:inherit;border:1px solid var(--ink)}
+.btn-ac{background:var(--ac);color:#191510}
+.btn-ac:hover{filter:brightness(.97)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-sm{min-height:38px;padding:0 15px;font-size:14px}
+@media (max-width:900px){.nav{display:none}.top .wrap{justify-content:space-between}}
+@media (max-width:420px){.top-cta .btn-ghost{display:none}}
+.crumbs{font-size:12.5px;color:var(--mut);padding-top:clamp(18px,3.5vw,44px)}
+.crumbs a{color:var(--mut)}
+.pill{display:inline-flex;align-items:center;gap:8px;background:var(--sbg);border-radius:999px;padding:6px 13px;font-size:12.5px;font-weight:700;color:var(--ink)}
+.pill .dot{width:7px;height:7px;border-radius:999px;background:var(--link)}
+h1,h2,h3{font-family:var(--display);font-weight:600;color:var(--ink);letter-spacing:-.01em;text-wrap:balance}
+h1{font-size:clamp(30px,5vw,50px);line-height:1.08;margin:16px 0 0;max-width:22ch;hyphens:auto;overflow-wrap:break-word}
+h2{font-size:clamp(25px,3.4vw,36px);line-height:1.15;margin:0}
+h3{font-size:21px;line-height:1.25;margin:0}
+.lead{font-size:16.5px;line-height:1.6;color:var(--body);max-width:58ch;margin:14px 0 0;text-wrap:pretty}
+.sec{padding:clamp(48px,7vw,88px) 0 0}
+.sec-intro{max-width:62ch;color:var(--body);font-size:16px;margin:12px 0 0}
+.muted{color:var(--mut)}
+.small{font-size:13px}
+sup{line-height:0}sup a{font-size:11px;text-decoration:none;font-weight:700;padding:0 1px}
+/* start form */
+.start{margin-top:22px;max-width:460px}
+.start label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}
+.start-row{display:flex;gap:8px}
+.start input{flex:1;min-width:0;min-height:48px;border:1.5px solid var(--ink);border-radius:10px;background:var(--sf);color:var(--ink);font:inherit;font-size:16px;padding:0 14px}
+.start .btn{min-height:48px}
+.start-note{font-size:12.5px;color:var(--mut);margin:9px 0 0}
+.start-msg{font-size:13px;margin:6px 0 0;color:var(--danger)}.start-msg:empty{display:none}
+/* result card */
+.card{background:var(--sf);border:1px solid var(--line);border-radius:20px}
+.board{padding:18px 18px 16px}
+.board-head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
+.board-title{font-weight:700;font-size:14px}
+.board-sub{font-size:12px;color:var(--mut)}
+.tbl-scroll{overflow-x:auto;margin-top:12px}
+table.res{border-collapse:separate;border-spacing:0;width:100%;min-width:420px;font-size:13px}
+table.res th{font-weight:600;color:var(--mut);text-align:right;padding:6px 6px;font-size:12px;white-space:nowrap}
+table.res th:first-child,table.res td:first-child{text-align:left;padding-left:0}
+table.res td{padding:7px 6px;border-top:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+.sc{display:inline-block;min-width:34px;padding:3px 6px;border-radius:7px;font-weight:700;text-align:center}
+.sc-lo{background:var(--mint)}
+.sc-mid{background:var(--sbg)}
+.sc-hi{background:var(--peach);color:var(--ink)}
+.sc-na{color:var(--mut);font-weight:500}
+.board-foot{font-size:12px;color:var(--mut);margin:10px 0 0}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:4px;display:inline-block}
+.hero{display:grid;gap:40px;align-items:center;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}
+@media (max-width:980px){.hero{grid-template-columns:minmax(0,1fr)}}
+/* challenges */
+.chal{margin-top:34px;border-top:1.5px solid var(--ink)}
+.chal-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:18px 48px;padding:30px 0;border-bottom:1px solid var(--line)}
+@media (max-width:860px){.chal-row{grid-template-columns:1fr}}
+.chal-row p{margin:10px 0 0;color:var(--body);max-width:62ch}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:4px 11px;margin-top:12px}
+.tag-core{background:var(--track);color:var(--mut)}
+.tag-mod{background:var(--ac);color:#191510}
+.measure{background:var(--cream);border-radius:14px;padding:16px 18px;align-self:start}
+.measure-k{font-size:12.5px;color:var(--mut);font-weight:600}
+.measure q{display:block;font-family:var(--display);font-size:18.5px;line-height:1.35;margin-top:6px;quotes:"«" "»"}
+.measure-f{font-size:13px;margin-top:10px;color:var(--body)}.measure-note{display:block;font-family:var(--display);font-size:17px;line-height:1.35;margin-top:6px}
+.helpline{margin-top:12px;font-size:13px;color:var(--mut)}
+/* module */
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:28px;border:1px solid var(--line);border-radius:20px;background:var(--sf);overflow:hidden}
+.facts div{padding:18px 18px;border-right:1px solid var(--line)}
+.facts div:last-child{border-right:0}
+.facts b{display:block;font-family:var(--display);font-size:26px;font-weight:600}
+.facts span{font-size:13px;color:var(--mut)}
+@media (max-width:760px){.facts{grid-template-columns:1fr 1fr}.facts div:nth-child(2){border-right:0}.facts div:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+.flist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px;margin-top:26px}
+@media (max-width:760px){.flist{grid-template-columns:1fr}}
+.flist a{display:block;padding:15px 0;border-top:1px solid var(--line);color:var(--ink);text-decoration:none}
+.flist a:hover .fn{text-decoration:underline}
+.fn{font-weight:700;font-size:15.5px}
+.fs{display:block;font-size:13.5px;color:var(--mut);margin-top:3px}
+.core-note{margin-top:22px;font-size:14px;color:var(--body);max-width:70ch}
+/* loop */
+.loop{list-style:none;padding:0;margin:28px 0 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;counter-reset:s}
+@media (max-width:860px){.loop{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.loop{grid-template-columns:1fr}}
+.loop li{counter-increment:s;border-top:3px solid var(--ink);padding-top:14px}
+.loop li::before{content:counter(s);font-family:var(--display);font-size:30px;font-weight:600;line-height:1;display:block;margin-bottom:8px}
+.loop b{display:block;font-size:15px}
+.loop span{font-size:14px;color:var(--body)}
+.example{margin-top:30px;padding:20px 22px}
+.ex-steps{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.ex-steps span{font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:999px;background:var(--track);color:var(--mut)}
+.ex-steps span.on{background:var(--mint);color:var(--ink)}
+/* law */
+.law{margin-top:26px;display:grid;gap:0}
+.law div{display:grid;grid-template-columns:200px minmax(0,1fr);gap:8px 24px;padding:16px 0;border-top:1px solid var(--line)}
+@media (max-width:640px){.law div{grid-template-columns:1fr}}
+.law b{font-weight:700}
+.law span{color:var(--body)}
+/* faq */
+details{border-top:1px solid var(--line);padding:4px 0}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;padding:14px 32px 14px 0;font-weight:700;font-size:15.5px;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:4px;top:10px;font-size:22px;font-weight:500;color:var(--mut)}
+details[open] summary::after{content:"−"}
+details p{margin:0 0 16px;color:var(--body);max-width:68ch}
+.faq{margin-top:20px;max-width:820px}
+/* sources */
+.src{margin:18px 0 0;padding-left:20px;color:var(--body);font-size:13.5px;max-width:84ch}
+.src li{margin:6px 0}
+/* cta */
+.cta{margin-top:clamp(56px,8vw,96px);background:var(--ink);color:var(--bg);border-radius:20px;padding:clamp(26px,5vw,48px)}
+.cta h2{color:var(--bg)}
+.cta p{color:var(--bg);opacity:.85;max-width:56ch}
+.cta .start label{color:var(--bg)}
+.cta .start input{background:var(--bg);color:#191510;border-color:var(--bg)}
+.cta .start-note{color:var(--bg);opacity:.75}
+.cta .start-msg{color:var(--ac)}
+footer{margin-top:64px;border-top:1px solid var(--line);padding:36px 0 44px;font-size:13.5px;color:var(--mut)}
+.fgrid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:24px}
+@media (max-width:760px){.fgrid{grid-template-columns:1fr 1fr}}
+footer h4{margin:0 0 8px;font-size:13px;color:var(--ink)}
+footer a{color:var(--mut);display:block;padding:3px 0;text-decoration:none}
+footer a:hover{color:var(--ink)}
+/* question page */
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.toc a{font-size:13px;font-weight:600;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--sf);color:var(--ink);text-decoration:none}
+.toc a:hover{border-color:var(--ink)}
+.factor{padding:clamp(40px,6vw,64px) 0 0}
+.factor-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 48px;margin-top:18px}
+@media (max-width:900px){.factor-grid{grid-template-columns:1fr}}
+.items{list-style:none;padding:0;margin:0}
+.items li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;padding:13px 0;border-top:1px solid var(--line);align-items:baseline}
+.items li:last-child{border-bottom:1px solid var(--line)}
+.iid{min-width:64px;font-size:12px;font-weight:700;color:var(--mut);font-variant-numeric:tabular-nums;white-space:nowrap}
+.itext{font-family:var(--display);font-size:18px;line-height:1.35}
+.kv{font-size:13px;color:var(--mut);font-weight:600;margin:18px 0 6px}
+.acts{display:grid;gap:10px}
+.act{background:var(--cream);border-radius:14px;padding:14px 16px}
+.act-type{font-size:12px;font-weight:700;color:var(--mut)}
+.act b{display:block;margin-top:3px;font-size:15px}
+.act p{margin:5px 0 0;font-size:14px;color:var(--body)}
+.act small{display:block;margin-top:7px;font-size:12.5px;color:var(--mut)}
+.leg{margin:0;padding-left:18px;font-size:14px;color:var(--body)}
+.leg li{margin:4px 0}
+.scale{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:14px;max-width:620px}
+.scale div{background:var(--sf);border:1px solid var(--line);border-radius:10px;padding:10px 8px;text-align:center;font-size:12.5px}
+.scale b{display:block;font-size:17px;font-family:var(--display)}
+@media (max-width:520px){.scale{grid-template-columns:repeat(5,minmax(52px,1fr));overflow-x:auto}}
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px;margin-top:20px}
+@media (max-width:760px){.rules{grid-template-columns:1fr}}
+.rules div{padding:14px 0;border-top:1px solid var(--line)}
+.rules b{display:block}
+.rules span{color:var(--body);font-size:14px}
+.qbox{padding:18px 20px;margin-top:14px}
+.qbox .itext{display:block}
+.opts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.opts span{font-size:12.5px;border:1px solid var(--line);border-radius:999px;padding:4px 10px;color:var(--mut)}
+@media (prefers-reduced-motion:no-preference){.rise{animation:rise .6s ease-out both}.rise2{animation:rise .6s .12s ease-out both}@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}}
+</style></head><body>
+<header class="top"><div class="wrap"><a class="brand" href="https://www.orgpuls.com/"><span class="brand-mark"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M1 9h3l2-5 3 10 2-5h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="brand-name">Orgpuls</span></a>
+<nav class="nav" aria-label="Hovedmeny"><a href="https://www.orgpuls.com/plattform">Plattform</a><a href="https://www.orgpuls.com/bruksomrader" aria-current="page">Bruksområder</a><a href="https://www.orgpuls.com/hvorfor">Hvorfor Orgpuls</a><a href="https://www.orgpuls.com/priser">Pris</a></nav>
+<div class="top-cta"><a class="btn btn-ghost btn-sm" href="https://www.orgpuls.com/logg-inn">Logg inn</a><a class="btn btn-ac btn-sm" href="#start">Kom i gang</a></div></div></header><main id="innhold">
+<div class="wrap"><div class="crumbs"><a href="https://www.orgpuls.com/">Forside</a> / <a href="https://www.orgpuls.com/bruksomrader">Bruksområder</a> / <a href="https://www.orgpuls.com/helse-og-omsorg">Helse og omsorg</a> / Spørsmålssettet</div>
+<section class="rise" style="max-width:820px"><span class="pill"><span class="dot"></span>Helse-modulen · versjon 1.0</span>
+<h1>Spørsmåls&shy;settet for helse og omsorg</h1>
+<p class="lead">Åtte faktorer med tre påstander hver, i tillegg til hovedundersøkelsen. Hver faktor har en begrunnelse fra forskning og tilsyn, en hjemmel og tre forslag til tiltak som kan måles på nytt i pulsen.</p>
+<div class="kv" style="margin-top:22px">Svarskala og indeks</div><div class="scale"><div><b>1</b>Helt uenig<br><span class="muted">0</span></div><div><b>2</b>Litt uenig<br><span class="muted">25</span></div><div><b>3</b>Verken eller<br><span class="muted">50</span></div><div><b>4</b>Litt enig<br><span class="muted">75</span></div><div><b>5</b>Helt enig<br><span class="muted">100</span></div></div>
+<p class="small muted" style="margin:10px 0 0">Påstandene står i tilfeldig rekkefølge for hver person. Ordlyden er låst, så tallene kan sammenlignes fra måling til måling.</p>
+<nav class="toc" aria-label="Faktorer"><a href="#vold_og_trusler">Vold og trusler</a><a href="#bemanning_og_forsvarlig_omsorg">Bemanning og forsvarlig omsorg</a><a href="#turnus_og_hvile">Turnus og hvile</a><a href="#stilling_og_tilhorighet">Stilling og tilhørighet</a><a href="#grenser_mot_brukere_og_parorende">Grenser mot brukere og pårørende</a><a href="#tid_til_kjerneoppgavene">Tid til kjerneoppgavene</a><a href="#faglig_trygghet">Faglig trygghet</a><a href="#forflytning_og_tunge_loft">Forflytning og tunge løft</a><a href="#tellende">Ja/nei-spørsmål</a><a href="#regler">Rapportering</a></nav></section>
+<section class="factor" id="vold_og_trusler" aria-labelledby="h-vold_og_trusler"><h2 id="h-vold_og_trusler">Vold og trusler</h2><p class="sec-intro">Rundt en av fire ansatte i kommunale helse- og omsorgstjenester oppgir å ha vært utsatt for vold eller trusler. I svenske vård- och omsorgsboenden står vold og trusler bak en av fire anmeldte arbeidsulykker med sykefravær, mot seks prosent i arbeidslivet ellers. Siden 2017 har forskriften krevd prosedyrer, trening og oppfølging der ansatte er i risikosonen.<sup><a href="#k-ks_vold" title="KS: Vold og trusler i arbeidslivet">1</a>,<a href="#k-av_vold24" title="Arbetsmiljöverket: Arbetet mot hot och våld på vårdboenden ska inspekteras (2024)">2</a>,<a href="#k-fagbladet_forskrift" title="Fagbladet: Mest vold mot helse- og sosialarbeidere (2021)">3</a></sup></p>
+<div class="factor-grid"><div><div class="kv">Påstandene</div><ul class="items"><li><span class="iid">HO-VT-1</span><span class="itext">Vi har gått gjennom hvilke situasjoner som kan føre til vold eller trusler hos oss</span></li><li><span class="iid">HO-VT-2</span><span class="itext">Hendelser med vold og trusler blir meldt, også de som virker små</span></li><li><span class="iid">HO-VT-3</span><span class="itext">Etter en hendelse med vold eller trusler blir den som var involvert fulgt opp</span></li></ul><div class="kv">Hjemmel</div><ul class="leg"><li>aml § 4-3 sjette ledd (vern mot vold, trusler og uheldige belastninger fra kontakt med andre)</li><li>forskrift om utførelse av arbeid kap. 23A (risikovurdering, tiltak, opplæring og oppfølging ved fare for vold og trusler)</li></ul></div>
+<div><div class="kv">Tre forslag til tiltak</div><div class="acts"><div class="act"><div class="act-type">Workshop</div><b>Situasjonene vi kjenner igjen</b><p>Laget går gjennom tre situasjoner fra siste halvår: hva varslet om at det kunne skje, og hva gjør vi neste gang.</p><small>Måles på nytt med HO-VT-1</small></div><div class="act"><div class="act-type">Rutine</div><b>Meld det lille også</b><p>En melding som tar to minutter, og en fast gjennomgang av meldte hendelser på personalmøtet hver måned.</p><small>Måles på nytt med HO-VT-2</small></div><div class="act"><div class="act-type">Lederpraksis</div><b>Samtale samme vakt</b><p>Leder tar kontakt med den som var involvert samme eller neste vakt, og igjen etter en uke.</p><small>Måles på nytt med HO-VT-3</small></div></div></div></div></section><section class="factor" id="bemanning_og_forsvarlig_omsorg" aria-labelledby="h-bemanning_og_forsvarlig_omsorg"><h2 id="h-bemanning_og_forsvarlig_omsorg">Bemanning og forsvarlig omsorg</h2><p class="sec-intro">En av fire sykepleiere sier de sjelden eller aldri kan gi forsvarlig pleie til alle pasientene i løpet av en vakt. Dansk forskning beskriver det som moralsk stress: man vet hva som er riktig, men får ikke gjort det.<sup><a href="#k-nsf_forsvarlig" title="Sykepleien: En av fire får ikke gitt forsvarlig pleie (2025)">4</a>,<a href="#k-ae_dk" title="Arbejderbevægelsens Erhvervsråd (DK): Hver tredje i ældreplejen har et hårdt psykisk arbejdsmiljø (2025)">5</a></sup></p>
+<div class="factor-grid"><div><div class="kv">Påstandene</div><ul class="items"><li><span class="iid">HO-BF-1</span><span class="itext">Bemanningen på vaktene gjør det mulig å gi forsvarlig omsorg</span></li><li><span class="iid">HO-BF-2</span><span class="itext">Jeg slipper å gå hjem med dårlig samvittighet for det jeg ikke rakk</span></li><li><span class="iid">HO-BF-3</span><span class="itext">Når vi er for få, er det tydelig hva som kan vente</span></li></ul><div class="kv">Hjemmel</div><ul class="leg"><li>aml § 4-3 (arbeidsmengde og tidspress som psykososial faktor)</li><li>helsepersonelloven § 16 (virksomhetens ansvar for forsvarlig virksomhet)</li><li>helse- og omsorgstjenesteloven § 4-1 (forsvarlige tjenester)</li></ul></div>
+<div><div class="kv">Tre forslag til tiltak</div><div class="acts"><div class="act"><div class="act-type">Workshop</div><b>Når vi er for få</b><p>Laget lager en liste over hva som alltid må gjøres, og hva som kan vente, på vakter med lav bemanning.</p><small>Måles på nytt med HO-BF-3</small></div><div class="act"><div class="act-type">Rutine</div><b>Bemanningssjekk før vakt</b><p>En fast grense for når det skal hentes inn ekstra folk eller omdisponeres, og hvem som bestemmer det.</p><small>Måles på nytt med HO-BF-1</small></div><div class="act"><div class="act-type">Lederpraksis</div><b>Si prioriteringen høyt</b><p>Leder eller vakthavende bekrefter prioriteringene i rapporten, så ingen står alene med valget.</p><small>Måles på nytt med HO-BF-2</small></div></div></div></div></section><section class="factor" id="turnus_og_hvile" aria-labelledby="h-turnus_og_hvile"><h2 id="h-turnus_og_hvile">Turnus og hvile</h2><p class="sec-intro">En SINTEF-undersøkelse blant over 18 000 sykepleiere beskriver ubesatte stillinger, stram bemanning og turnuser som gir lite rom for hvile mellom vaktene.<sup><a href="#k-sintef_nsf" title="Sykepleien: Arbeidsmiljøet er avgjørende for at sykepleiere kan stå i jobben (2026)">6</a></sup></p>
+<div class="factor-grid"><div><div class="kv">Påstandene</div><ul class="items"><li><span class="iid">HO-TH-1</span><span class="itext">Turnusen gir meg nok hvile mellom vaktene</span></li><li><span class="iid">HO-TH-2</span><span class="itext">Jeg kan påvirke turnusen min</span></li><li><span class="iid">HO-TH-3</span><span class="itext">Ekstravakter og vaktbytter på kort varsel er unntaket og ikke normalen</span></li></ul><div class="kv">Hjemmel</div><ul class="leg"><li>aml § 10-2 (arbeidstidsordninger uten uheldige belastninger)</li><li>aml § 10-3 (arbeidsplan)</li><li>aml § 10-8 (daglig og ukentlig hviletid)</li></ul></div>
+<div><div class="kv">Tre forslag til tiltak</div><div class="acts"><div class="act"><div class="act-type">Workshop</div><b>Turnusverksted</b><p>Ansatte og tillitsvalgte lager forslag til turnus innenfor bemanningsplanen, med hvile som eget kriterium.</p><small>Måles på nytt med HO-TH-2</small></div><div class="act"><div class="act-type">Rutine</div><b>Kort hvile telles</b><p>Vakter med kort hvile mellom kveld og morgen registreres og holdes under en avtalt grense.</p><small>Måles på nytt med HO-TH-1</small></div><div class="act"><div class="act-type">Lederpraksis</div><b>Ikke de samme hver gang</b><p>Ekstravakter lyses ut i fast rekkefølge, så det ikke er de samme som blir ringt hver gang.</p><small>Måles på nytt med HO-TH-3</small></div></div></div></div></section><section class="factor" id="stilling_og_tilhorighet" aria-labelledby="h-stilling_og_tilhorighet"><h2 id="h-stilling_og_tilhorighet">Stilling og tilhørighet</h2><p class="sec-intro">43 000 kommunalt ansatte jobber ufrivillig deltid, og sju av ti deltidsansatte i kommunene er i helse og omsorg. Deltidsansatte får ofte svakere tilhørighet til arbeidsplassen, og det svekker både fagmiljø og kontinuitet.<sup><a href="#k-fafo_deltid" title="Fagbladet: Nye Fafo-tall – 43.000 kommunalt ansatte er ufrivillig på deltid (2026)">7</a>,<a href="#k-hdir_heltid" title="Helsedirektoratet: Heltidsansatte ved kommunale helse- og omsorgstjenester i institusjon">8</a></sup></p>
+<div class="factor-grid"><div><div class="kv">Påstandene</div><ul class="items"><li><span class="iid">HO-HF-1</span><span class="itext">Jeg har den stillingsstørrelsen jeg ønsker</span></li><li><span class="iid">HO-HF-2</span><span class="itext">Jeg får med meg viktig informasjon, også når jeg jobber lite eller på ulike vakter</span></li><li><span class="iid">HO-HF-3</span><span class="itext">Jeg føler meg som en del av fagmiljøet her</span></li></ul><div class="kv">Hjemmel</div><ul class="leg"><li>aml § 14-3 (fortrinnsrett for deltidsansatte)</li><li>aml § 14-4 a (rett til stilling tilsvarende faktisk arbeidstid)</li></ul></div>
+<div><div class="kv">Tre forslag til tiltak</div><div class="acts"><div class="act"><div class="act-type">Workshop</div><b>Hva skal til for heltid?</b><p>Ansatte, tillitsvalgte og leder ser på hvilke turnusmodeller som kan gi flere hele stillinger hos dere.</p><small>Måles på nytt med HO-HF-1</small></div><div class="act"><div class="act-type">Rutine</div><b>Beskjeder som når alle</b><p>Én fast kanal for viktige beskjeder, som leses av alle uansett vakt og stillingsstørrelse.</p><small>Måles på nytt med HO-HF-2</small></div><div class="act"><div class="act-type">Lederpraksis</div><b>Tilby før du lyser ut</b><p>Ledige stillingsandeler og ekstra timer tilbys deltidsansatte først, slik fortrinnsretten krever.</p><small>Måles på nytt med HO-HF-1</small></div></div></div></div></section><section class="factor" id="grenser_mot_brukere_og_parorende" aria-labelledby="h-grenser_mot_brukere_og_parorende"><h2 id="h-grenser_mot_brukere_og_parorende">Grenser mot brukere og pårørende</h2><p class="sec-intro">20 prosent av sykepleierne og 16,5 prosent av helsefagarbeiderne har opplevd seksuell trakassering det siste året – blant de høyeste andelene i arbeidslivet. Pågang fra pårørende kommer i tillegg.<sup><a href="#k-ssb_trakassering" title="SSB: Fire av ti grunnskolelærere utsatt for vold, trusler, trakassering eller mobbing på jobb (2026)">9</a></sup></p>
+<div class="factor-grid"><div><div class="kv">Påstandene</div><ul class="items"><li><span class="iid">HO-GP-1</span><span class="itext">Vi har avklart hva vi gjør når en bruker eller pårørende går over grensen</span></li><li><span class="iid">HO-GP-2</span><span class="itext">Seksuelle kommentarer eller berøring fra brukere blir tatt på alvor og ikke bortforklart</span></li><li><span class="iid">HO-GP-3</span><span class="itext">Når pårørende krever mer enn vi kan gi, får jeg støtte til å si nei</span></li></ul><div class="kv">Hjemmel</div><ul class="leg"><li>aml § 4-3 sjette ledd (vern mot uheldige belastninger fra kontakt med andre)</li><li>likestillings- og diskrimineringsloven § 13 (arbeidsgiver skal forebygge og søke å hindre seksuell trakassering)</li></ul></div>
+<div><div class="kv">Tre forslag til tiltak</div><div class="acts"><div class="act"><div class="act-type">Workshop</div><b>Hvor går grensen?</b><p>Laget blir enige om hvordan de møter seksuelle kommentarer og press fra brukere og pårørende, med egne eksempler.</p><small>Måles på nytt med HO-GP-1</small></div><div class="act"><div class="act-type">Rutine</div><b>Avklarte forventninger</b><p>Pårørende får en tydelig avklaring av hva tjenesten kan gi, og én fast kontaktperson.</p><small>Måles på nytt med HO-GP-3</small></div><div class="act"><div class="act-type">Lederpraksis</div><b>Leder tar samtalen</b><p>De vanskelige samtalene med pårørende tas av leder, ikke av den ansatte alene.</p><small>Måles på nytt med HO-GP-3</small></div></div></div></div></section><section class="factor" id="tid_til_kjerneoppgavene" aria-labelledby="h-tid_til_kjerneoppgavene"><h2 id="h-tid_til_kjerneoppgavene">Tid til kjerneoppgavene</h2><p class="sec-intro">Sykepleiere anslår at de bruker rundt to timer per arbeidsdag i den elektroniske journalen, og rundt tre av fire mener at tiden går på bekostning av pasientnære oppgaver.<sup><a href="#k-tidstyver" title="Regjeringen: Effekten av å fjerne tidstyver i sykehus (2025)">10</a></sup></p>
+<div class="factor-grid"><div><div class="kv">Påstandene</div><ul class="items"><li><span class="iid">HO-TK-1</span><span class="itext">Tiden jeg bruker på dokumentasjon, står i forhold til nytten</span></li><li><span class="iid">HO-TK-2</span><span class="itext">De digitale systemene vi bruker, gjør jobben enklere</span></li><li><span class="iid">HO-TK-3</span><span class="itext">Jeg kan gjøre ferdig en oppgave uten stadige avbrytelser</span></li></ul><div class="kv">Hjemmel</div><ul class="leg"><li>aml § 4-2 (medvirkning og tilrettelegging ved omstilling og ny teknologi)</li><li>aml § 4-3 (arbeidsmengde og tidspress)</li></ul></div>
+<div><div class="kv">Tre forslag til tiltak</div><div class="acts"><div class="act"><div class="act-type">Workshop</div><b>Tidstyvjakt</b><p>Alle noterer tidstyver i en uke. Laget velger tre å fjerne, og leder tar resten videre.</p><small>Måles på nytt med HO-TK-1</small></div><div class="act"><div class="act-type">Rutine</div><b>Uforstyrret medisinering</b><p>Den som deler ut medisiner, er synlig merket og blir ikke avbrutt uten at det haster.</p><small>Måles på nytt med HO-TK-3</small></div><div class="act"><div class="act-type">Lederpraksis</div><b>Superbruker på vakt</b><p>Leder sørger for at det finnes en superbruker på hver vakt som kan hjelpe med systemene.</p><small>Måles på nytt med HO-TK-2</small></div></div></div></div></section><section class="factor" id="faglig_trygghet" aria-labelledby="h-faglig_trygghet"><h2 id="h-faglig_trygghet">Faglig trygghet</h2><p class="sec-intro">Ti år etter utdanning jobber en av fem sykepleiere ikke i helsetjenesten, og ønsket om å slutte er størst blant de unge og de som har jobbet kortest. I hjemmetjenesten sier over tre av ti sykepleiere at endringer ble gjennomført for raskt, uten at ansatte ble hørt.<sup><a href="#k-ssb_sykepleiere" title="SSB: 1 av 5 nyutdanna sykepleiere jobber ikke i helsetjenesten">11</a>,<a href="#k-gautun" title="forskning.no: Derfor vurderer sykepleiere i hjemmetjenesten å slutte (2026)">12</a></sup></p>
+<div class="factor-grid"><div><div class="kv">Påstandene</div><ul class="items"><li><span class="iid">HO-FT-1</span><span class="itext">Nye og vikarer får nok opplæring før de står alene på vakt</span></li><li><span class="iid">HO-FT-2</span><span class="itext">Jeg har noen å rådføre meg med når jeg står i en vanskelig faglig vurdering</span></li><li><span class="iid">HO-FT-3</span><span class="itext">Vi forstår hverandre godt nok til at rapport og beskjeder blir riktige</span></li></ul><div class="kv">Hjemmel</div><ul class="leg"><li>aml § 3-2 (opplæring, øvelse og instruksjon)</li><li>helsepersonelloven § 4 (forsvarlighet, og plikt til å innhente bistand ved behov)</li></ul></div>
+<div><div class="kv">Tre forslag til tiltak</div><div class="acts"><div class="act"><div class="act-type">Workshop</div><b>Trygg rapport</b><p>Laget lager en felles struktur for rapport mellom vaktene, og øver på den.</p><small>Måles på nytt med HO-FT-3</small></div><div class="act"><div class="act-type">Rutine</div><b>Ingen nye alene</b><p>Nye og vikarer går et fast antall følgevakter sammen med en erfaren før de står alene.</p><small>Måles på nytt med HO-FT-1</small></div><div class="act"><div class="act-type">Lederpraksis</div><b>Hvem ringer du?</b><p>Det er alltid kjent hvem som har faglig ansvar på vakten, også på natt og i helger.</p><small>Måles på nytt med HO-FT-2</small></div></div></div></div></section><section class="factor" id="forflytning_og_tunge_loft" aria-labelledby="h-forflytning_og_tunge_loft"><h2 id="h-forflytning_og_tunge_loft">Forflytning og tunge løft</h2><p class="sec-intro">STAMI-forskning i hjemmetjenesten viser at mer enn seks av ti gjør tunge fysiske løft uten hjelpemidler, og halvparten gjør det selv når hjelpemidlene finnes.<sup><a href="#k-stami_forflytning" title="Helsefagarbeideren: Hjelpemidler som kan redusere belastningen ved tunge løft (STAMI-forskning)">13</a></sup></p>
+<div class="factor-grid"><div><div class="kv">Påstandene</div><ul class="items"><li><span class="iid">HO-FL-1</span><span class="itext">Vi har de hjelpemidlene vi trenger til forflytning</span></li><li><span class="iid">HO-FL-2</span><span class="itext">Vi har tid til å bruke hjelpemidlene, også når det er travelt</span></li><li><span class="iid">HO-FL-3</span><span class="itext">Vi er nok folk til tunge forflytninger</span></li></ul><div class="kv">Hjemmel</div><ul class="leg"><li>aml § 4-4 (fysiske arbeidsmiljøfaktorer)</li><li>forskrift om utførelse av arbeid kap. 14 (arbeid som kan medføre ergonomiske belastninger)</li></ul></div>
+<div><div class="kv">Tre forslag til tiltak</div><div class="acts"><div class="act"><div class="act-type">Workshop</div><b>Forflytningsrunde</b><p>En gjennomgang med fysioterapeut eller bedriftshelsetjenesten av de tyngste forflytningene hos dere.</p><small>Måles på nytt med HO-FL-2</small></div><div class="act"><div class="act-type">Rutine</div><b>Forflytningsplan per bruker</b><p>Hver bruker som trenger hjelp til forflytning, har en plan med hjelpemiddel og hvor mange som skal være med.</p><small>Måles på nytt med HO-FL-3</small></div><div class="act"><div class="act-type">Lederpraksis</div><b>Hjelpemiddel først</b><p>Leder følger opp at hjelpemidlene er på plass, og bestiller det som mangler innen en uke.</p><small>Måles på nytt med HO-FL-1</small></div></div></div></div></section>
+<section class="factor" id="tellende" aria-labelledby="h-t"><h2 id="h-t">To spørsmål som bare telles</h2><p class="sec-intro">Noen spørsmål passer ikke i en indeks, men sier mye om det avvikssystemet ikke fanger. De vises bare som antall for hele virksomheten.</p><div class="card qbox"><span class="iid">HO-T-1</span><span class="itext">Har du de siste tre månedene vært med på en hendelse med vold eller trusler som ikke ble meldt?</span><div class="opts"><span>Ja</span><span>Nei</span><span>Vet ikke</span></div><p class="small muted" style="margin:10px 0 0">Viser hvor mye som ikke kommer fram i avvikssystemet. Hovedundersøkelsen teller allerede hvor mange som har opplevd vold eller trusler. Vises bare som antall for hele virksomheten.</p></div><div class="card qbox"><span class="iid">HO-T-2</span><span class="itext">Har du de siste tre månedene jobbet en vakt der du mente bemanningen ikke var forsvarlig?</span><div class="opts"><span>Ja</span><span>Nei</span><span>Vet ikke</span></div><p class="small muted" style="margin:10px 0 0">Viser hvor ofte bemanningen oppleves som uforsvarlig, uten at noen avdeling eller vakt kan pekes ut. Vises bare som antall for hele virksomheten.</p></div></section>
+<section class="factor" aria-labelledby="h-s"><h2 id="h-s">Bakgrunnsspørsmål</h2><p class="sec-intro">Valgfrie, for å se forskjell mellom dag, kveld og natt, og mellom heltid og deltid. Hovedundersøkelsens spørsmål om vold og trusler siste tolv måneder og om krenkende atferd gjenbrukes og gjentas ikke her.</p><div class="card qbox"><span class="itext">Hvilken vaktordning har du mest?</span><div class="opts"><span>Dagtid</span><span>Todelt turnus (dag og kveld)</span><span>Tredelt turnus (med natt)</span><span>Fast natt</span></div></div><div class="card qbox"><span class="itext">Hvor stor stilling har du?</span><div class="opts"><span>Heltid</span><span>Deltid, 50 prosent eller mer</span><span>Deltid, under 50 prosent</span></div></div></section>
+<section class="factor" id="regler" aria-labelledby="h-r"><h2 id="h-r">Slik rapporteres svarene</h2><div class="rules"><div><b>Minst fem svar</b><span>Ingen gruppe eller segment vises før minst fem har svart. Grensen kan heves, men aldri senkes.</span></div><div><b>Ingen regning bakover</b><span>Hvis en gruppe kan regnes ut fra totalen og de andre gruppene, holdes en gruppe til tilbake.</span></div><div><b>Ja/nei-spørsmålene</b><span>HO-T-1 og HO-T-2 vises bare som antall for hele virksomheten, aldri per prosjekt eller segment.</span></div><div><b>Segmenter</b><span>Vaktordning og stillingsstørrelse vises bare der det er minst fem svar, og aldri kombinert med en gruppe hvis det gir færre enn fem.</span></div><div><b>Samme indeks</b><span>Hver påstand regnes om til 0–100, og faktoren er snittet av sine tre påstander.</span></div><div><b>Risikonivå</b><span>65 eller mer er lav risiko, 50–64 middels og under 50 høy – det samme som i hovedundersøkelsen.</span></div><div><b>Pulsen</b><span>Når en faktor har åpne tiltak, kommer påstanden tiltaket skal måles på med i neste puls.</span></div><div><b>Velg det som gjelder</b><span>Faktorer som ikke passer, kan slås av. Forflytning gir for eksempel lite mening på et legekontor.</span></div></div>
+<p class="core-note">Hovedundersøkelsen dekker allerede Emosjonelle krav, Arbeidsmengde og tidspress, Støtte fra leder, Støtte fra kollegaer, Ytringsklima og Integritet og verdighet. Helse-modulen gjentar ikke disse.</p></section>
+<section class="cta" aria-labelledby="h-cta"><h2 id="h-cta">Legg helse-modulen til neste måling</h2><p>Skriv inn organisasjonsnummeret. Dere er i gang på tre minutter, uten kortopplysninger.</p><div id="start"><form class="start" data-start novalidate><label for="orgnr-q">Organisasjonsnummer</label><div class="start-row"><input id="orgnr-q" name="orgnr" inputmode="numeric" autocomplete="off" placeholder="9 siffer" maxlength="11" aria-describedby="orgnr-q-msg"><button class="btn btn-ac" type="submit">Kom i gang gratis</button></div><p class="start-msg" id="orgnr-q-msg" role="status" aria-live="polite"></p><p class="start-note">Fra 265 kr/mnd eks. mva · 15 dager gratis · Ingen kort · Svar lagres i EU</p></form></div></section>
+<section class="sec" aria-labelledby="h-src" style="padding-top:56px"><h3 id="h-src">Kilder</h3><ol class="src"><li id="k-ks_vold"><a href="https://www.ks.no/fagomrader/arbeidsgiverpolitikk/arbeidsmiljo-og-hms/vold-og-trusler-i-arbeidslivet/vold-og-trusler-i-arbeidslivet/" rel="noopener" target="_blank">KS: Vold og trusler i arbeidslivet</a></li><li id="k-av_vold24"><a href="https://www.av.se/press/arbetet-mot-hot-och-vald-pa-vardboenden-ska-inspekteras/" rel="noopener" target="_blank">Arbetsmiljöverket: Arbetet mot hot och våld på vårdboenden ska inspekteras (2024)</a></li><li id="k-fagbladet_forskrift"><a href="https://www.fagbladet.no/nyheter/mest-vold-mot-helse-og-sosialarbeidere/117116" rel="noopener" target="_blank">Fagbladet: Mest vold mot helse- og sosialarbeidere (2021)</a></li><li id="k-nsf_forsvarlig"><a href="https://sykepleien.no/2025/08/sykepleiere-slar-alarm-en-av-fire-far-ikke-gitt-forsvarlig-pleie" rel="noopener" target="_blank">Sykepleien: En av fire får ikke gitt forsvarlig pleie (2025)</a></li><li id="k-ae_dk"><a href="https://www.ae.dk/debatindlaeg/2025-03-vold-trusler-mobning-og-stress-hver-tredje-medarbejder-i-aeldreplejen-er-ramt" rel="noopener" target="_blank">Arbejderbevægelsens Erhvervsråd (DK): Hver tredje i ældreplejen har et hårdt psykisk arbejdsmiljø (2025)</a></li><li id="k-sintef_nsf"><a href="https://sykepleien.no/meninger/2026/02/arbeidsmiljoet-er-avgjorende-sykepleiere-kan-sta-i-jobben" rel="noopener" target="_blank">Sykepleien: Arbeidsmiljøet er avgjørende for at sykepleiere kan stå i jobben (2026)</a></li><li id="k-fafo_deltid"><a href="https://www.fagbladet.no/nyheter/nye-fafo-tall-43000-kommunalt-ansatte-er-ufrivillig-pa-deltid/753810" rel="noopener" target="_blank">Fagbladet: Nye Fafo-tall – 43.000 kommunalt ansatte er ufrivillig på deltid (2026)</a></li><li id="k-hdir_heltid"><a href="https://www.helsedirektoratet.no/statistikk/kvalitetsindikatorer/kommunale-helse-og-omsorgstjenester/heltidsansatte-ved-kommunale-helse-og-omsorgstjenester-i-institusjon" rel="noopener" target="_blank">Helsedirektoratet: Heltidsansatte ved kommunale helse- og omsorgstjenester i institusjon</a></li><li id="k-ssb_trakassering"><a href="https://www.ssb.no/arbeid-og-lonn/arbeidsmiljo-sykefravaer-og-arbeidskonflikter/statistikk/arbeidsmiljo-levekarsundersokelsen/artikler/fire-av-ti-grunnskolelaerere-utsatt-for-vold-trusler-trakassering-eller-mobbing-pa-jobb" rel="noopener" target="_blank">SSB: Fire av ti grunnskolelærere utsatt for vold, trusler, trakassering eller mobbing på jobb (2026)</a></li><li id="k-tidstyver"><a href="https://www.regjeringen.no/no/dokumenter/effekten-av-a-fjerne-tidstyver-i-sykehus/id3103064/?ch=6" rel="noopener" target="_blank">Regjeringen: Effekten av å fjerne tidstyver i sykehus (2025)</a></li><li id="k-ssb_sykepleiere"><a href="https://www.ssb.no/helse/artikler-og-publikasjoner/1-av-5-nyutdanna-sykepleiere-jobber-ikke-i-helsetjenesten" rel="noopener" target="_blank">SSB: 1 av 5 nyutdanna sykepleiere jobber ikke i helsetjenesten</a></li><li id="k-gautun"><a href="https://www.forskning.no/arbeidsliv-eldre-helsetjenester/ny-studie-med-alvorlige-funn-derfor-vurderer-sykepleiere-i-hjemmetjenesten-a-slutte/2682399" rel="noopener" target="_blank">forskning.no: Derfor vurderer sykepleiere i hjemmetjenesten å slutte (2026)</a></li><li id="k-stami_forflytning"><a href="https://www.helsefagarbeideren.no/journal/2025/2/m-556/Disse_hjelpemidlene_kan_redusere_belastningen_ved_tunge_l%C3%B8ft" rel="noopener" target="_blank">Helsefagarbeideren: Hjelpemidler som kan redusere belastningen ved tunge løft (STAMI-forskning)</a></li></ol></section>
+</div></main><footer><div class="wrap fgrid"><div><div class="brand"><span class="brand-mark"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M1 9h3l2-5 3 10 2-5h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="brand-name">Orgpuls</span></div><p>Medarbeiderundersøkelse og arbeidsmiljøkartlegging for norske virksomheter. Data lagres i EU.</p></div>
+<div><h4>Produkt</h4><a href="https://www.orgpuls.com/plattform">Plattform</a><a href="https://www.orgpuls.com/priser">Pris</a></div>
+<div><h4>Bruksområder</h4><a href="https://www.orgpuls.com/bygg-og-anlegg">Bygg og anlegg</a><a href="https://www.orgpuls.com/helse-og-omsorg">Helse og omsorg</a><a href="https://www.orgpuls.com/smaa-bedrifter">Små bedrifter</a><a href="https://www.orgpuls.com/verneombud">Verneombud</a></div>
+<div><h4>Om oss</h4><a href="https://www.orgpuls.com/hvorfor">Hvorfor Orgpuls</a><a href="https://www.orgpuls.com/kontakt">Kontakt</a><a href="https://www.orgpuls.com/personvernerklaering">Personvern</a></div></div>
+<div class="wrap small" style="margin-top:24px">© 2026 Orgpuls</div></footer>
+<script>
+(function(){
+  function mod11(d){var w=[3,2,7,6,5,4,3,2],s=0;for(var i=0;i<8;i++)s+=+d[i]*w[i];var r=11-(s%11);if(r===11)r=0;return r!==10&&r===+d[8];}
+  document.querySelectorAll('[data-start]').forEach(function(f){
+    var inp=f.querySelector('input'),msg=f.querySelector('.start-msg');
+    f.addEventListener('submit',function(ev){ev.preventDefault();var d=(inp.value||'').replace(/\D/g,'');
+      if(d.length!==9){msg.textContent='Organisasjonsnummeret har 9 siffer.';inp.focus();return;}
+      if(!mod11(d)){msg.textContent='Sjekk nummeret – det ser ikke ut som et gyldig organisasjonsnummer.';inp.focus();return;}
+      msg.textContent='';window.open('https://www.orgpuls.com/registrer?orgnr='+d,'_blank','noopener');});
+    inp.addEventListener('input',function(){msg.textContent='';});
+  });
+})();
+</script></body></html>

@@ -8,14 +8,18 @@ export type CiteKey = string // a key in the module file's `sources`, or in `ext
 
 export type MeasuredBy =
   | { kind: 'module'; itemCode: string }
-  | { kind: 'core'; factorKey: string; ordinal: number }
+  /** `alongside`: the factor's other statements the box names too ("Sammen med «…» og «…»") */
+  | { kind: 'core'; factorKey: string; ordinal: number; alongside?: number[] }
 
 export type ResultPreview = {
   /** always a fictional company, and the footnote says so */
   company: string
   caption: string
   columns: string[]
-  rows: { factorKey: string; values: (number | null)[] }[]
+  /** a row behind a flag (an example that shows a factor switched off needs `module_factor_toggles`) */
+  rows: { factorKey: string; values: (number | null)[]; featureFlag?: string }[]
+  /** a sentence of the footnote that describes a flagged feature, printed first and only when it is on */
+  footnoteFlagged?: { text: string; featureFlag: string }
   footnote: string
 }
 
@@ -40,6 +44,7 @@ export type IndustryPage = {
     thresholdNote: string
     preview?: ResultPreview
   }
+  /** `text` may carry {{cite:key}} tokens */
   challengesIntro?: { title: string; text: string }
   challenges: {
     title: string
@@ -49,14 +54,16 @@ export type IndustryPage = {
     helpline?: boolean
     featureFlag?: string
   }[]
-  moduleOverview?: { title: string; intro: string; coreNote: string }
+  /** `coreAlso` continues the sentence naming the core factors: "…, og {coreAlso}." */
+  moduleOverview?: { title: string; intro: string; coreAlso?: string; coreNote: string }
   loop?: {
     title: string
     steps: { title: string; text: string }[]
     example: { factorKey: string; actionType: 'workshop' | 'rutine' | 'lederpraksis'; groupLabel: string; chips: string[]; on: number }
   }
   law: { title: string; intro: string; items: { ref: string; text: string; reviewed: boolean }[] }
-  faq: { q: string; a: string; featureFlag?: string }[]
+  /** `more`: a last sentence of the answer that describes a flagged feature */
+  faq: { q: string; a: string; featureFlag?: string; more?: { text: string; featureFlag: string } }[]
   cta: { title: string; text: string }
   /** /<slug>/sporsmal, generated from the module file; its own words only */
   questionPage?: {
@@ -74,5 +81,7 @@ export type IndustryPage = {
     cta: { title: string; text: string }
   }
   related: IndustryPage['slug'][]
+  /** list the module's other factor sources after the page's own citations (default true) */
+  sourcesFromFactors?: boolean
   extraSources?: { key: string; title: string; url: string }[]
 }

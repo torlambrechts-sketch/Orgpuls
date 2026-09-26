@@ -5306,3 +5306,61 @@ finding. It is in `LandingTemplate`, which this change does not touch, and is no
 rather than fixed out of scope.
 
 Unit tests: 180.
+
+## D-122 — Helse og omsorg: the health and care module v1.0.0 and its pages
+
+The user sent `helse-og-omsorg@1.0.0` together with the updated hand-off. The hand-off
+(docs/implementation/bransjesider-og-tilleggsmoduler.md, now with health in scope) moves
+open decision 7 from "page without a module" to a module and a page of its own.
+
+**The module.**
+- `modules/helse-og-omsorg/v1.json` is the user's JSON verbatim: 8 factors × 3 statements,
+  2 counts, 2 segments and 24 suggestions.
+- It adds a `translations.en` block written here, as the construction module has one (D-119).
+- The schema now also accepts `relation_to_core.core_count_items_reused` and
+  `core_statements_not_repeated`, so the hash covers them instead of dropping them.
+  A unit test proves every core factor and core statement the file names is the core
+  instrument's own wording.
+- It is seeded as a **draft** on the hosted project, with hash `65bd7f1be746`. It is not
+  published.
+- NACE 86–88 now suggests it in Måleoppsett (`content/industries/meta.ts`), and only once it
+  is published or piloted, as with construction.
+
+**The pages.**
+- `content/industries/helse-og-omsorg.ts` is ported from docs/reference/helse-og-omsorg.html
+  and its question page. `helse-og-omsorg.en.ts` is the English twin.
+- Both are `launched: false`. `/helse-og-omsorg` therefore keeps its current landing page, and
+  the new page and `/helse-og-omsorg/sporsmal` exist as `?forhandsvis=1` previews (noindex).
+- The law items, seven in each language, are `reviewed: false` and wait for review.
+
+**Template additions** (content/industries/types.ts):
+- A core challenge may name the factor's other statements. The ninth challenge,
+  "Det følelsesmessige arbeidet", quotes emosjon s1 "together with" s2 and s3, as the
+  reference does; all three are checked against the instrument.
+- The challenges intro may cite (NAV's sickness figure).
+- The module overview may continue the core sentence ("…, og teller hvor mange som har
+  opplevd vold eller trusler").
+- The source list can be limited to what the page cites (`sourcesFromFactors: false`), as the
+  health reference lists 13 sources where the construction one also lists its factors'.
+
+**Held behind `module_factor_toggles`, which is off.** The reference's example shows the night
+shift with forflytning switched off; its footnote says so, and so does the first FAQ answer.
+Choosing factors is built but not launched. So these three are shown only when the flag is on:
+- the example's forflytning row;
+- that footnote sentence;
+- that part of the answer.
+
+A dash with no explanation would read as a group under the threshold, so it is not shown.
+
+**The construction page's core challenge** ("Tonen på riggen") stays as it is. The updated
+hand-off allows a `note` where no single statement fits, but the construction reference quotes
+«Jeg blir møtt med respekt uansett hvem jeg er», which is integritet s1 word for word.
+
+**Verified in the browser:**
+- the Norwegian and English previews of both health pages at 1280, 390 and 360 px: one h1,
+  noindex, no sideways scroll, axe clean of serious and critical findings, every in-page anchor
+  resolves, no console errors;
+- the page against the reference at 1280, section by section;
+- without the flag, `/helse-og-omsorg` is the landing page as before, and `/…/sporsmal` is 404.
+
+Unit tests: 182. All 43 SQL suites pass on a local stack with both modules seeded.

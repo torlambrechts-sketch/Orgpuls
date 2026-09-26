@@ -5,6 +5,9 @@ import { moduleFile } from '@/content/industries/modules'
 import { assertIndustries, problemsOf, twinProblems } from '@/content/industries/validate'
 import { byggOgAnlegg } from '@/content/industries/bygg-og-anlegg'
 import { byggOgAnleggEn } from '@/content/industries/bygg-og-anlegg.en'
+import { helseOgOmsorg } from '@/content/industries/helse-og-omsorg'
+import { helseOgOmsorgEn } from '@/content/industries/helse-og-omsorg.en'
+import no from '@/messages/no.json'
 import { listOf } from '@/content/industries/modules'
 
 describe('industry pages', () => {
@@ -71,5 +74,26 @@ describe('industry pages', () => {
   it('joins a list in the page language', () => {
     expect(listOf(['a', 'b', 'c'], 'no')).toBe('a, b og c')
     expect(listOf(['a', 'b', 'c'], 'en')).toBe('a, b and c')
+  })
+
+  it('the health module names the core instrument word for word (D-122)', () => {
+    const m = moduleFile('helse-og-omsorg', '1.0.0')
+    const factor = (no as unknown as { factor: Record<string, Record<string, string>> }).factor
+    const labels = new Set(Object.values(factor).map((f) => f.label))
+    const statements = new Set(Object.values(factor).flatMap((f) => ['s1', 's2', 's3'].map((s) => f[s])))
+    for (const n of m.relation_to_core?.covered_by_core_factors ?? []) expect(labels.has(n), n).toBe(true)
+    for (const s of m.relation_to_core?.core_statements_not_repeated ?? []) expect(statements.has(s), s).toBe(true)
+    const b = moduleFile('bygg-og-anlegg', '1.0.0')
+    for (const n of b.relation_to_core?.covered_by_core_factors ?? []) expect(labels.has(n), n).toBe(true)
+  })
+  it('the health page is valid, held at preview, and its core challenge names statements that exist', () => {
+    expect(problemsOf(helseOgOmsorg)).toEqual([])
+    expect(helseOgOmsorg.launched).toBe(false)
+    const broken = structuredClone(helseOgOmsorg)
+    const last = broken.challenges.at(-1)!
+    last.measuredBy = { kind: 'core', factorKey: 'emosjon', ordinal: 1, alongside: [2, 7] }
+    expect(problemsOf(broken).some((x) => x.includes('emosjon.s7'))).toBe(true)
+    expect(problemsOf(helseOgOmsorgEn, 'en')).toEqual([])
+    expect(twinProblems(helseOgOmsorg, helseOgOmsorgEn)).toEqual([])
   })
 })

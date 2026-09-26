@@ -1,4 +1,5 @@
 import byggV1 from '@/modules/bygg-og-anlegg/v1.json'
+import helseV1 from '@/modules/helse-og-omsorg/v1.json'
 import { parseModule, type ModuleFile } from '@/lib/modules/schema'
 
 /**
@@ -12,6 +13,7 @@ import { parseModule, type ModuleFile } from '@/lib/modules/schema'
  */
 const FILES: Record<string, unknown> = {
   'bygg-og-anlegg@1.0.0': byggV1,
+  'helse-og-omsorg@1.0.0': helseV1,
 }
 
 export type PageLang = 'no' | 'en'

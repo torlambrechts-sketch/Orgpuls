@@ -47,10 +47,10 @@ export async function IndustryView({
   }
 
   const challenges = page.challenges.filter((c) => on(c.featureFlag))
-  const order = citeOrder([...challenges.map((c) => c.body), page.moduleOverview?.intro ?? ''])
+  const order = citeOrder([page.challengesIntro?.text ?? '', ...challenges.map((c) => c.body), page.moduleOverview?.intro ?? ''])
   const allSources = [...(mod?.sources ?? []), ...(page.extraSources ?? [])]
   // the page's citations in reading order, then the other sources the module's factors cite
-  const factorCited = new Set(mod?.factors.flatMap((f) => f.rationale_sources) ?? [])
+  const factorCited = new Set(page.sourcesFromFactors === false ? [] : (mod?.factors.flatMap((f) => f.rationale_sources) ?? []))
   const sources = [
     ...order.flatMap((k) => allSources.filter((s) => s.key === k)),
     ...allSources.filter((s) => !order.includes(s.key) && factorCited.has(s.key)),
@@ -58,7 +58,9 @@ export async function IndustryView({
   const numbers = new Map(sources.map((s, i) => [s.key, i + 1]))
   const titles = new Map(allSources.map((s) => [s.key, s.title]))
   const cite = (text: string) => <CitedText text={text} numbers={numbers} titles={titles} />
-  const faq = page.faq.filter((f) => on(f.featureFlag))
+  const faq = page.faq
+    .filter((f) => on(f.featureFlag))
+    .map((f) => (f.more && on(f.more.featureFlag) ? { ...f, a: `${f.a} ${f.more.text}` } : f))
   const moduleTitle = page.moduleName?.title ?? ''
   // before launch the question page exists only as a preview, so links to it say so (D-118)
   const qp = page.launched ? '' : '?forhandsvis=1'
@@ -111,7 +113,7 @@ export async function IndustryView({
           <h2 id="utfordringer" className={H2}>
             {page.challengesIntro.title}
           </h2>
-          <p className="mb-0 mt-[12px] max-w-[62ch] text-[16px] leading-[1.6] text-body">{page.challengesIntro.text}</p>
+          <p className="mb-0 mt-[12px] max-w-[62ch] text-[16px] leading-[1.6] text-body">{cite(page.challengesIntro.text)}</p>
           <div className="mt-[34px] border-t-[1.5px] border-ink">
             {challenges.map((c) => {
               const m = c.measuredBy.kind === 'module' ? itemOf(c.measuredBy.itemCode) : null
@@ -153,6 +155,13 @@ export async function IndustryView({
                     <div className="mt-[10px] text-[13px] text-body">
                       {m ? (
                         <Link href={`/${page.slug}/sporsmal${qp}#${m.factor.id}` as Route}>{t('seeAll')}</Link>
+                      ) : c.measuredBy.kind === 'core' && c.measuredBy.alongside?.length ? (
+                        t('coreAlongside', {
+                          list: listOf(
+                            c.measuredBy.alongside.map((o) => `«${core((c.measuredBy as { factorKey: string }).factorKey, o).text}»`),
+                            lang,
+                          ),
+                        })
                       ) : (
                         t('coreFactor', { factor: k?.factor ?? '' })
                       )}
@@ -205,7 +214,10 @@ export async function IndustryView({
           </ul>
           {mod.relation_to_core?.covered_by_core_factors.length ? (
             <p className="mb-0 mt-[22px] max-w-[70ch] text-[14px] leading-[1.6] text-body">
-              {t('coreCovered', { list: listOf(mod.relation_to_core.covered_by_core_factors, lang) })} {page.moduleOverview.coreNote}{' '}
+              {page.moduleOverview.coreAlso
+                ? t('coreCoveredAlso', { list: listOf(mod.relation_to_core.covered_by_core_factors, lang), also: page.moduleOverview.coreAlso })
+                : t('coreCovered', { list: listOf(mod.relation_to_core.covered_by_core_factors, lang) })}{' '}
+              {page.moduleOverview.coreNote}{' '}
               <Link href={`/${page.slug}/sporsmal${qp}` as Route} className="font-semibold underline underline-offset-[3px]">
                 {t('seeQuestions')}
               </Link>
@@ -303,7 +315,7 @@ function PreviewBoard({ preview, mod, moduleTitle, t }: { preview: ResultPreview
             </tr>
           </thead>
           <tbody>
-            {preview.rows.map((r) => (
+            {preview.rows.filter((r) => on(r.featureFlag)).map((r) => (
               <tr key={r.factorKey}>
                 <th scope="row" className="border-t border-line py-[7px] pr-[6px] text-left font-normal">
                   {mod.factors.find((f) => f.id === r.factorKey)?.name}
@@ -330,7 +342,10 @@ function PreviewBoard({ preview, mod, moduleTitle, t }: { preview: ResultPreview
           </span>
         ))}
       </div>
-      <figcaption className="mt-[10px] text-[12px] text-mut">{preview.footnote}</figcaption>
+      <figcaption className="mt-[10px] text-[12px] text-mut">
+        {preview.footnoteFlagged && on(preview.footnoteFlagged.featureFlag) ? `${preview.footnoteFlagged.text} ` : ''}
+        {preview.footnote}
+      </figcaption>
     </figure>
   )
 }
