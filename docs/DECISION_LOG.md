@@ -2238,6 +2238,8 @@ search data, and revenue figures. Step 1 is D-104. Three decisions shape the res
 - [x] Industry modules, PRs 2–5: Måleoppsett selection and pilots, respondent flow and count-only write path, results with the same release rule, measures and puls re-measurement, report section, admin Moduler page (0068–0071, D-112–D-117).
 - [ ] Before publishing bygg-og-anlegg@1.0.0: pilot it in one real organisation (admin › Moduler › Legg til pilot), complete a grunnlinje end to end and check the PDF report by hand (hand-off "Done when").
 - [x] Industry pages: /[bransje] and /[bransje]/sporsmal from content/industries and the module file; previewable with ?forhandsvis=1 until launch; mod-11 in the start form (D-118).
-- [ ] Launch bygg og anlegg, in one change after sign-off: legal review of every `law` item and every module `legal_basis` (then `reviewed: true`), `launched: true` in content/industries/bygg-og-anlegg.ts, publish the module (admin › Bransjemoduler), and link /artikler/medarbeiderundersokelse-sporsmal to /bygg-og-anlegg/sporsmal. Review the page first at https://www.orgpuls.com/bygg-og-anlegg?forhandsvis=1.
+- [x] Tor approved the page and the law text (2026-09-26); law items marked `reviewed: true`.
+- [x] Full test in Demobedriften AS (2026-09-26): pilot from admin, module chosen in Måleoppsett, 21 responses (3 through the mobile form), round closed, results per group with suppression, counts, tiltak from a suggestion, puls re-measure item, report PDF.
+- [ ] Launch bygg og anlegg: `launched: true` in content/industries/bygg-og-anlegg.ts, publish the module (admin › Bransjemoduler), and link /artikler/medarbeiderundersokelse-sporsmal to /bygg-og-anlegg/sporsmal. Review the page first at https://www.orgpuls.com/bygg-og-anlegg?forhandsvis=1.
 - [ ] /helse-og-omsorg in the industry template: tie each of its points to a core statement (copy for Tor), or wait for a health module (open decision 7).
 
