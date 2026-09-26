@@ -35,7 +35,7 @@ export default async function CrmContact({ params }: { params: Promise<{ id: str
       </PageHead>
       <CrmTabs current="contacts" labels={m.tabs} />
 
-      <div className="grid items-start gap-[14px] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
         <Card title={m.contact.details}>
           {row(m.col.type, m.type[c.type])}
           {row(m.contact.org, c.org_id ? <ALink href={`/admin/orgs/${c.org_id}`}>{c.org_name ?? '—'}</ALink> : (c.company ?? '—'))}
@@ -103,7 +103,7 @@ export default async function CrmContact({ params }: { params: Promise<{ id: str
       </Card>
 
       {canWrite ? (
-        <div className="mt-[16px] grid items-start gap-[14px] lg:[grid-template-columns:minmax(0,2fr)_minmax(0,1fr)]">
+        <div className="mt-[16px] grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,2fr)_minmax(0,1fr)]">
           <Card title={m.contact.edit}>
             <ContactForm m={m} common={common} contact={c} />
           </Card>

@@ -50,7 +50,7 @@ export default async function CrmOverview() {
         <Stat label={o.tasks} value={data.tasks_due} />
       </div>
 
-      <div className="mt-[16px] grid items-start gap-[14px] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="mt-[16px] grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
         <Card title={o.pipeline}>
           <ul className="m-0 flex list-none flex-col gap-[6px] p-0">
             {STAGES.map((s) => (

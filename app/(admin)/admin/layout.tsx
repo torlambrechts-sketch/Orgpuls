@@ -16,7 +16,7 @@ export const metadata: Metadata = { title: 'Orgpuls Admin', robots: { index: fal
 export const dynamic = 'force-dynamic'
 
 /** The sections built so far; the rest of the specification's list is added as it is built. */
-const BUILT: readonly Section[] = ['dashboard', 'orgs', 'health', 'users', 'ops', 'web', 'crm', 'tickets', 'audit', 'admins']
+const BUILT: readonly Section[] = ['dashboard', 'orgs', 'health', 'users', 'ops', 'web', 'seo', 'crm', 'tickets', 'audit', 'admins']
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const who = await whoami()

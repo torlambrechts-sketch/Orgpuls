@@ -38,7 +38,7 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
       </PageHead>
       <CrmTabs current="prospects" labels={m.tabs} />
 
-      <div className="grid items-start gap-[14px] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
         <Card title={m.company.details}>
           {row(p.col.stage, `${m.stage[c.stage]} · ${day(c.stage_changed_at)}`)}
           {row(p.owner, c.owner_email ?? '—')}
@@ -77,7 +77,7 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
         </Table>
       </Card>
 
-      <div className="mt-[16px] grid items-start gap-[14px] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="mt-[16px] grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
         <Card title={m.company.activity}>
           {canWrite ? (
             <div className="mb-[14px]">

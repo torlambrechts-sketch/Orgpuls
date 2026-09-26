@@ -53,7 +53,7 @@ export default async function AdminOrg({ params }: { params: Promise<{ id: strin
         <Badge tone={TONE[o.status]}>{t(`orgs.statusLabel.${o.status}`)}</Badge>
       </PageHead>
 
-      <div className="grid items-start gap-[14px] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
         <Card title={t('org.facts')}>
           <Row k={t('org.form')} v={o.registry_form_label ?? '—'} />
           <Row k={t('org.nace')} v={o.registry_nace_code ? `${o.registry_nace_code} ${o.registry_nace_label ?? ''}` : '—'} />

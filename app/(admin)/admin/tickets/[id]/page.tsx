@@ -54,7 +54,7 @@ export default async function AdminTicket({ params }: { params: Promise<{ id: st
         </span>
       </PageHead>
 
-      <div className="grid items-start gap-[14px] lg:[grid-template-columns:minmax(0,1.6fr)_minmax(0,1fr)]">
+      <div className="grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1.6fr)_minmax(0,1fr)]">
         <div className="flex min-w-0 flex-col gap-[14px]">
           <Card title={t('tickets.conversation')}>
             <ol className="m-0 flex list-none flex-col gap-[10px] p-0">

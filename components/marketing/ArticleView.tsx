@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { Blocks as BlocksSchema, wordCount } from '@/lib/marketing/blocks'
 import { article as articleLd, breadcrumbs, graph, organization } from '@/lib/marketing/schema'
-import { landingKey, type Article } from '@/lib/marketing/site'
+import { landingKey, type Article, articleImage } from '@/lib/marketing/site'
 import { ArticleCards } from './ArticleCards'
 import { Blocks } from './Blocks'
 import { CtaBand } from './CtaBand'
@@ -49,6 +49,7 @@ export async function ArticleView({ article: a }: { article: Article }) {
             published: a.published,
             modified: a.modified,
             words,
+            image: articleImage(a.slug),
           }),
           breadcrumbs([
             { name: t('seo.common.home'), path: '/' },

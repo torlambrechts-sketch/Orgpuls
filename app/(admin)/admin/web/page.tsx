@@ -103,7 +103,7 @@ export default async function AdminWeb({ searchParams }: { searchParams: Promise
         <p className="mb-0 mt-[10px] text-[12px] text-mut">{t('web.funnelNote')}</p>
       </Card>
 
-      <div className="mt-[16px] grid items-start gap-[14px] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="mt-[16px] grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
         <Card title={t('web.channels')}>
           <Table
             head={[t('web.channel.title'), t('web.sessions'), t('web.signups'), t('web.activated'), t('web.paid')]}

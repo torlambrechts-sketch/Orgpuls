@@ -27,7 +27,7 @@ export default async function CrmTemplates() {
     <>
       <PageHead title={m.templates.title} lead={m.templates.lead} />
       <CrmTabs current="templates" labels={m.tabs} />
-      <div className="grid items-start gap-[14px] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
         {data.rows.map((tpl) => {
           const r = renderCampaign(
             cat,

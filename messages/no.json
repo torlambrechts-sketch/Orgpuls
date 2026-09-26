@@ -6807,7 +6807,8 @@
       "signOut": "Sign out",
       "navLabel": "Admin",
       "crm": "CRM",
-      "health": "Account health"
+      "health": "Account health",
+      "seo": "Search and content"
     },
     "role": {
       "super_admin": "Super-admin",
@@ -7983,6 +7984,71 @@
         "signedIn": "signed in {days, plural, =0 {today} one {# day ago} other {# days ago}}",
         "rate": "last round {rate} % answered",
         "size": "{count} employees"
+      }
+    },
+    "seo": {
+      "title": "Search and content",
+      "lead": "Which pages bring visitors, signups and customers, how that moves against the period before, what Google shows us for, and who arrives from an AI assistant. Counted, never estimated.",
+      "period": "Period",
+      "gsc": {
+        "title": "Google Search Console",
+        "connected": "Connected",
+        "synced": "Last synced {date} · {rows} rows kept · data up to {latest}.",
+        "lastFailed": "The last sync failed: {code}.",
+        "notConnected": "Not connected",
+        "why": "Queries, impressions, click-through and position per page appear here once Search Console is connected. Google keeps 16 months; the sync keeps them for as long as you want.",
+        "steps": {
+          "s1": "In Google Cloud, create a service account and a JSON key for it, and enable the Search Console API.",
+          "s2": "In Search Console, add the service account's e-mail as a user with Restricted access to the orgpuls.com property.",
+          "s3": "In Supabase › Edge Functions › Secrets, set GSC_SERVICE_ACCOUNT to the JSON key and GSC_SITE to the property (sc-domain:orgpuls.com).",
+          "s4": "The daily sync at 05:23 fills this page; a backfill of 16 months can be asked for once."
+        }
+      },
+      "indexnow": {
+        "title": "IndexNow",
+        "last": "Last run {date}: {count, plural, =0 {nothing new to announce} one {# address announced} other {# addresses announced}}.",
+        "failed": "Last run {date} failed: {code}.",
+        "never": "Not run yet. It runs daily with the search sync.",
+        "note": "New and changed pages from the sitemap are announced to Bing, Yandex, Seznam and Naver the day they change. Google does not take IndexNow; it reads the sitemap."
+      },
+      "pages": {
+        "title": "Content performance",
+        "page": "Page",
+        "entries": "Entries",
+        "change": "vs before",
+        "organic": "From search",
+        "clicks": "Clicks",
+        "impressions": "Impressions",
+        "position": "Position",
+        "note": "Entries are sessions that began on the page in the last {days} days, against the {days} before. Signups, activated and paid count organisations whose first page it was. Clicks, impressions and position are Google's, when connected."
+      },
+      "decay": {
+        "title": "Losing traffic",
+        "now": "Now",
+        "before": "Before",
+        "pair": "{entries} entries · {clicks} clicks",
+        "none": "No page has lost 30 % of its traffic.",
+        "note": "A page that brought at least ten entries or ten search clicks in the previous period, and 30 % fewer now. Usually a sign to update it."
+      },
+      "ai": {
+        "title": "From AI assistants",
+        "source": "Source",
+        "none": "No visits from an AI assistant in the period.",
+        "note": "ChatGPT, Perplexity, Copilot, Gemini and Claude, by referrer or utm_source. The ChatGPT app often arrives as direct; “How did you hear of us” catches those. {count, plural, =0 {No organisation} one {# organisation} other {# organisations}} signed up from one."
+      },
+      "queries": {
+        "title": "Top search queries",
+        "query": "Query",
+        "ctr": "Click-through",
+        "page": "Page",
+        "more": "+ {count, plural, one {# more page} other {# more pages}}",
+        "empty": "Appears once Search Console is connected."
+      },
+      "cannibal": {
+        "title": "Queries two pages compete for",
+        "page": "{page}: {impressions} impressions, position {position}",
+        "none": "No query is split between two pages.",
+        "note": "Two or more of our pages each with at least ten impressions for the same query. Pick one to answer it and link the other to it."
       }
     }
   },

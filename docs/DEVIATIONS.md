@@ -4695,3 +4695,62 @@ Verified:
 - the dispatcher deployed and ran;
 - in the browser: the health page (views, reasons, qualified badge), the organisation's
   trial-mail card, and three rendered mails; no console errors.
+
+## D-106 — Search and content in the admin, IndexNow, a card per article
+
+Step 3 of X-063.
+
+- **Admin › Search and content** (`/admin/seo`, `admin_seo`). Roles: super-admin, marketing
+  and analyst.
+  - **Content performance.** Entries by landing page for the last 28 or 90 days, the change
+    against the period before, entries from search, and the signups, activated and paid
+    organisations whose first page it was.
+  - **Losing traffic.** Pages that brought at least 10 entries or 10 search clicks before,
+    and have 30 % fewer now.
+  - **From AI assistants.** Sessions by source, and signups.
+  - **Top queries, and queries two of our pages compete for.** Filled once Search Console
+    is connected.
+  - Everything the page shows is counted. Without Search Console the columns show "—" and
+    the cards say what connecting it adds; nothing is estimated.
+- **Google Search Console, built and waiting for a key.**
+  - `orgpuls-seo` (edge, daily at 03:23 UTC, the dispatcher's secret) signs a read-only
+    service-account token. It pulls rows by date, page, query, country and device into
+    `app.seo_search` (0061), which keeps them past Google's 16 months.
+  - Without `GSC_SERVICE_ACCOUNT` and `GSC_SITE` it records `not_configured`, and the page
+    lists the four steps to connect it.
+  - A query is Google's aggregate, already thresholded by Google. Log lines carry counts,
+    never a query.
+- **IndexNow.**
+  - The key is public by design and served at `/e02fe48ed85b382dcc8f874a523afff5.txt`,
+    listed among the middleware's public paths. A test keeps the key, the file and the
+    middleware in step.
+  - The daily run announces sitemap URLs whose `lastmod` falls in the last two days, one
+    request per host (www and en). `?indexnow=all` announces everything once.
+  - Google does not take IndexNow. Bing, Yandex, Seznam and Naver do.
+- **Not built:**
+  - **Bing Webmaster's API, including its AI Performance report.** It needs an API key from
+    a verified Bing Webmaster account, which is the owner's to create. IndexNow covers
+    Bing's discovery in the meantime.
+  - **Core Web Vitals from real visitors.** A web-vitals beacon would be one more thing
+    read from the device, and D-104's legal read should come first. Vercel Speed Insights
+    already measures them, in Vercel's dashboard.
+  - **llms.txt.** Google's own guidance (May 2026) lists it as unnecessary.
+  - **Author names on articles.** An article's author is Orgpuls AS. A named person would
+    have to be a real one who wrote it.
+- **Each article has its own card:** 1200 × 630, its H1 with its landing page's picture,
+  made by `scripts/marketing/og-images.mjs` into `public/og/artikler/`. It is used for
+  `og:image` and the Article JSON-LD `image`. The landing pages' cards are regenerated
+  byte-identical.
+- **The admin's two-column grids get an explicit single column below `lg`.** A table's
+  min-content width had pushed `/admin/web` and eight other pages sideways at 390 px. That
+  was a bug from before; this fixes all of them.
+
+Verified:
+- `seo_invariants.sql` 10/10, locally and on hosted, and all 35 suites plus
+  design_figures;
+- 4 unit tests: the JWT verifies against its public key, row mapping, sitemap and
+  IndexNow bodies, and the key file;
+- the function deployed;
+- in the browser: `/admin/seo` in its unconnected state; no sideways scroll at 390 px on
+  seo, web, health, crm, an organisation and the dashboard; the key file served with 200;
+- an article's `og:image`.

@@ -500,3 +500,33 @@ const LifecycleRow = z.object({
 })
 export type LifecycleRow = z.infer<typeof LifecycleRow>
 export const orgLifecycle = (org: string) => call('admin_org_lifecycle', { p_org: org }, z.object({ rows: z.array(LifecycleRow) }))
+
+// ---------------------------------------------------------------- search and content (0061, D-106)
+const SeoRun = z.object({ at: ts, kind: z.string(), ok: z.boolean(), count: num, error: z.string().nullable() }).nullable()
+const Seo = z.object({
+  days: num,
+  status: z.object({ gsc: SeoRun, gsc_last_ok: tsn, indexnow: SeoRun, rows: num, latest_day: z.string().nullable() }),
+  pages: z.array(
+    z.object({
+      page: z.string(),
+      entries: num,
+      entries_prev: num,
+      organic: num,
+      signups: num,
+      activated: num,
+      paid: num,
+      clicks: numn,
+      impressions: numn,
+      position: numn,
+      clicks_prev: numn,
+    }),
+  ),
+  decaying: z.array(z.object({ page: z.string(), entries: num, entries_prev: num, clicks: numn, clicks_prev: numn, lost: num })),
+  queries: z.array(z.object({ query: z.string(), clicks: num, impressions: num, position: numn, pages: num, top_page: z.string() })),
+  cannibal: z.array(z.object({ query: z.string(), impressions: num, pages: z.array(z.object({ page: z.string(), impressions: num, position: numn })) })),
+  ai: z.array(z.object({ source: z.string(), sessions: num })),
+  ai_signups: num,
+})
+export type Seo = z.infer<typeof Seo>
+export const SEO_PERIODS = [28, 90] as const
+export const seo = (days: number) => call('admin_seo', { p_days: days }, Seo)

@@ -82,6 +82,8 @@ export const ARTICLES: Article[] = [
 ]
 
 export const articleBySlug = (slug: string) => ARTICLES.find((a) => a.slug === slug) ?? null
+/** Each article's own card (scripts/marketing/og-images.mjs, D-106): its H1 and its landing page's picture. */
+export const articleImage = (slug: string) => `/og/artikler/${slug}.png`
 
 /** Which articles each landing page points to, so a reader who wants more has somewhere to go. */
 export const LANDING_ARTICLES: Record<LandingSlug, [string, string]> = {

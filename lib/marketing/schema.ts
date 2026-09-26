@@ -81,6 +81,8 @@ export const article = (a: {
   published: string
   modified: string
   words: number
+  /** the page's own card (public/og/...); the site's otherwise */
+  image?: string
 }) => ({
   '@type': 'Article',
   headline: a.headline,
@@ -90,7 +92,7 @@ export const article = (a: {
   dateModified: a.modified,
   wordCount: a.words,
   mainEntityOfPage: absolute(a.path),
-  image: absolute('/og.png'),
+  image: absolute(a.image ?? '/og.png'),
   author: { '@id': `${SITE_URL}/#organization` },
   publisher: { '@id': `${SITE_URL}/#organization` },
 })

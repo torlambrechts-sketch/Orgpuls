@@ -95,7 +95,7 @@ export default async function CrmContacts({ searchParams }: { searchParams: Prom
       </Card>
 
       {canWrite ? (
-        <div className="mt-[16px] grid items-start gap-[14px] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
+        <div className="mt-[16px] grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
           <Card title={m.add.title}>
             <p className="mb-[10px] mt-0 text-[12.5px] leading-[1.5] text-mut">{m.add.lead}</p>
             <ContactForm m={m} common={common} />

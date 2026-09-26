@@ -2008,8 +2008,13 @@ search data, and revenue figures. Step 1 is D-104. Three decisions shape the res
   open or click tracking, a row per organisation and step, re-checked before sending (D-105).
 - **A score shows its reasons.** Account health prints why beside the number, and the
   weights live in one expression, to be fitted once there are conversions.
+- **Connect, don't imitate.** A search source without credentials shows its empty state and the
+  steps to connect it, never a stand-in number (D-106).
 
 ## Open items
+- [ ] Google Search Console: create a service account, add it to the property, set
+  `GSC_SERVICE_ACCOUNT` and `GSC_SITE` in Supabase's function secrets (D-106).
+- [ ] Bing Webmaster Tools: verify orgpuls.com; an API key would add Copilot citations (D-106).
 - [ ] Legal read of `/personvernerklaering` (D-104), and of whether the cookieless beacon and
   Vercel Web Analytics need consent under ekomlov § 3-15 (the research found no regulator's
   ruling either way).

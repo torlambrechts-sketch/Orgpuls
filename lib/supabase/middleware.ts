@@ -79,6 +79,8 @@ const PUBLIC_PATHS = [
   '/artikler',
   '/sitemap.xml',
   '/robots.txt',
+  // IndexNow's key file (D-106): the key is public by design; tests/unit/seo.test.ts keeps it in step
+  '/e02fe48ed85b382dcc8f874a523afff5.txt',
   // the public site's analytics beacon (D-91)
   '/api/wv',
   // the newsletter: signup and confirmation, unsubscribing, and one-click unsubscribe (D-101)

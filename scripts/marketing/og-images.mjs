@@ -1,5 +1,6 @@
 /**
- * The card each landing page unfurls into on LinkedIn, Teams or Slack (D-85): 1200 x 630,
+ * The card each landing page and article unfurls into on LinkedIn, Teams or Slack (D-85,
+ * D-106): 1200 x 630,
  * the site's own type and colours, the page's H1, and the picture of the product that page
  * shows in its hero (lib/marketing/site LANDING_HERO, assets/produkt).
  *
@@ -9,7 +10,8 @@
  *   node scripts/marketing/og-images.mjs                     # every landing page
  *   node scripts/marketing/og-images.mjs --base http://localhost:3000
  *
- * Writes public/og/<slug>.png. Run it when a landing page's H1 or picture changes.
+ * Writes public/og/<slug>.png for a landing page and public/og/artikler/<slug>.png for an
+ * article (its H1, with its landing page's picture). Run it when an H1 or picture changes.
  */
 import { mkdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -33,6 +35,16 @@ const PAGES = [
   { slug: 'bygg-og-anlegg', key: 'byggOgAnlegg', shot: 'sporsmal' },
   { slug: 'helse-og-omsorg', key: 'helseOgOmsorg', shot: 'samtaler' },
 ]
+// each article with the landing page it belongs to, read from lib/marketing/site.ts
+const siteSrc = readFileSync('lib/marketing/site.ts', 'utf8')
+const shotOf = Object.fromEntries(PAGES.map((p) => [p.slug, p.shot]))
+const ARTICLE_CARDS = [...siteSrc.matchAll(/slug: '([^']+)',\s*key: '([^']+)',[\s\S]*?landing: '([^']+)'/g)].map((m) => ({
+  slug: m[1],
+  h1: no.seo.articles[m[2]].h1,
+  shot: shotOf[m[3]],
+  file: `artikler/${m[1]}.png`,
+}))
+if (ARTICLE_CARDS.length === 0 || ARTICLE_CARDS.some((a) => !a.h1 || !a.shot)) throw new Error('lib/marketing/site.ts ARTICLES changed shape')
 const PILLS = ['15 dager gratis', 'Dekker arbeidsmiljøloven', 'Anonymt – minst 5 svar']
 // the mark's own path and dot, read from the component rather than redrawn here
 const logoSrc = readFileSync('components/shell/Logo.tsx', 'utf8')
@@ -60,22 +72,22 @@ const html = (p) => {
 </style></head><body>
   <div class="left">
     <div class="brand"><span class="mark"><svg width="40" height="24" viewBox="0 0 20 12" fill="none"><path d="${markPath}" stroke="#191510" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="${markDot[1]}" cy="${markDot[2]}" r="${markDot[3]}" fill="#191510"/></svg></span>Orgpuls</div>
-    <h1>${esc(no.seo.lp[p.key].h1)}</h1>
+    <h1>${esc(p.h1 ?? no.seo.lp[p.key].h1)}</h1>
     <div class="pills">${PILLS.map((t) => `<span class="pill">${esc(t)}</span>`).join('')}</div>
   </div>
   <div class="shot"><img src="${img}"></div>
 </body></html>`
 }
 
-mkdirSync(out, { recursive: true })
+mkdirSync(join(out, 'artikler'), { recursive: true })
 const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-sandbox'] })
 const page = await b.newPage({ viewport: { width: 1200, height: 630 } })
 // written into a page on the server's own origin, so its font files are same-origin
 await page.goto(`${base}/robots.txt`)
-for (const p of PAGES) {
+for (const p of [...PAGES, ...ARTICLE_CARDS]) {
   await page.setContent(html(p), { waitUntil: 'networkidle' })
   await page.evaluate(() => document.fonts.ready)
-  const file = join(out, `${p.slug}.png`)
+  const file = join(out, p.file ?? `${p.slug}.png`)
   await page.screenshot({ path: file })
   console.log(file)
 }
