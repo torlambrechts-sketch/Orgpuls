@@ -14,6 +14,7 @@ describe('industry pages', () => {
     broken.challenges[0]!.measuredBy = { kind: 'module', itemCode: 'BA-XX-1' }
     broken.challenges[1]!.body += '{{cite:finnes_ikke}}'
     broken.launched = true
+    broken.law.items[0]!.reviewed = false
     const p = problemsOf(broken)
     expect(p.some((x) => x.includes('BA-XX-1'))).toBe(true)
     expect(p.some((x) => x.includes('finnes_ikke'))).toBe(true)
