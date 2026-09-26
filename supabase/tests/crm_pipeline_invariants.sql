@@ -17,6 +17,8 @@
 --   * only a published campaign that has gone out is on the web (15)
 --   * roles: support no, analyst reads, marketing writes (16)
 --   * nothing written here survives (17)
+--   * a contact can belong to a company; one contact leaves one list with a reason; the
+--     register picker learns which org.nr are known (18, 0058)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/crm_pipeline_invariants.sql
 
@@ -247,6 +249,22 @@ begin
     v_rows := v_rows || jsonb_build_object('seq', 16, 'name', 'support no; analyst reads only; marketing needs the second factor',
       'expected', 'not_allowed,ok,not_allowed,not_allowed,ok', 'actual', v_txt, 'pass', v_txt = 'not_allowed,ok,not_allowed,not_allowed,ok');
 
+    -- 18 --------------------------------------------------------------- 0058
+    perform set_config('request.jwt.claims', format(claims, v_mkt, 'aal2'), true);
+    select id into v_id from app.crm_companies where org_number = '999000001';
+    v_json := public.admin_crm_save_contact(null, jsonb_build_object('email', 'daglig.leder@probe-bygg.example', 'name', 'Probe Leder',
+      'consent_source', 'Møtt på messe', 'company_id', v_id));
+    v_txt := coalesce((select (c.company_id = v_id)::text from app.crm_contacts c where c.id = (v_json->>'id')::uuid), 'none');
+    perform public.admin_crm_list_add(v_list, array[(v_json->>'id')::uuid], 'Muntlig samtykke på messe');
+    v_txt := v_txt || ',' || coalesce(public.admin_crm_list_remove(v_list, (v_json->>'id')::uuid, 'x')->>'error', 'ok')
+      || ',' || coalesce(public.admin_crm_list_remove(v_list, (v_json->>'id')::uuid, 'Ba om å slippe produktnytt')->>'error', 'ok');
+    v_txt := v_txt || ',' || (select m.status from app.crm_list_members m where m.list_id = v_list and m.contact_id = (v_json->>'id')::uuid)
+      || ',' || (public.admin_crm_known_orgnrs(array['999000001', '123456789'])->'known')::text;
+    perform set_config('request.jwt.claims', '', true);
+    v_rows := v_rows || jsonb_build_object('seq', 18, 'name', 'a contact belongs to a company; leaving a list needs a reason; known org.nr are named',
+      'expected', 'true,reason_required,ok,unsubscribed,["999000001"]', 'actual', v_txt,
+      'pass', v_txt = 'true,reason_required,ok,unsubscribed,["999000001"]');
+
     raise exception 'rollback-probe';
   exception when others then
     if sqlerrm <> 'rollback-probe' then raise; end if;
@@ -269,7 +287,7 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._cpi;
   if v_failed is not null then raise exception 'crm pipeline invariants failed: %', v_failed; end if;
-  if v_count <> 17 then raise exception 'crm pipeline invariants: expected 17 rows, got %', v_count; end if;
+  if v_count <> 18 then raise exception 'crm pipeline invariants: expected 18 rows, got %', v_count; end if;
 end $$;
 
 drop table public._cpi;
