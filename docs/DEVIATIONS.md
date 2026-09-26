@@ -5257,3 +5257,52 @@ Norwegian stays the source; the English is a translation that travels with the v
 - **Not translated here:** the English law references in `legal_basis` are translations of
   Norwegian statute names, not an official English text, and are marked as such nowhere in
   the product. They are reviewed together with the English industry page (D-120).
+
+## D-120 — The industry pages in English, on en.orgpuls.com
+
+The user asked for "Engelske bransjesider". `/bygg-og-anlegg` and `/bygg-og-anlegg/sporsmal`
+now have an English twin, drawn by the same template from `content/industries/bygg-og-anlegg.en.ts`.
+
+- **One page per language, each launching on its own.**
+  - `INDUSTRIES` entries carry `page` and `pageEn`. Each has its own `launched`.
+  - Before launch, a language shows its page only with `?forhandsvis=1` (noindex).
+  - Otherwise en.orgpuls.com keeps the English landing page it had.
+- **The statements are the survey's.**
+  - `moduleFile(key, version, 'en')` lays the module file's `translations.en` over the
+    Norwegian: names, rationale, statements, suggestions, counts, segments, scale labels,
+    covered core factors. The English page therefore quotes exactly what an English
+    respondent is asked (D-119).
+  - Core statements are checked against `messages/en.json`.
+  - Source titles stay in their original language. They name reports, and a translated
+    title would not find them.
+- **Validation per language.** `assertIndustries` runs `problemsOf` on each page in its own
+  language. `twinProblems` refuses an English page that is on another module version, quotes
+  other statements, or prints other preview figures than the Norwegian one.
+- **The law.** The six English law items paraphrase Norwegian statute. The page says so ("the
+  English wording is ours, not an official translation"), and each item is `reviewed: false`.
+  The launch rule therefore keeps the English page from going live until they have been
+  checked. The Norwegian items stay reviewed; the English items do not inherit that.
+- **hreflang.**
+  - `/bygg-og-anlegg` keeps nb/en/x-default, since both languages have a page at that
+    address either way.
+  - `/…/sporsmal` names its twin only when both languages are launched (`pageMeta({ noTwin })`).
+    Until then it is canonical in its own language.
+  - The sitemap lists a question page per launched language, with alternates only when both
+    are.
+- **Lists** are joined with `Intl.ListFormat` in the page's language, so "a, b og c" becomes
+  "a, b and c". This replaces two hand-written Norwegian joins.
+- **Måleoppsett** links "See the questions" to the preview or the live page by the viewer's
+  language.
+
+Verified in the browser with `NEXT_LOCALE=en`:
+- both preview pages at 1280, 390 and 360 px: English throughout except source titles, one
+  h1, `lang="en"`, noindex, no sideways scroll, axe clean of serious and critical findings,
+  no console errors;
+- without the flag, `/bygg-og-anlegg` shows the English landing page as before, and
+  `/…/sporsmal` is 404.
+
+The existing English landing page `/bygg-og-anlegg` carries one axe `link-in-text-block`
+finding. It is in `LandingTemplate`, which this change does not touch, and is noted here
+rather than fixed out of scope.
+
+Unit tests: 180.

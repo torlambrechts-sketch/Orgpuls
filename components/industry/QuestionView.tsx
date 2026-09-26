@@ -2,7 +2,7 @@ import type { Route } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { citeOrder } from '@/content/industries/cites'
-import { moduleFile } from '@/content/industries/modules'
+import { listOf, moduleFile, type PageLang } from '@/content/industries/modules'
 import type { IndustryPage } from '@/content/industries/types'
 import { flag, type FlagName } from '@/lib/flags'
 import { CitedText } from './CitedText'
@@ -16,11 +16,17 @@ import { H2, IndustryCta, SEC, SourceList, WRAP } from './IndustryView'
  */
 const on = (f?: string) => !f || flag(f as FlagName)
 
-export async function QuestionView({ page }: { page: IndustryPage & { module: NonNullable<IndustryPage['module']>; questionPage: NonNullable<IndustryPage['questionPage']> } }) {
+export async function QuestionView({
+  page,
+  lang,
+}: {
+  page: IndustryPage & { module: NonNullable<IndustryPage['module']>; questionPage: NonNullable<IndustryPage['questionPage']> }
+  lang: PageLang
+}) {
   const t = await getTranslations('industry')
   const ts = await getTranslations()
   const q = page.questionPage
-  const mod = moduleFile(page.module.key, page.module.version)
+  const mod = moduleFile(page.module.key, page.module.version, lang)
   const moduleTitle = page.moduleName?.title ?? mod.name
 
   // a factor's rationale cites its sources in order; number them in reading order down the page
@@ -189,7 +195,7 @@ export async function QuestionView({ page }: { page: IndustryPage & { module: No
         </dl>
         {mod.relation_to_core?.covered_by_core_factors.length ? (
           <p className="mb-0 mt-[22px] max-w-[70ch] text-[14px] leading-[1.6] text-body">
-            {t('coreCovered', { list: mod.relation_to_core.covered_by_core_factors.join(', ').replace(/, ([^,]*)$/, ' og $1') })} {q.coreNote}
+            {t('coreCovered', { list: listOf(mod.relation_to_core.covered_by_core_factors, lang) })} {q.coreNote}
           </p>
         ) : null}
       </section>

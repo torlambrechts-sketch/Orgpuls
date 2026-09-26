@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { getLocale } from 'next-intl/server'
 import {
   MaleoppsettScreen,
   type GroupChoice,
@@ -11,7 +12,7 @@ import { getLatestSetupOfKind, getOrgQuestions, getRoundSetup } from '@/lib/setu
 import { getGroupStats } from '@/lib/settings/read'
 import { getWheel, wheelMonths } from '@/lib/wheel/read'
 import { INDUSTRY_META, industryForNace } from '@/content/industries/meta'
-import { getIndustry } from '@/content/industries'
+import { getIndustry, pageIn } from '@/content/industries'
 import { flag } from '@/lib/flags'
 import { getOrgNaceCode, getPublishedModules, getRoundModules, getModulesById } from '@/lib/modules/read'
 
@@ -43,6 +44,7 @@ export default async function MaleoppsettPage({
   searchParams: Promise<{ runde?: string; type?: string }>
 }) {
   const params = await searchParams
+  const locale = await getLocale()
   const kind = KINDS.includes(params.type ?? '') ? (params.type as string) : 'grunnlinje'
 
   const [org, role, rounds, instrument, orgQuestions, groupRows, wheel, roster] = await Promise.all([
@@ -184,7 +186,7 @@ export default async function MaleoppsettPage({
               countItems: m.countItems.length,
               minutes: m.estimatedMinutes,
               // before the page is launched its question page is a preview (D-118)
-              href: slug ? `/${slug}/sporsmal${getIndustry(slug)?.page?.launched ? '' : '?forhandsvis=1'}` : null,
+              href: slug ? `/${slug}/sporsmal${pageIn(getIndustry(slug), locale === 'en' ? 'en' : 'no')?.launched ? '' : '?forhandsvis=1'}` : null,
               factors: m.factors.map((f) => ({ key: f.key, name: f.name })),
               enabled: Boolean(row),
               includeCountItems: row ? row.includeCountItems : true,

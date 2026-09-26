@@ -4,8 +4,8 @@ import { getTranslations } from 'next-intl/server'
 import { Faq } from '@/components/start/Faq'
 import { SignupStart } from '@/components/marketing/SignupStart'
 import { citeOrder } from '@/content/industries/cites'
-import { INDUSTRIES } from '@/content/industries'
-import { moduleFile } from '@/content/industries/modules'
+import { getIndustry, pageIn } from '@/content/industries'
+import { listOf, moduleFile, type PageLang } from '@/content/industries/modules'
 import type { IndustryPage, ResultPreview } from '@/content/industries/types'
 import { flag, type FlagName } from '@/lib/flags'
 import type { ModuleFile } from '@/lib/modules/schema'
@@ -26,10 +26,18 @@ const on = (f?: string) => !f || flag(f as FlagName)
 /** The band colour of a result cell, as Resultater draws bands: mint ≥65, yellow 50–64, peach below. */
 const cell = (v: number) => (v >= 65 ? 'bg-mint' : v >= 50 ? 'bg-sbg' : 'bg-peach')
 
-export async function IndustryView({ page, core }: { page: IndustryPage; core: (key: string, ordinal: number) => { factor: string; text: string } }) {
+export async function IndustryView({
+  page,
+  core,
+  lang,
+}: {
+  page: IndustryPage
+  core: (key: string, ordinal: number) => { factor: string; text: string }
+  lang: PageLang
+}) {
   const t = await getTranslations('industry')
   const ts = await getTranslations()
-  const mod = page.module ? moduleFile(page.module.key, page.module.version) : null
+  const mod = page.module ? moduleFile(page.module.key, page.module.version, lang) : null
   const itemOf = (code: string) => {
     for (const f of mod?.factors ?? []) {
       const i = f.items.find((x) => x.id === code)
@@ -197,7 +205,7 @@ export async function IndustryView({ page, core }: { page: IndustryPage; core: (
           </ul>
           {mod.relation_to_core?.covered_by_core_factors.length ? (
             <p className="mb-0 mt-[22px] max-w-[70ch] text-[14px] leading-[1.6] text-body">
-              {t('coreCovered', { list: listOf(mod.relation_to_core.covered_by_core_factors) })} {page.moduleOverview.coreNote}{' '}
+              {t('coreCovered', { list: listOf(mod.relation_to_core.covered_by_core_factors, lang) })} {page.moduleOverview.coreNote}{' '}
               <Link href={`/${page.slug}/sporsmal${qp}` as Route} className="font-semibold underline underline-offset-[3px]">
                 {t('seeQuestions')}
               </Link>
@@ -253,7 +261,7 @@ export async function IndustryView({ page, core }: { page: IndustryPage; core: (
                   href={`/${r}` as Route}
                   className="inline-block rounded-pill border border-line bg-sf px-[12px] py-[7px] text-[13px] font-semibold text-ink no-underline hover:border-ink hover:text-ink"
                 >
-                  {INDUSTRIES.find((i) => i.slug === r)?.page?.navLabel ?? ts(`seo.lp.${r.replace(/-(\w)/g, (_, c: string) => c.toUpperCase())}.crumb`)}
+                  {pageIn(getIndustry(r), lang)?.navLabel ?? ts(`seo.lp.${r.replace(/-(\w)/g, (_, c: string) => c.toUpperCase())}.crumb`)}
                 </Link>
               </li>
             ))}
@@ -266,7 +274,6 @@ export async function IndustryView({ page, core }: { page: IndustryPage; core: (
 
 type T = Awaited<ReturnType<typeof getTranslations<'industry'>>>
 
-const listOf = (xs: string[]) => (xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} og ${xs.at(-1)}`)
 
 function PreviewBoard({ preview, mod, moduleTitle, t }: { preview: ResultPreview; mod: ModuleFile; moduleTitle: string; t: T }) {
   return (

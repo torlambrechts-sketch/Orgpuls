@@ -22,6 +22,16 @@ const entry = (path: string, rest: Omit<MetadataRoute.Sitemap[number], 'url' | '
     ...rest,
   }
 }
+function questionPages(): MetadataRoute.Sitemap {
+  const no = liveQuestionPages('no')
+  const en = liveQuestionPages('en')
+  const rest = { changeFrequency: 'monthly' as const, priority: 0.6 }
+  return [
+    ...no.map((s) => (en.includes(s) ? entry(`/${s}/sporsmal`, rest) : { url: `${MAIN_URL}/${s}/sporsmal`, ...rest })),
+    ...en.filter((s) => !no.includes(s)).map((s) => ({ url: `${EN_URL}/${s}/sporsmal`, ...rest })),
+  ]
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const issues = await archive()
   const newest = ARTICLES.map((a) => a.modified)
@@ -31,8 +41,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entry('/', { changeFrequency: 'monthly', priority: 1 }),
     ...SITE_PAGES.map((p) => entry(`/${p.slug}`, { changeFrequency: 'monthly', priority: 0.8 })),
     ...LANDING_PAGES.map((s) => entry(`/${s}`, { changeFrequency: 'monthly', priority: 0.8 })),
-    // an industry's question page, once launched: Norwegian only, so no English twin (D-118)
-    ...liveQuestionPages().map((s) => ({ url: `${MAIN_URL}/${s}/sporsmal`, changeFrequency: 'monthly' as const, priority: 0.6 })),
+    // an industry's question page, per language once launched there; a twin only when both are (D-118, D-120)
+    ...questionPages(),
     entry('/artikler', { lastModified: newest, changeFrequency: 'weekly', priority: 0.7 }),
     ...ARTICLES.map((a) => entry(`/artikler/${a.slug}`, { lastModified: a.modified, changeFrequency: 'monthly', priority: 0.6 })),
     entry('/nyhetsbrev', { changeFrequency: 'yearly', priority: 0.4 }),

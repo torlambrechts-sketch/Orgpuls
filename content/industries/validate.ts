@@ -1,6 +1,7 @@
+import en from '@/messages/en.json'
 import no from '@/messages/no.json'
 import { INDUSTRIES } from './index'
-import { moduleFile } from './modules'
+import { moduleFile, type PageLang } from './modules'
 import type { IndustryPage } from './types'
 
 /**
@@ -12,13 +13,16 @@ import type { IndustryPage } from './types'
  */
 const CITE = /\{\{cite:([a-z0-9_]+)\}\}/g
 
-export function problemsOf(page: IndustryPage): string[] {
+export function problemsOf(page: IndustryPage, lang: PageLang = 'no'): string[] {
   const out: string[] = []
-  const mod = page.module ? moduleFile(page.module.key, page.module.version) : null
+  const mod = page.module ? moduleFile(page.module.key, page.module.version, lang) : null
+  if (lang === 'en' && page.module && !moduleFile(page.module.key, page.module.version).translations?.en) {
+    out.push('an English page on a module without an English translation')
+  }
   const codes = new Set(mod?.factors.flatMap((f) => f.items.map((i) => i.id)) ?? [])
   const factorKeys = new Set(mod?.factors.map((f) => f.id) ?? [])
   const sources = new Set([...(mod?.sources.map((s) => s.key) ?? []), ...(page.extraSources?.map((s) => s.key) ?? [])])
-  const core = (no as unknown as { factor: Record<string, Record<string, string>> }).factor
+  const core = ((lang === 'en' ? en : no) as unknown as { factor: Record<string, Record<string, string>> }).factor
 
   const cites = (text: string, where: string) => {
     for (const m of text.matchAll(CITE)) if (!sources.has(m[1] ?? '')) out.push(`${where}: no source "${m[1]}"`)
@@ -51,7 +55,22 @@ export function problemsOf(page: IndustryPage): string[] {
   return out
 }
 
+/** Two pages of one industry must describe the same thing: the same module, the same quoted statements */
+export function twinProblems(no: IndustryPage, en: IndustryPage): string[] {
+  const out: string[] = []
+  if (no.slug !== en.slug) out.push('English page has another slug')
+  if (JSON.stringify(no.module) !== JSON.stringify(en.module)) out.push('English page is on another module version')
+  const measured = (p: IndustryPage) => JSON.stringify(p.challenges.map((c) => c.measuredBy))
+  if (measured(no) !== measured(en)) out.push('English page quotes other statements')
+  if (JSON.stringify(no.hero.preview?.rows) !== JSON.stringify(en.hero.preview?.rows)) out.push('English preview has other figures')
+  return out
+}
+
 export function assertIndustries(): void {
-  const all = INDUSTRIES.flatMap((i) => (i.page ? problemsOf(i.page).map((p) => `${i.slug}: ${p}`) : []))
+  const all = INDUSTRIES.flatMap((i) => [
+    ...(i.page ? problemsOf(i.page).map((p) => `${i.slug}: ${p}`) : []),
+    ...(i.pageEn ? problemsOf(i.pageEn, 'en').map((p) => `${i.slug} (en): ${p}`) : []),
+    ...(i.page && i.pageEn ? twinProblems(i.page, i.pageEn).map((p) => `${i.slug} (en): ${p}`) : []),
+  ])
   if (all.length) throw new Error(`industry pages are not valid:\n  ${all.join('\n  ')}`)
 }

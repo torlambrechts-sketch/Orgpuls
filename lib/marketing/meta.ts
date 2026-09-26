@@ -20,6 +20,8 @@ export async function pageMeta(m: {
   image?: string
   /** a page written in Norwegian only (a newsletter issue): canonical on www, no English twin (D-104) */
   norwegianOnly?: boolean
+  /** a page that exists in this language but whose twin is not live yet: canonical here, no hreflang (D-120) */
+  noTwin?: boolean
 }): Promise<Metadata> {
   const en = (await getLocale()) === 'en' && !m.norwegianOnly
   const path = m.path || '/'
@@ -28,7 +30,7 @@ export async function pageMeta(m: {
   return {
     title: { absolute: m.title },
     description: m.description,
-    alternates: m.norwegianOnly
+    alternates: m.norwegianOnly || m.noTwin
       ? { canonical: url }
       : {
           canonical: url,

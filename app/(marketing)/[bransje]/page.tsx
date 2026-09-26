@@ -4,9 +4,10 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import { IndustryView } from '@/components/industry/IndustryView'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { LandingTemplate } from '@/components/marketing/LandingTemplate'
-import { getIndustry, INDUSTRIES } from '@/content/industries'
+import { getIndustry, INDUSTRIES, pageIn } from '@/content/industries'
 import { stripCites } from '@/content/industries/cites'
 import type { IndustryPage } from '@/content/industries/types'
+import type { PageLang } from '@/content/industries/modules'
 import { assertIndustries } from '@/content/industries/validate'
 import { flag, type FlagName } from '@/lib/flags'
 import { pageMeta } from '@/lib/marketing/meta'
@@ -18,12 +19,12 @@ import { absolute, landingKey, type LandingSlug } from '@/lib/marketing/site'
  * /helse-og-omsorg, from content/industries. Only the registry's slugs exist; the build fails
  * if a page quotes a statement its module does not have (assertIndustries).
  *
- * Which page a visitor gets:
- *   - an industry with a page that is launched, on the Norwegian site: the industry template;
+ * Which page a visitor gets, in the site's language (www Norwegian, en.orgpuls.com English):
+ *   - an industry with a page in that language that is launched: the industry template;
  *   - the same before launch, only with ?forhandsvis=1, marked noindex, so it can be reviewed
  *     without the public site describing a module nobody can buy yet;
- *   - otherwise, and always on en.orgpuls.com: the landing page the address had before, whose
- *     words are messages in both languages (seo.lp.*).
+ *   - otherwise: the landing page the address had before, whose words are messages in both
+ *     languages (seo.lp.*). Each language launches on its own (D-120).
  */
 export const dynamicParams = false
 
@@ -39,9 +40,10 @@ async function resolve(props: Props) {
   const entry = getIndustry(bransje)
   if (!entry) notFound()
   const preview = (await props.searchParams).forhandsvis === '1'
-  const en = (await getLocale()) === 'en'
-  const page = entry.page && !en && (entry.page.launched || preview) ? entry.page : null
-  return { slug: entry.slug, page, preview: preview && !!page && !page.launched }
+  const lang: PageLang = (await getLocale()) === 'en' ? 'en' : 'no'
+  const own = pageIn(entry, lang)
+  const page = own && (own.launched || preview) ? own : null
+  return { slug: entry.slug, page, lang, preview: preview && !!page && !page.launched }
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
@@ -56,7 +58,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 }
 
 export default async function IndustryRoute(props: Props) {
-  const { slug, page, preview } = await resolve(props)
+  const { slug, page, lang, preview } = await resolve(props)
   if (!page) return <LandingTemplate slug={slug as LandingSlug} />
 
   const t = await getTranslations()
@@ -68,7 +70,7 @@ export default async function IndustryRoute(props: Props) {
       <JsonLd
         data={graph(
           organization(),
-          { '@type': 'WebPage', url: absolute(`/${slug}`), name: page.seo.title, description: page.seo.description, inLanguage: 'nb-NO' },
+          { '@type': 'WebPage', url: absolute(`/${slug}`), name: page.seo.title, description: page.seo.description, inLanguage: lang === 'en' ? 'en' : 'nb-NO' },
           breadcrumbs([
             { name: t('seo.common.home'), path: '/' },
             { name: t('seo.pages.bruksomrader.crumb'), path: '/bruksomrader' },
@@ -78,7 +80,7 @@ export default async function IndustryRoute(props: Props) {
         )}
       />
       {preview ? <PreviewBanner text={t('industry.preview')} /> : null}
-      <IndustryView page={page as IndustryPage} core={core} />
+      <IndustryView page={page as IndustryPage} core={core} lang={lang} />
     </>
   )
 }
