@@ -170,11 +170,15 @@ Avtalen er månedlig og har ingen bindingstid.
   30 dager, med mindre lov krever at de lagres. Rapporter dere har lastet ned, beholder
   dere. Last dem ned før avtalen avsluttes.
 
-> **[SJEKK — viktig:** Nettsiden (FAQ: «Sier dere opp, sletter vi svarene etter 30 dager»)
-> og databehandleravtalen punkt 11 lover allerede sletting innen 30 dager. Produktet har i
-> dag ingen oppsigelsesfunksjon og ingen automatisk sletting av en avsluttet virksomhet.
-> Før vilkårene publiseres, trengs enten en fast manuell rutine (hvem gjør det, og hvordan
-> det dokumenteres) eller en funksjon. Løftet må kunne holdes.]
+> **Status for sletting (oppdatert 26. september 2026, D-108):** rutinen finnes nå.
+> - Kundestøtte registrerer oppsigelsen med siste avtaledag.
+> - Fra dagen etter kan kunden lese og laste ned, men ikke starte nye målinger.
+> - Daglig leder får e-post ved registrering og en uke før sletting, og ser en melding i
+>   appen.
+> - 30 dager etter avtalens slutt slettes alt automatisk, og slettingen logges.
+>
+> **[BESLUTNING]** som gjenstår: skal kunden også kunne si opp med en knapp i Orgpuls, eller
+> bare skriftlig til hjelp@orgpuls.no?
 
 ## 11. Endringer i vilkårene
 
@@ -216,7 +220,7 @@ eller nettsiden endres også, ikke bare teksten.
 | Faktura på e-post eller EHF, første faktura når prøveperioden er over | Oppsett › Betaling |
 | Minst fem svar, grensen kan bare heves | CLAUDE.md invariant 1, `/sikkerhet` |
 | Databehandleravtalen går foran for personopplysninger | databehandleravtalen punkt 13 |
-| Sletting innen 30 dager etter opphør | databehandleravtalen punkt 11, FAQ på forsiden — **ikke implementert, se punkt 10** |
+| Sletting innen 30 dager etter opphør | databehandleravtalen punkt 11, FAQ på forsiden; utført av en daglig jobb og logget (D-108) |
 | Kundestøtte på hjelp@orgpuls.no | kontaktsiden, Hjelp |
 
 Beslutninger som trengs, samlet:
@@ -233,4 +237,4 @@ Beslutninger som trengs, samlet:
 
 Opplysninger som mangler: organisasjonsnummer og forretningsadresse for Orgpuls AS.
 
-Må sjekkes: vilkårene for QPS Nordic, og rutinen for sletting etter oppsigelse.
+Må sjekkes: vilkårene for QPS Nordic.

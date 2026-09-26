@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { ExtendTrialForm, NoteForm } from '@/components/admin/ActionForms'
+import { CancelForm, DeleteNowForm, WithdrawForm } from '@/components/admin/CancelForms'
 import { ALink, Badge, Card, day, nok, PageHead, pct, Problem, Table, Td, when, type BadgeTone } from '@/components/admin/ui'
 import { canSee } from '@/lib/admin/access'
-import { auditList, emailLog, isError, orgAttribution, orgDetail, orgLifecycle, orgTickets, STATUSES, whoami } from '@/lib/admin/api'
+import { auditList, emailLog, isError, orgAttribution, orgCancellation, orgDetail, orgLifecycle, orgTickets, STATUSES, whoami } from '@/lib/admin/api'
 import { STATUS_TONE } from '@/components/admin/tones'
 
 const TONE: Record<(typeof STATUSES)[number], BadgeTone> = { trial: 'yellow', grace: 'red', read_only: 'grey', active: 'green' }
@@ -24,6 +25,8 @@ export default async function AdminOrg({ params }: { params: Promise<{ id: strin
     return <Problem text={d.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   }
   const support = who?.role === 'super_admin' || who?.role === 'support'
+  const billingRole = support || who?.role === 'finance'
+  const cancel = billingRole ? await orgCancellation(id) : null
   const [mail, trail, cases, life] = support
     ? await Promise.all([emailLog(id), auditList(id, 100), orgTickets(id), orgLifecycle(id)])
     : [null, null, null, null]
@@ -188,6 +191,73 @@ export default async function AdminOrg({ params }: { params: Promise<{ id: strin
           </ul>
         </Card>
       </div>
+
+      {cancel && !isError(cancel) && cancel.row ? (
+        <Card title={t('org.cancel.title')} className="mt-[14px]">
+          {cancel.row.cancelled_at && cancel.row.effective_at && cancel.row.deletion_due_at ? (
+            <>
+              <Row k={t('org.cancel.registered')} v={`${when(cancel.row.cancelled_at)}${cancel.row.cancelled_by ? ` · ${cancel.row.cancelled_by}` : ''}`} />
+              <Row k={t('org.cancel.lastDay')} v={day(new Date(new Date(cancel.row.effective_at).getTime() - 1000).toISOString())} />
+              <Row k={t('org.cancel.deletion')} v={day(cancel.row.deletion_due_at)} />
+              <p className="mb-0 mt-[8px] text-[12px] text-mut">{t('org.cancel.after')}</p>
+              <div className="mt-[14px] grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1.3fr)]">
+                <div>
+                  <h3 className="m-0 mb-[6px] text-[13.5px] font-bold">{t('org.cancel.withdraw')}</h3>
+                  <WithdrawForm
+                    org={o.id}
+                    labels={{
+                      submit: t('org.cancel.withdrawSubmit'),
+                      reason: t('common.reason'),
+                      reasonHint: t('common.reasonHint'),
+                      saving: t('common.saving'),
+                      done: t('common.done'),
+                      problems: { ...problems, not_cancelled: t('org.cancel.problem.not_cancelled') },
+                    }}
+                  />
+                </div>
+                {who?.role === 'super_admin' ? (
+                  <DeleteNowForm
+                    org={o.id}
+                    labels={{
+                      lead: t('org.cancel.nowLead', { number: cancel.row.org_number ?? o.name }),
+                      confirm: t('org.cancel.confirm'),
+                      submit: t('org.cancel.nowSubmit'),
+                      reason: t('common.reason'),
+                      reasonHint: t('common.reasonHint'),
+                      saving: t('common.saving'),
+                      done: t('common.done'),
+                      problems: {
+                        ...problems,
+                        confirm_mismatch: t('org.cancel.problem.confirm_mismatch'),
+                        not_cancelled: t('org.cancel.problem.not_cancelled'),
+                      },
+                    }}
+                  />
+                ) : null}
+              </div>
+            </>
+          ) : (
+            <CancelForm
+              org={o.id}
+              defaultEnds={endOfMonth()}
+              labels={{
+                lead: t('org.cancel.lead'),
+                ends: t('org.cancel.ends'),
+                submit: t('org.cancel.submit'),
+                reason: t('common.reason'),
+                reasonHint: t('common.reasonHint'),
+                saving: t('common.saving'),
+                done: t('common.done'),
+                problems: {
+                  ...problems,
+                  invalid_date: t('org.cancel.problem.invalid_date'),
+                  already_cancelled: t('org.cancel.problem.already_cancelled'),
+                },
+              }}
+            />
+          )}
+        </Card>
+      ) : null}
 
       {cases && !isError(cases) ? (
         <Card title={t('org.tickets')} className="mt-[14px]">
@@ -384,4 +454,11 @@ export default async function AdminOrg({ params }: { params: Promise<{ id: strin
       ) : null}
     </>
   )
+}
+
+/** The last day of this month in Oslo: "at the end of the current month", the usual notice (docs/legal/vilkar-utkast.md § 10). */
+function endOfMonth(): string {
+  const [y, m] = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo', year: 'numeric', month: '2-digit' }).format(new Date()).split('-').map(Number)
+  const last = new Date(Date.UTC(y!, m!, 0))
+  return last.toISOString().slice(0, 10)
 }

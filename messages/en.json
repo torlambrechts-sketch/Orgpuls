@@ -2638,6 +2638,19 @@
         "lead": "From {date}, {org} can read all results and reports, but not start new surveys, until a plan is chosen.",
         "more": "A survey that is already open finishes as planned. Choose a plan and everything is back at once.",
         "cta": "Choose a plan"
+      },
+      "footerCancelled": "You are getting this e-mail because {org} has cancelled Orgpuls. Reply to it if something is wrong – it reaches us.",
+      "cancelled": {
+        "subject": "Cancellation registered – everything is deleted on {deleted}",
+        "lead": "We have registered the cancellation for {org}. The agreement runs until and including {ends}. After that you can sign in and read everything, but not start new surveys.",
+        "more": "On {deleted} we delete all of {org}'s data: the employee list, the answers, the comments, the measures and the users. Download the report as PDF before then, so you keep the documentation. If the cancellation was a mistake, reply to this e-mail.",
+        "cta": "Download the report"
+      },
+      "deletion_soon": {
+        "subject": "In a week, everything in Orgpuls is deleted",
+        "lead": "On {deleted} we delete all of {org}'s data in Orgpuls, as agreed when you cancelled.",
+        "more": "If you have not downloaded the report yet, do it now. After the deletion neither you nor we can bring anything back.",
+        "cta": "Download the report"
       }
     }
   },
@@ -7065,6 +7078,27 @@
           "failed": "Failed",
           "skipped": "Skipped"
         }
+      },
+      "cancel": {
+        "title": "Cancellation and deletion",
+        "lead": "Register a cancellation the customer has sent. From the day after the last day the organisation is read-only: members can read and download everything, but start nothing. Thirty days after that, everything is deleted. The daglig leder is told by e-mail when it is registered and a week before deletion.",
+        "ends": "Last day",
+        "submit": "Register cancellation",
+        "registered": "Registered",
+        "lastDay": "Last day of the agreement",
+        "deletion": "Deleted on",
+        "after": "The daily run (02:40 UTC) deletes the organisation, its surveys, answers, people and member accounts, its support tickets and the CRM contacts known only through it, and writes the deletion log.",
+        "withdraw": "Withdraw the cancellation",
+        "withdrawSubmit": "Withdraw",
+        "nowLead": "Delete now, for an erasure request. This cannot be undone. Type {number} to confirm.",
+        "confirm": "Organisation number",
+        "nowSubmit": "Delete everything now",
+        "problem": {
+          "invalid_date": "Choose a last day from today and within a year.",
+          "already_cancelled": "A cancellation is already registered.",
+          "not_cancelled": "No cancellation is registered.",
+          "confirm_mismatch": "The number does not match this organisation."
+        }
       }
     },
     "users": {
@@ -8105,6 +8139,23 @@
         "direct": "Direct",
         "other": "Other"
       }
+    },
+    "deletions": {
+      "title": "Cancellations and deletions",
+      "pending": "Registered, not yet deleted",
+      "done": "Deleted",
+      "org": "Organisation",
+      "orgnr": "Org.nr",
+      "lastDay": "Last day",
+      "due": "Deleted on",
+      "deletedAt": "Deleted",
+      "by": "By",
+      "counts": "What was deleted",
+      "schedule": "Daily run",
+      "noPending": "No cancellation is waiting.",
+      "noDone": "Nothing has been deleted yet.",
+      "note": "The log keeps the organisation number and name, the dates, who ran it and how many rows of each kind: the record that the promise in the data processing agreement (§ 11) was kept. It holds no person's data.",
+      "countsLine": "{responses} answers · {employees} employees · {accounts} accounts · {tickets} tickets"
     }
   },
   "access": {
@@ -8113,7 +8164,12 @@
     "readOnlyHead": "Read-only access.",
     "readOnlyBody": "The trial ended on {end}, and the subscription is not confirmed. You can read results and reports, and a survey already running will finish. New surveys are sent once the subscription is confirmed.",
     "confirm": "Confirm subscription",
-    "askLeader": "The managing director confirms the subscription under Settings › Payment."
+    "askLeader": "The managing director confirms the subscription under Settings › Payment.",
+    "cancelledHead": "The agreement has been cancelled.",
+    "cancelledBody": "It runs until and including {ends}, and all data is deleted on {deleted}. Download the report before then.",
+    "endedHead": "The agreement has ended.",
+    "endedBody": "You can read and download everything until {deleted}. Then all data is deleted and cannot be brought back.",
+    "download": "Download the report"
   },
   "newsletter": {
     "badge": "Newsletter",

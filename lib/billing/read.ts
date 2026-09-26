@@ -52,6 +52,9 @@ const AccessState = z.object({
   access: z.enum(['trial', 'grace', 'read_only', 'active']),
   trial_ends_at: z.string(),
   read_only_from: z.string(),
+  // a cancellation (0064, D-108): when the agreement ends, and when everything is deleted
+  cancel_effective_at: z.string().nullable().optional(),
+  deletion_due_at: z.string().nullable().optional(),
 })
 export type AccessState = z.infer<typeof AccessState>
 

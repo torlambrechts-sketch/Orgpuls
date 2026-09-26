@@ -18,6 +18,9 @@ const job = (step: LifecycleStep, lang: 'no' | 'en', org = 'Nordvik Anlegg AS'):
   k: 5,
   trial_ends_at: '2026-10-11T08:00:00Z',
   read_only_from: '2026-10-25T08:00:00Z',
+  // the agreement's last day is 31 October: it ends at midnight after it, in Oslo
+  cancel_effective_at: '2026-10-31T23:00:00Z',
+  deletion_due_at: '2026-11-30T23:00:00Z',
 })
 
 describe('trial mail (D-105)', () => {
@@ -41,6 +44,14 @@ describe('trial mail (D-105)', () => {
   it('the dates are the trial end, then the read-only date', () => {
     expect(renderLifecycle(cat, job('trial_ending', 'no'), APP).subject).toBe('Prøveperioden slutter 11. oktober')
     expect(renderLifecycle(cat, job('read_only_soon', 'en'), APP).subject).toBe('From 25 October you can only read')
+  })
+
+  it('a cancellation names the last day and the deletion day, in Oslo', () => {
+    const r = renderLifecycle(cat, job('cancelled', 'no'), APP)
+    expect(r.subject).toBe('Oppsigelsen er registrert – alt slettes 1. desember')
+    expect(r.text).toContain('til og med 31. oktober')
+    expect(r.text).toContain('har sagt opp Orgpuls')
+    expect(() => renderLifecycle(cat, { ...job('deletion_soon', 'en'), deletion_due_at: null }, APP)).toThrow()
   })
 
   it('an organisation name is escaped in markup', () => {

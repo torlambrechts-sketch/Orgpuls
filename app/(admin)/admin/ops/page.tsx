@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server'
-import { ALink, Card, PageHead, pct, Problem, Stat, Table, Td, when } from '@/components/admin/ui'
-import { deliverability, isError, ops } from '@/lib/admin/api'
+import { ALink, Card, day, PageHead, pct, Problem, Stat, Table, Td, when } from '@/components/admin/ui'
+import { deletions, deliverability, isError, ops } from '@/lib/admin/api'
 
 /**
  * Operations (D-90): deliverability from the provider's delivery events (D-97), the scheduler's
@@ -8,7 +8,7 @@ import { deliverability, isError, ops } from '@/lib/admin/api'
  */
 export default async function AdminOps() {
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
-  const [res, dv] = await Promise.all([ops(), deliverability(30)])
+  const [res, dv, del] = await Promise.all([ops(), deliverability(30), deletions()])
   if (isError(res)) return <Problem text={res.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
 
   return (
@@ -150,6 +150,53 @@ export default async function AdminOps() {
           ))}
         </Table>
       </Card>
+
+      {isError(del) ? null : (
+        <section id="deletions" className="mt-[14px] scroll-mt-[20px]">
+          <Card title={t('deletions.title')}>
+            <h3 className="m-0 mb-[6px] text-[13.5px] font-bold">{t('deletions.pending')}</h3>
+            <Table
+              head={[t('deletions.org'), t('deletions.orgnr'), t('deletions.lastDay'), t('deletions.due')]}
+              empty={del.pending.length ? undefined : t('deletions.noPending')}
+            >
+              {del.pending.map((p) => (
+                <tr key={p.org_id}>
+                  <Td>
+                    <ALink href={`/admin/orgs/${p.org_id}`}>{p.name}</ALink>
+                  </Td>
+                  <Td>{p.org_number ?? '—'}</Td>
+                  <Td>{day(new Date(new Date(p.effective_at).getTime() - 1000).toISOString())}</Td>
+                  <Td>{day(p.deletion_due_at)}</Td>
+                </tr>
+              ))}
+            </Table>
+            <h3 className="mb-[6px] mt-[16px] text-[13.5px] font-bold">{t('deletions.done')}</h3>
+            <Table
+              head={[t('deletions.org'), t('deletions.orgnr'), t('deletions.due'), t('deletions.deletedAt'), t('deletions.by'), t('deletions.counts')]}
+              empty={del.done.length ? undefined : t('deletions.noDone')}
+            >
+              {del.done.map((d, i) => (
+                <tr key={i}>
+                  <Td className="font-semibold">{d.name}</Td>
+                  <Td>{d.org_number ?? '—'}</Td>
+                  <Td>{day(d.deletion_due_at)}</Td>
+                  <Td>{when(d.deleted_at)}</Td>
+                  <Td>{d.run_by === 'schedule' ? t('deletions.schedule') : (d.admin ?? '—')}</Td>
+                  <Td className="text-[12px]">
+                    {t('deletions.countsLine', {
+                      responses: d.counts.responses ?? 0,
+                      employees: d.counts.employees ?? 0,
+                      accounts: d.counts.accounts ?? 0,
+                      tickets: d.counts.tickets ?? 0,
+                    })}
+                  </Td>
+                </tr>
+              ))}
+            </Table>
+            <p className="mb-0 mt-[10px] text-[12px] text-mut">{t('deletions.note')}</p>
+          </Card>
+        </section>
+      )}
     </>
   )
 }

@@ -2638,6 +2638,19 @@
         "lead": "Fra {date} kan {org} lese alle resultater og rapporter, men ikke starte nye målinger, før en plan er valgt.",
         "more": "En måling som allerede er åpen, går ferdig som planlagt. Velger dere en plan, er alt tilbake med en gang.",
         "cta": "Velg plan"
+      },
+      "footerCancelled": "Du får denne e-posten fordi {org} har sagt opp Orgpuls. Svar på den hvis noe er feil – den kommer fram til oss.",
+      "cancelled": {
+        "subject": "Oppsigelsen er registrert – alt slettes {deleted}",
+        "lead": "Vi har registrert oppsigelsen for {org}. Avtalen gjelder til og med {ends}. Etter det kan dere logge inn og lese alt, men ikke starte nye målinger.",
+        "more": "{deleted} sletter vi alle opplysningene til {org}: ansattlisten, svarene, kommentarene, tiltakene og brukerne. Last ned rapporten som PDF før det, så har dere dokumentasjonen. Var oppsigelsen en feil, svar på denne e-posten.",
+        "cta": "Last ned rapporten"
+      },
+      "deletion_soon": {
+        "subject": "Om en uke slettes alt i Orgpuls",
+        "lead": "{deleted} sletter vi alle opplysningene til {org} i Orgpuls, som avtalt da dere sa opp.",
+        "more": "Har dere ikke lastet ned rapporten ennå, gjør det nå. Etter slettingen kan verken dere eller vi hente noe tilbake.",
+        "cta": "Last ned rapporten"
       }
     }
   },
@@ -7065,6 +7078,27 @@
           "failed": "Failed",
           "skipped": "Skipped"
         }
+      },
+      "cancel": {
+        "title": "Cancellation and deletion",
+        "lead": "Register a cancellation the customer has sent. From the day after the last day the organisation is read-only: members can read and download everything, but start nothing. Thirty days after that, everything is deleted. The daglig leder is told by e-mail when it is registered and a week before deletion.",
+        "ends": "Last day",
+        "submit": "Register cancellation",
+        "registered": "Registered",
+        "lastDay": "Last day of the agreement",
+        "deletion": "Deleted on",
+        "after": "The daily run (02:40 UTC) deletes the organisation, its surveys, answers, people and member accounts, its support tickets and the CRM contacts known only through it, and writes the deletion log.",
+        "withdraw": "Withdraw the cancellation",
+        "withdrawSubmit": "Withdraw",
+        "nowLead": "Delete now, for an erasure request. This cannot be undone. Type {number} to confirm.",
+        "confirm": "Organisation number",
+        "nowSubmit": "Delete everything now",
+        "problem": {
+          "invalid_date": "Choose a last day from today and within a year.",
+          "already_cancelled": "A cancellation is already registered.",
+          "not_cancelled": "No cancellation is registered.",
+          "confirm_mismatch": "The number does not match this organisation."
+        }
       }
     },
     "users": {
@@ -8105,6 +8139,23 @@
         "direct": "Direct",
         "other": "Other"
       }
+    },
+    "deletions": {
+      "title": "Cancellations and deletions",
+      "pending": "Registered, not yet deleted",
+      "done": "Deleted",
+      "org": "Organisation",
+      "orgnr": "Org.nr",
+      "lastDay": "Last day",
+      "due": "Deleted on",
+      "deletedAt": "Deleted",
+      "by": "By",
+      "counts": "What was deleted",
+      "schedule": "Daily run",
+      "noPending": "No cancellation is waiting.",
+      "noDone": "Nothing has been deleted yet.",
+      "note": "The log keeps the organisation number and name, the dates, who ran it and how many rows of each kind: the record that the promise in the data processing agreement (§ 11) was kept. It holds no person's data.",
+      "countsLine": "{responses} answers · {employees} employees · {accounts} accounts · {tickets} tickets"
     }
   },
   "access": {
@@ -8113,7 +8164,12 @@
     "readOnlyHead": "Bare lesetilgang.",
     "readOnlyBody": "Prøveperioden gikk ut {end}, og abonnementet er ikke bekreftet. Dere kan lese resultater og rapporter, og en undersøkelse som er i gang, fullføres. Nye undersøkelser sendes når abonnementet er bekreftet.",
     "confirm": "Bekreft abonnement",
-    "askLeader": "Daglig leder bekrefter abonnementet under Oppsett › Betaling."
+    "askLeader": "Daglig leder bekrefter abonnementet under Oppsett › Betaling.",
+    "cancelledHead": "Avtalen er sagt opp.",
+    "cancelledBody": "Den gjelder til og med {ends}, og alle opplysninger slettes {deleted}. Last ned rapporten før det.",
+    "endedHead": "Avtalen er avsluttet.",
+    "endedBody": "Dere kan lese og laste ned alt til {deleted}. Da slettes alle opplysninger, og kan ikke hentes tilbake.",
+    "download": "Last ned rapporten"
   },
   "newsletter": {
     "badge": "Nyhetsbrev",

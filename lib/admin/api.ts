@@ -557,3 +557,38 @@ const Acquisition = z.object({
 })
 export type Acquisition = z.infer<typeof Acquisition>
 export const acquisition = (months = 12) => call('admin_acquisition', { p_months: months }, Acquisition)
+
+// ---------------------------------------------------------------- cancellation and deletion (0064, D-108)
+const Cancellation = z.object({
+  row: z
+    .object({
+      cancelled_at: tsn,
+      cancelled_by: z.string().nullable(),
+      effective_at: tsn,
+      deletion_due_at: tsn,
+      org_number: z.string().nullable(),
+    })
+    .nullable(),
+})
+export type Cancellation = z.infer<typeof Cancellation>['row']
+export const orgCancellation = (org: string) => call('admin_org_cancellation', { p_org: org }, Cancellation)
+
+const Deletions = z.object({
+  pending: z.array(
+    z.object({ org_id: z.string(), name: z.string(), org_number: z.string().nullable(), cancelled_at: ts, effective_at: ts, deletion_due_at: ts }),
+  ),
+  done: z.array(
+    z.object({
+      org_number: z.string().nullable(),
+      name: z.string(),
+      cancelled_at: tsn,
+      deletion_due_at: tsn,
+      deleted_at: ts,
+      run_by: z.enum(['schedule', 'admin']),
+      admin: z.string().nullable(),
+      counts: z.record(z.string(), z.coerce.number()),
+    }),
+  ),
+})
+export type Deletions = z.infer<typeof Deletions>
+export const deletions = () => call('admin_deletions', {}, Deletions)

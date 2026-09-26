@@ -4800,3 +4800,64 @@ Verified:
   - a spend entry added through the form, shown in totals and entries, then deleted;
   - no sideways scroll at 390 px;
   - no console errors.
+
+## D-108 — Cancellation, and deletion 30 days after the agreement ends
+
+Two places promised deletion within 30 days of the agreement ending: the home page ("Sier
+dere opp, sletter vi svarene etter 30 dager") and the data processing agreement (§ 11).
+Nothing carried it out. Now it happens (0064, 0065):
+
+- **Registering.** Admin › Organisation › Cancellation and deletion. Super-admin, support
+  or finance registers a cancellation the customer has sent, with the agreement's last day
+  (default: the end of this month) and a reason. Both are audited.
+  - The agreement ends at midnight after the last day, in Oslo.
+  - From then the organisation reads as `read_only` (0052's rule): members sign in, read
+    everything and download the report, and start nothing.
+  - Deletion is due 30 Oslo days later (0065: counted in Oslo's calendar, so a
+    daylight-saving change cannot move it a day).
+  - A cancellation can be withdrawn until it is carried out.
+- **Telling the customer.**
+  - A banner over the app from the day of registration: the last day, the deletion day,
+    and "Last ned rapporten".
+  - Two service mails to the daglig leder on the trial-mail stream: when it is registered,
+    and seven days before deletion.
+  - The trial's own mails stop once a cancellation is registered.
+- **Deleting.** `app.deletion_run()` runs daily at 02:40 UTC. For each organisation that
+  is due, `app.delete_organisation()`:
+  - deletes the CRM contacts known only through the customer relationship. A contact who
+    subscribed with their own consent stays, and the company stays, marked `lost`;
+  - deletes its support tickets (the privacy statement keeps them only while the customer
+    relationship lasts);
+  - deletes its rounds, then the organisation. Rounds must go first: `responses.group_id`
+    deliberately has no cascade (0042), and inside one cascade PostgreSQL checks it before
+    the answers are gone. Deleting rounds removes responses, answers and comments, which
+    their append-only triggers allow because the response row is gone first;
+  - deletes the sign-in accounts that belonged to that organisation only, never a platform
+    admin's, with their identities and second factors;
+  - writes `app.deletion_log`: organisation number, name, dates, who ran it, and counts.
+    It holds no person's data. It is the record that the promise was kept, and Admin ›
+    Operations lists it beside the pending cancellations.
+- **Deleting now**, for an erasure request: a super-admin, a cancelled organisation, and its
+  organisation number typed to confirm.
+- **A trigger that blocked maintenance, fixed.** `measure_effect_round_ok` (0023)
+  re-validated a measure's effect round on every update, so PostgreSQL's own
+  `ON DELETE SET NULL` from a deleted round was refused. Deleting any round with measures
+  would have failed. It now checks only when the effect round itself is set or changed,
+  the rule CLAUDE.md states for these triggers.
+- **Not built: a cancel button for the customer.** The terms draft leaves open whether
+  cancellation is by e-mail or in the app (`docs/legal/vilkar-utkast.md` § 10). Until that
+  is decided, support registers what the customer sends.
+
+Verified:
+- `cancellation_invariants.sql` 12/12. It runs a real deletion of the fully seeded fixture
+  (175 responses with answers and comments, 34 employees, 12 rounds). Afterwards no row in
+  any `app` table with an `org_id` keeps its id, the other organisation's answers are
+  untouched, and everything rolls back;
+- all 37 suites and 152 unit tests, including the cancellation mails in both languages and
+  their Oslo dates;
+- applied to hosted;
+- in the browser against hosted:
+  - a cancellation registered on Nordvik (mail is off for it, so nothing was sent);
+  - the admin card and the Operations list;
+  - the customer's banner at 1440 and 390 px;
+  - the cancellation withdrawn again, and hosted left with none.

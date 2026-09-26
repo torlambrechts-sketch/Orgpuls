@@ -327,7 +327,17 @@ export function renderTicketReply(cat: MailCatalogue, job: TicketJob, lang: Lang
 // true. One thing to do and one button each; replies go to support, and the footer says so.
 // ---------------------------------------------------------------------------------------
 
-export type LifecycleStep = 'welcome' | 'setup_help' | 'first_sent' | 'results_ready' | 'trial_ending' | 'trial_ended' | 'read_only_soon'
+export type LifecycleStep =
+  | 'welcome'
+  | 'setup_help'
+  | 'first_sent'
+  | 'results_ready'
+  | 'trial_ending'
+  | 'trial_ended'
+  | 'read_only_soon'
+  // a cancellation (0064, D-108): when it is registered, and seven days before deletion
+  | 'cancelled'
+  | 'deletion_soon'
 
 export interface LifecycleJob {
   id: string
@@ -339,6 +349,8 @@ export interface LifecycleJob {
   k: number
   trial_ends_at: string
   read_only_from: string
+  cancel_effective_at?: string | null
+  deletion_due_at?: string | null
 }
 
 /** Where each step's button leads, in the app. */
@@ -350,15 +362,23 @@ export const LIFECYCLE_PATH: Record<LifecycleStep, string> = {
   trial_ending: '/oppsett?fane=betaling',
   trial_ended: '/oppsett?fane=betaling',
   read_only_soon: '/oppsett?fane=betaling',
+  cancelled: '/rapport',
+  deletion_soon: '/rapport',
 }
 
 export function renderLifecycle(cat: MailCatalogue, job: LifecycleJob, appUrl: string, graceDays = 14): Rendered {
   const lang = langOf(job.lang)
   const m = cat[lang]
   const key = `lifecycle.${job.step}`
-  // the trial's end for the first three steps and trial_ending; the read-only date after it
+  // the trial's end for the first three steps and trial_ending; the read-only date after it;
+  // for a cancellation, the day it ends and the day everything is deleted
+  const cancel = job.step === 'cancelled' || job.step === 'deletion_soon'
+  if (cancel && (!job.cancel_effective_at || !job.deletion_due_at)) throw new Error(`${job.step} without its dates`)
   const date = dateOf(job.step === 'trial_ended' || job.step === 'read_only_soon' ? job.read_only_from : job.trial_ends_at, lang)
-  const vars = { org: job.org, k: job.k, date, grace: graceDays }
+  // the agreement's last day is the day before it ends at midnight
+  const ends = cancel ? dateOf(new Date(new Date(job.cancel_effective_at!).getTime() - 1000).toISOString(), lang) : ''
+  const deleted = cancel ? dateOf(job.deletion_due_at!, lang) : ''
+  const vars = { org: job.org, k: job.k, date, grace: graceDays, ends, deleted }
   const greeting = job.name ? fill(pick(m, 'greeting'), { name: job.name }) : pick(m, 'greetingPlain')
   const url = `${appUrl.replace(/\/+$/, '')}${LIFECYCLE_PATH[job.step]}`
   const { text, html } = layout({
@@ -367,7 +387,7 @@ export function renderLifecycle(cat: MailCatalogue, job: LifecycleJob, appUrl: s
     paragraphs: [fill(pick(m, `${key}.lead`), vars), fill(pick(m, `${key}.more`), vars)],
     cta: { label: pick(m, `${key}.cta`), url },
     after: [],
-    footer: fill(pick(m, 'lifecycle.footer'), { org: job.org }),
+    footer: fill(pick(m, cancel ? 'lifecycle.footerCancelled' : 'lifecycle.footer'), { org: job.org }),
   })
   return { subject: fill(pick(m, `${key}.subject`), vars), text, html }
 }

@@ -223,3 +223,35 @@ export async function deleteSpend(_prev: AdminResult | null, formData: FormData)
   if (r.ok) revalidatePath('/admin/acquisition')
   return r
 }
+
+// ---------------------------------------------------------------- cancellation and deletion (0064, D-108)
+export async function cancelOrg(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({ org: z.string().uuid(), ends: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), reason: z.string().trim().min(5).max(500) })
+    .safeParse({ org: formData.get('org'), ends: formData.get('ends'), reason: formData.get('reason') })
+  if (!parsed.success) return { ok: false, problem: failedField(parsed.error) === 'reason' ? 'reason_required' : 'invalid_date' }
+  const r = await rpc('admin_cancel_org', { p_org: parsed.data.org, p_ends: parsed.data.ends, p_reason: parsed.data.reason })
+  if (r.ok) revalidatePath(`/admin/orgs/${parsed.data.org}`)
+  return r
+}
+
+export async function withdrawCancellation(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({ org: z.string().uuid(), reason: z.string().trim().min(5).max(500) })
+    .safeParse({ org: formData.get('org'), reason: formData.get('reason') })
+  if (!parsed.success) return { ok: false, problem: 'reason_required' }
+  const r = await rpc('admin_cancel_withdraw', { p_org: parsed.data.org, p_reason: parsed.data.reason })
+  if (r.ok) revalidatePath(`/admin/orgs/${parsed.data.org}`)
+  return r
+}
+
+/** Deletes a cancelled organisation now, for an erasure request; the database checks the typed number. */
+export async function deleteOrgNow(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({ org: z.string().uuid(), confirm: z.string().trim().min(1).max(200), reason: z.string().trim().min(5).max(500) })
+    .safeParse({ org: formData.get('org'), confirm: formData.get('confirm'), reason: formData.get('reason') })
+  if (!parsed.success) return { ok: false, problem: failedField(parsed.error) === 'reason' ? 'reason_required' : 'confirm_mismatch' }
+  const r = await rpc('admin_delete_now', { p_org: parsed.data.org, p_confirm: parsed.data.confirm, p_reason: parsed.data.reason })
+  if (r.ok) redirect('/admin/ops#deletions')
+  return r
+}
