@@ -295,7 +295,17 @@ export default async function AdminOrg({ params }: { params: Promise<{ id: strin
       ) : null}
 
       {mail && !isError(mail) ? (
-        <Card title={t('org.emailLog')} className="mt-[14px]">
+        <Card
+          title={t('org.emailLog')}
+          className="mt-[14px]"
+          aside={
+            mail.address_problems ? (
+              <span className="text-[12.5px] font-semibold text-danger">
+                {t('org.addressProblems', { count: mail.address_problems })}
+              </span>
+            ) : undefined
+          }
+        >
           <Table
             head={[
               t('org.emailHead.day'),
@@ -306,6 +316,9 @@ export default async function AdminOrg({ params }: { params: Promise<{ id: strin
               t('org.emailHead.sent'),
               t('org.emailHead.failed'),
               t('org.emailHead.pending'),
+              t('org.emailHead.delivered'),
+              t('org.emailHead.bounced'),
+              t('org.emailHead.complaints'),
             ]}
             empty={mail.rows.length ? undefined : t('common.none')}
           >
@@ -319,6 +332,9 @@ export default async function AdminOrg({ params }: { params: Promise<{ id: strin
                 <Td>{m.sent}</Td>
                 <Td className={m.failed ? 'font-bold text-danger' : ''}>{m.failed}</Td>
                 <Td>{m.pending}</Td>
+                <Td>{m.delivered}</Td>
+                <Td className={m.bounced ? 'font-bold text-danger' : ''}>{m.bounced}</Td>
+                <Td className={m.complaints ? 'font-bold text-danger' : ''}>{m.complaints}</Td>
               </tr>
             ))}
           </Table>

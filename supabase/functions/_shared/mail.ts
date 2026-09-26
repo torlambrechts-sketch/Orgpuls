@@ -124,7 +124,14 @@ interface Parts {
   lang: Lang
   greeting: string
   paragraphs: string[]
-  cta: { label: string; url: string } | null
+  /**
+   * The mail's one link. `plain` writes it as text rather than as a link: Brevo rewrites every
+   * <a href> in transactional mail through its click-tracking redirect, and cannot be told not
+   * to, so a link that carries a token (a respondent's, a sign-in's) would pass through, and be
+   * logged by, the provider with the recipient's address. As text it is not rewritten; the
+   * recipient's mail program makes it clickable itself. D-97.
+   */
+  cta: { label: string; url: string; plain?: boolean } | null
   after: string[]
   footer: string
 }
@@ -143,7 +150,9 @@ function layout(p: Parts): { text: string; html: string } {
   const para = (s: string, style = 'margin:0 0 14px;font-size:15px;line-height:1.6;color:#191510;white-space:pre-line') =>
     `<p style="${style}">${escapeHtml(s)}</p>`
 
-  const button = p.cta
+  const button = p.cta?.plain
+    ? `<p style="margin:22px 0 6px;font-size:13.5px;font-weight:700;color:#191510">${escapeHtml(p.cta.label)}</p><p style="margin:0 0 22px;padding:12px 14px;border:1px solid #191510;border-radius:12px;background:#F5C64A;font-size:14px;font-weight:700;line-height:1.45;color:#191510;word-break:break-all">${escapeHtml(p.cta.url)}</p>`
+    : p.cta
     ? `<p style="margin:22px 0 22px"><a href="${escapeHtml(p.cta.url)}" style="display:inline-block;padding:12px 20px;border-radius:12px;border:1px solid #191510;background:#F5C64A;color:#191510;font-size:15px;font-weight:700;text-decoration:none">${escapeHtml(p.cta.label)}</a></p>`
     : ''
 
@@ -200,7 +209,7 @@ export function renderNotice(
       pick(m, 'invitasjon.personal'),
     ]
     const subject = cap(fill(pick(m, reminder ? 'paminnelse.subject' : 'invitasjon.subject'), { org, round }))
-    return { subject, ...layout({ lang: group.lang, greeting, paragraphs, cta: { label: pick(m, 'invitasjon.cta'), url: link }, after, footer }) }
+    return { subject, ...layout({ lang: group.lang, greeting, paragraphs, cta: { label: pick(m, 'invitasjon.cta'), url: link, plain: true }, after, footer }) }
   }
 
   if (job.kind === 'forvarsel') {
@@ -252,7 +261,7 @@ export function renderAuth(cat: MailCatalogue, action: AuthAction, lang: Lang, e
       lang,
       greeting: pick(m, 'greetingPlain'),
       paragraphs: [fill(pick(m, `${p}.lead`), { email })],
-      cta: { label: pick(m, `${p}.cta`), url: link },
+      cta: { label: pick(m, `${p}.cta`), url: link, plain: true },
       after: [pick(m, `${p}.ignore`)],
       footer: 'Orgpuls · orgpuls.com',
     }),

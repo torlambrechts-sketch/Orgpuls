@@ -10,15 +10,15 @@
  * check and deploy; the generated file is not committed.
  *
  * Deploys through the Management API with SB_MCP_PAT (or SUPABASE_ACCESS_TOKEN) from the
- * environment. `verify_jwt` is off for both: the dispatcher authenticates its own secret,
- * and the Auth hook a Standard Webhooks signature.
+ * environment. `verify_jwt` is off for all three: the dispatcher authenticates its own secret,
+ * the Auth hook a Standard Webhooks signature, and the mail-events webhook a key in its URL.
  */
 import { execFileSync } from 'node:child_process'
 import { readFileSync, writeFileSync } from 'node:fs'
 
 const REF = process.env.SUPABASE_PROJECT_REF ?? 'jmhhszsnjfqgclxzhciq'
 const TOKEN = process.env.SB_MCP_PAT ?? process.env.SUPABASE_ACCESS_TOKEN
-const FUNCTIONS = ['orgpuls-dispatch', 'orgpuls-auth-mail']
+const FUNCTIONS = ['orgpuls-dispatch', 'orgpuls-auth-mail', 'orgpuls-mail-events']
 const SHARED = ['_shared/mail.ts', '_shared/brevo.ts', '_shared/sms.ts', '_shared/messages.gen.ts']
 const ROOT = 'supabase/functions'
 

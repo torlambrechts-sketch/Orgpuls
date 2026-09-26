@@ -2128,3 +2128,6 @@ and user. Migration 0051 builds its core:
 - [ ] Build the billing plan in docs/BILLING_RECOMMENDATION.md once Stripe and the accounting integration exist (D-93).
 - [x] Om oss removed; /om-oss redirects to /kontakt, where the contact form now is (D-95).
 - [x] Language selection: NEXT_LOCALE cookie, saved on the profile and restored at sign-in; NO | EN in the public header, the phone menu and the app's account menu (D-96).
+- [x] Delivery events from Brevo (bounce, block, spam, unsubscribe) in the admin and on Oppsett › Ansatte; no opens or clicks; token links written as text (0053, D-97).
+- [ ] In Brevo, switch transactional tracking to "anonymous" so opens are not tied to an address; the API cannot change it (D-97).
+- [ ] SMS delivery reports; per-recipient ids for notices to several leaders; delivery state on the ticket page (D-97).

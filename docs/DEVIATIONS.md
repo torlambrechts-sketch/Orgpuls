@@ -4097,3 +4097,95 @@ the account menu.
 **Left as it is:**
 - **JSON-LD says `inLanguage: nb-NO`.** That is what a crawler, which has no cookie, reads.
 - **The platform admin stays English,** as decided (D-90).
+
+## D-97 — What happens to a mail after sending, and no opens or clicks
+
+**The request:** e-mail analysis in the admin and the product (bounce, read, click and so on),
+and a check of whether the provider tracks our mail.
+
+**The tracking check** is a new read-only `?probe=tracking` on the dispatcher. It reads
+Brevo's 30-day totals, the hosts clicked links went through (never a link, since
+invitations carry tokens) and the registered webhooks. It is run through pg_net, so the
+dispatch secret stays in Vault. It found:
+- 10 requests, 4 delivered, 6 soft bounces;
+- **6 opens (4 unique) and 1 click**, on a password-reset mail.
+
+**Brevo counts opens and clicks on our transactional mail.** It rewrites every `<a href>`
+through its click redirect, and cannot be told not to per message (a documented,
+tested limitation; see below). A link carrying a token therefore passed through, and was
+logged by, the provider together with the recipient's address. That covers a respondent's
+survey link and a sign-in link.
+
+**Fixed in code:**
+- Invitation, reminder and auth mails write their one link **as text in a yellow box**, not
+  as a button link. Brevo does not rewrite text, and the recipient's mail program makes it
+  clickable itself.
+- Notices to leaders (forvarsel, resultat) keep their button. Their links carry no token.
+- `mail.test.ts` asserts that no token-bearing mail contains `href=`.
+
+**For the owner to switch off in Brevo:** the open-tracking pixel. Brevo's account setting
+for transactional tracking offers "anonymous tracking", so opens are no longer tied to an
+address. It is an account setting that the API cannot change.
+
+**Delivery events (0053):**
+- **The webhook.** A Brevo webhook (id 2205404) posts delivered, hard and soft bounces,
+  blocked, spam, invalid, deferred and unsubscribed to a new function,
+  `orgpuls-mail-events`.
+  - Opens and clicks are not subscribed to, and are ignored if they arrive.
+  - The webhook's address carries a key, `ORGPULS_MAIL_EVENTS_SECRET`, set as a function
+    secret and never printed. Without the key the function answers 403.
+  - `?probe=webhook` registers the webhook idempotently, and stops rather than duplicating
+    it when Brevo's list cannot be read.
+- **`record_mail_event`** (service role only) matches the provider's message id to the
+  outbox row or ticket reply.
+  - It keeps the event with its time and the provider's reason, with addresses masked.
+  - The latest event is the state; an older one arriving late does not overwrite it.
+- **An employee whose address hard-bounced, was invalid, was blocked, complained or
+  unsubscribed** is recorded in `app.address_problems`.
+  - This is a table of its own, not a column on `employees`, which customers can update.
+  - Changing the address clears it; a later delivery clears it too.
+- **The product:** Oppsett › Ansatte shows the daglig leder "N adresser tar ikke imot
+  e-post", with name, address, what the provider said and the day, so the address can be
+  corrected.
+  - It does not say which round or when during it.
+  - Other roles see nothing.
+- **The admin:**
+  - each organisation's e-mail log gains delivered, bounced and complaints, and the number
+    of flagged addresses;
+  - Operations gains a Deliverability card for 30 days: delivered, bounced or blocked, soft,
+    spam or unsubscribed, and unmatched events;
+  - the card warns past 2 % bounces or 0.1 % complaints, and lists the organisations with
+    problems.
+
+**Why no opens or clicks:**
+- An open or a click is a per-person timestamp of engaging with a survey link. Next to an
+  answer's submitted hour it narrows who answered.
+- The response rate already measures engagement without naming anyone.
+- Apple Mail's privacy protection makes open counts unreliable anyway.
+
+**On showing which address bounced:**
+- It tells the daglig leder that a named person was not reached. It says nothing about an
+  answer.
+- The alternative is the specification's most common ticket, "people didn't get it", with
+  no way to fix it.
+- It is limited to the daglig leder, and to the address and day, never the round.
+
+**Verified end to end on the hosted project:**
+- A ticket reply queued to a non-existent `.invalid` domain was sent by the dispatcher at
+  07:10:00.
+- Brevo posted a soft bounce at 07:10:01. It was recorded, matched to the reply, and stored
+  as "Unable to find MX of domain …" with no recipient address.
+- The Ansatte panel and the admin's log and Deliverability card were checked in the browser
+  with a temporary flag and admin.
+- All the test data was deleted afterwards.
+
+`supabase/tests/mail_events_invariants.sql`: 12 checks, locally and on hosted.
+
+**Left open:**
+- **SMS delivery reports:** Brevo's SMS webhooks are separate.
+- **Notices to several leaders** carry one message id for the group, so only its first
+  recipient's events are matched.
+- **Ticket replies do not show their own delivery state** on the ticket page yet. The
+  Deliverability card counts them.
+
+Source for the rewriting limitation: elan-registry/registry#2151 (a tested report).

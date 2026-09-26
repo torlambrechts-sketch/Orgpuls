@@ -1281,7 +1281,18 @@
       "colMobile": "Mobil",
       "phone": "Mobil",
       "phonePlaceholder": "912 34 567",
-      "phonesAdded": "{count, plural, one {# person som allerede fantes, fikk mobilnummer.} other {# personer som allerede fantes, fikk mobilnummer.}}"
+      "phonesAdded": "{count, plural, one {# person som allerede fantes, fikk mobilnummer.} other {# personer som allerede fantes, fikk mobilnummer.}}",
+      "delivery": {
+        "head": "{count, plural, one {# adresse tar ikke imot e-post} other {# adresser tar ikke imot e-post}}",
+        "lead": "E-postleverandøren fikk ikke levert til disse. Rett adressen i registeret under, så sendes neste invitasjon og påminnelse dit.",
+        "problem": {
+          "hard_bounce": "adressen finnes ikke",
+          "invalid": "ugyldig adresse",
+          "blocked": "mottakeren blokkerer e-post fra oss",
+          "spam": "meldingen ble merket som søppelpost",
+          "unsubscribed": "mottakeren har meldt seg av"
+        }
+      }
     },
     "grupper": {
       "title": "Grupper",
@@ -6763,7 +6774,10 @@
         "total": "Total",
         "sent": "Sent",
         "failed": "Failed",
-        "pending": "Pending"
+        "pending": "Pending",
+        "delivered": "Delivered",
+        "bounced": "Bounced",
+        "complaints": "Complaints"
       },
       "notes": "Internal notes",
       "notePlaceholder": "A note for colleagues. Not visible to the customer.",
@@ -6792,7 +6806,8 @@
         "last": "Tags at signup",
         "none": "Not recorded: the signup came before attribution, or the browser kept nothing."
       },
-      "tickets": "Tickets"
+      "tickets": "Tickets",
+      "addressProblems": "{count, plural, one {# address does not take mail} other {# addresses do not take mail}}"
     },
     "users": {
       "title": "Users",
@@ -6838,6 +6853,21 @@
         "due": "Due",
         "attempts": "Attempts",
         "error": "Error"
+      },
+      "delivery": {
+        "title": "Deliverability",
+        "window": "Last 30 days, from the provider’s delivery events",
+        "delivered": "Delivered",
+        "bounced": "Bounced or blocked",
+        "soft": "Soft bounces",
+        "softHint": "retried by the provider",
+        "complaints": "Spam or unsubscribed",
+        "unmatched": "Unmatched events",
+        "unmatchedHint": "mail sent before tracking, or to a group",
+        "alert": "Bounces above 2 % or complaints above 0.1 %: mailbox providers may start filtering our mail. Check the organisations below.",
+        "org": "Organisation",
+        "addresses": "Addresses flagged",
+        "note": "Opens and clicks are not collected: a per-person time of opening a survey link could help identify who answered."
       }
     },
     "audit": {

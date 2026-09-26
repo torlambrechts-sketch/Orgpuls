@@ -21,6 +21,9 @@
  *   POST ?probe=send      send one sample invitation in Brevo's sandbox (validated, dropped)
  *   POST ?probe=sms       send one real test SMS to {"to": "<number>"}: proves the sender name
  *                         and credits end to end. The number is used once and never logged.
+ *   POST ?probe=tracking  whether Brevo counts opens and clicks: 30-day totals, the hosts clicked
+ *                         links went through, the registered webhooks — counts and hosts only (D-97)
+ *   POST ?probe=webhook   register Brevo's delivery-event webhook for orgpuls-mail-events, once (D-97)
  *   POST ?probe=smsstatus&id=<messageId>
  *                         the delivery events Brevo holds for one SMS: event names, dates
  *                         and reasons only — the number is dropped before anything is returned.
@@ -104,6 +107,71 @@ Deno.serve(async (req) => {
       events: events
         .filter((e) => String(e.messageId) === id)
         .map((e) => ({ event: e.event, date: e.date, reason: e.reason ?? null })),
+    })
+  }
+
+  if (probe === 'webhook') {
+    // D-97: make sure Brevo posts delivery events to orgpuls-mail-events. Idempotent: an
+    // existing registration for that function is left as it is. Opens and clicks are not
+    // asked for. The answer names hosts and events, never the address with its key.
+    const eventsSecret = Deno.env.get('ORGPULS_MAIL_EVENTS_SECRET')
+    if (!eventsSecret) return json({ ok: false, code: 'no_secret' })
+    const target = `${env('SUPABASE_URL').replace(/\/+$/, '')}/functions/v1/orgpuls-mail-events`
+    const h = { 'api-key': key, accept: 'application/json' }
+    const list = await fetch('https://api.brevo.com/v3/webhooks', { headers: h })
+    // without a readable list, registering could make a duplicate: stop instead
+    if (!list.ok) return json({ ok: false, code: 'list_failed', listStatus: list.status })
+    const hooks = ((await list.json()) as { webhooks?: Array<{ id: number; url?: string; type?: string; events?: string[] }> }).webhooks ?? []
+    const ours = hooks.find((w) => (w.url ?? '').startsWith(target))
+    if (ours) return json({ ok: true, existing: true, id: ours.id, type: ours.type, events: ours.events ?? [] })
+    const created = await fetch('https://api.brevo.com/v3/webhooks', {
+      method: 'POST',
+      headers: { ...h, 'content-type': 'application/json' },
+      body: JSON.stringify({
+        url: `${target}?key=${encodeURIComponent(eventsSecret)}`,
+        description: 'Orgpuls delivery events (no opens, no clicks)',
+        type: 'transactional',
+        events: ['delivered', 'hardBounce', 'softBounce', 'blocked', 'spam', 'invalid', 'deferred', 'unsubscribed'],
+      }),
+    })
+    const out = (await created.json().catch(() => ({}))) as { id?: number; code?: string }
+    return json({ ok: created.ok, status: created.status, id: out.id ?? null, code: created.ok ? null : out.code ?? null, listStatus: list.status })
+  }
+
+  if (probe === 'tracking') {
+    // D-97: is Brevo counting opens and clicks on what we send? Aggregate counts for 30 days,
+    // and the hosts that clicked links went through. Never a link itself: an invitation's
+    // link carries the respondent's token, so only its host is read, and never an address.
+    const h = { 'api-key': key, accept: 'application/json' }
+    const [agg, clicks, hooks] = await Promise.all([
+      fetch('https://api.brevo.com/v3/smtp/statistics/aggregatedReport?days=30', { headers: h }),
+      fetch('https://api.brevo.com/v3/smtp/statistics/events?limit=100&days=30&event=clicks', { headers: h }),
+      fetch('https://api.brevo.com/v3/webhooks', { headers: h }),
+    ])
+    const a = agg.ok ? ((await agg.json()) as Record<string, number>) : {}
+    const events = clicks.ok ? ((await clicks.json()) as { events?: Array<{ link?: string; tag?: string }> }).events ?? [] : []
+    const hostOf = (u?: string) => {
+      try {
+        return u ? new URL(u).host : null
+      } catch {
+        return null
+      }
+    }
+    const byTag: Record<string, number> = {}
+    for (const e of events) byTag[e.tag ?? 'none'] = (byTag[e.tag ?? 'none'] ?? 0) + 1
+    const hookList = hooks.ok ? ((await hooks.json()) as { webhooks?: Array<{ url?: string; events?: string[] }> }).webhooks ?? [] : []
+    return json({
+      window_days: 30,
+      counts: {
+        requests: a.requests ?? null, delivered: a.delivered ?? null, opens: a.opens ?? null, uniqueOpens: a.uniqueOpens ?? null,
+        clicks: a.clicks ?? null, uniqueClicks: a.uniqueClicks ?? null, hardBounces: a.hardBounces ?? null, softBounces: a.softBounces ?? null,
+        blocked: a.blocked ?? null, invalid: a.invalid ?? null, spamReports: a.spamReports ?? null, unsubscribed: a.unsubscribed ?? null,
+      },
+      clickEvents: events.length,
+      clicksByTag: byTag,
+      clickedLinkHosts: [...new Set(events.map((e) => hostOf(e.link)).filter(Boolean))],
+      webhooks: hookList.map((w) => ({ host: hostOf(w.url), events: w.events ?? [] })),
+      status: { aggregated: agg.status, events: clicks.status, webhooks: hooks.status },
     })
   }
 

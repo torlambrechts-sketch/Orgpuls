@@ -50,6 +50,14 @@ describe('notices', () => {
     expect(r.text).toContain('Svarfrist: 13. oktober.')
   })
 
+  it('writes a token-bearing link as text, never as a link a provider would rewrite (D-97)', () => {
+    for (const kind of ['invitasjon', 'paminnelse'] as const) {
+      const r = renderNotice(cat, job({ kind }), { lang: 'no', member: false, name: 'Ola' }, APP)
+      expect(r.html).toContain(`${APP}/s/${TOKEN}`)
+      expect(r.html).not.toContain('href=')
+    }
+  })
+
   it('tells a reminder that the earlier link no longer works', () => {
     const r = renderNotice(cat, job({ kind: 'paminnelse' }), { lang: 'no', member: false, name: 'Ola' }, APP)
     expect(r.subject).toBe('Påminnelse: grunnlinjen 2026 i Nordvik Anlegg AS')
@@ -158,6 +166,8 @@ describe('auth mails', () => {
         const r = renderAuth(cat, a, lang, 'ola@firma.no', `${APP}/auth/confirm?x`)
         expect(r.text).toContain('ola@firma.no')
         expect(r.html).toContain(`${APP}/auth/confirm?x`)
+        // a sign-in token must not pass through the provider's click redirect (D-97)
+        expect(r.html).not.toContain('href=')
         expect(r.text).not.toMatch(/\{\w+\}/)
       }
     }

@@ -1,7 +1,8 @@
-import { getTranslations } from 'next-intl/server'
+import { getFormatter, getTranslations } from 'next-intl/server'
 import { ImportForm } from '@/components/oppsett/ImportForm'
 import { RosterTable } from '@/components/oppsett/RosterTable'
 import { DUTY_ROLES } from '@/lib/settings/read'
+import { getAddressProblems } from '@/lib/delivery/read'
 import type { OppsettView } from '@/components/oppsett/OppsettScreen'
 
 /**
@@ -32,9 +33,37 @@ export async function AnsatteTab({
 
   const registered = view.roster.length
   const short = view.company.employee_count - registered
+  // addresses the mail provider refused after sending (D-97); empty for anyone but the daglig leder
+  const problems = await getAddressProblems(view.company.id)
+  const format = await getFormatter()
 
   return (
     <>
+      {problems.length ? (
+        <section
+          aria-labelledby="address-problems"
+          className="mt-[20px] rounded-panel border border-ink bg-sbg px-[26px] py-[20px]"
+        >
+          <h2 id="address-problems" className="m-0 text-[15px] font-bold">
+            {t('oppsett.ansatte.delivery.head', { count: problems.length })}
+          </h2>
+          <p className="mb-0 mt-[6px] max-w-[70ch] text-[13px] leading-[1.55] text-mut [text-wrap:pretty]">
+            {t('oppsett.ansatte.delivery.lead')}
+          </p>
+          <ul className="m-0 mt-[12px] flex list-none flex-col gap-[6px] p-0">
+            {problems.map((p) => (
+              <li key={`${p.employee_id}-${p.channel}`} className="flex flex-wrap items-baseline gap-x-[10px] gap-y-[2px] text-[13.5px]">
+                <span className="font-semibold">{p.name}</span>
+                <span className="text-mut">{(p.channel === 'email' ? p.email : p.phone) ?? '—'}</span>
+                <span className="text-dangerdeep">{t(`oppsett.ansatte.delivery.problem.${p.problem}`)}</span>
+                <span className="text-[12px] text-mut">
+                  {format.dateTime(new Date(p.day), { dateStyle: 'medium', timeZone: 'Europe/Oslo' })}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
       <section className="mt-[20px] rounded-panel border border-line bg-sf px-[26px] py-[24px]">
         <div className="text-[11px] uppercase tracking-[0.11em] text-mut">
           {t('oppsett.ansatte.sourceHead')}

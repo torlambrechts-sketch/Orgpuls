@@ -162,8 +162,33 @@ const EmailRow = z.object({
   sent: num,
   failed: num,
   pending: num,
+  // after the provider accepted it (0053, D-97)
+  delivered: num,
+  soft: num,
+  bounced: num,
+  complaints: num,
 })
-export const emailLog = (org: string) => call('admin_email_log', { p_org: org }, z.object({ rows: z.array(EmailRow) }))
+export const emailLog = (org: string) =>
+  call('admin_email_log', { p_org: org }, z.object({ rows: z.array(EmailRow), address_problems: num }))
+
+const Deliverability = z.object({
+  totals: z.object({
+    events: num,
+    delivered: num,
+    soft: num,
+    hard: num,
+    blocked: num,
+    spam: num,
+    unsubscribed: num,
+    unmatched: num,
+  }),
+  daily: z.array(z.object({ day: z.string(), delivered: num, bounced: num, complaints: num })),
+  orgs: z.array(
+    z.object({ org_id: z.string(), name: z.string(), delivered: num, bounced: num, complaints: num, address_problems: num }),
+  ),
+})
+export type Deliverability = z.infer<typeof Deliverability>
+export const deliverability = (days = 30) => call('admin_deliverability', { p_days: days }, Deliverability)
 
 // ---------------------------------------------------------------- users
 const UserRow = z.object({
