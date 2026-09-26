@@ -8408,6 +8408,7 @@
     "measuredIn": "Påstand i {module}",
     "measuredCore": "Påstand i hovedundersøkelsen",
     "coreFactor": "Faktor: {factor}",
+    "coreAlongside": "Sammen med {list}.",
     "seeAll": "Se alle tre påstander og tiltakene",
     "seeQuestions": "Se hele spørsmålssettet",
     "helpline": "Trenger du noen å snakke med nå? Mental Helse Hjelpetelefonen er åpen hele døgnet på <number>116 123</number>.",
@@ -8419,6 +8420,7 @@
       "threshold": "svar før en gruppe vises"
     },
     "coreCovered": "Hovedundersøkelsen dekker allerede {list}.",
+    "coreCoveredAlso": "Hovedundersøkelsen dekker allerede {list}, og {also}.",
     "loopExample": "Eksempel · {factor} · {group}",
     "loopSteps": "Tiltakets steg",
     "remeasure": "Måles på nytt med «{statement}».",

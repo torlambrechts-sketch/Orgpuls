@@ -1,0 +1,922 @@
+{
+  "module_id": "helse-og-omsorg",
+  "version": "1.0.0",
+  "locale": "nb-NO",
+  "name": "Helse og omsorg",
+  "description": "Tilleggsmodul til hovedundersøkelsen for helse, omsorg og arbeid med mennesker. Åtte faktorer med tre påstander hver, pluss to spørsmål som bare rapporteres som antall.",
+  "estimated_minutes": 3,
+  "scale": {
+    "type": "likert5",
+    "labels": [
+      "Helt uenig",
+      "Litt uenig",
+      "Verken eller",
+      "Litt enig",
+      "Helt enig"
+    ],
+    "to_index": {
+      "1": 0,
+      "2": 25,
+      "3": 50,
+      "4": 75,
+      "5": 100
+    }
+  },
+  "scoring": {
+    "factor_index": "mean of item indices",
+    "risk_bands": [
+      {
+        "band": "lav",
+        "min": 65
+      },
+      {
+        "band": "middels",
+        "min": 50,
+        "max": 64
+      },
+      {
+        "band": "høy",
+        "max": 49
+      }
+    ]
+  },
+  "anonymity": {
+    "min_responses": 5,
+    "can_lower": false,
+    "count_items_reported_at": "organisation_only",
+    "segments_require_min": 5,
+    "block_differencing": true
+  },
+  "relation_to_core": {
+    "covered_by_core_factors": [
+      "Emosjonelle krav",
+      "Arbeidsmengde og tidspress",
+      "Støtte fra leder",
+      "Støtte fra kollegaer",
+      "Ytringsklima",
+      "Integritet og verdighet"
+    ],
+    "core_count_items_reused": [
+      "vold_og_trusler_12m",
+      "krenkende_atferd"
+    ],
+    "core_statements_not_repeated": [
+      "Jeg blir sjelden stående alene i følelsesmessig krevende situasjoner",
+      "Vi snakker om vanskelige hendelser etterpå",
+      "Jeg får lov til å reagere som menneske på jobb",
+      "Jeg kan tilkalle hjelp raskt hvis noe skjer mens jeg er alene",
+      "Jeg får støtte fra lederen min når jobben blir krevende"
+    ]
+  },
+  "factors": [
+    {
+      "id": "vold_og_trusler",
+      "name": "Vold og trusler",
+      "summary": "Om risikoen er kjent, om hendelser blir meldt, og om den som var involvert blir fulgt opp.",
+      "rationale": "Rundt en av fire ansatte i kommunale helse- og omsorgstjenester oppgir å ha vært utsatt for vold eller trusler. I svenske vård- och omsorgsboenden står vold og trusler bak en av fire anmeldte arbeidsulykker med sykefravær, mot seks prosent i arbeidslivet ellers. Siden 2017 har forskriften krevd prosedyrer, trening og oppfølging der ansatte er i risikosonen.",
+      "rationale_sources": [
+        "ks_vold",
+        "av_vold24",
+        "fagbladet_forskrift"
+      ],
+      "legal_basis": [
+        "aml § 4-3 sjette ledd (vern mot vold, trusler og uheldige belastninger fra kontakt med andre)",
+        "forskrift om utførelse av arbeid kap. 23A (risikovurdering, tiltak, opplæring og oppfølging ved fare for vold og trusler)"
+      ],
+      "items": [
+        {
+          "id": "HO-VT-1",
+          "text": "Vi har gått gjennom hvilke situasjoner som kan føre til vold eller trusler hos oss",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HO-VT-2",
+          "text": "Hendelser med vold og trusler blir meldt, også de som virker små",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HO-VT-3",
+          "text": "Etter en hendelse med vold eller trusler blir den som var involvert fulgt opp",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Situasjonene vi kjenner igjen",
+          "description": "Laget går gjennom tre situasjoner fra siste halvår: hva varslet om at det kunne skje, og hva gjør vi neste gang.",
+          "remeasure_item": "HO-VT-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Meld det lille også",
+          "description": "En melding som tar to minutter, og en fast gjennomgang av meldte hendelser på personalmøtet hver måned.",
+          "remeasure_item": "HO-VT-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Samtale samme vakt",
+          "description": "Leder tar kontakt med den som var involvert samme eller neste vakt, og igjen etter en uke.",
+          "remeasure_item": "HO-VT-3"
+        }
+      ]
+    },
+    {
+      "id": "bemanning_og_forsvarlig_omsorg",
+      "name": "Bemanning og forsvarlig omsorg",
+      "summary": "Om bemanningen gir rom for forsvarlig omsorg, og om ingen står alene med prioriteringene.",
+      "rationale": "En av fire sykepleiere sier de sjelden eller aldri kan gi forsvarlig pleie til alle pasientene i løpet av en vakt. Dansk forskning beskriver det som moralsk stress: man vet hva som er riktig, men får ikke gjort det.",
+      "rationale_sources": [
+        "nsf_forsvarlig",
+        "ae_dk"
+      ],
+      "legal_basis": [
+        "aml § 4-3 (arbeidsmengde og tidspress som psykososial faktor)",
+        "helsepersonelloven § 16 (virksomhetens ansvar for forsvarlig virksomhet)",
+        "helse- og omsorgstjenesteloven § 4-1 (forsvarlige tjenester)"
+      ],
+      "items": [
+        {
+          "id": "HO-BF-1",
+          "text": "Bemanningen på vaktene gjør det mulig å gi forsvarlig omsorg",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HO-BF-2",
+          "text": "Jeg slipper å gå hjem med dårlig samvittighet for det jeg ikke rakk",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HO-BF-3",
+          "text": "Når vi er for få, er det tydelig hva som kan vente",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Når vi er for få",
+          "description": "Laget lager en liste over hva som alltid må gjøres, og hva som kan vente, på vakter med lav bemanning.",
+          "remeasure_item": "HO-BF-3"
+        },
+        {
+          "type": "rutine",
+          "title": "Bemanningssjekk før vakt",
+          "description": "En fast grense for når det skal hentes inn ekstra folk eller omdisponeres, og hvem som bestemmer det.",
+          "remeasure_item": "HO-BF-1"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Si prioriteringen høyt",
+          "description": "Leder eller vakthavende bekrefter prioriteringene i rapporten, så ingen står alene med valget.",
+          "remeasure_item": "HO-BF-2"
+        }
+      ]
+    },
+    {
+      "id": "turnus_og_hvile",
+      "name": "Turnus og hvile",
+      "summary": "Om turnusen gir nok hvile, om man kan påvirke den, og om ekstravakter er unntaket.",
+      "rationale": "En SINTEF-undersøkelse blant over 18 000 sykepleiere beskriver ubesatte stillinger, stram bemanning og turnuser som gir lite rom for hvile mellom vaktene.",
+      "rationale_sources": [
+        "sintef_nsf"
+      ],
+      "legal_basis": [
+        "aml § 10-2 (arbeidstidsordninger uten uheldige belastninger)",
+        "aml § 10-3 (arbeidsplan)",
+        "aml § 10-8 (daglig og ukentlig hviletid)"
+      ],
+      "items": [
+        {
+          "id": "HO-TH-1",
+          "text": "Turnusen gir meg nok hvile mellom vaktene",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HO-TH-2",
+          "text": "Jeg kan påvirke turnusen min",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HO-TH-3",
+          "text": "Ekstravakter og vaktbytter på kort varsel er unntaket og ikke normalen",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Turnusverksted",
+          "description": "Ansatte og tillitsvalgte lager forslag til turnus innenfor bemanningsplanen, med hvile som eget kriterium.",
+          "remeasure_item": "HO-TH-2"
+        },
+        {
+          "type": "rutine",
+          "title": "Kort hvile telles",
+          "description": "Vakter med kort hvile mellom kveld og morgen registreres og holdes under en avtalt grense.",
+          "remeasure_item": "HO-TH-1"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Ikke de samme hver gang",
+          "description": "Ekstravakter lyses ut i fast rekkefølge, så det ikke er de samme som blir ringt hver gang.",
+          "remeasure_item": "HO-TH-3"
+        }
+      ]
+    },
+    {
+      "id": "stilling_og_tilhorighet",
+      "name": "Stilling og tilhørighet",
+      "summary": "Om folk har stillingen de ønsker, og om de som jobber lite eller på ulike vakter, er med.",
+      "rationale": "43 000 kommunalt ansatte jobber ufrivillig deltid, og sju av ti deltidsansatte i kommunene er i helse og omsorg. Deltidsansatte får ofte svakere tilhørighet til arbeidsplassen, og det svekker både fagmiljø og kontinuitet.",
+      "rationale_sources": [
+        "fafo_deltid",
+        "hdir_heltid"
+      ],
+      "legal_basis": [
+        "aml § 14-3 (fortrinnsrett for deltidsansatte)",
+        "aml § 14-4 a (rett til stilling tilsvarende faktisk arbeidstid)"
+      ],
+      "items": [
+        {
+          "id": "HO-HF-1",
+          "text": "Jeg har den stillingsstørrelsen jeg ønsker",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HO-HF-2",
+          "text": "Jeg får med meg viktig informasjon, også når jeg jobber lite eller på ulike vakter",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HO-HF-3",
+          "text": "Jeg føler meg som en del av fagmiljøet her",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Hva skal til for heltid?",
+          "description": "Ansatte, tillitsvalgte og leder ser på hvilke turnusmodeller som kan gi flere hele stillinger hos dere.",
+          "remeasure_item": "HO-HF-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Beskjeder som når alle",
+          "description": "Én fast kanal for viktige beskjeder, som leses av alle uansett vakt og stillingsstørrelse.",
+          "remeasure_item": "HO-HF-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Tilby før du lyser ut",
+          "description": "Ledige stillingsandeler og ekstra timer tilbys deltidsansatte først, slik fortrinnsretten krever.",
+          "remeasure_item": "HO-HF-1"
+        }
+      ]
+    },
+    {
+      "id": "grenser_mot_brukere_og_parorende",
+      "name": "Grenser mot brukere og pårørende",
+      "summary": "Om det er avklart hva man gjør når en bruker eller pårørende går over grensen.",
+      "rationale": "20 prosent av sykepleierne og 16,5 prosent av helsefagarbeiderne har opplevd seksuell trakassering det siste året – blant de høyeste andelene i arbeidslivet. Pågang fra pårørende kommer i tillegg.",
+      "rationale_sources": [
+        "ssb_trakassering"
+      ],
+      "legal_basis": [
+        "aml § 4-3 sjette ledd (vern mot uheldige belastninger fra kontakt med andre)",
+        "likestillings- og diskrimineringsloven § 13 (arbeidsgiver skal forebygge og søke å hindre seksuell trakassering)"
+      ],
+      "items": [
+        {
+          "id": "HO-GP-1",
+          "text": "Vi har avklart hva vi gjør når en bruker eller pårørende går over grensen",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HO-GP-2",
+          "text": "Seksuelle kommentarer eller berøring fra brukere blir tatt på alvor og ikke bortforklart",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HO-GP-3",
+          "text": "Når pårørende krever mer enn vi kan gi, får jeg støtte til å si nei",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Hvor går grensen?",
+          "description": "Laget blir enige om hvordan de møter seksuelle kommentarer og press fra brukere og pårørende, med egne eksempler.",
+          "remeasure_item": "HO-GP-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Avklarte forventninger",
+          "description": "Pårørende får en tydelig avklaring av hva tjenesten kan gi, og én fast kontaktperson.",
+          "remeasure_item": "HO-GP-3"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Leder tar samtalen",
+          "description": "De vanskelige samtalene med pårørende tas av leder, ikke av den ansatte alene.",
+          "remeasure_item": "HO-GP-3"
+        }
+      ]
+    },
+    {
+      "id": "tid_til_kjerneoppgavene",
+      "name": "Tid til kjerneoppgavene",
+      "summary": "Om dokumentasjon, systemer og avbrytelser tar tid fra arbeidet med brukerne.",
+      "rationale": "Sykepleiere anslår at de bruker rundt to timer per arbeidsdag i den elektroniske journalen, og rundt tre av fire mener at tiden går på bekostning av pasientnære oppgaver.",
+      "rationale_sources": [
+        "tidstyver"
+      ],
+      "legal_basis": [
+        "aml § 4-2 (medvirkning og tilrettelegging ved omstilling og ny teknologi)",
+        "aml § 4-3 (arbeidsmengde og tidspress)"
+      ],
+      "items": [
+        {
+          "id": "HO-TK-1",
+          "text": "Tiden jeg bruker på dokumentasjon, står i forhold til nytten",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HO-TK-2",
+          "text": "De digitale systemene vi bruker, gjør jobben enklere",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HO-TK-3",
+          "text": "Jeg kan gjøre ferdig en oppgave uten stadige avbrytelser",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Tidstyvjakt",
+          "description": "Alle noterer tidstyver i en uke. Laget velger tre å fjerne, og leder tar resten videre.",
+          "remeasure_item": "HO-TK-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Uforstyrret medisinering",
+          "description": "Den som deler ut medisiner, er synlig merket og blir ikke avbrutt uten at det haster.",
+          "remeasure_item": "HO-TK-3"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Superbruker på vakt",
+          "description": "Leder sørger for at det finnes en superbruker på hver vakt som kan hjelpe med systemene.",
+          "remeasure_item": "HO-TK-2"
+        }
+      ]
+    },
+    {
+      "id": "faglig_trygghet",
+      "name": "Faglig trygghet",
+      "summary": "Om nye og vikarer er klare før de står alene, og om rapporten mellom vaktene holder.",
+      "rationale": "Ti år etter utdanning jobber en av fem sykepleiere ikke i helsetjenesten, og ønsket om å slutte er størst blant de unge og de som har jobbet kortest. I hjemmetjenesten sier over tre av ti sykepleiere at endringer ble gjennomført for raskt, uten at ansatte ble hørt.",
+      "rationale_sources": [
+        "ssb_sykepleiere",
+        "gautun"
+      ],
+      "legal_basis": [
+        "aml § 3-2 (opplæring, øvelse og instruksjon)",
+        "helsepersonelloven § 4 (forsvarlighet, og plikt til å innhente bistand ved behov)"
+      ],
+      "items": [
+        {
+          "id": "HO-FT-1",
+          "text": "Nye og vikarer får nok opplæring før de står alene på vakt",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HO-FT-2",
+          "text": "Jeg har noen å rådføre meg med når jeg står i en vanskelig faglig vurdering",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HO-FT-3",
+          "text": "Vi forstår hverandre godt nok til at rapport og beskjeder blir riktige",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Trygg rapport",
+          "description": "Laget lager en felles struktur for rapport mellom vaktene, og øver på den.",
+          "remeasure_item": "HO-FT-3"
+        },
+        {
+          "type": "rutine",
+          "title": "Ingen nye alene",
+          "description": "Nye og vikarer går et fast antall følgevakter sammen med en erfaren før de står alene.",
+          "remeasure_item": "HO-FT-1"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Hvem ringer du?",
+          "description": "Det er alltid kjent hvem som har faglig ansvar på vakten, også på natt og i helger.",
+          "remeasure_item": "HO-FT-2"
+        }
+      ]
+    },
+    {
+      "id": "forflytning_og_tunge_loft",
+      "name": "Forflytning og tunge løft",
+      "summary": "Om hjelpemidlene finnes, om det er tid til å bruke dem, og om man er nok folk.",
+      "rationale": "STAMI-forskning i hjemmetjenesten viser at mer enn seks av ti gjør tunge fysiske løft uten hjelpemidler, og halvparten gjør det selv når hjelpemidlene finnes.",
+      "rationale_sources": [
+        "stami_forflytning"
+      ],
+      "legal_basis": [
+        "aml § 4-4 (fysiske arbeidsmiljøfaktorer)",
+        "forskrift om utførelse av arbeid kap. 14 (arbeid som kan medføre ergonomiske belastninger)"
+      ],
+      "items": [
+        {
+          "id": "HO-FL-1",
+          "text": "Vi har de hjelpemidlene vi trenger til forflytning",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HO-FL-2",
+          "text": "Vi har tid til å bruke hjelpemidlene, også når det er travelt",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HO-FL-3",
+          "text": "Vi er nok folk til tunge forflytninger",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Forflytningsrunde",
+          "description": "En gjennomgang med fysioterapeut eller bedriftshelsetjenesten av de tyngste forflytningene hos dere.",
+          "remeasure_item": "HO-FL-2"
+        },
+        {
+          "type": "rutine",
+          "title": "Forflytningsplan per bruker",
+          "description": "Hver bruker som trenger hjelp til forflytning, har en plan med hjelpemiddel og hvor mange som skal være med.",
+          "remeasure_item": "HO-FL-3"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Hjelpemiddel først",
+          "description": "Leder følger opp at hjelpemidlene er på plass, og bestiller det som mangler innen en uke.",
+          "remeasure_item": "HO-FL-1"
+        }
+      ]
+    }
+  ],
+  "count_items": [
+    {
+      "id": "HO-T-1",
+      "text": "Har du de siste tre månedene vært med på en hendelse med vold eller trusler som ikke ble meldt?",
+      "options": [
+        "Ja",
+        "Nei",
+        "Vet ikke"
+      ],
+      "why": "Viser hvor mye som ikke kommer fram i avvikssystemet. Hovedundersøkelsen teller allerede hvor mange som har opplevd vold eller trusler."
+    },
+    {
+      "id": "HO-T-2",
+      "text": "Har du de siste tre månedene jobbet en vakt der du mente bemanningen ikke var forsvarlig?",
+      "options": [
+        "Ja",
+        "Nei",
+        "Vet ikke"
+      ],
+      "why": "Viser hvor ofte bemanningen oppleves som uforsvarlig, uten at noen avdeling eller vakt kan pekes ut."
+    }
+  ],
+  "segments": [
+    {
+      "id": "vaktordning",
+      "text": "Hvilken vaktordning har du mest?",
+      "options": [
+        "Dagtid",
+        "Todelt turnus (dag og kveld)",
+        "Tredelt turnus (med natt)",
+        "Fast natt"
+      ]
+    },
+    {
+      "id": "stillingsstorrelse",
+      "text": "Hvor stor stilling har du?",
+      "options": [
+        "Heltid",
+        "Deltid, 50 prosent eller mer",
+        "Deltid, under 50 prosent"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "key": "nav_q1",
+      "title": "NAV: Sykefraværet økte i 1. kvartal 2026",
+      "url": "https://www.nav.no/no/nav-og-samfunn/statistikk/sykefravar-statistikk/nyheter/sykefravaeret-okte-i-1.kvartal"
+    },
+    {
+      "key": "ks_vold",
+      "title": "KS: Vold og trusler i arbeidslivet",
+      "url": "https://www.ks.no/fagomrader/arbeidsgiverpolitikk/arbeidsmiljo-og-hms/vold-og-trusler-i-arbeidslivet/vold-og-trusler-i-arbeidslivet/"
+    },
+    {
+      "key": "av_vold",
+      "title": "Arbetsmiljöverket: Hot och våld i vård- och omsorgsboende",
+      "url": "https://www.av.se/arbetsmiljoarbete-och-inspektioner/inspektioner-utredningar-och-kontroller/inspektion/aktuella-inspektioner/hot-och-vald-i-vard--och-omsorgsboende/"
+    },
+    {
+      "key": "av_vold24",
+      "title": "Arbetsmiljöverket: Arbetet mot hot och våld på vårdboenden ska inspekteras (2024)",
+      "url": "https://www.av.se/press/arbetet-mot-hot-och-vald-pa-vardboenden-ska-inspekteras/"
+    },
+    {
+      "key": "fagbladet_forskrift",
+      "title": "Fagbladet: Mest vold mot helse- og sosialarbeidere (2021)",
+      "url": "https://www.fagbladet.no/nyheter/mest-vold-mot-helse-og-sosialarbeidere/117116"
+    },
+    {
+      "key": "foa_dk",
+      "title": "Fagbladet FOA (DK): Tilsyn slår ned på vold i ældreplejen (2023)",
+      "url": "https://fagbladetfoa.dk/arbejdsmiljoe/tilsyn-slaar-ned-paa-vold-i-aeldreplejen-mens-antallet-af-voldssager-stiger-markant/"
+    },
+    {
+      "key": "nsf_forsvarlig",
+      "title": "Sykepleien: En av fire får ikke gitt forsvarlig pleie (2025)",
+      "url": "https://sykepleien.no/2025/08/sykepleiere-slar-alarm-en-av-fire-far-ikke-gitt-forsvarlig-pleie"
+    },
+    {
+      "key": "ae_dk",
+      "title": "Arbejderbevægelsens Erhvervsråd (DK): Hver tredje i ældreplejen har et hårdt psykisk arbejdsmiljø (2025)",
+      "url": "https://www.ae.dk/debatindlaeg/2025-03-vold-trusler-mobning-og-stress-hver-tredje-medarbejder-i-aeldreplejen-er-ramt"
+    },
+    {
+      "key": "sintef_nsf",
+      "title": "Sykepleien: Arbeidsmiljøet er avgjørende for at sykepleiere kan stå i jobben (2026)",
+      "url": "https://sykepleien.no/meninger/2026/02/arbeidsmiljoet-er-avgjorende-sykepleiere-kan-sta-i-jobben"
+    },
+    {
+      "key": "fafo_deltid",
+      "title": "Fagbladet: Nye Fafo-tall – 43.000 kommunalt ansatte er ufrivillig på deltid (2026)",
+      "url": "https://www.fagbladet.no/nyheter/nye-fafo-tall-43000-kommunalt-ansatte-er-ufrivillig-pa-deltid/753810"
+    },
+    {
+      "key": "hdir_heltid",
+      "title": "Helsedirektoratet: Heltidsansatte ved kommunale helse- og omsorgstjenester i institusjon",
+      "url": "https://www.helsedirektoratet.no/statistikk/kvalitetsindikatorer/kommunale-helse-og-omsorgstjenester/heltidsansatte-ved-kommunale-helse-og-omsorgstjenester-i-institusjon"
+    },
+    {
+      "key": "ssb_trakassering",
+      "title": "SSB: Fire av ti grunnskolelærere utsatt for vold, trusler, trakassering eller mobbing på jobb (2026)",
+      "url": "https://www.ssb.no/arbeid-og-lonn/arbeidsmiljo-sykefravaer-og-arbeidskonflikter/statistikk/arbeidsmiljo-levekarsundersokelsen/artikler/fire-av-ti-grunnskolelaerere-utsatt-for-vold-trusler-trakassering-eller-mobbing-pa-jobb"
+    },
+    {
+      "key": "tidstyver",
+      "title": "Regjeringen: Effekten av å fjerne tidstyver i sykehus (2025)",
+      "url": "https://www.regjeringen.no/no/dokumenter/effekten-av-a-fjerne-tidstyver-i-sykehus/id3103064/?ch=6"
+    },
+    {
+      "key": "ssb_sykepleiere",
+      "title": "SSB: 1 av 5 nyutdanna sykepleiere jobber ikke i helsetjenesten",
+      "url": "https://www.ssb.no/helse/artikler-og-publikasjoner/1-av-5-nyutdanna-sykepleiere-jobber-ikke-i-helsetjenesten"
+    },
+    {
+      "key": "gautun",
+      "title": "forskning.no: Derfor vurderer sykepleiere i hjemmetjenesten å slutte (2026)",
+      "url": "https://www.forskning.no/arbeidsliv-eldre-helsetjenester/ny-studie-med-alvorlige-funn-derfor-vurderer-sykepleiere-i-hjemmetjenesten-a-slutte/2682399"
+    },
+    {
+      "key": "stami_forflytning",
+      "title": "Helsefagarbeideren: Hjelpemidler som kan redusere belastningen ved tunge løft (STAMI-forskning)",
+      "url": "https://www.helsefagarbeideren.no/journal/2025/2/m-556/Disse_hjelpemidlene_kan_redusere_belastningen_ved_tunge_l%C3%B8ft"
+    },
+    {
+      "key": "nsf_forsvarlighet",
+      "title": "NSF: Faglig forsvarlighet og omsorgsfull hjelp",
+      "url": "https://www.nsf.no/sykepleiefaget/faglig-forsvarlighet-og-omsorgsfull-hjelp"
+    }
+  ],
+  "translations": {
+    "en": {
+      "name": "Health and care",
+      "description": "An addition to the main survey for health, care and work with people. Eight factors with three statements each, plus two questions reported only as counts.",
+      "scale_labels": [
+        "Strongly disagree",
+        "Slightly disagree",
+        "Neither",
+        "Slightly agree",
+        "Strongly agree"
+      ],
+      "covered_by_core_factors": [
+        "Emotional demands",
+        "Workload and time pressure",
+        "Support from manager",
+        "Support from colleagues",
+        "Freedom to speak up",
+        "Integrity and dignity"
+      ],
+      "factors": {
+        "vold_og_trusler": {
+          "name": "Violence and threats",
+          "summary": "Whether the risk is known, whether incidents are reported, and whether the person involved is followed up.",
+          "rationale": "Around one in four employees in municipal health and care services report having been exposed to violence or threats. In Swedish residential care homes, violence and threats lie behind one in four reported occupational accidents with sickness absence, against six per cent in working life as a whole. Since 2017 the regulation has required procedures, training and follow-up where employees are at risk.",
+          "legal_basis": [
+            "Working Environment Act § 4-3 sixth paragraph (protection against violence, threats and adverse strain from contact with others)",
+            "Regulations concerning the performance of work, chapter 23A (risk assessment, measures, training and follow-up where there is a risk of violence and threats)"
+          ],
+          "items": {
+            "HO-VT-1": "We have gone through which situations could lead to violence or threats here",
+            "HO-VT-2": "Incidents of violence and threats are reported, including those that seem minor",
+            "HO-VT-3": "After an incident of violence or threats, the person involved is followed up"
+          },
+          "action_suggestions": [
+            {
+              "title": "The situations we recognise",
+              "description": "The team goes through three situations from the last six months: what signalled that it could happen, and what we do next time."
+            },
+            {
+              "title": "Report the small things too",
+              "description": "A report that takes two minutes, and a fixed review of reported incidents at the staff meeting every month."
+            },
+            {
+              "title": "A conversation the same shift",
+              "description": "The manager contacts the person involved on the same or the next shift, and again after a week."
+            }
+          ]
+        },
+        "bemanning_og_forsvarlig_omsorg": {
+          "name": "Staffing and responsible care",
+          "summary": "Whether staffing leaves room for responsible care, and whether nobody is left alone with the priorities.",
+          "rationale": "One in four nurses say they rarely or never manage to give responsible care to all their patients during a shift. Danish research describes it as moral stress: you know what is right, but you cannot get it done.",
+          "legal_basis": [
+            "Working Environment Act § 4-3 (workload and time pressure as a psychosocial factor)",
+            "Health Personnel Act § 16 (the organisation’s responsibility for responsible practice)",
+            "Health and Care Services Act § 4-1 (responsible services)"
+          ],
+          "items": {
+            "HO-BF-1": "Staffing on the shifts makes it possible to give responsible care",
+            "HO-BF-2": "I don’t go home with a bad conscience about what I didn’t manage",
+            "HO-BF-3": "When we are too few, it is clear what can wait"
+          },
+          "action_suggestions": [
+            {
+              "title": "When we are too few",
+              "description": "The team makes a list of what must always be done, and what can wait, on shifts with low staffing."
+            },
+            {
+              "title": "Staffing check before the shift",
+              "description": "A fixed threshold for when extra people are called in or staff are reassigned, and who decides it."
+            },
+            {
+              "title": "Say the priority out loud",
+              "description": "The manager or the person in charge confirms the priorities at handover, so nobody is left alone with the choice."
+            }
+          ]
+        },
+        "turnus_og_hvile": {
+          "name": "Rotas and rest",
+          "summary": "Whether the rota gives enough rest, whether people can influence it, and whether extra shifts are the exception.",
+          "rationale": "A SINTEF survey of more than 18,000 nurses describes vacant posts, tight staffing and rotas that leave little room for rest between shifts.",
+          "legal_basis": [
+            "Working Environment Act § 10-2 (working hours arrangements without adverse strain)",
+            "Working Environment Act § 10-3 (work schedule)",
+            "Working Environment Act § 10-8 (daily and weekly rest periods)"
+          ],
+          "items": {
+            "HO-TH-1": "The rota gives me enough rest between shifts",
+            "HO-TH-2": "I can influence my rota",
+            "HO-TH-3": "Extra shifts and shift swaps at short notice are the exception, not the norm"
+          },
+          "action_suggestions": [
+            {
+              "title": "Rota workshop",
+              "description": "Employees and union representatives propose rotas within the staffing plan, with rest as a criterion of its own."
+            },
+            {
+              "title": "Short rest is counted",
+              "description": "Shifts with short rest between an evening and a morning are recorded and kept under an agreed limit."
+            },
+            {
+              "title": "Not the same people every time",
+              "description": "Extra shifts are offered in a fixed order, so it is not the same people who get the call every time."
+            }
+          ]
+        },
+        "stilling_og_tilhorighet": {
+          "name": "Position and belonging",
+          "summary": "Whether people have the position size they want, and whether those who work little or on varying shifts are included.",
+          "rationale": "43,000 municipal employees work part-time involuntarily, and seven in ten part-time employees in the municipalities are in health and care. Part-time employees often feel a weaker sense of belonging to the workplace, and that weakens both the professional community and continuity.",
+          "legal_basis": [
+            "Working Environment Act § 14-3 (part-time employees’ preferential right)",
+            "Working Environment Act § 14-4 a (right to a position matching the hours actually worked)"
+          ],
+          "items": {
+            "HO-HF-1": "I have the position size I want",
+            "HO-HF-2": "I get important information, also when I work little or on varying shifts",
+            "HO-HF-3": "I feel part of the professional community here"
+          },
+          "action_suggestions": [
+            {
+              "title": "What would full-time take?",
+              "description": "Employees, union representatives and the manager look at which rota models could give more full-time positions with you."
+            },
+            {
+              "title": "Messages that reach everyone",
+              "description": "One fixed channel for important messages, read by everyone whatever their shift and position size."
+            },
+            {
+              "title": "Offer before you advertise",
+              "description": "Vacant position fractions and extra hours are offered to part-time employees first, as the preferential right requires."
+            }
+          ]
+        },
+        "grenser_mot_brukere_og_parorende": {
+          "name": "Boundaries with service users and relatives",
+          "summary": "Whether it is agreed what to do when a service user or relative crosses the line.",
+          "rationale": "20 per cent of nurses and 16.5 per cent of healthcare workers have experienced sexual harassment in the past year – among the highest shares in working life. Pressure from relatives comes on top.",
+          "legal_basis": [
+            "Working Environment Act § 4-3 sixth paragraph (protection against adverse strain from contact with others)",
+            "Equality and Anti-Discrimination Act § 13 (the employer shall prevent and seek to hinder sexual harassment)"
+          ],
+          "items": {
+            "HO-GP-1": "We have agreed what we do when a service user or relative crosses the line",
+            "HO-GP-2": "Sexual comments or touching from service users are taken seriously and not explained away",
+            "HO-GP-3": "When relatives demand more than we can give, I get support to say no"
+          },
+          "action_suggestions": [
+            {
+              "title": "Where is the line?",
+              "description": "The team agrees how to respond to sexual comments and pressure from service users and relatives, using their own examples."
+            },
+            {
+              "title": "Clear expectations",
+              "description": "Relatives get a clear explanation of what the service can offer, and one fixed contact person."
+            },
+            {
+              "title": "The manager takes the conversation",
+              "description": "The difficult conversations with relatives are taken by the manager, not by the employee alone."
+            }
+          ]
+        },
+        "tid_til_kjerneoppgavene": {
+          "name": "Time for the core tasks",
+          "summary": "Whether documentation, systems and interruptions take time from the work with service users.",
+          "rationale": "Nurses estimate that they spend around two hours per working day in the electronic record, and around three in four believe that time comes at the expense of patient-facing tasks.",
+          "legal_basis": [
+            "Working Environment Act § 4-2 (participation and adaptation when changes and new technology are introduced)",
+            "Working Environment Act § 4-3 (workload and time pressure)"
+          ],
+          "items": {
+            "HO-TK-1": "The time I spend on documentation is in proportion to its use",
+            "HO-TK-2": "The digital systems we use make the job easier",
+            "HO-TK-3": "I can finish a task without constant interruptions"
+          },
+          "action_suggestions": [
+            {
+              "title": "Time-thief hunt",
+              "description": "Everyone notes time thieves for a week. The team picks three to remove, and the manager takes the rest further."
+            },
+            {
+              "title": "Undisturbed medication rounds",
+              "description": "The person handing out medicines is visibly marked and is not interrupted unless it is urgent."
+            },
+            {
+              "title": "A super user on every shift",
+              "description": "The manager makes sure there is a super user on every shift who can help with the systems."
+            }
+          ]
+        },
+        "faglig_trygghet": {
+          "name": "Professional confidence",
+          "summary": "Whether new staff and temps are ready before they are alone, and whether the handover between shifts holds.",
+          "rationale": "Ten years after qualifying, one in five nurses no longer works in the health service, and the wish to leave is strongest among the young and those who have worked the shortest. In home care, more than three in ten nurses say changes were pushed through too fast, without employees being heard.",
+          "legal_basis": [
+            "Working Environment Act § 3-2 (training, practice and instruction)",
+            "Health Personnel Act § 4 (responsible practice, and the duty to seek assistance when needed)"
+          ],
+          "items": {
+            "HO-FT-1": "New staff and temps get enough training before they are alone on a shift",
+            "HO-FT-2": "I have someone to consult when I face a difficult professional judgement",
+            "HO-FT-3": "We understand each other well enough for handovers and messages to be correct"
+          },
+          "action_suggestions": [
+            {
+              "title": "Safe handover",
+              "description": "The team agrees a common structure for the handover between shifts, and practises it."
+            },
+            {
+              "title": "No new starters alone",
+              "description": "New staff and temps work a fixed number of shadow shifts with an experienced colleague before they are alone."
+            },
+            {
+              "title": "Who do you call?",
+              "description": "It is always known who has professional responsibility on the shift, also at night and at weekends."
+            }
+          ]
+        },
+        "forflytning_og_tunge_loft": {
+          "name": "Patient handling and heavy lifting",
+          "summary": "Whether the equipment is there, whether there is time to use it, and whether there are enough people.",
+          "rationale": "STAMI research in home care shows that more than six in ten do heavy physical lifts without equipment, and half do so even when the equipment is available.",
+          "legal_basis": [
+            "Working Environment Act § 4-4 (physical working environment factors)",
+            "Regulations concerning the performance of work, chapter 14 (work that may involve ergonomic strain)"
+          ],
+          "items": {
+            "HO-FL-1": "We have the equipment we need for patient handling",
+            "HO-FL-2": "We have time to use the equipment, also when it is busy",
+            "HO-FL-3": "There are enough of us for heavy transfers"
+          },
+          "action_suggestions": [
+            {
+              "title": "Transfer round",
+              "description": "A review of the heaviest transfers with you, with a physiotherapist or the occupational health service."
+            },
+            {
+              "title": "A handling plan per service user",
+              "description": "Every service user who needs help to move has a plan naming the equipment and how many people should take part."
+            },
+            {
+              "title": "Equipment first",
+              "description": "The manager follows up that the equipment is in place, and orders what is missing within a week."
+            }
+          ]
+        }
+      },
+      "count_items": {
+        "HO-T-1": {
+          "text": "In the last three months, have you been part of an incident of violence or threats that was not reported?",
+          "options": [
+            "Yes",
+            "No",
+            "Don't know"
+          ],
+          "why": "Shows how much never reaches the deviation system. The main survey already counts how many have experienced violence or threats."
+        },
+        "HO-T-2": {
+          "text": "In the last three months, have you worked a shift where you thought the staffing was not responsible?",
+          "options": [
+            "Yes",
+            "No",
+            "Don't know"
+          ],
+          "why": "Shows how often staffing is experienced as not responsible, without any department or shift being singled out."
+        }
+      },
+      "segments": {
+        "vaktordning": {
+          "text": "Which shift pattern do you mostly work?",
+          "options": [
+            "Daytime",
+            "Two-shift rota (day and evening)",
+            "Three-shift rota (with nights)",
+            "Permanent nights"
+          ]
+        },
+        "stillingsstorrelse": {
+          "text": "How large is your position?",
+          "options": [
+            "Full-time",
+            "Part-time, 50 per cent or more",
+            "Part-time, under 50 per cent"
+          ]
+        }
+      }
+    }
+  }
+}

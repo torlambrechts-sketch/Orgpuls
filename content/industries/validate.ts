@@ -33,8 +33,10 @@ export function problemsOf(page: IndustryPage, lang: PageLang = 'no'): string[] 
     if (c.measuredBy.kind === 'module') {
       if (!mod) out.push(`challenge ${i + 1}: a module statement on a page without a module`)
       else if (!codes.has(c.measuredBy.itemCode)) out.push(`challenge ${i + 1}: no item ${c.measuredBy.itemCode} in the module`)
-    } else if (!core[c.measuredBy.factorKey]?.[`s${c.measuredBy.ordinal}`]) {
-      out.push(`challenge ${i + 1}: no core statement ${c.measuredBy.factorKey}.s${c.measuredBy.ordinal}`)
+    } else {
+      for (const o of [c.measuredBy.ordinal, ...(c.measuredBy.alongside ?? [])]) {
+        if (!core[c.measuredBy.factorKey]?.[`s${o}`]) out.push(`challenge ${i + 1}: no core statement ${c.measuredBy.factorKey}.s${o}`)
+      }
     }
   })
   if (page.moduleOverview) cites(page.moduleOverview.intro, 'module overview')

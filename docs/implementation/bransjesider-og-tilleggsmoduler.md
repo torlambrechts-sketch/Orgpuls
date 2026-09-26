@@ -1,8 +1,8 @@
 # Industry pages and survey modules – implementation instructions
 
 Audience: Claude Code (and the developer reviewing its PRs).
-Scope: (A) industry-specific question modules that extend the main survey, starting with **Bygg og anlegg v1.0.0**, and (B) data-driven industry pages ("bransjesider") with a generated question-set page, starting with `/bygg-og-anlegg` and `/bygg-og-anlegg/sporsmal`.
-Out of scope: engagement features from the gamification report, English locale, new industry modules beyond construction.
+Scope: (A) industry-specific question modules that extend the main survey: **Bygg og anlegg v1.0.0** and **Helse og omsorg v1.0.0**, and (B) data-driven industry pages ("bransjesider") with a generated question-set page: `/bygg-og-anlegg`, `/bygg-og-anlegg/sporsmal`, `/helse-og-omsorg` and `/helse-og-omsorg/sporsmal`.
+Out of scope: engagement features from the gamification report (see `engagement-phases.md`), English locale, industry modules beyond construction and health.
 
 ## Files in this hand-off
 
@@ -12,6 +12,9 @@ Out of scope: engagement features from the gamification report, English locale, 
 | `modules/bygg-og-anlegg/v1.json` | [Module JSON](https://claude.ai/artifact/U57K6e2AAgkUYQrEsrTrGk) | The construction module: 8 factors × 3 statements, 2 count-only items, 2 segment questions, 24 action suggestions, sources. **Single source of truth** for both the survey and the website |
 | `docs/reference/bygg-og-anlegg.html` | [Industry page](https://claude.ai/artifact/EVTZsJamzejrwDefvc7MAC) | Visual and copy reference for the industry page |
 | `docs/reference/bygg-og-anlegg-sporsmal.html` | [Question-set page](https://claude.ai/artifact/WJrtoV7aRJ1cy2xEK7tZmT) | Visual and copy reference for the question-set page |
+| `modules/helse-og-omsorg/v1.json` | [Module JSON](https://claude.ai/artifact/SXQeQEbBbJMbnArPgMGHuR) | The health and care module: 8 factors × 3 statements, 2 count-only items, 2 segment questions, 24 action suggestions, sources. Does not repeat the core health statements or the core violence count (listed in `relation_to_core`) |
+| `docs/reference/helse-og-omsorg.html` | [Industry page](https://claude.ai/artifact/FyWuFUXegh8reoqZdbget4) | Visual and copy reference for the health and care industry page |
+| `docs/reference/helse-og-omsorg-sporsmal.html` | [Question-set page](https://claude.ai/artifact/1h8WPNggbSAq5yKRHmaHRG) | Visual and copy reference for the health question-set page |
 
 Related specs: [Platform admin specification](https://claude.ai/code/artifact/299692f9-4524-4966-8286-d79980fc2dbb) (roles, `is_platform_admin()`, content management, audit log) and [Competitor pricing comparison](https://claude.ai/code/artifact/ac6223a5-741f-4f83-a2a6-eba186909814).
 
@@ -292,7 +295,7 @@ In Content management (see the platform admin spec):
 - RLS: an org admin can't read another org's `survey_modules`.
 
 **E2E (Playwright)**
-- Create a survey for a test org with industry code `43.210`. The construction module is suggested, enable it, and send.
+- Create a survey for a test org with industry code `43.210`. The construction module is suggested, enable it, and send. Repeat with `87.101`: the health module is suggested instead.
 - Answer as 7 respondents via link (mobile viewport 390px). Verify the time estimate, block order and progress bar.
 - Results show 8 module factors; count items show totals; a group with 3 respondents shows "–" for all factors.
 - Create an action from a module factor. The next pulse contains exactly the re-measure item(s).
@@ -312,7 +315,8 @@ In Content management (see the platform admin spec):
 | --- | --- |
 | `/bygg-og-anlegg` | Industry page, content `bygg-og-anlegg.ts` + module JSON |
 | `/bygg-og-anlegg/sporsmal` | Question-set page generated from module JSON |
-| `/helse-og-omsorg` | Same template, existing copy migrated, no module (question page not generated) |
+| `/helse-og-omsorg` | Same template, content `helse-og-omsorg.ts` + module JSON (replaces the live copy) |
+| `/helse-og-omsorg/sporsmal` | Question-set page generated from `modules/helse-og-omsorg/v1.json` |
 
 Implementation:
 
@@ -330,7 +334,7 @@ export type CiteKey = string; // must exist in module JSON `sources` or page `ex
 
 export type MeasuredBy =
   | { kind: 'module'; itemCode: string }                   // statement pulled from module JSON
-  | { kind: 'core'; factorName: string; statement: string }; // must match core question set
+  | { kind: 'core'; factorName?: string; statement?: string; note?: string }; // statement must match the core question set word for word; use `note` when no single statement fits
 
 export type IndustryPage = {
   slug: 'bygg-og-anlegg' | 'helse-og-omsorg';
@@ -372,8 +376,8 @@ export type ResultPreview = {
 
 Create:
 
-- `src/content/industries/bygg-og-anlegg.ts`: port all copy from `docs/reference/bygg-og-anlegg.html`. Challenge statements come from `measuredBy.itemCode`; the "Tonen på riggen" challenge uses `kind: 'core'` with factor "Integritet og verdighet".
-- `src/content/industries/helse-og-omsorg.ts`: port the live page copy unchanged.
+- `src/content/industries/bygg-og-anlegg.ts`: port all copy from `docs/reference/bygg-og-anlegg.html`. The "Tonen på riggen" challenge uses `kind: 'core'` with `factorName: "Integritet og verdighet"` and a `note` (no quoted statement). Challenge statements come from `measuredBy.itemCode`.
+- `src/content/industries/helse-og-omsorg.ts`: port all copy from `docs/reference/helse-og-omsorg.html`. The "Det følelsesmessige arbeidet" challenge uses `kind: 'core'` with the statement "Jeg blir sjelden stående alene i følelsesmessig krevende situasjoner", which is on the live site today; confirm it against the core question set.
 - `src/content/industries/index.ts`: registry array plus `getIndustry(slug)`.
 - Build-time validation (zod plus a custom check) must fail the build if:
   - an `itemCode` is missing from the module JSON,
@@ -439,7 +443,7 @@ Before production:
   - the language requirement for work teams on construction sites,
   - byggherreforskriften references.
 - Statistics on the page must match the linked sources. Keep the cites.
-- The example company "Nordvik Anlegg AS" must stay labelled as fictional.
+- The example companies "Nordvik Anlegg AS" and "Lindely Omsorg AS" must stay labelled as fictional.
 
 ### B7. QA and acceptance criteria
 
@@ -449,8 +453,8 @@ Before production:
 - `prefers-reduced-motion` respected.
 - Every statement on both pages matches the JSON exactly (snapshot test comparing rendered text to the JSON).
 - All anchors resolve: challenge "Se alle tre påstander" links land on the right factor section.
-- `/helse-og-omsorg` renders with the same copy as before (visual diff reviewed by a human).
-- `/helse-og-omsorg/sporsmal` returns 404; unknown slugs return 404.
+- `/helse-og-omsorg` and `/helse-og-omsorg/sporsmal` match their reference pages (visual diff reviewed by a human).
+- Unknown slugs return 404, and `/{slug}/sporsmal` returns 404 for any industry without a module.
 
 ---
 
@@ -464,7 +468,7 @@ Before production:
 | 4 | Scoring, reporting function, results UI, count card, segment filters behind flag | 3 |
 | 5 | Actions from module factors; pulse inclusion; AMU/Arbeidstilsynet report sections | 4 |
 | 6 | Industry page template, content model, components, `/bygg-og-anlegg` and `/sporsmal` | 1 (reads JSON only) |
-| 7 | Migrate `/helse-og-omsorg`; sitemap, JSON-LD, internal links; legal review sign-off; publish module in production | 5, 6 |
+| 7 | `/helse-og-omsorg` and `/helse-og-omsorg/sporsmal` from the new content; seed `helse-og-omsorg@1.0.0`; sitemap, JSON-LD, internal links; legal review sign-off; publish both modules in production | 5, 6 |
 
 PR 6 can run in parallel with PRs 2–5. Keep module-dependent page copy behind flags until PR 5 is live, so the page never promises what the product can't do.
 
@@ -474,10 +478,10 @@ PR 6 can run in parallel with PRs 2–5. Keep module-dependent page copy behind 
 
 | # | Decision | Default until decided |
 | --- | --- | --- |
-| 1 | Is the construction module included in both plans (Liten and Vanlig) or an add-on? | Included; no pricing copy changes |
+| 1 | Are the industry modules (construction, health) included in both plans (Liten and Vanlig) or an add-on? | Included; no pricing copy changes |
 | 2 | Ship factor toggles in v1? | Built behind `module_factor_toggles`, off |
 | 3 | Ship segment questions in v1, and add "Vil ikke svare" to both? | Behind `module_segments`, off; add the option before enabling |
 | 4 | Respondent languages beyond bokmål (e.g. English, Polish, Lithuanian) for construction crews | `text` is a locale map; only `nb` filled |
 | 5 | Wording of the two count-only items after legal/HR review | As in v1.0.0 JSON |
 | 6 | Should `/registrer` preselect the module from `?bransje=`? | Off (`signup_industry_hint`) |
-| 7 | Health-and-care module (questions exist on the live page as core items; no separate module yet) | Page migrated without a module |
+| 7 | The live health page shows a construction example ("Kommentarer · Nordvik Anlegg AS"). Fix it now, or wait for the new page in PR 7? | Replaced in PR 7 |

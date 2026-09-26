@@ -8408,6 +8408,7 @@
     "measuredIn": "Statement in {module}",
     "measuredCore": "Statement in the main survey",
     "coreFactor": "Factor: {factor}",
+    "coreAlongside": "Together with {list}.",
     "seeAll": "See all three statements and the measures",
     "seeQuestions": "See the full question set",
     "helpline": "Need someone to talk to now? The Mental Helse helpline is open around the clock on <number>116 123</number>.",
@@ -8419,6 +8420,7 @@
       "threshold": "answers before a group is shown"
     },
     "coreCovered": "The main survey already covers {list}.",
+    "coreCoveredAlso": "The main survey already covers {list}, and {also}.",
     "loopExample": "Example · {factor} · {group}",
     "loopSteps": "The measure’s steps",
     "remeasure": "Re-measured with “{statement}”.",

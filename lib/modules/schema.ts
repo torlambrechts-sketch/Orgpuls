@@ -117,6 +117,9 @@ export const ModuleFile = z
       .object({
         covered_by_core_factors: z.array(Text),
         core_count_item_reused: z.string().optional(),
+        core_count_items_reused: z.array(z.string()).optional(),
+        /** core statements the module deliberately does not ask again; each must be the core wording verbatim (tests/unit/modules.test.ts) */
+        core_statements_not_repeated: z.array(Text).optional(),
       })
       .optional(),
     factors: z.array(Factor).min(1),

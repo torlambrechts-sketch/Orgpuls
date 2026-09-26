@@ -27,7 +27,9 @@ export const INDUSTRY_META: IndustryMeta[] = [
   {
     slug: 'helse-og-omsorg',
     naceCodePrefixes: ['86', '87', '88'],
+    moduleKey: 'helse-og-omsorg',
     label: { no: 'helse og omsorg', en: 'health and care' },
+    moduleLabel: { no: 'helse-modulen', en: 'the health and care module' },
   },
 ]
 
