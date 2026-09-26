@@ -55,7 +55,7 @@ export async function AnsatteTab({
               <li key={`${p.employee_id}-${p.channel}`} className="flex flex-wrap items-baseline gap-x-[10px] gap-y-[2px] text-[13.5px]">
                 <span className="font-semibold">{p.name}</span>
                 <span className="text-mut">{(p.channel === 'email' ? p.email : p.phone) ?? '—'}</span>
-                <span className="text-dangerdeep">{t(`oppsett.ansatte.delivery.problem.${p.problem}`)}</span>
+                <span className="text-dangerdeep">{t(`oppsett.ansatte.delivery.${p.channel === 'sms' ? 'problemSms' : 'problem'}.${p.problem}`)}</span>
                 <span className="text-[12px] text-mut">
                   {format.dateTime(new Date(p.day), { dateStyle: 'medium', timeZone: 'Europe/Oslo' })}
                 </span>

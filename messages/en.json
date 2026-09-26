@@ -1283,14 +1283,21 @@
       "phonePlaceholder": "912 34 567",
       "phonesAdded": "{count, plural, one {# person already in the register got a mobile number.} other {# people already in the register got a mobile number.}}",
       "delivery": {
-        "head": "{count, plural, one {# address does not accept email} other {# addresses do not accept email}}",
-        "lead": "The email provider could not deliver to these. Correct the address in the register below, and the next invitation and reminder go there.",
+        "head": "{count, plural, one {# address or number cannot be reached} other {# addresses or numbers cannot be reached}}",
+        "lead": "The email and SMS provider could not deliver to these. Correct the address or number in the register below, and the next invitation and reminder go there.",
         "problem": {
           "hard_bounce": "the address does not exist",
           "invalid": "invalid address",
           "blocked": "the recipient blocks email from us",
           "spam": "the message was marked as spam",
           "unsubscribed": "the recipient has unsubscribed"
+        },
+        "problemSms": {
+          "hard_bounce": "the number does not exist",
+          "invalid": "invalid number",
+          "blocked": "the number does not accept SMS from us",
+          "spam": "the message was reported as unwanted",
+          "unsubscribed": "the recipient has unsubscribed from SMS"
         }
       }
     },

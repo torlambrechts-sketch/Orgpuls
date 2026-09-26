@@ -1283,14 +1283,21 @@
       "phonePlaceholder": "912 34 567",
       "phonesAdded": "{count, plural, one {# person som allerede fantes, fikk mobilnummer.} other {# personer som allerede fantes, fikk mobilnummer.}}",
       "delivery": {
-        "head": "{count, plural, one {# adresse tar ikke imot e-post} other {# adresser tar ikke imot e-post}}",
-        "lead": "E-postleverandøren fikk ikke levert til disse. Rett adressen i registeret under, så sendes neste invitasjon og påminnelse dit.",
+        "head": "{count, plural, one {# adresse eller nummer når ikke fram} other {# adresser eller numre når ikke fram}}",
+        "lead": "E-post- og SMS-leverandøren fikk ikke levert til disse. Rett adressen eller nummeret i registeret under, så sendes neste invitasjon og påminnelse dit.",
         "problem": {
           "hard_bounce": "adressen finnes ikke",
           "invalid": "ugyldig adresse",
           "blocked": "mottakeren blokkerer e-post fra oss",
           "spam": "meldingen ble merket som søppelpost",
           "unsubscribed": "mottakeren har meldt seg av"
+        },
+        "problemSms": {
+          "hard_bounce": "nummeret finnes ikke",
+          "invalid": "ugyldig nummer",
+          "blocked": "nummeret tar ikke imot SMS fra oss",
+          "spam": "meldingen ble rapportert som uønsket",
+          "unsubscribed": "mottakeren har meldt seg av SMS"
         }
       }
     },

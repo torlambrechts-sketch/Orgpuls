@@ -122,20 +122,27 @@ Deno.serve(async (req) => {
     // without a readable list, registering could make a duplicate: stop instead
     if (!list.ok) return json({ ok: false, code: 'list_failed', listStatus: list.status })
     const hooks = ((await list.json()) as { webhooks?: Array<{ id: number; url?: string; type?: string; events?: string[] }> }).webhooks ?? []
-    const ours = hooks.find((w) => (w.url ?? '').startsWith(target))
-    if (ours) return json({ ok: true, existing: true, id: ours.id, type: ours.type, events: ours.events ?? [] })
+    // one webhook per channel (D-98): `?probe=webhook&channel=sms` registers the SMS one
+    const channel = new URL(req.url).searchParams.get('channel') === 'sms' ? 'sms' : 'email'
+    const ours = hooks.find((w) => (w.url ?? '').startsWith(target) && (w.url ?? '').includes('channel=sms') === (channel === 'sms'))
+    if (ours) return json({ ok: true, existing: true, id: ours.id, channel, type: ours.type, events: ours.events ?? [] })
     const created = await fetch('https://api.brevo.com/v3/webhooks', {
       method: 'POST',
       headers: { ...h, 'content-type': 'application/json' },
       body: JSON.stringify({
-        url: `${target}?key=${encodeURIComponent(eventsSecret)}`,
-        description: 'Orgpuls delivery events (no opens, no clicks)',
+        // Brevo takes one webhook per address, so the SMS one says so in its own
+        url: `${target}?key=${encodeURIComponent(eventsSecret)}${channel === 'sms' ? '&channel=sms' : ''}`,
+        description: channel === 'sms' ? 'Orgpuls SMS delivery events' : 'Orgpuls delivery events (no opens, no clicks)',
         type: 'transactional',
-        events: ['delivered', 'hardBounce', 'softBounce', 'blocked', 'spam', 'invalid', 'deferred', 'unsubscribed'],
+        channel,
+        events:
+          channel === 'sms'
+            ? ['delivered', 'softBounce', 'hardBounce', 'unsubscribe', 'rejected', 'skip']
+            : ['delivered', 'hardBounce', 'softBounce', 'blocked', 'spam', 'invalid', 'deferred', 'unsubscribed'],
       }),
     })
-    const out = (await created.json().catch(() => ({}))) as { id?: number; code?: string }
-    return json({ ok: created.ok, status: created.status, id: out.id ?? null, code: created.ok ? null : out.code ?? null, listStatus: list.status })
+    const out = (await created.json().catch(() => ({}))) as { id?: number; code?: string; message?: string }
+    return json({ ok: created.ok, status: created.status, channel, id: out.id ?? null, code: created.ok ? null : out.code ?? null, message: created.ok ? null : out.message ?? null })
   }
 
   if (probe === 'tracking') {

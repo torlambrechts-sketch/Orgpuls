@@ -4221,3 +4221,31 @@ noted that "Pris" on the front page does not open /priser.
 - admin.orgpuls.com `/` goes to its `/login`.
 - localhost keeps `/admin`.
 - The sitemap has 19 English alternates.
+
+## D-99 — SMS delivery reports
+
+**The request:** "add sms". Mail delivery events existed (D-97); an SMS that never arrived
+was invisible.
+
+**What changed:**
+- **A second Brevo webhook** (id 2205413), type transactional, channel `sms`.
+  - Brevo allows one webhook per address, so its address ends `&channel=sms`.
+  - Events: delivered, soft and hard bounce, unsubscribe, rejected, skip.
+  - The dispatcher's `?probe=webhook&channel=sms` registers it idempotently. A registration
+    is refused when the existing list cannot be read, so no duplicate can be made.
+- **orgpuls-mail-events reads SMS reports:**
+  - `msg_status`, `messageId`, `ts_event` or `date`, `description` and `bounce_type`;
+  - maps them onto the same `record_mail_event` kinds (a rejected or blacklisted number is
+    `blocked`, a skip is `error`);
+  - ignores replies.
+  - **The phone number and any reply text are never passed on.** A number quoted in the
+    description is masked to `[number]` before it reaches the database.
+- **No migration was needed:**
+  - the SMS message id is already the outbox row's `provider_id`;
+  - `record_mail_event` already flags `address_problems` on the row's own channel;
+  - changing a phone number already clears the SMS flag (0053).
+- **Oppsett › Ansatte:** the panel reads "adresser eller numre når ikke fram". An SMS problem
+  has its own wording ("nummeret finnes ikke", "nummeret tar ikke imot SMS fra oss" …).
+
+**Limit:** Brevo reports an SMS as delivered when the operator confirms it. An operator
+that sends no confirmation leaves the row with no delivery state, not a failure.
