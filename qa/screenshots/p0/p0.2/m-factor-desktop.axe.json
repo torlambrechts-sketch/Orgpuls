@@ -1,0 +1,17 @@
+[
+  {
+    "id": "color-contrast",
+    "impact": "serious",
+    "help": "Elements must meet minimum color contrast ratio thresholds",
+    "nodes": [
+      {
+        "target": ".font-semibold.text-faint.text-\\[12\\.5px\\]:nth-child(37)",
+        "summary": "Element has insufficient color contrast of 3.74 (foreground color: #8a8272, background color: #fffdf6, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
+      },
+      {
+        "target": ".font-semibold.text-faint.text-\\[12\\.5px\\]:nth-child(49)",
+        "summary": "Element has insufficient color contrast of 3.74 (foreground color: #8a8272, background color: #fffdf6, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
+      }
+    ]
+  }
+]

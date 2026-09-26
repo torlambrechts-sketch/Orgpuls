@@ -17,7 +17,14 @@
     "test": "vitest run",
     "modules:validate": "tsx scripts/modules/validate.ts",
     "modules:seed": "tsx scripts/modules/seed.ts",
-    "modules:publish": "tsx scripts/modules/publish.ts"
+    "modules:publish": "tsx scripts/modules/publish.ts",
+    "qa:up": "bash scripts/qa/up.sh",
+    "qa:seed": "bash scripts/qa/up.sh",
+    "qa:serve": "node scripts/qa/serve.mjs",
+    "qa:visual": "node scripts/qa/visual.mjs",
+    "e2e": "node scripts/qa/e2e.mjs",
+    "test:db": "bash scripts/qa/test-db.sh",
+    "test:invariants": "node scripts/qa/invariants.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.5",
@@ -32,6 +39,8 @@
     "zod": "^4.5.4"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
     "@types/node": "^22.9.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",

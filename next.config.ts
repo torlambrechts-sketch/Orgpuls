@@ -60,6 +60,9 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // the QA tenant builds against the local stack into its own directory (scripts/qa/serve.mjs),
+  // so a QA build never overwrites the one that talks to the hosted project
+  distDir: process.env.NEXT_DIST_DIR || '.next',
   typedRoutes: true,
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }]
