@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server'
 import { ExtendTrialForm, NoteForm } from '@/components/admin/ActionForms'
 import { ALink, Badge, Card, day, nok, PageHead, pct, Problem, Table, Td, when, type BadgeTone } from '@/components/admin/ui'
 import { canSee } from '@/lib/admin/access'
-import { auditList, emailLog, isError, orgAttribution, orgDetail, orgTickets, STATUSES, whoami } from '@/lib/admin/api'
+import { auditList, emailLog, isError, orgAttribution, orgDetail, orgLifecycle, orgTickets, STATUSES, whoami } from '@/lib/admin/api'
 import { STATUS_TONE } from '@/components/admin/tones'
 
 const TONE: Record<(typeof STATUSES)[number], BadgeTone> = { trial: 'yellow', grace: 'red', read_only: 'grey', active: 'green' }
@@ -24,9 +24,9 @@ export default async function AdminOrg({ params }: { params: Promise<{ id: strin
     return <Problem text={d.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   }
   const support = who?.role === 'super_admin' || who?.role === 'support'
-  const [mail, trail, cases] = support
-    ? await Promise.all([emailLog(id), auditList(id, 100), orgTickets(id)])
-    : [null, null, null]
+  const [mail, trail, cases, life] = support
+    ? await Promise.all([emailLog(id), auditList(id, 100), orgTickets(id), orgLifecycle(id)])
+    : [null, null, null, null]
   const o = d.org
   const b = d.billing
   const problems = {
@@ -210,6 +210,29 @@ export default async function AdminOrg({ params }: { params: Promise<{ id: strin
               </tr>
             ))}
           </Table>
+        </Card>
+      ) : null}
+
+      {life && !isError(life) ? (
+        <Card title={t('org.lifecycle.title')} className="mt-[14px]">
+          <Table
+            head={[t('org.lifecycle.step'), t('org.lifecycle.status'), t('org.lifecycle.queued'), t('org.lifecycle.sent')]}
+            empty={life.rows.length ? undefined : t('org.lifecycle.none')}
+          >
+            {life.rows.map((r) => (
+              <tr key={r.step + r.created_at}>
+                <Td className="font-semibold">{t(`org.lifecycle.steps.${r.step}`)}</Td>
+                <Td>
+                  <Badge tone={r.status === 'sent' ? 'green' : r.status === 'failed' ? 'red' : r.status === 'skipped' ? 'grey' : 'yellow'}>
+                    {t(`org.lifecycle.statuses.${r.status}`)}
+                  </Badge>
+                </Td>
+                <Td>{when(r.created_at)}</Td>
+                <Td>{r.sent_at ? when(r.sent_at) : '—'}</Td>
+              </tr>
+            ))}
+          </Table>
+          <p className="mb-0 mt-[10px] text-[12px] text-mut">{t('org.lifecycle.note')}</p>
         </Card>
       ) : null}
 

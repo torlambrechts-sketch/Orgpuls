@@ -2594,6 +2594,51 @@
       "viewInBrowser": "View in browser",
       "companyFallback": "your organisation",
       "ps": "P.S."
+    },
+    "lifecycle": {
+      "footer": "You are getting this e-mail because {org} is trying Orgpuls. Reply to it if you would like help – it reaches us.",
+      "welcome": {
+        "subject": "Welcome to Orgpuls – here is the first step",
+        "lead": "{org} is ready in Orgpuls. The first thing to put in place is the list of employees: name, e-mail and department. Paste it from a spreadsheet, and the rest takes under an hour.",
+        "more": "The trial lasts until {date}. Everything is included, and nothing costs anything until you choose a plan.",
+        "cta": "Add the employees"
+      },
+      "setup_help": {
+        "subject": "Can we help you get started?",
+        "lead": "It is two days since {org} started in Orgpuls, and the employee list has not been added yet. That is often where it stalls: who should take part, how to split the departments, and who has the spreadsheet.",
+        "more": "Reply to this e-mail and we will help you set it up, by e-mail or in a short call. It costs nothing.",
+        "cta": "Open the employee list"
+      },
+      "first_sent": {
+        "subject": "The survey is out – how to get enough answers",
+        "lead": "The invitations from {org} have been sent. A group is shown only once at least {k} have answered, so the response rate decides how much you get to see.",
+        "more": "Three things help: explain in a meeting why you are surveying and that answers are anonymous, ask the safety representative to encourage people to answer, and let the reminder go out as planned.",
+        "cta": "Follow the response rate"
+      },
+      "results_ready": {
+        "subject": "The first results are ready",
+        "lead": "At least one group in {org} has enough answers, and the results can be read. Go through them with the safety representative, and choose one or two areas to act on.",
+        "more": "The report is the documentation the Labour Inspection Authority asks for: survey, risk assessment and measures, in one place.",
+        "cta": "See the results"
+      },
+      "trial_ending": {
+        "subject": "Your trial ends on {date}",
+        "lead": "The trial for {org} ends on {date}. Choose a plan under Settings › Payment to continue without a break.",
+        "more": "If you do not, everything keeps working for {grace} more days. After that you can read everything, but not start new surveys until a plan is chosen.",
+        "cta": "Choose a plan"
+      },
+      "trial_ended": {
+        "subject": "The trial is over – everything still works",
+        "lead": "The trial for {org} is over. Everything works as before until {date}.",
+        "more": "Choose a plan under Settings › Payment before then, and nobody will notice a difference. If you have questions about price or terms, reply to this e-mail.",
+        "cta": "Choose a plan"
+      },
+      "read_only_soon": {
+        "subject": "From {date} you can only read",
+        "lead": "From {date}, {org} can read all results and reports, but not start new surveys, until a plan is chosen.",
+        "more": "A survey that is already open finishes as planned. Choose a plan and everything is back at once.",
+        "cta": "Choose a plan"
+      }
     }
   },
   "newPassword": {
@@ -6761,7 +6806,8 @@
       "tickets": "Tickets",
       "signOut": "Sign out",
       "navLabel": "Admin",
-      "crm": "CRM"
+      "crm": "CRM",
+      "health": "Account health"
     },
     "role": {
       "super_admin": "Super-admin",
@@ -6977,7 +7023,32 @@
         "heard": "Heard of us via"
       },
       "tickets": "Tickets",
-      "addressProblems": "{count, plural, one {# address does not take mail} other {# addresses do not take mail}}"
+      "addressProblems": "{count, plural, one {# address does not take mail} other {# addresses do not take mail}}",
+      "lifecycle": {
+        "title": "Trial mail",
+        "step": "Mail",
+        "status": "Status",
+        "queued": "Queued",
+        "sent": "Sent",
+        "none": "None yet. Organisations created before 26 September 2026 get none.",
+        "note": "Service mail to the daglig leder, sent when a step becomes true and skipped if it no longer is when its turn comes. Replies go to support.",
+        "steps": {
+          "welcome": "Welcome",
+          "setup_help": "Setup help (48 h, no employees)",
+          "first_sent": "First survey sent",
+          "results_ready": "First results",
+          "trial_ending": "Trial ends in 3 days",
+          "trial_ended": "Trial ended, grace",
+          "read_only_soon": "Read-only in 3 days"
+        },
+        "statuses": {
+          "pending": "Queued",
+          "sending": "Sending",
+          "sent": "Sent",
+          "failed": "Failed",
+          "skipped": "Skipped"
+        }
+      }
     },
     "users": {
       "title": "Users",
@@ -7872,6 +7943,46 @@
         "clickRate": "Click",
         "signups": "Signups",
         "ab": "A/B"
+      }
+    },
+    "health": {
+      "title": "Account health",
+      "lead": "Every organisation scored 0–100: activation 50, a recent sign-in 25, the last round's response rate 15, size 10. The reasons stand beside the number. Counts only, never an answer.",
+      "qualified": "Qualified trials",
+      "ofTrials": "of {count} in trial or grace",
+      "stalled": "Stalled trials",
+      "stalledHint": "No step taken yet",
+      "atRisk": "Customers at risk",
+      "atRiskHint": "Score under 40, of {count} paying",
+      "views": "Show",
+      "view": {
+        "trials": "Trials",
+        "customers": "Customers",
+        "all": "All"
+      },
+      "head": {
+        "org": "Organisation",
+        "status": "Status",
+        "score": "Score",
+        "why": "Why",
+        "trialEnds": "Trial ends"
+      },
+      "pql": "Qualified",
+      "note": "Qualified: in trial or grace, and results unlocked — or a survey sent with ten or more employees.",
+      "step": {
+        "employees_uploaded": "employees",
+        "scheduled": "survey planned",
+        "sent": "survey sent",
+        "unlocked": "results",
+        "measure": "a measure"
+      },
+      "why": {
+        "steps": "{count}/5: {list}",
+        "noSteps": "No step taken",
+        "neverSignedIn": "never signed in",
+        "signedIn": "signed in {days, plural, =0 {today} one {# day ago} other {# days ago}}",
+        "rate": "last round {rate} % answered",
+        "size": "{count} employees"
       }
     }
   },

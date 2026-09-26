@@ -2004,6 +2004,10 @@ search data, and revenue figures. Step 1 is D-104. Three decisions shape the res
   "direct". A fixed-answer question at signup counts them without free text.
 - **Opens are not evidence.** Winners, scores and reports use clicks, activation and
   payment, not opens.
+- **The trial's mail is service mail and follows the product's rules**: product sender, no
+  open or click tracking, a row per organisation and step, re-checked before sending (D-105).
+- **A score shows its reasons.** Account health prints why beside the number, and the
+  weights live in one expression, to be fitted once there are conversions.
 
 ## Open items
 - [ ] Legal read of `/personvernerklaering` (D-104), and of whether the cookieless beacon and

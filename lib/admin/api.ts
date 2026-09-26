@@ -463,3 +463,40 @@ export const orgTickets = (org: string) =>
       ),
     }),
   )
+
+// ---------------------------------------------------------------- account health and trial mail (0060, D-105)
+const HealthRow = z.object({
+  id: z.string(),
+  name: z.string(),
+  created_at: ts,
+  access: z.enum(STATUSES),
+  trial_ends_at: tsn,
+  employees: numn,
+  employees_uploaded: z.boolean(),
+  scheduled: z.boolean(),
+  sent: z.boolean(),
+  unlocked: z.boolean(),
+  measure: z.boolean(),
+  last_sign_in: tsn,
+  last_invited: num,
+  last_answered: num,
+  activation_points: num,
+  recency_points: num,
+  response_points: num,
+  size_points: num,
+  score: num,
+  qualified: z.boolean(),
+})
+export type HealthRow = z.infer<typeof HealthRow>
+export const accountHealth = () => call('admin_account_health', {}, z.object({ rows: z.array(HealthRow) }))
+
+export const LIFECYCLE_STEPS = ['welcome', 'setup_help', 'first_sent', 'results_ready', 'trial_ending', 'trial_ended', 'read_only_soon'] as const
+const LifecycleRow = z.object({
+  step: z.enum(LIFECYCLE_STEPS),
+  status: z.enum(['pending', 'sending', 'sent', 'failed', 'skipped']),
+  created_at: ts,
+  sent_at: tsn,
+  last_error: z.string().nullable(),
+})
+export type LifecycleRow = z.infer<typeof LifecycleRow>
+export const orgLifecycle = (org: string) => call('admin_org_lifecycle', { p_org: org }, z.object({ rows: z.array(LifecycleRow) }))

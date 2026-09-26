@@ -7,7 +7,8 @@
  * service key is the database. `verify_jwt` is off because pg_net sends no JWT.
  *
  * After the notices, replies to support tickets (0051) are drained the same way, each sent
- * with the support inbox as Reply-To.
+ * with the support inbox as Reply-To; then the trial's service mail (0060, D-105), on the
+ * product's sender with the same Reply-To, since each of those invites an answer.
  *
  * Then marketing (0055, D-101): newsletter confirmations and campaigns, on the marketing
  * sender (ORGPULS_MARKETING_FROM). Without one, or with one on the product's own sending
@@ -46,12 +47,14 @@ import {
   groupsOf,
   langOf,
   renderCampaign,
+  renderLifecycle,
   renderNotice,
   renderOptin,
   renderTicketReply,
   smsLead,
   unsubscribeApi,
   type CrmJob,
+  type LifecycleJob,
   type MailCatalogue,
   type NoticeJob,
   type TicketJob,
@@ -426,6 +429,50 @@ Deno.serve(async (req) => {
   }
   if (tickets.sent + tickets.retry + tickets.failed) console.log(`[dispatch] ticket replies: sent ${tickets.sent}, retry ${tickets.retry}, failed ${tickets.failed}`)
 
+  // the trial's mail (0060, D-105): service mail on the product's sender, answered to support
+  const life = { sent: 0, retry: 0, failed: 0 }
+  while (Date.now() - started < BUDGET_MS) {
+    const { data, error } = await svc.rpc('lifecycle_mail_claim', { p_batch: BATCH })
+    if (error) {
+      console.error(`[dispatch] lifecycle claim failed: ${error.code ?? ''} ${error.message}`)
+      break
+    }
+    const jobs = (data ?? []) as LifecycleJob[]
+    if (jobs.length === 0) break
+    for (const job of jobs) {
+      let outcome: SendResult
+      try {
+        const r = renderLifecycle(cat, job, appUrl)
+        outcome = await brevoSend(key, {
+          sender,
+          to: [{ email: job.to_email, name: job.name ?? undefined }],
+          subject: r.subject,
+          html: r.html,
+          text: r.text,
+          tag: `orgpuls-life-${job.step}`,
+          replyTo,
+        })
+      } catch (e) {
+        console.error(`[dispatch] lifecycle ${job.id}: render failed: ${(e as Error).message}`)
+        outcome = { ok: false, retryable: false, auth: false, code: 'render' }
+      }
+      await svc.rpc('lifecycle_mail_done', {
+        p_id: job.id,
+        p_ok: outcome.ok,
+        p_provider_id: outcome.ok ? outcome.id || null : null,
+        p_error: outcome.ok ? null : outcome.code,
+        p_permanent: !outcome.ok && !outcome.retryable,
+      })
+      if (outcome.ok) life.sent++
+      else if (outcome.retryable) life.retry++
+      else life.failed++
+      if (!outcome.ok) console.error(`[dispatch] lifecycle ${job.id}: ${outcome.code}`)
+      if (!outcome.ok && outcome.auth) return json({ error: 'provider_unauthorised', ...tally, tickets, life }, 502)
+    }
+    if (jobs.length < BATCH) break
+  }
+  if (life.sent + life.retry + life.failed) console.log(`[dispatch] trial mail: sent ${life.sent}, retry ${life.retry}, failed ${life.failed}`)
+
   // marketing (0055, D-101): confirmations and campaigns, on the marketing sender only
   const crm = { sent: 0, retry: 0, failed: 0, held: false }
   // Brevo refuses a sender on a domain it has not authenticated, and a refusal would fail the
@@ -481,11 +528,11 @@ Deno.serve(async (req) => {
         else if (outcome.retryable) crm.retry++
         else crm.failed++
         if (!outcome.ok) console.error(`[dispatch] crm ${job.id}: ${outcome.code}`)
-        if (!outcome.ok && outcome.auth) return json({ error: 'provider_unauthorised', ...tally, tickets, crm }, 502)
+        if (!outcome.ok && outcome.auth) return json({ error: 'provider_unauthorised', ...tally, tickets, life, crm }, 502)
       }
       if (jobs.length < BATCH) break
     }
     if (crm.sent + crm.retry + crm.failed) console.log(`[dispatch] marketing: sent ${crm.sent}, retry ${crm.retry}, failed ${crm.failed}`)
   }
-  return json({ ...tally, tickets, crm })
+  return json({ ...tally, tickets, life, crm })
 })

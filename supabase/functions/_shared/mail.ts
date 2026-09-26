@@ -323,6 +323,56 @@ export function renderTicketReply(cat: MailCatalogue, job: TicketJob, lang: Lang
 }
 
 // ---------------------------------------------------------------------------------------
+// The trial's mail (0060, D-105): service mail to the daglig leder, sent when a step becomes
+// true. One thing to do and one button each; replies go to support, and the footer says so.
+// ---------------------------------------------------------------------------------------
+
+export type LifecycleStep = 'welcome' | 'setup_help' | 'first_sent' | 'results_ready' | 'trial_ending' | 'trial_ended' | 'read_only_soon'
+
+export interface LifecycleJob {
+  id: string
+  step: LifecycleStep
+  to_email: string
+  name: string | null
+  lang: string | null
+  org: string
+  k: number
+  trial_ends_at: string
+  read_only_from: string
+}
+
+/** Where each step's button leads, in the app. */
+export const LIFECYCLE_PATH: Record<LifecycleStep, string> = {
+  welcome: '/oppsett?fane=ansatte',
+  setup_help: '/oppsett?fane=ansatte',
+  first_sent: '/malinger',
+  results_ready: '/resultater',
+  trial_ending: '/oppsett?fane=betaling',
+  trial_ended: '/oppsett?fane=betaling',
+  read_only_soon: '/oppsett?fane=betaling',
+}
+
+export function renderLifecycle(cat: MailCatalogue, job: LifecycleJob, appUrl: string, graceDays = 14): Rendered {
+  const lang = langOf(job.lang)
+  const m = cat[lang]
+  const key = `lifecycle.${job.step}`
+  // the trial's end for the first three steps and trial_ending; the read-only date after it
+  const date = dateOf(job.step === 'trial_ended' || job.step === 'read_only_soon' ? job.read_only_from : job.trial_ends_at, lang)
+  const vars = { org: job.org, k: job.k, date, grace: graceDays }
+  const greeting = job.name ? fill(pick(m, 'greeting'), { name: job.name }) : pick(m, 'greetingPlain')
+  const url = `${appUrl.replace(/\/+$/, '')}${LIFECYCLE_PATH[job.step]}`
+  const { text, html } = layout({
+    lang,
+    greeting,
+    paragraphs: [fill(pick(m, `${key}.lead`), vars), fill(pick(m, `${key}.more`), vars)],
+    cta: { label: pick(m, `${key}.cta`), url },
+    after: [],
+    footer: fill(pick(m, 'lifecycle.footer'), { org: job.org }),
+  })
+  return { subject: fill(pick(m, `${key}.subject`), vars), text, html }
+}
+
+// ---------------------------------------------------------------------------------------
 // Marketing (0055, D-101; 0056, D-103): a campaign written in the admin, and the
 // newsletter's confirmation. Both go out on the marketing sender, never the product's.
 //

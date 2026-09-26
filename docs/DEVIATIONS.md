@@ -4638,3 +4638,60 @@ Verified: `web_invariants.sql` 19/19, locally and against hosted. In the browser
 - the privacy page at 1440 and 390 with no sideways scroll;
 - the admin's new card;
 - no console errors.
+
+## D-105 — The trial's mail, and account health with its reasons
+
+Step 2 of X-063.
+
+- **Seven service mails to the daglig leder** (0060), each sent once, and only while it is
+  true:
+
+  | Mail | When |
+  |---|---|
+  | welcome | at signup |
+  | setup help | 48 h with no employees |
+  | first survey sent | how to reach k answers |
+  | first results | — |
+  | trial ends in 3 days | — |
+  | trial ended | grace begins |
+  | read-only in 3 days | — |
+
+  - `app.lifecycle_plan()` queues them every 15 minutes.
+  - `lifecycle_mail_claim` checks each row again and marks it `skipped` if it is no longer
+    true. A customer who confirms a plan never gets "your trial ends".
+  - They go on the product's sender, with support as Reply-To. Each one's footer says why
+    it was sent and that a reply reaches us.
+  - They are service mail about the trial the customer started, not marketing: no list, no
+    consent, no tracking of opens or clicks (D-97 holds).
+  - Organisations created before 26 September 2026 get none: they did not sign up to a
+    sequence, and some were imported.
+- **No design exists for these mails.** They use the product's existing mail layout (the
+  notices' card, button and footer). There is one button each, pointing at the page where
+  the step is done.
+- **Account health** (`/admin/health`, `admin_account_health`) scores 0–100:
+
+  | Signal | Points |
+  |---|---|
+  | activation: employees, planned, sent, results, a measure | 10 each |
+  | sign-in in the last 7 days / 30 days | 25 / 10 |
+  | last round's response rate ≥ 60 % / ≥ 40 % | 15 / 8 |
+  | size ≥ 20 / ≥ 10 employees | 10 / 5 |
+
+  - The reasons are printed beside the number.
+  - A **qualified trial** is one in trial or grace that has reached results, or has sent a
+    survey with ten or more employees.
+  - The page reads counts the admin already had (D-90), never an answer.
+  - The weights are a first guess. They are one SQL expression, to be tuned once there
+    are conversions to fit them to.
+- The organisation page shows its trial mail: queued, sent, skipped.
+- Not built:
+  - a per-user opt-out from the tips (replying "stop" is handled by support);
+  - a CRM segment of qualified trials. CRM contacts are companies and people from
+    marketing, not product accounts, and joining them is its own decision.
+
+Verified:
+- `lifecycle_invariants.sql` 12/12, locally and on hosted;
+- 16 renderer tests (every step, both languages, escaped);
+- the dispatcher deployed and ran;
+- in the browser: the health page (views, reasons, qualified badge), the organisation's
+  trial-mail card, and three rendered mails; no console errors.
