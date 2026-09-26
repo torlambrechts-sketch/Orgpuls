@@ -4754,3 +4754,49 @@ Verified:
 - in the browser: `/admin/seo` in its unconnected state; no sideways scroll at 390 px on
   seo, web, health, crm, an organisation and the dashboard; the key file served with 200;
 - an article's `og:image`.
+
+## D-107 — The dashboard over time, and cost per customer
+
+Step 4 of X-063.
+
+- **Trends on the dashboard.**
+  - **Weekly signups and new customers, and weekly site visitors** (26 weeks) are computed
+    from tables that keep their history: `organizations.created_at`,
+    `billing.confirmed_at` and `web_events`.
+  - Each chart has a legend and a bar-by-bar hover label. The signups chart can be opened
+    as a table. Its two colours are the validated token pair #E0A21F / #5C9A55, whose
+    contrast warning is met by the legend and the table.
+- **Daily snapshots** (`app.kpi_daily`, 0062) keep the dashboard's own figures every evening:
+  MRR, paying, trials, grace, read-only, signups, visitors and sessions.
+  - **They are not backfilled.** The billing table keeps only the current plan, so a past
+    day's MRR cannot be read back, and a reconstructed history would look exactly like a
+    real one.
+  - The card says when snapshots began, and shows the change once there is a week of them.
+- **Cost per customer** (`/admin/acquisition`, 0062/0063).
+  - Spend is entered per month and channel (optionally per campaign) by super-admin,
+    finance or marketing, and audited.
+  - It is set against the signups and paying customers whose first-touch channel it was, in
+    the month they signed up. The page shows cost per signup and per customer by channel,
+    for the period and by month.
+  - A channel with no spend shows "—", not zero.
+  - An organisation with no recorded source is "Not recorded", as on the web page. 0062
+    counted it as direct; 0063 corrects that.
+- **Not built:**
+  - **Real MRR movements, churn, NRR and cohort revenue retention.** There is no
+    subscription ledger yet: no cancellation, no plan change and no invoice. They follow
+    the billing decisions (D-93/D-94: Stripe or invoice, card or not, annual prices,
+    payment terms).
+  - **"View as customer" for support.** It would give staff a customer's view of that
+    customer's data. It would still go through the k-anonymity functions, so no invariant
+    weakens, but the DPA (Vedlegg 2) promises Orgpuls' people access to production data
+    only when operations or troubleshooting require it. Who may use it, with what approval,
+    and how the customer is told is the owner's decision, not the implementer's.
+
+Verified:
+- `trends_invariants.sql` 8/8, locally and on hosted; all 36 suites;
+- the hosted database's first snapshot;
+- in the browser:
+  - the dashboard's trend cards and the snapshot note;
+  - a spend entry added through the form, shown in totals and entries, then deleted;
+  - no sideways scroll at 390 px;
+  - no console errors.

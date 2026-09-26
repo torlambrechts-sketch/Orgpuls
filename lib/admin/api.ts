@@ -530,3 +530,30 @@ const Seo = z.object({
 export type Seo = z.infer<typeof Seo>
 export const SEO_PERIODS = [28, 90] as const
 export const seo = (days: number) => call('admin_seo', { p_days: days }, Seo)
+
+// ---------------------------------------------------------------- trends and cost per customer (0062, D-107)
+const Trends = z.object({
+  daily: z.array(z.object({ day: z.string(), mrr: num, paying: num, trials: num, grace: num, read_only: num, signups: num, visitors: num, sessions: num })),
+  weekly: z.array(z.object({ week: z.string(), signups: num, converted: num, visitors: num })),
+})
+export type Trends = z.infer<typeof Trends>
+export const trends = (weeks = 26) => call('admin_trends', { p_weeks: weeks }, Trends)
+
+export const SPEND_CHANNELS = ['paid', 'social', 'email', 'organic', 'referral', 'campaign', 'ai', 'direct', 'other'] as const
+const Acquisition = z.object({
+  rows: z.array(z.object({ month: z.string(), channel: z.string(), spend: numn, signups: num, paid: num })),
+  entries: z.array(
+    z.object({
+      id: z.string(),
+      month: z.string(),
+      channel: z.string(),
+      campaign: z.string().nullable(),
+      amount_nok: num,
+      note: z.string().nullable(),
+      entered_at: ts,
+      entered_by: z.string().nullable(),
+    }),
+  ),
+})
+export type Acquisition = z.infer<typeof Acquisition>
+export const acquisition = (months = 12) => call('admin_acquisition', { p_months: months }, Acquisition)

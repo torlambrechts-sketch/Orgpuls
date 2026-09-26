@@ -2010,8 +2010,13 @@ search data, and revenue figures. Step 1 is D-104. Three decisions shape the res
   weights live in one expression, to be fitted once there are conversions.
 - **Connect, don't imitate.** A search source without credentials shows its empty state and the
   steps to connect it, never a stand-in number (D-106).
+- **History is kept from the day it can be kept.** Trends come from tables that keep their
+  history; figures that only exist as a current value are snapshotted from now on, never
+  reconstructed (D-107).
 
 ## Open items
+- [ ] "View as customer" for support: whether, for whom, with what approval, and how the
+  customer is told (D-107; the DPA's Vedlegg 2 limits staff access today).
 - [ ] Google Search Console: create a service account, add it to the property, set
   `GSC_SERVICE_ACCOUNT` and `GSC_SITE` in Supabase's function secrets (D-106).
 - [ ] Bing Webmaster Tools: verify orgpuls.com; an API key would add Copilot citations (D-106).

@@ -186,3 +186,40 @@ export async function linkRound(_prev: AdminResult | null, formData: FormData): 
   if (r.ok) revalidatePath(`/admin/tickets/${parsed.data.id}`)
   return r
 }
+
+// ---------------------------------------------------------------- marketing spend (0062, D-107)
+export async function addSpend(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({
+      month: z.string().regex(/^\d{4}-\d{2}$/),
+      channel: z.enum(['paid', 'social', 'email', 'organic', 'referral', 'campaign', 'ai', 'direct', 'other']),
+      campaign: z.string().trim().max(80),
+      amount: z.coerce.number().int().min(0).max(100_000_000),
+      note: z.string().trim().max(200),
+    })
+    .safeParse({
+      month: formData.get('month'),
+      channel: formData.get('channel'),
+      campaign: formData.get('campaign') ?? '',
+      amount: formData.get('amount'),
+      note: formData.get('note') ?? '',
+    })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_spend_add', {
+    p_month: `${parsed.data.month}-01`,
+    p_channel: parsed.data.channel,
+    p_campaign: parsed.data.campaign || null,
+    p_amount: parsed.data.amount,
+    p_note: parsed.data.note || null,
+  })
+  if (r.ok) revalidatePath('/admin/acquisition')
+  return r
+}
+
+export async function deleteSpend(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z.object({ id: z.string().uuid() }).safeParse({ id: formData.get('id') })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_spend_delete', { p_id: parsed.data.id })
+  if (r.ok) revalidatePath('/admin/acquisition')
+  return r
+}

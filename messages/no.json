@@ -6808,7 +6808,8 @@
       "navLabel": "Admin",
       "crm": "CRM",
       "health": "Account health",
-      "seo": "Search and content"
+      "seo": "Search and content",
+      "acquisition": "Cost per customer"
     },
     "role": {
       "super_admin": "Super-admin",
@@ -6881,7 +6882,22 @@
       "measure": "Measure created",
       "converted": "Paid",
       "median": "Median to first send",
-      "hours": "{value} h"
+      "hours": "{value} h",
+      "trends": {
+        "weekly": "Signups and new customers per week",
+        "signups": "Signups",
+        "customers": "New customers",
+        "weeklyLabel": "Signups and new paying customers per week, the last 26 weeks",
+        "table": "Show as a table",
+        "week": "Week of",
+        "visitors": "Visitors",
+        "visitorsTitle": "Site visitors per week",
+        "visitorsLabel": "Visitors to the public site per week, the last 26 weeks",
+        "visitorsNote": "Visitors are counted per day and summed; the site keeps 13 months.",
+        "snapshots": "MRR and paying over time",
+        "since": "Since {date}: MRR {mrrFrom} → {mrrTo}, paying {payingFrom} → {payingTo}.",
+        "started": "Daily snapshots began {date} ({count, plural, one {# so far} other {# so far}}). A past day's MRR cannot be read back from the billing table, so the history starts here; the trend appears after a week."
+      }
     },
     "orgs": {
       "title": "Organisations",
@@ -8049,6 +8065,45 @@
         "page": "{page}: {impressions} impressions, position {position}",
         "none": "No query is split between two pages.",
         "note": "Two or more of our pages each with at least ten impressions for the same query. Pick one to answer it and link the other to it."
+      }
+    },
+    "acquisition": {
+      "title": "Cost per customer",
+      "lead": "What each channel cost, against the signups and paying customers whose first visit came through it. Spend is entered here; the rest is counted.",
+      "totals": "The last 12 months, by channel",
+      "byMonth": "By month",
+      "add": "Add spend",
+      "entries": "Spend entered",
+      "noEntries": "No spend entered yet.",
+      "delete": "Delete",
+      "note": "A signup belongs to the channel of its first visit that day (D-104). Where no spend is entered the cost shows “—”, not zero: organic search costs the writing, and only you know what that was.",
+      "head": {
+        "channel": "Channel",
+        "spend": "Spend",
+        "perSignup": "Per signup",
+        "perCustomer": "Per customer",
+        "month": "Month",
+        "by": "Entered by"
+      },
+      "form": {
+        "month": "Month",
+        "campaign": "Campaign (optional)",
+        "amount": "Amount (NOK, ex. VAT)",
+        "note": "Note",
+        "submit": "Add",
+        "done": "Added.",
+        "invalid": "Check the month, channel and amount."
+      },
+      "channel": {
+        "paid": "Paid ads",
+        "social": "Social",
+        "email": "E-mail",
+        "organic": "Organic search",
+        "referral": "Referral",
+        "campaign": "Other campaign",
+        "ai": "AI assistant",
+        "direct": "Direct",
+        "other": "Other"
       }
     }
   },
