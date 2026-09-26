@@ -63,6 +63,19 @@ insisted on a token.
 With the header gone the server authorises over OAuth, so there is no long-lived
 account-scoped credential to store, leak or rotate. Do not add it back.
 
+### The Supabase MCP is the claude.ai connector, not `.mcp.json`
+
+`.mcp.json` then declared the server with no header, to authorise over OAuth. That never
+worked in a cloud session: the OAuth token is kept in the container, every session starts
+a fresh container with none, and a cloud session cannot run the interactive sign-in. So
+each session opened with "supabase needs authentication" — while the claude.ai **Supabase**
+connector, which reaches the same project, was connected and working. Reconnecting that
+connector could not clear the notice, because the notice was about the other server.
+
+The entry is removed (2026-09-26). Database tools come from the connector
+(`mcp__Supabase__*`), connected once under claude.ai → Settings → Connectors. If claude.ai
+itself asks for it to be reconnected, that is the connector's own sign-in expiring.
+
 ### API credentials
 
 For `ORGPULS_DEV_PASSWORD` only — the fixture account the screenshot script signs in as.

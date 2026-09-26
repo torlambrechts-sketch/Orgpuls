@@ -1994,6 +1994,8 @@ own database, and that the campaign editor is built in-house. Migration 0055 doe
 ## Open items
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
+- [x] 2026-09-26: the `.mcp.json` `supabase` server removed; it could not authorise in a cloud
+  session and duplicated the claude.ai Supabase connector. See docs/CLOUD_SETUP.md.
 - [ ] Auth leaked-password protection is disabled: it needs the Supabase Pro plan (D-77).
 - [x] Innsikt rebuilt on the real schema. X-015.
 - [x] Måleoppsett built on migration 0017. X-017.
