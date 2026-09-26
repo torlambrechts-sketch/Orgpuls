@@ -4407,3 +4407,50 @@ Migration 0055, X-061.
 | TXT | `nyheter` | `brevo-code:a767ee2c6ea6890305b5686e6513f70f` |
 
 - DMARC is inherited from `_dmarc.orgpuls.com`, and Brevo already reports it as valid.
+
+## D-102 — "Fortsett med Google"
+
+**The request:** "add google signin options".
+
+**What changed:**
+- **Sign-in (/logg-inn):** the design has a slot for alternative providers: an "eller" rule
+  and 46 px buttons on the page colour (Orgpuls_Start.dc.html lines 467-477). D-38 left them
+  out because no provider was configured.
+  - "Fortsett med Google" now fills that slot, drawn exactly as the design draws those
+    buttons, with Google's "G" as Google's branding rules require.
+  - It renders only when Google is enabled in Supabase Auth (read from the project's public
+    `/auth/v1/settings`, cached five minutes), so a dead sign-in button never shows.
+- **Registration, step 2:** the same button under "Opprett konto", enabled once the terms
+  box is ticked.
+  - The company from step 1, the size band and the signup's attribution travel through
+    Google in a 30-minute http-only cookie.
+  - The callback creates the organisation with `create_organisation`, as a password signup
+  does, then opens step 3. Name and e-mail come from the Google account.
+  - The design has no provider on this step; this is an addition in the sign-in slot's
+    style.
+- **Invitations (/bli-med):** Google is offered beside the password. The callback returns
+  to the invitation signed in, where the invited address is checked as before.
+- **/auth/callback** exchanges the code (PKCE; Supabase keeps the verifier in a cookie):
+  - **Login:** a Google account with no organisation is signed out again and told to
+    register or use its invitation. Signing in never quietly creates a customer.
+  - **Signup:** an account that already has an organisation just goes in.
+  - **Platform admins:** refused whatever the flow. Admin identities stay separate and
+    sign in with a password and TOTP only (D-90).
+  - Every redirect is a fixed path.
+- **Auth redirect allow-list:** en.orgpuls.com added.
+
+**Waiting on the owner:** a Google OAuth client, which this project cannot create.
+- In Google Cloud Console, create a Web OAuth client with:
+  - authorised redirect URI `https://jmhhszsnjfqgclxzhciq.supabase.co/auth/v1/callback`;
+  - consent screen app name Orgpuls, domain orgpuls.com, scopes openid, email, profile.
+- Enter its client ID and secret in Supabase › Authentication › Sign In / Providers ›
+  Google, and switch it on.
+- The buttons appear within five minutes.
+
+**Verified:**
+- With the provider forced on in a local build:
+  - the sign-in and signup buttons render in the design's style;
+  - signup's button is disabled until consent is ticked;
+  - the error messages show;
+  - pressing the button starts the redirect to Supabase's authorize endpoint.
+- With the provider off, as on production now, neither page changes.

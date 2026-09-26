@@ -23,7 +23,13 @@
     "respondentTitle": "Da trenger du ingen konto",
     "respondentBody": "Bruk lenken du fikk tilsendt. Den er personlig, men svaret lagres uten kobling til deg. Verken lederen din eller vi kan se hva du har svart.",
     "lockedHead": "Får du ikke lenken?",
-    "lockedBody": "Se i søppelposten først. Er du fortsatt låst ute, skriv til hjelp@orgpuls.no — oppgi navn og hvilken virksomhet du jobber i."
+    "lockedBody": "Se i søppelposten først. Er du fortsatt låst ute, skriv til hjelp@orgpuls.no — oppgi navn og hvilken virksomhet du jobber i.",
+    "or": "eller",
+    "google": "Fortsett med Google",
+    "googleProblem": {
+      "google_failed": "Innloggingen med Google gikk ikke gjennom. Prøv igjen, eller logg inn med e-post og passord.",
+      "google_no_account": "Vi fant ingen Orgpuls-konto for denne Google-kontoen. Registrer virksomheten først, eller bruk invitasjonen du har fått på e-post."
+    }
   },
   "app": {
     "name": "Orgpuls",
@@ -2112,8 +2118,12 @@
       "already_registered": "Denne virksomheten er allerede registrert i Orgpuls. Be en administrator der om å invitere deg.",
       "invalid_name": "Virksomheten mangler navn.",
       "not_signed_in": "Økten er utløpt. Prøv igjen.",
-      "rate_limited": "For mange oppslag på kort tid. Vent noen minutter og prøv igjen."
-    }
+      "rate_limited": "For mange oppslag på kort tid. Vent noen minutter og prøv igjen.",
+      "google_failed": "Registreringen med Google gikk ikke gjennom. Prøv igjen, eller registrer deg med e-post og passord."
+    },
+    "googleOr": "eller",
+    "google": "Fortsett med Google",
+    "googleHint": "Kryss av for vilkårene over først. Navnet og e-postadressen hentes fra Google-kontoen."
   },
   "headerPanel": {
     "close": "Lukk",
@@ -2248,7 +2258,10 @@
       "already_accepted": "Invitasjonen er allerede brukt.",
       "not_found": "Denne lenken er ikke gyldig.",
       "failed": "Det gikk ikke. Prøv igjen."
-    }
+    },
+    "or": "eller",
+    "google": "Fortsett med Google",
+    "googleNote": "Bruk Google-kontoen med adressen invitasjonen ble sendt til."
   },
   "preview": {
     "back": "← Målinger",

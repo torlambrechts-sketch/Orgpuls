@@ -9,6 +9,7 @@ import {
   type ResetState,
   type SignInState,
 } from '@/app/(marketing)/logg-inn/actions'
+import { GoogleButton, GoogleDivider } from '@/components/start/GoogleButton'
 
 /**
  * Sign-in. Orgpuls_Start.dc.html lines 435-500.
@@ -19,10 +20,13 @@ import {
  * a dead control — it is the one screen where a person who cannot get in has no way to
  * tell whether the fault is theirs. The divider above them goes with them. D-38.
  *
+ * **Google is the exception (D-102):** once the provider is switched on in Supabase, it takes
+ * the design's alternative-button slot, divider and all, with the design's own styling.
+ *
  * "Glemt passord?" is real and sends through Supabase. Its answer does not depend on
  * whether the address exists, because this endpoint is answerable by anybody.
  */
-export function SignInPanel() {
+export function SignInPanel({ google = false, problem = null }: { google?: boolean; problem?: string | null }) {
   const t = useTranslations('auth')
   const [mode, setMode] = useState<'signin' | 'forgot'>('signin')
 
@@ -42,6 +46,12 @@ export function SignInPanel() {
       <p className="mt-[10px] max-w-[42ch] text-[14px] leading-[1.6] text-mut [text-wrap:pretty]">
         {mode === 'forgot' ? t('forgotLead') : t('lead')}
       </p>
+
+      {problem ? (
+        <p role="alert" className="mt-[12px] text-[13px] leading-[1.5] text-danger [text-wrap:pretty]">
+          {t(`googleProblem.${problem === 'google_no_account' ? 'google_no_account' : 'google_failed'}`)}
+        </p>
+      ) : null}
 
       {mode === 'forgot' && resetState.status === 'sent' ? (
         <>
@@ -161,6 +171,13 @@ export function SignInPanel() {
           )}
         </form>
       )}
+
+      {google && mode === 'signin' ? (
+        <>
+          <GoogleDivider label={t('or')} />
+          <GoogleButton label={t('google')} fields={{ flow: 'login' }} />
+        </>
+      ) : null}
 
       <div className="mt-[22px] border-t border-line pt-[18px] text-[13px] text-mut">
         {t.rich('noAccount', {

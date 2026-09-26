@@ -4,6 +4,8 @@ import { createClient } from '@/lib/supabase/server'
 import { getInvitePreview } from '@/lib/members/read'
 import { AcceptInvite, JoinWithPassword } from '@/components/start/JoinInvite'
 import { signOutForInvite } from '@/app/(marketing)/bli-med/actions'
+import { GoogleButton, GoogleDivider } from '@/components/start/GoogleButton'
+import { googleEnabled } from '@/lib/auth/google'
 
 /**
  * Where an invitation link lands (0028, D-51). Not in the design; built in the sign-in
@@ -59,7 +61,16 @@ export default async function BliMedPage({ params }: { params: Promise<{ token: 
         </p>
 
         {signedInAs === null ? (
-          <JoinWithPassword token={token} />
+          <>
+            <JoinWithPassword token={token} />
+            {(await googleEnabled()) ? (
+              <>
+                <GoogleDivider label={t('or')} />
+                <GoogleButton label={t('google')} fields={{ flow: 'invite', token }} />
+                <p className="mb-0 mt-[8px] text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">{t('googleNote')}</p>
+              </>
+            ) : null}
+          </>
         ) : signedInAs === preview.email ? (
           <AcceptInvite token={token} />
         ) : (

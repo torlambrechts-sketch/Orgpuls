@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import { SignInPanel } from '@/components/start/SignInPanel'
+import { googleEnabled } from '@/lib/auth/google'
 
 /**
  * Sign-in. Orgpuls_Start.dc.html lines 435-500.
@@ -12,13 +13,15 @@ import { SignInPanel } from '@/components/start/SignInPanel'
  * that they do not need an account, which is the single most common reason somebody lands
  * on a sign-in page they have no business on.
  */
-export default async function SignInPage() {
+export default async function SignInPage({ searchParams }: { searchParams: Promise<{ feil?: string }> }) {
   const t = await getTranslations()
+  const { feil } = await searchParams
+  const google = await googleEnabled()
 
   return (
     <div className="animate-entry mx-auto max-w-[920px] px-[26px] pb-[70px] pt-[44px]">
       <div className="grid items-start gap-[20px] [grid-template-columns:repeat(auto-fit,minmax(288px,1fr))]">
-        <SignInPanel />
+        <SignInPanel google={google} problem={feil?.startsWith('google_') ? feil : null} />
 
         <div className="flex flex-col gap-[12px]">
           <div className="rounded-panel border-[1.5px] border-ink bg-sbg px-[24px] py-[22px]">

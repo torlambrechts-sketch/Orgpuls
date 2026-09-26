@@ -10,6 +10,7 @@ import {
   type LookupState,
   type SignUpState,
 } from '@/app/(marketing)/registrer/actions'
+import { GoogleButton, GoogleDivider } from '@/components/start/GoogleButton'
 import { trackEvent } from '@/lib/marketing/events'
 import { currentUtm, firstTouch } from '@/lib/marketing/utm'
 
@@ -27,6 +28,10 @@ import { currentUtm, firstTouch } from '@/lib/marketing/utm'
  * construction, being the one that created the organisation) and the second is a band
  * where `employee_count` is a number. The size band is therefore the only one kept, and
  * it is kept by turning it into that number; the role question is dropped. D-38.
+ *
+ * **Google (D-102):** step 2 can create the account with Google instead of a password,
+ * once the provider is switched on. The company and the consent go with the form; the
+ * callback creates the organisation and lands back here, on step 3 (`done`).
  */
 
 const SIZES = [
@@ -36,15 +41,33 @@ const SIZES = [
   { key: 'over100', count: 150 },
 ] as const
 
-export function SignUpFlow() {
+export function SignUpFlow({
+  google = false,
+  problem = null,
+  done = null,
+}: {
+  google?: boolean
+  problem?: string | null
+  done?: { firstName: string; company: string } | null
+}) {
   const t = useTranslations('registrer')
   const router = useRouter()
 
-  const [step, setStep] = useState<1 | 2 | 3>(1)
-  const [company, setCompany] = useState<{ orgNumber: string; name: string } | null>(null)
+  const [step, setStep] = useState<1 | 2 | 3>(done ? 3 : 1)
+  const [company, setCompany] = useState<{ orgNumber: string; name: string } | null>(
+    done ? { orgNumber: '', name: done.company } : null,
+  )
   const [size, setSize] = useState<(typeof SIZES)[number]['key']>('under25')
   const [password, setPassword] = useState('')
-  const [firstName, setFirstName] = useState('')
+  const [firstName, setFirstName] = useState(done?.firstName ?? '')
+  const attributionRef = useRef<HTMLInputElement>(null)
+  // a Google signup is only complete when the callback lands back here with the organisation made
+  const counted = useRef(false)
+  useEffect(() => {
+    if (!done || counted.current) return
+    counted.current = true
+    trackEvent('signup_completed')
+  }, [done])
   const [email, setEmail] = useState('')
   const [consent, setConsent] = useState(false)
   const [, startTransition] = useTransition()
@@ -111,6 +134,11 @@ export function SignUpFlow() {
 
       <div className="mt-[26px] grid items-start gap-[22px] md:[grid-template-columns:minmax(0,1.25fr)_minmax(258px,0.75fr)]">
         <div className="min-w-0">
+          {problem && step === 1 ? (
+            <p role="alert" className="mb-[12px] mt-0 text-[13.5px] leading-[1.55] text-danger [text-wrap:pretty]">
+              {t.has(`problem.${problem}`) ? t(`problem.${problem}`) : t('problem.google_failed')}
+            </p>
+          ) : null}
           {/* ------------------------------------------------------- step 1 */}
           {step === 1 ? (
             <form
@@ -402,6 +430,27 @@ export function SignUpFlow() {
                     ? t('ctaHintReady')
                     : t('ctaHintMissing')}
               </div>
+
+              {google ? (
+                <>
+                  <GoogleDivider label={t('googleOr')} />
+                  <input type="hidden" name="flow" value="signup" />
+                  <input type="hidden" name="orgNumber" value={company.orgNumber} />
+                  <input type="hidden" name="companyName" value={company.name} />
+                  <input type="hidden" name="employeeCount" value={String(SIZES.find((s) => s.key === size)!.count)} />
+                  <input ref={attributionRef} type="hidden" name="attribution" value="" />
+                  <GoogleButton
+                    inForm
+                    label={t('google')}
+                    disabled={!consent}
+                    onClick={() => {
+                      if (attributionRef.current)
+                        attributionRef.current.value = JSON.stringify({ first: firstTouch(), last: currentUtm() })
+                    }}
+                  />
+                  <div className="mt-[9px] max-w-[52ch] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">{t('googleHint')}</div>
+                </>
+              ) : null}
             </form>
           ) : null}
 

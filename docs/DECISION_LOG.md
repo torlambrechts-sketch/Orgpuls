@@ -2167,3 +2167,4 @@ own database, and that the campaign editor is built in-house. Migration 0055 doe
 - [ ] Add the DNS records for nyheter.orgpuls.com at Spaceship (two DKIM CNAMEs and the brevo-code TXT; DMARC is inherited), then run `?probe=marketing-setup&authenticate=1`. Until Brevo reports the domain authenticated, no confirmation or campaign is sent (D-101).
 - [ ] Offer a reservation against marketing at registration, then decide whether to turn on the existing-customer exception (D-101).
 - [ ] CRM Phase 3: A/B subject tests, automated sequences, coupon codes once Billing has them (D-101).
+- [ ] Google sign-in: create a Google OAuth web client (redirect URI `https://jmhhszsnjfqgclxzhciq.supabase.co/auth/v1/callback`) and enable Google in Supabase › Authentication with its ID and secret; the buttons appear by themselves (D-102).
