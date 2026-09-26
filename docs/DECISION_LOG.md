@@ -2023,7 +2023,10 @@ search data, and revenue figures. Step 1 is D-104. Three decisions shape the res
 - [ ] Legal read of `/personvernerklaering` (D-104), and of whether the cookieless beacon and
   Vercel Web Analytics need consent under ekomlov § 3-15 (the research found no regulator's
   ruling either way).
-- [ ] Terms page (`Vilkår`): needs the billing decisions and a liability position (D-104).
+- [ ] Terms page (`Vilkår`): draft for review in `docs/legal/vilkar-utkast.md`, with nine decisions
+  marked; publish as `/vilkar` once approved (D-104).
+- [ ] Deletion within 30 days after termination is promised (DPA § 11, the home page FAQ) but
+  not implemented: no termination flow, no deletion job. A routine or a function is needed.
 - [x] The 353 deletions and the binary baselines are pushed; `main` carries everything.
 - [x] `SB_MCP_PAT` supplied 2026-09-22; the project-scoped `supabase` MCP server connects.
 - [x] 2026-09-26: the `.mcp.json` `supabase` server removed; it could not authorise in a cloud
