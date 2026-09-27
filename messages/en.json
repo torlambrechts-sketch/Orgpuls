@@ -323,7 +323,8 @@
       "kommende": "Upcoming",
       "historikk": "History",
       "arshjul": "Year wheel",
-      "sporsmal": "Question set"
+      "sporsmal": "Question set",
+      "innstillinger": "Settings"
     },
     "table": {
       "round": "Survey · {count, plural, one {# survey} other {# surveys}}",
@@ -421,6 +422,120 @@
       "seeAll": "See the whole question set",
       "toggle": "Use {module} in the main surveys",
       "show": "Show the factors and statements ({count})"
+    },
+    "innstillinger": {
+      "intro": "Set the standard for your surveys here: how employees receive the survey, what it asks, and when it closes. Every new survey takes the standard, and in Survey setup you can change it for one survey.",
+      "statusSaved": "The standard was last changed {date}. Planned surveys that follow it move with it when it changes.",
+      "statusNone": "No standard has been saved yet. Until you save one, new surveys use the settings the product recommends, as shown here.",
+      "readOnly": "Only the general manager can change the standard. You see it as it is.",
+      "s1": "1 · Who gets the survey, and how",
+      "reachHead": "Who can be reached",
+      "reachLine": "{reachable} of {total} employees can be reached",
+      "reachEmail": "{count, plural, one {# with e-mail} other {# with e-mail}}",
+      "reachPhoneSms": "{count, plural, one {# with a mobile only, reached by SMS} other {# with a mobile only, reached by SMS}}",
+      "reachPhoneNoSms": "{count, plural, one {# with a mobile only, not reached without SMS} other {# with a mobile only, not reached without SMS}}",
+      "reachNeither": "{count, plural, one {# with neither e-mail nor mobile} other {# with neither e-mail nor mobile}}",
+      "reachLink": "Fix the employee list",
+      "channelsHead": "Channels",
+      "email": {
+        "label": "E-mail",
+        "note": "Every employee with an e-mail address gets their own link. Always on."
+      },
+      "sms": {
+        "label": "SMS",
+        "off": "Off. Those with only a mobile number get no link.",
+        "on": {
+          "mangler": "On, for those without e-mail.",
+          "paaminn": "On, for reminders.",
+          "alle": "On, for everyone with a mobile number."
+        },
+        "change": "Change SMS",
+        "setUp": "Set up SMS"
+      },
+      "qr": {
+        "label": "QR poster",
+        "note": "Put the poster up in the site hut or break room. The employee scans the code, enters a mobile number or e-mail and gets their own link. The answer is as anonymous as always, and each employee can answer only once.",
+        "make": "Make a QR poster",
+        "open": "Open the poster",
+        "renew": "Make a new code",
+        "renewNote": "A new code makes the old poster stop working. Use it if the poster has gone astray.",
+        "none": "For those who do not read e-mail at work. The poster works for every survey you open, so it can stay up.",
+        "noneReadOnly": "For those who do not read e-mail at work. The general manager makes the poster.",
+        "failed": "The code was not made. Please try again."
+      },
+      "quiet": {
+        "label": "Quiet hours",
+        "sub": "No invitation or reminder between 21:00 and 07:00. A link somebody asks for goes at once."
+      },
+      "s2": "2 · What the survey asks",
+      "core": {
+        "label": "The main survey",
+        "note": "Eleven factors, three statements each. Locked, so the figures can be compared over time.",
+        "link": "See the questions"
+      },
+      "extrasHead": "Additional questions in the baseline",
+      "extrasLead": "The questions outside the index. A pulse does not ask these.",
+      "screening": "Documents the statutory duty on violence, threats and offensive behaviour. Can be left out, but then you must give a reason.",
+      "reasonLabel": "Why is the screening left out?",
+      "reasonNote": "The reason is stored and shown with the survey, so the safety representative and the Labour Inspection Authority can see it. At least ten characters.",
+      "modules": {
+        "label": "Industry modules",
+        "on": "On: {modules}.",
+        "none": "None is turned on.",
+        "link": "Choose in Question sets"
+      },
+      "s3": "3 · Deadline and reminders",
+      "closeGrunnlinje": "The baseline closes after",
+      "closePuls": "A pulse closes after",
+      "closeNote": "If you work shifts or in rotations away, the deadline should cover a whole rotation, so everyone gets to answer.",
+      "final": {
+        "label": "Last reminder the day before the deadline",
+        "sub": "Goes only to those who have not answered. The system sends it, never a manager."
+      },
+      "s4": "4 · Afterwards",
+      "threshold": "Results are shown only for groups where at least {k} have answered.",
+      "thresholdLink": "Change the threshold",
+      "logHead": "Changes to the standard",
+      "logLine": "{date}: {fields}",
+      "logNone": "No changes yet.",
+      "field": {
+        "close_days_grunnlinje": "baseline deadline",
+        "close_days_puls": "pulse deadline",
+        "reminder_day": "reminder",
+        "final_reminder": "last reminder",
+        "quiet_hours": "quiet hours",
+        "comment_policy": "comments",
+        "allow_dialogue": "conversation",
+        "extras": "additional questions",
+        "extras_off_reason": "reason"
+      },
+      "save": "Save standard",
+      "saving": "Saving …",
+      "saved": "Saved.",
+      "savedRounds": "# planned surveys followed.",
+      "problem": {
+        "reason_required": "Write a reason of at least ten characters to leave out the screening.",
+        "invalid": "Something in the form is not valid. Check it and try again.",
+        "not_allowed": "Only the general manager can change the standard.",
+        "failed": "The standard was not saved. Please try again."
+      }
+    },
+    "plakat": {
+      "back": "← Settings",
+      "title": "QR poster",
+      "lead": "Print the poster and put it up where people who do not read e-mail at work will see it. It works for every survey you open.",
+      "print": "Print",
+      "sheetAria": "The poster",
+      "heading": "How are you doing at work?",
+      "sub": "{org} is surveying the working environment. Scan the code to get your own link to the survey.",
+      "qrAria": "QR code for {url}",
+      "orGo": "Or go to",
+      "step1": "Scan the code with your phone camera.",
+      "step2": "Enter your mobile number or e-mail as your employer has it.",
+      "step3": "Answer through the link you get. It takes a few minutes.",
+      "anonymous": "Your answer is anonymous. No single answer can be traced back to you, and results are shown only for groups where at least {k} have answered.",
+      "noneTitle": "No QR poster yet",
+      "noneLead": "The general manager makes the poster under Surveys › Settings."
     }
   },
   "extra": {
@@ -527,6 +642,30 @@
     "segmentLabel": "Optional",
     "segmentLead": "Optional: used only to compare groups with at least {threshold} answers",
     "doneTitleMinutes": "Thank you. That took about {minutes} minutes."
+  },
+  "entry": {
+    "title": "Get the link to the survey",
+    "lead": "Enter your mobile number or e-mail address as your employer has it. You get your own link, and your answer is as anonymous as always.",
+    "leadEmail": "Enter your e-mail address as your employer has it. You get your own link, and your answer is as anonymous as always.",
+    "field": "Mobile number or e-mail",
+    "fieldEmail": "E-mail address",
+    "placeholder": "912 34 567 or name@company.no",
+    "placeholderEmail": "name@company.no",
+    "submit": "Send me the link",
+    "sending": "Sending …",
+    "sentTitle": "Check your phone or e-mail",
+    "sentLead": "If the number or address is on the employee list and you have not answered yet, the link arrives in a moment. If it does not, ask your safety representative or manager what is registered.",
+    "sentLeadEmail": "If the address is on the employee list and you have not answered yet, the link arrives in a moment. If it does not, ask your safety representative or manager what is registered.",
+    "again": "Try another number or address",
+    "invalid": "That does not look like a mobile number or an e-mail address. Please try again.",
+    "invalidEmail": "That does not look like an e-mail address. Please try again.",
+    "busy": "Many requests have been sent from here. Wait a few minutes and try again.",
+    "failed": "Something went wrong. Please try again shortly.",
+    "privacy": "The number or address is used only to send you the link, and is not stored with your answer. No single answer can be traced back to you.",
+    "unknown": "This code does not work",
+    "unknownLead": "The poster may be old, or the code mistyped. Ask your safety representative or manager for a new one.",
+    "closed": "No survey is open right now",
+    "closedLead": "When {org} opens its next survey, the same poster works again."
   },
   "rapport": {
     "backToInnsikt": "← Insight",
@@ -1032,7 +1171,8 @@
       "gone": "The measurement no longer exists.",
       "capped": "Five of your own questions is the cap.",
       "locked": "The survey has started, so its questions cannot change.",
-      "moduleFactorRequired": "At least one factor must be included."
+      "moduleFactorRequired": "At least one factor must be included.",
+      "reasonRequired": "Write a reason of at least ten characters to leave out the screening."
     },
     "ownSave": "Save",
     "cadenceKvartal": "Quarterly",
@@ -1065,6 +1205,29 @@
       "locked": "The survey has started, so its questions are locked. Changes apply to the next survey.",
       "summary": "Industry module",
       "summaryValue": "{name} · {count} more questions"
+    },
+    "perRound": {
+      "panelHead": "Additional questions in this survey",
+      "panelLead": "The questions outside the index. The statements of the main survey are locked and listed under Question sets.",
+      "wording": "See the wording of every question",
+      "screening": "Documents the statutory duty on violence, threats and offensive behaviour. Can be left out with a reason.",
+      "reasonLabel": "Why is the screening left out of this survey?",
+      "reasonNote": "The reason is stored with the survey, so the safety representative and the Labour Inspection Authority can see it. At least ten characters.",
+      "saveExtras": "Save additional questions",
+      "pulse": "A pulse asks only about the factors it measures. The statements are listed under Question sets.",
+      "standard": "Standard",
+      "changed": "Changed for this survey",
+      "reset": "Back to standard",
+      "finalLabel": "Last reminder the day before the deadline",
+      "finalSub": "Goes only to those who have not answered.",
+      "smsHead": "SMS in this survey",
+      "smsNote": "E-mail always goes to those with an address. Here you choose who also gets the link by SMS in this survey.",
+      "smsStandard": "As the organisation",
+      "sms": {
+        "mangler": "Only those without e-mail",
+        "paaminn": "The reminders",
+        "alle": "Everyone with a mobile"
+      }
     }
   },
   "arshjulet": {
@@ -2619,6 +2782,14 @@
       "lead": "You have not answered {round} yet. It takes a few minutes, and every answer makes the result more reliable.",
       "replaces": "Use the link in this e-mail. The link in the previous one no longer works."
     },
+    "sistePaminnelse": {
+      "subject": "Last day tomorrow: {round} at {org}",
+      "lead": "{round} closes tomorrow, and you have not answered yet. It takes a few minutes."
+    },
+    "lenke": {
+      "subject": "The link you asked for: {round} at {org}",
+      "lead": "Here is your link to {round} at {org}, which you asked for from the poster. If you did not ask for it, you can ignore this e-mail."
+    },
     "forvarsel": {
       "subject": "{round} at {org} starts {date}",
       "lead": "{org} sends out {round} on {date}.",
@@ -2664,7 +2835,9 @@
     },
     "sms": {
       "default": "Hi! {org} is asking how you are doing at work. Your answer is completely anonymous:",
-      "reminder": "Reminder from {org}: you have not answered yet. Deadline {date}. The link in the previous message no longer works. Answer anonymously here:"
+      "reminder": "Reminder from {org}: you have not answered yet. Deadline {date}. The link in the previous message no longer works. Answer anonymously here:",
+      "link": "Here is the link you asked for from {org}. Answer anonymously here:",
+      "lastReminder": "Last reminder from {org}: the survey closes {date}. The link in the previous message no longer works. Answer anonymously here:"
     },
     "ticket": {
       "replyHint": "Reply to this e-mail to continue the case. Case number #{number}.",

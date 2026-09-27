@@ -34,7 +34,7 @@ export interface NoticeRound {
 /** One claimed outbox row, as `public.dispatch_claim` returns it. */
 export interface NoticeJob {
   id: string
-  kind: 'forvarsel' | 'invitasjon' | 'paminnelse' | 'resultat'
+  kind: 'forvarsel' | 'invitasjon' | 'paminnelse' | 'siste_paminnelse' | 'lenke' | 'resultat'
   audience: string | null
   /** the channel the database chose for the link (0033); role notices are always e-mail */
   channel: 'email' | 'sms'
@@ -177,6 +177,11 @@ ${p.after.map((s) => para(s, 'margin:0 0 10px;font-size:13.5px;line-height:1.6;c
 // The four notices the year wheel queues.
 // ---------------------------------------------------------------------------------------
 
+/** The kinds that carry one person's own link: a group of one, and a token minted for it. */
+export function isPersonal(kind: NoticeJob['kind']): boolean {
+  return kind === 'invitasjon' || kind === 'paminnelse' || kind === 'siste_paminnelse' || kind === 'lenke'
+}
+
 /**
  * One notice for a group of recipients who read the same words: the same language, and
  * the same answer to "can they sign in". An invitation or a reminder is always a group of
@@ -195,20 +200,22 @@ export function renderNotice(
   const footer = fill(pick(m, 'automatic'), { org })
   const base = appUrl.replace(/\/+$/, '')
 
-  if (job.kind === 'invitasjon' || job.kind === 'paminnelse') {
+  if (isPersonal(job.kind)) {
     if (!job.token) throw new Error(`${job.kind} without a link`)
     const link = `${base}/s/${job.token}`
-    const reminder = job.kind === 'paminnelse'
+    // the reminder texts, the second reminder's own lead, and the link a person asked for (0076)
+    const reminder = job.kind === 'paminnelse' || job.kind === 'siste_paminnelse'
+    const own = job.kind === 'invitasjon' ? 'invitasjon' : job.kind === 'lenke' ? 'lenke' : job.kind === 'paminnelse' ? 'paminnelse' : 'sistePaminnelse'
     const paragraphs = [
-      cap(fill(pick(m, reminder ? 'paminnelse.lead' : 'invitasjon.lead'), { org, round })),
+      cap(fill(pick(m, `${own}.lead`), { org, round })),
       fill(pick(m, 'invitasjon.anonymous'), { k: job.k }),
     ]
     const after = [
       ...(job.round.closes_at ? [fill(pick(m, 'invitasjon.deadline'), { date: dateOf(job.round.closes_at, group.lang) })] : []),
-      ...(reminder ? [pick(m, 'paminnelse.replaces')] : []),
+      ...(reminder || job.kind === 'lenke' ? [pick(m, 'paminnelse.replaces')] : []),
       pick(m, 'invitasjon.personal'),
     ]
-    const subject = cap(fill(pick(m, reminder ? 'paminnelse.subject' : 'invitasjon.subject'), { org, round }))
+    const subject = cap(fill(pick(m, `${own}.subject`), { org, round }))
     return { subject, ...layout({ lang: group.lang, greeting, paragraphs, cta: { label: pick(m, 'invitasjon.cta'), url: link, plain: true }, after, footer }) }
   }
 
@@ -233,8 +240,7 @@ export function renderNotice(
 
 /** Recipients of one job, grouped by what they will read. */
 export function groupsOf(job: NoticeJob): Array<{ lang: Lang; member: boolean; name: string | null; to: Recipient[] }> {
-  const personal = job.kind === 'invitasjon' || job.kind === 'paminnelse'
-  if (personal) {
+  if (isPersonal(job.kind)) {
     return job.recipients.map((r) => ({ lang: langOf(r.lang ?? job.lang), member: r.member, name: r.name, to: [r] }))
   }
   const byKey = new Map<string, { lang: Lang; member: boolean; name: null; to: Recipient[] }>()
@@ -276,9 +282,11 @@ export function renderAuth(cat: MailCatalogue, action: AuthAction, lang: Lang, e
 export function smsLead(cat: MailCatalogue, job: NoticeJob, lang: Lang): string {
   const m = cat[lang]
   const round = roundName(m, job.round)
-  if (job.kind === 'paminnelse') {
-    return fill(pick(m, 'sms.reminder'), { org: job.org, round, date: dateOf(job.round.closes_at, lang) })
+  if (job.kind === 'paminnelse' || job.kind === 'siste_paminnelse') {
+    const key = job.kind === 'paminnelse' ? 'sms.reminder' : 'sms.lastReminder'
+    return fill(pick(m, key), { org: job.org, round, date: dateOf(job.round.closes_at, lang) })
   }
+  if (job.kind === 'lenke') return fill(pick(m, 'sms.link'), { org: job.org })
   return job.sms_text?.trim() ? job.sms_text : fill(pick(m, 'sms.default'), { org: job.org })
 }
 

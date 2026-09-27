@@ -5508,3 +5508,96 @@ helse og omsorg … Publiser spørsmålssett".
 - **Published.** `bygg-og-anlegg@1.0.0` (fd6d9da1aa3b) and `helse-og-omsorg@1.0.0`
   (65bd7f1be746) are published on the hosted project and can no longer change. Each
   organisation has them off until it turns them on (D-124).
+
+## D-126 — Målinger › Innstillinger, the QR way in, a second reminder and quiet hours (0075, 0076)
+
+Tor, 2026-09-27, after a proposal (X-064): one place under Målinger for how people receive a
+survey and which question sets it asks, as a standard and per survey. QR is built rather than
+withdrawn from the industry pages. Violence and offensive behaviour are on by default and
+leaving them out takes a reason. The settings get a tab of their own.
+
+- **Not in the design.** The design has no settings screen, no poster, no QR page and no
+  per-round standard. All of it is built from existing parts:
+  - the tab uses Måleoppsett's own sections and controls, moved unchanged into
+    `components/maleoppsett/controls.tsx`;
+  - the QR page uses the respondent surface's card and the sign-in panel's field and button;
+  - the poster uses the product's type and tokens.
+- **The tab strip gains a fifth tab, «Innstillinger».** It has no count pill: there is nothing
+  to count, and a number there would be invented. The Målinger tab strip therefore differs
+  from its v3 baseline by one tab.
+- **The standard.** `app.survey_defaults` has one row per organisation and is written only by
+  `save_survey_defaults`, which only the daglig leder may call.
+  - It holds the deadline for grunnlinje and for puls, the first reminder day, the second
+    reminder, quiet hours, comments, dialogue and the extras. The last three apply to
+    grunnlinjer only; a puls stays five statements.
+  - Every change is logged in `survey_defaults_log` (which settings, when), and the tab lists
+    the latest ones. Names are not shown: a member cannot read another member's profile.
+  - **No row means the product's defaults, and nothing is applied.** The design's
+    organisations have no row, so their rounds and screens are unchanged.
+  - The one exception: a grunnlinje planned with no extras at all gets the four that
+    `plan_first_round` gives. The year wheel planned grunnlinjer that asked no screening,
+    which the statutory report counts on.
+- **How rounds inherit.**
+  - A new planned round takes the standard when its transaction commits (a deferred trigger),
+    so it applies whichever function created the round.
+  - Saving the standard again moves the planned rounds that followed the old one, field by
+    field. A field changed for one round stays.
+  - The first save moves nothing, because nobody had chosen to follow a standard yet.
+- **Fixed once open.** For a client, a round's settings, factors, audience, extras and own
+  questions cannot change after it opens. Deletes the database makes itself still pass (the
+  round or group being gone). Måleoppsett now disables its whole form for a round that is not
+  planned; before, only the module controls were disabled.
+- **Måleoppsett.**
+  - «Se alle N spørsmålene» used to open nothing. It now opens the round's extras, and leaving
+    out the screening takes a reason, stored on the round.
+  - Once a standard exists, sections are marked «Standard» or «Endret for denne målingen»,
+    with «Tilbake til standard», and the second reminder is offered.
+  - While SMS is on, the round can set its own SMS rule.
+  - With no standard and SMS off (the fixture), none of this renders.
+  - Pixel check: the Nordvik shot of Måleoppsett renders none of the new DOM. The region diff
+    against baseline 11 is 1.40 % of the screen. The differences are the local database's
+    data: the industry-module block from D-112, and the question count. Nothing moves because
+    of this change.
+- **QR is a door, not a key.**
+  - `app.entry_codes` holds one code per organisation: eight characters with no look-alikes.
+    The daglig leder makes or replaces it.
+  - `/inn/<code>` asks for a mobile number or an e-mail address. `request_link` queues a
+    `lenke` message on the channel typed, for every open round where that person has an
+    unanswered, unexpired invitation. The dispatcher mints their link as it does for a
+    reminder, and the older link stops working.
+  - The answer is `{"ok": true}` whatever was typed.
+  - Limits: 10 tries per network per 10 minutes (in memory, as `lib/brreg/throttle.ts`); one
+    message per person and round per 10 minutes; and per organisation per hour, no more than
+    twice its active employees, at least 20.
+  - The page says nothing about who is on the list or who has answered.
+  - People with neither e-mail nor mobile cannot use it. The tab counts them.
+- **Dispatcher.**
+  - Two new kinds (0075): `lenke` and `siste_paminnelse`, the day before closing, queued
+    hourly by `queue_final_reminders` for rounds with `final_reminder` on. It is skipped when
+    it would land on the first reminder's day.
+  - A round's own `sms_when` overrides the organisation's.
+  - Quiet hours: no invitation or reminder is claimed between 21:00 and 07:00 in the
+    organisation's time zone. This is on by default for every organisation, since rounds open
+    at 09:00 and it only holds a message that would otherwise arrive at night. A link somebody
+    asked for is never held.
+  - The mail and SMS texts are new keys under `mail`, and the renderer handles both kinds.
+- **Not built, from the proposal:**
+  - «Send test til meg». It needs a way to send a link that answers nothing; a real token
+    would be a real invitation.
+  - A chosen send time.
+  - A ready-to-send check before «Åpne». The reach count on the tab is the first half of it.
+  - Result sharing and language, which belong to engagement phases 1–2.
+- **Tests.**
+  - `supabase/tests/survey_settings_invariants.sql` has 15 rows, and all 47 suites pass.
+  - `tests/unit/entry-contact.test.ts` is new.
+  - Verified in the browser on the Lumio tenant:
+    - saving with and without the reason;
+    - the log;
+    - the QR code and the poster, on screen and in print;
+    - the public page: a match and a stranger get the same answer, invalid input, an unknown
+      code, and one outbox row;
+    - Måleoppsett's markers, reset, second reminder and SMS rule;
+    - the verneombud's read-only view;
+    - English;
+    - 390 px with no sideways scroll;
+    - axe clean on all four screens.

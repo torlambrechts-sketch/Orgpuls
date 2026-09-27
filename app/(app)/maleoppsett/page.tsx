@@ -5,11 +5,12 @@ import {
   type GroupChoice,
   type MaleoppsettView,
 } from '@/components/maleoppsett/MaleoppsettScreen'
-import { getFactors } from '@/lib/instrument/read'
+import { getExtraQuestions, getFactors } from '@/lib/instrument/read'
+import { SCREENING, getSurveyDefaults } from '@/lib/settings/survey'
 import { getGroups, getOrganization, getViewerRole } from '@/lib/org/read'
 import { getRounds } from '@/lib/rounds/read'
 import { getLatestSetupOfKind, getOrgQuestions, getRoundSetup } from '@/lib/setup/read'
-import { getGroupStats } from '@/lib/settings/read'
+import { getGroupStats, getSmsSettings } from '@/lib/settings/read'
 import { getWheel, wheelMonths } from '@/lib/wheel/read'
 import { INDUSTRY_META, industryForNace } from '@/content/industries/meta'
 import { getIndustry, pageIn } from '@/content/industries'
@@ -71,10 +72,13 @@ export default async function MaleoppsettPage({
    * a round that already asks one shows that version, whatever has been published since. The
    * organisation's industry code decides which is suggested, never which is allowed.
    */
-  const [published, chosen, nace] = await Promise.all([
+  const [published, chosen, nace, standard, extraRegistry, sms] = await Promise.all([
     getPublishedModules(org.id),
     getRoundModules([setup.id]),
     getOrgNaceCode(),
+    getSurveyDefaults(org.id),
+    getExtraQuestions(),
+    getSmsSettings(),
   ])
   const chosenModules = await getModulesById(chosen.map((c) => c.moduleId))
   const industry = industryForNace(nace)
@@ -157,7 +161,8 @@ export default async function MaleoppsettPage({
     employeeCount: org.employee_count,
     threshold: participation?.threshold ?? org.threshold,
     // styling only; `round_group_write` and its siblings are what actually decide
-    canWrite: role === 'daglig_leder' || role === 'avdelingsleder',
+    // and a round that has opened is fixed (0076, round_settings_fixed): nothing to write
+    canWrite: (role === 'daglig_leder' || role === 'avdelingsleder') && setup.status === 'planlagt',
     nextOpensAt,
     // the rhythm is the year wheel's, and `wheel_write` admits daglig leder only
     wheel: wheel
@@ -200,6 +205,35 @@ export default async function MaleoppsettPage({
         : [],
     moduleFactorToggles: flag('module_factor_toggles'),
     locked: setup.status !== 'planlagt',
+    /*
+     * The round against the organisation's standard (0076, D-126), section by section. Only
+     * once a standard is saved: before that nothing differs from anything, and the screen is
+     * the design's. The extras are a grunnlinje's; a puls asks none by its kind.
+     */
+    perRound: {
+      extraKeys: setup.extraKeys,
+      extraQuestions:
+        setup.kind === 'grunnlinje'
+          ? extraRegistry.map((e) => ({ key: e.key, screening: (SCREENING as readonly string[]).includes(e.key) }))
+          : [],
+      extrasOffReason: setup.extrasOffReason,
+      finalReminder: setup.finalReminder,
+      smsWhen: setup.smsWhen,
+      smsEnabled: Boolean(sms?.enabled),
+      standard: standard
+        ? {
+            rytme:
+              setup.reminderDay !== standard.reminderDay ||
+              setup.finalReminder !== standard.finalReminder ||
+              setup.closeAfterDays !== (setup.kind === 'grunnlinje' ? standard.closeDaysGrunnlinje : standard.closeDaysPuls),
+            kommentarer: setup.commentPolicy !== standard.commentPolicy || setup.allowDialogue !== standard.allowDialogue,
+            tillegg:
+              setup.kind === 'grunnlinje' &&
+              [...setup.extraKeys].sort().join() !== [...standard.extras].sort().join(),
+            utsending: setup.smsWhen !== null,
+          }
+        : null,
+    },
   }
 
   return <MaleoppsettScreen view={view} />

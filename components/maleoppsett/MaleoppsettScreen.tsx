@@ -94,6 +94,18 @@ export interface MaleoppsettView {
   moduleFactorToggles: boolean
   /** the round has opened: its question set, modules included, is fixed */
   locked: boolean
+  /** what the organisation's standard added to a round (0076, D-126); see PerRound */
+  perRound: {
+    extraKeys: string[]
+    /** the registry's extras, in order; empty for a round that asks none by kind (a puls) */
+    extraQuestions: { key: string; screening: boolean }[]
+    extrasOffReason: string | null
+    finalReminder: boolean
+    smsWhen: 'mangler' | 'paaminn' | 'alle' | null
+    smsEnabled: boolean
+    /** set once the organisation has saved a standard */
+    standard: null | { rytme: boolean; kommentarer: boolean; tillegg: boolean; utsending: boolean }
+  }
 }
 
 /**
@@ -150,9 +162,56 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
   const thin = invited.filter((g) => g.thin)
   const selectedFactors = view.factors.filter((f) => f.selected).length
 
+  const pr = view.perRound
+  const smsRule = (w: string) => t(`maleoppsett.perRound.sms.${w}`)
   const form: SetupFormProps = {
     roundId: view.roundId,
     canWrite: view.canWrite,
+    perRound: {
+      panel: {
+        head: t('maleoppsett.perRound.panelHead'),
+        lead: t('maleoppsett.perRound.panelLead'),
+        wording: t('maleoppsett.perRound.wording'),
+        extras: pr.extraQuestions.length
+          ? pr.extraQuestions.map((x) => ({
+              key: x.key,
+              label: t(`extra.${x.key}.label`),
+              note: x.screening ? t('maleoppsett.perRound.screening') : t(`extra.${x.key}.note`),
+              screening: x.screening,
+            }))
+          : null,
+        on: pr.extraKeys,
+        reason: pr.extrasOffReason,
+        reasonLabel: t('maleoppsett.perRound.reasonLabel'),
+        reasonNote: t('maleoppsett.perRound.reasonNote'),
+        save: t('maleoppsett.perRound.saveExtras'),
+        pulse: t('maleoppsett.perRound.pulse'),
+      },
+      standard: pr.standard
+        ? {
+            differs: pr.standard,
+            labels: {
+              standard: t('maleoppsett.perRound.standard'),
+              changed: t('maleoppsett.perRound.changed'),
+              reset: t('maleoppsett.perRound.reset'),
+            },
+          }
+        : null,
+      finalReminder: pr.standard
+        ? { on: pr.finalReminder, label: t('maleoppsett.perRound.finalLabel'), sub: t('maleoppsett.perRound.finalSub') }
+        : null,
+      sms: pr.smsEnabled
+        ? {
+            value: pr.smsWhen,
+            head: t('maleoppsett.perRound.smsHead'),
+            note: t('maleoppsett.perRound.smsNote'),
+            options: [
+              { value: '', label: t('maleoppsett.perRound.smsStandard') },
+              ...(['mangler', 'paaminn', 'alle'] as const).map((w) => ({ value: w, label: smsRule(w) })),
+            ],
+          }
+        : null,
+    },
     values: {
       kind: view.kind,
       factorKeys: view.factors.filter((f) => f.selected).map((f) => f.key),
@@ -255,7 +314,7 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
       evalLaw: t('maleoppsett.evalLaw'),
       saved: t('maleoppsett.saved'),
       problems: Object.fromEntries(
-        ['invalid', 'denied', 'gone', 'capped', 'locked', 'moduleFactorRequired'].map((k) => [k, t(`maleoppsett.problem.${k}`)]),
+        ['invalid', 'denied', 'gone', 'capped', 'locked', 'moduleFactorRequired', 'reasonRequired'].map((k) => [k, t(`maleoppsett.problem.${k}`)]),
       ),
     },
     modules: view.modules.map((m) => {

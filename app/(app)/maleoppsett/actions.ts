@@ -6,6 +6,7 @@ import { COMMENT_POLICIES, EVALUATION_CADENCES } from '@/lib/setup/read'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { writeFailed } from '@/lib/supabase/write'
+import { callFailed } from '@/lib/supabase/read'
 import { flag } from '@/lib/flags'
 
 /**
@@ -341,4 +342,78 @@ export async function saveRoundModule(formData: FormData): Promise<SetupActionRe
 /** A key, not a sentence: the screen translates it, so the server never guesses a language. */
 function problem(key: string): SetupActionResult {
   return { ok: false, problem: key }
+}
+
+/**
+ * The round's own extras, the reminder the day before closing, the round's SMS rule, and
+ * a section back on the organisation's standard (0076, D-126). The first and the last are
+ * functions that check the role, the planned status and the reason for leaving out the
+ * screening; the delivery pair is two columns the round policy already lets its writers set.
+ * A round that has opened refuses all of it (round_settings_fixed).
+ */
+const ExtrasResult = z.union([
+  z.object({ ok: z.literal(true), extras: z.array(z.string()) }),
+  z.object({ error: z.enum(['not_allowed', 'locked', 'reason_required']) }),
+])
+const EXTRA_KEYS = ['anbefaling', 'krenkende', 'vold', 'apent_felt'] as const
+
+export async function saveRoundExtras(
+  roundId: string,
+  keys: string[],
+  reason: string | null,
+): Promise<{ ok: true } | { ok: false; problem: 'not_allowed' | 'locked' | 'reason_required' | 'failed' }> {
+  const r = Uuid.safeParse(roundId)
+  const k = z.array(z.enum(EXTRA_KEYS)).max(EXTRA_KEYS.length).safeParse(keys)
+  const why = z.string().max(500).nullable().safeParse(reason)
+  if (!r.success || !k.success || !why.success) return { ok: false, problem: 'failed' }
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('set_round_extras', { p_round: r.data, p_keys: k.data, p_reason: why.data })
+  if (callFailed('saveRoundExtras', error)) return { ok: false, problem: 'failed' }
+  const parsed = ExtrasResult.safeParse(data)
+  if (!parsed.success) return { ok: false, problem: 'failed' }
+  if ('error' in parsed.data) return { ok: false, problem: parsed.data.error }
+  revalidatePath('/maleoppsett')
+  revalidatePath('/malinger')
+  return { ok: true }
+}
+
+const Delivery = z.object({
+  roundId: Uuid,
+  finalReminder: z.boolean(),
+  smsWhen: z.enum(['mangler', 'paaminn', 'alle']).nullable(),
+})
+
+export async function saveRoundDelivery(values: z.infer<typeof Delivery>): Promise<SetupActionResult> {
+  const v = Delivery.safeParse(values)
+  if (!v.success) return problem('invalid')
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .schema('app')
+    .from('rounds')
+    .update({ final_reminder: v.data.finalReminder, sms_when: v.data.smsWhen })
+    .eq('id', v.data.roundId)
+    .eq('status', 'planlagt')
+    .select('id')
+  if (writeFailed('saveRoundDelivery', error, data)) return problem('denied')
+  revalidatePath('/maleoppsett')
+  return { ok: true }
+}
+
+const ResetResult = z.union([
+  z.object({ ok: z.literal(true) }),
+  z.object({ error: z.enum(['not_allowed', 'locked', 'no_standard', 'invalid']) }),
+])
+
+export async function resetRoundSection(roundId: string, section: 'rytme' | 'kommentarer' | 'tillegg' | 'utsending'): Promise<SetupActionResult> {
+  const r = Uuid.safeParse(roundId)
+  const s = z.enum(['rytme', 'kommentarer', 'tillegg', 'utsending']).safeParse(section)
+  if (!r.success || !s.success) return problem('invalid')
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('reset_round_settings', { p_round: r.data, p_section: s.data })
+  if (callFailed('resetRoundSection', error)) return problem('denied')
+  const parsed = ResetResult.safeParse(data)
+  if (!parsed.success || 'error' in parsed.data) return problem('denied')
+  revalidatePath('/maleoppsett')
+  revalidatePath('/malinger')
+  return { ok: true }
 }

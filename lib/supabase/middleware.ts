@@ -62,6 +62,8 @@ const PUBLIC_PATHS = [
   '/auth',
   '/primitives',
   '/s',
+  // the QR poster's page (0076, D-126): asks for a number or address, sends the person's own link
+  '/inn',
   '/bli-med',
   '/nytt-passord',
   '/lovkrav',

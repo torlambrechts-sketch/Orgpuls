@@ -7,10 +7,12 @@ import { YearRail, type RailView } from './YearRail'
 
 /**
  * Målinger's frame (v3 870-942): the title and its two buttons, the year rail, and the four
- * tabs. The tabs are addresses (`?fane=`), links styled as the design's tab buttons (D-06).
+ * tabs, with a fifth for the organisation's settings (D-126). The tabs are addresses
+ * (`?fane=`), links styled as the design's tab buttons (D-06).
  */
-export type MalingerTab = 'kommende' | 'historikk' | 'arshjul' | 'sporsmal'
-const TABS: MalingerTab[] = ['kommende', 'historikk', 'arshjul', 'sporsmal']
+export type MalingerTab = 'kommende' | 'historikk' | 'arshjul' | 'sporsmal' | 'innstillinger'
+// Innstillinger is not in the design: the organisation's standard for a survey (D-126)
+const TABS: MalingerTab[] = ['kommende', 'historikk', 'arshjul', 'sporsmal', 'innstillinger']
 
 export async function MalingerFrame({
   tab,
@@ -20,7 +22,8 @@ export async function MalingerFrame({
   children,
 }: {
   tab: MalingerTab
-  counts: Record<MalingerTab, number>
+  /** a tab without a count (Innstillinger) prints no pill rather than an invented number */
+  counts: Partial<Record<MalingerTab, number>>
   rail: RailView
   /** the next round the wheel has planned, which "＋ Ny måling" opens the setup of (D-58) */
   nextPlannedId: string | null
@@ -64,7 +67,9 @@ export async function MalingerFrame({
             }`}
           >
             {t(`tab.${k}`)}
-            <span className="rounded-pill bg-track px-[8px] py-[2px] text-[11px] font-bold text-mut">{counts[k]}</span>
+            {counts[k] === undefined ? null : (
+              <span className="rounded-pill bg-track px-[8px] py-[2px] text-[11px] font-bold text-mut">{counts[k]}</span>
+            )}
           </Link>
         ))}
       </nav>
