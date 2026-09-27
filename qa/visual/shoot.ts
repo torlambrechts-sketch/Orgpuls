@@ -23,14 +23,15 @@ export async function shoot(page: Page, id: string, opts: { fullPage?: boolean; 
   const info = test.info()
   const project = info.project.name
   const step = process.env.QA_STEP ?? 'adhoc'
-  const phase = step.match(/^p(\d+)/)?.[0] ?? 'p0'
+  // a step's captures are the record (qa/screenshots); a regression or e2e run's go to scratch
+  const phase = /^p\d+\.\d+$/.test(step) ? step.match(/^p\d+/)![0] : null
 
   await page.evaluate(() => document.fonts.ready)
   await page.waitForLoadState('networkidle')
   // the ht-in entry animation is .25s; wait it out so the capture is of the settled screen
   await page.waitForTimeout(400)
 
-  const file = `qa/screenshots/${phase}/${step}/${id}-${project}.png`
+  const file = phase ? `qa/screenshots/${phase}/${step}/${id}-${project}.png` : `test-results/shots/${step}/${id}-${project}.png`
   mkdirSync(dirname(file), { recursive: true })
   await page.screenshot({ path: file, fullPage: opts.fullPage ?? true, animations: 'disabled', caret: 'hide', mask: opts.mask })
 
