@@ -52,7 +52,8 @@ export function respondQuestions(
         kind: 'module',
         id: q.item,
         item: q.item,
-        factorLabel: pick(q.factor, q.factor_en),
+        // a survey language's factor name comes with its texts (0086), under the statement's key
+        factorLabel: reg(`module:${q.item}:factor`, pick(q.factor, q.factor_en)),
         text: reg(`module:${q.item}`, pick(q.text, q.text_en)),
         choices: scale,
       }),

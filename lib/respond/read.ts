@@ -120,6 +120,8 @@ const Locales = z.object({
   org_lang: z.string().nullable().optional(),
   locales: z.record(z.string(), z.object({ missing: z.coerce.number(), ui: z.array(z.string()), pilot: z.boolean().optional() })),
   texts: z.record(z.string(), z.record(z.string(), z.string())),
+  // a survey language's approved page strings with the source each was made from (0086, D-133)
+  ui: z.record(z.string(), z.record(z.string(), z.object({ t: z.string(), h: z.string().nullable() }))).optional().default({}),
 })
 export type RespondLocales = z.infer<typeof Locales>
 

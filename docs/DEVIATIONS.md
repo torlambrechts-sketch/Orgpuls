@@ -6092,3 +6092,72 @@ unit test says so. 1.0.0 stays published and is kept byte for byte at
 modules/helse-og-omsorg/archive/v1.0.0.json, which the public pages go on quoting — they print
 the version respondents are asked — until 1.0.1 is published. 1.0.1 is seeded as a draft on the
 hosted project, and its legal basis is in admin › Legal review.
+
+## D-133 — The survey in Polish, Ukrainian, Lithuanian, Swedish and Danish; translations in the admin (0086)
+
+Tor, 2026-09-27: "Go with Polish and Ukrainian first, then Lithuanian; Swedish and Danish from the
+official Nordic versions — the PLATFORM ADMIN will stay in English, always … I want the recommended
+JSON translation files (or other recommendation for handling multiple languages) so I can see,
+export and import languages translation … under admin" (X-070). How to use it:
+docs/implementation/translation-files.md.
+
+- **Where a survey language's texts live.** Bokmål and English are the platform's languages and
+  keep their strings in messages/. The five survey-only languages have no message files. Every
+  text a respondent reads in them lives in the translation registry (app.item_translations): the
+  questions as before, and now the survey pages' strings (`ui:`), the invitation, reminder,
+  requested-link and SMS texts (`mail:`), and module factor names (`mfactor:`).
+  - *Why the database, not repository files:* the ask was to import under admin, and the admin
+    cannot write the repository. The registry already has the workflow, the history and the
+    approvals.
+  - *What this departs from:* CLAUDE.md's "every UI string comes from next-intl" still holds on the
+    page. The survey page renders these languages through next-intl, from bokmål's messages with
+    the approved strings laid over them.
+- **The recommended format** is one JSON package per language (`orgpuls-translations` v1), with
+  XLIFF 2.0 for agencies' CAT tools. Each entry carries the bokmål source, the English as
+  reference, context, the translation, its TRAPD step, notes, and the SHA-256 of the source it was
+  translated from.
+  - *Stale translations:* a page or mail text translated from an older bokmål counts as out of
+    date and is not used, so a changed source never shows under an old translation.
+  - *What the import checks:* placeholders, plural categories per language (Polish, Ukrainian and
+    Lithuanian need one/few/many/other), valid syntax, and SMS length. It never approves: at most
+    it records a step up to pretested.
+- **What may be approved, by language** (tightens D-132 4):
+  - the product's own English: machine text, at any step, as before;
+  - an official version (the QPS Nordic Swedish and Danish): at any step;
+  - everything else only once pretested.
+
+  So a machine draft can never become the approved wording in a new language, as the multilingual
+  guide requires.
+- **When a respondent is offered one of these languages.** All of these must hold:
+  - its flag (`locale_pl`, `locale_uk`, `locale_lt`, `locale_sv`, `locale_da`) is on, or the
+    organisation pilots it;
+  - every item the survey asks is approved;
+  - every survey-page string is approved from the current bokmål.
+
+  The invitation goes out in it only when, in addition, every mail and SMS text is approved from
+  the current bokmål. The page and the dispatcher share one check
+  (supabase/functions/_shared/survey-texts.ts).
+- **Module factor names are now translated items** in these languages: the name printed above a
+  module statement.
+  - *English is exempt:* its factor names are part of the published module (module_factors.i18n.en)
+    and were reviewed with it. Requiring them again would have silently stopped English in every
+    survey with a module.
+- **Verified end to end locally**, through the admin with a real super-admin session and second
+  factor. For Ukrainian:
+  1. The export had 245 entries: 33 statements, 17 questions outside the index, 97 module texts,
+     74 page strings and 24 mail texts.
+  2. A file whose plurals lacked Ukrainian's forms had those 3 messages kept out, with the reason
+     shown.
+  3. The corrected file imported 245 rows as pretested.
+  4. Approval made the status «Offered to respondents».
+  5. The survey page then opened in Ukrainian from those texts: `<main lang="uk">`, the Cyrillic
+     font loaded, no bokmål left showing, and no console errors.
+
+  The rows were removed afterwards. No real translation exists yet in any of the five languages.
+- **Not done:**
+  - A language-switching end-to-end test for a survey-only language in CI. The QA seed keeps
+    Polish deliberately incomplete, and the existing tests assert that; the unit tests cover the
+    rule instead.
+  - Machine drafts: none were generated.
+  - The respondent pages outside the survey itself (the conversation pages, /inn) stay in the
+    platform languages.

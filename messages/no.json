@@ -7193,7 +7193,8 @@
       "seo": "Search and content",
       "acquisition": "Cost per customer",
       "modules": "Bransjemoduler",
-      "legal": "Legal review"
+      "legal": "Legal review",
+      "translations": "Translations"
     },
     "role": {
       "super_admin": "Super-admin",
@@ -8786,6 +8787,99 @@
       },
       "approveAll": "Godkjenn alle ({n})",
       "approveAllDone": "Alle godkjent."
+    },
+    "translations": {
+      "title": "Translations",
+      "lead": "The survey in the languages a respondent may choose besides bokmål and English. Every text a respondent can meet is listed with its bokmål source and its translation. Export a language to a file for a translator, import the file they return, and approve what may be approved. The platform itself stays bokmål and English.",
+      "languages": "Survey languages",
+      "statusTitle": "{language}",
+      "live": "Offered to respondents",
+      "readyOff": "Approved, not switched on",
+      "notReady": "Not ready",
+      "approvedOf": "{approved} of {total} texts approved",
+      "flagOn": "The {flag} flag is on: every organisation's surveys may offer it.",
+      "flagOff": "The {flag} flag is off: only pilot organisations' surveys may offer it.",
+      "pilots": "{n, plural, =0 {No pilot organisations} one {One pilot organisation} other {# pilot organisations}} (on the legal review page)",
+      "rule": "A respondent is offered this language only when every text a survey asks is approved, the survey pages' strings and the invitation texts too, and the flag or a pilot is on. A text approved from an older bokmål source no longer counts until it is translated again.",
+      "section": {
+        "core": "Survey statements",
+        "extra": "Questions outside the index",
+        "module": "Industry modules",
+        "ui": "Survey pages",
+        "mail": "Invitations and SMS"
+      },
+      "countHint": "{workflow} in progress · {stale} out of date",
+      "exportTitle": "Export",
+      "exportLead": "Every text with its bokmål source, the English as a reference, and the translation as it stands. JSON is the recommended format; XLIFF 2.0 is for a translation agency's tool.",
+      "exportJson": "Download JSON (recommended)",
+      "exportXliff": "Download XLIFF 2.0",
+      "approveTitle": "Approve",
+      "approveLead": "{n, plural, one {One translation may be approved} other {# translations may be approved}}: an official version at any step, the others once pretested. Machine text is never approved in these languages.",
+      "approveRead": "I have read these translations against their bokmål source.",
+      "approveSubmit": "Approve {n}",
+      "approveDone": "Approved.",
+      "approveNone": "Nothing to approve. A translation may be approved when it is pretested, or when it is an official version.",
+      "importTitle": "Import",
+      "importLead": "A file exported here and filled in by a translator, as JSON or XLIFF 2.0. It is checked against the bokmål source first: placeholders, plural forms, SMS length, and whether it was translated from the current source. Imported texts are never approved; they keep the step the file names, pretested at most.",
+      "file": "File",
+      "origin": "Who translated it (unless the file says)",
+      "origins": {
+        "official": "Official version",
+        "professional": "Professional translator",
+        "machine": "Machine draft",
+        "qa-fixture": "QA fixture"
+      },
+      "check": "Check file",
+      "checking": "Working …",
+      "apply": "Import {n}",
+      "summary": "{format} file: {rows} texts to write, {unchanged} unchanged, {untranslated} left blank.",
+      "written": "Imported: {new} new, {changed} changed, {same} unchanged, {refused} refused.",
+      "nothing": "Nothing to write: the file holds nothing that differs from what is here.",
+      "problemsHead": "{n} notes on the file",
+      "code": {
+        "unknown_key": "Not a survey text:",
+        "syntax": "Not a valid message:",
+        "placeholders": "Placeholders differ from the source:",
+        "plural": "A plural lacks a form this language needs:",
+        "stale": "Translated from an older source:",
+        "approved_capped": "Marked approved in the file; imported as pretested:",
+        "step": "Not a workflow step; imported as a draft:",
+        "sms_long": "Takes more than one SMS on its own:"
+      },
+      "problem": {
+        "not_allowed": "Only a super-admin can do this.",
+        "invalid": "That could not be read. Reload the page and try again.",
+        "no_file": "Choose a file.",
+        "too_large": "The file is larger than 3 MB.",
+        "bad_file": "That is not a translation file exported here",
+        "wrong_language": "The file is for another language",
+        "stale": "The file or the texts changed since it was checked. Check it again.",
+        "confirm_required": "Tick the box to say the translations were read.",
+        "failed": "Something went wrong. Try again."
+      },
+      "filter": "Filter",
+      "allSections": "All texts",
+      "show": {
+        "all": "Any state",
+        "none": "Not translated",
+        "workflow": "In progress",
+        "approved": "Approved",
+        "stale": "Out of date"
+      },
+      "step": {
+        "draft": "Draft",
+        "in_review": "In review",
+        "adjudicated": "Adjudicated",
+        "pretested": "Pretested",
+        "approved": "Approved",
+        "retired": "Retired"
+      },
+      "textsTitle": "Texts ({n})",
+      "bokmal": "Bokmål",
+      "english": "English",
+      "untranslated": "Not translated",
+      "notes": "Notes",
+      "none": "No texts match."
     }
   },
   "access": {

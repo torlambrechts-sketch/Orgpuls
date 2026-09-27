@@ -177,8 +177,8 @@ begin
       (select count(*) from app.round_translations p where p.round_id = v_round and p.item_id = 'module:' || v_item),
       (select count(*) from app.round_translations p where p.round_id = v_round and p.locale = 'pl'))
       into v_txt;
-    v_rows := v_rows || jsonb_build_object('seq', 7, 'name', 'opening pins every approved item; the worded statement under its barnehage key',
-      'expected', '6,6,1,0,0', 'actual', v_txt, 'pass', v_txt = '6,6,1,0,0');
+    v_rows := v_rows || jsonb_build_object('seq', 7, 'name', 'opening pins every approved item, the factor''s name too (0086); the worded statement under its barnehage key',
+      'expected', '7,7,1,0,0', 'actual', v_txt, 'pass', v_txt = '7,7,1,0,0');
 
     -- 8 ------------------------------------------------------------ the respondent's texts
     insert into app.employees (org_id, full_name, email, language, active)

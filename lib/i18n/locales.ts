@@ -17,8 +17,13 @@
 export const LOCALE_REGISTRY = [
   { code: 'no', bcp47: 'nb', nativeName: 'Norsk', dir: 'ltr', platform: true, survey: true, fallback: [] },
   { code: 'en', bcp47: 'en', nativeName: 'English', dir: 'ltr', platform: true, survey: true, fallback: [] },
-  { code: 'pl', bcp47: 'pl', nativeName: 'Polski', dir: 'ltr', platform: false, survey: true, fallback: ['en'] },
-  { code: 'lt', bcp47: 'lt', nativeName: 'Lietuvių', dir: 'ltr', platform: false, survey: true, fallback: ['en'] },
+  // survey only (D-133): their page and invitation texts live in the translation registry, not in
+  // messages/, and are imported and approved in admin › Translations. Order: Tor, 2026-09-27.
+  { code: 'pl', bcp47: 'pl', nativeName: 'Polski', dir: 'ltr', platform: false, survey: true, fallback: [] },
+  { code: 'uk', bcp47: 'uk', nativeName: 'Українська', dir: 'ltr', platform: false, survey: true, fallback: [] },
+  { code: 'lt', bcp47: 'lt', nativeName: 'Lietuvių', dir: 'ltr', platform: false, survey: true, fallback: [] },
+  { code: 'sv', bcp47: 'sv', nativeName: 'Svenska', dir: 'ltr', platform: false, survey: true, fallback: [] },
+  { code: 'da', bcp47: 'da', nativeName: 'Dansk', dir: 'ltr', platform: false, survey: true, fallback: [] },
 ] as const satisfies readonly {
   code: string
   bcp47: string

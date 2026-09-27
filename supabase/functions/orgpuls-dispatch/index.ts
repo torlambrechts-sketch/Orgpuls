@@ -63,7 +63,8 @@ import {
   type TicketJob,
 } from '../_shared/mail.ts'
 import { normalizePhone, smsContent, smsLength } from '../_shared/sms.ts'
-import { MAIL, RESPONDENT_UI, SIGNED_OFF_FLAGS } from '../_shared/messages.gen.ts'
+import { MAIL, RESPONDENT_UI, SIGNED_OFF_FLAGS, SURVEY_ONLY, SURVEY_SOURCE } from '../_shared/messages.gen.ts'
+import { complete, nest, type Approved } from '../_shared/survey-texts.ts'
 
 const BATCH = 25
 const BUDGET_MS = 40_000
@@ -95,7 +96,8 @@ Deno.serve(async (req) => {
   const sender = { email: env('ORGPULS_MAIL_FROM'), name: Deno.env.get('ORGPULS_MAIL_FROM_NAME') ?? 'Orgpuls' }
   const smsSender = Deno.env.get('ORGPULS_SMS_SENDER') ?? 'Orgpuls'
   const appUrl = env('ORGPULS_APP_URL')
-  const cat = MAIL as unknown as MailCatalogue
+  // a copy: the survey languages' texts are added per run, from the registry (below)
+  const cat: MailCatalogue = { ...(MAIL as unknown as MailCatalogue) }
   // the language flags this function runs with, as the app's: the signed-off ones it was deployed
   // with (lib/flags.signed-off.json) and ORGPULS_FLAGS. None, and no pilot (0085) for the job's
   // organisation, means every personal message stays in the organisation's language (D-127)
@@ -316,6 +318,20 @@ Deno.serve(async (req) => {
   }
 
   const svc = createClient(env('SUPABASE_URL'), env('SUPABASE_SERVICE_ROLE_KEY'), { auth: { persistSession: false } })
+  // the survey languages' approved mail texts and page strings (0086, D-133): a message goes out in
+  // one only when both are approved from the current bokmål, as the survey page offers it only then
+  const texts = await svc.rpc('dispatch_language_texts')
+  if (texts.error) console.error(`[dispatch] language texts: ${texts.error.code ?? ''} ${texts.error.message}`)
+  else {
+    const d = (texts.data ?? {}) as { mail?: Record<string, Approved>; ui?: Record<string, Approved> }
+    const uiReady: Record<string, boolean> = {}
+    for (const l of SURVEY_ONLY) {
+      const mail = d.mail?.[l]
+      if (mail && complete(SURVEY_SOURCE.mail, mail)) (cat as Record<string, Record<string, unknown>>)[l] = nest(SURVEY_SOURCE.mail, mail)
+      uiReady[l] = complete(SURVEY_SOURCE.ui, d.ui?.[l])
+    }
+    if (offer) offer.uiReady = uiReady
+  }
   const started = Date.now()
   const tally = { claimed: 0, sent: 0, sms: 0, failed: 0, retry: 0, released: 0 }
 

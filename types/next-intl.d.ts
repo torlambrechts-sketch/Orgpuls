@@ -1,8 +1,10 @@
-import type { Locale } from '@/lib/i18n/locales'
+import type { AnyLocale } from '@/lib/i18n/locales'
 
 /**
  * next-intl's AppConfig. Locale is typed, so `useLocale()` and `getLocale()` return the
- * registry's union rather than `string`.
+ * registry's union rather than `string`: every language in it, since the survey pages render in
+ * the survey-only ones too (D-133), with their plural rules. The app's own pages use lib/i18n/
+ * locales.ts `Locale`, the platform's two.
  *
  * Messages are deliberately not typed (D-132): typing them against messages/no.json makes 130
  * call sites fail, every one a key built at runtime from data — a factor key, a status, a
@@ -12,6 +14,6 @@ import type { Locale } from '@/lib/i18n/locales'
  */
 declare module 'next-intl' {
   interface AppConfig {
-    Locale: Locale
+    Locale: AnyLocale
   }
 }

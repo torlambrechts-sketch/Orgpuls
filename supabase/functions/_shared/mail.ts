@@ -12,10 +12,11 @@
  * Every value that came from the database is HTML-escaped before it is placed in markup.
  */
 
-export type Lang = 'no' | 'en'
+/** Bokmål and English are the platform's; the rest are survey languages whose texts come from the registry (D-133) */
+export type Lang = 'no' | 'en' | 'pl' | 'uk' | 'lt' | 'sv' | 'da'
 /** The `mail` subtree of one language's messages. */
 export type MailMessages = Record<string, unknown>
-export type MailCatalogue = Record<Lang, MailMessages>
+export type MailCatalogue = Record<'no' | 'en', MailMessages> & Partial<Record<Lang, MailMessages>>
 
 export interface Rendered {
   subject: string
@@ -78,7 +79,7 @@ export function isReservedAddress(email: string | null | undefined): boolean {
 }
 
 /** A message by dotted path. Missing is an error: a mail must never go out with a key in it. */
-export function pick(m: MailMessages, path: string): string {
+export function pick(m: MailMessages | undefined, path: string): string {
   let o: unknown = m
   for (const k of path.split('.')) o = o && typeof o === 'object' ? (o as Record<string, unknown>)[k] : undefined
   if (typeof o !== 'string') throw new Error(`mail message missing: ${path}`)
@@ -102,9 +103,11 @@ export function escapeHtml(s: string): string {
 }
 
 /** "12. oktober" / "12 October", in the organisation's own zone. */
+const DATE_LOCALE: Record<Lang, string> = { no: 'nb-NO', en: 'en-GB', pl: 'pl-PL', uk: 'uk-UA', lt: 'lt-LT', sv: 'sv-SE', da: 'da-DK' }
+
 export function dateOf(iso: string | null, lang: Lang): string {
   if (!iso) return ''
-  return new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'nb-NO', {
+  return new Intl.DateTimeFormat(DATE_LOCALE[lang] ?? 'nb-NO', {
     day: 'numeric',
     month: 'long',
     timeZone: 'Europe/Oslo',
@@ -112,7 +115,7 @@ export function dateOf(iso: string | null, lang: Lang): string {
 }
 
 /** "grunnlinjen 2026", "puls 2 · 2027" — lower case, for the middle of a sentence. */
-export function roundName(m: MailMessages, r: NoticeRound): string {
+export function roundName(m: MailMessages | undefined, r: NoticeRound): string {
   if (r.kind === 'puls' && r.pulse) return fill(pick(m, 'round.pulsN'), { n: r.pulse, year: r.year })
   const key = ['grunnlinje', 'puls', 'oppfolging'].includes(r.kind) ? r.kind : 'grunnlinje'
   return fill(pick(m, `round.${key}`), { year: r.year })
@@ -188,7 +191,13 @@ ${p.after.map((s) => para(s, 'margin:0 0 10px;font-size:13.5px;line-height:1.6;c
  * its messages. `null` when no language is on either way: then the message is in the
  * organisation's language, as before. Only a language with mail texts can be offered.
  */
-export type LanguageOffer = { flags: ReadonlySet<string> | '*'; hashes: Record<string, string> }
+export type LanguageOffer = {
+  flags: ReadonlySet<string> | '*'
+  /** the approved page-string hash per platform language (lib/i18n/respondent-ui.json) */
+  hashes: Record<string, string>
+  /** a survey language's page strings are all approved and current (survey-texts.ts complete) */
+  uiReady?: Record<string, boolean>
+}
 
 export function offeredFor(cat: MailCatalogue, job: NoticeJob, offer: LanguageOffer | null): Lang[] | null {
   if (!offer) return null
@@ -199,7 +208,8 @@ export function offeredFor(cat: MailCatalogue, job: NoticeJob, offer: LanguageOf
   const ready = others.filter((l) => {
     const s = job.locales?.[l]
     const hash = offer.hashes[l]
-    return on(l) && l in cat && s !== undefined && s.missing === 0 && hash !== undefined && s.ui.includes(hash)
+    const ui = (hash !== undefined && s?.ui.includes(hash)) || offer.uiReady?.[l] === true
+    return on(l) && l in cat && s !== undefined && s.missing === 0 && ui
   })
   return ['no', ...(ready as Lang[])]
 }

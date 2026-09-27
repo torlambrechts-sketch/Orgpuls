@@ -15,11 +15,12 @@
  */
 import { execFileSync } from 'node:child_process'
 import { readFileSync, writeFileSync } from 'node:fs'
+import { localeRegistry } from '../lib/locales.mjs'
 
 const REF = process.env.SUPABASE_PROJECT_REF ?? 'jmhhszsnjfqgclxzhciq'
 const TOKEN = process.env.SB_MCP_PAT ?? process.env.SUPABASE_ACCESS_TOKEN
 const FUNCTIONS = ['orgpuls-dispatch', 'orgpuls-auth-mail', 'orgpuls-mail-events', 'orgpuls-seo']
-const SHARED = ['_shared/mail.ts', '_shared/brevo.ts', '_shared/sms.ts', '_shared/seo.ts', '_shared/messages.gen.ts']
+const SHARED = ['_shared/mail.ts', '_shared/brevo.ts', '_shared/sms.ts', '_shared/seo.ts', '_shared/survey-texts.ts', '_shared/messages.gen.ts']
 const ROOT = 'supabase/functions'
 
 const mail = (lang) => JSON.parse(readFileSync(`messages/${lang}.json`, 'utf8')).mail
@@ -31,7 +32,10 @@ writeFileSync(
     // a language is offered in an invitation only where these were approved
     `export const RESPONDENT_UI: Record<string, string> = ${readFileSync('lib/i18n/respondent-ui.json', 'utf8').trim()}\n` +
     // the flags a person signed off (lib/flags.ts SIGNED_OFF): on here as in the app
-    `export const SIGNED_OFF_FLAGS: string[] = ${JSON.stringify(JSON.parse(readFileSync('lib/flags.signed-off.json', 'utf8')))}\n`,
+    `export const SIGNED_OFF_FLAGS: string[] = ${JSON.stringify(JSON.parse(readFileSync('lib/flags.signed-off.json', 'utf8')))}\n` +
+    // the survey-only languages and the bokmål their texts are translated from (D-133)
+    `export const SURVEY_ONLY: string[] = ${JSON.stringify(localeRegistry().filter((l) => l.survey && !l.platform).map((l) => l.code))}\n` +
+    `export const SURVEY_SOURCE: { ui: Record<string, string>; mail: Record<string, string> } = ${readFileSync('lib/i18n/survey-source.json', 'utf8').trim()}\n`,
 )
 
 execFileSync('npx', ['-y', 'deno', 'check', '--config', `${ROOT}/deno.json`, ...FUNCTIONS.map((f) => `${ROOT}/${f}/index.ts`)], { stdio: 'inherit' })

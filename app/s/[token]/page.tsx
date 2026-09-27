@@ -1,6 +1,6 @@
-import { NextIntlClientProvider } from 'next-intl'
+import { createTranslator, NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages, getTranslations } from 'next-intl/server'
-import { LOCALE_NAMES, chooseLocale, offeredLocales } from '@/lib/i18n/offered'
+import { LOCALE_NAMES, chooseLocale, offeredLocales, surveyMessages } from '@/lib/i18n/offered'
 import { RESPONDENT_CLIENT_NAMESPACES, pickMessages } from '@/lib/i18n/client'
 import { getRespondForm, getRespondLocales } from '@/lib/respond/read'
 import { RespondFlow } from '@/components/respond/RespondFlow'
@@ -61,11 +61,18 @@ export default async function RespondPage({
    * page is in the host's or the switch's language, as before.
    */
   const locales = await getRespondLocales(token)
-  const offered = offeredLocales(locales?.locales ?? null)
+  const offered = offeredLocales(locales?.locales ?? null, locales?.ui)
   const lang = offered ? chooseLocale(offered, Array.isArray(asked) ? asked[0] : asked, locales?.employee_lang, locales?.org_lang) : await getLocale()
-  // only bokmål and English have page strings (messages/); a language without them is never offered
+  // bokmål and English have their page strings in messages/; a survey-only language (D-133) has
+  // them in the registry, laid over bokmål's, and offeredLocales has found every one approved
+  const surveyOnly = !!offered && lang !== 'no' && lang !== 'en'
   const uiLocale = lang === 'en' ? 'en' : 'no'
-  const tl = offered ? await getTranslations({ locale: uiLocale }) : t
+  const messages = surveyOnly
+    ? surveyMessages(await getMessages({ locale: 'no' }), locales?.ui[lang] ?? {})
+    : offered
+      ? await getMessages({ locale: uiLocale })
+      : null
+  const tl = surveyOnly ? createTranslator({ locale: lang, messages: messages! }) : offered ? await getTranslations({ locale: uiLocale }) : t
   const texts = offered && lang !== 'no' ? (locales?.texts[lang] ?? null) : null
 
   const questions = respondQuestions(tl, form, offered ? lang : await getLocale(), texts)
@@ -90,10 +97,7 @@ export default async function RespondPage({
   return (
     <main lang={offered ? bcp47(lang) : undefined} className="animate-entry mx-auto min-h-screen max-w-[420px] bg-bg">
       {offered ? (
-        <NextIntlClientProvider
-          locale={uiLocale}
-          messages={pickMessages(await getMessages({ locale: uiLocale }), RESPONDENT_CLIENT_NAMESPACES)}
-        >
+        <NextIntlClientProvider locale={surveyOnly ? lang : uiLocale} messages={pickMessages(messages ?? {}, RESPONDENT_CLIENT_NAMESPACES)}>
           {flow}
         </NextIntlClientProvider>
       ) : (

@@ -42,18 +42,46 @@ export function respondentHashes() {
   return out
 }
 
+/**
+ * The bokmål source of every page string and personal mail text, by path, as its SHA-256 (D-133):
+ * a survey language's translation of it is used only while it was made from this source.
+ * lib/i18n/survey-catalogue.ts sourceHashes() computes the same, and a unit test holds them equal.
+ */
+const SOURCE_OUT = 'lib/i18n/survey-source.json'
+export function surveySource() {
+  const no = JSON.parse(readFileSync('messages/no.json', 'utf8'))
+  const sha = (t) => createHash('sha256').update(t, 'utf8').digest('hex')
+  const ui = {}
+  const walk = (v, path, out) => {
+    if (typeof v === 'string') out[path] = sha(v)
+    else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) walk(x, path ? `${path}.${k}` : k, out)
+  }
+  walk(respondentStrings(no), '', ui)
+  const mail = {}
+  const branches = JSON.parse(readFileSync('lib/i18n/survey-text-keys.json', 'utf8')).mail
+  for (const b of branches) walk(no.mail?.[b], b, mail)
+  return { ui: Object.fromEntries(Object.entries(ui).filter(([, h]) => h)), mail }
+}
+
 const isMain = process.argv[1] && import.meta.url.endsWith(process.argv[1].split('/').pop())
 if (isMain) {
-  const next = JSON.stringify(respondentHashes(), null, 2) + '\n'
+  const outputs = [
+    [OUT, JSON.stringify(respondentHashes(), null, 2) + '\n'],
+    [SOURCE_OUT, JSON.stringify(surveySource(), null, 2) + '\n'],
+  ]
   if (process.argv.includes('--check')) {
-    const now = existsSync(OUT) ? readFileSync(OUT, 'utf8') : ''
-    if (now !== next) {
-      console.error(`${OUT} is out of date: run node scripts/i18n/respondent-ui.mjs`)
-      process.exit(1)
+    for (const [file, next] of outputs) {
+      const now = existsSync(file) ? readFileSync(file, 'utf8') : ''
+      if (now !== next) {
+        console.error(`${file} is out of date: run node scripts/i18n/respondent-ui.mjs`)
+        process.exit(1)
+      }
     }
     console.log('respondent-ui: current')
   } else {
-    writeFileSync(OUT, next)
-    console.log(`wrote ${OUT}`)
+    for (const [file, next] of outputs) {
+      writeFileSync(file, next)
+      console.log(`wrote ${file}`)
+    }
   }
 }

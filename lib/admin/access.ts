@@ -5,7 +5,7 @@ import type { AdminRole } from './api'
  * it. The database decides what each call returns; this only keeps a role from being offered
  * a page that would answer "not allowed".
  */
-export const SECTIONS = ['dashboard', 'orgs', 'health', 'users', 'ops', 'web', 'seo', 'acquisition', 'crm', 'modules', 'legal', 'tickets', 'audit', 'admins'] as const
+export const SECTIONS = ['dashboard', 'orgs', 'health', 'users', 'ops', 'web', 'seo', 'acquisition', 'crm', 'modules', 'legal', 'translations', 'tickets', 'audit', 'admins'] as const
 export type Section = (typeof SECTIONS)[number]
 
 const BY_ROLE: Record<AdminRole, readonly Section[]> = {
@@ -31,6 +31,8 @@ export const HREF: Record<Section, string> = {
   modules: '/admin/modules',
   // the legal review (D-130): a super-admin's alone, since a legal sign-off is the owner's
   legal: '/admin/legal',
+  // the survey languages' texts (D-133): a super-admin's, as the approvals are
+  translations: '/admin/translations',
   tickets: '/admin/tickets',
   audit: '/admin/audit',
   admins: '/admin/admins',

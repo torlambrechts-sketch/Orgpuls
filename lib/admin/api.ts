@@ -649,7 +649,21 @@ const Translations = z.object({
   digest: z.string(),
   /** items any survey could ask with no approved translation: what the offered rule counts */
   missing: num,
-  items: z.array(z.object({ item: z.string(), text: z.string(), source: z.string(), approved: z.boolean(), at: tsn })),
+  items: z.array(
+    z.object({
+      item: z.string(),
+      text: z.string(),
+      source: z.string(),
+      approved: z.boolean(),
+      at: tsn,
+      // 0084, 0086: the workflow step, the version, the notes and the source it was made from
+      status: z.string().default('draft'),
+      version: num.default(1),
+      notes: z.string().nullable().default(null),
+      source_hash: z.string().nullable().default(null),
+      approvable: z.boolean().default(false),
+    }),
+  ),
   ui: z.array(z.object({ hash: z.string(), at: ts })),
 })
 export type TranslationState = z.infer<typeof Translations>
@@ -658,6 +672,30 @@ const LocalePilots = z.object({
   pilots: z.array(z.object({ locale: z.string(), org_id: z.string().uuid(), name: z.string(), at: ts })),
 })
 export type LocalePilot = z.infer<typeof LocalePilots>['pilots'][number]
+
+const Localized = z.record(z.string(), z.string().optional())
+const TranslationSources = z.object({
+  modules: z.array(
+    z.object({
+      key: z.string(),
+      version: z.string(),
+      name: z.string(),
+      factors: z.array(z.object({ id: z.string().uuid(), name: z.string(), i18n: z.record(z.string(), z.object({ name: z.string().optional() }).passthrough().optional()).nullable() })),
+      items: z.array(
+        z.object({
+          id: z.string().uuid(),
+          code: z.string(),
+          kind: z.enum(['likert5', 'count', 'segment']),
+          factor: z.string().uuid().nullable(),
+          text: Localized,
+          options: z.array(Localized).nullable(),
+        }),
+      ),
+    }),
+  ),
+})
+/** Every published module's items and factors with their bokmål, for admin › Translations (0086). Super-admin. */
+export const translationSources = () => call('admin_translation_sources', {}, TranslationSources)
 /** The organisations offered a survey language before its flag is on for everyone (0085). Super-admin. */
 export const localePilots = () => call('admin_locale_pilots', {}, LocalePilots)
 /** A language's survey translations (0079) and the page-string hashes approved for it. Super-admin. */

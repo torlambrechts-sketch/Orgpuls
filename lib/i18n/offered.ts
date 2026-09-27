@@ -2,6 +2,8 @@ import 'server-only'
 import { flag, type FlagName } from '@/lib/flags'
 import { LOCALE_REGISTRY } from './locales'
 import hashes from './respondent-ui.json'
+import SOURCE from './survey-source.json'
+import { complete, nest, uiPlace, type Approved } from '@/supabase/functions/_shared/survey-texts'
 
 /**
  * Which languages a survey is offered in (engagement P1.1, D-127).
@@ -39,7 +41,12 @@ export function isRespondentLocale(v: unknown): v is RespondentLocale {
   return typeof v === 'string' && (RESPONDENT_LOCALES as readonly string[]).includes(v)
 }
 
-export function offeredLocales(state: LocaleState | null): RespondentLocale[] | null {
+/**
+ * `ui`: a survey language's approved page strings (respond_locales, 0086). Bokmål and English keep
+ * their strings in messages/ and are approved by hash; the survey-only languages' strings come
+ * from the registry, and count only when every one is approved from the current bokmål (D-133).
+ */
+export function offeredLocales(state: LocaleState | null, ui: Record<string, Approved> = {}): RespondentLocale[] | null {
   const others = RESPONDENT_LOCALES.filter((l) => l !== 'no')
   const on = (l: RespondentLocale) => flag(`locale_${l}` as FlagName) || state?.[l]?.pilot === true
   if (!others.some(on)) return null
@@ -48,9 +55,27 @@ export function offeredLocales(state: LocaleState | null): RespondentLocale[] | 
     ...others.filter((l) => {
       const s = state?.[l]
       const hash = HASHES[l]
-      return on(l) && s !== undefined && s.missing === 0 && hash !== undefined && s.ui.includes(hash)
+      const pages = hash !== undefined ? !!s?.ui.includes(hash) : complete(SOURCE.ui, ui[l])
+      return on(l) && s !== undefined && s.missing === 0 && pages
     }),
   ]
+}
+
+/**
+ * The respondent pages' messages in a survey-only language: bokmål's, with every approved string
+ * laid over it. Used only once offeredLocales has found them all approved and current, so no
+ * bokmål is left showing; the overlay is still bokmål-backed, so a page can never show a key.
+ */
+export function surveyMessages(no: Record<string, unknown>, approved: Approved): Record<string, unknown> {
+  const merge = (a: Record<string, unknown>, b: Record<string, unknown>): Record<string, unknown> =>
+    Object.fromEntries(
+      [...new Set([...Object.keys(a), ...Object.keys(b)])].map((k) => {
+        const x = a[k]
+        const y = b[k]
+        return [k, x && y && typeof x === 'object' && typeof y === 'object' ? merge(x as Record<string, unknown>, y as Record<string, unknown>) : (y ?? x)]
+      }),
+    )
+  return merge(no, nest(SOURCE.ui, approved, uiPlace))
 }
 
 /**

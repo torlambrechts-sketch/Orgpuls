@@ -60,10 +60,12 @@ describe('the locale registry', () => {
 describe('the database’s language lists match the registry', () => {
   const cases: [string, RegExp, RegExp, string[]][] = [
     ['organizations.default_lang', /create table app\.organizations/, /default_lang[^\n]*check \(default_lang in \(([^)]*)\)\)/, [...LOCALES].sort()],
-    ['employees.language', /add column language text check/, /language in \(([^)]*)\)/, survey],
-    ['item_translations.locale', /create table app\.item_translations/, /\blocale\s+text not null check \(locale in \(([^)]*)\)\)/, translated],
-    ['ui_translation_approvals.locale', /create table app\.ui_translation_approvals/, /\blocale\s+text not null check \(locale in \(([^)]*)\)\)/, translated],
-    ['locale_pilots.locale', /create table app\.locale_pilots/, /\blocale\s+text not null check \(locale in \(([^)]*)\)\)/, translated],
+    ['employees.language', /add column language text check|add constraint employees_language_check/, /language in \(([^)]*)\)/, survey],
+    ['item_translations.locale', /create table app\.item_translations|add constraint item_translations_locale_check/, /check \(locale in \(([^)]*)\)\)/, translated],
+    ['ui_translation_approvals.locale', /create table app\.ui_translation_approvals|add constraint ui_translation_approvals_locale_check/, /check \(locale in \(([^)]*)\)\)/, translated],
+    ['locale_pilots.locale', /create table app\.locale_pilots|add constraint locale_pilots_locale_check/, /check \(locale in \(([^)]*)\)\)/, translated],
+    ['admin_translations_import', /create (or replace )?function public\.admin_translations_import/, /not in \(([^)]*)\)/, translated],
+    ['dispatch_language_texts', /create (or replace )?function public\.dispatch_language_texts/, /unnest\(array\[([^\]]*)\]\)/, translated.filter((l) => l !== 'en')],
     ['round_locale_state', /create (or replace )?function app\.round_locale_state/, /from \(values ((?:\('[a-z]+'\)(?:, )?)+)\)/, translated],
     ['admin_translations_approve', /create (or replace )?function public\.admin_translations_approve/, /not in \(([^)]*)\)/, translated],
     ['approve_ui_translation', /create (or replace )?function public\.approve_ui_translation/, /not in \(([^)]*)\)/, translated],

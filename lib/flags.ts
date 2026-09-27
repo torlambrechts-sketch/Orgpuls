@@ -29,7 +29,10 @@ export const FLAG_NAMES = [
   'measured_badge_public',
   'locale_en',
   'locale_pl',
+  'locale_uk',
   'locale_lt',
+  'locale_sv',
+  'locale_da',
 ] as const
 export type FlagName = (typeof FLAG_NAMES)[number]
 

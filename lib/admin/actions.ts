@@ -11,6 +11,10 @@ import respondentUi from '@/lib/i18n/respondent-ui.json'
 import { respondentHash } from '@/lib/i18n/respondent-strings'
 import en from '@/messages/en.json'
 import { TRANSLATION_LOCALES } from '@/lib/i18n/locales'
+import { createHash } from 'node:crypto'
+import { checkImport, FileError, ORIGINS, parseFile, type Origin } from '@/lib/i18n/translation-package'
+import { currentRows, SURVEY_LANGUAGES, surveyTexts, type SurveyLanguage } from '@/lib/admin/translations'
+import { isError, translationState } from '@/lib/admin/api'
 
 /**
  * The platform admin's writes and its sign-in (D-90). Signing in is two steps: a password,
@@ -374,6 +378,120 @@ export async function legalApproveAll(_prev: AdminResult | null, formData: FormD
   }
   revalidatePath('/admin/legal')
   return { ok: true, message: String(n) }
+}
+
+/**
+ * A survey language's translation file, checked and then imported (D-133). The first press checks
+ * the file against the source (lib/i18n/translation-package.ts) and shows what would be written;
+ * the second writes it, but only if the file still checks to the very same rows (the digest), so
+ * what is imported is what was shown. An import never approves. Super-admin, audited.
+ */
+export type ImportResult =
+  | { ok: false; problem: string; detail?: string }
+  | {
+      ok: true
+      applied: boolean
+      locale: string
+      format: string
+      rows: number
+      untranslated: number
+      unchanged: number
+      problems: { key: string; level: 'error' | 'warning'; code: string; detail?: string }[]
+      digest: string
+      written?: { new: number; changed: number; same: number; refused: { key: string; error: string }[] }
+    }
+
+const FILE_MAX = 3_000_000
+
+export async function translationsImport(_prev: ImportResult | null, formData: FormData): Promise<ImportResult> {
+  const parsed = z
+    .object({
+      locale: z.enum(SURVEY_LANGUAGES as unknown as [SurveyLanguage, ...SurveyLanguage[]]),
+      origin: z.enum(ORIGINS as unknown as [Origin, ...Origin[]]),
+      intent: z.enum(['check', 'apply']),
+      digest: z.string().regex(/^[0-9a-f]{64}$/).optional(),
+    })
+    .safeParse({
+      locale: formData.get('locale'),
+      origin: formData.get('origin'),
+      intent: formData.get('intent'),
+      digest: formData.get('digest') || undefined,
+    })
+  const file = formData.get('file')
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  if (!(file instanceof File) || file.size === 0) return { ok: false, problem: 'no_file' }
+  if (file.size > FILE_MAX) return { ok: false, problem: 'too_large' }
+
+  let content
+  try {
+    content = parseFile(await file.text())
+  } catch (err) {
+    return { ok: false, problem: 'bad_file', detail: err instanceof FileError ? err.message : 'unreadable' }
+  }
+  if (content.locale !== parsed.data.locale) return { ok: false, problem: 'wrong_language', detail: content.locale }
+
+  const [catalogue, state] = await Promise.all([surveyTexts(), translationState(parsed.data.locale)])
+  if (isError(state)) return { ok: false, problem: state.error === 'not_allowed' ? 'not_allowed' : 'failed' }
+  if (!catalogue) return { ok: false, problem: 'failed' }
+  const checked = checkImport(content, catalogue, currentRows(state), parsed.data.origin)
+  const digest = createHash('sha256').update(JSON.stringify(checked.rows)).digest('hex')
+  const summary = {
+    ok: true as const,
+    applied: false,
+    locale: parsed.data.locale,
+    format: content.format,
+    rows: checked.rows.length,
+    untranslated: checked.untranslated,
+    unchanged: checked.unchanged,
+    problems: checked.problems.slice(0, 200),
+    digest,
+  }
+  if (parsed.data.intent === 'check') return summary
+  if (parsed.data.digest !== digest) return { ok: false, problem: 'stale' }
+  if (!checked.rows.length) return { ...summary, applied: true, written: { new: 0, changed: 0, same: 0, refused: [] } }
+
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('admin_translations_import', {
+    p_locale: parsed.data.locale,
+    p_rows: checked.rows.map((r) => ({ key: r.key, text: r.text, source: r.source, status: r.status, notes: r.notes, source_hash: r.source_hash })),
+  })
+  if (error) return { ok: false, problem: 'failed' }
+  const reply = z
+    .object({
+      ok: z.boolean(),
+      error: z.string().optional(),
+      new: z.coerce.number().optional(),
+      changed: z.coerce.number().optional(),
+      same: z.coerce.number().optional(),
+      refused: z.array(z.object({ key: z.string(), error: z.string() })).optional(),
+    })
+    .safeParse(data)
+  if (!reply.success) return { ok: false, problem: 'failed' }
+  if (!reply.data.ok) return { ok: false, problem: reply.data.error ?? 'failed' }
+  revalidatePath('/admin/translations')
+  return {
+    ...summary,
+    applied: true,
+    written: { new: reply.data.new ?? 0, changed: reply.data.changed ?? 0, same: reply.data.same ?? 0, refused: reply.data.refused ?? [] },
+  }
+}
+
+/**
+ * Approve a survey language's translations that may be approved (0086: an official version at any
+ * step, the rest once pretested), exactly those the page showed (the digest). Super-admin, audited.
+ */
+export async function translationsApproveLanguage(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({
+      locale: z.enum(SURVEY_LANGUAGES as unknown as [SurveyLanguage, ...SurveyLanguage[]]),
+      read: z.literal('on'),
+      digest: z.string().regex(/^[0-9a-f]{64}$/),
+    })
+    .safeParse({ locale: formData.get('locale'), read: formData.get('read'), digest: formData.get('digest') })
+  if (!parsed.success) return { ok: false, problem: failedField(parsed.error) === 'read' ? 'confirm_required' : 'invalid' }
+  const r = await rpc('admin_translations_approve', { p_locale: parsed.data.locale, p_ui_hash: null, p_digest: parsed.data.digest })
+  if (r.ok) revalidatePath('/admin/translations')
+  return r
 }
 
 /**

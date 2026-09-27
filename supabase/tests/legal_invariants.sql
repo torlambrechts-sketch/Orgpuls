@@ -119,7 +119,7 @@ begin
     -- 5 ---------------------------------------------------------------- a language's survey
     delete from app.item_translations where item_id like 'core:ytring:%' and locale = 'lt';
     insert into app.item_translations (item_id, locale, text, source)
-    values ('core:ytring:1', 'lt', 'bandymas-1', 'machine'), ('core:ytring:2', 'lt', 'bandymas-2', 'qa-fixture');
+    values ('core:ytring:1', 'lt', 'bandymas-1', 'official'), ('core:ytring:2', 'lt', 'bandymas-2', 'qa-fixture');
     perform set_config('app.environment', '', true);
     set local role authenticated;
     v_json := public.admin_translations('lt');

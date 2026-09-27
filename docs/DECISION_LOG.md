@@ -2145,8 +2145,29 @@ Tor, 2026-09-27: "Launch barnehage og skole and publish the module", and "Retire
 - **Helse og omsorg 1.0.0 is retired.** No round asked it. 1.0.1 is the only version offered; the
   1.0.0 file stays under modules/helse-og-omsorg/archive/ only for its pinned hash.
 
+### X-070 — Survey languages: Polish, Ukrainian, Lithuanian, Swedish, Danish
+
+Tor, 2026-09-27: "Go with Polish and Ukrainian first, then Lithuanian; Swedish and Danish from the
+official Nordic versions - the PLATFORM ADMIN will stay in English, always … I want the recommended
+JSON translation files (or other recommendation …) so I can se, export and import languages
+translation … under admin".
+
+- **Built (D-133):**
+  - The five languages in every list.
+  - Migration 0086: page strings, mail texts and module factor names in the translation registry;
+    approval rules by language; import; the texts for the dispatcher.
+  - **admin › Translations:** per language, every text beside its bokmål source, coverage per
+    section, export (JSON recommended, XLIFF 2.0), import with a check first, and approval.
+  - The survey page and the invitations in these languages once every text is approved and the
+    flag or a pilot is on.
+  - docs/implementation/translation-files.md: the format and the workflow for translators.
+- **Nothing is translated yet.** Each language waits for a translator (or, for Swedish and Danish,
+  the official QPS Nordic texts). The licence question (gap analysis, decision 2) stands before
+  anything is published under the QPS Nordic name.
+
 ## Open items
 - [ ] The multilingual guide: Tor's ten decisions (X-067, docs/implementation/multilingual-gap-analysis.md); the engineering queue is built (X-068, D-132).
+- [ ] Survey languages (X-070): translators for Polish and Ukrainian, then Lithuanian; the official QPS Nordic Swedish and Danish; the licence confirmation before publishing under the QPS Nordic name. Import and approve in admin › Translations.
 - [ ] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131).
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).
 - [ ] A ready-to-send check before a round opens (channel coverage, groups under the threshold, information and consultation done); the reach count on Målinger › Innstillinger is its first half (D-126).
