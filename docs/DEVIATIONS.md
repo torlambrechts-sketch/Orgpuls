@@ -5836,8 +5836,9 @@ approved checkbox" (X-065).
   - Withdrawing takes the hash of the text shown. It removes only the approval of that text, and
     the audit log records the hash actually removed.
   - The English approval approves only what the page showed. The page posts a digest of the
-    unapproved rows it listed (app.translation_digest), and the database holds those rows and
-    compares before it approves. The card also shows the survey pages' strings it approves.
+    unapproved rows it listed (app.translation_digest). The database locks, hashes and names
+    those rows in one statement, compares, and approves only the rows it named, so a row
+    another transaction adds or rewords meanwhile stays unapproved. The card also shows the survey pages' strings it approves.
     lib/i18n/respondent-strings.ts computes them, and a test holds its hash equal to the
     committed one. Its readiness counts every item any survey could ask, not only the rows
     that exist (app.all_item_keys), the same two conditions the offered rule checks.
@@ -5848,7 +5849,12 @@ approved checkbox" (X-065).
   - A module's texts are shown as published only when that version is published in the
     database.
   - Every visible string is a message: the places, the title formats, the counts.
-  - The checkbox keeps focus through a save and says «Saved.».
+  - The checkbox keeps focus through a save and says «Saved.». The English form's answer
+    stays on screen after an approval that leaves nothing to approve, takes the focus once, and
+    is cleared when new texts arrive; the «read» box is cleared by an approval.
+  - A read that fails (the factors, the modules, the CRM's texts) is named on the page and its
+    units are left out, never shown as a registry fault; a CRM with every list archived has no
+    lists unit.
   - A NULL language is refused as invalid rather than failing on a constraint.
 - **Publishing is not gated by the approvals.** Pages are built from code, and launching an
   industry page still needs its law items marked `reviewed` in content/industries, which the

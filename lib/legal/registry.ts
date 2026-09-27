@@ -477,7 +477,9 @@ function termsUnit(): LegalUnit[] {
 }
 
 /** The instrument's law references (app.factors.law_ref): language-independent, from the database */
-function instrumentUnit(factors: { key: string; lawRef: string }[]): LegalUnit[] {
+function instrumentUnit(factors: { key: string; lawRef: string }[] | null): LegalUnit[] {
+  // null: the read failed, and the page says so (lib/legal/inputs.ts)
+  if (!factors) return []
   return [
     unit({
       key: 'db:no:factors.law_ref',
@@ -521,9 +523,10 @@ function crmUnits(templates: CrmTemplate[] | null, lists: CrmList[] | null): Leg
       )
     }
   }
-  if (lists) {
+  // every list archived, or none yet, is a real state rather than a broken source: nothing to review
+  const shown = lists?.filter((l) => !l.archived) ?? []
+  if (shown.length) {
     for (const lang of LANGS) {
-      const shown = lists.filter((l) => !l.archived)
       out.push(
         unit({
           key: `db:${lang}:crm_lists`,
@@ -546,7 +549,8 @@ function crmUnits(templates: CrmTemplate[] | null, lists: CrmList[] | null): Leg
 
 /** What the registry reads from the database, loaded by lib/legal/inputs.ts for the page and the action alike */
 export type LegalInputs = {
-  factors: { key: string; lawRef: string }[]
+  /** null when the read failed: the instrument's unit is then absent, and the page says so */
+  factors: { key: string; lawRef: string }[] | null
   /** module versions published in the database, as `key@version`: whether a module's texts are live */
   publishedModules?: ReadonlySet<string>
   /** null when the read failed: those units are then absent, and the page says so */
@@ -555,7 +559,7 @@ export type LegalInputs = {
 }
 
 /** Every legal text, in section order. */
-export function legalUnits(input: LegalInputs | LegalInputs['factors']): LegalUnit[] {
+export function legalUnits(input: LegalInputs | NonNullable<LegalInputs['factors']>): LegalUnit[] {
   const i: LegalInputs = Array.isArray(input) ? { factors: input } : input
   const all = [
     ...industryUnits(),

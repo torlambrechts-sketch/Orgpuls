@@ -84,23 +84,40 @@ export function TranslationsApproveForm({
   labels: { read: string; submit: string; saving: string; done: string; problems: Problems }
 }) {
   const [state, action, pending] = useActionState<AdminResult | null, FormData>(translationsApprove, null)
-  // kept ticked across a refusal, so trying again does not mean saying it again
+  // kept ticked across a refusal, so trying again does not mean saying it again; cleared by an
+  // approval, since what it said was read has then been approved
   const [read, setRead] = useState(false)
-  // an approval that leaves nothing open takes the button away with it: the keyboard's focus
-  // moves to the answer rather than falling to the page
-  const answer = useRef<HTMLParagraphElement>(null)
+  // the answer shown: the last approval's, until there are new texts to approve
+  const [outcome, setOutcome] = useState<AdminResult | null>(null)
   useEffect(() => {
-    if (!open && state?.ok) answer.current?.focus()
-  }, [open, state])
+    setOutcome(state)
+    if (state?.ok) setRead(false)
+  }, [state])
+  const wasOpen = useRef(open)
+  useEffect(() => {
+    if (open && !wasOpen.current) setOutcome(null)
+    wasOpen.current = open
+  }, [open])
+  // an approval that leaves nothing open takes the button away with it: the keyboard's focus
+  // moves to the answer rather than falling to the page, once for that answer
+  const answer = useRef<HTMLParagraphElement>(null)
+  const focused = useRef<AdminResult | null>(null)
+  useEffect(() => {
+    if (!open && outcome?.ok && focused.current !== outcome) {
+      focused.current = outcome
+      answer.current?.focus()
+    }
+  }, [open, outcome])
   if (!open) {
-    return state ? (
+    // only an approval's answer: a refusal belongs to a form that is no longer here
+    return outcome?.ok ? (
       // the focus ring every control has (app/globals.css, bundle line 23)
       <p
         ref={answer}
         tabIndex={-1}
         className="m-0 rounded-[6px] outline-none focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-ink"
       >
-        <Outcome state={state} problems={labels.problems} done={labels.done} />
+        <Outcome state={outcome} problems={labels.problems} done={labels.done} />
       </p>
     ) : null
   }
@@ -132,7 +149,7 @@ export function TranslationsApproveForm({
         <Button type="submit" size="sm" disabled={pending}>
           {pending ? labels.saving : labels.submit}
         </Button>
-        <Outcome state={state} problems={labels.problems} done={labels.done} />
+        <Outcome state={outcome} problems={labels.problems} done={labels.done} />
       </span>
     </form>
   )

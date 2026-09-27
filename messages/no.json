@@ -8747,6 +8747,7 @@
         "crmSettings": "admin › CRM › Contacts › Existing-customer exception, which decides who a campaign may be sent to"
       },
       "sourceFailed": {
+        "factors": "The instrument's factors could not be read, so their law references are not listed here.",
         "modules": "The module registry could not be read, so no module is shown as published.",
         "crm": "The CRM's e-mail templates and newsletter lists could not be read, so they are not listed here."
       }

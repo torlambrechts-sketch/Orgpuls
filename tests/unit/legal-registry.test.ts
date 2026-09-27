@@ -96,17 +96,34 @@ describe('nothing stating law is left out of the review', () => {
    * acts on, the CRM's basis, is reviewed), and the page-template blocks /plattform and
    * /bruksomrader do not render (lib/legal/registry.ts' header).
    */
-  const NOT_PUBLISHED = [/^admin\./, /^seo\.pages\.(plattform|bruksomrader)\.(blocks|lead)/]
+  const UNRENDERED = /^seo\.pages\.(plattform|bruksomrader)\.(blocks|lead)/
+  // the admin app renders messages/en.json only, so its Norwegian copy is never read
+  const NOT_PUBLISHED = { no: [/^admin\./, UNRENDERED], en: [/^admin\.(?!crm\.settings\.)/, UNRENDERED] }
 
   it('covers every message that cites a section of a law, in both files', () => {
     const all = legalUnits({ factors, crmTemplates: [], crmLists: [] })
     for (const [lang, messages] of [['no', no], ['en', en]] as const) {
       const covered = new Set(all.filter((u) => u.key.startsWith(`msg:${lang}:`)).flatMap((u) => u.lines.map((l) => l.path)))
       const left = strings(messages, '', [])
-        .filter((l) => l.text.includes('§') && !covered.has(l.path) && !NOT_PUBLISHED.some((r) => r.test(l.path)))
+        .filter((l) => l.text.includes('§') && !covered.has(l.path) && !NOT_PUBLISHED[lang].some((r) => r.test(l.path)))
         .map((l) => l.path)
       expect(left, `${lang}: add these to MESSAGE_SPECS`).toEqual([])
     }
+    // the one legal reading in the admin app, by name
+    const basis = all.find((u) => u.key === 'msg:en:admin.crmBasis')
+    expect(basis?.lines.map((l) => l.path)).toContain('admin.crm.settings.lead')
+  })
+
+  it('shows no CRM lists unit when every list is archived, rather than a broken one', () => {
+    const list = { key: 'l', name_no: 'N', name_en: 'N', description_no: 'D', description_en: 'D', public: true }
+    const units = legalUnits({ factors, crmLists: [{ ...list, archived: true }] })
+    expect(units.filter((u) => u.key.includes('crm_lists'))).toEqual([])
+    const live = legalUnits({ factors, crmLists: [{ ...list, archived: false }] })
+    expect(live.filter((u) => u.key.includes('crm_lists') && !u.missing)).toHaveLength(2)
+  })
+
+  it('leaves the instrument out when its read failed, rather than showing it broken', () => {
+    expect(legalUnits({ factors: null }).some((u) => u.key === 'db:no:factors.law_ref')).toBe(false)
   })
 
   it('names every unit and its place with a message the admin page has', () => {

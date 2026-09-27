@@ -174,7 +174,9 @@ create function public.admin_translations_approve(p_locale text, p_ui_hash text,
   language plpgsql volatile security definer set search_path = ''
 as $fn$
 declare
-  v_items int;
+  v_items  int;
+  v_ids    text[];
+  v_digest text;
 begin
   if not app.is_platform_admin(array['super_admin']::app.platform_role[]) then
     return jsonb_build_object('ok', false, 'error', 'not_allowed');
@@ -183,15 +185,22 @@ begin
      or p_digest is null or lower(p_digest) !~ '^[0-9a-f]{64}$' then
     return jsonb_build_object('ok', false, 'error', 'invalid');
   end if;
-  -- what is approved is what was shown: the rows are held while they are compared
-  perform 1 from app.item_translations t where t.locale = p_locale and t.approved_at is null for update;
-  if app.translation_digest(p_locale) <> lower(p_digest) then
+  -- what is approved is what was shown: the rows are locked, hashed and named in one statement
+  -- (app.translation_digest's lines), and only those rows are approved. A row added or reworded
+  -- by another transaction meanwhile is not among them, so it stays unapproved.
+  select coalesce(array_agg(s.item_id), '{}'),
+         encode(extensions.digest(convert_to(coalesce(string_agg(s.item_id || E'\t' || s.text, E'\n' order by s.item_id collate "C"), ''), 'UTF8'), 'sha256'), 'hex')
+    into v_ids, v_digest
+  from (select t.item_id, t.text from app.item_translations t
+        where t.locale = p_locale and t.approved_at is null
+          and (t.source <> 'qa-fixture' or coalesce(current_setting('app.environment', true), '') = 'qa')
+        for update) s;
+  if v_digest <> lower(p_digest) then
     return jsonb_build_object('ok', false, 'error', 'stale');
   end if;
 
   update app.item_translations t set approved_at = now(), approved_by = auth.uid()
-  where t.locale = p_locale and t.approved_at is null
-    and (t.source <> 'qa-fixture' or coalesce(current_setting('app.environment', true), '') = 'qa');
+  where t.locale = p_locale and t.item_id = any(v_ids) and t.approved_at is null;
   get diagnostics v_items = row_count;
 
   insert into app.ui_translation_approvals (locale, messages_hash, approved_by)
