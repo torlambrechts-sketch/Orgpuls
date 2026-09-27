@@ -97,6 +97,9 @@ const PUBLIC_PATHS = [
   '/api/sprak',
   // the platform admin's sign-in (D-90); everything else under /admin needs a session
   '/admin/login',
+  // the demo (D-143): the request form, and the start its login link leads to, which checks
+  // the session itself and sends a visitor without one back to the form
+  '/demo',
 ]
 
 /**

@@ -1664,12 +1664,12 @@
         "expires": "går ut {date}",
         "revoke": "Trekk tilbake",
         "readOnly": "Bare daglig leder kan gi og endre tilgang.",
-        "locked": "Dette er en demovirksomhet som mange logger inn i. Her kan du se hvem som har tilgang, men ikke invitere noen.",
+        "locked": "Dette er en demo. Her kan du se hvem som har tilgang, men ikke invitere noen.",
         "problem": {
           "invalid_email": "Det ser ikke ut som en e-postadresse.",
           "invalid_role": "Velg en rolle.",
           "invalid_group": "En avdelingsleder må ha en avdeling.",
-          "locked": "Demovirksomheten kan ikke invitere noen.",
+          "locked": "Demoen kan ikke invitere noen.",
           "already_member": "Denne adressen har allerede tilgang.",
           "last_daglig_leder": "Virksomheten må ha minst én daglig leder med tilgang. Gi noen andre rollen først.",
           "not_allowed": "Bare daglig leder kan gjøre dette.",
@@ -5578,7 +5578,7 @@
         "crumb": "Personvernerklæring",
         "kicker": "Personvern",
         "h1": "Personvernerklæring",
-        "lead": "Her står hva Orgpuls AS samler inn om deg, hvorfor, hvor lenge vi beholder det og hvem som hjelper oss. Sist oppdatert 26. september 2026.",
+        "lead": "Her står hva Orgpuls AS samler inn om deg, hvorfor, hvor lenge vi beholder det og hvem som hjelper oss. Sist oppdatert 27. september 2026.",
         "blocks": [
           {
             "t": "h2",
@@ -5616,6 +5616,18 @@
           {
             "t": "p",
             "text": "Logger du inn med Google, får vi navnet og e-postadressen din fra Google. Vi får aldri passordet ditt der."
+          },
+          {
+            "t": "h2",
+            "text": "Når du prøver demoen"
+          },
+          {
+            "t": "p",
+            "text": "Ber du om en demo, lagrer vi e-postadressen, om du krysset av for e-post fra oss, og en besøkskode for nettverket du kom fra, laget av IP-adressen med en nøkkel som byttes hvert døgn. Selve IP-adressen lagres ikke. Forespørselen slettes etter 30 dager. Vi bruker den til å sende innloggingslenken og til å hindre misbruk, som mange lenker til samme adresse. Grunnlaget er at du har bedt om demoen, artikkel 6 nr. 1 bokstav b, og vår berettigede interesse i å stanse misbruk, bokstav f."
+          },
+          {
+            "t": "p",
+            "text": "Demoen er en kopi av en fiktiv virksomhet som bare du har tilgang til. Den og innloggingen din slettes etter 14 dager uten innlogging, eller straks du velger å opprette en egen konto. Når du har åpnet lenken, lagrer vi adressen som en kontakt merket «demo». Vi sender deg e-post om Orgpuls bare hvis du krysset av for det, artikkel 6 nr. 1 bokstav a, og du kan melde deg av i hver e-post."
           },
           {
             "t": "h2",
@@ -9218,5 +9230,40 @@
       "provisional": "Foreløpig",
       "builtFrom": "Påstandene kommer fra {list} i utvidet."
     }
+  },
+  "demo": {
+    "title": "Se hele Orgpuls i en demo",
+    "metaTitle": "Prøv Orgpuls-demoen",
+    "metaDescription": "Din egen kopi av en ferdig kartlagt virksomhet: tre år med kartlegginger, tiltak, samtaler og rapporten til Arbeidstilsynet. Fiktive data, ingenting sendes.",
+    "badge": "Demo",
+    "lead": "Du får din egen kopi av Demobedriften AS, med 64 fiktive ansatte, tre år med kartlegginger, tiltak, samtaler og rapporten til Arbeidstilsynet. Vi sender en innloggingslenke til e-postadressen din.",
+    "mail": "Jobb-e-post",
+    "consent": "Ja, Orgpuls kan sende meg e-post om produktet. Jeg kan melde meg av når som helst.",
+    "submit": "Send meg lenken",
+    "sending": "Sender …",
+    "sentTitle": "Sjekk innboksen",
+    "sentLead": "Vi har sendt en innloggingslenke til {mail}. Åpne den for å komme inn i demoen.",
+    "invalid": "Skriv en gyldig e-postadresse.",
+    "limited": "Det er bedt om mange lenker herfra i dag. Prøv igjen i morgen, eller ta kontakt med oss.",
+    "closed": "Demoen er stengt akkurat nå. Ta kontakt med oss, så viser vi deg Orgpuls.",
+    "failed": "Noe gikk galt. Prøv igjen om litt.",
+    "startFailed": "Vi fikk ikke åpnet demoen. Be om en ny lenke.",
+    "rulesTitle": "Slik fungerer demoen",
+    "rules": [
+      "Demoen er din egen. Ingen andre ser det du gjør, og du ser ikke andres.",
+      "Alt er fiktivt: navn, svar og kommentarer er skrevet for demoen.",
+      "Ingenting sendes. Invitasjoner, påminnelser og SMS er slått av, og rapporten er merket DEMO.",
+      "Demoen blir som ny etter et døgn, eller når du trykker «Tilbakestill». Etter 14 dager uten innlogging slettes den."
+    ],
+    "privacy": "Vi bruker adressen til å sende lenken, og lagrer forespørselen i 30 dager. Uten avkrysning får du ingen annen e-post fra oss.",
+    "privacyLink": "Personvernerklæringen",
+    "notice": {
+      "head": "Demo med fiktive data.",
+      "body": "Ingenting sendes herfra, og rapporten er merket DEMO. Demoen blir som ny {fresh}.",
+      "reset": "Tilbakestill",
+      "own": "Opprett egen konto",
+      "ownHint": "Demoen slettes, og du registrerer virksomheten din med samme e-postadresse."
+    },
+    "stamp": "DEMO – fiktive data"
   }
 }

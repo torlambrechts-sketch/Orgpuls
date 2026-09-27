@@ -6628,3 +6628,67 @@ docs/implementation/crm-conversion.md.
     - a campaign's pipeline set and kept;
     - after a simulated send, the company in «Contacted» with the campaign named in its log;
     - «Reply received» moving it to «Engaged».
+
+## D-143 — A demo copy per visitor, behind a login link (0094)
+
+X-077. `/demo` takes a work address and an unticked consent box. The link from Auth lands on
+`/auth/confirm`, which sends a demo visitor to `/demo/start`, which calls `demo_enter`.
+
+- **The copy** (`app.demo_build`): every table in `app.demo_copy_plan`, in its order.
+  - org_id becomes the copy's; a user becomes the visitor; the invitation and conversation hashes are
+    new and random; every other uuid gets the copy's own id where the build's id map knows it. Modules,
+    factors and statements are shared and keep theirs.
+  - A table that holds an organisation's data and is not in the plan fails `demo_invariants.sql` 2,
+    so the plan cannot fall behind the schema.
+  - Rounds go in open, take their questions, audience, modules and pinned wording, then their own
+    state, before any response is copied. `round_module_ok` refuses modules on an answered or closed
+    round even to the database's own functions. A round opened this way pins today's approved
+    wording; the template's pins then meet it and are skipped.
+  - The hosted template (12 rounds, 358 responses, 6,498 answers) copies in about 0.3 s.
+- **What a copy is not.**
+  - No org.nr: the column is unique, and a sandbox is no registered undertaking. The report prints
+    none.
+  - No billing row: access reads as `trial`, and KPIs, account health and the admin's organisation
+    list, which all join billing, never see it.
+  - Signups, the funnel, acquisition and `crm_sync` leave demos out explicitly
+    (0050/0062/0063/0056's definitions with one condition added).
+- **Nothing leaves.**
+  - Name, org.nr, mail and SMS switches are locked by a trigger, because 0001 lets a daglig leder
+    update the row directly.
+  - QR codes, DPA signatures, invitations and a copy's billing row are refused.
+  - The outbox drops a demo's rows, so the year wheel and reminders queue nothing.
+  - The actions that meet a refusal say «denied», as they do for any refused write. The banner says
+    beforehand that nothing is sent. Per-action wording was not added.
+- **Reset and expiry.**
+  - `demo_enter` builds a new copy when the last is 24 hours old (`demo_settings.reset_hours`), and
+    «Tilbakestill» does so at once: the new copy first, then the old one is dropped. The sandbox row
+    cascades with its organisation.
+  - `app.demo_expire`, daily at 03:20 UTC, deletes copies and logins idle for 14 days
+    (`idle_days`), logins from a link never opened after two days, and requests after 30 days.
+- **Requests.**
+  - Three links a day per address, five per network (the analytics' daily hash; the address is never
+    stored), 20 per non-free-mail domain, 300 a day in all.
+  - Throwaway domains are refused.
+  - The answer is the same for an address with an account.
+- **Leaving.** «Opprett egen konto» deletes the copy and the login, signs out and opens /registrer.
+  `create_organisation` refuses anybody who is already a member of something, a demo included.
+- **The lead.** Once the address is proved, it becomes a CRM contact with source `demo` and tag
+  `demo`: basis `consent` with the box ticked, `none` without. An existing contact only ever gains
+  consent.
+- **The template** is the organisation marked `template` in `app.demo_orgs`: Demobedriften AS, marked
+  by the migration on hosted and by the generator elsewhere. It has no members; the shared login
+  demo@orgpuls.com is retired. Its synced CRM contact (source `user`, basis `none`) was deleted on
+  hosted when 0094 was applied: a contact for a login without a membership fails
+  `crm_invariants` 4.
+- **No design exists** for /demo, the banner or the stamp.
+  - /demo is the newsletter's card.
+  - The banner is drawn as AccessNotice's lines are, and is hidden in print.
+  - The stamp is a fixed element, so it repeats on every printed page.
+  - None of them renders outside a demo, so the pixel baselines are untouched.
+- **Verified locally**, end to end in the browser: request, link, copy, banner, stamped report (screen
+  and print), «Tilbakestill», «Opprett egen konto». The local stack has no mail container, so the link
+  was minted with Auth's admin API; hosted Auth sends it through the existing hook, which renders
+  `magiclink`.
+- **Tests:** `demo_invariants.sql`, 15 rows. `trends_invariants` 4 now counts signups without demos;
+  every other suite is unchanged.
+

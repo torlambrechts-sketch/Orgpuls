@@ -44,6 +44,13 @@ export async function GET(request: NextRequest) {
     redirect('/logg-inn')
   }
 
+  // a login link asked for on /demo lands here like any other; the visitor is sent on to
+  // their demo copy rather than to a product they have no organisation in (0094, D-143)
+  if (parsed.data.type === 'email') {
+    const { data: pending } = await supabase.rpc('demo_pending')
+    if (pending === true) redirect('/demo/start' as Route)
+  }
+
   // validated above as a path on this site
   redirect(parsed.data.next as Route)
 }

@@ -1,4 +1,6 @@
 import { countView } from '@/lib/analytics/product'
+import { DemoStamp } from '@/components/shell/DemoNotice'
+import { getDemoState } from '@/lib/demo/read'
 import { getRoundModules } from '@/lib/modules/read'
 import { getCountTotals, getModuleResults } from '@/lib/modules/results'
 import { getModuleMeasures } from '@/lib/modules/measures'
@@ -277,7 +279,13 @@ export default async function RapportPage({
       : null,
   }
 
-  return <RapportScreen view={{ ...view, modules: await reportModules(primaryRound?.id ?? null) }} />
+  const [modules, demo] = await Promise.all([reportModules(primaryRound?.id ?? null), getDemoState()])
+  return (
+    <>
+      <DemoStamp state={demo} />
+      <RapportScreen view={{ ...view, modules }} />
+    </>
+  )
 }
 
 /**

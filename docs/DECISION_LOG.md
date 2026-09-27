@@ -2332,7 +2332,30 @@ for email campaigns like tracking, personal senders and other high conversion ta
   terms forbid bought or scraped lists. The CRM already enforces both. The pipeline adds no new way
   to reach anyone.
 
+### X-077 — A demo of one's own, behind a proved address
+
+Tor, 2026-09-27: "How can we best expose the demo login so a potential customer can see the full
+solution? Behind an email registration demo? Reset data at every login, every day, prevent any misuse
+of distribution or comments."
+
+- **Recommended and chosen:** one copy per visitor, not a shared login.
+  - A shared login spreads its password.
+  - What one visitor writes, the next reads.
+  - Resetting it for one visitor resets it for everybody using it.
+- **Tor's two choices** (asked 2026-09-27):
+  - reset daily, plus a «Tilbakestill» button, with deletion after 14 idle days;
+  - the form asks for a work address only.
+- **Built** (0094, D-143):
+  - /demo, with a work address and an unticked consent box, sends a login link;
+  - the link gives the visitor a copy of Demobedriften AS in which they are daglig leder;
+  - nothing leaves a copy, and a printed report is stamped DEMO;
+  - the lead lands in the CRM, mailable only with the box ticked.
+- **Retired:** the shared login demo@orgpuls.com no longer has a membership. Everybody holding it could
+  change the template every copy is made from.
+
 ## Open items
+- [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
+- [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.
 - [ ] CRM tracking consent (crm-conversion.md § 8): per-recipient opens and clicks are stored today. EDPB 2/2023 reads pixels and tracking links as needing consent (ekomloven § 3-15). Decide: turn per-recipient opens off (they are not evidence anyway), or ask for pixel consent.
 - [ ] CRM: ask a Norwegian lawyer whether trial signups allow the soft opt-in after CJEU C-654/23 (Inteligo Media), before using it.
 - [ ] CRM: add a sender in admin › CRM › Stages (e.g. Tor, tor@nyheter.orgpuls.com, replies to a real inbox) and send a test from a campaign before the first real one.

@@ -20,12 +20,11 @@
  * It is idempotent and works against an empty database. Responses carry a group and an
  * hour and nothing else; they are inserted by count and never joined to an invitation.
  *
- * **Who can sign in.** The demo login is an ordinary Supabase Auth user created through the
- * public sign-up endpoint, never by writing `auth.users`. This file only gives it a profile
- * and a daglig leder membership in this organisation, looked up by e-mail — so on a
- * database where that user does not exist (CI, a fresh local stack) those two statements
- * match nothing and the organisation is seeded without a login. The password is never in
- * this repository.
+ * **Nobody signs in to it.** It is the template a visitor's demo is copied from (0094,
+ * D-143): /demo proves an address with a login link, and app.demo_build gives that visitor
+ * an organisation of their own, copied from this one. The shared login it once had
+ * (demo@orgpuls.com) is retired: everybody holding it could change what every copy starts
+ * from.
  *
  *   node scripts/seed/demo-org.mjs > /tmp/demo.sql && psql "$DATABASE_URL" -f /tmp/demo.sql
  */
@@ -33,7 +32,6 @@
 import { createHash } from 'node:crypto'
 
 export const DEMO_ORG = 'de000000-0000-4000-8000-000000000001'
-const LOGIN_EMAIL = 'demo@orgpuls.com'
 
 /** A stable UUID from a name, so every rerun writes the same ids. */
 const uid = (name) => {
@@ -523,16 +521,10 @@ on conflict (id) do update set
 -- a demo organisation's addresses are fictional; the dispatcher must never try them (0032)
 update app.organizations set mail_enabled = false where id = ${org};
 
--- the demo login, when it exists: a profile and a daglig leder membership, nothing else
-insert into app.profiles (id, full_name)
-select u.id, 'Demobruker' from auth.users u where u.email = '${LOGIN_EMAIL}'
-on conflict (id) do nothing;
-insert into app.memberships (org_id, user_id, role, active)
-select ${org}, u.id, 'daglig_leder', true from auth.users u where u.email = '${LOGIN_EMAIL}'
-on conflict (org_id, user_id) do update set role = excluded.role, active = true;
-
--- everybody with the demo credentials signs in as this one daglig leder: nobody may invite
--- a second one and use it to lock the others out (0029)
+-- the template every visitor's demo is copied from (0094, D-143). Nobody signs in to it: the
+-- shared login it once had is retired, and a visitor gets a copy of their own (/demo)
+insert into app.demo_orgs (org_id, kind) values (${org}, 'template') on conflict (org_id) do nothing;
+delete from app.memberships where org_id = ${org};
 insert into app.member_locks (org_id) values (${org}) on conflict do nothing;
 delete from app.member_invites where org_id = ${org};
 

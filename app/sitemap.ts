@@ -77,6 +77,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...questionPages(s),
     entry('/artikler', { lastModified: newest, changeFrequency: 'weekly', priority: 0.7 }),
     ...ARTICLES.map((a) => entry(`/artikler/${a.slug}`, { lastModified: a.modified, changeFrequency: 'monthly', priority: 0.6 })),
+    entry('/demo', { changeFrequency: 'yearly', priority: 0.6 }),
     entry('/nyhetsbrev', { changeFrequency: 'yearly', priority: 0.4 }),
     entry('/nyhetsbrev/arkiv', { lastModified: issues[0]?.published_at, changeFrequency: 'weekly', priority: 0.5 }),
     // the issues are Norwegian only (D-104): www's sitemap only

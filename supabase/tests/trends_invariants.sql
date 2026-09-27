@@ -76,7 +76,9 @@ begin
     v_txt := v_txt || ',' || coalesce(v_json->>'error', 'ok') || ',' || v_cnt || ',' || jsonb_array_length(v_json->'daily')
       || ',' || ((select sum((w->>'signups')::int) from jsonb_array_elements(v_json->'weekly') w)
                  = (select count(*) from app.organizations o
-                    where o.created_at at time zone 'Europe/Oslo' >= date_trunc('week', now() at time zone 'Europe/Oslo') - interval '7 weeks'))::text;
+                    where o.created_at at time zone 'Europe/Oslo' >= date_trunc('week', now() at time zone 'Europe/Oslo') - interval '7 weeks'
+                      -- a demo organisation is nobody's signup (0094)
+                      and not exists (select 1 from app.demo_orgs d where d.org_id = o.id)))::text;
     v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'trends: not a customer, not without aal2; weekly signups are real',
       'expected', 'not_allowed,not_allowed,ok,8,1,true', 'actual', v_txt, 'pass', v_txt = 'not_allowed,not_allowed,ok,8,1,true');
 

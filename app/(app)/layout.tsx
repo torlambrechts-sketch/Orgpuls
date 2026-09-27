@@ -2,11 +2,13 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations } from 'next-intl/server'
 import { AppHeader } from '@/components/shell/AppHeader'
 import { AccessNotice } from '@/components/shell/AccessNotice'
+import { DemoNotice } from '@/components/shell/DemoNotice'
 import { AppFooter } from '@/components/shell/AppFooter'
 import { ShellFrame } from '@/components/shell/ShellFrame'
 import { ShellPrefsProvider } from '@/components/shell/ShellPrefs'
 import { SideRail } from '@/components/shell/SideRail'
 import { NAV_ROUTES, type NavEntry } from '@/lib/shell/nav'
+import { getDemoState } from '@/lib/demo/read'
 import { getShellPrefs } from '@/lib/shell/prefs.server'
 import { getUnansweredCount } from '@/lib/shell/read'
 import { getWizardGate } from '@/lib/wizard/read'
@@ -21,7 +23,7 @@ import { WizardProvider } from '@/components/veiviser/WizardProvider'
  * so the first paint is already in the chosen layout. D-70.
  *
  * Over the screens, only once a trial has ended unconfirmed, a line about what still works
- * (AccessNotice, D-94).
+ * (AccessNotice, D-94); in a visitor's demo copy, a line saying so (DemoNotice, D-143).
  *
  * The page background is #FCF6E9 from globals.css; the header, rail and footer are
  * #FFFDF6, and that contrast is what separates the chrome from the content in the design.
@@ -30,11 +32,12 @@ const ASSISTANT_FACE = 'av4'
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations()
-  const [prefs, unanswered, wizard, messages] = await Promise.all([
+  const [prefs, unanswered, wizard, messages, demo] = await Promise.all([
     getShellPrefs(),
     getUnansweredCount(),
     getWizardGate(),
     getMessages(),
+    getDemoState(),
   ])
 
   const items: NavEntry[] = NAV_ROUTES.map((r) => ({
@@ -55,6 +58,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
             header={<AppHeader items={items} assistantFace={ASSISTANT_FACE} />}
             footer={<AppFooter />}
           >
+            <DemoNotice state={demo} />
             <AccessNotice />
             {children}
           </ShellFrame>
