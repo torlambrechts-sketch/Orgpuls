@@ -405,7 +405,23 @@
         "read_only": "The trial and the deadline to confirm are over. The managing director confirms the subscription under Settings › Payment, and then you can send again."
       }
     },
-    "closesAt": "closes {date}"
+    "closesAt": "closes {date}",
+    "modules": {
+      "heading": "Industry modules",
+      "lead": "Additional modules for industries with requirements of their own. They are off by default. Turn one on and it is included in planned and new main surveys – and you can still leave it out of a single survey in Survey setup.",
+      "meta": "{factors} factors · {statements} statements · about {minutes} min extra",
+      "suggested": "Suggested for {industry}",
+      "on": "On",
+      "off": "Off",
+      "onNote": "Included in planned and new main surveys.",
+      "offNote": "Not included in the main surveys.",
+      "readOnly": "Only the managing director can turn modules on and off.",
+      "none": "No industry modules are available yet.",
+      "failed": "Could not save the choice. Try again.",
+      "seeAll": "See the whole question set",
+      "toggle": "Use {module} in the main surveys",
+      "show": "Show the factors and statements ({count})"
+    }
   },
   "extra": {
     "anbefaling": {
@@ -4385,6 +4401,10 @@
             "text": "An open comment field often gives the most important findings. But free text can reveal who wrote it, even when no name is stored. Treat comments with the same care as figures for small groups."
           },
           {
+            "t": "p",
+            "text": "Working in construction, or in health and care? See the [industry modules](/bransjer): question sets that go one layer deeper where your workplace is different, in addition to the main survey."
+          },
+          {
             "t": "h2",
             "text": "Anonymity: why a limit of five answers"
           },
@@ -5422,6 +5442,11 @@
             "text": "You can ask for access to, correction and erasure of data about you, ask us to restrict processing, object to processing based on legitimate interest, and receive data you have given us in a machine-readable format. Write to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no); we answer within 30 days. If you believe we process data in breach of the rules, you can complain to the Norwegian Data Protection Authority, [Datatilsynet](https://www.datatilsynet.no)."
           }
         ]
+      },
+      "bransjer": {
+        "title": "Industries: work environment surveys with industry modules | Orgpuls",
+        "description": "Question sets of their own for construction and for health and care, in addition to the main survey. Anonymous, with measures that follow up.",
+        "crumb": "Industries"
       }
     },
     "shots": {
@@ -5783,6 +5808,10 @@
         "d": "NOK 565 for 26–100 employees. No lock-in period. Safety and union representatives cost nothing extra.",
         "see": "See pricing",
         "start": "Get started for free"
+      },
+      "industries": {
+        "k": "Industries",
+        "all": "All industries"
       }
     },
     "story": {
@@ -6918,6 +6947,32 @@
       "sent": "Thank you! We’ve received your message and will reply by email within one working day.",
       "limited": "You’ve sent several messages in the last hour. Wait a little, or email us.",
       "failed": "The message didn’t go through. Email us at {mail}, and we’ll reply within one working day."
+    },
+    "bransjer": {
+      "crumb": "Industries",
+      "h1": "The work environment where you actually work",
+      "lead": "The main survey covers what applies to every workplace. Industries with risks of their own have industry modules of their own: more statements, their own measures and the legal basis for every factor.",
+      "facts": "{factors} factors · {statements} statements · about {minutes} min extra",
+      "cards": [
+        {
+          "slug": "bygg-og-anlegg",
+          "k": "Construction, civil works and workshops",
+          "t": "Construction",
+          "d": "Safety under time pressure, many companies in one place, language in the team, new and young workers, and whether there is room to say you are not doing well.",
+          "cta": "See construction"
+        },
+        {
+          "slug": "helse-og-omsorg",
+          "k": "Health, care and work with people",
+          "t": "Health and care",
+          "d": "Violence and threats, staffing and responsible care, rotas and part-time work, boundaries with service users and relatives, documentation and heavy transfers.",
+          "cta": "See health and care"
+        }
+      ],
+      "other": {
+        "k": "Other industries",
+        "d": "The survey requirements are the same for everyone, and the main survey covers them. See the <link>use cases</link> for pages by need, role and size."
+      }
     }
   },
   "admin": {

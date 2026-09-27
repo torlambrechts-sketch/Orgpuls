@@ -41,3 +41,33 @@ export async function startNextPulse(): Promise<StartResult> {
   revalidatePath('/resultater')
   return { ok: true }
 }
+
+/**
+ * Turning an industry question set on or off for the organisation (0074, D-124). The
+ * function checks the role and that the module may be used, records the choice and applies
+ * it to the planned grunnlinjer; this side passes the organisation and reads the answer.
+ */
+const ModuleResult = z.union([
+  z.object({ ok: z.literal(true), enabled: z.boolean(), planned_rounds: z.coerce.number() }),
+  z.object({ error: z.enum(['not_allowed', 'not_available']) }),
+])
+const ModuleKey = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/)
+
+export type ModuleChoiceResult = { ok: true; enabled: boolean } | { ok: false; problem: 'not_allowed' | 'not_available' }
+
+export async function setOrgModule(key: string, enabled: boolean): Promise<ModuleChoiceResult> {
+  const org = await getCurrentOrgId()
+  const k = ModuleKey.safeParse(key)
+  if (!org || !k.success || typeof enabled !== 'boolean') return { ok: false, problem: 'not_available' }
+
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('set_org_module', { p_org: org, p_key: k.data, p_enabled: enabled })
+  if (callFailed('setOrgModule', error)) return { ok: false, problem: 'not_available' }
+  const parsed = ModuleResult.safeParse(data)
+  if (!parsed.success) return { ok: false, problem: 'not_available' }
+  if ('error' in parsed.data) return { ok: false, problem: parsed.data.error }
+
+  revalidatePath('/malinger')
+  revalidatePath('/maleoppsett')
+  return { ok: true, enabled: parsed.data.enabled }
+}

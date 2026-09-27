@@ -4,9 +4,14 @@ import { ArshjulTab } from '@/components/arshjulet/ArshjulTab'
 import { Historikk, type HistoryRow } from '@/components/malinger/Historikk'
 import { Kommende, type UpcomingRow } from '@/components/malinger/Kommende'
 import { MalingerFrame, type MalingerTab } from '@/components/malinger/MalingerFrame'
+import { ModuleChoices } from '@/components/malinger/ModuleChoices'
 import { Sporsmalssettet } from '@/components/malinger/Sporsmalssettet'
+import { getIndustry, pageIn } from '@/content/industries'
+import { INDUSTRY_META, industryForNace } from '@/content/industries/meta'
 import type { RailCell, RailView } from '@/components/malinger/YearRail'
 import { getExtraQuestions, getFactors } from '@/lib/instrument/read'
+import { getOrgModuleChoices, getOrgNaceCode, getPublishedModules } from '@/lib/modules/read'
+import { getCurrentOrgId } from '@/lib/org/current'
 import { getViewerRole } from '@/lib/org/read'
 import { getResultsDigest } from '@/lib/results/digest'
 import { meanOf } from '@/lib/results/resultater'
@@ -307,14 +312,48 @@ export default async function MalingerPage({
       ) : null}
       {tab === 'historikk' ? <Historikk rows={[...history].reverse()} latestYear={latestG?.year ?? null} /> : null}
       {tab === 'arshjul' ? <ArshjulTab /> : null}
-      {tab === 'sporsmal' ? <QuestionSet /> : null}
+      {tab === 'sporsmal' ? <QuestionSet canEdit={role === 'daglig_leder'} /> : null}
     </MalingerFrame>
   )
 }
 
-async function QuestionSet() {
+async function QuestionSet({ canEdit }: { canEdit: boolean }) {
   const t = await getTranslations()
-  const [factors, extras] = await Promise.all([getFactors(), getExtraQuestions()])
+  const locale = await getLocale()
+  const org = await getCurrentOrgId()
+  const [factors, extras, published, chosen, nace] = await Promise.all([
+    getFactors(),
+    getExtraQuestions(),
+    getPublishedModules(org),
+    org ? getOrgModuleChoices(org) : Promise.resolve(new Set<string>()),
+    getOrgNaceCode(),
+  ])
+  // the published list is in the reader's language already (lib/modules/read.ts)
+  const industry = industryForNace(nace)
+  const lang = locale === 'en' ? 'en' : 'no'
+  const cards = published
+    .map((m) => {
+      const slug = INDUSTRY_META.find((i) => i.moduleKey === m.key)?.slug
+      const page = slug ? pageIn(getIndustry(slug), lang) : null
+      const label = industry && industry.moduleKey === m.key ? industry.label[lang] : null
+      return {
+        key: m.key,
+        name: m.name,
+        description: m.description,
+        meta: t('malinger.modules.meta', {
+          factors: m.factors.length,
+          statements: m.factors.reduce((n, f) => n + f.items.length, 0),
+          minutes: m.estimatedMinutes,
+        }),
+        suggested: label ? t('malinger.modules.suggested', { industry: label }) : null,
+        on: chosen.has(m.key),
+        factors: m.factors.map((f) => ({ key: f.key, name: f.name, summary: f.summary, statements: f.items.map((i) => i.text) })),
+        href: page?.questionPage ? `/${page.slug}/sporsmal${page.launched ? '' : '?forhandsvis=1'}` : null,
+        toggleLabel: t('malinger.modules.toggle', { module: m.name }),
+        showLabel: t('malinger.modules.show', { count: m.factors.length }),
+      }
+    })
+    .sort((a, b) => Number(!!b.suggested) - Number(!!a.suggested))
   return (
     <div className="mt-[20px]">
       <Sporsmalssettet
@@ -337,6 +376,22 @@ async function QuestionSet() {
           text: t(`extra.${e.key}.text`),
           note: t(`extra.${e.key}.note`),
         }))}
+      />
+      <ModuleChoices
+        heading={t('malinger.modules.heading')}
+        lead={t('malinger.modules.lead')}
+        cards={cards}
+        canEdit={canEdit}
+        labels={{
+          on: t('malinger.modules.on'),
+          off: t('malinger.modules.off'),
+          onNote: t('malinger.modules.onNote'),
+          offNote: t('malinger.modules.offNote'),
+          readOnly: t('malinger.modules.readOnly'),
+          none: t('malinger.modules.none'),
+          failed: t('malinger.modules.failed'),
+          seeAll: t('malinger.modules.seeAll'),
+        }}
       />
     </div>
   )

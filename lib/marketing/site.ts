@@ -124,6 +124,7 @@ export const LANDING_RELATED: Record<LandingSlug, [LandingSlug, LandingSlug]> = 
 export const SITE_PAGES = [
   { slug: 'plattform', key: 'plattform' },
   { slug: 'bruksomrader', key: 'bruksomrader' },
+  { slug: 'bransjer', key: 'bransjer' },
   { slug: 'hvorfor', key: 'hvorfor' },
   { slug: 'priser', key: 'priser' },
   { slug: 'sikkerhet', key: 'sikkerhet' },

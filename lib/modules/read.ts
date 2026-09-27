@@ -281,3 +281,20 @@ export const getOrgNaceCode = cache(async (): Promise<string | null> => {
   if (parseFailed('organizations.nace', parsed) || parsed.data.length !== 1) return null
   return parsed.data[0]?.registry_nace_code ?? null
 })
+
+/**
+ * The organisation's standing choice of question sets (0074): which module keys are on.
+ * No row is off — the default.
+ */
+export const getOrgModuleChoices = cache(async (orgId: string): Promise<Set<string>> => {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .schema('app')
+    .from('org_modules')
+    .select('module_key, enabled')
+    .eq('org_id', orgId)
+  if (readFailed('org_modules', error, data)) return new Set()
+  const parsed = z.array(z.object({ module_key: z.string(), enabled: z.boolean() })).safeParse(data)
+  if (parseFailed('org_modules', parsed)) return new Set()
+  return new Set(parsed.data.filter((r) => r.enabled).map((r) => r.module_key))
+})

@@ -405,7 +405,23 @@
         "read_only": "Prøveperioden og fristen for å bekrefte er over. Daglig leder bekrefter abonnementet under Oppsett › Betaling, så kan dere sende igjen."
       }
     },
-    "closesAt": "lukkes {date}"
+    "closesAt": "lukkes {date}",
+    "modules": {
+      "heading": "Bransjemoduler",
+      "lead": "Tilleggsmoduler for bransjer med egne krav. De er av som standard. Slår dere en på, kommer den med i planlagte og nye hovedmålinger – og dere kan fortsatt velge den bort for én måling i Måleoppsett.",
+      "meta": "{factors} faktorer · {statements} påstander · ca. {minutes} min ekstra",
+      "suggested": "Foreslått for {industry}",
+      "on": "På",
+      "off": "Av",
+      "onNote": "Kommer med i planlagte og nye hovedmålinger.",
+      "offNote": "Ikke med i hovedmålingene.",
+      "readOnly": "Bare daglig leder kan slå moduler av og på.",
+      "none": "Ingen bransjemoduler er tilgjengelige ennå.",
+      "failed": "Kunne ikke lagre valget. Prøv igjen.",
+      "seeAll": "Se hele spørsmålssettet",
+      "toggle": "Bruk {module} i hovedmålingene",
+      "show": "Vis faktorene og påstandene ({count})"
+    }
   },
   "extra": {
     "anbefaling": {
@@ -4385,6 +4401,10 @@
             "text": "Et åpent kommentarfelt gir ofte de viktigste funnene. Men fritekst kan avsløre hvem som skrev den, selv når navnet ikke er lagret. Behandle kommentarer med samme varsomhet som tall for små grupper."
           },
           {
+            "t": "p",
+            "text": "Driver dere i bygg og anlegg? Se [spørsmålssettet for bygg og anlegg](/bygg-og-anlegg/sporsmal): åtte faktorer som går et lag dypere der byggeplassen er annerledes, i tillegg til hovedundersøkelsen."
+          },
+          {
             "t": "h2",
             "text": "Anonymitet: hvorfor en grense på fem svar"
           },
@@ -5422,6 +5442,11 @@
             "text": "Du kan be om innsyn i, retting og sletting av opplysninger om deg, be oss begrense behandlingen, protestere mot behandling som bygger på berettiget interesse, og få opplysninger du har gitt oss utlevert i et maskinlesbart format. Skriv til [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no); vi svarer innen 30 dager. Mener du at vi behandler opplysninger i strid med regelverket, kan du klage til [Datatilsynet](https://www.datatilsynet.no)."
           }
         ]
+      },
+      "bransjer": {
+        "title": "Bransjer: arbeidsmiljøundersøkelse med egne bransjemoduler | Orgpuls",
+        "description": "Egne spørsmålssett for bygg og anlegg og for helse og omsorg, i tillegg til hovedundersøkelsen. Anonymt, med tiltak som følger opp.",
+        "crumb": "Bransjer"
       }
     },
     "shots": {
@@ -5783,6 +5808,10 @@
         "d": "565 kr for 26–100 ansatte. Ingen bindingstid. Verneombud og tillitsvalgte koster ikke ekstra.",
         "see": "Se prisene",
         "start": "Kom i gang gratis"
+      },
+      "industries": {
+        "k": "Bransjer",
+        "all": "Alle bransjer"
       }
     },
     "plattform": {
@@ -6918,6 +6947,32 @@
       "sent": "Takk! Vi har fått meldingen og svarer deg på e-post innen én virkedag.",
       "limited": "Du har sendt flere meldinger den siste timen. Vent litt, eller skriv til oss på e-post.",
       "failed": "Meldingen kom ikke fram. Skriv til oss på {mail}, så svarer vi innen én virkedag."
+    },
+    "bransjer": {
+      "crumb": "Bransjer",
+      "h1": "Arbeidsmiljøet der dere faktisk jobber",
+      "lead": "Hovedundersøkelsen dekker det som gjelder alle arbeidsplasser. For bransjer med egne risikoer finnes egne bransjemoduler: flere påstander, egne tiltak og hjemmelen for hver faktor.",
+      "facts": "{factors} faktorer · {statements} påstander · ca. {minutes} min ekstra",
+      "cards": [
+        {
+          "slug": "bygg-og-anlegg",
+          "k": "Bygg, anlegg og verksted",
+          "t": "Bygg og anlegg",
+          "d": "Sikkerhet under tidspress, mange firma på samme plass, språk på laget, nye og unge, og om det er rom for å si at man ikke har det bra.",
+          "cta": "Se bygg og anlegg"
+        },
+        {
+          "slug": "helse-og-omsorg",
+          "k": "Helse, omsorg og arbeid med mennesker",
+          "t": "Helse og omsorg",
+          "d": "Vold og trusler, bemanning og forsvarlig omsorg, turnus og deltid, grenser mot brukere og pårørende, dokumentasjon og tunge forflytninger.",
+          "cta": "Se helse og omsorg"
+        }
+      ],
+      "other": {
+        "k": "Andre bransjer",
+        "d": "Kravene til kartlegging er de samme for alle, og hovedundersøkelsen dekker dem. Se <link>bruksområdene</link> for sider etter behov, rolle og størrelse."
+      }
     }
   },
   "admin": {
