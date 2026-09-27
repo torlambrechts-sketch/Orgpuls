@@ -5599,3 +5599,31 @@ Tor asked "Localhost in link??" after seeing the phase-1 captures.
     preview. It now uses the same helper.
   - The rest are same-browser redirects (OAuth return, the language switch, sign-in) or
     previews on screen, and are correct as they are.
+
+## D-128 — A shorter survey link and shorter SMS texts, so an invitation is one SMS (0078)
+
+Tor, 2026-09-27: "Ja kort den ned, kanskje bruke en short versjon". With the production
+address, the bokmål invitation was 161 characters, one over a single segment, so every SMS was
+billed twice.
+
+- **The link.** A respondent token is now 16 random bytes in base64url: 22 characters, 128
+  bits, from `app.new_respondent_token()`. It was 32 bytes in hex, 64 characters.
+  - The link goes from 90 characters to 48 (`https://www.orgpuls.com/s/<22>`).
+  - The token is kept only as its SHA-256, as before (invariant 3, I5). It is one-use, expires
+    with its round, and is re-minted at every send.
+  - `respond_form` and `submit_response` take any token of 16 characters or more, so links
+    already sent keep working.
+  - The 64-character tokens elsewhere (member invitations, conversation keys, CRM links) are
+    unchanged: none of them goes by SMS.
+- **No link shortener.** The link is the respondent's own key, and it does not pass through a
+  third party's service.
+- **The texts.** `mail.sms.*` (no and en) are shorter.
+  - The reminders say «Ny lenke» instead of «Lenken i forrige melding virker ikke lenger». The
+    message that the link changed is kept, in fewer words.
+  - All four personal messages — the invitation, both reminders and the asked-for link — now
+    fit one segment in both languages. That holds with an organisation name of up to 34
+    characters and the longest deadline date (tests/unit/mail.test.ts).
+  - An organisation's own SMS text (Integrasjoner › SMS) is unchanged. Its preview now counts
+    with a link of the real length and address.
+- **Tests.** dispatch_invariants #6 now expects a 22-character base64url token, and
+  survey_settings #13 likewise.

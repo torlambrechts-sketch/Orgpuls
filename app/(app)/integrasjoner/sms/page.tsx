@@ -5,6 +5,7 @@ import { SmsSetup, type SmsSetupLabels } from '@/components/integrasjoner/SmsSet
 import { ButtonLink } from '@/components/ui/Button'
 import { getOrganization, getViewerRole } from '@/lib/org/read'
 import { getSmsReach, getSmsSettings } from '@/lib/settings/read'
+import { outboundBase } from '@/lib/hosts'
 
 /**
  * Integrasjoner › SMS — the design's connection screen, `isSms` branch. D-66.
@@ -18,7 +19,8 @@ import { getSmsReach, getSmsSettings } from '@/lib/settings/read'
 export const dynamic = 'force-dynamic'
 
 // a sample of the real link's shape: /s/ and 64 hex characters, which is what an SMS carries
-const SAMPLE_TOKEN = '7f3a9c1e4b8d2f60a5c7e9b1d3f5a7c9e1b3d5f7a9c1e3b5d7f9a1c3e5b7d9f1'
+// the shape of a real link since 0078 (D-128): 22 characters, so the segment count below is the real one
+const SAMPLE_TOKEN = 'k3Xw9QpL2vRt7YbN4mZc8A'
 
 export default async function SmsPage() {
   const t = await getTranslations()
@@ -31,9 +33,8 @@ export default async function SmsPage() {
   ])
   if (!org || !settings) notFound()
 
-  const host = h.get('x-forwarded-host') ?? h.get('host') ?? 'www.orgpuls.com'
-  const proto = h.get('x-forwarded-proto') ?? (host.startsWith('localhost') ? 'http' : 'https')
-  const sampleLink = `${proto}://${host}/s/${SAMPLE_TOKEN}`
+  // the address the real message will carry (lib/hosts.ts), so the preview's length is the real one
+  const sampleLink = `${outboundBase(h.get('x-forwarded-host') ?? h.get('host'), h.get('x-forwarded-proto'))}/s/${SAMPLE_TOKEN}`
 
   const labels: SmsSetupLabels = {
     step1: t('smsSetup.step1'),

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import en from '@/messages/en.json'
 import no from '@/messages/no.json'
+import { smsContent, smsLength } from '@/supabase/functions/_shared/sms'
 import {
   AUTH_ACTIONS,
   authLink,
@@ -122,13 +123,27 @@ describe('notices', () => {
 describe('sms', () => {
   it('uses the organisation\'s own text for an invitation, and the default without one', () => {
     expect(smsLead(cat, job({ channel: 'sms', sms_text: 'Svar på målingen:' }), 'no')).toBe('Svar på målingen:')
-    expect(smsLead(cat, job({ channel: 'sms' }), 'no')).toBe('Hei! Nordvik Anlegg AS spør hvordan du har det på jobb. Svaret er helt anonymt:')
+    expect(smsLead(cat, job({ channel: 'sms' }), 'no')).toBe('Hei! Nordvik Anlegg AS spør hvordan du har det på jobb. Svar anonymt:')
   })
 
   it('tells a reminder that the earlier link is dead, whatever the organisation wrote', () => {
     const lead = smsLead(cat, job({ kind: 'paminnelse', channel: 'sms', sms_text: 'Egen tekst:' }), 'no')
-    expect(lead).toContain('Lenken i forrige melding virker ikke lenger.')
+    // "Ny lenke": the text since D-128, shorter so a reminder fits one SMS, and still saying the link changed
+    expect(lead).toContain('Ny lenke')
     expect(lead).toContain('13. oktober')
+  })
+
+  it('fits every personal message in one SMS with the real link, for an organisation name of up to 34 characters (D-128)', () => {
+    const link = `https://www.orgpuls.com/s/${'k'.repeat(22)}`
+    const org = 'Oslo kommune helse- og omsorgsetat'
+    for (const lang of ['no', 'en'] as const) {
+      for (const kind of ['invitasjon', 'paminnelse', 'siste_paminnelse', 'lenke'] as const) {
+        // the longest date a deadline prints: 30 September
+        const round = { kind: 'grunnlinje', year: 2026, pulse: null, opens_at: '2026-09-23T07:00:00Z', closes_at: '2026-09-30T07:00:00Z' }
+        const content = smsContent(smsLead(cat, job({ kind, channel: 'sms', org, round }), lang), link)
+        expect(smsLength(content).parts, `${lang} ${kind}: ${content}`).toBe(1)
+      }
+    }
   })
 })
 

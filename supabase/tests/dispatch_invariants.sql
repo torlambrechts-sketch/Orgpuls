@@ -36,7 +36,7 @@ declare
   v_claim  jsonb; v_again jsonb;
   v_mine   jsonb; v_fv jsonb;
   -- captured before the rollback
-  c_tok_len int; c_hash_ok boolean; c_again int; c_o2 text; c_fv_rcpt text; c_fv_tok boolean;
+  c_tok_len int; c_tok_ok boolean; c_hash_ok boolean; c_again int; c_o2 text; c_fv_rcpt text; c_fv_tok boolean;
   c_off int; c_stale text; c_sent text; c_retry text; c_dead boolean; c_release int;
   -- SMS
   v_e uuid; v_i uuid; v_o uuid; v_j jsonb;
@@ -95,6 +95,8 @@ begin
     select e into v_fv from jsonb_array_elements(v_claim) e where (e->>'id')::uuid = v_ofv;
 
     c_tok_len := length(v_mine->>'token');
+    -- 0078 (D-128): 16 random bytes in base64url, so an invitation fits one SMS
+    c_tok_ok := (v_mine->>'token') ~ '^[A-Za-z0-9_-]{22}$';
     c_hash_ok := exists (select 1 from app.invitations where id = v_i1 and token_hash = extensions.digest(v_mine->>'token', 'sha256'));
     v_again := public.dispatch_claim(100);
     c_again := (select count(*) from jsonb_array_elements(v_again) e where (e->>'id')::uuid in (v_o1, v_ofv));
@@ -191,7 +193,7 @@ begin
     concat_ws(',', app.reserved_address('a@orgpuls.com'), app.reserved_address('ola@firma.no')),
     not app.reserved_address('a@orgpuls.com') and not app.reserved_address('ola@firma.no'));
 
-  insert into public._di values (6, 'the claim carries a 64-character link', '64', coalesce(c_tok_len::text, 'none'), c_tok_len = 64);
+  insert into public._di values (6, 'the claim carries a 22-character base64url link (128 bits)', '22', coalesce(c_tok_len::text, 'none'), c_tok_len = 22 and c_tok_ok);
   insert into public._di values (7, 'and only its hash is stored', 'true', coalesce(c_hash_ok::text, 'none'), coalesce(c_hash_ok, false));
   insert into public._di values (8, 'a leased row is not claimed twice', '0', c_again::text, c_again = 0);
   insert into public._di values (9, 'a reserved recipient fails the row', 'no_address,failed', coalesce(c_o2, 'none'), c_o2 = 'no_address,failed');
