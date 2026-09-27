@@ -39,6 +39,7 @@
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { pathToFileURL } from 'node:url'
+import { readFileSync } from 'node:fs'
 
 export const QA_ORG = 'a1000000-0000-4000-8000-000000000001'
 export const QA_PASSWORD = 'qa-local-only'
@@ -56,6 +57,8 @@ export const QA_GROUPS = [
   ['Salg', 7, 6, 5, 4],
   ['Økonomi', 3, 3, 2, 1],
 ]
+
+const UI_HASHES = JSON.parse(readFileSync('lib/i18n/respondent-ui.json', 'utf8'))
 
 const PEOPLE = {
   Drift: ['Per Lie', 'Ola Hansen', 'Ingrid Moen', 'Ali Rahimi', 'Tone Aas', 'Erik Strand', 'Marte Vik', 'Jonas Moe', 'Lars Holm', 'Nina Berg', 'Piotr Nowak', 'Eva Lunde'],
@@ -155,6 +158,11 @@ ${QA_GROUPS.map(([g], i) => `  ('${id(`group:${g}`)}', ${org}, ${q(g)}, ${i + 1}
 insert into app.employees (id, org_id, group_id, full_name, email, phone, duty_role, created_at) values
 ${employees.map((e) => `  ('${id(`employee:${e.n}`)}', ${org}, '${id(`group:${e.g}`)}', ${q(e.n)}, ${q(`${e.n.toLowerCase().replace(/[^a-z]+/g, '.')}@lumio.example`)}, ${q(`+474000${String(1000 + employees.indexOf(e)).slice(-4)}`)}, ${duty[e.n] ? `'${duty[e.n]}'` : 'null'}, timestamptz '2024-01-01' + interval '${e.rank} day')`).join(',\n')};
 
+-- P1: two employees with a language of their own. Eva's is English, which the QA stack offers;
+-- Piotr's is Polish, which it does not (only part of it is translated), so he meets bokmål.
+update app.employees set language = 'en' where id = '${id('employee:Eva Lunde')}';
+update app.employees set language = 'pl' where id = '${id('employee:Piotr Nowak')}';
+
 -- five logins, with a password anyone reading this file knows: local only
 ${QA_USERS.map((p) => {
     const uid = id(`user:${p.key}`)
@@ -243,6 +251,19 @@ do $$ begin
     raise exception 'qa: a comment found no response to hang on';
   end if;
 end $$;
+
+-- P1 (D-127): the languages the QA stack offers. English: the product's own translation, every
+-- item and the respondent pages approved here. Polish: a handful of made-up qa-fixture rows,
+-- approvable only because this session says it is the QA stack — and too few, so Polish is not
+-- offered. The registry's English rows come from scripts/i18n/registry-seed.mjs (qa:up).
+set local app.environment = 'qa';
+update app.item_translations set approved_at = now() where locale = 'en' and approved_at is null;
+insert into app.ui_translation_approvals (locale, messages_hash) values ('en', ${q(UI_HASHES.en)}) on conflict do nothing;
+insert into app.item_translations (item_id, locale, text, source, approved_at) values
+  ('core:ytring:1', 'pl', '[QA] Mogę swobodnie mówić o tym, co działa źle w pracy.', 'qa-fixture', now()),
+  ('core:ytring:2', 'pl', '[QA] Moje zdanie jest brane pod uwagę.', 'qa-fixture', now()),
+  ('core:mengde:1', 'pl', '[QA] Mam wystarczająco dużo czasu na swoją pracę.', 'qa-fixture', now())
+on conflict (item_id, locale) do update set text = excluded.text, source = excluded.source, approved_at = excluded.approved_at;
 
 commit;
 

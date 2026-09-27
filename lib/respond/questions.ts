@@ -20,10 +20,17 @@ export function respondQuestions(
   form: Pick<RespondForm, 'questions' | 'extra' | 'threshold'> & { modules?: RespondForm['modules'] },
   /** the respondent's language: a module's English where it has one (0072), else its Norwegian */
   lang: string = 'no',
+  /**
+   * The approved wording for `lang`, by registry key (0078, D-127), when the survey is offered in
+   * it. Every item then reads from here, so what a respondent sees is exactly what was
+   * approved; without it (bokmål, or no language flag on) the wording is as before.
+   */
+  texts: Record<string, string> | null = null,
 ): Question[] {
   const en = lang === 'en'
   const pick = (nb: string, tr?: string | null) => (en && tr ? tr : nb)
   const picks = (nb: string[], tr?: (string | null)[] | null) => nb.map((o, i) => pick(o, tr?.[i]))
+  const reg = (key: string, otherwise: string) => (texts ? (texts[key] ?? otherwise) : otherwise)
   // the shared 1..5 agreement scale every factor statement is answered on. The range is
   // the database's: app.answers carries check (value between 1 and 5).
   const scale: Choice[] = [1, 2, 3, 4, 5].map((n) => ({
@@ -46,7 +53,7 @@ export function respondQuestions(
         id: q.item,
         item: q.item,
         factorLabel: pick(q.factor, q.factor_en),
-        text: pick(q.text, q.text_en),
+        text: reg(`module:${q.item}`, pick(q.text, q.text_en)),
         choices: scale,
       }),
     ),
@@ -59,8 +66,8 @@ export function respondQuestions(
         item: q.item,
         factorLabel: t('respond.countLabel'),
         lead: t('respond.countLead', { count: countTotal }),
-        text: pick(q.text, q.text_en),
-        choices: picks(q.options, q.options_en).map((label, i) => ({ ordinal: i + 1, label })),
+        text: reg(`module:${q.item}`, pick(q.text, q.text_en)),
+        choices: picks(q.options, q.options_en).map((label, i) => ({ ordinal: i + 1, label: reg(`module:${q.item}:o${i + 1}`, label) })),
       }),
     ),
   )
@@ -72,8 +79,8 @@ export function respondQuestions(
         item: q.item,
         factorLabel: t('respond.segmentLabel'),
         lead: t('respond.segmentLead', { threshold: form.threshold }),
-        text: pick(q.text, q.text_en),
-        choices: picks(q.options, q.options_en).map((label, i) => ({ ordinal: i + 1, label })),
+        text: reg(`module:${q.item}`, pick(q.text, q.text_en)),
+        choices: picks(q.options, q.options_en).map((label, i) => ({ ordinal: i + 1, label: reg(`module:${q.item}:o${i + 1}`, label) })),
       }),
     ),
   )
@@ -86,7 +93,7 @@ export function respondQuestions(
         factor: q.factor,
         ordinal: q.ordinal,
         factorLabel: t(`factor.${q.factor}.label`),
-        text: t(`factor.${q.factor}.s${q.ordinal}`),
+        text: reg(`core:${q.factor}:${q.ordinal}`, t(`factor.${q.factor}.s${q.ordinal}`)),
         choices: scale,
       }),
     ),
@@ -98,7 +105,7 @@ export function respondQuestions(
             id: x.key,
             extraKey: x.key,
             factorLabel: t(`extra.${x.key}.label`),
-            text: t(`extra.${x.key}.text`),
+            text: reg(`extra:${x.key}`, t(`extra.${x.key}.text`)),
             note: t('respond.openNote'),
           }
         : {
@@ -106,11 +113,11 @@ export function respondQuestions(
             id: x.key,
             extraKey: x.key,
             factorLabel: t(`extra.${x.key}.label`),
-            text: t(`extra.${x.key}.text`),
+            text: reg(`extra:${x.key}`, t(`extra.${x.key}.text`)),
             // counted from the database, so a question that gains an option gains it here
             choices: Array.from({ length: x.options }, (_, i) => ({
               ordinal: i + 1,
-              label: t(`extra.${x.key}.o${i + 1}`),
+              label: reg(`extra:${x.key}:o${i + 1}`, t(`extra.${x.key}.o${i + 1}`)),
             })),
           },
     ),
