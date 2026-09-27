@@ -5606,7 +5606,59 @@ leaving them out takes a reason. The settings get a tab of their own.
     - 390 px with no sideways scroll;
     - axe clean on all four screens.
 
-## D-127 — Engagement phase 1: respondent language (0078, 0079)
+### D-126 addendum — links that leave the browser carry a production host (2026-09-27)
+
+Tor asked "Localhost in link??" after seeing the phase-1 captures.
+- **What was seen came from local testing, not from the product.** The phase-1 QA captures of the
+  invitation e-mail and SMS were made against the QA host. They now use the production address
+  (`feat/engagement-p1`).
+- **The production dispatcher builds every mail and SMS link from `ORGPULS_APP_URL`.** Checked
+  against the hosted secret's digest, without reading the value: it is `https://www.orgpuls.com`.
+- **The QR poster was a real weakness, and is fixed.** It took its host from the request, so a
+  poster printed on a Vercel preview or behind a proxy would carry that host on paper.
+  `lib/hosts.ts` `outboundBase` now gives it the canonical address:
+  - a production host keeps itself;
+  - loopback keeps itself, on local and QA runs only;
+  - anything else becomes `https://www.orgpuls.com`.
+- **An audit checked 27 places that build an absolute URL**, each traced by two independent
+  verifiers:
+  - request headers, env and constants, the edge functions and SQL, and client `window.location`.
+  - None puts a wrong host in something a person receives in production.
+  - One low-severity case: the member invitation link (Oppsett › Roller). Previews share the
+    production database, so an invitation made on a preview was real but pointed at the
+    preview. It now uses the same helper.
+  - The rest are same-browser redirects (OAuth return, the language switch, sign-in) or
+    previews on screen, and are correct as they are.
+
+## D-128 — A shorter survey link and shorter SMS texts, so an invitation is one SMS (0078)
+
+Tor, 2026-09-27: "Ja kort den ned, kanskje bruke en short versjon". With the production
+address, the bokmål invitation was 161 characters, one over a single segment, so every SMS was
+billed twice.
+
+- **The link.** A respondent token is now 16 random bytes in base64url: 22 characters, 128
+  bits, from `app.new_respondent_token()`. It was 32 bytes in hex, 64 characters.
+  - The link goes from 90 characters to 48 (`https://www.orgpuls.com/s/<22>`).
+  - The token is kept only as its SHA-256, as before (invariant 3, I5). It is one-use, expires
+    with its round, and is re-minted at every send.
+  - `respond_form` and `submit_response` take any token of 16 characters or more, so links
+    already sent keep working.
+  - The 64-character tokens elsewhere (member invitations, conversation keys, CRM links) are
+    unchanged: none of them goes by SMS.
+- **No link shortener.** The link is the respondent's own key, and it does not pass through a
+  third party's service.
+- **The texts.** `mail.sms.*` (no and en) are shorter.
+  - The reminders say «Ny lenke» instead of «Lenken i forrige melding virker ikke lenger». The
+    message that the link changed is kept, in fewer words.
+  - All four personal messages — the invitation, both reminders and the asked-for link — now
+    fit one segment in both languages. That holds with an organisation name of up to 34
+    characters and the longest deadline date (tests/unit/mail.test.ts).
+  - An organisation's own SMS text (Integrasjoner › SMS) is unchanged. Its preview now counts
+    with a link of the real length and address.
+- **Tests.** dispatch_invariants #6 now expects a 22-character base64url token, and
+  survey_settings #13 likewise.
+
+## D-127 — Engagement phase 1: respondent language (0079, 0080)
 
 The hand-off's phase 1 (engagement-phases.md § P1), built on `feat/engagement-p1`. It is stacked
 on phase 0 rather than on `main`, because it needs phase 0's QA harness and language flags,
@@ -5650,14 +5702,19 @@ and phase 0 is not merged.
   (a code or the language's own name). The import preview does not show the column; the
   design's preview has five columns.
 - **Invitations and the system's reminders** are in the employee's language when the survey is
-  offered in it, and the link then carries `?lang=`. Otherwise they are in bokmål.
+  offered in it. Otherwise they are in bokmål.
+  - The link is the plain one, without `?lang=`. The survey page opens in the employee's own
+    language by the same rule the message was written by, so the suffix added nothing. Its eight
+    characters took an English final reminder from a 34-character organisation name to two SMS
+    segments once the link was 22 characters (D-128).
   - The dispatcher decides with the flags it runs with (`ORGPULS_FLAGS` on the function; none
     set in production, so nothing changes there) and the UI hashes it was deployed with.
   - The product's mails now carry a `<title>`. Axe flagged the invitation without one.
 - **Tests.**
   - `translation_invariants.sql` has 7 rows, and all 48 SQL suites pass. I1–I7 pass.
   - `tests/unit/p1-language.test.ts`: the language rule, the link, and the SMS segments for
-    bokmål and English, for all four personal kinds, within two segments.
+    bokmål and English, for all four personal kinds: one segment each, from a 34-character
+    organisation name with the longest deadline date.
   - `qa/e2e/p1-language.spec.ts` covers the step screens.
 - **Human gate (§ 1).** `locale_en` stays off in production until a person approves every
   English item and the respondent strings. `locale_pl` and `locale_lt` need translations first.

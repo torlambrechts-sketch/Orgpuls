@@ -1,5 +1,6 @@
 import { headers } from 'next/headers'
 import { getTranslations } from 'next-intl/server'
+import { outboundBase } from '@/lib/hosts'
 import { PrintButton } from '@/components/rapport/PrintButton'
 import { ButtonLink } from '@/components/ui/Button'
 import { qrPath } from '@/lib/entry/qr'
@@ -9,7 +10,7 @@ import { getEntryCode } from '@/lib/settings/survey'
 
 /**
  * The QR poster (0076, D-126), printed from Målinger › Innstillinger and put up where people
- * who do not read e-mail at work will see it. The code opens /inn/<code> on this host, where
+ * who do not read e-mail at work will see it. The code opens /inn/<code> on the production host, where
  * a person asks for their own link; the poster itself carries nothing that answers anything.
  *
  * The design has no poster. It is set in the product's own type and tokens, and prints on
@@ -39,11 +40,12 @@ export default async function PosterPage() {
     )
   }
 
+  // a printed poster must work for whoever scans it: the production address, never a preview's
+  // or a proxy's host (lib/hosts.ts outboundBase); a local run prints its own
   const h = await headers()
-  const host = h.get('x-forwarded-host') ?? h.get('host') ?? 'www.orgpuls.com'
-  const proto = h.get('x-forwarded-proto') ?? (host.startsWith('localhost') ? 'http' : 'https')
-  const url = `${proto}://${host}/inn/${code}`
-  const shown = `${host.replace(/^www\./, '')}/inn/${code}`
+  const base = outboundBase(h.get('x-forwarded-host') ?? h.get('host'), h.get('x-forwarded-proto'))
+  const url = `${base}/inn/${code}`
+  const shown = `${base.replace(/^https?:\/\//, '').replace(/^www\./, '')}/inn/${code}`
   const qr = qrPath(url)
 
   return (

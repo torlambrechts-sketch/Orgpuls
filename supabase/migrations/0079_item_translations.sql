@@ -1,4 +1,4 @@
--- 0078_item_translations.sql — engagement P1.1: the translation registry and the rule for
+-- 0079_item_translations.sql — engagement P1.1: the translation registry and the rule for
 -- which languages a survey is offered in (engagement-phases.md § P1.1, D-127).
 --
 -- A respondent may answer in another language only where every question they will meet has
@@ -23,7 +23,7 @@
 --     string and the hash changes, and the approval no longer covers it.
 --   * public.respond_locales(token) says, for the survey behind a token, which languages have
 --     every item approved, which UI hashes are approved, and the approved texts; and the
---     employee's own language (0079). The application adds the flag and the UI hash and
+--     employee's own language (0080). The application adds the flag and the UI hash and
 --     decides (lib/i18n/offered.ts). Bokmål is always offered.
 --
 -- Nothing here is stored with an answer, and nothing makes language a segment (I6).
@@ -34,7 +34,7 @@
 alter table app.employees
   add column language text check (language in ('no', 'en', 'pl', 'lt'));
 comment on column app.employees.language is
-  'The language the employee prefers for the survey and its messages; used only where that language is offered (0078). Never stored with an answer.';
+  'The language the employee prefers for the survey and its messages; used only where that language is offered (0079). Never stored with an answer.';
 
 create table app.item_translations (
   item_id     text not null check (item_id ~ '^(core:[a-z_]+:[0-9]+|extra:[a-z_]+(:o[0-9]+)?|module:[0-9a-f-]{36}(:o[0-9]+)?)$'),

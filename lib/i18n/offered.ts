@@ -8,7 +8,7 @@ import hashes from './respondent-ui.json'
  * Bokmål always. Another language only when all three hold:
  *   1. its flag is on (`locale_en`, `locale_pl`, `locale_lt`; off in production until a person
  *      has approved the translation — engagement-phases.md § 1);
- *   2. every item the survey asks has an approved translation (app.item_translations, 0078);
+ *   2. every item the survey asks has an approved translation (app.item_translations, 0079);
  *   3. the respondent pages' strings in that language, as they are in this build, were approved
  *      (their hash, lib/i18n/respondent-ui.json, is in app.ui_translation_approvals).
  *

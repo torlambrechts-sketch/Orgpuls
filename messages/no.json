@@ -2835,10 +2835,10 @@
       }
     },
     "sms": {
-      "default": "Hei! {org} spør hvordan du har det på jobb. Svaret er helt anonymt:",
-      "reminder": "Påminnelse fra {org}: du har ikke svart ennå. Svarfrist {date}. Lenken i forrige melding virker ikke lenger. Svar anonymt her:",
-      "link": "Her er lenken du ba om fra {org}. Svar anonymt her:",
-      "lastReminder": "Siste påminnelse fra {org}: undersøkelsen stenger {date}. Lenken i forrige melding virker ikke lenger. Svar anonymt her:"
+      "default": "Hei! {org} spør hvordan du har det på jobb. Svar anonymt:",
+      "reminder": "Påminnelse fra {org}: svar innen {date}. Ny lenke, svar anonymt her:",
+      "link": "Her er lenken du ba om fra {org}. Svar anonymt:",
+      "lastReminder": "Siste påminnelse fra {org}: stenger {date}. Ny lenke, svar anonymt her:"
     },
     "ticket": {
       "replyHint": "Svar på denne e-posten hvis du vil fortsette saken. Saksnummer #{number}.",

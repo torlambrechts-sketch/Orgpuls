@@ -348,7 +348,7 @@ Deno.serve(async (req) => {
         const person = job.recipients[0]
         if (job.channel === 'sms' && person?.phone && job.token) {
           const lang = personalLang(job, person, offered)
-          const content = smsContent(smsLead(cat, job, lang), personalLink(appUrl, job.token, lang, offered))
+          const content = smsContent(smsLead(cat, job, lang), personalLink(appUrl, job.token))
           outcome = await brevoSendSms(key, {
             sender: smsSender,
             recipient: person.phone,

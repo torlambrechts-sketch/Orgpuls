@@ -70,7 +70,8 @@ test.describe('respondent language @respondent @p1.2', () => {
  * written as text with its segment count beside the capture (§ 2.3).
  */
 const cat = { no: no.mail, en: en.mail } as unknown as MailCatalogue
-const TOKEN = 'q'.repeat(64)
+// the shape of a real link since 0078 (D-128): 22 characters of base64url
+const TOKEN = 'q3Xw9QpL2vRt7YbN4mZc8A'
 // the production address, as ORGPULS_APP_URL is on the dispatcher: the capture shows what an employee gets
 const APP = 'https://www.orgpuls.com'
 const job = (lang: string): NoticeJob => ({
@@ -99,7 +100,7 @@ test.describe('invitations @public @p1.3', () => {
       await page.setContent(mail.html)
       // the respondent link is printed, not a button (D-65): the whole of it, in the mail's language
       await expect(page.getByText(id === 'en' ? en.mail.invitasjon.cta : no.mail.invitasjon.cta, { exact: true })).toBeVisible()
-      await expect(page.getByText(personalLink(APP, TOKEN, g.lang, offered), { exact: true })).toBeVisible()
+      await expect(page.getByText(personalLink(APP, TOKEN), { exact: true })).toBeVisible()
       await expect(page.getByText(id === 'en' ? /automatic e-mail/ : /automatisk e-post/)).toBeVisible()
       await shoot(page, `email-invite-${id}`)
     })
@@ -108,11 +109,11 @@ test.describe('invitations @public @p1.3', () => {
       const j = job(lang)
       const offered = offeredFor(cat, j, { flags: '*', hashes })
       const g = groupsOf(j, offered)[0]!
-      const link = personalLink(APP, TOKEN, g.lang, offered)
+      const link = personalLink(APP, TOKEN)
       const content = smsContent(smsLead(cat, j, g.lang), link)
       const len = smsLength(content)
       expect(content.endsWith(link)).toBe(true)
-      expect(len.parts).toBeLessThanOrEqual(2)
+      expect(len.parts).toBe(1)
       const step = process.env.QA_STEP ?? 'adhoc'
       const file = /^p\d+\.\d+$/.test(step) ? `qa/screenshots/p1/${step}/sms-invite-${id}.txt` : `test-results/shots/${step}/sms-invite-${id}.txt`
       mkdirSync(dirname(file), { recursive: true })

@@ -46,7 +46,7 @@ export interface NoticeJob {
   round: NoticeRound
   recipients: Recipient[]
   token: string | null
-  /** for a personal message, the survey's language state (0079): items missing, UI hashes approved */
+  /** for a personal message, the survey's language state (0080): items missing, UI hashes approved */
   locales?: Record<string, { missing: number; ui: string[] }> | null
 }
 
@@ -209,10 +209,13 @@ export function personalLang(job: NoticeJob, r: Recipient, offered: Lang[] | nul
   return own && offered.includes(own) ? own : 'no'
 }
 
-/** The link, opening the survey in the language the message is in when a language was chosen for it. */
-export function personalLink(appUrl: string, token: string, lang: Lang, offered: Lang[] | null): string {
-  const base = `${appUrl.replace(/\/+$/, '')}/s/${token}`
-  return offered && lang !== 'no' ? `${base}?lang=${lang}` : base
+/**
+ * One person's link. It carries no `?lang=`: the survey page opens in the employee's own language
+ * by the same rule the message was written by, so the suffix would only cost an SMS its eight
+ * characters — an English final reminder from a long organisation name would take two (D-128).
+ */
+export function personalLink(appUrl: string, token: string): string {
+  return `${appUrl.replace(/\/+$/, '')}/s/${token}`
 }
 
 /** The kinds that carry one person's own link: a group of one, and a token minted for it. */
@@ -228,7 +231,7 @@ export function isPersonal(kind: NoticeJob['kind']): boolean {
 export function renderNotice(
   cat: MailCatalogue,
   job: NoticeJob,
-  group: { lang: Lang; member: boolean; name: string | null; offered?: Lang[] | null },
+  group: { lang: Lang; member: boolean; name: string | null },
   appUrl: string,
 ): Rendered {
   const m = cat[group.lang]
@@ -240,7 +243,7 @@ export function renderNotice(
 
   if (isPersonal(job.kind)) {
     if (!job.token) throw new Error(`${job.kind} without a link`)
-    const link = personalLink(base, job.token, group.lang, group.offered ?? null)
+    const link = personalLink(base, job.token)
     // the reminder texts, the second reminder's own lead, and the link a person asked for (0076)
     const reminder = job.kind === 'paminnelse' || job.kind === 'siste_paminnelse'
     const own = job.kind === 'invitasjon' ? 'invitasjon' : job.kind === 'lenke' ? 'lenke' : job.kind === 'paminnelse' ? 'paminnelse' : 'sistePaminnelse'
@@ -280,9 +283,9 @@ export function renderNotice(
 export function groupsOf(
   job: NoticeJob,
   offered: Lang[] | null = null,
-): Array<{ lang: Lang; member: boolean; name: string | null; to: Recipient[]; offered?: Lang[] | null }> {
+): Array<{ lang: Lang; member: boolean; name: string | null; to: Recipient[] }> {
   if (isPersonal(job.kind)) {
-    return job.recipients.map((r) => ({ lang: personalLang(job, r, offered), member: r.member, name: r.name, to: [r], offered }))
+    return job.recipients.map((r) => ({ lang: personalLang(job, r, offered), member: r.member, name: r.name, to: [r] }))
   }
   const byKey = new Map<string, { lang: Lang; member: boolean; name: null; to: Recipient[] }>()
   for (const r of job.recipients) {

@@ -1,4 +1,4 @@
--- translation_invariants.sql — the translation registry (0078, 0079, D-127; engagement P1).
+-- translation_invariants.sql — the translation registry (0079, 0080, D-127; engagement P1).
 --
 --   * both tables: RLS on, no write policy, no insert grant (1)
 --   * a qa-fixture translation is approved only on the QA stack; a changed text loses its

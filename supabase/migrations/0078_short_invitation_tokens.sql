@@ -1,57 +1,22 @@
--- 0079_dispatch_language.sql — engagement P1.3: invitations and the system's reminders in the
--- employee's language (D-127).
+-- 0078_short_invitation_tokens.sql — a shorter survey link, so an invitation fits one SMS (D-128).
 --
---   * app.dispatch_recipients gives an employee's own language (0078's employees.language),
---     where it gave none before. Members keep their profile's.
---   * public.dispatch_claim adds, for a personal message, the survey's language state
---     (app.round_locale_state: items missing a translation, UI hashes approved). The dispatcher
---     decides with the flag and the hash of the page strings it was deployed with: the
---     employee's language where it is offered, else bokmål, and the link then opens the survey
---     in it (?lang=). With no language flag on the dispatcher, nothing changes: the
---     organisation's language, as before.
+-- Tor, 2026-09-27: "Ja kort den ned". The link a respondent gets was /s/<64 hex characters>:
+-- 256 bits written out long. With the production address that made the bokmål invitation 161
+-- characters, one over a single SMS segment. A respondent token is now 16 random bytes written
+-- in base64url: 22 characters, 128 bits. That is past guessing by any margin. The token is
+-- one-use, expires with its round, and every send mints a new one. It is still kept only as its
+-- SHA-256 (invariant 3, I5), and respond_form and submit_response take any token of 16
+-- characters or more, so nothing else changes. Links already sent keep working.
 --
--- The language goes into the message and the link, never into the outbox or with an answer (I6).
+-- No link shortener: the link is the respondent's own key, and it does not pass through a third
+-- party.
 
-create or replace function app.dispatch_recipients(p_outbox uuid)
-  returns table (email text, phone text, name text, lang text, member boolean)
-  language sql stable security definer set search_path = ''
-as $$
-  with x as (
-    select * from app.outbox where id = p_outbox
-  ),
-  members as (
-    select lower(u.email::text) as email, p.full_name as name, p.lang, m.role::text as role
-    from x
-    join app.memberships m on m.org_id = x.org_id and m.active
-    join app.profiles p on p.id = m.user_id
-    join auth.users u on u.id = m.user_id
-  ),
-  scope as (
-    select e.* from x
-    join app.rounds r on r.id = x.round_id
-    join app.employees e on e.org_id = r.org_id and e.active
-    where not exists (select 1 from app.round_groups rg where rg.round_id = r.id)
-       or e.group_id in (select rg.group_id from app.round_groups rg where rg.round_id = r.id)
-  ),
-  picked as (
-    select nullif(lower(btrim(e.email)), '') as email, e.phone, e.full_name as name, e.language as lang, false as member
-    from x join app.employees e on e.id = x.employee_id
-    union all
-    select mb.email, null, mb.name, mb.lang, true from members mb, x
-    where (x.audience = 'daglig_leder' and mb.role = 'daglig_leder')
-       or (x.audience = 'avdelingsledere' and mb.role = 'avdelingsleder')
-       or (x.audience = 'verneombud' and mb.role = 'verneombud')
-    union all
-    select nullif(lower(btrim(s.email)), ''), null, s.full_name, null, false from scope s, x
-    where x.audience = 'alle_ansatte'
-  )
-  select distinct on (coalesce(email, phone)) email, phone, name, lang, member
-  from picked
-  where email is not null or phone is not null
-  order by coalesce(email, phone), member desc
-$$;
-
-revoke all on function app.dispatch_recipients(uuid) from public, anon, authenticated;
+create function app.new_respondent_token() returns text
+  language sql volatile set search_path = ''
+as $fn$
+  select rtrim(translate(encode(extensions.gen_random_bytes(16), 'base64'), '+/', '-_'), '=')
+$fn$;
+revoke all on function app.new_respondent_token() from public, anon, authenticated;
 
 create or replace function public.dispatch_claim(p_batch int default 20)
   returns jsonb
@@ -163,7 +128,7 @@ begin
 
     v_key := null;
     if x.invitation_id is not null then
-      v_key := encode(extensions.gen_random_bytes(32), 'hex');
+      v_key := app.new_respondent_token();
       update app.invitations set token_hash = extensions.digest(v_key, 'sha256') where id = x.invitation_id;
     end if;
 
@@ -191,9 +156,6 @@ begin
         'kind', r.kind, 'year', r.year, 'pulse', nullif(v_pulse, 0),
         'opens_at', r.opens_at, 'closes_at', r.closes_at),
       'recipients', v_rcpt,
-      -- the languages the survey is ready in, for the personal kinds (0078): the dispatcher
-      -- adds the flag and the page strings' hash, as the respondent page does
-      'locales', case when v_personal then app.round_locale_state(x.round_id) end,
       'token', v_key);
   end loop;
 

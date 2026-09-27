@@ -21,7 +21,7 @@ export function respondQuestions(
   /** the respondent's language: a module's English where it has one (0072), else its Norwegian */
   lang: string = 'no',
   /**
-   * The approved wording for `lang`, by registry key (0078, D-127), when the survey is offered in
+   * The approved wording for `lang`, by registry key (0079, D-127), when the survey is offered in
    * it. Every item then reads from here, so what a respondent sees is exactly what was
    * approved; without it (bokmål, or no language flag on) the wording is as before.
    */

@@ -268,7 +268,7 @@ begin
     v_txt := coalesce(v_txt, 'none') || ',' || (select (i.token_hash <> extensions.digest('x', 'sha256'))::text from app.invitations i where i.id = v_inv)
              || ',' || (select string_agg(o.last_error, ',') from app.outbox o where o.round_id = v_open and o.kind = 'lenke' and o.employee_id = v_emp2);
     v_rows := v_rows || jsonb_build_object('seq', 13, 'name', 'at 23:00 the asked-for link goes, the reminder waits; the answered person''s link is dropped by the claim',
-      'expected', 'lenke/email/64,true,answered_or_expired', 'actual', v_txt, 'pass', v_txt = 'lenke/email/64,true,answered_or_expired');
+      'expected', 'lenke/email/22,true,answered_or_expired', 'actual', v_txt, 'pass', v_txt = 'lenke/email/22,true,answered_or_expired');
 
     -- 15 ------------------------------------------------------------ the second reminder
     delete from app.outbox where round_id = v_open and kind = 'siste_paminnelse';

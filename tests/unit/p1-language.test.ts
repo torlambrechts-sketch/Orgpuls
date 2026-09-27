@@ -22,7 +22,8 @@ import { smsContent, smsLength } from '@/supabase/functions/_shared/sms'
  */
 const cat = { no: no.mail, en: en.mail } as unknown as MailCatalogue
 const APP = 'https://www.orgpuls.com'
-const TOKEN = 'a'.repeat(64)
+// the shape of a real link since 0078 (D-128): 22 characters of base64url
+const TOKEN = 'k3Xw9QpL2vRt7YbN4mZc8A'
 const ready = { en: { missing: 0, ui: [hashes.en] }, pl: { missing: 30, ui: [] }, lt: { missing: 33, ui: [] } }
 const job = (over: Partial<NoticeJob> = {}): NoticeJob => ({
   id: 'j',
@@ -42,14 +43,16 @@ const job = (over: Partial<NoticeJob> = {}): NoticeJob => ({
 const all: LanguageOffer = { flags: '*', hashes }
 
 describe('the language of a personal message', () => {
-  it('is the employee’s own where the survey is offered in it, and the link opens it there', () => {
+  it('is the employee’s own where the survey is offered in it; the link is the plain one', () => {
     const offered = offeredFor(cat, job(), all)
     expect(offered).toEqual(['no', 'en'])
     const g = groupsOf(job(), offered)[0]!
     expect(g.lang).toBe('en')
     const r = renderNotice(cat, job(), g, APP)
     expect(r.subject).toMatch(/Lumio AS/)
-    expect(r.text).toContain(`${APP}/s/${TOKEN}?lang=en`)
+    // the page opens in the employee's own language by the same rule, so the link needs no ?lang=
+    expect(r.text).toContain(`${APP}/s/${TOKEN}`)
+    expect(r.text).not.toContain('?lang=')
     expect(r.text).toContain(en.mail.invitasjon.cta)
   })
 
@@ -57,7 +60,7 @@ describe('the language of a personal message', () => {
     const j = job({ recipients: [{ email: 'p@lumio.no', phone: null, name: 'Piotr', lang: 'pl', member: false }] })
     const offered = offeredFor(cat, j, all)
     expect(personalLang(j, j.recipients[0]!, offered)).toBe('no')
-    expect(personalLink(APP, TOKEN, 'no', offered)).toBe(`${APP}/s/${TOKEN}`)
+    expect(personalLink(APP, TOKEN)).toBe(`${APP}/s/${TOKEN}`)
   })
 
   it('is bokmål when a string on the respondent pages changed since the approval', () => {
@@ -77,16 +80,18 @@ describe('the language of a personal message', () => {
 })
 
 describe('SMS segments per language (§ 2.3)', () => {
-  // an invitation, both reminders and the asked-for link, each with a 64-character token link
+  // an invitation, both reminders and the asked-for link, from a 34-character organisation name
+  // with the longest deadline date: one segment in each language (D-128)
   const kinds = ['invitasjon', 'paminnelse', 'siste_paminnelse', 'lenke'] as const
+  const long = job({ org: 'Nordvik Bygg og Anlegg Entreprenør', round: { kind: 'grunnlinje', year: 2026, pulse: null, opens_at: null, closes_at: '2026-09-30T07:00:00Z' } })
   for (const lang of ['no', 'en'] as const) {
     for (const kind of kinds) {
-      it(`${lang} ${kind}: the link is whole and the message fits in two segments`, () => {
-        const offered: ('no' | 'en')[] = ['no', 'en']
-        const link = personalLink(APP, TOKEN, lang, offered)
-        const content = smsContent(smsLead(cat, job({ kind }), lang), link)
+      it(`${lang} ${kind}: the link is whole and the message is one segment`, () => {
+        expect(long.org).toHaveLength(34)
+        const link = personalLink(APP, TOKEN)
+        const content = smsContent(smsLead(cat, { ...long, kind }, lang), link)
         expect(content.endsWith(link)).toBe(true)
-        expect(smsLength(content).parts).toBeLessThanOrEqual(2)
+        expect(smsLength(content).parts).toBe(1)
       })
     }
   }

@@ -2835,10 +2835,10 @@
       }
     },
     "sms": {
-      "default": "Hi! {org} is asking how you are doing at work. Your answer is completely anonymous:",
-      "reminder": "Reminder from {org}: you have not answered yet. Deadline {date}. The link in the previous message no longer works. Answer anonymously here:",
-      "link": "Here is the link you asked for from {org}. Answer anonymously here:",
-      "lastReminder": "Last reminder from {org}: the survey closes {date}. The link in the previous message no longer works. Answer anonymously here:"
+      "default": "Hi! {org} asks how you are doing at work. Answer anonymously:",
+      "reminder": "Reminder from {org}: answer by {date}. New link, answer anonymously:",
+      "link": "Here is the link you asked for from {org}. Answer anonymously:",
+      "lastReminder": "Last reminder from {org}: closes {date}. New link, answer anonymously:"
     },
     "ticket": {
       "replyHint": "Reply to this e-mail to continue the case. Case number #{number}.",

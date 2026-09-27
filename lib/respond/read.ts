@@ -107,7 +107,7 @@ export async function getRespondForm(
 }
 
 /**
- * The languages the survey behind a token could be answered in (0078, D-127): per language
+ * The languages the survey behind a token could be answered in (0079, D-127): per language
  * how many items lack an approved translation and which UI hashes were approved, the approved
  * wording for the complete ones, and the employee's own language. `null` when the token does
  * not open a form — the page has already said why, from respond_form — or the call fails,

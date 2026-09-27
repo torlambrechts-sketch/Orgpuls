@@ -5,7 +5,7 @@
  *   node scripts/i18n/respondent-ui.mjs --check  fail if it is out of date (run by verify:i18n)
  *
  * A language is offered to respondents only when its respondent strings were approved
- * (app.ui_translation_approvals, 0078), and an approval names the hash it approved. Change one
+ * (app.ui_translation_approvals, 0079), and an approval names the hash it approved. Change one
  * of those strings and the hash moves, so the language stops being offered until somebody
  * approves the new wording. The questions themselves are not here: they are items, approved
  * one by one in app.item_translations.
