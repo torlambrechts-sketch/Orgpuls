@@ -45,7 +45,10 @@ import { createClient } from 'npm:@supabase/supabase-js@2'
 import { brevoSend, brevoSendSms, type SendResult } from '../_shared/brevo.ts'
 import {
   groupsOf,
-  langOf,
+  offeredFor,
+  personalLang,
+  personalLink,
+  type LanguageOffer,
   renderCampaign,
   renderLifecycle,
   renderNotice,
@@ -60,7 +63,7 @@ import {
   type TicketJob,
 } from '../_shared/mail.ts'
 import { normalizePhone, smsContent, smsLength } from '../_shared/sms.ts'
-import { MAIL } from '../_shared/messages.gen.ts'
+import { MAIL, RESPONDENT_UI } from '../_shared/messages.gen.ts'
 
 const BATCH = 25
 const BUDGET_MS = 40_000
@@ -93,6 +96,12 @@ Deno.serve(async (req) => {
   const smsSender = Deno.env.get('ORGPULS_SMS_SENDER') ?? 'Orgpuls'
   const appUrl = env('ORGPULS_APP_URL')
   const cat = MAIL as unknown as MailCatalogue
+  // the language flags this function runs with (ORGPULS_FLAGS, as the app's): none means every
+  // personal message stays in the organisation's language (D-127)
+  const flagsEnv = (Deno.env.get('ORGPULS_FLAGS') ?? '').trim()
+  const offer: LanguageOffer | null = flagsEnv
+    ? { flags: flagsEnv === '*' ? '*' : new Set(flagsEnv.split(',').map((f) => f.trim())), hashes: RESPONDENT_UI }
+    : null
   const probe = new URL(req.url).searchParams.get('probe')
   // the marketing stream (D-101): its own sender, on a domain that is not the product's
   const marketingFrom = Deno.env.get('ORGPULS_MARKETING_FROM') ?? ''
@@ -323,8 +332,9 @@ Deno.serve(async (req) => {
       const job = jobs[i]
       let outcome: SendResult = { ok: true, id: '' }
       let channel: 'email' | 'sms' = 'email'
+      const offered = offeredFor(cat, job, offer)
       const sendMail = async () => {
-        for (const g of groupsOf(job)) {
+        for (const g of groupsOf(job, offered)) {
           const to = g.to.filter((r) => r.email)
           if (to.length === 0) return { ok: false, retryable: false, auth: false, code: 'no_address' } as SendResult
           const r = renderNotice(cat, job, g, appUrl)
@@ -337,8 +347,8 @@ Deno.serve(async (req) => {
       try {
         const person = job.recipients[0]
         if (job.channel === 'sms' && person?.phone && job.token) {
-          const lang = langOf(person.lang ?? job.lang)
-          const content = smsContent(smsLead(cat, job, lang), `${appUrl.replace(/\/+$/, '')}/s/${job.token}`)
+          const lang = personalLang(job, person, offered)
+          const content = smsContent(smsLead(cat, job, lang), personalLink(appUrl, job.token))
           outcome = await brevoSendSms(key, {
             sender: smsSender,
             recipient: person.phone,

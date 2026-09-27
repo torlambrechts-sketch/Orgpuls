@@ -641,7 +641,8 @@
     "countLead": "{count, plural, =1 {Et kort spørsmål som bare telles for hele virksomheten} =2 {To korte spørsmål som bare telles for hele virksomheten} =3 {Tre korte spørsmål som bare telles for hele virksomheten} other {# korte spørsmål som bare telles for hele virksomheten}}",
     "segmentLabel": "Frivillig",
     "segmentLead": "Frivillig: brukes bare til å sammenligne grupper med minst {threshold} svar",
-    "doneTitleMinutes": "Takk. Det tok rundt {minutes} minutter."
+    "doneTitleMinutes": "Takk. Det tok rundt {minutes} minutter.",
+    "language": "Språk"
   },
   "entry": {
     "title": "Få lenken til undersøkelsen",

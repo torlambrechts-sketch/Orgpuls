@@ -105,3 +105,26 @@ export async function getRespondForm(
   if (parseFailed('getRespondForm', parsed)) return { refused: 'invalid_token' }
   return { form: parsed.data }
 }
+
+/**
+ * The languages the survey behind a token could be answered in (0079, D-127): per language
+ * how many items lack an approved translation and which UI hashes were approved, the approved
+ * wording for the complete ones, and the employee's own language. `null` when the token does
+ * not open a form — the page has already said why, from respond_form — or the call fails,
+ * which leaves the respondent in bokmål rather than stranded. Like respond_form, the error is
+ * not logged: it could quote the token.
+ */
+const Locales = z.object({
+  employee_lang: z.string().nullable(),
+  locales: z.record(z.string(), z.object({ missing: z.coerce.number(), ui: z.array(z.string()) })),
+  texts: z.record(z.string(), z.record(z.string(), z.string())),
+})
+export type RespondLocales = z.infer<typeof Locales>
+
+export async function getRespondLocales(token: string): Promise<RespondLocales | null> {
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('respond_locales', { p_token: token })
+  if (error) return null
+  const parsed = Locales.safeParse(data)
+  return parsed.success ? parsed.data : null
+}

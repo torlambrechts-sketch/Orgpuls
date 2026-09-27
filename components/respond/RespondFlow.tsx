@@ -1,5 +1,7 @@
 'use client'
 
+import type { Route } from 'next'
+import { usePathname, useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { submitResponse, type SubmitResult } from '@/app/s/[token]/actions'
 import { ThreadLinks } from './ThreadLinks'
@@ -100,11 +102,18 @@ export function RespondFlow({
   questions,
   copy,
   preview,
+  languages,
 }: {
   token: string
   org: string
   questions: Question[]
   copy: RespondCopy
+  /**
+   * The languages this survey is offered in (engagement P1.2, D-127), each by its own name, or
+   * null for one. Choosing one reloads the words and keeps every answer given: the state here
+   * is not reset by new props, only the text it shows.
+   */
+  languages?: { current: string; label: string; options: { code: string; name: string }[] } | null
   /**
    * A leader's preview (/forhandsvis): the same screens, a banner saying so, and a last
    * step that sends nothing. There is no token behind it and no answer is ever written.
@@ -219,6 +228,7 @@ export function RespondFlow({
       {banner}
       <div className="flex items-center justify-between px-[20px] pb-[6px] pt-[13px] text-[11.5px] font-semibold text-mut">
         <span>{org}</span>
+        {languages ? <LanguagePicker {...languages} /> : null}
       </div>
 
       <div className="px-[22px] pt-[10px]">
@@ -354,5 +364,41 @@ export function RespondFlow({
         </button>
       </div>
     </>
+  )
+}
+
+/**
+ * The language picker (engagement P1.2): each language by its own name, the current one marked.
+ * A link, so it works without script; with script it replaces the address in place, which keeps
+ * the answers already given. The choice is the address's `?lang=` and nothing else.
+ */
+function LanguagePicker({ current, label, options }: { current: string; label: string; options: { code: string; name: string }[] }) {
+  const router = useRouter()
+  const pathname = usePathname()
+  const [pending, start] = useTransition()
+  return (
+    <nav aria-label={label} className="-my-[4px] flex flex-none items-center gap-[2px]">
+      {options.map((o) => {
+        const on = o.code === current
+        return (
+          <a
+            key={o.code}
+            href={`${pathname}?lang=${o.code}`}
+            hrefLang={o.code}
+            lang={o.code}
+            aria-current={on ? 'true' : undefined}
+            aria-disabled={pending || undefined}
+            onClick={(e) => {
+              e.preventDefault()
+              if (on || pending) return
+              start(() => router.replace(`${pathname}?lang=${o.code}` as Route, { scroll: false }))
+            }}
+            className={`rounded-pill px-[9px] py-[4px] text-[11.5px] no-underline ${on ? 'bg-sbg font-bold text-ink' : 'font-semibold text-mut hover:text-ink'}`}
+          >
+            {o.name}
+          </a>
+        )
+      })}
+    </nav>
   )
 }

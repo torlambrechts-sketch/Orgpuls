@@ -46,6 +46,8 @@ export interface NoticeJob {
   round: NoticeRound
   recipients: Recipient[]
   token: string | null
+  /** for a personal message, the survey's language state (0080): items missing, UI hashes approved */
+  locales?: Record<string, { missing: number; ui: string[] }> | null
 }
 
 export interface Recipient {
@@ -134,6 +136,8 @@ interface Parts {
   cta: { label: string; url: string; plain?: boolean } | null
   after: string[]
   footer: string
+  /** the document's title — the subject — so a mail opened as a page names itself */
+  title?: string
 }
 
 function layout(p: Parts): { text: string; html: string } {
@@ -157,7 +161,7 @@ function layout(p: Parts): { text: string; html: string } {
     : ''
 
   const html = `<!doctype html>
-<html lang="${p.lang === 'en' ? 'en' : 'nb'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<html lang="${p.lang === 'en' ? 'en' : 'nb'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(p.title ?? 'Orgpuls')}</title></head>
 <body style="margin:0;padding:0;background:#FCF6E9;font-family:'DM Sans',Arial,Helvetica,sans-serif">
 <div style="max-width:560px;margin:0 auto;padding:28px 16px">
 <div style="font-family:Georgia,'Times New Roman',serif;font-size:20px;font-weight:600;color:#191510;margin:0 0 16px">Orgpuls</div>
@@ -176,6 +180,43 @@ ${p.after.map((s) => para(s, 'margin:0 0 10px;font-size:13.5px;line-height:1.6;c
 // ---------------------------------------------------------------------------------------
 // The four notices the year wheel queues.
 // ---------------------------------------------------------------------------------------
+
+/**
+ * The languages a personal message may be in (engagement P1.3, D-127): the respondent page's own
+ * rule (lib/i18n/offered.ts), with the flags this function runs with and the hashes of the page
+ * strings it was deployed with. `null` when no language flag is on: then the message is in the
+ * organisation's language, as before. Only a language with mail texts can be offered.
+ */
+export type LanguageOffer = { flags: ReadonlySet<string> | '*'; hashes: Record<string, string> }
+
+export function offeredFor(cat: MailCatalogue, job: NoticeJob, offer: LanguageOffer | null): Lang[] | null {
+  if (!offer) return null
+  const on = (l: string) => offer.flags === '*' || offer.flags.has(`locale_${l}`)
+  const others = ['en', 'pl', 'lt']
+  if (!others.some(on)) return null
+  const ready = others.filter((l) => {
+    const s = job.locales?.[l]
+    const hash = offer.hashes[l]
+    return on(l) && l in cat && s !== undefined && s.missing === 0 && hash !== undefined && s.ui.includes(hash)
+  })
+  return ['no', ...(ready as Lang[])]
+}
+
+/** The language one person reads their own link in: theirs where offered, else bokmål; without a flag, the organisation's. */
+export function personalLang(job: NoticeJob, r: Recipient, offered: Lang[] | null): Lang {
+  if (!offered) return langOf(job.lang)
+  const own = r.lang === 'en' || r.lang === 'no' ? r.lang : null
+  return own && offered.includes(own) ? own : 'no'
+}
+
+/**
+ * One person's link. It carries no `?lang=`: the survey page opens in the employee's own language
+ * by the same rule the message was written by, so the suffix would only cost an SMS its eight
+ * characters — an English final reminder from a long organisation name would take two (D-128).
+ */
+export function personalLink(appUrl: string, token: string): string {
+  return `${appUrl.replace(/\/+$/, '')}/s/${token}`
+}
 
 /** The kinds that carry one person's own link: a group of one, and a token minted for it. */
 export function isPersonal(kind: NoticeJob['kind']): boolean {
@@ -202,7 +243,7 @@ export function renderNotice(
 
   if (isPersonal(job.kind)) {
     if (!job.token) throw new Error(`${job.kind} without a link`)
-    const link = `${base}/s/${job.token}`
+    const link = personalLink(base, job.token)
     // the reminder texts, the second reminder's own lead, and the link a person asked for (0076)
     const reminder = job.kind === 'paminnelse' || job.kind === 'siste_paminnelse'
     const own = job.kind === 'invitasjon' ? 'invitasjon' : job.kind === 'lenke' ? 'lenke' : job.kind === 'paminnelse' ? 'paminnelse' : 'sistePaminnelse'
@@ -216,7 +257,7 @@ export function renderNotice(
       pick(m, 'invitasjon.personal'),
     ]
     const subject = cap(fill(pick(m, `${own}.subject`), { org, round }))
-    return { subject, ...layout({ lang: group.lang, greeting, paragraphs, cta: { label: pick(m, 'invitasjon.cta'), url: link, plain: true }, after, footer }) }
+    return { subject, ...layout({ title: subject, lang: group.lang, greeting, paragraphs, cta: { label: pick(m, 'invitasjon.cta'), url: link, plain: true }, after, footer }) }
   }
 
   if (job.kind === 'forvarsel') {
@@ -225,7 +266,7 @@ export function renderNotice(
     const paragraphs = [cap(fill(pick(m, 'forvarsel.lead'), { org, round, date })), pick(m, `forvarsel.${audience}`)]
     const cta = group.member ? { label: pick(m, 'forvarsel.cta'), url: `${base}/malinger` } : null
     const subject = cap(fill(pick(m, 'forvarsel.subject'), { org, round, date }))
-    return { subject, ...layout({ lang: group.lang, greeting, paragraphs, cta, after: [], footer }) }
+    return { subject, ...layout({ title: subject, lang: group.lang, greeting, paragraphs, cta, after: [], footer }) }
   }
 
   // resultat
@@ -235,13 +276,16 @@ export function renderNotice(
   ]
   const cta = group.member ? { label: pick(m, 'resultat.cta'), url: `${base}/resultat` } : null
   const subject = cap(fill(pick(m, 'resultat.subject'), { org, round }))
-  return { subject, ...layout({ lang: group.lang, greeting, paragraphs, cta, after: [], footer }) }
+  return { subject, ...layout({ title: subject, lang: group.lang, greeting, paragraphs, cta, after: [], footer }) }
 }
 
 /** Recipients of one job, grouped by what they will read. */
-export function groupsOf(job: NoticeJob): Array<{ lang: Lang; member: boolean; name: string | null; to: Recipient[] }> {
+export function groupsOf(
+  job: NoticeJob,
+  offered: Lang[] | null = null,
+): Array<{ lang: Lang; member: boolean; name: string | null; to: Recipient[] }> {
   if (isPersonal(job.kind)) {
-    return job.recipients.map((r) => ({ lang: langOf(r.lang ?? job.lang), member: r.member, name: r.name, to: [r] }))
+    return job.recipients.map((r) => ({ lang: personalLang(job, r, offered), member: r.member, name: r.name, to: [r] }))
   }
   const byKey = new Map<string, { lang: Lang; member: boolean; name: null; to: Recipient[] }>()
   for (const r of job.recipients) {

@@ -2,7 +2,7 @@
   "name": "orgpuls",
   "version": "0.1.0",
   "private": true,
-  "description": "Psykososialt arbeidsmiljø for norske virksomheter.",
+  "description": "Psykososialt arbeidsmilj\u00f8 for norske virksomheter.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -13,7 +13,7 @@
     "seed:demo": "node scripts/seed/demo-org.mjs",
     "verify:pixel": "node scripts/verify/pixel.mjs",
     "verify:probe": "node scripts/verify/probe.mjs",
-    "verify:i18n": "node scripts/verify/i18n.mjs",
+    "verify:i18n": "node scripts/verify/i18n.mjs && node scripts/i18n/respondent-ui.mjs --check",
     "test": "vitest run",
     "modules:validate": "tsx scripts/modules/validate.ts",
     "modules:seed": "tsx scripts/modules/seed.ts",
@@ -24,7 +24,8 @@
     "qa:visual": "node scripts/qa/visual.mjs",
     "e2e": "node scripts/qa/e2e.mjs",
     "test:db": "bash scripts/qa/test-db.sh",
-    "test:invariants": "node scripts/qa/invariants.mjs"
+    "test:invariants": "node scripts/qa/invariants.mjs",
+    "i18n:registry": "node scripts/i18n/registry-seed.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.5",

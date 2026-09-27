@@ -5658,6 +5658,67 @@ billed twice.
 - **Tests.** dispatch_invariants #6 now expects a 22-character base64url token, and
   survey_settings #13 likewise.
 
+## D-127 — Engagement phase 1: respondent language (0079, 0080)
+
+The hand-off's phase 1 (engagement-phases.md § P1), built on `feat/engagement-p1`. It is stacked
+on phase 0 rather than on `main`, because it needs phase 0's QA harness and language flags,
+and phase 0 is not merged.
+
+- **The registry.** `app.item_translations` is keyed by where an item's bokmål lives:
+  `core:<factor>:<n>`, `extra:<key>[:o<n>]`, `module:<uuid>[:o<n>]`. It has the document's
+  columns.
+  - `source` has one value more than the document's list: **`machine`**. The product's
+    English was written with AI assistance. Calling it `professional` would be false, and it is
+    neither `official` nor a QA fixture. Approving a machine translation is the human review
+    of it.
+  - A changed text loses its approval (a trigger).
+  - A `qa-fixture` row can be approved only where the database setting `app.environment` is
+    `qa`. `qa:up` sets it on the local stack; nothing sets it anywhere else.
+- **Respondent strings are approved by hash.**
+  - `lib/i18n/respondent-ui.json` holds, per language, the SHA-256 of the `respond` namespace
+    and the factor and extra labels. `verify:i18n` fails if the file is stale.
+  - `app.ui_translation_approvals` records the hashes somebody approved. Change one string and
+    the language is no longer offered until it is approved again.
+- **Offered** = bokmål, plus each language whose flag is on, whose items are all approved for
+  the survey's questions, and whose current UI hash is approved (`lib/i18n/offered.ts`).
+  - **With no language flag on, nothing changes.** The respondent page stays in the host's or
+    the switch's language, as it is in production today. English on en.orgpuls.com is not
+    switched off by this phase.
+  - Polish and Lithuanian can never be offered yet: there are no messages files for them.
+- **Approval** is done by the platform's people, through `approve_item_translations` and
+  `approve_ui_translation` (super_admin or support). There is no admin screen for it yet.
+- **The picker** sits in the flow's top row, opposite the organisation's name, on every
+  question rather than on an intro. The flow has no intro screen (phase 0 report), and
+  switching midway must be possible.
+  - It is a link, so it works without script. With script it replaces `?lang=` in place and
+    keeps every answer given.
+  - Its height is taken out of the row, so nothing below moves. Phase 0's three respondent
+    baselines change only by the picker.
+  - The language lives in the address only: no cookie, never stored with an answer, never a
+    segment (I6).
+  - The default is `?lang=`, then the employee's own language, then bokmål, each only if
+    offered.
+- **The employee's language** is `employees.language`, read from column F of the CSV import
+  (a code or the language's own name). The import preview does not show the column; the
+  design's preview has five columns.
+- **Invitations and the system's reminders** are in the employee's language when the survey is
+  offered in it. Otherwise they are in bokmål.
+  - The link is the plain one, without `?lang=`. The survey page opens in the employee's own
+    language by the same rule the message was written by, so the suffix added nothing. Its eight
+    characters took an English final reminder from a 34-character organisation name to two SMS
+    segments once the link was 22 characters (D-128).
+  - The dispatcher decides with the flags it runs with (`ORGPULS_FLAGS` on the function; none
+    set in production, so nothing changes there) and the UI hashes it was deployed with.
+  - The product's mails now carry a `<title>`. Axe flagged the invitation without one.
+- **Tests.**
+  - `translation_invariants.sql` has 7 rows, and all 48 SQL suites pass. I1–I7 pass.
+  - `tests/unit/p1-language.test.ts`: the language rule, the link, and the SMS segments for
+    bokmål and English, for all four personal kinds: one segment each, from a 34-character
+    organisation name with the longest deadline date.
+  - `qa/e2e/p1-language.spec.ts` covers the step screens.
+- **Human gate (§ 1).** `locale_en` stays off in production until a person approves every
+  English item and the respondent strings. `locale_pl` and `locale_lt` need translations first.
+
 ## D-129 — «Bransjer» in the site's menu, with its pages under it
 
 Tor, 2026-09-27, with a screenshot of the phone menu: "Ser ikke bransjer som meny med undersider
@@ -5693,4 +5754,3 @@ Tor, 2026-09-27, with a screenshot of the phone menu: "Ser ikke bransjer som men
 - **Checked.** Desktop open, keyboard, Escape, click outside, tabbing out, navigation through
   the panel, 1024 px, the phone at 390 px with no sideways scroll, and English. axe is clean
   with the panel open on desktop and on the phone, and there are no console errors.
-

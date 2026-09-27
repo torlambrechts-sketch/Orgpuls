@@ -641,7 +641,8 @@
     "countLead": "{count, plural, =1 {A short question counted only for the whole organisation} =2 {Two short questions counted only for the whole organisation} =3 {Three short questions counted only for the whole organisation} other {# short questions counted only for the whole organisation}}",
     "segmentLabel": "Optional",
     "segmentLead": "Optional: used only to compare groups with at least {threshold} answers",
-    "doneTitleMinutes": "Thank you. That took about {minutes} minutes."
+    "doneTitleMinutes": "Thank you. That took about {minutes} minutes.",
+    "language": "Language"
   },
   "entry": {
     "title": "Get the link to the survey",
