@@ -17,7 +17,7 @@ if (!step && !all) {
 }
 const pw = ['playwright', 'test']
 if (step) pw.push('--grep', `@setup|@${step.replace('.', '\\.')}\\b`)
-if (args.includes('--update')) pw.push('--update-snapshots')
+if (args.includes('--update')) pw.push('--update-snapshots=all')
 const env = { ...qaEnv(), QA_STEP: step ?? 'all' }
 const r = spawnSync('npx', pw, { env, stdio: 'inherit' })
 process.exit(r.status ?? 1)

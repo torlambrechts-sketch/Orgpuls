@@ -5420,3 +5420,33 @@ now withheld: Økonomi og HR (4 people) and one shielding group per round.
 - All 44 suites pass locally.
 - Verified in the browser on the Lumio QA tenant: Målinger, Resultater, Oppsett › Grupper,
   Måleoppsett and Rapport.
+
+## D-121 — The engagement QA harness: where it differs from § 2
+
+- **The stack.** The QA tenant runs on the Supabase CLI's local stack in Docker
+  (`npm run qa:up`), with every migration and CI's seeds, and never on the hosted project.
+  - `scripts/qa/seed.mjs` refuses any non-loopback URL, and did refuse the session's
+    production URL.
+  - The app is built against the local stack into `.next-qa` (`NEXT_DIST_DIR`), so a QA build
+    never replaces the one that talks to the hosted project.
+- **npm, not pnpm.** The repository is npm; the document's commands are the same scripts
+  (typecheck, lint, test, test:db, e2e, test:invariants, qa:visual, qa:seed).
+- **Organisation number 999999981, not 999 999 999.** The SQL suites already use
+  999999997–999999999 for their probe organisations, and signup_invariants deletes the
+  organisation holding 999999998. 999999981 fails the mod-11 check, so no real undertaking
+  holds it.
+- **The clock.** § 2.2 freezes the clock at 15 October 2026, but only the browser's clock can
+  be frozen. The server and the database run on theirs, and `respond_form` refuses a round
+  that has not opened.
+  - So the open round and the two live measures' deadlines are built around the day the seed
+    runs.
+  - The browser is frozen at 10:00 that day.
+  - Captures therefore move with the date in those few strings. The comparison tolerance is
+    unchanged.
+- **Question order.** It is the server's, shuffled per token. The fixed tokens (`qa-lumio-*`,
+  16 characters or more, as `respond_form` requires) are the fixed seed.
+- **Roles.** The document's «HR» is a daglig_leder and its «tillitsvalgt» a verneombud
+  (DECISION_LOG 2026-09-26).
+- **Known issues.** Pre-existing axe findings on out-of-scope screens are recorded in
+  qa/known-issues.json and reported, not fixed (§ P0.2). Anything not listed there fails the
+  shot.
