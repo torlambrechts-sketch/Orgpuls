@@ -618,3 +618,19 @@ const Modules = z.object({
 })
 export type AdminModules = z.infer<typeof Modules>
 export const modules = () => call('admin_modules', {}, Modules)
+
+// ---------------------------------------------------------------- legal review (0082, D-130)
+const LegalApprovals = z.object({
+  approvals: z.array(z.object({ key: z.string(), hash: z.string(), at: ts, by: z.string().nullable() })),
+})
+export type LegalApproval = z.infer<typeof LegalApprovals>['approvals'][number]
+/** Every current approval of a legal text, by the hash approved. Super-admin. */
+export const legalApprovals = () => call('admin_legal_approvals', {}, LegalApprovals)
+
+const Translations = z.object({
+  items: z.array(z.object({ item: z.string(), text: z.string(), source: z.string(), approved: z.boolean(), at: tsn })),
+  ui: z.array(z.object({ hash: z.string(), at: ts })),
+})
+export type TranslationState = z.infer<typeof Translations>
+/** A language's survey translations (0079) and the page-string hashes approved for it. Super-admin. */
+export const translationState = (locale: string) => call('admin_translations', { p_locale: locale }, Translations)

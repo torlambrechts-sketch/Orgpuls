@@ -7168,7 +7168,8 @@
       "health": "Account health",
       "seo": "Search and content",
       "acquisition": "Cost per customer",
-      "modules": "Industry modules"
+      "modules": "Industry modules",
+      "legal": "Legal review"
     },
     "role": {
       "super_admin": "Super-admin",
@@ -8559,6 +8560,131 @@
         "invalid_transition": "A module moves draft → published → retired only.",
         "invalid": "Check the fields.",
         "failed": "Something went wrong."
+      }
+    },
+    "legal": {
+      "title": "Legal review",
+      "lead": "Every text the product and the site state law in, or make a legal promise with, read from where it is published. Tick «Approved» when a text has been read and is right. An approval names the exact text, so a text edited afterwards comes back as changed until it is approved again. Every approval and withdrawal is in the audit log.",
+      "stat": {
+        "texts": "Texts",
+        "approved": "Approved",
+        "changed": "Changed since approval",
+        "open": "Not approved"
+      },
+      "filter": "Filter the texts",
+      "show": {
+        "all": "All",
+        "open": "Not approved",
+        "changed": "Changed",
+        "approved": "Approved"
+      },
+      "lang": {
+        "all": "Both languages",
+        "no": "Norwegian",
+        "en": "English"
+      },
+      "section": {
+        "industries": "Industry pages",
+        "modules": "Industry modules: legal basis per factor",
+        "documents": "Legal documents",
+        "site": "The public site",
+        "product": "In the product",
+        "messages": "E-mail, SMS and consent"
+      },
+      "sectionLead": {
+        "industries": "Each law item on an industry page, its law section's introduction, and the page's other promises (threshold note, challenges, FAQ, question page). A page may launch only with every law item reviewed.",
+        "modules": "The legal basis and rationale of each factor in a module, as the question page and the report print them.",
+        "documents": "The data processing agreement, the privacy statement, the security page, the privacy notice in the app, and the terms draft.",
+        "site": "Landing pages, articles and the legal parts of the site's pages.",
+        "product": "The statutory report, Oppsett, Måleoppsett, help articles, the assistant, and the promises made to employees.",
+        "messages": "What leaves the product: invitations, reminders, lifecycle mail, and the consent texts."
+      },
+      "unit": {
+        "lp": {
+          "lovkrav": "Landing page · Lovkrav",
+          "verneombud": "Landing page · For verneombud",
+          "smaaBedrifter": "Landing page · Små bedrifter",
+          "byggOgAnlegg": "Landing page · Bygg og anlegg (shown until the industry page launches)",
+          "helseOgOmsorg": "Landing page · Helse og omsorg (shown until the industry page launches)"
+        },
+        "article": "Article · {title}",
+        "help": "Help article · {title}",
+        "site": {
+          "hvorfor": "/hvorfor · anonymity, the law, comparisons",
+          "bruksomrader": "/bruksomrader · inspection, verneombud and AMU",
+          "plattform": "/plattform · the report and the legal basis",
+          "claims": "Short legal claims across the site"
+        },
+        "doc": {
+          "dpa": "Data processing agreement (databehandleravtale)",
+          "privacy": "Privacy statement (personvernerklæring)",
+          "security": "Security page",
+          "personvernTab": "Oppsett › Personvern: the privacy notice to customers",
+          "termsDraft": "Terms of use: draft, not published"
+        },
+        "app": {
+          "report": "The statutory report",
+          "regelverk": "Oppsett › Regelverk",
+          "duty": "Oppsett: statutory duties by headcount, and law mode",
+          "maleoppsett": "Måleoppsett: control measure, consultation and information (§ 9-2)",
+          "assistant": "The assistant's Arbeidsmiljøloven tab",
+          "claims": "Legal claims across the app",
+          "anonymity": "Anonymity promises to employees",
+          "terms": "Billing, cancellation and deletion terms",
+          "instrument": "The instrument's legal basis per factor"
+        },
+        "industry": {
+          "lawIntro": "{page} · the law section's title and introduction",
+          "claims": "{page} · threshold note, challenges, FAQ and question page"
+        },
+        "mail": {
+          "legal": "E-mail and SMS: anonymity, notices, lifecycle",
+          "crm": "Newsletter and campaign e-mail: the legal basis in the footer"
+        },
+        "consent": {
+          "newsletter": "Newsletter sign-up, confirmation and unsubscribe",
+          "signup": "Sign-up consent"
+        }
+      },
+      "live": "Published",
+      "notLive": "Not published",
+      "state": {
+        "approved": "Approved",
+        "changed": "Changed since approval",
+        "open": "Not approved"
+      },
+      "where": "Where: {where}",
+      "approvedBy": "Approved by {by}, {date}",
+      "changedSince": "Approved by {by}, {date}, before the text changed",
+      "dpaInForce": "Version in force: {version}, SHA-256 {hash}…",
+      "broken": "A path in this text no longer resolves: {paths}. Fix the registry (lib/legal/registry.ts).",
+      "approved": "Approved",
+      "approvedLabel": "Approved: {title} ({lang})",
+      "save": "Save",
+      "saving": "Saving…",
+      "done": "Saved.",
+      "showText": "Show the text ({n} lines)",
+      "none": "No texts match this filter.",
+      "problem": {
+        "not_allowed": "Only a super-admin with a second factor can approve.",
+        "invalid": "That could not be read. Reload the page and try again.",
+        "not_found": "This text is no longer in the registry. Reload the page.",
+        "stale": "The text changed after this page was loaded. Reload the page and read it again.",
+        "confirm_required": "Tick the box to say the texts were read.",
+        "failed": "Something went wrong. Try again."
+      },
+      "en": {
+        "title": "English survey",
+        "lead": "Respondents whose own language, or whose organisation's, is English are offered the survey in English once every item it asks and the survey pages' strings are approved. Approving here approves every English item below and the page strings as this build has them.",
+        "on": "Offered",
+        "off": "Not offered yet",
+        "items": "{approved} of {total} items approved",
+        "uiOk": "The survey pages' strings are approved for this build.",
+        "uiOpen": "The survey pages' strings are not approved for this build (hash {hash}…).",
+        "read": "I have read the English texts, and they are right.",
+        "submit": "Approve the English survey",
+        "done": "Approved. English is now offered.",
+        "show": "Show the {n} items"
       }
     }
   },

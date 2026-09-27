@@ -24,3 +24,10 @@ project_id = "orgpuls"
 [api]
 schemas = ["public", "graphql_public", "app"]
 extra_search_path = ["public", "extensions"]
+
+# The admin app signs a platform admin in only with a second factor (0049, D-90), and the hosted
+# project has TOTP on. A stack without it could not sign an admin in at all, so admin screens
+# could not be checked locally (D-130).
+[auth.mfa.totp]
+enroll_enabled = true
+verify_enabled = true

@@ -64,6 +64,8 @@ const nextConfig: NextConfig = {
   // so a QA build never overwrites the one that talks to the hosted project
   distDir: process.env.NEXT_DIST_DIR || '.next',
   typedRoutes: true,
+  // the legal review reads the terms draft from docs/ at request time (lib/legal/registry.ts, D-130)
+  outputFileTracingIncludes: { '/admin/legal': ['./docs/legal/vilkar-utkast.md'] },
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }]
   },

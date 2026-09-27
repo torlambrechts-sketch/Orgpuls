@@ -5,6 +5,9 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { getFactors } from '@/lib/instrument/read'
+import { legalUnits } from '@/lib/legal/registry'
+import respondentUi from '@/lib/i18n/respondent-ui.json'
 
 /**
  * The platform admin's writes and its sign-in (D-90). Signing in is two steps: a password,
@@ -282,5 +285,41 @@ export async function modulePilot(_prev: AdminResult | null, formData: FormData)
     p_key: parsed.data.key, p_version: parsed.data.version, p_org: parsed.data.org, p_on: parsed.data.on === 'on', p_reason: parsed.data.reason,
   })
   if (r.ok) revalidatePath('/admin/modules')
+  return r
+}
+
+/**
+ * The legal review (0082, D-130): approve a legal text, or withdraw the approval. Super-admin,
+ * audited. The hash posted must be the text's hash now: an approval names the text that was on
+ * the screen, so a text edited after the page was loaded is refused rather than approved unread.
+ */
+export async function legalSet(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({ key: z.string().min(3).max(200), hash: z.string().regex(/^[0-9a-f]{64}$/), approved: z.enum(['true', 'false']) })
+    // without script the box is a plain checkbox: absent when cleared
+    .safeParse({ key: formData.get('key'), hash: formData.get('hash'), approved: formData.get('approved') === 'true' ? 'true' : 'false' })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const approve = parsed.data.approved === 'true'
+  if (approve) {
+    const now = legalUnits(await getFactors()).find((u) => u.key === parsed.data.key)
+    if (!now || now.missing?.length) return { ok: false, problem: 'not_found' }
+    if (now.hash !== parsed.data.hash) return { ok: false, problem: 'stale' }
+  }
+  const r = await rpc('admin_legal_set', { p_key: parsed.data.key, p_hash: parsed.data.hash, p_approved: approve })
+  if (r.ok) revalidatePath('/admin/legal')
+  return r
+}
+
+/**
+ * Approve a language's survey (0082): every unapproved item translation and the respondent
+ * pages' strings as this build has them (lib/i18n/respondent-ui.json). Super-admin, audited.
+ */
+export async function translationsApprove(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z.object({ locale: z.enum(['en']), read: z.literal('on') }).safeParse({ locale: formData.get('locale'), read: formData.get('read') })
+  if (!parsed.success) return { ok: false, problem: 'confirm_required' }
+  const hash = (respondentUi as Record<string, string>)[parsed.data.locale]
+  if (!hash) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_translations_approve', { p_locale: parsed.data.locale, p_ui_hash: hash })
+  if (r.ok) revalidatePath('/admin/legal')
   return r
 }

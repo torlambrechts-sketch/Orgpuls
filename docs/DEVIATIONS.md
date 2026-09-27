@@ -5784,3 +5784,53 @@ Tor, 2026-09-27, with a screenshot of the phone menu: "Ser ikke bransjer som men
 - **Checked.** Desktop open, keyboard, Escape, click outside, tabbing out, navigation through
   the panel, 1024 px, the phone at 390 px with no sideways scroll, and English. axe is clean
   with the panel open on desktop and on the phone, and there are no console errors.
+
+## D-130 — The legal review: every legal text in one place, each with «Approved» (0082)
+
+Tor, 2026-09-27: "create a legal review part under admin and put all legal text there with an
+approved checkbox" (X-065).
+
+- **The page.** /admin/legal in the admin app lists every legal text, with a box for each, and
+  gives an owner's view:
+  - counts: texts, approved, changed since approval, not approved;
+  - filters by state and by language;
+  - each text shows where a reader meets it, whether that is published now, where it lives for
+    whoever edits it, and the whole text in the order it is read.
+  - It is a super-admin's alone, since a legal sign-off is the owner's. The database checks the
+    role and the second factor on every call.
+- **What counts as legal text.** A text the product or the site states law in, paraphrases law
+  in, or makes a legal or compliance promise with, and the legal documents themselves. Five
+  parallel searches of the repository and a completeness critic found them.
+  lib/legal/registry.ts reads each from its own source (content/industries, the module files,
+  messages/, the terms draft in docs/legal, app.factors), and never copies it.
+  - One unit is what a reviewer reads as one thing: one law item on an industry page, one
+    factor's legal basis in a module, one landing page, one article, one document, one in-app
+    section. There are 140 units, about 3,200 strings, in both languages.
+  - Left out on purpose: labels that only name a law or a role; the unrendered
+    seo.pages.plattform/bruksomrader blocks, which are published nowhere; and the survey's own
+    statements.
+  - Not covered yet, because they are code or per-organisation data rather than text: the
+    chapter 1A coverage map and the BHT industry codes (RegelverkTab.tsx, SelskapTab.tsx), the
+    Lovdata link targets, the CRM e-mail templates, and a measure's own law_ref.
+- **An approval names the text.** `app.legal_approvals` holds the current approval of each unit,
+  as the SHA-256 of the unit's text as shown. A text edited afterwards shows as «Changed since
+  approval» until it is approved again; nothing has to remember to clear it.
+  - The approve action recomputes the text's hash on the server. It refuses a hash that no
+    longer matches, so a page loaded before an edit cannot approve unread text.
+  - Every approval and withdrawal is also an admin audit entry (`legal.approve`,
+    `legal.withdraw`), which is the history.
+  - RLS on, no policy, no grant; the four functions are the only way in.
+  - supabase/tests/legal_invariants.sql checks this in 6 rows.
+- **The English survey is approved here too.** One box saying the texts were read, then one
+  button. It approves every unapproved English item and the survey pages' strings as this build
+  has them, audited (`translations.approve`). A qa-fixture row is never approved off the QA
+  stack. This is where the approval X-065 records is given.
+- **Publishing is not gated by the approvals.** Pages are built from code, and launching an
+  industry page still needs its law items marked `reviewed` in content/industries, which the
+  build enforces. The review page shows a published text that is not approved in red.
+- **Tests.** tests/unit/legal-registry.test.ts checks:
+  - every path resolves in both languages, so a renamed message key fails the test instead of
+    dropping out of the review;
+  - every key is unique and one the database accepts;
+  - a changed word changes the hash;
+  - what is published is marked so.

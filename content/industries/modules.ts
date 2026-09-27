@@ -18,6 +18,9 @@ const FILES: Record<string, unknown> = {
 
 export type PageLang = 'no' | 'en'
 
+/** Every module version with a file here, as `key@version` (the legal review lists their legal basis) */
+export const MODULE_VERSIONS = Object.keys(FILES)
+
 export function moduleFile(key: string, version: string, lang: PageLang = 'no'): ModuleFile {
   const raw = FILES[`${key}@${version}`]
   if (!raw) throw new Error(`no module file for ${key}@${version}`)
