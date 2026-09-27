@@ -5566,6 +5566,10 @@ leaving them out takes a reason. The settings get a tab of their own.
     unanswered, unexpired invitation. The dispatcher mints their link as it does for a
     reminder, and the older link stops working.
   - The answer is `{"ok": true}` whatever was typed.
+  - Since 0077, the function does not read who has answered. 0076 filtered on the answered
+    mark, which engagement invariant I7 keeps to the system. The dispatcher's claim drops a
+    link for an answered invitation, as it does for a reminder, so what a person receives is
+    unchanged.
   - Limits: 10 tries per network per 10 minutes (in memory, as `lib/brreg/throttle.ts`); one
     message per person and round per 10 minutes; and per organisation per hour, no more than
     twice its active employees, at least 20.
