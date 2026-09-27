@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 import { EN_URL, MAIN_URL } from '@/lib/hosts'
 import { archive } from '@/lib/crm/read'
 import { ARTICLES, LANDING_PAGES, SITE_PAGES } from '@/lib/marketing/site'
-import { liveQuestionPages } from '@/content/industries'
+import { INDUSTRIES, liveQuestionPages, pageIn } from '@/content/industries'
 
 /**
  * Every public page a search engine should know about, and nothing behind the sign-in: the
@@ -32,6 +32,23 @@ function questionPages(): MetadataRoute.Sitemap {
   ]
 }
 
+/**
+ * An industry page that never had a landing page (barnehage og skole, D-131): its address
+ * exists only once launched, per language, with a twin only where both are.
+ */
+function industryPages(): MetadataRoute.Sitemap {
+  const landing = LANDING_PAGES as readonly string[]
+  const rest = { changeFrequency: 'monthly' as const, priority: 0.8 }
+  return INDUSTRIES.filter((i) => !landing.includes(i.slug)).flatMap((i) => {
+    const no = !!pageIn(i, 'no')?.launched
+    const en = !!pageIn(i, 'en')?.launched
+    if (no && en) return [entry(`/${i.slug}`, rest)]
+    if (no) return [{ url: `${MAIN_URL}/${i.slug}`, ...rest }]
+    if (en) return [{ url: `${EN_URL}/${i.slug}`, ...rest }]
+    return []
+  })
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const issues = await archive()
   const newest = ARTICLES.map((a) => a.modified)
@@ -41,6 +58,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entry('/', { changeFrequency: 'monthly', priority: 1 }),
     ...SITE_PAGES.map((p) => entry(`/${p.slug}`, { changeFrequency: 'monthly', priority: 0.8 })),
     ...LANDING_PAGES.map((s) => entry(`/${s}`, { changeFrequency: 'monthly', priority: 0.8 })),
+    ...industryPages(),
     // an industry's question page, per language once launched there; a twin only when both are (D-118, D-120)
     ...questionPages(),
     entry('/artikler', { lastModified: newest, changeFrequency: 'weekly', priority: 0.7 }),

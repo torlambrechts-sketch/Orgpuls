@@ -93,7 +93,11 @@ export async function QuestionView({
 
         <nav aria-label={t('tocLabel')} className="mt-[22px]">
           <ul className="m-0 flex list-none flex-wrap gap-[8px] p-0">
-            {[...mod.factors.map((f) => ({ id: f.id, label: f.name })), { id: 'ja-nei', label: t('tocCount') }, { id: 'rapportering', label: t('tocReporting') }].map(
+            {[
+              ...mod.factors.map((f) => ({ id: f.id, label: <Worded text={f.name} variants={f.name_variants} /> })),
+              { id: 'ja-nei', label: t('tocCount') },
+              { id: 'rapportering', label: t('tocReporting') },
+            ].map(
               (x) => (
                 <li key={x.id}>
                   <a
@@ -112,7 +116,7 @@ export async function QuestionView({
       {mod.factors.map((f) => (
         <section key={f.id} id={f.id} className={`${WRAP} scroll-mt-[90px] pt-[clamp(40px,6vw,64px)]`} aria-labelledby={`${f.id}-h`}>
           <h2 id={`${f.id}-h`} className={H2}>
-            {f.name}
+            <Worded text={f.name} variants={f.name_variants} />
           </h2>
           <div className="mt-[18px] grid gap-x-[48px] gap-y-[24px] min-[900px]:grid-cols-2">
             <div className="min-w-0">

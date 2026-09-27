@@ -428,6 +428,7 @@
         "skole": "Skole («elevene»)",
         "begge": "Begge («barna eller elevene»)",
         "suggested": "Foreslått ut fra næringskoden deres. Velg en annen om den ikke passer.",
+        "byDefault": "Modulens standard, siden næringskoden deres ikke peker på barnehage eller skole. Velg en annen om den passer bedre.",
         "chosen": "Valgt av dere. Planlagte målinger bruker den; en måling som er åpnet, beholder sin.",
         "failed": "Kunne ikke lagre ordbruken. Prøv igjen."
       }

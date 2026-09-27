@@ -17,11 +17,11 @@ export type IndustryMeta = {
 }
 
 export const INDUSTRY_META: IndustryMeta[] = [
-  // before helse og omsorg: SN2007 registers kindergartens as 88.911, inside helse's 88 (the
-  // first prefix that matches wins); SN2025 moves them to 85.1
+  // before helse og omsorg: SN2007 registers kindergartens as 88.911 and SFO as 88.913, inside
+  // helse's 88 (the first prefix that matches wins); SN2025 moves them to 85
   {
     slug: 'barnehage-og-skole',
-    naceCodePrefixes: ['85', '88911'],
+    naceCodePrefixes: ['85', '88911', '88913'],
     moduleKey: 'barnehage-og-skole',
     label: { no: 'barnehage og skole', en: 'kindergartens and schools' },
     moduleLabel: { no: 'barnehage- og skolemodulen', en: 'the kindergarten and school module' },

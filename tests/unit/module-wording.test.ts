@@ -26,7 +26,9 @@ describe('the barnehage og skole module', () => {
   })
 
   it('says no «elev» in the kindergarten wording and no «barn» in the school wording', () => {
-    for (const w of worded) {
+    // a factor's name is what a respondent reads above its statements
+    const named = bs.factors.map((f) => ({ id: f.id, text: f.name, text_variants: f.name_variants ?? { barnehage: f.name, skole: f.name } }))
+    for (const w of [...worded, ...named]) {
       expect(w.text_variants!.barnehage, w.id).not.toMatch(/\belev/i)
       // «barnevern» is a service, not the children
       expect(w.text_variants!.skole.replace(/barnevern\w*/gi, ''), w.id).not.toMatch(/\bbarn/i)
@@ -41,13 +43,15 @@ describe('the barnehage og skole module', () => {
     }
   })
 
-  it('names no statute section it has not been checked for', () => {
+  it('names no statute section it has not been checked for, and no repealed one', () => {
     const basis = bs.factors.flatMap((f) => f.legal_basis).join('\n')
     expect(basis).not.toMatch(/verifiser/i)
+    // forskrift om utførelse av arbeid kap. 23A was repealed 1 Jan 2026 (FOR-2025-12-16-2615); kap. 3A replaces it
+    expect(basis).not.toMatch(/23A/)
   })
 
   it('suggests a wording from the registered industry, the longest prefix first', () => {
-    expect(bs.wording?.auto_from_nace).toMatchObject({ '85.1': 'barnehage', '85.2': 'skole', '88.911': 'barnehage' })
+    expect(bs.wording?.auto_from_nace).toMatchObject({ '85.1': 'barnehage', '85.2': 'skole', '88.911': 'barnehage', '88.913': 'skole' })
     expect(bs.wording?.default).toBe('begge')
   })
 })
@@ -58,8 +62,43 @@ describe('the schema for wordings', () => {
   it('refuses an unfilled token', () => expect(fails((m) => (m.factors[0].items[0].text_variants.skole = 'Vi har {barna}'))).toBe(true))
   it('refuses variants in a module without wordings', () =>
     expect(fails((m) => delete m.wording)).toBe(true))
-  it('refuses an English translation it has no place for', () =>
-    expect(fails((m) => (m.translations = { en: raw('helse-og-omsorg').translations.en }))).toBe(true))
+  it('refuses an English translation it has no place for, by that rule', () => {
+    const m = raw('barnehage-og-skole')
+    // a translation complete in every other respect, so only the wording rule can refuse it
+    m.translations = {
+      en: {
+        name: m.name,
+        description: m.description,
+        scale_labels: m.scale.labels,
+        covered_by_core_factors: m.relation_to_core.covered_by_core_factors,
+        factors: Object.fromEntries(
+          m.factors.map((f: any) => [
+            f.id,
+            {
+              name: f.name,
+              summary: f.summary,
+              rationale: f.rationale,
+              legal_basis: f.legal_basis,
+              items: Object.fromEntries(f.items.map((i: any) => [i.id, i.text])),
+              action_suggestions: f.action_suggestions.map((a: any) => ({ title: a.title, description: a.description })),
+            },
+          ]),
+        ),
+        count_items: Object.fromEntries(m.count_items.map((c: any) => [c.id, { text: c.text, options: c.options }])),
+        segments: Object.fromEntries(m.segments.map((s: any) => [s.id, { text: s.text, options: s.options }])),
+      },
+    }
+    const r = ModuleFile.safeParse(m)
+    expect(r.success).toBe(false)
+    expect(r.error?.issues.map((i) => i.message)).toContain('a worded module has no English translation yet')
+  })
+  it('refuses a factor name with a token, and name variants without wording', () => {
+    expect(fails((m) => (m.factors[0].name_variants.skole = 'Vold fra {barn}'))).toBe(true)
+    expect(fails((m) => {
+      delete m.wording
+      for (const w of [...m.factors.flatMap((f: any) => f.items), ...m.count_items]) delete w.text_variants
+    })).toBe(true)
+  })
 })
 
 describe('picking a wording', () => {
@@ -76,6 +115,7 @@ describe('picking a wording', () => {
     expect(industryForNace('85.100')?.slug).toBe('barnehage-og-skole')
     expect(industryForNace('85.201')?.slug).toBe('barnehage-og-skole')
     expect(industryForNace('88.911')?.slug).toBe('barnehage-og-skole')
+    expect(industryForNace('88.913')?.slug).toBe('barnehage-og-skole')
     expect(industryForNace('88.101')?.slug).toBe('helse-og-omsorg')
   })
 })

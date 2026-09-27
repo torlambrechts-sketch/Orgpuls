@@ -5904,7 +5904,7 @@ followed as written:
   every path, and fixed once the round opens). `app.org_wording` decides the suggestion from
   the module file's own NACE rule. One write path, `set_org_module_wording`, daglig leder only,
   applied to planned rounds and never to an open one. supabase/tests/module_wording_invariants.sql
-  proves it in 8 rows.
+  proves it in 9 rows.
 - **Where the choice is made.** The brief puts it under Innstillinger › Virksomhet › Bransje.
   The organisation's module choices are made in Målinger › Spørsmålssett (D-124), so the wording
   is chosen on the module's own card there: a radio group «Barnehage («barna») / Skole
@@ -5913,13 +5913,15 @@ followed as written:
 - **Kindergartens under either industry standard.** The brief's rule reads SN2025 (85.1 a
   kindergarten, 85.2 and 85.3 a school). Brønnøysund still hands out SN2007 codes, where
   kindergartens are 88.911, inside helse og omsorg's 88. The module file's rule and prefixes
-  add 88.911, and content/industries/meta.ts lists barnehage og skole before helse og omsorg so
-  the longer prefix wins.
+  add 88.911 (kindergartens) and 88.913 (SFO, the school's wording), and
+  content/industries/meta.ts lists barnehage og skole before helse og omsorg so the longer
+  prefix wins.
 - **Law references checked, not approved.** The brief's module and page said «verifiser
   paragraf» twice. Checked against Lovdata on 2026-09-27: opplæringslova § 13-4 (fysiske inngrep
   for å avverje skade), kap. 12 with § 12-4 (aktivitetsplikt) and § 24-3 (plikt til å melde frå
   til barnevernet); barnehageloven kap. VIII with § 42 (aktivitetsplikt) and § 46
-  (opplysningsplikt). The file and the page name them now. Every law item stays
+  (opplysningsplikt); forskrift om utførelse av arbeid kap. 3A (see the review below). The file
+  and the page name them now. Every law item stays
   `reviewed: false`; they are in admin › Legal review for Tor.
 - **Not launched, not published.** The page is shown only with ?forhandsvis=1, and the module is
   seeded as a draft (usable only by a pilot organisation). Barnehage og skole never had a landing
@@ -5936,6 +5938,36 @@ followed as written:
   industry's words. The brief's «Vanskelige saker» note («Ikke skriv om enkeltbarn eller
   enkeltelever i kommentarfeltet») is a rule on the question page; the survey's comment field is
   the core instrument's and says nothing per module.
+- **After an adversarial review (three lenses, each finding verified), before it shipped:**
+  - *A repealed chapter.* Forskrift om utførelse av arbeid kap. 23A (vold og trusler) was
+    repealed on 1 January 2026 (FOR-2025-12-16-2615) and replaced by kap. 3A (§§ 3A-1–3A-6);
+    the regulation was renamed with it. The brief cited 23A; the module and page cite 3A.
+    Kap. 14 is noise and vibration, not ergonomics (kap. 23): the stoy-factor's basis names both.
+    **Helse og omsorg has the same two faults and is live.** Its page's law item now names
+    kap. 3A (the text Tor approved is unchanged, so the reference awaits his approval in the
+    legal review). Its module v1.0.0 is published and frozen, so its report and question page
+    still print «kap. 23A» and the kap. 14 label until a v1.0.1 is published, which gives its
+    items new ids and needs their English approved again. That is Tor's decision (X-066).
+  - *The factor's name named both.* A respondent in a kindergarten round saw «Vold og trusler
+    fra barn og elever» above «… når et barn blir voldelig». A factor name may now carry
+    variants (the brief's own tokens: «fra barn», «fra elever»), stored in module_factors.i18n
+    and read by respond_form, module_results, the preview, Spørsmålssett and the question page.
+  - *The planned rounds follow.* A new choice skipped rounds on a retired version (the whole
+    call used to fail on one); a change of the registered industry (the Brønnøysund refresh)
+    now reaches the planned rounds of an organisation that has not chosen, through a trigger;
+    and a client can no longer write `round_modules.wording` at all (column grants), so the
+    daglig leder's choice is the only one.
+  - *Say where it came from.* The card said «suggested from your industry code» for every
+    organisation that had not chosen, including those whose code suggests nothing and get the
+    module's default. `org_module_wordings` returns the source, and the card says which.
+  - SFO registered on its own (SN2007 88.913) suggests the school's wording and the module,
+    not helse og omsorg; the question page no longer claims the three wordings' numbers are
+    comparable before the pilot has tested it (brief § 5.1), nor that every factor's rationale
+    comes from research; once launched, the page is in the sitemap and names an English twin
+    only where there is one.
+  - `PreviewBanner` moved out of the page module into components/industry: a page module
+    exporting a component is what Next's generated route types refuse (it surfaced when a
+    reviewer ran `next build`; CI's tsc runs before the build and never saw it).
 - **Not built:** the «Foreløpig» mark on provisional module results (brief § 3.3), which needs
   the validation status in the registry and an admin control to change it; the factor toggles
   for this module, which stay behind `module_factor_toggles` as for the others; and the card's

@@ -7,7 +7,8 @@
   "description": "Tilleggsmodul for barnehager, skoler og SFO. Åtte faktorer med tre påstander hver, pluss to spørsmål som bare rapporteres som antall. Ordbruken tilpasses barnehage, skole eller begge.",
   "nace_prefixes": [
     "85",
-    "88.911"
+    "88.911",
+    "88.913"
   ],
   "estimated_minutes": 3,
   "scale": {
@@ -63,7 +64,8 @@
       "85.1": "barnehage",
       "85.2": "skole",
       "85.3": "skole",
-      "88.911": "barnehage"
+      "88.911": "barnehage",
+      "88.913": "skole"
     },
     "tokens": {
       "barnehage": {
@@ -104,6 +106,10 @@
     {
       "id": "vold_og_trusler",
       "name": "Vold og trusler fra barn og elever",
+      "name_variants": {
+        "barnehage": "Vold og trusler fra barn",
+        "skole": "Vold og trusler fra elever"
+      },
       "summary": "Om rutinene er kjent, om handlingsrommet er tydelig, og om den som var involvert blir fulgt opp.",
       "rationale": "28 prosent av grunnskolelærerne ble utsatt for vold på jobb det siste året – høyest av alle yrker – og 11 prosent opplever det månedlig eller oftere. I undervisningsyrkene samlet økte andelen fra 12 til 18 prosent fra 2022 til 2025. Åtte av ti rektorer i grunnskolen rapporterer slike hendelser, oftest fra noen få av de yngste elevene. I Sverige hadde tre av fire inspiserte skoler mangler i arbeidet med å forebygge vold og trusler mot personalet.",
       "rationale_sources": [
@@ -113,7 +119,7 @@
       ],
       "legal_basis": [
         "aml § 4-3 sjette ledd (vern mot vold, trusler og uheldige belastninger fra kontakt med andre)",
-        "forskrift om utførelse av arbeid kap. 23A (risikovurdering, tiltak, opplæring og oppfølging)",
+        "forskrift om utførelse av arbeid kap. 3A (kartlegging og vurdering av risiko, tiltak, informasjon, opplæring og oppfølging ved vold og trusler)",
         "opplæringsloven § 13-4 (fysiske inngrep for å avverge skade)"
       ],
       "items": [
@@ -507,7 +513,7 @@
       ],
       "legal_basis": [
         "aml § 4-4 (fysiske arbeidsmiljøfaktorer, inkludert støy)",
-        "forskrift om utførelse av arbeid kap. 14 (ergonomiske belastninger)",
+        "forskrift om utførelse av arbeid kap. 14 (støy) og kap. 23 (ergonomisk belastende arbeid)",
         "aml § 10-9 (pauser)"
       ],
       "items": [

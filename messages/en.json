@@ -428,6 +428,7 @@
         "skole": "School («elevene»)",
         "begge": "Both («barna eller elevene»)",
         "suggested": "Suggested from your industry code. Choose another if it does not fit.",
+        "byDefault": "The module's default, as your industry code points to neither a kindergarten nor a school. Choose another if it fits better.",
         "chosen": "Chosen by you. Planned surveys use it; a survey that has opened keeps its own.",
         "failed": "Could not save the wording. Try again."
       }

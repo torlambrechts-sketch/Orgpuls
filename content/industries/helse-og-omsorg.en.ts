@@ -132,7 +132,8 @@ export const helseOgOmsorgEn: IndustryPage = {
         reviewed: false,
       },
       {
-        ref: 'The regulations, chapter 23A',
+        // chapter 23A was repealed on 1 January 2026; chapter 3A replaces it (D-131)
+        ref: 'The regulations, chapter 3A',
         text: 'Where employees may be exposed to violence or threats, the risk must be assessed, and there must be measures, training and follow-up.',
         reviewed: false,
       },

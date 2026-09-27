@@ -2077,6 +2077,9 @@ briefs.
   choice on Målinger › Spørsmålssett, suggested from the registered industry, and
   /barnehage-og-skole with its question page and the «Barnehage / Skole / Begge» switch.
   D-131 says where it follows the brief and where it could not.
+- **Found on the way:** forskrift om utførelse av arbeid kap. 23A, which helse og omsorg's
+  live page and published module cite, was repealed on 1 January 2026 (kap. 3A replaces it).
+  The page is corrected; the module needs a new version, which is Tor's call (open item).
 - **Queued:** the module is a draft and the page is a preview. Its law items and the module's
   legal basis are in admin › Legal review. Once Tor approves them, it launches as helse og
   omsorg did: `reviewed` and `launched` in the content file, and the module published.
@@ -2086,6 +2089,7 @@ briefs.
 ## Open items
 - [ ] Barnehage og skole: approve its law items in admin › Legal review, then launch the page and publish the module (X-066, D-131).
 - [ ] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131).
+- [ ] Helse og omsorg's module cites the repealed forskrift kap. 23A and labels kap. 14 as ergonomics (D-131). Fixing it is a v1.0.1, published: new item ids, so its English needs approving again. Tor to decide; the page's reference is already corrected and awaits his approval in the legal review.
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).
 - [ ] A ready-to-send check before a round opens (channel coverage, groups under the threshold, information and consultation done); the reach count on Målinger › Innstillinger is its first half (D-126).
 - [ ] "View as customer" for support: whether, for whom, with what approval, and how the

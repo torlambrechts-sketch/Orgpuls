@@ -137,7 +137,10 @@ export const helseOgOmsorg: IndustryPage = {
         reviewed: true,
       },
       {
-        ref: 'Forskriften kap. 23A',
+        // was «kap. 23A», repealed 1 January 2026 (FOR-2025-12-16-2615); kap. 3A replaces it with the
+        // same duties. Corrected 2026-09-27; the text Tor approved is unchanged, the reference awaits
+        // his approval in admin › Legal review (D-131)
+        ref: 'Forskriften kap. 3A',
         text: 'Der ansatte kan utsettes for vold eller trusler, skal risikoen vurderes, og det skal finnes tiltak, opplæring og oppfølging.',
         reviewed: true,
       },

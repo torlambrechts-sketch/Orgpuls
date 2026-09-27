@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { IndustryView } from '@/components/industry/IndustryView'
+import { PreviewBanner } from '@/components/industry/PreviewBanner'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { LandingTemplate } from '@/components/marketing/LandingTemplate'
-import { getIndustry, INDUSTRIES, pageIn } from '@/content/industries'
+import { getIndustry, hasPublicPage, INDUSTRIES, pageIn } from '@/content/industries'
 import { stripCites } from '@/content/industries/cites'
 import type { IndustryPage } from '@/content/industries/types'
 import type { PageLang } from '@/content/industries/modules'
@@ -45,17 +46,19 @@ async function resolve(props: Props) {
   const page = own && (own.launched || preview) ? own : null
   // an industry that never had a landing page has nothing to show before launch
   if (!page && !(LANDING_PAGES as readonly string[]).includes(entry.slug)) notFound()
-  return { slug: entry.slug, page, lang, preview: preview && !!page && !page.launched }
+  // hreflang names the other language only where that address shows a page (D-131)
+  const twinLive = hasPublicPage(entry, lang === 'en' ? 'no' : 'en')
+  return { slug: entry.slug, page, lang, preview: preview && !!page && !page.launched, twinLive }
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
-  const { slug, page, preview } = await resolve(props)
+  const { slug, page, preview, twinLive } = await resolve(props)
   if (!page) {
     const t = await getTranslations()
     const k = `seo.lp.${landingKey(slug as LandingSlug)}`
     return pageMeta({ title: t(`${k}.title`), description: t(`${k}.description`), path: `/${slug}`, image: `/og/${slug}.png` })
   }
-  const meta = await pageMeta({ title: page.seo.title, description: page.seo.description, path: `/${slug}`, image: `/og/${slug}.png` })
+  const meta = await pageMeta({ title: page.seo.title, description: page.seo.description, path: `/${slug}`, image: `/og/${slug}.png`, noTwin: !twinLive })
   return preview ? { ...meta, robots: { index: false, follow: false } } : meta
 }
 
@@ -86,13 +89,5 @@ export default async function IndustryRoute(props: Props) {
       {preview ? <PreviewBanner text={t('industry.preview')} /> : null}
       <IndustryView page={page as IndustryPage} core={core} lang={lang} />
     </>
-  )
-}
-
-export function PreviewBanner({ text }: { text: string }) {
-  return (
-    <div role="note" className="bg-sbg px-[18px] py-[10px] text-center text-[13px] font-semibold text-ink">
-      {text}
-    </div>
   )
 }

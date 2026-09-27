@@ -51,6 +51,8 @@ const ActionSuggestion = z.object({
 const Factor = z.object({
   id: z.string().regex(/^[a-z][a-z0-9_]*$/, 'snake_case factor key'),
   name: Text,
+  /** a worded module's factor name, where it names the children (0083): the respondent reads it above the statements */
+  name_variants: TextVariants.optional(),
   summary: Text,
   rationale: Text,
   rationale_sources: z.array(z.string()),
@@ -239,6 +241,11 @@ export const ModuleFile = z
     ]
     if (m.wording) {
       if ([...m.wording.modes].sort().join() !== [...WORDINGS].sort().join()) issue(['wording', 'modes'], 'modes are barnehage, skole and begge')
+      m.factors.forEach((f, fi) => {
+        for (const t of [f.name, f.name_variants?.barnehage ?? '', f.name_variants?.skole ?? '']) {
+          if (/[{}]/.test(t)) issue(['factors', fi, 'name'], `an unfilled token: ${t}`)
+        }
+      })
       for (const w of worded) {
         if (!w.text_variants) issue([...w.path, 'text_variants'], 'a worded module gives every statement and count question both variants')
         for (const t of [w.text, w.text_variants?.barnehage ?? '', w.text_variants?.skole ?? '']) {
@@ -249,6 +256,9 @@ export const ModuleFile = z
       if (m.translations?.en) issue(['translations', 'en'], 'a worded module has no English translation yet')
     } else {
       for (const w of worded) if (w.text_variants) issue([...w.path, 'text_variants'], 'text_variants without wording')
+      m.factors.forEach((f, fi) => {
+        if (f.name_variants) issue(['factors', fi, 'name_variants'], 'name_variants without wording')
+      })
     }
   })
 

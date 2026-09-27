@@ -45,7 +45,12 @@ const FactorRow = z.object({
   legal_basis: z.array(z.string()),
   sort: z.coerce.number(),
   i18n: z
-    .object({ en: z.object({ name: z.string(), summary: z.string(), rationale: z.string(), legal_basis: z.array(z.string()) }).partial() })
+    .object({
+      en: z.object({ name: z.string(), summary: z.string(), rationale: z.string(), legal_basis: z.array(z.string()) }).partial(),
+      // a worded module's factor name, where it names the children (0083)
+      'nb.barnehage': z.object({ name: z.string() }),
+      'nb.skole': z.object({ name: z.string() }),
+    })
     .partial()
     .default({}),
 })
@@ -85,6 +90,8 @@ export type ModuleFactor = {
   id: string
   key: string
   name: string
+  /** the name's other wordings, where it names the children (0083) */
+  nameVariants?: WordingVariants
   summary: string
   rationale: string
   rationaleSources: string[]
@@ -190,6 +197,9 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
           id: r.id,
           key: r.key,
           name: (en && r.i18n.en?.name) || r.name,
+          ...(!(en && r.i18n.en?.name) && r.i18n['nb.barnehage'] && r.i18n['nb.skole']
+            ? { nameVariants: { barnehage: r.i18n['nb.barnehage'].name, skole: r.i18n['nb.skole'].name } }
+            : {}),
           summary: (en && r.i18n.en?.summary) || r.summary,
           rationale: (en && r.i18n.en?.rationale) || r.rationale,
           rationaleSources: r.rationale_sources,
@@ -327,6 +337,7 @@ export function withWording(m: Module, w: Wording | null | undefined): Module {
     ...m,
     factors: m.factors.map((f) => ({
       ...f,
+      name: pickWording(f.name, f.nameVariants, w),
       items: f.items.map(item),
       actions: f.actions.map((a) => ({ ...a, remeasureItem: item(a.remeasureItem) })),
     })),
@@ -338,12 +349,22 @@ export function withWording(m: Module, w: Wording | null | undefined): Module {
  * The wording each worded module is asked in by this organisation (0083): its own choice, or
  * the one its registered industry suggests (`chosen` false).
  */
-export const getOrgModuleWordings = cache(async (orgId: string): Promise<Map<string, { wording: Wording; chosen: boolean }>> => {
+export type OrgWording = {
+  wording: Wording
+  chosen: boolean
+  /** the organisation chose it, its registered industry suggested it, or it is the module's default */
+  source: 'chosen' | 'nace' | 'default'
+}
+
+export const getOrgModuleWordings = cache(async (orgId: string): Promise<Map<string, OrgWording>> => {
   const supabase = await createClient()
   const { data, error } = await supabase.rpc('org_module_wordings', { p_org: orgId })
   if (readFailed('org_module_wordings', error, data)) return new Map()
   const parsed = z
-    .object({ ok: z.literal(true), wordings: z.record(z.string(), z.object({ wording: z.enum(WORDINGS), chosen: z.boolean() })) })
+    .object({
+      ok: z.literal(true),
+      wordings: z.record(z.string(), z.object({ wording: z.enum(WORDINGS), chosen: z.boolean(), source: z.enum(['chosen', 'nace', 'default']) })),
+    })
     .safeParse(data)
   if (parseFailed('org_module_wordings', parsed)) return new Map()
   return new Map(Object.entries(parsed.data.wordings))

@@ -20,7 +20,13 @@
 --     module without wordings, whatever is passed.
 --   * public.set_org_module_wording is the one write path for the choice; it is applied to the
 --     organisation's planned rounds and to nothing that has opened.
---   * respond_form, module_results and get_count_item_totals read the round's wording.
+--   * respond_form, module_results and get_count_item_totals read the round's wording, for a
+--     factor's name as for its statements (a name that names the children has its variants in
+--     module_factors.i18n under the same keys).
+--   * A round's wording follows the organisation's until the round opens: a new choice, and a
+--     change of the registered industry that the suggestion comes from, are applied to the
+--     planned rounds (app.reapply_org_wordings). A client cannot write the column itself: only
+--     the fill trigger and the write path set it.
 --
 -- Nothing here touches an answer table or a response: a wording is the organisation's, and a
 -- round's is the same for every respondent in it.
@@ -65,8 +71,15 @@ begin
   return jsonb_build_object('ok', true, 'wordings', coalesce((
     select jsonb_object_agg(k.key, jsonb_build_object(
              'wording', app.org_wording(p_org, k.id),
-             'chosen', exists (select 1 from app.org_modules om where om.org_id = p_org and om.module_key = k.key and om.wording is not null)))
-    from (select distinct on (m.key) m.key, m.id from app.question_modules m
+             'chosen', exists (select 1 from app.org_modules om where om.org_id = p_org and om.module_key = k.key and om.wording is not null),
+             -- where it came from, so the screen says so truthfully: the organisation, its industry code, or the module
+             'source', case
+               when exists (select 1 from app.org_modules om where om.org_id = p_org and om.module_key = k.key and om.wording is not null) then 'chosen'
+               when exists (select 1 from jsonb_object_keys(k.wording->'auto_from_nace') as r(key)
+                            join app.organizations o on o.id = p_org
+                            where o.registry_nace_code like r.key || '%') then 'nace'
+               else 'default' end))
+    from (select distinct on (m.key) m.key, m.id, m.wording from app.question_modules m
           where m.wording is not null and app.module_usable(m.id, p_org)
           order by m.key, string_to_array(m.version, '.')::int[] desc) k), '{}'::jsonb));
 end $fn$;
@@ -90,6 +103,51 @@ revoke all on function app.round_module_fill_wording() from public, anon, authen
 -- named to run before round_module_ok, which then judges the row as it will be stored
 create trigger round_module_fill_wording before insert or update on app.round_modules
   for each row execute function app.round_module_fill_wording();
+
+-- a client writes a round's modules (Måleoppsett) but never its wording: that is the
+-- organisation's choice, through set_org_module_wording, and the fill trigger's
+revoke insert, update on app.round_modules from authenticated;
+grant insert (org_id, round_id, module_id, item_ids, include_count_items, include_segments) on app.round_modules to authenticated;
+grant update (org_id, round_id, module_id, item_ids, include_count_items, include_segments) on app.round_modules to authenticated;
+
+-- ---------------------------------------------------------------- the planned rounds follow
+/**
+ * Re-derive the wording of an organisation's planned rounds (one module key, or every worded
+ * one): after a new choice, and after the registered industry the suggestion comes from
+ * changes. An open or closed round keeps the wording it was asked in, and a round still on a
+ * version the organisation may no longer use is left as it is (round_module_ok would refuse it).
+ */
+create function app.reapply_org_wordings(p_org uuid, p_key text) returns int
+  language plpgsql volatile security definer set search_path = ''
+as $fn$
+declare
+  v_n int;
+begin
+  update app.round_modules rm
+  set wording = app.org_wording(p_org, rm.module_id)
+  from app.rounds r, app.question_modules m
+  where r.id = rm.round_id and m.id = rm.module_id
+    and rm.org_id = p_org and r.status = 'planlagt'
+    and m.wording is not null and (p_key is null or m.key = p_key)
+    and app.module_usable(rm.module_id, p_org)
+    and rm.wording is distinct from app.org_wording(p_org, rm.module_id);
+  get diagnostics v_n = row_count;
+  return v_n;
+end $fn$;
+revoke all on function app.reapply_org_wordings(uuid, text) from public, anon, authenticated;
+
+create function app.organization_nace_wordings() returns trigger
+  language plpgsql security definer set search_path = ''
+as $fn$
+begin
+  perform app.reapply_org_wordings(new.id, null);
+  return null;
+end $fn$;
+revoke all on function app.organization_nace_wordings() from public, anon, authenticated;
+
+create trigger organization_nace_wordings after update of registry_nace_code on app.organizations
+  for each row when (old.registry_nace_code is distinct from new.registry_nace_code)
+  execute function app.organization_nace_wordings();
 
 -- ---------------------------------------------------------------- the one write path
 create function public.set_org_module_wording(p_org uuid, p_key text, p_wording text) returns jsonb
@@ -116,12 +174,7 @@ begin
     set wording = excluded.wording, updated_at = excluded.updated_at, updated_by = excluded.updated_by;
 
   -- the planned rounds follow; an open or closed round keeps the wording it was asked in
-  update app.round_modules rm
-  set wording = app.org_wording(p_org, rm.module_id)
-  from app.rounds r, app.question_modules m
-  where r.id = rm.round_id and m.id = rm.module_id
-    and rm.org_id = p_org and r.status = 'planlagt' and m.key = p_key;
-  get diagnostics v_n = row_count;
+  v_n := app.reapply_org_wordings(p_org, p_key);
 
   return jsonb_build_object('ok', true, 'wording', app.org_wording(p_org,
     (select m.id from app.question_modules m where m.key = p_key and app.module_usable(m.id, p_org)
@@ -216,8 +269,12 @@ begin
     values (v_id, f->>'id', f->>'name', f->>'summary', f->>'rationale',
             array(select jsonb_array_elements_text(f->'rationale_sources')),
             array(select jsonb_array_elements_text(f->'legal_basis')), fi,
-            case when v_tf is null then '{}'::jsonb else jsonb_build_object('en', jsonb_build_object(
+            (case when v_tf is null then '{}'::jsonb else jsonb_build_object('en', jsonb_build_object(
               'name', v_tf->'name', 'summary', v_tf->'summary', 'rationale', v_tf->'rationale', 'legal_basis', v_tf->'legal_basis')) end)
+            -- a worded module's factor name, where it names the children (0083)
+            || case when f ? 'name_variants' then jsonb_build_object(
+                 'nb.barnehage', jsonb_build_object('name', f->'name_variants'->>'barnehage'),
+                 'nb.skole', jsonb_build_object('name', f->'name_variants'->>'skole')) else '{}'::jsonb end)
     returning id into v_fid;
 
     ii := 0;
@@ -332,7 +389,8 @@ begin
            'name', m.name,
            'minutes', m.estimated_minutes,
            'statements', (
-             select coalesce(jsonb_agg(jsonb_build_object('item', i.id, 'factor', f.name, 'text', coalesce(i.text->>('nb.' || rm.wording), i.text->>'nb'),
+             select coalesce(jsonb_agg(jsonb_build_object('item', i.id, 'factor', coalesce(f.i18n->('nb.' || rm.wording)->>'name', f.name),
+                                                  'text', coalesce(i.text->>('nb.' || rm.wording), i.text->>'nb'),
                                                   'factor_en', f.i18n->'en'->>'name', 'text_en', i.text->>'en')
                                        order by extensions.digest(p_token || i.id::text, 'sha256')), '[]'::jsonb)
              from app.module_items i join app.module_factors f on f.id = i.factor_id
@@ -468,7 +526,10 @@ begin
            'key', m.key, 'version', m.version, 'name', m.name, 'name_en', m.i18n->'en'->>'name',
            'factors', (
              select jsonb_agg(jsonb_build_object(
-                      'key', f.key, 'name', f.name, 'summary', f.summary, 'rationale', f.rationale, 'en', f.i18n->'en',
+                      'key', f.key,
+                      'name', coalesce(f.i18n->('nb.' || (select rm.wording from app.round_modules rm
+                                                          where rm.round_id = p_round and rm.module_id = m.id))->>'name', f.name),
+                      'summary', f.summary, 'rationale', f.rationale, 'en', f.i18n->'en',
                       'rationale_sources', to_jsonb(f.rationale_sources), 'legal_basis', to_jsonb(f.legal_basis),
                       'index', case when v_whole then fo.idx end,
                       'band', case when v_whole and fo.idx is not null then app.risk_band(fo.idx) end,

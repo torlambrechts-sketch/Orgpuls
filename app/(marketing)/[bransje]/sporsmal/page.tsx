@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getLocale, getTranslations } from 'next-intl/server'
+import { PreviewBanner } from '@/components/industry/PreviewBanner'
 import { QuestionView } from '@/components/industry/QuestionView'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { getIndustry, INDUSTRIES, pageIn } from '@/content/industries'
@@ -9,7 +10,6 @@ import { assertIndustries } from '@/content/industries/validate'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, graph, organization } from '@/lib/marketing/schema'
 import { absolute } from '@/lib/marketing/site'
-import { PreviewBanner } from '../page'
 
 /**
  * /<slug>/sporsmal (§ B1, D-118): the module's whole question set, generated from its file.

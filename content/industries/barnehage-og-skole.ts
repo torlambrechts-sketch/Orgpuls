@@ -128,7 +128,8 @@ export const barnehageOgSkole: IndustryPage = {
         reviewed: false,
       },
       {
-        ref: 'Forskriften kap. 23A',
+        // kap. 23A was repealed on 1 January 2026; kap. 3A (§§ 3A-1–3A-6) replaces it
+        ref: 'Forskriften kap. 3A',
         text: 'Der ansatte kan utsettes for vold eller trusler, skal risikoen vurderes, og det skal finnes tiltak, opplæring og oppfølging.',
         reviewed: false,
       },
@@ -174,7 +175,7 @@ export const barnehageOgSkole: IndustryPage = {
   questionPage: {
     crumb: 'Spørsmålssettet',
     h1: 'Spørsmåls­settet for barnehage og skole',
-    lead: 'Åtte faktorer med tre påstander hver, i tillegg til hovedundersøkelsen. Hver faktor har en begrunnelse fra forskning og tilsyn, en hjemmel og tre forslag til tiltak som kan måles på nytt i pulsen.',
+    lead: 'Åtte faktorer med tre påstander hver, i tillegg til hovedundersøkelsen. Hver faktor har en begrunnelse fra forskning, tilsyn eller regelverket, en hjemmel og tre forslag til tiltak som kan måles på nytt i pulsen.',
     scaleNote: 'Påstandene står i tilfeldig rekkefølge for hver person. Ordlyden er låst, så tallene kan sammenlignes fra måling til måling.',
     countTitle: 'To spørsmål som bare telles',
     countIntro: 'Noen spørsmål passer ikke i en indeks, men sier mye om det avvikssystemet ikke fanger. De vises bare som antall for hele virksomheten.',
@@ -193,7 +194,8 @@ export const barnehageOgSkole: IndustryPage = {
       },
       { title: 'Samme indeks', text: 'Hver påstand regnes om til 0–100, og faktoren er snittet av sine tre påstander.' },
       { title: 'Risikonivå', text: '65 eller mer er lav risiko, 50–64 middels og under 50 høy – det samme som i hovedundersøkelsen.' },
-      { title: 'Ordbruk', text: 'Påstandene sier «barna» i barnehagen og «elevene» i skolen. Kodene og skåringen er de samme, så tallene kan sammenlignes.' },
+      // the brief § 5.1: the pilot tests that the three work alike; until then the page claims no more
+      { title: 'Ordbruk', text: 'Påstandene sier «barna» i barnehagen og «elevene» i skolen. Kodene og skåringen er de samme, og piloten tester at de tre versjonene fungerer likt.' },
       { title: 'Vanskelige saker', text: 'Faktoren handler om plikter, ikke om enkeltsaker. Ikke skriv om enkeltbarn eller enkeltelever i kommentarfeltet.' },
       { title: 'Pulsen', text: 'Når en faktor har åpne tiltak, kommer påstanden tiltaket skal måles på med i neste puls.' },
     ],

@@ -24,8 +24,14 @@ export interface ModuleCard {
   suggested: string | null
   on: boolean
   /** a worded module (0083): the wording its rounds ask, and whether the organisation chose it */
-  wording: { value: Wording; chosen: boolean } | null
-  factors: { key: string; name: string; summary: string; statements: { text: string; variants?: WordingVariants }[] }[]
+  wording: { value: Wording; source: 'chosen' | 'nace' | 'default' } | null
+  factors: {
+    key: string
+    name: string
+    nameVariants?: WordingVariants
+    summary: string
+    statements: { text: string; variants?: WordingVariants }[]
+  }[]
   href: string | null
   /** "Bruk … i hovedmålingene", for the switch's accessible name */
   toggleLabel: string
@@ -52,7 +58,7 @@ export function ModuleChoices({
     none: string
     failed: string
     seeAll: string
-    wording: { legend: string; suggested: string; chosen: string; failed: string } & Record<Wording, string>
+    wording: { legend: string; suggested: string; byDefault: string; chosen: string; failed: string } & Record<Wording, string>
   }
 }) {
   const [open, setOpen] = useState('')
@@ -66,10 +72,10 @@ export function ModuleChoices({
   const choose = (key: string, value: Wording) => {
     const before = wordings
     setWordingFailed(null)
-    setWordings(new Map(before).set(key, { value, chosen: true }))
+    setWordings(new Map(before).set(key, { value, source: 'chosen' }))
     start(async () => {
       const r = await setOrgModuleWording(key, value)
-      if (r.ok) setWordings(new Map(before).set(key, { value: r.wording, chosen: true }))
+      if (r.ok) setWordings(new Map(before).set(key, { value: r.wording, source: 'chosen' }))
       else {
         setWordings(before)
         setWordingFailed(key)
@@ -154,10 +160,9 @@ export function ModuleChoices({
                     <span className="mt-[6px] block text-[12px] text-mut" role="status">
                       {wordingFailed === c.key ? (
                         <span className="text-caution">{labels.wording.failed}</span>
-                      ) : wording.chosen ? (
-                        labels.wording.chosen
                       ) : (
-                        labels.wording.suggested
+                        // say where it came from, and only what is so
+                        { chosen: labels.wording.chosen, nace: labels.wording.suggested, default: labels.wording.byDefault }[wording.source]
                       )}
                     </span>
                   </fieldset>
@@ -189,7 +194,7 @@ export function ModuleChoices({
                   <div className="grid gap-[10px] px-[16px] pb-[15px] [grid-template-columns:repeat(auto-fill,minmax(250px,1fr))]">
                     {c.factors.map((f) => (
                       <div key={f.key} className="rounded-ctl border border-line bg-sf px-[12px] py-[10px]">
-                        <span className="block text-[13px] font-semibold">{f.name}</span>
+                        <span className="block text-[13px] font-semibold">{pickWording(f.name, f.nameVariants, wording?.value)}</span>
                         <span className="mt-[2px] block text-[11.5px] leading-[1.45] text-mut">{f.summary}</span>
                         <ol className="m-0 mt-[8px] flex list-none flex-col gap-[6px] p-0">
                           {f.statements.map((s, i) => (

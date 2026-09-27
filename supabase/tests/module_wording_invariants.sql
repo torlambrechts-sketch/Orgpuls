@@ -10,7 +10,10 @@
 --     reaches the planned rounds and never an open one (5)
 --   * the respondent reads the round's wording, statements and count questions alike (6)
 --   * an open round's wording is fixed, and a published module's rule is (7)
---   * nothing written here survives (8)
+--   * a client cannot write a round's wording itself; a change of the registered industry reaches
+--     the planned rounds; a round still on a retired version does not stop the choice; the
+--     screen is told where the wording came from (8)
+--   * nothing written here survives (9)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/module_wording_invariants.sql
 
@@ -59,7 +62,8 @@ begin
       'sources', '[]'::jsonb,
       'wording', '{"modes":["barnehage","skole","begge"],"default":"begge","tokens":{},
                    "auto_from_nace":{"85.1":"barnehage","85.2":"skole","85.3":"skole","88.911":"barnehage"}}'::jsonb,
-      'factors', jsonb_build_array(jsonb_build_object('id', 'f', 'name', 'F', 'summary', 'S', 'rationale', 'R',
+      'factors', jsonb_build_array(jsonb_build_object('id', 'f', 'name', 'F barn og elever', 'summary', 'S', 'rationale', 'R',
+        'name_variants', '{"barnehage":"F barn","skole":"F elever"}'::jsonb,
         'rationale_sources', '[]'::jsonb, 'legal_basis', '[]'::jsonb,
         'items', jsonb_build_array(
           format(item, 'PO-FF-1', 'barna eller elevene 1', 'barna 1', 'elevene 1')::jsonb,
@@ -153,9 +157,11 @@ begin
     from jsonb_array_elements(v_json->'modules') mo, jsonb_array_elements(mo->'statements') s
     where mo->>'name' = 'Probe';
     v_txt := v_txt || ',' || (select c->>'text' from jsonb_array_elements(v_json->'modules') mo, jsonb_array_elements(mo->'count') c
-                              where mo->>'name' = 'Probe');
-    v_rows := v_rows || jsonb_build_object('seq', 6, 'name', 'the form gives the round''s wording, statements and count questions alike',
-      'expected', 'barna 1|barna 2|barna 3,et barn', 'actual', v_txt, 'pass', v_txt = 'barna 1|barna 2|barna 3,et barn');
+                              where mo->>'name' = 'Probe')
+      || ',' || (select string_agg(distinct s->>'factor', '|') from jsonb_array_elements(v_json->'modules') mo, jsonb_array_elements(mo->'statements') s
+                 where mo->>'name' = 'Probe');
+    v_rows := v_rows || jsonb_build_object('seq', 6, 'name', 'the form gives the round''s wording: statements, count questions and the factor''s name',
+      'expected', 'barna 1|barna 2|barna 3,et barn,F barn', 'actual', v_txt, 'pass', v_txt = 'barna 1|barna 2|barna 3,et barn,F barn');
 
     -- 7 ---------------------------------------------------------------- fixed
     perform set_config('request.jwt.claims', format(claims, v_dl), true);
@@ -163,7 +169,8 @@ begin
     begin
       update app.round_modules set wording = 'skole' where round_id = v_open and module_id = v_mod;
       v_txt := 'changed';
-    exception when restrict_violation then v_txt := 'refused';
+    -- no client may write the column at all (0083's column grants), let alone on an open round
+    exception when restrict_violation or insufficient_privilege then v_txt := 'refused';
     end;
     reset role;
     begin
@@ -174,17 +181,58 @@ begin
     v_rows := v_rows || jsonb_build_object('seq', 7, 'name', 'an open round''s wording and a published module''s rule are fixed',
       'expected', 'refused,refused', 'actual', v_txt, 'pass', v_txt = 'refused,refused');
 
+    -- 8 ---------------------------------------------------------------- the wording is not a client's to write
+    perform set_config('request.jwt.claims', format(claims, v_vo), true);
+    set local role authenticated;
+    begin
+      update app.round_modules set wording = 'begge' where round_id = v_planned and module_id = v_mod;
+      v_txt := 'written';
+    exception when insufficient_privilege then v_txt := 'refused';
+    end;
+    reset role;
+    -- back to the suggestion; then the registered industry changes to a school's
+    perform set_config('request.jwt.claims', format(claims, v_dl), true);
+    set local role authenticated;
+    perform public.set_org_module_wording(v_org, 'probe-ord', null);
+    v_txt := v_txt || ',' || (public.org_module_wordings(v_org)->'wordings'->'probe-ord'->>'source');
+    reset role;
+    update app.organizations set registry_nace_code = '85.201' where id = v_org;
+    v_txt := v_txt || ',' || (select rm.wording from app.round_modules rm where rm.round_id = v_planned and rm.module_id = v_mod);
+    update app.organizations set registry_nace_code = '62.010' where id = v_org;
+    set local role authenticated;
+    v_txt := v_txt || ',' || (public.org_module_wordings(v_org)->'wordings'->'probe-ord'->>'source');
+    reset role;
+    -- a planned round still on a version since retired does not stop the choice
+    perform app.module_seed(jsonb_build_object(
+      'module_id', 'probe-ord', 'version', '0.0.2', 'name', 'Probe', 'description', 'Probe 2', 'estimated_minutes', 1,
+      'scale', '{}'::jsonb, 'scoring', '{}'::jsonb, 'anonymity', '{"min_responses": 5, "can_lower": false}'::jsonb,
+      'sources', '[]'::jsonb,
+      'wording', '{"modes":["barnehage","skole","begge"],"default":"begge","tokens":{},"auto_from_nace":{"85.1":"barnehage"}}'::jsonb,
+      'factors', jsonb_build_array(jsonb_build_object('id', 'f', 'name', 'F', 'summary', 'S', 'rationale', 'R',
+        'rationale_sources', '[]'::jsonb, 'legal_basis', '[]'::jsonb,
+        'items', jsonb_build_array(
+          format(item, 'PO-FF-1', 'a', 'b', 'c')::jsonb, format(item, 'PO-FF-2', 'a', 'b', 'c')::jsonb, format(item, 'PO-FF-3', 'a', 'b', 'c')::jsonb),
+        'action_suggestions', '[]'::jsonb)),
+      'count_items', '[]'::jsonb, 'segments', '[]'::jsonb), repeat('9', 64));
+    perform app.module_set_status('probe-ord', '0.0.2', 'published');
+    perform app.module_set_status('probe-ord', '0.0.1', 'retired');
+    set local role authenticated;
+    v_txt := v_txt || ',' || coalesce(public.set_org_module_wording(v_org, 'probe-ord', 'barnehage')->>'wording', 'failed');
+    reset role;
+    v_rows := v_rows || jsonb_build_object('seq', 8, 'name', 'no client writes the wording; the industry code reaches planned rounds; a retired version stops nothing; the source is told',
+      'expected', 'refused,nace,skole,default,barnehage', 'actual', v_txt, 'pass', v_txt = 'refused,nace,skole,default,barnehage');
+
     perform set_config('request.jwt.claims', '', true);
     raise exception 'rollback-probe';
   exception when others then
     if sqlerrm <> 'rollback-probe' then raise; end if;
   end;
 
-  -- 8 ------------------------------------------------------------------ nothing survives
+  -- 9 ------------------------------------------------------------------ nothing survives
   v_txt := (not exists (select 1 from app.question_modules where key in ('probe-ord', 'probe-uten'))
             and not exists (select 1 from auth.users where email like '%@mwi-test.example')
             and (select o.registry_nace_code is not distinct from v_nace from app.organizations o where o.id = v_org))::text;
-  v_rows := v_rows || jsonb_build_object('seq', 8, 'name', 'every probe change was rolled back', 'expected', 'true', 'actual', v_txt, 'pass', v_txt = 'true');
+  v_rows := v_rows || jsonb_build_object('seq', 9, 'name', 'every probe change was rolled back', 'expected', 'true', 'actual', v_txt, 'pass', v_txt = 'true');
 
   insert into public._mwi
   select (x->>'seq')::int, x->>'name', x->>'expected', x->>'actual', (x->>'pass')::boolean from jsonb_array_elements(v_rows) x;
@@ -197,7 +245,7 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._mwi;
   if v_failed is not null then raise exception 'module wording invariants failed: %', v_failed; end if;
-  if v_count <> 8 then raise exception 'module wording invariants: expected 8 rows, got %', v_count; end if;
+  if v_count <> 9 then raise exception 'module wording invariants: expected 9 rows, got %', v_count; end if;
 end $$;
 
 drop table public._mwi;
