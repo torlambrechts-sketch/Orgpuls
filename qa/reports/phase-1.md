@@ -54,9 +54,10 @@ D-127.
 | --- | --- | --- | --- | --- | --- |
 | email-invite-nb | desktop | qa/screenshots/p1/p1.3/email-invite-nb-desktop.png | pass | pass | Piotr (Polish, not offered): bokmål throughout, link without `?lang` |
 | email-invite-en | desktop | qa/screenshots/p1/p1.3/email-invite-en-desktop.png | pass | pass | Eva: English throughout, including the footer; the link opens the survey in English |
-| sms-invite-nb | txt | qa/screenshots/p1/p1.3/sms-invite-nb.txt | — | pass | 159 characters, 1 segment, GSM-7 |
-| sms-invite-en | txt | qa/screenshots/p1/p1.3/sms-invite-en.txt | — | pass | 183 characters, 2 segments, GSM-7 |
+| sms-invite-nb | txt | qa/screenshots/p1/p1.3/sms-invite-nb.txt | — | pass | 161 characters, 2 segments, GSM-7, with the production address (https://www.orgpuls.com). With an organisation name of 8 characters it is one character over a single segment; this predates phase 1, because the bokmål link carries no `?lang` |
+| sms-invite-en | txt | qa/screenshots/p1/p1.3/sms-invite-en.txt | — | pass | 185 characters, 2 segments, GSM-7 |
 
+- The captures use the production address, as the dispatcher's ORGPULS_APP_URL is (verified by digest), so they show what an employee receives.
 - Unit tests check all four personal kinds (invitation, reminder, second reminder, the
   asked-for link) in both languages, each within two segments with the link whole.
 - The dispatcher decides with the flags it runs with. None are set in production, so

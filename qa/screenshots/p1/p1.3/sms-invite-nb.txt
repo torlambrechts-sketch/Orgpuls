@@ -1,3 +1,3 @@
-Hei! Lumio AS spør hvordan du har det på jobb. Svaret er helt anonymt: http://localhost:3100/s/qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+Hei! Lumio AS spør hvordan du har det på jobb. Svaret er helt anonymt: https://www.orgpuls.com/s/qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
 
--- 159 characters, 1 segment(s), GSM-7
+-- 161 characters, 2 segment(s), GSM-7

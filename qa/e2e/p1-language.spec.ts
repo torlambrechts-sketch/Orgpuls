@@ -71,7 +71,8 @@ test.describe('respondent language @respondent @p1.2', () => {
  */
 const cat = { no: no.mail, en: en.mail } as unknown as MailCatalogue
 const TOKEN = 'q'.repeat(64)
-const APP = 'http://localhost:3100'
+// the production address, as ORGPULS_APP_URL is on the dispatcher: the capture shows what an employee gets
+const APP = 'https://www.orgpuls.com'
 const job = (lang: string): NoticeJob => ({
   id: 'qa',
   kind: 'invitasjon',
