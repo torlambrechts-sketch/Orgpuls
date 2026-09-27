@@ -6,16 +6,16 @@ import type { IndustryPage } from './types'
  * by code, in the «begge» wording, «barna eller elevene»; the question page switches between
  * the three (D-131). Every figure carries its source.
  *
- * Not launched: its law items wait for review in admin › Legal review, and the module is a
- * draft until then. The brief's opplæringsloven item said «verifiser paragrafer»; it names the
- * sections now (§ 12-4, § 13-4, checked against Lovdata 2026-09-27), still for Tor to approve.
+ * Launched 2026-09-27, with the module published: Tor approved its law items, and every other
+ * legal text, in admin › Legal review. The brief's opplæringsloven item said «verifiser
+ * paragrafer»; it names the sections (§ 12-4, § 13-4, checked against Lovdata 2026-09-27).
  * Parts the template needs and the brief does not write (the loop's steps, the module overview's
  * closing note, the question page's rules) follow helse og omsorg's, in this industry's words.
  */
 export const barnehageOgSkole: IndustryPage = {
   slug: 'barnehage-og-skole',
   navLabel: 'Barnehage og skole',
-  launched: false,
+  launched: true,
   module: { key: 'barnehage-og-skole', version: '1.0.0' },
   moduleName: { title: 'Barnehage- og skolemodulen', inline: 'barnehage- og skolemodulen' },
   seo: {
@@ -125,28 +125,28 @@ export const barnehageOgSkole: IndustryPage = {
       {
         ref: 'aml § 4-3 (6)',
         text: 'Arbeidstaker skal, så langt det er mulig, beskyttes mot vold, trusler og uheldige belastninger som følge av kontakt med andre – også barn og elever.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         // kap. 23A was repealed on 1 January 2026; kap. 3A (§§ 3A-1–3A-6) replaces it
         ref: 'Forskriften kap. 3A',
         text: 'Der ansatte kan utsettes for vold eller trusler, skal risikoen vurderes, og det skal finnes tiltak, opplæring og oppfølging.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'Opplæringsloven §§ 12-4 og 13-4',
         text: 'Skolen har aktivitetsplikt for et trygt og godt skolemiljø, også ved mobbing og krenkelser, og personalet kan gjøre fysiske inngrep for å avverge at noen blir skadet.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'Barnehageloven §§ 42 og 46',
         text: 'Barnehagen skal sikre et trygt og godt psykososialt miljø og har opplysningsplikt til barnevernet.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'aml §§ 4-4 og 10-9',
         text: 'Støy og ergonomiske belastninger skal holdes forsvarlige, og ansatte har rett til pauser.',
-        reviewed: false,
+        reviewed: true,
       },
     ],
   },

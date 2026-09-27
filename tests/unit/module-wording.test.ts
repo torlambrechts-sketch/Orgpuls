@@ -124,7 +124,8 @@ describe('the published modules', () => {
   it('hash as they did when published, whatever the schema learned since', () => {
     // hosted app.question_modules.content_hash, 2026-09-27; module_seed refuses a published version whose hash moved
     expect(contentHash(parseModule(raw('bygg-og-anlegg')))).toBe('fd6d9da1aa3bc80418529b7ea99d839a47939e8a647b6a4c877e435534059a74')
-    // 1.0.0 is kept under archive/ while its successor is a draft (content/industries/modules.ts)
+    expect(contentHash(parseModule(raw('barnehage-og-skole')))).toBe('7c3bfaf54c38ba8b14a035015b6963997388ed4c67fbc368d290161eafbfa815')
+    // 1.0.0, retired, is kept under archive/ for this pin (content/industries/modules.ts)
     expect(contentHash(parseModule(raw('helse-og-omsorg', 'archive/v1.0.0.json')))).toBe('65bd7f1be7464ab233b9b3c81c775deb90d62248f210773d7fb0dcfab8af99b6')
   })
 

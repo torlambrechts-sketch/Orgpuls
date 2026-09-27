@@ -2133,9 +2133,20 @@ Tor, 2026-09-27: "Build the whole engineering queue, and prepare helse 1.0.1".
   section, each audited) and the English survey (172 items, helse 1.0.1's 41 among them). Nothing
   of X-068 is open but retiring 1.0.0.
 
+### X-069 — Barnehage og skole launched; helse og omsorg 1.0.0 retired
+
+Tor, 2026-09-27: "Launch barnehage og skole and publish the module", and "Retire helse 1.0.0".
+
+- **Barnehage og skole is live.** The module (1.0.0, content hash 7c3bfaf5…, the same as the file)
+  is published on the hosted project, and /barnehage-og-skole and its question page are launched:
+  in the sitemap, the «Bransjer» menu and the hub, with no preview banner. Its five law items are
+  marked reviewed; their approved hashes in admin › Legal review were checked equal to the texts
+  before and after. There is no English page (the module has no translation).
+- **Helse og omsorg 1.0.0 is retired.** No round asked it. 1.0.1 is the only version offered; the
+  1.0.0 file stays under modules/helse-og-omsorg/archive/ only for its pinned hash.
+
 ## Open items
 - [ ] The multilingual guide: Tor's ten decisions (X-067, docs/implementation/multilingual-gap-analysis.md); the engineering queue is built (X-068, D-132).
-- [ ] Barnehage og skole: its law items are approved (13:40, with every legal text); launching the page and publishing the module wait for Tor's word (X-066, D-131).
 - [ ] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131).
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).
 - [ ] A ready-to-send check before a round opens (channel coverage, groups under the threshold, information and consultation done); the reach count on Målinger › Innstillinger is its first half (D-126).

@@ -77,7 +77,7 @@ describe('industry pages', () => {
   })
 
   it('the health module names the core instrument word for word (D-122)', () => {
-    const m = moduleFile('helse-og-omsorg', '1.0.0')
+    const m = moduleFile('helse-og-omsorg', '1.0.1')
     const factor = (no as unknown as { factor: Record<string, Record<string, string>> }).factor
     const labels = new Set(Object.values(factor).map((f) => f.label))
     const statements = new Set(Object.values(factor).flatMap((f) => ['s1', 's2', 's3'].map((s) => f[s])))

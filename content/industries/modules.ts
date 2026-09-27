@@ -1,7 +1,6 @@
 import barnehageV1 from '@/modules/barnehage-og-skole/v1.json'
 import byggV1 from '@/modules/bygg-og-anlegg/v1.json'
 import helseV1 from '@/modules/helse-og-omsorg/v1.json'
-import helseV100 from '@/modules/helse-og-omsorg/archive/v1.0.0.json'
 import { parseModule, type ModuleFile } from '@/lib/modules/schema'
 
 /**
@@ -19,9 +18,8 @@ import { parseModule, type ModuleFile } from '@/lib/modules/schema'
  */
 const FILES: Record<string, unknown> = {
   'bygg-og-anlegg@1.0.0': byggV1,
-  // 1.0.1 corrects the legal basis only (kap. 23A → 3A, kap. 14 → 23), published 2026-09-27 and
-  // quoted by the pages; 1.0.0 is kept while it is still published (drop both lines once retired)
-  'helse-og-omsorg@1.0.0': helseV100,
+  // 1.0.1 corrects 1.0.0's legal basis (kap. 23A → 3A, kap. 14 → 23); 1.0.0 was retired on
+  // 2026-09-27 and is kept at modules/helse-og-omsorg/archive/ only for its pinned hash
   'helse-og-omsorg@1.0.1': helseV1,
   'barnehage-og-skole@1.0.0': barnehageV1,
 }
@@ -31,10 +29,8 @@ export type PageLang = 'no' | 'en'
 /** Every module version with a file here, as `key@version` (the legal review lists their legal basis) */
 export const MODULE_VERSIONS = Object.keys(FILES)
 
-/** Where a version's file is, for the legal review's «source» */
-const ARCHIVED = new Set(['helse-og-omsorg@1.0.0'])
-export const moduleSource = (key: string, version: string) =>
-  ARCHIVED.has(`${key}@${version}`) ? `modules/${key}/archive/v${version}.json` : `modules/${key}/v${version.split('.')[0]}.json`
+/** Where a version's file is, for the legal review's «source» (a version kept under archive/ has no page) */
+export const moduleSource = (key: string, version: string) => `modules/${key}/v${version.split('.')[0]}.json`
 
 export function moduleFile(key: string, version: string, lang: PageLang = 'no'): ModuleFile {
   const raw = FILES[`${key}@${version}`]
