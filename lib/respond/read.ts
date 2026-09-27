@@ -2,6 +2,7 @@ import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { parseFailed } from '@/lib/supabase/read'
+import { COUNT_ANSWERS } from '@/lib/respond/answers'
 
 /**
  * Reading the respondent form.
@@ -54,7 +55,9 @@ const Form = z.object({
             options: z.array(z.string()).min(3).max(4),
             text_en: z.string().nullish(),
             options_en: z.array(z.string().nullable()).nullish(),
-          }),
+            // the answer each option is stored as; handel's «Jobber aldri alene» is ikke_aktuelt (0090)
+            answers: z.array(z.enum(COUNT_ANSWERS)).min(3).max(4),
+          }).refine((q) => q.answers.length === q.options.length, 'one answer per option'),
         ),
         segments: z.array(
           z.object({

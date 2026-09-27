@@ -1,5 +1,6 @@
 import barnehageV1 from '@/modules/barnehage-og-skole/v1.json'
 import byggV1 from '@/modules/bygg-og-anlegg/v1.json'
+import handelV1 from '@/modules/handel/v1.json'
 import helseV1 from '@/modules/helse-og-omsorg/v1.json'
 import kontorV1 from '@/modules/kunnskap-og-kontor/v1.json'
 import { parseModule, type ModuleFile } from '@/lib/modules/schema'
@@ -24,6 +25,7 @@ const FILES: Record<string, unknown> = {
   'helse-og-omsorg@1.0.1': helseV1,
   'barnehage-og-skole@1.0.0': barnehageV1,
   'kunnskap-og-kontor@1.0.0': kontorV1,
+  'handel@1.0.0': handelV1,
 }
 
 export type PageLang = 'no' | 'en'

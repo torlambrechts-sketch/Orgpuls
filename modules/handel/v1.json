@@ -1,0 +1,578 @@
+{
+  "module_id": "handel",
+  "version": "1.0.0",
+  "locale": "nb-NO",
+  "name": "Handel",
+  "validation_status": "provisional",
+  "description": "Tilleggsmodul for varehandel: butikk, lager og netthandel. Åtte faktorer med tre påstander hver, pluss to spørsmål som bare rapporteres som antall.",
+  "nace_prefixes": [
+    "46",
+    "47"
+  ],
+  "estimated_minutes": 3,
+  "scale": {
+    "type": "likert5",
+    "labels": [
+      "Helt uenig",
+      "Litt uenig",
+      "Verken eller",
+      "Litt enig",
+      "Helt enig"
+    ],
+    "to_index": {
+      "1": 0,
+      "2": 25,
+      "3": 50,
+      "4": 75,
+      "5": 100
+    }
+  },
+  "scoring": {
+    "factor_index": "mean of item indices",
+    "risk_bands": [
+      {
+        "band": "lav",
+        "min": 65
+      },
+      {
+        "band": "middels",
+        "min": 50,
+        "max": 64
+      },
+      {
+        "band": "høy",
+        "max": 49
+      }
+    ]
+  },
+  "anonymity": {
+    "min_responses": 5,
+    "can_lower": false,
+    "count_items_reported_at": "organisation_only",
+    "segments_require_min": 5,
+    "block_differencing": true
+  },
+  "relation_to_core": {
+    "covered_by_core_factors": [
+      "Emosjonelle krav",
+      "Arbeidsmengde og tidspress",
+      "Medvirkning og kontroll",
+      "Støtte fra leder",
+      "Støtte fra kollegaer",
+      "Integritet og verdighet"
+    ],
+    "core_count_items_reused": [
+      "vold_og_trusler_12m",
+      "krenkende_atferd"
+    ]
+  },
+  "factors": [
+    {
+      "id": "sikkerhet_tyveri_trusler",
+      "name": "Sikkerhet ved tyveri, trusler og ran",
+      "summary": "Om rutinene er kjent, om hjelpen kommer raskt, og om man blir fulgt opp etterpå.",
+      "rationale": "28 prosent av butikkansatte i Fafos undersøkelse hadde opplevd vanskelige situasjoner med tyveri det siste året, og 12 prosent verbale trusler så alvorlige at de ble redde. I Oslo økte butikktyveriene med 60 prosent i 2025. I Danmark har fire av ti butikkansatte selv konfrontert en tyv, og blant dem har 13 prosent blitt truet og 10 prosent utsatt for vold.",
+      "rationale_sources": [
+        "regj_natt",
+        "oslo_politi",
+        "dk_tyveri2026"
+      ],
+      "legal_basis": [
+        "aml § 4-3 sjette ledd (vern mot vold, trusler og uheldige belastninger fra kontakt med andre)",
+        "forskrift om utførelse av arbeid kap. 23A (risikovurdering, tiltak, opplæring og oppfølging ved fare for vold og trusler)"
+      ],
+      "items": [
+        {
+          "id": "HA-SI-1",
+          "text": "Vi har klare rutiner for hva vi gjør ved tyveri, trusler og ran",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HA-SI-2",
+          "text": "Jeg kan raskt få hjelp hvis en situasjon i butikken blir truende",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HA-SI-3",
+          "text": "Etter en ubehagelig hendelse med en kunde får jeg oppfølging",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Hva gjør vi når …?",
+          "description": "Laget går gjennom tyveri, trusler og ran som scenarier, og blir enige om at ingen skal stoppe en tyv på egen hånd.",
+          "remeasure_item": "HA-SI-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Hjelp innen minutter",
+          "description": "Overfallsalarm og avtale med vaktselskap som testes hver måned, og en oppslått liste over hvem man ringer.",
+          "remeasure_item": "HA-SI-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Prat samme dag",
+          "description": "Leder tar en samtale med den som var involvert samme dag, og igjen etter en uke.",
+          "remeasure_item": "HA-SI-3"
+        }
+      ]
+    },
+    {
+      "id": "alene_pa_vakt",
+      "name": "Alene på vakt",
+      "summary": "Om man er trygg, får pauser og kan nå noen når man jobber alene.",
+      "rationale": "En av tre butikkansatte jobber alene noen ganger eller oftere. En tredjedel av virksomhetene med alenearbeid har ikke gjort en egen risikovurdering av det. Blant HK-medlemmer som jobbet alene, opplevde nær 60 prosent ofte stress, og 42 prosent følte seg ofte ensomme.",
+      "rationale_sources": [
+        "regj_natt"
+      ],
+      "legal_basis": [
+        "aml § 4-1 (fullt forsvarlig arbeidsmiljø)",
+        "aml § 10-9 (pauser)",
+        "krav om å vurdere særlig risiko ved alenearbeid (forskrift om organisering, ledelse og medvirkning – verifiser paragraf)"
+      ],
+      "items": [
+        {
+          "id": "HA-AL-1",
+          "text": "Når jeg jobber alene, føler jeg meg trygg",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HA-AL-2",
+          "text": "Jeg får tatt pauser, også når jeg jobber alene",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HA-AL-3",
+          "text": "Leder eller en kollega er lett å nå når jeg jobber alene",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Alene – hva kan skje?",
+          "description": "Leder og verneombud går gjennom alenevaktene og vurderer risikoen sammen med dem som går dem.",
+          "remeasure_item": "HA-AL-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Pause og innsjekk",
+          "description": "Alenevakter har fast pausetidspunkt og en avtalt innsjekk med leder eller en annen butikk.",
+          "remeasure_item": "HA-AL-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Alltid nåbar",
+          "description": "Det er alltid kjent hvem som kan nås på telefon under alenevakter, også kveld og helg.",
+          "remeasure_item": "HA-AL-3"
+        }
+      ]
+    },
+    {
+      "id": "grenser_mot_kunder",
+      "name": "Grenser mot kunder",
+      "summary": "Om man får støtte når kunder går over grensen – også ved seksuell oppmerksomhet.",
+      "rationale": "28 prosent av de ansatte i detaljhandelen er ofte eller av og til i konflikt med kunder, mot 16 prosent i arbeidslivet ellers, og 38 prosent blant de yngste. Uønsket seksuell oppmerksomhet – nesten alltid fra kunder – rammer 12 prosent av kvinnene i detaljhandelen, og bare et mindretall melder fra. I Storbritannia er nesten åtte av ti butikkansatte blitt skjelt ut det siste året.",
+      "rationale_sources": [
+        "regj_natt",
+        "usdaw2025"
+      ],
+      "legal_basis": [
+        "aml § 4-3 sjette ledd",
+        "likestillings- og diskrimineringsloven § 13 (arbeidsgiver skal forebygge og søke å hindre seksuell trakassering)"
+      ],
+      "items": [
+        {
+          "id": "HA-KU-1",
+          "text": "Jeg får støtte fra leder når en kunde oppfører seg krenkende",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HA-KU-2",
+          "text": "Det er greit å avslutte en samtale med en kunde som går over grensen",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HA-KU-3",
+          "text": "Seksuelle kommentarer eller berøring fra kunder blir tatt på alvor og ikke bortforklart",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Hvor går grensen?",
+          "description": "Laget blir enige om hvordan de møter sjikane og seksuelle kommentarer fra kunder, med egne eksempler.",
+          "remeasure_item": "HA-KU-2"
+        },
+        {
+          "type": "rutine",
+          "title": "Meld det ubehagelige også",
+          "description": "En enkel melding som også gjelder seksuell oppmerksomhet, og en gjennomgang på personalmøtet hver måned.",
+          "remeasure_item": "HA-KU-3"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Leder tar over",
+          "description": "Leder eller ansvarshavende overtar krevende kunder, så den ansatte ikke står alene.",
+          "remeasure_item": "HA-KU-1"
+        }
+      ]
+    },
+    {
+      "id": "bemanning_og_tempo",
+      "name": "Bemanning og tempo",
+      "summary": "Om bemanningen følger travle tider, og om det er tydelig hva som kan vente.",
+      "rationale": "I Storbritannia er kundenes frustrasjon over for lite bemanning den vanligste utløseren for sjikane og trusler mot butikkansatte. Bemanning handler derfor både om arbeidsmengde og om sikkerhet.",
+      "rationale_sources": [
+        "usdaw2025"
+      ],
+      "legal_basis": [
+        "aml § 4-3 (arbeidsmengde og tidspress)",
+        "aml § 4-1"
+      ],
+      "items": [
+        {
+          "id": "HA-BE-1",
+          "text": "Bemanningen er tilpasset hvor travelt det er gjennom dagen",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HA-BE-2",
+          "text": "Jeg har tid til både kundene og de andre oppgavene",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HA-BE-3",
+          "text": "Når det er travelt, er det tydelig hva som kan vente",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Topper og daler",
+          "description": "Laget sammenligner travle tider med bemanningsplanen og foreslår endringer.",
+          "remeasure_item": "HA-BE-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Prioriteringsliste",
+          "description": "En kort liste over hva som alltid gjøres, og hva som kan vente, på travle vakter.",
+          "remeasure_item": "HA-BE-3"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Leder i kassa",
+          "description": "Leder eller ansvarshavende går inn i kassa når køen bygger seg opp.",
+          "remeasure_item": "HA-BE-2"
+        }
+      ]
+    },
+    {
+      "id": "vaktplan",
+      "name": "Vaktplan og forutsigbarhet",
+      "summary": "Om vaktplanen kommer i god tid, og om man kan påvirke vaktene.",
+      "rationale": "Nesten halvparten av de ansatte i varehandelen jobber utenom vanlig dagtid. Blant tillitsvalgte og verneombud i butikk sier 39 prosent at de har svært liten påvirkning på arbeidsplanene, og 72 prosent svært liten påvirkning på åpningstidene.",
+      "rationale_sources": [
+        "regj_natt"
+      ],
+      "legal_basis": [
+        "aml § 10-3 (arbeidsplan, drøftes med tillitsvalgte)",
+        "aml § 10-2 (arbeidstidsordninger)",
+        "aml § 10-8 (hviletid)"
+      ],
+      "items": [
+        {
+          "id": "HA-AV-1",
+          "text": "Jeg får vaktplanen i god tid",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HA-AV-2",
+          "text": "Jeg kan påvirke hvilke vakter jeg jobber",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HA-AV-3",
+          "text": "Endringer i vaktene på kort varsel er unntaket",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Ønskevakter",
+          "description": "Laget lager en enkel ordning for å melde ønsker til vaktplanen, innenfor bemanningsbehovet.",
+          "remeasure_item": "HA-AV-2"
+        },
+        {
+          "type": "rutine",
+          "title": "Fast frist for vaktplan",
+          "description": "Vaktplanen publiseres alltid et fast antall uker før den gjelder.",
+          "remeasure_item": "HA-AV-1"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Spør før du endrer",
+          "description": "Leder spør før en vakt endres, og endrer bare på kort varsel når det er nødvendig.",
+          "remeasure_item": "HA-AV-3"
+        }
+      ]
+    },
+    {
+      "id": "stilling_og_tilhorighet",
+      "name": "Stilling og tilhørighet",
+      "summary": "Om man har stillingen man ønsker, får med seg beskjeder og hører til.",
+      "rationale": "Nær 40 prosent i varehandelen jobber deltid, og over en tredjedel i detaljhandelen er under 25 år. Butikkansatte rapporterer lavere engasjement og tilhørighet enn arbeidslivet ellers. Blant de unge som har butikk som hovedjobb og jobber deltid, har om lag halvparten ikke fått tilbud om heltid.",
+      "rationale_sources": [
+        "regj_natt"
+      ],
+      "legal_basis": [
+        "aml § 14-3 (fortrinnsrett for deltidsansatte)",
+        "aml § 14-4 a (rett til stilling tilsvarende faktisk arbeidstid)"
+      ],
+      "items": [
+        {
+          "id": "HA-ST-1",
+          "text": "Jeg har den stillingsstørrelsen jeg ønsker",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HA-ST-2",
+          "text": "Jeg får med meg viktig informasjon, selv om jeg jobber lite eller på ulike tider",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HA-ST-3",
+          "text": "Jeg føler meg som en del av arbeidsmiljøet her",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Møteplass for alle vakter",
+          "description": "En kort samling som legges slik at også de som jobber lite eller på kveld, kan være med.",
+          "remeasure_item": "HA-ST-3"
+        },
+        {
+          "type": "rutine",
+          "title": "Beskjeder som når alle",
+          "description": "Én fast kanal for viktige beskjeder, som leses av alle uansett vakt og stilling.",
+          "remeasure_item": "HA-ST-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Tilby før du lyser ut",
+          "description": "Ekstra timer og ledige stillingsandeler tilbys deltidsansatte først, slik fortrinnsretten krever.",
+          "remeasure_item": "HA-ST-1"
+        }
+      ]
+    },
+    {
+      "id": "opplaering",
+      "name": "Opplæring og nye på jobb",
+      "summary": "Om nye får opplæring før de står alene, og vet hva de skal gjøre ved hendelser.",
+      "rationale": "28 prosent av butikkansatte har ikke fått opplæring i å håndtere ran, trusler eller tyveri. Gjennomtrekken er stor: nær halvparten av elevene og studentene i butikk har under ett års ansiennitet.",
+      "rationale_sources": [
+        "regj_natt"
+      ],
+      "legal_basis": [
+        "aml § 3-2 (opplæring og instruksjon)",
+        "forskrift om utførelse av arbeid kap. 23A (opplæring ved fare for vold og trusler)"
+      ],
+      "items": [
+        {
+          "id": "HA-OP-1",
+          "text": "Nye får opplæring før de står alene i butikken",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HA-OP-2",
+          "text": "Jeg har fått opplæring i hva jeg skal gjøre ved tyveri, trusler eller ran",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HA-OP-3",
+          "text": "Jeg vet hvem jeg kan spørre når jeg er usikker",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Første vakt",
+          "description": "Laget lager sin egen sjekkliste for hva en ny må kunne før første vakt alene.",
+          "remeasure_item": "HA-OP-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Sikkerhet før første kveldsvakt",
+          "description": "Alle får opplæring i tyveri, trusler og ran før de går sin første kvelds- eller alenevakt.",
+          "remeasure_item": "HA-OP-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Fadder de første ukene",
+          "description": "Alle nye får en navngitt fadder de første ukene.",
+          "remeasure_item": "HA-OP-3"
+        }
+      ]
+    },
+    {
+      "id": "fysisk_arbeid",
+      "name": "Fysisk arbeid og hjelpemidler",
+      "summary": "Om hjelpemidlene finnes og brukes, og om man kan variere arbeidsstillingen.",
+      "rationale": "Butikkansatte jobber oftere med armene løftet (29 mot 15 prosent), på huk og med tunge løft enn arbeidslivet ellers, og flere er fysisk utmattet etter jobb.",
+      "rationale_sources": [
+        "regj_natt"
+      ],
+      "legal_basis": [
+        "aml § 4-4 (fysiske arbeidsmiljøfaktorer)",
+        "forskrift om utførelse av arbeid kap. 14 (ergonomiske belastninger)"
+      ],
+      "items": [
+        {
+          "id": "HA-FY-1",
+          "text": "Vi har hjelpemidler til tunge løft og varemottak",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HA-FY-2",
+          "text": "Vi har tid til å bruke hjelpemidlene, også når det er travelt",
+          "reverse": false,
+          "pulse_eligible": true
+        },
+        {
+          "id": "HA-FY-3",
+          "text": "Jeg kan variere arbeidsstillingen i løpet av vakten",
+          "reverse": false,
+          "pulse_eligible": true
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Varemottak uten vondt i ryggen",
+          "description": "En gjennomgang av varemottak og påfylling med bedriftshelsetjenesten.",
+          "remeasure_item": "HA-FY-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Rullering",
+          "description": "Fast rullering mellom kasse, påfylling og lager i løpet av vakten.",
+          "remeasure_item": "HA-FY-3"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Hjelpemiddel først",
+          "description": "Leder følger opp at hjelpemidlene brukes, og bestiller det som mangler innen en uke.",
+          "remeasure_item": "HA-FY-2"
+        }
+      ]
+    }
+  ],
+  "count_items": [
+    {
+      "id": "HA-T-1",
+      "text": "Har du de siste tre månedene vært med på en hendelse med tyveri, trusler eller vold som ikke ble meldt?",
+      "options": [
+        "Ja",
+        "Nei",
+        "Vet ikke"
+      ],
+      "why": "Viser hvor mye som ikke kommer fram i avvikssystemet. Hovedundersøkelsen teller allerede hvor mange som har opplevd vold eller trusler."
+    },
+    {
+      "id": "HA-T-2",
+      "text": "Har du de siste tre månedene jobbet alene i en situasjon der du følte deg utrygg?",
+      "options": [
+        "Ja",
+        "Nei",
+        "Jobber aldri alene"
+      ],
+      "answer_keys": [
+        "ja",
+        "nei",
+        "ikke_aktuelt"
+      ],
+      "asked_with": "alene_pa_vakt",
+      "why": "Viser om alenearbeidet oppleves som trygt, uten at noen butikk eller vakt kan pekes ut."
+    }
+  ],
+  "segments": [
+    {
+      "id": "arbeidssted",
+      "text": "Hvor jobber du mest?",
+      "options": [
+        "Butikk og kasse",
+        "Lager og varemottak",
+        "Kundeservice eller netthandel",
+        "Kontor eller administrasjon"
+      ],
+      "merge_rule": "Slå sammen minste kategorier med nærmeste når en har under 5 svar."
+    },
+    {
+      "id": "stillingsstorrelse",
+      "text": "Hvor stor stilling har du?",
+      "options": [
+        "Heltid",
+        "Deltid, 50 prosent eller mer",
+        "Deltid, under 50 prosent"
+      ],
+      "merge_rule": "Slå sammen de to deltidskategoriene når en har under 5 svar."
+    }
+  ],
+  "sources": [
+    {
+      "key": "regj_natt",
+      "title": "Arbeids- og inkluderingsdepartementet: Natt- og alenearbeid i varehandelen (2024), kap. 3 – med tall fra SSB/STAMI (LKU-A 2022) og Fafo (2024)",
+      "url": "https://www.regjeringen.no/no/dokumenter/natt-og-alenearbeid-i-varehandelen/id3051160/?ch=3"
+    },
+    {
+      "key": "usdaw2025",
+      "title": "Usdaw: Violence and abuse against retail shopworkers – survey results 2025 (fagforening, ikke tilfeldig utvalg)",
+      "url": "https://usdawlive.b-cdn.net/live/media/bzjmwbbt/fff-survey-report-2025.pdf"
+    },
+    {
+      "key": "dk_tyveri2026",
+      "title": "Dansk Erhverv og HK Handel: Stærkere værn mod butikstyveri (2026)",
+      "url": "https://www.danskerhverv.dk/presse-og-nyheder/nyheder/2026/maj/hk-handel-og-dansk-erhverv-i-oprab-til-kommende-regering-sadan-far-vi-et-starkere-varn-mod-butikstyveri"
+    },
+    {
+      "key": "dk_epinion",
+      "title": "TV 2 Kosmopol: Skældsord og trusler fra kunder er hverdagskost for butiksansatte (HK Handel/Epinion)",
+      "url": "https://www.tv2kosmopol.dk/lorryland/skaeldsord-og-trusler-fra-kunder-er-hverdagskost-butiksansatte"
+    },
+    {
+      "key": "oslo_politi",
+      "title": "Avisa Oslo: Polititallene for Oslo 2025 – 60 prosent økning i butikktyverier (2026)",
+      "url": "https://www.ao.no/polititallene-for-oslo-2025-60-prosent-okning-i-butikktyverier-og-nedgang-i-ungdomskriminaliteten/s/5-128-1258466"
+    }
+  ]
+}

@@ -2273,12 +2273,33 @@ Tor, 2026-09-27: "start på kunnskap og kontor".
   admin's status control, the front page block, menu, footer and sitemap entries), hiding office
   statements by work form (segments are not shipped), the report's variant footer, and handel.
 
+### X-074 — Handel: built and queued for review
+
+Tor, 2026-09-27: "bygg resten også, start på handel".
+
+- **Built** (D-138):
+  - the module file, from the handoff's, every text carried over verbatim;
+  - 0090: a count question may name the answer each option is stored as, and the factor it is
+    asked with. HA-T-2's «Jobber aldri alene» is kept out of the share, and the question goes
+    away where «Alene på vakt» is switched off;
+  - /handel and its question page, as a preview; the organisation's NACE 46 or 47 suggests the
+    module.
+- **Queued, as kunnskap og kontor is:** the module is a draft and the page a preview. Launching
+  needs Tor's approval of the six law items in admin › Legal review. The item on lone work has no
+  paragraph yet and must be checked against Lovdata (§ 5).
+- **Next, in this order:** the rest of innstillinger-og-forside.md (the Bransje setting, the admin's
+  status control, the front page block, menu, footer and sitemap), the report's variant footer, and
+  hiding the office statements for home workers.
+
 ## Open items
 - [ ] The multilingual guide: Tor's ten decisions (X-067, docs/implementation/multilingual-gap-analysis.md); the engineering queue is built (X-068, D-132).
 - [ ] Survey languages (X-070, X-071): machine drafts of all five are in admin › Translations. A translator per language revises them from the export (docs/translations/ has each language's open questions) and imports them back as *professional*. A methodologist decides where the official QPS Nordic Swedish and Danish replace a draft. The licence confirmation is needed before publishing under the QPS Nordic name.
 - [x] Kunnskap og kontor (X-066, X-071, X-073): the variant data model, the module and its pages are built (0089, D-137).
 - [ ] Launch kunnskap og kontor: Tor approves its six law items in admin › Legal review and the brief's open decisions (bransje-kunnskap-og-kontor.md § 8); then publish kunnskap-og-kontor@1.0.0 and set `launched: true`. Review at https://www.orgpuls.com/kunnskap-og-kontor?forhandsvis=1 and /kunnskap-og-kontor/sporsmal?forhandsvis=1. A pilot organisation can try it from admin › Moduler before that.
-- [ ] Kunnskap og kontor, still to build (D-137): the Bransje setting on the organisation, the admin's validation status control with its audit, the front page industry block, menu, footer and sitemap, the report's variant footer, and hiding the office statements for home workers once segments ship. Handel follows the same pattern.
+- [ ] Kunnskap og kontor, still to build (D-137): the Bransje setting on the organisation, the admin's validation status control with its audit, the front page industry block, menu, footer and sitemap, the report's variant footer, and hiding the office statements for home workers once segments ship.
+- [x] Handel (X-074): the module, a count question's own answers and factor (0090), and its pages are built (D-138).
+- [ ] Launch handel: Tor approves its six law items in admin › Legal review (the lone-work item needs its paragraph from Lovdata); then publish handel@1.0.0 and set `launched: true`. Review at https://www.orgpuls.com/handel?forhandsvis=1 and /handel/sporsmal?forhandsvis=1.
+- [ ] Before `module_factor_toggles` ships: the preview footnotes on /helse-og-omsorg and /handel describe one group without a factor, but factors are switched per round (D-138).
 - [ ] After the deploy of X-072: approve the English survey again in admin › Legal review (the survey pages' strings changed: «Ikke relevant for meg»). Until then English respondents get bokmål.
 - [ ] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131).
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).

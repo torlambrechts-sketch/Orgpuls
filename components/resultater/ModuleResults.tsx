@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { getTranslations } from 'next-intl/server'
 import type { Module } from '@/lib/modules/read'
 import type { CountTotals, ModuleResults as Results } from '@/lib/modules/results'
+import { COUNT_ANSWERS } from '@/lib/respond/answers'
 import { heatTone } from '@/lib/results/tone'
 import { NOT_RELEVANT_FLAG, notRelevantShare } from '@/lib/results/resultater'
 import { ModuleSuggestions } from './ModuleSuggestions'
@@ -204,11 +205,12 @@ export async function ModuleResults({
           <p className="m-0 mt-[6px] max-w-[640px] text-[13px] leading-[1.55] text-mut [text-wrap:pretty]">{t('countLead')}</p>
           <ul className="m-0 mt-[12px] list-none p-0">
             {totals.items.map((i) => {
-              const parts = [
-                { label: i.options[0] ?? '', n: i.n_ja, bg: '#EC9B77' },
-                { label: i.options[1] ?? '', n: i.n_nei, bg: '#B5DAD4' },
-                { label: i.options[2] ?? '', n: i.n_vet_ikke, bg: '#E8DFC9' },
-              ]
+              // by the answer each option is stored as: an option that says the question does not
+              // apply (ikke_aktuelt) is not part of the share and is named under it (0089, 0090)
+              const keys = i.answers ?? COUNT_ANSWERS.slice(0, i.options.length)
+              const counted = { ja: { n: i.n_ja, bg: '#EC9B77' }, nei: { n: i.n_nei, bg: '#B5DAD4' }, vet_ikke: { n: i.n_vet_ikke, bg: '#E8DFC9' } }
+              const parts = keys.flatMap((k, o) => (k === 'ikke_aktuelt' ? [] : [{ label: i.options[o] ?? '', ...counted[k] }]))
+              const excluded = i.options[keys.indexOf('ikke_aktuelt')]
               return (
                 <li key={i.code} className="border-t border-line py-[12px]">
                   <div className="text-[13.5px] font-semibold leading-[1.45] [text-wrap:pretty]">{i.text}</div>
@@ -227,7 +229,7 @@ export async function ModuleResults({
                         ))}
                         <span className="text-mut">{t('countTotal', { n: i.n_total })}</span>
                       </div>
-                      {i.options[3] ? <div className="mt-[4px] text-[12px] text-mut">{t('countExcluded', { label: i.options[3] })}</div> : null}
+                      {excluded ? <div className="mt-[4px] text-[12px] text-mut">{t('countExcluded', { label: excluded })}</div> : null}
                     </>
                   )}
                 </li>

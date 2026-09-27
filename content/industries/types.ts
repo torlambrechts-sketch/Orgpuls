@@ -24,7 +24,7 @@ export type ResultPreview = {
 }
 
 export type IndustryPage = {
-  slug: 'bygg-og-anlegg' | 'helse-og-omsorg' | 'barnehage-og-skole' | 'kunnskap-og-kontor'
+  slug: 'bygg-og-anlegg' | 'helse-og-omsorg' | 'barnehage-og-skole' | 'kunnskap-og-kontor' | 'handel'
   navLabel: string
   /**
    * Live on the public site. Until then the address keeps its current landing page and this

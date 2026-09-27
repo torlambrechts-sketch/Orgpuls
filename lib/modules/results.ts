@@ -3,6 +3,7 @@ import { getLocale } from 'next-intl/server'
 import { cache } from 'react'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { COUNT_ANSWERS } from '@/lib/respond/answers'
 import { parseFailed, readFailed } from '@/lib/supabase/read'
 
 /**
@@ -69,6 +70,8 @@ const Totals = z.object({
       text_en: En,
       options: z.array(z.string()),
       options_en: EnList,
+      // the answer each option is stored as (0090); by position where a database predates it
+      answers: z.array(z.enum(COUNT_ANSWERS)).nullish(),
       suppressed: z.boolean(),
       n_total: z.coerce.number().nullable(),
       n_ja: z.coerce.number().nullable(),

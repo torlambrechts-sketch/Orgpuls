@@ -73,6 +73,7 @@ const PUBLIC_PATHS = [
   '/helse-og-omsorg',
   '/barnehage-og-skole',
   '/kunnskap-og-kontor',
+  '/handel',
   '/plattform',
   '/hvorfor',
   '/bruksomrader',

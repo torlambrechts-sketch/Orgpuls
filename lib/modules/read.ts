@@ -5,6 +5,7 @@ import { getLocale } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { parseFailed, readFailed } from '@/lib/supabase/read'
 import { pickWording, WORDINGS, type Wording, type WordingVariants } from './wording'
+import { COUNT_ANSWERS, type CountAnswer } from '@/lib/respond/answers'
 
 /**
  * The industry modules, as the product reads them (0067, D-111).
@@ -74,6 +75,8 @@ const ItemRow = z.object({
   sort: z.coerce.number(),
   core_indicator: z.boolean().default(false),
   help: Locale.nullable().default(null),
+  answer_keys: z.array(z.enum(COUNT_ANSWERS)).nullable().default(null),
+  asked_with: z.string().uuid().nullable().default(null),
 })
 const MemberRow = z.object({ factor_id: z.string().uuid(), item_id: z.string().uuid(), sort: z.coerce.number() })
 const VariantRow = z.object({
@@ -112,6 +115,10 @@ export type ModuleItem = {
   core?: boolean
   /** a line under the statement for the respondent */
   help?: string
+  /** a count question: the answer each option is stored as (0090) */
+  answers?: CountAnswer[]
+  /** a count question asked only where this factor (its id) is asked, e.g. HA-T-2 (0090) */
+  askedWith?: string
 }
 export type ModuleAction = {
   id: string
@@ -206,7 +213,7 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
       .select('id, module_id, key, name, summary, rationale, rationale_sources, legal_basis, sort, i18n, variant_key, code, optional, extended_only, built_from')
       .in('module_id', ids),
     supabase.schema('app').from('module_items')
-      .select('id, module_id, factor_id, code, kind, text, options, sort, core_indicator, help').in('module_id', ids),
+      .select('id, module_id, factor_id, code, kind, text, options, sort, core_indicator, help, answer_keys, asked_with').in('module_id', ids),
     supabase.schema('app').from('module_action_suggestions')
       .select('id, module_id, factor_id, type, title, description, remeasure_item_id, sort, i18n').in('module_id', ids),
     supabase.schema('app').from('module_sources').select('module_id, key, title, url, sort').in('module_id', ids),
@@ -245,6 +252,8 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
       options: (r.options ?? []).map(pick),
       ...(r.core_indicator ? { core: true } : {}),
       ...(r.help ? { help: pick(r.help) } : {}),
+      ...(r.kind === 'count' ? { answers: r.answer_keys ?? COUNT_ANSWERS.slice(0, (r.options ?? []).length) } : {}),
+      ...(r.asked_with ? { askedWith: r.asked_with } : {}),
       // the wordings are Norwegian: a reader shown the English text has no use for them
       ...(!(en && r.text.en) && typeof b === 'string' && typeof s === 'string' ? { variants: { barnehage: b, skole: s } } : {}),
     }

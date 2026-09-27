@@ -6384,3 +6384,71 @@ innstillinger-og-forside.md § 2 (the variant data model, PR A), with parts of P
     - Spørsmålssett: the variant, the factor picker, its minimum, and the counts 59 and 62;
     - the page and its switch: 62 statements, and exactly 24 with «Vis bare forenklet»;
     - `respond_form` in both variants.
+
+## D-138 — Handel: the module, a count question's own answers, and its page (0090)
+
+Tor, 2026-09-27: "bygg resten også, start på handel". From the handoff's bransje-handel.md. The
+module is asked one way, eight factors of three, like bygg and helse.
+
+- **HA-T-2's third answer is «Jobber aldri alene», not «Vet ikke»,** and the brief says it «teller
+  ikke med i andelen» (§ 5).
+  - Count answers were positional: ja, nei, vet_ikke, then 0089's ikke_aktuelt. The option would
+    have been stored as «vet ikke» and counted in the share.
+  - A count question may now name the answer each option is stored as (`answer_keys` in the file,
+    `module_items.answer_keys` in 0090). HA-T-2's are ja, nei, ikke_aktuelt, and 0089 already
+    keeps ikke_aktuelt out of the share.
+  - Every reader goes by the key: the form sends it, the write path accepts only the question's own
+    keys, and the totals return them. Resultater names the excluded option under the bar. The
+    report writes «Ja: … Nei: … Av … svar» with no «Vet ikke» where the question offers none.
+- **HA-T-2 belongs with «Alene på vakt»** (§ 6.5, «kontroller at HA-T-2 ikke vises når faktoren er
+  av»).
+  - A count question may name the factor it is asked with (`asked_with`). It is asked only where
+    one of that factor's statements is: in the form, in the write path, in the totals and in the
+    leader's preview. So switching the factor off in Måleoppsett (`module_factor_toggles`) takes
+    the question away too.
+- **The two fields are the only additions to the handoff's file.** Every text is carried over
+  verbatim. The fields are optional and absent in every other file, so no other module's content
+  hash moved (checked: barnehage 7c3bfaf54c38, bygg fd6d9da1aa3b, helse 0ca1bfee9c8b, kunnskap og
+  kontor d21d2bd0db83).
+- **The page is the brief's § 2, in the repository's page type.**
+  - `law` becomes the template's law block. Its heading and intro follow the other industries'.
+  - «Følelsene i kundemøtet» points at the core factor Emosjonelle krav, statements 1–3.
+  - The loop example is the brief's. Its steps, the overview's closing note and the question page's
+    words follow the other industries', in this one's words.
+  - The page is not launched: the module is a provisional draft and the six law items are
+    unreviewed. One item, on lone work, names no paragraph («hjemmel verifiseres»), as the brief
+    does. The page shows only with `?forhandsvis=1`.
+  - `card` and `sortOrder` belong to the front page's industry block (§ 6 of innstillinger-og-
+    forside.md). They are taken up there.
+- **The preview's warehouse column** shows «–» for «Alene på vakt» and «Grenser mot kunder», and
+  the brief's footnote says they were not asked there. As on /helse-og-omsorg (D-122), the two rows
+  and that sentence depend on `module_factor_toggles`.
+  - Factor toggles are per round, not per group. Before that flag ships to production, the
+    sentence needs rewording for both pages, or the example needs a round without those factors.
+- **Not built:**
+  - *Merging small segment categories* (`merge_rule`, § 3): segments are not shipped
+    (`module_segments` is off). The rule stays in the file, unparsed.
+  - *The end-to-end test with a 47.110 organisation* (§ 6.5). Its parts are covered separately:
+    - the suggestion by NACE is a unit test;
+    - the factor switched off and the question gone, «vet ikke» refused and «Jobber aldri alene»
+      out of the share are `count_answer_keys_invariants.sql`;
+    - the form, results and report were checked in the browser on the QA stack.
+  - *The module's texts in the survey languages* (§ 5): they join the catalogue once the module is
+    published.
+- **Tests:**
+  - `count_answer_keys_invariants.sql`, 7 rows. It covers:
+    - handel as seeded;
+    - the database's refusals;
+    - the form with and without the factor;
+    - what the write path takes;
+    - the share;
+    - the freeze;
+    - rollback.
+  - `tests/unit/module-handel.test.ts`: the file, the schema's rules for the two fields, and NACE
+    46 and 47.
+  - Verified in the browser on the QA stack, with Lumio piloting the draft on its open round (rows
+    removed afterwards):
+    - /handel and its question page at 1280 and 390;
+    - the respondent screen for HA-T-2 at 390, and with «Alene på vakt» off, HA-T-2 is gone;
+    - Resultater: «Ja: 2 · Nei: 3 · 5 svar, «Jobber aldri alene» er holdt utenfor andelen»;
+    - the report line.

@@ -102,7 +102,9 @@ export default async function PreviewPage({ searchParams }: { searchParams: Prom
           ? m.countItems
               // the round's variant's count questions (0089)
               .filter((i) => !rm.variantKey || !!m.variants.find((v) => v.key === rm.variantKey)?.countItems.includes(i.code))
-              .map((i) => ({ item: i.id, text: i.text, options: i.options }))
+              // and of its factors: HA-T-2 only where «Alene på vakt» is asked (0090)
+              .filter((i) => !i.askedWith || !!m.factors.find((f) => f.id === i.askedWith)?.items.some((s) => rm.itemIds.includes(s.id)))
+              .map((i) => ({ item: i.id, text: i.text, options: i.options, answers: i.answers ?? [] }))
           : [],
         segments: rm.includeSegments ? m.segments.map((i) => ({ item: i.id, text: i.text, options: i.options })) : [],
       },

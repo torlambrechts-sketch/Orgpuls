@@ -892,6 +892,7 @@
       "countHead": "Telles for hele virksomheten",
       "countSuppressed": "Vises ikke: færre enn {threshold} har svart.",
       "countLine": "Ja: {ja}. Nei: {nei}. Vet ikke: {vetIkke}. Av {total} svar.",
+      "countLineYesNo": "Ja: {ja}. Nei: {nei}. Av {total} svar.",
       "footer": "{name} v{version}"
     }
   },

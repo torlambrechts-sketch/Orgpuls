@@ -892,6 +892,7 @@
       "countHead": "Counted for the whole organisation",
       "countSuppressed": "Not shown: fewer than {threshold} answered.",
       "countLine": "Yes: {ja}. No: {nei}. Don’t know: {vetIkke}. Of {total} answers.",
+      "countLineYesNo": "Yes: {ja}. No: {nei}. Of {total} answers.",
       "footer": "{name} v{version}"
     }
   },

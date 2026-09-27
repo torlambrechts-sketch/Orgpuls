@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { submitResponse, type SubmitResult } from '@/app/s/[token]/actions'
 import { ThreadLinks } from './ThreadLinks'
-import { COUNT_ANSWERS } from '@/lib/respond/answers'
+import type { CountAnswer } from '@/lib/respond/answers'
 import { bcp47 } from '@/lib/i18n/locales'
 
 /**
@@ -66,6 +66,8 @@ export type Question =
   | ({
       /** counted only for the whole organisation; the lead says so before it is answered */
       kind: 'count'
+      /** the answer each option is sent as (0090) */
+      answers: CountAnswer[]
     } & LeadQuestion)
   | ({
       /** an optional background question, used only to compare groups of at least k */
@@ -145,7 +147,7 @@ export function RespondFlow({
     const extra = []
     const mod = {
       answers: [] as ({ item: string; value: number } | { item: string; na: true })[],
-      count: [] as { item: string; answer: (typeof COUNT_ANSWERS)[number] }[],
+      count: [] as { item: string; answer: CountAnswer }[],
       segments: [] as { item: string; option: number }[],
     }
     for (const q of questions) {
@@ -155,7 +157,7 @@ export function RespondFlow({
         if (q.kind === 'module') mod.answers.push(value === NOT_RELEVANT ? { item: q.item, na: true } : { item: q.item, value })
         else if (q.kind === 'segment') mod.segments.push({ item: q.item, option: value })
         else {
-          const answer = COUNT_ANSWERS[value - 1]
+          const answer = q.answers[value - 1]
           if (answer) mod.count.push({ item: q.item, answer })
         }
       } else if (q.kind === 'factor') {

@@ -3,6 +3,7 @@ import { byggOgAnlegg } from './bygg-og-anlegg'
 import { byggOgAnleggEn } from './bygg-og-anlegg.en'
 import { helseOgOmsorg } from './helse-og-omsorg'
 import { helseOgOmsorgEn } from './helse-og-omsorg.en'
+import { handel } from './handel'
 import { kunnskapOgKontor } from './kunnskap-og-kontor'
 import type { PageLang } from './modules'
 import type { IndustryPage } from './types'
@@ -25,6 +26,8 @@ export const INDUSTRIES: IndustryEntry[] = [
   { slug: 'barnehage-og-skole', page: barnehageOgSkole, pageEn: null },
   // Norwegian only, and a preview until launched: the module is a provisional draft (D-137)
   { slug: 'kunnskap-og-kontor', page: kunnskapOgKontor, pageEn: null },
+  // Norwegian only, and a preview until launched: the module is a provisional draft (D-138)
+  { slug: 'handel', page: handel, pageEn: null },
 ]
 
 export const getIndustry = (slug: string): IndustryEntry | null => INDUSTRIES.find((i) => i.slug === slug) ?? null

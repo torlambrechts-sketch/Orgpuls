@@ -876,7 +876,9 @@ export async function RapportScreen({ view }: { view: RapportView }) {
                     {c.text}{' '}
                     {c.suppressed || c.total === null
                       ? t('rapport.module.countSuppressed', { threshold: m.threshold })
-                      : t('rapport.module.countLine', { ja: c.ja ?? 0, nei: c.nei ?? 0, vetIkke: c.vetIkke ?? 0, total: c.total })}
+                      : c.vetIkke === null
+                        ? t('rapport.module.countLineYesNo', { ja: c.ja ?? 0, nei: c.nei ?? 0, total: c.total })
+                        : t('rapport.module.countLine', { ja: c.ja ?? 0, nei: c.nei ?? 0, vetIkke: c.vetIkke, total: c.total })}
                   </p>
                 ))}
               </>

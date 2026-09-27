@@ -70,6 +70,7 @@ export function respondQuestions(
         lead: t('respond.countLead', { count: countTotal }),
         text: reg(`module:${q.item}`, pick(q.text, q.text_en)),
         choices: picks(q.options, q.options_en).map((label, i) => ({ ordinal: i + 1, label: reg(`module:${q.item}:o${i + 1}`, label) })),
+        answers: q.answers,
       }),
     ),
   )

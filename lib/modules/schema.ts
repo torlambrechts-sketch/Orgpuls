@@ -90,6 +90,20 @@ const CountItem = z.object({
    * says so (e.g. «Jobber ikke fast hjemmefra"), which is kept out of the share (0089)
    */
   options: z.array(Text).min(3).max(4),
+  /**
+   * The answer each option is stored as, where the third is not «Vet ikke» (0090): handel's
+   * «Jobber aldri alene» is `ikke_aktuelt`, kept out of the share. Absent, the options are
+   * ja, nei, vet_ikke and ikke_aktuelt by position.
+   */
+  answer_keys: z
+    .union([
+      z.tuple([z.literal('ja'), z.literal('nei'), z.literal('vet_ikke')]),
+      z.tuple([z.literal('ja'), z.literal('nei'), z.literal('ikke_aktuelt')]),
+      z.tuple([z.literal('ja'), z.literal('nei'), z.literal('vet_ikke'), z.literal('ikke_aktuelt')]),
+    ])
+    .optional(),
+  /** asked only where this factor is asked, e.g. HA-T-2 with «Alene på vakt» (0090) */
+  asked_with: FactorKey.optional(),
   why: Text.optional(),
   /** a module in variants: the variants that ask it */
   variants: z.array(VariantKey).min(1).optional(),
@@ -272,7 +286,11 @@ export const ModuleFile = z
         if (!sourceKeys.has(k)) issue(['factors', fi, 'rationale_sources', si], `unknown source ${k}`)
       })
     })
-    m.count_items.forEach((c, ci) => seen(c.id, ['count_items', ci, 'id']))
+    m.count_items.forEach((c, ci) => {
+      seen(c.id, ['count_items', ci, 'id'])
+      if (c.answer_keys && c.answer_keys.length !== c.options.length) issue(['count_items', ci, 'answer_keys'], 'one answer per option')
+      if (c.asked_with && !m.factors.some((f) => f.id === c.asked_with)) issue(['count_items', ci, 'asked_with'], `unknown factor ${c.asked_with}`)
+    })
     const segIds = new Set<string>()
     m.segments.forEach((s, si) => {
       if (segIds.has(s.id)) issue(['segments', si, 'id'], `duplicate segment ${s.id}`)

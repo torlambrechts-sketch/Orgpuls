@@ -314,7 +314,8 @@ async function reportModules(roundId: string | null): Promise<RapportView['modul
       suppressed: c.suppressed,
       ja: c.n_ja,
       nei: c.n_nei,
-      vetIkke: c.n_vet_ikke,
+      // null where the question offers no «vet ikke» (handel's HA-T-2, 0090)
+      vetIkke: (c.answers ?? ['ja', 'nei', 'vet_ikke']).includes('vet_ikke') ? c.n_vet_ikke : null,
       total: c.n_total,
     })),
   }))
