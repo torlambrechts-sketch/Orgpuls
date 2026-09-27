@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/server'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { callFailed } from '@/lib/supabase/read'
 import { MEMBER_ROLES } from '@/lib/members/roles'
+import { outboundBase } from '@/lib/hosts'
 
 /**
  * Member management on the Roller tab. Every write is one of 0028's functions, which hold
@@ -29,12 +30,15 @@ const Invite = z.object({
   group: z.string().uuid().nullable(),
 })
 
-/** The link is built from the address the request came in on, so a preview links to itself. */
+/**
+ * The invitation leaves the browser: the daglig leder sends it on by hand. So its host is one
+ * that works for the person who receives it (lib/hosts.ts outboundBase) — a production host as
+ * itself, loopback only on a local run, and anything else, such as a Vercel preview that shares
+ * the production database, the main address.
+ */
 async function origin(): Promise<string> {
   const h = await headers()
-  const host = h.get('x-forwarded-host') ?? h.get('host') ?? 'www.orgpuls.com'
-  const proto = h.get('x-forwarded-proto') ?? (host.startsWith('localhost') ? 'http' : 'https')
-  return `${proto}://${host}`
+  return outboundBase(h.get('x-forwarded-host') ?? h.get('host'), h.get('x-forwarded-proto'))
 }
 
 export async function inviteMember(_prev: InviteResult, formData: FormData): Promise<InviteResult> {
