@@ -90,3 +90,16 @@ a minute apart would difference one person's yes or no.
 | `pnpm modules:seed` writes to the database | `npm run -s modules:seed > seed.sql`, then `psql`. The SQL calls `app.module_seed(json, hash)`. | The same pattern as the design fixture. The mapping from file to rows is versioned in the migration. |
 | Publish in production after sign-off | `npm run -s modules:publish <key> <version>`, or the admin's audited Publish button | Not run until Tor signs off the open decisions. |
 | UI copy only in bokmål | Module wording (statements, factors, suggestions) is bokmål in the registry, as the spec's locale map says. Product UI around it (headings, buttons) goes through next-intl in `no` and `en`, because CLAUDE.md requires every UI string in both. | Where they conflict, CLAUDE.md wins. |
+
+## 4. The engagement hand-off (engagement-phases.md), mapped
+
+| Document | Here | Notes |
+| --- | --- | --- |
+| `surveys` | `app.rounds` (+ `app.measurements`) | `intro_message` and `results_publish_date` become round columns when phase 2 adds them |
+| Roles «HR», «tillitsvalgt» | `daglig_leder`, `verneombud` | CLAUDE.md's three roles stand (DECISION_LOG 2026-09-26) |
+| Actions | `app.measures` | "owner's role" is the owner employee's `duty_role` |
+| Items / translations | `app.statements` + messages (`factor.*.sN`), module items `{nb, en}` | Phase 1's registry sits beside these, not in place of them |
+| Tokens | `app.invitations.token_hash` (SHA-256) | New per-person tokens use unlinkable one-use keys, never counters on a token row (DECISION_LOG 2026-09-26) |
+| Participation | `public.participation` | Per group only at or above k, since 0073 (D-123) |
+| Flags | lib/flags.ts, `ORGPULS_FLAGS` | `*` in QA |
+| QA tenant | scripts/qa/seed.mjs, Lumio AS 999999981 | Local stack only (D-121) |
