@@ -323,7 +323,8 @@
       "kommende": "Kommende",
       "historikk": "Historikk",
       "arshjul": "Årshjul",
-      "sporsmal": "Spørsmålssett"
+      "sporsmal": "Spørsmålssett",
+      "innstillinger": "Innstillinger"
     },
     "table": {
       "round": "Måling · {count, plural, one {# måling} other {# målinger}}",
@@ -421,6 +422,120 @@
       "seeAll": "Se hele spørsmålssettet",
       "toggle": "Bruk {module} i hovedmålingene",
       "show": "Vis faktorene og påstandene ({count})"
+    },
+    "innstillinger": {
+      "intro": "Her setter dere standarden for målingene: hvordan de ansatte får undersøkelsen, hva den spør om, og når den stenger. Hver ny måling får standarden, og i Måleoppsett kan dere endre den for én måling.",
+      "statusSaved": "Standarden ble sist endret {date}. Planlagte målinger som følger den, flyttes med når den endres.",
+      "statusNone": "Ingen standard er lagret ennå. Til dere lagrer, bruker nye målinger innstillingene produktet anbefaler, som vist her.",
+      "readOnly": "Bare daglig leder kan endre standarden. Du ser den slik den er.",
+      "s1": "1 · Hvem får undersøkelsen, og hvordan",
+      "reachHead": "Hvem kan nås",
+      "reachLine": "{reachable} av {total} ansatte kan nås",
+      "reachEmail": "{count, plural, one {# med e-post} other {# med e-post}}",
+      "reachPhoneSms": "{count, plural, one {# med bare mobil, nås på SMS} other {# med bare mobil, nås på SMS}}",
+      "reachPhoneNoSms": "{count, plural, one {# med bare mobil, nås ikke uten SMS} other {# med bare mobil, nås ikke uten SMS}}",
+      "reachNeither": "{count, plural, one {# uten e-post og mobil} other {# uten e-post og mobil}}",
+      "reachLink": "Rett opp i ansattlista",
+      "channelsHead": "Kanaler",
+      "email": {
+        "label": "E-post",
+        "note": "Hver ansatt med e-postadresse får sin egen lenke. Alltid på."
+      },
+      "sms": {
+        "label": "SMS",
+        "off": "Av. De som bare har mobilnummer, får ingen lenke.",
+        "on": {
+          "mangler": "På, for dem som ikke har e-post.",
+          "paaminn": "På, for påminnelsene.",
+          "alle": "På, for alle med mobilnummer."
+        },
+        "change": "Endre SMS",
+        "setUp": "Sett opp SMS"
+      },
+      "qr": {
+        "label": "QR-plakat",
+        "note": "Heng plakaten i brakka eller på pauserommet. Den ansatte skanner koden, skriver mobilnummer eller e-post og får sin egen lenke. Svaret er like anonymt som ellers, og hver ansatt kan bare svare én gang.",
+        "make": "Lag QR-plakat",
+        "open": "Åpne plakaten",
+        "renew": "Lag ny kode",
+        "renewNote": "En ny kode gjør at den gamle plakaten slutter å virke. Bruk det hvis plakaten har kommet på avveie.",
+        "none": "For dem som ikke leser e-post på jobb. Plakaten virker for hver måling dere åpner, så den kan henge.",
+        "noneReadOnly": "For dem som ikke leser e-post på jobb. Daglig leder lager plakaten.",
+        "failed": "Koden ble ikke laget. Prøv igjen."
+      },
+      "quiet": {
+        "label": "Stille timer",
+        "sub": "Ingen invitasjon eller påminnelse mellom kl. 21 og 07. En lenke noen ber om selv, går med en gang."
+      },
+      "s2": "2 · Hva undersøkelsen spør om",
+      "core": {
+        "label": "Hovedundersøkelsen",
+        "note": "Elleve faktorer, tre påstander hver. Låst, så tallene kan sammenlignes over tid.",
+        "link": "Se spørsmålene"
+      },
+      "extrasHead": "Tilleggsspørsmål i grunnlinjen",
+      "extrasLead": "Spørsmålene utenfor indeksen. En puls spør ikke om disse.",
+      "screening": "Dokumenterer lovkravet om vold, trusler og krenkende atferd. Kan tas ut, men da må dere begrunne det.",
+      "reasonLabel": "Hvorfor tas screeningen ut?",
+      "reasonNote": "Begrunnelsen lagres og vises sammen med målingen, så verneombudet og Arbeidstilsynet kan se den. Minst ti tegn.",
+      "modules": {
+        "label": "Bransjemoduler",
+        "on": "På: {modules}.",
+        "none": "Ingen er slått på.",
+        "link": "Velg i Spørsmålssett"
+      },
+      "s3": "3 · Svarfrist og påminnelser",
+      "closeGrunnlinje": "Grunnlinjen lukkes etter",
+      "closePuls": "En puls lukkes etter",
+      "closeNote": "Jobber dere turnus eller i perioder borte, bør svarfristen dekke en hel runde, så alle får svart.",
+      "final": {
+        "label": "Siste påminnelse dagen før fristen",
+        "sub": "Går bare til dem som ikke har svart. Systemet sender den, aldri en leder."
+      },
+      "s4": "4 · Etterpå",
+      "threshold": "Resultater vises bare for grupper der minst {k} har svart.",
+      "thresholdLink": "Endre terskel",
+      "logHead": "Endringer i standarden",
+      "logLine": "{date}: {fields}",
+      "logNone": "Ingen endringer ennå.",
+      "field": {
+        "close_days_grunnlinje": "svarfrist for grunnlinjen",
+        "close_days_puls": "svarfrist for puls",
+        "reminder_day": "påminnelse",
+        "final_reminder": "siste påminnelse",
+        "quiet_hours": "stille timer",
+        "comment_policy": "kommentarer",
+        "allow_dialogue": "samtale",
+        "extras": "tilleggsspørsmål",
+        "extras_off_reason": "begrunnelse"
+      },
+      "save": "Lagre standard",
+      "saving": "Lagrer …",
+      "saved": "Lagret.",
+      "savedRounds": "# planlagte målinger fulgte med.",
+      "problem": {
+        "reason_required": "Skriv en begrunnelse på minst ti tegn for å ta ut screeningen.",
+        "invalid": "Noe i skjemaet er ikke gyldig. Se over og prøv igjen.",
+        "not_allowed": "Bare daglig leder kan endre standarden.",
+        "failed": "Standarden ble ikke lagret. Prøv igjen."
+      }
+    },
+    "plakat": {
+      "back": "← Innstillinger",
+      "title": "QR-plakat",
+      "lead": "Skriv ut plakaten og heng den der folk som ikke leser e-post på jobb, ser den. Den virker for hver måling dere åpner.",
+      "print": "Skriv ut",
+      "sheetAria": "Plakaten",
+      "heading": "Hvordan har du det på jobb?",
+      "sub": "{org} kartlegger arbeidsmiljøet. Skann koden og få din egen lenke til undersøkelsen.",
+      "qrAria": "QR-kode til {url}",
+      "orGo": "Eller gå til",
+      "step1": "Skann koden med kameraet på telefonen.",
+      "step2": "Skriv mobilnummeret eller e-posten din, slik den står hos arbeidsgiveren.",
+      "step3": "Svar på lenken du får. Det tar noen minutter.",
+      "anonymous": "Svaret er anonymt. Ingen enkeltsvar kan spores tilbake til deg, og resultater vises bare for grupper der minst {k} har svart.",
+      "noneTitle": "Ingen QR-plakat ennå",
+      "noneLead": "Daglig leder lager plakaten under Målinger › Innstillinger."
     }
   },
   "extra": {
@@ -527,6 +642,30 @@
     "segmentLabel": "Frivillig",
     "segmentLead": "Frivillig: brukes bare til å sammenligne grupper med minst {threshold} svar",
     "doneTitleMinutes": "Takk. Det tok rundt {minutes} minutter."
+  },
+  "entry": {
+    "title": "Få lenken til undersøkelsen",
+    "lead": "Skriv mobilnummeret eller e-postadressen din, slik den står hos arbeidsgiveren. Du får din egen lenke, og svaret ditt er like anonymt som ellers.",
+    "leadEmail": "Skriv e-postadressen din, slik den står hos arbeidsgiveren. Du får din egen lenke, og svaret ditt er like anonymt som ellers.",
+    "field": "Mobilnummer eller e-post",
+    "fieldEmail": "E-postadresse",
+    "placeholder": "912 34 567 eller navn@firma.no",
+    "placeholderEmail": "navn@firma.no",
+    "submit": "Send meg lenken",
+    "sending": "Sender …",
+    "sentTitle": "Sjekk telefonen eller e-posten",
+    "sentLead": "Står nummeret eller adressen i ansattlista, og du ikke har svart ennå, får du lenken om et øyeblikk. Kommer den ikke, kan du spørre verneombudet eller lederen din om hva som står registrert.",
+    "sentLeadEmail": "Står adressen i ansattlista, og du ikke har svart ennå, får du lenken om et øyeblikk. Kommer den ikke, kan du spørre verneombudet eller lederen din om hva som står registrert.",
+    "again": "Prøv et annet nummer eller en annen adresse",
+    "invalid": "Det ser ikke ut som et mobilnummer eller en e-postadresse. Prøv igjen.",
+    "invalidEmail": "Det ser ikke ut som en e-postadresse. Prøv igjen.",
+    "busy": "Det er sendt mange forespørsler herfra. Vent noen minutter og prøv igjen.",
+    "failed": "Noe gikk galt. Prøv igjen om litt.",
+    "privacy": "Nummeret eller adressen brukes bare til å sende deg lenken, og lagres ikke sammen med svaret ditt. Ingen enkeltsvar kan spores tilbake til deg.",
+    "unknown": "Denne koden virker ikke",
+    "unknownLead": "Plakaten kan være gammel, eller koden feilskrevet. Spør verneombudet eller lederen din om en ny.",
+    "closed": "Ingen undersøkelse er åpen nå",
+    "closedLead": "Når {org} åpner neste undersøkelse, virker den samme plakaten igjen."
   },
   "rapport": {
     "backToInnsikt": "← Innsikt",
@@ -1032,7 +1171,8 @@
       "gone": "Målingen finnes ikke lenger.",
       "capped": "Fem egne spørsmål er taket.",
       "locked": "Målingen har startet, så spørsmålene kan ikke endres.",
-      "moduleFactorRequired": "Minst én faktor må være med."
+      "moduleFactorRequired": "Minst én faktor må være med.",
+      "reasonRequired": "Skriv en begrunnelse på minst ti tegn for å ta ut screeningen."
     },
     "ownSave": "Lagre",
     "cadenceKvartal": "Kvartalsvis",
@@ -1065,6 +1205,29 @@
       "locked": "Målingen har startet, så spørsmålene er låst. Endringer gjelder neste måling.",
       "summary": "Bransjemodul",
       "summaryValue": "{name} · {count} spørsmål til"
+    },
+    "perRound": {
+      "panelHead": "Tilleggsspørsmål i denne målingen",
+      "panelLead": "Spørsmålene utenfor indeksen. Påstandene i hovedundersøkelsen er låst og står i Spørsmålssett.",
+      "wording": "Se ordlyden i alle spørsmålene",
+      "screening": "Dokumenterer lovkravet om vold, trusler og krenkende atferd. Kan tas ut med en begrunnelse.",
+      "reasonLabel": "Hvorfor tas screeningen ut av denne målingen?",
+      "reasonNote": "Begrunnelsen lagres med målingen, så verneombudet og Arbeidstilsynet kan se den. Minst ti tegn.",
+      "saveExtras": "Lagre tilleggsspørsmål",
+      "pulse": "En puls spør bare om faktorene den måler. Påstandene står i Spørsmålssett.",
+      "standard": "Standard",
+      "changed": "Endret for denne målingen",
+      "reset": "Tilbake til standard",
+      "finalLabel": "Siste påminnelse dagen før fristen",
+      "finalSub": "Går bare til dem som ikke har svart.",
+      "smsHead": "SMS i denne målingen",
+      "smsNote": "E-post går alltid til dem som har adresse. Her velger dere hvem som også får lenken på SMS i denne målingen.",
+      "smsStandard": "Som virksomheten",
+      "sms": {
+        "mangler": "Bare de uten e-post",
+        "paaminn": "Påminnelsene",
+        "alle": "Alle med mobil"
+      }
     }
   },
   "arshjulet": {
@@ -2619,6 +2782,14 @@
       "lead": "Du har ikke svart på {round} ennå. Det tar noen få minutter, og hvert svar gjør resultatet mer til å stole på.",
       "replaces": "Bruk lenken i denne e-posten. Lenken i den forrige virker ikke lenger."
     },
+    "sistePaminnelse": {
+      "subject": "Siste dag i morgen: {round} i {org}",
+      "lead": "{round} stenger i morgen, og du har ikke svart ennå. Det tar noen få minutter."
+    },
+    "lenke": {
+      "subject": "Lenken du ba om: {round} i {org}",
+      "lead": "Her er lenken din til {round} i {org}, som du ba om fra plakaten. Har du ikke bedt om den, kan du se bort fra denne e-posten."
+    },
     "forvarsel": {
       "subject": "{round} i {org} starter {date}",
       "lead": "{org} sender ut {round} {date}.",
@@ -2664,7 +2835,9 @@
     },
     "sms": {
       "default": "Hei! {org} spør hvordan du har det på jobb. Svaret er helt anonymt:",
-      "reminder": "Påminnelse fra {org}: du har ikke svart ennå. Svarfrist {date}. Lenken i forrige melding virker ikke lenger. Svar anonymt her:"
+      "reminder": "Påminnelse fra {org}: du har ikke svart ennå. Svarfrist {date}. Lenken i forrige melding virker ikke lenger. Svar anonymt her:",
+      "link": "Her er lenken du ba om fra {org}. Svar anonymt her:",
+      "lastReminder": "Siste påminnelse fra {org}: undersøkelsen stenger {date}. Lenken i forrige melding virker ikke lenger. Svar anonymt her:"
     },
     "ticket": {
       "replyHint": "Svar på denne e-posten hvis du vil fortsette saken. Saksnummer #{number}.",

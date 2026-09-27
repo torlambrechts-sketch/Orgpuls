@@ -18,12 +18,18 @@ import { meanOf } from '@/lib/results/resultater'
 import { roundNamer } from '@/lib/rounds/design-name'
 import { getRoundFactorKeys, getRoundRows, withParticipation, type RoundListItem, type RoundRow } from '@/lib/rounds/read'
 import { getWheel } from '@/lib/wheel/read'
+import { Innstillinger } from '@/components/malinger/Innstillinger'
+import { getOrganization } from '@/lib/org/read'
+import { getSmsSettings } from '@/lib/settings/read'
+import type { DefaultsValues } from '@/app/(app)/malinger/innstillinger-actions'
+import { EXTRA_KEYS, PRODUCT_DEFAULTS, SCREENING, getDefaultsLog, getEntryCode, getReach, getSurveyDefaults } from '@/lib/settings/survey'
 
 /**
  * Målinger — design 3 (bundle `isMeasure`, v3 870-1330; logic `mData()`). D-74.
  *
  * One screen for everything measured: the year rail on top, then four tabs — Kommende,
- * Historikk, Årshjul (the Årshjulet screen, re-hosted) and Spørsmålssett. The tab and the
+ * Historikk, Årshjul (the Årshjulet screen, re-hosted) and Spørsmålssett — and Innstillinger,
+ * the organisation's standard for a survey (D-126). The tab and the
  * rail's year are the URL (`?fane=&ar=&maned=`), rendered here, so a mail that links to
  * `/arshjulet` lands on the Årshjul tab (308, next.config.ts).
  *
@@ -34,7 +40,7 @@ import { getWheel } from '@/lib/wheel/read'
  */
 export const dynamic = 'force-dynamic'
 
-const TABS = ['kommende', 'historikk', 'arshjul', 'sporsmal'] as const
+const TABS = ['kommende', 'historikk', 'arshjul', 'sporsmal', 'innstillinger'] as const
 
 const Params = z.object({
   fane: z.enum(TABS).optional().catch(undefined),
@@ -292,7 +298,7 @@ export default async function MalingerPage({
       : null,
   }
 
-  const counts: Record<MalingerTab, number> = {
+  const counts: Partial<Record<MalingerTab, number>> = {
     kommende: upcoming.length,
     historikk: closed.length,
     arshjul: cellsOf(now.y).filter((c) => c.state !== 'empty').length,
@@ -313,6 +319,7 @@ export default async function MalingerPage({
       {tab === 'historikk' ? <Historikk rows={[...history].reverse()} latestYear={latestG?.year ?? null} /> : null}
       {tab === 'arshjul' ? <ArshjulTab /> : null}
       {tab === 'sporsmal' ? <QuestionSet canEdit={role === 'daglig_leder'} /> : null}
+      {tab === 'innstillinger' ? <Settings canEdit={role === 'daglig_leder'} /> : null}
     </MalingerFrame>
   )
 }
@@ -394,5 +401,139 @@ async function QuestionSet({ canEdit }: { canEdit: boolean }) {
         }}
       />
     </div>
+  )
+}
+
+/**
+ * Målinger › Innstillinger (D-126): the organisation's standard, or the product's before one
+ * is saved, with the counts and states it depends on — who can be reached, the SMS rule, the
+ * QR code, the threshold, the question sets that are on. Everything is read; nothing here is
+ * a placeholder.
+ */
+async function Settings({ canEdit }: { canEdit: boolean }) {
+  const t = await getTranslations()
+  const locale = await getLocale()
+  const org = await getCurrentOrgId()
+  if (!org) return null
+  const [saved, log, code, reach, sms, organization, extras, published, chosen] = await Promise.all([
+    getSurveyDefaults(org),
+    getDefaultsLog(org),
+    getEntryCode(org),
+    getReach(),
+    getSmsSettings(),
+    getOrganization(),
+    getExtraQuestions(),
+    getPublishedModules(org),
+    getOrgModuleChoices(org),
+  ])
+  const k = (key: string, values?: Record<string, string | number>) => t(`malinger.innstillinger.${key}`, values)
+  const date = (iso: string) => new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', dateStyle: 'long' }).format(new Date(iso))
+  const values = saved ?? PRODUCT_DEFAULTS
+  const smsOn = sms?.enabled ?? false
+  const reachable = reach.email + (smsOn ? reach.phoneOnly : 0)
+  const on = published.filter((m) => chosen.has(m.key)).map((m) => m.name)
+  const list = (xs: string[]) => new Intl.ListFormat(locale, { type: 'conjunction' }).format(xs)
+  const field = (key: string) => (t.has(`malinger.innstillinger.field.${key}`) ? k(`field.${key}`) : key)
+
+  return (
+    <Innstillinger
+      initial={{
+        closeDaysGrunnlinje: values.closeDaysGrunnlinje,
+        closeDaysPuls: values.closeDaysPuls,
+        reminderDay: values.reminderDay,
+        finalReminder: values.finalReminder,
+        quietHours: values.quietHours,
+        commentPolicy: values.commentPolicy,
+        allowDialogue: values.allowDialogue,
+        extras: values.extras.filter((x): x is DefaultsValues['extras'][number] => (EXTRA_KEYS as readonly string[]).includes(x)),
+        extrasOffReason: values.extrasOffReason,
+      }}
+      canEdit={canEdit}
+      entryCode={code}
+      copy={{
+        intro: k('intro'),
+        status: saved ? k('statusSaved', { date: date(saved.updatedAt) }) : k('statusNone'),
+        readOnly: k('readOnly'),
+        s1: k('s1'),
+        reachHead: k('reachHead'),
+        reachLine: k('reachLine', { reachable, total: reach.total }),
+        reachParts: [
+          k('reachEmail', { count: reach.email }),
+          k(smsOn ? 'reachPhoneSms' : 'reachPhoneNoSms', { count: reach.phoneOnly }),
+          k('reachNeither', { count: reach.neither }),
+        ],
+        reachLink: k('reachLink'),
+        channelsHead: k('channelsHead'),
+        email: { label: k('email.label'), note: k('email.note') },
+        sms: {
+          label: k('sms.label'),
+          note: smsOn ? k(`sms.on.${sms?.when ?? 'mangler'}`) : k('sms.off'),
+          link: k(smsOn ? 'sms.change' : 'sms.setUp'),
+        },
+        qr: {
+          label: k('qr.label'),
+          note: k('qr.note'),
+          make: k('qr.make'),
+          open: k('qr.open'),
+          renew: k('qr.renew'),
+          renewNote: k('qr.renewNote'),
+          none: k(canEdit ? 'qr.none' : 'qr.noneReadOnly'),
+          failed: k('qr.failed'),
+        },
+        quiet: { label: k('quiet.label'), sub: k('quiet.sub') },
+        s2: k('s2'),
+        core: { label: k('core.label'), note: k('core.note'), link: k('core.link') },
+        extrasHead: k('extrasHead'),
+        extrasLead: k('extrasLead'),
+        extras: extras.map((e) => ({
+          key: e.key,
+          label: t(`extra.${e.key}.label`),
+          sub: (SCREENING as readonly string[]).includes(e.key) ? k('screening') : t(`extra.${e.key}.note`),
+          screening: (SCREENING as readonly string[]).includes(e.key),
+        })),
+        reasonLabel: k('reasonLabel'),
+        reasonNote: k('reasonNote'),
+        commentHead: t('maleoppsett.commentHead'),
+        commentLead: t('maleoppsett.commentLead'),
+        comments: (['hvert', 'lave', 'slutt', 'av'] as const).map((c) => ({
+          value: c,
+          label: t(`maleoppsett.comment.${c}.label`),
+          note: t(`maleoppsett.comment.${c}.note`),
+        })),
+        dialogue: t('maleoppsett.dialogue'),
+        modules: {
+          label: k('modules.label'),
+          note: on.length ? k('modules.on', { modules: list(on) }) : k('modules.none'),
+          link: k('modules.link'),
+        },
+        s3: k('s3'),
+        closeHeadGrunnlinje: k('closeGrunnlinje'),
+        closeHeadPuls: k('closePuls'),
+        closeNote: k('closeNote'),
+        closes: [5, 7, 14].map((d) => ({ value: d, label: t('maleoppsett.closeDays', { days: d }) })),
+        reminderHead: t('maleoppsett.reminderHead'),
+        reminders: [null, 2, 4].map((d) => ({
+          value: d,
+          label: d === null ? t('maleoppsett.reminderNone') : t('maleoppsett.reminderDay', { day: d }),
+        })),
+        final: { label: k('final.label'), sub: k('final.sub') },
+        s4: k('s4'),
+        threshold: k('threshold', { k: organization?.threshold ?? 5 }),
+        thresholdLink: k('thresholdLink'),
+        logHead: k('logHead'),
+        log: log.map((l) => k('logLine', { date: date(l.at), fields: list(l.keys.map(field)) })),
+        logNone: k('logNone'),
+        save: k('save'),
+        saving: k('saving'),
+        saved: k('saved'),
+        savedRounds: k('savedRounds'),
+        problems: {
+          reason_required: k('problem.reason_required'),
+          invalid: k('problem.invalid'),
+          not_allowed: k('problem.not_allowed'),
+          failed: k('problem.failed'),
+        },
+      }}
+    />
   )
 }

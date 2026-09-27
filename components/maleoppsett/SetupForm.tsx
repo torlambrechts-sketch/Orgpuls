@@ -1,11 +1,17 @@
 'use client'
 
+import type { Route } from 'next'
+import Link from 'next/link'
 import { useState, useTransition } from 'react'
 import { Button } from '@/components/ui/Button'
+import { CheckCard, CheckRow, Chip, RadioCard, Section } from '@/components/maleoppsett/controls'
 import {
   addOrgQuestion,
   removeOrgQuestion,
+  resetRoundSection,
   saveConsultation,
+  saveRoundDelivery,
+  saveRoundExtras,
   saveRoundModule,
   saveSetup,
   type SetupActionResult,
@@ -37,6 +43,38 @@ export interface Option {
   value: string
   label: string
   note?: string
+}
+
+/**
+ * The round's share of Målinger › Innstillinger (0076, D-126).
+ *
+ *   * `panel` is what "Se alle spørsmålene" opens: the questions outside the index, which a
+ *     grunnlinje asks and a round may leave out — the screening only with a reason.
+ *   * `standard` is set once the organisation has saved a standard, and marks each section
+ *     "Standard" or "Endret for denne målingen" with a way back. Before that there is no
+ *     standard to differ from, and the screen is the design's.
+ *   * `finalReminder` and `sms` are the round's second reminder and its SMS rule; the first
+ *     only once there is a standard, the second only while SMS is on.
+ */
+export interface PerRound {
+  panel: {
+    head: string
+    lead: string
+    wording: string
+    extras: { key: string; label: string; note: string; screening: boolean }[] | null
+    on: string[]
+    reason: string | null
+    reasonLabel: string
+    reasonNote: string
+    save: string
+    pulse: string
+  }
+  standard: null | {
+    differs: { rytme: boolean; kommentarer: boolean; tillegg: boolean; utsending: boolean }
+    labels: { standard: string; changed: string; reset: string }
+  }
+  finalReminder: null | { on: boolean; label: string; sub: string }
+  sms: null | { value: 'mangler' | 'paaminn' | 'alle' | null; head: string; note: string; options: { value: string; label: string }[] }
 }
 
 export interface SetupFormProps {
@@ -126,6 +164,8 @@ export interface SetupFormProps {
   moduleFactorToggles: boolean
   /** the round has opened, so its question set is fixed */
   locked: boolean
+  /** what the organisation's standard added to a round (0076, D-126) */
+  perRound: PerRound
   /**
    * Section 4's rhythm. A grunnlinje is one per year by construction and shows the one
    * chip; a puls shows the year wheel's pulse cadences, and picking one writes the wheel —
@@ -151,6 +191,13 @@ export function SetupForm(props: SetupFormProps) {
   const [problem, setProblem] = useState<string | null>(null)
   const [saved, setSaved] = useState(false)
   const [questionsOpen, setQuestionsOpen] = useState(false)
+  const pr = props.perRound
+  const [extrasOn, setExtrasOn] = useState<string[]>(pr.panel.on)
+  const [reason, setReason] = useState(pr.panel.reason ?? '')
+  const [finalOn, setFinalOn] = useState(pr.finalReminder?.on ?? false)
+  const [smsWhen, setSmsWhen] = useState<string>(pr.sms?.value ?? '')
+  const screeningOff = !(extrasOn.includes('krenkende') && extrasOn.includes('vold'))
+  const extrasOff = !canWrite || props.locked
   const [draft, setDraft] = useState('')
   const [drafting, setDrafting] = useState(false)
   const [pending, startTransition] = useTransition()
@@ -161,6 +208,46 @@ export function SetupForm(props: SetupFormProps) {
       setProblem(result.ok ? null : result.problem)
       setSaved(result.ok)
     })
+
+  /** A problem key from the functions of 0076, in the words this screen already has. */
+  const runKeyed = (fn: () => Promise<{ ok: true } | { ok: false; problem: string }>) =>
+    run(async () => {
+      const r = await fn()
+      if (r.ok) return r
+      const key = r.problem === 'not_allowed' ? 'denied' : r.problem === 'failed' ? 'invalid' : r.problem === 'reason_required' ? 'reasonRequired' : r.problem
+      return { ok: false, problem: key }
+    })
+
+  const toggleExtra = (key: string) => {
+    const next = extrasOn.includes(key) ? extrasOn.filter((k) => k !== key) : [...extrasOn, key]
+    setExtrasOn(next)
+    // with the screening in, a click is a save; without it, the reason has to come first
+    if (!extrasOff && next.includes('krenkende') && next.includes('vold')) {
+      runKeyed(() => saveRoundExtras(roundId, next, null))
+    }
+  }
+
+  const delivery = (next: { finalReminder?: boolean; smsWhen?: string }) => {
+    const f = next.finalReminder ?? finalOn
+    const w = next.smsWhen ?? smsWhen
+    setFinalOn(f)
+    setSmsWhen(w)
+    if (!canWrite || props.locked) return
+    run(() =>
+      saveRoundDelivery({ roundId, finalReminder: f, smsWhen: w === '' ? null : (w as 'mangler' | 'paaminn' | 'alle') }),
+    )
+  }
+
+  const reset = (section: 'rytme' | 'kommentarer' | 'tillegg' | 'utsending') => run(() => resetRoundSection(roundId, section))
+
+  const mark = (section: 'rytme' | 'kommentarer' | 'tillegg' | 'utsending') =>
+    pr.standard ? (
+      <StandardMark
+        changed={pr.standard.differs[section]}
+        labels={pr.standard.labels}
+        onReset={canWrite && !props.locked ? () => reset(section) : null}
+      />
+    ) : null
 
   /** Every section writes the whole setup, because the server parses the whole shape. */
   const save = (next: Partial<typeof v>) => {
@@ -274,6 +361,66 @@ export function SetupForm(props: SetupFormProps) {
           {labels.seeAll}
         </Button>
 
+        {questionsOpen ? (
+          <div className="mt-[14px] rounded-tile border border-line bg-bg px-[16px] py-[14px]">
+            <div className="flex flex-wrap items-center justify-between gap-[10px]">
+              <span className="text-[13.5px] font-semibold">{pr.panel.head}</span>
+              {pr.panel.extras ? mark('tillegg') : null}
+            </div>
+            <div className="mt-[3px] max-w-[560px] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
+              {pr.panel.extras ? pr.panel.lead : pr.panel.pulse}
+            </div>
+            {pr.panel.extras ? (
+              <div className="mt-[12px] flex flex-col gap-[8px]">
+                {pr.panel.extras.map((x) => (
+                  <CheckRow
+                    key={x.key}
+                    name={`round-extra-${x.key}`}
+                    label={x.label}
+                    sub={x.note}
+                    checked={extrasOn.includes(x.key)}
+                    disabled={extrasOff}
+                    className="bg-sf"
+                    onChange={() => toggleExtra(x.key)}
+                  />
+                ))}
+              </div>
+            ) : null}
+            {pr.panel.extras && screeningOff ? (
+              <div className="mt-[12px] max-w-[560px]">
+                <label className="block">
+                  <span className="block text-[13px] font-bold">{pr.panel.reasonLabel}</span>
+                  <span className="mt-[2px] block text-[12px] leading-[1.5] text-mut [text-wrap:pretty]">{pr.panel.reasonNote}</span>
+                  <textarea
+                    value={reason}
+                    disabled={extrasOff}
+                    minLength={10}
+                    maxLength={500}
+                    rows={3}
+                    onChange={(e) => setReason(e.target.value)}
+                    className="mt-[8px] w-full rounded-cta border-[1.5px] border-line bg-sf px-[13px] py-[10px] text-[14px] leading-[1.5] text-ink outline-none focus-visible:border-ink"
+                  />
+                </label>
+                {!extrasOff ? (
+                  <Button
+                    size="sm"
+                    tone="secondary"
+                    pad={15}
+                    className="mt-[8px] bg-sf"
+                    disabled={pending || reason.trim().length < 10}
+                    onClick={() => runKeyed(() => saveRoundExtras(roundId, extrasOn, reason.trim()))}
+                  >
+                    {pr.panel.save}
+                  </Button>
+                ) : null}
+              </div>
+            ) : null}
+            <Link href={'/malinger?fane=sporsmal' as Route} className="mt-[12px] inline-block text-[12.5px] font-semibold text-link">
+              {pr.panel.wording}
+            </Link>
+          </div>
+        ) : null}
+
         {mods.length ? (
           <div className="mt-[18px] border-t border-line pt-[16px]">
             <div className="text-[13.5px] font-semibold">{props.moduleLabels.head}</div>
@@ -350,7 +497,14 @@ export function SetupForm(props: SetupFormProps) {
         ) : null}
 
         <div className="mt-[18px] border-t border-line pt-[16px]">
-          <div className="text-[13.5px] font-semibold">{labels.commentHead}</div>
+          {pr.standard ? (
+            <div className="flex flex-wrap items-center justify-between gap-[10px]">
+              <div className="text-[13.5px] font-semibold">{labels.commentHead}</div>
+              {mark('kommentarer')}
+            </div>
+          ) : (
+            <div className="text-[13.5px] font-semibold">{labels.commentHead}</div>
+          )}
           <div className="mt-[3px] max-w-[560px] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
             {labels.commentLead}
           </div>
@@ -425,6 +579,33 @@ export function SetupForm(props: SetupFormProps) {
         >
           {labels.groupWarn}
         </div>
+
+        {pr.sms ? (
+          <div className="mt-[18px] border-t border-line pt-[16px]">
+            <div className="flex flex-wrap items-center justify-between gap-[10px]">
+              <div className="text-[13.5px] font-semibold">{pr.sms.head}</div>
+              {mark('utsending')}
+            </div>
+            <div className="mt-[9px] flex flex-wrap gap-[7px]">
+              {pr.sms.options.map((o) => (
+                <Chip
+                  key={o.value || 'standard'}
+                  type="radio"
+                  name="smsWhen"
+                  value={o.value}
+                  label={o.label}
+                  checked={smsWhen === o.value}
+                  disabled={!canWrite || props.locked}
+                  paddingY={7}
+                  paddingX={13}
+                  text="12.5px"
+                  onChange={() => delivery({ smsWhen: o.value })}
+                />
+              ))}
+            </div>
+            <div className="mt-[9px] max-w-[560px] text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">{pr.sms.note}</div>
+          </div>
+        ) : null}
       </Section>
 
       {/* ------------------------------------------------ 4 · Rytme og oppfølging */}
@@ -472,7 +653,10 @@ export function SetupForm(props: SetupFormProps) {
           </div>
         ) : null}
 
-        <div className="mt-[18px] grid gap-[18px] border-t border-line pt-[16px] [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]">
+        {pr.standard ? <div className="mt-[18px] flex justify-end">{mark('rytme')}</div> : null}
+        <div
+          className={`${pr.standard ? 'mt-[10px]' : 'mt-[18px]'} grid gap-[18px] border-t border-line pt-[16px] [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]`}
+        >
           <div>
             <div className="text-[13.5px] font-semibold">{labels.reminderHead}</div>
             <div className="mt-[9px] flex flex-wrap gap-[7px]">
@@ -514,6 +698,17 @@ export function SetupForm(props: SetupFormProps) {
             </div>
           </div>
         </div>
+        {pr.finalReminder ? (
+          <CheckRow
+            name="finalReminder"
+            label={pr.finalReminder.label}
+            sub={pr.finalReminder.sub}
+            checked={finalOn}
+            disabled={!canWrite || props.locked}
+            onChange={() => delivery({ finalReminder: !finalOn })}
+            className="mt-[14px] bg-bg"
+          />
+        ) : null}
       </Section>
 
       {/* ------------------------------------------------ 5 · Egne spørsmål */}
@@ -728,249 +923,32 @@ export function SetupForm(props: SetupFormProps) {
   )
 }
 
-/** One numbered card of the setup (bundle 1439: 22px 24px, radius 18, hairline). */
-function Section({
-  head,
-  aside,
-  children,
+/** "Standard", or "Endret for denne målingen" with the way back (D-126). */
+function StandardMark({
+  changed,
+  labels,
+  onReset,
 }: {
-  head: string
-  aside?: React.ReactNode
-  children: React.ReactNode
+  changed: boolean
+  labels: { standard: string; changed: string; reset: string }
+  onReset: (() => void) | null
 }) {
+  if (!changed) {
+    return <span className="rounded-pill border border-line px-[9px] py-[2px] text-[11.5px] font-medium text-mut">{labels.standard}</span>
+  }
   return (
-    <section className="rounded-panel border border-line bg-sf px-[24px] py-[22px]">
-      <div className="flex flex-wrap items-baseline justify-between gap-[12px]">
-        <span className="text-[11px] uppercase tracking-[0.11em] text-mut">{head}</span>
-        {aside}
-      </div>
-      {children}
-    </section>
-  )
-}
-
-/**
- * The design's radio card: a ring with a filled dot, a bold label and a note.
- *
- * The input is visually hidden rather than removed, so the control keeps its place in the
- * tab order, answers the arrow keys as a radio group should, and takes the focus ring
- * globals.css gives every :focus-visible. The ring and dot are drawn from the bundle's
- * own values (17px, 2px ink, 8px dot).
- */
-function RadioCard({
-  name,
-  value,
-  label,
-  note,
-  checked,
-  disabled,
-  labelSize = '14px',
-  noteSize = '12px',
-  padX = 15,
-  padY = 14,
-  radius = 13,
-  onChange,
-}: {
-  name: string
-  value: string
-  label: string
-  note?: string
-  checked: boolean
-  disabled?: boolean
-  labelSize?: string
-  noteSize?: string
-  padX?: number
-  padY?: number
-  radius?: number
-  onChange: () => void
-}) {
-  return (
-    <label
-      className={`flex items-start gap-[11px] border text-left ${
-        disabled ? 'cursor-not-allowed' : 'cursor-pointer'
-      } ${checked ? 'border-ink bg-sbg' : 'border-line bg-transparent'}`}
-      style={{ padding: `${padY}px ${padX}px`, borderRadius: `${radius}px` }}
-    >
-      <input
-        type="radio"
-        name={name}
-        value={value}
-        checked={checked}
-        disabled={disabled}
-        onChange={onChange}
-        className="peer absolute h-px w-px overflow-hidden opacity-0"
-      />
-      <span className="mt-[2px] flex h-[17px] w-[17px] flex-none items-center justify-center rounded-pill border-2 border-ink peer-focus-visible:outline peer-focus-visible:outline-[3px] peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink">
-        <span
-          className="block h-[8px] w-[8px] rounded-pill"
-          style={{ background: checked ? '#191510' : 'transparent' }}
-        />
-      </span>
-      <span className="min-w-0">
-        <span
-          className={`block ${checked ? 'font-bold' : 'font-medium'}`}
-          style={{ fontSize: labelSize }}
+    <span className="flex flex-wrap items-center gap-[9px]">
+      <span className="rounded-pill bg-sbg px-[9px] py-[2px] text-[11.5px] font-bold">{labels.changed}</span>
+      {onReset ? (
+        <button
+          type="button"
+          onClick={onReset}
+          className="cursor-pointer border-none bg-transparent p-0 font-[inherit] text-[12px] font-semibold text-link underline"
         >
-          {label}
-        </span>
-        {note ? (
-          <span
-            className="mt-[3px] block leading-[1.45] text-mut [text-wrap:pretty]"
-            style={{ fontSize: noteSize }}
-          >
-            {note}
-          </span>
-        ) : null}
-      </span>
-    </label>
-  )
-}
-
-/** The design's full-width checkbox row (bundle 1533): 19px square, radius 5. */
-function CheckRow({
-  name,
-  label,
-  sub,
-  checked,
-  disabled,
-  onChange,
-  className = '',
-}: {
-  name: string
-  label: string
-  sub?: string
-  checked: boolean
-  disabled?: boolean
-  onChange: () => void
-  className?: string
-}) {
-  return (
-    <label
-      className={`flex w-full items-center gap-[12px] rounded-cta border border-ink px-[15px] py-[13px] text-left ${
-        disabled ? 'cursor-not-allowed' : 'cursor-pointer'
-      } ${className}`}
-    >
-      <input
-        type="checkbox"
-        name={name}
-        checked={checked}
-        disabled={disabled}
-        onChange={onChange}
-        className="peer absolute h-px w-px overflow-hidden opacity-0"
-      />
-      <Mark checked={checked} size={19} />
-      <span className="min-w-0">
-        <span className="block text-[14px] font-semibold">{label}</span>
-        {sub ? <span className="mt-[2px] block text-[11.5px] text-mut">{sub}</span> : null}
-      </span>
-    </label>
-  )
-}
-
-/** The design's department card (bundle 1549): 18px square, name over headcount. */
-function CheckCard({
-  name,
-  value,
-  label,
-  note,
-  checked,
-  disabled,
-  onChange,
-}: {
-  name: string
-  value: string
-  label: string
-  note: string
-  checked: boolean
-  disabled?: boolean
-  onChange: () => void
-}) {
-  return (
-    <label
-      className={`flex items-center gap-[10px] rounded-cta border px-[15px] py-[10px] ${
-        disabled ? 'cursor-not-allowed' : 'cursor-pointer'
-      } ${checked ? 'border-ink bg-sbg' : 'border-line bg-transparent'}`}
-    >
-      <input
-        type="checkbox"
-        name={name}
-        value={value}
-        checked={checked}
-        disabled={disabled}
-        onChange={onChange}
-        className="peer absolute h-px w-px overflow-hidden opacity-0"
-      />
-      <Mark checked={checked} size={18} />
-      <span className="text-left">
-        <span className={`block text-[13.5px] ${checked ? 'font-bold' : 'font-medium'}`}>
-          {label}
-        </span>
-        <span className="block text-[11.5px] text-mut">{note}</span>
-      </span>
-    </label>
-  )
-}
-
-function Mark({ checked, size }: { checked: boolean; size: number }) {
-  return (
-    <span
-      className="flex flex-none items-center justify-center rounded-[5px] border-2 border-ink text-[11px] font-bold peer-focus-visible:outline peer-focus-visible:outline-[3px] peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink"
-      style={{
-        width: `${size}px`,
-        height: `${size}px`,
-        background: checked ? '#191510' : 'transparent',
-        color: checked ? '#FCF6E9' : 'transparent',
-      }}
-    >
-      ✓
+          {labels.reset}
+        </button>
+      ) : null}
     </span>
-  )
-}
-
-/** A chip that is really a radio or a checkbox — the same substitution MeasureCard makes. */
-function Chip({
-  type,
-  name,
-  value,
-  label,
-  checked,
-  disabled,
-  paddingY,
-  paddingX,
-  text,
-  onChange,
-}: {
-  type: 'radio' | 'checkbox'
-  name: string
-  value: string
-  label: string
-  checked: boolean
-  disabled?: boolean
-  paddingY: number
-  paddingX: number
-  text: string
-  onChange: () => void
-}) {
-  return (
-    <label className="inline-flex flex-none">
-      <input
-        type={type}
-        name={name}
-        value={value}
-        checked={checked}
-        disabled={disabled}
-        onChange={onChange}
-        className="peer absolute h-px w-px overflow-hidden opacity-0"
-      />
-      <span
-        className={`inline-flex items-center rounded-pill border text-ink peer-focus-visible:outline peer-focus-visible:outline-[3px] peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink ${
-          disabled ? 'cursor-not-allowed' : 'cursor-pointer'
-        } ${checked ? 'border-ink bg-sbg font-bold' : 'border-line bg-transparent font-medium'}`}
-        style={{ padding: `${paddingY}px ${paddingX}px`, fontSize: text }}
-      >
-        {label}
-      </span>
-    </label>
   )
 }
 

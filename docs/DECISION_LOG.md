@@ -2024,7 +2024,7 @@ sets it asks, as a default and per round. A proposal went first (SaaS adoption, 
 survey specialist); Tor decided on 2026-09-27:
 
 - **QR is built, and the published pages keep their promise.** The industry pages say the
-  survey can be shared "som lenke og QR-kode"; that is built rather than withdrawn.
+  survey can be shared "som lenke og QR-kode"; that is built rather than withdrawn. Built 2026-09-27 (0075, 0076, D-126).
 - **The QR code is a door, not a key.** It opens a page where the employee gives their mobile
   number or e-mail. If it is on the round's invitation list, their own personal link is sent
   to it. An open link was rejected: it would let anyone answer, and answer twice, would
@@ -2039,6 +2039,8 @@ survey specialist); Tor decided on 2026-09-27:
   that round, and a round's settings are fixed when it opens.
 
 ## Open items
+- [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).
+- [ ] A ready-to-send check before a round opens (channel coverage, groups under the threshold, information and consultation done); the reach count on Målinger › Innstillinger is its first half (D-126).
 - [ ] "View as customer" for support: whether, for whom, with what approval, and how the
   customer is told (D-107; the DPA's Vedlegg 2 limits staff access today).
 - [ ] Google Search Console: create a service account, add it to the property, set
