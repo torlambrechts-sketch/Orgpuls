@@ -5718,3 +5718,39 @@ and phase 0 is not merged.
   - `qa/e2e/p1-language.spec.ts` covers the step screens.
 - **Human gate (§ 1).** `locale_en` stays off in production until a person approves every
   English item and the respondent strings. `locale_pl` and `locale_lt` need translations first.
+
+## D-129 — «Bransjer» in the site's menu, with its pages under it
+
+Tor, 2026-09-27, with a screenshot of the phone menu: "Ser ikke bransjer som meny med undersider
+(hele sider) på forsiden".
+
+- **Where it sits.** «Bransjer» is the fifth item in the header row, after «Pris». The
+  nettside design draws five items, and the fifth («Om oss») was removed in D-95. So Bransjer
+  takes a slot the design already had. The design's four remaining items do not move: on all
+  four designed pages the header strip differs from the baseline only between x 690 and 1039,
+  where «Om oss» was and where the language switch is (D-96). At 1024 px the row stays one line
+  (header 65 px).
+- **The desktop row.** Bransjer is a disclosure, not a link: a button drawn as the row's
+  links are, with a chevron. It opens a panel in the account menu's materials (D-80), holding
+  «Alle bransjer» (/bransjer), «Bygg og anlegg» and «Helse og omsorg».
+  - Escape closes the panel and returns focus to the button.
+  - A click outside the panel closes it, and so does tabbing out of it or changing page.
+  - The panel follows the button in the tab order, so opening it moves no focus.
+  - The button is in the pill on /bransjer and on every industry page. Within the panel, the
+    page you are on is in the pill.
+- **The phone menu.** «Bransjer» links to /bransjer, and the industries are listed under it,
+  indented behind a short rule. The page you are on is in the pill.
+- **The pages are data.** The industries come from the registry (content/industries), by
+  their `navLabel` in the site's language. A new industry is a registry entry, not a menu
+  change.
+  - Both addresses are whole pages. /bygg-og-anlegg is the launched industry page.
+    /helse-og-omsorg is its landing page until its law review, and then the industry page
+    (D-125). The menu links each whichever it is.
+- **Crumbs.** An industry page's crumbs, visible and in JSON-LD, now read Forside › Bransjer ›
+  the industry, instead of Bruksområder. This covers the landing page it shows before launch.
+  The other landing pages stay under Bruksområder.
+- **English.** «Industries» / «All industries», with the English names: Construction, and
+  Health and care.
+- **Checked.** Desktop open, keyboard, Escape, click outside, tabbing out, navigation through
+  the panel, 1024 px, the phone at 390 px with no sideways scroll, and English. axe is clean
+  with the panel open on desktop and on the phone, and there are no console errors.

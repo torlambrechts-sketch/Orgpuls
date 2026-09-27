@@ -4,16 +4,16 @@ import { PageTemplate } from './PageTemplate'
 
 /**
  * A landing page: one search intent, one reader, one offer (D-79). It is a PageTemplate
- * whose words are `seo.lp.<slug>`, under Bruksområder, with a picture of the screen that
+ * whose words are `seo.lp.<slug>`, under Bruksområder (an industry's, under Bransjer), with a picture of the screen that
  * answers its reader, two neighbouring landing pages and the two articles that go with it.
  */
-export async function LandingTemplate({ slug }: { slug: LandingSlug }) {
+export async function LandingTemplate({ slug, parent }: { slug: LandingSlug; parent?: { name: string; path: string } }) {
   const t = await getTranslations()
   return (
     <PageTemplate
       k={`seo.lp.${landingKey(slug)}`}
       path={`/${slug}`}
-      parent={{ name: t('seo.pages.bruksomrader.crumb'), path: '/bruksomrader' }}
+      parent={parent ?? { name: t('seo.pages.bruksomrader.crumb'), path: '/bruksomrader' }}
       articles={LANDING_ARTICLES[slug]}
       heroShot={LANDING_HERO[slug]}
       related={LANDING_RELATED[slug].map((r) => ({

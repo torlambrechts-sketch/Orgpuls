@@ -17,11 +17,17 @@
 export type SiteLink = { key: string; href?: string }
 export type FooterColumn = { head: string; links: SiteLink[] }
 
-export const SITE_NAV_V2: SiteLink[] = [
+/**
+ * The header's menu. Bransjer is not in the design; Tor asked for it with its pages under it
+ * (D-129). Its pages are the industry registry's (content/industries), so a new industry is
+ * a new entry there, not a change here.
+ */
+export const SITE_NAV_V2: (SiteLink & { industries?: true })[] = [
   { key: 'plattform', href: '/plattform' },
   { key: 'bruksomrader', href: '/bruksomrader' },
   { key: 'hvorfor', href: '/hvorfor' },
   { key: 'pris', href: '/priser' },
+  { key: 'bransjer', href: '/bransjer', industries: true },
 ]
 
 const FOOTER_FIRST: FooterColumn[] = [

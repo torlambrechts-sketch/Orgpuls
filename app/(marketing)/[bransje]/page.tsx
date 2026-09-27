@@ -59,9 +59,11 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function IndustryRoute(props: Props) {
   const { slug, page, lang, preview } = await resolve(props)
-  if (!page) return <LandingTemplate slug={slug as LandingSlug} />
-
   const t = await getTranslations()
+  // under Bransjer, as the header's menu has it (D-129), whichever page the address shows
+  const parent = { name: t('seo.pages.bransjer.crumb'), path: '/bransjer' }
+  if (!page) return <LandingTemplate slug={slug as LandingSlug} parent={parent} />
+
   const core = (key: string, ordinal: number) => ({ factor: t(`factor.${key}.label`), text: t(`factor.${key}.s${ordinal}`) })
   const faq = page.faq.filter((f) => !f.featureFlag || flag(f.featureFlag as FlagName))
 
@@ -73,7 +75,7 @@ export default async function IndustryRoute(props: Props) {
           { '@type': 'WebPage', url: absolute(`/${slug}`), name: page.seo.title, description: page.seo.description, inLanguage: lang === 'en' ? 'en' : 'nb-NO' },
           breadcrumbs([
             { name: t('seo.common.home'), path: '/' },
-            { name: t('seo.pages.bruksomrader.crumb'), path: '/bruksomrader' },
+            parent,
             { name: page.navLabel, path: `/${slug}` },
           ]),
           ...(faq.length ? [faqPage(faq.map((f) => ({ q: stripCites(f.q), a: stripCites(f.a) })))] : []),

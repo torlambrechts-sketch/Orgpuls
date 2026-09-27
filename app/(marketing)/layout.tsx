@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import { headers } from 'next/headers'
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { EN_URL, hostOf, MAIN_URL, PUBLIC_HOSTS } from '@/lib/hosts'
 import { HeaderNav } from '@/components/site/HeaderNav'
+import { INDUSTRIES, pageIn } from '@/content/industries'
 import { SiteFooter, type FooterData } from '@/components/site/SiteFooter'
 import { SiteBeacon } from '@/components/marketing/SiteBeacon'
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch'
@@ -22,6 +23,13 @@ export default async function MarketingLayout({ children }: { children: React.Re
   const t = await getTranslations('site.chrome')
   // on the production hosts each language has its own; the switch links across (D-98)
   const hosts = PUBLIC_HOSTS.includes(hostOf((await headers()).get('host'))) ? { no: MAIN_URL, en: EN_URL } : undefined
+  // Bransjer's pages (D-129): every industry in the registry, by its name in the site's language.
+  // Each address is a whole page either way — the industry page once launched, its landing page before
+  const lang = (await getLocale()) === 'en' ? 'en' : 'no'
+  const industries = INDUSTRIES.flatMap((i) => {
+    const label = (pageIn(i, lang) ?? pageIn(i, 'no'))?.navLabel
+    return label ? [{ href: `/${i.slug}`, label }] : []
+  })
 
   const columns = Object.fromEntries(
     (Object.keys(FOOTERS) as FooterId[]).map((id) => [
@@ -53,7 +61,11 @@ export default async function MarketingLayout({ children }: { children: React.Re
             <span className="font-display text-[21px] font-semibold tracking-[-0.01em]">Orgpuls</span>
           </Link>
           <HeaderNav
-            items={SITE_NAV_V2.map((i) => ({ href: i.href!, label: t(`nav.${i.key}`) }))}
+            items={SITE_NAV_V2.map((i) => ({
+              href: i.href!,
+              label: t(`nav.${i.key}`),
+              ...(i.industries ? { children: industries, all: t('nav.alleBransjer') } : {}),
+            }))}
             label={t('navLabel')}
             menuLabel={t('menu')}
             language={<LanguageSwitch label={t('language')} size="lg" hosts={hosts} />}

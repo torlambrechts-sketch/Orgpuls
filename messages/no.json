@@ -5810,7 +5810,9 @@
         "plattform": "Plattform",
         "bruksomrader": "Bruksområder",
         "hvorfor": "Hvorfor Orgpuls",
-        "pris": "Pris"
+        "pris": "Pris",
+        "bransjer": "Bransjer",
+        "alleBransjer": "Alle bransjer"
       },
       "navLabel": "Hovedmeny",
       "menu": "Meny",

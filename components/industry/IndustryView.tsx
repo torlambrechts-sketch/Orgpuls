@@ -76,8 +76,9 @@ export async function IndustryView({
                 {ts('seo.common.home')}
               </Link>
               <span aria-hidden="true"> / </span>
-              <Link href="/bruksomrader" className="text-mut">
-                {ts('seo.pages.bruksomrader.crumb')}
+              {/* an industry page is under Bransjer, as the header's menu has it (D-129) */}
+              <Link href="/bransjer" className="text-mut">
+                {ts('seo.pages.bransjer.crumb')}
               </Link>
               <span aria-hidden="true"> / </span>
               <span aria-current="page">{page.navLabel}</span>
