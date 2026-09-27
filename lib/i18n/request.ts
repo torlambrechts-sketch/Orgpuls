@@ -2,6 +2,7 @@ import { cookies, headers } from 'next/headers'
 import { EN_HOST, hostOf } from '@/lib/hosts'
 import { getRequestConfig } from 'next-intl/server'
 import { DEFAULT_LOCALE, fallbackOf, isLocale, LOCALE_COOKIE } from './locales'
+import { pseudoMessages } from './pseudo'
 
 type Tree = { [k: string]: unknown }
 const isTree = (v: unknown): v is Tree => !!v && typeof v === 'object' && !Array.isArray(v)
@@ -19,7 +20,8 @@ async function loadMessages(locale: string): Promise<Tree> {
   const own = (await import(`../../messages/${locale}.json`)).default as Tree
   let out: Tree = {}
   for (const f of [...fallbackOf(locale)].reverse()) out = merge(out, (await import(`../../messages/${f}.json`)).default as Tree)
-  return merge(out, own)
+  // the QA stack's pseudo-locale (lib/i18n/pseudo.ts); without ORGPULS_PSEUDO=1 this is the catalogue itself
+  return pseudoMessages(locale, merge(out, own))
 }
 
 /**

@@ -73,7 +73,29 @@ export const QA_TOKENS = {
   salg: 'qa-lumio-salg-000001',
   okonomi: 'qa-lumio-okonomi-00001', // the group under k
 }
-const TOKEN_OWNER = { 'qa-lumio-drift-000001': ['Drift', 11], 'qa-lumio-drift-000002': ['Drift', 12], 'qa-lumio-salg-000001': ['Salg', 7], 'qa-lumio-okonomi-00001': ['Økonomi', 3] }
+/**
+ * The respondent-flow suite's links (qa/e2e/respondent-flow.spec.ts), one per viewport and
+ * language, and one for the pseudo-locale. Each is SUBMITTED by the suite, so a run spends
+ * them; `npm run e2e` and scripts/qa/respondent.mjs apply this seed before and after. They are
+ * the open round's invitations that are unanswered anyway (Drift 7–10, Salg 5–6, Økonomi 2),
+ * so the scenario's counts are the same with them as without.
+ */
+export const QA_FLOW_TOKENS = {
+  'mobile-no': ['Drift', 7],
+  'mobile-en': ['Drift', 8],
+  'small-no': ['Drift', 9],
+  'small-en': ['Drift', 10],
+  'tiny-no': ['Salg', 5],
+  'tiny-en': ['Salg', 6],
+  'pseudo-no': ['Økonomi', 2],
+}
+const TOKEN_OWNER = {
+  'qa-lumio-drift-000001': ['Drift', 11],
+  'qa-lumio-drift-000002': ['Drift', 12],
+  'qa-lumio-salg-000001': ['Salg', 7],
+  'qa-lumio-okonomi-00001': ['Økonomi', 3],
+  ...Object.fromEntries(Object.entries(QA_FLOW_TOKENS).map(([k, owner]) => [`qa-lumio-flow-${k}`, owner])),
+}
 
 const ROUNDS = [
   { key: 'h1', kind: 'grunnlinje', year: 2026, label: 'Hovedmåling 1 · 2026', status: 'lukket', opens: '2026-03-02 07:00+01', closes: '2026-03-13 21:00+01', col: 2 },

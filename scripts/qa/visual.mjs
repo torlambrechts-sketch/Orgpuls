@@ -17,6 +17,9 @@ if (!step && !all) {
 }
 const pw = ['playwright', 'test']
 if (step) pw.push('--grep', `@setup|@${step.replace('.', '\\.')}\\b`)
+// the respondent flow (@flow, @pseudo) submits real answers and comments, and belongs to
+// `npm run e2e`, which re-seeds around it; here it would put them in front of the manager screens
+pw.push('--grep-invert', '@flow|@pseudo')
 if (args.includes('--update')) pw.push('--update-snapshots=all')
 const env = { ...qaEnv(), QA_STEP: step ?? 'all' }
 const r = spawnSync('npx', pw, { env, stdio: 'inherit' })

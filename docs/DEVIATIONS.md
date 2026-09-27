@@ -6039,7 +6039,23 @@ English stays approved, bokmål stays the source, and no Latin glyph renders dif
    organisations first", as the guide's stepped rollout has it. Nothing else loosens: the language
    is still offered only where every item and the page strings are approved. The survey page and
    the dispatcher read the pilot from the language state they already had.
-6. **A CI job for the respondent flow.** (See the addendum below.)
+6. **A CI job for the respondent flow.** In CI's `invariants` job, which already has the stack
+   built from the migrations and a build made against it (a job of its own would pull the
+   Supabase images a second time, the step rate limits have failed twice): the QA harness's
+   Playwright suite runs the survey start to done at 390, 360 and 320 px in bokmål and English,
+   and at 320 px under a pseudo-locale (scripts/i18n/pseudo.mjs: accented, about 40 % longer,
+   bracketed, arguments and plural branches untouched; served only with ORGPULS_PSEUDO=1, never
+   on a production deployment). Every screen is gated on its `lang` being the rendered language's
+   tag, axe, console errors, and nothing scrolling sideways or clipping. The one request a
+   submission makes is checked for a `lang`/`locale`/`language` key at any depth, and a unit
+   test holds `submitResponse`'s RPC arguments to exactly token, answers, extra and module.
+   *Deviation:* CI gates everything but pixels. The QA baselines depend on the machine's fonts and
+   rasteriser, so the pixel comparison stays a local gate (`npm run qa:visual`), which now leaves
+   the flow tests to `npm run e2e`, since they submit answers the manager screens would then show.
+   *Known, not fixed:* on a survey answered in English, `<html lang>` is the visitor's site
+   language (the root layout's) while `<main lang="en">` carries the survey's; the content is
+   tagged correctly, but the document's own language is not. The root layout cannot know the
+   survey's language without the page telling it, which needs a layout of its own for /s.
 7. **A Cyrillic fallback font.** DM Sans has no Cyrillic. Manrope's Cyrillic subsets (SIL OFL),
    self-hosted in public/fonts and declared in app/fonts.css as «Orgpuls Cyrillic» with a
    Cyrillic-only unicode-range, after DM Sans in `--font-dmsans`. A page with no Cyrillic never

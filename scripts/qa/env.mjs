@@ -29,7 +29,9 @@ export function qaEnv() {
     NEXT_PUBLIC_SUPABASE_ANON_KEY: status.ANON_KEY,
     QA_DATABASE_URL: status.DB_URL,
     ORGPULS_FLAGS: process.env.QA_FLAGS ?? '*',
-    NEXT_DIST_DIR: '.next-qa',
+    // CI serves the build its smoke step already made against the same local stack (ci.yml):
+    // the respondent pages are dynamic, and the flags are read per request, not at build
+    NEXT_DIST_DIR: process.env.QA_DIST_DIR ?? '.next-qa',
     PORT: String(QA_PORT),
   }
 }

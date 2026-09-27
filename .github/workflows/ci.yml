@@ -243,6 +243,52 @@ jobs:
           fi
           echo "no screen logged a failure"
 
+      # ---------------------------------------------------------- respondent flow
+      # The survey as a respondent meets it (multilingual-gap-analysis, queue item 6): the QA
+      # harness's Playwright suite, on the Lumio QA tenant, at 390, 360 and 320 px, in every
+      # language the QA stack offers (bokmål, English), and once more at 320 px under the
+      # pseudo-locale (scripts/i18n/pseudo.mjs: accented, ~40 % longer, bracketed).
+      #
+      # Here, not in a job of its own, because everything it needs is already on this runner:
+      # the local Supabase built from the migrations, the modules and the fixtures, and a build
+      # made against that same stack. A separate job would pull the Supabase images a second
+      # time -- the step the registries' rate limits have already failed twice (above) -- and
+      # build the app a second time, for about eight minutes of runner and a second chance to
+      # go red on a pull. Reusing the smoke build is sound because the respondent pages are
+      # dynamic and the QA flags are read per request (lib/flags.ts); the QA server only needs
+      # its own environment, which scripts/qa/env.mjs gives it. It adds ~3 minutes to this job.
+      #
+      # The gates: every run reaches the done screen; on every screen `lang` is exactly the
+      # rendered language's BCP 47 tag (nb, en); axe finds no serious or critical violation
+      # beyond qa/known-issues.json; no console error; nothing scrolls sideways or clips; and
+      # the one request a submission makes carries no lang or locale key. Screenshots are
+      # artifacts, not baselines: the pixel baselines (qa/baselines) depend on this machine's
+      # fonts and rasteriser and stay a local gate (npm run qa:visual).
+      - name: Make the stack the QA stack
+        run: |
+          db=postgresql://postgres:postgres@127.0.0.1:54322/postgres
+          # the same as scripts/qa/up.sh, after the SQL suites have run: this database is now
+          # the QA stack, and the registry's English rows exist for the Lumio seed to approve
+          psql "$db" -q -v ON_ERROR_STOP=1 -c "alter database postgres set app.environment = 'qa'"
+          npm run -s i18n:registry | psql "$db" -q -v ON_ERROR_STOP=1
+
+      - name: Respondent flow (390, 360, 320 px x nb, en; pseudo-locale at 320 px)
+        env:
+          # serve the build the smoke step made (scripts/qa/env.mjs), not a second one
+          QA_DIST_DIR: .next
+          QA_STEP: ci
+        run: |
+          npx playwright install chromium
+          # e2e.mjs applies the Lumio seed before and after the run (scripts/qa/seed.mjs)
+          npm run e2e -- --project mobile --project small --project tiny --project pseudo --grep '@flow|@pseudo'
+
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: respondent-flow
+          path: test-results/
+          if-no-files-found: ignore
+
       - name: Server log
         if: always()
         run: cat smoke.log 2>/dev/null || true
