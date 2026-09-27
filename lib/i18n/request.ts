@@ -16,7 +16,16 @@ import { DEFAULT_LOCALE, isLocale, LOCALE_COOKIE } from './locales'
  * gap is visible in review and in a screenshot diff instead of silently collapsing the
  * layout around an empty string.
  */
-export default getRequestConfig(async () => {
+export default getRequestConfig(async ({ locale: asked }) => {
+  // a caller that names a locale gets it: the respondent page renders in the respondent's
+  // language, whatever the host or the switch says (engagement P1, D-127)
+  if (isLocale(asked)) {
+    return {
+      locale: asked,
+      messages: (await import(`../../messages/${asked}.json`)).default,
+      getMessageFallback: ({ namespace, key }) => (namespace ? `${namespace}.${key}` : key),
+    }
+  }
   // en.orgpuls.com is the English site: the host decides there, whatever the cookie says (D-98)
   const onEnglishHost = hostOf((await headers()).get('host')) === EN_HOST
   const chosen = (await cookies()).get(LOCALE_COOKIE)?.value

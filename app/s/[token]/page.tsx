@@ -1,5 +1,8 @@
-import { getLocale, getTranslations } from 'next-intl/server'
-import { getRespondForm } from '@/lib/respond/read'
+import { NextIntlClientProvider } from 'next-intl'
+import { getLocale, getMessages, getTranslations } from 'next-intl/server'
+import { LOCALE_NAMES, chooseLocale, offeredLocales } from '@/lib/i18n/offered'
+import { RESPONDENT_CLIENT_NAMESPACES, pickMessages } from '@/lib/i18n/client'
+import { getRespondForm, getRespondLocales } from '@/lib/respond/read'
 import { RespondFlow } from '@/components/respond/RespondFlow'
 import { respondCopy, respondQuestions } from '@/lib/respond/questions'
 
@@ -22,10 +25,13 @@ export const dynamic = 'force-dynamic'
 
 export default async function RespondPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ token: string }>
+  searchParams: Promise<{ lang?: string | string[] }>
 }) {
   const { token } = await params
+  const asked = (await searchParams).lang
   const t = await getTranslations()
   const result = await getRespondForm(token)
 
@@ -46,16 +52,52 @@ export default async function RespondPage({
 
   const { form } = result
 
-  const questions = respondQuestions(t, form, await getLocale())
+  /*
+   * The respondent's language (engagement P1, D-127). With a language flag on, the survey is
+   * offered in bokmål and in every language whose items and page strings were approved; the
+   * choice is `?lang=`, then the employee's own, then bokmål, and it lives in the address only
+   * — never in a cookie, never with an answer (I6). With no flag on, `offered` is null and the
+   * page is in the host's or the switch's language, as before.
+   */
+  const locales = await getRespondLocales(token)
+  const offered = offeredLocales(locales?.locales ?? null)
+  const lang = offered ? chooseLocale(offered, Array.isArray(asked) ? asked[0] : asked, locales?.employee_lang) : await getLocale()
+  // only bokmål and English have page strings (messages/); a language without them is never offered
+  const uiLocale = lang === 'en' ? 'en' : 'no'
+  const tl = offered ? await getTranslations({ locale: uiLocale }) : t
+  const texts = offered && lang !== 'no' ? (locales?.texts[lang] ?? null) : null
+
+  const questions = respondQuestions(tl, form, offered ? lang : await getLocale(), texts)
+  const flow = (
+    <RespondFlow
+      token={token}
+      org={form.org}
+      questions={questions}
+      copy={respondCopy(tl, form.threshold, form.modules.reduce((n, m) => n + m.minutes, 0))}
+      languages={
+        offered && offered.length > 1
+          ? {
+              current: lang,
+              label: tl('respond.language'),
+              options: offered.map((code) => ({ code, name: LOCALE_NAMES[code] })),
+            }
+          : null
+      }
+    />
+  )
 
   return (
-    <main className="animate-entry mx-auto min-h-screen max-w-[420px] bg-bg">
-      <RespondFlow
-        token={token}
-        org={form.org}
-        questions={questions}
-        copy={respondCopy(t, form.threshold, form.modules.reduce((n, m) => n + m.minutes, 0))}
-      />
+    <main lang={offered ? lang : undefined} className="animate-entry mx-auto min-h-screen max-w-[420px] bg-bg">
+      {offered ? (
+        <NextIntlClientProvider
+          locale={uiLocale}
+          messages={pickMessages(await getMessages({ locale: uiLocale }), RESPONDENT_CLIENT_NAMESPACES)}
+        >
+          {flow}
+        </NextIntlClientProvider>
+      ) : (
+        flow
+      )}
     </main>
   )
 }

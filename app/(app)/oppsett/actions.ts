@@ -315,7 +315,7 @@ export async function importEmployees(formData: FormData): Promise<ImportResult>
   const { data: known } = await supabase.schema('app').from('employees').select('id, email').not('email', 'is', null)
   const existing = z.array(z.object({ id: z.string(), email: z.string() })).safeParse(known ?? [])
   const byEmail = new Map((existing.success ? existing.data : []).map((e) => [e.email.toLowerCase(), e.id]))
-  const phoneUpdates: { id: string; phone: string }[] = []
+  const phoneUpdates: { id: string; phone: string | null; language: string | null }[] = []
 
   const lines = text
     .split('\n')
@@ -329,6 +329,7 @@ export async function importEmployees(formData: FormData): Promise<ImportResult>
     email: string | null
     group_id: string | null
     phone: string | null
+    language: string | null
   }[] = []
   let skipped = 0
 
@@ -344,9 +345,12 @@ export async function importEmployees(formData: FormData): Promise<ImportResult>
     const email = cells[1] ?? ''
     const group = cells[2] ?? ''
     const phone = normalizePhone(cells[4] ?? '')
+    // column F, the employee's language (engagement P1.2, D-127): a default for their survey
+    // and invitation where that language is offered, never a filter
+    const language = languageOf(cells[5] ?? '')
     const already = email.includes('@') ? byEmail.get(email.toLowerCase()) : undefined
     if (already) {
-      if (phone) phoneUpdates.push({ id: already, phone })
+      if (phone || language) phoneUpdates.push({ id: already, phone, language })
       else skipped += 1
       continue
     }
@@ -356,6 +360,7 @@ export async function importEmployees(formData: FormData): Promise<ImportResult>
       email: email.includes('@') ? email : null,
       group_id: byName.get(group.toLocaleLowerCase('no')) ?? null,
       phone,
+      language,
     })
   }
 
@@ -367,7 +372,7 @@ export async function importEmployees(formData: FormData): Promise<ImportResult>
     const { data: done, error } = await supabase
       .schema('app')
       .from('employees')
-      .update({ phone: u.phone })
+      .update({ ...(u.phone ? { phone: u.phone } : {}), ...(u.language ? { language: u.language } : {}) })
       .eq('id', u.id)
       .select('id')
     if (writeFailed('importEmployees', error, done)) return { ok: false, problem: 'denied' }
@@ -471,4 +476,17 @@ export async function setThreshold(formData: FormData): Promise<SettingsResult> 
   revalidatePath('/resultater')
   revalidatePath('/kommentarer')
   return { ok: true }
+}
+
+/**
+ * A language as a spreadsheet writes it: a code (no, nb, nn, en, pl, lt) or the language's own
+ * name, in any case. Anything else is no language, and the employee meets bokmål.
+ */
+function languageOf(cell: string): 'no' | 'en' | 'pl' | 'lt' | null {
+  const v = cell.trim().toLowerCase()
+  if (['no', 'nb', 'nn', 'norsk', 'bokmål', 'bokmal', 'nynorsk', 'norwegian'].includes(v)) return 'no'
+  if (['en', 'english', 'engelsk'].includes(v)) return 'en'
+  if (['pl', 'polski', 'polsk', 'polish'].includes(v)) return 'pl'
+  if (['lt', 'lietuvių', 'lietuviu', 'litauisk', 'lithuanian'].includes(v)) return 'lt'
+  return null
 }
