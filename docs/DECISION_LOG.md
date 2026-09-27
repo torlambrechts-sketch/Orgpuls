@@ -2124,12 +2124,17 @@ Tor, 2026-09-27: "Build the whole engineering queue, and prepare helse 1.0.1".
      pages quote the version respondents are asked;
   4. retire 1.0.0 when no planned round asks it, and drop `helse-og-omsorg@1.0.0` and its archive
      file from content/industries/modules.ts.
+- **2026-09-27, 13:23: published.** Tor: "Helse 1.0.1 approved, publish it and move the pages".
+  1.0.1 is published on the hosted project and the pages quote it, in both languages. Nothing was
+  recorded in admin › Legal review (legal_approvals was empty, the English rows drafts), so step 1
+  stays open there; no organisation had the module, so nobody is affected meanwhile. 1.0.0 stays
+  published until it is retired; new rounds take 1.0.1.
 
 ## Open items
 - [ ] The multilingual guide: Tor's ten decisions (X-067, docs/implementation/multilingual-gap-analysis.md); the engineering queue is built (X-068, D-132).
 - [ ] Barnehage og skole: approve its law items in admin › Legal review, then launch the page and publish the module (X-066, D-131).
 - [ ] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131).
-- [ ] Helse og omsorg 1.0.1 (the corrected legal basis) is a draft: approve its legal basis, publish, move the pages to it, approve its English (X-068 lists the steps).
+- [ ] Helse og omsorg 1.0.1 is published and quoted by its pages (X-068). Tor approved it in conversation; the recorded approvals are still to tick in admin › Legal review (its legal basis, and the 41 English items — until then a survey asking it is offered in bokmål only; no organisation uses the module yet). Retire 1.0.0 when wanted: no round asks it.
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).
 - [ ] A ready-to-send check before a round opens (channel coverage, groups under the threshold, information and consultation done); the reach count on Målinger › Innstillinger is its first half (D-126).
 - [ ] "View as customer" for support: whether, for whom, with what approval, and how the

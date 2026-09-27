@@ -19,7 +19,8 @@ import { parseModule, type ModuleFile } from '@/lib/modules/schema'
  */
 const FILES: Record<string, unknown> = {
   'bygg-og-anlegg@1.0.0': byggV1,
-  // 1.0.1 corrects the legal basis only (kap. 23A → 3A, kap. 14 → 23); 1.0.0 is published until it is
+  // 1.0.1 corrects the legal basis only (kap. 23A → 3A, kap. 14 → 23), published 2026-09-27 and
+  // quoted by the pages; 1.0.0 is kept while it is still published (drop both lines once retired)
   'helse-og-omsorg@1.0.0': helseV100,
   'helse-og-omsorg@1.0.1': helseV1,
   'barnehage-og-skole@1.0.0': barnehageV1,
