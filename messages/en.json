@@ -5809,7 +5809,9 @@
         "plattform": "Platform",
         "bruksomrader": "Use cases",
         "hvorfor": "Why Orgpuls",
-        "pris": "Pricing"
+        "pris": "Pricing",
+        "bransjer": "Industries",
+        "alleBransjer": "All industries"
       },
       "navLabel": "Main menu",
       "menu": "Menu",
