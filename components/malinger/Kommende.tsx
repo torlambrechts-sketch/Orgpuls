@@ -170,17 +170,26 @@ export async function Kommende({
                   <div key={g.group_name} className="rounded-tile border border-line bg-bg px-[16px] py-[14px]">
                     <div className="flex items-baseline justify-between gap-[10px]">
                       <span className="text-[13.5px] font-semibold">{g.group_name}</span>
-                      <span className="text-[13px] font-bold">{t('percent', { pct: g.pct })}</span>
+                      {g.pct !== null ? <span className="text-[13px] font-bold">{t('percent', { pct: g.pct })}</span> : null}
                     </div>
-                    <span className="mt-[9px] block h-[7px] overflow-hidden rounded-pill bg-[rgba(25,21,16,.08)]">
-                      <span className="block h-full rounded-pill" style={{ width: `${g.pct}%`, background: rateColour(g.pct) }} />
-                    </span>
-                    <div className="mt-[6px] text-[11.5px] text-mut">
-                      {t('groupLine', { answered: g.answered, total: g.headcount })}
-                    </div>
-                    {g.thin ? (
-                      <div className="mt-[4px] text-[11px] leading-[1.4] text-caution [text-wrap:pretty]">{t('thinNote')}</div>
-                    ) : null}
+                    {/* 0073: no count for a group under k, or one held back to protect it (D-123) */}
+                    {g.pct !== null && g.answered !== null ? (
+                      <>
+                        <span className="mt-[9px] block h-[7px] overflow-hidden rounded-pill bg-[rgba(25,21,16,.08)]">
+                          <span className="block h-full rounded-pill" style={{ width: `${g.pct}%`, background: rateColour(g.pct) }} />
+                        </span>
+                        <div className="mt-[6px] text-[11.5px] text-mut">
+                          {t('groupLine', { answered: g.answered, total: g.headcount })}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="mt-[6px] text-[11.5px] text-mut">{t('groupHeadcount', { total: g.headcount })}</div>
+                        <div className="mt-[4px] text-[11px] leading-[1.4] text-caution [text-wrap:pretty]">
+                          {g.thin ? t('thinNote', { threshold: part.threshold }) : t('shieldNote')}
+                        </div>
+                      </>
+                    )}
                   </div>
                 ))}
             </div>

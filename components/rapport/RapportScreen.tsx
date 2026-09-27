@@ -74,7 +74,7 @@ export interface RapportView {
   scope: ReportScope
   team: string | null
   years: number[]
-  teams: { name: string; n: number }[]
+  teams: { name: string; n: number | null }[]
   org: { name: string; orgNumber: string | null; employeeCount: number } | null
   threshold: number
   runs: ReportRun[]
@@ -85,9 +85,9 @@ export interface RapportView {
   prevYear: number | null
   factors: ReportFactor[]
   /** groups the server withheld, for the threshold paragraph */
-  withheld: { name: string; n: number }[]
+  withheld: { name: string; n: number | null }[]
   /** groups at or above the threshold, withheld to protect the ones under it (0034) */
-  protectedGroups: { name: string; n: number }[]
+  protectedGroups: { name: string; n: number | null }[]
   /** responses in scope, when a department is selected */
   teamAnswers: number | null
   instrument: { factors: number; statementsPerFactor: number[]; extraQuestions: number }
@@ -499,7 +499,7 @@ export async function RapportScreen({ view }: { view: RapportView }) {
               ? ' ' +
                 t('rapport.terskelWithheld', {
                   groups: view.withheld
-                    .map((g) => t('rapport.terskelGroup', { group: g.name, count: g.n }))
+                    .map((g) => (g.n === null ? g.name : t('rapport.terskelGroup', { group: g.name, count: g.n })))
                     .join(', '),
                 })
               : '') +
@@ -507,7 +507,7 @@ export async function RapportScreen({ view }: { view: RapportView }) {
               ? ' ' +
                 t('rapport.terskelProtected', {
                   groups: view.protectedGroups
-                    .map((g) => t('rapport.terskelGroup', { group: g.name, count: g.n }))
+                    .map((g) => (g.n === null ? g.name : t('rapport.terskelGroup', { group: g.name, count: g.n })))
                     .join(', '),
                 })
               : '')

@@ -41,7 +41,7 @@ const SCOPE = z.enum(['org', 'group'])
 export const Summary = z.discriminatedUnion('status', [
   z.object({
     status: z.literal('ok'),
-    n: z.coerce.number(),
+    n: z.coerce.number().nullable(),
     threshold: z.coerce.number(),
     index: z.coerce.number(),
     band: BAND,
@@ -51,7 +51,7 @@ export const Summary = z.discriminatedUnion('status', [
   }),
   z.object({
     status: z.literal('insufficient_data'),
-    n: z.coerce.number(),
+    n: z.coerce.number().nullable(),
     threshold: z.coerce.number(),
     scope: SCOPE.default('org'),
     scope_label: z.string().nullable().default(null),
@@ -62,7 +62,7 @@ export const Summary = z.discriminatedUnion('status', [
    */
   z.object({
     status: z.literal('protected'),
-    n: z.coerce.number(),
+    n: z.coerce.number().nullable(),
     threshold: z.coerce.number(),
     scope: SCOPE.default('group'),
     scope_label: z.string().nullable().default(null),
@@ -113,7 +113,7 @@ const GroupFactorRow = z.object({
 
 const GroupRow = z.object({
   group_name: z.string(),
-  n: z.coerce.number(),
+  n: z.coerce.number().nullable(),
   /**
    * `protected`: at or above the threshold, withheld all the same, because the groups
    * under it would otherwise be the published whole minus the published parts (0034).
@@ -160,7 +160,7 @@ export const Recommendation = z.discriminatedUnion('status', [
   z.object({
     status: z.literal('ok'),
     threshold: z.coerce.number(),
-    n: z.coerce.number(),
+    n: z.coerce.number().nullable(),
     answered: z.coerce.number(),
     score: z.coerce.number().int().min(-100).max(100),
   }),

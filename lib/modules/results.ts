@@ -34,7 +34,7 @@ const Factor = z.object({
 })
 const Group = z.object({
   group_name: z.string(),
-  n: z.coerce.number(),
+  n: z.coerce.number().nullable(),
   status: z.string(),
   factors: z.array(z.object({ key: z.string(), index: z.coerce.number().nullable(), band: Band })).nullable(),
 })

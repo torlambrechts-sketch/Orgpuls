@@ -307,7 +307,9 @@
     "cardRoundSub": "Closed {date} · no further answers are coming in",
     "rateLine": "{answered} of {total} have answered",
     "groupLine": "{answered} of {total}",
-    "thinNote": "below threshold — shown only as participation, never as a result",
+    "groupHeadcount": "{total} employees",
+    "thinNote": "fewer than {threshold} employees — participation is not shown, and results only as part of the whole",
+    "shieldNote": "held back, so the figures for a smaller group cannot be worked out",
     "privacy": "The system knows who has not answered, so that the reminder goes only there. No one in the organisation can see that list — not you, not the managers, not the safety representative. The link between person and answer does not exist in the database.",
     "reminderClosed": "Reminders can only be sent while a round is open.",
     "startNextPulse": "Start the next pulse now",
@@ -950,7 +952,7 @@
     "dialogueOff": "Comments are read but not answered. Whoever wrote one never learns whether anybody saw it.",
     "groupHead": "{count, plural, one {# employee} other {# employees}}",
     "groupHeadAnswered": "{count, plural, one {# employee} other {# employees}} · {answered} responded last time",
-    "groupWarnThin": "{group} got {answered} responses last time — below the threshold of {threshold}. The group receives the questions but appears only as part of the whole, not as its own row.",
+    "groupWarnThin": "{group} has fewer than {threshold} employees. The group receives the questions but appears only as part of the whole, not as its own row.",
     "groupWarnNone": "Groups with fewer than {threshold} responses appear only as part of the whole, never as their own row.",
     "cadenceArlig": "Annual",
     "reminderHead": "Reminder",
@@ -1361,6 +1363,7 @@
       "lead": "The groups decide what you can break the result down by. Split by where people actually work together — not by the org chart.",
       "headcount": "{count, plural, one {# employee} other {# employees}}",
       "answered": "{count, plural, one {# answered last time} other {# answered last time}}",
+      "answeredHidden": "Count not shown",
       "noRound": "No measurement closed yet",
       "rule": "Groups with fewer than {threshold} answers are never shown alone, only as part of the whole. When the small groups together have fewer than {threshold} answers, the smallest of the others is held back too, so nobody can work them out by subtraction.",
       "release": {
@@ -2890,6 +2893,7 @@
       "trust": "Confidence in the figures",
       "trustGroups": "{over} of {total} groups over the threshold",
       "protected": "{group} has enough responses ({n}), but the index is withheld. Together with the whole it would otherwise reveal the figures of a group under the threshold of {threshold}.",
+      "protectedNoCount": "{group} has enough answers, but the index is held back. Together with the whole it would otherwise reveal the figures for a group below the threshold of {threshold}.",
       "indexScope": "Work environment index · {scope}"
     },
     "trust": {

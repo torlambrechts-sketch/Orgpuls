@@ -307,7 +307,9 @@
     "cardRoundSub": "Lukket {date} · ingen flere svar kommer inn",
     "rateLine": "{answered} av {total} har svart",
     "groupLine": "{answered} av {total}",
-    "thinNote": "under terskel — vises bare som deltakelse, aldri som resultat",
+    "groupHeadcount": "{total} ansatte",
+    "thinNote": "færre enn {threshold} ansatte — deltakelsen vises ikke, og resultatene bare som del av helheten",
+    "shieldNote": "holdes tilbake, så tallene for en mindre gruppe ikke kan regnes ut",
     "privacy": "Systemet vet hvem som ikke har svart, slik at påminnelsen bare går dit. Ingen i virksomheten kan se den lista — verken du, lederne eller verneombudet. Koblingen mellom person og svar finnes ikke i databasen.",
     "reminderClosed": "Påminnelser kan bare sendes mens en runde er åpen.",
     "startNextPulse": "Start neste puls nå",
@@ -950,7 +952,7 @@
     "dialogueOff": "Kommentarer blir lest, men ikke besvart. Den som skrev får aldri vite om noen så den.",
     "groupHead": "{count, plural, one {# ansatt} other {# ansatte}}",
     "groupHeadAnswered": "{count, plural, one {# ansatt} other {# ansatte}} · {answered} svarte sist",
-    "groupWarnThin": "{group} fikk {answered} svar sist — under terskelen på {threshold}. Gruppa får spørsmålene, men vises bare som del av helheten, ikke som egen rad.",
+    "groupWarnThin": "{group} har færre enn {threshold} ansatte. Gruppa får spørsmålene, men vises bare som del av helheten, ikke som egen rad.",
     "groupWarnNone": "Grupper med færre enn {threshold} svar vises bare som del av helheten, aldri som egen rad.",
     "cadenceArlig": "Årlig",
     "reminderHead": "Påminnelse",
@@ -1361,6 +1363,7 @@
       "lead": "Gruppene bestemmer hva dere kan bryte resultatet ned på. Del opp etter hvor folk faktisk jobber sammen — ikke etter organisasjonskartet.",
       "headcount": "{count, plural, one {# ansatt} other {# ansatte}}",
       "answered": "{count, plural, one {# svar sist} other {# svar sist}}",
+      "answeredHidden": "Antall vises ikke",
       "noRound": "Ingen måling lukket ennå",
       "rule": "Grupper med færre enn {threshold} svar vises aldri alene, bare som del av helheten. Har de små gruppene til sammen færre enn {threshold} svar, holdes også den minste av de andre tilbake, så ingen kan regne dem ut ved å trekke fra.",
       "release": {
@@ -2890,6 +2893,7 @@
       "trust": "Tillit til tallene",
       "trustGroups": "{over} av {total} grupper over terskel",
       "protected": "{group} har nok svar ({n}), men indeksen holdes tilbake. Sammen med helheten ville den ellers vist tallene for en gruppe under terskelen på {threshold}.",
+      "protectedNoCount": "{group} har nok svar, men indeksen holdes tilbake. Sammen med helheten ville den ellers vist tallene for en gruppe under terskelen på {threshold}.",
       "indexScope": "Arbeidsmiljøindeks · {scope}"
     },
     "trust": {

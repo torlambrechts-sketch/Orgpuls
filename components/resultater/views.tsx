@@ -244,15 +244,17 @@ export function SegmentView({ model, sel, pick }: ViewProps) {
   )
 }
 
-function SegmentRows({ model, sel, pick, group, others }: ViewProps & { group: string; others: { id: string; n: number }[] }) {
+function SegmentRows({ model, sel, pick, group, others }: ViewProps & { group: string; others: { id: string; n: number | null }[] }) {
   const t = useTranslations()
   const now = model.scores[model.round.id] ?? {}
   if (!others.length) return <Empty text={t('resultater.seg.alone')} />
   const here = now[group]!
   const rest = (k: string) => {
     const has = others.filter((o) => now[o.id]?.[k] !== undefined)
-    const n = has.reduce((a, o) => a + o.n, 0)
-    return n ? Math.round(has.reduce((a, o) => a + now[o.id]![k]! * o.n, 0) / n) : null
+    // weighted by each group's answers; where a count is withheld (0073) there is no honest weight
+    if (has.some((o) => o.n === null)) return null
+    const n = has.reduce((a, o) => a + (o.n ?? 0), 0)
+    return n ? Math.round(has.reduce((a, o) => a + now[o.id]![k]! * (o.n ?? 0), 0) / n) : null
   }
   const cols = 'grid-cols-[minmax(110px,170px)_1fr_1fr_44px_50px]'
   return (

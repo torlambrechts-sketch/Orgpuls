@@ -8,12 +8,13 @@ import { callFailed } from '@/lib/supabase/read'
  * Reading participation.
  *
  * Participation answers a different question from results — who was asked and who
- * answered, rather than what anyone said — and it is deliberately not k-anonymised.
- * The design shows Administrasjon at 5 employees and 3 answers on the same screen where
- * that group's results are withheld, and labels it "under terskel — vises bare som
- * deltakelse, aldri som resultat". A response rate discloses nothing about a person's
- * answers, and withholding it would break the product: you cannot chase a low response
- * rate you are not allowed to see.
+ * answered, rather than what anyone said. It is shown per group, because you cannot chase a
+ * low response rate you are not allowed to see, but not for every group: since 0073 (D-123)
+ * a group with fewer than k people asked has no count at all, neither while the round runs
+ * nor after, and neither has a group whose count would give such a group away. For those
+ * rows `answered` and `pct` are null, and the screens print the headcount and a note —
+ * never a 0 that looks like data. In a group of three, "1 av 3" moving while a manager
+ * watches is too close to saying who answered.
  *
  * What the RPC never returns is WHO did not answer. There are counts here and no names,
  * because the product's promise is that the list of non-responders is unreadable by
@@ -28,8 +29,9 @@ const GroupRow = z.object({
   group_name: z.string(),
   sort_order: z.coerce.number(),
   headcount: z.coerce.number(),
-  answered: z.coerce.number(),
-  pct: z.coerce.number(),
+  // null where the group is under k, or given up to protect one that is (0073)
+  answered: z.coerce.number().nullable(),
+  pct: z.coerce.number().nullable(),
   thin: z.boolean(),
 })
 

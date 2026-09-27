@@ -125,10 +125,12 @@ begin
     perform set_config('request.jwt.claims', json_build_object('sub', v_dl, 'role', 'authenticated')::text, true);
     v_json := public.results_by_group(v_r[1]);
     select g into v_cell from jsonb_array_elements(v_json->'groups') g where g->>'group_name' = 'Bygg';
-    v_rows := v_rows || jsonb_build_object('seq', 3, 'name', 'a protected group carries its count and no figures',
-      'expected', 'protected, n=8, factors=null',
-      'actual', (v_cell->>'status') || ', n=' || (v_cell->>'n') || ', factors=' || coalesce(v_cell->>'factors', 'null'),
-      'pass', v_cell->>'status' = 'protected' and (v_cell->>'n')::int = 8 and jsonb_typeof(v_cell->'factors') = 'null');
+    -- 0073 (D-123): the group given up to shield Anlegg gives up its count too — Anlegg's one
+    -- answer would otherwise be the total minus the counts still printed
+    v_rows := v_rows || jsonb_build_object('seq', 3, 'name', 'a protected group shielding a smaller one carries neither figures nor a count',
+      'expected', 'protected, n=null, factors=null',
+      'actual', (v_cell->>'status') || ', n=' || coalesce(v_cell->>'n', 'null') || ', factors=' || coalesce(v_cell->>'factors', 'null'),
+      'pass', v_cell->>'status' = 'protected' and jsonb_typeof(v_cell->'n') = 'null' and jsonb_typeof(v_cell->'factors') = 'null');
 
     -- 4 ----------------------------------------------- the reader's own subtraction
     v_sum := public.results_summary(v_r[1]);

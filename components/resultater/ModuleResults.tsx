@@ -39,7 +39,7 @@ export async function ModuleResults({
         const columns = [
           ...(results.scope === 'org' ? [{ name: t('org'), cells: new Map(m.factors.map((f) => [f.key, f.index])) }] : []),
           ...groups.map((g) => ({
-            name: t('groupN', { name: g.group_name, n: g.n }),
+            name: g.n === null ? g.group_name : t('groupN', { name: g.group_name, n: g.n }),
             cells: new Map((g.factors ?? []).map((f) => [f.key, f.index])),
           })),
         ]

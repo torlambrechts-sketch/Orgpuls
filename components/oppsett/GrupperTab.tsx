@@ -46,7 +46,9 @@ export async function GrupperTab({ view }: { view: OppsettView }) {
                 <span className="text-[12.5px] text-mut">
                   {view.lastClosedRound === null
                     ? t('oppsett.grupper.noRound')
-                    : t('oppsett.grupper.answered', { count: g.answered })}
+                    : g.answered === null
+                      ? t('oppsett.grupper.answeredHidden')
+                      : t('oppsett.grupper.answered', { count: g.answered })}
                 </span>
                 <span className="text-right">
                   {status ? (

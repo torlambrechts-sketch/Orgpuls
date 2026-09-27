@@ -219,7 +219,6 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
       groupWarn: thin.length
         ? t('maleoppsett.groupWarnThin', {
             group: thin.map((g) => g.name).join(', '),
-            answered: thin[0]?.answeredLast ?? 0,
             threshold: view.threshold,
           })
         : t('maleoppsett.groupWarnNone', { threshold: view.threshold }),
