@@ -282,6 +282,39 @@ export async function moduleSetStatus(_prev: AdminResult | null, formData: FormD
   return r
 }
 
+/**
+ * «Validert» with a link to the validation report, or back to «Foreløpig» (0092): super-admin, with a
+ * reason; the database logs and audits it.
+ */
+export async function moduleSetValidation(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({
+      ...ModuleRef,
+      status: z.enum(['provisional', 'validated']),
+      report: z.string().trim().max(500).optional(),
+      reason: z.string().trim().min(5).max(500),
+    })
+    .safeParse({
+      key: formData.get('key'),
+      version: formData.get('version'),
+      status: formData.get('status'),
+      report: formData.get('report') ?? undefined,
+      reason: formData.get('reason'),
+    })
+  if (!parsed.success) return { ok: false, problem: failedField(parsed.error) === 'reason' ? 'reason_required' : 'invalid' }
+  const report = parsed.data.report ? parsed.data.report : null
+  if (parsed.data.status === 'validated' && !(report && /^https:\/\/\S+$/.test(report))) return { ok: false, problem: 'report_required' }
+  const r = await rpc('admin_module_set_validation', {
+    p_key: parsed.data.key,
+    p_version: parsed.data.version,
+    p_status: parsed.data.status,
+    p_report_url: parsed.data.status === 'validated' ? report : null,
+    p_reason: parsed.data.reason,
+  })
+  if (r.ok) revalidatePath('/admin/modules')
+  return r
+}
+
 /** Let an organisation try a draft (0068), or stop: super-admin, with a reason, audited. */
 export async function modulePilot(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
   const parsed = z

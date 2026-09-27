@@ -1,10 +1,10 @@
 import type { Metadata, Route } from 'next'
 import Link from 'next/link'
 import { getLocale, getTranslations } from 'next-intl/server'
-import { z } from 'zod'
+import { industryCards, NewChip } from '@/components/industry/IndustryCards'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { Crumbs, Eyebrow, StartBand } from '@/components/site/parts'
-import { getIndustry, hasPublicPage, INDUSTRIES, pageIn } from '@/content/industries'
+import { getIndustry, pageIn } from '@/content/industries'
 import { moduleFile } from '@/content/industries/modules'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, graph, organization } from '@/lib/marketing/schema'
@@ -20,14 +20,14 @@ export async function generateMetadata(): Promise<Metadata> {
   return pageMeta({ title: t('title'), description: t('description'), path: '/bransjer' })
 }
 
-const Card = z.object({ slug: z.string(), k: z.string(), t: z.string(), d: z.string(), cta: z.string() })
 const FILLS = ['bg-sbg', 'bg-mint'] as const
 
 export default async function BransjerPage() {
   const t = await getTranslations('site.bransjer')
+  const newLabel = (await getTranslations('site.home.industries'))('new')
   const lang = (await getLocale()) === 'en' ? 'en' : 'no'
-  // an industry is shown once its address has a page to show (content/industries hasPublicPage)
-  const cards = z.array(Card).parse(t.raw('cards')).filter((c) => INDUSTRIES.some((i) => i.slug === c.slug && hasPublicPage(i, lang)))
+  // an industry is shown once its address has a page to show, in the registry's order, «Ny» for 90 days (D-141)
+  const cards = await industryCards()
 
   return (
     <div>
@@ -59,7 +59,10 @@ export default async function BransjerPage() {
                 href={`/${c.slug}` as Route}
                 className={`flex min-h-[240px] flex-col gap-[10px] rounded-card border border-line p-[24px] text-ink hover:text-ink ${FILLS[i % FILLS.length]}`}
               >
-                <span className="text-[11px] uppercase tracking-[0.12em] text-mut">{c.k}</span>
+                <span className="flex items-start justify-between gap-[10px]">
+                  <span className="text-[11px] uppercase tracking-[0.12em] text-mut">{c.k}</span>
+                  {c.isNew ? <NewChip label={newLabel} /> : null}
+                </span>
                 <span className="font-display text-[26px] font-semibold leading-[1.15] [text-wrap:balance]">{c.t}</span>
                 <span className="text-[14px] leading-[1.55] text-body [text-wrap:pretty]">{c.d}</span>
                 {mod ? (

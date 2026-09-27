@@ -608,6 +608,26 @@ const Modules = z.object({
       published_at: tsn,
       retired_at: tsn,
       content_hash: z.string(),
+      // 0092: the status, and the last decision that set it
+      validation_status: z.enum(['provisional', 'validated']).nullable().default(null),
+      decision: z
+        .object({ status: z.enum(['provisional', 'validated']), report_url: z.string().nullable(), reason: z.string(), at: ts })
+        .nullable()
+        .default(null),
+      variants: z
+        .array(
+          z.object({
+            key: z.string(),
+            code: z.string(),
+            version: z.string(),
+            min_factors: num.nullable(),
+            default_off: z.array(z.string()),
+            factors: num,
+            items: num,
+            rounds: num,
+          }),
+        )
+        .default([]),
       factors: num,
       items: num,
       rounds: num,

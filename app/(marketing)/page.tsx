@@ -2,6 +2,7 @@ import type { Metadata, Route } from 'next'
 import Link from 'next/link'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
+import { IndustryCards } from '@/components/industry/IndustryCards'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { Eyebrow, StartBand, Tick } from '@/components/site/parts'
 import { pageMeta } from '@/lib/marketing/meta'
@@ -49,9 +50,6 @@ export default async function StartPage() {
   const teasers = zip(TEASERS, z.array(Teaser).parse(t.raw('teasers')))
   const team = zip(TEAM, z.array(Member).parse(t.raw('about.team')))
   const seo = await getTranslations('seo.home')
-  const industries = z
-    .array(z.object({ slug: z.string(), k: z.string(), t: z.string(), d: z.string(), cta: z.string() }))
-    .parse((await getTranslations('site.bransjer')).raw('cards'))
 
   return (
     <div>
@@ -137,7 +135,7 @@ export default async function StartPage() {
         </div>
       </section>
 
-      {/* D-125: the industries, asked for on the start page (2026-09-27); the explore cards' own form */}
+      {/* D-125: the industries, asked for on the start page (2026-09-27); the explore cards' own form, in the registry's order (D-141) */}
       <section id="bransjer" className="mx-auto max-w-[1120px] scroll-mt-[90px] px-[26px] pt-[56px]">
         <div className="flex flex-wrap items-baseline justify-between gap-[12px]">
           <Eyebrow>{t('industries.k')}</Eyebrow>
@@ -145,20 +143,7 @@ export default async function StartPage() {
             {t('industries.all')} →
           </Link>
         </div>
-        <div className="mt-[12px] grid gap-[13px] [grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))]">
-          {industries.map((x, i) => (
-            <Link
-              key={x.slug}
-              href={`/${x.slug}` as Route}
-              className={`flex min-h-[180px] flex-col gap-[10px] rounded-card border border-line p-[24px] text-ink hover:text-ink ${i % 2 ? 'bg-mint' : 'bg-sbg'}`}
-            >
-              <span className="text-[11px] uppercase tracking-[0.12em] text-mut">{x.k}</span>
-              <span className="font-display text-[24px] font-semibold leading-[1.15] [text-wrap:balance]">{x.t}</span>
-              <span className="text-[13.5px] leading-[1.55] text-body [text-wrap:pretty]">{x.d}</span>
-              <span className="mt-auto text-[13.5px] font-bold text-link">{x.cta} →</span>
-            </Link>
-          ))}
-        </div>
+        <IndustryCards />
       </section>
 
       <section

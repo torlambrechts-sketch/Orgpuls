@@ -12,10 +12,10 @@ import { getRounds } from '@/lib/rounds/read'
 import { getLatestSetupOfKind, getOrgQuestions, getRoundSetup } from '@/lib/setup/read'
 import { getGroupStats, getSmsSettings } from '@/lib/settings/read'
 import { getWheel, wheelMonths } from '@/lib/wheel/read'
-import { INDUSTRY_META, industryForNace } from '@/content/industries/meta'
+import { INDUSTRY_META } from '@/content/industries/meta'
 import { getIndustry, pageIn } from '@/content/industries'
 import { flag } from '@/lib/flags'
-import { getOrgNaceCode, getPublishedModules, getRoundModules, getModulesById } from '@/lib/modules/read'
+import { getOrgIndustry, getPublishedModules, getRoundModules, getModulesById } from '@/lib/modules/read'
 
 /**
  * Måleoppsett — the data half. Bundle lines 1425-1710; the rendering is in
@@ -72,16 +72,17 @@ export default async function MaleoppsettPage({
    * a round that already asks one shows that version, whatever has been published since. The
    * organisation's industry code decides which is suggested, never which is allowed.
    */
-  const [published, chosen, nace, standard, extraRegistry, sms] = await Promise.all([
+  const [published, chosen, orgIndustry, standard, extraRegistry, sms] = await Promise.all([
     getPublishedModules(org.id),
     getRoundModules([setup.id]),
-    getOrgNaceCode(),
+    getOrgIndustry(),
     getSurveyDefaults(org.id),
     getExtraQuestions(),
     getSmsSettings(),
   ])
   const chosenModules = await getModulesById(chosen.map((c) => c.moduleId))
-  const industry = industryForNace(nace)
+  // the organisation's industry, chosen or from its NACE code (0091)
+  const industry = orgIndustry.chosen
   const offered = [
     ...chosenModules,
     ...published.filter((m) => !chosenModules.some((c) => c.key === m.key)),

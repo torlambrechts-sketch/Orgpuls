@@ -14,6 +14,11 @@ export type IndustryMeta = {
   /** the words the suggestion needs, in each UI language */
   label: { no: string; en: string }
   moduleLabel?: { no: string; en: string }
+  /**
+   * Where the industry comes in the registry's lists (innstillinger-og-forside.md § 6): by the number
+   * of Norwegian undertakings with 5–100 employees, largest first (Brønnøysund, September 2026)
+   */
+  sortOrder: number
 }
 
 export const INDUSTRY_META: IndustryMeta[] = [
@@ -21,6 +26,7 @@ export const INDUSTRY_META: IndustryMeta[] = [
   // helse's 88 (the first prefix that matches wins); SN2025 moves them to 85
   {
     slug: 'barnehage-og-skole',
+    sortOrder: 4,
     naceCodePrefixes: ['85', '88911', '88913'],
     moduleKey: 'barnehage-og-skole',
     label: { no: 'barnehage og skole', en: 'kindergartens and schools' },
@@ -28,6 +34,7 @@ export const INDUSTRY_META: IndustryMeta[] = [
   },
   {
     slug: 'bygg-og-anlegg',
+    sortOrder: 3,
     naceCodePrefixes: ['41', '42', '43'],
     moduleKey: 'bygg-og-anlegg',
     label: { no: 'bygg og anlegg', en: 'construction' },
@@ -36,6 +43,7 @@ export const INDUSTRY_META: IndustryMeta[] = [
   {
     // SN2025 divisions 58–66 and 68–74: publishing, IT, finance, real estate, consultancy (not 67 or 75)
     slug: 'kunnskap-og-kontor',
+    sortOrder: 2,
     naceCodePrefixes: ['58', '59', '60', '61', '62', '63', '64', '65', '66', '68', '69', '70', '71', '72', '73', '74'],
     moduleKey: 'kunnskap-og-kontor',
     label: { no: 'kunnskap og kontor', en: 'knowledge and office work' },
@@ -44,6 +52,7 @@ export const INDUSTRY_META: IndustryMeta[] = [
   {
     // SN2025 divisions 46 (wholesale) and 47 (retail)
     slug: 'handel',
+    sortOrder: 1,
     naceCodePrefixes: ['46', '47'],
     moduleKey: 'handel',
     label: { no: 'handel', en: 'retail and wholesale' },
@@ -51,12 +60,42 @@ export const INDUSTRY_META: IndustryMeta[] = [
   },
   {
     slug: 'helse-og-omsorg',
+    sortOrder: 5,
     naceCodePrefixes: ['86', '87', '88'],
     moduleKey: 'helse-og-omsorg',
     label: { no: 'helse og omsorg', en: 'health and care' },
     moduleLabel: { no: 'helse-modulen', en: 'the health and care module' },
   },
 ]
+
+/**
+ * The organisation's industry (0091, D-139): what its NACE code suggests, or what it chose in
+ * Oppsett › Selskap. A choice to follow the code (`brreg`), and no choice at all, both follow the
+ * code as it is now. A manual choice (null: «Ingen bransjemodul») stands when the code changes;
+ * `changed` is the new suggestion to offer, once, where it differs from the one the choice was made
+ * against.
+ */
+export type IndustrySetting = { source: 'brreg' | 'manual' | null; key: string | null; suggestedAtChoice: string | null }
+export type ResolvedIndustry = {
+  suggested: IndustryMeta | null
+  chosen: IndustryMeta | null
+  source: IndustrySetting['source']
+  changed: IndustryMeta | null
+}
+
+export function resolveIndustry(nace: string | null | undefined, setting: IndustrySetting): ResolvedIndustry {
+  const suggested = industryForNace(nace)
+  if (setting.source !== 'manual') return { suggested, chosen: suggested, source: setting.source, changed: null }
+  const chosen = INDUSTRY_META.find((i) => i.slug === setting.key) ?? null
+  const changed =
+    suggested && suggested.slug !== setting.suggestedAtChoice && suggested.slug !== setting.key ? suggested : null
+  return { suggested, chosen, source: 'manual', changed }
+}
+
+/** The industries in the registry's order */
+export const INDUSTRIES_IN_ORDER = [...INDUSTRY_META].sort((a, b) => a.sortOrder - b.sortOrder)
+
+export const INDUSTRY_SLUGS = INDUSTRY_META.map((i) => i.slug) as [IndustryMeta['slug'], ...IndustryMeta['slug'][]]
 
 /** The industry an organisation's code belongs to, if any. */
 export function industryForNace(code: string | null | undefined): IndustryMeta | null {

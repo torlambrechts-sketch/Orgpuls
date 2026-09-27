@@ -43,6 +43,10 @@ const OrgRow = z.object({
   registry_municipality_no: z.string().nullable(),
   registry_employees: z.coerce.number().nullable(),
   registry_vat: z.boolean().nullable(),
+  // 0091: the industry the organisation chose, if it did
+  industry_key: z.string().nullable(),
+  industry_source: z.enum(['brreg', 'manual']).nullable(),
+  industry_suggested: z.string().nullable(),
 })
 
 export type CompanyRow = z.infer<typeof OrgRow>
@@ -51,7 +55,7 @@ const COMPANY_COLUMNS =
   'id, name, org_number, employee_count, threshold, default_lang, law_mode, bht_name, ' +
   'registry_fetched_at, registry_form_code, registry_form_label, registry_nace_code, ' +
   'registry_nace_label, registry_registered_on, registry_address, registry_municipality, ' +
-  'registry_municipality_no, registry_employees, registry_vat'
+  'registry_municipality_no, registry_employees, registry_vat, industry_key, industry_source, industry_suggested'
 
 export async function getCompany(): Promise<CompanyRow | null> {
   const supabase = await createClient()

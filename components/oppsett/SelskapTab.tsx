@@ -6,6 +6,8 @@ import { LocationForm } from '@/components/oppsett/LocationForm'
 import { CompanyForm } from '@/components/oppsett/CompanyForm'
 import { LawModeForm } from '@/components/oppsett/LawModeForm'
 import { BhtField } from '@/components/oppsett/BhtField'
+import { IndustryForm } from '@/components/oppsett/IndustryForm'
+import { INDUSTRIES_IN_ORDER, resolveIndustry } from '@/content/industries/meta'
 
 /**
  * Selskap. Bundle lines 1987-2108.
@@ -46,6 +48,16 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
   const t = await getTranslations()
   const locale = await getLocale()
   const c = view.company
+
+  // the organisation's industry: chosen here, or from its NACE code (0091)
+  const industry = resolveIndustry(c.registry_nace_code, {
+    source: c.industry_source,
+    key: c.industry_key,
+    suggestedAtChoice: c.industry_suggested,
+  })
+  const lang = locale === 'en' ? 'en' : 'no'
+  const industryName = (i: { label: { no: string; en: string } }) =>
+    i.label[lang].charAt(0).toLocaleUpperCase(locale) + i.label[lang].slice(1)
 
   const longDate = (iso: string | null) =>
     iso === null
@@ -271,6 +283,7 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
             }}
           />
         </section>
+
       </div>
 
       <div className="flex min-w-0 flex-col gap-[14px]">
@@ -328,6 +341,52 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
             placeholder={t('oppsett.duty.bhtPlaceholder')}
             saved={t('oppsett.saved')}
             denied={t('oppsett.problem.denied')}
+          />
+        </section>
+
+        {/* «Bransje» (0091, D-139): not in the design bundle, which predates the industry modules */}
+        <section className="rounded-panel border border-line bg-sf px-[24px] py-[22px]" aria-labelledby="bransje">
+          <h2 id="bransje" className="m-0 text-[11px] font-normal uppercase tracking-[0.11em] text-mut">
+            {t('oppsett.industry.title')}
+          </h2>
+          <p className="mt-[7px] max-w-[600px] text-[13px] leading-[1.6] text-body [text-wrap:pretty]">
+            {t('oppsett.industry.lead')}
+          </p>
+          <div className="mt-[14px] flex flex-col gap-[4px] text-[13px] leading-[1.55] text-body">
+            <span>
+              {c.registry_nace_code === null
+                ? t('oppsett.industry.registeredUnknown')
+                : t('oppsett.industry.registered', { code: c.registry_nace_code, label: c.registry_nace_label ?? '' })}
+            </span>
+            {c.registry_nace_code === null ? null : (
+              <span>
+                {industry.suggested
+                  ? t('oppsett.industry.suggested', { industry: industryName(industry.suggested) })
+                  : t('oppsett.industry.suggestedNone')}
+              </span>
+            )}
+            <span className="text-mut">
+              {industry.source === 'manual' ? t('oppsett.industry.manual') : t('oppsett.industry.followsCode')}
+            </span>
+          </div>
+          <IndustryForm
+            canWrite={view.canWrite}
+            options={[
+              { value: 'none', label: t('oppsett.industry.none') },
+              ...INDUSTRIES_IN_ORDER.map((i) => ({ value: i.slug, label: industryName(i) })),
+            ]}
+            selected={industry.chosen?.slug ?? 'none'}
+            changed={
+              industry.changed
+                ? { value: industry.changed.slug, text: t('oppsett.industry.changed', { industry: industry.changed.label[lang] }) }
+                : null
+            }
+            labels={{
+              switchTo: t('oppsett.industry.switchTo'),
+              keep: t('oppsett.industry.keep'),
+              saved: t('oppsett.saved'),
+              problems: Object.fromEntries(['invalid', 'denied'].map((k) => [k, t(`oppsett.problem.${k}`)])),
+            }}
           />
         </section>
       </div>

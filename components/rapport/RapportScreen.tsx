@@ -115,6 +115,8 @@ export interface RapportView {
   modules: {
     name: string
     version: string
+    variant: { name: string; code: string; version: string } | null
+    provisional: boolean
     factors: { name: string; index: number | null; band: 'lav' | 'middels' | 'hoy' | null; legalBasis: string[]; measures: string[] }[]
     counts: { text: string; suppressed: boolean; ja: number | null; nei: number | null; vetIkke: number | null; total: number | null }[]
     threshold: number
@@ -381,7 +383,21 @@ export async function RapportScreen({ view }: { view: RapportView }) {
               </span>
               <span>
                 {t('rapport.footerRight')}
-                {view.modules.map((m) => ` · ${t('rapport.module.footer', { name: m.name, version: m.version })}`).join('')}
+                {view.modules
+                  .map(
+                    (m) =>
+                      ` · ${
+                        m.variant
+                          ? t('rapport.module.footerVariant', {
+                              name: m.name,
+                              variant: m.variant.name.toLocaleLowerCase(locale),
+                              code: m.variant.code,
+                              version: m.variant.version,
+                            })
+                          : t('rapport.module.footer', { name: m.name, version: m.version })
+                      }${m.provisional ? t('rapport.module.footerProvisional') : ''}`,
+                  )
+                  .join('')}
               </span>
             </>
           ) : null

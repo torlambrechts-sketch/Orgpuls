@@ -9,6 +9,7 @@ import { writeFailed } from '@/lib/supabase/write'
 import { lookupOrgNumber } from '@/lib/brreg/lookup'
 import { DUTY_ROLES } from '@/lib/settings/read'
 import { normalizePhone } from '@/supabase/functions/_shared/sms'
+import { INDUSTRY_SLUGS, industryForNace } from '@/content/industries/meta'
 
 /**
  * Writing Oppsett.
@@ -127,6 +128,42 @@ export async function saveBht(formData: FormData): Promise<SettingsResult> {
   if (!parsed.success) return { ok: false, problem: 'invalid' }
   // the column refuses a blank string, so an empty field means "no BHT recorded"
   return updateOrg({ bht_name: parsed.data === '' ? null : parsed.data })
+}
+
+/**
+ * «Bransje» (0091, D-139). Choosing what the NACE code suggests follows the code (`brreg`), so it
+ * moves when the code does; anything else is the organisation's own (`manual`), kept when the code
+ * changes, together with the suggestion it was chosen against so a later change can be offered.
+ * The suggestion is worked out here from the stored code, never taken from the form.
+ */
+const IndustryChoice = z.union([z.literal('none'), z.enum(INDUSTRY_SLUGS)])
+
+async function naceSuggestion(): Promise<string | null | undefined> {
+  const supabase = await createClient()
+  const { data, error } = await supabase.schema('app').from('organizations').select('registry_nace_code').limit(2)
+  const parsed = z.array(z.object({ registry_nace_code: z.string().nullable() })).length(1).safeParse(data)
+  if (error || !parsed.success) return undefined
+  return industryForNace(parsed.data[0]!.registry_nace_code)?.slug ?? null
+}
+
+export async function saveIndustry(formData: FormData): Promise<SettingsResult> {
+  const parsed = IndustryChoice.safeParse(formData.get('industry'))
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const suggested = await naceSuggestion()
+  if (suggested === undefined) return { ok: false, problem: 'denied' }
+  const choice = parsed.data === 'none' ? null : parsed.data
+  return updateOrg(
+    choice === suggested
+      ? { industry_source: 'brreg', industry_key: null, industry_suggested: null }
+      : { industry_source: 'manual', industry_key: choice, industry_suggested: suggested },
+  )
+}
+
+/** «Behold»: the code suggests something new, and the organisation keeps its own choice. */
+export async function keepIndustry(): Promise<SettingsResult> {
+  const suggested = await naceSuggestion()
+  if (suggested === undefined) return { ok: false, problem: 'denied' }
+  return updateOrg({ industry_suggested: suggested })
 }
 
 async function updateOrg(patch: Record<string, unknown>): Promise<SettingsResult> {

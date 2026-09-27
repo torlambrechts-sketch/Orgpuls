@@ -14,6 +14,8 @@ export const FLAG_NAMES = [
   'module_factor_toggles',
   'module_segments',
   'signup_industry_hint',
+  // innstillinger-og-forside.md § 4: the footer's and /bruksomrader's industry cards, off until all five pages are out
+  'home_industries_block',
   // engagement (docs/implementation/engagement-phases.md P0.1): off in production, on in QA
   'engagement_since_last',
   'engagement_thanks',

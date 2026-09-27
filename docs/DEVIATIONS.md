@@ -6452,3 +6452,107 @@ module is asked one way, eight factors of three, like bygg and helse.
     - the respondent screen for HA-T-2 at 390, and with «Alene på vakt» off, HA-T-2 is gone;
     - Resultater: «Ja: 2 · Nei: 3 · 5 svar, «Jobber aldri alene» er holdt utenfor andelen»;
     - the report line.
+
+## D-139 — «Bransje» on the organisation (0091)
+
+Tor, 2026-09-27: "bygg resten også". innstillinger-og-forside.md § 3.1.
+
+- **Oppsett › Selskap has a «Bransje» section.** It sits at the foot of the right column, in that
+  column's card form: an eyebrow heading, the brief's help text, «Registrert næring», «Foreslått
+  bransje», and the settings chips for «Ingen bransjemodul» and the five industries.
+  - The design bundle has no such section, since it predates the modules.
+  - In the left column it pushed the page down, losing the claimed tile 2000:0. In the right column
+    it covers only empty background. One claimed tile of 15-oppsett-selskap, 1300:960, is now the
+    section and is no longer claimed; every other claim holds.
+- **What is stored differs from the brief's two fields, and keeps what they are for.**
+  - `industry_source` is null when nothing is chosen, `brreg` when the organisation chooses what its
+    code suggests, and `manual` otherwise.
+  - Following the code (null or `brreg`) stores no industry, so nothing goes stale. The industry is
+    worked out from the NACE code each time.
+  - A manual choice stores `industry_key` (null is «Ingen bransjemodul») and `industry_suggested`,
+    the code's suggestion when the choice was made. When a later Brønnøysund update suggests
+    something else, the section shows the brief's notice with «Bytt» and «Behold». «Behold»
+    records the new suggestion, so the notice is not shown again.
+  - The slugs are checked by zod at the one write path, not by the database, so a new industry
+    stays a registry entry.
+- **Where it is used:** Målinger › Spørsmålssett and Måleoppsett suggest the chosen industry's
+  module in place of the NACE code's.
+- **The wording (barnehage, skole, begge) is not repeated here.** It is chosen per module in
+  Spørsmålssett, suggested from the code, where 0083 put it. A second control would be a second
+  truth.
+- **Order:** the chips follow the registry's `sortOrder` (§ 6: handel, kontor, bygg, barnehage og
+  skole, helse).
+- **Tests:**
+  - `org_industry_invariants.sql`, 3 rows: only a daglig leder writes; following the code names
+    nothing; a slug has the registry's shape.
+  - `tests/unit/industry-setting.test.ts`.
+  - Verified in the browser on the QA stack. The automatic state, a manual choice, then a simulated
+    code change to 47.110: the notice appeared and «Behold» cleared it. After a change to 86.101,
+    «Bytt» stored `brreg`. With a manual «Bygg og anlegg», Spørsmålssett read «Foreslått for bygg
+    og anlegg».
+
+## D-140 — The validation status in the admin, and the report's footer (0092)
+
+Tor, 2026-09-27: "bygg resten også". innstillinger-og-forside.md § 3.3 and § 4.
+
+- **admin › Moduler:**
+  - Every version shows its validation status («Foreløpig», «Validert» or «Ikke oppgitt») and the
+    last decision, with its date, reason and report link.
+  - A super-admin marks a version «Validert», which needs an https link to the validation report
+    and a reason. They can take it back to «Foreløpig», which needs a reason.
+  - A new card lists the variants: code, version, factors, statements, minimum, off by default,
+    and rounds.
+  - Use by industry code was already there.
+- **The freeze gives way for this one column only.** 0089 made the status part of what a
+  published version says. The brief wants it moved later, by evidence, so `module_frozen` lets
+  `validation_status` change only inside `admin_module_set_validation`. That function sets a
+  transaction-local flag. Clients have no update privilege on the registry, so no client can use
+  the flag. The text and the content hash stay frozen, and a reseed never undoes a decision.
+- **Every decision is kept** in `app.module_validation_log`, append-only, with RLS on, no policy
+  and no grant. Each decision is also audited as `module.validate` or `module.provisional`.
+- **The public pages keep the module file's status.** They are built from the file, not from the
+  database, so a page says «Foreløpig» until the next version of the file says otherwise.
+  Spørsmålssett, results and the report follow the decision. The admin's note says so.
+- **The report's footer** names the variant asked and says «foreløpig» where the module is, per
+  § 3.3: «Kunnskap og kontor, utvidet (KK-U v1.0), foreløpig». A module asked one way keeps «{navn}
+  v{versjon}».
+- **Not built:** hiding KK-FY-1/4/5 for those who work mainly at home (bransje-kunnskap-og-kontor.md
+  § 6.2). It hangs on the `arbeidssted` segment, and segments are not shipped (`module_segments` is
+  off).
+- **Tests:** `module_validation_invariants.sql`, 7 rows. It covers:
+  - the log's RLS;
+  - who may decide;
+  - what a decision takes;
+  - the decision logged and audited;
+  - nothing else moves the status, and a logged decision cannot change;
+  - the list with kontor's two variants of 24 and 62;
+  - rollback.
+  - The admin page itself was not opened in the browser. The QA stack has no platform admin with a
+    second factor. What it renders is `admin_modules`, proved in rows 4–6, and the page and the form
+    pass the type check and lint.
+  - The report footer was checked on the QA stack, with kontor in variant utvidet on a closed round:
+    «Utarbeidet i Orgpuls · Kunnskap og kontor, utvidet (KK-U v1.0), foreløpig».
+
+## D-141 — The industries on the site: registry order, «Ny», footer and /bruksomrader
+
+Tor, 2026-09-27: "bygg resten også". innstillinger-og-forside.md § 5 and § 6.
+
+- **Most of § 5 existed** before this brief, from Tor's own requests:
+  - the start page's industry block and /bransjer (D-125);
+  - the menu's «Bransjer» group (D-129);
+  - the sitemap's industry and question pages, once launched.
+  The brief's block («Bygget for arbeidsplassen deres», with its own ingress and line under the
+  cards) would be a second block beside the first. The first stays, and gets what the brief adds:
+  - Handel and kontor are among the cards, with the brief's card texts. Like every card, they are
+    shown only once their page is launched.
+  - The cards, the menu, the footer column and the sitemap follow the registry's `sortOrder`.
+  - A card says «Ny» until its page's `card.newUntil`. The date is set when the page launches,
+    90 days on (§ 9 decision 2). The build refuses a value that is not an ISO date, so the brief's
+    placeholder cannot ship.
+  - `IndustryCards` is the start page's cards, now one component.
+- **The footer's «Bransjer» column and /bruksomrader's industry cards are behind
+  `home_industries_block`**, the brief's own flag, off «til alle fem sider er ute». Both change
+  pages the site's design draws: its footer has four columns, and /bruksomrader has no such
+  section. The flag is on in QA, and both were checked there: a fifth column after
+  «Bruksområder», and the cards above the use cases.
+- **Unchanged:** the front page's metadata, and en.orgpuls.com (§ 5.5).

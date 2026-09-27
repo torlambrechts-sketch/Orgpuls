@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import { EN_URL, hostOf, MAIN_URL, PUBLIC_HOSTS } from '@/lib/hosts'
 import { HeaderNav } from '@/components/site/HeaderNav'
 import { hasPublicPage, INDUSTRIES, pageIn } from '@/content/industries'
+import { flag } from '@/lib/flags'
 import { SiteFooter, type FooterData } from '@/components/site/SiteFooter'
 import { SiteBeacon } from '@/components/marketing/SiteBeacon'
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch'
@@ -32,14 +33,17 @@ export default async function MarketingLayout({ children }: { children: React.Re
     return label ? [{ href: `/${i.slug}`, label }] : []
   })
 
+  // «Bransjer» in the footer (innstillinger-og-forside.md § 5.4, D-141): the design's footer has four
+  // columns, so the fifth waits behind `home_industries_block` until every industry page is out
+  const industryColumn = flag('home_industries_block') && industries.length ? [{ head: t('footer.head.bransjer'), links: industries }] : []
   const columns = Object.fromEntries(
-    (Object.keys(FOOTERS) as FooterId[]).map((id) => [
-      id,
-      FOOTERS[id].map((c) => ({
+    (Object.keys(FOOTERS) as FooterId[]).map((id) => {
+      const cols = FOOTERS[id].map((c) => ({
         head: t(`footer.head.${c.head}`),
         links: c.links.map((l) => ({ label: t(`footer.link.${l.key}`), href: l.href })),
-      })),
-    ]),
+      }))
+      return [id, [...cols.slice(0, 2), ...industryColumn, ...cols.slice(2)]]
+    }),
   ) as FooterData
 
   return (

@@ -53,6 +53,10 @@ export function problemsOf(page: IndustryPage, lang: PageLang = 'no'): string[] 
     else if (!f.action_suggestions.some((a) => a.type === page.loop?.example.actionType)) out.push('loop: no such suggestion')
   }
   if (mod && page.module && mod.version !== page.module.version) out.push('module version differs from the file')
+  const until = page.card?.newUntil
+  if (until !== undefined && (!/^\d{4}-\d{2}-\d{2}$/.test(until) || Number.isNaN(Date.parse(until)))) {
+    out.push(`card: «Ny» until "${until}" is not an ISO date`)
+  }
   if (page.launched) {
     const open = page.law.items.filter((l) => !l.reviewed).map((l) => l.ref)
     if (open.length) out.push(`launched with law items not reviewed: ${open.join('; ')}`)

@@ -893,7 +893,9 @@
       "countSuppressed": "Not shown: fewer than {threshold} answered.",
       "countLine": "Yes: {ja}. No: {nei}. Don’t know: {vetIkke}. Of {total} answers.",
       "countLineYesNo": "Yes: {ja}. No: {nei}. Of {total} answers.",
-      "footer": "{name} v{version}"
+      "footer": "{name} v{version}",
+      "footerVariant": "{name}, {variant} ({code} v{version})",
+      "footerProvisional": ", provisional"
     }
   },
   "tiltak": {
@@ -1462,6 +1464,20 @@
       "benchmark": "Industry comparison",
       "benchmarkNace": "Industry code {code} — {label}. Benchmark figures against the sector are not connected yet, so results stand on their own for now.",
       "benchmarkUnknown": "The industry code has not been fetched yet. Without it we do not know which sector you belong to."
+    },
+    "industry": {
+      "title": "Industry",
+      "lead": "The industry decides which industry module we suggest when you create a survey. The core survey is the same for everyone.",
+      "registered": "Registered industry: {code} {label}",
+      "registeredUnknown": "The industry code has not been fetched yet. Fetch it from Brønnøysund above.",
+      "suggested": "Suggested industry: {industry}",
+      "suggestedNone": "The industry code does not suggest an industry.",
+      "followsCode": "Follows the industry code.",
+      "manual": "Chosen by you. The choice does not change when the industry code is updated.",
+      "none": "No industry module",
+      "changed": "Your industry code has changed in the Brønnøysund Register Centre. We now suggest {industry}. Do you want to switch?",
+      "switchTo": "Switch",
+      "keep": "Keep"
     },
     "lovmodus": {
       "title": "Statutory framing",
@@ -5896,7 +5912,8 @@
           "bruksomrader": "Use cases",
           "ressurser": "Resources",
           "omOss": "About us",
-          "hvorfor": "Why Orgpuls"
+          "hvorfor": "Why Orgpuls",
+          "bransjer": "Industries"
         },
         "link": {
           "plattform": "Platform",
@@ -6046,7 +6063,8 @@
       },
       "industries": {
         "k": "Industries",
-        "all": "All industries"
+        "all": "All industries",
+        "new": "New"
       }
     },
     "story": {
@@ -7209,6 +7227,20 @@
           "t": "Kindergartens and schools",
           "d": "Violence and threats, staffing and substitutes, working with parents, inclusion, and time for the core work.",
           "cta": "See kindergartens and schools"
+        },
+        {
+          "slug": "kunnskap-og-kontor",
+          "k": "Consultancy, IT, finance, media and real estate",
+          "t": "Knowledge and office work",
+          "d": "Interruptions and meetings, availability outside working hours, hybrid work and AI. Simplified or extended.",
+          "cta": "See knowledge and office work"
+        },
+        {
+          "slug": "handel",
+          "k": "Shops, warehouses and online retail",
+          "t": "Retail",
+          "d": "Theft and threats, working alone, difficult customers, rotas and part-time work.",
+          "cta": "See retail"
         }
       ],
       "other": {
@@ -8617,6 +8649,31 @@
       "pilotAdd": "Add pilot",
       "pilotRemove": "Remove pilot",
       "adoption": "Adoption by industry",
+      "validation": {
+        "col": "Validation",
+        "provisional": "Provisional",
+        "validated": "Validated",
+        "unset": "Not stated",
+        "decided": "{date}: {reason}",
+        "report": "Validation report",
+        "markValidated": "Mark as validated",
+        "markProvisional": "Back to provisional",
+        "validatedNote": "Marks this version «Validert»: Spørsmålssett, results and the report stop showing «Foreløpig» (the public pages follow the module file). Only the status changes; the content stays frozen. Needs the link to the validation report.",
+        "provisionalNote": "Takes this version back to «Foreløpig»: Spørsmålssett, results and the report show it again. Only the status changes.",
+        "reportLabel": "Link to the validation report (https)"
+      },
+      "variants": {
+        "title": "Variants",
+        "col": {
+          "module": "Module",
+          "variant": "Variant",
+          "factors": "Factors",
+          "items": "Statements",
+          "min": "Minimum factors",
+          "off": "Off by default",
+          "rounds": "Rounds"
+        }
+      },
       "noAdoption": "No baselines in the last twelve months.",
       "problem": {
         "not_allowed": "Only a super-admin can do this.",
@@ -8626,7 +8683,8 @@
         "in_use": "A planned round of this organisation still asks the draft; remove it there first.",
         "invalid_transition": "A module moves draft → published → retired only.",
         "invalid": "Check the fields.",
-        "failed": "Something went wrong."
+        "failed": "Something went wrong.",
+        "report_required": "Give the https link to the validation report."
       }
     },
     "legal": {

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Button } from '@/components/ui/Button'
-import { modulePilot, moduleSetStatus } from '@/lib/admin/actions'
+import { modulePilot, moduleSetStatus, moduleSetValidation } from '@/lib/admin/actions'
 import { Outcome, useKeptAction } from './ActionForms'
 
 const field = 'box-border w-full rounded-ctl border border-line bg-bg px-[12px] text-[13.5px] text-ink outline-none'
@@ -36,6 +36,62 @@ export function ModuleStatusForm({
       </label>
       <span className="flex flex-wrap items-center gap-[10px]">
         <Button type="submit" size="sm" tone={status === 'retired' ? 'secondary' : undefined} disabled={pending}>
+          {pending ? labels.saving : labels.submit}
+        </Button>
+        <Outcome state={state} problems={labels.problems} done={labels.done} />
+      </span>
+    </form>
+  )
+}
+
+/**
+ * Mark a version «Validert», with the report's link, or take it back to «Foreløpig» (0092): a
+ * reason either way, audited. Only the status moves; the module's content stays frozen.
+ */
+export function ModuleValidationForm({
+  moduleKey,
+  version,
+  to,
+  labels,
+}: {
+  moduleKey: string
+  version: string
+  to: 'validated' | 'provisional'
+  labels: Labels & { report: string; submit: string; note: string }
+}) {
+  const [reason, setReason] = useState('')
+  const [report, setReport] = useState('')
+  const [state, action, pending] = useKeptAction(moduleSetValidation, () => {
+    setReason('')
+    setReport('')
+  })
+  return (
+    <form action={action} className="flex flex-col gap-[8px]">
+      <input type="hidden" name="key" value={moduleKey} />
+      <input type="hidden" name="version" value={version} />
+      <input type="hidden" name="status" value={to} />
+      <p className="m-0 text-[12px] leading-[1.5] text-mut">{labels.note}</p>
+      {to === 'validated' ? (
+        <label className="block">
+          <span className={label}>{labels.report}</span>
+          <input
+            name="report"
+            type="url"
+            required
+            pattern="https://.+"
+            maxLength={500}
+            value={report}
+            onChange={(e) => setReport(e.target.value)}
+            className={`${field} h-[38px]`}
+          />
+        </label>
+      ) : null}
+      <label className="block">
+        <span className={label}>{labels.reason}</span>
+        <input name="reason" required minLength={5} maxLength={500} value={reason} onChange={(e) => setReason(e.target.value)} className={`${field} h-[38px]`} />
+      </label>
+      <span className="flex flex-wrap items-center gap-[10px]">
+        <Button type="submit" size="sm" tone={to === 'provisional' ? 'secondary' : undefined} disabled={pending}>
           {pending ? labels.saving : labels.submit}
         </Button>
         <Outcome state={state} problems={labels.problems} done={labels.done} />

@@ -2291,17 +2291,36 @@ Tor, 2026-09-27: "bygg resten også, start på handel".
   status control, the front page block, menu, footer and sitemap), the report's variant footer, and
   hiding the office statements for home workers.
 
+### X-075 — The rest of innstillinger-og-forside.md: Bransje, validation, report footer, the site
+
+Tor, 2026-09-27: "bygg resten også".
+
+- **Built:**
+  - «Bransje» in Oppsett › Selskap (0091, D-139). The organisation follows its NACE code or chooses
+    its own industry, and is asked once when the code later suggests another.
+  - The validation status in admin › Moduler (0092, D-140): «Validert» with a report link and a
+    reason, or back to «Foreløpig», audited and logged. The variants are listed too.
+  - The report's footer names the variant and says «foreløpig» (D-140).
+  - The industry cards and menu in the registry's order, with «Ny» for 90 days after a launch. A
+    footer column and /bruksomrader cards wait behind `home_industries_block` (D-141).
+- **Not built:** hiding the office statements for home workers, which waits for segments.
+- **Decisions held at the brief's defaults (§ 9):** cards by market size; «Ny» for 90 days; an
+  organisation may choose another industry than its registered one; one module per survey;
+  «Foreløpig» wherever a module is provisional.
+
 ## Open items
 - [ ] The multilingual guide: Tor's ten decisions (X-067, docs/implementation/multilingual-gap-analysis.md); the engineering queue is built (X-068, D-132).
 - [ ] Survey languages (X-070, X-071): machine drafts of all five are in admin › Translations. A translator per language revises them from the export (docs/translations/ has each language's open questions) and imports them back as *professional*. A methodologist decides where the official QPS Nordic Swedish and Danish replace a draft. The licence confirmation is needed before publishing under the QPS Nordic name.
 - [x] Kunnskap og kontor (X-066, X-071, X-073): the variant data model, the module and its pages are built (0089, D-137).
 - [ ] Launch kunnskap og kontor: Tor approves its six law items in admin › Legal review and the brief's open decisions (bransje-kunnskap-og-kontor.md § 8); then publish kunnskap-og-kontor@1.0.0 and set `launched: true`. Review at https://www.orgpuls.com/kunnskap-og-kontor?forhandsvis=1 and /kunnskap-og-kontor/sporsmal?forhandsvis=1. A pilot organisation can try it from admin › Moduler before that.
-- [ ] Kunnskap og kontor, still to build (D-137): the Bransje setting on the organisation, the admin's validation status control with its audit, the front page industry block, menu, footer and sitemap, the report's variant footer, and hiding the office statements for home workers once segments ship.
+- [x] innstillinger-og-forside.md (X-075): the Bransje setting (0091, D-139), the admin's validation status control with its audit (0092, D-140), the report's variant footer, and the cards, menu, footer and sitemap in the registry's order (D-141).
+- [ ] Hiding the office statements KK-FY-1/4/5 for home workers: waits for segments (`module_segments`).
+- [ ] At each industry page's launch: set its `card.newUntil` to 90 days on. Switch on `home_industries_block` once all five pages are out (D-141).
 - [x] Handel (X-074): the module, a count question's own answers and factor (0090), and its pages are built (D-138).
 - [ ] Launch handel: Tor approves its six law items in admin › Legal review (the lone-work item needs its paragraph from Lovdata); then publish handel@1.0.0 and set `launched: true`. Review at https://www.orgpuls.com/handel?forhandsvis=1 and /handel/sporsmal?forhandsvis=1.
 - [ ] Before `module_factor_toggles` ships: the preview footnotes on /helse-og-omsorg and /handel describe one group without a factor, but factors are switched per round (D-138).
 - [ ] After the deploy of X-072: approve the English survey again in admin › Legal review (the survey pages' strings changed: «Ikke relevant for meg»). Until then English respondents get bokmål.
-- [ ] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131).
+- [x] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131); decided in admin › Moduler since 0092 (D-140).
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).
 - [ ] A ready-to-send check before a round opens (channel coverage, groups under the threshold, information and consultation done); the reach count on Målinger › Innstillinger is its first half (D-126).
 - [ ] "View as customer" for support: whether, for whom, with what approval, and how the

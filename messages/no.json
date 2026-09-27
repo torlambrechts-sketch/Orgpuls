@@ -893,7 +893,9 @@
       "countSuppressed": "Vises ikke: færre enn {threshold} har svart.",
       "countLine": "Ja: {ja}. Nei: {nei}. Vet ikke: {vetIkke}. Av {total} svar.",
       "countLineYesNo": "Ja: {ja}. Nei: {nei}. Av {total} svar.",
-      "footer": "{name} v{version}"
+      "footer": "{name} v{version}",
+      "footerVariant": "{name}, {variant} ({code} v{version})",
+      "footerProvisional": ", foreløpig"
     }
   },
   "tiltak": {
@@ -1462,6 +1464,20 @@
       "benchmark": "Bransjesammenligning",
       "benchmarkNace": "Næringskode {code} — {label}. Sammenligningstall mot bransjen er ikke koblet til ennå, så resultatene står foreløpig alene.",
       "benchmarkUnknown": "Næringskoden er ikke hentet ennå. Uten den vet vi ikke hvilken bransje dere hører til."
+    },
+    "industry": {
+      "title": "Bransje",
+      "lead": "Bransjen bestemmer hvilken bransjemodul vi foreslår når dere lager en måling. Hovedundersøkelsen er den samme for alle.",
+      "registered": "Registrert næring: {code} {label}",
+      "registeredUnknown": "Næringskoden er ikke hentet ennå. Hent den fra Brønnøysund over.",
+      "suggested": "Foreslått bransje: {industry}",
+      "suggestedNone": "Næringskoden gir ikke forslag om en bransje.",
+      "followsCode": "Følger næringskoden.",
+      "manual": "Valgt av dere. Valget endres ikke når næringskoden oppdateres.",
+      "none": "Ingen bransjemodul",
+      "changed": "Næringskoden deres er endret i Brønnøysundregistrene. Vi foreslår nå {industry}. Vil dere bytte?",
+      "switchTo": "Bytt",
+      "keep": "Behold"
     },
     "lovmodus": {
       "title": "Lovmodus",
@@ -5896,7 +5912,8 @@
           "bruksomrader": "Bruksområder",
           "ressurser": "Ressurser",
           "omOss": "Om oss",
-          "hvorfor": "Hvorfor Orgpuls"
+          "hvorfor": "Hvorfor Orgpuls",
+          "bransjer": "Bransjer"
         },
         "link": {
           "plattform": "Plattform",
@@ -6046,7 +6063,8 @@
       },
       "industries": {
         "k": "Bransjer",
-        "all": "Alle bransjer"
+        "all": "Alle bransjer",
+        "new": "Ny"
       }
     },
     "plattform": {
@@ -7209,6 +7227,20 @@
           "t": "Barnehage og skole",
           "d": "Vold og trusler, bemanning og vikarer, foreldresamarbeid, tilrettelegging og tid til kjerneoppgavene.",
           "cta": "Se barnehage og skole"
+        },
+        {
+          "slug": "kunnskap-og-kontor",
+          "k": "Rådgivning, IT, finans, media og eiendom",
+          "t": "Kunnskap og kontor",
+          "d": "Avbrytelser og møter, tilgjengelighet utenom arbeidstid, hybridarbeid og KI. Forenklet eller utvidet.",
+          "cta": "Se kunnskap og kontor"
+        },
+        {
+          "slug": "handel",
+          "k": "Butikk, lager og netthandel",
+          "t": "Handel",
+          "d": "Tyveri og trusler, alenevakter, krevende kunder, vaktplan og deltid.",
+          "cta": "Se handel"
         }
       ],
       "other": {
@@ -8617,6 +8649,31 @@
       "pilotAdd": "Legg til pilot",
       "pilotRemove": "Fjern pilot",
       "adoption": "Bruk per bransje",
+      "validation": {
+        "col": "Validering",
+        "provisional": "Foreløpig",
+        "validated": "Validert",
+        "unset": "Ikke oppgitt",
+        "decided": "{date}: {reason}",
+        "report": "Valideringsrapport",
+        "markValidated": "Merk som validert",
+        "markProvisional": "Tilbake til foreløpig",
+        "validatedNote": "Merker versjonen «Validert»: Spørsmålssett, resultater og rapporten slutter å vise «Foreløpig» (de offentlige sidene følger modulfila). Bare statusen endres; innholdet er fortsatt låst. Krever lenke til valideringsrapporten.",
+        "provisionalNote": "Setter versjonen tilbake til «Foreløpig»: Spørsmålssett, resultater og rapporten viser det igjen. Bare statusen endres.",
+        "reportLabel": "Lenke til valideringsrapporten (https)"
+      },
+      "variants": {
+        "title": "Varianter",
+        "col": {
+          "module": "Modul",
+          "variant": "Variant",
+          "factors": "Faktorer",
+          "items": "Påstander",
+          "min": "Minst faktorer",
+          "off": "Av som standard",
+          "rounds": "Runder"
+        }
+      },
       "noAdoption": "Ingen hovedmålinger de siste tolv månedene.",
       "problem": {
         "not_allowed": "Bare en superadmin kan gjøre dette.",
@@ -8626,7 +8683,8 @@
         "in_use": "En planlagt runde i virksomheten spør fortsatt utkastet; fjern det der først.",
         "invalid_transition": "En modul går bare fra utkast til publisert til trukket tilbake.",
         "invalid": "Sjekk feltene.",
-        "failed": "Noe gikk galt."
+        "failed": "Noe gikk galt.",
+        "report_required": "Oppgi https-lenken til valideringsrapporten."
       }
     },
     "legal": {

@@ -7,6 +7,7 @@ import { handel } from './handel'
 import { kunnskapOgKontor } from './kunnskap-og-kontor'
 import type { PageLang } from './modules'
 import type { IndustryPage } from './types'
+import { INDUSTRY_META } from './meta'
 import { LANDING_PAGES } from '@/lib/marketing/site'
 
 /**
@@ -19,7 +20,7 @@ import { LANDING_PAGES } from '@/lib/marketing/site'
  */
 export type IndustryEntry = { slug: IndustryPage['slug']; page: IndustryPage | null; pageEn: IndustryPage | null }
 
-export const INDUSTRIES: IndustryEntry[] = [
+const ENTRIES: IndustryEntry[] = [
   { slug: 'bygg-og-anlegg', page: byggOgAnlegg, pageEn: byggOgAnleggEn },
   { slug: 'helse-og-omsorg', page: helseOgOmsorg, pageEn: helseOgOmsorgEn },
   // Norwegian only: the module has no English translation (D-131)
@@ -29,6 +30,15 @@ export const INDUSTRIES: IndustryEntry[] = [
   // Norwegian only, and a preview until launched: the module is a provisional draft (D-138)
   { slug: 'handel', page: handel, pageEn: null },
 ]
+
+/** In the registry's order (content/industries/meta.ts `sortOrder`): menu, cards, footer, sitemap */
+export const INDUSTRIES: IndustryEntry[] = [...ENTRIES].sort(
+  (a, b) => (INDUSTRY_META.find((m) => m.slug === a.slug)?.sortOrder ?? 99) - (INDUSTRY_META.find((m) => m.slug === b.slug)?.sortOrder ?? 99),
+)
+
+/** «Ny» on a card: the page is launched and its date has not passed (innstillinger-og-forside.md § 5.1) */
+export const isNewIndustry = (page: IndustryPage | null, today: string) =>
+  !!page?.launched && !!page.card?.newUntil && today <= page.card.newUntil
 
 export const getIndustry = (slug: string): IndustryEntry | null => INDUSTRIES.find((i) => i.slug === slug) ?? null
 

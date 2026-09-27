@@ -4,7 +4,9 @@ import { z } from 'zod'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { SectionNav } from '@/components/site/SectionNav'
 import { Overview, StorySection, type MockShape } from '@/components/site/Story'
-import { Crumbs, HeroButtons, SectionHead, StartBand } from '@/components/site/parts'
+import { IndustryCards } from '@/components/industry/IndustryCards'
+import { Crumbs, Eyebrow, HeroButtons, SectionHead, StartBand } from '@/components/site/parts'
+import { flag } from '@/lib/flags'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, graph, organization } from '@/lib/marketing/schema'
 import { StoryWords, USES, type UseKey } from '@/lib/site/story'
@@ -85,6 +87,14 @@ export default async function BruksomraderPage() {
         <HeroButtons next={{ href: '/plattform', label: t('next') }} />
         <Overview items={sections.map((s) => ({ id: s.id, k: s.k, t: s.t }))} />
       </section>
+
+      {/* the industry pages first (innstillinger-og-forside.md § 5.3, D-141), once all five are out */}
+      {flag('home_industries_block') ? (
+        <section id="bransjemoduler" className="mx-auto max-w-[1120px] scroll-mt-[118px] px-[26px] pt-[56px]">
+          <Eyebrow>{chrome('footer.head.bransjer')}</Eyebrow>
+          <IndustryCards />
+        </section>
+      ) : null}
 
       {sections.map((s, i) => (
         <StorySection

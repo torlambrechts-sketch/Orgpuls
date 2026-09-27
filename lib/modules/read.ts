@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server'
 import { parseFailed, readFailed } from '@/lib/supabase/read'
 import { pickWording, WORDINGS, type Wording, type WordingVariants } from './wording'
 import { COUNT_ANSWERS, type CountAnswer } from '@/lib/respond/answers'
+import { resolveIndustry, type ResolvedIndustry } from '@/content/industries/meta'
 
 /**
  * The industry modules, as the product reads them (0067, D-111).
@@ -434,14 +435,32 @@ export function askedStatements(m: Module, variantKey: RoundModule['variantKey']
   return out
 }
 
-/** The organisation's industry code from Brønnøysund, for the module suggestion. */
-export const getOrgNaceCode = cache(async (): Promise<string | null> => {
+/**
+ * The organisation's industry, for the module suggestion: its NACE code from Brønnøysund, or the
+ * one it chose in Oppsett › Selskap (0091, D-139).
+ */
+export const getOrgIndustry = cache(async (): Promise<ResolvedIndustry> => {
+  const none: ResolvedIndustry = { suggested: null, chosen: null, source: null, changed: null }
   const supabase = await createClient()
-  const { data, error } = await supabase.schema('app').from('organizations').select('registry_nace_code').limit(2)
-  if (readFailed('organizations.nace', error, data)) return null
-  const parsed = z.array(z.object({ registry_nace_code: z.string().nullable() })).safeParse(data)
-  if (parseFailed('organizations.nace', parsed) || parsed.data.length !== 1) return null
-  return parsed.data[0]?.registry_nace_code ?? null
+  const { data, error } = await supabase
+    .schema('app')
+    .from('organizations')
+    .select('registry_nace_code, industry_key, industry_source, industry_suggested')
+    .limit(2)
+  if (readFailed('organizations.industry', error, data)) return none
+  const parsed = z
+    .array(
+      z.object({
+        registry_nace_code: z.string().nullable(),
+        industry_key: z.string().nullable(),
+        industry_source: z.enum(['brreg', 'manual']).nullable(),
+        industry_suggested: z.string().nullable(),
+      }),
+    )
+    .safeParse(data)
+  if (parseFailed('organizations.industry', parsed) || parsed.data.length !== 1) return none
+  const o = parsed.data[0]!
+  return resolveIndustry(o.registry_nace_code, { source: o.industry_source, key: o.industry_key, suggestedAtChoice: o.industry_suggested })
 })
 
 /**

@@ -85,6 +85,11 @@ export type IndustryPage = {
     cta: { title: string; text: string }
   }
   related: IndustryPage['slug'][]
+  /**
+   * The start page's and /bransjer's card (innstillinger-og-forside.md § 6): «Ny» until this ISO date,
+   * set to 90 days after the page is launched. The build refuses a date that is not one.
+   */
+  card?: { newUntil?: string }
   /** list the module's other factor sources after the page's own citations (default true) */
   sourcesFromFactors?: boolean
   extraSources?: { key: string; title: string; url: string }[]

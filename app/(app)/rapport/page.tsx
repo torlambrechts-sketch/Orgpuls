@@ -298,6 +298,9 @@ async function reportModules(roundId: string | null): Promise<RapportView['modul
   return results.modules.map((m) => ({
     name: m.name,
     version: m.version,
+    // the footer names the variant asked and says «foreløpig» for a provisional module (§ 3.3, D-140)
+    variant: m.variant ? { name: m.variant.name, code: m.variant.code, version: m.variant.version } : null,
+    provisional: m.validation_status === 'provisional',
     threshold: results.threshold,
     // a module in variants: the round's own set; the comparable simplified index stays in Resultater (0089)
     factors: m.factors.filter((f) => !f.comparable).map((f) => ({

@@ -7,7 +7,7 @@ import { MalingerFrame, type MalingerTab } from '@/components/malinger/MalingerF
 import { ModuleChoices } from '@/components/malinger/ModuleChoices'
 import { Sporsmalssettet } from '@/components/malinger/Sporsmalssettet'
 import { getIndustry, pageIn } from '@/content/industries'
-import { INDUSTRY_META, industryForNace } from '@/content/industries/meta'
+import { INDUSTRY_META } from '@/content/industries/meta'
 import type { RailCell, RailView } from '@/components/malinger/YearRail'
 import { getExtraQuestions, getFactors } from '@/lib/instrument/read'
 import {
@@ -16,7 +16,7 @@ import {
   getOrgModuleItemsOff,
   getOrgModuleVariants,
   getOrgModuleWordings,
-  getOrgNaceCode,
+  getOrgIndustry,
   getPublishedModules,
   getRoundModules,
 } from '@/lib/modules/read'
@@ -362,19 +362,20 @@ async function QuestionSet({ canEdit }: { canEdit: boolean }) {
   const t = await getTranslations()
   const locale = await getLocale()
   const org = await getCurrentOrgId()
-  const [factors, extras, published, chosen, nace, wordings, off, lastNa, variants] = await Promise.all([
+  const [factors, extras, published, chosen, orgIndustry, wordings, off, lastNa, variants] = await Promise.all([
     getFactors(),
     getExtraQuestions(),
     getPublishedModules(org),
     org ? getOrgModuleChoices(org) : Promise.resolve(new Set<string>()),
-    getOrgNaceCode(),
+    getOrgIndustry(),
     org ? getOrgModuleWordings(org) : Promise.resolve(new Map()),
     org ? getOrgModuleItemsOff(org) : Promise.resolve(new Map<string, Set<string>>()),
     lastNotRelevant(),
     org ? getOrgModuleVariants(org) : Promise.resolve(new Map()),
   ])
   // the published list is in the reader's language already (lib/modules/read.ts)
-  const industry = industryForNace(nace)
+  // the organisation's industry, chosen or from its NACE code (0091)
+  const industry = orgIndustry.chosen
   const lang = locale === 'en' ? 'en' : 'no'
   const cards = published
     .map((m) => {
