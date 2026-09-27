@@ -525,6 +525,22 @@ export function TimelineView({ model, sel }: ViewProps) {
                 {cols.map((c) =>
                   cell(c, c.kind === 'grunnlinje' ? model.overall[c.id] : null, false, { gruppe: row.id, faktor: sel.factor }),
                 )}
+                {/* D-135: each round's response rate, whole organisation, beside the index it was measured with */}
+                <span className="flex items-center text-[12.5px] font-bold">{t('resultater.tl.rate')}</span>
+                {cols.map((c) =>
+                  c.planned ? (
+                    <span key={c.id} className="h-[36px] rounded-[7px] border-[1.5px] border-dashed border-rule" aria-hidden />
+                  ) : (
+                    <span
+                      key={c.id}
+                      className={`flex h-[36px] items-center justify-center rounded-[7px] border-[1.5px] border-transparent text-[12.5px] font-bold ${
+                        model.rates[c.id] === undefined ? 'bg-[rgba(25,21,16,.03)] text-rule' : 'bg-track text-ink'
+                      }`}
+                    >
+                      {model.rates[c.id] === undefined ? '·' : t('resultater.tl.rateValue', { pct: model.rates[c.id]! })}
+                    </span>
+                  ),
+                )}
               </>
             ) : null}
             {factors.map((k) => (

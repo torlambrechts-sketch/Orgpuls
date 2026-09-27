@@ -87,6 +87,37 @@ export interface ResultaterModel {
   questionCount: number
   /** the initial selection, from the URL */
   initial: { view: ViewKey; row: string; factor: string }
+  /**
+   * round id → the whole organisation's response rate, for every closed round (participation,
+   * 0073: organisation totals are every member's). Compared round against round (D-135).
+   */
+  rates: Record<string, number>
+  /**
+   * «Ikke relevant for meg» for the round in view (0087, D-134): statement key (core:<f>:<n>,
+   * module:<item>) → answers on the scale and not-relevant marks, whole organisation, only where at
+   * least k marked it. Empty for a department leader and wherever fewer than k did.
+   */
+  notRelevant: Record<string, { n: number; na: number }>
+}
+
+/** at or above this share of «ikke relevant», a statement is flagged as not fitting (D-134) */
+export const NOT_RELEVANT_FLAG = 0.3
+
+export function notRelevantShare(c: { n: number; na: number }): number {
+  return c.n + c.na > 0 ? c.na / (c.n + c.na) : 0
+}
+
+/**
+ * The round a response rate is measured against (D-135): the grunnlinje compared with, or the one
+ * before; for a puls, the puls before it. Null when there is none, or its rate is unknown.
+ */
+export function rateAgainst(model: ResultaterModel, pulses: RoundRef[]): RoundRef | null {
+  const round = model.round
+  const against =
+    round.kind === 'puls'
+      ? ([...pulses].filter((p) => p.id !== round.id && (p.closesAt ?? '') < (round.closesAt ?? '')).sort((a, b) => (a.closesAt ?? '').localeCompare(b.closesAt ?? '')).at(-1) ?? null)
+      : (model.compare ?? model.previous)
+  return against && model.rates[against.id] !== undefined && model.rates[round.id] !== undefined ? against : null
 }
 
 export interface PlanLine {

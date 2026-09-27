@@ -431,7 +431,12 @@
         "byDefault": "Modulens standard, siden næringskoden deres ikke peker på barnehage eller skole. Velg en annen om den passer bedre.",
         "chosen": "Valgt av dere. Planlagte målinger bruker den; en måling som er åpnet, beholder sin.",
         "failed": "Kunne ikke lagre ordbruken. Prøv igjen."
-      }
+      },
+      "itemsLead": "Kryss av påstandene dere vil stille. Det dere tar ut, stilles ikke i kommende grunnlinjer. Endringen logges.",
+      "itemOff": "Tatt ut",
+      "itemLast": "Minst én påstand må være med. Vil dere ikke stille noen, slå av spørsmålssettet.",
+      "itemFailed": "Endringen ble ikke lagret. Prøv igjen.",
+      "itemNa": "{pct} % svarte «ikke relevant» i grunnlinjen {year}"
     },
     "innstillinger": {
       "intro": "Her setter dere standarden for målingene: hvordan de ansatte får undersøkelsen, hva den spør om, og når den stenger. Hver ny måling får standarden, og i Måleoppsett kan dere endre den for én måling.",
@@ -601,6 +606,7 @@
     "next": "Neste",
     "submit": "Send inn",
     "skip": "Hopp over",
+    "notRelevant": "Ikke relevant for meg",
     "commentPrompt": "Vil du si mer? Frivillig og anonymt",
     "commentPlaceholder": "Skriv her …",
     "openPlaceholder": "Skriv med egne ord …",
@@ -3094,7 +3100,9 @@
       "trustGroups": "{over} av {total} grupper over terskel",
       "protected": "{group} har nok svar ({n}), men indeksen holdes tilbake. Sammen med helheten ville den ellers vist tallene for en gruppe under terskelen på {threshold}.",
       "protectedNoCount": "{group} har nok svar, men indeksen holdes tilbake. Sammen med helheten ville den ellers vist tallene for en gruppe under terskelen på {threshold}.",
-      "indexScope": "Arbeidsmiljøindeks · {scope}"
+      "indexScope": "Arbeidsmiljøindeks · {scope}",
+      "rateVs": "{delta} fra {round}",
+      "rateVsPulse": "{delta} fra forrige puls"
     },
     "trust": {
       "hoy": "Høy",
@@ -3140,7 +3148,9 @@
       "comments": "{count, plural, one {Se kommentaren om dette →} other {Se alle # kommentarer om dette →}}",
       "suggested": "Foreslåtte tiltak",
       "add": "Legg i plan",
-      "inPlan": "I planen ✓"
+      "inPlan": "I planen ✓",
+      "notRelevant": "{na} av {total} svarte «ikke relevant» ({pct} %)",
+      "notRelevantFlag": "Mange mener påstanden ikke gjelder dem. Tallet bygger bare på dem den gjelder for."
     },
     "quadrant": {
       "fiks": "Fiks først",
@@ -3190,7 +3200,9 @@
       "planned": "Planlagt",
       "index": "Indeks",
       "note": "· = ikke målt i denne pulsen. Pulsene måler bare faktorene dere har tiltak på, så de har ikke egen indeks.",
-      "open": "Pågår"
+      "open": "Pågår",
+      "rate": "Svarprosent",
+      "rateValue": "{pct} %"
     },
     "pulse": {
       "index": "Pulsindeks",
@@ -3247,7 +3259,9 @@
       "create": "Lag tiltak",
       "created": "Lagt til i Tiltak.",
       "openTiltak": "Åpne Tiltak",
-      "createFailed": "Tiltaket ble ikke laget. Bare daglig leder og avdelingsleder kan lage tiltak."
+      "createFailed": "Tiltaket ble ikke laget. Bare daglig leder og avdelingsleder kan lage tiltak.",
+      "notRelevant": "{na} av {total} svarte «ikke relevant» ({pct} %)",
+      "notRelevantFlag": "Mange mener påstanden ikke gjelder dem. Dere kan ta den ut av neste måling under Målinger › Spørsmålssett."
     }
   },
   "kommentarer": {

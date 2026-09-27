@@ -104,12 +104,24 @@ Each import and each approval is recorded in the audit log. Every version of eve
 kept in the database's translation history, and a survey already running keeps the wording it
 started with.
 
+## Machine drafts
+
+Every text has a machine draft in all five languages, reviewed once (X-071). docs/translations/ has
+the method, and per language the glossary, the reviewer's log and the questions for the human
+translator. Export, revise and import back with origin **Professional**: machine text is never
+approved in these languages.
+
 ## Swedish and Danish
 
-The QPS Nordic questionnaire has official Swedish and Danish versions. Import the core statements
-from them with the origin set to **Official version**. An official text may be approved at any
-step. The survey pages and invitations have no official version and go through a translator as
-usual.
+The QPS Nordic questionnaire has official Swedish and Danish versions. But Orgpuls' core statements
+are agreement statements built on QPS Nordic, not QPS items (QPS asks frequency questions), so an
+official text applies only where a methodologist finds a statement matches an item.
+
+- The Swedish drafts cite the corresponding QPSNordic item's official wording in their notes. The
+  Danish drafts cite the English item.
+- Where an official text is adopted, import it with the origin set to **Official version**. An
+  official text may be approved at any step.
+- The survey pages and invitations have no official version and go through a translator as usual.
 
 Before anything is published under the QPS Nordic name in a new language, the licence question
 (gap analysis, decision 2) still applies.

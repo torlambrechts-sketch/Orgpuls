@@ -327,6 +327,25 @@ export const getOrgModuleChoices = cache(async (orgId: string): Promise<Set<stri
 })
 
 /**
+ * The statements an organisation has left out of its grunnlinjer (0088, D-136), per module key, by
+ * code: a code outlives a new version of the module.
+ */
+export const getOrgModuleItemsOff = cache(async (orgId: string): Promise<Map<string, Set<string>>> => {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .schema('app')
+    .from('org_module_items_off')
+    .select('module_key, item_code')
+    .eq('org_id', orgId)
+  if (readFailed('org_module_items_off', error, data)) return new Map()
+  const parsed = z.array(z.object({ module_key: z.string(), item_code: z.string() })).safeParse(data)
+  if (parseFailed('org_module_items_off', parsed)) return new Map()
+  const out = new Map<string, Set<string>>()
+  for (const r of parsed.data) out.set(r.module_key, (out.get(r.module_key) ?? new Set()).add(r.item_code))
+  return out
+})
+
+/**
  * A module as a round, or an organisation, asks it: every statement and count question in that
  * wording (0083). A module without wordings, or «begge», comes back as it is.
  */

@@ -81,6 +81,8 @@ export interface MaleoppsettView {
     name: string
     version: string
     statements: number
+    /** the statements this round asks: the organisation may have left some out (0088) */
+    statementsAsked: number
     countItems: number
     minutes: number
     href: string | null
@@ -419,7 +421,7 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
                     label={t('maleoppsett.module.summary')}
                     value={t('maleoppsett.module.summaryValue', {
                       name: m.name,
-                      count: m.factorKeys.length * 3 + (m.includeCountItems ? m.countItems : 0),
+                      count: m.statementsAsked + (m.includeCountItems ? m.countItems : 0),
                     })}
                   />
                 ))}

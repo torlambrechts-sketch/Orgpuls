@@ -13,6 +13,8 @@ import {
   chronDelta,
   medianOf,
   quadrantOf,
+  NOT_RELEVANT_FLAG,
+  notRelevantShare,
   type ResultaterModel,
   type ViewKey,
 } from '@/lib/results/resultater'
@@ -357,6 +359,16 @@ function Drill({
       : null
 
   const statements = [...(model.items[sel.row]?.[k] ?? [])].sort((a, b) => a.ordinal - b.ordinal)
+  // «ikke relevant» (0087, D-134): whole organisation only, and only where at least k marked it.
+  // A statement too few answered on the scale still shows how many said it does not apply.
+  const notRelevant = (ordinal: number) => (sel.row === ORG ? model.notRelevant[`core:${k}:${ordinal}`] : undefined)
+  const naOnly =
+    sel.row === ORG
+      ? Object.keys(model.notRelevant).flatMap((key) => {
+          const m = /^core:([a-z_]+):(\d+)$/.exec(key)
+          return m && m[1] === k && !statements.some((s) => s.ordinal === Number(m[2])) ? [Number(m[2])] : []
+        })
+      : []
   const comment = model.comments[k]
   // D2: a comment never travels with a group, so the quote stands only under the whole organisation
   const quote = sel.row === ORG ? (comment?.quote ?? null) : null
@@ -384,7 +396,7 @@ function Drill({
         </span>
       </div>
       {comp ? <div className="mt-[4px] text-[12.5px] text-mut">{comp}</div> : null}
-      {statements.length ? (
+      {statements.length || naOnly.length ? (
         <div className="mt-[16px] flex flex-col gap-[9px]">
           {statements.map((s) => (
             <div key={s.ordinal}>
@@ -395,6 +407,16 @@ function Drill({
               <div className="mt-[4px] h-[5px] rounded-pill bg-[rgba(25,21,16,.08)]">
                 <div className="h-full rounded-pill bg-amberbar" style={{ width: `${s.index}%` }} />
               </div>
+              <NotRelevantLine counts={notRelevant(s.ordinal)} ns="resultater.drill" />
+            </div>
+          ))}
+          {naOnly.map((ordinal) => (
+            <div key={`na-${ordinal}`}>
+              <div className="flex justify-between gap-[10px] text-[12px]">
+                <span className="text-body">{t(`factor.${k}.s${ordinal}`)}</span>
+                <span className="font-bold text-mut">–</span>
+              </div>
+              <NotRelevantLine counts={notRelevant(ordinal)} ns="resultater.drill" />
             </div>
           ))}
         </div>
@@ -608,4 +630,21 @@ function Flash({ text, wrap = false }: { text: string; wrap?: boolean }) {
 
 export function spanOf(a: { label: string; closesAt: string | null }, b: { label: string; closesAt: string | null }): string {
   return (a.closesAt ?? '') < (b.closesAt ?? '') ? `${a.label}→${b.label}` : `${b.label}→${a.label}`
+}
+
+/**
+ * How many said a statement does not apply to them (0087, D-134), under the statement. The
+ * database sends a count only where at least k marked it; at or above NOT_RELEVANT_FLAG of those
+ * given the statement, it also says what that means for the figure.
+ */
+export function NotRelevantLine({ counts, ns }: { counts: { n: number; na: number } | undefined; ns: 'resultater.drill' | 'resultater.module' }) {
+  const t = useTranslations(ns)
+  if (!counts) return null
+  const share = notRelevantShare(counts)
+  return (
+    <div className="mt-[4px] text-[11.5px] leading-[1.45] text-mut">
+      {t('notRelevant', { na: counts.na, total: counts.n + counts.na, pct: Math.round(share * 100) })}
+      {share >= NOT_RELEVANT_FLAG ? <span className="block font-semibold text-ink">{t('notRelevantFlag')}</span> : null}
+    </div>
+  )
 }

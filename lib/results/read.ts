@@ -180,3 +180,28 @@ export const getRecommendation = cache(
     return parsed.success ? parsed.data : null
   },
 )
+
+/**
+ * «Ikke relevant for meg» per statement (0087, D-134): how many marked it beside how many answered
+ * it on the scale, for the whole organisation, and only where at least k marked it. Keys are the
+ * translation registry's: core:<factor>:<n> and module:<item>. A department leader, an open round
+ * or any refusal is an empty map — never a zero.
+ */
+const NotRelevantRows = z.object({
+  threshold: z.coerce.number(),
+  items: z.array(
+    z.object({
+      key: z.string().regex(/^(core:[a-z_]+:[0-9]+|module:[0-9a-f-]{36})$/),
+      n: z.coerce.number().int().min(0),
+      na: z.coerce.number().int().min(0),
+    }),
+  ),
+})
+
+export const getNotRelevant = cache(async (roundId: string): Promise<Record<string, { n: number; na: number }>> => {
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('results_not_relevant', { p_round: roundId })
+  if (callFailed('getNotRelevant', error)) return {}
+  const parsed = NotRelevantRows.safeParse(data)
+  return parsed.success ? Object.fromEntries(parsed.data.items.map((i) => [i.key, { n: i.n, na: i.na }])) : {}
+})

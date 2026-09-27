@@ -2165,9 +2165,91 @@ translation … under admin".
   the official QPS Nordic texts). The licence question (gap analysis, decision 2) stands before
   anything is published under the QPS Nordic name.
 
+### X-071 — Machine drafts of every survey text in five languages; kunnskap og kontor still waits
+
+Tor, 2026-09-27: "hva skjedde med kunnskap og kontor? Do the translations as good as you can first,
+follow each languages natural rules and language guides; i'll have a translator look into the
+result and optimize."
+
+- **Kunnskap og kontor was never built.** X-066 left it, with handel and the rest of
+  innstillinger-og-forside.md, waiting for Tor to ask. It is also the first module with variants
+  (forenklet KK-F and utvidet KK-U), so it needs innstillinger-og-forside.md's variant data model
+  (PR A) before its content (PR E). Offered next.
+- **What was drafted.** Every survey text in Polish, Ukrainian, Lithuanian, Swedish and Danish:
+  - the source was the admin's export from the hosted project: 348 texts per language (core 33,
+    extra 17, modules 199, pages 75, mail 24), 290 distinct bokmål wordings;
+  - one translator and one independent reviewer per language, each language's own norms, a
+    glossary first;
+  - gender-neutral wherever the respondent or the manager is meant, every placeholder readable
+    uninflected, every plural category;
+  - notes in English where a human should decide.
+
+  docs/translations/ has the method, and per language the glossary, the reviewer's log and the
+  open questions.
+- **Checked:**
+  - the admin's import check: zero errors in every language;
+  - a render check on the local QA stack: all 33 screens walked in each language at 320 and
+    390 px, the right `lang`, nothing overflowing, nothing left in bokmål, no console error.
+- **On hosted**, 5 × 348 rows are seeded as origin *machine*, status *draft*, each with the
+  SHA-256 of its bokmål and 416 notes in all.
+  - It was done directly as the system, like the registry seeds. The translation log records each
+    row with no actor. The admin's import could not be used: it needs a super-admin session, and
+    acting as Tor was ruled out earlier.
+  - Nothing is approved, and machine text cannot be approved in these languages (0086). The
+    translator exports from admin › Translations, revises, and imports with origin *professional*.
+- **Swedish and Danish.** "From the official Nordic versions" cannot be taken literally. Orgpuls'
+  core statements are agreement statements built on QPS Nordic, while QPS asks frequency
+  questions, so there is no official text to copy.
+  - *Swedish:* the drafts use the official Swedish QPSNordic's terms (Arbetslivsrapport 2000:19),
+    and the notes cite the corresponding QPS items with their official wording.
+  - *Danish:* the official Danish version was not available. The drafts use Arbejdstilsynet's and
+    NFA's terms, and the notes cite the English QPS items.
+  - A methodologist decides, and the licence question still applies.
+- **Found on the way, for Tor:**
+  - A name placeholder cannot be put in the vocative, which matters for Lithuanian and Ukrainian
+    greetings. Lithuanian could use the greeting without a name.
+  - In Polish and Lithuanian, the month the code writes into reminder SMS («września», «spalio»)
+    forces the costlier SMS encoding in some months. A numeric date in SMS would fix it.
+
+### X-072 — «Ikke relevant», a real «Hopp over», the response rate over time, and choosing statements
+
+Tor, 2026-09-27:
+- "svarprosent må også måles opp mot tidligere undersøkelser under resultater";
+- "Sometimes the question is simply not relevant; or the user want to skip the question — this
+  should be an opportunity. Also if many user flag it as irrelevant it should be removed from the
+  baseline? Can this be implemented so we can select questions set individually or mark irrelevant
+  questions? Make sure NPS is intact and that we stay within the boundaries of employee survey";
+- then "hva er din anbefaling rundt ikke relevant og hopp over, mulighetene er der ikke i dag".
+
+The recommendation was given and built:
+- **Two different answers** (D-134):
+  - «Hopp over» means "I won't answer". It now really skips; before, it sent an option already
+    picked.
+  - «Ikke relevant for meg» means "this does not apply to my job". It is kept apart from the
+    answers, so no index counts it, and it is counted per statement. The organisation sees how many
+    marked it only where at least 5 did.
+- **Nothing is removed automatically.** A statement 30 % or more mark not relevant is flagged.
+  - *Industry modules:* statements can be left out of coming grunnlinjer, one by one, by a daglig
+    leder, logged, with the evidence beside them (D-136).
+  - *The eleven core factors:* they stay, because they are the statutory survey and the comparison
+    with last year. A grunnlinje now always opens with all of them; the design locks them, and our
+    Måleoppsett had not.
+- **NPS untouched:** the recommendation question has no «ikke relevant», and is asked, stored and
+  scored as before.
+- **The response rate against the round before it** (D-135): in the Svarprosent card on
+  Resultater, and a Svarprosent row in Utvikling. Organisation level only, as organisation totals
+  already are every member's.
+- **Consequences for Tor:**
+  - The new respondent string changes the survey pages' hash, so the English survey must be
+    approved again in admin › Legal review after this is deployed. Until then, English respondents
+    get bokmål.
+  - The five survey languages need the string. It is in the machine drafts (X-071).
+
 ## Open items
 - [ ] The multilingual guide: Tor's ten decisions (X-067, docs/implementation/multilingual-gap-analysis.md); the engineering queue is built (X-068, D-132).
-- [ ] Survey languages (X-070): translators for Polish and Ukrainian, then Lithuanian; the official QPS Nordic Swedish and Danish; the licence confirmation before publishing under the QPS Nordic name. Import and approve in admin › Translations.
+- [ ] Survey languages (X-070, X-071): machine drafts of all five are in admin › Translations. A translator per language revises them from the export (docs/translations/ has each language's open questions) and imports them back as *professional*. A methodologist decides where the official QPS Nordic Swedish and Danish replace a draft. The licence confirmation is needed before publishing under the QPS Nordic name.
+- [ ] Kunnskap og kontor (X-066, X-071): not built. It needs the variant data model (innstillinger-og-forside.md PR A) first, then the module and its pages; handel follows the same pattern.
+- [ ] After the deploy of X-072: approve the English survey again in admin › Legal review (the survey pages' strings changed: «Ikke relevant for meg»). Until then English respondents get bokmål.
 - [ ] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131).
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).
 - [ ] A ready-to-send check before a round opens (channel coverage, groups under the threshold, information and consultation done); the reach count on Målinger › Innstillinger is its first half (D-126).

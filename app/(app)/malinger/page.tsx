@@ -10,11 +10,12 @@ import { getIndustry, pageIn } from '@/content/industries'
 import { INDUSTRY_META, industryForNace } from '@/content/industries/meta'
 import type { RailCell, RailView } from '@/components/malinger/YearRail'
 import { getExtraQuestions, getFactors } from '@/lib/instrument/read'
-import { getOrgModuleChoices, getOrgModuleWordings, getOrgNaceCode, getPublishedModules } from '@/lib/modules/read'
+import { getModulesById, getOrgModuleChoices, getOrgModuleItemsOff, getOrgModuleWordings, getOrgNaceCode, getPublishedModules, getRoundModules } from '@/lib/modules/read'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { getViewerRole } from '@/lib/org/read'
 import { getResultsDigest } from '@/lib/results/digest'
-import { meanOf } from '@/lib/results/resultater'
+import { meanOf, notRelevantShare } from '@/lib/results/resultater'
+import { getNotRelevant } from '@/lib/results/read'
 import { roundNamer } from '@/lib/rounds/design-name'
 import { getRoundFactorKeys, getRoundRows, withParticipation, type RoundListItem, type RoundRow } from '@/lib/rounds/read'
 import { getWheel } from '@/lib/wheel/read'
@@ -324,17 +325,43 @@ export default async function MalingerPage({
   )
 }
 
+/**
+ * How many said «ikke relevant» to each module statement in the organisation's last closed
+ * grunnlinje (0087, D-134), by module key and code, so the choice below can be made on it.
+ * Empty for anyone but a daglig leder or verneombud, and wherever fewer than k marked it.
+ */
+async function lastNotRelevant(): Promise<{ year: number; byCode: Map<string, number> } | null> {
+  const last = (await getRoundRows())
+    .filter((r) => r.status === 'lukket' && r.kind === 'grunnlinje')
+    .sort((a, b) => (a.closesAt ?? '').localeCompare(b.closesAt ?? ''))
+    .at(-1)
+  if (!last) return null
+  const counts = await getNotRelevant(last.id)
+  if (!Object.keys(counts).some((k) => k.startsWith('module:'))) return null
+  const asked = await getRoundModules([last.id])
+  const byCode = new Map<string, number>()
+  for (const m of await getModulesById(asked.map((r) => r.moduleId)))
+    for (const f of m.factors)
+      for (const i of f.items) {
+        const c = counts[`module:${i.id}`]
+        if (c) byCode.set(`${m.key}:${i.code}`, Math.round(notRelevantShare(c) * 100))
+      }
+  return { year: last.year, byCode }
+}
+
 async function QuestionSet({ canEdit }: { canEdit: boolean }) {
   const t = await getTranslations()
   const locale = await getLocale()
   const org = await getCurrentOrgId()
-  const [factors, extras, published, chosen, nace, wordings] = await Promise.all([
+  const [factors, extras, published, chosen, nace, wordings, off, lastNa] = await Promise.all([
     getFactors(),
     getExtraQuestions(),
     getPublishedModules(org),
     org ? getOrgModuleChoices(org) : Promise.resolve(new Set<string>()),
     getOrgNaceCode(),
     org ? getOrgModuleWordings(org) : Promise.resolve(new Map()),
+    org ? getOrgModuleItemsOff(org) : Promise.resolve(new Map<string, Set<string>>()),
+    lastNotRelevant(),
   ])
   // the published list is in the reader's language already (lib/modules/read.ts)
   const industry = industryForNace(nace)
@@ -361,7 +388,17 @@ async function QuestionSet({ canEdit }: { canEdit: boolean }) {
           name: f.name,
           nameVariants: f.nameVariants,
           summary: f.summary,
-          statements: f.items.map((i) => ({ text: i.text, variants: i.variants })),
+          statements: f.items.map((i) => {
+            const pct = lastNa?.byCode.get(`${m.key}:${i.code}`)
+            return {
+              code: i.code,
+              text: i.text,
+              variants: i.variants,
+              off: off.get(m.key)?.has(i.code) ?? false,
+              // what the last grunnlinje said about it (0087): only where at least k marked it
+              notRelevant: pct === undefined ? null : t('malinger.modules.itemNa', { pct, year: lastNa!.year }),
+            }
+          }),
         })),
         href: page?.questionPage ? `/${page.slug}/sporsmal${page.launched ? '' : '?forhandsvis=1'}` : null,
         toggleLabel: t('malinger.modules.toggle', { module: m.name }),
@@ -406,6 +443,12 @@ async function QuestionSet({ canEdit }: { canEdit: boolean }) {
           none: t('malinger.modules.none'),
           failed: t('malinger.modules.failed'),
           seeAll: t('malinger.modules.seeAll'),
+          items: {
+            lead: t('malinger.modules.itemsLead'),
+            off: t('malinger.modules.itemOff'),
+            last: t('malinger.modules.itemLast'),
+            failed: t('malinger.modules.itemFailed'),
+          },
           wording: {
             legend: t('malinger.modules.wording.legend'),
             barnehage: t('malinger.modules.wording.barnehage'),

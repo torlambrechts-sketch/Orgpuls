@@ -188,6 +188,8 @@ export default async function MaleoppsettPage({
               name: m.name,
               version: m.version,
               statements: m.factors.reduce((n, f) => n + f.items.length, 0),
+              // what this round asks of it: the organisation may have left statements out (0088)
+              statementsAsked: row ? asked.size : m.factors.reduce((n, f) => n + f.items.length, 0),
               countItems: m.countItems.length,
               minutes: m.estimatedMinutes,
               // before the page is launched its question page is a preview (D-118)

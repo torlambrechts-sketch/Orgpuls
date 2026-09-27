@@ -331,8 +331,9 @@ export function SetupForm(props: SetupFormProps) {
               name="factorKeys"
               value={f.value}
               label={f.label}
-              checked={v.factorKeys.includes(f.value)}
-              disabled={!canWrite}
+              // a grunnlinje asks the whole core (the design's lock, bundle 4125-4130; 0088, D-136)
+              checked={v.kind === 'grunnlinje' || v.factorKeys.includes(f.value)}
+              disabled={!canWrite || v.kind === 'grunnlinje'}
               paddingY={8}
               paddingX={14}
               text="12.5px"

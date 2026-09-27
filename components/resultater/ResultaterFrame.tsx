@@ -6,7 +6,7 @@ import { PulseView } from './PulseView'
 import { ResultaterShell } from './ResultaterShell'
 import type { Participation } from '@/lib/participation/read'
 import type { ResultsRecommendation, ResultsSummary } from '@/lib/results/read'
-import { ORG, meanOf, trustLevel, type ResultaterModel, type RoundRef } from '@/lib/results/resultater'
+import { ORG, meanOf, rateAgainst, trustLevel, type ResultaterModel, type RoundRef } from '@/lib/results/resultater'
 import { deltaColour, fmtDelta } from '@/lib/results/tone'
 
 /**
@@ -74,6 +74,18 @@ export async function ResultaterFrame(props: FrameProps) {
   const deltaCol = delta === null ? '#5F5849' : isPulse ? deltaColour(delta) : delta < 0 ? '#A33A16' : '#2F5D2A'
 
   const rate = participation ? `${participation.pct} %` : null
+  // the response rate against the round before it (D-135): whole organisation, as every member sees it
+  const rateRef = rateAgainst(model, pulses)
+  const rateDelta = rateRef ? model.rates[round.id]! - model.rates[rateRef.id]! : null
+  const rateVs =
+    rateRef === null || rateDelta === null
+      ? null
+      : {
+          text: isPulse
+            ? t('kpi.rateVsPulse', { delta: fmtDelta(rateDelta) })
+            : t('kpi.rateVs', { delta: fmtDelta(rateDelta), round: rateRef.label }),
+          colour: rateDelta < 0 ? '#A33A16' : rateDelta > 0 ? '#2F5D2A' : '#5F5849',
+        }
   const score = recommendation?.status === 'ok' ? fmtDelta(recommendation.score).replace('±', '') : null
   const isLatest = round.id === props.latestGrunnlinjeId
   const next = isLatest && props.nextPulseAt ? dayMonth(t, locale, props.nextPulseAt) : null
@@ -180,10 +192,10 @@ export async function ResultaterFrame(props: FrameProps) {
       planCount={props.planCount}
     >
       {isPulse ? (
-        <PulseView model={model} participation={participation} index={index} deltaText={deltaText} deltaCol={deltaCol} />
+        <PulseView model={model} participation={participation} index={index} deltaText={deltaText} deltaCol={deltaCol} rateVs={rateVs} />
       ) : (
         <>
-          <KeyFigures model={model} summary={summary} participation={participation} deltaText={deltaText} deltaCol={deltaCol} />
+          <KeyFigures model={model} summary={summary} participation={participation} deltaText={deltaText} deltaCol={deltaCol} rateVs={rateVs} />
           <Workspace model={model} />
         </>
       )}
@@ -199,12 +211,14 @@ async function KeyFigures({
   participation,
   deltaText,
   deltaCol,
+  rateVs,
 }: {
   model: ResultaterModel
   summary: ResultsSummary | null
   participation: Participation | null
   deltaText: string | null
   deltaCol: string
+  rateVs: RateVs | null
 }) {
   const t = await getTranslations('resultater')
   const index = model.overall[model.round.id] ?? null
@@ -306,6 +320,11 @@ async function KeyFigures({
                   answered: participation.answered,
                   headcount: participation.headcount,
                 })}
+                {rateVs ? (
+                  <span className="ml-[8px] font-bold" style={{ color: rateVs.colour }}>
+                    {rateVs.text}
+                  </span>
+                ) : null}
               </div>
             </>
           ) : null}
@@ -330,6 +349,9 @@ async function KeyFigures({
     </div>
   )
 }
+
+/** a response rate against an earlier round's (D-135): the words and their colour */
+export type RateVs = { text: string; colour: string }
 
 const BAND_FILL = {
   lav: '#B5DAD4',

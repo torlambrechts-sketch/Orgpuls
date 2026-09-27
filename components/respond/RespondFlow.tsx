@@ -24,6 +24,9 @@ import { bcp47 } from '@/lib/i18n/locales'
  * In particular the ORDER is the server's: rpc.respond_form shuffles it per token,
  * because the screen promises the respondent that it is random per person.
  */
+/** what `picked` holds for «Ikke relevant for meg»: not an ordinal, which start at 1 */
+const NOT_RELEVANT = 0
+
 export interface Choice {
   /** 1-based, matching app.extra_options.ordinal and the 1..5 answer scale */
   ordinal: number
@@ -89,6 +92,8 @@ export interface RespondCopy {
   next: string
   submit: string
   skip: string
+  /** «Ikke relevant for meg» (0087, D-134), offered on statements only */
+  notRelevant: string
   commentPrompt: string
   commentPlaceholder: string
   openPlaceholder: string
@@ -137,7 +142,7 @@ export function RespondFlow({
     const answers = []
     const extra = []
     const mod = {
-      answers: [] as { item: string; value: number }[],
+      answers: [] as ({ item: string; value: number } | { item: string; na: true })[],
       count: [] as { item: string; answer: (typeof COUNT_ANSWERS)[number] }[],
       segments: [] as { item: string; option: number }[],
     }
@@ -145,7 +150,7 @@ export function RespondFlow({
       if (q.kind === 'module' || q.kind === 'count' || q.kind === 'segment') {
         const value = picked[q.id]
         if (value === undefined) continue
-        if (q.kind === 'module') mod.answers.push({ item: q.item, value })
+        if (q.kind === 'module') mod.answers.push(value === NOT_RELEVANT ? { item: q.item, na: true } : { item: q.item, value })
         else if (q.kind === 'segment') mod.segments.push({ item: q.item, option: value })
         else {
           const answer = COUNT_ANSWERS[value - 1]
@@ -158,7 +163,7 @@ export function RespondFlow({
         answers.push({
           factor: q.factor,
           ordinal: q.ordinal,
-          ...(value === undefined ? {} : { value }),
+          ...(value === undefined ? {} : value === NOT_RELEVANT ? { na: true as const } : { value }),
           ...(comment ? { comment } : {}),
         })
       } else if (q.kind === 'extra-choice') {
@@ -171,6 +176,19 @@ export function RespondFlow({
     }
     const asked = questions.some((q) => q.kind === 'module' || q.kind === 'count' || q.kind === 'segment')
     return { token, answers, extra, ...(asked ? { module: mod } : {}) }
+  }
+
+  /**
+   * «Hopp over» is a skip: whatever was picked on this question is dropped, so nothing is sent
+   * for it (a comment written on it still is, as the person wrote it). «Neste» with nothing
+   * picked is the same skip.
+   */
+  function skip() {
+    if (current && current.id in picked) {
+      const { [current.id]: _dropped, ...rest } = picked
+      setPicked(rest)
+    }
+    advance()
   }
 
   function advance() {
@@ -190,6 +208,36 @@ export function RespondFlow({
         setDone(true)
       } else setFailed(true)
     })
+  }
+
+  /**
+   * One answer option: the scale's, a choice question's, or «Ikke relevant for meg», whose label is
+   * muted until picked, so it reads as outside the scale rather than a sixth point on it (D-134).
+   */
+  function choice(value: number, label: string, muted = false) {
+    if (!current) return null
+    const on = picked[current.id] === value
+    return (
+      <button
+        key={value}
+        type="button"
+        aria-pressed={on}
+        onClick={() => setPicked({ ...picked, [current.id]: value })}
+        className={`flex w-full cursor-pointer items-center gap-[13px] rounded-opt border px-[16px] py-[14px] text-left text-ink ${
+          on ? 'border-ink bg-sbg' : 'border-line bg-sf'
+        }`}
+      >
+        <span
+          aria-hidden="true"
+          className={`flex h-[23px] w-[23px] flex-none items-center justify-center rounded-pill border-2 ${
+            on ? 'border-ink bg-ink' : 'border-rule bg-transparent'
+          }`}
+        >
+          <span className={`block h-[8px] w-[8px] rounded-pill ${on ? 'bg-sbg' : 'bg-transparent'}`} />
+        </span>
+        <span className={`text-[14.5px] ${on ? 'font-bold' : `font-medium${muted ? ' text-mut' : ''}`}`}>{label}</span>
+      </button>
+    )
   }
 
   const banner = preview ? (
@@ -265,37 +313,11 @@ export function RespondFlow({
         {hasChoices ? (
           <>
             <div className="mt-[20px] flex flex-col gap-[9px]">
-              {current.choices.map((c) => {
-                const on = picked[current.id] === c.ordinal
-                return (
-                  <button
-                    key={c.ordinal}
-                    type="button"
-                    aria-pressed={on}
-                    onClick={() => setPicked({ ...picked, [current.id]: c.ordinal })}
-                    className={`flex w-full cursor-pointer items-center gap-[13px] rounded-opt border px-[16px] py-[14px] text-left text-ink ${
-                      on ? 'border-ink bg-sbg' : 'border-line bg-sf'
-                    }`}
-                  >
-                    <span
-                      aria-hidden="true"
-                      className={`flex h-[23px] w-[23px] flex-none items-center justify-center rounded-pill border-2 ${
-                        on ? 'border-ink bg-ink' : 'border-rule bg-transparent'
-                      }`}
-                    >
-                      <span
-                        className={`block h-[8px] w-[8px] rounded-pill ${
-                          on ? 'bg-sbg' : 'bg-transparent'
-                        }`}
-                      />
-                    </span>
-                    <span className={`text-[14.5px] ${on ? 'font-bold' : 'font-medium'}`}>
-                      {c.label}
-                    </span>
-                  </button>
-                )
-              })}
+              {current.choices.map((c) => choice(c.ordinal, c.label))}
             </div>
+            {current.kind === 'factor' || current.kind === 'module' ? (
+              <div className="mt-[16px] flex flex-col">{choice(NOT_RELEVANT, copy.notRelevant, true)}</div>
+            ) : null}
 
             {current.kind === 'factor' ? (
               <>
@@ -349,7 +371,7 @@ export function RespondFlow({
       <div className="flex items-center justify-between gap-[12px] border-t border-line px-[22px] pb-[22px] pt-[14px]">
         <button
           type="button"
-          onClick={advance}
+          onClick={skip}
           disabled={pending}
           className="cursor-pointer border-none bg-transparent py-[8px] text-[13.5px] font-semibold text-mut"
         >

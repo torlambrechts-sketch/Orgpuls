@@ -3098,8 +3098,8 @@ Coverage and the reason for every unclaimed area:
 | 03 Kommende | 78/108 | five upcoming rounds against seven; question counts and dates are the rows' (D-74) |
 | 04 Historikk | 90/90 | — |
 | 05 Årshjul | 143/204 | timeline rows for automations that do not exist, "Utløsere" and the Tuva note are not drawn (D-29, D-62); the page is 827 px shorter |
-| 06 Spørsmålssett | 68/102 | wider than the prototype, which shrinks each screen to its content (D-71) |
-| 07–11, 19 Resultater | 78–112/126 | Drift withheld with Administrasjon (D1, D-68); Utvikling's extra history (D-72) |
+| 06 Spørsmålssett | 67/102 | wider than the prototype, which shrinks each screen to its content (D-71); the Bransjemoduler panel sits where the prototype's footer is (D-124) |
+| 07–11, 19 Resultater | 76–112/126 | Drift withheld with Administrasjon (D1, D-68); Utvikling's extra history (D-72) and its Svarprosent row (D-135) |
 | 12 Kommentarer | 107/192 | no group label on a comment (D2, D-73) |
 | 13 Tavle | 116/120 | the fixture's measures and findings (D-75) |
 | 14 Liste | 132/132 | — |
@@ -6161,3 +6161,136 @@ docs/implementation/translation-files.md.
   - Machine drafts: none were generated.
   - The respondent pages outside the survey itself (the conversation pages, /inn) stay in the
     platform languages.
+
+## D-134 — «Ikke relevant for meg», and a «Hopp over» that skips (0087)
+
+Tor, 2026-09-27: "Sometimes the question is simply not relevant; or the user want to skip the
+question — this should be an opportunity. Also if many user flag it as irrelevant it should be
+removed from the baseline? … Make sure NPS is intact and that we stay within the boundaries of
+employee survey." Then: "hva er din anbefaling rundt ikke relevant og hopp over, mulighetene er
+der ikke i dag" (X-072).
+
+- **What was there.** The design's «Hopp over» (bundle 2014, `rSkip`) was built as the same handler
+  as «Neste». An option already picked was still sent, and nothing could unpick it. So «Hopp over»
+  skipped only a question nobody had touched. Nothing let a respondent say a statement does not
+  apply to them.
+- **«Hopp over» now skips.** It drops whatever was picked on that question and moves on, so nothing
+  is sent for it. A comment written on it is still sent, as before, because the person wrote it.
+  «Neste» with nothing picked is the same skip. The control is the design's, where the design has
+  it.
+- **«Ikke relevant for meg» is a sixth answer on statements.** It covers core and module statements
+  only.
+  - *Where it sits:* set 16 px below the five scale options, its label muted until picked, in the
+    options' own control (the same button class).
+  - *Why a separate answer:* it is not «Verken eller». The midpoint is an opinion; folding «does
+    not apply» into it would pull every index towards 50. It is not a skip either, because it is
+    kept and counted.
+  - *Where it is not offered:*
+    - the recommendation question (NPS), which is unchanged in how it is asked, stored and scored
+      (0035, 0042);
+    - the count questions, which have «Vet ikke»;
+    - violence and offensive behaviour, which have «Vil ikke svare» and «Nei»;
+    - the background questions and the open field, which are optional anyway.
+- **Stored apart, so no index can count it.** app.not_relevant_answers (core) and
+  app.module_not_relevant_answers (module) sit beside the answer tables, with the same shape: a
+  response and a statement, nothing else.
+  - The tables have RLS on, no policy, no grant, are append-only, and are written only by
+    submit_response. `na: true` replaces a value and is refused beside one.
+  - Every existing reader, including every index, cell_release's n, the recommendation score,
+    importance and comment themes, reads only the answer tables. So a not-relevant mark enters no
+    mean, no k count and no denominator, by construction rather than by a filter someone must
+    remember.
+  - This is also why the mark is not a value such as 0 in app.answers: every one of those readers
+    would have counted it.
+- **Shown only where it cannot point at anyone.** public.results_not_relevant gives, per statement,
+  the scale answers and the marks, and only under all of these conditions:
+  - for the whole organisation;
+  - to daglig leder and verneombud, who choose the question set;
+  - for a closed round;
+  - only where at least k people marked it.
+
+  Below k, "1 svarte «ikke relevant»" could name the one person a statement does not fit, such as
+  the only office worker in a construction firm, and say that they answered.
+  - *In Resultater* the count shows under the statement in the drill-down (whole organisation) and
+    in the module panel.
+  - *The flag:* at 30 % or more it adds what that means. For a core statement, the figure rests on
+    those it applies to. For a module statement, it can be taken out of the next survey under
+    Målinger › Spørsmålssett (D-136).
+  - *The design fixture has no marks*, so every Resultater baseline renders none of this.
+- **Not removed automatically** (Tor's question). A statement many mark not relevant is flagged,
+  and taking it out is the organisation's decision, logged, for coming grunnlinjer only (D-136).
+  - *Past results never change*, and the eleven core factors are never taken out: they are the
+    statutory core and the year-on-year comparison.
+  - *Automatic removal was rejected:* a small group could then change the instrument for everyone,
+    and the index would stop being comparable without anyone deciding it.
+- **The respondent screen is no longer the design's.** It has one option more and a gap. The QA
+  baselines for the question screens were re-captured. The new string `respond.notRelevant` changed
+  the survey pages' hash, so English must be approved again in admin › Legal review before it is
+  offered (0082's rule), and the five survey languages need the string translated.
+
+## D-135 — The response rate against earlier rounds, in Resultater
+
+Tor, 2026-09-27: "svarprosent må også måles opp mot tidligere undersøkelser under resultater".
+
+- **Neither design compares a response rate with an earlier survey.** They compare only the index.
+  Per-round rates appear only as lists: Historikk, the year rail and the report's run table.
+- **Built from Resultater's own parts:**
+  - *Svarprosent card:* after «28 av 34» the difference in percentage points, coloured as the
+    index delta is: «+5 fra 2025».
+  - *What it is measured against:* the round the index is measured against (the grunnlinje
+    compared with, or the one before). For a puls, the card measures against the puls before it,
+    «… fra forrige puls», because pulses are shorter and go to different people.
+  - *Utvikling:* the whole organisation's view gains a «Svarprosent» row under «Indeks», one cell
+    per round, neutral rather than heat-coloured, since a rate is not a score.
+- **Nothing new is disclosed.** Only organisation totals are compared, and those are every
+  member's already (0073). Each figure is the one its own round shows. No group rate is compared,
+  so D-123's rules on groups under k are untouched.
+- **The rates are recomputed**, as everywhere (participation, 0073): a past round's rate moves if
+  people have since left or changed group. Nothing snapshots them, as nothing did before.
+- **Pixel gate.** In the design fixture, 2026 against 2025 is 82 % against 77 %, so «+5 fra 2025»
+  renders in the Svarprosent card on every Resultater state (baselines-v3 07–11, 19). Utvikling
+  gains one row. Those tiles are re-claimed, as D-87 did for a page that grew.
+
+## D-136 — Choosing an industry module's statements; the core whole in every grunnlinje (0088)
+
+Tor, 2026-09-27 (X-072): select questions individually, mark irrelevant ones, keep NPS intact, stay
+within the boundaries of an employee survey.
+
+- **What can be chosen:**
+  - *Industry modules:* statement by statement, under Målinger › Spørsmålssett, by a daglig leder,
+    as the module itself is. Ticked is asked. A statement left out is not asked in any planned or
+    coming grunnlinje.
+  - *By code:* the choice is kept by the statement's code (BA-SF-2), so it outlives a new version
+    of the module.
+  - *At least one statement stays:* a module with none is switched off, and that is the switch's
+    job.
+  - *Documented:* every change is logged in app.org_module_items_log, append-only. Members read
+    the choices; daglig leder and verneombud read the log.
+  - *The screen shows the evidence:* beside each statement, how many said «ikke relevant» in the
+    last grunnlinje, where at least k did (D-134). When a flagged statement is left out, that line
+    is kept as the reason.
+- **What cannot:**
+  - *The eleven core factors in a grunnlinje.* The design locks them (bundle 4125-4130, «Grunnlinjen
+    bruker alle elleve. Ordlyden er låst»). Our Måleoppsett printed that note but left the chips
+    editable. They are now locked and ticked. The action writes the whole core for a grunnlinje
+    whatever the form sends.
+  - *Any bypass of that lock:* app.round_whole_core gives a grunnlinje every core factor as it
+    opens, whichever path opened it. It adds what is missing rather than refusing, so the year wheel
+    never stalls on it. A puls still asks the factors it was given.
+  - *A core statement:* never chosen away. «Ikke relevant for meg» is the respondent's way out
+    instead.
+  - *The recommendation question and the other extras:* chosen as before, on Målinger ›
+    Innstillinger and per round (0076). Nothing here touches them.
+  - *Own questions:* the organisation still cannot write any here. Choosing is among the validated
+    and reviewed statements only.
+- **Måleoppsett.** The module summary counts the statements the round actually asks, instead of
+  three per factor.
+- **The design has no per-statement choice.** The accordion's statement rows became native
+  checkboxes (styled as the module switch above them) when the module is on and the viewer is a
+  daglig leder. For everyone else they read as before, with «Tatt ut» on a statement left out. The
+  design fixture has no module on, so no baseline renders any of this.
+- **Pixel gate, Spørsmålssett (baselines-v3 06).** Unchanged by this: statements render only in an
+  open module, and every module is off in the fixture. One tile, 1600:960, had been lost since
+  D-124: the Bransjemoduler panel sits where the prototype's footer is, and the tile had matched
+  only by chance on the panel's empty background. The commit before this one renders the same page
+  byte for byte. The tile is re-claimed and the table in D-77 updated.

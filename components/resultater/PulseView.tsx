@@ -26,12 +26,15 @@ export function PulseView({
   index,
   deltaText,
   deltaCol,
+  rateVs,
 }: {
   model: ResultaterModel
   participation: Participation | null
   index: number | null
   deltaText: string | null
   deltaCol: string
+  /** the rate against the puls before (D-135) */
+  rateVs: { text: string; colour: string } | null
 }) {
   const t = useTranslations()
   const round = model.round
@@ -94,6 +97,11 @@ export function PulseView({
                   answered: participation.answered,
                   headcount: participation.headcount,
                 })}
+                {rateVs ? (
+                  <span className="ml-[8px] font-bold" style={{ color: rateVs.colour }}>
+                    {rateVs.text}
+                  </span>
+                ) : null}
               </div>
             </>
           ) : null}

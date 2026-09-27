@@ -3,7 +3,7 @@
 import type { Route } from 'next'
 import Link from 'next/link'
 import { useState, useTransition } from 'react'
-import { setOrgModule, setOrgModuleWording } from '@/app/(app)/malinger/actions'
+import { setOrgModule, setOrgModuleItem, setOrgModuleWording } from '@/app/(app)/malinger/actions'
 import { pickWording, WORDINGS, type Wording, type WordingVariants } from '@/lib/modules/wording'
 
 /**
@@ -30,7 +30,15 @@ export interface ModuleCard {
     name: string
     nameVariants?: WordingVariants
     summary: string
-    statements: { text: string; variants?: WordingVariants }[]
+    statements: {
+      code: string
+      text: string
+      variants?: WordingVariants
+      /** left out of the organisation's grunnlinjer (0088, D-136) */
+      off: boolean
+      /** "34 % svarte «ikke relevant» i grunnlinjen 2026", where at least k did (0087) */
+      notRelevant: string | null
+    }[]
   }[]
   href: string | null
   /** "Bruk … i hovedmålingene", for the switch's accessible name */
@@ -59,12 +67,18 @@ export function ModuleChoices({
     failed: string
     seeAll: string
     wording: { legend: string; suggested: string; byDefault: string; chosen: string; failed: string } & Record<Wording, string>
+    items: { lead: string; off: string; last: string; failed: string }
   }
 }) {
   const [open, setOpen] = useState('')
   const [state, setState] = useState(() => new Map(cards.map((c) => [c.key, c.on])))
   const [wordings, setWordings] = useState(() => new Map(cards.flatMap((c) => (c.wording ? [[c.key, c.wording] as const] : []))))
   const [failed, setFailed] = useState<string | null>(null)
+  // statements left out, by module key and code; shown at once and put back if the database refuses
+  const [itemsOff, setItemsOff] = useState(
+    () => new Set(cards.flatMap((c) => c.factors.flatMap((f) => f.statements.filter((s) => s.off).map((s) => `${c.key}:${s.code}`)))),
+  )
+  const [itemProblem, setItemProblem] = useState<{ key: string; text: string } | null>(null)
   const [wordingFailed, setWordingFailed] = useState<string | null>(null)
   const [pending, start] = useTransition()
 
@@ -79,6 +93,24 @@ export function ModuleChoices({
       else {
         setWordings(before)
         setWordingFailed(key)
+      }
+    })
+  }
+
+  const toggleItem = (key: string, code: string, reason: string | null) => {
+    const id = `${key}:${code}`
+    const asked = itemsOff.has(id)
+    const before = itemsOff
+    const next = new Set(before)
+    if (asked) next.delete(id)
+    else next.add(id)
+    setItemProblem(null)
+    setItemsOff(next)
+    start(async () => {
+      const r = await setOrgModuleItem(key, code, asked, asked ? null : reason)
+      if (!r.ok) {
+        setItemsOff(before)
+        setItemProblem({ key, text: r.problem === 'last_statement' ? labels.items.last : labels.items.failed })
       }
     })
   }
@@ -190,6 +222,11 @@ export function ModuleChoices({
                     </button>
                   </span>
                 </div>
+                {isOpen && on && canEdit ? (
+                  <p className="m-0 px-[16px] pb-[8px] text-[12px] leading-[1.5] text-mut [text-wrap:pretty]" role="status">
+                    {itemProblem?.key === c.key ? <span className="text-caution">{itemProblem.text}</span> : labels.items.lead}
+                  </p>
+                ) : null}
                 {isOpen ? (
                   <div className="grid gap-[10px] px-[16px] pb-[15px] [grid-template-columns:repeat(auto-fill,minmax(250px,1fr))]">
                     {c.factors.map((f) => (
@@ -197,12 +234,32 @@ export function ModuleChoices({
                         <span className="block text-[13px] font-semibold">{pickWording(f.name, f.nameVariants, wording?.value)}</span>
                         <span className="mt-[2px] block text-[11.5px] leading-[1.45] text-mut">{f.summary}</span>
                         <ol className="m-0 mt-[8px] flex list-none flex-col gap-[6px] p-0">
-                          {f.statements.map((s, i) => (
-                            <li key={i} className="flex items-start gap-[8px] text-[12.5px] leading-[1.45]">
-                              <span className="mt-[1px] flex-none text-[11px] font-bold text-mut">{i + 1}</span>
-                              <span className="[text-wrap:pretty]">{pickWording(s.text, s.variants, wording?.value)}</span>
-                            </li>
-                          ))}
+                          {f.statements.map((s, i) => {
+                            const out = itemsOff.has(`${c.key}:${s.code}`)
+                            const text = pickWording(s.text, s.variants, wording?.value)
+                            return (
+                              <li key={s.code} className="flex items-start gap-[8px] text-[12.5px] leading-[1.45]">
+                                {canEdit && on ? (
+                                  // a native checkbox, as the module switch above it: ticked is asked
+                                  <input
+                                    type="checkbox"
+                                    checked={!out}
+                                    disabled={pending}
+                                    onChange={() => toggleItem(c.key, s.code, s.notRelevant)}
+                                    aria-label={text}
+                                    className="mt-[2px] h-[15px] w-[15px] flex-none cursor-pointer accent-ink disabled:cursor-default"
+                                  />
+                                ) : (
+                                  <span className="mt-[1px] flex-none text-[11px] font-bold text-mut">{i + 1}</span>
+                                )}
+                                <span className="[text-wrap:pretty]">
+                                  <span className={out ? 'text-mut line-through' : ''}>{text}</span>
+                                  {out ? <span className="ml-[6px] text-[11px] font-bold text-mut">{labels.items.off}</span> : null}
+                                  {s.notRelevant ? <span className="mt-[2px] block text-[11.5px] font-semibold text-caution">{s.notRelevant}</span> : null}
+                                </span>
+                              </li>
+                            )
+                          })}
                         </ol>
                       </div>
                     ))}

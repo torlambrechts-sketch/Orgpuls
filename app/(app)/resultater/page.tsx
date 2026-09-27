@@ -8,6 +8,7 @@ import { roundNamer } from '@/lib/rounds/design-name'
 import { getRoundFactorKeys, getRoundRows, type RoundRow } from '@/lib/rounds/read'
 import { getUnansweredCount } from '@/lib/shell/read'
 import { getResultsDigest } from '@/lib/results/digest'
+import { getNotRelevant } from '@/lib/results/read'
 import { ModuleResults } from '@/components/resultater/ModuleResults'
 import { getModulesById, getRoundModules, withWording } from '@/lib/modules/read'
 import { getCountTotals, getModuleResults } from '@/lib/modules/results'
@@ -83,13 +84,15 @@ export default async function ResultaterPage({
     !isPulse && params.mot && params.mot !== selected.id ? (grunnlinjer.find((r) => r.id === params.mot) ?? null) : null
   const previousRow = [...(isPulse ? closed : grunnlinjer)].filter((r) => byClose(r, selected) < 0).at(-1) ?? null
 
-  const [digest, factors, conversations, measures, unanswered] = await Promise.all([
-    // the workspace and this round's participation, in one call (0044)
-    getResultsDigest({ participation: [selected.id], workspace: selected.id }),
+  const [digest, factors, conversations, measures, unanswered, notRelevant] = await Promise.all([
+    // the workspace and every closed round's participation, in one call (0044): the rate is
+    // measured against earlier rounds (D-135)
+    getResultsDigest({ participation: closed.map((r) => r.id), workspace: selected.id }),
     getRoundFactorKeys(selected.id),
     getConversations(selected.id),
     getMeasures(),
     getUnansweredCount(),
+    getNotRelevant(selected.id),
     countView('results_viewed'),
   ])
 
@@ -242,6 +245,13 @@ export default async function ResultaterPage({
       : [],
     questionCount: selected.questionCount,
     initial: { view: params.visning ?? 'varmekart', row, factor },
+    rates: Object.fromEntries(
+      closed.flatMap((r) => {
+        const p = digest.participation.get(r.id)
+        return p ? [[r.id, p.pct] as const] : []
+      }),
+    ),
+    notRelevant,
   }
 
   const nextPulse = rows
@@ -268,6 +278,7 @@ export default async function ResultaterPage({
             totals={countTotals}
             // the statements as this round asked them (0083), as module_results reports them
             modules={moduleRows.map((m) => withWording(m, roundModules.find((r) => r.moduleId === m.id)?.wording))}
+            notRelevant={notRelevant}
           />
         ) : null
       }

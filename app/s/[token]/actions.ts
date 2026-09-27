@@ -22,13 +22,17 @@ import { createClient } from '@/lib/supabase/server'
  * to a person here and the RPC does not return the response id, so nothing in this
  * process can correlate a submission with a row.
  */
-const Answer = z.object({
-  factor: z.string().min(1).max(64),
-  ordinal: z.number().int().min(1).max(9),
-  // absent when the question was skipped; a comment may still accompany it
-  value: z.number().int().min(1).max(5).optional(),
-  comment: z.string().max(4000).optional(),
-})
+const Answer = z
+  .object({
+    factor: z.string().min(1).max(64),
+    ordinal: z.number().int().min(1).max(9),
+    // absent when the question was skipped; a comment may still accompany it
+    value: z.number().int().min(1).max(5).optional(),
+    // «Ikke relevant for meg» (0087, D-134): in place of a value, never beside one
+    na: z.literal(true).optional(),
+    comment: z.string().max(4000).optional(),
+  })
+  .refine((a) => !(a.na && a.value !== undefined))
 
 const Extra = z.object({
   key: z.string().min(1).max(64),
@@ -42,7 +46,16 @@ const Extra = z.object({
  * not ask, and writes the count answers with nothing that leads back to this response.
  */
 const Module = z.object({
-  answers: z.array(z.object({ item: z.string().uuid(), value: z.number().int().min(1).max(5) })).max(100),
+  // a statement's value 1–5, or «Ikke relevant for meg» in its place (0087, D-134)
+  answers: z
+    .array(
+      z.union([
+        // unknown keys are stripped, as everywhere in this payload (a forged `lang` never reaches the RPC)
+        z.object({ item: z.string().uuid(), value: z.number().int().min(1).max(5) }),
+        z.object({ item: z.string().uuid(), na: z.literal(true) }),
+      ]),
+    )
+    .max(100),
   count: z.array(z.object({ item: z.string().uuid(), answer: z.enum(['ja', 'nei', 'vet_ikke']) })).max(20),
   segments: z.array(z.object({ item: z.string().uuid(), option: z.number().int().min(1).max(9) })).max(20),
 })

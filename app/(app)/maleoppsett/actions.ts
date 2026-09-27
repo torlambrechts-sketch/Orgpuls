@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
+import { getFactors } from '@/lib/instrument/read'
 import { COMMENT_POLICIES, EVALUATION_CADENCES } from '@/lib/setup/read'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentOrgId } from '@/lib/org/current'
@@ -121,6 +122,11 @@ export async function saveSetup(formData: FormData): Promise<SetupActionResult> 
    * *everyone*. So the count is not a verdict here; an error still is, and discarding it
    * was how a bad group id could leave the audience unsaved under a success message.
    */
+  // a grunnlinje asks every core factor, whatever the form sent (0088, D-136): the design locks
+  // them, and the database gives a grunnlinje the whole core as it opens
+  const factorKeys = s.kind === 'grunnlinje' ? (await getFactors()).map((f) => f.key) : s.factorKeys
+  if (!factorKeys.length) return problem('invalid')
+
   const { error: factorsCleared } = await supabase
     .schema('app')
     .from('round_factors')
@@ -128,12 +134,12 @@ export async function saveSetup(formData: FormData): Promise<SetupActionResult> 
     .eq('round_id', s.roundId)
   if (factorsCleared) return problem('denied')
 
-  if (s.factorKeys.length) {
+  if (factorKeys.length) {
     const { error: factorsWritten } = await supabase
       .schema('app')
       .from('round_factors')
       .insert(
-        s.factorKeys.map((factor_key) => ({
+        factorKeys.map((factor_key) => ({
           org_id: round_.data.org_id,
           round_id: s.roundId,
           factor_key,

@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import type { Module } from '@/lib/modules/read'
 import type { CountTotals, ModuleResults as Results } from '@/lib/modules/results'
 import { heatTone } from '@/lib/results/tone'
+import { NOT_RELEVANT_FLAG, notRelevantShare } from '@/lib/results/resultater'
 import { ModuleSuggestions } from './ModuleSuggestions'
 
 /**
@@ -21,12 +22,15 @@ export async function ModuleResults({
   results,
   totals,
   modules,
+  notRelevant = {},
 }: {
   roundId: string
   results: Results
   totals: CountTotals | null
   /** the registry rows, for each factor's sources */
   modules: Module[]
+  /** «ikke relevant» per statement (0087, D-134): module:<item> → counts, only where at least k marked it */
+  notRelevant?: Record<string, { n: number; na: number }>
 }) {
   const t = await getTranslations('resultater.module')
   const card = 'rounded-card border border-line bg-sf'
@@ -161,13 +165,28 @@ export async function ModuleResults({
                       ) : null}
                       <div className="mt-[10px] text-[12px] font-semibold text-mut">{t('statements')}</div>
                       <ul className="m-0 mt-[4px] list-none p-0">
-                        {f.items.map((i) => (
-                          <li key={i.code} className="flex gap-[10px] py-[3px]">
-                            <span className="w-[64px] flex-none text-[12px] font-bold text-mut">{i.code}</span>
-                            <span className="min-w-0 flex-1">{i.text}</span>
-                            <span className="flex-none tabular-nums text-mut">{i.index ?? '–'}</span>
-                          </li>
-                        ))}
+                        {f.items.map((i) => {
+                          const id = reg?.factors.flatMap((x) => x.items).find((x) => x.code === i.code)?.id
+                          const na = id ? notRelevant[`module:${id}`] : undefined
+                          const share = na ? notRelevantShare(na) : 0
+                          return (
+                            <li key={i.code} className="flex gap-[10px] py-[3px]">
+                              <span className="w-[64px] flex-none text-[12px] font-bold text-mut">{i.code}</span>
+                              <span className="min-w-0 flex-1">
+                                {i.text}
+                                {na ? (
+                                  <span className="mt-[2px] block text-[11.5px] leading-[1.45] text-mut">
+                                    {t('notRelevant', { na: na.na, total: na.n + na.na, pct: Math.round(share * 100) })}
+                                    {share >= NOT_RELEVANT_FLAG ? (
+                                      <span className="block font-semibold text-ink">{t('notRelevantFlag')}</span>
+                                    ) : null}
+                                  </span>
+                                ) : null}
+                              </span>
+                              <span className="flex-none tabular-nums text-mut">{i.index ?? '–'}</span>
+                            </li>
+                          )
+                        })}
                       </ul>
                     </div>
                   </details>

@@ -134,6 +134,7 @@ export function respondCopy(t: T, threshold: number, moduleMinutes = 0): Respond
     next: t('respond.next'),
     submit: t('respond.submit'),
     skip: t('respond.skip'),
+    notRelevant: t('respond.notRelevant'),
     commentPrompt: t('respond.commentPrompt'),
     commentPlaceholder: t('respond.commentPlaceholder'),
     openPlaceholder: t('respond.openPlaceholder'),

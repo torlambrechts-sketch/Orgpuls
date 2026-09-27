@@ -431,7 +431,12 @@
         "byDefault": "The module's default, as your industry code points to neither a kindergarten nor a school. Choose another if it fits better.",
         "chosen": "Chosen by you. Planned surveys use it; a survey that has opened keeps its own.",
         "failed": "Could not save the wording. Try again."
-      }
+      },
+      "itemsLead": "Tick the statements you want to ask. What you take out is not asked in coming baselines. The change is logged.",
+      "itemOff": "Left out",
+      "itemLast": "At least one statement must stay. To ask none, switch the question set off.",
+      "itemFailed": "The change was not saved. Please try again.",
+      "itemNa": "{pct} % answered «not relevant» in the {year} baseline"
     },
     "innstillinger": {
       "intro": "Set the standard for your surveys here: how employees receive the survey, what it asks, and when it closes. Every new survey takes the standard, and in Survey setup you can change it for one survey.",
@@ -601,6 +606,7 @@
     "next": "Next",
     "submit": "Submit",
     "skip": "Skip",
+    "notRelevant": "Not relevant to me",
     "commentPrompt": "Want to say more? Voluntary and anonymous",
     "commentPlaceholder": "Write here …",
     "openPlaceholder": "Write in your own words …",
@@ -3094,7 +3100,9 @@
       "trustGroups": "{over} of {total} groups over the threshold",
       "protected": "{group} has enough responses ({n}), but the index is withheld. Together with the whole it would otherwise reveal the figures of a group under the threshold of {threshold}.",
       "protectedNoCount": "{group} has enough answers, but the index is held back. Together with the whole it would otherwise reveal the figures for a group below the threshold of {threshold}.",
-      "indexScope": "Work environment index · {scope}"
+      "indexScope": "Work environment index · {scope}",
+      "rateVs": "{delta} from {round}",
+      "rateVsPulse": "{delta} from the previous pulse"
     },
     "trust": {
       "hoy": "High",
@@ -3140,7 +3148,9 @@
       "comments": "{count, plural, one {See the comment about this →} other {See all # comments about this →}}",
       "suggested": "Suggested measures",
       "add": "Add to plan",
-      "inPlan": "In the plan ✓"
+      "inPlan": "In the plan ✓",
+      "notRelevant": "{na} of {total} answered «not relevant» ({pct} %)",
+      "notRelevantFlag": "Many say the statement does not apply to them. The figure rests only on those it applies to."
     },
     "quadrant": {
       "fiks": "Fix first",
@@ -3190,7 +3200,9 @@
       "planned": "Planned",
       "index": "Index",
       "note": "· = not measured in this pulse. Pulses measure only the factors you have measures on, so they have no index of their own.",
-      "open": "In progress"
+      "open": "In progress",
+      "rate": "Response rate",
+      "rateValue": "{pct} %"
     },
     "pulse": {
       "index": "Pulse index",
@@ -3247,7 +3259,9 @@
       "create": "Create measure",
       "created": "Added to Measures.",
       "openTiltak": "Open Measures",
-      "createFailed": "The measure was not created. Only the managing director and department leaders can create measures."
+      "createFailed": "The measure was not created. Only the managing director and department leaders can create measures.",
+      "notRelevant": "{na} of {total} answered «not relevant» ({pct} %)",
+      "notRelevantFlag": "Many say the statement does not apply to them. You can take it out of the next survey under Measurements › Question set."
     }
   },
   "kommentarer": {
