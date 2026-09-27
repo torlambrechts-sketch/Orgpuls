@@ -2017,6 +2017,27 @@ search data, and revenue figures. Step 1 is D-104. Three decisions shape the res
   out by a daily run that leaves a record without a person's data; deletion order follows
   the anonymity constraints rather than weakening them (D-108).
 
+### X-064 — Survey settings: the organisation sets defaults, a round inherits them, QR is a way in
+
+Tor asked for one place under Målinger for how people receive a survey and which question
+sets it asks, as a default and per round. A proposal went first (SaaS adoption, UX and a
+survey specialist); Tor decided on 2026-09-27:
+
+- **QR is built, and the published pages keep their promise.** The industry pages say the
+  survey can be shared "som lenke og QR-kode"; that is built rather than withdrawn.
+- **The QR code is a door, not a key.** It opens a page where the employee gives their mobile
+  number or e-mail. If it is on the round's invitation list, their own personal link is sent
+  to it. An open link was rejected: it would let anyone answer, and answer twice, would
+  make people name their own group, which weakens k, and would rule out reminders. The
+  page answers the same thing whatever is typed, so it cannot be used to learn who works
+  there or who has answered.
+- **Violence and offensive behaviour are on by default, and turning them off takes a
+  reason.** They document the statutory duty (forskrift om utførelse av arbeid § 23A-1,
+  arbeidsmiljøloven § 4-3 (4)), so switching them off is possible but recorded.
+- **A separate tab, «Innstillinger», under Målinger.** It holds the organisation's defaults.
+  A new round inherits them, Måleoppsett shows each section as standard or changed for
+  that round, and a round's settings are fixed when it opens.
+
 ## Open items
 - [ ] "View as customer" for support: whether, for whom, with what approval, and how the
   customer is told (D-107; the DPA's Vedlegg 2 limits staff access today).
