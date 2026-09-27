@@ -19,3 +19,25 @@ export const hostOf = (value: string | null | undefined) => (value ?? '').split(
 
 export const MAIN_URL = `https://${MAIN_HOST}`
 export const EN_URL = `https://${EN_HOST}`
+
+const LOOPBACK = new Set(['localhost', '127.0.0.1'])
+
+/**
+ * The base of a link that leaves the browser — printed on a poster, mailed, texted, handed to
+ * someone else — from the request's host (x-forwarded-host, then host). Such a link has to work
+ * for whoever receives it, wherever it was made:
+ *
+ *   a production host (PUBLIC_HOSTS)  itself, over https; bare orgpuls.com becomes MAIN_URL
+ *   a loopback host                   itself, with its port and protocol: local and QA only,
+ *                                     where nothing is sent to anyone
+ *   anything else                     MAIN_URL — a Vercel preview, a proxy, or a spoofed Host
+ *                                     header never ends up on a poster or in someone's inbox
+ */
+export function outboundBase(host: string | null | undefined, proto: string | null | undefined): string {
+  const raw = (host ?? '').split(',')[0]?.trim().toLowerCase() ?? ''
+  const name = hostOf(raw)
+  if (name === EN_HOST) return EN_URL
+  if (PUBLIC_HOSTS.includes(name)) return MAIN_URL
+  if (LOOPBACK.has(name) || raw.startsWith('[::1]')) return `${proto === 'https' ? 'https' : 'http'}://${raw}`
+  return MAIN_URL
+}
