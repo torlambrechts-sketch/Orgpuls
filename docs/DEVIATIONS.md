@@ -5420,3 +5420,61 @@ now withheld: Økonomi og HR (4 people) and one shielding group per round.
 - All 44 suites pass locally.
 - Verified in the browser on the Lumio QA tenant: Målinger, Resultater, Oppsett › Grupper,
   Måleoppsett and Rapport.
+
+## D-124 — Question sets under Målinger › Spørsmålssett: off by default, chosen by the organisation (0074)
+
+Tor, 2026-09-27: "jeg vil også ha spørsmålssettene under målinger - spørsmålssett og at de er
+standard av, men KAN velges".
+
+- **Storage.** `app.org_modules` (org, module key, enabled) holds the organisation's standing
+  choice. No row means off.
+  - It is readable by members.
+  - It is written only through `public.set_org_module`, which checks that the caller is the
+    daglig leder and that a version of the module may be used (published, or a pilot's
+    draft).
+  - The choice is by key, so a newer published version is what the next round asks.
+- **Effect.**
+  - Turning a module on adds its newest usable version, with every statement and the count
+    questions, to the organisation's **planned** grunnlinjer.
+  - The `round_default_modules` trigger gives it to every new grunnlinje.
+  - Turning it off removes it from the planned ones.
+  - Open and closed rounds are never touched (0071's rule stands), and a puls is never given
+    a module this way.
+  - Måleoppsett still decides round by round.
+- **The screen.**
+  - A "Bransjemoduler" panel sits below the core set. The design has no screen for it, so it is
+    built from the core set's own tile, accordion and tokens.
+  - Each card shows name, figures, description, a suggestion badge when the organisation's
+    NACE code matches, the factors and statements on demand, and a link to the public question
+    page.
+  - Its switch is a native checkbox with `role="switch"`. Only the daglig leder may use it;
+    others see the state and a note.
+- **Tests.**
+  - `org_module_invariants.sql` is new, with 7 rows.
+  - Verified in the browser on the Lumio tenant: off by default; on is saved and survives a
+    reload; the verneombud sees it read-only; axe is clean; no console errors.
+
+## D-125 — /bransjer, the start page's industries, the construction page launched, both modules published
+
+Tor, 2026-09-27: "opprett en bransjeside til startsiden med underside for bygg og anlegg og
+helse og omsorg … Publiser spørsmålssett".
+
+- **The page.** `/bransjer` is new, in both languages. It has crumbs, a hero and one card per
+  industry. The card figures come from the module file. A note points other industries to
+  /bruksomrader.
+  - It is in the sitemap and the public paths.
+  - The design has no page for it; it uses the start page's explore cards and the site parts.
+- **The start page.** A "Bransjer" section after "Utforsk" has the two industry cards and "Alle
+  bransjer →". It is an addition to the design's start page, asked for by Tor.
+  - The start page's sections below it move down by its height; the pixel regions above are
+    unchanged.
+- **Construction launched.** `/bygg-og-anlegg` launched in Norwegian, as Tor approved the page
+  and its law text on 2026-09-26. `/bygg-og-anlegg/sporsmal` is live and in the sitemap.
+  - /artikler/medarbeiderundersokelse-sporsmal now links to it.
+  - The English article links to /bransjer, because the English construction page waits for
+    its law review.
+- **Health and care stays a preview.** `/helse-og-omsorg` keeps its landing page until its
+  seven law items are reviewed; the hub links to it either way.
+- **Published.** `bygg-og-anlegg@1.0.0` (fd6d9da1aa3b) and `helse-og-omsorg@1.0.0`
+  (65bd7f1be746) are published on the hosted project and can no longer change. Each
+  organisation has them off until it turns them on (D-124).

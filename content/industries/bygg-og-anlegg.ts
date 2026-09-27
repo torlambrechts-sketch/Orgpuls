@@ -9,7 +9,7 @@ import type { IndustryPage } from './types'
 export const byggOgAnlegg: IndustryPage = {
   slug: 'bygg-og-anlegg',
   navLabel: 'Bygg og anlegg',
-  launched: false,
+  launched: true,
   module: { key: 'bygg-og-anlegg', version: '1.0.0' },
   moduleName: { title: 'Bygg-modulen', inline: 'bygg-modulen' },
   seo: {
