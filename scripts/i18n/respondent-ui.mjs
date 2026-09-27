@@ -15,9 +15,13 @@
  */
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { localeRegistry } from '../lib/locales.mjs'
 
 const OUT = 'lib/i18n/respondent-ui.json'
-const LOCALES = ['no', 'en', 'pl', 'lt']
+// the survey languages, from the one registry (lib/i18n/locales.ts)
+const LOCALES = localeRegistry()
+  .filter((l) => l.survey)
+  .map((l) => l.code)
 
 const sorted = (v) =>
   Array.isArray(v) ? v.map(sorted) : v && typeof v === 'object' ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, sorted(v[k])])) : v

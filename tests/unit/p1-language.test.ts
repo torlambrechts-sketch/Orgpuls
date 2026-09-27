@@ -14,7 +14,7 @@ import {
   type NoticeJob,
 } from '@/supabase/functions/_shared/mail'
 import { smsContent, smsLength } from '@/supabase/functions/_shared/sms'
-import { chooseLocale } from '@/lib/i18n/offered'
+import { chooseLocale, offeredLocales } from '@/lib/i18n/offered'
 
 /**
  * Engagement P1.3 (D-127): a personal message in the employee's language where the survey is
@@ -100,6 +100,20 @@ describe('the organisation’s language comes before bokmål (D-127 addendum)', 
   it('puts the employee’s own language before the organisation’s', () => {
     const j = job({ lang: 'en', recipients: [{ email: 'x@lumio.no', phone: null, name: 'X', lang: 'no', member: false }] })
     expect(personalLang(j, j.recipients[0]!, offeredFor(cat, j, all))).toBe('no')
+  })
+
+  it('offers a language the organisation pilots (0085) without its flag, and only once it is complete', () => {
+    const none: LanguageOffer = { flags: new Set(), hashes }
+    // the English state, piloted, with no flag at all
+    expect(offeredFor(cat, job({ locales: { ...ready, en: { ...ready.en, pilot: true } } }), none)).toEqual(['no', 'en'])
+    // nothing piloted and nothing flagged: the organisation's language, as before
+    expect(offeredFor(cat, job(), none)).toBeNull()
+    // a pilot cannot offer what is incomplete
+    expect(offeredFor(cat, job({ locales: { ...ready, en: { missing: 2, ui: [hashes.en], pilot: true } } }), none)).toEqual(['no'])
+    // nor a language without mail texts (this catalogue has bokmål and English only)
+    expect(offeredFor(cat, job({ locales: { ...ready, pl: { missing: 0, ui: [], pilot: true } } }), none)).toBeNull()
+    // the survey page's rule is the same (English is signed off, so it is offered either way)
+    expect(offeredLocales({ ...ready, lt: { ...ready.lt, pilot: true } })).toEqual(['no', 'en'])
   })
 
   it('opens the survey page in the same order: asked, own, organisation, bokmål', () => {

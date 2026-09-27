@@ -1,6 +1,7 @@
 import barnehageV1 from '@/modules/barnehage-og-skole/v1.json'
 import byggV1 from '@/modules/bygg-og-anlegg/v1.json'
 import helseV1 from '@/modules/helse-og-omsorg/v1.json'
+import helseV100 from '@/modules/helse-og-omsorg/archive/v1.0.0.json'
 import { parseModule, type ModuleFile } from '@/lib/modules/schema'
 
 /**
@@ -11,10 +12,16 @@ import { parseModule, type ModuleFile } from '@/lib/modules/schema'
  * `lang: 'en'` returns the same file with its `translations.en` laid over the Norwegian (D-120):
  * the English page quotes exactly what an English respondent is asked. A file without a
  * translation stays Norwegian, and validate.ts refuses an English page on such a module.
+ *
+ * modules/<key>/v<major>.json is the version the seed script writes next. A version still
+ * published when its file moves on is kept, byte for byte, under modules/<key>/archive/, so a
+ * page can go on quoting what respondents are asked until its successor is published.
  */
 const FILES: Record<string, unknown> = {
   'bygg-og-anlegg@1.0.0': byggV1,
-  'helse-og-omsorg@1.0.0': helseV1,
+  // 1.0.1 corrects the legal basis only (kap. 23A → 3A, kap. 14 → 23); 1.0.0 is published until it is
+  'helse-og-omsorg@1.0.0': helseV100,
+  'helse-og-omsorg@1.0.1': helseV1,
   'barnehage-og-skole@1.0.0': barnehageV1,
 }
 
@@ -22,6 +29,11 @@ export type PageLang = 'no' | 'en'
 
 /** Every module version with a file here, as `key@version` (the legal review lists their legal basis) */
 export const MODULE_VERSIONS = Object.keys(FILES)
+
+/** Where a version's file is, for the legal review's «source» */
+const ARCHIVED = new Set(['helse-og-omsorg@1.0.0'])
+export const moduleSource = (key: string, version: string) =>
+  ARCHIVED.has(`${key}@${version}`) ? `modules/${key}/archive/v${version}.json` : `modules/${key}/v${version.split('.')[0]}.json`
 
 export function moduleFile(key: string, version: string, lang: PageLang = 'no'): ModuleFile {
   const raw = FILES[`${key}@${version}`]

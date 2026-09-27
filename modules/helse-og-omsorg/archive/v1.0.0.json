@@ -1,6 +1,6 @@
 {
   "module_id": "helse-og-omsorg",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "locale": "nb-NO",
   "name": "Helse og omsorg",
   "description": "Tilleggsmodul til hovedundersøkelsen for helse, omsorg og arbeid med mennesker. Åtte faktorer med tre påstander hver, pluss to spørsmål som bare rapporteres som antall.",
@@ -81,7 +81,7 @@
       ],
       "legal_basis": [
         "aml § 4-3 sjette ledd (vern mot vold, trusler og uheldige belastninger fra kontakt med andre)",
-        "forskrift om utførelse av arbeid kap. 3A (kartlegging og vurdering av risiko, tiltak, informasjon, opplæring og oppfølging ved vold og trusler)"
+        "forskrift om utførelse av arbeid kap. 23A (risikovurdering, tiltak, opplæring og oppfølging ved fare for vold og trusler)"
       ],
       "items": [
         {
@@ -457,7 +457,7 @@
       ],
       "legal_basis": [
         "aml § 4-4 (fysiske arbeidsmiljøfaktorer)",
-        "forskrift om utførelse av arbeid kap. 23 (ergonomisk belastende arbeid)"
+        "forskrift om utførelse av arbeid kap. 14 (arbeid som kan medføre ergonomiske belastninger)"
       ],
       "items": [
         {
@@ -657,7 +657,7 @@
           "rationale": "Around one in four employees in municipal health and care services report having been exposed to violence or threats. In Swedish residential care homes, violence and threats lie behind one in four reported occupational accidents with sickness absence, against six per cent in working life as a whole. Since 2017 the regulation has required procedures, training and follow-up where employees are at risk.",
           "legal_basis": [
             "Working Environment Act § 4-3 sixth paragraph (protection against violence, threats and adverse strain from contact with others)",
-            "Regulations concerning the performance of work, chapter 3A (risk assessment, measures, information, training and follow-up for violence and threats)"
+            "Regulations concerning the performance of work, chapter 23A (risk assessment, measures, training and follow-up where there is a risk of violence and threats)"
           ],
           "items": {
             "HO-VT-1": "We have gone through which situations could lead to violence or threats here",
@@ -855,7 +855,7 @@
           "rationale": "STAMI research in home care shows that more than six in ten do heavy physical lifts without equipment, and half do so even when the equipment is available.",
           "legal_basis": [
             "Working Environment Act § 4-4 (physical working environment factors)",
-            "Regulations concerning the performance of work, chapter 23 (ergonomically strenuous work)"
+            "Regulations concerning the performance of work, chapter 14 (work that may involve ergonomic strain)"
           ],
           "items": {
             "HO-FL-1": "We have the equipment we need for patient handling",

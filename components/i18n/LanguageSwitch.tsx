@@ -4,7 +4,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useLocale } from 'next-intl'
 import { useTransition } from 'react'
 import { setLanguage } from '@/lib/i18n/actions'
-import { LOCALES } from '@/lib/i18n/locales'
+import { bcp47, LOCALES } from '@/lib/i18n/locales'
 import { EN_HOST, MAIN_URL } from '@/lib/hosts'
 import { switchUrl } from '@/lib/i18n/switch'
 
@@ -56,8 +56,8 @@ export function LanguageSwitch({
             <a
               key={l}
               href={`${hosts[l]}${pathname}`}
-              hrefLang={l === 'no' ? 'nb' : 'en'}
-              lang={l === 'no' ? 'nb' : 'en'}
+              hrefLang={bcp47(l)}
+              lang={bcp47(l)}
               aria-current={on ? 'true' : undefined}
               aria-label={NAME[l]}
               onClick={(e) => {
@@ -76,7 +76,7 @@ export function LanguageSwitch({
           <button
             key={l}
             type="button"
-            lang={l === 'no' ? 'nb' : 'en'}
+            lang={bcp47(l)}
             aria-pressed={on}
             aria-label={NAME[l]}
             disabled={pending}

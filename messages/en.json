@@ -379,7 +379,7 @@
       "indexText": "index {index}",
       "plannedTitle": "{kind} {month} {year}",
       "baselineText": "The whole question set. Goes out automatically from the year wheel.",
-      "pulseText": "From the year wheel. {count, plural, other {# questions}} about {factors}, sent {date} at {time}.",
+      "pulseText": "From the year wheel. {count, plural, one {# question} other {# questions}} about {factors}, sent {date} at {time}.",
       "openMeasures": "the factors with open measures",
       "leadText": "The safety representative is told {days, plural, one {# day} other {# days}} before.",
       "now": "Now",
@@ -748,7 +748,7 @@
     "runOpen": "open until {date}",
     "runAnswers": "{answered} of {total} · {pct} %",
     "runNotDone": "not conducted",
-    "runScope": "{questions, plural, other {# questions}} · {factors, plural, other {# factors}}",
+    "runScope": "{questions, plural, one {# question} other {# questions}} · {factors, plural, one {# factor} other {# factors}}",
     "included": "In the report",
     "excluded": "Left out",
     "section3": "3. Survey",
@@ -1080,7 +1080,7 @@
     "kind": {
       "grunnlinje": {
         "label": "Baseline",
-        "note": "{count, plural, other {# questions}} · annual · meets the statutory duty"
+        "note": "{count, plural, one {# question} other {# questions}} · annual · meets the statutory duty"
       },
       "puls": {
         "label": "Pulse",
@@ -1164,7 +1164,7 @@
     "summaryPeople": "Recipients",
     "summaryPeopleValue": "{invited} of {total} employees",
     "summaryFactors": "Factors",
-    "summaryAllFactors": "{count, plural, =2 {All two factors} =3 {All three factors} =4 {All four factors} =5 {All five factors} =6 {All six factors} =7 {All seven factors} =8 {All eight factors} =9 {All nine factors} =10 {All ten factors} =11 {All eleven factors} =12 {All twelve factors} other {All # factors}}",
+    "summaryAllFactors": "{count, plural, one {The one factor} =2 {All two factors} =3 {All three factors} =4 {All four factors} =5 {All five factors} =6 {All six factors} =7 {All seven factors} =8 {All eight factors} =9 {All nine factors} =10 {All ten factors} =11 {All eleven factors} =12 {All twelve factors} other {All # factors}}",
     "summarySomeFactors": "{count, plural, one {# factor} other {# factors}}",
     "summaryCadence": "Cadence",
     "summaryReminder": "Reminder on day {day}, closes after {days} days",
@@ -3386,7 +3386,7 @@
       "pastePlaceholder": "Kari Nordmann, kari@firma.no, Drift\nOla Hansen, 912 34 567, Verksted",
       "pasteAria": "Employees, one per line",
       "register": "Open the register and add people →",
-      "imported": "{written, plural, =0 {None new} one {# new} other {# new}} added, {updated} updated, {skipped} skipped.",
+      "imported": "{written, plural, =0 {None new} one {# new} other {# new}} added, {updated, plural, one {# updated} other {# updated}}, {skipped, plural, one {# skipped} other {# skipped}}.",
       "problem": {
         "empty": "No lines to read in.",
         "too_many": "At most 2000 lines at a time.",
@@ -8767,6 +8767,22 @@
         "factors": "The instrument's factors could not be read, so their law references are not listed here.",
         "modules": "The module registry could not be read, so no module is shown as published.",
         "crm": "The CRM's e-mail templates and newsletter lists could not be read, so they are not listed here."
+      },
+      "pilots": {
+        "title": "Language pilots",
+        "lead": "A survey language can be offered to a few organisations before its flag is on for everyone. A pilot organisation's surveys are offered the language only where every item they ask and the survey pages' strings are approved, exactly as for everyone once the flag is on. Adding and removing are recorded in the audit log with the reason.",
+        "none": "No organisation pilots a language.",
+        "col": {
+          "locale": "Language",
+          "org": "Organisation",
+          "since": "Since"
+        },
+        "locale": "Language",
+        "org": "Organisation id",
+        "reason": "Reason (in the audit log)",
+        "add": "Add pilot",
+        "remove": "Remove pilot",
+        "reasonRequired": "Give a reason of at least five characters."
       }
     }
   },

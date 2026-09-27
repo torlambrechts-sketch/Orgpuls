@@ -118,7 +118,7 @@ const Locales = z.object({
   employee_lang: z.string().nullable(),
   // the organisation's language (0081); absent from a database without it
   org_lang: z.string().nullable().optional(),
-  locales: z.record(z.string(), z.object({ missing: z.coerce.number(), ui: z.array(z.string()) })),
+  locales: z.record(z.string(), z.object({ missing: z.coerce.number(), ui: z.array(z.string()), pilot: z.boolean().optional() })),
   texts: z.record(z.string(), z.record(z.string(), z.string())),
 })
 export type RespondLocales = z.infer<typeof Locales>

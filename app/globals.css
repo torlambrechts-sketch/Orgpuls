@@ -47,7 +47,7 @@
    * it swaps in. Once the fonts load the fallback is never used: the rendering is theirs.
    */
   :root {
-    --font-dmsans: 'DM Sans', 'DM Sans Fallback';
+    --font-dmsans: 'DM Sans', 'DM Sans Fallback', 'Orgpuls Cyrillic';
     --font-playfair: 'Playfair Display', 'Playfair Display Fallback';
   }
 

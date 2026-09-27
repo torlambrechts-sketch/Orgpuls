@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { ArticleCards } from '@/components/marketing/ArticleCards'
 import { CtaBand } from '@/components/marketing/CtaBand'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { pageMeta } from '@/lib/marketing/meta'
-import { breadcrumbs, graph, organization } from '@/lib/marketing/schema'
+import { breadcrumbs, graph, ldLanguage, organization } from '@/lib/marketing/schema'
 import { absolute, ARTICLES } from '@/lib/marketing/site'
 
 /** The article index: every article, newest first, as lib/marketing/site.ts lists them. */
@@ -26,7 +26,7 @@ export default async function ArticleIndex() {
             url: absolute('/artikler'),
             name: t('seo.index.title'),
             description: t('seo.index.description'),
-            inLanguage: 'nb-NO',
+            inLanguage: ldLanguage(await getLocale()),
             hasPart: ARTICLES.map((a) => ({
               '@type': 'Article',
               url: absolute(`/artikler/${a.slug}`),

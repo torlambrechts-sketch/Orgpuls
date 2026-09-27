@@ -5979,3 +5979,90 @@ followed as written:
   the validation status in the registry and an admin control to change it; the factor toggles
   for this module, which stay behind `module_factor_toggles` as for the others; and the card's
   «Ny» label (`newUntil`), which the hub has no place for.
+
+## D-132 — The multilingual engineering queue, built (0084, 0085)
+
+Tor, 2026-09-27: "Build the whole engineering queue, and prepare helse 1.0.1" — items 1–8 of
+docs/implementation/multilingual-gap-analysis.md § «Proposed engineering queue» (X-067), and a
+corrected helse og omsorg module (X-068). Nothing here changes what a respondent sees today:
+English stays approved, bokmål stays the source, and no Latin glyph renders differently.
+
+1. **Language tags at the edges.** `bcp47()` (lib/i18n/locales.ts) turns the product's `no` into
+   `nb` wherever a tag leaves the product: `<html lang>`, the survey page's `<main lang>`, the
+   language picker's `hrefLang`/`lang`, the language switch, the newsletter archive's article,
+   and JSON-LD `inLanguage` (`nb-NO`, `en`). The code stays `no` everywhere inside — files,
+   cookies, the database — as CLAUDE.md fixes it.
+2. **i18n gates.** `npm run verify:i18n` now parses every message with
+   @formatjs/icu-messageformat-parser, compares each translation's arguments and tags with the
+   source's by AST, requires every CLDR plural category of the locale (so a Polish plural without
+   `few`/`many` fails), and holds the no/en SMS templates to GSM-7. An organisation's own SMS
+   text has its typographic quotes, « » included, turned into ASCII on save (lib/sms/gsm7.ts),
+   because one such character makes the whole message UCS-2 and halves its length.
+   The gate found 13 real faults, all fixed in the catalogues; the ones a user could see were
+   «1 faktorer» and «1 questions».
+3. **One locale registry.** lib/i18n/locales.ts is `{code, bcp47, nativeName, dir, platform,
+   survey, fallback}` per language; LOCALES, the survey languages, their names, the zod enums of
+   five server boundaries, the legal registry's languages, the company form, the respondent-UI
+   hash script and the dispatcher's list derive from it. The database keeps its own lists in
+   checks and function bodies; tests/unit/locales.test.ts reads the latest definition of each from
+   supabase/migrations and fails when one disagrees with the registry. The guide's `host` field is
+   not in the registry: the hosts are lib/hosts.ts's, and only English has one.
+4. **Translation governance (0084).**
+   - A translation has a status — draft → in_review → adjudicated → pretested → approved →
+     retired — with adjudication notes and a TRAPD reference per step on the row. `approved_at`
+     stays, set exactly when the status is approved, so 0079–0082's readers are untouched and the
+     131 English approvals on the hosted project carry over.
+   - *Deviation from the guide:* a machine translation (the product's English) may still be
+     approved from any step. The guide's steps assume two independent translators and a pretest;
+     the English is one reviewed machine text (D-127), and requiring steps nobody performs would
+     only make the statuses untrue. An official or professional translation is approved only once
+     `pretested` (app.translation_approvable), on every approval path.
+   - *Approved rows immutable* is met as "an approved version never changes": a new wording of an
+     approved row is the next version, back in draft, and every version — the text as approved,
+     who changed it, when — is in app.item_translation_log, which is append-only. Rewriting the
+     row in place under a new primary key would have meant rewriting every reader.
+   - *A round's wording is pinned.* When a round opens, its approved texts are copied to
+     app.round_translations; an item approved while the round is open is pinned then. A pin never
+     changes and the respondent reads it first, so a new version reaches the next round, never the
+     one in the field. Rounds open when 0084 was applied were pinned by it.
+   - 0079's `approve_item_translations` and `approve_ui_translation` are super-admin only now
+     (support could call them) and audited. Status, notes and documents are
+     `admin_translation_update`, super-admin and audited; `admin_translation_history` reads the log.
+     There is no screen for the workflow yet: no language needs one until a translator is engaged.
+   - *Variant keys.* A worded module's statement is `module:<uuid>:v:barnehage` / `:v:skole` in
+     the registry, so a kindergarten round asks for the kindergarten wording's translation, and a
+     language is offered for it only once that exists. The respondent receives it under the item's
+     own key, so the page did not change.
+5. **Language pilots (0085).** app.locale_pilots: a super-admin names an organisation for a
+   language, with a reason, audited, on admin › Legal review. *Deviation from the queue's wording:*
+   a pilot stands in for the flag, not in addition to it — the flag is "everyone", a pilot is "these
+   organisations first", as the guide's stepped rollout has it. Nothing else loosens: the language
+   is still offered only where every item and the page strings are approved. The survey page and
+   the dispatcher read the pilot from the language state they already had.
+6. **A CI job for the respondent flow.** (See the addendum below.)
+7. **A Cyrillic fallback font.** DM Sans has no Cyrillic. Manrope's Cyrillic subsets (SIL OFL),
+   self-hosted in public/fonts and declared in app/fonts.css as «Orgpuls Cyrillic» with a
+   Cyrillic-only unicode-range, after DM Sans in `--font-dmsans`. A page with no Cyrillic never
+   fetches it and no Latin glyph can come from it, so the pixel baselines are unaffected (D-07's
+   rule is about the bundle's own files, which are untouched). Playfair already ships Cyrillic.
+8. **Types, fallback, hreflang, sitemaps.**
+   - *Typed message keys: measured, and not adopted.* Typing next-intl's `Messages` against
+     messages/no.json makes 130 call sites fail, every one a key built from data (a factor, a
+     status, a question kind — CLAUDE.md's "data-not-code"). Making them pass means a cast at each,
+     which asserts what nothing checks. `Locale` is typed (types/next-intl.d.ts); keys are held by
+     the catalogue gates and made visible by `getMessageFallback`.
+   - *Fallback chain.* lib/i18n/request.ts lays a locale's catalogue over the ones its registry
+     entry falls back to. No platform locale has one today; survey items never fall back.
+   - *One hreflang method:* the sitemap. Each host's /sitemap.xml lists its own URLs, with
+     `nb`, `en` and `x-default` (www) alternates only where a page has a twin; en.orgpuls.com's
+     robots.txt names its own sitemap. The pages' own `<link rel=alternate>` tags stay
+     (lib/marketing/meta.ts): they build the same three URLs from the same host constants, and
+     search engines accept both, so keeping them costs nothing and removing them gains nothing.
+
+**Helse og omsorg 1.0.1** (X-068). modules/helse-og-omsorg/v1.json is now 1.0.1: forskrift om
+utførelse av arbeid kap. 23A (repealed 1 January 2026) → kap. 3A, and kap. 14 (noise) → kap. 23
+(ergonomisk belastende arbeid) for forflytning, in Norwegian and English. Nothing else differs; a
+unit test says so. 1.0.0 stays published and is kept byte for byte at
+modules/helse-og-omsorg/archive/v1.0.0.json, which the public pages go on quoting — they print
+the version respondents are asked — until 1.0.1 is published. 1.0.1 is seeded as a draft on the
+hosted project, and its legal basis is in admin › Legal review.

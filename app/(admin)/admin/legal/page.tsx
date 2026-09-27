@@ -1,9 +1,10 @@
 import type { Route } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { LegalCheck, TranslationsApproveForm } from '@/components/admin/LegalForms'
-import { Badge, Card, day, PageHead, Problem, Stat } from '@/components/admin/ui'
-import { isError, legalApprovals, translationState, whoami, type TranslationState } from '@/lib/admin/api'
+import { LegalCheck, LocalePilotForm, TranslationsApproveForm } from '@/components/admin/LegalForms'
+import { Badge, Card, day, PageHead, Problem, Stat, Table, Td } from '@/components/admin/ui'
+import { isError, legalApprovals, localePilots, translationState, whoami, type LocalePilot, type TranslationState } from '@/lib/admin/api'
+import { LOCALE_REGISTRY, TRANSLATION_LOCALES } from '@/lib/i18n/locales'
 import respondentUi from '@/lib/i18n/respondent-ui.json'
 import { respondentLines } from '@/lib/i18n/respondent-strings'
 import enMessages from '@/messages/en.json'
@@ -31,7 +32,13 @@ export default async function AdminLegal(props: Props) {
   const show: Show = (SHOW as readonly string[]).includes(sp.show ?? '') ? (sp.show as Show) : 'all'
   const lang: Lang = (LANG as readonly string[]).includes(sp.lang ?? '') ? (sp.lang as Lang) : 'all'
 
-  const [who, approvals, en, inputs] = await Promise.all([whoami(), legalApprovals(), translationState('en'), legalInputs()])
+  const [who, approvals, en, inputs, pilots] = await Promise.all([
+    whoami(),
+    legalApprovals(),
+    translationState('en'),
+    legalInputs(),
+    localePilots(),
+  ])
   if (who?.role !== 'super_admin' || isError(approvals)) {
     return <Problem text={!isError(approvals) || approvals.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   }
@@ -82,6 +89,7 @@ export default async function AdminLegal(props: Props) {
       ) : null}
 
       {!isError(en) ? <EnglishSurvey t={t} state={en} problems={problems} /> : null}
+      {!isError(pilots) ? <LanguagePilots t={t} pilots={pilots.pilots} problems={problems} /> : null}
 
       <nav aria-label={t('legal.filter')} className="my-[18px] flex flex-wrap items-center gap-[6px] text-[13px]">
         {SHOW.map((s) => (
@@ -240,6 +248,50 @@ function EnglishSurvey({
           ))}
         </dl>
       </details>
+    </Card>
+  )
+}
+
+/** The organisations offered a survey language before everyone (0085), and the form to add or remove one. */
+function LanguagePilots({
+  t,
+  pilots,
+  problems,
+}: {
+  t: Awaited<ReturnType<typeof getTranslations<'admin'>>>
+  pilots: LocalePilot[]
+  problems: Record<string, string>
+}) {
+  const nameOf = (code: string) => LOCALE_REGISTRY.find((l) => l.code === code)?.nativeName ?? code
+  return (
+    <Card title={t('legal.pilots.title')} className="mt-[16px]">
+      <p className="mb-[10px] mt-0 max-w-[80ch] text-[13px] leading-[1.55] text-mut">{t('legal.pilots.lead')}</p>
+      <div className="mb-[14px]">
+        <Table head={[t('legal.pilots.col.locale'), t('legal.pilots.col.org'), t('legal.pilots.col.since')]} empty={pilots.length ? undefined : t('legal.pilots.none')}>
+          {pilots.map((p) => (
+            <tr key={`${p.locale}:${p.org_id}`}>
+              <Td>{nameOf(p.locale)}</Td>
+              <Td wrap>
+                {p.name} <span className="font-mono text-[11.5px] text-mut">{p.org_id}</span>
+              </Td>
+              <Td>{day(p.at)}</Td>
+            </tr>
+          ))}
+        </Table>
+      </div>
+      <LocalePilotForm
+        locales={TRANSLATION_LOCALES.map((code) => ({ code, name: nameOf(code) }))}
+        labels={{
+          locale: t('legal.pilots.locale'),
+          org: t('legal.pilots.org'),
+          reason: t('legal.pilots.reason'),
+          add: t('legal.pilots.add'),
+          remove: t('legal.pilots.remove'),
+          saving: t('legal.saving'),
+          done: t('legal.done'),
+          problems: { ...problems, reason_required: t('legal.pilots.reasonRequired') },
+        }}
+      />
     </Card>
   )
 }

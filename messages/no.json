@@ -286,7 +286,7 @@
     "roundTitle": "{kind} {year}",
     "pulseTitle": "{kind} {n} · {year}",
     "pulseListTitle": "{kind} · {month} {year}",
-    "questionCount": "{count, plural, other {# spørsmål}}",
+    "questionCount": "{count, plural, one {# spørsmål} other {# spørsmål}}",
     "closedOn": "lukket {date}",
     "closesOn": "går ut {date}",
     "rateLabel": "{answered} av {total} svarte",
@@ -317,7 +317,7 @@
     "qsLead": "Elleve faktorer — de samme som arbeidsmiljøloven § 4-3 og forskriften navngir etter presiseringen 1. januar 2026, formulert med QPS Nordic-språk. Tre påstander per faktor, besvart 1–5. Dere kan skru av en faktor, men ikke endre ordlyden — det er den som gjør tallene sammenliknbare over tid.",
     "statementCount": "{count, plural, one {# påstand} other {# påstander}}",
     "extraHeading": "I tillegg, utenfor indeksen",
-    "extraCount": "{count, plural, other {# spørsmål}}",
+    "extraCount": "{count, plural, one {# spørsmål} other {# spørsmål}}",
     "tabsAria": "Målinger: kommende, historikk, årshjul og spørsmålssett",
     "tab": {
       "kommende": "Kommende",
@@ -379,7 +379,7 @@
       "indexText": "indeks {index}",
       "plannedTitle": "{kind} {month} {year}",
       "baselineText": "Hele spørsmålssettet. Går ut automatisk i årshjulet.",
-      "pulseText": "Fra årshjulet. {count, plural, other {# spørsmål}} om {factors}, sendes {date} kl. {time}.",
+      "pulseText": "Fra årshjulet. {count, plural, one {# spørsmål} other {# spørsmål}} om {factors}, sendes {date} kl. {time}.",
       "openMeasures": "faktorene med åpne tiltak",
       "leadText": "Verneombudet varsles {days, plural, one {# dag} other {# dager}} før.",
       "now": "Nå",
@@ -748,7 +748,7 @@
     "runOpen": "åpen til {date}",
     "runAnswers": "{answered} av {total} · {pct} %",
     "runNotDone": "ikke gjennomført",
-    "runScope": "{questions, plural, other {# spørsmål}} · {factors, plural, other {# faktorer}}",
+    "runScope": "{questions, plural, one {# spørsmål} other {# spørsmål}} · {factors, plural, one {# faktor} other {# faktorer}}",
     "included": "Med i rapporten",
     "excluded": "Utelatt",
     "section3": "3. Kartlegging",
@@ -1080,7 +1080,7 @@
     "kind": {
       "grunnlinje": {
         "label": "Grunnlinje",
-        "note": "{count, plural, other {# spørsmål}} · årlig · dekker lovkravet"
+        "note": "{count, plural, one {# spørsmål} other {# spørsmål}} · årlig · dekker lovkravet"
       },
       "puls": {
         "label": "Puls",
@@ -1164,7 +1164,7 @@
     "summaryPeople": "Mottakere",
     "summaryPeopleValue": "{invited} av {total} ansatte",
     "summaryFactors": "Faktorer",
-    "summaryAllFactors": "{count, plural, =2 {Alle to faktorer} =3 {Alle tre faktorer} =4 {Alle fire faktorer} =5 {Alle fem faktorer} =6 {Alle seks faktorer} =7 {Alle sju faktorer} =8 {Alle åtte faktorer} =9 {Alle ni faktorer} =10 {Alle ti faktorer} =11 {Alle elleve faktorer} =12 {Alle tolv faktorer} other {Alle # faktorer}}",
+    "summaryAllFactors": "{count, plural, one {Den ene faktoren} =2 {Alle to faktorer} =3 {Alle tre faktorer} =4 {Alle fire faktorer} =5 {Alle fem faktorer} =6 {Alle seks faktorer} =7 {Alle sju faktorer} =8 {Alle åtte faktorer} =9 {Alle ni faktorer} =10 {Alle ti faktorer} =11 {Alle elleve faktorer} =12 {Alle tolv faktorer} other {Alle # faktorer}}",
     "summarySomeFactors": "{count, plural, one {# faktor} other {# faktorer}}",
     "summaryCadence": "Rytme",
     "summaryReminder": "Påminnelse dag {day}, lukkes etter {days} dager",
@@ -8767,6 +8767,22 @@
         "factors": "The instrument's factors could not be read, so their law references are not listed here.",
         "modules": "The module registry could not be read, so no module is shown as published.",
         "crm": "The CRM's e-mail templates and newsletter lists could not be read, so they are not listed here."
+      },
+      "pilots": {
+        "title": "Språkpiloter",
+        "lead": "Et spørreskjemaspråk kan tilbys noen få organisasjoner før flagget er på for alle. En pilotorganisasjons undersøkelser tilbys språket bare der hvert spørsmål de stiller og tekstene på undersøkelsessidene er godkjent, akkurat som for alle når flagget er på. Å legge til og fjerne føres i revisjonsloggen med begrunnelsen.",
+        "none": "Ingen organisasjon er pilot for et språk.",
+        "col": {
+          "locale": "Språk",
+          "org": "Organisasjon",
+          "since": "Siden"
+        },
+        "locale": "Språk",
+        "org": "Organisasjons-id",
+        "reason": "Begrunnelse (i revisjonsloggen)",
+        "add": "Legg til pilot",
+        "remove": "Fjern pilot",
+        "reasonRequired": "Oppgi en begrunnelse på minst fem tegn."
       }
     }
   },

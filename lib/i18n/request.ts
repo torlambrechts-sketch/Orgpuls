@@ -1,7 +1,26 @@
 import { cookies, headers } from 'next/headers'
 import { EN_HOST, hostOf } from '@/lib/hosts'
 import { getRequestConfig } from 'next-intl/server'
-import { DEFAULT_LOCALE, isLocale, LOCALE_COOKIE } from './locales'
+import { DEFAULT_LOCALE, fallbackOf, isLocale, LOCALE_COOKIE } from './locales'
+
+type Tree = { [k: string]: unknown }
+const isTree = (v: unknown): v is Tree => !!v && typeof v === 'object' && !Array.isArray(v)
+/** b over a, key by key: a string missing from b is taken from a */
+const merge = (a: Tree, b: Tree): Tree =>
+  Object.fromEntries([...new Set([...Object.keys(a), ...Object.keys(b)])].map((k) => [k, isTree(a[k]) && isTree(b[k]) ? merge(a[k], b[k]) : (b[k] ?? a[k])]))
+
+/**
+ * A locale's catalogue, over the ones it falls back to (lib/i18n/locales.ts `fallback`, the
+ * multilingual guide's chain: nn → nb → en, sv → en, …). No platform locale has a fallback today,
+ * so this is the file itself; a new one may ship partial for the app's chrome. Survey items never
+ * fall back: they are not in these files, and a survey language is offered whole or not at all.
+ */
+async function loadMessages(locale: string): Promise<Tree> {
+  const own = (await import(`../../messages/${locale}.json`)).default as Tree
+  let out: Tree = {}
+  for (const f of [...fallbackOf(locale)].reverse()) out = merge(out, (await import(`../../messages/${f}.json`)).default as Tree)
+  return merge(out, own)
+}
 
 /**
  * There is no locale routing: no /no or /en prefix. On en.orgpuls.com the locale is English
@@ -22,7 +41,7 @@ export default getRequestConfig(async ({ locale: asked }) => {
   if (isLocale(asked)) {
     return {
       locale: asked,
-      messages: (await import(`../../messages/${asked}.json`)).default,
+      messages: await loadMessages(asked),
       getMessageFallback: ({ namespace, key }) => (namespace ? `${namespace}.${key}` : key),
     }
   }
@@ -33,7 +52,7 @@ export default getRequestConfig(async ({ locale: asked }) => {
 
   return {
     locale,
-    messages: (await import(`../../messages/${locale}.json`)).default,
+    messages: await loadMessages(locale),
     getMessageFallback: ({ namespace, key }) =>
       namespace ? `${namespace}.${key}` : key,
   }

@@ -2101,11 +2101,35 @@ and a checked status, and proposes an engineering queue and ten decisions that a
   addendum). No hosted organisation had one.
 - **Nothing else is queued** until Tor says which of the proposed queue to build.
 
+### X-068 — The multilingual queue, built; helse og omsorg 1.0.1 prepared
+
+Tor, 2026-09-27: "Build the whole engineering queue, and prepare helse 1.0.1".
+
+- **Built:** all eight items of the queue (D-132): standard language tags, the i18n gates, one
+  locale registry, translation governance in the database (0084: status workflow, versions
+  kept, rounds pinned, variant keys, super-admin-only approvals), language pilots (0085), a CI
+  job for the respondent flow, a Cyrillic fallback font, and the fallback chain and per-host
+  sitemaps. Typed message keys were measured and not adopted (130 data-driven keys).
+- **English stays approved.** 0084 carries the 131 approvals over as status approved; the
+  respondent strings' hash did not move.
+- **Helse og omsorg 1.0.1** corrects the legal basis only (kap. 23A → 3A, kap. 14 → 23). It is
+  a draft on the hosted project, and the registry seed has given its items English rows (41
+  drafts; the 131 approved rows were checked unchanged first). To put it live, in this order:
+  1. in admin › Legal review, approve its legal basis (the 1.0.1 rows) and the English survey
+     (the 41 open items) — approving before publishing means no survey asking it ever falls back
+     to bokmål;
+  2. publish it (admin › Moduler, or `npm run -s modules:publish helse-og-omsorg 1.0.1`); new
+     rounds take the newest published version by themselves;
+  3. set `module.version` to 1.0.1 in content/industries/helse-og-omsorg.ts and .en.ts, so the
+     pages quote the version respondents are asked;
+  4. retire 1.0.0 when no planned round asks it, and drop `helse-og-omsorg@1.0.0` and its archive
+     file from content/industries/modules.ts.
+
 ## Open items
-- [ ] The multilingual guide: Tor's ten decisions and which of the proposed engineering queue to build (X-067, docs/implementation/multilingual-gap-analysis.md).
+- [ ] The multilingual guide: Tor's ten decisions (X-067, docs/implementation/multilingual-gap-analysis.md); the engineering queue is built (X-068, D-132).
 - [ ] Barnehage og skole: approve its law items in admin › Legal review, then launch the page and publish the module (X-066, D-131).
 - [ ] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131).
-- [ ] Helse og omsorg's module cites the repealed forskrift kap. 23A and labels kap. 14 as ergonomics (D-131). Fixing it is a v1.0.1, published: new item ids, so its English needs approving again. Tor to decide; the page's reference is already corrected and awaits his approval in the legal review.
+- [ ] Helse og omsorg 1.0.1 (the corrected legal basis) is a draft: approve its legal basis, publish, move the pages to it, approve its English (X-068 lists the steps).
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).
 - [ ] A ready-to-send check before a round opens (channel coverage, groups under the threshold, information and consultation done); the reach count on Målinger › Innstillinger is its first half (D-126).
 - [ ] "View as customer" for support: whether, for whom, with what approval, and how the

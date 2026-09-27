@@ -1,6 +1,7 @@
 'use server'
 
 import { z } from 'zod'
+import { LOCALES } from '@/lib/i18n/locales'
 import { createClient } from '@/lib/supabase/server'
 
 /**
@@ -16,7 +17,7 @@ const Signup = z.object({
   mail: z.string().trim().email().max(254),
   name: z.string().trim().max(120),
   company: z.string().trim().max(200),
-  lang: z.enum(['no', 'en']),
+  lang: z.enum(LOCALES),
   source: z.enum(['newsletter', 'contact_form']),
   trap: z.string().max(500),
   lists: z.array(z.string().regex(/^[a-z0-9-]{2,40}$/)).max(20).optional(),

@@ -8,6 +8,7 @@ import { CampaignWeb } from '@/components/site/CampaignWeb'
 import { archiveItem } from '@/lib/crm/read'
 import { pageMeta } from '@/lib/marketing/meta'
 import { article, breadcrumbs, graph } from '@/lib/marketing/schema'
+import { bcp47 } from '@/lib/i18n/locales'
 
 /**
  * One newsletter issue on the web (D-103): what the mail said, with no personal data, its
@@ -68,7 +69,7 @@ export default async function ArchiveItemPage({ params }: { params: Promise<{ sl
         {t('sent', { date: format.dateTime(new Date(item.published_at), { dateStyle: 'long', timeZone: 'Europe/Oslo' }) })}
       </p>
       <h1 className="mb-[20px] mt-[6px] font-display text-[clamp(28px,3.8vw,38px)] font-semibold leading-[1.12] [text-wrap:balance]">{item.title}</h1>
-      <article lang={item.lang === 'en' ? 'en' : 'nb'} className="rounded-card border border-line bg-sf p-[clamp(22px,3.5vw,34px)]">
+      <article lang={bcp47(item.lang === 'en' ? 'en' : 'no')} className="rounded-card border border-line bg-sf p-[clamp(22px,3.5vw,34px)]">
         <CampaignWeb
           blocks={item.blocks}
           campaign={item.utm_campaign}

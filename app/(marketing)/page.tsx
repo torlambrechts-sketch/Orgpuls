@@ -1,6 +1,6 @@
 import type { Metadata, Route } from 'next'
 import Link from 'next/link'
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { Eyebrow, StartBand, Tick } from '@/components/site/parts'
@@ -55,7 +55,7 @@ export default async function StartPage() {
 
   return (
     <div>
-      <JsonLd data={graph(organization(), website(), software(seo('description')))} />
+      <JsonLd data={graph(organization(), website(await getLocale()), software(seo('description')))} />
 
       <section id="topp" className="mx-auto max-w-[1120px] px-[26px] pt-[60px]">
         <div className="max-w-[780px]">

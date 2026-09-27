@@ -4,6 +4,7 @@ import type { Route } from 'next'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+import { LOCALES } from '@/lib/i18n/locales'
 import { createClient } from '@/lib/supabase/server'
 import type { AdminResult } from './actions'
 import { searchRegistry, SearchInput, type RegistryHit } from './brreg'
@@ -197,7 +198,7 @@ export async function createCampaign(_prev: AdminResult | null, formData: FormDa
     .object({
       name: z.string().trim().min(1).max(120),
       kind: z.enum(CAMPAIGN_KINDS).optional(),
-      lang: z.enum(['no', 'en']),
+      lang: z.enum(LOCALES),
       template_key: z.string().regex(/^[a-z0-9-]{2,40}$/).optional(),
     })
     .safeParse({
@@ -224,7 +225,7 @@ export async function saveCampaign(_prev: AdminResult | null, formData: FormData
       id: z.string().uuid(),
       name: z.string().trim().min(1).max(120),
       kind: z.enum(CAMPAIGN_KINDS),
-      lang: z.enum(['no', 'en']),
+      lang: z.enum(LOCALES),
       subject: z.string().max(150),
       preheader: z.string().max(200),
       segment_id: z.union([z.string().uuid(), z.literal('')]),

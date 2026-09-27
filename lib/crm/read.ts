@@ -1,6 +1,7 @@
 import 'server-only'
 import { createClient } from '@supabase/supabase-js'
 import { z } from 'zod'
+import { LOCALES } from '@/lib/i18n/locales'
 import { readSupabaseEnv } from '@/lib/supabase/env'
 
 /**
@@ -28,7 +29,7 @@ export async function publicLists(): Promise<PublicList[]> {
 
 const Preferences = z.object({
   ok: z.literal(true),
-  lang: z.enum(['no', 'en']),
+  lang: z.enum(LOCALES),
   all_off: z.boolean(),
   campaign_list: z.string().nullable(),
   lists: z.array(PublicList.extend({ subscribed: z.boolean() })),
@@ -50,7 +51,7 @@ const ArchiveRow = z.object({
   title: z.string(),
   description: z.string().nullable(),
   preheader: z.string(),
-  lang: z.enum(['no', 'en']),
+  lang: z.enum(LOCALES),
   kind: z.string(),
   published_at: z.string(),
 })

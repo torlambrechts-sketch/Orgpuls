@@ -7,9 +7,11 @@
  *   - the core statements (messages/en.json factor.<key>.s<n>) as core:<key>:<n>;
  *   - the questions outside the index and their options (extra.<key>.text, .o<n>);
  *   - the module items and their options, from app.module_items' own English (0072).
- * Every row is source 'machine' and unapproved: the product's English was written with AI
- * assistance, and approving it (public.approve_item_translations) is the human review. A row
- * whose text changes loses its approval (item_translation_guard). Idempotent.
+ *   - a worded module's variants (module:<uuid>:v:barnehage, :v:skole) from its "en.<wording>".
+ * Every row is source 'machine' and a draft (0084): the product's English was written with AI
+ * assistance, and approving it (Admin › Juridisk, public.admin_translations_approve) is the
+ * human review. A new text for an approved row is a new version, a draft again; the approved
+ * one stays in app.item_translation_log, and in every round it was pinned in. Idempotent.
  *
  * Only English has messages to take translations from; Polish and Lithuanian rows come from a
  * translator, or, on the QA tenant only, from scripts/qa/seed.mjs as qa-fixture rows.
@@ -45,6 +47,11 @@ console.log(`delete from app.item_translations t where t.locale = 'en' and t.ite
   and not exists (select 1 from app.statements s where t.item_id = 'core:' || s.factor_key || ':' || s.ordinal);`)
 console.log(`insert into app.item_translations (item_id, locale, text, source)
 select 'module:' || i.id, 'en', i.text ->> 'en', 'machine' from app.module_items i where coalesce(i.text ->> 'en', '') <> ''
+${upsert};`)
+// a worded module's variants (0083, 0084): module:<uuid>:v:barnehage from its "en.barnehage"
+console.log(`insert into app.item_translations (item_id, locale, text, source)
+select 'module:' || i.id || ':v:' || w, 'en', i.text ->> ('en.' || w), 'machine'
+from app.module_items i cross join unnest(array['barnehage', 'skole']) w where coalesce(i.text ->> ('en.' || w), '') <> ''
 ${upsert};`)
 console.log(`insert into app.item_translations (item_id, locale, text, source)
 select 'module:' || i.id || ':o' || y.n, 'en', y.o ->> 'en', 'machine'

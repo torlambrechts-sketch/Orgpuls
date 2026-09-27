@@ -1,6 +1,9 @@
 import { absolute, SITE_URL } from './site'
 import { plain, type FaqItem } from './blocks'
 
+/** the page's language as schema.org wants it: nb-NO on the Norwegian site, en on the English one */
+export const ldLanguage = (locale: string) => (locale === 'en' ? 'en' : 'nb-NO')
+
 /**
  * schema.org objects for the public pages. Every value is copy the page itself shows —
  * the prices are the plans on the start page, the questions are the FAQ a reader can open —
@@ -24,12 +27,12 @@ export const organization = () => ({
   },
 })
 
-export const website = () => ({
+export const website = (locale = 'no') => ({
   '@type': 'WebSite',
   '@id': `${SITE_URL}/#website`,
   url: SITE_URL,
   name: 'Orgpuls',
-  inLanguage: 'nb-NO',
+  inLanguage: ldLanguage(locale),
   publisher: { '@id': `${SITE_URL}/#organization` },
 })
 
@@ -39,7 +42,9 @@ export const software = (description: string) => ({
   name: 'Orgpuls',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web',
-  inLanguage: 'nb-NO',
+  // the product itself is in both
+  inLanguage: ['nb-NO', 'en'],
+  // the description is in the page's language
   description,
   url: SITE_URL,
   publisher: { '@id': `${SITE_URL}/#organization` },
@@ -83,11 +88,12 @@ export const article = (a: {
   words: number
   /** the page's own card (public/og/...); the site's otherwise */
   image?: string
+  locale?: string
 }) => ({
   '@type': 'Article',
   headline: a.headline,
   description: a.description,
-  inLanguage: 'nb-NO',
+  inLanguage: ldLanguage(a.locale ?? 'no'),
   datePublished: a.published,
   dateModified: a.modified,
   wordCount: a.words,

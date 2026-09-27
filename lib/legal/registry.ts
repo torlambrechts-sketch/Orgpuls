@@ -5,8 +5,9 @@ import { join } from 'node:path'
 import en from '@/messages/en.json'
 import no from '@/messages/no.json'
 import { INDUSTRIES, pageIn } from '@/content/industries'
-import { MODULE_VERSIONS, moduleFile } from '@/content/industries/modules'
+import { MODULE_VERSIONS, moduleFile, moduleSource } from '@/content/industries/modules'
 import type { IndustryPage } from '@/content/industries/types'
+import { LOCALES, type Locale } from '@/lib/i18n/locales'
 import { ARTICLES } from '@/lib/marketing/site'
 import { DPA_SHA256, DPA_VERSION } from './dpa'
 
@@ -34,7 +35,7 @@ import { DPA_SHA256, DPA_VERSION } from './dpa'
  * instrument's law references are.
  */
 
-export type LegalLang = 'no' | 'en'
+export type LegalLang = Locale
 export const LEGAL_SECTIONS = ['industries', 'modules', 'documents', 'site', 'product', 'messages'] as const
 export type LegalSection = (typeof LEGAL_SECTIONS)[number]
 
@@ -64,7 +65,7 @@ export type LegalUnit = {
 }
 
 const MESSAGES: Record<LegalLang, unknown> = { no, en }
-const LANGS: LegalLang[] = ['no', 'en']
+const LANGS: LegalLang[] = [...LOCALES]
 
 // ---------------------------------------------------------------- text and hash
 
@@ -418,16 +419,18 @@ function moduleUnits(published: ReadonlySet<string>): LegalUnit[] {
       const m = moduleFile(key, version, lang)
       // a module without an English translation reads Norwegian in English: nothing to review twice
       if (lang === 'en' && !moduleFile(key, version).translations?.en) return []
-      const live = INDUSTRIES.some((i) => pageIn(i, lang)?.module?.key === key && pageIn(i, lang)?.launched)
+      // the version its launched page quotes (a successor still in draft is on no page yet)
+      const onPage = (i: (typeof INDUSTRIES)[number]) => pageIn(i, lang)?.module?.key === key && pageIn(i, lang)?.module?.version === version
+      const live = INDUSTRIES.some((i) => onPage(i) && pageIn(i, lang)?.launched)
       const factors = m.factors.map((f) =>
         unit({
           key: `module:${kv}:${lang}:${f.id}`,
           section: 'modules',
           title: { key: 'module.factor', values: { module: m.name, factor: f.name } },
           lang,
-          source: `modules/${key}/v${version.split('.')[0]}.json › factors[${f.id}]${lang === 'en' ? ' (translations.en)' : ''}`,
+          source: `${moduleSource(key, version)} › factors[${f.id}]${lang === 'en' ? ' (translations.en)' : ''}`,
           where: live
-            ? { key: 'moduleOnSite', values: { path: `/${INDUSTRIES.find((i) => pageIn(i, lang)?.module?.key === key)?.slug}/sporsmal` } }
+            ? { key: 'moduleOnSite', values: { path: `/${INDUSTRIES.find(onPage)?.slug}/sporsmal` } }
             : place('moduleInReport'),
           // published in the database is what reaches a customer's survey and report
           live: published.has(kv),
@@ -446,7 +449,7 @@ function moduleUnits(published: ReadonlySet<string>): LegalUnit[] {
           section: 'modules',
           title: { key: 'module.sources', values: { module: m.name } },
           lang: 'no',
-          source: `modules/${key}/v${version.split('.')[0]}.json › sources`,
+          source: `${moduleSource(key, version)} › sources`,
           where: place('moduleSources'),
           live: published.has(kv),
           lines: m.sources.map((x) => ({ path: `sources.${x.key}`, text: `${x.title}\n${x.url}` })),

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
-import { absolute } from '@/lib/marketing/site'
+import { headers } from 'next/headers'
+import { EN_HOST, EN_URL, hostOf, MAIN_URL } from '@/lib/hosts'
 
 /**
  * The public site is open to crawlers. What is not: the respondent survey and its
@@ -31,10 +32,12 @@ const PRIVATE = [
   '/samtaler',
 ]
 
-export default function robots(): MetadataRoute.Robots {
+/** each host names its own sitemap (app/sitemap.ts, D-132) */
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const base = hostOf((await headers()).get('host')) === EN_HOST ? EN_URL : MAIN_URL
   return {
     rules: [{ userAgent: '*', allow: '/', disallow: PRIVATE }],
-    sitemap: absolute('/sitemap.xml'),
-    host: absolute('/'),
+    sitemap: `${base}/sitemap.xml`,
+    host: `${base}/`,
   }
 }

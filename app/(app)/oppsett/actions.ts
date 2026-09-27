@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
+import { LOCALES } from '@/lib/i18n/locales'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { writeFailed } from '@/lib/supabase/write'
@@ -100,7 +101,7 @@ export async function fetchRegistry(formData: FormData): Promise<SettingsResult>
  * Each control writes its own column.
  */
 export async function saveLanguage(formData: FormData): Promise<SettingsResult> {
-  const parsed = z.enum(['no', 'en']).safeParse(formData.get('lang'))
+  const parsed = z.enum(LOCALES).safeParse(formData.get('lang'))
   if (!parsed.success) return { ok: false, problem: 'invalid' }
   return updateOrg({ default_lang: parsed.data })
 }

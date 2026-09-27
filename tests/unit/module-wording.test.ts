@@ -8,7 +8,7 @@ import { pickWording } from '@/lib/modules/wording'
  * A worded module (0083, D-131): barnehage og skole says «barna» in a kindergarten, «elevene»
  * in a school and «barna eller elevene» for both — one statement, one code, three wordings.
  */
-const raw = (key: string) => JSON.parse(readFileSync(`modules/${key}/v1.json`, 'utf8'))
+const raw = (key: string, file = 'v1.json') => JSON.parse(readFileSync(`modules/${key}/${file}`, 'utf8'))
 const fails = (mutate: (m: any) => void) => {
   const m = raw('barnehage-og-skole')
   mutate(m)
@@ -124,6 +124,36 @@ describe('the published modules', () => {
   it('hash as they did when published, whatever the schema learned since', () => {
     // hosted app.question_modules.content_hash, 2026-09-27; module_seed refuses a published version whose hash moved
     expect(contentHash(parseModule(raw('bygg-og-anlegg')))).toBe('fd6d9da1aa3bc80418529b7ea99d839a47939e8a647b6a4c877e435534059a74')
-    expect(contentHash(parseModule(raw('helse-og-omsorg')))).toBe('65bd7f1be7464ab233b9b3c81c775deb90d62248f210773d7fb0dcfab8af99b6')
+    // 1.0.0 is kept under archive/ while its successor is a draft (content/industries/modules.ts)
+    expect(contentHash(parseModule(raw('helse-og-omsorg', 'archive/v1.0.0.json')))).toBe('65bd7f1be7464ab233b9b3c81c775deb90d62248f210773d7fb0dcfab8af99b6')
+  })
+
+  it('helse og omsorg 1.0.1 changes the legal basis and nothing a respondent is asked', () => {
+    const was = parseModule(raw('helse-og-omsorg', 'archive/v1.0.0.json'))
+    const now = parseModule(raw('helse-og-omsorg'))
+    expect(now.version).toBe('1.0.1')
+    const law = (m: typeof now) => m.factors.flatMap((f) => f.legal_basis).join('\n')
+    const lawEn = (m: typeof now) => Object.values(m.translations?.en?.factors ?? {}).flatMap((f) => f.legal_basis).join('\n')
+    // the repealed chapter and the noise chapter under ergonomics are gone, in both languages
+    expect(law(was)).toMatch(/kap\. 23A/)
+    expect(law(now)).not.toMatch(/23A|kap\. 14/)
+    expect(law(now)).toMatch(/kap\. 3A/)
+    expect(law(now)).toMatch(/kap\. 23 \(ergonomisk/)
+    expect(lawEn(now)).not.toMatch(/23A|chapter 14/)
+    expect(lawEn(now)).toMatch(/chapter 3A/)
+    // with the legal basis set aside, the two versions are the same file
+    const strip = (m: typeof now) =>
+      JSON.stringify({
+        ...m,
+        version: '',
+        factors: m.factors.map((f) => ({ ...f, legal_basis: [] })),
+        translations: m.translations && {
+          en: m.translations.en && {
+            ...m.translations.en,
+            factors: Object.fromEntries(Object.entries(m.translations.en.factors).map(([k, f]) => [k, { ...f, legal_basis: [] }])),
+          },
+        },
+      })
+    expect(strip(now)).toBe(strip(was))
   })
 })

@@ -10,6 +10,7 @@ import { legalUnits } from '@/lib/legal/registry'
 import respondentUi from '@/lib/i18n/respondent-ui.json'
 import { respondentHash } from '@/lib/i18n/respondent-strings'
 import en from '@/messages/en.json'
+import { TRANSLATION_LOCALES } from '@/lib/i18n/locales'
 
 /**
  * The platform admin's writes and its sign-in (D-90). Signing in is two steps: a password,
@@ -287,6 +288,27 @@ export async function modulePilot(_prev: AdminResult | null, formData: FormData)
     p_key: parsed.data.key, p_version: parsed.data.version, p_org: parsed.data.org, p_on: parsed.data.on === 'on', p_reason: parsed.data.reason,
   })
   if (r.ok) revalidatePath('/admin/modules')
+  return r
+}
+
+/**
+ * Offer a survey language to one organisation before everyone (0085), or stop: super-admin, with
+ * a reason, audited. The language is still offered only where its translations are approved.
+ */
+export async function localePilot(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({
+      locale: z.enum(TRANSLATION_LOCALES),
+      org: z.string().uuid(),
+      on: z.enum(['on', 'off']),
+      reason: z.string().trim().min(5).max(500),
+    })
+    .safeParse({ locale: formData.get('locale'), org: formData.get('org'), on: formData.get('on'), reason: formData.get('reason') })
+  if (!parsed.success) return { ok: false, problem: failedField(parsed.error) === 'reason' ? 'reason_required' : failedField(parsed.error) === 'org' ? 'not_found' : 'invalid' }
+  const r = await rpc('admin_locale_pilot', {
+    p_locale: parsed.data.locale, p_org: parsed.data.org, p_on: parsed.data.on === 'on', p_reason: parsed.data.reason,
+  })
+  if (r.ok) revalidatePath('/admin/legal')
   return r
 }
 

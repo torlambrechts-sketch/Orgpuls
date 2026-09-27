@@ -5,6 +5,7 @@ import { RESPONDENT_CLIENT_NAMESPACES, pickMessages } from '@/lib/i18n/client'
 import { getRespondForm, getRespondLocales } from '@/lib/respond/read'
 import { RespondFlow } from '@/components/respond/RespondFlow'
 import { respondCopy, respondQuestions } from '@/lib/respond/questions'
+import { bcp47 } from '@/lib/i18n/locales'
 
 /**
  * The respondent surface.
@@ -87,7 +88,7 @@ export default async function RespondPage({
   )
 
   return (
-    <main lang={offered ? lang : undefined} className="animate-entry mx-auto min-h-screen max-w-[420px] bg-bg">
+    <main lang={offered ? bcp47(lang) : undefined} className="animate-entry mx-auto min-h-screen max-w-[420px] bg-bg">
       {offered ? (
         <NextIntlClientProvider
           locale={uiLocale}

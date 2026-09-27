@@ -1,5 +1,6 @@
 import 'server-only'
 import { z } from 'zod'
+import { LOCALES } from '@/lib/i18n/locales'
 import { call } from './api'
 
 /**
@@ -86,7 +87,7 @@ export const Filter = z
     roles: z.array(z.enum(CONTACT_ROLES)).optional(),
     sources: z.array(z.enum(CONTACT_SOURCES)).optional(),
     tags: z.array(z.string()).optional(),
-    lang: z.enum(['no', 'en']).optional(),
+    lang: z.enum(LOCALES).optional(),
     min_employees: z.number().optional(),
     max_employees: z.number().optional(),
     nace: z.string().optional(),
@@ -157,7 +158,7 @@ const Campaign = z.object({
   number: num,
   name: z.string(),
   kind: z.enum(CAMPAIGN_KINDS),
-  lang: z.enum(['no', 'en']),
+  lang: z.enum(LOCALES),
   subject: z.string(),
   preheader: z.string(),
   blocks: z.array(Block),

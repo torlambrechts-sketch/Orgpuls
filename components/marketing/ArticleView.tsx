@@ -50,6 +50,7 @@ export async function ArticleView({ article: a }: { article: Article }) {
             modified: a.modified,
             words,
             image: articleImage(a.slug),
+            locale,
           }),
           breadcrumbs([
             { name: t('seo.common.home'), path: '/' },

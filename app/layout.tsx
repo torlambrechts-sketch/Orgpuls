@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
 import { SiteAnalytics } from '@/components/shell/SiteAnalytics'
 import { PUBLIC_CLIENT_NAMESPACES, pickMessages } from '@/lib/i18n/client'
+import { bcp47, dirOf } from '@/lib/i18n/locales'
 import { SITE_URL } from '@/lib/marketing/site'
 import './fonts.css'
 import './globals.css'
@@ -35,7 +36,7 @@ export default async function RootLayout({
   return (
     // `no` is the product's name for its source language; the page says which written
     // standard it is in, Bokmål, as a browser, a screen reader and a search engine expect
-    <html lang={locale === 'no' ? 'nb' : locale}>
+    <html lang={bcp47(locale)} dir={dirOf(locale)}>
       <body>
         {/* the public namespaces only; the application and the respondent's routes provide their own (lib/i18n/client) */}
         <NextIntlClientProvider messages={pickMessages(messages, PUBLIC_CLIENT_NAMESPACES)}>{children}</NextIntlClientProvider>

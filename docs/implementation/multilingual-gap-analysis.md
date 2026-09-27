@@ -56,6 +56,9 @@ These are not open: CLAUDE.md or a logged decision settles them, and the guide's
 
 ## Proposed engineering queue
 
+**Built 2026-09-27 (X-068, D-132)**, all eight; item 8's typed message keys were measured and
+not adopted, and D-132 says where each item departs from the wording below.
+
 In order; none needs anyone outside engineering, and none changes what a respondent sees today. Each would be a D- entry and ship like the rest.
 
 1. **Language tags at the edges (S).** A `bcp47()` helper (no → nb) for every `lang`, `hrefLang` and `inLanguage`; the survey page's `<main lang>` and the picker links still print `no`.

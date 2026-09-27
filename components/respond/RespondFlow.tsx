@@ -6,6 +6,7 @@ import { useState, useTransition } from 'react'
 import { submitResponse, type SubmitResult } from '@/app/s/[token]/actions'
 import { ThreadLinks } from './ThreadLinks'
 import { COUNT_ANSWERS } from '@/lib/respond/answers'
+import { bcp47 } from '@/lib/i18n/locales'
 
 /**
  * The respondent flow. Bundle lines 1893-1929.
@@ -384,8 +385,8 @@ function LanguagePicker({ current, label, options }: { current: string; label: s
           <a
             key={o.code}
             href={`${pathname}?lang=${o.code}`}
-            hrefLang={o.code}
-            lang={o.code}
+            hrefLang={bcp47(o.code)}
+            lang={bcp47(o.code)}
             aria-current={on ? 'true' : undefined}
             aria-disabled={pending || undefined}
             onClick={(e) => {

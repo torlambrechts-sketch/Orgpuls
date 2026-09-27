@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { createClient } from '@/lib/supabase/server'
 import { writeFailed } from '@/lib/supabase/write'
+import { asciiQuotes } from '@/lib/sms/gsm7'
 import { SMS_TEXT_MAX } from '@/supabase/functions/_shared/sms'
 
 /**
@@ -13,11 +14,16 @@ import { SMS_TEXT_MAX } from '@/supabase/functions/_shared/sms'
  * `org_update` admits the daglig leder only; anybody else updates nothing and is told so.
  * A blank text is stored as null, which means the default — so the default can change
  * without leaving organisations on a stale copy of it.
+ *
+ * Typographic quotes become ASCII before the text is stored. A text pasted from Word or
+ * typed on a phone arrives with ‘ ’ “ ” or « », none of which is in GSM-7, and one of them
+ * sends every invitation as UCS-2: 70 characters a part instead of 160, so the organisation
+ * pays for more messages over a character nobody chose.
  */
 const Sms = z.object({
   enabled: z.enum(['true', 'false']),
   when: z.enum(['mangler', 'paaminn', 'alle']),
-  text: z.string().max(SMS_TEXT_MAX),
+  text: z.string().max(SMS_TEXT_MAX).transform(asciiQuotes),
 })
 
 export type SmsResult = { ok: true } | { ok: false; problem: 'invalid' | 'denied' | 'noOrg' }

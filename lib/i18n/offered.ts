@@ -1,5 +1,6 @@
 import 'server-only'
 import { flag, type FlagName } from '@/lib/flags'
+import { LOCALE_REGISTRY } from './locales'
 import hashes from './respondent-ui.json'
 
 /**
@@ -7,22 +8,30 @@ import hashes from './respondent-ui.json'
  *
  * Bokmål always. Another language only when all three hold:
  *   1. its flag is on (`locale_en`, `locale_pl`, `locale_lt`; off in production until a person
- *      has approved the translation — engagement-phases.md § 1);
+ *      has approved the translation — engagement-phases.md § 1), or the survey's organisation
+ *      pilots it (app.locale_pilots, 0085: the guide's stepped rollout, a few customers first);
  *   2. every item the survey asks has an approved translation (app.item_translations, 0079);
  *   3. the respondent pages' strings in that language, as they are in this build, were approved
  *      (their hash, lib/i18n/respondent-ui.json, is in app.ui_translation_approvals).
  *
- * With no language flag on at all, the answer is `null`: the respondent pages keep today's
+ * With no language flag on at all, and no pilot, the answer is `null`: the respondent pages keep today's
  * behaviour, in the language of the host and the language switch (D-96, D-98). The registry
  * only decides once somebody has turned a language on.
  */
-export const RESPONDENT_LOCALES = ['no', 'en', 'pl', 'lt'] as const
-export type RespondentLocale = (typeof RESPONDENT_LOCALES)[number]
+export type RespondentLocale = Extract<(typeof LOCALE_REGISTRY)[number], { survey: true }>['code']
+/** the survey languages, from the one registry (lib/i18n/locales.ts) */
+export const RESPONDENT_LOCALES = LOCALE_REGISTRY.filter((l) => l.survey).map((l) => l.code) as unknown as readonly [
+  RespondentLocale,
+  ...RespondentLocale[],
+]
 
 /** each language by its own name, as the picker shows it */
-export const LOCALE_NAMES: Record<RespondentLocale, string> = { no: 'Norsk', en: 'English', pl: 'Polski', lt: 'Lietuvių' }
+export const LOCALE_NAMES = Object.fromEntries(LOCALE_REGISTRY.filter((l) => l.survey).map((l) => [l.code, l.nativeName])) as Record<
+  RespondentLocale,
+  string
+>
 
-export type LocaleState = Record<string, { missing: number; ui: string[] }>
+export type LocaleState = Record<string, { missing: number; ui: string[]; pilot?: boolean }>
 
 const HASHES: Record<string, string> = hashes
 
@@ -32,13 +41,14 @@ export function isRespondentLocale(v: unknown): v is RespondentLocale {
 
 export function offeredLocales(state: LocaleState | null): RespondentLocale[] | null {
   const others = RESPONDENT_LOCALES.filter((l) => l !== 'no')
-  if (!others.some((l) => flag(`locale_${l}` as FlagName))) return null
+  const on = (l: RespondentLocale) => flag(`locale_${l}` as FlagName) || state?.[l]?.pilot === true
+  if (!others.some(on)) return null
   return [
     'no',
     ...others.filter((l) => {
       const s = state?.[l]
       const hash = HASHES[l]
-      return flag(`locale_${l}` as FlagName) && s !== undefined && s.missing === 0 && hash !== undefined && s.ui.includes(hash)
+      return on(l) && s !== undefined && s.missing === 0 && hash !== undefined && s.ui.includes(hash)
     }),
   ]
 }

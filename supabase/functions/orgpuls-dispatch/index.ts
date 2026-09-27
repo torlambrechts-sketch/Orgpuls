@@ -97,12 +97,12 @@ Deno.serve(async (req) => {
   const appUrl = env('ORGPULS_APP_URL')
   const cat = MAIL as unknown as MailCatalogue
   // the language flags this function runs with, as the app's: the signed-off ones it was deployed
-  // with (lib/flags.signed-off.json) and ORGPULS_FLAGS. None means every personal message stays in
-  // the organisation's language (D-127)
+  // with (lib/flags.signed-off.json) and ORGPULS_FLAGS. None, and no pilot (0085) for the job's
+  // organisation, means every personal message stays in the organisation's language (D-127)
   const flagsEnv = (Deno.env.get('ORGPULS_FLAGS') ?? '').trim()
   const named = new Set([...SIGNED_OFF_FLAGS, ...flagsEnv.split(',').map((f) => f.trim()).filter(Boolean)])
   const offer: LanguageOffer | null =
-    flagsEnv === '*' ? { flags: '*', hashes: RESPONDENT_UI } : named.size ? { flags: named, hashes: RESPONDENT_UI } : null
+    flagsEnv === '*' ? { flags: '*', hashes: RESPONDENT_UI } : { flags: named, hashes: RESPONDENT_UI }
   const probe = new URL(req.url).searchParams.get('probe')
   // the marketing stream (D-101): its own sender, on a domain that is not the product's
   const marketingFrom = Deno.env.get('ORGPULS_MARKETING_FROM') ?? ''

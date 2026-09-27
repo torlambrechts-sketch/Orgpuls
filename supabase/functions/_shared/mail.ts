@@ -46,8 +46,8 @@ export interface NoticeJob {
   round: NoticeRound
   recipients: Recipient[]
   token: string | null
-  /** for a personal message, the survey's language state (0080): items missing, UI hashes approved */
-  locales?: Record<string, { missing: number; ui: string[] }> | null
+  /** for a personal message, the survey's language state (0080): items missing, UI hashes approved, and whether the organisation pilots it (0085) */
+  locales?: Record<string, { missing: number; ui: string[]; pilot?: boolean }> | null
 }
 
 export interface Recipient {
@@ -184,15 +184,17 @@ ${p.after.map((s) => para(s, 'margin:0 0 10px;font-size:13.5px;line-height:1.6;c
 /**
  * The languages a personal message may be in (engagement P1.3, D-127): the respondent page's own
  * rule (lib/i18n/offered.ts), with the flags this function runs with and the hashes of the page
- * strings it was deployed with. `null` when no language flag is on: then the message is in the
+ * strings it was deployed with. A language the organisation pilots (0085) counts as flagged for
+ * its messages. `null` when no language is on either way: then the message is in the
  * organisation's language, as before. Only a language with mail texts can be offered.
  */
 export type LanguageOffer = { flags: ReadonlySet<string> | '*'; hashes: Record<string, string> }
 
 export function offeredFor(cat: MailCatalogue, job: NoticeJob, offer: LanguageOffer | null): Lang[] | null {
   if (!offer) return null
-  const on = (l: string) => offer.flags === '*' || offer.flags.has(`locale_${l}`)
-  const others = ['en', 'pl', 'lt']
+  const on = (l: string) => offer.flags === '*' || offer.flags.has(`locale_${l}`) || job.locales?.[l]?.pilot === true
+  // every language this build has mail texts for, besides bokmål (the catalogue is the registry's)
+  const others = Object.keys(cat).filter((l) => l !== 'no')
   if (!others.some(on)) return null
   const ready = others.filter((l) => {
     const s = job.locales?.[l]

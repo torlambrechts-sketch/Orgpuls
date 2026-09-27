@@ -1,9 +1,9 @@
 import type { Route } from 'next'
 import Link from 'next/link'
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { Faq } from '@/components/start/Faq'
 import { Blocks as BlocksSchema, FaqItems } from '@/lib/marketing/blocks'
-import { breadcrumbs, faqPage, graph, organization } from '@/lib/marketing/schema'
+import { breadcrumbs, faqPage, graph, ldLanguage, organization } from '@/lib/marketing/schema'
 import type { ShotId } from '@/lib/marketing/shot-ids'
 import { absolute } from '@/lib/marketing/site'
 import { ArticleCards } from './ArticleCards'
@@ -64,7 +64,7 @@ export async function PageTemplate({
       <JsonLd
         data={graph(
           organization(),
-          { '@type': schemaType, url: absolute(path), name: t(`${k}.title`), description: t(`${k}.description`), inLanguage: 'nb-NO' },
+          { '@type': schemaType, url: absolute(path), name: t(`${k}.title`), description: t(`${k}.description`), inLanguage: ldLanguage(await getLocale()) },
           breadcrumbs(trail),
           ...(faq.length ? [faqPage(faq)] : []),
           ...extraSchema,

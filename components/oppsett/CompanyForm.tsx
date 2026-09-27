@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { saveBaselineMonth, saveLanguage } from '@/app/(app)/oppsett/actions'
+import { LOCALES } from '@/lib/i18n/locales'
 
 /**
  * Innstillinger for hele selskapet. Bundle lines 2044-2073.
@@ -72,7 +73,7 @@ export function CompanyForm({
       <div className="mt-[16px]">
         <div className="text-[13.5px] font-semibold">{labels.language}</div>
         <div className="mt-[10px] flex flex-wrap gap-[7px]">
-          {(['no', 'en'] as const).map((code) => (
+          {LOCALES.map((code) => (
             <label key={code} className="inline-flex flex-none">
               <input
                 type="radio"

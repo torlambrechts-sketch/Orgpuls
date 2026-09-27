@@ -653,5 +653,12 @@ const Translations = z.object({
   ui: z.array(z.object({ hash: z.string(), at: ts })),
 })
 export type TranslationState = z.infer<typeof Translations>
+
+const LocalePilots = z.object({
+  pilots: z.array(z.object({ locale: z.string(), org_id: z.string().uuid(), name: z.string(), at: ts })),
+})
+export type LocalePilot = z.infer<typeof LocalePilots>['pilots'][number]
+/** The organisations offered a survey language before its flag is on for everyone (0085). Super-admin. */
+export const localePilots = () => call('admin_locale_pilots', {}, LocalePilots)
 /** A language's survey translations (0079) and the page-string hashes approved for it. Super-admin. */
 export const translationState = (locale: string) => call('admin_translations', { p_locale: locale }, Translations)
