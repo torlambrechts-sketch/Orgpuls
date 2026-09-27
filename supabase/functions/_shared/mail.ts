@@ -329,6 +329,10 @@ export function renderAuth(cat: MailCatalogue, action: AuthAction, lang: Lang, e
  * The SMS for an invitation or a reminder, before its link: the organisation's own text for
  * an invitation (the default when it has none), and for a reminder a fixed text that says
  * the previous link no longer works — a reminder mints a new one (0032, rule 2).
+ *
+ * The organisation's own text is written in the organisation's language, so it goes only to
+ * those who get the invitation in that language; anyone else gets the approved default in
+ * their own (D-127).
  */
 export function smsLead(cat: MailCatalogue, job: NoticeJob, lang: Lang): string {
   const m = cat[lang]
@@ -338,7 +342,7 @@ export function smsLead(cat: MailCatalogue, job: NoticeJob, lang: Lang): string 
     return fill(pick(m, key), { org: job.org, round, date: dateOf(job.round.closes_at, lang) })
   }
   if (job.kind === 'lenke') return fill(pick(m, 'sms.link'), { org: job.org })
-  return job.sms_text?.trim() ? job.sms_text : fill(pick(m, 'sms.default'), { org: job.org })
+  return job.sms_text?.trim() && lang === langOf(job.lang) ? job.sms_text : fill(pick(m, 'sms.default'), { org: job.org })
 }
 
 /** The app route that turns an Auth token hash into a session (app/auth/confirm/route.ts). */

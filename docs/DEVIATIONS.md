@@ -5737,7 +5737,14 @@ and phase 0 is not merged.
   - The page's order also starts with the link's `?lang=`.
   - 0081 makes `respond_locales` return the organisation's `default_lang`.
 - **In the window before the approvals exist**, English is not offered, so an English
-  organisation's personal mail is in bokmål. Both hosted organisations are Norwegian.
+  organisation's personal mail is in bokmål. Both hosted organisations are Norwegian. Tor gave
+  the approvals at 10:55 the same day (X-065), and English has been offered since.
+- **An organisation's own invitation SMS is in the organisation's language.** Found while
+  mapping the multilingual guide (X-067): `smsLead` sent the organisation's `sms_text` to every
+  recipient, so an employee invited in English got the Norwegian text in front of their link.
+  It now goes only to those invited in the organisation's language; anyone else gets the
+  approved default in their own. No hosted organisation had a custom text or SMS on.
+  tests/unit/mail.test.ts has the case; the dispatcher is deployed (v31).
 - **Tests.** Four new cases in tests/unit/p1-language.test.ts. translation_invariants #4 now
   checks the organisation's language too.
 

@@ -123,6 +123,8 @@ describe('notices', () => {
 describe('sms', () => {
   it('uses the organisation\'s own text for an invitation, and the default without one', () => {
     expect(smsLead(cat, job({ channel: 'sms', sms_text: 'Svar på målingen:' }), 'no')).toBe('Svar på målingen:')
+    // the organisation's own text is in its language: an English reader gets the English default
+    expect(smsLead(cat, job({ channel: 'sms', sms_text: 'Svar på målingen:' }), 'en')).not.toContain('Svar på målingen')
     expect(smsLead(cat, job({ channel: 'sms' }), 'no')).toBe('Hei! Nordvik Anlegg AS spør hvordan du har det på jobb. Svar anonymt:')
   })
 

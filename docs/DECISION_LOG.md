@@ -2050,11 +2050,10 @@ approved checkbox. Newsletter is added to spaceship."
   lib/flags.signed-off.json, which the app and the dispatcher both read, so it is on in
   production without an environment variable.
   - The respondent page and the invitations still offer English only where every item and
-    the page strings carry an approval in the database. The 131 English rows are seeded on
-    hosted (unapproved).
-  - Claude Code was not permitted to write those approvals under Tor's account. Tor gives them
-    himself, signed in to the admin app, on the review page this entry also records. Until
-    then, respondents see bokmål.
+    the page strings carry an approval in the database.
+  - Claude Code was not permitted to write those approvals under Tor's account. Tor gave them
+    himself in admin › Legal review on 2026-09-27 at 10:55: all 131 English rows and the
+    survey pages' strings. English is offered to respondents from then on.
   - Before switching it on, the language order was fixed (0081, D-127 addendum). An employee
     with no language of their own now gets the organisation's language before bokmål, in the
     mail and on the page. Both hosted organisations are Norwegian, so no one was moved.
@@ -2086,7 +2085,24 @@ briefs.
 - The other two industry briefs in the handoff (handel, kunnskap og kontor) and
   innstillinger-og-forside.md's remaining parts are not queued; they wait for Tor to ask.
 
+### X-067 — The multilingual guide, mapped against the product
+
+Tor, 2026-09-27, uploaded «Orgpuls Multilingual Implementation Guide: Platform (nb/en) and
+Survey Languages for Norway». No instruction came with it, so it was mapped rather than built:
+docs/implementation/multilingual-gap-analysis.md lists every recommendation as done, partial,
+missing, conflicting with CLAUDE.md or a logged decision, or needing people, each with evidence
+and a checked status, and proposes an engineering queue and ten decisions that are Tor's.
+
+- **The headline decision:** the English survey is a reviewed machine translation (D-127,
+  X-065). The guide never lets machine text be a validated item's final wording, and the
+  QPS Nordic instrument has an official English version to compare against.
+- **Fixed on the way:** an organisation's own invitation SMS went to every recipient whatever
+  their language; it now goes only to those invited in the organisation's language (D-127
+  addendum). No hosted organisation had one.
+- **Nothing else is queued** until Tor says which of the proposed queue to build.
+
 ## Open items
+- [ ] The multilingual guide: Tor's ten decisions and which of the proposed engineering queue to build (X-067, docs/implementation/multilingual-gap-analysis.md).
 - [ ] Barnehage og skole: approve its law items in admin › Legal review, then launch the page and publish the module (X-066, D-131).
 - [ ] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131).
 - [ ] Helse og omsorg's module cites the repealed forskrift kap. 23A and labels kap. 14 as ergonomics (D-131). Fixing it is a v1.0.1, published: new item ids, so its English needs approving again. Tor to decide; the page's reference is already corrected and awaits his approval in the legal review.
