@@ -21,7 +21,7 @@ const Items = z.object({
   groups: z.array(
     z.object({
       group_name: z.string(),
-      n: z.coerce.number(),
+      n: z.coerce.number().nullable(),
       status: z.enum(['ok', 'insufficient_data', 'protected']),
       items: z.array(Item).nullable(),
     }),

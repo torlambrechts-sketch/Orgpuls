@@ -164,7 +164,7 @@ const GroupStatRow = z.object({
   id: z.string(),
   name: z.string(),
   headcount: z.coerce.number(),
-  answered: z.coerce.number(),
+  answered: z.coerce.number().nullable(),
 })
 
 export type GroupStat = z.infer<typeof GroupStatRow>
@@ -196,7 +196,8 @@ export async function getGroupStats(roundId: string | null): Promise<GroupStat[]
     id: row.id,
     name: row.name,
     headcount: heads.get(row.id) ?? 0,
-    answered: answeredByName.get(row.name) ?? 0,
+    // null where the count is withheld (0073) or the group was not asked: never a 0 that looks like data
+    answered: answeredByName.get(row.name) ?? null,
   }))
 }
 

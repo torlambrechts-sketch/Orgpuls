@@ -36,7 +36,8 @@ export type RowStatus = 'ok' | 'insufficient_data' | 'protected'
 export interface ScoreRow {
   id: string
   name: string
-  n: number
+  /** answers; null where the count is withheld (0073, D-123) */
+  n: number | null
   status: RowStatus
 }
 

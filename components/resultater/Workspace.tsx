@@ -166,7 +166,7 @@ function HeatView({ model, sel, pick }: { model: ResultaterModel; sel: Selection
               <HeatRow
                 key={r.id}
                 label={r.name}
-                n={t('resultater.heat.n', { n: r.n })}
+                n={r.n === null ? '' : t('resultater.heat.n', { n: r.n })}
                 strong={r.id === ORG}
                 masked={!vals}
                 cells={model.factors.map((k) => {

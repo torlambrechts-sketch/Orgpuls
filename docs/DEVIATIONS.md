@@ -5364,3 +5364,59 @@ hand-off allows a `note` where no single statement fits, but the construction re
 - without the flag, `/helse-og-omsorg` is the landing page as before, and `/…/sporsmal` is 404.
 
 Unit tests: 182. All 43 SQL suites pass on a local stack with both modules seeded.
+
+## D-123 — No participation count for a group under k (0073)
+
+**Why.** The engagement hand-off's I4 found this at P0.3 (qa/BLOCKED.md on
+`feat/engagement-p0`). Participation was per group by design, including for groups under k,
+and live while a round ran: "Økonomi 1 av 3" moved as people answered. The result readers
+also printed "3 svar" beside a group of three whose results they withheld.
+
+Tor decided on 2026-09-27: tighten it. A group under the threshold shows no participation
+count, neither live nor after close, and larger groups keep theirs.
+
+**The rule** is one function, `app.participation_shown(round, group)`, over
+`app.participation_visibility(round)`. A group is hidden when fewer than k people were asked
+in the round. "Asked" means invited, or, where more answered than were invited (a round
+shared as a link), those who answered.
+
+If the hidden groups together still have fewer than k people, the smallest shown groups are
+hidden too, in the order `group_release` gives up groups (by size, then by id), until they
+don't. Otherwise the organisation's total minus the shown groups would print the hidden
+one's count.
+
+Organisation totals are unchanged, and headcounts stay: they are the register, not
+participation.
+
+**What changed:**
+- `participation`: `answered` and `pct` are null for such groups; `thin` is unchanged.
+- `results_by_group`, `results_items`, `module_results`: `n` is null for such groups.
+- `results_summary`: in a department's scope, `n` is null when any of its groups is hidden.
+- **The screens:**
+  - Målinger › Deltakelse prints the headcount and a note: "færre enn 5 ansatte —
+    deltakelsen vises ikke …", or "holdes tilbake, så tallene for en mindre gruppe ikke kan
+    regnes ut".
+  - The heat map drops the "N svar" line for the row.
+  - Oppsett › Grupper says "Antall vises ikke".
+  - Måleoppsett's warning names the group without a count.
+  - The report lists withheld groups by name only.
+  - Segmentprofil's "rest of the organisation" needs every weight, so it shows no value
+    rather than guess one.
+  - Nothing prints a 0 in place of a withheld count.
+- `malinger.thinNote` and `maleoppsett.groupWarnThin` are reworded: both used to promise or
+  print the count this now withholds.
+
+**The design is unaffected.** On the Nordvik fixture no count becomes null: 0 of 32 group
+rows in `participation` and 0 of 28 in `results_by_group` and `results_items`, locally and on
+the hosted project. The design's "Administrasjon 5 / 3 svar" case has five people asked, so the
+pixel-gated screens render as before. On the hosted demo organisation, 16 of 48 group rows are
+now withheld: Økonomi og HR (4 people) and one shielding group per round.
+
+**Tests:**
+- `participation_invariants.sql` is new, with 6 rows, run on the demo organisation.
+- `suppression_invariants.sql` #3 now expects the protected group that shields a smaller one
+  to carry no count. That is the new rule, not a relaxed one: the test previously asserted
+  the count was printed.
+- All 44 suites pass locally.
+- Verified in the browser on the Lumio QA tenant: Målinger, Resultater, Oppsett › Grupper,
+  Måleoppsett and Rapport.

@@ -215,7 +215,8 @@ async function KeyFigures({
   const years = model.timeline.filter((r) => r.kind === 'grunnlinje' && !r.planned && model.overall[r.id] != null).slice(-6)
 
   const released = model.rows.filter((r) => r.id !== ORG)
-  const overK = released.filter((r) => r.n >= model.threshold).length
+  // released or protected both mean at least k answered; the count itself may be withheld (0073)
+  const overK = released.filter((r) => r.status !== 'insufficient_data').length
   const card = 'rounded-note border border-line bg-sf'
 
   return (
@@ -252,11 +253,13 @@ async function KeyFigures({
         ) : (
           <div className="mt-[10px] text-[12.5px] leading-[1.5] text-mut">
             {summary?.status === 'protected'
-              ? t('kpi.protected', {
-                  group: summary.scope_label ?? '',
-                  n: summary.n,
-                  threshold: model.threshold,
-                })
+              ? summary.n === null
+                ? t('kpi.protectedNoCount', { group: summary.scope_label ?? '', threshold: model.threshold })
+                : t('kpi.protected', {
+                    group: summary.scope_label ?? '',
+                    n: summary.n,
+                    threshold: model.threshold,
+                  })
               : t('kpi.withheld', { threshold: model.threshold })}
           </div>
         )}
