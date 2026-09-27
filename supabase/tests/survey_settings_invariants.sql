@@ -13,8 +13,9 @@
 --   * the entry code: daglig leder only, stable, replaceable (9)
 --   * the public page learns the name, whether a survey is open and the channels (10)
 --   * request_link answers the same whatever is typed (11), and queues one link on the
---     channel typed, only for an unanswered invitation (12)
---   * the claim sends that link at once, and holds a reminder in quiet hours (13)
+--     channel typed, without reading who has answered (12, 0077)
+--   * the claim sends that link at once, drops it for a person who has answered, and holds a
+--     reminder in quiet hours (13)
 --   * the second reminder is queued the day before closing, for those who have not answered (14)
 --   * nothing written here survives (15)
 --
@@ -240,14 +241,14 @@ begin
     perform public.request_link(v_code, 'ssi-en@orgpuls.com');
     reset role;
     select string_agg(concat_ws('/', o.employee_id = v_emp, o.channel, o.invitation_id = v_inv), ',') into v_txt
-    from app.outbox o where o.round_id = v_open and o.kind = 'lenke';
-    update app.outbox set sent_at = now() - interval '11 minutes' where round_id = v_open and kind = 'lenke';
+    from app.outbox o where o.round_id = v_open and o.kind = 'lenke' and o.employee_id = v_emp;
+    update app.outbox set sent_at = now() - interval '11 minutes' where round_id = v_open and kind = 'lenke' and employee_id = v_emp;
     set local role anon;
     perform public.request_link(v_code, 'ssi-en@orgpuls.com');
     reset role;
     v_txt := v_txt || ',' || (select count(*) || '/' || bool_and(o.sent_at is null) from app.outbox o
-                              where o.round_id = v_open and o.kind = 'lenke');
-    v_rows := v_rows || jsonb_build_object('seq', 12, 'name', 'one link for the unanswered person, on the channel typed; again after ten minutes, not duplicated',
+                              where o.round_id = v_open and o.kind = 'lenke' and o.employee_id = v_emp);
+    v_rows := v_rows || jsonb_build_object('seq', 12, 'name', 'one link on the channel typed; again after ten minutes, not duplicated',
       'expected', 't/email/t,1/true', 'actual', v_txt, 'pass', v_txt = 't/email/t,1/true');
 
     -- 14 ------------------------------------------------------------ the claim
@@ -264,9 +265,10 @@ begin
     values (v_org, v_open, 'paminnelse', v_emp, v_inv, now() - interval '1 minute');
     v_json := public.dispatch_claim(100);
     select string_agg(concat_ws('/', j->>'kind', j->>'channel', length(j->>'token')), ',') into v_txt from jsonb_array_elements(v_json) j;
-    v_txt := coalesce(v_txt, 'none') || ',' || (select (i.token_hash <> extensions.digest('x', 'sha256'))::text from app.invitations i where i.id = v_inv);
-    v_rows := v_rows || jsonb_build_object('seq', 13, 'name', 'at 23:00 the asked-for link goes, the reminder waits',
-      'expected', 'lenke/email/64,true', 'actual', v_txt, 'pass', v_txt = 'lenke/email/64,true');
+    v_txt := coalesce(v_txt, 'none') || ',' || (select (i.token_hash <> extensions.digest('x', 'sha256'))::text from app.invitations i where i.id = v_inv)
+             || ',' || (select string_agg(o.last_error, ',') from app.outbox o where o.round_id = v_open and o.kind = 'lenke' and o.employee_id = v_emp2);
+    v_rows := v_rows || jsonb_build_object('seq', 13, 'name', 'at 23:00 the asked-for link goes, the reminder waits; the answered person''s link is dropped by the claim',
+      'expected', 'lenke/email/64,true,answered_or_expired', 'actual', v_txt, 'pass', v_txt = 'lenke/email/64,true,answered_or_expired');
 
     -- 15 ------------------------------------------------------------ the second reminder
     delete from app.outbox where round_id = v_open and kind = 'siste_paminnelse';
