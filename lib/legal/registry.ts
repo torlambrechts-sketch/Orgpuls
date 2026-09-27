@@ -27,10 +27,11 @@ import { DPA_SHA256, DPA_VERSION } from './dpa'
  * Left out, on purpose: labels that only name a law or a role ("Verneombud", "Hjemmel"), the
  * unrendered seo.pages.plattform/bruksomrader blocks (published nowhere), and the survey's
  * own statements, which are the instrument rather than a claim about the law. Not yet covered,
- * because they are code or per-organisation data rather than text (D-130): the chapter 1A
- * coverage map and the BHT industry codes (components/oppsett/RegelverkTab.tsx, SelskapTab.tsx),
- * the Lovdata link targets (lib/marketing/lovdata.ts), the CRM e-mail templates
- * (app.crm_templates) and a measure's own law_ref.
+ * because they are rules in code or one organisation's own data rather than text (D-130): the
+ * chapter 1A coverage map and the BHT industry codes (components/oppsett/RegelverkTab.tsx,
+ * SelskapTab.tsx), the Lovdata link targets (lib/marketing/lovdata.ts), and a measure's own
+ * law_ref. The CRM's platform-wide templates and lists are read from the database, as the
+ * instrument's law references are.
  */
 
 export type LegalLang = 'no' | 'en'
@@ -38,17 +39,22 @@ export const LEGAL_SECTIONS = ['industries', 'modules', 'documents', 'site', 'pr
 export type LegalSection = (typeof LEGAL_SECTIONS)[number]
 
 export type LegalLine = { path: string; text: string }
+export type Msg = { key: string; values?: Record<string, string> }
+/** a place on the site, by its path */
+const onSite = (path: string): Msg => ({ key: 'path', values: { path } })
+/** a place in the product or a kind of message: its own message key */
+const place = (key: string): Msg => ({ key })
 export type LegalUnit = {
   /** stable: the approval's key (0082's key rule) */
   key: string
   section: LegalSection
-  /** a message key under admin.legal.unit for a message-based unit; else a literal title */
-  title: { key: string; values?: Record<string, string> } | { text: string }
+  /** a message key under admin.legal.unit, with the names it quotes */
+  title: Msg
   lang: LegalLang
   /** where the text lives, for whoever edits it */
   source: string
-  /** where a reader meets it: a path on the site, or a place in the app */
-  where: string
+  /** where a reader meets it: a message key under admin.legal.whereAt, with the path it names */
+  where: Msg
   /** published now, in this language */
   live: boolean
   lines: LegalLine[]
@@ -100,7 +106,10 @@ function leaves(v: unknown, path: string, out: LegalLine[]): void {
 }
 
 function unit(u: Omit<LegalUnit, 'hash'>): LegalUnit {
-  return { ...u, hash: sha256(canonical(u.lines)) }
+  // no text is not a text: a source that yielded nothing (a failed read, an empty file) is broken,
+  // never an approvable empty unit
+  const missing = u.missing ?? (u.lines.length === 0 ? [u.source] : undefined)
+  return { ...u, ...(missing ? { missing } : {}), hash: sha256(canonical(u.lines)) }
 }
 
 // ---------------------------------------------------------------- message-based units
@@ -109,9 +118,11 @@ type MessageSpec = {
   id: string
   section: LegalSection
   paths: string[]
-  where: string
+  where: Msg
   /** published in a language; default: both */
   live?: (lang: LegalLang) => boolean
+  /** the languages it exists in; default: both. The admin app is English in either file (D-90) */
+  langs?: readonly LegalLang[]
   /** a title naming the text by its own heading: admin.legal.unit.<key> with {title} from this path */
   title?: { key: string; from: string }
 }
@@ -122,6 +133,21 @@ const industryLanding = (slug: IndustryPage['slug']) => (lang: LegalLang) => {
   return !page?.launched
 }
 
+/** Text that states law or a legal duty: what makes a help article a legal text */
+export const STATES_LAW = /§|\blov|forskrift|GDPR|personvern|personopplysning|Arbeidstilsynet|verneombud|Working Environment Act|regulation|data protection/i
+
+/** Every help article that states law, in either language, read from the data rather than listed */
+function helpWithLaw(): string[] {
+  const articles = (lang: LegalLang) => (at(MESSAGES[lang], 'hjelp.article') ?? {}) as Record<string, unknown>
+  return Object.keys(articles('no')).filter((k) =>
+    LANGS.some((lang) => {
+      const lines: LegalLine[] = []
+      leaves(articles(lang)[k], k, lines)
+      return lines.some((l) => STATES_LAW.test(l.text))
+    }),
+  )
+}
+
 /**
  * The message files' legal text, as units. The paths come from a review of both files
  * (D-130); a path that stops resolving makes its unit broken, and tests/unit/legal-registry
@@ -129,30 +155,30 @@ const industryLanding = (slug: IndustryPage['slug']) => (lang: LegalLang) => {
  */
 export const MESSAGE_SPECS: MessageSpec[] = [
   // -------- the public site
-  { id: 'lp.lovkrav', section: 'site', paths: ['seo.lp.lovkrav'], where: '/lovkrav' },
-  { id: 'lp.verneombud', section: 'site', paths: ['seo.lp.verneombud'], where: '/verneombud' },
-  { id: 'lp.smaaBedrifter', section: 'site', paths: ['seo.lp.smaaBedrifter'], where: '/smaa-bedrifter' },
-  { id: 'lp.byggOgAnlegg', section: 'site', paths: ['seo.lp.byggOgAnlegg'], where: '/bygg-og-anlegg', live: industryLanding('bygg-og-anlegg') },
-  { id: 'lp.helseOgOmsorg', section: 'site', paths: ['seo.lp.helseOgOmsorg'], where: '/helse-og-omsorg', live: industryLanding('helse-og-omsorg') },
+  { id: 'lp.lovkrav', section: 'site', paths: ['seo.lp.lovkrav'], where: onSite('/lovkrav') },
+  { id: 'lp.verneombud', section: 'site', paths: ['seo.lp.verneombud'], where: onSite('/verneombud') },
+  { id: 'lp.smaaBedrifter', section: 'site', paths: ['seo.lp.smaaBedrifter'], where: onSite('/smaa-bedrifter') },
+  { id: 'lp.byggOgAnlegg', section: 'site', paths: ['seo.lp.byggOgAnlegg'], where: onSite('/bygg-og-anlegg'), live: industryLanding('bygg-og-anlegg') },
+  { id: 'lp.helseOgOmsorg', section: 'site', paths: ['seo.lp.helseOgOmsorg'], where: onSite('/helse-og-omsorg'), live: industryLanding('helse-og-omsorg') },
   ...ARTICLES.map((a) => ({
     id: `article.${a.key}`,
     section: 'site' as const,
     paths: [`seo.articles.${a.key}`],
-    where: `/artikler/${a.slug}`,
+    where: onSite(`/artikler/${a.slug}`),
     title: { key: 'article', from: `seo.articles.${a.key}.title` },
   })),
   {
     id: 'site.hvorfor',
     section: 'site',
     paths: ['site.hvorfor.seoDescription', 'site.hvorfor.sections[3]', 'site.hvorfor.sections[5]', 'site.hvorfor.compare.rows[2]', 'site.hvorfor.compare.rows[6]', 'site.hvorfor.faq.items[5]'],
-    where: '/hvorfor',
+    where: onSite('/hvorfor'),
   },
-  { id: 'site.bruksomrader', section: 'site', paths: ['site.bruksomrader.h1', 'site.bruksomrader.sections[0]', 'site.bruksomrader.sections[6]', 'site.bruksomrader.sections[7]'], where: '/bruksomrader' },
+  { id: 'site.bruksomrader', section: 'site', paths: ['site.bruksomrader.h1', 'site.bruksomrader.sections[0]', 'site.bruksomrader.sections[6]', 'site.bruksomrader.sections[7]'], where: onSite('/bruksomrader') },
   {
     id: 'site.plattform',
     section: 'site',
     paths: ['site.plattform.rapport', 'site.plattform.resultater.rows', 'site.plattform.oppsett.cards[5]', 'site.plattform.assistent.d', 'site.plattform.respondent.points[0]', 'site.plattform.roller.d'],
-    where: '/plattform',
+    where: onSite('/plattform'),
   },
   {
     id: 'site.claims',
@@ -161,14 +187,29 @@ export const MESSAGE_SPECS: MessageSpec[] = [
       'site.home.roles[0].get[2]', 'site.home.roles[3].get[2]', 'site.home.teasers[2].d', 'site.home.about.d',
       'site.chrome.footer.about', 'site.bransjer.lead', 'site.bransjer.other.d', 'seo.common.disclaimer', 'seo.common.anonymity', 'seo.common.priceLine',
       'seo.index.description', 'seo.index.lead', 'seo.pages.priser.blocks[2].items[1]', 'seo.pages.priser.faq[2]',
+      // the pills on every share card (scripts/marketing/og-images.mjs), in Norwegian on both hosts
+      'seo.og.pills', 'seo.home.showcase.samtaler.body', 'seo.home.showcase.varmekart.body',
     ],
-    where: '/, /bransjer, /priser, footer',
+    where: place('siteClaims'),
+  },
+  {
+    id: 'site.terms',
+    section: 'site',
+    paths: ['seo.pages.priser.description', 'seo.pages.priser.lead', 'seo.pages.priser.faq[0]', 'seo.pages.priser.faq[1]', 'seo.pages.priser.blocks[2].items[4]', 'site.home.price.d'],
+    where: place('prices'),
   },
   // -------- documents
-  { id: 'doc.dpa', section: 'documents', paths: ['dpa'], where: 'app: Oppsett › Databehandleravtale' },
-  { id: 'doc.privacy', section: 'documents', paths: ['seo.pages.personvernerklaering'], where: '/personvernerklaering' },
-  { id: 'doc.security', section: 'documents', paths: ['seo.pages.sikkerhet'], where: '/sikkerhet' },
-  { id: 'doc.personvernTab', section: 'documents', paths: ['oppsett.personvern'], where: 'app: Oppsett › Personvern' },
+  { id: 'doc.dpa', section: 'documents', paths: ['dpa'], where: place('dpaTab') },
+  // what the signer confirms and the copy prints: when the agreement binds, and on whose authority
+  {
+    id: 'doc.dpaSigning',
+    section: 'documents',
+    paths: ['oppsett.dpa.unsignedBody', 'oppsett.dpa.processorLine', 'oppsett.dpa.form.confirm', 'oppsett.dpa.signatureLine'],
+    where: place('dpaTab'),
+  },
+  { id: 'doc.privacy', section: 'documents', paths: ['seo.pages.personvernerklaering'], where: onSite('/personvernerklaering') },
+  { id: 'doc.security', section: 'documents', paths: ['seo.pages.sikkerhet'], where: onSite('/sikkerhet') },
+  { id: 'doc.personvernTab', section: 'documents', paths: ['oppsett.personvern'], where: place('personvernTab') },
   // -------- in the product
   {
     id: 'app.report',
@@ -178,10 +219,10 @@ export const MESSAGE_SPECS: MessageSpec[] = [
       'rapport.section8EmptyInfo', 'rapport.register.lead', 'rapport.screeningRule', 'rapport.ansatteAnonymity',
       'rapport.gjennomforingBody', 'rapport.section7Withheld',
     ],
-    where: 'app: Rapport (printed for Arbeidstilsynet, AMU, management, employees)',
+    where: place('report'),
   },
-  { id: 'app.regelverk', section: 'product', paths: ['oppsett.regelverk'], where: 'app: Oppsett › Regelverk' },
-  { id: 'app.duty', section: 'product', paths: ['oppsett.lead', 'oppsett.duty', 'oppsett.lovmodus', 'oppsett.ansatte.dutyNote'], where: 'app: Oppsett' },
+  { id: 'app.regelverk', section: 'product', paths: ['oppsett.regelverk'], where: place('regelverk') },
+  { id: 'app.duty', section: 'product', paths: ['oppsett.lead', 'oppsett.duty', 'oppsett.lovmodus', 'oppsett.ansatte.dutyNote'], where: place('oppsett') },
   {
     id: 'app.maleoppsett',
     section: 'product',
@@ -190,16 +231,22 @@ export const MESSAGE_SPECS: MessageSpec[] = [
       'maleoppsett.infoPurposeValue', 'maleoppsett.infoConsequenceValue', 'maleoppsett.infoDurationValue', 'maleoppsett.evalLaw', 'maleoppsett.summaryLegal',
       'maleoppsett.lead.grunnlinje', 'maleoppsett.kind.grunnlinje.note', 'maleoppsett.perRound.screening', 'maleoppsett.perRound.reasonNote',
     ],
-    where: 'app: Måleoppsett',
+    where: place('maleoppsett'),
   },
-  ...['hvaLovenKrever', 'kontrolltiltak', 'rapportTilTilsynet', 'gdpr', 'hvaVilagrer'].map((k) => ({
+  ...helpWithLaw().map((k) => ({
     id: `help.${k}`,
     section: 'product' as const,
     paths: [`hjelp.article.${k}`],
-    where: 'app: Hjelp',
+    where: place('help'),
     title: { key: 'help', from: `hjelp.article.${k}.title` },
   })),
-  { id: 'app.assistant', section: 'product', paths: ['headerPanel.law'], where: 'app: the header panel, Arbeidsmiljøloven' },
+  {
+    id: 'app.assistant',
+    section: 'product',
+    // the law tab, and the screen texts beside it that state law or a legal duty
+    paths: ['headerPanel.law', 'headerPanel.screen.measure.s1', 'headerPanel.screen.settings.sci', 'headerPanel.screen.wheel.s2', 'headerPanel.screen.tasks.sci'],
+    where: place('assistant'),
+  },
   {
     id: 'app.claims',
     section: 'product',
@@ -210,48 +257,51 @@ export const MESSAGE_SPECS: MessageSpec[] = [
       'veiviser.law.lead', 'veiviser.law.on.note', 'veiviser.law.off.note', 'veiviser.rhythm.preset.minimum.note',
       'veiviser.safety.duty', 'veiviser.safety.dutySmall', 'veiviser.safety.amuMust', 'veiviser.safety.amuMay',
       'oversikt.lawOk', 'oversikt.voLead', 'innsikt.loopHead', 'innsikt.lead.verneombud', 'arshjulet.lead', 'smsSetup.legal',
-      'start.faq.inspection.q', 'start.faq.inspection.a',
+      'start.faq.inspection.q', 'start.faq.inspection.a', 'registrer.todo.send.note', 'playbook.kontakt.ev',
       'registrer.incl.report',
     ],
-    where: 'app: Målinger, Årshjul, Tiltak, Kommentarer, the wizard; /start',
+    where: place('appClaims'),
   },
   {
     id: 'app.anonymity',
     section: 'product',
     paths: [
-      'app.tagline', 'respond.promise1', 'respond.promise2', 'respond.promise3', 'respond.promise4', 'respond.doneLead',
+      'app.tagline', 'auth.respondentBody', 'respond.commentPrompt', 'respond.promise1', 'respond.promise2', 'respond.promise3', 'respond.promise4', 'respond.doneLead',
       'respond.openNote', 'respond.keys.lead', 'respond.thread.lead', 'respond.thread.contact.body', 'respond.thread.contact.note',
       'respond.countLead', 'respond.segmentLead', 'entry.sentLead', 'entry.sentLeadEmail',
       'extra.apent_felt.note', 'entry.privacy', 'entry.lead', 'entry.leadEmail', 'malinger.plakat.anonymous',
       'malinger.privacy', 'malinger.innstillinger.qr.note', 'oppsett.roller.can.daglig_leder', 'innsikt.lead.avdelingsleder',
-      'start.faq.anonymous.q', 'start.faq.anonymous.a', 'start.faq.twelve.a',
+      'start.faq.anonymous.q', 'start.faq.anonymous.a', 'start.faq.twelve.a', 'integrasjoner.privacyNote',
+      'oppsett.integrasjoner.epost.what', 'oppsett.integrasjoner.epost.whatOn', 'resultater.module.countLead',
     ],
-    where: 'the survey, the QR page and poster, the app, /start',
+    where: place('anonymity'),
   },
   {
     id: 'app.terms',
     section: 'product',
     paths: [
-      'oppsett.billing.terms', 'oppsett.billing.termsAfterTrial', 'oppsett.billing.cancel.leadPaying', 'oppsett.billing.cancel.leadTrial',
+      'oppsett.billing.terms', 'oppsett.billing.termsAfterTrial', 'oppsett.billing.trialBody', 'oppsett.billing.cancel.leadPaying', 'oppsett.billing.cancel.leadTrial',
       'oppsett.billing.cancel.confirm', 'oppsett.billing.cancel.doneBody', 'access.cancelledBody', 'access.endedBody', 'start.faq.leaving.a',
     ],
-    where: 'app: Oppsett › Betaling, the closed-account screens; /start',
+    where: place('billing'),
   },
   // -------- messages that leave the product
   {
     id: 'mail.legal',
     section: 'messages',
-    paths: ['mail.invitasjon.anonymous', 'mail.forvarsel.alle_ansatte', 'mail.forvarsel.verneombud', 'mail.sms', 'mail.lifecycle'],
-    where: 'e-mail and SMS',
+    paths: ['mail.invitasjon.anonymous', 'mail.forvarsel.alle_ansatte', 'mail.forvarsel.verneombud', 'mail.sms', 'mail.lifecycle', 'mail.ticket.footer'],
+    where: place('mail'),
   },
-  { id: 'mail.crm', section: 'messages', paths: ['mail.crm'], where: 'every newsletter and campaign e-mail' },
-  { id: 'consent.newsletter', section: 'messages', paths: ['newsletter', 'unsubscribe'], where: '/nyhetsbrev, /kontakt, /avmeld' },
-  { id: 'consent.signup', section: 'messages', paths: ['registrer.consent', 'registrer.googleHint'], where: '/registrer' },
+  { id: 'mail.crm', section: 'messages', paths: ['mail.crm'], where: place('crm') },
+  { id: 'consent.newsletter', section: 'messages', paths: ['newsletter', 'unsubscribe', 'mail.optin'], where: place('newsletter') },
+  { id: 'consent.signup', section: 'messages', paths: ['registrer.consent', 'registrer.googleHint'], where: onSite('/registrer') },
+  // the team's own reading of the law it mails on: who may be mailed without consent
+  { id: 'admin.crmBasis', section: 'messages', paths: ['admin.crm.settings.lead', 'admin.crm.settings.on'], where: place('crmSettings'), langs: ['en'] },
 ]
 
 function messageUnits(): LegalUnit[] {
   return MESSAGE_SPECS.flatMap((s) =>
-    LANGS.map((lang) => {
+    (s.langs ?? LANGS).map((lang) => {
       const lines: LegalLine[] = []
       const missing: string[] = []
       for (const p of s.paths) {
@@ -292,24 +342,28 @@ function industryUnits(): LegalUnit[] {
       const page = pageIn(entry, lang)
       if (!page) return []
       const file = `content/industries/${entry.slug}${lang === 'en' ? '.en' : ''}.ts`
-      const where = `/${entry.slug}${lang === 'en' ? ' (en.orgpuls.com)' : ''}`
+      const where: Msg = { key: lang === 'en' ? 'industryEn' : 'path', values: { path: `/${entry.slug}` } }
       const base = `industry:${entry.slug}:${lang}`
       const seen = new Set<string>()
       const law = page.law.items.map((l, i) => {
-        let id = slugOf(l.ref) || String(i)
-        if (seen.has(id)) id = `${id}-${i}`
+        // keyed by the reference, so reordering the items keeps each approval; a second item with
+        // the same reference gets the next free suffix
+        const root = slugOf(l.ref) || 'item'
+        let id = root
+        for (let n = 2; seen.has(id); n++) id = `${root}-${n}`
         seen.add(id)
         return unit({
           key: `${base}:law:${id}`,
           section: 'industries',
-          title: { text: `${page.navLabel} · ${l.ref}` },
+          title: { key: 'industry.lawItem', values: { page: page.navLabel, ref: l.ref } },
           lang,
           source: `${file} › law.items[${i}]`,
           where,
           live: page.launched,
+          // the hashed paths carry no position (it is in `source`), so moving an item is not a change
           lines: [
-            { path: `law.items[${i}].ref`, text: l.ref },
-            { path: `law.items[${i}].text`, text: l.text },
+            { path: 'law.ref', text: l.ref },
+            { path: 'law.text', text: l.text },
           ],
         })
       })
@@ -346,7 +400,7 @@ function industryUnits(): LegalUnit[] {
         title: { key: 'industry.claims', values: { page: page.navLabel } },
         lang,
         source: `${file} › hero.thresholdNote, challenges, faq, questionPage`,
-        where: `${where}, /${entry.slug}/sporsmal`,
+        where: { key: lang === 'en' ? 'industryQuestionsEn' : 'industryQuestions', values: { path: `/${entry.slug}` } },
         live: page.launched,
         lines: other,
       })
@@ -357,7 +411,7 @@ function industryUnits(): LegalUnit[] {
 
 // ---------------------------------------------------------------- module files
 
-function moduleUnits(): LegalUnit[] {
+function moduleUnits(published: ReadonlySet<string>): LegalUnit[] {
   return MODULE_VERSIONS.flatMap((kv) => {
     const [key, version] = kv.split('@') as [string, string]
     return LANGS.flatMap((lang) => {
@@ -365,21 +419,39 @@ function moduleUnits(): LegalUnit[] {
       // a module without an English translation reads Norwegian in English: nothing to review twice
       if (lang === 'en' && !moduleFile(key, version).translations?.en) return []
       const live = INDUSTRIES.some((i) => pageIn(i, lang)?.module?.key === key && pageIn(i, lang)?.launched)
-      return m.factors.map((f) =>
+      const factors = m.factors.map((f) =>
         unit({
           key: `module:${kv}:${lang}:${f.id}`,
           section: 'modules',
-          title: { text: `${m.name} · ${f.name}` },
+          title: { key: 'module.factor', values: { module: m.name, factor: f.name } },
           lang,
           source: `modules/${key}/v${version.split('.')[0]}.json › factors[${f.id}]${lang === 'en' ? ' (translations.en)' : ''}`,
-          where: live ? `/${INDUSTRIES.find((i) => pageIn(i, lang)?.module?.key === key)?.slug}/sporsmal, the report` : 'the report, when an organisation asks the module',
-          live: true,
+          where: live
+            ? { key: 'moduleOnSite', values: { path: `/${INDUSTRIES.find((i) => pageIn(i, lang)?.module?.key === key)?.slug}/sporsmal` } }
+            : place('moduleInReport'),
+          // published in the database is what reaches a customer's survey and report
+          live: published.has(kv),
           lines: [
             ...f.legal_basis.map((b, i) => ({ path: `legal_basis[${i}]`, text: b })),
             { path: 'rationale', text: f.rationale },
           ],
         }),
       )
+      // the sources a module cites for its claims, listed under «Kilder» on its page (Norwegian titles)
+      if (lang === 'en') return factors
+      return [
+        ...factors,
+        unit({
+          key: `module:${kv}:no:sources`,
+          section: 'modules',
+          title: { key: 'module.sources', values: { module: m.name } },
+          lang: 'no',
+          source: `modules/${key}/v${version.split('.')[0]}.json › sources`,
+          where: place('moduleSources'),
+          live: published.has(kv),
+          lines: m.sources.map((x) => ({ path: `sources.${x.key}`, text: `${x.title}\n${x.url}` })),
+        }),
+      ]
     })
   })
 }
@@ -393,7 +465,7 @@ function termsUnit(): LegalUnit[] {
   try {
     text = readFileSync(join(process.cwd(), TERMS_DRAFT), 'utf8')
   } catch {
-    return [unit({ key: 'doc:terms-draft:no', section: 'documents', title: { key: 'doc.termsDraft' }, lang: 'no', source: TERMS_DRAFT, where: '–', live: false, lines: [], missing: [TERMS_DRAFT] })]
+    return [unit({ key: 'doc:terms-draft:no', section: 'documents', title: { key: 'doc.termsDraft' }, lang: 'no', source: TERMS_DRAFT, where: place('unpublished'), live: false, lines: [], missing: [TERMS_DRAFT] })]
   }
   // one line per paragraph, so a long document reads as it is written
   const lines = text
@@ -401,7 +473,7 @@ function termsUnit(): LegalUnit[] {
     .map((p) => p.trim())
     .filter(Boolean)
     .map((p, i) => ({ path: `¶${i + 1}`, text: p }))
-  return [unit({ key: 'doc:terms-draft:no', section: 'documents', title: { key: 'doc.termsDraft' }, lang: 'no', source: TERMS_DRAFT, where: '–', live: false, lines })]
+  return [unit({ key: 'doc:terms-draft:no', section: 'documents', title: { key: 'doc.termsDraft' }, lang: 'no', source: TERMS_DRAFT, where: place('unpublished'), live: false, lines })]
 }
 
 /** The instrument's law references (app.factors.law_ref): language-independent, from the database */
@@ -413,7 +485,7 @@ function instrumentUnit(factors: { key: string; lawRef: string }[]): LegalUnit[]
       title: { key: 'app.instrument' },
       lang: 'no',
       source: 'app.factors.law_ref (supabase/migrations/0002_instrument.sql)',
-      where: 'app: Rapport, Målinger › Spørsmålssett, Tiltak',
+      where: place('instrument'),
       live: true,
       lines: factors.map((f) => ({ path: `factor.${f.key}`, text: f.lawRef })),
     }),
@@ -422,9 +494,77 @@ function instrumentUnit(factors: { key: string; lawRef: string }[]): LegalUnit[]
 
 // ---------------------------------------------------------------- all of it
 
-/** Every legal text, in section order. `factors` is the instrument as the database has it. */
-export function legalUnits(factors: { key: string; lawRef: string }[]): LegalUnit[] {
-  const all = [...industryUnits(), ...moduleUnits(), ...termsUnit(), ...messageUnits(), ...instrumentUnit(factors)]
+/** The CRM's platform-wide e-mail templates and consent lists (0055, 0056), from the database */
+export type CrmTemplate = { key: string; name: string; subject: string; preheader: string; blocks: unknown[] }
+export type CrmList = { key: string; name_no: string; name_en: string; description_no: string; description_en: string; public: boolean; archived: boolean }
+
+function crmUnits(templates: CrmTemplate[] | null, lists: CrmList[] | null): LegalUnit[] {
+  const out: LegalUnit[] = []
+  if (templates) {
+    for (const x of templates) {
+      const lines: LegalLine[] = [
+        { path: 'subject', text: x.subject },
+        { path: 'preheader', text: x.preheader },
+      ]
+      leaves(x.blocks, 'blocks', lines)
+      out.push(
+        unit({
+          key: `db:no:crm_template:${x.key}`,
+          section: 'messages',
+          title: { key: 'crm.template', values: { name: x.name } },
+          lang: 'no',
+          source: `app.crm_templates › ${x.key}`,
+          where: place('crmTemplate'),
+          live: true,
+          lines: lines.filter((l) => l.text.trim()),
+        }),
+      )
+    }
+  }
+  if (lists) {
+    for (const lang of LANGS) {
+      const shown = lists.filter((l) => !l.archived)
+      out.push(
+        unit({
+          key: `db:${lang}:crm_lists`,
+          section: 'messages',
+          title: { key: 'crm.lists' },
+          lang,
+          source: 'app.crm_lists',
+          where: place('newsletter'),
+          live: shown.some((l) => l.public),
+          lines: shown.flatMap((l) => [
+            { path: `${l.key}.name`, text: lang === 'en' ? l.name_en : l.name_no },
+            { path: `${l.key}.description`, text: lang === 'en' ? l.description_en : l.description_no },
+          ]),
+        }),
+      )
+    }
+  }
+  return out
+}
+
+/** What the registry reads from the database, loaded by lib/legal/inputs.ts for the page and the action alike */
+export type LegalInputs = {
+  factors: { key: string; lawRef: string }[]
+  /** module versions published in the database, as `key@version`: whether a module's texts are live */
+  publishedModules?: ReadonlySet<string>
+  /** null when the read failed: those units are then absent, and the page says so */
+  crmTemplates?: CrmTemplate[] | null
+  crmLists?: CrmList[] | null
+}
+
+/** Every legal text, in section order. */
+export function legalUnits(input: LegalInputs | LegalInputs['factors']): LegalUnit[] {
+  const i: LegalInputs = Array.isArray(input) ? { factors: input } : input
+  const all = [
+    ...industryUnits(),
+    ...moduleUnits(i.publishedModules ?? new Set()),
+    ...termsUnit(),
+    ...messageUnits(),
+    ...instrumentUnit(i.factors),
+    ...crmUnits(i.crmTemplates ?? null, i.crmLists ?? null),
+  ]
   return LEGAL_SECTIONS.flatMap((s) => all.filter((u) => u.section === s))
 }
 

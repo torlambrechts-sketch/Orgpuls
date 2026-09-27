@@ -5,9 +5,11 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
-import { getFactors } from '@/lib/instrument/read'
+import { legalInputs } from '@/lib/legal/inputs'
 import { legalUnits } from '@/lib/legal/registry'
 import respondentUi from '@/lib/i18n/respondent-ui.json'
+import { respondentHash } from '@/lib/i18n/respondent-strings'
+import en from '@/messages/en.json'
 
 /**
  * The platform admin's writes and its sign-in (D-90). Signing in is two steps: a password,
@@ -301,8 +303,10 @@ export async function legalSet(_prev: AdminResult | null, formData: FormData): P
   if (!parsed.success) return { ok: false, problem: 'invalid' }
   const approve = parsed.data.approved === 'true'
   if (approve) {
-    const now = legalUnits(await getFactors()).find((u) => u.key === parsed.data.key)
-    if (!now || now.missing?.length) return { ok: false, problem: 'not_found' }
+    // only a text the registry has now, whole, and exactly as it was shown
+    // read as the page reads them (lib/legal/inputs.ts), so the hash compared is the one shown
+    const now = legalUnits(await legalInputs()).find((u) => u.key === parsed.data.key)
+    if (!now || now.missing?.length || now.lines.length === 0) return { ok: false, problem: 'not_found' }
     if (now.hash !== parsed.data.hash) return { ok: false, problem: 'stale' }
   }
   const r = await rpc('admin_legal_set', { p_key: parsed.data.key, p_hash: parsed.data.hash, p_approved: approve })
@@ -315,11 +319,15 @@ export async function legalSet(_prev: AdminResult | null, formData: FormData): P
  * pages' strings as this build has them (lib/i18n/respondent-ui.json). Super-admin, audited.
  */
 export async function translationsApprove(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
-  const parsed = z.object({ locale: z.enum(['en']), read: z.literal('on') }).safeParse({ locale: formData.get('locale'), read: formData.get('read') })
-  if (!parsed.success) return { ok: false, problem: 'confirm_required' }
+  const parsed = z
+    .object({ locale: z.enum(['en']), read: z.literal('on'), digest: z.string().regex(/^[0-9a-f]{64}$/) })
+    .safeParse({ locale: formData.get('locale'), read: formData.get('read'), digest: formData.get('digest') })
+  if (!parsed.success) return { ok: false, problem: failedField(parsed.error) === 'read' ? 'confirm_required' : 'invalid' }
+  // the page strings the page showed are the ones this build hashes (lib/i18n/respondent-strings)
   const hash = (respondentUi as Record<string, string>)[parsed.data.locale]
-  if (!hash) return { ok: false, problem: 'invalid' }
-  const r = await rpc('admin_translations_approve', { p_locale: parsed.data.locale, p_ui_hash: hash })
+  if (!hash || respondentHash(en as Record<string, unknown>) !== hash) return { ok: false, problem: 'invalid' }
+  // the database refuses when the items are no longer what the page showed (the digest)
+  const r = await rpc('admin_translations_approve', { p_locale: parsed.data.locale, p_ui_hash: hash, p_digest: parsed.data.digest })
   if (r.ok) revalidatePath('/admin/legal')
   return r
 }

@@ -2059,7 +2059,7 @@ approved checkbox. Newsletter is added to spaceship."
     with no language of their own now gets the organisation's language before bokmål, in the
     mail and on the page. Both hosted organisations are Norwegian, so no one was moved.
 - **Helse og omsorg is approved.** Its page launches in Norwegian.
-- **A legal review page in the admin app.** It lists every legal text, each with a «Godkjent»
+- **A legal review page in the admin app.** It lists every legal text, each with an «Approved»
   checkbox. An approval is tied to the text's hash, so an edited text shows as changed until
   it is approved again. Built as D-130.
 - **The newsletter domain is authenticated.** The DNS records Brevo asked for are at
@@ -2198,7 +2198,7 @@ approved checkbox. Newsletter is added to spaceship."
 - [x] SMS credits in Brevo: 600, confirmed by the dispatcher's probe on 2026-09-24.
 - [x] SMS verified end to end on 2026-09-24: one test SMS sent through the dispatcher's
       `?probe=sms` route, accepted by Brevo and received on the owner's phone from "Orgpuls".
-- [ ] Consider a shorter respondent token so the default SMS fits one message (D-66).
+- [x] Consider a shorter respondent token so the default SMS fits one message (D-66): 22 characters since 0078, and every personal SMS is one segment (D-128).
 - [x] Design 3 reviewed and planned (docs/PLAN_2026-09-24_design3.md); decisions D1–D6
       taken as recommended (X-039). P0 done; P1 (shell) next.
 - [x] A withheld group can no longer be recovered by subtraction (0034, D-68).
@@ -2279,14 +2279,14 @@ approved checkbox. Newsletter is added to spaceship."
 - [ ] Decide whether the site may keep full IP addresses. It would need new wording in the privacy notice and in the databehandleravtale's vedlegg 1, which today says the statistics "sier ikke hvem som besøker" (D-100).
 - [x] Marketing CRM: contacts, consent, segments, campaigns, one-click unsubscribe, suppression, UTM reporting (0055, D-101, X-061).
 - [x] Marketing sender: nyheter.orgpuls.com registered in Brevo, `ORGPULS_MARKETING_FROM=hei@nyheter.orgpuls.com` set (D-101).
-- [ ] Add the DNS records for nyheter.orgpuls.com at Spaceship (two DKIM CNAMEs and the brevo-code TXT; DMARC is inherited), then run `?probe=marketing-setup&authenticate=1`. Until Brevo reports the domain authenticated, no confirmation or campaign is sent (D-101).
+- [x] Add the DNS records for nyheter.orgpuls.com at Spaceship: done by Tor; authenticated and verified in Brevo 2026-09-27 (X-065). Was: add the two DKIM CNAMEs and the brevo-code TXT (DMARC is inherited), then run `?probe=marketing-setup&authenticate=1`. Until Brevo reports the domain authenticated, no confirmation or campaign is sent (D-101).
 - [ ] Offer a reservation against marketing at registration, then decide whether to turn on the existing-customer exception (D-101).
 - [x] CRM pipeline: prospects from Brønnøysund, lists with a preference centre, six templates, A/B subject tests, click map, web archive (0056–0058, D-103, X-062).
 - [ ] CRM: automated sequences (lifecycle mail) and coupon codes once Billing has them (D-103).
 - [ ] Google sign-in: create a Google OAuth web client (redirect URI `https://jmhhszsnjfqgclxzhciq.supabase.co/auth/v1/callback`) and enable Google in Supabase › Authentication with its ID and secret; the buttons appear by themselves (D-102).
 - [x] Industry modules, PR 1: module schema and validation, registry (0067), immutability, seed and publish scripts, round selection and answer tables (D-111).
 - [ ] Industry modules, open decisions for Tor (bransjesider-og-tilleggsmoduler.md § 3). Defaults hold until decided: (1) the construction module is included in Liten and Vanlig, with no pricing copy changes; (2) factor toggles are built behind `module_factor_toggles`, off; (3) segment questions are behind `module_segments`, off, and "Vil ikke svare" is added before they are enabled; (4) respondents answer in bokmål only; (5) the count-item wording stays as in v1.0.0; (6) `/registrer` does not preselect from `?bransje=`; (7) no separate health module.
-- [ ] Legal check of every `law` item and `legal_basis` against Lovdata and Arbeidstilsynet before `bygg-og-anlegg@1.0.0` is published in production (§ B6).
+- [ ] Legal check of every `law` item and `legal_basis` against Lovdata and Arbeidstilsynet before `bygg-og-anlegg@1.0.0` is published in production (§ B6). Now done text by text in admin › Legal review, where every law item and each factor's legal basis has its own «Approved» box (D-130).
 - [x] Industry modules, PRs 2–5: Måleoppsett selection and pilots, respondent flow and count-only write path, results with the same release rule, measures and puls re-measurement, report section, admin Moduler page (0068–0071, D-112–D-117).
 - [ ] Before publishing bygg-og-anlegg@1.0.0: pilot it in one real organisation (admin › Moduler › Legg til pilot), complete a grunnlinje end to end and check the PDF report by hand (hand-off "Done when").
 - [x] Industry pages: /[bransje] and /[bransje]/sporsmal from content/industries and the module file; previewable with ?forhandsvis=1 until launch; mod-11 in the start form (D-118).
@@ -2296,6 +2296,6 @@ approved checkbox. Newsletter is added to spaceship."
 - [ ] Launch bygg og anlegg in English: review the six English law items in content/industries/bygg-og-anlegg.en.ts (they paraphrase Norwegian statute and say so), set `reviewed: true` and `launched: true`. Review at https://en.orgpuls.com/bygg-og-anlegg?forhandsvis=1 and /bygg-og-anlegg/sporsmal?forhandsvis=1 (D-120).
 - [x] 2026-09-27, engagement P0.3 stopped on I4 (per-group participation). Tor chose to tighten: no participation count for a group under k, live or after close, nor for a group that would give one away; larger groups keep theirs, organisation totals stay. Built as 0073 (D-123); I4 now reads "no per-person participation, and none per group under the threshold".
 - [x] 2026-09-26, the engagement hand-off (docs/implementation/engagement-phases.md), decided by Tor before Phase 0: the document's «HR» maps to daglig_leder and «tillitsvalgt» to verneombud, so CLAUDE.md's three roles stand; the work goes on stacked branches `feat/engagement-p{n}` with one PR per phase, not straight to main; I5 is read as «no token can be tied to an answer» — an invitation may name who was invited, as reminders need, and today's product passes; new per-person tokens (result link, vote, suggestions) use unlinkable one-use keys rather than counters on the token row. The QA tenant runs on a local Postgres with PostgREST and GoTrue in Docker, never the hosted project.
-- [ ] Launch helse og omsorg: review the seven law items in content/industries/helse-og-omsorg.ts (and the English twin), set `reviewed: true` and `launched: true`. The module itself was published 2026-09-27 (D-125). Review at https://www.orgpuls.com/helse-og-omsorg?forhandsvis=1 and /helse-og-omsorg/sporsmal?forhandsvis=1 (D-122).
+- [x] Launch helse og omsorg (Norwegian): Tor approved the page and its seven law items; launched 2026-09-27 (X-065). The English twin waits for its own review, like bygg's. Was: review the seven law items in content/industries/helse-og-omsorg.ts (and the English twin), set `reviewed: true` and `launched: true`. The module itself was published 2026-09-27 (D-125). Review at https://www.orgpuls.com/helse-og-omsorg?forhandsvis=1 and /helse-og-omsorg/sporsmal?forhandsvis=1 (D-122).
 - [x] /helse-og-omsorg in the industry template: the health module v1.0.0 arrived 2026-09-26; page and question page built from it (D-122).
 

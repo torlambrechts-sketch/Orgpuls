@@ -16,6 +16,18 @@ describe('lovdataHref', () => {
     expect(lovdataHref('Forskriften § 1A-2')).toBe('https://lovdata.no/forskrift/2011-12-06-1357/%C2%A71A-2')
   })
 
+  it('links the regulation named in English, and chapter 1A wherever it is named', () => {
+    expect(lovdataHref('Regulation § 1A-2')).toBe('https://lovdata.no/forskrift/2011-12-06-1357/%C2%A71A-2')
+    expect(lovdataHref('The regulations § 1A-1')).toBe('https://lovdata.no/forskrift/2011-12-06-1357/%C2%A71A-1')
+    expect(lovdataHref('§ 1A-3')).toBe('https://lovdata.no/forskrift/2011-12-06-1357/%C2%A71A-3')
+  })
+
+  it('links no other act or regulation to the Working Environment Act', () => {
+    expect(lovdataHref('Forskrift om organisering § 13-1')).toBeNull()
+    expect(lovdataHref('Opplæringsloven § 13-3')).toBeNull()
+    expect(lovdataHref('Likestillings- og diskrimineringsloven § 13-1')).toBeNull()
+  })
+
   it('links nothing it cannot read', () => {
     expect(lovdataHref('Arbeidstilsynet')).toBeNull()
   })

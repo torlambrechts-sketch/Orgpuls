@@ -10,8 +10,9 @@
  *   node scripts/marketing/og-images.mjs                     # every landing page
  *   node scripts/marketing/og-images.mjs --base http://localhost:3000
  *
- * Writes public/og/<slug>.png for a landing page and public/og/artikler/<slug>.png for an
- * article (its H1, with its landing page's picture). Run it when an H1 or picture changes.
+ * Writes public/og/<slug>.png for a landing page, public/og/artikler/<slug>.png for an article
+ * (its H1, with its landing page's picture), and public/og.png, the site's own card (the start
+ * page's H1). Run it when an H1, a picture or a pill (messages seo.og.pills) changes.
  */
 import { mkdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -45,7 +46,11 @@ const ARTICLE_CARDS = [...siteSrc.matchAll(/slug: '([^']+)',\s*key: '([^']+)',[\
   file: `artikler/${m[1]}.png`,
 }))
 if (ARTICLE_CARDS.length === 0 || ARTICLE_CARDS.some((a) => !a.h1 || !a.shot)) throw new Error('lib/marketing/site.ts ARTICLES changed shape')
-const PILLS = ['15 dager gratis', 'Dekker arbeidsmiljøloven', 'Anonymt – minst 5 svar']
+// the site's own card (public/og.png, lib/marketing/meta.ts), for every page without one: the start page's H1
+const DEFAULT_CARD = { slug: 'default', h1: no.site.home.h1, shot: 'rapport', file: '../og.png' }
+// the three claims on every card are messages (seo.og.pills), so they are in the legal review (D-130)
+const PILLS = no.seo.og.pills
+if (!Array.isArray(PILLS) || PILLS.length !== 3) throw new Error('messages seo.og.pills changed shape')
 // the mark's own path and dot, read from the component rather than redrawn here
 const logoSrc = readFileSync('components/shell/Logo.tsx', 'utf8')
 const markPath = logoSrc.match(/d="([^"]+)"/)?.[1]
@@ -84,7 +89,7 @@ const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', a
 const page = await b.newPage({ viewport: { width: 1200, height: 630 } })
 // written into a page on the server's own origin, so its font files are same-origin
 await page.goto(`${base}/robots.txt`)
-for (const p of [...PAGES, ...ARTICLE_CARDS]) {
+for (const p of [...PAGES, ...ARTICLE_CARDS, DEFAULT_CARD]) {
   await page.setContent(html(p), { waitUntil: 'networkidle' })
   await page.evaluate(() => document.fonts.ready)
   const file = join(out, p.file ?? `${p.slug}.png`)

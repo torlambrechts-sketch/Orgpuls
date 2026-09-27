@@ -5667,6 +5667,13 @@
       "submit": "Start free",
       "invalid": "An organisation number has nine digits. Check that they are all there.",
       "invalidChecksum": "Check the number – it does not look like a valid organisation number."
+    },
+    "og": {
+      "pills": [
+        "15 days free",
+        "Covers the Working Environment Act",
+        "Anonymous – at least 5 answers"
+      ]
     }
   },
   "dpa": {
@@ -8613,14 +8620,16 @@
           "hvorfor": "/hvorfor · anonymity, the law, comparisons",
           "bruksomrader": "/bruksomrader · inspection, verneombud and AMU",
           "plattform": "/plattform · the report and the legal basis",
-          "claims": "Short legal claims across the site"
+          "claims": "Short legal claims across the site",
+          "terms": "Prices and terms of purchase"
         },
         "doc": {
           "dpa": "Data processing agreement (databehandleravtale)",
           "privacy": "Privacy statement (personvernerklæring)",
           "security": "Security page",
           "personvernTab": "Oppsett › Personvern: the privacy notice to customers",
-          "termsDraft": "Terms of use: draft, not published"
+          "termsDraft": "Terms of use: draft, not published",
+          "dpaSigning": "Signing the data processing agreement"
         },
         "app": {
           "report": "The statutory report",
@@ -8635,7 +8644,8 @@
         },
         "industry": {
           "lawIntro": "{page} · the law section's title and introduction",
-          "claims": "{page} · threshold note, challenges, FAQ and question page"
+          "claims": "{page} · threshold note, challenges, FAQ and question page",
+          "lawItem": "{page} · {ref}"
         },
         "mail": {
           "legal": "E-mail and SMS: anonymity, notices, lifecycle",
@@ -8644,6 +8654,17 @@
         "consent": {
           "newsletter": "Newsletter sign-up, confirmation and unsubscribe",
           "signup": "Sign-up consent"
+        },
+        "module": {
+          "sources": "{module} · the sources it cites",
+          "factor": "{module} · {factor}"
+        },
+        "crm": {
+          "template": "CRM e-mail template · {name}",
+          "lists": "Newsletter lists: names and descriptions"
+        },
+        "admin": {
+          "crmBasis": "CRM: when the team may mail without consent"
         }
       },
       "live": "Published",
@@ -8653,14 +8674,12 @@
         "changed": "Changed since approval",
         "open": "Not approved"
       },
-      "where": "Where: {where}",
       "approvedBy": "Approved by {by}, {date}",
       "changedSince": "Approved by {by}, {date}, before the text changed",
       "dpaInForce": "Version in force: {version}, SHA-256 {hash}…",
       "broken": "A path in this text no longer resolves: {paths}. Fix the registry (lib/legal/registry.ts).",
       "approved": "Approved",
       "approvedLabel": "Approved: {title} ({lang})",
-      "save": "Save",
       "saving": "Saving…",
       "done": "Saved.",
       "showText": "Show the text ({n} lines)",
@@ -8675,16 +8694,61 @@
       },
       "en": {
         "title": "English survey",
-        "lead": "Respondents whose own language, or whose organisation's, is English are offered the survey in English once every item it asks and the survey pages' strings are approved. Approving here approves every English item below and the page strings as this build has them.",
-        "on": "Offered",
-        "off": "Not offered yet",
+        "lead": "Respondents whose own language, or whose organisation's, is English are offered the survey in English when every item it asks and the survey pages' strings are approved. Approving here approves every English item listed below that is not yet approved, and the survey pages' strings shown below, as this build has them. If anything changes after this page was loaded, nothing is approved.",
+        "on": "Ready for every survey",
+        "off": "Not ready",
         "items": "{approved} of {total} items approved",
         "uiOk": "The survey pages' strings are approved for this build.",
-        "uiOpen": "The survey pages' strings are not approved for this build (hash {hash}…).",
+        "uiOpen": "The survey pages' {n} strings are not approved for this build.",
         "read": "I have read the English texts, and they are right.",
         "submit": "Approve the English survey",
-        "done": "Approved. English is now offered.",
-        "show": "Show the {n} items"
+        "done": "Approved.",
+        "show": "Show the {n} items",
+        "coverOk": "Every item a survey can ask has an approved English text.",
+        "coverMissing": "{n, plural, one {# item a survey can ask has} other {# items a survey can ask have}} no approved English text yet. A survey that asks one stays in Norwegian.",
+        "showUi": "Show the survey pages' {n} strings",
+        "itemApproved": "{item} · {source} · approved",
+        "itemOpen": "{item} · {source}"
+      },
+      "langCode": {
+        "no": "NO",
+        "en": "EN"
+      },
+      "whereSource": "Where: {where} · {source}",
+      "someone": "an admin no longer registered",
+      "countLabel": "{label} ({n})",
+      "whereAt": {
+        "path": "{path}",
+        "industryEn": "{path} on en.orgpuls.com",
+        "industryQuestions": "{path} and {path}/sporsmal",
+        "industryQuestionsEn": "{path} and {path}/sporsmal on en.orgpuls.com",
+        "moduleOnSite": "{path}, and the report when an organisation asks the module",
+        "moduleInReport": "the report, when an organisation asks the module",
+        "moduleSources": "the industry page's sources («Kilder»), and the report",
+        "unpublished": "not published",
+        "siteClaims": "the start page, /bransjer, /priser, the footer and every share card",
+        "dpaTab": "the app: Oppsett › Databehandleravtale",
+        "personvernTab": "the app: Oppsett › Personvern",
+        "report": "the app: the report, printed for Arbeidstilsynet, AMU, management and employees",
+        "regelverk": "the app: Oppsett › Regelverk",
+        "oppsett": "the app: Oppsett",
+        "maleoppsett": "the app: Måleoppsett",
+        "help": "the app: Hjelp",
+        "assistant": "the app: the header panel's Arbeidsmiljøloven tab",
+        "appClaims": "the app: Målinger, Årshjul, Tiltak, Kommentarer and the wizard; /start",
+        "anonymity": "the survey, the QR page and poster, the app and /start",
+        "billing": "the app: Oppsett › Betaling and the closed-account screens; /start",
+        "mail": "e-mail and SMS",
+        "crm": "every newsletter and campaign e-mail",
+        "newsletter": "/nyhetsbrev, /kontakt, /avmeld and the opt-in e-mail",
+        "instrument": "the app: the report, Målinger › Spørsmålssett and Tiltak",
+        "prices": "/priser and the price block on the home page",
+        "crmTemplate": "every campaign or newsletter started from this template",
+        "crmSettings": "admin › CRM › Contacts › Existing-customer exception, which decides who a campaign may be sent to"
+      },
+      "sourceFailed": {
+        "modules": "The module registry could not be read, so no module is shown as published.",
+        "crm": "The CRM's e-mail templates and newsletter lists could not be read, so they are not listed here."
       }
     }
   },

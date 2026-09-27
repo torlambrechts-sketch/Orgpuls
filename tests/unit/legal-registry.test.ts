@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { canonical, legalUnits, LEGAL_SECTIONS, MESSAGE_SPECS } from '@/lib/legal/registry'
+import en from '@/messages/en.json'
+import no from '@/messages/no.json'
 
 /**
  * The legal review's registry (D-130): every unit resolves, every key is one 0082 accepts and
@@ -32,8 +34,7 @@ describe('the legal review registry', () => {
   it('covers every section, both languages of each message spec, and each industry law item', () => {
     for (const s of LEGAL_SECTIONS) expect(units.some((u) => u.section === s), s).toBe(true)
     for (const s of MESSAGE_SPECS) {
-      expect(units.some((u) => u.key === `msg:no:${s.id}`)).toBe(true)
-      expect(units.some((u) => u.key === `msg:en:${s.id}`)).toBe(true)
+      for (const lang of s.langs ?? ['no', 'en']) expect(units.some((u) => u.key === `msg:${lang}:${s.id}`), `${lang} ${s.id}`).toBe(true)
     }
     expect(units.filter((u) => /^industry:bygg-og-anlegg:no:law:/.test(u.key))).toHaveLength(6)
     expect(units.filter((u) => /^industry:helse-og-omsorg:no:law:/.test(u.key))).toHaveLength(7)
@@ -53,5 +54,74 @@ describe('the legal review registry', () => {
     // the landing page is what the address shows only where the industry page is not launched
     expect(units.find((u) => u.key === 'msg:no:lp.helseOgOmsorg')?.live).toBe(false)
     expect(units.find((u) => u.key === 'msg:en:lp.helseOgOmsorg')?.live).toBe(true)
+  })
+})
+
+describe('the English approval shows what it approves', () => {
+  it('computes the same page-string hash as scripts/i18n/respondent-ui.mjs', async () => {
+    const { respondentHash, respondentLines } = await import('@/lib/i18n/respondent-strings')
+    const en = (await import('@/messages/en.json')).default as Record<string, unknown>
+    const ui = (await import('@/lib/i18n/respondent-ui.json')).default as Record<string, string>
+    expect(respondentHash(en)).toBe(ui.en)
+    expect(respondentLines(en).length).toBeGreaterThan(50)
+  })
+
+  it('keys a law item by its reference, so moving it keeps the approval', () => {
+    const helse = units.filter((u) => u.key.startsWith('industry:helse-og-omsorg:no:law:'))
+    for (const u of helse) expect(u.lines.map((l) => l.path)).toEqual(['law.ref', 'law.text'])
+  })
+
+  it('marks a source that yielded nothing as broken, never as an empty text to approve', () => {
+    const none = legalUnits([]).find((u) => u.key === 'db:no:factors.law_ref')!
+    expect(none.missing?.length).toBeGreaterThan(0)
+  })
+
+  it('marks a module live only when that version is published', () => {
+    expect(units.find((u) => u.key.startsWith('module:helse-og-omsorg@1.0.0:no:'))?.live).toBe(false)
+    const withDb = legalUnits({ factors, publishedModules: new Set(['helse-og-omsorg@1.0.0']) })
+    expect(withDb.find((u) => u.key.startsWith('module:helse-og-omsorg@1.0.0:no:'))?.live).toBe(true)
+  })
+})
+
+describe('nothing stating law is left out of the review', () => {
+  // every string, with the path the registry gives its lines
+  const strings = (v: unknown, path: string, out: { path: string; text: string }[]) => {
+    if (typeof v === 'string') out.push({ path, text: v })
+    else if (Array.isArray(v)) v.forEach((x, i) => strings(x, `${path}[${i}]`, out))
+    else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) strings(x, path ? `${path}.${k}` : k, out)
+    return out
+  }
+  /**
+   * Not texts anyone outside the team reads: the admin app's own help (the one legal reading it
+   * acts on, the CRM's basis, is reviewed), and the page-template blocks /plattform and
+   * /bruksomrader do not render (lib/legal/registry.ts' header).
+   */
+  const NOT_PUBLISHED = [/^admin\./, /^seo\.pages\.(plattform|bruksomrader)\.(blocks|lead)/]
+
+  it('covers every message that cites a section of a law, in both files', () => {
+    const all = legalUnits({ factors, crmTemplates: [], crmLists: [] })
+    for (const [lang, messages] of [['no', no], ['en', en]] as const) {
+      const covered = new Set(all.filter((u) => u.key.startsWith(`msg:${lang}:`)).flatMap((u) => u.lines.map((l) => l.path)))
+      const left = strings(messages, '', [])
+        .filter((l) => l.text.includes('§') && !covered.has(l.path) && !NOT_PUBLISHED.some((r) => r.test(l.path)))
+        .map((l) => l.path)
+      expect(left, `${lang}: add these to MESSAGE_SPECS`).toEqual([])
+    }
+  })
+
+  it('names every unit and its place with a message the admin page has', () => {
+    const all = legalUnits({
+      factors,
+      crmTemplates: [{ key: 't', name: 'T', subject: 'S', preheader: 'P', blocks: [] }],
+      crmLists: [{ key: 'l', name_no: 'N', name_en: 'N', description_no: 'D', description_en: 'D', public: true, archived: false }],
+    })
+    const at = (m: unknown, key: string) => key.split('.').reduce<unknown>((o, k) => (o as Record<string, unknown> | undefined)?.[k], m)
+    for (const messages of [no, en]) {
+      const legal = (messages as { admin: { legal: unknown } }).admin.legal
+      for (const u of all) {
+        expect(typeof at(legal, `unit.${u.title.key}`), `unit.${u.title.key}`).toBe('string')
+        expect(typeof at(legal, `whereAt.${u.where.key}`), `whereAt.${u.where.key}`).toBe('string')
+      }
+    }
   })
 })

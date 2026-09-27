@@ -3,11 +3,13 @@
 --   * app.legal_approvals: RLS on, no policy, no grant; no client role reads or writes it (1)
 --   * only a super-admin with a second factor approves; a member, an aal1 session and another
 --     platform role are refused (2)
---   * an approval stores the text's hash and who; approving again replaces it; withdrawing
---     deletes it; both are audited (3)
---   * a malformed key or hash is refused (4)
+--   * an approval stores the text's hash and who; approving again replaces it; withdrawing needs
+--     the hash approved and deletes it; both are audited (3)
+--   * a malformed key, hash, choice or language is refused, NULL included (4); the database's
+--     legal texts are read whole, by a super-admin only, and the read is not audited (4)
 --   * approving a language's survey approves its unapproved items and the page strings' hash,
---     leaves a qa-fixture row alone off the QA stack, and is audited (5)
+--     only if they are still what the page showed, leaves a qa-fixture row alone off the QA
+--     stack, and is audited (5)
 --   * nothing written here survives (6)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/legal_invariants.sql
@@ -27,6 +29,7 @@ declare
   hui      constant text := repeat('c', 64);
   v_rows   jsonb := '[]'::jsonb;
   v_txt    text;
+  v_json   jsonb;
   v_n      int;
 begin
   -- 1 ------------------------------------------------------------------ no client access
@@ -60,12 +63,13 @@ begin
     perform set_config('request.jwt.claims', format(claims, v_sup, 'aal2'), true);
     set local role authenticated;
     v_txt := v_txt || ',' || coalesce(public.admin_legal_set('doc:probe:no', h1, true)->>'error', 'ok');
-    v_txt := v_txt || ',' || coalesce(public.admin_translations_approve('en', hui)->>'error', 'ok');
+    v_txt := v_txt || ',' || coalesce(public.admin_translations_approve('en', hui, h1)->>'error', 'ok');
+    v_txt := v_txt || ',' || coalesce(public.admin_legal_sources()->>'error', 'ok');
     reset role;
     v_txt := v_txt || ',' || (select count(*) from app.legal_approvals where key = 'doc:probe:no');
     v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'a member, an aal1 super-admin and support are refused',
-      'expected', 'not_allowed,not_allowed,not_allowed,not_allowed,not_allowed,0',
-      'actual', v_txt, 'pass', v_txt = 'not_allowed,not_allowed,not_allowed,not_allowed,not_allowed,0');
+      'expected', 'not_allowed,not_allowed,not_allowed,not_allowed,not_allowed,not_allowed,0',
+      'actual', v_txt, 'pass', v_txt = 'not_allowed,not_allowed,not_allowed,not_allowed,not_allowed,not_allowed,0');
 
     -- 3 ---------------------------------------------------------------- approve, replace, withdraw
     perform set_config('request.jwt.claims', format(claims, v_sa, 'aal2'), true);
@@ -80,13 +84,15 @@ begin
     reset role;
     v_txt := v_txt || ',' || (select text_hash = h2 from app.legal_approvals where key = 'doc:probe:no');
     set local role authenticated;
+    -- withdrawing with the hash of an older version withdraws nothing
+    v_txt := v_txt || ',' || coalesce(public.admin_legal_set('doc:probe:no', h1, false)->>'error', 'ok');
     v_txt := v_txt || ',' || coalesce(public.admin_legal_set('doc:probe:no', h2, false)->>'error', 'ok');
     reset role;
     v_txt := v_txt || ',' || (select count(*) from app.legal_approvals where key = 'doc:probe:no')
                    || ',' || (select count(*) from app.admin_audit where admin_id = v_sa and target_id = 'doc:probe:no'
                               and action in ('legal.approve', 'legal.withdraw'));
     v_rows := v_rows || jsonb_build_object('seq', 3, 'name', 'an approval holds the hash and who; a new hash replaces it; withdrawing deletes it; all audited',
-      'expected', 'ok,true,true,true,ok,true,ok,0,3', 'actual', v_txt, 'pass', v_txt = 'ok,true,true,true,ok,true,ok,0,3');
+      'expected', 'ok,true,true,true,ok,true,stale,ok,0,3', 'actual', v_txt, 'pass', v_txt = 'ok,true,true,true,ok,true,stale,ok,0,3');
 
     -- 4 ---------------------------------------------------------------- malformed input
     set local role authenticated;
@@ -94,10 +100,21 @@ begin
       || ',' || coalesce(public.admin_legal_set('doc:probe no', h1, true)->>'error', 'ok')
       || ',' || coalesce(public.admin_legal_set('doc:probe:no', 'abc', true)->>'error', 'ok')
       || ',' || coalesce(public.admin_legal_set('doc:probe:no', h1, null)->>'error', 'ok')
-      || ',' || coalesce(public.admin_translations_approve('de', hui)->>'error', 'ok');
+      || ',' || coalesce(public.admin_translations_approve('de', hui, h1)->>'error', 'ok')
+      || ',' || coalesce(public.admin_translations_approve(null, hui, h1)->>'error', 'ok')
+      || ',' || coalesce(public.admin_translations_approve('lt', hui, 'x')->>'error', 'ok');
     reset role;
-    v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'a malformed key, hash, choice or language is refused',
-      'expected', 'invalid,invalid,invalid,invalid,invalid', 'actual', v_txt, 'pass', v_txt = 'invalid,invalid,invalid,invalid,invalid');
+    -- the database's legal texts: every template and every list of the product, and no audit row
+    v_n := (select count(*) from app.admin_audit where admin_id = v_sa);
+    set local role authenticated;
+    v_json := public.admin_legal_sources();
+    reset role;
+    v_txt := v_txt || ',' || (jsonb_array_length(v_json->'templates') = (select count(*) from app.crm_templates)
+                              and jsonb_array_length(v_json->'lists') = (select count(*) from app.crm_lists where product_id = 'orgpuls')
+                              and (select count(*) from app.admin_audit where admin_id = v_sa) = v_n);
+    v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'a malformed key, hash, choice, language or digest is refused, NULL included; the legal sources are whole and unaudited',
+      'expected', 'invalid,invalid,invalid,invalid,invalid,invalid,invalid,true', 'actual', v_txt,
+      'pass', v_txt = 'invalid,invalid,invalid,invalid,invalid,invalid,invalid,true');
 
     -- 5 ---------------------------------------------------------------- a language's survey
     delete from app.item_translations where item_id like 'core:ytring:%' and locale = 'lt';
@@ -105,15 +122,23 @@ begin
     values ('core:ytring:1', 'lt', 'bandymas-1', 'machine'), ('core:ytring:2', 'lt', 'bandymas-2', 'qa-fixture');
     perform set_config('app.environment', '', true);
     set local role authenticated;
-    v_txt := coalesce(public.admin_translations_approve('lt', hui)->>'approved', 'none');
+    v_json := public.admin_translations('lt');
+    reset role;
+    -- a row changed after the page was read: nothing is approved
+    update app.item_translations set text = 'bandymas-1b' where item_id = 'core:ytring:1' and locale = 'lt';
+    set local role authenticated;
+    v_txt := coalesce(public.admin_translations_approve('lt', hui, v_json->>'digest')->>'error', 'ok');
+    v_json := public.admin_translations('lt');
+    v_txt := v_txt || ',' || coalesce(public.admin_translations_approve('lt', hui, v_json->>'digest')->>'approved', 'none');
     v_txt := v_txt || ',' || (select count(*) from jsonb_array_elements(public.admin_translations('lt')->'items') x
                               where x->>'item' like 'core:ytring:%' and (x->>'approved')::boolean);
     reset role;
     v_txt := v_txt || ',' || (select approved_at is null from app.item_translations where item_id = 'core:ytring:2' and locale = 'lt')
                    || ',' || (select count(*) from app.ui_translation_approvals where locale = 'lt' and messages_hash = hui)
                    || ',' || (select count(*) from app.admin_audit where admin_id = v_sa and action = 'translations.approve' and target_id = 'lt');
-    v_rows := v_rows || jsonb_build_object('seq', 5, 'name', 'approving a language: its items and the page strings, never a qa-fixture off QA, audited',
-      'expected', '1,1,true,1,1', 'actual', v_txt, 'pass', v_txt like '%,1,true,1,1' and split_part(v_txt, ',', 1)::int >= 1);
+    v_rows := v_rows || jsonb_build_object('seq', 5, 'name', 'approving a language: only what the page showed, its items and the page strings, never a qa-fixture off QA, audited',
+      'expected', 'stale,1,1,true,1,1', 'actual', v_txt,
+      'pass', v_txt like 'stale,%,1,true,1,1' and split_part(v_txt, ',', 2)::int >= 1);
 
     perform set_config('request.jwt.claims', '', true);
     raise exception 'rollback-probe';

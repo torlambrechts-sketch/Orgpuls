@@ -627,7 +627,28 @@ export type LegalApproval = z.infer<typeof LegalApprovals>['approvals'][number]
 /** Every current approval of a legal text, by the hash approved. Super-admin. */
 export const legalApprovals = () => call('admin_legal_approvals', {}, LegalApprovals)
 
+const LegalSources = z.object({
+  templates: z.array(z.object({ key: z.string(), name: z.string(), subject: z.string(), preheader: z.string(), blocks: z.array(z.unknown()) })),
+  lists: z.array(
+    z.object({
+      key: z.string(),
+      name_no: z.string(),
+      name_en: z.string(),
+      description_no: z.string(),
+      description_en: z.string(),
+      public: z.boolean(),
+      archived: z.boolean(),
+    }),
+  ),
+})
+/** The legal texts that live in the database: the CRM's templates and lists (0082). Super-admin, not audited. */
+export const legalSources = () => call('admin_legal_sources', {}, LegalSources)
+
 const Translations = z.object({
+  /** what approving would approve: the unapproved rows the page shows (0082 app.translation_digest) */
+  digest: z.string(),
+  /** items any survey could ask with no approved translation: what the offered rule counts */
+  missing: num,
   items: z.array(z.object({ item: z.string(), text: z.string(), source: z.string(), approved: z.boolean(), at: tsn })),
   ui: z.array(z.object({ hash: z.string(), at: ts })),
 })

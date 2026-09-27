@@ -5802,16 +5802,23 @@ approved checkbox" (X-065).
   in, or makes a legal or compliance promise with, and the legal documents themselves. Five
   parallel searches of the repository and a completeness critic found them.
   lib/legal/registry.ts reads each from its own source (content/industries, the module files,
-  messages/, the terms draft in docs/legal, app.factors), and never copies it.
+  messages/, the terms draft in docs/legal, app.factors, the CRM's templates and lists), and
+  never copies it. The page and the approve action read the database's part through one loader
+  (lib/legal/inputs.ts), so the hash the action checks is the hash of what the page showed; a
+  read that fails leaves its units out and the page says which. The CRM's texts come through
+  their own function (`admin_legal_sources`), without the lists' member counts, so opening the
+  review is not audited as a CRM read.
   - One unit is what a reviewer reads as one thing: one law item on an industry page, one
     factor's legal basis in a module, one landing page, one article, one document, one in-app
-    section. There are 140 units, about 3,200 strings, in both languages.
+    section. There are about 170 units, some 3,400 strings, in both languages.
   - Left out on purpose: labels that only name a law or a role; the unrendered
     seo.pages.plattform/bruksomrader blocks, which are published nowhere; and the survey's own
     statements.
   - Not covered yet, because they are code or per-organisation data rather than text: the
     chapter 1A coverage map and the BHT industry codes (RegelverkTab.tsx, SelskapTab.tsx), the
-    Lovdata link targets, the CRM e-mail templates, and a measure's own law_ref.
+    Lovdata link targets, and a measure's own law_ref.
+  - The admin app's own texts are the team's, not published, and are out, except the one legal
+    reading the team acts on: the CRM's existing-customer exception (markedsføringsloven § 15).
 - **An approval names the text.** `app.legal_approvals` holds the current approval of each unit,
   as the SHA-256 of the unit's text as shown. A text edited afterwards shows as «Changed since
   approval» until it is approved again; nothing has to remember to clear it.
@@ -5819,18 +5826,54 @@ approved checkbox" (X-065).
     longer matches, so a page loaded before an edit cannot approve unread text.
   - Every approval and withdrawal is also an admin audit entry (`legal.approve`,
     `legal.withdraw`), which is the history.
-  - RLS on, no policy, no grant; the four functions are the only way in.
+  - RLS on, no policy, no grant; the functions in 0082 are the only way in.
   - supabase/tests/legal_invariants.sql checks this in 6 rows.
 - **The English survey is approved here too.** One box saying the texts were read, then one
   button. It approves every unapproved English item and the survey pages' strings as this build
   has them, audited (`translations.approve`). A qa-fixture row is never approved off the QA
   stack. This is where the approval X-065 records is given.
+- **After an adversarial review (four lenses, each finding verified), before it shipped:**
+  - Withdrawing takes the hash of the text shown. It removes only the approval of that text, and
+    the audit log records the hash actually removed.
+  - The English approval approves only what the page showed. The page posts a digest of the
+    unapproved rows it listed (app.translation_digest), and the database holds those rows and
+    compares before it approves. The card also shows the survey pages' strings it approves.
+    lib/i18n/respondent-strings.ts computes them, and a test holds its hash equal to the
+    committed one. Its readiness counts every item any survey could ask, not only the rows
+    that exist (app.all_item_keys), the same two conditions the offered rule checks.
+  - A law item's hash has no position in it, so moving an item keeps its approval. A
+    repeated reference gets the next free suffix.
+  - A source that yields nothing (a failed read, an empty file) is shown as broken and cannot be
+    approved as an empty text.
+  - A module's texts are shown as published only when that version is published in the
+    database.
+  - Every visible string is a message: the places, the title formats, the counts.
+  - The checkbox keeps focus through a save and says «Saved.».
+  - A NULL language is refused as invalid rather than failing on a constraint.
 - **Publishing is not gated by the approvals.** Pages are built from code, and launching an
   industry page still needs its law items marked `reviewed` in content/industries, which the
-  build enforces. The review page shows a published text that is not approved in red.
+  build enforces. On the review page a text not approved is marked red and a changed one
+  yellow, and a «Published» badge beside it says whether readers see it now.
+- **Two public faults the search found, fixed with it.**
+  - **Lovdata links.** The English law blocks' «Regulation § 1A-2» linked to the Working
+    Environment Act, which has no § 1A-2. This was on /lovkrav, the English /helse-og-omsorg
+    landing page and one article. lib/marketing/lovdata.ts now sends chapter 1A, and any
+    reference naming the regulation in either language, to the regulation. A reference naming
+    another act is not linked at all, rather than linked to the wrong law.
+  - **The site's default share card** (public/og.png) still said «30 dager gratis». It is now
+    made by scripts/marketing/og-images.mjs from the start page's H1, like every other card.
+    The three pills on every card are messages (seo.og.pills), so they are in the review too.
+- **Also in the review, after the completeness critic:** the sources each module cites
+  («Kilder»), the double opt-in e-mail, the ticket e-mail's footer, the sign-in page's
+  promise to respondents, every help article that states law (found by what it says, not
+  listed), the assistant's screen texts that state a legal duty, the anonymity promises, the
+  DPA's signing text, /priser's terms, and the CRM's e-mail templates and consent lists.
 - **Tests.** tests/unit/legal-registry.test.ts checks:
   - every path resolves in both languages, so a renamed message key fails the test instead of
     dropping out of the review;
   - every key is unique and one the database accepts;
   - a changed word changes the hash;
-  - what is published is marked so.
+  - what is published is marked so;
+  - every message in either file that cites a «§» is in some unit, so a new one cannot be
+    published outside the review (the admin app and the unrendered blocks excepted);
+  - every unit's title and place is a message the page has.
