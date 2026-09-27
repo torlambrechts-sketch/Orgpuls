@@ -46,6 +46,11 @@ export async function QuestionView({
             {ts('seo.common.home')}
           </Link>
           <span aria-hidden="true"> / </span>
+          {/* under Bransjer, as the industry page and the header's menu have it (D-129) */}
+          <Link href="/bransjer" className="text-mut">
+            {ts('seo.pages.bransjer.crumb')}
+          </Link>
+          <span aria-hidden="true"> / </span>
           <Link href={`/${page.slug}${page.launched ? '' : '?forhandsvis=1'}` as Route} className="text-mut">
             {page.navLabel}
           </Link>

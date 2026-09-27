@@ -86,9 +86,12 @@ describe('industry pages', () => {
     const b = moduleFile('bygg-og-anlegg', '1.0.0')
     for (const n of b.relation_to_core?.covered_by_core_factors ?? []) expect(labels.has(n), n).toBe(true)
   })
-  it('the health page is valid, held at preview, and its core challenge names statements that exist', () => {
+  it('the health page is valid, launched with every law item reviewed (X-065), and its core challenge names statements that exist', () => {
     expect(problemsOf(helseOgOmsorg)).toEqual([])
-    expect(helseOgOmsorg.launched).toBe(false)
+    expect(helseOgOmsorg.launched).toBe(true)
+    expect(helseOgOmsorg.law.items.every((l) => l.reviewed)).toBe(true)
+    // the English page waits for its own review
+    expect(helseOgOmsorgEn.launched).toBe(false)
     const broken = structuredClone(helseOgOmsorg)
     const last = broken.challenges.at(-1)!
     last.measuredBy = { kind: 'core', factorKey: 'emosjon', ordinal: 1, alongside: [2, 7] }

@@ -3,7 +3,7 @@
 import type { Route } from 'next'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useId, useRef, useState, type ReactNode } from 'react'
+import { Fragment, useEffect, useId, useRef, useState, type ReactNode } from 'react'
 
 type Item = { href: string; label: string; children?: Item[]; /** the parent's own page, as the panel's first link */ all?: string }
 
@@ -48,18 +48,21 @@ export function HeaderNav({
   // "Pris" is a section of the start page, so it is never the page you are on
   const at = (href: string) => !href.includes('#') && (pathname === href || pathname.startsWith(`${href}/`))
   const current = (i: Item) => at(i.href) || !!i.children?.some((c) => at(c.href))
+  // "page" only on the page itself; on a page under it (an industry's /sporsmal) the link is the
+  // current one of its set, not the page, so the page's own breadcrumb is not contradicted
+  const ariaCurrent = (href: string) => (pathname === href ? 'page' : at(href) ? 'true' : undefined)
 
   return (
     <>
       <nav aria-label={label} className="hidden min-w-0 flex-1 flex-wrap gap-[4px] lg:flex">
         {items.map((i) =>
           i.children ? (
-            <SubMenu key={i.href} item={i} here={current(i)} at={at} pathname={pathname} />
+            <SubMenu key={i.href} item={i} here={current(i)} at={at} ariaCurrent={ariaCurrent} pathname={pathname} />
           ) : (
             <Link
               key={i.href}
               href={i.href as Route}
-              aria-current={at(i.href) ? 'page' : undefined}
+              aria-current={ariaCurrent(i.href)}
               className={`rounded-[9px] px-[12px] py-[8px] text-[14px] font-semibold text-ink hover:text-ink ${at(i.href) ? 'bg-sbg' : ''}`}
             >
               {i.label}
@@ -91,25 +94,31 @@ export function HeaderNav({
           aria-label={label}
           className="order-last flex w-full flex-col gap-[2px] border-t border-line pt-[8px] lg:hidden"
         >
-          {items.flatMap((i) => [i, ...(i.children ?? []).map((c) => ({ ...c, sub: true }))]).map((i) => {
-            const sub = 'sub' in i
+          {items.map((i) => {
             // a parent is in the pill only on its own page here: its pages are listed under it
-            const on = at(i.href)
-            return (
+            const row = (x: Item, sub: boolean) => (
               <Link
-                key={`${sub ? 'sub:' : ''}${i.href}`}
-                href={i.href as Route}
-                aria-current={on ? 'page' : undefined}
+                key={x.href}
+                href={x.href as Route}
+                aria-current={ariaCurrent(x.href)}
                 onClick={() => setOpen(false)}
                 className={`flex h-[44px] w-full items-center rounded-ctl text-[14px] font-semibold text-ink no-underline hover:text-ink hover:no-underline ${
                   sub ? 'pl-[27px] pr-[13px]' : 'px-[13px]'
-                } ${on ? 'bg-sbg' : 'hover:bg-bg'}`}
+                } ${at(x.href) ? 'bg-sbg' : 'hover:bg-bg'}`}
               >
-                {sub ? (
-                  <span aria-hidden="true" className="mr-[10px] h-[14px] w-px flex-none bg-line" />
-                ) : null}
-                {i.label}
+                {sub ? <span aria-hidden="true" className="mr-[10px] h-[14px] w-px flex-none bg-line" /> : null}
+                {x.label}
               </Link>
+            )
+            if (!i.children) return row(i, false)
+            // the indented pages are a group named by their parent, so the hierarchy is not only visual
+            return (
+              <Fragment key={i.href}>
+                {row(i, false)}
+                <div role="group" aria-label={i.label} className="flex flex-col gap-[2px]">
+                  {i.children.map((c) => row(c, true))}
+                </div>
+              </Fragment>
             )
           })}
           <span className="mt-[6px] flex gap-[9px] border-t border-line pt-[10px] sm:hidden">
@@ -136,9 +145,22 @@ export function HeaderNav({
 /**
  * One row item with pages under it. It behaves as a disclosure: Escape and a click outside
  * close it, Escape returns focus to the button, and it closes when the page changes. The
- * panel follows the button in the tab order, so no focus is moved on opening.
+ * panel follows the button in the tab order, so no focus is moved on opening. Choosing the
+ * page you are already on returns focus to the button too.
  */
-function SubMenu({ item, here, at, pathname }: { item: Item; here: boolean; at: (href: string) => boolean; pathname: string }) {
+function SubMenu({
+  item,
+  here,
+  at,
+  ariaCurrent,
+  pathname,
+}: {
+  item: Item
+  here: boolean
+  at: (href: string) => boolean
+  ariaCurrent: (href: string) => 'page' | 'true' | undefined
+  pathname: string
+}) {
   const [open, setOpen] = useState(false)
   const panelId = useId()
   const root = useRef<HTMLDivElement>(null)
@@ -176,6 +198,8 @@ function SubMenu({ item, here, at, pathname }: { item: Item; here: boolean; at: 
         type="button"
         aria-expanded={open}
         aria-controls={open ? panelId : undefined}
+        // the pill says "you are in this section"; so does this, for a screen reader
+        aria-current={here ? 'true' : undefined}
         onClick={() => setOpen((o) => !o)}
         className={`inline-flex cursor-pointer items-center gap-[6px] rounded-[9px] border-none px-[12px] py-[8px] text-[14px] font-semibold text-ink ${
           here || open ? 'bg-sbg' : 'bg-transparent'
@@ -195,8 +219,13 @@ function SubMenu({ item, here, at, pathname }: { item: Item; here: boolean; at: 
             <Link
               key={l.href}
               href={l.href as Route}
-              aria-current={at(l.href) ? 'page' : undefined}
-              onClick={() => setOpen(false)}
+              aria-current={ariaCurrent(l.href)}
+              onClick={() => {
+                setOpen(false)
+                // the page you are on does not navigate, so the focused link would vanish with the
+                // panel and leave focus on the page: give it back to the button
+                if (pathname === l.href) button.current?.focus()
+              }}
               className={`flex h-[38px] items-center rounded-ctl px-[12px] text-[13.5px] font-semibold text-ink no-underline hover:text-ink hover:no-underline ${
                 at(l.href) ? 'bg-sbg' : 'hover:bg-bg'
               }`}

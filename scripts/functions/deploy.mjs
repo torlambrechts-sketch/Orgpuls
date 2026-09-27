@@ -29,7 +29,9 @@ writeFileSync(
     `export const MAIL = ${JSON.stringify({ no: mail('no'), en: mail('en') }, null, 2)} as const\n` +
     // the respondent pages' strings as this build has them (lib/i18n/respondent-ui.json, D-127):
     // a language is offered in an invitation only where these were approved
-    `export const RESPONDENT_UI: Record<string, string> = ${readFileSync('lib/i18n/respondent-ui.json', 'utf8').trim()}\n`,
+    `export const RESPONDENT_UI: Record<string, string> = ${readFileSync('lib/i18n/respondent-ui.json', 'utf8').trim()}\n` +
+    // the flags a person signed off (lib/flags.ts SIGNED_OFF): on here as in the app
+    `export const SIGNED_OFF_FLAGS: string[] = ${JSON.stringify(JSON.parse(readFileSync('lib/flags.signed-off.json', 'utf8')))}\n`,
 )
 
 execFileSync('npx', ['-y', 'deno', 'check', '--config', `${ROOT}/deno.json`, ...FUNCTIONS.map((f) => `${ROOT}/${f}/index.ts`)], { stdio: 'inherit' })

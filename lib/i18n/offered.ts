@@ -43,9 +43,19 @@ export function offeredLocales(state: LocaleState | null): RespondentLocale[] | 
   ]
 }
 
-/** The language to show: `?lang=`, then the employee's own, then bokmål — each only if offered. */
-export function chooseLocale(offered: readonly RespondentLocale[], asked: unknown, employee: unknown): RespondentLocale {
-  if (isRespondentLocale(asked) && offered.includes(asked)) return asked
-  if (isRespondentLocale(employee) && offered.includes(employee)) return employee
+/**
+ * The language to show: `?lang=`, then the employee's own, then the organisation's, then bokmål —
+ * each only if offered. The organisation's comes before bokmål because its invitations were
+ * written in it (the dispatcher's personalLang follows the same order), so an English
+ * organisation's employee with no language of their own opens the survey in the language
+ * their invitation was in.
+ */
+export function chooseLocale(
+  offered: readonly RespondentLocale[],
+  asked: unknown,
+  employee: unknown,
+  organisation?: unknown,
+): RespondentLocale {
+  for (const l of [asked, employee, organisation]) if (isRespondentLocale(l) && offered.includes(l)) return l
   return 'no'
 }

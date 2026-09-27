@@ -4408,6 +4408,11 @@ Migration 0055, X-061.
 
 - DMARC is inherited from `_dmarc.orgpuls.com`, and Brevo already reports it as valid.
 
+**Update, authenticated (27 September):** the owner added the three records at Spaceship.
+`?probe=marketing-setup&authenticate=1` found them and DMARC valid, and registered the sender
+`hei@nyheter.orgpuls.com`. Brevo reports `nyheter.orgpuls.com` as authenticated and verified
+(X-065).
+
 ## D-102 — "Fortsett med Google"
 
 **The request:** "add google signin options".
@@ -5719,17 +5724,34 @@ and phase 0 is not merged.
 - **Human gate (§ 1).** `locale_en` stays off in production until a person approves every
   English item and the respondent strings. `locale_pl` and `locale_lt` need translations first.
 
+### D-127 addendum — English signed off; the organisation's language before bokmål (0081, 2026-09-27)
+
+- **Signed off.** `locale_en` is on in every deployment: lib/flags.signed-off.json, read by
+  lib/flags.ts and written into the dispatcher's generated data by scripts/functions/deploy.mjs
+  (X-065). The database gate is unchanged: English is offered only where every item and the page
+  strings are approved.
+- **The language order.** Before, with a language flag on, an employee with no language of
+  their own got bokmål. For an English organisation that moved its invitations from English
+  to bokmål. Now both the dispatcher (`personalLang`) and the survey page (`chooseLocale`)
+  go: the employee's own, then the organisation's, then bokmål, each only where offered.
+  - The page's order also starts with the link's `?lang=`.
+  - 0081 makes `respond_locales` return the organisation's `default_lang`.
+- **In the window before the approvals exist**, English is not offered, so an English
+  organisation's personal mail is in bokmål. Both hosted organisations are Norwegian.
+- **Tests.** Four new cases in tests/unit/p1-language.test.ts. translation_invariants #4 now
+  checks the organisation's language too.
+
 ## D-129 — «Bransjer» in the site's menu, with its pages under it
 
 Tor, 2026-09-27, with a screenshot of the phone menu: "Ser ikke bransjer som meny med undersider
 (hele sider) på forsiden".
 
 - **Where it sits.** «Bransjer» is the fifth item in the header row, after «Pris». The
-  nettside design draws five items, and the fifth («Om oss») was removed in D-95. So Bransjer
-  takes a slot the design already had. The design's four remaining items do not move: on all
-  four designed pages the header strip differs from the baseline only between x 690 and 1039,
-  where «Om oss» was and where the language switch is (D-96). At 1024 px the row stays one line
-  (header 65 px).
+  nettside design draws five items. Its fourth, «Om oss», was removed in D-95 and «Pris» moved
+  into its place, so appending Bransjer gives the row five items again. Plattform,
+  Bruksområder and Hvorfor Orgpuls do not move. On all four designed pages the header strip
+  differs from the baseline only between x 690 and 1039, where «Om oss» and «Pris» were and
+  where the language switch is (D-96). At 1024 px the row stays one line (header 65 px).
 - **The desktop row.** Bransjer is a disclosure, not a link: a button drawn as the row's
   links are, with a chevron. It opens a panel in the account menu's materials (D-80), holding
   «Alle bransjer» (/bransjer), «Bygg og anlegg» and «Helse og omsorg».
@@ -5747,8 +5769,16 @@ Tor, 2026-09-27, with a screenshot of the phone menu: "Ser ikke bransjer som men
     /helse-og-omsorg is its landing page until its law review, and then the industry page
     (D-125). The menu links each whichever it is.
 - **Crumbs.** An industry page's crumbs, visible and in JSON-LD, now read Forside › Bransjer ›
-  the industry, instead of Bruksområder. This covers the landing page it shows before launch.
-  The other landing pages stay under Bruksområder.
+  the industry, instead of Bruksområder. This covers the landing page it shows before launch,
+  and the question page under it: Forside › Bransjer › the industry › Spørsmålssettet. The
+  other landing pages stay under Bruksområder.
+- **After review (2026-09-27).** A three-lens review with adversarial verification confirmed
+  four accessibility points, fixed the same day.
+  - The desktop button carries `aria-current="true"` while its pill shows.
+  - `aria-current="page"` is given only on the page itself. On a page under it (an industry's
+    /sporsmal) the link is `aria-current="true"`, so the page's breadcrumb is not contradicted.
+  - Choosing the page you are on from the panel returns focus to the button.
+  - In the phone menu the indented pages are a group named «Bransjer».
 - **English.** «Industries» / «All industries», with the English names: Construction, and
   Health and care.
 - **Checked.** Desktop open, keyboard, Escape, click outside, tabbing out, navigation through

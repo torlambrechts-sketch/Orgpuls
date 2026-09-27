@@ -63,7 +63,7 @@ import {
   type TicketJob,
 } from '../_shared/mail.ts'
 import { normalizePhone, smsContent, smsLength } from '../_shared/sms.ts'
-import { MAIL, RESPONDENT_UI } from '../_shared/messages.gen.ts'
+import { MAIL, RESPONDENT_UI, SIGNED_OFF_FLAGS } from '../_shared/messages.gen.ts'
 
 const BATCH = 25
 const BUDGET_MS = 40_000
@@ -96,12 +96,13 @@ Deno.serve(async (req) => {
   const smsSender = Deno.env.get('ORGPULS_SMS_SENDER') ?? 'Orgpuls'
   const appUrl = env('ORGPULS_APP_URL')
   const cat = MAIL as unknown as MailCatalogue
-  // the language flags this function runs with (ORGPULS_FLAGS, as the app's): none means every
-  // personal message stays in the organisation's language (D-127)
+  // the language flags this function runs with, as the app's: the signed-off ones it was deployed
+  // with (lib/flags.signed-off.json) and ORGPULS_FLAGS. None means every personal message stays in
+  // the organisation's language (D-127)
   const flagsEnv = (Deno.env.get('ORGPULS_FLAGS') ?? '').trim()
-  const offer: LanguageOffer | null = flagsEnv
-    ? { flags: flagsEnv === '*' ? '*' : new Set(flagsEnv.split(',').map((f) => f.trim())), hashes: RESPONDENT_UI }
-    : null
+  const named = new Set([...SIGNED_OFF_FLAGS, ...flagsEnv.split(',').map((f) => f.trim()).filter(Boolean)])
+  const offer: LanguageOffer | null =
+    flagsEnv === '*' ? { flags: '*', hashes: RESPONDENT_UI } : named.size ? { flags: named, hashes: RESPONDENT_UI } : null
   const probe = new URL(req.url).searchParams.get('probe')
   // the marketing stream (D-101): its own sender, on a domain that is not the product's
   const marketingFrom = Deno.env.get('ORGPULS_MARKETING_FROM') ?? ''

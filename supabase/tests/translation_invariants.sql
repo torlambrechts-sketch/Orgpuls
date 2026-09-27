@@ -1,4 +1,4 @@
--- translation_invariants.sql — the translation registry (0079, 0080, D-127; engagement P1).
+-- translation_invariants.sql — the translation registry (0079, 0080, 0081, D-127; engagement P1).
 --
 --   * both tables: RLS on, no write policy, no insert grant (1)
 --   * a qa-fixture translation is approved only on the QA stack; a changed text loses its
@@ -83,6 +83,8 @@ begin
     values ('core:ytring:1', 'pl', 'sonda', 'professional')
     on conflict (item_id, locale) do update set text = excluded.text, approved_at = null;
     insert into app.ui_translation_approvals (locale, messages_hash) values ('en', v_hash);
+    -- an English organisation: the page falls back to its language after the employee's (0081)
+    update app.organizations set default_lang = 'en' where id = v_org;
 
     -- 3, 4 --------------------------------------------------------- the respondent's view
     set local role anon;
@@ -91,12 +93,12 @@ begin
     reset role;
     v_rows := v_rows || jsonb_build_object('seq', 3, 'name', 'a bad or unknown token learns nothing',
       'expected', 'invalid_token,invalid_token', 'actual', v_txt, 'pass', v_txt = 'invalid_token,invalid_token');
-    v_txt := concat_ws(',', v_json->>'employee_lang', v_json#>>'{locales,en,missing}', v_json#>>'{locales,pl,missing}',
+    v_txt := concat_ws(',', v_json->>'employee_lang', v_json->>'org_lang', v_json#>>'{locales,en,missing}', v_json#>>'{locales,pl,missing}',
                        (v_json#>'{locales,en,ui}') ? v_hash,
                        (select string_agg(k, ' ' order by k) from jsonb_object_keys(v_json->'texts') k),
                        jsonb_typeof(v_json#>'{texts,en,core:ytring:1}'));
-    v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'the employee''s language; English complete with its UI hash, Polish not; wording only for English',
-      'expected', 'en,0,3,t,en,string', 'actual', v_txt, 'pass', v_txt = 'en,0,3,t,en,string');
+    v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'the employee''s and the organisation''s language; English complete with its UI hash, Polish not; wording only for English',
+      'expected', 'en,en,0,3,t,en,string', 'actual', v_txt, 'pass', v_txt = 'en,en,0,3,t,en,string');
 
     -- 5 ------------------------------------------------------------ who approves
     perform set_config('request.jwt.claims', format(claims, v_dl), true);

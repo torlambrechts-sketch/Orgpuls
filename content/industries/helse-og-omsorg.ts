@@ -8,13 +8,14 @@ import type { IndustryPage } from './types'
  * The reference shows one factor switched off in its example (Natt without forflytning) and
  * says so in its footnote and in the first FAQ answer. Choosing factors is built but not
  * switched on (`module_factor_toggles`), so the row, that sentence and that part of the
- * answer are shown only when it is (D-122). Until launch the address keeps its current
- * landing page and this one is a preview; its law items wait for review.
+ * answer are shown only when it is (D-122). Launched in Norwegian on 2026-09-27, when Tor approved
+ * it and its law items (X-065); the English page waits for its own review.
  */
 export const helseOgOmsorg: IndustryPage = {
   slug: 'helse-og-omsorg',
   navLabel: 'Helse og omsorg',
-  launched: false,
+  // Tor approved the page and its seven law items on 2026-09-27 (X-065)
+  launched: true,
   module: { key: 'helse-og-omsorg', version: '1.0.0' },
   moduleName: { title: 'Helse-modulen', inline: 'helse-modulen' },
   seo: {
@@ -128,33 +129,33 @@ export const helseOgOmsorg: IndustryPage = {
       {
         ref: 'aml § 4-3 (2) b',
         text: 'Psykososiale arbeidsmiljøfaktorer omfatter blant annet emosjonelle krav og belastninger i arbeid med mennesker.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'aml § 4-3 (6)',
         text: 'Arbeidstaker skal, så langt det er mulig, beskyttes mot vold, trusler og uheldige belastninger som følge av kontakt med andre.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'Forskriften kap. 23A',
         text: 'Der ansatte kan utsettes for vold eller trusler, skal risikoen vurderes, og det skal finnes tiltak, opplæring og oppfølging.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'Forskriften § 1A-2',
         text: 'Faktorene skal kartlegges og risikovurderes hver for seg og samlet, i samarbeid med de ansatte, og gjentas regelmessig.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'aml kapittel 10',
         text: 'Arbeidsplanen skal ikke gi uheldige belastninger, og kravene til hviletid gjelder også i turnus.',
-        reviewed: false,
+        reviewed: true,
       },
-      { ref: 'aml § 14-3', text: 'Deltidsansatte har fortrinnsrett til en utvidet stilling før arbeidsgiver ansetter nye.', reviewed: false },
+      { ref: 'aml § 14-3', text: 'Deltidsansatte har fortrinnsrett til en utvidet stilling før arbeidsgiver ansetter nye.', reviewed: true },
       {
         ref: 'Likestillings- og diskrimineringsloven § 13',
         text: 'Arbeidsgiver skal forebygge og søke å hindre seksuell trakassering, også fra brukere og pårørende.',
-        reviewed: false,
+        reviewed: true,
       },
     ],
   },

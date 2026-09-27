@@ -66,6 +66,7 @@ export default async function QuestionRoute(props: Props) {
           { '@type': 'WebPage', url: absolute(`/${page.slug}/sporsmal`), name: page.questionPage.crumb, inLanguage: lang === 'en' ? 'en' : 'nb-NO' },
           breadcrumbs([
             { name: t('seo.common.home'), path: '/' },
+            { name: t('seo.pages.bransjer.crumb'), path: '/bransjer' },
             { name: page.navLabel, path: `/${page.slug}` },
             { name: page.questionPage.crumb, path: `/${page.slug}/sporsmal` },
           ]),

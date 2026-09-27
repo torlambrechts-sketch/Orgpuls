@@ -61,7 +61,7 @@ export default async function RespondPage({
    */
   const locales = await getRespondLocales(token)
   const offered = offeredLocales(locales?.locales ?? null)
-  const lang = offered ? chooseLocale(offered, Array.isArray(asked) ? asked[0] : asked, locales?.employee_lang) : await getLocale()
+  const lang = offered ? chooseLocale(offered, Array.isArray(asked) ? asked[0] : asked, locales?.employee_lang, locales?.org_lang) : await getLocale()
   // only bokmål and English have page strings (messages/); a language without them is never offered
   const uiLocale = lang === 'en' ? 'en' : 'no'
   const tl = offered ? await getTranslations({ locale: uiLocale }) : t

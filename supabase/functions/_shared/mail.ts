@@ -202,11 +202,18 @@ export function offeredFor(cat: MailCatalogue, job: NoticeJob, offer: LanguageOf
   return ['no', ...(ready as Lang[])]
 }
 
-/** The language one person reads their own link in: theirs where offered, else bokmål; without a flag, the organisation's. */
+/**
+ * The language one person reads their own message in. Without a language flag, the
+ * organisation's, as before. With one: theirs where offered, then the organisation's where
+ * offered, then bokmål — the order the survey page opens in (lib/i18n/offered.ts chooseLocale),
+ * so an English organisation's employee with no language set keeps English mail.
+ */
 export function personalLang(job: NoticeJob, r: Recipient, offered: Lang[] | null): Lang {
-  if (!offered) return langOf(job.lang)
+  const org = langOf(job.lang)
+  if (!offered) return org
   const own = r.lang === 'en' || r.lang === 'no' ? r.lang : null
-  return own && offered.includes(own) ? own : 'no'
+  if (own && offered.includes(own)) return own
+  return offered.includes(org) ? org : 'no'
 }
 
 /**

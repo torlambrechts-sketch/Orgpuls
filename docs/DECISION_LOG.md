@@ -2038,6 +2038,35 @@ survey specialist); Tor decided on 2026-09-27:
   A new round inherits them, Måleoppsett shows each section as standard or changed for
   that round, and a round's settings are fixed when it opens.
 
+### X-065 — English is approved, Helse og omsorg is approved, and legal text gets a review page
+
+Tor, 2026-09-27: "Merge PR 1 and 2 to main. English is approved. Helse and omsorg also
+approved but create a legal review part under admin and put all legal text there with an
+approved checkbox. Newsletter is added to spaceship."
+
+- **Phases 0 and 1 are on main.** PR #1 and PR #2 were merged, and 0079 and 0080 are applied to
+  the hosted project and recorded.
+- **English: signed off in code, approved in the database by Tor.** `locale_en` is in
+  lib/flags.signed-off.json, which the app and the dispatcher both read, so it is on in
+  production without an environment variable.
+  - The respondent page and the invitations still offer English only where every item and
+    the page strings carry an approval in the database. The 131 English rows are seeded on
+    hosted (unapproved).
+  - Claude Code was not permitted to write those approvals under Tor's account. Tor gives them
+    himself, signed in to the admin app, on the review page this entry also records. Until
+    then, respondents see bokmål.
+  - Before switching it on, the language order was fixed (0081, D-127 addendum). An employee
+    with no language of their own now gets the organisation's language before bokmål, in the
+    mail and on the page. Both hosted organisations are Norwegian, so no one was moved.
+- **Helse og omsorg is approved.** Its page launches in Norwegian.
+- **A legal review page in the admin app.** It lists every legal text, each with a «Godkjent»
+  checkbox. An approval is tied to the text's hash, so an edited text shows as changed until
+  it is approved again. Built as D-130.
+- **The newsletter domain is authenticated.** The DNS records Brevo asked for are at
+  Spaceship. `?probe=marketing-setup&authenticate=1` found all four valid (Brevo code, two DKIM
+  keys, DMARC), registered `hei@nyheter.orgpuls.com`, and Brevo reports the domain as
+  authenticated and verified.
+
 ## Open items
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).
 - [ ] A ready-to-send check before a round opens (channel coverage, groups under the threshold, information and consultation done); the reach count on Målinger › Innstillinger is its first half (D-126).

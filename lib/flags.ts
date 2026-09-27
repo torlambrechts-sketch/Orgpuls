@@ -1,3 +1,5 @@
+import signedOff from './flags.signed-off.json'
+
 /**
  * Feature flags for features that are built but not yet decided (DECISION_LOG, industry
  * modules § 3). A flag hides a whole feature — the control and every sentence that promises
@@ -31,9 +33,19 @@ export const FLAG_NAMES = [
 ] as const
 export type FlagName = (typeof FLAG_NAMES)[number]
 
+const isFlag = (s: string): s is FlagName => (FLAG_NAMES as readonly string[]).includes(s)
+
+/**
+ * The flags a person has signed off (engagement-phases.md § 1): on in every deployment,
+ * production included, without an environment variable. The list is JSON so the dispatcher is
+ * deployed with the same one (scripts/functions/deploy.mjs).
+ *   - `locale_en`: Tor approved the English survey on 2026-09-27 (DECISION_LOG X-065). English
+ *     is still offered only where every item and the page strings carry an approval in the
+ *     database (lib/i18n/offered.ts), which a platform admin gives in the admin app.
+ */
+export const SIGNED_OFF: readonly FlagName[] = (signedOff as string[]).filter(isFlag)
+
 const raw = (process.env.ORGPULS_FLAGS ?? '').split(',').map((s) => s.trim())
-const on = new Set<FlagName>(
-  raw.includes('*') ? FLAG_NAMES : raw.filter((s): s is FlagName => (FLAG_NAMES as readonly string[]).includes(s)),
-)
+const on = new Set<FlagName>([...SIGNED_OFF, ...(raw.includes('*') ? FLAG_NAMES : raw.filter(isFlag))])
 
 export const flag = (name: FlagName): boolean => on.has(name)

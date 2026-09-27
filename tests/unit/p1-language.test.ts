@@ -14,6 +14,7 @@ import {
   type NoticeJob,
 } from '@/supabase/functions/_shared/mail'
 import { smsContent, smsLength } from '@/supabase/functions/_shared/sms'
+import { chooseLocale } from '@/lib/i18n/offered'
 
 /**
  * Engagement P1.3 (D-127): a personal message in the employee's language where the survey is
@@ -76,6 +77,37 @@ describe('the language of a personal message', () => {
     expect(g.lang).toBe('en')
     expect(renderNotice(cat, j, g, APP).text).toContain(`${APP}/s/${TOKEN}`)
     expect(renderNotice(cat, j, g, APP).text).not.toContain('?lang=')
+  })
+})
+
+describe('the organisation’s language comes before bokmål (D-127 addendum)', () => {
+  const noOwn = (lang: string) => job({ lang, recipients: [{ email: 'x@lumio.no', phone: null, name: 'X', lang: null, member: false }] })
+
+  it('keeps an English organisation’s employee with no language of their own in English', () => {
+    const j = noOwn('en')
+    const offered = offeredFor(cat, j, all)
+    expect(offered).toEqual(['no', 'en'])
+    expect(personalLang(j, j.recipients[0]!, offered)).toBe('en')
+  })
+
+  it('is bokmål for that employee when English is not offered for the survey', () => {
+    const j = { ...noOwn('en'), locales: { ...ready, en: { missing: 3, ui: [hashes.en] } } }
+    const offered = offeredFor(cat, j, all)
+    expect(offered).toEqual(['no'])
+    expect(personalLang(j, j.recipients[0]!, offered)).toBe('no')
+  })
+
+  it('puts the employee’s own language before the organisation’s', () => {
+    const j = job({ lang: 'en', recipients: [{ email: 'x@lumio.no', phone: null, name: 'X', lang: 'no', member: false }] })
+    expect(personalLang(j, j.recipients[0]!, offeredFor(cat, j, all))).toBe('no')
+  })
+
+  it('opens the survey page in the same order: asked, own, organisation, bokmål', () => {
+    expect(chooseLocale(['no', 'en'], undefined, null, 'en')).toBe('en')
+    expect(chooseLocale(['no', 'en'], undefined, 'no', 'en')).toBe('no')
+    expect(chooseLocale(['no', 'en'], 'no', 'en', 'en')).toBe('no')
+    expect(chooseLocale(['no'], undefined, null, 'en')).toBe('no')
+    expect(chooseLocale(['no', 'en'], undefined, 'pl', null)).toBe('no')
   })
 })
 
