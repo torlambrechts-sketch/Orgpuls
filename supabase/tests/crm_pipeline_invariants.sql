@@ -110,8 +110,12 @@ begin
 
     -- 7 ---------------------------------------------------------------- a prospect signs up
     select o.org_number into v_orgnr from app.organizations o where o.id = v_org;
-    v_json := public.admin_crm_company_save(null, jsonb_build_object('name', 'Probe før registrering', 'org_number', v_orgnr));
-    v_id := (v_json->>'id')::uuid;
+    -- on a database crm_sync has already run on, the organisation is a company already
+    select c.id into v_id from app.crm_companies c where c.org_id = v_org or c.org_number = v_orgnr limit 1;
+    if v_id is null then
+      v_json := public.admin_crm_company_save(null, jsonb_build_object('name', 'Probe før registrering', 'org_number', v_orgnr));
+      v_id := (v_json->>'id')::uuid;
+    end if;
     perform app.crm_sync();
     v_txt := (select coalesce(c.org_id::text = v_org::text, false)::text || ',' || c.stage from app.crm_companies c where c.id = v_id);
     v_txt := v_txt || ',' || coalesce(public.admin_crm_company_save(v_id, '{"stage":"lost"}')->>'error', 'ok');

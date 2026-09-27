@@ -1,11 +1,12 @@
 import { getTranslations } from 'next-intl/server'
 import { CampaignActions, CampaignEditor, type CrmMessages } from '@/components/admin/CrmForms'
+import { CampaignPipelineForm } from '@/components/admin/CrmStageForms'
 import { CrmTabs, STATUS_TONE } from '@/components/admin/CrmTabs'
 import { ALink, Badge, Card, PageHead, pct, Problem, Stat, Table, Td, when } from '@/components/admin/ui'
 import en from '@/messages/en.json'
 import no from '@/messages/no.json'
 import { isError, whoami } from '@/lib/admin/api'
-import { crmCampaign, crmLists, crmSegments } from '@/lib/admin/crm'
+import { crmCampaign, crmCampaigns, crmLists, crmSegments, crmSenders, crmStages } from '@/lib/admin/crm'
 import { renderCampaign, type MailCatalogue } from '@/supabase/functions/_shared/mail'
 
 /**
@@ -24,7 +25,15 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const r = m.report
-  const [data, segs, lists, who] = await Promise.all([crmCampaign(id), crmSegments(), crmLists(), whoami()])
+  const [data, segs, lists, who, stageData, senderData, all] = await Promise.all([
+    crmCampaign(id),
+    crmSegments(),
+    crmLists(),
+    whoami(),
+    crmStages(),
+    crmSenders(),
+    crmCampaigns(),
+  ])
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const c = data.campaign
   const s = data.stats
@@ -33,6 +42,23 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
   const segments = isError(segs) ? [] : segs.rows.map((g) => ({ id: g.id, name: g.name, mailable: g.mailable }))
   const listRows = isError(lists) ? [] : lists.rows.filter((l) => !l.archived || l.id === c.list_id)
   const list = listRows.find((l) => l.id === c.list_id)
+  // the pipeline (0093): stages, senders, and the campaigns this one could follow up
+  const stages = isError(stageData) ? [] : stageData.rows
+  const senders = isError(senderData) ? [] : senderData.rows
+  const earlier = isError(all) ? [] : all.rows.filter((x) => x.id !== c.id && x.status !== 'cancelled').map((x) => ({ id: x.id, name: x.name }))
+  const sender = senders.find((x) => x.id === c.sender_id)
+  const stageName = (k: string | null) => stages.find((x) => x.key === k)?.name ?? k ?? ''
+  const pipeline = m.pipeline
+  const summary = [
+    c.stage_target ? pipeline.summary.target.replace('{stage}', stageName(c.stage_target)) : null,
+    c.stage_on_send ? pipeline.summary.onSend.replace('{stage}', stageName(c.stage_on_send)) : null,
+    pipeline.summary.sender.replace('{sender}', sender ? `${sender.name} <${sender.email}>` : pipeline.senderDefault),
+    c.follows_id
+      ? pipeline.summary.follows
+          .replace('{campaign}', earlier.find((x) => x.id === c.follows_id)?.name ?? '—')
+          .replace('{days}', String(c.follow_days ?? ''))
+      : null,
+  ].filter(Boolean)
 
   // the preview is the real rendering, with a placeholder token that unsubscribes nobody
   const cat = { no: no.mail, en: en.mail } as unknown as MailCatalogue
@@ -51,7 +77,8 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
         campaign: {
           kind: c.kind,
           style: c.style,
-          signature: c.signature,
+          // as the dispatcher signs it (0093): the campaign's own signature, else its sender's
+          signature: c.signature.trim() || sender?.signature || '',
           subject,
           preheader: c.preheader,
           blocks: c.blocks,
@@ -184,6 +211,25 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
             </Card>
           ) : null}
 
+          <Card title={pipeline.title}>
+            <p className="mb-[10px] mt-0 text-[12.5px] text-mut">{pipeline.lead}</p>
+            {canWrite && c.status === 'draft' ? (
+              <CampaignPipelineForm
+                campaign={c}
+                stages={stages}
+                senders={senders}
+                campaigns={earlier}
+                m={m}
+                common={{ saving: common.saving, done: common.done }}
+              />
+            ) : (
+              <ul className="m-0 flex list-none flex-col gap-[4px] p-0 text-[13px]">
+                {summary.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            )}
+          </Card>
           <Card title={m.campaign.content}>
             {canWrite && c.status === 'draft' ? (
               <CampaignEditor m={m} common={common} campaign={c} segments={segments} lists={listRows.map((l) => ({ id: l.id, name: l.name_no, subscribed: l.subscribed }))} />

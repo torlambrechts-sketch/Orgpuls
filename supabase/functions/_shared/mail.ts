@@ -497,6 +497,8 @@ export interface CrmJob {
   basis?: string | null
   lang: string | null
   lists?: Array<{ name_no: string; name_en: string }> | null
+  /** the person a campaign is sent as (0093): an address on the marketing domain, and their own inbox for answers */
+  sender?: { name: string; email: string; reply_to: string } | null
   campaign: {
     kind: string
     style?: 'branded' | 'letter'

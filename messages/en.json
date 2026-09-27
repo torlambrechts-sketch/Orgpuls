@@ -7895,7 +7895,8 @@
         "overview": "Overview",
         "prospects": "Prospects",
         "lists": "Lists",
-        "templates": "Templates"
+        "templates": "Templates",
+        "stages": "Stages"
       },
       "type": {
         "prospect": "Prospect",
@@ -8188,7 +8189,11 @@
         "invalid_slug": "The address is 3–80 lowercase letters, digits or -, and must be unused.",
         "no_slug": "Give the web version an address first.",
         "invalid_template": "That template does not exist.",
-        "unreachable": "Brønnøysund did not answer. Try again in a moment."
+        "unreachable": "Brønnøysund did not answer. Try again in a moment.",
+        "invalid_sender": "Choose a sender that exists.",
+        "invalid_follow": "Choose the campaign to follow up and after how many days (1–60).",
+        "follows_unsent": "The campaign this follows up has not been sent yet.",
+        "managed": "Trial and customer follow the plan; their kind cannot change."
       },
       "stage": {
         "new": "New",
@@ -8278,6 +8283,14 @@
           "result": "Added {added}; {known} already in the CRM; {business} with a mailable role address.",
           "unreachable": "Brønnøysund did not answer. Try again in a moment.",
           "selectAll": "Select all"
+        },
+        "bulk": {
+          "label": "Selected companies",
+          "next": "Each to its next stage",
+          "submit": "Move",
+          "select": "Select {name}",
+          "result": "Moved {moved}; left {skipped} where they were.",
+          "hint": "Tick companies in the table, then move them. A customer organisation follows its plan and is left where it is."
         }
       },
       "company": {
@@ -8298,7 +8311,8 @@
           "meeting": "Meeting",
           "email": "E-mail",
           "task": "Task",
-          "stage": "Stage"
+          "stage": "Stage",
+          "reply": "Reply received"
         },
         "body": "What happened, or what to do",
         "due": "Due (tasks)",
@@ -8308,7 +8322,9 @@
         "mail": "Campaign mail",
         "mailLine": "{sent} sent · {opened} opened · {clicked} clicked",
         "orgLink": "Open the organisation",
-        "registry": "Register"
+        "registry": "Register",
+        "nextStage": "Move to the next stage",
+        "moveTo": "Move to"
       },
       "lists": {
         "title": "Lists",
@@ -8452,6 +8468,84 @@
         "clickRate": "Click",
         "signups": "Signups",
         "ab": "A/B"
+      },
+      "stagesX": {
+        "title": "Stages",
+        "lead": "The pipeline's stages, in order. A campaign can go to one stage and move the companies it reached to the next. Trial and customer follow the organisation's plan and are never set by hand or by a campaign.",
+        "col": {
+          "stage": "Stage",
+          "key": "Key",
+          "kind": "Kind",
+          "order": "Order",
+          "companies": "Companies",
+          "campaigns": "Campaigns"
+        },
+        "kind": {
+          "open": "Open",
+          "won": "Won",
+          "lost": "Closed",
+          "parked": "Parked"
+        },
+        "managed": "Follows the plan",
+        "archived": "Archived",
+        "add": "Add a stage",
+        "edit": "Edit",
+        "key": "Key (a–z, 0–9, _)",
+        "name": "Name",
+        "sort": "Order (lower first)",
+        "kindLabel": "Kind",
+        "archive": "Archive",
+        "save": "Save",
+        "create": "Add stage",
+        "inUse": "A stage with companies, an active campaign or the reply setting on it cannot be archived. Move them first.",
+        "reply": {
+          "title": "When someone answers",
+          "lead": "A reply is the signal that counts. Logging «Reply received» on a company moves it to this stage, forward only. Opens and clicks never move anyone: an open is not evidence (Apple Mail Privacy Protection opens everything), and a click may be a mail scanner's.",
+          "label": "Move to",
+          "save": "Save"
+        },
+        "senders": {
+          "title": "Senders",
+          "lead": "A person to send a campaign as. The address must be on the marketing domain (nyheter.orgpuls.com), which is authenticated in Brevo; the reply-to is the inbox that reads the answers. Mail from a person, answered by a person, gets more replies than mail from a brand.",
+          "col": {
+            "name": "Name",
+            "email": "From",
+            "replyTo": "Replies to",
+            "campaigns": "Campaigns"
+          },
+          "name": "Name (as the recipient sees it)",
+          "email": "From address (on nyheter.orgpuls.com)",
+          "replyTo": "Replies to (a real inbox)",
+          "signature": "Signature",
+          "add": "Add a sender",
+          "save": "Save",
+          "archive": "Archive",
+          "none": "No senders yet. Campaigns go from Orgpuls, answers to support."
+        },
+        "problem": {
+          "in_use": "This stage is in use: companies, an active campaign or the reply setting point to it."
+        }
+      },
+      "pipeline": {
+        "title": "Pipeline",
+        "lead": "Who this campaign goes to in the pipeline, where it moves them, and who it is from.",
+        "target": "Send to companies in",
+        "targetAny": "Any stage (the list or segment decides)",
+        "onSend": "When sent, move the company to",
+        "onSendNone": "Leave the stage as it is",
+        "sender": "Send as",
+        "senderDefault": "Orgpuls (answers to support)",
+        "follows": "Follow-up of",
+        "followsNone": "Not a follow-up",
+        "followDays": "Days after the first mail",
+        "followHint": "A follow-up goes only to those the first mail reached, the given days ago, whose company has not moved since, and who have not unsubscribed or bounced. Roughly two in five replies come from follow-ups; three to five mails in all is enough.",
+        "save": "Save pipeline",
+        "summary": {
+          "target": "Goes to: {stage}",
+          "onSend": "Moves to: {stage}",
+          "sender": "From: {sender}",
+          "follows": "Follows up «{campaign}» after {days} days"
+        }
       }
     },
     "health": {

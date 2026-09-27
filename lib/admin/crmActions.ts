@@ -8,7 +8,7 @@ import { LOCALES } from '@/lib/i18n/locales'
 import { createClient } from '@/lib/supabase/server'
 import type { AdminResult } from './actions'
 import { searchRegistry, SearchInput, type RegistryHit } from './brreg'
-import { ACTIVITY_KINDS, Block, CAMPAIGN_KINDS, CONTACT_ROLES, Filter, MANUAL_STAGES } from './crm'
+import { ACTIVITY_KINDS, Block, CAMPAIGN_KINDS, CONTACT_ROLES, Filter, StageKey, STAGE_KINDS } from './crm'
 
 /**
  * The CRM's writes (0055, D-101; 0056–0058, D-103). The database decides who may do what, with a second
@@ -328,7 +328,8 @@ export async function saveCompany(_prev: AdminResult | null, formData: FormData)
       owner_id: z.union([z.string().uuid(), z.literal('')]),
       next_step: z.string().max(300),
       next_step_at: dateOrEmpty,
-      stage: z.union([z.enum(MANUAL_STAGES), z.literal('')]),
+      // any configured stage a person may set (0093); the database refuses the plan's and archived ones
+      stage: z.union([StageKey, z.literal('')]),
       lost_reason: z.string().max(300),
     })
     .safeParse({
@@ -383,6 +384,113 @@ export async function logActivity(_prev: AdminResult | null, formData: FormData)
     revalidatePath('/admin/crm')
   }
   return r.ok ? { ok: true } : r
+}
+
+// ---------------------------------------------------------------- stages, senders, the pipeline (0093)
+
+/** Move companies, one or many: to a stage, or (empty) each to the next open stage after its own. */
+export async function moveStage(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({ ids: z.array(z.string().uuid()).min(1).max(500), to: z.union([StageKey, z.literal('')]) })
+    .safeParse({ ids: formData.getAll('ids'), to: formData.get('to') ?? '' })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_crm_stage_move', { p_ids: parsed.data.ids, p_to: parsed.data.to || null })
+  if (r.ok) {
+    revalidatePath('/admin/crm/prospects')
+    revalidatePath('/admin/crm')
+    for (const id of parsed.data.ids.slice(0, 20)) revalidatePath(`/admin/crm/prospects/${id}`)
+    // how many moved, and how many were left (a customer organisation, or no stage after its own)
+    return { ok: true, message: `${Number(r.data?.moved ?? 0)}:${Number(r.data?.skipped ?? 0)}` }
+  }
+  return r
+}
+
+/** Add or change a stage; archive it. */
+export async function saveStage(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({
+      key: StageKey,
+      name: z.string().trim().min(1).max(60),
+      sort: z.string().regex(/^\d{1,4}$/),
+      kind: z.enum(STAGE_KINDS),
+      archived: z.boolean(),
+    })
+    .safeParse({
+      key: String(formData.get('key') ?? '').trim().toLowerCase(),
+      name: formData.get('name'),
+      sort: formData.get('sort'),
+      kind: formData.get('kind') ?? 'open',
+      archived: formData.get('archived') === 'on',
+    })
+  if (!parsed.success) return { ok: false, problem: parsed.error.issues[0]?.path[0] === 'key' ? 'invalid_key' : 'invalid' }
+  const { key, ...p } = parsed.data
+  const r = await rpc('admin_crm_stage_save', { p_key: key, p })
+  if (r.ok) {
+    revalidatePath('/admin/crm/stages')
+    revalidatePath('/admin/crm/prospects')
+  }
+  return r
+}
+
+/** Where a logged answer moves a company. */
+export async function saveReplyStage(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = StageKey.safeParse(formData.get('stage'))
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_crm_reply_stage', { p_key: parsed.data })
+  if (r.ok) revalidatePath('/admin/crm/stages')
+  return r
+}
+
+/** A person to send as: an address on the marketing domain, and their own inbox for answers. */
+export async function saveSender(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const id = formData.get('id') ? z.string().uuid().safeParse(formData.get('id')) : null
+  if (id && !id.success) return { ok: false, problem: 'invalid' }
+  const parsed = z
+    .object({
+      name: z.string().trim().min(1).max(80),
+      email: z.string().trim().toLowerCase().email().max(200),
+      reply_to: z.string().trim().toLowerCase().email().max(200),
+      signature: z.string().max(200),
+      archived: z.boolean(),
+    })
+    .safeParse({
+      name: formData.get('name'),
+      email: formData.get('email'),
+      reply_to: formData.get('reply_to'),
+      signature: formData.get('signature') ?? '',
+      archived: formData.get('archived') === 'on',
+    })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_crm_sender_save', { p_id: id ? id.data : null, p: parsed.data })
+  if (r.ok) revalidatePath('/admin/crm/stages')
+  return r
+}
+
+/** A campaign's pipeline: the stage it goes to, the stage it moves companies to, who it is from, what it follows up. */
+export async function saveCampaignPipeline(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({
+      id: z.string().uuid(),
+      stage_target: z.union([StageKey, z.literal('')]),
+      stage_on_send: z.union([StageKey, z.literal('')]),
+      sender_id: z.union([z.string().uuid(), z.literal('')]),
+      follows_id: z.union([z.string().uuid(), z.literal('')]),
+      follow_days: z.union([z.string().regex(/^\d{1,2}$/), z.literal('')]),
+    })
+    .safeParse({
+      id: formData.get('id'),
+      stage_target: formData.get('stage_target') ?? '',
+      stage_on_send: formData.get('stage_on_send') ?? '',
+      sender_id: formData.get('sender_id') ?? '',
+      follows_id: formData.get('follows_id') ?? '',
+      follow_days: formData.get('follow_days') ?? '',
+    })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const { id, ...p } = parsed.data
+  if (p.follows_id && !p.follow_days) return { ok: false, problem: 'invalid_follow' }
+  const r = await rpc('admin_crm_campaign_pipeline', { p_id: id, p: { ...p, follow_days: p.follows_id ? p.follow_days : '' } })
+  if (r.ok) revalidatePath(`/admin/crm/campaigns/${id}`)
+  return r
 }
 
 export async function toggleTask(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {

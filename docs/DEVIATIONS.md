@@ -6556,3 +6556,75 @@ Tor, 2026-09-27: "bygg resten også". innstillinger-og-forside.md § 5 and § 6.
   section. The flag is on in QA, and both were checked there: a fifth column after
   «Bruksområder», and the cards above the use cases.
 - **Unchanged:** the front page's metadata, and en.orgpuls.com (§ 5.5).
+
+## D-142 — The CRM pipeline: stages as data, moved by campaigns, follow-ups, a person as sender (0093)
+
+Tor, 2026-09-27: "The admin crm must have phases, so we can send a email through a campaign, move it
+to the next stage and have other stages. Research best practice …". The research is in
+docs/implementation/crm-conversion.md.
+
+- **Stages are data** (`app.crm_stages`) instead of 0056's fixed list.
+  - The eight stages are kept, and «Nurture» (parked) is added for companies a sequence did not
+    reach.
+  - admin › CRM › Stages adds, renames, reorders and archives stages. A stage in use cannot be
+    archived.
+  - Trial and customer follow the plan (`managed`) and are never set by hand or by a campaign.
+  - `crm_companies.stage` is a foreign key to the stages. Segment filters, the company form and
+    every list read the stages from the table.
+- **A campaign has a place in the pipeline** (`admin_crm_campaign_pipeline`, a draft only). The
+  editor's own save (0059) is untouched.
+  - *Send to companies in* a stage, alone or narrowing a list or segment.
+  - *When sent, move the company to* a stage. This happens when the mail has gone, forward only,
+    from an open stage, never out of a managed one, and is logged as an activity.
+  - *Send as* a person.
+  - *Follow-up of* another campaign after N days. It goes only to those the first mail reached who
+    have not moved since and have not unsubscribed or bounced. It takes the first mail's list and
+    language, so the same people stay reachable on the same basis.
+- **What moves a company, and what never does:**
+  - moves it: a mail that has gone, «Reply received» logged by a person (to
+    `crm_settings.reply_stage`, «Engaged» by default), and a person's move, one company or many;
+  - never moves it: an open or a click. An open is not evidence (X-063), and a click may be a mail
+    scanner's. `crm_stages_invariants.sql` 8 proves it.
+- **Senders are people** (`app.crm_senders`): a name, a from address, a reply-to inbox and a
+  signature.
+  - The dispatcher sends from the person's address only when it is on the marketing domain Brevo
+    has authenticated. Any other domain fails the send for good (`sender_domain`) rather than going
+    out from an address that would fail authentication.
+  - Answers go to the person's inbox, not to support.
+  - The signature falls back to the sender's. The preview uses the same fallback.
+  - 0093 is applied on hosted (2026-09-27); the dispatcher change is not yet deployed there. Until
+    it is, the deployed dispatcher ignores the job's `sender` and sends from the marketing address
+    with support as reply-to, as before. Deploy: `node scripts/functions/deploy.mjs`.
+- **Prospects:** tick companies and move them together, to a stage or each to its next one. A
+  customer organisation is left where it is and counted. The company page has «Move to the next
+  stage», and «Reply received» among the activities.
+- **Nothing new reaches anyone.** Every audience still passes `crm_mailable` or the list's rule, so
+  named people are mailed only with consent (markedsføringsloven § 15), as before.
+- **Not built:**
+  - *Reading replies automatically.* The marketing subdomain has no inbox, and replies go to the
+    sender's own. A person logs «Reply received». Brevo's inbound parsing could do this later.
+  - *Scheduling a follow-up by itself.* Its audience is computed when it is sent, so it is scheduled
+    like any campaign. It then reaches only those whose first mail is old enough.
+  - *Changing tracking.* Per-recipient opens and clicks stay as D-101 left them. Whether they need
+    consent is an open decision (crm-conversion.md § 8).
+- **Fixed on the way:** a company with an industry name but no code showed «(null)».
+- **Tests:**
+  - `crm_stages_invariants.sql`, 10 rows. It covers:
+    - RLS;
+    - the seeded stages and the foreign key;
+    - managing stages;
+    - a stage campaign sent as Tor, which moves the companies whose mail went and not the one whose
+      failed;
+    - a reply moving forward, never back;
+    - a follow-up reaching only the one who has not moved, and parking it;
+    - «next stage» for many, leaving the plan's company;
+    - opens and clicks moving no one;
+    - roles;
+    - rollback.
+  - The existing CRM, lifecycle, write and admin suites pass unchanged.
+  - Verified in the browser on the QA stack, as a local marketing admin (MFA off, local only):
+    - a sender added;
+    - two companies moved together;
+    - a campaign's pipeline set and kept;
+    - after a simulated send, the company in «Contacted» with the campaign named in its log;
+    - «Reply received» moving it to «Engaged».

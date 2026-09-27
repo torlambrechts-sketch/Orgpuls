@@ -4,13 +4,14 @@ import type { BadgeTone } from './ui'
 
 export const STATUS_TONE: Record<string, BadgeTone> = { draft: 'grey', scheduled: 'yellow', sending: 'yellow', sent: 'green', cancelled: 'red' }
 
-export type CrmTab = 'overview' | 'prospects' | 'contacts' | 'lists' | 'segments' | 'campaigns' | 'templates'
+export type CrmTab = 'overview' | 'prospects' | 'stages' | 'contacts' | 'lists' | 'segments' | 'campaigns' | 'templates'
 
 /** The CRM's pages (D-101, D-103). */
 export function CrmTabs({ current, labels }: { current: CrmTab; labels: Record<string, string> }) {
   const tabs: { key: CrmTab; href: string }[] = [
     { key: 'overview', href: '/admin/crm' },
     { key: 'prospects', href: '/admin/crm/prospects' },
+    { key: 'stages', href: '/admin/crm/stages' },
     { key: 'contacts', href: '/admin/crm/contacts' },
     { key: 'lists', href: '/admin/crm/lists' },
     { key: 'segments', href: '/admin/crm/segments' },
@@ -35,13 +36,12 @@ export function CrmTabs({ current, labels }: { current: CrmTab; labels: Record<s
   )
 }
 
-export const STAGE_TONE: Record<string, BadgeTone> = {
-  new: 'grey',
-  contacted: 'yellow',
-  engaged: 'yellow',
-  meeting: 'yellow',
-  trial: 'green',
-  customer: 'ink',
-  lost: 'red',
-  not_relevant: 'grey',
+/** A stage's badge (0093): by its kind, the plan's trial green, a new prospect grey */
+export function stageTone(stage: { key: string; kind: string } | undefined): BadgeTone {
+  if (!stage) return 'grey'
+  if (stage.key === 'trial') return 'green'
+  if (stage.kind === 'won') return 'ink'
+  if (stage.kind === 'lost') return stage.key === 'lost' ? 'red' : 'grey'
+  if (stage.kind === 'parked') return 'grey'
+  return stage.key === 'new' ? 'grey' : 'yellow'
 }

@@ -47,6 +47,9 @@ begin
       (v_org, 'Dispatch Test AS', '999000211', 3),
       (v_off, 'Dispatch Av AS', '999000212', 1);
     update app.organizations set mail_enabled = false where id = v_off;
+    -- quiet hours (0076) hold invitations between 21 and 07; this suite is about the claim,
+    -- not the clock, so it must pass at any hour. survey_settings_invariants proves the hold.
+    insert into app.survey_defaults (org_id, quiet_hours) values (v_org, false), (v_off, false);
 
     insert into auth.users (id, email) values (v_dl, 'leder@dispatch-test.no');
     insert into app.profiles (id, full_name) values (v_dl, 'Dagny Leder');

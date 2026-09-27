@@ -3,22 +3,28 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import type { CrmMessages } from '@/components/admin/CrmForms'
 import { CompanyForm, RegistryPicker } from '@/components/admin/CrmPipelineForms'
-import { CrmTabs, STAGE_TONE } from '@/components/admin/CrmTabs'
+import { CrmTabs, stageTone } from '@/components/admin/CrmTabs'
+import { StageMoveForm } from '@/components/admin/CrmStageForms'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td } from '@/components/admin/ui'
 import { isError, listAdmins, whoami } from '@/lib/admin/api'
-import { crmCompanies, STAGES } from '@/lib/admin/crm'
+import { crmCompanies, crmStages } from '@/lib/admin/crm'
 
 /**
  * Prospects (D-103): every company we sell to or serve, by stage, with its owner and next
  * step, sorted so the next thing to do is at the top. New companies are added by hand or
- * picked from Brønnøysund's register.
+ * picked from Brønnøysund's register. The stages are data (0093); ticked companies can be moved
+ * together, to a stage or each to its next.
  */
 export default async function CrmProspects({ searchParams }: { searchParams: Promise<{ q?: string; stage?: string }> }) {
   const { q, stage } = await searchParams
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const p = m.prospects
-  const chosen = (STAGES as readonly string[]).includes(stage ?? '') ? (stage as string) : null
+  const stageData = await crmStages()
+  if (isError(stageData)) return <Problem text={stageData.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
+  const stages = stageData.rows
+  const byKey = new Map(stages.map((s) => [s.key, s]))
+  const chosen = byKey.has(stage ?? '') ? (stage as string) : null
   const [data, who, admins] = await Promise.all([crmCompanies(q?.trim() || null, chosen), whoami(), listAdmins()])
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
@@ -41,16 +47,18 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
         >
           {m.stage.all}
         </Link>
-        {STAGES.map((s) => (
-          <Link
-            key={s}
-            href={`/admin/crm/prospects?stage=${s}` as Route}
-            aria-current={chosen === s ? 'page' : undefined}
-            className={`rounded-pill border px-[12px] py-[5px] text-[12.5px] font-semibold ${chosen === s ? 'border-ink bg-ink text-bg hover:text-bg' : 'border-line bg-sf text-ink hover:text-ink'}`}
-          >
-            {m.stage[s]} · {data.stages[s] ?? 0}
-          </Link>
-        ))}
+        {stages
+          .filter((s) => !s.archived || (data.stages[s.key] ?? 0) > 0)
+          .map((s) => (
+            <Link
+              key={s.key}
+              href={`/admin/crm/prospects?stage=${s.key}` as Route}
+              aria-current={chosen === s.key ? 'page' : undefined}
+              className={`rounded-pill border px-[12px] py-[5px] text-[12.5px] font-semibold ${chosen === s.key ? 'border-ink bg-ink text-bg hover:text-bg' : 'border-line bg-sf text-ink hover:text-ink'}`}
+            >
+              {s.name} · {data.stages[s.key] ?? 0}
+            </Link>
+          ))}
       </nav>
 
       <Card>
@@ -67,18 +75,29 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
             {t('common.search')}
           </button>
         </form>
+        {canWrite && data.rows.length ? (
+          <div className="mb-[12px] flex flex-col gap-[6px] rounded-ctl border border-line bg-bg px-[12px] py-[10px]">
+            <StageMoveForm id="bulk-stage" stages={stages} m={m} common={common} />
+            <p className="m-0 text-[12px] text-mut">{p.bulk.hint}</p>
+          </div>
+        ) : null}
         <Table
-          head={[p.col.company, p.col.stage, p.col.owner, p.col.size, p.col.industry, p.col.place, p.col.nextStep, p.col.lastActivity, p.col.contacts]}
+          head={[...(canWrite ? [''] : []), p.col.company, p.col.stage, p.col.owner, p.col.size, p.col.industry, p.col.place, p.col.nextStep, p.col.lastActivity, p.col.contacts]}
           empty={data.rows.length ? undefined : t('common.none')}
         >
           {data.rows.map((c) => (
             <tr key={c.id}>
+              {canWrite ? (
+                <Td>
+                  <input type="checkbox" name="ids" value={c.id} form="bulk-stage" aria-label={p.bulk.select.replace('{name}', c.name)} />
+                </Td>
+              ) : null}
               <Td>
                 <ALink href={`/admin/crm/prospects/${c.id}`}>{c.name}</ALink>
                 {c.org_number ? <span className="block text-[12px] text-mut">{c.org_number}</span> : null}
               </Td>
               <Td>
-                <Badge tone={STAGE_TONE[c.stage]}>{m.stage[c.stage]}</Badge>
+                <Badge tone={stageTone(byKey.get(c.stage))}>{byKey.get(c.stage)?.name ?? c.stage}</Badge>
               </Td>
               <Td>{c.owner_email ?? '—'}</Td>
               <Td>{c.employees ?? '—'}</Td>
@@ -103,7 +122,7 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
             <RegistryPicker m={m} />
           </Card>
           <Card title={p.add} className="mt-[16px]">
-            <CompanyForm m={m} common={common} admins={owners} />
+            <CompanyForm m={m} common={common} admins={owners} stages={stages} />
           </Card>
         </>
       ) : null}

@@ -4,7 +4,7 @@ import { useState, useTransition } from 'react'
 import { Outcome, useKeptAction } from '@/components/admin/ActionForms'
 import type { CrmMessages } from '@/components/admin/CrmForms'
 import { Button } from '@/components/ui/Button'
-import type { Company, List } from '@/lib/admin/crm'
+import type { Company, List, Stage } from '@/lib/admin/crm'
 import {
   addToList,
   createCampaign,
@@ -62,11 +62,14 @@ export function CompanyForm({
   common,
   company,
   admins,
+  stages,
 }: {
   m: CrmMessages
   common: Common
   company?: Company
   admins: { id: string; email: string | null }[]
+  /** the stages, as data (0093): a person sets those that do not follow the plan */
+  stages: Stage[]
 }) {
   const f = m.prospects
   const [name, setName] = useState(company?.name ?? '')
@@ -109,18 +112,20 @@ export function CompanyForm({
           <label className="block">
             <span className={label}>{f.stageLabel}</span>
             <select name="stage" value={stage} onChange={(e) => setStage(e.target.value)} className={input}>
-              {(['new', 'contacted', 'engaged', 'meeting', 'lost', 'not_relevant'] as const).map((k) => (
-                <option key={k} value={k}>
-                  {m.stage[k]}
-                </option>
-              ))}
+              {stages
+                .filter((s) => !s.managed && (!s.archived || s.key === stage))
+                .map((s) => (
+                  <option key={s.key} value={s.key}>
+                    {s.name}
+                  </option>
+                ))}
             </select>
           </label>
         )}
         <Field name="next_step" text={f.nextStep} value={nextStep} set={setNextStep} max={300} />
         <Field name="next_step_at" text={f.nextStepAt} value={nextAt} set={setNextAt} type="date" />
         <Field name="tags" text={f.tags} value={tags} set={setTags} max={400} />
-        {stage === 'lost' ? <Field name="lost_reason" text={f.lostReason} value={lost} set={setLost} max={300} /> : null}
+        {stages.find((s) => s.key === stage)?.kind === 'lost' ? <Field name="lost_reason" text={f.lostReason} value={lost} set={setLost} max={300} /> : null}
       </div>
       {followsPlan ? <p className="m-0 text-[12px] text-mut">{m.company.followsPlan}</p> : null}
       <span className="flex flex-wrap items-center gap-[10px]">
@@ -154,7 +159,7 @@ export function ActivityForm({
       <input type="hidden" name="company" value={company} />
       <div className="flex flex-wrap gap-[8px]">
         <select name="kind" value={kind} onChange={(e) => setKind(e.target.value)} aria-label={m.company.log} className={`${input} w-auto`}>
-          {(['call', 'email', 'meeting', 'note', 'task'] as const).map((k) => (
+          {(['call', 'email', 'reply', 'meeting', 'note', 'task'] as const).map((k) => (
             <option key={k} value={k}>
               {m.company.kind[k]}
             </option>

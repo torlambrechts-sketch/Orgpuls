@@ -526,20 +526,28 @@ Deno.serve(async (req) => {
         let outcome: SendResult
         try {
           const optin = job.kind === 'optin'
-          const r = optin ? renderOptin(cat, job, siteUrl) : renderCampaign(cat, job, siteUrl)
-          outcome = await brevoSend(key, {
-            sender: marketing,
-            to: [{ email: job.to_email, name: job.name }],
-            subject: r.subject,
-            html: r.html,
-            text: r.text,
-            tag: optin ? 'orgpuls-optin' : job.kind === 'test' ? 'orgpuls-crm-test' : 'orgpuls-crm',
-            // the marketing subdomain has no inbox; an answer goes to the support address
-            replyTo,
-            headers: optin
-              ? undefined
-              : { 'List-Unsubscribe': `<${unsubscribeApi(siteUrl, job.token)}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' },
-          })
+          // a campaign sent as a person (0093, D-142): from their address on the marketing domain,
+          // which Brevo has authenticated, with answers to their own inbox. Any other domain is
+          // refused for good rather than sent from an address that would fail authentication.
+          const sendAs = !optin && job.sender ? job.sender : null
+          if (sendAs && domainOf(sendAs.email) !== domainOf(marketing.email)) {
+            outcome = { ok: false, retryable: false, auth: false, code: 'sender_domain' }
+          } else {
+            const r = optin ? renderOptin(cat, job, siteUrl) : renderCampaign(cat, job, siteUrl)
+            outcome = await brevoSend(key, {
+              sender: sendAs ? { email: sendAs.email, name: sendAs.name } : marketing,
+              to: [{ email: job.to_email, name: job.name }],
+              subject: r.subject,
+              html: r.html,
+              text: r.text,
+              tag: optin ? 'orgpuls-optin' : job.kind === 'test' ? 'orgpuls-crm-test' : 'orgpuls-crm',
+              // the marketing subdomain has no inbox; an answer goes to the person sent as, else to support
+              replyTo: sendAs ? { email: sendAs.reply_to, name: sendAs.name } : replyTo,
+              headers: optin
+                ? undefined
+                : { 'List-Unsubscribe': `<${unsubscribeApi(siteUrl, job.token)}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' },
+            })
+          }
         } catch (e) {
           console.error(`[dispatch] crm ${job.id}: render failed: ${(e as Error).message}`)
           outcome = { ok: false, retryable: false, auth: false, code: 'render' }

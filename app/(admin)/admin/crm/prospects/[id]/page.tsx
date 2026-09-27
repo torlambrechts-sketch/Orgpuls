@@ -1,10 +1,11 @@
 import { getTranslations } from 'next-intl/server'
 import { ContactForm, type CrmMessages } from '@/components/admin/CrmForms'
 import { ActivityForm, CompanyForm, TaskToggle } from '@/components/admin/CrmPipelineForms'
-import { CrmTabs, STAGE_TONE } from '@/components/admin/CrmTabs'
+import { CrmTabs, stageTone } from '@/components/admin/CrmTabs'
+import { StageMoveForm } from '@/components/admin/CrmStageForms'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
-import { crmCompany } from '@/lib/admin/crm'
+import { crmCompany, crmStages } from '@/lib/admin/crm'
 
 /**
  * One company (D-103): what the register says about it, its stage, owner and next step, the
@@ -16,9 +17,13 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const p = m.prospects
-  const [data, who] = await Promise.all([crmCompany(id), whoami()])
+  const [data, who, stageData] = await Promise.all([crmCompany(id), whoami(), crmStages()])
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const c = data.company
+  // the stages, as data (0093)
+  const stages = isError(stageData) ? [] : stageData.rows
+  const stage = stages.find((s) => s.key === c.stage)
+  const stageName = stage?.name ?? c.stage
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
   const row = (k: string, v: React.ReactNode) => (
@@ -32,7 +37,7 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
     <>
       <PageHead title={c.name} lead={c.org_number ?? undefined}>
         <span className="flex items-center gap-[10px]">
-          <Badge tone={STAGE_TONE[c.stage]}>{m.stage[c.stage]}</Badge>
+          <Badge tone={stageTone(stage)}>{stageName}</Badge>
           <ALink href="/admin/crm/prospects">{m.company.back}</ALink>
         </span>
       </PageHead>
@@ -40,10 +45,10 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
 
       <div className="grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
         <Card title={m.company.details}>
-          {row(p.col.stage, `${m.stage[c.stage]} · ${day(c.stage_changed_at)}`)}
+          {row(p.col.stage, `${stageName} · ${day(c.stage_changed_at)}`)}
           {row(p.owner, c.owner_email ?? '—')}
           {row(p.nextStep, c.next_step ? `${c.next_step}${c.next_step_at ? ` · ${day(c.next_step_at)}` : ''}` : '—')}
-          {row(p.col.industry, c.nace_label ? `${c.nace_label} (${c.nace_code})` : (c.nace_code ?? '—'))}
+          {row(p.col.industry, c.nace_label ? `${c.nace_label}${c.nace_code ? ` (${c.nace_code})` : ''}` : (c.nace_code ?? '—'))}
           {row(p.employees, c.employees ?? '—')}
           {row(p.municipality, c.municipality ?? '—')}
           {row(p.website, c.website ? <a href={c.website.startsWith('http') ? c.website : `https://${c.website}`} rel="noreferrer noopener" target="_blank">{c.website}</a> : '—')}
@@ -52,6 +57,11 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
           {c.tags.length ? row(p.tags, c.tags.join(', ')) : null}
           {c.lost_reason ? row(p.lostReason, c.lost_reason) : null}
           {c.org_id ? <p className="mb-0 mt-[10px]"><ALink href={`/admin/orgs/${c.org_id}`}>{m.company.orgLink}</ALink></p> : null}
+          {canWrite && !c.org_id && stages.length ? (
+            <div className="mt-[12px]">
+              <StageMoveForm ids={[c.id]} stages={stages} m={m} common={common} compact />
+            </div>
+          ) : null}
         </Card>
         <Card title={m.company.mail}>
           <p className="m-0 text-[13.5px]">
@@ -108,7 +118,7 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
         {canWrite ? (
           <div className="flex flex-col gap-[14px]">
             <Card title={m.company.edit}>
-              <CompanyForm m={m} common={common} company={c} admins={data.admins} />
+              <CompanyForm m={m} common={common} company={c} admins={data.admins} stages={stages} />
             </Card>
             <Card title={m.company.addContact}>
               <ContactForm m={m} common={common} companyId={c.id} />

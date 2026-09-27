@@ -280,11 +280,14 @@ export function SegmentForm({
   common,
   segment,
   lists = [],
+  stages = [],
 }: {
   m: CrmMessages
   common: Common
   segment?: { id: string; name: string; filter: Filter }
   lists?: { key: string; name: string }[]
+  /** the pipeline's stages, as data (0093) */
+  stages?: { key: string; name: string }[]
 }) {
   const f = segment?.filter ?? {}
   const [name, setName] = useState(segment?.name ?? '')
@@ -339,7 +342,7 @@ export function SegmentForm({
       {group('types', m.segments.types, m.type)}
       {group('roles', m.segments.roles, m.roleName)}
       {group('sources', m.segments.sources, m.source)}
-      {group('stages', m.segmentsX.stages, m.stage)}
+      {stages.length ? group('stages', m.segmentsX.stages, Object.fromEntries(stages.map((s) => [s.key, s.name]))) : null}
       {group('bases', m.segmentsX.bases, m.basis)}
       {lists.length ? group('lists', m.segmentsX.lists, Object.fromEntries(lists.map((l) => [l.key, l.name]))) : null}
       <div className="grid gap-[10px] [grid-template-columns:repeat(auto-fit,minmax(170px,1fr))]">

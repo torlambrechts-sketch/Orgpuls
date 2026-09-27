@@ -2308,7 +2308,34 @@ Tor, 2026-09-27: "bygg resten også".
   organisation may choose another industry than its registered one; one module per survey;
   «Foreløpig» wherever a module is provisional.
 
+### X-076 — The CRM pipeline, and what the research says converts
+
+Tor, 2026-09-27: "The admin crm must have phases … Research best practice for highest conversion rates
+for email campaigns like tracking, personal senders and other high conversion tactics."
+
+- **Built** (0093, D-142):
+  - stages as data;
+  - a campaign aimed at a stage that moves the companies it reached;
+  - follow-ups to those who have not moved;
+  - a person as sender, with answers to their inbox;
+  - «Reply received» as the signal that moves a company;
+  - moving many companies at once.
+  Opens and clicks never move anyone.
+- **What the research says** (docs/implementation/crm-conversion.md):
+  - The strongest lever is follow-ups: about 40 % of replies. Three to five mails in all.
+  - Then a person as sender, plain short text with one interest question, relevance by industry and
+    size, and the clarified psychosocial requirements from 1 January 2026 as the reason to write
+    («tydeligere krav», not «nye plikter»).
+  - Measure replies, meetings and signups, not opens.
+- **The law decides the audience.** Markedsføringsloven § 15 requires consent for a named person's
+  work address, such as ola@firma.no. A role address, such as post@firma.no, is allowed. Brevo's
+  terms forbid bought or scraped lists. The CRM already enforces both. The pipeline adds no new way
+  to reach anyone.
+
 ## Open items
+- [ ] CRM tracking consent (crm-conversion.md § 8): per-recipient opens and clicks are stored today. EDPB 2/2023 reads pixels and tracking links as needing consent (ekomloven § 3-15). Decide: turn per-recipient opens off (they are not evidence anyway), or ask for pixel consent.
+- [ ] CRM: ask a Norwegian lawyer whether trial signups allow the soft opt-in after CJEU C-654/23 (Inteligo Media), before using it.
+- [ ] CRM: add a sender in admin › CRM › Stages (e.g. Tor, tor@nyheter.orgpuls.com, replies to a real inbox) and send a test from a campaign before the first real one.
 - [ ] The multilingual guide: Tor's ten decisions (X-067, docs/implementation/multilingual-gap-analysis.md); the engineering queue is built (X-068, D-132).
 - [ ] Survey languages (X-070, X-071): machine drafts of all five are in admin › Translations. A translator per language revises them from the export (docs/translations/ has each language's open questions) and imports them back as *professional*. A methodologist decides where the official QPS Nordic Swedish and Danish replace a draft. The licence confirmation is needed before publishing under the QPS Nordic name.
 - [x] Kunnskap og kontor (X-066, X-071, X-073): the variant data model, the module and its pages are built (0089, D-137).
@@ -2535,7 +2562,7 @@ Tor, 2026-09-27: "bygg resten også".
 - [x] Add the DNS records for nyheter.orgpuls.com at Spaceship: done by Tor; authenticated and verified in Brevo 2026-09-27 (X-065). Was: add the two DKIM CNAMEs and the brevo-code TXT (DMARC is inherited), then run `?probe=marketing-setup&authenticate=1`. Until Brevo reports the domain authenticated, no confirmation or campaign is sent (D-101).
 - [ ] Offer a reservation against marketing at registration, then decide whether to turn on the existing-customer exception (D-101).
 - [x] CRM pipeline: prospects from Brønnøysund, lists with a preference centre, six templates, A/B subject tests, click map, web archive (0056–0058, D-103, X-062).
-- [ ] CRM: automated sequences (lifecycle mail) and coupon codes once Billing has them (D-103).
+- [ ] CRM: automated sequences (lifecycle mail) and coupon codes once Billing has them (D-103). Follow-ups to those who have not moved exist since 0093 (D-142).
 - [ ] Google sign-in: create a Google OAuth web client (redirect URI `https://jmhhszsnjfqgclxzhciq.supabase.co/auth/v1/callback`) and enable Google in Supabase › Authentication with its ID and secret; the buttons appear by themselves (D-102).
 - [x] Industry modules, PR 1: module schema and validation, registry (0067), immutability, seed and publish scripts, round selection and answer tables (D-111).
 - [ ] Industry modules, open decisions for Tor (bransjesider-og-tilleggsmoduler.md § 3). Defaults hold until decided: (1) the construction module is included in Liten and Vanlig, with no pricing copy changes; (2) factor toggles are built behind `module_factor_toggles`, off; (3) segment questions are behind `module_segments`, off, and "Vil ikke svare" is added before they are enabled; (4) respondents answer in bokmål only; (5) the count-item wording stays as in v1.0.0; (6) `/registrer` does not preselect from `?bransje=`; (7) no separate health module.

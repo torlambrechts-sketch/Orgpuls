@@ -14,10 +14,11 @@ export const CONTACT_TYPES = ['prospect', 'trial', 'customer', 'former'] as cons
 export const CONTACT_ROLES = ['daglig_leder', 'hr', 'leder', 'verneombud', 'annet'] as const
 export const CONTACT_SOURCES = ['user', 'newsletter', 'contact_form', 'import', 'manual', 'event', 'brreg'] as const
 export const BASES = ['consent', 'customer', 'business', 'none'] as const
-export const STAGES = ['new', 'contacted', 'engaged', 'meeting', 'trial', 'customer', 'lost', 'not_relevant'] as const
-/** the stages an admin may set; trial and customer follow the organisation's plan */
-export const MANUAL_STAGES = ['new', 'contacted', 'engaged', 'meeting', 'lost', 'not_relevant'] as const
-export const ACTIVITY_KINDS = ['note', 'call', 'meeting', 'email', 'task'] as const
+/** a stage's key (0093): the stages themselves are data, read with crmStages */
+export const StageKey = z.string().regex(/^[a-z][a-z0-9_]{1,39}$/)
+export const STAGE_KINDS = ['open', 'won', 'lost', 'parked'] as const
+/** «reply» (0093): an answer, logged by a person; it moves the company on */
+export const ACTIVITY_KINDS = ['note', 'call', 'meeting', 'email', 'reply', 'task'] as const
 export const BLOCK_TYPES = ['heading', 'text', 'button', 'article', 'bullets', 'image', 'divider', 'quote', 'event', 'ps'] as const
 export const CAMPAIGN_KINDS = ['newsletter', 'campaign', 'promotion', 'announcement'] as const
 
@@ -93,7 +94,7 @@ export const Filter = z
     nace: z.string().optional(),
     no_survey_days: z.number().optional(),
     mailable_only: z.boolean().optional(),
-    stages: z.array(z.enum(STAGES)).optional(),
+    stages: z.array(StageKey).optional(),
     lists: z.array(z.string()).optional(),
     bases: z.array(z.enum(BASES)).optional(),
   })
@@ -183,6 +184,13 @@ const Campaign = z.object({
   finished_at: tsn,
   audience: num.nullable(),
   created_at: z.string(),
+  // 0093: the pipeline — the stage it goes to, the stage it moves companies to, the person it is
+  // sent as, and the mail it follows up
+  stage_target: z.string().nullable().default(null),
+  stage_on_send: z.string().nullable().default(null),
+  sender_id: z.string().nullable().default(null),
+  follows_id: z.string().nullable().default(null),
+  follow_days: num.nullable().default(null),
 })
 export type Campaign = z.infer<typeof Campaign>
 export const crmCampaign = (id: string) =>
@@ -202,6 +210,32 @@ export const crmCampaign = (id: string) =>
     }),
   )
 
+// ---------------------------------------------------------------- stages and senders (0093)
+const Stage = z.object({
+  key: StageKey,
+  name: z.string(),
+  sort: num,
+  kind: z.enum(STAGE_KINDS),
+  managed: z.boolean(),
+  archived: z.boolean(),
+  companies: num,
+  campaigns: num,
+})
+export type Stage = z.infer<typeof Stage>
+export const crmStages = () => call('admin_crm_stages', {}, z.object({ reply_stage: StageKey, rows: z.array(Stage) }))
+
+const Sender = z.object({
+  id: z.string(),
+  name: z.string(),
+  email: z.string(),
+  reply_to: z.string(),
+  signature: z.string(),
+  archived: z.boolean(),
+  campaigns: num,
+})
+export type Sender = z.infer<typeof Sender>
+export const crmSenders = () => call('admin_crm_senders', {}, z.object({ rows: z.array(Sender) }))
+
 // ---------------------------------------------------------------- companies (0056)
 const Company = z.object({
   id: z.string(),
@@ -215,7 +249,7 @@ const Company = z.object({
   website: z.string().nullable(),
   phone: z.string().nullable(),
   source: z.string(),
-  stage: z.enum(STAGES),
+  stage: StageKey,
   stage_changed_at: z.string(),
   owner_id: z.string().nullable(),
   owner_email: z.string().nullable(),
@@ -240,7 +274,7 @@ export const crmCompanies = (q: string | null, stage: string | null) =>
 
 const Activity = z.object({
   id: z.string(),
-  kind: z.enum(['note', 'call', 'meeting', 'email', 'task', 'stage']),
+  kind: z.enum(['note', 'call', 'meeting', 'email', 'reply', 'task', 'stage']),
   body: z.string(),
   due_at: tsn,
   done_at: tsn,

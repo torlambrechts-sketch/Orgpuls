@@ -7895,7 +7895,8 @@
         "overview": "Overview",
         "prospects": "Prospects",
         "lists": "Lists",
-        "templates": "Templates"
+        "templates": "Templates",
+        "stages": "Faser"
       },
       "type": {
         "prospect": "Prospect",
@@ -8188,7 +8189,11 @@
         "invalid_slug": "The address is 3–80 lowercase letters, digits or -, and must be unused.",
         "no_slug": "Give the web version an address first.",
         "invalid_template": "That template does not exist.",
-        "unreachable": "Brønnøysund did not answer. Try again in a moment."
+        "unreachable": "Brønnøysund did not answer. Try again in a moment.",
+        "invalid_sender": "Velg en avsender som finnes.",
+        "invalid_follow": "Velg kampanjen som skal følges opp, og etter hvor mange dager (1–60).",
+        "follows_unsent": "Kampanjen dette følger opp, er ikke sendt ennå.",
+        "managed": "Prøveperiode og kunde følger abonnementet; typen kan ikke endres."
       },
       "stage": {
         "new": "New",
@@ -8278,6 +8283,14 @@
           "result": "Added {added}; {known} already in the CRM; {business} with a mailable role address.",
           "unreachable": "Brønnøysund did not answer. Try again in a moment.",
           "selectAll": "Select all"
+        },
+        "bulk": {
+          "label": "Valgte virksomheter",
+          "next": "Hver til neste fase",
+          "submit": "Flytt",
+          "select": "Velg {name}",
+          "result": "Flyttet {moved}; {skipped} ble stående.",
+          "hint": "Kryss av virksomheter i tabellen, og flytt dem. En kundevirksomhet følger abonnementet og blir stående."
         }
       },
       "company": {
@@ -8298,7 +8311,8 @@
           "meeting": "Meeting",
           "email": "E-mail",
           "task": "Task",
-          "stage": "Stage"
+          "stage": "Stage",
+          "reply": "Svar mottatt"
         },
         "body": "What happened, or what to do",
         "due": "Due (tasks)",
@@ -8308,7 +8322,9 @@
         "mail": "Campaign mail",
         "mailLine": "{sent} sent · {opened} opened · {clicked} clicked",
         "orgLink": "Open the organisation",
-        "registry": "Register"
+        "registry": "Register",
+        "nextStage": "Flytt til neste fase",
+        "moveTo": "Flytt til"
       },
       "lists": {
         "title": "Lists",
@@ -8452,6 +8468,84 @@
         "clickRate": "Click",
         "signups": "Signups",
         "ab": "A/B"
+      },
+      "stagesX": {
+        "title": "Faser",
+        "lead": "Salgsløpets faser, i rekkefølge. En kampanje kan gå til én fase og flytte virksomhetene den nådde, videre. Prøveperiode og kunde følger virksomhetens abonnement og settes aldri for hånd eller av en kampanje.",
+        "col": {
+          "stage": "Fase",
+          "key": "Nøkkel",
+          "kind": "Type",
+          "order": "Rekkefølge",
+          "companies": "Virksomheter",
+          "campaigns": "Kampanjer"
+        },
+        "kind": {
+          "open": "Åpen",
+          "won": "Vunnet",
+          "lost": "Avsluttet",
+          "parked": "Parkert"
+        },
+        "managed": "Følger abonnementet",
+        "archived": "Arkivert",
+        "add": "Legg til en fase",
+        "edit": "Endre",
+        "key": "Nøkkel (a–z, 0–9, _)",
+        "name": "Navn",
+        "sort": "Rekkefølge (lavest først)",
+        "kindLabel": "Type",
+        "archive": "Arkiver",
+        "save": "Lagre",
+        "create": "Legg til fase",
+        "inUse": "En fase med virksomheter, en aktiv kampanje eller svarinnstillingen på seg kan ikke arkiveres. Flytt dem først.",
+        "reply": {
+          "title": "Når noen svarer",
+          "lead": "Et svar er signalet som teller. Når «Svar mottatt» logges på en virksomhet, flyttes den til denne fasen, bare fremover. Åpninger og klikk flytter aldri noen: en åpning er ikke bevis (Apple Mail Privacy Protection åpner alt), og et klikk kan være en e-postskanners.",
+          "label": "Flytt til",
+          "save": "Lagre"
+        },
+        "senders": {
+          "title": "Avsendere",
+          "lead": "En person å sende en kampanje som. Adressen må være på markedsføringsdomenet (nyheter.orgpuls.com), som er autentisert i Brevo; svar-til er innboksen som leser svarene. E-post fra en person, besvart av en person, får flere svar enn e-post fra et merke.",
+          "col": {
+            "name": "Navn",
+            "email": "Fra",
+            "replyTo": "Svar går til",
+            "campaigns": "Kampanjer"
+          },
+          "name": "Navn (slik mottakeren ser det)",
+          "email": "Fra-adresse (på nyheter.orgpuls.com)",
+          "replyTo": "Svar går til (en ekte innboks)",
+          "signature": "Signatur",
+          "add": "Legg til en avsender",
+          "save": "Lagre",
+          "archive": "Arkiver",
+          "none": "Ingen avsendere ennå. Kampanjer går fra Orgpuls, svar til support."
+        },
+        "problem": {
+          "in_use": "Fasen er i bruk: virksomheter, en aktiv kampanje eller svarinnstillingen peker på den."
+        }
+      },
+      "pipeline": {
+        "title": "Salgsløp",
+        "lead": "Hvem i salgsløpet kampanjen går til, hvor den flytter dem, og hvem den er fra.",
+        "target": "Send til virksomheter i",
+        "targetAny": "Alle faser (listen eller segmentet avgjør)",
+        "onSend": "Når den er sendt, flytt virksomheten til",
+        "onSendNone": "La fasen være",
+        "sender": "Send som",
+        "senderDefault": "Orgpuls (svar til support)",
+        "follows": "Oppfølging av",
+        "followsNone": "Ikke en oppfølging",
+        "followDays": "Dager etter første e-post",
+        "followHint": "En oppfølging går bare til dem den første e-posten nådde for så mange dager siden, der virksomheten ikke har flyttet seg siden, og som ikke har meldt seg av eller sprettet. Omtrent to av fem svar kommer fra oppfølginger; tre til fem e-poster i alt er nok.",
+        "save": "Lagre salgsløp",
+        "summary": {
+          "target": "Går til: {stage}",
+          "onSend": "Flytter til: {stage}",
+          "sender": "Fra: {sender}",
+          "follows": "Følger opp «{campaign}» etter {days} dager"
+        }
       }
     },
     "health": {
