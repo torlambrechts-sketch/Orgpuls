@@ -173,6 +173,10 @@ on conflict (id) do update set name = excluded.name, org_number = excluded.org_n
   employee_count = excluded.employee_count, threshold = excluded.threshold, law_mode = excluded.law_mode;
 -- nothing leaves the QA stack: the test transport reads the outbox (§ 2.3)
 update app.organizations set mail_enabled = false, sms_enabled = false where id = ${org};
+-- D-137: Lumio (62.010) pilots the kunnskap og kontor draft, so its variants can be walked here
+insert into app.module_pilots (module_id, org_id)
+select m.id, ${org} from app.question_modules m where m.key = 'kunnskap-og-kontor' and m.status = 'draft'
+on conflict do nothing;
 
 insert into app.groups (id, org_id, name, sort_order) values
 ${QA_GROUPS.map(([g], i) => `  ('${id(`group:${g}`)}', ${org}, ${q(g)}, ${i + 1})`).join(',\n')};

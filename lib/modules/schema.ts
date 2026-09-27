@@ -11,7 +11,9 @@ import { pickWording, WORDINGS, type Wording as WordingKey } from './wording'
  * the rules that protect a respondent are checked here and again in the database:
  *
  *   - three statements per factor, because a factor's index is the mean of three and the
- *     release rule decides a factor only where every statement of it is released;
+ *     release rule decides a factor only where every statement of it is released; a module in
+ *     two variants (kunnskap og kontor, 0089) has three to five in each extended factor and
+ *     exactly three in each simplified one;
  *   - a minimum of five responses that cannot be lowered, the product's k (app.k_min());
  *   - codes of a fixed shape, so a statement is addressed the same way everywhere.
  */
@@ -34,11 +36,19 @@ const TextVariants = z.object({ barnehage: Text, skole: Text })
 const Nace = z.string().regex(/^\d{2}(\.\d{1,3})?$/, 'NACE prefix, e.g. 85.1')
 
 const Item = z.object({
-  id: z.string().regex(/^[A-Z]{2}-[A-Z]{2}-[1-3]$/, 'factor item code, e.g. BA-SF-1'),
+  id: z.string().regex(/^[A-Z]{2}-[A-Z]{2}-[1-5]$/, 'factor item code, e.g. BA-SF-1'),
   text: Text,
   text_variants: TextVariants.optional(),
+  /** a line under the statement for the respondent, e.g. what it does not cover */
+  help: Text.optional(),
   reverse: z.boolean(),
   pulse_eligible: z.boolean(),
+  /** a module in variants (0089): asked in both, so the simplified index can always be computed */
+  core_indicator: z.boolean().optional(),
+  /** the method record kept with a statement: what it measures, where it comes from, what to test */
+  construct: Text.optional(),
+  source: Text.optional(),
+  improvement_note: Text.optional(),
 })
 
 const ActionSuggestion = z.object({
@@ -48,32 +58,95 @@ const ActionSuggestion = z.object({
   remeasure_item: z.string(),
 })
 
+const FactorKey = z.string().regex(/^[a-z][a-z0-9_]*$/, 'snake_case factor key')
+
 const Factor = z.object({
-  id: z.string().regex(/^[a-z][a-z0-9_]*$/, 'snake_case factor key'),
+  id: FactorKey,
+  /** a module in variants: FA, MK … for the extended factors */
+  code: z.string().regex(/^[A-Z0-9]{2}$/).optional(),
   name: Text,
   /** a worded module's factor name, where it names the children (0083): the respondent reads it above the statements */
   name_variants: TextVariants.optional(),
   summary: Text,
   rationale: Text,
   rationale_sources: z.array(z.string()),
+  evidence_strength: Text.optional(),
   legal_basis: z.array(Text),
-  items: z.array(Item).length(3, 'a factor has exactly three statements'),
+  /** a module in variants: a factor the organisation may leave out, and one only the extended set has */
+  optional: z.boolean().optional(),
+  extended_only: z.boolean().optional(),
+  items: z.array(Item).min(3).max(5, 'a factor has three statements, an extended one up to five'),
   action_suggestions: z.array(ActionSuggestion).min(1),
 })
+
+const VariantKey = z.enum(['forenklet', 'utvidet'])
 
 const CountItem = z.object({
   id: z.string().regex(/^[A-Z]{2}-T-[0-9]+$/, 'count item code, e.g. BA-T-1'),
   text: Text,
   text_variants: TextVariants.optional(),
-  options: z.array(Text).length(3),
+  /**
+   * Ja, Nei, Vet ikke; and, where the question does not apply to everyone, a fourth answer that
+   * says so (e.g. «Jobber ikke fast hjemmefra"), which is kept out of the share (0089)
+   */
+  options: z.array(Text).min(3).max(4),
   why: Text.optional(),
+  /** a module in variants: the variants that ask it */
+  variants: z.array(VariantKey).min(1).optional(),
 })
 
 const Segment = z.object({
   id: z.string().regex(/^[a-z][a-z0-9_]*$/),
   text: Text,
   options: z.array(Text).min(2).max(9),
+  // a file may say how small categories are merged (`merge_rule`); it is not parsed, as it never
+  // was: a published module's hash is of what this schema keeps, and must not move
 })
+
+/**
+ * A module in two variants (kunnskap og kontor, 0089). `factors` is the extended set, every
+ * statement in full; the simplified variant regroups the core statements (`core_indicator`)
+ * into factors of its own, by code, so the simplified index can be computed from either.
+ */
+const SimplifiedFactor = z.object({
+  id: FactorKey,
+  code: z.string().regex(/^F[0-9]+$/),
+  name: Text,
+  summary: Text,
+  /** the extended factors its statements come from */
+  built_from: z.array(FactorKey).min(1),
+  items: z.array(z.string()).length(3, 'a simplified factor has exactly three statements'),
+  action_suggestions: z.array(ActionSuggestion).min(1),
+})
+const Simplified = z.object({
+  key: z.literal('forenklet'),
+  code: Text,
+  version: Text,
+  name: Text,
+  estimated_minutes: z.number().int().min(1).max(30),
+  factor_toggles: z.literal(false),
+  factors: z.array(SimplifiedFactor).min(1),
+  count_items: z.array(z.string()),
+  segments: z.array(z.string()),
+})
+const Extended = z.object({
+  key: z.literal('utvidet'),
+  code: Text,
+  version: Text,
+  name: Text,
+  estimated_minutes: z.number().int().min(1).max(30),
+  factor_toggles: z.boolean(),
+  /** the fewest extended factors an organisation may ask */
+  min_factors: z.number().int().min(1),
+  recommended_factors: z.tuple([z.number().int(), z.number().int()]).optional(),
+  /** off until the organisation turns them on */
+  default_off: z.array(FactorKey),
+  /** asked whatever factors are chosen: the core statements */
+  locked_items: z.array(z.string()).min(1),
+  count_items: z.array(z.string()),
+  segments: z.array(z.string()),
+})
+const Variants = z.tuple([Simplified, Extended])
 
 /**
  * A translation of the whole module (open decision 4: English for respondents and leaders).
@@ -154,6 +227,8 @@ export const ModuleFile = z
       })
       .optional(),
     factors: z.array(Factor).min(1),
+    /** the simplified and the extended set (0089); absent for a module asked one way */
+    variants: Variants.optional(),
     count_items: z.array(CountItem),
     segments: z.array(Segment),
     sources: z.array(Source),
@@ -229,6 +304,69 @@ export const ModuleFile = z
       if ((tr.covered_by_core_factors?.length ?? 0) !== (m.relation_to_core?.covered_by_core_factors.length ?? 0)) {
         issue(at('covered_by_core_factors'), `${lang}: covered factors differ`)
       }
+    }
+
+    if (!m.variants) {
+      m.factors.forEach((f, fi) => {
+        if (f.items.length !== 3) issue(['factors', fi, 'items'], 'a factor has exactly three statements')
+        f.items.forEach((it, ii) => {
+          if (!/-[1-3]$/.test(it.id)) issue(['factors', fi, 'items', ii, 'id'], 'factor item code, e.g. BA-SF-1')
+          if (it.core_indicator !== undefined) issue(['factors', fi, 'items', ii, 'core_indicator'], 'core_indicator without variants')
+        })
+        for (const k of ['code', 'optional', 'extended_only'] as const) {
+          if (f[k] !== undefined) issue(['factors', fi, k], `${k} without variants`)
+        }
+      })
+      m.count_items.forEach((c, ci) => {
+        if (c.variants) issue(['count_items', ci, 'variants'], 'variants without variants')
+      })
+    } else {
+      const [simple, ext] = m.variants
+      const all = new Map(m.factors.flatMap((f) => f.items.map((i) => [i.id, i] as const)))
+      const core = [...all.values()].filter((i) => i.core_indicator).map((i) => i.id).sort()
+      const inSimple = simple.factors.flatMap((f) => f.items)
+      const simpleKeys = new Set<string>()
+      simple.factors.forEach((f, fi) => {
+        const at = (...p: (string | number)[]) => ['variants', 0, 'factors', fi, ...p]
+        if (factorKeys.has(f.id) || simpleKeys.has(f.id)) issue(at('id'), `duplicate factor ${f.id}`)
+        simpleKeys.add(f.id)
+        f.items.forEach((code, ii) => {
+          const it = all.get(code)
+          if (!it) issue(at('items', ii), `${code} is not a statement of the module`)
+          else if (!it.core_indicator) issue(at('items', ii), `${code} is in the simplified set but not a core statement`)
+        })
+        f.built_from.forEach((k, bi) => {
+          if (!factorKeys.has(k)) issue(at('built_from', bi), `unknown factor ${k}`)
+        })
+        f.action_suggestions.forEach((a, ai) => {
+          if (!f.items.includes(a.remeasure_item)) issue(at('action_suggestions', ai, 'remeasure_item'), `${a.remeasure_item} is not an item of ${f.id}`)
+        })
+      })
+      if (new Set(inSimple).size !== inSimple.length) issue(['variants', 0, 'factors'], 'a core statement is in two simplified factors')
+      if ([...inSimple].sort().join() !== core.join()) issue(['variants', 0, 'factors'], 'the simplified set is exactly the core statements')
+      if ([...ext.locked_items].sort().join() !== core.join()) issue(['variants', 1, 'locked_items'], 'the locked statements are exactly the core statements')
+      if (ext.min_factors > m.factors.length) issue(['variants', 1, 'min_factors'], 'more factors required than there are')
+      ext.default_off.forEach((k, i) => {
+        if (!factorKeys.has(k)) issue(['variants', 1, 'default_off', i], `unknown factor ${k}`)
+      })
+      if (m.factors.length - ext.default_off.length < ext.min_factors) issue(['variants', 1, 'default_off'], 'the default leaves fewer factors than the minimum')
+      const countIds = new Set(m.count_items.map((c) => c.id))
+      const segIds = new Set(m.segments.map((s) => s.id))
+      m.variants.forEach((v, vi) => {
+        v.count_items.forEach((c, i) => {
+          if (!countIds.has(c)) issue(['variants', vi, 'count_items', i], `unknown count item ${c}`)
+        })
+        v.segments.forEach((sg, i) => {
+          if (!segIds.has(sg)) issue(['variants', vi, 'segments', i], `unknown segment ${sg}`)
+        })
+      })
+      m.count_items.forEach((c, ci) => {
+        const listed = m.variants!.filter((v) => v.count_items.includes(c.id)).map((v) => v.key).sort().join()
+        if (!c.variants) issue(['count_items', ci, 'variants'], 'a module in variants names the variants of each count question')
+        else if ([...c.variants].sort().join() !== listed) issue(['count_items', ci, 'variants'], `the variants list ${c.id} as ${listed || 'none'}`)
+      })
+      if (m.wording) issue(['wording'], 'a module in variants has no wordings yet')
+      if (m.translations?.en) issue(['translations', 'en'], 'a module in variants has no English translation yet')
     }
 
     const modulePrefix = new Set([...codes].map((c) => c.slice(0, 2)))
@@ -313,3 +451,28 @@ export type RiskBand = 'lav' | 'middels' | 'hoy'
 
 /** ≥65 low, 50–64 medium, below 50 high: the bands the core results use. */
 export const riskBand = (index: number): RiskBand => (index >= 65 ? 'lav' : index >= 50 ? 'middels' : 'hoy')
+
+export type VariantKey = 'forenklet' | 'utvidet'
+
+/**
+ * The extended factors an organisation asks when it has not chosen (0089): all but those the
+ * file turns off by default.
+ */
+export const defaultExtendedFactors = (m: ModuleFile): string[] => {
+  const off = new Set(m.variants?.[1].default_off ?? [])
+  return m.factors.map((f) => f.id).filter((k) => !off.has(k))
+}
+
+/**
+ * The statements a variant asks, by code (0089): the simplified set is the core statements; the
+ * extended set is the core statements, whatever is chosen, and every statement of the chosen
+ * factors. A module without variants asks every statement.
+ */
+export function askedCodes(m: ModuleFile, variant: VariantKey | null, factors?: string[]): string[] {
+  const all = m.factors.flatMap((f) => f.items.map((i) => i.id))
+  if (!m.variants || !variant) return all
+  if (variant === 'forenklet') return m.variants[0].factors.flatMap((f) => f.items)
+  const chosen = new Set(factors ?? defaultExtendedFactors(m))
+  const locked = new Set(m.variants[1].locked_items)
+  return m.factors.flatMap((f) => f.items.filter((i) => chosen.has(f.id) || locked.has(i.id)).map((i) => i.id))
+}

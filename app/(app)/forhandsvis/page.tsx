@@ -7,7 +7,7 @@ import { respondCopy, respondQuestions } from '@/lib/respond/questions'
 import { getRounds, type RoundListItem } from '@/lib/rounds/read'
 import { roundTitle } from '@/lib/rounds/title'
 import { getRoundSetup } from '@/lib/setup/read'
-import { getModulesById, getRoundModules, withWording } from '@/lib/modules/read'
+import { askedStatements, getModulesById, getRoundModules, withWording } from '@/lib/modules/read'
 
 /**
  * "Forhåndsvis som ansatt": the respondent screens for a round, as a signed-in leader sees
@@ -87,15 +87,23 @@ export default async function PreviewPage({ searchParams }: { searchParams: Prom
     if (!found) return []
     // in the round's wording, as respond_form sends it (0083)
     const m = withWording(found, rm.wording)
-    const asked = new Set(rm.itemIds)
     return [
       {
         name: m.name,
-        minutes: m.estimatedMinutes,
-        statements: m.factors.flatMap((f) =>
-          f.items.filter((i) => asked.has(i.id)).map((i) => ({ item: i.id, factor: f.name, text: i.text })),
-        ),
-        count: rm.includeCountItems ? m.countItems.map((i) => ({ item: i.id, text: i.text, options: i.options })) : [],
+        // a module in variants: about eight seconds a statement, as respond_form counts (0089)
+        minutes: rm.variantKey ? Math.max(1, Math.round((rm.itemIds.length * 8) / 60)) : m.estimatedMinutes,
+        statements: askedStatements(m, rm.variantKey, rm.itemIds).map(({ item, factor }) => ({
+          item: item.id,
+          factor: factor.name,
+          text: item.text,
+          ...(item.help ? { help: item.help } : {}),
+        })),
+        count: rm.includeCountItems
+          ? m.countItems
+              // the round's variant's count questions (0089)
+              .filter((i) => !rm.variantKey || !!m.variants.find((v) => v.key === rm.variantKey)?.countItems.includes(i.code))
+              .map((i) => ({ item: i.id, text: i.text, options: i.options }))
+          : [],
         segments: rm.includeSegments ? m.segments.map((i) => ({ item: i.id, text: i.text, options: i.options })) : [],
       },
     ]

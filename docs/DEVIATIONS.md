@@ -6294,3 +6294,93 @@ within the boundaries of an employee survey.
   D-124: the Bransjemoduler panel sits where the prototype's footer is, and the tile had matched
   only by chance on the panel's empty background. The commit before this one renders the same page
   byte for byte. The tile is re-claimed and the table in D-77 updated.
+
+## D-137 — Kunnskap og kontor: one module in two variants (0089)
+
+Tor, 2026-09-27: "start på kunnskap og kontor". From the handoff's bransje-kunnskap-og-kontor.md and
+innstillinger-og-forside.md § 2 (the variant data model, PR A), with parts of PR C, D and E.
+
+- **The data model differs from § 2's sketch, and keeps what exists:**
+  - *A statement keeps one home factor*, its extended one (`module_items.factor_id`), which is
+    what every reader already read. What is new is membership: `module_factor_items` says which
+    statements a factor is scored from. A module asked one way is backfilled with its own
+    statements, so bygg, helse and barnehage read exactly as before (proved per row in
+    `module_variants_invariants.sql` 2). The simplified factors F1–F8 are rows of their own, whose
+    members are core statements of several extended factors. `factor_id` is not removed.
+  - *No `standard` variant rows:* a module asked one way has no row in `module_variants`, and
+    everything reads as before when there is none.
+  - *`survey_modules` is `round_modules`,* and `enabled_factor_keys` is `factor_keys`. A round's
+    `item_ids` for a module in variants are derived by the database
+    (`app.round_module_fill_variant`) from its variant and factors, never sent: the 24 core
+    statements are always among them, and fewer extended factors than the minimum are refused.
+    Clients cannot write the two columns. A puls asks the re-measure statements it is given and
+    has no variant.
+  - *A factor's index* for a module in variants is reported only where every one of its statements
+    was asked (§ 2, «Beregning»). An extended factor that is not chosen is therefore never scored
+    from its one core statement. The extended set reports F1–F8 alongside, marked `comparable`. A
+    puls reports a core statement under its simplified factor and any other under its extended one.
+  - *A module asked one way keeps 0088's rule:* its factor is scored over the statements asked.
+- **The module file is the handoff's, in the repository's shape.** The fifteen extended factors are
+  `factors`, every statement in full. `variants[0]` regroups the core statements, by code, into
+  F1–F8 with their own suggestions; `variants[1]` holds the extended set's rules. Every text is
+  carried over verbatim (the conversion checks all 254 strings).
+  - The brief asks for a help line under KK-TG-1 (§ 6.2); it is in the file as `help` and shown under
+    the statement.
+  - `merge_rule` on a segment stays in the file but is not parsed, as before. Parsing it would have
+    moved the published barnehage og skole module's content hash.
+  - Codes run to `-5`, and a count question may carry a fourth answer. The fourth, «Jobber ikke fast
+    hjemmefra», is stored as `ikke_aktuelt` and kept out of the share (§ 3.3).
+- **The choice is the organisation's, in Spørsmålssett, not per round** (§ 3.2 puts it in «Ny
+  måling»). It follows the wording choice (0083): a standing choice, applied to the planned
+  grunnlinjer and taken by every new one. Måleoppsett shows the round's variant and leaves the
+  factor toggles out for such a module. The card offers Forenklet and Utvidet, then the extended
+  factors as checkboxes, with counts worked out as they are ticked (about eight seconds a
+  statement). It refuses fewer than eight, as the database does.
+- **Statements of a module in variants cannot be left out one by one** (0088 answers
+  `not_available`). The core statements are locked, and factors are the unit. A respondent still
+  has «Ikke relevant for meg».
+- **«Foreløpig»** shows wherever a module's file says provisional: kunnskap og kontor, and
+  barnehage og skole. It appears in Spørsmålssett, next to every risk colour in results with the
+  help text, on the page's preview and on its question page. `validation_status` is stored and
+  frozen with the rest of a published module. For barnehage og skole, published on the hosted
+  project, 0089 sets it once, by content hash, before the freeze covers the column.
+- **The pages.** /kunnskap-og-kontor follows the template. The preview, the overview and the loop
+  use the simplified set, and the overview gives both sets' figures. The question page lists the
+  extended set with the core statements marked, and «Vis bare forenklet» shows exactly the 24. A
+  link to an F factor opens the simplified view.
+  - The page is not launched: the law items are unreviewed, and the page is visible only with
+    `?forhandsvis=1`.
+  - The brief's answer about home workers claimed office statements hidden by work form. That is
+    not built, so the answer says what is: «Ikke relevant for meg».
+- **Not built:**
+  - *The Bransje setting on the organisation* (§ 3.1). The suggestion comes from the registered
+    NACE code, as for the other industries (58–66 and 68–74).
+  - *The admin's status control* (§ 4).
+  - *The front page block, menu, footer and sitemap entries* (§ 5).
+  - *The report's variant footer* (§ 3.3).
+  - *Hiding KK-FY-1/4/5 for those who work mainly at home* (§ 6.2): segments are not shipped
+    (`module_segments` is off).
+  - *Ordering statements within each factor* (§ 6.2): the module is shuffled as a whole, as the
+    other modules are.
+  - *Handel.*
+  - *The module's texts in the survey languages:* its factor names and help line join the catalogue
+    once it is published.
+- **Tests:**
+  - `module_variants_invariants.sql`, 13 rows. It covers:
+    - RLS, and the backfill;
+    - the module as seeded;
+    - the freeze;
+    - derived statements;
+    - the column privilege;
+    - the write path's refusals;
+    - the extended set;
+    - the database's own minimum;
+    - the same simplified index both ways on the same answers;
+    - «ikke aktuelt» out of the share;
+    - no statement choice.
+  - `write_invariants.sql` 17 lists the two new registry tables among those anon may read.
+  - `tests/unit/module-variants.test.ts`: the file and the § 7.2 rules.
+  - Verified in the browser on the QA stack (Lumio, NACE 62.010, piloting the draft):
+    - Spørsmålssett: the variant, the factor picker, its minimum, and the counts 59 and 62;
+    - the page and its switch: 62 statements, and exactly 24 with «Vis bare forenklet»;
+    - `respond_form` in both variants.

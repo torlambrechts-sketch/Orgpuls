@@ -55,6 +55,7 @@ export function respondQuestions(
         // a survey language's factor name comes with its texts (0086), under the statement's key
         factorLabel: reg(`module:${q.item}:factor`, pick(q.factor, q.factor_en)),
         text: reg(`module:${q.item}`, pick(q.text, q.text_en)),
+        ...(q.help ? { help: reg(`module:${q.item}:help`, pick(q.help, q.help_en)) } : {}),
         choices: scale,
       }),
     ),

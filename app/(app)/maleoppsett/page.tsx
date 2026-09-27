@@ -183,23 +183,33 @@ export default async function MaleoppsettPage({
             const row = chosen.find((c) => c.moduleId === m.id)
             const asked = new Set(row?.itemIds ?? [])
             const slug = INDUSTRY_META.find((i) => i.moduleKey === m.key)?.slug
+            // a module in variants (0089): its statements once each, and the factors of the round's
+            // variant, simplified until one is chosen; the database derives what it asks
+            const variantKey = m.variants.length ? (row?.variantKey ?? 'forenklet') : null
+            const all = new Set(m.factors.flatMap((f) => f.items.map((i) => i.id))).size
+            const own = variantKey ? m.factors.filter((f) => f.variant === variantKey) : m.factors
+            const simple = m.variants.find((v) => v.key === 'forenklet')
             return {
               id: m.id,
               name: m.name,
               version: m.version,
-              statements: m.factors.reduce((n, f) => n + f.items.length, 0),
+              statements: all,
               // what this round asks of it: the organisation may have left statements out (0088)
-              statementsAsked: row ? asked.size : m.factors.reduce((n, f) => n + f.items.length, 0),
-              countItems: m.countItems.length,
-              minutes: m.estimatedMinutes,
+              statementsAsked: row ? asked.size : variantKey ? (simple?.lockedItems.length ?? all) : all,
+              countItems: variantKey
+                ? (m.variants.find((v) => v.key === variantKey)?.countItems.length ?? m.countItems.length)
+                : m.countItems.length,
+              minutes: variantKey && row ? Math.max(1, Math.round((asked.size * 8) / 60)) : (simple?.estimatedMinutes ?? m.estimatedMinutes),
               // before the page is launched its question page is a preview (D-118)
               href: slug ? `/${slug}/sporsmal${pageIn(getIndustry(slug), locale === 'en' ? 'en' : 'no')?.launched ? '' : '?forhandsvis=1'}` : null,
-              factors: m.factors.map((f) => ({ key: f.key, name: f.name })),
+              factors: own.map((f) => ({ key: f.key, name: f.name })),
               enabled: Boolean(row),
               includeCountItems: row ? row.includeCountItems : true,
               factorKeys: row
-                ? m.factors.filter((f) => f.items.some((i) => asked.has(i.id))).map((f) => f.key)
-                : m.factors.map((f) => f.key),
+                ? own.filter((f) => f.items.some((i) => asked.has(i.id)) && (!variantKey || f.items.every((i) => asked.has(i.id)))).map((f) => f.key)
+                : own.map((f) => f.key),
+              // chosen under Målinger › Spørsmålssett, not factor by factor here
+              variant: variantKey ? (m.variants.find((v) => v.key === variantKey)?.name ?? null) : null,
               suggested: !row && m.key === industry?.moduleKey,
               industry: m.key === industry?.moduleKey ? industry : null,
             }

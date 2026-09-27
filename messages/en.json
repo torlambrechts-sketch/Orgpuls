@@ -436,6 +436,24 @@
       "itemOff": "Left out",
       "itemLast": "At least one statement must stay. To ask none, switch the question set off.",
       "itemFailed": "The change was not saved. Please try again.",
+      "variant": {
+        "legend": "Variant",
+        "forenklet": "Simplified – {statements} statements, about {minutes} minutes extra",
+        "utvidet": "Extended – choose factors, about 4–8 minutes extra",
+        "recommend": "Recommended: simplified in regular surveys, extended every other year for depth.",
+        "pick": "Choose at least {min} factors. The core statements are always included, so you can compare with the simplified set.",
+        "count": "{factors} factors · {statements} statements · about {minutes} minutes",
+        "tooFew": "Choose at least {min} factors.",
+        "failed": "The choice was not saved. Only the managing director can choose the variant and factors.",
+        "factorToggle": "Ask about {factor}"
+      },
+      "chip": {
+        "core": "Core",
+        "optional": "Optional",
+        "extendedOnly": "Extended only",
+        "provisional": "Provisional"
+      },
+      "provisionalNote": "This module is new and marked as provisional. Results are shown as usual, but the risk levels are provisional until the module has been validated.",
       "itemNa": "{pct} % answered «not relevant» in the {year} baseline"
     },
     "innstillinger": {
@@ -1216,6 +1234,7 @@
       "helper": "Asked in addition to the main survey. Answers are shown with the same threshold of {threshold}.",
       "suggest": "Your organisation is registered in {industry}. Add {module}?",
       "stats": "{count} statements, about {minutes} minutes extra",
+      "variant": "{variant} set. The set and its factors are chosen under Measurements › Question set.",
       "countItems": "Include {count, plural, =1 {the yes/no question} =2 {the two yes/no questions} =3 {the three yes/no questions} other {the # yes/no questions}} counted only for the whole organisation",
       "seeQuestions": "See the questions",
       "factorsHead": "Factors included",
@@ -3231,6 +3250,14 @@
       "pill": "Industry module",
       "title": "{name}",
       "version": "{name} v{version}",
+      "versionVariant": "{name}, {variant} ({code} v{version})",
+      "provisional": "Provisional",
+      "provisionalHelp": "This module is new. The risk thresholds are provisional until the module has been tested on a large sample.",
+      "comparableTitle": "Comparable index",
+      "comparableLead": "Calculated from the core statements, so you can compare with surveys where you used the simplified set.",
+      "comparableLabel": "Comparable index for {name}",
+      "countExcluded": "«{label}» is left out of the share.",
+      "notRelevantFlagCore": "Many say the statement does not apply to them. Core statements are always included, so it cannot be left out on its own. You can leave out other factors in the extended set under Measurements › Question set.",
       "lead": "The module’s factors are scored the same way as the main survey but are not part of the index. A group is shown only when at least {threshold} have answered every statement.",
       "tableLabel": "Results for {name} by group",
       "factor": "Factor",
@@ -8984,9 +9011,11 @@
     "facts": {
       "factors": "factors",
       "statements": "statements, three per factor",
+      "statementsRange": "statements, three to five per factor",
       "minutes": "extra answering time",
       "minutesValue": "{n} min",
-      "threshold": "answers before a group is shown"
+      "threshold": "answers before a group is shown",
+      "upTo": "up to {n}"
     },
     "coreCovered": "The main survey already covers {list}.",
     "coreCoveredAlso": "The main survey already covers {list}, and {also}.",
@@ -9026,6 +9055,15 @@
       "skole": "School",
       "begge": "Both",
       "note": "The statements say «barna» (the children) in a kindergarten, «elevene» (the pupils) in a school, and both where you have a kindergarten and a school. The codes and the scoring are the same."
+    },
+    "variant": {
+      "simpleOnly": "Show only the simplified set",
+      "note": "The extended set is shown first, with the core statements marked. The simplified set is the 24 core statements, in eight factors.",
+      "core": "Core",
+      "extendedOnly": "Extended only",
+      "optional": "Optional",
+      "provisional": "Provisional",
+      "builtFrom": "The statements come from {list} in the extended set."
     }
   }
 }

@@ -5,7 +5,7 @@ import { Faq } from '@/components/start/Faq'
 import { SignupStart } from '@/components/marketing/SignupStart'
 import { citeOrder } from '@/content/industries/cites'
 import { getIndustry, pageIn } from '@/content/industries'
-import { listOf, moduleFile, type PageLang } from '@/content/industries/modules'
+import { listOf, moduleFile, pageFactors, simplifiedFactors, type PageLang } from '@/content/industries/modules'
 import type { IndustryPage, ResultPreview } from '@/content/industries/types'
 import { flag, type FlagName } from '@/lib/flags'
 import type { ModuleFile } from '@/lib/modules/schema'
@@ -38,6 +38,8 @@ export async function IndustryView({
   const t = await getTranslations('industry')
   const ts = await getTranslations()
   const mod = page.module ? moduleFile(page.module.key, page.module.version, lang) : null
+  // a module in variants: the page's variant's factors (0089, D-137)
+  const shown = mod ? pageFactors(mod, page.module?.defaultVariant) : []
   const itemOf = (code: string) => {
     for (const f of mod?.factors ?? []) {
       const i = f.items.find((x) => x.id === code)
@@ -182,26 +184,58 @@ export async function IndustryView({
             {page.moduleOverview.title}
           </h2>
           <p className="mb-0 mt-[12px] max-w-[62ch] text-[16px] leading-[1.6] text-body">{cite(page.moduleOverview.intro)}</p>
-          <dl className="mb-0 mt-[28px] grid grid-cols-2 overflow-hidden rounded-card border border-line bg-sf min-[760px]:grid-cols-4">
-            {[
-              { v: mod.factors.length, l: t('facts.factors') },
-              { v: mod.factors.reduce((n, f) => n + f.items.length, 0), l: t('facts.statements') },
-              { v: t('facts.minutesValue', { n: mod.estimated_minutes }), l: t('facts.minutes') },
-              { v: mod.anonymity.min_responses, l: t('facts.threshold') },
-            ].map((f, i) => (
-              <div
-                key={f.l}
-                className={`flex flex-col-reverse px-[18px] py-[18px] ${i % 2 === 0 ? 'border-r border-line' : ''} ${
-                  i < 2 ? 'border-b border-line min-[760px]:border-b-0' : ''
-                } min-[760px]:border-r min-[760px]:last:border-r-0`}
+          {(mod.variants
+            ? [
+                // a module in variants: one row of figures each (0089)
+                {
+                  label: mod.variants[0].name,
+                  factors: mod.variants[0].factors.length,
+                  statements: String(mod.variants[0].factors.reduce((n, f) => n + f.items.length, 0)),
+                  minutes: mod.variants[0].estimated_minutes,
+                },
+                {
+                  label: mod.variants[1].name,
+                  factors: mod.factors.length,
+                  statements: t('facts.upTo', { n: mod.factors.reduce((n, f) => n + f.items.length, 0) }),
+                  statementsLabel: t('facts.statementsRange'),
+                  minutes: mod.variants[1].estimated_minutes,
+                },
+              ]
+            : [
+                {
+                  label: null,
+                  factors: mod.factors.length,
+                  statements: String(mod.factors.reduce((n, f) => n + f.items.length, 0)),
+                  minutes: mod.estimated_minutes,
+                },
+              ]
+          ).map((row) => (
+            <div key={row.label ?? 'module'}>
+              {row.label ? <div className="mt-[24px] text-[13px] font-semibold text-mut">{row.label}</div> : null}
+              <dl
+                className={`mb-0 ${row.label ? 'mt-[8px]' : 'mt-[28px]'} grid grid-cols-2 overflow-hidden rounded-card border border-line bg-sf min-[760px]:grid-cols-4`}
               >
-                <dt className="text-[13px] text-mut">{f.l}</dt>
-                <dd className="m-0 font-display text-[26px] font-semibold">{f.v}</dd>
-              </div>
-            ))}
-          </dl>
+                {[
+                  { v: row.factors, l: t('facts.factors') },
+                  { v: row.statements, l: 'statementsLabel' in row ? row.statementsLabel : t('facts.statements') },
+                  { v: t('facts.minutesValue', { n: row.minutes }), l: t('facts.minutes') },
+                  { v: mod.anonymity.min_responses, l: t('facts.threshold') },
+                ].map((f, i) => (
+                  <div
+                    key={f.l}
+                    className={`flex flex-col-reverse px-[18px] py-[18px] ${i % 2 === 0 ? 'border-r border-line' : ''} ${
+                      i < 2 ? 'border-b border-line min-[760px]:border-b-0' : ''
+                    } min-[760px]:border-r min-[760px]:last:border-r-0`}
+                  >
+                    <dt className="text-[13px] text-mut">{f.l}</dt>
+                    <dd className="m-0 font-display text-[26px] font-semibold">{f.v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          ))}
           <ul className="m-0 mt-[26px] grid list-none gap-x-[40px] p-0 min-[760px]:grid-cols-2">
-            {mod.factors.map((f) => (
+            {shown.map((f) => (
               <li key={f.id}>
                 <Link
                   href={`/${page.slug}/sporsmal${qp}#${f.id}` as Route}
@@ -299,7 +333,13 @@ function PreviewBoard({ preview, mod, moduleTitle, t }: { preview: ResultPreview
         <span className="text-[14px] font-bold">
           {moduleTitle} · {preview.company}
         </span>
-        <span className="text-[12px] text-mut">{preview.caption}</span>
+        <span className="text-[12px] text-mut">
+          {preview.caption}
+          {/* not validated yet: its thresholds are provisional (0089) */}
+          {mod.validation_status === 'provisional' ? (
+            <span className="ml-[8px] rounded-pill bg-sbg px-[8px] py-[2px] text-[11px] font-bold">{t('variant.provisional')}</span>
+          ) : null}
+        </span>
       </div>
       <div className="mt-[12px] overflow-x-auto" tabIndex={0} aria-label={t('board.scroll')}>
         <table className="w-full min-w-[420px] border-separate border-spacing-0 text-[13px]">
@@ -319,7 +359,7 @@ function PreviewBoard({ preview, mod, moduleTitle, t }: { preview: ResultPreview
             {preview.rows.filter((r) => on(r.featureFlag)).map((r) => (
               <tr key={r.factorKey}>
                 <th scope="row" className="border-t border-line py-[7px] pr-[6px] text-left font-normal">
-                  {mod.factors.find((f) => f.id === r.factorKey)?.name}
+                  {[...mod.factors, ...simplifiedFactors(mod)].find((f) => f.id === r.factorKey)?.name}
                 </th>
                 {r.values.map((v, i) => (
                   <td key={i} className="border-t border-line px-[6px] py-[7px] text-right tabular-nums">
@@ -353,7 +393,7 @@ function PreviewBoard({ preview, mod, moduleTitle, t }: { preview: ResultPreview
 
 function Loop({ page, mod, t }: { page: IndustryPage; mod: ModuleFile; t: T }) {
   const loop = page.loop!
-  const factor = mod.factors.find((f) => f.id === loop.example.factorKey)
+  const factor = [...mod.factors, ...simplifiedFactors(mod)].find((f) => f.id === loop.example.factorKey)
   const action = factor?.action_suggestions.find((a) => a.type === loop.example.actionType)
   const statement = factor?.items.find((i) => i.id === action?.remeasure_item)?.text
   return (

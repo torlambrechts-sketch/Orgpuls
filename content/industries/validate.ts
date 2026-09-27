@@ -1,7 +1,7 @@
 import en from '@/messages/en.json'
 import no from '@/messages/no.json'
 import { INDUSTRIES } from './index'
-import { moduleFile, type PageLang } from './modules'
+import { moduleFile, simplifiedFactors, type PageLang } from './modules'
 import type { IndustryPage } from './types'
 
 /**
@@ -20,7 +20,10 @@ export function problemsOf(page: IndustryPage, lang: PageLang = 'no'): string[] 
     out.push('an English page on a module without an English translation')
   }
   const codes = new Set(mod?.factors.flatMap((f) => f.items.map((i) => i.id)) ?? [])
-  const factorKeys = new Set(mod?.factors.map((f) => f.id) ?? [])
+  // a module in variants: the simplified factors are named too (0089)
+  const allFactors = mod ? [...mod.factors, ...simplifiedFactors(mod)] : []
+  const factorKeys = new Set(allFactors.map((f) => f.id))
+  if (page.module?.defaultVariant && !mod?.variants) out.push('a default variant on a module asked one way')
   const sources = new Set([...(mod?.sources.map((s) => s.key) ?? []), ...(page.extraSources?.map((s) => s.key) ?? [])])
   const core = ((lang === 'en' ? en : no) as unknown as { factor: Record<string, Record<string, string>> }).factor
 
@@ -45,7 +48,7 @@ export function problemsOf(page: IndustryPage, lang: PageLang = 'no'): string[] 
     if (r.values.length !== page.hero.preview?.columns.length) out.push(`preview: ${r.factorKey} has the wrong number of values`)
   }
   if (page.loop) {
-    const f = mod?.factors.find((x) => x.id === page.loop?.example.factorKey)
+    const f = allFactors.find((x) => x.id === page.loop?.example.factorKey)
     if (!f) out.push(`loop: no factor ${page.loop.example.factorKey}`)
     else if (!f.action_suggestions.some((a) => a.type === page.loop?.example.actionType)) out.push('loop: no such suggestion')
   }

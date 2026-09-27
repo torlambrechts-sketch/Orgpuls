@@ -3,7 +3,7 @@
 import type { Route } from 'next'
 import Link from 'next/link'
 import { useState, useTransition } from 'react'
-import { setOrgModule, setOrgModuleItem, setOrgModuleWording } from '@/app/(app)/malinger/actions'
+import { setOrgModule, setOrgModuleItem, setOrgModuleVariant, setOrgModuleWording } from '@/app/(app)/malinger/actions'
 import { pickWording, WORDINGS, type Wording, type WordingVariants } from '@/lib/modules/wording'
 
 /**
@@ -25,15 +25,28 @@ export interface ModuleCard {
   on: boolean
   /** a worded module (0083): the wording its rounds ask, and whether the organisation chose it */
   wording: { value: Wording; source: 'chosen' | 'nace' | 'default' } | null
+  /** not validated yet: its risk levels are provisional (0089) */
+  provisional: boolean
+  /**
+   * a module in two variants (0089, D-137): the organisation's choice, the extended factors it asks,
+   * the fewest it may, and the simplified set's option label
+   */
+  variant: { value: Variant; factors: string[]; min: number; simple: string } | null
   factors: {
     key: string
     name: string
     nameVariants?: WordingVariants
     summary: string
+    /** which set it belongs to; null for a module asked one way */
+    variant: Variant | null
+    optional: boolean
+    extendedOnly: boolean
     statements: {
       code: string
       text: string
       variants?: WordingVariants
+      /** asked in both variants, whatever factors are chosen */
+      core: boolean
       /** left out of the organisation's grunnlinjer (0088, D-136) */
       off: boolean
       /** "34 % svarte «ikke relevant» i grunnlinjen 2026", where at least k did (0087) */
@@ -44,7 +57,14 @@ export interface ModuleCard {
   /** "Bruk … i hovedmålingene", for the switch's accessible name */
   toggleLabel: string
   showLabel: string
+  /** a module in variants: the same, counting the extended set's factors */
+  showLabelExtended?: string
 }
+
+type Variant = 'forenklet' | 'utvidet'
+
+/** {name} in a message the server passed raw, for the counts the client works out as factors are chosen */
+const fill = (s: string, values: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (m, k: string) => String(values[k] ?? m))
 
 export function ModuleChoices({
   heading,
@@ -68,6 +88,18 @@ export function ModuleChoices({
     seeAll: string
     wording: { legend: string; suggested: string; byDefault: string; chosen: string; failed: string } & Record<Wording, string>
     items: { lead: string; off: string; last: string; failed: string }
+    variant: {
+      legend: string
+      extended: string
+      recommend: string
+      pick: string
+      count: string
+      tooFew: string
+      failed: string
+      factorToggle: string
+    }
+    chip: { core: string; optional: string; extendedOnly: string; provisional: string }
+    provisionalNote: string
   }
 }) {
   const [open, setOpen] = useState('')
@@ -80,7 +112,32 @@ export function ModuleChoices({
   )
   const [itemProblem, setItemProblem] = useState<{ key: string; text: string } | null>(null)
   const [wordingFailed, setWordingFailed] = useState<string | null>(null)
+  const [variants, setVariants] = useState(
+    () => new Map(cards.flatMap((c) => (c.variant ? [[c.key, { value: c.variant.value, factors: c.variant.factors }] as const] : []))),
+  )
+  const [variantProblem, setVariantProblem] = useState<{ key: string; text: string } | null>(null)
   const [pending, start] = useTransition()
+
+  // shown at once; put back if the database refuses (0089)
+  const saveVariant = (c: ModuleCard, value: Variant, factors: string[]) => {
+    const before = variants
+    setVariantProblem(null)
+    if (value === 'utvidet' && c.variant && factors.length < c.variant.min) {
+      setVariantProblem({ key: c.key, text: fill(labels.variant.tooFew, { min: c.variant.min }) })
+      return
+    }
+    setVariants(new Map(before).set(c.key, { value, factors }))
+    start(async () => {
+      const r = await setOrgModuleVariant(c.key, value, value === 'utvidet' ? factors : null)
+      if (!r.ok) {
+        setVariants(before)
+        setVariantProblem({
+          key: c.key,
+          text: r.problem === 'too_few' && c.variant ? fill(labels.variant.tooFew, { min: c.variant.min }) : labels.variant.failed,
+        })
+      }
+    })
+  }
 
   // shown at once, as a radio should; put back if the database refuses
   const choose = (key: string, value: Wording) => {
@@ -141,18 +198,40 @@ export function ModuleChoices({
             const on = state.get(c.key) ?? false
             const isOpen = open === c.key
             const wording = wordings.get(c.key) ?? null
+            const variant = variants.get(c.key) ?? null
+            // the factors this card lists: its variant's, or all of a module asked one way
+            const shown = variant ? c.factors.filter((f) => f.variant === variant.value) : c.factors
+            const extendedCount = (() => {
+              if (!variant || variant.value !== 'utvidet') return null
+              const asked = new Set(
+                c.factors
+                  .filter((f) => f.variant === 'utvidet')
+                  .flatMap((f) => f.statements.filter((s) => s.core || variant.factors.includes(f.key)).map((s) => s.code)),
+              )
+              return fill(labels.variant.count, {
+                factors: variant.factors.length,
+                statements: asked.size,
+                minutes: Math.max(1, Math.round((asked.size * 8) / 60)),
+              })
+            })()
             return (
               <div key={c.key} className={`overflow-hidden rounded-tile border ${on ? 'border-ink bg-sbg' : 'border-line bg-bg'}`}>
                 <div className="flex flex-wrap items-start justify-between gap-[14px] px-[16px] py-[14px]">
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-[8px]">
                       <span className="text-[14.5px] font-semibold">{c.name}</span>
+                      {c.provisional ? (
+                        <span className="rounded-pill bg-sbg px-[9px] py-[2px] text-[11px] font-bold text-mut">{labels.chip.provisional}</span>
+                      ) : null}
                       {c.suggested ? (
                         <span className="rounded-pill bg-ac px-[9px] py-[2px] text-[11px] font-bold text-ink">{c.suggested}</span>
                       ) : null}
                     </div>
-                    <span className="mt-[3px] block text-[12.5px] text-mut">{c.meta}</span>
+                    <span className="mt-[3px] block text-[12.5px] text-mut">{extendedCount ?? c.meta}</span>
                     <span className="mt-[6px] block max-w-[640px] text-[12.5px] leading-[1.55] text-body [text-wrap:pretty]">{c.description}</span>
+                    {c.provisional ? (
+                      <span className="mt-[6px] block max-w-[640px] text-[12px] leading-[1.5] text-mut [text-wrap:pretty]">{labels.provisionalNote}</span>
+                    ) : null}
                   </div>
                   <label className={`flex flex-none items-center gap-[9px] ${canEdit ? 'cursor-pointer' : 'cursor-default'}`}>
                     <input
@@ -167,6 +246,40 @@ export function ModuleChoices({
                     <span className="text-[13px] font-bold">{on ? labels.on : labels.off}</span>
                   </label>
                 </div>
+                {c.variant && variant ? (
+                  // forenklet or utvidet (0089): a native radio group, styled as the wording choice
+                  <fieldset className="m-0 min-w-0 border-0 border-t border-solid border-line px-[16px] py-[10px]">
+                    <legend className="float-left mb-[6px] w-full p-0 text-[12px] font-semibold text-mut">{labels.variant.legend}</legend>
+                    <div className="clear-both flex flex-col gap-[6px]">
+                      {(['forenklet', 'utvidet'] as const).map((v) => (
+                        <label key={v} className={`flex items-center gap-[7px] text-[13px] ${canEdit ? 'cursor-pointer' : 'cursor-default'}`}>
+                          <input
+                            type="radio"
+                            name={`variant-${c.key}`}
+                            value={v}
+                            checked={variant.value === v}
+                            // not disabled while saving: arrowing through the group would lose the focus
+                            disabled={!canEdit}
+                            onChange={() => saveVariant(c, v, variant.factors)}
+                            className="h-[16px] w-[16px] cursor-pointer accent-ink disabled:cursor-default"
+                          />
+                          {v === 'forenklet' ? c.variant!.simple : labels.variant.extended}
+                        </label>
+                      ))}
+                    </div>
+                    <span className="mt-[6px] block text-[12px] leading-[1.5] text-mut [text-wrap:pretty]" role="status">
+                      {variantProblem?.key === c.key ? (
+                        <span className="text-caution">{variantProblem.text}</span>
+                      ) : variant.value === 'utvidet' ? (
+                        <>
+                          {fill(labels.variant.pick, { min: c.variant.min })} <b className="text-ink">{extendedCount}</b>
+                        </>
+                      ) : (
+                        labels.variant.recommend
+                      )}
+                    </span>
+                  </fieldset>
+                ) : null}
                 {wording ? (
                   // the module's statements say «barna», «elevene» or both (0083); a native radio
                   // group, styled as the switch above it
@@ -218,20 +331,49 @@ export function ModuleChoices({
                       <span aria-hidden="true" className="mr-[5px] text-[10px] text-mut">
                         {isOpen ? '▾' : '▸'}
                       </span>
-                      {c.showLabel}
+                      {variant?.value === 'utvidet' && c.showLabelExtended ? c.showLabelExtended : c.showLabel}
                     </button>
                   </span>
                 </div>
-                {isOpen && on && canEdit ? (
+                {isOpen && on && canEdit && !variant ? (
                   <p className="m-0 px-[16px] pb-[8px] text-[12px] leading-[1.5] text-mut [text-wrap:pretty]" role="status">
                     {itemProblem?.key === c.key ? <span className="text-caution">{itemProblem.text}</span> : labels.items.lead}
                   </p>
                 ) : null}
                 {isOpen ? (
                   <div className="grid gap-[10px] px-[16px] pb-[15px] [grid-template-columns:repeat(auto-fill,minmax(250px,1fr))]">
-                    {c.factors.map((f) => (
+                    {shown.map((f) => (
                       <div key={f.key} className="rounded-ctl border border-line bg-sf px-[12px] py-[10px]">
-                        <span className="block text-[13px] font-semibold">{pickWording(f.name, f.nameVariants, wording?.value)}</span>
+                        {variant?.value === 'utvidet' && canEdit ? (
+                          // the extended set's factors are chosen one by one (0089); a native checkbox
+                          <label className="flex cursor-pointer items-start gap-[8px]">
+                            <input
+                              type="checkbox"
+                              checked={variant.factors.includes(f.key)}
+                              disabled={pending}
+                              onChange={() =>
+                                saveVariant(
+                                  c,
+                                  'utvidet',
+                                  variant.factors.includes(f.key) ? variant.factors.filter((k) => k !== f.key) : [...variant.factors, f.key],
+                                )
+                              }
+                              aria-label={fill(labels.variant.factorToggle, { factor: f.name })}
+                              className="mt-[2px] h-[15px] w-[15px] flex-none cursor-pointer accent-ink disabled:cursor-default"
+                            />
+                            <span className="block text-[13px] font-semibold">{f.name}</span>
+                          </label>
+                        ) : (
+                          <span className="block text-[13px] font-semibold">{pickWording(f.name, f.nameVariants, wording?.value)}</span>
+                        )}
+                        {f.optional || f.extendedOnly ? (
+                          <span className="mt-[4px] flex flex-wrap gap-[6px]">
+                            {f.optional ? <span className="rounded-pill bg-sbg px-[8px] py-[1px] text-[10.5px] font-bold text-mut">{labels.chip.optional}</span> : null}
+                            {f.extendedOnly ? (
+                              <span className="rounded-pill bg-sbg px-[8px] py-[1px] text-[10.5px] font-bold text-mut">{labels.chip.extendedOnly}</span>
+                            ) : null}
+                          </span>
+                        ) : null}
                         <span className="mt-[2px] block text-[11.5px] leading-[1.45] text-mut">{f.summary}</span>
                         <ol className="m-0 mt-[8px] flex list-none flex-col gap-[6px] p-0">
                           {f.statements.map((s, i) => {
@@ -239,7 +381,7 @@ export function ModuleChoices({
                             const text = pickWording(s.text, s.variants, wording?.value)
                             return (
                               <li key={s.code} className="flex items-start gap-[8px] text-[12.5px] leading-[1.45]">
-                                {canEdit && on ? (
+                                {canEdit && on && !variant ? (
                                   // a native checkbox, as the module switch above it: ticked is asked
                                   <input
                                     type="checkbox"
@@ -255,6 +397,9 @@ export function ModuleChoices({
                                 <span className="[text-wrap:pretty]">
                                   <span className={out ? 'text-mut line-through' : ''}>{text}</span>
                                   {out ? <span className="ml-[6px] text-[11px] font-bold text-mut">{labels.items.off}</span> : null}
+                                  {variant?.value === 'utvidet' && s.core ? (
+                                    <span className="ml-[6px] text-[10.5px] font-bold text-mut">{labels.chip.core}</span>
+                                  ) : null}
                                   {s.notRelevant ? <span className="mt-[2px] block text-[11.5px] font-semibold text-caution">{s.notRelevant}</span> : null}
                                 </span>
                               </li>

@@ -2245,10 +2245,40 @@ The recommendation was given and built:
     get bokmål.
   - The five survey languages need the string. It is in the machine drafts (X-071).
 
+### X-073 — Kunnskap og kontor: two variants of one module, built and queued for review
+
+Tor, 2026-09-27: "start på kunnskap og kontor".
+
+- **Built** (D-137):
+  - the variant data model (innstillinger-og-forside.md § 2, PR A), in 0089: a statement keeps its
+    extended factor as its home, and a new table says which statements each factor is scored from,
+    so the simplified factors F1–F8 are scored from core statements of several extended ones;
+  - the module file, from the handoff's, every text carried over verbatim;
+  - the choice under Målinger › Spørsmålssett: forenklet or utvidet, and in utvidet at least eight
+    factors, «Rettferdighet og karriere» off by default. The database derives what a round asks,
+    so the 24 core statements are always among them;
+  - the respondent form, the results with «Foreløpig» and «Sammenlignbar indeks», and a count
+    question's fourth answer, «Jobber ikke fast hjemmefra», kept out of the share;
+  - /kunnskap-og-kontor and its question page with «Vis bare forenklet», as a preview.
+- **Queued, as barnehage og skole was:** the module is a draft and the page a preview. Launching
+  needs Tor's approval of the six law items in admin › Legal review, and the brief's open decisions
+  (§ 8) hold at their defaults: the extended set included in the price, validation by our own panel
+  with an external psychometrician, STAMI's written confirmation about QPS Nordic before launch, no
+  «Ikke aktuelt» on KK-KI-4 and KK-KL-3 (the product's «Ikke relevant for meg» exists anyway),
+  and the extended set shown on the page before validation, marked «Foreløpig».
+- **«Foreløpig» now also shows on barnehage og skole**, the one other module whose file says
+  provisional: on its page's preview and question page, in Spørsmålssett and in results
+  (innstillinger-og-forside.md § 9, decision 5, default).
+- **Not built, and why** (D-137): the rest of innstillinger-og-forside.md (the Bransje setting, the
+  admin's status control, the front page block, menu, footer and sitemap entries), hiding office
+  statements by work form (segments are not shipped), the report's variant footer, and handel.
+
 ## Open items
 - [ ] The multilingual guide: Tor's ten decisions (X-067, docs/implementation/multilingual-gap-analysis.md); the engineering queue is built (X-068, D-132).
 - [ ] Survey languages (X-070, X-071): machine drafts of all five are in admin › Translations. A translator per language revises them from the export (docs/translations/ has each language's open questions) and imports them back as *professional*. A methodologist decides where the official QPS Nordic Swedish and Danish replace a draft. The licence confirmation is needed before publishing under the QPS Nordic name.
-- [ ] Kunnskap og kontor (X-066, X-071): not built. It needs the variant data model (innstillinger-og-forside.md PR A) first, then the module and its pages; handel follows the same pattern.
+- [x] Kunnskap og kontor (X-066, X-071, X-073): the variant data model, the module and its pages are built (0089, D-137).
+- [ ] Launch kunnskap og kontor: Tor approves its six law items in admin › Legal review and the brief's open decisions (bransje-kunnskap-og-kontor.md § 8); then publish kunnskap-og-kontor@1.0.0 and set `launched: true`. Review at https://www.orgpuls.com/kunnskap-og-kontor?forhandsvis=1 and /kunnskap-og-kontor/sporsmal?forhandsvis=1. A pilot organisation can try it from admin › Moduler before that.
+- [ ] Kunnskap og kontor, still to build (D-137): the Bransje setting on the organisation, the admin's validation status control with its audit, the front page industry block, menu, footer and sitemap, the report's variant footer, and hiding the office statements for home workers once segments ship. Handel follows the same pattern.
 - [ ] After the deploy of X-072: approve the English survey again in admin › Legal review (the survey pages' strings changed: «Ikke relevant for meg»). Until then English respondents get bokmål.
 - [ ] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131).
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).

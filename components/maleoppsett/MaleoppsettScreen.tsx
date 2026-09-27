@@ -92,6 +92,8 @@ export interface MaleoppsettView {
     factorKeys: string[]
     suggested: boolean
     industry: IndustryMeta | null
+    /** a module in variants (0089): the variant's name, chosen under Spørsmålssett */
+    variant: string | null
   }[]
   moduleFactorToggles: boolean
   /** the round has opened: its question set, modules included, is fixed */
@@ -334,6 +336,7 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
             ? t('maleoppsett.module.suggest', { industry: m.industry.label[lang], module: m.industry.moduleLabel[lang] })
             : null,
         stats: t('maleoppsett.module.stats', { count: m.statements, minutes: m.minutes }),
+        variantNote: m.variant ? t('maleoppsett.module.variant', { variant: m.variant }) : null,
         countLabel: t('maleoppsett.module.countItems', { count: m.countItems }),
       }
     }),

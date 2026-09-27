@@ -436,6 +436,24 @@
       "itemOff": "Tatt ut",
       "itemLast": "Minst én påstand må være med. Vil dere ikke stille noen, slå av spørsmålssettet.",
       "itemFailed": "Endringen ble ikke lagret. Prøv igjen.",
+      "variant": {
+        "legend": "Variant",
+        "forenklet": "Forenklet – {statements} påstander, ca. {minutes} minutter ekstra",
+        "utvidet": "Utvidet – velg faktorer, ca. 4–8 minutter ekstra",
+        "recommend": "Anbefalt: forenklet i vanlige målinger, utvidet annethvert år som fordypning.",
+        "pick": "Velg minst {min} faktorer. Kjernepåstandene er alltid med, så dere kan sammenligne med forenklet.",
+        "count": "{factors} faktorer · {statements} påstander · ca. {minutes} minutter",
+        "tooFew": "Velg minst {min} faktorer.",
+        "failed": "Valget ble ikke lagret. Bare daglig leder kan velge variant og faktorer.",
+        "factorToggle": "Spør om {factor}"
+      },
+      "chip": {
+        "core": "Kjerne",
+        "optional": "Valgfri",
+        "extendedOnly": "Kun utvidet",
+        "provisional": "Foreløpig"
+      },
+      "provisionalNote": "Denne modulen er ny og merket som foreløpig. Resultatene vises som vanlig, men risikonivåene er foreløpige til modulen er validert.",
       "itemNa": "{pct} % svarte «ikke relevant» i grunnlinjen {year}"
     },
     "innstillinger": {
@@ -1216,6 +1234,7 @@
       "helper": "Kommer i tillegg til hovedundersøkelsen. Svarene vises med samme terskel på {threshold}.",
       "suggest": "Virksomheten er registrert i {industry}. Vil dere ta med {module}?",
       "stats": "{count} påstander, ca. {minutes} minutter ekstra",
+      "variant": "{variant} variant. Variant og faktorer velges under Målinger › Spørsmålssett.",
       "countItems": "Ta med {count, plural, =1 {ja/nei-spørsmålet} =2 {de to ja/nei-spørsmålene} =3 {de tre ja/nei-spørsmålene} other {de # ja/nei-spørsmålene}} som bare telles for hele virksomheten",
       "seeQuestions": "Se spørsmålene",
       "factorsHead": "Faktorer som tas med",
@@ -3231,6 +3250,14 @@
       "pill": "Bransjemodul",
       "title": "{name}",
       "version": "{name} v{version}",
+      "versionVariant": "{name}, {variant} ({code} v{version})",
+      "provisional": "Foreløpig",
+      "provisionalHelp": "Denne modulen er ny. Tersklene for risiko er foreløpige til modulen er testet på et stort utvalg.",
+      "comparableTitle": "Sammenlignbar indeks",
+      "comparableLead": "Beregnet fra kjernepåstandene, slik at dere kan sammenligne med målinger der dere brukte forenklet.",
+      "comparableLabel": "Sammenlignbar indeks for {name}",
+      "countExcluded": "«{label}» er holdt utenfor andelen.",
+      "notRelevantFlagCore": "Mange mener påstanden ikke gjelder dem. Kjernepåstandene er alltid med, så den kan ikke tas ut alene. Dere kan velge bort andre faktorer i utvidet variant under Målinger › Spørsmålssett.",
       "lead": "Faktorene i bransjemodulen regnes på samme måte som hovedundersøkelsen, men inngår ikke i indeksen. En gruppe vises bare når minst {threshold} har svart på hver påstand.",
       "tableLabel": "Resultat for {name} per gruppe",
       "factor": "Faktor",
@@ -8984,9 +9011,11 @@
     "facts": {
       "factors": "faktorer",
       "statements": "påstander, tre per faktor",
+      "statementsRange": "påstander, tre til fem per faktor",
       "minutes": "ekstra svartid",
       "minutesValue": "{n} min",
-      "threshold": "svar før en gruppe vises"
+      "threshold": "svar før en gruppe vises",
+      "upTo": "opptil {n}"
     },
     "coreCovered": "Hovedundersøkelsen dekker allerede {list}.",
     "coreCoveredAlso": "Hovedundersøkelsen dekker allerede {list}, og {also}.",
@@ -9026,6 +9055,15 @@
       "skole": "Skole",
       "begge": "Begge",
       "note": "Påstandene sier «barna» i barnehagen, «elevene» i skolen og begge deler der dere har både barnehage og skole. Kodene og skåringen er de samme."
+    },
+    "variant": {
+      "simpleOnly": "Vis bare forenklet",
+      "note": "Utvidet vises først, med kjernepåstandene merket. Forenklet er de 24 kjernepåstandene, i åtte faktorer.",
+      "core": "Kjerne",
+      "extendedOnly": "Kun utvidet",
+      "optional": "Valgfri",
+      "provisional": "Foreløpig",
+      "builtFrom": "Påstandene kommer fra {list} i utvidet."
     }
   }
 }

@@ -59,6 +59,8 @@ export type Question =
       item: string
       factorLabel: string
       text: string
+      /** a line under the statement, e.g. what it does not cover (0089) */
+      help?: string
       choices: Choice[]
     }
   | ({
@@ -309,6 +311,9 @@ export function RespondFlow({
         <div className="mt-[14px] font-display text-[24px] font-medium leading-[1.27] [text-wrap:pretty]">
           {current.text}
         </div>
+        {'help' in current && current.help ? (
+          <div className="mt-[8px] text-[13px] leading-[1.5] text-mut [text-wrap:pretty]">{current.help}</div>
+        ) : null}
 
         {hasChoices ? (
           <>

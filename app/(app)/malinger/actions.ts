@@ -143,3 +143,42 @@ export async function setOrgModuleWording(key: string, wording: string | null): 
   revalidatePath('/maleoppsett')
   return { ok: true, wording: parsed.data.wording }
 }
+
+/**
+ * A module in two variants (0089, D-137): forenklet, or utvidet with the factors asked (null for
+ * the default). The rules are the function's — daglig leder only, a minimum of factors, factors
+ * of the module — and it applies the choice to the planned grunnlinjer. This side re-checks nothing.
+ */
+const VariantResult = z.union([
+  z.object({ ok: z.literal(true), variant: z.enum(['forenklet', 'utvidet']), factors: z.array(z.string()).nullable() }),
+  z.object({ error: z.enum(['not_allowed', 'invalid', 'not_available', 'too_few']), min: z.number().optional() }),
+])
+
+export type VariantChoiceResult =
+  | { ok: true; variant: 'forenklet' | 'utvidet'; factors: string[] | null }
+  | { ok: false; problem: 'not_allowed' | 'invalid' | 'not_available' | 'too_few' }
+
+export async function setOrgModuleVariant(key: string, variant: string, factors: string[] | null): Promise<VariantChoiceResult> {
+  const org = await getCurrentOrgId()
+  const k = ModuleKey.safeParse(key)
+  const v = z.enum(['forenklet', 'utvidet']).safeParse(variant)
+  const f = z.array(z.string().regex(/^[a-z][a-z0-9_]*$/)).max(40).nullable().safeParse(factors)
+  if (!org || !k.success || !v.success || !f.success) return { ok: false, problem: 'invalid' }
+
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('set_org_module_variant', {
+    p_org: org,
+    p_key: k.data,
+    p_variant: v.data,
+    // null is the default; the simplified set takes none
+    p_factors: v.data === 'utvidet' ? f.data : null,
+  })
+  if (callFailed('setOrgModuleVariant', error)) return { ok: false, problem: 'not_available' }
+  const parsed = VariantResult.safeParse(data)
+  if (!parsed.success) return { ok: false, problem: 'not_available' }
+  if ('error' in parsed.data) return { ok: false, problem: parsed.data.error }
+
+  revalidatePath('/malinger')
+  revalidatePath('/maleoppsett')
+  return { ok: true, variant: parsed.data.variant, factors: parsed.data.factors }
+}

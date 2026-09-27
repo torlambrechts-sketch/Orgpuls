@@ -299,7 +299,8 @@ async function reportModules(roundId: string | null): Promise<RapportView['modul
     name: m.name,
     version: m.version,
     threshold: results.threshold,
-    factors: m.factors.map((f) => ({
+    // a module in variants: the round's own set; the comparable simplified index stays in Resultater (0089)
+    factors: m.factors.filter((f) => !f.comparable).map((f) => ({
       name: f.name,
       index: f.index,
       band: f.band,

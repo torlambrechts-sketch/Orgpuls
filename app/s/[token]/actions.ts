@@ -2,6 +2,7 @@
 
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { COUNT_ANSWERS } from '@/lib/respond/answers'
 
 /**
  * Submitting a response.
@@ -56,7 +57,7 @@ const Module = z.object({
       ]),
     )
     .max(100),
-  count: z.array(z.object({ item: z.string().uuid(), answer: z.enum(['ja', 'nei', 'vet_ikke']) })).max(20),
+  count: z.array(z.object({ item: z.string().uuid(), answer: z.enum(COUNT_ANSWERS) })).max(20),
   segments: z.array(z.object({ item: z.string().uuid(), option: z.number().int().min(1).max(9) })).max(20),
 })
 

@@ -10,7 +10,16 @@ import { getIndustry, pageIn } from '@/content/industries'
 import { INDUSTRY_META, industryForNace } from '@/content/industries/meta'
 import type { RailCell, RailView } from '@/components/malinger/YearRail'
 import { getExtraQuestions, getFactors } from '@/lib/instrument/read'
-import { getModulesById, getOrgModuleChoices, getOrgModuleItemsOff, getOrgModuleWordings, getOrgNaceCode, getPublishedModules, getRoundModules } from '@/lib/modules/read'
+import {
+  getModulesById,
+  getOrgModuleChoices,
+  getOrgModuleItemsOff,
+  getOrgModuleVariants,
+  getOrgModuleWordings,
+  getOrgNaceCode,
+  getPublishedModules,
+  getRoundModules,
+} from '@/lib/modules/read'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { getViewerRole } from '@/lib/org/read'
 import { getResultsDigest } from '@/lib/results/digest'
@@ -353,7 +362,7 @@ async function QuestionSet({ canEdit }: { canEdit: boolean }) {
   const t = await getTranslations()
   const locale = await getLocale()
   const org = await getCurrentOrgId()
-  const [factors, extras, published, chosen, nace, wordings, off, lastNa] = await Promise.all([
+  const [factors, extras, published, chosen, nace, wordings, off, lastNa, variants] = await Promise.all([
     getFactors(),
     getExtraQuestions(),
     getPublishedModules(org),
@@ -362,6 +371,7 @@ async function QuestionSet({ canEdit }: { canEdit: boolean }) {
     org ? getOrgModuleWordings(org) : Promise.resolve(new Map()),
     org ? getOrgModuleItemsOff(org) : Promise.resolve(new Map<string, Set<string>>()),
     lastNotRelevant(),
+    org ? getOrgModuleVariants(org) : Promise.resolve(new Map()),
   ])
   // the published list is in the reader's language already (lib/modules/read.ts)
   const industry = industryForNace(nace)
@@ -371,15 +381,33 @@ async function QuestionSet({ canEdit }: { canEdit: boolean }) {
       const slug = INDUSTRY_META.find((i) => i.moduleKey === m.key)?.slug
       const page = slug ? pageIn(getIndustry(slug), lang) : null
       const label = industry && industry.moduleKey === m.key ? industry.label[lang] : null
+      // a module in variants (0089): the simplified and extended sets, and the organisation's choice
+      const simple = m.variants.find((v) => v.key === 'forenklet')
+      const extended = m.variants.find((v) => v.key === 'utvidet')
+      const choice = variants.get(m.key)
+      const own = simple ? m.factors.filter((f) => f.variant === 'forenklet') : m.factors
       return {
         key: m.key,
         name: m.name,
         description: m.description,
         meta: t('malinger.modules.meta', {
-          factors: m.factors.length,
-          statements: m.factors.reduce((n, f) => n + f.items.length, 0),
-          minutes: m.estimatedMinutes,
+          factors: own.length,
+          statements: own.reduce((n, f) => n + f.items.length, 0),
+          minutes: simple?.estimatedMinutes ?? m.estimatedMinutes,
         }),
+        provisional: m.provisional,
+        variant:
+          simple && extended
+            ? {
+                value: choice?.variant ?? ('forenklet' as const),
+                factors: choice?.factors ?? m.factors.filter((f) => f.variant === 'utvidet' && !extended.defaultOff.includes(f.key)).map((f) => f.key),
+                min: extended.minFactors ?? 1,
+                simple: t('malinger.modules.variant.forenklet', {
+                  statements: simple.lockedItems.length || own.reduce((n, f) => n + f.items.length, 0),
+                  minutes: simple.estimatedMinutes,
+                }),
+              }
+            : null,
         suggested: label ? t('malinger.modules.suggested', { industry: label }) : null,
         on: chosen.has(m.key),
         wording: m.worded && wordings.get(m.key) ? { value: wordings.get(m.key)!.wording, source: wordings.get(m.key)!.source } : null,
@@ -388,12 +416,16 @@ async function QuestionSet({ canEdit }: { canEdit: boolean }) {
           name: f.name,
           nameVariants: f.nameVariants,
           summary: f.summary,
+          variant: f.variant,
+          optional: f.optional,
+          extendedOnly: f.extendedOnly,
           statements: f.items.map((i) => {
             const pct = lastNa?.byCode.get(`${m.key}:${i.code}`)
             return {
               code: i.code,
               text: i.text,
               variants: i.variants,
+              core: i.core ?? false,
               off: off.get(m.key)?.has(i.code) ?? false,
               // what the last grunnlinje said about it (0087): only where at least k marked it
               notRelevant: pct === undefined ? null : t('malinger.modules.itemNa', { pct, year: lastNa!.year }),
@@ -402,7 +434,8 @@ async function QuestionSet({ canEdit }: { canEdit: boolean }) {
         })),
         href: page?.questionPage ? `/${page.slug}/sporsmal${page.launched ? '' : '?forhandsvis=1'}` : null,
         toggleLabel: t('malinger.modules.toggle', { module: m.name }),
-        showLabel: t('malinger.modules.show', { count: m.factors.length }),
+        showLabel: t('malinger.modules.show', { count: own.length }),
+        ...(simple ? { showLabelExtended: t('malinger.modules.show', { count: m.factors.filter((f) => f.variant === 'utvidet').length }) } : {}),
       }
     })
     .sort((a, b) => Number(!!b.suggested) - Number(!!a.suggested))
@@ -449,6 +482,24 @@ async function QuestionSet({ canEdit }: { canEdit: boolean }) {
             last: t('malinger.modules.itemLast'),
             failed: t('malinger.modules.itemFailed'),
           },
+          variant: {
+            legend: t('malinger.modules.variant.legend'),
+            extended: t('malinger.modules.variant.utvidet'),
+            recommend: t('malinger.modules.variant.recommend'),
+            // filled in on the client as factors are chosen: {min}, {factors}, {statements}, {minutes}
+            pick: t.raw('malinger.modules.variant.pick') as string,
+            count: t.raw('malinger.modules.variant.count') as string,
+            tooFew: t.raw('malinger.modules.variant.tooFew') as string,
+            failed: t('malinger.modules.variant.failed'),
+            factorToggle: t.raw('malinger.modules.variant.factorToggle') as string,
+          },
+          chip: {
+            core: t('malinger.modules.chip.core'),
+            optional: t('malinger.modules.chip.optional'),
+            extendedOnly: t('malinger.modules.chip.extendedOnly'),
+            provisional: t('malinger.modules.chip.provisional'),
+          },
+          provisionalNote: t('malinger.modules.provisionalNote'),
           wording: {
             legend: t('malinger.modules.wording.legend'),
             barnehage: t('malinger.modules.wording.barnehage'),

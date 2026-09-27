@@ -159,6 +159,8 @@ export interface SetupFormProps {
     suggestion: string | null
     stats: string
     countLabel: string
+    /** a module in variants (0089): which set it asks; its factors are chosen under Spørsmålssett */
+    variantNote: string | null
   }[]
   moduleLabels: { head: string; helper: string; seeQuestions: string; factorsHead: string; locked: string }
   moduleFactorToggles: boolean
@@ -446,6 +448,7 @@ export function SetupForm(props: SetupFormProps) {
                       disabled={off}
                       onChange={() => saveModule(m.id, { enabled: !m.enabled })}
                     />
+                    {m.variantNote ? <span className="text-[12.5px] text-mut">{m.variantNote}</span> : null}
                     {m.href ? (
                       <a href={m.href} target="_blank" rel="noopener" className="w-fit text-[12.5px] font-semibold text-link">
                         {props.moduleLabels.seeQuestions}
@@ -460,7 +463,7 @@ export function SetupForm(props: SetupFormProps) {
                           disabled={off}
                           onChange={() => saveModule(m.id, { includeCountItems: !m.includeCountItems })}
                         />
-                        {props.moduleFactorToggles ? (
+                        {props.moduleFactorToggles && !m.variantNote ? (
                           <fieldset className="m-0 border-0 p-0">
                             <legend className="p-0 text-[12.5px] text-mut">{props.moduleLabels.factorsHead}</legend>
                             <div className="mt-[8px] flex flex-wrap gap-[7px]">

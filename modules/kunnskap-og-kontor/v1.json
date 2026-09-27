@@ -1,0 +1,1880 @@
+{
+  "module_id": "kunnskap-og-kontor",
+  "version": "1.0.0",
+  "locale": "nb-NO",
+  "name": "Kunnskap og kontor",
+  "validation_status": "provisional",
+  "description": "Tilleggsmodul for kunnskaps- og kontorarbeid med to varianter: forenklet (8 faktorer, 24 kjerneindikatorer) og utvidet (15 faktorer, 62 påstander). Kjerneindikatorene er låst og inngår i begge.",
+  "nace_prefixes": [
+    "58",
+    "59",
+    "60",
+    "61",
+    "62",
+    "63",
+    "64",
+    "65",
+    "66",
+    "68",
+    "69",
+    "70",
+    "71",
+    "72",
+    "73",
+    "74"
+  ],
+  "estimated_minutes": 3,
+  "scale": {
+    "type": "likert5",
+    "labels": [
+      "Helt uenig",
+      "Litt uenig",
+      "Verken eller",
+      "Litt enig",
+      "Helt enig"
+    ],
+    "to_index": {
+      "1": 0,
+      "2": 25,
+      "3": 50,
+      "4": 75,
+      "5": 100
+    }
+  },
+  "scoring": {
+    "factor_index": "mean of item indices",
+    "risk_bands": [
+      {
+        "band": "lav",
+        "min": 65
+      },
+      {
+        "band": "middels",
+        "min": 50,
+        "max": 64
+      },
+      {
+        "band": "høy",
+        "max": 49
+      }
+    ]
+  },
+  "anonymity": {
+    "min_responses": 5,
+    "can_lower": false,
+    "count_items_reported_at": "organisation_only",
+    "segments_require_min": 5,
+    "block_differencing": true
+  },
+  "relation_to_core": {
+    "covered_by_core_factors": [
+      "Arbeidsmengde og tidspress",
+      "Rolleklarhet",
+      "Medvirkning og kontroll",
+      "Støtte fra leder",
+      "Støtte fra kollegaer",
+      "Ytringsklima"
+    ],
+    "core_count_items_reused": [
+      "krenkende_atferd"
+    ]
+  },
+  "factors": [
+    {
+      "id": "fokus_og_avbrytelser",
+      "code": "FA",
+      "name": "Fokus og avbrytelser",
+      "summary": "Om det er rom for konsentrert arbeid uten stadige avbrytelser.",
+      "rationale": "Avbrytelser og oppgavebytte gir feil, forsinkelser, stress og utmattelse. Kunnskapsarbeid krever dyp konsentrasjon, så arbeidsflyt er en egen ressurs, atskilt fra hvor mye man har å gjøre.",
+      "rationale_sources": [
+        "puranik2020",
+        "leroy2009",
+        "kushlev2015"
+      ],
+      "evidence_strength": "Moderat til sterk",
+      "legal_basis": [
+        "aml § 4-3 (tilrettelegging av arbeidet og arbeidsmengde)",
+        "aml § 4-2 (medvirkning ved omstilling og nye systemer)"
+      ],
+      "optional": false,
+      "extended_only": false,
+      "items": [
+        {
+          "id": "KK-FA-1",
+          "text": "Jeg får tilstrekkelig sammenhengende tid til arbeid som krever konsentrasjon.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Fokustid",
+          "source": "Egen (jf. Perlow 1999, «quiet time»)",
+          "improvement_note": "Test i kognitive intervjuer om «sammenhengende» forstås likt."
+        },
+        {
+          "id": "KK-FA-2",
+          "text": "Jeg blir sjelden forstyrret når jeg trenger å konsentrere meg.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Avbrytelser (reversert krav)",
+          "source": "Egen (jf. Puranik mfl. 2020)",
+          "improvement_note": "Frekvensord i en enighetsskala; alternativ: «Jeg får arbeide uforstyrret når jeg trenger det»."
+        },
+        {
+          "id": "KK-FA-3",
+          "text": "Jeg kan fullføre en oppgave før jeg må gå over til en ny.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Fragmentering",
+          "source": "Egen (jf. Leroy 2009)",
+          "improvement_note": "Sjekk diskriminant validitet mot kjernefaktoren Arbeidsmengde og tidspress."
+        },
+        {
+          "id": "KK-FA-4",
+          "text": "Vi har avtaler i teamet om når det er greit å forstyrre hverandre.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Teamnormer",
+          "source": "Egen",
+          "improvement_note": "Godt tiltaksmål."
+        },
+        {
+          "id": "KK-FA-5",
+          "text": "Varsler og meldinger er satt opp slik at de ikke forstyrrer meg unødig.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Digitale forstyrrelser",
+          "source": "Egen (jf. Kushlev og Dunn 2015)",
+          "improvement_note": "Kan lade på Digitale verktøy; sjekk i CFA."
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Teamets fokusavtale",
+          "description": "Teamet noterer avbrytelser i en uke og blir enige om faste fokusblokker og når det er greit å forstyrre.",
+          "remeasure_item": "KK-FA-4"
+        },
+        {
+          "type": "rutine",
+          "title": "Faste fokusblokker",
+          "description": "Faste tider uten møter, og e-post som behandles samlet et par ganger om dagen.",
+          "remeasure_item": "KK-FA-1"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Haster dette?",
+          "description": "Leder spør om saken haster før hun forstyrrer, og bruker skriftlige kanaler når den ikke gjør det.",
+          "remeasure_item": "KK-FA-2"
+        }
+      ]
+    },
+    {
+      "id": "motekultur",
+      "code": "MK",
+      "name": "Møtekultur",
+      "summary": "Om møtene er nyttige, har en hensikt og gir rom for å følge opp arbeidet.",
+      "rationale": "Antall møter henger sammen med daglig tretthet og opplevd arbeidsmengde, mens møter som oppleves som nyttige, henger sammen med bedre trivsel. Møter er en hovedkilde til oppstykket arbeid i prosjekt- og rådgivningsarbeid.",
+      "rationale_sources": [
+        "luong2005",
+        "rogelberg2006",
+        "cipd2023"
+      ],
+      "evidence_strength": "Moderat",
+      "legal_basis": [
+        "aml § 4-3 (tilrettelegging av arbeidet)"
+      ],
+      "optional": false,
+      "extended_only": false,
+      "items": [
+        {
+          "id": "KK-MK-1",
+          "text": "Møtene jeg deltar i, er nyttige for arbeidet mitt.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Møteeffektivitet/relevans",
+          "source": "Tilpasset konstruktet i Rogelberg mfl. 2006",
+          "improvement_note": "Valgt som kjerne fordi relevans predikerer utfall bedre enn antall møter."
+        },
+        {
+          "id": "KK-MK-2",
+          "text": "Møtene jeg deltar i, har en tydelig hensikt.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Møtestruktur",
+          "source": "Egen",
+          "improvement_note": "Fjern KK-MK-2 eller KK-MK-1 hvis korrelasjonen er over .80."
+        },
+        {
+          "id": "KK-MK-3",
+          "text": "Jeg har nok tid mellom møter til å følge opp arbeidet.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Overgangstid",
+          "source": "Egen",
+          "improvement_note": "Handlingsrettet (25/50-minuttersmøter)."
+        },
+        {
+          "id": "KK-MK-4",
+          "text": "Jeg kan takke nei til møter der jeg ikke trengs.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Kontroll over deltakelse",
+          "source": "Egen",
+          "improvement_note": "Sjekk HTMT mot kjernefaktoren Medvirkning og kontroll."
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Møterevisjon",
+          "description": "Teamet går gjennom de faste møtene og bestemmer hvilke som beholdes, kortes ned eller legges ned.",
+          "remeasure_item": "KK-MK-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Agenda og korte møter",
+          "description": "Alle møter har agenda, og standardlengden er 25 eller 50 minutter.",
+          "remeasure_item": "KK-MK-3"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Bare dem som trengs",
+          "description": "Leder inviterer bare dem som trengs, og gir uttrykkelig lov til å takke nei.",
+          "remeasure_item": "KK-MK-4"
+        }
+      ]
+    },
+    {
+      "id": "digitale_verktoy",
+      "code": "DV",
+      "name": "Digitale verktøy og informasjonsmengde",
+      "summary": "Om verktøyene hjelper, og om informasjonsmengden er til å håndtere.",
+      "rationale": "Teknostress – overbelastning, kompleksitet og stadige endringer i verktøy – henger sammen med stress og utbrenthet, men god IKT-støtte demper effekten. Norske validerte mål for digitalt stress finnes.",
+      "rationale_sources": [
+        "tarafdar2007",
+        "day2012",
+        "dss_no"
+      ],
+      "evidence_strength": "Moderat",
+      "legal_basis": [
+        "aml § 4-2 (medvirkning og opplæring ved nye systemer)",
+        "aml § 4-3"
+      ],
+      "optional": false,
+      "extended_only": false,
+      "items": [
+        {
+          "id": "KK-DV-1",
+          "text": "De digitale verktøyene vi bruker, gjør arbeidet mitt enklere.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Opplevd nytte (reversert kompleksitet)",
+          "source": "Kontrast til techno-complexity (Tarafdar mfl. 2007)",
+          "improvement_note": "Kan fange tilfredshet mer enn stress; valider mot teknostress-mål."
+        },
+        {
+          "id": "KK-DV-2",
+          "text": "Mengden e-post, meldinger og varsler jeg mottar, er håndterbar.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Overbelastning",
+          "source": "Tilpasset techno-overload (Tarafdar mfl. 2007)",
+          "improvement_note": "Tre kanaler i én påstand; test kognitivt."
+        },
+        {
+          "id": "KK-DV-3",
+          "text": "Jeg får den opplæringen og brukerstøtten jeg trenger når vi tar i bruk nye digitale verktøy.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "IKT-støtte",
+          "source": "Day mfl. 2012",
+          "improvement_note": "Mulig dobbeltløp (opplæring og brukerstøtte); vurder å dele i v1.1."
+        },
+        {
+          "id": "KK-DV-4",
+          "text": "Jeg vet hvilken kanal jeg skal bruke til hva, for eksempel e-post, chat eller telefon.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Kommunikasjonsnormer",
+          "source": "Egen",
+          "improvement_note": "Handlingsrettet."
+        },
+        {
+          "id": "KK-DV-5",
+          "text": "De digitale verktøyene fungerer stabilt, slik at jeg ikke taper tid på tekniske problemer.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "IKT-plunder",
+          "source": "Day mfl. 2012 («ICT hassles»)",
+          "improvement_note": "Kan kortes."
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Kanalavtale",
+          "description": "Teamet avtaler hvilken kanal som brukes til hva, og forventet svartid for hver.",
+          "remeasure_item": "KK-DV-4"
+        },
+        {
+          "type": "rutine",
+          "title": "Opplæring og superbrukere",
+          "description": "Hver innføring av nye verktøy har en opplæringsplan og en navngitt superbruker.",
+          "remeasure_item": "KK-DV-3"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Rydd listene",
+          "description": "Leder rydder i distribusjonslister og kopimottakere og bruker den avtalte kanalen selv.",
+          "remeasure_item": "KK-DV-2"
+        }
+      ]
+    },
+    {
+      "id": "tilgjengelighet",
+      "code": "TG",
+      "name": "Tilgjengelighet og responspress",
+      "summary": "Om det er greit å ikke svare utenom arbeidstid, og om teamet har klare avtaler.",
+      "rationale": "Telepress – trangen til å svare raskt på jobbmeldinger – svekker mental løsrivelse. Kontakt utenom arbeidstid undergraver helse og balanse mellom jobb og fritid, selv når fleksibelt arbeid ellers gir bedre arbeidstid. Tydelige frakoblingsregler henger sammen med lavere telepress.",
+      "rationale_sources": [
+        "barber2015",
+        "eurofound_wtq",
+        "barber2026"
+      ],
+      "evidence_strength": "Moderat til sterk",
+      "legal_basis": [
+        "aml § 10-8 (daglig og ukentlig arbeidsfri)",
+        "aml § 4-3",
+        "hjemmekontorforskriften § 2 (avtale om arbeidstid og tilgjengelighet)"
+      ],
+      "optional": false,
+      "extended_only": false,
+      "items": [
+        {
+          "id": "KK-TG-1",
+          "text": "Det er akseptert at jeg ikke svarer på jobbhenvendelser utenom arbeidstid.",
+          "help": "Gjelder ikke avtalt vakt eller beredskap.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Tilgjengelighetsforventninger (reversert)",
+          "source": "Day mfl. 2012",
+          "improvement_note": "Hjelpetekst: gjelder ikke avtalt vakt eller beredskap."
+        },
+        {
+          "id": "KK-TG-2",
+          "text": "Jeg kan vente med å svare på meldinger til det passer i arbeidet mitt.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Telepress – trang til å svare (reversert)",
+          "source": "Tilpasset Barber og Santuzzi 2015",
+          "improvement_note": "Positiv omskriving flytter konstruktet mot handlingsrom; test mot originalen i pilot."
+        },
+        {
+          "id": "KK-TG-3",
+          "text": "Vi har klare avtaler i teamet om når vi skal være tilgjengelige.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Normer",
+          "source": "Egen (jf. Barber mfl. 2026)",
+          "improvement_note": "Svært tiltaksnær."
+        },
+        {
+          "id": "KK-TG-4",
+          "text": "Når jeg får en melding, klarer jeg å fullføre det jeg holder på med først.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Telepress – opptatthet (reversert)",
+          "source": "Egen",
+          "improvement_note": "Kan lade på Fokus og avbrytelser."
+        },
+        {
+          "id": "KK-TG-5",
+          "text": "Lederen min viser gjennom egen praksis at fritiden skal respekteres.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Ledermodellering",
+          "source": "Egen",
+          "improvement_note": "Sjekk HTMT mot kjernefaktoren Støtte fra leder."
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Tilgjengelighetsavtale",
+          "description": "Teamet avtaler svartid per kanal, kjernetid og hva som faktisk er en hastesak.",
+          "remeasure_item": "KK-TG-3"
+        },
+        {
+          "type": "rutine",
+          "title": "Frakoblingsregler",
+          "description": "Skriftlige regler for kontakt utenom arbeidstid, med forsinket sending av e-post og meldinger.",
+          "remeasure_item": "KK-TG-1"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Ingen svarforventning etter arbeidstid",
+          "description": "Leder sender ikke meldinger som krever svar etter arbeidstid, og sier det høyt.",
+          "remeasure_item": "KK-TG-5"
+        }
+      ]
+    },
+    {
+      "id": "arbeid_privatliv",
+      "code": "AP",
+      "name": "Arbeid og privatliv",
+      "summary": "Om jobben gir rom for privatlivet, og om arbeidstiden kan tilpasses.",
+      "rationale": "Når jobbens tid og belastning hindrer privatlivet, er det en godt dokumentert rollekonflikt med konsekvenser for helse og trivsel. Familiestøttende ledelse har vist effekt i feltforsøk.",
+      "rationale_sources": [
+        "netemeyer1996"
+      ],
+      "evidence_strength": "Sterk",
+      "legal_basis": [
+        "aml § 4-3",
+        "aml § 10-2 (arbeidstidsordninger)",
+        "hjemmekontorforskriften § 2"
+      ],
+      "optional": false,
+      "extended_only": false,
+      "items": [
+        {
+          "id": "KK-AP-1",
+          "text": "Arbeidet mitt lar meg ha nok tid til privatlivet mitt.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Tidsbasert arbeid–privatliv-konflikt (reversert)",
+          "source": "Tilpasset Netemeyer mfl. 1996",
+          "improvement_note": "Positiv reversering må testes."
+        },
+        {
+          "id": "KK-AP-2",
+          "text": "Jeg kan som regel gjennomføre private planer uten at jobben kommer i veien.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Atferdsbasert konflikt (reversert)",
+          "source": "Tilpasset Netemeyer mfl. 1996"
+        },
+        {
+          "id": "KK-AP-3",
+          "text": "Etter arbeidsdagen har jeg nok energi til å gjøre ting jeg liker.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Belastningsbasert konflikt (reversert)",
+          "source": "Tilpasset Netemeyer mfl. 1996",
+          "improvement_note": "Hold som ressurs, ikke symptom."
+        },
+        {
+          "id": "KK-AP-4",
+          "text": "Jeg kan tilpasse arbeidstiden når privatlivet krever det.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Fleksibilitet",
+          "source": "Egen",
+          "improvement_note": "Kan overlappe Medvirkning og kontroll."
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Grenser og fleksibilitet",
+          "description": "Teamet blir enige om hva fleksibilitet betyr hos dem, og hvor grensene går.",
+          "remeasure_item": "KK-AP-2"
+        },
+        {
+          "type": "rutine",
+          "title": "Kvartalsvis gjennomgang",
+          "description": "Leder og verneombud ser på samlet kvelds- og helgearbeid hvert kvartal.",
+          "remeasure_item": "KK-AP-1"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Støtte når livet krever det",
+          "description": "Leder spør aktivt og legger til rette når privatlivet krever det.",
+          "remeasure_item": "KK-AP-4"
+        }
+      ]
+    },
+    {
+      "id": "restitusjon",
+      "code": "RE",
+      "name": "Restitusjon og løsrivelse",
+      "summary": "Om man klarer å koble av, og om pauser og ferie gir påfyll.",
+      "rationale": "Mental løsrivelse fra jobben i fritiden er den mest robuste restitusjonserfaringen, og den svekkes av tilgjengelighetspress og tankearbeid som følger med hjem. Skalaen er validert på svensk.",
+      "rationale_sources": [
+        "sonnentag2007",
+        "almen2018",
+        "osha_pulse"
+      ],
+      "evidence_strength": "Sterk",
+      "legal_basis": [
+        "aml § 10-8",
+        "aml § 10-9 (pauser)",
+        "ferieloven",
+        "aml § 4-3"
+      ],
+      "optional": false,
+      "extended_only": false,
+      "items": [
+        {
+          "id": "KK-RE-1",
+          "text": "Jeg klarer å koble av fra jobben i fritiden.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Psykologisk løsrivelse",
+          "source": "Tilpasset REQ (Sonnentag og Fritz 2007)",
+          "improvement_note": "Rapporter på gruppenivå og se sammen med Tilgjengelighet."
+        },
+        {
+          "id": "KK-RE-2",
+          "text": "I fritiden tenker jeg lite på jobben.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Kognitiv løsrivelse",
+          "source": "Tilpasset REQ",
+          "improvement_note": "Mykere enn originalen."
+        },
+        {
+          "id": "KK-RE-3",
+          "text": "Jeg får pauser i løpet av arbeidsdagen som gir meg påfyll.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Mikropauser",
+          "source": "Egen",
+          "improvement_note": "Kan bli egen faktor."
+        },
+        {
+          "id": "KK-RE-4",
+          "text": "I ferien kan jeg være helt fri fra jobben.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Ferierestitusjon",
+          "source": "Egen",
+          "improvement_note": "Sesongavhengig; tolk med måletidspunkt."
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Å koble av",
+          "description": "Kort innføring i restitusjon og en felles plan for hvordan teamet skjermer fritiden.",
+          "remeasure_item": "KK-RE-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Fri betyr fri",
+          "description": "Ingen jobbmeldinger i ferien, og en fast stedfortreder for hver ansatt.",
+          "remeasure_item": "KK-RE-4"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Pauser mellom møter",
+          "description": "Leder legger inn pauser mellom møter og tar dem selv.",
+          "remeasure_item": "KK-RE-3"
+        }
+      ]
+    },
+    {
+      "id": "hybrid_samhandling",
+      "code": "HS",
+      "name": "Hybrid samhandling",
+      "summary": "Om samarbeidet fungerer når noen er på kontoret og noen hjemme.",
+      "rationale": "Hjemmekontor gir mer kontroll og balanse, men også økte krav til tilgjengelighet, mindre kollegastøtte og noe mer uklare roller. Tilfredsheten er høyere når det finnes felles avtaler.",
+      "rationale_sources": [
+        "stami_hjemmekontor",
+        "stami_faktabok"
+      ],
+      "evidence_strength": "Moderat",
+      "legal_basis": [
+        "hjemmekontorforskriften § 3 (fullt forsvarlig arbeidsmiljø, også psykososialt)",
+        "aml § 4-3"
+      ],
+      "optional": false,
+      "extended_only": false,
+      "items": [
+        {
+          "id": "KK-HS-1",
+          "text": "Samarbeidet i teamet fungerer godt, uansett hvor vi jobber fra.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Samhandling på tvers av lokasjoner",
+          "source": "Egen",
+          "improvement_note": "«Uansett hvor» gir lokasjonsvinkelen."
+        },
+        {
+          "id": "KK-HS-2",
+          "text": "Vi har felles avtaler om når vi skal være fysisk til stede sammen.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Oppmøtenormer",
+          "source": "Egen",
+          "improvement_note": "Tiltaksnær."
+        },
+        {
+          "id": "KK-HS-3",
+          "text": "Møter der noen deltar digitalt og noen i rommet, fungerer godt.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Hybride møter",
+          "source": "Egen",
+          "improvement_note": "Filtrer via segmentet arbeidsform."
+        },
+        {
+          "id": "KK-HS-4",
+          "text": "De som deltar digitalt, blir hørt når vi tar beslutninger.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Inkludering i beslutninger",
+          "source": "Egen",
+          "improvement_note": "Fjern hvis HTMT er over .85 mot Ytringsklima."
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Hybrid teamavtale",
+          "description": "Teamet avtaler hvilke oppgaver som gjøres hvor, og faste dager der alle er til stede.",
+          "remeasure_item": "KK-HS-2"
+        },
+        {
+          "type": "rutine",
+          "title": "Regler for hybride møter",
+          "description": "Alle kobler seg på hver for seg, og ordet fordeles bevisst mellom rom og skjerm.",
+          "remeasure_item": "KK-HS-3"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Beslutninger skrives ned",
+          "description": "Leder oppsummerer beslutninger skriftlig i felles kanal, så alle får samme informasjon.",
+          "remeasure_item": "KK-HS-1"
+        }
+      ]
+    },
+    {
+      "id": "tilhorighet",
+      "code": "TN",
+      "name": "Tilhørighet og faglig nettverk",
+      "summary": "Om man har uformell kontakt og faglig sparring, uansett hvor man jobber.",
+      "rationale": "Faglig isolasjon svekker ytelsen, særlig for dem som jobber mye hjemmefra. Familiestøttende ledelse og fleksibel planlegging demper effekten.",
+      "rationale_sources": [
+        "golden2008",
+        "stami_hjemmekontor"
+      ],
+      "evidence_strength": "Moderat",
+      "legal_basis": [
+        "hjemmekontorforskriften § 3",
+        "aml § 4-3"
+      ],
+      "optional": false,
+      "extended_only": false,
+      "items": [
+        {
+          "id": "KK-TN-1",
+          "text": "Jeg har nok uformell kontakt med kollegaer.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Sosial isolasjon (reversert)",
+          "source": "Tilpasset Golden mfl. 2008",
+          "improvement_note": "Skill fra kjernefaktoren Støtte fra kollegaer."
+        },
+        {
+          "id": "KK-TN-2",
+          "text": "Jeg får faglig sparring når jeg trenger det, uansett hvor jeg jobber fra.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Faglig isolasjon (reversert)",
+          "source": "Golden mfl. 2008",
+          "improvement_note": "Diskriminant test mot Støtte fra kollegaer."
+        },
+        {
+          "id": "KK-TN-3",
+          "text": "Jeg føler tilhørighet til arbeidsplassen min.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Tilhørighet",
+          "source": "Egen",
+          "improvement_note": "Korrelerer trolig med eNPS."
+        },
+        {
+          "id": "KK-TN-4",
+          "text": "Nye medarbeidere hos oss blir raskt godt kjent med kollegaene sine.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Onboarding",
+          "source": "Egen",
+          "improvement_note": "Vurderer andre, ikke seg selv."
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Fagnettverk",
+          "description": "Faste fagforum på tvers av team, der man deler og får sparring.",
+          "remeasure_item": "KK-TN-2"
+        },
+        {
+          "type": "rutine",
+          "title": "Fadder og faste kontordager",
+          "description": "Nye får fadder og faste kontordager de første åtte ukene.",
+          "remeasure_item": "KK-TN-4"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Ukentlig én-til-én",
+          "description": "Leder har en kort ukentlig samtale med dem som jobber mye hjemme.",
+          "remeasure_item": "KK-TN-1"
+        }
+      ]
+    },
+    {
+      "id": "fysisk_arbeidsplass",
+      "code": "FY",
+      "name": "Fysisk arbeidsplass og utstyr",
+      "summary": "Om kontoret gir ro, og om utstyret er godt – også hjemme.",
+      "rationale": "Kontorlandskap gir støy og forstyrrelser, og hjemmekontor uten godt utstyr gir risiko for belastningsplager. Når arbeidet gjøres hjemme, gjelder hjemmekontorforskriften.",
+      "rationale_sources": [
+        "kim2013",
+        "hjemmekontorforskriften"
+      ],
+      "evidence_strength": "Moderat",
+      "legal_basis": [
+        "aml § 4-4 (fysisk arbeidsmiljø)",
+        "arbeidsplassforskriften",
+        "forskrift om utførelse av arbeid kap. 23 (skjermarbeid)",
+        "hjemmekontorforskriften §§ 2–4"
+      ],
+      "optional": false,
+      "extended_only": false,
+      "items": [
+        {
+          "id": "KK-FY-1",
+          "text": "Arbeidsplassen min på kontoret gir meg mulighet til å konsentrere meg.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Akustikk og skjerming",
+          "source": "Egen (jf. Kim og de Dear 2013)",
+          "improvement_note": "Vises ikke for dem som jobber hovedsakelig hjemme (segment)."
+        },
+        {
+          "id": "KK-FY-2",
+          "text": "Jeg har utstyr som gjør at jeg kan jobbe godt for kroppen, uansett hvor jeg jobber.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Ergonomi",
+          "source": "Egen",
+          "improvement_note": "Test «godt for kroppen» kognitivt."
+        },
+        {
+          "id": "KK-FY-3",
+          "text": "Jeg vet hvem jeg kan kontakte hvis arbeidsplassen eller utstyret mitt ikke er godt nok.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Kjent rutine",
+          "source": "Egen",
+          "improvement_note": "Kunnskapspåstand, bevisst valgt for handlingsrelevans."
+        },
+        {
+          "id": "KK-FY-4",
+          "text": "Jeg har tilgang til stille rom eller soner når jeg trenger det.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Skjerming",
+          "source": "Egen",
+          "improvement_note": "For aktivitetsbaserte kontorer."
+        },
+        {
+          "id": "KK-FY-5",
+          "text": "Inneklimaet på kontoret der jeg jobber, er godt.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Inneklima",
+          "source": "Egen"
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Soner og spilleregler",
+          "description": "Teamet avtaler stillesoner og spilleregler for samtaler og telefoner i landskapet.",
+          "remeasure_item": "KK-FY-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Sjekkliste for hjemmekontor",
+          "description": "En digital ergonomisjekkliste når hjemmekontoravtalen inngås.",
+          "remeasure_item": "KK-FY-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Utstyr i medarbeidersamtalen",
+          "description": "Arbeidsplass og utstyr er et fast punkt i medarbeidersamtalen.",
+          "remeasure_item": "KK-FY-3"
+        }
+      ]
+    },
+    {
+      "id": "kunde_og_leveransepress",
+      "code": "KL",
+      "name": "Kunde- og leveransepress",
+      "summary": "Om kundefrister og krav til fakturerbar tid er rimelige.",
+      "rationale": "I rådgivning, revisjon, juss, IT og megling kommer presset ofte fra kunder, frister og krav til fakturerbar tid. Kjernen måler hvor mye man har å gjøre, ikke hvor presset kommer fra. Evidensen er svak, og det finnes ingen validert skala for fakturerbart press.",
+      "rationale_sources": [],
+      "evidence_strength": "Svak",
+      "legal_basis": [
+        "aml § 4-3",
+        "aml § 10-6 (overtid)"
+      ],
+      "optional": false,
+      "extended_only": true,
+      "items": [
+        {
+          "id": "KK-KL-1",
+          "text": "Tidsfristene vi avtaler med kundene, er realistiske.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Fristpress",
+          "source": "Egen",
+          "improvement_note": "Overlapper Arbeidsmengde; svak evidens."
+        },
+        {
+          "id": "KK-KL-2",
+          "text": "Jeg får støtte fra leder når kunder stiller urimelige krav.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Lederstøtte i kunderelasjoner",
+          "source": "Egen",
+          "improvement_note": "Kan lade på Støtte fra leder."
+        },
+        {
+          "id": "KK-KL-3",
+          "text": "Kravene til fakturerbar tid eller timeføring er rimelige.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Utnyttelsesgrad",
+          "source": "Egen",
+          "improvement_note": "Filtrer via segmentet fakturerbar rolle."
+        },
+        {
+          "id": "KK-KL-4",
+          "text": "Vi har gode rutiner når kunden endrer bestillingen underveis.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Endringshåndtering",
+          "source": "Egen"
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Realistisk estimering",
+          "description": "Teamet går gjennom estimater mot faktisk tidsbruk på tre avsluttede oppdrag.",
+          "remeasure_item": "KK-KL-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Skriftlig endringsordre",
+          "description": "Endringer i bestillingen avtales skriftlig, med konsekvens for tid og pris.",
+          "remeasure_item": "KK-KL-4"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Leder tar kundedialogen",
+          "description": "Ved urimelige krav tar leder dialogen med kunden, ikke den ansatte alene.",
+          "remeasure_item": "KK-KL-2"
+        }
+      ]
+    },
+    {
+      "id": "laering_og_utvikling",
+      "code": "LU",
+      "name": "Læring og faglig utvikling",
+      "summary": "Om man lærer, har tid til å holde seg oppdatert og kjenner mulighetene.",
+      "rationale": "Utviklingsmuligheter er en sentral ressurs i jobbkrav–ressurs-modellen, og kompetansen foreldes raskt i kunnskapsbransjene, blant annet på grunn av KI.",
+      "rationale_sources": [
+        "bakker2007"
+      ],
+      "evidence_strength": "Sterk",
+      "legal_basis": [
+        "aml § 4-2 (tilrettelegging for faglig og personlig utvikling)"
+      ],
+      "optional": false,
+      "extended_only": false,
+      "items": [
+        {
+          "id": "KK-LU-1",
+          "text": "Jeg lærer nye ting i jobben min.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Utviklingsmuligheter",
+          "source": "Egen (konstrukt som i COPSOQ III; ikke ordrett)"
+        },
+        {
+          "id": "KK-LU-2",
+          "text": "Jeg har tid til å holde meg faglig oppdatert.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Tid til læring",
+          "source": "Egen",
+          "improvement_note": "Kan korrelere med Arbeidsmengde."
+        },
+        {
+          "id": "KK-LU-3",
+          "text": "Jeg vet hvilke utviklingsmuligheter jeg har hos arbeidsgiveren min.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Karrieretydelighet",
+          "source": "Egen"
+        },
+        {
+          "id": "KK-LU-4",
+          "text": "Jeg får tilbakemeldinger som hjelper meg å utvikle meg faglig.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Utviklingsorientert tilbakemelding",
+          "source": "Egen",
+          "improvement_note": "Sjekk mot Anerkjennelse og mening."
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Kompetansekart",
+          "description": "Teamet kartlegger hvilken kompetanse det trenger fremover, og hvem som vil lære hva.",
+          "remeasure_item": "KK-LU-3"
+        },
+        {
+          "type": "rutine",
+          "title": "Fast læringstid",
+          "description": "Fast tid i kalenderen til læring, og en enkel utviklingsplan per person.",
+          "remeasure_item": "KK-LU-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Utviklingssamtale",
+          "description": "Halvårlig samtale med konkrete læringsmål.",
+          "remeasure_item": "KK-LU-1"
+        }
+      ]
+    },
+    {
+      "id": "ki_og_endring",
+      "code": "KI",
+      "name": "KI og endring i arbeidsoppgaver",
+      "summary": "Om man kan bruke KI trygt, blir involvert og vet hvem som har ansvaret.",
+      "rationale": "Nesten fem av ti norske foretak med minst ti ansatte bruker KI i 2026, og ni av ti i informasjon og kommunikasjon. Opplæring og medvirkning henger sammen med bedre utfall. Evidensen er ung og bør revideres årlig.",
+      "rationale_sources": [
+        "ssb_ki",
+        "oecd_ai",
+        "eu_osha_digital"
+      ],
+      "evidence_strength": "Svak til moderat",
+      "legal_basis": [
+        "aml § 4-2 (medvirkning ved omstilling og ny teknologi)",
+        "aml § 4-3",
+        "GDPR art. 22",
+        "EUs KI-forordning art. 4 (status i EØS må verifiseres)"
+      ],
+      "optional": false,
+      "extended_only": false,
+      "items": [
+        {
+          "id": "KK-KI-1",
+          "text": "Jeg vet hvordan jeg kan bruke KI-verktøy på en trygg og riktig måte i arbeidet mitt.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "KI-kompetanse",
+          "source": "Egen (jf. KI-forordningen art. 4)",
+          "improvement_note": "Mulig dobbeltløp; alternativ «forsvarlig måte»."
+        },
+        {
+          "id": "KK-KI-2",
+          "text": "Jeg blir involvert når ny teknologi endrer måten vi jobber på.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Medvirkning ved teknologiendring",
+          "source": "Egen (jf. OECD 2023)",
+          "improvement_note": "Avgrenset fra kjernefaktoren Medvirkning og kontroll."
+        },
+        {
+          "id": "KK-KI-3",
+          "text": "Jeg får opplæring i KI-verktøy som er relevante for jobben min.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Opplæring",
+          "source": "Egen"
+        },
+        {
+          "id": "KK-KI-4",
+          "text": "Bruk av KI gir meg mer tid til oppgaver jeg opplever som meningsfulle.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Oppgaveberikelse",
+          "source": "Egen",
+          "improvement_note": "Forutsetter KI-bruk; vurder filtrering."
+        },
+        {
+          "id": "KK-KI-5",
+          "text": "Det er tydelig hvem som har ansvaret når vi bruker KI-generert innhold i arbeidet.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Ansvar for KI-innhold",
+          "source": "Egen",
+          "improvement_note": "Kan overlappe Rolleklarhet."
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "KI i vårt fag",
+          "description": "Teamet går gjennom nytte og risiko ved KI i eget fag og lager egne retningslinjer.",
+          "remeasure_item": "KK-KI-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Drøfting før nye verktøy",
+          "description": "Nye KI-verktøy drøftes med tillitsvalgte og verneombud før de tas i bruk, med en opplæringsplan.",
+          "remeasure_item": "KK-KI-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Avklar ansvaret",
+          "description": "Leder avklarer kvalitetssikring og ansvar for KI-generert innhold per oppdrag.",
+          "remeasure_item": "KK-KI-5"
+        }
+      ]
+    },
+    {
+      "id": "overvaking_og_tillit",
+      "code": "OT",
+      "name": "Digital overvåking og tillit",
+      "summary": "Om det er åpenhet om hva som registreres, og om data brukes rimelig.",
+      "rationale": "Elektronisk overvåking gir ingen målbar ytelsesgevinst, men mer stress. Åpenhet og mindre inngripende praksis gir mer positive holdninger.",
+      "rationale_sources": [
+        "ravid2023"
+      ],
+      "evidence_strength": "Sterk for stresseffekt, små effektstørrelser",
+      "legal_basis": [
+        "aml kap. 9 (kontrolltiltak, §§ 9-1 og 9-2)",
+        "GDPR art. 5, 6, 13 og 35"
+      ],
+      "optional": false,
+      "extended_only": true,
+      "items": [
+        {
+          "id": "KK-OT-1",
+          "text": "Jeg vet hvilke opplysninger om arbeidet mitt som registreres digitalt.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Åpenhet",
+          "source": "Egen (jf. Ravid mfl. 2023)"
+        },
+        {
+          "id": "KK-OT-2",
+          "text": "Digitale data om arbeidet mitt brukes på en rimelig måte.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Rimelighet",
+          "source": "Egen",
+          "improvement_note": "Test «rimelig» kognitivt."
+        },
+        {
+          "id": "KK-OT-3",
+          "text": "Jeg opplever tillit fra ledelsen, også når de ikke ser hva jeg gjør.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Tillit",
+          "source": "Egen",
+          "improvement_note": "Sjekk mot Integritet og verdighet."
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Hva registreres?",
+          "description": "Leder, verneombud og tillitsvalgte går gjennom hvilke data som registreres og hvorfor.",
+          "remeasure_item": "KK-OT-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Publisert oversikt",
+          "description": "En oppdatert oversikt over digitale registreringer, drøftet etter § 9-2.",
+          "remeasure_item": "KK-OT-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Styr etter resultater",
+          "description": "Leder følger opp resultater og avtaler, ikke statusindikatorer som «grønn prikk».",
+          "remeasure_item": "KK-OT-3"
+        }
+      ]
+    },
+    {
+      "id": "jobbtrygghet",
+      "code": "JT",
+      "name": "Jobbtrygghet og omstilling",
+      "summary": "Om man føler seg trygg på jobb og kompetanse, og om endringer blir forklart.",
+      "rationale": "Jobbusikkerhet er godt dokumentert som belastning. Den kvalitative usikkerheten – om kompetansen blir etterspurt – øker med raskt teknologiskifte.",
+      "rationale_sources": [
+        "vanderelst2014",
+        "tarafdar2007"
+      ],
+      "evidence_strength": "Sterk",
+      "legal_basis": [
+        "aml § 4-2 (informasjon og medvirkning ved omstilling)",
+        "aml kap. 8 (informasjon og drøfting)"
+      ],
+      "optional": false,
+      "extended_only": false,
+      "items": [
+        {
+          "id": "KK-JT-1",
+          "text": "Jeg føler meg trygg på at kompetansen min vil være etterspurt fremover.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": true,
+          "construct": "Kvalitativ/teknologisk jobbusikkerhet (reversert)",
+          "source": "Jf. techno-insecurity (Tarafdar mfl. 2007)"
+        },
+        {
+          "id": "KK-JT-2",
+          "text": "Jeg føler meg trygg på at jeg har jobb her om ett år.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Kvantitativ jobbusikkerhet (reversert)",
+          "source": "Tilpasset Job Insecurity Scale (Vander Elst mfl. 2014)",
+          "improvement_note": "Sensitiv under nedbemanning; vurder å skjule i slike perioder."
+        },
+        {
+          "id": "KK-JT-3",
+          "text": "Endringer i virksomheten blir forklart på en måte jeg forstår.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Endringskommunikasjon",
+          "source": "Egen",
+          "improvement_note": "Sjekk mot Kontakt og kommunikasjon."
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Fremtidens kompetanse",
+          "description": "Teamet ser på hvordan jobben endrer seg, og hva som trengs for å henge med.",
+          "remeasure_item": "KK-JT-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Kvartalsvis informasjon",
+          "description": "Et fast informasjonsmøte om strategi og økonomi hvert kvartal.",
+          "remeasure_item": "KK-JT-3"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Åpen dialog om usikkerhet",
+          "description": "Leder snakker åpent om det som er usikkert, og om hva som er kjent.",
+          "remeasure_item": "KK-JT-2"
+        }
+      ]
+    },
+    {
+      "id": "rettferdighet_og_karriere",
+      "code": "RK",
+      "name": "Rettferdighet og karriere",
+      "summary": "Om oppgaver fordeles rettferdig, og om kriterier og synlighet er like for alle.",
+      "rationale": "Opplevd rettferdighet i fordeling og prosesser er godt dokumentert. Nærhetsskjevhet – at de som er mest på kontoret, blir mest sett – er lite undersøkt og uvalidert.",
+      "rationale_sources": [
+        "colquitt2001"
+      ],
+      "evidence_strength": "Sterk for rettferdighet, svak for nærhetsskjevhet",
+      "legal_basis": [
+        "aml § 4-3",
+        "likestillings- og diskrimineringsloven § 26 (aktivitetsplikt)"
+      ],
+      "optional": true,
+      "extended_only": true,
+      "items": [
+        {
+          "id": "KK-RK-1",
+          "text": "Oppgaver og prosjekter fordeles på en rettferdig måte.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Fordelingsrettferdighet",
+          "source": "Egen (jf. Colquitt 2001)"
+        },
+        {
+          "id": "KK-RK-2",
+          "text": "Kriteriene for lønn og opprykk er tydelige.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Prosedyrerettferdighet",
+          "source": "Egen",
+          "improvement_note": "Lønn kan gi reaksjoner utenfor arbeidsmiljø; derfor valgfri faktor."
+        },
+        {
+          "id": "KK-RK-3",
+          "text": "Jeg har like gode muligheter til å bli sett, uansett hvor jeg jobber fra.",
+          "reverse": false,
+          "pulse_eligible": true,
+          "core_indicator": false,
+          "construct": "Nærhetsskjevhet",
+          "source": "Egen, ny og uvalidert"
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Bemanningsprinsipper",
+          "description": "Teamet blir enige om prinsipper for hvordan oppdrag og prosjekter fordeles.",
+          "remeasure_item": "KK-RK-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Publiserte kriterier",
+          "description": "Kriteriene for lønn og opprykk er skriftlige og kjent for alle.",
+          "remeasure_item": "KK-RK-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Følg fordelingen",
+          "description": "Leder følger med på hvem som får de attraktive oppdragene, fordelt på arbeidsform.",
+          "remeasure_item": "KK-RK-3"
+        }
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "key": "forenklet",
+      "code": "KK-F",
+      "version": "1.0",
+      "name": "Forenklet",
+      "estimated_minutes": 3,
+      "factor_toggles": false,
+      "factors": [
+        {
+          "id": "f_konsentrasjon",
+          "code": "F1",
+          "name": "Konsentrasjon og arbeidsflyt",
+          "summary": "Om det er rom for konsentrert arbeid, og om møtene er nyttige.",
+          "built_from": [
+            "fokus_og_avbrytelser",
+            "motekultur"
+          ],
+          "items": [
+            "KK-FA-1",
+            "KK-FA-2",
+            "KK-MK-1"
+          ],
+          "action_suggestions": [
+            {
+              "type": "workshop",
+              "title": "Møterevisjon",
+              "description": "Teamet går gjennom de faste møtene og bestemmer hvilke som beholdes, kortes ned eller legges ned.",
+              "remeasure_item": "KK-MK-1"
+            },
+            {
+              "type": "rutine",
+              "title": "Faste fokusblokker",
+              "description": "Faste tider uten møter, og e-post som behandles samlet et par ganger om dagen.",
+              "remeasure_item": "KK-FA-1"
+            },
+            {
+              "type": "lederpraksis",
+              "title": "Haster dette?",
+              "description": "Leder spør om saken haster før hun forstyrrer, og bruker skriftlige kanaler når den ikke gjør det.",
+              "remeasure_item": "KK-FA-2"
+            }
+          ]
+        },
+        {
+          "id": "f_digitale_verktoy",
+          "code": "F2",
+          "name": "Digitale verktøy og informasjonsmengde",
+          "summary": "Om verktøyene hjelper, og om informasjonsmengden er til å håndtere.",
+          "built_from": [
+            "digitale_verktoy"
+          ],
+          "items": [
+            "KK-DV-1",
+            "KK-DV-2",
+            "KK-DV-3"
+          ],
+          "action_suggestions": [
+            {
+              "type": "workshop",
+              "title": "Kanalavtale",
+              "description": "Teamet avtaler hvilken kanal som brukes til hva, og forventet svartid for hver.",
+              "remeasure_item": "KK-DV-2"
+            },
+            {
+              "type": "rutine",
+              "title": "Opplæring og superbrukere",
+              "description": "Hver innføring av nye verktøy har en opplæringsplan og en navngitt superbruker.",
+              "remeasure_item": "KK-DV-3"
+            },
+            {
+              "type": "lederpraksis",
+              "title": "Verktøy som hjelper",
+              "description": "Leder spør teamet hvilke verktøy som gjør jobben tyngre, og tar det videre.",
+              "remeasure_item": "KK-DV-1"
+            }
+          ]
+        },
+        {
+          "id": "f_tilgjengelighet",
+          "code": "F3",
+          "name": "Tilgjengelighet og grenser",
+          "summary": "Om det er greit å ikke svare utenom arbeidstid, og om teamet har klare avtaler.",
+          "built_from": [
+            "tilgjengelighet"
+          ],
+          "items": [
+            "KK-TG-1",
+            "KK-TG-2",
+            "KK-TG-3"
+          ],
+          "action_suggestions": [
+            {
+              "type": "workshop",
+              "title": "Tilgjengelighetsavtale",
+              "description": "Teamet avtaler svartid per kanal, kjernetid og hva som faktisk er en hastesak.",
+              "remeasure_item": "KK-TG-3"
+            },
+            {
+              "type": "rutine",
+              "title": "Frakoblingsregler",
+              "description": "Skriftlige regler for kontakt utenom arbeidstid, med forsinket sending av e-post og meldinger.",
+              "remeasure_item": "KK-TG-1"
+            },
+            {
+              "type": "lederpraksis",
+              "title": "Svar når det passer",
+              "description": "Leder sier tydelig at meldinger kan vente til det passer i arbeidet, og praktiserer det selv.",
+              "remeasure_item": "KK-TG-2"
+            }
+          ]
+        },
+        {
+          "id": "f_privatliv_restitusjon",
+          "code": "F4",
+          "name": "Arbeid, privatliv og restitusjon",
+          "summary": "Om jobben gir rom for privatlivet, og om man klarer å koble av.",
+          "built_from": [
+            "arbeid_privatliv",
+            "restitusjon"
+          ],
+          "items": [
+            "KK-AP-1",
+            "KK-RE-1",
+            "KK-AP-2"
+          ],
+          "action_suggestions": [
+            {
+              "type": "workshop",
+              "title": "Grenser og fleksibilitet",
+              "description": "Teamet blir enige om hva fleksibilitet betyr hos dem, og hvor grensene går.",
+              "remeasure_item": "KK-AP-2"
+            },
+            {
+              "type": "rutine",
+              "title": "Kvartalsvis gjennomgang",
+              "description": "Leder og verneombud ser på samlet kvelds- og helgearbeid hvert kvartal.",
+              "remeasure_item": "KK-AP-1"
+            },
+            {
+              "type": "lederpraksis",
+              "title": "Fri betyr fri",
+              "description": "Leder sørger for stedfortreder i ferie og fri, og sender ikke jobbmeldinger da.",
+              "remeasure_item": "KK-RE-1"
+            }
+          ]
+        },
+        {
+          "id": "f_hybrid",
+          "code": "F5",
+          "name": "Samhandling og tilhørighet i hybridarbeid",
+          "summary": "Om samarbeid, kontakt og faglig sparring fungerer, uansett hvor man jobber.",
+          "built_from": [
+            "hybrid_samhandling",
+            "tilhorighet"
+          ],
+          "items": [
+            "KK-HS-1",
+            "KK-TN-1",
+            "KK-TN-2"
+          ],
+          "action_suggestions": [
+            {
+              "type": "workshop",
+              "title": "Hybrid teamavtale",
+              "description": "Teamet avtaler hvilke oppgaver som gjøres hvor, og faste dager der alle er til stede.",
+              "remeasure_item": "KK-HS-1"
+            },
+            {
+              "type": "rutine",
+              "title": "Fagforum på tvers",
+              "description": "Faste fagforum på tvers av team, der man deler og får sparring.",
+              "remeasure_item": "KK-TN-2"
+            },
+            {
+              "type": "lederpraksis",
+              "title": "Ukentlig én-til-én",
+              "description": "Leder har en kort ukentlig samtale med dem som jobber mye hjemme.",
+              "remeasure_item": "KK-TN-1"
+            }
+          ]
+        },
+        {
+          "id": "f_fysisk",
+          "code": "F6",
+          "name": "Fysisk arbeidsplass og utstyr",
+          "summary": "Om kontoret gir ro, og om utstyret er godt – også hjemme.",
+          "built_from": [
+            "fysisk_arbeidsplass"
+          ],
+          "items": [
+            "KK-FY-1",
+            "KK-FY-2",
+            "KK-FY-3"
+          ],
+          "action_suggestions": [
+            {
+              "type": "workshop",
+              "title": "Soner og spilleregler",
+              "description": "Teamet avtaler stillesoner og spilleregler for samtaler og telefoner i landskapet.",
+              "remeasure_item": "KK-FY-1"
+            },
+            {
+              "type": "rutine",
+              "title": "Sjekkliste for hjemmekontor",
+              "description": "En digital ergonomisjekkliste når hjemmekontoravtalen inngås.",
+              "remeasure_item": "KK-FY-2"
+            },
+            {
+              "type": "lederpraksis",
+              "title": "Utstyr i medarbeidersamtalen",
+              "description": "Arbeidsplass og utstyr er et fast punkt i medarbeidersamtalen.",
+              "remeasure_item": "KK-FY-3"
+            }
+          ]
+        },
+        {
+          "id": "f_laering",
+          "code": "F7",
+          "name": "Læring og faglig utvikling",
+          "summary": "Om man lærer, har tid til å holde seg oppdatert og kjenner mulighetene.",
+          "built_from": [
+            "laering_og_utvikling"
+          ],
+          "items": [
+            "KK-LU-1",
+            "KK-LU-2",
+            "KK-LU-3"
+          ],
+          "action_suggestions": [
+            {
+              "type": "workshop",
+              "title": "Kompetansekart",
+              "description": "Teamet kartlegger hvilken kompetanse det trenger fremover, og hvem som vil lære hva.",
+              "remeasure_item": "KK-LU-3"
+            },
+            {
+              "type": "rutine",
+              "title": "Fast læringstid",
+              "description": "Fast tid i kalenderen til læring, og en enkel utviklingsplan per person.",
+              "remeasure_item": "KK-LU-2"
+            },
+            {
+              "type": "lederpraksis",
+              "title": "Utviklingssamtale",
+              "description": "Halvårlig samtale med konkrete læringsmål.",
+              "remeasure_item": "KK-LU-1"
+            }
+          ]
+        },
+        {
+          "id": "f_teknologi_ki",
+          "code": "F8",
+          "name": "Teknologisk endring og KI",
+          "summary": "Om man kan bruke KI trygt, blir involvert og ser fremtiden for egen kompetanse.",
+          "built_from": [
+            "ki_og_endring",
+            "jobbtrygghet"
+          ],
+          "items": [
+            "KK-KI-1",
+            "KK-KI-2",
+            "KK-JT-1"
+          ],
+          "action_suggestions": [
+            {
+              "type": "workshop",
+              "title": "KI i vårt fag",
+              "description": "Teamet går gjennom nytte og risiko ved KI i eget fag og lager egne retningslinjer.",
+              "remeasure_item": "KK-KI-1"
+            },
+            {
+              "type": "rutine",
+              "title": "Drøfting før nye verktøy",
+              "description": "Nye KI-verktøy drøftes med tillitsvalgte og verneombud før de tas i bruk, med en opplæringsplan.",
+              "remeasure_item": "KK-KI-2"
+            },
+            {
+              "type": "lederpraksis",
+              "title": "Snakk om fremtidens kompetanse",
+              "description": "Leder tar opp hvordan jobben endrer seg, og hva den enkelte trenger for å henge med.",
+              "remeasure_item": "KK-JT-1"
+            }
+          ]
+        }
+      ],
+      "count_items": [
+        "KK-T-1",
+        "KK-T-2"
+      ],
+      "segments": [
+        "arbeidsform",
+        "fakturerbar_rolle"
+      ]
+    },
+    {
+      "key": "utvidet",
+      "code": "KK-U",
+      "version": "1.0",
+      "name": "Utvidet",
+      "estimated_minutes": 7,
+      "factor_toggles": true,
+      "min_factors": 8,
+      "recommended_factors": [
+        8,
+        12
+      ],
+      "default_off": [
+        "rettferdighet_og_karriere"
+      ],
+      "locked_items": [
+        "KK-FA-1",
+        "KK-FA-2",
+        "KK-MK-1",
+        "KK-DV-1",
+        "KK-DV-2",
+        "KK-DV-3",
+        "KK-TG-1",
+        "KK-TG-2",
+        "KK-TG-3",
+        "KK-AP-1",
+        "KK-AP-2",
+        "KK-RE-1",
+        "KK-HS-1",
+        "KK-TN-1",
+        "KK-TN-2",
+        "KK-FY-1",
+        "KK-FY-2",
+        "KK-FY-3",
+        "KK-LU-1",
+        "KK-LU-2",
+        "KK-LU-3",
+        "KK-KI-1",
+        "KK-KI-2",
+        "KK-JT-1"
+      ],
+      "count_items": [
+        "KK-T-1",
+        "KK-T-2",
+        "KK-T-3",
+        "KK-T-4"
+      ],
+      "segments": [
+        "arbeidsform",
+        "fakturerbar_rolle"
+      ]
+    }
+  ],
+  "count_items": [
+    {
+      "id": "KK-T-1",
+      "variants": [
+        "forenklet",
+        "utvidet"
+      ],
+      "text": "Har du i løpet av de siste fire ukene blitt kontaktet om arbeid i fritiden der det var forventet at du svarte, uten at du hadde avtalt vakt eller beredskap?",
+      "options": [
+        "Ja",
+        "Nei",
+        "Vet ikke"
+      ],
+      "why": "Indikator for hviletid (aml § 10-8) og rett til frakobling."
+    },
+    {
+      "id": "KK-T-2",
+      "variants": [
+        "forenklet",
+        "utvidet"
+      ],
+      "text": "Hvis du jobber hjemmefra fast eller jevnlig: Har du en skriftlig avtale med arbeidsgiver om hjemmekontor?",
+      "options": [
+        "Ja",
+        "Nei",
+        "Vet ikke",
+        "Jobber ikke fast hjemmefra"
+      ],
+      "why": "Hjemmekontorforskriften § 2 krever skriftlig avtale. «Jobber ikke fast hjemmefra» holdes utenfor andelen."
+    },
+    {
+      "id": "KK-T-3",
+      "variants": [
+        "utvidet"
+      ],
+      "text": "Har virksomheten gitt deg skriftlige retningslinjer for bruk av KI-verktøy?",
+      "options": [
+        "Ja",
+        "Nei",
+        "Vet ikke"
+      ],
+      "why": "Samsvarsindikator for KI-bruk."
+    },
+    {
+      "id": "KK-T-4",
+      "variants": [
+        "utvidet"
+      ],
+      "text": "Har arbeidsplassen din hjemme blitt gjennomgått, for eksempel med en sjekkliste for ergonomi?",
+      "options": [
+        "Ja",
+        "Nei",
+        "Vet ikke",
+        "Jobber ikke fast hjemmefra"
+      ],
+      "why": "Hjemmekontorforskriften §§ 3 og 4."
+    }
+  ],
+  "segments": [
+    {
+      "id": "arbeidsform",
+      "text": "Hvor jobber du vanligvis?",
+      "options": [
+        "Hovedsakelig på arbeidsgivers lokaler",
+        "Både på lokaler og hjemme (hybrid)",
+        "Hovedsakelig hjemme eller annet sted"
+      ],
+      "merge_rule": "Slå «Hovedsakelig hjemme eller annet sted» sammen med «hybrid» når kategorien har under 5 svar."
+    },
+    {
+      "id": "fakturerbar_rolle",
+      "text": "Hvor stor del av arbeidstiden din går til kundeleveranser eller fakturerbart arbeid?",
+      "options": [
+        "Mesteparten",
+        "Noe",
+        "Lite eller ingenting"
+      ],
+      "merge_rule": "Slå sammen de to minste kategoriene når en av dem har under 5 svar."
+    }
+  ],
+  "sources": [
+    {
+      "key": "ssb_ki",
+      "title": "SSB: Bruken av KI i næringslivet akselererer (2026)",
+      "url": "https://www.ssb.no/teknologi-og-innovasjon/informasjons-og-kommunikasjonsteknologi-ikt/statistikk/bruk-av-ikt-i-naeringslivet/artikler/bruken-av-ki-i-naeringslivet-akselererer"
+    },
+    {
+      "key": "stami_faktabok",
+      "title": "STAMI: Faktabok om arbeidsmiljø og helse 2024",
+      "url": "https://noa.stami.no/wp-content/uploads/2024/09/Faktabok-om-arbeidsmiljo-og-helse-2024.pdf"
+    },
+    {
+      "key": "stami_hjemmekontor",
+      "title": "STAMI: Ny kunnskap om hjemmekontor, arbeidsmiljø og helse",
+      "url": "https://stami.no/ny-kunnskap-om-hjemmekontor-arbeidsmiljo-og-helse/"
+    },
+    {
+      "key": "eurofound_wtq",
+      "title": "Eurofound: Working anytime, anywhere – the quality of working time in the EU (2026)",
+      "url": "https://www.eurofound.europa.eu/en/publications/all/working-anytime-anywhere-the-quality-of-working-time-in-the-eu"
+    },
+    {
+      "key": "eurofound_rtd",
+      "title": "Eurofound: Right to disconnect – implementation and impact at company level (2023)",
+      "url": "https://www.eurofound.europa.eu/en/publications/all/right-disconnect-implementation-and-impact-company-level"
+    },
+    {
+      "key": "osha_pulse",
+      "title": "EU-OSHA: OSH Pulse 2022 – occupational safety and health in post-pandemic workplaces",
+      "url": "https://osha.europa.eu/en/facts-and-figures/osh-pulse/post-pandemic"
+    },
+    {
+      "key": "eu_osha_digital",
+      "title": "EU-OSHA: Digital technologies at work and psychosocial risks (2024)",
+      "url": "https://osha.europa.eu/sites/default/files/documents/Digitalisation-and-PSR_EN.pdf"
+    },
+    {
+      "key": "puranik2020",
+      "title": "Puranik, Koopman og Vough (2020): Pardon the interruption. Journal of Management 46(6)",
+      "url": "https://doi.org/10.1177/0149206319887428"
+    },
+    {
+      "key": "leroy2009",
+      "title": "Leroy (2009): Why is it so hard to do my work? Attention residue. OBHDP 109(2)",
+      "url": "https://doi.org/10.1016/j.obhdp.2009.04.002"
+    },
+    {
+      "key": "kushlev2015",
+      "title": "Kushlev og Dunn (2015): Checking email less frequently reduces stress. Computers in Human Behavior 43",
+      "url": "https://doi.org/10.1016/j.chb.2014.11.005"
+    },
+    {
+      "key": "luong2005",
+      "title": "Luong og Rogelberg (2005): Meetings and more meetings. Group Dynamics 9(1)",
+      "url": "https://doi.org/10.1037/1089-2699.9.1.58"
+    },
+    {
+      "key": "rogelberg2006",
+      "title": "Rogelberg mfl. (2006): «Not another meeting!». Journal of Applied Psychology 91(1)",
+      "url": "https://doi.org/10.1037/0021-9010.91.1.83"
+    },
+    {
+      "key": "cipd2023",
+      "title": "CIPD (2023): Productive meetings – an evidence review",
+      "url": "https://www.cipd.org/globalassets/media/knowledge/knowledge-hub/evidence-reviews/2023-pdfs/8385-productive-meetings-scientific-summary-may23.pdf"
+    },
+    {
+      "key": "ms_wti2023",
+      "title": "Microsoft Work Trend Index 2023: Will AI fix work? (leverandørdata, ikke fagfellevurdert)",
+      "url": "https://www.microsoft.com/en-us/worklab/work-trend-index/will-ai-fix-work"
+    },
+    {
+      "key": "tarafdar2007",
+      "title": "Tarafdar mfl. (2007): The impact of technostress on role stress and productivity. JMIS 24(1)",
+      "url": "https://doi.org/10.2753/MIS0742-1222240109"
+    },
+    {
+      "key": "day2012",
+      "title": "Day mfl. (2012): Perceived ICT demands on employee outcomes. JOHP 17(4)",
+      "url": "https://doi.org/10.1037/a0029837"
+    },
+    {
+      "key": "dss_no",
+      "title": "Measuring digital stress in Norway: the Digital Stressors Scale. Frontiers in Psychology (2024)",
+      "url": "https://doi.org/10.3389/fpsyg.2024.1297194"
+    },
+    {
+      "key": "barber2015",
+      "title": "Barber og Santuzzi (2015): Please respond ASAP – workplace telepressure. JOHP 20(2)",
+      "url": "https://doi.org/10.1037/a0038278"
+    },
+    {
+      "key": "barber2026",
+      "title": "Barber, Santuzzi og Hu (2026): Tackling workplace telepressure – are disconnection policies helpful? Group & Organization Management",
+      "url": "https://doi.org/10.1177/10596011231206206"
+    },
+    {
+      "key": "netemeyer1996",
+      "title": "Netemeyer, Boles og McMurrian (1996): Work–family conflict scales. Journal of Applied Psychology 81(4)",
+      "url": "https://doi.org/10.1037/0021-9010.81.4.400"
+    },
+    {
+      "key": "sonnentag2007",
+      "title": "Sonnentag og Fritz (2007): The Recovery Experience Questionnaire. JOHP 12(3)",
+      "url": "https://doi.org/10.1037/1076-8998.12.3.204"
+    },
+    {
+      "key": "almen2018",
+      "title": "Almén mfl. (2018): Svensk validering av Recovery Experience Questionnaire. Nordic Psychology 70(4)",
+      "url": "https://doi.org/10.1080/19012276.2018.1443280"
+    },
+    {
+      "key": "golden2008",
+      "title": "Golden, Veiga og Dino (2008): Professional isolation and teleworker performance. Journal of Applied Psychology 93(6)",
+      "url": "https://doi.org/10.1037/a0012722"
+    },
+    {
+      "key": "kim2013",
+      "title": "Kim og de Dear (2013): Workspace satisfaction – the privacy–communication trade-off in open-plan offices. Journal of Environmental Psychology 36",
+      "url": "https://doi.org/10.1016/j.jenvp.2013.06.007"
+    },
+    {
+      "key": "hjemmekontorforskriften",
+      "title": "Forskrift om arbeid som utføres i arbeidstakers hjem (Lovdata)",
+      "url": "https://lovdata.no/dokument/SF/forskrift/2002-07-05-715"
+    },
+    {
+      "key": "bakker2007",
+      "title": "Bakker og Demerouti (2007): The Job Demands–Resources model. Journal of Managerial Psychology 22(3)",
+      "url": "https://doi.org/10.1108/02683940710733115"
+    },
+    {
+      "key": "oecd_ai",
+      "title": "Lane, Williams og Broecke (2023): The impact of AI on the workplace. OECD Working Paper 288",
+      "url": "https://doi.org/10.1787/ea0a0fe1-en"
+    },
+    {
+      "key": "ravid2023",
+      "title": "Ravid mfl. (2023): A meta-analysis of the effects of electronic performance monitoring. Personnel Psychology 76(1)",
+      "url": "https://doi.org/10.1111/peps.12514"
+    },
+    {
+      "key": "vanderelst2014",
+      "title": "Vander Elst, De Witte og De Cuyper (2014): The Job Insecurity Scale across five European countries. EJWOP 23(3)",
+      "url": "https://doi.org/10.1080/1359432X.2012.745989"
+    },
+    {
+      "key": "colquitt2001",
+      "title": "Colquitt (2001): On the dimensionality of organizational justice. Journal of Applied Psychology 86(3)",
+      "url": "https://doi.org/10.1037/0021-9010.86.3.386"
+    }
+  ]
+}

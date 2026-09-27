@@ -1,6 +1,7 @@
 import barnehageV1 from '@/modules/barnehage-og-skole/v1.json'
 import byggV1 from '@/modules/bygg-og-anlegg/v1.json'
 import helseV1 from '@/modules/helse-og-omsorg/v1.json'
+import kontorV1 from '@/modules/kunnskap-og-kontor/v1.json'
 import { parseModule, type ModuleFile } from '@/lib/modules/schema'
 
 /**
@@ -22,6 +23,7 @@ const FILES: Record<string, unknown> = {
   // 2026-09-27 and is kept at modules/helse-og-omsorg/archive/ only for its pinned hash
   'helse-og-omsorg@1.0.1': helseV1,
   'barnehage-og-skole@1.0.0': barnehageV1,
+  'kunnskap-og-kontor@1.0.0': kontorV1,
 }
 
 export type PageLang = 'no' | 'en'
@@ -74,3 +76,35 @@ export function moduleFile(key: string, version: string, lang: PageLang = 'no'):
 /** "a, b and c" in the page's language */
 export const listOf = (xs: string[], lang: PageLang) =>
   new Intl.ListFormat(lang === 'en' ? 'en-GB' : 'nb-NO', { style: 'long', type: 'conjunction' }).format(xs)
+
+/** A factor as the pages draw it: the module file's own, or a simplified one with its statements resolved (0089) */
+export type PageFactor = ModuleFile['factors'][number]
+
+/**
+ * The simplified factors of a module in variants (F1–F8), shaped as the pages draw a factor: the
+ * statements in full from the extended factors they come from. No rationale or legal basis of
+ * their own; those are the extended factors'. Empty for a module asked one way.
+ */
+export function simplifiedFactors(m: ModuleFile): PageFactor[] {
+  const simple = m.variants?.[0]
+  if (!simple) return []
+  const items = new Map(m.factors.flatMap((f) => f.items.map((i) => [i.id, i] as const)))
+  return simple.factors.map((f) => ({
+    id: f.id,
+    code: f.code,
+    name: f.name,
+    summary: f.summary,
+    rationale: '',
+    rationale_sources: [],
+    legal_basis: [],
+    items: f.items.flatMap((c) => {
+      const i = items.get(c)
+      return i ? [i] : []
+    }),
+    action_suggestions: f.action_suggestions,
+  }))
+}
+
+/** The factors a page shows by default: the page's variant's, or all of a module asked one way */
+export const pageFactors = (m: ModuleFile, variant?: 'forenklet' | 'utvidet'): PageFactor[] =>
+  variant === 'forenklet' && m.variants ? simplifiedFactors(m) : m.factors

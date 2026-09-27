@@ -29,6 +29,8 @@ const ModuleRow = z.object({
   relation_to_core: z.object({ covered_by_core_factors: z.array(z.string()).optional() }).passthrough(),
   /** a worded module's rule (0083); null for a module without wordings */
   wording: z.object({ default: z.enum(WORDINGS) }).passthrough().nullable().default(null),
+  /** provisional: the risk bands are shown as «Foreløpig» (0089); null where the file does not say */
+  validation_status: z.enum(['provisional', 'validated']).nullable().default(null),
   i18n: z
     .object({ en: z.object({ name: z.string(), description: z.string(), covered_by_core_factors: z.array(z.string()).optional() }).partial() })
     .partial()
@@ -44,6 +46,12 @@ const FactorRow = z.object({
   rationale_sources: z.array(z.string()),
   legal_basis: z.array(z.string()),
   sort: z.coerce.number(),
+  // a module in variants (0089)
+  variant_key: z.enum(['forenklet', 'utvidet']).nullable().default(null),
+  code: z.string().nullable().default(null),
+  optional: z.boolean().default(false),
+  extended_only: z.boolean().default(false),
+  built_from: z.array(z.string()).default([]),
   i18n: z
     .object({
       en: z.object({ name: z.string(), summary: z.string(), rationale: z.string(), legal_basis: z.array(z.string()) }).partial(),
@@ -64,6 +72,22 @@ const ItemRow = z.object({
   text: Locale,
   options: z.array(Locale).nullable(),
   sort: z.coerce.number(),
+  core_indicator: z.boolean().default(false),
+  help: Locale.nullable().default(null),
+})
+const MemberRow = z.object({ factor_id: z.string().uuid(), item_id: z.string().uuid(), sort: z.coerce.number() })
+const VariantRow = z.object({
+  module_id: z.string().uuid(),
+  key: z.enum(['forenklet', 'utvidet']),
+  code: z.string(),
+  version: z.string(),
+  name: z.string(),
+  estimated_minutes: z.coerce.number(),
+  min_factors: z.coerce.number().nullable(),
+  default_off: z.array(z.string()),
+  locked_items: z.array(z.string()),
+  count_items: z.array(z.string()),
+  sort: z.coerce.number(),
 })
 const ActionRow = z.object({
   id: z.string().uuid(),
@@ -78,7 +102,17 @@ const ActionRow = z.object({
 const SourceRow = z.object({ key: z.string(), title: z.string(), url: z.string(), sort: z.coerce.number() })
 
 /** `text` is the «begge» wording of a worded module's statement; `variants` the other two (0083) */
-export type ModuleItem = { id: string; code: string; text: string; options: string[]; variants?: WordingVariants }
+export type ModuleItem = {
+  id: string
+  code: string
+  text: string
+  options: string[]
+  variants?: WordingVariants
+  /** a core statement of a module in variants: asked in both (0089) */
+  core?: boolean
+  /** a line under the statement for the respondent */
+  help?: string
+}
 export type ModuleAction = {
   id: string
   type: 'workshop' | 'rutine' | 'lederpraksis'
@@ -89,6 +123,15 @@ export type ModuleAction = {
 export type ModuleFactor = {
   id: string
   key: string
+  /** a module in variants (0089): the simplified or the extended set; null for a module asked one way */
+  variant: 'forenklet' | 'utvidet' | null
+  /** F1…, FA… */
+  code: string | null
+  /** an extended factor the organisation may leave out, and one only the extended set has */
+  optional: boolean
+  extendedOnly: boolean
+  /** a simplified factor: the extended factors its statements come from */
+  builtFrom: string[]
   name: string
   /** the name's other wordings, where it names the children (0083) */
   nameVariants?: WordingVariants
@@ -109,11 +152,29 @@ export type Module = {
   estimatedMinutes: number
   /** its statements come in wordings (barnehage, skole, begge); see withWording */
   worded: boolean
+  /** provisional: its risk bands are shown as «Foreløpig» (0089) */
+  provisional: boolean
+  /** a module asked in two variants (0089): the simplified set first; empty for a module asked one way */
+  variants: ModuleVariant[]
   coveredByCore: string[]
   factors: ModuleFactor[]
   countItems: ModuleItem[]
   segments: ModuleItem[]
   sources: { key: string; title: string; url: string }[]
+}
+
+export type ModuleVariant = {
+  key: 'forenklet' | 'utvidet'
+  code: string
+  version: string
+  name: string
+  estimatedMinutes: number
+  /** the extended set: the fewest factors an organisation may ask, and those off by default */
+  minFactors: number | null
+  defaultOff: string[]
+  /** the core statements, by code: asked whatever factors are chosen */
+  lockedItems: string[]
+  countItems: string[]
 }
 
 const ACTION_ORDER = { workshop: 0, rutine: 1, lederpraksis: 2 } as const
@@ -131,7 +192,7 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
   let q = supabase
     .schema('app')
     .from('question_modules')
-    .select('id, key, version, name, description, status, estimated_minutes, relation_to_core, wording, i18n')
+    .select('id, key, version, name, description, status, estimated_minutes, relation_to_core, wording, validation_status, i18n')
   if (filter.ids) q = q.in('id', filter.ids)
   if (filter.status) q = q.eq('status', filter.status)
   const { data: mods, error } = await q
@@ -140,25 +201,36 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
   if (parseFailed('modules', parsedMods) || !parsedMods.data.length) return []
   const ids = parsedMods.data.map((m) => m.id)
 
-  const [factors, items, actions, sources] = await Promise.all([
+  const [factors, items, actions, sources, members, variants] = await Promise.all([
     supabase.schema('app').from('module_factors')
-      .select('id, module_id, key, name, summary, rationale, rationale_sources, legal_basis, sort, i18n').in('module_id', ids),
+      .select('id, module_id, key, name, summary, rationale, rationale_sources, legal_basis, sort, i18n, variant_key, code, optional, extended_only, built_from')
+      .in('module_id', ids),
     supabase.schema('app').from('module_items')
-      .select('id, module_id, factor_id, code, kind, text, options, sort').in('module_id', ids),
+      .select('id, module_id, factor_id, code, kind, text, options, sort, core_indicator, help').in('module_id', ids),
     supabase.schema('app').from('module_action_suggestions')
       .select('id, module_id, factor_id, type, title, description, remeasure_item_id, sort, i18n').in('module_id', ids),
     supabase.schema('app').from('module_sources').select('module_id, key, title, url, sort').in('module_id', ids),
+    // which statements each factor is scored from (0089); a module asked one way: its own
+    supabase.schema('app').from('module_factor_items').select('factor_id, item_id, sort').in('module_id', ids),
+    supabase.schema('app').from('module_variants')
+      .select('module_id, key, code, version, name, estimated_minutes, min_factors, default_off, locked_items, count_items, sort')
+      .in('module_id', ids),
   ])
   if (readFailed('module_factors', factors.error, factors.data)) return []
   if (readFailed('module_items', items.error, items.data)) return []
   if (readFailed('module_action_suggestions', actions.error, actions.data)) return []
   if (readFailed('module_sources', sources.error, sources.data)) return []
+  if (readFailed('module_factor_items', members.error, members.data)) return []
+  if (readFailed('module_variants', variants.error, variants.data)) return []
   const f = z.array(FactorRow).safeParse(factors.data)
   const it = z.array(ItemRow).safeParse(items.data)
   const ac = z.array(ActionRow.extend({ module_id: z.string().uuid() })).safeParse(actions.data)
   const so = z.array(SourceRow.extend({ module_id: z.string().uuid() })).safeParse(sources.data)
   if (parseFailed('module_factors', f) || parseFailed('module_items', it)) return []
   if (parseFailed('module_action_suggestions', ac) || parseFailed('module_sources', so)) return []
+  const mem = z.array(MemberRow).safeParse(members.data)
+  const va = z.array(VariantRow).safeParse(variants.data)
+  if (parseFailed('module_factor_items', mem) || parseFailed('module_variants', va)) return []
 
   // the reader's language where the module has it (0072), Norwegian otherwise
   const en = (await getLocale()) === 'en'
@@ -171,6 +243,8 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
       code: r.code,
       text: pick(r.text),
       options: (r.options ?? []).map(pick),
+      ...(r.core_indicator ? { core: true } : {}),
+      ...(r.help ? { help: pick(r.help) } : {}),
       // the wordings are Norwegian: a reader shown the English text has no use for them
       ...(!(en && r.text.en) && typeof b === 'string' && typeof s === 'string' ? { variants: { barnehage: b, skole: s } } : {}),
     }
@@ -189,6 +263,21 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
       status: m.status,
       estimatedMinutes: m.estimated_minutes,
       worded: m.wording !== null,
+      provisional: m.validation_status === 'provisional',
+      variants: va.data
+        .filter((v) => v.module_id === m.id)
+        .sort(bySort)
+        .map((v) => ({
+          key: v.key,
+          code: v.code,
+          version: v.version,
+          name: v.name,
+          estimatedMinutes: v.estimated_minutes,
+          minFactors: v.min_factors,
+          defaultOff: v.default_off,
+          lockedItems: v.locked_items,
+          countItems: v.count_items,
+        })),
       coveredByCore: (en && m.i18n.en?.covered_by_core_factors) || m.relation_to_core.covered_by_core_factors || [],
       factors: f.data
         .filter((r) => r.module_id === m.id)
@@ -196,6 +285,11 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
         .map((r) => ({
           id: r.id,
           key: r.key,
+          variant: r.variant_key,
+          code: r.code,
+          optional: r.optional,
+          extendedOnly: r.extended_only,
+          builtFrom: r.built_from,
           name: (en && r.i18n.en?.name) || r.name,
           ...(!(en && r.i18n.en?.name) && r.i18n['nb.barnehage'] && r.i18n['nb.skole']
             ? { nameVariants: { barnehage: r.i18n['nb.barnehage'].name, skole: r.i18n['nb.skole'].name } }
@@ -204,7 +298,14 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
           rationale: (en && r.i18n.en?.rationale) || r.rationale,
           rationaleSources: r.rationale_sources,
           legalBasis: (en && r.i18n.en?.legal_basis) || r.legal_basis,
-          items: mine.filter((i) => i.factor_id === r.id && i.kind === 'likert5').map(item),
+          // through membership (0089): a simplified factor's statements are core statements of others
+          items: mem.data
+            .filter((x) => x.factor_id === r.id)
+            .sort(bySort)
+            .flatMap((x) => {
+              const i = itemById.get(x.item_id)
+              return i ? [i] : []
+            }),
           actions: ac.data
             .filter((a) => a.factor_id === r.id)
             .sort((a, b) => ACTION_ORDER[a.type] - ACTION_ORDER[b.type] || a.sort - b.sort)
@@ -266,6 +367,7 @@ const RoundModuleRow = z.object({
   include_count_items: z.boolean(),
   include_segments: z.boolean(),
   wording: z.enum(WORDINGS).nullable().default(null),
+  variant_key: z.enum(['forenklet', 'utvidet']).nullable().default(null),
 })
 export type RoundModule = {
   roundId: string
@@ -275,6 +377,8 @@ export type RoundModule = {
   includeSegments: boolean
   /** the wording the round asks a worded module in (0083); null for a module without */
   wording: Wording | null
+  /** the variant a round asks a module in (0089); null for a module asked one way, and for a puls */
+  variantKey: 'forenklet' | 'utvidet' | null
 }
 
 /** Which modules the given rounds ask, and which of their statements. */
@@ -284,7 +388,7 @@ export const getRoundModules = cache(async (roundIds: string[]): Promise<RoundMo
   const { data, error } = await supabase
     .schema('app')
     .from('round_modules')
-    .select('round_id, module_id, item_ids, include_count_items, include_segments, wording')
+    .select('round_id, module_id, item_ids, include_count_items, include_segments, wording, variant_key')
     .in('round_id', roundIds)
   if (readFailed('round_modules', error, data)) return []
   const parsed = z.array(RoundModuleRow).safeParse(data)
@@ -296,8 +400,30 @@ export const getRoundModules = cache(async (roundIds: string[]): Promise<RoundMo
     includeCountItems: r.include_count_items,
     includeSegments: r.include_segments,
     wording: r.wording,
+    variantKey: r.variant_key,
   }))
 })
+
+/**
+ * The statements a round asks of a module, each under the factor its respondent reads it under
+ * (respond_form, 0089): the variant's factor in a module in variants — in a puls, the simplified
+ * one for a core statement — and its own factor otherwise. Once each, in the registry's order.
+ */
+export function askedStatements(m: Module, variantKey: RoundModule['variantKey'], itemIds: string[]) {
+  const asked = new Set(itemIds)
+  const seen = new Set<string>()
+  const out: { item: ModuleItem; factor: ModuleFactor }[] = []
+  for (const f of m.factors) {
+    for (const i of f.items) {
+      if (!asked.has(i.id) || seen.has(i.id)) continue
+      const want = f.variant === null || f.variant === (variantKey ?? (i.core ? 'forenklet' : 'utvidet'))
+      if (!want) continue
+      seen.add(i.id)
+      out.push({ item: i, factor: f })
+    }
+  }
+  return out
+}
 
 /** The organisation's industry code from Brønnøysund, for the module suggestion. */
 export const getOrgNaceCode = cache(async (): Promise<string | null> => {
@@ -387,4 +513,33 @@ export const getOrgModuleWordings = cache(async (orgId: string): Promise<Map<str
     .safeParse(data)
   if (parseFailed('org_module_wordings', parsed)) return new Map()
   return new Map(Object.entries(parsed.data.wordings))
+})
+
+/**
+ * The organisation's choice for each module in variants (0089): the variant, and for the extended
+ * set the factors asked (null: the module's default). No row: the simplified set.
+ */
+export type OrgVariant = { variant: 'forenklet' | 'utvidet'; factors: string[] | null }
+
+export const getOrgModuleVariants = cache(async (orgId: string): Promise<Map<string, OrgVariant>> => {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .schema('app')
+    .from('org_modules')
+    .select('module_key, variant_key, factor_keys')
+    .eq('org_id', orgId)
+  if (readFailed('org_modules.variant', error, data)) return new Map()
+  const parsed = z
+    .array(
+      z.object({
+        module_key: z.string(),
+        variant_key: z.enum(['forenklet', 'utvidet']).nullable(),
+        factor_keys: z.array(z.string()).nullable(),
+      }),
+    )
+    .safeParse(data)
+  if (parseFailed('org_modules.variant', parsed)) return new Map()
+  return new Map(
+    parsed.data.flatMap((r) => (r.variant_key ? [[r.module_key, { variant: r.variant_key, factors: r.factor_keys }] as const] : [])),
+  )
 })

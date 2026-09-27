@@ -41,13 +41,17 @@ const Form = z.object({
             text: z.string(),
             factor_en: z.string().nullish(),
             text_en: z.string().nullish(),
+            // a line under the statement (0089)
+            help: z.string().nullish(),
+            help_en: z.string().nullish(),
           }),
         ),
         count: z.array(
           z.object({
             item: z.string().uuid(),
             text: z.string(),
-            options: z.array(z.string()).length(3),
+            // ja, nei, vet ikke, and where it does not apply to everyone a fourth that says so (0089)
+            options: z.array(z.string()).min(3).max(4),
             text_en: z.string().nullish(),
             options_en: z.array(z.string().nullable()).nullish(),
           }),

@@ -47,6 +47,7 @@ const PAGES = [
   { slug: 'helse-og-omsorg', key: 'helseOgOmsorg', shot: 'samtaler' },
   // an industry page with no landing page before it: the H1 is the page's own (content/industries)
   { slug: 'barnehage-og-skole', h1: industryH1('barnehage-og-skole'), shot: 'sporsmal' },
+  { slug: 'kunnskap-og-kontor', h1: industryH1('kunnskap-og-kontor'), shot: 'sporsmal' },
 ]
 // each article with the landing page it belongs to, read from lib/marketing/site.ts
 const siteSrc = readFileSync('lib/marketing/site.ts', 'utf8')

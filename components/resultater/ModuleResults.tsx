@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { getTranslations } from 'next-intl/server'
 import type { Module } from '@/lib/modules/read'
 import type { CountTotals, ModuleResults as Results } from '@/lib/modules/results'
@@ -40,6 +41,20 @@ export async function ModuleResults({
       {results.modules.map((m) => {
         const reg = modules.find((r) => r.key === m.key && r.version === m.version)
         const groups = m.groups.filter((g) => g.status === 'ok' || g.status === 'protected' || g.status === 'insufficient_data')
+        // a module in variants (0089): the extended set reads the simplified factors alongside
+        const main = m.factors.filter((f) => !f.comparable)
+        const comparable = m.factors.filter((f) => f.comparable)
+        // not validated yet: every risk colour says so (0089)
+        const chip =
+          m.validation_status === 'provisional' ? (
+            <span
+              title={t('provisionalHelp')}
+              className="ml-[8px] inline-block rounded-pill bg-sbg px-[8px] py-[1px] align-middle text-[11px] font-bold text-mut"
+            >
+              {t('provisional')}
+            </span>
+          ) : null
+        const tableLabels = { factorLabel: t('factor'), withheld: t('withheld'), chip }
         const columns = [
           ...(results.scope === 'org' ? [{ name: t('org'), cells: new Map(m.factors.map((f) => [f.key, f.index])) }] : []),
           ...groups.map((g) => ({
@@ -58,61 +73,36 @@ export async function ModuleResults({
                   {t('title', { name: m.name })}
                 </h2>
               </div>
-              <span className="text-[12px] text-mut">{t('version', { name: m.name, version: m.version })}</span>
+              <span className="text-[12px] text-mut">
+                {m.variant
+                  ? t('versionVariant', { name: m.name, variant: m.variant.name.toLowerCase(), code: m.variant.code, version: m.variant.version })
+                  : t('version', { name: m.name, version: m.version })}
+              </span>
             </div>
             <p className="m-0 mt-[6px] max-w-[640px] text-[13px] leading-[1.55] text-mut [text-wrap:pretty]">
               {t('lead', { threshold: results.threshold })}
             </p>
+            {chip ? (
+              <p className="m-0 mt-[6px] max-w-[640px] text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">
+                <span className="mr-[6px] inline-block rounded-pill bg-sbg px-[8px] py-[1px] text-[11px] font-bold">{t('provisional')}</span>
+                {t('provisionalHelp')}
+              </p>
+            ) : null}
 
-            <div className="mt-[14px] overflow-x-auto" role="figure" aria-label={t('tableLabel', { name: m.name })}>
-              <table className="w-full min-w-[420px] border-separate border-spacing-0 text-[13px]">
-                <thead>
-                  <tr>
-                    <th scope="col" className="py-[6px] pr-[6px] text-left text-[12px] font-semibold text-mut">
-                      {t('factor')}
-                    </th>
-                    {columns.map((c) => (
-                      <th key={c.name} scope="col" className="whitespace-nowrap px-[6px] py-[6px] text-right text-[12px] font-semibold text-mut">
-                        {c.name}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {m.factors.map((f) => (
-                    <tr key={f.key}>
-                      <th scope="row" className="border-t border-line py-[7px] pr-[6px] text-left font-semibold">
-                        {f.name}
-                      </th>
-                      {columns.map((c) => {
-                        const v = c.cells.get(f.key) ?? null
-                        const tone = v === null ? null : heatTone(v)
-                        return (
-                          <td key={c.name} className="border-t border-line px-[6px] py-[7px] text-right tabular-nums">
-                            {tone && v !== null ? (
-                              <span
-                                className="inline-block min-w-[34px] rounded-[7px] px-[6px] py-[3px] text-center font-bold"
-                                style={{ background: tone.bg, color: tone.fg }}
-                              >
-                                {v}
-                              </span>
-                            ) : (
-                              <span className="font-medium text-mut" aria-label={t('withheld')}>
-                                –
-                              </span>
-                            )}
-                          </td>
-                        )
-                      })}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <FactorTable list={main} columns={columns} label={t('tableLabel', { name: m.name })} {...tableLabels} />
+            {comparable.length ? (
+              <div className="mt-[16px]">
+                <h3 className="m-0 text-[14px] font-semibold">{t('comparableTitle')}</h3>
+                <p className="m-0 mt-[4px] max-w-[640px] text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">
+                  {t('comparableLead')}
+                </p>
+                <FactorTable list={comparable} columns={columns} label={t('comparableLabel', { name: m.name })} {...tableLabels} />
+              </div>
+            ) : null}
             <p className="m-0 mt-[8px] text-[12px] text-mut">{t('foot', { threshold: results.threshold })}</p>
 
             <div className="mt-[16px] flex flex-col">
-              {m.factors.map((f) => {
+              {main.map((f) => {
                 const regFactor = reg?.factors.find((x) => x.key === f.key)
                 const sources = (regFactor?.rationaleSources ?? [])
                   .map((k) => reg?.sources.find((s) => s.key === k))
@@ -122,10 +112,11 @@ export async function ModuleResults({
                     <summary className="cursor-pointer py-[10px] text-[14px] font-semibold">
                       {f.name}
                       {f.band ? <span className="ml-[8px] text-[12px] font-medium text-mut">{t(`band.${f.band}`)}</span> : null}
+                      {f.band ? chip : null}
                     </summary>
                     <div className="pb-[14px] text-[13px] leading-[1.6] text-body">
                       <p className="m-0 font-semibold">{f.summary}</p>
-                      <p className="m-0 mt-[6px] max-w-[680px] [text-wrap:pretty]">{f.rationale}</p>
+                      {f.rationale ? <p className="m-0 mt-[6px] max-w-[680px] [text-wrap:pretty]">{f.rationale}</p> : null}
                       {sources.length ? (
                         <ul className="m-0 mt-[8px] list-none p-0 text-[12.5px]">
                           {sources.map((s) => (
@@ -137,12 +128,16 @@ export async function ModuleResults({
                           ))}
                         </ul>
                       ) : null}
-                      <div className="mt-[10px] text-[12px] font-semibold text-mut">{t('legal')}</div>
-                      <ul className="m-0 mt-[4px] pl-[18px]">
-                        {f.legal_basis.map((l) => (
-                          <li key={l}>{l}</li>
-                        ))}
-                      </ul>
+                      {f.legal_basis.length ? (
+                        <>
+                          <div className="mt-[10px] text-[12px] font-semibold text-mut">{t('legal')}</div>
+                          <ul className="m-0 mt-[4px] pl-[18px]">
+                            {f.legal_basis.map((l) => (
+                              <li key={l}>{l}</li>
+                            ))}
+                          </ul>
+                        </>
+                      ) : null}
                       {regFactor?.actions.length ? (
                         <ModuleSuggestions
                           roundId={roundId}
@@ -166,7 +161,8 @@ export async function ModuleResults({
                       <div className="mt-[10px] text-[12px] font-semibold text-mut">{t('statements')}</div>
                       <ul className="m-0 mt-[4px] list-none p-0">
                         {f.items.map((i) => {
-                          const id = reg?.factors.flatMap((x) => x.items).find((x) => x.code === i.code)?.id
+                          const regItem = reg?.factors.flatMap((x) => x.items).find((x) => x.code === i.code)
+                          const id = regItem?.id
                           const na = id ? notRelevant[`module:${id}`] : undefined
                           const share = na ? notRelevantShare(na) : 0
                           return (
@@ -178,7 +174,10 @@ export async function ModuleResults({
                                   <span className="mt-[2px] block text-[11.5px] leading-[1.45] text-mut">
                                     {t('notRelevant', { na: na.na, total: na.n + na.na, pct: Math.round(share * 100) })}
                                     {share >= NOT_RELEVANT_FLAG ? (
-                                      <span className="block font-semibold text-ink">{t('notRelevantFlag')}</span>
+                                      <span className="block font-semibold text-ink">
+                                        {/* a core statement is always asked (0089): it cannot be left out on its own */}
+                                        {regItem?.core ? t('notRelevantFlagCore') : t('notRelevantFlag')}
+                                      </span>
                                     ) : null}
                                   </span>
                                 ) : null}
@@ -228,6 +227,7 @@ export async function ModuleResults({
                         ))}
                         <span className="text-mut">{t('countTotal', { n: i.n_total })}</span>
                       </div>
+                      {i.options[3] ? <div className="mt-[4px] text-[12px] text-mut">{t('countExcluded', { label: i.options[3] })}</div> : null}
                     </>
                   )}
                 </li>
@@ -236,6 +236,72 @@ export async function ModuleResults({
           </ul>
         </section>
       ) : null}
+    </div>
+  )
+}
+
+/** A module's factors against the house and each group: its own set, or the comparable one (0089) */
+function FactorTable({
+  list,
+  columns,
+  label,
+  factorLabel,
+  withheld,
+  chip,
+}: {
+  list: Results['modules'][number]['factors']
+  columns: { name: string; cells: Map<string, number | null> }[]
+  label: string
+  factorLabel: string
+  withheld: string
+  chip: ReactNode
+}) {
+  return (
+    <div className="mt-[14px] overflow-x-auto" role="figure" aria-label={label}>
+      <table className="w-full min-w-[420px] border-separate border-spacing-0 text-[13px]">
+        <thead>
+          <tr>
+            <th scope="col" className="py-[6px] pr-[6px] text-left text-[12px] font-semibold text-mut">
+              {factorLabel}
+            </th>
+            {columns.map((c) => (
+              <th key={c.name} scope="col" className="whitespace-nowrap px-[6px] py-[6px] text-right text-[12px] font-semibold text-mut">
+                {c.name}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {list.map((f) => (
+            <tr key={f.key}>
+              <th scope="row" className="border-t border-line py-[7px] pr-[6px] text-left font-semibold">
+                {f.name}
+                {chip}
+              </th>
+              {columns.map((c) => {
+                const v = c.cells.get(f.key) ?? null
+                const tone = v === null ? null : heatTone(v)
+                return (
+                  <td key={c.name} className="border-t border-line px-[6px] py-[7px] text-right tabular-nums">
+                    {tone && v !== null ? (
+                      <span
+                        className="inline-block min-w-[34px] rounded-[7px] px-[6px] py-[3px] text-center font-bold"
+                        style={{ background: tone.bg, color: tone.fg }}
+                      >
+                        {v}
+                      </span>
+                    ) : (
+                      <span className="font-medium text-mut" aria-label={withheld}>
+                        –
+                      </span>
+                    )}
+                  </td>
+                )
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   )
 }

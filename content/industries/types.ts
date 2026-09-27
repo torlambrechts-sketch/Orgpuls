@@ -24,7 +24,7 @@ export type ResultPreview = {
 }
 
 export type IndustryPage = {
-  slug: 'bygg-og-anlegg' | 'helse-og-omsorg' | 'barnehage-og-skole'
+  slug: 'bygg-og-anlegg' | 'helse-og-omsorg' | 'barnehage-og-skole' | 'kunnskap-og-kontor'
   navLabel: string
   /**
    * Live on the public site. Until then the address keeps its current landing page and this
@@ -32,7 +32,11 @@ export type IndustryPage = {
    * page may only claim what is shipped (§ 0.7). Launching needs every `law` item reviewed.
    */
   launched: boolean
-  module?: { key: string; version: string }
+  /**
+   * `defaultVariant`: a module in variants (0089) shows this variant's factors in the preview, the
+   * overview and the loop; the question page lists the extended set with a switch to the simplified
+   */
+  module?: { key: string; version: string; defaultVariant?: 'forenklet' | 'utvidet' }
   /** how the page names its module: "Bygg-modulen" at the start of a sentence, "bygg-modulen" inside one */
   moduleName?: { title: string; inline: string }
   seo: { title: string; description: string }

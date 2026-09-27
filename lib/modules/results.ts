@@ -20,6 +20,10 @@ const pickList = (nb: string[], en: (string | null)[] | null | undefined, on: bo
 const Band = z.enum(['lav', 'middels', 'hoy']).nullable()
 const Factor = z.object({
   key: z.string(),
+  /** a module in variants (0089): F1…, FA…; its variant; and whether it is the simplified index read alongside the extended set */
+  code: z.string().nullish(),
+  variant: z.enum(['forenklet', 'utvidet']).nullish(),
+  comparable: z.boolean().nullish(),
   name: z.string(),
   summary: z.string(),
   rationale: z.string(),
@@ -42,7 +46,18 @@ const Results = z.object({
   threshold: z.coerce.number(),
   scope: z.enum(['org', 'groups']),
   modules: z.array(
-    z.object({ key: z.string(), version: z.string(), name: z.string(), name_en: En, factors: z.array(Factor), groups: z.array(Group) }),
+    z.object({
+      key: z.string(),
+      version: z.string(),
+      name: z.string(),
+      name_en: En,
+      /** provisional: the risk bands are shown as «Foreløpig» (0089) */
+      validation_status: z.enum(['provisional', 'validated']).nullish(),
+      /** the variant this round asked (0089); null for a module asked one way, and for a puls */
+      variant: z.object({ key: z.enum(['forenklet', 'utvidet']), code: z.string(), version: z.string(), name: z.string() }).nullish(),
+      factors: z.array(Factor),
+      groups: z.array(Group),
+    }),
   ),
 })
 const Totals = z.object({
