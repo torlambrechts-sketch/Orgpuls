@@ -11,7 +11,8 @@ db=$(supabase status -o json | node -e 'process.stdin.on("data",d=>console.log(J
 npm run -s modules:seed | psql "$db" -q -v ON_ERROR_STOP=1 >/dev/null
 # P1 (D-127): this database is the QA stack, where a qa-fixture translation may be approved;
 # and the registry's English rows, which the Lumio seed approves here and only here
-psql "$db" -q -v ON_ERROR_STOP=1 -c "alter database postgres set app.environment = 'qa'" >/dev/null
+# a custom parameter set on the database needs a superuser: supabase_admin in Supabase's image
+psql "${db/postgres:postgres@/supabase_admin:postgres@}" -q -v ON_ERROR_STOP=1 -c "alter database postgres set app.environment = 'qa'" >/dev/null
 npm run -s i18n:registry | psql "$db" -q -v ON_ERROR_STOP=1 >/dev/null
 node scripts/seed/design-fixture.mjs | psql "$db" -q -v ON_ERROR_STOP=1 >/dev/null
 node scripts/seed/demo-org.mjs | psql "$db" -q -v ON_ERROR_STOP=1 >/dev/null

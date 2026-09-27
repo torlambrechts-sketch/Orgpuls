@@ -269,7 +269,9 @@ jobs:
           db=postgresql://postgres:postgres@127.0.0.1:54322/postgres
           # the same as scripts/qa/up.sh, after the SQL suites have run: this database is now
           # the QA stack, and the registry's English rows exist for the Lumio seed to approve
-          psql "$db" -q -v ON_ERROR_STOP=1 -c "alter database postgres set app.environment = 'qa'"
+          # a database-level setting of a custom parameter needs a superuser: in Supabase's image
+          # that is supabase_admin (same password as postgres locally), not postgres
+          psql "${db/postgres:postgres@/supabase_admin:postgres@}" -q -v ON_ERROR_STOP=1 -c "alter database postgres set app.environment = 'qa'"
           npm run -s i18n:registry | psql "$db" -q -v ON_ERROR_STOP=1
 
       - name: Respondent flow (390, 360, 320 px x nb, en; pseudo-locale at 320 px)
