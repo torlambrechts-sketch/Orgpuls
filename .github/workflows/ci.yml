@@ -54,9 +54,12 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      # A pinned release, not `latest`: resolving `latest` asks the GitHub API, whose rate limit
+      # failed this job before any test ran (PR #2, 2026-09-27). 2.118.0 is what the QA stack
+      # runs (npm run qa:up). Raise it on purpose, together with the PostgREST step below.
       - uses: supabase/setup-cli@v1
         with:
-          version: latest
+          version: 2.118.0
 
       # PostgREST v16.2, which the latest CLI release (v2.117.0) pins, checks a token's `iat`
       # against a cached clock that some of its threads stop refreshing once the server has
