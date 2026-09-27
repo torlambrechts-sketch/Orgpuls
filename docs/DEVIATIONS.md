@@ -5575,3 +5575,27 @@ leaving them out takes a reason. The settings get a tab of their own.
     - English;
     - 390 px with no sideways scroll;
     - axe clean on all four screens.
+
+### D-126 addendum — links that leave the browser carry a production host (2026-09-27)
+
+Tor asked "Localhost in link??" after seeing the phase-1 captures.
+- **What he saw came from local testing, not from the product.** The phase-1 QA captures of the
+  invitation e-mail and SMS were made against the QA host. They now use the production address
+  (`feat/engagement-p1`).
+- **The production dispatcher builds every mail and SMS link from `ORGPULS_APP_URL`.** Checked
+  against the hosted secret's digest, without reading the value: it is `https://www.orgpuls.com`.
+- **The QR poster was a real weakness, and is fixed.** It took its host from the request, so a
+  poster printed on a Vercel preview or behind a proxy would carry that host on paper.
+  `lib/hosts.ts` `outboundBase` now gives it the canonical address:
+  - a production host keeps itself;
+  - loopback keeps itself, on local and QA runs only;
+  - anything else becomes `https://www.orgpuls.com`.
+- **An audit checked 27 places that build an absolute URL**, each traced by two independent
+  verifiers:
+  - request headers, env and constants, the edge functions and SQL, and client `window.location`.
+  - None puts a wrong host in something a person receives in production.
+  - One low-severity case: the member invitation link (Oppsett › Roller). Previews share the
+    production database, so an invitation made on a preview was real but pointed at the
+    preview. It now uses the same helper.
+  - The rest are same-browser redirects (OAuth return, the language switch, sign-in) or
+    previews on screen, and are correct as they are.
