@@ -5891,6 +5891,16 @@ approved checkbox" (X-065).
     published outside the review (the admin app and the unrendered blocks excepted);
   - every unit's title and place is a message the page has.
 
+### D-130 addendum — «Approve all» per section (2026-09-27)
+
+Tor: "make a select all for each section under legal approval". Each section's card has «Approve
+all (n)», n being the texts the card shows (under the current filter) that are open or changed and
+whole. It approves each by the hash on the screen, one admin_legal_set call — and so one audit
+entry — per text, as ticking each box would. The texts are checked against the registry first; if
+any is gone, broken or no longer the text shown, nothing is approved and the page asks for a
+reload. It approves only: withdrawing stays one box at a time, since withdrawing a whole section at
+once is not a thing a reviewer needs and is easy to do by mistake.
+
 ## D-131 — Barnehage og skole: one module, three wordings, and a page that waits for review (0083)
 
 Tor, 2026-09-27: "Bygg skole og barnehage, place it queue", with the handoff's

@@ -8783,7 +8783,9 @@
         "add": "Add pilot",
         "remove": "Remove pilot",
         "reasonRequired": "Give a reason of at least five characters."
-      }
+      },
+      "approveAll": "Approve all ({n})",
+      "approveAllDone": "All approved."
     }
   },
   "access": {

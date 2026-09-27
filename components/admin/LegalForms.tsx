@@ -2,7 +2,7 @@
 
 import { startTransition, useActionState, useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/Button'
-import { legalSet, localePilot, translationsApprove, type AdminResult } from '@/lib/admin/actions'
+import { legalApproveAll, legalSet, localePilot, translationsApprove, type AdminResult } from '@/lib/admin/actions'
 import { Outcome, useKeptAction } from './ActionForms'
 
 type Problems = Record<string, string>
@@ -208,6 +208,30 @@ export function LocalePilotForm({
         </Button>
         <Outcome state={state} problems={labels.problems} done={labels.done} />
       </span>
+    </form>
+  )
+}
+
+/**
+ * «Approve all» for one section of the legal review: the texts it lists that are open or changed,
+ * each by the hash shown. Nothing to approve, nothing shown but the last answer.
+ */
+export function LegalApproveAll({
+  units,
+  labels,
+}: {
+  units: readonly { key: string; hash: string }[]
+  labels: { submit: string; saving: string; done: string; problems: Problems }
+}) {
+  const [state, action, pending] = useActionState<AdminResult | null, FormData>(legalApproveAll, null)
+  if (!units.length) return state?.ok ? <Outcome state={state} problems={labels.problems} done={labels.done} /> : null
+  return (
+    <form action={action} className="flex flex-wrap items-center justify-end gap-[8px]">
+      <input type="hidden" name="units" value={JSON.stringify(units)} />
+      <Outcome state={state} problems={labels.problems} done={labels.done} />
+      <Button type="submit" size="sm" disabled={pending}>
+        {pending ? labels.saving : labels.submit}
+      </Button>
     </form>
   )
 }

@@ -337,6 +337,46 @@ export async function legalSet(_prev: AdminResult | null, formData: FormData): P
 }
 
 /**
+ * «Approve all» in one section of the legal review: every text the section showed as open or
+ * changed, each by the hash that was on the screen, each through admin_legal_set and so each in
+ * the audit. The texts are checked against the registry first, as one box's are; if any is gone,
+ * broken or no longer the text shown, nothing is approved and the page is to be reloaded.
+ */
+export async function legalApproveAll(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .array(z.object({ key: z.string().min(3).max(200), hash: z.string().regex(/^[0-9a-f]{64}$/) }))
+    .min(1)
+    .max(300)
+    .safeParse(
+      (() => {
+        try {
+          return JSON.parse(String(formData.get('units') ?? ''))
+        } catch {
+          return null
+        }
+      })(),
+    )
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const now = new Map(legalUnits(await legalInputs()).map((u) => [u.key, u]))
+  for (const { key, hash } of parsed.data) {
+    const u = now.get(key)
+    if (!u || u.missing?.length || u.lines.length === 0) return { ok: false, problem: 'not_found' }
+    if (u.hash !== hash) return { ok: false, problem: 'stale' }
+  }
+  let n = 0
+  for (const { key, hash } of parsed.data) {
+    const r = await rpc('admin_legal_set', { p_key: key, p_hash: hash, p_approved: true })
+    if (!r.ok) {
+      revalidatePath('/admin/legal')
+      return r
+    }
+    n++
+  }
+  revalidatePath('/admin/legal')
+  return { ok: true, message: String(n) }
+}
+
+/**
  * Approve a language's survey (0082): every unapproved item translation and the respondent
  * pages' strings as this build has them (lib/i18n/respondent-ui.json). Super-admin, audited.
  */

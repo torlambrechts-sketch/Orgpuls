@@ -8783,7 +8783,9 @@
         "add": "Legg til pilot",
         "remove": "Fjern pilot",
         "reasonRequired": "Oppgi en begrunnelse på minst fem tegn."
-      }
+      },
+      "approveAll": "Godkjenn alle ({n})",
+      "approveAllDone": "Alle godkjent."
     }
   },
   "access": {

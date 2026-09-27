@@ -1,7 +1,7 @@
 import type { Route } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { LegalCheck, LocalePilotForm, TranslationsApproveForm } from '@/components/admin/LegalForms'
+import { LegalApproveAll, LegalCheck, LocalePilotForm, TranslationsApproveForm } from '@/components/admin/LegalForms'
 import { Badge, Card, day, PageHead, Problem, Stat, Table, Td } from '@/components/admin/ui'
 import { isError, legalApprovals, localePilots, translationState, whoami, type LocalePilot, type TranslationState } from '@/lib/admin/api'
 import { LOCALE_REGISTRY, TRANSLATION_LOCALES } from '@/lib/i18n/locales'
@@ -119,8 +119,19 @@ export default async function AdminLegal(props: Props) {
         {LEGAL_SECTIONS.map((section) => {
           const list = shown.filter((u) => u.section === section)
           if (!list.length) return null
+          // what «Approve all» approves: the texts this card shows that are not approved, and whole
+          const open = list.filter((u) => stateOf(u) !== 'approved' && !u.missing?.length && u.lines.length > 0)
           return (
-            <Card key={section} title={t('legal.countLabel', { label: t(`legal.section.${section}`), n: list.length })}>
+            <Card
+              key={section}
+              title={t('legal.countLabel', { label: t(`legal.section.${section}`), n: list.length })}
+              aside={
+                <LegalApproveAll
+                  units={open.map((u) => ({ key: u.key, hash: u.hash }))}
+                  labels={{ submit: t('legal.approveAll', { n: open.length }), saving: t('legal.saving'), done: t('legal.approveAllDone'), problems }}
+                />
+              }
+            >
               <p className="mb-[4px] mt-0 max-w-[80ch] text-[12.5px] leading-[1.5] text-mut">{t(`legal.sectionLead.${section}`)}</p>
               <ul className="m-0 list-none p-0">
                 {list.map((u) => {
