@@ -12,7 +12,7 @@ import { assertIndustries } from '@/content/industries/validate'
 import { flag, type FlagName } from '@/lib/flags'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, faqPage, graph, organization } from '@/lib/marketing/schema'
-import { absolute, landingKey, type LandingSlug } from '@/lib/marketing/site'
+import { absolute, LANDING_PAGES, landingKey, type LandingSlug } from '@/lib/marketing/site'
 
 /**
  * An industry page (bransjesider-og-tilleggsmoduler.md § B1, D-118): /bygg-og-anlegg and
@@ -43,6 +43,8 @@ async function resolve(props: Props) {
   const lang: PageLang = (await getLocale()) === 'en' ? 'en' : 'no'
   const own = pageIn(entry, lang)
   const page = own && (own.launched || preview) ? own : null
+  // an industry that never had a landing page has nothing to show before launch
+  if (!page && !(LANDING_PAGES as readonly string[]).includes(entry.slug)) notFound()
   return { slug: entry.slug, page, lang, preview: preview && !!page && !page.launched }
 }
 

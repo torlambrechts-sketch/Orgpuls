@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto'
 import { z } from 'zod'
+import { pickWording, WORDINGS, type Wording as WordingKey } from './wording'
 
 /**
  * An industry module file (`modules/<key>/v<major>.json`), parsed.
@@ -21,9 +22,21 @@ const Kebab = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'kebab-case')
 const Semver = z.string().regex(/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/, 'semver')
 const Text = z.string().trim().min(1)
 
+/**
+ * Wording (barnehage og skole): one statement, said about «barna» in a kindergarten, «elevene»
+ * in a school, and both where an organisation has both. `text` is the «begge» wording; the file
+ * carries the other two filled in, never a token, and the organisation's choice decides which a
+ * respondent reads. The three are the same statement: one code, scored alike.
+ */
+const Wording = z.enum(WORDINGS)
+const TextVariants = z.object({ barnehage: Text, skole: Text })
+/** a NACE code or prefix as the registry prints it: 85, 85.1, 88.911 */
+const Nace = z.string().regex(/^\d{2}(\.\d{1,3})?$/, 'NACE prefix, e.g. 85.1')
+
 const Item = z.object({
   id: z.string().regex(/^[A-Z]{2}-[A-Z]{2}-[1-3]$/, 'factor item code, e.g. BA-SF-1'),
   text: Text,
+  text_variants: TextVariants.optional(),
   reverse: z.boolean(),
   pulse_eligible: z.boolean(),
 })
@@ -49,6 +62,7 @@ const Factor = z.object({
 const CountItem = z.object({
   id: z.string().regex(/^[A-Z]{2}-T-[0-9]+$/, 'count item code, e.g. BA-T-1'),
   text: Text,
+  text_variants: TextVariants.optional(),
   options: z.array(Text).length(3),
   why: Text.optional(),
 })
@@ -93,7 +107,11 @@ export const ModuleFile = z
     version: Semver,
     locale: z.literal('nb-NO'),
     name: Text,
+    /** not yet tested on a large sample: the risk bands are provisional (shown as «Foreløpig») */
+    validation_status: z.enum(['provisional', 'validated']).optional(),
     description: Text,
+    /** the industries it is written for, by NACE prefix; content/industries/meta.ts suggests from these */
+    nace_prefixes: z.array(Nace).optional(),
     estimated_minutes: z.number().int().min(1).max(30),
     scale: z.object({
       type: z.literal('likert5'),
@@ -120,6 +138,17 @@ export const ModuleFile = z
         core_count_items_reused: z.array(z.string()).optional(),
         /** core statements the module deliberately does not ask again; each must be the core wording verbatim (tests/unit/modules.test.ts) */
         core_statements_not_repeated: z.array(Text).optional(),
+      })
+      .optional(),
+    /** the module's statements come in wordings; see TextVariants */
+    wording: z
+      .object({
+        modes: z.array(Wording),
+        default: Wording,
+        /** a NACE prefix suggests a wording: 85.1 a kindergarten, 85.2 a school */
+        auto_from_nace: z.record(Nace, z.enum(['barnehage', 'skole'])),
+        /** how the file's texts were filled in; kept with the file as its record */
+        tokens: z.record(Wording, z.record(z.string(), Text)),
       })
       .optional(),
     factors: z.array(Factor).min(1),
@@ -202,9 +231,32 @@ export const ModuleFile = z
 
     const modulePrefix = new Set([...codes].map((c) => c.slice(0, 2)))
     if (modulePrefix.size > 1) issue(['factors'], 'every item code shares one module prefix')
+
+    // wording: all three or none, every text filled in
+    const worded: { path: (string | number)[]; text: string; text_variants?: { barnehage: string; skole: string } }[] = [
+      ...m.factors.flatMap((f, fi) => f.items.map((it, ii) => ({ ...it, path: ['factors', fi, 'items', ii] }))),
+      ...m.count_items.map((c, ci) => ({ ...c, path: ['count_items', ci] })),
+    ]
+    if (m.wording) {
+      if ([...m.wording.modes].sort().join() !== [...WORDINGS].sort().join()) issue(['wording', 'modes'], 'modes are barnehage, skole and begge')
+      for (const w of worded) {
+        if (!w.text_variants) issue([...w.path, 'text_variants'], 'a worded module gives every statement and count question both variants')
+        for (const t of [w.text, w.text_variants?.barnehage ?? '', w.text_variants?.skole ?? '']) {
+          if (/[{}]/.test(t)) issue(w.path, `an unfilled token: ${t}`)
+        }
+      }
+      // an English translation would need its own wordings, which the file has no place for yet
+      if (m.translations?.en) issue(['translations', 'en'], 'a worded module has no English translation yet')
+    } else {
+      for (const w of worded) if (w.text_variants) issue([...w.path, 'text_variants'], 'text_variants without wording')
+    }
   })
 
 export type ModuleFile = z.infer<typeof ModuleFile>
+
+/** A statement's or count question's text in a wording; «begge», and every module without wording, is `text`. */
+export const inWording = (x: { text: string; text_variants?: { barnehage: string; skole: string } }, w: WordingKey | null | undefined) =>
+  pickWording(x.text, x.text_variants, w)
 
 /** Parse or throw, with every issue listed; for scripts and the build. */
 export function parseModule(json: unknown, label = 'module'): ModuleFile {

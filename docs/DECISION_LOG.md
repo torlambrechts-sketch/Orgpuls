@@ -2067,7 +2067,25 @@ approved checkbox. Newsletter is added to spaceship."
   keys, DMARC), registered `hei@nyheter.orgpuls.com`, and Brevo reports the domain as
   authenticated and verified.
 
+### X-066 — Barnehage og skole, built and queued for review
+
+Tor, 2026-09-27: "Bygg skole og barnehage, place it queue", with the handoff's module file and
+briefs.
+
+- **Built:** the module (8 factors, 24 statements, 2 count questions, 2 segments), its three
+  wordings through the survey, the results and the preview (0083), the organisation's wording
+  choice on Målinger › Spørsmålssett, suggested from the registered industry, and
+  /barnehage-og-skole with its question page and the «Barnehage / Skole / Begge» switch.
+  D-131 says where it follows the brief and where it could not.
+- **Queued:** the module is a draft and the page is a preview. Its law items and the module's
+  legal basis are in admin › Legal review. Once Tor approves them, it launches as helse og
+  omsorg did: `reviewed` and `launched` in the content file, and the module published.
+- The other two industry briefs in the handoff (handel, kunnskap og kontor) and
+  innstillinger-og-forside.md's remaining parts are not queued; they wait for Tor to ask.
+
 ## Open items
+- [ ] Barnehage og skole: approve its law items in admin › Legal review, then launch the page and publish the module (X-066, D-131).
+- [ ] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131).
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).
 - [ ] A ready-to-send check before a round opens (channel coverage, groups under the threshold, information and consultation done); the reach count on Målinger › Innstillinger is its first half (D-126).
 - [ ] "View as customer" for support: whether, for whom, with what approval, and how the

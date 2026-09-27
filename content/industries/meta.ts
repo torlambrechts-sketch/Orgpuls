@@ -7,7 +7,7 @@
  * starts with one of them. Adding an industry is an entry here, never a change in code.
  */
 export type IndustryMeta = {
-  slug: 'bygg-og-anlegg' | 'helse-og-omsorg'
+  slug: 'bygg-og-anlegg' | 'helse-og-omsorg' | 'barnehage-og-skole'
   naceCodePrefixes: string[]
   /** the module this industry's organisations are offered; its latest published version is used */
   moduleKey?: string
@@ -17,6 +17,15 @@ export type IndustryMeta = {
 }
 
 export const INDUSTRY_META: IndustryMeta[] = [
+  // before helse og omsorg: SN2007 registers kindergartens as 88.911, inside helse's 88 (the
+  // first prefix that matches wins); SN2025 moves them to 85.1
+  {
+    slug: 'barnehage-og-skole',
+    naceCodePrefixes: ['85', '88911'],
+    moduleKey: 'barnehage-og-skole',
+    label: { no: 'barnehage og skole', en: 'kindergartens and schools' },
+    moduleLabel: { no: 'barnehage- og skolemodulen', en: 'the kindergarten and school module' },
+  },
   {
     slug: 'bygg-og-anlegg',
     naceCodePrefixes: ['41', '42', '43'],

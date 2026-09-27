@@ -9,7 +9,7 @@ import { getRoundFactorKeys, getRoundRows, type RoundRow } from '@/lib/rounds/re
 import { getUnansweredCount } from '@/lib/shell/read'
 import { getResultsDigest } from '@/lib/results/digest'
 import { ModuleResults } from '@/components/resultater/ModuleResults'
-import { getModulesById, getRoundModules } from '@/lib/modules/read'
+import { getModulesById, getRoundModules, withWording } from '@/lib/modules/read'
 import { getCountTotals, getModuleResults } from '@/lib/modules/results'
 import {
   ORG,
@@ -262,7 +262,13 @@ export default async function ResultaterPage({
       planCount={measures.filter((m) => m.step === 'besluttet' || m.step === 'pagar').length}
       after={
         moduleResults && moduleResults.modules.length ? (
-          <ModuleResults roundId={selected.id} results={moduleResults} totals={countTotals} modules={moduleRows} />
+          <ModuleResults
+            roundId={selected.id}
+            results={moduleResults}
+            totals={countTotals}
+            // the statements as this round asked them (0083), as module_results reports them
+            modules={moduleRows.map((m) => withWording(m, roundModules.find((r) => r.moduleId === m.id)?.wording))}
+          />
         ) : null
       }
     />

@@ -1,9 +1,11 @@
+import { barnehageOgSkole } from './barnehage-og-skole'
 import { byggOgAnlegg } from './bygg-og-anlegg'
 import { byggOgAnleggEn } from './bygg-og-anlegg.en'
 import { helseOgOmsorg } from './helse-og-omsorg'
 import { helseOgOmsorgEn } from './helse-og-omsorg.en'
 import type { PageLang } from './modules'
 import type { IndustryPage } from './types'
+import { LANDING_PAGES } from '@/lib/marketing/site'
 
 /**
  * The industry pages (§ B1). An entry with a `page` is drawn by the industry template once
@@ -18,12 +20,22 @@ export type IndustryEntry = { slug: IndustryPage['slug']; page: IndustryPage | n
 export const INDUSTRIES: IndustryEntry[] = [
   { slug: 'bygg-og-anlegg', page: byggOgAnlegg, pageEn: byggOgAnleggEn },
   { slug: 'helse-og-omsorg', page: helseOgOmsorg, pageEn: helseOgOmsorgEn },
+  // Norwegian only: the module has no English translation (D-131)
+  { slug: 'barnehage-og-skole', page: barnehageOgSkole, pageEn: null },
 ]
 
 export const getIndustry = (slug: string): IndustryEntry | null => INDUSTRIES.find((i) => i.slug === slug) ?? null
 
 /** The entry's page in a language, launched or not */
 export const pageIn = (entry: IndustryEntry | null, lang: PageLang) => (lang === 'en' ? entry?.pageEn : entry?.page) ?? null
+
+/**
+ * Whether the address shows a page to anyone in this language: the industry page once
+ * launched, or the landing page it had before. An industry that never had a landing page
+ * (barnehage og skole) is nowhere until its page launches, so the menu and the hub leave it out.
+ */
+export const hasPublicPage = (entry: IndustryEntry | null, lang: PageLang) =>
+  !!entry && (!!pageIn(entry, lang)?.launched || (LANDING_PAGES as readonly string[]).includes(entry.slug))
 
 /** Pages that are live, with a module: their question page is public and in the sitemap. */
 export const liveQuestionPages = (lang: PageLang = 'no') =>

@@ -71,6 +71,7 @@ const PUBLIC_PATHS = [
   '/smaa-bedrifter',
   '/bygg-og-anlegg',
   '/helse-og-omsorg',
+  '/barnehage-og-skole',
   '/plattform',
   '/hvorfor',
   '/bruksomrader',

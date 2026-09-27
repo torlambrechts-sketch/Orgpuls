@@ -7,7 +7,7 @@ import { respondCopy, respondQuestions } from '@/lib/respond/questions'
 import { getRounds, type RoundListItem } from '@/lib/rounds/read'
 import { roundTitle } from '@/lib/rounds/title'
 import { getRoundSetup } from '@/lib/setup/read'
-import { getModulesById, getRoundModules } from '@/lib/modules/read'
+import { getModulesById, getRoundModules, withWording } from '@/lib/modules/read'
 
 /**
  * "Forhåndsvis som ansatt": the respondent screens for a round, as a signed-in leader sees
@@ -83,8 +83,10 @@ export default async function PreviewPage({ searchParams }: { searchParams: Prom
   const roundModules = await getRoundModules([round.id])
   const moduleRows = await getModulesById(roundModules.map((r) => r.moduleId))
   const modules = roundModules.flatMap((rm) => {
-    const m = moduleRows.find((x) => x.id === rm.moduleId)
-    if (!m) return []
+    const found = moduleRows.find((x) => x.id === rm.moduleId)
+    if (!found) return []
+    // in the round's wording, as respond_form sends it (0083)
+    const m = withWording(found, rm.wording)
     const asked = new Set(rm.itemIds)
     return [
       {

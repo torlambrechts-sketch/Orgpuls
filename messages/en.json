@@ -421,7 +421,16 @@
       "failed": "Could not save the choice. Try again.",
       "seeAll": "See the whole question set",
       "toggle": "Use {module} in the main surveys",
-      "show": "Show the factors and statements ({count})"
+      "show": "Show the factors and statements ({count})",
+      "wording": {
+        "legend": "Wording of the statements",
+        "barnehage": "Kindergarten («barna»)",
+        "skole": "School («elevene»)",
+        "begge": "Both («barna eller elevene»)",
+        "suggested": "Suggested from your industry code. Choose another if it does not fit.",
+        "chosen": "Chosen by you. Planned surveys use it; a survey that has opened keeps its own.",
+        "failed": "Could not save the wording. Try again."
+      }
     },
     "innstillinger": {
       "intro": "Set the standard for your surveys here: how employees receive the survey, what it asks, and when it closes. Every new survey takes the standard, and in Survey setup you can change it for one survey.",
@@ -7150,6 +7159,13 @@
           "t": "Health and care",
           "d": "Violence and threats, staffing and responsible care, rotas and part-time work, boundaries with service users and relatives, documentation and heavy transfers.",
           "cta": "See health and care"
+        },
+        {
+          "slug": "barnehage-og-skole",
+          "k": "Kindergartens, schools and after-school care",
+          "t": "Kindergartens and schools",
+          "d": "Violence and threats, staffing and substitutes, working with parents, inclusion, and time for the core work.",
+          "cta": "See kindergartens and schools"
         }
       ],
       "other": {
@@ -8876,6 +8892,13 @@
       "rutine": "Routine",
       "lederpraksis": "Leadership practice"
     },
-    "preview": "Preview. This page is not published yet and is hidden from search."
+    "preview": "Preview. This page is not published yet and is hidden from search.",
+    "wording": {
+      "legend": "Wording",
+      "barnehage": "Kindergarten",
+      "skole": "School",
+      "begge": "Both",
+      "note": "The statements say «barna» (the children) in a kindergarten, «elevene» (the pupils) in a school, and both where you have a kindergarten and a school. The codes and the scoring are the same."
+    }
   }
 }

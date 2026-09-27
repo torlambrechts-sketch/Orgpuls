@@ -4,7 +4,8 @@ import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { parseFailed, readFailed } from '@/lib/supabase/read'
 import type { MeasureStep } from '@/lib/measures/read'
-import { getModulesById } from './read'
+import { getCurrentOrgId } from '@/lib/org/current'
+import { getModulesById, getOrgModuleWordings, withWording } from './read'
 
 /**
  * Measures on a module factor (0071, D-115). The same rows and lifecycle as every measure;
@@ -60,7 +61,13 @@ export const getModuleMeasures = cache(async (): Promise<ModuleMeasure[]> => {
   if (readFailed('getModuleMeasures.factors', ferror, fdata)) return []
   const factors = z.array(FactorRow).safeParse(fdata)
   if (parseFailed('getModuleMeasures.factors', factors)) return []
-  const modules = await getModulesById([...new Set(factors.data.map((f) => f.module_id))])
+  const org = await getCurrentOrgId()
+  const [found, wordings] = await Promise.all([
+    getModulesById([...new Set(factors.data.map((f) => f.module_id))]),
+    org ? getOrgModuleWordings(org) : Promise.resolve(new Map<string, { wording: 'barnehage' | 'skole' | 'begge'; chosen: boolean }>()),
+  ])
+  // the re-measure statement as the organisation's next puls will ask it (0083)
+  const modules = found.map((m) => withWording(m, wordings.get(m.key)?.wording))
 
   return parsed.data.flatMap((r) => {
     const mod = modules.find((m) => m.factors.some((f) => f.id === r.module_factor_id))

@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { Crumbs, Eyebrow, StartBand } from '@/components/site/parts'
-import { getIndustry, INDUSTRIES, pageIn } from '@/content/industries'
+import { getIndustry, hasPublicPage, INDUSTRIES, pageIn } from '@/content/industries'
 import { moduleFile } from '@/content/industries/modules'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, graph, organization } from '@/lib/marketing/schema'
@@ -26,7 +26,8 @@ const FILLS = ['bg-sbg', 'bg-mint'] as const
 export default async function BransjerPage() {
   const t = await getTranslations('site.bransjer')
   const lang = (await getLocale()) === 'en' ? 'en' : 'no'
-  const cards = z.array(Card).parse(t.raw('cards')).filter((c) => INDUSTRIES.some((i) => i.slug === c.slug))
+  // an industry is shown once its address has a page to show (content/industries hasPublicPage)
+  const cards = z.array(Card).parse(t.raw('cards')).filter((c) => INDUSTRIES.some((i) => i.slug === c.slug && hasPublicPage(i, lang)))
 
   return (
     <div>

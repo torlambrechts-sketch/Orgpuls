@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { getLocale } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { parseFailed, readFailed } from '@/lib/supabase/read'
+import { pickWording, WORDINGS, type Wording, type WordingVariants } from './wording'
 
 /**
  * The industry modules, as the product reads them (0067, D-111).
@@ -26,6 +27,8 @@ const ModuleRow = z.object({
   status: z.enum(['draft', 'published', 'retired']),
   estimated_minutes: z.coerce.number(),
   relation_to_core: z.object({ covered_by_core_factors: z.array(z.string()).optional() }).passthrough(),
+  /** a worded module's rule (0083); null for a module without wordings */
+  wording: z.object({ default: z.enum(WORDINGS) }).passthrough().nullable().default(null),
   i18n: z
     .object({ en: z.object({ name: z.string(), description: z.string(), covered_by_core_factors: z.array(z.string()).optional() }).partial() })
     .partial()
@@ -69,7 +72,8 @@ const ActionRow = z.object({
 })
 const SourceRow = z.object({ key: z.string(), title: z.string(), url: z.string(), sort: z.coerce.number() })
 
-export type ModuleItem = { id: string; code: string; text: string; options: string[] }
+/** `text` is the «begge» wording of a worded module's statement; `variants` the other two (0083) */
+export type ModuleItem = { id: string; code: string; text: string; options: string[]; variants?: WordingVariants }
 export type ModuleAction = {
   id: string
   type: 'workshop' | 'rutine' | 'lederpraksis'
@@ -96,6 +100,8 @@ export type Module = {
   description: string
   status: 'draft' | 'published' | 'retired'
   estimatedMinutes: number
+  /** its statements come in wordings (barnehage, skole, begge); see withWording */
+  worded: boolean
   coveredByCore: string[]
   factors: ModuleFactor[]
   countItems: ModuleItem[]
@@ -118,7 +124,7 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
   let q = supabase
     .schema('app')
     .from('question_modules')
-    .select('id, key, version, name, description, status, estimated_minutes, relation_to_core, i18n')
+    .select('id, key, version, name, description, status, estimated_minutes, relation_to_core, wording, i18n')
   if (filter.ids) q = q.in('id', filter.ids)
   if (filter.status) q = q.eq('status', filter.status)
   const { data: mods, error } = await q
@@ -150,12 +156,18 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
   // the reader's language where the module has it (0072), Norwegian otherwise
   const en = (await getLocale()) === 'en'
   const pick = (l: z.infer<typeof Locale>) => (en && l.en ? l.en : l.nb)
-  const item = (r: z.infer<typeof ItemRow>): ModuleItem => ({
-    id: r.id,
-    code: r.code,
-    text: pick(r.text),
-    options: (r.options ?? []).map(pick),
-  })
+  const item = (r: z.infer<typeof ItemRow>): ModuleItem => {
+    const b = r.text['nb.barnehage']
+    const s = r.text['nb.skole']
+    return {
+      id: r.id,
+      code: r.code,
+      text: pick(r.text),
+      options: (r.options ?? []).map(pick),
+      // the wordings are Norwegian: a reader shown the English text has no use for them
+      ...(!(en && r.text.en) && typeof b === 'string' && typeof s === 'string' ? { variants: { barnehage: b, skole: s } } : {}),
+    }
+  }
   const itemById = new Map(it.data.map((r) => [r.id, item(r)]))
   const bySort = <T extends { sort: number }>(a: T, b: T) => a.sort - b.sort
 
@@ -169,6 +181,7 @@ async function loadModules(filter: { ids?: string[]; status?: 'published' }): Pr
       description: (en && m.i18n.en?.description) || m.description,
       status: m.status,
       estimatedMinutes: m.estimated_minutes,
+      worded: m.wording !== null,
       coveredByCore: (en && m.i18n.en?.covered_by_core_factors) || m.relation_to_core.covered_by_core_factors || [],
       factors: f.data
         .filter((r) => r.module_id === m.id)
@@ -242,6 +255,7 @@ const RoundModuleRow = z.object({
   item_ids: z.array(z.string().uuid()),
   include_count_items: z.boolean(),
   include_segments: z.boolean(),
+  wording: z.enum(WORDINGS).nullable().default(null),
 })
 export type RoundModule = {
   roundId: string
@@ -249,6 +263,8 @@ export type RoundModule = {
   itemIds: string[]
   includeCountItems: boolean
   includeSegments: boolean
+  /** the wording the round asks a worded module in (0083); null for a module without */
+  wording: Wording | null
 }
 
 /** Which modules the given rounds ask, and which of their statements. */
@@ -258,7 +274,7 @@ export const getRoundModules = cache(async (roundIds: string[]): Promise<RoundMo
   const { data, error } = await supabase
     .schema('app')
     .from('round_modules')
-    .select('round_id, module_id, item_ids, include_count_items, include_segments')
+    .select('round_id, module_id, item_ids, include_count_items, include_segments, wording')
     .in('round_id', roundIds)
   if (readFailed('round_modules', error, data)) return []
   const parsed = z.array(RoundModuleRow).safeParse(data)
@@ -269,6 +285,7 @@ export const getRoundModules = cache(async (roundIds: string[]): Promise<RoundMo
     itemIds: r.item_ids,
     includeCountItems: r.include_count_items,
     includeSegments: r.include_segments,
+    wording: r.wording,
   }))
 })
 
@@ -297,4 +314,37 @@ export const getOrgModuleChoices = cache(async (orgId: string): Promise<Set<stri
   const parsed = z.array(z.object({ module_key: z.string(), enabled: z.boolean() })).safeParse(data)
   if (parseFailed('org_modules', parsed)) return new Set()
   return new Set(parsed.data.filter((r) => r.enabled).map((r) => r.module_key))
+})
+
+/**
+ * A module as a round, or an organisation, asks it: every statement and count question in that
+ * wording (0083). A module without wordings, or «begge», comes back as it is.
+ */
+export function withWording(m: Module, w: Wording | null | undefined): Module {
+  if (!m.worded || !w || w === 'begge') return m
+  const item = (i: ModuleItem): ModuleItem => ({ ...i, text: pickWording(i.text, i.variants, w) })
+  return {
+    ...m,
+    factors: m.factors.map((f) => ({
+      ...f,
+      items: f.items.map(item),
+      actions: f.actions.map((a) => ({ ...a, remeasureItem: item(a.remeasureItem) })),
+    })),
+    countItems: m.countItems.map(item),
+  }
+}
+
+/**
+ * The wording each worded module is asked in by this organisation (0083): its own choice, or
+ * the one its registered industry suggests (`chosen` false).
+ */
+export const getOrgModuleWordings = cache(async (orgId: string): Promise<Map<string, { wording: Wording; chosen: boolean }>> => {
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('org_module_wordings', { p_org: orgId })
+  if (readFailed('org_module_wordings', error, data)) return new Map()
+  const parsed = z
+    .object({ ok: z.literal(true), wordings: z.record(z.string(), z.object({ wording: z.enum(WORDINGS), chosen: z.boolean() })) })
+    .safeParse(data)
+  if (parseFailed('org_module_wordings', parsed)) return new Map()
+  return new Map(Object.entries(parsed.data.wordings))
 })

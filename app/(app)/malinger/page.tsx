@@ -10,7 +10,7 @@ import { getIndustry, pageIn } from '@/content/industries'
 import { INDUSTRY_META, industryForNace } from '@/content/industries/meta'
 import type { RailCell, RailView } from '@/components/malinger/YearRail'
 import { getExtraQuestions, getFactors } from '@/lib/instrument/read'
-import { getOrgModuleChoices, getOrgNaceCode, getPublishedModules } from '@/lib/modules/read'
+import { getOrgModuleChoices, getOrgModuleWordings, getOrgNaceCode, getPublishedModules } from '@/lib/modules/read'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { getViewerRole } from '@/lib/org/read'
 import { getResultsDigest } from '@/lib/results/digest'
@@ -328,12 +328,13 @@ async function QuestionSet({ canEdit }: { canEdit: boolean }) {
   const t = await getTranslations()
   const locale = await getLocale()
   const org = await getCurrentOrgId()
-  const [factors, extras, published, chosen, nace] = await Promise.all([
+  const [factors, extras, published, chosen, nace, wordings] = await Promise.all([
     getFactors(),
     getExtraQuestions(),
     getPublishedModules(org),
     org ? getOrgModuleChoices(org) : Promise.resolve(new Set<string>()),
     getOrgNaceCode(),
+    org ? getOrgModuleWordings(org) : Promise.resolve(new Map()),
   ])
   // the published list is in the reader's language already (lib/modules/read.ts)
   const industry = industryForNace(nace)
@@ -354,7 +355,13 @@ async function QuestionSet({ canEdit }: { canEdit: boolean }) {
         }),
         suggested: label ? t('malinger.modules.suggested', { industry: label }) : null,
         on: chosen.has(m.key),
-        factors: m.factors.map((f) => ({ key: f.key, name: f.name, summary: f.summary, statements: f.items.map((i) => i.text) })),
+        wording: m.worded && wordings.get(m.key) ? { value: wordings.get(m.key)!.wording, chosen: wordings.get(m.key)!.chosen } : null,
+        factors: m.factors.map((f) => ({
+          key: f.key,
+          name: f.name,
+          summary: f.summary,
+          statements: f.items.map((i) => ({ text: i.text, variants: i.variants })),
+        })),
         href: page?.questionPage ? `/${page.slug}/sporsmal${page.launched ? '' : '?forhandsvis=1'}` : null,
         toggleLabel: t('malinger.modules.toggle', { module: m.name }),
         showLabel: t('malinger.modules.show', { count: m.factors.length }),
@@ -398,6 +405,15 @@ async function QuestionSet({ canEdit }: { canEdit: boolean }) {
           none: t('malinger.modules.none'),
           failed: t('malinger.modules.failed'),
           seeAll: t('malinger.modules.seeAll'),
+          wording: {
+            legend: t('malinger.modules.wording.legend'),
+            barnehage: t('malinger.modules.wording.barnehage'),
+            skole: t('malinger.modules.wording.skole'),
+            begge: t('malinger.modules.wording.begge'),
+            suggested: t('malinger.modules.wording.suggested'),
+            chosen: t('malinger.modules.wording.chosen'),
+            failed: t('malinger.modules.wording.failed'),
+          },
         }}
       />
     </div>

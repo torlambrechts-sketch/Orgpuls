@@ -1,0 +1,730 @@
+{
+  "module_id": "barnehage-og-skole",
+  "version": "1.0.0",
+  "locale": "nb-NO",
+  "name": "Barnehage og skole",
+  "validation_status": "provisional",
+  "description": "Tilleggsmodul for barnehager, skoler og SFO. Åtte faktorer med tre påstander hver, pluss to spørsmål som bare rapporteres som antall. Ordbruken tilpasses barnehage, skole eller begge.",
+  "nace_prefixes": [
+    "85",
+    "88.911"
+  ],
+  "estimated_minutes": 3,
+  "scale": {
+    "type": "likert5",
+    "labels": [
+      "Helt uenig",
+      "Litt uenig",
+      "Verken eller",
+      "Litt enig",
+      "Helt enig"
+    ],
+    "to_index": {
+      "1": 0,
+      "2": 25,
+      "3": 50,
+      "4": 75,
+      "5": 100
+    }
+  },
+  "scoring": {
+    "factor_index": "mean of item indices",
+    "risk_bands": [
+      {
+        "band": "lav",
+        "min": 65
+      },
+      {
+        "band": "middels",
+        "min": 50,
+        "max": 64
+      },
+      {
+        "band": "høy",
+        "max": 49
+      }
+    ]
+  },
+  "anonymity": {
+    "min_responses": 5,
+    "can_lower": false,
+    "count_items_reported_at": "organisation_only",
+    "segments_require_min": 5,
+    "block_differencing": true
+  },
+  "wording": {
+    "modes": [
+      "barnehage",
+      "skole",
+      "begge"
+    ],
+    "default": "begge",
+    "auto_from_nace": {
+      "85.1": "barnehage",
+      "85.2": "skole",
+      "85.3": "skole",
+      "88.911": "barnehage"
+    },
+    "tokens": {
+      "barnehage": {
+        "{barna}": "barna",
+        "{barn}": "barn",
+        "{et_barn}": "et barn",
+        "{barnas}": "barnas"
+      },
+      "skole": {
+        "{barna}": "elevene",
+        "{barn}": "elever",
+        "{et_barn}": "en elev",
+        "{barnas}": "elevenes"
+      },
+      "begge": {
+        "{barna}": "barna eller elevene",
+        "{barn}": "barn eller elever",
+        "{et_barn}": "et barn eller en elev",
+        "{barnas}": "barnas eller elevenes"
+      }
+    }
+  },
+  "relation_to_core": {
+    "covered_by_core_factors": [
+      "Emosjonelle krav",
+      "Arbeidsmengde og tidspress",
+      "Rolleklarhet",
+      "Støtte fra leder",
+      "Støtte fra kollegaer",
+      "Anerkjennelse og mening"
+    ],
+    "core_count_items_reused": [
+      "vold_og_trusler_12m",
+      "krenkende_atferd"
+    ]
+  },
+  "factors": [
+    {
+      "id": "vold_og_trusler",
+      "name": "Vold og trusler fra barn og elever",
+      "summary": "Om rutinene er kjent, om handlingsrommet er tydelig, og om den som var involvert blir fulgt opp.",
+      "rationale": "28 prosent av grunnskolelærerne ble utsatt for vold på jobb det siste året – høyest av alle yrker – og 11 prosent opplever det månedlig eller oftere. I undervisningsyrkene samlet økte andelen fra 12 til 18 prosent fra 2022 til 2025. Åtte av ti rektorer i grunnskolen rapporterer slike hendelser, oftest fra noen få av de yngste elevene. I Sverige hadde tre av fire inspiserte skoler mangler i arbeidet med å forebygge vold og trusler mot personalet.",
+      "rationale_sources": [
+        "ssb_vold2026",
+        "kd_nifu2025",
+        "av_skola2025"
+      ],
+      "legal_basis": [
+        "aml § 4-3 sjette ledd (vern mot vold, trusler og uheldige belastninger fra kontakt med andre)",
+        "forskrift om utførelse av arbeid kap. 23A (risikovurdering, tiltak, opplæring og oppfølging)",
+        "opplæringsloven § 13-4 (fysiske inngrep for å avverge skade)"
+      ],
+      "items": [
+        {
+          "id": "BS-VT-1",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Vi har kjente rutiner for hva vi gjør når et barn eller en elev blir voldelig eller truende",
+          "text_variants": {
+            "barnehage": "Vi har kjente rutiner for hva vi gjør når et barn blir voldelig eller truende",
+            "skole": "Vi har kjente rutiner for hva vi gjør når en elev blir voldelig eller truende"
+          }
+        },
+        {
+          "id": "BS-VT-2",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Jeg vet hvilket handlingsrom jeg har til å gripe inn når en situasjon blir farlig",
+          "text_variants": {
+            "barnehage": "Jeg vet hvilket handlingsrom jeg har til å gripe inn når en situasjon blir farlig",
+            "skole": "Jeg vet hvilket handlingsrom jeg har til å gripe inn når en situasjon blir farlig"
+          }
+        },
+        {
+          "id": "BS-VT-3",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Etter en hendelse med vold eller trusler blir den som var involvert fulgt opp",
+          "text_variants": {
+            "barnehage": "Etter en hendelse med vold eller trusler blir den som var involvert fulgt opp",
+            "skole": "Etter en hendelse med vold eller trusler blir den som var involvert fulgt opp"
+          }
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Situasjonene vi kjenner igjen",
+          "description": "Personalet går gjennom tre konkrete hendelser: hva varslet om at det kunne skje, og hva gjør vi neste gang.",
+          "remeasure_item": "BS-VT-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Handlingsrom på ett ark",
+          "description": "En kort oversikt over hva ansatte kan og skal gjøre i farlige situasjoner, gjennomgått med alle, også vikarer.",
+          "remeasure_item": "BS-VT-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Samtale samme dag",
+          "description": "Leder tar en samtale med den som var involvert samme dag, og igjen etter en uke.",
+          "remeasure_item": "BS-VT-3"
+        }
+      ]
+    },
+    {
+      "id": "bemanning_og_vikarer",
+      "name": "Bemanning og vikarer",
+      "summary": "Om bemanningen holder, om fravær dekkes, og om ingen står alene med for mange.",
+      "rationale": "Det legemeldte sykefraværet i barnehagene var 9,2 prosent i 2025 – nesten 70 prosent høyere enn snittet – og tilsvarer om lag 1,75 årsverk i hver barnehage. Fagforbundet beskriver en ond sirkel der fravær ikke dekkes med vikar, og de som er igjen, blir slitne.",
+      "rationale_sources": [
+        "udf_barnehage2026",
+        "vg_ssb2025"
+      ],
+      "legal_basis": [
+        "aml § 4-3 (arbeidsmengde og tidspress)",
+        "barnehageloven og opplæringsloven med forskrifter (normer for bemanning og pedagogisk personale)"
+      ],
+      "items": [
+        {
+          "id": "BS-BE-1",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Bemanningen gjør det mulig å gi barna eller elevene det de trenger",
+          "text_variants": {
+            "barnehage": "Bemanningen gjør det mulig å gi barna det de trenger",
+            "skole": "Bemanningen gjør det mulig å gi elevene det de trenger"
+          }
+        },
+        {
+          "id": "BS-BE-2",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Når noen er borte, blir det satt inn vikar",
+          "text_variants": {
+            "barnehage": "Når noen er borte, blir det satt inn vikar",
+            "skole": "Når noen er borte, blir det satt inn vikar"
+          }
+        },
+        {
+          "id": "BS-BE-3",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Jeg står sjelden alene med flere barn eller elever enn jeg kan ha oversikt over",
+          "text_variants": {
+            "barnehage": "Jeg står sjelden alene med flere barn enn jeg kan ha oversikt over",
+            "skole": "Jeg står sjelden alene med flere elever enn jeg kan ha oversikt over"
+          }
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Når vi er for få",
+          "description": "Personalet lager en plan for hva som alltid skal gjøres, og hva som kan vente, på dager med lav bemanning.",
+          "remeasure_item": "BS-BE-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Vikarplan",
+          "description": "En fast rutine og en liste over faste vikarer, slik at fravær dekkes fra første dag.",
+          "remeasure_item": "BS-BE-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Ingen alene med for mange",
+          "description": "Leder sjekker bemanningen hver morgen og flytter folk før noen står alene med for mange.",
+          "remeasure_item": "BS-BE-3"
+        }
+      ]
+    },
+    {
+      "id": "tid_til_kjerneoppgavene",
+      "name": "Tid til kjerneoppgavene",
+      "summary": "Om det er tid til planlegging, og om dokumentasjon og møter står i forhold til nytten.",
+      "rationale": "I TALIS 2024 sier mer enn halvparten av lærerne at arbeidsmengden knyttet til administrative oppgaver og vurdering, og elevatferd, gir betydelig stress. Også skolelederne rapporterer mer stress og for lite tid til pedagogisk ledelse.",
+      "rationale_sources": [
+        "talis_udf2025"
+      ],
+      "legal_basis": [
+        "aml § 4-3 (arbeidsmengde og tidspress)",
+        "arbeidstidsavtalen for undervisningspersonale (der den gjelder)"
+      ],
+      "items": [
+        {
+          "id": "BS-TS-1",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Jeg har tid til å planlegge og forberede arbeidet med barna eller elevene",
+          "text_variants": {
+            "barnehage": "Jeg har tid til å planlegge og forberede arbeidet med barna",
+            "skole": "Jeg har tid til å planlegge og forberede arbeidet med elevene"
+          }
+        },
+        {
+          "id": "BS-TS-2",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Dokumentasjon og rapportering står i forhold til nytten",
+          "text_variants": {
+            "barnehage": "Dokumentasjon og rapportering står i forhold til nytten",
+            "skole": "Dokumentasjon og rapportering står i forhold til nytten"
+          }
+        },
+        {
+          "id": "BS-TS-3",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Møtetid og fellestid brukes til det som er viktigst for barna eller elevene",
+          "text_variants": {
+            "barnehage": "Møtetid og fellestid brukes til det som er viktigst for barna",
+            "skole": "Møtetid og fellestid brukes til det som er viktigst for elevene"
+          }
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Tidstyvjakt",
+          "description": "Personalet noterer tidstyver i to uker og velger tre ting å slutte med eller forenkle.",
+          "remeasure_item": "BS-TS-2"
+        },
+        {
+          "type": "rutine",
+          "title": "Beskyttet planleggingstid",
+          "description": "Fast planleggingstid i timeplanen eller turnusen som ikke brukes til vikartimer eller møter.",
+          "remeasure_item": "BS-TS-1"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Fellestid med mening",
+          "description": "Leder setter agenda for fellestiden sammen med personalet, med barna eller elevene i sentrum.",
+          "remeasure_item": "BS-TS-3"
+        }
+      ]
+    },
+    {
+      "id": "samarbeid_med_foreldre",
+      "name": "Samarbeid med foreldre",
+      "summary": "Om forventningene er tydelige, om man får støtte i krevende saker, og om fritiden respekteres.",
+      "rationale": "Lærere rapporterer at kontakt fra foreldre og elever utenfor den vanlige arbeidsdagen øker, og kontaktlærerrollen oppleves som stadig mer omfattende. Samtidig føler tre av fire lærere seg verdsatt av elever og foreldre – samarbeidet er en ressurs når rammene er tydelige.",
+      "rationale_sources": [
+        "kd_laererrollen2026",
+        "talis_uio2025"
+      ],
+      "legal_basis": [
+        "aml § 4-3 sjette ledd (belastninger fra kontakt med andre)",
+        "aml § 10-8 (hviletid)"
+      ],
+      "items": [
+        {
+          "id": "BS-FO-1",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Det er tydelig hva foreldre kan forvente av oss",
+          "text_variants": {
+            "barnehage": "Det er tydelig hva foreldre kan forvente av oss",
+            "skole": "Det er tydelig hva foreldre kan forvente av oss"
+          }
+        },
+        {
+          "id": "BS-FO-2",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Når samarbeidet med foreldre blir krevende, får jeg støtte fra ledelsen",
+          "text_variants": {
+            "barnehage": "Når samarbeidet med foreldre blir krevende, får jeg støtte fra ledelsen",
+            "skole": "Når samarbeidet med foreldre blir krevende, får jeg støtte fra ledelsen"
+          }
+        },
+        {
+          "id": "BS-FO-3",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Jeg slipper å svare foreldre utenom arbeidstiden",
+          "text_variants": {
+            "barnehage": "Jeg slipper å svare foreldre utenom arbeidstiden",
+            "skole": "Jeg slipper å svare foreldre utenom arbeidstiden"
+          }
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Hva kan foreldre forvente?",
+          "description": "Personalet lager en kort oversikt over svartid, kanaler og hva foreldre kan forvente, som deles ved oppstart.",
+          "remeasure_item": "BS-FO-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Svartid i arbeidstiden",
+          "description": "Meldinger fra foreldre besvares i arbeidstiden; forsinket sending og autosvar brukes utenom.",
+          "remeasure_item": "BS-FO-3"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Leder er med",
+          "description": "Leder deltar i de krevende foreldremøtene og tar over dialogen når den låser seg.",
+          "remeasure_item": "BS-FO-2"
+        }
+      ]
+    },
+    {
+      "id": "tilrettelegging_og_inkludering",
+      "name": "Tilrettelegging og inkludering",
+      "summary": "Om man får støtte og kompetanse til å møte barn og elever med særskilte behov.",
+      "rationale": "Fra 2018 til 2024 økte andelen elever som strever med norsk, er faglig svake eller har andre særskilte behov eller atferdsvansker, ifølge lærerne i TALIS. Klassene er mer sammensatte enn før. Mye av volden i skolen kommer fra et fåtall elever med særskilte utfordringer.",
+      "rationale_sources": [
+        "talis_uio2025",
+        "kd_nifu2025"
+      ],
+      "legal_basis": [
+        "aml § 4-2 (tilrettelegging og kompetanseutvikling)",
+        "aml § 3-2 (opplæring)"
+      ],
+      "items": [
+        {
+          "id": "BS-TI-1",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Jeg får nok støtte til å møte barn eller elever med særskilte behov",
+          "text_variants": {
+            "barnehage": "Jeg får nok støtte til å møte barn med særskilte behov",
+            "skole": "Jeg får nok støtte til å møte elever med særskilte behov"
+          }
+        },
+        {
+          "id": "BS-TI-2",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Vi har tilgang til spesialpedagogisk kompetanse når vi trenger det",
+          "text_variants": {
+            "barnehage": "Vi har tilgang til spesialpedagogisk kompetanse når vi trenger det",
+            "skole": "Vi har tilgang til spesialpedagogisk kompetanse når vi trenger det"
+          }
+        },
+        {
+          "id": "BS-TI-3",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Jeg vet hvem jeg kan kontakte når et barn eller en elev trenger mer hjelp enn vi kan gi",
+          "text_variants": {
+            "barnehage": "Jeg vet hvem jeg kan kontakte når et barn trenger mer hjelp enn vi kan gi",
+            "skole": "Jeg vet hvem jeg kan kontakte når en elev trenger mer hjelp enn vi kan gi"
+          }
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Felles grep",
+          "description": "Personalet blir enige om tre felles grep for barn eller elever som trenger ekstra struktur, og bruker dem likt.",
+          "remeasure_item": "BS-TI-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Faste møter med støttetjenestene",
+          "description": "Faste møtepunkter med PPT, helsesykepleier eller skolemiljøteam, med kjent kontaktperson.",
+          "remeasure_item": "BS-TI-3"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Kompetanse der den trengs",
+          "description": "Leder sørger for at den spesialpedagogiske kompetansen brukes der behovet er størst, og følger opp jevnlig.",
+          "remeasure_item": "BS-TI-2"
+        }
+      ]
+    },
+    {
+      "id": "kompetanse_og_fellesskap",
+      "name": "Kompetanse og fellesskap i personalet",
+      "summary": "Om nye og vikarer får opplæring, om det er tid til faglige samtaler, og om arbeidsdelingen er tydelig.",
+      "rationale": "Det mangler om lag 2 600 barnehagelærerårsverk for å oppfylle pedagognormen, andelen barnehagelærere har sunket til 42 prosent, og søkningen til barnehagelærerutdanningen har falt kraftig siden 2020. Opplæring av nye og vikarer blir derfor avgjørende.",
+      "rationale_sources": [
+        "udf_barnehage2026"
+      ],
+      "legal_basis": [
+        "aml § 3-2 (opplæring og instruksjon)",
+        "barnehageloven og forskrift om pedagogisk bemanning (pedagognormen)"
+      ],
+      "items": [
+        {
+          "id": "BS-KO-1",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Nye og vikarer får opplæring før de har ansvar for barn eller elever alene",
+          "text_variants": {
+            "barnehage": "Nye og vikarer får opplæring før de har ansvar for barn alene",
+            "skole": "Nye og vikarer får opplæring før de har ansvar for elever alene"
+          }
+        },
+        {
+          "id": "BS-KO-2",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Vi har tid til faglige samtaler i personalet",
+          "text_variants": {
+            "barnehage": "Vi har tid til faglige samtaler i personalet",
+            "skole": "Vi har tid til faglige samtaler i personalet"
+          }
+        },
+        {
+          "id": "BS-KO-3",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Det er tydelig hvordan oppgavene fordeles mellom pedagoger og andre ansatte",
+          "text_variants": {
+            "barnehage": "Det er tydelig hvordan oppgavene fordeles mellom pedagoger og andre ansatte",
+            "skole": "Det er tydelig hvordan oppgavene fordeles mellom pedagoger og andre ansatte"
+          }
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Hvem gjør hva?",
+          "description": "Pedagoger, fagarbeidere og assistenter går sammen gjennom arbeidsdelingen og skriver den ned.",
+          "remeasure_item": "BS-KO-3"
+        },
+        {
+          "type": "rutine",
+          "title": "Vikarmappe og første dag",
+          "description": "En kort vikarmappe og en fast gjennomgang første dag før vikaren har ansvar alene.",
+          "remeasure_item": "BS-KO-1"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Faglig påfyll",
+          "description": "Leder setter av fast tid til faglige samtaler i personalet og beskytter den.",
+          "remeasure_item": "BS-KO-2"
+        }
+      ]
+    },
+    {
+      "id": "stoy_kropp_og_pauser",
+      "name": "Støy, kropp og pauser",
+      "summary": "Om støynivået er til å leve med, om utstyret passer voksne, og om man får pauser.",
+      "rationale": "SSB forklarer det høye sykefraværet i barnehagene blant annet med at arbeidet er fysisk krevende og gir mye kontakt med mennesker. Barnehagelærere har det høyeste sykefraværet av alle yrkesgrupper i barnehagen, 10,8 prosent.",
+      "rationale_sources": [
+        "vg_ssb2025"
+      ],
+      "legal_basis": [
+        "aml § 4-4 (fysiske arbeidsmiljøfaktorer, inkludert støy)",
+        "forskrift om utførelse av arbeid kap. 14 (ergonomiske belastninger)",
+        "aml § 10-9 (pauser)"
+      ],
+      "items": [
+        {
+          "id": "BS-FY-1",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Støynivået i løpet av dagen er til å leve med",
+          "text_variants": {
+            "barnehage": "Støynivået i løpet av dagen er til å leve med",
+            "skole": "Støynivået i løpet av dagen er til å leve med"
+          }
+        },
+        {
+          "id": "BS-FY-2",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Vi har møbler og utstyr som gjør at jeg kan jobbe godt for kroppen",
+          "text_variants": {
+            "barnehage": "Vi har møbler og utstyr som gjør at jeg kan jobbe godt for kroppen",
+            "skole": "Vi har møbler og utstyr som gjør at jeg kan jobbe godt for kroppen"
+          }
+        },
+        {
+          "id": "BS-FY-3",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Jeg får tatt pauser i løpet av arbeidsdagen",
+          "text_variants": {
+            "barnehage": "Jeg får tatt pauser i løpet av arbeidsdagen",
+            "skole": "Jeg får tatt pauser i løpet av arbeidsdagen"
+          }
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Støykart",
+          "description": "Personalet kartlegger når og hvor det er mest støy, og prøver ut tiltak som mindre grupper og dempende materialer.",
+          "remeasure_item": "BS-FY-1"
+        },
+        {
+          "type": "rutine",
+          "title": "Pause som faktisk er pause",
+          "description": "Faste pauser der den ansatte er avløst og ikke har ansvar for barn eller elever.",
+          "remeasure_item": "BS-FY-3"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Voksenhøyde",
+          "description": "Leder sørger for voksenstoler, stellebord med heis og annet utstyr som mangler, innen en fast frist.",
+          "remeasure_item": "BS-FY-2"
+        }
+      ]
+    },
+    {
+      "id": "vanskelige_saker",
+      "name": "Vanskelige saker",
+      "summary": "Om man vet hva man gjør ved bekymring, og om man står alene med tunge saker om mobbing og trygghet.",
+      "rationale": "Barnehager og skoler har lovfestede plikter når barn ikke har det trygt og godt: aktivitetsplikt ved mobbing og krenkelser, og opplysningsplikt til barnevernet. Pliktene er tunge å bære alene, og faktoren måler om de er fordelt og fulgt opp. Vi har ikke funnet norske tall for belastningen; faktoren bygger på pliktene i regelverket.",
+      "rationale_sources": [],
+      "legal_basis": [
+        "barnehageloven kap. VIII (psykososialt barnehagemiljø, aktivitetsplikt i § 42) og § 46 (opplysningsplikt til barnevernet)",
+        "opplæringsloven kap. 12 (skolemiljø, aktivitetsplikt i § 12-4) og § 24-3 (plikt til å melde fra til barnevernet)",
+        "aml § 4-3"
+      ],
+      "items": [
+        {
+          "id": "BS-VS-1",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Jeg vet hvordan vi går fram når vi er bekymret for hvordan et barn eller en elev har det hjemme",
+          "text_variants": {
+            "barnehage": "Jeg vet hvordan vi går fram når vi er bekymret for hvordan et barn har det hjemme",
+            "skole": "Jeg vet hvordan vi går fram når vi er bekymret for hvordan en elev har det hjemme"
+          }
+        },
+        {
+          "id": "BS-VS-2",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Når vi har en vanskelig sak om mobbing eller krenkelser, står jeg ikke alene med den",
+          "text_variants": {
+            "barnehage": "Når vi har en vanskelig sak om mobbing eller krenkelser, står jeg ikke alene med den",
+            "skole": "Når vi har en vanskelig sak om mobbing eller krenkelser, står jeg ikke alene med den"
+          }
+        },
+        {
+          "id": "BS-VS-3",
+          "reverse": false,
+          "pulse_eligible": true,
+          "text": "Vi har tid til å følge opp saker om barnas eller elevenes trivsel og trygghet",
+          "text_variants": {
+            "barnehage": "Vi har tid til å følge opp saker om barnas trivsel og trygghet",
+            "skole": "Vi har tid til å følge opp saker om elevenes trivsel og trygghet"
+          }
+        }
+      ],
+      "action_suggestions": [
+        {
+          "type": "workshop",
+          "title": "Fra bekymring til handling",
+          "description": "Personalet går gjennom rutinen for bekymring og opplysningsplikt med et anonymisert eksempel.",
+          "remeasure_item": "BS-VS-1"
+        },
+        {
+          "type": "rutine",
+          "title": "To på hver sak",
+          "description": "Alle saker om mobbing, krenkelser eller bekymring har to ansvarlige, aldri én.",
+          "remeasure_item": "BS-VS-2"
+        },
+        {
+          "type": "lederpraksis",
+          "title": "Tid til oppfølging",
+          "description": "Leder setter av tid i planen til oppfølging av saker, og spør hvordan det går med dem som har dem.",
+          "remeasure_item": "BS-VS-3"
+        }
+      ]
+    }
+  ],
+  "count_items": [
+    {
+      "id": "BS-T-1",
+      "options": [
+        "Ja",
+        "Nei",
+        "Vet ikke"
+      ],
+      "why": "Viser hvor mye som ikke kommer fram i avvikssystemet. Hovedundersøkelsen teller allerede hvor mange som har opplevd vold eller trusler.",
+      "text": "Har du de siste tre månedene vært med på en hendelse med vold eller trusler fra et barn eller en elev som ikke ble meldt?",
+      "text_variants": {
+        "barnehage": "Har du de siste tre månedene vært med på en hendelse med vold eller trusler fra et barn som ikke ble meldt?",
+        "skole": "Har du de siste tre månedene vært med på en hendelse med vold eller trusler fra en elev som ikke ble meldt?"
+      }
+    },
+    {
+      "id": "BS-T-2",
+      "options": [
+        "Ja",
+        "Nei",
+        "Vet ikke"
+      ],
+      "why": "Viser hvor ofte fravær går ut over dem som er på jobb – den onde sirkelen som driver sykefraværet.",
+      "text": "Har du de siste fire ukene jobbet en dag der fravær ikke ble dekket med vikar?",
+      "text_variants": {
+        "barnehage": "Har du de siste fire ukene jobbet en dag der fravær ikke ble dekket med vikar?",
+        "skole": "Har du de siste fire ukene jobbet en dag der fravær ikke ble dekket med vikar?"
+      }
+    }
+  ],
+  "segments": [
+    {
+      "id": "rolle",
+      "text": "Hvilken rolle har du?",
+      "options": [
+        "Pedagog eller lærer",
+        "Fagarbeider, assistent eller miljøpersonale",
+        "Leder eller administrasjon"
+      ],
+      "merge_rule": "«Leder eller administrasjon» slås alltid sammen med nærmeste gruppe når den har under 5 svar, og vises aldri alene i små virksomheter."
+    },
+    {
+      "id": "stillingsstorrelse",
+      "text": "Hvor stor stilling har du?",
+      "options": [
+        "Heltid",
+        "Deltid, 50 prosent eller mer",
+        "Deltid, under 50 prosent"
+      ],
+      "merge_rule": "Slå sammen de to deltidskategoriene når en har under 5 svar."
+    }
+  ],
+  "sources": [
+    {
+      "key": "ssb_vold2026",
+      "title": "SSB: Fire av ti grunnskolelærere utsatt for vold, trusler, trakassering eller mobbing på jobb (LKU-A 2025, publisert 2026)",
+      "url": "https://www.ssb.no/arbeid-og-lonn/arbeidsmiljo-sykefravaer-og-arbeidskonflikter/statistikk/arbeidsmiljo-levekarsundersokelsen/artikler/fire-av-ti-grunnskolelaerere-utsatt-for-vold-trusler-trakassering-eller-mobbing-pa-jobb"
+    },
+    {
+      "key": "kd_nifu2025",
+      "title": "Kunnskapsdepartementet: Ny rapport om vold og trusler mot ansatte i skolen (NIFU, 2025)",
+      "url": "https://www.regjeringen.no/no/aktuelt/ny-rapport-om-vold-og-trusler-mot-ansatte-i-skolen/id3117100/"
+    },
+    {
+      "key": "av_skola2025",
+      "title": "Arbetsmiljöverket: Brister i arbetet mot hot och våld i skolan (2025)",
+      "url": "https://www.av.se/press/brister-i-arbetet-mot-hot-och-vald-i-skolan/"
+    },
+    {
+      "key": "udf_barnehage2026",
+      "title": "Utdanningsforbundet: Tall og statistikk om bemanning i barnehagen (2026)",
+      "url": "https://www.utdanningsforbundet.no/var-politikk/kampanjer/tid-for-de-minste/tall-og-statistikk-om-bemanning-i-barnehagen/"
+    },
+    {
+      "key": "vg_ssb2025",
+      "title": "VG: Barnehageansatte har nesten dobbelt så høyt sykefravær som andre (SSB-tall, 2025)",
+      "url": "https://www.vg.no/nyheter/i/Oowd41/barnehageansatte-har-nesten-dobbelt-saa-hoeyt-sykefravaer-som-andre-ond-sirkel"
+    },
+    {
+      "key": "talis_udf2025",
+      "title": "Utdanningsforbundet: Ny TALIS-undersøkelse – lærere liker jobben, men opplever seg mindre verdsatt (2025)",
+      "url": "https://www.utdanningsforbundet.no/nyheter/2025/ny-talis-undersokelse-larere-liker-jobben-men-opplever-seg-mindre-verdsatt/"
+    },
+    {
+      "key": "talis_uio2025",
+      "title": "UiO: Lærarane trivst, men føler seg mindre verdsett av samfunnet – TALIS 2024 (2025)",
+      "url": "https://www.uio.no/forskning/forskningsnytt/artikler/2025/talis-2024-laereres-rektorers-undersoking-uio.html"
+    },
+    {
+      "key": "kd_laererrollen2026",
+      "title": "Kunnskapsdepartementet: Notat om lærerrollen (2026)",
+      "url": "https://files.nettsteder.regjeringen.no/wpuploads01/sites/586/2026/02/Sak-8-6-b-Om-laererrollen_-.pdf"
+    },
+    {
+      "key": "stami_emo",
+      "title": "Barnehagefolk: Vær nær – det skaper nærvær (om STAMI-tall for emosjonelle krav, 2024)",
+      "url": "https://barnehagefolk.no/bf2024_2_artikkel6.asp"
+    }
+  ]
+}

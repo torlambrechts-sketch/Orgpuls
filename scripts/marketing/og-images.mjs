@@ -9,6 +9,7 @@
  *
  *   node scripts/marketing/og-images.mjs                     # every landing page
  *   node scripts/marketing/og-images.mjs --base http://localhost:3000
+ *   node scripts/marketing/og-images.mjs --only barnehage-og-skole     # one card
  *
  * Writes public/og/<slug>.png for a landing page, public/og/artikler/<slug>.png for an article
  * (its H1, with its landing page's picture), and public/og.png, the site's own card (the start
@@ -23,18 +24,29 @@ const arg = (name, fallback) => {
   return i > -1 ? process.argv[i + 1] : fallback
 }
 const base = arg('base', 'http://localhost:3000')
+// --only <slug>: one card, leaving the others' files as they are
+const only = arg('only', null)
 const out = 'public/og'
 const no = JSON.parse(readFileSync('messages/no.json', 'utf8'))
 // the site's own @font-face rules; their /fonts/… URLs resolve against the running server
 const fonts = readFileSync('app/fonts.css', 'utf8')
 
 // the same pairs as LANDING_HERO in lib/marketing/site.ts
+function industryH1(slug) {
+  const src = readFileSync(`content/industries/${slug}.ts`, 'utf8')
+  const m = src.match(/hero: \{[\s\S]*?h1: '([^']+)'/)
+  if (!m) throw new Error(`content/industries/${slug}.ts changed shape; update how its H1 is read here`)
+  return JSON.parse(`"${m[1]}"`)
+}
+
 const PAGES = [
   { slug: 'lovkrav', key: 'lovkrav', shot: 'rapport' },
   { slug: 'verneombud', key: 'verneombud', shot: 'varmekart' },
   { slug: 'smaa-bedrifter', key: 'smaaBedrifter', shot: 'oversikt' },
   { slug: 'bygg-og-anlegg', key: 'byggOgAnlegg', shot: 'sporsmal' },
   { slug: 'helse-og-omsorg', key: 'helseOgOmsorg', shot: 'samtaler' },
+  // an industry page with no landing page before it: the H1 is the page's own (content/industries)
+  { slug: 'barnehage-og-skole', h1: industryH1('barnehage-og-skole'), shot: 'sporsmal' },
 ]
 // each article with the landing page it belongs to, read from lib/marketing/site.ts
 const siteSrc = readFileSync('lib/marketing/site.ts', 'utf8')
@@ -89,7 +101,7 @@ const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', a
 const page = await b.newPage({ viewport: { width: 1200, height: 630 } })
 // written into a page on the server's own origin, so its font files are same-origin
 await page.goto(`${base}/robots.txt`)
-for (const p of [...PAGES, ...ARTICLE_CARDS, DEFAULT_CARD]) {
+for (const p of [...PAGES, ...ARTICLE_CARDS, DEFAULT_CARD].filter((x) => !only || x.slug === only)) {
   await page.setContent(html(p), { waitUntil: 'networkidle' })
   await page.evaluate(() => document.fonts.ready)
   const file = join(out, p.file ?? `${p.slug}.png`)

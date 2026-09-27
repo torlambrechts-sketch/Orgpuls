@@ -421,7 +421,16 @@
       "failed": "Kunne ikke lagre valget. Prøv igjen.",
       "seeAll": "Se hele spørsmålssettet",
       "toggle": "Bruk {module} i hovedmålingene",
-      "show": "Vis faktorene og påstandene ({count})"
+      "show": "Vis faktorene og påstandene ({count})",
+      "wording": {
+        "legend": "Ordbruk i påstandene",
+        "barnehage": "Barnehage («barna»)",
+        "skole": "Skole («elevene»)",
+        "begge": "Begge («barna eller elevene»)",
+        "suggested": "Foreslått ut fra næringskoden deres. Velg en annen om den ikke passer.",
+        "chosen": "Valgt av dere. Planlagte målinger bruker den; en måling som er åpnet, beholder sin.",
+        "failed": "Kunne ikke lagre ordbruken. Prøv igjen."
+      }
     },
     "innstillinger": {
       "intro": "Her setter dere standarden for målingene: hvordan de ansatte får undersøkelsen, hva den spør om, og når den stenger. Hver ny måling får standarden, og i Måleoppsett kan dere endre den for én måling.",
@@ -7150,6 +7159,13 @@
           "t": "Helse og omsorg",
           "d": "Vold og trusler, bemanning og forsvarlig omsorg, turnus og deltid, grenser mot brukere og pårørende, dokumentasjon og tunge forflytninger.",
           "cta": "Se helse og omsorg"
+        },
+        {
+          "slug": "barnehage-og-skole",
+          "k": "Barnehage, skole og SFO",
+          "t": "Barnehage og skole",
+          "d": "Vold og trusler, bemanning og vikarer, foreldresamarbeid, tilrettelegging og tid til kjerneoppgavene.",
+          "cta": "Se barnehage og skole"
         }
       ],
       "other": {
@@ -8876,6 +8892,13 @@
       "rutine": "Rutine",
       "lederpraksis": "Lederpraksis"
     },
-    "preview": "Forhåndsvisning. Siden er ikke publisert ennå og vises ikke i søk."
+    "preview": "Forhåndsvisning. Siden er ikke publisert ennå og vises ikke i søk.",
+    "wording": {
+      "legend": "Ordbruk",
+      "barnehage": "Barnehage",
+      "skole": "Skole",
+      "begge": "Begge",
+      "note": "Påstandene sier «barna» i barnehagen, «elevene» i skolen og begge deler der dere har både barnehage og skole. Kodene og skåringen er de samme."
+    }
   }
 }

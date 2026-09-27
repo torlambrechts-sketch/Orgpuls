@@ -5883,3 +5883,60 @@ approved checkbox" (X-065).
   - every message in either file that cites a «§» is in some unit, so a new one cannot be
     published outside the review (the admin app and the unrendered blocks excepted);
   - every unit's title and place is a message the page has.
+
+## D-131 — Barnehage og skole: one module, three wordings, and a page that waits for review (0083)
+
+Tor, 2026-09-27: "Bygg skole og barnehage, place it queue", with the handoff's
+bransje-barnehage-og-skole.md, innstillinger-og-forside.md and modules/barnehage-og-skole/v1.json
+(X-066). Built as the brief describes, with these choices where it left room or could not be
+followed as written:
+
+- **The wordings live in the locale map, not a new column.** The brief names
+  `module_items.text_variants`. The registry already keeps an item's text as a locale map
+  (`{"nb": …, "en": …}`), so the variants are two more keys there, `nb.barnehage` and
+  `nb.skole`, and `nb` stays the «begge» wording. Every reader that reads `nb` still reads a
+  correct statement, and no frozen table gets a column.
+- **The choice is the organisation's, per module, stored where the module choice is.** The brief
+  names `organizations.wording` and `survey_modules.wording`. There is no `survey_modules`
+  (rounds use `round_modules`), and a wording only means something for a worded module, so it is
+  `org_modules.wording` (the standing choice, null for «as suggested») and
+  `round_modules.wording` (what a round asks, filled as the module is put on the round, by
+  every path, and fixed once the round opens). `app.org_wording` decides the suggestion from
+  the module file's own NACE rule. One write path, `set_org_module_wording`, daglig leder only,
+  applied to planned rounds and never to an open one. supabase/tests/module_wording_invariants.sql
+  proves it in 8 rows.
+- **Where the choice is made.** The brief puts it under Innstillinger › Virksomhet › Bransje.
+  The organisation's module choices are made in Målinger › Spørsmålssett (D-124), so the wording
+  is chosen on the module's own card there: a radio group «Barnehage («barna») / Skole
+  («elevene») / Begge», showing whether it was suggested or chosen. The design has no screen for
+  it; it is built from the card's own parts, styled as the switch beside it.
+- **Kindergartens under either industry standard.** The brief's rule reads SN2025 (85.1 a
+  kindergarten, 85.2 and 85.3 a school). Brønnøysund still hands out SN2007 codes, where
+  kindergartens are 88.911, inside helse og omsorg's 88. The module file's rule and prefixes
+  add 88.911, and content/industries/meta.ts lists barnehage og skole before helse og omsorg so
+  the longer prefix wins.
+- **Law references checked, not approved.** The brief's module and page said «verifiser
+  paragraf» twice. Checked against Lovdata on 2026-09-27: opplæringslova § 13-4 (fysiske inngrep
+  for å avverje skade), kap. 12 with § 12-4 (aktivitetsplikt) and § 24-3 (plikt til å melde frå
+  til barnevernet); barnehageloven kap. VIII with § 42 (aktivitetsplikt) and § 46
+  (opplysningsplikt). The file and the page name them now. Every law item stays
+  `reviewed: false`; they are in admin › Legal review for Tor.
+- **Not launched, not published.** The page is shown only with ?forhandsvis=1, and the module is
+  seeded as a draft (usable only by a pilot organisation). Barnehage og skole never had a landing
+  page, so before launch the address is a 404, and the menu and /bransjer leave it out
+  (`hasPublicPage`). Launching is: Tor approves the law items, `reviewed: true` and
+  `launched: true` in content/industries/barnehage-og-skole.ts, and
+  `npm run modules:publish barnehage-og-skole 1.0.0`.
+- **Norwegian only.** The file has no English translation (the brief's scope excludes English),
+  so there is no English page, and the schema refuses an English translation on a worded module
+  until the file has a place for English wordings. A survey that asks this module offers English
+  only once it has approved English texts, which it does not.
+- **Parts the template needs and the brief does not write** (the loop's steps, the module
+  overview's closing note, the question page's rules and CTA) follow helse og omsorg's in this
+  industry's words. The brief's «Vanskelige saker» note («Ikke skriv om enkeltbarn eller
+  enkeltelever i kommentarfeltet») is a rule on the question page; the survey's comment field is
+  the core instrument's and says nothing per module.
+- **Not built:** the «Foreløpig» mark on provisional module results (brief § 3.3), which needs
+  the validation status in the registry and an admin control to change it; the factor toggles
+  for this module, which stay behind `module_factor_toggles` as for the others; and the card's
+  «Ny» label (`newUntil`), which the hub has no place for.

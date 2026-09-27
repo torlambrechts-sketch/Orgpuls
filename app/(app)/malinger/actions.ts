@@ -71,3 +71,32 @@ export async function setOrgModule(key: string, enabled: boolean): Promise<Modul
   revalidatePath('/maleoppsett')
   return { ok: true, enabled: parsed.data.enabled }
 }
+
+/**
+ * The wording a worded module is asked in (0083, D-131): barnehage, skole or begge, or null to
+ * go back to the one the registered industry suggests. set_org_module_wording checks the role
+ * and applies it to the planned rounds; an open round keeps its own.
+ */
+const WordingResult = z.union([
+  z.object({ ok: z.literal(true), wording: z.enum(['barnehage', 'skole', 'begge']) }),
+  z.object({ error: z.enum(['not_allowed', 'not_available', 'invalid']) }),
+])
+
+export type WordingChoiceResult = { ok: true; wording: 'barnehage' | 'skole' | 'begge' } | { ok: false }
+
+export async function setOrgModuleWording(key: string, wording: string | null): Promise<WordingChoiceResult> {
+  const org = await getCurrentOrgId()
+  const k = ModuleKey.safeParse(key)
+  const w = z.enum(['barnehage', 'skole', 'begge']).nullable().safeParse(wording)
+  if (!org || !k.success || !w.success) return { ok: false }
+
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('set_org_module_wording', { p_org: org, p_key: k.data, p_wording: w.data })
+  if (callFailed('setOrgModuleWording', error)) return { ok: false }
+  const parsed = WordingResult.safeParse(data)
+  if (!parsed.success || 'error' in parsed.data) return { ok: false }
+
+  revalidatePath('/malinger')
+  revalidatePath('/maleoppsett')
+  return { ok: true, wording: parsed.data.wording }
+}

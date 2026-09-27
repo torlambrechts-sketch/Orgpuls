@@ -6,6 +6,7 @@ import { listOf, moduleFile, type PageLang } from '@/content/industries/modules'
 import type { IndustryPage } from '@/content/industries/types'
 import { flag, type FlagName } from '@/lib/flags'
 import { CitedText } from './CitedText'
+import { Worded, WordingScope, WordingSwitch } from './Wording'
 import { H2, IndustryCta, SEC, SourceList, WRAP } from './IndustryView'
 
 /**
@@ -37,8 +38,10 @@ export async function QuestionView({
   const titles = new Map(mod.sources.map((s) => [s.key, s.title]))
   const typeLabel = (x: string) => t(`actionType.${x}`)
   const segments = on('module_segments') ? mod.segments : []
+  // a worded module (barnehage og skole, D-131): the switch, and every statement through it
+  const worded = !!mod.wording
 
-  return (
+  const body = (
     <div className="pb-[20px]">
       <div className={`${WRAP} pt-[clamp(18px,3.5vw,44px)]`}>
         <nav aria-label={ts('seo.common.breadcrumb')} className="text-[12.5px] text-mut">
@@ -76,6 +79,17 @@ export async function QuestionView({
           ))}
         </ol>
         <p className="mb-0 mt-[12px] max-w-[62ch] text-[14px] text-body">{q.scaleNote}</p>
+        {worded ? (
+          <WordingSwitch
+            labels={{
+              legend: t('wording.legend'),
+              note: t('wording.note'),
+              barnehage: t('wording.barnehage'),
+              skole: t('wording.skole'),
+              begge: t('wording.begge'),
+            }}
+          />
+        ) : null}
 
         <nav aria-label={t('tocLabel')} className="mt-[22px]">
           <ul className="m-0 flex list-none flex-wrap gap-[8px] p-0">
@@ -110,7 +124,9 @@ export async function QuestionView({
                 {f.items.map((i) => (
                   <li key={i.id} className="grid items-baseline gap-x-[14px] gap-y-[4px] border-t border-line py-[13px] last:border-b [grid-template-columns:auto_minmax(0,1fr)]">
                     <span className="min-w-[64px] whitespace-nowrap text-[12px] font-bold tabular-nums text-mut">{i.id}</span>
-                    <span className="font-display text-[18px] leading-[1.35]">{i.text}</span>
+                    <span className="font-display text-[18px] leading-[1.35]">
+                      <Worded text={i.text} variants={i.text_variants} />
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -148,7 +164,9 @@ export async function QuestionView({
         {mod.count_items.map((c) => (
           <div key={c.id} className="mt-[14px] rounded-card border border-line bg-sf px-[20px] py-[18px]">
             <span className="text-[12px] font-bold tabular-nums text-mut">{c.id}</span>
-            <span className="mt-[4px] block font-display text-[18px] leading-[1.35]">{c.text}</span>
+            <span className="mt-[4px] block font-display text-[18px] leading-[1.35]">
+              <Worded text={c.text} variants={c.text_variants} />
+            </span>
             <ul className="m-0 mt-[10px] flex list-none flex-wrap gap-[6px] p-0">
               {c.options.map((o) => (
                 <li key={o} className="rounded-pill border border-line px-[10px] py-[4px] text-[12.5px] text-mut">
@@ -209,4 +227,5 @@ export async function QuestionView({
       <SourceList sources={sources} title={t('sources')} />
     </div>
   )
+  return worded ? <WordingScope>{body}</WordingScope> : body
 }

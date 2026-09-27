@@ -3,7 +3,7 @@ import { headers } from 'next/headers'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { EN_URL, hostOf, MAIN_URL, PUBLIC_HOSTS } from '@/lib/hosts'
 import { HeaderNav } from '@/components/site/HeaderNav'
-import { INDUSTRIES, pageIn } from '@/content/industries'
+import { hasPublicPage, INDUSTRIES, pageIn } from '@/content/industries'
 import { SiteFooter, type FooterData } from '@/components/site/SiteFooter'
 import { SiteBeacon } from '@/components/marketing/SiteBeacon'
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch'
@@ -27,6 +27,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
   // Each address is a whole page either way — the industry page once launched, its landing page before
   const lang = (await getLocale()) === 'en' ? 'en' : 'no'
   const industries = INDUSTRIES.flatMap((i) => {
+    if (!hasPublicPage(i, lang)) return []
     const label = (pageIn(i, lang) ?? pageIn(i, 'no'))?.navLabel
     return label ? [{ href: `/${i.slug}`, label }] : []
   })

@@ -3,7 +3,8 @@
 import type { Route } from 'next'
 import Link from 'next/link'
 import { useState, useTransition } from 'react'
-import { setOrgModule } from '@/app/(app)/malinger/actions'
+import { setOrgModule, setOrgModuleWording } from '@/app/(app)/malinger/actions'
+import { pickWording, WORDINGS, type Wording, type WordingVariants } from '@/lib/modules/wording'
 
 /**
  * The industry question sets under Målinger › Spørsmålssett (0074, D-124): off by default,
@@ -22,7 +23,9 @@ export interface ModuleCard {
   meta: string
   suggested: string | null
   on: boolean
-  factors: { key: string; name: string; summary: string; statements: string[] }[]
+  /** a worded module (0083): the wording its rounds ask, and whether the organisation chose it */
+  wording: { value: Wording; chosen: boolean } | null
+  factors: { key: string; name: string; summary: string; statements: { text: string; variants?: WordingVariants }[] }[]
   href: string | null
   /** "Bruk … i hovedmålingene", for the switch's accessible name */
   toggleLabel: string
@@ -40,12 +43,39 @@ export function ModuleChoices({
   lead: string
   cards: ModuleCard[]
   canEdit: boolean
-  labels: { on: string; off: string; onNote: string; offNote: string; readOnly: string; none: string; failed: string; seeAll: string }
+  labels: {
+    on: string
+    off: string
+    onNote: string
+    offNote: string
+    readOnly: string
+    none: string
+    failed: string
+    seeAll: string
+    wording: { legend: string; suggested: string; chosen: string; failed: string } & Record<Wording, string>
+  }
 }) {
   const [open, setOpen] = useState('')
   const [state, setState] = useState(() => new Map(cards.map((c) => [c.key, c.on])))
+  const [wordings, setWordings] = useState(() => new Map(cards.flatMap((c) => (c.wording ? [[c.key, c.wording] as const] : []))))
   const [failed, setFailed] = useState<string | null>(null)
+  const [wordingFailed, setWordingFailed] = useState<string | null>(null)
   const [pending, start] = useTransition()
+
+  // shown at once, as a radio should; put back if the database refuses
+  const choose = (key: string, value: Wording) => {
+    const before = wordings
+    setWordingFailed(null)
+    setWordings(new Map(before).set(key, { value, chosen: true }))
+    start(async () => {
+      const r = await setOrgModuleWording(key, value)
+      if (r.ok) setWordings(new Map(before).set(key, { value: r.wording, chosen: true }))
+      else {
+        setWordings(before)
+        setWordingFailed(key)
+      }
+    })
+  }
 
   const flip = (key: string) => {
     const next = !state.get(key)
@@ -72,6 +102,7 @@ export function ModuleChoices({
           {cards.map((c) => {
             const on = state.get(c.key) ?? false
             const isOpen = open === c.key
+            const wording = wordings.get(c.key) ?? null
             return (
               <div key={c.key} className={`overflow-hidden rounded-tile border ${on ? 'border-ink bg-sbg' : 'border-line bg-bg'}`}>
                 <div className="flex flex-wrap items-start justify-between gap-[14px] px-[16px] py-[14px]">
@@ -98,6 +129,39 @@ export function ModuleChoices({
                     <span className="text-[13px] font-bold">{on ? labels.on : labels.off}</span>
                   </label>
                 </div>
+                {wording ? (
+                  // the module's statements say «barna», «elevene» or both (0083); a native radio
+                  // group, styled as the switch above it
+                  <fieldset className="m-0 min-w-0 border-0 border-t border-solid border-line px-[16px] py-[10px]">
+                    <legend className="float-left mb-[6px] w-full p-0 text-[12px] font-semibold text-mut">{labels.wording.legend}</legend>
+                    <div className="clear-both flex flex-wrap gap-x-[18px] gap-y-[6px]">
+                      {WORDINGS.map((w) => (
+                        <label key={w} className={`flex items-center gap-[7px] text-[13px] ${canEdit ? 'cursor-pointer' : 'cursor-default'}`}>
+                          <input
+                            type="radio"
+                            name={`wording-${c.key}`}
+                            value={w}
+                            checked={wording.value === w}
+                            // not disabled while saving: arrowing through the group would lose the focus
+                            disabled={!canEdit}
+                            onChange={() => choose(c.key, w)}
+                            className="h-[16px] w-[16px] cursor-pointer accent-ink disabled:cursor-default"
+                          />
+                          {labels.wording[w]}
+                        </label>
+                      ))}
+                    </div>
+                    <span className="mt-[6px] block text-[12px] text-mut" role="status">
+                      {wordingFailed === c.key ? (
+                        <span className="text-caution">{labels.wording.failed}</span>
+                      ) : wording.chosen ? (
+                        labels.wording.chosen
+                      ) : (
+                        labels.wording.suggested
+                      )}
+                    </span>
+                  </fieldset>
+                ) : null}
                 <div className="flex flex-wrap items-center justify-between gap-[10px] border-t border-line px-[16px] py-[10px]">
                   <span className="text-[12px] text-mut" role="status">
                     {failed === c.key ? <span className="text-caution">{labels.failed}</span> : on ? labels.onNote : labels.offNote}
@@ -131,7 +195,7 @@ export function ModuleChoices({
                           {f.statements.map((s, i) => (
                             <li key={i} className="flex items-start gap-[8px] text-[12.5px] leading-[1.45]">
                               <span className="mt-[1px] flex-none text-[11px] font-bold text-mut">{i + 1}</span>
-                              <span className="[text-wrap:pretty]">{s}</span>
+                              <span className="[text-wrap:pretty]">{pickWording(s.text, s.variants, wording?.value)}</span>
                             </li>
                           ))}
                         </ol>
