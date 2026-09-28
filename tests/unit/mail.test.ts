@@ -125,7 +125,7 @@ describe('notices', () => {
     expect(shared.text).toContain('Det tar omtrent 4 minutter.')
     expect(shared.text).toContain('«Vi vil <vite> hvordan dere har det.»\n– Kari Nordmann, daglig leder')
     expect(shared.html).toContain('Vi vil &lt;vite&gt;')
-    expect(shared.text).toContain('får alle ansatte vite hva målingen viste')
+    expect(shared.text).toContain('Alle ansatte får vite hva målingen viste')
     const plain = renderNotice(cat, job({ minutes: 4, results_shared: false }), { lang: 'no', member: false, name: 'Ola' }, APP)
     expect(plain.text).not.toContain('får alle ansatte vite')
     expect(plain.text).not.toContain('«')
@@ -151,6 +151,17 @@ describe('notices', () => {
     expect(reminder.text).not.toContain('/r/')
     // only a slug the database made reaches a mail
     expect(() => renderNotice(cat, job({ kind: 'resultat', audience: 'alle_ansatte', token: null, results_page: 'x"><script>' }), { lang: 'no', member: false, name: null }, APP)).toThrow()
+  })
+
+  // 0106 (audit AUD-06): results wait for the publish date, and the invitation says that day
+  it('names the day everyone is told the results, and never promises them at the deadline', () => {
+    const dated = renderNotice(cat, job({ results_shared: true, publish_on: '2026-10-20' }), { lang: 'no', member: false, name: 'Ola' }, APP)
+    expect(dated.text).toContain('Alle ansatte får vite hva målingen viste, og hva som skal gjøres med det, 20. oktober.')
+    const undated = renderNotice(cat, job({ results_shared: true, publish_on: null }), { lang: 'en', member: false, name: 'Ola' }, APP)
+    expect(undated.text).toContain('All employees will be told what the survey showed')
+    for (const r of [dated, undated]) expect(r.text).not.toMatch(/fristen er ute|deadline has passed/)
+    // nobody is told: nothing is promised
+    expect(renderNotice(cat, job({ results_shared: false, publish_on: '2026-10-20' }), { lang: 'no', member: false, name: 'Ola' }, APP).text).not.toContain('Alle ansatte får vite')
   })
 
   // 0105, engagement phase 2: «Siden sist» in the invitation's e-mail only

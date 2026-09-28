@@ -102,7 +102,9 @@ export async function saveWizardRhythm(formData: FormData): Promise<WizardResult
   const wheelId = z.string().safeParse(wheel?.[0]?.id)
   if (!wheelId.success) return { ok: false, problem: 'no_wheel' }
 
-  const voLead = parsed.data.voFirst === 'on' ? 2 : 0
+  // «samtidig» is the same day as everyone, never after them: alle ansatte are told a day ahead,
+  // and no rung may be told later than they are (0106, AUD-04; § 6-2 fjerde ledd)
+  const voLead = parsed.data.voFirst === 'on' ? 2 : 1
   const { data: ladder, error: readError } = await app
     .from('wheel_notifications')
     .select('audience, lead_days')
@@ -118,7 +120,8 @@ export async function saveWizardRhythm(formData: FormData): Promise<WizardResult
         { wheel_id: wheelId.data, audience: 'verneombud', lead_days: voLead, sort_order: 1 },
         { wheel_id: wheelId.data, audience: 'tillitsvalgte', lead_days: voLead, sort_order: 2 },
         { wheel_id: wheelId.data, audience: 'daglig_leder', lead_days: 1, sort_order: 3 },
-        { wheel_id: wheelId.data, audience: 'avdelingsledere', lead_days: 0, sort_order: 4 },
+        // the same day as everyone, never after them (0106, AUD-08)
+        { wheel_id: wheelId.data, audience: 'avdelingsledere', lead_days: 1, sort_order: 4 },
         // P1-2 (D-148): everyone is told a day before, and again when the results are ready
         { wheel_id: wheelId.data, audience: 'alle_ansatte', lead_days: 1, sort_order: 5 },
       ])
@@ -126,8 +129,8 @@ export async function saveWizardRhythm(formData: FormData): Promise<WizardResult
     if (writeFailed('saveWizardRhythm.ladder', insertError, data)) return { ok: false, problem: 'denied' }
   } else {
     const vo = rows.data.find((r) => r.audience === 'verneombud')
-    const wasFirst = !!vo && vo.lead_days > 0
-    if (wasFirst !== voLead > 0) {
+    const wasFirst = !!vo && vo.lead_days > 1
+    if (wasFirst !== voLead > 1) {
       const { data, error: updateError } = await app
         .from('wheel_notifications')
         .update({ lead_days: voLead })

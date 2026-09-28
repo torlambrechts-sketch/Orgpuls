@@ -2486,8 +2486,35 @@ standing authority to ship what he has approved without a further round of confi
 `engagement_since_last`, `engagement_thanks` and `engagement_pulse_reason` are added to
 lib/flags.signed-off.json, so the app and the dispatcher (deployed with the same list) run them in
 production. English respondents keep the English page: the platform's auto-approve is on, so the
-new page strings count as approved. The survey-only languages (pl, uk, lt, sv, da) show the new
-strings in bokmål until they are translated.
+new page strings count as approved. The survey-only languages (pl, uk, lt, sv, da): *corrected by X-087* — a language is offered whole
+or not at all (D-133), so until the new strings are translated and approved a piloting organisation
+gets the whole survey in bokmål, not only the new strings.
+
+### X-087 — The deep audit's P0s and P1s fixed; a comment no longer carries its answer
+
+Tor, 2026-09-28: "Start p0 and continue with p1", after the deep audit (docs/audits/2026-09-28-deep.md).
+Asked whether a leader should still see a commenter's own answer, with removal recommended, Tor
+gave no other instruction; the recommendation stands (0106, D-157).
+
+- **AUD-01** `app.outbox` is no client's table any more; Årshjulet and Integrasjoner read counts
+  from `queue_counts`. A reminder row names someone who has not answered.
+- **AUD-02** `conversations` returns no `answer_value`. Kommentarer's per-comment tone chip and the
+  theme tone were that answer, coarsened; they are gone (D-157).
+- **AUD-03** `screening_counts` answers for a closed round only.
+- **AUD-04 / AUD-08** a lead of 0 is sent (it was dropped as `round_already_open`); no rung of the
+  ladder is told later than «alle ansatte» (a trigger raises it), and at the same moment everyone's
+  notice goes last. The Veiviser's «samtidig» is the same day as the employees (lead 1), never 0.
+- **AUD-05** the lead chip is one call, `set_wheel_lead`, that moves the three rungs whether or not
+  the stored number changed. **AUD-06** the invitation names the publish date instead of «når
+  fristen er ute». **AUD-09** the drill-down says whose comments it holds, per role. **AUD-10** the
+  send card and the thank-you promise sharing only where it happens. **AUD-11** steps written before
+  0107 are marked inferred and never printed as «startet». **AUD-12** no evaluation in the future.
+  **AUD-13** I3's proof starts the survey, and `@invariants` runs in CI. **AUD-15** every SQL suite
+  runs before a run fails.
+- **AUD-07 is not a code change.** A survey-only language is offered whole or not at all (D-133,
+  J8); that rule stands. X-086 was wrong to say the new strings fall back to bokmål: until the 20
+  strings added by 0105/0107 are translated and approved, a pilot in pl/uk/lt/sv/da gets the survey
+  in bokmål. No organisation pilots one today (hosted `locale_pilots` is empty).
 
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
@@ -2744,3 +2771,5 @@ strings in bokmål until they are translated.
 - [x] Launch helse og omsorg (Norwegian): Tor approved the page and its seven law items; launched 2026-09-27 (X-065). The English twin waits for its own review, like bygg's. Was: review the seven law items in content/industries/helse-og-omsorg.ts (and the English twin), set `reviewed: true` and `launched: true`. The module itself was published 2026-09-27 (D-125). Review at https://www.orgpuls.com/helse-og-omsorg?forhandsvis=1 and /helse-og-omsorg/sporsmal?forhandsvis=1 (D-122).
 - [x] /helse-og-omsorg in the industry template: the health module v1.0.0 arrived 2026-09-26; page and question page built from it (D-122).
 - [x] Signed off 2026-09-28 (X-086). Was: engagement phase 2: switch on `engagement_since_last`, `engagement_thanks` and `engagement_pulse_reason` in production once Tor has seen them on a pilot; the new `respond.*` keys are re-approved for English (or auto-approve is on), and the survey languages (pl, uk, lt, sv, da) fall back to bokmål for them until translated (X-085, D-156).
+- [ ] Translate and approve the strings added by 0105/0107 (`respond.since.*`, `respond.thanks.*`, `respond.reason`, `respond.reasonNoDate`, `mail.invitasjon.since*`, `mail.invitasjon.masked.*`, `mail.invitasjon.results`, `mail.invitasjon.resultsOn`) in pl, uk, lt, sv and da before any organisation pilots one of them; until then the language is not offered (X-087, D-133).
+- [ ] The deep audit's P2/P3 findings (docs/audits/2026-09-28-deep.md): v3 pixel gate in CI and the Resultater/Kommentarer claims re-recorded after reading the diff, `qa:visual` specs brought up to the intro page, npm audit (postcss via next), `noindex` on `/s/[token]` and `/bli-med`, the thank-you and «Siden sist» wording, the evaluation mail's year, the employees' page and department measures, `wiring.mjs --matrix`, and the P3 list.

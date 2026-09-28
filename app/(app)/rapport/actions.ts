@@ -122,8 +122,11 @@ export async function addTraining(_: RegisterResult | null, form: FormData): Pro
  * when, and with whom. `evaluation_insert` / `evaluation_delete` decide who may: the daglig leder
  * or the verneombud. One per day: the same meeting recorded twice is refused.
  */
+/** today where the organisation is (Oslo): an evaluation is recorded once held, never ahead (0107) */
+const osloToday = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' }).format(new Date())
+
 const EvaluationFields = z.object({
-  heldOn: Day,
+  heldOn: Day.refine((d) => d <= osloToday(), { message: 'future' }),
   counterpart: Optional(z.string().trim().max(200)),
   note: Optional(z.string().trim().max(1000)),
 })

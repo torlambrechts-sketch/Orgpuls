@@ -107,7 +107,12 @@ export default async function RespondPage({
       ? Object.fromEntries(
           Object.entries(form.reasons).map(([factor, items]) => [
             factor,
-            items.slice(0, 2).map((r) => tl('respond.reason', { title: unmask(r.title, labels), date: day(r.started) })),
+            // one line under the factor's heading (X-085 #8); a date only where a start was recorded (0107)
+            items.slice(0, 1).map((r) =>
+              r.started
+                ? tl('respond.reason', { title: unmask(r.title, labels), date: day(r.started) })
+                : tl('respond.reasonNoDate', { title: unmask(r.title, labels) }),
+            ),
           ]),
         )
       : {},
@@ -116,7 +121,8 @@ export default async function RespondPage({
           title: tl('respond.thanks.title'),
           lines: [
             // only where everyone is told: the «alle ansatte» notice goes on that day (0105)
-            ...(form.publish_on ? [tl('respond.thanks.shared', { date: day(form.publish_on) })] : []),
+            // everyone is told on the day and the page is shared then (0107, AUD-10); either missing, no promise
+            ...(form.publish_on && form.page ? [tl('respond.thanks.shared', { date: day(form.publish_on) })] : []),
             tl('respond.thanks.same'),
             tl('respond.thanks.anonymous', { threshold: form.threshold }),
             // only where the round's page shows what is decided (0100)

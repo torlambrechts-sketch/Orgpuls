@@ -424,10 +424,14 @@ function Drill({
         </div>
       ) : null}
       <div className="mt-[18px] text-[11px] uppercase tracking-[.11em] text-mut">{t('resultater.drill.commentsHead')}</div>
-      {sel.row !== ORG ? (
+      {model.commentScope === 'none' ? (
+        <div className="mt-[4px] text-[12px] leading-[1.5] text-mut [text-wrap:pretty]">{t('resultater.drill.commentsRole')}</div>
+      ) : model.commentScope === 'own' ? (
+        <div className="mt-[4px] text-[12px] leading-[1.5] text-mut [text-wrap:pretty]">{t('resultater.drill.commentsOwn')}</div>
+      ) : sel.row !== ORG ? (
         <div className="mt-[4px] text-[12px] leading-[1.5] text-mut [text-wrap:pretty]">{t('resultater.drill.commentsWhole')}</div>
       ) : null}
-      {comment?.quotes.length ? (
+      {model.commentScope === 'none' ? null : comment?.quotes.length ? (
         <div className="mt-[8px] flex flex-col gap-[7px]">
           {comment.quotes.map((q, i) => (
             <div

@@ -195,6 +195,10 @@ export default async function ResultaterPage({
       ? Object.fromEntries(workspace.importance.factors.flatMap((f) => (f.r === null ? [] : [[f.key, f.r] as const])))
       : null
 
+  // whose comments the drill-down holds (0107, AUD-09): a refused read is not "nobody commented"
+  const viewerRole = await getViewerRole()
+  const commentScope: ResultaterModel['commentScope'] =
+    conversations === null ? 'none' : viewerRole === 'daglig_leder' ? 'whole' : 'own'
   // comments (0018): the count per factor, and the three most recent for the drill-down (D-155)
   const comments: ResultaterModel['comments'] = {}
   for (const c of [...(conversations?.items ?? [])].sort((a, b) => b.openedHour.localeCompare(a.openedHour))) {
@@ -248,6 +252,7 @@ export default async function ResultaterPage({
     importance,
     importanceMinimum: workspace?.importance?.minimum ?? null,
     comments,
+    commentScope,
     adopted: measures.flatMap((m) => (m.playbookKey ? [m.playbookKey] : [])),
     plan: isPulse
       ? measures.flatMap((m) =>

@@ -63,6 +63,8 @@ export interface NoticeJob {
   minutes?: number | null
   /** everyone is told the results: the ladder has an «alle ansatte» row (0097, 0099) */
   results_shared?: boolean | null
+  /** the day everyone is told (0105, 0106 AUD-06): an invitation names it, never the deadline */
+  publish_on?: string | null
   /** the daglig leder's own greeting, and their name (0099) */
   greeting?: { text: string; by: string | null } | null
   /** a tiltak_forfalt's measures: a leader's titles and their dates (0099) */
@@ -410,7 +412,9 @@ export function renderNotice(
         : []),
       fill(pick(m, 'invitasjon.anonymous'), { k: job.k }),
       ...(invite && job.channel === 'email' ? sinceBlock(m, job.since) : []),
-      ...(invite && job.results_shared ? [pick(m, 'invitasjon.results')] : []),
+      ...(invite && job.results_shared
+        ? [job.publish_on ? fill(pick(m, 'invitasjon.resultsOn'), { date: dateOf(job.publish_on, group.lang) }) : pick(m, 'invitasjon.results')]
+        : []),
       // 0100 (P1-3): what the last round showed and what is being done, before this one is asked
       ...(invite && job.results_page ? [`${pick(m, 'invitasjon.lastPage')} ${pageLink(base, job.results_page)}`] : []),
     ]

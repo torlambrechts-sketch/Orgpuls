@@ -1,7 +1,8 @@
 import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
-import { parseFailed, readFailed } from '@/lib/supabase/read'
+import { callFailed, parseFailed, readFailed } from '@/lib/supabase/read'
+import { getCurrentOrgId } from '@/lib/org/current'
 
 /**
  * Reading the årshjul.
@@ -124,13 +125,16 @@ export async function getLastRun(): Promise<JobRun | null> {
  * dispatcher gave up on — stale, no address, or five failed attempts — is neither waiting
  * nor sent, and counting it as waiting would promise a mail that is not coming.
  */
-export async function getQueueCounts(): Promise<{ pending: number; sent: number; failed: number }> {
+const QueueCounts = z.object({ pending: z.number().int(), sent: z.number().int(), failed: z.number().int() })
+
+export async function getQueueCounts(): Promise<{ pending: number; sent: number; failed: number } | null> {
+  // counts only (0106, AUD-01): the outbox's rows name who has not answered, so no client reads them
+  const orgId = await getCurrentOrgId()
+  if (!orgId) return null
   const supabase = await createClient()
-  const outbox = () => supabase.schema('app').from('outbox').select('id', { count: 'exact', head: true })
-  const [pending, sent, failed] = await Promise.all([
-    outbox().is('sent_at', null).is('failed_at', null),
-    outbox().not('sent_at', 'is', null),
-    outbox().is('sent_at', null).not('failed_at', 'is', null),
-  ])
-  return { pending: pending.count ?? 0, sent: sent.count ?? 0, failed: failed.count ?? 0 }
+  const { data, error } = await supabase.rpc('queue_counts', { p_org: orgId })
+  if (callFailed('queue_counts', error)) return null
+  const parsed = QueueCounts.safeParse(data)
+  // a count that could not be read is not a zero
+  return parsed.success ? parsed.data : null
 }

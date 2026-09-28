@@ -7089,3 +7089,25 @@ round, or for anyone but the daglig leder, the screen is unchanged.
 `engagement_p2_invariants.sql` proves eleven rules; `tests/unit/mail.test.ts` the e-mail's block and
 its absence from reminders and SMS; `qa/e2e/respondent-flow.spec.ts` runs the flow with the flags on.
 
+---
+
+## D-157 — Kommentarer without the tone chips; the drill-down says whose comments it shows
+
+**Design:** Kommentarer (v3) gives each comment a tone chip («Negativ», «Blandet», «Positiv») and
+each theme a tone, both from the answer the comment was written under.
+
+**Built (0106, X-087):** no tone on a comment and none on a theme. The tone was the commenter's own
+answer, coarsened, and `conversations` returned that answer with the comment. Next to the released
+figure for everyone, a commenter's answer gives the non-commenters' answers by subtraction (audit
+AUD-02: five respondents, four commenting, recovers the fifth's answer exactly). The answer no longer
+leaves the database with a comment, so nothing on the screen can show it.
+
+**The drill-down's comment note (AUD-09):** the daglig leder reads «Kommentarene gjelder hele
+virksomheten …» as before; an avdelingsleder, whose comments are their own groups', reads
+«Kommentarene gjelder gruppene du har tilgang til …»; a verneombud, who is not shown single comments
+(journeys J6), reads «Enkeltkommentarer vises ikke for din rolle …» instead of being told nobody
+commented.
+
+**Pixel gate:** `12-kommentarer` loses the tone chips' tiles; the Resultater states lose D-155's
+panel tiles (open: re-record after the diff is read, audit AUD-16).
+

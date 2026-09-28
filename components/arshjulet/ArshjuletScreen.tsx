@@ -35,7 +35,8 @@ export interface ArshjuletView {
   wheel: Wheel
   year: YearPoint[]
   lastRun: JobRun | null
-  queue: { pending: number; sent: number; failed: number }
+  /** null when the counts could not be read: the two rows are left out, never shown as 0 (0106) */
+  queue: { pending: number; sent: number; failed: number } | null
   /** whether the dispatcher sends this organisation's notices (0032) */
   mailOn: boolean
   /** rounds the wheel has planned, which is what "4 målinger i året" counts */
@@ -278,8 +279,12 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
             <div className="mt-[16px] flex flex-col gap-[9px]">
               <Row label={t('arshjulet.summaryBaseline')} value={monthShort(view.wheel.baselineMonth)} />
               <Row label={t('arshjulet.summaryForankring')} value={monthShort(((view.wheel.baselineMonth + 10) % 12) + 1)} />
-              <Row label={t('arshjulet.summaryQueued')} value={t('arshjulet.queuedValue', { count: view.queue.pending })} />
-              <Row label={t('arshjulet.summarySent')} value={t('arshjulet.sentValue', { count: view.queue.sent })} />
+              {view.queue ? (
+                <>
+                  <Row label={t('arshjulet.summaryQueued')} value={t('arshjulet.queuedValue', { count: view.queue.pending })} />
+                  <Row label={t('arshjulet.summarySent')} value={t('arshjulet.sentValue', { count: view.queue.sent })} />
+                </>
+              ) : null}
             </div>
 
             <div className="mt-[16px] border-t border-bg/20 pt-[14px] text-[12.5px] leading-[1.55] opacity-80 [text-wrap:pretty]">

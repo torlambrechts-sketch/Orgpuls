@@ -79,6 +79,11 @@ export interface ResultaterModel {
   importanceMinimum: number | null
   /** this round's comments per factor (whole organisation, 0018): how many, and the newest three (D2: never by group) */
   comments: Record<string, { count: number; quotes: string[] }>
+  /**
+   * whose comments those are (0107, AUD-09): the whole organisation's for the daglig leder, the
+   * caller's own groups' for an avdelingsleder, and none for a role that is not shown comments
+   */
+  commentScope: 'whole' | 'own' | 'none'
   /** playbook keys this organisation has already made into measures (0031) */
   adopted: string[]
   /** a puls only: the running measures on the factors it measured, whose effect it reads */

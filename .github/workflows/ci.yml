@@ -191,11 +191,14 @@ jobs:
       # a fixture, not a suite, and it already ran above.
       - name: Security invariants
         run: |
+          # every suite runs and the step fails at the end, so one red suite hides no other (AUD-15)
+          failed=""
           for suite in supabase/tests/*_invariants.sql; do
             echo "== $suite"
             psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" \
-              -v ON_ERROR_STOP=1 -f "$suite"
+              -v ON_ERROR_STOP=1 -f "$suite" || failed="$failed $suite"
           done
+          if [ -n "$failed" ]; then echo "failed:$failed"; exit 1; fi
 
       - name: supabase db lint
         run: supabase db lint --level warning
@@ -288,7 +291,7 @@ jobs:
         run: |
           npx playwright install chromium
           # e2e.mjs applies the Lumio seed before and after the run (scripts/qa/seed.mjs)
-          npm run e2e -- --project mobile --project small --project tiny --project pseudo --grep '@flow|@pseudo'
+          npm run e2e -- --project mobile --project small --project tiny --project pseudo --grep '@flow|@pseudo|@invariants'
 
       - if: always()
         uses: actions/upload-artifact@v4

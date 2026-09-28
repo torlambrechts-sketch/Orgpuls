@@ -416,6 +416,7 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
                 count: t.raw('maleoppsett.send.count') as string,
                 publishLabel: t('maleoppsett.send.publishLabel'),
                 publishNote: t('maleoppsett.send.publishNote'),
+                publishNoteNoNotice: t('maleoppsett.send.publishNoteNoNotice'),
                 publishNone: t('maleoppsett.send.publishNone'),
                 save: t('maleoppsett.send.save'),
                 saved: t('maleoppsett.send.saved'),

@@ -23,6 +23,8 @@ export interface SendCardLabels {
   count: string
   publishLabel: string
   publishNote: string
+  /** when the Årshjul tells nobody: the page opens on the day, and no notice goes out (0107) */
+  publishNoteNoNotice: string
   publishNone: string
   save: string
   saved: string
@@ -91,6 +93,7 @@ export function SendCard({
       token: PLACEHOLDER_TOKEN,
       minutes: preview.minutes,
       results_shared: preview.results_shared,
+      publish_on: publishOn || preview.publish_on,
       greeting,
       since: showSince ? preview.since : null,
       logo: preview.logo,
@@ -101,7 +104,7 @@ export function SendCard({
     } catch {
       return null
     }
-  }, [intro, preview, mail, lang, appUrl, showSince, viewerName])
+  }, [intro, publishOn, preview, mail, lang, appUrl, showSince, viewerName])
 
   const save = () => {
     setState({ saved: false, problem: null })
@@ -149,7 +152,7 @@ export function SendCard({
       {closeOn ? (
         <>
           <span className="mt-[2px] block text-[12px] leading-[1.5] text-mut [text-wrap:pretty]">
-            {labels.publishNote}
+            {preview.results_shared ? labels.publishNote : labels.publishNoteNoNotice}
           </span>
           <input
             id={ids.publish}

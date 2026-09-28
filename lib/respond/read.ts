@@ -95,7 +95,8 @@ const Form = z.object({
     .nullish()
     .transform((v) => v ?? null),
   reasons: z
-    .record(z.string(), z.array(z.object({ title: z.string(), started: z.string() })))
+    // started is null when no «pågår» was recorded (0107, AUD-11): then no date is printed
+    .record(z.string(), z.array(z.object({ title: z.string(), started: z.string().nullable() })))
     .nullish()
     .transform((v) => v ?? {}),
   publish_on: z.string().nullish().transform((v) => v ?? null),

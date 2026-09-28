@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { Kommentarer, type CommentItem, type RoundChip } from '@/components/kommentarer/Kommentarer'
 import { ResultaterShell } from '@/components/resultater/ResultaterShell'
-import { getConversations, toneOf } from '@/lib/conversations/read'
+import { getConversations } from '@/lib/conversations/read'
 import { getOpenAnswers } from '@/lib/own/read'
 import { OpenAnswers } from '@/components/kommentarer/OpenAnswers'
 import { getMeasures } from '@/lib/measures/read'
@@ -83,7 +83,6 @@ export default async function KommentarerPage({
     const needsReply = c.state !== 'lukket' && (!last || last.author === 'ansatt')
     const since = last?.author === 'ansatt' ? last.sentHour : c.openedHour
     const round = byId.get(c.roundId)
-    const tone = toneOf(c.answerValue)
     return {
       id: c.id,
       factorKey: c.factorKey,
@@ -91,8 +90,10 @@ export default async function KommentarerPage({
       roundTitle: round ? name(round).title : String(c.roundYear),
       // the design dates the comments of earlier rounds; the current round's go without
       date: c.roundId === latestClosed?.id ? null : dateOf(c.openedHour),
-      tone: tone === 'noytral' ? 'blandet' : tone,
-      value: c.answerValue,
+      // no tone and no value (0106, AUD-02): a comment's own answer never leaves the database,
+      // since next to the released figure it gives the others' answers by subtraction (D-157)
+      tone: null,
+      value: null,
       text: c.opening,
       thread: c.messages.map((m) => ({ author: m.author, body: m.body })),
       needsReply,

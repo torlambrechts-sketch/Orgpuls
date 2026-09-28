@@ -26,7 +26,8 @@ export interface IntegrasjonerView {
   withPhone: number
   total: number
   /** the outbox's own counts: waiting, accepted by the provider, given up on */
-  queue: { pending: number; sent: number; failed: number }
+  /** null when the counts could not be read: nothing is printed then, never a 0 (0106) */
+  queue: { pending: number; sent: number; failed: number } | null
   /** whether the dispatcher sends this organisation's notices (0032) */
   mailOn: boolean
   /** whether this organisation has SMS on (0033) */
@@ -77,7 +78,7 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
         Where the organisation's mail is switched off, the same box says so, in the warning
         colours, because then the queue is the whole story.
       */}
-      {view.mailOn ? (
+      {!view.queue ? null : view.mailOn ? (
         <div className="mt-[20px] rounded-panel border border-line bg-mint px-[24px] py-[18px]">
           <div className="text-[13.5px] leading-[1.6] text-greendeep [text-wrap:pretty]">
             {t('integrasjoner.queueOn', view.queue)}

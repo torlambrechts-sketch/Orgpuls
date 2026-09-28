@@ -5,6 +5,8 @@ import { z } from 'zod'
 import { WHEEL_CADENCES } from '@/lib/wheel/read'
 import { createClient } from '@/lib/supabase/server'
 import { writeFailed } from '@/lib/supabase/write'
+import { callFailed } from '@/lib/supabase/read'
+import { getCurrentOrgId } from '@/lib/org/current'
 
 /**
  * Writing the årshjul.
@@ -63,6 +65,17 @@ export async function saveWheel(formData: FormData): Promise<WheelActionResult> 
     .select('id')
 
   if (writeFailed('saveWheel', error, saved)) return { ok: false, problem: 'denied' }
+
+  // the chip itself was chosen (0107, AUD-05): its three rungs take the value, even when the
+  // number stored under a Veiviser ladder already equals it
+  if (on(formData.get('leadChosen'))) {
+    const orgId = await getCurrentOrgId()
+    if (!orgId) return { ok: false, problem: 'denied' }
+    const { data: lead, error: leadError } = await supabase.rpc('set_wheel_lead', { p_org: orgId, p_days: w.notifyLeadDays })
+    if (callFailed('set_wheel_lead', leadError)) return { ok: false, problem: 'denied' }
+    const r = z.union([z.object({ ok: z.literal(true) }), z.object({ error: z.string() })]).safeParse(lead)
+    if (!r.success || 'error' in r.data) return { ok: false, problem: 'denied' }
+  }
 
   revalidatePath('/malinger')
   revalidatePath('/innsikt')

@@ -42,8 +42,6 @@ const Thread = z.object({
   round_id: z.string(),
   round_kind: z.string(),
   round_year: z.coerce.number(),
-  /** 1..5 on the statement the comment hangs on; null if that answer is gone */
-  answer_value: z.number().nullable(),
   opening: z.string(),
   messages: z.array(Message),
   // a leader's request for direct contact (0046): who asked, and whether it was the caller
@@ -74,7 +72,6 @@ export interface Conversation {
   roundKind: string
   roundYear: number
   roundPulseNo: number | null
-  answerValue: number | null
   opening: string
   messages: ConversationMessage[]
   /** a request for direct contact on this thread, by name, and whether the caller made it */
@@ -116,7 +113,6 @@ export async function getConversations(roundId?: string | null): Promise<Convers
       roundKind: t.round_kind,
       roundYear: t.round_year,
       roundPulseNo: pulses.get(t.round_id) ?? null,
-      answerValue: t.answer_value,
       // what the employee wrote arrives masked (0095): names, departments and locations
       opening: unmask(t.opening, mask),
       messages: t.messages.map((m) => ({
@@ -132,20 +128,6 @@ export async function getConversations(roundId?: string | null): Promise<Convers
       ),
     })),
   }
-}
-
-/**
- * The design's tone chip, from the answer the comment hangs on.
- *
- * Not sentiment analysis of the text — that would be a guess about what somebody meant,
- * printed as a label next to their own words. It is the value they gave the statement:
- * 1 or 2 is the low end the comment field appears under, 4 or 5 the high end, 3 neither.
- */
-export function toneOf(value: number | null): 'negativ' | 'noytral' | 'positiv' | null {
-  if (value === null) return null
-  if (value <= 2) return 'negativ'
-  if (value >= 4) return 'positiv'
-  return 'noytral'
 }
 
 /* -------------------------------------------------------------- "Hva de skrev" */

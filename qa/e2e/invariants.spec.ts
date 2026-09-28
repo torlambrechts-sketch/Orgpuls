@@ -25,6 +25,8 @@ test.describe('I3 @invariants @respondent', () => {
     page.on('request', (r) => seen.push({ url: r.url(), body: r.postData() ?? '' }))
 
     await page.goto(`/s/${TOKEN}`)
+    // the flow opens on «Før du starter» (P1-4, D-150): start it, then skip through as before
+    await page.getByRole('button', { name: 'Start', exact: true }).click()
     await expect(page.getByRole('button', { name: 'Hopp over' })).toBeVisible()
     for (let i = 0; i < 3; i++) await page.getByRole('button', { name: 'Hopp over' }).click()
     await page.waitForLoadState('networkidle')

@@ -83,6 +83,8 @@ export function WheelForm({ canWrite, values, options, ladder, labels, between }
       data.set('extendIfLow', merged.extendIfLow ? 'on' : '')
       data.set('skipFellesferie', merged.skipFellesferie ? 'on' : '')
       data.set('notifyVoOnOverdue', merged.notifyVoOnOverdue ? 'on' : '')
+      // the lead chip itself (0107, AUD-05): the action then moves the three rungs it drives
+      if ('notifyLeadDays' in next) data.set('leadChosen', 'on')
       const result: WheelActionResult = await saveWheel(data)
       setProblem(result.ok ? null : result.problem)
       setSaved(result.ok)
