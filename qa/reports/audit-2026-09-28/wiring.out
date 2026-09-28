@@ -1,0 +1,115 @@
+# Wiring audit — 2026-09-28T19:17:04.584Z
+
+Database: postgresql://postgres:***@127.0.0.1:54322/postgres
+
+## Findings (5)
+
+- W2 organizations.bht_name — no database function reads this setting; it is read by app/(app)/oppsett/actions.ts, lib/settings/read.ts, components/oppsett/SelskapTab.tsx. Show the effect it has, or it is a setting that does nothing
+- R1 public.admin_translation_history — a client may call it and no application file does: a feature without a screen, or a leftover
+- R1 public.admin_translation_update — a client may call it and no application file does: a feature without a screen, or a leftover
+- R1 public.approve_item_translations — a client may call it and no application file does: a feature without a screen, or a leftover
+- R1 public.approve_ui_translation — a client may call it and no application file does: a feature without a screen, or a leftover
+
+## For the record (21)
+
+- W1 employees.duty_role read only by the application: app/(app)/oppsett/actions.ts, lib/report/tail.ts, lib/settings/read.ts, components/oppsett/RosterTable.tsx …
+- W1 evaluations.counterpart read only by the application: app/(app)/maleoppsett/actions.ts, app/(app)/rapport/actions.ts, lib/report/evaluation.ts, lib/setup/read.ts …
+- W1 extra_questions.org_only read only by the application: lib/instrument/read.ts
+- W1 measures.effect_note read only by the application: app/(app)/tiltak/actions.ts, lib/measures/read.ts, lib/report/tail.ts, scripts/seed/demo-org.mjs …
+- W1 measures.goal read only by the application: app/(app)/tiltak/actions.ts, app/(app)/tiltak/module-actions.ts, app/(app)/tiltak/page.tsx, app/(marketing)/bruksomrader/page.tsx …
+- W1 measures.playbook_key read only by the application: app/(app)/tiltak/actions.ts, lib/measures/read.ts, lib/playbook/registry.ts
+- W1 org_attribution.recorded_at read only by the application: lib/admin/api.ts
+- W1 organizations.bht_name read only by the application: app/(app)/oppsett/actions.ts, lib/settings/read.ts, components/oppsett/SelskapTab.tsx, scripts/seed/demo-org.mjs …
+- W1 organizations.industry_source read only by the application: app/(app)/oppsett/actions.ts, lib/modules/read.ts, lib/settings/read.ts, components/oppsett/SelskapTab.tsx
+- W1 organizations.industry_suggested read only by the application: app/(app)/oppsett/actions.ts, lib/modules/read.ts, lib/settings/read.ts, components/oppsett/SelskapTab.tsx
+- W1 organizations.law_mode read only by the application: app/(app)/hjelp/[artikkel]/page.tsx, app/(app)/hjelp/page.tsx, app/(app)/oppsett/actions.ts, lib/help/articles.ts …
+- W1 organizations.registry_registered_on read only by the application: app/(app)/oppsett/actions.ts, lib/settings/read.ts, components/oppsett/SelskapTab.tsx, scripts/seed/demo-org.mjs …
+- W1 organizations.registry_vat read only by the application: app/(app)/oppsett/actions.ts, lib/settings/read.ts, components/oppsett/SelskapTab.tsx, scripts/seed/demo-org.mjs …
+- W1 risk_assessments.assessed_on read only by the application: lib/risk/read.ts, scripts/seed/demo-org.mjs, scripts/seed/design-fixture.mjs
+- W1 risk_factor_assessments.conclusion read only by the application: app/(app)/rapport/page.tsx, app/(marketing)/registrer/actions.ts, lib/risk/read.ts, components/rapport/RapportScreen.tsx …
+- W1 risk_factor_assessments.consequence read only by the application: app/(app)/rapport/page.tsx, lib/risk/read.ts, lib/supabase/middleware.ts, components/oppsett/ThresholdPicker.tsx …
+- W1 risk_factor_assessments.probability read only by the application: app/(app)/rapport/page.tsx, lib/risk/read.ts, components/rapport/RapportScreen.tsx, scripts/seed/demo-org.mjs …
+- W1 round_consultations.counterpart read only by the application: app/(app)/maleoppsett/actions.ts, app/(app)/rapport/actions.ts, lib/report/evaluation.ts, lib/setup/read.ts …
+- W1 setup_progress.completed_at read only by the application: app/(app)/oppsett/wizard-actions.ts, lib/wizard/read.ts
+- W1 setup_progress.skipped_at read only by the application: app/(app)/oppsett/wizard-actions.ts, lib/wizard/read.ts
+- W1 trainings.next_due read only by the application: app/(app)/rapport/actions.ts, lib/report/tail.ts, components/rapport/RapportScreen.tsx, scripts/seed/demo-org.mjs …
+
+## Settings matrix: who reads each setting
+
+| setting | database functions | application files |
+|---|---|---|
+| measurements.kind | — | app/(admin)/admin/crm/campaigns/[id]/page.tsx, app/(admin)/admin/crm/campaigns/page.tsx, app/(admin)/admin/crm/contacts/[id]/page.tsx |
+| measurements.year | — | app/(admin)/admin/acquisition/page.tsx, app/(admin)/admin/modules/page.tsx, app/(admin)/admin/orgs/[id]/page.tsx |
+| measurements.label | — | app/(admin)/admin/acquisition/page.tsx, app/(admin)/admin/admins/page.tsx, app/(admin)/admin/crm/campaigns/[id]/page.tsx |
+| measurements.evaluation_cadence | — | app/(app)/maleoppsett/actions.ts, lib/setup/read.ts |
+| organizations.name | — | app/(admin)/admin/crm/campaigns/[id]/page.tsx, app/(admin)/admin/crm/campaigns/page.tsx, app/(admin)/admin/crm/contacts/[id]/page.tsx |
+| organizations.org_number | — | app/(admin)/admin/crm/contacts/[id]/page.tsx, app/(admin)/admin/crm/prospects/[id]/page.tsx, app/(admin)/admin/crm/prospects/page.tsx |
+| organizations.employee_count | — | app/(admin)/admin/orgs/[id]/page.tsx, app/(admin)/admin/orgs/page.tsx, app/(app)/innsikt/page.tsx |
+| organizations.threshold | — | app/(admin)/admin/orgs/[id]/page.tsx, app/(app)/forhandsvis/page.tsx, app/(app)/innsikt/page.tsx |
+| organizations.default_lang | — | app/(app)/oppsett/actions.ts, lib/i18n/server.ts, lib/settings/read.ts |
+| organizations.timezone | — | lib/wizard/read.ts, components/veiviser/Veiviser.tsx |
+| organizations.law_mode | — | app/(app)/hjelp/[artikkel]/page.tsx, app/(app)/hjelp/page.tsx, app/(app)/oppsett/actions.ts |
+| organizations.bht_name | — | app/(app)/oppsett/actions.ts, lib/settings/read.ts, components/oppsett/SelskapTab.tsx |
+| organizations.registry_fetched_at | — | app/(admin)/admin/orgs/[id]/page.tsx, app/(app)/oppsett/actions.ts, lib/admin/api.ts |
+| organizations.registry_form_code | — | app/(app)/oppsett/actions.ts, lib/settings/read.ts, components/oppsett/SelskapTab.tsx |
+| organizations.registry_form_label | — | app/(admin)/admin/orgs/[id]/page.tsx, app/(app)/oppsett/actions.ts, lib/admin/api.ts |
+| organizations.registry_nace_code | — | app/(admin)/admin/orgs/[id]/page.tsx, app/(app)/oppsett/actions.ts, lib/admin/api.ts |
+| organizations.registry_nace_label | — | app/(admin)/admin/orgs/[id]/page.tsx, app/(app)/oppsett/actions.ts, lib/admin/api.ts |
+| organizations.registry_registered_on | — | app/(app)/oppsett/actions.ts, lib/settings/read.ts, components/oppsett/SelskapTab.tsx |
+| organizations.registry_address | — | app/(admin)/admin/orgs/[id]/page.tsx, app/(app)/oppsett/actions.ts, lib/admin/api.ts |
+| organizations.registry_municipality | — | app/(admin)/admin/orgs/[id]/page.tsx, app/(app)/oppsett/actions.ts, lib/admin/api.ts |
+| organizations.registry_municipality_no | — | app/(app)/oppsett/actions.ts, lib/settings/read.ts, components/oppsett/SelskapTab.tsx |
+| organizations.registry_employees | — | app/(admin)/admin/orgs/[id]/page.tsx, app/(app)/oppsett/actions.ts, lib/admin/api.ts |
+| organizations.registry_vat | — | app/(app)/oppsett/actions.ts, lib/settings/read.ts, components/oppsett/SelskapTab.tsx |
+| organizations.mail_enabled | — | app/(admin)/admin/orgs/[id]/page.tsx, app/(app)/integrasjoner/page.tsx, app/(app)/oppsett/page.tsx |
+| organizations.sms_enabled | — | app/(admin)/admin/orgs/[id]/page.tsx, app/(app)/integrasjoner/sms/actions.ts, lib/admin/api.ts |
+| organizations.sms_when | — | app/(app)/integrasjoner/sms/actions.ts, app/(app)/maleoppsett/actions.ts, lib/settings/read.ts |
+| organizations.sms_text | — | app/(app)/integrasjoner/sms/actions.ts, lib/settings/read.ts, components/maleoppsett/SendCard.tsx |
+| organizations.industry_key | — | app/(app)/oppsett/actions.ts, lib/modules/read.ts, lib/settings/read.ts |
+| organizations.industry_source | — | app/(app)/oppsett/actions.ts, lib/modules/read.ts, lib/settings/read.ts |
+| organizations.industry_suggested | — | app/(app)/oppsett/actions.ts, lib/modules/read.ts, lib/settings/read.ts |
+| organizations.invite_greeting | — | lib/settings/survey.ts |
+| organizations.invite_greeting_by | — | — |
+| platform_settings.auto_approve | — | — |
+| platform_settings.auto_approve_by | — | — |
+| platform_settings.auto_approve_at | — | — |
+| rounds.measurement_id | — | app/(app)/maleoppsett/actions.ts, scripts/seed/demo-org.mjs, scripts/seed/design-fixture.mjs |
+| rounds.status | — | app/(admin)/admin/crm/campaigns/[id]/page.tsx, app/(admin)/admin/crm/campaigns/page.tsx, app/(admin)/admin/crm/contacts/[id]/page.tsx |
+| rounds.opens_at | — | app/(admin)/admin/orgs/[id]/page.tsx, app/(app)/oppsett/wizard-actions.ts, lib/admin/api.ts |
+| rounds.closes_at | — | app/(admin)/admin/orgs/[id]/page.tsx, app/r/[slug]/page.tsx, lib/admin/api.ts |
+| rounds.frozen_at | — | scripts/seed/demo-org.mjs, scripts/seed/design-fixture.mjs |
+| rounds.audience | — | app/(admin)/admin/crm/campaigns/[id]/page.tsx, app/(admin)/admin/crm/campaigns/page.tsx, app/(admin)/admin/orgs/[id]/page.tsx |
+| rounds.comment_policy | — | app/(app)/maleoppsett/actions.ts, app/(app)/malinger/innstillinger-actions.ts, lib/settings/survey.ts |
+| rounds.allow_dialogue | — | app/(app)/maleoppsett/actions.ts, app/(app)/malinger/innstillinger-actions.ts, lib/settings/survey.ts |
+| rounds.reminder_day | — | app/(app)/maleoppsett/actions.ts, app/(app)/malinger/innstillinger-actions.ts, lib/settings/survey.ts |
+| rounds.close_after_days | — | app/(app)/maleoppsett/actions.ts, lib/setup/read.ts, components/arshjulet/ArshjuletScreen.tsx |
+| rounds.final_reminder | — | app/(app)/maleoppsett/actions.ts, app/(app)/malinger/innstillinger-actions.ts, lib/settings/survey.ts |
+| rounds.sms_when | — | app/(app)/integrasjoner/sms/actions.ts, app/(app)/maleoppsett/actions.ts, lib/settings/read.ts |
+| rounds.extras_off_reason | — | app/(app)/malinger/innstillinger-actions.ts, lib/settings/survey.ts, lib/setup/read.ts |
+| rounds.extended_at | — | — |
+| rounds.share_slug | — | app/(app)/resultater/page.tsx, lib/results/page.ts |
+| rounds.results_page | — | app/(app)/resultater/page.tsx, app/(app)/resultater/share-actions.ts, lib/results/page.ts |
+| rounds.intro_message | — | — |
+| rounds.intro_by | — | lib/rounds/send.ts, components/maleoppsett/SendCard.tsx |
+| rounds.results_publish_on | — | app/(app)/resultater/page.tsx, lib/results/page.ts |
+| survey_defaults.close_days_grunnlinje | — | app/(app)/malinger/innstillinger-actions.ts, lib/settings/survey.ts |
+| survey_defaults.close_days_puls | — | app/(app)/malinger/innstillinger-actions.ts, lib/settings/survey.ts |
+| survey_defaults.reminder_day | — | app/(app)/maleoppsett/actions.ts, app/(app)/malinger/innstillinger-actions.ts, lib/settings/survey.ts |
+| survey_defaults.final_reminder | — | app/(app)/maleoppsett/actions.ts, app/(app)/malinger/innstillinger-actions.ts, lib/settings/survey.ts |
+| survey_defaults.quiet_hours | — | app/(app)/malinger/innstillinger-actions.ts, lib/settings/survey.ts |
+| survey_defaults.comment_policy | — | app/(app)/maleoppsett/actions.ts, app/(app)/malinger/innstillinger-actions.ts, lib/settings/survey.ts |
+| survey_defaults.allow_dialogue | — | app/(app)/maleoppsett/actions.ts, app/(app)/malinger/innstillinger-actions.ts, lib/settings/survey.ts |
+| survey_defaults.extras | — | app/(app)/forhandsvis/page.tsx, app/(app)/maleoppsett/actions.ts, app/(app)/maleoppsett/page.tsx |
+| survey_defaults.extras_off_reason | — | app/(app)/malinger/innstillinger-actions.ts, lib/settings/survey.ts, lib/setup/read.ts |
+| survey_defaults.updated_by | — | — |
+| wheel_notifications.wheel_id | — | app/(app)/malinger/arshjul-actions.ts, app/(app)/oppsett/wizard-actions.ts, scripts/seed/demo-org.mjs |
+| wheel_notifications.audience | — | app/(admin)/admin/crm/campaigns/[id]/page.tsx, app/(admin)/admin/crm/campaigns/page.tsx, app/(admin)/admin/orgs/[id]/page.tsx |
+| wheel_notifications.lead_days | — | app/(app)/malinger/arshjul-actions.ts, app/(app)/oppsett/wizard-actions.ts, lib/wheel/read.ts |
+| wheel_notifications.sort_order | — | app/(app)/malinger/arshjul-actions.ts, app/(app)/oppsett/actions.ts, app/(app)/oppsett/wizard-actions.ts |
+| year_wheels.cadence | — | app/(app)/maleoppsett/page.tsx, app/(app)/malinger/arshjul-actions.ts, app/(app)/oppsett/wizard-actions.ts |
+| year_wheels.baseline_month | — | app/(app)/oppsett/actions.ts, app/(app)/oppsett/wizard-actions.ts, lib/wheel/read.ts |
+| year_wheels.notify_lead_days | — | app/(app)/malinger/arshjul-actions.ts, lib/wheel/read.ts, scripts/seed/demo-org.mjs |
+| year_wheels.extend_if_low | — | app/(app)/malinger/arshjul-actions.ts, lib/wheel/read.ts, scripts/seed/demo-org.mjs |
+| year_wheels.skip_fellesferie | — | app/(app)/malinger/arshjul-actions.ts, app/(app)/oppsett/wizard-actions.ts, lib/wheel/read.ts |
+| year_wheels.notify_vo_on_overdue | — | app/(app)/malinger/arshjul-actions.ts, lib/wheel/read.ts, scripts/seed/demo-org.mjs |
+| year_wheels.active | — | app/(admin)/admin/admins/page.tsx, app/(admin)/admin/crm/prospects/page.tsx, app/(admin)/admin/health/page.tsx |
