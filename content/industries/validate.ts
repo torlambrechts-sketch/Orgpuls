@@ -7,8 +7,8 @@ import type { IndustryPage } from './types'
 /**
  * What the build refuses (§ B2): a statement code the module file does not have, a core
  * statement that is not the instrument's, a {{cite:key}} with no source, an example that names
- * a factor or suggestion the module lacks — and a page launched before every law item on it has
- * been checked against Lovdata and Arbeidstilsynet. Called from the routes' generateStaticParams,
+ * a factor or suggestion the module lacks. Whether a law item is reviewed no longer holds a
+ * launch (X-078). Called from the routes' generateStaticParams,
  * so `next build` fails, and from a unit test, so CI says which.
  */
 const CITE = /\{\{cite:([a-z0-9_]+)\}\}/g
@@ -56,10 +56,6 @@ export function problemsOf(page: IndustryPage, lang: PageLang = 'no'): string[] 
   const until = page.card?.newUntil
   if (until !== undefined && (!/^\d{4}-\d{2}-\d{2}$/.test(until) || Number.isNaN(Date.parse(until)))) {
     out.push(`card: «Ny» until "${until}" is not an ISO date`)
-  }
-  if (page.launched) {
-    const open = page.law.items.filter((l) => !l.reviewed).map((l) => l.ref)
-    if (open.length) out.push(`launched with law items not reviewed: ${open.join('; ')}`)
   }
   return out
 }

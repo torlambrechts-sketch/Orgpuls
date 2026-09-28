@@ -48,12 +48,12 @@ describe('the legal review registry', () => {
     expect(canonical([{ path: 'a', text: 'b' }])).toBe('a\nb')
   })
 
-  it('marks what is published: the launched Norwegian industry pages, not the English ones', () => {
+  it('marks what is published: the launched industry pages in both languages (X-078)', () => {
     expect(units.find((u) => u.key.startsWith('industry:helse-og-omsorg:no:law:'))?.live).toBe(true)
-    expect(units.find((u) => u.key.startsWith('industry:helse-og-omsorg:en:law:'))?.live).toBe(false)
+    expect(units.find((u) => u.key.startsWith('industry:helse-og-omsorg:en:law:'))?.live).toBe(true)
     // the landing page is what the address shows only where the industry page is not launched
     expect(units.find((u) => u.key === 'msg:no:lp.helseOgOmsorg')?.live).toBe(false)
-    expect(units.find((u) => u.key === 'msg:en:lp.helseOgOmsorg')?.live).toBe(true)
+    expect(units.find((u) => u.key === 'msg:en:lp.helseOgOmsorg')?.live).toBe(false)
   })
 })
 

@@ -29,7 +29,7 @@ export type IndustryPage = {
   /**
    * Live on the public site. Until then the address keeps its current landing page and this
    * one is shown only with ?forhandsvis=1, marked noindex: the page describes a module, and a
-   * page may only claim what is shipped (§ 0.7). Launching needs every `law` item reviewed.
+   * page may only claim what is shipped (§ 0.7). `reviewed` on a law item is a record, not a gate (X-078).
    */
   launched: boolean
   /**

@@ -25,9 +25,9 @@ const ENTRIES: IndustryEntry[] = [
   { slug: 'helse-og-omsorg', page: helseOgOmsorg, pageEn: helseOgOmsorgEn },
   // Norwegian only: the module has no English translation (D-131)
   { slug: 'barnehage-og-skole', page: barnehageOgSkole, pageEn: null },
-  // Norwegian only, and a preview until launched: the module is a provisional draft (D-137)
+  // Norwegian only; the module is provisional (D-137, X-078)
   { slug: 'kunnskap-og-kontor', page: kunnskapOgKontor, pageEn: null },
-  // Norwegian only, and a preview until launched: the module is a provisional draft (D-138)
+  // Norwegian only; the module is provisional (D-138, X-078)
   { slug: 'handel', page: handel, pageEn: null },
 ]
 

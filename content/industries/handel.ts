@@ -5,8 +5,8 @@ import type { IndustryPage } from './types'
  * it quotes is the module file's (modules/handel/v1.json) by code, or the core instrument's by
  * factor and ordinal; every figure carries its source.
  *
- * Not launched: the module is a draft marked provisional and its law items are not reviewed (one
- * names no paragraph yet, § 5). Until then the page shows only with ?forhandsvis=1, noindex.
+ * Launched 2026-09-28 with the module published as provisional (X-078). The lone-work law item
+ * still names no paragraph (§ 5), as approved.
  *
  * The brief's preview shows the warehouse without «Alene på vakt» and «Grenser mot kunder», and its
  * footnote says so. Choosing factors is built but not switched on (`module_factor_toggles`), so the
@@ -18,7 +18,8 @@ import type { IndustryPage } from './types'
 export const handel: IndustryPage = {
   slug: 'handel',
   navLabel: 'Handel',
-  launched: false,
+  launched: true,
+  card: { newUntil: '2026-12-27' },
   module: { key: 'handel', version: '1.0.0' },
   moduleName: { title: 'Handel-modulen', inline: 'handel-modulen' },
   seo: {
@@ -131,28 +132,28 @@ export const handel: IndustryPage = {
       {
         ref: 'aml § 4-3 (6)',
         text: 'Arbeidstaker skal, så langt det er mulig, beskyttes mot vold, trusler og uheldige belastninger som følge av kontakt med andre.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'Forskriften kap. 23A',
         text: 'Der ansatte kan utsettes for vold eller trusler, skal risikoen vurderes, og det skal finnes tiltak, opplæring og oppfølging.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'Alenearbeid',
         text: 'Arbeidsgiver skal vurdere om det er særlig risiko ved alenearbeid, i samarbeid med verneombudet (hjemmel verifiseres).',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'aml §§ 10-3 og 10-9',
         text: 'Arbeidsplanen skal drøftes med tillitsvalgte, og ansatte har rett til pauser – også på alenevakter.',
-        reviewed: false,
+        reviewed: true,
       },
-      { ref: 'aml § 14-3', text: 'Deltidsansatte har fortrinnsrett til en utvidet stilling før arbeidsgiver ansetter nye.', reviewed: false },
+      { ref: 'aml § 14-3', text: 'Deltidsansatte har fortrinnsrett til en utvidet stilling før arbeidsgiver ansetter nye.', reviewed: true },
       {
         ref: 'Likestillings- og diskrimineringsloven § 13',
         text: 'Arbeidsgiver skal forebygge og søke å hindre seksuell trakassering, også fra kunder.',
-        reviewed: false,
+        reviewed: true,
       },
     ],
   },

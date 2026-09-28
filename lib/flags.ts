@@ -47,6 +47,7 @@ const isFlag = (s: string): s is FlagName => (FLAG_NAMES as readonly string[]).i
  *   - `locale_en`: Tor approved the English survey on 2026-09-27 (DECISION_LOG X-065). English
  *     is still offered only where every item and the page strings carry an approval in the
  *     database (lib/i18n/offered.ts), which a platform admin gives in the admin app.
+ *   - `home_industries_block`: on since all five industry pages launched, 2026-09-28 (X-078).
  */
 export const SIGNED_OFF: readonly FlagName[] = (signedOff as string[]).filter(isFlag)
 

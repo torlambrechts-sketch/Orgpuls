@@ -5,13 +5,12 @@ import type { IndustryPage } from './types'
  * structure, same statement codes and sources; the statements themselves are read from the
  * module file's `translations.en`, so the page and the English survey cannot word them
  * differently. The law items describe Norwegian statute in English and are not an official
- * translation: they stay `reviewed: false` until they have been checked, which keeps the
- * page from launching before then (validate.ts).
+ * translation. Launched 2026-09-28 (X-078).
  */
 export const byggOgAnleggEn: IndustryPage = {
   slug: 'bygg-og-anlegg',
   navLabel: 'Construction',
-  launched: false,
+  launched: true,
   module: { key: 'bygg-og-anlegg', version: '1.0.0' },
   moduleName: { title: 'The construction module', inline: 'the construction module' },
   seo: {
@@ -117,28 +116,28 @@ export const byggOgAnleggEn: IndustryPage = {
       {
         ref: 'Working Environment Act § 4-3 and the regulation, chapter 1A',
         text: 'From 1 January 2026 the law sets clearer requirements for the psychosocial work environment. The factors must be surveyed and risk-assessed systematically, together with the employees.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'Working Environment Act § 2-2',
         text: 'When several employers share a workplace, the principal enterprise must coordinate the health, safety and environment work.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'Working Environment Act § 2-3',
         text: 'An employee must stop work where there is danger to life or health, and report faults and deficiencies.',
-        reviewed: false,
+        reviewed: true,
       },
-      { ref: 'Working Environment Act § 3-2', text: 'The employer must provide the necessary training, practice and instruction.', reviewed: false },
+      { ref: 'Working Environment Act § 3-2', text: 'The employer must provide the necessary training, practice and instruction.', reviewed: true },
       {
         ref: 'The language requirement',
         text: 'At least one person in every work team on a building or construction site must be able to communicate with the others and in Norwegian or English, where safety requires it.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'Working Environment Act chapter 10',
         text: 'Working hours arrangements must not cause adverse strain, and the rest-period requirements apply on projects too.',
-        reviewed: false,
+        reviewed: true,
       },
     ],
   },

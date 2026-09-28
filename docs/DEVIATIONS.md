@@ -6592,9 +6592,8 @@ docs/implementation/crm-conversion.md.
     out from an address that would fail authentication.
   - Answers go to the person's inbox, not to support.
   - The signature falls back to the sender's. The preview uses the same fallback.
-  - 0093 is applied on hosted (2026-09-27); the dispatcher change is not yet deployed there. Until
-    it is, the deployed dispatcher ignores the job's `sender` and sends from the marketing address
-    with support as reply-to, as before. Deploy: `node scripts/functions/deploy.mjs`.
+  - 0093 is applied on hosted (2026-09-27), and the dispatcher that honours the job's `sender` was
+    deployed there on 2026-09-28 (orgpuls-dispatch version 35, X-078).
 - **Prospects:** tick companies and move them together, to a stage or each to its next one. A
   customer organisation is left where it is and counted. The company page has «Move to the next
   stage», and «Reply received» among the activities.

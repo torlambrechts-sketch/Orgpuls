@@ -6,8 +6,8 @@ import type { IndustryPage } from './types'
  * by code; the preview, the overview and the loop show the simplified set, and the question page
  * lists the extended set with a switch to the simplified one (D-137). Every figure carries its source.
  *
- * Not launched: the module is a draft marked provisional, its law items are not reviewed, and the
- * brief's open decisions stand (§ 8). Until then the page shows only with ?forhandsvis=1, noindex.
+ * Launched 2026-09-28 with the module published as provisional (X-078); the brief's open decisions
+ * (§ 8) keep their defaults.
  * The brief's card text and sort order belong to the front page's industry block, which is not
  * built. Parts the template needs and the brief does not write (the loop's steps, the overview's
  * closing note, the question page's words) follow the other industries', in this one's words. The
@@ -17,7 +17,8 @@ import type { IndustryPage } from './types'
 export const kunnskapOgKontor: IndustryPage = {
   slug: 'kunnskap-og-kontor',
   navLabel: 'Kunnskap og kontor',
-  launched: false,
+  launched: true,
+  card: { newUntil: '2026-12-27' },
   module: { key: 'kunnskap-og-kontor', version: '1.0.0', defaultVariant: 'forenklet' },
   moduleName: { title: 'Kontor-modulen', inline: 'kontor-modulen' },
   seo: {
@@ -126,20 +127,20 @@ export const kunnskapOgKontor: IndustryPage = {
       {
         ref: 'aml § 4-3 og forskriften kap. 1A',
         text: 'Fra 1. januar 2026 stiller loven tydeligere krav til det psykososiale arbeidsmiljøet. Faktorene skal kartlegges og risikovurderes systematisk, i samarbeid med de ansatte.',
-        reviewed: false,
+        reviewed: true,
       },
-      { ref: 'aml § 4-2', text: 'Ved omstilling og ny teknologi skal de ansatte få informasjon, medvirkning og nødvendig opplæring.', reviewed: false },
-      { ref: 'aml § 10-8', text: 'Arbeidstakere har krav på daglig og ukentlig arbeidsfri – også når de kan nås på mobilen.', reviewed: false },
+      { ref: 'aml § 4-2', text: 'Ved omstilling og ny teknologi skal de ansatte få informasjon, medvirkning og nødvendig opplæring.', reviewed: true },
+      { ref: 'aml § 10-8', text: 'Arbeidstakere har krav på daglig og ukentlig arbeidsfri – også når de kan nås på mobilen.', reviewed: true },
       {
         ref: 'Hjemmekontorforskriften',
         text: 'Fast hjemmearbeid krever skriftlig avtale, og arbeidsmiljøet hjemme skal være fullt forsvarlig, også det psykososiale.',
-        reviewed: false,
+        reviewed: true,
       },
-      { ref: 'aml kapittel 9', text: 'Kontrolltiltak, også digitale, må ha saklig grunn og drøftes med de ansattes representanter.', reviewed: false },
+      { ref: 'aml kapittel 9', text: 'Kontrolltiltak, også digitale, må ha saklig grunn og drøftes med de ansattes representanter.', reviewed: true },
       {
         ref: 'EUs KI-forordning art. 4',
         text: 'Virksomheter som bruker KI, skal sørge for tilstrekkelig KI-kompetanse hos de ansatte. Status i EØS må verifiseres.',
-        reviewed: false,
+        reviewed: true,
       },
     ],
   },

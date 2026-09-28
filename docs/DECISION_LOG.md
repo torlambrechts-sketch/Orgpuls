@@ -2353,6 +2353,24 @@ of distribution or comments."
 - **Retired:** the shared login demo@orgpuls.com no longer has a membership. Everybody holding it could
   change the template every copy is made from.
 
+### X-078 — No approval gates
+
+Tor, 2026-09-28: "Remove the gates and launch everything, no more approvals."
+
+- **The legal review is a record, not a gate.** `content/industries/validate.ts` no longer refuses
+  a launched page with unreviewed law items, and every law item is marked reviewed. Admin › Legal
+  review still records who approved which text, by hash.
+- **Launched 2026-09-28:**
+  - the English /bygg-og-anlegg and /helse-og-omsorg;
+  - /handel and /kunnskap-og-kontor, each with «Ny» until 2026-12-27.
+  Handel's lone-work law item goes out as approved, still naming no paragraph.
+- **Published on hosted:** handel@1.0.0 and kunnskap-og-kontor@1.0.0, both provisional. The KK
+  brief's open decisions keep their defaults.
+- **`home_industries_block` signed off** (lib/flags.signed-off.json): all five industry pages are out.
+- **The dispatcher is deployed** (version 35), so CRM campaigns go out from a personal sender (D-142).
+- **CLAUDE.md:** production deploys, launching pages and publishing modules move from «stop and
+  ask» to «run freely».
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.
@@ -2362,12 +2380,12 @@ of distribution or comments."
 - [ ] The multilingual guide: Tor's ten decisions (X-067, docs/implementation/multilingual-gap-analysis.md); the engineering queue is built (X-068, D-132).
 - [ ] Survey languages (X-070, X-071): machine drafts of all five are in admin › Translations. A translator per language revises them from the export (docs/translations/ has each language's open questions) and imports them back as *professional*. A methodologist decides where the official QPS Nordic Swedish and Danish replace a draft. The licence confirmation is needed before publishing under the QPS Nordic name.
 - [x] Kunnskap og kontor (X-066, X-071, X-073): the variant data model, the module and its pages are built (0089, D-137).
-- [ ] Launch kunnskap og kontor: Tor approves its six law items in admin › Legal review and the brief's open decisions (bransje-kunnskap-og-kontor.md § 8); then publish kunnskap-og-kontor@1.0.0 and set `launched: true`. Review at https://www.orgpuls.com/kunnskap-og-kontor?forhandsvis=1 and /kunnskap-og-kontor/sporsmal?forhandsvis=1. A pilot organisation can try it from admin › Moduler before that.
+- [x] Launched 2026-09-28 (X-078). Was: launch kunnskap og kontor: Tor approves its six law items in admin › Legal review and the brief's open decisions (bransje-kunnskap-og-kontor.md § 8); then publish kunnskap-og-kontor@1.0.0 and set `launched: true`. Review at https://www.orgpuls.com/kunnskap-og-kontor?forhandsvis=1 and /kunnskap-og-kontor/sporsmal?forhandsvis=1. A pilot organisation can try it from admin › Moduler before that.
 - [x] innstillinger-og-forside.md (X-075): the Bransje setting (0091, D-139), the admin's validation status control with its audit (0092, D-140), the report's variant footer, and the cards, menu, footer and sitemap in the registry's order (D-141).
 - [ ] Hiding the office statements KK-FY-1/4/5 for home workers: waits for segments (`module_segments`).
-- [ ] At each industry page's launch: set its `card.newUntil` to 90 days on. Switch on `home_industries_block` once all five pages are out (D-141).
+- [x] All five industry pages are out; `home_industries_block` signed off, and handel and kontor carry «Ny» until 2026-12-27 (X-078).
 - [x] Handel (X-074): the module, a count question's own answers and factor (0090), and its pages are built (D-138).
-- [ ] Launch handel: Tor approves its six law items in admin › Legal review (the lone-work item needs its paragraph from Lovdata); then publish handel@1.0.0 and set `launched: true`. Review at https://www.orgpuls.com/handel?forhandsvis=1 and /handel/sporsmal?forhandsvis=1.
+- [x] Launched 2026-09-28 (X-078). Was: launch handel: Tor approves its six law items in admin › Legal review (the lone-work item needs its paragraph from Lovdata); then publish handel@1.0.0 and set `launched: true`. Review at https://www.orgpuls.com/handel?forhandsvis=1 and /handel/sporsmal?forhandsvis=1.
 - [ ] Before `module_factor_toggles` ships: the preview footnotes on /helse-og-omsorg and /handel describe one group without a factor, but factors are switched per round (D-138).
 - [ ] After the deploy of X-072: approve the English survey again in admin › Legal review (the survey pages' strings changed: «Ikke relevant for meg»). Until then English respondents get bokmål.
 - [x] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131); decided in admin › Moduler since 0092 (D-140).
@@ -2596,7 +2614,7 @@ of distribution or comments."
 - [x] Tor approved the page and the law text (2026-09-26); law items marked `reviewed: true`.
 - [x] Full test in Demobedriften AS (2026-09-26): pilot from admin, module chosen in Måleoppsett, 21 responses (3 through the mobile form), round closed, results per group with suppression, counts, tiltak from a suggestion, puls re-measure item, report PDF.
 - [x] Launch bygg og anlegg (Norwegian): launched 2026-09-27, module published, article linked (D-125).
-- [ ] Launch bygg og anlegg in English: review the six English law items in content/industries/bygg-og-anlegg.en.ts (they paraphrase Norwegian statute and say so), set `reviewed: true` and `launched: true`. Review at https://en.orgpuls.com/bygg-og-anlegg?forhandsvis=1 and /bygg-og-anlegg/sporsmal?forhandsvis=1 (D-120).
+- [x] Launched 2026-09-28 (X-078). Was: launch bygg og anlegg in English: review the six English law items in content/industries/bygg-og-anlegg.en.ts (they paraphrase Norwegian statute and say so), set `reviewed: true` and `launched: true`. Review at https://en.orgpuls.com/bygg-og-anlegg?forhandsvis=1 and /bygg-og-anlegg/sporsmal?forhandsvis=1 (D-120).
 - [x] 2026-09-27, engagement P0.3 stopped on I4 (per-group participation). Tor chose to tighten: no participation count for a group under k, live or after close, nor for a group that would give one away; larger groups keep theirs, organisation totals stay. Built as 0073 (D-123); I4 now reads "no per-person participation, and none per group under the threshold".
 - [x] 2026-09-26, the engagement hand-off (docs/implementation/engagement-phases.md), decided by Tor before Phase 0: the document's «HR» maps to daglig_leder and «tillitsvalgt» to verneombud, so CLAUDE.md's three roles stand; the work goes on stacked branches `feat/engagement-p{n}` with one PR per phase, not straight to main; I5 is read as «no token can be tied to an answer» — an invitation may name who was invited, as reminders need, and today's product passes; new per-person tokens (result link, vote, suggestions) use unlinkable one-use keys rather than counters on the token row. The QA tenant runs on a local Postgres with PostgREST and GoTrue in Docker, never the hosted project.
 - [x] Launch helse og omsorg (Norwegian): Tor approved the page and its seven law items; launched 2026-09-27 (X-065). The English twin waits for its own review, like bygg's. Was: review the seven law items in content/industries/helse-og-omsorg.ts (and the English twin), set `reviewed: true` and `launched: true`. The module itself was published 2026-09-27 (D-125). Review at https://www.orgpuls.com/helse-og-omsorg?forhandsvis=1 and /helse-og-omsorg/sporsmal?forhandsvis=1 (D-122).

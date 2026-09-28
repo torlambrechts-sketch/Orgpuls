@@ -14,7 +14,7 @@ describe('industry pages', () => {
   it('every page is valid: statements, cites, examples', () => {
     expect(() => assertIndustries()).not.toThrow()
   })
-  it('refuses a missing item code, a missing cite and an unreviewed launch', () => {
+  it('refuses a missing item code and a missing cite; an unreviewed law item does not hold a launch (X-078)', () => {
     const broken = structuredClone(byggOgAnlegg)
     broken.challenges[0]!.measuredBy = { kind: 'module', itemCode: 'BA-XX-1' }
     broken.challenges[1]!.body += '{{cite:finnes_ikke}}'
@@ -23,7 +23,7 @@ describe('industry pages', () => {
     const p = problemsOf(broken)
     expect(p.some((x) => x.includes('BA-XX-1'))).toBe(true)
     expect(p.some((x) => x.includes('finnes_ikke'))).toBe(true)
-    expect(p.some((x) => x.includes('not reviewed'))).toBe(true)
+    expect(p.some((x) => x.includes('not reviewed'))).toBe(false)
   })
   it('refuses a core statement the instrument does not have', () => {
     const broken = structuredClone(byggOgAnlegg)
@@ -45,7 +45,7 @@ describe('industry pages', () => {
     expect(new Set(INDUSTRIES.map((i) => i.slug)).size).toBe(INDUSTRIES.length)
   })
 
-  it('the English page quotes the English survey, and is held back until its law is reviewed (D-120)', () => {
+  it('the English page quotes the English survey, and is launched (D-120, X-078)', () => {
     expect(problemsOf(byggOgAnleggEn, 'en')).toEqual([])
     const en = moduleFile('bygg-og-anlegg', '1.0.0', 'en')
     const no = moduleFile('bygg-og-anlegg', '1.0.0')
@@ -53,9 +53,7 @@ describe('industry pages', () => {
     expect(en.factors[0]!.items.map((i) => i.text)).not.toEqual(no.factors[0]!.items.map((i) => i.text))
     expect(en.scale.labels).toHaveLength(5)
     expect(en.count_items[0]!.options).toEqual(['Yes', 'No', "Don't know"])
-    expect(byggOgAnleggEn.law.items.every((l) => !l.reviewed)).toBe(true)
-    const launched = { ...structuredClone(byggOgAnleggEn), launched: true }
-    expect(problemsOf(launched, 'en').some((x) => x.includes('not reviewed'))).toBe(true)
+    expect(byggOgAnleggEn.launched).toBe(true)
   })
   it('refuses an English twin that quotes other statements or figures', () => {
     expect(twinProblems(byggOgAnlegg, byggOgAnleggEn)).toEqual([])
@@ -91,7 +89,7 @@ describe('industry pages', () => {
     expect(helseOgOmsorg.launched).toBe(true)
     expect(helseOgOmsorg.law.items.every((l) => l.reviewed)).toBe(true)
     // the English page waits for its own review
-    expect(helseOgOmsorgEn.launched).toBe(false)
+    expect(helseOgOmsorgEn.launched).toBe(true)
     const broken = structuredClone(helseOgOmsorg)
     const last = broken.challenges.at(-1)!
     last.measuredBy = { kind: 'core', factorKey: 'emosjon', ordinal: 1, alongside: [2, 7] }

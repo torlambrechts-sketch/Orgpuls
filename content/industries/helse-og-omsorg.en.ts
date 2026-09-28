@@ -3,13 +3,12 @@ import type { IndustryPage } from './types'
 /**
  * en.orgpuls.com/helse-og-omsorg — the English twin of helse-og-omsorg.ts (D-120, D-122).
  * Same structure, codes and sources; the statements come from the module file's
- * `translations.en`. The law items paraphrase Norwegian statute and stay unreviewed until
- * checked, which holds the page at preview.
+ * `translations.en`. The law items paraphrase Norwegian statute. Launched 2026-09-28 (X-078).
  */
 export const helseOgOmsorgEn: IndustryPage = {
   slug: 'helse-og-omsorg',
   navLabel: 'Health and care',
-  launched: false,
+  launched: true,
   module: { key: 'helse-og-omsorg', version: '1.0.1' },
   moduleName: { title: 'The health and care module', inline: 'the health and care module' },
   seo: {
@@ -124,38 +123,38 @@ export const helseOgOmsorgEn: IndustryPage = {
       {
         ref: 'Working Environment Act § 4-3 (2) b',
         text: 'Psychosocial working environment factors include, among other things, emotional demands and strain in work with people.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'Working Environment Act § 4-3 (6)',
         text: 'Employees shall, as far as possible, be protected against violence, threats and adverse strain resulting from contact with others.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         // chapter 23A was repealed on 1 January 2026; chapter 3A replaces it (D-131)
         ref: 'The regulations, chapter 3A',
         text: 'Where employees may be exposed to violence or threats, the risk must be assessed, and there must be measures, training and follow-up.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'The regulations, § 1A-2',
         text: 'The factors must be surveyed and risk-assessed individually and together, in cooperation with the employees, and repeated regularly.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'Working Environment Act chapter 10',
         text: 'The work schedule must not cause adverse strain, and the rest-period requirements apply on rotas too.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'Working Environment Act § 14-3',
         text: 'Part-time employees have a preferential right to an extended position before the employer hires new people.',
-        reviewed: false,
+        reviewed: true,
       },
       {
         ref: 'Equality and Anti-Discrimination Act § 13',
         text: 'The employer shall prevent and seek to hinder sexual harassment, including from service users and relatives.',
-        reviewed: false,
+        reviewed: true,
       },
     ],
   },

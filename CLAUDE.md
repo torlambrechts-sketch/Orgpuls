@@ -120,13 +120,15 @@ Run the project end to end without asking permission per action.
 
 **Run freely:** any local command; local and remote database work including applying
 migrations and running the seed; the Supabase MCP; Vercel env and preview deploys; git,
-branches, commits, pushes, PRs; web search.
+branches, commits, pushes, PRs; web search; production deploys (shipping to main, edge
+functions); launching pages and publishing modules. Legal review in admin is a record, not a
+gate (X-078).
 
 **Stop and ask first:** dropping or truncating a table, or bulk-deleting rows, on a
 remote project; anything that weakens an invariant (disabling RLS, adding a select
 policy to an answer table, lowering the k floor, removing the anonymity constraints);
-deploying to production; rotating keys or altering billing; force-pushing or rewriting
-history on a branch that is not your own.
+rotating keys or altering billing; force-pushing or rewriting history on a branch that
+is not your own.
 
 **Secrets:** read them from the environment. Never print one, never write one into a
 tracked file, never put one in a commit message or PR body. If a credential is missing,
