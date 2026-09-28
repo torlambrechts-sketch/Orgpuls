@@ -21,7 +21,8 @@
     "public.submit_contact(p_topic integer, p_name text, p_email text, p_org text, p_message text, p_trap text)": "contact form, honeypot (D-104)",
     "public.submit_response(p_token text, p_answers jsonb, p_extra jsonb, p_module jsonb, p_own jsonb)": "the one write path for answers (invariant 3)",
     "public.thread_by_key(p_key text)": "respondent's conversation read, by its key (0018)",
-    "public.track_web_event(p_ip text, p_ua text, p_kind text, p_path text, p_referrer text, p_utm jsonb, p_label text, p_geo jsonb)": "cookieless site analytics beacon (D-91)"
+    "public.track_web_event(p_ip text, p_ua text, p_kind text, p_path text, p_referrer text, p_utm jsonb, p_label text, p_geo jsonb)": "cookieless site analytics beacon (D-91)",
+    "public.org_logo(p_key text)": "an organisation's logo by its exact 32-hex address (0104, D-154): shown in the survey, the round page and mails; no row, no id, nothing about a person"
   },
   "client_writes": {
     "app.employees": "register, RLS: daglig leder of the org",
@@ -45,7 +46,8 @@
     "app.setup_progress": "wizard progress, RLS",
     "app.trainings": "report inputs, RLS",
     "app.wheel_notifications": "Årshjulet ladder, RLS",
-    "app.year_wheels": "Årshjulet, RLS"
+    "app.year_wheels": "Årshjulet, RLS",
+    "app.evaluations": "evaluations of the ordning (0103, D-153), RLS: daglig leder or verneombud of the org insert/delete"
   },
   "unread_columns": {
     "mail_events.received_at": "delivery log: kept for support and the audit trail, read in SQL by hand",

@@ -3,8 +3,10 @@
 import { useActionState, useState, useTransition } from 'react'
 import { useTranslations } from 'next-intl'
 import {
+  addEvaluation,
   addInformation,
   addTraining,
+  removeEvaluation,
   removeInformation,
   removeTraining,
   type RegisterResult,
@@ -39,11 +41,14 @@ export function ReportRegister({
   round,
   information,
   trainings,
+  evaluation,
 }: {
   /** the round section 8's information belongs to — the year's grunnlinje — if closed */
   round: { id: string; title: string } | null
   information: RegisterItem[]
   trainings: RegisterItem[]
+  /** «Evaluering av ordningen» (0103, D-153): the evaluations, and the report's sentence on when the next is due */
+  evaluation: { items: RegisterItem[]; status: string }
 }) {
   const t = useTranslations('rapport.register')
 
@@ -70,6 +75,13 @@ export function ReportRegister({
             <span className="mt-[3px] block text-[12.5px] text-mut">{t('trainingFor')}</span>
             <Items items={trainings} remove={removeTraining} />
             <TrainingForm />
+          </div>
+
+          <div className="min-w-0">
+            <span className="block text-[14.5px] font-bold">{t('evaluationHead')}</span>
+            <span className="mt-[3px] block text-[12.5px] text-mut [text-wrap:pretty]">{evaluation.status}</span>
+            <Items items={evaluation.items} remove={removeEvaluation} />
+            <EvaluationForm />
           </div>
         </div>
       </div>
@@ -191,6 +203,33 @@ function TrainingForm() {
       <span className="flex flex-wrap items-center gap-[10px] sm:col-span-2">
         <button type="submit" disabled={pending} className={PRIMARY}>
           {pending ? t('register.saving') : t('register.addTraining')}
+        </button>
+        <Problem problem={state && !state.ok ? state.problem : null} inline />
+      </span>
+    </form>
+  )
+}
+
+function EvaluationForm() {
+  const t = useTranslations('rapport')
+  const [state, action, pending] = useActionState<RegisterResult | null, FormData>(addEvaluation, null)
+
+  return (
+    <form action={action} className="mt-[14px] grid gap-[10px] border-t border-line pt-[14px] sm:grid-cols-2">
+      <Field label={t('register.heldOn')}>
+        <input type="date" name="heldOn" required className={CONTROL} />
+      </Field>
+      <Field label={t('register.counterpart')}>
+        <input name="counterpart" maxLength={200} placeholder={t('register.counterpartPlaceholder')} className={CONTROL} />
+      </Field>
+      <span className="sm:col-span-2">
+        <Field label={t('register.note')}>
+          <input name="note" maxLength={1000} className={CONTROL} />
+        </Field>
+      </span>
+      <span className="flex flex-wrap items-center gap-[10px] sm:col-span-2">
+        <button type="submit" disabled={pending} className={PRIMARY}>
+          {pending ? t('register.saving') : t('register.addEvaluation')}
         </button>
         <Problem problem={state && !state.ok ? state.problem : null} inline />
       </span>

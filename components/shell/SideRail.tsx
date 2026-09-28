@@ -20,7 +20,16 @@ import { labelOf, navState, visibleNav, type NavEntry } from '@/lib/shell/nav'
  * Below `md` there is no side layout: the rail is not drawn and the header shows its top
  * nav, because a 220px rail on a phone leaves no room for the page (D-70).
  */
-export function SideRail({ items, assistantFace }: { items: NavEntry[]; assistantFace: string }) {
+export function SideRail({
+  items,
+  assistantFace,
+  brand = null,
+}: {
+  items: NavEntry[]
+  assistantFace: string
+  /** the organisation's logo in the mark's place, when chosen (0104, D-154) */
+  brand?: string | null
+}) {
   const t = useTranslations()
   const pathname = usePathname()
   const { prefs, setPref, panel, togglePanel } = useShell()
@@ -36,7 +45,7 @@ export function SideRail({ items, assistantFace }: { items: NavEntry[]; assistan
         aria-label="Orgpuls"
         className="flex min-w-0 items-center gap-[10px] rounded-ctl px-[8px] py-[6px] text-left text-ink no-underline hover:text-ink hover:no-underline"
       >
-        <LogoMark size={30} />
+        <LogoMark size={30} src={brand} />
         {open ? (
           <span className="whitespace-nowrap font-display text-[19px] font-semibold tracking-[-0.01em]">Orgpuls</span>
         ) : null}

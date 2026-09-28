@@ -13,6 +13,7 @@ import { getShellPrefs } from '@/lib/shell/prefs.server'
 import { getUnansweredCount } from '@/lib/shell/read'
 import { getWizardGate } from '@/lib/wizard/read'
 import { WizardProvider } from '@/components/veiviser/WizardProvider'
+import { getOrgLogo, logoPath } from '@/lib/org/logo'
 
 /**
  * The signed-in shell. Every application screen renders inside this, so the header, the
@@ -32,12 +33,13 @@ const ASSISTANT_FACE = 'av4'
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations()
-  const [prefs, unanswered, wizard, messages, demo] = await Promise.all([
+  const [prefs, unanswered, wizard, messages, demo, brand] = await Promise.all([
     getShellPrefs(),
     getUnansweredCount(),
     getWizardGate(),
     getMessages(),
     getDemoState(),
+    getOrgLogo(),
   ])
 
   const items: NavEntry[] = NAV_ROUTES.map((r) => ({
@@ -54,7 +56,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       <ShellPrefsProvider initial={prefs}>
         <WizardProvider gate={wizard} face={ASSISTANT_FACE}>
           <ShellFrame
-            rail={<SideRail items={items} assistantFace={ASSISTANT_FACE} />}
+            rail={<SideRail items={items} assistantFace={ASSISTANT_FACE} brand={brand?.inHeader ? logoPath(brand.key) : null} />}
             header={<AppHeader items={items} assistantFace={ASSISTANT_FACE} />}
             footer={<AppFooter />}
           >

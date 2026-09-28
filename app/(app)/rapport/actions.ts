@@ -117,6 +117,46 @@ export async function addTraining(_: RegisterResult | null, form: FormData): Pro
   return { ok: true }
 }
 
+/*
+ * «Evaluering av ordningen» (aml. § 9-2 tredje ledd; 0103, D-153): that the ordning was evaluated,
+ * when, and with whom. `evaluation_insert` / `evaluation_delete` decide who may: the daglig leder
+ * or the verneombud. One per day: the same meeting recorded twice is refused.
+ */
+const EvaluationFields = z.object({
+  heldOn: Day,
+  counterpart: Optional(z.string().trim().max(200)),
+  note: Optional(z.string().trim().max(1000)),
+})
+
+export async function addEvaluation(_: RegisterResult | null, form: FormData): Promise<RegisterResult> {
+  const parsed = EvaluationFields.safeParse({
+    heldOn: form.get('heldOn'),
+    counterpart: form.get('counterpart'),
+    note: form.get('note'),
+  })
+  if (!parsed.success) return problem('invalid')
+
+  const orgId = await getCurrentOrgId()
+  if (!orgId) return problem('denied')
+
+  const f = parsed.data
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .schema('app')
+    .from('evaluations')
+    .insert({ org_id: orgId, held_on: f.heldOn, counterpart: f.counterpart, note: f.note })
+    .select('id')
+
+  if (error?.code === '23505') return problem('duplicate')
+  if (writeFailed('addEvaluation', error, data)) return problem('denied')
+  revalidatePath('/rapport')
+  return { ok: true }
+}
+
+export async function removeEvaluation(id: string): Promise<RegisterResult> {
+  return remove('evaluations', 'removeEvaluation', id)
+}
+
 export async function removeInformation(id: string): Promise<RegisterResult> {
   return remove('round_information', 'removeInformation', id)
 }
@@ -126,7 +166,7 @@ export async function removeTraining(id: string): Promise<RegisterResult> {
 }
 
 async function remove(
-  table: 'round_information' | 'trainings',
+  table: 'round_information' | 'trainings' | 'evaluations',
   where: string,
   id: string,
 ): Promise<RegisterResult> {

@@ -35,7 +35,16 @@ export interface NoticeRound {
 /** One claimed outbox row, as `public.dispatch_claim` returns it. */
 export interface NoticeJob {
   id: string
-  kind: 'forvarsel' | 'invitasjon' | 'paminnelse' | 'siste_paminnelse' | 'lenke' | 'resultat' | 'tiltak_forfalt' | 'svarprosent'
+  kind:
+    | 'forvarsel'
+    | 'invitasjon'
+    | 'paminnelse'
+    | 'siste_paminnelse'
+    | 'lenke'
+    | 'resultat'
+    | 'tiltak_forfalt'
+    | 'svarprosent'
+    | 'evaluering'
   audience: string | null
   /** the channel the database chose for the link (0033); role notices are always e-mail */
   channel: 'email' | 'sms'
@@ -60,6 +69,10 @@ export interface NoticeJob {
   measures?: { title: string; due: string | null }[] | null
   /** the round's page for employees, /r/<slug> (0100, P1-3): a results notice's own round, an invitation's last shared one */
   results_page?: string | null
+  /** an evaluation reminder's facts (0103, 0104; A-02): the cadence, the last one, when it fell due */
+  evaluation?: { cadence: string | null; last_on: string | null; due_on: string | null } | null
+  /** the organisation's logo by its address, /logo/<key> (0104, D-154), for the head of the mail */
+  logo?: string | null
 }
 
 export interface Recipient {
@@ -171,6 +184,8 @@ interface Parts {
   footer: string
   /** the document's title — the subject — so a mail opened as a page names itself */
   title?: string
+  /** the organisation's logo and name, in place of the Orgpuls wordmark (0104, D-154) */
+  brand?: { src: string; name: string } | null
 }
 
 function layout(p: Parts): { text: string; html: string } {
@@ -197,7 +212,11 @@ function layout(p: Parts): { text: string; html: string } {
 <html lang="${p.lang === 'en' ? 'en' : 'nb'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(p.title ?? 'Orgpuls')}</title></head>
 <body style="margin:0;padding:0;background:#FCF6E9;font-family:'DM Sans',Arial,Helvetica,sans-serif">
 <div style="max-width:560px;margin:0 auto;padding:28px 16px">
-<div style="font-family:Georgia,'Times New Roman',serif;font-size:20px;font-weight:600;color:#191510;margin:0 0 16px">Orgpuls</div>
+${
+  p.brand
+    ? `<div style="margin:0 0 16px"><img src="${escapeHtml(p.brand.src)}" alt="${escapeHtml(p.brand.name)}" height="40" style="display:block;height:40px;width:auto;max-width:200px;border:0"></div>`
+    : `<div style="font-family:Georgia,'Times New Roman',serif;font-size:20px;font-weight:600;color:#191510;margin:0 0 16px">Orgpuls</div>`
+}
 <div style="background:#FFFDF6;border:1px solid #E8DFC9;border-radius:20px;padding:26px 24px">
 ${para(p.greeting)}
 ${p.paragraphs.map((s) => para(s)).join('\n')}
@@ -279,6 +298,11 @@ function pageLink(base: string, slug: string): string {
   return `${base}/r/${slug}`
 }
 
+/** The organisation's logo (0104): only a key the database made reaches a mail */
+function logoLink(base: string, key: string | null | undefined): string | null {
+  return key && /^[0-9a-f]{32}$/.test(key) ? `${base}/logo/${key}` : null
+}
+
 /**
  * One notice for a group of recipients who read the same words: the same language, and
  * the same answer to "can they sign in". An invitation or a reminder is always a group of
@@ -295,6 +319,9 @@ export function renderNotice(
   const greeting = group.name ? fill(pick(m, 'greeting'), { name: group.name }) : pick(m, 'greetingPlain')
   const footer = fill(pick(m, 'automatic'), { org })
   const base = appUrl.replace(/\/+$/, '')
+  // the organisation's own logo at the head, where it has one (0104, D-154)
+  const logo = logoLink(base, job.logo)
+  const brand = logo ? { src: logo, name: org } : null
 
   // a measure past its date (0099, P1-5): to its owner, or to the verneombud as a copy
   if (job.kind === 'tiltak_forfalt') {
@@ -306,8 +333,21 @@ export function renderNotice(
     const cta = group.member ? { label: pick(m, 'tiltak.cta'), url: `${base}/tiltak` } : null
     return {
       subject,
-      ...layout({ title: subject, lang: group.lang, greeting, paragraphs: [lead, items.map((i) => `– ${i}`).join('\n')], cta, after: [pick(m, group.member ? 'tiltak.member' : 'tiltak.employee')], footer }),
+      ...layout({ brand, title: subject, lang: group.lang, greeting, paragraphs: [lead, items.map((i) => `– ${i}`).join('\n')], cta, after: [pick(m, group.member ? 'tiltak.member' : 'tiltak.employee')], footer }),
     }
+  }
+
+  // the ordning is due for evaluation (aml. § 9-2 tredje ledd; 0103, A-02): to the daglig leder
+  if (job.kind === 'evaluering') {
+    const ev = job.evaluation ?? null
+    const subject = fill(pick(m, 'evaluering.subject'), { org })
+    const paragraphs = [
+      ev?.due_on ? fill(pick(m, 'evaluering.lead'), { date: dateOf(ev.due_on, group.lang) }) : pick(m, 'evaluering.leadNoDate'),
+      ev?.last_on ? fill(pick(m, 'evaluering.last'), { date: dateOf(ev.last_on, group.lang) }) : pick(m, 'evaluering.none'),
+      pick(m, 'evaluering.what'),
+    ]
+    const cta = group.member ? { label: pick(m, 'evaluering.cta'), url: `${base}/rapport` } : null
+    return { subject, ...layout({ brand, title: subject, lang: group.lang, greeting, paragraphs, cta, after: [], footer }) }
   }
 
   if (!job.round) throw new Error(`${job.kind} without a round`)
@@ -319,6 +359,7 @@ export function renderNotice(
     return {
       subject,
       ...layout({
+        brand,
         title: subject, lang: group.lang, greeting,
         paragraphs: [cap(fill(pick(m, 'svarprosent.lead'), { round })), pick(m, 'svarprosent.what')],
         cta: group.member ? { label: pick(m, 'svarprosent.cta'), url: `${base}/malinger` } : null,
@@ -352,7 +393,7 @@ export function renderNotice(
       pick(m, 'invitasjon.personal'),
     ]
     const subject = cap(fill(pick(m, `${own}.subject`), { org, round }))
-    return { subject, ...layout({ title: subject, lang: group.lang, greeting, paragraphs, cta: { label: pick(m, 'invitasjon.cta'), url: link, plain: true }, after, footer }) }
+    return { subject, ...layout({ brand, title: subject, lang: group.lang, greeting, paragraphs, cta: { label: pick(m, 'invitasjon.cta'), url: link, plain: true }, after, footer }) }
   }
 
   if (job.kind === 'forvarsel') {
@@ -361,7 +402,7 @@ export function renderNotice(
     const paragraphs = [cap(fill(pick(m, 'forvarsel.lead'), { org, round, date })), pick(m, `forvarsel.${audience}`)]
     const cta = group.member ? { label: pick(m, 'forvarsel.cta'), url: `${base}/malinger` } : null
     const subject = cap(fill(pick(m, 'forvarsel.subject'), { org, round, date }))
-    return { subject, ...layout({ title: subject, lang: group.lang, greeting, paragraphs, cta, after: [], footer }) }
+    return { subject, ...layout({ brand, title: subject, lang: group.lang, greeting, paragraphs, cta, after: [], footer }) }
   }
 
   // resultat: a leader reads it in Orgpuls; everyone else on the round's page, where it is shown (0100)
@@ -377,7 +418,7 @@ export function renderNotice(
       ? { label: pick(m, 'resultat.pageCta'), url: page }
       : null
   const subject = cap(fill(pick(m, 'resultat.subject'), { org, round }))
-  return { subject, ...layout({ title: subject, lang: group.lang, greeting, paragraphs, cta, after: [], footer }) }
+  return { subject, ...layout({ brand, title: subject, lang: group.lang, greeting, paragraphs, cta, after: [], footer }) }
 }
 
 /** Recipients of one job, grouped by what they will read. */

@@ -144,9 +144,9 @@ begin
                        (select string_agg(k, ',' order by k) from jsonb_object_keys(v_json) k),
                        (select string_agg(k, ',' order by k) from jsonb_object_keys(v_json->'factors'->0) k));
     v_rows := v_rows || jsonb_build_object('seq', 5, 'name', 'six answered: the whole house''s index, «mengde» left out for its unanswered statements, nothing per group',
-      'expected', 'ok|Rundeside Test AS|8|6|75|lav|ytring|answered,asked,band,factors,index,measures,org,round,status,threshold|band,index,key,sort_order',
+      'expected', 'ok|Rundeside Test AS|8|6|75|lav|ytring|answered,asked,band,factors,index,logo,measures,org,round,status,threshold|band,index,key,sort_order',
       'actual', v_txt,
-      'pass', v_txt = 'ok|Rundeside Test AS|8|6|75|lav|ytring|answered,asked,band,factors,index,measures,org,round,status,threshold|band,index,key,sort_order');
+      'pass', v_txt = 'ok|Rundeside Test AS|8|6|75|lav|ytring|answered,asked,band,factors,index,logo,measures,org,round,status,threshold|band,index,key,sort_order');
 
     -- 6 ---------------------------------------------------------------- the measures
     v_txt := concat_ws('|', jsonb_array_length(v_json->'measures'), v_json->'measures'->0->>'title',

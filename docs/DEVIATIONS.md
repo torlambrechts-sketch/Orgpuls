@@ -6937,3 +6937,86 @@ mark their translations out of date until the next build regenerates it; the adm
 read the replaced bokmål and shows them as out of date at once.
 
 `auto_approve_invariants.sql` proves seven rules; `tests/unit/platform-package.test.ts` eight.
+
+---
+
+## D-153 — Årshjulet's «N dager før» and the § 9-2 evaluation cadence now do something (0103, audit A-01, A-02)
+
+**Found by** the wiring audit (docs/audits/2026-09-28-wiring.md): two settings saved and shown back
+to the person who wrote them, read by nothing else.
+
+**A-01 — «Hvem varsles først · 7 / 14 / 21 dager før».** The chip wrote `year_wheels.notify_lead_days`;
+`wheel_tick` sends each rung of the ladder at its own `wheel_notifications.lead_days`. The design
+ties the chip to the first three rungs — verneombud, tillitsvalgte and daglig leder print
+«{lead} dager før», avdelingsledere 7 and alle ansatte 1 (bundle line 3995) — and so does the fixture.
+A trigger (`year_wheels_lead_sync`) now moves those three rows when the value changes, so what the
+ladder prints is what is sent, whoever writes the wheel. Saving the wheel with the same value (a
+cadence, a switch) leaves the ladder alone.
+
+*The two designs disagree, and the chip shows the truth.* The v3 Veiviser writes «Verneombudet
+varsles to dager før» (2 days), a value the Årshjul chips (7/14/21) do not offer. The chip is
+therefore selected from the verneombud row's own lead, not from the column: after the Veiviser,
+no chip is selected and the ladder says «2 dager før», which is what will be sent; choosing a chip
+moves the three rows to it.
+
+**A-02 — «Evaluering av ordningen» (aml. § 9-2 tredje ledd).** The cadence (hver 6. måned / årlig /
+etter hver runde) was printed in Måleoppsett's summary and nowhere else. Now:
+- `app.evaluations` records that the ordning was evaluated, when and with whom (daglig leder or
+  verneombud write; every member reads);
+- `app.evaluation_due` says when the next is due: from the last evaluation, or from the first round
+  that closed; six months, a year, or the next round's close. Nothing is due before a round has
+  closed. The cadence is the one of the measurement whose round closed last;
+- the report prints it in section 1 as «Evaluering av ordningen», where the design prints
+  «Medvirkning», a block with no record behind it yet (D-18) — the cadence, the last evaluation
+  and the due date, or that none is recorded and when it fell due;
+- «Registrer til rapporten» has a third column to record one;
+- every Monday, an organisation whose evaluation is due gets one reminder (`evaluering`) to the
+  daglig leder, again after four weeks while it stays undone; a reminder claimed after one is
+  recorded is dropped as resolved.
+
+**Not in the design:** the report block's wording, the register's column and the mail. The report
+is not in the per-region pixel claims, and its sheet already differs in height from the design
+(D-18); the fixture prints «Evalueringen forfalt 15. september 2024», because it has closed rounds
+and no evaluation — the real state, not a placeholder.
+
+`evaluation_invariants.sql` proves ten rules; `tests/unit/mail.test.ts` the reminder's text.
+
+---
+
+## D-154 — The organisation's own logo (0104)
+
+**Design:** Oppsett › Assistenten, «Hva står i toppen»: «Assistenten» or «Bedriftens logo — Deres
+egen logo i toppen», a 96 px dashed field to drop it in, and the logo in the 30 px brand mark of
+the header and the side rail (bundle v3 lines 34, 73, 3662-3695, 5223-5230, 6288). The Assistenten
+tab was left out (D-32), and with it the only place the product could store a logo; P1-1 of the gap
+analysis then asked for the logo in the invitation (D-149: «a logo in the mail needs an
+organisation logo, which the product does not store yet»).
+
+**Built:** a «Logo» card on Oppsett › Selskap with the design's «Hva står i toppen» choice, field and
+hints. The first choice is «Orgpuls» (the mark), not «Assistenten»: the header carries the Orgpuls
+mark, never the assistant's face (D-32). The logo stands:
+- in the header's and the side rail's brand mark when «Bedriftens logo» is chosen (the design);
+- whenever one is stored: at the head of every notice mail in place of the Orgpuls wordmark, beside
+  the organisation's name in the survey, on the QR entry page and the round page «Dette sa dere,
+  dette gjør vi», on the report's cover and on the QR poster (not in the design, which predates
+  them; the card's lead says where it appears).
+
+**How it is stored.** In the database (`app.org_logos`), not in Storage: it is served from the
+application's own origin at `/logo/<key>`, so the page CSP's `img-src 'self'` holds and a mail can
+carry the same address. The key is 32 hex characters of the SHA-256 of the organisation and the
+bytes: a new logo is a new address (cached for a year, immutable), and an address cannot be
+derived from an organisation's id. The type is read from the first bytes — PNG, JPEG or WebP — never
+from what the browser says, and at most 256 KB. **No SVG**, where the design's hint says «PNG eller
+SVG»: an SVG is a document that can carry script, and this one would be served from our own origin.
+The hint says so. The route sends `nosniff` and `sandbox`.
+
+**Who.** The daglig leder stores, removes and switches it (RPCs, refused for anyone else); members
+read the row; anon reads an image by its exact address only (`public.org_logo`, allowlisted in the
+audit). The survey's, the entry page's, the round page's and the dispatcher's definer functions
+carry the address and nothing else about it; nothing about a respondent is in it or near it.
+A demo copy brings no logo.
+
+**No brand colour.** The design has none, so none was invented.
+
+`org_logo_invariants.sql` proves eight rules; `tests/unit/mail.test.ts` that a mail carries only an
+address the database made.

@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { EntryForm } from '@/components/entry/EntryForm'
 import { callFailed } from '@/lib/supabase/read'
 import { createClient } from '@/lib/supabase/server'
+import { LogoKey, logoPath } from '@/lib/org/logo'
 
 /**
  * The QR poster's page (0076, D-126): a door, not a key. The code names the organisation and
@@ -19,7 +20,7 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = { robots: { index: false, follow: false } }
 
 const Info = z.union([
-  z.object({ org: z.string(), lang: z.string(), open: z.boolean(), email: z.boolean(), sms: z.boolean() }),
+  z.object({ org: z.string(), logo: LogoKey, lang: z.string(), open: z.boolean(), email: z.boolean(), sms: z.boolean() }),
   z.object({ error: z.literal('unknown') }),
 ])
 const Code = z.string().regex(/^[a-hjkmnp-z2-9]{8}$/)
@@ -42,6 +43,10 @@ export default async function EntryPage({ params }: { params: Promise<{ code: st
   const card = (title: string, lead: string, body?: React.ReactNode) => (
     <main className="animate-entry mx-auto min-h-screen max-w-[420px] px-[20px] py-[60px]">
       <div className="rounded-card border border-line bg-sf px-[22px] py-[26px]">
+        {'org' in info && info.logo ? (
+          // eslint-disable-next-line @next/next/no-img-element -- the organisation's logo (0104), same-origin; its name follows
+          <img src={logoPath(info.logo)} alt="" className="mb-[10px] block h-[32px] w-auto max-w-[140px] object-contain" />
+        ) : null}
         {'org' in info ? (
           <span className="block text-[11.5px] font-bold uppercase tracking-[.08em] text-mut">{info.org}</span>
         ) : null}

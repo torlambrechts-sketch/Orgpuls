@@ -6,6 +6,7 @@ import { ButtonLink } from '@/components/ui/Button'
 import { qrPath } from '@/lib/entry/qr'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { getOrganization } from '@/lib/org/read'
+import { getOrgLogo, logoPath } from '@/lib/org/logo'
 import { getEntryCode } from '@/lib/settings/survey'
 
 /**
@@ -22,7 +23,7 @@ export const dynamic = 'force-dynamic'
 export default async function PosterPage() {
   const t = await getTranslations('malinger.plakat')
   const org = await getCurrentOrgId()
-  const [organization, code] = await Promise.all([getOrganization(), org ? getEntryCode(org) : Promise.resolve(null)])
+  const [organization, code, logo] = await Promise.all([getOrganization(), org ? getEntryCode(org) : Promise.resolve(null), getOrgLogo()])
 
   const back = (
     <ButtonLink href={{ pathname: '/malinger', query: { fane: 'innstillinger' } }} size="xxs" tone="ghost">
@@ -65,6 +66,8 @@ export default async function PosterPage() {
         aria-label={t('sheetAria')}
         className="mx-auto mt-[24px] max-w-[640px] rounded-panel border border-line bg-sf px-[44px] py-[48px] text-center max-sm:px-[22px] max-sm:py-[30px] print:mt-0 print:max-w-none print:rounded-none print:border-0 print:bg-transparent print:px-0 print:py-0"
       >
+        {/* eslint-disable-next-line @next/next/no-img-element -- the organisation's logo (0104, D-154), same-origin; its name follows */}
+        {logo ? <img src={logoPath(logo.key)} alt="" className="mx-auto mb-[14px] block h-[48px] w-auto max-w-[200px] object-contain" /> : null}
         <span className="block text-[13px] font-bold uppercase tracking-[.1em] text-mut">{organization.name}</span>
         <h2 className="m-0 mt-[12px] font-display text-[40px] font-semibold leading-[1.1] [text-wrap:balance] max-sm:text-[30px]">
           {t('heading')}

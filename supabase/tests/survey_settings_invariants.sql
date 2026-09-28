@@ -223,9 +223,9 @@ begin
     v_txt := (public.entry_info('zzzzzzzz')->>'error') || ',' || (v_json->>'org') || ',' || (v_json->>'open')
              || ',' || (select string_agg(k, ' ' order by k) from jsonb_object_keys(v_json) k);
     reset role;
-    v_rows := v_rows || jsonb_build_object('seq', 10, 'name', 'the public page: unknown code, or name, open and channels only',
-      'expected', 'unknown,Nordvik Anlegg AS,true,email lang open org sms', 'actual', v_txt,
-      'pass', v_txt = 'unknown,Nordvik Anlegg AS,true,email lang open org sms');
+    v_rows := v_rows || jsonb_build_object('seq', 10, 'name', 'the public page: unknown code, or name, logo, open and channels only',
+      'expected', 'unknown,Nordvik Anlegg AS,true,email lang logo open org sms', 'actual', v_txt,
+      'pass', v_txt = 'unknown,Nordvik Anlegg AS,true,email lang logo open org sms');
 
     -- 12, 13 --------------------------------------------------------- request_link
     update app.organizations set mail_enabled = true, sms_enabled = true where id = v_org;

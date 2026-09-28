@@ -907,7 +907,11 @@
         "duplicate": "This meeting is already recorded.",
         "nextDue": "The next review must be after the date the training was held.",
         "denied": "That did not work. Only the managing director and the safety representative can record this — nothing was changed."
-      }
+      },
+      "evaluationHead": "Evaluation of the arrangement",
+      "counterpart": "With whom",
+      "counterpartPlaceholder": "For example employee representatives and the safety representative",
+      "addEvaluation": "Record the evaluation"
     },
     "module": {
       "head": "Industry module: {name} v{version}",
@@ -930,6 +934,21 @@
       "footer": "{name} v{version}",
       "footerVariant": "{name}, {variant} ({code} v{version})",
       "footerProvisional": ", provisional"
+    },
+    "evaluation": {
+      "head": "Evaluation of the arrangement",
+      "cadence": {
+        "hver_6_mnd": "The survey is a control measure, and the need for it is assessed every six months together with the employee representatives (Working Environment Act § 9-2 (3)).",
+        "arlig": "The survey is a control measure, and the need for it is assessed every year together with the employee representatives (Working Environment Act § 9-2 (3)).",
+        "etter_hver_runde": "The survey is a control measure, and the need for it is assessed after every round together with the employee representatives (Working Environment Act § 9-2 (3))."
+      },
+      "line": "Evaluated {date}.",
+      "lineWith": "Evaluated {date} with {who}.",
+      "none": "No evaluation has been recorded yet.",
+      "next": "The next evaluation is due {date}.",
+      "overdue": "The evaluation was due {date}.",
+      "afterNextRound": "The next evaluation is due when the next round has closed.",
+      "notYet": "The first evaluation is due after the first survey has closed."
     }
   },
   "tiltak": {
@@ -1990,6 +2009,27 @@
           "not_cancelled": "The subscription has not been cancelled."
         }
       }
+    },
+    "logo": {
+      "title": "Logo",
+      "lead": "The logo appears in the invitations, the survey, the poster, the report and the page «What you told us, what we are doing». Choose whether it also stands at the top of Orgpuls.",
+      "top": "What stands at the top",
+      "markLabel": "Orgpuls",
+      "markNote": "The Orgpuls mark stands at the top, as now.",
+      "logoLabel": "Your company logo",
+      "logoNote": "Your own logo at the top. The assistant keeps its face in the help texts.",
+      "drop": "Drop your logo here",
+      "hint": "Drop a PNG, JPG or WebP in the field, or press to choose a file. At most 256 kB. It is shown 30 px high, so a square or compact mark works best.",
+      "hintDone": "The logo is at the top now.",
+      "hintNotTop": "The logo is used in the invitations, the survey and the report. The Orgpuls mark stands at the top.",
+      "remove": "Remove the logo",
+      "saving": "Saving …",
+      "problem": {
+        "too_large": "The file is larger than 256 kB. Save the logo at a smaller size and try again.",
+        "type": "Only PNG, JPG or WebP can be used. SVG is not accepted.",
+        "unreadable": "The file could not be read. Try another one.",
+        "denied": "Only the general manager can change the logo."
+      }
     }
   },
   "hjelp": {
@@ -3037,6 +3077,15 @@
       "lead": "Half the time for {round} has passed, and at least one department has a response rate ten percentage points or more below the rest of the organisation.",
       "what": "A low response rate in one department makes its result less reliable. Send a reminder, talk about the survey at a meeting, or extend the deadline. Which department it is, you see in Surveys.",
       "cta": "Open Surveys"
+    },
+    "evaluering": {
+      "subject": "{org}: time to evaluate the survey",
+      "lead": "The survey is a control measure, and under the Working Environment Act § 9-2 (3) the need for it is to be assessed regularly together with the employee representatives. By the cadence you chose, the evaluation was due {date}.",
+      "leadNoDate": "The survey is a control measure, and under the Working Environment Act § 9-2 (3) the need for it is to be assessed regularly together with the employee representatives. The evaluation is due.",
+      "last": "Last recorded evaluation: {date}.",
+      "none": "No evaluation has been recorded yet.",
+      "what": "Go through with the employee representatives whether the survey is still needed and works as it should. Record the evaluation under Report, so it appears in the documentation and the reminder stops.",
+      "cta": "Open Report"
     }
   },
   "newPassword": {

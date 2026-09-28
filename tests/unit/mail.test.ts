@@ -175,6 +175,28 @@ describe('notices', () => {
     expect(r.text).not.toMatch(/\{\w+\}/)
   })
 
+  it('reminds the daglig leder that the ordning is due for evaluation, and says where to record it (A-02)', () => {
+    const evaluation = { cadence: 'arlig', last_on: null, due_on: '2026-09-15' }
+    const r = renderNotice(cat, job({ kind: 'evaluering', audience: 'daglig_leder', round: null, token: null, evaluation }), { lang: 'no', member: true, name: null }, APP)
+    expect(r.subject).toBe('Nordvik Anlegg AS: tid for å evaluere målingen')
+    expect(r.text).toContain('forfalt evalueringen 15. september')
+    expect(r.text).toContain('Det er ikke registrert noen evaluering ennå.')
+    expect(r.text).toContain(`${APP}/rapport`)
+    expect(r.text).not.toMatch(/\{\w+\}/)
+    const en = renderNotice(cat, job({ kind: 'evaluering', audience: 'daglig_leder', round: null, token: null, evaluation: { ...evaluation, last_on: '2025-09-01' } }), { lang: 'en', member: true, name: null }, APP)
+    expect(en.text).toContain('Last recorded evaluation: 1 September.')
+  })
+
+  it('heads a notice with the organisation\'s logo, and only by an address the database made (0104)', () => {
+    const key = 'a1'.repeat(16)
+    const withLogo = renderNotice(cat, job({ token: TOKEN, logo: key }), { lang: 'no', member: false, name: null }, APP)
+    expect(withLogo.html).toContain(`<img src="${APP}/logo/${key}" alt="Nordvik Anlegg AS"`)
+    expect(withLogo.html).not.toContain('>Orgpuls</div>')
+    const forged = renderNotice(cat, job({ token: TOKEN, logo: '"><script>' }), { lang: 'no', member: false, name: null }, APP)
+    expect(forged.html).not.toContain('<img')
+    expect(forged.html).toContain('>Orgpuls</div>')
+  })
+
   it('names a puls by its number within the year', () => {
     expect(roundName(no.mail, { kind: 'puls', year: 2027, pulse: 2, opens_at: null, closes_at: null })).toBe('puls 2 · 2027')
     expect(roundName(en.mail, { kind: 'grunnlinje', year: 2026, pulse: null, opens_at: null, closes_at: null })).toBe('the 2026 baseline')

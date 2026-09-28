@@ -69,6 +69,8 @@ export interface OppsettView {
   /** per group name, what that round released: alone, only in the whole, or held back */
   groupRelease: Record<string, 'ok' | 'insufficient_data' | 'protected'>
   canWrite: boolean
+  /** the organisation's logo (0104, D-154): its address, and whether it stands in the header */
+  logo: { src: string; inHeader: boolean } | null
   /** the agreement's signatures and who is looking: read only on Personvern and Databehandleravtale (D-87) */
   dpa?: { signatures: DpaSignature[]; viewerName: string }
   /** the trial and the invoice details: read only on Betaling, and only the daglig leder gets a row (D-89) */

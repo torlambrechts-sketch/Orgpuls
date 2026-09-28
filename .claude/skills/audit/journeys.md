@@ -18,7 +18,13 @@ Actor: new daglig leder.
    `setup_progress` row; groups/employees as entered; `year_wheels` + `wheel_notifications`
    (alle ansatte a day before, D-148).
 4. Finish → Målinger shows the planned round with the dates the wizard said.
-Negative: an org number already registered; a CSV with a bad row (named, not dropped silently).
+5. Oppsett › Selskap › Logo: «Bedriftens logo», upload a PNG. **Screen**: the header's and the side
+   rail's brand mark is the logo; «Orgpuls» puts the mark back. **DB**: `org_logos` row, `in_header`.
+   **Mail**: the next invitation is headed by `/logo/<key>`; the survey, `/inn/<code>`, `/r/<slug>`,
+   the report cover and the poster show it (D-154).
+Negative: an org number already registered; a CSV with a bad row (named, not dropped silently); an
+SVG, a GIF or a file over 256 KB as the logo (refused, with its reason); a verneombud's upload
+(refused).
 
 ## J2 (P0) — What the leader sets up is exactly what the employee is asked
 Actor: daglig leder, then an employee.
@@ -50,6 +56,9 @@ Actors: daglig leder, avdelingsleder, verneombud, an employee via `/r/<slug>`.
 2. Closing time with < 50 % answered and «Forleng» on → closes 3 days later, once; reminder to
    non-respondents only (P0-4, D-146). With it off → closes on time.
 3. Reminder day and final reminder go only to those who have not answered; quiet hours hold.
+4. Årshjulet: «21 dager før» → the verneombud's, tillitsvalgtes' and daglig leder's ladder rows say
+   21 and their `forvarsel` is queued 21 days before the round opens; avdelingsledere and alle
+   ansatte keep theirs (A-01, D-153).
 
 ## J5 (P1) — From results to measures, and follow-up
 1. Leader creates a measure from a factor → Tiltak board shows it; assign owner and date.
@@ -57,6 +66,10 @@ Actors: daglig leder, avdelingsleder, verneombud, an employee via `/r/<slug>`.
    copy when the wheel says so (P1-5).
 3. Complete it → effect question asked next grunnlinje (P1-7) → Resultater shows the effect.
 4. The employees' page lists the decided measure with its status, the owner not named.
+5. § 9-2: with a round closed and no evaluation recorded, Rapport section 1 says when the evaluation
+   fell due, and the Monday job sends the daglig leder one `evaluering` mail; recording one in
+   «Registrer til rapporten» moves the due date by the cadence and the next reminder is dropped as
+   resolved (A-02, D-153).
 
 ## J6 (P1) — Roles see what they may, and no more
 For avdelingsleder and verneombud: every nav item and page; assert the scope (own department,

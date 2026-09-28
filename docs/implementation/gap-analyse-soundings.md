@@ -239,7 +239,7 @@ merket og plassert lavt uansett gevinst.
 | P0-2 | Løftet stemmer nå: kommentarer og åpne svar maskeres før noen leser dem (se P1-8) | 0095 | D-145 |
 | P0-3 | Åpent felt og fritekst-spørsmål leses under Kommentarer, maskert, av daglig leder, ved minst k svar | 0095 | D-145, X-080 |
 | P0-4 | «Forleng ved lav svarprosent» og «varsle verneombud om forfalte tiltak» virker | 0096, 0099 | D-146, D-149 |
-| P1-1 | Invitasjonen sier antall minutter, lover at resultatene deles, og har daglig leders hilsen. Logo mangler: produktet lagrer ingen | 0099 | D-149 |
+| P1-1 | Invitasjonen sier antall minutter, lover at resultatene deles, og har daglig leders hilsen og virksomhetens logo (lastes opp i Oppsett › Selskap) | 0099, 0104 | D-149, D-154 |
 | P1-2 | «Alle ansatte» får forvarsel og resultatmelding som standard, med én bryter i Årshjul | — | D-148 |
 | P1-3 | «Dette sa dere, dette gjør vi»: side per lukket runde, lenket fra resultatmeldingen og neste invitasjon | 0100 | D-151, X-081 |
 | P1-4 | Respondentskjermen: én faktor per side, løftene først, utkast i nettleseren, tilbake, gjenstående tid, tastatur | — | D-150 |

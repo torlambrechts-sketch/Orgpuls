@@ -16,6 +16,7 @@ import type {
   Signer,
   Training,
 } from '@/lib/report/tail'
+import type { Evaluation, EvaluationStatus } from '@/lib/report/evaluation'
 
 /**
  * Rapport, the rendering. Bundle lines 271-500.
@@ -107,6 +108,11 @@ export interface RapportView {
   signers: Signer[]
   /** daglig leder or verneombud: may record section 8 under the document (D-52) */
   canRecord: boolean
+  /** «Evaluering av ordningen» (aml. § 9-2 tredje ledd; 0103, D-153): by which cadence, and when next */
+  evaluation: EvaluationStatus | null
+  evaluations: Evaluation[]
+  /** the organisation's logo over the document (0104, D-154) */
+  logo: string | null
   /**
    * The primary round's industry modules (D-116): per factor its index and band where the
    * database released one, its legal basis and the measures on it; the count questions for
@@ -192,6 +198,28 @@ export async function RapportScreen({ view }: { view: RapportView }) {
       audience: t(`rapport.audienceName.${tr.audience}`),
       date: long(tr.held_on) ?? tr.held_on,
     }) + (tr.next_due ? ` ${t('rapport.trainingNext', { date: long(tr.next_due) ?? tr.next_due })}` : '')
+
+  // «Evaluering av ordningen»: a record's sentence, and the block's, shared with the register
+  const evaluationLine = (e: Evaluation) =>
+    e.counterpart
+      ? t('rapport.evaluation.lineWith', { date: long(e.held_on) ?? e.held_on, who: e.counterpart })
+      : t('rapport.evaluation.line', { date: long(e.held_on) ?? e.held_on })
+  const evaluationDue = (ev: EvaluationStatus) =>
+    ev.due_on
+      ? ev.due_on <= new Date().toISOString().slice(0, 10)
+        ? t('rapport.evaluation.overdue', { date: long(ev.due_on) ?? ev.due_on })
+        : t('rapport.evaluation.next', { date: long(ev.due_on) ?? ev.due_on })
+      : ev.cadence === 'etter_hver_runde'
+        ? t('rapport.evaluation.afterNextRound')
+        : t('rapport.evaluation.notYet')
+  const evaluationBody = (ev: EvaluationStatus) =>
+    [
+      ev.cadence ? t(`rapport.evaluation.cadence.${ev.cadence}`) : null,
+      view.evaluations[0] ? evaluationLine(view.evaluations[0]) : t('rapport.evaluation.none'),
+      evaluationDue(ev),
+    ]
+      .filter(Boolean)
+      .join(' ')
 
   const short = (iso: string | null, withYear = false) =>
     iso
@@ -403,6 +431,8 @@ export async function RapportScreen({ view }: { view: RapportView }) {
           ) : null
         }
       >
+        {/* eslint-disable-next-line @next/next/no-img-element -- the organisation's logo (0104, D-154), same-origin; its name follows */}
+        {view.logo ? <img src={view.logo} alt="" className="mb-[14px] block h-[36px] w-auto max-w-[160px] object-contain" /> : null}
         <div className="text-[10.5px] uppercase tracking-[0.12em] text-mut">
           {view.org ? `${view.org.name} · ${period}` : period}
         </div>
@@ -428,6 +458,10 @@ export async function RapportScreen({ view }: { view: RapportView }) {
           round={view.primary ? { id: view.primary.id, title: roundTitle(t, view.primary) } : null}
           information={view.information.map((i) => ({ id: i.id, line: informationLine(i), note: i.note }))}
           trainings={view.trainings.map((tr) => ({ id: tr.id, line: trainingLine(tr), note: tr.note }))}
+          evaluation={{
+            items: view.evaluations.map((e) => ({ id: e.id, line: evaluationLine(e), note: e.note })),
+            status: view.evaluation ? evaluationDue(view.evaluation) : t('rapport.evaluation.notYet'),
+          }}
         />
       ) : null}
     </main>
@@ -529,6 +563,11 @@ export async function RapportScreen({ view }: { view: RapportView }) {
               : '')
           }
         />
+
+        {/* § 9-2 tredje ledd (0103, D-153): where the design prints «Medvirkning», which has no record yet (D-18) */}
+        {view.evaluation ? (
+          <MethodBlock head={t('rapport.evaluation.head')} body={evaluationBody(view.evaluation)} />
+        ) : null}
 
         <h2 className="mt-[30px] font-display text-[19px] font-semibold">
           {t('rapport.section2')}

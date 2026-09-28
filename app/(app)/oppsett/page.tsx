@@ -18,6 +18,7 @@ import { getResultsByGroup } from '@/lib/results/read'
 import { getDpaSignatures } from '@/lib/legal/read'
 import { getBilling } from '@/lib/billing/read'
 import { getViewer } from '@/lib/shell/read'
+import { getOrgLogo, logoPath } from '@/lib/org/logo'
 
 /**
  * Oppsett — the data half. Bundle lines 1958-2472; the rendering is in
@@ -40,7 +41,7 @@ export default async function OppsettPage({
   const params = await searchParams
   const tab: Tab = TABS.includes(params.fane as Tab) ? (params.fane as Tab) : 'selskap'
 
-  const [company, locations, groups, roster, factors, wheel, rounds, withPhone, role, org, sms] =
+  const [company, locations, groups, roster, factors, wheel, rounds, withPhone, role, org, sms, logo] =
     await Promise.all([
       getCompany(),
       getLocations(),
@@ -53,6 +54,7 @@ export default async function OppsettPage({
       getViewerRole(),
       getOrganization(),
       getSmsSettings(),
+      getOrgLogo(),
     ])
 
   if (!company) return null
@@ -98,6 +100,7 @@ export default async function OppsettPage({
     groupRelease: Object.fromEntries((release?.groups ?? []).map((g) => [g.group_name, g.status])),
     // styling only; every write policy on these tables is daglig_leder and checks itself
     canWrite: role === 'daglig_leder',
+    logo: logo ? { src: logoPath(logo.key), inHeader: logo.inHeader } : null,
     dpa: dpaTab ? { signatures: dpaSignatures, viewerName: viewer?.name ?? '' } : undefined,
     billing,
     members: members ? (

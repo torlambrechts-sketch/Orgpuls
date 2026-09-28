@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { RiskBadge } from '@/components/ui/Risk'
 import { getRoundPage, type RoundPage } from '@/lib/results/page'
+import { logoPath } from '@/lib/org/logo'
 
 /**
  * «Dette sa dere, dette gjør vi» (gap analysis P1-3, 0100, D-151): one closed round, for everyone
@@ -59,7 +60,11 @@ function Page({ page, t, locale }: { page: RoundPage; t: T; locale: string }) {
 
   return (
     <main className="animate-entry mx-auto min-h-screen max-w-[560px] bg-bg px-[20px] pb-[48px] pt-[28px]">
-      <div className="text-[11.5px] font-semibold text-mut">{page.org}</div>
+      <div className="flex items-center gap-[8px] text-[11.5px] font-semibold text-mut">
+        {/* eslint-disable-next-line @next/next/no-img-element -- the organisation's logo (0104), same-origin; its name follows */}
+        {page.logo ? <img src={logoPath(page.logo)} alt="" className="block h-[24px] w-auto max-w-[96px] object-contain" /> : null}
+        <span>{page.org}</span>
+      </div>
       <h1 className="m-0 mt-[10px] font-display text-[28px] font-medium leading-[1.15] [text-wrap:balance]">{t('roundPage.title')}</h1>
       <p className="mt-[10px] text-[14px] leading-[1.6] text-mut [text-wrap:pretty]">
         {t('roundPage.lead', { round, date: date(page.round.closes_at) })}

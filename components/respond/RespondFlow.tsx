@@ -210,9 +210,12 @@ export function RespondFlow({
   copy,
   preview,
   languages,
+  logo = null,
 }: {
   token: string
   org: string
+  /** the organisation's own logo beside its name (0104, D-154), or null */
+  logo?: string | null
   questions: Question[]
   copy: RespondCopy
   /**
@@ -415,7 +418,11 @@ export function RespondFlow({
 
   const head = (
     <div className="flex items-center justify-between px-[20px] pb-[6px] pt-[13px] text-[11.5px] font-semibold text-mut">
-      <span>{org}</span>
+      <span className="flex min-w-0 items-center gap-[8px]">
+        {/* eslint-disable-next-line @next/next/no-img-element -- same-origin, 22 px; the name beside it says who */}
+        {logo ? <img src={logo} alt="" className="block h-[22px] w-auto max-w-[88px] object-contain" /> : null}
+        <span>{org}</span>
+      </span>
       {languages ? <LanguagePicker {...languages} /> : null}
     </div>
   )

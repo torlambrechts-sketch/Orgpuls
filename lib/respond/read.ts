@@ -2,6 +2,7 @@ import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { parseFailed } from '@/lib/supabase/read'
+import { LogoKey } from '@/lib/org/logo'
 import { COUNT_ANSWERS } from '@/lib/respond/answers'
 
 /**
@@ -19,6 +20,8 @@ import { COUNT_ANSWERS } from '@/lib/respond/answers'
  */
 const Form = z.object({
   org: z.string(),
+  // the organisation's logo by its address (0104): the organisation's, never the person's
+  logo: LogoKey,
   threshold: z.coerce.number(),
   questions: z.array(z.object({ factor: z.string(), ordinal: z.coerce.number() })),
   extra: z.array(

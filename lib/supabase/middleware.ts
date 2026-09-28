@@ -66,6 +66,8 @@ const PUBLIC_PATHS = [
   '/inn',
   // «Dette sa dere, dette gjør vi» (0100, D-151): a closed round's page, the link its only key
   '/r',
+  // an organisation's logo, by its address (0104, D-154): shown in the survey and in mails
+  '/logo',
   '/bli-med',
   '/nytt-passord',
   '/lovkrav',

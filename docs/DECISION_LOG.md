@@ -2424,6 +2424,26 @@ auto approve in the admin GUI that I can turn on for everything during developme
   Translations; turn it off before customers depend on the texts.
 
 
+### X-083 — Settings with an effect: the ladder's lead and the § 9-2 evaluation; the organisation's logo
+
+Tor, 2026-09-28: "fix A-01 and A-02; implement the logo and customization under settings for the
+organization and plan task 116". (D-153, D-154)
+
+- **A-01:** the Årshjulet chip is the lead of the first three rungs (verneombud, tillitsvalgte,
+  daglig leder), as the design prints it; a trigger moves them. The Veiviser's «to dager før» stays
+  as designed, and the chip shows the verneombud's real lead, so no screen claims a lead that is
+  not sent.
+- **A-02:** the cadence decides when the ordning is next due for evaluation; evaluations are
+  recorded under the report, printed in section 1, and the daglig leder is reminded every four
+  weeks while one is due. Nothing is due before a round has closed.
+- **Logo:** stored in the database and served from our own origin (no Storage, no CSP change);
+  PNG, JPEG or WebP only, no SVG; the design's header choice decides the header, and a stored logo
+  also heads the mails and stands on the survey, the round page, the entry page, the report and the
+  poster. **Customization beyond the logo:** the design has no brand colour, so there is none; the
+  invitation's greeting (D-149) and the SMS text (D-66) remain the organisation's own words.
+- **Task 116** is planned in docs/implementation/engagement-phase2-plan.md, with the decisions it
+  needs from Tor listed there.
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.
@@ -2443,14 +2463,16 @@ auto approve in the admin GUI that I can turn on for everything during developme
 - [ ] Approve the English survey again in admin › Legal review: the survey pages' strings changed again (D-145, D-147: the open field's note, own questions, the effect question). Until then English respondents get bokmål.
 - [ ] Auto-approve (X-082, D-152): off until you turn it on in admin › Translations. While it is on, the English survey approval above is not needed.
 - [ ] The employees' page (X-081, D-151): on for every closed round, hosted included; turn it off per round in Resultater if a round should not be shown. The English survey approval above now also covers its invitation line.
-- [ ] Invitation (D-149): write the greeting in Målinger › Innstillinger if you want one. A logo in the mail needs an organisation logo, which the product does not store yet.
+- [ ] Invitation (D-149): write the greeting in Målinger › Innstillinger if you want one. The logo is uploaded in Oppsett › Selskap › Logo (D-154) and then heads every mail.
+- [ ] § 9-2 evaluation (D-153): record the ordning's evaluations under Rapport › Registrer til rapporten; until one is recorded, an organisation with a closed round is reminded every four weeks.
+- [ ] Engagement phase 2 (task #116): answer the eight decisions in docs/implementation/engagement-phase2-plan.md § 2 before it is built.
 - [x] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131); decided in admin › Moduler since 0092 (D-140).
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).
 - [ ] A ready-to-send check before a round opens (channel coverage, groups under the threshold, information and consultation done); the reach count on Målinger › Innstillinger is its first half (D-126).
 - [ ] "View as customer" for support: whether, for whom, with what approval, and how the
   customer is told (D-107; the DPA's Vedlegg 2 limits staff access today).
-- [ ] Google Search Console: create a service account, add it to the property, set
-  `GSC_SERVICE_ACCOUNT` and `GSC_SITE` in Supabase's function secrets (D-106).
+- [x] Google Search Console: connected 2026-09-28 (`sc-domain:orgpuls.com`, read-only service
+  account); the backfill returned no rows yet, the nightly sync fills admin › Search and content (D-106).
 - [ ] Bing Webmaster Tools: verify orgpuls.com; an API key would add Copilot citations (D-106).
 - [ ] Legal read of `/personvernerklaering` (D-104), and of whether the cookieless beacon and
   Vercel Web Analytics need consent under ekomlov § 3-15 (the research found no regulator's

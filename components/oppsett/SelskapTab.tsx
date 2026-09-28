@@ -7,6 +7,7 @@ import { CompanyForm } from '@/components/oppsett/CompanyForm'
 import { LawModeForm } from '@/components/oppsett/LawModeForm'
 import { BhtField } from '@/components/oppsett/BhtField'
 import { IndustryForm } from '@/components/oppsett/IndustryForm'
+import { LogoCard } from '@/components/oppsett/LogoCard'
 import { INDUSTRIES_IN_ORDER, resolveIndustry } from '@/content/industries/meta'
 
 /**
@@ -389,6 +390,30 @@ export async function SelskapTab({ view }: { view: OppsettView }) {
             }}
           />
         </section>
+
+        {/* «Hva står i toppen» (0104, D-154): the design's logo choice, from its Assistenten tab (D-32) */}
+        <LogoCard
+          logo={view.logo}
+          canWrite={view.canWrite}
+          labels={{
+            title: t('oppsett.logo.title'),
+            lead: t('oppsett.logo.lead'),
+            top: t('oppsett.logo.top'),
+            options: {
+              mark: { label: t('oppsett.logo.markLabel'), note: t('oppsett.logo.markNote') },
+              logo: { label: t('oppsett.logo.logoLabel'), note: t('oppsett.logo.logoNote') },
+            },
+            drop: t('oppsett.logo.drop'),
+            hint: t('oppsett.logo.hint'),
+            hintDone: t('oppsett.logo.hintDone'),
+            hintNotTop: t('oppsett.logo.hintNotTop'),
+            remove: t('oppsett.logo.remove'),
+            saving: t('oppsett.logo.saving'),
+            problems: Object.fromEntries(
+              ['too_large', 'type', 'unreadable', 'denied'].map((k) => [k, t(`oppsett.logo.problem.${k}`)]),
+            ),
+          }}
+        />
       </div>
     </div>
   )

@@ -18,6 +18,11 @@ export interface WheelFormProps {
   values: {
     cadence: string
     notifyLeadDays: number
+    /**
+     * The verneombud's lead on the ladder: the chip shows what the ladder holds (A-01). It is
+     * the chip's own value unless the Veiviser's «varsles to dager før» wrote the ladder since.
+     */
+    firstLead: number | null
     extendIfLow: boolean
     skipFellesferie: boolean
     notifyVoOnOverdue: boolean
@@ -136,14 +141,14 @@ export function WheelForm({ canWrite, values, options, ladder, labels, between }
                   type="radio"
                   name="notifyLeadDays"
                   value={l.value}
-                  checked={String(v.notifyLeadDays) === l.value}
+                  checked={String(v.firstLead ?? v.notifyLeadDays) === l.value}
                   disabled={!canWrite}
-                  onChange={() => save({ notifyLeadDays: Number(l.value) })}
+                  onChange={() => save({ notifyLeadDays: Number(l.value), firstLead: Number(l.value) })}
                   className="peer absolute h-px w-px overflow-hidden opacity-0"
                 />
                 <span
                   className={`inline-flex cursor-pointer items-center rounded-pill border px-[12px] py-[6px] text-[12px] peer-focus-visible:outline peer-focus-visible:outline-[3px] peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink ${
-                    String(v.notifyLeadDays) === l.value
+                    String(v.firstLead ?? v.notifyLeadDays) === l.value
                       ? 'border-ink bg-sbg font-bold'
                       : 'border-line bg-transparent font-medium'
                   }`}

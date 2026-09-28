@@ -1,6 +1,7 @@
 import { createTranslator, NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages, getTranslations } from 'next-intl/server'
 import { LOCALE_NAMES, chooseLocale, offeredLocales, surveyMessages } from '@/lib/i18n/offered'
+import { logoPath } from '@/lib/org/logo'
 import { RESPONDENT_CLIENT_NAMESPACES, pickMessages } from '@/lib/i18n/client'
 import { getRespondForm, getRespondLocales } from '@/lib/respond/read'
 import { RespondFlow } from '@/components/respond/RespondFlow'
@@ -80,6 +81,7 @@ export default async function RespondPage({
     <RespondFlow
       token={token}
       org={form.org}
+      logo={form.logo ? logoPath(form.logo) : null}
       questions={questions}
       copy={respondCopy(tl, form.threshold, form.modules.reduce((n, m) => n + m.minutes, 0))}
       languages={

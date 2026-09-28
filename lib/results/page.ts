@@ -1,6 +1,7 @@
 import 'server-only'
 import { cache } from 'react'
 import { z } from 'zod'
+import { LogoKey } from '@/lib/org/logo'
 import { createClient } from '@/lib/supabase/server'
 import { parseFailed, readFailed } from '@/lib/supabase/read'
 import { getMaskLabels } from '@/lib/text/labels'
@@ -19,6 +20,8 @@ const Step = z.enum(['besluttet', 'pagar', 'gjennomfort', 'effekt_malt', 'lukket
 const RoundPage = z.object({
   status: z.enum(['ok', 'insufficient_data']),
   org: z.string(),
+  // the organisation's logo by its address (0104)
+  logo: LogoKey,
   round: z.object({
     kind: z.enum(['grunnlinje', 'puls']),
     year: z.coerce.number(),

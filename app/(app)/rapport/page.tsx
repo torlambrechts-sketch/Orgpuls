@@ -13,6 +13,8 @@ import {
   type ReportScope,
 } from '@/components/rapport/RapportScreen'
 import { getExtraQuestions, getFactors } from '@/lib/instrument/read'
+import { getEvaluationStatus, getEvaluations } from '@/lib/report/evaluation'
+import { getOrgLogo, logoPath } from '@/lib/org/logo'
 import { getOrganization, getViewerRole } from '@/lib/org/read'
 import { getMeasures } from '@/lib/measures/read'
 import { getResultsDigest } from '@/lib/results/digest'
@@ -113,6 +115,9 @@ export default async function RapportPage({
     information,
     trainings,
     signers,
+    evaluation,
+    evaluations,
+    logo,
   ] = await Promise.all([
     // the year's response rates and both indices in one call (0044)
     getResultsDigest({ participation: inYear.map((r) => r.id), summaries: [primaryRound?.id, prevRound?.id] }),
@@ -124,6 +129,9 @@ export default async function RapportPage({
     primaryRound ? getInformation(primaryRound.id) : Promise.resolve([]),
     getTrainings(),
     getSigners(),
+    getEvaluationStatus(org?.id ?? null),
+    getEvaluations(),
+    getOrgLogo(),
   ])
   const summary = primaryRound ? (digest.summaries.get(primaryRound.id) ?? null) : null
   const prior = prevRound ? (digest.summaries.get(prevRound.id) ?? null) : null
@@ -260,6 +268,9 @@ export default async function RapportPage({
     information,
     trainings,
     signers,
+    evaluation,
+    evaluations,
+    logo: logo ? logoPath(logo.key) : null,
     // styling only: information_write_* and training_write_* (0026) check it themselves
     canRecord: role === 'daglig_leder' || role === 'verneombud',
     risk: risk

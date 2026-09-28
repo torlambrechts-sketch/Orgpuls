@@ -218,7 +218,7 @@ export const MESSAGE_SPECS: MessageSpec[] = [
     paths: [
       'rapport.docLead', 'rapport.docTitle', 'rapport.audienceNote', 'rapport.instrumentBody', 'rapport.section4Empty',
       'rapport.section8EmptyInfo', 'rapport.register.lead', 'rapport.screeningRule', 'rapport.ansatteAnonymity',
-      'rapport.gjennomforingBody', 'rapport.section7Withheld',
+      'rapport.gjennomforingBody', 'rapport.section7Withheld', 'rapport.evaluation.cadence',
     ],
     where: place('report'),
   },
@@ -290,7 +290,7 @@ export const MESSAGE_SPECS: MessageSpec[] = [
   {
     id: 'mail.legal',
     section: 'messages',
-    paths: ['mail.invitasjon.anonymous', 'mail.forvarsel.alle_ansatte', 'mail.forvarsel.verneombud', 'mail.sms', 'mail.lifecycle', 'mail.ticket.footer'],
+    paths: ['mail.invitasjon.anonymous', 'mail.forvarsel.alle_ansatte', 'mail.forvarsel.verneombud', 'mail.sms', 'mail.lifecycle', 'mail.ticket.footer', 'mail.evaluering'],
     where: place('mail'),
   },
   { id: 'mail.crm', section: 'messages', paths: ['mail.crm'], where: place('crm') },

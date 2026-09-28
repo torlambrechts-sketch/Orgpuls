@@ -100,6 +100,7 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
     values: {
       cadence: view.wheel.cadence,
       notifyLeadDays: view.wheel.notifyLeadDays,
+      firstLead: view.wheel.ladder.find((n) => n.audience === 'verneombud')?.leadDays ?? null,
       extendIfLow: view.wheel.extendIfLow,
       skipFellesferie: view.wheel.skipFellesferie,
       notifyVoOnOverdue: view.wheel.notifyVoOnOverdue,

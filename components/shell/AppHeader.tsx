@@ -5,6 +5,7 @@ import { HeaderBar } from './HeaderBar'
 import type { NavEntry } from '@/lib/shell/nav'
 import { getShellContext, getViewer } from '@/lib/shell/read'
 import { getOrganization, type Role } from '@/lib/org/read'
+import { getOrgLogo, logoPath } from '@/lib/org/logo'
 
 /**
  * The application header, design 3 (bundle 3, the sticky bar under `topNav`/`sideNav`).
@@ -26,7 +27,7 @@ import { getOrganization, type Role } from '@/lib/org/read'
  */
 export async function AppHeader({ items, assistantFace }: { items: NavEntry[]; assistantFace: string }) {
   const t = await getTranslations()
-  const [{ lawMode, progress }, viewer, org] = await Promise.all([getShellContext(), getViewer(), getOrganization()])
+  const [{ lawMode, progress }, viewer, org, brand] = await Promise.all([getShellContext(), getViewer(), getOrganization(), getOrgLogo()])
 
   /*
    * The design's selector switches the whole product to another role's view ("Bytt rolle
@@ -42,7 +43,7 @@ export async function AppHeader({ items, assistantFace }: { items: NavEntry[]; a
 
   return (
     <HeaderBar
-      logo={<Logo />}
+      logo={<Logo src={brand?.inHeader ? logoPath(brand.key) : null} />}
       items={items}
       lawMode={lawMode}
       progress={progress}
