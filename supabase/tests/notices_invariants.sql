@@ -138,6 +138,10 @@ begin
     select v_org, v_round, 'invitasjon', i.employee_id, i.id, '2000-01-01'
     from app.invitations i where i.round_id = v_round and i.employee_id = v_e1;
     update app.outbox set due_at = '2000-01-01' where org_id in (v_org, v_org2) and kind = 'tiltak_forfalt';
+    -- quiet hours (0076) hold invitations between 21 and 07 where the organisation is; this check
+    -- is about what the invitation carries, so it must not depend on the clock (as dispatch_invariants)
+    insert into app.survey_defaults (org_id, quiet_hours) values (v_org, false)
+    on conflict (org_id) do update set quiet_hours = false;
     v_claim := public.dispatch_claim(100);
     select concat_ws('|',
       (select string_agg(m->>'title', ',' order by m->>'title') from jsonb_array_elements(v_claim) j, jsonb_array_elements(j->'measures') m
