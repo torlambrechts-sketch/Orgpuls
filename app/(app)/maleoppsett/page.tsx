@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { getLocale } from 'next-intl/server'
+import { getLocale, getMessages } from 'next-intl/server'
 import {
   MaleoppsettScreen,
   type GroupChoice,
@@ -15,6 +15,10 @@ import { getWheel, wheelMonths } from '@/lib/wheel/read'
 import { INDUSTRY_META } from '@/content/industries/meta'
 import { getIndustry, pageIn } from '@/content/industries'
 import { flag } from '@/lib/flags'
+import { getSendPreview } from '@/lib/rounds/send'
+import { getViewer } from '@/lib/shell/read'
+import { MAIN_URL } from '@/lib/hosts'
+import type { MailMessages } from '@/supabase/functions/_shared/mail'
 import { getOrgIndustry, getPublishedModules, getRoundModules, getModulesById } from '@/lib/modules/read'
 
 /**
@@ -139,6 +143,28 @@ export default async function MaleoppsettPage({
   const nextOpensAt =
     (setup.status === 'planlagt' ? setup.opensAt : null) ?? planned[0]?.opensAt ?? null
 
+  /*
+   * The send preview (engagement phase 2, P2.1): the daglig leder's, until the round closes. The
+   * invitation is rendered in the organisation's language with the texts the dispatcher uses,
+   * admin overrides included; links point at the address mails carry (lib/hosts.ts).
+   */
+  let send: MaleoppsettView['send'] = null
+  if (role === 'daglig_leder' && setup.status !== 'lukket') {
+    const [preview, viewer] = await Promise.all([getSendPreview(setup.id), getViewer()])
+    if (preview) {
+      const lang = preview.lang === 'en' ? 'en' : 'no'
+      const messages = (await getMessages({ locale: lang })) as { mail?: MailMessages }
+      send = {
+        preview,
+        mail: messages.mail ?? {},
+        lang,
+        appUrl: MAIN_URL,
+        showSince: flag('engagement_since_last'),
+        viewerName: viewer.name,
+      }
+    }
+  }
+
   const view: MaleoppsettView = {
     roundId: setup.id,
     kind: setup.kind,
@@ -219,6 +245,7 @@ export default async function MaleoppsettPage({
           })
         : [],
     moduleFactorToggles: flag('module_factor_toggles'),
+    send,
     locked: setup.status !== 'planlagt',
     /*
      * The round against the organisation's standard (0076, D-126), section by section. Only

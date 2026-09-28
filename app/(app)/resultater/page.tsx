@@ -54,6 +54,9 @@ import {
  */
 export const dynamic = 'force-dynamic'
 
+/** today in Oslo, as YYYY-MM-DD: the day the database compares a publish date against (0105) */
+const osloToday = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' }).format(new Date())
+
 const Params = z.object({
   maling: z.string().uuid().optional().catch(undefined),
   mot: z.string().uuid().optional().catch(undefined),
@@ -308,6 +311,15 @@ export default async function ResultaterPage({
               roundId={selected.id}
               url={shareUrl}
               initialOn={share.results_page}
+              opensOn={
+                share.results_publish_on && share.results_publish_on > osloToday()
+                  ? t('resultater.share.opensOn', {
+                      date: new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', timeZone: 'UTC' }).format(
+                        new Date(`${share.results_publish_on}T12:00:00Z`),
+                      ),
+                    })
+                  : null
+              }
               copy={{
                 title: t('resultater.share.title'),
                 lead: t('resultater.share.lead', { k: threshold }),

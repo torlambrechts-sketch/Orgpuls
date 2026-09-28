@@ -1,7 +1,9 @@
 # Engagement phase 2 — plan (task #116)
 
 *Written 2026-09-28. Scope: `docs/implementation/engagement-phases.md` § Phase 2 (P2.1 «Siden sist»,
-P2.2 thank-you screen, P2.3 why a pulse question is asked again). Nothing here is built yet.*
+P2.2 thank-you screen, P2.3 why a pulse question is asked again). Built 2026-09-28 on all eight recommendations (X-085):
+migration 0105, D-156, `engagement_p2_invariants.sql`. The three respondent flags stay off in
+production until Tor has seen them on a pilot.*
 
 Phase 2 closes the loop for the person who answers: before they answer, what was done since last
 time; after, when they will see the result; in a pulse, why a question comes back. P1-3 (0100,

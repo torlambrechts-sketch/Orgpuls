@@ -7048,3 +7048,44 @@ them. With none on the factor: «Ingen har skrevet en kommentar om dette i denne
 **Pixel gate:** `07-resultater-varmekart` and `19-side-resultater` lose the tiles of the panel's
 lower half (900:1200, and 1000:720 on 07). Not re-recorded yet: both screens also carry the older
 bottom-row losses (DECISION_LOG open items), and re-recording now would hide those.
+
+---
+
+## D-156 — Engagement phase 2: «Siden sist», the thank-you, the pulse reason and the send preview
+
+**Design:** none of it. The design's «Før du starter» has four promises and a start button; its
+done screen is «Takk. Det tok fire minutter.» with the design's lead; Måleoppsett has six sections
+and a summary. The copy comes from docs/implementation/engagement-phases.md § Phase 2, on the
+decisions in X-085.
+
+**Built (0105):**
+- «Før du starter» gets a «Siden sist» box — at most three of the whole organisation's measures
+  since the last grunnlinje, finished first, with a chip each and «Tiltakene ble valgt ut fra
+  svarene dere ga i {måned år}» — or, on a first survey, a line saying so
+  (`engagement_since_last`).
+- The done screen says «Takk for svarene dine», when the results are shared with everyone (only
+  where the ladder has an «alle ansatte» rung, since only then is the date kept), that the daglig
+  leder and the verneombud see the same figures at the same time, the threshold, and what happens
+  next (`engagement_thanks`). Flag off, it is the design's.
+- A pulse's factor page gets «Spørres fordi dere jobber med: …» under the factor's heading
+  (`engagement_pulse_reason`).
+- The invitation's e-mail carries «Siden sist» (flag on in the dispatcher); the SMS does not (D-128).
+- **Måleoppsett › Utsending** (daglig leder, until the round closes): the introduction, the day
+  results are shared with everyone, and the invitation as it will read, rendered by the dispatcher's
+  own `renderNotice` from `round_send_preview`. It sits under the six sections, not in the summary
+  column: that column is sticky, and a card this tall would keep its end out of view until the page
+  ends. The link in the preview is a placeholder («…»): it is personal and no one's is shown.
+- **Resultater › Siden for de ansatte** says when the page opens to employees while that day is
+  ahead, and hides «Åpne siden» until then (the page answers «not available» before it).
+
+**Names in titles** are masked as on the employees' page: first and last name each become
+«[navn]». **Departments and places** are not masked in these lists: a department's measures are not
+listed at all.
+
+**Pixel gate.** No v3 state draws Måleoppsett, the respondent flow or a flagged screen. The send
+card lies below section 6 (baseline `11-plan-maleoppsett`), so nothing above it moves; on a closed
+round, or for anyone but the daglig leder, the screen is unchanged.
+
+`engagement_p2_invariants.sql` proves eleven rules; `tests/unit/mail.test.ts` the e-mail's block and
+its absence from reminders and SMS; `qa/e2e/respondent-flow.spec.ts` runs the flow with the flags on.
+

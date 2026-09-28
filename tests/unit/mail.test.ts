@@ -153,6 +153,32 @@ describe('notices', () => {
     expect(() => renderNotice(cat, job({ kind: 'resultat', audience: 'alle_ansatte', token: null, results_page: 'x"><script>' }), { lang: 'no', member: false, name: null }, APP)).toThrow()
   })
 
+  // 0105, engagement phase 2: «Siden sist» in the invitation's e-mail only
+  it('lists what was done since the last survey in an e-mail invitation, masked names as labels, never in a reminder or an SMS', () => {
+    const since = {
+      first: false as const,
+      since: '2026-09-18T18:00:00Z',
+      items: [
+        { title: 'Faste møter med ⟦n⟧ ⟦n⟧', status: 'gjennomfort' as const },
+        { title: 'Ny <turnus>', status: 'pagar' as const },
+      ],
+      done: 1,
+    }
+    const invite = renderNotice(cat, job({ since }), { lang: 'no', member: false, name: 'Ola' }, APP)
+    expect(invite.text).toContain('Siden sist er ett tiltak gjennomført:\n– Faste møter med [navn] [navn] (gjennomført)\n– Ny <turnus> (pågår)')
+    expect(invite.html).toContain('Ny &lt;turnus&gt;')
+    expect(invite.text).not.toContain('⟦')
+    const many = renderNotice(cat, job({ since: { ...since, done: 3 } }), { lang: 'en', member: false, name: 'Ola' }, APP)
+    expect(many.text).toContain('3')
+    expect(many.text).toContain('[name]')
+    // nothing to say on a first survey, or when nothing has changed
+    for (const s of [{ first: true as const }, { ...since, items: [], done: 0 }, null]) {
+      expect(renderNotice(cat, job({ since: s }), { lang: 'no', member: false, name: 'Ola' }, APP).text).not.toContain('Siden sist')
+    }
+    expect(renderNotice(cat, job({ kind: 'paminnelse', since }), { lang: 'no', member: false, name: 'Ola' }, APP).text).not.toContain('Faste møter')
+    expect(renderNotice(cat, job({ channel: 'sms', since }), { lang: 'no', member: false, name: 'Ola' }, APP).text).not.toContain('Faste møter')
+  })
+
   // 0099, P1-5 and P1-6
   it('lists a measure\'s owner\'s overdue measures, copies the verneombud, and links the app only for a member', () => {
     const measures = [{ title: 'Fast svar på avvik', due: '2026-09-27' }, { title: 'Ny <rutine>', due: null }]

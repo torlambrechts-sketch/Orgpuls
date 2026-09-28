@@ -5,6 +5,9 @@ import { SetupForm, type SetupFormProps } from '@/components/maleoppsett/SetupFo
 import type { CommentPolicy, EvaluationCadence } from '@/lib/setup/read'
 import type { WheelCadence } from '@/lib/wheel/read'
 import type { IndustryMeta } from '@/content/industries/meta'
+import { SendCard } from '@/components/maleoppsett/SendCard'
+import type { SendPreview } from '@/lib/rounds/send'
+import type { MailMessages } from '@/supabase/functions/_shared/mail'
 
 /**
  * Måleoppsett, the rendering. Bundle lines 1425-1710.
@@ -96,6 +99,15 @@ export interface MaleoppsettView {
     variant: string | null
   }[]
   moduleFactorToggles: boolean
+  /** the send preview (engagement phase 2, P2.1): the daglig leder's, until the round closes */
+  send: {
+    preview: SendPreview
+    mail: MailMessages
+    lang: 'no' | 'en'
+    appUrl: string
+    showSince: boolean
+    viewerName: string | null
+  } | null
   /** the round has opened: its question set, modules included, is fixed */
   locked: boolean
   /** what the organisation's standard added to a round (0076, D-126); see PerRound */
@@ -387,7 +399,41 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
       </div>
 
       <div className="mt-[24px] grid items-start gap-[20px] md:[grid-template-columns:minmax(0,1.6fr)_minmax(280px,0.9fr)]">
-        <SetupForm {...form} />
+        {/* the send preview goes under the sections: the summary column is sticky, and a card this
+            tall would keep its end out of view until the page ends (P2.1) */}
+        {view.send ? (
+          <div className="flex min-w-0 flex-col gap-[20px]">
+            <SetupForm {...form} />
+            <SendCard
+              roundId={view.roundId}
+              {...view.send}
+              labels={{
+                head: t('maleoppsett.send.head'),
+                lead: t('maleoppsett.send.lead'),
+                introLabel: t('maleoppsett.send.introLabel'),
+                introNote: t('maleoppsett.send.introNote'),
+                introLocked: t('maleoppsett.send.introLocked'),
+                count: t.raw('maleoppsett.send.count') as string,
+                publishLabel: t('maleoppsett.send.publishLabel'),
+                publishNote: t('maleoppsett.send.publishNote'),
+                publishNone: t('maleoppsett.send.publishNone'),
+                save: t('maleoppsett.send.save'),
+                saved: t('maleoppsett.send.saved'),
+                previewHead: t('maleoppsett.send.previewHead'),
+                previewNote: t('maleoppsett.send.previewNote'),
+                problems: {
+                  closed: t('maleoppsett.send.problems.closed'),
+                  too_long: t('maleoppsett.send.problems.too_long'),
+                  opened: t('maleoppsett.send.problems.opened'),
+                  publish_range: t('maleoppsett.send.problems.publish_range'),
+                  denied: t('maleoppsett.send.problems.denied'),
+                },
+              }}
+            />
+          </div>
+        ) : (
+          <SetupForm {...form} />
+        )}
 
         <div className="sticky top-[78px] flex min-w-0 flex-col gap-[14px]">
           <section className="rounded-panel border border-line bg-ink px-[24px] py-[22px] text-bg">

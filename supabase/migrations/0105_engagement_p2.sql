@@ -750,3 +750,66 @@ begin
 
   return v_out;
 end $function$;
+
+-- ---------------------------------------------------------------- the send preview (P2.1)
+
+/*
+ * What a round's invitation will carry, for Måleoppsett's preview: the same facts dispatch_claim
+ * puts in the job, read the same way, without a recipient or a link. Members of the organisation
+ * only; nothing here is about a person but the names of the one who wrote the greeting.
+ */
+create function public.round_send_preview(p_round uuid) returns jsonb
+  language plpgsql stable security definer set search_path = ''
+as $fn$
+declare
+  r       record;
+  v_pulse int;
+begin
+  select ro.id, ro.org_id, ro.status, ro.opens_at, ro.closes_at, ro.intro_message, ro.results_publish_on,
+         ms.kind, ms.year, o.name as org_name, coalesce(o.default_lang, 'no') as lang,
+         coalesce(o.timezone, 'Europe/Oslo') as tz, o.invite_greeting,
+         (select p.full_name from app.profiles p where p.id = ro.intro_by) as intro_by_name,
+         (select p.full_name from app.profiles p where p.id = o.invite_greeting_by) as greeting_by
+    into r
+  from app.rounds ro
+  join app.measurements ms on ms.id = ro.measurement_id
+  join app.organizations o on o.id = ro.org_id
+  where ro.id = p_round;
+  if r.id is null or not app.is_org_member(r.org_id) then
+    raise exception 'not a member' using errcode = '42501';
+  end if;
+
+  if r.kind = 'puls' and r.opens_at is not null then
+    select count(*) into v_pulse
+    from app.rounds r2 join app.measurements m2 on m2.id = r2.measurement_id
+    where r2.org_id = r.org_id and m2.kind = 'puls' and m2.year = r.year and r2.opens_at is not null
+      and (r2.opens_at < r.opens_at or (r2.opens_at = r.opens_at and r2.id <= r.id));
+  end if;
+
+  return jsonb_build_object(
+    'org', r.org_name,
+    'lang', r.lang,
+    'k', app.k_threshold(r.org_id),
+    'status', r.status,
+    'round', jsonb_build_object('kind', r.kind, 'year', r.year, 'pulse', nullif(v_pulse, 0),
+                                'opens_at', r.opens_at, 'closes_at', r.closes_at),
+    'close_on', (r.closes_at at time zone r.tz)::date,
+    'publish_on', r.results_publish_on,
+    'intro', r.intro_message,
+    'intro_by', r.intro_by_name,
+    'org_greeting', case when r.invite_greeting is not null then
+      jsonb_build_object('text', r.invite_greeting, 'by', r.greeting_by) end,
+    'minutes', app.round_minutes(r.id),
+    'results_shared', exists (
+      select 1 from app.year_wheels yw join app.wheel_notifications wn on wn.wheel_id = yw.id
+      where yw.org_id = r.org_id and wn.audience = 'alle_ansatte'),
+    'since', app.since_last(r.id),
+    'logo', app.logo_key(r.org_id),
+    'results_page', (
+      select ro.share_slug from app.rounds ro
+      where ro.org_id = r.org_id and ro.id <> r.id and ro.status = 'lukket' and ro.results_page
+        and app.results_published(ro.id)
+      order by ro.closes_at desc nulls last limit 1));
+end $fn$;
+revoke all on function public.round_send_preview(uuid) from public, anon;
+grant execute on function public.round_send_preview(uuid) to authenticated;

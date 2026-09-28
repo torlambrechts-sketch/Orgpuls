@@ -14,11 +14,14 @@ export function SharePageCard({
   roundId,
   url,
   initialOn,
+  opensOn,
   copy,
 }: {
   roundId: string
   url: string
   initialOn: boolean
+  /** the day the page opens to employees, while that is still ahead (0105); null once it is open */
+  opensOn: string | null
   copy: { title: string; lead: string; linkLabel: string; copyLink: string; copied: string; open: string; on: string; off: string; hide: string; show: string; failed: string; onlyLeader: string }
 }) {
   const [on, setOn] = useState(initialOn)
@@ -53,14 +56,14 @@ export function SharePageCard({
         >
           {copy.copyLink}
         </Button>
-        {on ? (
+        {on && !opensOn ? (
           <a href={url} target="_blank" rel="noreferrer" className="text-[12.5px] font-bold text-link">
             {copy.open}
           </a>
         ) : null}
       </div>
       <div className="mt-[12px] flex flex-wrap items-center gap-[12px]">
-        <span className="text-[12.5px] text-body">{on ? copy.on : copy.off}</span>
+        <span className="text-[12.5px] text-body">{on ? (opensOn ?? copy.on) : copy.off}</span>
         <Button
           size="sm"
           tone={on ? 'ghost' : 'primary'}

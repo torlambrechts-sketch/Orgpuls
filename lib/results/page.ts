@@ -61,13 +61,20 @@ export const getRoundPage = cache(async (slug: string): Promise<RoundPage | null
   return { ...parsed.data, measures: parsed.data.measures.map((m) => ({ ...m, title: unmask(m.title, labels) })) }
 })
 
-/** The daglig leder's view of a round's page (Resultater): its link and whether it is shown */
-const Share = z.object({ share_slug: z.string().regex(SLUG), results_page: z.boolean() })
+/**
+ * The daglig leder's view of a round's page (Resultater): its link, whether it is shown, and the
+ * day it opens to employees (0105: `results_publish_on`, which also holds their results notice)
+ */
+const Share = z.object({
+  share_slug: z.string().regex(SLUG),
+  results_page: z.boolean(),
+  results_publish_on: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable(),
+})
 export type RoundShare = z.infer<typeof Share>
 
 export const getRoundShare = cache(async (roundId: string): Promise<RoundShare | null> => {
   const supabase = await createClient()
-  const { data, error } = await supabase.schema('app').from('rounds').select('share_slug, results_page').eq('id', roundId).maybeSingle()
+  const { data, error } = await supabase.schema('app').from('rounds').select('share_slug, results_page, results_publish_on').eq('id', roundId).maybeSingle()
   if (readFailed('rounds.share_slug', error, data)) return null
   const parsed = Share.safeParse(data)
   if (parseFailed('rounds.share_slug', parsed)) return null

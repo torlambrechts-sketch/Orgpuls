@@ -1341,7 +1341,29 @@
       "skala": "Skala 1–5",
       "fritekst": "Fritekst"
     },
-    "ownKindAria": "Svartype for spørsmål {n}: {kind}. Trykk for å bytte."
+    "ownKindAria": "Svartype for spørsmål {n}: {kind}. Trykk for å bytte.",
+    "send": {
+      "head": "Utsending",
+      "lead": "Hilsenen i invitasjonen og dagen resultatene deles med alle ansatte. Invitasjonen under viser hvordan e-posten blir.",
+      "introLabel": "Innledning",
+      "introNote": "Står i invitasjonen. Står feltet tomt, brukes hilsenen fra Målinger › Innstillinger.",
+      "introLocked": "Runden er sendt ut, og innledningen kan ikke endres lenger.",
+      "count": "{n} av {max} tegn",
+      "publishLabel": "Resultatene deles med alle",
+      "publishNote": "Ledere ser resultatene når runden stenger. Alle ansatte får dem denne dagen, tidligst når runden stenger og senest 60 dager etter.",
+      "publishNone": "Dagen settes når runden har en svarfrist.",
+      "save": "Lagre utsending",
+      "saved": "Lagret.",
+      "previewHead": "Invitasjonen",
+      "previewNote": "Slik leser mottakerne den på e-post. Lenken er personlig for hver mottaker og vises ikke her.",
+      "problems": {
+        "closed": "Runden er stengt.",
+        "too_long": "Innledningen kan være høyst 600 tegn.",
+        "opened": "Runden er sendt ut, og innledningen kan ikke endres lenger.",
+        "publish_range": "Dagen må være tidligst når runden stenger og senest 60 dager etter.",
+        "denied": "Bare daglig leder kan endre utsendingen."
+      }
+    }
   },
   "arshjulet": {
     "title": "Årshjul og automatikk",
@@ -3477,7 +3499,8 @@
       "hide": "Skjul siden",
       "show": "Vis siden",
       "failed": "Det gikk ikke. Prøv igjen.",
-      "onlyLeader": "Bare daglig leder kan endre dette."
+      "onlyLeader": "Bare daglig leder kan endre dette.",
+      "opensOn": "Siden åpner for de ansatte {date}. Til da ser bare ledere resultatene."
     }
   },
   "kommentarer": {

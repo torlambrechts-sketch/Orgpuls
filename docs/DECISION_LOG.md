@@ -2452,6 +2452,33 @@ group with guard rails, or per group at the figures' threshold — Tor chose to 
 shows the factor's comments for the whole organisation, whichever row is selected, and says so.
 (D-155)
 
+### X-085 — Engagement phase 2, on the plan's eight recommendations
+
+Tor, 2026-09-28: "Start engasjement phase 2", choosing «All recommendations» of
+docs/implementation/engagement-phase2-plan.md § 2. (0105, D-156)
+
+1. «Siden sist» lists **whole-organisation collective measures only**: a measure with a department
+   is never listed, as on the employees' page (X-081); the survey still learns no group.
+2. **No owner**, not even a role (D-151).
+3. A **step log** (`app.measure_steps`) records each step a measure takes, backfilled from
+   `completed_on` and `updated_at`; «changed since» and «startet {dato}» read it.
+4. «Gjennomført» = gjennomført, effekt målt, lukket; «Pågår» = pågår; besluttet is not listed in
+   «Siden sist». A pulse's reason line does include a decided measure: it is why the question is
+   asked again.
+5. **Results for everyone on a publish date**, default close + 7 days, at most 60 days after;
+   leaders at close. The «alle ansatte» notice and the round's page wait for it; the thank-you names
+   the date only where the ladder tells everyone.
+6. **An introduction per round**, edited in Måleoppsett before the round opens; empty, the
+   organisation's greeting is used.
+7. **SMS unchanged** (D-128): «Siden sist» is in the e-mail and the survey only.
+8. The pulse reason is **one line under the factor's heading**.
+
+All three respondent parts are behind `engagement_since_last`, `engagement_thanks` and
+`engagement_pulse_reason`: on in QA, off in production until Tor has seen them on a pilot. The send
+preview, the publish date and its hold on the notice and page are not flagged: they change no
+respondent's screen, and a date that holds the notice is what makes the thank-you's promise true
+once it is switched on.
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.
@@ -2706,4 +2733,4 @@ shows the factor's comments for the whole organisation, whichever row is selecte
 - [x] 2026-09-26, the engagement hand-off (docs/implementation/engagement-phases.md), decided by Tor before Phase 0: the document's «HR» maps to daglig_leder and «tillitsvalgt» to verneombud, so CLAUDE.md's three roles stand; the work goes on stacked branches `feat/engagement-p{n}` with one PR per phase, not straight to main; I5 is read as «no token can be tied to an answer» — an invitation may name who was invited, as reminders need, and today's product passes; new per-person tokens (result link, vote, suggestions) use unlinkable one-use keys rather than counters on the token row. The QA tenant runs on a local Postgres with PostgREST and GoTrue in Docker, never the hosted project.
 - [x] Launch helse og omsorg (Norwegian): Tor approved the page and its seven law items; launched 2026-09-27 (X-065). The English twin waits for its own review, like bygg's. Was: review the seven law items in content/industries/helse-og-omsorg.ts (and the English twin), set `reviewed: true` and `launched: true`. The module itself was published 2026-09-27 (D-125). Review at https://www.orgpuls.com/helse-og-omsorg?forhandsvis=1 and /helse-og-omsorg/sporsmal?forhandsvis=1 (D-122).
 - [x] /helse-og-omsorg in the industry template: the health module v1.0.0 arrived 2026-09-26; page and question page built from it (D-122).
-
+- [ ] Engagement phase 2: switch on `engagement_since_last`, `engagement_thanks` and `engagement_pulse_reason` in production once Tor has seen them on a pilot; the new `respond.*` keys are re-approved for English (or auto-approve is on), and the survey languages (pl, uk, lt, sv, da) fall back to bokmål for them until translated (X-085, D-156).

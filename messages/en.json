@@ -1341,7 +1341,29 @@
       "skala": "Scale 1–5",
       "fritekst": "Free text"
     },
-    "ownKindAria": "Answer type for question {n}: {kind}. Press to switch."
+    "ownKindAria": "Answer type for question {n}: {kind}. Press to switch.",
+    "send": {
+      "head": "Sending",
+      "lead": "The greeting in the invitation and the day the results are shared with all employees. The invitation below shows how the e-mail will read.",
+      "introLabel": "Introduction",
+      "introNote": "Shown in the invitation. Left empty, the greeting from Measurements › Settings is used.",
+      "introLocked": "The round has been sent, and its introduction can no longer be changed.",
+      "count": "{n} of {max} characters",
+      "publishLabel": "Results shared with everyone",
+      "publishNote": "Leaders see the results when the round closes. All employees get them on this day, no earlier than the close and no later than 60 days after.",
+      "publishNone": "The day is set once the round has a deadline.",
+      "save": "Save sending",
+      "saved": "Saved.",
+      "previewHead": "The invitation",
+      "previewNote": "This is how recipients read it by e-mail. The link is personal to each recipient and is not shown here.",
+      "problems": {
+        "closed": "The round is closed.",
+        "too_long": "The introduction can be at most 600 characters.",
+        "opened": "The round has been sent, and its introduction can no longer be changed.",
+        "publish_range": "The day must be no earlier than the close and no later than 60 days after.",
+        "denied": "Only the managing director can change the sending."
+      }
+    }
   },
   "arshjulet": {
     "title": "Annual cycle and automation",
@@ -3477,7 +3499,8 @@
       "hide": "Hide the page",
       "show": "Show the page",
       "failed": "That did not work. Try again.",
-      "onlyLeader": "Only the managing director can change this."
+      "onlyLeader": "Only the managing director can change this.",
+      "opensOn": "The page opens to employees on {date}. Until then, only leaders see the results."
     }
   },
   "kommentarer": {

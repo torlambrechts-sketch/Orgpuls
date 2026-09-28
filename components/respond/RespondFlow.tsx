@@ -499,8 +499,8 @@ export function RespondFlow({
               ) : (
                 <>
                   <ul className="m-0 mt-[10px] flex list-none flex-col gap-[9px] p-0">
-                    {engagement.since.items.map((i) => (
-                      <li key={i.title} className="flex items-start justify-between gap-[10px] text-[13.5px] leading-[1.45]">
+                    {engagement.since.items.map((i, n) => (
+                      <li key={n} className="flex items-start justify-between gap-[10px] text-[13.5px] leading-[1.45]">
                         <span className="min-w-0 [overflow-wrap:anywhere]">{i.title}</span>
                         <span
                           className={`flex-none rounded-pill px-[9px] py-[2px] text-[11.5px] font-bold ${i.done ? 'bg-mint text-greendeep' : 'bg-sbg text-ink'}`}

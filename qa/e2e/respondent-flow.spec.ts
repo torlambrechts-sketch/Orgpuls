@@ -54,7 +54,8 @@ for (const locale of FLOW_LOCALES) {
     }
 
     await checkScreen(page, 'r-intro', { lang, file: `${dir}/intro.png` })
-    await expect(page.locator('main li'), 'the four promises').toHaveCount(4)
+    // the first list is the promises; «Siden sist» (engagement_since_last, on in QA) has its own
+    await expect(page.locator('main ul').first().locator('li'), 'the four promises').toHaveCount(4)
     await page.getByRole('button', { name: m.start, exact: true }).click()
 
     // a page per factor, every other question on its own (D-150): the progress counts pages
