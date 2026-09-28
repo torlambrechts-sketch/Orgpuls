@@ -1,0 +1,377 @@
+
+Running 24 tests using 1 worker
+
+  ✓   1 [setup] › qa/e2e/auth.setup.ts:6:8 › sign in kari @setup (1.1s)
+  ✓   2 [setup] › qa/e2e/auth.setup.ts:6:8 › sign in hanne @setup (978ms)
+  ✓   3 [setup] › qa/e2e/auth.setup.ts:6:8 › sign in per @setup (1.1s)
+  ✓   4 [setup] › qa/e2e/auth.setup.ts:6:8 › sign in siri @setup (1.1s)
+  ✓   5 [setup] › qa/e2e/auth.setup.ts:6:8 › sign in jonas @setup (1.0s)
+  ✘   6 [mobile] › qa/e2e/invariants.spec.ts:21:7 › I3 @invariants @respondent › the respondent page sends nothing that names the respondent (5.4s)
+  ✘   7 [mobile] › qa/e2e/p0-baselines.spec.ts:12:7 › respondent @respondent @p0.2 › r-intro, r-question, r-submit (5.4s)
+  ✘   8 [mobile] › qa/e2e/p1-language.spec.ts:28:7 › respondent language @respondent @p1.2 › r-intro-picker (5.5s)
+  ✘   9 [mobile] › qa/e2e/p1-language.spec.ts:39:7 › respondent language @respondent @p1.2 › r-question-en (5.4s)
+  ✘  10 [mobile] › qa/e2e/p1-language.spec.ts:49:7 › respondent language @respondent @p1.2 › r-switch-midway (1.5m)
+  ✘  11 [small] › qa/e2e/invariants.spec.ts:21:7 › I3 @invariants @respondent › the respondent page sends nothing that names the respondent (5.5s)
+  ✘  12 [small] › qa/e2e/p0-baselines.spec.ts:12:7 › respondent @respondent @p0.2 › r-intro, r-question, r-submit (5.4s)
+  ✘  13 [small] › qa/e2e/p1-language.spec.ts:28:7 › respondent language @respondent @p1.2 › r-intro-picker (5.4s)
+  ✘  14 [small] › qa/e2e/p1-language.spec.ts:39:7 › respondent language @respondent @p1.2 › r-question-en (5.5s)
+  -  15 [small] › qa/e2e/p1-language.spec.ts:49:7 › respondent language @respondent @p1.2 › r-switch-midway
+  ✘  16 [tiny] › qa/e2e/invariants.spec.ts:21:7 › I3 @invariants @respondent › the respondent page sends nothing that names the respondent (5.4s)
+  ✘  17 [desktop] › qa/e2e/p0-baselines.spec.ts:27:7 › manager @manager @p0.2 › m-results (6.2s)
+  ✘  18 [desktop] › qa/e2e/p0-baselines.spec.ts:31:7 › manager @manager @p0.2 › m-factor (6.0s)
+  ✓  19 [desktop] › qa/e2e/p0-baselines.spec.ts:35:7 › manager @manager @p0.2 › m-actions (3.9s)
+  ✓  20 [desktop] › qa/e2e/p0-baselines.spec.ts:39:7 › manager @manager @p0.2 › m-comments (3.2s)
+  ✓  21 [desktop] › qa/e2e/p1-language.spec.ts:94:9 › invitations @public @p1.3 › email-invite-nb (2.0s)
+  ✓  22 [desktop] › qa/e2e/p1-language.spec.ts:108:9 › invitations @public @p1.3 › sms-invite-nb (2ms)
+  ✓  23 [desktop] › qa/e2e/p1-language.spec.ts:94:9 › invitations @public @p1.3 › email-invite-en (1.9s)
+  ✓  24 [desktop] › qa/e2e/p1-language.spec.ts:108:9 › invitations @public @p1.3 › sms-invite-en (2ms)
+
+
+  1) [mobile] › qa/e2e/invariants.spec.ts:21:7 › I3 @invariants @respondent › the respondent page sends nothing that names the respondent 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'Hopp over' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'Hopp over' }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Hopp over' })
+
+
+      26 |
+      27 |     await page.goto(`/s/${TOKEN}`)
+    > 28 |     await expect(page.getByRole('button', { name: 'Hopp over' })).toBeVisible()
+         |                                                                   ^
+      29 |     for (let i = 0; i < 3; i++) await page.getByRole('button', { name: 'Hopp over' }).click()
+      30 |     await page.waitForLoadState('networkidle')
+      31 |
+        at /home/user/Orgpuls/qa/e2e/invariants.spec.ts:28:67
+
+    Error Context: test-results/invariants-I3-invariants-r-309ca-g-that-names-the-respondent-mobile/error-context.md
+
+  2) [mobile] › qa/e2e/p0-baselines.spec.ts:12:7 › respondent @respondent @p0.2 › r-intro, r-question, r-submit 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'Neste' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'Neste' }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Neste' })
+
+
+      13 |     await page.goto('/s/qa-lumio-drift-000001')
+      14 |     // today the flow has no intro of its own: the first screen is statement 1 (P0 report)
+    > 15 |     await expect(page.getByRole('button', { name: 'Neste' })).toBeVisible()
+         |                                                               ^
+      16 |     await shoot(page, 'r-intro')
+      17 |     await page.getByRole('button', { name: 'Litt enig' }).click()
+      18 |     await shoot(page, 'r-question')
+        at /home/user/Orgpuls/qa/e2e/p0-baselines.spec.ts:15:63
+
+    Error Context: test-results/p0-baselines-respondent-re-6f6f8-r-intro-r-question-r-submit-mobile/error-context.md
+
+  3) [mobile] › qa/e2e/p1-language.spec.ts:28:7 › respondent language @respondent @p1.2 › r-intro-picker 
+
+    Error: expect(locator).toBeInViewport() failed
+
+    Locator: getByRole('button', { name: 'Neste' })
+    Expected: in viewport
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeInViewport" getByRole('button', { name: 'Neste' }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Neste' })
+
+
+      33 |     await expect(picker.getByRole('link', { name: 'Norsk' })).toHaveAttribute('aria-current', 'true')
+      34 |     // the picker costs no height: the first question's button is still on screen
+    > 35 |     await expect(page.getByRole('button', { name: 'Neste' })).toBeInViewport()
+         |                                                               ^
+      36 |     await shoot(page, 'r-intro-picker')
+      37 |   })
+      38 |
+        at /home/user/Orgpuls/qa/e2e/p1-language.spec.ts:35:63
+
+    Error Context: test-results/p1-language-respondent-lan-9618c-pondent-p1-2-r-intro-picker-mobile/error-context.md
+
+  4) [mobile] › qa/e2e/p1-language.spec.ts:39:7 › respondent language @respondent @p1.2 › r-question-en 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'Strongly agree' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'Strongly agree' }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Strongly agree' })
+
+
+      42 |     await expect(page.getByRole('navigation', { name: 'Language' }).getByRole('link', { name: 'English' })).toHaveAttribute('aria-current', 'true')
+      43 |     // the scale labels are translated with the statement
+    > 44 |     await expect(page.getByRole('button', { name: 'Strongly agree' })).toBeVisible()
+         |                                                                        ^
+      45 |     await page.getByRole('button', { name: 'Slightly agree' }).click()
+      46 |     await shoot(page, 'r-question-en')
+      47 |   })
+        at /home/user/Orgpuls/qa/e2e/p1-language.spec.ts:44:72
+
+    Error Context: test-results/p1-language-respondent-lan-762bc-spondent-p1-2-r-question-en-mobile/error-context.md
+
+  5) [mobile] › qa/e2e/p1-language.spec.ts:49:7 › respondent language @respondent @p1.2 › r-switch-midway 
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.click: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Litt enig' })
+
+
+      52 |     const progress = page.getByText(/^\d+ \/ \d+$/)
+      53 |     for (let i = 0; i < 4; i++) {
+    > 54 |       await page.getByRole('button', { name: 'Litt enig' }).click()
+         |                                                             ^
+      55 |       await page.getByRole('button', { name: 'Neste' }).click()
+      56 |     }
+      57 |     await expect(progress).toHaveText(/^5 \//)
+        at /home/user/Orgpuls/qa/e2e/p1-language.spec.ts:54:61
+
+    Error Context: test-results/p1-language-respondent-lan-7ddaf-ondent-p1-2-r-switch-midway-mobile/error-context.md
+
+  6) [small] › qa/e2e/invariants.spec.ts:21:7 › I3 @invariants @respondent › the respondent page sends nothing that names the respondent 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'Hopp over' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'Hopp over' }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Hopp over' })
+
+
+      26 |
+      27 |     await page.goto(`/s/${TOKEN}`)
+    > 28 |     await expect(page.getByRole('button', { name: 'Hopp over' })).toBeVisible()
+         |                                                                   ^
+      29 |     for (let i = 0; i < 3; i++) await page.getByRole('button', { name: 'Hopp over' }).click()
+      30 |     await page.waitForLoadState('networkidle')
+      31 |
+        at /home/user/Orgpuls/qa/e2e/invariants.spec.ts:28:67
+
+    Error Context: test-results/invariants-I3-invariants-r-309ca-g-that-names-the-respondent-small/error-context.md
+
+  7) [small] › qa/e2e/p0-baselines.spec.ts:12:7 › respondent @respondent @p0.2 › r-intro, r-question, r-submit 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'Neste' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'Neste' }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Neste' })
+
+
+      13 |     await page.goto('/s/qa-lumio-drift-000001')
+      14 |     // today the flow has no intro of its own: the first screen is statement 1 (P0 report)
+    > 15 |     await expect(page.getByRole('button', { name: 'Neste' })).toBeVisible()
+         |                                                               ^
+      16 |     await shoot(page, 'r-intro')
+      17 |     await page.getByRole('button', { name: 'Litt enig' }).click()
+      18 |     await shoot(page, 'r-question')
+        at /home/user/Orgpuls/qa/e2e/p0-baselines.spec.ts:15:63
+
+    Error Context: test-results/p0-baselines-respondent-re-6f6f8-r-intro-r-question-r-submit-small/error-context.md
+
+  8) [small] › qa/e2e/p1-language.spec.ts:28:7 › respondent language @respondent @p1.2 › r-intro-picker 
+
+    Error: expect(locator).toBeInViewport() failed
+
+    Locator: getByRole('button', { name: 'Neste' })
+    Expected: in viewport
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeInViewport" getByRole('button', { name: 'Neste' }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Neste' })
+
+
+      33 |     await expect(picker.getByRole('link', { name: 'Norsk' })).toHaveAttribute('aria-current', 'true')
+      34 |     // the picker costs no height: the first question's button is still on screen
+    > 35 |     await expect(page.getByRole('button', { name: 'Neste' })).toBeInViewport()
+         |                                                               ^
+      36 |     await shoot(page, 'r-intro-picker')
+      37 |   })
+      38 |
+        at /home/user/Orgpuls/qa/e2e/p1-language.spec.ts:35:63
+
+    Error Context: test-results/p1-language-respondent-lan-9618c-pondent-p1-2-r-intro-picker-small/error-context.md
+
+  9) [small] › qa/e2e/p1-language.spec.ts:39:7 › respondent language @respondent @p1.2 › r-question-en 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'Strongly agree' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'Strongly agree' }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Strongly agree' })
+
+
+      42 |     await expect(page.getByRole('navigation', { name: 'Language' }).getByRole('link', { name: 'English' })).toHaveAttribute('aria-current', 'true')
+      43 |     // the scale labels are translated with the statement
+    > 44 |     await expect(page.getByRole('button', { name: 'Strongly agree' })).toBeVisible()
+         |                                                                        ^
+      45 |     await page.getByRole('button', { name: 'Slightly agree' }).click()
+      46 |     await shoot(page, 'r-question-en')
+      47 |   })
+        at /home/user/Orgpuls/qa/e2e/p1-language.spec.ts:44:72
+
+    Error Context: test-results/p1-language-respondent-lan-762bc-spondent-p1-2-r-question-en-small/error-context.md
+
+  10) [tiny] › qa/e2e/invariants.spec.ts:21:7 › I3 @invariants @respondent › the respondent page sends nothing that names the respondent 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'Hopp over' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'Hopp over' }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Hopp over' })
+
+
+      26 |
+      27 |     await page.goto(`/s/${TOKEN}`)
+    > 28 |     await expect(page.getByRole('button', { name: 'Hopp over' })).toBeVisible()
+         |                                                                   ^
+      29 |     for (let i = 0; i < 3; i++) await page.getByRole('button', { name: 'Hopp over' }).click()
+      30 |     await page.waitForLoadState('networkidle')
+      31 |
+        at /home/user/Orgpuls/qa/e2e/invariants.spec.ts:28:67
+
+    Error Context: test-results/invariants-I3-invariants-r-309ca-g-that-names-the-respondent-tiny/error-context.md
+
+  11) [desktop] › qa/e2e/p0-baselines.spec.ts:27:7 › manager @manager @p0.2 › m-results ────────────
+
+    Error: expect(page).toHaveScreenshot(expected) failed
+
+      Expected an image 1280px by 2110px, received 1280px by 2352px. 32180 pixels (ratio 0.02 of all image pixels) are different.
+
+      Snapshot: m-results.png
+
+    Call log:
+      - Expect "toHaveScreenshot(m-results.png)" with timeout 5000ms
+        - verifying given screenshot expectation
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - Expected an image 1280px by 2110px, received 1280px by 2352px. 32180 pixels (ratio 0.02 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - captured a stable screenshot
+      - Expected an image 1280px by 2110px, received 1280px by 2352px. 32180 pixels (ratio 0.02 of all image pixels) are different.
+
+
+       at ../visual/shoot.ts:52
+
+      50 |   expect(blocking.map((v) => `${v.id} (${v.impact}): ${v.help}`), `axe on ${id}`).toEqual([])
+      51 |
+    > 52 |   await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: opts.fullPage ?? true, mask: opts.mask })
+         |                      ^
+      53 | }
+      54 |
+        at shoot (/home/user/Orgpuls/qa/visual/shoot.ts:52:22)
+        at /home/user/Orgpuls/qa/e2e/p0-baselines.spec.ts:29:5
+
+    attachment #1: m-results (image/png) ───────────────────────────────────────────────────────────
+    Expected: qa/baselines/desktop/m-results.png
+    Received: test-results/p0-baselines-manager-manager-p0-2-m-results-desktop/m-results-actual.png
+    Diff:     test-results/p0-baselines-manager-manager-p0-2-m-results-desktop/m-results-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/p0-baselines-manager-manager-p0-2-m-results-desktop/error-context.md
+
+  12) [desktop] › qa/e2e/p0-baselines.spec.ts:31:7 › manager @manager @p0.2 › m-factor ─────────────
+
+    Error: expect(page).toHaveScreenshot(expected) failed
+
+      Expected an image 1280px by 2110px, received 1280px by 2352px. 32180 pixels (ratio 0.02 of all image pixels) are different.
+
+      Snapshot: m-factor.png
+
+    Call log:
+      - Expect "toHaveScreenshot(m-factor.png)" with timeout 5000ms
+        - verifying given screenshot expectation
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - Expected an image 1280px by 2110px, received 1280px by 2352px. 32180 pixels (ratio 0.02 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - captured a stable screenshot
+      - Expected an image 1280px by 2110px, received 1280px by 2352px. 32180 pixels (ratio 0.02 of all image pixels) are different.
+
+
+       at ../visual/shoot.ts:52
+
+      50 |   expect(blocking.map((v) => `${v.id} (${v.impact}): ${v.help}`), `axe on ${id}`).toEqual([])
+      51 |
+    > 52 |   await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: opts.fullPage ?? true, mask: opts.mask })
+         |                      ^
+      53 | }
+      54 |
+        at shoot (/home/user/Orgpuls/qa/visual/shoot.ts:52:22)
+        at /home/user/Orgpuls/qa/e2e/p0-baselines.spec.ts:33:5
+
+    attachment #1: m-factor (image/png) ────────────────────────────────────────────────────────────
+    Expected: qa/baselines/desktop/m-factor.png
+    Received: test-results/p0-baselines-manager-manager-p0-2-m-factor-desktop/m-factor-actual.png
+    Diff:     test-results/p0-baselines-manager-manager-p0-2-m-factor-desktop/m-factor-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/p0-baselines-manager-manager-p0-2-m-factor-desktop/error-context.md
+
+  12 failed
+    [mobile] › qa/e2e/invariants.spec.ts:21:7 › I3 @invariants @respondent › the respondent page sends nothing that names the respondent 
+    [mobile] › qa/e2e/p0-baselines.spec.ts:12:7 › respondent @respondent @p0.2 › r-intro, r-question, r-submit 
+    [mobile] › qa/e2e/p1-language.spec.ts:28:7 › respondent language @respondent @p1.2 › r-intro-picker 
+    [mobile] › qa/e2e/p1-language.spec.ts:39:7 › respondent language @respondent @p1.2 › r-question-en 
+    [mobile] › qa/e2e/p1-language.spec.ts:49:7 › respondent language @respondent @p1.2 › r-switch-midway 
+    [small] › qa/e2e/invariants.spec.ts:21:7 › I3 @invariants @respondent › the respondent page sends nothing that names the respondent 
+    [small] › qa/e2e/p0-baselines.spec.ts:12:7 › respondent @respondent @p0.2 › r-intro, r-question, r-submit 
+    [small] › qa/e2e/p1-language.spec.ts:28:7 › respondent language @respondent @p1.2 › r-intro-picker 
+    [small] › qa/e2e/p1-language.spec.ts:39:7 › respondent language @respondent @p1.2 › r-question-en 
+    [tiny] › qa/e2e/invariants.spec.ts:21:7 › I3 @invariants @respondent › the respondent page sends nothing that names the respondent 
+    [desktop] › qa/e2e/p0-baselines.spec.ts:27:7 › manager @manager @p0.2 › m-results ──────────────
+    [desktop] › qa/e2e/p0-baselines.spec.ts:31:7 › manager @manager @p0.2 › m-factor ───────────────
+  1 skipped
+  11 passed (3.1m)

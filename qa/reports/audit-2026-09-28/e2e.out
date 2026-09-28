@@ -1,0 +1,12 @@
+
+Running 7 tests using 1 worker
+
+  ✓  1 [mobile] › qa/e2e/respondent-flow.spec.ts:32:7 › respondent flow in no @respondent @flow (12.8s)
+  ✓  2 [mobile] › qa/e2e/respondent-flow.spec.ts:32:7 › respondent flow in en @respondent @flow (13.2s)
+  ✓  3 [small] › qa/e2e/respondent-flow.spec.ts:32:7 › respondent flow in no @respondent @flow (12.6s)
+  ✓  4 [small] › qa/e2e/respondent-flow.spec.ts:32:7 › respondent flow in en @respondent @flow (12.9s)
+  ✓  5 [tiny] › qa/e2e/respondent-flow.spec.ts:32:7 › respondent flow in no @respondent @flow (13.0s)
+  ✓  6 [tiny] › qa/e2e/respondent-flow.spec.ts:32:7 › respondent flow in en @respondent @flow (12.9s)
+  ✓  7 [pseudo] › qa/e2e/pseudo.spec.ts:18:5 › respondent flow under the pseudo-locale @pseudo (13.0s)
+
+  7 passed (1.6m)
