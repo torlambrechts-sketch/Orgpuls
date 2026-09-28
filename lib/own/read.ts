@@ -73,3 +73,29 @@ export const getOpenAnswers = cache(async (roundId: string): Promise<OpenAnswers
   const mask = await getMaskLabels()
   return { ...parsed.data, items: parsed.data.items.map((q) => ({ ...q, answers: q.answers.map((a) => unmask(a, mask)) })) }
 })
+
+/**
+ * «Tiltakene etter forrige kartlegging har hatt positiv effekt» (0097, P1-7): the share who agree
+ * and the mean, whole organisation, at k answers. Null when the round did not ask it.
+ */
+const Effect = z.union([
+  z.object({ status: z.literal('insufficient_data'), threshold: z.coerce.number() }),
+  z.object({
+    status: z.literal('ok'),
+    threshold: z.coerce.number(),
+    n: z.coerce.number(),
+    agree: z.coerce.number(),
+    mean: z.coerce.number(),
+  }),
+])
+export type EffectResult = z.infer<typeof Effect>
+
+export const getEffect = cache(async (roundId: string): Promise<EffectResult | null> => {
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('results_effect', { p_round: roundId })
+  if (readFailed('results_effect', error, data)) return null
+  if (z.object({ error: z.string() }).safeParse(data).success) return null
+  const parsed = Effect.safeParse(data)
+  if (parseFailed('results_effect', parsed)) return null
+  return parsed.data
+})

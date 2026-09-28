@@ -604,6 +604,16 @@
       "label": "Åpent felt",
       "text": "Hva bør vi gjøre noe med først?",
       "note": "Frivillig. Navn på kolleger, avdelinger og steder fjernes automatisk før noen leser det. Skriv likevel ikke noe som bare kan gjelde én person."
+    },
+    "tiltak_effekt": {
+      "label": "Effekt av tiltakene",
+      "text": "Tiltakene etter forrige kartlegging har hatt positiv effekt på arbeidsplassen min.",
+      "note": "Stilles fra andre kartlegging. Rapporteres som eget tall, ikke som del av indeksen.",
+      "o1": "Helt uenig",
+      "o2": "Litt uenig",
+      "o3": "Verken enig eller uenig",
+      "o4": "Litt enig",
+      "o5": "Helt enig"
     }
   },
   "respond": {
@@ -1389,7 +1399,9 @@
       }
     },
     "dispatchOn": "Varslene sendes på e-post hvert femte minutt når de forfaller.",
-    "dispatchOff": "Utsending er slått av for denne virksomheten, så varslene blir stående i køen og ingen får dem."
+    "dispatchOff": "Utsending er slått av for denne virksomheten, så varslene blir stående i køen og ingen får dem.",
+    "allEmployees": "Varsle alle ansatte før og etter hver runde",
+    "allEmployeesNote": "En dag før utsending, og når resultatene er klare. De som vet at målingen kommer og at resultatene deles, svarer oftere."
   },
   "oppsett": {
     "title": "Oppsett",
@@ -3325,6 +3337,14 @@
       "title": "Egne spørsmål",
       "lead": "Spørsmålene dere skrev selv, besvart fra «i svært liten grad» til «i svært stor grad». De rapporteres for seg og regnes ikke inn i indeksen.",
       "figure": "{high} % i stor eller svært stor grad",
+      "mean": "Snitt {mean} av 5",
+      "n": "{n} svar",
+      "suppressed": "Vises når minst {threshold} har svart."
+    },
+    "effect": {
+      "title": "Effekt av tiltakene",
+      "lead": "«Tiltakene etter forrige kartlegging har hatt positiv effekt på arbeidsplassen min.» Stilles fra andre kartlegging og regnes ikke inn i indeksen. Det er dette Arbeidstilsynet spør etter når de vil se at tiltakene virker.",
+      "figure": "{agree} % er enige",
       "mean": "Snitt {mean} av 5",
       "n": "{n} svar",
       "suppressed": "Vises når minst {threshold} har svart."
@@ -6969,7 +6989,7 @@
           "points": [
             "33 påstander fordelt på elleve faktorer, fire minutter å svare",
             "Verneombudet varsles to dager før utsending",
-            "Én påminnelse, og runden lukkes etter sju dager",
+            "Én påminnelse, og runden lukkes etter fjorten dager",
             "Risikovurdering per faktor med hjemmel, klar til AMU"
           ],
           "m": {

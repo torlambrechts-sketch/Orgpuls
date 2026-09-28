@@ -119,6 +119,8 @@ export async function saveWizardRhythm(formData: FormData): Promise<WizardResult
         { wheel_id: wheelId.data, audience: 'tillitsvalgte', lead_days: voLead, sort_order: 2 },
         { wheel_id: wheelId.data, audience: 'daglig_leder', lead_days: 1, sort_order: 3 },
         { wheel_id: wheelId.data, audience: 'avdelingsledere', lead_days: 0, sort_order: 4 },
+        // P1-2 (D-148): everyone is told a day before, and again when the results are ready
+        { wheel_id: wheelId.data, audience: 'alle_ansatte', lead_days: 1, sort_order: 5 },
       ])
       .select('audience')
     if (writeFailed('saveWizardRhythm.ladder', insertError, data)) return { ok: false, problem: 'denied' }

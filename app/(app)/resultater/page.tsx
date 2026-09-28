@@ -12,7 +12,8 @@ import { getNotRelevant } from '@/lib/results/read'
 import { ModuleResults } from '@/components/resultater/ModuleResults'
 import { getModulesById, getRoundModules, withWording } from '@/lib/modules/read'
 import { getCountTotals, getModuleResults } from '@/lib/modules/results'
-import { getOwnResults } from '@/lib/own/read'
+import { getEffect, getOwnResults } from '@/lib/own/read'
+import { EffectResult } from '@/components/resultater/EffectResult'
 import { OwnQuestionResults } from '@/components/resultater/OwnQuestionResults'
 import {
   ORG,
@@ -86,7 +87,7 @@ export default async function ResultaterPage({
     !isPulse && params.mot && params.mot !== selected.id ? (grunnlinjer.find((r) => r.id === params.mot) ?? null) : null
   const previousRow = [...(isPulse ? closed : grunnlinjer)].filter((r) => byClose(r, selected) < 0).at(-1) ?? null
 
-  const [digest, factors, conversations, measures, unanswered, notRelevant, own] = await Promise.all([
+  const [digest, factors, conversations, measures, unanswered, notRelevant, own, effect] = await Promise.all([
     // the workspace and every closed round's participation, in one call (0044): the rate is
     // measured against earlier rounds (D-135)
     getResultsDigest({ participation: closed.map((r) => r.id), workspace: selected.id }),
@@ -97,6 +98,8 @@ export default async function ResultaterPage({
     getNotRelevant(selected.id),
     // the round's own questions (0095, D-145); null for a reader without the house's view
     getOwnResults(selected.id),
+    // «Tiltakene … har hatt positiv effekt» (0097); null when the round did not ask it
+    getEffect(selected.id),
     countView('results_viewed'),
   ])
 
@@ -286,6 +289,7 @@ export default async function ResultaterPage({
               notRelevant={notRelevant}
             />
           ) : null}
+          {effect ? <EffectResult data={effect} /> : null}
           {own && own.items.length ? <OwnQuestionResults results={own} /> : null}
         </>
       }

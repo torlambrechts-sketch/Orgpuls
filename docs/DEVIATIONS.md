@@ -6768,3 +6768,36 @@ queued again, as request_link does (0076). Nothing on the screen changed; the wo
 
 The other half of P0-4, «Varsle verneombud når en frist ryker», is still stored and not acted on.
 It needs the overdue-measure notice (P1-5), which comes with its own mail kind.
+
+## D-147 — A baseline open for two weeks; «Effekt av tiltakene» from the second cycle (0097)
+
+Gap analysis P1-9 and P1-7.
+
+- **Two weeks for a grunnlinje.** The product's own standard for a grunnlinje is 14 days (a puls
+  keeps 7): the column default, `survey_defaults_of`'s fallback, a grunnlinje the wheel plans for
+  an organisation with no saved standard, and `plan_first_round`. A standard an organisation saved
+  is kept. «Anbefalt» in Målinger › Innstillinger now marks 14. Bruksområder's «Årlig
+  kartlegging» said «runden lukkes etter sju dager» and now says fourteen; Plattform's cascade
+  («Resultat … dag 7») still holds for a puls and is left.
+- **«Tiltakene etter forrige kartlegging har hatt positiv effekt på arbeidsplassen min».** A
+  question outside the index (`tiltak_effekt`, agreement scale), as data: a registry row, five
+  options, message keys. A grunnlinje asks it when the organisation has an earlier grunnlinje
+  that closed. It is not one of the standard's extras: applying, saving or resetting the standard
+  never adds or removes it, and a round that asks it does not count as edited by hand
+  (`app.round_extras` leaves it out). Måleoppsett lists it with the round's extras, so a leader
+  can leave it out of one round. Its result is a card in Resultater («Effekt av tiltakene»): the
+  share who agree and the mean, whole organisation only, at k answers. The respondent meets it
+  before the open field.
+- **Pixel gate:** Målinger › Spørsmålssett lists the new question under «Utenfor indeksen», which
+  moves the module block below it by one row; state 06's claims were re-recorded for that alone.
+- **English respondents:** the question's labels are respondent strings, so the English approval
+  (admin › Legal review) is needed again, as for D-145.
+
+## D-148 — «Alle ansatte» in the notice ladder by default
+
+Gap analysis P1-2. The design's own ladder (the fixture's) tells everyone a day before; the
+Veiviser's default ladder left them out. A new wheel's ladder now has «Alle ansatte» a day before,
+which also gives them the notice when results are ready (wheel_tick queues «resultat» per row).
+Årshjulet gets a fifth switch in «Unntak og eskalering», in the design's toggle form:
+«Varsle alle ansatte før og etter hver runde». Existing wheels are not changed: that would start
+mailing everyone at organisations that never chose it.

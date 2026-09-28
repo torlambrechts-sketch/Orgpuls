@@ -378,7 +378,8 @@ const ExtrasResult = z.union([
   z.object({ ok: z.literal(true), extras: z.array(z.string()) }),
   z.object({ error: z.enum(['not_allowed', 'locked', 'reason_required']) }),
 ])
-const EXTRA_KEYS = ['anbefaling', 'krenkende', 'vold', 'apent_felt'] as const
+// 0097: «tiltak_effekt» is asked from the second cycle, and a leader may leave it out of a round
+const EXTRA_KEYS = ['anbefaling', 'krenkende', 'vold', 'tiltak_effekt', 'apent_felt'] as const
 
 export async function saveRoundExtras(
   roundId: string,

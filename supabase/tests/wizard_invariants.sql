@@ -143,12 +143,12 @@ begin
            || ' x' || (select count(*) from app.round_extra_questions q where q.round_id = r.id)
       into v_txt
     from app.rounds r join app.measurements m on m.id = r.measurement_id where r.id = v_round;
-    v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'one planned grunnlinje: 09:00 on the day, the whole instrument, day 4 and day 7',
-      'expected', 'planlagt grunnlinje ' || to_char(v_day, 'YYYY-MM-DD') || ' 09:00 r4 c7 f'
-        || (select count(*) from app.factors) || ' x' || (select count(*) from app.extra_questions),
+    v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'one planned grunnlinje: 09:00 on the day, the whole instrument, day 4 and day 14 (0097)',
+      'expected', 'planlagt grunnlinje ' || to_char(v_day, 'YYYY-MM-DD') || ' 09:00 r4 c14 f'
+        || (select count(*) from app.factors) || ' x' || cardinality(app.builtin_extras()),
       'actual', coalesce(v_txt, coalesce(v_json->>'error', 'none')),
-      'pass', v_txt = 'planlagt grunnlinje ' || to_char(v_day, 'YYYY-MM-DD') || ' 09:00 r4 c7 f'
-        || (select count(*) from app.factors) || ' x' || (select count(*) from app.extra_questions));
+      'pass', v_txt = 'planlagt grunnlinje ' || to_char(v_day, 'YYYY-MM-DD') || ' 09:00 r4 c14 f'
+        || (select count(*) from app.factors) || ' x' || cardinality(app.builtin_extras()));
     v_rows := v_rows || jsonb_build_object('seq', 12, 'name', 'and the wheel is on', 'expected', 'true',
       'actual', (select active::text from app.year_wheels where org_id = v_org),
       'pass', (select active from app.year_wheels where org_id = v_org));

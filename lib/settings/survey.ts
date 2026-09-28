@@ -31,7 +31,8 @@ export type SurveyDefaults = {
  * the form starts from before an organisation has saved one, and what "Anbefalt" marks.
  */
 export const PRODUCT_DEFAULTS: SurveyDefaults = {
-  closeDaysGrunnlinje: 7,
+  // 0097: two weeks for a grunnlinje, which covers a holiday week and a shift rotation
+  closeDaysGrunnlinje: 14,
   closeDaysPuls: 7,
   reminderDay: 2,
   finalReminder: true,

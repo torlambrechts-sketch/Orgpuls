@@ -103,6 +103,7 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
       extendIfLow: view.wheel.extendIfLow,
       skipFellesferie: view.wheel.skipFellesferie,
       notifyVoOnOverdue: view.wheel.notifyVoOnOverdue,
+      allEmployees: view.wheel.ladder.some((n) => n.audience === 'alle_ansatte'),
     },
     options: {
       // the design's three; "Hvert halvår" is the Veiviser's (0041), listed once it is chosen
@@ -138,6 +139,8 @@ export async function ArshjuletScreen({ view }: { view: ArshjuletView }) {
       skipFellesferieNote: t('arshjulet.skipFellesferieNote'),
       notifyVo: t('arshjulet.notifyVo'),
       notifyVoNote: t('arshjulet.notifyVoNote'),
+      allEmployees: t('arshjulet.allEmployees'),
+      allEmployeesNote: t('arshjulet.allEmployeesNote'),
       saved: t('arshjulet.saved'),
       problems: Object.fromEntries(['invalid', 'denied'].map((k) => [k, t(`arshjulet.problem.${k}`)])),
     },

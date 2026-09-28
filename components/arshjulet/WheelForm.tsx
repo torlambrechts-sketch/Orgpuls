@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { saveWheel, type WheelActionResult } from '@/app/(app)/malinger/arshjul-actions'
+import { saveWheel, setEmployeeNotices, type WheelActionResult } from '@/app/(app)/malinger/arshjul-actions'
 
 /**
  * The three cards of Årshjulet that write: the rhythm, the notification ladder's lead
@@ -21,6 +21,8 @@ export interface WheelFormProps {
     extendIfLow: boolean
     skipFellesferie: boolean
     notifyVoOnOverdue: boolean
+    /** the ladder has an «alle ansatte» row (P1-2) */
+    allEmployees: boolean
   }
   options: {
     cadences: { value: string; label: string; note: string }[]
@@ -52,6 +54,8 @@ export interface WheelFormProps {
     skipFellesferieNote: string
     notifyVo: string
     notifyVoNote: string
+    allEmployees: string
+    allEmployeesNote: string
     saved: string
     problems: Record<string, string>
   }
@@ -208,6 +212,24 @@ export function WheelForm({ canWrite, values, options, ladder, labels, between }
             checked={v.notifyVoOnOverdue}
             disabled={!canWrite}
             onChange={() => save({ notifyVoOnOverdue: !v.notifyVoOnOverdue })}
+          />
+          {/* P1-2: the ladder's «alle ansatte» row, written on its own */}
+          <Toggle
+            name="allEmployees"
+            label={labels.allEmployees}
+            note={labels.allEmployeesNote}
+            checked={v.allEmployees}
+            disabled={!canWrite}
+            onChange={() => {
+              const next = !v.allEmployees
+              setV({ ...v, allEmployees: next })
+              if (!canWrite) return
+              startTransition(async () => {
+                const result: WheelActionResult = await setEmployeeNotices(next)
+                setProblem(result.ok ? null : result.problem)
+                setSaved(result.ok)
+              })
+            }}
           />
         </div>
       </section>

@@ -69,3 +69,31 @@ export async function saveWheel(formData: FormData): Promise<WheelActionResult> 
   revalidatePath('/maleoppsett')
   return { ok: true }
 }
+
+/**
+ * «Varsle alle ansatte før og etter hver runde» (gap analysis P1-2, D-148): the ladder's
+ * «alle ansatte» row, a day before the round opens, on or off. The same row carries the notice
+ * when results are ready (wheel_tick's step 4 queues «resultat» for every row of the ladder).
+ * `wheel_notification_write` (0026) admits the daglig leder alone, as for the rest of the wheel.
+ */
+export async function setEmployeeNotices(on: boolean): Promise<WheelActionResult> {
+  if (typeof on !== 'boolean') return { ok: false, problem: 'invalid' }
+  const supabase = await createClient()
+  const app = supabase.schema('app')
+  const { data: row } = await app.from('year_wheels').select('id').limit(1).maybeSingle()
+  const id = z.object({ id: z.string() }).safeParse(row)
+  if (!id.success) return { ok: false, problem: 'denied' }
+
+  const { data, error } = on
+    ? await app
+        .from('wheel_notifications')
+        .upsert({ wheel_id: id.data.id, audience: 'alle_ansatte', lead_days: 1, sort_order: 5 }, { onConflict: 'wheel_id,audience' })
+        .select('audience')
+    : await app.from('wheel_notifications').delete().eq('wheel_id', id.data.id).eq('audience', 'alle_ansatte').select('audience')
+  // turning off a row that is not there is already the state asked for
+  if (error || (on && writeFailed('setEmployeeNotices', error, data))) return { ok: false, problem: 'denied' }
+
+  revalidatePath('/malinger')
+  revalidatePath('/innsikt')
+  return { ok: true }
+}

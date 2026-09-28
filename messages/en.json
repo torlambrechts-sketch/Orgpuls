@@ -604,6 +604,16 @@
       "label": "Open field",
       "text": "What should we do something about first?",
       "note": "Voluntary. Names of colleagues, departments and locations are removed automatically before anyone reads it. Even so, do not write anything that could only be about one person."
+    },
+    "tiltak_effekt": {
+      "label": "Effect of the measures",
+      "text": "The measures taken after the last survey have had a positive effect on my workplace.",
+      "note": "Asked from the second survey. Reported as a figure of its own, not as part of the index.",
+      "o1": "Strongly disagree",
+      "o2": "Somewhat disagree",
+      "o3": "Neither agree nor disagree",
+      "o4": "Somewhat agree",
+      "o5": "Strongly agree"
     }
   },
   "respond": {
@@ -1389,7 +1399,9 @@
       }
     },
     "dispatchOn": "Notices are sent by e-mail every five minutes when they fall due.",
-    "dispatchOff": "Sending is switched off for this organisation, so notices stay in the queue and nobody receives them."
+    "dispatchOff": "Sending is switched off for this organisation, so notices stay in the queue and nobody receives them.",
+    "allEmployees": "Notify all employees before and after every round",
+    "allEmployeesNote": "A day before it goes out, and when the results are ready. People who know the survey is coming and that the results are shared answer more often."
   },
   "oppsett": {
     "title": "Settings",
@@ -3325,6 +3337,14 @@
       "title": "Your own questions",
       "lead": "The questions you wrote yourselves, answered from «very little» to «very much». They are reported on their own and are not counted in the index.",
       "figure": "{high} % rather much or very much",
+      "mean": "Mean {mean} of 5",
+      "n": "{n} answers",
+      "suppressed": "Shown once at least {threshold} have answered."
+    },
+    "effect": {
+      "title": "Effect of the measures",
+      "lead": "«The measures taken after the last survey have had a positive effect on my workplace.» Asked from the second survey and not counted in the index. It is what the Labour Inspection Authority asks for when it wants to see that the measures work.",
+      "figure": "{agree} % agree",
       "mean": "Mean {mean} of 5",
       "n": "{n} answers",
       "suppressed": "Shown once at least {threshold} have answered."
@@ -6155,7 +6175,7 @@
           "points": [
             "33 statements across eleven factors, four minutes to answer",
             "The safety representative is notified two days before send-out",
-            "One reminder, and the round closes after seven days",
+            "One reminder, and the round closes after fourteen days",
             "Risk assessment per factor with legal basis, ready for the working environment committee (AMU)"
           ],
           "m": {
