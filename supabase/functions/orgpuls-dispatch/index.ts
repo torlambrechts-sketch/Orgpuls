@@ -106,6 +106,8 @@ Deno.serve(async (req) => {
   const named = new Set([...SIGNED_OFF_FLAGS, ...flagsEnv.split(',').map((f) => f.trim()).filter(Boolean)])
   const offer: LanguageOffer | null =
     flagsEnv === '*' ? { flags: '*', hashes: RESPONDENT_UI } : { flags: named, hashes: RESPONDENT_UI }
+  // engagement phase 2 (0105): «Siden sist» in an invitation's e-mail, only with its flag on
+  const sinceOn = flagsEnv === '*' || named.has('engagement_since_last')
   const probe = new URL(req.url).searchParams.get('probe')
   // the marketing stream (D-101): its own sender, on a domain that is not the product's
   const marketingFrom = Deno.env.get('ORGPULS_MARKETING_FROM') ?? ''
@@ -358,6 +360,7 @@ Deno.serve(async (req) => {
 
     for (let i = 0; i < jobs.length; i++) {
       const job = jobs[i]
+      if (!sinceOn) job.since = null
       let outcome: SendResult = { ok: true, id: '' }
       let channel: 'email' | 'sms' = 'email'
       const offered = offeredFor(cat, job, offer)

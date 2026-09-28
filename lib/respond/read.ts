@@ -79,6 +79,27 @@ const Form = z.object({
     .array(z.object({ id: z.string().uuid(), text: z.string(), kind: z.enum(['skala', 'fritekst']) }))
     .max(5)
     .default([]),
+  // engagement phase 2 (0105): the whole organisation's, computed in the database — never the person's
+  // group. What was done since the last grunnlinje; why a pulse asks a factor again; when everyone is
+  // told the results (null where they are not told), and whether the round's page shows the measures
+  since: z
+    .union([
+      z.object({ first: z.literal(true) }),
+      z.object({
+        first: z.literal(false),
+        since: z.string(),
+        items: z.array(z.object({ title: z.string(), status: z.enum(['gjennomfort', 'pagar']) })).max(3),
+        done: z.coerce.number(),
+      }),
+    ])
+    .nullish()
+    .transform((v) => v ?? null),
+  reasons: z
+    .record(z.string(), z.array(z.object({ title: z.string(), started: z.string() })))
+    .nullish()
+    .transform((v) => v ?? {}),
+  publish_on: z.string().nullish().transform((v) => v ?? null),
+  page: z.boolean().nullish().transform((v) => v ?? false),
 })
 
 /**

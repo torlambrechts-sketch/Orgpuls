@@ -174,5 +174,11 @@ export function respondCopy(t: T, threshold: number, moduleMinutes = 0): Respond
     timeLeft: t.raw('respond.timeLeft') as string,
     restored: t('respond.restored'),
     keyboardHint: t('respond.keyboardHint'),
+    since: {
+      title: t('respond.since.title'),
+      done: t('respond.since.done'),
+      ongoing: t('respond.since.ongoing'),
+      first: t('respond.since.first'),
+    },
   }
 }

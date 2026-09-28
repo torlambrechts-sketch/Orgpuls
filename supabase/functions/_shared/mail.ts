@@ -73,6 +73,12 @@ export interface NoticeJob {
   evaluation?: { cadence: string | null; last_on: string | null; due_on: string | null } | null
   /** the organisation's logo by its address, /logo/<key> (0104, D-154), for the head of the mail */
   logo?: string | null
+  /**
+   * «Siden sist» for an invitation's e-mail (0105, engagement phase 2): the whole organisation's
+   * measures since the last grunnlinje, titles with people's names masked. The dispatcher drops it
+   * unless `engagement_since_last` is on; an SMS never carries it (D-128).
+   */
+  since?: { first: true } | { first: false; since: string; items: { title: string; status: 'gjennomfort' | 'pagar' }[]; done: number } | null
 }
 
 export interface Recipient {
@@ -298,6 +304,26 @@ function pageLink(base: string, slug: string): string {
   return `${base}/r/${slug}`
 }
 
+/** «Siden sist» in an invitation (0105): a lead with the count finished, and the items, one a line */
+function sinceBlock(m: MailMessages | undefined, since: NoticeJob['since']): string[] {
+  if (!since || since.first || since.items.length === 0) return []
+  const masked = (t: string) =>
+    t.replace(/⟦([nas])⟧/g, (_, k: string) => `[${pick(m, `invitasjon.masked.${k}`)}]`)
+  const lead =
+    since.done === 0
+      ? pick(m, 'invitasjon.sinceLead')
+      : since.done === 1
+        ? pick(m, 'invitasjon.sinceOne')
+        : fill(pick(m, 'invitasjon.sinceMany'), { n: since.done })
+  const items = since.items.map((i) =>
+    fill(pick(m, 'invitasjon.sinceItem'), {
+      title: masked(i.title),
+      status: pick(m, i.status === 'gjennomfort' ? 'invitasjon.sinceDone' : 'invitasjon.sinceOngoing'),
+    }),
+  )
+  return [`${lead}\n${items.join('\n')}`]
+}
+
 /** The organisation's logo (0104): only a key the database made reaches a mail */
 function logoLink(base: string, key: string | null | undefined): string | null {
   return key && /^[0-9a-f]{32}$/.test(key) ? `${base}/logo/${key}` : null
@@ -383,6 +409,7 @@ export function renderNotice(
         ? [`«${job.greeting.text}»${job.greeting.by ? `\n${fill(pick(m, 'invitasjon.greetingBy'), { name: job.greeting.by })}` : ''}`]
         : []),
       fill(pick(m, 'invitasjon.anonymous'), { k: job.k }),
+      ...(invite && job.channel === 'email' ? sinceBlock(m, job.since) : []),
       ...(invite && job.results_shared ? [pick(m, 'invitasjon.results')] : []),
       // 0100 (P1-3): what the last round showed and what is being done, before this one is asked
       ...(invite && job.results_page ? [`${pick(m, 'invitasjon.lastPage')} ${pageLink(base, job.results_page)}`] : []),

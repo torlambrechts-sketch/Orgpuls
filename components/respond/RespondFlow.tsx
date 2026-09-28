@@ -135,6 +135,21 @@ export interface RespondCopy {
   timeLeft: string
   restored: string
   keyboardHint: string
+  since: { title: string; done: string; ongoing: string; first: string }
+}
+
+/**
+ * Engagement phase 2 (0105, D-156), each behind its flag and all of it the whole organisation's:
+ * what was done since the last grunnlinje, on the page before the first question; why a pulse asks a
+ * factor again, under its heading; and the thank-you that says when everyone is told the results.
+ */
+export interface RespondEngagement {
+  /** «Siden sist»: `first` on a first survey; else at most three items and the month they answer to */
+  since: { first: true } | { first: false; items: { title: string; done: boolean }[]; footer: string } | null
+  /** per factor key, the lines «Spørres fordi dere jobber med: …» */
+  reasons: Record<string, string[]>
+  /** the thank-you's lines, in order; null keeps the design's «Takk. Det tok fire minutter.» */
+  thanks: { title: string; lines: string[] } | null
 }
 
 /** about seven seconds a question, as app.round_minutes counts an invitation (0099) */
@@ -211,11 +226,14 @@ export function RespondFlow({
   preview,
   languages,
   logo = null,
+  engagement = null,
 }: {
   token: string
   org: string
   /** the organisation's own logo beside its name (0104, D-154), or null */
   logo?: string | null
+  /** engagement phase 2 (0105, D-156): null with every flag off */
+  engagement?: RespondEngagement | null
   questions: Question[]
   copy: RespondCopy
   /**
@@ -436,11 +454,19 @@ export function RespondFlow({
           ✓
         </div>
         <div className="mt-[18px] font-display text-[26px] font-medium leading-[1.2] [text-wrap:balance]">
-          {copy.doneTitle}
+          {engagement?.thanks ? engagement.thanks.title : copy.doneTitle}
         </div>
-        <div className="mt-[10px] text-[13.5px] leading-[1.6] text-mut [text-wrap:pretty]">
-          {copy.doneLead}
-        </div>
+        {engagement?.thanks ? (
+          <div className="mx-auto mt-[12px] flex max-w-[330px] flex-col gap-[8px] text-[13.5px] leading-[1.6] text-mut [text-wrap:pretty]">
+            {engagement.thanks.lines.map((l) => (
+              <p key={l} className="m-0">{l}</p>
+            ))}
+          </div>
+        ) : (
+          <div className="mt-[10px] text-[13.5px] leading-[1.6] text-mut [text-wrap:pretty]">
+            {copy.doneLead}
+          </div>
+        )}
       </div>
       <ThreadLinks keys={threads} />
       </>
@@ -465,6 +491,30 @@ export function RespondFlow({
               </li>
             ))}
           </ul>
+          {engagement?.since ? (
+            <section aria-labelledby="since" className="mt-[20px] rounded-cta border border-line bg-sf px-[16px] py-[14px]">
+              <h2 id="since" className="m-0 text-[12px] font-bold uppercase tracking-[0.06em] text-mut">{copy.since.title}</h2>
+              {engagement.since.first ? (
+                <p className="m-0 mt-[8px] text-[13.5px] leading-[1.55] [text-wrap:pretty]">{copy.since.first}</p>
+              ) : (
+                <>
+                  <ul className="m-0 mt-[10px] flex list-none flex-col gap-[9px] p-0">
+                    {engagement.since.items.map((i) => (
+                      <li key={i.title} className="flex items-start justify-between gap-[10px] text-[13.5px] leading-[1.45]">
+                        <span className="min-w-0 [overflow-wrap:anywhere]">{i.title}</span>
+                        <span
+                          className={`flex-none rounded-pill px-[9px] py-[2px] text-[11.5px] font-bold ${i.done ? 'bg-mint text-greendeep' : 'bg-sbg text-ink'}`}
+                        >
+                          {i.done ? copy.since.done : copy.since.ongoing}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="m-0 mt-[10px] text-[12px] leading-[1.5] text-mut">{engagement.since.footer}</p>
+                </>
+              )}
+            </section>
+          ) : null}
           <div className="mt-[16px] text-[12.5px] font-semibold text-mut">
             {copy.timeLeft.replace('{minutes}', String(Math.max(1, Math.ceil((questions.length * SECONDS_PER_QUESTION) / 60))))}
           </div>
@@ -523,6 +573,13 @@ export function RespondFlow({
             {first.factorLabel}
           </div>
         ) : null}
+        {first?.kind === 'factor'
+          ? (engagement?.reasons[first.factor] ?? []).map((r) => (
+              <div key={r} className="mt-[10px] text-[13px] leading-[1.5] text-mut [text-wrap:pretty]">
+                {r}
+              </div>
+            ))
+          : null}
         {first && 'lead' in first ? (
           <div className="mt-[12px] text-[13px] font-semibold leading-[1.5] text-mut [text-wrap:pretty]">{first.lead}</div>
         ) : null}

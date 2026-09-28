@@ -710,7 +710,22 @@
     "back": "Tilbake",
     "timeLeft": "Ca. {minutes} min igjen",
     "restored": "Vi fant svarene du begynte på, og du kan fortsette der du slapp. Det du skrev med egne ord, lagres ikke underveis.",
-    "keyboardHint": "Du kan svare med tallene 1–5 og gå videre med Enter."
+    "keyboardHint": "Du kan svare med tallene 1–5 og gå videre med Enter.",
+    "since": {
+      "title": "Siden sist",
+      "done": "Gjennomført",
+      "ongoing": "Pågår",
+      "footer": "Tiltakene ble valgt ut fra svarene dere ga i {month}.",
+      "first": "Dette er første måling. Etterpå får dere se hva som blir gjort med svarene."
+    },
+    "reason": "Spørres fordi dere jobber med: {title} (startet {date})",
+    "thanks": {
+      "title": "Takk for svarene dine",
+      "shared": "Resultatene deles med alle {date}.",
+      "same": "Daglig leder og verneombud ser de samme tallene samtidig.",
+      "anonymous": "Ingen kan se hva du har svart, og ingen grupper vises med færre enn {threshold} svar.",
+      "next": "Etterpå velges tiltak ut fra svarene, og du får se hva som blir gjort."
+    }
   },
   "entry": {
     "title": "Få lenken til undersøkelsen",
@@ -2914,7 +2929,18 @@
       "minutes": "Det tar omtrent {minutes} minutter.",
       "results": "Når fristen er ute, får alle ansatte vite hva målingen viste, og hva som skal gjøres med det.",
       "greetingBy": "– {name}, daglig leder",
-      "lastPage": "Hva dere svarte sist, og hva som gjøres med det:"
+      "lastPage": "Hva dere svarte sist, og hva som gjøres med det:",
+      "sinceLead": "Dette er gjort siden forrige kartlegging:",
+      "sinceOne": "Siden sist er ett tiltak gjennomført:",
+      "sinceMany": "Siden sist er {n} tiltak gjennomført:",
+      "sinceItem": "– {title} ({status})",
+      "sinceDone": "gjennomført",
+      "sinceOngoing": "pågår",
+      "masked": {
+        "n": "navn",
+        "a": "avdeling",
+        "s": "sted"
+      }
     },
     "paminnelse": {
       "subject": "Påminnelse: {round} i {org}",

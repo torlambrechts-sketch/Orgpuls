@@ -4,7 +4,9 @@ import { LOCALE_NAMES, chooseLocale, offeredLocales, surveyMessages } from '@/li
 import { logoPath } from '@/lib/org/logo'
 import { RESPONDENT_CLIENT_NAMESPACES, pickMessages } from '@/lib/i18n/client'
 import { getRespondForm, getRespondLocales } from '@/lib/respond/read'
-import { RespondFlow } from '@/components/respond/RespondFlow'
+import { RespondFlow, type RespondEngagement } from '@/components/respond/RespondFlow'
+import { flag } from '@/lib/flags'
+import { unmask } from '@/lib/text/mask'
 import { respondCopy, respondQuestions } from '@/lib/respond/questions'
 import { bcp47 } from '@/lib/i18n/locales'
 
@@ -77,12 +79,60 @@ export default async function RespondPage({
   const texts = offered && lang !== 'no' ? (locales?.texts[lang] ?? null) : null
 
   const questions = respondQuestions(tl, form, offered ? lang : await getLocale(), texts)
+
+  /*
+   * Engagement phase 2 (0105, D-156), each part behind its flag. Everything here is the whole
+   * organisation's, computed in the database; the survey still knows no group and no person.
+   */
+  const dateLocale = offered ? bcp47(lang) : (await getLocale()) === 'en' ? 'en-GB' : 'nb-NO'
+  const day = (iso: string) =>
+    new Intl.DateTimeFormat(dateLocale, { day: 'numeric', month: 'long', timeZone: 'Europe/Oslo' }).format(new Date(`${iso}T12:00:00Z`))
+  const labels = { n: tl('masked.n'), a: tl('masked.a'), s: tl('masked.s') }
+  const since = form.since
+  const engagement: RespondEngagement = {
+    since: !flag('engagement_since_last') || !since
+      ? null
+      : since.first
+        ? { first: true }
+        : since.items.length
+          ? {
+              first: false,
+              items: since.items.map((i) => ({ title: unmask(i.title, labels), done: i.status === 'gjennomfort' })),
+              footer: tl('respond.since.footer', {
+                month: new Intl.DateTimeFormat(dateLocale, { month: 'long', year: 'numeric', timeZone: 'Europe/Oslo' }).format(new Date(since.since)),
+              }),
+            }
+          : null,
+    reasons: flag('engagement_pulse_reason')
+      ? Object.fromEntries(
+          Object.entries(form.reasons).map(([factor, items]) => [
+            factor,
+            items.slice(0, 2).map((r) => tl('respond.reason', { title: unmask(r.title, labels), date: day(r.started) })),
+          ]),
+        )
+      : {},
+    thanks: flag('engagement_thanks')
+      ? {
+          title: tl('respond.thanks.title'),
+          lines: [
+            // only where everyone is told: the «alle ansatte» notice goes on that day (0105)
+            ...(form.publish_on ? [tl('respond.thanks.shared', { date: day(form.publish_on) })] : []),
+            tl('respond.thanks.same'),
+            tl('respond.thanks.anonymous', { threshold: form.threshold }),
+            // only where the round's page shows what is decided (0100)
+            ...(form.page ? [tl('respond.thanks.next')] : []),
+          ],
+        }
+      : null,
+  }
+
   const flow = (
     <RespondFlow
       token={token}
       org={form.org}
       logo={form.logo ? logoPath(form.logo) : null}
       questions={questions}
+      engagement={engagement}
       copy={respondCopy(tl, form.threshold, form.modules.reduce((n, m) => n + m.minutes, 0))}
       languages={
         offered && offered.length > 1

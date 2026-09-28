@@ -710,7 +710,22 @@
     "back": "Back",
     "timeLeft": "About {minutes} min left",
     "restored": "We found the answers you had started, and you can go on where you left off. What you wrote in your own words is not kept along the way.",
-    "keyboardHint": "You can answer with the keys 1–5 and go on with Enter."
+    "keyboardHint": "You can answer with the keys 1–5 and go on with Enter.",
+    "since": {
+      "title": "Since last time",
+      "done": "Done",
+      "ongoing": "In progress",
+      "footer": "The measures were chosen from the answers you gave in {month}.",
+      "first": "This is the first survey. Afterwards you will see what is done with the answers."
+    },
+    "reason": "Asked because you are working on: {title} (started {date})",
+    "thanks": {
+      "title": "Thank you for your answers",
+      "shared": "The results are shared with everyone on {date}.",
+      "same": "The managing director and the safety representative see the same figures at the same time.",
+      "anonymous": "Nobody can see what you answered, and no group with fewer than {threshold} answers is shown.",
+      "next": "Afterwards, measures are chosen from the answers, and you will see what is done."
+    }
   },
   "entry": {
     "title": "Get the link to the survey",
@@ -2914,7 +2929,18 @@
       "minutes": "It takes about {minutes} minutes.",
       "results": "When the deadline has passed, all employees will hear what the survey showed and what will be done about it.",
       "greetingBy": "– {name}, managing director",
-      "lastPage": "What you answered last time, and what is being done about it:"
+      "lastPage": "What you answered last time, and what is being done about it:",
+      "sinceLead": "This has been done since the last survey:",
+      "sinceOne": "Since last time, one measure has been completed:",
+      "sinceMany": "Since last time, {n} measures have been completed:",
+      "sinceItem": "– {title} ({status})",
+      "sinceDone": "done",
+      "sinceOngoing": "in progress",
+      "masked": {
+        "n": "name",
+        "a": "department",
+        "s": "place"
+      }
     },
     "paminnelse": {
       "subject": "Reminder: {round} at {org}",
