@@ -1,0 +1,9 @@
+
+> orgpuls@0.1.0 verify:i18n
+> node scripts/verify/i18n.mjs && node scripts/i18n/respondent-ui.mjs --check
+
+no -> en: 6544 keys
+plurals: 184 checked against CLDR (en→en, no→nb)
+sms: 8 templates checked for GSM-7 (no, en)
+i18n: PASS
+respondent-ui: current

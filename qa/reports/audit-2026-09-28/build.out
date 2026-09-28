@@ -1,0 +1,125 @@
+   ▲ Next.js 15.5.25
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 34.0s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/47) ...
+   Generating static pages (11/47) 
+   Generating static pages (23/47) 
+   Generating static pages (35/47) 
+ ✓ Generating static pages (47/47)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                                           Size  First Load JS
+┌ ƒ /                                                              1.67 kB         108 kB
+├ ƒ /_not-found                                                      997 B         104 kB
+├ ● /[bransje]                                                     2.79 kB         114 kB
+├   ├ /handel
+├   ├ /kunnskap-og-kontor
+├   ├ /bygg-og-anlegg
+├   └ [+2 more paths]
+├ ● /[bransje]/sporsmal                                            3.04 kB         109 kB
+├   ├ /handel/sporsmal
+├   ├ /kunnskap-og-kontor/sporsmal
+├   ├ /bygg-og-anlegg/sporsmal
+├   └ [+2 more paths]
+├ ƒ /admin                                                           207 B         106 kB
+├ ƒ /admin/acquisition                                             2.55 kB         108 kB
+├ ƒ /admin/admins                                                  2.03 kB         108 kB
+├ ƒ /admin/audit                                                     207 B         106 kB
+├ ƒ /admin/crm                                                       168 B         106 kB
+├ ƒ /admin/crm/campaigns                                             177 B         114 kB
+├ ƒ /admin/crm/campaigns/[id]                                        184 B         117 kB
+├ ƒ /admin/crm/contacts                                              177 B         114 kB
+├ ƒ /admin/crm/contacts/[id]                                         183 B         119 kB
+├ ƒ /admin/crm/lists                                               2.11 kB         113 kB
+├ ƒ /admin/crm/prospects                                           2.12 kB         115 kB
+├ ƒ /admin/crm/prospects/[id]                                        192 B         122 kB
+├ ƒ /admin/crm/segments                                              177 B         114 kB
+├ ƒ /admin/crm/stages                                              2.03 kB         110 kB
+├ ƒ /admin/crm/templates                                            2.1 kB         113 kB
+├ ƒ /admin/health                                                    207 B         106 kB
+├ ƒ /admin/legal                                                   3.23 kB         109 kB
+├ ƒ /admin/login                                                    1.8 kB         108 kB
+├ ƒ /admin/mfa                                                      1.8 kB         108 kB
+├ ƒ /admin/modules                                                 2.63 kB         109 kB
+├ ƒ /admin/ops                                                       207 B         106 kB
+├ ƒ /admin/orgs                                                      207 B         106 kB
+├ ƒ /admin/orgs/[id]                                                2.6 kB         109 kB
+├ ƒ /admin/seo                                                       207 B         106 kB
+├ ƒ /admin/tickets                                                   207 B         106 kB
+├ ƒ /admin/tickets/[id]                                            2.16 kB         108 kB
+├ ƒ /admin/translations                                            3.67 kB         110 kB
+├ ƒ /admin/translations/export                                       161 B         103 kB
+├ ƒ /admin/users                                                     207 B         106 kB
+├ ƒ /admin/web                                                       207 B         106 kB
+├ ƒ /api/avmeld                                                      161 B         103 kB
+├ ƒ /api/sprak                                                       161 B         103 kB
+├ ƒ /api/wv                                                          161 B         103 kB
+├ ○ /apple-icon.png                                                    0 B            0 B
+├ ƒ /artikler                                                        168 B         106 kB
+├ ● /artikler/[slug]                                               1.49 kB         113 kB
+├   ├ /artikler/nye-regler-psykososialt-arbeidsmiljo-2026
+├   ├ /artikler/krav-til-kartlegging-av-psykososialt-arbeidsmiljo
+├   ├ /artikler/medarbeiderundersokelse-sporsmal
+├   └ [+3 more paths]
+├ ƒ /auth/callback                                                   161 B         103 kB
+├ ƒ /auth/confirm                                                    161 B         103 kB
+├ ƒ /avmeld                                                        2.45 kB         105 kB
+├ ƒ /bli-med/[token]                                               1.26 kB         119 kB
+├ ƒ /bransjer                                                      1.67 kB         108 kB
+├ ƒ /bruksomrader                                                  2.18 kB         108 kB
+├ ƒ /demo                                                          1.33 kB         107 kB
+├ ƒ /demo/start                                                      161 B         103 kB
+├ ƒ /forhandsvis                                                     181 B         124 kB
+├ ƒ /hjelp                                                         2.32 kB         120 kB
+├ ƒ /hjelp/[artikkel]                                                207 B         106 kB
+├ ƒ /hvorfor                                                       2.44 kB         108 kB
+├ ○ /icon.svg                                                          0 B            0 B
+├ ƒ /inn/[code]                                                    1.16 kB         104 kB
+├ ƒ /innsikt                                                       2.52 kB         129 kB
+├ ƒ /integrasjoner                                                   207 B         106 kB
+├ ƒ /integrasjoner/sms                                             3.03 kB         109 kB
+├ ƒ /kommentarer                                                   3.84 kB         122 kB
+├ ƒ /kontakt                                                       4.19 kB         116 kB
+├ ƒ /logg-inn                                                      2.54 kB         121 kB
+├ ƒ /logo/[key]                                                      161 B         103 kB
+├ ƒ /lovkrav                                                       2.81 kB         114 kB
+├ ƒ /maleoppsett                                                   10.4 kB         116 kB
+├ ƒ /malinger                                                      11.6 kB         130 kB
+├ ƒ /malinger/plakat                                                 708 B         107 kB
+├ ƒ /nyhetsbrev                                                    2.45 kB         105 kB
+├ ƒ /nyhetsbrev/arkiv                                                207 B         106 kB
+├ ƒ /nyhetsbrev/arkiv/[slug]                                         207 B         106 kB
+├ ƒ /nytt-passord                                                    924 B         107 kB
+├ ƒ /oppsett                                                       11.2 kB         138 kB
+├ ƒ /personvernerklaering                                          2.81 kB         114 kB
+├ ƒ /plattform                                                     2.18 kB         108 kB
+├ ƒ /primitives                                                      207 B         106 kB
+├ ƒ /priser                                                        2.81 kB         114 kB
+├ ƒ /r/[slug]                                                        161 B         103 kB
+├ ƒ /rapport                                                       2.81 kB         121 kB
+├ ƒ /registrer                                                     6.04 kB         124 kB
+├ ƒ /resultater                                                    12.4 kB         130 kB
+├ ƒ /robots.txt                                                      161 B         103 kB
+├ ƒ /s/[token]                                                       286 B         120 kB
+├ ƒ /s/samtale                                                      2.2 kB         117 kB
+├ ƒ /sikkerhet                                                     2.81 kB         114 kB
+├ ƒ /sitemap.xml                                                     161 B         103 kB
+├ ƒ /smaa-bedrifter                                                2.81 kB         114 kB
+├ ƒ /tiltak                                                        9.24 kB         127 kB
+└ ƒ /verneombud                                                    2.81 kB         114 kB
++ First Load JS shared by all                                       103 kB
+  ├ chunks/1255-7316b50163a428e6.js                                46.4 kB
+  ├ chunks/4bd1b696-f785427dddbba9fb.js                            54.2 kB
+  └ other shared chunks (total)                                    1.93 kB
+
+
+ƒ Middleware                                                       95.9 kB
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+
