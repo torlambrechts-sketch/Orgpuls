@@ -166,5 +166,13 @@ export function respondCopy(t: T, threshold: number, moduleMinutes = 0): Respond
       : t('respond.doneTitle'),
     doneLead: t('respond.doneLead', { threshold }),
     submitFailed: t('respond.submitFailed'),
+    // P1-4 (D-150): the promises before the first page, going back, time left, a resumed survey
+    introTitle: t('respond.introTitle'),
+    promises: [t('respond.promise1'), t('respond.promise2', { threshold }), t('respond.promise3'), t('respond.promise4')],
+    start: t('respond.start'),
+    back: t('respond.back'),
+    timeLeft: t.raw('respond.timeLeft') as string,
+    restored: t('respond.restored'),
+    keyboardHint: t('respond.keyboardHint'),
   }
 }

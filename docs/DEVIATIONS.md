@@ -6828,3 +6828,31 @@ Gap analysis P1-1, P1-5, P1-6 and the rest of P0-4.
 - **English and survey languages:** the invitation's lead lost «Det tar noen få minutter» for the
   number, so a survey language's translated invitation is used again once the new keys are
   translated (the dispatcher falls back to bokmål until then).
+
+## D-150 — The respondent flow by factor, with a draft kept in the browser (P1-4)
+
+Gap analysis P1-4. `components/respond/RespondFlow.tsx`.
+
+- **Pages by factor.** A factor's statements share a page — the core survey's three, a module
+  factor's own — and every other question (the questions outside the index, the org's own, the
+  open field) has a page of its own. The order inside a page is still `respond_form`'s seeded
+  shuffle (D-09); only the grouping is new. Statements are numbered from the ordinals the
+  database holds, as before.
+- **An intro page first.** «Før du starter» with the four `respond.promise1–4` texts that were
+  in the message files and never rendered, the k the organisation actually uses in the second,
+  the time and a Start button. The bundle's respondent screen (inside a phone, D-09) has no such
+  page; the texts are the product's own, not new claims.
+- **Time left** is counted as `app.round_minutes` counts an invitation (0099, D-149): seven
+  seconds a question, rounded up, never below one minute. It is the same estimate the invitation
+  prints, not a measurement.
+- **The draft stays in the browser.** `localStorage`, under a key derived from a SHA-256 of the
+  token (the token itself is not stored), holding the choices and the page only — never a
+  comment or any other free text — for at most 30 days, removed on submit. Nothing reaches the
+  server before submit, so no partial answer can be linked to an invitation. A restored draft
+  says so.
+- **Back, and the keyboard.** Every page but the first has Tilbake. Digits 1–5 answer the first
+  unanswered statement on the page, Enter goes on when the page is complete; the hint says so.
+  Each statement is a `fieldset` with its `legend`, so a screen reader reads it as one question.
+- **English and survey languages:** the new respondent keys move `lib/i18n/respondent-ui.json`,
+  so an English respondent sees bokmål until the respondent UI is approved again in admin ›
+  Legal review; survey languages fall back the same way until the keys are translated.

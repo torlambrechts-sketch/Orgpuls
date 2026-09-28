@@ -704,7 +704,13 @@
       "o3": "Somewhat",
       "o4": "Rather much",
       "o5": "Very much"
-    }
+    },
+    "introTitle": "Before you start",
+    "start": "Start",
+    "back": "Back",
+    "timeLeft": "About {minutes} min left",
+    "restored": "We found the answers you had started, and you can go on where you left off. What you wrote in your own words is not kept along the way.",
+    "keyboardHint": "You can answer with the keys 1–5 and go on with Enter."
   },
   "entry": {
     "title": "Get the link to the survey",

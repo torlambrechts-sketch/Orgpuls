@@ -704,7 +704,13 @@
       "o3": "I noen grad",
       "o4": "I stor grad",
       "o5": "I svært stor grad"
-    }
+    },
+    "introTitle": "Før du starter",
+    "start": "Start",
+    "back": "Tilbake",
+    "timeLeft": "Ca. {minutes} min igjen",
+    "restored": "Vi fant svarene du begynte på, og du kan fortsette der du slapp. Det du skrev med egne ord, lagres ikke underveis.",
+    "keyboardHint": "Du kan svare med tallene 1–5 og gå videre med Enter."
   },
   "entry": {
     "title": "Få lenken til undersøkelsen",

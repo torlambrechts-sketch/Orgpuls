@@ -2,7 +2,7 @@
 
 import type { Route } from 'next'
 import { usePathname, useRouter } from 'next/navigation'
-import { useState, useTransition } from 'react'
+import { useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import { submitResponse, type SubmitResult } from '@/app/s/[token]/actions'
 import { ThreadLinks } from './ThreadLinks'
 import type { CountAnswer } from '@/lib/respond/answers'
@@ -11,11 +11,14 @@ import { bcp47 } from '@/lib/i18n/locales'
 /**
  * The respondent flow. Bundle lines 1893-1929.
  *
- * One question at a time, the factor visible above it, the comment optional. The design
- * shows this inside a phone mock on the Målinger preview; here it is the whole surface,
- * so the phone chrome is not reproduced — everything inside the mock's screen is.
+ * The design draws one question at a time, the factor visible above it, the comment optional,
+ * inside a phone mock on the Målinger preview; here it is the whole surface, so the phone
+ * chrome is not reproduced — everything inside the mock's screen is. Since P1-4 (D-150) a
+ * factor's statements share a page, which the research finds completes better than one at a
+ * time, and the flow opens with its promises, keeps the respondent's choices in the browser
+ * until they are sent, goes back, says how long is left, and takes the number keys.
  *
- * Answers accumulate in this component and are sent once, when the last question is
+ * Answers accumulate in this component and are sent once, when the last page is
  * answered, because that is what the design's "Send inn" does. A skipped question sends
  * no value; a comment on a skipped question is still sent, because the person wrote it.
  *
@@ -122,6 +125,82 @@ export interface RespondCopy {
   doneTitle: string
   doneLead: string
   submitFailed: string
+  // P1-4 (D-150): the page before the first question, going back, time left, a resumed survey
+  introTitle: string
+  /** the four promises, as respond.promise1–4 say them */
+  promises: string[]
+  start: string
+  back: string
+  /** raw template: {minutes} */
+  timeLeft: string
+  restored: string
+  keyboardHint: string
+}
+
+/** about seven seconds a question, as app.round_minutes counts an invitation (0099) */
+const SECONDS_PER_QUESTION = 7
+
+/**
+ * The flow's pages (P1-4, D-150): a factor's statements together — the core survey's three, a
+ * module factor's — and every other question on a page of its own. A factor's page stands where
+ * its first statement came in the server's order, which is shuffled per token, so the factors
+ * still come in an order of the respondent's own.
+ */
+function paginate(questions: Question[]): Question[][] {
+  const pages: Question[][] = []
+  const byFactor = new Map<string, number>()
+  for (const q of questions) {
+    if (q.kind === 'factor' || q.kind === 'module') {
+      const key = `${q.kind}:${q.kind === 'factor' ? q.factor : q.factorLabel}`
+      const at = byFactor.get(key)
+      if (at === undefined) {
+        byFactor.set(key, pages.length)
+        pages.push([q])
+      } else pages[at]!.push(q)
+    } else pages.push([q])
+  }
+  return pages
+}
+
+const hasChoices = (q: Question) => q.kind !== 'extra-text' && q.kind !== 'own-text'
+
+/**
+ * What is kept in the browser while a survey is under way (P1-4): which option was picked for
+ * which question, and the page. Never what someone wrote — a text left on a shared computer is
+ * exactly what the product promises not to expose — and never on the server, where it could be
+ * joined to the invitation. Kept under a digest of the link, gone once the answer is sent.
+ */
+type Draft = { picked: Record<string, number>; page: number; at: number }
+const DRAFT_DAYS = 30
+
+async function draftKey(token: string): Promise<string | null> {
+  try {
+    const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(`orgpuls-draft:${token}`))
+    return `orgpuls:utkast:${Array.from(new Uint8Array(digest).slice(0, 12), (b) => b.toString(16).padStart(2, '0')).join('')}`
+  } catch {
+    return null
+  }
+}
+
+function readDraft(key: string): Draft | null {
+  try {
+    const raw = window.localStorage.getItem(key)
+    if (!raw) return null
+    const d = JSON.parse(raw) as Draft
+    if (typeof d?.at !== 'number' || Date.now() - d.at > DRAFT_DAYS * 86_400_000) return null
+    return d && typeof d.picked === 'object' && typeof d.page === 'number' ? d : null
+  } catch {
+    return null
+  }
+}
+
+function writeDraft(key: string, d: Draft | null) {
+  try {
+    if (d) window.localStorage.setItem(key, JSON.stringify(d))
+    else window.localStorage.removeItem(key)
+  } catch {
+    // a private window or blocked storage: the survey works, it only cannot be resumed
+  }
 }
 
 export function RespondFlow({
@@ -148,39 +227,69 @@ export function RespondFlow({
    */
   preview?: string
 }) {
-  const [step, setStep] = useState(0)
+  const pages = useMemo(() => paginate(questions), [questions])
+  // -1 is the page before the first question, with the promises (P1-4)
+  const [page, setPage] = useState(-1)
   const [picked, setPicked] = useState<Record<string, number>>({})
   const [text, setText] = useState<Record<string, string>>({})
-  const [commentOpen, setCommentOpen] = useState(false)
+  const [commentOpen, setCommentOpen] = useState<Record<string, boolean>>({})
   const [done, setDone] = useState(false)
   const [threads, setThreads] = useState<string[]>([])
   const [failed, setFailed] = useState(false)
+  const [restored, setRestored] = useState(false)
   const [pending, startTransition] = useTransition()
+  const key = useRef<string | null>(null)
+  const top = useRef<HTMLDivElement>(null)
 
-  const total = questions.length
-  const current = questions[step]
+  // a survey begun on this device and not sent: its choices and its page, never its words
+  useEffect(() => {
+    if (preview || !token) return
+    let live = true
+    void draftKey(token).then((k) => {
+      if (!live || !k) return
+      key.current = k
+      const d = readDraft(k)
+      if (d && Object.keys(d.picked).length) {
+        const known = new Set(questions.map((q) => q.id))
+        setPicked(Object.fromEntries(Object.entries(d.picked).filter(([id]) => known.has(id))))
+        setPage(Math.min(Math.max(0, d.page), pages.length - 1))
+        setRestored(true)
+      }
+    })
+    return () => {
+      live = false
+    }
+    // once, on arrival: a language change keeps the state it has
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    if (key.current && !done && page >= 0) writeDraft(key.current, { picked, page, at: Date.now() })
+  }, [picked, page, done])
+
+  const current = page >= 0 ? (pages[page] ?? []) : []
+  const answeredBefore = pages.slice(0, Math.max(0, page)).reduce((n, p) => n + p.length, 0)
+  const remaining = questions.length - answeredBefore
+  const minutesLeft = Math.max(1, Math.ceil((remaining * SECONDS_PER_QUESTION) / 60))
+  const isLast = page === pages.length - 1
 
   function build() {
     const answers = []
     const extra = []
+    const own: ({ question: string; value: number } | { question: string; text: string })[] = []
     const mod = {
       answers: [] as ({ item: string; value: number } | { item: string; na: true })[],
       count: [] as { item: string; answer: CountAnswer }[],
       segments: [] as { item: string; option: number }[],
     }
-    const own: ({ question: string; value: number } | { question: string; text: string })[] = []
     for (const q of questions) {
       if (q.kind === 'own-scale') {
         const value = picked[q.id]
         if (value !== undefined) own.push({ question: q.question, value })
-        continue
-      }
-      if (q.kind === 'own-text') {
+      } else if (q.kind === 'own-text') {
         const body = text[q.id]?.trim()
         if (body) own.push({ question: q.question, text: body })
-        continue
-      }
-      if (q.kind === 'module' || q.kind === 'count' || q.kind === 'segment') {
+      } else if (q.kind === 'module' || q.kind === 'count' || q.kind === 'segment') {
         const value = picked[q.id]
         if (value === undefined) continue
         if (q.kind === 'module') mod.answers.push(value === NOT_RELEVANT ? { item: q.item, na: true } : { item: q.item, value })
@@ -211,23 +320,26 @@ export function RespondFlow({
     return { token, answers, extra, ...(asked ? { module: mod } : {}), ...(own.length ? { own } : {}) }
   }
 
+  function go(to: number) {
+    setPage(to)
+    setRestored(false)
+    top.current?.scrollIntoView({ block: 'start' })
+  }
+
   /**
-   * «Hopp over» is a skip: whatever was picked on this question is dropped, so nothing is sent
-   * for it (a comment written on it still is, as the person wrote it). «Neste» with nothing
-   * picked is the same skip.
+   * «Hopp over» skips the page: whatever was picked on it is dropped, so nothing is sent for it
+   * (a comment written on it still is, as the person wrote it). «Neste» with nothing picked is
+   * the same skip.
    */
   function skip() {
-    if (current && current.id in picked) {
-      const { [current.id]: _dropped, ...rest } = picked
-      setPicked(rest)
-    }
+    const ids = new Set(current.map((q) => q.id))
+    setPicked(Object.fromEntries(Object.entries(picked).filter(([id]) => !ids.has(id))))
     advance()
   }
 
   function advance() {
-    setCommentOpen(false)
-    if (step < total - 1) {
-      setStep(step + 1)
+    if (!isLast) {
+      go(page + 1)
       return
     }
     if (preview) {
@@ -237,25 +349,47 @@ export function RespondFlow({
     startTransition(async () => {
       const result: SubmitResult = await submitResponse(build())
       if (result.ok) {
+        if (key.current) writeDraft(key.current, null)
         setThreads(result.threads)
         setDone(true)
       } else setFailed(true)
     })
   }
 
+  // number keys choose for the first question on the page without an answer; Enter goes on
+  useEffect(() => {
+    if (page < 0 || done) return
+    const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null
+      if (e.altKey || e.ctrlKey || e.metaKey || target?.closest('textarea, input, select')) return
+      if (/^[1-9]$/.test(e.key)) {
+        const q = current.find((x) => hasChoices(x) && picked[x.id] === undefined) ?? current.find(hasChoices)
+        if (!q || !('choices' in q)) return
+        const n = Number(e.key)
+        if (!q.choices.some((c) => c.ordinal === n)) return
+        e.preventDefault()
+        setPicked((p) => ({ ...p, [q.id]: n }))
+      } else if (e.key === 'Enter' && target?.tagName !== 'BUTTON' && target?.tagName !== 'A') {
+        e.preventDefault()
+        advance()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  })
+
   /**
    * One answer option: the scale's, a choice question's, or «Ikke relevant for meg», whose label is
    * muted until picked, so it reads as outside the scale rather than a sixth point on it (D-134).
    */
-  function choice(value: number, label: string, muted = false) {
-    if (!current) return null
-    const on = picked[current.id] === value
+  function choice(q: Question, value: number, label: string, muted = false) {
+    const on = picked[q.id] === value
     return (
       <button
         key={value}
         type="button"
         aria-pressed={on}
-        onClick={() => setPicked({ ...picked, [current.id]: value })}
+        onClick={() => setPicked({ ...picked, [q.id]: value })}
         className={`flex w-full cursor-pointer items-center gap-[13px] rounded-opt border px-[16px] py-[14px] text-left text-ink ${
           on ? 'border-ink bg-sbg' : 'border-line bg-sf'
         }`}
@@ -279,6 +413,13 @@ export function RespondFlow({
     </div>
   ) : null
 
+  const head = (
+    <div className="flex items-center justify-between px-[20px] pb-[6px] pt-[13px] text-[11.5px] font-semibold text-mut">
+      <span>{org}</span>
+      {languages ? <LanguagePicker {...languages} /> : null}
+    </div>
+  )
+
   if (done) {
     return (
       <>
@@ -299,19 +440,49 @@ export function RespondFlow({
     )
   }
 
-  if (!current) return null
+  // the page before the first question: what is promised, and how long it takes
+  if (page < 0) {
+    return (
+      <>
+        {banner}
+        {head}
+        <div className="px-[22px] pb-[22px] pt-[20px]">
+          <h1 className="m-0 font-display text-[26px] font-medium leading-[1.2] [text-wrap:balance]">{copy.introTitle}</h1>
+          <ul className="m-0 mt-[16px] flex list-none flex-col gap-[10px] p-0">
+            {copy.promises.map((p) => (
+              <li key={p} className="flex gap-[10px] text-[14px] leading-[1.5] [text-wrap:pretty]">
+                <span aria-hidden="true" className="mt-[2px] flex h-[20px] w-[20px] flex-none items-center justify-center rounded-pill bg-mint text-[11px] font-bold text-greendeep">
+                  ✓
+                </span>
+                <span>{p}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-[16px] text-[12.5px] font-semibold text-mut">
+            {copy.timeLeft.replace('{minutes}', String(Math.max(1, Math.ceil((questions.length * SECONDS_PER_QUESTION) / 60))))}
+          </div>
+          <button
+            type="button"
+            autoFocus
+            onClick={() => go(0)}
+            className="mt-[18px] h-[46px] w-full cursor-pointer rounded-opt border border-ink bg-ink px-[26px] text-[15px] font-bold text-bg"
+          >
+            {copy.start}
+          </button>
+          <div className="mt-[12px] hidden text-center text-[11.5px] text-mut sm:block">{copy.keyboardHint}</div>
+        </div>
+      </>
+    )
+  }
 
-  const pct = Math.round(((step + 1) / total) * 100)
-  const isLast = step === total - 1
-  const hasChoices = current.kind !== 'extra-text' && current.kind !== 'own-text'
+  const pct = Math.round(((page + 1) / pages.length) * 100)
+  const first = current[0]
 
   return (
     <>
       {banner}
-      <div className="flex items-center justify-between px-[20px] pb-[6px] pt-[13px] text-[11.5px] font-semibold text-mut">
-        <span>{org}</span>
-        {languages ? <LanguagePicker {...languages} /> : null}
-      </div>
+      <div ref={top} />
+      {head}
 
       <div className="px-[22px] pt-[10px]">
         <div className="flex items-center gap-[10px]">
@@ -325,77 +496,87 @@ export function RespondFlow({
             />
           </span>
           <span className="flex-none text-[11.5px] font-semibold text-mut">
-            {copy.progress.replace('{n}', String(step + 1)).replace('{total}', String(total))}
+            {copy.progress.replace('{n}', String(page + 1)).replace('{total}', String(pages.length))}
           </span>
+        </div>
+        <div className="mt-[6px] text-right text-[11px] text-mut" aria-live="polite">
+          {copy.timeLeft.replace('{minutes}', String(minutesLeft))}
         </div>
       </div>
 
-      <div className="px-[22px] pb-[18px] pt-[24px]">
-        <div className="inline-block rounded-pill bg-sbg px-[11px] py-[4px] text-[11px] font-bold uppercase tracking-[0.05em]">
-          {current.factorLabel}
+      {restored ? (
+        <div role="status" className="mx-[22px] mt-[10px] rounded-ctl bg-mint px-[12px] py-[9px] text-[12.5px] leading-[1.45] text-ink">
+          {copy.restored}
         </div>
-        {'lead' in current ? (
-          <div className="mt-[12px] text-[13px] font-semibold leading-[1.5] text-mut [text-wrap:pretty]">
-            {current.lead}
+      ) : null}
+
+      <div className="px-[22px] pb-[18px] pt-[18px]">
+        {first ? (
+          <div className="inline-block rounded-pill bg-sbg px-[11px] py-[4px] text-[11px] font-bold uppercase tracking-[0.05em]">
+            {first.factorLabel}
           </div>
         ) : null}
-        <div className="mt-[14px] font-display text-[24px] font-medium leading-[1.27] [text-wrap:pretty]">
-          {current.text}
-        </div>
-        {'help' in current && current.help ? (
-          <div className="mt-[8px] text-[13px] leading-[1.5] text-mut [text-wrap:pretty]">{current.help}</div>
+        {first && 'lead' in first ? (
+          <div className="mt-[12px] text-[13px] font-semibold leading-[1.5] text-mut [text-wrap:pretty]">{first.lead}</div>
         ) : null}
 
-        {hasChoices ? (
-          <>
-            <div className="mt-[20px] flex flex-col gap-[9px]">
-              {current.choices.map((c) => choice(c.ordinal, c.label))}
-            </div>
-            {current.kind === 'factor' || current.kind === 'module' ? (
-              <div className="mt-[16px] flex flex-col">{choice(NOT_RELEVANT, copy.notRelevant, true)}</div>
+        {current.map((q, i) => (
+          <fieldset key={q.id} className={`m-0 min-w-0 border-0 p-0 ${i > 0 ? 'mt-[26px] border-t border-line pt-[20px]' : ''}`}>
+            <legend className={`p-0 font-display font-medium leading-[1.27] [text-wrap:pretty] ${current.length > 1 ? 'mt-[12px] text-[20px]' : 'mt-[14px] text-[24px]'}`}>
+              {q.text}
+            </legend>
+            {'help' in q && q.help ? (
+              <div className="mt-[8px] text-[13px] leading-[1.5] text-mut [text-wrap:pretty]">{q.help}</div>
             ) : null}
 
-            {current.kind === 'factor' ? (
+            {'choices' in q && hasChoices(q) ? (
               <>
-                <button
-                  type="button"
-                  aria-expanded={commentOpen}
-                  onClick={() => setCommentOpen(!commentOpen)}
-                  className="mt-[14px] flex w-full cursor-pointer items-center justify-between gap-[10px] rounded-opt border border-dashed border-rule bg-transparent px-[16px] py-[13px] text-left text-ink"
-                >
-                  <span className="text-[13.5px] text-mut">{copy.commentPrompt}</span>
-                  <span aria-hidden="true" className="text-[17px] leading-none text-mut">
-                    {commentOpen ? '−' : '+'}
-                  </span>
-                </button>
-                {commentOpen ? (
-                  <textarea
-                    value={text[`${current.id}:comment`] ?? ''}
-                    onChange={(e) =>
-                      setText({ ...text, [`${current.id}:comment`]: e.target.value })
-                    }
-                    placeholder={copy.commentPlaceholder}
-                    aria-label={copy.commentPrompt}
-                    className="mt-[9px] min-h-[74px] w-full resize-y rounded-cta border border-line bg-sf px-[14px] py-[12px] text-[13.5px] leading-[1.5] text-ink outline-none"
-                  />
+                <div className="mt-[16px] flex flex-col gap-[9px]">{q.choices.map((c) => choice(q, c.ordinal, c.label))}</div>
+                {q.kind === 'factor' || q.kind === 'module' ? (
+                  <div className="mt-[12px] flex flex-col">{choice(q, NOT_RELEVANT, copy.notRelevant, true)}</div>
+                ) : null}
+
+                {q.kind === 'factor' ? (
+                  <>
+                    <button
+                      type="button"
+                      aria-expanded={!!commentOpen[q.id]}
+                      onClick={() => setCommentOpen({ ...commentOpen, [q.id]: !commentOpen[q.id] })}
+                      className="mt-[12px] flex w-full cursor-pointer items-center justify-between gap-[10px] rounded-opt border border-dashed border-rule bg-transparent px-[16px] py-[13px] text-left text-ink"
+                    >
+                      <span className="text-[13.5px] text-mut">{copy.commentPrompt}</span>
+                      <span aria-hidden="true" className="text-[17px] leading-none text-mut">
+                        {commentOpen[q.id] ? '−' : '+'}
+                      </span>
+                    </button>
+                    {commentOpen[q.id] ? (
+                      <textarea
+                        value={text[`${q.id}:comment`] ?? ''}
+                        onChange={(e) => setText({ ...text, [`${q.id}:comment`]: e.target.value })}
+                        placeholder={copy.commentPlaceholder}
+                        aria-label={copy.commentPrompt}
+                        className="mt-[9px] min-h-[74px] w-full resize-y rounded-cta border border-line bg-sf px-[14px] py-[12px] text-[13.5px] leading-[1.5] text-ink outline-none"
+                      />
+                    ) : null}
+                  </>
                 ) : null}
               </>
-            ) : null}
-          </>
-        ) : (
-          <>
-            <textarea
-              value={text[current.id] ?? ''}
-              onChange={(e) => setText({ ...text, [current.id]: e.target.value })}
-              placeholder={copy.openPlaceholder}
-              aria-label={current.text}
-              className="mt-[20px] min-h-[130px] w-full resize-y rounded-opt border border-line bg-sf px-[15px] py-[13px] text-[14px] leading-[1.55] text-ink outline-none"
-            />
-            <div className="mt-[9px] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
-              {current.note}
-            </div>
-          </>
-        )}
+            ) : (
+              <>
+                <textarea
+                  value={text[q.id] ?? ''}
+                  onChange={(e) => setText({ ...text, [q.id]: e.target.value })}
+                  placeholder={copy.openPlaceholder}
+                  aria-label={q.text}
+                  className="mt-[20px] min-h-[130px] w-full resize-y rounded-opt border border-line bg-sf px-[15px] py-[13px] text-[14px] leading-[1.55] text-ink outline-none"
+                />
+                {'note' in q ? (
+                  <div className="mt-[9px] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">{q.note}</div>
+                ) : null}
+              </>
+            )}
+          </fieldset>
+        ))}
 
         {failed ? (
           <div role="alert" className="mt-[14px] text-[13px] font-semibold text-danger">
@@ -405,14 +586,26 @@ export function RespondFlow({
       </div>
 
       <div className="flex items-center justify-between gap-[12px] border-t border-line px-[22px] pb-[22px] pt-[14px]">
-        <button
-          type="button"
-          onClick={skip}
-          disabled={pending}
-          className="cursor-pointer border-none bg-transparent py-[8px] text-[13.5px] font-semibold text-mut"
-        >
-          {copy.skip}
-        </button>
+        <span className="flex items-center gap-[16px]">
+          {page > 0 ? (
+            <button
+              type="button"
+              onClick={() => go(page - 1)}
+              disabled={pending}
+              className="cursor-pointer border-none bg-transparent py-[8px] text-[13.5px] font-semibold text-ink"
+            >
+              ← {copy.back}
+            </button>
+          ) : null}
+          <button
+            type="button"
+            onClick={skip}
+            disabled={pending}
+            className="cursor-pointer border-none bg-transparent py-[8px] text-[13.5px] font-semibold text-mut"
+          >
+            {copy.skip}
+          </button>
+        </span>
         <button
           type="button"
           onClick={advance}
