@@ -48,6 +48,8 @@ const isFlag = (s: string): s is FlagName => (FLAG_NAMES as readonly string[]).i
  *     is still offered only where every item and the page strings carry an approval in the
  *     database (lib/i18n/offered.ts), which a platform admin gives in the admin app.
  *   - `home_industries_block`: on since all five industry pages launched, 2026-09-28 (X-078).
+ *   - `engagement_since_last`, `engagement_thanks`, `engagement_pulse_reason`: engagement phase 2,
+ *     approved by Tor on 2026-09-28 (X-086, D-156).
  */
 export const SIGNED_OFF: readonly FlagName[] = (signedOff as string[]).filter(isFlag)
 

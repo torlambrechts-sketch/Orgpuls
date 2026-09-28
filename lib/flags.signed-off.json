@@ -1,4 +1,7 @@
 [
   "locale_en",
-  "home_industries_block"
+  "home_industries_block",
+  "engagement_since_last",
+  "engagement_thanks",
+  "engagement_pulse_reason"
 ]
