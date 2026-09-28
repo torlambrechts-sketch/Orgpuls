@@ -49,7 +49,7 @@ export interface NoticeJob {
   recipients: Recipient[]
   token: string | null
   /** for a personal message, the survey's language state (0080): items missing, UI hashes approved, and whether the organisation pilots it (0085) */
-  locales?: Record<string, { missing: number; ui: string[]; pilot?: boolean }> | null
+  locales?: Record<string, { missing: number; ui: string[]; pilot?: boolean; auto?: boolean }> | null
   /** an invitation's length in minutes, from what the round asks (0099, P1-1) */
   minutes?: number | null
   /** everyone is told the results: the ladder has an «alle ansatte» row (0097, 0099) */
@@ -76,6 +76,25 @@ export type AuthAction = 'recovery' | 'signup' | 'magiclink' | 'invite'
 export const AUTH_ACTIONS: readonly AuthAction[] = ['recovery', 'signup', 'magiclink', 'invite']
 
 // ---------------------------------------------------------------------------------------
+
+/**
+ * A language's mail texts with the bokmål or English overrides approved in admin › Translations
+ * (0101, D-152) laid over them: `flat` is public.message_overrides, keyed by the message's full
+ * path; only `mail.*` strings the catalogue has are replaced, never a branch, never a new key.
+ */
+export function withMailOverrides(tree: MailMessages, flat: Record<string, unknown>): MailMessages {
+  const keys = Object.keys(flat).filter((k) => k.startsWith('mail.') && typeof flat[k] === 'string')
+  if (!keys.length) return tree
+  const out = structuredClone(tree) as Record<string, unknown>
+  for (const k of keys) {
+    const parts = k.slice('mail.'.length).split('.')
+    let node: unknown = out
+    for (const p of parts.slice(0, -1)) node = node && typeof node === 'object' ? (node as Record<string, unknown>)[p] : undefined
+    const last = parts.at(-1)!
+    if (node && typeof node === 'object' && typeof (node as Record<string, unknown>)[last] === 'string') (node as Record<string, unknown>)[last] = flat[k]
+  }
+  return out
+}
 
 export const langOf = (v: string | null | undefined): Lang => (v === 'en' ? 'en' : 'no')
 
@@ -219,7 +238,8 @@ export function offeredFor(cat: MailCatalogue, job: NoticeJob, offer: LanguageOf
   const ready = others.filter((l) => {
     const s = job.locales?.[l]
     const hash = offer.hashes[l]
-    const ui = (hash !== undefined && s?.ui.includes(hash)) || offer.uiReady?.[l] === true
+    // auto-approve on (0101): this build's page strings count as approved, as on the survey page
+    const ui = (hash !== undefined && (s?.auto === true || s?.ui.includes(hash))) || offer.uiReady?.[l] === true
     return on(l) && l in cat && s !== undefined && s.missing === 0 && ui
   })
   return ['no', ...(ready as Lang[])]

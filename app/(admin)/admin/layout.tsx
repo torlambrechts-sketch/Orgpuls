@@ -5,7 +5,8 @@ import { AdminNav } from '@/components/admin/AdminNav'
 import { Badge } from '@/components/admin/ui'
 import { sectionsFor, HREF, type Section } from '@/lib/admin/access'
 import { adminSignOut } from '@/lib/admin/actions'
-import { whoami } from '@/lib/admin/api'
+import { autoApprove, isError, whoami } from '@/lib/admin/api'
+import Link from 'next/link'
 
 /**
  * The platform admin's shell (D-90). Every page under it is behind three checks, here and
@@ -25,6 +26,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (who.mfa_enforced && who.aal !== 'aal2') redirect('/admin/mfa')
 
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
+  // the auto-approve switch (0101): said on every admin page while it is on
+  const auto = who.role === 'super_admin' || who.role === 'support' ? await autoApprove() : null
+  const autoOn = !!auto && !isError(auto) && auto.on
   const items = sectionsFor(who.role, BUILT).map((s) => ({ href: HREF[s], label: t(`nav.${s}`) }))
 
   return (
@@ -49,6 +53,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       </aside>
       <main className="min-w-0 px-[16px] py-[24px] md:px-[28px]">
         <div className="mx-auto max-w-[1180px]">
+          {autoOn ? (
+            <p role="status" className="mb-[18px] mt-0 rounded-panel border border-line bg-band px-[16px] py-[10px] text-[13px] font-semibold text-cautiondeep">
+              {t('autoBanner')}{' '}
+              <Link href="/admin/translations" className="text-cautiondeep underline">
+                {t('autoBannerLink')}
+              </Link>
+            </p>
+          ) : null}
           {children}
           <p className="mb-0 mt-[28px] text-[11.5px] text-mut">{t('common.privacy')}</p>
         </div>

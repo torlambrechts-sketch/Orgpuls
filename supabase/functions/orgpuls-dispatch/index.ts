@@ -61,6 +61,7 @@ import {
   type MailCatalogue,
   type NoticeJob,
   type TicketJob,
+  withMailOverrides,
 } from '../_shared/mail.ts'
 import { normalizePhone, smsContent, smsLength } from '../_shared/sms.ts'
 import { MAIL, RESPONDENT_UI, SIGNED_OFF_FLAGS, SURVEY_ONLY, SURVEY_SOURCE } from '../_shared/messages.gen.ts'
@@ -331,6 +332,16 @@ Deno.serve(async (req) => {
       uiReady[l] = complete(SURVEY_SOURCE.ui, d.ui?.[l])
     }
     if (offer) offer.uiReady = uiReady
+  }
+  // bokmål and English mail texts replaced from admin › Translations, once approved (0101, D-152):
+  // laid over this run's copy of the catalogue (withMailOverrides)
+  for (const lang of ['no', 'en'] as const) {
+    const o = await svc.rpc('message_overrides', { p_locale: lang })
+    if (o.error) {
+      console.error(`[dispatch] overrides ${lang}: ${o.error.code ?? ''} ${o.error.message}`)
+      continue
+    }
+    cat[lang] = withMailOverrides(cat[lang], (o.data ?? {}) as Record<string, unknown>)
   }
   const started = Date.now()
   const tally = { claimed: 0, sent: 0, sms: 0, failed: 0, retry: 0, released: 0 }

@@ -300,13 +300,13 @@ export const MESSAGE_SPECS: MessageSpec[] = [
   { id: 'admin.crmBasis', section: 'messages', paths: ['admin.crm.settings.lead', 'admin.crm.settings.on'], where: place('crmSettings'), langs: ['en'] },
 ]
 
-function messageUnits(): LegalUnit[] {
+function messageUnits(messages: Record<LegalLang, unknown> = MESSAGES): LegalUnit[] {
   return MESSAGE_SPECS.flatMap((s) =>
     (s.langs ?? LANGS).map((lang) => {
       const lines: LegalLine[] = []
       const missing: string[] = []
       for (const p of s.paths) {
-        const v = at(MESSAGES[lang], p)
+        const v = at(messages[lang], p)
         if (v === undefined) missing.push(p)
         else leaves(v, p, lines)
       }
@@ -314,7 +314,7 @@ function messageUnits(): LegalUnit[] {
         key: `msg:${lang}:${s.id}`,
         section: s.section,
         title: s.title
-          ? { key: s.title.key, values: { title: String(at(MESSAGES[lang], s.title.from) ?? s.id) } }
+          ? { key: s.title.key, values: { title: String(at(messages[lang], s.title.from) ?? s.id) } }
           : { key: s.id },
         lang,
         source: `messages/${lang}.json › ${s.paths.join(', ')}`,
@@ -559,6 +559,8 @@ export type LegalInputs = {
   /** null when the read failed: those units are then absent, and the page says so */
   crmTemplates?: CrmTemplate[] | null
   crmLists?: CrmList[] | null
+  /** the message files as shown, with their approved overrides (0101); the files alone when absent */
+  messages?: Record<LegalLang, unknown>
 }
 
 /** Every legal text, in section order. */
@@ -568,7 +570,7 @@ export function legalUnits(input: LegalInputs | NonNullable<LegalInputs['factors
     ...industryUnits(),
     ...moduleUnits(i.publishedModules ?? new Set()),
     ...termsUnit(),
-    ...messageUnits(),
+    ...messageUnits(i.messages),
     ...instrumentUnit(i.factors),
     ...crmUnits(i.crmTemplates ?? null, i.crmLists ?? null),
   ]

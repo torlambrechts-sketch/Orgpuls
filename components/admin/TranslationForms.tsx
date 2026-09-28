@@ -2,7 +2,7 @@
 
 import { startTransition, useActionState, useRef, useState } from 'react'
 import { Button } from '@/components/ui/Button'
-import { translationsApproveLanguage, translationsImport, type AdminResult, type ImportResult } from '@/lib/admin/actions'
+import { messagesApprove, messagesImport, setAutoApprove, translationsApproveLanguage, translationsImport, type AdminResult, type ImportResult } from '@/lib/admin/actions'
 import { Outcome } from './ActionForms'
 
 type Problems = Record<string, string>
@@ -15,9 +15,15 @@ const label = 'mb-[5px] block text-[12px] font-semibold'
  */
 export function TranslationImportForm({
   locale,
+  scope,
+  platform = false,
   labels,
 }: {
   locale: string
+  /** the tab the file is imported into: entries of the other tab are counted and left out (0101) */
+  scope: 'questionnaire' | 'pages'
+  /** bokmål or English pages: overrides of messages/ (0101), not the registry */
+  platform?: boolean
   labels: {
     file: string
     origin: string
@@ -26,14 +32,16 @@ export function TranslationImportForm({
     apply: string
     checking: string
     summary: string
+    outside: string
     written: string
+    removed: string
     nothing: string
     codes: Record<string, string>
     problems: Problems
     problemsHead: string
   }
 }) {
-  const [state, action, pending] = useActionState<ImportResult | null, FormData>(translationsImport, null)
+  const [state, action, pending] = useActionState<ImportResult | null, FormData>(platform ? messagesImport : translationsImport, null)
   const form = useRef<HTMLFormElement>(null)
   // a new file or source needs checking again before it can be imported
   const [dirty, setDirty] = useState(true)
@@ -51,6 +59,7 @@ export function TranslationImportForm({
   return (
     <form ref={form} onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-[10px]">
       <input type="hidden" name="locale" value={locale} />
+      <input type="hidden" name="scope" value={scope} />
       <div className="grid gap-[10px] [grid-template-columns:minmax(0,1fr)] sm:[grid-template-columns:minmax(0,1fr)_minmax(0,14rem)]">
         <label className="block">
           <span className={label}>{labels.file}</span>
@@ -93,10 +102,12 @@ export function TranslationImportForm({
         <div role="status" className="rounded-ctl border border-line bg-bg px-[14px] py-[10px] text-[13px] leading-[1.6]">
           <p className="m-0">
             {state.applied && state.written
-              ? fill(labels.written, { new: state.written.new, changed: state.written.changed, same: state.written.same, refused: state.written.refused.length })
+              ? fill(labels.written, { new: state.written.new, changed: state.written.changed, same: state.written.same, refused: state.written.refused.length }) +
+                (state.written.removed ? ` ${fill(labels.removed, { n: state.written.removed })}` : '')
               : state.rows
                 ? fill(labels.summary, { format: state.format.toUpperCase(), rows: state.rows, unchanged: state.unchanged, untranslated: state.untranslated })
                 : labels.nothing}
+            {state.outside ? ` ${fill(labels.outside, { n: state.outside })}` : ''}
           </p>
           {state.problems.length ? (
             <details className="mt-[6px]" open={state.problems.some((p) => p.level === 'error')}>
@@ -160,6 +171,74 @@ export function TranslationApproveForm({
         </Button>
         <Outcome state={state} problems={labels.problems} done={labels.done} />
       </span>
+    </form>
+  )
+}
+
+/** Approve the waiting bokmål or English overrides the page listed, each by its text's hash (0101) */
+export function MessagesApproveForm({
+  locale,
+  items,
+  labels,
+}: {
+  locale: string
+  items: { key: string; hash: string }[]
+  labels: { read: string; submit: string; saving: string; done: string; problems: Problems }
+}) {
+  const [state, action, pending] = useActionState<AdminResult | null, FormData>(messagesApprove, null)
+  const [read, setRead] = useState(false)
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        const fd = new FormData(e.currentTarget)
+        startTransition(() => action(fd))
+      }}
+      className="flex flex-col gap-[10px]"
+    >
+      <input type="hidden" name="locale" value={locale} />
+      <input type="hidden" name="items" value={JSON.stringify(items)} />
+      <label className="inline-flex items-start gap-[8px] text-[13px] leading-[1.5]">
+        <input type="checkbox" name="read" checked={read} onChange={(e) => setRead(e.target.checked)} className="mt-[3px] h-[16px] w-[16px] accent-ink" />
+        {labels.read}
+      </label>
+      <span className="flex flex-wrap items-center gap-[10px]">
+        <Button type="submit" size="sm" disabled={pending}>
+          {pending ? labels.saving : labels.submit}
+        </Button>
+        <Outcome state={state} problems={labels.problems} done={labels.done} />
+      </span>
+    </form>
+  )
+}
+
+/**
+ * The auto-approve switch (0101, D-152). Turning it on asks once: it approves everything waiting
+ * and everything that arrives until it is turned off, marked as automatic.
+ */
+export function AutoApproveForm({
+  on,
+  labels,
+}: {
+  on: boolean
+  labels: { turnOn: string; turnOff: string; confirm: string; saving: string; done: string; problems: Problems }
+}) {
+  const [state, action, pending] = useActionState<AdminResult | null, FormData>(setAutoApprove, null)
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        if (!on && !window.confirm(labels.confirm)) return
+        const fd = new FormData(e.currentTarget)
+        startTransition(() => action(fd))
+      }}
+      className="flex flex-wrap items-center gap-[10px]"
+    >
+      <input type="hidden" name="on" value={on ? 'off' : 'on'} />
+      <Button type="submit" size="sm" tone={on ? 'secondary' : 'primary'} disabled={pending}>
+        {pending ? labels.saving : on ? labels.turnOff : labels.turnOn}
+      </Button>
+      <Outcome state={state} problems={labels.problems} done={labels.done} />
     </form>
   )
 }

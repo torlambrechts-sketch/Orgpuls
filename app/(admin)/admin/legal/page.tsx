@@ -9,6 +9,7 @@ import respondentUi from '@/lib/i18n/respondent-ui.json'
 import { respondentLines } from '@/lib/i18n/respondent-strings'
 import enMessages from '@/messages/en.json'
 import { legalInputs } from '@/lib/legal/inputs'
+import { autoRecord } from '@/lib/admin/auto'
 import { DPA_IN_FORCE, legalUnits, LEGAL_SECTIONS, type LegalUnit } from '@/lib/legal/registry'
 
 /**
@@ -32,6 +33,8 @@ export default async function AdminLegal(props: Props) {
   const show: Show = (SHOW as readonly string[]).includes(sp.show ?? '') ? (sp.show as Show) : 'all'
   const lang: Lang = (LANG as readonly string[]).includes(sp.lang ?? '') ? (sp.lang as Lang) : 'all'
 
+  // while auto-approve is on (0101), the texts this build shows are recorded as approved first
+  await autoRecord()
   const [who, approvals, en, inputs, pilots] = await Promise.all([
     whoami(),
     legalApprovals(),
@@ -146,6 +149,7 @@ export default async function AdminLegal(props: Props) {
                             <Badge>{t(`legal.langCode.${u.lang}`)}</Badge>
                             <Badge tone={u.live ? 'green' : 'grey'}>{u.live ? t('legal.live') : t('legal.notLive')}</Badge>
                             <Badge tone={state === 'approved' ? 'green' : state === 'changed' ? 'yellow' : 'red'}>{t(`legal.state.${state}`)}</Badge>
+                            {state === 'approved' && a?.auto ? <Badge tone="yellow">{t('legal.autoBadge')}</Badge> : null}
                           </span>
                           <span className="mt-[4px] block text-[12px] leading-[1.5] text-mut">
                             {t('legal.whereSource', { where: where(u), source: u.source })}

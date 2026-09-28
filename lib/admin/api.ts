@@ -641,7 +641,7 @@ export const modules = () => call('admin_modules', {}, Modules)
 
 // ---------------------------------------------------------------- legal review (0082, D-130)
 const LegalApprovals = z.object({
-  approvals: z.array(z.object({ key: z.string(), hash: z.string(), at: ts, by: z.string().nullable() })),
+  approvals: z.array(z.object({ key: z.string(), hash: z.string(), at: ts, by: z.string().nullable(), auto: z.boolean().default(false) })),
 })
 export type LegalApproval = z.infer<typeof LegalApprovals>['approvals'][number]
 /** Every current approval of a legal text, by the hash approved. Super-admin. */
@@ -682,6 +682,8 @@ const Translations = z.object({
       notes: z.string().nullable().default(null),
       source_hash: z.string().nullable().default(null),
       approvable: z.boolean().default(false),
+      // 0101: approved by the auto-approve switch rather than a person
+      auto: z.boolean().default(false),
     }),
   ),
   ui: z.array(z.object({ hash: z.string(), at: ts })),
@@ -720,3 +722,28 @@ export const translationSources = () => call('admin_translation_sources', {}, Tr
 export const localePilots = () => call('admin_locale_pilots', {}, LocalePilots)
 /** A language's survey translations (0079) and the page-string hashes approved for it. Super-admin. */
 export const translationState = (locale: string) => call('admin_translations', { p_locale: locale }, Translations)
+
+const Overrides = z.object({
+  items: z.array(
+    z.object({
+      key: z.string(),
+      text: z.string(),
+      status: z.string(),
+      source: z.string(),
+      notes: z.string().nullable(),
+      source_hash: z.string().nullable(),
+      approved_at: tsn,
+      auto: z.boolean(),
+      by: z.string().nullable(),
+      updated_at: ts,
+    }),
+  ),
+})
+export type OverrideRow = z.infer<typeof Overrides>['items'][number]
+/** Every bokmål or English override, approved or waiting (0101). Super-admin. */
+export const messageOverrideRows = (locale: 'no' | 'en') => call('admin_message_overrides', { p_locale: locale }, Overrides)
+
+const AutoApprove = z.object({ on: z.boolean(), at: tsn, by: z.string().nullable() })
+export type AutoApprove = z.infer<typeof AutoApprove>
+/** The auto-approve switch (0101): whether it is on, since when, and who set it. */
+export const autoApprove = () => call('admin_auto_approve', {}, AutoApprove)

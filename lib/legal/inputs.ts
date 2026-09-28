@@ -1,6 +1,9 @@
 import 'server-only'
 import { isError, legalSources, modules } from '@/lib/admin/api'
 import { getFactors } from '@/lib/instrument/read'
+import { effectiveMessages } from '@/lib/i18n/overrides'
+import en from '@/messages/en.json'
+import no from '@/messages/no.json'
 import type { LegalInputs } from './registry'
 
 /**
@@ -9,7 +12,7 @@ import type { LegalInputs } from './registry'
  * A read that fails leaves its units out rather than showing them empty; the page says so.
  */
 export async function legalInputs(): Promise<LegalInputs & { failed: string[] }> {
-  const [factors, mods, db] = await Promise.all([getFactors(), modules(), legalSources()])
+  const [factors, mods, db, messages] = await Promise.all([getFactors(), modules(), legalSources(), effectiveMessages<unknown>(no, en)])
   const failed: string[] = []
   if (isError(mods)) failed.push('modules')
   if (isError(db)) failed.push('crm')
@@ -21,6 +24,8 @@ export async function legalInputs(): Promise<LegalInputs & { failed: string[] }>
     publishedModules: new Set(isError(mods) ? [] : mods.modules.filter((m) => m.status === 'published').map((m) => `${m.key}@${m.version}`)),
     crmTemplates: isError(db) ? null : db.templates,
     crmLists: isError(db) ? null : db.lists,
+    // an overridden legal text is reviewed as it is shown (0101)
+    messages,
     failed,
   }
 }

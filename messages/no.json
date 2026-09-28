@@ -9095,12 +9095,13 @@
         "reasonRequired": "Oppgi en begrunnelse på minst fem tegn."
       },
       "approveAll": "Godkjenn alle ({n})",
-      "approveAllDone": "Alle godkjent."
+      "approveAllDone": "Alle godkjent.",
+      "autoBadge": "Auto"
     },
     "translations": {
       "title": "Translations",
-      "lead": "The survey in the languages a respondent may choose besides bokmål and English. Every text a respondent can meet is listed with its bokmål source and its translation. Export a language to a file for a translator, import the file they return, and approve what may be approved. The platform itself stays bokmål and English.",
-      "languages": "Survey languages",
+      "lead": "Every text in the product, in bokmål, English and the survey languages a respondent may choose. The Questionnaire tab holds the questions; the Pages tab every other text — the survey pages, the mails, the product, the site and this admin. Export a language to a file for a translator, import the file they return, and approve what is waiting.",
+      "languages": "Languages",
       "statusTitle": "{language}",
       "live": "Offered to respondents",
       "readyOff": "Approved, not switched on",
@@ -9153,7 +9154,8 @@
         "stale": "Translated from an older source:",
         "approved_capped": "Marked approved in the file; imported as pretested:",
         "step": "Not a workflow step; imported as a draft:",
-        "sms_long": "Takes more than one SMS on its own:"
+        "sms_long": "Takes more than one SMS on its own:",
+        "questionnaire": "A question, not a page text:"
       },
       "problem": {
         "not_allowed": "Only a super-admin can do this.",
@@ -9188,8 +9190,65 @@
       "english": "English",
       "untranslated": "Not translated",
       "notes": "Notes",
-      "none": "No texts match."
-    }
+      "none": "No texts match.",
+      "tabs": "What to translate",
+      "tab": {
+        "questionnaire": "Questionnaire",
+        "pages": "Pages"
+      },
+      "tabLead": {
+        "questionnaire": "The core statements, the questions outside the index and the industry modules. Bokmål is the source; English and the survey languages are translations of it.",
+        "pages": "Every other text. For bokmål and English, the whole product, site, mails and admin, each string replaceable once approved; for the survey languages, the survey pages and the mails an employee gets."
+      },
+      "auto": {
+        "title": "Auto-approve (development)",
+        "on": "On",
+        "off": "Off",
+        "lead": "While this is on, every translation, override, legal text and survey page string is approved as it arrives, and everything waiting is approved when it is turned on. Each such approval is marked «auto» here and on the legal review, so the record never reads as a person's reading. Turn it off before real customers depend on the texts: from then on a person approves again. Language flags and pilots are not changed.",
+        "since": "On since {at}, turned on by {by}.",
+        "turnOn": "Turn auto-approve on",
+        "turnOff": "Turn auto-approve off",
+        "confirm": "Approve everything waiting now, and everything that arrives until this is turned off?",
+        "done": "Saved."
+      },
+      "autoCount": "{n, plural, one {One approval} other {# approvals}} made by auto-approve",
+      "autoBadge": "Auto",
+      "ruleEn": "English is offered to respondents when every question a survey asks has an approved English text and the survey pages' strings are approved on the legal review (or auto-approve is on). The pages themselves are on the Pages tab.",
+      "sourceTitle": "Bokmål is the source",
+      "sourceLead": "These are the questions as the validated instrument and the modules state them. They are shown and exported here for a proofreader; a change to one is a new module version or a migration, never an import, because every translation is made from them.",
+      "exportLeadSource": "Every question with its English beside it, for proofreading. JSON is the recommended format; XLIFF 2.0 is for a translation agency's tool.",
+      "platformTitle": "{language}: pages",
+      "platformCount": "{n} texts in {namespaces} areas (the files in messages/)",
+      "overrideCount": "{approved} replaced and approved · {waiting} waiting for approval",
+      "platformRule": {
+        "no": "Bokmål is the source of every translation. A replaced bokmål text makes the English and the survey languages' translations of it out of date until they are translated again, and a replaced legal text comes back on the legal review as changed.",
+        "en": "An English text replaced here is shown everywhere English is: the product, en.orgpuls.com, the mails and the survey pages. A replaced legal text comes back on the legal review as changed."
+      },
+      "exportLeadPlatform": {
+        "no": "Every page text in bokmål as it is shown now, with the English beside it, for a proofreader. A package holds several thousand texts; export one area below to hand over a smaller one.",
+        "en": "Every page text in English as it is shown now, with the bokmål it translates, for a translator. A package holds several thousand texts; export one area below to hand over a smaller one."
+      },
+      "exportNs": "Only the «{ns}» area.",
+      "approveOverrides": "{n, plural, one {One replaced text is} other {# replaced texts are}} waiting. Approving shows them to everyone.",
+      "approveNoneOverrides": "Nothing is waiting.",
+      "importLeadPlatform": "A file exported here and edited by a translator or a proofreader. Each text is checked against the one it replaces: it must be a valid message with the same {placeholders} and tags, and every plural form the language needs. A text equal to the file's own puts the file's text back. Imported texts wait for approval unless auto-approve is on.",
+      "namespaces": "Areas",
+      "allNamespaces": "All areas",
+      "pageShow": {
+        "all": "All texts",
+        "overridden": "Replaced",
+        "waiting": "Waiting"
+      },
+      "search": "Search key or text",
+      "pagination": "Pages of results",
+      "overridden": "Replaced here and approved.",
+      "waiting": "Waiting for approval",
+      "fileText": "File",
+      "outside": "Left out, belonging to the other tab: {n}.",
+      "removed": "Put back to the file’s own text: {n}."
+    },
+    "autoBanner": "Auto-approve is on: every translation and legal text is approved as it arrives.",
+    "autoBannerLink": "Translations"
   },
   "access": {
     "graceHead": "Prøveperioden er over.",

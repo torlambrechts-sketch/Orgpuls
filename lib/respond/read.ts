@@ -130,7 +130,7 @@ const Locales = z.object({
   employee_lang: z.string().nullable(),
   // the organisation's language (0081); absent from a database without it
   org_lang: z.string().nullable().optional(),
-  locales: z.record(z.string(), z.object({ missing: z.coerce.number(), ui: z.array(z.string()), pilot: z.boolean().optional() })),
+  locales: z.record(z.string(), z.object({ missing: z.coerce.number(), ui: z.array(z.string()), pilot: z.boolean().optional(), auto: z.boolean().optional() })),
   texts: z.record(z.string(), z.record(z.string(), z.string())),
   // a survey language's approved page strings with the source each was made from (0086, D-133)
   ui: z.record(z.string(), z.record(z.string(), z.object({ t: z.string(), h: z.string().nullable() }))).optional().default({}),

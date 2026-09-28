@@ -16,8 +16,35 @@
  */
 import { Webhook } from 'npm:standardwebhooks@1.0.0'
 import { brevoSend } from '../_shared/brevo.ts'
-import { AUTH_ACTIONS, authLink, isReservedAddress, langOf, renderAuth, type AuthAction, type MailCatalogue } from '../_shared/mail.ts'
+import { AUTH_ACTIONS, authLink, isReservedAddress, langOf, renderAuth, withMailOverrides, type AuthAction, type MailCatalogue } from '../_shared/mail.ts'
 import { MAIL } from '../_shared/messages.gen.ts'
+
+/**
+ * The mail texts with their approved overrides (0101, D-152), read with the service key the
+ * platform gives every function. A slow or failed read sends the deployed texts: a sign-in mail
+ * never waits on a wording.
+ */
+async function withOverrides(cat: MailCatalogue, lang: string): Promise<MailCatalogue> {
+  if (lang !== 'no' && lang !== 'en') return cat
+  const url = Deno.env.get('SUPABASE_URL')
+  const key = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
+  if (!url || !key) return cat
+  try {
+    const res = await fetch(`${url}/rest/v1/rpc/message_overrides`, {
+      method: 'POST',
+      headers: { apikey: key, authorization: `Bearer ${key}`, 'content-type': 'application/json' },
+      body: JSON.stringify({ p_locale: lang }),
+      signal: AbortSignal.timeout(1500),
+    })
+    if (!res.ok) {
+      await res.body?.cancel()
+      return cat
+    }
+    return { ...cat, [lang]: withMailOverrides(cat[lang], (await res.json()) as Record<string, unknown>) }
+  } catch {
+    return cat
+  }
+}
 
 interface HookPayload {
   user: { email?: string; user_metadata?: { lang?: string } }
@@ -54,7 +81,7 @@ Deno.serve(async (req) => {
 
   const lang = langOf(data.user.user_metadata?.lang)
   const link = authLink(Deno.env.get('ORGPULS_APP_URL') ?? '', action, data.email_data.token_hash)
-  const r = renderAuth(MAIL as unknown as MailCatalogue, action, lang, email, link)
+  const r = renderAuth(await withOverrides(MAIL as unknown as MailCatalogue, lang), action, lang, email, link)
 
   const res = await brevoSend(Deno.env.get('BREVO_API_KEY') ?? '', {
     sender: { email: Deno.env.get('ORGPULS_MAIL_FROM') ?? '', name: Deno.env.get('ORGPULS_MAIL_FROM_NAME') ?? 'Orgpuls' },

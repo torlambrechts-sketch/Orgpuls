@@ -6890,3 +6890,50 @@ point of it. The fixture's employees are named after their departments («Prosje
 there «Prosjekt» is masked as a name; real registers hold real names.
 
 **A sandbox's rounds** get links of their own (`demo_copy_table`), never the template's.
+
+## D-152 — Bokmål and English in admin › Translations; auto-approve for development (0101)
+
+Tor, 2026-09-28: bokmål and English in the admin, the questionnaire apart from the page texts,
+JSON export and import for a translator, and an auto-approve switch for the development phase.
+The decisions are X-082.
+
+**Two tabs, seven languages.**
+- *Questionnaire*: the core statements, the questions outside the index, the modules' questions.
+  Bokmål is the source: shown, and exported for a proofreader, never imported (a change is a
+  module version or a migration, since every translation is made from it). English and the survey
+  languages are the translation registry (`app.item_translations`), which is where the survey page
+  already reads English questions from; the existing workflow, export, import and approval apply,
+  now limited to the tab's sections.
+- *Pages*: for the survey languages, the survey pages and mails (the registry, as before). For
+  bokmål and English, every other string in `messages/` — 6 398 in 46 areas — each replaceable by
+  an override (`app.message_overrides`) that is shown once approved. Filtered by area, by state and
+  by a search, 150 at a time.
+
+**Overrides at runtime.** An approved override is laid over the files where messages are loaded
+(`lib/i18n/request.ts`), in the dispatcher's and the Auth hook's mail catalogues, and in the legal
+review's reading of the message texts, so an overridden legal text comes back there as changed.
+Only a string the file has can be replaced: never a branch, never a new key. The read is
+anonymous (`public.message_overrides`, approved text only), cached five minutes and dropped at
+once on every admin write. With none, nothing changes: every gated screen renders from the files.
+
+**The import checks.** A page package is the same «orgpuls-translations» v1 file (JSON or XLIFF),
+keyed `msg:<path>`. Each text must parse as the message it replaces and keep its placeholders and
+tags; a question, an unknown key, a broken message or a lost placeholder is refused; a text equal
+to the file's own removes the override; a package's entries for the other tab are counted and left
+out.
+
+**Auto-approve.** One switch (`app.platform_settings.auto_approve`), super-admin, audited. On:
+everything waiting is approved at once, and every registry row and override written while it is on
+is approved by trigger; a survey page and a mail treat this build's page strings as approved
+(`round_locale_state` «auto»); the legal texts and page-string hashes this build shows are recorded
+when the legal review or the translations page is opened. Every such approval is marked
+(`approved_auto`, `legal_approvals.auto`) and shown as «Auto», so the record never reads as a
+person's reading. A qa-fixture text is still approved only on the QA stack. The admin shows a
+banner on every page while it is on. It does not switch language flags or pilots on.
+
+**What it cannot see.** The survey-only languages compare their page strings with the bokmål this
+build was made from (`survey-source.json`), so a bokmål page string replaced at runtime does not
+mark their translations out of date until the next build regenerates it; the admin's own view does
+read the replaced bokmål and shows them as out of date at once.
+
+`auto_approve_invariants.sql` proves seven rules; `tests/unit/platform-package.test.ts` eight.

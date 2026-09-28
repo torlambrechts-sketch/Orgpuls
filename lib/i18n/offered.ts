@@ -33,7 +33,7 @@ export const LOCALE_NAMES = Object.fromEntries(LOCALE_REGISTRY.filter((l) => l.s
   string
 >
 
-export type LocaleState = Record<string, { missing: number; ui: string[]; pilot?: boolean }>
+export type LocaleState = Record<string, { missing: number; ui: string[]; pilot?: boolean; auto?: boolean }>
 
 const HASHES: Record<string, string> = hashes
 
@@ -55,7 +55,9 @@ export function offeredLocales(state: LocaleState | null, ui: Record<string, App
     ...others.filter((l) => {
       const s = state?.[l]
       const hash = HASHES[l]
-      const pages = hash !== undefined ? !!s?.ui.includes(hash) : complete(SOURCE.ui, ui[l])
+      // auto-approve on (0101): this build's page strings count as approved; a survey-only
+      // language still needs every string translated from the current bokmål
+      const pages = hash !== undefined ? !!s?.auto || !!s?.ui.includes(hash) : complete(SOURCE.ui, ui[l])
       return on(l) && s !== undefined && s.missing === 0 && pages
     }),
   ]

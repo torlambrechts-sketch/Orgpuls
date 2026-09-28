@@ -2,6 +2,7 @@ import { cookies, headers } from 'next/headers'
 import { EN_HOST, hostOf } from '@/lib/hosts'
 import { getRequestConfig } from 'next-intl/server'
 import { DEFAULT_LOCALE, fallbackOf, isLocale, LOCALE_COOKIE } from './locales'
+import { applyOverrides, messageOverrides } from './overrides'
 import { pseudoMessages } from './pseudo'
 
 type Tree = { [k: string]: unknown }
@@ -20,8 +21,10 @@ async function loadMessages(locale: string): Promise<Tree> {
   const own = (await import(`../../messages/${locale}.json`)).default as Tree
   let out: Tree = {}
   for (const f of [...fallbackOf(locale)].reverse()) out = merge(out, (await import(`../../messages/${f}.json`)).default as Tree)
+  // the texts replaced from admin › Translations, once approved (lib/i18n/overrides.ts, 0101)
+  const shown = applyOverrides(merge(out, own), await messageOverrides(locale))
   // the QA stack's pseudo-locale (lib/i18n/pseudo.ts); without ORGPULS_PSEUDO=1 this is the catalogue itself
-  return pseudoMessages(locale, merge(out, own))
+  return pseudoMessages(locale, shown)
 }
 
 /**

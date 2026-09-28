@@ -1,6 +1,6 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
@@ -13,7 +13,11 @@ import en from '@/messages/en.json'
 import { TRANSLATION_LOCALES } from '@/lib/i18n/locales'
 import { createHash } from 'node:crypto'
 import { checkImport, FileError, ORIGINS, parseFile, type Origin } from '@/lib/i18n/translation-package'
-import { currentRows, SURVEY_LANGUAGES, surveyTexts, type SurveyLanguage } from '@/lib/admin/translations'
+import { currentRows, isScope, PLATFORM_CATALOGUE, platformView, REGISTRY_LANGUAGES, SCOPE_SECTIONS, surveyTexts, type RegistryLanguage } from '@/lib/admin/translations'
+import { sectionOf } from '@/lib/i18n/translation-package'
+import { checkPlatformImport } from '@/lib/i18n/platform-package'
+import { OVERRIDES_TAG } from '@/lib/i18n/overrides'
+import { autoRecord } from '@/lib/admin/auto'
 import { isError, translationState } from '@/lib/admin/api'
 
 /**
@@ -429,9 +433,11 @@ export type ImportResult =
       rows: number
       untranslated: number
       unchanged: number
+      /** entries that belong to the other tab, left out (0101) */
+      outside?: number
       problems: { key: string; level: 'error' | 'warning'; code: string; detail?: string }[]
       digest: string
-      written?: { new: number; changed: number; same: number; refused: { key: string; error: string }[] }
+      written?: { new: number; changed: number; same: number; removed?: number; refused: { key: string; error: string }[] }
     }
 
 const FILE_MAX = 3_000_000
@@ -439,13 +445,15 @@ const FILE_MAX = 3_000_000
 export async function translationsImport(_prev: ImportResult | null, formData: FormData): Promise<ImportResult> {
   const parsed = z
     .object({
-      locale: z.enum(SURVEY_LANGUAGES as unknown as [SurveyLanguage, ...SurveyLanguage[]]),
+      locale: z.enum(REGISTRY_LANGUAGES as unknown as [RegistryLanguage, ...RegistryLanguage[]]),
+      scope: z.enum(['questionnaire', 'pages']),
       origin: z.enum(ORIGINS as unknown as [Origin, ...Origin[]]),
       intent: z.enum(['check', 'apply']),
       digest: z.string().regex(/^[0-9a-f]{64}$/).optional(),
     })
     .safeParse({
       locale: formData.get('locale'),
+      scope: formData.get('scope') || 'questionnaire',
       origin: formData.get('origin'),
       intent: formData.get('intent'),
       digest: formData.get('digest') || undefined,
@@ -466,7 +474,14 @@ export async function translationsImport(_prev: ImportResult | null, formData: F
   const [catalogue, state] = await Promise.all([surveyTexts(), translationState(parsed.data.locale)])
   if (isError(state)) return { ok: false, problem: state.error === 'not_allowed' ? 'not_allowed' : 'failed' }
   if (!catalogue) return { ok: false, problem: 'failed' }
-  const checked = checkImport(content, catalogue, currentRows(state), parsed.data.origin)
+  // this tab's texts only (0101): English's pages are messages/, a survey language's questions the other tab
+  const sections = parsed.data.locale === 'en' ? SCOPE_SECTIONS.questionnaire : SCOPE_SECTIONS[parsed.data.scope]
+  const inTab = content.entries.filter((e) => {
+    const s = sectionOf(e.key)
+    return s === null || sections.includes(s)
+  })
+  const outside = content.entries.length - inTab.length
+  const checked = checkImport({ ...content, entries: inTab }, catalogue, currentRows(state), parsed.data.origin)
   const digest = createHash('sha256').update(JSON.stringify(checked.rows)).digest('hex')
   const summary = {
     ok: true as const,
@@ -476,6 +491,7 @@ export async function translationsImport(_prev: ImportResult | null, formData: F
     rows: checked.rows.length,
     untranslated: checked.untranslated,
     unchanged: checked.unchanged,
+    outside,
     problems: checked.problems.slice(0, 200),
     digest,
   }
@@ -516,7 +532,7 @@ export async function translationsImport(_prev: ImportResult | null, formData: F
 export async function translationsApproveLanguage(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
   const parsed = z
     .object({
-      locale: z.enum(SURVEY_LANGUAGES as unknown as [SurveyLanguage, ...SurveyLanguage[]]),
+      locale: z.enum(REGISTRY_LANGUAGES as unknown as [RegistryLanguage, ...RegistryLanguage[]]),
       read: z.literal('on'),
       digest: z.string().regex(/^[0-9a-f]{64}$/),
     })
@@ -543,4 +559,125 @@ export async function translationsApprove(_prev: AdminResult | null, formData: F
   const r = await rpc('admin_translations_approve', { p_locale: parsed.data.locale, p_ui_hash: hash, p_digest: parsed.data.digest })
   if (r.ok) revalidatePath('/admin/legal')
   return r
+}
+
+/**
+ * A bokmål or English page package, checked and then imported (0101, D-152), the same two presses
+ * as a survey language's: the check shows what would be written, the import writes exactly that
+ * (the digest). Each row becomes an override of one string in messages/; a text equal to the file's
+ * own removes the override. Nothing is approved unless the auto-approve switch is on.
+ */
+export async function messagesImport(_prev: ImportResult | null, formData: FormData): Promise<ImportResult> {
+  const parsed = z
+    .object({
+      locale: z.enum(['no', 'en']),
+      origin: z.enum(ORIGINS as unknown as [Origin, ...Origin[]]),
+      intent: z.enum(['check', 'apply']),
+      digest: z.string().regex(/^[0-9a-f]{64}$/).optional(),
+    })
+    .safeParse({
+      locale: formData.get('locale'),
+      origin: formData.get('origin'),
+      intent: formData.get('intent'),
+      digest: formData.get('digest') || undefined,
+    })
+  const file = formData.get('file')
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  if (!(file instanceof File) || file.size === 0) return { ok: false, problem: 'no_file' }
+  if (file.size > FILE_MAX * 3) return { ok: false, problem: 'too_large' }
+  let content
+  try {
+    content = parseFile(await file.text())
+  } catch (err) {
+    return { ok: false, problem: 'bad_file', detail: err instanceof FileError ? err.message : 'unreadable' }
+  }
+  const fileLocale = content.locale === 'nb' ? 'no' : content.locale
+  if (fileLocale !== parsed.data.locale) return { ok: false, problem: 'wrong_language', detail: content.locale }
+
+  const view = await platformView(parsed.data.locale)
+  if (view === 'not_allowed' || view === 'failed') return { ok: false, problem: view }
+  const checked = checkPlatformImport(content, parsed.data.locale, PLATFORM_CATALOGUE, view.own, view.bokmal, parsed.data.origin)
+  const digest = createHash('sha256').update(JSON.stringify(checked.rows)).digest('hex')
+  const summary = {
+    ok: true as const,
+    applied: false,
+    locale: parsed.data.locale,
+    format: content.format,
+    rows: checked.rows.length,
+    untranslated: checked.untranslated,
+    unchanged: checked.unchanged,
+    outside: checked.outside,
+    problems: checked.problems.slice(0, 200),
+    digest,
+  }
+  if (parsed.data.intent === 'check') return summary
+  if (parsed.data.digest !== digest) return { ok: false, problem: 'stale' }
+  if (!checked.rows.length) return { ...summary, applied: true, written: { new: 0, changed: 0, same: 0, removed: 0, refused: [] } }
+
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('admin_message_overrides_import', { p_locale: parsed.data.locale, p_rows: checked.rows })
+  if (error) return { ok: false, problem: 'failed' }
+  const reply = z
+    .object({
+      ok: z.boolean(),
+      error: z.string().optional(),
+      new: z.coerce.number().optional(),
+      changed: z.coerce.number().optional(),
+      removed: z.coerce.number().optional(),
+      same: z.coerce.number().optional(),
+      refused: z.array(z.object({ key: z.string(), error: z.string() })).optional(),
+    })
+    .safeParse(data)
+  if (!reply.success) return { ok: false, problem: 'failed' }
+  if (!reply.data.ok) return { ok: false, problem: reply.data.error ?? 'failed' }
+  revalidateTag(OVERRIDES_TAG)
+  revalidatePath('/admin/translations')
+  return {
+    ...summary,
+    applied: true,
+    written: {
+      new: reply.data.new ?? 0,
+      changed: reply.data.changed ?? 0,
+      same: reply.data.same ?? 0,
+      removed: reply.data.removed ?? 0,
+      refused: reply.data.refused ?? [],
+    },
+  }
+}
+
+/** Approve the waiting overrides the page listed, each by the hash of the text it showed (0101) */
+export async function messagesApprove(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const items = z.array(z.object({ key: z.string().max(300), hash: z.string().regex(/^[0-9a-f]{64}$/) })).max(10000)
+  let raw: unknown
+  try {
+    raw = JSON.parse(String(formData.get('items') ?? '[]'))
+  } catch {
+    return { ok: false, problem: 'invalid' }
+  }
+  const parsed = z
+    .object({ locale: z.enum(['no', 'en']), read: z.literal('on'), items })
+    .safeParse({ locale: formData.get('locale'), read: formData.get('read'), items: raw })
+  if (!parsed.success) return { ok: false, problem: failedField(parsed.error) === 'read' ? 'confirm_required' : 'invalid' }
+  const r = await rpc('admin_message_overrides_approve', { p_locale: parsed.data.locale, p_items: parsed.data.items })
+  if (r.ok) {
+    revalidateTag(OVERRIDES_TAG)
+    revalidatePath('/admin/translations')
+  }
+  return r
+}
+
+/**
+ * The auto-approve switch (0101, D-152): on, every translation, override, legal text and page
+ * string is approved as it arrives, and everything waiting now, each marked automatic; off, a
+ * person approves again. Super-admin, audited.
+ */
+export async function setAutoApprove(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z.object({ on: z.enum(['on', 'off']) }).safeParse({ on: formData.get('on') })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_auto_approve_set', { p_on: parsed.data.on === 'on' })
+  if (!r.ok) return r
+  if (parsed.data.on === 'on') await autoRecord()
+  revalidateTag(OVERRIDES_TAG)
+  revalidatePath('/admin', 'layout')
+  return { ok: true }
 }

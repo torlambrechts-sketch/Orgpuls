@@ -2408,6 +2408,21 @@ building «Dette sa dere, dette gjør vi» (0100, D-151):
 - **The whole organisation only.** No department, no location, no statement, no comment. A
   measure's title keeps its department or place and loses any employee's name.
 
+### X-082 — Where bokmål and English are translated, and what auto-approve covers
+
+Tor, 2026-09-28: "extend the language translations so we also have the norwegian text and english
+in the admin ui … and add JSON export / import so I can give a package to a translator. Make an
+auto approve in the admin GUI that I can turn on for everything during development." (D-152)
+
+- **English questions stay in the registry**, which the survey page already reads them from; its
+  pages are overrides of messages/. **Bokmål questions are not imported**: they are the source of
+  every translation and, for the core, the validated instrument.
+- **An override needs approval**, like every translation, unless auto-approve is on.
+- **Auto-approve covers** translations (every language), overrides, legal texts and the survey
+  pages' strings; it does **not** turn a language on for respondents (flags and pilots stay as they
+  are). Every approval it makes is marked «Auto». It is off until Tor turns it on in admin ›
+  Translations; turn it off before customers depend on the texts.
+
 
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
@@ -2426,6 +2441,7 @@ building «Dette sa dere, dette gjør vi» (0100, D-151):
 - [x] Launched 2026-09-28 (X-078). Was: launch handel: Tor approves its six law items in admin › Legal review (the lone-work item needs its paragraph from Lovdata); then publish handel@1.0.0 and set `launched: true`. Review at https://www.orgpuls.com/handel?forhandsvis=1 and /handel/sporsmal?forhandsvis=1.
 - [ ] Before `module_factor_toggles` ships: the preview footnotes on /helse-og-omsorg and /handel describe one group without a factor, but factors are switched per round (D-138).
 - [ ] Approve the English survey again in admin › Legal review: the survey pages' strings changed again (D-145, D-147: the open field's note, own questions, the effect question). Until then English respondents get bokmål.
+- [ ] Auto-approve (X-082, D-152): off until you turn it on in admin › Translations. While it is on, the English survey approval above is not needed.
 - [ ] The employees' page (X-081, D-151): on for every closed round, hosted included; turn it off per round in Resultater if a round should not be shown. The English survey approval above now also covers its invitation line.
 - [ ] Invitation (D-149): write the greeting in Målinger › Innstillinger if you want one. A logo in the mail needs an organisation logo, which the product does not store yet.
 - [x] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131); decided in admin › Moduler since 0092 (D-140).
