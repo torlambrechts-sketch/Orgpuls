@@ -18,6 +18,10 @@
 --         «alle ansatte» a day ahead of an unticked verneombud: no rung of the ladder may now be
 --         told later than everyone (§ 6-2 fjerde ledd, `hjelp` «Varslingsrekkefølgen er ikke
 --         valgfri»), and at the same moment everyone's notice goes last.
+-- AUD-28  A daglig leder or verneombud could delete a measurement through PostgREST, and the
+--         cascade took its rounds, responses and answers with it; or rewrite a closed one's kind
+--         and year. No client deletes a measurement now, and only kind and the evaluation cadence
+--         may be updated — kind only while none of its rounds has opened.
 
 -- ---------------------------------------------------------------- AUD-01: the outbox, counted
 
@@ -45,6 +49,35 @@ begin
 end $fn$;
 revoke all on function public.queue_counts(uuid) from public, anon;
 grant execute on function public.queue_counts(uuid) to authenticated;
+
+-- ---------------------------------------------------------------- AUD-28: a measurement keeps its answers
+
+drop policy if exists measurement_write_delete on app.measurements;
+revoke delete on app.measurements from authenticated;
+revoke update on app.measurements from authenticated;
+-- Måleoppsett writes these two, and nothing else (app/(app)/maleoppsett/actions.ts)
+grant update (kind, evaluation_cadence) on app.measurements to authenticated;
+
+/*
+ * What a measurement is — its kind, its year — is fixed once one of its rounds has opened: the
+ * report and the results read it. The evaluation cadence stays the organisation's to change.
+ * Written as "nobody may change this content", so cascades from the organisation still run.
+ */
+create function app.measurements_fixed() returns trigger
+  language plpgsql security definer set search_path = ''
+as $fn$
+begin
+  if (new.kind is distinct from old.kind or new.year is distinct from old.year or new.org_id is distinct from old.org_id)
+     and exists (select 1 from app.rounds r where r.measurement_id = old.id and r.status <> 'planlagt') then
+    raise exception 'measurement % has opened: its kind and year are fixed', old.id using errcode = '23514';
+  end if;
+  return new;
+end $fn$;
+revoke all on function app.measurements_fixed() from public, anon, authenticated;
+
+create trigger measurements_fixed
+  before update on app.measurements
+  for each row execute function app.measurements_fixed();
 
 -- ---------------------------------------------------------------- AUD-02: a comment without its answer
 

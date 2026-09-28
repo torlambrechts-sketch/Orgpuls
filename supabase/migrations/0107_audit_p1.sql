@@ -168,6 +168,81 @@ end $fn$;
 
 revoke all on function app.pulse_reasons(uuid) from public, anon, authenticated;
 
+
+-- ---------------------------------------------------------------- AUD-11: a demo copy of the step log
+
+-- A copied measure keeps its created_at, so the insert trigger now logs it on that day, inferred —
+-- the very row the copy of the template's log then brings. The copy skips what is already there,
+-- as for round translations (0100).
+CREATE OR REPLACE FUNCTION app.demo_copy_table(p_table text, p_template uuid, p_org uuid, p_owner uuid, p_build uuid)
+ RETURNS bigint
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+declare
+  v_plan  app.demo_copy_plan;
+  v_rel   regclass := ('app.' || quote_ident(p_table))::regclass;
+  v_cols  text;
+  v_exprs text;
+  v_where text;
+  v_n     bigint;
+begin
+  select * into v_plan from app.demo_copy_plan where table_name = p_table and mode = 'copy';
+  if not found then
+    raise exception 'demo: % is not in the copy plan', p_table;
+  end if;
+  v_where := case when v_plan.via is null then 'x.org_id = $3'
+                  else format('x.%I in (select m.old from app.demo_id_map m where m.build = $4)', v_plan.via) end;
+
+  -- an id of this table's own is given a new value before any row points at it
+  if exists (select 1 from pg_attribute a join pg_index i on i.indrelid = a.attrelid and i.indisprimary
+             where a.attrelid = v_rel and a.attname = 'id' and i.indkey[0] = a.attnum and i.indnatts = 1
+               and a.atttypid = 'uuid'::regtype) then
+    execute format('insert into app.demo_id_map (build, old, new) select $4, x.id, gen_random_uuid() from app.%I x where %s',
+                   p_table, v_where) using p_org, p_owner, p_template, p_build;
+  end if;
+
+  select string_agg(quote_ident(a.attname), ', ' order by a.attnum),
+         string_agg(case
+           -- every round goes in open: the triggers that fill a planned round from the
+           -- organisation's defaults and modules (round_apply_defaults, round_default_modules)
+           -- then stay out of it, and the round takes its own state once its rows are copied
+           when p_table = 'rounds' and a.attname = 'status' then $$'apen'::app.round_status$$
+           when p_table = 'rounds' and a.attname = 'frozen_at' then 'null'
+           -- 0100: a sandbox's round has a page link of its own, never the template's
+           when p_table = 'rounds' and a.attname = 'share_slug' then 'app.new_share_slug()'
+           when p_table in ('invitations', 'comment_threads') and a.attname in ('token_hash', 'key_hash') then
+             'extensions.digest(extensions.gen_random_bytes(32), ''sha256'')'
+           when a.attname = 'org_id' then '$1'
+           when a.atttypid = 'uuid'::regtype and fk.target in ('auth.users', 'app.profiles') then
+             format('case when x.%I is null then null else $2 end', a.attname)
+           when a.atttypid = 'uuid'::regtype then
+             format('coalesce((select m.new from app.demo_id_map m where m.build = $4 and m.old = x.%1$I), x.%1$I)', a.attname)
+           when a.atttypid = 'uuid[]'::regtype then
+             format('case when x.%1$I is null then null else coalesce((select array_agg(coalesce(m.new, u.e) order by u.o) '
+                    'from unnest(x.%1$I) with ordinality u(e, o) left join app.demo_id_map m on m.build = $4 and m.old = u.e), ''{}'') end',
+                    a.attname)
+           else format('x.%I', a.attname) end, ', ' order by a.attnum)
+    into v_cols, v_exprs
+  from pg_attribute a
+  left join lateral (
+    select k.confrelid::regclass::text as target from pg_constraint k
+    where k.conrelid = a.attrelid and k.contype = 'f' and k.conkey = array[a.attnum]
+    limit 1) fk on true
+  where a.attrelid = v_rel and a.attnum > 0 and not a.attisdropped
+    and a.attidentity = '' and a.attgenerated = '';
+
+  -- a round opened here pins today's wording, which the template's own then meets
+  execute format('insert into app.%I (%s) select %s from app.%I x where %s%s',
+                 p_table, v_cols, v_exprs, p_table, v_where,
+                 case when p_table in ('round_translations', 'measure_steps') then ' on conflict do nothing' else '' end)
+    using p_org, p_owner, p_template, p_build;
+  get diagnostics v_n = row_count;
+  return v_n;
+end $function$;
+revoke all on function app.demo_copy_table(text, uuid, uuid, uuid, uuid) from public, anon, authenticated;
+
 -- ---------------------------------------------------------------- AUD-12: no evaluation in the future
 
 create function app.evaluations_not_future() returns trigger

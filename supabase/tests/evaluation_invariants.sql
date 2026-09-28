@@ -60,7 +60,7 @@ begin
     insert into app.year_wheels (org_id, notify_lead_days) values (v_org, 14) returning id into v_wheel;
     insert into app.wheel_notifications (wheel_id, audience, lead_days, sort_order) values
       (v_wheel, 'verneombud', 2, 1), (v_wheel, 'tillitsvalgte', 2, 2), (v_wheel, 'daglig_leder', 1, 3),
-      (v_wheel, 'avdelingsledere', 0, 4), (v_wheel, 'alle_ansatte', 1, 5);
+      (v_wheel, 'avdelingsledere', 1, 4), (v_wheel, 'alle_ansatte', 1, 5);
 
     perform set_config('request.jwt.claims', json_build_object('sub', v_dl, 'role', 'authenticated')::text, true);
     set local role authenticated;
@@ -69,8 +69,8 @@ begin
     select string_agg(audience || '=' || lead_days, ',' order by sort_order) into v_txt
     from app.wheel_notifications where wheel_id = v_wheel;
     v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'the same value saved again leaves the Veiviser''s ladder alone',
-      'expected', 'verneombud=2,tillitsvalgte=2,daglig_leder=1,avdelingsledere=0,alle_ansatte=1', 'actual', v_txt,
-      'pass', v_txt = 'verneombud=2,tillitsvalgte=2,daglig_leder=1,avdelingsledere=0,alle_ansatte=1');
+      'expected', 'verneombud=2,tillitsvalgte=2,daglig_leder=1,avdelingsledere=1,alle_ansatte=1', 'actual', v_txt,
+      'pass', v_txt = 'verneombud=2,tillitsvalgte=2,daglig_leder=1,avdelingsledere=1,alle_ansatte=1');
 
     set local role authenticated;
     update app.year_wheels set notify_lead_days = 21 where id = v_wheel;
@@ -79,8 +79,8 @@ begin
     select string_agg(audience || '=' || lead_days, ',' order by sort_order) into v_txt
     from app.wheel_notifications where wheel_id = v_wheel;
     v_rows := v_rows || jsonb_build_object('seq', 1, 'name', '«21 dager før» moves verneombud, tillitsvalgte and daglig leder, and no one else',
-      'expected', 'verneombud=21,tillitsvalgte=21,daglig_leder=21,avdelingsledere=0,alle_ansatte=1', 'actual', v_txt,
-      'pass', v_txt = 'verneombud=21,tillitsvalgte=21,daglig_leder=21,avdelingsledere=0,alle_ansatte=1');
+      'expected', 'verneombud=21,tillitsvalgte=21,daglig_leder=21,avdelingsledere=1,alle_ansatte=1', 'actual', v_txt,
+      'pass', v_txt = 'verneombud=21,tillitsvalgte=21,daglig_leder=21,avdelingsledere=1,alle_ansatte=1');
 
     -- 3 ---------------------------------------------------------------- nothing closed, nothing due
     insert into app.measurements (org_id, kind, year, label, evaluation_cadence)

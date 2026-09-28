@@ -8,6 +8,8 @@
 --     goes before the invitations; one that fell due before the opening is still stale (5, 6)
 --   * no rung of the ladder is told later than everyone, and at the same moment everyone's notice
 --     goes last (8)
+--   * AUD-28: no client deletes a measurement (the cascade takes its answers) or rewrites what a
+--     closed one was (9)
 --   * nothing written here survives (7)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/audit_p0_invariants.sql
@@ -179,6 +181,38 @@ begin
       'expected', 'alle_ansatte=3,daglig_leder=3,tillitsvalgte=3,verneombud=3|verneombud,alle_ansatte', 'actual', v_txt,
       'pass', v_txt = 'alle_ansatte=3,daglig_leder=3,tillitsvalgte=3,verneombud=3|verneombud,alle_ansatte');
 
+    -- 9 -------------------------------------------------------------- a measurement keeps its answers
+    select m.id into v_meas from app.measurements m join app.rounds r on r.measurement_id = m.id
+    where r.id = v_round;
+    perform set_config('request.jwt.claims', json_build_object('sub', v_vo, 'role', 'authenticated')::text, true);
+    set local role authenticated;
+    begin
+      delete from app.measurements where id = v_meas;
+      get diagnostics v_i = row_count;
+      v_txt := 'deleted ' || v_i;
+    exception when insufficient_privilege then
+      v_txt := 'delete denied';
+    end;
+    begin
+      update app.measurements set year = 2020 where id = v_meas;
+      v_txt := v_txt || '|year changed';
+    exception when insufficient_privilege then
+      v_txt := v_txt || '|year denied';
+    end;
+    perform set_config('request.jwt.claims', json_build_object('sub', v_dl, 'role', 'authenticated')::text, true);
+    begin
+      update app.measurements set kind = 'puls' where id = v_meas;
+      v_txt := v_txt || '|kind changed';
+    exception when check_violation then
+      v_txt := v_txt || '|kind fixed';
+    end;
+    update app.measurements set evaluation_cadence = 'arlig' where id = v_meas;
+    reset role;
+    v_txt := v_txt || '|' || (select count(*) from app.responses where round_id = v_round)
+                   || '|' || (select evaluation_cadence::text from app.measurements where id = v_meas);
+    v_rows := v_rows || jsonb_build_object('seq', 9, 'name', 'no client deletes a measurement or changes its year; its kind is fixed once opened; the cadence may change',
+      'expected', 'delete denied|year denied|kind fixed|5|arlig', 'actual', v_txt, 'pass', v_txt = 'delete denied|year denied|kind fixed|5|arlig');
+
     raise exception 'rollback-probe';
   exception when others then
     if sqlerrm <> 'rollback-probe' then raise; end if;
@@ -203,7 +237,7 @@ begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*)
     into v_failed, v_count from public._ap0;
   if v_failed is not null then raise exception 'audit p0 invariants failed: %', v_failed; end if;
-  if v_count <> 8 then raise exception 'audit p0 invariants: expected 8 rows, got %', v_count; end if;
+  if v_count <> 9 then raise exception 'audit p0 invariants: expected 9 rows, got %', v_count; end if;
 end $$;
 
 drop table public._ap0;
