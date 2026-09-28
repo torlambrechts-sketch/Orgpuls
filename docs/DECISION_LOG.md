@@ -2466,6 +2466,7 @@ organization and plan task 116". (D-153, D-154)
 - [ ] Invitation (D-149): write the greeting in Målinger › Innstillinger if you want one. The logo is uploaded in Oppsett › Selskap › Logo (D-154) and then heads every mail.
 - [ ] § 9-2 evaluation (D-153): record the ordning's evaluations under Rapport › Registrer til rapporten; until one is recorded, an organisation with a closed round is reminded every four weeks.
 - [ ] Engagement phase 2 (task #116): answer the eight decisions in docs/implementation/engagement-phase2-plan.md § 2 before it is built.
+- [ ] Pixel gate: `07-resultater-varmekart`, `09-resultater-segmentprofil` and `19-side-resultater` each LOST two bottom-row tiles (row 2000). Measured 2026-09-28 on main's own build (6114bf6) against a freshly rebuilt database, so it predates D-153/D-154: the page now ends in the effect card (D-147) and «Siden for de ansatte» (D-151), which push the footer below where the claims were recorded. Needs a look with `probe.mjs`, then the claims re-recorded or the cause fixed.
 - [x] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131); decided in admin › Moduler since 0092 (D-140).
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).
 - [ ] A ready-to-send check before a round opens (channel coverage, groups under the threshold, information and consultation done); the reach count on Målinger › Innstillinger is its first half (D-126).

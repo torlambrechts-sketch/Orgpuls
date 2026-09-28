@@ -7018,5 +7018,10 @@ A demo copy brings no logo.
 
 **No brand colour.** The design has none, so none was invented.
 
+**Pixel gate.** The card lengthens Selskap's right column and moves the footer down: two footer
+tiles of `15-oppsett-selskap` (1800:960, 2000:0) no longer land where the baseline has them. The
+same screen passes on main's build against the same database; its claims were re-recorded for this
+screen alone (`v3-run.mjs --only 15 --write`). Every other tile claim is unchanged.
+
 `org_logo_invariants.sql` proves eight rules; `tests/unit/mail.test.ts` that a mail carries only an
 address the database made.
