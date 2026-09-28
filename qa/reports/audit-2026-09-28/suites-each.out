@@ -1,0 +1,5 @@
+FAIL supabase/tests/notices_invariants.sql
+   2 | greeting: no anon; verneombud refused; over 600 refused; trimmed and signed; blank clears                | false,not_allowed,too_long,ok,Vi vil vite hvordan dere har det./true,none       | false,not_allowed,too_long,ok,Vi vil vite hvordan dere har det./true,none | t
+   6 | owner gets their own, the verneombud all; the invitation carries minutes, promise and greeting           | Forfalt|Forfalt,Står stille|4/true/Vi vil vite hvordan dere har det./Dina Leder | Forfalt|Forfalt,Står stille                                               | f
+psql:supabase/tests/notices_invariants.sql:205: ERROR:  notice invariants failed: 6 owner gets their own, the verneombud all; the invitation carries minutes, promise and greeting
+suites: 68, failed: 1

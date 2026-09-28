@@ -1,0 +1,20 @@
+
+> orgpuls@0.1.0 test:invariants
+> node scripts/qa/invariants.mjs
+
+ seq | id |                                    name                                     |                     expected                      |                      actual                       | pass 
+-----+----+-----------------------------------------------------------------------------+---------------------------------------------------+---------------------------------------------------+------
+   1 | I1 | no result reader returns a value for Økonomi (n = 3)                        | none                                              | none                                              | t
+   2 | I1 | differencing: Salg is held back with Økonomi                                | Drift=ok,Salg=protected,Økonomi=insufficient_data | Drift=ok,Salg=protected,Økonomi=insufficient_data | t
+   3 | I4 | no live participation count for Økonomi, nor for Salg that shields it       | Salg=null,Økonomi=null                            | Salg=null,Økonomi=null                            | t
+   4 | I4 | no answer count for Økonomi or Salg after close                             | Salg=null,Økonomi=null                            | Salg=null,Økonomi=null                            | t
+   5 | I4 | no client-callable function returns who answered                            | none                                              | none                                              | t
+   6 | I2 | content tables carry no column that could name a respondent                 | none                                              | none                                              | t
+   7 | I2 | content tables have no foreign key to a person, an invitation or a token    | none                                              | none                                              | t
+   8 | I5 | every token column is a SHA-256 hash, never the token                       | none                                              | none                                              | t
+   9 | I5 | Lumio's invitations hold 32-byte digests only                               | 0                                                 | 0                                                 | t
+  10 | I6 | answer and content rows store no locale or language                         | none                                              | none                                              | t
+  11 | I7 | no client-callable function queues a message to those who have not answered | none                                              | none                                              | t
+  12 | I7 | no client may read the invitations, and so the answered marks               | none                                              | none                                              | t
+(12 rows)
+

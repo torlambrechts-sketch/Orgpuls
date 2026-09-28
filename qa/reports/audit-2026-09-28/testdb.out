@@ -1,0 +1,44 @@
+
+> orgpuls@0.1.0 test:db
+> bash scripts/qa/test-db.sh
+
+Stopped services: [supabase_inbucket_orgpuls supabase_realtime_orgpuls supabase_storage_orgpuls supabase_imgproxy_orgpuls supabase_studio_orgpuls supabase_edge_runtime_orgpuls supabase_analytics_orgpuls supabase_vector_orgpuls supabase_pooler_orgpuls]
+ok   supabase/tests/admin_invariants.sql
+ok   supabase/tests/auto_approve_invariants.sql
+ok   supabase/tests/badge_invariants.sql
+ok   supabase/tests/billing_invariants.sql
+ok   supabase/tests/cancellation_invariants.sql
+ok   supabase/tests/comment_theme_invariants.sql
+ok   supabase/tests/contact_invariants.sql
+ok   supabase/tests/conversation_invariants.sql
+ok   supabase/tests/count_answer_keys_invariants.sql
+ok   supabase/tests/crm_invariants.sql
+ok   supabase/tests/crm_pipeline_invariants.sql
+ok   supabase/tests/crm_stages_invariants.sql
+ok   supabase/tests/customer_cancel_invariants.sql
+ok   supabase/tests/demo_invariants.sql
+ok   supabase/tests/digest_invariants.sql
+ok   supabase/tests/dispatch_invariants.sql
+ok   supabase/tests/dpa_invariants.sql
+ok   supabase/tests/effect_invariants.sql
+ok   supabase/tests/engagement_p2_invariants.sql
+ok   supabase/tests/evaluation_invariants.sql
+ok   supabase/tests/extend_invariants.sql
+ok   supabase/tests/hardening_invariants.sql
+ok   supabase/tests/legal_invariants.sql
+ok   supabase/tests/lifecycle_invariants.sql
+ok   supabase/tests/locale_pilot_invariants.sql
+ok   supabase/tests/mail_events_invariants.sql
+ok   supabase/tests/measure_invariants.sql
+ok   supabase/tests/member_invariants.sql
+ok   supabase/tests/module_invariants.sql
+ok   supabase/tests/module_measure_invariants.sql
+ok   supabase/tests/module_respond_invariants.sql
+ok   supabase/tests/module_results_invariants.sql
+ok   supabase/tests/module_validation_invariants.sql
+ok   supabase/tests/module_variants_invariants.sql
+ok   supabase/tests/module_wording_invariants.sql
+ok   supabase/tests/not_relevant_invariants.sql
+psql:supabase/tests/notices_invariants.sql:205: ERROR:  notice invariants failed: 6 owner gets their own, the verneombud all; the invitation carries minutes, promise and greeting
+CONTEXT:  PL/pgSQL function inline_code_block line 6 at RAISE
+FAIL supabase/tests/notices_invariants.sql
