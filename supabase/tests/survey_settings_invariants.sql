@@ -132,7 +132,8 @@ begin
       'expected', '3/10/4/t,2/10/4/t', 'actual', v_txt, 'pass', v_txt = '3/10/4/t,2/10/4/t');
 
     -- 6, 7 --------------------------------------------------------- reset, per-round extras
-    perform set_config('request.jwt.claims', format(claims, v_vo), true);
+    -- the daglig leder's since 0108 (AUD-31); journey_p1_invariants proves the verneombud refused
+    perform set_config('request.jwt.claims', format(claims, v_dl), true);
     set local role authenticated;
     v_txt := (public.reset_round_settings(v_changed, 'rytme')->>'ok');
     v_txt := v_txt || ',' || (select r.reminder_day::text from app.rounds r where r.id = v_changed);

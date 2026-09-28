@@ -1,0 +1,23 @@
+ok    01-oversikt-enkel             83/114 tiles  differ in rows 400,500,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800
+ok    02-innsikt-full               55/72 tiles  differ in rows 100,300,400,500,700,800,900,1000,1100
+ok    03-malinger-kommende          78/108 tiles  differ in rows 600,700,800,900,1000,1100,1200,1300,1400,1600,1700
+ok    04-malinger-historikk         90/90 tiles
+ok    05-malinger-arshjul          148/204 tiles  differ in rows 1100,1200,1900,2000,2100,2200,2300,2500,2600,2700,2800,2900,3000,3100,3200,3300
+ok    06-malinger-sporsmalssett     66/102 tiles  differ in rows 100,200,300,400,500,600,700,800,900,1000,1100,1200,1300,1500,1600
+FAIL  07-resultater-varmekart      105/126 tiles  LOST 900:1200,1000:720,2000:240,2000:480  differ in rows 600,700,800,900,1000,1900,2000
+FAIL  08-resultater-prioritet      104/126 tiles  LOST 900:720,900:960,900:1200,1000:960,1000:1200  differ in rows 500,600,700,800,900,1000,1900,2000
+FAIL  09-resultater-segmentprofil  105/126 tiles  LOST 900:1200,1000:720,2000:240,2000:480  differ in rows 500,600,700,800,900,1000,1900,2000
+FAIL  10-resultater-sammenlign     108/126 tiles  LOST 900:1200  differ in rows 500,600,700,800,900,1000,1900,2000
+FAIL  11-resultater-utvikling       72/126 tiles  LOST 900:1200  differ in rows 500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000
+FAIL  12-kommentarer               131/192 tiles  LOST 400:240,500:240,600:240,700:240  differ in rows 300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300,2400,2500,2600,2700,2800,2900,3000,3100
+ok    13-tiltak-tavle              116/120 tiles  differ in rows 300,1400,1600
+ok    14-tiltak-liste              132/132 tiles
+ok    15-oppsett-selskap           118/126 tiles  differ in rows 100,1000,1300,1600,1700,1800,1900,2000
+ok    18-side-innsikt               52/72 tiles  differ in rows 100,300,400,500,700,800,900,1000,1100
+FAIL  19-side-resultater           108/126 tiles  LOST 900:1200,2000:480,2000:720  differ in rows 600,700,800,900,1000,1900,2000
+ok    20-side-sammentrukket         45/72 tiles  differ in rows 100,200,300,400,500,700,800,900,1000,1100
+ok    21-hjelp                     104/132 tiles  differ in rows 700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2100
+ok    23-panel-hjelp                48/54 tiles  differ in rows 400,600,700,800
+ok    24-panel-grunnlag             49/54 tiles  differ in rows 300,500,600,700
+ok    25-panel-tuva                 47/54 tiles  differ in rows 300,500,600,700
+no console errors

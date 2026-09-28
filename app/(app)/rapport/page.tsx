@@ -149,10 +149,16 @@ export default async function RapportPage({
     .filter((g) => g.status === 'protected')
     .map((g) => ({ name: g.group_name, n: g.n }))
 
-  const teamResult = params.avdeling
+  /*
+   * An avdelingsleder's results_summary is their own department's (scope 'group'), not the
+   * organisation's: the report is then that department's, labelled with its name, and the
+   * «avdeling» chips — which could only narrow it to itself — are not offered (AUD-33).
+   */
+  const scopedTo = summary && summary.scope === 'group' ? (summary.scope_label ?? '') : null
+  const teamResult = params.avdeling && scopedTo === null
     ? (byGroup?.groups.find((g) => g.group_name === params.avdeling && g.status === 'ok') ?? null)
     : null
-  const team = teamResult?.group_name ?? null
+  const team = scopedTo ?? teamResult?.group_name ?? null
 
   const runOf = (r: RoundListItem, factors: number): ReportRun => ({
     id: r.id,
@@ -190,7 +196,9 @@ export default async function RapportPage({
    * is an overall index — the RPC returns factor rows and no headline figure, and this
    * side will not average them into one (D-15).
    */
-  const source = team ? (teamResult?.factors ?? []) : summary?.status === 'ok' ? summary.factors : []
+  const source = teamResult
+    ? (teamResult.factors ?? [])
+    : summary?.status === 'ok' ? summary.factors : []
 
   /** the organisation's own index per factor, which is what section 4 quotes */
   const indexOf = new Map(
@@ -215,7 +223,8 @@ export default async function RapportPage({
     scope,
     team,
     years,
-    teams,
+    teams: scopedTo === null ? teams : [],
+    teamLocked: scopedTo !== null,
     org: org
       ? { name: org.name, orgNumber: org.org_number, employeeCount: org.employee_count }
       : null,
@@ -228,7 +237,7 @@ export default async function RapportPage({
     factors,
     withheld,
     protectedGroups,
-    teamAnswers: teamResult?.n ?? null,
+    teamAnswers: teamResult?.n ?? (scopedTo !== null && summary?.status === 'ok' ? summary.n : null),
     instrument: {
       factors: instrument.length,
       statementsPerFactor: instrument.map((f) => f.ordinals.length),

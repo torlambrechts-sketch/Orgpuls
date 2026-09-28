@@ -52,6 +52,11 @@ export interface TodoItem {
 }
 
 export interface InnsiktView {
+  /** which headline the figures support, and what it names (AUD-32) */
+  head:
+    | { key: 'none' | 'assess' | 'daglig_leder' }
+    | { key: 'avdelingsleder'; group: string }
+    | { key: 'verneombud'; count: number }
   orgName: string
   employeeCount: number
   role: Role | null
@@ -85,7 +90,12 @@ const DOT = {
 export async function InnsiktScreen({ view }: { view: InnsiktView }) {
   const t = await getTranslations()
 
-  const head = view.role ? t(`innsikt.head.${view.role}`) : t('innsikt.head.daglig_leder')
+  const head =
+    view.head.key === 'avdelingsleder'
+      ? t('innsikt.head.avdelingsleder', { group: view.head.group })
+      : view.head.key === 'verneombud'
+        ? t('innsikt.head.verneombud', { count: view.head.count })
+        : t(`innsikt.head.${view.head.key}`)
   const lead = view.role ? t(`innsikt.lead.${view.role}`, {
     running: view.running,
     assessed: view.riskAssessed ? 'yes' : 'no',

@@ -91,6 +91,8 @@ export interface RapportView {
   protectedGroups: { name: string; n: number | null }[]
   /** responses in scope, when a department is selected */
   teamAnswers: number | null
+  /** the viewer's figures are one department's (an avdelingsleder's): no department to choose (AUD-33) */
+  teamLocked: boolean
   instrument: { factors: number; statementsPerFactor: number[]; extraQuestions: number }
   highRiskCount: number
   /** section 5: the measures the year's measurements raised */
@@ -374,23 +376,25 @@ export async function RapportScreen({ view }: { view: RapportView }) {
             ))}
           </FilterGroup>
 
-          <FilterGroup label={t('rapport.filterTeam')}>
-            <FilterChip
-              href={{ ...chipQuery({}), query: { ...chipQuery({}).query, avdeling: undefined } }}
-              selected={view.team === null}
-              label={t('rapport.wholeOrg')}
-              small
-            />
-            {view.teams.map((g) => (
+          {view.teamLocked ? null : (
+            <FilterGroup label={t('rapport.filterTeam')}>
               <FilterChip
-                key={g.name}
-                href={chipQuery({ avdeling: g.name })}
-                selected={view.team === g.name}
-                label={g.name}
+                href={{ ...chipQuery({}), query: { ...chipQuery({}).query, avdeling: undefined } }}
+                selected={view.team === null}
+                label={t('rapport.wholeOrg')}
                 small
               />
-            ))}
-          </FilterGroup>
+              {view.teams.map((g) => (
+                <FilterChip
+                  key={g.name}
+                  href={chipQuery({ avdeling: g.name })}
+                  selected={view.team === g.name}
+                  label={g.name}
+                  small
+                />
+              ))}
+            </FilterGroup>
+          )}
         </div>
 
         <div className="mt-[11px] text-[12.5px] font-semibold">

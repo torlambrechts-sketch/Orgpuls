@@ -7111,3 +7111,30 @@ commented.
 **Pixel gate:** `12-kommentarer` loses the tone chips' tiles; the Resultater states lose D-155's
 panel tiles (open: re-record after the diff is read, audit AUD-16).
 
+
+---
+
+## D-158 — Innsikt's headline and Rapport's scope come from the figures, not the design's scenario
+
+**Design:** Innsikt opens with one sentence per role — «Dere er i rute», «Verksted trenger deg denne
+uka», «To faktorer krever handling» — and Rapport's front matter says «Hele virksomheten · N ansatte».
+
+**Built (X-088, audit AUD-32 and AUD-33):** the three sentences are the design's scenario, and were
+printed to everyone: a Drift leader in an organisation without a Verksted was told Verksted needed
+them, and a verneombud read «To faktorer» over «1 høy risiko». Now:
+
+- **daglig leder** — «Dere er i rute» once the latest kartlegging is closed and risk-assessed;
+  «Risikovurderingen gjenstår» when it is closed and not assessed; «Ingen kartlegging er ferdig ennå»
+  before any.
+- **verneombud** — the high-risk factors counted on the same page («{count} faktorer krever handling»,
+  «Ingen faktorer krever handling» at 0).
+- **avdelingsleder** — «{group} trenger deg denne uka» with the department `results_summary` names
+  (`scope_label`), only when it has a high-risk factor; otherwise the verneombud's count sentence.
+
+Rapport, for an avdelingsleder, whose `results_summary` is their department's (`scope: 'group'`),
+is that department's report: the department's name where «Hele virksomheten» stood, the team index
+line instead of the organisation's index and last year's column, and no «avdeling» chips (they could
+only narrow it to itself). `?avdeling=` no longer shows the same page under another name.
+
+**Pixel gate:** the fixture's daglig leder has a closed, assessed grunnlinje, so `02-innsikt-full`
+reads «Dere er i rute» as before. 16 and 17 are not gated (D-77).

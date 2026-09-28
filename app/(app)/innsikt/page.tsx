@@ -259,7 +259,27 @@ export default async function InnsiktPage() {
     })
   }
 
+  /*
+   * The headline, from the figures on this page (AUD-32): the design's three sentences were its
+   * scenario's facts — Verksted, two factors — and printed them to everyone. Now «i rute» only
+   * once the kartlegging is closed and risk-assessed; the verneombud's count is the high-risk
+   * factors counted here; an avdelingsleder's department is named only when it has one.
+   */
+  const hoy = bands?.hoy ?? 0
+  // an avdelingsleder's figures are their department's, and results_summary names it
+  const group = ok && ok.scope === 'group' && hoy > 0 ? ok.scope_label : null
+  const head: InnsiktView['head'] = !current || !ok
+    ? { key: 'none' }
+    : role === 'avdelingsleder' && group
+      ? { key: 'avdelingsleder', group }
+      : role === 'avdelingsleder' || role === 'verneombud'
+        ? { key: 'verneombud', count: hoy }
+        : risk
+          ? { key: 'daglig_leder' }
+          : { key: 'assess' }
+
   const view: InnsiktView = {
+    head,
     orgName: org?.name ?? '',
     employeeCount: org?.employee_count ?? 0,
     role,

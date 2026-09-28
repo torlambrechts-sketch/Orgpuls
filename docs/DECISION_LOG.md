@@ -2523,6 +2523,26 @@ drill-down, verbatim and k-gated as before; only the answer value each one trave
   strings added by 0105/0107 are translated and approved, a pilot in pl/uk/lt/sv/da gets the survey
   in bokmål. No organisation pilots one today (hosted `locale_pilots` is empty).
 
+### X-088 — The journeys' P1s: every rung has an address, «Start nå» opens what was set up, setup is the daglig leder's
+
+Tor, 2026-09-28: "Start p0 and continue with p1". The deep audit's journeys (J2, J4, J6) found five
+P1s after the audit's own were fixed (X-087).
+
+- **AUD-29** a notice rung reaches the people the register records in that duty (`employees.duty_role`)
+  as well as the members in that role: tillitsvalgte, who have no login by design, had no address
+  at all, and a verneombud without a login was never pre-notified. `duty_role` still grants nothing:
+  `dispatch_recipients` is the one routine that reads it, and no client may call it —
+  `settings_invariants` row 5 now says exactly that.
+- **AUD-30** «Start nå» opens the planned puls itself, with its own questions, intro, publish date,
+  groups and modules, instead of a copy that left the planned round to open again. Its ladder is due
+  at the start, so the dispatcher sends it (verneombud first, everyone last) rather than dropping it
+  as due before the opening — which it had done for every start.
+- **AUD-31** setup is the daglig leder's, as Oppsett › Hvem ser hva says: rounds, their factors,
+  extras, modules, invited groups and own questions, the question bank, measurements, and the two
+  definer functions behind extras and «Tilbakestill». The verneombud and avdelingsleder read
+  Måleoppsett and change nothing; its controls are the daglig leder's (0108).
+- **AUD-32 / AUD-33** Innsikt's headline and Rapport's scope are read from the figures (D-158).
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.

@@ -224,8 +224,10 @@
     "seeResult": "See the full result",
     "head": {
       "daglig_leder": "You are on track",
-      "avdelingsleder": "Verksted needs you this week",
-      "verneombud": "Two factors need action"
+      "avdelingsleder": "{group} needs you this week",
+      "verneombud": "{count, plural, =0 {No factors need action} one {One factor needs action} =2 {Two factors need action} =3 {Three factors need action} other {# factors need action}}",
+      "none": "No survey has closed yet",
+      "assess": "The risk assessment is still to do"
     },
     "lead": {
       "daglig_leder": "{assessed, select, yes {The baseline has been surveyed and risk-assessed.} other {The baseline has been surveyed, but not yet risk-assessed.}} {running, plural, =0 {No measures are under way.} one {One measure is under way.} =2 {Two measures are under way.} =3 {Three measures are under way.} =4 {Four measures are under way.} =5 {Five measures are under way.} =6 {Six measures are under way.} =7 {Seven measures are under way.} =8 {Eight measures are under way.} =9 {Nine measures are under way.} =10 {Ten measures are under way.} =11 {Eleven measures are under way.} =12 {Twelve measures are under way.} other {# measures are under way.}} The next pulse measures whether they worked.",

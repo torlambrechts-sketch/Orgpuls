@@ -224,8 +224,10 @@
     "seeResult": "Se hele resultatet",
     "head": {
       "daglig_leder": "Dere er i rute",
-      "avdelingsleder": "Verksted trenger deg denne uka",
-      "verneombud": "To faktorer krever handling"
+      "avdelingsleder": "{group} trenger deg denne uka",
+      "verneombud": "{count, plural, =0 {Ingen faktorer krever handling} one {Én faktor krever handling} =2 {To faktorer krever handling} =3 {Tre faktorer krever handling} other {# faktorer krever handling}}",
+      "none": "Ingen kartlegging er ferdig ennå",
+      "assess": "Risikovurderingen gjenstår"
     },
     "lead": {
       "daglig_leder": "{assessed, select, yes {Grunnlinjen er tatt og risikovurdert.} other {Grunnlinjen er tatt, men ikke risikovurdert ennå.}} {running, plural, =0 {Ingen tiltak løper.} one {Ett tiltak løper.} =2 {To tiltak løper.} =3 {Tre tiltak løper.} =4 {Fire tiltak løper.} =5 {Fem tiltak løper.} =6 {Seks tiltak løper.} =7 {Sju tiltak løper.} =8 {Åtte tiltak løper.} =9 {Ni tiltak løper.} =10 {Ti tiltak løper.} =11 {Elleve tiltak løper.} =12 {Tolv tiltak løper.} other {# tiltak løper.}} Neste puls måler om de virket.",

@@ -189,9 +189,10 @@ export default async function MaleoppsettPage({
     consultations: setup.consultations,
     employeeCount: org.employee_count,
     threshold: participation?.threshold ?? org.threshold,
-    // styling only; `round_group_write` and its siblings are what actually decide
-    // and a round that has opened is fixed (0076, round_settings_fixed): nothing to write
-    canWrite: (role === 'daglig_leder' || role === 'avdelingsleder') && setup.status === 'planlagt',
+    // styling only; `round_group_write` and its siblings are what actually decide (the daglig
+    // leder's alone since 0108, as Oppsett › Hvem ser hva says) and a round that has opened is
+    // fixed (0076, round_settings_fixed): nothing to write
+    canWrite: role === 'daglig_leder' && setup.status === 'planlagt',
     nextOpensAt,
     // the rhythm is the year wheel's, and `wheel_write` admits daglig leder only
     wheel: wheel

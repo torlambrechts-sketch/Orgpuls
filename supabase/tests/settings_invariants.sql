@@ -5,8 +5,9 @@
 -- by giving an avdelingsleder a department and scoping every read to it.
 --
 -- The assertions that matter most are the negative ones. Assertion 5 asserts that
--- `duty_role` is consulted by **nothing** — no policy, no function — because the whole
--- point of that column is that writing "verneombud" on a person grants them nothing.
+-- `duty_role` is consulted by **nothing** that grants — no policy, no function but the one
+-- that addresses a notice (0108), which no client may call — because the whole point of that
+-- column is that writing "verneombud" on a person grants them nothing.
 -- Assertion 6 does the same for `law_mode`, which the design promises changes wording and
 -- nothing else. Both are written as a search of every policy expression and every routine
 -- body in the schema, so a later query that starts keying off either one fails here.
@@ -56,8 +57,17 @@ begin
     and attname ~* '(employee|person|user|email|phone|manager)';
 
   -- 5, 6 ------------------------------------------ the two columns nothing may read
+  -- 0108 (AUD-29): one routine reads it — dispatch_recipients, to address a notice to the
+  -- verneombud and tillitsvalgte the register records. That is an address, not access: no client
+  -- role may call it, and no policy and no other routine reads the column.
   insert into public._st
-  select 5, 'duty_role is consulted by no policy and no routine', '0', count(*)::text, count(*) = 0
+  select 5, 'duty_role is consulted by no policy, and by no routine but dispatch_recipients, which no client may call',
+         '0|false|false', count(*)::text || '|'
+           || has_function_privilege('authenticated', 'app.dispatch_recipients(uuid)', 'execute')::text || '|'
+           || has_function_privilege('anon', 'app.dispatch_recipients(uuid)', 'execute')::text,
+         count(*) = 0
+           and not has_function_privilege('authenticated', 'app.dispatch_recipients(uuid)', 'execute')
+           and not has_function_privilege('anon', 'app.dispatch_recipients(uuid)', 'execute')
   from (
     select 1 from pg_policies
     where schemaname = 'app'
@@ -65,6 +75,7 @@ begin
     union all
     select 1 from pg_proc p join pg_namespace n on n.oid = p.pronamespace
     where n.nspname in ('app','public') and p.prosrc like '%duty_role%'
+      and p.oid <> 'app.dispatch_recipients(uuid)'::regprocedure
   ) hits;
 
   insert into public._st

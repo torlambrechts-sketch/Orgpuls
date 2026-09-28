@@ -6,7 +6,8 @@
 --   * a round closed within 14 days refuses it (6)
 --   * otherwise: one open puls with the next planned puls's factors, an invitation and a
 --     notice per active employee, the ladder's forvarsel, and an audit row naming who (7..10)
---   * the planned rounds are left as they were (11)
+--   * the round that opens is the next planned puls itself, not a copy (0108); the other
+--     planned rounds are left as they were (11)
 --   * a second press while it runs is refused (12)
 --   * with no factor to ask about, nothing is written (13)
 --   * nothing written here survives (14)
@@ -87,8 +88,9 @@ begin
     where org_id = v_org and status = 'lukket' and closes_at > now() - interval '14 days';
     select r.id into v_src from app.rounds r join app.measurements m on m.id = r.measurement_id
     where r.org_id = v_org and r.status = 'planlagt' and m.kind = 'puls' order by r.opens_at nulls last, r.id limit 1;
+    -- 0108 (AUD-30): the next planned puls is the one that opens; the others stay as they were
     select string_agg(r.id || ':' || r.opens_at, ',' order by r.id) into v_planned
-    from app.rounds r where r.org_id = v_org and r.status = 'planlagt';
+    from app.rounds r where r.org_id = v_org and r.status = 'planlagt' and r.id is distinct from v_src;
 
     -- what the new puls should ask: the next planned puls's factors, or with none planned,
     -- the factors with an open measure (the wheel's own rule)
@@ -125,9 +127,12 @@ begin
       'expected', '1 row, the daglig leder', 'actual', (select count(*) || ' row, ' || case when bool_and(started_by = v_dl) then 'the daglig leder' else 'SOMEONE ELSE' end from app.round_starts where round_id = v_round),
       'pass', (select count(*) = 1 and bool_and(started_by = v_dl) from app.round_starts where round_id = v_round));
 
-    v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'the planned rounds are left as they were', 'expected', 'unchanged',
-      'actual', case when v_planned is not distinct from (select string_agg(r.id || ':' || r.opens_at, ',' order by r.id) from app.rounds r where r.org_id = v_org and r.status = 'planlagt') then 'unchanged' else 'CHANGED' end,
-      'pass', v_planned is not distinct from (select string_agg(r.id || ':' || r.opens_at, ',' order by r.id) from app.rounds r where r.org_id = v_org and r.status = 'planlagt'));
+    v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'the next planned puls is the round that opens; the other planned rounds are left as they were',
+      'expected', 'itself, unchanged',
+      'actual', case when v_src is null or v_round = v_src then 'itself' else 'A COPY' end || ', '
+        || case when v_planned is not distinct from (select string_agg(r.id || ':' || r.opens_at, ',' order by r.id) from app.rounds r where r.org_id = v_org and r.status = 'planlagt') then 'unchanged' else 'CHANGED' end,
+      'pass', (v_src is null or v_round = v_src)
+        and v_planned is not distinct from (select string_agg(r.id || ':' || r.opens_at, ',' order by r.id) from app.rounds r where r.org_id = v_org and r.status = 'planlagt'));
 
     -- 12 -------------------------------------------------------------- a second press
     v_json := public.start_next_pulse(v_org);
