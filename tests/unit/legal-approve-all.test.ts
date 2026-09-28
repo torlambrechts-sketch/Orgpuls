@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
  */
 const rpc = vi.fn(async (_fn: string, _args: Record<string, unknown>) => ({ data: { ok: true }, error: null }))
 vi.mock('@/lib/supabase/server', () => ({ createClient: async () => ({ rpc }) }))
-vi.mock('next/cache', () => ({ revalidatePath: () => {} }))
+vi.mock('next/cache', () => ({ revalidatePath: () => {}, revalidateTag: () => {}, unstable_cache: (fn: unknown) => fn }))
 vi.mock('next/headers', () => ({ cookies: async () => ({ get: () => undefined, set: () => {} }) }))
 vi.mock('next/navigation', () => ({ redirect: () => {} }))
 vi.mock('@/lib/legal/inputs', () => ({ legalInputs: async () => ({}) }))
