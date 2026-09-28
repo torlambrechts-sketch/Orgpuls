@@ -121,7 +121,7 @@ export function Workspace({ model }: { model: ResultaterModel }) {
           {view === 'sammenlign' ? <CompareView model={model} sel={sel} pick={pick} /> : null}
           {view === 'utvikling' ? <TimelineView model={model} sel={sel} pick={pick} /> : null}
         </div>
-        <Drill model={model} sel={sel} value={value(sel.row, sel.factor)} adopted={adopted} onAdopted={onAdopted} flash={flash} />
+        <Drill model={model} sel={sel} value={value(sel.row, sel.factor)} flash={flash} />
       </div>
 
       <Suggestions
@@ -298,20 +298,25 @@ interface AdoptProps {
   onAdopted: (key: string, title: string) => void
 }
 
-/** The drill-down (v3 2466-2508): the selected cell, its statements, a comment, the playbook. */
+/**
+ * The drill-down (v3 2466-2508): the selected cell, its statements, and the factor's comments.
+ *
+ * The design ends the panel with «Foreslåtte tiltak»; the owner replaced it with the comments on
+ * the factor (D-155), since the same suggestions stand under «Forslag basert på resultatene» below.
+ * Under D2 a comment never travels with its group: the comments are the whole organisation's
+ * whichever row is selected, and the panel says so when a group is.
+ */
 function Drill({
   model,
   sel,
   value,
-  adopted,
-  onAdopted,
   flash,
 }: {
   model: ResultaterModel
   sel: Selection
   value: number | null
   flash: string | null
-} & AdoptProps) {
+}) {
   const t = useTranslations()
   const k = sel.factor
   const row = model.rows.find((r) => r.id === sel.row)
@@ -370,9 +375,6 @@ function Drill({
         })
       : []
   const comment = model.comments[k]
-  // D2: a comment never travels with a group, so the quote stands only under the whole organisation
-  const quote = sel.row === ORG ? (comment?.quote ?? null) : null
-
   return (
     <div className={card}>
       <div className="flex items-center justify-between gap-[10px]">
@@ -421,11 +423,24 @@ function Drill({
           ))}
         </div>
       ) : null}
-      {quote ? (
-        <div className="mt-[14px] rounded-btn border-l-[3px] border-line bg-bg px-[13px] py-[11px] text-[12.5px] italic leading-[1.5]">
-          «{quote}»
-        </div>
+      <div className="mt-[18px] text-[11px] uppercase tracking-[.11em] text-mut">{t('resultater.drill.commentsHead')}</div>
+      {sel.row !== ORG ? (
+        <div className="mt-[4px] text-[12px] leading-[1.5] text-mut [text-wrap:pretty]">{t('resultater.drill.commentsWhole')}</div>
       ) : null}
+      {comment?.quotes.length ? (
+        <div className="mt-[8px] flex flex-col gap-[7px]">
+          {comment.quotes.map((q, i) => (
+            <div
+              key={i}
+              className="rounded-btn border-l-[3px] border-line bg-bg px-[13px] py-[11px] text-[12.5px] italic leading-[1.5] [overflow-wrap:anywhere]"
+            >
+              «{q}»
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="mt-[8px] text-[12.5px] leading-[1.5] text-mut">{t('resultater.drill.commentsNone')}</div>
+      )}
       {comment?.count ? (
         <Link
           href={`/kommentarer?maling=${model.round.id}&faktor=${k}` as Route}
@@ -434,30 +449,6 @@ function Drill({
           {t('resultater.drill.comments', { count: comment.count })}
         </Link>
       ) : null}
-      <div className="mt-[18px] text-[11px] uppercase tracking-[.11em] text-mut">{t('resultater.drill.suggested')}</div>
-      <div className="mt-[8px] flex flex-col gap-[7px]">
-        {playbookFor(k).map((e) => (
-          <div
-            key={e.key}
-            className="flex items-center gap-[10px] rounded-btn border border-line bg-bg px-[12px] py-[10px] text-ink"
-          >
-            <span className="min-w-0 flex-1">
-              <span className="block text-[13px] font-semibold">{t(`playbook.${k}.m${e.n}.title`)}</span>
-              <span className="block text-[11px] text-mut">
-                {t(`playbook.kind.${e.kind}`)} · {t(`playbook.${k}.m${e.n}.time`)}
-              </span>
-            </span>
-            <AdoptButton
-              playbookKey={e.key}
-              title={t(`playbook.${k}.m${e.n}.title`)}
-              roundId={model.round.id}
-              adopted={adopted.has(e.key)}
-              onAdopted={onAdopted}
-              className="flex-none"
-            />
-          </div>
-        ))}
-      </div>
       {flash ? <Flash text={flash} /> : null}
     </div>
   )

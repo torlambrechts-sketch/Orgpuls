@@ -2444,6 +2444,14 @@ organization and plan task 116". (D-153, D-154)
 - **Task 116** is planned in docs/implementation/engagement-phase2-plan.md, with the decisions it
   needs from Tor listed there.
 
+### X-084 — Comments in Resultater's drill-down, for the whole organisation
+
+Tor, 2026-09-28: comments per area and group in the panel on the right, in place of «Foreslåtte
+tiltak». Asked whether to lift D2 (a comment never travels with its group) for the panel — per
+group with guard rails, or per group at the figures' threshold — Tor chose to keep D2: the panel
+shows the factor's comments for the whole organisation, whichever row is selected, and says so.
+(D-155)
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.
@@ -2466,7 +2474,7 @@ organization and plan task 116". (D-153, D-154)
 - [ ] Invitation (D-149): write the greeting in Målinger › Innstillinger if you want one. The logo is uploaded in Oppsett › Selskap › Logo (D-154) and then heads every mail.
 - [ ] § 9-2 evaluation (D-153): record the ordning's evaluations under Rapport › Registrer til rapporten; until one is recorded, an organisation with a closed round is reminded every four weeks.
 - [ ] Engagement phase 2 (task #116): answer the eight decisions in docs/implementation/engagement-phase2-plan.md § 2 before it is built.
-- [ ] Pixel gate: `07-resultater-varmekart`, `09-resultater-segmentprofil` and `19-side-resultater` each LOST two bottom-row tiles (row 2000). Measured 2026-09-28 on main's own build (6114bf6) against a freshly rebuilt database, so it predates D-153/D-154: the page now ends in the effect card (D-147) and «Siden for de ansatte» (D-151), which push the footer below where the claims were recorded. Needs a look with `probe.mjs`, then the claims re-recorded or the cause fixed.
+- [ ] Pixel gate: `07-resultater-varmekart`, `09-resultater-segmentprofil` and `19-side-resultater` each LOST two bottom-row tiles (row 2000). Measured 2026-09-28 on main's own build (6114bf6) against a freshly rebuilt database, so it predates D-153/D-154: the page now ends in the effect card (D-147) and «Siden for de ansatte» (D-151), which push the footer below where the claims were recorded. Needs a look with `probe.mjs`, then the claims re-recorded or the cause fixed. 07 and 19 also lose the drill-down's lower tiles since D-155 (by the owner's choice); re-record them together.
 - [x] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131); decided in admin › Moduler since 0092 (D-140).
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).
 - [ ] A ready-to-send check before a round opens (channel coverage, groups under the threshold, information and consultation done); the reach count on Målinger › Innstillinger is its first half (D-126).

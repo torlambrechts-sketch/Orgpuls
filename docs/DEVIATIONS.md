@@ -7025,3 +7025,26 @@ screen alone (`v3-run.mjs --only 15 --write`). Every other tile claim is unchang
 
 `org_logo_invariants.sql` proves eight rules; `tests/unit/mail.test.ts` that a mail carries only an
 address the database made.
+
+---
+
+## D-155 — Resultater's drill-down shows the factor's comments instead of «Foreslåtte tiltak»
+
+**Design:** the drill-down on Resultater › Varmekart (v3 2466-2508) ends in «Foreslåtte tiltak»: the
+factor's playbook with «Legg i plan».
+
+**Built, at the owner's request (2026-09-28, X-084):** that block is replaced by «Kommentarer om
+dette» — the three newest comments on the factor, masked as everywhere else, and «Se alle N
+kommentarer om dette →» to Kommentarer. The playbook stays where the page already offers it, under
+«Forslag basert på resultatene» below, with the same «Legg i plan».
+
+**Always the whole organisation's (D2, X-039, kept by the owner).** A comment never travels with
+its group: the list is the same whichever row is selected, and with a group selected the panel
+says so («Kommentarer gjelder hele virksomheten. De vises aldri per gruppe …»). The owner was asked
+whether to lift D2 for this panel and chose not to: a comment under «Kundeservice × Motstridende
+krav» with nine answers is one of nine people, and what they write is often enough to recognise
+them. With none on the factor: «Ingen har skrevet en kommentar om dette i denne målingen.»
+
+**Pixel gate:** `07-resultater-varmekart` and `19-side-resultater` lose the tiles of the panel's
+lower half (900:1200, and 1000:720 on 07). Not re-recorded yet: both screens also carry the older
+bottom-row losses (DECISION_LOG open items), and re-recording now would hide those.

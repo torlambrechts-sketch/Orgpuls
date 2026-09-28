@@ -192,11 +192,12 @@ export default async function ResultaterPage({
       ? Object.fromEntries(workspace.importance.factors.flatMap((f) => (f.r === null ? [] : [[f.key, f.r] as const])))
       : null
 
-  // comments (0018): the count per factor, and the most recent as the drill-down's quote
+  // comments (0018): the count per factor, and the three most recent for the drill-down (D-155)
   const comments: ResultaterModel['comments'] = {}
   for (const c of [...(conversations?.items ?? [])].sort((a, b) => b.openedHour.localeCompare(a.openedHour))) {
-    const entry = (comments[c.factorKey] ??= { count: 0, quote: c.opening })
+    const entry = (comments[c.factorKey] ??= { count: 0, quotes: [] })
     entry.count += 1
+    if (entry.quotes.length < 3) entry.quotes.push(c.opening)
   }
 
   const timeline = [

@@ -77,8 +77,8 @@ export interface ResultaterModel {
   /** factor key → r, whole organisation; null when not the caller's or too few answers */
   importance: Record<string, number> | null
   importanceMinimum: number | null
-  /** this round's comments per factor (whole organisation, 0018) */
-  comments: Record<string, { count: number; quote: string | null }>
+  /** this round's comments per factor (whole organisation, 0018): how many, and the newest three (D2: never by group) */
+  comments: Record<string, { count: number; quotes: string[] }>
   /** playbook keys this organisation has already made into measures (0031) */
   adopted: string[]
   /** a puls only: the running measures on the factors it measured, whose effect it reads */
