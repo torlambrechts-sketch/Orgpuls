@@ -75,11 +75,12 @@ export default async function MarketingLayout({ children }: { children: React.Re
             menuLabel={t('menu')}
             language={<LanguageSwitch label={t('language')} size="lg" hosts={hosts} />}
             account={[
+              { href: '/demo', label: t('demo') },
               { href: '/logg-inn', label: t('signIn') },
               { href: '/registrer', label: t('getStarted') },
             ]}
           />
-          {/* on a phone these two move into the menu, so the header is one row and the page starts sooner */}
+          {/* on a phone these move into the menu, so the header is one row and the page starts sooner */}
           <span className="hidden flex-none items-center gap-[9px] sm:flex">
             <LanguageSwitch label={t('language')} hosts={hosts} />
             <Link
@@ -87,6 +88,14 @@ export default async function MarketingLayout({ children }: { children: React.Re
               className="flex h-[38px] items-center rounded-ctl px-[15px] text-[14px] font-semibold text-ink hover:text-ink"
             >
               {t('signIn')}
+            </Link>
+            {/* the demo (D-143, D-144): the site's secondary button, as «Se plattformen →» is drawn. Between
+                1024 and 1180 px the full menu and four controls do not fit one row, so it waits there */}
+            <Link
+              href="/demo"
+              className="flex h-[38px] items-center rounded-ctl border border-ink bg-sf px-[17px] text-[14px] font-bold text-ink hover:text-ink lg:hidden min-[1180px]:flex"
+            >
+              {t('demo')}
             </Link>
             <Link
               href="/registrer"

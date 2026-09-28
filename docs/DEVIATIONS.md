@@ -6691,3 +6691,18 @@ X-077. `/demo` takes a work address and an unticked consent box. The link from A
 - **Tests:** `demo_invariants.sql`, 15 rows. `trends_invariants` 4 now counts signups without demos;
   every other suite is unchanged.
 
+
+## D-144 — «Se demo» in the site header
+
+Tor, 2026-09-28: "Add a Demo link to the header." The design's header has no demo, so the link is
+drawn as the site's secondary button (border ink on sf, as «Se plattformen →»), between «Logg inn»
+and «Kom i gang», with «See the demo» on en.orgpuls.com. The phone menu lists it first of the
+three account links.
+
+- **Where it shows:** under 640 px it is in the phone menu. From 640 to 1023 px it is in the
+  header, where the top nav is folded into «Meny». From 1180 px up it is in the header too.
+- **Where it does not:** between 1024 and 1179 px the full menu and four controls do not fit one
+  row. The header broke to two rows at 1024 in the browser, so the button waits there rather
+  than wrap the menu.
+- **Pixel baselines:** the site baselines (site-pixel.mjs) predate the button, so every page's
+  top band differs by its width; that script is not a CI gate and already fails by design (D-88).
