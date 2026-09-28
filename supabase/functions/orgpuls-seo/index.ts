@@ -64,8 +64,23 @@ Deno.serve(async (req) => {
     const token = await googleToken(sa)
     if (typeof token !== 'string') return json({ configured: true, reachable: false, code: token.error })
     const res = await fetch(`https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(site)}`, { headers: { authorization: `Bearer ${token}` } })
-    await res.body?.cancel()
-    return json({ configured: true, reachable: res.ok, code: res.status, account: sa.client_email.replace(/^[^@]+/, '…') })
+    // Google's own reason, so a refusal says which step is missing: the API not enabled
+    // (SERVICE_DISABLED), the account not added to the property, or a property name that does
+    // not match (PERMISSION_DENIED with its message). It carries no secret.
+    const body = res.ok
+      ? null
+      : ((await res.json().catch(() => null)) as { error?: { status?: string; message?: string; errors?: { reason?: string }[] } } | null)
+    if (res.ok) await res.body?.cancel()
+    return json({
+      configured: true,
+      reachable: res.ok,
+      code: res.status,
+      site,
+      account: sa.client_email.replace(/^[^@]+/, '…'),
+      ...(body?.error
+        ? { status: body.error.status ?? null, reason: body.error.errors?.[0]?.reason ?? null, message: (body.error.message ?? '').slice(0, 300) }
+        : {}),
+    })
   }
 
   // ---------------------------------------------------------------- Search Console
