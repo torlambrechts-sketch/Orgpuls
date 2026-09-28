@@ -3,47 +3,47 @@
  RUN  v2.1.9 /home/user/Orgpuls
 
  ✓ tests/unit/module-wording.test.ts (14 tests) 38ms
- ✓ tests/unit/mail.test.ts (33 tests) 58ms
- ✓ tests/unit/plurals.test.ts (14 tests) 153ms
- ✓ tests/unit/p1-language.test.ts (17 tests) 46ms
- ✓ tests/unit/legal-registry.test.ts (13 tests) 237ms
- ✓ tests/unit/translation-package.test.ts (6 tests) 34ms
- ✓ tests/unit/sms-gsm.test.ts (11 tests) 158ms
- ✓ tests/unit/industry.test.ts (12 tests) 76ms
- ✓ tests/unit/platform-package.test.ts (8 tests) 19ms
- ✓ tests/unit/module-variants.test.ts (16 tests) 59ms
- ✓ tests/unit/helpers.test.ts (13 tests) 17ms
- ✓ tests/unit/locales.test.ts (13 tests) 12ms
- ✓ tests/unit/not-relevant.test.ts (8 tests) 12ms
+ ✓ tests/unit/mail.test.ts (33 tests) 55ms
+ ✓ tests/unit/p1-language.test.ts (17 tests) 35ms
+ ✓ tests/unit/plurals.test.ts (14 tests) 166ms
+ ✓ tests/unit/legal-registry.test.ts (13 tests) 232ms
+ ✓ tests/unit/translation-package.test.ts (6 tests) 37ms
+ ✓ tests/unit/sms-gsm.test.ts (11 tests) 187ms
+ ✓ tests/unit/industry.test.ts (12 tests) 87ms
+ ✓ tests/unit/platform-package.test.ts (8 tests) 17ms
+ ✓ tests/unit/module-variants.test.ts (16 tests) 58ms
+ ✓ tests/unit/helpers.test.ts (13 tests) 12ms
+ ✓ tests/unit/locales.test.ts (13 tests) 16ms
+ ✓ tests/unit/not-relevant.test.ts (8 tests) 14ms
  ✓ tests/unit/skew.test.ts (9 tests) 18ms
- ✓ tests/unit/survey-languages.test.ts (3 tests) 22ms
- ✓ tests/unit/modules.test.ts (15 tests) 108ms
- ✓ tests/unit/industry-setting.test.ts (6 tests) 315ms
- ✓ tests/unit/rounds.test.ts (11 tests) 6ms
- ✓ tests/unit/respond-payload-locale.test.ts (2 tests) 14ms
- ✓ tests/unit/shell.test.ts (10 tests) 8ms
- ✓ tests/unit/seo.test.ts (4 tests) 219ms
- ✓ tests/unit/lifecycle.test.ts (21 tests) 36ms
- ✓ tests/unit/sms.test.ts (10 tests) 10ms
- ✓ tests/unit/module-handel.test.ts (7 tests) 11ms
- ✓ tests/unit/legal-approve-all.test.ts (3 tests) 11ms
+ ✓ tests/unit/survey-languages.test.ts (3 tests) 21ms
+ ✓ tests/unit/industry-setting.test.ts (6 tests) 236ms
+ ✓ tests/unit/modules.test.ts (15 tests) 86ms
+ ✓ tests/unit/rounds.test.ts (11 tests) 10ms
+ ✓ tests/unit/seo.test.ts (4 tests) 38ms
+ ✓ tests/unit/respond-payload-locale.test.ts (2 tests) 11ms
+ ✓ tests/unit/shell.test.ts (10 tests) 11ms
+ ✓ tests/unit/lifecycle.test.ts (21 tests) 30ms
+ ✓ tests/unit/sms.test.ts (10 tests) 6ms
+ ✓ tests/unit/legal-approve-all.test.ts (3 tests) 10ms
+ ✓ tests/unit/module-handel.test.ts (7 tests) 12ms
  ✓ tests/unit/playbook.test.ts (4 tests) 13ms
- ✓ tests/unit/lovdata.test.ts (6 tests) 8ms
- ✓ tests/unit/analytics.test.ts (9 tests) 5ms
- ✓ tests/unit/brreg.test.ts (9 tests) 10ms
+ ✓ tests/unit/analytics.test.ts (9 tests) 8ms
+ ✓ tests/unit/brreg.test.ts (9 tests) 9ms
+ ✓ tests/unit/lovdata.test.ts (6 tests) 6ms
  ✓ tests/unit/wizard.test.ts (6 tests) 5ms
+ ✓ tests/unit/web.test.ts (3 tests) 3ms
  ✓ tests/unit/hosts-outbound.test.ts (3 tests) 4ms
- ✓ tests/unit/web.test.ts (3 tests) 5ms
- ✓ tests/unit/themes.test.ts (5 tests) 4ms
+ ✓ tests/unit/themes.test.ts (5 tests) 3ms
  ✓ tests/unit/prefs-default.test.ts (3 tests) 3ms
- ✓ tests/unit/entry-contact.test.ts (3 tests) 5ms
+ ✓ tests/unit/entry-contact.test.ts (3 tests) 4ms
  ✓ tests/unit/i18n-switch.test.ts (3 tests) 3ms
  ✓ tests/unit/mask.test.ts (3 tests) 3ms
- ✓ tests/unit/dpa.test.ts (3 tests) 8ms
- ✓ tests/unit/initials.test.ts (3 tests) 3ms
+ ✓ tests/unit/dpa.test.ts (3 tests) 7ms
+ ✓ tests/unit/initials.test.ts (3 tests) 9ms
 
  Test Files  39 passed (39)
       Tests  342 passed (342)
-   Start at  19:12:48
-   Duration  6.79s (transform 2.14s, setup 0ms, collect 6.09s, tests 1.78s, environment 10ms, prepare 2.95s)
+   Start at  19:13:49
+   Duration  6.54s (transform 2.08s, setup 0ms, collect 6.01s, tests 1.53s, environment 8ms, prepare 3.21s)
 

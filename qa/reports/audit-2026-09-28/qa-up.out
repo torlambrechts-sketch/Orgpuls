@@ -116,3 +116,11 @@ Restarting containers...
 Finished supabase db reset on branch claude/brave-brown-yqcbvx.
 {"target":"local","version":"","message":"Reset local database."}
 Stopped services: [supabase_inbucket_orgpuls supabase_realtime_orgpuls supabase_storage_orgpuls supabase_imgproxy_orgpuls supabase_studio_orgpuls supabase_edge_runtime_orgpuls supabase_analytics_orgpuls supabase_vector_orgpuls supabase_pooler_orgpuls]
+Stopped services: [supabase_inbucket_orgpuls supabase_realtime_orgpuls supabase_storage_orgpuls supabase_imgproxy_orgpuls supabase_studio_orgpuls supabase_edge_runtime_orgpuls supabase_analytics_orgpuls supabase_vector_orgpuls supabase_pooler_orgpuls]
+  name   | employees | closed_responses 
+---------+-----------+------------------
+ Drift   |        12 |               19
+ Salg    |         7 |               11
+ Økonomi |         3 |                5
+(3 rows)
+
