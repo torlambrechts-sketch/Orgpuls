@@ -2371,6 +2371,15 @@ Tor, 2026-09-28: "Remove the gates and launch everything, no more approvals."
 - **CLAUDE.md:** production deploys, launching pages and publishing modules move from «stop and
   ask» to «run freely».
 
+### X-079 — A development organisation of Tor's own
+
+Tor, 2026-09-28: a working account with many employees and content, not the demo, for development.
+Made from his own demo copy (tor.lambrechts+utvikling@gmail.com via /demo): its sandbox row, demo mark
+and member lock were removed and it was renamed «Utviklingsbedriften AS». It is now an ordinary
+organisation that is never reset or expired, with 64 employees, 12 rounds, 358 responses, 18 measures and
+24 conversations. Mail and SMS stay off, since its people have fictional addresses. It has no billing row,
+so it reads as a trial and stays out of KPIs and the admin's organisation list.
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.
