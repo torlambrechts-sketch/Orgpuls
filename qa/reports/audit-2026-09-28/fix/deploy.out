@@ -1,0 +1,4 @@
+orgpuls-dispatch: version 46, ACTIVE, verify_jwt false
+orgpuls-auth-mail: version 44, ACTIVE, verify_jwt false
+orgpuls-mail-events: version 35, ACTIVE, verify_jwt false
+orgpuls-seo: version 21, ACTIVE, verify_jwt false

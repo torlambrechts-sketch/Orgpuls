@@ -1,0 +1,15 @@
+
+Running 10 tests using 1 worker
+
+  ✓   1 [mobile] › qa/e2e/invariants.spec.ts:21:7 › I3 @invariants @respondent › the respondent page sends nothing that names the respondent (882ms)
+  ✓   2 [mobile] › qa/e2e/respondent-flow.spec.ts:32:7 › respondent flow in no @respondent @flow (12.6s)
+  ✓   3 [mobile] › qa/e2e/respondent-flow.spec.ts:32:7 › respondent flow in en @respondent @flow (12.9s)
+  ✓   4 [small] › qa/e2e/invariants.spec.ts:21:7 › I3 @invariants @respondent › the respondent page sends nothing that names the respondent (880ms)
+  ✓   5 [small] › qa/e2e/respondent-flow.spec.ts:32:7 › respondent flow in no @respondent @flow (12.0s)
+  ✓   6 [small] › qa/e2e/respondent-flow.spec.ts:32:7 › respondent flow in en @respondent @flow (12.6s)
+  ✓   7 [tiny] › qa/e2e/invariants.spec.ts:21:7 › I3 @invariants @respondent › the respondent page sends nothing that names the respondent (838ms)
+  ✓   8 [tiny] › qa/e2e/respondent-flow.spec.ts:32:7 › respondent flow in no @respondent @flow (12.3s)
+  ✓   9 [tiny] › qa/e2e/respondent-flow.spec.ts:32:7 › respondent flow in en @respondent @flow (12.5s)
+  ✓  10 [pseudo] › qa/e2e/pseudo.spec.ts:18:5 › respondent flow under the pseudo-locale @pseudo (12.2s)
+
+  10 passed (1.6m)

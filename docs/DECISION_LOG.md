@@ -2494,7 +2494,14 @@ gets the whole survey in bokmål, not only the new strings.
 
 Tor, 2026-09-28: "Start p0 and continue with p1", after the deep audit (docs/audits/2026-09-28-deep.md).
 Asked whether a leader should still see a commenter's own answer, with removal recommended, Tor
-gave no other instruction; the recommendation stands (0106, D-157).
+gave no other instruction; the recommendation stands (0106, D-157). Tor then: "We need to show
+comments, that should not be a privacy issue" — they are shown, in Kommentarer and in the
+drill-down, verbatim and k-gated as before; only the answer value each one travelled with is gone.
+
+- **AUD-28** (found by the journey audit) a measurement can no longer be deleted or re-kinded by a
+  client: `authenticated` keeps UPDATE on `kind` and `evaluation_cadence` only, and a trigger
+  refuses a change of kind, year or organisation once any of its rounds has left `planlagt`. The
+  delete used to cascade to rounds, responses and answers.
 
 - **AUD-01** `app.outbox` is no client's table any more; Årshjulet and Integrasjoner read counts
   from `queue_counts`. A reminder row names someone who has not answered.

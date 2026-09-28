@@ -1,0 +1,5 @@
+no -> en: 6549 keys
+plurals: 184 checked against CLDR (en→en, no→nb)
+sms: 8 templates checked for GSM-7 (no, en)
+i18n: PASS
+respondent-ui: current
