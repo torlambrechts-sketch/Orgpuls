@@ -130,3 +130,15 @@ export async function getReach(): Promise<{ total: number; email: number; phoneO
   ])
   return { total: total.count ?? 0, email: email.count ?? 0, phoneOnly: phoneOnly.count ?? 0, neither: neither.count ?? 0 }
 }
+
+/** The daglig leder's greeting in the invitation (0099, P1-1); empty when none is written */
+export async function getInviteGreeting(org: string): Promise<string> {
+  const supabase = await createClient()
+  const { data, error } = await supabase.schema('app').from('organizations').select('invite_greeting').eq('id', org).maybeSingle()
+  if (error) {
+    readFailed('getInviteGreeting', error, data)
+    return ''
+  }
+  const parsed = z.object({ invite_greeting: z.string().nullable() }).nullable().safeParse(data)
+  return parsed.success ? (parsed.data?.invite_greeting ?? '') : ''
+}

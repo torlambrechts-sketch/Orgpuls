@@ -551,6 +551,16 @@
         "invalid": "Something in the form is not valid. Check it and try again.",
         "not_allowed": "Only the general manager can change the standard.",
         "failed": "The standard was not saved. Please try again."
+      },
+      "greeting": {
+        "head": "Greeting in the invitation",
+        "lead": "A few words from you raise the response rate: why you measure, and what you will do with the answers. The greeting goes in the invitation, with your name under it.",
+        "placeholder": "We want to know how you are doing at work, so we can do something about what isn’t working …",
+        "save": "Save greeting",
+        "saved": "Saved. It goes with the next invitation.",
+        "cleared": "Removed. The invitation goes without a greeting.",
+        "onlyLeader": "Only the managing director can write the greeting.",
+        "failed": "The greeting was not saved."
       }
     },
     "plakat": {
@@ -2850,11 +2860,14 @@
     "automatic": "This is an automatic e-mail from Orgpuls on behalf of {org}. Replies are not received.",
     "invitasjon": {
       "subject": "{org}: answer {round}",
-      "lead": "{org} is surveying the working environment, and you are invited to answer {round}. It takes a few minutes.",
+      "lead": "{org} is surveying the working environment, and you are invited to answer {round}.",
       "anonymous": "Your answer is anonymous. No single answer can be traced back to you, and results are shown only for groups where at least {k} have answered.",
       "cta": "Answer now",
       "deadline": "Deadline: {date}.",
-      "personal": "The link is personal. Do not forward it."
+      "personal": "The link is personal. Do not forward it.",
+      "minutes": "It takes about {minutes} minutes.",
+      "results": "When the deadline has passed, all employees will hear what the survey showed and what will be done about it.",
+      "greetingBy": "– {name}, managing director"
     },
     "paminnelse": {
       "subject": "Reminder: {round} at {org}",
@@ -2998,6 +3011,22 @@
         "more": "If you have not downloaded the report yet, do it now. After the deletion neither you nor we can bring anything back.",
         "cta": "Download the report"
       }
+    },
+    "tiltak": {
+      "subject": "{org}: measures past their deadline",
+      "owner": "These measures are yours, and their deadline has passed or nothing has happened for a month:",
+      "verneombud": "These measures at {org} are past their deadline or standing still. You get a copy because the safety representative is to be told when a deadline is missed.",
+      "item": "{title} (deadline {date})",
+      "itemNoDate": "{title} (no deadline)",
+      "member": "Update the status, or set a new deadline, in Measures.",
+      "employee": "Tell whoever follows up the measures if the deadline should move or the measure is done.",
+      "cta": "Open Measures"
+    },
+    "svarprosent": {
+      "subject": "{org}: one department is behind on {round}",
+      "lead": "Half the time for {round} has passed, and at least one department has a response rate ten percentage points or more below the rest of the organisation.",
+      "what": "A low response rate in one department makes its result less reliable. Send a reminder, talk about the survey at a meeting, or extend the deadline. Which department it is, you see in Surveys.",
+      "cta": "Open Surveys"
     }
   },
   "newPassword": {

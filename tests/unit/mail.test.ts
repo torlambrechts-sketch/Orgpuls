@@ -114,6 +114,48 @@ describe('notices', () => {
     }
   })
 
+  // 0099, gap analysis P1-1
+  it('says how long an invitation takes, carries the leader\'s greeting, and promises results only when everyone is told', () => {
+    const shared = renderNotice(
+      cat,
+      job({ minutes: 4, results_shared: true, greeting: { text: 'Vi vil <vite> hvordan dere har det.', by: 'Kari Nordmann' } }),
+      { lang: 'no', member: false, name: 'Ola' },
+      APP,
+    )
+    expect(shared.text).toContain('Det tar omtrent 4 minutter.')
+    expect(shared.text).toContain('«Vi vil <vite> hvordan dere har det.»\n– Kari Nordmann, daglig leder')
+    expect(shared.html).toContain('Vi vil &lt;vite&gt;')
+    expect(shared.text).toContain('får alle ansatte vite hva målingen viste')
+    const plain = renderNotice(cat, job({ minutes: 4, results_shared: false }), { lang: 'no', member: false, name: 'Ola' }, APP)
+    expect(plain.text).not.toContain('får alle ansatte vite')
+    expect(plain.text).not.toContain('«')
+    // a reminder says none of it
+    const reminder = renderNotice(cat, job({ kind: 'paminnelse', minutes: 4, results_shared: true }), { lang: 'no', member: false, name: 'Ola' }, APP)
+    expect(reminder.text).not.toContain('omtrent 4 minutter')
+  })
+
+  // 0099, P1-5 and P1-6
+  it('lists a measure\'s owner\'s overdue measures, copies the verneombud, and links the app only for a member', () => {
+    const measures = [{ title: 'Fast svar på avvik', due: '2026-09-27' }, { title: 'Ny <rutine>', due: null }]
+    const owner = renderNotice(cat, job({ kind: 'tiltak_forfalt', round: null, token: null, measures }), { lang: 'no', member: false, name: 'Ola' }, APP)
+    expect(owner.subject).toBe('Nordvik Anlegg AS: tiltak som har passert fristen')
+    expect(owner.text).toContain('– Fast svar på avvik (frist 27. september)')
+    expect(owner.text).toContain('– Ny <rutine> (ingen frist)')
+    expect(owner.html).toContain('Ny &lt;rutine&gt;')
+    expect(owner.text).not.toContain(`${APP}/tiltak`)
+    const vo = renderNotice(cat, job({ kind: 'tiltak_forfalt', audience: 'verneombud', round: null, token: null, measures }), { lang: 'en', member: true, name: null }, APP)
+    expect(vo.text).toContain('You get a copy because the safety representative')
+    expect(vo.text).toContain(`${APP}/tiltak`)
+  })
+
+  it('tells the daglig leder a department lags, naming none and giving no figure', () => {
+    const r = renderNotice(cat, job({ kind: 'svarprosent', audience: 'daglig_leder', token: null }), { lang: 'no', member: true, name: null }, APP)
+    expect(r.subject).toBe('Nordvik Anlegg AS: én avdeling henger etter på grunnlinjen 2026')
+    expect(r.text).toContain(`${APP}/malinger`)
+    expect(r.text).not.toMatch(/\d+ ?%/)
+    expect(r.text).not.toMatch(/\{\w+\}/)
+  })
+
   it('names a puls by its number within the year', () => {
     expect(roundName(no.mail, { kind: 'puls', year: 2027, pulse: 2, opens_at: null, closes_at: null })).toBe('puls 2 · 2027')
     expect(roundName(en.mail, { kind: 'grunnlinje', year: 2026, pulse: null, opens_at: null, closes_at: null })).toBe('the 2026 baseline')

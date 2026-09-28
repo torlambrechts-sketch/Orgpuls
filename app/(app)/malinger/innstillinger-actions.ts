@@ -86,3 +86,19 @@ export async function makeEntryCode(renew: boolean): Promise<{ ok: true } | { ok
   revalidatePath('/malinger/plakat')
   return { ok: true }
 }
+
+/** The invitation's greeting (0099, P1-1): set_invite_greeting decides who may, and empty clears it */
+export async function saveInviteGreeting(text: string): Promise<{ ok: true } | { ok: false; problem: 'not_allowed' | 'failed' }> {
+  const v = z.string().max(600).safeParse(text)
+  if (!v.success) return { ok: false, problem: 'failed' }
+  const org = await getCurrentOrgId()
+  if (!org) return { ok: false, problem: 'not_allowed' }
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('set_invite_greeting', { p_org: org, p_text: v.data })
+  if (callFailed('saveInviteGreeting', error)) return { ok: false, problem: 'failed' }
+  const r = z.union([z.object({ ok: z.literal(true) }), z.object({ error: z.string() })]).safeParse(data)
+  if (!r.success) return { ok: false, problem: 'failed' }
+  if ('error' in r.data) return { ok: false, problem: r.data.error === 'not_allowed' ? 'not_allowed' : 'failed' }
+  revalidatePath('/malinger')
+  return { ok: true }
+}

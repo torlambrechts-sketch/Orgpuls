@@ -35,7 +35,7 @@ export interface NoticeRound {
 /** One claimed outbox row, as `public.dispatch_claim` returns it. */
 export interface NoticeJob {
   id: string
-  kind: 'forvarsel' | 'invitasjon' | 'paminnelse' | 'siste_paminnelse' | 'lenke' | 'resultat'
+  kind: 'forvarsel' | 'invitasjon' | 'paminnelse' | 'siste_paminnelse' | 'lenke' | 'resultat' | 'tiltak_forfalt' | 'svarprosent'
   audience: string | null
   /** the channel the database chose for the link (0033); role notices are always e-mail */
   channel: 'email' | 'sms'
@@ -44,11 +44,20 @@ export interface NoticeJob {
   lang: string
   org: string
   k: number
-  round: NoticeRound
+  /** null for a measure's notice (0099), which belongs to no round */
+  round: NoticeRound | null
   recipients: Recipient[]
   token: string | null
   /** for a personal message, the survey's language state (0080): items missing, UI hashes approved, and whether the organisation pilots it (0085) */
   locales?: Record<string, { missing: number; ui: string[]; pilot?: boolean }> | null
+  /** an invitation's length in minutes, from what the round asks (0099, P1-1) */
+  minutes?: number | null
+  /** everyone is told the results: the ladder has an «alle ansatte» row (0097, 0099) */
+  results_shared?: boolean | null
+  /** the daglig leder's own greeting, and their name (0099) */
+  greeting?: { text: string; by: string | null } | null
+  /** a tiltak_forfalt's measures: a leader's titles and their dates (0099) */
+  measures?: { title: string; due: string | null }[] | null
 }
 
 export interface Recipient {
@@ -254,11 +263,41 @@ export function renderNotice(
   appUrl: string,
 ): Rendered {
   const m = cat[group.lang]
-  const round = roundName(m, job.round)
   const org = job.org
   const greeting = group.name ? fill(pick(m, 'greeting'), { name: group.name }) : pick(m, 'greetingPlain')
   const footer = fill(pick(m, 'automatic'), { org })
   const base = appUrl.replace(/\/+$/, '')
+
+  // a measure past its date (0099, P1-5): to its owner, or to the verneombud as a copy
+  if (job.kind === 'tiltak_forfalt') {
+    const items = (job.measures ?? []).map((x) =>
+      x.due ? fill(pick(m, 'tiltak.item'), { title: x.title, date: dateOf(x.due, group.lang) }) : fill(pick(m, 'tiltak.itemNoDate'), { title: x.title }),
+    )
+    const lead = job.audience === 'verneombud' ? fill(pick(m, 'tiltak.verneombud'), { org }) : pick(m, 'tiltak.owner')
+    const subject = fill(pick(m, 'tiltak.subject'), { org })
+    const cta = group.member ? { label: pick(m, 'tiltak.cta'), url: `${base}/tiltak` } : null
+    return {
+      subject,
+      ...layout({ title: subject, lang: group.lang, greeting, paragraphs: [lead, items.map((i) => `– ${i}`).join('\n')], cta, after: [pick(m, group.member ? 'tiltak.member' : 'tiltak.employee')], footer }),
+    }
+  }
+
+  if (!job.round) throw new Error(`${job.kind} without a round`)
+  const round = roundName(m, job.round)
+
+  // a department lagging behind in an open round (0099, P1-6): no department and no figure in the mail
+  if (job.kind === 'svarprosent') {
+    const subject = cap(fill(pick(m, 'svarprosent.subject'), { org, round }))
+    return {
+      subject,
+      ...layout({
+        title: subject, lang: group.lang, greeting,
+        paragraphs: [cap(fill(pick(m, 'svarprosent.lead'), { round })), pick(m, 'svarprosent.what')],
+        cta: group.member ? { label: pick(m, 'svarprosent.cta'), url: `${base}/malinger` } : null,
+        after: [], footer,
+      }),
+    }
+  }
 
   if (isPersonal(job.kind)) {
     if (!job.token) throw new Error(`${job.kind} without a link`)
@@ -266,9 +305,16 @@ export function renderNotice(
     // the reminder texts, the second reminder's own lead, and the link a person asked for (0076)
     const reminder = job.kind === 'paminnelse' || job.kind === 'siste_paminnelse'
     const own = job.kind === 'invitasjon' ? 'invitasjon' : job.kind === 'lenke' ? 'lenke' : job.kind === 'paminnelse' ? 'paminnelse' : 'sistePaminnelse'
+    // 0099 (P1-1): the invitation says how long it takes, carries the leader's greeting, and
+    // promises the results where everyone is told them
+    const invite = job.kind === 'invitasjon'
     const paragraphs = [
-      cap(fill(pick(m, `${own}.lead`), { org, round })),
+      cap(fill(pick(m, `${own}.lead`), { org, round })) + (invite && job.minutes ? ` ${fill(pick(m, 'invitasjon.minutes'), { minutes: job.minutes })}` : ''),
+      ...(invite && job.greeting?.text
+        ? [`«${job.greeting.text}»${job.greeting.by ? `\n${fill(pick(m, 'invitasjon.greetingBy'), { name: job.greeting.by })}` : ''}`]
+        : []),
       fill(pick(m, 'invitasjon.anonymous'), { k: job.k }),
+      ...(invite && job.results_shared ? [pick(m, 'invitasjon.results')] : []),
     ]
     const after = [
       ...(job.round.closes_at ? [fill(pick(m, 'invitasjon.deadline'), { date: dateOf(job.round.closes_at, group.lang) })] : []),
@@ -348,6 +394,7 @@ export function renderAuth(cat: MailCatalogue, action: AuthAction, lang: Lang, e
  */
 export function smsLead(cat: MailCatalogue, job: NoticeJob, lang: Lang): string {
   const m = cat[lang]
+  if (!job.round) throw new Error(`${job.kind} without a round`)
   const round = roundName(m, job.round)
   if (job.kind === 'paminnelse' || job.kind === 'siste_paminnelse') {
     const key = job.kind === 'paminnelse' ? 'sms.reminder' : 'sms.lastReminder'

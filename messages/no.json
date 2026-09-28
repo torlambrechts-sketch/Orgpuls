@@ -551,6 +551,16 @@
         "invalid": "Noe i skjemaet er ikke gyldig. Se over og prøv igjen.",
         "not_allowed": "Bare daglig leder kan endre standarden.",
         "failed": "Standarden ble ikke lagret. Prøv igjen."
+      },
+      "greeting": {
+        "head": "Hilsen i invitasjonen",
+        "lead": "Noen ord fra deg øker svarprosenten: hvorfor dere måler, og hva dere skal gjøre med svarene. Hilsenen står i invitasjonen, med navnet ditt under.",
+        "placeholder": "Vi vil vite hvordan dere har det på jobb, så vi kan gjøre noe med det som ikke fungerer …",
+        "save": "Lagre hilsen",
+        "saved": "Lagret. Den kommer med i neste invitasjon.",
+        "cleared": "Fjernet. Invitasjonen går uten hilsen.",
+        "onlyLeader": "Bare daglig leder kan skrive hilsenen.",
+        "failed": "Hilsenen ble ikke lagret."
       }
     },
     "plakat": {
@@ -2850,11 +2860,14 @@
     "automatic": "Dette er en automatisk e-post fra Orgpuls på vegne av {org}. Svar på den kommer ikke fram.",
     "invitasjon": {
       "subject": "{org}: svar på {round}",
-      "lead": "{org} kartlegger arbeidsmiljøet, og du er invitert til å svare på {round}. Det tar noen få minutter.",
+      "lead": "{org} kartlegger arbeidsmiljøet, og du er invitert til å svare på {round}.",
       "anonymous": "Svaret ditt er anonymt. Ingen enkeltsvar kan spores tilbake til deg, og resultater vises bare for grupper der minst {k} har svart.",
       "cta": "Svar nå",
       "deadline": "Svarfrist: {date}.",
-      "personal": "Lenken er personlig. Ikke send den videre."
+      "personal": "Lenken er personlig. Ikke send den videre.",
+      "minutes": "Det tar omtrent {minutes} minutter.",
+      "results": "Når fristen er ute, får alle ansatte vite hva målingen viste, og hva som skal gjøres med det.",
+      "greetingBy": "– {name}, daglig leder"
     },
     "paminnelse": {
       "subject": "Påminnelse: {round} i {org}",
@@ -2998,6 +3011,22 @@
         "more": "Har dere ikke lastet ned rapporten ennå, gjør det nå. Etter slettingen kan verken dere eller vi hente noe tilbake.",
         "cta": "Last ned rapporten"
       }
+    },
+    "tiltak": {
+      "subject": "{org}: tiltak som har passert fristen",
+      "owner": "Disse tiltakene står på deg, og fristen er passert eller ingenting har skjedd på en måned:",
+      "verneombud": "Disse tiltakene i {org} har passert fristen eller står stille. Du får kopi fordi verneombudet skal varsles når en frist ryker.",
+      "item": "{title} (frist {date})",
+      "itemNoDate": "{title} (ingen frist)",
+      "member": "Oppdater status, eller sett en ny frist, i Tiltak.",
+      "employee": "Gi beskjed til den som følger opp tiltakene hvis fristen bør flyttes eller tiltaket er ferdig.",
+      "cta": "Åpne Tiltak"
+    },
+    "svarprosent": {
+      "subject": "{org}: én avdeling henger etter på {round}",
+      "lead": "Halve svartiden for {round} har gått, og minst én avdeling har en svarprosent som er ti prosentpoeng eller mer under resten av virksomheten.",
+      "what": "Lav svarprosent i én avdeling gjør resultatet der mindre treffsikkert. Send en påminnelse, snakk om målingen på et møte, eller forleng fristen. Hvilken avdeling det gjelder, ser du i Målinger.",
+      "cta": "Åpne Målinger"
     }
   },
   "newPassword": {

@@ -2409,7 +2409,8 @@ P0-3 and P1-8 (D-145):
 - [x] Handel (X-074): the module, a count question's own answers and factor (0090), and its pages are built (D-138).
 - [x] Launched 2026-09-28 (X-078). Was: launch handel: Tor approves its six law items in admin › Legal review (the lone-work item needs its paragraph from Lovdata); then publish handel@1.0.0 and set `launched: true`. Review at https://www.orgpuls.com/handel?forhandsvis=1 and /handel/sporsmal?forhandsvis=1.
 - [ ] Before `module_factor_toggles` ships: the preview footnotes on /helse-og-omsorg and /handel describe one group without a factor, but factors are switched per round (D-138).
-- [ ] Approve the English survey again in admin › Legal review: the survey pages' strings changed again (D-145, the open field's note and own questions). Until then English respondents get bokmål.
+- [ ] Approve the English survey again in admin › Legal review: the survey pages' strings changed again (D-145, D-147: the open field's note, own questions, the effect question). Until then English respondents get bokmål.
+- [ ] Invitation (D-149): write the greeting in Målinger › Innstillinger if you want one. A logo in the mail needs an organisation logo, which the product does not store yet.
 - [x] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131); decided in admin › Moduler since 0092 (D-140).
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).
 - [ ] A ready-to-send check before a round opens (channel coverage, groups under the threshold, information and consultation done); the reach count on Målinger › Innstillinger is its first half (D-126).

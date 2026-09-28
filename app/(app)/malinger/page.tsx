@@ -32,7 +32,8 @@ import { Innstillinger } from '@/components/malinger/Innstillinger'
 import { getOrganization } from '@/lib/org/read'
 import { getSmsSettings } from '@/lib/settings/read'
 import type { DefaultsValues } from '@/app/(app)/malinger/innstillinger-actions'
-import { EXTRA_KEYS, PRODUCT_DEFAULTS, SCREENING, getDefaultsLog, getEntryCode, getReach, getSurveyDefaults } from '@/lib/settings/survey'
+import { EXTRA_KEYS, PRODUCT_DEFAULTS, SCREENING, getDefaultsLog, getEntryCode, getInviteGreeting, getReach, getSurveyDefaults } from '@/lib/settings/survey'
+import { GreetingCard } from '@/components/malinger/GreetingCard'
 
 /**
  * Målinger — design 3 (bundle `isMeasure`, v3 870-1330; logic `mData()`). D-74.
@@ -528,7 +529,7 @@ async function Settings({ canEdit }: { canEdit: boolean }) {
   const locale = await getLocale()
   const org = await getCurrentOrgId()
   if (!org) return null
-  const [saved, log, code, reach, sms, organization, extras, published, chosen] = await Promise.all([
+  const [saved, log, code, reach, sms, organization, extras, published, chosen, greeting] = await Promise.all([
     getSurveyDefaults(org),
     getDefaultsLog(org),
     getEntryCode(org),
@@ -538,6 +539,7 @@ async function Settings({ canEdit }: { canEdit: boolean }) {
     getExtraQuestions(),
     getPublishedModules(org),
     getOrgModuleChoices(org),
+    getInviteGreeting(org),
   ])
   const k = (key: string, values?: Record<string, string | number>) => t(`malinger.innstillinger.${key}`, values)
   const date = (iso: string) => new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', dateStyle: 'long' }).format(new Date(iso))
@@ -549,6 +551,7 @@ async function Settings({ canEdit }: { canEdit: boolean }) {
   const field = (key: string) => (t.has(`malinger.innstillinger.field.${key}`) ? k(`field.${key}`) : key)
 
   return (
+    <>
     <Innstillinger
       initial={{
         closeDaysGrunnlinje: values.closeDaysGrunnlinje,
@@ -648,5 +651,23 @@ async function Settings({ canEdit }: { canEdit: boolean }) {
         },
       }}
     />
+      {/* the invitation's greeting (0099, P1-1), below the standard it goes out with */}
+      <div className="mt-[14px]">
+      <GreetingCard
+        initial={greeting}
+        canEdit={canEdit}
+        copy={{
+          head: k('greeting.head'),
+          lead: k('greeting.lead'),
+          placeholder: k('greeting.placeholder'),
+          save: k('greeting.save'),
+          saved: k('greeting.saved'),
+          cleared: k('greeting.cleared'),
+          onlyLeader: k('greeting.onlyLeader'),
+          failed: k('greeting.failed'),
+        }}
+      />
+      </div>
+    </>
   )
 }

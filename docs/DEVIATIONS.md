@@ -6801,3 +6801,30 @@ which also gives them the notice when results are ready (wheel_tick queues «res
 Årshjulet gets a fifth switch in «Unntak og eskalering», in the design's toggle form:
 «Varsle alle ansatte før og etter hver runde». Existing wheels are not changed: that would start
 mailing everyone at organisations that never chose it.
+
+## D-149 — A better invitation; overdue measures and a lagging department told about (0098, 0099)
+
+Gap analysis P1-1, P1-5, P1-6 and the rest of P0-4.
+
+- **The invitation (P1-1)** says how long it takes as a number («Det tar omtrent 4 minutter», about
+  seven seconds an item, `app.round_minutes`), carries the daglig leder's own greeting with their
+  name under it where one is written (Målinger › Innstillinger › «Hilsen i invitasjonen», a card
+  in Innstillinger's own form; `set_invite_greeting`, daglig leder only, 600 characters), and
+  promises that everyone hears the results only where the ladder tells them (0097's «alle
+  ansatte» row). Reminders say none of it. **Not done: a logo or image.** No organisation has a
+  logo in the schema, and an image we chose would be decoration presented as theirs; the mail
+  keeps the Orgpuls wordmark it had.
+- **Overdue measures (P1-5, P0-4).** Every Monday 05:10 UTC, each owner of a measure that is past
+  its date while decided or under way — or has no date and has stood still for 30 days — gets one
+  mail listing their measures; the verneombud gets a copy listing them all, unless Årshjulet's
+  «Varsle verneombud når en frist ryker» is off. Nothing twice within six days; a notice whose
+  measures were finished before it went is dropped. The mail carries a leader's titles and dates,
+  never anything a respondent wrote; the link to Tiltak only for someone who can sign in. A
+  measure belongs to no round, so `outbox.round_id` may be null for this kind alone.
+- **A department behind (P1-6).** Once half an open round's time has gone, the daglig leder is
+  told once if a department the participation view shows (at least k invited) answers ten points
+  or more below the whole round. The mail names no department and holds no figure; it says what
+  can be done (a reminder, a meeting, more time) and points to Målinger.
+- **English and survey languages:** the invitation's lead lost «Det tar noen få minutter» for the
+  number, so a survey language's translated invitation is used again once the new keys are
+  translated (the dispatcher falls back to bokmål until then).
