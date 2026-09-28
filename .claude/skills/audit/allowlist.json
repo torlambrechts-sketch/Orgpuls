@@ -1,0 +1,77 @@
+{
+  "_comment": "Reviewed exceptions for scripts/audit/wiring.mjs. Every entry carries the reason it is deliberate. A new entry is added only after review, in the same commit as the change that needs it.",
+  "anon_executes": {
+    "public.crm_archive(p_limit integer)": "newsletter web archive (D-101), published issues only",
+    "public.crm_archive_item(p_slug text)": "one archived newsletter issue by slug (D-101)",
+    "public.crm_confirm(p_token text)": "double opt-in confirmation link (D-101)",
+    "public.crm_newsletter_signup(p_email text, p_name text, p_company text, p_lang text, p_source text, p_trap text, p_lists text[])": "newsletter signup form, honeypot and rate limit in the function (D-101)",
+    "public.crm_preferences(p_token text)": "preference centre behind a mail's token (D-101)",
+    "public.crm_public_lists()": "the lists a visitor may sign up for (D-101)",
+    "public.crm_set_preferences(p_token text, p_lists text[], p_all_off boolean)": "preference centre write, token-scoped (D-101)",
+    "public.crm_unsubscribe(p_token text, p_scope text)": "one-click unsubscribe (D-101)",
+    "public.demo_request(p_email text, p_ip text, p_consent boolean, p_lang text)": "demo sandbox request, rate-limited (D-143)",
+    "public.entry_info(p_code text)": "QR poster page: round name by entry code (D-126)",
+    "public.follow_up(p_key text, p_body text)": "respondent's private conversation, by its key (0018)",
+    "public.invite_preview(p_token text)": "member invitation link before sign-up (0028)",
+    "public.message_overrides(p_locale text)": "approved bokmål/English overrides, public page text (0101)",
+    "public.request_link(p_code text, p_contact text)": "QR poster: send my own link, rate-limited (D-126)",
+    "public.respond_form(p_token text)": "the survey form by token (invariant 3)",
+    "public.respond_locales(p_token text)": "the survey's offered languages by token (0079)",
+    "public.round_page(p_slug text)": "employees' results page, whole organisation, k-gated (0100)",
+    "public.submit_contact(p_topic integer, p_name text, p_email text, p_org text, p_message text, p_trap text)": "contact form, honeypot (D-104)",
+    "public.submit_response(p_token text, p_answers jsonb, p_extra jsonb, p_module jsonb, p_own jsonb)": "the one write path for answers (invariant 3)",
+    "public.thread_by_key(p_key text)": "respondent's conversation read, by its key (0018)",
+    "public.track_web_event(p_ip text, p_ua text, p_kind text, p_path text, p_referrer text, p_utm jsonb, p_label text, p_geo jsonb)": "cookieless site analytics beacon (D-91)"
+  },
+  "client_writes": {
+    "app.employees": "register, RLS: daglig leder of the org",
+    "app.groups": "register, RLS",
+    "app.locations": "register, RLS",
+    "app.measure_groups": "measures, RLS",
+    "app.measurements": "rounds setup, RLS",
+    "app.measures": "Tiltak, RLS",
+    "app.org_questions": "own questions, RLS (0095 adds the RPC path)",
+    "app.organizations": "Oppsett › Selskap, RLS update only",
+    "app.profiles": "own profile, RLS update only",
+    "app.risk_assessments": "Rapport risk assessment, RLS",
+    "app.risk_factor_assessments": "Rapport risk assessment, RLS",
+    "app.round_consultations": "report inputs, RLS",
+    "app.round_extra_questions": "Måleoppsett extras, RLS",
+    "app.round_factors": "Måleoppsett factors, RLS",
+    "app.round_groups": "Måleoppsett groups, RLS",
+    "app.round_information": "report inputs, RLS",
+    "app.round_modules": "Spørsmålssett, RLS delete only",
+    "app.round_org_questions": "own questions per round, RLS",
+    "app.setup_progress": "wizard progress, RLS",
+    "app.trainings": "report inputs, RLS",
+    "app.wheel_notifications": "Årshjulet ladder, RLS",
+    "app.year_wheels": "Årshjulet, RLS"
+  },
+  "unread_columns": {
+    "mail_events.received_at": "delivery log: kept for support and the audit trail, read in SQL by hand",
+    "org_count_answers.answered_on": "record of when a count answer was given; no reader by design (anonymity: never joined)",
+    "round_translations.pinned_at": "audit stamp of when a round's wording was pinned (0086)"
+  },
+  "uncalled_rpcs": {
+    "results_summary": "called by results_digest (0044) in SQL; callable directly, checks membership and k itself",
+    "results_items": "called by results_workspace in SQL; checks membership and k itself",
+    "results_importance": "called by results_workspace in SQL; checks membership and k itself",
+    "results_workspace": "called by results_digest (0044) in SQL; checks membership and k itself"
+  },
+  "settings_tables": [
+    "organizations",
+    "survey_defaults",
+    "year_wheels",
+    "wheel_notifications",
+    "rounds",
+    "platform_settings",
+    "measurements"
+  ],
+  "app_only_settings": {
+    "organizations.law_mode": "the help pages switch to their law-framed articles (app/(app)/hjelp)",
+    "organizations.registry_registered_on": "a Brønnøysund fact shown in Oppsett › Selskap; not a setting",
+    "organizations.registry_vat": "a Brønnøysund fact shown in Oppsett › Selskap; not a setting",
+    "organizations.industry_source": "how the industry was set; lib/modules/read suggests modules from it",
+    "organizations.industry_suggested": "the registry's suggestion; lib/modules/read offers it"
+  }
+}

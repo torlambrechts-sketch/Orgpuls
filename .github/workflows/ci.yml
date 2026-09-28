@@ -200,6 +200,12 @@ jobs:
       - name: supabase db lint
         run: supabase db lint --level warning
 
+      # /audit's catalog half (.claude/skills/audit): no table without RLS, no readable answer
+      # table, no definer without a search_path, the k floor, no linkage column on responses, and
+      # no public entry point or direct client write that allowlist.json has not reviewed
+      - name: Security audit (catalog)
+        run: node scripts/audit/wiring.mjs --security-only --db "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
+
       # ------------------------------------------------------------------ smoke
       # Every signed-in screen, against the database built above, as the local account.
       #

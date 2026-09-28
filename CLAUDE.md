@@ -99,6 +99,9 @@ parent is already gone. This has been rediscovered five separate times.
 - `npx tsc --noEmit`, `npm run lint`, `npm run verify:i18n`, `npx next build`
 - The pixel gate for the segment's screens
 - Both SQL suites in `supabase/tests/`
+- `node scripts/audit/wiring.mjs`: every write has a reader and every setting an effect. A new
+  column, setting or public RPC ships with its consumer and a test of the effect, or the audit
+  fails it. The full verification playbook is the `/audit` skill (`.claude/skills/audit/`).
 - CI additionally rebuilds the database from migrations, runs the fixture generator, and
   asserts the design's published figures — index 61, 64 the year before, "28 av 34 ·
   82 %". If those move, a migration or the generator drifted.
