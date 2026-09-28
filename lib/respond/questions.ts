@@ -17,7 +17,12 @@ export const CORE_MINUTES = 4
 
 export function respondQuestions(
   t: T,
-  form: Pick<RespondForm, 'questions' | 'extra' | 'threshold'> & { modules?: RespondForm['modules'] },
+  form: Pick<RespondForm, 'questions' | 'extra' | 'threshold'> & {
+    modules?: RespondForm['modules']
+    own?: RespondForm['own']
+    /** the organisation's name, which labels its own questions */
+    org?: string
+  },
   /** the respondent's language: a module's English where it has one (0072), else its Norwegian */
   lang: string = 'no',
   /**
@@ -88,6 +93,20 @@ export function respondQuestions(
     ),
   )
 
+  /*
+   * The organisation's own questions (0095, D-145), after the statements and before the
+   * questions outside the index: «skala» on the extent scale, «fritekst» as a text that is
+   * masked before anyone reads it. The words are the organisation's, in its language.
+   */
+  const extent: Choice[] = [1, 2, 3, 4, 5].map((n) => ({ ordinal: n, label: t(`respond.extent.o${n}`) }))
+  const ownLabel = t('respond.ownLabel', { org: form.org ?? '' })
+  const ownQuestions = (form.own ?? []).map(
+    (q): Question =>
+      q.kind === 'skala'
+        ? { kind: 'own-scale', id: `own:${q.id}`, question: q.id, factorLabel: ownLabel, text: q.text, choices: extent }
+        : { kind: 'own-text', id: `own:${q.id}`, question: q.id, factorLabel: ownLabel, text: q.text, note: t('respond.openNote') },
+  )
+
   return [
     ...form.questions.map(
       (q): Question => ({
@@ -101,6 +120,7 @@ export function respondQuestions(
       }),
     ),
     ...moduleStatements,
+    ...ownQuestions,
     ...form.extra.map((x): Question =>
       x.kind === 'free_text'
         ? {

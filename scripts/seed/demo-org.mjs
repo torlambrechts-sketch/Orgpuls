@@ -408,6 +408,24 @@ const ORG_QUESTIONS = [
 ]
 
 /**
+ * What the 2026 grunnlinje answered to the two own questions (0095, D-145), as counts per value
+ * 1–5, «i svært liten grad» to «i svært stor grad»; and what some wrote in the open field. The
+ * texts name colleagues, departments and a location on purpose: that is what the masking in
+ * public.open_answers is for, and the demo should show it working.
+ */
+const OWN_ANSWERS = { g26: [[2, 5, 13, 21, 11], [1, 3, 9, 24, 16]] }
+const OPEN_FIELD = {
+  g26: [
+    'Bedre overlapp mellom skiftene i Drift og vedlikehold. Øyvind gjør en god jobb, men han rekker ikke alt.',
+    'Mer tid til opplæring når nye begynner i Renhold.',
+    'En fast rutine for hva vi gjør når noen blir truet i kundeservice.',
+    'Verneombudet bør være på Driftsbase Åsane oftere, ikke bare på hovedkontoret.',
+    'Tydeligere beskjed om hva som skjer med tiltakene etter målingen.',
+    'Mindre overtid før jul.',
+  ],
+}
+
+/**
  * Every figure a note above quotes, and what it must be. The answers are drawn around a
  * target rather than set, so a note written against one version of this file can be made
  * false by an edit to STORY or OFFSET — and a measure that says "steg fra 54 til 58" over a
@@ -649,6 +667,28 @@ select id, extra,
          where n <= (select sum(v) from unnest(counts[1:k]) v))
 from numbered
 where n <= (select sum(v) from unnest(counts) v);
+
+-- own questions, by count, the same way (0095)
+with s(rk, qi, counts) as (values
+  ${Object.entries(OWN_ANSWERS).flatMap(([k, qs]) => qs.map((c, i) => `(${q(k)}, ${i}, array[${c.join(',')}])`)).join(',\n  ')}),
+numbered as (
+  select s.qi, s.counts, re.id, row_number() over (partition by s.rk, s.qi order by re.id) as n
+  from s join app.responses re on re.round_id = pg_temp.did('round:' || s.rk))
+insert into app.org_question_answers (response_id, question_id, value)
+select id, pg_temp.did('orgq:' || qi),
+       (select min(k) from generate_subscripts(counts, 1) k
+         where n <= (select sum(v) from unnest(counts[1:k]) v))
+from numbered
+where n <= (select sum(v) from unnest(counts) v);
+
+-- the open field: a text each on the first responses, which carry no person either
+insert into app.extra_answers (response_id, extra_key, free_text)
+select re.id, 'apent_felt', t.body
+from (values
+  ${Object.entries(OPEN_FIELD).flatMap(([k, ts]) => ts.map((b, i) => `(${q(k)}, ${i + 1}, ${q(b)})`)).join(',\n  ')}
+) as t(rk, n, body)
+join (select r.id, r.round_id, row_number() over (partition by r.round_id order by r.id) as n from app.responses r) re
+  on re.round_id = pg_temp.did('round:' || t.rk) and re.n = t.n;
 
 insert into app.measures (id, org_id, factor_key, round_id, owner_employee_id, title, goal, due_date,
                           completed_on, step, kind, created_at, effect_round_id, effect_note)

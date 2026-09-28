@@ -67,6 +67,8 @@ begin
     select r.id into v_open from app.rounds r where r.org_id = v_org and r.status = 'apen' limit 1;
     update app.rounds set opens_at = now() - interval '1 hour' where id = v_planned;
     update app.rounds set closes_at = now() - interval '1 minute' where id = v_open;
+    -- this row is about read-only closing, not 0096's extension of a round few have answered
+    update app.year_wheels set extend_if_low = false where org_id = v_org;
     perform app.wheel_tick();
     select * into v_round from app.rounds where id = v_planned;
     v_rows := v_rows || jsonb_build_object('seq', 5, 'name', 'read-only: a due round is not opened, and waits', 'expected', 'planlagt, later',

@@ -12,6 +12,8 @@ import { getNotRelevant } from '@/lib/results/read'
 import { ModuleResults } from '@/components/resultater/ModuleResults'
 import { getModulesById, getRoundModules, withWording } from '@/lib/modules/read'
 import { getCountTotals, getModuleResults } from '@/lib/modules/results'
+import { getOwnResults } from '@/lib/own/read'
+import { OwnQuestionResults } from '@/components/resultater/OwnQuestionResults'
 import {
   ORG,
   VIEWS,
@@ -84,7 +86,7 @@ export default async function ResultaterPage({
     !isPulse && params.mot && params.mot !== selected.id ? (grunnlinjer.find((r) => r.id === params.mot) ?? null) : null
   const previousRow = [...(isPulse ? closed : grunnlinjer)].filter((r) => byClose(r, selected) < 0).at(-1) ?? null
 
-  const [digest, factors, conversations, measures, unanswered, notRelevant] = await Promise.all([
+  const [digest, factors, conversations, measures, unanswered, notRelevant, own] = await Promise.all([
     // the workspace and every closed round's participation, in one call (0044): the rate is
     // measured against earlier rounds (D-135)
     getResultsDigest({ participation: closed.map((r) => r.id), workspace: selected.id }),
@@ -93,6 +95,8 @@ export default async function ResultaterPage({
     getMeasures(),
     getUnansweredCount(),
     getNotRelevant(selected.id),
+    // the round's own questions (0095, D-145); null for a reader without the house's view
+    getOwnResults(selected.id),
     countView('results_viewed'),
   ])
 
@@ -271,16 +275,19 @@ export default async function ResultaterPage({
       unanswered={unanswered}
       planCount={measures.filter((m) => m.step === 'besluttet' || m.step === 'pagar').length}
       after={
-        moduleResults && moduleResults.modules.length ? (
-          <ModuleResults
-            roundId={selected.id}
-            results={moduleResults}
-            totals={countTotals}
-            // the statements as this round asked them (0083), as module_results reports them
-            modules={moduleRows.map((m) => withWording(m, roundModules.find((r) => r.moduleId === m.id)?.wording))}
-            notRelevant={notRelevant}
-          />
-        ) : null
+        <>
+          {moduleResults && moduleResults.modules.length ? (
+            <ModuleResults
+              roundId={selected.id}
+              results={moduleResults}
+              totals={countTotals}
+              // the statements as this round asked them (0083), as module_results reports them
+              modules={moduleRows.map((m) => withWording(m, roundModules.find((r) => r.moduleId === m.id)?.wording))}
+              notRelevant={notRelevant}
+            />
+          ) : null}
+          {own && own.items.length ? <OwnQuestionResults results={own} /> : null}
+        </>
       }
     />
   )

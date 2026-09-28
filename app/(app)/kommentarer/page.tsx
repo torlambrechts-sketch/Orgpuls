@@ -5,6 +5,8 @@ import { z } from 'zod'
 import { Kommentarer, type CommentItem, type RoundChip } from '@/components/kommentarer/Kommentarer'
 import { ResultaterShell } from '@/components/resultater/ResultaterShell'
 import { getConversations, toneOf } from '@/lib/conversations/read'
+import { getOpenAnswers } from '@/lib/own/read'
+import { OpenAnswers } from '@/components/kommentarer/OpenAnswers'
 import { getMeasures } from '@/lib/measures/read'
 import { getViewerRole } from '@/lib/org/read'
 import { roundNamer } from '@/lib/rounds/design-name'
@@ -57,10 +59,18 @@ export default async function KommentarerPage({
   ])
 
   const name = roundNamer(t, locale)
+  /*
+   * The open answers (0095, D-145) of one closed round: the one the address names, else the
+   * latest. Only a daglig leder is answered (open_answers refuses anyone else), so for other
+   * roles this is null and the section is absent.
+   */
+  const openRound = rows.find((r) => r.id === params.maling && r.status === 'lukket') ?? null
   const byId = new Map(rows.map((r) => [r.id, r]))
   const latestClosed = rows
     .filter((r) => r.status === 'lukket')
     .sort((a, b) => (b.closesAt ?? '').localeCompare(a.closesAt ?? ''))[0]
+  const openFor = openRound ?? latestClosed ?? null
+  const open = role === 'daglig_leder' && openFor ? await getOpenAnswers(openFor.id) : null
 
   const dateOf = (iso: string) =>
     new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', day: 'numeric', month: 'short', year: 'numeric' })
@@ -129,6 +139,10 @@ export default async function KommentarerPage({
           }}
         />
       )}
+      {/* only when somebody wrote: a round without texts keeps the design's screen as it is */}
+      {open && openFor && open.status === 'ok' && open.items.some((q) => q.answers.length) ? (
+        <OpenAnswers data={{ ...open, items: open.items.filter((q) => q.answers.length) }} round={name(openFor).title} />
+      ) : null}
     </ResultaterShell>
   )
 }

@@ -61,11 +61,21 @@ const Module = z.object({
   segments: z.array(z.object({ item: z.string().uuid(), option: z.number().int().min(1).max(9) })).max(20),
 })
 
+/**
+ * The organisation's own questions (0095, D-145): a value 1–5 on a «skala» one, a text on a
+ * «fritekst» one. The database refuses a question the round does not ask, or the wrong kind.
+ */
+const Own = z.union([
+  z.object({ question: z.string().uuid(), value: z.number().int().min(1).max(5) }),
+  z.object({ question: z.string().uuid(), text: z.string().min(1).max(4000) }),
+])
+
 const Payload = z.object({
   token: z.string().min(16).max(512),
   answers: z.array(Answer).max(200),
   extra: z.array(Extra).max(50),
   module: Module.optional(),
+  own: z.array(Own).max(5).optional(),
 })
 
 /**
@@ -88,6 +98,7 @@ export async function submitResponse(input: unknown): Promise<SubmitResult> {
     p_answers: parsed.data.answers,
     p_extra: parsed.data.extra,
     ...(parsed.data.module ? { p_module: parsed.data.module } : {}),
+    ...(parsed.data.own ? { p_own: parsed.data.own } : {}),
   })
 
   // the message is deliberately not read: it can quote the statement that failed

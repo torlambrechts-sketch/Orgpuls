@@ -218,42 +218,59 @@ export async function saveConsultation(formData: FormData): Promise<SetupActionR
   return { ok: true }
 }
 
+/**
+ * The round's own questions (0095, D-145). A question is written and put on its round in one
+ * statement (add_round_question), and taken off with it; the caller's own policies decide, and
+ * the database refuses a sixth or a round that has opened. What the database says is mapped to
+ * the screen's words by its meaning, never echoed: a message could quote the question.
+ */
+const refusal = (message: string) =>
+  message.includes('at most five') ? 'capped' : message.includes('fixed once') ? 'locked' : 'denied'
+
 export async function addOrgQuestion(formData: FormData): Promise<SetupActionResult> {
   const parsed = z
-    .object({ body: z.string().trim().min(1).max(300) })
-    .safeParse({ body: formData.get('body') })
+    .object({ roundId: Uuid, body: z.string().trim().min(1).max(300), kind: z.enum(['skala', 'fritekst']) })
+    .safeParse({ roundId: formData.get('roundId'), body: formData.get('body'), kind: formData.get('kind') ?? 'skala' })
   if (!parsed.success) return problem('invalid')
 
-  const orgId = await getCurrentOrgId()
-  if (!orgId) return problem('gone')
-
   const supabase = await createClient()
-  const { data, error } = await supabase
-    .schema('app')
-    .from('org_questions')
-    .insert({ org_id: orgId, body: parsed.data.body })
-    .select('id')
-
-  // the cap is a trigger, so its refusal is what tells the screen it is full
-  if (error) return problem(error.message.includes('at most five') ? 'capped' : 'denied')
-  if (writeFailed('addOrgQuestion', null, data)) return problem('denied')
+  const { error } = await supabase.rpc('add_round_question', {
+    p_round: parsed.data.roundId,
+    p_body: parsed.data.body,
+    p_kind: parsed.data.kind,
+  })
+  if (error) return problem(refusal(error.message))
   revalidatePath('/maleoppsett')
   return { ok: true }
 }
 
 export async function removeOrgQuestion(formData: FormData): Promise<SetupActionResult> {
-  const parsed = z.object({ id: Uuid }).safeParse({ id: formData.get('id') })
+  const parsed = z.object({ roundId: Uuid, id: Uuid }).safeParse({ roundId: formData.get('roundId'), id: formData.get('id') })
+  if (!parsed.success) return problem('invalid')
+
+  const supabase = await createClient()
+  const { error } = await supabase.rpc('remove_round_question', { p_round: parsed.data.roundId, p_question: parsed.data.id })
+  if (error) return problem(refusal(error.message))
+  revalidatePath('/maleoppsett')
+  return { ok: true }
+}
+
+/** The design's type chip: «Skala 1–5» ↔ «Fritekst», while no opened round has asked it */
+export async function setOrgQuestionKind(formData: FormData): Promise<SetupActionResult> {
+  const parsed = z
+    .object({ id: Uuid, kind: z.enum(['skala', 'fritekst']) })
+    .safeParse({ id: formData.get('id'), kind: formData.get('kind') })
   if (!parsed.success) return problem('invalid')
 
   const supabase = await createClient()
   const { data, error } = await supabase
     .schema('app')
     .from('org_questions')
-    .delete()
+    .update({ kind: parsed.data.kind })
     .eq('id', parsed.data.id)
     .select('id')
-  if (writeFailed('removeOrgQuestion', error, data)) return problem('denied')
-
+  if (error) return problem(refusal(error.message))
+  if (writeFailed('setOrgQuestionKind', null, data)) return problem('denied')
   revalidatePath('/maleoppsett')
   return { ok: true }
 }

@@ -81,6 +81,24 @@ export type Question =
       text: string
       note: string
     }
+  | {
+      /** the organisation's own question on the extent scale (0095, D-145) */
+      kind: 'own-scale'
+      id: string
+      question: string
+      factorLabel: string
+      text: string
+      choices: Choice[]
+    }
+  | {
+      /** the organisation's own question answered in words, masked before anyone reads it */
+      kind: 'own-text'
+      id: string
+      question: string
+      factorLabel: string
+      text: string
+      note: string
+    }
 
 interface LeadQuestion {
   id: string
@@ -150,7 +168,18 @@ export function RespondFlow({
       count: [] as { item: string; answer: CountAnswer }[],
       segments: [] as { item: string; option: number }[],
     }
+    const own: ({ question: string; value: number } | { question: string; text: string })[] = []
     for (const q of questions) {
+      if (q.kind === 'own-scale') {
+        const value = picked[q.id]
+        if (value !== undefined) own.push({ question: q.question, value })
+        continue
+      }
+      if (q.kind === 'own-text') {
+        const body = text[q.id]?.trim()
+        if (body) own.push({ question: q.question, text: body })
+        continue
+      }
       if (q.kind === 'module' || q.kind === 'count' || q.kind === 'segment') {
         const value = picked[q.id]
         if (value === undefined) continue
@@ -179,7 +208,7 @@ export function RespondFlow({
       }
     }
     const asked = questions.some((q) => q.kind === 'module' || q.kind === 'count' || q.kind === 'segment')
-    return { token, answers, extra, ...(asked ? { module: mod } : {}) }
+    return { token, answers, extra, ...(asked ? { module: mod } : {}), ...(own.length ? { own } : {}) }
   }
 
   /**
@@ -274,7 +303,7 @@ export function RespondFlow({
 
   const pct = Math.round(((step + 1) / total) * 100)
   const isLast = step === total - 1
-  const hasChoices = current.kind !== 'extra-text'
+  const hasChoices = current.kind !== 'extra-text' && current.kind !== 'own-text'
 
   return (
     <>

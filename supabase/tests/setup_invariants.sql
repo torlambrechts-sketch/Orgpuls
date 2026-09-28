@@ -11,7 +11,8 @@
 -- the message "an organisation may have at most five of its own questions", which is a
 -- test that would keep passing if the blank check were dropped entirely. Same family as
 -- the `updated_at > created_at` assertion in measure_invariants.sql that could never pass:
--- an assertion is only worth the specific thing it rules out.
+-- an assertion is only worth the specific thing it rules out. (Since 0095 the cap is per
+-- round, on app.round_org_questions, and is proved there; the order is kept.)
 --
 --   psql "$DATABASE_URL" -f supabase/tests/setup_invariants.sql
 --
@@ -85,19 +86,10 @@ begin
       'check constraint', left(v_msg, 70), v_msg like '%check constraint%');
   end;
 
-  -- now fill to the cap and prove the sixth is refused, by the trigger this time
-  for v_i in 1..5 loop
+  -- the bank is not capped (0095): six questions, the cap is per round and proved below (8)
+  for v_i in 1..6 loop
     insert into app.org_questions (org_id, body) values (v_org, 'Testspørsmål ' || v_i);
   end loop;
-  begin
-    insert into app.org_questions (org_id, body) values (v_org, 'Det sjette');
-    insert into public._si values (8, 'a sixth own question is refused by the cap',
-      'at most five', 'ACCEPTED', false);
-  exception when others then
-    get stacked diagnostics v_msg = message_text;
-    insert into public._si values (8, 'a sixth own question is refused by the cap',
-      'at most five', left(v_msg, 70), v_msg like '%at most five%');
-  end;
 
   -- ------------------------------------------------------------------ round setup
   insert into app.measurements (org_id, kind, year, label)
@@ -133,6 +125,20 @@ begin
   end;
 
   insert into app.round_groups (round_id, group_id) values (v_round, v_grp);
+
+  -- 0095: a round asks at most five of them; the sixth link is refused by the cap
+  insert into app.round_org_questions (round_id, question_id)
+  select v_round, q.id from app.org_questions q where q.org_id = v_org order by q.body limit 5;
+  begin
+    insert into app.round_org_questions (round_id, question_id)
+    select v_round, q.id from app.org_questions q where q.org_id = v_org order by q.body desc limit 1;
+    insert into public._si values (8, 'a sixth own question on a round is refused by the cap',
+      'at most five', 'ACCEPTED', false);
+  exception when others then
+    get stacked diagnostics v_msg = message_text;
+    insert into public._si values (8, 'a sixth own question on a round is refused by the cap',
+      'at most five', left(v_msg, 70), v_msg like '%at most five%');
+  end;
   insert into public._si
   select 12, 'an invited group is recorded', '1', count(*)::text, count(*) = 1
   from app.round_groups where round_id = v_round;
@@ -162,7 +168,7 @@ begin
   select count(*) into v_n from app.round_consultations where round_id = v_round;
   insert into public._si values (16, 'deleting a round takes its consultations with it', '0', v_n::text, v_n = 0);
   select count(*) into v_n from app.org_questions where org_id = v_org and active;
-  insert into public._si values (17, 'the organisation''s own questions survive the round', '5', v_n::text, v_n = 5);
+  insert into public._si values (17, 'the organisation''s own questions survive the round', '6', v_n::text, v_n = 6);
 
   -- put everything back: the fixture is the only source of rows that survive a reset
   delete from app.org_questions where org_id = v_org;

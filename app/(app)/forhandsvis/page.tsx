@@ -6,7 +6,7 @@ import { getOrganization } from '@/lib/org/read'
 import { respondCopy, respondQuestions } from '@/lib/respond/questions'
 import { getRounds, type RoundListItem } from '@/lib/rounds/read'
 import { roundTitle } from '@/lib/rounds/title'
-import { getRoundSetup } from '@/lib/setup/read'
+import { getRoundQuestions, getRoundSetup } from '@/lib/setup/read'
 import { askedStatements, getModulesById, getRoundModules, withWording } from '@/lib/modules/read'
 
 /**
@@ -45,15 +45,16 @@ export default async function PreviewPage({ searchParams }: { searchParams: Prom
     rounds.find((r) => r.state === 'lukket') ??
     null
 
-  const [setup, factors, extras, optionCounts, org] = round
+  const [setup, factors, extras, optionCounts, org, own] = round
     ? await Promise.all([
         getRoundSetup(round.id),
         getFactors(),
         getExtraQuestions(),
         getExtraOptionCounts(),
         getOrganization(),
+        getRoundQuestions(round.id),
       ])
-    : [null, [], [], new Map<string, number>(), null]
+    : [null, [], [], new Map<string, number>(), null, []]
 
   if (!round || !setup || !org) {
     return (
@@ -123,7 +124,15 @@ export default async function PreviewPage({ searchParams }: { searchParams: Prom
         <RespondFlow
           token=""
           org={org.name}
-          questions={respondQuestions(t, { questions, extra, modules, threshold: org.threshold })}
+          questions={respondQuestions(t, {
+            questions,
+            extra,
+            modules,
+            threshold: org.threshold,
+            // the round's own questions (0095), as respond_form sends them
+            own: own.map((q) => ({ id: q.id, text: q.body, kind: q.kind })),
+            org: org.name,
+          })}
           copy={{
             ...respondCopy(t, org.threshold),
             doneTitle: t('preview.doneTitle'),

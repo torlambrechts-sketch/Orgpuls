@@ -3,6 +3,8 @@ import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { getPulseNumbers } from '@/lib/rounds/read'
 import { callFailed, parseFailed } from '@/lib/supabase/read'
+import { getMaskLabels } from '@/lib/text/labels'
+import { unmask } from '@/lib/text/mask'
 
 /**
  * Reading conversations.
@@ -100,7 +102,7 @@ export async function getConversations(roundId?: string | null): Promise<Convers
   const parsed = Payload.safeParse(data)
   if (parseFailed('getConversations', parsed)) return null
 
-  const pulses = await getPulseNumbers()
+  const [pulses, mask] = await Promise.all([getPulseNumbers(), getMaskLabels()])
   const now = Date.now()
   return {
     threshold: parsed.data.threshold,
@@ -115,10 +117,11 @@ export async function getConversations(roundId?: string | null): Promise<Convers
       roundYear: t.round_year,
       roundPulseNo: pulses.get(t.round_id) ?? null,
       answerValue: t.answer_value,
-      opening: t.opening,
+      // what the employee wrote arrives masked (0095): names, departments and locations
+      opening: unmask(t.opening, mask),
       messages: t.messages.map((m) => ({
         author: m.author,
-        body: m.body,
+        body: m.author === 'ansatt' ? unmask(m.body, mask) : m.body,
         sentHour: m.sent_hour,
       })),
       contact: t.contact ?? null,

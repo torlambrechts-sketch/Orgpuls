@@ -603,7 +603,7 @@
     "apent_felt": {
       "label": "Åpent felt",
       "text": "Hva bør vi gjøre noe med først?",
-      "note": "Frivillig. Grupperes etter tema og sjekkes for gjenkjennelige detaljer før noen leser det."
+      "note": "Frivillig. Navn på kolleger, avdelinger og steder fjernes automatisk før noen leser det. Skriv likevel ikke noe som bare kan gjelde én person."
     }
   },
   "respond": {
@@ -628,7 +628,7 @@
     "commentPrompt": "Vil du si mer? Frivillig og anonymt",
     "commentPlaceholder": "Skriv her …",
     "openPlaceholder": "Skriv med egne ord …",
-    "openNote": "Frivillig. Teksten grupperes etter tema og sjekkes for gjenkjennelige detaljer før noen leser den.",
+    "openNote": "Frivillig. Navn på kolleger, avdelinger og steder fjernes automatisk før noen leser teksten. Skriv likevel ikke noe som bare kan gjelde én person.",
     "doneTitle": "Takk. Det tok fire minutter.",
     "doneLead": "Svaret er anonymt. Lederen din ser bare tall når minst {threshold} har svart.",
     "promise1": "Svaret er anonymt. Navn, e-post og IP lagres ikke sammen med det du svarer.",
@@ -676,7 +676,15 @@
     "segmentLabel": "Frivillig",
     "segmentLead": "Frivillig: brukes bare til å sammenligne grupper med minst {threshold} svar",
     "doneTitleMinutes": "Takk. Det tok rundt {minutes} minutter.",
-    "language": "Språk"
+    "language": "Språk",
+    "ownLabel": "Fra {org}",
+    "extent": {
+      "o1": "I svært liten grad",
+      "o2": "I liten grad",
+      "o3": "I noen grad",
+      "o4": "I stor grad",
+      "o5": "I svært stor grad"
+    }
   },
   "entry": {
     "title": "Få lenken til undersøkelsen",
@@ -1267,7 +1275,13 @@
         "paaminn": "Påminnelsene",
         "alle": "Alle med mobil"
       }
-    }
+    },
+    "ownNoteSome": "Egne spørsmål rapporteres for seg og regnes ikke inn i indeksen. Det er med vilje — indeksen skal kunne sammenliknes mot i fjor.",
+    "ownKind": {
+      "skala": "Skala 1–5",
+      "fritekst": "Fritekst"
+    },
+    "ownKindAria": "Svartype for spørsmål {n}: {kind}. Trykk for å bytte."
   },
   "arshjulet": {
     "title": "Årshjul og automatikk",
@@ -3306,6 +3320,14 @@
       "createFailed": "Tiltaket ble ikke laget. Bare daglig leder og avdelingsleder kan lage tiltak.",
       "notRelevant": "{na} av {total} svarte «ikke relevant» ({pct} %)",
       "notRelevantFlag": "Mange mener påstanden ikke gjelder dem. Dere kan ta den ut av neste måling under Målinger › Spørsmålssett."
+    },
+    "own": {
+      "title": "Egne spørsmål",
+      "lead": "Spørsmålene dere skrev selv, besvart fra «i svært liten grad» til «i svært stor grad». De rapporteres for seg og regnes ikke inn i indeksen.",
+      "figure": "{high} % i stor eller svært stor grad",
+      "mean": "Snitt {mean} av 5",
+      "n": "{n} svar",
+      "suppressed": "Vises når minst {threshold} har svart."
     }
   },
   "kommentarer": {
@@ -3359,6 +3381,13 @@
       "other": "{name} har bedt om direkte kontakt.",
       "otherUnnamed": "En leder har bedt om direkte kontakt.",
       "withdraw": "Trekk tilbake"
+    },
+    "open": {
+      "title": "Svar i fritekst",
+      "lead": "Det de ansatte skrev i de åpne feltene i {round}. Navn på kolleger, avdelinger og steder er fjernet før du leser det. Svarene står i tilfeldig rekkefølge og kan ikke besvares.",
+      "insufficient": "Svarene vises når minst {threshold} har svart på målingen.",
+      "none": "Ingen skrev noe her.",
+      "count": "{count, plural, one {# svar} other {# svar}}"
     }
   },
   "veiviser": {
@@ -9266,5 +9295,10 @@
       "ownHint": "Demoen slettes, og du registrerer virksomheten din med samme e-postadresse."
     },
     "stamp": "DEMO – fiktive data"
+  },
+  "masked": {
+    "n": "navn",
+    "a": "avdeling",
+    "s": "sted"
   }
 }

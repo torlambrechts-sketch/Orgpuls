@@ -8,6 +8,7 @@ import { CheckCard, CheckRow, Chip, RadioCard, Section } from '@/components/male
 import {
   addOrgQuestion,
   removeOrgQuestion,
+  setOrgQuestionKind,
   resetRoundSection,
   saveConsultation,
   saveRoundDelivery,
@@ -38,6 +39,9 @@ import { saveWheel } from '@/app/(app)/malinger/arshjul-actions'
  * changed shows its own save action, so nothing is written that the person did not ask
  * to write.
  */
+
+/** How an own question is answered (0095): the design's «Skala 1–5» or «Fritekst» */
+export type OwnKind = 'skala' | 'fritekst'
 
 export interface Option {
   value: string
@@ -130,7 +134,10 @@ export interface SetupFormProps {
     ownOr: string
     ownRemove: string
     ownPlaceholder: string
-    suggestions: string[]
+    suggestions: { text: string; kind: OwnKind }[]
+    ownKind: Record<OwnKind, string>
+    /** raw template: {n} and {kind} are filled per row */
+    ownKindAria: string
     consentLead: string
     vo: string
     voLaw: string
@@ -146,7 +153,7 @@ export interface SetupFormProps {
     saved: string
     problems: Record<string, string>
   }
-  orgQuestions: { id: string; body: string }[]
+  orgQuestions: { id: string; body: string; kind: OwnKind }[]
   /** industry modules this grunnlinje can add (D-112); empty for a puls */
   modules: {
     id: string
@@ -202,6 +209,8 @@ export function SetupForm(props: SetupFormProps) {
   const extrasOff = !canWrite || props.locked
   const [draft, setDraft] = useState('')
   const [drafting, setDrafting] = useState(false)
+  const [draftKind, setDraftKind] = useState<OwnKind>('skala')
+  const ownOff = !canWrite || props.locked
   const [pending, startTransition] = useTransition()
 
   const run = (fn: () => Promise<SetupActionResult>) =>
@@ -734,15 +743,28 @@ export function SetupForm(props: SetupFormProps) {
                 {i + 1}
               </span>
               <span className="min-w-0 flex-1 text-[13.5px]">{q.body}</span>
+              <KindChip
+                kind={q.kind}
+                labels={labels.ownKind}
+                aria={labels.ownKindAria.replace('{n}', String(i + 1)).replace('{kind}', labels.ownKind[q.kind])}
+                disabled={ownOff || pending}
+                onFlip={() => {
+                  const data = new FormData()
+                  data.set('id', q.id)
+                  data.set('kind', q.kind === 'skala' ? 'fritekst' : 'skala')
+                  run(() => setOrgQuestionKind(data))
+                }}
+              />
               <Button
                 size="tiny"
                 tone="secondary"
                 pad={0}
                 className="w-[32px] bg-transparent text-mut2"
                 aria-label={labels.ownRemove}
-                disabled={!canWrite || pending}
+                disabled={ownOff || pending}
                 onClick={() => {
                   const data = new FormData()
+                  data.set('roundId', roundId)
                   data.set('id', q.id)
                   run(() => removeOrgQuestion(data))
                 }}
@@ -778,6 +800,15 @@ export function SetupForm(props: SetupFormProps) {
                   placeholder={labels.ownPlaceholder}
                   className="h-[38px] min-w-0 flex-1 rounded-ctl border border-line bg-sf px-[12px] text-[13.5px] text-ink outline-none"
                 />
+                <KindChip
+                  kind={draftKind}
+                  labels={labels.ownKind}
+                  aria={labels.ownKindAria
+                    .replace('{n}', String(props.orgQuestions.length + 1))
+                    .replace('{kind}', labels.ownKind[draftKind])}
+                  disabled={pending}
+                  onFlip={() => setDraftKind(draftKind === 'skala' ? 'fritekst' : 'skala')}
+                />
                 <Button
                   size="tiny"
                   tone="primary"
@@ -785,7 +816,9 @@ export function SetupForm(props: SetupFormProps) {
                   disabled={pending || draft.trim() === ''}
                   onClick={() => {
                     const data = new FormData()
+                    data.set('roundId', roundId)
                     data.set('body', draft)
+                    data.set('kind', draftKind)
                     setDraft('')
                     setDrafting(false)
                     run(() => addOrgQuestion(data))
@@ -817,8 +850,11 @@ export function SetupForm(props: SetupFormProps) {
               */}
               <button
                 type="button"
-                disabled={!canWrite || drafting}
-                onClick={() => setDrafting(true)}
+                disabled={ownOff || drafting}
+                onClick={() => {
+                  setDraftKind('skala')
+                  setDrafting(true)
+                }}
                 className="inline-flex h-[38px] flex-none cursor-pointer items-center justify-center whitespace-nowrap rounded-btn border border-ink bg-ac px-[16px] text-[13px] font-bold text-ink"
               >
                 {labels.ownAdd}
@@ -828,16 +864,17 @@ export function SetupForm(props: SetupFormProps) {
             <div className="mt-[10px] flex flex-wrap gap-[7px]">
               {labels.suggestions.map((s) => (
                 <button
-                  key={s}
+                  key={s.text}
                   type="button"
-                  disabled={!canWrite}
+                  disabled={ownOff}
                   onClick={() => {
-                    setDraft(s)
+                    setDraft(s.text)
+                    setDraftKind(s.kind)
                     setDrafting(true)
                   }}
                   className="cursor-pointer rounded-pill border border-dashed border-rule bg-transparent px-[13px] py-[8px] text-left text-[12px] font-medium text-body"
                 >
-                  {s}
+                  {s.text}
                 </button>
               ))}
             </div>
@@ -928,6 +965,38 @@ export function SetupForm(props: SetupFormProps) {
 }
 
 /** "Standard", or "Endret for denne målingen" with the way back (D-126). */
+/**
+ * The design's answer-type chip (v3 bundle 2133): «Skala 1–5» on the soft yellow, «Fritekst» on
+ * mint, a button that switches between them.
+ */
+function KindChip({
+  kind,
+  labels,
+  aria,
+  disabled,
+  onFlip,
+}: {
+  kind: OwnKind
+  labels: Record<OwnKind, string>
+  aria: string
+  disabled: boolean
+  onFlip: () => void
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onFlip}
+      disabled={disabled}
+      aria-label={aria}
+      className={`h-[32px] flex-none cursor-pointer whitespace-nowrap rounded-pill border border-line px-[12px] text-[11.5px] font-bold text-ink disabled:cursor-default focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${
+        kind === 'fritekst' ? 'bg-mint' : 'bg-sbg'
+      }`}
+    >
+      {labels[kind]}
+    </button>
+  )
+}
+
 function StandardMark({
   changed,
   labels,

@@ -9,7 +9,7 @@ import { getExtraQuestions, getFactors } from '@/lib/instrument/read'
 import { SCREENING, getSurveyDefaults } from '@/lib/settings/survey'
 import { getGroups, getOrganization, getViewerRole } from '@/lib/org/read'
 import { getRounds } from '@/lib/rounds/read'
-import { getLatestSetupOfKind, getOrgQuestions, getRoundSetup } from '@/lib/setup/read'
+import { getLatestSetupOfKind, getRoundQuestions, getRoundSetup } from '@/lib/setup/read'
 import { getGroupStats, getSmsSettings } from '@/lib/settings/read'
 import { getWheel, wheelMonths } from '@/lib/wheel/read'
 import { INDUSTRY_META } from '@/content/industries/meta'
@@ -48,12 +48,11 @@ export default async function MaleoppsettPage({
   const locale = await getLocale()
   const kind = KINDS.includes(params.type ?? '') ? (params.type as string) : 'grunnlinje'
 
-  const [org, role, rounds, instrument, orgQuestions, groupRows, wheel, roster] = await Promise.all([
+  const [org, role, rounds, instrument, groupRows, wheel, roster] = await Promise.all([
     getOrganization(),
     getViewerRole(),
     getRounds(),
     getFactors(),
-    getOrgQuestions(),
     getGroups(),
     getWheel(),
     // roster headcount per group, for a kind no round of which has closed yet (D-60)
@@ -72,6 +71,9 @@ export default async function MaleoppsettPage({
    * a round that already asks one shows that version, whatever has been published since. The
    * organisation's industry code decides which is suggested, never which is allowed.
    */
+  // the round's own questions (0095, D-145): a question belongs to the round that asks it
+  const orgQuestions = await getRoundQuestions(setup.id)
+
   const [published, chosen, orgIndustry, standard, extraRegistry, sms] = await Promise.all([
     getPublishedModules(org.id),
     getRoundModules([setup.id]),

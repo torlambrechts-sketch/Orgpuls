@@ -153,7 +153,7 @@ begin
 
     -- 9 ---------------------------------------------------------------- one write path
     v_txt := (select count(*) from pg_proc where proname = 'submit_response')::text || ','
-      || has_function_privilege('anon', 'public.submit_response(text,jsonb,jsonb,jsonb)', 'execute')::text || ','
+      || has_function_privilege('anon', 'public.submit_response(text,jsonb,jsonb,jsonb,jsonb)', 'execute')::text || ','
       || (select count(*) from jsonb_object_keys(v_res) k where k like '%id%');
     v_rows := v_rows || jsonb_build_object('seq', 9, 'name', 'still one submit_response, anon may call it, and no id comes back',
       'expected', '1,true,0', 'actual', v_txt, 'pass', v_txt = '1,true,0');

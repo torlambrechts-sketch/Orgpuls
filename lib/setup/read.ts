@@ -1,7 +1,7 @@
 import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
-import { readFailed } from '@/lib/supabase/read'
+import { parseFailed, readFailed } from '@/lib/supabase/read'
 
 /**
  * Reading a measurement's setup.
@@ -178,20 +178,28 @@ export async function getLatestSetupOfKind(kind: string): Promise<RoundSetup | n
   return parsed.success ? shape(parsed.data) : null
 }
 
-const OrgQuestionRow = z.object({ id: z.string(), body: z.string() })
+const OrgQuestionRow = z.object({ id: z.string(), body: z.string(), kind: z.enum(['skala', 'fritekst']) })
 export type OrgQuestion = z.infer<typeof OrgQuestionRow>
 
-/** The organisation's own questions. The five-question cap is the database's (0017). */
-export async function getOrgQuestions(): Promise<OrgQuestion[]> {
+/**
+ * A round's own questions (0095, D-145), in the order they were written. They belong to the
+ * round: the cap of five is per round, and the database's (round_org_questions_cap).
+ */
+export async function getRoundQuestions(roundId: string): Promise<OrgQuestion[]> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .schema('app')
-    .from('org_questions')
-    .select('id, body')
-    .eq('active', true)
-    .order('created_at')
+    .from('round_org_questions')
+    .select('org_questions(id, body, kind, created_at)')
+    .eq('round_id', roundId)
 
-  if (readFailed('getOrgQuestions', error, data)) return []
-  const parsed = z.array(OrgQuestionRow).safeParse(data)
-  return parsed.success ? parsed.data : []
+  if (readFailed('getRoundQuestions', error, data)) return []
+  const parsed = z
+    .array(z.object({ org_questions: OrgQuestionRow.extend({ created_at: z.string() }) }))
+    .safeParse(data)
+  if (parseFailed('getRoundQuestions', parsed)) return []
+  return parsed.data
+    .map((r) => r.org_questions)
+    .sort((a, b) => a.created_at.localeCompare(b.created_at) || a.id.localeCompare(b.id))
+    .map(({ id, body, kind }) => ({ id, body, kind }))
 }

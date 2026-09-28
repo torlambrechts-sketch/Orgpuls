@@ -50,7 +50,7 @@ export interface MaleoppsettView {
   groups: GroupChoice[]
   /** empty means every group — the absence of rows, not a choice of all of them */
   invitedGroupIds: string[]
-  orgQuestions: { id: string; body: string }[]
+  orgQuestions: { id: string; body: string; kind: 'skala' | 'fritekst' }[]
   consultations: {
     kind: 'verneombud_raad' | 'droftet_tillitsvalgte'
     confirmed: boolean
@@ -289,14 +289,18 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
       reminderHead: t('maleoppsett.reminderHead'),
       closeHead: t('maleoppsett.closeHead'),
       ownCount: t('maleoppsett.ownCount', { count: view.orgQuestions.length }),
-      ownNote: t('maleoppsett.ownNote'),
+      // the design's two notes: what own questions are for, and once there are some, how they are reported
+      ownNote: t(view.orgQuestions.length ? 'maleoppsett.ownNoteSome' : 'maleoppsett.ownNote'),
       ownFull: t('maleoppsett.ownFull'),
       ownAdd: t('maleoppsett.ownAdd'),
       ownSave: t('maleoppsett.ownSave'),
       ownOr: t('maleoppsett.ownOr'),
       ownRemove: t('maleoppsett.ownRemove'),
       ownPlaceholder: t('maleoppsett.ownPlaceholder'),
-      suggestions: [1, 2, 3, 4].map((n) => t(`maleoppsett.suggest${n}`)),
+      // the design's kind for each suggestion (v3 bundle 5809): the one that asks «Hva …» is free text
+      suggestions: [1, 2, 3, 4].map((n) => ({ text: t(`maleoppsett.suggest${n}`), kind: n === 4 ? ('fritekst' as const) : ('skala' as const) })),
+      ownKind: { skala: t('maleoppsett.ownKind.skala'), fritekst: t('maleoppsett.ownKind.fritekst') },
+      ownKindAria: t.raw('maleoppsett.ownKindAria') as string,
       consentLead: t('maleoppsett.consentLead'),
       vo: t('maleoppsett.vo'),
       voLaw: t('maleoppsett.voLaw'),

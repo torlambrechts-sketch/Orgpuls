@@ -2380,6 +2380,19 @@ organisation that is never reset or expired, with 64 employees, 12 rounds, 358 r
 24 conversations. Mail and SMS stay off, since its people have fictional addresses. It has no billing row,
 so it reads as a trial and stays out of KPIs and the admin's organisation list.
 
+### X-080 — Own questions belong to a round; open text is read masked, by the daglig leder
+
+Tor, 2026-09-28: "start på P0 og P1" (gap-analyse-soundings.md). Three decisions made in doing P0-1,
+P0-3 and P1-8 (D-145):
+
+- **An own question is a question of a round**, capped at five per round. A bank capped at five for
+  the organisation would be full after the first measurement, and the setup screen is a round's.
+- **Open text is read by the daglig leder alone**, for the whole organisation, at k responses. The
+  verneombud keeps the figures and not the texts, as with comments since 0022.
+- **Masking is deterministic and in the database**: names from the register, departments and
+  locations, before the text leaves it. No model reads what employees wrote.
+
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.
@@ -2396,7 +2409,7 @@ so it reads as a trial and stays out of KPIs and the admin's organisation list.
 - [x] Handel (X-074): the module, a count question's own answers and factor (0090), and its pages are built (D-138).
 - [x] Launched 2026-09-28 (X-078). Was: launch handel: Tor approves its six law items in admin › Legal review (the lone-work item needs its paragraph from Lovdata); then publish handel@1.0.0 and set `launched: true`. Review at https://www.orgpuls.com/handel?forhandsvis=1 and /handel/sporsmal?forhandsvis=1.
 - [ ] Before `module_factor_toggles` ships: the preview footnotes on /helse-og-omsorg and /handel describe one group without a factor, but factors are switched per round (D-138).
-- [ ] After the deploy of X-072: approve the English survey again in admin › Legal review (the survey pages' strings changed: «Ikke relevant for meg»). Until then English respondents get bokmål.
+- [ ] Approve the English survey again in admin › Legal review: the survey pages' strings changed again (D-145, the open field's note and own questions). Until then English respondents get bokmål.
 - [x] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131); decided in admin › Moduler since 0092 (D-140).
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).
 - [ ] A ready-to-send check before a round opens (channel coverage, groups under the threshold, information and consultation done); the reach count on Målinger › Innstillinger is its first half (D-126).

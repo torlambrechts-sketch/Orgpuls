@@ -603,7 +603,7 @@
     "apent_felt": {
       "label": "Open field",
       "text": "What should we do something about first?",
-      "note": "Voluntary. Grouped by theme and checked for identifying detail before anyone reads it."
+      "note": "Voluntary. Names of colleagues, departments and locations are removed automatically before anyone reads it. Even so, do not write anything that could only be about one person."
     }
   },
   "respond": {
@@ -628,7 +628,7 @@
     "commentPrompt": "Want to say more? Voluntary and anonymous",
     "commentPlaceholder": "Write here …",
     "openPlaceholder": "Write in your own words …",
-    "openNote": "Voluntary. The text is grouped by theme and checked for identifying detail before anyone reads it.",
+    "openNote": "Voluntary. Names of colleagues, departments and locations are removed automatically before anyone reads the text. Even so, do not write anything that could only be about one person.",
     "doneTitle": "Thank you. That took four minutes.",
     "doneLead": "Your answer is anonymous. Your manager sees only figures once at least {threshold} have answered.",
     "promise1": "Your answer is anonymous. Name, email and IP are not stored with what you answer.",
@@ -676,7 +676,15 @@
     "segmentLabel": "Optional",
     "segmentLead": "Optional: used only to compare groups with at least {threshold} answers",
     "doneTitleMinutes": "Thank you. That took about {minutes} minutes.",
-    "language": "Language"
+    "language": "Language",
+    "ownLabel": "From {org}",
+    "extent": {
+      "o1": "Very little or not at all",
+      "o2": "Rather little",
+      "o3": "Somewhat",
+      "o4": "Rather much",
+      "o5": "Very much"
+    }
   },
   "entry": {
     "title": "Get the link to the survey",
@@ -1267,7 +1275,13 @@
         "paaminn": "The reminders",
         "alle": "Everyone with a mobile"
       }
-    }
+    },
+    "ownNoteSome": "Your own questions are reported on their own and are not counted in the index. That is deliberate — the index has to stay comparable with last year.",
+    "ownKind": {
+      "skala": "Scale 1–5",
+      "fritekst": "Free text"
+    },
+    "ownKindAria": "Answer type for question {n}: {kind}. Press to switch."
   },
   "arshjulet": {
     "title": "Annual cycle and automation",
@@ -3306,6 +3320,14 @@
       "createFailed": "The measure was not created. Only the managing director and department leaders can create measures.",
       "notRelevant": "{na} of {total} answered «not relevant» ({pct} %)",
       "notRelevantFlag": "Many say the statement does not apply to them. You can take it out of the next survey under Measurements › Question set."
+    },
+    "own": {
+      "title": "Your own questions",
+      "lead": "The questions you wrote yourselves, answered from «very little» to «very much». They are reported on their own and are not counted in the index.",
+      "figure": "{high} % rather much or very much",
+      "mean": "Mean {mean} of 5",
+      "n": "{n} answers",
+      "suppressed": "Shown once at least {threshold} have answered."
     }
   },
   "kommentarer": {
@@ -3359,6 +3381,13 @@
       "other": "{name} has asked for direct contact.",
       "otherUnnamed": "A manager has asked for direct contact.",
       "withdraw": "Withdraw"
+    },
+    "open": {
+      "title": "Free-text answers",
+      "lead": "What employees wrote in the open fields in {round}. Names of colleagues, departments and locations were removed before you read it. The answers are in random order and cannot be replied to.",
+      "insufficient": "The answers are shown once at least {threshold} have answered the survey.",
+      "none": "Nobody wrote anything here.",
+      "count": "{count, plural, one {# answer} other {# answers}}"
     }
   },
   "veiviser": {
@@ -9266,5 +9295,10 @@
       "ownHint": "The demo is deleted, and you register your organisation with the same email address."
     },
     "stamp": "DEMO – fictional data"
+  },
+  "masked": {
+    "n": "name",
+    "a": "department",
+    "s": "location"
   }
 }

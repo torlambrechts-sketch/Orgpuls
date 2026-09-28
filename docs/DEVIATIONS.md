@@ -3589,8 +3589,8 @@ With the corrections below applied, the differences sit where the words changed.
   - Brønnøysund. The lookup gets name, address, industry and employee count. It does not
     get locations.
   - Comments. They are grouped by factor, with a tone taken from their answer. They are not
-    grouped by topic, not screened for recognisable details, and not routed as a varsel
-    (whistleblowing notice). The writer reads the reply through their private link.
+    grouped by topic and not routed as a varsel (whistleblowing notice). Since 0095 the names
+    in them are masked (D-145); nothing else is screened for recognisable details. The writer reads the reply through their private link.
   - Small groups. They are withheld and still counted in the whole, not merged.
   - The report. Its audiences are Arbeidstilsynet, AMU, the management group and the
     employees, not "styret" or "personalmøtet". Its page count is not fixed. It is saved as
@@ -6706,3 +6706,65 @@ three account links.
   than wrap the menu.
 - **Pixel baselines:** the site baselines (site-pixel.mjs) predate the button, so every page's
   top band differs by its width; that script is not a CI gate and already fails by design (D-88).
+
+## D-145 — Own questions asked, open answers read, names masked (0095)
+
+The gap analysis (docs/implementation/gap-analyse-soundings.md, P0-1, P0-2, P0-3, P1-8) found three
+things the product said and did not do. Tor, 2026-09-28: "start på P0 og P1".
+
+- **Own questions are asked.** Måleoppsett's «5 · Egne spørsmål» wrote to `app.org_questions` and
+  nothing ever put one on a round or in a form. Now a question belongs to the round it is written
+  on (`add_round_question`, one statement), the cap of five is per round, and `respond_form` asks
+  them after the statements and before the questions outside the index.
+  - **The type chip is the design's** (v3 bundle 2133, 5789-5809): «Skala 1–5» on sbg, «Fritekst»
+    on mint, a button that switches. «＋ Legg til spørsmål» starts as «Skala 1–5»; the suggestion
+    «Hva bør vi slutte med?» starts as «Fritekst», as the design's rule gives it. The list row keeps
+    the text as text rather than the design's always-editable input: a question's words are fixed
+    once a round has asked it (trigger `org_question_fixed`), and before that it is removed and
+    written again.
+  - **The note is the design's two notes**: what own questions are for with none, and «rapporteres
+    for seg og regnes ikke inn i indeksen» once there are some.
+  - **The scale** is QPS Nordic's extent scale, «I svært liten grad» to «I svært stor grad», since
+    the suggestions are questions, not statements, and the agreement scale does not answer
+    «Vet du …?». The pill above a question reads «Fra {virksomheten}».
+  - **Not translated.** The words are the organisation's; an English respondent reads them as
+    written.
+  - **Results**: a card under Resultater, beside the module's and drawn like its count card: the
+    share «i stor eller svært stor grad» as a bar, the mean and n. Whole organisation only, only at
+    k answers, never per group; daglig leder and verneombud (`results_own_questions`).
+- **Open answers are read.** The open field and «Fritekst» questions are listed under Kommentarer
+  in a section of their own, «Svar i fritekst», for the round in the address or the latest closed.
+  Daglig leder only: a verneombud reads no single comment (0022), and an avdelingsleder's scope is
+  groups, which these texts do not have. Nothing below k responses; no group, no hour, and in an
+  order that is not the order of writing. They cannot be answered. The design has no such section;
+  it is drawn in the Temaer card's form.
+- **Names are masked.** Every text an employee wrote leaves the database with each capitalised
+  word of an employee's name, each department's name and each location's name replaced
+  (`app.mask_patterns`, `app.mask_apply`), and is drawn «[navn]», «[avdeling]», «[sted]». That
+  covers the open answers and every comment and reply in a thread (`conversations`), and so the
+  quote in Resultater and «Venter på svar» on Oversikt. Deterministic, no AI. Its limits: a name
+  of three letters or fewer is matched only with its capital («Per», not «per uke»); a department
+  whose name is a word («Lager») is masked wherever the word stands alone; a nickname, a role
+  («den nye sjefen») or a detail is not a name and is not masked. What the writer reads of their
+  own thread is not masked.
+- **The promise is changed.** «Grupperes etter tema og sjekkes for gjenkjennelige detaljer» (the
+  design's words, `extra.apent_felt.note`, `respond.openNote`) promised a check nobody did. It now
+  says what is done: names of colleagues, departments and places are removed before anyone reads
+  it, and not to write what could only be about one person.
+- **English respondents**: the respondent pages' strings changed, so their hash moved
+  (lib/i18n/respondent-ui.json) and English is offered to respondents again once it is approved in
+  admin › Legal review.
+- **The demo** (scripts/seed/demo-org.mjs): the 2026 grunnlinje's two own questions have answers,
+  and six open-field texts name colleagues, departments and a location, so the masking shows.
+
+## D-146 — «Forleng ved lav svarprosent» extends (0096)
+
+Gap analysis P0-4. Årshjulet's switch «Forleng tre dager hvis svarprosenten er under 50 — Én gang
+per runde. Ny påminnelse følger med.» was stored and never read. The scheduler now reads it where it
+closes a round: with fewer responses than half the invitations (the rate every screen shows), the
+round stays open three days more, once (`rounds.extended_at`), the unanswered links last as long,
+and everyone who has not answered is reminded at once. The reminder is their one reminder row,
+queued again, as request_link does (0076). Nothing on the screen changed; the words are the design's.
+
+The other half of P0-4, «Varsle verneombud når en frist ryker», is still stored and not acted on.
+It needs the overdue-measure notice (P1-5), which comes with its own mail kind.

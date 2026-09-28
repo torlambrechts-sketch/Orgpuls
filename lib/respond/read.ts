@@ -71,6 +71,11 @@ const Form = z.object({
       }),
     )
     .default([]),
+  // the organisation's own questions (0095, D-145), in its own words: «skala» 1–5 or «fritekst»
+  own: z
+    .array(z.object({ id: z.string().uuid(), text: z.string(), kind: z.enum(['skala', 'fritekst']) }))
+    .max(5)
+    .default([]),
 })
 
 /**

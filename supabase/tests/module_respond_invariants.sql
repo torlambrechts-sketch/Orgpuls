@@ -146,7 +146,7 @@ begin
 
     -- 7 ---------------------------------------------------------------- one write path
     v_txt := (select count(*) from pg_proc where proname = 'submit_response')::text || ','
-      || has_function_privilege('anon', 'public.submit_response(text,jsonb,jsonb,jsonb)', 'execute')::text;
+      || has_function_privilege('anon', 'public.submit_response(text,jsonb,jsonb,jsonb,jsonb)', 'execute')::text;
     v_rows := v_rows || jsonb_build_object('seq', 7, 'name', 'still one submit_response, and anon may call it',
       'expected', '1,true', 'actual', v_txt, 'pass', v_txt = '1,true');
 
