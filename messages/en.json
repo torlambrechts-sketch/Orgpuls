@@ -2873,7 +2873,8 @@
       "personal": "The link is personal. Do not forward it.",
       "minutes": "It takes about {minutes} minutes.",
       "results": "When the deadline has passed, all employees will hear what the survey showed and what will be done about it.",
-      "greetingBy": "– {name}, managing director"
+      "greetingBy": "– {name}, managing director",
+      "lastPage": "What you answered last time, and what is being done about it:"
     },
     "paminnelse": {
       "subject": "Reminder: {round} at {org}",
@@ -2903,7 +2904,10 @@
       "lead": "{round} at {org} has closed.",
       "member": "The result can be read in Orgpuls now.",
       "employee": "Management will go through the result with you, and the measures are followed up together with the safety representative.",
-      "cta": "See the result"
+      "cta": "See the result",
+      "page": "See what you answered, and what will be done:",
+      "pageCta": "See the results",
+      "memberPage": "Employees get a link to a page with the headline figures for the whole organisation and the measures you decide. You can hide it under Results."
     },
     "auth": {
       "recovery": {
@@ -3383,6 +3387,20 @@
       "mean": "Mean {mean} of 5",
       "n": "{n} answers",
       "suppressed": "Shown once at least {threshold} have answered."
+    },
+    "share": {
+      "title": "The page for employees",
+      "lead": "Everyone who was asked gets a link to a page with the headline figures for the whole organisation and the measures you have decided, with their status. It is in the results notice and the next invitation. No department, no comment and no figure below {k} is shown there.",
+      "linkLabel": "Link to the page",
+      "copy": "Copy the link",
+      "copied": "Copied.",
+      "open": "Open the page",
+      "on": "The page is shown to anyone with the link.",
+      "off": "The page is hidden. The link does not work, and it is not sent.",
+      "hide": "Hide the page",
+      "show": "Show the page",
+      "failed": "That did not work. Try again.",
+      "onlyLeader": "Only the managing director can change this."
     }
   },
   "kommentarer": {
@@ -9355,5 +9373,23 @@
     "n": "name",
     "a": "department",
     "s": "location"
+  },
+  "roundPage": {
+    "title": "What you told us, what we are doing",
+    "lead": "{round} closed on {date}. Here is what you answered, for the organisation as a whole, and what has been decided.",
+    "answersHead": "Who answered",
+    "answered": "{answered} of {asked} answered · {pct}%",
+    "answeredOnly": "{answered} answered",
+    "anonymous": "The figures cover the whole organisation. No department, no comment and no single answer is shown here, and no figure is shown where fewer than {k} answered.",
+    "insufficient": "Fewer than {k} answered, so the result is not shown. The measures are below.",
+    "indexHead": "Work environment index",
+    "indexNote": "From 0 to 100, the average of the areas the survey measures. Higher is better.",
+    "strongHead": "What works",
+    "workingHead": "What we are working on",
+    "measuresHead": "Measures",
+    "measuresEmpty": "No measures have been decided yet. This page is updated once management and the safety representative have decided what to do.",
+    "measuresNote": "The measures are followed up together with the safety representative. This page always shows where they stand now.",
+    "missingTitle": "This page does not exist",
+    "missingLead": "The link is wrong, or the page is not shared. Ask your manager or the safety representative."
   }
 }

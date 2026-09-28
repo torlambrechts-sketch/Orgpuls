@@ -6856,3 +6856,37 @@ Gap analysis P1-4. `components/respond/RespondFlow.tsx`.
 - **English and survey languages:** the new respondent keys move `lib/i18n/respondent-ui.json`,
   so an English respondent sees bokmål until the respondent UI is approved again in admin ›
   Legal review; survey languages fall back the same way until the keys are translated.
+
+## D-151 — «Dette sa dere, dette gjør vi»: a page per closed round for employees (0100, P1-3)
+
+Gap analysis P1-3; the decision is X-081.
+
+**Built.** `app.rounds.share_slug` (96 random bits, base64url) and `results_page` (on by
+default). `public.round_page(slug)`, anon: the organisation, the round, invited and answered
+(public.participation's totals), the whole organisation's index and each factor's under
+results_summary's whole-house rule (k respondents, and k answers on every statement of a
+factor), and the collective measures decided from the round, with factor, status and date.
+`public.set_results_page` for the daglig leder. The route `/r/<slug>` (public, noindex), a card
+under Resultater's workspace with the link, «Kopier lenken», «Åpne siden» and the switch, and the
+link in the results notice to employees and in the next invitation (dispatch_claim's
+`results_page`). `round_page_invariants.sql` proves nine rules.
+
+**The design has no screen for it.** It is drawn from the respondent surface's own parts: the
+column, the card, the section label, the risk pill, the step chip. No baseline exists to diff
+against; nothing on a gated screen moved except Resultater, whose card sits below every
+claimed region (the claims of states 07–11 and 19 lost the 17 tiles it now covers).
+
+**Different from engagement-phases.md P3.1.**
+- One link per round, not a token per invitee with a group (X-081), so there is no «Din gruppe».
+- «Dette jobber vi med» lists the factors a measure was decided for. It is not a ranking the
+  page makes itself; with no measure, the section is absent.
+- A measure's owner is not shown, not even as a role: an employee record carries no role a page
+  could name without naming the person.
+- No mail when the page changes, and no per-view count (I3).
+
+**Masking.** A measure's title passes through `app.mask_apply` with the name patterns only: a
+person's name becomes «[navn]», while «Lager» stays, since a measure for a department is the
+point of it. The fixture's employees are named after their departments («Prosjekt 2»), so
+there «Prosjekt» is masked as a name; real registers hold real names.
+
+**A sandbox's rounds** get links of their own (`demo_copy_table`), never the template's.

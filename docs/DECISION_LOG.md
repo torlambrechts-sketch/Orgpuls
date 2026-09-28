@@ -2392,6 +2392,22 @@ P0-3 and P1-8 (D-145):
 - **Masking is deterministic and in the database**: names from the register, departments and
   locations, before the text leaves it. No model reads what employees wrote.
 
+### X-081 — The employees' page is on unless the daglig leder turns it off
+
+Tor, 2026-09-28: "fortsett med resten av P0 og P1" (gap-analyse-soundings.md P1-3). Decided in
+building «Dette sa dere, dette gjør vi» (0100, D-151):
+
+- **On by default, per round.** The results notice goes out the moment a round closes, and the
+  invitation already promises that everyone hears the results (0099). A page the leader had to
+  switch on first would miss that notice every time. The daglig leder can hide a round's page in
+  Resultater at any moment; the link then stops working and is sent with nothing.
+- **One link per round, not one per person.** engagement-phases.md P3.1 planned a token per
+  invitee with their group. A per-person link to a page that differs by group is a handle on the
+  person and on their department; one link for the round, showing the whole organisation only,
+  carries neither.
+- **The whole organisation only.** No department, no location, no statement, no comment. A
+  measure's title keeps its department or place and loses any employee's name.
+
 
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
@@ -2410,6 +2426,7 @@ P0-3 and P1-8 (D-145):
 - [x] Launched 2026-09-28 (X-078). Was: launch handel: Tor approves its six law items in admin › Legal review (the lone-work item needs its paragraph from Lovdata); then publish handel@1.0.0 and set `launched: true`. Review at https://www.orgpuls.com/handel?forhandsvis=1 and /handel/sporsmal?forhandsvis=1.
 - [ ] Before `module_factor_toggles` ships: the preview footnotes on /helse-og-omsorg and /handel describe one group without a factor, but factors are switched per round (D-138).
 - [ ] Approve the English survey again in admin › Legal review: the survey pages' strings changed again (D-145, D-147: the open field's note, own questions, the effect question). Until then English respondents get bokmål.
+- [ ] The employees' page (X-081, D-151): on for every closed round, hosted included; turn it off per round in Resultater if a round should not be shown. The English survey approval above now also covers its invitation line.
 - [ ] Invitation (D-149): write the greeting in Målinger › Innstillinger if you want one. A logo in the mail needs an organisation logo, which the product does not store yet.
 - [x] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131); decided in admin › Moduler since 0092 (D-140).
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).

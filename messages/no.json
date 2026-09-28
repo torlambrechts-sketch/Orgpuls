@@ -2873,7 +2873,8 @@
       "personal": "Lenken er personlig. Ikke send den videre.",
       "minutes": "Det tar omtrent {minutes} minutter.",
       "results": "Når fristen er ute, får alle ansatte vite hva målingen viste, og hva som skal gjøres med det.",
-      "greetingBy": "– {name}, daglig leder"
+      "greetingBy": "– {name}, daglig leder",
+      "lastPage": "Hva dere svarte sist, og hva som gjøres med det:"
     },
     "paminnelse": {
       "subject": "Påminnelse: {round} i {org}",
@@ -2903,7 +2904,10 @@
       "lead": "{round} i {org} er avsluttet.",
       "member": "Resultatet kan leses i Orgpuls nå.",
       "employee": "Ledelsen går gjennom resultatet med dere, og tiltakene følges opp sammen med verneombudet.",
-      "cta": "Se resultatet"
+      "cta": "Se resultatet",
+      "page": "Se hva dere svarte, og hva som skal gjøres:",
+      "pageCta": "Se resultatene",
+      "memberPage": "De ansatte får en lenke til en side med hovedtallene for hele virksomheten og tiltakene dere bestemmer. Du kan skjule den under Resultater."
     },
     "auth": {
       "recovery": {
@@ -3383,6 +3387,20 @@
       "mean": "Snitt {mean} av 5",
       "n": "{n} svar",
       "suppressed": "Vises når minst {threshold} har svart."
+    },
+    "share": {
+      "title": "Siden for de ansatte",
+      "lead": "Alle som ble spurt, får en lenke til en side med hovedtallene for hele virksomheten og tiltakene dere har bestemt, med status. Den står i resultatmeldingen og i neste invitasjon. Ingen avdeling, ingen kommentar og ingen tall under {k} vises der.",
+      "linkLabel": "Lenke til siden",
+      "copy": "Kopier lenken",
+      "copied": "Kopiert.",
+      "open": "Åpne siden",
+      "on": "Siden vises for alle med lenken.",
+      "off": "Siden er skjult. Lenken virker ikke, og den sendes ikke med.",
+      "hide": "Skjul siden",
+      "show": "Vis siden",
+      "failed": "Det gikk ikke. Prøv igjen.",
+      "onlyLeader": "Bare daglig leder kan endre dette."
     }
   },
   "kommentarer": {
@@ -9355,5 +9373,23 @@
     "n": "navn",
     "a": "avdeling",
     "s": "sted"
+  },
+  "roundPage": {
+    "title": "Dette sa dere, dette gjør vi",
+    "lead": "{round} ble avsluttet {date}. Her er det dere svarte, for hele virksomheten samlet, og det som er bestemt å gjøre.",
+    "answersHead": "Hvem svarte",
+    "answered": "{answered} av {asked} svarte · {pct} %",
+    "answeredOnly": "{answered} svarte",
+    "anonymous": "Tallene gjelder hele virksomheten. Ingen avdeling, ingen kommentar og ingen enkeltsvar vises her, og ingen tall vises der færre enn {k} har svart.",
+    "insufficient": "Færre enn {k} svarte, så resultatet vises ikke. Tiltakene står under.",
+    "indexHead": "Arbeidsmiljøindeksen",
+    "indexNote": "Fra 0 til 100, snittet av områdene undersøkelsen måler. Jo høyere, jo bedre.",
+    "strongHead": "Dette fungerer",
+    "workingHead": "Dette jobber vi med",
+    "measuresHead": "Tiltak",
+    "measuresEmpty": "Ingen tiltak er bestemt ennå. Siden oppdateres når ledelsen og verneombudet har bestemt hva som skal gjøres.",
+    "measuresNote": "Tiltakene følges opp sammen med verneombudet. Siden viser alltid hvor de står nå.",
+    "missingTitle": "Siden finnes ikke",
+    "missingLead": "Lenken er feil, eller siden er ikke delt. Spør lederen din eller verneombudet."
   }
 }

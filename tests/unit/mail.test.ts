@@ -134,6 +134,25 @@ describe('notices', () => {
     expect(reminder.text).not.toContain('omtrent 4 minutter')
   })
 
+  // 0100, gap analysis P1-3
+  it('links the round\'s page for employees from the results notice and the last one from the next invitation', () => {
+    const slug = 't7JvAWGlyRtPExc3'
+    const employee = renderNotice(cat, job({ kind: 'resultat', audience: 'alle_ansatte', token: null, results_page: slug }), { lang: 'no', member: false, name: null }, APP)
+    expect(employee.text).toContain(`${APP}/r/${slug}`)
+    expect(employee.text).toContain('Se hva dere svarte, og hva som skal gjøres:')
+    const leader = renderNotice(cat, job({ kind: 'resultat', audience: 'daglig_leder', token: null, results_page: slug }), { lang: 'no', member: true, name: 'Dina' }, APP)
+    expect(leader.text).toContain(`${APP}/resultat`)
+    expect(leader.text).toContain('Du kan skjule den under Resultater.')
+    const hidden = renderNotice(cat, job({ kind: 'resultat', audience: 'alle_ansatte', token: null, results_page: null }), { lang: 'no', member: false, name: null }, APP)
+    expect(hidden.text).not.toContain('/r/')
+    const invite = renderNotice(cat, job({ results_page: slug }), { lang: 'en', member: false, name: 'Kari' }, APP)
+    expect(invite.text).toContain(`What you answered last time, and what is being done about it: ${APP}/r/${slug}`)
+    const reminder = renderNotice(cat, job({ kind: 'paminnelse', results_page: slug }), { lang: 'no', member: false, name: 'Kari' }, APP)
+    expect(reminder.text).not.toContain('/r/')
+    // only a slug the database made reaches a mail
+    expect(() => renderNotice(cat, job({ kind: 'resultat', audience: 'alle_ansatte', token: null, results_page: 'x"><script>' }), { lang: 'no', member: false, name: null }, APP)).toThrow()
+  })
+
   // 0099, P1-5 and P1-6
   it('lists a measure\'s owner\'s overdue measures, copies the verneombud, and links the app only for a member', () => {
     const measures = [{ title: 'Fast svar på avvik', due: '2026-09-27' }, { title: 'Ny <rutine>', due: null }]

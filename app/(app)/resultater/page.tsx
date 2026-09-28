@@ -15,6 +15,11 @@ import { getCountTotals, getModuleResults } from '@/lib/modules/results'
 import { getEffect, getOwnResults } from '@/lib/own/read'
 import { EffectResult } from '@/components/resultater/EffectResult'
 import { OwnQuestionResults } from '@/components/resultater/OwnQuestionResults'
+import { SharePageCard } from '@/components/resultater/SharePageCard'
+import { headers } from 'next/headers'
+import { outboundBase } from '@/lib/hosts'
+import { getViewerRole } from '@/lib/org/read'
+import { getRoundShare } from '@/lib/results/page'
 import {
   ORG,
   VIEWS,
@@ -102,6 +107,11 @@ export default async function ResultaterPage({
     getEffect(selected.id),
     countView('results_viewed'),
   ])
+
+  // the round's page for employees (0100, D-151): its link and switch, for the daglig leder
+  const share = (await getViewerRole()) === 'daglig_leder' ? await getRoundShare(selected.id) : null
+  const h = share ? await headers() : null
+  const shareUrl = share && h ? `${outboundBase(h.get('x-forwarded-host') ?? h.get('host'), h.get('x-forwarded-proto'))}/r/${share.share_slug}` : null
 
   // the round's industry module, when it asked one (D-114)
   const roundModules = await getRoundModules([selected.id])
@@ -291,6 +301,28 @@ export default async function ResultaterPage({
           ) : null}
           {effect ? <EffectResult data={effect} /> : null}
           {own && own.items.length ? <OwnQuestionResults results={own} /> : null}
+          {share && shareUrl ? (
+            <SharePageCard
+              key={selected.id}
+              roundId={selected.id}
+              url={shareUrl}
+              initialOn={share.results_page}
+              copy={{
+                title: t('resultater.share.title'),
+                lead: t('resultater.share.lead', { k: threshold }),
+                linkLabel: t('resultater.share.linkLabel'),
+                copyLink: t('resultater.share.copy'),
+                copied: t('resultater.share.copied'),
+                open: t('resultater.share.open'),
+                on: t('resultater.share.on'),
+                off: t('resultater.share.off'),
+                hide: t('resultater.share.hide'),
+                show: t('resultater.share.show'),
+                failed: t('resultater.share.failed'),
+                onlyLeader: t('resultater.share.onlyLeader'),
+              }}
+            />
+          ) : null}
         </>
       }
     />

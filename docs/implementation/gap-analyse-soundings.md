@@ -231,6 +231,27 @@ merket og plassert lavt uansett gevinst.
 4. **Beslutninger du må ta før P2:** leverandør og databehandleravtale for AI (P2-1), hvilken
    HR-integrasjon som kommer først (P2-4), og juridisk avklaring av «si fra» mot varsling (P2-6).
 
+## Status 28.09.2026: P0 og P1 er bygget
+
+| # | Bygget | Migrasjon | Logg |
+|---|---|---|---|
+| P0-1 | Egne spørsmål hører til runden (inntil 5), stilles i skjemaet og vises k-skjermet i Resultater | 0095 | D-145, X-080 |
+| P0-2 | Løftet stemmer nå: kommentarer og åpne svar maskeres før noen leser dem (se P1-8) | 0095 | D-145 |
+| P0-3 | Åpent felt og fritekst-spørsmål leses under Kommentarer, maskert, av daglig leder, ved minst k svar | 0095 | D-145, X-080 |
+| P0-4 | «Forleng ved lav svarprosent» og «varsle verneombud om forfalte tiltak» virker | 0096, 0099 | D-146, D-149 |
+| P1-1 | Invitasjonen sier antall minutter, lover at resultatene deles, og har daglig leders hilsen. Logo mangler: produktet lagrer ingen | 0099 | D-149 |
+| P1-2 | «Alle ansatte» får forvarsel og resultatmelding som standard, med én bryter i Årshjul | — | D-148 |
+| P1-3 | «Dette sa dere, dette gjør vi»: side per lukket runde, lenket fra resultatmeldingen og neste invitasjon | 0100 | D-151, X-081 |
+| P1-4 | Respondentskjermen: én faktor per side, løftene først, utkast i nettleseren, tilbake, gjenstående tid, tastatur | — | D-150 |
+| P1-5 | Ukentlig purring på forfalte og stillestående tiltak til eier, kopi til verneombud | 0098, 0099 | D-149 |
+| P1-6 | Varsel til daglig leder når en avdeling henger 10 poeng etter midtveis | 0098, 0099 | D-149 |
+| P1-7 | Fast spørsmål om effekt av tiltakene fra andre syklus, vist i Resultater | 0097 | D-147 |
+| P1-8 | Maskering av navn, avdelinger og steder, deterministisk, i databasen | 0095 | D-145 |
+| P1-9 | Grunnlinjen står åpen 14 dager som standard, pulsen 7 | 0097 | D-147 |
+
+Gjenstår for Tor: godkjenn den engelske undersøkelsen på nytt i admin › Legal review (teksten er
+endret), og skriv eventuelt en hilsen i Målinger › Innstillinger.
+
 ---
 
 ## 6. Forbehold om rapporten

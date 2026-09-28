@@ -58,6 +58,8 @@ export interface NoticeJob {
   greeting?: { text: string; by: string | null } | null
   /** a tiltak_forfalt's measures: a leader's titles and their dates (0099) */
   measures?: { title: string; due: string | null }[] | null
+  /** the round's page for employees, /r/<slug> (0100, P1-3): a results notice's own round, an invitation's last shared one */
+  results_page?: string | null
 }
 
 export interface Recipient {
@@ -251,6 +253,12 @@ export function isPersonal(kind: NoticeJob['kind']): boolean {
   return kind === 'invitasjon' || kind === 'paminnelse' || kind === 'siste_paminnelse' || kind === 'lenke'
 }
 
+/** The round's page for employees (0100): only a slug the database made reaches a mail */
+function pageLink(base: string, slug: string): string {
+  if (!/^[A-Za-z0-9_-]{16}$/.test(slug)) throw new Error('results page without a valid link')
+  return `${base}/r/${slug}`
+}
+
 /**
  * One notice for a group of recipients who read the same words: the same language, and
  * the same answer to "can they sign in". An invitation or a reminder is always a group of
@@ -315,6 +323,8 @@ export function renderNotice(
         : []),
       fill(pick(m, 'invitasjon.anonymous'), { k: job.k }),
       ...(invite && job.results_shared ? [pick(m, 'invitasjon.results')] : []),
+      // 0100 (P1-3): what the last round showed and what is being done, before this one is asked
+      ...(invite && job.results_page ? [`${pick(m, 'invitasjon.lastPage')} ${pageLink(base, job.results_page)}`] : []),
     ]
     const after = [
       ...(job.round.closes_at ? [fill(pick(m, 'invitasjon.deadline'), { date: dateOf(job.round.closes_at, group.lang) })] : []),
@@ -334,12 +344,18 @@ export function renderNotice(
     return { subject, ...layout({ title: subject, lang: group.lang, greeting, paragraphs, cta, after: [], footer }) }
   }
 
-  // resultat
+  // resultat: a leader reads it in Orgpuls; everyone else on the round's page, where it is shown (0100)
+  const page = job.results_page ? pageLink(base, job.results_page) : null
   const paragraphs = [
     cap(fill(pick(m, 'resultat.lead'), { org, round })),
     pick(m, group.member ? 'resultat.member' : 'resultat.employee'),
+    ...(page ? [group.member ? pick(m, 'resultat.memberPage') : pick(m, 'resultat.page')] : []),
   ]
-  const cta = group.member ? { label: pick(m, 'resultat.cta'), url: `${base}/resultat` } : null
+  const cta = group.member
+    ? { label: pick(m, 'resultat.cta'), url: `${base}/resultat` }
+    : page
+      ? { label: pick(m, 'resultat.pageCta'), url: page }
+      : null
   const subject = cap(fill(pick(m, 'resultat.subject'), { org, round }))
   return { subject, ...layout({ title: subject, lang: group.lang, greeting, paragraphs, cta, after: [], footer }) }
 }

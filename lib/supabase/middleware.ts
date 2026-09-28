@@ -64,6 +64,8 @@ const PUBLIC_PATHS = [
   '/s',
   // the QR poster's page (0076, D-126): asks for a number or address, sends the person's own link
   '/inn',
+  // «Dette sa dere, dette gjør vi» (0100, D-151): a closed round's page, the link its only key
+  '/r',
   '/bli-med',
   '/nytt-passord',
   '/lovkrav',
