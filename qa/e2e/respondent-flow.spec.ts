@@ -10,7 +10,8 @@ import { BCP47, checkScreen, FLOW_LOCALES, flowToken, LOCALE_NAME, shotDir, watc
  *
  * Each run opens its own link (scripts/qa/seed.mjs QA_FLOW_TOKENS, whose owners have no language
  * of their own, so the survey opens in bokmål), for English switches with the picker on the
- * first screen, answers every question, writes one comment, and submits. It is a real response:
+ * first screen, starts from the page of promises, answers every question on every page, writes one
+ * comment, and submits. It is a real response:
  * the link is spent, which is why `npm run e2e` applies the seed before and after.
  *
  * On every screen: the language `lang` says, axe, and nothing overflowing (./respondent.ts). And
@@ -40,7 +41,8 @@ for (const locale of FLOW_LOCALES) {
     })
 
     await page.goto(`/s/${flowToken(project, locale)}`)
-    await expect(page.getByRole('button', { name: no.respond.next, exact: true }), 'the link opens the survey (a spent link means the seed was not applied)').toBeVisible()
+    // the page before the first question: the promises and «Start» (P1-4, D-150)
+    await expect(page.getByRole('button', { name: no.respond.start, exact: true }), 'the link opens the survey (a spent link means the seed was not applied)').toBeVisible()
 
     // the picker offers exactly the languages this suite covers, each by its own name
     const picker = page.getByRole('navigation', { name: no.respond.language })
@@ -51,12 +53,17 @@ for (const locale of FLOW_LOCALES) {
       await expect(page.getByRole('navigation', { name: m.language }).getByRole('link', { name: LOCALE_NAME[locale] })).toHaveAttribute('aria-current', 'true')
     }
 
+    await checkScreen(page, 'r-intro', { lang, file: `${dir}/intro.png` })
+    await expect(page.locator('main li'), 'the four promises').toHaveCount(4)
+    await page.getByRole('button', { name: m.start, exact: true }).click()
+
+    // a page per factor, every other question on its own (D-150): the progress counts pages
     const progress = page.locator('main').getByText(/^\d+ \/ \d+$/)
     const next = page.getByRole('button', { name: m.next, exact: true })
     const submit = page.getByRole('button', { name: m.submit, exact: true })
     await expect(next).toBeVisible()
     const total = Number((await progress.textContent())!.split('/')[1])
-    expect(total, 'the survey has questions').toBeGreaterThan(1)
+    expect(total, 'the survey has pages').toBeGreaterThan(1)
 
     let commented = false
     // axe and a capture once per kind of screen (statement, count, background question, free
@@ -71,24 +78,32 @@ for (const locale of FLOW_LOCALES) {
       kinds.add(kind)
       await checkScreen(page, 'r-question', { lang, axe: fresh, file: fresh ? `${dir}/q${String(n).padStart(2, '0')}-${kind}.png` : undefined })
 
-      const choices = page.locator('main button[aria-pressed]')
-      const count = await choices.count()
-      if (count > 0) {
-        const choice = choices.nth(Math.min(3, count - 1))
-        await choice.click()
-        await expect(choice).toHaveAttribute('aria-pressed', 'true')
-      } else {
-        await page.locator('main textarea').fill('E2E: fritekst fra testen.')
-      }
+      // every question on the page, each a fieldset with its legend
+      const questions = page.locator('main fieldset')
+      const onPage = await questions.count()
+      expect(onPage, 'a page asks something').toBeGreaterThan(0)
+      for (let q = 0; q < onPage; q++) {
+        const fieldset = questions.nth(q)
+        await expect(fieldset.locator('legend')).not.toBeEmpty()
+        const choices = fieldset.locator('button[aria-pressed]')
+        const count = await choices.count()
+        if (count > 0) {
+          const choice = choices.nth(Math.min(3, count - 1))
+          await choice.click()
+          await expect(choice).toHaveAttribute('aria-pressed', 'true')
+        } else {
+          await fieldset.locator('textarea').fill('E2E: fritekst fra testen.')
+        }
 
-      // one comment, on the first statement that takes one: its screen, and the done screen's key
-      const toggle = page.locator('main button[aria-expanded]')
-      if (!commented && (await toggle.count()) > 0) {
-        await toggle.click()
-        await expect(page.getByRole('textbox', { name: m.commentPrompt })).toBeVisible()
-        await page.getByRole('textbox', { name: m.commentPrompt }).fill('E2E: en kommentar fra testen.')
-        await checkScreen(page, 'r-comment', { lang, file: `${dir}/comment.png` })
-        commented = true
+        // one comment, on the first statement that takes one: its screen, and the done screen's key
+        const toggle = fieldset.locator('button[aria-expanded]')
+        if (!commented && (await toggle.count()) > 0) {
+          await toggle.click()
+          await expect(page.getByRole('textbox', { name: m.commentPrompt })).toBeVisible()
+          await page.getByRole('textbox', { name: m.commentPrompt }).fill('E2E: en kommentar fra testen.')
+          await checkScreen(page, 'r-comment', { lang, file: `${dir}/comment.png` })
+          commented = true
+        }
       }
 
       if (n < total) {

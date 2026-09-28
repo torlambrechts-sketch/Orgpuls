@@ -22,11 +22,15 @@ test('respondent flow under the pseudo-locale @pseudo', async ({ page }) => {
   const errors = watchConsole(page)
 
   await page.goto(`/s/${flowToken('pseudo', 'no')}`)
-  const next = page.getByRole('button', { name: m.next, exact: true })
+  const start = page.getByRole('button', { name: m.start, exact: true })
   await expect(
-    next,
-    'the page renders the pseudo catalogue: if it shows «Neste», lib/i18n/request.ts does not pass its messages through pseudoMessages (lib/i18n/pseudo.ts)',
+    start,
+    'the page renders the pseudo catalogue: if it shows «Start», lib/i18n/request.ts does not pass its messages through pseudoMessages (lib/i18n/pseudo.ts)',
   ).toBeVisible()
+  // the page of promises (D-150): the longest texts before the first question
+  await checkScreen(page, 'r-intro', { lang: null, axe: true, file: `${dir}/intro.png` })
+  await start.click()
+  const next = page.getByRole('button', { name: m.next, exact: true })
 
   // bracketed like every message: «[1 / 33]»
   const progress = page.locator('main').getByText(/^\[?\d+ \/ \d+\]?$/)
@@ -42,14 +46,19 @@ test('respondent flow under the pseudo-locale @pseudo', async ({ page }) => {
     const shot = `${dir}/q${String(n).padStart(2, '0')}.png`
     await checkScreen(page, 'r-question', { lang: null, axe: fresh, file: shot })
 
-    const choices = page.locator('main button[aria-pressed]')
-    const count = await choices.count()
-    if (count > 0) await choices.nth(count - 1).click()
-    else await page.locator('main textarea').fill('E2E')
+    // every question on the page (D-150)
+    const questions = page.locator('main fieldset')
+    const onPage = await questions.count()
+    for (let q = 0; q < onPage; q++) {
+      const choices = questions.nth(q).locator('button[aria-pressed]')
+      const count = await choices.count()
+      if (count > 0) await choices.nth(count - 1).click()
+      else await questions.nth(q).locator('textarea').fill('E2E')
+    }
 
     if (n === 1) {
       // the comment box open: the longest control text on the screen
-      await page.locator('main button[aria-expanded]').click()
+      await page.locator('main button[aria-expanded]').first().click()
       await page.getByRole('textbox', { name: m.commentPrompt }).fill('E2E')
       await checkScreen(page, 'r-comment', { lang: null, file: `${dir}/comment.png` })
     }
