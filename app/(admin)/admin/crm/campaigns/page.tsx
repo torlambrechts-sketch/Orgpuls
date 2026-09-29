@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { Funnel } from '@/components/admin/CampaignFunnel'
 import { NewCampaignForm, type CrmMessages } from '@/components/admin/CrmForms'
-import { CrmTabs, STATUS_TONE } from '@/components/admin/CrmTabs'
+import { STATUS_TONE } from '@/components/admin/CrmTabs'
 import { ALink, Badge, Card, PageHead, pct, Problem, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
 import { crmCampaigns, type CampaignRow } from '@/lib/admin/crm'
@@ -69,7 +69,6 @@ export default async function CrmCampaigns() {
   return (
     <>
       <PageHead title={m.campaigns.title} lead={m.campaigns.lead} />
-      <CrmTabs current="campaigns" labels={m.tabs} />
       {canWrite ? (
         <Card title={m.campaigns.new} className="mb-[16px]">
           <NewCampaignForm m={m} common={common} />

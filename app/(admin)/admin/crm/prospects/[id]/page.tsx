@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import { ContactForm, type CrmMessages } from '@/components/admin/CrmForms'
 import { ActivityForm, CompanyForm, TaskToggle } from '@/components/admin/CrmPipelineForms'
-import { CrmTabs, stageTone } from '@/components/admin/CrmTabs'
+import { stageTone } from '@/components/admin/CrmTabs'
 import { StageMoveForm } from '@/components/admin/CrmStageForms'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
@@ -41,7 +41,6 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
           <ALink href="/admin/crm/prospects">{m.company.back}</ALink>
         </span>
       </PageHead>
-      <CrmTabs current="prospects" labels={m.tabs} />
 
       <div className="grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
         <Card title={m.company.details}>

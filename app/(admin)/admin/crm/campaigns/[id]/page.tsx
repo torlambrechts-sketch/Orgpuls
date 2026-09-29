@@ -4,7 +4,7 @@ import { CampaignActions, type CrmMessages } from '@/components/admin/CrmForms'
 import { Funnel } from '@/components/admin/CampaignFunnel'
 import { CampaignPipelineForm, ResendForm } from '@/components/admin/CrmStageForms'
 import { SequenceSteps } from '@/components/admin/CrmSequence'
-import { CrmTabs, STATUS_TONE } from '@/components/admin/CrmTabs'
+import { STATUS_TONE } from '@/components/admin/CrmTabs'
 import { ALink, Badge, Card, PageHead, pct, Problem, Stat, Table, Td, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
 import { drawCampaign, footerOf, inboxCheck, mailCatalogue, sendingDomain } from '@/lib/admin/campaignMail'
@@ -114,7 +114,6 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
           <ALink href="/admin/crm/campaigns">{m.campaign.back}</ALink>
         </span>
       </PageHead>
-      <CrmTabs current="campaigns" labels={m.tabs} />
 
       {c.status !== 'draft' ? (
         <>

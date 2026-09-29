@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import type { CrmMessages } from '@/components/admin/CrmForms'
 import { DailyCapForm, ReplyStageForm, SenderForm, StageForm } from '@/components/admin/CrmStageForms'
-import { CrmTabs, stageTone } from '@/components/admin/CrmTabs'
+import { stageTone } from '@/components/admin/CrmTabs'
 import { Badge, Card, PageHead, Problem, Table, Td } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
 import { crmSenders, crmSending, crmStages } from '@/lib/admin/crm'
@@ -24,7 +24,6 @@ export default async function CrmStages() {
   return (
     <>
       <PageHead title={x.title} lead={x.lead} />
-      <CrmTabs current="stages" labels={m.tabs} />
 
       <Card title={x.title}>
         <Table head={[x.col.stage, x.col.kind, x.col.order, x.col.companies, x.col.campaigns]}>

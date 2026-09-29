@@ -1,5 +1,4 @@
 import { getTranslations } from 'next-intl/server'
-import { CrmTabs } from '@/components/admin/CrmTabs'
 import { ContactForm, ImportForm, SettingsForm, type CrmMessages } from '@/components/admin/CrmForms'
 import { ALink, Badge, Card, day, PageHead, Problem, Stat, Table, Td } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
@@ -25,7 +24,6 @@ export default async function CrmContacts({ searchParams }: { searchParams: Prom
   return (
     <>
       <PageHead title={m.tabs.contacts} lead={m.lead} />
-      <CrmTabs current="contacts" labels={m.tabs} />
 
       <div className="grid gap-[12px] [grid-template-columns:repeat(auto-fit,minmax(150px,1fr))]">
         <Stat label={m.stats.total} value={c.total} hint={CONTACT_TYPES.map((k) => `${m.type[k]} ${c[k]}`).join(' · ')} />

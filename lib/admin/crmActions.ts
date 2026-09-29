@@ -337,6 +337,7 @@ export async function saveCompany(_prev: AdminResult | null, formData: FormData)
       // any configured stage a person may set (0093); the database refuses the plan's and archived ones
       stage: z.union([StageKey, z.literal('')]),
       lost_reason: z.string().max(300),
+      value_nok: z.union([z.string().regex(/^\d{1,9}$/), z.literal('')]),
     })
     .safeParse({
       name: formData.get('name'),
@@ -350,9 +351,15 @@ export async function saveCompany(_prev: AdminResult | null, formData: FormData)
       next_step_at: formData.get('next_step_at') ?? '',
       stage: formData.get('stage') ?? '',
       lost_reason: formData.get('lost_reason') ?? '',
+      value_nok: String(formData.get('value_nok') ?? '').replace(/\s/g, ''),
     })
-  if (!parsed.success) return { ok: false, problem: parsed.error.issues[0]?.path[0] === 'name' ? 'invalid_name' : 'invalid' }
+  if (!parsed.success) {
+    const field = parsed.error.issues[0]?.path[0]
+    return { ok: false, problem: field === 'name' ? 'invalid_name' : field === 'value_nok' ? 'invalid_value' : 'invalid' }
+  }
   const p: Record<string, unknown> = { ...parsed.data, tags }
+  // a form without the value field leaves the value as it is
+  if (!formData.has('value_nok')) delete p.value_nok
   // a customer's stage follows its plan: the form leaves it out, and the database refuses it
   if (!parsed.data.stage) delete p.stage
   if (id) delete p.org_number
@@ -462,6 +469,43 @@ export async function moveCard(id: string, to: string): Promise<AdminResult> {
   revalidatePath('/admin/crm/prospects')
   revalidatePath(`/admin/crm/prospects/${parsed.data.id}`)
   return Number(r.data?.moved ?? 0) > 0 ? { ok: true } : { ok: false, problem: 'not_moved' }
+}
+
+/**
+ * A deal from the pipeline's dialog (0119, X-095): its value, next step and owner, and its stage.
+ * Only these keys are sent, so the company's other fields stay as they are.
+ */
+export async function saveDeal(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({
+      id: z.string().uuid(),
+      value_nok: z.union([z.string().regex(/^\d{1,9}$/), z.literal('')]),
+      next_step: z.string().max(300),
+      next_step_at: dateOrEmpty,
+      owner_id: z.union([z.string().uuid(), z.literal('')]),
+      stage: z.union([StageKey, z.literal('')]),
+    })
+    .safeParse({
+      id: formData.get('id'),
+      value_nok: String(formData.get('value_nok') ?? '').replace(/\s/g, ''),
+      next_step: formData.get('next_step') ?? '',
+      next_step_at: formData.get('next_step_at') ?? '',
+      owner_id: formData.get('owner_id') ?? '',
+      stage: formData.get('stage') ?? '',
+    })
+  if (!parsed.success) return { ok: false, problem: parsed.error.issues[0]?.path[0] === 'value_nok' ? 'invalid_value' : 'invalid' }
+  const { id, stage, ...p } = parsed.data
+  const r = await rpc('admin_crm_company_save', { p_id: id, p })
+  if (!r.ok) return r
+  const from = formData.get('from')
+  if (stage && stage !== from) {
+    const m = await rpc('admin_crm_stage_move', { p_ids: [id], p_to: stage })
+    if (!m.ok) return m
+  }
+  revalidatePath('/admin/crm/pipeline')
+  revalidatePath(`/admin/crm/prospects/${id}`)
+  revalidatePath('/admin')
+  return { ok: true }
 }
 
 /** Where a logged answer moves a company. */

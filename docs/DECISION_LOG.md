@@ -2769,6 +2769,12 @@ The account owner is new: `app.account_owners` (0118, RLS on with no policy, rea
 `admin_set_account_owner` and `admin_org_owner`), set in the design's «Edit customer» dialog, which
 is Sentral's shared modal from now on. account_owner_invariants.sql proves it (D-164).
 
+Phase 4a, Pipeline: deals as the design draws them — a board of the working stages with counts and
+kroner, cards with contact, value, owner, days in stage and next step, a list sorted by value, a
+deal dialog and «New deal». 0119 adds `crm_companies.value_nok` (an estimate the team enters),
+names the contact in `crm_company_json`, and `admin_crm_owners()`; crm_deal_invariants.sql proves
+them. The Overview's pipeline now shows kroner as designed (D-165).
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.

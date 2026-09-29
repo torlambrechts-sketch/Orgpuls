@@ -7,16 +7,17 @@ import { didKey, firstName, targetOf, when } from '@/lib/admin/activity'
 import { attention, auditList, isError, kpis } from '@/lib/admin/api'
 import { cmsPages, type CmsPage } from '@/lib/admin/cms'
 import { catalogues, designedMeta } from '@/lib/admin/cmsSite'
-import { crmStages } from '@/lib/admin/crm'
+import { crmCompanies, crmStages } from '@/lib/admin/crm'
+import { kr } from '@/lib/admin/format'
 import { CMS_LOCALES, parseContent, pathOf, type CmsLocale } from '@/lib/cms/content'
 import { designedPages } from '@/lib/cms/designed'
 
 /**
  * Sentral's Overview (X-095, the design's `isOverview`): the site at a glance in four figures, what
  * needs an admin next, what admins did lately, how much of the site is in each language, and where
- * the pipeline stands. Every figure is read, none drawn: the design's money (monthly recurring,
- * deal value) is left out until billing exists (Tor, 2026-09-29), so the second card counts trials
- * and the pipeline counts companies. A block the caller's role cannot read is not drawn.
+ * the pipeline stands. Every figure is read, none drawn: the design's recurring revenue is left out
+ * until billing exists (Tor, 2026-09-29), so the second card counts trials; the pipeline's kroner are
+ * the deal values the team enters (0119). A block the caller's role cannot read is not drawn.
  */
 const DAY = 86_400_000
 const osloDate = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Oslo', day: 'numeric', month: 'short' })
@@ -25,7 +26,7 @@ const VIZ = ['bg-viz1', 'bg-viz2', 'bg-viz3', 'bg-viz4', 'bg-viz5'] as const
 export default async function Overview() {
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const d = (k: string, v?: Record<string, string | number>) => t(`dashboard.${k}`, v)
-  const [k, att, pages, stages, audit, cat] = await Promise.all([kpis(), attention(), cmsPages(), crmStages(), auditList(null, 200), catalogues()])
+  const [k, att, pages, stages, deals, audit, cat] = await Promise.all([kpis(), attention(), cmsPages(), crmStages(), crmCompanies(null, null), auditList(null, 200), catalogues()])
   const now = Date.now()
   const daysTo = (iso: string) => Math.max(1, Math.ceil((new Date(iso).getTime() - now) / DAY))
 
@@ -74,11 +75,16 @@ export default async function Overview() {
   const titles = new Map(isError(pages) ? [] : pages.rows.map((p) => [p.id, pathOf(p.kind, p.slug)]))
   const recent = isError(audit) ? null : audit.rows.filter((a) => t.has(didKey(a.action))).slice(0, 6)
 
-  // ---------------------------------------------------------------- the pipeline
+  // ---------------------------------------------------------------- the pipeline: deals and their value (0119)
   const open = isError(stages) ? [] : stages.rows.filter((s) => s.kind === 'open' && !s.archived).sort((a, b) => a.sort - b.sort)
-  const inOpen = open.reduce((n, s) => n + s.companies, 0)
-  const won = isError(stages) ? 0 : stages.rows.filter((s) => s.kind === 'won').reduce((n, s) => n + s.companies, 0)
-  const maxStage = Math.max(1, ...open.map((s) => s.companies))
+  const rows = isError(deals) ? [] : deals.rows
+  const inStage = (key: string) => rows.filter((c) => c.stage === key)
+  const value = (list: typeof rows) => list.reduce((n, c) => n + (c.value_nok ?? 0), 0)
+  const openDeals = rows.filter((c) => open.some((s) => s.key === c.stage))
+  const wonKeys = new Set(isError(stages) ? [] : stages.rows.filter((s) => s.kind === 'won').map((s) => s.key))
+  const quarter = quarterStart()
+  const wonQuarter = rows.filter((c) => wonKeys.has(c.stage) && Date.parse(c.stage_changed_at) >= quarter).length
+  const maxStage = Math.max(1, ...open.map((s) => value(inStage(s.key))))
 
   return (
     <>
@@ -91,7 +97,7 @@ export default async function Overview() {
             <Stat label={d('kpi.trials')} value={k.trials_active} hint={d('kpi.trialsSub', { count: k.trials_expiring_7d })} />
           </>
         )}
-        {isError(stages) ? null : <Stat label={d('kpi.pipeline')} value={inOpen} hint={d('kpi.pipelineSub', { stages: open.length, won })} />}
+        {isError(stages) || isError(deals) ? null : <Stat label={d('kpi.pipeline')} value={kr(value(openDeals))} hint={d('kpi.pipelineSub', { count: openDeals.length, won: wonQuarter })} />}
         {site ? (
           <Stat
             label={d('kpi.pages')}
@@ -186,18 +192,18 @@ export default async function Overview() {
             </Panel>
           ) : null}
 
-          {isError(stages) ? null : (
+          {isError(stages) || isError(deals) ? null : (
             <Panel>
               <h2 className="m-0 font-display text-[22px] font-medium">{d('pipeline.title')}</h2>
-              <p className="mb-0 mt-[4px] text-[12.5px] text-mut">{d('pipeline.lead', { count: inOpen, stages: open.length })}</p>
+              <p className="mb-0 mt-[4px] text-[12.5px] text-mut">{d('pipeline.lead', { value: kr(value(openDeals)), count: openDeals.length })}</p>
               <div className="mt-[16px] flex flex-col gap-[12px]">
                 {open.map((s, i) => (
                   <BarRow
                     key={s.key}
                     name={s.name}
-                    pct={Math.round((100 * s.companies) / maxStage)}
+                    pct={Math.round((100 * value(inStage(s.key))) / maxStage)}
                     colour={VIZ[i % VIZ.length]!}
-                    figure={<><b>{s.companies}</b> <span className="text-mut">{d('pipeline.companies', { count: s.companies })}</span></>}
+                    figure={<><b>{inStage(s.key).length}</b> <span className="text-mut">{kr(value(inStage(s.key)))}</span></>}
                   />
                 ))}
               </div>
@@ -258,4 +264,10 @@ function pageFacts(rows: CmsPage[], cat: Awaited<ReturnType<typeof catalogues>>)
     if (live.some((l) => !parseContent(l.current)?.description.trim())) nodesc++
   }
   return { byLang, published, missing, nodesc, drafts, scheduled, live: published, total: published + drafts }
+}
+
+/** The first day of this quarter, in Oslo */
+function quarterStart() {
+  const [y, mo] = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo', year: 'numeric', month: '2-digit' }).format(new Date()).split('-').map(Number)
+  return Date.UTC(y!, Math.floor((mo! - 1) / 3) * 3, 1)
 }

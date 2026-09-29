@@ -7617,7 +7617,7 @@
         "trials": "Trials",
         "trialsSub": "{count, plural, =0 {None end within 7 days} one {# ends within 7 days} other {# end within 7 days}}",
         "pipeline": "Open pipeline",
-        "pipelineSub": "Companies in {stages, plural, one {# open stage} other {# open stages}} · {won} won",
+        "pipelineSub": "{count, plural, one {# deal} other {# deals}} · {won} won this quarter",
         "pages": "Published pages",
         "pagesValue": "{live} of {total}",
         "pagesSub": "{drafts, plural, one {# draft} other {# drafts}} · {scheduled} scheduled"
@@ -7718,8 +7718,7 @@
       },
       "pipeline": {
         "title": "Pipeline by stage",
-        "lead": "{count, plural, one {# company} other {# companies}} across {stages, plural, one {# open stage} other {# open stages}}",
-        "companies": "{count, plural, one {company} other {companies}}"
+        "lead": "{value} across {count, plural, one {# open deal} other {# open deals}}"
       }
     },
     "orgs": {
@@ -8544,7 +8543,8 @@
         "auto_no_ab": "An automatic follow-up cannot have a second subject line.",
         "not_moved": "That company was not moved: it follows its plan, or the stage cannot be set by hand.",
         "inbox_blocked": "The inbox check has red items: fix them before scheduling.",
-        "placeholder_left": "Text in [brackets] is still in the campaign: replace it before scheduling."
+        "placeholder_left": "Text in [brackets] is still in the campaign: replace it before scheduling.",
+        "invalid_value": "The value is whole kroner, up to 100 million."
       },
       "stage": {
         "new": "New",
@@ -8996,15 +8996,46 @@
       },
       "board": {
         "title": "Pipeline",
-        "lead": "Each stage closes on something the buyer did. Drag a company to move it, or use «Move to» on its card; open a card to log a call or set the next step.",
         "managed": "Follows the organisation's plan",
-        "employees": "{n} employees",
         "days": "{n} d in stage",
-        "moveTo": "Move to…",
-        "moveLabel": "Move {name} to another stage",
-        "empty": "No companies here.",
+        "empty": "No deals here",
         "notMoved": "That company was not moved.",
-        "capped": "Showing the 500 companies with the nearest next step; the Companies page has them all."
+        "capped": "Showing the 500 companies with the nearest next step; the Companies page has them all.",
+        "leadSum": "{open} open across {count, plural, one {# deal} other {# deals}} · {won} won this quarter",
+        "viewLabel": "Show the pipeline as",
+        "viewBoard": "Board",
+        "viewList": "List",
+        "newDeal": "New deal",
+        "newLead": "A deal starts in the first stage. Value is the yearly contract value in kroner; contacts are added on the company’s page.",
+        "noContact": "No contact yet",
+        "noValue": "No value",
+        "closed": "Closed",
+        "ownerIs": "owner {owner}",
+        "col": {
+          "deal": "Deal",
+          "next": "Next step",
+          "stage": "Stage",
+          "owner": "Owner",
+          "value": "Value"
+        },
+        "field": {
+          "stage": "Stage",
+          "value": "Yearly value (kr)",
+          "valueHint": "e.g. 120000",
+          "next": "Next step",
+          "nextAt": "By",
+          "owner": "Owner",
+          "noOwner": "No owner",
+          "company": "Company",
+          "companyHint": "Company or municipality"
+        },
+        "openCompany": "Open the company →",
+        "save": "Save deal",
+        "create": "Create deal",
+        "cancel": "Cancel",
+        "close": "Close",
+        "saving": "Saving …",
+        "notSaved": "The deal was not saved."
       },
       "studio": {
         "preview": "Preview",

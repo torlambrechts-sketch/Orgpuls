@@ -1,6 +1,5 @@
 import { getTranslations } from 'next-intl/server'
 import { SegmentForm, type CrmMessages } from '@/components/admin/CrmForms'
-import { CrmTabs } from '@/components/admin/CrmTabs'
 import { ALink, Card, PageHead, Problem, Table, Td } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
 import { crmLists, crmSegments, crmStages, type Filter } from '@/lib/admin/crm'
@@ -46,7 +45,6 @@ export default async function CrmSegments({ searchParams }: { searchParams: Prom
       <PageHead title={m.segments.title} lead={m.segments.lead}>
         {canWrite && !open ? <ALink href="/admin/crm/segments?new">{m.segments.new}</ALink> : null}
       </PageHead>
-      <CrmTabs current="segments" labels={m.tabs} />
 
       {open ? (
         <Card title={editing ? m.segments.edit : m.segments.new} className="mb-[16px]" aside={<ALink href="/admin/crm/segments">{m.segments.cancel}</ALink>}>

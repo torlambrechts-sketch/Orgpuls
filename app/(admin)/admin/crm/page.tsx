@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import type { CrmMessages } from '@/components/admin/CrmForms'
-import { CrmTabs, stageTone } from '@/components/admin/CrmTabs'
+import { stageTone } from '@/components/admin/CrmTabs'
 import { ALink, Badge, Card, day, PageHead, Problem, Stat, Table, Td } from '@/components/admin/ui'
 import { isError } from '@/lib/admin/api'
 import { crmOverview, crmStages, crmTasks } from '@/lib/admin/crm'
@@ -26,7 +26,6 @@ export default async function CrmOverview() {
   return (
     <>
       <PageHead title={o.title} lead={o.lead} />
-      <CrmTabs current="overview" labels={m.tabs} />
 
       <Card title={o.mail}>
         <div className="grid gap-[12px] [grid-template-columns:repeat(auto-fit,minmax(140px,1fr))]">

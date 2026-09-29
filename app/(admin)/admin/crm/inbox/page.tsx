@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { LeadClock } from '@/components/admin/CrmBoard'
 import type { CrmMessages } from '@/components/admin/CrmForms'
-import { CrmTabs } from '@/components/admin/CrmTabs'
 import { SlaForm } from '@/components/admin/CrmStageForms'
 import { Badge, Card, PageHead, Problem, Stat, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
@@ -37,7 +36,6 @@ export default async function CrmInbox({ searchParams }: { searchParams: Promise
   return (
     <>
       <PageHead title={x.title} lead={x.lead.replace('{sla}', String(data.sla_minutes))} />
-      <CrmTabs current="overview" labels={m.tabs} />
 
       <div className="mb-[14px] grid gap-[12px] [grid-template-columns:repeat(auto-fit,minmax(150px,1fr))]">
         <Stat label={x.awaiting} value={data.awaiting} />

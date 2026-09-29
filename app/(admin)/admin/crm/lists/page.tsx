@@ -1,7 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import type { CrmMessages } from '@/components/admin/CrmForms'
 import { ListForm } from '@/components/admin/CrmPipelineForms'
-import { CrmTabs } from '@/components/admin/CrmTabs'
 import { ALink, Badge, Card, PageHead, Problem, Table, Td } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
 import { crmLists } from '@/lib/admin/crm'
@@ -29,7 +28,6 @@ export default async function CrmLists({ searchParams }: { searchParams: Promise
       <PageHead title={l.title} lead={l.lead}>
         {canWrite && !open ? <ALink href="/admin/crm/lists?new">{l.new}</ALink> : null}
       </PageHead>
-      <CrmTabs current="lists" labels={m.tabs} />
       {open ? (
         <Card title={editing ? l.edit : l.new} className="mb-[16px]" aside={<ALink href="/admin/crm/lists">{m.segments.cancel}</ALink>}>
           <ListForm key={editing?.id ?? 'new'} m={m} common={common} list={editing} />

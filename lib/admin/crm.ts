@@ -325,6 +325,9 @@ const Company = z.object({
   created_at: z.string(),
   contacts: num,
   open_tasks: num,
+  // 0119: the deal's yearly value, and who to talk to
+  value_nok: num.nullable().default(null),
+  contact_name: z.string().nullable().default(null),
 })
 export type Company = z.infer<typeof Company>
 
@@ -429,3 +432,7 @@ export const crmOverview = () =>
       signups_from_email: num,
     }),
   )
+
+// ---------------------------------------------------------------- deals (0119, X-095)
+/** Whom a deal may be given to: the admins who work the CRM */
+export const crmOwners = () => call('admin_crm_owners', {}, z.object({ rows: z.array(z.object({ id: z.string(), email: z.string() })) }))

@@ -4,7 +4,6 @@ import { getTranslations } from 'next-intl/server'
 import { MailPreview } from '@/components/admin/CampaignStudio'
 import type { CrmMessages } from '@/components/admin/CrmForms'
 import { TemplateStart } from '@/components/admin/CrmPipelineForms'
-import { CrmTabs } from '@/components/admin/CrmTabs'
 import { Badge, PageHead, Problem } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
 import { drawCampaign, mailCatalogue } from '@/lib/admin/campaignMail'
@@ -45,7 +44,6 @@ export default async function CrmTemplates({ searchParams }: { searchParams: Pro
   return (
     <>
       <PageHead title={m.templates.title} lead={m.templates.lead} />
-      <CrmTabs current="templates" labels={m.tabs} />
       <nav aria-label={m.templates.title} className="mb-[14px] flex flex-wrap gap-[6px]">
         {chip(null, g.all, data.rows.length)}
         {present.map((c) => chip(c, g.category[c], data.rows.filter((r) => r.category === c).length))}

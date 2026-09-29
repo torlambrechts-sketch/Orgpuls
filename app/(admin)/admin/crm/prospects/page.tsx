@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import type { CrmMessages } from '@/components/admin/CrmForms'
 import { CompanyForm, ManagerRefresh, RegistryPicker } from '@/components/admin/CrmPipelineForms'
-import { CrmTabs, stageTone } from '@/components/admin/CrmTabs'
+import { stageTone } from '@/components/admin/CrmTabs'
 import { StageMoveForm } from '@/components/admin/CrmStageForms'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td } from '@/components/admin/ui'
 import { isError, listAdmins, whoami } from '@/lib/admin/api'
@@ -38,7 +38,6 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
   return (
     <>
       <PageHead title={p.title} lead={p.lead} />
-      <CrmTabs current="prospects" labels={m.tabs} />
 
       <nav aria-label={p.col.stage} className="mb-[12px] flex flex-wrap gap-[6px]">
         <Link

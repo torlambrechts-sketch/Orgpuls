@@ -1,7 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import { ContactActionForm, ContactForm, type CrmMessages } from '@/components/admin/CrmForms'
 import { ContactListForms } from '@/components/admin/CrmPipelineForms'
-import { CrmTabs } from '@/components/admin/CrmTabs'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
 import { crmContact, crmLists } from '@/lib/admin/crm'
@@ -33,7 +32,6 @@ export default async function CrmContact({ params }: { params: Promise<{ id: str
       <PageHead title={c.name ?? c.email} lead={c.name ? c.email : undefined}>
         <ALink href="/admin/crm/contacts">{m.contact.back}</ALink>
       </PageHead>
-      <CrmTabs current="contacts" labels={m.tabs} />
 
       <div className="grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
         <Card title={m.contact.details}>

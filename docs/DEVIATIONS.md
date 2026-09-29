@@ -7244,10 +7244,10 @@ for navigation. Here:
 
 X-095, phase 2. From the design's `isOverview`:
 
-- *No money.* «Monthly recurring» and the pipeline's kroner wait for billing (Tor, 2026-09-29). The
-  second card counts trials and those ending within 7 days; the pipeline counts companies per open
-  stage, the bar's figure is a count, not a value. «Past due» items in *Needs attention* have no
-  ledger behind them and are not drawn.
+- *No recurring revenue.* «Monthly recurring» waits for billing (Tor, 2026-09-29); the second card
+  counts trials and those ending within 7 days. «Past due» items in *Needs attention* have no ledger
+  behind them and are not drawn. The pipeline's kroner are the deal values the team enters since
+  phase 4 (0119, D-165): an estimate per deal, never an invoice.
 - *No «New customer» button.* A customer is an organisation that signs up; the admin cannot create one.
 - *«Open languages» and «Open SEO» become «Open pages».* Admin › Languages is the survey's
   translations, and admin › SEO reads Search Console; a page's missing language or description is
@@ -7295,3 +7295,22 @@ X-095, phase 3. From the design's `isCustomers`, `isCustomerDetail` and `isOrgs`
   mail log as counts and the organisation's audit trail. Tickets, trial mail, source and notes sit
   in the columns. *Activity* is the audit trail's changes, as on the Overview.
 
+
+## D-165 — Sentral Pipeline: what the design draws and the page does not
+
+X-095, phase 4. From the design's `isPipeline`:
+
+- *A deal is a company in the pipeline.* The value (0119) is the yearly contract value the team
+  enters, whole kroner, an estimate; it is never an invoice and never counted as revenue.
+- *The contact* is the company's first contact, else the register's general manager (0110).
+  «New deal» asks for company, value, next step and owner; contacts are added on the company's page,
+  where consent and lists are handled.
+- *Columns are the stages people work in* (open and won kinds, as configured, D-160's stages page);
+  lost and parked stages are links under the board. With more than five, a column may narrow to
+  180 px before the board scrolls.
+- *A card opens a dialog* with stage, value, next step and date, and owner — the keyboard's way to
+  move a deal; dragging still works. A company that follows its organisation's plan shows its stage
+  and cannot be moved by hand.
+- *The exit criterion* a stage closes on (0112) is the column header's tooltip, not a line of text.
+- *«Won this quarter»* counts deals whose stage became a won stage since the quarter began (Oslo).
+- *The CRM's own phone tab row* is gone from every CRM page; Sentral's sub-bar lists them.
