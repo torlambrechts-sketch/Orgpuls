@@ -1,14 +1,15 @@
 import { getTranslations } from 'next-intl/server'
-import { CampaignActions, CampaignEditor, type CrmMessages } from '@/components/admin/CrmForms'
+import { CampaignStudio, InboxCheck, MailPreview } from '@/components/admin/CampaignStudio'
+import { CampaignActions, type CrmMessages } from '@/components/admin/CrmForms'
+import { Funnel } from '@/components/admin/CampaignFunnel'
 import { CampaignPipelineForm, ResendForm } from '@/components/admin/CrmStageForms'
 import { SequenceSteps } from '@/components/admin/CrmSequence'
 import { CrmTabs, STATUS_TONE } from '@/components/admin/CrmTabs'
 import { ALink, Badge, Card, PageHead, pct, Problem, Stat, Table, Td, when } from '@/components/admin/ui'
-import en from '@/messages/en.json'
-import no from '@/messages/no.json'
 import { isError, whoami } from '@/lib/admin/api'
+import { drawCampaign, footerOf, inboxCheck, mailCatalogue, sendingDomain } from '@/lib/admin/campaignMail'
+import { domainChecks } from '@/lib/admin/mailDomain'
 import { crmCampaign, crmCampaigns, crmLists, crmSegments, crmSenders, crmSequence, crmStages } from '@/lib/admin/crm'
-import { renderCampaign, type MailCatalogue } from '@/supabase/functions/_shared/mail'
 
 /**
  * One campaign (D-101, D-103): its content while it is a draft, a preview drawn by the module
@@ -17,7 +18,6 @@ import { renderCampaign, type MailCatalogue } from '@/supabase/functions/_shared
  * A/B result; the click map by link and block; the first 72 hours; and what the site's own
  * analytics saw on the campaign's utm_campaign.
  */
-const SITE = 'https://www.orgpuls.com'
 const share = (a: number, b: number) => (b ? (100 * a) / b : null)
 const fmt = (v: number | null) => (v === null ? '—' : `${v.toFixed(1)} %`)
 
@@ -64,36 +64,16 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
     c.follow_auto ? pipeline.summary.auto : null,
   ].filter(Boolean)
 
-  // the preview is the real rendering, with a placeholder token that unsubscribes nobody
-  const cat = { no: no.mail, en: en.mail } as unknown as MailCatalogue
-  const render = (subject: string) =>
-    renderCampaign(
-      cat,
-      {
-        id: 'preview',
-        kind: 'campaign',
-        to_email: '',
-        token: '0'.repeat(64),
-        name: 'Kari Nordmann',
-        company: 'Eksempel AS',
-        basis: c.style === 'letter' && !c.list_id ? 'business' : 'consent',
-        lang: c.lang,
-        campaign: {
-          kind: c.kind,
-          style: c.style,
-          // as the dispatcher signs it (0093): the campaign's own signature, else its sender's
-          signature: c.signature.trim() || sender?.signature || '',
-          subject,
-          preheader: c.preheader,
-          blocks: c.blocks,
-          utm_campaign: c.utm_campaign,
-          web_slug: c.publish_web ? c.slug : null,
-          list: list ? { name_no: list.name_no, name_en: list.name_en } : null,
-        },
-      },
-      SITE,
-    )
-  const preview = c.blocks.length ? render(c.subject) : null
+  // the preview is the real rendering (lib/admin/campaignMail.ts), with a token that unsubscribes nobody
+  const cat = await mailCatalogue()
+  const listFooter = list ? { name_no: list.name_no, name_en: list.name_en } : null
+  const draft = canWrite && c.status === 'draft'
+  const [domain, inbox] = await Promise.all([
+    draft ? domainChecks(sendingDomain(c, senders)) : Promise.resolve([]),
+    !draft && c.status !== 'sent' && c.status !== 'cancelled' && c.blocks.length ? inboxCheck(cat, c, senders, listFooter) : Promise.resolve(null),
+  ])
+  const preview = c.blocks.length ? drawCampaign(cat, c, { sender, list: listFooter }) : null
+  const crmOnly = { no: { crm: (cat.no as { crm?: unknown }).crm }, en: { crm: (cat.en as { crm?: unknown }).crm } } as unknown as typeof cat
 
   const rates = [
     { k: r.deliveredRate, v: share(s.delivered, s.sent), bench: null },
@@ -145,12 +125,31 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
               <Stat key={x.k} label={x.k} value={fmt(x.v)} hint={vs(x.v, x.bench)} />
             ))}
           </div>
+          <div className="mb-[12px] rounded-panel border border-line bg-sf px-[18px] py-[16px]">
+            <Funnel stats={s} m={m} />
+          </div>
           <p className="mb-[16px] mt-0 text-[12px] text-mut">{data.benchmark.campaigns ? m.campaign.openNote : r.noBenchmark}</p>
         </>
       ) : null}
 
-      <div className="grid items-start gap-[14px] xl:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
-        <div className="flex min-w-0 flex-col gap-[14px]">
+      {draft ? (
+        <Card title={m.campaign.content} className="mb-[14px]">
+          <CampaignStudio
+            m={m}
+            common={{ saving: common.saving, done: common.done }}
+            campaign={c}
+            segments={segments}
+            lists={listRows.map((l) => ({ id: l.id, name_no: l.name_no, name_en: l.name_en, subscribed: l.subscribed }))}
+            cat={crmOnly}
+            sender={sender ? { name: sender.name, email: sender.email, signature: sender.signature } : null}
+            domain={domain}
+            footer={{ no: footerOf(cat, 'no'), en: footerOf(cat, 'en') }}
+          />
+        </Card>
+      ) : null}
+      <div className={`grid items-start gap-[14px] ${draft ? '' : 'xl:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]'}`}>
+        {/* a draft's studio carries the preview, so its other cards take the full width, two by two */}
+        <div className={draft ? 'grid min-w-0 items-start gap-[14px] xl:grid-cols-2' : 'flex min-w-0 flex-col gap-[14px]'}>
           {c.status !== 'draft' && data.variants.length > 1 ? (
             <Card title={r.ab}>
               <Table head={[r.variant, r.subject, r.sent, r.opened, r.clicked]}>
@@ -243,13 +242,11 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
               </div>
             ) : null}
           </Card>
-          <Card title={m.campaign.content}>
-            {canWrite && c.status === 'draft' ? (
-              <CampaignEditor m={m} common={common} campaign={c} segments={segments} lists={listRows.map((l) => ({ id: l.id, name: l.name_no, subscribed: l.subscribed }))} />
-            ) : (
+          {draft ? null : (
+            <Card title={m.campaign.content}>
               <p className="m-0 text-[13px] text-mut">{m.campaign.locked}</p>
-            )}
-          </Card>
+            </Card>
+          )}
           {canWrite ? (
             <Card title={m.campaign.send}>
               {c.status === 'scheduled' && c.scheduled_at ? (
@@ -275,33 +272,23 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
             ) : null}
           </Card>
         </div>
-        <Card title={m.campaign.preview}>
-          {preview ? (
-            <div className="flex flex-col gap-[14px]">
-              {c.subject_b.trim() ? <p className="m-0 text-[12.5px] text-mut">A: {c.subject} · B: {c.subject_b}</p> : null}
-              <figure className="m-0">
-                <figcaption className="mb-[6px] text-[12px] font-semibold text-mut">{m.campaign.mobile}</figcaption>
-                <iframe
-                  title={`${m.campaign.preview} · ${m.campaign.mobile}`}
-                  srcDoc={preview.html}
-                  sandbox=""
-                  className="h-[640px] w-[375px] max-w-full rounded-ctl border border-line bg-bg"
-                />
-              </figure>
-              <figure className="m-0 min-w-0">
-                <figcaption className="mb-[6px] text-[12px] font-semibold text-mut">{m.campaign.desktop}</figcaption>
-                <iframe
-                  title={`${m.campaign.preview} · ${m.campaign.desktop}`}
-                  srcDoc={preview.html}
-                  sandbox=""
-                  className="h-[560px] w-full rounded-ctl border border-line bg-bg"
-                />
-              </figure>
-            </div>
-          ) : (
-            <p className="m-0 text-[13px] text-mut">{t('common.none')}</p>
-          )}
-        </Card>
+        {draft ? null : (
+          <Card title={m.campaign.preview}>
+            {preview ? (
+              <div className="flex flex-col gap-[14px]">
+                {c.subject_b.trim() ? <p className="m-0 text-[12.5px] text-mut">A: {c.subject} · B: {c.subject_b}</p> : null}
+                <MailPreview html={preview.html} subject={preview.subject} preheader={c.preheader} from={sender?.name || 'Orgpuls'} m={m} />
+                {inbox ? (
+                  <div className="rounded-panel border border-line bg-bg p-[14px]">
+                    <InboxCheck checks={inbox.checks} m={m} />
+                  </div>
+                ) : null}
+              </div>
+            ) : (
+              <p className="m-0 text-[13px] text-mut">{t('common.none')}</p>
+            )}
+          </Card>
+        )}
       </div>
     </>
   )

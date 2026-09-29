@@ -7176,3 +7176,27 @@ icons; in our design and layout.
   needs a company (0056). Contact-form and demo leads that name a company are linked to it.
 - *The design's dark-green rail.* The admin keeps the product's own rail (cream surface, track
   tiles, yellow for the current page), as «our design» asks.
+
+## D-160 — Designed campaign mail and the inbox check: what is checked, and what is not
+
+X-092. Built: the redrawn branded layout, five designed blocks (0113), ten templates with
+[placeholders] that stop scheduling, the inbox check with DNS authentication, the studio with a live
+preview, and campaign cards with a funnel. Deliberately not built, and why:
+
+- *A spam score from a third party* (SpamAssassin, mail-tester, Litmus, Email on Acid). Those need an
+  account and send the mail to an outside service; the check here scores what is known to move
+  placement and says which rule each line follows. A real seed test before a large send is still
+  good practice.
+- *A drag-and-drop canvas.* Blocks are ordered with the arrows and the palette; one renderer per block
+  kind keeps every mail valid in Outlook, which free-form layout does not.
+- *Pictures uploaded to Orgpuls.* A picture is an https address the author hosts. Storage for
+  campaign pictures, with resizing, is its own piece of work.
+- *Brand colours per campaign.* The palette is the product's tokens; one look across all mail is part
+  of being recognised in the inbox.
+- *A postal address in the footer.* The sender line is the message `mail.crm.sender`; no address is in
+  the repository, so none was written. The check warns until one is set under Translations.
+- *Dark mode in Gmail.* Gmail's apps invert colours themselves and read no dark CSS; the palette is
+  chosen so its inversion stays legible. Apple Mail and Outlook.com get the designed dark palette.
+- *Spam words in the body.* Only strong phrases count there («100 %», «garantert», «klikk her»); single
+  words like «gratis» count in the subject alone, where filters weigh them and readers decide.
+

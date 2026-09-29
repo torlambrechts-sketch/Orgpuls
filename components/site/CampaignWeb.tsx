@@ -1,4 +1,5 @@
 import type { WebBlock } from '@/lib/crm/read'
+import { pairs } from '@/supabase/functions/_shared/mail'
 
 /**
  * A newsletter issue on the web (D-103): the blocks the mail was written in, drawn in the
@@ -43,6 +44,85 @@ export function CampaignWeb({
       {blocks.map((b, i) => {
         const key = `b${i + 1}-${b.type}`
         switch (b.type) {
+          case 'hero': {
+            const cta = b.label?.trim() || readMore
+            return (
+              <section key={key} className="mb-[22px] overflow-hidden rounded-card bg-sbg">
+                {b.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={b.image} alt={b.alt ?? ''} className="block h-auto w-full" />
+                ) : null}
+                <div className="px-[clamp(20px,3vw,30px)] py-[clamp(22px,3vw,30px)]">
+                  <h2 className="m-0 font-display text-[clamp(24px,3vw,30px)] font-semibold leading-[1.2]">{fill(b.title)}</h2>
+                  {b.text ? <p className="mb-0 mt-[10px] whitespace-pre-line text-[17px] leading-[1.6] text-ink">{fill(b.text)}</p> : null}
+                  {b.url ? (
+                    <a
+                      href={tagged(b.url, campaign, key)}
+                      className="mt-[18px] inline-flex h-[48px] items-center rounded-cta border border-ink bg-ac px-[22px] text-[15.5px] font-bold text-ink no-underline hover:text-ink hover:no-underline"
+                    >
+                      {cta} →
+                    </a>
+                  ) : null}
+                </div>
+              </section>
+            )
+          }
+          case 'features':
+          case 'steps': {
+            const items = pairs(fill(b.text), b.type === 'steps' ? 5 : 4)
+            return (
+              <section key={key} className="mb-[18px]">
+                {b.title ? <h2 className="mb-[14px] mt-[6px] font-display text-[clamp(20px,2.4vw,24px)] font-semibold leading-[1.25]">{fill(b.title)}</h2> : null}
+                <ol className={`m-0 grid list-none gap-[16px] p-0 ${b.type === 'features' && items.length > 1 ? 'sm:grid-cols-2' : ''}`}>
+                  {items.map((x, j) => (
+                    <li key={j} className="flex gap-[12px]">
+                      <span
+                        aria-hidden="true"
+                        className={`flex h-[32px] w-[32px] flex-none items-center justify-center rounded-full font-display text-[16px] font-bold ${b.type === 'steps' ? 'bg-ac' : 'bg-sbg'}`}
+                      >
+                        {b.type === 'steps' ? j + 1 : '✓'}
+                      </span>
+                      <span>
+                        <span className="block text-[16px] font-bold leading-[1.35]">{x.a}</span>
+                        {x.b ? <span className="mt-[2px] block text-[15px] leading-[1.55] text-mut">{x.b}</span> : null}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            )
+          }
+          case 'stats': {
+            const items = pairs(fill(b.text), 3)
+            return (
+              <section key={key} className="mb-[18px]">
+                {b.title ? <h2 className="mb-[12px] mt-[6px] font-display text-[clamp(20px,2.4vw,24px)] font-semibold leading-[1.25]">{fill(b.title)}</h2> : null}
+                <dl className="m-0 grid gap-[10px] sm:[grid-template-columns:repeat(auto-fit,minmax(0,1fr))]">
+                  {items.map((x, j) => (
+                    <div key={j} className="rounded-card border border-line bg-bg px-[16px] py-[18px] text-center">
+                      <dt className="font-display text-[34px] font-semibold leading-[1.1]">{x.a}</dt>
+                      <dd className="m-0 mt-[4px] text-[14px] leading-[1.45] text-mut">{x.b}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+            )
+          }
+          case 'cta':
+            return (
+              <section key={key} className="my-[10px] mb-[20px] rounded-card bg-ink px-[clamp(20px,3vw,28px)] py-[clamp(22px,3vw,28px)] text-bg">
+                <h2 className="m-0 font-display text-[23px] font-semibold leading-[1.3]">{fill(b.title)}</h2>
+                {b.text ? <p className="mb-0 mt-[8px] whitespace-pre-line text-[15.5px] leading-[1.6] text-line">{fill(b.text)}</p> : null}
+                {b.url ? (
+                  <a
+                    href={tagged(b.url, campaign, key)}
+                    className="mt-[16px] inline-flex h-[46px] items-center rounded-cta border border-ac bg-ac px-[20px] text-[15px] font-bold text-ink no-underline hover:text-ink hover:no-underline"
+                  >
+                    {b.label?.trim() || readMore} →
+                  </a>
+                ) : null}
+              </section>
+            )
           case 'heading':
             return (
               <h2 key={key} className="mb-[12px] mt-[18px] font-display text-[clamp(22px,2.6vw,27px)] font-semibold leading-[1.2] first:mt-0">
@@ -73,6 +153,10 @@ export function CampaignWeb({
           case 'article':
             return b.url ? (
               <section key={key} className="mb-[18px] border-t border-line pt-[14px]">
+                {b.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={b.image} alt={b.alt ?? ''} loading="lazy" className="mb-[12px] block h-auto w-full rounded-card border border-line" />
+                ) : null}
                 <h3 className="m-0 text-[18px] font-bold leading-[1.35]">
                   <a href={tagged(b.url, campaign, key)} className="text-ink no-underline hover:underline">
                     {fill(b.title)}

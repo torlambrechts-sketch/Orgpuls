@@ -10,6 +10,7 @@ import type { AdminResult } from './actions'
 import { generalManagers, searchRegistry, SearchInput, type Manager, type RegistryHit } from './brreg'
 import { ACTIVITY_KINDS, Block, CAMPAIGN_KINDS, CONTACT_ROLES, crmCompanies, Filter, StageKey, STAGE_KINDS } from './crm'
 import { isError } from './api'
+import { blockingChecks } from './campaignMail'
 
 /**
  * The CRM's writes (0055, D-101; 0056–0058, D-103). The database decides who may do what, with a second
@@ -302,6 +303,10 @@ export async function campaignAction(_prev: AdminResult | null, formData: FormDa
   else {
     const when = action === 'now' ? new Date().toISOString() : osloToIso(at)
     if (!when) return { ok: false, problem: 'invalid_time' }
+    // the inbox check (X-092): a campaign with a failing check does not go, whatever the page showed
+    const stop = await blockingChecks(id)
+    if (stop === null) return { ok: false, problem: 'failed' }
+    if (stop.length) return { ok: false, problem: 'inbox_blocked' }
     r = await rpc('admin_crm_campaign_schedule', { p_id: id, p_at: when })
   }
   if (!r.ok) return r

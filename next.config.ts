@@ -32,6 +32,29 @@ const withNextIntl = createNextIntlPlugin('./lib/i18n/request.ts')
  * its own piece of work. It does not weaken the three headers above, which is why this
  * ships now rather than waiting for the nonce.
  */
+function csp(img: string) {
+  return [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline'",
+    "style-src 'self' 'unsafe-inline'",
+    "font-src 'self'",
+    img,
+    `connect-src 'self' ${process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''}`.trim(),
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+    "base-uri 'self'",
+    "object-src 'none'",
+  ].join('; ')
+}
+
+/**
+ * The admin draws campaign mail in its previews (X-092): the Orgpuls mark and the pictures an
+ * author links, which may be hosted on any https origin, as they will be in the reader's inbox.
+ * Only there may an image come from elsewhere; scripts, frames and connections stay as strict.
+ */
+const ADMIN_HOST = process.env.ADMIN_HOST?.trim().toLowerCase() || 'admin.orgpuls.com'
+const adminCsp = [{ key: 'Content-Security-Policy', value: csp("img-src 'self' data: https:") }]
+
 const securityHeaders = [
   { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
@@ -41,21 +64,7 @@ const securityHeaders = [
     key: 'Permissions-Policy',
     value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
   },
-  {
-    key: 'Content-Security-Policy',
-    value: [
-      "default-src 'self'",
-      "script-src 'self' 'unsafe-inline'",
-      "style-src 'self' 'unsafe-inline'",
-      "font-src 'self'",
-      "img-src 'self' data:",
-      `connect-src 'self' ${process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''}`.trim(),
-      "form-action 'self'",
-      "frame-ancestors 'none'",
-      "base-uri 'self'",
-      "object-src 'none'",
-    ].join('; '),
-  },
+  { key: 'Content-Security-Policy', value: csp("img-src 'self' data:") },
 ]
 
 const nextConfig: NextConfig = {
@@ -67,7 +76,12 @@ const nextConfig: NextConfig = {
   // the legal review reads the terms draft from docs/ at request time (lib/legal/registry.ts, D-130)
   outputFileTracingIncludes: { '/admin/legal': ['./docs/legal/vilkar-utkast.md'] },
   async headers() {
-    return [{ source: '/:path*', headers: securityHeaders }]
+    return [
+      { source: '/:path*', headers: securityHeaders },
+      // later entries override the same header: the admin, by path and on its own host
+      { source: '/admin/:path*', headers: adminCsp },
+      { source: '/:path*', has: [{ type: 'host', value: ADMIN_HOST }], headers: adminCsp },
+    ]
   },
   /**
    * Design 3 renames two screens (P1, D-70): Resultat is Resultater and Samtaler is

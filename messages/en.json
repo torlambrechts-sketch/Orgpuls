@@ -3055,7 +3055,8 @@
       "preferences": "Unsubscribe or choose what you get",
       "viewInBrowser": "View in browser",
       "companyFallback": "your organisation",
-      "ps": "P.S."
+      "ps": "P.S.",
+      "event": "Event"
     },
     "lifecycle": {
       "footer": "You are getting this e-mail because {org} is trying Orgpuls. Reply to it if you would like help – it reaches us.",
@@ -8455,7 +8456,9 @@
         "managed": "Trial and customer follow the plan; their kind cannot change.",
         "too_many_steps": "A sequence holds at most seven mails.",
         "auto_no_ab": "An automatic follow-up cannot have a second subject line.",
-        "not_moved": "That company was not moved: it follows its plan, or the stage cannot be set by hand."
+        "not_moved": "That company was not moved: it follows its plan, or the stage cannot be set by hand.",
+        "inbox_blocked": "The inbox check has red items: fix them before scheduling.",
+        "placeholder_left": "Text in [brackets] is still in the campaign: replace it before scheduling."
       },
       "stage": {
         "new": "New",
@@ -8628,7 +8631,7 @@
       },
       "templates": {
         "title": "Templates",
-        "lead": "Six starting points, each built the way mail that gets clicked is built: one message, one main button above the fold, a preheader, alt text on images, and a footer that says why and how to stop.",
+        "lead": "Designed starting points, built the way mail that reaches the inbox and gets clicked is built: one message, one main button, live text rather than pictures of text, a preheader, and a footer that says who sends, why and how to stop.",
         "use": "Start a campaign from this",
         "name": "Campaign name",
         "styleName": {
@@ -8908,6 +8911,253 @@
         "empty": "No companies here.",
         "notMoved": "That company was not moved.",
         "capped": "Showing the 500 companies with the nearest next step; the Companies page has them all."
+      },
+      "studio": {
+        "preview": "Preview",
+        "view": {
+          "desktop": "Desktop",
+          "phone": "Phone",
+          "inbox": "Inbox"
+        },
+        "inboxTitle": "Inbox",
+        "inboxLead": "The sender, the subject and the preheader are all a reader sees before deciding to open.",
+        "noPreheader": "(no preheader: the inbox shows the first line of the mail)",
+        "now": "now",
+        "sample": "Drawn for a sample reader, Kari Nordmann at Eksempel AS, exactly as the dispatcher will send it.",
+        "section": {
+          "setup": "Audience and style",
+          "inbox": "In the inbox",
+          "content": "Content",
+          "finish": "Signature, web version, tracking"
+        },
+        "styleHint": {
+          "branded": "Designed: logo, panels, buttons. For newsletters, product news and events to people who asked for them.",
+          "letter": "A personal plain mail: no pictures, text links. For first contact and follow-ups; it lands in the primary inbox."
+        },
+        "add": "Add a block",
+        "duplicate": "Duplicate",
+        "block": {
+          "hero": {
+            "name": "Opening panel",
+            "hint": "Headline, a lead and one button, on a soft-yellow panel"
+          },
+          "heading": {
+            "name": "Heading",
+            "hint": "A section heading"
+          },
+          "text": {
+            "name": "Text",
+            "hint": "Paragraphs; an empty line starts a new one"
+          },
+          "button": {
+            "name": "Button",
+            "hint": "One clear action"
+          },
+          "features": {
+            "name": "Features",
+            "hint": "Two to four points in two columns"
+          },
+          "steps": {
+            "name": "Steps",
+            "hint": "Numbered steps"
+          },
+          "stats": {
+            "name": "Figures",
+            "hint": "Up to three figures in tiles"
+          },
+          "article": {
+            "name": "Article card",
+            "hint": "Title, a line and a link, optionally a picture"
+          },
+          "bullets": {
+            "name": "Checklist",
+            "hint": "Short points with a tick"
+          },
+          "image": {
+            "name": "Picture",
+            "hint": "A picture with alt text"
+          },
+          "quote": {
+            "name": "Quote",
+            "hint": "A customer's own words"
+          },
+          "event": {
+            "name": "Event",
+            "hint": "Title, when and where, sign-up"
+          },
+          "cta": {
+            "name": "Closing band",
+            "hint": "A dark band with one button"
+          },
+          "divider": {
+            "name": "Divider",
+            "hint": "A thin line between sections"
+          },
+          "ps": {
+            "name": "P.S.",
+            "hint": "The line most read after the first"
+          }
+        },
+        "field": {
+          "headline": "Headline",
+          "lead": "Lead (one or two sentences)",
+          "heading": "Heading",
+          "text": "Text",
+          "title": "Title",
+          "sectionTitle": "Heading above (optional)",
+          "buttonText": "Button text (say what happens: «See the action plan»)",
+          "linkText": "Link text",
+          "url": "Address (https://…)",
+          "image": "Picture above (optional, https://…)",
+          "imageUrl": "Picture address (https://…)",
+          "imageHint": "A JPG or PNG hosted on https, at least 1200 px wide. Never put text in a picture: a third of readers have pictures off.",
+          "imageLink": "Link (optional)",
+          "alt": "Alt text: what the picture shows (required with a picture)",
+          "pairs": "One per line",
+          "featuresHint": "Title | one sentence — up to four lines.",
+          "stepsHint": "Title | one sentence — up to five steps.",
+          "stats": "One per line",
+          "statsHint": "Figure | what it measures — up to three. Only figures you can document.",
+          "lines": "One point per line",
+          "quote": "Quote",
+          "attribution": "Who said it (name, role, company — with their permission)",
+          "when": "When and where, one per line"
+        },
+        "check": {
+          "title": "Inbox check",
+          "score": "{pass} of {total} pass",
+          "blocked": "Scheduling is blocked until the red items are fixed.",
+          "ok": "Nothing blocks sending.",
+          "level": {
+            "pass": "Passes",
+            "warn": "Advice",
+            "fail": "Blocks sending"
+          },
+          "item": {
+            "subject_length": {
+              "pass": "Subject {count} characters: fits a phone.",
+              "warn": "Subject {count} characters: aim for 30–50. Long ones are cut off; very short ones read as spam.",
+              "fail": "No subject."
+            },
+            "subject_deceptive": {
+              "pass": "The subject does not pretend to be a reply.",
+              "fail": "«Re:» or «Fwd:» on a first mail pretends to an earlier conversation: misleading under the Marketing Control Act and filtered hard."
+            },
+            "subject_style": {
+              "pass": "No shouting in the subject.",
+              "warn": "Capitals {words}, several exclamation marks or currency signs in the subject are classic spam signals."
+            },
+            "spam_words": {
+              "pass": "No words content filters count against you.",
+              "warn": "Filter-sensitive words: {words}. Say the same in plainer words, or keep them out of the subject."
+            },
+            "preheader": {
+              "pass": "The preheader adds to the subject.",
+              "warn": "Add a preheader that adds to the subject rather than repeating it; without one, the inbox shows the first line of the mail."
+            },
+            "placeholder": {
+              "pass": "No [placeholders] left.",
+              "fail": "Replace {words}. A made-up date, figure or quote must never reach an inbox."
+            },
+            "text_amount": {
+              "pass": "{count} words of real text.",
+              "warn": "{count} words is long: readers scan, and long mails are skipped.",
+              "fail": "Only {count} words: a mail that is mostly picture or empty is what spam filters catch first."
+            },
+            "image_ratio": {
+              "pass": "Text and pictures in balance.",
+              "warn": "{count} picture(s) and little text: keep at least 60 words per picture."
+            },
+            "link_shortener": {
+              "pass": "No link shorteners.",
+              "fail": "Link shorteners ({words}) hide where a link leads and are on most blocklists. Use the full address."
+            },
+            "link_domains": {
+              "pass": "Links go to orgpuls.com and few other sites.",
+              "warn": "Links to {count} other sites ({words}): links that do not match the sender lower trust."
+            },
+            "link_count": {
+              "pass": "{count} different links.",
+              "warn": "{count} different links: more than 12 dilutes the one action and looks like a link list."
+            },
+            "link_text": {
+              "pass": "Link texts say where they lead.",
+              "warn": "«Click here» tells a reader and a screen reader nothing, and filters count it. Name the destination."
+            },
+            "cta_count": {
+              "pass": "{count} button(s): one clear action.",
+              "warn": "{count} buttons compete; one main action gets more clicks."
+            },
+            "letter_plain": {
+              "pass": "A plain letter without pictures or panels: it reads as personal mail and lands in the primary inbox.",
+              "warn": "Pictures, panels or tiles in a plain letter make it look like marketing and move it to the promotions tab."
+            },
+            "letter_personal": {
+              "pass": "Written to them: uses {firma} or {navn}.",
+              "warn": "Use {firma} or {navn}, so a first-contact letter reads as written to them."
+            },
+            "size": {
+              "pass": "{count} KB, well under Gmail's 102 KB limit.",
+              "warn": "{count} KB: close to Gmail's 102 KB limit.",
+              "fail": "{count} KB: Gmail cuts the mail at 102 KB and hides the rest, the unsubscribe link with it."
+            },
+            "footer_address": {
+              "pass": "The footer names the sender with a postal address.",
+              "warn": "The footer names Orgpuls but gives no postal address. Add the company's address to the text mail.crm.sender under Translations: expected by law in several markets and by the filters."
+            },
+            "unsubscribe": {
+              "pass": "One-click unsubscribe in the header (RFC 8058) and a visible link in the footer, as Gmail and Yahoo require."
+            },
+            "plain_text": {
+              "pass": "A plain-text version goes with every mail."
+            },
+            "suppression": {
+              "pass": "Bounced, complaining and unsubscribed addresses are never mailed again, and a contact with no engagement for 12 months stops getting mail."
+            },
+            "dkim": {
+              "pass": "DKIM: {host} signs its mail.",
+              "fail": "No DKIM on {host}: Gmail, Yahoo and Microsoft refuse bulk mail without it. The dispatcher holds sending until it is set up."
+            },
+            "dmarc": {
+              "pass": "DMARC p={policy} covers {host}.",
+              "warn": "DMARC for {host} is p=none: it meets the providers' rule but protects nothing. Move to p=quarantine once the reports are clean.",
+              "fail": "No DMARC record covers {host}: Gmail and Yahoo require one of bulk senders."
+            },
+            "spf": {
+              "pass": "SPF on {host} includes Brevo.",
+              "warn": "No SPF record on {host} that includes Brevo (v=spf1 include:spf.brevo.com ~all). DKIM carries the authentication; SPF adds a second leg."
+            },
+            "domain_unknown": {
+              "warn": "No sending address is known, so the domain could not be checked: add a sender under the campaign's pipeline settings."
+            },
+            "domain_lookup": {
+              "warn": "Could not look up {host} in DNS just now; the check runs again on the next load."
+            }
+          }
+        },
+        "gallery": {
+          "all": "All",
+          "category": {
+            "newsletter": "Newsletters",
+            "product": "Product news",
+            "event": "Events",
+            "sales": "Sales",
+            "customer": "Customers"
+          },
+          "placeholders": "Text in [brackets] is for you to fill in: a campaign cannot be scheduled while any is left.",
+          "blocks": "{count} blocks"
+        },
+        "list": {
+          "funnel": "Sent → delivered → opened → clicked",
+          "noSends": "Not sent yet",
+          "open": "Open",
+          "draft": "Drafts",
+          "scheduled": "Scheduled and sending",
+          "sent": "Sent",
+          "cancelled": "Cancelled",
+          "signups": "{count} organisations created",
+          "reach": "{count} recipients"
+        }
       }
     },
     "health": {

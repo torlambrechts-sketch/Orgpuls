@@ -652,8 +652,21 @@ export function renderLifecycle(cat: MailCatalogue, job: LifecycleJob, appUrl: s
 // no logo, no card, links as text links, a signature.
 // ---------------------------------------------------------------------------------------
 
-export type CampaignBlockType = 'heading' | 'text' | 'button' | 'article' | 'bullets' | 'image' | 'divider' | 'quote' | 'event' | 'ps'
-export type CampaignBlock = { type: CampaignBlockType; text?: string; url?: string; title?: string; label?: string; alt?: string; href?: string }
+export type CampaignBlockType =
+  | 'heading' | 'text' | 'button' | 'article' | 'bullets' | 'image' | 'divider' | 'quote' | 'event' | 'ps'
+  // 0113 (X-092): the designed blocks
+  | 'hero' | 'features' | 'steps' | 'stats' | 'cta'
+export type CampaignBlock = {
+  type: CampaignBlockType
+  text?: string
+  url?: string
+  title?: string
+  label?: string
+  alt?: string
+  href?: string
+  /** a picture above a hero or an article (0113) */
+  image?: string
+}
 
 export interface CrmJob {
   id: string
@@ -715,13 +728,54 @@ export function personalise(s: string, v: { company: string; firstName: string }
   return s.replace(/\{firma\}/g, v.company).replace(/\{navn\}/g, v.firstName)
 }
 
-const INK = '#191510'
-const MUTED = '#5F5849'
-const para = 'margin:0 0 14px;font-size:15px;line-height:1.6;color:#191510;white-space:pre-line'
+// ---------------------------------------------------------------------------------------
+// The branded layout (0113, X-092). What mail programs actually draw decides every choice:
+//   - tables for layout, widths as attributes and bgcolor beside background: Outlook on
+//     Windows renders with Word and ignores most CSS; an <!--[if mso]> table pins it to 600;
+//   - live text for the name and every heading, never text in an image: a third of readers
+//     have images off, and an image-only mail is what spam filters score highest;
+//   - one embedded <style> for what inline styles cannot say: stacking columns under 620 px
+//     (Gmail and Apple Mail read it) and a dark palette (Apple Mail, Outlook.com);
+//   - one primary button per block, 44 px or taller, as a table around a link.
+// Colours are the site's own tokens (tailwind.config.ts): cream canvas, card surface, ink,
+// the yellow CTA, the soft-yellow panel, the green link.
+// ---------------------------------------------------------------------------------------
 
-function button(label: string, href: string): string {
-  return `<table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:20px 0"><tr><td bgcolor="#F5C64A" style="border-radius:12px;border:1px solid ${INK}"><a href="${escapeHtml(href)}" style="display:inline-block;padding:13px 22px;font-size:15px;font-weight:700;line-height:1.3;color:${INK};text-decoration:none;border-radius:12px">${escapeHtml(label)}</a></td></tr></table>`
+const INK = '#191510'
+const BODY = '#3A342A'
+const MUTED = '#5F5849'
+const LINE = '#E8DFC9'
+const CANVAS = '#FCF6E9'
+const CARD = '#FFFDF6'
+const SOFT = '#FBEBBE'
+const YELLOW = '#F5C64A'
+const GREEN = '#2F5D2A'
+const SERIF = "Georgia,'Times New Roman',serif"
+const SANS = "'DM Sans',Arial,Helvetica,sans-serif"
+const para = `margin:0 0 14px;font-size:15px;line-height:1.6;color:${INK};white-space:pre-line`
+
+/** The Orgpuls mark as a PNG (mail programs do not draw SVG), served from the site. */
+export const MAIL_MARK = '/mail/mark.png'
+
+/** "Title | text" lines, as features, steps and stats are written; at most `max`. */
+export function pairs(s: string, max = 6): Array<{ a: string; b: string }> {
+  return s
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .slice(0, max)
+    .map((l) => {
+      const i = l.indexOf('|')
+      return i < 0 ? { a: l, b: '' } : { a: l.slice(0, i).trim(), b: l.slice(i + 1).trim() }
+    })
 }
+
+function button(label: string, href: string, onDark = false): string {
+  return `<table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:22px 0 4px"><tr><td bgcolor="${YELLOW}" style="border-radius:12px;border:1px solid ${onDark ? YELLOW : INK};mso-padding-alt:14px 24px"><a href="${escapeHtml(href)}" style="display:inline-block;padding:14px 24px;font-family:${SANS};font-size:16px;font-weight:700;line-height:1.25;color:${INK};text-decoration:none;border-radius:12px">${escapeHtml(label)}&nbsp;&rarr;</a></td></tr></table>`
+}
+
+/** A block's own row in the card: padded, or full-bleed for a hero image and a band. */
+const row = (inner: string, pad = '0 36px', cls = 'px') => `<tr><td class="${cls}" style="padding:${pad}">${inner}</td></tr>`
 
 export function renderCampaign(cat: MailCatalogue, job: CrmJob, siteUrl: string): Rendered {
   const lang = langOf(job.lang)
@@ -734,79 +788,195 @@ export function renderCampaign(cat: MailCatalogue, job: CrmJob, siteUrl: string)
     firstName: job.name?.trim().split(/\s+/)[0] ?? '',
   }
   const fillIn = (s: string) => personalise(s, vars)
+  const site = siteUrl.replace(/\/+$/, '')
   const unsub = unsubscribeUrl(siteUrl, job.token)
   const subjectText = fillIn(c.subject)
   const subject = job.kind === 'test' ? `${pick(m, 'crm.test')} ${subjectText}` : subjectText
   const tag = (i: number, t: string) => `b${i + 1}-${t}`
   const link = (url: string, i: number, t: string) => withUtm(url, c.utm_campaign, tag(i, t))
+  const readMore = lang === 'en' ? 'Read more' : 'Les mer'
+  const signUp = lang === 'en' ? 'Sign up' : 'Meld deg på'
 
   const text: string[] = []
   const html: string[] = []
+  const plainLink = (label: string, href: string) =>
+    `<p style="${para}"><a href="${escapeHtml(href)}" style="color:${GREEN};font-weight:700">${escapeHtml(label)}</a></p>`
+
   c.blocks.forEach((b, i) => {
     const body = fillIn(b.text ?? '')
     const title = fillIn(b.title ?? '')
+    const label = fillIn(b.label ?? '')
     switch (b.type) {
+      case 'hero': {
+        const href = b.url ? link(b.url, i, 'hero') : null
+        const cta = label.trim() || readMore
+        text.push([title.toUpperCase(), body, href ? `${cta}: ${href}` : ''].filter(Boolean).join('\n\n'))
+        if (letter) {
+          html.push(`<p style="${para};font-weight:700">${escapeHtml(title)}</p>`, ...(body ? [`<p style="${para}">${escapeHtml(body)}</p>`] : []), ...(href ? [plainLink(cta, href)] : []))
+          break
+        }
+        const img = b.image
+          ? row(`<img src="${escapeHtml(b.image)}" alt="${escapeHtml(b.alt ?? '')}" width="600" style="display:block;width:100%;max-width:600px;height:auto;border:0;border-radius:19px 19px 0 0">`, '0', 'bleed')
+          : ''
+        html.push(`${img}<tr><td class="px soft" bgcolor="${SOFT}" style="background:${SOFT};padding:34px 36px 30px;${b.image ? '' : 'border-radius:19px 19px 0 0'}">
+<h1 class="ink" style="margin:0 0 12px;font-family:${SERIF};font-size:30px;font-weight:600;line-height:1.2;color:${INK}">${escapeHtml(title)}</h1>${body ? `<p class="ink" style="margin:0;font-size:17px;line-height:1.6;color:${INK};white-space:pre-line">${escapeHtml(body)}</p>` : ''}${href ? button(cta, href) : ''}</td></tr>
+<tr><td style="height:30px;line-height:30px;font-size:0">&nbsp;</td></tr>`)
+        break
+      }
       case 'heading':
         text.push(body.toUpperCase())
-        html.push(`<h2 style="margin:6px 0 12px;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:600;line-height:1.3;color:${INK}">${escapeHtml(body)}</h2>`)
+        html.push(letter ? `<p style="${para};font-weight:700">${escapeHtml(body)}</p>` : row(`<h2 class="ink" style="margin:6px 0 12px;font-family:${SERIF};font-size:24px;font-weight:600;line-height:1.3;color:${INK}">${escapeHtml(body)}</h2>`))
         break
       case 'text':
         for (const p of body.split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean)) {
           text.push(p)
-          html.push(`<p style="${para}">${escapeHtml(p)}</p>`)
+          html.push(letter ? `<p style="${para}">${escapeHtml(p)}</p>` : row(`<p class="body" style="margin:0 0 16px;font-size:16px;line-height:1.65;color:${BODY};white-space:pre-line">${escapeHtml(p)}</p>`))
         }
         break
       case 'button': {
         if (!b.url) break
         const href = link(b.url, i, 'button')
         text.push(`${body}: ${href}`)
-        html.push(letter ? `<p style="${para}"><a href="${escapeHtml(href)}" style="color:#2F5D2A;font-weight:700">${escapeHtml(body)}</a></p>` : button(body, href))
+        html.push(letter ? plainLink(body, href) : row(`${button(body, href)}<div style="height:14px;line-height:14px;font-size:0">&nbsp;</div>`))
         break
       }
       case 'article': {
         if (!b.url) break
         const href = link(b.url, i, 'article')
-        const more = b.label?.trim() || (lang === 'en' ? 'Read more' : 'Les mer')
+        const more = label.trim() || readMore
         text.push([title, body, `${more}: ${href}`].filter(Boolean).join('\n'))
-        html.push(`<div style="margin:0 0 18px"><h3 style="margin:0 0 6px;font-size:17px;font-weight:700;line-height:1.35"><a href="${escapeHtml(href)}" style="color:${INK};text-decoration:none">${escapeHtml(title)}</a></h3>${body ? `<p style="margin:0 0 6px;font-size:14.5px;line-height:1.6;color:${INK}">${escapeHtml(body)}</p>` : ''}<a href="${escapeHtml(href)}" style="font-size:14.5px;font-weight:700;color:#2F5D2A">${escapeHtml(more)} →</a></div>`)
+        if (letter) {
+          html.push(`<p style="${para}"><strong>${escapeHtml(title)}</strong>${body ? `<br>${escapeHtml(body)}` : ''}<br><a href="${escapeHtml(href)}" style="color:${GREEN}">${escapeHtml(more)}</a></p>`)
+          break
+        }
+        const img = b.image
+          ? `<a href="${escapeHtml(href)}"><img src="${escapeHtml(b.image)}" alt="${escapeHtml(b.alt ?? '')}" width="526" style="display:block;width:100%;max-width:526px;height:auto;border:0;border-radius:12px;margin:0 0 14px"></a>`
+          : ''
+        html.push(row(`<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 18px"><tr><td class="tile" bgcolor="${CANVAS}" style="background:${CANVAS};border:1px solid ${LINE};border-radius:14px;padding:20px 22px">${img}<h3 style="margin:0 0 6px;font-size:18px;font-weight:700;line-height:1.35"><a href="${escapeHtml(href)}" class="ink" style="color:${INK};text-decoration:none">${escapeHtml(title)}</a></h3>${body ? `<p class="body" style="margin:0 0 10px;font-size:15px;line-height:1.6;color:${BODY}">${escapeHtml(body)}</p>` : ''}<a href="${escapeHtml(href)}" class="link" style="font-size:15px;font-weight:700;color:${GREEN}">${escapeHtml(more)}&nbsp;&rarr;</a></td></tr></table>`))
         break
       }
       case 'bullets': {
         const items = body.split('\n').map((s) => s.trim()).filter(Boolean)
         text.push(items.map((s) => `– ${s}`).join('\n'))
-        html.push(`<table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 16px">${items
-          .map((s) => `<tr><td valign="top" style="padding:0 10px 8px 0;font-size:15px;line-height:1.5;color:#2F5D2A;font-weight:700">✓</td><td style="padding:0 0 8px;font-size:15px;line-height:1.5;color:${INK}">${escapeHtml(s)}</td></tr>`)
-          .join('')}</table>`)
+        html.push(
+          (letter ? (x: string) => x : row)(
+            `<table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 16px">${items
+              .map(
+                (s) =>
+                  `<tr><td valign="top" style="padding:1px 12px 10px 0">${letter ? `<span style="color:${GREEN};font-weight:700">✓</span>` : `<span style="display:inline-block;width:22px;height:22px;line-height:22px;border-radius:11px;background:${SOFT};color:${INK};font-size:13px;font-weight:700;text-align:center">✓</span>`}</td><td class="ink" style="padding:0 0 10px;font-size:16px;line-height:1.55;color:${INK}">${escapeHtml(s)}</td></tr>`,
+              )
+              .join('')}</table>`,
+          ),
+        )
+        break
+      }
+      case 'features':
+      case 'steps': {
+        const items = pairs(body, b.type === 'steps' ? 5 : 4)
+        text.push([...(title ? [title.toUpperCase()] : []), ...items.map((x, j) => `${b.type === 'steps' ? `${j + 1}.` : '–'} ${x.a}${x.b ? `: ${x.b}` : ''}`)].join('\n'))
+        if (letter) {
+          html.push(`<p style="${para}">${title ? `<strong>${escapeHtml(title)}</strong><br>` : ''}${items.map((x, j) => `${b.type === 'steps' ? `${j + 1}. ` : '– '}<strong>${escapeHtml(x.a)}</strong>${x.b ? ` ${escapeHtml(x.b)}` : ''}`).join('<br>')}</p>`)
+          break
+        }
+        const head = title ? `<h2 class="ink" style="margin:6px 0 16px;font-family:${SERIF};font-size:22px;font-weight:600;line-height:1.3;color:${INK}">${escapeHtml(title)}</h2>` : ''
+        const cell = (x: { a: string; b: string }, j: number) =>
+          `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td valign="top" width="40" style="padding:0 12px 0 0"><span style="display:inline-block;width:32px;height:32px;line-height:32px;border-radius:16px;background:${b.type === 'steps' ? YELLOW : SOFT};color:${INK};font-family:${SERIF};font-size:16px;font-weight:700;text-align:center">${b.type === 'steps' ? j + 1 : '✓'}</span></td><td valign="top"><p class="ink" style="margin:4px 0 4px;font-size:16px;font-weight:700;line-height:1.35;color:${INK}">${escapeHtml(x.a)}</p>${x.b ? `<p class="mut" style="margin:0;font-size:14.5px;line-height:1.55;color:${MUTED}">${escapeHtml(x.b)}</p>` : ''}</td></tr></table>`
+        if (b.type === 'steps' || items.length < 2) {
+          html.push(row(`${head}${items.map((x, j) => `<div style="margin:0 0 16px">${cell(x, j)}</div>`).join('')}`))
+          break
+        }
+        // two columns that stack under 620 px
+        const rows: string[] = []
+        for (let j = 0; j < items.length; j += 2) {
+          const two = items.slice(j, j + 2)
+          rows.push(`<tr>${two.map((x, k) => `<td class="col" valign="top" width="50%" style="padding:0 ${k === 0 ? '12px' : '0'} 18px ${k === 1 ? '12px' : '0'}">${cell(x, j + k)}</td>`).join('')}${two.length === 1 ? '<td class="col" width="50%">&nbsp;</td>' : ''}</tr>`)
+        }
+        html.push(row(`${head}<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">${rows.join('')}</table>`))
+        break
+      }
+      case 'stats': {
+        const items = pairs(body, 3)
+        text.push([...(title ? [title.toUpperCase()] : []), ...items.map((x) => `${x.a} – ${x.b}`)].join('\n'))
+        if (letter) {
+          html.push(`<p style="${para}">${title ? `<strong>${escapeHtml(title)}</strong><br>` : ''}${items.map((x) => `<strong>${escapeHtml(x.a)}</strong> ${escapeHtml(x.b)}`).join('<br>')}</p>`)
+          break
+        }
+        const head = title ? `<h2 class="ink" style="margin:6px 0 14px;font-family:${SERIF};font-size:22px;font-weight:600;line-height:1.3;color:${INK}">${escapeHtml(title)}</h2>` : ''
+        const w = Math.floor(100 / Math.max(1, items.length))
+        html.push(
+          row(
+            `${head}<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 18px"><tr>${items
+              .map(
+                (x, k) =>
+                  `<td class="col" valign="top" width="${w}%" style="padding:0 ${k < items.length - 1 ? '6px' : '0'} 10px ${k > 0 ? '6px' : '0'}"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td class="tile" bgcolor="${CANVAS}" style="background:${CANVAS};border:1px solid ${LINE};border-radius:14px;padding:18px 16px;text-align:center"><p class="ink" style="margin:0 0 4px;font-family:${SERIF};font-size:34px;font-weight:600;line-height:1.1;color:${INK}">${escapeHtml(x.a)}</p><p class="mut" style="margin:0;font-size:13.5px;line-height:1.45;color:${MUTED}">${escapeHtml(x.b)}</p></td></tr></table></td>`,
+              )
+              .join('')}</tr></table>`,
+          ),
+        )
         break
       }
       case 'image': {
         if (!b.url) break
-        const img = `<img src="${escapeHtml(b.url)}" alt="${escapeHtml(b.alt ?? '')}" width="512" style="display:block;width:100%;max-width:512px;height:auto;border:0;border-radius:12px">`
+        const img = `<img src="${escapeHtml(b.url)}" alt="${escapeHtml(b.alt ?? '')}" width="526" style="display:block;width:100%;max-width:526px;height:auto;border:0;border-radius:14px">`
         text.push(`[${b.alt ?? ''}]`)
-        html.push(`<div style="margin:0 0 16px">${b.href ? `<a href="${escapeHtml(link(b.href, i, 'image'))}">${img}</a>` : img}</div>`)
+        const inner = `<div style="margin:0 0 18px">${b.href ? `<a href="${escapeHtml(link(b.href, i, 'image'))}">${img}</a>` : img}</div>`
+        html.push(letter ? inner : row(inner))
         break
       }
       case 'divider':
         text.push('—')
-        html.push(`<hr style="border:0;border-top:1px solid #E8DFC9;margin:20px 0">`)
+        html.push(letter ? `<hr style="border:0;border-top:1px solid ${LINE};margin:20px 0">` : row(`<div class="rule" style="border-top:1px solid ${LINE};margin:8px 0 24px;font-size:0;line-height:0">&nbsp;</div>`))
         break
       case 'quote':
         text.push(`«${body}»${title ? ` — ${title}` : ''}`)
-        html.push(`<blockquote style="margin:0 0 16px;padding:4px 0 4px 16px;border-left:3px solid #F5C64A"><p style="margin:0;font-size:16px;line-height:1.55;font-style:italic;color:${INK}">«${escapeHtml(body)}»</p>${title ? `<p style="margin:6px 0 0;font-size:13px;color:${MUTED}">${escapeHtml(title)}</p>` : ''}</blockquote>`)
+        html.push(
+          letter
+            ? `<blockquote style="margin:0 0 16px;padding:2px 0 2px 14px;border-left:3px solid ${LINE}"><p style="margin:0;font-size:15px;line-height:1.6;font-style:italic;color:${INK}">«${escapeHtml(body)}»</p>${title ? `<p style="margin:6px 0 0;font-size:13px;color:${MUTED}">${escapeHtml(title)}</p>` : ''}</blockquote>`
+            : row(
+                `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:4px 0 20px"><tr><td class="tile" bgcolor="${CANVAS}" style="background:${CANVAS};border-radius:16px;padding:24px 26px"><p style="margin:0 0 2px;font-family:${SERIF};font-size:44px;line-height:0.9;color:${YELLOW}" aria-hidden="true">&ldquo;</p><p class="ink" style="margin:0;font-family:${SERIF};font-size:19px;line-height:1.5;font-style:italic;color:${INK}">${escapeHtml(body)}</p>${title ? `<p class="mut" style="margin:12px 0 0;font-size:13.5px;font-weight:700;color:${MUTED}">${escapeHtml(title)}</p>` : ''}</td></tr></table>`,
+              ),
+        )
         break
       case 'event': {
         const href = b.url ? link(b.url, i, 'event') : null
-        const label = b.label?.trim() || (lang === 'en' ? 'Sign up' : 'Meld deg på')
+        const cta = label.trim() || signUp
         const lines = body.split('\n').map((s) => s.trim()).filter(Boolean)
-        text.push([title, ...lines, href ? `${label}: ${href}` : ''].filter(Boolean).join('\n'))
-        html.push(`<div style="margin:0 0 18px;padding:18px 18px 4px;border:1px solid #E8DFC9;border-radius:14px;background:#FCF6E9"><p style="margin:0 0 8px;font-size:17px;font-weight:700;line-height:1.35;color:${INK}">${escapeHtml(title)}</p>${lines
-          .map((l) => `<p style="margin:0 0 4px;font-size:14.5px;line-height:1.5;color:${INK}">${escapeHtml(l)}</p>`)
-          .join('')}${href ? (letter ? `<p style="${para}"><a href="${escapeHtml(href)}">${escapeHtml(label)}</a></p>` : button(label, href)) : '<div style="height:14px"></div>'}</div>`)
+        text.push([title, ...lines, href ? `${cta}: ${href}` : ''].filter(Boolean).join('\n'))
+        if (letter) {
+          html.push(`<p style="${para}"><strong>${escapeHtml(title)}</strong>${lines.map((l) => `<br>${escapeHtml(l)}`).join('')}</p>`, ...(href ? [plainLink(cta, href)] : []))
+          break
+        }
+        html.push(
+          row(
+            `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 20px"><tr><td class="tile" bgcolor="${CANVAS}" style="background:${CANVAS};border:1px solid ${LINE};border-left:4px solid ${YELLOW};border-radius:14px;padding:22px 24px"><p class="mut" style="margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:${MUTED}">${escapeHtml(pick(m, 'crm.event'))}</p><p class="ink" style="margin:0 0 10px;font-family:${SERIF};font-size:21px;font-weight:600;line-height:1.3;color:${INK}">${escapeHtml(title)}</p>${lines
+              .map((l) => `<p class="body" style="margin:0 0 4px;font-size:15px;line-height:1.55;color:${BODY}">${escapeHtml(l)}</p>`)
+              .join('')}${href ? button(cta, href) : ''}</td></tr></table>`,
+          ),
+        )
+        break
+      }
+      case 'cta': {
+        const href = b.url ? link(b.url, i, 'cta') : null
+        const cta = label.trim() || readMore
+        text.push([title, body, href ? `${cta}: ${href}` : ''].filter(Boolean).join('\n'))
+        if (letter) {
+          html.push(...(title ? [`<p style="${para};font-weight:700">${escapeHtml(title)}</p>`] : []), ...(body ? [`<p style="${para}">${escapeHtml(body)}</p>`] : []), ...(href ? [plainLink(cta, href)] : []))
+          break
+        }
+        html.push(
+          row(
+            `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:6px 0 22px"><tr><td bgcolor="${INK}" style="background:${INK};border-radius:16px;padding:28px 28px 26px"><p style="margin:0 0 8px;font-family:${SERIF};font-size:23px;font-weight:600;line-height:1.3;color:${CANVAS}">${escapeHtml(title)}</p>${body ? `<p style="margin:0;font-size:15.5px;line-height:1.6;color:${LINE};white-space:pre-line">${escapeHtml(body)}</p>` : ''}${href ? button(cta, href, true) : ''}</td></tr></table>`,
+          ),
+        )
         break
       }
       case 'ps':
         text.push(`${pick(m, 'crm.ps')} ${body}`)
-        html.push(`<p style="margin:18px 0 0;font-size:14px;line-height:1.6;color:${MUTED}"><strong>${escapeHtml(pick(m, 'crm.ps'))}</strong> ${escapeHtml(body)}</p>`)
+        html.push(
+          (letter ? (x: string) => x : row)(
+            `<p class="mut" style="margin:18px 0 0;font-size:14.5px;line-height:1.6;color:${MUTED}"><strong>${escapeHtml(pick(m, 'crm.ps'))}</strong> ${escapeHtml(body)}</p>`,
+          ),
+        )
         break
     }
   })
@@ -822,32 +992,63 @@ export function renderCampaign(cat: MailCatalogue, job: CrmJob, siteUrl: string)
   const signature = (c.signature ?? '').trim()
 
   const textOut = [...text, ...(signature ? [signature] : []), '—', why, `${prefs}: ${unsub}`, sender].join('\n\n')
-  // the preheader is the line mail programs show after the subject; hidden in the body
+  // the preheader is the line mail programs show after the subject; hidden in the body, then
+  // padded with zero-width joiners so the body's first words do not follow it into the inbox
   const pre = c.preheader
-    ? `<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent">${escapeHtml(fillIn(c.preheader))}${'&#8199;&#847;'.repeat(40)}</div>`
+    ? `<div style="display:none;max-height:0;max-width:0;overflow:hidden;mso-hide:all;font-size:1px;line-height:1px;opacity:0;color:transparent">${escapeHtml(fillIn(c.preheader))}${'&#8199;&#847;'.repeat(60)}</div>`
     : ''
-  const top = web
-    ? `<p style="margin:0 0 10px;text-align:right;font-size:12px"><a href="${escapeHtml(web)}" style="color:${MUTED}">${escapeHtml(pick(m, 'crm.viewInBrowser'))}</a></p>`
-    : ''
-  const sig = signature ? `<p style="${para};margin-top:18px">${escapeHtml(signature)}</p>` : ''
-  const footer = `<p style="margin:16px 4px 0;font-size:12px;line-height:1.55;color:${MUTED}">${escapeHtml(why)} <a href="${escapeHtml(unsub)}" style="color:${MUTED}">${escapeHtml(prefs)}</a>.</p>
-<p style="margin:6px 4px 0;font-size:12px;line-height:1.55;color:${MUTED}">${escapeHtml(sender)}</p>`
+  const htmlLang = lang === 'en' ? 'en' : 'nb'
+  const head = (dark: boolean, css: string) => `<!doctype html>
+<html lang="${htmlLang}" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="x-apple-disable-message-reformatting"><meta name="format-detection" content="telephone=no,address=no,email=no,date=no"><meta name="color-scheme" content="${dark ? 'light dark' : 'light'}"><meta name="supported-color-schemes" content="${dark ? 'light dark' : 'light'}"><title>${escapeHtml(subject)}</title>
+<!--[if mso]><noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript><![endif]-->
+<style>${css}</style></head>`
 
-  const body = letter
-    ? `<div style="max-width:600px;margin:0 auto;padding:24px 20px;background:#FFFFFF">${top}${html.join('\n')}${sig}<hr style="border:0;border-top:1px solid #E8DFC9;margin:24px 0 8px">${footer}</div>`
-    : `<div style="max-width:600px;margin:0 auto;padding:24px 16px">${top}
-<div style="font-family:Georgia,'Times New Roman',serif;font-size:20px;font-weight:600;color:${INK};margin:0 0 16px">Orgpuls</div>
-<div style="background:#FFFDF6;border:1px solid #E8DFC9;border-radius:20px;padding:26px 24px">
-${html.join('\n')}${sig}
-</div>
-${footer}
-</div>`
-
-  const htmlOut = `<!doctype html>
-<html lang="${lang === 'en' ? 'en' : 'nb'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light"><title>${escapeHtml(subject)}</title></head>
-<body style="margin:0;padding:0;background:${letter ? '#FFFFFF' : '#FCF6E9'};font-family:'DM Sans',Arial,Helvetica,sans-serif;-webkit-text-size-adjust:100%">
+  if (letter) {
+    // the plain personal mail (0093): no logo, no card, links as text links, a signature
+    const sig = signature ? `<p style="${para};margin-top:18px">${escapeHtml(signature)}</p>` : ''
+    const top = web ? `<p style="margin:0 0 10px;text-align:right;font-size:12px"><a href="${escapeHtml(web)}" style="color:${MUTED}">${escapeHtml(pick(m, 'crm.viewInBrowser'))}</a></p>` : ''
+    const footer = `<p style="margin:16px 0 0;font-size:12px;line-height:1.55;color:${MUTED}">${escapeHtml(why)} <a href="${escapeHtml(unsub)}" style="color:${MUTED}">${escapeHtml(prefs)}</a>.</p>
+<p style="margin:6px 0 0;font-size:12px;line-height:1.55;color:${MUTED}">${escapeHtml(sender)}</p>`
+    const htmlOut = `${head(false, 'a{color:#2F5D2A}')}
+<body style="margin:0;padding:0;background:#FFFFFF;font-family:${SANS};-webkit-text-size-adjust:100%">
 ${pre}
-${body}
+<div style="max-width:600px;margin:0 auto;padding:24px 20px;background:#FFFFFF">${top}${html.join('\n')}${sig}<hr style="border:0;border-top:1px solid ${LINE};margin:24px 0 8px">${footer}</div>
+</body></html>`
+    return { subject, text: textOut, html: htmlOut }
+  }
+
+  const css = [
+    'body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}',
+    'table,td{mso-table-lspace:0;mso-table-rspace:0}',
+    'img{-ms-interpolation-mode:bicubic;border:0;outline:none;text-decoration:none}',
+    'a[x-apple-data-detectors]{color:inherit!important;text-decoration:none!important}',
+    '@media only screen and (max-width:620px){.px{padding-left:22px!important;padding-right:22px!important}.col{display:block!important;width:100%!important;padding-left:0!important;padding-right:0!important}.outer{padding:12px 8px!important}h1{font-size:26px!important}}',
+    `@media (prefers-color-scheme:dark){.bg{background:#15120D!important}.card{background:#211D16!important;border-color:#3A342A!important}.soft{background:#3A301A!important}.tile{background:#2A251C!important;border-color:#3A342A!important}.ink{color:#F3EDE0!important}.body{color:#E3DBCB!important}.mut{color:#C4BCA8!important}.link{color:#9FD19A!important}.rule{border-color:#3A342A!important}}`,
+    `[data-ogsc] .ink{color:#F3EDE0!important}[data-ogsc] .body{color:#E3DBCB!important}[data-ogsc] .mut{color:#C4BCA8!important}`,
+  ].join('\n')
+  const sig = signature ? row(`<p class="body" style="margin:10px 0 0;font-size:15.5px;line-height:1.6;color:${BODY};white-space:pre-line">${escapeHtml(signature)}</p>`) : ''
+  const htmlOut = `${head(true, css)}
+<body class="bg" style="margin:0;padding:0;background:${CANVAS};font-family:${SANS};word-spacing:normal">
+${pre}
+<table role="presentation" class="bg" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="${CANVAS}" style="background:${CANVAS}"><tr><td class="outer" align="center" style="padding:28px 12px">
+<!--[if mso]><table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0"><tr><td><![endif]-->
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:600px;margin:0 auto">
+<tr><td style="padding:0 6px 16px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"><tr>
+<td valign="middle"><a href="${escapeHtml(withUtm(`${site}/`, c.utm_campaign, 'logo'))}" style="text-decoration:none"><img src="${escapeHtml(site + MAIL_MARK)}" width="32" height="32" alt="" style="display:inline-block;vertical-align:middle;width:32px;height:32px;border:0">&nbsp;<span class="ink" style="vertical-align:middle;font-family:${SERIF};font-size:21px;font-weight:600;color:${INK}">Orgpuls</span></a></td>
+${web ? `<td valign="middle" align="right" style="font-size:12px"><a href="${escapeHtml(web)}" class="mut" style="color:${MUTED}">${escapeHtml(pick(m, 'crm.viewInBrowser'))}</a></td>` : ''}
+</tr></table></td></tr>
+<tr><td class="card" bgcolor="${CARD}" style="background:${CARD};border:1px solid ${LINE};border-radius:20px">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+${c.blocks[0]?.type === 'hero' ? '' : '<tr><td style="height:34px;line-height:34px;font-size:0">&nbsp;</td></tr>'}
+${html.join('\n')}
+${sig}
+<tr><td style="height:24px;line-height:24px;font-size:0">&nbsp;</td></tr>
+</table></td></tr>
+<tr><td style="padding:20px 8px 0"><p class="mut" style="margin:0 0 8px;font-size:12.5px;line-height:1.6;color:${MUTED}">${escapeHtml(why)} <a href="${escapeHtml(unsub)}" class="mut" style="color:${MUTED};text-decoration:underline">${escapeHtml(prefs)}</a>.</p>
+<p class="mut" style="margin:0;font-size:12.5px;line-height:1.6;color:${MUTED}">${escapeHtml(sender)}</p></td></tr>
+</table>
+<!--[if mso]></td></tr></table><![endif]-->
+</td></tr></table>
 </body></html>`
   return { subject, text: textOut, html: htmlOut }
 }

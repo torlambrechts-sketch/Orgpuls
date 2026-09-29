@@ -67,13 +67,14 @@ export async function archive(): Promise<ArchiveRow[]> {
 }
 
 const WebBlock = z.object({
-  type: z.enum(['heading', 'text', 'button', 'article', 'bullets', 'image', 'divider', 'quote', 'event', 'ps']),
+  type: z.enum(['heading', 'text', 'button', 'article', 'bullets', 'image', 'divider', 'quote', 'event', 'ps', 'hero', 'features', 'steps', 'stats', 'cta']),
   text: z.string().optional(),
   url: z.string().optional(),
   title: z.string().optional(),
   label: z.string().optional(),
   alt: z.string().optional(),
   href: z.string().optional(),
+  image: z.string().optional(),
 })
 export type WebBlock = z.infer<typeof WebBlock>
 

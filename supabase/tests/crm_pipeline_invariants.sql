@@ -3,7 +3,7 @@
 --   * the new tables have RLS on, no policy and no client privilege (1)
 --   * the public side and the admin side are callable by whom they should be (2)
 --   * still: nothing touches the employee, invitation or answer tables (3)
---   * the six templates are valid content (4)
+--   * the ten templates (six from 0056, redrawn, and four from 0113) are valid content (4)
 --   * only a company's role address may be mailed without consent; an enkeltpersonforetak's
 --     never; a known org.nr is not imported twice (5, 6)
 --   * a prospect that signs up is linked, and its stage then follows its plan (7)
@@ -80,8 +80,8 @@ begin
 
   -- 4 ------------------------------------------------------------------ templates
   select count(*), bool_and(app.crm_blocks_ok(t.blocks)) into v_cnt, v_ok from app.crm_templates t;
-  v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'six templates, every one valid content', 'expected', '6 valid',
-    'actual', v_cnt || case when v_ok then ' valid' else ' invalid' end, 'pass', v_cnt = 6 and v_ok);
+  v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'ten templates, every one valid content', 'expected', '10 valid',
+    'actual', v_cnt || case when v_ok then ' valid' else ' invalid' end, 'pass', v_cnt = 10 and v_ok);
 
   -- 5 ------------------------------------------------------------------ role addresses
   v_txt := concat_ws(',', app.crm_role_address('post@firma.example'), app.crm_role_address('Firmapost@firma.example'),
@@ -170,6 +170,10 @@ begin
     v_json := public.admin_crm_campaign_save(null, jsonb_build_object('name', 'Probe produktnytt', 'template_key', 'produktnytt',
       'list_id', v_list, 'subject_b', 'Nytt: tiltak som følger opp seg selv', 'ab_percent', 20, 'ab_metric', 'open', 'ab_wait_hours', 1));
     v_camp := (v_json->>'id')::uuid;
+    -- the template's quote is a [placeholder] since 0113, and a campaign with one is not scheduled:
+    -- the author fills it in, as here
+    update app.crm_campaigns set blocks = jsonb_set(jsonb_set(blocks, '{2,text}', '"Nå slipper vi å purre før AMU-møtet."'), '{2,title}', '"Probe, daglig leder"')
+    where id = v_camp;
     perform public.admin_crm_campaign_schedule(v_camp, now());
     perform set_config('request.jwt.claims', '', true);
     v_jobs := public.crm_mail_claim(50);

@@ -2630,6 +2630,40 @@ admin platform … contractable menu with icons».
   target.
 - What the design shows but the product cannot back yet is omitted, not faked (D-159).
 
+### X-092 — Campaign mail designed for the inbox, and an inbox check that can say no
+
+Tor, 2026-09-29: «campaings needs to be more visual; email templates ready designed in HTML with a clear
+content and appealing - must use best practise in order to get highes delivery amount and not
+classified as SPAM.»
+
+- **One renderer, redrawn for mail programs** (supabase/functions/_shared/mail.ts): tables with widths
+  as attributes and an `<!--[if mso]>` frame for Outlook; live text for the name and every heading
+  (a third of readers have pictures off, and image-only mail is what filters catch first); columns
+  that stack under 620 px; a dark palette for Apple Mail and Outlook.com; the preheader padded so the
+  body does not leak into the inbox line. The PNG mark is served from `public/mail` (mail programs do
+  not draw SVG). The plain letter stays a letter: first contact lands in the primary inbox when it
+  looks like a person wrote it, so the designed blocks degrade to text there.
+- **Five designed blocks** (0113): an opening panel, features in two columns, numbered steps, up to
+  three figures, and a dark closing band; a hero or an article may carry a picture, which must say
+  what it shows. The web archive draws them too.
+- **Ten templates, grouped** (newsletters, product news, events, sales, customers), including the
+  lovkrav mail for daglige ledere, a seven-day follow-up letter and a re-engagement mail that keeps
+  the list clean. Where a template needs a fact only the author has — a date, a figure, a customer's
+  own words — it says so in [brackets], and the database will not schedule a campaign with a bracket
+  left (a test to oneself still goes). The invented quote and date in two 0056 templates became
+  placeholders.
+- **The inbox check** (lib/crm/deliverability.ts, lib/admin/mailDomain.ts): subject length and
+  shouting, a deceptive «Re:», filter-sensitive words, preheader, placeholders, text against pictures,
+  link shorteners, foreign domains, link count and vague link text, one main action, a plain letter's
+  plainness, size against Gmail's 102 KB clip, a postal address in the footer — and the sending
+  domain's DKIM, DMARC and SPF looked up in public DNS. Red blocks scheduling on the server, whatever
+  the page showed. It lists what every mail already does (one-click unsubscribe, a plain-text part,
+  suppression and the 12-month sunset) so the author sees the whole picture.
+- **The studio**: the draft on the left; on the right the mail as it will arrive, live, on a desktop,
+  a phone and as a line in an inbox, and the check under it. The campaign list is cards with a
+  funnel (sent → delivered → opened → clicked), grouped by status.
+- The admin's CSP allows `https:` images (only the admin), so a preview shows the author's pictures.
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.
@@ -2890,3 +2924,5 @@ admin platform … contractable menu with icons».
 - [x] Fold-back (X-090): the workflow reads the approved texts from www.orgpuls.com/api/i18n/overrides and needs no key in GitHub (a run on 2026-09-29 showed the repository's Actions hold no anon key under any of the names the workflow reads; CI builds with a placeholder). Its pull requests are opened with the workflow token, which starts no other workflow: CI runs in full on merge.
 - [ ] CRM (X-091): the privacy statement should say that the names of general managers are read from Enhetsregisteret for B2B outreach to the company's address (GDPR art. 14). It is a legal text: change it in the site copy and approve it in admin › Legal review.
 - [ ] CRM (X-091, D-159): deal value (plan, seats, MRR) on a company, so the board can show pipeline value and win rate honestly; LinkedIn/call steps in a sequence.
+- [ ] Campaign mail (X-092): put the company's postal address (and org.nr.) in the text `mail.crm.sender` under admin › Translations, for bokmål and English: every campaign footer shows it, and the inbox check asks for it. It is not in the repository, so nothing was invented.
+- [ ] Sending domain (X-092): the inbox check reads today, from public DNS, that nyheter.orgpuls.com has Brevo's DKIM, is covered by `_dmarc.orgpuls.com` with `p=none`, and has no SPF record. At the DNS host (Spaceship): add `v=spf1 include:spf.brevo.com ~all` as a TXT on nyheter.orgpuls.com, and after two to four weeks of clean DMARC reports (rua goes to Brevo) move `_dmarc.orgpuls.com` to `p=quarantine`.

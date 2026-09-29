@@ -19,7 +19,11 @@ export const StageKey = z.string().regex(/^[a-z][a-z0-9_]{1,39}$/)
 export const STAGE_KINDS = ['open', 'won', 'lost', 'parked'] as const
 /** «reply» (0093): an answer, logged by a person; it moves the company on */
 export const ACTIVITY_KINDS = ['note', 'call', 'meeting', 'email', 'reply', 'task'] as const
-export const BLOCK_TYPES = ['heading', 'text', 'button', 'article', 'bullets', 'image', 'divider', 'quote', 'event', 'ps'] as const
+export const BLOCK_TYPES = [
+  // the designed blocks first (0113, X-092), then the plain ones
+  'hero', 'heading', 'text', 'button', 'features', 'steps', 'stats', 'article', 'bullets', 'image', 'quote', 'event', 'cta', 'divider', 'ps',
+] as const
+export const TEMPLATE_CATEGORIES = ['newsletter', 'product', 'event', 'sales', 'customer'] as const
 export const CAMPAIGN_KINDS = ['newsletter', 'campaign', 'promotion', 'announcement'] as const
 
 const Contact = z.object({
@@ -151,6 +155,7 @@ export const Block = z.object({
   label: z.string().optional(),
   alt: z.string().optional(),
   href: z.string().optional(),
+  image: z.string().optional(),
 })
 export type Block = z.infer<typeof Block>
 
@@ -388,6 +393,7 @@ export const crmLists = () => call('admin_crm_lists', {}, z.object({ rows: z.arr
 
 const Template = z.object({
   key: z.string(),
+  category: z.enum(TEMPLATE_CATEGORIES),
   name: z.string(),
   description: z.string(),
   kind: z.enum(CAMPAIGN_KINDS),
