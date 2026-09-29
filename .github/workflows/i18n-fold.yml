@@ -18,6 +18,10 @@ on:
     # Mondays 05:41 Oslo (03:41 UTC in summer, 04:41 in winter: GitHub's cron is UTC)
     - cron: '41 3 * * 1'
   workflow_dispatch:
+  # and whenever the fold itself changes, so a change is proved at once rather than on a Monday
+  push:
+    branches: [main]
+    paths: ['.github/workflows/i18n-fold.yml', 'scripts/i18n/fold-overrides.mjs']
 
 permissions:
   contents: write
