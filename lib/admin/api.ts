@@ -9,7 +9,7 @@ import { callFailed, parseFailed } from '@/lib/supabase/read'
  * returns anything; this file only calls them and parses what comes back. Nothing here
  * can reach a customer table directly: the anon-key client has no policy that would let it.
  */
-export const ROLES = ['super_admin', 'support', 'finance', 'analyst', 'marketing'] as const
+export const ROLES = ['super_admin', 'support', 'finance', 'analyst', 'marketing', 'editor'] as const
 export type AdminRole = (typeof ROLES)[number]
 
 const Reply = z.object({ ok: z.boolean(), error: z.string().optional() }).passthrough()
@@ -805,3 +805,16 @@ const OrgOwner = z.object({
 })
 export type OrgOwner = z.infer<typeof OrgOwner>
 export const orgOwner = (org: string) => call('admin_org_owner', { p_org: org }, OrgOwner)
+
+// ---------------------------------------------------------------- Admin › Site settings (0126, D-170)
+const SiteSettings = z.object({
+  allow_indexing: z.boolean(),
+  indexing_at: tsn,
+  indexing_by: z.string().nullable(),
+  auto_approve: z.boolean(),
+  notice_on: z.boolean(),
+  admins: num,
+  admins_without_factor: num,
+})
+export type SiteSettings = z.infer<typeof SiteSettings>
+export const siteSettings = () => call('admin_site_settings', {}, SiteSettings)

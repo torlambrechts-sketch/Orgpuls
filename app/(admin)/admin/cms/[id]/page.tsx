@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { CmsEditor, type CmsMessages } from '@/components/admin/CmsEditor'
 import { Problem, when } from '@/components/admin/ui'
+import { cmsWriter } from '@/lib/admin/access'
 import { isError, whoami } from '@/lib/admin/api'
 import { cmsMedia, cmsPage, cmsTemplates, cmsTraffic } from '@/lib/admin/cms'
 import { pathOf } from '@/lib/cms/content'
@@ -53,7 +54,7 @@ export default async function CmsEdit({ params }: { params: Promise<{ id: string
       templateName={templateName}
       origins={origins}
       hosts={hosts}
-      canWrite={who?.role === 'super_admin' || who?.role === 'marketing'}
+      canWrite={cmsWriter(who?.role)}
       m={m}
       when={stamps}
     />

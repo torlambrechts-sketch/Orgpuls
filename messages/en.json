@@ -7527,7 +7527,9 @@
         "webVisits": "Sources & visits",
         "cmsTemplates": "Templates",
         "cmsLanding": "Landing & front pages",
-        "cmsMedia": "Media"
+        "cmsMedia": "Media",
+        "billing": "Billing & plans",
+        "settings": "Site settings"
       },
       "openMenu": "Open the menu",
       "closeMenu": "Close the menu",
@@ -7547,11 +7549,12 @@
       "more": "More"
     },
     "role": {
-      "super_admin": "Super-admin",
+      "super_admin": "Owner",
       "support": "Support",
       "finance": "Finance",
       "analyst": "Analyst",
-      "marketing": "Marketing"
+      "marketing": "Sales & marketing",
+      "editor": "Editor"
     },
     "common": {
       "notAllowed": "Your role cannot see this.",
@@ -7986,6 +7989,31 @@
         "target": "Target",
         "reason": "Reason",
         "detail": "Detail"
+      },
+      "v2": {
+        "title": "Audit log",
+        "lead": "The latest {count, plural, one {# entry} other {# entries}} · who changed or looked at what, newest first",
+        "export": "Export CSV",
+        "areas": "Areas",
+        "area": {
+          "all": "All",
+          "content": "Content",
+          "customers": "Customers",
+          "crm": "CRM",
+          "tickets": "Tickets",
+          "admin": "Admin",
+          "reads": "Figures read",
+          "other": "Other"
+        },
+        "col": {
+          "when": "When",
+          "change": "Change",
+          "area": "Area"
+        },
+        "system": "The system",
+        "details": "Details",
+        "reason": "Reason: {reason}",
+        "noDetail": "Nothing more was recorded."
       }
     },
     "admins": {
@@ -8015,6 +8043,36 @@
         "invalid": "Check the e-mail and role.",
         "not_allowed": "Only a super-admin can do this.",
         "failed": "It did not work. Try again."
+      },
+      "v2": {
+        "title": "Users & roles",
+        "lead": "{count, plural, one {# team member can} other {# team members can}} sign in to Sentral · every sign-in needs a second factor",
+        "invite": "Invite",
+        "inviteTitle": "Invite a team member",
+        "inviteSub": "They first make an account with this e-mail (not one that belongs to a customer). The role works once they have set up their second factor.",
+        "close": "Close",
+        "edit": "Edit",
+        "col": {
+          "member": "Member",
+          "factor": "Second factor",
+          "last": "Last active"
+        },
+        "inactive": "Deactivated",
+        "added": "Added {date}",
+        "factorYes": "Authenticator set up",
+        "factorNo": "No authenticator yet",
+        "never": "Never",
+        "roles": "Roles",
+        "rolesLead": "What each role can do. Legal review, languages, admins and site settings are the Owner's.",
+        "people": "{count, plural, one {# person} other {# people}}",
+        "can": {
+          "super_admin": "Everything, including legal review, languages, admins and site settings",
+          "support": "Customers, their users, tickets, account health, operations and site traffic",
+          "finance": "Customers, account health, site traffic and cost per customer",
+          "marketing": "CRM and campaigns, pages and media, SEO, site traffic and account health",
+          "analyst": "Reads site traffic, SEO, cost per customer, CRM, pages and industry modules",
+          "editor": "Pages, templates, landing pages, media, redirects and SEO — no customer data"
+        }
       }
     },
     "web": {
@@ -10987,6 +11045,85 @@
       "visits": {
         "title": "Sources & visits",
         "lead": "Where visits came from and what they led to, the places they came from and the latest visits one by one."
+      }
+    },
+    "billing": {
+      "title": "Billing & plans",
+      "lead": "{active, plural, one {# paying customer} other {# paying customers}} · {trial} in trial · {cancelling} cancelling · no invoices are issued from Sentral yet",
+      "band": "For {lo}–{hi} employees",
+      "bandFrom": "For {lo} employees or more",
+      "customers": "{count, plural, =0 {No customers} one {# customer} other {# customers}}",
+      "pipeline": "{trials} in trial · {cancelling} cancelling",
+      "registered": "Employees registered",
+      "people": "{count, plural, one {# person} other {# people}}",
+      "events": "Confirmations and cancellations",
+      "eventsLead": "Each time a customer confirmed billing or cancelled, newest first",
+      "col": {
+        "customer": "Customer",
+        "plan": "Plan",
+        "event": "Event",
+        "status": "Status"
+      },
+      "fitting": "by size",
+      "confirmed": "Confirmed billing {date}",
+      "cancelled": "Cancelled {date} · last day {last}",
+      "open": "Open",
+      "none": "No customer has confirmed billing or cancelled yet.",
+      "more": "{n, plural, one {# earlier event} other {# earlier events}} — each is on its customer's page.",
+      "note": "The plans are the price list's, by headcount. A customer without a chosen plan is counted on the one its size puts it on. Prices, invoices and payments are not shown until billing runs through Sentral; demo sandboxes are left out."
+    },
+    "settings": {
+      "title": "Site settings",
+      "lead": "Orgpuls · {domain} · every change here is written to the audit log",
+      "tabs": "Settings",
+      "tab": {
+        "general": "General",
+        "access": "Access",
+        "integrations": "Integrations"
+      },
+      "general": {
+        "name": "Site name",
+        "domain": "Primary domain",
+        "english": "English site",
+        "admin": "Sentral",
+        "language": "Default language",
+        "languageValue": "Norsk (bokmål)",
+        "zone": "Time zone",
+        "whereTitle": "Where these are set",
+        "whereLead": "In the code and the hosting environment, not here",
+        "whereText": "The addresses come from the deployment's environment, the language from the site's messages and the time zone from how every date is drawn. Changing one is a release, so they are shown here as they are rather than offered as fields that would change nothing."
+      },
+      "access": {
+        "mfa": "Require a second factor for admins",
+        "mfaWhy": "Always on: a role in Sentral works only after the authenticator code.",
+        "mfaMissing": "{n, plural, one {# admin has} other {# admins have}} not set one up yet, and cannot use their role until they do.",
+        "mfaAll": "Every admin has one.",
+        "index": "Allow search engines",
+        "indexWhy": "Off adds noindex to every public page and empties the sitemap. Use it during a relaunch.",
+        "indexConfirm": "Take the whole public site out of search engines until this is turned on again?",
+        "changed": "Last changed by {by}, {at}.",
+        "auto": "Approve translations automatically",
+        "autoWhy": "Every translation and text is approved as it arrives, marked «auto».",
+        "autoWhere": "Change it in Languages",
+        "notice": "Site notice",
+        "noticeWhy": "A line above the header on every public page.",
+        "noticeWhere": "Change it in Landing & front pages"
+      },
+      "int": {
+        "sending": "Sending",
+        "sendingLead": "Invitations, reminders and mail by kind, from the dispatcher",
+        "open": "Operations",
+        "counts": "{sent} sent · {due} due · {scheduled} scheduled",
+        "failed": "{n} failed",
+        "ok": "No failures",
+        "nothing": "Nothing has been queued yet.",
+        "jobs": "Scheduled runs",
+        "jobsLead": "The last runs of the job that opens, closes and queues rounds",
+        "run": "{opened} opened · {closed} closed · {queued} queued",
+        "noRuns": "No run yet.",
+        "search": "Search engines",
+        "searchText": "Google Search Console and IndexNow report to SEO › Performance, with when each last synced and whether it failed.",
+        "searchOpen": "Open SEO › Performance"
       }
     }
   },

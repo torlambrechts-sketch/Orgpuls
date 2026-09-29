@@ -38,6 +38,8 @@ const PAGES = [
   '/admin/cms/templates',
   '/admin/cms/landing',
   '/admin/cms/media',
+  '/admin/billing',
+  '/admin/settings',
   '/admin/web/pages',
   '/admin/web/goals',
   '/admin/web/visits',

@@ -2813,6 +2813,17 @@ stops returning null for a malformed block. media_invariants.sql proves the gran
 dedup, the type and size checks, the file by exact address only, the roles, the block's shape, the
 in-use refusal, the audit, and that /media is reserved.
 
+Phase 10, Admin (D-170): 0125 adds the `editor` role; 0126 lets it into Content (`cms_can_read`,
+`cms_can_write`) and SEO (`admin_seo`) and — rewriting each gate from the function's own definition,
+failing if a gate is not where it was — out of every reader that admitted any admin or denied only
+named roles (organisation detail, audit trail, KPIs, funnel, trends, web, web report, attention).
+It adds «Allow search engines» (`platform_settings.allow_indexing`, `admin_site_indexing_set`, the
+anonymous `site_indexing()`), read by the public layout's metadata and the sitemap, and
+`admin_site_settings()` for the Access tab. Users & roles, Billing & plans, Site settings and the
+Audit log (area chips, expandable detail, CSV export) are drawn as the design has them over real
+data. admin_roles_invariants.sql proves the editor's reach both ways, no regression for marketing
+and support, and the indexing switch's grants, owner and audit.
+
 ### X-096 — Modules and legal texts, the pragmatic way
 
 **Why.** Tor, 2026-09-29: «today's versioning and change management and approval flow is WAY too

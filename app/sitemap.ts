@@ -6,6 +6,7 @@ import { cmsList } from '@/lib/cms/read'
 import { pathOf, type CmsKind } from '@/lib/cms/content'
 import { ARTICLES, LANDING_PAGES, SITE_PAGES } from '@/lib/marketing/site'
 import { INDUSTRIES, liveQuestionPages, pageIn } from '@/content/industries'
+import { siteIndexing } from '@/lib/site/indexing'
 
 /**
  * Every public page a search engine should know about, and nothing behind the sign-in: the
@@ -84,6 +85,8 @@ async function cmsPages(s: ReturnType<typeof sitemapFor>): Promise<MetadataRoute
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Admin › Site settings › «Allow search engines» off (0126): nothing to offer
+  if (!(await siteIndexing())) return []
   const s = sitemapFor(hostOf((await headers()).get('host')) === EN_HOST)
   const { entry } = s
   const issues = await archive()

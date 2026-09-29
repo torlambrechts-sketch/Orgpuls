@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { MediaDescribe, MediaUpload } from '@/components/admin/MediaForms'
 import { day, PageHead, Problem } from '@/components/admin/ui'
+import { cmsWriter } from '@/lib/admin/access'
 import { isError, whoami } from '@/lib/admin/api'
 import { cmsMedia, type Media } from '@/lib/admin/cms'
 import { pathOf } from '@/lib/cms/content'
@@ -21,7 +22,7 @@ export default async function CmsMedia({ searchParams }: { searchParams: Promise
   const sp = await searchParams
   const [media, who] = await Promise.all([cmsMedia(), whoami()])
   if (isError(media)) return <Problem text={media.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
-  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
+  const canWrite = cmsWriter(who?.role)
   const l = (k: string, v?: Record<string, string | number>) => t(`cms.mediaPage.${k}`, v)
   const rows = media.rows
   const open = rows.find((r) => r.id === sp.m) ?? null

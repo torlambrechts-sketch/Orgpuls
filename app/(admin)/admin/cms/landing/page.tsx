@@ -5,6 +5,7 @@ import type { CmsMessages } from '@/components/admin/CmsEditor'
 import { SiteNoticeForm } from '@/components/admin/SiteNoticeForm'
 import { Avatar, BTN, day, PageHead, Problem } from '@/components/admin/ui'
 import { bareTitle, int } from '@/lib/admin/analytics'
+import { cmsWriter } from '@/lib/admin/access'
 import { isError, whoami } from '@/lib/admin/api'
 import { cmsPages, cmsTemplates, cmsTraffic, localeState, siteNoticeAdmin } from '@/lib/admin/cms'
 import { catalogues, designedMeta } from '@/lib/admin/cmsSite'
@@ -29,7 +30,7 @@ export default async function CmsLanding() {
   if (failed || isError(pages) || isError(templates) || isError(traffic) || isError(notice)) {
     return <Problem text={failed && isError(failed) && failed.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   }
-  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
+  const canWrite = cmsWriter(who?.role)
   const l = (k: string, v?: Record<string, string | number>) => t(`cms.landingPage.${k}`, v)
   const byPath = new Map(traffic.rows.map((r) => [r.path, r]))
   const conv = (path: string) => {

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { headers } from 'next/headers'
 import { getLocale, getTranslations } from 'next-intl/server'
@@ -9,6 +10,7 @@ import { SiteFooter, type FooterData } from '@/components/site/SiteFooter'
 import { SiteBeacon } from '@/components/marketing/SiteBeacon'
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch'
 import { DESIGNED_FOOTER, FOOTERS, SITE_NAV_V2, type FooterId } from '@/lib/site/nav'
+import { siteIndexing } from '@/lib/site/indexing'
 import { siteNotice } from '@/lib/site/notice'
 
 /**
@@ -21,6 +23,11 @@ import { siteNotice } from '@/lib/site/notice'
  * draws (lib/site/nav). The page you are on, and which footer it has, are read from the path
  * by two small client components. Beside "Logg inn", Norsk / English (D-96).
  */
+/** Admin › Site settings › «Allow search engines» (0126): off, every page here says noindex */
+export async function generateMetadata(): Promise<Metadata> {
+  return (await siteIndexing()) ? {} : { robots: { index: false, follow: false } }
+}
+
 export default async function MarketingLayout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations('site.chrome')
   // on the production hosts each language has its own; the switch links across (D-98)

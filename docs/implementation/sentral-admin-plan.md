@@ -181,7 +181,7 @@ Each phase ships on its own, with the QA below. Status is kept here as phases la
 | 7 ✓ | Content I | Pages table; page detail tabs with Translations; no In review or Compare, form + live preview instead of canvas (D-168, X-096). | 0123 author |
 | 8 ✓ | Content II | Templates (read-only, D-168), Landing & front pages with the site notice, SEO Health/Performance, Languages overview. | 0123 site notice |
 | 9 ✓ | Media | Upload (web version made in the browser), alt text in both languages, use counts, Image section for pages (D-169). | 0124 `cms_media`, RLS, in Postgres like logos |
-| 10 | Admin | Users & roles (`editor`), Billing & plans (no money figures), Site settings (General, Access, Integrations), Audit log. | role, indexing setting |
+| 10 ✓ | Admin | Users & roles (`editor`), Billing & plans (no money figures), Site settings (General, Access, Integrations), Audit log (D-170). | 0125 `editor`, 0126 gates + `allow_indexing` |
 
 **QA for every phase**
 1. The design's screen is rendered with the bundle's own fonts at 1440 × 900, and ours on the QA

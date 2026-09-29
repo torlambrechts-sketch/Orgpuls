@@ -108,8 +108,10 @@ const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }
     key: 'admin',
     items: [
       { key: 'admins', section: 'admins', href: HREF.admins, icon: 'shield' },
-      { key: 'ops', section: 'ops', href: HREF.ops, icon: 'activity' },
+      { key: 'billing', section: 'billing', href: HREF.billing, icon: 'coins' },
+      { key: 'settings', section: 'settings', href: HREF.settings, icon: 'puzzle' },
       { key: 'audit', section: 'audit', href: HREF.audit, icon: 'log' },
+      { key: 'ops', section: 'ops', href: HREF.ops, icon: 'activity', more: true },
     ],
   },
 ]

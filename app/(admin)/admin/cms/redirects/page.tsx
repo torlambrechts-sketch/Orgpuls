@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { RedirectAddForm, RedirectDeleteForm } from '@/components/admin/CmsForms'
 import type { CmsMessages } from '@/components/admin/CmsEditor'
 import { Badge, Card, day, PageHead, Problem, Table, Td, when } from '@/components/admin/ui'
+import { cmsWriter } from '@/lib/admin/access'
 import { isError, whoami } from '@/lib/admin/api'
 import { cmsRedirects } from '@/lib/admin/cms'
 
@@ -12,7 +13,7 @@ export default async function CmsRedirects() {
   const r = m.redirects
   const [rows, who] = await Promise.all([cmsRedirects(), whoami()])
   if (isError(rows)) return <Problem text={rows.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
-  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
+  const canWrite = cmsWriter(who?.role)
   return (
     <>
       <PageHead title={r.title} lead={r.lead} />

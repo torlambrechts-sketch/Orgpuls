@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import type { CmsMessages } from '@/components/admin/CmsEditor'
 import { BTN, PageHead, Problem } from '@/components/admin/ui'
+import { cmsWriter } from '@/lib/admin/access'
 import { isError, whoami } from '@/lib/admin/api'
 import { cmsPages, cmsTemplates } from '@/lib/admin/cms'
 import { parseContent } from '@/lib/cms/content'
@@ -23,7 +24,7 @@ export default async function CmsTemplates() {
     const e = [templates, pages].find(isError)
     return <Problem text={e?.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   }
-  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
+  const canWrite = cmsWriter(who?.role)
   const tp = (k: string, v?: Record<string, string | number>) => t(`cms.templatesPage.${k}`, v)
   const blockName = (b: string) => (m.editor.block as Record<string, string>)[b] ?? b
 

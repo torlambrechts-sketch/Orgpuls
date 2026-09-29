@@ -24,6 +24,7 @@
     "public.respond_form(p_token text)": "the survey form by token (invariant 3)",
     "public.respond_locales(p_token text)": "the survey's offered languages by token (0079)",
     "public.round_page(p_slug text)": "employees' results page, whole organisation, k-gated (0100)",
+    "public.site_indexing()": "whether search engines may index the public site (0126, D-170): one boolean, set only by a super-admin, read by the public layout and the sitemap",
     "public.site_notice(p_locale text)": "the public site notice (0123, X-095): text only, nothing while it is off; written only by admin_site_notice_set (cms_can_write, audited)",
     "public.submit_contact(p_topic integer, p_name text, p_email text, p_org text, p_message text, p_trap text)": "contact form, honeypot (D-104)",
     "public.submit_response(p_token text, p_answers jsonb, p_extra jsonb, p_module jsonb, p_own jsonb)": "the one write path for answers (invariant 3)",

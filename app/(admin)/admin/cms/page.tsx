@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server'
 import type { CmsMessages } from '@/components/admin/CmsEditor'
 import { Icon } from '@/components/admin/icons'
 import { Avatar, BTN, day, PageHead, Problem, Segments } from '@/components/admin/ui'
+import { cmsWriter } from '@/lib/admin/access'
 import { isError, whoami } from '@/lib/admin/api'
 import { cmsPages, cmsTemplates, localeState, type CmsPage } from '@/lib/admin/cms'
 import { catalogues, designedMeta } from '@/lib/admin/cmsSite'
@@ -49,7 +50,7 @@ export default async function CmsHub({ searchParams }: { searchParams: Promise<{
     const e = [pages, templates].find(isError)
     return <Problem text={e?.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   }
-  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
+  const canWrite = cmsWriter(who?.role)
   const templateName = new Map(templates.rows.map((x) => [x.key, x.name]))
   const h = (k: string, v?: Record<string, string | number>) => t(`cms.hub.${k}`, v)
 

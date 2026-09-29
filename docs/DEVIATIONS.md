@@ -7462,3 +7462,43 @@ X-095, phase 9. From the design's `isMedia` and its «Upload media» modal, over
 - 0124 also closes a hole in `app.cms_block_ok` (0114): a block missing a field made it return
   null, not false, and a null passes a check, so a malformed block could be saved. It now returns
   false. Nothing stored locally or on hosted failed the tightened check when it was applied.
+
+## D-170 — Sentral Admin: users and roles, billing, site settings, audit log
+
+X-095, phase 10. From the design's `isUsers`, `isBilling`, `isSettings` and `isAudit`, over 0125 and
+0126 and the readers that exist. What the design draws and the product does not:
+
+- *Roles*: the design's Owner / Admin / Sales / Support / Editor / Developer are ours mapped, not
+  copied (plan decision 5): super_admin shows as **Owner**, marketing as **Sales & marketing**,
+  support, finance and analyst stay, **Editor** is new (0125), and there is no Developer — there are
+  no API keys or webhooks to administer. The editor reaches Content and SEO and nothing else: 0126
+  rewrote every reader that let *any* admin role in, or shut out only named roles, so that it
+  refuses the editor (admin_roles_invariants.sql calls sixteen of them as an editor). Editing the
+  survey languages stays the Owner's (D-133): approvals of respondent texts are not an editor's.
+- *Users & roles*: the design's «Sites» column is the member's second factor — there is one site
+  (plan decision 1), and «All sites» on every row would say nothing. Members have no display name,
+  so the e-mail leads the row. «Invite» and «Edit» are the grant of a role (admin_set_admin) with its
+  reason in the design's dialog: the person makes their own account first, and a role works only
+  after the second factor. The roles card lists what each role can do from the access matrix.
+- *Billing & plans*: no prices, MRR, invoices, outstanding or overdue amounts — billing does not run
+  through Sentral yet (Tor, 2026-09-29), so the plan cards count customers, trials, cancellations
+  and registered employees per plan, by the price list's headcount bands, and the design's
+  «Invoices» table is the confirmations of billing and the cancellations, which are real events.
+  No «Edit plans»: the price list is code, and a price change is a release.
+- *Site settings*: *General* is the real configuration, read-only (the fields are set in the code
+  and the environment, and a field that saved nothing would lie); the design's *Branding* card is a
+  note saying where the values live, since the site has no branding settings. *Access* has the
+  switches that exist: the second factor (always on — the database will not honour a role without
+  it, so it is drawn on and fixed, with how many admins have not set one up), **Allow search
+  engines** (new in 0126: off, every public page carries noindex and the sitemap is empty), and
+  auto-approve and the site notice shown as they stand with a link to where each is changed, rather
+  than a second control for the same setting. Customer single sign-on is not a feature. *Integrations*
+  shows what sends and runs, from Operations, and points to SEO › Performance for Search Console and
+  IndexNow; the design's API keys and webhooks are not features Orgpuls has. There is no «Save
+  changes»: the one switch saves as it is turned, and the rest is read-only.
+- *Audit log*: the areas are read from each action's prefix (lib/admin/audit.ts), and reads are
+  logged too (D-90), so «Figures read» is an area of its own. The change is the admin, the action as
+  logged and its organisation or item — the actions are codes, not sentences, because the log is
+  written by the database functions, not the screens. The design's «kept for 24 months» is not
+  claimed: nothing prunes the trail. The latest 500 entries are listed and the latest 1 000 exported;
+  a CSV cell never starts a spreadsheet formula.

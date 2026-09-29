@@ -126,16 +126,19 @@ export function NoteForm({
 export function SetAdminForm({
   roles,
   labels,
+  initial,
 }: {
   roles: { value: string; label: string }[]
   labels: Common & { email: string; role: string; active: string; deactivate: string; submit: string }
+  /** a member being edited (Admin › Users & roles, X-095): their e-mail, role and whether active */
+  initial?: { email: string; role: string; active: boolean }
 }) {
-  const [email, setEmail] = useState('')
-  const [role, setRole] = useState(roles[0]?.value ?? '')
-  const [active, setActive] = useState('on')
+  const [email, setEmail] = useState(initial?.email ?? '')
+  const [role, setRole] = useState(initial?.role ?? roles[0]?.value ?? '')
+  const [active, setActive] = useState(initial && !initial.active ? 'off' : 'on')
   const [reason, setReason] = useState('')
   const [state, action, pending] = useKeptAction(setAdmin, () => {
-    setEmail('')
+    if (!initial) setEmail('')
     setReason('')
   })
   return (
@@ -148,6 +151,7 @@ export function SetAdminForm({
             type="email"
             required
             value={email}
+            readOnly={!!initial}
             onChange={(e) => setEmail(e.target.value)}
             className={`${field} h-[38px]`}
           />
