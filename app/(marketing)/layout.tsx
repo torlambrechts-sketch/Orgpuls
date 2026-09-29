@@ -9,6 +9,7 @@ import { SiteFooter, type FooterData } from '@/components/site/SiteFooter'
 import { SiteBeacon } from '@/components/marketing/SiteBeacon'
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch'
 import { DESIGNED_FOOTER, FOOTERS, SITE_NAV_V2, type FooterId } from '@/lib/site/nav'
+import { siteNotice } from '@/lib/site/notice'
 
 /**
  * The public chrome (D-88): design-reference/orgpuls/nettside, the `<header>` and `<footer>`
@@ -46,8 +47,16 @@ export default async function MarketingLayout({ children }: { children: React.Re
     }),
   ) as FooterData
 
+  // the site notice (0123): only while it is switched on in admin
+  const notice = await siteNotice(lang)
+
   return (
     <div className="min-h-screen bg-bg text-[14px] text-ink">
+      {notice ? (
+        <p role="status" className="m-0 border-b border-line bg-band px-[26px] py-[9px] text-center text-[13px] font-semibold text-ink">
+          {notice}
+        </p>
+      ) : null}
       <header className="sticky top-0 z-40 border-b border-line bg-sf">
         <div className="mx-auto flex max-w-[1120px] flex-wrap items-center gap-[22px] px-[26px] py-[13px] max-lg:gap-[12px]">
           <Link href="/" className="flex flex-none items-center gap-[10px] text-ink hover:text-ink max-lg:min-h-[44px]">

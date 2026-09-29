@@ -1,6 +1,10 @@
 {
   "_comment": "Reviewed exceptions for scripts/audit/wiring.mjs. Every entry carries the reason it is deliberate. A new entry is added only after review, in the same commit as the change that needs it.",
   "anon_executes": {
+    "public.cms_list(p_kind text, p_locale text)": "the live CMS pages of a kind (0114, X-094): the sitemap and the article index; published words only",
+    "public.cms_page(p_kind text, p_slug text, p_locale text)": "a live CMS page (0114, X-094): the public site's own words, only what is published and not archived; stable, reads nothing about a person",
+    "public.cms_preview(p_token text, p_locale text)": "a draft through its preview link (0114, X-094): a 256-bit token, looked up by its SHA-256, expiring in an hour; the page is marked noindex and framed only by the admin",
+    "public.cms_redirect(p_path text)": "where an old address goes (0114, X-094): only a redirect an admin made; its one write is that address's visit counter, which a visitor may raise but not read",
     "public.crm_archive(p_limit integer)": "newsletter web archive (D-101), published issues only",
     "public.crm_archive_item(p_slug text)": "one archived newsletter issue by slug (D-101)",
     "public.crm_confirm(p_token text)": "double opt-in confirmation link (D-101)",
@@ -14,19 +18,16 @@
     "public.follow_up(p_key text, p_body text)": "respondent's private conversation, by its key (0018)",
     "public.invite_preview(p_token text)": "member invitation link before sign-up (0028)",
     "public.message_overrides(p_locale text)": "approved bokmål/English overrides, public page text (0101)",
+    "public.org_logo(p_key text)": "an organisation's logo by its exact 32-hex address (0104, D-154): shown in the survey, the round page and mails; no row, no id, nothing about a person",
     "public.request_link(p_code text, p_contact text)": "QR poster: send my own link, rate-limited (D-126)",
     "public.respond_form(p_token text)": "the survey form by token (invariant 3)",
     "public.respond_locales(p_token text)": "the survey's offered languages by token (0079)",
     "public.round_page(p_slug text)": "employees' results page, whole organisation, k-gated (0100)",
+    "public.site_notice(p_locale text)": "the public site notice (0123, X-095): text only, nothing while it is off; written only by admin_site_notice_set (cms_can_write, audited)",
     "public.submit_contact(p_topic integer, p_name text, p_email text, p_org text, p_message text, p_trap text)": "contact form, honeypot (D-104)",
     "public.submit_response(p_token text, p_answers jsonb, p_extra jsonb, p_module jsonb, p_own jsonb)": "the one write path for answers (invariant 3)",
     "public.thread_by_key(p_key text)": "respondent's conversation read, by its key (0018)",
-    "public.track_web_event(p_ip text, p_ua text, p_kind text, p_path text, p_referrer text, p_utm jsonb, p_label text, p_geo jsonb)": "cookieless site analytics beacon (D-91)",
-    "public.org_logo(p_key text)": "an organisation's logo by its exact 32-hex address (0104, D-154): shown in the survey, the round page and mails; no row, no id, nothing about a person",
-    "public.cms_page(p_kind text, p_slug text, p_locale text)": "a live CMS page (0114, X-094): the public site's own words, only what is published and not archived; stable, reads nothing about a person",
-    "public.cms_list(p_kind text, p_locale text)": "the live CMS pages of a kind (0114, X-094): the sitemap and the article index; published words only",
-    "public.cms_preview(p_token text, p_locale text)": "a draft through its preview link (0114, X-094): a 256-bit token, looked up by its SHA-256, expiring in an hour; the page is marked noindex and framed only by the admin",
-    "public.cms_redirect(p_path text)": "where an old address goes (0114, X-094): only a redirect an admin made; its one write is that address's visit counter, which a visitor may raise but not read"
+    "public.track_web_event(p_ip text, p_ua text, p_kind text, p_path text, p_referrer text, p_utm jsonb, p_label text, p_geo jsonb)": "cookieless site analytics beacon (D-91)"
   },
   "client_writes": {
     "app.employees": "register, RLS: daglig leder of the org",

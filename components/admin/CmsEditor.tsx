@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import { Button } from '@/components/ui/Button'
+import { BTN } from './ui'
 import type en from '@/messages/en.json'
 import { parseContent, pathOf, placeholders, type CmsKind, type CmsLocale, type Layout } from '@/lib/cms/content'
 import { DESCRIPTION_RANGE, seoScore, TITLE_RANGE, type SeoCheck } from '@/lib/cms/seo'
@@ -233,7 +234,7 @@ export function CmsEditor({ page, revisions, traffic, days, templateName, origin
   const initialMeta: Meta = { slug: page.slug, keyword: page.focus_keyword ?? '', noindex: page.noindex, shot: page.shot ?? '' }
   const [meta, setMeta] = useState<Meta>(initialMeta)
   const [savedMeta, setSavedMeta] = useState(metaSnapshot(initialMeta))
-  const [tab, setTab] = useState<'content' | 'seo' | 'settings' | 'history'>('content')
+  const [tab, setTab] = useState<'content' | 'translations' | 'seo' | 'history' | 'settings'>('content')
   const [problem, setProblem] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
   const [busy, startBusy] = useTransition()
@@ -489,31 +490,43 @@ export function CmsEditor({ page, revisions, traffic, days, templateName, origin
 
   const iconBtn = 'inline-flex h-[28px] min-w-[28px] items-center justify-center rounded-[8px] border border-line bg-sf px-[7px] text-[12px] font-semibold text-ink hover:border-ink disabled:opacity-40'
 
+  // the design's order: Content, Translations, SEO, Versions, Settings
   const tabs = [
     ['content', e.tabs.content],
+    ['translations', e.tabs.translations],
     ['seo', e.tabs.seo],
-    ['settings', e.tabs.settings],
     ['history', e.tabs.history],
+    ['settings', e.tabs.settings],
   ] as const
 
   const hasSignup = page.layout === 'landing' || page.layout === 'splash'
 
   return (
     <div className="flex flex-col gap-[14px]">
-      {/* ---------------------------------------------------------------- the bar */}
-      <div className="flex flex-wrap items-start justify-between gap-[14px]">
+      {/* ---------------------------------------------------------------- the bar, as the design's page detail draws it */}
+      <div className="flex flex-wrap items-end justify-between gap-[14px] md:px-[18px]">
         <div className="min-w-0">
-          <Link href={'/admin/cms' as Route} className="text-[12.5px] font-semibold text-link">
-            ← {e.back}
-          </Link>
-          <h1 className="m-0 mt-[6px] font-display text-[26px] font-semibold leading-[1.15]">{doc.h1 || doc.title || page.slug}</h1>
-          <p className="m-0 mt-[5px] flex flex-wrap items-center gap-[8px] text-[12.5px] text-mut">
-            <span className="font-mono">
+          <nav aria-label={e.back} className="flex items-center gap-[8px] text-[12.5px]">
+            <Link href={'/admin/cms' as Route} className="text-ink no-underline hover:text-ink hover:underline">
+              {e.back}
+            </Link>
+            <span aria-hidden="true" className="text-mut">→</span>
+            <b className="truncate">{doc.h1 || doc.title || page.slug}</b>
+          </nav>
+          <h1 className="m-0 mt-[8px] font-display text-[28px] font-medium leading-[1.15]">{doc.h1 || doc.title || page.slug}</h1>
+          <p className="m-0 mt-[8px] flex flex-wrap items-center gap-[8px] text-[12.5px] text-mut">
+            <span className="inline-flex items-center gap-[6px] rounded-pill bg-sbg px-[11px] py-[5px] text-[11.5px] font-bold text-ink">
+              <span aria-hidden="true" className={`block h-[6px] w-[6px] rounded-pill ${state === 'live' ? 'bg-teal' : state === 'archived' ? 'bg-mut' : 'bg-ac'}`} />
+              {m.state[state as keyof typeof m.state] ?? state}
+            </span>
+            <span>
               {hosts[locale]}
               {path}
             </span>
             <span aria-hidden="true">·</span>
             <span>{templateName}</span>
+            <span aria-hidden="true">·</span>
+            <span>{m.layout[page.layout]}</span>
             {row?.live_at ? (
               <>
                 <span aria-hidden="true">·</span>
@@ -523,20 +536,35 @@ export function CmsEditor({ page, revisions, traffic, days, templateName, origin
           </p>
         </div>
         {canWrite ? (
-          <div className="flex flex-wrap items-center gap-[8px]">
+          <div className="flex flex-wrap items-center gap-[10px]">
             <span role="status" className={`text-[12px] font-semibold ${dirty ? 'text-caution' : 'text-mut'}`}>
               {busy ? e.saving : dirty ? e.unsaved : notice}
             </span>
-            <Button size="sm" tone="secondary" disabled={busy || !dirty || page.archived} onClick={() => startBusy(async () => void (await save()))}>
+            {previewUrl ? (
+              <a href={previewUrl} target="_blank" rel="noopener" className={BTN.secondary}>
+                {e.preview.title}
+              </a>
+            ) : null}
+            {row?.current ? (
+              <button
+                type="button"
+                disabled={busy}
+                className={`${BTN.secondary} border-ink`}
+                onClick={() => {
+                  if (window.confirm(fill(e.unpublishConfirm, { language: m.language[locale] }))) run(() => cmsUnpublish({ id: page.id, locale }))
+                }}
+              >
+                {e.unpublish}
+              </button>
+            ) : null}
+            <button type="button" className={BTN.secondary} disabled={busy || !dirty || page.archived} onClick={() => startBusy(async () => void (await save()))}>
               {e.save}
-            </Button>
-            <Button size="sm" disabled={busy || page.archived} onClick={() => publish(null)}>
+            </button>
+            <button type="button" className={BTN.primary} disabled={busy || page.archived} onClick={() => publish(null)}>
               {busy ? e.publishing : e.publish}
-            </Button>
+            </button>
             <details className="relative">
-              <summary className="inline-flex h-[36px] cursor-pointer list-none items-center rounded-[10px] border border-line px-[12px] text-[12.5px] font-bold [&::-webkit-details-marker]:hidden">
-                {e.schedule} ▾
-              </summary>
+              <summary className={`${BTN.secondary} list-none [&::-webkit-details-marker]:hidden`}>{e.schedule} ▾</summary>
               <div className="absolute right-0 z-20 mt-[6px] w-[280px] rounded-panel border border-line bg-sf p-[14px] shadow-[0_12px_30px_rgba(25,21,16,0.12)]">
                 <label className="block">
                   <span className={labelCls}>{e.scheduleAt}</span>
@@ -602,7 +630,7 @@ export function CmsEditor({ page, revisions, traffic, days, templateName, origin
       <div className="grid items-start gap-[16px] [grid-template-columns:minmax(0,1fr)] xl:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
         {/* ---------------------------------------------------------------- the words */}
         <div className="min-w-0 rounded-panel border border-line bg-sf">
-          <div role="tablist" aria-label={e.tabs.content} className="flex gap-[4px] border-b border-line px-[12px] pt-[10px]">
+          <div role="tablist" aria-label={e.tabs.content} className="flex flex-wrap gap-[4px] border-b border-line px-[12px] py-[10px]">
             {tabs.map(([k, label]) => (
               <button
                 key={k}
@@ -612,7 +640,7 @@ export function CmsEditor({ page, revisions, traffic, days, templateName, origin
                 aria-selected={tab === k}
                 aria-controls={`cms-panel-${k}`}
                 onClick={() => setTab(k)}
-                className={`-mb-px inline-flex h-[36px] items-center gap-[7px] border-b-2 px-[10px] text-[13px] font-bold ${tab === k ? 'border-ink text-ink' : 'border-transparent text-mut'}`}
+                className={`inline-flex items-center gap-[7px] rounded-ctl px-[13px] py-[7px] text-[13.5px] ${tab === k ? 'bg-sbg font-bold text-ink' : 'font-medium text-ink hover:bg-ink/5'}`}
               >
                 {label}
                 {k === 'seo' ? <span className="text-[11px] font-bold text-mut">{score.score}</span> : null}
@@ -868,6 +896,43 @@ export function CmsEditor({ page, revisions, traffic, days, templateName, origin
                     </Button>
                   </div>
                 ) : null}
+              </>
+            ) : null}
+
+            {tab === 'translations' ? (
+              <>
+                <p className="m-0 text-[12.5px] leading-[1.5] text-mut">{e.translationsLead}</p>
+                <ul className="m-0 flex list-none flex-col p-0">
+                  {page.locales.map((l) => {
+                    const st = page.archived ? 'archived' : l.pending_at && new Date(l.pending_at) > new Date() ? 'scheduled' : l.current ? (l.changed ? 'changed' : 'live') : 'draft'
+                    return (
+                      <li key={l.locale} className="flex flex-wrap items-center gap-[10px] border-b border-line py-[10px] text-[13px]">
+                        <b className="min-w-[90px]">{m.language[l.locale]}</b>
+                        <StateChip lang={l.locale} state={st} label={m.state[st]} />
+                        <span className="flex-1 text-[12.5px] text-mut">{(e.translation as Record<string, string>)[l.translation] ?? l.translation}</span>
+                        <button type="button" className={BTN.row} onClick={() => { setLocale(l.locale); setTab('content') }}>
+                          {e.editLanguage}
+                        </button>
+                      </li>
+                    )
+                  })}
+                  {canWrite
+                    ? missing.map((l) => (
+                        <li key={l} className="flex flex-wrap items-center gap-[10px] border-b border-line py-[10px] text-[13px]">
+                          <b className="min-w-[90px]">{m.language[l]}</b>
+                          <span className="flex-1 text-[12.5px] text-mut">{fill(e.addLanguageHint, { from: m.language[l === 'no' ? 'en' : 'no'] })}</span>
+                          <button
+                            type="button"
+                            className={BTN.row}
+                            disabled={busy || page.archived}
+                            onClick={() => run(() => cmsTranslate({ id: page.id, locale: l }), () => setLocale(l))}
+                          >
+                            + {fill(e.addLanguage, { language: m.language[l] })}
+                          </button>
+                        </li>
+                      ))
+                    : null}
+                </ul>
               </>
             ) : null}
 

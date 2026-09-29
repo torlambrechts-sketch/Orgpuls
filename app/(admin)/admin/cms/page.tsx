@@ -1,262 +1,208 @@
 import type { Route } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { LayoutThumb, ScorePill, StateChip } from '@/components/admin/CmsVisuals'
 import type { CmsMessages } from '@/components/admin/CmsEditor'
-import { Card, day, PageHead, Problem, Stat, Table, Td } from '@/components/admin/ui'
-import { ButtonLink } from '@/components/ui/Button'
+import { Icon } from '@/components/admin/icons'
+import { Avatar, BTN, day, PageHead, Problem, Segments } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
-import { cmsPages, cmsTemplates, cmsTraffic, localeState, type CmsPage } from '@/lib/admin/cms'
+import { cmsPages, cmsTemplates, localeState, type CmsPage } from '@/lib/admin/cms'
 import { catalogues, designedMeta } from '@/lib/admin/cmsSite'
 import { CMS_LOCALES, parseContent, pathOf, type CmsLocale } from '@/lib/cms/content'
 import { designedPages, type DesignedGroup } from '@/lib/cms/designed'
-import { seoScore } from '@/lib/cms/seo'
+import { bareTitle } from '@/lib/admin/analytics'
 
 /**
- * The site's pages (X-094): every public page in one list, the designed ones beside the ones made
- * from templates, each with its languages and their state, its search score, and what it brought in
- * the last 30 days. Filtered by kind, state and text; the templates to start a new page from are at
- * the foot.
+ * Content › Pages (X-095, the design's `isPages`; X-094 before it): every page of the public site in
+ * one list — the designed pages, whose words are edited here and in Languages, and the pages made
+ * from templates — with its kind, address, template, when it was last changed, its languages, its
+ * state and who changed it last. Search and the design's segments (all, pages, articles, drafts,
+ * scheduled) filter it. The search score and the traffic are on SEO and Analytics.
  */
-const FILTERS = ['all', 'designed', 'cms', 'articles', 'drafts', 'attention', 'archived'] as const
-type Filter = (typeof FILTERS)[number]
-const DAYS = 30
+const SEGS = ['all', 'pages', 'articles', 'drafts', 'scheduled', 'archived'] as const
+type Seg = (typeof SEGS)[number]
+type State = 'live' | 'changed' | 'scheduled' | 'draft' | 'archived'
+const STATE_DOT: Record<State, string> = { live: 'bg-teal', changed: 'bg-ac', scheduled: 'bg-ac', draft: 'bg-ac', archived: 'bg-mut' }
 
 type Row = {
   key: string
   href: string
   path: string
   title: string
-  kind: { designed: DesignedGroup } | { template: string }
-  langs: { lang: CmsLocale; state: 'live' | 'changed' | 'scheduled' | 'draft' | 'archived' }[]
-  score: number
-  updated: string | null
   article: boolean
-  live: boolean
-  archived: boolean
+  kind: string
+  template: string
+  langs: { lang: CmsLocale; state: 'live' | 'changed' | 'scheduled' | 'draft' | 'archived' | 'missing' }[]
+  state: State
+  updated: string | null
+  author: string | null
 }
 
-export default async function CmsHub({ searchParams }: { searchParams: Promise<{ f?: string; q?: string }> }) {
+export default async function CmsHub({ searchParams }: { searchParams: Promise<{ s?: string; q?: string }> }) {
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('cms') as CmsMessages
   const sp = await searchParams
-  const filter: Filter = (FILTERS as readonly string[]).includes(sp.f ?? '') ? (sp.f as Filter) : 'all'
+  const seg: Seg = (SEGS as readonly string[]).includes(sp.s ?? '') ? (sp.s as Seg) : 'all'
   const q = (sp.q ?? '').trim().toLowerCase().slice(0, 80)
 
-  const [pages, traffic, templates, who, cat] = await Promise.all([cmsPages(), cmsTraffic(DAYS), cmsTemplates(), whoami(), catalogues()])
-  if (isError(pages) || isError(traffic) || isError(templates)) {
-    const e = [pages, traffic, templates].find(isError)
+  const [pages, templates, who, cat] = await Promise.all([cmsPages(), cmsTemplates(), whoami(), catalogues()])
+  if (isError(pages) || isError(templates)) {
+    const e = [pages, templates].find(isError)
     return <Problem text={e?.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   }
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
-  const byPath = new Map(traffic.rows.map((r) => [r.path, r]))
   const templateName = new Map(templates.rows.map((x) => [x.key, x.name]))
+  const h = (k: string, v?: Record<string, string | number>) => t(`cms.hub.${k}`, v)
 
-  // ---------------------------------------------------------------- the designed pages
   const designed: Row[] = designedPages().map((p) => {
     const meta = designedMeta(p, cat)
-    const langs = CMS_LOCALES.filter((l) => meta[l]).map((lang) => ({ lang, state: 'live' as const }))
     const first = meta.no ?? meta.en
-    const s = seoScore({ layout: 'designed', fixed: true, slug: p.path.slice(1), keyword: '', noindex: false, twin: langs.length > 1, title: first?.title ?? '', description: first?.description ?? '' })
     return {
       key: p.path,
       href: `/admin/cms/site?path=${encodeURIComponent(p.path)}`,
       path: p.path,
-      title: first?.title ?? p.path,
-      kind: { designed: p.group },
-      langs,
-      score: s.score,
-      updated: null,
+      title: bareTitle(first?.title ?? p.path),
       article: p.group === 'article',
-      live: true,
-      archived: false,
+      kind: m.group[p.group as DesignedGroup],
+      template: h('designed'),
+      langs: CMS_LOCALES.map((lang) => ({ lang, state: meta[lang] ? ('live' as const) : ('missing' as const) })),
+      state: 'live',
+      updated: null,
+      author: null,
     }
   })
 
-  // ---------------------------------------------------------------- the pages made here
   const made: Row[] = pages.rows.map((p: CmsPage) => {
     const first = p.locales.find((l) => l.locale === 'no') ?? p.locales[0]
     const c = parseContent(first?.draft ?? {})
-    const s = seoScore({
-      layout: p.layout,
-      slug: p.slug,
-      keyword: p.focus_keyword ?? '',
-      noindex: p.noindex,
-      twin: p.locales.length > 1,
-      title: c?.title ?? '',
-      description: c?.description ?? '',
-      body: c ? { h1: c.h1, lead: c.lead, blocks: c.blocks, faq: c.faq, sources: c.sources, raw: first?.draft } : undefined,
-    })
+    const states = p.locales.map((l) => localeState(l))
+    const state: State = p.archived
+      ? 'archived'
+      : states.includes('live')
+        ? 'live'
+        : states.includes('changed')
+          ? 'changed'
+          : states.includes('scheduled')
+            ? 'scheduled'
+            : 'draft'
     return {
       key: p.id,
       href: `/admin/cms/${p.id}`,
       path: pathOf(p.kind, p.slug),
-      title: c?.h1 || c?.title || p.slug,
-      kind: { template: templateName.get(p.template) ?? p.template },
-      langs: p.locales.map((l) => ({ lang: l.locale, state: p.archived ? ('archived' as const) : localeState(l) })),
-      score: s.score,
-      updated: p.updated_at,
+      title: bareTitle(c?.h1 || c?.title || p.slug),
       article: p.kind === 'article',
-      live: !p.archived && p.locales.some((l) => l.current),
-      archived: p.archived,
+      kind: p.kind === 'article' ? m.group.article : h('page'),
+      template: templateName.get(p.template) ?? p.template,
+      langs: CMS_LOCALES.map((lang) => {
+        const l = p.locales.find((x) => x.locale === lang)
+        return { lang, state: l ? (p.archived ? ('archived' as const) : localeState(l)) : ('missing' as const) }
+      }),
+      state,
+      updated: p.updated_at,
+      author: p.author ?? null,
     }
   })
 
   const all = [...made, ...designed]
-  const shown = all.filter((r) => {
-    if (q && !`${r.path} ${r.title}`.toLowerCase().includes(q)) return false
-    switch (filter) {
-      case 'designed':
-        return 'designed' in r.kind
-      case 'cms':
-        return 'template' in r.kind && !r.archived
-      case 'articles':
-        return r.article && !r.archived
-      case 'drafts':
-        return !r.live && !r.archived
-      case 'attention':
-        return r.score < 70 && !r.archived
-      case 'archived':
-        return r.archived
-      default:
-        return !r.archived
-    }
-  })
-
-  const liveMade = made.filter((r) => r.live).length
-  const drafts = made.filter((r) => !r.live && !r.archived).length
-  const scheduled = pages.rows.filter((p) => !p.archived && p.locales.some((l) => l.pending_at && new Date(l.pending_at) > new Date())).length
-  const views = traffic.rows.reduce((s, r) => s + r.views, 0)
-  const signups = traffic.rows.reduce((s, r) => s + r.signups, 0)
-
-  const chip = (f: Filter) => {
-    const href = `/admin/cms?f=${f}${q ? `&q=${encodeURIComponent(q)}` : ''}`
-    return (
-      <a
-        key={f}
-        href={href}
-        aria-current={f === filter ? 'page' : undefined}
-        className={`inline-flex h-[32px] items-center rounded-pill border px-[13px] text-[12.5px] font-semibold no-underline hover:no-underline ${
-          f === filter ? 'border-ink bg-ink text-bg hover:text-bg' : 'border-line bg-sf text-ink hover:text-ink'
-        }`}
-      >
-        {m.filter[f]}
-      </a>
-    )
-  }
+  const inSeg = (r: Row, s: Seg) =>
+    s === 'all'
+      ? r.state !== 'archived'
+      : s === 'pages'
+        ? !r.article && r.state !== 'archived'
+        : s === 'articles'
+          ? r.article && r.state !== 'archived'
+          : s === 'drafts'
+            ? r.state === 'draft'
+            : s === 'scheduled'
+              ? r.state === 'scheduled'
+              : r.state === 'archived'
+  const matches = (r: Row) => !q || `${r.path} ${r.title}`.toLowerCase().includes(q)
+  const shown = all.filter((r) => inSeg(r, seg) && matches(r))
+  const published = all.filter((r) => r.state === 'live' || r.state === 'changed').length
+  const href = (s: Seg) => `/admin/cms?${new URLSearchParams(Object.entries({ s: s === 'all' ? '' : s, q }).filter(([, v]) => v)).toString()}`
 
   return (
     <>
-      <PageHead title={m.title} lead={m.lead}>
-        <span className="flex flex-wrap gap-[8px]">
-          <ButtonLink href={'/admin/cms/redirects' as Route} size="sm" tone="secondary">
-            {m.redirectsLink}
-          </ButtonLink>
-          {canWrite ? (
-            <ButtonLink href={'/admin/cms/new' as Route} size="sm">
-              + {m.new}
-            </ButtonLink>
-          ) : null}
-        </span>
+      <PageHead title={m.title} lead={h('lead', { published, total: all.filter((r) => r.state !== 'archived').length, site: t('nav.siteDomain') })}>
+        {canWrite ? (
+          <Link href={'/admin/cms/new' as Route} className={BTN.primary}>
+            {h('new')}
+          </Link>
+        ) : null}
       </PageHead>
 
-      <div className="grid gap-[12px] [grid-template-columns:repeat(auto-fill,minmax(160px,1fr))]">
-        <Stat label={m.stats.site} value={designed.length + liveMade} hint={m.stats.siteHint.replace('{designed}', String(designed.length)).replace('{cms}', String(liveMade))} />
-        <Stat label={m.stats.live} value={liveMade} />
-        <Stat label={m.stats.drafts} value={drafts} />
-        <Stat label={m.stats.scheduled} value={scheduled} />
-        <Stat label={m.stats.views.replace('{days}', String(DAYS))} value={views.toLocaleString('en-GB')} />
-        <Stat label={m.stats.signups.replace('{days}', String(DAYS))} value={signups} hint={m.stats.signupsHint} />
-      </div>
-
-      <Card className="mt-[14px]">
-        <div className="mb-[12px] flex flex-wrap items-center gap-[8px]">
-          <nav aria-label={m.filter.label} className="flex flex-wrap gap-[6px]">
-            {FILTERS.map(chip)}
-          </nav>
-          <form action="/admin/cms" className="ml-auto flex gap-[6px]" role="search">
-            <input type="hidden" name="f" value={filter} />
-            <label className="sr-only" htmlFor="cms-q">
-              {m.filter.search}
-            </label>
-            <input
-              id="cms-q"
-              name="q"
-              defaultValue={q}
-              placeholder={m.filter.search}
-              className="box-border h-[32px] w-[220px] rounded-pill border border-line bg-bg px-[13px] text-[12.5px] outline-none focus-visible:border-ink"
-            />
+      <section className="rounded-panel border border-line bg-sf">
+        <div className="flex flex-wrap items-center gap-[10px] px-[20px] py-[16px]">
+          <form method="get" action="/admin/cms" role="search" className="flex h-[38px] items-center gap-[8px] rounded-ctl border border-line bg-bg px-[13px]">
+            <span className="flex-none text-mut">
+              <Icon name="search" size={14} />
+            </span>
+            {seg !== 'all' ? <input type="hidden" name="s" value={seg} /> : null}
+            <input name="q" defaultValue={q} placeholder={h('search')} aria-label={h('searchLabel')} className="box-border w-[172px] max-w-full border-0 bg-transparent text-[13px] text-ink outline-none" />
           </form>
+          <Segments label={h('segments')} items={SEGS.filter((s) => s !== 'archived' || seg === 'archived' || all.some((r) => r.state === 'archived')).map((s) => ({ key: s, label: h(`seg.${s}`), n: all.filter((r) => inSeg(r, s) && matches(r)).length, href: href(s), on: s === seg }))} />
         </div>
-        <Table
-          head={[m.table.page, m.table.type, m.table.languages, m.table.seo, m.table.views, m.table.visitors, m.table.cta, m.table.signups, m.table.updated]}
-          empty={shown.length ? undefined : m.table.empty}
-        >
-          {shown.map((r) => {
-            const tr = byPath.get(r.path)
-            return (
-              <tr key={r.key}>
-                <Td wrap className="min-w-[240px]">
-                  <Link href={r.href as Route} className="font-semibold text-link">
-                    {r.title}
-                  </Link>
-                  <span className="mt-[2px] block font-mono text-[11.5px] text-mut">{r.path}</span>
-                </Td>
-                <Td>
-                  {'designed' in r.kind ? (
-                    <span className="text-[12px]">
-                      <span className="font-semibold">{m.designedBadge}</span> <span className="text-mut">· {m.group[r.kind.designed]}</span>
-                    </span>
-                  ) : (
-                    <span className="text-[12px] font-semibold">{r.kind.template}</span>
-                  )}
-                </Td>
-                <Td>
-                  <span className="flex flex-wrap gap-[4px]">
-                    {r.langs.length ? r.langs.map((l) => <StateChip key={l.lang} lang={l.lang} state={l.state} label={m.state[l.state]} />) : m.state.none}
-                  </span>
-                </Td>
-                <Td>
-                  <ScorePill score={r.score} label={m.table.seo} />
-                </Td>
-                <Td>{tr?.views ?? 0}</Td>
-                <Td>{tr?.visitors ?? 0}</Td>
-                <Td>{tr?.cta ?? 0}</Td>
-                <Td>{tr?.signups ?? 0}</Td>
-                <Td className="text-mut">{r.updated ? day(r.updated) : '—'}</Td>
-              </tr>
-            )
-          })}
-        </Table>
-        <p className="mb-0 mt-[10px] text-[12px] text-mut">{m.table.note.replace('{days}', String(DAYS))}</p>
-      </Card>
-
-      <Card title={m.templates.title} className="mt-[14px]">
-        <p className="m-0 mb-[14px] max-w-[80ch] text-[13px] leading-[1.55] text-mut">{m.templates.lead}</p>
-        <div className="grid gap-[12px] [grid-template-columns:repeat(auto-fill,minmax(200px,1fr))]">
-          {templates.rows.map((x) => {
-            const body = (
-              <>
-                <LayoutThumb layout={x.layout} />
-                <span className="mt-[9px] flex items-center justify-between gap-[8px]">
-                  <span className="text-[13.5px] font-bold text-ink">{x.name}</span>
-                  <span className="rounded-pill bg-track px-[8px] py-[2px] text-[10.5px] font-bold uppercase tracking-[0.06em] text-mut">{m.layout[x.layout]}</span>
-                </span>
-                <span className="mt-[5px] block text-[12px] leading-[1.5] text-mut">{x.description}</span>
-              </>
-            )
-            return canWrite ? (
-              <Link key={x.key} href={`/admin/cms/new?template=${x.key}` as Route} className="block rounded-panel border border-line bg-bg p-[12px] no-underline hover:border-ink hover:no-underline" aria-label={`${m.templates.use}: ${x.name}`}>
-                {body}
-              </Link>
-            ) : (
-              <div key={x.key} className="rounded-panel border border-line bg-bg p-[12px]">
-                {body}
-              </div>
-            )
-          })}
+        <div className="overflow-x-auto">
+          <div className="min-w-[660px]">
+            <div aria-hidden="true" className="flex items-center gap-[14px] border-y border-line px-[20px] pb-[10px] pt-[12px] text-[11px] uppercase tracking-[0.09em] text-mut">
+              <span className="flex-[2.2]">{h('col.page')}</span>
+              <span className="flex-[1.4]">{h('col.languages')}</span>
+              <span className="w-[96px]">{h('col.status')}</span>
+              <span className="w-[36px]">{h('col.author')}</span>
+              <span className="w-[112px]" />
+            </div>
+            <ul className="m-0 list-none p-0">
+              {shown.map((r) => {
+                const have = r.langs.filter((l) => l.state !== 'missing').length
+                return (
+                  <li key={r.key} className="relative flex items-center gap-[14px] border-b border-line px-[20px] py-[14px] hover:bg-bg">
+                    <div className="min-w-0 flex-[2.2]">
+                      <div className="flex items-center gap-[8px] font-semibold">
+                        <Link href={r.href as Route} className="min-w-0 truncate text-ink no-underline after:absolute after:inset-0 hover:text-ink hover:no-underline">
+                          {r.title}
+                        </Link>
+                        <span className="flex-none rounded-pill border border-line px-[7px] py-[2px] text-[11px] font-semibold text-mut">{r.kind}</span>
+                      </div>
+                      <div className="truncate text-[12.5px] text-mut">
+                        {h('meta', { path: `${t('nav.siteDomain')}${r.path}`, template: r.template, updated: r.updated ? day(r.updated) : h('inCode') })}
+                      </div>
+                    </div>
+                    <div className="flex flex-[1.4] items-center gap-[10px]">
+                      <span className="flex gap-[4px]">
+                        {r.langs.map((l) => (
+                          <span
+                            key={l.lang}
+                            title={h(`lang.${l.state}`)}
+                            className={`rounded-pill border border-line px-[7px] py-[3px] text-[10.5px] font-bold ${l.state === 'live' || l.state === 'changed' ? 'bg-teal' : l.state === 'missing' ? '' : 'bg-sbg'}`}
+                          >
+                            {l.lang.toUpperCase()}
+                          </span>
+                        ))}
+                      </span>
+                      <span className="whitespace-nowrap text-[12.5px]">
+                        <b>{Math.round((100 * have) / r.langs.length)} %</b> <span className="text-mut">{`${have}/${r.langs.length}`}</span>
+                      </span>
+                    </div>
+                    <div className="w-[96px]">
+                      <span className="inline-flex items-center gap-[6px] whitespace-nowrap rounded-pill bg-sbg px-[11px] py-[5px] text-[11.5px] font-bold">
+                        <span aria-hidden="true" className={`block h-[6px] w-[6px] rounded-pill ${STATE_DOT[r.state]}`} />
+                        {h(`state.${r.state}`)}
+                      </span>
+                    </div>
+                    <div className="w-[36px]">{r.author ? <Avatar name={r.author.split('@')[0] ?? r.author} /> : null}</div>
+                    <div className="relative flex w-[112px] justify-end">
+                      <Link href={r.href as Route} className={BTN.row} tabIndex={-1} aria-hidden="true">
+                        {h('open')}
+                      </Link>
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+            {shown.length ? null : <p className="m-0 px-[20px] py-[18px] text-[13px] text-mut">{h('none')}</p>}
+          </div>
         </div>
-      </Card>
+      </section>
+      <p className="mb-0 mt-[14px] max-w-[90ch] text-[12px] leading-[1.55] text-mut md:px-[18px]">{h('note')}</p>
     </>
   )
 }

@@ -83,11 +83,13 @@ const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }
     key: 'content',
     items: [
       { key: 'cms', section: 'cms', href: HREF.cms, icon: 'page' },
-      { key: 'cmsRedirects', section: 'cms', href: '/admin/cms/redirects', icon: 'redirect' },
+      { key: 'cmsTemplates', section: 'cms', href: '/admin/cms/templates', icon: 'template' },
+      { key: 'cmsLanding', section: 'cms', href: '/admin/cms/landing', icon: 'flag' },
       { key: 'seo', section: 'seo', href: HREF.seo, icon: 'search' },
       { key: 'translations', section: 'translations', href: HREF.translations, icon: 'globe' },
-      { key: 'legal', section: 'legal', href: HREF.legal, icon: 'scale' },
-      { key: 'modules', section: 'modules', href: HREF.modules, icon: 'puzzle' },
+      { key: 'cmsRedirects', section: 'cms', href: '/admin/cms/redirects', icon: 'redirect', more: true },
+      { key: 'legal', section: 'legal', href: HREF.legal, icon: 'scale', more: true },
+      { key: 'modules', section: 'modules', href: HREF.modules, icon: 'puzzle', more: true },
     ],
   },
   {

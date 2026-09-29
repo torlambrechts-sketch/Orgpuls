@@ -7393,3 +7393,44 @@ cookieless beacon (0050, 0054, 0059) through `admin_web_report` (0121):
 - *Sources & visits* keeps what the old Web page showed and the design does not — the visit funnel
   with clicks, sources with activated and paid, how-did-you-hear, campaigns, landing pages, countries,
   cities and the latest visits — behind «More», with Cost per customer.
+
+## D-168 — Sentral Content: pages, templates, landing, SEO and languages
+
+X-095, phases 7 and 8. From the design's `isPages`, the page detail, `isTemplates`, `isLanding`,
+`isSeo` and `isLanguages`, over the CMS (0114), the site's own designed pages, the web beacon and
+the translation registry. What the design draws and the product does not:
+
+- *Pages*: the design's search score and traffic columns are not on the list; they are on SEO and
+  Analytics, and on each page's detail. A designed page (layout in code) has no «last changed» or
+  author, so its meta line says «in code» and the author cell is empty rather than invented. The
+  language chips are bokmål and English: the site has no nynorsk.
+- *Page detail*: the tabs are Content, Translations, SEO, Versions and Settings as designed. There is
+  no *In review* state and no *Compare*: X-096 took approval steps out of content work («WAY too
+  complicated»), and a publish is already a revision that Versions restores. The design's *visual
+  canvas with an inspector* is the form beside a live preview of the real page (X-094): the public
+  site draws every block its one designed way, so there is nothing for an inspector to set that the
+  form does not.
+- *A designed page's detail* (layout in code) keeps its own view — title and description per
+  language with their score, its traffic, and the two texts edited in place — under the same header
+  as a template page.
+- *Templates*: no «Edit template» and no «New template». The templates are written with the site
+  (0114, X-094) and their blocks are drawn by the site's designed sections; editing a template's
+  starting words would change no page already made from it. Each card shows its blocks in order, how
+  many pages were made from it, and «New page» from it.
+- *Landing & front pages*: the design's «Splash page» — a page that replaces the site — is a
+  **site notice** (plan decision 8, 0123): one line above the header on every public page, bokmål
+  and English, switched on and off here, audited, never reaching the product or a survey and never
+  touching indexing. Visits and conversion are the beacon's last 30 days; a page with no visitors
+  shows «—», not 0 %.
+- *SEO*: the ranges are the page score's own (title 30–60, description 120–160), not the design's
+  70–155, so the list and the score agree. Redirect hits are counted since each redirect was made,
+  not «last 30 days», because that is what the table keeps. The sitemap card does not claim it is
+  submitted to Google; IndexNow status is on Performance.
+- *Languages*: the design's languages are pages of a site; ours are what a survey can ask — bokmål,
+  the source; English, whose questions are counted here (its page strings are messages/, on the
+  legal review); and the five survey languages. There is no «Add a language»: a language is a code
+  change (LOCALE_REGISTRY, a flag, CLDR plural rules, fonts), not a row. The queue has no assignee:
+  nobody is assigned translation work in the product. The design's *Machine translation* switch is
+  not a switch: machine drafts are made with every text as it is written (X-089, D-133) and wait in
+  review, so the card says that instead of offering a toggle that would change nothing. «Import
+  JSON» goes to the import on the open language (bokmål's questions have none: they are the source).

@@ -173,3 +173,47 @@ export const SITE_PAGES: { id: SitePageId; entries: SiteEntry[] }[] = [
 export const sitePage = (id: string | undefined | null) => (id ? (SITE_PAGES.find((p) => p.id === id) ?? null) : null)
 
 export { autoApprove }
+
+// ---------------------------------------------------------------- Languages overview (X-095, the design's `isLanguages`)
+export type LanguageCard = {
+  locale: RegistryLanguage
+  total: number
+  approved: number
+  /** switched on and every text approved (lib/i18n/offered.ts), or offered to pilot organisations */
+  offered: boolean
+  pilots: number
+}
+export type QueueCell = { locale: RegistryLanguage; state: 'none' | 'workflow' | 'stale' }
+export type QueueEntry = { entry: SourceEntry; cells: QueueCell[] }
+export type LanguageOverview = { cards: LanguageCard[]; queue: QueueEntry[]; sourceTotal: number; open: number }
+
+/**
+ * Every registry language in one pass: how much of what a survey can ask is approved in it, and the
+ * texts not yet approved in at least one language, each with the languages it is missing or waiting
+ * in. English counts its questions only — its page strings are messages/ (see languageView's ready).
+ */
+export async function languageOverview(): Promise<LanguageOverview | 'not_allowed' | 'failed'> {
+  const [catalogue, pilots, ...states] = await Promise.all([surveyTexts(), localePilots(), ...REGISTRY_LANGUAGES.map((l) => translationState(l))])
+  if (!catalogue) return 'failed'
+  const bad = states.find(isError)
+  if (bad) return bad.error === 'not_allowed' ? 'not_allowed' : 'failed'
+  const currents = REGISTRY_LANGUAGES.map((l, i) => ({ locale: l, current: new Map(currentRows(states[i] as TranslationState).map((c) => [c.item, c])) }))
+  const counted = (l: RegistryLanguage) => (l === 'en' ? SCOPE_SECTIONS.questionnaire : SECTIONS)
+  const cards: LanguageCard[] = currents.map(({ locale, current }) => {
+    const entries = catalogue.filter((e) => counted(locale).includes(e.section))
+    const approved = entries.filter((e) => standing(e, current.get(e.key)) === 'approved').length
+    const n = isError(pilots) ? 0 : pilots.pilots.filter((p) => p.locale === locale).length
+    return { locale, total: entries.length, approved, pilots: n, offered: approved === entries.length && (flag(`locale_${locale}` as FlagName) || n > 0) }
+  })
+  const queue: QueueEntry[] = []
+  for (const e of catalogue) {
+    const cells: QueueCell[] = []
+    for (const { locale, current } of currents) {
+      if (!counted(locale).includes(e.section)) continue
+      const s = standing(e, current.get(e.key))
+      if (s !== 'approved') cells.push({ locale, state: s })
+    }
+    if (cells.length) queue.push({ entry: e, cells })
+  }
+  return { cards, queue, sourceTotal: catalogue.length, open: queue.reduce((n, q) => n + q.cells.length, 0) }
+}

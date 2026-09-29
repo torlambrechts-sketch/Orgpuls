@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { CMS_LOCALES, TRANSLATION_STATES } from '@/lib/cms/content'
 import { CMS_TAG } from '@/lib/cms/read'
+import { NOTICE_TAG } from '@/lib/site/notice'
 import { Block, FaqItems } from '@/lib/marketing/blocks'
 import { SHOT_IDS } from '@/lib/marketing/shot-ids'
 import { createClient } from '@/lib/supabase/server'
@@ -191,5 +192,21 @@ export async function cmsRedirectDelete(_prev: AdminResult | null, formData: For
   const r = await rpc('admin_cms_redirect_delete', { p_from: from.data })
   if (!r.ok) return r
   revalidatePath('/admin/cms/redirects')
+  return { ok: true }
+}
+
+/**
+ * The site notice on or off (0123): the design's «Splash page», as a notice on the public pages,
+ * in bokmål and English. The public site's cached copy is dropped at once.
+ */
+export async function siteNoticeSet(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({ on: z.enum(['on', 'off']), no: z.string().max(300), en: z.string().max(300) })
+    .safeParse({ on: formData.get('on'), no: formData.get('no') ?? '', en: formData.get('en') ?? '' })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_site_notice_set', { p_on: parsed.data.on === 'on', p_no: parsed.data.no, p_en: parsed.data.en })
+  if (!r.ok) return r
+  revalidateTag(NOTICE_TAG)
+  revalidatePath('/admin/cms/landing')
   return { ok: true }
 }

@@ -7524,7 +7524,9 @@
         "crmScoring": "Lead scoring",
         "webPages": "Pages",
         "webGoals": "Goals",
-        "webVisits": "Sources & visits"
+        "webVisits": "Sources & visits",
+        "cmsTemplates": "Templates",
+        "cmsLanding": "Landing & front pages"
       },
       "openMenu": "Open the menu",
       "closeMenu": "Close the menu",
@@ -9620,6 +9622,42 @@
         "page": "{page}: {impressions} impressions, position {position}",
         "none": "No query is split between two pages.",
         "note": "Two or more of our pages each with at least ten impressions for the same query. Pick one to answer it and link the other to it."
+      },
+      "health": {
+        "lead": "Health of {count} published pages, and how they perform in search",
+        "view": "View",
+        "health": "Health",
+        "performance": "Performance",
+        "newRedirect": "New redirect",
+        "noTitle": "no title tag",
+        "titleLong": "title {n} chars, over {max}",
+        "titleShort": "title {n} chars, under {min}",
+        "noDescription": "no meta description",
+        "descLong": "description {n} chars, over {max}",
+        "descShort": "description {n} chars, under {min}",
+        "ofIndexable": "of {n} indexable pages",
+        "outside": "outside {min}–{max} characters",
+        "onPurpose": "noindex on purpose",
+        "hits": "{n, plural, one {# hit in all} other {# hits in all}}",
+        "kpi": {
+          "missing": "Missing description",
+          "titleOff": "Title length off",
+          "notIndexed": "Not indexed",
+          "redirects": "Redirects"
+        },
+        "pages": "Pages",
+        "ranges": "Title {t0}–{t1} characters · description {d0}–{d1}",
+        "inRange": "Title and description in range",
+        "indexed": "Indexed",
+        "noindex": "No index",
+        "edit": "Edit",
+        "redirectsTitle": "Redirects",
+        "manage": "Manage",
+        "hitsShort": "{n, plural, one {# hit} other {# hits}}",
+        "noRedirects": "No redirects yet.",
+        "sitemap": "Sitemap",
+        "sitemapLead": "Regenerated on every publish. Pages marked “No index” are left out.",
+        "title": "SEO"
       }
     },
     "acquisition": {
@@ -10220,6 +10258,32 @@
         "superseded": "Superseded: messages/ has changed here since this override was written, so the file's text is shown.",
         "foldedBadge": "In the files",
         "supersededBadge": "Superseded"
+      },
+      "overview": {
+        "title": "Languages",
+        "lead": "Bokmål is the source. {n, plural, =0 {No translations are missing or waiting for review.} one {# translation is missing or waiting for review.} other {# translations are missing or waiting for review.}}",
+        "import": "Import JSON",
+        "export": "Export JSON",
+        "source": "Source language",
+        "roleEn": "Second language · questions counted here",
+        "offered": "Survey language · offered",
+        "pilot": "Survey language · {n, plural, one {# pilot} other {# pilots}}",
+        "notOffered": "Survey language · not offered yet",
+        "frac": "{approved}/{total} texts",
+        "queue": "Translation queue",
+        "texts": "{n, plural, one {# text} other {# texts}}",
+        "cell": {
+          "none": "Missing",
+          "workflow": "In review",
+          "stale": "Outdated"
+        },
+        "translate": "Translate",
+        "queueEmpty": "Every text is approved in every language.",
+        "more": "{n, plural, one {# more text} other {# more texts}} — open a language below to see them all.",
+        "machine": "Machine translation",
+        "machineText": "Every text added or changed is machine-translated into each survey language in the same piece of work, imported with the origin «machine», and waits in review until someone approves it.",
+        "rule": "A survey language is offered to respondents only when every text a survey asks is approved and its flag or a pilot is on. Until then it is not offered at all — never half-translated.",
+        "workspace": "Texts"
       }
     },
     "autoBanner": "Auto-approve is on: every translation and legal text is approved as it arrives.",
@@ -10342,9 +10406,10 @@
         "openLive": "Open the live page",
         "tabs": {
           "content": "Content",
-          "seo": "Search",
-          "settings": "Settings",
-          "history": "History"
+          "translations": "Translations",
+          "seo": "SEO",
+          "history": "Versions",
+          "settings": "Settings"
         },
         "hero": "Top of the page",
         "sections": "Sections",
@@ -10460,7 +10525,9 @@
           "open": "Open in a new tab",
           "note": "Shows the saved draft, drawn by the public site itself. Save to update it. The link works for an hour and is never indexed.",
           "failed": "The preview could not be loaded."
-        }
+        },
+        "translationsLead": "Each language is its own copy of the page, published on its own site. Norwegian is the source; a translation starts from it.",
+        "editLanguage": "Edit"
       },
       "site": {
         "lead": "A designed page: its layout is code and pixel-checked against the design. Its title and description are messages, edited here for both languages; every other text on it is in Translations.",
@@ -10610,6 +10677,94 @@
         "chain": "That address is itself redirected: point to where it ends up instead.",
         "empty_block": "A section is empty: fill it in or remove it.",
         "failed": "It did not work. Try again."
+      },
+      "hub": {
+        "lead": "{published} of {total} published on {site} · Norwegian is the source language",
+        "new": "New page",
+        "search": "Search title or path…",
+        "searchLabel": "Search pages",
+        "segments": "Show",
+        "seg": {
+          "all": "All",
+          "pages": "Pages",
+          "articles": "Articles",
+          "drafts": "Draft",
+          "scheduled": "Scheduled",
+          "archived": "Archived"
+        },
+        "col": {
+          "page": "Page",
+          "languages": "Languages",
+          "status": "Status",
+          "author": "Author"
+        },
+        "page": "Page",
+        "designed": "Designed page",
+        "meta": "{path} · {template} · updated {updated}",
+        "inCode": "with the code",
+        "lang": {
+          "live": "Published",
+          "changed": "Published, with changes waiting",
+          "scheduled": "Scheduled",
+          "draft": "Draft",
+          "archived": "Archived",
+          "missing": "Not written"
+        },
+        "state": {
+          "live": "Published",
+          "changed": "Changes",
+          "scheduled": "Scheduled",
+          "draft": "Draft",
+          "archived": "Archived"
+        },
+        "open": "Open",
+        "none": "No pages here.",
+        "note": "Designed pages are drawn by the site's own code; their words are edited here and under Languages. Pages made from templates are written here. Search scores are under SEO, traffic under Analytics › Pages."
+      },
+      "templatesPage": {
+        "title": "Templates",
+        "lead": "{count} templates · a template decides which blocks a page starts with and in what order",
+        "hero": "Top of the page",
+        "faq": "Questions and answers",
+        "closing": "Closing call to action",
+        "pages": "{count, plural, =0 {No pages} one {# page} other {# pages}} on {site}",
+        "newPage": "New page",
+        "note": "Templates are written with the site and drawn by its own designed sections, so a page made from one looks like the rest of the site. They are not edited here."
+      },
+      "landingPage": {
+        "title": "Landing & front pages",
+        "lead": "What visitors meet first on {site} — the front page, a notice when one is needed, and {count} landing pages",
+        "new": "New landing page",
+        "front": "Front page",
+        "live": "Live",
+        "frontNote": "{site}/ · the start page",
+        "visits": "Visits · {days} d",
+        "conversion": "Conversion",
+        "signups": "{count, plural, one {# signup} other {# signups}}",
+        "editFront": "Edit front page",
+        "notice": "Site notice",
+        "noticeTitle": "No notice",
+        "noticeOn": "On — shown above every page of the site. Turned on by {by}, {at}",
+        "noticeOff": "Off — visitors see the site as it is",
+        "noticeExplain": "A notice is a line above the header on every page of the public site, in bokmål and English. It never replaces a page, never reaches the product or a survey, and never affects search indexing. Turning it on and off is logged.",
+        "noticeSwitch": "Site notice on",
+        "noticeEdit": "Edit notice",
+        "noticeNo": "Notice in bokmål",
+        "noticeEn": "Notice in English (bokmål is used if empty)",
+        "noticeSave": "Save notice",
+        "noticeInvalid": "The notice can be at most 300 characters.",
+        "noticeTextRequired": "Write the notice in bokmål before turning it on.",
+        "pages": "Landing pages",
+        "pagesLead": "Pages people land on from a search, a campaign or a link, each with its own address and search fields",
+        "col": {
+          "page": "Page",
+          "visits": "Visits · conversion",
+          "status": "Status",
+          "owner": "Owner"
+        },
+        "visitsWord": "visits",
+        "notLive": "— not live",
+        "edit": "Edit"
       }
     },
     "customers": {

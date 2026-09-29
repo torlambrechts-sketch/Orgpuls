@@ -35,6 +35,8 @@ const PAGES = [
   '/admin/crm/templates',
   '/admin/crm/stages',
   '/admin/cms/redirects',
+  '/admin/cms/templates',
+  '/admin/cms/landing',
   '/admin/web/pages',
   '/admin/web/goals',
   '/admin/web/visits',

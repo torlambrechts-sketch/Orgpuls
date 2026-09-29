@@ -2791,6 +2791,18 @@ class, that no agent or address is kept, the per-page arithmetic, the funnel wit
 retention limits and who may ask. The old Web page's detail is kept as Sources & visits behind
 «More»; «Export report» is a CSV of the same figures.
 
+Phases 7–8, Content: Pages as the design's table (search, segments with counts, kind chip, language
+chips with coverage, state pill, author); the page detail with the design's header and pill tabs,
+and a Translations tab; Templates as cards of their blocks; Landing & front pages with the front
+page's visits and sign-ups, the landing pages with conversion, and the site notice; SEO as Health
+(missing descriptions, titles out of range, noindex, redirects with hits, the sitemap, every page's
+issues) beside Performance (Search Console, as before); Languages as coverage per language and a
+translation queue above the existing workspace (D-168). 0123 gives the Pages list its author and
+adds the site notice — `admin_site_notice(_set)` for Content, `site_notice(locale)` for the public
+layout, nothing while it is off, on and off audited. content_invariants.sql proves who may call
+what, the empty read while off, the bokmål requirement and length, the language fallback, the
+read-only roles, the audit, and the author.
+
 ### X-096 — Modules and legal texts, the pragmatic way
 
 **Why.** Tor, 2026-09-29: «today's versioning and change management and approval flow is WAY too

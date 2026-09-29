@@ -54,6 +54,8 @@ const Page = z.object({
   updated_at: z.string(),
   archived: z.boolean(),
   locales: z.array(Locale),
+  /** 0123: who last saved or published it, else who made it (the Pages list only) */
+  author: z.string().nullable().optional(),
 })
 export type CmsPage = z.infer<typeof Page>
 export const cmsPages = () => call('admin_cms_pages', {}, z.object({ rows: z.array(Page) }))
@@ -85,3 +87,8 @@ export function localeState(l: CmsPageLocale): LocaleState {
   if (l.current) return l.changed ? 'changed' : 'live'
   return 'draft'
 }
+
+// 0123 (X-095): the site notice, the design's «Splash page»
+const SiteNotice = z.object({ on: z.boolean(), no: z.string().nullable(), en: z.string().nullable(), at: tsn, by: z.string().nullable() })
+export type SiteNotice = z.infer<typeof SiteNotice>
+export const siteNoticeAdmin = () => call('admin_site_notice', {}, SiteNotice)

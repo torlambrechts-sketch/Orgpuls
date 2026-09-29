@@ -178,8 +178,8 @@ Each phase ships on its own, with the QA below. Status is kept here as phases la
 | 4 ✓ | CRM I | Pipeline (deal value, next step, owner, stage since; board/list); Contacts & lists; Campaigns (KPIs, lifecycle coverage, house rules, detail). | deal fields |
 | 5 ✓ | CRM II | Journeys (+ detail), Tasks, Tickets redrawn and moved, Lead scoring. | journeys, tasks, score rules |
 | 6 ✓ | Analytics | Overview, Pages, Goals from the real counts; Sources & visits and Cost per customer behind «More» (D-167). | 0121 device class, `admin_web_report` |
-| 7 | Content I | Pages table; page detail tabs; In review; version compare; visual editor (canvas + inspector). | review state |
-| 8 | Content II | Templates, Landing & front pages, SEO Health/Performance, Languages. | template edit |
+| 7 ✓ | Content I | Pages table; page detail tabs with Translations; no In review or Compare, form + live preview instead of canvas (D-168, X-096). | 0123 author |
+| 8 ✓ | Content II | Templates (read-only, D-168), Landing & front pages with the site notice, SEO Health/Performance, Languages overview. | 0123 site notice |
 | 9 | Media | Storage, upload, alt text, use counts, image block. | bucket, table, RLS |
 | 10 | Admin | Users & roles (`editor`), Billing & plans (no money figures), Site settings (General, Access, Integrations), Audit log. | role, indexing setting |
 
