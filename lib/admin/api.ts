@@ -76,6 +76,13 @@ const OrgRow = z.object({
   last_sent: tsn,
   last_invited: num,
   last_answered: num,
+  // 0118: the account owner, the daglig leder's name, the cancellation, the demo flag
+  cancelled_at: tsn.default(null),
+  cancel_effective_at: tsn.default(null),
+  owner_id: z.string().nullable().default(null),
+  owner_email: z.string().nullable().default(null),
+  contact_name: z.string().nullable().default(null),
+  demo: z.boolean().default(false),
 })
 export type OrgRow = z.infer<typeof OrgRow>
 
@@ -761,3 +768,12 @@ const Attention = z.object({
 export type Attention = z.infer<typeof Attention>
 /** What an admin should do next, each item for the roles whose pages it leads to */
 export const attention = () => call('admin_attention', {}, Attention)
+
+// ---------------------------------------------------------------- the account owner (0118, X-095)
+const OrgOwner = z.object({
+  owner: z.object({ id: z.string(), email: z.string(), set_at: ts }).nullable(),
+  can_set: z.boolean(),
+  candidates: z.array(z.object({ id: z.string(), email: z.string(), role: z.enum(ROLES) })),
+})
+export type OrgOwner = z.infer<typeof OrgOwner>
+export const orgOwner = (org: string) => call('admin_org_owner', { p_org: org }, OrgOwner)

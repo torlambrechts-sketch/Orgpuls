@@ -111,6 +111,20 @@ export async function extendTrialAsAdmin(_prev: AdminResult | null, formData: Fo
   return r
 }
 
+/** The account owner (0118): an active platform admin, or nobody. */
+export async function setAccountOwner(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({ org: z.string().uuid(), owner: z.union([z.string().uuid(), z.literal('')]) })
+    .safeParse({ org: formData.get('org'), owner: formData.get('owner') ?? '' })
+  if (!parsed.success) return { ok: false, problem: 'failed' }
+  const r = await rpc('admin_set_account_owner', { p_org: parsed.data.org, p_owner: parsed.data.owner || null })
+  if (r.ok) {
+    revalidatePath(`/admin/orgs/${parsed.data.org}`)
+    revalidatePath('/admin/orgs')
+  }
+  return r
+}
+
 export async function addNote(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
   const parsed = z
     .object({ org: z.string().uuid(), body: z.string().trim().min(1).max(4000) })

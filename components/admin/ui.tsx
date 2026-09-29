@@ -180,3 +180,21 @@ export const when = (iso: string | null | undefined) => (iso ? fmtTime.format(ne
 export const nok = (n: number | null | undefined) => (n === null || n === undefined ? '—' : `NOK ${n.toLocaleString('en-GB')}`)
 export const pct = (a: number | null | undefined, b: number | null | undefined) =>
   a === null || a === undefined || !b ? '—' : `${Math.round((100 * a) / b)} %`
+
+/**
+ * The design's buttons, as classes so a link and a button look alike: the page's one primary action
+ * (yellow), the modal's confirm (ink), a secondary (outlined) and a row's small action.
+ */
+export const BTN = {
+  primary:
+    'inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-ctl border-0 bg-ac px-[18px] py-[10px] text-[13.5px] font-bold text-ink no-underline hover:text-ink hover:no-underline disabled:cursor-default disabled:opacity-60',
+  dark: 'inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-ctl border-0 bg-ink px-[18px] py-[10px] text-[13.5px] font-bold text-sf no-underline hover:text-sf hover:no-underline disabled:cursor-default disabled:opacity-60',
+  secondary:
+    'inline-flex cursor-pointer items-center justify-center gap-[8px] whitespace-nowrap rounded-ctl border border-line bg-transparent px-[15px] py-[9px] text-[12.5px] font-semibold text-ink no-underline hover:bg-ink/5 hover:text-ink hover:no-underline',
+  row: 'inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-bar border border-line bg-transparent px-[12px] py-[7px] text-[12px] font-semibold text-ink no-underline hover:bg-ink/5 hover:text-ink hover:no-underline',
+} as const
+
+/** A field's label as the design's forms draw it: small capitals above the control */
+export const FIELD_LABEL = 'mb-[8px] block text-[11px] uppercase tracking-[0.09em] text-mut'
+export const FIELD =
+  'box-border w-full max-w-full rounded-ctl border border-line bg-sf px-[13px] py-[10px] text-[13px] text-ink outline-none focus-visible:border-ink'

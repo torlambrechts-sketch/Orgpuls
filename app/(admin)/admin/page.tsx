@@ -3,7 +3,8 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { Business } from '@/components/admin/Business'
 import { Avatar, PageHead, Problem, Stat } from '@/components/admin/ui'
-import { attention, auditList, isError, kpis, type AuditRow } from '@/lib/admin/api'
+import { didKey, firstName, targetOf, when } from '@/lib/admin/activity'
+import { attention, auditList, isError, kpis } from '@/lib/admin/api'
 import { cmsPages, type CmsPage } from '@/lib/admin/cms'
 import { catalogues, designedMeta } from '@/lib/admin/cmsSite'
 import { crmStages } from '@/lib/admin/crm'
@@ -18,8 +19,6 @@ import { designedPages } from '@/lib/cms/designed'
  * and the pipeline counts companies. A block the caller's role cannot read is not drawn.
  */
 const DAY = 86_400_000
-const osloDay = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' })
-const osloTime = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Oslo', hour: '2-digit', minute: '2-digit' })
 const osloDate = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Oslo', day: 'numeric', month: 'short' })
 const VIZ = ['bg-viz1', 'bg-viz2', 'bg-viz3', 'bg-viz4', 'bg-viz5'] as const
 
@@ -73,7 +72,7 @@ export default async function Overview() {
 
   // ---------------------------------------------------------------- recent activity: changes, not reads
   const titles = new Map(isError(pages) ? [] : pages.rows.map((p) => [p.id, pathOf(p.kind, p.slug)]))
-  const recent = isError(audit) ? null : audit.rows.filter((a) => t.has(`dashboard.did.${a.action.replace(/\./g, '_')}`)).slice(0, 6)
+  const recent = isError(audit) ? null : audit.rows.filter((a) => t.has(didKey(a.action))).slice(0, 6)
 
   // ---------------------------------------------------------------- the pipeline
   const open = isError(stages) ? [] : stages.rows.filter((s) => s.kind === 'open' && !s.archived).sort((a, b) => a.sort - b.sort)
@@ -153,7 +152,7 @@ export default async function Overview() {
                       <li key={a.id} className="flex items-center gap-[12px] border-b border-line py-[11px]">
                         <Avatar name={a.admin_email ?? '·'} />
                         <div className="min-w-0 flex-1 text-[13.5px]">
-                          <span className="font-semibold">{firstName(a.admin_email)}</span> {d(`did.${a.action.replace(/\./g, '_')}`)}
+                          <span className="font-semibold">{firstName(a.admin_email)}</span> {t(didKey(a.action))}
                           {target ? <span className="font-semibold"> {target}</span> : null}
                         </div>
                         <span className="whitespace-nowrap text-[12px] text-mut">{when(a.at, t)}</span>
@@ -226,41 +225,6 @@ function BarRow({ name, pct, colour, figure }: { name: string; pct: number; colo
       <span className="min-w-[78px] whitespace-nowrap text-right text-[12.5px]">{figure}</span>
     </div>
   )
-}
-
-/** Today's changes show the time, yesterday's say so, older ones their date */
-function when(iso: string, t: (k: string, v?: Record<string, string>) => string) {
-  const at = new Date(iso)
-  const day = osloDay.format(at)
-  const time = osloTime.format(at)
-  if (day === osloDay.format(new Date())) return time
-  if (day === osloDay.format(new Date(Date.now() - DAY))) return t('dashboard.activity.yesterday', { time })
-  return `${osloDate.format(at)} ${time}`
-}
-
-const firstName = (email: string | null) => {
-  const w = (email ?? '').split('@')[0]!.split(/[._-]+/)[0] ?? ''
-  return w ? w[0]!.toUpperCase() + w.slice(1) : '—'
-}
-
-/** What the change was made to, where the row says so without reading anything more */
-function targetOf(a: AuditRow, pages: Map<string, string>): string | null {
-  const locale = typeof a.detail?.locale === 'string' ? ` (${a.detail.locale})` : ''
-  switch (a.target_type) {
-    case 'cms_page': {
-      const path = a.target_id ? pages.get(a.target_id) : undefined
-      return path ? `${path}${locale}` : null
-    }
-    case 'cms_redirect':
-      return a.target_id ? (typeof a.detail?.to === 'string' ? `${a.target_id} → ${a.detail.to}` : a.target_id) : null
-    case 'crm_stage':
-    case 'legal_text':
-      return a.target_id
-    case 'locale':
-      return a.target_id ? a.target_id.toUpperCase() : null
-    default:
-      return a.org_name
-  }
 }
 
 /** Published, draft and scheduled pages, and each language's share of the published ones */

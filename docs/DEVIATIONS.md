@@ -7264,3 +7264,34 @@ X-095, phase 2. From the design's `isOverview`:
 - *Row heights differ by 2–4 px* from the design render: both use `line-height: normal`, and the
   render's DM Sans build differs from public/fonts (D-07).
 
+## D-164 — Sentral Customers: what the design draws and the pages do not
+
+X-095, phase 3. From the design's `isCustomers`, `isCustomerDetail` and `isOrgs`:
+
+- *A customer is an organisation* (decision 3): no Organizations sub-page, no «New organization», no
+  «Organizations under this customer» card. The detail's second card is the organisation's own
+  structure (groups, employees, locations, measures) in that place.
+- *No money.* The row's «48 000 kr/mo», «Monthly» and the Invoices card wait for billing; the
+  Invoices slot holds the billing and agreement facts the admin already had (trial, confirmation,
+  invoice address, reference, EHF, the data processing agreement) with *Extend trial*.
+- *States.* The design's Active · Trial · Past due · Churned becomes Active · Trial · Trial ended ·
+  Cancelling · Churned (+ Demo when a sandbox exists): «past due» needs invoices; «trial ended» is
+  the product's grace and read-only access; a registered cancellation is *cancelling* until its last
+  day and *churned* after it (`lib/admin/customers.ts`, unit-tested). Demo sandboxes are not
+  customers and are not in All.
+- *Seats* are the employees registered against the plan's headcount (the price list's bands: 25,
+  100). Before a plan is chosen, the band the stated size fits, marked «not chosen». The largest
+  plan has no ceiling, so it shows a count and no bar.
+- *The contact* is the organisation's first daglig leder; the detail shows the e-mail only to the
+  roles that see users (support, super-admin).
+- *No «New customer».* Customers sign up; the admin cannot create one.
+- *No «Open as customer»* (decision 5).
+- *«Edit customer»* changes the account owner only: name, contact and plan are the customer's own,
+  set in Orgpuls. The owner is kept in `app.account_owners` (0118), apart from the organisation's
+  row that its members read. Super-admin and support set it; finance sees it.
+- *Filters* are Plan and Owner, as designed, plus «No owner». The badge counts the filters that are
+  on; each segment and filter is an address. The Filters panel starts open when a filter is on.
+- *Kept from D-90,* below the design's two columns: users, surveys as metadata, the timeline, the
+  mail log as counts and the organisation's audit trail. Tickets, trial mail, source and notes sit
+  in the columns. *Activity* is the audit trail's changes, as on the Overview.
+

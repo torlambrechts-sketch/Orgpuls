@@ -2761,6 +2761,14 @@ in design-reference/sentral/ with a render of every screen. Found on the way: `a
 for everyone once one account changed its address (the contact's user_id collided); 0117 moves the
 contact with the address, crm_sync_invariants.sql proves it.
 
+Phase 3, Customers: the list as the design draws it — search, state segments with counts, Plan and
+Owner filters, seats against the plan, state pill, owner avatar — and the detail in the design's two
+columns (seats, structure, billing and agreement, cancellation, tickets and trial mail; account
+facts with owner and health, source, notes, activity), everything the old page showed kept below.
+The account owner is new: `app.account_owners` (0118, RLS on with no policy, reached only through
+`admin_set_account_owner` and `admin_org_owner`), set in the design's «Edit customer» dialog, which
+is Sentral's shared modal from now on. account_owner_invariants.sql proves it (D-164).
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.

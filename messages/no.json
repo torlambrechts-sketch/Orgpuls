@@ -7693,6 +7693,7 @@
         "legal_approve": "approved the legal text",
         "legal_withdraw": "withdrew the approval of",
         "note_add": "added a note on",
+        "org_owner": "changed the account owner of",
         "org_cancel": "cancelled",
         "org_cancel_withdraw": "withdrew the cancellation of",
         "org_delete_now": "deleted",
@@ -7722,30 +7723,12 @@
       }
     },
     "orgs": {
-      "title": "Organisations",
-      "lead": "Search by name, organisation number or a user's e-mail.",
-      "placeholder": "Name, org.nr. or e-mail",
-      "status": "Status",
       "statusLabel": {
         "trial": "Trial",
         "grace": "Grace (trial ended)",
         "read_only": "Read-only",
         "active": "Active"
-      },
-      "head": {
-        "name": "Organisation",
-        "orgnr": "Org.nr.",
-        "status": "Status",
-        "plan": "Plan",
-        "employees": "Employees",
-        "lastSent": "Last survey sent",
-        "rate": "Last response rate",
-        "mrr": "MRR",
-        "signup": "Signed up"
-      },
-      "trialEnds": "ends {date}",
-      "registered": "{registered} of {stated}",
-      "count": "{count, plural, one {# organisation} other {# organisations}}"
+      }
     },
     "org": {
       "back": "All organisations",
@@ -10277,6 +10260,75 @@
         "empty_block": "A section is empty: fill it in or remove it.",
         "failed": "It did not work. Try again."
       }
+    },
+    "customers": {
+      "title": "Customers",
+      "lead": "{count, plural, one {# paying account} other {# paying accounts}} on {site} · seats are counted per customer",
+      "search": "Search customers…",
+      "searchLabel": "Search customers by name, organisation number or a user’s e-mail",
+      "segments": "Customers by state",
+      "filters": "Filters",
+      "plan": "Plan",
+      "owner": "Owner",
+      "noOwner": "No owner",
+      "reset": "Reset",
+      "noMatch": "No customer matches.",
+      "open": "Open",
+      "noContact": "No daglig leder yet",
+      "employees": "{count, plural, one {# employee} other {# employees}}",
+      "trialEnds": "trial ends {date}",
+      "planSuggested": "{plan} (not chosen)",
+      "col": {
+        "customer": "Customer",
+        "seats": "Seats in use",
+        "status": "Status",
+        "owner": "Owner"
+      },
+      "state": {
+        "all": "All",
+        "active": "Active",
+        "trial": "Trial",
+        "ended": "Trial ended",
+        "cancelling": "Cancelling",
+        "churned": "Churned",
+        "demo": "Demo"
+      },
+      "plans": {
+        "small": "Small",
+        "usual": "Usual",
+        "group": "Several companies"
+      },
+      "crumbs": "Where you are",
+      "edit": {
+        "open": "Edit customer",
+        "title": "Edit {name}",
+        "sub": "Changes apply immediately and are written to the audit log. The company’s name, contact and plan are the customer’s own, set in Orgpuls.",
+        "save": "Save changes",
+        "cancel": "Cancel",
+        "close": "Close"
+      },
+      "seats": {
+        "title": "Seats",
+        "plan": "{plan} plan",
+        "fits": "No plan chosen · the size fits {plan}",
+        "of": "{used}/{max} seats",
+        "noCeiling": "employees registered · the plan has no ceiling"
+      },
+      "groups": "{count, plural, one {# group} other {# groups}}",
+      "extended": "Extended",
+      "account": "Account",
+      "noPlan": "Not chosen yet",
+      "since": "Customer since",
+      "trialEndsLabel": "Trial ends",
+      "health": "Health",
+      "healthScore": "{score} of 100",
+      "signedUp": "Signed up",
+      "activity": "Activity",
+      "noActivity": "No activity yet",
+      "noActivityLead": "Changes made by your team to this customer will appear here.",
+      "noTickets": "No tickets yet",
+      "noTicketsLead": "Questions this customer sends support will appear here.",
+      "openTickets": "{count, plural, =0 {none open} one {# open} other {# open}}"
     }
   },
   "access": {
