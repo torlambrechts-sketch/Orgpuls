@@ -53,6 +53,9 @@ works in that file and imports it back (docs/implementation/translation-files.md
   handel and kunnskap-og-kontor modules (160 texts), which the first run predates. English for
   the handel, kunnskap-og-kontor and barnehage-og-skole modules, and the bygg and helse factor
   names, which the registry lacked.
+- **Coverage afterwards (hosted, 2026-09-29):** every core statement, question outside the index,
+  module text, page string and mail text has a translation in pl, uk, lt, sv and da whose
+  fingerprint matches today's bokmål (553 rows each); English has every module text (450 rows).
 - **How:** one translator per language, reading this page, the language page and the 348 texts
   already stored, so terms match. Every file passed `checkImport` with zero errors and zero
   warnings; module rows were written only where the bokmål's fingerprint equals the hosted
