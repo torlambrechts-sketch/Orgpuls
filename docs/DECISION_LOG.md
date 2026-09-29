@@ -2543,6 +2543,27 @@ P1s after the audit's own were fixed (X-087).
   Måleoppsett and change nothing; its controls are the daglig leder's (0108).
 - **AUD-32 / AUD-33** Innsikt's headline and Rapport's scope are read from the figures (D-158).
 
+### X-089 — Every survey text is translated when it is written, not later
+
+Tor, 2026-09-29: "Complete all translations at your best effort, I'll check later. Always do this
+from now, record the decision."
+
+- **The rule, from now on:** a respondent-facing text that is added or changed is translated in the
+  same piece of work into Polish, Ukrainian, Lithuanian, Swedish and Danish, and a module's texts
+  also into English. Machine drafts, best effort, following each language's glossary and decisions
+  (docs/translations/), checked with `checkImport` (placeholders, ICU syntax, every plural form),
+  written to `app.item_translations` as origin *machine* with the bokmål's fingerprint. Tor reviews
+  them afterwards in admin › Translations. The rule is in CLAUDE.md.
+- **Why:** a survey language is offered whole or not at all (D-133). One untranslated string —
+  engagement phase 2 added 45, 0107 reworded two — takes the language out of every survey, so
+  "waiting for the translator" meant the language silently disappeared.
+- **Approval** stays the platform's: with auto-approve on (0101), the drafts are approved as they
+  are written and marked automatic, as the first 348 per language were; with it off, they wait in
+  admin › Translations.
+- **First run (2026-09-29):** the 45 new and 2 changed page and mail texts of engagement phase 2 and
+  the audit, and the handel and kunnskap-og-kontor modules (160 texts, never translated), into all
+  five languages; the two modules' English (they had none).
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.
@@ -2798,5 +2819,5 @@ P1s after the audit's own were fixed (X-087).
 - [x] Launch helse og omsorg (Norwegian): Tor approved the page and its seven law items; launched 2026-09-27 (X-065). The English twin waits for its own review, like bygg's. Was: review the seven law items in content/industries/helse-og-omsorg.ts (and the English twin), set `reviewed: true` and `launched: true`. The module itself was published 2026-09-27 (D-125). Review at https://www.orgpuls.com/helse-og-omsorg?forhandsvis=1 and /helse-og-omsorg/sporsmal?forhandsvis=1 (D-122).
 - [x] /helse-og-omsorg in the industry template: the health module v1.0.0 arrived 2026-09-26; page and question page built from it (D-122).
 - [x] Signed off 2026-09-28 (X-086). Was: engagement phase 2: switch on `engagement_since_last`, `engagement_thanks` and `engagement_pulse_reason` in production once Tor has seen them on a pilot; the new `respond.*` keys are re-approved for English (or auto-approve is on), and the survey languages (pl, uk, lt, sv, da) fall back to bokmål for them until translated (X-085, D-156).
-- [ ] Translate and approve the strings added by 0105/0107 (`respond.since.*`, `respond.thanks.*`, `respond.reason`, `respond.reasonNoDate`, `mail.invitasjon.since*`, `mail.invitasjon.masked.*`, `mail.invitasjon.results`, `mail.invitasjon.resultsOn`) in pl, uk, lt, sv and da before any organisation pilots one of them; until then the language is not offered (X-087, D-133).
+- [x] Translate the strings added by 0105/0107 in pl, uk, lt, sv and da — machine drafts written 2026-09-29 (X-089); Tor reviews them in admin › Translations.
 - [ ] The deep audit's P2/P3 findings (docs/audits/2026-09-28-deep.md): v3 pixel gate in CI and the Resultater/Kommentarer claims re-recorded after reading the diff, `qa:visual` specs brought up to the intro page, npm audit (postcss via next), `noindex` on `/s/[token]` and `/bli-med`, the thank-you and «Siden sist» wording, the evaluation mail's year, the employees' page and department measures, `wiring.mjs --matrix`, and the P3 list.

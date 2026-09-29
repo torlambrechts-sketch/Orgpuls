@@ -72,6 +72,16 @@ question kind, keyed off the row. Adding a factor, a statement or an option is a
 migration and a message key, never a component change. The respondent flow numbers its
 statements from the ordinals the database holds, not from a hard-coded 1..3.
 
+## Translations ship with the text (X-089)
+Every respondent-facing text added or changed — a survey page string (`respond.*`, factor and
+extra labels), an invitation, reminder or SMS text (`mail.*`), a core statement, a question outside
+the index, or a published module's items, options and factor names — is translated in the same
+piece of work into every survey language (pl, uk, lt, sv, da) and, for module texts, English. Best
+effort machine drafts following `docs/translations/<lang>.md`, validated with `checkImport`, written
+to the registry as origin *machine*; Tor reviews them afterwards. A text is never left untranslated
+because a human translator has not seen it yet: an untranslated text takes the whole language out
+of the survey (D-133).
+
 ## Never fabricate data in the UI
 If a value does not exist in the schema, do not render a placeholder that looks like
 data — an invented count, a hard-coded version, a 0% over an unknown denominator. Render
