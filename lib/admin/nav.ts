@@ -2,11 +2,11 @@ import { canSee, HREF, type Section } from './access'
 import type { AdminRole } from './api'
 
 /**
- * The admin's menu (X-091): the sections grouped the way the work is — the customers, the CRM and
- * the marketing that feeds it, the content of the site, and the platform itself — each page with its
- * icon (components/admin/icons.tsx). The CRM's own pages are menu entries, not a row of tabs.
+ * The admin's menu (Sentral, X-095; was X-091): six areas in the top bar — Overview, Customers,
+ * CRM, Content, Analytics, Admin — and under the bar the pages of the area you are in. Every page keeps its
+ * icon for the phone's menu sheet.
  *
- * A role sees a group only when it may see one of its pages (lib/admin/access.ts); the database
+ * A role sees an area only when it may see one of its pages (lib/admin/access.ts); the database
  * still decides what every call returns.
  */
 export type AdminIcon =
@@ -37,21 +37,25 @@ export type AdminIcon =
   | 'redirect'
 
 export type NavItem = { key: string; href: string; icon: AdminIcon; exact?: boolean }
-export type NavGroup = { key: 'overview' | 'customers' | 'crm' | 'content' | 'platform'; icon: AdminIcon; items: NavItem[] }
+export type NavGroup = { key: 'overview' | 'customers' | 'crm' | 'content' | 'analytics' | 'admin'; icon: AdminIcon; items: NavItem[] }
 
-/** a section's own icon: its heading when the rail is narrowed to icons */
-const GROUP_ICON: Record<NavGroup['key'], AdminIcon> = { overview: 'dashboard', customers: 'users', crm: 'target', content: 'globe', platform: 'shield' }
+/** an area's own icon, in the phone's menu sheet */
+const GROUP_ICON: Record<NavGroup['key'], AdminIcon> = { overview: 'dashboard', customers: 'users', crm: 'target', content: 'globe', analytics: 'chart', admin: 'shield' }
 
 /** each page once, under the section it belongs to; `section` is the access key that shows it */
 const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }[] = [
-  { key: 'overview', items: [{ key: 'dashboard', section: 'dashboard', href: HREF.dashboard, icon: 'dashboard', exact: true }] },
+  {
+    key: 'overview',
+    items: [
+      { key: 'dashboard', section: 'dashboard', href: HREF.dashboard, icon: 'dashboard', exact: true },
+    ],
+  },
   {
     key: 'customers',
     items: [
       { key: 'orgs', section: 'orgs', href: HREF.orgs, icon: 'building' },
       { key: 'health', section: 'health', href: HREF.health, icon: 'pulse' },
       { key: 'users', section: 'users', href: HREF.users, icon: 'users' },
-      { key: 'tickets', section: 'tickets', href: HREF.tickets, icon: 'ticket' },
     ],
   },
   {
@@ -65,10 +69,9 @@ const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }
       { key: 'crmLists', section: 'crm', href: '/admin/crm/lists', icon: 'list' },
       { key: 'crmSegments', section: 'crm', href: '/admin/crm/segments', icon: 'filter' },
       { key: 'crmCampaigns', section: 'crm', href: '/admin/crm/campaigns', icon: 'mail' },
+      { key: 'tickets', section: 'tickets', href: HREF.tickets, icon: 'ticket' },
       { key: 'crmTemplates', section: 'crm', href: '/admin/crm/templates', icon: 'template' },
       { key: 'crmStages', section: 'crm', href: '/admin/crm/stages', icon: 'flag' },
-      { key: 'web', section: 'web', href: HREF.web, icon: 'chart' },
-      { key: 'acquisition', section: 'acquisition', href: HREF.acquisition, icon: 'coins' },
     ],
   },
   {
@@ -77,17 +80,24 @@ const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }
       { key: 'cms', section: 'cms', href: HREF.cms, icon: 'page' },
       { key: 'cmsRedirects', section: 'cms', href: '/admin/cms/redirects', icon: 'redirect' },
       { key: 'seo', section: 'seo', href: HREF.seo, icon: 'search' },
-      { key: 'modules', section: 'modules', href: HREF.modules, icon: 'puzzle' },
-      { key: 'legal', section: 'legal', href: HREF.legal, icon: 'scale' },
       { key: 'translations', section: 'translations', href: HREF.translations, icon: 'globe' },
+      { key: 'legal', section: 'legal', href: HREF.legal, icon: 'scale' },
+      { key: 'modules', section: 'modules', href: HREF.modules, icon: 'puzzle' },
     ],
   },
   {
-    key: 'platform',
+    key: 'analytics',
     items: [
+      { key: 'web', section: 'web', href: HREF.web, icon: 'chart' },
+      { key: 'acquisition', section: 'acquisition', href: HREF.acquisition, icon: 'coins' },
+    ],
+  },
+  {
+    key: 'admin',
+    items: [
+      { key: 'admins', section: 'admins', href: HREF.admins, icon: 'shield' },
       { key: 'ops', section: 'ops', href: HREF.ops, icon: 'activity' },
       { key: 'audit', section: 'audit', href: HREF.audit, icon: 'log' },
-      { key: 'admins', section: 'admins', href: HREF.admins, icon: 'shield' },
     ],
   },
 ]
@@ -105,8 +115,19 @@ export function navFor(role: AdminRole, built: readonly string[]): NavGroup[] {
 export const isCurrent = (item: Pick<NavItem, 'href' | 'exact'>, path: string) =>
   item.exact ? path === item.href : path === item.href || path.startsWith(`${item.href}/`)
 
-/** The section holding the page you are on: the one the menu opens with */
-export const groupOf = (groups: NavGroup[], path: string) => groups.find((g) => g.items.some((i) => isCurrent(i, path)))?.key ?? groups[0]?.key ?? null
+/** The address as the menu reads it: on the admin's own host a page has no /admin prefix */
+export const adminPath = (path: string) => (path === '/admin' || path.startsWith('/admin/') ? path : path === '/' ? '/admin' : `/admin${path}`)
 
-/** The rail's state, kept in a cookie so the server draws it as it was left */
-export const RAIL_COOKIE = 'op_admin_rail'
+/** The page you are on: the entry whose address is the longest that holds it (Pages, not Redirects, for /admin/cms/…) */
+export function currentItem(groups: NavGroup[], path: string): NavItem | null {
+  const at = adminPath(path)
+  let best: NavItem | null = null
+  for (const i of groups.flatMap((g) => g.items)) if (isCurrent(i, at) && (!best || i.href.length > best.href.length)) best = i
+  return best
+}
+
+/** The area holding the page you are on: the one whose pages the sub-bar shows */
+export const groupOf = (groups: NavGroup[], path: string) => {
+  const cur = currentItem(groups, path)
+  return (cur && groups.find((g) => g.items.includes(cur))?.key) ?? groups[0]?.key ?? null
+}

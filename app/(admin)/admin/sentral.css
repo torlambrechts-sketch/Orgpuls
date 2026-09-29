@@ -1,0 +1,13 @@
+/*
+ * Sentral's wordmark (X-095): Bricolage Grotesque 700, as the design sets it, served from
+ * public/fonts like every other face (never next/font, D-07). Only the admin loads this file;
+ * app/fonts.css stays the design bundle's own.
+ */
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/fonts/bricolage-grotesque-700-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}

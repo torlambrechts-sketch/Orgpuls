@@ -2734,6 +2734,23 @@ hours, e.g. over a weekend. The rule is now `app.crm_follow_done`, which also re
 is still waiting; crm_sequences_invariants tests it whatever the hour (before, the suite failed only
 after 16:00).
 
+### X-095 — Sentral: the admin redrawn from the design, phase by phase
+
+Tor, 2026-09-29: «Look at the attached design and implement for admin platform; merge current
+services, features and link and adopt new» and, with revision 2 of the design, «implement all
+features … as close to pixel perfect as possible. Visual verification and quality assurance for each
+step». The review, the screen-by-screen map and the phases are in
+docs/implementation/sentral-admin-plan.md; decided: one site (Orgpuls), the name *Sentral*, no money
+figures before a ledger exists, no «Open as customer».
+
+Phase 0–1 (this entry): the shell — a top bar with the wordmark, six areas (Overview, Customers, CRM,
+Content, Analytics, Admin), the site pill and the account menu; under it the area's pages; a menu
+sheet on the phone; every existing page placed in its area (Tickets under CRM, Web analytics and Cost
+per customer under Analytics), no address changed. The admin's shared shapes (`components/admin/ui.tsx`)
+take the design's page head, panels, KPI cards, pills with a dot, table headings, and gain segmented
+filters, avatars and bars, so every page moves to the design at once; each page's own layout follows
+in its phase.
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.

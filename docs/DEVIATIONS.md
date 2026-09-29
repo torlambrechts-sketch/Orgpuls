@@ -7225,3 +7225,18 @@ the search score, redirects and per-page traffic. Deliberately not built:
 - *A scheduled copy is live within five minutes of its time,* not to the second: live pages are cached
   for five minutes and dropped at once on every publish.
 
+## D-162 — Sentral shell: what the design draws and the shell does not
+
+X-095. The design's top bar has a help button, a site pill that opens a menu of sites, and buttons
+for navigation. Here:
+
+- *No help button.* There is no admin help to open; a button that leads nowhere is not drawn.
+- *The site pill opens nothing.* One site (Tor, 2026-09-29): it names Orgpuls and its domain; the
+  menu of sites and «Connect another site» come with a second product.
+- *Links, not buttons.* Each area and page is an address (D-06), so they are links styled as the
+  design's buttons, with `aria-current` for the one you are on.
+- *The wordmark's font* (Bricolage Grotesque 700) is served from public/fonts by an admin-only
+  stylesheet; app/fonts.css stays the product bundle's own (D-07).
+- *The sub-bar scrolls sideways on a phone* instead of wrapping to several lines; the areas are in a
+  menu sheet below 1024 px.
+

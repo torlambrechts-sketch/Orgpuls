@@ -7473,7 +7473,7 @@
     }
   },
   "admin": {
-    "title": "Orgpuls Admin",
+    "title": "Sentral",
     "nav": {
       "dashboard": "Dashboard",
       "orgs": "Organisations",
@@ -7484,7 +7484,7 @@
       "web": "Web analytics",
       "tickets": "Tickets",
       "signOut": "Sign out",
-      "navLabel": "Admin",
+      "navLabel": "Areas",
       "crm": "CRM",
       "health": "Account health",
       "seo": "Search and content",
@@ -7492,16 +7492,9 @@
       "modules": "Industry modules",
       "legal": "Legal review",
       "translations": "Translations",
-      "group": {
-        "overview": "Overview",
-        "customers": "Customers",
-        "crm": "CRM and marketing",
-        "content": "Content",
-        "platform": "Platform"
-      },
       "item": {
         "dashboard": "Dashboard",
-        "orgs": "Organisations",
+        "orgs": "Customers",
         "health": "Account health",
         "users": "Users",
         "tickets": "Tickets",
@@ -7515,22 +7508,33 @@
         "crmCampaigns": "Campaigns",
         "crmTemplates": "Templates",
         "crmStages": "Stages and senders",
-        "web": "Web analytics",
+        "web": "Overview",
         "acquisition": "Cost per customer",
-        "seo": "Search and content",
+        "seo": "SEO",
         "modules": "Industry modules",
         "legal": "Legal review",
-        "translations": "Translations",
+        "translations": "Languages",
         "ops": "Operations",
         "audit": "Audit log",
-        "admins": "Admins",
+        "admins": "Users & roles",
         "cms": "Pages",
         "cmsRedirects": "Redirects"
       },
-      "collapse": "Narrow the menu to its icons",
-      "expand": "Widen the menu",
       "openMenu": "Open the menu",
-      "closeMenu": "Close the menu"
+      "closeMenu": "Close the menu",
+      "subLabel": "Pages in this area",
+      "area": {
+        "overview": "Overview",
+        "customers": "Customers",
+        "crm": "CRM",
+        "content": "Content",
+        "analytics": "Analytics",
+        "admin": "Admin"
+      },
+      "site": "Site",
+      "siteName": "Orgpuls",
+      "siteDomain": "orgpuls.com",
+      "account": "Your account"
     },
     "role": {
       "super_admin": "Super-admin",

@@ -1,20 +1,20 @@
 import type { Metadata } from 'next'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { AdminShell } from '@/components/admin/AdminShell'
 import { HREF, type Section } from '@/lib/admin/access'
 import { adminSignOut } from '@/lib/admin/actions'
 import { autoApprove, isError, whoami } from '@/lib/admin/api'
-import { navFor, RAIL_COOKIE } from '@/lib/admin/nav'
+import { navFor } from '@/lib/admin/nav'
 import Link from 'next/link'
+import './sentral.css'
 
 /**
- * The platform admin's shell (D-90, X-091). Every page under it is behind three checks, here and
+ * The platform admin's shell (D-90; Sentral, X-095). Every page under it is behind three checks, here and
  * again in the database on every call: signed in, an active admin role, and a second factor.
  * The admin is in English, by decision, and never indexed.
  */
-export const metadata: Metadata = { title: 'Orgpuls Admin', robots: { index: false, follow: false } }
+export const metadata: Metadata = { title: 'Sentral', robots: { index: false, follow: false } }
 export const dynamic = 'force-dynamic'
 
 /** The sections built so far; the rest of the specification's list is added as it is built. */
@@ -45,28 +45,29 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const auto = who.role === 'super_admin' || who.role === 'support' ? await autoApprove() : null
   const autoOn = !!auto && !isError(auto) && auto.on
   const groups = navFor(who.role, PAGES)
-  const collapsed = (await cookies()).get(RAIL_COOKIE)?.value === 'closed'
 
   return (
     <AdminShell
       groups={groups}
-      collapsed={collapsed}
       role={t(`role.${who.role}`)}
       email={who.email ?? ''}
       signOut={adminSignOut}
       labels={{
         title: t('title'),
         nav: t('nav.navLabel'),
-        groups: { overview: t('nav.group.overview'), customers: t('nav.group.customers'), crm: t('nav.group.crm'), content: t('nav.group.content'), platform: t('nav.group.platform') },
+        sub: t('nav.subLabel'),
+        groups: { overview: t('nav.area.overview'), customers: t('nav.area.customers'), crm: t('nav.area.crm'), content: t('nav.area.content'), analytics: t('nav.area.analytics'), admin: t('nav.area.admin') },
         items: Object.fromEntries(groups.flatMap((g) => g.items).map((i) => [i.key, t(`nav.item.${i.key}`)])),
-        collapse: t('nav.collapse'),
-        expand: t('nav.expand'),
+        site: t('nav.site'),
+        siteName: t('nav.siteName'),
+        siteDomain: t('nav.siteDomain'),
+        account: t('nav.account'),
         openMenu: t('nav.openMenu'),
         closeMenu: t('nav.closeMenu'),
         signOut: t('nav.signOut'),
       }}
     >
-      <div className="mx-auto max-w-[1180px]">
+      <>
         {autoOn ? (
           <p role="status" className="mb-[18px] mt-0 rounded-panel border border-line bg-band px-[16px] py-[10px] text-[13px] font-semibold text-cautiondeep">
             {t('autoBanner')}{' '}
@@ -77,7 +78,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         ) : null}
         {children}
         <p className="mb-0 mt-[28px] text-[11.5px] text-mut">{t('common.privacy')}</p>
-      </div>
+      </>
     </AdminShell>
   )
 }

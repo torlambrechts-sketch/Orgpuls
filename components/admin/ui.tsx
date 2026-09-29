@@ -3,16 +3,17 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 
 /**
- * The admin's few shapes (D-90). It is an internal tool, in English, drawn with the product's
- * own tokens so it reads as Orgpuls, but without the product's design to match: plain cards,
- * tables and badges.
+ * The admin's shapes, as the Sentral design draws them (X-095; D-90 before it): the page head with
+ * its one primary action, panels at radius 18, KPI cards, status pills with a coloured dot, tables
+ * with small-caps headings, segmented filters with counts, initials avatars and progress bars. In
+ * English, with the product's own tokens.
  */
 export function PageHead({ title, lead, children }: { title: string; lead?: string; children?: ReactNode }) {
   return (
-    <div className="mb-[20px] flex flex-wrap items-end justify-between gap-[14px]">
+    <div className="mb-[22px] flex flex-wrap items-end justify-between gap-[16px] md:px-[18px]">
       <div className="min-w-0">
-        <h1 className="m-0 font-display text-[28px] font-semibold leading-[1.1]">{title}</h1>
-        {lead ? <p className="mb-0 mt-[6px] max-w-[70ch] text-[13.5px] leading-[1.55] text-mut">{lead}</p> : null}
+        <h1 className="m-0 font-display text-[28px] font-medium leading-[1.15] [text-wrap:balance]">{title}</h1>
+        {lead ? <p className="mb-0 mt-[6px] max-w-[80ch] text-[13px] leading-[1.55] text-mut">{lead}</p> : null}
       </div>
       {children}
     </div>
@@ -31,10 +32,10 @@ export function Card({
   aside?: ReactNode
 }) {
   return (
-    <section className={`rounded-panel border border-line bg-sf px-[20px] py-[18px] ${className}`}>
+    <section className={`rounded-panel border border-line bg-sf px-[20px] py-[20px] md:px-[26px] md:py-[24px] ${className}`}>
       {title || aside ? (
-        <div className="mb-[12px] flex flex-wrap items-baseline justify-between gap-[10px]">
-          {title ? <h2 className="m-0 text-[15px] font-bold">{title}</h2> : <span />}
+        <div className="mb-[16px] flex flex-wrap items-baseline justify-between gap-[12px]">
+          {title ? <h2 className="m-0 font-display text-[22px] font-medium leading-[1.2]">{title}</h2> : <span />}
           {aside}
         </div>
       ) : null}
@@ -45,27 +46,78 @@ export function Card({
 
 export function Stat({ label, value, hint }: { label: string; value: ReactNode; hint?: string }) {
   return (
-    <div className="rounded-panel border border-line bg-sf px-[18px] py-[16px]">
-      <span className="block text-[11px] uppercase tracking-[0.1em] text-mut">{label}</span>
-      <span className="mt-[6px] block font-display text-[28px] font-semibold leading-none">{value}</span>
-      {hint ? <span className="mt-[6px] block text-[12px] text-mut">{hint}</span> : null}
+    <div className="rounded-panel border border-line bg-sf px-[22px] py-[20px]">
+      <span className="block text-[11px] uppercase tracking-[0.09em] text-mut">{label}</span>
+      <span className="mt-[8px] block text-[30px] font-bold leading-[1.15]">{value}</span>
+      {hint ? <span className="mt-[4px] block text-[12.5px] text-mut">{hint}</span> : null}
     </div>
   )
 }
 
-const TONES = {
-  green: 'bg-mint text-greendeep',
-  yellow: 'bg-sbg text-cautiondeep',
-  red: 'bg-peach text-dangerdeep',
-  grey: 'bg-track text-mut',
-  ink: 'bg-ink text-bg',
+/** a status is a pill with a dot; the dot's colour is the state (the design's `dot()`) */
+const DOTS = {
+  green: 'bg-teal',
+  yellow: 'bg-ac',
+  red: 'bg-peach',
+  grey: 'bg-mut',
+  ink: 'bg-ink',
 } as const
-export type BadgeTone = keyof typeof TONES
+export type BadgeTone = keyof typeof DOTS
 export function Badge({ tone = 'grey', children }: { tone?: BadgeTone; children: ReactNode }) {
   return (
-    <span className={`inline-block whitespace-nowrap rounded-pill px-[9px] py-[3px] text-[11px] font-bold ${TONES[tone]}`}>
+    <span className="inline-flex items-center gap-[6px] whitespace-nowrap rounded-pill bg-sbg px-[11px] py-[5px] text-[11.5px] font-bold leading-none text-ink">
+      <span aria-hidden="true" className={`block h-[6px] w-[6px] flex-none rounded-pill ${DOTS[tone]}`} />
       {children}
     </span>
+  )
+}
+
+/** Initials in a round tile, the name in its title */
+export function Avatar({ name, size = 28 }: { name: string; size?: number }) {
+  const ini =
+    name
+      .split(/[\s._@-]+/)
+      .filter(Boolean)
+      .map((w) => w[0]!.toUpperCase())
+      .slice(0, 2)
+      .join('') || '·'
+  return (
+    <span title={name} className="inline-flex flex-none items-center justify-center rounded-pill bg-sbg text-[11px] font-bold text-ink" style={{ width: size, height: size }}>
+      <span aria-hidden="true">{ini}</span>
+      <span className="sr-only">{name}</span>
+    </span>
+  )
+}
+
+/** A share of a whole, as the design draws seats and coverage: the bar, then the figure */
+export function Bar({ value, max, label }: { value: number; max: number; label?: ReactNode }) {
+  const pct = max > 0 ? Math.min(100, Math.round((100 * value) / max)) : 0
+  return (
+    <span className="flex min-w-0 items-center gap-[10px]">
+      <span className="block h-[8px] min-w-[60px] flex-1 overflow-hidden rounded-pill bg-ink/10">
+        <span className="block h-full rounded-pill bg-ac" style={{ width: `${pct}%` }} />
+      </span>
+      {label ?? null}
+    </span>
+  )
+}
+
+/** Segmented filter with counts: each segment an address, so a filter can be linked and kept */
+export function Segments({ items, label }: { items: { key: string; label: string; n?: number; href: string; on: boolean }[]; label: string }) {
+  return (
+    <nav aria-label={label} className="flex flex-wrap gap-[3px] rounded-[11px] bg-ink/5 p-[4px]">
+      {items.map((i) => (
+        <Link
+          key={i.key}
+          href={i.href as Route}
+          aria-current={i.on ? 'page' : undefined}
+          className={`flex items-center gap-[6px] rounded-[8px] px-[12px] py-[7px] text-[12px] font-semibold text-ink no-underline hover:no-underline ${i.on ? 'bg-sf' : ''}`}
+        >
+          {i.label}
+          {i.n === undefined ? null : <span className="font-medium text-mut">{i.n}</span>}
+        </Link>
+      ))}
+    </nav>
   )
 }
 
@@ -79,7 +131,7 @@ export function Table({ head, children, empty }: { head: string[]; children: Rea
               <th
                 key={h}
                 scope="col"
-                className="whitespace-nowrap border-b border-line px-[10px] py-[8px] text-[11px] font-bold uppercase tracking-[0.06em] text-mut"
+                className="whitespace-nowrap border-b border-line px-[12px] py-[10px] text-[11px] font-normal uppercase tracking-[0.09em] text-mut"
               >
                 {h}
               </th>
@@ -88,7 +140,7 @@ export function Table({ head, children, empty }: { head: string[]; children: Rea
         </thead>
         <tbody>{children}</tbody>
       </table>
-      {empty ? <p className="m-0 px-[10px] py-[14px] text-[13px] text-mut">{empty}</p> : null}
+      {empty ? <p className="m-0 px-[12px] py-[16px] text-[13px] text-mut">{empty}</p> : null}
     </div>
   )
 }
@@ -96,7 +148,7 @@ export function Table({ head, children, empty }: { head: string[]; children: Rea
 /** Cells hold figures and short codes, so they do not wrap; `wrap` is for the prose ones. */
 export function Td({ children, className = '', wrap = false }: { children: ReactNode; className?: string; wrap?: boolean }) {
   return (
-    <td className={`border-b border-line px-[10px] py-[9px] align-top ${wrap ? '' : 'whitespace-nowrap'} ${className}`}>
+    <td className={`border-b border-line px-[12px] py-[12px] align-top ${wrap ? '' : 'whitespace-nowrap'} ${className}`}>
       {children}
     </td>
   )

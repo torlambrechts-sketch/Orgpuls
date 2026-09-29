@@ -1,8 +1,18 @@
 # Sentral admin — review and implementation plan
 
-Source: `Sentral_Admin.dc.html` (Tor, 2026-09-29), rendered screen by screen (19 views, 3 detail
-views, the site menu) and read in full, logic included. Target: the platform admin under `/admin`
-and admin.orgpuls.com. This document is the plan; nothing in it is built yet.
+Source: `Sentral_Admin.dc_1.html` (Tor, 2026-09-29, revision 2), rendered screen by screen (23
+views, 13 detail views and states) and read in full, logic included; revision 1
+(`Sentral_Admin.dc.html`) is superseded. Target: the platform admin under `/admin` and
+admin.orgpuls.com.
+
+**Revision 2 adds** a sixth area, *Analytics* (Overview: visitors per day, sources, devices; Pages;
+Goals: the visitor → customer funnel and counted goals); four CRM pages, *Journeys* (lifecycle
+automation with steps: trigger, email, wait, condition, task, exit; detail with results and rules),
+*Tasks* (calls, mails, meetings with due dates, from journeys or by hand), *Tickets* (moved from
+Customers, with SLA) and *Lead scoring* (points from rules, hot/warm/cold); an SEO *Health /
+Performance* switch (clicks, impressions, CTR, position per page and per query, Core Web Vitals,
+index coverage); and a *visual page editor* (the page as a canvas, a block selected in place and
+edited in an inspector, desktop/phone, beside a Blocks list).
 
 ## 1. What the design is
 
@@ -14,8 +24,9 @@ under it:
 |---|---|
 | Overview | Dashboard: four KPIs, *Needs attention* (each item with its reason and one action), recent activity, language coverage, pipeline by stage |
 | Customers | Customers (paying accounts: seats used, plan, MRR, status, owner) · Organizations (units under a customer) · customer detail (seats, organisations, invoices, account facts, activity, *Open as customer*, *Edit*) |
-| CRM | Pipeline (deals with value, contact, next step, days in stage; board and list) · Contacts & lists (lifecycle stage and consent; lists as rules) · Campaigns (KPIs, lifecycle coverage, house rules; detail with funnel and sequence steps) |
+| CRM | Pipeline (deals with value, contact, next step, days in stage; board and list) · Contacts & lists (lifecycle stage and consent; lists as rules) · Campaigns (KPIs, lifecycle coverage, house rules; detail with funnel and sequence steps) · *rev. 2:* Journeys · Tasks · Tickets · Lead scoring |
 | Content | Pages (language chips per page; detail with Content / Translations / SEO / Versions / Settings and a Draft → In review → Scheduled → Published flow) · Templates · Landing & front pages (front page, splash switch, campaign pages with visits and conversion) · Media · SEO (issues per page, redirects, sitemap) · Languages (coverage per language, translation queue with assignee, machine translation switch, JSON import/export) |
+| Analytics *(rev. 2)* | Overview (four KPIs, visitors per day with weekends in grey, sources, devices) · Pages (views, unique, time, exit, conversion per page) · Goals (funnel from visitor to customer; goals with rule, count, trend) |
 | Admin | Users & roles (six roles, access per site) · Billing & plans (plans, invoices) · Site settings (General, Access switches, Integrations: API keys, webhooks) · Audit log (type chips, expandable detail, CSV export) |
 
 The visual language is Orgpuls's own. The same tokens (#FCF6E9, #FFFDF6, #F5C64A, #FBEBBE,
@@ -108,15 +119,30 @@ banner. None is dropped; each gets a place below.
 - Every screen keeps its database function. The redesign changes readers only where a new figure is
   needed, and every new column or setting ships with its consumer and a test (wiring audit).
 
+## 2b. Revision 2 — the added screens against what Orgpuls has
+
+| Screen | What exists | What is real, and what is not drawn |
+|---|---|---|
+| Analytics › Overview | `/admin/web` (0050, 0054, 0059): views, visitors, referrers, UTM, country/region/city, per day | Visitors, sessions, views per day, sources and devices are counted (cookieless daily visitor hash; the user agent gives the device). *Bounce rate and time on site* need a session across pages, which the cookieless design (D-91) counts only as far as a same-day visitor hash allows: shown only if the reader can compute it honestly, else omitted and logged. |
+| Analytics › Pages | per-path views in `web_events`; CTA clicks; sign-ups by first page | Views, visitors, CTA clicks, sign-ups per page. *Time on page* and *exit rate* are not counted and are not drawn. |
+| Analytics › Goals | `funnel()`, sign-ups, trials, demo requests (0095), newsletter confirmations (0055) | The funnel and four goals from the real events: signed up, started a trial, requested a demo, newsletter signup. «Viewed pricing» is a page view of /priser. Trends compare with the previous period. |
+| CRM › Journeys | Sequences and automatic follow-ups (0111), stages (0093), activities | A journey is a campaign chain: its trigger (stage or list), its mails, the waits between them, the no-click/no-open condition, its task steps and its goal. Counts come from `crm_sends`. New: a journey record over the chain (name, trigger stage, goal, send window) and *task* steps — migration. |
+| CRM › Tasks | `crm_activities` kind `task` | Tasks need a due time, an owner, done and outcome: migration. Journey task steps create tasks. The *meeting link* needs a calendar integration and is not drawn (logged). |
+| CRM › Tickets | `/admin/tickets` (0051) with SLA due times | Moved into CRM and redrawn: segments Open/Waiting/Solved, SLA state from `first_response_due`, owner, priority. The detail page is kept. |
+| CRM › Lead scoring | account health (0060) scores organisations | Contacts get points from rules on what is known about them: clicked a mail in 30 days, replied, a trial started at their company, company size and sector from Brønnøysund, no activity for 30 days, unsubscribed. «Visited the pricing page» and «attended a demo» are not tied to a person (cookieless site; no calendar) and are not rules. Rules are rows (points editable), scores are computed, hot ≥ 70 creates a task. Migration. |
+| Content › SEO › Performance | Search Console sync (0061): clicks, impressions, CTR, position per page and query | Real when Search Console is connected; before that the view says it is not connected (as `/admin/seo` does today). *Core Web Vitals* need the CrUX API (a Google API key): drawn from it when a key is set, otherwise the card says how to connect it — no figures. *Index coverage* from Search Console's own counts when synced; otherwise the sitemap and noindex counts, labelled as such. |
+| Content › Pages › visual editor | CMS editor with a live preview of the real page (X-094) | The canvas draws the page's blocks as the design does; clicking one selects it and the inspector edits its fields; blocks move, duplicate and delete; desktop/phone width. The real page stays one click away in Preview. Per-block *alignment and background* are not part of the site's block kinds — the public site draws every block its one designed way — so the inspector does not offer them (logged). |
+
 ## 3. The new map: every design screen → what exists → the work
 
 | New place | Today | Work |
 |---|---|---|
 | **Overview › Dashboard** | `/admin` KPIs | Restyle. New `admin_attention()`: trials ending ≤ 7 d, cancellations and deletions due, tickets past SLA, at-risk accounts (health), failed jobs, sending-domain problems, legal texts awaiting approval, survey translations awaiting approval, CMS pages missing a language or a description. Recent activity from the audit log; language coverage from CMS + site messages; pipeline by stage once deals have values. |
-| Overview › Web analytics · Cost per customer | `/admin/web`, `/admin/acquisition` | Move under Overview (Insights); restyle. |
+| **Analytics › Overview · Pages · Goals** | `/admin/web`, `/admin/acquisition` | Rebuilt as the design's three pages (see 2b); Cost per customer stays a fourth sub-page. |
 | **Customers › Customers** | `/admin/orgs` | Restyle to the design's table. Segments: Active · Trial · Cancelling · Churned (plus Past due once invoicing exists). Seats = employees against the plan's headcount band. Owner = new `organizations.account_owner` (migration + reader + test). |
 | Customers › customer detail | `/admin/orgs/[id]` + health + tickets | Merge into the design's detail: seats, account facts (plan, trial, confirmation, invoice email/EHF), health score, open tickets, activity from the audit log, *Edit*; *Open as customer* per decision 7. |
-| Customers › Account health · Users · Tickets | `/admin/health`, `/admin/users`, `/admin/tickets` | Kept as sub-pages; restyled. |
+| Customers › Account health · Users | `/admin/health`, `/admin/users` | Kept as sub-pages; restyled. Tickets move to CRM (rev. 2). |
+| **CRM › Journeys · Tasks · Tickets · Lead scoring** | sequences (0111), activities, `/admin/tickets`, account health | See 2b. |
 | **CRM › Overview · Inbox** | `/admin/crm`, `/admin/crm/inbox` | Kept; restyled. |
 | CRM › Pipeline | `/admin/crm/pipeline` | Migration: deal value, next step + date, owner, `stage_since`. Board + list toggle as designed; won/open sums. |
 | CRM › Companies | `/admin/crm/prospects` | Kept (Brønnøysund search and import); restyled. |
@@ -142,36 +168,40 @@ what each role sees.
 
 ## 4. Phases
 
-Each phase ships on its own: gates, browser walk at 1280 and 390, docs, hosted migration, main.
+Each phase ships on its own, with the QA below. Status is kept here as phases land.
 
-| # | Phase | Contents | Migration | Size |
-|---|---|---|---|---|
-| 0 | Components | `components/admin/ui.tsx` v2: TopBar, SubBar, PageHead with primary action, Panel, KpiCard, SegmentFilter (with counts), StatusPill (dot), Avatar, DataTable rows, ProgressBar, Switch, Modal, EmptyState. Wordmark font. Pixel claims for the chrome. | — | M |
-| 1 | Shell and IA | Top bar with 5 areas, sub-bar per area, site pill (one site), help, user menu. Phone: areas in a sheet. Every existing page moved into the map above, redirects for moved addresses, nav/access updated, the rail retired. | — | M |
-| 2 | Overview | Dashboard with KPIs, Needs attention (`admin_attention`), activity, coverage; Insights sub-pages restyled. | 0116 (reader function) | M |
-| 3 | Customers | List and detail as designed; account owner; health and tickets merged into the detail. | 0117 (`account_owner`) | M |
-| 4 | CRM | Deals (value, next step, owner, stage since); board/list; Contacts & lists merged; Campaigns KPIs, lifecycle coverage, sequence steps. | 0118 (deal fields) | L |
-| 5 | Content | Pages table; page detail tabs; In review; version compare; Templates page; Landing & front pages; SEO merged; Languages restyled. | 0119 (review state, template edit) | L |
-| 6 | Media | Storage bucket and policies, upload, alt text, use counts, image block. | 0120 (bucket, table, RLS) | M |
-| 7 | Admin | Users & roles with `editor`; Billing & plans (real states); Settings (General, Access, Integrations); Audit chips and export; *Open as customer* if decided. | 0121 (role, indexing setting) | M |
-| 8 | Verify | Walk every screen in every role; `/audit quick` on the admin; D-/X- entries; open items. | — | S |
+| # | Phase | Contents | Migration |
+|---|---|---|---|
+| 0–1 | Shell and components | Top bar with six areas, sub-bar, site pill, account menu, phone sheet; `ui.tsx` restyled (page head, panel, KPI card, pill with dot, table, segments, avatar, bar); wordmark font; every page in its area. | — |
+| 2 | Overview | Dashboard: KPIs, Needs attention, recent activity, language coverage, pipeline by stage. | reader function |
+| 3 | Customers | List and detail as designed; account owner; health merged. | `account_owner` |
+| 4 | CRM I | Pipeline (deal value, next step, owner, stage since; board/list); Contacts & lists; Campaigns (KPIs, lifecycle coverage, house rules, detail). | deal fields |
+| 5 | CRM II | Journeys (+ detail), Tasks, Tickets redrawn and moved, Lead scoring. | journeys, tasks, score rules |
+| 6 | Analytics | Overview, Pages, Goals from the real counts. | reader functions |
+| 7 | Content I | Pages table; page detail tabs; In review; version compare; visual editor (canvas + inspector). | review state |
+| 8 | Content II | Templates, Landing & front pages, SEO Health/Performance, Languages. | template edit |
+| 9 | Media | Storage, upload, alt text, use counts, image block. | bucket, table, RLS |
+| 10 | Admin | Users & roles (`editor`), Billing & plans (no money figures), Site settings (General, Access, Integrations), Audit log. | role, indexing setting |
 
-Order matters: 0 and 1 first, so every later screen is built once, in the new components. After
-that, 2–7 can follow the value they bring. The recommended order is as listed: the dashboard is
-used daily; Media is last because nothing waits on it.
+**QA for every phase**
+1. The design's screen is rendered with the bundle's own fonts at 1440 × 900, and ours on the QA
+   stack at the same size, from the same state: first compared side by side by eye, region by region
+   (head, panels, tables, pills), then the chrome (top bar, sub-bar, page head) with
+   `scripts/verify/probe.mjs` for exact spacing and type. Differences that are the data (real names,
+   counts) are expected; differences in spacing, type, radius or colour are fixed.
+2. Every state the design draws is reached: empty, filtered, detail, dialog, error; at 390 px no
+   sideways scroll; keyboard and focus-visible on every control; no console errors.
+3. Gates: tsc, lint, i18n, unit tests, build, SQL suites, the wiring audit; hosted migration; ship.
 
-## 5. Decisions for Tor
+## 5. Decisions (Tor, 2026-09-29)
 
-1. **One site or several?** Recommended: one (Orgpuls), the switcher ready for a second product.
-2. **The wordmark.** «Sentral» as the admin's name, or «Orgpuls Admin»?
-3. **Customers ⊃ Organizations.** Recommended: customer = organisation; drop the Organizations
-   sub-page (or show departments).
-4. **MRR before there is a ledger.** Show a list-price estimate, labelled, or nothing until billing
-   phase 2?
-5. **Open as customer.** Build as consented, time-boxed, read-only and logged, or leave it out?
-6. **Splash page.** A maintenance notice (recommended), or nothing?
-7. **Machine translation.** Leave it out until a provider is chosen (recommended), or pick one now?
-8. **Roles.** Add `editor`; rename super_admin → Owner and marketing → Sales & marketing in the UI.
-
-Until decided, the recommended option is what gets built, and every omission is logged in
-DEVIATIONS.md with its reason.
+| # | Question | Decided |
+|---|---|---|
+| 1 | One site or several? | **One site**, Orgpuls (www + en). The site pill has no dropdown until a second product exists. |
+| 2 | The wordmark | **Sentral**. |
+| 3 | Customers ⊃ Organizations | Recommended default: customer = organisation; no Organizations sub-page. |
+| 4 | MRR before a ledger | **No money figures** until billing phase 2: plans, trials, confirmations and cancellations only. MRR, past due and invoices are omitted and logged. |
+| 5 | Open as customer | **Left out.** Support works from the admin's own views and the customer's tickets. |
+| 6 | Splash page | Recommended default: a maintenance notice on the public pages only. |
+| 7 | Machine translation | Recommended default: left out until a provider is chosen. |
+| 8 | Roles | Recommended default: add `editor`; super_admin shows as Owner, marketing as Sales & marketing. |
