@@ -2751,6 +2751,16 @@ take the design's page head, panels, KPI cards, pills with a dot, table headings
 filters, avatars and bars, so every page moves to the design at once; each page's own layout follows
 in its phase.
 
+Phase 2, Overview: «Orgpuls at a glance» — four figures (active customers, trials with those ending
+within 7 days, companies in open pipeline stages, published pages), *Needs attention* from
+`public.admin_attention()` (0116: trials ending within 7 days, deletions due within 14, tickets past
+their first-reply time, failed mail or SMS, overdue CRM tasks, each for the roles whose page it opens)
+plus pages lacking a language or a description, *Recent activity* from the audit log's changes (reads
+left out), *Content coverage* per language and *Pipeline by stage*. The design (revision 2) is kept
+in design-reference/sentral/ with a render of every screen. Found on the way: `app.crm_sync()` failed
+for everyone once one account changed its address (the contact's user_id collided); 0117 moves the
+contact with the address, crm_sync_invariants.sql proves it.
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.

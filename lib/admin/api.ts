@@ -749,3 +749,15 @@ const AutoApprove = z.object({ on: z.boolean(), at: tsn, by: z.string().nullable
 export type AutoApprove = z.infer<typeof AutoApprove>
 /** The auto-approve switch (0101): whether it is on, since when, and who set it. */
 export const autoApprove = () => call('admin_auto_approve', {}, AutoApprove)
+
+// ---------------------------------------------------------------- needs attention (0116, X-095)
+const Attention = z.object({
+  trials: z.array(z.object({ org_id: z.string(), name: z.string(), ends_at: ts, employees: num })),
+  deletions: z.array(z.object({ org_id: z.string(), name: z.string(), due_at: ts })),
+  tickets: z.array(z.object({ id: z.string(), number: num, subject: z.string(), org_name: z.string().nullable(), due_at: ts })),
+  failures: num,
+  tasks: num,
+})
+export type Attention = z.infer<typeof Attention>
+/** What an admin should do next, each item for the roles whose pages it leads to */
+export const attention = () => call('admin_attention', {}, Attention)

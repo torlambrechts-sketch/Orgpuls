@@ -7240,3 +7240,27 @@ for navigation. Here:
 - *The sub-bar scrolls sideways on a phone* instead of wrapping to several lines; the areas are in a
   menu sheet below 1024 px.
 
+## D-163 — Sentral Overview: what the design draws and the page does not
+
+X-095, phase 2. From the design's `isOverview`:
+
+- *No money.* «Monthly recurring» and the pipeline's kroner wait for billing (Tor, 2026-09-29). The
+  second card counts trials and those ending within 7 days; the pipeline counts companies per open
+  stage, the bar's figure is a count, not a value. «Past due» items in *Needs attention* have no
+  ledger behind them and are not drawn.
+- *No «New customer» button.* A customer is an organisation that signs up; the admin cannot create one.
+- *«Open languages» and «Open SEO» become «Open pages».* Admin › Languages is the survey's
+  translations, and admin › SEO reads Search Console; a page's missing language or description is
+  mended on the page, so both items open Content › Pages (the second filtered to pages needing
+  attention).
+- *Recent activity shows changes only* — the audit log also records every read, and six views of a
+  list say nothing. Actions without a phrase in `admin.dashboard.did` are skipped rather than shown as
+  a code. The actor's first name comes from the local part of their address; admins have no name field.
+- *Pipeline colours* are the design's chart palette (`D.viz`, tokens `viz1`–`viz5`), one per open
+  stage in order; stages are data, so a sixth reuses the first.
+- *The business charts stay under it for now.* Signups and new customers per week, visitors per week
+  and the activation funnel (D-90, D-107) sit below the design's grid until Analytics takes them
+  (phase SA-6b); the MRR snapshot card is gone with the money.
+- *Row heights differ by 2–4 px* from the design render: both use `line-height: normal`, and the
+  render's DM Sans build differs from public/fonts (D-07).
+

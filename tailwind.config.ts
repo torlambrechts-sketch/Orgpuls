@@ -54,6 +54,12 @@ const config: Config = {
         danger: '#A33A16',
         dangerdeep: '#6B240C',
         rustdeep: '#5A2410',  // ink on a peach fill — the varsel notice
+        // Sentral (X-095): the design's chart palette (`D.viz`), one per pipeline stage in order
+        viz1: '#F6D9C6',
+        viz2: '#DCEBD3',
+        viz3: '#CFE0F5',
+        viz4: '#F3E2C9',
+        viz5: '#E7DAF2',
       },
       fontFamily: {
         display: ['var(--font-playfair)', 'Playfair Display', 'serif'],
