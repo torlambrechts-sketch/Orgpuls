@@ -1,8 +1,9 @@
-import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import type { Metadata, Route } from 'next'
+import { notFound, permanentRedirect, redirect } from 'next/navigation'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { IndustryView } from '@/components/industry/IndustryView'
 import { PreviewBanner } from '@/components/industry/PreviewBanner'
+import { CmsView, cmsMetadata } from '@/components/marketing/CmsView'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { LandingTemplate } from '@/components/marketing/LandingTemplate'
 import { getIndustry, hasPublicPage, INDUSTRIES, pageIn } from '@/content/industries'
@@ -10,6 +11,7 @@ import { stripCites } from '@/content/industries/cites'
 import type { IndustryPage } from '@/content/industries/types'
 import type { PageLang } from '@/content/industries/modules'
 import { assertIndustries } from '@/content/industries/validate'
+import { cmsPage, cmsPreview, cmsRedirect } from '@/lib/cms/read'
 import { flag, type FlagName } from '@/lib/flags'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, faqPage, graph, organization } from '@/lib/marketing/schema'
@@ -26,15 +28,28 @@ import { absolute, LANDING_PAGES, landingKey, type LandingSlug } from '@/lib/mar
  *     without the public site describing a module nobody can buy yet;
  *   - otherwise: the landing page the address had before, whose words are messages in both
  *     languages (seo.lp.*). Each language launches on its own (D-120).
+ *
+ * Any other address is a page made in the CMS (0114, X-094), when one is live at it in the site's
+ * language, or a draft through its preview link (?cms=<token>); else an old address the admin has
+ * redirected; else nothing. The site's own routes and the industries win over all of these.
  */
-export const dynamicParams = false
+export const dynamicParams = true
 
 export function generateStaticParams() {
   assertIndustries()
   return INDUSTRIES.map((i) => ({ bransje: i.slug }))
 }
 
-type Props = { params: Promise<{ bransje: string }>; searchParams: Promise<{ forhandsvis?: string }> }
+type Props = { params: Promise<{ bransje: string }>; searchParams: Promise<{ forhandsvis?: string; cms?: string; cmsl?: string }> }
+
+/** A page from the CMS at this address, live or previewed */
+async function cmsAt(props: Props) {
+  const { bransje } = await props.params
+  const { cms: token, cmsl } = await props.searchParams
+  const lang = await getLocale()
+  // a preview names the draft's language, since one host serves both languages outside production
+  return token ? cmsPreview(token, 'page', bransje, cmsl === 'en' || cmsl === 'no' ? cmsl : lang) : cmsPage('page', bransje, lang)
+}
 
 async function resolve(props: Props) {
   const { bransje } = await props.params
@@ -52,6 +67,10 @@ async function resolve(props: Props) {
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
+  if (!getIndustry((await props.params).bransje)) {
+    const cms = await cmsAt(props)
+    return cms ? cmsMetadata(cms) : {}
+  }
   const { slug, page, preview, twinLive } = await resolve(props)
   if (!page) {
     const t = await getTranslations()
@@ -63,6 +82,14 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 }
 
 export default async function IndustryRoute(props: Props) {
+  const { bransje } = await props.params
+  if (!getIndustry(bransje)) {
+    const cms = await cmsAt(props)
+    if (cms) return <CmsView page={cms} />
+    const moved = await cmsRedirect(`/${bransje}`)
+    if (moved) (moved.permanent ? permanentRedirect : redirect)(moved.to as Route)
+    notFound()
+  }
   const { slug, page, lang, preview } = await resolve(props)
   const t = await getTranslations()
   // under Bransjer, as the header's menu has it (D-129), whichever page the address shows

@@ -2,6 +2,8 @@ import type { MetadataRoute } from 'next'
 import { headers } from 'next/headers'
 import { EN_HOST, EN_URL, hostOf, MAIN_URL } from '@/lib/hosts'
 import { archive } from '@/lib/crm/read'
+import { cmsList } from '@/lib/cms/read'
+import { pathOf, type CmsKind } from '@/lib/cms/content'
 import { ARTICLES, LANDING_PAGES, SITE_PAGES } from '@/lib/marketing/site'
 import { INDUSTRIES, liveQuestionPages, pageIn } from '@/content/industries'
 
@@ -61,6 +63,26 @@ function industryPages(s: ReturnType<typeof sitemapFor>): MetadataRoute.Sitemap 
   )
 }
 
+/**
+ * The pages made in the CMS (0114, X-094) that are live and may be indexed: per language, a twin
+ * where both are live, each with the time it last changed.
+ */
+async function cmsPages(s: ReturnType<typeof sitemapFor>): Promise<MetadataRoute.Sitemap> {
+  const kinds: CmsKind[] = ['page', 'article']
+  const out: MetadataRoute.Sitemap = []
+  for (const kind of kinds) {
+    const [no, en] = await Promise.all([cmsList(kind, 'no'), cmsList(kind, 'en')])
+    const slugs = [...new Set([...no, ...en].filter((p) => !p.noindex).map((p) => p.slug))]
+    for (const slug of slugs) {
+      const n = no.find((p) => p.slug === slug && !p.noindex)
+      const e = en.find((p) => p.slug === slug && !p.noindex)
+      const at = [n?.updated_at, e?.updated_at].filter((x): x is string => !!x).sort().at(-1)
+      out.push(...s.twinned(pathOf(kind, slug), !!n, !!e, { lastModified: at, changeFrequency: 'monthly', priority: kind === 'article' ? 0.6 : 0.7 }))
+    }
+  }
+  return out
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const s = sitemapFor(hostOf((await headers()).get('host')) === EN_HOST)
   const { entry } = s
@@ -82,5 +104,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entry('/nyhetsbrev/arkiv', { lastModified: issues[0]?.published_at, changeFrequency: 'weekly', priority: 0.5 }),
     // the issues are Norwegian only (D-104): www's sitemap only
     ...issues.flatMap((i) => s.single(`/nyhetsbrev/arkiv/${i.slug}`, 'no', { lastModified: i.published_at, changeFrequency: 'yearly', priority: 0.5 })),
+    ...(await cmsPages(s)),
   ]
 }

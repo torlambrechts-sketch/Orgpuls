@@ -2682,6 +2682,58 @@ one and one section visable».
   line, so the rail fits a 720 px screen with the CRM's twelve pages open; narrowed to icons, each
   section is its own icon.
 
+### X-094 — A template-based CMS for the public site, and an automatic follow-up that waits for the people it is for
+
+Tor, 2026-09-29: «implement a full template based CMS for all front pages (landing pages, splash pages
+and other front pages). Include multi language support, translation and landing pages … visual
+implementation and focus on SEO and driving traffic. Template based. Use top features from top 10 CMS
+SaaS pages.»
+
+What the large CMSs share, and what was taken from each (WordPress with Yoast/Rank Math, Webflow,
+HubSpot CMS, Wix, Squarespace, Contentful, Storyblok, Sanity, Framer, Unbounce): a gallery of
+templates; a visual editor with a live preview beside the fields (Storyblok, Webflow); a draft
+separate from what is live, with scheduled publishing and a revision history to restore from
+(WordPress, Contentful); per-language copies with a translation state (Storyblok, Contentful,
+HubSpot); an SEO panel scoring title, description, keyword, length, headings and links, with a Google
+snippet and a social card (Yoast, Rank Math, HubSpot, Wix); redirects with 301/302 and a hit count
+(Rank Math, Webflow); preview links a reviewer can open (Contentful, Sanity); and traffic per page
+beside it (HubSpot). All built:
+
+- **Two kinds of page, one list.** The designed pages stay code and pixel-gated; their words are
+  messages. The CMS lists them beside its own (admin › Content › Pages), scores their title and
+  description, shows their traffic, and edits those two texts in place for both languages
+  (message overrides, 0101, a super-admin's); every other word is in Translations. Pages made in the
+  CMS come from six templates (landing, campaign splash, comparison, questions and answers, article,
+  document), drawn by the site's own components (PageView, ArticleBody), so a new page looks like
+  the site. Their blocks are the site's own block kinds, one renderer each.
+- **Addresses.** A page is /slug, an article /artikler/slug. The site's routes, the industries, the
+  coded articles and next.config's redirects are reserved in the database (`app.cms_reserved`); a unit
+  test keeps that list equal to the route directories. The middleware treats any other address of the
+  site's shape as public (a CMS page, a redirect, or a 404), and keeps the product's own roots behind
+  the sign-in — `APP_ROOTS`, which the same test keeps equal to app/(app).
+- **Draft, live, scheduled, history.** Each language has a draft and a live copy; «Publish» saves and
+  publishes, «Schedule» sets a time and the reader simply gets the scheduled copy once it is due (no
+  job). Every save, publish, unpublish and restore is an append-only revision. A page cannot go live
+  with a [placeholder] left, or with a translation not marked checked.
+- **Languages.** A page is written in bokmål, English or both. «Add English» starts from the other
+  language's words as a translation to check. Norwegian is served on www, English on en.orgpuls.com,
+  with hreflang only when both are live; the sitemap lists each on its host.
+- **SEO and traffic.** A score from 18 checks (lib/cms/seo.ts), updated as one types; canonical,
+  Open Graph, breadcrumb and FAQ JSON-LD, article schema, noindex on request; in the sitemap with its
+  date, so the daily IndexNow run announces it. Views, visitors, CTA clicks and sign-ups per address
+  from the site's own cookieless analytics.
+- **Preview.** A one-hour token (hashed) shows the saved draft through the public site itself, framed
+  by the admin only (`frame-ancestors` for that response; the admin's CSP allows framing www and en).
+- **Redirects.** Renaming a page that has been live adds a 301 from the old address; others are made
+  by hand, 301 or 302, with no chains, and count their visitors.
+- **Roles.** Super-admin and marketing write; analyst and support read. Every write is logged.
+
+Found on the way and fixed (0115): an automatic follow-up (X-091) was marked «sent» once its window had
+passed even if nobody due had been added yet — which happens when the window falls outside business
+hours, e.g. over a weekend. The rule is now `app.crm_follow_done`, which also requires that nobody due
+is still waiting; crm_sequences_invariants tests it whatever the hour (before, the suite failed only
+after 16:00).
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.
@@ -2944,3 +2996,5 @@ one and one section visable».
 - [ ] CRM (X-091, D-159): deal value (plan, seats, MRR) on a company, so the board can show pipeline value and win rate honestly; LinkedIn/call steps in a sequence.
 - [ ] Campaign mail (X-092): put the company's postal address (and org.nr.) in the text `mail.crm.sender` under admin › Translations, for bokmål and English: every campaign footer shows it, and the inbox check asks for it. It is not in the repository, so nothing was invented.
 - [ ] Sending domain (X-092): the inbox check reads today, from public DNS, that nyheter.orgpuls.com has Brevo's DKIM, is covered by `_dmarc.orgpuls.com` with `p=none`, and has no SPF record. At the DNS host (Spaceship): add `v=spf1 include:spf.brevo.com ~all` as a TXT on nyheter.orgpuls.com, and after two to four weeks of clean DMARC reports (rua goes to Brevo) move `_dmarc.orgpuls.com` to `p=quarantine`.
+- [ ] CMS (X-094): the site's pages are listed in admin › Content › Pages. A campaign page for an ad should be made from the campaign splash template and marked noindex; a page for search from the landing page template, with a focus keyword. The six templates' first words are drafts; change them in the templates (0114) if a house style emerges.
+- [ ] CMS (D-161): pictures uploaded to a page, A/B tests of a page, and machine translation are not built; say if one is wanted.

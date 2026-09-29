@@ -7200,3 +7200,28 @@ preview, and campaign cards with a funnel. Deliberately not built, and why:
 - *Spam words in the body.* Only strong phrases count there («100 %», «garantert», «klikk her»); single
   words like «gratis» count in the subject alone, where filters weigh them and readers decide.
 
+## D-161 — The CMS: what it does not do, and why
+
+X-094. Built: the pages hub over every public page, six templates drawn by the site's own components,
+the editor with a live preview, drafts, scheduling, revisions, two languages with a translation state,
+the search score, redirects and per-page traffic. Deliberately not built:
+
+- *Designed pages in the page editor.* The start page, Plattform, Hvorfor, Bruksområder, the landing
+  and industry pages and the coded articles are pixel-gated against the design bundle; letting an editor
+  move their sections would break the design contract (CLAUDE.md). Their title and description are
+  edited in the hub, their other words in Translations.
+- *A free-form canvas.* Sections are the site's block kinds, ordered with arrows; one renderer per kind
+  keeps every page on the design's grid and type scale (the same reason as D-160).
+- *Pictures uploaded to a page.* A page shows the product's own screens (the `shot` block and the hero
+  picture). Storage with resizing and alt-text checks is its own piece of work.
+- *A/B tests of a page.* The site's analytics are cookieless by decision (D-91): a visitor cannot be
+  kept in one variant without storing something on their device.
+- *Machine translation.* «Add English» copies the words to translate and marks them as a translation to
+  check; nothing is published until someone has checked it. Respondent texts follow X-089; marketing
+  pages are reviewed by a person before they go live.
+- *English pages in the local preview.* Outside production one host serves both languages, so the
+  preview shows the English draft inside the Norwegian header; on admin.orgpuls.com it frames
+  en.orgpuls.com.
+- *A scheduled copy is live within five minutes of its time,* not to the second: live pages are cached
+  for five minutes and dropped at once on every publish.
+

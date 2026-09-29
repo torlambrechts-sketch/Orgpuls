@@ -7523,7 +7523,9 @@
         "translations": "Translations",
         "ops": "Operations",
         "audit": "Audit log",
-        "admins": "Admins"
+        "admins": "Admins",
+        "cms": "Pages",
+        "cmsRedirects": "Redirects"
       },
       "collapse": "Narrow the menu to its icons",
       "expand": "Widen the menu",
@@ -9786,7 +9788,395 @@
       }
     },
     "autoBanner": "Auto-approve is on: every translation and legal text is approved as it arrives.",
-    "autoBannerLink": "Translations"
+    "autoBannerLink": "Translations",
+    "cms": {
+      "title": "Pages",
+      "lead": "Every page of the public site in one place: the designed pages, whose words are edited here and in Translations, and the pages made from templates, with their languages, search score and the traffic each brings.",
+      "new": "New page",
+      "redirectsLink": "Redirects",
+      "stats": {
+        "site": "Pages on the site",
+        "siteHint": "{designed} designed, {cms} from templates",
+        "live": "Live from templates",
+        "drafts": "Drafts",
+        "scheduled": "Scheduled",
+        "views": "Views, {days} days",
+        "signups": "Sign-ups, {days} days",
+        "signupsHint": "Organisations whose first page it was"
+      },
+      "filter": {
+        "label": "Show",
+        "all": "All",
+        "designed": "Designed",
+        "cms": "From templates",
+        "articles": "Articles",
+        "drafts": "Not live",
+        "attention": "Needs attention",
+        "search": "Search pages",
+        "archived": "Archived"
+      },
+      "table": {
+        "page": "Page",
+        "type": "Type",
+        "languages": "Languages",
+        "seo": "Search score",
+        "views": "Views",
+        "visitors": "Visitors",
+        "cta": "CTA clicks",
+        "signups": "Sign-ups",
+        "updated": "Updated",
+        "empty": "No page matches.",
+        "note": "Traffic is the site's own cookieless count for the last {days} days: views of the address, the visitors who made them, clicks on a call to action, and organisations that signed up with this as their first page."
+      },
+      "group": {
+        "home": "Start page",
+        "site": "Site page",
+        "landing": "Landing page",
+        "industry": "Industry page",
+        "article": "Article",
+        "index": "Index"
+      },
+      "designedBadge": "Designed",
+      "state": {
+        "live": "Live",
+        "changed": "Live · changes",
+        "scheduled": "Scheduled",
+        "draft": "Draft",
+        "none": "—",
+        "archived": "Archived"
+      },
+      "stateLong": {
+        "live": "Live: readers see the published version.",
+        "changed": "Live, with changes not yet published.",
+        "scheduled": "Scheduled for {at}.",
+        "draft": "Not published: only a preview link shows it.",
+        "archived": "Archived: off the site in every language, kept with its history."
+      },
+      "language": {
+        "no": "Norwegian",
+        "en": "English"
+      },
+      "templates": {
+        "title": "Start from a template",
+        "lead": "Each template is drawn by the site's own designed sections, so a new page looks like the rest of the site. The first words are there, with [brackets] where only you have the facts; a page cannot go live while one is left.",
+        "use": "Use this template"
+      },
+      "layout": {
+        "landing": "Landing",
+        "splash": "Splash",
+        "document": "Document",
+        "article": "Article"
+      },
+      "create": {
+        "title": "New page",
+        "lead": "Choose a template, give the page its address and the search it should answer. You write the words in the editor next, with a live preview beside them.",
+        "template": "Template",
+        "name": "Working title",
+        "nameHint": "Only to suggest the address; the page's own title and headline are written in the editor.",
+        "slug": "Address",
+        "slugHint": "Lower-case words joined by hyphens. Short, with the search words in it.",
+        "keyword": "Focus keyword",
+        "keywordHint": "The search the page should rank for, e.g. «kartlegging av arbeidsmiljø». The search score checks it is where it counts.",
+        "languages": "Languages",
+        "languagesHint": "Start in one and add the other later: a new language starts from this one's words, as a translation to be checked.",
+        "submit": "Create page",
+        "creating": "Creating …",
+        "bestFor": "Best for"
+      },
+      "editor": {
+        "back": "Pages",
+        "save": "Save draft",
+        "saved": "Saved",
+        "unsaved": "Unsaved changes",
+        "saving": "Saving …",
+        "publish": "Publish",
+        "publishing": "Publishing …",
+        "publishNow": "Publish {language} now",
+        "schedule": "Schedule",
+        "scheduleAt": "Publish at",
+        "scheduleHint": "The scheduled version replaces the live one at its time, within five minutes; nothing needs to run.",
+        "scheduleSubmit": "Schedule",
+        "unpublish": "Unpublish",
+        "unpublishConfirm": "Take the {language} page off the site? Its address answers «not found» until it is published again.",
+        "archive": "Archive page",
+        "unarchive": "Restore page",
+        "archiveConfirm": "Archive this page? It goes off the site in every language and keeps its history.",
+        "addLanguage": "Add {language}",
+        "addLanguageHint": "Starts from the {from} words, marked as a translation to check.",
+        "published": "Published {at}",
+        "openLive": "Open the live page",
+        "tabs": {
+          "content": "Content",
+          "seo": "Search",
+          "settings": "Settings",
+          "history": "History"
+        },
+        "hero": "Top of the page",
+        "sections": "Sections",
+        "sectionsEmpty": "No sections yet. Add one below.",
+        "addSection": "Add a section",
+        "faq": "Questions and answers",
+        "faqHint": "Shown as an accordion and marked up for Google's rich results. Answer each question the way people ask it.",
+        "faqAdd": "Add a question",
+        "closing": "Closing call to action",
+        "closingHint": "Leave empty to use the site's own closing words.",
+        "sources": "Sources",
+        "sourcesHint": "One per line: the label, a vertical bar, then the https address. Cited sources are shown under the article.",
+        "moveUp": "Move up",
+        "moveDown": "Move down",
+        "remove": "Remove",
+        "emptyBlock": "This section is empty: fill it in or remove it.",
+        "counter": "{n} characters",
+        "counterRange": "{n} of {lo}–{hi} characters",
+        "inline": "Two marks work in text: **bold** and [link text](/address).",
+        "placeholdersLeft": "Still to be written, in [brackets]: {list}",
+        "field": {
+          "kicker": "Label above the headline",
+          "h1": "Headline (H1)",
+          "lead": "Introduction",
+          "signupLabel": "Sign-up field label",
+          "signupHint": "Leave empty for the site's own label.",
+          "finalTitle": "Closing headline",
+          "finalBody": "Closing text",
+          "text": "Text",
+          "heading": "Heading",
+          "items": "One item per line",
+          "quote": "Quotation",
+          "cite": "Where it is from",
+          "law": "One line per provision: the reference, a vertical bar, then what it asks",
+          "boxTitle": "Title",
+          "cards": "One card per line: the title, a vertical bar, then the text",
+          "table": "First line the column headings, then one row per line; cells separated by a vertical bar",
+          "links": "One card per line: title | text | /address",
+          "shot": "Picture",
+          "question": "Question",
+          "answer": "Answer"
+        },
+        "block": {
+          "h2": "Heading",
+          "h3": "Subheading",
+          "p": "Paragraph",
+          "ul": "Bullet list",
+          "ol": "Numbered steps",
+          "quote": "Quotation",
+          "law": "Legal provisions",
+          "box": "Highlight box",
+          "cards": "Cards",
+          "table": "Table",
+          "links": "Link cards",
+          "plans": "Price plans",
+          "shot": "Product picture"
+        },
+        "plansNote": "The three plans, exactly as the start page shows them. Nothing to write.",
+        "seo": {
+          "score": "Search score",
+          "scoreHint": "A guide, not a gate: the checks the large CMSs run beside the text. Only a [placeholder] stops a page going live.",
+          "snippet": "In Google",
+          "social": "When shared",
+          "title": "Title (in the browser tab and Google)",
+          "description": "Meta description",
+          "crumb": "Name in the breadcrumb",
+          "keyword": "Focus keyword",
+          "slug": "Address",
+          "slugLive": "The page has been live: changing its address adds a permanent (301) redirect from the old one.",
+          "noindex": "Keep out of search engines (noindex)",
+          "noindexHint": "For a campaign page only an ad or a mailing should lead to. The page stays out of the sitemap.",
+          "traffic": "Traffic, {days} days",
+          "trafficNone": "No visits counted to this address yet."
+        },
+        "settings": {
+          "template": "Template",
+          "shot": "Picture beside the headline",
+          "shotNone": "None",
+          "shotHint": "A screen from the product, drawn as the site draws it.",
+          "translation": "Translation",
+          "translationHint": "A language added as a translation must be checked before it can be published.",
+          "danger": "Archive"
+        },
+        "translation": {
+          "source": "Written in this language",
+          "draft": "Translation, not yet checked",
+          "reviewed": "Translation, checked"
+        },
+        "history": {
+          "title": "History",
+          "lead": "Every save, publish and restore, in both languages. Restoring puts an earlier version into the draft; publish it to make it live.",
+          "when": "When",
+          "language": "Language",
+          "action": "What",
+          "by": "Who",
+          "pageTitle": "Title",
+          "restore": "Restore",
+          "restoreConfirm": "Put this version into the {language} draft? The current draft stays in the history.",
+          "empty": "No history yet."
+        },
+        "action": {
+          "save": "Saved",
+          "publish": "Published",
+          "schedule": "Scheduled",
+          "unpublish": "Unpublished",
+          "restore": "Restored"
+        },
+        "preview": {
+          "title": "Preview",
+          "desktop": "Desktop",
+          "phone": "Phone",
+          "refresh": "Refresh",
+          "open": "Open in a new tab",
+          "note": "Shows the saved draft, drawn by the public site itself. Save to update it. The link works for an hour and is never indexed.",
+          "failed": "The preview could not be loaded."
+        }
+      },
+      "site": {
+        "lead": "A designed page: its layout is code and pixel-checked against the design. Its title and description are messages, edited here for both languages; every other text on it is in Translations.",
+        "industryLead": "An industry page: its words are its content file, reviewed with its module, and are changed in code.",
+        "meta": "Title and description",
+        "title": "Title",
+        "description": "Description",
+        "editTitle": "Edit the title",
+        "editDescription": "Edit the description",
+        "superOnly": "Only a super-admin can change the site's messages.",
+        "texts": "Other texts on the page",
+        "textsLink": "Open Translations",
+        "suffix": "The page adds «{suffix}» after the title.",
+        "notFound": "No designed page at that address."
+      },
+      "redirects": {
+        "title": "Redirects",
+        "lead": "Old addresses sent on to new ones: a permanent redirect (301) passes the old page's standing in search to the new one; a temporary one (302) does not. A page that has been live adds its own when its address changes.",
+        "from": "From (old address)",
+        "fromHint": "An address on this site, e.g. /kampanje-2025",
+        "to": "To",
+        "toHint": "An address on this site, or a full https address",
+        "type": "Type",
+        "permanent": "Permanent (301)",
+        "temporary": "Temporary (302)",
+        "hits": "Visitors sent",
+        "lastHit": "Last",
+        "created": "Added",
+        "add": "Add redirect",
+        "delete": "Remove",
+        "empty": "No redirects yet.",
+        "note": "The site's own pages always win: a redirect only answers an address nothing else does."
+      },
+      "shots": {
+        "oversikt": "Overview",
+        "varmekart": "Heatmap",
+        "resultater": "Results",
+        "kommentarer": "Comments",
+        "samtaler": "Conversations",
+        "tiltak": "Actions",
+        "arshjul": "Annual wheel",
+        "sporsmal": "Questionnaire (phone)",
+        "rapport": "Report"
+      },
+      "check": {
+        "title": {
+          "good": "The title is {n} characters: Google shows it whole.",
+          "warn": "The title is {n} characters: aim for 30 to 60.",
+          "bad": "The page has no title."
+        },
+        "description": {
+          "good": "The description is {n} characters: Google shows it whole.",
+          "warn": "The description is {n} characters: aim for 120 to 160.",
+          "bad": "The page has no description: Google will pick a sentence itself."
+        },
+        "h1": {
+          "good": "The page has a headline.",
+          "bad": "The page has no headline (H1)."
+        },
+        "keyword": {
+          "good": "A focus keyword is set.",
+          "warn": "No focus keyword: set the search this page should answer."
+        },
+        "kwTitle": {
+          "good": "The keyword is in the title.",
+          "warn": "Put the keyword in the title, near the start."
+        },
+        "kwH1": {
+          "good": "The keyword is in the headline.",
+          "warn": "Put the keyword in the headline."
+        },
+        "kwDescription": {
+          "good": "The keyword is in the description.",
+          "warn": "Put the keyword in the description: Google shows it in bold."
+        },
+        "kwSlug": {
+          "good": "The keyword is in the address.",
+          "warn": "Put the keyword's words in the address."
+        },
+        "kwLead": {
+          "good": "The keyword is in the introduction.",
+          "warn": "Use the keyword in the introduction."
+        },
+        "length": {
+          "good": "{n} words: enough to answer the search.",
+          "warn": "{n} words: a little short to rank for the search.",
+          "bad": "{n} words: too short to rank."
+        },
+        "headings": {
+          "good": "{n} section headings: easy to scan.",
+          "warn": "One section heading: split the text into two or more.",
+          "bad": "No section headings (H2)."
+        },
+        "links": {
+          "good": "{n} links into the site.",
+          "warn": "One link into the site: add another to a related page.",
+          "bad": "No links into the site: link to a landing page or an article."
+        },
+        "faq": {
+          "good": "{n} questions and answers: eligible for a rich result.",
+          "warn": "Add two or more questions and answers for a rich result in Google."
+        },
+        "sources": {
+          "good": "{n} cited sources.",
+          "warn": "Cite a source: an article on the law should link to it."
+        },
+        "placeholders": {
+          "good": "Nothing left in [brackets].",
+          "bad": "{n} [placeholders] still to be written: the page cannot go live."
+        },
+        "slug": {
+          "good": "A short address.",
+          "warn": "The address is long: keep it under 60 characters and six words."
+        },
+        "index": {
+          "good": "Search engines may index the page.",
+          "warn": "Kept out of search engines (noindex): it brings no search traffic."
+        },
+        "twin": {
+          "good": "In both languages, linked for search engines (hreflang).",
+          "warn": "In one language only: add the other to reach both."
+        }
+      },
+      "problem": {
+        "not_allowed": "Your role cannot do this.",
+        "not_found": "The page no longer exists.",
+        "archived": "The page is archived: restore it first.",
+        "invalid": "Something in the form is not valid.",
+        "invalid_content": "The page's content is not valid: check the sections.",
+        "invalid_slug": "The address must be lower-case words joined by hyphens, 2 to 80 characters.",
+        "slug_reserved": "That address belongs to one of the site's own pages.",
+        "slug_taken": "Another page already has that address.",
+        "invalid_locale": "Choose at least one language.",
+        "invalid_template": "Choose a template.",
+        "invalid_shot": "Choose a picture from the list.",
+        "exists": "The page is already in that language.",
+        "translation_unchecked": "Mark the translation as checked (Settings) before publishing it.",
+        "invalid_time": "Choose a time within the next year.",
+        "no_title": "Write the page's title (Search) before publishing.",
+        "no_description": "Write the page's description (Search) before publishing.",
+        "no_h1": "Write the headline before publishing.",
+        "no_lead": "Write the introduction before publishing.",
+        "no_blocks": "Add at least one section before publishing.",
+        "placeholder_left": "Something is still in [brackets]: write it before publishing.",
+        "invalid_from": "The old address must be a path on this site, like /kampanje.",
+        "invalid_to": "The new address must be a path on this site or a full https address, and not the same as the old one.",
+        "chain": "That address is itself redirected: point to where it ends up instead.",
+        "empty_block": "A section is empty: fill it in or remove it.",
+        "failed": "It did not work. Try again."
+      }
+    }
   },
   "access": {
     "graceHead": "Prøveperioden er over.",
@@ -9988,5 +10378,8 @@
     "measuresNote": "Tiltakene følges opp sammen med verneombudet. Siden viser alltid hvor de står nå.",
     "missingTitle": "Siden finnes ikke",
     "missingLead": "Lenken er feil, eller siden er ikke delt. Spør lederen din eller verneombudet."
+  },
+  "cms": {
+    "preview": "Forhåndsvisning av et utkast: ikke publisert, og ikke synlig for søkemotorer."
   }
 }

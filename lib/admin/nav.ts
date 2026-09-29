@@ -33,6 +33,8 @@ export type AdminIcon =
   | 'activity'
   | 'log'
   | 'shield'
+  | 'page'
+  | 'redirect'
 
 export type NavItem = { key: string; href: string; icon: AdminIcon; exact?: boolean }
 export type NavGroup = { key: 'overview' | 'customers' | 'crm' | 'content' | 'platform'; icon: AdminIcon; items: NavItem[] }
@@ -72,6 +74,8 @@ const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }
   {
     key: 'content',
     items: [
+      { key: 'cms', section: 'cms', href: HREF.cms, icon: 'page' },
+      { key: 'cmsRedirects', section: 'cms', href: '/admin/cms/redirects', icon: 'redirect' },
       { key: 'seo', section: 'seo', href: HREF.seo, icon: 'search' },
       { key: 'modules', section: 'modules', href: HREF.modules, icon: 'puzzle' },
       { key: 'legal', section: 'legal', href: HREF.legal, icon: 'scale' },

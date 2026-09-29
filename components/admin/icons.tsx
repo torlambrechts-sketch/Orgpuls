@@ -33,6 +33,8 @@ const PATHS: Record<AdminIcon | 'collapse' | 'expand' | 'menu' | 'close' | 'sign
   expand: 'M9 6l6 6-6 6',
   menu: 'M4 7h16M4 12h16M4 17h16',
   chevron: 'M6 9l6 6 6-6',
+  page: 'M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6',
+  redirect: 'M4 17V9a3 3 0 0 1 3-3h11M15 3l3 3-3 3M20 21H10',
   close: 'M6 6l12 12M18 6L6 18',
   signout: 'M15 4h3a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3M10 16l-4-4 4-4M6 12h10',
 }

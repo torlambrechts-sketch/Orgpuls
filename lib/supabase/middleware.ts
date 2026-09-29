@@ -134,7 +134,18 @@ function deadline(ms: number): AbortSignal {
   return controller.signal
 }
 
-const isPublic = (path: string) => PUBLIC_PATHS.some((p) => path === p || path.startsWith(`${p}/`))
+/**
+ * The product's own roots (app/(app)), the admin and the API: the addresses that need a session.
+ * Any other address of the site's own shape is the public site's (0114, X-094): a page made in the
+ * CMS, an old address the admin redirected, or a 404 — never a sign-in. tests/unit/cms.test.ts keeps
+ * this list equal to app/(app)'s routes, so a new screen of the product cannot become public by
+ * being forgotten here.
+ */
+export const APP_ROOTS = ['forhandsvis', 'hjelp', 'innsikt', 'integrasjoner', 'kommentarer', 'maleoppsett', 'malinger', 'oppsett', 'rapport', 'resultater', 'tiltak', 'admin', 'api']
+const SITE_ADDRESS = /^\/[a-z0-9]+(-[a-z0-9]+)*(\/[a-z0-9_-]+)*$/
+const isSiteAddress = (path: string) => SITE_ADDRESS.test(path) && !APP_ROOTS.includes(path.split('/')[1] ?? '')
+
+const isPublic = (path: string) => PUBLIC_PATHS.some((p) => path === p || path.startsWith(`${p}/`)) || isSiteAddress(path)
 
 export async function updateSession(request: NextRequest) {
   const host = hostOf(request.headers.get('host'))

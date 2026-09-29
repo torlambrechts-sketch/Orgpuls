@@ -18,8 +18,8 @@ export const metadata: Metadata = { title: 'Orgpuls Admin', robots: { index: fal
 export const dynamic = 'force-dynamic'
 
 /** The sections built so far; the rest of the specification's list is added as it is built. */
-const BUILT: readonly Section[] = ['dashboard', 'orgs', 'health', 'users', 'ops', 'web', 'seo', 'acquisition', 'crm', 'modules', 'legal', 'translations', 'tickets', 'audit', 'admins']
-/** the pages the menu may offer: every built section, and the CRM's own pages */
+const BUILT: readonly Section[] = ['dashboard', 'orgs', 'health', 'users', 'ops', 'web', 'seo', 'acquisition', 'crm', 'cms', 'modules', 'legal', 'translations', 'tickets', 'audit', 'admins']
+/** the pages the menu may offer: every built section, the CRM's own pages and the CMS's redirects */
 const PAGES = [
   ...BUILT.map((s) => HREF[s]),
   '/admin/crm/inbox',
@@ -31,6 +31,7 @@ const PAGES = [
   '/admin/crm/campaigns',
   '/admin/crm/templates',
   '/admin/crm/stages',
+  '/admin/cms/redirects',
 ]
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {

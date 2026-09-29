@@ -32,16 +32,17 @@ const withNextIntl = createNextIntlPlugin('./lib/i18n/request.ts')
  * its own piece of work. It does not weaken the three headers above, which is why this
  * ships now rather than waiting for the nonce.
  */
-function csp(img: string) {
+function csp(img: string, frameAncestors = "'none'", frames = '') {
   return [
     "default-src 'self'",
+    ...(frames ? [`frame-src 'self' ${frames}`] : []),
     "script-src 'self' 'unsafe-inline'",
     "style-src 'self' 'unsafe-inline'",
     "font-src 'self'",
     img,
     `connect-src 'self' ${process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''}`.trim(),
     "form-action 'self'",
-    "frame-ancestors 'none'",
+    `frame-ancestors ${frameAncestors}`,
     "base-uri 'self'",
     "object-src 'none'",
   ].join('; ')
@@ -50,10 +51,19 @@ function csp(img: string) {
 /**
  * The admin draws campaign mail in its previews (X-092): the Orgpuls mark and the pictures an
  * author links, which may be hosted on any https origin, as they will be in the reader's inbox.
- * Only there may an image come from elsewhere; scripts, frames and connections stay as strict.
+ * Only there may an image come from elsewhere; scripts and connections stay as strict.
  */
 const ADMIN_HOST = process.env.ADMIN_HOST?.trim().toLowerCase() || 'admin.orgpuls.com'
-const adminCsp = [{ key: 'Content-Security-Policy', value: csp("img-src 'self' data: https:") }]
+const EN_HOST = process.env.EN_HOST?.trim().toLowerCase() || 'en.orgpuls.com'
+/** …and frames the public site, in both languages, for a CMS draft's preview (X-094) */
+const adminCsp = [{ key: 'Content-Security-Policy', value: csp("img-src 'self' data: https:", "'none'", `https://www.orgpuls.com https://${EN_HOST}`) }]
+
+/**
+ * A CMS draft through its preview link (?cms=<token>, X-094) is drawn inside the admin's editor:
+ * that one response may be framed by the admin, and by nothing else. CSP's frame-ancestors
+ * supersedes X-Frame-Options in every current browser.
+ */
+const previewCsp = [{ key: 'Content-Security-Policy', value: csp("img-src 'self' data:", `'self' https://${ADMIN_HOST}`) }]
 
 const securityHeaders = [
   { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
@@ -81,6 +91,7 @@ const nextConfig: NextConfig = {
       // later entries override the same header: the admin, by path and on its own host
       { source: '/admin/:path*', headers: adminCsp },
       { source: '/:path*', has: [{ type: 'host', value: ADMIN_HOST }], headers: adminCsp },
+      { source: '/:path*', has: [{ type: 'query', key: 'cms' }], headers: previewCsp },
     ]
   },
   /**
