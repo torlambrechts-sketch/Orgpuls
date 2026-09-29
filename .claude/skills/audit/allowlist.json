@@ -2,6 +2,7 @@
   "_comment": "Reviewed exceptions for scripts/audit/wiring.mjs. Every entry carries the reason it is deliberate. A new entry is added only after review, in the same commit as the change that needs it.",
   "anon_executes": {
     "public.cms_list(p_kind text, p_locale text)": "the live CMS pages of a kind (0114, X-094): the sitemap and the article index; published words only",
+    "public.cms_media_file(p_key text)": "an image a public page shows, by its exact 32-hex address (0124, D-169), as org_logo (0104): nothing about a person in it",
     "public.cms_page(p_kind text, p_slug text, p_locale text)": "a live CMS page (0114, X-094): the public site's own words, only what is published and not archived; stable, reads nothing about a person",
     "public.cms_preview(p_token text, p_locale text)": "a draft through its preview link (0114, X-094): a 256-bit token, looked up by its SHA-256, expiring in an hour; the page is marked noindex and framed only by the admin",
     "public.cms_redirect(p_path text)": "where an old address goes (0114, X-094): only a redirect an admin made; its one write is that address's visit counter, which a visitor may raise but not read",

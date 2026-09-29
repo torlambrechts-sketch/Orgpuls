@@ -4,7 +4,7 @@ import { getTranslations } from 'next-intl/server'
 import { CmsEditor, type CmsMessages } from '@/components/admin/CmsEditor'
 import { Problem, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
-import { cmsPage, cmsTemplates, cmsTraffic } from '@/lib/admin/cms'
+import { cmsMedia, cmsPage, cmsTemplates, cmsTraffic } from '@/lib/admin/cms'
 import { pathOf } from '@/lib/cms/content'
 import { ADMIN_HOST, EN_HOST, EN_URL, hostOf, MAIN_HOST, MAIN_URL } from '@/lib/hosts'
 
@@ -20,7 +20,7 @@ export default async function CmsEdit({ params }: { params: Promise<{ id: string
   if (!/^[0-9a-f-]{36}$/.test(id)) notFound()
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('cms') as CmsMessages
-  const [data, traffic, templates, who] = await Promise.all([cmsPage(id), cmsTraffic(DAYS), cmsTemplates(), whoami()])
+  const [data, traffic, templates, who, library] = await Promise.all([cmsPage(id), cmsTraffic(DAYS), cmsTemplates(), whoami(), cmsMedia()])
   if (isError(data)) {
     if (data.error === 'not_found') notFound()
     return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
@@ -46,6 +46,7 @@ export default async function CmsEdit({ params }: { params: Promise<{ id: string
   return (
     <CmsEditor
       page={page}
+      media={isError(library) ? [] : library.rows.map((x) => ({ key: x.key, name: x.name, width: x.width, height: x.height, alt_no: x.alt_no, alt_en: x.alt_en }))}
       revisions={revisions}
       traffic={row}
       days={DAYS}

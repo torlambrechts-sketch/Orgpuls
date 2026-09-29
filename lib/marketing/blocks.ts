@@ -33,6 +33,15 @@ export const Block = z.discriminatedUnion('t', [
   z.object({ t: z.literal('plans') }),
   /** a picture of the product, by id (lib/marketing/shot-ids); its words are `seo.shots.<id>` */
   z.object({ t: z.literal('shot'), id: z.enum(SHOT_IDS) }),
+  /** an image from Content › Media (0124) by its address, with the words for a reader who cannot see it */
+  z.object({
+    t: z.literal('image'),
+    key: z.string().regex(/^[0-9a-f]{32}$/),
+    alt: z.string(),
+    caption: z.string().optional(),
+    w: z.number().int().min(1).max(4000),
+    h: z.number().int().min(1).max(4000),
+  }),
 ])
 export type Block = z.infer<typeof Block>
 
@@ -64,6 +73,8 @@ export function wordCount(blocks: Block[]): number {
         case 'plans':
         case 'shot':
           return []
+        case 'image':
+          return b.caption ? [b.caption] : []
         case 'table':
           return [...b.head, ...b.rows.flat()]
         default:

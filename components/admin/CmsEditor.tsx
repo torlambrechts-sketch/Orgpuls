@@ -9,6 +9,7 @@ import { BTN } from './ui'
 import type en from '@/messages/en.json'
 import { parseContent, pathOf, placeholders, type CmsKind, type CmsLocale, type Layout } from '@/lib/cms/content'
 import { DESCRIPTION_RANGE, seoScore, TITLE_RANGE, type SeoCheck } from '@/lib/cms/seo'
+import { mediaSrc } from '@/lib/cms/media'
 import { Block } from '@/lib/marketing/blocks'
 import { SHOT_IDS, type ShotId } from '@/lib/marketing/shot-ids'
 import { cmsArchive, cmsPreviewToken, cmsPublish, cmsRestore, cmsSave, cmsTranslate, cmsUnpublish } from '@/lib/admin/cmsActions'
@@ -78,7 +79,7 @@ let seq = 0
 const uid = () => `u${++seq}`
 
 /** the palette, in the order an author reaches for them */
-const PALETTE: BlockT[] = ['h2', 'p', 'ul', 'ol', 'cards', 'box', 'quote', 'law', 'table', 'links', 'shot', 'plans', 'h3']
+const PALETTE: BlockT[] = ['h2', 'p', 'ul', 'ol', 'cards', 'box', 'quote', 'law', 'table', 'links', 'image', 'shot', 'plans', 'h3']
 
 const EMPTY: Record<BlockT, Block> = {
   h2: { t: 'h2', text: '' },
@@ -94,6 +95,8 @@ const EMPTY: Record<BlockT, Block> = {
   links: { t: 'links', items: [] },
   plans: { t: 'plans' },
   shot: { t: 'shot', id: 'oversikt' },
+  // no image until one is picked from Content › Media: an empty section until then
+  image: { t: 'image', key: '', alt: '', w: 1, h: 1 },
 }
 
 // ---------------------------------------------------------------- the list-shaped sections, as lines of text
@@ -209,8 +212,12 @@ function contentOf(d: Doc) {
 const snapshot = (d: Doc) => JSON.stringify([contentOf(d), d.translation])
 const metaSnapshot = (m: Meta) => JSON.stringify(m)
 
+/** an image a section can show (Content › Media, 0124) */
+export type EditorMedia = { key: string; name: string; width: number; height: number; alt_no: string; alt_en: string }
+
 type Props = {
   page: EditorPage
+  media: EditorMedia[]
   revisions: EditorRevision[]
   traffic: { views: number; visitors: number; cta: number; signups: number } | null
   days: number
@@ -223,7 +230,7 @@ type Props = {
   when: Record<string, string>
 }
 
-export function CmsEditor({ page, revisions, traffic, days, templateName, origins, hosts, canWrite, m, when }: Props) {
+export function CmsEditor({ page, media, revisions, traffic, days, templateName, origins, hosts, canWrite, m, when }: Props) {
   const e = m.editor
   const router = useRouter()
   const path = pathOf(page.kind, page.slug)
@@ -463,6 +470,47 @@ export function CmsEditor({ page, revisions, traffic, days, templateName, origin
         return listy(e.field.links, 3)
       case 'plans':
         return <p className="m-0 text-[12.5px] text-mut">{e.plansNote}</p>
+      case 'image': {
+        const picked = media.find((x) => x.key === b.key)
+        return (
+          <>
+            <label className="block">
+              <span className={labelCls}>{e.field.image}</span>
+              <select
+                value={b.key}
+                disabled={!canWrite}
+                onChange={(ev) => {
+                  const x = media.find((y) => y.key === ev.target.value)
+                  if (x) set({ ...b, key: x.key, w: x.width, h: x.height, alt: b.alt || (locale === 'en' ? x.alt_en : x.alt_no) })
+                }}
+                className={input}
+              >
+                <option value="" disabled>
+                  {media.length ? e.field.imagePick : e.field.imageNone}
+                </option>
+                {media.map((x) => (
+                  <option key={x.key} value={x.key}>
+                    {x.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {picked ? (
+              // eslint-disable-next-line @next/next/no-img-element -- the library's own web-sized file
+              <img src={mediaSrc(picked.key)} alt="" width={picked.width} height={picked.height} className="block h-auto max-h-[160px] w-auto max-w-full rounded-[10px] border border-line" />
+            ) : null}
+            <label className="block">
+              <span className={labelCls}>{e.field.alt}</span>
+              <input value={b.alt} maxLength={300} readOnly={!canWrite} onChange={(ev) => set({ ...b, alt: ev.target.value })} className={input} />
+              <span className="mt-[4px] block text-[11.5px] text-mut">{e.field.altHint}</span>
+            </label>
+            <label className="block">
+              <span className={labelCls}>{e.field.caption}</span>
+              <input value={b.caption ?? ''} maxLength={300} readOnly={!canWrite} onChange={(ev) => set({ ...b, caption: ev.target.value || undefined })} className={input} />
+            </label>
+          </>
+        )
+      }
       case 'shot':
         return (
           <label className="block">

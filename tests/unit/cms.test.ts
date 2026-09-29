@@ -9,11 +9,17 @@ import no from '@/messages/no.json'
 import en from '@/messages/en.json'
 
 /** The CMS (0114, X-094): its content, its search score, and the addresses it may not take. */
-const migration = readFileSync('supabase/migrations/0114_cms.sql', 'utf8')
+/** the newest migration that (re)defines app.cms_reserved — 0124 reserved /media */
+const migration = readdirSync('supabase/migrations')
+  .filter((f) => f.endsWith('.sql'))
+  .sort()
+  .map((f) => readFileSync(`supabase/migrations/${f}`, 'utf8'))
+  .filter((sql) => /function app\.cms_reserved/.test(sql))
+  .at(-1)!
 
 /** the slugs app.cms_reserved lists for one kind */
 function reserved(kind: 'page' | 'article'): string[] {
-  const body = migration.slice(migration.indexOf('create function app.cms_reserved'))
+  const body = migration.slice(migration.search(/create (or replace )?function app\.cms_reserved/))
   const start = body.indexOf(`when '${kind}' then p_slug = any (array[`)
   const list = body.slice(start, body.indexOf('])', start))
   return [...list.matchAll(/'([a-z0-9-]+)'/g)].map((m) => m[1]!).filter((s) => s !== kind)

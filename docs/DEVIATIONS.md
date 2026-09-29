@@ -7434,3 +7434,31 @@ the translation registry. What the design draws and the product does not:
   not a switch: machine drafts are made with every text as it is written (X-089, D-133) and wait in
   review, so the card says that instead of offering a toggle that would change nothing. «Import
   JSON» goes to the import on the open language (bokmål's questions have none: they are the source).
+
+## D-169 — Sentral Media: images kept by the database, made web-sized in the browser
+
+X-095, phase 9. From the design's `isMedia` and its «Upload media» modal, over 0124:
+
+- *Kept in Postgres, not Storage*, as the organisation logo is (0104): served by the site itself at
+  `/media/<key>`, so the public pages' CSP keeps `img-src 'self'`, and the row lives under RLS with
+  no policy like every other CMS table. No bucket, no storage policies, no third origin.
+- *Images only* — PNG, JPEG or WebP, the type read from the bytes. The design's PDFs, SVGs and video
+  are not offered: an SVG is a document that can carry script and would be served from our own
+  origin; a PDF or a video has no section on a page to show it in. The design's «Folder» field is not
+  there either: nothing in the product groups files.
+- *«Files up to 50 MB … the original is kept»* is not what happens. The browser makes the web
+  version before anything is sent — at most 2000 px wide, WebP, at most 2 MB — and only that is
+  kept. Re-encoding also leaves out what a camera writes into a photo (where, when, which device).
+  The admin keeps their own original. The upload modal says this instead of the design's sentence.
+- *The card* shows the image itself where the design draws a coloured tile with the file type, and
+  «Image · size · width×height» — every file is an image, so there is no other kind to name.
+- *Used on* counts the CMS pages whose words, in either language, draft, scheduled or live, name the
+  image's address in an Image section — archived pages too, since one can be brought back. A used
+  image cannot be deleted. The designed pages (layout in code) do not use the library.
+- *The Image section* is a new block kind on template pages: the picture, its alt text in the page's
+  language (starting from the library's), an optional caption, and its size so the page keeps its
+  place while it loads. It is drawn in the site's card treatment (the note radius and line), at the
+  reading width of a table; the design has no public image section to follow.
+- 0124 also closes a hole in `app.cms_block_ok` (0114): a block missing a field made it return
+  null, not false, and a null passes a check, so a malformed block could be saved. It now returns
+  false. Nothing stored locally or on hosted failed the tightened check when it was applied.

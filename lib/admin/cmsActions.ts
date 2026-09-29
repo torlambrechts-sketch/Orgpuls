@@ -210,3 +210,49 @@ export async function siteNoticeSet(_prev: AdminResult | null, formData: FormDat
   revalidatePath('/admin/cms/landing')
   return { ok: true }
 }
+
+// ---------------------------------------------------------------- Content › Media (0124, D-169)
+/**
+ * An image the browser has already made web-sized (lib/cms/media.ts): its bytes as base64, its
+ * size, its name and its words. The database reads the type from the bytes and refuses anything
+ * but PNG, JPEG or WebP; the same bytes twice are one image.
+ */
+export async function mediaAdd(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({
+      name: z.string().trim().min(1).max(120),
+      data: z.string().min(1).max(3_000_000),
+      width: z.coerce.number().int().min(1).max(4000),
+      height: z.coerce.number().int().min(1).max(4000),
+      alt_no: z.string().max(300),
+      alt_en: z.string().max(300),
+    })
+    .safeParse(Object.fromEntries(['name', 'data', 'width', 'height', 'alt_no', 'alt_en'].map((k) => [k, formData.get(k) ?? ''])))
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const d = parsed.data
+  const r = await rpc('admin_media_add', { p_name: d.name, p_data: d.data, p_width: d.width, p_height: d.height, p_alt_no: d.alt_no, p_alt_en: d.alt_en })
+  if (!r.ok) return r
+  revalidatePath('/admin/cms/media')
+  return { ok: true }
+}
+
+export async function mediaDescribe(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({ id: z.string().uuid(), name: z.string().trim().min(1).max(120), alt_no: z.string().max(300), alt_en: z.string().max(300) })
+    .safeParse(Object.fromEntries(['id', 'name', 'alt_no', 'alt_en'].map((k) => [k, formData.get(k) ?? ''])))
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const d = parsed.data
+  const r = await rpc('admin_media_describe', { p_id: d.id, p_name: d.name, p_alt_no: d.alt_no, p_alt_en: d.alt_en })
+  if (!r.ok) return r
+  revalidatePath('/admin/cms/media')
+  return { ok: true }
+}
+
+export async function mediaDelete(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const id = z.string().uuid().safeParse(formData.get('id'))
+  if (!id.success) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_media_delete', { p_id: id.data })
+  if (!r.ok) return r
+  revalidatePath('/admin/cms/media')
+  redirect('/admin/cms/media' as Route)
+}

@@ -92,3 +92,22 @@ export function localeState(l: CmsPageLocale): LocaleState {
 const SiteNotice = z.object({ on: z.boolean(), no: z.string().nullable(), en: z.string().nullable(), at: tsn, by: z.string().nullable() })
 export type SiteNotice = z.infer<typeof SiteNotice>
 export const siteNoticeAdmin = () => call('admin_site_notice', {}, SiteNotice)
+
+// 0124 (X-095, D-169): Content › Media
+const MediaPage = z.object({ id: z.string(), kind: z.enum(['page', 'article']), slug: z.string(), title: z.string(), archived: z.boolean() })
+const Media = z.object({
+  id: z.string(),
+  key: z.string(),
+  name: z.string(),
+  mime: z.enum(['image/png', 'image/jpeg', 'image/webp']),
+  bytes: num,
+  width: num,
+  height: num,
+  alt_no: z.string(),
+  alt_en: z.string(),
+  created_at: z.string(),
+  by: z.string().nullable(),
+  pages: z.array(MediaPage),
+})
+export type Media = z.infer<typeof Media>
+export const cmsMedia = () => call('admin_media', {}, z.object({ rows: z.array(Media) }))

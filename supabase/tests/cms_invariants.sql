@@ -45,10 +45,10 @@ begin
   v_txt := v_txt || '|' || has_function_privilege('anon', 'public.cms_page(text,text,text)', 'execute')::text
         || ',' || has_function_privilege('anon', 'public.admin_cms_pages()', 'execute')::text
         || ',' || has_function_privilege('anon', 'public.admin_cms_save(uuid,text,jsonb,jsonb)', 'execute')::text;
-  v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'six tables with RLS, no policy, no client read; anon reads live pages only',
-    'expected', 'cms_page_locales:true:0:false:false,cms_pages:true:0:false:false,cms_previews:true:0:false:false,cms_redirects:true:0:false:false,cms_revisions:true:0:false:false,cms_templates:true:0:false:false|true,false,false',
+  v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'seven tables (0124 added cms_media) with RLS, no policy, no client read; anon reads live pages only',
+    'expected', 'cms_media:true:0:false:false,cms_page_locales:true:0:false:false,cms_pages:true:0:false:false,cms_previews:true:0:false:false,cms_redirects:true:0:false:false,cms_revisions:true:0:false:false,cms_templates:true:0:false:false|true,false,false',
     'actual', v_txt,
-    'pass', v_txt = 'cms_page_locales:true:0:false:false,cms_pages:true:0:false:false,cms_previews:true:0:false:false,cms_redirects:true:0:false:false,cms_revisions:true:0:false:false,cms_templates:true:0:false:false|true,false,false');
+    'pass', v_txt = 'cms_media:true:0:false:false,cms_page_locales:true:0:false:false,cms_pages:true:0:false:false,cms_previews:true:0:false:false,cms_redirects:true:0:false:false,cms_revisions:true:0:false:false,cms_templates:true:0:false:false|true,false,false');
 
   begin
     insert into auth.users (id, email) values (v_mkt, 'marketing@cms-test.example'), (v_ana, 'analyst@cms-test.example');

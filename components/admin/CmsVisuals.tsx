@@ -183,6 +183,16 @@ export function BlockThumb({ t }: { t: Block['t'] }) {
           ))}
         </span>
       )
+    case 'image':
+      return (
+        <span className={`${frame} items-end bg-sf`}>
+          <span className="relative block h-[20px] w-full overflow-hidden rounded-[3px] bg-sbg">
+            <span className="absolute bottom-0 left-[2px] block h-0 w-0 border-x-[7px] border-b-[10px] border-x-transparent border-b-ink/50" />
+            <span className="absolute bottom-0 left-[12px] block h-0 w-0 border-x-[9px] border-b-[14px] border-x-transparent border-b-ink/70" />
+            <span className="absolute right-[4px] top-[3px] block h-[5px] w-[5px] rounded-pill bg-ac" />
+          </span>
+        </span>
+      )
     case 'shot':
       return (
         <span className={`${frame} items-center bg-sf`}>

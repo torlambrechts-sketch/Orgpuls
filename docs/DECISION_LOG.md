@@ -2803,6 +2803,16 @@ layout, nothing while it is off, on and off audited. content_invariants.sql prov
 what, the empty read while off, the bokmål requirement and length, the language fallback, the
 read-only roles, the audit, and the author.
 
+Phase 9, Media (D-169): 0124 adds `app.cms_media` — images kept in Postgres as the logo is (0104),
+served at `/media/<key>` from the site's own origin, the address the SHA-256 of the bytes so the same
+file twice is one row — with `admin_media`, `admin_media_add` (type from the bytes, 2 MB),
+`admin_media_describe`, `admin_media_delete` (refused while a page uses it), all audited, and the
+anonymous `cms_media_file`. The browser makes the web version before it sends it. Pages gain an
+Image section (`image` block: address, alt, caption, size), checked by `cms_block_ok`, which also
+stops returning null for a malformed block. media_invariants.sql proves the grants and RLS, the
+dedup, the type and size checks, the file by exact address only, the roles, the block's shape, the
+in-use refusal, the audit, and that /media is reserved.
+
 ### X-096 — Modules and legal texts, the pragmatic way
 
 **Why.** Tor, 2026-09-29: «today's versioning and change management and approval flow is WAY too

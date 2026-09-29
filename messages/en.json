@@ -7526,7 +7526,8 @@
         "webGoals": "Goals",
         "webVisits": "Sources & visits",
         "cmsTemplates": "Templates",
-        "cmsLanding": "Landing & front pages"
+        "cmsLanding": "Landing & front pages",
+        "cmsMedia": "Media"
       },
       "openMenu": "Open the menu",
       "closeMenu": "Close the menu",
@@ -10450,7 +10451,13 @@
           "links": "One card per line: title | text | /address",
           "shot": "Picture",
           "question": "Question",
-          "answer": "Answer"
+          "answer": "Answer",
+          "image": "Image",
+          "imagePick": "Choose an image",
+          "imageNone": "No images yet — add one in Media",
+          "alt": "Alt text",
+          "altHint": "What the image shows, for a reader who cannot see it. Leave it empty only when the image is decoration.",
+          "caption": "Caption (optional)"
         },
         "block": {
           "h2": "Heading",
@@ -10465,7 +10472,8 @@
           "table": "Table",
           "links": "Link cards",
           "plans": "Price plans",
-          "shot": "Product picture"
+          "shot": "Product picture",
+          "image": "Image"
         },
         "plansNote": "The three plans, exactly as the start page shows them. Nothing to write.",
         "seo": {
@@ -10765,6 +10773,45 @@
         "visitsWord": "visits",
         "notLive": "— not live",
         "edit": "Edit"
+      },
+      "mediaPage": {
+        "title": "Media",
+        "lead": "{count, plural, one {# file} other {# files}} · {unused, plural, =0 {all used on a page} one {# not used on any page} other {# not used on any page}}",
+        "upload": "Upload",
+        "uploadTitle": "Upload media",
+        "uploadLead": "PNG, JPEG or WebP. The browser makes a web version before it sends it — at most 2000 px wide, WebP, 2 MB — and leaves out what a camera writes into a photo, such as where it was taken.",
+        "file": "File",
+        "altNo": "Alt text (Norwegian)",
+        "altEn": "Alt text (English)",
+        "altHint": "What the image shows, for a reader who cannot see it. A page's image section starts from these words in its language; they can be changed there.",
+        "cancel": "Cancel",
+        "close": "Close",
+        "uploadSubmit": "Upload",
+        "working": "Uploading…",
+        "meta": "Image · {size} · {w}×{h}",
+        "used": "Used on {count, plural, one {# page} other {# pages}}",
+        "notUsed": "Not used anywhere",
+        "added": "added {date} by {by}",
+        "name": "Name",
+        "save": "Save",
+        "delete": "Delete",
+        "deleteConfirm": "Delete «{name}»? It is not used on any page.",
+        "inUse": "Used on a page: take it off the page before deleting it.",
+        "usedOn": "Used on",
+        "archived": "archived",
+        "empty": "No images yet. Upload one, then add it to a page as an Image section.",
+        "emptyRead": "No images yet.",
+        "problem": {
+          "not_allowed": "Only Content's writers may change media.",
+          "invalid": "Check the name and the alt texts (at most 300 characters).",
+          "type": "Only PNG, JPEG or WebP images.",
+          "too_large": "Even the web version is over 2 MB. Try a smaller image.",
+          "unreadable": "The file could not be read as an image.",
+          "not_found": "That image is gone.",
+          "in_use": "It is used on a page.",
+          "failed": "It did not work. Try again."
+        },
+        "leadEmpty": "No files yet"
       }
     },
     "customers": {

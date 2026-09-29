@@ -11,6 +11,7 @@ import type { AdminRole } from './api'
  */
 export type AdminIcon =
   | 'dashboard'
+  | 'image'
   | 'building'
   | 'pulse'
   | 'users'
@@ -85,6 +86,7 @@ const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }
       { key: 'cms', section: 'cms', href: HREF.cms, icon: 'page' },
       { key: 'cmsTemplates', section: 'cms', href: '/admin/cms/templates', icon: 'template' },
       { key: 'cmsLanding', section: 'cms', href: '/admin/cms/landing', icon: 'flag' },
+      { key: 'cmsMedia', section: 'cms', href: '/admin/cms/media', icon: 'image' },
       { key: 'seo', section: 'seo', href: HREF.seo, icon: 'search' },
       { key: 'translations', section: 'translations', href: HREF.translations, icon: 'globe' },
       { key: 'cmsRedirects', section: 'cms', href: '/admin/cms/redirects', icon: 'redirect', more: true },

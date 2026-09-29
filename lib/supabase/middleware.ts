@@ -68,6 +68,8 @@ const PUBLIC_PATHS = [
   '/r',
   // an organisation's logo, by its address (0104, D-154): shown in the survey and in mails
   '/logo',
+  // an image a public page shows, by its address (0124, D-169)
+  '/media',
   '/bli-med',
   '/nytt-passord',
   '/lovkrav',

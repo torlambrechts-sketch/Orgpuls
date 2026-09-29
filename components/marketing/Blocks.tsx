@@ -1,5 +1,6 @@
 import type { Route } from 'next'
 import Link from 'next/link'
+import { mediaSrc } from '@/lib/cms/media'
 import type { Block } from '@/lib/marketing/blocks'
 import { LawRef } from './LawRef'
 import { Plans } from './Plans'
@@ -119,6 +120,15 @@ function BlockView({ block: b }: { block: Block }) {
       return <Plans />
     case 'shot':
       return <ProductShot id={b.id} className="my-[8px]" />
+    case 'image':
+      // an image from Content › Media (0124), served from the site's own origin; its size keeps its place
+      return (
+        <figure className="m-0 my-[8px] max-w-[76ch]">
+          {/* eslint-disable-next-line @next/next/no-img-element -- already sized and encoded for the web when it was added */}
+          <img src={mediaSrc(b.key)} alt={b.alt} width={b.w} height={b.h} loading="lazy" decoding="async" className="block h-auto w-full rounded-note border border-line bg-sf" />
+          {b.caption ? <figcaption className="mt-[8px] text-[13.5px] leading-[1.6] text-mut [text-wrap:pretty]">{b.caption}</figcaption> : null}
+        </figure>
+      )
     case 'table':
       return (
         <div className="max-w-[76ch] overflow-x-auto rounded-note border border-line bg-sf">

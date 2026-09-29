@@ -180,7 +180,7 @@ Each phase ships on its own, with the QA below. Status is kept here as phases la
 | 6 ✓ | Analytics | Overview, Pages, Goals from the real counts; Sources & visits and Cost per customer behind «More» (D-167). | 0121 device class, `admin_web_report` |
 | 7 ✓ | Content I | Pages table; page detail tabs with Translations; no In review or Compare, form + live preview instead of canvas (D-168, X-096). | 0123 author |
 | 8 ✓ | Content II | Templates (read-only, D-168), Landing & front pages with the site notice, SEO Health/Performance, Languages overview. | 0123 site notice |
-| 9 | Media | Storage, upload, alt text, use counts, image block. | bucket, table, RLS |
+| 9 ✓ | Media | Upload (web version made in the browser), alt text in both languages, use counts, Image section for pages (D-169). | 0124 `cms_media`, RLS, in Postgres like logos |
 | 10 | Admin | Users & roles (`editor`), Billing & plans (no money figures), Site settings (General, Access, Integrations), Audit log. | role, indexing setting |
 
 **QA for every phase**
