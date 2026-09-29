@@ -48,6 +48,12 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
           {row(p.col.stage, `${stageName} · ${day(c.stage_changed_at)}`)}
           {row(p.owner, c.owner_email ?? '—')}
           {row(p.nextStep, c.next_step ? `${c.next_step}${c.next_step_at ? ` · ${day(c.next_step_at)}` : ''}` : '—')}
+          {row(
+            p.brreg.manager,
+            c.manager_name
+              ? `${c.manager_name} · ${c.manager_role === 'INNH' ? p.brreg.managerInnh : p.brreg.managerDagl}${c.manager_seen_at ? ` · ${day(c.manager_seen_at)}` : ''}`
+              : '—',
+          )}
           {row(p.col.industry, c.nace_label ? `${c.nace_label}${c.nace_code ? ` (${c.nace_code})` : ''}` : (c.nace_code ?? '—'))}
           {row(p.employees, c.employees ?? '—')}
           {row(p.municipality, c.municipality ?? '—')}

@@ -2603,6 +2603,30 @@ for best practice; then "yes" to: a per-page review screen, an automatic page ma
   folded or stale override would silently undo every later code change to its text. Rows from
   before 0109 have no basis and apply as before; hosted had none.
 
+### X-091 — The admin in sections, and a CRM that prospects, follows up and answers by itself
+
+Tor, 2026-09-29, with a SaaS CRM research brief and a CRM page design: «extend our CRM … Brreg import
+to create list of general managers for SMB companies … campaigns where we can track sent email,
+stages, opens and setup automatic rules of resend after 7 days and other best practise … Segment the
+admin platform … contractable menu with icons».
+
+- **The admin, by the work:** Overview · Customers (organisations, health, users, tickets) · CRM and
+  marketing (overview, inbox, pipeline, companies, contacts, lists, segments, campaigns, templates,
+  stages and senders, web analytics, cost per customer) · Content (search and content, modules,
+  legal review, translations) · Platform (operations, audit log, admins). Icons, and a rail that
+  narrows to them.
+- **Prospecting SMBs:** the Brønnøysund picker reads each company's daglig leder (or innehaver) and
+  stores the name on the company (0110); the company's register address is mailed on the B2B basis
+  and greets the manager by name. No personal address is guessed. A batch carries a tag.
+- **Follow-up is automatic, and stops by itself (0111):** best practice from the brief — about 40 %
+  of replies come from follow-ups, 3–7 days apart, at most seven touches, ending at an answer. The
+  follow-up's audience is decided per person, in business hours; opens never decide alone without
+  a warning, because they are unreliable.
+- **Answers and meetings are the scoreboard:** the sequence shows answers and clicks first and opens
+  muted; stages close on what the buyer did (0112); the inbox holds each inbound lead to a response
+  target.
+- What the design shows but the product cannot back yet is omitted, not faked (D-159).
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.
@@ -2861,3 +2885,5 @@ for best practice; then "yes" to: a per-page review screen, an automatic page ma
 - [x] Translate the strings added by 0105/0107 in pl, uk, lt, sv and da — machine drafts written 2026-09-29 (X-089); Tor reviews them in admin › Translations.
 - [ ] The deep audit's P2/P3 findings (docs/audits/2026-09-28-deep.md): v3 pixel gate in CI and the Resultater/Kommentarer claims re-recorded after reading the diff, `qa:visual` specs brought up to the intro page, npm audit (postcss via next), `noindex` on `/s/[token]` and `/bli-med`, the thank-you and «Siden sist» wording, the evaluation mail's year, the employees' page and department measures, `wiring.mjs --matrix`, and the P3 list.
 - [ ] Fold-back (X-090): add the repository secret `SUPABASE_ANON_KEY` (Settings › Secrets and variables › Actions) holding the project's anon (publishable) key; until then the weekly `i18n-fold` workflow fails and says so. Its pull requests are opened with the workflow token, which starts no other workflow: CI runs in full on merge.
+- [ ] CRM (X-091): the privacy statement should say that the names of general managers are read from Enhetsregisteret for B2B outreach to the company's address (GDPR art. 14). It is a legal text: change it in the site copy and approve it in admin › Legal review.
+- [ ] CRM (X-091, D-159): deal value (plan, seats, MRR) on a company, so the board can show pipeline value and win rate honestly; LinkedIn/call steps in a sequence.

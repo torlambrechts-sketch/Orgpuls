@@ -7,8 +7,9 @@ import { z } from 'zod'
 import { LOCALES } from '@/lib/i18n/locales'
 import { createClient } from '@/lib/supabase/server'
 import type { AdminResult } from './actions'
-import { searchRegistry, SearchInput, type RegistryHit } from './brreg'
-import { ACTIVITY_KINDS, Block, CAMPAIGN_KINDS, CONTACT_ROLES, Filter, StageKey, STAGE_KINDS } from './crm'
+import { generalManagers, searchRegistry, SearchInput, type Manager, type RegistryHit } from './brreg'
+import { ACTIVITY_KINDS, Block, CAMPAIGN_KINDS, CONTACT_ROLES, crmCompanies, Filter, StageKey, STAGE_KINDS } from './crm'
+import { isError } from './api'
 
 /**
  * The CRM's writes (0055, D-101; 0056–0058, D-103). The database decides who may do what, with a second
@@ -414,6 +415,7 @@ export async function saveStage(_prev: AdminResult | null, formData: FormData): 
       sort: z.string().regex(/^\d{1,4}$/),
       kind: z.enum(STAGE_KINDS),
       archived: z.boolean(),
+      exit_criterion: z.string().trim().max(200),
     })
     .safeParse({
       key: String(formData.get('key') ?? '').trim().toLowerCase(),
@@ -421,6 +423,7 @@ export async function saveStage(_prev: AdminResult | null, formData: FormData): 
       sort: formData.get('sort'),
       kind: formData.get('kind') ?? 'open',
       archived: formData.get('archived') === 'on',
+      exit_criterion: formData.get('exit_criterion') ?? '',
     })
   if (!parsed.success) return { ok: false, problem: parsed.error.issues[0]?.path[0] === 'key' ? 'invalid_key' : 'invalid' }
   const { key, ...p } = parsed.data
@@ -430,6 +433,30 @@ export async function saveStage(_prev: AdminResult | null, formData: FormData): 
     revalidatePath('/admin/crm/prospects')
   }
   return r
+}
+
+/** The first-response target for an inbound lead, in minutes (0112) */
+export async function saveSla(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z.coerce.number().int().min(1).max(1440).safeParse(formData.get('minutes'))
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_crm_sla', { p_minutes: parsed.data })
+  if (r.ok) {
+    revalidatePath('/admin/crm/inbox')
+    revalidatePath('/admin/crm/stages')
+  }
+  return r.ok ? { ok: true } : r
+}
+
+/** Move one company on the board (0112): the same move as many at once, for a card dropped on a column */
+export async function moveCard(id: string, to: string): Promise<AdminResult> {
+  const parsed = z.object({ id: z.string().uuid(), to: StageKey }).safeParse({ id, to })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_crm_stage_move', { p_ids: [parsed.data.id], p_to: parsed.data.to })
+  if (!r.ok) return r
+  revalidatePath('/admin/crm/pipeline')
+  revalidatePath('/admin/crm/prospects')
+  revalidatePath(`/admin/crm/prospects/${parsed.data.id}`)
+  return Number(r.data?.moved ?? 0) > 0 ? { ok: true } : { ok: false, problem: 'not_moved' }
 }
 
 /** Where a logged answer moves a company. */
@@ -476,6 +503,8 @@ export async function saveCampaignPipeline(_prev: AdminResult | null, formData: 
       sender_id: z.union([z.string().uuid(), z.literal('')]),
       follows_id: z.union([z.string().uuid(), z.literal('')]),
       follow_days: z.union([z.string().regex(/^\d{1,2}$/), z.literal('')]),
+      follow_when: z.enum(['no_reply', 'no_click', 'no_open']),
+      follow_auto: z.boolean(),
     })
     .safeParse({
       id: formData.get('id'),
@@ -484,6 +513,8 @@ export async function saveCampaignPipeline(_prev: AdminResult | null, formData: 
       sender_id: formData.get('sender_id') ?? '',
       follows_id: formData.get('follows_id') ?? '',
       follow_days: formData.get('follow_days') ?? '',
+      follow_when: formData.get('follow_when') || 'no_reply',
+      follow_auto: formData.get('follow_auto') === 'on',
     })
   if (!parsed.success) return { ok: false, problem: 'invalid' }
   const { id, ...p } = parsed.data
@@ -491,6 +522,30 @@ export async function saveCampaignPipeline(_prev: AdminResult | null, formData: 
   const r = await rpc('admin_crm_campaign_pipeline', { p_id: id, p: { ...p, follow_days: p.follows_id ? p.follow_days : '' } })
   if (r.ok) revalidatePath(`/admin/crm/campaigns/${id}`)
   return r
+}
+
+/** «Resend after N days» (0111): a draft follow-up of the same mail, to non-clickers, sending itself */
+export async function resendCampaign(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({ id: z.string().uuid(), days: z.coerce.number().int().min(1).max(60) })
+    .safeParse({ id: formData.get('id'), days: formData.get('days') ?? 7 })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_crm_campaign_resend', { p_id: parsed.data.id, p_days: parsed.data.days })
+  if (!r.ok) return r
+  const id = z.string().uuid().safeParse(r.data?.id)
+  if (!id.success) return { ok: false, problem: 'failed' }
+  revalidatePath('/admin/crm/campaigns')
+  redirect(`/admin/crm/campaigns/${id.data}` as Route)
+}
+
+/** The day's cap on campaign mail (0111); empty removes it */
+export async function saveDailyCap(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const raw = String(formData.get('cap') ?? '').trim()
+  const parsed = z.union([z.literal(''), z.coerce.number().int().min(1).max(5000)]).safeParse(raw === '' ? '' : raw)
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_crm_daily_cap', { p_cap: parsed.data === '' ? null : parsed.data })
+  if (r.ok) revalidatePath('/admin/crm/stages')
+  return r.ok ? { ok: true } : r
 }
 
 export async function toggleTask(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
@@ -506,7 +561,7 @@ export async function toggleTask(_prev: AdminResult | null, formData: FormData):
 }
 
 export type RegistryResult =
-  | { ok: true; hits: (RegistryHit & { known: boolean })[]; total: number; page: number; pages: number }
+  | { ok: true; hits: (RegistryHit & { known: boolean; manager: Manager | null })[]; total: number; page: number; pages: number }
   | { ok: false; problem: string }
 
 /** A page of the register, with the companies already in the CRM marked. */
@@ -518,33 +573,81 @@ export async function findInRegistry(input: unknown): Promise<RegistryResult> {
   const r = await rpc('admin_crm_known_orgnrs', { p_orgnrs: found.hits.map((h) => h.org_number) })
   if (!r.ok) return { ok: false, problem: r.problem }
   const known = new Set(z.array(z.string()).catch([]).parse(r.data?.known))
-  return { ok: true, hits: found.hits.map((h) => ({ ...h, known: known.has(h.org_number) })), total: found.total, page: found.page, pages: found.pages }
+  // the general manager of each company found (0110): the open roles API, a few at a time
+  const managers = await generalManagers(found.hits.map((h) => h.org_number))
+  return {
+    ok: true,
+    hits: found.hits.map((h) => ({ ...h, known: known.has(h.org_number), manager: managers.get(h.org_number) ?? null })),
+    total: found.total,
+    page: found.page,
+    pages: found.pages,
+  }
 }
 
-export type CompanyImport = { ok: true; added: number; known: number; business: number } | { ok: false; problem: string }
+export type CompanyImport = { ok: true; added: number; known: number; business: number; managers: number } | { ok: false; problem: string }
 
-export async function importCompanies(rows: unknown): Promise<CompanyImport> {
-  const Row = z.object({
-    org_number: z.string().regex(/^\d{9}$/),
-    name: z.string().min(1).max(200),
-    form_code: z.string().max(10).nullable(),
-    nace_code: z.string().max(10).nullable(),
-    nace_label: z.string().max(200).nullable(),
-    employees: z.number().int().nullable(),
-    municipality: z.string().max(80).nullable(),
-    municipality_no: z.string().max(4).nullable(),
-    website: z.string().max(300).nullable(),
-    email: z.string().max(254).nullable(),
-    phone: z.string().max(40).nullable(),
+const CompanyRow = z.object({
+  org_number: z.string().regex(/^\d{9}$/),
+  name: z.string().min(1).max(200),
+  form_code: z.string().max(10).nullable(),
+  nace_code: z.string().max(10).nullable(),
+  nace_label: z.string().max(200).nullable(),
+  employees: z.number().int().nullable(),
+  municipality: z.string().max(80).nullable(),
+  municipality_no: z.string().max(4).nullable(),
+  website: z.string().max(300).nullable(),
+  email: z.string().max(254).nullable(),
+  phone: z.string().max(40).nullable(),
+  manager: z.object({ name: z.string().min(2).max(120), role: z.enum(['DAGL', 'INNH']) }).nullable().optional(),
+})
+const Tag = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .regex(/^[a-z0-9æøå_-]{1,40}$/)
+  .nullable()
+
+/** Companies from the register, with their general manager and the batch's tag (0110) */
+export async function importCompanies(rows: unknown, tag: unknown = null): Promise<CompanyImport> {
+  const parsed = z.array(CompanyRow).min(1).max(200).safeParse(rows)
+  const t = Tag.safeParse(typeof tag === 'string' && tag.trim() === '' ? null : tag)
+  if (!parsed.success || !t.success) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_crm_company_import', {
+    p_rows: parsed.data.map(({ manager, ...row }) => ({ ...row, manager_name: manager?.name ?? null, manager_role: manager?.role ?? null })),
+    p_source: 'brreg',
+    p_tag: t.data,
   })
-  const parsed = z.array(Row).min(1).max(200).safeParse(rows)
-  if (!parsed.success) return { ok: false, problem: 'invalid' }
-  const r = await rpc('admin_crm_company_import', { p_rows: parsed.data, p_source: 'brreg' })
   if (!r.ok) return { ok: false, problem: r.problem }
-  const out = z.object({ added: z.coerce.number(), known: z.coerce.number(), business: z.coerce.number() }).safeParse(r.data)
+  const out = z.object({ added: z.coerce.number(), known: z.coerce.number(), business: z.coerce.number(), managers: z.coerce.number() }).safeParse(r.data)
   if (!out.success) return { ok: false, problem: 'failed' }
   revalidatePath('/admin/crm/prospects')
   return { ok: true, ...out.data }
+}
+
+export type ManagerRefresh = { ok: true; checked: number; found: number } | { ok: false; problem: string }
+
+/**
+ * The general manager for companies already in the CRM that came from the register without one
+ * (before 0110), or whose manager was read longest ago: up to 100 at a time.
+ */
+export async function refreshManagers(): Promise<ManagerRefresh> {
+  const list = await crmCompanies(null, null)
+  if (isError(list)) return { ok: false, problem: list.error }
+  const due = list.rows
+    .filter((c) => c.org_number && /^\d{9}$/.test(c.org_number))
+    .sort((a, b) => (a.manager_seen_at ?? '').localeCompare(b.manager_seen_at ?? ''))
+    .slice(0, 100)
+  if (!due.length) return { ok: true, checked: 0, found: 0 }
+  const managers: Map<string, Manager> = await generalManagers(due.map((c) => c.org_number!))
+  const rows = due
+    .filter((c) => managers.has(c.org_number!))
+    .map((c) => ({ org_number: c.org_number, name: c.name, manager_name: managers.get(c.org_number!)!.name, manager_role: managers.get(c.org_number!)!.role }))
+  if (rows.length) {
+    const r = await rpc('admin_crm_company_import', { p_rows: rows, p_source: 'brreg', p_tag: null })
+    if (!r.ok) return { ok: false, problem: r.problem }
+  }
+  revalidatePath('/admin/crm/prospects')
+  return { ok: true, checked: due.length, found: rows.length }
 }
 
 // ---------------------------------------------------------------- lists (0056, D-103)

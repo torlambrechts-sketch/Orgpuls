@@ -5,7 +5,7 @@ import { Outcome, useKeptAction } from '@/components/admin/ActionForms'
 import type { CrmMessages } from '@/components/admin/CrmForms'
 import { Button } from '@/components/ui/Button'
 import type { Campaign, Sender, Stage } from '@/lib/admin/crm'
-import { moveStage, saveCampaignPipeline, saveReplyStage, saveSender, saveStage } from '@/lib/admin/crmActions'
+import { moveStage, resendCampaign, saveCampaignPipeline, saveDailyCap, saveReplyStage, saveSender, saveSla, saveStage } from '@/lib/admin/crmActions'
 
 /**
  * The pipeline's forms (0093, D-142): moving companies between stages, the stages themselves,
@@ -83,7 +83,8 @@ export function StageForm({ stage, m, common }: { stage?: Stage; m: CrmMessages;
   const [sort, setSort] = useState(String(stage?.sort ?? ''))
   const [kind, setKind] = useState<string>(stage?.kind ?? 'open')
   const [archived, setArchived] = useState(stage?.archived ?? false)
-  const [state, action, pending] = useKeptAction(saveStage, () => (stage ? undefined : (setKey(''), setName(''), setSort(''))))
+  const [exit, setExit] = useState(stage?.exit_criterion ?? '')
+  const [state, action, pending] = useKeptAction(saveStage, () => (stage ? undefined : (setKey(''), setName(''), setSort(''), setExit(''))))
   return (
     <form action={action} className="flex flex-wrap items-end gap-[8px]">
       {stage ? (
@@ -112,6 +113,10 @@ export function StageForm({ stage, m, common }: { stage?: Stage; m: CrmMessages;
           ))}
         </select>
         {stage?.managed ? <input type="hidden" name="kind" value={kind} /> : null}
+      </label>
+      <label className="block min-w-[220px] flex-1">
+        <span className={label}>{x.exit}</span>
+        <input name="exit_criterion" maxLength={200} value={exit} onChange={(e) => setExit(e.target.value)} placeholder={x.exitHint} className={input} />
       </label>
       {stage && !stage.managed ? (
         <label className="flex h-[38px] items-center gap-[6px] text-[12.5px] font-semibold">
@@ -221,6 +226,8 @@ export function CampaignPipelineForm({
   const [sender, setSender] = useState(campaign.sender_id ?? '')
   const [follows, setFollows] = useState(campaign.follows_id ?? '')
   const [days, setDays] = useState(String(campaign.follow_days ?? '4'))
+  const [when, setWhen] = useState<string>(campaign.follow_when)
+  const [auto, setAuto] = useState(campaign.follow_auto)
   const [state, action, pending] = useKeptAction(saveCampaignPipeline, () => undefined)
   return (
     <form action={action} className="flex flex-col gap-[10px]">
@@ -277,13 +284,108 @@ export function CampaignPipelineForm({
           </label>
         ) : null}
       </div>
-      {follows ? <p className="m-0 max-w-[70ch] text-[12px] leading-[1.5] text-mut">{x.followHint}</p> : null}
+      {follows ? (
+        <>
+          <div className="grid gap-[10px] [grid-template-columns:repeat(auto-fit,minmax(210px,1fr))]">
+            <label className="block">
+              <span className={label}>{x.followWhen}</span>
+              <select name="follow_when" value={when} onChange={(e) => setWhen(e.target.value)} className={input}>
+                {(['no_reply', 'no_click', 'no_open'] as const).map((w) => (
+                  <option key={w} value={w}>
+                    {x.when[w]}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="flex items-start gap-[8px] self-end pb-[8px] text-[13px] leading-[1.45]">
+              <input type="checkbox" name="follow_auto" checked={auto} onChange={(e) => setAuto(e.target.checked)} className="mt-[3px] h-[16px] w-[16px] accent-ink" />
+              <span>
+                <span className="font-semibold">{x.auto}</span>
+                <span className="block text-[12px] text-mut">{x.autoHint}</span>
+              </span>
+            </label>
+          </div>
+          {when === 'no_open' ? <p className="m-0 max-w-[70ch] text-[12px] font-semibold leading-[1.5] text-cautiondeep">{x.openWarning}</p> : null}
+          <p className="m-0 max-w-[70ch] text-[12px] leading-[1.5] text-mut">{x.followHint}</p>
+          <p className="m-0 max-w-[70ch] text-[12px] leading-[1.5] text-mut">{x.exits}</p>
+        </>
+      ) : null}
       <span className="flex flex-wrap items-center gap-[10px]">
         <Button type="submit" size="sm" disabled={pending}>
           {pending ? common.saving : x.save}
         </Button>
         <Outcome state={state} problems={m.problem} done={common.done} />
       </span>
+    </form>
+  )
+}
+
+/** «Resend after N days» (0111): a draft follow-up of this mail, to those who did not click, sending itself */
+export function ResendForm({ id, m }: { id: string; m: CrmMessages }) {
+  const q = m.sequence
+  const [days, setDays] = useState('7')
+  const [state, action, pending] = useKeptAction(resendCampaign, () => undefined)
+  return (
+    <form action={action} className="flex flex-col gap-[6px]">
+      <input type="hidden" name="id" value={id} />
+      <span className="flex flex-wrap items-end gap-[8px]">
+        <Button type="submit" size="sm" tone="secondary" disabled={pending}>
+          {q.resend}
+        </Button>
+        <label className="flex items-center gap-[6px] text-[13px]">
+          <input
+            name="days"
+            type="number"
+            min={1}
+            max={60}
+            value={days}
+            onChange={(e) => setDays(e.target.value)}
+            aria-label={`${q.resend} (${q.days})`}
+            className="box-border h-[34px] w-[64px] rounded-ctl border border-line bg-bg px-[8px] text-[13px]"
+          />
+          {q.days}
+        </label>
+        <Outcome state={state} problems={m.problem} done="" />
+      </span>
+      <span className="text-[12px] leading-[1.5] text-mut">{q.resendHint}</span>
+    </form>
+  )
+}
+
+/** The day's cap on campaign mail (0111) */
+export function DailyCapForm({ cap, m, common }: { cap: number | null; m: CrmMessages; common: { saving: string; done: string } }) {
+  const x = m.sending
+  const [value, setValue] = useState(cap === null ? '' : String(cap))
+  const [state, action, pending] = useKeptAction(saveDailyCap, () => undefined)
+  return (
+    <form action={action} className="flex flex-wrap items-end gap-[10px]">
+      <label className="block">
+        <span className={label}>{x.cap}</span>
+        <input name="cap" type="number" min={1} max={5000} placeholder={x.capNone} value={value} onChange={(e) => setValue(e.target.value)} className={`${input} w-[160px]`} />
+      </label>
+      <Button type="submit" size="sm" disabled={pending}>
+        {pending ? common.saving : x.save}
+      </Button>
+      <Outcome state={state} problems={m.problem} done={common.done} />
+    </form>
+  )
+}
+
+/** The first-response target for an inbound lead (0112) */
+export function SlaForm({ minutes, m, common }: { minutes: number; m: CrmMessages; common: { saving: string; done: string } }) {
+  const x = m.inbox
+  const [value, setValue] = useState(String(minutes))
+  const [state, action, pending] = useKeptAction(saveSla, () => undefined)
+  return (
+    <form action={action} className="flex flex-wrap items-end gap-[10px]">
+      <label className="block">
+        <span className={label}>{x.sla}</span>
+        <input name="minutes" type="number" min={1} max={1440} required value={value} onChange={(e) => setValue(e.target.value)} className={`${input} w-[120px]`} />
+      </label>
+      <Button type="submit" size="sm" disabled={pending}>
+        {pending ? common.saving : x.slaSave}
+      </Button>
+      <Outcome state={state} problems={m.problem} done={common.done} />
     </form>
   )
 }

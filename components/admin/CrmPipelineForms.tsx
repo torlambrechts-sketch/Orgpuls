@@ -11,11 +11,13 @@ import {
   findInRegistry,
   importCompanies,
   logActivity,
+  refreshManagers,
   removeFromList,
   saveCompany,
   saveList,
   toggleTask,
   type CompanyImport,
+  type ManagerRefresh as ManagerRefreshResult,
   type RegistryResult,
 } from '@/lib/admin/crmActions'
 
@@ -228,6 +230,8 @@ export function RegistryPicker({ m }: { m: CrmMessages }) {
   const [result, setResult] = useState<RegistryResult | null>(null)
   const [picked, setPicked] = useState<Set<string>>(new Set())
   const [added, setAdded] = useState<CompanyImport | null>(null)
+  const [tag, setTag] = useState('')
+  const [onlyAddress, setOnlyAddress] = useState(false)
   const [pending, start] = useTransition()
 
   const search = (to: number) =>
@@ -246,8 +250,9 @@ export function RegistryPicker({ m }: { m: CrmMessages }) {
       setPicked(new Set())
     })
 
-  const hits = result?.ok ? result.hits : []
+  const hits = result?.ok ? result.hits.filter((h) => !onlyAddress || !!h.email) : []
   const fresh = hits.filter((h) => !h.known)
+  const withManager = hits.filter((h) => h.manager).length
 
   return (
     <div className="flex flex-col gap-[12px]">
@@ -295,6 +300,11 @@ export function RegistryPicker({ m }: { m: CrmMessages }) {
             <Button size="sm" tone="ghost" disabled={pending || page + 1 >= result.pages} onClick={() => search(page + 1)}>
               {b.next}
             </Button>
+            <span>{fill(b.managers, { count: withManager })}</span>
+            <label className="flex items-center gap-[6px] font-semibold text-ink">
+              <input type="checkbox" checked={onlyAddress} onChange={(e) => setOnlyAddress(e.target.checked)} />
+              {b.onlyAddress}
+            </label>
             <label className="flex items-center gap-[6px] font-semibold text-ink">
               <input
                 type="checkbox"
@@ -331,6 +341,16 @@ export function RegistryPicker({ m }: { m: CrmMessages }) {
                         </span>
                       </td>
                       <td className="px-[8px] py-[7px] align-top">
+                        {h.manager ? (
+                          <>
+                            <span className="font-semibold">{h.manager.name}</span>
+                            <span className="block text-mut">{h.manager.role === 'DAGL' ? b.managerDagl : b.managerInnh}</span>
+                          </>
+                        ) : (
+                          <span className="text-mut">{b.managerNone}</span>
+                        )}
+                      </td>
+                      <td className="px-[8px] py-[7px] align-top">
                         {h.employees ?? '—'}
                         <span className="block max-w-[34ch] truncate text-mut">{h.nace_label ?? h.nace_code ?? ''}</span>
                       </td>
@@ -353,6 +373,11 @@ export function RegistryPicker({ m }: { m: CrmMessages }) {
           ) : (
             <p className="m-0 text-[13px] text-mut">{b.none}</p>
           )}
+          <label className="block max-w-[420px]">
+            <span className={label}>{b.tag}</span>
+            <input value={tag} onChange={(e) => setTag(e.target.value)} maxLength={40} placeholder="dl-bygg-oslo" className={input} />
+            <span className="mt-[3px] block text-[11.5px] leading-[1.45] text-mut">{b.tagHint}</span>
+          </label>
           <span className="flex flex-wrap items-center gap-[10px]">
             <Button
               size="sm"
@@ -362,7 +387,7 @@ export function RegistryPicker({ m }: { m: CrmMessages }) {
                   const rows = hits
                     .filter((h) => picked.has(h.org_number))
                     .map(({ known: _known, ...h }) => h)
-                  const r = await importCompanies(rows).catch(() => ({ ok: false as const, problem: 'failed' }))
+                  const r = await importCompanies(rows, tag.trim() || null).catch(() => ({ ok: false as const, problem: 'failed' }))
                   setAdded(r)
                   if (r.ok) search(page)
                 })
@@ -384,6 +409,39 @@ export function RegistryPicker({ m }: { m: CrmMessages }) {
           </span>
         </>
       ) : null}
+    </div>
+  )
+}
+
+/** The general manager for companies already in the CRM (0110): a hundred at a time, the oldest read first */
+export function ManagerRefresh({ m }: { m: CrmMessages }) {
+  const b = m.prospects.brreg
+  const [out, setOut] = useState<ManagerRefreshResult | null>(null)
+  const [pending, start] = useTransition()
+  return (
+    <div className="flex flex-col gap-[8px]">
+      <p className="m-0 max-w-[90ch] text-[12.5px] leading-[1.55] text-mut">{b.refreshLead}</p>
+      <span className="flex flex-wrap items-center gap-[10px]">
+        <Button
+          size="sm"
+          tone="secondary"
+          disabled={pending}
+          onClick={() => start(async () => setOut(await refreshManagers().catch(() => ({ ok: false as const, problem: 'failed' }))))}
+        >
+          {b.refresh}
+        </Button>
+        {out ? (
+          out.ok ? (
+            <span role="status" className="text-[12.5px] font-semibold text-link">
+              {fill(b.refreshDone, out)}
+            </span>
+          ) : (
+            <span role="alert" className="text-[12.5px] font-semibold text-danger">
+              {m.problem[out.problem as keyof typeof m.problem] ?? m.problem.failed}
+            </span>
+          )
+        ) : null}
+      </span>
     </div>
   )
 }

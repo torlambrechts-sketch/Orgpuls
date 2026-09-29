@@ -1,15 +1,16 @@
 import type { Metadata } from 'next'
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import { AdminNav } from '@/components/admin/AdminNav'
-import { Badge } from '@/components/admin/ui'
-import { sectionsFor, HREF, type Section } from '@/lib/admin/access'
+import { AdminShell } from '@/components/admin/AdminShell'
+import { HREF, type Section } from '@/lib/admin/access'
 import { adminSignOut } from '@/lib/admin/actions'
 import { autoApprove, isError, whoami } from '@/lib/admin/api'
+import { navFor, RAIL_COOKIE } from '@/lib/admin/nav'
 import Link from 'next/link'
 
 /**
- * The platform admin's shell (D-90). Every page under it is behind three checks, here and
+ * The platform admin's shell (D-90, X-091). Every page under it is behind three checks, here and
  * again in the database on every call: signed in, an active admin role, and a second factor.
  * The admin is in English, by decision, and never indexed.
  */
@@ -18,6 +19,19 @@ export const dynamic = 'force-dynamic'
 
 /** The sections built so far; the rest of the specification's list is added as it is built. */
 const BUILT: readonly Section[] = ['dashboard', 'orgs', 'health', 'users', 'ops', 'web', 'seo', 'acquisition', 'crm', 'modules', 'legal', 'translations', 'tickets', 'audit', 'admins']
+/** the pages the menu may offer: every built section, and the CRM's own pages */
+const PAGES = [
+  ...BUILT.map((s) => HREF[s]),
+  '/admin/crm/inbox',
+  '/admin/crm/pipeline',
+  '/admin/crm/prospects',
+  '/admin/crm/contacts',
+  '/admin/crm/lists',
+  '/admin/crm/segments',
+  '/admin/crm/campaigns',
+  '/admin/crm/templates',
+  '/admin/crm/stages',
+]
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const who = await whoami()
@@ -29,42 +43,40 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   // the auto-approve switch (0101): said on every admin page while it is on
   const auto = who.role === 'super_admin' || who.role === 'support' ? await autoApprove() : null
   const autoOn = !!auto && !isError(auto) && auto.on
-  const items = sectionsFor(who.role, BUILT).map((s) => ({ href: HREF[s], label: t(`nav.${s}`) }))
+  const groups = navFor(who.role, PAGES)
+  const collapsed = (await cookies()).get(RAIL_COOKIE)?.value === 'closed'
 
   return (
-    <div lang="en" className="min-h-screen bg-bg text-ink md:grid md:[grid-template-columns:220px_minmax(0,1fr)]">
-      <aside className="border-line bg-sf px-[14px] py-[18px] max-md:border-b md:min-h-screen md:border-r">
-        <span className="block px-[12px] font-display text-[19px] font-semibold">{t('title')}</span>
-        <span className="mt-[6px] flex flex-wrap items-center gap-[6px] px-[12px]">
-          <Badge tone="ink">{t(`role.${who.role}`)}</Badge>
-        </span>
-        <span className="mt-[4px] block truncate px-[12px] text-[11.5px] text-mut">{who.email}</span>
-        <div className="mt-[16px]">
-          <AdminNav items={items} label={t('nav.navLabel')} />
-        </div>
-        <form action={adminSignOut} className="mt-[16px] px-[12px]">
-          <button
-            type="submit"
-            className="cursor-pointer border-0 bg-transparent p-0 text-[13px] font-semibold text-link underline"
-          >
-            {t('nav.signOut')}
-          </button>
-        </form>
-      </aside>
-      <main className="min-w-0 px-[16px] py-[24px] md:px-[28px]">
-        <div className="mx-auto max-w-[1180px]">
-          {autoOn ? (
-            <p role="status" className="mb-[18px] mt-0 rounded-panel border border-line bg-band px-[16px] py-[10px] text-[13px] font-semibold text-cautiondeep">
-              {t('autoBanner')}{' '}
-              <Link href="/admin/translations" className="text-cautiondeep underline">
-                {t('autoBannerLink')}
-              </Link>
-            </p>
-          ) : null}
-          {children}
-          <p className="mb-0 mt-[28px] text-[11.5px] text-mut">{t('common.privacy')}</p>
-        </div>
-      </main>
-    </div>
+    <AdminShell
+      groups={groups}
+      collapsed={collapsed}
+      role={t(`role.${who.role}`)}
+      email={who.email ?? ''}
+      signOut={adminSignOut}
+      labels={{
+        title: t('title'),
+        nav: t('nav.navLabel'),
+        groups: { overview: t('nav.group.overview'), customers: t('nav.group.customers'), crm: t('nav.group.crm'), content: t('nav.group.content'), platform: t('nav.group.platform') },
+        items: Object.fromEntries(groups.flatMap((g) => g.items).map((i) => [i.key, t(`nav.item.${i.key}`)])),
+        collapse: t('nav.collapse'),
+        expand: t('nav.expand'),
+        openMenu: t('nav.openMenu'),
+        closeMenu: t('nav.closeMenu'),
+        signOut: t('nav.signOut'),
+      }}
+    >
+      <div className="mx-auto max-w-[1180px]">
+        {autoOn ? (
+          <p role="status" className="mb-[18px] mt-0 rounded-panel border border-line bg-band px-[16px] py-[10px] text-[13px] font-semibold text-cautiondeep">
+            {t('autoBanner')}{' '}
+            <Link href="/admin/translations" className="text-cautiondeep underline">
+              {t('autoBannerLink')}
+            </Link>
+          </p>
+        ) : null}
+        {children}
+        <p className="mb-0 mt-[28px] text-[11.5px] text-mut">{t('common.privacy')}</p>
+      </div>
+    </AdminShell>
   )
 }

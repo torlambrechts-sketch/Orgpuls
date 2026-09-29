@@ -7490,7 +7490,44 @@
       "acquisition": "Cost per customer",
       "modules": "Industry modules",
       "legal": "Legal review",
-      "translations": "Translations"
+      "translations": "Translations",
+      "group": {
+        "overview": "Overview",
+        "customers": "Customers",
+        "crm": "CRM and marketing",
+        "content": "Content",
+        "platform": "Platform"
+      },
+      "item": {
+        "dashboard": "Dashboard",
+        "orgs": "Organisations",
+        "health": "Account health",
+        "users": "Users",
+        "tickets": "Tickets",
+        "crmOverview": "CRM overview",
+        "crmInbox": "Inbox",
+        "crmPipeline": "Pipeline",
+        "crmProspects": "Companies",
+        "crmContacts": "Contacts",
+        "crmLists": "Lists",
+        "crmSegments": "Segments",
+        "crmCampaigns": "Campaigns",
+        "crmTemplates": "Templates",
+        "crmStages": "Stages and senders",
+        "web": "Web analytics",
+        "acquisition": "Cost per customer",
+        "seo": "Search and content",
+        "modules": "Industry modules",
+        "legal": "Legal review",
+        "translations": "Translations",
+        "ops": "Operations",
+        "audit": "Audit log",
+        "admins": "Admins"
+      },
+      "collapse": "Narrow the menu to its icons",
+      "expand": "Widen the menu",
+      "openMenu": "Open the menu",
+      "closeMenu": "Close the menu"
     },
     "role": {
       "super_admin": "Super-admin",
@@ -8415,7 +8452,10 @@
         "invalid_sender": "Choose a sender that exists.",
         "invalid_follow": "Choose the campaign to follow up and after how many days (1–60).",
         "follows_unsent": "The campaign this follows up has not been sent yet.",
-        "managed": "Trial and customer follow the plan; their kind cannot change."
+        "managed": "Trial and customer follow the plan; their kind cannot change.",
+        "too_many_steps": "A sequence holds at most seven mails.",
+        "auto_no_ab": "An automatic follow-up cannot have a second subject line.",
+        "not_moved": "That company was not moved: it follows its plan, or the stage cannot be set by hand."
       },
       "stage": {
         "new": "New",
@@ -8502,9 +8542,20 @@
           "roleAddress": "role address",
           "personAddress": "person / ENK — not mailed",
           "none": "No companies match.",
-          "result": "Added {added}; {known} already in the CRM; {business} with a mailable role address.",
+          "result": "Added {added}; {known} already in the CRM (their manager refreshed); {business} with a mailable role address; {managers} with a general manager.",
           "unreachable": "Brønnøysund did not answer. Try again in a moment.",
-          "selectAll": "Select all"
+          "selectAll": "Select all",
+          "manager": "General manager",
+          "managerNone": "none registered",
+          "managerDagl": "daglig leder",
+          "managerInnh": "owner (ENK)",
+          "tag": "Tag for this batch (optional)",
+          "tagHint": "e.g. dl-bygg-oslo: on each company and its address, so a segment or campaign can reach exactly this batch",
+          "onlyAddress": "Only companies with a register address",
+          "managers": "{count} with a general manager on this page",
+          "refresh": "Fetch general managers from the register",
+          "refreshLead": "For companies already in the CRM: reads the daglig leder (or owner) of the 100 read longest ago.",
+          "refreshDone": "Checked {checked}; {found} with a general manager."
         },
         "bulk": {
           "label": "Selected companies",
@@ -8746,7 +8797,9 @@
         },
         "problem": {
           "in_use": "This stage is in use: companies, an active campaign or the reply setting point to it."
-        }
+        },
+        "exit": "Closes when the buyer…",
+        "exitHint": "e.g. has booked a demo"
       },
       "pipeline": {
         "title": "Pipeline",
@@ -8760,14 +8813,101 @@
         "follows": "Follow-up of",
         "followsNone": "Not a follow-up",
         "followDays": "Days after the first mail",
-        "followHint": "A follow-up goes only to those the first mail reached, the given days ago, whose company has not moved since, and who have not unsubscribed or bounced. Roughly two in five replies come from follow-ups; three to five mails in all is enough.",
+        "followHint": "A follow-up goes only to those the first mail reached, the given days ago. Roughly two in five replies come from follow-ups; three to five mails in all, three to seven days apart, is enough.",
         "save": "Save pipeline",
         "summary": {
           "target": "Goes to: {stage}",
           "onSend": "Moves to: {stage}",
           "sender": "From: {sender}",
-          "follows": "Follows up «{campaign}» after {days} days"
-        }
+          "follows": "Follows up «{campaign}» after {days} days",
+          "auto": "Sends itself as each person comes due"
+        },
+        "followWhen": "Send to",
+        "when": {
+          "no_reply": "Everyone who has not answered",
+          "no_click": "Those who did not click",
+          "no_open": "Those who did not open (weakest signal)"
+        },
+        "auto": "Send automatically",
+        "autoHint": "Each person gets it when their first mail is this many days old, on weekdays 08–16, until everyone's time has passed. Armed once; no batch to schedule.",
+        "openWarning": "Opens are a weak signal: Apple Mail's automatic opens are not counted, so many who read the first mail count as «not opened» and get this one too.",
+        "exits": "It stops by itself for anyone who answers (a logged reply), unsubscribes or bounces, whose company moves on, or is won, lost or parked. A chain holds at most seven mails."
+      },
+      "sequence": {
+        "title": "Sequence",
+        "lead": "Every mail in this chain, in order, with what each one did. Answers and clicks are the numbers that count; opens are shown, but read them as a lower bound.",
+        "step": "Mail {n}",
+        "first": "First mail",
+        "after": "+{days} days · {when}",
+        "auto": "automatic",
+        "manual": "scheduled by hand",
+        "sent": "Sent",
+        "delivered": "Delivered",
+        "opened": "Opened",
+        "clicked": "Clicked",
+        "replied": "Answered",
+        "unsubscribed": "Unsubscribed",
+        "bounced": "Bounced",
+        "waiting": "{n} due as their time comes",
+        "resend": "Resend after",
+        "days": "days",
+        "resendHint": "A draft follow-up with this mail's content, to those who did not click, sending itself. Edit the subject before you arm it.",
+        "none": "This campaign is not part of a sequence yet."
+      },
+      "sending": {
+        "title": "Sending",
+        "lead": "How much campaign mail may go in a day. A new sending domain, or a cold batch from the register, is best sent a few dozen a day and raised as replies come in; tests and confirmations are never held.",
+        "cap": "Campaign mails per day",
+        "capNone": "No cap",
+        "sentToday": "{n} campaign mails sent today",
+        "hours": "Automatic follow-ups send now (weekday, 08–16).",
+        "outside": "Automatic follow-ups wait until the next weekday 08:00.",
+        "save": "Save"
+      },
+      "inbox": {
+        "title": "Inbox",
+        "lead": "Every inbound lead of the last 30 days — trial sign-ups, contact-form messages and demo requests — with a clock against your {sla}-minute first-response target. Answering within minutes is the most studied lever in B2B sales.",
+        "awaiting": "Awaiting a first answer",
+        "median": "Median first answer · 7 days",
+        "withinSla": "Inside {sla} min · 7 days",
+        "leads": "Leads · 7 days",
+        "trials": "Trial sign-ups · 7 days",
+        "filter": "Show",
+        "show": {
+          "all": "All",
+          "awaiting": "Awaiting",
+          "trials": "Trials",
+          "answered": "Answered"
+        },
+        "kind": {
+          "trial": "Trial sign-up",
+          "contact_form": "Contact form",
+          "demo": "Demo request"
+        },
+        "employees": "{n} employees",
+        "respond": "Answer",
+        "answeredIn": "first answer",
+        "past": "past the {sla}-min target",
+        "within": "answer within {sla} min",
+        "none": "No inbound leads in the last 30 days.",
+        "zero": "Inbox zero: every lead has had a first answer.",
+        "how": "A lead counts as answered when a call, mail, meeting, reply or note is logged on its company (or on the person) after it came. Log it on the company page. What a lead wrote is not shown here.",
+        "slaTitle": "First-response target",
+        "slaLead": "Minutes within which an inbound lead should have its first answer. The brief's benchmark is five; set what you can keep, and hold to it.",
+        "sla": "Target (minutes)",
+        "slaSave": "Save"
+      },
+      "board": {
+        "title": "Pipeline",
+        "lead": "Each stage closes on something the buyer did. Drag a company to move it, or use «Move to» on its card; open a card to log a call or set the next step.",
+        "managed": "Follows the organisation's plan",
+        "employees": "{n} employees",
+        "days": "{n} d in stage",
+        "moveTo": "Move to…",
+        "moveLabel": "Move {name} to another stage",
+        "empty": "No companies here.",
+        "notMoved": "That company was not moved.",
+        "capped": "Showing the 500 companies with the nearest next step; the Companies page has them all."
       }
     },
     "health": {

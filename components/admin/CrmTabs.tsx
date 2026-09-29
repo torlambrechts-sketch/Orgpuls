@@ -6,7 +6,7 @@ export const STATUS_TONE: Record<string, BadgeTone> = { draft: 'grey', scheduled
 
 export type CrmTab = 'overview' | 'prospects' | 'stages' | 'contacts' | 'lists' | 'segments' | 'campaigns' | 'templates'
 
-/** The CRM's pages (D-101, D-103). */
+/** The CRM's pages (D-101, D-103): on a phone; from md the admin's menu lists them (X-091). */
 export function CrmTabs({ current, labels }: { current: CrmTab; labels: Record<string, string> }) {
   const tabs: { key: CrmTab; href: string }[] = [
     { key: 'overview', href: '/admin/crm' },
@@ -19,7 +19,7 @@ export function CrmTabs({ current, labels }: { current: CrmTab; labels: Record<s
     { key: 'templates', href: '/admin/crm/templates' },
   ]
   return (
-    <nav aria-label={labels.label} className="mb-[18px] flex flex-wrap gap-[6px]">
+    <nav aria-label={labels.label} className="mb-[18px] flex flex-wrap gap-[6px] md:hidden">
       {tabs.map((t) => (
         <Link
           key={t.key}

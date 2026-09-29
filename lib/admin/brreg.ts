@@ -83,3 +83,79 @@ export async function searchRegistry(input: z.infer<typeof SearchInput>): Promis
     return { ok: false, problem: 'unreachable' }
   }
 }
+
+// ---------------------------------------------------------------- the general manager (0110, X-091)
+const Roles = z.object({
+  rollegrupper: z
+    .array(
+      z.object({
+        type: z.object({ kode: z.string() }),
+        roller: z.array(
+          z.object({
+            type: z.object({ kode: z.string() }),
+            avregistrert: z.boolean().nullish(),
+            person: z
+              .object({
+                erDoed: z.boolean().nullish(),
+                navn: z.object({ fornavn: z.string().nullish(), mellomnavn: z.string().nullish(), etternavn: z.string().nullish() }),
+              })
+              .nullish(),
+          }),
+        ),
+      }),
+    )
+    .default([]),
+})
+
+export type Manager = { name: string; role: 'DAGL' | 'INNH' }
+
+/**
+ * A company's general manager from Enhetsregisteret's open roles API: the daglig leder, or in a
+ * sole proprietorship the innehaver. The name only: the register also gives a birth date, which is
+ * read past and never kept (0110). A person registered as dead, a role no longer registered, or a
+ * role held by another company is not a manager to write to.
+ */
+export async function generalManager(orgnr: string): Promise<Manager | null> {
+  if (!/^\d{9}$/.test(orgnr)) return null
+  try {
+    const res = await fetch(`https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}/roller`, {
+      headers: { accept: 'application/json' },
+      signal: AbortSignal.timeout(8000),
+      cache: 'no-store',
+    })
+    if (!res.ok) {
+      await res.body?.cancel()
+      return null
+    }
+    const parsed = Roles.safeParse(await res.json())
+    if (!parsed.success) return null
+    for (const role of ['DAGL', 'INNH'] as const) {
+      for (const g of parsed.data.rollegrupper) {
+        for (const r of g.roller) {
+          if (r.type.kode !== role || r.avregistrert || !r.person || r.person.erDoed) continue
+          const n = r.person.navn
+          const name = [n.fornavn, n.mellomnavn, n.etternavn].filter((s): s is string => !!s && !!s.trim()).map((s) => (s === s.toUpperCase() ? title(s) : s.trim())).join(' ')
+          if (name.length >= 2) return { name: name.slice(0, 120), role }
+        }
+      }
+    }
+    return null
+  } catch {
+    return null
+  }
+}
+
+/** Managers for many companies, a few requests at a time so the open register is not hammered */
+export async function generalManagers(orgnrs: readonly string[], concurrency = 6): Promise<Map<string, Manager>> {
+  const out = new Map<string, Manager>()
+  const queue = [...new Set(orgnrs)]
+  await Promise.all(
+    Array.from({ length: Math.min(concurrency, queue.length) }, async () => {
+      for (let o = queue.shift(); o !== undefined; o = queue.shift()) {
+        const m = await generalManager(o)
+        if (m) out.set(o, m)
+      }
+    }),
+  )
+  return out
+}

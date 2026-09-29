@@ -191,8 +191,34 @@ const Campaign = z.object({
   sender_id: z.string().nullable().default(null),
   follows_id: z.string().nullable().default(null),
   follow_days: num.nullable().default(null),
+  // 0111: who a follow-up goes to, and whether it sends itself as each recipient comes due
+  follow_when: z.enum(['no_reply', 'no_click', 'no_open']).default('no_reply'),
+  follow_auto: z.boolean().default(false),
 })
 export type Campaign = z.infer<typeof Campaign>
+
+// ---------------------------------------------------------------- sequences (0111)
+const SequenceStep = z.object({
+  id: z.string(),
+  number: num,
+  name: z.string(),
+  status: z.enum(['draft', 'scheduled', 'sending', 'sent', 'cancelled']),
+  step: num,
+  subject: z.string(),
+  follow_days: num.nullable(),
+  follow_when: z.enum(['no_reply', 'no_click', 'no_open']),
+  follow_auto: z.boolean(),
+  scheduled_at: tsn,
+  finished_at: tsn,
+  stats: Stats,
+  replied: num,
+  waiting: num.nullable(),
+})
+export type SequenceStep = z.infer<typeof SequenceStep>
+/** The chain a campaign belongs to, first mail first, each step's funnel and the answers it brought */
+export const crmSequence = (id: string) => call('admin_crm_sequence', { p_id: id }, z.object({ steps: z.array(SequenceStep) }))
+/** The day's sending: the cap, what has gone today, and whether automatic follow-ups are sending now */
+export const crmSending = () => call('admin_crm_sending', {}, z.object({ daily_cap: num.nullable(), sent_today: num, business_hours: z.boolean() }))
 export const crmCampaign = (id: string) =>
   call(
     'admin_crm_campaign',
@@ -218,10 +244,38 @@ const Stage = z.object({
   kind: z.enum(STAGE_KINDS),
   managed: z.boolean(),
   archived: z.boolean(),
+  // 0112: what the buyer did to reach it, shown on the board
+  exit_criterion: z.string().nullable().default(null),
   companies: num,
   campaigns: num,
 })
 export type Stage = z.infer<typeof Stage>
+
+// ---------------------------------------------------------------- the inbox (0112)
+const InboxRow = z.object({
+  kind: z.enum(['trial', 'contact_form', 'demo']),
+  company_id: z.string().nullable(),
+  contact_id: z.string().nullable(),
+  company: z.string().nullable(),
+  person: z.string().nullable(),
+  employees: num.nullable(),
+  stage: z.string().nullable(),
+  created_at: z.string(),
+  answered_at: tsn,
+})
+export type InboxRow = z.infer<typeof InboxRow>
+/** Inbound leads of the last days, each with when it came and when it was first answered */
+export const crmInbox = (days: number) =>
+  call(
+    'admin_crm_inbox',
+    { p_days: days },
+    z.object({
+      sla_minutes: num,
+      awaiting: num,
+      week: z.object({ leads: num, trials: num, answered: num, median_minutes: num.nullable(), within_sla: num }),
+      rows: z.array(InboxRow),
+    }),
+  )
 export const crmStages = () => call('admin_crm_stages', {}, z.object({ reply_stage: StageKey, rows: z.array(Stage) }))
 
 const Sender = z.object({
@@ -258,6 +312,10 @@ const Company = z.object({
   lost_reason: z.string().nullable(),
   tags: z.array(z.string()),
   org_id: z.string().nullable(),
+  // the register's general manager (0110): absent from a database before it
+  manager_name: z.string().nullable().optional(),
+  manager_role: z.enum(['DAGL', 'INNH']).nullable().optional(),
+  manager_seen_at: tsn.optional(),
   last_activity_at: tsn,
   created_at: z.string(),
   contacts: num,

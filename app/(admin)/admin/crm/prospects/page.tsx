@@ -2,7 +2,7 @@ import type { Route } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import type { CrmMessages } from '@/components/admin/CrmForms'
-import { CompanyForm, RegistryPicker } from '@/components/admin/CrmPipelineForms'
+import { CompanyForm, ManagerRefresh, RegistryPicker } from '@/components/admin/CrmPipelineForms'
 import { CrmTabs, stageTone } from '@/components/admin/CrmTabs'
 import { StageMoveForm } from '@/components/admin/CrmStageForms'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td } from '@/components/admin/ui'
@@ -95,6 +95,7 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
               <Td>
                 <ALink href={`/admin/crm/prospects/${c.id}`}>{c.name}</ALink>
                 {c.org_number ? <span className="block text-[12px] text-mut">{c.org_number}</span> : null}
+                {c.manager_name ? <span className="block text-[12px] text-mut">{c.manager_name}</span> : null}
               </Td>
               <Td>
                 <Badge tone={stageTone(byKey.get(c.stage))}>{byKey.get(c.stage)?.name ?? c.stage}</Badge>
@@ -120,6 +121,9 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
         <>
           <Card title={p.brreg.title} className="mt-[16px]">
             <RegistryPicker m={m} />
+            <div className="mt-[16px] border-t border-line pt-[14px]">
+              <ManagerRefresh m={m} />
+            </div>
           </Card>
           <Card title={p.add} className="mt-[16px]">
             <CompanyForm m={m} common={common} admins={owners} stages={stages} />

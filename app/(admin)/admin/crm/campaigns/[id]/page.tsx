@@ -1,12 +1,13 @@
 import { getTranslations } from 'next-intl/server'
 import { CampaignActions, CampaignEditor, type CrmMessages } from '@/components/admin/CrmForms'
-import { CampaignPipelineForm } from '@/components/admin/CrmStageForms'
+import { CampaignPipelineForm, ResendForm } from '@/components/admin/CrmStageForms'
+import { SequenceSteps } from '@/components/admin/CrmSequence'
 import { CrmTabs, STATUS_TONE } from '@/components/admin/CrmTabs'
 import { ALink, Badge, Card, PageHead, pct, Problem, Stat, Table, Td, when } from '@/components/admin/ui'
 import en from '@/messages/en.json'
 import no from '@/messages/no.json'
 import { isError, whoami } from '@/lib/admin/api'
-import { crmCampaign, crmCampaigns, crmLists, crmSegments, crmSenders, crmStages } from '@/lib/admin/crm'
+import { crmCampaign, crmCampaigns, crmLists, crmSegments, crmSenders, crmSequence, crmStages } from '@/lib/admin/crm'
 import { renderCampaign, type MailCatalogue } from '@/supabase/functions/_shared/mail'
 
 /**
@@ -25,7 +26,7 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const r = m.report
-  const [data, segs, lists, who, stageData, senderData, all] = await Promise.all([
+  const [data, segs, lists, who, stageData, senderData, all, sequence] = await Promise.all([
     crmCampaign(id),
     crmSegments(),
     crmLists(),
@@ -33,6 +34,7 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
     crmStages(),
     crmSenders(),
     crmCampaigns(),
+    crmSequence(id),
   ])
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const c = data.campaign
@@ -58,6 +60,8 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
           .replace('{campaign}', earlier.find((x) => x.id === c.follows_id)?.name ?? '—')
           .replace('{days}', String(c.follow_days ?? ''))
       : null,
+    c.follows_id ? `${pipeline.followWhen}: ${pipeline.when[c.follow_when]}` : null,
+    c.follow_auto ? pipeline.summary.auto : null,
   ].filter(Boolean)
 
   // the preview is the real rendering, with a placeholder token that unsubscribes nobody
@@ -229,6 +233,15 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
                 ))}
               </ul>
             )}
+          </Card>
+          <Card title={m.sequence.title}>
+            <p className="mb-[10px] mt-0 text-[12.5px] leading-[1.55] text-mut">{m.sequence.lead}</p>
+            {isError(sequence) ? <Problem text={t('common.failed')} /> : <SequenceSteps steps={sequence.steps} current={c.id} m={m} />}
+            {canWrite && c.status !== 'cancelled' ? (
+              <div className="mt-[12px] border-t border-line pt-[12px]">
+                <ResendForm id={c.id} m={m} />
+              </div>
+            ) : null}
           </Card>
           <Card title={m.campaign.content}>
             {canWrite && c.status === 'draft' ? (

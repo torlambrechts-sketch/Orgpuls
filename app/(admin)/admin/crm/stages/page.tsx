@@ -1,10 +1,10 @@
 import { getTranslations } from 'next-intl/server'
 import type { CrmMessages } from '@/components/admin/CrmForms'
-import { ReplyStageForm, SenderForm, StageForm } from '@/components/admin/CrmStageForms'
+import { DailyCapForm, ReplyStageForm, SenderForm, StageForm } from '@/components/admin/CrmStageForms'
 import { CrmTabs, stageTone } from '@/components/admin/CrmTabs'
 import { Badge, Card, PageHead, Problem, Table, Td } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
-import { crmSenders, crmStages } from '@/lib/admin/crm'
+import { crmSenders, crmSending, crmStages } from '@/lib/admin/crm'
 
 /**
  * The pipeline (0093, D-142): its stages in order, where a logged answer moves a company, and
@@ -15,7 +15,7 @@ export default async function CrmStages() {
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const x = m.stagesX
-  const [data, senders, who] = await Promise.all([crmStages(), crmSenders(), whoami()])
+  const [data, senders, who, sending] = await Promise.all([crmStages(), crmSenders(), whoami(), crmSending()])
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
   const common = { saving: t('common.saving'), done: t('common.done') }
@@ -68,6 +68,17 @@ export default async function CrmStages() {
           <p className="m-0 text-[13px] font-semibold">{data.rows.find((s) => s.key === data.reply_stage)?.name ?? data.reply_stage}</p>
         )}
       </Card>
+
+      {isError(sending) ? null : (
+        <Card title={m.sending.title} className="mt-[16px]">
+          <p className="mb-[10px] mt-0 max-w-[80ch] text-[12.5px] leading-[1.55] text-mut">{m.sending.lead}</p>
+          <ul className="mb-[12px] mt-0 list-disc pl-[18px] text-[13px] leading-[1.7]">
+            <li>{m.sending.sentToday.replace('{n}', String(sending.sent_today))}</li>
+            <li>{sending.business_hours ? m.sending.hours : m.sending.outside}</li>
+          </ul>
+          {canWrite ? <DailyCapForm cap={sending.daily_cap} m={m} common={common} /> : <p className="m-0 text-[13px]">{m.sending.cap}: {sending.daily_cap ?? m.sending.capNone}</p>}
+        </Card>
+      )}
 
       <Card title={x.senders.title} className="mt-[16px]">
         <p className="mb-[12px] mt-0 max-w-[80ch] text-[13px] leading-[1.55] text-body">{x.senders.lead}</p>

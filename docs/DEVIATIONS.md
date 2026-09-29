@@ -7138,3 +7138,41 @@ only narrow it to itself). `?avdeling=` no longer shows the same page under anot
 
 **Pixel gate:** the fixture's daglig leder has a closed, assessed grunnlinje, so `02-innsikt-full`
 reads «Dere er i rute» as before. 16 and 17 are not gated (D-77).
+
+## D-159 — The CRM design and brief, built on the CRM that exists: what was built, and what was not
+
+**Asked (Tor, 2026-09-29):** extend the admin CRM to a comprehensive SaaS CRM from the attached
+research brief (SaaS_CRM_Research_Brief) and page (OrgPuls_CRM), with a Brønnøysund import of SMB
+general managers, campaigns tracked per mail (sent, stage, opens), automatic resends after 7 days and
+other best practice; segment the admin into content, CRM and customers, with a collapsible menu with
+icons; in our design and layout.
+
+**Built (X-091):**
+- The admin shell: five sections (Overview, Customers, CRM and marketing, Content, Platform), each
+  page with an icon in the product rail's tile, narrowing to icons (kept in a cookie), a drawer on a
+  phone. The CRM's pages are menu entries; its tabs remain on a phone only.
+- The general manager from Enhetsregisteret's roles API (0110): name and role only — the register's
+  birth date is read past, never kept. It greets the company's role address through `{navn}`; the
+  import tags a batch so a segment or campaign reaches it. A register import never joins a list:
+  lists are opt-in subscriptions (0056).
+- Sequences (0111): follow-ups that send themselves per recipient, weekdays 08–16 Oslo, with the
+  rule no reply / no click / no open; exits on an answer, unsubscribe, bounce, a company moved on or
+  won/lost/parked; seven mails at most; «Resend after 7 days»; a daily cap; the chain with each
+  mail's funnel. Opens are shown muted and «no open» carries its warning (Apple proxy opens are not
+  counted, 0053), as the brief asks.
+- The board and the inbox (0112): stages with the buyer action that closes them, drag or «Move to»;
+  inbound leads with a first-response clock against a target (default 5 minutes, the brief's).
+
+**Not built, and why:**
+- *Deal value, ARR, MRR, weighted pipeline, win rate.* The design prices per employee
+  (€3.50/employee/month); Orgpuls sells plans, and no deal value is stored. Showing an ARR would be a
+  number the schema does not have (CLAUDE.md: never fabricate). Omitted until a deal carries a plan.
+- *LinkedIn and call steps, Gmail/Calendar sync, a browser extension, form builder, integrations
+  screen, lead scoring, owners filter on the board.* Each is a product of its own; the design shows
+  them as empty screens. The sequence model (a chain of campaigns) takes a manual-task step later.
+- *Reading replies.* An answer is still logged by a person (0093); automatic reply detection needs
+  an inbound mailbox the marketing domain does not have.
+- *Answering a lead that has no company* in the inbox: the inbox links to the contact; an activity
+  needs a company (0056). Contact-form and demo leads that name a company are linked to it.
+- *The design's dark-green rail.* The admin keeps the product's own rail (cream surface, track
+  tiles, yellow for the current page), as «our design» asks.
