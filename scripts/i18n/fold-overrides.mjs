@@ -26,7 +26,7 @@ const url = process.env.SUPABASE_URL ?? `https://${REF}.supabase.co`
 const key = process.env.SUPABASE_ANON_KEY
 const dry = process.argv.includes('--dry-run')
 if (!key) {
-  console.error('fold: SUPABASE_ANON_KEY is not set. In GitHub: Settings › Secrets and variables › Actions › New repository secret, named SUPABASE_ANON_KEY, holding the project’s anon (publishable) key.')
+  console.error('fold: no anon key reached this job (looked for SUPABASE_ANON_KEY, NEXT_PUBLIC_SUPABASE_ANON_KEY and CI_SUPABASE_ANON_KEY, as secrets and variables).')
   process.exit(2)
 }
 
@@ -39,6 +39,8 @@ async function approved(locale) {
     body: JSON.stringify({ p_locale: locale }),
     signal: AbortSignal.timeout(20_000),
   })
+  if (res.status === 401 || res.status === 403)
+    throw new Error(`the key was refused (${res.status}): it is not the hosted project's anon key — perhaps the local stack's`)
   if (!res.ok) throw new Error(`message_overrides(${locale}) answered ${res.status}`)
   const data = await res.json()
   if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error(`message_overrides(${locale}) returned no object`)

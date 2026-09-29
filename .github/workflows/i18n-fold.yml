@@ -5,8 +5,10 @@ name: Fold approved texts into messages
 # stay the source. Nothing in the database changes: an override records the file text it replaced
 # (0109), and once this lands the files win.
 #
-# Needs one repository secret, SUPABASE_ANON_KEY: the project's anon (publishable) key, which the
-# public site already ships. Without it the job fails and says so.
+# Reads the project's anon (publishable) key — the public one the site already ships — under any of
+# the names it is kept by in this repository: the CI build's variable CI_SUPABASE_ANON_KEY, or a
+# secret or variable named SUPABASE_ANON_KEY or NEXT_PUBLIC_SUPABASE_ANON_KEY. Without one the job
+# fails and says so.
 #
 # A pull request opened with the workflow's own token does not start other workflows, so the checks
 # the fold can affect run here before it is opened; CI runs in full when it is merged to main.
@@ -37,7 +39,7 @@ jobs:
 
       - name: Fold approved overrides into messages/
         env:
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || vars.SUPABASE_ANON_KEY || secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || vars.NEXT_PUBLIC_SUPABASE_ANON_KEY || secrets.CI_SUPABASE_ANON_KEY || vars.CI_SUPABASE_ANON_KEY }}
         run: node scripts/i18n/fold-overrides.mjs > "$RUNNER_TEMP/fold.md"
 
       - name: Anything to propose?
