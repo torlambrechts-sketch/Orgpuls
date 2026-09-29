@@ -1,87 +1,82 @@
-import type { Route } from 'next'
-import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { LegalApproveAll, LegalCheck, LocalePilotForm, TranslationsApproveForm } from '@/components/admin/LegalForms'
-import { Badge, Card, day, PageHead, Problem, Stat, Table, Td } from '@/components/admin/ui'
-import { isError, legalApprovals, localePilots, translationState, whoami, type LocalePilot, type TranslationState } from '@/lib/admin/api'
-import { LOCALE_REGISTRY, TRANSLATION_LOCALES } from '@/lib/i18n/locales'
-import respondentUi from '@/lib/i18n/respondent-ui.json'
-import { respondentLines } from '@/lib/i18n/respondent-strings'
-import enMessages from '@/messages/en.json'
-import { legalInputs } from '@/lib/legal/inputs'
+import { LegalReviewButton } from '@/components/admin/LegalForms'
+import { Badge, day, PageHead, Problem, Segments, type BadgeTone } from '@/components/admin/ui'
 import { autoRecord } from '@/lib/admin/auto'
-import { DPA_IN_FORCE, legalUnits, LEGAL_SECTIONS, type LegalUnit } from '@/lib/legal/registry'
+import { isError, legalApprovals, legalReviews, whoami, type LegalReview } from '@/lib/admin/api'
+import { approvedLineByLine, legalDocuments, lineDiff, type DiffLine, type LegalDoc } from '@/lib/legal/documents'
+import { legalInputs } from '@/lib/legal/inputs'
+import { DPA_IN_FORCE, legalUnits, type LegalUnit } from '@/lib/legal/registry'
 
 /**
- * The legal review (D-130, X-065): every legal text in the product and on the site, each with an
- * «Approved» box. An approval names the exact text (its SHA-256, 0082), so an edited text comes
- * back as changed. The English survey's translations are approved here too, all at once.
+ * Legal texts (X-096; D-130 and X-078 before it): every legal text in the product and on the site,
+ * as documents — an industry page, a module, the privacy statement — each read and marked reviewed
+ * once. The text is stored as it was read (0122), so a document changed since shows exactly what
+ * changed. It is a record of who read what, not a gate: nothing waits on it (X-078). A document
+ * whose every line was approved under the old line-by-line review (0082) reads as reviewed.
  * Super-admin only; the database checks that on every call.
  */
 export const dynamic = 'force-dynamic'
 
-const SHOW = ['all', 'open', 'changed', 'approved'] as const
+const SHOW = ['todo', 'changed', 'new', 'reviewed', 'all'] as const
 type Show = (typeof SHOW)[number]
 const LANG = ['all', 'no', 'en'] as const
 type Lang = (typeof LANG)[number]
+type State = 'reviewed' | 'changed' | 'new' | 'broken'
+const TONE: Record<State, BadgeTone> = { reviewed: 'green', changed: 'yellow', new: 'red', broken: 'red' }
 
-type Props = { searchParams: Promise<{ show?: string; lang?: string }> }
+type Props = { searchParams: Promise<{ show?: string; lang?: string; doc?: string }> }
 
 export default async function AdminLegal(props: Props) {
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const sp = await props.searchParams
-  const show: Show = (SHOW as readonly string[]).includes(sp.show ?? '') ? (sp.show as Show) : 'all'
+  const show: Show = (SHOW as readonly string[]).includes(sp.show ?? '') ? (sp.show as Show) : 'todo'
   const lang: Lang = (LANG as readonly string[]).includes(sp.lang ?? '') ? (sp.lang as Lang) : 'all'
 
   // while auto-approve is on (0101), the texts this build shows are recorded as approved first
   await autoRecord()
-  const [who, approvals, en, inputs, pilots] = await Promise.all([
-    whoami(),
-    legalApprovals(),
-    translationState('en'),
-    legalInputs(),
-    localePilots(),
-  ])
-  if (who?.role !== 'super_admin' || isError(approvals)) {
-    return <Problem text={!isError(approvals) || approvals.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
+  const [who, reviews, approvals, inputs] = await Promise.all([whoami(), legalReviews(), legalApprovals(), legalInputs()])
+  if (who?.role !== 'super_admin' || isError(reviews)) {
+    return <Problem text={!isError(reviews) || reviews.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   }
 
-  const byKey = new Map(approvals.approvals.map((a) => [a.key, a]))
-  // the same inputs the approve action checks against (lib/legal/inputs.ts)
   const units = legalUnits(inputs)
-  const stateOf = (u: LegalUnit) => {
-    const a = byKey.get(u.key)
-    return !a ? 'open' : a.hash === u.hash ? 'approved' : 'changed'
+  const docs = legalDocuments(units)
+  const reviewed = new Map(reviews.rows.map((r) => [r.key, r]))
+  const lineApprovals = new Map(isError(approvals) ? [] : approvals.approvals.map((a) => [a.key, a.hash]))
+  const stateOf = (d: LegalDoc): State => {
+    if (d.missing.length) return 'broken'
+    const r = reviewed.get(d.key)
+    if (r) return r.hash === d.hash ? 'reviewed' : 'changed'
+    return approvedLineByLine(d, lineApprovals) ? 'reviewed' : 'new'
   }
-  // the pills count what they would show, in the language chosen; the tiles above are the whole
-  const count = (s: Show, l: Lang = lang) => units.filter((u) => (s === 'all' || stateOf(u) === s) && (l === 'all' || u.lang === l)).length
-  const shown = units.filter((u) => (show === 'all' || stateOf(u) === show) && (lang === 'all' || u.lang === lang))
+  const inShow = (d: LegalDoc, s: Show) => {
+    const st = stateOf(d)
+    return s === 'all' || (s === 'todo' ? st !== 'reviewed' : s === 'new' ? st === 'new' || st === 'broken' : st === s)
+  }
+  const inLang = (d: LegalDoc, l: Lang) => l === 'all' || d.lang === l
+  const count = (s: Show, l: Lang = lang) => docs.filter((d) => inShow(d, s) && inLang(d, l)).length
+  const shown = docs.filter((d) => inShow(d, show) && inLang(d, lang))
 
-  const title = (u: LegalUnit) => t(`legal.unit.${u.title.key}`, u.title.values ?? {})
-  const where = (u: LegalUnit) => t(`legal.whereAt.${u.where.key}`, u.where.values ?? {})
-  const href = (next: { show?: Show; lang?: Lang }) => {
+  const L = (k: string, v?: Record<string, string | number>) => t(`legal.docs.${k}`, v)
+  const titleOf = (m: { key: string; values?: Record<string, string> }) => t(`legal.unit.${m.key}`, m.values ?? {})
+  const where = (d: LegalDoc) => t(`legal.whereAt.${d.where.key}`, d.where.values ?? {})
+  const href = (next: { show?: Show; lang?: Lang; doc?: string }) => {
     const q = new URLSearchParams()
     const s = next.show ?? show
     const l = next.lang ?? lang
-    if (s !== 'all') q.set('show', s)
+    if (s !== 'todo') q.set('show', s)
     if (l !== 'all') q.set('lang', l)
-    return `/admin/legal${q.size ? `?${q}` : ''}` as Route
+    if (next.doc) q.set('doc', next.doc)
+    return `/admin/legal${q.size ? `?${q}` : ''}`
   }
-  const problems = Object.fromEntries(
-    ['not_allowed', 'invalid', 'not_found', 'stale', 'confirm_required', 'failed'].map((k) => [k, t(`legal.problem.${k}`)]),
-  )
-  const checkLabels = { approved: t('legal.approved'), saving: t('legal.saving'), done: t('legal.done'), problems }
+  // one document open at a time: its text, or what changed since it was reviewed
+  const open = docs.find((d) => d.key === sp.doc) ?? null
+  const problems = Object.fromEntries(['not_allowed', 'invalid', 'not_found', 'stale', 'failed'].map((k) => [k, t(`legal.problem.${k}`)]))
+  const buttonLabels = { submit: L('markReviewed'), saving: t('legal.saving'), done: L('reviewedNow'), problems }
 
   return (
     <>
-      <PageHead title={t('legal.title')} lead={t('legal.lead')} />
-
-      <div className="mb-[18px] grid gap-[12px] [grid-template-columns:repeat(auto-fit,minmax(160px,1fr))]">
-        <Stat label={t('legal.stat.texts')} value={units.length} />
-        <Stat label={t('legal.stat.approved')} value={count('approved', 'all')} />
-        <Stat label={t('legal.stat.changed')} value={count('changed', 'all')} />
-        <Stat label={t('legal.stat.open')} value={count('open', 'all')} />
-      </div>
+      <PageHead title={L('title')} lead={L('lead', { docs: docs.length, todo: count('todo', 'all') })} />
 
       {inputs.failed.length ? (
         <div className="mb-[18px] flex flex-col gap-[8px]">
@@ -91,222 +86,147 @@ export default async function AdminLegal(props: Props) {
         </div>
       ) : null}
 
-      {!isError(en) ? <EnglishSurvey t={t} state={en} problems={problems} /> : null}
-      {!isError(pilots) ? <LanguagePilots t={t} pilots={pilots.pilots} problems={problems} /> : null}
+      {open ? (
+        <section id="open" aria-labelledby="open-title" className="mb-[18px] rounded-panel border border-ink bg-sf px-[20px] py-[18px] md:px-[26px]">
+          <div className="flex flex-wrap items-start justify-between gap-[12px]">
+            <div className="min-w-0 flex-1">
+              <h2 id="open-title" className="m-0 font-display text-[22px] font-medium">
+                {titleOf(open.title)}
+              </h2>
+              <div className="mt-[4px] flex flex-wrap items-center gap-[6px] text-[12.5px] text-mut">
+                <Badge>{t(`legal.langCode.${open.lang}`)}</Badge>
+                <Badge tone={TONE[stateOf(open)]}>{L(`state.${stateOf(open)}`)}</Badge>
+                <span>
+                  {t(`legal.section.${open.section}`)} · {where(open)}
+                </span>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-[10px]">
+              {stateOf(open) === 'changed' || stateOf(open) === 'new' ? <LegalReviewButton docKey={open.key} hash={open.hash} labels={buttonLabels} /> : null}
+              <a href={href({})} className="text-[12.5px] font-semibold text-link">
+                {L('close')}
+              </a>
+            </div>
+          </div>
+          {stateOf(open) === 'changed' && reviewed.get(open.key) ? (
+            <Changes review={reviewed.get(open.key)!} doc={open} titleOf={titleOf} labels={{ gap: L('unchanged'), added: L('added'), removed: L('removed') }} />
+          ) : (
+            <FullText units={open.units} titleOf={titleOf} whereOf={(u) => t(`legal.whereAt.${u.where.key}`, u.where.values ?? {})} />
+          )}
+        </section>
+      ) : null}
 
-      <nav aria-label={t('legal.filter')} className="my-[18px] flex flex-wrap items-center gap-[6px] text-[13px]">
-        {SHOW.map((s) => (
-          <Link
-            key={s}
-            href={href({ show: s })}
-            aria-current={s === show ? 'page' : undefined}
-            className={`rounded-pill border px-[11px] py-[5px] font-semibold no-underline hover:no-underline ${s === show ? 'border-ink bg-ink text-bg hover:text-bg' : 'border-line bg-sf text-ink hover:text-ink'}`}
-          >
-            {t('legal.countLabel', { label: t(`legal.show.${s}`), n: count(s) })}
-          </Link>
-        ))}
-        <span aria-hidden="true" className="mx-[6px] h-[18px] w-px bg-line" />
-        {LANG.map((l) => (
-          <Link
-            key={l}
-            href={href({ lang: l })}
-            aria-current={l === lang ? 'page' : undefined}
-            className={`rounded-pill border px-[11px] py-[5px] font-semibold no-underline hover:no-underline ${l === lang ? 'border-ink bg-ink text-bg hover:text-bg' : 'border-line bg-sf text-ink hover:text-ink'}`}
-          >
-            {t(`legal.lang.${l}`)}
-          </Link>
-        ))}
-      </nav>
-
-      <div className="flex flex-col gap-[16px]">
-        {LEGAL_SECTIONS.map((section) => {
-          const list = shown.filter((u) => u.section === section)
-          if (!list.length) return null
-          // what «Approve all» approves: the texts this card shows that are not approved, and whole
-          const open = list.filter((u) => stateOf(u) !== 'approved' && !u.missing?.length && u.lines.length > 0)
-          return (
-            <Card
-              key={section}
-              title={t('legal.countLabel', { label: t(`legal.section.${section}`), n: list.length })}
-              aside={
-                <LegalApproveAll
-                  units={open.map((u) => ({ key: u.key, hash: u.hash }))}
-                  labels={{ submit: t('legal.approveAll', { n: open.length }), saving: t('legal.saving'), done: t('legal.approveAllDone'), problems }}
-                />
-              }
-            >
-              <p className="mb-[4px] mt-0 max-w-[80ch] text-[12.5px] leading-[1.5] text-mut">{t(`legal.sectionLead.${section}`)}</p>
-              <ul className="m-0 list-none p-0">
-                {list.map((u) => {
-                  const a = byKey.get(u.key)
-                  const state = stateOf(u)
-                  return (
-                    <li key={u.key} className="border-t border-line py-[12px]">
-                      <div className="flex flex-wrap items-start justify-between gap-[12px]">
-                        <div className="min-w-0 flex-1">
-                          <span className="flex flex-wrap items-center gap-[6px]">
-                            <b className="text-[13.5px]">{title(u)}</b>
-                            <Badge>{t(`legal.langCode.${u.lang}`)}</Badge>
-                            <Badge tone={u.live ? 'green' : 'grey'}>{u.live ? t('legal.live') : t('legal.notLive')}</Badge>
-                            <Badge tone={state === 'approved' ? 'green' : state === 'changed' ? 'yellow' : 'red'}>{t(`legal.state.${state}`)}</Badge>
-                            {state === 'approved' && a?.auto ? <Badge tone="yellow">{t('legal.autoBadge')}</Badge> : null}
-                          </span>
-                          <span className="mt-[4px] block text-[12px] leading-[1.5] text-mut">
-                            {t('legal.whereSource', { where: where(u), source: u.source })}
-                          </span>
-                          {a ? (
-                            <span className="mt-[2px] block text-[12px] text-mut">
-                              {t(state === 'approved' ? 'legal.approvedBy' : 'legal.changedSince', { by: a.by ?? t('legal.someone'), date: day(a.at) })}
-                            </span>
-                          ) : null}
-                          {u.key === 'msg:no:doc.dpa' ? (
-                            <span className="mt-[2px] block text-[12px] text-mut">
-                              {t('legal.dpaInForce', { version: DPA_IN_FORCE.version, hash: DPA_IN_FORCE.sha256.slice(0, 12) })}
-                            </span>
-                          ) : null}
-                        </div>
-                        {u.missing?.length ? (
-                          <p role="alert" className="m-0 text-[12.5px] font-semibold text-dangerdeep">
-                            {t('legal.broken', { paths: u.missing.join(', ') })}
-                          </p>
-                        ) : (
-                          <LegalCheck
-                            key={u.key}
-                            unitKey={u.key}
-                            hash={u.hash}
-                            approved={state === 'approved'}
-                            label={t('legal.approvedLabel', { title: title(u), lang: t(`legal.lang.${u.lang}`) })}
-                            labels={checkLabels}
-                          />
-                        )}
+      <section className="rounded-panel border border-line bg-sf">
+        <div className="flex flex-wrap items-center gap-[10px] px-[20px] py-[16px]">
+          <Segments label={L('filter')} items={SHOW.map((s) => ({ key: s, label: L(`show.${s}`), n: count(s), href: href({ show: s }), on: s === show }))} />
+          <Segments label={L('language')} items={LANG.map((l) => ({ key: l, label: t(`legal.lang.${l}`), href: href({ lang: l }), on: l === lang }))} />
+        </div>
+        <ul className="m-0 list-none p-0">
+          {shown.map((d) => {
+            const st = stateOf(d)
+            const r = reviewed.get(d.key)
+            return (
+              <li key={d.key} className="border-t border-line px-[20px] py-[14px]">
+                <div className="flex flex-wrap items-start justify-between gap-[12px]">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-[6px]">
+                      <b className="text-[13.5px]">{titleOf(d.title)}</b>
+                      <Badge>{t(`legal.langCode.${d.lang}`)}</Badge>
+                      <Badge tone={TONE[st]}>{L(`state.${st}`)}</Badge>
+                      {!d.live ? <Badge tone="grey">{t('legal.notLive')}</Badge> : null}
+                    </div>
+                    <div className="mt-[3px] text-[12px] leading-[1.5] text-mut">
+                      {t(`legal.section.${d.section}`)} · {where(d)}
+                      {d.units.length > 1 ? ` · ${L('parts', { n: d.units.length })}` : ''}
+                    </div>
+                    {r ? (
+                      <div className="mt-[2px] text-[12px] text-mut">
+                        {L(st === 'reviewed' ? 'reviewedBy' : 'changedSince', { by: r.by ?? t('legal.someone'), date: day(r.at) })}
                       </div>
-                      <details className="mt-[8px]">
-                        <summary className="cursor-pointer text-[12.5px] font-semibold text-link">
-                          {t('legal.showText', { n: u.lines.length })}
-                        </summary>
-                        <dl className="m-0 mt-[8px] rounded-ctl border border-line bg-bg px-[14px] py-[10px]">
-                          {u.lines.map((l) => (
-                            <div key={l.path} className="py-[4px]">
-                              <dt className="break-all font-mono text-[11px] text-mut">{l.path}</dt>
-                              <dd className="m-0 whitespace-pre-wrap text-[13px] leading-[1.55]">{l.text}</dd>
-                            </div>
-                          ))}
-                        </dl>
-                      </details>
-                    </li>
-                  )
-                })}
-              </ul>
-            </Card>
-          )
-        })}
-        {shown.length === 0 ? <p className="m-0 text-[13px] text-mut">{t('legal.none')}</p> : null}
-      </div>
+                    ) : st === 'reviewed' ? (
+                      <div className="mt-[2px] text-[12px] text-mut">{L('reviewedLineByLine')}</div>
+                    ) : null}
+                    {d.key === 'msg:no:doc.dpa' ? (
+                      <div className="mt-[2px] text-[12px] text-mut">{t('legal.dpaInForce', { version: DPA_IN_FORCE.version, hash: DPA_IN_FORCE.sha256.slice(0, 12) })}</div>
+                    ) : null}
+                  </div>
+                  {st === 'broken' ? (
+                    <p role="alert" className="m-0 max-w-[40ch] text-[12.5px] font-semibold text-dangerdeep">
+                      {t('legal.broken', { paths: d.missing.join(', ') })}
+                    </p>
+                  ) : st !== 'reviewed' ? (
+                    <LegalReviewButton docKey={d.key} hash={d.hash} labels={buttonLabels} />
+                  ) : null}
+                </div>
+                <a href={`${href({ doc: d.key })}#open`} className="mt-[6px] inline-block text-[12.5px] font-semibold text-link">
+                  {st === 'changed' && r ? L('showChanges') : L('showText')}
+                </a>
+              </li>
+            )
+          })}
+        </ul>
+        {shown.length === 0 ? <p className="m-0 border-t border-line px-[20px] py-[18px] text-[13px] text-mut">{L(show === 'todo' ? 'allReviewed' : 'none')}</p> : null}
+      </section>
+      <p className="mb-0 mt-[14px] max-w-[90ch] text-[12px] leading-[1.55] text-mut md:px-[18px]">{L('note')}</p>
     </>
   )
 }
 
-/** The English survey (0079): its items and the page strings, approved at once (0082). */
-function EnglishSurvey({
-  t,
-  state,
-  problems,
-}: {
-  t: Awaited<ReturnType<typeof getTranslations<'admin'>>>
-  state: TranslationState
-  problems: Record<string, string>
-}) {
-  const hash = (respondentUi as Record<string, string>).en ?? ''
-  const approved = state.items.filter((i) => i.approved).length
-  const uiOk = state.ui.some((u) => u.hash === hash)
-  const open = state.items.length - approved
-  // every item any survey could ask has an approved row, and this build's page strings are approved:
-  // the offered rule's own two conditions (lib/i18n/offered.ts; the flag is signed off)
-  const ready = state.missing === 0 && uiOk
-  const strings = respondentLines(enMessages as Record<string, unknown>)
+/** The document as it reads now: each part under its title, each line under its path */
+function FullText({ units, titleOf, whereOf }: { units: LegalUnit[]; titleOf: (m: LegalUnit['title']) => string; whereOf: (u: LegalUnit) => string }) {
   return (
-    <Card title={t('legal.en.title')} aside={<Badge tone={ready ? 'green' : 'red'}>{ready ? t('legal.en.on') : t('legal.en.off')}</Badge>}>
-      <p className="mb-[10px] mt-0 max-w-[80ch] text-[13px] leading-[1.55] text-mut">{t('legal.en.lead')}</p>
-      <ul className="m-0 mb-[12px] list-disc pl-[18px] text-[13px] leading-[1.7]">
-        <li>{t('legal.en.items', { approved, total: state.items.length })}</li>
-        <li>{state.missing === 0 ? t('legal.en.coverOk') : t('legal.en.coverMissing', { n: state.missing })}</li>
-        <li>{uiOk ? t('legal.en.uiOk') : t('legal.en.uiOpen', { n: strings.length })}</li>
-      </ul>
-      {/* mounted either way, so the answer to an approval that leaves nothing open is still shown */}
-      <TranslationsApproveForm
-        locale="en"
-        digest={state.digest}
-        open={open > 0 || !uiOk}
-        labels={{ read: t('legal.en.read'), submit: t('legal.en.submit'), saving: t('legal.saving'), done: t('legal.en.done'), problems }}
-      />
-      <details className="mt-[12px]">
-        <summary className="cursor-pointer text-[12.5px] font-semibold text-link">{t('legal.en.showUi', { n: strings.length })}</summary>
-        <dl className="m-0 mt-[8px] rounded-ctl border border-line bg-bg px-[14px] py-[10px]">
-          {strings.map((l) => (
-            <div key={l.path} className="py-[4px]">
-              <dt className="break-all font-mono text-[11px] text-mut">{l.path}</dt>
-              <dd className="m-0 whitespace-pre-wrap text-[13px] leading-[1.55]">{l.text}</dd>
+    <div className="mt-[8px] flex flex-col gap-[10px] rounded-ctl border border-line bg-bg px-[14px] py-[12px]">
+      {units.map((u) => (
+        <div key={u.key}>
+          {units.length > 1 ? (
+            <div className="mb-[4px] text-[12.5px]">
+              <b>{titleOf(u.title)}</b> <span className="text-mut">· {whereOf(u)}</span>
             </div>
-          ))}
-        </dl>
-      </details>
-      <details className="mt-[12px]">
-        <summary className="cursor-pointer text-[12.5px] font-semibold text-link">{t('legal.en.show', { n: state.items.length })}</summary>
-        <dl className="m-0 mt-[8px] rounded-ctl border border-line bg-bg px-[14px] py-[10px]">
-          {state.items.map((i) => (
-            <div key={i.item} className="py-[4px]">
-              <dt className="break-all font-mono text-[11px] text-mut">
-                {t(i.approved ? 'legal.en.itemApproved' : 'legal.en.itemOpen', { item: i.item, source: i.source })}
-              </dt>
-              <dd className="m-0 text-[13px] leading-[1.55]">{i.text}</dd>
-            </div>
-          ))}
-        </dl>
-      </details>
-    </Card>
+          ) : null}
+          <dl className="m-0">
+            {u.lines.map((l) => (
+              <div key={l.path} className="py-[3px]">
+                <dt className="break-all font-mono text-[11px] text-mut">{l.path}</dt>
+                <dd className="m-0 whitespace-pre-wrap text-[13px] leading-[1.55] [overflow-wrap:anywhere]">{l.text}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      ))}
+    </div>
   )
 }
 
-/** The organisations offered a survey language before everyone (0085), and the form to add or remove one. */
-function LanguagePilots({
-  t,
-  pilots,
-  problems,
-}: {
-  t: Awaited<ReturnType<typeof getTranslations<'admin'>>>
-  pilots: LocalePilot[]
-  problems: Record<string, string>
-}) {
-  const nameOf = (code: string) => LOCALE_REGISTRY.find((l) => l.code === code)?.nativeName ?? code
+/** What changed since the text was reviewed: added and removed lines, two unchanged lines around each */
+function Changes({ review, doc, titleOf, labels }: { review: LegalReview; doc: LegalDoc; titleOf: (m: LegalUnit['title']) => string; labels: { gap: string; added: string; removed: string } }) {
+  const diff = lineDiff(review.text, doc.text)
+  const near = (i: number) => diff.slice(Math.max(0, i - 2), i + 3).some((x) => x.kind !== 'same')
+  const title = new Map(doc.units.map((u) => [`# ${u.key}`, titleOf(u.title)]))
+  const out: (DiffLine | null)[] = []
+  diff.forEach((x, i) => {
+    if (x.kind !== 'same' || near(i)) out.push(x)
+    else if (out[out.length - 1] !== null) out.push(null)
+  })
   return (
-    <Card title={t('legal.pilots.title')} className="mt-[16px]">
-      <p className="mb-[10px] mt-0 max-w-[80ch] text-[13px] leading-[1.55] text-mut">{t('legal.pilots.lead')}</p>
-      <div className="mb-[14px]">
-        <Table head={[t('legal.pilots.col.locale'), t('legal.pilots.col.org'), t('legal.pilots.col.since')]} empty={pilots.length ? undefined : t('legal.pilots.none')}>
-          {pilots.map((p) => (
-            <tr key={`${p.locale}:${p.org_id}`}>
-              <Td>{nameOf(p.locale)}</Td>
-              <Td wrap>
-                {p.name} <span className="font-mono text-[11.5px] text-mut">{p.org_id}</span>
-              </Td>
-              <Td>{day(p.at)}</Td>
-            </tr>
-          ))}
-        </Table>
-      </div>
-      <LocalePilotForm
-        locales={TRANSLATION_LOCALES.map((code) => ({ code, name: nameOf(code) }))}
-        labels={{
-          locale: t('legal.pilots.locale'),
-          org: t('legal.pilots.org'),
-          reason: t('legal.pilots.reason'),
-          add: t('legal.pilots.add'),
-          remove: t('legal.pilots.remove'),
-          saving: t('legal.saving'),
-          done: t('legal.done'),
-          problems: { ...problems, reason_required: t('legal.pilots.reasonRequired') },
-        }}
-      />
-    </Card>
+    <div className="mt-[8px] rounded-ctl border border-line bg-bg px-[14px] py-[10px] text-[13px] leading-[1.55]">
+      {out.map((x, i) =>
+        x === null ? (
+          <div key={i} className="py-[2px] text-[12px] text-mut">
+            {labels.gap}
+          </div>
+        ) : (
+          <div
+            key={i}
+            className={`whitespace-pre-wrap rounded-[4px] px-[6px] [overflow-wrap:anywhere] ${x.kind === 'added' ? 'bg-teal/40' : x.kind === 'removed' ? 'bg-peach/60 line-through' : ''} ${x.text.startsWith('# ') ? 'mt-[4px] font-semibold' : ''}`}
+          >
+            <span aria-hidden="true" className="mr-[6px] font-mono text-[11px] text-mut">
+              {x.kind === 'added' ? '+' : x.kind === 'removed' ? '−' : ' '}
+            </span>
+            {x.kind === 'same' ? null : <span className="sr-only">{x.kind === 'added' ? labels.added : labels.removed} </span>}
+            {title.get(x.text) ?? x.text}
+          </div>
+        ),
+      )}
+    </div>
   )
 }

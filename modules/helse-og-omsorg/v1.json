@@ -1,6 +1,5 @@
 {
   "module_id": "helse-og-omsorg",
-  "version": "1.0.1",
   "locale": "nb-NO",
   "name": "Helse og omsorg",
   "description": "Tilleggsmodul til hovedundersøkelsen for helse, omsorg og arbeid med mennesker. Åtte faktorer med tre påstander hver, pluss to spørsmål som bare rapporteres som antall.",

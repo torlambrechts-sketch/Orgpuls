@@ -2,69 +2,25 @@
 
 import { startTransition, useActionState, useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/Button'
-import { legalApproveAll, legalSet, localePilot, translationsApprove, type AdminResult } from '@/lib/admin/actions'
+import { legalReview, localePilot, translationsApprove, type AdminResult } from '@/lib/admin/actions'
 import { Outcome, useKeptAction } from './ActionForms'
 
 type Problems = Record<string, string>
 
 /**
- * One text's «Approved» box (0082, D-130). Ticking it approves the text by the hash of what is
- * on the screen; clearing it withdraws that approval. It submits on change. The admin app needs
- * script to sign in at all (the second factor), so there is no script-less path here.
+ * «Mark reviewed» on one legal document (X-096): the document as the page shows it, by its hash.
+ * A document changed since the page was opened is refused as stale, and the page reloaded shows it.
  */
-export function LegalCheck({
-  unitKey,
-  hash,
-  approved,
-  label,
-  labels,
-}: {
-  unitKey: string
-  hash: string
-  /** approved, and for this very text */
-  approved: boolean
-  /** names the text, for a screen reader: "Approved: <title>" */
-  label: string
-  labels: { approved: string; saving: string; done: string; problems: Problems }
-}) {
-  const [checked, setChecked] = useState(approved)
-  const [state, action, pending] = useActionState<AdminResult | null, FormData>(legalSet, null)
-  // the box follows the database: after a save the page is revalidated and `approved` is the answer;
-  // a refusal puts it back as it was
-  useEffect(() => setChecked(approved), [approved])
-  useEffect(() => {
-    if (state && !state.ok) setChecked(approved)
-  }, [state, approved])
-
+export function LegalReviewButton({ docKey, hash, labels }: { docKey: string; hash: string; labels: { submit: string; saving: string; done: string; problems: Problems } }) {
+  const [state, action, pending] = useActionState<AdminResult | null, FormData>(legalReview, null)
   return (
-    <form action={action} className="flex flex-none flex-col items-end gap-[4px]">
-      <input type="hidden" name="key" value={unitKey} />
+    <form action={action} className="flex flex-none flex-wrap items-center justify-end gap-[8px]">
+      <input type="hidden" name="key" value={docKey} />
       <input type="hidden" name="hash" value={hash} />
-      <label className="inline-flex cursor-pointer items-center gap-[8px] rounded-ctl border border-line bg-bg px-[11px] py-[7px] text-[13px] font-semibold">
-        <input
-          type="checkbox"
-          name="approved"
-          value="true"
-          checked={checked}
-          // not disabled while saving: a disabled box loses the keyboard's focus
-          aria-disabled={pending}
-          aria-label={label}
-          onChange={(e) => {
-            if (pending) return
-            const next = e.target.checked
-            setChecked(next)
-            // the new value is sent as it is, not read back from the form after a render
-            const fd = new FormData()
-            fd.set('key', unitKey)
-            fd.set('hash', hash)
-            fd.set('approved', String(next))
-            startTransition(() => action(fd))
-          }}
-          className="h-[16px] w-[16px] cursor-pointer accent-ink"
-        />
-        {pending ? labels.saving : labels.approved}
-      </label>
       <Outcome state={state} problems={labels.problems} done={labels.done} />
+      <Button type="submit" size="sm" disabled={pending}>
+        {pending ? labels.saving : labels.submit}
+      </Button>
     </form>
   )
 }
@@ -208,30 +164,6 @@ export function LocalePilotForm({
         </Button>
         <Outcome state={state} problems={labels.problems} done={labels.done} />
       </span>
-    </form>
-  )
-}
-
-/**
- * «Approve all» for one section of the legal review: the texts it lists that are open or changed,
- * each by the hash shown. Nothing to approve, nothing shown but the last answer.
- */
-export function LegalApproveAll({
-  units,
-  labels,
-}: {
-  units: readonly { key: string; hash: string }[]
-  labels: { submit: string; saving: string; done: string; problems: Problems }
-}) {
-  const [state, action, pending] = useActionState<AdminResult | null, FormData>(legalApproveAll, null)
-  if (!units.length) return state?.ok ? <Outcome state={state} problems={labels.problems} done={labels.done} /> : null
-  return (
-    <form action={action} className="flex flex-wrap items-center justify-end gap-[8px]">
-      <input type="hidden" name="units" value={JSON.stringify(units)} />
-      <Outcome state={state} problems={labels.problems} done={labels.done} />
-      <Button type="submit" size="sm" disabled={pending}>
-        {pending ? labels.saving : labels.submit}
-      </Button>
     </form>
   )
 }

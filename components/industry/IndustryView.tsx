@@ -37,7 +37,7 @@ export async function IndustryView({
 }) {
   const t = await getTranslations('industry')
   const ts = await getTranslations()
-  const mod = page.module ? moduleFile(page.module.key, page.module.version, lang) : null
+  const mod = page.module ? moduleFile(page.module.key, lang) : null
   // a module in variants: the page's variant's factors (0089, D-137)
   const shown = mod ? pageFactors(mod, page.module?.defaultVariant) : []
   const itemOf = (code: string) => {

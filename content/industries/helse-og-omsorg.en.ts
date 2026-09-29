@@ -9,7 +9,7 @@ export const helseOgOmsorgEn: IndustryPage = {
   slug: 'helse-og-omsorg',
   navLabel: 'Health and care',
   launched: true,
-  module: { key: 'helse-og-omsorg', version: '1.0.1' },
+  module: { key: 'helse-og-omsorg' },
   moduleName: { title: 'The health and care module', inline: 'the health and care module' },
   seo: {
     title: 'Work environment survey for health and care | Orgpuls',

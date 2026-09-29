@@ -15,8 +15,8 @@ const CITE = /\{\{cite:([a-z0-9_]+)\}\}/g
 
 export function problemsOf(page: IndustryPage, lang: PageLang = 'no'): string[] {
   const out: string[] = []
-  const mod = page.module ? moduleFile(page.module.key, page.module.version, lang) : null
-  if (lang === 'en' && page.module && !moduleFile(page.module.key, page.module.version).translations?.en) {
+  const mod = page.module ? moduleFile(page.module.key, lang) : null
+  if (lang === 'en' && page.module && !moduleFile(page.module.key).translations?.en) {
     out.push('an English page on a module without an English translation')
   }
   const codes = new Set(mod?.factors.flatMap((f) => f.items.map((i) => i.id)) ?? [])
@@ -52,7 +52,6 @@ export function problemsOf(page: IndustryPage, lang: PageLang = 'no'): string[] 
     if (!f) out.push(`loop: no factor ${page.loop.example.factorKey}`)
     else if (!f.action_suggestions.some((a) => a.type === page.loop?.example.actionType)) out.push('loop: no such suggestion')
   }
-  if (mod && page.module && mod.version !== page.module.version) out.push('module version differs from the file')
   const until = page.card?.newUntil
   if (until !== undefined && (!/^\d{4}-\d{2}-\d{2}$/.test(until) || Number.isNaN(Date.parse(until)))) {
     out.push(`card: «Ny» until "${until}" is not an ISO date`)
@@ -64,7 +63,7 @@ export function problemsOf(page: IndustryPage, lang: PageLang = 'no'): string[] 
 export function twinProblems(no: IndustryPage, en: IndustryPage): string[] {
   const out: string[] = []
   if (no.slug !== en.slug) out.push('English page has another slug')
-  if (JSON.stringify(no.module) !== JSON.stringify(en.module)) out.push('English page is on another module version')
+  if (JSON.stringify(no.module) !== JSON.stringify(en.module)) out.push('English page is on another module')
   const measured = (p: IndustryPage) => JSON.stringify(p.challenges.map((c) => c.measuredBy))
   if (measured(no) !== measured(en)) out.push('English page quotes other statements')
   if (JSON.stringify(no.hero.preview?.rows) !== JSON.stringify(en.hero.preview?.rows)) out.push('English preview has other figures')

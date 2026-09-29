@@ -1,52 +1,81 @@
 'use client'
 
-import { useState } from 'react'
+import { useActionState, useState } from 'react'
 import { Button } from '@/components/ui/Button'
-import { modulePilot, moduleSetStatus, moduleSetValidation } from '@/lib/admin/actions'
+import { modulePilot, moduleSetValidation, moduleSwitch, moduleSync, type AdminResult } from '@/lib/admin/actions'
 import { Outcome, useKeptAction } from './ActionForms'
 
 const field = 'box-border w-full rounded-ctl border border-line bg-bg px-[12px] text-[13.5px] text-ink outline-none'
 const label = 'mb-[5px] block text-[12px] font-semibold'
 
-type Labels = { reason: string; saving: string; done: string; problems: Record<string, string> }
+type Labels = { saving: string; done: string; problems: Record<string, string> }
 
-/** Publish a draft, or retire a published version (0067): a reason, audited. It cannot be undone. */
-export function ModuleStatusForm({
+/**
+ * «Make live» (X-096): the module file as deployed becomes what the survey asks. The answer says
+ * what happened — the version it became, the planned rounds moved and the translations carried.
+ */
+export function ModuleSyncButton({
+  moduleKey,
+  labels,
+}: {
+  moduleKey: string
+  labels: Labels & { submit: string; result: (r: { result: string; version: string; rounds: number; translations: number }) => string }
+}) {
+  const [state, action, pending] = useActionState<AdminResult | null, FormData>(moduleSync, null)
+  let said: string | null = null
+  if (state?.ok && state.message) {
+    try {
+      said = labels.result(JSON.parse(state.message))
+    } catch {
+      said = labels.done
+    }
+  }
+  return (
+    <form action={action} className="flex flex-wrap items-center gap-[10px]">
+      <input type="hidden" name="key" value={moduleKey} />
+      <Button type="submit" size="sm" disabled={pending}>
+        {pending ? labels.saving : labels.submit}
+      </Button>
+      {said ? (
+        <span role="status" className="text-[12.5px] font-semibold text-link">
+          {said}
+        </span>
+      ) : (
+        <Outcome state={state} problems={labels.problems} done={labels.done} />
+      )}
+    </form>
+  )
+}
+
+/** Offer a module to every organisation (publish its draft), or stop offering it (retire the live version) */
+export function ModuleSwitchButton({
   moduleKey,
   version,
-  status,
+  on,
   labels,
 }: {
   moduleKey: string
   version: string
-  status: 'published' | 'retired'
-  labels: Labels & { submit: string; warning: string }
+  on: boolean
+  labels: Labels & { submit: string }
 }) {
-  const [reason, setReason] = useState('')
-  const [state, action, pending] = useKeptAction(moduleSetStatus, () => setReason(''))
+  const [state, action, pending] = useActionState<AdminResult | null, FormData>(moduleSwitch, null)
   return (
-    <form action={action} className="flex flex-col gap-[8px]">
+    <form action={action} className="flex flex-wrap items-center gap-[10px]">
       <input type="hidden" name="key" value={moduleKey} />
       <input type="hidden" name="version" value={version} />
-      <input type="hidden" name="status" value={status} />
-      <p className="m-0 text-[12px] leading-[1.5] text-mut">{labels.warning}</p>
-      <label className="block">
-        <span className={label}>{labels.reason}</span>
-        <input name="reason" required minLength={5} maxLength={500} value={reason} onChange={(e) => setReason(e.target.value)} className={`${field} h-[38px]`} />
-      </label>
-      <span className="flex flex-wrap items-center gap-[10px]">
-        <Button type="submit" size="sm" tone={status === 'retired' ? 'secondary' : undefined} disabled={pending}>
-          {pending ? labels.saving : labels.submit}
-        </Button>
-        <Outcome state={state} problems={labels.problems} done={labels.done} />
-      </span>
+      <input type="hidden" name="on" value={on ? 'on' : 'off'} />
+      <Button type="submit" size="sm" tone={on ? undefined : 'secondary'} disabled={pending}>
+        {pending ? labels.saving : labels.submit}
+      </Button>
+      <Outcome state={state} problems={labels.problems} done={labels.done} />
     </form>
   )
 }
 
 /**
- * Mark a version «Validert», with the report's link, or take it back to «Foreløpig» (0092): a
- * reason either way, audited. Only the status moves; the module's content stays frozen.
+ * «Validert» with the report's link, or back to «Foreløpig» (0092). Only the status moves; the
+ * module's content stays as it is. The audit log keeps who and when.
  */
 export function ModuleValidationForm({
   moduleKey,
@@ -57,50 +86,30 @@ export function ModuleValidationForm({
   moduleKey: string
   version: string
   to: 'validated' | 'provisional'
-  labels: Labels & { report: string; submit: string; note: string }
+  labels: Labels & { report: string; submit: string }
 }) {
-  const [reason, setReason] = useState('')
   const [report, setReport] = useState('')
-  const [state, action, pending] = useKeptAction(moduleSetValidation, () => {
-    setReason('')
-    setReport('')
-  })
+  const [state, action, pending] = useKeptAction(moduleSetValidation, () => setReport(''))
   return (
-    <form action={action} className="flex flex-col gap-[8px]">
+    <form action={action} className="flex flex-wrap items-end gap-[10px]">
       <input type="hidden" name="key" value={moduleKey} />
       <input type="hidden" name="version" value={version} />
       <input type="hidden" name="status" value={to} />
-      <p className="m-0 text-[12px] leading-[1.5] text-mut">{labels.note}</p>
       {to === 'validated' ? (
-        <label className="block">
+        <label className="block min-w-[240px] flex-1">
           <span className={label}>{labels.report}</span>
-          <input
-            name="report"
-            type="url"
-            required
-            pattern="https://.+"
-            maxLength={500}
-            value={report}
-            onChange={(e) => setReport(e.target.value)}
-            className={`${field} h-[38px]`}
-          />
+          <input name="report" type="url" required pattern="https://.+" maxLength={500} value={report} onChange={(e) => setReport(e.target.value)} className={`${field} h-[38px]`} />
         </label>
       ) : null}
-      <label className="block">
-        <span className={label}>{labels.reason}</span>
-        <input name="reason" required minLength={5} maxLength={500} value={reason} onChange={(e) => setReason(e.target.value)} className={`${field} h-[38px]`} />
-      </label>
-      <span className="flex flex-wrap items-center gap-[10px]">
-        <Button type="submit" size="sm" tone={to === 'provisional' ? 'secondary' : undefined} disabled={pending}>
-          {pending ? labels.saving : labels.submit}
-        </Button>
-        <Outcome state={state} problems={labels.problems} done={labels.done} />
-      </span>
+      <Button type="submit" size="sm" tone={to === 'provisional' ? 'secondary' : undefined} disabled={pending}>
+        {pending ? labels.saving : labels.submit}
+      </Button>
+      <Outcome state={state} problems={labels.problems} done={labels.done} />
     </form>
   )
 }
 
-/** Add or remove a pilot organisation for a draft (0068), by its id. */
+/** Let one organisation try a module before everyone (0068), by the organisation's id */
 export function ModulePilotForm({
   moduleKey,
   version,
@@ -110,32 +119,23 @@ export function ModulePilotForm({
   version: string
   labels: Labels & { org: string; add: string; remove: string }
 }) {
-  const [reason, setReason] = useState('')
   const [org, setOrg] = useState('')
-  const [state, action, pending] = useKeptAction(modulePilot, () => setReason(''))
+  const [state, action, pending] = useKeptAction(modulePilot, () => setOrg(''))
   return (
-    <form action={action} className="flex flex-col gap-[8px]">
+    <form action={action} className="flex flex-wrap items-end gap-[10px]">
       <input type="hidden" name="key" value={moduleKey} />
       <input type="hidden" name="version" value={version} />
-      <div className="grid gap-[10px] [grid-template-columns:minmax(0,1fr)] sm:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
-        <label className="block">
-          <span className={label}>{labels.org}</span>
-          <input name="org" required value={org} onChange={(e) => setOrg(e.target.value)} className={`${field} h-[38px] font-mono text-[12.5px]`} />
-        </label>
-        <label className="block">
-          <span className={label}>{labels.reason}</span>
-          <input name="reason" required minLength={5} maxLength={500} value={reason} onChange={(e) => setReason(e.target.value)} className={`${field} h-[38px]`} />
-        </label>
-      </div>
-      <span className="flex flex-wrap items-center gap-[10px]">
-        <Button type="submit" name="on" value="on" size="sm" disabled={pending}>
-          {labels.add}
-        </Button>
-        <Button type="submit" name="on" value="off" size="sm" tone="secondary" disabled={pending}>
-          {labels.remove}
-        </Button>
-        <Outcome state={state} problems={labels.problems} done={labels.done} />
-      </span>
+      <label className="block min-w-[240px] flex-1">
+        <span className={label}>{labels.org}</span>
+        <input name="org" required value={org} onChange={(e) => setOrg(e.target.value)} className={`${field} h-[38px] font-mono text-[12.5px]`} />
+      </label>
+      <Button type="submit" name="on" value="on" size="sm" disabled={pending}>
+        {labels.add}
+      </Button>
+      <Button type="submit" name="on" value="off" size="sm" tone="secondary" disabled={pending}>
+        {labels.remove}
+      </Button>
+      <Outcome state={state} problems={labels.problems} done={labels.done} />
     </form>
   )
 }

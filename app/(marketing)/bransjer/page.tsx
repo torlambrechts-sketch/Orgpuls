@@ -52,7 +52,7 @@ export default async function BransjerPage() {
         <div className="grid gap-[13px] [grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))]">
           {cards.map((c, i) => {
             const page = pageIn(getIndustry(c.slug), lang) ?? pageIn(getIndustry(c.slug), 'no')
-            const mod = page?.module ? moduleFile(page.module.key, page.module.version, lang) : null
+            const mod = page?.module ? moduleFile(page.module.key, lang) : null
             return (
               <Link
                 key={c.slug}

@@ -31,7 +31,7 @@ describe('industry pages', () => {
     expect(problemsOf(broken).some((x) => x.includes('integritet.s9'))).toBe(true)
   })
   it('quotes the module file verbatim', () => {
-    const m = moduleFile('bygg-og-anlegg', '1.0.0')
+    const m = moduleFile('bygg-og-anlegg')
     const codes = new Map(m.factors.flatMap((f) => f.items.map((i) => [i.id, i.text] as const)))
     for (const c of byggOgAnlegg.challenges) {
       if (c.measuredBy.kind === 'module') expect(codes.get(c.measuredBy.itemCode)).toBeTruthy()
@@ -47,8 +47,8 @@ describe('industry pages', () => {
 
   it('the English page quotes the English survey, and is launched (D-120, X-078)', () => {
     expect(problemsOf(byggOgAnleggEn, 'en')).toEqual([])
-    const en = moduleFile('bygg-og-anlegg', '1.0.0', 'en')
-    const no = moduleFile('bygg-og-anlegg', '1.0.0')
+    const en = moduleFile('bygg-og-anlegg', 'en')
+    const no = moduleFile('bygg-og-anlegg')
     expect(en.factors.map((f) => f.id)).toEqual(no.factors.map((f) => f.id))
     expect(en.factors[0]!.items.map((i) => i.text)).not.toEqual(no.factors[0]!.items.map((i) => i.text))
     expect(en.scale.labels).toHaveLength(5)
@@ -75,13 +75,13 @@ describe('industry pages', () => {
   })
 
   it('the health module names the core instrument word for word (D-122)', () => {
-    const m = moduleFile('helse-og-omsorg', '1.0.1')
+    const m = moduleFile('helse-og-omsorg')
     const factor = (no as unknown as { factor: Record<string, Record<string, string>> }).factor
     const labels = new Set(Object.values(factor).map((f) => f.label))
     const statements = new Set(Object.values(factor).flatMap((f) => ['s1', 's2', 's3'].map((s) => f[s])))
     for (const n of m.relation_to_core?.covered_by_core_factors ?? []) expect(labels.has(n), n).toBe(true)
     for (const s of m.relation_to_core?.core_statements_not_repeated ?? []) expect(statements.has(s), s).toBe(true)
-    const b = moduleFile('bygg-og-anlegg', '1.0.0')
+    const b = moduleFile('bygg-og-anlegg')
     for (const n of b.relation_to_core?.covered_by_core_factors ?? []) expect(labels.has(n), n).toBe(true)
   })
   it('the health page is valid, launched with every law item reviewed (X-065), and its core challenge names statements that exist', () => {

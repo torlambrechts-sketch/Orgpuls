@@ -193,7 +193,8 @@ const Source = z.object({ key: z.string().regex(/^[a-z][a-z0-9_]*$/), title: Tex
 export const ModuleFile = z
   .object({
     module_id: Kebab,
-    version: Semver,
+    /** the database numbers a module's versions (X-096); a file may still carry the first one */
+    version: Semver.optional(),
     locale: z.literal('nb-NO'),
     name: Text,
     /** not yet tested on a large sample: the risk bands are provisional (shown as «Foreløpig») */
@@ -451,6 +452,16 @@ export function canonicalJson(value: unknown): string {
 }
 
 export const contentHash = (m: ModuleFile) => createHash('sha256').update(canonicalJson(m)).digest('hex')
+
+/**
+ * What a module says, without the two things the database keeps for it (X-096): the version it
+ * numbers itself and the validation status set in admin. Two files with the same body are the same
+ * module; a different body is the next version.
+ */
+export function bodyHash(m: ModuleFile): string {
+  const { version: _v, validation_status: _s, ...body } = m
+  return createHash('sha256').update(canonicalJson(body)).digest('hex')
+}
 
 /** The code a module's segment question is stored under: `BA-S-arbeidssted`. */
 export const segmentCode = (m: ModuleFile, segmentId: string) => `${modulePrefix(m)}-S-${segmentId}`

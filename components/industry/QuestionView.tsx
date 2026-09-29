@@ -28,7 +28,7 @@ export async function QuestionView({
   const t = await getTranslations('industry')
   const ts = await getTranslations()
   const q = page.questionPage
-  const mod = moduleFile(page.module.key, page.module.version, lang)
+  const mod = moduleFile(page.module.key, lang)
   const moduleTitle = page.moduleName?.title ?? mod.name
 
   // a factor's rationale cites its sources in order; number them in reading order down the page
@@ -157,7 +157,7 @@ export async function QuestionView({
         </nav>
         <span className="mt-[16px] inline-flex items-center gap-[8px] rounded-pill bg-sbg px-[13px] py-[6px] text-[12.5px] font-bold">
           <span aria-hidden="true" className="block h-[7px] w-[7px] rounded-pill bg-link" />
-          {t('versionPill', { module: moduleTitle, version: mod.version })}
+          {t('versionPill', { module: moduleTitle })}
         </span>
         {mod.validation_status === 'provisional' ? <span className="ml-[8px] inline-block align-middle">{chip(t('variant.provisional'))}</span> : null}
         <h1 className="mb-0 mt-[16px] max-w-[22ch] font-display text-[clamp(30px,5vw,50px)] font-semibold leading-[1.08] tracking-[-0.01em] [hyphens:auto] [overflow-wrap:break-word] [text-wrap:balance]">

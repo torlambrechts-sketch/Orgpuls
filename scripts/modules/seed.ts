@@ -1,16 +1,15 @@
 /**
  * npm run -s modules:seed [path…] > seed.sql — the registry rows for one or more module files.
  *
- * Validates each file with the module schema, hashes its canonical JSON, and prints one call
- * of app.module_seed(file, hash) per file, for psql (as the design fixture is applied). The
- * function decides what happens: a new version is written as a draft, the same content is
- * a no-op, a changed draft is replaced, and a published version with changed content is
- * refused — so running this twice, or on every deploy, is safe.
+ * Validates each file with the module schema and prints one call of app.module_sync(file, body
+ * hash) per file, for psql (as the design fixture is applied). The function decides what happens
+ * (0122, X-096): a module it has not seen becomes a draft, the same body is a no-op, a changed draft
+ * is replaced, and a changed live module becomes its next version — so running this twice, or on
+ * every deploy, is safe. On the hosted project the same happens from admin › Industry modules.
  *
- * Without arguments it seeds every file under modules/. Publishing is a separate, deliberate
- * step (modules:publish).
+ * Without arguments it seeds every file under modules/.
  */
-import { canonicalJson, contentHash, parseModule } from '../../lib/modules/schema'
+import { bodyHash, canonicalJson, parseModule } from '../../lib/modules/schema'
 import { moduleFiles, readJson } from './files'
 
 const paths = process.argv.slice(2).length ? process.argv.slice(2) : moduleFiles()
@@ -19,6 +18,6 @@ for (const path of paths) {
   const m = parseModule(readJson(path), path)
   const json = canonicalJson(m)
   if (json.includes('$module$')) throw new Error(`${path}: contains the quoting tag $module$`)
-  out.push(`select '${m.module_id}@${m.version}' as module, app.module_seed($module$${json}$module$::jsonb, '${contentHash(m)}') as result;`)
+  out.push(`select '${m.module_id}' as module, app.module_sync($module$${json}$module$::jsonb, '${bodyHash(m)}') as result;`)
 }
 console.log(out.join('\n'))

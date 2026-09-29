@@ -4,7 +4,8 @@ import { createHash } from 'node:crypto'
 import { getTranslations } from 'next-intl/server'
 import { AutoApproveForm, MessageEditForm, MessagesApproveForm, TranslationApproveForm, TranslationImportForm } from '@/components/admin/TranslationForms'
 import { Badge, Card, PageHead, Problem, Stat } from '@/components/admin/ui'
-import { whoami } from '@/lib/admin/api'
+import { localePilots, translationState, whoami } from '@/lib/admin/api'
+import { EnglishSurvey, LanguagePilots } from '@/components/admin/LanguageApproval'
 import { autoRecord } from '@/lib/admin/auto'
 import {
   ADMIN_LANGUAGES,
@@ -63,6 +64,11 @@ export default async function AdminTranslations(props: Props) {
   // while the switch is on, what this build shows is approved as it is opened (0101)
   const auto = await autoApprove()
   if (!isError(auto) && auto.on) await autoRecord()
+
+  const [en, pilots] = await Promise.all([translationState('en'), localePilots()])
+  const offerProblems = Object.fromEntries(
+    ['not_allowed', 'invalid', 'not_found', 'stale', 'confirm_required', 'failed'].map((k) => [k, t(`legal.problem.${k}`)]),
+  )
 
   const href = (next: Record<string, string | undefined>) => {
     const q = new URLSearchParams()
@@ -125,6 +131,12 @@ export default async function AdminTranslations(props: Props) {
       </nav>
 
       {body}
+
+      {/* which languages a survey is offered in: moved here from the legal review (X-096) */}
+      <div className="mt-[18px] flex flex-col gap-[16px]">
+        {isError(en) ? null : <EnglishSurvey t={t} state={en} problems={offerProblems} />}
+        {isError(pilots) ? null : <LanguagePilots t={t} pilots={pilots.pilots} problems={offerProblems} />}
+      </div>
     </>
   )
 }

@@ -11,7 +11,7 @@ export const byggOgAnleggEn: IndustryPage = {
   slug: 'bygg-og-anlegg',
   navLabel: 'Construction',
   launched: true,
-  module: { key: 'bygg-og-anlegg', version: '1.0.0' },
+  module: { key: 'bygg-og-anlegg' },
   moduleName: { title: 'The construction module', inline: 'the construction module' },
   seo: {
     title: 'Work environment survey for construction | Orgpuls',

@@ -16,7 +16,7 @@ export const barnehageOgSkole: IndustryPage = {
   slug: 'barnehage-og-skole',
   navLabel: 'Barnehage og skole',
   launched: true,
-  module: { key: 'barnehage-og-skole', version: '1.0.0' },
+  module: { key: 'barnehage-og-skole' },
   moduleName: { title: 'Barnehage- og skolemodulen', inline: 'barnehage- og skolemodulen' },
   seo: {
     title: 'Arbeidsmiljøundersøkelse for barnehage og skole | Orgpuls',

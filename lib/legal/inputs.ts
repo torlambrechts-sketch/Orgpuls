@@ -20,8 +20,8 @@ export async function legalInputs(): Promise<LegalInputs & { failed: string[] }>
   if (!factors.length) failed.push('factors')
   return {
     factors: factors.length ? factors : null,
-    // a module's texts are live when that version is published in the database
-    publishedModules: new Set(isError(mods) ? [] : mods.modules.filter((m) => m.status === 'published').map((m) => `${m.key}@${m.version}`)),
+    // a module's texts are live when a version of it is published in the database
+    publishedModules: new Set(isError(mods) ? [] : mods.modules.filter((m) => m.status === 'published').map((m) => m.key)),
     crmTemplates: isError(db) ? null : db.templates,
     crmLists: isError(db) ? null : db.lists,
     // an overridden legal text is reviewed as it is shown (0101)

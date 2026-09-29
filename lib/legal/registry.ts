@@ -5,7 +5,7 @@ import { join } from 'node:path'
 import en from '@/messages/en.json'
 import no from '@/messages/no.json'
 import { INDUSTRIES, pageIn } from '@/content/industries'
-import { MODULE_VERSIONS, moduleFile, moduleSource } from '@/content/industries/modules'
+import { MODULE_KEYS, moduleFile, moduleSource } from '@/content/industries/modules'
 import type { IndustryPage } from '@/content/industries/types'
 import { LOCALES, type Locale } from '@/lib/i18n/locales'
 import { ARTICLES } from '@/lib/marketing/site'
@@ -413,27 +413,26 @@ function industryUnits(): LegalUnit[] {
 // ---------------------------------------------------------------- module files
 
 function moduleUnits(published: ReadonlySet<string>): LegalUnit[] {
-  return MODULE_VERSIONS.flatMap((kv) => {
-    const [key, version] = kv.split('@') as [string, string]
+  return MODULE_KEYS.flatMap((key) => {
     return LANGS.flatMap((lang) => {
-      const m = moduleFile(key, version, lang)
+      const m = moduleFile(key, lang)
       // a module without an English translation reads Norwegian in English: nothing to review twice
-      if (lang === 'en' && !moduleFile(key, version).translations?.en) return []
-      // the version its launched page quotes (a successor still in draft is on no page yet)
-      const onPage = (i: (typeof INDUSTRIES)[number]) => pageIn(i, lang)?.module?.key === key && pageIn(i, lang)?.module?.version === version
+      if (lang === 'en' && !moduleFile(key).translations?.en) return []
+      const onPage = (i: (typeof INDUSTRIES)[number]) => pageIn(i, lang)?.module?.key === key
       const live = INDUSTRIES.some((i) => onPage(i) && pageIn(i, lang)?.launched)
       const factors = m.factors.map((f) =>
         unit({
-          key: `module:${kv}:${lang}:${f.id}`,
+          // keyed by the module, not its version (X-096): a new version keeps the review of what it did not change
+          key: `module:${key}:${lang}:${f.id}`,
           section: 'modules',
           title: { key: 'module.factor', values: { module: m.name, factor: f.name } },
           lang,
-          source: `${moduleSource(key, version)} › factors[${f.id}]${lang === 'en' ? ' (translations.en)' : ''}`,
+          source: `${moduleSource(key)} › factors[${f.id}]${lang === 'en' ? ' (translations.en)' : ''}`,
           where: live
             ? { key: 'moduleOnSite', values: { path: `/${INDUSTRIES.find(onPage)?.slug}/sporsmal` } }
             : place('moduleInReport'),
           // published in the database is what reaches a customer's survey and report
-          live: published.has(kv),
+          live: published.has(key),
           lines: [
             ...f.legal_basis.map((b, i) => ({ path: `legal_basis[${i}]`, text: b })),
             { path: 'rationale', text: f.rationale },
@@ -445,13 +444,13 @@ function moduleUnits(published: ReadonlySet<string>): LegalUnit[] {
       return [
         ...factors,
         unit({
-          key: `module:${kv}:no:sources`,
+          key: `module:${key}:no:sources`,
           section: 'modules',
           title: { key: 'module.sources', values: { module: m.name } },
           lang: 'no',
-          source: `${moduleSource(key, version)} › sources`,
+          source: `${moduleSource(key)} › sources`,
           where: place('moduleSources'),
-          live: published.has(kv),
+          live: published.has(key),
           lines: m.sources.map((x) => ({ path: `sources.${x.key}`, text: `${x.title}\n${x.url}` })),
         }),
       ]
@@ -554,7 +553,7 @@ function crmUnits(templates: CrmTemplate[] | null, lists: CrmList[] | null): Leg
 export type LegalInputs = {
   /** null when the read failed: the instrument's unit is then absent, and the page says so */
   factors: { key: string; lawRef: string }[] | null
-  /** module versions published in the database, as `key@version`: whether a module's texts are live */
+  /** modules with a version published in the database, by key: whether a module's texts are live */
   publishedModules?: ReadonlySet<string>
   /** null when the read failed: those units are then absent, and the page says so */
   crmTemplates?: CrmTemplate[] | null

@@ -76,10 +76,11 @@ describe('the English approval shows what it approves', () => {
     expect(none.missing?.length).toBeGreaterThan(0)
   })
 
-  it('marks a module live only when that version is published', () => {
-    expect(units.find((u) => u.key.startsWith('module:helse-og-omsorg@1.0.1:no:'))?.live).toBe(false)
-    const withDb = legalUnits({ factors, publishedModules: new Set(['helse-og-omsorg@1.0.1']) })
-    expect(withDb.find((u) => u.key.startsWith('module:helse-og-omsorg@1.0.1:no:'))?.live).toBe(true)
+  it('marks a module live only when a version of it is published, and keys it by the module, not the version', () => {
+    expect(units.find((u) => u.key.startsWith('module:helse-og-omsorg:no:'))?.live).toBe(false)
+    const withDb = legalUnits({ factors, publishedModules: new Set(['helse-og-omsorg']) })
+    expect(withDb.find((u) => u.key.startsWith('module:helse-og-omsorg:no:'))?.live).toBe(true)
+    expect(units.some((u) => /^module:[^:]+@/.test(u.key))).toBe(false)
   })
 })
 

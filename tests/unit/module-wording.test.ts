@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { industryForNace } from '@/content/industries/meta'
-import { ModuleFile, contentHash, inWording, parseModule } from '@/lib/modules/schema'
+import { ModuleFile, bodyHash, canonicalJson, inWording, parseModule } from '@/lib/modules/schema'
 import { pickWording } from '@/lib/modules/wording'
 
 /**
@@ -121,18 +121,25 @@ describe('picking a wording', () => {
 })
 
 describe('the published modules', () => {
-  it('hash as they did when published, whatever the schema learned since', () => {
-    // hosted app.question_modules.content_hash, 2026-09-27; module_seed refuses a published version whose hash moved
-    expect(contentHash(parseModule(raw('bygg-og-anlegg')))).toBe('fd6d9da1aa3bc80418529b7ea99d839a47939e8a647b6a4c877e435534059a74')
-    expect(contentHash(parseModule(raw('barnehage-og-skole')))).toBe('7c3bfaf54c38ba8b14a035015b6963997388ed4c67fbc368d290161eafbfa815')
-    // 1.0.0, retired, is kept under archive/ for this pin (content/industries/modules.ts)
-    expect(contentHash(parseModule(raw('helse-og-omsorg', 'archive/v1.0.0.json')))).toBe('65bd7f1be7464ab233b9b3c81c775deb90d62248f210773d7fb0dcfab8af99b6')
+  it('have the bodies the database was given for them (0122 body_hash), whatever the schema learned since', () => {
+    // a file whose body moves is a new version at the next «Make live» (X-096); these pin what is live
+    // on hosted today, so a schema change that re-shapes a parsed file is caught here and not as a version
+    expect(bodyHash(parseModule(raw('bygg-og-anlegg')))).toBe('2f949f179f49936909807d56cc4e35f0f119dd06d58c42bf9002bd5a6ed1c862')
+    expect(bodyHash(parseModule(raw('barnehage-og-skole')))).toBe('6d7f6d5f0448c7e9f85e583e5e3bf4489bfabc8e312526c81e20279444c5075b')
+    expect(bodyHash(parseModule(raw('helse-og-omsorg')))).toBe('6249fbf6b079bcda168eba5961fc17cf19374d6321451d1f378594719d4ede73')
+    expect(bodyHash(parseModule(raw('kunnskap-og-kontor')))).toBe('46a7c4b34c1fdcd270f10ac94b3fcc08ab5516dce3588ab474d6a8020b7c4c93')
+    expect(bodyHash(parseModule(raw('handel')))).toBe('5498dbfeddc36b2597dd9726d9a8793073ac7fe1143b0f11ce7deec3bd805105')
+  })
+
+  it('a version number or a validation status is not a change of body', () => {
+    const m = parseModule(raw('handel'))
+    expect(bodyHash({ ...m, version: '9.9.9', validation_status: 'validated' })).toBe(bodyHash(m))
+    expect(bodyHash({ ...m, name: `${m.name}!` })).not.toBe(bodyHash(m))
   })
 
   it('helse og omsorg 1.0.1 changes the legal basis and nothing a respondent is asked', () => {
     const was = parseModule(raw('helse-og-omsorg', 'archive/v1.0.0.json'))
     const now = parseModule(raw('helse-og-omsorg'))
-    expect(now.version).toBe('1.0.1')
     const law = (m: typeof now) => m.factors.flatMap((f) => f.legal_basis).join('\n')
     const lawEn = (m: typeof now) => Object.values(m.translations?.en?.factors ?? {}).flatMap((f) => f.legal_basis).join('\n')
     // the repealed chapter and the noise chapter under ergonomics are gone, in both languages
@@ -143,8 +150,9 @@ describe('the published modules', () => {
     expect(lawEn(now)).not.toMatch(/23A|chapter 14/)
     expect(lawEn(now)).toMatch(/chapter 3A/)
     // with the legal basis set aside, the two versions are the same file
+    // canonical: key order carries no meaning (the file no longer carries a version, the archive does)
     const strip = (m: typeof now) =>
-      JSON.stringify({
+      canonicalJson({
         ...m,
         version: '',
         factors: m.factors.map((f) => ({ ...f, legal_basis: [] })),

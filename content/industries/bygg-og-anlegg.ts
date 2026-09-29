@@ -10,7 +10,7 @@ export const byggOgAnlegg: IndustryPage = {
   slug: 'bygg-og-anlegg',
   navLabel: 'Bygg og anlegg',
   launched: true,
-  module: { key: 'bygg-og-anlegg', version: '1.0.0' },
+  module: { key: 'bygg-og-anlegg' },
   moduleName: { title: 'Bygg-modulen', inline: 'bygg-modulen' },
   seo: {
     title: 'Arbeidsmiljøundersøkelse for bygg og anlegg | Orgpuls',

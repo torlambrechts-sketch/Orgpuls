@@ -2791,6 +2791,53 @@ class, that no agent or address is kept, the per-page arithmetic, the funnel wit
 retention limits and who may ask. The old Web page's detail is kept as Sources & visits behind
 «More»; «Export report» is a CSV of the same figures.
 
+### X-096 — Modules and legal texts, the pragmatic way
+
+**Why.** Tor, 2026-09-29: «today's versioning and change management and approval flow is WAY too
+complicated and overengineered». Changing one statement in an industry module took about ten
+steps: copy the file to archive/, bump the version, add a map entry, re-point a pinned-hash test,
+seed hosted with psql, seed the translation registry, approve English, publish with a reason, edit
+the page files' version, deploy, and later retire the old one. The legal review asked for a
+checkbox per sentence — a few hundred of them, on a page 24 000 pixels long — and every new module
+version made all of its lines unapproved again.
+
+**What was kept**, because it protects someone: a version a survey has opened with never changes
+(0067's triggers); a round keeps the version it opened with, and its translations are pinned
+(round_module_ok, 0084); the anonymity floor sits in the module row; the privacy statement and the
+DPA are still text a person has read, with the reader and the date on record.
+
+**What changed (0122).**
+- *The file is the module.* modules/<key>/v1.json carries no version. Its body (everything but the
+  version and the validation status) is hashed; `app.module_sync` compares it with the database and,
+  when it differs, writes the next patch version itself. A live module's next version is published
+  at once, planned rounds nobody has answered move to it (statements by code; a new statement is
+  asked, one taken away is not), the survey translations of unchanged statements and factor names
+  carry over with their status, and the old version is retired. A draft is replaced in place. A
+  «validated» status falls back to provisional when what respondents read changed.
+- *One button.* admin › Industry modules shows one row per module — Live, File changed, Draft, Off,
+  New — and «Make live» (or «Add as draft», «Update draft», «Publish»). No reason fields: the audit
+  log keeps who and when, and `module.sync` logs what happened. Pilots, validation and turning a
+  module off sit under «More». CI and the QA stack seed through the same function.
+- *No archive, no version map, no pinned content hashes.* The pages read the file by key; the
+  build no longer compares versions. The pinned test now pins each file's body hash to what hosted
+  was given (0122's backfill), so a schema change that reshapes a parsed file shows up in a test.
+  The helse 1.0.0 archive file is no longer read by the app; one test still compares against it.
+- *Legal texts are reviewed as documents.* An industry page, a module's legal basis and sources,
+  the privacy statement, the DPA and the terms each, and the site's, the product's and the
+  messages' legal texts grouped per language — 31 documents instead of several hundred lines. «Mark reviewed» stores the text as read (`app.legal_reviews`), so a document changed
+  since shows exactly what changed, line by line. A document whose every line was approved under
+  0082 reads as reviewed; `legal_approvals` stays as that history, and the auto-approve switch
+  (0101) still records there. Module lines are keyed by the module, not its version, so a new
+  version does not unreview what it did not change.
+- *The English survey and the language pilots* moved from the legal review to Languages: they
+  decide which languages a survey is offered in, not what the law says.
+
+module_sync_invariants.sql proves the sync (new, unchanged, draft replaced, next version published,
+old retired, planned round moved, opened round kept, translations carried only for unchanged
+wording, validation downgrade, super-admin only) and the document review (stored with its text,
+refused under another hash). `admin_legal_set` (0082) is kept for its suite and history; nothing in
+the app calls it any more (wiring R1, known).
+
 ## Open items
 - [ ] Analytics (X-095, D-167): approve the privacy statement's changed web-statistics paragraph (the device class, no and en) in admin › Legal review.
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.

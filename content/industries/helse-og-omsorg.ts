@@ -16,7 +16,7 @@ export const helseOgOmsorg: IndustryPage = {
   navLabel: 'Helse og omsorg',
   // Tor approved the page and its seven law items on 2026-09-27 (X-065)
   launched: true,
-  module: { key: 'helse-og-omsorg', version: '1.0.1' },
+  module: { key: 'helse-og-omsorg' },
   moduleName: { title: 'Helse-modulen', inline: 'helse-modulen' },
   seo: {
     title: 'Arbeidsmiljøundersøkelse for helse og omsorg | Orgpuls',

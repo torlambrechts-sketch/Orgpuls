@@ -36,7 +36,7 @@ export type IndustryPage = {
    * `defaultVariant`: a module in variants (0089) shows this variant's factors in the preview, the
    * overview and the loop; the question page lists the extended set with a switch to the simplified
    */
-  module?: { key: string; version: string; defaultVariant?: 'forenklet' | 'utvidet' }
+  module?: { key: string; defaultVariant?: 'forenklet' | 'utvidet' }
   /** how the page names its module: "Bygg-modulen" at the start of a sentence, "bygg-modulen" inside one */
   moduleName?: { title: string; inline: string }
   seo: { title: string; description: string }

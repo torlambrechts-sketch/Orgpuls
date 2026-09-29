@@ -9748,6 +9748,52 @@
         "invalid": "Sjekk feltene.",
         "failed": "Noe gikk galt.",
         "report_required": "Oppgi https-lenken til valideringsrapporten."
+      },
+      "simple": {
+        "lead": "The file in modules/ is the module. Change it, deploy, and press «Make live»: the database numbers the version, moves planned surveys to it and keeps every version a survey opened with. {waiting, plural, =0 {Everything deployed is live.} one {# module waits to be made live.} other {# modules wait to be made live.}}",
+        "col": {
+          "module": "Module",
+          "state": "State",
+          "validation": "Validation",
+          "rounds": "Surveys"
+        },
+        "liveVersion": "Live: version {version} since {date}",
+        "latestVersion": "Version {version}",
+        "notInDb": "Not in the database yet",
+        "file": "modules/{key}/v1.json",
+        "state": {
+          "live": "Live",
+          "changed": "File changed",
+          "draft": "Draft",
+          "draftChanged": "Draft · file changed",
+          "off": "Off",
+          "missing": "New"
+        },
+        "explain": {
+          "live": "What is deployed is what surveys ask.",
+          "changed": "The deployed file differs from the live version. «Make live» publishes it as the next version; planned surveys nobody has answered move to it, and translations of unchanged statements carry over.",
+          "draft": "Not offered yet. «Publish» offers it to every organisation; pilots can try it first.",
+          "draftChanged": "The deployed file differs from the draft. «Update draft» replaces it; nobody has been asked it yet.",
+          "off": "Turned off: no new survey asks it. Surveys that asked it keep their version. Change the file to bring it back as a new version.",
+          "missing": "The file is deployed but the database has not seen it. «Add as draft» writes it; publish it when it is ready."
+        },
+        "makeLive": "Make live",
+        "addDraft": "Add as draft",
+        "updateDraft": "Update draft",
+        "publish": "Publish",
+        "turnOff": "Turn off",
+        "synced": {
+          "unchanged": "Already live as {version}",
+          "new": "Added as draft {version}",
+          "draft": "Draft {version} updated",
+          "published": "Live as {version} · {rounds} planned surveys moved · {translations} translations carried"
+        },
+        "more": "More",
+        "validationTitle": "Validation status",
+        "pilotTitle": "Pilots (try the draft before everyone): {names}",
+        "offTitle": "Stop offering it",
+        "history": "Versions",
+        "versionLine": "{items} statements · {rounds} surveys · published {date}"
       }
     },
     "legal": {
@@ -9810,7 +9856,14 @@
           "security": "Security page",
           "personvernTab": "Oppsett › Personvern: the privacy notice to customers",
           "termsDraft": "Terms of use: draft, not published",
-          "dpaSigning": "Signing the data processing agreement"
+          "dpaSigning": "Signing the data processing agreement",
+          "industryPage": "{page}: the industry page",
+          "moduleFile": "{module}: legal basis and sources",
+          "group": {
+            "site": "The site: every text that states law",
+            "product": "The product: every text that states law",
+            "messages": "Mails, templates and messages that state law"
+          }
         },
         "app": {
           "report": "The statutory report",
@@ -9925,7 +9978,8 @@
         "instrument": "the app: the report, Målinger › Spørsmålssett and Tiltak",
         "prices": "/priser and the price block on the home page",
         "crmTemplate": "every campaign or newsletter started from this template",
-        "crmSettings": "admin › CRM › Contacts › Existing-customer exception, which decides who a campaign may be sent to"
+        "crmSettings": "admin › CRM › Contacts › Existing-customer exception, which decides who a campaign may be sent to",
+        "severalPlaces": "several places (each part says where)"
       },
       "sourceFailed": {
         "factors": "The instrument's factors could not be read, so their law references are not listed here.",
@@ -9950,7 +10004,41 @@
       },
       "approveAll": "Godkjenn alle ({n})",
       "approveAllDone": "Alle godkjent.",
-      "autoBadge": "Auto"
+      "autoBadge": "Auto",
+      "docs": {
+        "title": "Legal texts",
+        "lead": "{docs} documents · {todo} to look at. Each is read and marked reviewed as a whole; a document changed after that comes back here with what changed. It is the record of who read what — nothing waits on it.",
+        "filter": "Show",
+        "language": "Language",
+        "show": {
+          "todo": "To look at",
+          "changed": "Changed",
+          "new": "Not reviewed",
+          "reviewed": "Reviewed",
+          "all": "All"
+        },
+        "state": {
+          "reviewed": "Reviewed",
+          "changed": "Changed since review",
+          "new": "Not reviewed",
+          "broken": "Broken"
+        },
+        "parts": "{n} parts",
+        "reviewedBy": "Reviewed by {by}, {date}",
+        "changedSince": "Reviewed by {by}, {date} — changed since",
+        "reviewedLineByLine": "Every line approved in the old line-by-line review",
+        "markReviewed": "Mark reviewed",
+        "reviewedNow": "Reviewed",
+        "showText": "Read the text",
+        "showChanges": "What changed since the review",
+        "unchanged": "… unchanged …",
+        "added": "added:",
+        "removed": "removed:",
+        "allReviewed": "Everything is reviewed. A document that changes comes back here.",
+        "none": "No documents here.",
+        "note": "A document is an industry page, a module's legal basis, the privacy statement or another legal text, in one language. The text is stored as it was reviewed, so a change after that is shown line by line. The English survey and the language pilots are under Content › Languages.",
+        "close": "Close"
+      }
     },
     "translations": {
       "title": "Translations",
@@ -10810,7 +10898,7 @@
       "mid": "Middels 50–64",
       "high": "Høy under 50"
     },
-    "versionPill": "{module} · versjon {version}",
+    "versionPill": "{module} · spørsmålssett",
     "scaleHead": "Svarskala og indeks",
     "tocLabel": "Innhold",
     "tocCount": "Ja/nei-spørsmål",

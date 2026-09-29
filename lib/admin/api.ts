@@ -634,6 +634,8 @@ const Modules = z.object({
       published_at: tsn,
       retired_at: tsn,
       content_hash: z.string(),
+      // 0122 (X-096): what the version says, without its number; the file is live when it matches
+      body_hash: z.string().nullable().default(null),
       // 0092: the status, and the last decision that set it
       validation_status: z.enum(['provisional', 'validated']).nullable().default(null),
       decision: z
@@ -672,6 +674,13 @@ const LegalApprovals = z.object({
 export type LegalApproval = z.infer<typeof LegalApprovals>['approvals'][number]
 /** Every current approval of a legal text, by the hash approved. Super-admin. */
 export const legalApprovals = () => call('admin_legal_approvals', {}, LegalApprovals)
+
+// 0122 (X-096): documents reviewed, each with the text as it was read
+const LegalReviews = z.object({
+  rows: z.array(z.object({ key: z.string(), hash: z.string(), text: z.string(), at: ts, by: z.string().nullable() })),
+})
+export type LegalReview = z.infer<typeof LegalReviews>['rows'][number]
+export const legalReviews = () => call('admin_legal_reviews', {}, LegalReviews)
 
 const LegalSources = z.object({
   templates: z.array(z.object({ key: z.string(), name: z.string(), subject: z.string(), preheader: z.string(), blocks: z.array(z.unknown()) })),

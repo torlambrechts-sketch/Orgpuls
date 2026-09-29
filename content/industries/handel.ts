@@ -20,7 +20,7 @@ export const handel: IndustryPage = {
   navLabel: 'Handel',
   launched: true,
   card: { newUntil: '2026-12-27' },
-  module: { key: 'handel', version: '1.0.0' },
+  module: { key: 'handel' },
   moduleName: { title: 'Handel-modulen', inline: 'handel-modulen' },
   seo: {
     title: 'Arbeidsmiljøundersøkelse for handel og butikk | Orgpuls',

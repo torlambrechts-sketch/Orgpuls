@@ -7,6 +7,9 @@ import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { legalInputs } from '@/lib/legal/inputs'
 import { legalUnits } from '@/lib/legal/registry'
+import { legalDocuments } from '@/lib/legal/documents'
+import { MODULE_KEYS, moduleFile } from '@/content/industries/modules'
+import { bodyHash, canonicalJson } from '@/lib/modules/schema'
 import respondentUi from '@/lib/i18n/respondent-ui.json'
 import { respondentHash } from '@/lib/i18n/respondent-strings'
 import en from '@/messages/en.json'
@@ -289,14 +292,49 @@ export async function deleteOrgNow(_prev: AdminResult | null, formData: FormData
 // ---------------------------------------------------------------- industry modules (0067, 0068, D-117)
 const ModuleRef = { key: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/), version: z.string().regex(/^\d+\.\d+\.\d+$/) }
 
-/** Publish a draft or retire a published version: super-admin, with a reason; the database audits it. */
-export async function moduleSetStatus(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+const Synced = z.object({
+  ok: z.literal(true),
+  result: z.enum(['unchanged', 'new', 'draft', 'published']),
+  version: z.string(),
+  rounds_moved: z.coerce.number().optional(),
+  translations_carried: z.coerce.number().optional(),
+})
+
+/**
+ * «Make live» (X-096, 0122): the module file as this build has it becomes what the database asks —
+ * the next version if the module is live (published at once, planned rounds moved, unchanged
+ * translations carried, the old version retired), or its draft replaced. Super-admin, audited.
+ */
+export async function moduleSync(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const key = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/).safeParse(formData.get('key'))
+  if (!key.success || !MODULE_KEYS.includes(key.data)) return { ok: false, problem: 'invalid' }
+  const m = moduleFile(key.data)
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('admin_module_sync', { p: JSON.parse(canonicalJson(m)), p_body: bodyHash(m) })
+  if (error) return { ok: false, problem: 'failed' }
+  const refused = Reply.safeParse(data)
+  if (refused.success && !refused.data.ok) return { ok: false, problem: refused.data.error ?? 'failed' }
+  const r = Synced.safeParse(data)
+  if (!r.success) return { ok: false, problem: 'failed' }
+  revalidatePath('/admin/modules')
+  return { ok: true, message: JSON.stringify({ result: r.data.result, version: r.data.version, rounds: r.data.rounds_moved ?? 0, translations: r.data.translations_carried ?? 0 }) }
+}
+
+/**
+ * Put a module in front of every organisation, or take it away (X-096): publishes its draft, or
+ * retires the live version. The audit log says who and when; no reason is asked.
+ */
+export async function moduleSwitch(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
   const parsed = z
-    .object({ ...ModuleRef, status: z.enum(['published', 'retired']), reason: z.string().trim().min(5).max(500) })
-    .safeParse({ key: formData.get('key'), version: formData.get('version'), status: formData.get('status'), reason: formData.get('reason') })
-  if (!parsed.success) return { ok: false, problem: failedField(parsed.error) === 'reason' ? 'reason_required' : 'invalid' }
+    .object({ ...ModuleRef, on: z.enum(['on', 'off']) })
+    .safeParse({ key: formData.get('key'), version: formData.get('version'), on: formData.get('on') })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const on = parsed.data.on === 'on'
   const r = await rpc('admin_module_set_status', {
-    p_key: parsed.data.key, p_version: parsed.data.version, p_status: parsed.data.status, p_reason: parsed.data.reason,
+    p_key: parsed.data.key,
+    p_version: parsed.data.version,
+    p_status: on ? 'published' : 'retired',
+    p_reason: on ? 'Published in Sentral' : 'Turned off in Sentral',
   })
   if (r.ok) revalidatePath('/admin/modules')
   return r
@@ -312,16 +350,16 @@ export async function moduleSetValidation(_prev: AdminResult | null, formData: F
       ...ModuleRef,
       status: z.enum(['provisional', 'validated']),
       report: z.string().trim().max(500).optional(),
-      reason: z.string().trim().min(5).max(500),
+      reason: z.string().trim().max(500).optional(),
     })
     .safeParse({
       key: formData.get('key'),
       version: formData.get('version'),
       status: formData.get('status'),
       report: formData.get('report') ?? undefined,
-      reason: formData.get('reason'),
+      reason: formData.get('reason') ?? undefined,
     })
-  if (!parsed.success) return { ok: false, problem: failedField(parsed.error) === 'reason' ? 'reason_required' : 'invalid' }
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
   const report = parsed.data.report ? parsed.data.report : null
   if (parsed.data.status === 'validated' && !(report && /^https:\/\/\S+$/.test(report))) return { ok: false, problem: 'report_required' }
   const r = await rpc('admin_module_set_validation', {
@@ -329,7 +367,7 @@ export async function moduleSetValidation(_prev: AdminResult | null, formData: F
     p_version: parsed.data.version,
     p_status: parsed.data.status,
     p_report_url: parsed.data.status === 'validated' ? report : null,
-    p_reason: parsed.data.reason,
+    p_reason: parsed.data.reason || 'Set in Sentral',
   })
   if (r.ok) revalidatePath('/admin/modules')
   return r
@@ -338,11 +376,11 @@ export async function moduleSetValidation(_prev: AdminResult | null, formData: F
 /** Let an organisation try a draft (0068), or stop: super-admin, with a reason, audited. */
 export async function modulePilot(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
   const parsed = z
-    .object({ ...ModuleRef, org: z.string().uuid(), on: z.enum(['on', 'off']), reason: z.string().trim().min(5).max(500) })
-    .safeParse({ key: formData.get('key'), version: formData.get('version'), org: formData.get('org'), on: formData.get('on'), reason: formData.get('reason') })
-  if (!parsed.success) return { ok: false, problem: failedField(parsed.error) === 'reason' ? 'reason_required' : failedField(parsed.error) === 'org' ? 'not_found' : 'invalid' }
+    .object({ ...ModuleRef, org: z.string().uuid(), on: z.enum(['on', 'off']) })
+    .safeParse({ key: formData.get('key'), version: formData.get('version'), org: formData.get('org'), on: formData.get('on') })
+  if (!parsed.success) return { ok: false, problem: failedField(parsed.error) === 'org' ? 'not_found' : 'invalid' }
   const r = await rpc('admin_module_pilot', {
-    p_key: parsed.data.key, p_version: parsed.data.version, p_org: parsed.data.org, p_on: parsed.data.on === 'on', p_reason: parsed.data.reason,
+    p_key: parsed.data.key, p_version: parsed.data.version, p_org: parsed.data.org, p_on: parsed.data.on === 'on', p_reason: 'Set in Sentral',
   })
   if (r.ok) revalidatePath('/admin/modules')
   return r
@@ -370,67 +408,21 @@ export async function localePilot(_prev: AdminResult | null, formData: FormData)
 }
 
 /**
- * The legal review (0082, D-130): approve a legal text, or withdraw the approval. Super-admin,
- * audited. The hash posted must be the text's hash now: an approval names the text that was on
- * the screen, so a text edited after the page was loaded is refused rather than approved unread.
+ * «Mark reviewed» on one legal document (X-096, 0122): the document as the registry has it now,
+ * stored with its text so a later change can be shown line by line. Refused when the page showed
+ * another version of the text (stale) or the document is broken.
  */
-export async function legalSet(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+export async function legalReview(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
   const parsed = z
-    .object({ key: z.string().min(3).max(200), hash: z.string().regex(/^[0-9a-f]{64}$/), approved: z.enum(['true', 'false']) })
-    // without script the box is a plain checkbox: absent when cleared
-    .safeParse({ key: formData.get('key'), hash: formData.get('hash'), approved: formData.get('approved') === 'true' ? 'true' : 'false' })
+    .object({ key: z.string().min(3).max(200), hash: z.string().regex(/^[0-9a-f]{64}$/) })
+    .safeParse({ key: formData.get('key'), hash: formData.get('hash') })
   if (!parsed.success) return { ok: false, problem: 'invalid' }
-  const approve = parsed.data.approved === 'true'
-  if (approve) {
-    // only a text the registry has now, whole, and exactly as it was shown
-    // read as the page reads them (lib/legal/inputs.ts), so the hash compared is the one shown
-    const now = legalUnits(await legalInputs()).find((u) => u.key === parsed.data.key)
-    if (!now || now.missing?.length || now.lines.length === 0) return { ok: false, problem: 'not_found' }
-    if (now.hash !== parsed.data.hash) return { ok: false, problem: 'stale' }
-  }
-  const r = await rpc('admin_legal_set', { p_key: parsed.data.key, p_hash: parsed.data.hash, p_approved: approve })
+  const doc = legalDocuments(legalUnits(await legalInputs())).find((d) => d.key === parsed.data.key)
+  if (!doc || doc.missing.length) return { ok: false, problem: 'not_found' }
+  if (doc.hash !== parsed.data.hash) return { ok: false, problem: 'stale' }
+  const r = await rpc('admin_legal_review', { p_key: doc.key, p_hash: doc.hash, p_text: doc.text })
   if (r.ok) revalidatePath('/admin/legal')
   return r
-}
-
-/**
- * «Approve all» in one section of the legal review: every text the section showed as open or
- * changed, each by the hash that was on the screen, each through admin_legal_set and so each in
- * the audit. The texts are checked against the registry first, as one box's are; if any is gone,
- * broken or no longer the text shown, nothing is approved and the page is to be reloaded.
- */
-export async function legalApproveAll(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
-  const parsed = z
-    .array(z.object({ key: z.string().min(3).max(200), hash: z.string().regex(/^[0-9a-f]{64}$/) }))
-    .min(1)
-    .max(300)
-    .safeParse(
-      (() => {
-        try {
-          return JSON.parse(String(formData.get('units') ?? ''))
-        } catch {
-          return null
-        }
-      })(),
-    )
-  if (!parsed.success) return { ok: false, problem: 'invalid' }
-  const now = new Map(legalUnits(await legalInputs()).map((u) => [u.key, u]))
-  for (const { key, hash } of parsed.data) {
-    const u = now.get(key)
-    if (!u || u.missing?.length || u.lines.length === 0) return { ok: false, problem: 'not_found' }
-    if (u.hash !== hash) return { ok: false, problem: 'stale' }
-  }
-  let n = 0
-  for (const { key, hash } of parsed.data) {
-    const r = await rpc('admin_legal_set', { p_key: key, p_hash: hash, p_approved: true })
-    if (!r.ok) {
-      revalidatePath('/admin/legal')
-      return r
-    }
-    n++
-  }
-  revalidatePath('/admin/legal')
-  return { ok: true, message: String(n) }
 }
 
 /**

@@ -1,6 +1,5 @@
 {
   "module_id": "bygg-og-anlegg",
-  "version": "1.0.0",
   "locale": "nb-NO",
   "name": "Bygg og anlegg",
   "description": "Tilleggsmodul til hovedundersøkelsen for bygg, anlegg og verksted. Åtte faktorer med tre påstander hver, pluss to spørsmål som bare rapporteres som antall.",

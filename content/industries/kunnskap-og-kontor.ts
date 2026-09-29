@@ -19,7 +19,7 @@ export const kunnskapOgKontor: IndustryPage = {
   navLabel: 'Kunnskap og kontor',
   launched: true,
   card: { newUntil: '2026-12-27' },
-  module: { key: 'kunnskap-og-kontor', version: '1.0.0', defaultVariant: 'forenklet' },
+  module: { key: 'kunnskap-og-kontor', defaultVariant: 'forenklet' },
   moduleName: { title: 'Kontor-modulen', inline: 'kontor-modulen' },
   seo: {
     title: 'Arbeidsmiljøundersøkelse for kunnskap og kontor | Orgpuls',
