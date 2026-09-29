@@ -17,6 +17,7 @@ type Labels = {
   siteName: string
   siteDomain: string
   account: string
+  more: string
   openMenu: string
   closeMenu: string
   signOut: string
@@ -54,8 +55,14 @@ export function AdminShell({
   const area = groupOf(groups, path)
   const current = currentItem(groups, path)
   const subs = groups.find((g) => g.key === area)?.items ?? []
+  // the design's pages in the bar; the area's own extra pages behind «More» (D-165)
+  const shown = subs.filter((i) => !i.more)
+  const extra = subs.filter((i) => i.more)
+  const inMore = extra.some((i) => i === current)
   const [sheet, setSheet] = useState(false)
   const [account, setAccount] = useState(false)
+  const [more, setMore] = useState(false)
+  const moreBox = useRef<HTMLDivElement>(null)
   const menuButton = useRef<HTMLButtonElement>(null)
   const sheetPanel = useRef<HTMLDivElement>(null)
   const accountBox = useRef<HTMLDivElement>(null)
@@ -64,7 +71,19 @@ export function AdminShell({
   useEffect(() => {
     setSheet(false)
     setAccount(false)
+    setMore(false)
   }, [path])
+  useEffect(() => {
+    if (!more) return
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setMore(false)
+    const onClick = (e: MouseEvent) => !moreBox.current?.contains(e.target as Node) && setMore(false)
+    window.addEventListener('keydown', onKey)
+    window.addEventListener('mousedown', onClick)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      window.removeEventListener('mousedown', onClick)
+    }
+  }, [more])
   useEffect(() => {
     if (!sheet) return
     sheetPanel.current?.querySelector<HTMLElement>('a,button')?.focus()
@@ -168,8 +187,8 @@ export function AdminShell({
         <div className="border-b border-line">
           <div className={`${column} flex h-[48px] items-center gap-[14px]`}>
             <span className="hidden min-w-[86px] flex-none text-[11px] uppercase tracking-[0.09em] text-mut md:block">{area ? labels.groups[area] : ''}</span>
-            <nav aria-label={labels.sub} className="-mx-[4px] flex min-w-0 flex-1 gap-[2px] overflow-x-auto px-[4px] [scrollbar-width:none] lg:flex-wrap lg:overflow-visible">
-              {subs.map((i) => (
+            <nav aria-label={labels.sub} className="-mx-[4px] flex min-w-0 flex-1 items-center gap-[2px] overflow-x-auto px-[4px] [scrollbar-width:none] lg:overflow-visible">
+              {shown.map((i) => (
                 <Link
                   key={i.key}
                   href={i.href as Route}
@@ -179,6 +198,33 @@ export function AdminShell({
                   {labels.items[i.key] ?? i.key}
                 </Link>
               ))}
+              {extra.length ? (
+                <div ref={moreBox} className="relative hidden flex-none lg:block">
+                  <button
+                    type="button"
+                    aria-expanded={more}
+                    onClick={() => setMore(!more)}
+                    className={`flex items-center gap-[6px] whitespace-nowrap rounded-bar px-[13px] py-[7px] text-[13.5px] text-ink ${inMore ? 'bg-sbg font-bold' : 'font-medium hover:bg-ink/5'}`}
+                  >
+                    {inMore && current ? `${labels.more}: ${labels.items[current.key] ?? current.key}` : labels.more}
+                    <Icon name="chevron" size={12} />
+                  </button>
+                  {more ? (
+                    <div className="absolute left-0 top-[40px] z-[60] flex w-[230px] flex-col rounded-[14px] border border-line bg-sf p-[6px] shadow-[0_18px_44px_rgba(25,21,16,0.14)]">
+                      {extra.map((i) => (
+                        <Link
+                          key={i.key}
+                          href={i.href as Route}
+                          aria-current={i === current ? 'page' : undefined}
+                          className={`rounded-bar px-[10px] py-[8px] text-[13.5px] text-ink no-underline hover:bg-ink/5 hover:text-ink hover:no-underline ${i === current ? 'bg-sbg font-bold' : 'font-medium'}`}
+                        >
+                          {labels.items[i.key] ?? i.key}
+                        </Link>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
             </nav>
           </div>
         </div>

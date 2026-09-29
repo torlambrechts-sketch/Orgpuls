@@ -436,3 +436,41 @@ export const crmOverview = () =>
 // ---------------------------------------------------------------- deals (0119, X-095)
 /** Whom a deal may be given to: the admins who work the CRM */
 export const crmOwners = () => call('admin_crm_owners', {}, z.object({ rows: z.array(z.object({ id: z.string(), email: z.string() })) }))
+
+// ---------------------------------------------------------------- CRM II (0120, X-095)
+const Journey = z.object({
+  id: z.string(),
+  number: num,
+  name: z.string(),
+  status: z.enum(['active', 'draft', 'done', 'cancelled']),
+  stage_target: z.string().nullable(),
+  stage_on_send: z.string().nullable(),
+  mails: num,
+  reached: num,
+  in_journey: num,
+  completed: num,
+  moved: num,
+  replied: num,
+  first_sent: tsn,
+  created_at: z.string(),
+})
+export type Journey = z.infer<typeof Journey>
+/** The follow-up chains read as journeys: each first campaign aimed at a stage, with its mails and what they did */
+export const crmJourneys = () => call('admin_crm_journeys', {}, z.object({ rows: z.array(Journey) }))
+
+export const TASK_VIEWS = ['open', 'done', 'all'] as const
+const TaskRow = z.object({
+  id: z.string(),
+  company_id: z.string(),
+  company: z.string(),
+  contact: z.string().nullable(),
+  body: z.string(),
+  due_at: tsn,
+  done_at: tsn,
+  created_at: z.string(),
+  admin_email: z.string().nullable(),
+})
+export type TaskRow = z.infer<typeof TaskRow>
+/** Tasks open by due date, and those done in the last 90 days */
+export const crmTaskList = (view: (typeof TASK_VIEWS)[number]) =>
+  call('admin_crm_task_list', { p_view: view }, z.object({ counts: z.object({ open: num, done: num, all: num }), rows: z.array(TaskRow) }))

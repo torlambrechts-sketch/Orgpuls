@@ -395,6 +395,7 @@ export async function logActivity(_prev: AdminResult | null, formData: FormData)
   if (r.ok) {
     revalidatePath(`/admin/crm/prospects/${d.company}`)
     revalidatePath('/admin/crm')
+    revalidatePath('/admin/crm/tasks')
   }
   return r.ok ? { ok: true } : r
 }
@@ -605,6 +606,7 @@ export async function toggleTask(_prev: AdminResult | null, formData: FormData):
   if (r.ok) {
     revalidatePath(`/admin/crm/prospects/${company.data}`)
     revalidatePath('/admin/crm')
+    revalidatePath('/admin/crm/tasks')
   }
   return r.ok ? { ok: true } : r
 }

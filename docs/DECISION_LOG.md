@@ -2775,6 +2775,12 @@ deal dialog and «New deal». 0119 adds `crm_companies.value_nok` (an estimate t
 names the contact in `crm_company_json`, and `admin_crm_owners()`; crm_deal_invariants.sql proves
 them. The Overview's pipeline now shows kroner as designed (D-165).
 
+Phase 4b and CRM II: Contacts & lists and Campaigns as designed (D-165); Journeys, Tasks, Tickets
+and Lead scoring (D-166). 0120 reads the follow-up chains as journeys (`admin_crm_journeys`), lists
+tasks open and done (`admin_crm_task_list`) and makes the health reader say which rows are demo
+sandboxes; crm_journeys_invariants.sql proves all three. The CRM sub-bar keeps the design's seven
+pages and puts the CRM's own behind «More».
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.

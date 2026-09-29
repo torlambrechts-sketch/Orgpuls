@@ -7331,3 +7331,30 @@ X-095, phase 4. From the design's `isPipeline`:
   is what the dispatcher does (unsubscribed and bounced; there is no «past due» yet).
 - *The CRM's sub-bar* starts with the design's order — Pipeline, Contacts & lists, Campaigns,
   Tickets — and keeps the CRM's own pages after it; Journeys, Tasks and Lead scoring follow in CRM II.
+
+## D-166 — Sentral CRM II: journeys, tasks, tickets and lead scoring
+
+X-095, CRM II. From the design's `isJourneys`, `isTasks`, `isTickets` and `isScoring`:
+
+- *Journeys are the follow-up chains* (0093, 0111), read by `admin_crm_journeys` (0120): a first
+  campaign aimed at a stage, with follow-ups that send themselves. No second engine was built; the
+  design's enrolment, waits and exits are the chain's audience, follow_days and 0111's exits.
+  «In journey» is who an automatic follow-up still waits to reach, «Completed» who the last mail
+  reached, «Reached goal» the share of companies reached whose stage is now further on. A journey
+  has no task steps and no re-enrolment, so neither is drawn. «New journey» opens a new campaign; its
+  follow-ups are added in the studio. A card opens the first campaign, which shows the chain.
+- *«Emails by stage»* becomes *Journeys by stage*: each working stage, its companies and the journeys
+  that start on it. The design's «never two at once» is not enforced, so it is not claimed.
+- *Tasks* are the CRM's tasks on companies (0056): no call/e-mail/meeting chip, because a task has no
+  kind; «Made by hand» because nothing else makes them; no «Meeting link». Done tasks are kept 90 days.
+- *Tickets* keep D-92's views (open, mine, unassigned, overdue, resolved, all), queues (in Filters)
+  and search. The SLA column counts to the deadline that applies now — first reply, then
+  resolution, a legal one if sooner — in business hours as the ticket stores it. No «New ticket»:
+  tickets come from the contact form and the in-app help.
+- *Lead scoring is the trial health score* (0060): the rules panel is its definition, point for
+  point, and is not edited here, so there is no «Edit rules»; 70 and above is hot, 40 warm. A hot
+  lead does not create a task (the design says it does; nothing here would). Demo sandboxes are left
+  out: the health reader now says which rows are demos (0120).
+- *The CRM's own pages* — overview, inbox, companies, lists, segments, templates, stages and senders —
+  sit behind «More» at the end of the sub-bar, so the bar keeps the design's seven; the phone's menu
+  sheet lists them all.

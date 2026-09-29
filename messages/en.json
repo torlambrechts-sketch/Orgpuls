@@ -7518,7 +7518,10 @@
         "audit": "Audit log",
         "admins": "Users & roles",
         "cms": "Pages",
-        "cmsRedirects": "Redirects"
+        "cmsRedirects": "Redirects",
+        "crmJourneys": "Journeys",
+        "crmTasks": "Tasks",
+        "crmScoring": "Lead scoring"
       },
       "openMenu": "Open the menu",
       "closeMenu": "Close the menu",
@@ -7534,7 +7537,8 @@
       "site": "Site",
       "siteName": "Orgpuls",
       "siteDomain": "orgpuls.com",
-      "account": "Your account"
+      "account": "Your account",
+      "more": "More"
     },
     "role": {
       "super_admin": "Super-admin",
@@ -8227,6 +8231,23 @@
       "problem": {
         "invalid_reply": "Write the reply first.",
         "invalid": "That change is not allowed."
+      },
+      "board": {
+        "lead": "{count} in this view · {late} past their deadline · deadlines count business hours and follow priority",
+        "filters": "Filters",
+        "reset": "Reset",
+        "col": {
+          "ticket": "Ticket",
+          "sla": "SLA",
+          "status": "Status",
+          "owner": "Owner"
+        },
+        "closed": "Closed",
+        "breached": "Breached by {time}",
+        "left": "{time} left to {what}",
+        "reply": "reply",
+        "resolve": "resolve",
+        "open": "Open"
       }
     },
     "crm": {
@@ -9374,6 +9395,122 @@
           "oneWhy": "Newsletters at most monthly; lifecycle mail as often as the stage warrants.",
           "suppression": "Suppression is automatic.",
           "suppressionWhy": "Unsubscribed and bounced addresses are never sent marketing e-mail."
+        }
+      },
+      "journeys": {
+        "title": "Journeys",
+        "lead": "{active} active · {waiting, plural, one {# contact} other {# contacts}} waiting for the next mail · each journey starts on one stage",
+        "new": "New journey",
+        "newSub": "A journey starts as a campaign aimed at a stage. Add follow-ups that send themselves in its studio.",
+        "close": "Close",
+        "status": {
+          "active": "Active",
+          "draft": "Draft",
+          "done": "Done",
+          "cancelled": "Cancelled"
+        },
+        "enrolls": "Starts on stage {stage}",
+        "noStage": "Aimed at a segment or list",
+        "mails": "{count, plural, one {# e-mail} other {# e-mails}}",
+        "goal": "goal: moves beyond {stage}",
+        "inJourney": "In journey",
+        "completed": "Completed",
+        "reachedGoal": "Reached goal",
+        "none": "No journeys yet",
+        "noneLead": "A campaign aimed at a stage, with follow-ups, appears here as a journey.",
+        "byStage": "Journeys by stage",
+        "byStageLead": "Each working stage and the journeys that start on it.",
+        "companies": "{count, plural, one {# company} other {# companies}}",
+        "noJourney": "No journey starts here"
+      },
+      "tasks": {
+        "title": "Tasks",
+        "lead": "{open} open · {today} due today",
+        "new": "New task",
+        "newSub": "A task belongs to a company and shows on its page and here.",
+        "company": "Company",
+        "body": "What to do",
+        "due": "Due",
+        "create": "Create task",
+        "cancel": "Cancel",
+        "close": "Close",
+        "views": "Tasks by state",
+        "view": {
+          "open": "Open",
+          "done": "Done",
+          "all": "All"
+        },
+        "col": {
+          "task": "Task",
+          "contact": "Contact",
+          "due": "Due",
+          "owner": "Owner"
+        },
+        "today": "Today",
+        "tomorrow": "Tomorrow",
+        "manual": "Made by hand",
+        "doneOn": "Done {date}",
+        "markDone": "Mark done",
+        "empty": {
+          "open": "Nothing open.",
+          "done": "Nothing done in the last 90 days.",
+          "all": "No tasks yet."
+        }
+      },
+      "scoring": {
+        "title": "Lead scoring",
+        "lead": "{hot} hot · {warm} warm · {cold} cold · trials only, scored from what they have done",
+        "health": "Account health",
+        "col": {
+          "trial": "Trial",
+          "score": "Score",
+          "why": "Why"
+        },
+        "ends": "Trial ends {date}",
+        "open": "Open",
+        "none": "No trials right now.",
+        "band": {
+          "hot": "Hot",
+          "warm": "Warm",
+          "cold": "Cold"
+        },
+        "why": {
+          "employees": "Employees added",
+          "scheduled": "Survey planned",
+          "sent": "Survey sent",
+          "unlocked": "Results unlocked",
+          "measure": "Measure made",
+          "week": "Signed in this week",
+          "month": "Signed in this month",
+          "away": "Not signed in for 30 days",
+          "answered": "Good response rate",
+          "qualified": "Qualified trial"
+        },
+        "rules": "Rules",
+        "rulesLead": "Points add up to 100 at most; 70 and above is hot, 40 and above warm. A trial that unlocked results, or sent a survey with 10 or more employees, is qualified.",
+        "rule": {
+          "employees": "Added employees",
+          "employeesKind": "Activation",
+          "scheduled": "Planned a survey",
+          "scheduledKind": "Activation",
+          "sent": "Sent a survey",
+          "sentKind": "Activation",
+          "unlocked": "Unlocked results",
+          "unlockedKind": "Activation",
+          "measure": "Made a measure",
+          "measureKind": "Activation",
+          "week": "Signed in within 7 days",
+          "weekKind": "Recency",
+          "month": "Signed in within 30 days",
+          "monthKind": "Recency",
+          "answered60": "60 % or more answered the last survey",
+          "answered60Kind": "Response",
+          "answered40": "40 % or more answered",
+          "answered40Kind": "Response",
+          "size20": "20 employees or more",
+          "size20Kind": "Fit",
+          "size10": "10 employees or more",
+          "size10Kind": "Fit"
         }
       }
     },

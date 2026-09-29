@@ -105,7 +105,7 @@ export function Bar({ value, max, label }: { value: number; max: number; label?:
 /** Segmented filter with counts: each segment an address, so a filter can be linked and kept */
 export function Segments({ items, label }: { items: { key: string; label: string; n?: number; href: string; on: boolean }[]; label: string }) {
   return (
-    <nav aria-label={label} className="flex flex-wrap gap-[3px] rounded-[11px] bg-ink/5 p-[4px]">
+    <nav aria-label={label} className="inline-flex flex-wrap gap-[3px] rounded-[11px] bg-ink/5 p-[4px]">
       {items.map((i) => (
         <Link
           key={i.key}

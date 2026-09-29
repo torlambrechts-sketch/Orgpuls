@@ -493,6 +493,8 @@ const HealthRow = z.object({
   size_points: num,
   score: num,
   qualified: z.boolean(),
+  // 0120: a demo sandbox is a trial by its access, never a lead
+  demo: z.boolean().default(false),
 })
 export type HealthRow = z.infer<typeof HealthRow>
 export const accountHealth = () => call('admin_account_health', {}, z.object({ rows: z.array(HealthRow) }))

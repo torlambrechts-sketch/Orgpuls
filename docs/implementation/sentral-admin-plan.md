@@ -175,8 +175,8 @@ Each phase ships on its own, with the QA below. Status is kept here as phases la
 | 0–1 ✓ | Shell and components | Top bar with six areas, sub-bar, site pill, account menu, phone sheet; `ui.tsx` restyled (page head, panel, KPI card, pill with dot, table, segments, avatar, bar); wordmark font; every page in its area. | — |
 | 2 ✓ | Overview | Dashboard: KPIs, Needs attention, recent activity, language coverage, pipeline by stage (D-163). | 0116 `admin_attention` |
 | 3 ✓ | Customers | List and detail as designed; account owner; health merged (D-164). | 0118 `account_owners` |
-| 4 | CRM I | Pipeline (deal value, next step, owner, stage since; board/list); Contacts & lists; Campaigns (KPIs, lifecycle coverage, house rules, detail). | deal fields |
-| 5 | CRM II | Journeys (+ detail), Tasks, Tickets redrawn and moved, Lead scoring. | journeys, tasks, score rules |
+| 4 ✓ | CRM I | Pipeline (deal value, next step, owner, stage since; board/list); Contacts & lists; Campaigns (KPIs, lifecycle coverage, house rules, detail). | deal fields |
+| 5 ✓ | CRM II | Journeys (+ detail), Tasks, Tickets redrawn and moved, Lead scoring. | journeys, tasks, score rules |
 | 6 | Analytics | Overview, Pages, Goals from the real counts. | reader functions |
 | 7 | Content I | Pages table; page detail tabs; In review; version compare; visual editor (canvas + inspector). | review state |
 | 8 | Content II | Templates, Landing & front pages, SEO Health/Performance, Languages. | template edit |

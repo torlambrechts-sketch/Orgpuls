@@ -36,7 +36,8 @@ export type AdminIcon =
   | 'page'
   | 'redirect'
 
-export type NavItem = { key: string; href: string; icon: AdminIcon; exact?: boolean }
+/** `more`: a page of the area kept behind the sub-bar's «More», where the design draws no place for it */
+export type NavItem = { key: string; href: string; icon: AdminIcon; exact?: boolean; more?: boolean }
 export type NavGroup = { key: 'overview' | 'customers' | 'crm' | 'content' | 'analytics' | 'admin'; icon: AdminIcon; items: NavItem[] }
 
 /** an area's own icon, in the phone's menu sheet */
@@ -61,18 +62,21 @@ const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }
   {
     key: 'crm',
     items: [
-      // the design's order first (X-095): pipeline, contacts & lists, campaigns, tickets; then the CRM's own
+      // the design's order first (X-095): pipeline, contacts & lists, campaigns, journeys, tasks, tickets, lead scoring; then the CRM's own
       { key: 'crmPipeline', section: 'crm', href: '/admin/crm/pipeline', icon: 'kanban' },
       { key: 'crmContacts', section: 'crm', href: '/admin/crm/contacts', icon: 'contacts' },
       { key: 'crmCampaigns', section: 'crm', href: '/admin/crm/campaigns', icon: 'mail' },
+      { key: 'crmJourneys', section: 'crm', href: '/admin/crm/journeys', icon: 'activity' },
+      { key: 'crmTasks', section: 'crm', href: '/admin/crm/tasks', icon: 'flag' },
       { key: 'tickets', section: 'tickets', href: HREF.tickets, icon: 'ticket' },
-      { key: 'crmOverview', section: 'crm', href: '/admin/crm', icon: 'target', exact: true },
-      { key: 'crmInbox', section: 'crm', href: '/admin/crm/inbox', icon: 'inbox' },
-      { key: 'crmProspects', section: 'crm', href: '/admin/crm/prospects', icon: 'building' },
-      { key: 'crmLists', section: 'crm', href: '/admin/crm/lists', icon: 'list' },
-      { key: 'crmSegments', section: 'crm', href: '/admin/crm/segments', icon: 'filter' },
-      { key: 'crmTemplates', section: 'crm', href: '/admin/crm/templates', icon: 'template' },
-      { key: 'crmStages', section: 'crm', href: '/admin/crm/stages', icon: 'flag' },
+      { key: 'crmScoring', section: 'crm', href: '/admin/crm/scoring', icon: 'chart' },
+      { key: 'crmOverview', section: 'crm', href: '/admin/crm', icon: 'target', exact: true, more: true },
+      { key: 'crmInbox', section: 'crm', href: '/admin/crm/inbox', icon: 'inbox', more: true },
+      { key: 'crmProspects', section: 'crm', href: '/admin/crm/prospects', icon: 'building', more: true },
+      { key: 'crmLists', section: 'crm', href: '/admin/crm/lists', icon: 'list', more: true },
+      { key: 'crmSegments', section: 'crm', href: '/admin/crm/segments', icon: 'filter', more: true },
+      { key: 'crmTemplates', section: 'crm', href: '/admin/crm/templates', icon: 'template', more: true },
+      { key: 'crmStages', section: 'crm', href: '/admin/crm/stages', icon: 'flag', more: true },
     ],
   },
   {
