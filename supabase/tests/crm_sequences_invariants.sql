@@ -10,6 +10,8 @@
 --     ends it for them (3)
 --   * «Resend after 7 days» makes a draft follow-up with the first mail's content, sending itself to
 --     non-clickers; a chain holds at most seven mails (4)
+--   * a follow-up is not finished while somebody due waits to be added, in or out of business
+--     hours (9, 0115)
 --   * an automatic follow-up is never sent as one batch, nor finished before its first mail is done (5)
 --   * the daily cap holds campaign mail back, never a test (6)
 --   * roles: an analyst reads the sequence and cannot resend or set the cap (7)
@@ -147,6 +149,11 @@ begin
 
     -- 5 -------------------------------------------------------------- an automatic follow-up is never one batch
     update app.crm_campaigns set follow_auto = true, status = 'scheduled', scheduled_at = now() - interval '1 hour' where id = v_follow;
+    -- 0115: whatever the hour, a follow-up whose first mail's time has run is not done while C, who is due, waits to be added
+    select concat_ws('|', app.crm_follow_done(c)::text, (select count(*) from app.crm_follow_audience(c))) into v_txt from app.crm_campaigns c where c.id = v_follow;
+    v_rows := v_rows || jsonb_build_object('seq', 9,
+      'name', 'a follow-up is not finished while somebody due is still to be added (0115), in or out of business hours',
+      'expected', 'false|1', 'actual', v_txt, 'pass', v_txt = 'false|1');
     perform set_config('request.jwt.claims', '', true);
     v_jobs := public.crm_mail_claim(50);
     select status into v_txt from app.crm_campaigns where id = v_follow;
@@ -215,7 +222,7 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._csq;
   if v_failed is not null then raise exception 'crm sequence invariants failed: %', v_failed; end if;
-  if v_count <> 8 then raise exception 'crm sequence invariants: expected 8 rows, got %', v_count; end if;
+  if v_count <> 9 then raise exception 'crm sequence invariants: expected 9 rows, got %', v_count; end if;
 end $$;
 
 drop table public._csq;
