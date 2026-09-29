@@ -124,7 +124,7 @@ banner. None is dropped; each gets a place below.
 | Screen | What exists | What is real, and what is not drawn |
 |---|---|---|
 | Analytics › Overview | `/admin/web` (0050, 0054, 0059): views, visitors, referrers, UTM, country/region/city, per day | Visitors, sessions, views per day, sources and devices are counted (cookieless daily visitor hash; the user agent gives the device). *Bounce rate and time on site* need a session across pages, which the cookieless design (D-91) counts only as far as a same-day visitor hash allows: shown only if the reader can compute it honestly, else omitted and logged. |
-| Analytics › Pages | per-path views in `web_events`; CTA clicks; sign-ups by first page | Views, visitors, CTA clicks, sign-ups per page. *Time on page* and *exit rate* are not counted and are not drawn. |
+| Analytics › Pages | per-path views in `web_events`; CTA clicks; sign-ups by first page | Views, visitors, sign-ups per page. *Time on page* (to the next view in the visit) and *exit rate* are counted within a visit as the same-day visitor hash allows (D-167). |
 | Analytics › Goals | `funnel()`, sign-ups, trials, demo requests (0095), newsletter confirmations (0055) | The funnel and four goals from the real events: signed up, started a trial, requested a demo, newsletter signup. «Viewed pricing» is a page view of /priser. Trends compare with the previous period. |
 | CRM › Journeys | Sequences and automatic follow-ups (0111), stages (0093), activities | A journey is a campaign chain: its trigger (stage or list), its mails, the waits between them, the no-click/no-open condition, its task steps and its goal. Counts come from `crm_sends`. New: a journey record over the chain (name, trigger stage, goal, send window) and *task* steps — migration. |
 | CRM › Tasks | `crm_activities` kind `task` | Tasks need a due time, an owner, done and outcome: migration. Journey task steps create tasks. The *meeting link* needs a calendar integration and is not drawn (logged). |
@@ -177,7 +177,7 @@ Each phase ships on its own, with the QA below. Status is kept here as phases la
 | 3 ✓ | Customers | List and detail as designed; account owner; health merged (D-164). | 0118 `account_owners` |
 | 4 ✓ | CRM I | Pipeline (deal value, next step, owner, stage since; board/list); Contacts & lists; Campaigns (KPIs, lifecycle coverage, house rules, detail). | deal fields |
 | 5 ✓ | CRM II | Journeys (+ detail), Tasks, Tickets redrawn and moved, Lead scoring. | journeys, tasks, score rules |
-| 6 | Analytics | Overview, Pages, Goals from the real counts. | reader functions |
+| 6 ✓ | Analytics | Overview, Pages, Goals from the real counts; Sources & visits and Cost per customer behind «More» (D-167). | 0121 device class, `admin_web_report` |
 | 7 | Content I | Pages table; page detail tabs; In review; version compare; visual editor (canvas + inspector). | review state |
 | 8 | Content II | Templates, Landing & front pages, SEO Health/Performance, Languages. | template edit |
 | 9 | Media | Storage, upload, alt text, use counts, image block. | bucket, table, RLS |

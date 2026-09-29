@@ -63,8 +63,8 @@ begin
   select string_agg(column_name, ',' order by ordinal_position) into v_txt
   from information_schema.columns where table_schema = 'app' and table_name = 'web_events';
   v_rows := v_rows || jsonb_build_object('seq', 3, 'name', 'web_events has no column for an address, user agent or account',
-    'expected', 'id,product_id,at,day,visitor,kind,path,referrer_host,utm_source,utm_medium,utm_campaign,label,country,region,city,network,utm_term,utm_content',
-    'actual', v_txt, 'pass', v_txt = 'id,product_id,at,day,visitor,kind,path,referrer_host,utm_source,utm_medium,utm_campaign,label,country,region,city,network,utm_term,utm_content');
+    'expected', 'id,product_id,at,day,visitor,kind,path,referrer_host,utm_source,utm_medium,utm_campaign,label,country,region,city,network,utm_term,utm_content,device',
+    'actual', v_txt, 'pass', v_txt = 'id,product_id,at,day,visitor,kind,path,referrer_host,utm_source,utm_medium,utm_campaign,label,country,region,city,network,utm_term,utm_content,device');
 
   select m.user_id into v_dl from app.memberships m where m.org_id = v_org and m.role = 'daglig_leder' and m.active limit 1;
 

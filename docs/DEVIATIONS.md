@@ -7358,3 +7358,38 @@ X-095, CRM II. From the design's `isJourneys`, `isTasks`, `isTickets` and `isSco
 - *The CRM's own pages* — overview, inbox, companies, lists, segments, templates, stages and senders —
   sit behind «More» at the end of the sub-bar, so the bar keeps the design's seven; the phone's menu
   sheet lists them all.
+
+## D-167 — Sentral Analytics: overview, pages and goals
+
+X-095, phase 6. From the design's `isTraffic`, `isApages` and `isGoals`, read from the site's own
+cookieless beacon (0050, 0054, 0059) through `admin_web_report` (0121):
+
+- *Visitors* are visitors on a day: the visit code changes every day (D-91), so the same person on
+  two days counts twice. The page says so under the figures.
+- *Devices* are counted from 29 Sep 2026, when the beacon began to keep the class — desktop, mobile
+  or tablet — read from the user agent it already hashed (0121). The agent itself is still not
+  stored, and the privacy statement names the class among what is kept. Until a period has a visit
+  with a known device, the card says so instead of drawing percentages. iPads that present
+  themselves as Macintosh count as desktops.
+- *Bounce rate and time on site* are counted within a visit as the beacon can see one (a visitor's
+  events on a day, a gap over 30 minutes starting a new visit): bounced is one view and no click;
+  time on site is a visit's first event to its last, a one-page visit 0 s.
+- *Pages: time and exit* are the time to the next view in the same visit, over the views that have
+  one, and the share of views no other view followed. *Conv.* is sign-ups from visits that began on
+  the page, shown for every page that began a visit, not only landing pages. The share of views is
+  of all views in the period; fifty pages are shown.
+- *Goals* are the four the product records — trials started, demo links asked for, list
+  subscriptions confirmed, contact-form messages — each against the period before. The design's
+  «Signed up» (a form on a landing page) is not a separate event here: signing up is starting a
+  trial. Demo requests are deleted after 30 days, so their count and comparison are given only for
+  periods they reach («not kept» otherwise). A comparison past the beacon's 400 days is not drawn.
+- *The funnel* is visitors → saw /priser → opened /registrer → organisations made → organisations
+  that confirmed billing, in the period; demo sandboxes are not counted.
+- *No «New goal»*: goals are not definable, so the button would do nothing. In its place, and beside
+  «Export report», the period — 7, 14 (the design's), 30, 90 or 365 days — kept from the old Web
+  page. «Export report» downloads a CSV of the same figures; there is no PDF.
+- *Weekly bars beyond a month*: the design draws fourteen days; a 90- or 365-day period draws a bar
+  per ISO week, labelled by its number, since a bar per day would not fit.
+- *Sources & visits* keeps what the old Web page showed and the design does not — the visit funnel
+  with clicks, sources with activated and paid, how-did-you-hear, campaigns, landing pages, countries,
+  cities and the latest visits — behind «More», with Cost per customer.

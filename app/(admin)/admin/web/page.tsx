@@ -1,238 +1,136 @@
 import { getTranslations } from 'next-intl/server'
-import { Card, PageHead, pct, Problem, Stat, Table, Td } from '@/components/admin/ui'
-import { isError, web, WEB_PERIODS } from '@/lib/admin/api'
+import { AnalyticsHead, Panel, VIZ } from '@/components/admin/Analytics'
+import { Problem } from '@/components/admin/ui'
+import { bars, change, clock, dec, int, monthsLabel, periodOf, rangeLabel, share } from '@/lib/admin/analytics'
+import { isError, web, webReport } from '@/lib/admin/api'
 
 /**
- * The public site (D-91): traffic, where it came from, the pages visits start on, and the
- * site's funnel down to an organisation created — then, per source, how many of those
- * organisations sent a survey and paid. Counted by the site's own beacon (0050): no cookie,
- * and a visitor hash that changes every day, so visitors are counted per day and summed.
- *
- * Since 0054 (D-100): countries, cities and the latest visits one by one, with time, source,
- * landing page, location and network. The network is the address cut to /24 or /48.
+ * Analytics › Overview (X-095, the design's `isTraffic`; D-91 before it): four figures for the
+ * period — visitors against the period before, sessions, pageviews, the bounce rate with the time a
+ * visit lasts — the visitors per day with the weekends in grey, where the visits came from and on
+ * what kind of device. Counted by the site's own beacon (0050): no cookie, and a visit code that
+ * changes every day, so a visitor is a visitor on a day. Sources, campaigns, places and the latest
+ * visits one by one are on Sources & visits.
  */
-export default async function AdminWeb({ searchParams }: { searchParams: Promise<{ d?: string }> }) {
-  const { d } = await searchParams
-  const days = WEB_PERIODS.find((p) => String(p) === d) ?? 30
+export default async function AnalyticsOverview({ searchParams }: { searchParams: Promise<{ d?: string }> }) {
+  const days = periodOf((await searchParams).d)
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
-  const w = await web(days)
-  if (isError(w)) return <Problem text={w.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
-
-  const regions = new Intl.DisplayNames(['en'], { type: 'region' })
-  const countryName = (c: string | null) => {
-    if (!c || c === '??') return t('web.unknownPlace')
-    try {
-      return regions.of(c) ?? c
-    } catch {
-      return c
-    }
+  const [r, w] = await Promise.all([webReport(days), web(days)])
+  if (isError(r) || isError(w)) {
+    const e = [r, w].find(isError)
+    return <Problem text={e?.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   }
-  const place = (v: { city: string | null; region: string | null; country: string | null }) =>
-    v.country ? [v.city, v.region, countryName(v.country)].filter(Boolean).join(', ') : t('web.unknownPlace')
-  const when = new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Europe/Oslo' })
+  const a = (k: string, v?: Record<string, string | number>) => t(`analytics.${k}`, v)
+  const o = (k: string, v?: Record<string, string | number>) => a(`overview.${k}`, v)
+  const range = rangeLabel(r.from, r.to)
+  const tot = w.totals
 
-  const max = Math.max(1, ...w.daily.map((x) => x.visitors))
-  const f = w.funnel
-  const steps = [
-    { key: 'sessions', n: f.sessions },
-    { key: 'sawOffer', n: f.saw_offer },
-    { key: 'clicked', n: f.clicked },
-    { key: 'reachedSignup', n: f.reached_signup },
-    { key: 'created', n: f.created },
-  ] as const
+  const vs = change(tot.visitors, r.previous?.visitors ?? null)
+  const kpis = [
+    { key: 'visitors', value: int(tot.visitors), sub: vs ? o(vs.dir, { pct: vs.pct, days }) : o('noPrevious') },
+    { key: 'sessions', value: int(tot.sessions), sub: o('perVisitor', { n: tot.visitors ? dec(tot.sessions / tot.visitors, 2) : '0' }) },
+    { key: 'views', value: int(tot.views), sub: o('perSession', { n: tot.sessions ? dec(tot.views / tot.sessions, 1) : '0' }) },
+    { key: 'bounce', value: `${share(tot.bounced, tot.sessions)} %`, sub: o('onSite', { time: clock(r.avg_seconds) }) },
+  ]
+
+  const chart = bars(r.from, r.to, w.daily)
+  const max = Math.max(1, ...chart.bars.map((b) => b.n))
+  const labelled = chart.bars.length <= 16
+
+  const sources = w.channels.filter((c) => c.sessions > 0)
+  const top = sources[0]
+  const known = r.devices.reduce((s, d) => s + d.visitors, 0)
+  const devices = (['desktop', 'mobile', 'tablet'] as const).map((k) => ({ key: k, n: r.devices.find((d) => d.device === k)?.visitors ?? 0 }))
 
   return (
     <>
-      <PageHead title={t('web.title')} lead={t('web.lead')}>
-        <nav aria-label={t('web.period')} className="flex gap-[6px]">
-          {WEB_PERIODS.map((p) => (
-            <a
-              key={p}
-              href={`/admin/web?d=${p}`}
-              aria-current={p === days ? 'page' : undefined}
-              className={`rounded-pill border px-[12px] py-[5px] text-[12.5px] font-semibold ${
-                p === days ? 'border-ink bg-ink text-bg hover:text-bg' : 'border-line bg-sf text-ink hover:text-ink'
-              }`}
-            >
-              {t('web.days', { count: p })}
-            </a>
-          ))}
-        </nav>
-      </PageHead>
+      <AnalyticsHead
+        title={o('title')}
+        lead={o('lead', { domain: t('nav.siteDomain'), range })}
+        path="/admin/web"
+        days={days}
+        labels={{ period: a('period'), days: (n) => a('days', { count: n }), export: a('export') }}
+      />
 
-      <div className="grid gap-[12px] [grid-template-columns:repeat(auto-fit,minmax(170px,1fr))]">
-        <Stat label={t('web.visitors')} value={w.totals.visitors} hint={t('web.visitorsHint')} />
-        <Stat label={t('web.sessions')} value={w.totals.sessions} />
-        <Stat
-          label={t('web.perSession')}
-          value={w.totals.sessions ? (w.totals.views / w.totals.sessions).toFixed(1) : '—'}
-          hint={t('web.views', { count: w.totals.views })}
-        />
-        <Stat label={t('web.bounce')} value={pct(w.totals.bounced, w.totals.sessions)} />
-        <Stat label={t('web.signups')} value={w.totals.signups} />
-      </div>
-
-      <Card title={t('web.daily')} className="mt-[16px]">
-        {w.daily.length ? (
-          <div className="flex h-[120px] items-end gap-[3px]" role="img" aria-label={t('web.dailyLabel')}>
-            {w.daily.map((x) => (
-              <span
-                key={x.day}
-                title={`${x.day}: ${x.visitors} · ${x.sessions} · ${x.views}`}
-                className="min-w-[3px] max-w-[28px] flex-1 rounded-t-[3px] bg-ac"
-                style={{ height: `${Math.max(3, (100 * x.visitors) / max)}%` }}
-              />
-            ))}
+      <div className="grid gap-[16px] [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]">
+        {kpis.map((k) => (
+          <div key={k.key} className="rounded-panel border border-line bg-sf px-[22px] py-[20px]">
+            <div className="text-[11px] uppercase tracking-[0.09em] text-mut">{o(`kpi.${k.key}`, { days })}</div>
+            <div className="mt-[8px] text-[30px] font-bold leading-[1.15]">{k.value}</div>
+            <div className="mt-[4px] text-[12.5px] text-mut">{k.sub}</div>
           </div>
-        ) : (
-          <p className="m-0 text-[13px] text-mut">{t('common.none')}</p>
-        )}
-      </Card>
-
-      <Card title={t('web.funnel')} className="mt-[16px]">
-        <Table head={[t('web.step'), t('web.count'), t('web.ofSessions')]}>
-          {steps.map((s) => (
-            <tr key={s.key}>
-              <Td className="font-semibold">{t(`web.funnelStep.${s.key}`)}</Td>
-              <Td>{s.n}</Td>
-              {/* signups are all of the period's, not a subset of counted sessions */}
-              <Td>{s.key === 'created' ? '—' : pct(s.n, f.sessions)}</Td>
-            </tr>
-          ))}
-        </Table>
-        <p className="mb-0 mt-[10px] text-[12px] text-mut">{t('web.funnelNote')}</p>
-      </Card>
-
-      <div className="mt-[16px] grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
-        <Card title={t('web.channels')}>
-          <Table
-            head={[t('web.channel.title'), t('web.sessions'), t('web.signups'), t('web.activated'), t('web.paid')]}
-            empty={w.channels.length ? undefined : t('common.none')}
-          >
-            {w.channels.map((c) => (
-              <tr key={c.channel}>
-                <Td className="font-semibold">{t(`web.channel.${c.channel}`)}</Td>
-                <Td>{c.sessions}</Td>
-                <Td>{c.signups}</Td>
-                <Td>{c.activated}</Td>
-                <Td>{c.paid}</Td>
-              </tr>
-            ))}
-          </Table>
-        </Card>
-
-        <Card title={t('web.heardTitle')}>
-          <Table
-            head={[t('web.heardAnswer'), t('web.signups'), t('web.activated'), t('web.paid')]}
-            empty={w.heard.length ? undefined : t('common.none')}
-          >
-            {w.heard.map((h) => (
-              <tr key={h.heard}>
-                <Td className="font-semibold">{t(`web.heard.${h.heard}`)}</Td>
-                <Td>{h.signups}</Td>
-                <Td>{h.activated}</Td>
-                <Td>{h.paid}</Td>
-              </tr>
-            ))}
-          </Table>
-          <p className="mb-0 mt-[10px] text-[12px] text-mut">{t('web.heardNote')}</p>
-        </Card>
-
-        <Card title={t('web.campaigns')}>
-          <Table
-            head={[t('web.campaign'), t('web.sessions'), t('web.signups'), t('web.paid')]}
-            empty={w.campaigns.length ? undefined : t('common.none')}
-          >
-            {w.campaigns.map((c) => (
-              <tr key={c.campaign}>
-                <Td className="font-semibold">{c.campaign}</Td>
-                <Td>{c.sessions}</Td>
-                <Td>{c.signups}</Td>
-                <Td>{c.paid}</Td>
-              </tr>
-            ))}
-          </Table>
-        </Card>
-
-        <Card title={t('web.landing')}>
-          <Table
-            head={[t('web.page'), t('web.sessions'), t('web.bounce'), t('web.signups')]}
-            empty={w.landing.length ? undefined : t('common.none')}
-          >
-            {w.landing.map((l) => (
-              <tr key={l.path}>
-                <Td>{l.path}</Td>
-                <Td>{l.sessions}</Td>
-                <Td>{pct(l.bounced, l.sessions)}</Td>
-                <Td>{l.signups}</Td>
-              </tr>
-            ))}
-          </Table>
-        </Card>
-
-        <Card title={t('web.pages')}>
-          <Table head={[t('web.page'), t('web.viewsCol')]} empty={w.pages.length ? undefined : t('common.none')}>
-            {w.pages.map((p) => (
-              <tr key={p.path}>
-                <Td>{p.path}</Td>
-                <Td>{p.views}</Td>
-              </tr>
-            ))}
-          </Table>
-        </Card>
-
-        <Card title={t('web.countries')}>
-          <Table head={[t('web.country'), t('web.sessions'), t('web.visitors')]} empty={w.countries.length ? undefined : t('common.none')}>
-            {w.countries.map((c) => (
-              <tr key={c.country}>
-                <Td className="font-semibold">{countryName(c.country)}</Td>
-                <Td>{c.sessions}</Td>
-                <Td>{c.visitors}</Td>
-              </tr>
-            ))}
-          </Table>
-        </Card>
-
-        <Card title={t('web.cities')}>
-          <Table head={[t('web.city'), t('web.sessions')]} empty={w.cities.length ? undefined : t('common.none')}>
-            {w.cities.map((c) => (
-              <tr key={`${c.country}-${c.region}-${c.city}`}>
-                <Td>{place(c)}</Td>
-                <Td>{c.sessions}</Td>
-              </tr>
-            ))}
-          </Table>
-        </Card>
+        ))}
       </div>
 
-      <Card title={t('web.recent')} className="mt-[16px]">
-        <p className="mb-[10px] mt-0 text-[12.5px] text-mut">{t('web.recentLead')}</p>
-        <Table
-          head={[t('web.time'), t('web.source'), t('web.page'), t('web.viewsCol'), t('web.location'), t('web.network'), t('web.outcome')]}
-          empty={w.recent.length ? undefined : t('common.none')}
+      <div className="mt-[18px] grid items-start gap-[18px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1.3fr)_minmax(300px,.7fr)]">
+        <Panel
+          title={o(chart.per === 'day' ? 'daily' : 'weekly')}
+          aside={o(chart.per === 'day' ? 'weekends' : 'weeks', { months: monthsLabel(r.from, r.to) })}
         >
-          {w.recent.map((r) => (
-            <tr key={`${r.started_at}-${r.network}-${r.landing}`}>
-              <Td>{when.format(new Date(r.started_at))}</Td>
-              <Td>
-                <span className="font-semibold">{t(`web.channel.${r.channel}`)}</span>
-                {r.utm_source || r.referrer_host ? (
-                  <span className="block text-[12px] text-mut">
-                    {[r.utm_source ?? r.referrer_host, r.utm_medium, r.utm_campaign].filter(Boolean).join(' · ')}
-                  </span>
-                ) : null}
-              </Td>
-              <Td>{r.landing ?? '—'}</Td>
-              <Td>{r.views}</Td>
-              <Td>{place(r)}</Td>
-              <Td className="font-mono text-[12px]">{r.network ?? '—'}</Td>
-              <Td>{r.reached_signup ? t('web.outcomeSignup') : r.clicked ? t('web.outcomeClicked') : t('web.outcomeNone')}</Td>
-            </tr>
-          ))}
-        </Table>
-        <p className="mb-0 mt-[10px] text-[12px] text-mut">{t('web.networkHint')}</p>
-      </Card>
-      <p className="mb-0 mt-[16px] text-[12px] text-mut">{t('web.privacy')}</p>
+          <div role="img" aria-label={`${o(chart.per === 'day' ? 'daily' : 'weekly')}, ${range}`}>
+            <div className="mt-[20px] flex h-[180px] items-end gap-[6px] border-b border-line pb-[8px] max-md:gap-[3px]">
+              {chart.bars.map((b) => (
+                <div key={b.key} title={o('bar', { label: b.label, n: int(b.n) })} className="flex h-full min-w-0 flex-1 flex-col items-center justify-end gap-[6px]">
+                  {labelled ? <span className="text-[10.5px] text-mut max-md:hidden">{int(b.n)}</span> : null}
+                  <span
+                    className={`block min-h-[3px] w-full rounded-[6px_6px_2px_2px] ${b.weekend ? 'bg-line' : 'bg-ac'}`}
+                    style={{ height: `${Math.round((100 * b.n) / max)}%` }}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="mt-[6px] flex gap-[6px] max-md:gap-[3px]">
+              {chart.bars.map((b, i) => (
+                <span key={b.key} className="min-w-0 flex-1 text-center text-[10.5px] text-mut">
+                  {labelled || i % Math.ceil(chart.bars.length / 16) === 0 ? b.label : ''}
+                </span>
+              ))}
+            </div>
+          </div>
+        </Panel>
+
+        <div className="flex min-w-0 flex-col gap-[18px]">
+          <Panel
+            title={o('sources')}
+            sub={top ? o('topSource', { source: t(`web.channel.${top.channel}`), n: int(top.sessions), pct: share(top.sessions, tot.sessions) }) : o('noSources')}
+          >
+            {sources.length ? (
+              <ul className="m-0 mt-[14px] flex list-none flex-col gap-[10px] p-0">
+                {sources.map((s, i) => {
+                  const p = share(s.sessions, tot.sessions)
+                  return (
+                    <li key={s.channel} className="flex items-center gap-[10px]">
+                      <span className="w-[100px] flex-none text-[13px] font-semibold">{t(`web.channel.${s.channel}`)}</span>
+                      <span className="block h-[8px] flex-1 overflow-hidden rounded-pill bg-ink/[.08]">
+                        <span className={`block h-full rounded-pill ${VIZ[i % VIZ.length]}`} style={{ width: `${p}%` }} />
+                      </span>
+                      <span className="min-w-[84px] whitespace-nowrap text-right text-[12.5px]">
+                        <b>{p} %</b> <span className="text-mut">{int(s.sessions)}</span>
+                      </span>
+                    </li>
+                  )
+                })}
+              </ul>
+            ) : null}
+          </Panel>
+
+          <Panel title={o('devices')}>
+            {known ? (
+              <div className="mt-[14px] flex gap-[10px]">
+                {devices.map((d) => (
+                  <div key={d.key} className="min-w-0 flex-1 rounded-[12px] border border-line bg-bg px-[14px] py-[12px]">
+                    <div className="text-[11px] uppercase tracking-[0.09em] text-mut">{o(`device.${d.key}`)}</div>
+                    <div className="mt-[2px] text-[22px] font-bold">{share(d.n, known)} %</div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="mb-0 mt-[14px] text-[13px] leading-[1.5] text-mut">{o('noDevices')}</p>
+            )}
+          </Panel>
+        </div>
+      </div>
+      <p className="mb-0 mt-[16px] text-[12px] text-mut md:px-[18px]">{o('visitorsNote')}</p>
     </>
   )
 }

@@ -5809,7 +5809,7 @@
           },
           {
             "t": "p",
-            "text": "Vi fører vår egen statistikk over bruken av orgpuls.com, uten informasjonskapsler og uten å lagre noe på enheten din. For hver sidevisning lagres siden, nettstedet du kom fra (bare domenet), eventuelle kampanjemerker i adressen (utm), omtrentlig sted (land, region og by, avledet av IP-adressen) og nettverket IP-adressen tilhører, avkortet til de første tre av fire deler (/24, eller /48 for IPv6). Selve IP-adressen og nettleserens identifikasjon lagres ikke. De brukes bare til å lage en besøkskode som byttes hvert døgn, slik at vi kan telle besøk samme dag uten å kunne følge deg fra dag til dag."
+            "text": "Vi fører vår egen statistikk over bruken av orgpuls.com, uten informasjonskapsler og uten å lagre noe på enheten din. For hver sidevisning lagres siden, nettstedet du kom fra (bare domenet), eventuelle kampanjemerker i adressen (utm), omtrentlig sted (land, region og by, avledet av IP-adressen) og nettverket IP-adressen tilhører, avkortet til de første tre av fire deler (/24, eller /48 for IPv6), og om besøket kom fra en datamaskin, en mobil eller et nettbrett, lest av nettleserens identifikasjon. Selve IP-adressen og nettleserens identifikasjon lagres ikke. Utover dette brukes de bare til å lage en besøkskode som byttes hvert døgn, slik at vi kan telle besøk samme dag uten å kunne følge deg fra dag til dag."
           },
           {
             "t": "p",
@@ -7521,7 +7521,10 @@
         "cmsRedirects": "Redirects",
         "crmJourneys": "Journeys",
         "crmTasks": "Tasks",
-        "crmScoring": "Lead scoring"
+        "crmScoring": "Lead scoring",
+        "webPages": "Pages",
+        "webGoals": "Goals",
+        "webVisits": "Sources & visits"
       },
       "openMenu": "Open the menu",
       "closeMenu": "Close the menu",
@@ -10589,6 +10592,112 @@
       "noTickets": "No tickets yet",
       "noTicketsLead": "Questions this customer sends support will appear here.",
       "openTickets": "{count, plural, =0 {none open} one {# open} other {# open}}"
+    },
+    "analytics": {
+      "period": "Period",
+      "days": "{count} d",
+      "export": "Export report",
+      "overview": {
+        "title": "Web analytics",
+        "lead": "{domain} · {range} · cookieless, counted server-side",
+        "kpi": {
+          "visitors": "Visitors · {days} d",
+          "sessions": "Sessions",
+          "views": "Pageviews",
+          "bounce": "Bounce rate"
+        },
+        "up": "▲ {pct} % vs previous {days} days",
+        "down": "▼ {pct} % vs previous {days} days",
+        "flat": "Same as the previous {days} days",
+        "noPrevious": "No earlier period to compare with",
+        "perVisitor": "{n} per visitor",
+        "perSession": "{n} pages per session",
+        "onSite": "average {time} on site",
+        "daily": "Visitors per day",
+        "weekly": "Visitors per week",
+        "weekends": "{months} · weekends in grey",
+        "weeks": "Week numbers · {months}",
+        "bar": "{label}: {n} visitors",
+        "sources": "Sources",
+        "topSource": "{source} brings {n} sessions — {pct} % of the total",
+        "noSources": "No visits in the period.",
+        "devices": "Devices",
+        "device": {
+          "desktop": "Desktop",
+          "mobile": "Mobile",
+          "tablet": "Tablet"
+        },
+        "noDevices": "No visit in the period with a known device yet. The kind of device has been counted since 29 Sep 2026.",
+        "visitorsNote": "A visitor is counted once a day: the visit code changes every day, so the same person on two days counts twice."
+      },
+      "pages": {
+        "title": "Pages",
+        "lead": "{count} pages with traffic · {range} · conversion is sign-ups from visits that began on the page",
+        "col": {
+          "page": "Page",
+          "share": "Share of views",
+          "views": "Views",
+          "unique": "Unique",
+          "time": "Time",
+          "exit": "Exit",
+          "conv": "Conv."
+        },
+        "kind": {
+          "page": "Page",
+          "landing": "Landing page",
+          "industry": "Industry page",
+          "article": "Article"
+        },
+        "none": "No page views in the period.",
+        "shown": "The {count} pages with most views are shown.",
+        "note": "Time is how long a view lasted until the next page in the same visit; the last page of a visit has no time of its own. Exit is the share of views no other page followed."
+      },
+      "goals": {
+        "title": "Goals",
+        "lead": "{count, plural, one {{n} trial} other {{n} trials}} started in {range} · each new organisation keeps the source and campaign it came from",
+        "funnel": "From visitor to customer",
+        "funnelLead": "Percentages are of all visitors in the period",
+        "step": {
+          "visitors": "Visitors",
+          "pricing": "Viewed pricing",
+          "signup": "Opened sign-up",
+          "trials": "Started a trial",
+          "customers": "Became a customer"
+        },
+        "list": "Goals",
+        "goal": {
+          "trials": {
+            "name": "Started a trial",
+            "rule": "Organisation created at /registrer",
+            "src": "Customers · Trial"
+          },
+          "demos": {
+            "name": "Requested a demo",
+            "rule": "Demo link asked for at /demo",
+            "src": "Demo sandbox"
+          },
+          "newsletter": {
+            "name": "Newsletter signup",
+            "rule": "Subscription confirmed at /nyhetsbrev",
+            "src": "Contacts · Subscribed"
+          },
+          "contact": {
+            "name": "Contact form",
+            "rule": "Message sent at /kontakt",
+            "src": "Tickets"
+          }
+        },
+        "up": "▲ {pct} %",
+        "down": "▼ {pct} %",
+        "flat": "flat",
+        "notKept": "not kept",
+        "notKeptHint": "Demo requests are deleted after 30 days, so they cannot be counted for a longer period.",
+        "trendHint": "Compared with the {days} days before."
+      },
+      "visits": {
+        "title": "Sources & visits",
+        "lead": "Where visits came from and what they led to, the places they came from and the latest visits one by one."
+      }
     }
   },
   "access": {

@@ -332,8 +332,25 @@ const Web = z.object({
   ),
 })
 export type Web = z.infer<typeof Web>
-export const WEB_PERIODS = [7, 30, 90, 365] as const
 export const web = (days: number) => call('admin_web', { p_days: days }, Web)
+
+// 0121 (X-095): the Analytics pages — the period before, time on site, devices, per page, the funnel, goals
+const Count = z.object({ n: numn, prev: numn })
+const WebReport = z.object({
+  days: num,
+  from: z.string(),
+  to: z.string(),
+  avg_seconds: num,
+  previous: z.object({ visitors: num }).nullable(),
+  devices: z.array(z.object({ device: z.enum(['desktop', 'mobile', 'tablet']), visitors: num })),
+  pages_total: num,
+  views_total: num,
+  pages: z.array(z.object({ path: z.string(), views: num, uniq: num, seconds: numn, exits: num, entries: num, signups: num })),
+  funnel: z.object({ visitors: num, pricing: num, signup: num, trials: num, customers: num }),
+  goals: z.object({ trials: Count, demos: Count, newsletter: Count, contact: Count }),
+})
+export type WebReport = z.infer<typeof WebReport>
+export const webReport = (days: number) => call('admin_web_report', { p_days: days }, WebReport)
 
 const Attribution = z.object({
   row: z

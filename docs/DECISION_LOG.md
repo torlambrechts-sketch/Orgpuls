@@ -2781,7 +2781,18 @@ tasks open and done (`admin_crm_task_list`) and makes the health reader say whic
 sandboxes; crm_journeys_invariants.sql proves all three. The CRM sub-bar keeps the design's seven
 pages and puts the CRM's own behind «More».
 
+Phase 6, Analytics: Overview, Pages and Goals as designed (D-167). 0121 gives the beacon a device
+class read from the user agent it already hashed — desktop, mobile or tablet, never the agent — and
+adds `admin_web_report`: the period before, time on site, devices, per page views, unique, time to
+the next view, exits, entries and sign-ups, the visitor-to-customer funnel and four goals against
+the period before, with demo requests only where their 30 days reach. The privacy statement names
+the device class (no and en), so it goes back to Legal review. web_report_invariants.sql proves the
+class, that no agent or address is kept, the per-page arithmetic, the funnel without demos, the
+retention limits and who may ask. The old Web page's detail is kept as Sources & visits behind
+«More»; «Export report» is a CSV of the same figures.
+
 ## Open items
+- [ ] Analytics (X-095, D-167): approve the privacy statement's changed web-statistics paragraph (the device class, no and en) in admin › Legal review.
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.
 - [ ] CRM tracking consent (crm-conversion.md § 8): per-recipient opens and clicks are stored today. EDPB 2/2023 reads pixels and tracking links as needing consent (ekomloven § 3-15). Decide: turn per-recipient opens off (they are not evidence anyway), or ask for pixel consent.

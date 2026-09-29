@@ -93,8 +93,11 @@ const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }
   {
     key: 'analytics',
     items: [
-      { key: 'web', section: 'web', href: HREF.web, icon: 'chart' },
-      { key: 'acquisition', section: 'acquisition', href: HREF.acquisition, icon: 'coins' },
+      { key: 'web', section: 'web', href: HREF.web, icon: 'chart', exact: true },
+      { key: 'webPages', section: 'web', href: '/admin/web/pages', icon: 'page' },
+      { key: 'webGoals', section: 'web', href: '/admin/web/goals', icon: 'flag' },
+      { key: 'webVisits', section: 'web', href: '/admin/web/visits', icon: 'globe', more: true },
+      { key: 'acquisition', section: 'acquisition', href: HREF.acquisition, icon: 'coins', more: true },
     ],
   },
   {

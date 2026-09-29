@@ -35,6 +35,9 @@ const PAGES = [
   '/admin/crm/templates',
   '/admin/crm/stages',
   '/admin/cms/redirects',
+  '/admin/web/pages',
+  '/admin/web/goals',
+  '/admin/web/visits',
 ]
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -65,7 +68,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         siteName: t('nav.siteName'),
         siteDomain: t('nav.siteDomain'),
         account: t('nav.account'),
-          more: t('nav.more'),
+        more: t('nav.more'),
         openMenu: t('nav.openMenu'),
         closeMenu: t('nav.closeMenu'),
         signOut: t('nav.signOut'),
