@@ -9352,7 +9352,40 @@
       "waiting": "Waiting for approval",
       "fileText": "File",
       "outside": "Left out, belonging to the other tab: {n}.",
-      "removed": "Put back to the file’s own text: {n}."
+      "removed": "Put back to the file’s own text: {n}.",
+      "site": {
+        "nav": "Pages of the website",
+        "lead": "The public website page by page: each text in the order the page shows it, bokmål and English side by side. Correct a text in place, or download the page as a spreadsheet for a reviewer and import it back. Which texts each page shows is crawled from the site itself and checked on every push (scripts/i18n/page-map.mjs).",
+        "shared": "Header and footer",
+        "other": "Other site texts",
+        "title": "{page} · {n, plural, one {# text} other {# texts}}",
+        "sheetTitle": "Spreadsheet",
+        "sheetLead": "Bokmål and English side by side, one row per text, in the page's order. Correct the cells, keep the key column as it is, and import the file below. A cell left as it was changes nothing; an emptied cell changes nothing either.",
+        "download": "Download this page as a spreadsheet (.xlsx)",
+        "importTitle": "Import a corrected spreadsheet",
+        "importLead": "Checked as a file for each language would be: every placeholder and tag kept, plurals complete. What is imported waits for approval above, unless auto-approve is on.",
+        "unreached": "Another state",
+        "unreachedHint": "Texts marked «Another state» are shown by the page only after something happens (an error, a sent form, a later step): the crawl does not reach them, so they follow the page's own.",
+        "edit": "Edit",
+        "save": "Save",
+        "done": "Saved. It waits for approval above, unless auto-approve is on.",
+        "unchanged": "Nothing changed.",
+        "fold": "Approved texts are folded back into messages/ by a weekly pull request, so the files stay the source."
+      },
+      "sheet": {
+        "no": "Norsk (bokmål)",
+        "en": "English",
+        "note": "Note",
+        "waiting": "Waiting for approval",
+        "unreached": "Shown in another state of the page",
+        "hint": "Keep every placeholder in braces and every tag in angle brackets exactly as it is"
+      },
+      "standing": {
+        "folded": "In the files: the weekly fold-back wrote this text into messages/, which now shows it.",
+        "superseded": "Superseded: messages/ has changed here since this override was written, so the file's text is shown.",
+        "foldedBadge": "In the files",
+        "supersededBadge": "Superseded"
+      }
     },
     "autoBanner": "Auto-approve is on: every translation and legal text is approved as it arrives.",
     "autoBannerLink": "Translations"

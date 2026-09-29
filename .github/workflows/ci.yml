@@ -293,6 +293,15 @@ jobs:
           # e2e.mjs applies the Lumio seed before and after the run (scripts/qa/seed.mjs)
           npm run e2e -- --project mobile --project small --project tiny --project pseudo --grep '@flow|@pseudo|@invariants'
 
+      # The page map (X-090): admin › Translations reviews the site page by page from
+      # lib/i18n/site-pages.json. The same build is served in keys mode (lib/i18n/keyed.ts) and
+      # every public page crawled: a page showing a text its entry lacks, or a map naming a text
+      # messages/ no longer has, fails here. `node scripts/i18n/page-map.mjs` regenerates it.
+      - name: Page map
+        env:
+          QA_DIST_DIR: .next
+        run: node scripts/i18n/page-map.mjs --check
+
       - if: always()
         uses: actions/upload-artifact@v4
         with:

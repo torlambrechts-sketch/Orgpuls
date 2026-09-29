@@ -2564,6 +2564,45 @@ from now, record the decision."
   the audit, and the handel and kunnskap-og-kontor modules (160 texts, never translated), into all
   five languages; the two modules' English (they had none).
 
+### X-090 — The site is reviewed page by page, and approved texts are folded back into the files
+
+Tor, 2026-09-29, asked whether the site's Norwegian and English should be handed over per page, and
+for best practice; then "yes" to: a per-page review screen, an automatic page map, a weekly fold-back.
+
+- **One catalogue, many views.** messages/no.json and en.json stay the single source; the pages are
+  a *view* over them, not a split of the files. Splitting per page would duplicate the header,
+  footer and every shared phrase, and drift.
+- **The page map is crawled, never written by hand.** `lib/i18n/keyed.ts` (the keys mode, QA only,
+  `ORGPULS_I18N_KEYS=1`, ignored on a production deployment and for any locale but bokmål) prefixes
+  every message with its path between ⟪ ⟫. `scripts/i18n/page-map.mjs` serves the QA build in that
+  mode, reads the markers from the server-rendered HTML of every sitemap page and the sign-in,
+  sign-up and token pages (the React payload scripts stripped: they carry the whole client
+  catalogue), and writes `lib/i18n/site-pages.json`: 37 pages, each text in the order shown, then
+  the texts only another state shows (an error, a sent form) owned by that page's key group; the
+  header and footer (on more than half of the pages) as one page; the rest as «other site texts».
+  A block's kind, link, id, slug or source address is data, never marked or listed. CI's `Page map`
+  step fails when a page shows a text its entry lacks, or the map names one the files no longer
+  have (`npm run i18n:pages` regenerates it).
+- **admin › Translations › Pages › Pages of the website:** each page's texts, bokmål and English side
+  by side; each editable in place (checked as a one-key import: placeholders, tags, plurals); the
+  page as a bilingual spreadsheet (.xlsx: key, bokmål, English, note) to download and import back,
+  read by its column headings so a reviewer may add or reorder columns. What is written is an
+  override waiting for approval, or approved at once while auto-approve is on. XLSX, not CSV: a
+  comma CSV opens as one column in a Norwegian Excel and line breaks do not survive it. The reader
+  and writer are `lib/xlsx.ts` (no dependency; zip-bomb bounded), tested against a file openpyxl
+  saved.
+- **Fold-back, weekly:** `.github/workflows/i18n-fold.yml` runs `scripts/i18n/fold-overrides.mjs`
+  on Mondays and opens (or refreshes) one pull request writing every approved override that still
+  stands into messages/. It reads `public.message_overrides` with the public anon key, from the
+  repository secret `SUPABASE_ANON_KEY`, and writes nothing to the database.
+- **An override stands only while the file says what it replaced (0109).** Each override records the
+  SHA-256 of the file text it replaced (`file_hash`); the app, the dispatcher and the Auth mail hook
+  apply it only while the file's text still hashes to that. So once a fold lands, or a developer
+  rewrites the string, the files win, in whatever order the app and the functions are deployed; no
+  row is deleted, and the admin shows the override «In the files» or «Superseded». Without this a
+  folded or stale override would silently undo every later code change to its text. Rows from
+  before 0109 have no basis and apply as before; hosted had none.
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.
@@ -2821,3 +2860,4 @@ from now, record the decision."
 - [x] Signed off 2026-09-28 (X-086). Was: engagement phase 2: switch on `engagement_since_last`, `engagement_thanks` and `engagement_pulse_reason` in production once Tor has seen them on a pilot; the new `respond.*` keys are re-approved for English (or auto-approve is on), and the survey languages (pl, uk, lt, sv, da) fall back to bokmål for them until translated (X-085, D-156).
 - [x] Translate the strings added by 0105/0107 in pl, uk, lt, sv and da — machine drafts written 2026-09-29 (X-089); Tor reviews them in admin › Translations.
 - [ ] The deep audit's P2/P3 findings (docs/audits/2026-09-28-deep.md): v3 pixel gate in CI and the Resultater/Kommentarer claims re-recorded after reading the diff, `qa:visual` specs brought up to the intro page, npm audit (postcss via next), `noindex` on `/s/[token]` and `/bli-med`, the thank-you and «Siden sist» wording, the evaluation mail's year, the employees' page and department measures, `wiring.mjs --matrix`, and the P3 list.
+- [ ] Fold-back (X-090): add the repository secret `SUPABASE_ANON_KEY` (Settings › Secrets and variables › Actions) holding the project's anon (publishable) key; until then the weekly `i18n-fold` workflow fails and says so. Its pull requests are opened with the workflow token, which starts no other workflow: CI runs in full on merge.

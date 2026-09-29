@@ -5,7 +5,9 @@ import { flag, type FlagName } from '@/lib/flags'
 import { TRANSLATION_LOCALES } from '@/lib/i18n/locales'
 import { SECTIONS, surveyCatalogue, type Section, type SourceEntry } from '@/lib/i18n/survey-catalogue'
 import { standing, type Current } from '@/lib/i18n/translation-package'
-import { platformCatalogue, type Override, type PlatformEntry } from '@/lib/i18n/platform-package'
+import { liveOverride, platformCatalogue, type Override, type PlatformEntry } from '@/lib/i18n/platform-package'
+import { isStructuralPath } from '@/lib/i18n/keyed'
+import siteMap from '@/lib/i18n/site-pages.json'
 import { effectiveMessages } from '@/lib/i18n/overrides'
 import type { Catalogue } from '@/lib/i18n/icu-rules'
 import { autoApprove, isError, localePilots, messageOverrideRows, translationSources, translationState, type OverrideRow, type TranslationState } from './api'
@@ -111,9 +113,10 @@ export async function languageView(locale: RegistryLanguage, scope: Scope): Prom
 
 // ---------------------------------------------------------------- bokmål and English
 export const PLATFORM_CATALOGUE: PlatformEntry[] = platformCatalogue(no as unknown as Catalogue, en as unknown as Catalogue)
+const PLATFORM_CATALOGUE_BY_PATH = new Map(PLATFORM_CATALOGUE.map((e) => [e.path, e]))
 
 export const overrideMap = (rows: readonly OverrideRow[]): Map<string, Override> =>
-  new Map(rows.map((r) => [r.key, { key: r.key, text: r.text, status: r.status, source: r.source, notes: r.notes, source_hash: r.source_hash, auto: r.auto }]))
+  new Map(rows.map((r) => [r.key, { key: r.key, text: r.text, status: r.status, source: r.source, notes: r.notes, source_hash: r.source_hash, file_hash: r.file_hash ?? null, auto: r.auto }]))
 
 export type PlatformView = {
   locale: PlatformLanguage
@@ -132,14 +135,41 @@ export async function platformView(locale: PlatformLanguage): Promise<PlatformVi
     return err.error === 'not_allowed' ? 'not_allowed' : 'failed'
   }
   const rows = locale === 'no' ? o.items : e.items
+  const own = overrideMap(rows)
   return {
     locale,
     rows,
-    own: overrideMap(rows),
+    own,
     bokmal: overrideMap(o.items),
     english: overrideMap(e.items),
-    pending: rows.filter((r) => r.status !== 'approved'),
+    // a waiting override the files have since changed under (0109) would never be shown: not offered
+    pending: rows.filter((r) => {
+      const entry = PLATFORM_CATALOGUE_BY_PATH.get(r.key)
+      return r.status !== 'approved' && (!entry || !!liveOverride(entry, locale, own))
+    }),
   }
 }
+
+// ---------------------------------------------------------------- the site, page by page (X-090)
+/**
+ * The page map (lib/i18n/site-pages.json, crawled by scripts/i18n/page-map.mjs): each public page's
+ * texts in the order it shows them, then the ones only another state of it shows (an error, a sent
+ * form), which the crawl did not reach. `shared` is the header and the footer; `other` a text of
+ * the site's namespaces no one page owns. A block's kind or link is data, not a text: never listed.
+ */
+export type SiteEntry = { entry: PlatformEntry; reached: boolean }
+export type SitePageId = string
+const entriesOf = (keys: readonly string[], reached: boolean): SiteEntry[] =>
+  keys.flatMap((k) => {
+    const e = PLATFORM_CATALOGUE_BY_PATH.get(k)
+    return e && e.view === 'pages' && !isStructuralPath(k) ? [{ entry: e, reached }] : []
+  })
+
+export const SITE_PAGES: { id: SitePageId; entries: SiteEntry[] }[] = [
+  ...siteMap.pages.map((p) => ({ id: p.path, entries: [...entriesOf(p.keys, true), ...entriesOf(p.states, false)] })),
+  { id: 'shared', entries: entriesOf(siteMap.shared, true) },
+  { id: 'other', entries: entriesOf(siteMap.unseen, false) },
+]
+export const sitePage = (id: string | undefined | null) => (id ? (SITE_PAGES.find((p) => p.id === id) ?? null) : null)
 
 export { autoApprove }

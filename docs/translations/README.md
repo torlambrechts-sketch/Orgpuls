@@ -91,3 +91,13 @@ A methodologist decides whether any official wording replaces a draft, and the l
 
 Each page has the translator's glossary and decisions, the reviewer's log, and the open questions
 for the human translator.
+
+## The website, page by page (X-090)
+
+The site's bokmål and English are reviewed in admin › Translations › Pages › *Pages of the website*:
+pick a page, read its texts in the order it shows them, correct one in place, or download the page
+as a spreadsheet (key · bokmål · English · note) for a reviewer and import it back. The page map
+behind it (`lib/i18n/site-pages.json`) is crawled from the site (`npm run i18n:pages`) and checked
+in CI. What is approved there is folded back into `messages/` by a weekly pull request; once it
+lands, the files carry the text and the override steps aside (0109).
+

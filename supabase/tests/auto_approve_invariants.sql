@@ -2,7 +2,7 @@
 -- D-152), proved against the live schema.
 --
 --   * app.message_overrides and app.platform_settings: RLS on, no policy, no grant (1)
---   * anon reads only approved overrides, as text; a member, an aal1 session and support cannot
+--   * anon reads only approved overrides, as text (with their basis since 0109); a member, an aal1 session and support cannot
 --     import, approve or switch (2)
 --   * an import writes drafts; approving needs the hash of the text shown; a new wording is a
 --     draft again; a remove row goes back to the file's text (3)
@@ -62,8 +62,9 @@ begin
     insert into app.message_overrides (locale, key, text, status) values ('en', 'probe.approved', 'Shown', 'approved'),
                                                                          ('en', 'probe.draft', 'Not shown', 'draft');
     set local role anon;
-    v_txt := public.message_overrides('en') ->> 'probe.approved';
-    v_txt := v_txt || '|' || coalesce(public.message_overrides('en') ->> 'probe.draft', 'none');
+    -- {key: {text, file}} since 0109 (override_basis_invariants.sql proves the basis)
+    v_txt := public.message_overrides('en') -> 'probe.approved' ->> 'text';
+    v_txt := v_txt || '|' || coalesce(public.message_overrides('en') -> 'probe.draft' ->> 'text', 'none');
     reset role;
     perform set_config('request.jwt.claims', format(claims, v_sa, 'aal1'), true);
     set local role authenticated;

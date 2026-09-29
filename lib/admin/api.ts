@@ -732,6 +732,8 @@ const Overrides = z.object({
       source: z.string(),
       notes: z.string().nullable(),
       source_hash: z.string().nullable(),
+      // the file text it replaced (0109): absent from a database before it
+      file_hash: z.string().nullable().optional(),
       approved_at: tsn,
       auto: z.boolean(),
       by: z.string().nullable(),

@@ -40,7 +40,7 @@ async function withOverrides(cat: MailCatalogue, lang: string): Promise<MailCata
       await res.body?.cancel()
       return cat
     }
-    return { ...cat, [lang]: withMailOverrides(cat[lang], (await res.json()) as Record<string, unknown>) }
+    return { ...cat, [lang]: await withMailOverrides(cat[lang], (await res.json()) as Record<string, unknown>) }
   } catch {
     return cat
   }

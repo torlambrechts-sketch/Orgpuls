@@ -343,7 +343,7 @@ Deno.serve(async (req) => {
       console.error(`[dispatch] overrides ${lang}: ${o.error.code ?? ''} ${o.error.message}`)
       continue
     }
-    cat[lang] = withMailOverrides(cat[lang], (o.data ?? {}) as Record<string, unknown>)
+    cat[lang] = await withMailOverrides(cat[lang], (o.data ?? {}) as Record<string, unknown>)
   }
   const started = Date.now()
   const tally = { claimed: 0, sent: 0, sms: 0, failed: 0, retry: 0, released: 0 }

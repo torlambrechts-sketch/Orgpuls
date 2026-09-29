@@ -2,7 +2,7 @@ import type { Route } from 'next'
 import Link from 'next/link'
 import { createHash } from 'node:crypto'
 import { getTranslations } from 'next-intl/server'
-import { AutoApproveForm, MessagesApproveForm, TranslationApproveForm, TranslationImportForm } from '@/components/admin/TranslationForms'
+import { AutoApproveForm, MessageEditForm, MessagesApproveForm, TranslationApproveForm, TranslationImportForm } from '@/components/admin/TranslationForms'
 import { Badge, Card, PageHead, Problem, Stat } from '@/components/admin/ui'
 import { whoami } from '@/lib/admin/api'
 import { autoRecord } from '@/lib/admin/auto'
@@ -15,15 +15,18 @@ import {
   PLATFORM_CATALOGUE,
   platformView,
   SCOPE_SECTIONS,
+  SITE_PAGES,
+  sitePage,
   surveyTexts,
   type AdminLanguage,
   type LanguageView,
   type PlatformView,
   type Scope,
+  type SiteEntry,
 } from '@/lib/admin/translations'
 import { isError } from '@/lib/admin/api'
 import { LOCALE_REGISTRY } from '@/lib/i18n/locales'
-import { shownText } from '@/lib/i18n/platform-package'
+import { currentText, overrideStanding, shownText, type Override } from '@/lib/i18n/platform-package'
 import type { Section } from '@/lib/i18n/survey-catalogue'
 import { ORIGINS, standing } from '@/lib/i18n/translation-package'
 
@@ -34,7 +37,7 @@ import { ORIGINS, standing } from '@/lib/i18n/translation-package'
  * agency) and comes back the same way; what is waiting is approved here, or by the auto-approve
  * switch while it is on. The admin itself stays English. Super-admin.
  */
-type Props = { searchParams: Promise<{ view?: string; lang?: string; section?: string; show?: string; ns?: string; q?: string; page?: string }> }
+type Props = { searchParams: Promise<{ view?: string; lang?: string; section?: string; show?: string; ns?: string; q?: string; page?: string; site?: string }> }
 
 type T = Awaited<ReturnType<typeof getTranslations<'admin'>>>
 const SHOW = ['all', 'none', 'workflow', 'approved', 'stale'] as const
@@ -106,7 +109,7 @@ export default async function AdminTranslations(props: Props) {
 
       <nav aria-label={t('translations.tabs')} className="mb-[14px] flex gap-[22px] border-b border-line">
         {(['questionnaire', 'pages'] as const).map((s) => (
-          <Link key={s} href={href({ view: s, section: undefined, show: undefined, ns: undefined, q: undefined, page: undefined })} aria-current={s === view ? 'page' : undefined} className={tab(s === view)}>
+          <Link key={s} href={href({ view: s, section: undefined, show: undefined, ns: undefined, q: undefined, page: undefined, site: undefined })} aria-current={s === view ? 'page' : undefined} className={tab(s === view)}>
             {t(`translations.tab.${s}`)}
           </Link>
         ))}
@@ -359,6 +362,7 @@ async function platformPages(t: T, lang: 'no' | 'en', sp: Awaited<Props['searchP
   if (v === 'not_allowed') return <Problem text={t('common.notAllowed')} />
   if (v === 'failed') return <Problem text={t('common.failed')} />
   const pages = PLATFORM_CATALOGUE.filter((e) => e.view === 'pages')
+  const site = sitePage(sp.site)
   const namespaces = [...new Set(pages.map((e) => e.ns))].sort()
   const ns = namespaces.includes(sp.ns ?? '') ? sp.ns! : undefined
   const show: PageShow = (PAGE_SHOW as readonly string[]).includes(sp.show ?? '') ? (sp.show as PageShow) : 'all'
@@ -390,10 +394,12 @@ async function platformPages(t: T, lang: 'no' | 'en', sp: Awaited<Props['searchP
       </Card>
 
       <div className="mt-[16px] grid gap-[16px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
-        <div className="flex flex-col gap-[16px]">
-          {exportCard(t, lang, 'pages', t(`translations.exportLeadPlatform.${lang}`))}
-          {ns ? exportCard(t, lang, 'pages', t('translations.exportNs', { ns }), ns) : null}
-        </div>
+        {site ? null : (
+          <div className="flex flex-col gap-[16px]">
+            {exportCard(t, lang, 'pages', t(`translations.exportLeadPlatform.${lang}`))}
+            {ns ? exportCard(t, lang, 'pages', t('translations.exportNs', { ns }), ns) : null}
+          </div>
+        )}
         <Card title={t('translations.approveTitle')}>
           {pendingItems.length ? (
             <>
@@ -411,11 +417,28 @@ async function platformPages(t: T, lang: 'no' | 'en', sp: Awaited<Props['searchP
         </Card>
       </div>
 
-      <Card title={t('translations.importTitle')} className="mt-[16px]">
-        <p className="mb-[10px] mt-0 max-w-[80ch] text-[13px] leading-[1.55] text-mut">{t('translations.importLeadPlatform')}</p>
-        <TranslationImportForm key={`${lang}-pages`} locale={lang} scope="pages" platform labels={importLabels(t)} />
+      {site ? null : (
+        <Card title={t('translations.importTitle')} className="mt-[16px]">
+          <p className="mb-[10px] mt-0 max-w-[80ch] text-[13px] leading-[1.55] text-mut">{t('translations.importLeadPlatform')}</p>
+          <TranslationImportForm key={`${lang}-pages`} locale={lang} scope="pages" platform labels={importLabels(t)} />
+        </Card>
+      )}
+
+      <Card title={t('translations.site.nav')} className="mt-[16px]">
+        <p className="mb-[10px] mt-0 max-w-[80ch] text-[12.5px] leading-[1.55] text-mut">{t('translations.site.lead')}</p>
+        <nav aria-label={t('translations.site.nav')} className="flex flex-wrap items-center gap-[6px] text-[12.5px]">
+          {SITE_PAGES.map((p) => (
+            <Link key={p.id} href={href({ site: p.id })} aria-current={p.id === site?.id ? 'page' : undefined} className={pill(p.id === site?.id)}>
+              {siteLabel(t, p.id)} · {p.entries.length}
+            </Link>
+          ))}
+        </nav>
       </Card>
 
+      {site ? (
+        <SitePanel t={t} v={v} id={site.id} entries={site.entries} />
+      ) : (
+        <>
       <nav aria-label={t('translations.namespaces')} className="mt-[18px] flex flex-wrap items-center gap-[6px] text-[12.5px]">
         <Link href={href({ ...keep, ns: undefined, page: undefined })} aria-current={!ns ? 'page' : undefined} className={pill(!ns)}>
           {t('translations.allNamespaces')}
@@ -455,6 +478,103 @@ async function platformPages(t: T, lang: 'no' | 'en', sp: Awaited<Props['searchP
           ))}
         </nav>
       ) : null}
+        </>
+      )}
+    </>
+  )
+}
+
+/** An override's step, or where the files have taken over from it (0109) */
+function OverrideBadge({ t, o, st }: { t: T; o: Override | undefined; st: ReturnType<typeof overrideStanding> }) {
+  if (!o) return <Badge tone="grey">{t('translations.fileText')}</Badge>
+  if (st === 'folded' || st === 'superseded') return <Badge tone="grey">{t(`translations.standing.${st}Badge`)}</Badge>
+  return <Badge tone={o.status === 'approved' ? 'green' : 'grey'}>{t(`translations.step.${o.status}`)}</Badge>
+}
+
+const siteLabel = (t: T, id: string) => (id === 'shared' ? t('translations.site.shared') : id === 'other' ? t('translations.site.other') : id)
+
+/** A page of the site (X-090): its texts in order, bokmål and English, each editable; the page as a spreadsheet */
+function SitePanel({ t, v, id, entries }: { t: T; v: PlatformView; id: string; entries: SiteEntry[] }) {
+  const current = (e: SiteEntry['entry'], l: 'no' | 'en') => currentText(e, l, l === 'no' ? v.bokmal : v.english)
+  const editLabels = {
+    edit: t('translations.site.edit'),
+    bokmal: t('translations.bokmal'),
+    english: t('translations.english'),
+    save: t('translations.site.save'),
+    saving: t('legal.saving'),
+    done: t('translations.site.done'),
+    problems: {
+      ...problemsOf(t),
+      unchanged: t('translations.site.unchanged'),
+      ...Object.fromEntries(CODES.map((c) => [`code.${c}`, t(`translations.code.${c}`)])),
+    },
+  }
+  const side = (e: SiteEntry['entry'], l: 'no' | 'en') => {
+    const map = l === 'no' ? v.bokmal : v.english
+    const o = map.get(e.path)
+    const st = overrideStanding(e, l, map)
+    return (
+      <Column
+        label={l === 'no' ? t('translations.bokmal') : t('translations.english')}
+        lang={l === 'no' ? 'nb' : 'en'}
+        text={shownText(e, l, map)}
+        empty={t('translations.untranslated')}
+        note={
+          o ? (
+            <p className="m-0 mt-[4px] whitespace-pre-wrap text-[11.5px] leading-[1.5] text-mut">
+              {st === 'folded' || st === 'superseded'
+                ? t(`translations.standing.${st}`)
+                : o.status === 'approved'
+                  ? t('translations.overridden')
+                  : `${t('translations.waiting')}: ${o.text}`}
+            </p>
+          ) : null
+        }
+      />
+    )
+  }
+  return (
+    <>
+      <div className="mt-[16px] grid gap-[16px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
+        <Card title={t('translations.site.sheetTitle')}>
+          <p className="mb-[10px] mt-0 text-[13px] leading-[1.55] text-mut">{t('translations.site.sheetLead')}</p>
+          <a href={`/admin/translations/sheet?site=${encodeURIComponent(id)}`} className="text-[13px] font-semibold text-link">
+            {t('translations.site.download')}
+          </a>
+          <p className="mb-0 mt-[10px] text-[12.5px] leading-[1.55] text-mut">{t('translations.site.fold')}</p>
+        </Card>
+        <Card title={t('translations.site.importTitle')}>
+          <p className="mb-[10px] mt-0 text-[13px] leading-[1.55] text-mut">{t('translations.site.importLead')}</p>
+          <TranslationImportForm key={`sheet-${id}`} locale="no" scope="pages" platform sheet labels={importLabels(t)} />
+        </Card>
+      </div>
+
+      <Card title={t('translations.site.title', { page: siteLabel(t, id), n: entries.length })} className="mt-[16px]">
+        {entries.some((e) => !e.reached) ? <p className="mb-[6px] mt-0 max-w-[80ch] text-[12.5px] leading-[1.55] text-mut">{t('translations.site.unreachedHint')}</p> : null}
+        {entries.length ? (
+          <ol className="m-0 list-none p-0">
+            {entries.map(({ entry: e, reached }) => {
+              const o = v.own.get(e.path)
+              return (
+                <li key={e.key} className="border-t border-line py-[10px]">
+                  <span className="flex flex-wrap items-center gap-[6px]">
+                    <OverrideBadge t={t} o={o} st={overrideStanding(e, v.locale, v.own)} />
+                    {reached ? null : <Badge tone="yellow">{t('translations.site.unreached')}</Badge>}
+                    <span className="break-all font-mono text-[11px] text-mut">{e.path}</span>
+                  </span>
+                  <div className="mt-[6px] grid gap-[10px] [grid-template-columns:minmax(0,1fr)] md:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
+                    {side(e, 'no')}
+                    {side(e, 'en')}
+                  </div>
+                  <MessageEditForm key={e.path} path={e.path} no={current(e, 'no')} en={current(e, 'en')} labels={editLabels} />
+                </li>
+              )
+            })}
+          </ol>
+        ) : (
+          <p className="m-0 text-[13px] text-mut">{t('translations.none')}</p>
+        )}
+      </Card>
     </>
   )
 }
@@ -470,6 +590,7 @@ function PlatformRows({ t, v, rows }: { t: T; v: PlatformView; rows: typeof PLAT
   const side = (e: (typeof rows)[number], l: 'no' | 'en') => {
     const map = l === 'no' ? v.bokmal : v.english
     const o = map.get(e.path)
+    const st = overrideStanding(e, l, map)
     const shown = shownText(e, l, map)
     return (
       <Column
@@ -480,7 +601,11 @@ function PlatformRows({ t, v, rows }: { t: T; v: PlatformView; rows: typeof PLAT
         note={
           o ? (
             <p className="m-0 mt-[4px] text-[11.5px] leading-[1.5] text-mut">
-              {o.status === 'approved' ? t('translations.overridden') : `${t('translations.waiting')}: ${o.text}`}
+              {st === 'folded' || st === 'superseded'
+                ? t(`translations.standing.${st}`)
+                : o.status === 'approved'
+                  ? t('translations.overridden')
+                  : `${t('translations.waiting')}: ${o.text}`}
             </p>
           ) : null
         }
@@ -495,11 +620,7 @@ function PlatformRows({ t, v, rows }: { t: T; v: PlatformView; rows: typeof PLAT
           return (
             <li key={e.key} className="border-t border-line py-[10px]">
               <span className="flex flex-wrap items-center gap-[6px]">
-                {o ? (
-                  <Badge tone={o.status === 'approved' ? 'green' : 'grey'}>{t(`translations.step.${o.status}`)}</Badge>
-                ) : (
-                  <Badge tone="grey">{t('translations.fileText')}</Badge>
-                )}
+                <OverrideBadge t={t} o={o} st={overrideStanding(e, v.locale, v.own)} />
                 {o?.auto ? <Badge tone="yellow">{t('translations.autoBadge')}</Badge> : null}
                 <span className="break-all font-mono text-[11px] text-mut">{e.path}</span>
               </span>

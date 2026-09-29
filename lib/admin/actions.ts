@@ -15,7 +15,9 @@ import { createHash } from 'node:crypto'
 import { checkImport, FileError, ORIGINS, parseFile, type Origin } from '@/lib/i18n/translation-package'
 import { currentRows, isScope, PLATFORM_CATALOGUE, platformView, REGISTRY_LANGUAGES, SCOPE_SECTIONS, surveyTexts, type RegistryLanguage } from '@/lib/admin/translations'
 import { sectionOf } from '@/lib/i18n/translation-package'
-import { checkPlatformImport } from '@/lib/i18n/platform-package'
+import { checkPlatformImport, type PlatformRow } from '@/lib/i18n/platform-package'
+import { readSiteSheet } from '@/lib/i18n/site-sheet'
+import { readXlsx, SheetError } from '@/lib/xlsx'
 import { OVERRIDES_TAG } from '@/lib/i18n/overrides'
 import { autoRecord } from '@/lib/admin/auto'
 import { isError, translationState } from '@/lib/admin/api'
@@ -614,35 +616,143 @@ export async function messagesImport(_prev: ImportResult | null, formData: FormD
   if (parsed.data.digest !== digest) return { ok: false, problem: 'stale' }
   if (!checked.rows.length) return { ...summary, applied: true, written: { new: 0, changed: 0, same: 0, removed: 0, refused: [] } }
 
-  const supabase = await createClient()
-  const { data, error } = await supabase.rpc('admin_message_overrides_import', { p_locale: parsed.data.locale, p_rows: checked.rows })
-  if (error) return { ok: false, problem: 'failed' }
-  const reply = z
-    .object({
-      ok: z.boolean(),
-      error: z.string().optional(),
-      new: z.coerce.number().optional(),
-      changed: z.coerce.number().optional(),
-      removed: z.coerce.number().optional(),
-      same: z.coerce.number().optional(),
-      refused: z.array(z.object({ key: z.string(), error: z.string() })).optional(),
-    })
-    .safeParse(data)
-  if (!reply.success) return { ok: false, problem: 'failed' }
-  if (!reply.data.ok) return { ok: false, problem: reply.data.error ?? 'failed' }
+  const written = await writeOverrides(parsed.data.locale, checked.rows)
+  if ('problem' in written) return { ok: false, problem: written.problem }
   revalidateTag(OVERRIDES_TAG)
   revalidatePath('/admin/translations')
+  return { ...summary, applied: true, written }
+}
+
+type Written = { new: number; changed: number; same: number; removed: number; refused: { key: string; error: string }[] }
+const OverridesReply = z.object({
+  ok: z.boolean(),
+  error: z.string().optional(),
+  new: z.coerce.number().optional(),
+  changed: z.coerce.number().optional(),
+  removed: z.coerce.number().optional(),
+  same: z.coerce.number().optional(),
+  refused: z.array(z.object({ key: z.string(), error: z.string() })).optional(),
+})
+
+/** Checked rows into app.message_overrides (0101): what the database wrote, or why it did not */
+async function writeOverrides(locale: 'no' | 'en', rows: PlatformRow[]): Promise<Written | { problem: string }> {
+  if (!rows.length) return { new: 0, changed: 0, same: 0, removed: 0, refused: [] }
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('admin_message_overrides_import', { p_locale: locale, p_rows: rows })
+  if (error) return { problem: 'failed' }
+  const reply = OverridesReply.safeParse(data)
+  if (!reply.success) return { problem: 'failed' }
+  if (!reply.data.ok) return { problem: reply.data.error ?? 'failed' }
   return {
-    ...summary,
-    applied: true,
-    written: {
-      new: reply.data.new ?? 0,
-      changed: reply.data.changed ?? 0,
-      same: reply.data.same ?? 0,
-      removed: reply.data.removed ?? 0,
-      refused: reply.data.refused ?? [],
-    },
+    new: reply.data.new ?? 0,
+    changed: reply.data.changed ?? 0,
+    same: reply.data.same ?? 0,
+    removed: reply.data.removed ?? 0,
+    refused: reply.data.refused ?? [],
   }
+}
+
+/**
+ * One text of the site, edited in place on its page in admin › Translations (X-090): bokmål and
+ * English, each checked as an import of that one key would be (placeholders, tags, plurals), then
+ * written as an override that waits for approval, or is approved at once while auto-approve is on.
+ */
+export type EditResult = { ok: true } | { ok: false; problem: string; detail?: string }
+export async function messageEdit(_prev: EditResult | null, formData: FormData): Promise<EditResult> {
+  const parsed = z
+    .object({ key: z.string().min(1).max(300), no: z.string().max(20_000), en: z.string().max(20_000) })
+    .safeParse({ key: formData.get('key'), no: formData.get('no'), en: formData.get('en') })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const view = await platformView('no')
+  if (view === 'not_allowed' || view === 'failed') return { ok: false, problem: view }
+  const key = `msg:${parsed.data.key}`
+  const results = (['no', 'en'] as const).map((locale) =>
+    checkPlatformImport(
+      { format: 'json', locale, entries: [{ key, target: parsed.data[locale] }] },
+      locale,
+      PLATFORM_CATALOGUE,
+      locale === 'no' ? view.bokmal : view.english,
+      view.bokmal,
+      'professional',
+    ),
+  )
+  const error = results.flatMap((r) => r.problems).find((p) => p.level === 'error')
+  if (error) return { ok: false, problem: `code.${error.code}`, detail: error.detail }
+  if (!results.some((r) => r.rows.length)) return { ok: false, problem: 'unchanged' }
+  for (const [i, locale] of (['no', 'en'] as const).entries()) {
+    const written = await writeOverrides(locale, results[i]!.rows)
+    if ('problem' in written) return { ok: false, problem: written.problem }
+    if (written.refused.length) return { ok: false, problem: 'failed', detail: written.refused[0]!.error }
+  }
+  revalidateTag(OVERRIDES_TAG)
+  revalidatePath('/admin/translations')
+  return { ok: true }
+}
+
+/**
+ * A page's bilingual spreadsheet back from a reviewer (X-090): a column of keys, a bokmål column
+ * and an English one (lib/i18n/site-sheet.ts). Each language is checked as its own import would be,
+ * and «Import» writes exactly what «Check file» showed, both languages, as overrides.
+ */
+export async function messagesSheetImport(_prev: ImportResult | null, formData: FormData): Promise<ImportResult> {
+  const parsed = z
+    .object({
+      origin: z.enum(ORIGINS as unknown as [Origin, ...Origin[]]),
+      intent: z.enum(['check', 'apply']),
+      digest: z.string().regex(/^[0-9a-f]{64}$/).optional(),
+    })
+    .safeParse({ origin: formData.get('origin'), intent: formData.get('intent'), digest: formData.get('digest') || undefined })
+  const file = formData.get('file')
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  if (!(file instanceof File) || file.size === 0) return { ok: false, problem: 'no_file' }
+  if (file.size > FILE_MAX) return { ok: false, problem: 'too_large' }
+  let sheet
+  try {
+    sheet = readSiteSheet(readXlsx(new Uint8Array(await file.arrayBuffer())))
+  } catch (err) {
+    return { ok: false, problem: 'bad_file', detail: err instanceof SheetError ? err.message : 'unreadable' }
+  }
+  const view = await platformView('no')
+  if (view === 'not_allowed' || view === 'failed') return { ok: false, problem: view }
+  const checked = (['no', 'en'] as const).map((locale) => ({
+    locale,
+    ...checkPlatformImport(
+      { format: 'xlsx', locale, entries: sheet[locale] },
+      locale,
+      PLATFORM_CATALOGUE,
+      locale === 'no' ? view.bokmal : view.english,
+      view.bokmal,
+      parsed.data.origin,
+    ),
+  }))
+  const digest = createHash('sha256').update(JSON.stringify(checked.map((c) => c.rows))).digest('hex')
+  const summary = {
+    ok: true as const,
+    applied: false,
+    locale: 'no+en',
+    format: 'xlsx',
+    rows: checked.reduce((n, c) => n + c.rows.length, 0),
+    untranslated: checked.reduce((n, c) => n + c.untranslated, 0),
+    unchanged: checked.reduce((n, c) => n + c.unchanged, 0),
+    outside: 0,
+    problems: checked.flatMap((c) => c.problems.map((p) => ({ ...p, key: `${p.key} · ${c.locale}` }))).slice(0, 200),
+    digest,
+  }
+  if (parsed.data.intent === 'check') return summary
+  if (parsed.data.digest !== digest) return { ok: false, problem: 'stale' }
+  const written: Written = { new: 0, changed: 0, same: 0, removed: 0, refused: [] }
+  for (const c of checked) {
+    const w = await writeOverrides(c.locale, c.rows)
+    if ('problem' in w) return { ok: false, problem: w.problem }
+    written.new += w.new
+    written.changed += w.changed
+    written.same += w.same
+    written.removed += w.removed
+    written.refused.push(...w.refused)
+  }
+  revalidateTag(OVERRIDES_TAG)
+  revalidatePath('/admin/translations')
+  return { ...summary, applied: true, written }
 }
 
 /** Approve the waiting overrides the page listed, each by the hash of the text it showed (0101) */

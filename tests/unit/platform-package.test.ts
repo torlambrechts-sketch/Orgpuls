@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { createHash } from 'node:crypto'
 import { applyOverrides } from '@/lib/i18n/override-tree'
-import { buildPlatformPackage, checkPlatformImport, isQuestionnairePath, platformCatalogue, shownText, type Override } from '@/lib/i18n/platform-package'
+import { buildPlatformPackage, checkPlatformImport, isQuestionnairePath, overrideStanding, platformCatalogue, shownText, type Override } from '@/lib/i18n/platform-package'
 import { parseFile, toJson, type Package } from '@/lib/i18n/translation-package'
 import en from '@/messages/en.json'
 import no from '@/messages/no.json'
@@ -50,7 +50,10 @@ describe('a bokmål or English page package', () => {
   it('writes a changed text as a draft, from the bokmål it translates', () => {
     const edited = { ...file, entries: file.entries.map((e) => (e.key === 'msg:respond.next' ? { ...e, target: 'Continue' } : e)) }
     const checked = checkPlatformImport(edited, 'en', cat, none, none, 'machine')
-    expect(checked.rows).toEqual([{ key: 'respond.next', text: 'Continue', source: 'machine', status: 'draft', notes: null, source_hash: sha(byPath.get('respond.next')!.no) }])
+    // with the file text it replaces (0109): the override stands only while the file still says that
+    expect(checked.rows).toEqual([
+      { key: 'respond.next', text: 'Continue', source: 'machine', status: 'draft', notes: null, source_hash: sha(byPath.get('respond.next')!.no), file_hash: sha(byPath.get('respond.next')!.en!) },
+    ])
     expect(checked.problems).toEqual([])
   })
 
@@ -100,5 +103,32 @@ describe('laying overrides over a catalogue', () => {
     const tree = { a: { b: 'one', c: { d: 'two' } } }
     expect(applyOverrides(tree, { 'a.b': 'uno', 'a.c': 'branch', 'a.x': 'new', 'a.c.d.e': 'deep' })).toEqual({ a: { b: 'uno', c: { d: 'two' } } })
     expect(tree.a.b).toBe('one')
+  })
+
+  it('lays an override only while the file still says what it replaced (0109, X-090)', () => {
+    const tree = { a: { b: 'one', c: 'two', d: 'three' } }
+    const flat = {
+      'a.b': { text: 'uno', file: sha('one') },
+      // folded back: the file now says the override's text, the file shows it
+      'a.c': { text: 'dos', file: sha('the text before the fold') },
+      // written before 0109: no basis, applied as before
+      'a.d': { text: 'tres', file: null },
+    }
+    expect(applyOverrides(tree, flat)).toEqual({ a: { b: 'uno', c: 'two', d: 'tres' } })
+  })
+
+  it('shows, checks and exports against the live override only', () => {
+    const e = byPath.get('respond.next')!
+    const live = new Map<string, Override>([['respond.next', { key: 'respond.next', text: 'Onwards', status: 'approved', source: 'professional', notes: null, source_hash: null, file_hash: sha(e.en!) }]])
+    const gone = new Map<string, Override>([['respond.next', { ...live.get('respond.next')!, file_hash: sha('an older English') }]])
+    expect(shownText(e, 'en', live)).toBe('Onwards')
+    expect(shownText(e, 'en', gone)).toBe(e.en)
+    expect(overrideStanding(e, 'en', live)).toBe('live')
+    expect(overrideStanding(e, 'en', gone)).toBe('superseded')
+    expect(overrideStanding(e, 'en', new Map([['respond.next', { ...gone.get('respond.next')!, text: e.en! }]]))).toBe('folded')
+    // against a superseded override, the file's own text is unchanged, not a removal
+    const same = checkPlatformImport({ format: 'json', locale: 'en', entries: [{ key: 'msg:respond.next', target: e.en! }] }, 'en', cat, gone, none, 'professional')
+    expect(same.rows).toEqual([])
+    expect(same.unchanged).toBe(1)
   })
 })

@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto'
+import { stillApplies } from './override-tree'
 import { cldrTag, flattenMessages, parseIcu, pluralGaps, signature, signatureDiff, type Catalogue } from './icu-rules'
 import { FORMAT, FORMAT_VERSION, ORIGINS, STEPS, type FileEntry, type Origin, type ParsedFile, type Problem, type Step } from './translation-package'
 
@@ -34,7 +35,17 @@ export type PlatformEntry = {
   en: string | null
 }
 
-export type Override = { key: string; text: string; status: string; source: string; notes: string | null; source_hash: string | null; auto?: boolean }
+export type Override = {
+  key: string
+  text: string
+  status: string
+  source: string
+  notes: string | null
+  source_hash: string | null
+  /** the file text it replaced (0109): once the files say something else, the files win */
+  file_hash?: string | null
+  auto?: boolean
+}
 
 const sha = (s: string) => createHash('sha256').update(s, 'utf8').digest('hex')
 
@@ -51,11 +62,33 @@ export function platformCatalogue(no: Catalogue, en: Catalogue): PlatformEntry[]
   }))
 }
 
-/** The text shown now in a language: the approved override, else the file's */
-export function shownText(entry: PlatformEntry, locale: PlatformLocale, overrides: ReadonlyMap<string, Override>): string {
+export const fileText = (entry: PlatformEntry, locale: PlatformLocale) => (locale === 'no' ? entry.no : (entry.en ?? ''))
+
+/**
+ * An override that still replaces the file's text (0109): absent when there is none, or when the
+ * files have changed at its path since it was written (folded back, or rewritten by hand).
+ */
+export function liveOverride(entry: PlatformEntry, locale: PlatformLocale, overrides: ReadonlyMap<string, Override>): Override | undefined {
   const o = overrides.get(entry.path)
-  const file = locale === 'no' ? entry.no : (entry.en ?? '')
-  return o && o.status === 'approved' ? o.text : file
+  return o && stillApplies(fileText(entry, locale), o.file_hash) ? o : undefined
+}
+
+/** How an override stands against the files: live, folded into them, or superseded by a later change */
+export function overrideStanding(entry: PlatformEntry, locale: PlatformLocale, overrides: ReadonlyMap<string, Override>): 'none' | 'live' | 'folded' | 'superseded' {
+  const o = overrides.get(entry.path)
+  if (!o) return 'none'
+  if (liveOverride(entry, locale, overrides)) return 'live'
+  return o.text === fileText(entry, locale) ? 'folded' : 'superseded'
+}
+
+/** The text a person works on now: a live override's (approved or waiting), else the file's */
+export const currentText = (entry: PlatformEntry, locale: PlatformLocale, overrides: ReadonlyMap<string, Override>) =>
+  liveOverride(entry, locale, overrides)?.text ?? fileText(entry, locale)
+
+/** The text shown now in a language: the approved live override, else the file's */
+export function shownText(entry: PlatformEntry, locale: PlatformLocale, overrides: ReadonlyMap<string, Override>): string {
+  const o = liveOverride(entry, locale, overrides)
+  return o && o.status === 'approved' ? o.text : fileText(entry, locale)
 }
 
 export type PlatformPackageEntry = {
@@ -92,7 +125,7 @@ export function buildPlatformPackage(
     source_locale: 'nb' as const,
     exported_at: exportedAt,
     entries: entries.map((e): PlatformPackageEntry => {
-      const o = own.get(e.path)
+      const o = liveOverride(e, locale, own)
       const source = locale === 'en' ? shownText(e, 'no', bokmal) : e.no
       return {
         key: e.key,
@@ -120,7 +153,9 @@ function contextOf(e: PlatformEntry): string {
   return `${e.path} — text on ${where}. Keep every {placeholder} and <tag> exactly as it is.`
 }
 
-export type PlatformRow = { key: string; text: string; source: Origin; status: Step; notes: string | null; source_hash: string } | { key: string; remove: true }
+export type PlatformRow =
+  | { key: string; text: string; source: Origin; status: Step; notes: string | null; source_hash: string; file_hash: string }
+  | { key: string; remove: true }
 export type PlatformChecked = { rows: PlatformRow[]; problems: Problem[]; untranslated: number; unchanged: number; outside: number }
 
 /**
@@ -172,9 +207,9 @@ export function checkPlatformImport(
       untranslated++
       continue
     }
-    const fileText = locale === 'no' ? e.no : (e.en ?? '')
-    const o = own.get(e.path)
-    const current = o ? o.text : fileText
+    const file = fileText(e, locale)
+    const o = liveOverride(e, locale, own)
+    const current = o ? o.text : file
     if (text === current) {
       unchanged++
       continue
@@ -195,7 +230,7 @@ export function checkPlatformImport(
       problems.push({ key: f.key, level: 'error', code: 'syntax', detail: err instanceof Error ? err.message : String(err) })
       continue
     }
-    if (text === fileText) {
+    if (text === file) {
       rows.push({ key: e.path, remove: true })
       continue
     }
@@ -209,7 +244,7 @@ export function checkPlatformImport(
     const hash = sha(source)
     if (f.source_hash && /^[0-9a-f]{64}$/.test(f.source_hash) && f.source_hash !== hash) problems.push({ key: f.key, level: 'warning', code: 'stale' })
     const origin: Origin = (ORIGINS as readonly string[]).includes(f.origin ?? '') ? (f.origin as Origin) : defaultOrigin
-    rows.push({ key: e.path, text, source: origin, status, notes: f.notes?.trim() ? f.notes.trim() : null, source_hash: hash })
+    rows.push({ key: e.path, text, source: origin, status, notes: f.notes?.trim() ? f.notes.trim() : null, source_hash: hash, file_hash: sha(file) })
   }
   return { rows, problems, untranslated, unchanged, outside }
 }

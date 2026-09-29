@@ -98,21 +98,34 @@ export const AUTH_ACTIONS: readonly AuthAction[] = ['recovery', 'signup', 'magic
 
 // ---------------------------------------------------------------------------------------
 
+const sha256 = async (s: string) =>
+  [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)))].map((b) => b.toString(16).padStart(2, '0')).join('')
+
 /**
  * A language's mail texts with the bokmål or English overrides approved in admin › Translations
  * (0101, D-152) laid over them: `flat` is public.message_overrides, keyed by the message's full
  * path; only `mail.*` strings the catalogue has are replaced, never a branch, never a new key.
+ *
+ * Since 0109 each value is {text, file}: the override applies only while this deployment's text at
+ * that path still hashes to `file`, the text it replaced (X-090). Once the files carry a change,
+ * folded back or rewritten, the files win. A plain string (a row before 0109) applies as before.
  */
-export function withMailOverrides(tree: MailMessages, flat: Record<string, unknown>): MailMessages {
-  const keys = Object.keys(flat).filter((k) => k.startsWith('mail.') && typeof flat[k] === 'string')
+export async function withMailOverrides(tree: MailMessages, flat: Record<string, unknown>): Promise<MailMessages> {
+  const keys = Object.keys(flat).filter((k) => k.startsWith('mail.'))
   if (!keys.length) return tree
   const out = structuredClone(tree) as Record<string, unknown>
   for (const k of keys) {
+    const v = flat[k]
+    const text = typeof v === 'string' ? v : v && typeof v === 'object' && typeof (v as { text?: unknown }).text === 'string' ? (v as { text: string }).text : null
+    if (text === null) continue
+    const basis = v && typeof v === 'object' ? (v as { file?: unknown }).file : null
     const parts = k.slice('mail.'.length).split('.')
     let node: unknown = out
     for (const p of parts.slice(0, -1)) node = node && typeof node === 'object' ? (node as Record<string, unknown>)[p] : undefined
     const last = parts.at(-1)!
-    if (node && typeof node === 'object' && typeof (node as Record<string, unknown>)[last] === 'string') (node as Record<string, unknown>)[last] = flat[k]
+    if (!node || typeof node !== 'object' || typeof (node as Record<string, unknown>)[last] !== 'string') continue
+    if (typeof basis === 'string' && (await sha256((node as Record<string, string>)[last]!)) !== basis) continue
+    ;(node as Record<string, unknown>)[last] = text
   }
   return out
 }

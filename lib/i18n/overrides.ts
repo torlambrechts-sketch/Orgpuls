@@ -3,7 +3,7 @@ import { unstable_cache } from 'next/cache'
 import { createClient } from '@supabase/supabase-js'
 import { z } from 'zod'
 import { readSupabaseEnv } from '@/lib/supabase/env'
-import { applyOverrides } from './override-tree'
+import { applyOverrides, type OverrideValue } from './override-tree'
 
 export { applyOverrides }
 
@@ -25,10 +25,11 @@ export type OverrideLocale = (typeof OVERRIDE_LOCALES)[number]
 export const isOverrideLocale = (v: unknown): v is OverrideLocale => v === 'no' || v === 'en'
 export const OVERRIDES_TAG = 'message-overrides'
 
-const Flat = z.record(z.string(), z.string())
+// {key: {text, file}} since 0109; {key: text} before it
+const Flat = z.record(z.string(), z.union([z.string(), z.object({ text: z.string(), file: z.string().nullable() })]))
 
 const read = unstable_cache(
-  async (locale: OverrideLocale): Promise<Record<string, string>> => {
+  async (locale: OverrideLocale): Promise<Record<string, OverrideValue>> => {
     const env = readSupabaseEnv()
     if ('problem' in env) return {}
     const db = createClient(env.url, env.key, { auth: { persistSession: false, autoRefreshToken: false } })
@@ -41,7 +42,7 @@ const read = unstable_cache(
   { tags: [OVERRIDES_TAG], revalidate: 300 },
 )
 
-export async function messageOverrides(locale: string): Promise<Record<string, string>> {
+export async function messageOverrides(locale: string): Promise<Record<string, OverrideValue>> {
   if (!isOverrideLocale(locale)) return {}
   try {
     return await read(locale)

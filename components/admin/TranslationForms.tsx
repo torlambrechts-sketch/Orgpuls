@@ -2,7 +2,7 @@
 
 import { startTransition, useActionState, useRef, useState } from 'react'
 import { Button } from '@/components/ui/Button'
-import { messagesApprove, messagesImport, setAutoApprove, translationsApproveLanguage, translationsImport, type AdminResult, type ImportResult } from '@/lib/admin/actions'
+import { messageEdit, messagesApprove, messagesImport, messagesSheetImport, setAutoApprove, translationsApproveLanguage, translationsImport, type AdminResult, type ImportResult } from '@/lib/admin/actions'
 import { Outcome } from './ActionForms'
 
 type Problems = Record<string, string>
@@ -17,6 +17,7 @@ export function TranslationImportForm({
   locale,
   scope,
   platform = false,
+  sheet = false,
   labels,
 }: {
   locale: string
@@ -24,6 +25,8 @@ export function TranslationImportForm({
   scope: 'questionnaire' | 'pages'
   /** bokmål or English pages: overrides of messages/ (0101), not the registry */
   platform?: boolean
+  /** a page's bilingual spreadsheet, bokmål and English at once (X-090) */
+  sheet?: boolean
   labels: {
     file: string
     origin: string
@@ -41,7 +44,7 @@ export function TranslationImportForm({
     problemsHead: string
   }
 }) {
-  const [state, action, pending] = useActionState<ImportResult | null, FormData>(platform ? messagesImport : translationsImport, null)
+  const [state, action, pending] = useActionState<ImportResult | null, FormData>(sheet ? messagesSheetImport : platform ? messagesImport : translationsImport, null)
   const form = useRef<HTMLFormElement>(null)
   // a new file or source needs checking again before it can be imported
   const [dirty, setDirty] = useState(true)
@@ -66,7 +69,7 @@ export function TranslationImportForm({
           <input
             type="file"
             name="file"
-            accept=".json,.xlf,.xliff,application/json,application/xliff+xml"
+            accept={sheet ? '.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' : '.json,.xlf,.xliff,application/json,application/xliff+xml'}
             required
             onChange={() => setDirty(true)}
             className={`${field} py-[8px]`}
@@ -240,5 +243,65 @@ export function AutoApproveForm({
       </Button>
       <Outcome state={state} problems={labels.problems} done={labels.done} />
     </form>
+  )
+}
+
+/**
+ * One text of the site, corrected in place on its page (X-090): bokmål and English together. What
+ * is saved waits for approval like any override, or is approved at once while auto-approve is on.
+ */
+export function MessageEditForm({
+  path,
+  no,
+  en,
+  labels,
+}: {
+  path: string
+  no: string
+  en: string
+  labels: { edit: string; bokmal: string; english: string; save: string; saving: string; done: string; problems: Problems }
+}) {
+  const [state, action, pending] = useActionState(messageEdit, null)
+  const rows = (s: string) => Math.min(12, Math.max(2, Math.ceil(s.length / 70) + (s.match(/\n/g)?.length ?? 0)))
+  return (
+    <details className="mt-[6px]">
+      <summary className="cursor-pointer text-[12.5px] font-semibold text-link">{labels.edit}</summary>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          const fd = new FormData(e.currentTarget)
+          startTransition(() => action(fd))
+        }}
+        className="mt-[8px] flex flex-col gap-[8px]"
+      >
+        <input type="hidden" name="key" value={path} />
+        <div className="grid gap-[10px] [grid-template-columns:minmax(0,1fr)] md:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
+          <label className="block min-w-0">
+            <span className={label}>{labels.bokmal}</span>
+            <textarea name="no" lang="nb" defaultValue={no} rows={rows(no)} className={`${field} py-[8px] leading-[1.5]`} />
+          </label>
+          <label className="block min-w-0">
+            <span className={label}>{labels.english}</span>
+            <textarea name="en" lang="en" defaultValue={en} rows={rows(en)} className={`${field} py-[8px] leading-[1.5]`} />
+          </label>
+        </div>
+        <span className="flex flex-wrap items-center gap-[10px]">
+          <Button type="submit" size="sm" disabled={pending}>
+            {pending ? labels.saving : labels.save}
+          </Button>
+          {state ? (
+            state.ok ? (
+              <span role="status" className="text-[12.5px] font-semibold text-link">
+                {labels.done}
+              </span>
+            ) : (
+              <span role="alert" className="text-[12.5px] font-semibold text-danger">
+                {(labels.problems[state.problem] ?? labels.problems.failed) + (state.detail ? ` (${state.detail})` : '')}
+              </span>
+            )
+          ) : null}
+        </span>
+      </form>
+    </details>
   )
 }

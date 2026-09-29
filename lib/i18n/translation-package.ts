@@ -117,7 +117,7 @@ export function toXliff(p: Package): string {
 // ---------------------------------------------------------------- reading a file
 /** One entry as a file gives it: only what an import can use */
 export type FileEntry = { key: string; target: string; status?: string; origin?: string; notes?: string; source_hash?: string }
-export type ParsedFile = { format: 'json' | 'xliff'; locale: string; entries: FileEntry[] }
+export type ParsedFile = { format: 'json' | 'xliff' | 'xlsx'; locale: string; entries: FileEntry[] }
 
 export class FileError extends Error {}
 
