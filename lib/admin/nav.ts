@@ -35,7 +35,10 @@ export type AdminIcon =
   | 'shield'
 
 export type NavItem = { key: string; href: string; icon: AdminIcon; exact?: boolean }
-export type NavGroup = { key: 'overview' | 'customers' | 'crm' | 'content' | 'platform'; items: NavItem[] }
+export type NavGroup = { key: 'overview' | 'customers' | 'crm' | 'content' | 'platform'; icon: AdminIcon; items: NavItem[] }
+
+/** a section's own icon: its heading when the rail is narrowed to icons */
+const GROUP_ICON: Record<NavGroup['key'], AdminIcon> = { overview: 'dashboard', customers: 'users', crm: 'target', content: 'globe', platform: 'shield' }
 
 /** each page once, under the section it belongs to; `section` is the access key that shows it */
 const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }[] = [
@@ -89,6 +92,7 @@ const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }
 export function navFor(role: AdminRole, built: readonly string[]): NavGroup[] {
   return MODEL.map((g) => ({
     key: g.key,
+    icon: GROUP_ICON[g.key],
     items: g.items.filter((i) => canSee(role, i.section) && built.includes(i.href)).map(({ section: _section, ...i }) => i),
   })).filter((g) => g.items.length > 0)
 }
@@ -96,6 +100,9 @@ export function navFor(role: AdminRole, built: readonly string[]): NavGroup[] {
 /** Whether a menu entry is the page you are on: exact for an index, else the page and what is under it */
 export const isCurrent = (item: Pick<NavItem, 'href' | 'exact'>, path: string) =>
   item.exact ? path === item.href : path === item.href || path.startsWith(`${item.href}/`)
+
+/** The section holding the page you are on: the one the menu opens with */
+export const groupOf = (groups: NavGroup[], path: string) => groups.find((g) => g.items.some((i) => isCurrent(i, path)))?.key ?? groups[0]?.key ?? null
 
 /** The rail's state, kept in a cookie so the server draws it as it was left */
 export const RAIL_COOKIE = 'op_admin_rail'

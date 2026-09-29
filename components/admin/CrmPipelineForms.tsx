@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react'
 import { Outcome, useKeptAction } from '@/components/admin/ActionForms'
 import type { CrmMessages } from '@/components/admin/CrmForms'
 import { Button } from '@/components/ui/Button'
+import type { Municipality } from '@/lib/admin/brreg'
 import type { Company, List, Stage } from '@/lib/admin/crm'
 import {
   addToList,
@@ -219,10 +220,34 @@ export function TaskToggle({ id, company, done, labels }: { id: string; company:
 const FORMS = ['AS', 'ASA', 'ENK', 'ANS', 'DA', 'SA', 'STI', 'FLI', 'KOMM'] as const
 const ROLE = /^(post|postmottak|firmapost|firmaet|kontakt|kontor|info|mail|epost|e-post|hei|hello|office|admin|administrasjon|resepsjon|sentralbord|salg|sales|faktura|regnskap|hr|personal|ledelse|daglig\.leder|dagligleder|booking|service|kundeservice)@/
 
-export function RegistryPicker({ m }: { m: CrmMessages }) {
+/**
+ * Municipalities as a span (X-093): from one to another in the register's numbering, which runs by
+ * county (3201–3240 is Akershus, 4601–4651 Vestland), so one span covers a region; «to» empty is the
+ * one municipality. Without the register's list, numbers are typed: 0301, 3201-3240.
+ */
+function spanOf(list: Municipality[] | null, from: string, to: string, typed: string): string[] {
+  if (!list) {
+    return typed
+      .split(/[\s,;]+/)
+      .flatMap((part) => {
+        const r = part.match(/^(\d{4})(?:-(\d{4}))?$/)
+        if (!r) return []
+        const [a, b] = [r[1]!, r[2] ?? r[1]!].sort()
+        return Array.from({ length: Number(b) - Number(a) + 1 }, (_, i) => String(Number(a) + i).padStart(4, '0'))
+      })
+      .slice(0, 400)
+  }
+  if (!from) return []
+  const [a, b] = [from, to || from].sort()
+  return list.filter((k) => k.no >= a! && k.no <= b!).map((k) => k.no)
+}
+
+export function RegistryPicker({ m, municipalities }: { m: CrmMessages; municipalities: Municipality[] | null }) {
   const b = m.prospects.brreg
   const [nace, setNace] = useState('')
-  const [municipality, setMunicipality] = useState('')
+  const [from, setFrom] = useState('')
+  const [to, setTo] = useState('')
+  const [typed, setTyped] = useState('')
   const [min, setMin] = useState('10')
   const [max, setMax] = useState('100')
   const [form, setForm] = useState('AS')
@@ -232,15 +257,19 @@ export function RegistryPicker({ m }: { m: CrmMessages }) {
   const [added, setAdded] = useState<CompanyImport | null>(null)
   const [tag, setTag] = useState('')
   const [onlyAddress, setOnlyAddress] = useState(false)
+  // the register matches a municipality on the business or the postal address; what was searched is kept
+  const [searched, setSearched] = useState<Set<string>>(new Set())
+  const [onlyLocated, setOnlyLocated] = useState(false)
   const [pending, start] = useTransition()
 
   const search = (to: number) =>
     start(async () => {
       setAdded(null)
       setPage(to)
+      setSearched(new Set(span))
       const r = await findInRegistry({
         nace: nace.trim() || undefined,
-        municipality: municipality.trim() || undefined,
+        municipalities: span.length ? span : undefined,
         min: min === '' ? undefined : Number(min),
         max: max === '' ? undefined : Number(max),
         form: form || undefined,
@@ -250,7 +279,10 @@ export function RegistryPicker({ m }: { m: CrmMessages }) {
       setPicked(new Set())
     })
 
-  const hits = result?.ok ? result.hits.filter((h) => !onlyAddress || !!h.email) : []
+  const span = spanOf(municipalities, from, to, typed)
+  const names = municipalities ? span.map((no) => municipalities.find((k) => k.no === no)?.name ?? no) : span
+  const elsewhere = (h: { municipality_no: string | null }) => searched.size > 0 && !searched.has(h.municipality_no ?? '')
+  const hits = result?.ok ? result.hits.filter((h) => (!onlyAddress || !!h.email) && (!onlyLocated || !elsewhere(h))) : []
   const fresh = hits.filter((h) => !h.known)
   const withManager = hits.filter((h) => h.manager).length
 
@@ -265,7 +297,36 @@ export function RegistryPicker({ m }: { m: CrmMessages }) {
         }}
       >
         <Field name="nace" text={b.nace} value={nace} set={setNace} max={6} />
-        <Field name="municipality" text={b.municipality} value={municipality} set={setMunicipality} max={4} />
+        {municipalities ? (
+          <>
+            <label className="block">
+              <span className={label}>{b.municipalityFrom}</span>
+              <select value={from} onChange={(e) => setFrom(e.target.value)} className={input}>
+                <option value="">{b.anyMunicipality}</option>
+                {municipalities.map((k) => (
+                  <option key={k.no} value={k.no}>
+                    {k.no} {k.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="block">
+              <span className={label}>{b.municipalityTo}</span>
+              <select value={to} onChange={(e) => setTo(e.target.value)} disabled={!from} className={input}>
+                <option value="">{b.onlyThis}</option>
+                {municipalities
+                  .filter((k) => !from || k.no > from)
+                  .map((k) => (
+                    <option key={k.no} value={k.no}>
+                      {k.no} {k.name}
+                    </option>
+                  ))}
+              </select>
+            </label>
+          </>
+        ) : (
+          <Field name="municipalities" text={b.municipalityTyped} value={typed} set={setTyped} max={400} />
+        )}
         <Field name="min" text={b.min} value={min} set={setMin} type="number" />
         <Field name="max" text={b.max} value={max} set={setMax} type="number" />
         <label className="block">
@@ -283,6 +344,13 @@ export function RegistryPicker({ m }: { m: CrmMessages }) {
           {b.search}
         </Button>
       </form>
+
+      {span.length ? (
+        <p className="m-0 text-[12.5px] text-mut" aria-live="polite">
+          {fill(b.span, { count: span.length })}: {names.slice(0, 8).join(', ')}
+          {names.length > 8 ? ` ${fill(b.more, { count: names.length - 8 })}` : ''}
+        </p>
+      ) : null}
 
       {result && !result.ok ? (
         <p role="alert" className="m-0 text-[12.5px] font-semibold text-danger">
@@ -305,6 +373,12 @@ export function RegistryPicker({ m }: { m: CrmMessages }) {
               <input type="checkbox" checked={onlyAddress} onChange={(e) => setOnlyAddress(e.target.checked)} />
               {b.onlyAddress}
             </label>
+            {searched.size ? (
+              <label className="flex items-center gap-[6px] font-semibold text-ink">
+                <input type="checkbox" checked={onlyLocated} onChange={(e) => setOnlyLocated(e.target.checked)} />
+                {b.onlyLocated}
+              </label>
+            ) : null}
             <label className="flex items-center gap-[6px] font-semibold text-ink">
               <input
                 type="checkbox"
@@ -339,6 +413,7 @@ export function RegistryPicker({ m }: { m: CrmMessages }) {
                         <span className="block text-mut">
                           {h.org_number} · {h.form_code ?? '—'} · {h.municipality ?? '—'}
                         </span>
+                        {elsewhere(h) ? <span className="block text-[11.5px] text-cautiondeep">{b.postOnly}</span> : null}
                       </td>
                       <td className="px-[8px] py-[7px] align-top">
                         {h.manager ? (

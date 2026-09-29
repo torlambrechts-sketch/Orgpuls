@@ -40,7 +40,8 @@ export type RegistrySearch = { ok: true; hits: RegistryHit[]; total: number; pag
 
 export const SearchInput = z.object({
   nace: z.string().regex(/^\d{2}(\.\d{1,3})?$/).optional(),
-  municipality: z.string().regex(/^\d{4}$/).optional(),
+  /** a span of municipalities (the picker's from–to, X-093): the register takes them as one list */
+  municipalities: z.array(z.string().regex(/^\d{4}$/)).max(400).optional(),
   min: z.number().int().min(0).max(100000).optional(),
   max: z.number().int().min(0).max(100000).optional(),
   form: z.enum(['AS', 'ASA', 'ENK', 'ANS', 'DA', 'SA', 'STI', 'FLI', 'KOMM']).optional(),
@@ -52,7 +53,7 @@ const title = (v: string) => v.replace(/\S+/g, (w) => w.charAt(0) + w.slice(1).t
 export async function searchRegistry(input: z.infer<typeof SearchInput>): Promise<RegistrySearch> {
   const q = new URLSearchParams({ size: '50', page: String(input.page), konkurs: 'false', underAvvikling: 'false' })
   if (input.nace) q.set('naeringskode', input.nace)
-  if (input.municipality) q.set('kommunenummer', input.municipality)
+  if (input.municipalities?.length) q.set('kommunenummer', [...new Set(input.municipalities)].join(','))
   if (input.min !== undefined) q.set('fraAntallAnsatte', String(input.min))
   if (input.max !== undefined) q.set('tilAntallAnsatte', String(input.max))
   if (input.form) q.set('organisasjonsform', input.form)
@@ -81,6 +82,42 @@ export async function searchRegistry(input: z.infer<typeof SearchInput>): Promis
     return { ok: true, hits, total: parsed.data.page.totalElements, page: parsed.data.page.number, pages: parsed.data.page.totalPages }
   } catch {
     return { ok: false, problem: 'unreachable' }
+  }
+}
+
+// ---------------------------------------------------------------- municipalities (X-093)
+const Kommuner = z.object({ _embedded: z.object({ kommuner: z.array(z.object({ nummer: z.string(), navn: z.string() })) }) })
+export type Municipality = { no: string; name: string }
+
+/** «NORD-AURDAL» → «Nord-Aurdal», «OS I ØSTERDALEN» → «Os i Østerdalen» */
+const placeName = (v: string) =>
+  v
+    .toLocaleLowerCase('no')
+    .replace(/(^|[\s-])(\p{L})/gu, (_, sep: string, c: string) => sep + c.toLocaleUpperCase('no'))
+    .replace(/ (I|Og|På) /g, (w) => w.toLocaleLowerCase('no'))
+
+/**
+ * Every municipality the register knows, by number, from the register itself, so the numbers the
+ * picker offers are the numbers its search takes. «Utlandet» (0999, 2100–2399 abroad and Svalbard's
+ * special units) has no Norwegian businesses to prospect and is left out. Cached for a day; the list
+ * changes with a municipal reform, not a week.
+ */
+export async function registryMunicipalities(): Promise<Municipality[] | null> {
+  try {
+    const res = await fetch('https://data.brreg.no/enhetsregisteret/api/kommuner?size=1000', {
+      headers: { accept: 'application/json' },
+      signal: AbortSignal.timeout(8000),
+      next: { revalidate: 86400 },
+    })
+    if (!res.ok) return null
+    const parsed = Kommuner.safeParse(await res.json())
+    if (!parsed.success) return null
+    return parsed.data._embedded.kommuner
+      .filter((k) => /^\d{4}$/.test(k.nummer) && k.nummer !== '0999')
+      .map((k) => ({ no: k.nummer, name: placeName(k.navn) }))
+      .sort((a, b) => a.no.localeCompare(b.no))
+  } catch {
+    return null
   }
 }
 

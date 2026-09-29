@@ -5,7 +5,7 @@ import type { AdminIcon } from '@/lib/admin/nav'
  * colour, so an icon is as dark as its label and turns with it. Decorative: the link or button
  * that holds one carries the name.
  */
-const PATHS: Record<AdminIcon | 'collapse' | 'expand' | 'menu' | 'close' | 'signout', string> = {
+const PATHS: Record<AdminIcon | 'collapse' | 'expand' | 'menu' | 'close' | 'signout' | 'chevron', string> = {
   dashboard: 'M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z',
   building: 'M5 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16M15 10h3a1 1 0 0 1 1 1v10M3 21h18M8 8h3M8 12h3M8 16h3',
   pulse: 'M3 12h4l2-5 4 10 2-5h6',
@@ -32,6 +32,7 @@ const PATHS: Record<AdminIcon | 'collapse' | 'expand' | 'menu' | 'close' | 'sign
   collapse: 'M15 6l-6 6 6 6',
   expand: 'M9 6l6 6-6 6',
   menu: 'M4 7h16M4 12h16M4 17h16',
+  chevron: 'M6 9l6 6 6-6',
   close: 'M6 6l12 12M18 6L6 18',
   signout: 'M15 4h3a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3M10 16l-4-4 4-4M6 12h10',
 }

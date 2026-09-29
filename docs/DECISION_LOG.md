@@ -2664,6 +2664,24 @@ classified as SPAM.»
   funnel (sent → delivered → opened → clicked), grouped by status.
 - The admin's CSP allows `https:` images (only the admin), so a preview shows the author's pictures.
 
+### X-093 — Municipalities as a span, and a menu that fits the screen
+
+Tor, 2026-09-29: «Municipality number … must be a to from selection so we can span multiple
+Municipalitys» and «make the CRM and other menu colapsable … dont extend outside the page vertically -
+one and one section visable».
+
+- **Municipalities from–to:** the company search picks a first and a last municipality from the
+  register's own list (Enhetsregisteret's /kommuner, cached a day), and searches every municipality
+  between them in one query. The numbering runs by county (3201–3240 is Akershus, 4601–4651
+  Vestland), so one span is one region; «to» left empty is the one municipality.
+- **The register matches either address:** Enhetsregisteret's municipality filter matches a
+  company's business address *or* its postal address (25 of 200 Bærum hits were located elsewhere).
+  Those rows say so, and «Only companies located in these municipalities» leaves them out.
+- **The menu is an accordion:** one section open at a time, the one holding the current page when a
+  page opens; a closed section holding it shows a yellow dot. Rows are tighter and the footer is one
+  line, so the rail fits a 720 px screen with the CRM's twelve pages open; narrowed to icons, each
+  section is its own icon.
+
 ## Open items
 - [ ] Demo (X-077): approve the privacy statement's new section «Når du prøver demoen» (no and en) in admin › Legal review. Link /demo from the site where you want it: header, «Kom i gang», the price page, campaigns. No pixel-gated page links to it yet. The auth user demo@orgpuls.com can be deleted in Supabase › Authentication; it has no membership since 0094.
 - [ ] Demo: the template is Demobedriften AS on hosted, which ages. Re-run `scripts/seed/demo-org.mjs` when its newest round is stale, a scoped delete-and-reinsert to confirm first (D-47). Copies are made from whatever it holds at the time.

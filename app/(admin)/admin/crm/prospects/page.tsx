@@ -7,6 +7,7 @@ import { CrmTabs, stageTone } from '@/components/admin/CrmTabs'
 import { StageMoveForm } from '@/components/admin/CrmStageForms'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td } from '@/components/admin/ui'
 import { isError, listAdmins, whoami } from '@/lib/admin/api'
+import { registryMunicipalities } from '@/lib/admin/brreg'
 import { crmCompanies, crmStages } from '@/lib/admin/crm'
 
 /**
@@ -25,7 +26,7 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
   const stages = stageData.rows
   const byKey = new Map(stages.map((s) => [s.key, s]))
   const chosen = byKey.has(stage ?? '') ? (stage as string) : null
-  const [data, who, admins] = await Promise.all([crmCompanies(q?.trim() || null, chosen), whoami(), listAdmins()])
+  const [data, who, admins, municipalities] = await Promise.all([crmCompanies(q?.trim() || null, chosen), whoami(), listAdmins(), registryMunicipalities()])
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
@@ -120,7 +121,7 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
       {canWrite ? (
         <>
           <Card title={p.brreg.title} className="mt-[16px]">
-            <RegistryPicker m={m} />
+            <RegistryPicker m={m} municipalities={municipalities} />
             <div className="mt-[16px] border-t border-line pt-[14px]">
               <ManagerRefresh m={m} />
             </div>

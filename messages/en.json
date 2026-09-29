@@ -8530,7 +8530,13 @@
           "title": "Find companies in Brønnøysund",
           "lead": "Search Enhetsregisteret by industry, municipality and size, and add the companies you choose. A company's role address (post@, firmapost@ …) may receive a relevant B2B offer without consent, with an opt-out in every mail; a person's address, or any enkeltpersonforetak's, is kept but not mailed until they consent.",
           "nace": "Industry code (e.g. 41.2, 86)",
-          "municipality": "Municipality number (e.g. 0301)",
+          "municipalityFrom": "Municipality (from)",
+          "municipalityTo": "To municipality",
+          "anyMunicipality": "All of Norway",
+          "onlyThis": "Only this one",
+          "municipalityTyped": "Municipality numbers (e.g. 0301, 3201-3240)",
+          "span": "Municipalities in the search ({count})",
+          "more": "and {count} more",
           "min": "Employees from",
           "max": "Employees to",
           "form": "Organisation form",
@@ -8558,7 +8564,9 @@
           "managers": "{count} with a general manager on this page",
           "refresh": "Fetch general managers from the register",
           "refreshLead": "For companies already in the CRM: reads the daglig leder (or owner) of the 100 read longest ago.",
-          "refreshDone": "Checked {checked}; {found} with a general manager."
+          "refreshDone": "Checked {checked}; {found} with a general manager.",
+          "onlyLocated": "Only companies located in these municipalities",
+          "postOnly": "Located elsewhere; only its postal address is in the area"
         },
         "bulk": {
           "label": "Selected companies",
