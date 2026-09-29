@@ -7314,3 +7314,20 @@ X-095, phase 4. From the design's `isPipeline`:
 - *The exit criterion* a stage closes on (0112) is the column header's tooltip, not a line of text.
 - *«Won this quarter»* counts deals whose stage became a won stage since the quarter began (Oslo).
 - *The CRM's own phone tab row* is gone from every CRM page; Sentral's sub-bar lists them.
+- *Contacts & lists* (`isContacts`): the stages are the contact types (Lead = prospect, Trial,
+  Customer, Churned = former). *Consent* says whether mail would reach the person and why not —
+  reachable, awaiting yes, unsubscribed, suppressed after a bounce, or no basis to mail — rather than
+  the design's two words. The *Lists* panel holds both kinds the CRM has: segments (rules, counted
+  by who a campaign would reach) and subscription lists (counted by subscribers). «New list» opens a
+  new segment; «Import contacts» opens the import (D-101) in the dialog. Adding one contact and the
+  existing-customer exception stay below.
+- *Campaigns* (`isCampaigns`): no Owner column — a campaign has no owner in the schema, and one is
+  not invented. The KPIs read the last 30 days of what was sent; «Conversions» are signups
+  attributed to campaign links. *Lifecycle coverage* reads real state: onboarding, the trial-ending
+  nudge and the read-only warning are the product's own trial mail (0060) and say «Built in»;
+  win-back is a campaign to a segment of former customers, the newsletter a newsletter campaign,
+  else «Missing». The design's «Renewal reminder» needs a renewal date, which waits for billing,
+  so the read-only warning takes its line. The house rules are guidance; the one about suppression
+  is what the dispatcher does (unsubscribed and bounced; there is no «past due» yet).
+- *The CRM's sub-bar* starts with the design's order — Pipeline, Contacts & lists, Campaigns,
+  Tickets — and keeps the CRM's own pages after it; Journeys, Tasks and Lead scoring follow in CRM II.

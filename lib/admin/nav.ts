@@ -61,15 +61,16 @@ const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }
   {
     key: 'crm',
     items: [
-      { key: 'crmOverview', section: 'crm', href: '/admin/crm', icon: 'target', exact: true },
-      { key: 'crmInbox', section: 'crm', href: '/admin/crm/inbox', icon: 'inbox' },
+      // the design's order first (X-095): pipeline, contacts & lists, campaigns, tickets; then the CRM's own
       { key: 'crmPipeline', section: 'crm', href: '/admin/crm/pipeline', icon: 'kanban' },
-      { key: 'crmProspects', section: 'crm', href: '/admin/crm/prospects', icon: 'building' },
       { key: 'crmContacts', section: 'crm', href: '/admin/crm/contacts', icon: 'contacts' },
-      { key: 'crmLists', section: 'crm', href: '/admin/crm/lists', icon: 'list' },
-      { key: 'crmSegments', section: 'crm', href: '/admin/crm/segments', icon: 'filter' },
       { key: 'crmCampaigns', section: 'crm', href: '/admin/crm/campaigns', icon: 'mail' },
       { key: 'tickets', section: 'tickets', href: HREF.tickets, icon: 'ticket' },
+      { key: 'crmOverview', section: 'crm', href: '/admin/crm', icon: 'target', exact: true },
+      { key: 'crmInbox', section: 'crm', href: '/admin/crm/inbox', icon: 'inbox' },
+      { key: 'crmProspects', section: 'crm', href: '/admin/crm/prospects', icon: 'building' },
+      { key: 'crmLists', section: 'crm', href: '/admin/crm/lists', icon: 'list' },
+      { key: 'crmSegments', section: 'crm', href: '/admin/crm/segments', icon: 'filter' },
       { key: 'crmTemplates', section: 'crm', href: '/admin/crm/templates', icon: 'template' },
       { key: 'crmStages', section: 'crm', href: '/admin/crm/stages', icon: 'flag' },
     ],

@@ -7502,7 +7502,7 @@
         "crmInbox": "Inbox",
         "crmPipeline": "Pipeline",
         "crmProspects": "Companies",
-        "crmContacts": "Contacts",
+        "crmContacts": "Contacts & lists",
         "crmLists": "Lists",
         "crmSegments": "Segments",
         "crmCampaigns": "Campaigns",
@@ -9282,6 +9282,98 @@
           "cancelled": "Cancelled",
           "signups": "{count} organisations created",
           "reach": "{count} recipients"
+        }
+      },
+      "contactsPage": {
+        "title": "Contacts & lists",
+        "lead": "{count, plural, one {# person} other {# people}} on {site} · {not} cannot be reached by marketing email",
+        "newList": "New list",
+        "import": "Import contacts",
+        "importSub": "Paste or upload people who said yes. Each row keeps where and when they consented.",
+        "close": "Close",
+        "search": "Search name, email, company…",
+        "searchLabel": "Search contacts by name, e-mail or company",
+        "segments": "Contacts by stage",
+        "stage": {
+          "all": "All",
+          "prospect": "Lead",
+          "trial": "Trial",
+          "customer": "Customer",
+          "former": "Churned"
+        },
+        "col": {
+          "contact": "Contact",
+          "company": "Company",
+          "stage": "Stage",
+          "consent": "Consent"
+        },
+        "consent": {
+          "reachable": "Reachable",
+          "pending": "Awaiting yes",
+          "unsubscribed": "Unsubscribed",
+          "suppressed": "Suppressed",
+          "noBasis": "No basis to mail"
+        },
+        "open": "Open",
+        "noMatch": "No contact matches.",
+        "lists": "Lists",
+        "listsLead": "Segments are rules, not files: people join and leave as their stage changes. Subscription lists are the ones people signed up to.",
+        "excluded": "{count, plural, one {# not reachable, excluded} other {# not reachable, excluded}}",
+        "unsubscribed": "{count, plural, one {# unsubscribed, excluded} other {# unsubscribed, excluded}}",
+        "everyone": "Everyone reachable",
+        "noLists": "No lists yet."
+      },
+      "campaignsPage": {
+        "lead": "{count, plural, one {# e-mail campaign} other {# e-mail campaigns}} on {site} · sequences follow up on what people did, newsletters go on a date",
+        "newSub": "A campaign starts as a draft in the studio: audience, content, test and schedule come next.",
+        "close": "Close",
+        "kpi": {
+          "running": "Running",
+          "runningSub": "{drafts} drafts · {cancelled} cancelled",
+          "sent": "E-mails sent · 30 d",
+          "delivered": "{pct} % delivered",
+          "none": "Nothing sent in 30 days",
+          "clicks": "Click rate",
+          "clicksSub": "{count} clicks · opens are not used as a goal",
+          "conversions": "Conversions",
+          "conversionsSub": "signups attributed to campaign links"
+        },
+        "col": {
+          "campaign": "Campaign",
+          "clicks": "Clicks",
+          "status": "Status"
+        },
+        "sent": "{count} sent",
+        "sentOn": "Sent {date}",
+        "sendsOn": "Sends {date}",
+        "notScheduled": "Not scheduled",
+        "open": "Open",
+        "coverage": "Lifecycle coverage",
+        "coverageLead": "The mail a subscription service should run. Each line reads the real state: the product's own trial mail, or a campaign.",
+        "builtIn": "Built in",
+        "missing": "Missing",
+        "life": {
+          "onboarding": "Onboarding",
+          "onboardingWhy": "Welcome and setup help after signup, from the product",
+          "trialEnding": "Trial-ending nudge",
+          "trialEndingWhy": "Fires on the trial clock, not a calendar",
+          "readOnly": "Before read-only",
+          "readOnlyWhy": "Warns the daglig leder before an unconfirmed trial stops",
+          "winBack": "Win-back",
+          "winBackWhy": "A campaign to a segment of former customers",
+          "newsletter": "Newsletter",
+          "newsletterWhy": "Monthly at most, to people who said yes"
+        },
+        "rules": "House rules",
+        "rule": {
+          "trigger": "Trigger on what people do,",
+          "triggerWhy": "not on the calendar: signup, the first survey, the trial's last days.",
+          "clicks": "Steer by clicks and signups.",
+          "clicksWhy": "Opens are inflated by mail clients that load images ahead of the reader.",
+          "one": "One call to action per e-mail.",
+          "oneWhy": "Newsletters at most monthly; lifecycle mail as often as the stage warrants.",
+          "suppression": "Suppression is automatic.",
+          "suppressionWhy": "Unsubscribed and bounced addresses are never sent marketing e-mail."
         }
       }
     },
