@@ -2593,8 +2593,11 @@ for best practice; then "yes" to: a per-page review screen, an automatic page ma
   saved.
 - **Fold-back, weekly:** `.github/workflows/i18n-fold.yml` runs `scripts/i18n/fold-overrides.mjs`
   on Mondays and opens (or refreshes) one pull request writing every approved override that still
-  stands into messages/. It reads `public.message_overrides` with the public anon key, from the
-  anon key the repository already holds (`CI_SUPABASE_ANON_KEY`, or `SUPABASE_ANON_KEY`), and writes nothing to the database.
+  stands into messages/. It reads the approved texts from the live site's public
+  `/api/i18n/overrides` (the same data as the anon-callable `public.message_overrides`, served with
+  the site's own key), so GitHub holds no key for it; the first run after a deploy waits for the
+  route. With `SUPABASE_ANON_KEY` in the job's environment it reads the database directly instead. It
+  writes nothing to the database.
 - **An override stands only while the file says what it replaced (0109).** Each override records the
   SHA-256 of the file text it replaced (`file_hash`); the app, the dispatcher and the Auth mail hook
   apply it only while the file's text still hashes to that. So once a fold lands, or a developer
@@ -2884,6 +2887,6 @@ admin platform … contractable menu with icons».
 - [x] Signed off 2026-09-28 (X-086). Was: engagement phase 2: switch on `engagement_since_last`, `engagement_thanks` and `engagement_pulse_reason` in production once Tor has seen them on a pilot; the new `respond.*` keys are re-approved for English (or auto-approve is on), and the survey languages (pl, uk, lt, sv, da) fall back to bokmål for them until translated (X-085, D-156).
 - [x] Translate the strings added by 0105/0107 in pl, uk, lt, sv and da — machine drafts written 2026-09-29 (X-089); Tor reviews them in admin › Translations.
 - [ ] The deep audit's P2/P3 findings (docs/audits/2026-09-28-deep.md): v3 pixel gate in CI and the Resultater/Kommentarer claims re-recorded after reading the diff, `qa:visual` specs brought up to the intro page, npm audit (postcss via next), `noindex` on `/s/[token]` and `/bli-med`, the thank-you and «Siden sist» wording, the evaluation mail's year, the employees' page and department measures, `wiring.mjs --matrix`, and the P3 list.
-- [x] Fold-back (X-090): the workflow reads the anon key already in the repository (CI_SUPABASE_ANON_KEY, or SUPABASE_ANON_KEY / NEXT_PUBLIC_SUPABASE_ANON_KEY as a secret or variable). Its pull requests are opened with the workflow token, which starts no other workflow: CI runs in full on merge.
+- [x] Fold-back (X-090): the workflow reads the approved texts from www.orgpuls.com/api/i18n/overrides and needs no key in GitHub (a run on 2026-09-29 showed the repository's Actions hold no anon key under any of the names the workflow reads; CI builds with a placeholder). Its pull requests are opened with the workflow token, which starts no other workflow: CI runs in full on merge.
 - [ ] CRM (X-091): the privacy statement should say that the names of general managers are read from Enhetsregisteret for B2B outreach to the company's address (GDPR art. 14). It is a legal text: change it in the site copy and approve it in admin › Legal review.
 - [ ] CRM (X-091, D-159): deal value (plan, seats, MRR) on a company, so the board can show pipeline value and win rate honestly; LinkedIn/call steps in a sequence.

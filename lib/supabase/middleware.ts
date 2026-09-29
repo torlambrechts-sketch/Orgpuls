@@ -99,6 +99,8 @@ const PUBLIC_PATHS = [
   '/api/avmeld',
   // choosing a language on this host, then back to the page (D-109)
   '/api/sprak',
+  // the approved site texts, public as the pages that show them, for the weekly fold-back (X-090)
+  '/api/i18n/overrides',
   // the platform admin's sign-in (D-90); everything else under /admin needs a session
   '/admin/login',
   // the demo (D-143): the request form, and the start its login link leads to, which checks

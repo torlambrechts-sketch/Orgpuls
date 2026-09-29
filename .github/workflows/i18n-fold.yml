@@ -5,10 +5,10 @@ name: Fold approved texts into messages
 # stay the source. Nothing in the database changes: an override records the file text it replaced
 # (0109), and once this lands the files win.
 #
-# Reads the project's anon (publishable) key — the public one the site already ships — under any of
-# the names it is kept by in this repository: the CI build's variable CI_SUPABASE_ANON_KEY, or a
-# secret or variable named SUPABASE_ANON_KEY or NEXT_PUBLIC_SUPABASE_ANON_KEY. Without one the job
-# fails and says so.
+# Needs no key: it reads the approved texts from the live site (www.orgpuls.com/api/i18n/overrides),
+# which serves them with its own. If the repository has the anon key as a secret or variable
+# (SUPABASE_ANON_KEY, NEXT_PUBLIC_SUPABASE_ANON_KEY or CI_SUPABASE_ANON_KEY), it reads the database
+# directly instead.
 #
 # A pull request opened with the workflow's own token does not start other workflows, so the checks
 # the fold can affect run here before it is opened; CI runs in full when it is merged to main.
