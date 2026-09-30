@@ -3,6 +3,7 @@ import { SegmentForm, type CrmMessages } from '@/components/admin/CrmForms'
 import { ALink, Card, PageHead, Problem, Table, Td } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
 import { crmLists, crmSegments, crmStages, type Filter } from '@/lib/admin/crm'
+import { AudienceTabs } from '@/components/admin/AudienceTabs'
 
 /**
  * Segments (D-101): saved filters on contacts and their organisations, with live counts of
@@ -45,6 +46,7 @@ export default async function CrmSegments({ searchParams }: { searchParams: Prom
       <PageHead title={m.segments.title} lead={m.segments.lead}>
         {canWrite && !open ? <ALink href="/admin/crm/segments?new">{m.segments.new}</ALink> : null}
       </PageHead>
+      <AudienceTabs on="segments" />
 
       {open ? (
         <Card title={editing ? m.segments.edit : m.segments.new} className="mb-[16px]" aside={<ALink href="/admin/crm/segments">{m.segments.cancel}</ALink>}>

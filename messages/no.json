@@ -7498,7 +7498,7 @@
         "health": "Account health",
         "users": "Users",
         "tickets": "Tickets",
-        "crmOverview": "CRM overview",
+        "crmOverview": "Overview",
         "crmInbox": "Inbox",
         "crmPipeline": "Pipeline",
         "crmProspects": "Companies",
@@ -7540,7 +7540,8 @@
         "crm": "CRM",
         "content": "Content",
         "analytics": "Analytics",
-        "admin": "Admin"
+        "admin": "Admin",
+        "marketing": "Marketing"
       },
       "site": "Site",
       "siteName": "Orgpuls",
@@ -8643,8 +8644,8 @@
         "all": "All stages"
       },
       "overview": {
-        "title": "CRM",
-        "lead": "Pipeline, lists and campaigns in one place. Mail figures are for the last 90 days.",
+        "title": "Marketing",
+        "lead": "How mail has done, how the lists are growing, and where the pipeline and tasks stand. Mail figures are for the last 90 days.",
         "mail": "Mail, last 90 days",
         "sent": "Sent",
         "openRate": "Open rate",
@@ -9576,6 +9577,11 @@
           "size10": "10 employees or more",
           "size10Kind": "Fit"
         }
+      },
+      "audienceTabs": {
+        "contacts": "Contacts",
+        "lists": "Lists",
+        "segments": "Segments"
       }
     },
     "health": {

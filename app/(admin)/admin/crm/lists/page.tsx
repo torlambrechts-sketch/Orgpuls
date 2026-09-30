@@ -4,6 +4,7 @@ import { ListForm } from '@/components/admin/CrmPipelineForms'
 import { ALink, Badge, Card, PageHead, Problem, Table, Td } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
 import { crmLists } from '@/lib/admin/crm'
+import { AudienceTabs } from '@/components/admin/AudienceTabs'
 
 /**
  * Lists (D-103): subscriptions by purpose, each its own consent. Growth over 30 days and how
@@ -28,6 +29,7 @@ export default async function CrmLists({ searchParams }: { searchParams: Promise
       <PageHead title={l.title} lead={l.lead}>
         {canWrite && !open ? <ALink href="/admin/crm/lists?new">{l.new}</ALink> : null}
       </PageHead>
+      <AudienceTabs on="lists" />
       {open ? (
         <Card title={editing ? l.edit : l.new} className="mb-[16px]" aside={<ALink href="/admin/crm/lists">{m.segments.cancel}</ALink>}>
           <ListForm key={editing?.id ?? 'new'} m={m} common={common} list={editing} />

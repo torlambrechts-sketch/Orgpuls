@@ -7,6 +7,7 @@ import { Icon } from '@/components/admin/icons'
 import { Avatar, Badge, BTN, Card, PageHead, Problem, Segments, type BadgeTone } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
 import { CONTACT_TYPES, crmContacts, crmLists, crmSegments, type Contact } from '@/lib/admin/crm'
+import { AudienceTabs } from '@/components/admin/AudienceTabs'
 
 /**
  * Contacts & lists (X-095, the design's `isContacts`; 0055, D-101 before it): people who sign in,
@@ -47,6 +48,7 @@ export default async function CrmContacts({ searchParams }: { searchParams: Prom
           </div>
         ) : null}
       </PageHead>
+      <AudienceTabs on="contacts" />
 
       <div className="grid items-start gap-[18px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1.3fr)_minmax(300px,.7fr)]">
         <section className="min-w-0 rounded-panel border border-line bg-sf">

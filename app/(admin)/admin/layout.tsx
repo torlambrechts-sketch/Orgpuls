@@ -67,7 +67,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         title: t('title'),
         nav: t('nav.navLabel'),
         sub: t('nav.subLabel'),
-        groups: { overview: t('nav.area.overview'), customers: t('nav.area.customers'), crm: t('nav.area.crm'), content: t('nav.area.content'), analytics: t('nav.area.analytics'), admin: t('nav.area.admin') },
+        groups: { overview: t('nav.area.overview'), customers: t('nav.area.customers'), crm: t('nav.area.crm'), marketing: t('nav.area.marketing'), content: t('nav.area.content'), analytics: t('nav.area.analytics'), admin: t('nav.area.admin') },
         items: Object.fromEntries(groups.flatMap((g) => g.items).map((i) => [i.key, t(`nav.item.${i.key}`)])),
         site: t('nav.site'),
         siteName: t('nav.siteName'),

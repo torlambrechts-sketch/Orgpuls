@@ -3136,3 +3136,17 @@ the app calls it any more (wiring R1, known).
 - [ ] Sending domain (X-092): the inbox check reads today, from public DNS, that nyheter.orgpuls.com has Brevo's DKIM, is covered by `_dmarc.orgpuls.com` with `p=none`, and has no SPF record. At the DNS host (Spaceship): add `v=spf1 include:spf.brevo.com ~all` as a TXT on nyheter.orgpuls.com, and after two to four weeks of clean DMARC reports (rua goes to Brevo) move `_dmarc.orgpuls.com` to `p=quarantine`.
 - [ ] CMS (X-094): the site's pages are listed in admin › Content › Pages. A campaign page for an ad should be made from the campaign splash template and marked noindex; a page for search from the landing page template, with a focus keyword. The six templates' first words are drafts; change them in the templates (0114) if a house style emerges.
 - [ ] CMS (D-161): pictures uploaded to a page, A/B tests of a page, and machine translation are not built; say if one is wanted.
+
+### X-097 — CRM split into CRM and Marketing
+
+**Why.** Tor, 2026-09-30: «too many pages within CRM making it hard to maneuver» — fourteen pages
+in one area, seven of them behind «More».
+
+**What.** The top bar gains **Marketing**. **CRM** keeps sales: Pipeline, Companies, Tasks, Inbox,
+Lead scoring, and Stages & senders under More. **Marketing** holds the mail: Overview (the old CRM
+front page: mail over 90 days, list growth, pipeline and due tasks), Campaigns, Journeys, Contacts &
+lists, Templates. Contacts, Lists and Segments are one menu entry with three tabs
+(components/admin/SectionTabs.tsx), so the sub-bar has five entries instead of three plus four in
+«More». Tickets moved to Customers, next to the organisations and users support works on. Every
+address is unchanged, so links, bookmarks and mail keep working; access is still the `crm` section.
+tests/unit/admin-nav-crm.test.ts pins the grouping and that the tabs light their one entry.

@@ -37,12 +37,15 @@ export type AdminIcon =
   | 'page'
   | 'redirect'
 
-/** `more`: a page of the area kept behind the sub-bar's «More», where the design draws no place for it */
-export type NavItem = { key: string; href: string; icon: AdminIcon; exact?: boolean; more?: boolean }
-export type NavGroup = { key: 'overview' | 'customers' | 'crm' | 'content' | 'analytics' | 'admin'; icon: AdminIcon; items: NavItem[] }
+/**
+ * `more`: a page of the area kept behind the sub-bar's «More», where the design draws no place for it.
+ * `also`: other addresses the entry stands for — pages merged under one entry as tabs (Contacts & lists).
+ */
+export type NavItem = { key: string; href: string; icon: AdminIcon; exact?: boolean; more?: boolean; also?: readonly string[] }
+export type NavGroup = { key: 'overview' | 'customers' | 'crm' | 'marketing' | 'content' | 'analytics' | 'admin'; icon: AdminIcon; items: NavItem[] }
 
 /** an area's own icon, in the phone's menu sheet */
-const GROUP_ICON: Record<NavGroup['key'], AdminIcon> = { overview: 'dashboard', customers: 'users', crm: 'target', content: 'globe', analytics: 'chart', admin: 'shield' }
+const GROUP_ICON: Record<NavGroup['key'], AdminIcon> = { overview: 'dashboard', customers: 'users', crm: 'target', marketing: 'mail', content: 'globe', analytics: 'chart', admin: 'shield' }
 
 /** each page once, under the section it belongs to; `section` is the access key that shows it */
 const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }[] = [
@@ -58,26 +61,31 @@ const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }
       { key: 'orgs', section: 'orgs', href: HREF.orgs, icon: 'building' },
       { key: 'health', section: 'health', href: HREF.health, icon: 'pulse' },
       { key: 'users', section: 'users', href: HREF.users, icon: 'users' },
+      // support's queue sits with the customers it serves (X-097)
+      { key: 'tickets', section: 'tickets', href: HREF.tickets, icon: 'ticket' },
     ],
   },
   {
     key: 'crm',
     items: [
-      // the design's order first (X-095): pipeline, contacts & lists, campaigns, journeys, tasks, tickets, lead scoring; then the CRM's own
+      // sales (X-097): the companies in the pipeline, what to do next, replies, and who is warm
       { key: 'crmPipeline', section: 'crm', href: '/admin/crm/pipeline', icon: 'kanban' },
-      { key: 'crmContacts', section: 'crm', href: '/admin/crm/contacts', icon: 'contacts' },
+      { key: 'crmProspects', section: 'crm', href: '/admin/crm/prospects', icon: 'building' },
+      { key: 'crmTasks', section: 'crm', href: '/admin/crm/tasks', icon: 'flag' },
+      { key: 'crmInbox', section: 'crm', href: '/admin/crm/inbox', icon: 'inbox' },
+      { key: 'crmScoring', section: 'crm', href: '/admin/crm/scoring', icon: 'chart' },
+      { key: 'crmStages', section: 'crm', href: '/admin/crm/stages', icon: 'flag', more: true },
+    ],
+  },
+  {
+    key: 'marketing',
+    items: [
+      // marketing (X-097): mail and who it goes to — contacts, lists and segments are one entry with tabs
+      { key: 'crmOverview', section: 'crm', href: '/admin/crm', icon: 'target', exact: true },
       { key: 'crmCampaigns', section: 'crm', href: '/admin/crm/campaigns', icon: 'mail' },
       { key: 'crmJourneys', section: 'crm', href: '/admin/crm/journeys', icon: 'activity' },
-      { key: 'crmTasks', section: 'crm', href: '/admin/crm/tasks', icon: 'flag' },
-      { key: 'tickets', section: 'tickets', href: HREF.tickets, icon: 'ticket' },
-      { key: 'crmScoring', section: 'crm', href: '/admin/crm/scoring', icon: 'chart' },
-      { key: 'crmOverview', section: 'crm', href: '/admin/crm', icon: 'target', exact: true, more: true },
-      { key: 'crmInbox', section: 'crm', href: '/admin/crm/inbox', icon: 'inbox', more: true },
-      { key: 'crmProspects', section: 'crm', href: '/admin/crm/prospects', icon: 'building', more: true },
-      { key: 'crmLists', section: 'crm', href: '/admin/crm/lists', icon: 'list', more: true },
-      { key: 'crmSegments', section: 'crm', href: '/admin/crm/segments', icon: 'filter', more: true },
-      { key: 'crmTemplates', section: 'crm', href: '/admin/crm/templates', icon: 'template', more: true },
-      { key: 'crmStages', section: 'crm', href: '/admin/crm/stages', icon: 'flag', more: true },
+      { key: 'crmContacts', section: 'crm', href: '/admin/crm/contacts', icon: 'contacts', also: ['/admin/crm/lists', '/admin/crm/segments'] },
+      { key: 'crmTemplates', section: 'crm', href: '/admin/crm/templates', icon: 'template' },
     ],
   },
   {
@@ -126,8 +134,9 @@ export function navFor(role: AdminRole, built: readonly string[]): NavGroup[] {
 }
 
 /** Whether a menu entry is the page you are on: exact for an index, else the page and what is under it */
-export const isCurrent = (item: Pick<NavItem, 'href' | 'exact'>, path: string) =>
-  item.exact ? path === item.href : path === item.href || path.startsWith(`${item.href}/`)
+export const isCurrent = (item: Pick<NavItem, 'href' | 'exact' | 'also'>, path: string): boolean =>
+  (item.exact ? path === item.href : path === item.href || path.startsWith(`${item.href}/`)) ||
+  (item.also ?? []).some((a) => path === a || path.startsWith(`${a}/`))
 
 /** The address as the menu reads it: on the admin's own host a page has no /admin prefix */
 export const adminPath = (path: string) => (path === '/admin' || path.startsWith('/admin/') ? path : path === '/' ? '/admin' : `/admin${path}`)
