@@ -11449,8 +11449,7 @@
         },
         "growthEvents": {
           "title": "Event catalogue v1",
-          "lead": "Org-level events drive journeys, scoring, analytics and the health score · one PII level per event",
-          "empty": "The catalogue, its 7-day counts, the health score and the anonymity firewall’s last CI run arrive with the event stream."
+          "lead": "{count} org-level events drive journeys, scoring, analytics and the health score · one PII level per event"
         },
         "growthRules": {
           "title": "Automation rules",
@@ -11496,6 +11495,65 @@
           "title": "Deliverability",
           "lead": "One provider, two streams · spam rate under 0,1 %, never 0,3 % · optimise on clicks and events, not opens",
           "empty": "The two streams, the SPF, DKIM and DMARC check read from DNS, the template registry and the provider arrive with this page, as they actually stand."
+        }
+      },
+      "events": {
+        "table": "Event catalogue",
+        "head": {
+          "event": "Event",
+          "group": "Group",
+          "pii": "PII",
+          "used": "Used by",
+          "n7": "7 d"
+        },
+        "group": {
+          "signup": "Signup",
+          "setup": "Setup",
+          "survey": "Survey",
+          "value": "Value",
+          "trial": "Trial",
+          "billing": "Billing",
+          "support": "Support",
+          "consent": "Consent",
+          "lead": "Lead gen"
+        },
+        "pii": {
+          "none": "none",
+          "org": "company",
+          "user": "user"
+        },
+        "unused": "—",
+        "health": {
+          "title": "Health score v1",
+          "sub": "0–100 per customer, from events and tickets",
+          "part": {
+            "survey_cycle": "Survey cycle on schedule",
+            "action_items": "Action items created or updated · 90 d",
+            "logins": "Logins by ≥ 2 admins or stakeholders",
+            "response_rate": "Response-rate band",
+            "nps": "NPS",
+            "p1_tickets": "No open P1 tickets"
+          },
+          "lowest": "Lowest first",
+          "missing": "Missing: {list}",
+          "allMet": "All components met",
+          "none": "No organisation is in a trial or on a plan yet."
+        },
+        "firewall": {
+          "title": "Anonymity firewall",
+          "sub": "Hard rule. Respondents never become leads or CRM contacts.",
+          "passing": "Passing · checked now",
+          "failing": "{count, plural, one {# rule failing} other {# rules failing}} · checked now",
+          "failed": "(failing)",
+          "rule": {
+            "no_link_to_respondents": "No growth, CRM, event or consent table has a foreign key to a response, an answer, an invitation or an employee",
+            "catalogue_has_no_respondent_props": "The event catalogue allows no prop that could carry a respondent; one that could is refused",
+            "no_role_reads_answers": "No client, service or CRM role holds any privilege on an answer table",
+            "no_employee_is_a_contact": "No CRM contact is an employee who is not also an account",
+            "no_event_names_a_respondent": "No event names a respondent, an invitation or an employee",
+            "nothing_attached_to_answers": "Nothing is attached to the answer tables: survey events come from counts, hourly",
+            "growth_tables_closed": "The event stream, the catalogue and the consent ledger are closed to every client"
+          }
         }
       }
     }

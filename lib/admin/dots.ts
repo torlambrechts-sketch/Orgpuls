@@ -70,8 +70,12 @@ const BY_KIND = {
   experiment: { running: 'teal', queued: 'yellow', done: 'mut' },
   // a rule's or a template's stream (`sdot`)
   stream: { service: 'teal', marketing: 'yellow', internal: 'green', system: 'mut', service_internal: 'teal' },
-  // an event's PII level (`piiDot`)
-  pii: { none: 'teal', aggregate: 'teal', count_only: 'teal', role_only: 'teal', company: 'green', anonymous: 'green' },
+  // an event's PII level (`piiDot`); the catalogue's `org` is the design's «company», `user` its yellow default
+  pii: { none: 'teal', aggregate: 'teal', count_only: 'teal', role_only: 'teal', company: 'green', org: 'green', anonymous: 'green' },
+  // a customer's health score in the lowest-first list (gwVals `health`: ≥ 70 teal, ≥ 45 yellow, else peach)
+  health: { good: 'teal', fair: 'yellow', poor: 'peach' },
+  // an anonymity firewall rule, as it stands
+  firewall: { pass: 'teal', fail: 'peach' },
   // a consent record (consentVals `sd`)
   consent: { granted: 'teal', notice_given: 'green', withdrawn: 'peach', lapsed: 'yellow', not_given: 'mut' },
   // a recommendation's priority (`pdot`)

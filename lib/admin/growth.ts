@@ -9,14 +9,15 @@ import type { AdminRole } from './api'
  *
  * The keys are the menu's (lib/admin/nav.ts) and the message keys under `admin.growth.view`.
  */
-export type GrowthPhase = 'G2' | 'G3' | 'G4'
+export type GrowthPhase = 'G1' | 'G2' | 'G3' | 'G4'
 export type GrowthView = { href: string; section: Section; phase: GrowthPhase }
 
 export const GROWTH_VIEWS = {
   growthBoard: { href: '/admin/growth', section: 'growth', phase: 'G2' },
   growthPlan: { href: '/admin/growth/plan', section: 'growth', phase: 'G2' },
   growthFunnel: { href: '/admin/growth/funnel', section: 'growth', phase: 'G2' },
-  growthEvents: { href: '/admin/growth/events', section: 'growth', phase: 'G2' },
+  // G1 built it with the event stream it reads (D-182)
+  growthEvents: { href: '/admin/growth/events', section: 'growth', phase: 'G1' },
   growthRules: { href: '/admin/growth/rules', section: 'growth', phase: 'G2' },
   growthExperiments: { href: '/admin/growth/experiments', section: 'growth', phase: 'G2' },
   growthRisks: { href: '/admin/growth/risks', section: 'growth', phase: 'G2' },

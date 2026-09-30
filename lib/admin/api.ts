@@ -909,3 +909,36 @@ const SiteSettings = z.object({
 })
 export type SiteSettings = z.infer<typeof SiteSettings>
 export const siteSettings = () => call('admin_site_settings', {}, SiteSettings)
+
+// ---------------------------------------------------------------- Growth › Event catalogue (0141, D-182)
+export const EVENT_GROUPS = ['signup', 'setup', 'survey', 'value', 'trial', 'billing', 'support', 'consent', 'lead'] as const
+export const PII_LEVELS = ['none', 'org', 'user'] as const
+export const HEALTH_PARTS = ['survey_cycle', 'action_items', 'logins', 'response_rate', 'nps', 'p1_tickets'] as const
+export const FIREWALL_RULES = [
+  'no_link_to_respondents',
+  'catalogue_has_no_respondent_props',
+  'no_role_reads_answers',
+  'no_employee_is_a_contact',
+  'no_event_names_a_respondent',
+  'nothing_attached_to_answers',
+  'growth_tables_closed',
+] as const
+const GrowthEvents = z.object({
+  events: z.array(
+    z.object({
+      name: z.string(),
+      version: num,
+      group: z.enum(EVENT_GROUPS),
+      pii: z.enum(PII_LEVELS),
+      props: z.array(z.string()),
+      description: z.string(),
+      n7: num,
+    }),
+  ),
+  parts: z.array(z.object({ key: z.enum(HEALTH_PARTS), max: num })),
+  health: z.array(z.object({ org_id: z.string(), name: z.string(), total: num, missing: z.array(z.enum(HEALTH_PARTS)) })),
+  firewall: z.array(z.object({ rule: z.enum(FIREWALL_RULES), pass: z.boolean(), evidence: z.string() })),
+})
+export type GrowthEvents = z.infer<typeof GrowthEvents>
+/** The event catalogue with 7-day counts, health score v1 lowest first, and the anonymity firewall's rules as they stand */
+export const growthEvents = () => call('admin_growth_events', {}, GrowthEvents)

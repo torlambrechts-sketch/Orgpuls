@@ -8332,3 +8332,186 @@ ui.tsx's Badge paints its tones from DOT_CLASS, and the stream map includes the 
 fallback for a state the design colours otherwise: `outreach` (the Brønnøysund queue's `sdot`:
 Holdout line, Do-not-contact mut), `partner` (Partners' `sdot`: Member offer drafted line, Phase 2
 mut) and `kit` (Partners' `kdot`: Planned line).
+
+## D-182 — Sentral › Growth G1: events, the anonymity firewall, the consent ledger, health score
+
+Phase G1 of docs/implementation/growth-admin.md (0141_growth_foundations.sql): the foundations G2–G4
+read. Database first; the one page it fills is the Event catalogue, because the catalogue's columns
+need a reader (the wiring audit's W1) and every block of that view is G1's own data.
+
+**Built:**
+- **Event catalogue v1** (`app.event_catalogue`: name, version, event_group, sort, pii_level
+  `app.growth_pii` none|org|user, allowed_props, source, description). 21 events, each mapped to what
+  emits it: user.signed_up (an account's first membership), org.created, org.brreg_verified
+  (registry_fetched_at set), employees.imported (per insert statement, a band), survey.created
+  (measurements), survey.scheduled (a planned round given its date), survey.sent (a round opened; the
+  hourly tick, recipients as a band), survey.threshold_reached (the hourly tick, from counts),
+  results.viewed (product_events), action_item.created (measures), stakeholder.invited{role}
+  (member_invites), trial.extended / trial.expiring / trial.expired, subscription.started /
+  tier_changed / cancelled (billing), ticket.created (a signed-in account's ticket),
+  consent.granted / consent.withdrawn (the ledger), lead.hand_raised (a demo request, or a sales
+  request from the contact form). A catalogue CHECK refuses a prop that could carry a respondent,
+  a person or an id (`app.growth_prop_forbidden`: respondent, token, response, invitation, answer,
+  employee, email, phone, comment, address, name, *_id — a `_band` is an aggregate and allowed).
+- **The stream** (`app.growth_events`): a BEFORE INSERT check refuses a prop the entry does not
+  allow, any value that is not a short keyword (no number, no uuid-shaped string, no nested value), a
+  person on an event whose PII level is not `user`, and an organisation on a `none` event. Rows are
+  never edited (guard); they go with their organisation and their account by cascade. One way in,
+  `app.growth_emit`, which skips demo organisations and makes keyed events happen once; a demo marked
+  after it was made (`demo_orgs` insert) takes back what it emitted. Bands: recipients and employees
+  `under_5`, `5_9`, `10_24` … `250_plus` — nothing says how many below five; response rate `under_25`
+  … `75_plus`.
+- **Nothing on the answer tables.** No trigger is attached to responses, answers, extra_answers or
+  response_comments. `app.growth_tick()` counts, hourly, after `app.wheel_tick()` (the cron job
+  `orgpuls-wheel` now runs both): survey.sent at the round's opening time with its recipients' band,
+  survey.threshold_reached once a round's responses reach the organisation's threshold (never below
+  k = 5), the hour truncated, once per round; trial.expiring and trial.expired at the times they fell.
+- **Backfill** (source `backfill`) wherever the product kept the time: organisations, registry
+  fetches, first memberships, first employee import, measurements, opened rounds, measures, invites,
+  product_events, trial extensions, confirmations, cancellations, trial ends, account tickets, demo
+  and sales requests. 0 events reference a respondent after it (firewall rule 5).
+- **The anonymity firewall** (`app.growth_firewall()`): seven rules computed live with a short
+  evidence text — no foreign key from a growth, CRM, event or consent table (`^(crm_|growth_|consent_|event_)`
+  or `*_events`) to responses, answers, extra_answers, response_comments, invitations, employees or
+  the module/own-question answer tables; no catalogue prop that could carry a respondent; no privilege
+  of anon, authenticated, service_role or any role named crm/growth/marketing on an answer table; no
+  contact who is an active employee and not an account (a count); no event whose key or props hold a
+  respondent's, invitation's or employee's id or an employee's address; no growth, consent or CRM
+  trigger on the answer tables; the four G1 tables closed (RLS, no policy, no client grant).
+- **The consent ledger** (`app.consent_records`, append-only; `app.consent_purposes`). Deferred
+  triggers on crm_contacts (basis, status), crm_list_members (status) and crm_suppression derive
+  each purpose's state at commit (`app.consent_derive`) and append a record when it differs from the
+  latest, so every path — the ones found and any added later — writes one. Each path names its method
+  through a transaction-local setting, `app.consent_via`, now set by crm_confirm (double_opt_in),
+  crm_unsubscribe (one_click_unsubscribe), crm_set_preferences (preference_centre), record_crm_event
+  (provider_complaint / provider_unsubscribe / provider_bounce), app.crm_sync (account_sync),
+  app.demo_lead (demo_request), admin_crm_import and admin_crm_company_import (import); the other
+  admin writes (save contact, list add/remove, unsubscribe) are recorded `admin` by the signed-in
+  admin's role, anything else `system` (the QA fixture's direct inserts). Records carry the author
+  (created_by), and for a double opt-in the time the mail was leased and the time it was confirmed.
+  The immutability trigger compares the content columns; created_by may only be cleared by its
+  account's deletion; a record is deleted only when its contact is already gone (erasure). A
+  granted or withdrawn record is an event without the contact. Backfill: one record per contact
+  (method `migrated`, its own timestamps: consent_at, the suppression's or unsubscribe's time, the
+  plan's confirmation) and one per subscribed or unsubscribed list membership.
+- **Health score v1** (`app.health_score(org)`, `app.health_parts()`): survey cycle on schedule 30,
+  action items created or updated in 90 days 25, two or more accounts signed in within 30 days 15,
+  the last closed round's response rate 15 (≥ 60 % all, ≥ 40 % half, rounded — the design's
+  `Math.round(pts/2)` and 0060's lines), NPS 10, no open P1 (urgent) ticket 5; each component with
+  its points, maximum and what is missing.
+- **The Event catalogue page** (/admin/growth/events, `public.admin_growth_events()` for super_admin,
+  analyst and marketing with the second factor, audited `growth.events_view`): the catalogue with
+  7-day counts, the health score's components and the organisations in a trial or on a plan lowest
+  first, and the firewall's rules as they stand when the page is read.
+- **Tests**: growth_events_invariants (12 rows), growth_firewall_invariants (10: every rule passes,
+  and each turns false in a rolled-back probe — a foreign key to invitations, a catalogue prop with
+  the catalogue's own check dropped, a grant to service_role, an employee as a contact, an event keyed
+  by an invitation, a growth trigger on responses, a client grant on the stream), consent_ledger_invariants
+  (9: every path and its method, append-only, cascade, the CRM's state equal to the ledger's latest
+  record for every contact and list membership in the database, no gap), health_score_invariants (7);
+  tests/unit/growth-events.test.ts.
+
+**Where it differs from the report, the design and the plan, and why:**
+- *21 events, not the design's 22 rows (about 30 names).* Left out because Orgpuls cannot truthfully
+  emit them today: payment.failed (invoicing by e-mail/EHF, no payment provider reports a failure),
+  nps.submitted (no customer NPS exists; the employees' «Anbefaler oss» is a respondent's answer and
+  never an event), web.page_viewed (the site's own analytics already keep it, anonymously, in
+  app.web_events, 0050; copying 10 000 rows a week would add nothing), lead.tool_* and
+  lead.template_requested (no tools or templates: G4), touch.partner (G3), brreg.* (G3). Added
+  subscription.cancelled (0064's cancellation exists). One row per event, where the design joins
+  several names on a row.
+- *PII levels* are the three the plan names (none, org, user); the design's «aggregate», «count
+  only», «role only» describe props, which are bands and roles here. The page labels `org` as the
+  design's «company». consent.* are `none`: the event carries no contact. The column is
+  `event_group` (group is reserved) and a `sort` column keeps the report's order.
+- *survey.sent carries `recipient_count_band`*, not the design's `{recipient_count}`: an exact count
+  below five is exactly what the plan forbids. employees.imported carries `employee_count_band`.
+- *Plain AFTER triggers, and survey.sent from the tick.* The first build used deferred constraint
+  triggers so that a round's recipients could be counted at commit; a deferred event still pending
+  makes `ALTER TABLE` fail later in the same transaction (notices_invariants). So the product triggers
+  are immediate, survey.sent is the tick's (its time is the round's opening, not the tick's), and a
+  demo takes back its events when it is marked. The consent triggers stay deferred: crm_confirm sets
+  consent before it lifts the suppression, and an immediate trigger would record a lapse that never
+  happened; no path alters a CRM table after a consent change.
+- *Events go with their organisation and their account* (cascade), not ON DELETE SET NULL: the
+  deletion 30 days after an agreement ends must leave no id of the organisation anywhere
+  (retention_invariants rows 10, 11), and the keys hold its ids. The funnel therefore loses a deleted
+  organisation's history, as the data processing agreement requires.
+- *user.signed_up is an account's first active membership*, not its profile: the signup writes the
+  profile before the organisation and the membership. Invited members count, with their role.
+- *ticket.created only for a signed-in account's ticket.* A ticket from someone without an account
+  may come from an employee; it emits nothing, except a sales request from the contact form, which is
+  lead.hand_raised with no person or organisation.
+- *No backfill* for survey.scheduled (a round has no creation time) or survey.threshold_reached
+  (nothing records when a threshold was met); org.brreg_verified's backfilled time is the latest
+  registry fetch, the only one kept.
+- *The tick shares the hourly job* (`select app.wheel_tick(); select app.growth_tick()`), as asked,
+  and catches its own failure (a warning with the SQLSTATE only, no row text), so a growth bug can
+  never undo the scheduler's turn.
+- *The firewall is computed live*, not read from a table a CI step writes (plan § 3): the check is
+  the same either way and a live result cannot go stale. CI runs growth_firewall_invariants.sql with
+  the other suites. Its rules are what is true of Orgpuls, not the design's six sentences: respondent
+  data lives in `app` behind RLS with no policy (not a separate `survey_private` schema), and «the
+  thank-you link carries no survey data» has no link to check yet (plan § 7).
+- *Consent statuses* add the design's «Not given» (`not_given`) and «Notice given»
+  (`notice_given`, for G3's phone notices) to granted/withdrawn/lapsed; lawful bases add
+  `business_address` for the CRM's `business` basis (a role address in Enhetsregisteret, 0110), which
+  none of the three names.
+- *The ledger follows the CRM's columns, not the other way round.* crm_contacts and crm_list_members
+  stay what the dispatcher reads, and the ledger is written from them in the same transaction; the
+  suite proves they agree for every contact. Writing the ledger first would have meant re-routing
+  every path through a new function; this covers every path by construction.
+- *Method attribution* is a line added to eight functions (their bodies otherwise as 0055–0137 left
+  them): `ALTER FUNCTION … SET app.consent_via` would have avoided restating them, but only a
+  superuser may set a placeholder that way. A later migration that restates one of them must keep
+  the line; consent_ledger_invariants row 2 fails otherwise. In one transaction that changes consent
+  through two paths, the last path names the method (each RPC is its own transaction).
+- *Purposes* are what the CRM sends under: `marketing` (the contact-level basis — segment campaigns,
+  sequences and journeys) and `list:<key>` for each CRM list (nyhetsbrev, produktnytt, arrangementer,
+  tilbud; a new list becomes a purpose by trigger), not the report's newsletter/product_news/
+  trial_tips.
+- *Lapse by inactivity is not recorded.* `lapsed` is written when an address is suppressed (bounce,
+  invalid, blocked, manual, erasure); twelve months without engagement is a time-derived condition of
+  crm_mailable, and the design's «180 days without a click · re-permission sent» is rule R8, not built.
+- *wording_version and form_url are empty.* No path receives them: the signup RPC takes neither, and
+  a version invented here would be a fabricated fact. They arrive with G3's preference centre and forms.
+- *The signup records nothing*: it asks for consent; the confirmation records it. Double opt-in
+  tokens were already hashed and single-use (0055: 256 bits, optin_hash cleared on confirmation).
+- *Suppression already holds only hashes* (0055: sha256 of the lower-cased, trimmed address; no
+  plaintext column exists), so there is nothing to add or to drop later. An index on
+  `app.crm_hash(email)` finds the contacts a suppression concerns.
+- *Phone notices have no record yet*: the design's «Daglig leder · Fjellstua Drift AS» has no address
+  and so no contact, and consent_records.contact_id is required. G3 decides how a phone notice is held.
+- *Two health scores.* 0060's account health (activation, recency, rate, size: the trial sales score
+  /admin/health and lead scoring read) is unchanged; health score v1 is the report's customer score.
+  «Logins» counts accounts whose last sign-in is within 30 days — Auth keeps only the last sign-in.
+  «Survey cycle on schedule» allows the wheel's longest gap between rounds plus a month.
+- *The Event catalogue page* is G2's view, built here as the task allowed. Where it differs from the
+  design: Orgpuls' 21 events and their counts; props in braces on every event that has them; «Used
+  by» reads «—» on every row, the design's own «—», because nothing reads the stream yet (the funnel,
+  scoring and journeys that will are G2's and G3's, and they fill the column); no «Propose an event»
+  button (nothing backs it); the health list shows the ten lowest organisations in a trial or on a plan
+  (the design lists every customer), a line when there is none, and each links to the organisation's
+  admin page (a link, not the design's button, D-06); «0–100 per customer, from events and tickets» is
+  the design's line, though the score reads the product's tables (the facts the events record); the
+  firewall's lines are Orgpuls' seven rules, each with its evidence after a middle dot; its chip reads
+  «Passing · checked now» (or how many fail), computed as the page is read, not «CI passing · 06:00».
+  Inside a list item the design's `<button>` resets the line-height to normal, so the item and its
+  score chip do too (StatusChip `inButton`).
+
+**The gate.** sentral-run at 1440 against the local stack with the Sentral fixture: 37 of 182 tiles
+match the render, no console error. The one claim G0 recorded that the page lost, 200:200, is the
+first row's «{role}»: the design's user.signed_up carries no prop, Orgpuls' carries the role. The
+claims were then re-recorded with `--write` after reading the shot against the render: the head, the
+table's header and the left edge of its rows, the health card's six components (the report's own
+figures, 30 · 25 · 15 · 15 · 10 · 5, which match the design to the pixel), and canvas the design and
+the page both leave blank. Everything below the first row is data and differs by design (the
+catalogue's rows, the counts, the customers, the firewall's lines). At 390 and 1024 nothing scrolls
+sideways (the table scrolls inside its card, at the design's 640 px minimum), the sub-bar shows the
+page and the menu sheet keeps focus.
+
+*Found on the way, not G1's:* with the Sentral fixture's rows in the local database,
+crm_inbox_invariants row 3 fails (the week's median answer time counts the fixture's leads and tasks)
+— with and without 0141. The fixture's rows were removed again (its own delete statements) before
+the suites ran; G3, which re-records the CRM views against a fixture that owns their rows, should make
+the suite independent of them.

@@ -43,6 +43,7 @@ export function StatusChip({
   children,
   size = 'sm',
   outline = false,
+  inButton = false,
 }: {
   tone: DotTone
   children: ReactNode
@@ -53,10 +54,12 @@ export function StatusChip({
    * nowrap chip that long would push the page sideways
    */
   outline?: boolean
+  /** inside a design `<button>`, whose UA font resets the line-height to normal (the lowest-first list) */
+  inButton?: boolean
 }) {
   return (
     <span
-      className={`inline-flex items-center gap-[6px] rounded-pill font-bold leading-[1.5] text-ink ${CHIP_SIZE[size]} ${outline ? 'border border-line' : 'whitespace-nowrap bg-sbg'}`}
+      className={`inline-flex items-center gap-[6px] rounded-pill font-bold text-ink ${inButton ? 'leading-[normal]' : 'leading-[1.5]'} ${CHIP_SIZE[size]} ${outline ? 'border border-line' : 'whitespace-nowrap bg-sbg'}`}
     >
       <span aria-hidden="true" className={`block h-[6px] w-[6px] flex-none rounded-pill ${DOT_CLASS[tone]}`} />
       {children}
