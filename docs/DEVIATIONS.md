@@ -8093,3 +8093,10 @@ and as the Nordvik daglig leder:
 - no horizontal scroll at 390.
 The Nordvik fixture was restored afterwards. `wheel_month_invariants.sql` (23) proves every rule.
 `demo_copy_plan` skips both tables.
+
+**Pixel gate, after the merge (2026-09-30):** `03-malinger-kommende` lost one claimed tile, `1500:240`. The
+design's baseline draws the Deltakelse card in its closed state («Start neste puls nå»); the fixture has an
+open puls, so the card now draws the design's own live state («Lukk runden», «Send påminnelse til de 34»),
+which is shorter, and the footer rises by 132 px. Everything above the card matches as before. The
+claims for 03 were re-recorded after reading that diff: `1500:240` leaves, and four tiles that now match
+(`1100:480`, `1200:240`, `1200:480`, `1600:960`) are claimed.
