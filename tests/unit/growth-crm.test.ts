@@ -110,7 +110,6 @@ describe('an entity as the engine keeps it', () => {
       address: 'Vestveien 1, 5003 BERGEN',
       phone: '55 00 00 00',
       email: 'post@barnehagenevest.no',
-      registered_on: '2019-03-01',
       active: true,
     })
   })

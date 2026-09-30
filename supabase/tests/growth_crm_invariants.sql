@@ -28,6 +28,17 @@
 --   * partners: validated and unique codes; the referral code from the address to the organisation
 --     and the partner's trials (18, 19)
 --   * nothing written here survives (20)
+--   * a suppressed generic address is never emailed: not when the trigger is raised, and not when the
+--     work is given to a person after the address was suppressed (a call or a letter instead); a
+--     letter task names the address it goes to (21)
+--   * an objection after assignment stops the outreach and closes its open task; reopened or done,
+--     it stays stopped; an organisation on the list is never assigned (22)
+--   * a poll is asked for one at a time: «Run poll now» and the daily job take one transaction lock,
+--     and the job asks nothing while a request is fresh (23)
+--   * the rules «Edit triggers» shows are the rules the engine applies (24)
+--   * a percentage share needs its per cent; the partner kit's live parts are derived (25)
+--   * the anonymity firewall covers the eight tables: a link to a respondent or a client grant on one
+--     fails it (26)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/growth_crm_invariants.sql
 
@@ -107,10 +118,10 @@ begin
       'pass', v_txt = 'true,true,true,true,not_allowed,not_allowed,not_allowed,not_allowed,not_allowed,not_allowed|not_allowed,not_allowed,not_allowed,not_allowed|not_allowed,not_allowed|f,f,f,f,t,f');
 
     -- engine fixtures: three organisations the engine has seen, one in the CRM
-    insert into app.brreg_entities (org_number, name, form_code, nace_code, employees, employees_prev, phone, generic_email, active)
-    values ('999000141', 'Probe Bygg AS', 'AS', '41.200', 12, null, '+47 99 00 01 41', null, true),
-           ('999000142', 'Probe Post AS', 'AS', '88.911', 40, null, null, 'post@probe-post.example', true),
-           ('999000143', 'Probe Ring AS', 'AS', '86.230', 20, null, '+47 99 00 01 43', null, true);
+    insert into app.brreg_entities (org_number, name, form_code, nace_code, employees, phone, generic_email, active)
+    values ('999000141', 'Probe Bygg AS', 'AS', '41.200', 12, '+47 99 00 01 41', null, true),
+           ('999000142', 'Probe Post AS', 'AS', '88.911', 40, null, 'post@probe-post.example', true),
+           ('999000143', 'Probe Ring AS', 'AS', '86.230', 20, '+47 99 00 01 43', null, true);
     insert into app.crm_companies (name, org_number, source, stage) values ('Probe Ring AS', '999000143', 'brreg', 'new') returning id into v_co;
 
     -- 3, 4 --------------------------------------------------------------- suppression, logged by hash
@@ -340,7 +351,7 @@ begin
     v_cnt := app.lead_route();
     v_txt := concat_ws(',',
       (select string_agg(concat_ws('/', a.rule, a.body, a.task_kind, (a.sla_due_at is not null)::text), ';' order by a.rule)
-       from app.crm_activities a where a.contact_id in (v_ct, v_ct2) and a.origin = 'rule'),
+       from app.crm_activities a where (a.contact_id = v_ct or a.company_id = v_co2) and a.origin = 'rule'),
       (select (a.sla_due_at = app.add_business_hours(now() - interval '30 minutes', 1))::text from app.crm_activities a where a.contact_id = v_ct and a.origin = 'rule'),
       app.lead_route()::text);
     v_rows := v_rows || jsonb_build_object('seq', 16, 'name', 'routing makes a callback on the SLA from the hand-raise (R10) and one PQL task per trial company (R2), each once',
@@ -388,6 +399,131 @@ begin
     v_rows := v_rows || jsonb_build_object('seq', 19, 'name', '?ref= travels as a tag to the organisation at signup and counts as the partner''s trial',
       'expected', 'PROBEGC,-,Probe Regnskap AS,1/1', 'actual', v_txt, 'pass', v_txt = 'PROBEGC,-,Probe Regnskap AS,1/1');
 
+    -- 21 ----------------------------------------------------------------- a suppressed address is never emailed
+    insert into app.crm_suppression (email_hash, reason) values (app.crm_hash('post@supp-probe.example'), 'unsubscribed');
+    insert into app.brreg_entities (org_number, name, form_code, nace_code, employees, phone, generic_email, address, active) values
+      ('999000161', 'Probe Supp AS', 'AS', '41.200', 4, null, 'post@supp-probe.example', 'Probegata 1, 0150 Oslo', true),
+      ('999000162', 'Probe Supp Ring AS', 'AS', '41.200', 4, '+47 99 00 01 62', 'post@supp-probe.example', null, true),
+      ('999000163', 'Probe Senere AS', 'AS', '41.200', 4, null, 'post@later-probe.example', 'Probegata 3, 0150 Oslo', true);
+    update app.brreg_settings set dry_run = false;
+    perform public.brreg_ingest(null, jsonb_build_array(
+      jsonb_build_object('org_number', '999000161', 'name', 'Probe Supp AS', 'form_code', 'AS', 'nace_code', '41.200', 'employees', 12,
+                         'email', 'post@supp-probe.example', 'address', 'Probegata 1, 0150 Oslo', 'active', true),
+      jsonb_build_object('org_number', '999000162', 'name', 'Probe Supp Ring AS', 'form_code', 'AS', 'nace_code', '41.200', 'employees', 12,
+                         'phone', '+47 99 00 01 62', 'email', 'post@supp-probe.example', 'active', true)));
+    -- queued in dry run while the address was clean; suppressed before a person is given the work
+    update app.brreg_settings set dry_run = true;
+    perform public.brreg_ingest(null, jsonb_build_array(
+      jsonb_build_object('org_number', '999000163', 'name', 'Probe Senere AS', 'form_code', 'AS', 'nace_code', '41.200', 'employees', 12,
+                         'email', 'post@later-probe.example', 'address', 'Probegata 3, 0150 Oslo', 'active', true)));
+    v_txt := (select channel || '/' || status from app.brreg_outreach where org_number = '999000163');
+    insert into app.crm_suppression (email_hash, reason) values (app.crm_hash('post@later-probe.example'), 'hard_bounce');
+    perform set_config('request.jwt.claims', format(claims, v_mkt, 'aal2'), true);
+    perform public.admin_brreg_set_dry_run(false, 'probe suppression');
+    v_json := public.admin_crm_task_list('open');
+    select v_txt || ',' || string_agg(concat_ws('/', o.org_number, o.channel, o.status, coalesce(o.email, '-'), a.body,
+             (select r->>'to' from jsonb_array_elements(v_json->'rows') r where r->>'id' = a.id::text)), ',' order by o.org_number)
+      into v_txt
+    from app.brreg_outreach o join app.crm_activities a on a.id = o.activity_id where o.org_number in ('999000161', '999000162', '999000163');
+    perform public.admin_brreg_set_dry_run(true, 'probe back');
+    v_rows := v_rows || jsonb_build_object('seq', 21, 'name', 'a suppressed generic address is never emailed, raised or assigned: a call or a letter instead; a letter task names its address',
+      'expected', 'email/queued,999000161/letter/assigned/-/auto:outreach_letter/Probegata 1, 0150 Oslo,999000162/phone/assigned/-/auto:outreach_phone,999000163/letter/assigned/-/auto:outreach_letter/Probegata 3, 0150 Oslo',
+      'actual', v_txt,
+      'pass', v_txt = 'email/queued,999000161/letter/assigned/-/auto:outreach_letter/Probegata 1, 0150 Oslo,999000162/phone/assigned/-/auto:outreach_phone,999000163/letter/assigned/-/auto:outreach_letter/Probegata 3, 0150 Oslo');
+
+    -- 22 ----------------------------------------------------------------- an objection after assignment
+    insert into app.brreg_entities (org_number, name, form_code, nace_code, employees, phone, generic_email, address, active) values
+      ('999000164', 'Probe Innsigelse AS', 'AS', '41.200', 4, null, null, 'Probegata 4, 0150 Oslo', true),
+      ('999000165', 'Probe Liste AS', 'AS', '41.200', 4, '+47 99 00 01 65', null, null, true);
+    update app.brreg_settings set dry_run = false;
+    perform public.brreg_ingest(null, jsonb_build_array(
+      jsonb_build_object('org_number', '999000164', 'name', 'Probe Innsigelse AS', 'form_code', 'AS', 'nace_code', '41.200', 'employees', 12,
+                         'address', 'Probegata 4, 0150 Oslo', 'active', true)));
+    select o.activity_id into v_task from app.brreg_outreach o where o.org_number = '999000164';
+    v_txt := (select o.status || '/' || (a.done_at is null) from app.brreg_outreach o join app.crm_activities a on a.id = o.activity_id
+              where o.org_number = '999000164');
+    perform public.admin_consent_phone_notice('999000164', true);
+    v_txt := v_txt || ',' || (select o.status || '/' || (a.done_at is not null) || '/' || a.skipped
+                              from app.brreg_outreach o join app.crm_activities a on a.id = o.activity_id where o.org_number = '999000164')
+      || ',' || (select a.detail->>'stopped' from app.admin_audit a where a.admin_id = v_mkt and a.action = 'crm.phone_notice'
+                 and a.target_id = (select c.id::text from app.crm_companies c where c.org_number = '999000164') order by a.at desc limit 1);
+    update app.crm_activities set done_at = null, skipped = false where id = v_task;
+    v_txt := v_txt || ',' || (select status from app.brreg_outreach where org_number = '999000164');
+    update app.crm_activities set done_at = now() where id = v_task;
+    v_txt := v_txt || ',' || (select status from app.brreg_outreach where org_number = '999000164');
+    -- queued in dry run, then put on the list by hand: assigning refuses it
+    update app.brreg_settings set dry_run = true;
+    perform public.brreg_ingest(null, jsonb_build_array(
+      jsonb_build_object('org_number', '999000165', 'name', 'Probe Liste AS', 'form_code', 'AS', 'nace_code', '41.200', 'employees', 12,
+                         'phone', '+47 99 00 01 65', 'active', true)));
+    insert into app.brreg_dnc (org_number, reason) values ('999000165', 'manual');
+    v_txt := v_txt || ',' || app.brreg_assign((select id from app.brreg_outreach where org_number = '999000165'));
+    v_txt := v_txt || '/' || (select status || '/' || (activity_id is null) from app.brreg_outreach where org_number = '999000165');
+    v_rows := v_rows || jsonb_build_object('seq', 22, 'name', 'an objection after assignment stops the outreach and closes its task; reopened or done it stays stopped; a listed organisation is never assigned',
+      'expected', 'assigned/true,do_not_contact/true/true,1,do_not_contact,do_not_contact,false/do_not_contact/true', 'actual', v_txt,
+      'pass', v_txt = 'assigned/true,do_not_contact/true/true,1,do_not_contact,do_not_contact,false/do_not_contact/true');
+
+    -- 23 ----------------------------------------------------------------- one poll request at a time
+    select count(*) into v_cnt from app.brreg_polls;
+    perform app.brreg_cron();  -- the manual request from 13 is fresh: the job asks nothing
+    v_txt := concat_ws(',',
+      exists (select 1 from pg_locks l where l.locktype = 'advisory' and l.pid = pg_backend_pid() and l.objsubid = 1 and l.granted
+              and l.objid = (hashtext('orgpuls:brreg_poll')::bigint & 4294967295)::oid),
+      (select count(*) from app.brreg_polls) - v_cnt,
+      (select count(*) from pg_proc p where p.proname in ('admin_brreg_poll_now', 'brreg_cron')
+         and p.prosrc like '%pg_advisory_xact_lock(hashtext(''orgpuls:brreg_poll''))%'));
+    v_rows := v_rows || jsonb_build_object('seq', 23, 'name', 'poll now and the daily job take one transaction lock before they check; the job asks nothing while a request is fresh',
+      'expected', 't,0,2', 'actual', v_txt, 'pass', v_txt = 't,0,2');
+
+    -- 24 ----------------------------------------------------------------- the rules shown are the rules applied
+    perform set_config('request.jwt.claims', format(claims, v_ana, 'aal2'), true);
+    v_txt := concat_ws(',',
+      (public.admin_brreg_triggers()->'rules' = app.brreg_rules())::text,
+      app.brreg_rules()->>'thresholds', app.brreg_rules()->>'fit_min', app.brreg_rules()->>'industries',
+      app.fit_target_nace('41.200'), app.fit_target_nace('58.110'), app.fit_target_nace('74.9'), app.fit_target_nace('75.000'),
+      app.fit_target_nace('85.201'), app.fit_target_nace('84.110'), app.fit_target_nace('45'),
+      (select count(*) from pg_proc p where p.proname in ('brreg_ingest', 'brreg_raise', 'fit_target_nace', 'brreg_role_candidates')
+         and p.prosrc like '%app.brreg_rules()%'));
+    v_rows := v_rows || jsonb_build_object('seq', 24, 'name', '«Edit triggers» reads the rules the ingest, fit and the raise apply',
+      'expected', 'true,[5, 30],30,[[41, 43], [46, 47], [58, 74], [85, 85], [86, 88]],t,t,t,f,t,f,f,4', 'actual', v_txt,
+      'pass', v_txt = 'true,[5, 30],30,[[41, 43], [46, 47], [58, 74], [85, 85], [86, 88]],t,t,t,f,t,f,f,4');
+
+    -- 25 ----------------------------------------------------------------- a share's per cent, the kit derived
+    perform set_config('request.jwt.claims', format(claims, v_mkt, 'aal2'), true);
+    v_txt := public.admin_crm_partner_save(null, 'Probe Sjette AS', null, 'bht', null, null, 'recurring', null, 'in_talks')->>'error';
+    begin
+      insert into app.partners (name, kind, share_kind) values ('Probe Sjuende AS', 'hms', 'affiliate');
+      v_txt := v_txt || ',kept';
+    exception when check_violation then v_txt := v_txt || ',refused';
+    end;
+    v_txt := v_txt || ',' || (public.admin_crm_partners()->'kit')::text;
+    begin
+      alter table app.web_events drop column ref_code;
+      v_txt := v_txt || ',' || (public.admin_crm_partners()->'kit')::text;
+      raise exception 'rollback';
+    exception when others then if sqlerrm <> 'rollback' then raise; end if;
+    end;
+    v_rows := v_rows || jsonb_build_object('seq', 25, 'name', 'a percentage share needs its per cent; the kit''s code and dashboard are live only while the path is there',
+      'expected', 'invalid,refused,{"code": true, "dashboard": true},{"code": false, "dashboard": true}', 'actual', v_txt,
+      'pass', v_txt = 'invalid,refused,{"code": true, "dashboard": true},{"code": false, "dashboard": true}');
+
+    -- 26 ----------------------------------------------------------------- the firewall covers the eight tables
+    v_txt := (select f.evidence->>'tables' from app.growth_firewall() f where f.rule = 'growth_tables_closed')
+      || ',' || (select (f.evidence->>'tables')::int >= 8 from app.growth_firewall() f where f.rule = 'no_link_to_respondents');
+    begin
+      create table app.brreg_probe_link (id uuid primary key, invitation_id uuid references app.invitations (id));
+      grant select on app.partners to authenticated;
+      select v_txt || ',' || string_agg(concat_ws('/', f.rule, f.pass,
+               case f.rule when 'no_link_to_respondents' then f.evidence->'names' ? 'brreg_probe_link.brreg_probe_link_invitation_id_fkey'
+                           else f.evidence->'names' ? 'partners' end), ',' order by f.seq)
+        into v_txt from app.growth_firewall() f where f.rule in ('no_link_to_respondents', 'growth_tables_closed');
+      raise exception 'rollback';
+    exception when others then if sqlerrm <> 'rollback' then raise; end if;
+    end;
+    v_rows := v_rows || jsonb_build_object('seq', 26, 'name', 'a link from a Brønnøysund table to a respondent, or a client grant on partners, fails the anonymity firewall',
+      'expected', '12,true,no_link_to_respondents/f/t,growth_tables_closed/f/t', 'actual', v_txt,
+      'pass', v_txt = '12,true,no_link_to_respondents/f/t,growth_tables_closed/f/t');
+
     raise exception 'rollback';
   exception when others then
     if sqlerrm <> 'rollback' then raise; end if;
@@ -401,6 +537,9 @@ begin
     union all select id::text from app.organizations where id in (v_org, v_trial)
     union all select email from app.crm_contacts where email like '%@probe-%.example'
     union all select id::text from app.web_events where path like '/gcrm-probe%'
+    union all select email_hash from app.crm_suppression where email_hash in (app.crm_hash('post@supp-probe.example'), app.crm_hash('post@later-probe.example'))
+    union all select 'brreg_probe_link' where to_regclass('app.brreg_probe_link') is not null
+    union all select 'partners grant' where has_table_privilege('authenticated', 'app.partners', 'select')
     union all select name from vault.secrets where name in ('orgpuls_dispatch_url', 'orgpuls_dispatch_secret') and secret is not null
                                                 and created_at > now() - interval '1 minute') x;
   v_rows := v_rows || jsonb_build_object('seq', 20, 'name', 'every probe row was rolled back', 'expected', '0', 'actual', v_txt, 'pass', v_txt = '0');
@@ -416,5 +555,5 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._gcrm;
   if v_failed is not null then raise exception 'growth crm invariants failed: %', v_failed; end if;
-  if v_count <> 20 then raise exception 'growth crm invariants: expected 20 rows, got %', v_count; end if;
+  if v_count <> 26 then raise exception 'growth crm invariants: expected 26 rows, got %', v_count; end if;
 end $$;

@@ -9796,6 +9796,7 @@
         "fromJourney": "Journey “{journey}”",
         "skip": "Skip",
         "skippedOn": "Skipped {date}",
+        "stoppedOn": "Stopped {date}: the company objected",
         "dueSla": "{due} · SLA 1 h",
         "sla": {
           "left": "{n} min left",
@@ -9810,14 +9811,15 @@
           "callback_lead_score": "Call — lead score of 60 or more",
           "pql_trial": "Founder call — product-qualified trial",
           "outreach_phone": "Phone: {trigger}",
-          "outreach_letter": "Letter with Krav-sjekk QR code",
+          "outreach_letter": "Letter: {trigger}",
           "outreach_email": "Email the generic address"
         },
         "autoSrc": {
           "callback_hand_raise": "lead.hand_raised ({rule}) · founder callback",
           "callback_lead_score": "Lead scoring ≥ 60 ({rule}) · founder callback",
           "pql_trial": "PQL ({rule}) · founder task",
-          "outreach": "Brønnøysund trigger {trigger} ({rule})"
+          "outreach": "Brønnøysund trigger {trigger} ({rule})",
+          "outreachTo": "Brønnøysund trigger {trigger} ({rule}) · to {to}"
         },
         "trigger": {
           "threshold_5": "crossed 5 employees — verneombud duty",
@@ -11608,7 +11610,7 @@
             "no_employee_is_a_contact": "No CRM contact is an employee who is not also an account",
             "no_event_names_a_respondent": "No event names a respondent, an invitation, its token or an employee",
             "nothing_attached_to_answers": "Nothing is attached to the tables a response writes, invitations included: survey events come from counts, hourly",
-            "growth_tables_closed": "The event stream, the catalogue and the consent ledger are closed to every client"
+            "growth_tables_closed": "The growth, consent, Brønnøysund and partner tables are closed to every client"
           },
           "evidence": {
             "no_link_to_respondents": "{tables} tables checked; {links, plural, =0 {no foreign key to a respondent table} one {# foreign key to a respondent table: {names}} other {# foreign keys to a respondent table: {names}}}",
@@ -11641,7 +11643,8 @@
           "not_found": "That partner no longer exists.",
           "rate_limited": "A poll ran or was asked for in the last 15 minutes.",
           "not_configured": "The poll cannot be reached: the dispatcher's address and secret are not in the vault here.",
-          "unchanged": "It is already so."
+          "unchanged": "It is already so.",
+          "share_pct": "A recurring share, a client discount or an affiliate share needs its per cent; a member discount has none."
         },
         "consent": {
           "export": "Export ledger",
@@ -11794,7 +11797,7 @@
             "changesYesterday": "Entity changes · yesterday",
             "changesSub": "flagged «Ny» or «Endring» in the update feed",
             "matched": "Matched triggers",
-            "matchedSub": "fit score ≥ 30 on {n}",
+            "matchedSub": "fit score ≥ {min} on {n}",
             "queued": "Outreach tasks queued",
             "queuedSub": "{n} held out (10 %)",
             "dnc": "Do-not-contact",
@@ -11802,9 +11805,9 @@
           },
           "queue": {
             "title": "Outreach queue",
-            "sub": "Fit score ≥ 30 · phone task with script, letter with QR to the Krav-sjekk, or email to a generic address only",
+            "sub": "Fit score ≥ {min} · a phone call, a letter to the registered business address, or an email to a generic address only",
             "table": "Outreach, newest first",
-            "empty": "Nothing queued yet: the poll has raised no trigger with fit 30 or more.",
+            "empty": "Nothing queued yet: the poll has raised no trigger with fit {min} or more.",
             "head": {
               "company": "Company",
               "trigger": "Trigger",
@@ -11832,13 +11835,14 @@
           "types": {
             "title": "Triggers · last poll",
             "titleYesterday": "Triggers · yesterday",
-            "line": "{fit} with fit ≥ 30 · {tasks, plural, one {# task} other {# tasks}} · {hold} held out",
+            "line": "{fit} with fit ≥ {min} · {tasks, plural, one {# task} other {# tasks}} · {hold} held out",
             "label": {
               "threshold_5": "Crossed 5 employees → verneombud duty",
               "threshold_30": "Reached 30 employees → AMU duty",
               "company_new": "New company in a target industry at 5+ employees",
               "manager_changed": "New general manager registered"
-            }
+            },
+            "empty": "No poll has finished yet, so no trigger has been raised."
           },
           "results": {
             "title": "Results · pilot to date",
@@ -11849,7 +11853,7 @@
             "per100": "{n} / 100",
             "channel": {
               "phone": "Phone",
-              "letter": "Letter with QR",
+              "letter": "Letter",
               "email": "Generic email",
               "holdout": "Holdout (not contacted)"
             }
@@ -11863,13 +11867,10 @@
           },
           "edit": {
             "title": "Edit triggers",
-            "sub": "Thresholds follow the law: verneombud from 5 employees, AMU from 30. The target industries and the fit minimum are the report's.",
+            "sub": "Thresholds follow the law: verneombud from {t5} employees, AMU from {t30}. The target industries and the fit minimum are the report's. These are the rules the engine applies.",
             "thresholds": "Employee thresholds",
-            "thresholdsValue": "5 · 30",
             "industries": "Target industry codes",
-            "industriesValue": "41–43, 46–47, 58–74, 85, 86–88",
             "minimum": "Fit score minimum",
-            "minimumValue": "30",
             "mode": "Mode",
             "dry": "Dry run — tasks are queued, not assigned",
             "live": "Live — queued tasks are assigned to the CRM",
@@ -11931,9 +11932,6 @@
             "sub": "Enablement before recruiting at scale",
             "state": {
               "live": "Live",
-              "done": "Done",
-              "draft": "Draft",
-              "building": "Building",
               "planned": "Planned"
             },
             "item": {
@@ -11949,7 +11947,7 @@
           "who": {
             "title": "Who to approach",
             "accountants": "<b>Accountants.</b> <mut>Tripletex serves «over 160 000» businesses (vendor claim). Offer a client view, 20 % recurring or a client discount, and a co-branded checklist.</mut>",
-            "bht": "<b>Bedriftshelsetjenester (BHT).</b> <mut>About 50 industries and 95 000 businesses have a BHT duty. The approved-BHT register is open data — a clean list to approach.</mut>",
+            "bht": "<b>Bedriftshelsetjenester (BHT).</b> <mut>About 50 industries and 95 000 businesses have a BHT duty (report estimate). The approved-BHT register is open data — a clean list to approach.</mut>",
             "hms": "<b>HMS/HR consultants and verneombud course providers.</b> <mut>Affiliate links and white-label report export.</mut>",
             "bransje": "<b>Bransjeorganisasjoner.</b> <mut>PBL has published member content on the § 4-3 change — a natural opening for member offers.</mut>"
           },
@@ -11957,6 +11955,7 @@
             "addTitle": "Add partner",
             "editTitle": "{name}",
             "sub": "Creates the referral code. Trials are attributed when the code is on the organisation at signup (?ref= on any page of the site); nothing is stored on respondents.",
+            "editSub": "Saves the partner. Trials are attributed when its code is on the organisation at signup (?ref= on any page of the site); a trial already attributed stays with this partner if the code changes. Nothing is stored on respondents.",
             "name": "Organisation",
             "org": "Organisation number",
             "kind": "Type",

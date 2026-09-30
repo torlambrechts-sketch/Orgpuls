@@ -81,9 +81,15 @@ export const consentExport = () => call('admin_consent_export', {}, z.object({ r
 export const TRIGGER_KINDS = ['threshold_5', 'threshold_30', 'company_new', 'manager_changed'] as const
 export const OUTREACH_CHANNELS = ['phone', 'letter', 'email'] as const
 export const OUTREACH_STATUSES = ['queued', 'assigned', 'sent', 'holdout', 'do_not_contact'] as const
+/** The engine's rules as it applies them (app.brreg_rules): the law's employee thresholds, the target NACE divisions as ranges, the fit minimum */
+const Rules = z.object({
+  thresholds: z.array(num).min(1),
+  industries: z.array(z.tuple([num, num])).min(1),
+  fit_min: num,
+})
 const Triggers = z.object({
   dry_run: z.boolean(),
-  changed_at: tsn,
+  rules: Rules,
   last: z.object({ id: num, finished_at: z.string(), changes: num.nullable() }).nullable(),
   pending: z.boolean(),
   kpis: z.object({ raised: num, matched: num, queued: num, held_out: num, dnc: num, purged: num }),
@@ -114,6 +120,8 @@ export const brregTriggers = () => call('admin_brreg_triggers', {}, Triggers)
 export const PARTNER_KINDS = ['accounting', 'bht', 'hms', 'bransje'] as const
 export const PARTNER_STATUSES = ['in_talks', 'kit_sent', 'pilot_signed', 'member_offer_drafted', 'phase_2'] as const
 export const SHARE_KINDS = ['recurring', 'client_discount', 'affiliate', 'member_discount'] as const
+/** the share kinds that are a per cent (the partners table's CHECK: these need one, the others none) */
+export const PCT_SHARE_KINDS = ['recurring', 'client_discount', 'affiliate'] as const
 const Partner = z.object({
   id: z.string().uuid(),
   name: z.string(),
@@ -128,7 +136,9 @@ const Partner = z.object({
   trials_7: num,
 })
 export type Partner = z.infer<typeof Partner>
-export const crmPartners = () => call('admin_crm_partners', {}, z.object({ rows: z.array(Partner) }))
+/** The partner kit's parts the product holds, derived by the database (live while the path is there) */
+const Kit = z.object({ code: z.boolean(), dashboard: z.boolean() })
+export const crmPartners = () => call('admin_crm_partners', {}, z.object({ kit: Kit, rows: z.array(Partner) }))
 
 // ---------------------------------------------------------------- lead scoring
 export const FIT_PARTS = ['industry', 'size', 'crossed', 'manager', 'active'] as const

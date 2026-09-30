@@ -493,6 +493,10 @@ const TaskRow = z.object({
   sla_met: z.boolean().nullable().default(null),
   trigger: z.enum(['threshold_5', 'threshold_30', 'company_new', 'manager_changed']).nullable().default(null),
   manager: z.string().nullable().default(null),
+  // where a trigger's letter or email goes (the business address, the generic address), and whether an
+  // objection stopped it
+  to: z.string().nullable().default(null),
+  stopped: z.boolean().default(false),
 })
 export type TaskRow = z.infer<typeof TaskRow>
 /** What a rule's or a trigger's task is (its body is `auto:<key>`, 0143), worded by the admin's messages */

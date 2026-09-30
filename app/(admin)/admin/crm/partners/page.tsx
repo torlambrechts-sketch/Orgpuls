@@ -16,20 +16,14 @@ const OPEN =
   'inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-bar border border-line bg-transparent px-[10px] py-[6px] text-[12px] font-semibold leading-[normal] text-ink no-underline hover:bg-ink/5 hover:text-ink hover:no-underline'
 
 /**
- * The partner kit, as it truly stands (D-184). The design's sample says the co-branded page is live;
- * /partner/[code] is not built (no design, plan § 7), so it is planned here. The referral code on the
- * organisation at signup is live (0143). The internal dashboard v0 is this page's trials per code.
- * The documents and the export are not in the product, so they are planned until they are.
+ * The partner kit (D-184). Its two parts the product holds are derived by the database
+ * (admin_crm_partners' `kit`): the referral code on the organisation at signup is live while the path
+ * carries it (web_events.ref_code, org_attribution.partner_id, the signup's source), the internal
+ * dashboard v0 (this page's trials per code) while the organisation holds the partner. The rest is
+ * not in the product: /partner/[code] has no design (plan § 7), and the documents and the export are
+ * not built, so they read Planned. That part is a known interim until the kit is a registry row (G2).
  */
-const KIT = [
-  ['page', 'planned'],
-  ['code', 'live'],
-  ['checklist', 'planned'],
-  ['newsletter', 'planned'],
-  ['webinar', 'planned'],
-  ['dashboard', 'live'],
-  ['whitelabel', 'planned'],
-] as const
+const KIT = ['page', 'code', 'checklist', 'newsletter', 'webinar', 'dashboard', 'whitelabel'] as const
 
 /**
  * Sentral › CRM › Partners (design revision 3, `isPartners`; 0143, D-184). The partners, each with its
@@ -51,7 +45,14 @@ export default async function Page() {
   const active = rows.filter((r) => r.status === 'pilot_signed').length
   const trials30 = rows.reduce((n, r) => n + r.trials_30, 0)
   const trials7 = rows.reduce((n, r) => n + r.trials_7, 0)
-  const share = (r: Partner) => (r.share_kind ? p(`share.${r.share_kind}`, { pct: r.share_pct ?? '' }) : p('share.none'))
+  // a percentage kind always holds its per cent (the table's CHECK); without one the kind alone is shown
+  const share = (r: Partner) =>
+    !r.share_kind
+      ? p('share.none')
+      : r.share_kind === 'member_discount' || r.share_pct !== null
+        ? p(`share.${r.share_kind}`, { pct: r.share_pct ?? '' })
+        : p(`shareOption.${r.share_kind}`)
+  const kitState = (item: (typeof KIT)[number]) => (item === 'code' || item === 'dashboard') && res.kit[item] ? 'live' : 'planned'
   const common = {
     cancel: t('growth.g3.cancel'),
     close: t('growth.g3.close'),
@@ -63,9 +64,9 @@ export default async function Page() {
     shares: SHARE_KINDS.map((k) => ({ key: k, label: p(`shareOption.${k}`) })),
     statuses: PARTNER_STATUSES.map((k) => ({ key: k, label: p(`status.${k}`) })),
   }
-  const form = (submit: string, title: string) => ({
+  const form = (submit: string, title: string, sub: string) => ({
     title,
-    sub: p('form.sub'),
+    sub,
     name: p('form.name'),
     org: p('form.org'),
     kind: p('form.kind'),
@@ -82,7 +83,7 @@ export default async function Page() {
     <div className="leading-[1.5]">
       <PageHead title={t('growth.view.crmPartners.title')} lead={t('growth.view.crmPartners.lead')} measure={false}>
         {canWrite ? (
-          <PartnerDialog trigger={{ label: p('add'), className: `${BTN.primary} leading-[normal]` }} labels={form(p('form.create'), p('form.addTitle'))} options={options} common={common} />
+          <PartnerDialog trigger={{ label: p('add'), className: `${BTN.primary} leading-[normal]` }} labels={form(p('form.create'), p('form.addTitle'), p('form.sub'))} options={options} common={common} />
         ) : null}
       </PageHead>
 
@@ -129,7 +130,7 @@ export default async function Page() {
                     <PartnerDialog
                       partner={{ id: r.id, name: r.name, org_number: r.org_number, kind: r.kind, contact: r.contact, code: r.code, share_kind: r.share_kind, share_pct: r.share_pct, status: r.status }}
                       trigger={{ label: t('growth.g3.open'), className: OPEN, ariaLabel: `${t('growth.g3.open')} ${r.name}` }}
-                      labels={form(p('form.save'), p('form.editTitle', { name: r.name }))}
+                      labels={form(p('form.save'), p('form.editTitle', { name: r.name }), p('form.editSub'))}
                       options={options}
                       common={common}
                     />
@@ -146,11 +147,11 @@ export default async function Page() {
             <h2 className="m-0 font-display text-[22px] font-medium">{p('kit.title')}</h2>
             <div className="mt-[4px] text-[12.5px] text-mut">{p('kit.sub')}</div>
             <ul className="m-0 mt-[8px] flex list-none flex-col p-0">
-              {KIT.map(([item, state]) => (
+              {KIT.map((item) => (
                 <li key={item} className="flex items-center gap-[10px] border-b border-line py-[9px] text-[13px]">
-                  <span aria-hidden="true" className={`block h-[6px] w-[6px] flex-none rounded-pill ${DOT_CLASS[dotTone('kit', state)]}`} />
+                  <span aria-hidden="true" className={`block h-[6px] w-[6px] flex-none rounded-pill ${DOT_CLASS[dotTone('kit', kitState(item))]}`} />
                   <span className="flex-1 [text-wrap:pretty]">{p(`kit.item.${item}`)}</span>
-                  <span className="text-[12px] text-mut">{p(`kit.state.${state}`)}</span>
+                  <span className="text-[12px] text-mut">{p(`kit.state.${kitState(item)}`)}</span>
                 </li>
               ))}
             </ul>

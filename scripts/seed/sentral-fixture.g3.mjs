@@ -25,14 +25,17 @@
  *     and its letter a task of the kind «letter».
  */
 
-/** [key, name, org number, form, NACE, employees before, after, trigger, phone, generic address] */
+/**
+ * [key, name, org number, form, NACE, employees before, after, trigger, phone, generic address, business
+ * address] — the business addresses are invented, like the numbers
+ */
 export const ENTITIES = [
-  ['fjellstua', 'Fjellstua Drift AS', '931204118', 'AS', '56.101', 4, 6, 'threshold_5', '+47 57 00 00 01', null],
-  ['nordfjord', 'Nordfjord Bygg AS', '925118330', 'AS', '41.200', 28, 31, 'threshold_30', null, null],
-  ['barnehagene', 'Barnehagene Vest AS', '919440217', 'AS', '88.911', 27, 32, 'threshold_30', null, 'post@barnehagenevest.example'],
-  ['lillesand', 'Lillesand Dagligvare AS', '933018442', 'AS', '47.111', null, 7, 'company_new', null, null],
-  ['klinikk', 'Klinikk Sør AS', '928776104', 'AS', '86.230', 18, 18, 'manager_changed', '+47 38 00 00 02', null],
-  ['tromso', 'Tromsø Elektro AS', '921555908', 'AS', '43.210', 3, 5, 'threshold_5', '+47 77 00 00 03', null],
+  ['fjellstua', 'Fjellstua Drift AS', '931204118', 'AS', '56.101', 4, 6, 'threshold_5', '+47 57 00 00 01', null, 'Fjellvegen 12, 6823 Sandane'],
+  ['nordfjord', 'Nordfjord Bygg AS', '925118330', 'AS', '41.200', 28, 31, 'threshold_30', null, null, 'Sjøgata 3, 6770 Nordfjordeid'],
+  ['barnehagene', 'Barnehagene Vest AS', '919440217', 'AS', '88.911', 27, 32, 'threshold_30', null, 'post@barnehagenevest.example', 'Postboks 180, 5804 Bergen'],
+  ['lillesand', 'Lillesand Dagligvare AS', '933018442', 'AS', '47.111', null, 7, 'company_new', null, null, 'Strandgata 20, 4790 Lillesand'],
+  ['klinikk', 'Klinikk Sør AS', '928776104', 'AS', '86.230', 18, 18, 'manager_changed', '+47 38 00 00 02', null, 'Markens gate 9, 4611 Kristiansand'],
+  ['tromso', 'Tromsø Elektro AS', '921555908', 'AS', '43.210', 3, 5, 'threshold_5', '+47 77 00 00 03', null, 'Stakkevollvegen 41, 9010 Tromsø'],
 ]
 
 /** [key, name, kind, contact, code, share kind, share %, status] — D.partners.list */
@@ -56,8 +59,8 @@ export const POLL_ID = 9_000_000_143
 export function g3Sql({ id, q, today, company, contact, task }) {
   const orgs = ENTITIES.map((e) => q(e[2])).join(', ')
   const entities = ENTITIES.map(
-    ([, name, orgnr, form, nace, before, after, , phone, email]) =>
-      `(${q(orgnr)}, ${q(name)}, ${q(form)}, ${q(nace)}, ${after}, ${before ?? 'null'}, ${q(phone)}, ${q(email)}, true)`,
+    ([, name, orgnr, form, nace, , after, , phone, email, address]) =>
+      `(${q(orgnr)}, ${q(name)}, ${q(form)}, ${q(nace)}, ${after}, ${q(phone)}, ${q(email)}, ${q(address)}, true)`,
   ).join(',\n  ')
   const raises = ENTITIES.map(
     ([, , orgnr, , , before, after, kind]) => `select app.brreg_raise(${q(orgnr)}, ${q(kind)}, ${POLL_ID}, ${before === null || kind === 'manager_changed' ? 'null' : before}, ${after});`,
@@ -76,11 +79,11 @@ delete from app.brreg_polls where id = ${POLL_ID};
 delete from app.partners where id in (${PARTNERS.map(([key]) => `'${id(`partner:${key}`)}'::uuid`).join(', ')});
 delete from app.demo_requests where email = ${q(tomas)};
 
-update app.brreg_settings set dry_run = true, changed_at = null, changed_by = null;
+update app.brreg_settings set dry_run = true;
 insert into app.brreg_polls (id, source, requested_at, started_at, finished_at, status, changes) overriding system value
 values (${POLL_ID}, 'cron', ${today('05:10')} - interval '1 minute', ${today('05:10')} - interval '1 minute', ${today('05:10')}, 'done', 2742);
 
-insert into app.brreg_entities (org_number, name, form_code, nace_code, employees, employees_prev, phone, generic_email, active) values
+insert into app.brreg_entities (org_number, name, form_code, nace_code, employees, phone, generic_email, address, active) values
   ${entities};
 update app.brreg_entities set manager_changed_on = (now() at time zone 'Europe/Oslo')::date - 1 where org_number = '928776104';
 -- Tromsø Elektro objected at its first call: the do-not-contact list before its trigger

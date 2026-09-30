@@ -93,7 +93,6 @@ export type EntityRow = {
   address: string | null
   phone: string | null
   email: string | null
-  registered_on: string | null
   active: boolean
 }
 
@@ -121,7 +120,6 @@ export function toRow(raw: unknown, change: Change | undefined): EntityRow | nul
   const place = [str(addr.postnummer), str(addr.poststed)].filter(Boolean).join(' ')
   const address = [...lines, place].filter(Boolean).join(', ') || null
   const email = str(e.epostadresse)
-  const registered = str(e.registreringsdatoEnhetsregisteret)
   return {
     org_number: org,
     name: name.slice(0, 200),
@@ -135,7 +133,6 @@ export function toRow(raw: unknown, change: Change | undefined): EntityRow | nul
     phone: (str(e.telefon) ?? str(e.mobil))?.slice(0, 40) ?? null,
     // a named address is dropped here, before it can be stored anywhere
     email: isGenericEmail(email) ? email!.toLowerCase() : null,
-    registered_on: registered && /^\d{4}-\d{2}-\d{2}$/.test(registered) ? registered : null,
     active: e.konkurs !== true && e.underAvvikling !== true && e.underTvangsavviklingEllerTvangsopplosning !== true && !str(e.slettedato),
   }
 }

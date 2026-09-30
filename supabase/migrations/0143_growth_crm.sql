@@ -27,12 +27,15 @@
 -- 5. **Brønnøysund triggers** (Brønnøysund triggers). The edge function orgpuls-brreg-triggers
 --    polls Enhetsregisteret's update feed daily, re-fetches changed entities and hands them to
 --    brreg_ingest (service role). The database raises threshold_5, threshold_30, company_new and
---    manager_changed, scores fit, and queues outreach with fit ≥ 30: a phone task, a letter, or an
---    email to a GENERIC address only (app.brreg_generic_email, a CHECK on every row that holds one).
---    10 % are held out by a hash of the organisation number; the do-not-contact list is honoured; an
---    entity gone with HTTP 410 is purged. **Dry run by default**: tasks are queued, not assigned,
---    until an admin switches it (audited). Role data: a general manager's name only, only on phone
---    and letter outreach; never a birth date.
+--    manager_changed, scores fit, and queues outreach with fit ≥ 30 (app.brreg_rules): a phone task, a
+--    letter to the business address, or an email to a GENERIC address only (app.brreg_generic_email,
+--    a CHECK on every row that holds one) that is not suppressed (app.crm_suppressed, checked when
+--    raised and again when assigned). 10 % are held out by a hash of the organisation number; the
+--    do-not-contact list is honoured when raised and when assigned, and an objection stops outreach
+--    already assigned and closes its task; an entity gone with HTTP 410 is purged. **Dry run by
+--    default**: tasks are queued, not assigned, until an admin switches it (audited). Role data: a
+--    general manager's name only, only on phone and letter outreach; never a birth date. The
+--    anonymity firewall's scope takes in these tables and partners (section 10).
 --
 -- Every new table has RLS on, no policy and no grant; reads and writes go through admin_* functions
 -- (the CRM's roles, with the second factor), and every admin write is audited.
@@ -94,12 +97,10 @@ create table app.brreg_settings (
   id boolean primary key default true check (id),
   dry_run boolean not null default true,
   feed_cursor bigint check (feed_cursor >= 0),
-  roles_cursor bigint check (roles_cursor >= 0),
-  changed_at timestamptz,
-  changed_by uuid references auth.users (id) on delete set null
+  roles_cursor bigint check (roles_cursor >= 0)
 );
 comment on table app.brreg_settings is
-  'The Brønnøysund trigger engine (0143, D-184): dry run (tasks queued, not assigned) until an admin switches it, and the last update ids read from the entity and role feeds.';
+  'The Brønnøysund trigger engine (0143, D-184): dry run (tasks queued, not assigned) until an admin switches it, and the last update ids read from the entity and role feeds. Who switched it, and when, is the audit log''s (crm.brreg_dry_run).';
 insert into app.brreg_settings (id) values (true);
 alter table app.brreg_settings enable row level security;
 revoke all on app.brreg_settings from public, anon, authenticated;
@@ -143,19 +144,16 @@ create table app.brreg_entities (
   form_code text not null check (form_code ~ '^[A-ZÆØÅ]{2,6}$' and form_code <> 'ENK'),
   nace_code text check (nace_code ~ '^[0-9]{2}(\.[0-9]{1,3})?$'),
   employees int check (employees >= 0),
-  employees_prev int check (employees_prev >= 0),
-  employees_changed_at timestamptz,
   municipality text check (char_length(municipality) <= 80),
+  -- the business address a letter goes to (the task list shows it on a letter task)
   address text check (char_length(address) <= 300),
   phone text check (char_length(phone) <= 40),
   generic_email text check (generic_email is null or app.brreg_generic_email(generic_email)),
-  registered_on date,
   active boolean not null,
-  manager_changed_on date,
-  seen_at timestamptz not null default now()
+  manager_changed_on date
 );
 comment on table app.brreg_entities is
-  'Organisations seen in the Enhetsregisteret update feed (0143, NLOD 2.0): the facts fit and the triggers read. No sole proprietorships, no person, only a generic address. Purged when the register answers 410.';
+  'Organisations seen in the Enhetsregisteret update feed (0143, NLOD 2.0): the facts fit, the triggers and outreach read. No sole proprietorships, no person, only a generic address. Purged when the register answers 410.';
 alter table app.brreg_entities enable row level security;
 revoke all on app.brreg_entities from public, anon, authenticated;
 
@@ -217,13 +215,25 @@ alter table app.brreg_outreach enable row level security;
 revoke all on app.brreg_outreach from public, anon, authenticated;
 
 -- ============================================================ 3. fit
--- The report's target industries: construction (41–43), trade (46–47), information and professional
--- services (58–74), education (85), health and social work (86–88).
+-- The engine's rules, in one place: the employee counts the law draws (verneombud from 5, AMU from
+-- 30), the report's target industries as NACE division ranges — construction (41–43), trade
+-- (46–47), information and professional services (58–74), education (85), health and social work
+-- (86–88) — and the fit a trigger needs before outreach. The ingest, fit and the raise read them
+-- here, and «Edit triggers» shows them from here (admin_brreg_triggers), so the page cannot say
+-- one thing while the engine does another.
+create function app.brreg_rules() returns jsonb
+  language sql immutable set search_path = ''
+as $fn$
+  select '{"thresholds": [5, 30], "industries": [[41, 43], [46, 47], [58, 74], [85, 85], [86, 88]], "fit_min": 30}'::jsonb
+$fn$;
+revoke all on function app.brreg_rules() from public, anon, authenticated;
+
 create function app.fit_target_nace(p_nace text) returns boolean
   language sql immutable set search_path = ''
 as $fn$
-  select case when p_nace ~ '^[0-9]{2}' then left(p_nace, 2)::int in (41, 42, 43, 46, 47, 85, 86, 87, 88)
-                                               or left(p_nace, 2)::int between 58 and 74
+  select case when p_nace ~ '^[0-9]{2}'
+              then exists (select 1 from jsonb_array_elements(app.brreg_rules()->'industries') r
+                           where left(p_nace, 2)::int between (r->>0)::int and (r->>1)::int)
               else false end
 $fn$;
 revoke all on function app.fit_target_nace(text) from public, anon, authenticated;
@@ -268,7 +278,10 @@ end $fn$;
 revoke all on function app.next_workday(timestamptz) from public, anon, authenticated;
 
 -- Assigning: the company in the CRM (found by its number, or made from the entity) and a task for a
--- person. Only when the engine is not in dry run.
+-- person. Only when the engine is not in dry run. Checked again here, at the moment a person is given
+-- the work: an organisation on the do-not-contact list is not contacted (the row stops), and an email
+-- goes only to an address still not suppressed (else it is a call when there is a number, a letter
+-- when not).
 create function app.brreg_assign(p_outreach uuid) returns boolean
   language plpgsql security definer set search_path = ''
 as $fn$
@@ -282,7 +295,15 @@ begin
   if o.id is null or o.status <> 'queued' or o.channel is null then
     return false;
   end if;
+  if exists (select 1 from app.brreg_dnc d where d.org_number = o.org_number) then
+    update app.brreg_outreach set status = 'do_not_contact' where id = o.id;
+    return false;
+  end if;
   select * into en from app.brreg_entities e where e.org_number = o.org_number;
+  if o.channel = 'email' and (o.email is null or app.crm_suppressed(o.email)) then
+    o.channel := case when en.phone is not null then 'phone' else 'letter' end;
+    update app.brreg_outreach set channel = o.channel, email = null where id = o.id;
+  end if;
   select c.id into v_company from app.crm_companies c where c.product_id = 'orgpuls' and c.org_number = o.org_number;
   if v_company is null then
     insert into app.crm_companies (name, org_number, form_code, nace_code, employees, municipality, phone, source, stage)
@@ -299,7 +320,10 @@ begin
 end $fn$;
 revoke all on function app.brreg_assign(uuid) from public, anon, authenticated;
 
--- A trigger, once per organisation and kind in 180 days, with its fit; outreach when fit ≥ 30.
+-- A trigger, once per organisation and kind in 180 days, with its fit; outreach when fit ≥ 30
+-- (app.brreg_rules). The channel: an email only to a generic address that is not on the suppression
+-- list (unsubscribed, bounced, complained or erased: app.crm_suppressed), else a call when the
+-- register gives a number, else a letter.
 create function app.brreg_raise(p_org text, p_kind text, p_poll bigint, p_from int, p_to int) returns uuid
   language plpgsql security definer set search_path = ''
 as $fn$
@@ -307,6 +331,7 @@ declare
   en app.brreg_entities;
   v_fit jsonb;
   v_trigger uuid;
+  v_email text;
   v_channel text;
   v_status text;
   v_out uuid;
@@ -327,16 +352,17 @@ begin
   insert into app.brreg_triggers (org_number, kind, poll_id, employees_from, employees_to, fit)
   values (p_org, p_kind, p_poll, p_from, p_to, (v_fit->>'total')::int)
   returning id into v_trigger;
-  if (v_fit->>'total')::int < 30 then
+  if (v_fit->>'total')::int < (app.brreg_rules()->>'fit_min')::int then
     return v_trigger;
   end if;
-  v_channel := case when en.generic_email is not null then 'email' when en.phone is not null then 'phone' else 'letter' end;
+  v_email := case when en.generic_email is not null and not app.crm_suppressed(en.generic_email) then en.generic_email end;
+  v_channel := case when v_email is not null then 'email' when en.phone is not null then 'phone' else 'letter' end;
   v_status := case when exists (select 1 from app.brreg_dnc d where d.org_number = p_org) then 'do_not_contact'
                    when app.brreg_holdout(p_org) then 'holdout'
                    else 'queued' end;
   insert into app.brreg_outreach (trigger_id, org_number, channel, status, email)
   values (v_trigger, p_org, case when v_status = 'do_not_contact' then null else v_channel end, v_status,
-          case when v_status <> 'do_not_contact' and v_channel = 'email' then en.generic_email end)
+          case when v_status <> 'do_not_contact' and v_channel = 'email' then v_email end)
   returning id into v_out;
   if v_status = 'queued' and not (select s.dry_run from app.brreg_settings s) then
     perform app.brreg_assign(v_out);
@@ -345,7 +371,8 @@ begin
 end $fn$;
 revoke all on function app.brreg_raise(text, text, bigint, int, int) from public, anon, authenticated;
 
--- A task done is an outreach made (not a skip); reopened, it is assigned again.
+-- A task done is an outreach made (not a skip); reopened, it is assigned again — unless the
+-- organisation has since objected. Outreach stopped by an objection (do_not_contact) is never moved.
 create function app.brreg_outreach_done() returns trigger
   language plpgsql security definer set search_path = ''
 as $fn$
@@ -353,7 +380,9 @@ begin
   if new.done_at is not null and not new.skipped then
     update app.brreg_outreach set status = 'sent', sent_at = new.done_at where activity_id = new.id and status = 'assigned';
   elsif new.done_at is null then
-    update app.brreg_outreach set status = 'assigned', sent_at = null where activity_id = new.id and status = 'sent';
+    update app.brreg_outreach o set status = 'assigned', sent_at = null
+    where o.activity_id = new.id and o.status = 'sent'
+      and not exists (select 1 from app.brreg_dnc d where d.org_number = o.org_number);
   end if;
   return null;
 end $fn$;
@@ -399,7 +428,7 @@ end $fn$;
 -- Entities re-fetched after the feed flagged them. Each row: org_number, name, form_code, nace_code,
 -- employees (null when the register has no count), employees_op ('add' when the count was added, so it
 -- was none before), is_new (the feed said Ny), municipality, address, phone, email (generic only; any
--- other is dropped here as well as by the function), registered_on, active.
+-- other is dropped here as well as by the function), active.
 create function public.brreg_ingest(p_poll bigint, p_rows jsonb) returns jsonb
   language plpgsql security definer set search_path = ''
 as $fn$
@@ -412,6 +441,9 @@ declare
   v_raised int := 0;
   v_seen int := 0;
   v_email text;
+  -- the thresholds the law draws (app.brreg_rules): verneombud from 5, AMU from 30
+  v_t5 constant int := (app.brreg_rules()->'thresholds'->>0)::int;
+  v_t30 constant int := (app.brreg_rules()->'thresholds'->>1)::int;
 begin
   if jsonb_typeof(p_rows) <> 'array' or jsonb_array_length(p_rows) > 1000 then
     return jsonb_build_object('ok', false, 'error', 'invalid');
@@ -431,29 +463,24 @@ begin
       continue;
     end if;
     v_email := case when app.brreg_generic_email(r->>'email') then lower(btrim(r->>'email')) end;
-    insert into app.brreg_entities as e (org_number, name, form_code, nace_code, employees, employees_prev, employees_changed_at,
-                                         municipality, address, phone, generic_email, registered_on, active, seen_at)
+    insert into app.brreg_entities as e (org_number, name, form_code, nace_code, employees, municipality, address, phone,
+                                         generic_email, active)
     values (v_org, left(btrim(r->>'name'), 200), r->>'form_code',
             case when r->>'nace_code' ~ '^[0-9]{2}(\.[0-9]{1,3})?$' then r->>'nace_code' end,
-            v_emp, v_prev, case when v_prev is distinct from v_emp and v_prev is not null then now() end,
-            left(r->>'municipality', 80), left(r->>'address', 300), left(r->>'phone', 40), v_email,
-            case when r->>'registered_on' ~ '^\d{4}-\d{2}-\d{2}$' then (r->>'registered_on')::date end,
-            coalesce((r->>'active')::boolean, false), now())
+            v_emp, left(r->>'municipality', 80), left(r->>'address', 300), left(r->>'phone', 40), v_email,
+            coalesce((r->>'active')::boolean, false))
     on conflict (org_number) do update set
       name = excluded.name, form_code = excluded.form_code, nace_code = excluded.nace_code,
-      employees = excluded.employees,
-      employees_prev = case when e.employees is distinct from excluded.employees then e.employees else e.employees_prev end,
-      employees_changed_at = case when e.employees is distinct from excluded.employees then now() else e.employees_changed_at end,
-      municipality = excluded.municipality, address = excluded.address, phone = excluded.phone,
-      generic_email = excluded.generic_email, registered_on = excluded.registered_on, active = excluded.active, seen_at = now();
+      employees = excluded.employees, municipality = excluded.municipality, address = excluded.address, phone = excluded.phone,
+      generic_email = excluded.generic_email, active = excluded.active;
     v_seen := v_seen + 1;
-    -- the thresholds the law draws: verneombud from 5, AMU from 30; one crossing both is the higher one
-    if v_prev is not null and v_prev < 30 and coalesce(v_emp, 0) >= 30 then
+    -- a crossing of a threshold; one crossing both is the higher one
+    if v_prev is not null and v_prev < v_t30 and coalesce(v_emp, 0) >= v_t30 then
       if app.brreg_raise(v_org, 'threshold_30', p_poll, v_prev, v_emp) is not null then v_raised := v_raised + 1; end if;
-    elsif v_prev is not null and v_prev < 5 and coalesce(v_emp, 0) >= 5 then
+    elsif v_prev is not null and v_prev < v_t5 and coalesce(v_emp, 0) >= v_t5 then
       if app.brreg_raise(v_org, 'threshold_5', p_poll, v_prev, v_emp) is not null then v_raised := v_raised + 1; end if;
     end if;
-    if coalesce((r->>'is_new')::boolean, false) and app.fit_target_nace(r->>'nace_code') and coalesce(v_emp, 0) >= 5 then
+    if coalesce((r->>'is_new')::boolean, false) and app.fit_target_nace(r->>'nace_code') and coalesce(v_emp, 0) >= v_t5 then
       if app.brreg_raise(v_org, 'company_new', p_poll, null, v_emp) is not null then v_raised := v_raised + 1; end if;
     end if;
   end loop;
@@ -467,7 +494,7 @@ create function public.brreg_role_candidates(p_orgs text[]) returns jsonb
 as $fn$
   select jsonb_build_object('ok', true, 'orgs', coalesce(jsonb_agg(e.org_number), '[]'))
   from app.brreg_entities e
-  where e.org_number = any (coalesce(p_orgs, '{}')) and coalesce(e.employees, 0) >= 5
+  where e.org_number = any (coalesce(p_orgs, '{}')) and coalesce(e.employees, 0) >= (app.brreg_rules()->'thresholds'->>0)::int
 $fn$;
 
 -- The daglig leder role group's last change, per organisation: a change within 7 days raises
@@ -586,10 +613,17 @@ begin
 end $fn$;
 revoke all on function app.brreg_request(text, uuid) from public, anon, authenticated;
 
+-- The daily job: not while a poll runs or one was just asked for. The lock serialises it with «Run
+-- poll now», so two requests can never both pass the check and both call the register.
 create function app.brreg_cron() returns void
   language plpgsql security definer set search_path = ''
 as $fn$
 begin
+  perform pg_advisory_xact_lock(hashtext('orgpuls:brreg_poll'));
+  if exists (select 1 from app.brreg_polls p where p.requested_at > now() - interval '15 minutes'
+             or (p.status = 'running' and p.started_at > now() - interval '1 hour')) then
+    return;
+  end if;
   perform app.brreg_request('cron', null);
 end $fn$;
 revoke all on function app.brreg_cron() from public, anon, authenticated;
@@ -738,7 +772,8 @@ create table app.partners (
   created_at timestamptz not null default now(),
   created_by uuid references auth.users (id) on delete set null,
   updated_at timestamptz not null default now(),
-  check (share_pct is null or share_kind in ('recurring', 'client_discount', 'affiliate'))
+  -- a per cent exactly for the kinds that are one (a member discount is the body's own offer)
+  check (case when share_kind in ('recurring', 'client_discount', 'affiliate') then share_pct is not null else share_pct is null end)
 );
 comment on table app.partners is
   'Partners (0143, D-184): accountants, BHT, HMS consultants and trade bodies, each with a referral code. Trials are attributed on the organisation (org_attribution.partner_id), never on a respondent.';
@@ -993,7 +1028,8 @@ begin
 end $fn$;
 
 -- The Art. 14 notice at a first call: a ledger record on the company. An objection is a withdrawal
--- and puts the number on the do-not-contact list; outreach still waiting for it stops.
+-- and puts the number on the do-not-contact list; every outreach not yet made for it stops — queued,
+-- or already assigned to a person, whose open task is closed as skipped in the same transaction.
 create function public.admin_consent_phone_notice(p_org_number text, p_objected boolean) returns jsonb
   language plpgsql security definer set search_path = ''
 as $fn$
@@ -1001,6 +1037,7 @@ declare
   v_org text := regexp_replace(coalesce(p_org_number, ''), '\s', '', 'g');
   v_company uuid;
   en app.brreg_entities;
+  v_stopped int := 0;
 begin
   if not app.crm_can_write() then
     return jsonb_build_object('ok', false, 'error', 'not_allowed');
@@ -1023,9 +1060,19 @@ begin
           'phone_notice', auth.uid());
   if p_objected then
     insert into app.brreg_dnc (org_number, reason, created_by) values (v_org, 'objected', auth.uid()) on conflict (org_number) do nothing;
-    update app.brreg_outreach set status = 'do_not_contact' where org_number = v_org and status = 'queued';
+    with stopped as (
+      update app.brreg_outreach set status = 'do_not_contact'
+      where org_number = v_org and status in ('queued', 'assigned')
+      returning activity_id
+    ), closed as (
+      update app.crm_activities a set done_at = now(), skipped = true
+      where a.id in (select s.activity_id from stopped s where s.activity_id is not null) and a.done_at is null
+      returning a.id
+    )
+    select count(*) into v_stopped from stopped;
   end if;
-  perform app.admin_log('crm.phone_notice', null, 'crm_company', v_company::text, null, jsonb_build_object('objected', p_objected));
+  perform app.admin_log('crm.phone_notice', null, 'crm_company', v_company::text, null,
+                        jsonb_build_object('objected', p_objected, 'stopped', v_stopped));
   return jsonb_build_object('ok', true);
 end $fn$;
 
@@ -1042,7 +1089,8 @@ begin
   select * into p from app.brreg_polls x where x.status = 'done' order by x.finished_at desc limit 1;
   return jsonb_build_object('ok', true,
     'dry_run', (select s.dry_run from app.brreg_settings s),
-    'changed_at', (select s.changed_at from app.brreg_settings s),
+    -- the rules the engine applies, for «Edit triggers» (the thresholds, the industries, the fit minimum)
+    'rules', app.brreg_rules(),
     'last', case when p.id is null then null else jsonb_build_object('id', p.id, 'finished_at', p.finished_at, 'changes', p.changes) end,
     'pending', exists (select 1 from app.brreg_polls x where x.status in ('requested', 'running') and x.requested_at > now() - interval '1 hour'),
     'kpis', jsonb_build_object(
@@ -1095,7 +1143,7 @@ begin
   if (select s.dry_run from app.brreg_settings s) = p_on then
     return jsonb_build_object('ok', false, 'error', 'unchanged');
   end if;
-  update app.brreg_settings set dry_run = p_on, changed_at = now(), changed_by = auth.uid();
+  update app.brreg_settings set dry_run = p_on;
   -- switched off: what is queued is assigned now
   if not p_on then
     for v_id in select o.id from app.brreg_outreach o where o.status = 'queued' order by o.created_at loop
@@ -1106,7 +1154,9 @@ begin
   return jsonb_build_object('ok', true, 'assigned', v_n);
 end $fn$;
 
--- «Run poll now»: once in 15 minutes, and not while one is running.
+-- «Run poll now»: once in 15 minutes, and not while one is running. The check and the request are
+-- one step under a transaction lock (the daily job takes the same one): two admins pressing at once
+-- ask the register once.
 create function public.admin_brreg_poll_now() returns jsonb
   language plpgsql security definer set search_path = ''
 as $fn$
@@ -1115,6 +1165,7 @@ begin
   if not app.crm_can_write() then
     return jsonb_build_object('ok', false, 'error', 'not_allowed');
   end if;
+  perform pg_advisory_xact_lock(hashtext('orgpuls:brreg_poll'));
   if exists (select 1 from app.brreg_polls p where p.requested_at > now() - interval '15 minutes'
              or (p.status = 'running' and p.started_at > now() - interval '1 hour')) then
     return jsonb_build_object('ok', false, 'error', 'rate_limited');
@@ -1135,6 +1186,14 @@ begin
     return jsonb_build_object('ok', false, 'error', 'not_allowed');
   end if;
   return jsonb_build_object('ok', true,
+    -- the kit's two parts the product holds, derived rather than typed: the referral code is live while
+    -- the path carries it (the beacon keeps ref_code, the signup puts the partner on the organisation),
+    -- and the dashboard (this page's trials per code) while the organisation holds the partner
+    'kit', jsonb_build_object(
+      'code', exists (select 1 from pg_attribute a where a.attrelid = 'app.web_events'::regclass and a.attname = 'ref_code' and not a.attisdropped)
+              and exists (select 1 from pg_attribute a where a.attrelid = 'app.org_attribution'::regclass and a.attname = 'partner_id' and not a.attisdropped)
+              and coalesce((select p.prosrc ~ 'partner_id' from pg_proc p where p.oid = to_regprocedure('public.record_signup_source(text,text)')), false),
+      'dashboard', exists (select 1 from pg_attribute a where a.attrelid = 'app.org_attribution'::regclass and a.attname = 'partner_id' and not a.attisdropped)),
     'rows', (select coalesce(jsonb_agg(jsonb_build_object('id', p.id, 'name', p.name, 'org_number', p.org_number, 'kind', p.kind,
                'contact', p.contact_name, 'code', p.referral_code, 'share_kind', p.share_kind, 'share_pct', p.share_pct,
                'status', p.status, 'updated_at', p.updated_at,
@@ -1166,6 +1225,7 @@ begin
      or (v_code is not null and v_code !~ '^[A-Z0-9]{2,20}$')
      or (p_share_kind is not null and p_share_kind not in ('recurring', 'client_discount', 'affiliate', 'member_discount'))
      or (p_share_pct is not null and (p_share_pct not between 1 and 50 or p_share_kind is null or p_share_kind = 'member_discount'))
+     or (p_share_kind in ('recurring', 'client_discount', 'affiliate') and p_share_pct is null)
      or (nullif(btrim(coalesce(p_contact, '')), '') is not null and char_length(btrim(p_contact)) not between 2 and 120) then
     return jsonb_build_object('ok', false, 'error', 'invalid');
   end if;
@@ -1246,7 +1306,12 @@ begin
         'sla_left', case when a.sla_due_at is not null and a.done_at is null then app.business_minutes(now(), a.sla_due_at) end,
         'sla_met', case when a.sla_due_at is not null and a.done_at is not null then a.done_at <= a.sla_due_at end,
         'trigger', (select t.kind from app.brreg_outreach o join app.brreg_triggers t on t.id = o.trigger_id where o.activity_id = a.id),
-        'manager', (select o.manager_name from app.brreg_outreach o where o.activity_id = a.id))
+        'manager', (select o.manager_name from app.brreg_outreach o where o.activity_id = a.id),
+        -- where the outreach goes: a letter to the business address the register gives, an email to the
+        -- generic address; and whether it was stopped (an objection)
+        'to', (select case o.channel when 'letter' then e.address when 'email' then o.email end
+               from app.brreg_outreach o join app.brreg_entities e on e.org_number = o.org_number where o.activity_id = a.id),
+        'stopped', exists (select 1 from app.brreg_outreach o where o.activity_id = a.id and o.status = 'do_not_contact'))
         order by (a.done_at is not null), a.sla_due_at nulls last, a.due_at nulls last, a.done_at desc, a.created_at), '[]')
       from app.crm_activities a join app.crm_companies co on co.id = a.company_id
       left join app.crm_campaigns st on st.id = a.campaign_id
@@ -1280,3 +1345,164 @@ begin
     execute format('grant execute on function %s to authenticated', f);
   end loop;
 end $$;
+
+-- ============================================================ 10. the anonymity firewall covers these tables
+-- 0141's app.growth_firewall(), unchanged but for its scope: rule 1 (no foreign key to or from a
+-- respondent's table) now reads the Brønnøysund tables and partners too, and rule 7 (closed to every
+-- client: RLS, no policy, no grant) lists the eight tables 0143 makes. The Event catalogue page and CI
+-- read it live, so a future link or grant on one of them fails there, not only in this phase's tests.
+create or replace function app.growth_firewall() returns table (seq int, rule text, pass boolean, evidence jsonb)
+  language plpgsql stable security definer set search_path = ''
+as $fn$
+declare
+  -- where a respondent, their answers, their conversation or their invitation live
+  v_resp constant text[] := array['responses', 'answers', 'extra_answers', 'response_comments', 'invitations', 'employees',
+                                  'module_answers', 'module_segment_answers', 'module_not_relevant_answers', 'not_relevant_answers',
+                                  'org_question_answers', 'org_count_answers', 'comment_threads', 'thread_messages', 'contact_requests'];
+  v_answer constant text[] := array['responses', 'answers', 'extra_answers', 'response_comments', 'module_answers',
+                                    'module_segment_answers', 'module_not_relevant_answers', 'not_relevant_answers',
+                                    'org_question_answers', 'org_count_answers', 'comment_threads', 'thread_messages'];
+  -- the answer tables' own guards (immutability, one answer per kind): the only functions a trigger on
+  -- an answer table may run. Anything else — however it is named, however many calls away the growth
+  -- stream is — fails rule 6 until someone has looked at it and added it here.
+  v_guards constant text[] := array['forbid_answer_change', 'forbid_extra_answer_change', 'forbid_module_answer_change',
+                                    'forbid_comment_change', 'check_extra_answer', 'not_relevant_exclusive',
+                                    'org_question_answer_fixed', 'org_question_answer_kind'];
+  -- the platform's own roles, which hold every table by design (Postgres' read-all and write-all
+  -- roles, Supabase's read-only and replication users): no client, API key or product path reaches
+  -- them. Any other role that can touch an answer table fails rule 3, whatever it is called.
+  v_platform constant text[] := array['pg_read_all_data', 'pg_write_all_data', 'supabase_read_only_user', 'supabase_etl_admin'];
+  -- the growth, CRM, event and consent tables, and the CRM's Brønnøysund engine and partners (0143)
+  v_scope constant text := '^(crm_|growth_|consent_|event_|brreg_)|_events$|^partners$';
+  v_own constant text[] := array['event_catalogue', 'growth_events', 'consent_records', 'consent_purposes',
+                                 'brreg_settings', 'brreg_polls', 'brreg_entities', 'brreg_triggers', 'brreg_dnc', 'brreg_purges',
+                                 'brreg_outreach', 'partners'];
+  -- the tables a respondent's submission writes: the answer tables, invitations (submit_response
+  -- stamps responded_at in the respondent's own transaction), and whatever else submit_response's
+  -- source writes, read from it so that a table added to the write path is covered with it
+  v_write text[];
+  v_n bigint;
+  v_m bigint;
+  v_names jsonb;
+begin
+  -- 1 no foreign key between a growth, CRM, event or consent table and a respondent table, in either
+  --   direction: from the growth side it reads a respondent; from the respondent side it ties an
+  --   answer to an event or a contact
+  select count(*) into v_m from pg_class c join pg_namespace n on n.oid = c.relnamespace
+  where n.nspname in ('app', 'public') and c.relkind in ('r', 'p') and c.relname ~ v_scope;
+  select count(*), coalesce(jsonb_agg(s.relname || '.' || con.conname order by s.relname, con.conname), '[]') into v_n, v_names
+  from pg_constraint con
+  join pg_class s on s.oid = con.conrelid join pg_namespace sn on sn.oid = s.relnamespace
+  join pg_class t on t.oid = con.confrelid join pg_namespace tn on tn.oid = t.relnamespace
+  where con.contype = 'f'
+    and ((sn.nspname in ('app', 'public') and s.relname ~ v_scope and tn.nspname = 'app' and t.relname = any (v_resp))
+      or (sn.nspname = 'app' and s.relname = any (v_resp) and tn.nspname in ('app', 'public') and t.relname ~ v_scope));
+  seq := 1; rule := 'no_link_to_respondents'; pass := v_n = 0;
+  evidence := jsonb_build_object('tables', v_m, 'links', v_n, 'names', v_names);
+  return next;
+
+  -- 2 no catalogue entry allows a prop that could carry a respondent
+  select count(*), coalesce(sum(cardinality(e.allowed_props)), 0) into v_m, v_n from app.event_catalogue e;
+  select coalesce(jsonb_agg(e.name || ' ' || x order by e.name, x), '[]') into v_names
+  from app.event_catalogue e cross join lateral unnest(e.allowed_props) x where app.growth_prop_forbidden(x);
+  seq := 2; rule := 'catalogue_has_no_respondent_props'; pass := jsonb_array_length(v_names) = 0;
+  evidence := jsonb_build_object('events', v_m, 'props', v_n, 'flagged', jsonb_array_length(v_names), 'names', v_names);
+  return next;
+
+  -- 3 no role but a superuser, the table's owner and the platform's own holds any privilege on an
+  --   answer table: on the table, on any of its columns (a column grant reads the rows as well, and the
+  --   service role bypasses RLS), or through a role it is a member of
+  select coalesce(jsonb_agg(r.rolname || ' on ' || t.relname order by r.rolname, t.relname), '[]') into v_names
+  from pg_roles r cross join pg_class t
+  where t.relnamespace = 'app'::regnamespace and t.relname = any (v_answer)
+    and not r.rolsuper and r.oid <> t.relowner and not (r.rolname = any (v_platform))
+    and (has_table_privilege(r.oid, t.oid, 'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')
+         or has_any_column_privilege(r.oid, t.oid, 'SELECT,INSERT,UPDATE,REFERENCES'));
+  select count(*) into v_n from pg_roles r
+  where not r.rolsuper and not (r.rolname = any (v_platform))
+    and not exists (select 1 from pg_class t where t.relnamespace = 'app'::regnamespace and t.relname = any (v_answer) and t.relowner = r.oid);
+  seq := 3; rule := 'no_role_reads_answers'; pass := jsonb_array_length(v_names) = 0;
+  evidence := jsonb_build_object('roles', v_n, 'tables', cardinality(v_answer), 'held', jsonb_array_length(v_names), 'names', v_names);
+  return next;
+
+  -- 4 no contact shares an address with an employee — active or not — unless that address is an
+  --   account's in an organisation: a count, never an address
+  select count(distinct c.id) into v_n
+  from app.crm_contacts c join app.employees e on lower(btrim(e.email)) = c.email
+  where not exists (select 1 from auth.users u join app.memberships m on m.user_id = u.id and m.active
+                    where lower(btrim(u.email)) = c.email);
+  seq := 4; rule := 'no_employee_is_a_contact'; pass := v_n = 0;
+  evidence := jsonb_build_object('contacts', v_n);
+  return next;
+
+  -- 5 no event's key or props hold a respondent's, an invitation's or an employee's id, an
+  --   invitation's token hash (hex), or an employee's address
+  select count(distinct x.id) into v_n
+  from (select g.id, vals.v from app.growth_events g
+        cross join lateral (select unnest(string_to_array(coalesce(g.dedupe_key, ''), ':')) as v
+                            union all select p.value #>> '{}' from jsonb_each(g.props) p) vals) x
+  where (x.v ~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+         and (exists (select 1 from app.employees e where e.id = x.v::uuid)
+              or exists (select 1 from app.invitations i where i.id = x.v::uuid)
+              or exists (select 1 from app.responses r where r.id = x.v::uuid)))
+     or (x.v ~ '^([0-9a-f]{2})+$' and exists (select 1 from app.invitations i where i.token_hash = decode(x.v, 'hex')))
+     or exists (select 1 from app.employees e where lower(btrim(e.email)) = x.v);
+  select count(*) into v_m from app.growth_events;
+  seq := 5; rule := 'no_event_names_a_respondent'; pass := v_n = 0;
+  evidence := jsonb_build_object('events', v_m, 'flagged', v_n);
+  return next;
+
+  -- 6 nothing is attached to the tables a respondent's submission writes but their own guards: a
+  --   trigger whose function is not one of them (or one of them that reaches growth, consent or the
+  --   CRM), any rewrite rule, any policy, and any constraint, column default or index that calls a
+  --   function outside pg_catalog — each runs, or could run, inside the respondent's transaction
+  select array_agg(distinct x.w order by x.w) into v_write
+  from (select unnest(v_answer || array['invitations']) as w
+        union
+        select lower(m[1]) from pg_proc p cross join lateral regexp_matches(p.prosrc, '(?:insert\s+into|update|delete\s+from)\s+app\.([a-z_0-9]+)', 'gi') m
+        where p.pronamespace = 'public'::regnamespace and p.proname = 'submit_response') x
+  where to_regclass('app.' || x.w) is not null;
+  with t as (select c.oid, c.relname from pg_class c where c.relnamespace = 'app'::regnamespace and c.relname = any (v_write)),
+  att as (
+    select 'app.' || t.relname || '.' || tg.tgname as name,
+           p.proname = any (v_guards) and pn.nspname = 'app' and p.prosrc !~* '(growth|consent|crm)' as guard
+    from t join pg_trigger tg on tg.tgrelid = t.oid and not tg.tgisinternal
+    join pg_proc p on p.oid = tg.tgfoid join pg_namespace pn on pn.oid = p.pronamespace
+    union all
+    select 'app.' || t.relname || '.' || r.rulename, false from t join pg_rewrite r on r.ev_class = t.oid
+    union all
+    select 'app.' || t.relname || '.' || po.polname, false from t join pg_policy po on po.polrelid = t.oid
+    union all
+    -- a constraint, a column default or an index (its expression or predicate) that calls a function
+    -- outside pg_catalog
+    select distinct 'app.' || t.relname || '.' || coalesce(con.conname, a.attname, ic.relname), false
+    from pg_depend d
+    join pg_proc p on p.oid = d.refobjid and d.refclassid = 'pg_proc'::regclass and p.pronamespace <> 'pg_catalog'::regnamespace
+    left join pg_constraint con on d.classid = 'pg_constraint'::regclass and con.oid = d.objid
+    left join pg_attrdef ad on d.classid = 'pg_attrdef'::regclass and ad.oid = d.objid
+    left join pg_attribute a on a.attrelid = ad.adrelid and a.attnum = ad.adnum
+    left join pg_index ix on d.classid = 'pg_class'::regclass and ix.indexrelid = d.objid
+    left join pg_class ic on ic.oid = ix.indexrelid
+    join t on t.oid = coalesce(con.conrelid, ad.adrelid, ix.indrelid))
+  select count(*) filter (where att.guard), coalesce(jsonb_agg(att.name order by att.name) filter (where not att.guard), '[]')
+    into v_n, v_names
+  from att;
+  seq := 6; rule := 'nothing_attached_to_answers'; pass := jsonb_array_length(v_names) = 0;
+  evidence := jsonb_build_object('tables', cardinality(v_write), 'guards', v_n, 'other', jsonb_array_length(v_names), 'names', v_names);
+  return next;
+
+  -- 7 the growth tables are closed to clients: row level security, no policy, and no grant to a
+  --   client or the service role, on the table or any column
+  select coalesce(jsonb_agg(t order by t), '[]') into v_names
+  from unnest(v_own) t
+  where to_regclass('app.' || t) is null
+     or not (select c.relrowsecurity from pg_class c where c.oid = ('app.' || t)::regclass)
+     or exists (select 1 from pg_policies p where p.schemaname = 'app' and p.tablename = t)
+     or exists (select 1 from unnest(array['anon', 'authenticated', 'service_role']) r
+                where has_table_privilege(r, ('app.' || t)::regclass, 'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')
+                   or has_any_column_privilege(r, ('app.' || t)::regclass, 'SELECT,INSERT,UPDATE,REFERENCES'));
+  seq := 7; rule := 'growth_tables_closed'; pass := jsonb_array_length(v_names) = 0;
+  evidence := jsonb_build_object('tables', cardinality(v_own), 'open', jsonb_array_length(v_names), 'names', v_names);
+  return next;
+end $fn$;
+revoke all on function app.growth_firewall() from public, anon, authenticated;

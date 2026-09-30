@@ -51,7 +51,8 @@ export function StatusChip({
   /**
    * the header's «Dry run» chip: a hairline border and no fill. It is a sentence in the design and
    * wraps there (no nowrap) inside a sub-line that wraps too, so it may wrap here: at 390 px a
-   * nowrap chip that long would push the page sideways
+   * nowrap chip that long would push the page sideways. It sets no colour of its own in the design,
+   * so it takes the sub-line's muted text
    */
   outline?: boolean
   /** inside a design `<button>`, whose UA font resets the line-height to normal (the lowest-first list) */
@@ -59,7 +60,7 @@ export function StatusChip({
 }) {
   return (
     <span
-      className={`inline-flex items-center gap-[6px] rounded-pill font-bold text-ink ${inButton ? 'leading-[normal]' : 'leading-[1.5]'} ${CHIP_SIZE[size]} ${outline ? 'border border-line' : 'whitespace-nowrap bg-sbg'}`}
+      className={`inline-flex items-center gap-[6px] rounded-pill font-bold ${inButton ? 'leading-[normal]' : 'leading-[1.5]'} ${CHIP_SIZE[size]} ${outline ? 'border border-line text-mut' : 'whitespace-nowrap bg-sbg text-ink'}`}
     >
       <span aria-hidden="true" className={`block h-[6px] w-[6px] flex-none rounded-pill ${DOT_CLASS[tone]}`} />
       {children}

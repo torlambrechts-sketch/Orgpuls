@@ -19,7 +19,13 @@ import { slaState } from '@/lib/admin/growthCrmView'
  * after a hand-raise (R10) or a score of 60 (R2), a PQL (R2), a phone call, letter or generic email
  * after a trigger (R11) — and a callback carries its one-hour SLA (weekdays 08–16 Oslo): the working
  * minutes left, or by how much it was missed, or that it was met. The head counts those on the SLA
- * and those journeys, rules and triggers made.
+ * and those journeys, rules and triggers made. A trigger's letter names the business address it goes
+ * to; one an objection stopped says so.
+ *
+ * The row is the design's: the priority dot, the kind chip and the title in one cell (flex 2.4, 10 px
+ * apart), the contact on one line (flex 1.6), 12 px padding, 13.5/12/12.5 px text at line-height 1.5.
+ * The schema holds no priority, so the dot derives it the way the design's rows have it: a callback on
+ * the one-hour SLA is high (peach), every other task normal (the hairline tone).
  */
 const CHIP = { call: 'bg-viz1', linkedin: 'bg-viz4', email: 'bg-viz4', letter: 'bg-viz2' } as const
 const osloDay = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' })
@@ -65,8 +71,8 @@ export default async function CrmTasks({ searchParams }: { searchParams: Promise
         <div className="overflow-x-auto">
           <div className="min-w-[660px]">
             <div aria-hidden="true" className="flex items-center gap-[14px] border-y border-line px-[20px] pb-[10px] pt-[12px] text-[11px] uppercase tracking-[0.09em] text-mut">
-              <span className="flex-[2.2]">{k('col.task')}</span>
-              <span className="flex-[1.4]">{k('col.contact')}</span>
+              <span className="flex-[2.4]">{k('col.task')}</span>
+              <span className="flex-[1.6]">{k('col.contact')}</span>
               <span className="w-[130px]">{k('col.due')}</span>
               <span className="w-[36px]">{k('col.owner')}</span>
               <span className="w-[100px]" />
@@ -78,40 +84,44 @@ export default async function CrmTasks({ searchParams }: { searchParams: Promise
                 const kind = r.step_kind === 'call' || r.step_kind === 'linkedin' ? r.step_kind : r.task_kind
                 const clock = sla(r)
                 return (
-                  <li key={r.id} className="flex items-center gap-[14px] border-b border-line px-[20px] py-[14px]">
-                    <span aria-hidden="true" className={`block h-[6px] w-[6px] flex-none rounded-pill ${r.done_at ? 'bg-teal' : late ? 'bg-peach' : 'bg-ac'}`} />
-                    {kind ? (
-                      <span className={`flex-none whitespace-nowrap rounded-pill px-[7px] py-[2px] text-[11px] font-semibold text-mut ${CHIP[kind]}`}>
-                        {r.step_kind ? k(`kind.${kind}`) : k(`kindAuto.${kind}`)}
-                      </span>
-                    ) : null}
-                    <div className="min-w-0 flex-[2.2]">
-                      <div className={`text-[14px] font-semibold ${r.done_at ? 'text-mut line-through' : ''}`}>
-                        {auto ? k(`auto.${auto}`, { trigger: r.trigger ? k(`trigger.${r.trigger}`) : '' }) : r.body}
-                      </div>
-                      <div className="text-[12.5px] text-mut">
-                        {r.done_at
-                          ? k(r.skipped ? 'skippedOn' : 'doneOn', { date: dayFmt.format(new Date(r.done_at)) })
-                          : r.campaign_id ? (
-                            <Link href={`/admin/crm/campaigns/${r.campaign_id}` as Route} className="text-mut underline-offset-2 hover:text-ink">
-                              {k('fromJourney', { journey: r.journey ?? '—' })}
-                            </Link>
-                          ) : auto ? (
-                            auto.startsWith('outreach')
-                              ? k('autoSrc.outreach', { trigger: r.trigger ?? '—', rule: r.rule ?? '' })
-                              : k(`autoSrc.${auto}`, { rule: r.rule ?? '' })
-                          ) : (
-                            k('manual')
-                          )}
+                  <li key={r.id} className="flex items-center gap-[14px] border-b border-line px-[20px] py-[12px]">
+                    <div className="flex min-w-0 flex-[2.4] items-center gap-[10px] leading-[1.5]">
+                      <span aria-hidden="true" className={`block h-[6px] w-[6px] flex-none rounded-pill ${r.sla_due_at ? 'bg-peach' : 'bg-line'}`} />
+                      {kind ? (
+                        <span className={`flex-none whitespace-nowrap rounded-pill px-[7px] py-[2px] text-[11px] font-semibold text-mut ${CHIP[kind]}`}>
+                          {r.step_kind ? k(`kind.${kind}`) : k(`kindAuto.${kind}`)}
+                        </span>
+                      ) : null}
+                      <div className="min-w-0">
+                        <div className={`text-[13.5px] font-semibold ${r.done_at ? 'text-mut line-through' : ''}`}>
+                          {auto ? k(`auto.${auto}`, { trigger: r.trigger ? k(`trigger.${r.trigger}`) : '' }) : r.body}
+                        </div>
+                        <div className="text-[12px] text-mut">
+                          {r.done_at
+                            ? k(r.stopped ? 'stoppedOn' : r.skipped ? 'skippedOn' : 'doneOn', { date: dayFmt.format(new Date(r.done_at)) })
+                            : r.campaign_id ? (
+                              <Link href={`/admin/crm/campaigns/${r.campaign_id}` as Route} className="text-mut underline-offset-2 hover:text-ink">
+                                {k('fromJourney', { journey: r.journey ?? '—' })}
+                              </Link>
+                            ) : auto ? (
+                              auto.startsWith('outreach')
+                                ? r.to
+                                  ? k('autoSrc.outreachTo', { trigger: r.trigger ?? '—', rule: r.rule ?? '', to: r.to })
+                                  : k('autoSrc.outreach', { trigger: r.trigger ?? '—', rule: r.rule ?? '' })
+                                : k(`autoSrc.${auto}`, { rule: r.rule ?? '' })
+                            ) : (
+                              k('manual')
+                            )}
+                        </div>
                       </div>
                     </div>
-                    <div className="min-w-0 flex-[1.4] text-[13px] text-mut">
+                    <div className="min-w-0 flex-[1.6] overflow-hidden text-ellipsis whitespace-nowrap text-[12.5px] leading-[1.5] text-mut">
                       {r.contact ? `${r.contact} · ` : r.manager ? `${r.manager} · ` : ''}
                       <Link href={`/admin/crm/prospects/${r.company_id}` as Route} className="text-mut underline-offset-2 hover:text-ink">
                         {r.company}
                       </Link>
                     </div>
-                    <div className={`w-[130px] text-[13px] font-semibold ${late ? 'text-danger' : ''}`}>
+                    <div className={`w-[130px] text-[12.5px] font-semibold leading-[1.5] ${late ? 'text-danger' : ''}`}>
                       {r.sla_due_at ? k('dueSla', { due: due(r.due_at) }) : due(r.due_at)}
                       {clock ? (
                         <span className="mt-[4px] block">

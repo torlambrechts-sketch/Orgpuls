@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import type { AdminResult } from './actions'
-import { ADMIN_SUPPRESSION_REASONS, PARTNER_KINDS, PARTNER_STATUSES, SHARE_KINDS } from './growthCrm'
+import { ADMIN_SUPPRESSION_REASONS, PARTNER_KINDS, PARTNER_STATUSES, PCT_SHARE_KINDS, SHARE_KINDS } from './growthCrm'
 
 /**
  * The writes of the CRM's revision-3 pages (phase G3, 0143, D-184). The database checks the role and
@@ -93,7 +93,6 @@ export async function savePartner(_prev: AdminResult | null, formData: FormData)
       sharePct: z.coerce.number().int().min(1).max(50).nullable(),
       status: z.enum(PARTNER_STATUSES),
     })
-    .refine((p) => p.sharePct === null || (p.shareKind !== null && p.shareKind !== 'member_discount'))
     .safeParse({
       id: blank(formData.get('id')),
       name: blank(formData.get('name')),
@@ -107,6 +106,10 @@ export async function savePartner(_prev: AdminResult | null, formData: FormData)
     })
   if (!parsed.success) return { ok: false, problem: 'invalid' }
   const p = parsed.data
+  // a per cent exactly for the kinds that are one (the table's CHECK says the same)
+  if ((p.sharePct !== null) !== (p.shareKind !== null && (PCT_SHARE_KINDS as readonly string[]).includes(p.shareKind))) {
+    return { ok: false, problem: 'share_pct' }
+  }
   const r = await rpc('admin_crm_partner_save', {
     p_id: p.id,
     p_name: p.name,
