@@ -7,7 +7,8 @@
  * sends no JWT.
  *
  * Each event goes to `record_mail_event` (0053) as its kind, the provider's message id, its
- * time and the provider's reason. The recipient's address in the payload is never passed on,
+ * time and the provider's reason; since 0134 the id may be one person's message of a notice to
+ * several, whose state alone it then sets. The recipient's address in the payload is never passed on,
  * stored or logged. Opens and clicks of the product's own mail are dropped: an open or a click
  * is a per-person timestamp of engaging with a survey link, and none is kept.
  *

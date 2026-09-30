@@ -14,6 +14,7 @@ import {
   auditList,
   emailLog,
   isError,
+  noticeRecipients,
   orgAttribution,
   orgCancellation,
   orgDetail,
@@ -46,9 +47,9 @@ export default async function Customer({ params }: { params: Promise<{ id: strin
   const support = who?.role === 'super_admin' || who?.role === 'support'
   const billingRole = support || who?.role === 'finance'
   const cancel = billingRole ? await orgCancellation(id) : null
-  const [mail, trail, cases, life] = support
-    ? await Promise.all([emailLog(id), auditList(id, 100), orgTickets(id), orgLifecycle(id)])
-    : [null, null, null, null]
+  const [mail, trail, cases, life, reached] = support
+    ? await Promise.all([emailLog(id), auditList(id, 100), orgTickets(id), orgLifecycle(id), noticeRecipients(id)])
+    : [null, null, null, null, null]
   const o = d.org
   const b = d.billing
   const cx = cancel && !isError(cancel) ? cancel.row : null
@@ -489,6 +490,43 @@ export default async function Customer({ params }: { params: Promise<{ id: strin
                   <Td>{m.delivered}</Td>
                   <Td className={m.bounced ? 'font-bold text-danger' : ''}>{m.bounced}</Td>
                   <Td className={m.complaints ? 'font-bold text-danger' : ''}>{m.complaints}</Td>
+                </tr>
+              ))}
+            </Table>
+          </div>
+        </Panel>
+      ) : null}
+
+      {reached && !isError(reached) ? (
+        <Panel title={t('org.noticeRecipients')} className="mt-[18px]" aside={t('org.noticeRecipientsNote')}>
+          <div className="mt-[8px]">
+            <Table
+              head={[
+                t('org.recipientHead.sent'),
+                t('org.emailHead.kind'),
+                t('org.emailHead.audience'),
+                t('org.recipientHead.address'),
+                t('org.recipientHead.state'),
+                t('org.recipientHead.at'),
+                t('org.recipientHead.reason'),
+              ]}
+              empty={reached.rows.length ? undefined : t('common.none')}
+            >
+              {reached.rows.map((r) => (
+                <tr key={r.id}>
+                  <Td>{when(r.sent_at)}</Td>
+                  <Td>{r.kind}</Td>
+                  <Td>{r.audience ?? '—'}</Td>
+                  <Td>{r.masked}</Td>
+                  <Td
+                    className={
+                      r.delivery && r.delivery !== 'delivered' && r.delivery !== 'soft_bounce' && r.delivery !== 'deferred' ? 'font-bold text-danger' : ''
+                    }
+                  >
+                    {r.delivery ? t(`delivery.${r.delivery}`) : t('org.recipientNoReport')}
+                  </Td>
+                  <Td>{when(r.delivery_at)}</Td>
+                  <Td wrap>{r.reason ?? '—'}</Td>
                 </tr>
               ))}
             </Table>

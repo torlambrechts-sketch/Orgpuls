@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server'
 import { PRIORITY_TONE, STATUS_TONE } from '@/components/admin/tones'
 import { FieldsForm, ReplyForm, RoundLink } from '@/components/admin/TicketForms'
 import { ALink, Badge, Card, PageHead, Problem, when } from '@/components/admin/ui'
-import { isError, ticket, TICKET_CATEGORIES, TICKET_IMPACTS, TICKET_QUEUES, TICKET_STATUSES, TICKET_TYPES } from '@/lib/admin/api'
+import { isError, ticket, ticketMail, TICKET_CATEGORIES, TICKET_IMPACTS, TICKET_QUEUES, TICKET_STATUSES, TICKET_TYPES } from '@/lib/admin/api'
 
 /**
  * One ticket (D-92): the conversation with internal notes marked, a reply or a note, the
@@ -14,7 +14,7 @@ export default async function AdminTicket({ params }: { params: Promise<{ id: st
   const { id } = await params
   if (!/^[0-9a-f-]{36}$/.test(id)) notFound()
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
-  const d = await ticket(id)
+  const [d, sent] = await Promise.all([ticket(id), ticketMail(id)])
   if (isError(d)) {
     if (d.error === 'not_found') notFound()
     return <Problem text={d.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
@@ -34,7 +34,22 @@ export default async function AdminTicket({ params }: { params: Promise<{ id: st
     ...d.problems.map((p) => [p.id, `#${p.number}`] as [string, string]),
     ...(k.problem_id && k.problem_number ? [[k.problem_id, `#${k.problem_number}`] as [string, string]] : []),
   ])
+  // what the provider last said about each reply (0134, D-97); nothing when it has said nothing yet
+  const delivery = new Map(isError(sent) ? [] : sent.rows.map((r) => [r.message_id, r] as const))
   const name = (v: unknown) => (v === null || v === undefined ? '—' : (names.get(String(v)) ?? String(v)))
+  const dv = (message: string) => {
+    const r = delivery.get(message)
+    if (!r) return null
+    const bad = r.delivery !== 'delivered' && r.delivery !== 'soft_bounce' && r.delivery !== 'deferred'
+    return (
+      <>
+        {' · '}
+        <span className={bad ? 'font-semibold text-danger' : r.delivery === 'delivered' ? '' : 'font-semibold'}>
+          {t('tickets.deliveryAt', { state: t(`delivery.${r.delivery}`), at: when(r.delivery_at) })}
+        </span>
+      </>
+    )
+  }
   const Row = ({ label, value }: { label: string; value: React.ReactNode }) => (
     <div className="grid gap-[10px] border-b border-line py-[7px] text-[13px] last:border-0 [grid-template-columns:130px_minmax(0,1fr)]">
       <span className="text-mut">{label}</span>
@@ -71,8 +86,12 @@ export default async function AdminTicket({ params }: { params: Promise<{ id: st
                     <span>
                       {when(m.created_at)}
                       {m.mail ? ` · ${t(`tickets.mail.${m.mail}`)}` : ''}
+                      {dv(m.id)}
                     </span>
                   </div>
+                  {delivery.get(m.id)?.reason ? (
+                    <p className="m-0 mb-[6px] text-[12px] text-mut">{t('tickets.deliveryReason', { reason: delivery.get(m.id)?.reason ?? '' })}</p>
+                  ) : null}
                   <p className="m-0 whitespace-pre-wrap break-words text-[13.5px] leading-[1.55]">{m.body}</p>
                 </li>
               ))}

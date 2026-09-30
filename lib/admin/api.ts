@@ -178,6 +178,25 @@ const EmailRow = z.object({
 export const emailLog = (org: string) =>
   call('admin_email_log', { p_org: org }, z.object({ rows: z.array(EmailRow), address_problems: num }))
 
+/** What the provider last said about a message (0053), as record_mail_event stores it */
+export const DELIVERY = ['delivered', 'soft_bounce', 'hard_bounce', 'blocked', 'spam', 'invalid', 'deferred', 'unsubscribed', 'error'] as const
+export type Delivery = (typeof DELIVERY)[number]
+
+// each person a notice to a role reached, their address masked (0134, D-97)
+const NoticeRecipient = z.object({
+  id: num,
+  kind: z.string(),
+  audience: z.string().nullable(),
+  masked: z.string(),
+  sent_at: ts,
+  delivery: z.enum(DELIVERY).nullable(),
+  delivery_at: tsn,
+  reason: z.string().nullable(),
+})
+export type NoticeRecipient = z.infer<typeof NoticeRecipient>
+export const noticeRecipients = (org: string) =>
+  call('admin_notice_recipients', { p_org: org }, z.object({ rows: z.array(NoticeRecipient) }))
+
 const Deliverability = z.object({
   totals: z.object({
     events: num,
@@ -476,6 +495,11 @@ const Ticket = z.object({
 })
 export type Ticket = z.infer<typeof Ticket>
 export const ticket = (id: string) => call('admin_ticket', { p_id: id }, Ticket)
+
+// what happened to each reply the ticket sent, after the provider accepted it (0134, D-97)
+const TicketMailRow = z.object({ message_id: z.string(), delivery: z.enum(DELIVERY), delivery_at: ts, reason: z.string().nullable() })
+export type TicketMailRow = z.infer<typeof TicketMailRow>
+export const ticketMail = (id: string) => call('admin_ticket_mail', { p_id: id }, z.object({ rows: z.array(TicketMailRow) }))
 
 export const orgTickets = (org: string) =>
   call(

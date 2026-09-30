@@ -7987,6 +7987,16 @@
           "other": "Other"
         },
         "why": "Reason given"
+      },
+      "noticeRecipients": "Notices to roles, per recipient",
+      "noticeRecipientsNote": "Latest 200 · addresses masked",
+      "recipientNoReport": "no report yet",
+      "recipientHead": {
+        "sent": "Sent",
+        "address": "Address",
+        "state": "State",
+        "at": "At",
+        "reason": "Provider said"
       }
     },
     "users": {
@@ -8384,7 +8394,9 @@
         "reply": "reply",
         "resolve": "resolve",
         "open": "Open"
-      }
+      },
+      "deliveryAt": "{state} {at}",
+      "deliveryReason": "Provider: {reason}"
     },
     "crm": {
       "title": "CRM",
@@ -11202,6 +11214,17 @@
         "searchText": "Google Search Console and IndexNow report to SEO › Performance, with when each last synced and whether it failed.",
         "searchOpen": "Open SEO › Performance"
       }
+    },
+    "delivery": {
+      "delivered": "delivered",
+      "soft_bounce": "soft bounce",
+      "hard_bounce": "hard bounce",
+      "blocked": "blocked",
+      "spam": "marked as spam",
+      "invalid": "invalid address",
+      "deferred": "deferred",
+      "unsubscribed": "unsubscribed",
+      "error": "provider error"
     }
   },
   "access": {

@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { describe, expect, it } from 'vitest'
 import en from '@/messages/en.json'
 import no from '@/messages/no.json'
@@ -5,8 +6,12 @@ import { smsContent, smsLength } from '@/supabase/functions/_shared/sms'
 import {
   AUTH_ACTIONS,
   authLink,
+  addressKey,
   groupsOf,
+  inTurns,
   isReservedAddress,
+  pendingSends,
+  perRecipient,
   renderAuth,
   renderCampaign,
   renderNotice,
@@ -302,6 +307,70 @@ describe('grouping', () => {
     expect(roles).toHaveLength(2)
     expect(roles.find((g) => !g.member)?.to).toHaveLength(2)
     expect(roles.every((g) => g.name === null)).toBe(true)
+  })
+})
+
+describe('a notice to several people (0134, D-97)', () => {
+  const leaders = [
+    { email: 'Kari@Firma.no ', phone: null, name: 'Kari', lang: null, member: true },
+    { email: 'per@firma.no', phone: null, name: 'Per', lang: 'en', member: true },
+    { email: 'vo@firma.no', phone: null, name: 'Vera', lang: null, member: false },
+  ]
+  const notice = job({ kind: 'resultat', audience: 'daglig_leder', token: null, recipients: leaders })
+
+  it('is split per person for a notice to a role, never for a personal message', () => {
+    expect(perRecipient(notice)).toBe(true)
+    expect(perRecipient(job({ kind: 'forvarsel', audience: 'avdelingsledere', token: null }))).toBe(true)
+    // an invitation, a reminder or a link is one person already, with its one id on its row
+    for (const kind of ['invitasjon', 'paminnelse', 'siste_paminnelse', 'lenke'] as const) {
+      expect(perRecipient(job({ kind, audience: null }))).toBe(false)
+      expect(perRecipient(job({ kind, audience: 'alle_ansatte' }))).toBe(false)
+    }
+    // a measure's notice to its owner is an employee's row, not a role's
+    expect(perRecipient(job({ kind: 'tiltak_forfalt', audience: null, token: null }))).toBe(false)
+    // anything carrying a token is never split, whatever its kind says
+    expect(perRecipient({ ...notice, token: TOKEN })).toBe(false)
+  })
+
+  it('keys an address as the database digests it: SHA-256 of the trimmed, lower-cased address', async () => {
+    const hex = createHash('sha256').update('kari@firma.no').digest('hex')
+    expect(await addressKey(' Kari@Firma.no ')).toBe(hex)
+    expect(await addressKey('kari@firma.no')).toBe(hex)
+  })
+
+  it('owes one message per person, each to one address, in the words of their group', async () => {
+    const sends = await pendingSends(notice, null, new Set())
+    expect(sends.map((s) => s.to.email)).toEqual(['Kari@Firma.no ', 'per@firma.no', 'vo@firma.no'])
+    expect(sends.find((s) => s.to.name === 'Per')?.group).toEqual({ lang: 'en', member: true, name: null })
+    expect(sends.find((s) => s.to.name === 'Vera')?.group).toEqual({ lang: 'no', member: false, name: null })
+    expect(new Set(sends.map((s) => s.key)).size).toBe(3)
+  })
+
+  it('skips the people an earlier attempt reached, and anyone listed twice', async () => {
+    const kari = await addressKey('kari@firma.no')
+    const twice = job({ kind: 'resultat', audience: 'daglig_leder', token: null, recipients: [...leaders, { ...leaders[2]! }] })
+    const sends = await pendingSends(twice, null, new Set([kari]))
+    expect(sends.map((s) => s.to.name)).toEqual(['Per', 'Vera'])
+    expect(await pendingSends(notice, null, new Set(await Promise.all(leaders.map((l) => addressKey(l.email)))))).toEqual([])
+  })
+
+  it('sends a few at a time and takes no new one after the first failure', async () => {
+    let running = 0
+    let most = 0
+    const done: number[] = []
+    const res = await inTurns([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3, async (n) => {
+      running++
+      most = Math.max(most, running)
+      await new Promise((r) => setTimeout(r, 5))
+      running--
+      done.push(n)
+      return n === 2 ? { ok: false, code: 'http_400' } : { ok: true }
+    })
+    expect(res).toEqual({ ok: false, code: 'http_400' })
+    expect(most).toBeLessThanOrEqual(3)
+    expect(done.length).toBeLessThan(10)
+    expect(await inTurns([1, 2], 4, async () => ({ ok: true }))).toBeNull()
+    expect(await inTurns([], 4, async () => ({ ok: true }))).toBeNull()
   })
 })
 
