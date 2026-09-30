@@ -267,7 +267,12 @@ describe('the pages', () => {
 
   it('every shared Growth shape has a consumer (plan § 6, step 4)', () => {
     const shapes = [...readFileSync('components/admin/growth.tsx', 'utf8').matchAll(/export function (\w+)/g)].map((m) => m[1]!)
-    const src = pages.map((p) => readFileSync(p, 'utf8')).concat(readFileSync('components/admin/GrowthDialogs.tsx', 'utf8'), readFileSync('components/admin/GrowthStub.tsx', 'utf8')).join('\n')
+    // every admin page and component but the file itself: G3 and G4's pages use the shapes too
+    const files = [
+      ...readdirSync('app/(admin)', { recursive: true, encoding: 'utf8' }).map((f) => `app/(admin)/${f}`),
+      ...readdirSync('components/admin', { recursive: true, encoding: 'utf8' }).map((f) => `components/admin/${f}`),
+    ].filter((f) => f.endsWith('.tsx') && f !== 'components/admin/growth.tsx')
+    const src = files.map((f) => readFileSync(f, 'utf8')).join('\n')
     for (const s of shapes) expect(src, s).toMatch(new RegExp(`\\b${s}\\b`))
   })
 })
