@@ -7536,3 +7536,46 @@ not closed (D-156); no v3 state draws it.
 
 `send_test_invariants.sql` (7) proves the posture, who may send, the limits, the claim, the preview
 unchanged and the check's counts; `tests/unit/mail.test.ts` the test's subject, lead and link.
+
+## D-174 — Public holidays in ticket deadlines, and the help panel's request form
+
+**Design:** none for either. The ticketing core (0051, D-92) left two things open: deadlines that
+counted public holidays as working days, and an in-app request that could only be filed from
+/hjelp, without the page it concerned.
+
+**Built (0132):**
+- **Holidays.** `app.no_public_holiday(date)` is true on the Norwegian public holidays: 1 January,
+  1 May, 17 May, 25 and 26 December, and from Easter Sunday Skjærtorsdag, Langfredag, 1. and 2.
+  påskedag, Kristi himmelfartsdag, 1. and 2. pinsedag. Easter is the Gregorian computus (the
+  anonymous algorithm, Meeus): arithmetic on the date, immutable, no table to keep up to date and no
+  client grant. `app.add_business_hours` keeps its signature and skips a holiday as it skips a
+  Saturday, so the tickets trigger's first-response and resolution deadlines move past Easter,
+  Kristi himmelfart, pinse, 1 and 17 May and Christmas. Christmas Eve and New Year's Eve are not
+  public holidays and stay working days. Deadlines already stored are not rewritten: the trigger
+  recomputes them only when a ticket's priority changes, as before.
+- **The panel's form.** The help panel's Hjelp tab ends with the same form as /hjelp
+  (`HelpRequestForm` and its server action `sendHelpRequest`, not a copy), under a rule and a
+  kicker in the panel's own «Les mer om dette» style, with one line saying the organisation, role and
+  page come with the request. It sends the path of the screen the panel was opened on; /hjelp's own
+  form sends `/hjelp`, where it sent nothing before. `helpPagePath` cuts anything after `?` or `#`
+  and never names a /s/ path (the respondent pages are outside the shell; this is a second lock).
+  The server action accepts `page` only as '' or a path: at most 160 characters (what
+  `submit_help_request` keeps), `/` followed by URL path characters only, never under /s/; a query,
+  a fragment or a host is refused as invalid before the database. The RPC already stored the path
+  in the ticket's context, and the admin ticket page already shows it (“Page”). The form now reads
+  its texts with `useTranslations('hjelp.form')` itself, so both places use one set of messages.
+  New text: `headerPanel.requestNote` (no, en). None of it is respondent-facing.
+
+**Pixel gate:** the top of the panel is unchanged — tabs, the screen's three steps, «Les mer om
+dette» and the three articles are where the design draws them. The new section is added at the end
+and, at 1440 × 900, is inside the viewport of `23-panel-hjelp` (the design's panel ends at
+y ≈ 354): the panel grows by about 76 px and the page under it moves down by as much, beyond
+`v3-run.mjs`'s ±40 px search. The claimed tiles below the panel in `21-hjelp` and `23-panel-hjelp`
+are expected to stop matching for that reason alone; the run needs the app on :3000 against the
+seeded local database, and was not run in this piece of work. Re-record those two states' claims
+after reading their diffs (audit rule 7).
+
+`ticket_holidays_invariants.sql` (8) proves the function's posture, the holidays of 2026 and 2027
+exactly, Easter across the computus' range, deadlines over each holiday, an ordinary week unchanged
+and a ticket's own deadlines; `ticket_invariants.sql` still passes. `tests/unit/help-request.test.ts`
+proves the path is cut and checked, and that a bad page never reaches the RPC.

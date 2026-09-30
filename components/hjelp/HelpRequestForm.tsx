@@ -1,30 +1,28 @@
 'use client'
 
 import { useId, useState, useTransition } from 'react'
+import { useTranslations } from 'next-intl'
 import { sendHelpRequest } from '@/app/(app)/hjelp/actions'
 import { REQUEST_CATEGORIES } from '@/lib/help/request'
-
-type Labels = {
-  open: string
-  category: string
-  categories: Record<(typeof REQUEST_CATEGORIES)[number], string>
-  subject: string
-  body: string
-  bodyHint: string
-  send: string
-  sending: string
-  /** with `{number}` */
-  sent: string
-  invalid: string
-  limited: string
-  failed: string
-}
 
 /**
  * "Skriv til oss her" (D-92): a request to Orgpuls from inside the product, filed as a ticket
  * with the member's organisation, role and browser, so nobody has to be asked for them. A survey answer does not belong here, and the hint says so.
+ *
+ * One form in two places (D-174): on /hjelp, and at the end of the header's help panel, where
+ * it names the screen the panel was opened on. `page` is that path, already cut to the path by
+ * `helpPagePath`. The product sends no referrer (it protects the respondent's token), so the
+ * page is passed in by whoever renders the form, never read from the request.
  */
-export function HelpRequestForm({ labels: l }: { labels: Labels }) {
+export function HelpRequestForm({
+  page,
+  formClassName = '',
+}: {
+  page: string
+  /** where the open form sits in its container: the panel sets it on a line of its own */
+  formClassName?: string
+}) {
+  const t = useTranslations('hjelp.form')
   const id = useId()
   const [open, setOpen] = useState(false)
   const [category, setCategory] = useState<(typeof REQUEST_CATEGORIES)[number]>('getting_started')
@@ -42,54 +40,53 @@ export function HelpRequestForm({ labels: l }: { labels: Labels }) {
         onClick={() => setOpen(true)}
         className="mt-[11px] inline-flex h-[34px] cursor-pointer items-center justify-center rounded-bar border border-ink bg-ac px-[14px] text-[12.5px] font-bold text-ink"
       >
-        {l.open}
+        {t('open')}
       </button>
     )
   }
 
   return (
     <form
-      className="mt-[12px] flex flex-col gap-[10px]"
+      className={`mt-[12px] flex flex-col gap-[10px] ${formClassName}`}
       onSubmit={(e) => {
         e.preventDefault()
         if (!body.trim()) {
-          setNote({ ok: false, text: l.invalid })
+          setNote({ ok: false, text: t('invalid') })
           return
         }
         start(async () => {
-          // no page: the product sends no referrer (it protects the respondent's token), so
-          // the page someone came from is not known here, and /hjelp itself says nothing
           const browser = navigator.userAgent.slice(0, 400)
-          const r = await sendHelpRequest({ category, subject, body, page: '', browser }).catch(() => null)
+          const r = await sendHelpRequest({ category, subject, body, page, browser }).catch(() => null)
           if (r?.ok) {
             setSubject('')
             setBody('')
-            setNote({ ok: true, text: l.sent.replace('{number}', String(r.number)) })
+            // passed as text, so the case number is not set with a thousands separator
+            setNote({ ok: true, text: t('sent', { number: String(r.number) }) })
           } else {
             setNote({
               ok: false,
-              text: r?.problem === 'rate_limited' ? l.limited : r?.problem === 'invalid' ? l.invalid : l.failed,
+              text: t(r?.problem === 'rate_limited' ? 'limited' : r?.problem === 'invalid' ? 'invalid' : 'failed'),
             })
           }
         })
       }}
     >
       <label className="block text-[12px] font-semibold">
-        <span className="mb-[5px] block">{l.category}</span>
+        <span className="mb-[5px] block">{t('category')}</span>
         <select value={category} onChange={(e) => setCategory(e.target.value as typeof category)} className={`${field} h-[36px]`}>
           {REQUEST_CATEGORIES.map((c) => (
             <option key={c} value={c}>
-              {l.categories[c]}
+              {t(`categories.${c}`)}
             </option>
           ))}
         </select>
       </label>
       <label className="block text-[12px] font-semibold">
-        <span className="mb-[5px] block">{l.subject}</span>
+        <span className="mb-[5px] block">{t('subject')}</span>
         <input value={subject} maxLength={200} onChange={(e) => setSubject(e.target.value)} className={`${field} h-[36px]`} />
       </label>
       <label className="block text-[12px] font-semibold">
-        <span className="mb-[5px] block">{l.body}</span>
+        <span className="mb-[5px] block">{t('body')}</span>
         <textarea
           value={body}
           required
@@ -100,7 +97,7 @@ export function HelpRequestForm({ labels: l }: { labels: Labels }) {
           className={`${field} resize-y py-[8px] leading-[1.5]`}
         />
         <span id={`${id}-hint`} className="mt-[5px] block text-[11.5px] font-normal leading-[1.45] text-mut">
-          {l.bodyHint}
+          {t('bodyHint')}
         </span>
       </label>
       <button
@@ -108,7 +105,7 @@ export function HelpRequestForm({ labels: l }: { labels: Labels }) {
         disabled={sending}
         className="inline-flex h-[34px] cursor-pointer items-center justify-center self-start rounded-bar border border-ink bg-ac px-[14px] text-[12.5px] font-bold text-ink disabled:cursor-default disabled:opacity-60"
       >
-        {sending ? l.sending : l.send}
+        {sending ? t('sending') : t('send')}
       </button>
       {note ? (
         <span

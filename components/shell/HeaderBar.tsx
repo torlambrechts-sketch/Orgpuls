@@ -5,7 +5,9 @@ import type { Route } from 'next'
 import { usePathname } from 'next/navigation'
 import { useId, useState, type ReactNode } from 'react'
 import { useTranslations } from 'next-intl'
+import { HelpRequestForm } from '@/components/hjelp/HelpRequestForm'
 import { articleByKey } from '@/lib/help/articles'
+import { helpPagePath } from '@/lib/help/request'
 import type { SetupProgress } from '@/lib/shell/read'
 import { labelOf, navState, type NavEntry } from '@/lib/shell/nav'
 import { AppNav } from './AppNav'
@@ -18,7 +20,8 @@ import { useShell, type PanelMode } from './ShellPrefs'
  * Hjelp, Grunnlag and the assistant are three modes of one panel, not three places to go.
  * Each opens a band under the header, for the screen you are on:
  *
- *   Hjelp     three steps for this screen, and three help articles about it
+ *   Hjelp     three steps for this screen, and three help articles about it; last, the
+ *             /hjelp request form, filed with this screen's path (D-174)
  *   Grunnlag  what the screen rests on — the research, and (in law mode) what the
  *             Working Environment Act requires here
  *   Tuva      "Kom i gang": the four steps to being set up, ticked from real rows
@@ -284,6 +287,16 @@ export function HeaderBar({
                       </Link>
                     ))}
                   </span>
+                  {/* last, so the panel's top reads as the design's; the form names this screen (D-174) */}
+                  <div className="mt-[16px] flex flex-wrap items-end justify-between gap-x-[14px] border-t border-[rgba(25,21,16,.15)] pt-[14px]">
+                    <span className="min-w-0">
+                      <span className="block text-[11px] uppercase tracking-[.11em] text-mut">{t('hjelp.form.head')}</span>
+                      <span className="mt-[5px] block max-w-[820px] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
+                        {t('headerPanel.requestNote')}
+                      </span>
+                    </span>
+                    <HelpRequestForm page={helpPagePath(pathname)} formClassName="basis-full max-w-[560px]" />
+                  </div>
                 </>
               ) : null}
 
