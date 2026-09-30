@@ -8341,8 +8341,11 @@ digits by chance. Marketing › Consent: the ledger lists the newest record firs
 phone notice (Tromsø Elektro, withdrawn) above the contacts' double opt-ins. It also counts nine records
 where G3 alone had eight. This moves the first row's cap line and the heading's count (400:0–400:400),
 and two row edges further down (600:600, 1000:600). Both views were re-recorded with `--write` after
-reading each lost tile: 189 → 188 and 80 → 73 claimed. CRM › Tasks had failed only in a run made after the
-SQL suites had written their probes. On a freshly reseeded database it passes (31 of 126, 22 claimed).
+reading each lost tile: 189 → 188 and 80 → 73 claimed. CRM › Tasks is the reverse case. Its claim at 100:0
+(the heading's count) matched only when the SQL suites' probes were in the database («6 open»). A fresh
+reset and seed gives the fixture's own «4 open». It was re-recorded from the fresh state: 100:0 is dropped,
+and the rows below the four tasks now match, 22 → 30 claimed. The claims are recorded from a database
+rebuilt from migrations and seeded, never from one the suites have run on.
 
 *G5, the whole-change security review (2026-09-30).* An independent review of 0141–0144 against the
 ten checks in the plan passed on RLS, roles and second factor, exports, consent on the send paths,
