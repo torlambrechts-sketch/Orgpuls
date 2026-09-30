@@ -41,8 +41,8 @@ test.describe('respondent language @respondent @p1.2', () => {
     await expect(page.locator('main')).toHaveAttribute('lang', 'en')
     await expect(page.getByRole('navigation', { name: 'Language' }).getByRole('link', { name: 'English' })).toHaveAttribute('aria-current', 'true')
     // the scale labels are translated with the statement
-    await expect(page.getByRole('button', { name: 'Strongly agree' })).toBeVisible()
-    await page.getByRole('button', { name: 'Slightly agree' }).click()
+    await expect(page.getByRole('radio', { name: 'Strongly agree' })).toBeVisible()
+    await page.getByRole('radio', { name: 'Slightly agree' }).click()
     await shoot(page, 'r-question-en')
   })
 
@@ -51,7 +51,7 @@ test.describe('respondent language @respondent @p1.2', () => {
     await page.goto('/s/qa-lumio-drift-000001')
     const progress = page.getByText(/^\d+ \/ \d+$/)
     for (let i = 0; i < 4; i++) {
-      await page.getByRole('button', { name: 'Litt enig' }).click()
+      await page.getByRole('radio', { name: 'Litt enig' }).click()
       await page.getByRole('button', { name: 'Neste' }).click()
     }
     await expect(progress).toHaveText(/^5 \//)

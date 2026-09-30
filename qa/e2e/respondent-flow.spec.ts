@@ -74,7 +74,7 @@ for (const locale of FLOW_LOCALES) {
       await expect(progress).toHaveText(`${n} / ${total}`)
       const kind = await page
         .locator('main')
-        .evaluate((el) => ['button[aria-pressed]', 'button[aria-expanded]', 'textarea'].map((s) => el.querySelectorAll(s).length).join('-'))
+        .evaluate((el) => ['[role=radio]', 'button[aria-expanded]', 'textarea'].map((s) => el.querySelectorAll(s).length).join('-'))
       const fresh = !kinds.has(kind)
       kinds.add(kind)
       await checkScreen(page, 'r-question', { lang, axe: fresh, file: fresh ? `${dir}/q${String(n).padStart(2, '0')}-${kind}.png` : undefined })
@@ -86,12 +86,14 @@ for (const locale of FLOW_LOCALES) {
       for (let q = 0; q < onPage; q++) {
         const fieldset = questions.nth(q)
         await expect(fieldset.locator('legend')).not.toBeEmpty()
-        const choices = fieldset.locator('button[aria-pressed]')
+        // a question's options are one radio group, named by its statement (APG; audit 2026-09-28)
+        const choices = fieldset.getByRole('radio')
         const count = await choices.count()
         if (count > 0) {
+          await expect(fieldset.getByRole('radiogroup', { name: (await fieldset.locator('legend').textContent())!.trim() })).toHaveCount(1)
           const choice = choices.nth(Math.min(3, count - 1))
           await choice.click()
-          await expect(choice).toHaveAttribute('aria-pressed', 'true')
+          await expect(choice).toHaveAttribute('aria-checked', 'true')
         } else {
           await fieldset.locator('textarea').fill('E2E: fritekst fra testen.')
         }

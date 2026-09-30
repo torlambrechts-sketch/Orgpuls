@@ -14,7 +14,7 @@ test.describe('respondent @respondent @p0.2', () => {
     // today the flow has no intro of its own: the first screen is statement 1 (P0 report)
     await expect(page.getByRole('button', { name: 'Neste' })).toBeVisible()
     await shoot(page, 'r-intro')
-    await page.getByRole('button', { name: 'Litt enig' }).click()
+    await page.getByRole('radio', { name: 'Litt enig' }).click()
     await shoot(page, 'r-question')
     const skip = page.getByRole('button', { name: 'Hopp over' })
     while (!(await page.getByRole('button', { name: 'Send inn' }).isVisible())) await skip.click()

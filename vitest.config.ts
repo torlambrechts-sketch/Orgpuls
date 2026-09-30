@@ -9,6 +9,8 @@ import { fileURLToPath } from 'node:url'
  * at all; the guard it provides is a build-time one, and the build still enforces it.
  */
 export default defineConfig({
+  // tsconfig says `jsx: preserve` for Next; a test that renders a component needs React's own transform
+  esbuild: { jsx: 'automatic' },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./', import.meta.url)),

@@ -2,8 +2,9 @@
 
 import type { Route } from 'next'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useMemo, useRef, useState, useTransition } from 'react'
+import { useEffect, useId, useMemo, useRef, useState, useTransition } from 'react'
 import { submitResponse, type SubmitResult } from '@/app/s/[token]/actions'
+import { ChoiceGroup } from './ChoiceGroup'
 import { ThreadLinks } from './ThreadLinks'
 import type { CountAnswer } from '@/lib/respond/answers'
 import { bcp47 } from '@/lib/i18n/locales'
@@ -261,6 +262,7 @@ export function RespondFlow({
   const [pending, startTransition] = useTransition()
   const key = useRef<string | null>(null)
   const top = useRef<HTMLDivElement>(null)
+  const uid = useId()
 
   // a survey begun on this device and not sent: its choices and its page, never its words
   useEffect(() => {
@@ -398,35 +400,6 @@ export function RespondFlow({
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   })
-
-  /**
-   * One answer option: the scale's, a choice question's, or «Ikke relevant for meg», whose label is
-   * muted until picked, so it reads as outside the scale rather than a sixth point on it (D-134).
-   */
-  function choice(q: Question, value: number, label: string, muted = false) {
-    const on = picked[q.id] === value
-    return (
-      <button
-        key={value}
-        type="button"
-        aria-pressed={on}
-        onClick={() => setPicked({ ...picked, [q.id]: value })}
-        className={`flex w-full cursor-pointer items-center gap-[13px] rounded-opt border px-[16px] py-[14px] text-left text-ink ${
-          on ? 'border-ink bg-sbg' : 'border-line bg-sf'
-        }`}
-      >
-        <span
-          aria-hidden="true"
-          className={`flex h-[23px] w-[23px] flex-none items-center justify-center rounded-pill border-2 ${
-            on ? 'border-ink bg-ink' : 'border-rule bg-transparent'
-          }`}
-        >
-          <span className={`block h-[8px] w-[8px] rounded-pill ${on ? 'bg-sbg' : 'bg-transparent'}`} />
-        </span>
-        <span className={`text-[14.5px] ${on ? 'font-bold' : `font-medium${muted ? ' text-mut' : ''}`}`}>{label}</span>
-      </button>
-    )
-  }
 
   const banner = preview ? (
     <div role="note" className="bg-sbg px-[20px] py-[10px] text-[12.5px] font-semibold leading-[1.45] text-ink">
@@ -586,7 +559,7 @@ export function RespondFlow({
 
         {current.map((q, i) => (
           <fieldset key={q.id} className={`m-0 min-w-0 border-0 p-0 ${i > 0 ? 'mt-[26px] border-t border-line pt-[20px]' : ''}`}>
-            <legend className={`p-0 font-display font-medium leading-[1.27] [text-wrap:pretty] ${current.length > 1 ? 'mt-[12px] text-[20px]' : 'mt-[14px] text-[24px]'}`}>
+            <legend id={`${uid}q${i}`} className={`p-0 font-display font-medium leading-[1.27] [text-wrap:pretty] ${current.length > 1 ? 'mt-[12px] text-[20px]' : 'mt-[14px] text-[24px]'}`}>
               {q.text}
             </legend>
             {'help' in q && q.help ? (
@@ -595,10 +568,14 @@ export function RespondFlow({
 
             {'choices' in q && hasChoices(q) ? (
               <>
-                <div className="mt-[16px] flex flex-col gap-[9px]">{q.choices.map((c) => choice(q, c.ordinal, c.label))}</div>
-                {q.kind === 'factor' || q.kind === 'module' ? (
-                  <div className="mt-[12px] flex flex-col">{choice(q, NOT_RELEVANT, copy.notRelevant, true)}</div>
-                ) : null}
+                {/* a radio group per question, «Ikke relevant for meg» in it (the audit of 2026-09-28) */}
+                <ChoiceGroup
+                  labelledBy={`${uid}q${i}`}
+                  options={q.choices.map((c) => ({ value: c.ordinal, label: c.label }))}
+                  apart={q.kind === 'factor' || q.kind === 'module' ? { value: NOT_RELEVANT, label: copy.notRelevant } : null}
+                  value={picked[q.id]}
+                  onChange={(value) => setPicked((p) => ({ ...p, [q.id]: value }))}
+                />
 
                 {q.kind === 'factor' ? (
                   <>
