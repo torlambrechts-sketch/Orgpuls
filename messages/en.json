@@ -11523,9 +11523,10 @@
           "user": "user"
         },
         "unused": "—",
+        "tip": "{description}\n{source} · version {version}",
         "health": {
           "title": "Health score v1",
-          "sub": "0–100 per customer, from events and tickets",
+          "sub": "0–100 per customer, from the product's own records{capped, select, yes { · at most {reachable} while {unsourced} has no source} other {}}",
           "part": {
             "survey_cycle": "Survey cycle on schedule",
             "action_items": "Action items created or updated · 90 d",
@@ -11534,6 +11535,7 @@
             "nps": "NPS",
             "p1_tickets": "No open P1 tickets"
           },
+          "noSource": "{part} · no source yet",
           "lowest": "Lowest first",
           "missing": "Missing: {list}",
           "allMet": "All components met",
@@ -11553,6 +11555,15 @@
             "no_event_names_a_respondent": "No event names a respondent, an invitation or an employee",
             "nothing_attached_to_answers": "Nothing is attached to the answer tables: survey events come from counts, hourly",
             "growth_tables_closed": "The event stream, the catalogue and the consent ledger are closed to every client"
+          },
+          "evidence": {
+            "no_link_to_respondents": "{tables} tables checked; {links, plural, =0 {no foreign key to a respondent table} one {# foreign key to a respondent table: {names}} other {# foreign keys to a respondent table: {names}}}",
+            "catalogue_has_no_respondent_props": "{events} events, {props} props; {flagged, plural, =0 {none could carry a respondent} one {# could carry a respondent: {names}} other {# could carry a respondent: {names}}}",
+            "no_role_reads_answers": "{roles} roles × {tables} answer tables; {held, plural, =0 {no privilege held} one {# privilege held: {names}} other {# privileges held: {names}}}",
+            "no_employee_is_a_contact": "{contacts, plural, one {# contact shares} other {# contacts share}} an address with an employee who is not an account",
+            "no_event_names_a_respondent": "{events} events; {flagged} reference a respondent, an invitation or an employee",
+            "nothing_attached_to_answers": "{tables} answer tables; {guards} triggers, each a table's own guard{other, plural, =0 {} one {; # other trigger: {names}} other {; # other triggers: {names}}}",
+            "growth_tables_closed": "{tables} tables; {open, plural, =0 {row level security, no policy, no client grant} one {# open: {names}} other {# open: {names}}}"
           }
         }
       }

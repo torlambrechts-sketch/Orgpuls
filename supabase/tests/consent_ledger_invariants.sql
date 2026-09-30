@@ -8,12 +8,15 @@
 --     import's role address, the demo request and the account sync; the signup itself only asks (2)
 --   * the ledger refuses an edit and a delete while its contact exists (3)
 --   * a contact's erasure takes its records (the cascade), and an account's deletion clears created_by (4)
+--   * an account's login that moves onto a suppressed address, and off it, moves its contact (crm_sync)
+--     and the ledger with it — lapsed, then granted — under account_sync and with no author, though an
+--     admin was signed in; a list never confirmed records nothing when its contact unsubscribes (5)
 --   * crm_contacts and crm_list_members — what the dispatcher reads — equal the ledger's latest record
---     for every contact and purpose in the database (5)
---   * a granted or withdrawn record is an event, carrying no contact, organisation or account (6)
---   * every contact with a basis, or a withdrawal, has a record: the backfill and the triggers left no gap (7)
---   * suppression holds SHA-256 hashes only; every list is a purpose, and a new list becomes one (8)
---   * nothing written here survives (9)
+--     for every contact and purpose in the database (6)
+--   * a granted or withdrawn record is an event, carrying no contact, organisation, account or key (7)
+--   * every contact with a basis, or a withdrawal, has a record: the backfill and the triggers left no gap (8)
+--   * suppression holds SHA-256 hashes only; every list is a purpose, and a new list becomes one (9)
+--   * nothing written here survives (10)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/consent_ledger_invariants.sql
 
@@ -33,6 +36,8 @@ declare
   v_p2      uuid;
   v_p3      uuid;
   v_p4      uuid;
+  v_p8      uuid;
+  v_by      text;
   v_tok1    constant text := repeat('c1', 32);
   v_tok2    constant text := repeat('c2', 32);
   v_txt     text;
@@ -167,10 +172,45 @@ begin
     v_txt := v_txt || '|' || (select count(*) from app.consent_records where contact_id = v_p3);
     v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'an account''s deletion clears created_by; a contact''s erasure takes its records',
       'expected', '0|0', 'actual', v_txt, 'pass', v_txt = '0|0');
-    -- (the extra record above is removed with its contact, so row 5 compares the paths' records)
+    -- (the extra record above is removed with its contact, so row 6 compares the paths' records)
     delete from app.crm_contacts where id = v_p2;
 
-    -- 5 -------------------------------------------------------------- the dispatcher's state is the ledger's latest
+    -- 5 -------------------------------------------------------------- an address that moves
+    -- suppression is kept by address: the account's login moves onto a bounced address and then on to
+    -- a clean one; crm_sync moves its contact each time, and the ledger follows. An admin is signed in
+    -- (crm_sync runs inside the CRM's reads), and is not the author of what the sync records.
+    insert into app.crm_suppression (email_hash, reason) values (app.crm_hash('p7-new@cle-probe.no'), 'hard_bounce');
+    set constraints all immediate; set constraints all deferred;
+    perform set_config('app.consent_via', '', true);
+    perform set_config('request.jwt.claims', format(claims, v_admin), true);
+    update auth.users set email = 'p7-new@cle-probe.no' where id = v_acct;
+    perform app.crm_sync();
+    set constraints all immediate; set constraints all deferred;
+    update auth.users set email = 'p7-third@cle-probe.no' where id = v_acct;
+    perform app.crm_sync();
+    set constraints all immediate; set constraints all deferred;
+    perform set_config('request.jwt.claims', '', true);
+    select string_agg(r.status || '/' || r.method || '/' || case when r.created_by is null then '-' else 'by' end, ',' order by r.id)
+      into v_by
+    from app.consent_records r join app.crm_contacts c on c.id = r.contact_id
+    where c.user_id = v_acct and r.purpose = 'marketing';
+    -- a list never confirmed: its contact unsubscribes while the double opt-in waits
+    perform set_config('app.consent_via', '', true);
+    perform public.crm_newsletter_signup('p8@cle-probe.no', 'Pia', null, 'no', 'newsletter', null, array['nyhetsbrev']);
+    select id into v_p8 from app.crm_contacts where email = 'p8@cle-probe.no';
+    set constraints all immediate; set constraints all deferred;
+    update app.crm_contacts set status = 'unsubscribed', updated_at = now() where id = v_p8;
+    set constraints all immediate; set constraints all deferred;
+    select concat_ws('|', v_by,
+      (select c.email from app.crm_contacts c where c.user_id = v_acct),
+      (select count(*) from app.crm_list_members m where m.contact_id = v_p8 and m.status = 'pending'),
+      (select count(*) from app.consent_records r where r.contact_id = v_p8 and r.purpose like 'list:%'))
+      into v_txt;
+    v_rows := v_rows || jsonb_build_object('seq', 5, 'name', 'an account''s address moving onto a suppressed one and off it lapses and re-grants its contact (account_sync, no author); an unconfirmed list records nothing on unsubscribe',
+      'expected', 'granted/account_sync/-,lapsed/account_sync/-,granted/account_sync/-|p7-third@cle-probe.no|1|0', 'actual', v_txt,
+      'pass', v_txt = 'granted/account_sync/-,lapsed/account_sync/-,granted/account_sync/-|p7-third@cle-probe.no|1|0');
+
+    -- 6 -------------------------------------------------------------- the dispatcher's state is the ledger's latest
     select count(*) into v_n
     from app.crm_contacts c
     left join lateral (select r.status, r.lawful_basis from app.consent_records r
@@ -192,24 +232,25 @@ begin
                        where r.contact_id = c.id and r.purpose = p.key order by r.id desc limit 1) l on true
     cross join lateral (select exists (select 1 from app.crm_suppression s
                                        where s.email_hash = encode(extensions.digest(convert_to(c.email, 'UTF8'), 'sha256'), 'hex')) as sup) x
-    where case when m.status = 'unsubscribed' or c.status = 'unsubscribed' then l.status is distinct from 'withdrawn'
+    where case when m.status = 'pending' and l.status is null then false
+               when m.status = 'unsubscribed' or c.status = 'unsubscribed' then l.status is distinct from 'withdrawn'
                when m.status = 'pending' then l.status = 'granted'
                when x.sup then l.status is distinct from 'lapsed'
                when c.status = 'active' then l.status is distinct from 'granted'
                else l.status = 'granted' end;
     v_txt := v_txt || '|' || v_n || '|' || (select count(*) from app.crm_contacts);
-    v_rows := v_rows || jsonb_build_object('seq', 5, 'name', 'for every contact and list membership in the database, the CRM''s state equals the ledger''s latest record',
+    v_rows := v_rows || jsonb_build_object('seq', 6, 'name', 'for every contact and list membership in the database, the CRM''s state equals the ledger''s latest record',
       'expected', '0|0|' || split_part(v_txt, '|', 3), 'actual', v_txt,
       'pass', split_part(v_txt, '|', 1) = '0' and split_part(v_txt, '|', 2) = '0' and split_part(v_txt, '|', 3)::int >= 5);
 
-    -- 6 -------------------------------------------------------------- consent events carry no one
+    -- 7 -------------------------------------------------------------- consent events carry no one
     select concat_ws('|',
       (select count(*) filter (where name = 'consent.granted') > 0 and count(*) filter (where name = 'consent.withdrawn') > 0
        from app.growth_events where source = 'trigger' and name like 'consent.%' and created_at = now()),
-      (select count(*) from app.growth_events where name like 'consent.%' and (org_id is not null or user_id is not null
-         or props::text like '%@%' or props::text ~ '[0-9a-f]{8}-[0-9a-f]{4}-')))
+      (select count(*) from app.growth_events where name like 'consent.%' and (org_id is not null or user_id is not null or dedupe_key is not null
+         or occurred_at <> date_trunc('hour', occurred_at) or props::text like '%@%' or props::text ~ '[0-9a-f]{8}-[0-9a-f]{4}-')))
       into v_txt;
-    v_rows := v_rows || jsonb_build_object('seq', 6, 'name', 'granted and withdrawn records are events without a contact, an organisation or an account',
+    v_rows := v_rows || jsonb_build_object('seq', 7, 'name', 'granted and withdrawn records are events without a contact, an organisation, an account, a key or an exact time',
       'expected', 't|0', 'actual', v_txt, 'pass', v_txt = 't|0');
 
     raise exception 'rollback';
@@ -217,7 +258,7 @@ begin
     if sqlerrm <> 'rollback' then raise; end if;
   end;
 
-  -- 7 ---------------------------------------------------------------- no gap
+  -- 8 ---------------------------------------------------------------- no gap
   select count(*) into v_n
   from app.crm_contacts c cross join lateral app.consent_derive(c.id, 'marketing') d
   where d.status is not null and d.status <> 'not_given'
@@ -228,10 +269,10 @@ begin
   where m.status in ('subscribed', 'unsubscribed')
     and not exists (select 1 from app.consent_records r where r.contact_id = m.contact_id and r.purpose = p.key);
   v_txt := v_txt || '|' || v_n;
-  v_rows := v_rows || jsonb_build_object('seq', 7, 'name', 'every contact with a basis or a withdrawal, and every decided list membership, has a record',
+  v_rows := v_rows || jsonb_build_object('seq', 8, 'name', 'every contact with a basis or a withdrawal, and every decided list membership, has a record',
     'expected', '0|0', 'actual', v_txt, 'pass', v_txt = '0|0');
 
-  -- 8 ---------------------------------------------------------------- hashes, and purposes
+  -- 9 ---------------------------------------------------------------- hashes, and purposes
   select concat_ws('|',
     (select string_agg(column_name, ',' order by ordinal_position) from information_schema.columns
      where table_schema = 'app' and table_name = 'crm_suppression'),
@@ -244,16 +285,16 @@ begin
     raise exception 'rollback';
   exception when others then if sqlerrm <> 'rollback' then raise; end if;
   end;
-  v_rows := v_rows || jsonb_build_object('seq', 8, 'name', 'suppression holds SHA-256 hashes only; every list is a purpose, and a new list becomes one',
+  v_rows := v_rows || jsonb_build_object('seq', 9, 'name', 'suppression holds SHA-256 hashes only; every list is a purpose, and a new list becomes one',
     'expected', 'email_hash,reason,at|0|0|1', 'actual', v_txt, 'pass', v_txt = 'email_hash,reason,at|0|0|1');
 
-  -- 9 ---------------------------------------------------------------- nothing left
+  -- 10 --------------------------------------------------------------- nothing left
   select count(*)::text into v_txt from (
     select id::text from auth.users where email like '%@cle-probe.no'
     union all select id::text from app.crm_contacts where email like '%@cle-probe.no'
     union all select id::text from app.organizations where id = v_org
     union all select key from app.consent_purposes where key = 'list:cle-probe') x;
-  v_rows := v_rows || jsonb_build_object('seq', 9, 'name', 'every probe row was rolled back', 'expected', '0', 'actual', v_txt, 'pass', v_txt = '0');
+  v_rows := v_rows || jsonb_build_object('seq', 10, 'name', 'every probe row was rolled back', 'expected', '0', 'actual', v_txt, 'pass', v_txt = '0');
 
   insert into public._cle
   select (r->>'seq')::int, r->>'name', r->>'expected', r->>'actual', (r->>'pass')::boolean from jsonb_array_elements(v_rows) r;
@@ -266,5 +307,5 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._cle;
   if v_failed is not null then raise exception 'consent ledger invariants failed: %', v_failed; end if;
-  if v_count <> 9 then raise exception 'consent ledger invariants: expected 9 rows, got %', v_count; end if;
+  if v_count <> 10 then raise exception 'consent ledger invariants: expected 10 rows, got %', v_count; end if;
 end $$;

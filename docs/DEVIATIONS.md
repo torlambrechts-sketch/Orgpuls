@@ -8347,14 +8347,20 @@ need a reader (the wiring audit's W1) and every block of that view is G1's own d
   (measurements), survey.scheduled (a planned round given its date), survey.sent (a round opened; the
   hourly tick, recipients as a band), survey.threshold_reached (the hourly tick, from counts),
   results.viewed (product_events), action_item.created (measures), stakeholder.invited{role}
-  (member_invites), trial.extended / trial.expiring / trial.expired, subscription.started /
+  (member_invites), trial.extended (the trial's end moving later before a plan is confirmed — the
+  customer's extend_trial or Sentral's admin_extend_trial, which leaves trial_extended_at alone) /
+  trial.expiring / trial.expired, subscription.started /
   tier_changed / cancelled (billing), ticket.created (a signed-in account's ticket),
   consent.granted / consent.withdrawn (the ledger), lead.hand_raised (a demo request, or a sales
   request from the contact form). A catalogue CHECK refuses a prop that could carry a respondent,
-  a person or an id (`app.growth_prop_forbidden`: respondent, token, response, invitation, answer,
-  employee, email, phone, comment, address, name, *_id — a `_band` is an aggregate and allowed).
+  a person, an id or an exact count (`app.growth_prop_forbidden`: respondent, token, response,
+  invitation, answer, employee, email, phone, comment, address, name, *_id, *_count, *_number,
+  *_total — a `_band` is an aggregate and allowed).
 - **The stream** (`app.growth_events`): a BEFORE INSERT check refuses a prop the entry does not
-  allow, any value that is not a short keyword (no number, no uuid-shaped string, no nested value), a
+  allow, any value that is not a short keyword (no JSON number, no uuid-shaped string, no nested
+  value, and no value without a letter, so a numeric string such as "3" is refused too), a band prop
+  whose value is not one of its fixed bands (`app.growth_band_ok`: a `*_rate_band` one of the four
+  rate bands, any other `*_band` one of the seven count bands — a bare count is never a band), a
   person on an event whose PII level is not `user`, and an organisation on a `none` event. Rows are
   never edited (guard); they go with their organisation and their account by cascade. One way in,
   `app.growth_emit`, which skips demo organisations and makes keyed events happen once; a demo marked
@@ -8367,19 +8373,38 @@ need a reader (the wiring audit's W1) and every block of that view is G1's own d
   survey.threshold_reached once a round's responses reach the organisation's threshold (never below
   k = 5), the hour truncated, once per round; trial.expiring and trial.expired at the times they fell.
 - **Backfill** (source `backfill`) wherever the product kept the time: organisations, registry
-  fetches, first memberships, first employee import, measurements, opened rounds, measures, invites,
-  product_events, trial extensions, confirmations, cancellations, trial ends, account tickets, demo
-  and sales requests. 0 events reference a respondent after it (firewall rule 5).
-- **The anonymity firewall** (`app.growth_firewall()`): seven rules computed live with a short
-  evidence text — no foreign key from a growth, CRM, event or consent table (`^(crm_|growth_|consent_|event_)`
-  or `*_events`) to responses, answers, extra_answers, response_comments, invitations, employees or
-  the module/own-question answer tables; no catalogue prop that could carry a respondent; no privilege
-  of anon, authenticated, service_role or any role named crm/growth/marketing on an answer table; no
-  contact who is an active employee and not an account (a count); no event whose key or props hold a
-  respondent's, invitation's or employee's id or an employee's address; no growth, consent or CRM
-  trigger on the answer tables; the four G1 tables closed (RLS, no policy, no client grant).
+  fetches, first memberships, employee imports (one per statement, as the trigger emits them),
+  measurements, opened rounds, measures, invites, product_events, trial extensions (the customer's
+  from billing.trial_extended_at, Sentral's from admin_audit `trial.extend`), confirmations,
+  cancellations, trial ends, account tickets, demo and sales requests. 0 events reference a
+  respondent after it (firewall rule 5).
+- **Nothing on an event leads to a person it does not name.** employees.imported is stamped with the
+  hour, not the statement's time (employees.created_at is that time, and would join the event to the
+  rows it counts). The events that carry no organisation (pii_level `none`: consent.granted,
+  consent.withdrawn, lead.hand_raised) carry no dedupe key and the hour truncated: a ticket number, a
+  demo request's id or a consent record's id, or their exact time, would lead to an address. Each is
+  emitted once by its row's insert trigger, so nothing needs a key. At low volume an hour can still
+  hold one request; the stream is closed to every client and read only as counts.
+- **The anonymity firewall** (`app.growth_firewall()`): seven rules computed live, each with
+  structured evidence (counts, and the names of the database objects that break it, as data; the page
+  words it through `admin.growth.events.firewall.evidence.<rule>`) — no foreign key from a growth,
+  CRM, event or consent table (`^(crm_|growth_|consent_|event_)` or `*_events`) to responses, answers,
+  extra_answers, response_comments, invitations, employees, the module/own-question answer tables or
+  a respondent's conversation (comment_threads, thread_messages, contact_requests); no catalogue prop
+  that could carry a respondent; no privilege of anon, authenticated, service_role or any role named
+  crm/growth/marketing on an answer table or any of its columns (`has_any_column_privilege`: a column
+  grant reads the rows, and the service role bypasses RLS); no contact who is an active employee and
+  not an account (a count); no event whose key or props hold a respondent's, invitation's or
+  employee's id or an employee's address; no trigger on an answer table (the twelve, threads
+  included) but the tables' own guards, by name (forbid_*_change, check_extra_answer,
+  not_relevant_exclusive, org_question_answer_fixed/_kind), and none of those reaching growth,
+  consent or the CRM — an allowlist, so one layer of indirection does not get past it; the four G1
+  tables closed (RLS, no policy, no grant to anon, authenticated or service_role on the table or
+  any column).
 - **The consent ledger** (`app.consent_records`, append-only; `app.consent_purposes`). Deferred
-  triggers on crm_contacts (basis, status), crm_list_members (status) and crm_suppression derive
+  triggers on crm_contacts (basis, status and email — suppression is kept by address, so an address
+  that moves onto a suppressed one lapses and one that moves off it is granted again; app.crm_sync
+  moves an account's contact with its login), crm_list_members (status) and crm_suppression derive
   each purpose's state at commit (`app.consent_derive`) and append a record when it differs from the
   latest, so every path — the ones found and any added later — writes one. Each path names its method
   through a transaction-local setting, `app.consent_via`, now set by crm_confirm (double_opt_in),
@@ -8388,28 +8413,50 @@ need a reader (the wiring audit's W1) and every block of that view is G1's own d
   app.demo_lead (demo_request), admin_crm_import and admin_crm_company_import (import); the other
   admin writes (save contact, list add/remove, unsubscribe) are recorded `admin` by the signed-in
   admin's role, anything else `system` (the QA fixture's direct inserts). Records carry the author
-  (created_by), and for a double opt-in the time the mail was leased and the time it was confirmed.
+  (created_by) — none for `account_sync` and `system`: crm_sync runs inside the admin's CRM reads,
+  and whoever opened the page made no change — and for a double opt-in the time the mail was leased
+  and the time it was confirmed. A list membership still waiting for its double opt-in records
+  nothing, and an unsubscribe while it waits records no withdrawal for that list (no consent was given
+  to withdraw), unless the purpose already has a record.
   The immutability trigger compares the content columns; created_by may only be cleared by its
   account's deletion; a record is deleted only when its contact is already gone (erasure). A
   granted or withdrawn record is an event without the contact. Backfill: one record per contact
   (method `migrated`, its own timestamps: consent_at, the suppression's or unsubscribe's time, the
-  plan's confirmation) and one per subscribed or unsubscribed list membership.
+  plan's confirmation) and one per subscribed or unsubscribed list membership; a list withdrawn
+  because its contact unsubscribed from everything (record_crm_event and admin_crm_contact_action
+  leave the membership `subscribed`) is dated as the contact's withdrawal, not the membership's
+  creation.
 - **Health score v1** (`app.health_score(org)`, `app.health_parts()`): survey cycle on schedule 30,
   action items created or updated in 90 days 25, two or more accounts signed in within 30 days 15,
   the last closed round's response rate 15 (≥ 60 % all, ≥ 40 % half, rounded — the design's
   `Math.round(pts/2)` and 0060's lines), NPS 10, no open P1 (urgent) ticket 5; each component with
-  its points, maximum and what is missing.
+  its points, maximum and what is missing. **NPS has no source** (`app.health_parts().sourced` is
+  false for it): it scores 0, its reason is `no_source`, and the score carries `reachable` (90) beside
+  `max` (100). The page names it on its row («NPS · no source yet»), says in the card's line that 90
+  is the most a customer can reach while it has none, and never lists it among a customer's missing
+  components. The score is not rescaled: the components keep the report's points, and the colour
+  bands (≥ 70 teal, ≥ 45 yellow) stay the design's absolute lines, so a customer meeting every
+  sourced component shows 90, teal.
 - **The Event catalogue page** (/admin/growth/events, `public.admin_growth_events()` for super_admin,
   analyst and marketing with the second factor, audited `growth.events_view`): the catalogue with
   7-day counts, the health score's components and the organisations in a trial or on a plan lowest
   first, and the firewall's rules as they stand when the page is read.
-- **Tests**: growth_events_invariants (12 rows), growth_firewall_invariants (10: every rule passes,
-  and each turns false in a rolled-back probe — a foreign key to invitations, a catalogue prop with
-  the catalogue's own check dropped, a grant to service_role, an employee as a contact, an event keyed
-  by an invitation, a growth trigger on responses, a client grant on the stream), consent_ledger_invariants
-  (9: every path and its method, append-only, cascade, the CRM's state equal to the ledger's latest
-  record for every contact and list membership in the database, no gap), health_score_invariants (7);
-  tests/unit/growth-events.test.ts.
+- **Tests**: growth_events_invariants (14 rows: the stream refuses a JSON number, a numeric string
+  and a band outside its vocabulary, and the catalogue a `recipient_count` prop; every path emits,
+  including a registry fetch, a planned round, the customer's and Sentral's trial extensions, a trial
+  that runs out with and without a plan, a tier change, a cancellation, a demo request and a sales
+  question; every catalogue event was emitted by the suite and is named by a trigger or the tick, so a
+  catalogue row without an emitter fails), growth_firewall_invariants (13: every rule passes with
+  counts as evidence, and each turns false in a rolled-back probe — a foreign key to invitations or a
+  comment thread, a catalogue prop with the catalogue's own check dropped, a table grant and a column
+  grant to service_role on an answer table, an employee as a contact, an event keyed by an invitation,
+  a growth trigger on responses, a trigger reaching the stream through an innocently named function, a
+  table grant and a column grant on the stream), consent_ledger_invariants (10: every path and its
+  method, append-only, cascade, an account's address moving onto a suppressed one and off it through
+  crm_sync with no author, an unconfirmed list's unsubscribe, the CRM's state equal to the ledger's
+  latest record for every contact and list membership in the database, no gap),
+  health_score_invariants (7); tests/unit/growth-events.test.ts (the evidence and the NPS line worded
+  through next-intl).
 
 **Where it differs from the report, the design and the plan, and why:**
 - *21 events, not the design's 22 rows (about 30 names).* Left out because Orgpuls cannot truthfully
@@ -8473,8 +8520,10 @@ need a reader (the wiring audit's W1) and every block of that view is G1's own d
 - *Lapse by inactivity is not recorded.* `lapsed` is written when an address is suppressed (bounce,
   invalid, blocked, manual, erasure); twelve months without engagement is a time-derived condition of
   crm_mailable, and the design's «180 days without a click · re-permission sent» is rule R8, not built.
-- *wording_version and form_url are empty.* No path receives them: the signup RPC takes neither, and
-  a version invented here would be a fabricated fact. They arrive with G3's preference centre and forms.
+- *No wording_version, form_url or channel on a record, and no channel on a purpose.* No path
+  receives them: the signup RPC takes neither a wording version nor a form, every record today is
+  e-mail, and a column nothing writes is a promise nothing keeps (the wiring audit's W1). They arrive
+  with G3's preference centre, forms and phone notices, together with the paths that write them.
 - *The signup records nothing*: it asks for consent; the confirmation records it. Double opt-in
   tokens were already hashed and single-use (0055: 256 bits, optin_hash cleared on confirmation).
 - *Suppression already holds only hashes* (0055: sha256 of the lower-cased, trimmed address; no
@@ -8492,9 +8541,13 @@ need a reader (the wiring audit's W1) and every block of that view is G1's own d
   scoring and journeys that will are G2's and G3's, and they fill the column); no «Propose an event»
   button (nothing backs it); the health list shows the ten lowest organisations in a trial or on a plan
   (the design lists every customer), a line when there is none, and each links to the organisation's
-  admin page (a link, not the design's button, D-06); «0–100 per customer, from events and tickets» is
-  the design's line, though the score reads the product's tables (the facts the events record); the
-  firewall's lines are Orgpuls' seven rules, each with its evidence after a middle dot; its chip reads
+  admin page (a link, not the design's button, D-06); the health card's line is «0–100 per customer, from the
+  product's own records · at most 90 while NPS has no source», not the design's «0–100 per customer,
+  from events and tickets»: the score reads the product's tables, not the events, and a customer
+  cannot reach 100; the NPS row reads «NPS · no source yet» with its 10 greyed; an event's tooltip is
+  its catalogue description, what emits it and its version; the
+  firewall's lines are Orgpuls' seven rules, each with its evidence after a middle dot (worded by the
+  page from the rule's counts); its chip reads
   «Passing · checked now» (or how many fail), computed as the page is read, not «CI passing · 06:00».
   Inside a list item the design's `<button>` resets the line-height to normal, so the item and its
   score chip do too (StatusChip `inButton`).
@@ -8508,7 +8561,25 @@ figures, 30 · 25 · 15 · 15 · 10 · 5, which match the design to the pixel), 
 the page both leave blank. Everything below the first row is data and differs by design (the
 catalogue's rows, the counts, the customers, the firewall's lines). At 390 and 1024 nothing scrolls
 sideways (the table scrolls inside its card, at the design's 640 px minimum), the sub-bar shows the
-page and the menu sheet keeps focus.
+page and the menu sheet keeps focus. After the review fixes the run lost five of those claims, all of
+them the health card's two corrected lines: 200:1100–1300 (the card's line now says the product's
+records and «at most 90 while NPS has no source», so it wraps) and 400:1000, 400:1300 (the NPS row's
+«· no source yet» and its greyed 10). Read against the render, nothing else moved; the claims were
+re-recorded with `--write` (32 of 182), and the run passes at 1440 and 390 with no console error.
+
+*Review fixes (the same phase, before merge).* The firewall's column-grant blind spot (rules 3 and
+7), the ledger's address changes, Sentral's trial extensions, numeric strings and out-of-vocabulary
+bands on the stream, NPS on the health card, the evidence's wording, the uncovered emitters, rule 6's
+indirection, the keys and times on `none` events and on employees.imported, the unread consent
+columns, the account sync's author, the page's double score computation, the list backfill's
+withdrawal time, a pending list's withdrawal, the respondent conversation tables and the per-statement
+employee backfill are fixed as described above. Kept as they were, and why: the event description
+stays English registry text in the catalogue (plan § 2: event catalogue entries are registry rows;
+Sentral renders in English only, `getTranslations({ locale: 'en' })`), shown as the tooltip with
+`source` and `version`, which are thereby read. Suites that commit their writes and then delete
+their own rows (measures, measurements) leave growth events behind in a local database, since events
+outlive what they record by design; a local database's 7-day counts therefore include test noise.
+No product change: a hosted database runs no suite.
 
 *Found on the way, not G1's:* with the Sentral fixture's rows in the local database,
 crm_inbox_invariants row 3 fails (the week's median answer time counts the fixture's leads and tasks)

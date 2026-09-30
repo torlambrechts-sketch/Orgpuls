@@ -23,9 +23,12 @@ const HEAD = 'text-[11px] uppercase tracking-[0.09em] text-mut'
  *   the catalogue      every event Orgpuls emits, its group and PII level, the props it may carry (the
  *                      design's `{recipient_count}`) and how many fell in the last seven days
  *   health score v1    the six components and their points (app.health_parts), then the customers in
- *                      a trial or on a plan, lowest first, with the components they fall short on
+ *                      a trial or on a plan, lowest first, with the components they fall short on. A
+ *                      component with no source (NPS) says so on its row and in the card's line, with
+ *                      the maximum a customer can reach while it has none; it is no one's shortfall
  *   the firewall       app.growth_firewall()'s rules, computed when the page is read: never a
- *                      hard-coded «passing»
+ *                      hard-coded «passing». Each rule's evidence arrives as counts and object names
+ *                      and is worded here, through next-intl
  *
  * «Used by» shows «—» for every event: nothing reads the stream yet (the funnel, scoring and the
  * journeys that will are G2 and G3's), and the design's own «—» is what an event nothing uses shows.
@@ -37,6 +40,9 @@ export default async function Page() {
   const res = await growthEvents()
   if (isError(res)) return <Problem text={res.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const failing = res.firewall.filter((f) => !f.pass).length
+  // a component nothing in the schema can score (NPS): named on its row and in the card's line, never
+  // counted as a customer's shortfall
+  const unsourced = res.parts.filter((p) => p.no_source)
 
   return (
     <div className="leading-[1.5]">
@@ -59,7 +65,7 @@ export default async function Page() {
               <div key={e.name} role="row" className="flex items-center gap-[14px] border-b border-line px-[20px] py-[11px] text-[13px]">
                 <span
                   role="cell"
-                  title={e.description}
+                  title={t('growth.events.tip', { description: e.description, source: e.source, version: e.version })}
                   className="min-w-0 flex-[2.2] text-[12px] font-semibold [font-family:ui-monospace,Menlo,monospace] [overflow-wrap:anywhere]"
                 >
                   {e.props.length ? `${e.name} {${e.props.join(', ')}}` : e.name}
@@ -85,12 +91,22 @@ export default async function Page() {
         <div className="flex min-w-0 flex-col gap-[18px]">
           <section className={`${PANEL} px-[20px] py-[20px] md:px-[26px] md:py-[24px]`}>
             <h2 className="m-0 font-display text-[22px] font-medium">{t('growth.events.health.title')}</h2>
-            <div className="mt-[4px] text-[12.5px] text-mut">{t('growth.events.health.sub')}</div>
+            <div className="mt-[4px] text-[12.5px] text-mut">
+              {t('growth.events.health.sub', {
+                capped: unsourced.length ? 'yes' : 'no',
+                reachable: res.reachable,
+                unsourced: unsourced.map((p) => t(`growth.events.health.part.${p.key}`)).join(', '),
+              })}
+            </div>
             <div className="mt-[8px] flex flex-col">
               {res.parts.map((p) => (
                 <div key={p.key} className="flex justify-between gap-[10px] border-b border-line py-[9px] text-[13px]">
-                  <span>{t(`growth.events.health.part.${p.key}`)}</span>
-                  <b>{p.max}</b>
+                  <span>
+                    {p.no_source
+                      ? t('growth.events.health.noSource', { part: t(`growth.events.health.part.${p.key}`) })
+                      : t(`growth.events.health.part.${p.key}`)}
+                  </span>
+                  <b className={p.no_source ? 'text-mut' : undefined}>{p.max}</b>
                 </div>
               ))}
             </div>
@@ -134,7 +150,10 @@ export default async function Page() {
               {res.firewall.map((f) => (
                 <BulletRow key={f.rule} tone={dotTone('firewall', f.pass ? 'pass' : 'fail')} small pretty>
                   {t(`growth.events.firewall.rule.${f.rule}`)}
-                  <span className="text-mut"> · {f.evidence}</span>
+                  <span className="text-mut">
+                    {' · '}
+                    {t(`growth.events.firewall.evidence.${f.rule}`, { ...f.evidence, names: f.evidence.names.join(', ') })}
+                  </span>
                   {f.pass ? null : <span className="sr-only"> {t('growth.events.firewall.failed')}</span>}
                 </BulletRow>
               ))}

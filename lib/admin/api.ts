@@ -923,6 +923,7 @@ export const FIREWALL_RULES = [
   'nothing_attached_to_answers',
   'growth_tables_closed',
 ] as const
+const FirewallEvidence = z.object({ names: z.array(z.string()).default([]) }).catchall(num)
 const GrowthEvents = z.object({
   events: z.array(
     z.object({
@@ -932,12 +933,18 @@ const GrowthEvents = z.object({
       pii: z.enum(PII_LEVELS),
       props: z.array(z.string()),
       description: z.string(),
+      /** what emits it: the product table or the tick */
+      source: z.string(),
       n7: num,
     }),
   ),
-  parts: z.array(z.object({ key: z.enum(HEALTH_PARTS), max: num })),
+  /** each health component with its maximum; `no_source` where nothing in the schema can score it (NPS) */
+  parts: z.array(z.object({ key: z.enum(HEALTH_PARTS), max: num, no_source: z.boolean() })),
+  /** the highest score any customer can reach while a component has no source */
+  reachable: num,
   health: z.array(z.object({ org_id: z.string(), name: z.string(), total: num, missing: z.array(z.enum(HEALTH_PARTS)) })),
-  firewall: z.array(z.object({ rule: z.enum(FIREWALL_RULES), pass: z.boolean(), evidence: z.string() })),
+  /** each rule's evidence is structured — counts, and database object names as data — and worded by the page */
+  firewall: z.array(z.object({ rule: z.enum(FIREWALL_RULES), pass: z.boolean(), evidence: FirewallEvidence })),
 })
 export type GrowthEvents = z.infer<typeof GrowthEvents>
 /** The event catalogue with 7-day counts, health score v1 lowest first, and the anonymity firewall's rules as they stand */

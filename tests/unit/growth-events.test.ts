@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs'
+import { createTranslator, type AbstractIntlMessages } from 'next-intl'
 import { describe, expect, it } from 'vitest'
 import { EVENT_GROUPS, FIREWALL_RULES, HEALTH_PARTS, PII_LEVELS } from '@/lib/admin/api'
 import { dotTone } from '@/lib/admin/dots'
@@ -25,6 +26,18 @@ describe('the Event catalogue page', () => {
     expect(src).not.toMatch(/CI passing/)
   })
 
+  it('words the firewall’s evidence through next-intl, never the database’s own text', () => {
+    const src = readFileSync(PAGE, 'utf8')
+    expect(src).toMatch(/t\(`growth\.events\.firewall\.evidence\.\$\{f\.rule\}`/)
+    expect(src).not.toMatch(/\{f\.evidence\}/)
+  })
+
+  it('never lists a component with no source as a customer’s shortfall, and names it on its row', () => {
+    const src = readFileSync(PAGE, 'utf8')
+    expect(src).toMatch(/p\.no_source\s*\?\s*t\('growth\.events\.health\.noSource'/)
+    expect(readFileSync(MIGRATION, 'utf8')).toMatch(/a\.c->>'missing' <> 'no_source'/)
+  })
+
   it('is G1’s view now, not a stub', () => {
     expect(GROWTH_VIEWS.growthEvents.phase).toBe('G1')
     expect(readFileSync(PAGE, 'utf8')).not.toMatch(/GrowthStub/)
@@ -39,7 +52,7 @@ describe('what the page names, the database holds', () => {
     expect([...EVENT_GROUPS].sort()).toEqual(groups.sort())
     const pii = sql.match(/create type app\.growth_pii as enum \(([^)]*)\)/)![1]!.match(/'([a-z_]+)'/g)!.map((g) => g.slice(1, -1))
     expect([...PII_LEVELS]).toEqual(pii)
-    const parts = [...sql.matchAll(/\(\d, '([a-z_0-9]+)', \d+\)/g)].map((m) => m[1])
+    const parts = [...sql.matchAll(/\(\d, '([a-z_0-9]+)', \d+, (?:true|false)\)/g)].map((m) => m[1])
     expect(parts).toEqual([...HEALTH_PARTS])
     const rules = [...sql.matchAll(/rule := '([a-z_]+)'/g)].map((m) => m[1])
     expect(rules).toEqual([...FIREWALL_RULES])
@@ -52,6 +65,7 @@ describe('what the page names, the database holds', () => {
       for (const p of PII_LEVELS) expect(e.pii[p], p).toBeTruthy()
       for (const h of HEALTH_PARTS) expect(e.health.part[h], h).toBeTruthy()
       for (const r of FIREWALL_RULES) expect(e.firewall.rule[r], r).toBeTruthy()
+      for (const r of FIREWALL_RULES) expect(e.firewall.evidence[r], r).toBeTruthy()
     }
   })
 })
@@ -69,5 +83,39 @@ describe('the Event catalogue’s dots', () => {
     expect(dotTone('health', 'poor')).toBe('peach')
     expect(dotTone('firewall', 'pass')).toBe('teal')
     expect(dotTone('firewall', 'fail')).toBe('peach')
+  })
+})
+
+describe('the firewall’s evidence, worded', () => {
+  const t = createTranslator({ locale: 'en', messages: en as unknown as AbstractIntlMessages, namespace: 'admin.growth.events' })
+  const say = (key: string, values: Record<string, string | number>) => t(key as never, values as never)
+
+  it('reads as the design’s middle-dot line while a rule holds, and names what breaks it', () => {
+    expect(say('firewall.evidence.no_link_to_respondents', { tables: 23, links: 0, names: '' })).toBe(
+      '23 tables checked; no foreign key to a respondent table',
+    )
+    expect(say('firewall.evidence.no_link_to_respondents', { tables: 24, links: 1, names: 'crm_x.crm_x_fkey' })).toBe(
+      '24 tables checked; 1 foreign key to a respondent table: crm_x.crm_x_fkey',
+    )
+    expect(say('firewall.evidence.no_role_reads_answers', { roles: 3, tables: 12, held: 1, names: 'service_role on responses' })).toBe(
+      '3 roles × 12 answer tables; 1 privilege held: service_role on responses',
+    )
+    expect(say('firewall.evidence.no_employee_is_a_contact', { contacts: 1 })).toBe(
+      '1 contact shares an address with an employee who is not an account',
+    )
+    expect(say('firewall.evidence.nothing_attached_to_answers', { tables: 12, guards: 13, other: 0, names: '' })).toBe(
+      "12 answer tables; 13 triggers, each a table's own guard",
+    )
+    expect(say('firewall.evidence.growth_tables_closed', { tables: 4, open: 0, names: '' })).toBe(
+      '4 tables; row level security, no policy, no client grant',
+    )
+  })
+
+  it('says the reachable maximum while a component has no source, and nothing extra when all have one', () => {
+    expect(say('health.sub', { capped: 'yes', reachable: 90, unsourced: 'NPS' })).toBe(
+      "0–100 per customer, from the product's own records · at most 90 while NPS has no source",
+    )
+    expect(say('health.sub', { capped: 'no', reachable: 100, unsourced: '' })).toBe("0–100 per customer, from the product's own records")
+    expect(say('health.noSource', { part: 'NPS' })).toBe('NPS · no source yet')
   })
 })

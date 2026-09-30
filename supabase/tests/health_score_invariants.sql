@@ -8,7 +8,7 @@
 --   * an open urgent ticket and a 50 % round lose their points and say why (4)
 --   * a wheel whose last round is older than its longest gap is overdue (5)
 --   * for every organisation in the database: six components summing to the total, the maxima to 100,
---     NPS 0 with 'no_source'; an unknown organisation has no score (6)
+--     NPS 0 with 'no_source' and 90 reachable; an unknown organisation has no score (6)
 --   * nothing written here survives (7)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/health_score_invariants.sql
@@ -101,14 +101,14 @@ begin
     select concat_ws('|',
       count(*) filter (where jsonb_array_length(h->'components') <> 6
                           or (h->>'total')::int <> (select sum((c->>'points')::int) from jsonb_array_elements(h->'components') c)
-                          or (h->>'max')::int <> 100
+                          or (h->>'max')::int <> 100 or (h->>'reachable')::int <> 90
                           or not exists (select 1 from jsonb_array_elements(h->'components') c
                                          where c->>'key' = 'nps' and c->>'points' = '0' and c->>'missing' = 'no_source')),
       count(*) >= 3,
       app.health_score('00000000-0000-4000-8000-0000000a1aff') is null)
       into v_txt
     from (select app.health_score(o.id) as h from app.organizations o) x;
-    v_rows := v_rows || jsonb_build_object('seq', 6, 'name', 'every organisation: six components summing to the total, maxima to 100, NPS 0 with no source; an unknown one has no score',
+    v_rows := v_rows || jsonb_build_object('seq', 6, 'name', 'every organisation: six components summing to the total, maxima to 100, 90 reachable, NPS 0 with no source; an unknown one has no score',
       'expected', '0|t|t', 'actual', v_txt, 'pass', v_txt = '0|t|t');
 
     raise exception 'rollback';

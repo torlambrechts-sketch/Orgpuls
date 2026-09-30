@@ -2,9 +2,11 @@
 -- proved against the live schema.
 --
 --   * the catalogue and the stream: RLS on, no policy, no client grant, no public function (1)
---   * the stream refuses a prop the catalogue does not allow, a count, an id, a person on an
---     org-level event, an organisation on a contact event and an event not in the catalogue (2)
---   * the catalogue refuses a prop that could carry a respondent; a band is allowed (3)
+--   * the stream refuses a prop the catalogue does not allow, a count (a JSON number, a numeric
+--     string, a band value outside its vocabulary), an id, a person on an org-level event, an
+--     organisation on a contact event and an event not in the catalogue (2)
+--   * the catalogue refuses a prop that could carry a respondent or an exact count; a band is
+--     allowed (3)
 --   * the product's own writes emit their events, each with its catalogue's props (4)
 --   * survey.sent carries a band, never how many below five, and no event anywhere carries a bare
 --     number (5)
@@ -15,9 +17,15 @@
 --   * a demo emits nothing, and takes back what it emitted before it was marked (9)
 --   * an organisation's events go with it; an event is never edited (10)
 --   * the Event catalogue page's read: for super_admin, analyst and marketing with a second factor
---     only; the catalogue with 7-day counts, the health score's parts, customers lowest first
---     (no demo), the firewall's seven rules (11)
---   * nothing written here survives (12)
+--     only; the catalogue with 7-day counts, the health score's parts (NPS marked as having no
+--     source, the reachable 90, and never a customer's shortfall), customers lowest first (no
+--     demo), the firewall's seven rules (11)
+--   * the other paths emit too: a registry fetch, a planned round, the customer's and Sentral's
+--     trial extensions, a trial that runs out with and without a plan, a tier change, a
+--     cancellation, a demo request and a sales question — a hand-raise without key or exact time (12)
+--   * every catalogue event has an emitter: each was emitted by this suite, and each is named by a
+--     trigger or the tick (13)
+--   * nothing written here survives (14)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/growth_events_invariants.sql
 
@@ -43,6 +51,10 @@ declare
   v_i     int;
   v_rows  jsonb := '[]';
   v_bands constant text[] := array['under_5', '5_9', '10_24', '25_49', '50_99', '100_249', '250_plus'];
+  v_trial uuid := '00000000-0000-4000-8000-0000000e1a04';
+  v_conf  uuid := '00000000-0000-4000-8000-0000000e1a05';
+  v_late  uuid := '00000000-0000-4000-8000-0000000e1a06';
+  v_meas2 uuid;
 begin
   -- 1 ---------------------------------------------------------------- closed to clients
   select string_agg(format('%s:%s/%s/%s', c.relname, c.relrowsecurity,
@@ -87,15 +99,35 @@ begin
       insert into app.growth_events (name, occurred_at, props, source) values ('response.submitted', now(), '{}', 'trigger');
       v_txt := v_txt || ',accepted';
     exception when check_violation or foreign_key_violation then v_txt := v_txt || ',refused'; end;
-    v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'the stream refuses a prop not in the catalogue, a count, an id, a person, an organisation on a contact event, an unknown event',
-      'expected', 'refused,refused,refused,refused,refused,refused', 'actual', v_txt, 'pass', v_txt = 'refused,refused,refused,refused,refused,refused');
+    -- a count as a string: in a band prop, outside its vocabulary, and in any other prop
+    begin
+      insert into app.growth_events (name, occurred_at, org_id, props, source) values ('survey.sent', now(), v_org, '{"recipient_count_band":"3"}', 'trigger');
+      v_txt := v_txt || ',accepted';
+    exception when check_violation then v_txt := v_txt || ',refused'; end;
+    begin
+      insert into app.growth_events (name, occurred_at, org_id, props, source) values ('survey.threshold_reached', now(), v_org, '{"response_rate_band":"under_5"}', 'trigger');
+      v_txt := v_txt || ',accepted';
+    exception when check_violation then v_txt := v_txt || ',refused'; end;
+    begin
+      insert into app.growth_events (name, occurred_at, org_id, props, source) values ('survey.created', now(), v_org, '{"measurement_kind":"42"}', 'trigger');
+      v_txt := v_txt || ',accepted';
+    exception when check_violation then v_txt := v_txt || ',refused'; end;
+    -- and the same shapes where they belong: a count band, a rate band, a keyword
+    insert into app.growth_events (name, occurred_at, org_id, props, source) values
+      ('survey.sent', now(), v_org, '{"recipient_count_band":"25_49"}', 'trigger'),
+      ('survey.threshold_reached', now(), v_org, '{"response_rate_band":"25_49"}', 'trigger'),
+      ('survey.created', now(), v_org, '{"measurement_kind":"puls"}', 'trigger');
+    delete from app.growth_events where org_id = v_org and name in ('survey.sent', 'survey.threshold_reached', 'survey.created');
+    v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'the stream refuses a prop not in the catalogue, a count (number, numeric string, a band outside its vocabulary), an id, a person, an organisation on a contact event, an unknown event',
+      'expected', 'refused,refused,refused,refused,refused,refused,refused,refused,refused', 'actual', v_txt,
+      'pass', v_txt = 'refused,refused,refused,refused,refused,refused,refused,refused,refused');
 
     -- 3 -------------------------------------------------------------- the catalogue refuses a respondent prop
     v_txt := '';
-    for v_i in 1..6 loop
+    for v_i in 1..7 loop
       begin
         update app.event_catalogue set allowed_props = allowed_props ||
-          (array['respondent_id', 'invitation_token', 'employee_email', 'response_id', 'answer', 'full_name'])[v_i]
+          (array['respondent_id', 'invitation_token', 'employee_email', 'response_id', 'answer', 'full_name', 'recipient_count'])[v_i]
         where name = 'survey.sent';
         v_txt := v_txt || 'a';
       exception when check_violation then v_txt := v_txt || 'r'; end;
@@ -104,8 +136,8 @@ begin
       update app.event_catalogue set allowed_props = allowed_props || 'response_count_band'::text where name = 'survey.sent';
       v_txt := v_txt || '|band allowed';
     exception when check_violation then v_txt := v_txt || '|band refused'; end;
-    v_rows := v_rows || jsonb_build_object('seq', 3, 'name', 'the catalogue refuses a prop that could carry a respondent; a band is an aggregate',
-      'expected', 'rrrrrr|band allowed', 'actual', v_txt, 'pass', v_txt = 'rrrrrr|band allowed');
+    v_rows := v_rows || jsonb_build_object('seq', 3, 'name', 'the catalogue refuses a prop that could carry a respondent or an exact count; a band is an aggregate',
+      'expected', 'rrrrrrr|band allowed', 'actual', v_txt, 'pass', v_txt = 'rrrrrrr|band allowed');
 
     -- 4 -------------------------------------------------------------- the product's writes emit
     insert into app.profiles (id, full_name) values (v_dl, 'Dina');
@@ -233,23 +265,95 @@ begin
          join jsonb_array_elements(v_json->'health') with ordinality y(b, j) on j = i + 1),
       jsonb_array_length(v_json->'firewall'),
       has_function_privilege('anon', 'public.admin_growth_events()', 'execute'),
-      (select count(*) from app.admin_audit where admin_id = v_mkt and action = 'growth.events_view'));
-    v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'the page''s read: marketing with a second factor, not support or aal1 or anon; catalogue, parts, customers lowest first without demos, seven rules, audited',
-      'expected', 'not_allowed|not_allowed|true|t|100|t|t|t|t|7|f|1', 'actual', v_txt,
-      'pass', v_txt = 'not_allowed|not_allowed|true|t|100|t|t|t|t|7|f|1');
+      (select count(*) from app.admin_audit where admin_id = v_mkt and action = 'growth.events_view'),
+      -- NPS: marked as having no source, the reachable maximum 90, and no customer's shortfall
+      (select string_agg(p->>'key', ',') from jsonb_array_elements(v_json->'parts') p where (p->>'no_source')::boolean),
+      v_json->>'reachable',
+      not exists (select 1 from jsonb_array_elements(v_json->'health') h where h->'missing' ? 'nps'),
+      (select bool_and(jsonb_typeof(f->'evidence') = 'object') from jsonb_array_elements(v_json->'firewall') f));
+    v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'the page''s read: marketing with a second factor, not support or aal1 or anon; catalogue, parts, customers lowest first without demos, seven rules with structured evidence, audited; NPS has no source, 90 is reachable, and NPS is no one''s shortfall',
+      'expected', 'not_allowed|not_allowed|true|t|100|t|t|t|t|7|f|1|nps|90|t|t', 'actual', v_txt,
+      'pass', v_txt = 'not_allowed|not_allowed|true|t|100|t|t|t|t|7|f|1|nps|90|t|t');
+
+    -- 12 ------------------------------------------------------------- every other path
+    insert into app.organizations (id, name, org_number, employee_count) values
+      (v_trial, 'Prøve AS', '999001414', 12), (v_conf, 'Kunde AS', '999001415', 12), (v_late, 'Sein AS', '999001416', 12);
+    update app.organizations set registry_fetched_at = now() where id = v_trial;
+    insert into app.measurements (org_id, kind, year, label) values (v_trial, 'grunnlinje', 2026, 'Plan') returning id into v_meas2;
+    insert into app.rounds (org_id, measurement_id, status, opens_at, closes_at)
+    values (v_trial, v_meas2, 'planlagt', now() + interval '20 days', now() + interval '34 days');
+    -- the customer's own extension (0048), then Sentral's (0049, which leaves trial_extended_at alone)
+    insert into app.memberships (org_id, user_id, role) values (v_trial, v_dl, 'daglig_leder');
+    perform set_config('request.jwt.claims', format(claims, v_dl, 'aal2'), true);
+    v_txt := public.extend_trial(v_trial)->>'ok';
+    perform set_config('request.jwt.claims', format(claims, v_sup, 'aal2'), true);
+    v_txt := v_txt || '|' || (public.admin_extend_trial(v_trial, 7, 'Asked for another week')->>'ok');
+    perform set_config('request.jwt.claims', '', true);
+    -- the trial runs out: with no plan (v_trial), with one confirmed after it ended (v_late), with one
+    -- confirmed long before (v_conf, which then changes tier and cancels)
+    update app.billing set trial_started_at = now() - interval '30 days', trial_ends_at = now() - interval '1 day'
+    where org_id in (v_trial, v_conf, v_late);
+    update app.billing set confirmed_at = now() - interval '10 days', plan = 'small', invoice_email = 'faktura@gev-probe.no' where org_id = v_conf;
+    update app.billing set confirmed_at = now(), plan = 'small', invoice_email = 'faktura@gev-probe.no' where org_id = v_late;
+    perform app.growth_tick();
+    update app.billing set plan = 'usual' where org_id = v_conf;
+    update app.billing set cancelled_at = now(), cancel_source = 'customer', cancel_effective_at = now() + interval '1 month',
+                           deletion_due_at = now() + interval '1 month 30 days'
+    where org_id = v_conf;
+    -- the hand-raises: a demo request, and a sales question from the contact form
+    insert into app.demo_requests (email, domain, network, consent, lang) values ('lead@gev-probe.no', 'gev-probe.no', md5('gev-probe'), false, 'no');
+    insert into app.tickets (category, queue, channel, subject, requester_email) values ('sales', 'sales', 'contact_form', 'Probe', 'buyer@gev-probe.no');
+    select v_txt || '|' || string_agg(x.who || ' ' || x.names, '; ' order by x.who) into v_txt
+    from (select case g.org_id when v_trial then 'trial' when v_conf then 'conf' else 'late' end as who,
+                 string_agg(g.name || coalesce('=' || (select string_agg(p.value, ',' order by p.key) from jsonb_each_text(g.props) p), ''), ',' order by g.name, g.props::text) as names
+          from app.growth_events g where g.org_id in (v_trial, v_conf, v_late) group by g.org_id) x;
+    select v_txt || '|' || string_agg((g.props->>'channel') || ':' || coalesce(g.dedupe_key, '-') || ':' || (g.occurred_at = date_trunc('hour', g.occurred_at)),
+                                      ',' order by g.props->>'channel')
+      into v_txt
+    from app.growth_events g where g.name = 'lead.hand_raised' and g.created_at = now();
+    v_rows := v_rows || jsonb_build_object('seq', 12, 'name', 'a registry fetch, a planned round, both trial extensions, trials that run out (without a plan, with one after, not with one before), a tier change, a cancellation, a demo request and a sales question each emit; a hand-raise carries no key and no exact time',
+      'expected', 'true|true|conf org.created,subscription.cancelled=customer,subscription.started=small,subscription.tier_changed=usual; '
+                  'late org.created,subscription.started=small,trial.expired,trial.expiring; '
+                  'trial org.brreg_verified,org.created,survey.created=grunnlinje,survey.scheduled=grunnlinje,trial.expired,trial.expiring,trial.extended,trial.extended'
+                  '|contact_form:-:true,demo:-:true',
+      'actual', v_txt,
+      'pass', v_txt = 'true|true|conf org.created,subscription.cancelled=customer,subscription.started=small,subscription.tier_changed=usual; '
+                      'late org.created,subscription.started=small,trial.expired,trial.expiring; '
+                      'trial org.brreg_verified,org.created,survey.created=grunnlinje,survey.scheduled=grunnlinje,trial.expired,trial.expiring,trial.extended,trial.extended'
+                      '|contact_form:-:true,demo:-:true');
+
+    -- 13 ------------------------------------------------------------- every catalogue event has an emitter
+    -- the consent events: a contact who consents, then withdraws (the ledger's deferred triggers)
+    insert into app.crm_contacts (email, source, basis, status, consent_at, consent_source)
+    values ('samtykke@gev-probe.no', 'manual', 'consent', 'active', now(), 'Probe form at a fair');
+    set constraints all immediate; set constraints all deferred;
+    update app.crm_contacts set status = 'unsubscribed' where email = 'samtykke@gev-probe.no';
+    set constraints all immediate; set constraints all deferred;
+    select concat_ws('|',
+      (select coalesce(string_agg(e.name, ',' order by e.sort), 'none') from app.event_catalogue e
+       where not exists (select 1 from app.growth_events g where g.name = e.name and g.created_at = now())),
+      (select coalesce(string_agg(e.name, ',' order by e.sort), 'none') from app.event_catalogue e
+       where not exists (select 1 from pg_proc p
+                         where p.pronamespace = 'app'::regnamespace and p.proname ~ '^(growth_on_[a-z_]+|growth_tick|consent_event)$'
+                           and p.prosrc like '%''' || e.name || '''%')))
+      into v_txt;
+    v_rows := v_rows || jsonb_build_object('seq', 13, 'name', 'every catalogue event was emitted by this suite, and each is named by a product trigger, the tick or the ledger''s event trigger',
+      'expected', 'none|none', 'actual', v_txt, 'pass', v_txt = 'none|none');
 
     raise exception 'rollback';
   exception when others then
     if sqlerrm <> 'rollback' then raise; end if;
   end;
 
-  -- 12 --------------------------------------------------------------- nothing left
+  -- 14 --------------------------------------------------------------- nothing left
   select count(*)::text into v_txt from (
     select id::text from auth.users where email like '%@gev-probe.no'
-    union all select id::text from app.organizations where id in (v_org, v_gone, v_demo)
-    union all select id::text from app.growth_events where org_id in (v_org, v_gone, v_demo)
+    union all select id::text from app.organizations where id in (v_org, v_gone, v_demo, v_trial, v_conf, v_late)
+    union all select id::text from app.growth_events where org_id in (v_org, v_gone, v_demo, v_trial, v_conf, v_late)
+    union all select id::text from app.crm_contacts where email like '%@gev-probe.no'
+    union all select id::text from app.demo_requests where email like '%@gev-probe.no'
     union all select name from app.event_catalogue where 'response_count_band' = any (allowed_props)) x;
-  v_rows := v_rows || jsonb_build_object('seq', 12, 'name', 'every probe row was rolled back', 'expected', '0', 'actual', v_txt, 'pass', v_txt = '0');
+  v_rows := v_rows || jsonb_build_object('seq', 14, 'name', 'every probe row was rolled back', 'expected', '0', 'actual', v_txt, 'pass', v_txt = '0');
 
   insert into public._gev
   select (r->>'seq')::int, r->>'name', r->>'expected', r->>'actual', (r->>'pass')::boolean from jsonb_array_elements(v_rows) r;
@@ -262,5 +366,5 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._gev;
   if v_failed is not null then raise exception 'growth events invariants failed: %', v_failed; end if;
-  if v_count <> 12 then raise exception 'growth events invariants: expected 12 rows, got %', v_count; end if;
+  if v_count <> 14 then raise exception 'growth events invariants: expected 14 rows, got %', v_count; end if;
 end $$;
