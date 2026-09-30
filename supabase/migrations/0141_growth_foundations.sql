@@ -199,11 +199,30 @@ create trigger growth_event_check before insert on app.growth_events
 
 -- An event is a record: nobody changes one. It goes with its organisation or its account (the
 -- cascade), or by a retention delete; it is never edited.
+/*
+ * A record: nobody may change what an event says (CLAUDE.md, «Immutability triggers must permit
+ * referential maintenance»). The columns that carry meaning never change; org_id and user_id may
+ * only become null, and only once the row they pointed at is gone, so a foreign key that sets null
+ * on delete can do its work.
+ */
 create function app.growth_event_guard() returns trigger
   language plpgsql security definer set search_path = ''
 as $fn$
 begin
-  raise exception 'growth_events is a record: rows are not changed' using errcode = 'check_violation';
+  if new.id is distinct from old.id or new.name is distinct from old.name
+     or new.occurred_at is distinct from old.occurred_at or new.props is distinct from old.props
+     or new.source is distinct from old.source or new.dedupe_key is distinct from old.dedupe_key then
+    raise exception 'growth_events is a record: rows are not changed' using errcode = 'check_violation';
+  end if;
+  if new.org_id is distinct from old.org_id
+     and (new.org_id is not null or exists (select 1 from app.organizations o where o.id = old.org_id)) then
+    raise exception 'growth_events is a record: rows are not changed' using errcode = 'check_violation';
+  end if;
+  if new.user_id is distinct from old.user_id
+     and (new.user_id is not null or exists (select 1 from auth.users u where u.id = old.user_id)) then
+    raise exception 'growth_events is a record: rows are not changed' using errcode = 'check_violation';
+  end if;
+  return new;
 end $fn$;
 revoke all on function app.growth_event_guard() from public, anon, authenticated;
 create trigger growth_event_guard before update on app.growth_events
