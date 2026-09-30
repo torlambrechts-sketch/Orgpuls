@@ -25,7 +25,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,[role="switch"]:fo
 </helmet>
 <div style="--bg:#FCF6E9;--sf:#FFFDF6;--sf2:rgba(25,21,16,.05);--ink:#191510;--mut:#5F5849;--line:#E8DFC9;--ac:#F5C64A;--ac2:#A8D5D2;--ac3:#FBD5C4;--sbg:#FBEBBE;--sbg2:#F6EEDD;--fd:'Playfair Display',Georgia,serif;--fb:'DM Sans',system-ui,sans-serif;min-height:100vh;background:#FCF6E9;color:#191510;font-family:'DM Sans',system-ui,sans-serif;font-size:14px;line-height:1.5">
 <header style="background:#FFFDF6;border-bottom:1px solid #E8DFC9">
-<div style="width:calc(100% - 72px);max-width:1320px;margin:0 auto;height:62px;display:flex;align-items:center;gap:16px">
+<div style="width:calc(100% - 72px);max-width:1320px;margin:0 auto;min-height:62px;padding:8px 0;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
 <div style="font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:700;font-size:20px;letter-spacing:-.03em;display:flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:999px;background:#F5C64A;display:block"></span>Sentral</div>
 <nav style="display:flex;gap:2px;margin-left:10px">
 <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
@@ -52,7 +52,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,[role="switch"]:fo
 </div>
 </header>
 <div style="border-bottom:1px solid #E8DFC9">
-<div style="width:calc(100% - 72px);max-width:1320px;margin:0 auto;height:48px;display:flex;align-items:center;gap:14px">
+<div style="width:calc(100% - 72px);max-width:1320px;margin:0 auto;min-height:48px;padding:5px 0;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
 <span style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849;min-width:86px">{{ navLabel }}</span>
 <div style="display:flex;gap:2px;flex-wrap:wrap">
 <sc-for list="{{ subItems }}" as="s" hint-placeholder-count="3">
@@ -387,7 +387,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,[role="switch"]:fo
 <sc-for list="{{ journeys }}" as="j" hint-placeholder-count="4">
 <button onClick="{{ j.open }}" style="cursor:pointer;text-align:left;font-family:inherit;color:#191510;padding:18px 22px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;display:flex;align-items:center;gap:16px;flex-wrap:wrap" style-hover="border-color:#191510">
 <div style="flex:1.6;min-width:200px"><div style="display:flex;align-items:center;gap:10px"><span style="font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:20px">{{ j.name }}</span><span style="display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:#FBEBBE;font-size:11.5px;font-weight:700;white-space:nowrap"><span style="width:6px;height:6px;border-radius:999px;background:{{ j.dot }};display:block"></span>{{ j.status }}</span></div><div style="font-size:12.5px;color:#5F5849;margin-top:4px">Enrolls on stage {{ j.from }} · {{ j.emailTxt }} · goal: {{ j.goal }}</div></div>
-<div style="display:flex;gap:22px;flex:1;min-width:220px;justify-content:flex-end"><div><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">In journey</div><div style="font-size:22px;font-weight:700;line-height:1.2">{{ j.enrolled }}</div></div><div><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">Completed</div><div style="font-size:22px;font-weight:700;line-height:1.2">{{ j.completed }}</div></div><div style="min-width:130px"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">Reached goal</div><div style="display:flex;align-items:center;gap:8px;margin-top:6px"><span style="flex:1;height:8px;border-radius:999px;background:rgba(25,21,16,.08);overflow:hidden;display:block"><span style="display:block;height:100%;border-radius:999px;background:#F5C64A;width:{{ j.convPct }}%"></span></span><b style="font-size:13px">{{ j.convPct }} %</b></div></div></div>
+<div style="display:flex;gap:22px;flex:1;min-width:330px;justify-content:flex-end;flex-wrap:wrap"><div><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">In journey</div><div style="font-size:22px;font-weight:700;line-height:1.2">{{ j.enrolled }}</div></div><div><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">Completed</div><div style="font-size:22px;font-weight:700;line-height:1.2">{{ j.completed }}</div></div><div style="min-width:130px"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">Reached goal</div><div style="display:flex;align-items:center;gap:8px;margin-top:6px"><span style="flex:1;height:8px;border-radius:999px;background:rgba(25,21,16,.08);overflow:hidden;display:block"><span style="display:block;height:100%;border-radius:999px;background:#F5C64A;width:{{ j.convPct }}%"></span></span><b style="font-size:13px">{{ j.convPct }} %</b></div></div></div>
 </button>
 </sc-for>
 </div>
@@ -399,6 +399,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,[role="switch"]:fo
 <button onClick="{{ st.go }}" style="cursor:pointer;text-align:left;font-family:inherit;color:#191510;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;border:1px solid #E8DFC9;background:#FCF6E9" style-hover="border-color:#191510"><span style="width:6px;height:6px;border-radius:999px;background:{{ st.dot }};display:block;flex:none"></span><div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13.5px">{{ st.stage }} <span style="font-weight:400;color:#5F5849">· {{ st.nTxt }}</span></div><div style="font-size:12px;color:#5F5849">{{ st.journeys }}</div></div></button>
 </sc-for>
 </div>
+<div style="border-top:1px solid #E8DFC9;margin-top:18px;padding-top:16px"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">Design principles</div>
+<div style="display:flex;flex-direction:column;gap:10px;margin-top:10px">
+<sc-for list="{{ principles }}" as="p" hint-placeholder-count="4"><div style="font-size:13px;line-height:1.5;text-wrap:pretty"><b>{{ p.t }}</b> <span style="color:#5F5849">{{ p.d }}</span></div></sc-for>
+</div></div>
 </div>
 </div>
 </div>
@@ -447,7 +451,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,[role="switch"]:fo
 <sc-if value="{{ isTasks }}" hint-placeholder-val="{{ false }}">
 <div style="animation:ht-in .25s ease">
 <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:0 18px;flex-wrap:wrap">
-<div><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">Tasks</h1><div style="font-size:13px;color:#5F5849;margin-top:6px">{{ openTasks }} open · {{ dueToday }} due today · {{ fromJourneys }} created by journeys</div></div>
+<div><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">Tasks</h1><div style="font-size:13px;color:#5F5849;margin-top:6px">{{ openTasks }} open · {{ dueToday }} due today · {{ slaOpen }} on a 1-hour SLA · {{ fromJourneys }} created by journeys, rules and triggers</div></div>
 <div style="display:flex;gap:10px"><button onClick="{{ meetingLink }}" style="cursor:pointer;padding:9px 15px;border-radius:10px;border:1px solid #E8DFC9;background:transparent;color:#191510;font-family:inherit;font-size:12.5px;font-weight:600">Meeting link</button><button onClick="{{ newTask }}" style="cursor:pointer;padding:10px 18px;border-radius:10px;border:none;white-space:nowrap;background:#F5C64A;color:#191510;font-family:inherit;font-size:13.5px;font-weight:700">New task</button></div>
 </div>
 <div style="margin-top:22px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
@@ -458,7 +462,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,[role="switch"]:fo
 <div style="display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid #E8DFC9">
 <div style="flex:2.4;min-width:0;display:flex;align-items:center;gap:10px"><span style="width:6px;height:6px;border-radius:999px;background:{{ t.pdot }};display:block;flex:none" title="{{ t.prio }} priority"></span><span style="font-size:11px;font-weight:600;color:#5F5849;padding:2px 7px;border-radius:999px;background:{{ t.tdot }};white-space:nowrap">{{ t.type }}</span><div style="min-width:0"><div style="font-weight:600;font-size:13.5px">{{ t.title }}</div><div style="font-size:12px;color:#5F5849">{{ t.src }}</div></div></div>
 <div style="flex:1.6;min-width:0;font-size:12.5px;color:#5F5849;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ t.contact }}</div>
-<div style="width:130px;font-size:12.5px;font-weight:600">{{ t.due }}</div>
+<div style="width:130px;font-size:12.5px;font-weight:600">{{ t.due }}<sc-if value="{{ t.hasSla }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:6px;margin-top:4px;padding:3px 8px;border-radius:999px;background:#FBEBBE;font-size:11px;font-weight:700;white-space:nowrap"><span style="width:6px;height:6px;border-radius:999px;background:{{ t.sladot }};display:block"></span>{{ t.slaTxt }}</span></sc-if></div>
 <div style="width:36px"><span title="{{ t.ownerP.name }}" style="width:28px;height:28px;border-radius:999px;background:#FBEBBE;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">{{ t.ownerP.ini }}</span></div>
 <div style="width:100px;display:flex;justify-content:flex-end"><sc-if value="{{ t.isOpen }}" hint-placeholder-val="{{ true }}"><button onClick="{{ t.done }}" style="cursor:pointer;padding:7px 12px;border-radius:9px;border:1px solid #E8DFC9;background:transparent;color:#191510;font-family:inherit;font-size:12px;font-weight:600;white-space:nowrap">Mark done</button></sc-if><sc-if value="{{ t.isDone }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#5F5849"><span style="width:6px;height:6px;border-radius:999px;background:#A8D5D2;display:block"></span>Done</span></sc-if></div>
 </div>
@@ -493,29 +497,37 @@ button:focus-visible,input:focus-visible,select:focus-visible,[role="switch"]:fo
 <sc-if value="{{ isScoring }}" hint-placeholder-val="{{ false }}">
 <div style="animation:ht-in .25s ease">
 <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:0 18px;flex-wrap:wrap">
-<div><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">Lead scoring</h1><div style="font-size:13px;color:#5F5849;margin-top:6px">{{ hotN }} hot · {{ warmN }} warm · {{ coldN }} cold · leads and trials only, scored from fit and behaviour</div></div>
+<div><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">Lead scoring</h1><div style="font-size:13px;color:#5F5849;margin-top:6px">Fit × intent, 0–100 · {{ hotN }} route to a founder task · {{ nurtureN }} in nurture · {{ trialN }} in trial, where the PQL rule applies</div></div>
 <button onClick="{{ editRules }}" style="cursor:pointer;padding:9px 15px;border-radius:10px;border:1px solid #191510;background:transparent;color:#191510;font-family:inherit;font-size:12.5px;font-weight:600">Edit rules</button>
 </div>
 <div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);gap:18px;align-items:start;margin-top:22px">
-<div style="border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;overflow-x:auto;min-width:0"><div style="min-width:620px">
-<div style="display:flex;align-items:center;gap:14px;padding:14px 20px 10px;border-bottom:1px solid #E8DFC9;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849"><span style="flex:2.2">Contact</span><span style="flex:1.6">Score</span><span style="flex:1.6">Why</span><span style="width:100px"></span></div>
+<div style="border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;overflow-x:auto;min-width:0"><div style="min-width:860px">
+<div style="display:flex;align-items:center;gap:14px;padding:14px 20px 10px;border-bottom:1px solid #E8DFC9;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849"><span style="flex:2.2">Contact</span><span style="flex:1.6">Fit · intent</span><span style="flex:1.6">Strongest signals</span><span style="width:230px">Route</span></div>
 <sc-for list="{{ scored }}" as="c" hint-placeholder-count="6">
 <div style="display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid #E8DFC9">
-<div style="flex:2.2;min-width:0;display:flex;align-items:center;gap:12px"><span style="width:28px;height:28px;border-radius:999px;background:#FBEBBE;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex:none">{{ c.ini }}</span><div style="min-width:0"><div style="font-weight:600;font-size:13.5px">{{ c.name }}</div><div style="font-size:12px;color:#5F5849">{{ c.company }} · {{ c.stage }}</div></div></div>
-<div style="flex:1.6;display:flex;align-items:center;gap:10px"><span style="flex:1;height:8px;border-radius:999px;background:rgba(25,21,16,.08);overflow:hidden;display:block"><span style="display:block;height:100%;border-radius:999px;background:#F5C64A;width:{{ c.score }}%"></span></span><span style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:#FBEBBE;font-size:11.5px;font-weight:700;white-space:nowrap;min-width:78px;justify-content:center"><span style="width:6px;height:6px;border-radius:999px;background:{{ c.bdot }};display:block"></span>{{ c.score }} · {{ c.band }}</span></div>
+<div style="flex:2.2;min-width:0;display:flex;align-items:center;gap:12px"><span style="width:28px;height:28px;border-radius:999px;background:#FBEBBE;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex:none">{{ c.ini }}</span><div style="min-width:0"><div style="font-weight:600;font-size:13.5px">{{ c.name }}</div><div style="font-size:12px;color:#5F5849">{{ c.company }} · {{ c.stage }} · {{ c.brreg }}</div></div></div>
+<div style="flex:1.6;display:flex;flex-direction:column;gap:5px"><div style="display:flex;align-items:center;gap:8px"><span style="width:38px;font-size:11px;color:#5F5849">Fit</span><span style="flex:1;height:7px;border-radius:999px;background:rgba(25,21,16,.08);overflow:hidden;display:block"><span style="display:block;height:100%;border-radius:999px;background:#A8D5D2;width:{{ c.fit }}%"></span></span><b style="font-size:12px;min-width:44px;text-align:right">{{ c.fit }}/50</b></div><div style="display:flex;align-items:center;gap:8px"><span style="width:38px;font-size:11px;color:#5F5849">Intent</span><span style="flex:1;height:7px;border-radius:999px;background:rgba(25,21,16,.08);overflow:hidden;display:block"><span style="display:block;height:100%;border-radius:999px;background:#F5C64A;width:{{ c.intent }}%"></span></span><b style="font-size:12px;min-width:44px;text-align:right">{{ c.intent }}/50</b></div></div>
 <div style="flex:1.6;font-size:12.5px;color:#5F5849;min-width:0">{{ c.why }}</div>
-<div style="width:100px;display:flex;justify-content:flex-end"><button onClick="{{ c.go }}" style="cursor:pointer;padding:7px 12px;border-radius:9px;border:1px solid #E8DFC9;background:transparent;color:#191510;font-family:inherit;font-size:12px;font-weight:600;white-space:nowrap">{{ c.act }}</button></div>
+<div style="width:230px;flex:none;display:flex;justify-content:flex-end;align-items:center;gap:8px"><span style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:#FBEBBE;font-size:11.5px;font-weight:700;white-space:nowrap"><span style="width:6px;height:6px;border-radius:999px;background:{{ c.rdot }};display:block"></span>{{ c.total }} · {{ c.route }}</span><button onClick="{{ c.go }}" style="cursor:pointer;padding:7px 12px;border-radius:9px;border:1px solid #E8DFC9;background:transparent;color:#191510;font-family:inherit;font-size:12px;font-weight:600;white-space:nowrap">Open</button></div>
 </div>
 </sc-for>
 </div></div>
 <div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
-<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Rules</h2>
-<div style="font-size:12.5px;color:#5F5849;margin-top:4px">Points add up; 70 and above is hot and creates a task for the owner.</div>
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Fit · 0–50</h2>
+<div style="font-size:12.5px;color:#5F5849;margin-top:4px">From Brønnøysund — known before anyone signs up</div>
 <div style="display:flex;flex-direction:column;margin-top:8px">
-<sc-for list="{{ rules }}" as="r" hint-placeholder-count="8">
-<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #E8DFC9;font-size:13.5px"><div style="flex:1;min-width:0">{{ r.label }}<span style="display:block;font-size:11.5px;color:#5F5849">{{ r.kind }}</span></div><b style="min-width:36px;text-align:right">{{ r.ptsTxt }}</b></div>
+<sc-for list="{{ fitRules }}" as="r" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #E8DFC9;font-size:13.5px"><div style="flex:1;min-width:0">{{ r.label }}</div><b style="min-width:36px;text-align:right">{{ r.ptsTxt }}</b></div>
 </sc-for>
 </div>
+<h2 style="margin:22px 0 0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Intent · 0–50</h2>
+<div style="font-size:12.5px;color:#5F5849;margin-top:4px">First-party events, only after consent or signup — the site is cookieless</div>
+<div style="display:flex;flex-direction:column;margin-top:8px">
+<sc-for list="{{ intentRules }}" as="r" hint-placeholder-count="6">
+<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #E8DFC9;font-size:13.5px"><div style="flex:1;min-width:0">{{ r.label }}</div><b style="min-width:36px;text-align:right">{{ r.ptsTxt }}</b></div>
+</sc-for>
+</div>
+<div style="margin-top:16px;padding:14px 16px;border-radius:12px;background:#FCF6E9;border:1px solid #E8DFC9;font-size:13px;line-height:1.55;text-wrap:pretty"><b>Routing.</b> 60 or more, or any hand-raise, creates a founder task with a one-hour SLA (weekdays 08–16). Below 60 goes to nurture. Trial users follow the PQL rule instead: activated, or ≥ 50 % response by day 7, or a verneombud invited on the 26–100 tier.</div>
 </div>
 </div>
 </div>
@@ -1041,6 +1053,478 @@ button:focus-visible,input:focus-visible,select:focus-visible,[role="switch"]:fo
 </div>
 </div>
 </sc-if>
+<sc-if value="{{ isSiteEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="animation:ht-in .25s ease">
+<div style="padding:0 18px"><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">{{ emptyTitle }}</h1><div style="font-size:13px;color:#5F5849;margin-top:6px">Not set up for {{ site.name }} yet</div></div>
+<div style="margin-top:22px;padding:44px 32px;border-radius:18px;border:1px dashed #E8DFC9;background:#FCF6E9;text-align:center"><div style="font-size:15px;font-weight:600">Built for HeiTuva first</div><div style="font-size:13px;color:#5F5849;margin-top:6px;max-width:520px;margin-left:auto;margin-right:auto;text-wrap:pretty">The Growth Engine report is written for the survey product. Copy its tiers, 90-day plan, rule catalogue and experiment backlog as a template, then adapt the product-specific mechanisms.</div><div style="margin-top:18px"><button onClick="{{ startBoard }}" style="cursor:pointer;padding:10px 18px;border-radius:10px;border:none;background:#F5C64A;color:#191510;font-family:inherit;font-size:13.5px;font-weight:700">Start from the HeiTuva template</button></div></div>
+</div>
+</sc-if>
+<sc-if value="{{ isGboard }}" hint-placeholder-val="{{ false }}">
+<div style="animation:ht-in .25s ease">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:0 18px;flex-wrap:wrap">
+<div><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">Growth board</h1><div style="font-size:13px;color:#5F5849;margin-top:6px;text-wrap:pretty">The report’s integrated priority list · product-led, compliance content drives acquisition, paid media stays small · click a card for build, KPI and guardrail</div></div>
+<button onClick="{{ gw.exportBoard }}" style="cursor:pointer;padding:9px 15px;border-radius:10px;border:1px solid #191510;background:transparent;color:#191510;font-family:inherit;font-size:12.5px;font-weight:600">Export board</button>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:22px">
+<sc-for list="{{ gw.kpis }}" as="k" hint-placeholder-count="4">
+<div style="padding:20px 22px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">{{ k.label }}</div><div style="font-size:30px;font-weight:700;line-height:1.15;margin-top:8px">{{ k.value }}</div><div style="font-size:12.5px;color:#5F5849;margin-top:4px">{{ k.sub }}</div></div>
+</sc-for>
+</div>
+<div style="overflow-x:auto;margin-top:22px;padding-bottom:6px"><div style="display:grid;grid-template-columns:repeat(5,minmax(230px,1fr));gap:14px;min-width:1180px">
+<sc-for list="{{ gw.cols }}" as="col" hint-placeholder-count="5">
+<div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+<div style="padding:0 4px 8px;border-bottom:1px solid #E8DFC9"><div style="display:flex;align-items:center;gap:8px"><span style="font-weight:700;font-size:13.5px;flex:1">{{ col.name }}</span><span style="font-size:12px;color:#5F5849">{{ col.n }}</span></div><div style="font-size:12px;color:#5F5849;margin-top:2px">{{ col.why }}</div></div>
+<sc-for list="{{ col.items }}" as="it" hint-placeholder-count="3">
+<button onClick="{{ it.open }}" style="cursor:pointer;text-align:left;font-family:inherit;color:#191510;padding:14px 16px;border-radius:12px;border:1px solid #E8DFC9;background:#FFFDF6;display:flex;flex-direction:column;gap:8px" style-hover="border-color:#191510">
+<span style="font-size:11px;color:#5F5849">{{ it.rank }}</span>
+<span style="font-weight:600;font-size:14px;line-height:1.3;text-wrap:pretty">{{ it.name }}</span>
+<span style="font-size:12.5px;color:#5F5849;line-height:1.45;text-wrap:pretty">{{ it.why }}</span>
+<span style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:2px;padding-top:8px;border-top:1px solid #E8DFC9"><span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#FBEBBE;font-size:11px;font-weight:700"><span style="width:6px;height:6px;border-radius:999px;background:{{ it.dot }};display:block"></span>{{ it.status }}</span><span style="font-size:11.5px;color:#5F5849">{{ it.meta }}</span><span title="{{ it.ownerP.name }}" style="width:24px;height:24px;border-radius:999px;background:#FBEBBE;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700">{{ it.ownerP.ini }}</span></span>
+</button>
+</sc-for>
+</div>
+</sc-for>
+</div></div>
+</div>
+</sc-if>
+<sc-if value="{{ isPlan }}" hint-placeholder-val="{{ false }}">
+<div style="animation:ht-in .25s ease">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:0 18px;flex-wrap:wrap">
+<div><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">90-day plan</h1><div style="font-size:13px;color:#5F5849;margin-top:6px">Two tracks, one plan · gates must pass before the next block starts</div></div>
+<button onClick="{{ gw.exportBoard }}" style="cursor:pointer;padding:9px 15px;border-radius:10px;border:1px solid #191510;background:transparent;color:#191510;font-family:inherit;font-size:12.5px;font-weight:600">Export plan</button>
+</div>
+<div style="margin-top:22px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;overflow-x:auto"><div style="min-width:960px">
+<div style="display:grid;grid-template-columns:120px minmax(0,1fr) minmax(0,1fr) minmax(0,.8fr);gap:18px;padding:14px 20px 10px;border-bottom:1px solid #E8DFC9;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849"><span>Weeks</span><span>Foundation track</span><span>Lead-generation track</span><span>Gates</span></div>
+<sc-for list="{{ gw.plan }}" as="p" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:120px minmax(0,1fr) minmax(0,1fr) minmax(0,.8fr);gap:18px;padding:16px 20px;border-bottom:1px solid #E8DFC9">
+<div><div style="font-weight:700;font-size:14px">Weeks {{ p.weeks }}</div><span style="display:inline-flex;align-items:center;gap:6px;margin-top:6px;padding:4px 10px;border-radius:999px;background:#FBEBBE;font-size:11px;font-weight:700;white-space:nowrap"><span style="width:6px;height:6px;border-radius:999px;background:{{ p.dot }};display:block"></span>{{ p.status }}</span></div>
+<div style="font-size:13px;line-height:1.55;text-wrap:pretty">{{ p.found }}</div>
+<div style="font-size:13px;line-height:1.55;text-wrap:pretty">{{ p.lead }}</div>
+<div style="display:flex;flex-direction:column;gap:6px"><sc-for list="{{ p.gates }}" as="g" hint-placeholder-count="3"><div style="display:flex;gap:8px;font-size:12.5px;line-height:1.45"><span style="width:6px;height:6px;border-radius:999px;background:#E8DFC9;display:block;flex:none;margin-top:6px"></span>{{ g.t }}</div></sc-for></div>
+</div>
+</sc-for>
+</div></div>
+</div>
+</sc-if>
+<sc-if value="{{ isFunnel }}" hint-placeholder-val="{{ false }}">
+<div style="animation:ht-in .25s ease">
+<div style="padding:0 18px"><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">Funnel &amp; lead math</h1><div style="font-size:13px;color:#5F5849;margin-top:6px">Definitions are events, not opinions · planning assumptions until 90 days of cohorts exist</div></div>
+<div style="display:grid;grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);gap:18px;align-items:start;margin-top:22px">
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;min-width:0">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px"><h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">From visitor to expansion</h2><span style="font-size:12.5px;color:#5F5849">This month · % of visitors</span></div>
+<div style="display:flex;flex-direction:column;gap:14px;margin-top:18px">
+<sc-for list="{{ gw.funnel }}" as="f" hint-placeholder-count="9">
+<div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap"><span style="font-weight:600;font-size:13.5px;min-width:90px">{{ f.stage }}</span><span style="font-size:11.5px;font-family:ui-monospace,Menlo,monospace;color:#5F5849">{{ f.event }}</span><span style="flex:1"></span><b style="font-size:13px">{{ f.nTxt }}</b><span style="font-size:12px;color:#5F5849;min-width:120px;text-align:right;white-space:nowrap">{{ f.pct }} % · {{ f.step }}</span></div><span style="height:14px;border-radius:5px;background:rgba(25,21,16,.05);overflow:hidden;display:block"><span style="display:block;height:100%;border-radius:5px;background:{{ f.color }};width:{{ f.bar }}%"></span></span><div style="font-size:12px;color:#5F5849;text-wrap:pretty">{{ f.def }}</div></div>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+<div style="border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<div style="padding:20px 20px 0"><h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Lead math</h2><div style="font-size:12.5px;color:#5F5849;margin-top:4px">Trials a month at month 12 · now {{ gw.lmNow }} · base 120 · stretch 300</div></div>
+<div style="display:flex;flex-direction:column;margin-top:10px">
+<sc-for list="{{ gw.lm }}" as="l" hint-placeholder-count="6">
+<div style="padding:12px 20px;border-top:1px solid #E8DFC9"><div style="display:flex;align-items:center;gap:10px"><span style="flex:1;font-weight:600;font-size:13.5px">{{ l.source }}</span><span style="font-size:12.5px;white-space:nowrap"><b>{{ l.now }}</b> <span style="color:#5F5849">/ {{ l.base }} / {{ l.stretch }}</span></span></div><div style="display:flex;align-items:center;gap:10px;margin-top:6px"><span style="flex:1;height:7px;border-radius:999px;background:rgba(25,21,16,.08);overflow:hidden;display:block"><span style="display:block;height:100%;border-radius:999px;background:#F5C64A;width:{{ l.nowPct }}%"></span></span><span style="font-size:11.5px;color:#5F5849;white-space:nowrap">{{ l.nowPct }} % of base</span></div><div style="font-size:12px;color:#5F5849;margin-top:6px">{{ l.needs }}</div></div>
+</sc-for>
+</div>
+</div>
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Planning assumptions</h2>
+<div style="display:flex;flex-direction:column;gap:8px;margin-top:12px"><sc-for list="{{ gw.assumptions }}" as="a" hint-placeholder-count="7"><div style="display:flex;gap:8px;font-size:13px;line-height:1.45"><span style="width:6px;height:6px;border-radius:999px;background:#F5C64A;display:block;flex:none;margin-top:6px"></span>{{ a }}</div></sc-for></div>
+</div>
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Benchmarks, labelled</h2>
+<div style="display:flex;flex-direction:column;margin-top:8px"><sc-for list="{{ gw.bench }}" as="b" hint-placeholder-count="7"><div style="padding:10px 0;border-bottom:1px solid #E8DFC9;font-size:13px"><div style="display:flex;justify-content:space-between;gap:10px"><span style="font-weight:600">{{ b.m }}</span><span style="text-align:right">{{ b.v }}</span></div><div style="font-size:11.5px;color:#5F5849;margin-top:2px">{{ b.s }}</div></div></sc-for></div>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ isEvents }}" hint-placeholder-val="{{ false }}">
+<div style="animation:ht-in .25s ease">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:0 18px;flex-wrap:wrap">
+<div><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">Event catalogue v1</h1><div style="font-size:13px;color:#5F5849;margin-top:6px">{{ gw.evCount }} org-level events drive journeys, scoring, analytics and the health score · one PII level per event</div></div>
+<button onClick="{{ gw.proposeEvent }}" style="cursor:pointer;padding:9px 15px;border-radius:10px;border:1px solid #191510;background:transparent;color:#191510;font-family:inherit;font-size:12.5px;font-weight:600">Propose an event</button>
+</div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);gap:18px;align-items:start;margin-top:22px">
+<div style="border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;overflow-x:auto;min-width:0"><div style="min-width:640px">
+<div style="display:flex;align-items:center;gap:14px;padding:14px 20px 10px;border-bottom:1px solid #E8DFC9;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849"><span style="flex:2.2">Event</span><span style="width:90px">Group</span><span style="width:120px">PII</span><span style="flex:1.4">Used by</span><span style="width:70px;text-align:right">7 d</span></div>
+<sc-for list="{{ gw.events }}" as="e" hint-placeholder-count="10">
+<div style="display:flex;align-items:center;gap:14px;padding:11px 20px;border-bottom:1px solid #E8DFC9;font-size:13px">
+<span style="flex:2.2;min-width:0;font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:600;overflow-wrap:anywhere">{{ e.name }}</span>
+<span style="width:90px;color:#5F5849;font-size:12.5px">{{ e.group }}</span>
+<span style="width:120px;display:flex;align-items:center;gap:6px;font-size:12px"><span style="width:6px;height:6px;border-radius:999px;background:{{ e.pdot }};display:block;flex:none"></span>{{ e.pii }}</span>
+<span style="flex:1.4;color:#5F5849;font-size:12.5px;min-width:0">{{ e.used }}</span>
+<b style="width:70px;text-align:right">{{ e.n7Txt }}</b>
+</div>
+</sc-for>
+</div></div>
+<div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Health score v1</h2>
+<div style="font-size:12.5px;color:#5F5849;margin-top:4px">0–100 per customer, from events and tickets</div>
+<div style="display:flex;flex-direction:column;margin-top:8px"><sc-for list="{{ gw.healthParts }}" as="h" hint-placeholder-count="6"><div style="display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #E8DFC9;font-size:13px"><span>{{ h.label }}</span><b>{{ h.pts }}</b></div></sc-for></div>
+<div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849;margin-top:16px">Lowest first</div>
+<div style="display:flex;flex-direction:column;gap:8px;margin-top:8px"><sc-for list="{{ gw.health }}" as="c" hint-placeholder-count="4"><button onClick="{{ c.open }}" style="cursor:pointer;text-align:left;font-family:inherit;color:#191510;display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;border:1px solid #E8DFC9;background:#FCF6E9" style-hover="border-color:#191510"><div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px">{{ c.name }}</div><div style="font-size:11.5px;color:#5F5849;text-wrap:pretty">Missing: {{ c.miss }}</div></div><span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#FBEBBE;font-size:11.5px;font-weight:700"><span style="width:6px;height:6px;border-radius:999px;background:{{ c.dot }};display:block"></span>{{ c.total }}</span></button></sc-for></div>
+</div>
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Anonymity firewall</h2><span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#FBEBBE;font-size:11px;font-weight:700;white-space:nowrap"><span style="width:6px;height:6px;border-radius:999px;background:#A8D5D2;display:block"></span>CI passing · 06:00</span></div>
+<div style="font-size:12.5px;color:#5F5849;margin-top:4px">Hard rule. Respondents never become leads or CRM contacts.</div>
+<div style="display:flex;flex-direction:column;gap:8px;margin-top:12px"><sc-for list="{{ gw.firewall }}" as="f" hint-placeholder-count="6"><div style="display:flex;gap:8px;font-size:12.5px;line-height:1.45;text-wrap:pretty"><span style="width:6px;height:6px;border-radius:999px;background:#A8D5D2;display:block;flex:none;margin-top:6px"></span>{{ f.t }}</div></sc-for></div>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ isRules }}" hint-placeholder-val="{{ false }}">
+<div style="animation:ht-in .25s ease">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:0 18px;flex-wrap:wrap">
+<div><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">Automation rules</h1><div style="font-size:13px;color:#5F5849;margin-top:6px">R1–R12 · every rule names a trigger, a condition, an action and a stream · marketing rules need consent and get the 10 % holdout</div></div>
+<button onClick="{{ gw.newRule }}" style="cursor:pointer;padding:10px 18px;border-radius:10px;border:none;white-space:nowrap;background:#F5C64A;color:#191510;font-family:inherit;font-size:13.5px;font-weight:700">New rule</button>
+</div>
+<div style="margin-top:22px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;overflow-x:auto"><div style="min-width:760px">
+<div style="display:flex;align-items:center;gap:14px;padding:14px 20px 10px;border-bottom:1px solid #E8DFC9;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849"><span style="width:150px">Rule</span><span style="flex:1.3">Trigger</span><span style="flex:1">Condition</span><span style="flex:1.3">Action</span><span style="width:130px">Stream</span><span style="width:60px"></span></div>
+<sc-for list="{{ gw.rules }}" as="r" hint-placeholder-count="12">
+<div style="display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid #E8DFC9;font-size:13px">
+<button onClick="{{ r.open }}" style="cursor:pointer;width:150px;text-align:left;font-family:inherit;color:#191510;background:transparent;border:none;padding:0"><span style="font-size:11px;font-weight:700;color:#5F5849">{{ r.id }}</span><span style="display:block;font-weight:600;font-size:13.5px">{{ r.name }}</span></button>
+<span style="flex:1.3;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;overflow-wrap:anywhere">{{ r.trigger }}</span>
+<span style="flex:1;color:#5F5849;font-size:12.5px">{{ r.cond }}</span>
+<span style="flex:1.3;font-size:12.5px">{{ r.action }}</span>
+<span style="width:130px"><span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#FBEBBE;font-size:11px;font-weight:700;white-space:nowrap"><span style="width:6px;height:6px;border-radius:999px;background:{{ r.sdot }};display:block"></span>{{ r.stream }}</span></span>
+<span style="width:60px;display:flex;justify-content:flex-end"><button role="switch" aria-checked="{{ r.on }}" aria-label="{{ r.name }}" onClick="{{ r.toggle }}" style="cursor:pointer;position:relative;width:38px;height:22px;border-radius:999px;border:none;background:{{ r.trackBg }};padding:0;flex:none"><span style="position:absolute;top:2px;left:{{ r.knobX }};width:18px;height:18px;border-radius:999px;background:#FFFDF6;transition:left .15s ease;display:block"></span></button></span>
+</div>
+</sc-for>
+</div></div>
+</div>
+</sc-if>
+<sc-if value="{{ isExperiments }}" hint-placeholder-val="{{ false }}">
+<div style="animation:ht-in .25s ease">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:0 18px;flex-wrap:wrap">
+<div><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">Experiment backlog</h1><div style="font-size:13px;color:#5F5849;margin-top:6px">ICE = impact × confidence × ease, max 125 · highest first · never two tests on the same page at once</div></div>
+<button onClick="{{ gw.newExp }}" style="cursor:pointer;padding:10px 18px;border-radius:10px;border:none;white-space:nowrap;background:#F5C64A;color:#191510;font-family:inherit;font-size:13.5px;font-weight:700">New experiment</button>
+</div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);gap:18px;align-items:start;margin-top:22px">
+<div style="border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;overflow-x:auto;min-width:0"><div style="min-width:640px">
+<div style="display:flex;align-items:center;gap:14px;padding:14px 20px 10px;border-bottom:1px solid #E8DFC9;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849"><span style="flex:2.4">Hypothesis</span><span style="flex:1">Primary metric</span><span style="flex:1.2">ICE</span><span style="width:96px">Status</span></div>
+<sc-for list="{{ gw.exps }}" as="e" hint-placeholder-count="10">
+<div onClick="{{ e.open }}" style="display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid #E8DFC9;font-size:13px;cursor:pointer" style-hover="background:#FCF6E9">
+<div style="flex:2.4;min-width:0"><span style="font-size:11px;font-weight:700;color:#5F5849">{{ e.id }}</span><div style="font-weight:600;font-size:13.5px;text-wrap:pretty">{{ e.hyp }}</div></div>
+<span style="flex:1;color:#5F5849;font-size:12.5px">{{ e.metric }}</span>
+<div style="flex:1.2;display:flex;align-items:center;gap:8px"><span style="flex:1;height:7px;border-radius:999px;background:rgba(25,21,16,.08);overflow:hidden;display:block"><span style="display:block;height:100%;border-radius:999px;background:#F5C64A;width:{{ e.pct }}%"></span></span><b style="font-size:12.5px;min-width:28px;text-align:right">{{ e.ice }}</b><span style="font-size:11px;color:#5F5849;white-space:nowrap">{{ e.iceTxt }}</span></div>
+<span style="width:96px"><span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#FBEBBE;font-size:11px;font-weight:700;white-space:nowrap"><span style="width:6px;height:6px;border-radius:999px;background:{{ e.dot }};display:block"></span>{{ e.status }}</span></span>
+</div>
+</sc-for>
+</div></div>
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Experiment rules</h2>
+<div style="display:flex;flex-direction:column;gap:10px;margin-top:12px;font-size:13px;line-height:1.5;text-wrap:pretty">
+<div style="padding:12px 14px;border-radius:12px;border:1px solid #E8DFC9;background:#FCF6E9"><b>One primary metric per test.</b> Set the minimum detectable effect before starting.</div>
+<div style="padding:12px 14px;border-radius:12px;border:1px solid #E8DFC9;background:#FCF6E9"><b>Run whole weeks.</b> Weekday and weekend traffic differ.</div>
+<div style="padding:12px 14px;border-radius:12px;border:1px solid #E8DFC9;background:#FCF6E9"><b>Test big changes at 100–300 trials a month,</b> not button colours.</div>
+<div style="padding:12px 14px;border-radius:12px;border:1px solid #E8DFC9;background:#FCF6E9"><b>Keep the 10 % holdout</b> on nurture and trigger outreach. Read cumulative cohorts, directionally, over 90 days.</div>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ isRisks }}" hint-placeholder-val="{{ false }}">
+<div style="animation:ht-in .25s ease">
+<div style="padding:0 18px"><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">Risks, guardrails and open decisions</h1><div style="font-size:13px;color:#5F5849;margin-top:6px">Four non-negotiables, thirteen risks with mitigations, ten decisions waiting on counsel or the founder</div></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:22px">
+<sc-for list="{{ gw.guardrails }}" as="g" hint-placeholder-count="4">
+<div style="padding:20px 22px;border-radius:18px;border:1px solid #191510;background:#FFFDF6"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">Guardrail</div><div style="font-weight:700;font-size:15px;margin-top:6px">{{ g.t }}</div><div style="font-size:12.5px;color:#5F5849;margin-top:6px;line-height:1.5;text-wrap:pretty">{{ g.d }}</div></div>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);gap:18px;align-items:start;margin-top:18px">
+<div style="border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;overflow-x:auto;min-width:0"><div style="min-width:600px">
+<div style="display:flex;align-items:center;gap:14px;padding:14px 20px 10px;border-bottom:1px solid #E8DFC9;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849"><span style="flex:1.4">Risk</span><span style="width:150px">Likelihood</span><span style="flex:1.6">Mitigation</span></div>
+<sc-for list="{{ gw.risks }}" as="r" hint-placeholder-count="13">
+<div style="display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid #E8DFC9;font-size:13px"><span style="flex:1.4;font-weight:600;text-wrap:pretty">{{ r.r }}</span><span style="width:150px"><span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#FBEBBE;font-size:11px;font-weight:700;white-space:nowrap"><span style="width:6px;height:6px;border-radius:999px;background:{{ r.dot }};display:block"></span>{{ r.lik }}</span></span><span style="flex:1.6;color:#5F5849;font-size:12.5px;text-wrap:pretty">{{ r.m }}</span></div>
+</sc-for>
+</div></div>
+<div style="border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<div style="padding:20px 20px 0"><h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Open decisions</h2><div style="font-size:12.5px;color:#5F5849;margin-top:4px">Defaults apply until decided</div></div>
+<div style="display:flex;flex-direction:column;margin-top:10px">
+<sc-for list="{{ gw.decisions }}" as="d" hint-placeholder-count="10">
+<div style="display:flex;align-items:center;gap:12px;padding:12px 20px;border-top:1px solid #E8DFC9"><span style="width:22px;font-size:12px;font-weight:700;color:#5F5849">{{ d.n }}</span><div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px;text-wrap:pretty">{{ d.q }}</div><div style="font-size:12px;color:#5F5849;text-wrap:pretty">Default: {{ d.def }}</div></div><button onClick="{{ d.decide }}" style="cursor:pointer;padding:7px 12px;border-radius:9px;border:1px solid #E8DFC9;background:transparent;color:#191510;font-family:inherit;font-size:12px;font-weight:600">Decide</button></div>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ isCoverage }}" hint-placeholder-val="{{ false }}">
+<div style="animation:ht-in .25s ease">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:0 18px;flex-wrap:wrap">
+<div><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">Coverage review</h1><div style="font-size:13px;color:#5F5849;margin-top:6px">Every feature and recommendation in the report, mapped to where it lives in Sentral — and what to build next</div></div>
+<button onClick="{{ gw.exportBoard }}" style="cursor:pointer;padding:9px 15px;border-radius:10px;border:1px solid #191510;background:transparent;color:#191510;font-family:inherit;font-size:12.5px;font-weight:600">Export review</button>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:22px">
+<sc-for list="{{ gw.covKpis }}" as="k" hint-placeholder-count="4">
+<div style="padding:20px 22px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">{{ k.label }}</div><div style="font-size:30px;font-weight:700;line-height:1.15;margin-top:8px">{{ k.value }}</div><div style="font-size:12.5px;color:#5F5849;margin-top:4px">{{ k.sub }}</div></div>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);gap:18px;align-items:start;margin-top:18px">
+<div style="border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;overflow-x:auto;min-width:0"><div style="min-width:620px">
+<div style="display:flex;align-items:center;gap:14px;padding:14px 20px 10px;border-bottom:1px solid #E8DFC9;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849"><span style="flex:2">Feature in the report</span><span style="width:150px">Status</span><span style="flex:1.2">Note</span><span style="width:70px"></span></div>
+<sc-for list="{{ gw.cov }}" as="c" hint-placeholder-count="12">
+<div style="display:flex;align-items:center;gap:14px;padding:11px 20px;border-bottom:1px solid #E8DFC9;font-size:13px">
+<span style="flex:2;font-weight:600;text-wrap:pretty">{{ c.f }}</span>
+<span style="width:150px"><span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#FBEBBE;font-size:11px;font-weight:700;white-space:nowrap"><span style="width:6px;height:6px;border-radius:999px;background:{{ c.dot }};display:block"></span>{{ c.status }}</span></span>
+<span style="flex:1.2;color:#5F5849;font-size:12px;text-wrap:pretty">{{ c.note }}</span>
+<span style="width:70px;display:flex;justify-content:flex-end"><sc-if value="{{ c.hasWhere }}" hint-placeholder-val="{{ true }}"><button onClick="{{ c.go }}" style="cursor:pointer;padding:6px 10px;border-radius:9px;border:1px solid #E8DFC9;background:transparent;color:#191510;font-family:inherit;font-size:12px;font-weight:600">Open</button></sc-if></span>
+</div>
+</sc-for>
+</div></div>
+<div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+<div style="border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<div style="padding:20px 20px 0"><h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Recommended next</h2><div style="font-size:12.5px;color:#5F5849;margin-top:4px">Optimisations and additions beyond the report</div></div>
+<div style="display:flex;flex-direction:column;margin-top:10px">
+<sc-for list="{{ gw.recs }}" as="r" hint-placeholder-count="13">
+<div style="display:flex;gap:12px;padding:12px 20px;border-top:1px solid #E8DFC9"><span style="width:22px;font-size:12px;font-weight:700;color:#5F5849;flex:none">{{ r.n }}</span><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-weight:600;font-size:13.5px">{{ r.t }}</span><span style="display:inline-flex;align-items:center;gap:6px;padding:3px 8px;border-radius:999px;background:#FBEBBE;font-size:10.5px;font-weight:700"><span style="width:6px;height:6px;border-radius:999px;background:{{ r.pdot }};display:block"></span>{{ r.p }}</span></div><div style="font-size:12.5px;color:#5F5849;margin-top:3px;line-height:1.5;text-wrap:pretty">{{ r.d }}</div></div></div>
+</sc-for>
+</div>
+</div>
+<div style="padding:24px 26px;border-radius:18px;border:1px dashed #E8DFC9;background:#FCF6E9">
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Cut or deferred by the report</h2>
+<div style="display:flex;flex-direction:column;gap:8px;margin-top:12px"><sc-for list="{{ gw.cut }}" as="c" hint-placeholder-count="8"><div style="display:flex;gap:8px;font-size:13px;line-height:1.45"><span style="width:6px;height:6px;border-radius:999px;background:#5F5849;display:block;flex:none;margin-top:6px"></span>{{ c.t }}</div></sc-for></div>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ isConsent }}" hint-placeholder-val="{{ false }}">
+<div style="animation:ht-in .25s ease">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:0 18px;flex-wrap:wrap">
+<div><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">Consent &amp; suppression</h1><div style="font-size:13px;color:#5F5849;margin-top:6px">Append-only ledger · markedsføringsloven § 15 · asking for consent by email is itself marketing</div></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><button onClick="{{ cl.exportLedger }}" style="cursor:pointer;padding:9px 15px;border-radius:10px;border:1px solid #E8DFC9;background:transparent;color:#191510;font-family:inherit;font-size:12.5px;font-weight:600">Export ledger</button><button onClick="{{ cl.recordPhone }}" style="cursor:pointer;padding:9px 15px;border-radius:10px;border:1px solid #E8DFC9;background:transparent;color:#191510;font-family:inherit;font-size:12.5px;font-weight:600">Record phone notice</button><button onClick="{{ cl.addSup }}" style="cursor:pointer;padding:10px 18px;border-radius:10px;border:none;white-space:nowrap;background:#F5C64A;color:#191510;font-family:inherit;font-size:13.5px;font-weight:700">Add suppression</button></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:22px">
+<sc-for list="{{ cl.kpis }}" as="k" hint-placeholder-count="4">
+<div style="padding:20px 22px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">{{ k.label }}</div><div style="font-size:30px;font-weight:700;line-height:1.15;margin-top:8px">{{ k.value }}</div><div style="font-size:12.5px;color:#5F5849;margin-top:4px">{{ k.sub }}</div></div>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);gap:18px;align-items:start;margin-top:18px">
+<div style="border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;overflow-x:auto;min-width:0"><div style="min-width:680px">
+<div style="padding:20px 20px 0"><h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Consent ledger</h2><div style="font-size:12.5px;color:#5F5849;margin-top:4px">{{ cl.rowCount }} recent records · withdrawals are new records, never edits</div></div>
+<div style="display:flex;align-items:center;gap:14px;padding:14px 20px 10px;border-bottom:1px solid #E8DFC9;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849"><span style="flex:1.6">Contact · purpose</span><span style="flex:1.4">Lawful basis · method</span><span style="flex:1.2">Double opt-in</span><span style="width:110px">Status</span><span style="width:60px"></span></div>
+<sc-for list="{{ cl.rows }}" as="r" hint-placeholder-count="8">
+<div style="display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid #E8DFC9;font-size:13px">
+<div style="flex:1.6;min-width:0"><div style="font-weight:600">{{ r.who }}</div><div style="font-size:12px;color:#5F5849">{{ r.purpose }} · {{ r.channel }}</div></div>
+<div style="flex:1.4;min-width:0;font-size:12.5px"><div style="font-weight:600">{{ r.basis }}</div><div style="font-size:12px;color:#5F5849">{{ r.method }} · wording {{ r.wording }}</div></div>
+<div style="flex:1.2;font-size:12px;color:#5F5849;min-width:0">{{ r.doi }}</div>
+<div style="width:110px"><span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#FBEBBE;font-size:11px;font-weight:700;white-space:nowrap"><span style="width:6px;height:6px;border-radius:999px;background:{{ r.dot }};display:block"></span>{{ r.status }}</span></div>
+<div style="width:60px;display:flex;justify-content:flex-end"><button onClick="{{ r.open }}" style="cursor:pointer;padding:6px 10px;border-radius:9px;border:1px solid #E8DFC9;background:transparent;color:#191510;font-family:inherit;font-size:12px;font-weight:600">Open</button></div>
+</div>
+</sc-for>
+</div></div>
+<div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Preference centre</h2>
+<div style="font-size:12.5px;color:#5F5849;margin-top:4px">Purposes a contact can hold; one-click unsubscribe per purpose or all</div>
+<div style="display:flex;flex-direction:column;margin-top:8px"><sc-for list="{{ cl.purposes }}" as="p" hint-placeholder-count="4"><div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #E8DFC9;font-size:13px"><span style="flex:1;font-weight:600;text-wrap:pretty">{{ p.name }}</span><b>{{ p.nTxt }}</b><span style="font-size:12px;color:#5F5849;min-width:88px;text-align:right">DOI {{ p.doi }}</span></div></sc-for></div>
+</div>
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px"><h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Suppression list</h2><span style="font-size:12.5px;color:#5F5849">{{ cl.supCount }} hashes</span></div>
+<div style="display:flex;flex-direction:column;margin-top:8px"><sc-for list="{{ cl.sup }}" as="x" hint-placeholder-count="5"><div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #E8DFC9;font-size:13px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;min-width:70px">{{ x.hash }}</span><span style="flex:1;text-wrap:pretty">{{ x.reason }}</span><span style="font-size:12px;color:#5F5849;white-space:nowrap">{{ x.when }}</span></div></sc-for></div>
+<div style="font-size:12.5px;color:#5F5849;margin-top:12px;line-height:1.5;text-wrap:pretty">Global across both streams. Not undone by a new consent — only by manual review.</div>
+</div>
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">What the law says</h2>
+<div style="display:flex;flex-direction:column;gap:10px;margin-top:12px;font-size:13px;line-height:1.5;text-wrap:pretty">
+<div style="padding:12px 14px;border-radius:12px;border:1px solid #E8DFC9;background:#FCF6E9"><b>Named work addresses need prior consent</b> — even ola.nordmann@firma.no, even when listed in Brønnøysund. post@firma.no and phone calls are allowed.</div>
+<div style="padding:12px 14px;border-radius:12px;border:1px solid #E8DFC9;background:#FCF6E9"><b>Existing customers · § 15(3):</b> similar own products, address obtained at purchase, easy opt-out in every message. Whether a free trial counts is decision 1.</div>
+<div style="padding:12px 14px;border-radius:12px;border:1px solid #E8DFC9;background:#FCF6E9"><b>Consent quality:</b> voluntary, explicit, informed on the same screen, documented. Double opt-in recommended; consent lapses if unused for a long time.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ isTriggers }}" hint-placeholder-val="{{ false }}">
+<div style="animation:ht-in .25s ease">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:0 18px;flex-wrap:wrap">
+<div><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">Brønnøysund triggers</h1><div style="font-size:13px;color:#5F5849;margin-top:6px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;border:1px solid #E8DFC9;font-size:11px;font-weight:700"><span style="width:6px;height:6px;border-radius:999px;background:#F5C64A;display:block"></span>Dry run — tasks are queued, not assigned, until week 7</span>Daily poll of the update feed · last run {{ bt.polled }}</div></div>
+<div style="display:flex;gap:10px"><button onClick="{{ bt.editTriggers }}" style="cursor:pointer;padding:9px 15px;border-radius:10px;border:1px solid #E8DFC9;background:transparent;color:#191510;font-family:inherit;font-size:12.5px;font-weight:600">Edit triggers</button><button onClick="{{ bt.runPoll }}" style="cursor:pointer;padding:10px 18px;border-radius:10px;border:none;white-space:nowrap;background:#F5C64A;color:#191510;font-family:inherit;font-size:13.5px;font-weight:700">Run poll now</button></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:22px">
+<sc-for list="{{ bt.kpis }}" as="k" hint-placeholder-count="4">
+<div style="padding:20px 22px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">{{ k.label }}</div><div style="font-size:30px;font-weight:700;line-height:1.15;margin-top:8px">{{ k.value }}</div><div style="font-size:12.5px;color:#5F5849;margin-top:4px">{{ k.sub }}</div></div>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);gap:18px;align-items:start;margin-top:18px">
+<div style="border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;overflow-x:auto;min-width:0"><div style="min-width:700px">
+<div style="padding:20px 20px 0"><h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Outreach queue</h2><div style="font-size:12.5px;color:#5F5849;margin-top:4px">Fit score ≥ 30 · phone task with script, letter with QR to the Krav-sjekk, or email to a generic address only</div></div>
+<div style="display:flex;align-items:center;gap:14px;padding:14px 20px 10px;border-bottom:1px solid #E8DFC9;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849"><span style="flex:1.8">Company</span><span style="flex:1.2">Trigger</span><span style="width:120px">Employees · NACE</span><span style="width:44px;text-align:right">Fit</span><span style="flex:1.2">Channel</span><span style="width:110px">Status</span></div>
+<sc-for list="{{ bt.queue }}" as="q" hint-placeholder-count="6">
+<div onClick="{{ q.open }}" style="display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid #E8DFC9;font-size:13px;cursor:pointer" style-hover="background:#FCF6E9">
+<div style="flex:1.8;min-width:0"><div style="font-weight:600">{{ q.org }}</div><div style="font-size:12px;color:#5F5849;font-family:ui-monospace,Menlo,monospace">{{ q.orgnr }}</div></div>
+<span style="flex:1.2;font-family:ui-monospace,Menlo,monospace;font-size:11.5px">{{ q.trigger }}</span>
+<span style="width:120px;font-size:12.5px">{{ q.emp }} <span style="color:#5F5849">· {{ q.nace }}</span></span>
+<b style="width:44px;text-align:right">{{ q.fit }}</b>
+<span style="flex:1.2;font-size:12.5px">{{ q.channel }}</span>
+<span style="width:110px"><span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#FBEBBE;font-size:11px;font-weight:700;white-space:nowrap"><span style="width:6px;height:6px;border-radius:999px;background:{{ q.dot }};display:block"></span>{{ q.status }}</span></span>
+</div>
+</sc-for>
+</div></div>
+<div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Triggers · yesterday</h2>
+<div style="display:flex;flex-direction:column;margin-top:8px"><sc-for list="{{ bt.types }}" as="t" hint-placeholder-count="4"><div style="padding:10px 0;border-bottom:1px solid #E8DFC9;font-size:13px"><div style="display:flex;justify-content:space-between;gap:10px"><span style="font-weight:600;text-wrap:pretty">{{ t.label }}</span><b>{{ t.n }}</b></div><div style="font-size:12px;color:#5F5849;margin-top:2px"><span style="font-family:ui-monospace,Menlo,monospace">{{ t.t }}</span> · {{ t.fit }} with fit ≥ 30 · {{ t.tasks }} tasks · {{ t.hold }} held out</div></div></sc-for></div>
+</div>
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Results · pilot to date</h2>
+<div style="font-size:12.5px;color:#5F5849;margin-top:4px">Trials per 100 contacts by channel · 10 % holdout for comparison (E8)</div>
+<div style="display:flex;flex-direction:column;margin-top:8px"><sc-for list="{{ bt.results }}" as="r" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #E8DFC9;font-size:13px"><span style="flex:1;font-weight:600">{{ r.t }}</span><span style="color:#5F5849;font-size:12.5px">{{ r.contacts }} contacts · {{ r.trials }} trials</span><b style="min-width:64px;text-align:right">{{ r.per100 }} / 100</b></div></sc-for></div>
+</div>
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #191510;background:#FFFDF6">
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Guardrails</h2>
+<div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;font-size:12.5px;line-height:1.5;text-wrap:pretty">
+<div style="display:flex;gap:8px"><span style="width:6px;height:6px;border-radius:999px;background:#191510;display:block;flex:none;margin-top:6px"></span>No email to named addresses without consent — never guess fornavn@firma.no</div>
+<div style="display:flex;gap:8px"><span style="width:6px;height:6px;border-radius:999px;background:#191510;display:block;flex:none;margin-top:6px"></span>Phone: Art. 14 notice and right to object at first contact; internal do-not-contact list ({{ bt.dnc }})</div>
+<div style="display:flex;gap:8px"><span style="width:6px;height:6px;border-radius:999px;background:#191510;display:block;flex:none;margin-top:6px"></span>Entities removed for legal reasons (HTTP 410) are purged — {{ bt.purged }} so far</div>
+<div style="display:flex;gap:8px"><span style="width:6px;height:6px;border-radius:999px;background:#191510;display:block;flex:none;margin-top:6px"></span>Role data (name, birth date) is used for phone and letter only — a GDPR question, decision 2</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ isPartners }}" hint-placeholder-val="{{ false }}">
+<div style="animation:ht-in .25s ease">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:0 18px;flex-wrap:wrap">
+<div><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">Partners</h1><div style="font-size:13px;color:#5F5849;margin-top:6px">Trusted reach at low ACV · attribution on the organisation number, never on respondents</div></div>
+<button onClick="{{ pt.addPartner }}" style="cursor:pointer;padding:10px 18px;border-radius:10px;border:none;white-space:nowrap;background:#F5C64A;color:#191510;font-family:inherit;font-size:13.5px;font-weight:700">Add partner</button>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:22px">
+<sc-for list="{{ pt.kpis }}" as="k" hint-placeholder-count="4">
+<div style="padding:20px 22px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">{{ k.label }}</div><div style="font-size:30px;font-weight:700;line-height:1.15;margin-top:8px">{{ k.value }}</div><div style="font-size:12.5px;color:#5F5849;margin-top:4px">{{ k.sub }}</div></div>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);gap:18px;align-items:start;margin-top:18px">
+<div style="border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;overflow-x:auto;min-width:0"><div style="min-width:660px">
+<div style="display:flex;align-items:center;gap:14px;padding:14px 20px 10px;border-bottom:1px solid #E8DFC9;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849"><span style="flex:2">Partner</span><span style="flex:1.2">Code · page</span><span style="width:70px;text-align:right">Trials 30 d</span><span style="flex:1">Revenue share</span><span style="width:150px">Status</span><span style="width:60px"></span></div>
+<sc-for list="{{ pt.list }}" as="p" hint-placeholder-count="6">
+<div style="display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid #E8DFC9;font-size:13px">
+<div style="flex:2;min-width:0"><div style="font-weight:600">{{ p.name }}</div><div style="font-size:12px;color:#5F5849">{{ p.type }} · {{ p.contact }}</div></div>
+<div style="flex:1.2;min-width:0;font-size:12px;font-family:ui-monospace,Menlo,monospace"><div style="font-weight:700">{{ p.code }}</div><div style="color:#5F5849">{{ p.page }}</div></div>
+<b style="width:70px;text-align:right">{{ p.trials }}</b>
+<span style="flex:1;font-size:12.5px">{{ p.share }}</span>
+<span style="width:150px"><span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#FBEBBE;font-size:11px;font-weight:700;white-space:nowrap"><span style="width:6px;height:6px;border-radius:999px;background:{{ p.dot }};display:block"></span>{{ p.status }}</span></span>
+<span style="width:60px;display:flex;justify-content:flex-end"><button onClick="{{ p.open }}" style="cursor:pointer;padding:6px 10px;border-radius:9px;border:1px solid #E8DFC9;background:transparent;color:#191510;font-family:inherit;font-size:12px;font-weight:600">Open</button></span>
+</div>
+</sc-for>
+</div></div>
+<div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Partner kit</h2>
+<div style="font-size:12.5px;color:#5F5849;margin-top:4px">Enablement before recruiting at scale</div>
+<div style="display:flex;flex-direction:column;margin-top:8px"><sc-for list="{{ pt.kit }}" as="k" hint-placeholder-count="7"><div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #E8DFC9;font-size:13px"><span style="width:6px;height:6px;border-radius:999px;background:{{ k.dot }};display:block;flex:none"></span><span style="flex:1;text-wrap:pretty">{{ k.t }}</span><span style="font-size:12px;color:#5F5849">{{ k.s }}</span></div></sc-for></div>
+</div>
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Who to approach</h2>
+<div style="display:flex;flex-direction:column;gap:10px;margin-top:12px"><sc-for list="{{ pt.segments }}" as="s" hint-placeholder-count="4"><div style="padding:12px 14px;border-radius:12px;border:1px solid #E8DFC9;background:#FCF6E9;font-size:13px;line-height:1.5;text-wrap:pretty"><b>{{ s.t }}.</b> <span style="color:#5F5849">{{ s.d }}</span></div></sc-for></div>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ isMagnets }}" hint-placeholder-val="{{ false }}">
+<div style="animation:ht-in .25s ease">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:0 18px;flex-wrap:wrap">
+<div><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">Tools &amp; lead magnets</h1><div style="font-size:13px;color:#5F5849;margin-top:6px">Ranked as in the report · scores and pillar content stay ungated so they rank and get cited; only the take-away artefacts are gated</div></div>
+<button onClick="{{ mg.newTool }}" style="cursor:pointer;padding:10px 18px;border-radius:10px;border:none;white-space:nowrap;background:#F5C64A;color:#191510;font-family:inherit;font-size:13.5px;font-weight:700">New tool</button>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:22px">
+<sc-for list="{{ mg.kpis }}" as="k" hint-placeholder-count="4">
+<div style="padding:20px 22px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">{{ k.label }}</div><div style="font-size:30px;font-weight:700;line-height:1.15;margin-top:8px">{{ k.value }}</div><div style="font-size:12.5px;color:#5F5849;margin-top:4px">{{ k.sub }}</div></div>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);gap:18px;align-items:start;margin-top:18px">
+<div style="border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;overflow-x:auto;min-width:0"><div style="min-width:920px">
+<div style="display:flex;align-items:center;gap:14px;padding:14px 20px 10px;border-bottom:1px solid #E8DFC9;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849"><span style="width:26px">#</span><span style="flex:2.2">Magnet</span><span style="width:92px;text-align:right">Completions</span><span style="width:96px;text-align:right">Consent</span><span style="width:70px;text-align:right">Trials</span><span style="width:150px">Status</span><span style="width:60px"></span></div>
+<sc-for list="{{ mg.list }}" as="m" hint-placeholder-count="7">
+<div style="display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid #E8DFC9;font-size:13px">
+<span style="width:26px;font-weight:700;color:#5F5849">{{ m.rank }}</span>
+<div style="flex:2.2;min-width:0"><div style="font-weight:600;display:flex;gap:8px;align-items:center;flex-wrap:wrap">{{ m.name }}<span style="font-size:11px;font-weight:600;color:#5F5849;padding:2px 7px;border-radius:999px;border:1px solid #E8DFC9">{{ m.type }}</span></div><div style="font-size:12px;color:#5F5849;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="{{ m.desc }}">{{ m.short }}</div></div>
+<b style="width:92px;text-align:right">{{ m.doneTxt }}</b>
+<span style="width:96px;text-align:right;font-size:12.5px">{{ m.consent }}</span>
+<b style="width:70px;text-align:right">{{ m.trials }}</b>
+<span style="width:150px"><span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#FBEBBE;font-size:11px;font-weight:700;white-space:nowrap"><span style="width:6px;height:6px;border-radius:999px;background:{{ m.dot }};display:block"></span>{{ m.status }}</span></span>
+<span style="width:60px;display:flex;justify-content:flex-end"><button onClick="{{ m.open }}" style="cursor:pointer;padding:6px 10px;border-radius:9px;border:1px solid #E8DFC9;background:transparent;color:#191510;font-family:inherit;font-size:12px;font-weight:600">Open</button></span>
+</div>
+</sc-for>
+</div></div>
+<div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #191510;background:#FFFDF6">
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Gating rule</h2>
+<div style="font-size:13px;margin-top:10px;line-height:1.55;text-wrap:pretty">Pillar content and tool scores stay <b>ungated</b> so they rank and get cited by AI answers. Gate only the take-away artefacts — PDFs and templates — behind consent and double opt-in. Test E4 checks whether gating the result costs trials.</div>
+</div>
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Shared consent flow</h2>
+<div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;font-size:13px;line-height:1.5">
+<div style="display:flex;gap:10px"><span style="width:22px;font-weight:700;color:#5F5849">1</span><span>Org.nr in → result shown, no person data stored <span style="color:#5F5849">· lead.tool_completed</span></span></div>
+<div style="display:flex;gap:10px"><span style="width:22px;font-weight:700;color:#5F5849">2</span><span>«Send me the PDF» → email + unticked marketing checkbox on the same screen</span></div>
+<div style="display:flex;gap:10px"><span style="width:22px;font-weight:700;color:#5F5849">3</span><span>Double opt-in email from nyhet.{{ site.domain }} <span style="color:#5F5849">· consent.granted</span></span></div>
+<div style="display:flex;gap:10px"><span style="width:22px;font-weight:700;color:#5F5849">4</span><span>PDF delivered → nurture journey D0–D16 (R12) · exit on user.signed_up</span></div>
+</div>
+</div>
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Krav-sjekk rules</h2>
+<div style="display:flex;flex-direction:column;margin-top:8px;font-size:13px">
+<div style="display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #E8DFC9"><span style="color:#5F5849">Verneombud</span><b>From 5 employees · checked 22 Sep</b></div>
+<div style="display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #E8DFC9"><span style="color:#5F5849">AMU</span><b>From 30 · 10–30 on demand · checked 22 Sep</b></div>
+<div style="display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #E8DFC9"><span style="color:#5F5849">BHT duty</span><b>Industry list · forskrift 2009-02-11-162</b></div>
+<div style="display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #E8DFC9"><span style="color:#5F5849">§ 4-3 wording</span><b>«Loven er presisert» — never «nye krav»</b></div>
+</div>
+<div style="font-size:12.5px;color:#5F5849;margin-top:12px;line-height:1.5;text-wrap:pretty">Rules v3 · versioned data, not code · every rule carries a «sist kontrollert» date · marked as guidance, not legal advice.</div>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ isDeliverability }}" hint-placeholder-val="{{ false }}">
+<div style="animation:ht-in .25s ease">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:0 18px;flex-wrap:wrap">
+<div><h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15">Deliverability</h1><div style="font-size:13px;color:#5F5849;margin-top:6px">One provider, two streams, two subdomains · spam rate under 0,1 %, never 0,3 % · optimise on clicks and events, not opens</div></div>
+<div style="display:flex;gap:10px"><button onClick="{{ dl.newTemplate }}" style="cursor:pointer;padding:9px 15px;border-radius:10px;border:1px solid #E8DFC9;background:transparent;color:#191510;font-family:inherit;font-size:12.5px;font-weight:600">New template</button><button onClick="{{ dl.runCheck }}" style="cursor:pointer;padding:9px 15px;border-radius:10px;border:1px solid #191510;background:transparent;color:#191510;font-family:inherit;font-size:12.5px;font-weight:600">Run authentication check</button></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:22px">
+<sc-for list="{{ dl.kpis }}" as="k" hint-placeholder-count="4">
+<div style="padding:20px 22px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">{{ k.label }}</div><div style="font-size:30px;font-weight:700;line-height:1.15;margin-top:8px">{{ k.value }}</div><div style="font-size:12.5px;color:#5F5849;margin-top:4px">{{ k.sub }}</div></div>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;margin-top:18px">
+<sc-for list="{{ dl.streams }}" as="s" hint-placeholder-count="2">
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">{{ s.name }} stream</div>
+<h2 style="margin:8px 0 0;font-family:ui-monospace,Menlo,monospace;font-weight:700;font-size:18px">{{ s.sub }}</h2>
+<div style="font-size:12.5px;color:#5F5849;margin-top:4px;text-wrap:pretty">{{ s.carries }}</div>
+<div style="display:flex;gap:14px;margin-top:14px;padding:12px 14px;border-radius:12px;background:#FCF6E9;border:1px solid #E8DFC9;flex-wrap:wrap"><div><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">7 d</div><div style="font-size:18px;font-weight:700">{{ s.vol }}</div></div><div><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">Delivered</div><div style="font-size:18px;font-weight:700">{{ s.delivered }}</div></div><div><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">Spam</div><div style="font-size:18px;font-weight:700">{{ s.spam }}</div></div><div><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849">Bounce</div><div style="font-size:18px;font-weight:700">{{ s.bounce }}</div></div></div>
+<div style="display:flex;flex-direction:column;margin-top:8px"><sc-for list="{{ s.checks }}" as="c" hint-placeholder-count="5"><div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #E8DFC9;font-size:13px"><span style="width:6px;height:6px;border-radius:999px;background:{{ c.dot }};display:block;flex:none"></span><span style="flex:1;font-weight:600">{{ c.label }}</span><span style="font-size:12px;color:#5F5849;text-align:right">{{ c.val }}</span></div></sc-for></div>
+</div>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);gap:18px;align-items:start;margin-top:18px">
+<div style="border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6;overflow-x:auto;min-width:0"><div style="min-width:640px">
+<div style="padding:20px 20px 0"><h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Template registry</h2><div style="font-size:12.5px;color:#5F5849;margin-top:4px">Data, not code · every template is classified service or marketing and bound to one stream</div></div>
+<div style="display:flex;align-items:center;gap:14px;padding:14px 20px 10px;border-bottom:1px solid #E8DFC9;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849"><span style="flex:1.6">Key</span><span style="flex:1.4">Classification</span><span style="width:110px">Stream</span><span style="width:90px">Locales</span><span style="width:40px">Ver.</span><span style="width:70px;text-align:right">Sent 7 d</span></div>
+<sc-for list="{{ dl.registry }}" as="t" hint-placeholder-count="10">
+<div style="display:flex;align-items:center;gap:14px;padding:11px 20px;border-bottom:1px solid #E8DFC9;font-size:13px"><span style="flex:1.6;font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:600">{{ t.key }}</span><span style="flex:1.4"><span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#FBEBBE;font-size:11px;font-weight:700"><span style="width:6px;height:6px;border-radius:999px;background:{{ t.dot }};display:block"></span>{{ t.cls }}</span></span><span style="width:110px;font-size:12.5px">{{ t.stream }}</span><span style="width:90px;font-size:12px;color:#5F5849">{{ t.loc }}</span><span style="width:40px;font-size:12px;color:#5F5849">{{ t.v }}</span><b style="width:70px;text-align:right">{{ t.sentTxt }}</b></div>
+</sc-for>
+</div></div>
+<div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Sending provider</h2>
+<div style="display:flex;flex-direction:column;margin-top:8px"><sc-for list="{{ dl.provider }}" as="p" hint-placeholder-count="5"><div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #E8DFC9;font-size:13px"><span style="color:#5F5849">{{ p.k }}</span><span style="font-weight:600;text-align:right">{{ p.v }}</span></div></sc-for></div>
+</div>
+<div style="padding:24px 26px;border-radius:18px;border:1px solid #E8DFC9;background:#FFFDF6">
+<h2 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:22px">Hygiene</h2>
+<div style="display:flex;flex-direction:column;gap:8px;margin-top:12px"><sc-for list="{{ dl.hygiene }}" as="h" hint-placeholder-count="5"><div style="display:flex;gap:8px;font-size:13px;line-height:1.45;text-wrap:pretty"><span style="width:6px;height:6px;border-radius:999px;background:#A8D5D2;display:block;flex:none;margin-top:6px"></span>{{ h.t }}</div></sc-for></div>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
 <sc-if value="{{ isUsers }}" hint-placeholder-val="{{ false }}">
 <div style="animation:ht-in .25s ease">
 <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:0 18px;flex-wrap:wrap">
@@ -1205,6 +1689,11 @@ button:focus-visible,input:focus-visible,select:focus-visible,[role="switch"]:fo
 <sc-if value="{{ modal.code }}" hint-placeholder-val="{{ false }}">
 <pre style="margin:0;max-height:320px;overflow:auto;padding:14px 16px;border-radius:12px;border:1px solid #E8DFC9;background:#FCF6E9;font-size:12px;line-height:1.5;font-family:ui-monospace,Menlo,monospace;white-space:pre;color:#191510">{{ modal.code }}</pre>
 </sc-if>
+<sc-if value="{{ modal.sections }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ modal.sections }}" as="sx" hint-placeholder-count="3"><div style="padding:12px 14px;border-radius:12px;border:1px solid #E8DFC9;background:#FCF6E9"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#5F5849;margin-bottom:4px">{{ sx.h }}</div><div style="font-size:13px;line-height:1.55;text-wrap:pretty">{{ sx.t }}</div></div></sc-for>
+</div>
+</sc-if>
 <sc-if value="{{ modal.checks }}" hint-placeholder-val="{{ false }}">
 <div style="display:flex;flex-direction:column;border-radius:12px;border:1px solid #E8DFC9;background:#FCF6E9;padding:4px 14px">
 <sc-for list="{{ modal.checks }}" as="c" hint-placeholder-count="4"><div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #E8DFC9;font-size:13px"><span style="width:8px;height:8px;border-radius:999px;background:{{ c.dot }};display:block;flex:none"></span><span style="text-wrap:pretty">{{ c.text }}</span></div></sc-for>
@@ -1232,10 +1721,11 @@ class Component extends DCLogic {
     nav:[
       {id:'overview',label:'Overview',subs:[['overview','Dashboard']]},
       {id:'customers',label:'Customers',subs:[['customers','Customers'],['orgs','Organizations']]},
-      {id:'crm',label:'CRM',subs:[['pipeline','Pipeline'],['contacts','Contacts & lists'],['campaigns','Campaigns'],['journeys','Journeys'],['tasks','Tasks'],['tickets','Tickets'],['scoring','Lead scoring']]},
-      {id:'content',label:'Content',subs:[['pages','Pages'],['templates','Templates'],['landing','Landing & front pages'],['media','Media'],['seo','SEO'],['languages','Languages']]},
+      {id:'crm',label:'CRM',subs:[['pipeline','Pipeline'],['contacts','Contacts & lists'],['campaigns','Campaigns'],['journeys','Journeys'],['tasks','Tasks'],['tickets','Tickets'],['scoring','Lead scoring'],['consent','Consent'],['triggers','Brønnøysund triggers'],['partners','Partners']]},
+      {id:'content',label:'Content',subs:[['pages','Pages'],['templates','Templates'],['landing','Landing & front pages'],['magnets','Tools & lead magnets'],['media','Media'],['seo','SEO'],['languages','Languages']]},
       {id:'analytics',label:'Analytics',subs:[['traffic','Overview'],['apages','Pages'],['goals','Goals']]},
-      {id:'admin',label:'Admin',subs:[['users','Users & roles'],['billing','Billing & plans'],['settings','Site settings'],['audit','Audit log']]}],
+      {id:'growth',label:'Growth',subs:[['gboard','Board'],['plan','90-day plan'],['funnel','Funnel & lead math'],['events','Event catalogue'],['rules','Automation rules'],['experiments','Experiments'],['risks','Risks & decisions'],['coverage','Coverage review']]},
+      {id:'admin',label:'Admin',subs:[['users','Users & roles'],['billing','Billing & plans'],['settings','Site settings'],['deliverability','Deliverability'],['audit','Audit log']]}],
     people:{
       ma:{name:'Marte Aas',email:'marte@sentral.no',role:'Admin',last:'Now',sites:['heituva','kursrom','vaktplan']},
       jh:{name:'Jonas Holm',email:'jonas@sentral.no',role:'Sales',last:'12 min ago',sites:['heituva','kursrom','vaktplan']},
@@ -1288,9 +1778,10 @@ class Component extends DCLogic {
     const cur=this.D.nav.find(n=>n.id===s.nav);
     const subItems=cur.subs.map(([id,label])=>({id,label,bg:id===s.sub?'#FBEBBE':'transparent',fw:id===s.sub?700:500,go:()=>this.go(s.nav,id)}));
     const sites=this.D.sites.map(x=>({...x,ini:this.ini(x.name),bg:x.id===s.site?'#FBEBBE':'transparent',mark:x.id===s.site?'Current':'',go:()=>this.setState({site:x.id,siteMenu:false,customerId:null,expanded:null})}));
-    const noDetail=!s.customerId&&!s.pageId&&!s.campaignId&&!s.journeyId;
-    const flags={};['overview','customers','orgs','pipeline','contacts','campaigns','journeys','tasks','tickets','scoring','pages','templates','landing','media','seo','languages','traffic','apages','goals','users','billing','settings','audit'].forEach(k=>flags['is'+k[0].toUpperCase()+k.slice(1)]=s.sub===k&&noDetail);
-    return {...flags,isCustomerDetail:!!s.customerId,isPageDetail:!!s.pageId,isCampaignDetail:!!s.campaignId,isJourneyDetail:!!s.journeyId,navItems,subItems,navLabel:cur.label,site,sites,siteMenu:s.siteMenu,
+    const noDetail=!s.customerId&&!s.pageId&&!s.campaignId&&!s.journeyId,hasG=site.id==='heituva',gOnly=['gboard','plan','funnel','events','rules','experiments','risks','coverage','triggers','partners','magnets'];
+    const flags={};['overview','customers','orgs','pipeline','contacts','campaigns','journeys','tasks','tickets','scoring','consent','triggers','partners','pages','templates','landing','magnets','media','seo','languages','traffic','apages','goals','gboard','plan','funnel','events','rules','experiments','risks','coverage','users','billing','settings','deliverability','audit'].forEach(k=>flags['is'+k[0].toUpperCase()+k.slice(1)]=s.sub===k&&noDetail&&(hasG||!gOnly.includes(k)));
+    const emptyTitles={gboard:'Growth board',plan:'90-day plan',funnel:'Funnel & lead math',events:'Event catalogue',rules:'Automation rules',experiments:'Experiment backlog',risks:'Risks & decisions',coverage:'Coverage review',triggers:'Brønnøysund triggers',partners:'Partners',magnets:'Tools & lead magnets'};
+    return {...flags,isSiteEmpty:!hasG&&gOnly.includes(s.sub)&&noDetail,emptyTitle:emptyTitles[s.sub]||'',startBoard:()=>this.openModal('Start a growth board for '+site.name,'Copies the tiers, 90-day plan, rule catalogue and experiment backlog from HeiTuva as a template. Items start as «Planned»; product-specific mechanisms are marked for review.',[['Board name',site.name+' growth engine'],['Start week','Next Monday']],'Create board'),isCustomerDetail:!!s.customerId,isPageDetail:!!s.pageId,isCampaignDetail:!!s.campaignId,isJourneyDetail:!!s.journeyId,navItems,subItems,navLabel:cur.label,site,sites,siteMenu:s.siteMenu,
       toggleSiteMenu:()=>this.setState({siteMenu:!s.siteMenu}),maxW:(this.props.wide??false)?'100%':'1320px',
       modal:s.modal,closeModal:()=>this.setState({modal:null}),modalPrimary:()=>{const m=s.modal;this.setState({modal:null});if(m&&m.onPrimary)m.onPrimary()},stop:e=>e.stopPropagation(),me:this.who('ma'),
       addSite:()=>this.openModal('Connect another site','Sentral reads the site’s API key and imports customers, content and users. Nothing is changed on the site until you confirm.',[['Site name','e.g. Lønnsløftet'],['Domain','app.example.no'],['API key','sk_live_…']],'Connect site'),
@@ -1319,7 +1810,7 @@ class Component extends DCLogic {
     const stages=this.D.stages.filter(s=>s!=='Won').map((s,i)=>{const ds=open.filter(d=>d.stage===s),v=ds.reduce((a,d)=>a+d.value,0);return {name:s,count:ds.length,value:this.kr(v),pct:Math.round(v/max*100),color:this.D.viz[i]}});
     return {ov:{custTotal:cs.length,kpis,attention,attnCount:attention.length,recent,coverage,pipeTotal:this.kr(pipe),pipeCount:open.length,stages}};
   }
-  constructor(p){super(p);this.loadData()}
+  constructor(p){super(p);this.loadData();this.loadGrowth()}
   loadData(){
     Object.assign(this.D,{
     deals:[
@@ -1765,12 +2256,12 @@ class Component extends DCLogic {
     return {campaigns:rows,campaignCount:all.length,campKpis:kpis,lifecycle:check,cp,backCamp:e=>{if(e&&e.preventDefault)e.preventDefault();this.setState({campaignId:null})},newCamp:()=>this.newCampaign()};
   }
   stageDot(st){return {Active:'#A8D5D2',Sending:'#A8D5D2',Solved:'#A8D5D2',Done:'#A8D5D2',Met:'#A8D5D2',Draft:'#F5C64A',Open:'#F5C64A',Waiting:'#F5C64A',Paused:'#FBD5C4',Breached:'#FBD5C4'}[st]||'#F5C64A'}
-  journeyRow(j){const stepDot={Trigger:'#191510',Email:'#F5C64A',Wait:'#E8DFC9',Condition:'#CFE0F5',Task:'#F6D9C6',Exit:'#A8D5D2'};const emails=j.steps.filter(x=>x.t==='Email').length;
+  _journeyRowLegacy(j){const stepDot={Trigger:'#191510',Email:'#F5C64A',Wait:'#E8DFC9',Condition:'#CFE0F5',Task:'#F6D9C6',Exit:'#A8D5D2'};const emails=j.steps.filter(x=>x.t==='Email').length;
     return {...j,dot:this.stageDot(j.status),emails,emailTxt:emails+(emails===1?' email':' emails')+' · '+j.steps.filter(x=>x.t==='Task').length+' tasks',convPct:this.pct(j.converted,j.completed||1),convTxt:j.completed?this.pct(j.converted,j.completed)+' % reached the goal':'Not started',
       stepsV:j.steps.map((st,i)=>({...st,i:i+1,dot:stepDot[st.t],isEmail:st.t==='Email',clkTxt:st.t==='Email'?(st.clk||0)+' % clicked':'',nTxt:st.t==='Exit'?st.n+' reached':st.t==='Trigger'?st.n+' enrolled':st.n+' here now',last:i===j.steps.length-1,lineBg:i===j.steps.length-1?'transparent':'#E8DFC9',sub:st.sub||'',
         edit:()=>this.openModal(st.t+' step — '+st.label,st.t==='Email'?'Sent to everyone who reaches this step while still in stage '+j.from+'. Contacts whose stage changes are skipped.':st.t==='Wait'?'Waiting counts calendar days; sends land inside the send window.':st.t==='Condition'?'Branches on a contact property or product event.':st.t==='Task'?'Creates a task for the record owner and shows it in Tasks.':st.t==='Exit'?'Contacts leave when the goal is met or the stage changes.':'Enrollment rule for this journey.',st.t==='Email'?[{label:'Subject',placeholder:st.label},['Send delay','Immediately']]:st.t==='Wait'?[{label:'Wait for',placeholder:st.label}]:[{label:'Rule',placeholder:st.label}],'Save step')})),
       open:()=>this.setState({journeyId:j.id})}}
-  journeysVals(){
+  _journeysLegacy(){
     const s=this.state,all=this.bySite(this.D.journeys),rows=all.map(j=>this.journeyRow(j)),cs=this.bySite(this.D.contacts);
     const stages=['Lead','Trial','Customer','Churned'].map(st=>{const js=all.filter(j=>j.from===st);const n=cs.filter(c=>c.stage===st).length;return {stage:st,n,nTxt:n+(n===1?' contact':' contacts'),journeys:js.map(j=>j.name+' · '+j.status).join(', ')||'No journey for this stage',has:js.length>0,dot:js.some(j=>j.status==='Active')?'#A8D5D2':js.length?'#F5C64A':'#FBD5C4',go:js[0]?()=>this.setState({journeyId:js[0].id}):()=>this.newJourney(st)}});
     const cur=all.find(j=>j.id===s.journeyId);let jd=null;
@@ -1783,7 +2274,7 @@ class Component extends DCLogic {
     return {journeys:rows,journeyCount:all.length,activeJourneys:all.filter(j=>j.status==='Active').length,enrolledNow:all.reduce((a,j)=>a+j.enrolled,0),stageMap:stages,jd,backJourney:e=>{if(e&&e.preventDefault)e.preventDefault();this.setState({journeyId:null})},newJourneyBtn:()=>this.newJourney()};
   }
   newJourney(stage){this.openModal(stage?'New journey for stage '+stage:'New journey','A journey enrolls contacts when they enter a lifecycle stage and sends a series of emails and tasks until a goal is met or the stage changes.',[['Name',stage?stage+' → next stage':'e.g. Trial → Customer'],['Enroll when','Stage becomes '+(stage||'Trial')],['Goal','Stage becomes Customer']],'Create draft')}
-  tasksVals(){
+  _tasksLegacy(){
     const s=this.state,all=this.bySite(this.D.tasks),f=s.taskFilter;const typeDot={Call:'#F6D9C6',Email:'#F3E2C9',Meeting:'#CFE0F5',Note:'#E7DAF2',Task:'#DCEBD3'};
     const rows=(f==='All'?all:all.filter(t=>t.status===f)).map(t=>({...t,ownerP:this.who(t.owner),tdot:typeDot[t.type],pdot:t.prio==='High'?'#FBD5C4':'#E8DFC9',isOpen:t.status==='Open',isDone:t.status==='Done',
       done:()=>this.openModal('Mark “'+t.title+'” done','Logs the outcome on the contact record and closes the task.',[['Outcome','e.g. Reached, proposal accepted']],'Mark done'),open:()=>this.openModal(t.title,t.type+' · '+t.contact+' · '+t.due,[{label:'Due',placeholder:t.due},{label:'Owner',placeholder:this.who(t.owner).name},{label:'Notes',placeholder:'Created by '+t.src}],'Save task')}));
@@ -1801,13 +2292,301 @@ class Component extends DCLogic {
       newTicket:()=>this.openModal('New ticket','Tickets also arrive from hjelp@'+this.site().domain+' and the in-app help form. Routing: bugs to Developer, billing to Owner, the rest to Support.',[['Customer','Search customers'],['Subject','Short description'],['Priority','High · Normal · Low']],'Create ticket')};
   }
   scoreOf(c){let sc=(c.id*37)%45+5;if(c.stage==='Trial')sc+=30;if(c.stage==='Lead')sc+=10;if(c.consent!=='Subscribed')sc-=20;if(/kommune|fylke|sykehus|nrk/i.test(c.email+c.company))sc+=10;return Math.max(0,Math.min(100,sc))}
-  scoringVals(){
+  _scoringLegacy(){
     const cs=this.bySite(this.D.contacts).filter(c=>c.stage==='Lead'||c.stage==='Trial').map(c=>{const sc=this.scoreOf(c);const why=[];if(c.stage==='Trial')why.push('Started a trial');if(/kommune|fylke|sykehus|nrk/i.test(c.email+c.company))why.push('Public sector');if(/Clicked|Opened|Demo|Downloaded/.test(c.last))why.push(c.last.split(' · ')[0]);if(c.consent!=='Subscribed')why.push('Unsubscribed −20');
       return {...c,ini:this.ini(c.name),score:sc,band:sc>=70?'Hot':sc>=40?'Warm':'Cold',bdot:sc>=70?'#A8D5D2':sc>=40?'#F5C64A':'#E8DFC9',why:why.slice(0,2).join(' · ')||'Fit only',act:sc>=70?'Create deal':'Open',go:()=>this.openModal(c.name+' · '+sc+' points',c.company+' · '+c.stage+' · '+c.last,sc>=70?[['Deal value (kr)','e.g. 120000'],['Owner','Search your team']]:[{label:'Stage',placeholder:c.stage}],sc>=70?'Create deal':'Save')}}).sort((a,b)=>b.score-a.score);
     return {scored:cs,hotN:cs.filter(c=>c.band==='Hot').length,warmN:cs.filter(c=>c.band==='Warm').length,coldN:cs.filter(c=>c.band==='Cold').length,rules:this.D.scoreRules.map(r=>({...r,ptsTxt:(r.pts>0?'+':'')+r.pts,neg:r.pts<0})),
       editRules:()=>this.openModal('Edit scoring rules','Scores recompute nightly and on every tracked event. A contact over 70 creates a task for the deal owner.',[['Hot threshold','70'],['Warm threshold','40']],'Save rules')};
   }
   newCampaign(kind){this.openModal(kind?'New campaign — '+kind.toLowerCase():'New campaign','Pick an audience first; content comes after. Sequences and triggered emails run on contact events, one-offs and newsletters on a date.',[['Name',kind||'e.g. October newsletter'],['Type','Sequence · Triggered · Newsletter · One-off'],['Audience','Pick a list']],'Continue to content')}
+  loadGrowth(){
+    const D=this.D;
+    D.contacts.push(
+      {id:20,site:'heituva',name:'Silje Moen',email:'silje@barnehagenevest.no',company:'Barnehagene Vest AS',role:'Daglig leder',stage:'Lead',consent:'Subscribed',last:'Krav-sjekk completed · PDF requested · today 08:44'},
+      {id:21,site:'heituva',name:'Kristian Dale',email:'post@byggbetongsor.no',company:'Bygg & Betong Sør AS',role:'Daglig leder',stage:'Lead',consent:'No consent',last:'Krav-sjekk completed, no PDF · yesterday'});
+    D.leadSig={4:{nace:'84.110',emp:1000,cross:false,gm:false,sig:['pricing','ind2','hand'],pql:'Verneombud invited · 120 seats in use → PQL, founder task created'},7:{nace:'84.110',emp:9000,cross:false,gm:true,sig:['tool','pdf','pricing','ind2']},8:{nace:'06.100',emp:21000,cross:false,gm:false,sig:['webinar','pricing']},9:{nace:'60.200',emp:3400,cross:false,gm:false,sig:[]},12:{nace:'03.111',emp:6,cross:true,gm:false,sig:['tool','pdf']},14:{nace:'85.590',emp:420,cross:false,gm:false,sig:['hand','pricing','webinar']},17:{nace:'56.101',emp:8,cross:true,gm:true,sig:['tool','pricing']},19:{nace:'47.111',emp:28000,cross:false,gm:false,sig:['hand','pdf','pricing']},20:{nace:'88.911',emp:62,cross:true,gm:false,sig:['tool','pdf','pricing']},21:{nace:'41.200',emp:34,cross:true,gm:true,sig:['tool']}};
+    D.tasks.push(
+      {id:14,site:'heituva',title:'Call Silje Moen — lead score 75',type:'Call',due:'Today · SLA 1 h',contact:'Silje Moen · Barnehagene Vest AS',owner:'te',status:'Open',prio:'High',src:'Lead scoring ≥ 60 (R2) · founder callback',sla:38},
+      {id:15,site:'heituva',title:'Call back hand-raiser from the contact form',type:'Call',due:'Today · SLA 1 h',contact:'Tomas Rui · Vestland fylkeskommune',owner:'te',status:'Open',prio:'High',src:'lead.hand_raised (R10) · auto-reply sent 09:58',sla:12},
+      {id:16,site:'heituva',title:'Phone: crossed 5 employees — verneombud duty',type:'Call',due:'Tomorrow 10:00',contact:'Daglig leder · Fjellstua Drift AS',owner:'jh',status:'Open',prio:'Normal',src:'Brønnøysund trigger threshold_5 (R11) · script v1 · GDPR notice'},
+      {id:17,site:'heituva',title:'Letter with Krav-sjekk QR code',type:'Task',due:'Print run Fri 2 Oct',contact:'Nordfjord Bygg AS · 31 employees',owner:'sk',status:'Open',prio:'Normal',src:'Brønnøysund trigger threshold_30 (R11) · letter template v1'});
+    D.journeys=D.journeys.filter(j=>j.site!=='heituva').concat([
+      {id:1,site:'heituva',name:'Trial activation (S0–S7)',status:'Active',from:'Trial',to:'Customer',enrolled:41,completed:118,converted:37,goal:'ACTIVATED (S6), then subscription.started',reenroll:'Never — one run per contact',window:'Service any time · marketing weekdays 07–17',stream:'Mixed — every message classified service or marketing',holdout:'10 % on marketing steps only',entry:'user.signed_up',exit:'subscription.started, or trial expired → win-back',msgs:11,steps:[
+        {t:'State',label:'S0 Signed up',n:8,sub:'Entry user.signed_up · advances on org.created · +1 h «Fullfør org.nr» (service)'},
+        {t:'State',label:'S1 Org verified',n:9,sub:'Advances on employees.imported · +24 h in-app checklist · +48 h «Legg inn ansatte på 3 min» (R1)'},
+        {t:'State',label:'S2 Employees in',n:6,sub:'Advances on survey.sent · +24 h «Velg ferdig bransjemal»'},
+        {t:'State',label:'S3 Survey sent',n:5,sub:'Advances on survey.threshold_reached · d+2 respondent-reminder prompt · d+4 «Slik øker du svarprosenten»'},
+        {t:'State',label:'S4 Threshold reached',n:2,sub:'Advances on results.viewed · +2 h «Resultatene er klare» (transactional)'},
+        {t:'State',label:'S5 Results seen',n:4,sub:'Advances on action_item.created · +24 h «Lag første tiltak» · invite-verneombud prompt'},
+        {t:'State',label:'S6 Activated',n:7,sub:'PQL → founder task (R2) · d10 value recap · advances on subscription.started'},
+        {t:'State',label:'S7 Paid',n:3,sub:'Exit → Paid onboarding & årshjul'},
+        {t:'Branch',label:'Day 12 and < S3 → one-click 7-day extension (trial.extended, R3)',n:2},
+        {t:'Branch',label:'Day 14 and ≥ S5 and unpaid → trial-end offer (R4, marketing consent)',n:1},
+        {t:'Branch',label:'Expired and unpaid → win-back journey (R7): +7, +30, +90 days',n:0},
+        {t:'Branch',label:'No login 5 days → in-app banner + one email, then stop',n:3}]},
+      {id:2,site:'heituva',name:'Lead nurture (tool users & subscribers)',status:'Active',from:'Lead',to:'Trial',enrolled:12,completed:34,converted:9,goal:'user.signed_up',reenroll:'After 90 days',window:'Weekdays 08–16',stream:'Marketing',holdout:'10 %',entry:'Double opt-in confirmed after a tool or template request (R12)',exit:'user.signed_up',steps:[
+        {t:'Trigger',label:'lead.tool_report_requested + double opt-in confirmed',n:12,sub:'R12 tool follow-up'},
+        {t:'Email',label:'D0 · Report delivered',n:12,clk:62},{t:'Wait',label:'2 days',n:11},
+        {t:'Email',label:'D2 · Industry guide matched to the company’s industry code',n:11,clk:38},{t:'Wait',label:'3 days',n:9},
+        {t:'Email',label:'D5 · Case or example from the same industry',n:9,clk:29},{t:'Wait',label:'4 days',n:8},
+        {t:'Email',label:'D9 · «Start gratis prøveperiode – ingen kort»',n:8,clk:24},{t:'Wait',label:'7 days',n:6},
+        {t:'Email',label:'D16 · Webinar invite',n:6,clk:18},
+        {t:'Exit',label:'user.signed_up → Trial activation · otherwise the monthly newsletter',n:9}]},
+      {id:3,site:'heituva',name:'Paid onboarding & årshjul',status:'Active',from:'Customer',to:'Retained',enrolled:6,completed:21,converted:19,goal:'survey.scheduled — second cycle within 6 months',reenroll:'Every cycle',window:'Weekdays 08–16',stream:'Service',holdout:'None — service messages',entry:'subscription.started',exit:'Churn',steps:[
+        {t:'Trigger',label:'subscription.started',n:6},
+        {t:'Email',label:'Day 0 · Founder welcome with checklist for admin, verneombud and tillitsvalgt',n:6,clk:71},
+        {t:'Wait',label:'Until results + 30 days',n:6},{t:'Email',label:'Action-plan digest',n:5,clk:44},
+        {t:'Wait',label:'Until cycle −30 days',n:5},{t:'Email',label:'«Neste kartlegging nærmer seg» with pre-filled scheduling (R5)',n:4,clk:52},
+        {t:'In-app',label:'Quarterly pulse suggestion',n:4},
+        {t:'Branch',label:'Employees > 25 on the ≤ 25 tier → tier notice 30 days ahead (R6)',n:1},
+        {t:'Branch',label:'payment.failed → dunning at 0, 3 and 7 days + in-app banner',n:0},
+        {t:'Exit',label:'survey.scheduled → Retained',n:19}]},
+      {id:4,site:'heituva',name:'Advocacy (NPS at day 45)',status:'Draft',from:'Customer',to:'Promoter',enrolled:0,completed:0,converted:0,goal:'Review posted or referral code used',reenroll:'Every cycle',window:'In-app',stream:'Service + in-app',holdout:'None',entry:'45 days after first results',exit:'nps.submitted handled',steps:[
+        {t:'Trigger',label:'results.viewed + 45 days',n:0},{t:'In-app',label:'NPS survey in the product',n:0},
+        {t:'Condition',label:'Promoter (9–10) → review ask + referral link · Passive → feedback prompt · Detractor → ticket',n:0},
+        {t:'Task',label:'Detractor creates a ticket for Support',n:0},
+        {t:'In-app',label:'Verneombud: «del med andre verneombud» link, in the product only',n:0},
+        {t:'Exit',label:'Review posted or referral code used',n:0}]},
+      {id:9,site:'heituva',name:'Win-back (trial expired)',status:'Draft',from:'Churned',to:'Customer',enrolled:0,completed:0,converted:0,goal:'Stage becomes Customer',reenroll:'Never',window:'Weekdays 09–15',stream:'Marketing',holdout:'10 %',entry:'trial.expired, unpaid, marketing consent (R7)',exit:'Reactivation, or sunset after +90',steps:[
+        {t:'Trigger',label:'trial.expired · unpaid · marketing consent',n:0},{t:'Wait',label:'7 days',n:0},{t:'Email',label:'+7 · What changed since you left',n:0,clk:0},
+        {t:'Wait',label:'23 days',n:0},{t:'Email',label:'+30 · A 15-minute walkthrough of the new reports',n:0,clk:0},
+        {t:'Wait',label:'60 days',n:0},{t:'Email',label:'+90 · Last note, then sunset (R8)',n:0,clk:0},
+        {t:'Exit',label:'Stage becomes Customer',n:0}]}]);
+    D.growth={
+      tiers:[{id:'t0',name:'Tier 0 · Prerequisites',why:'Legal basis and plumbing for every send'},{id:'t1',name:'Tier 1 · Lead engine core',why:'The product and the org.nr do the prospecting'},{id:'t2',name:'Tier 2 · Scale and retain',why:'Lawful reach and retention at low ACV'},{id:'t3',name:'Tier 3 · Supporting',why:'Brand, links and small intent capture'},{id:'td',name:'Deferred',why:'Cannot pay back at the current budget'}],
+      items:[
+        {id:'consent',tier:'t0',name:'Consent ledger + double opt-in + preference centre + suppression',rank:'Review 1 · #1',why:'Legal basis for every marketing send',status:'Live',owner:'ib',effort:'M',impact:'2 weeks',kpi:'100 % of marketing contacts have a consent record',where:['crm','consent'],build:'Append-only consent records with purpose, channel, lawful basis, wording version and double opt-in timestamps. Suppressions by email hash. Preference centre with one-click unsubscribe honoured within 2 days.',guard:'Asking for consent by email is itself marketing — never cold-email to ask for opt-in.'},
+        {id:'deliv',tier:'t0',name:'Deliverability baseline',rank:'Review 1 · #3',why:'Protects survey invitations and marketing',status:'Live',owner:'ib',effort:'S',impact:'2 weeks',kpi:'DMARC aligned on both streams · spam rate < 0,1 %',where:['admin','deliverability'],build:'SPF, DKIM 2048 and aligned DMARC on varsel.<domain> (transactional) and nyhet.<domain> (marketing). RFC 8058 one-click unsubscribe. Google Postmaster and the Yahoo feedback loop.',guard:'Never send bulk mail from the transactional stream.'},
+        {id:'events',tier:'t0',name:'Event catalogue v1 + trial-activation journey',rank:'Review 1 · #2',why:'Converts every lead the engine produces',status:'Building',owner:'ib',effort:'M',impact:'2–4 weeks',kpi:'Activation rate · trial → paid at day 30',where:['growth','events'],build:'About 20 org-level events drive the S0–S7 state machine. 10 % holdout on marketing journeys, never on service messages.',guard:'Only aggregate survey events — never respondent identifiers.'},
+        {id:'signup',tier:'t1',name:'Org.nr-first signup + landing-page system',rank:'Review 2 · #1',why:'Multiplies all other sources',status:'Building',owner:'ol',effort:'M',impact:'2–4 weeks',kpi:'Visitor → trial per page · 5 % by month 6 (median 3,8 %)',score:'U5 × E5 = 25',where:['content','landing'],build:'One field first: company name or org.nr with Brønnøysund suggestions, then email. Industry, size and address fill in automatically. One landing page per industry, mobile first, 250–725 words, one CTA «Start gratis», social proof from the same industry above the fold.',guard:'No card and no phone number at signup.'},
+        {id:'loop',tier:'t1',name:'«Laget med …» thank-you link + results poster',rank:'Review 2 · #2',why:'Grows with every customer at zero marginal cost',status:'Planned',owner:'ol',effort:'S',impact:'1–3 months',kpi:'Clicks per 1 000 responses · trials from the link',score:'U5 × E4 = 20',where:['growth','funnel'],build:'A discreet line on every survey thank-you page and on the employee results poster (aggregate results, groups of 5 or more).',guard:'Campaign tag only — no cookie, pixel, respondent ID or survey ID. Respondents are never asked for an email.'},
+        {id:'tools',tier:'t1',name:'Free tools: Krav-sjekk, Risiko-sjekk, absence calculator',rank:'Review 2 · #3 · Review 1 · #5',why:'Best list builder; creates lawful consent',status:'Building',owner:'ol',effort:'M',impact:'1–2 months',kpi:'Completions · consent rate 15 % · trial within 90 days',score:'U4 × E5 = 20',where:['content','magnets'],build:'Org.nr in, «which HMS duties apply» out: verneombud from 5, AMU from 30, BHT industries, § 4-3 mapping. Summary free; PDF and templates after consent and double opt-in. Rules stored as versioned data with a last-checked date.',guard:'Legal review; marked as guidance, not legal advice.'},
+        {id:'seo',tier:'t1',name:'Programmatic SEO/GEO + § 4-3 hub + industry pages',rank:'Review 2 · #4 · Review 1 · #4',why:'Largest volume, 4–9 months lag',status:'Building',owner:'ol',effort:'M–L',impact:'4–9 months',kpi:'Indexed pages · non-branded clicks · AI citations (50 prompts monthly)',score:'U3 × E5 = 15',where:['content','seo'],build:'Page families: industry × topic, question bank, templates, requirements by size, the § 4-3 pillar with clusters. GEO pattern on every page: two-sentence answer first, Norwegian statistics with sources, a quotation, a table, named author.',guard:'Each page must add data, a template or a question set — noindex until it does.'},
+        {id:'nurture',tier:'t1',name:'Email capture + nurture',rank:'Review 2 · #5',why:'Highest-converting traffic source (16,9 % median)',status:'Live',owner:'jh',effort:'M',impact:'1–2 months',kpi:'Consented subscribers · click → trial',score:'U4 × E4 = 16',where:['crm','journeys'],build:'Capture on tools, templates and the monthly newsletter. Industry nurture D0–D16, then the newsletter. Exit on user.signed_up. Company name and industry in subject lines (test E5).',guard:'Consent record, double opt-in, one-click unsubscribe.'},
+        {id:'brreg',tier:'t2',name:'Brønnøysund trigger engine',rank:'Review 2 · #6 · Review 1 · #13',why:'Timely, lawful outreach; replaces generic outbound pilots',status:'Building',owner:'ib',effort:'M',impact:'2 months',kpi:'Trials per 100 contacts by trigger type · 10 % holdout',score:'U3 × E4 = 12',where:['crm','triggers'],build:'Daily poll of the update feed. Triggers: 5 employees (verneombud), 30 (AMU), new company in a target industry, new general manager. Actions: phone task with script, letter with QR to the Krav-sjekk, email to a generic address only.',guard:'No email to named addresses without consent. Internal do-not-contact list. GDPR notice on calls. Purge HTTP 410 entities.'},
+        {id:'partners',tier:'t2',name:'Partner programme and co-marketing',rank:'Review 2 · #7 · Review 1 · #7',why:'Trusted reach at low ACV',status:'Planned',owner:'jh',effort:'M',impact:'3–6 months',kpi:'Active partners · 1,5 trials per partner a month',score:'U3 × E4 = 12',where:['crm','partners'],build:'Co-branded page per partner (/partner/[code]), partner kit, referral code stored on the company at signup, partner dashboard. Accountants: 20 % recurring or a client discount. BHT: the approved-BHT register as the list.',guard:'Attribution on the organisation number, never on respondents.'},
+        {id:'speed',tier:'t2',name:'Speed-to-lead + PQL task',rank:'Review 2 · #8 · Review 1 · #9',why:'Converts hand-raisers — 7× within the hour',status:'Live',owner:'te',effort:'S',impact:'2 weeks',kpi:'Median response < 60 min, weekdays 08–16',score:'U5 × E3 = 15',where:['crm','tasks'],build:'Instant useful auto-reply, then a founder callback within one hour as a task with an SLA timer. The PQL flag creates the same task.',guard:'A PQL triggers a founder task, not an automated sales cadence.'},
+        {id:'referral',tier:'t2',name:'Referral + verneombud sharing',rank:'Review 2 · #9 · Review 1 · #10',why:'Cheap, loyal customers (+16 % value)',status:'Planned',owner:'jh',effort:'S',impact:'2–4 months',kpi:'Referral trials per 100 active customers',score:'U4 × E3 = 12',where:['crm','journeys'],build:'One month free for both sides, shown after first results and in the NPS promoter flow. Verneombud get a share link in the product only.',guard:'Reward still open: one month free or a donation (E10).'},
+        {id:'arshjul',tier:'t2',name:'Årshjul / survey-cycle reminders',rank:'Review 1 · #6',why:'Retention at low ACV',status:'Building',owner:'ol',effort:'S',impact:'1–2 months',kpi:'Second cycle scheduled within 6 months',where:['crm','journeys'],build:'Cycle −30 days «Neste kartlegging nærmer seg» with pre-filled scheduling, quarterly pulse suggestion, tier notice 30 days ahead.',guard:'Service stream — no promotion, no consent needed.'},
+        {id:'news',tier:'t3',name:'News-jacking + Arbeidsmiljøindeks',rank:'Review 2 · #10',why:'Links and brand',status:'Planned',owner:'ol',effort:'S–M',impact:'1–6 months',kpi:'Referring domains · branded search',score:'U3 × E3 = 9',where:['content','pages'],build:'A response page within 48 hours of an Arbeidstilsynet announcement. A twice-yearly aggregate index with a minimum company count per cell.',guard:'Aggregates across many companies; written method.'},
+        {id:'linkedin',tier:'t3',name:'Founder-led LinkedIn',rank:'Review 2 · #11 · Review 1 · #8',why:'Free reach, E-E-A-T',status:'Live',owner:'te',effort:'S',impact:'1–3 months',kpi:'Tool-link clicks per post',score:'U4 × E2 = 8',where:['growth','plan'],build:'2–3 posts a week: document carousels, short takes on Arbeidstilsynet guidance, aggregate insights, each ending with a tool link.',guard:'Do not pitch in DMs — selling via DM is marketing to a natural person.'},
+        {id:'ads',tier:'t3',name:'Google Ads, exact match',rank:'Review 2 · #12 · Review 1 · #11',why:'Small, controllable intent capture',status:'Planned',owner:'jh',effort:'S',impact:'Immediate',kpi:'Cost per activated trial',score:'U4 × E2 = 8',where:['analytics','goals'],build:'About 1 000 kr a month on high-intent Norwegian terms, negatives for jobs and students. Conversion is org.created, sent server-side.',guard:'Judge on cost per activated trial, not clicks.'},
+        {id:'webinars',tier:'t3',name:'Partner webinars',rank:'Review 2 · #13 · Review 1 · #12',why:'List and partner trust',status:'Planned',owner:'jh',effort:'S',impact:'2–3 months',kpi:'Consented subscribers per webinar',score:'U3 × E2 = 6',where:['crm','partners'],build:'First webinar in weeks 11–13, after the partner pages exist.',guard:'Consent and double opt-in at registration.'},
+        {id:'reviews',tier:'t3',name:'Review programme · Tripletex integration',rank:'Review 1 · #16 · #14',why:'Social proof; phase-2 distribution',status:'Planned',owner:'sk',effort:'S',impact:'Q2',kpi:'Reviews a month · marketplace trials',where:['crm','journeys'],build:'Promoters get a review ask in the NPS flow (Google Business Profile, Trustpilot). Tripletex listing in phase 2 (approval 2–4 weeks).',guard:'G2/Capterra only for the English push.'},
+        {id:'lipaid',tier:'td',name:'LinkedIn paid',rank:'Review 2 · #14 · Review 1 · #15',why:'CPL $202–376 cannot pay back at 265–565 kr a month',status:'Deferred',owner:'jh',effort:'—',impact:'—',kpi:'—',score:'U3 × E1 = 3',where:null,build:'Later: boost the founder’s best post as a Thought Leader Ad to company-list audiences.',guard:'Insight Tag only after marketing consent (ekomloven § 3-15).'}],
+      plan:[
+        {weeks:'1–2',status:'Done',found:'Event catalogue v1 (about 20 events); consent ledger + double opt-in; sending provider with 2 streams and 2 subdomains; DMARC from p=none to quarantine',lead:'Org.nr-first signup with Brønnøysund name search; landing-page template with 5 industry variants; «Laget med …» on thank-you pages (campaign tag only); newsletter form with double opt-in; Norwegian keyword map; rewrite pricing/trial page; start founder LinkedIn cadence',gates:['DMARC aligned on both streams','100 % of marketing contacts have a consent record','Signup completion measured','No survey ID or cookie leaves the survey page']},
+        {weeks:'3–4',status:'In progress',found:'Journey engine MVP (triggers, waits, branch-on-event, exit-on-goal, 10 % holdout); trial journey v1 (7 messages)',lead:'Krav-sjekk v1 (summary free, PDF after consent); § 4-3 pillar page + 2 industry pages; 10 question-bank pages with the GEO pattern; 2 SEO pages a week from here',gates:['Activation baseline measured','Journey sends > 95 % delivered','≥ 300 tool completions and 15 % consent rate']},
+        {weeks:'5–6',status:'Next',found:'Segment builder v1 (Brønnøysund attributes + events)',lead:'Risiko-sjekk + absence calculator on the shared tool flow; 5 industry nurture sequences; instant auto-reply + founder callback task (1-hour SLA); Google Ads exact-match test',gates:['≥ 150 double-opt-in subscribers','Risiko-sjekk → trial ≥ 5 %','Median response to hand-raisers < 60 min on weekdays']},
+        {weeks:'7–8',status:'Planned',found:'PQL flag + task queue; trial-end / win-back journey; årshjul reminders; tier notices',lead:'Brønnøysund trigger engine (daily poll, 5 and 30 employee thresholds, new companies, new managers); phone script, letter template, generic-address email; referral codes; remaining 3 industry pages; recruit 5 pilot partners',gates:['Trial → paid tracked per cohort','First 100 trigger contacts logged with 10 % holdout']},
+        {weeks:'9–10',status:'Planned',found:'Partner codes + attribution (UTM + ref code on org) + partner dashboard v0',lead:'Partner pages (/partner/[code]) and partner kit; news-jacking page template; GEO pass on all pages',gates:['5 signed partner pilots','≥ 1 partner-sourced trial a week']},
+        {weeks:'11–13',status:'Planned',found:'NPS + review requests; monthly newsletter; cookieless funnel reports; holdout readout',lead:'Employee results poster (groups of 5 or more); first partner webinar; PR pitch to trade media; 90-day review',gates:['60+ trials a month','CAC per source known','Holdout readout (directional)']}],
+      funnel:[{stage:'Visitors',event:'web.page_viewed',def:'Relevant visits to landing, tool and SEO pages',n:4100},{stage:'Signup',event:'org.created',def:'Organisation number entered and Brønnøysund lookup succeeded',n:123},{stage:'Setup',event:'employees.imported',def:'Employee list added with ≥ 5 recipients',n:88},{stage:'Value',event:'survey.sent · survey.threshold_reached',def:'First survey sent and the anonymity minimum reached',n:64},{stage:'Activated',event:'results.viewed + action_item.created',def:'Within 14 days of signup · validate against 90-day retention once 100+ cohorts exist',n:41},{stage:'PQL',event:'flag → founder task',def:'Activated, or ≥ 50 % response by trial day 7, or 26–100 tier with a verneombud invited',n:24},{stage:'Paid',event:'subscription.started',def:'Trial → paid · planning assumption 12,5 %',n:15},{stage:'Retained',event:'survey.scheduled',def:'Second survey cycle scheduled within 6 months',n:9},{stage:'Expansion',event:'subscription.tier_changed',def:'Tier upgrade when the employee count crosses 25',n:2}],
+      leadMath:[{source:'SEO/GEO landing pages',now:12,base:45,stretch:110,needs:'1 500–3 700 relevant visits a month at 3 %'},{source:'Free tools → email nurture',now:6,base:25,stretch:60,needs:'1 700–4 000 tool users a month · 15 % consent · 10 % of subscribers start a trial'},{source:'Product loop (thank-you link, poster, referrals)',now:4,base:20,stretch:50,needs:'150–300 surveys a month, each reaching 5–100 employees'},{source:'Partners (BHT, accountants, HMS consultants)',now:0,base:15,stretch:40,needs:'10–25 active partners at 1,5 trials each a month'},{source:'Brønnøysund triggers (phone, letter, generic email)',now:0,base:10,stretch:25,needs:'300–600 contacts a month at 3–4 %'},{source:'Google Ads (exact match)',now:2,base:5,stretch:15,needs:'About 1 000 kr a month, more in stretch'}],
+      assumptions:['Visitor → trial: 3 % blended','Tool user → consented email: 15 %','Subscriber → trial within 90 days: 10 %','Trial → paid: 12,5 %','Pool: about 67 900 Norwegian companies with 5–100 employees','Target: 120 (base) to 300 (stretch) trials a month by month 12 → 15–38 new customers a month','Replace with HeiTuva cohorts after 90 days'],
+      bench:[{m:'Free-to-paid, all models',v:'Median 8 % · card-required trials about 30 %',s:'ChartMogul / Growth Unhinged / ProductLed 2026 · vendor'},{m:'No-card trial → paid',v:'8,9 % vs 18,2 % — plan with 10–15 %, aim for 20 %',s:'ChartMogul vs First Page Sage · sources conflict'},{m:'Visitor → trial',v:'Opt-in 7,8 % vs opt-out 2,4 %',s:'First Page Sage · agency data'},{m:'SaaS landing pages',v:'Median 3,8 % · top quartile 11,6 % · email traffic 16,9 %',s:'Unbounce, 41 000 pages · vendor'},{m:'Trial length',v:'14 days for 62 % of products',s:'ChartMogul 2026'},{m:'Activation rate',v:'Median 30 %, average 36 %',s:'Lenny’s Newsletter · self-reported'},{m:'Monthly logo churn, B2B SMB',v:'2,5–5 % good · < 1,5 % great',s:'Practitioner consensus'}],
+      events:[{name:'user.signed_up',group:'Signup',pii:'user',used:'Trial journey S0',n7:31},{name:'org.created',group:'Signup',pii:'company',used:'Funnel · Ads conversion · attribution',n7:29},{name:'org.brreg_verified',group:'Signup',pii:'company',used:'Fit score',n7:29},{name:'employees.imported',group:'Setup',pii:'count only',used:'S1 → S2 · R1 stalled setup',n7:20},{name:'survey.created',group:'Survey',pii:'none',used:'—',n7:18},{name:'survey.sent {recipient_count}',group:'Survey',pii:'aggregate',used:'S2 → S3 · PQL',n7:15},{name:'survey.threshold_reached {response_rate_band}',group:'Survey',pii:'aggregate',used:'S3 → S4',n7:11},{name:'survey.scheduled',group:'Survey',pii:'none',used:'Retained · årshjul',n7:4},{name:'results.viewed',group:'Value',pii:'user',used:'S4 → S5 · activation',n7:10},{name:'action_item.created',group:'Value',pii:'user',used:'Activation · R2 PQL',n7:8},{name:'stakeholder.invited {role}',group:'Value',pii:'role only',used:'PQL (verneombud)',n7:5},{name:'trial.extended · trial.expiring · trial.expired',group:'Trial',pii:'company',used:'R3 · trial-end offer · R7 win-back',n7:6},{name:'subscription.started · subscription.tier_changed',group:'Billing',pii:'company',used:'S7 · R6 tier notice · expansion',n7:3},{name:'payment.failed',group:'Billing',pii:'company',used:'Dunning at 0, 3 and 7 days',n7:1},{name:'nps.submitted',group:'Advocacy',pii:'user',used:'Journey 4 · health score',n7:2},{name:'ticket.created',group:'Support',pii:'user',used:'Health score · detractor flow',n7:3},{name:'web.page_viewed {path, utm}',group:'Web',pii:'anonymous',used:'Analytics · intent after consent',n7:9840},{name:'consent.granted · consent.withdrawn',group:'Consent',pii:'contact',used:'Consent ledger',n7:14},{name:'lead.tool_completed · lead.tool_report_requested',group:'Lead gen',pii:'anonymous → contact',used:'R12 tool follow-up · intent',n7:212},{name:'lead.template_requested · lead.hand_raised',group:'Lead gen',pii:'contact',used:'R10 hand-raise · intent',n7:9},{name:'touch.partner',group:'Lead gen',pii:'company',used:'Partner attribution',n7:0},{name:'brreg.threshold_crossed {5|30} · brreg.company_new · brreg.manager_changed',group:'Brønnøysund',pii:'company',used:'R11 trigger outreach',n7:38}],
+      health:[{label:'Survey cycle on schedule',pts:30},{label:'Action items created or updated · 90 d',pts:25},{label:'Logins by ≥ 2 admins or stakeholders',pts:15},{label:'Response-rate band',pts:15},{label:'NPS',pts:10},{label:'No open P1 tickets',pts:5}],
+      firewall:['Respondent and employee data live in a separate schema (survey_private) with no foreign keys to contacts; the CRM role has no SELECT grant','The event catalogue exposes org-level survey events only — recipient_count, response_rate_band','CI rejects catalogue entries with respondent identifiers','CI fails if a respondent email appears in contacts','Employee lists are never enriched, exported or used as audiences','The thank-you link and results poster carry no survey or respondent data — campaign tag only'],
+      rules:[{id:'R1',name:'Stalled setup',trigger:'48 h in S1',cond:'Not unsubscribed from tips',action:'Email + in-app card',stream:'Service'},{id:'R2',name:'PQL',trigger:'action_item.created OR response rate ≥ 50 % by day 7',cond:'Trial',action:'Founder task with context',stream:'Internal'},{id:'R3',name:'Trial extension',trigger:'Trial day 12',cond:'State < S3',action:'Offer a 7-day extension',stream:'Service'},{id:'R4',name:'Upgrade offer',trigger:'Trial day 13',cond:'Activated, marketing consent',action:'Offer + social proof',stream:'Marketing'},{id:'R5',name:'Årshjul',trigger:'Cycle −30 d',cond:'Paid',action:'Schedule prompt',stream:'Service'},{id:'R6',name:'Tier change',trigger:'Employees > 25',cond:'Paid, ≤ 25 tier',action:'Notice 30 days ahead',stream:'Service'},{id:'R7',name:'Win-back',trigger:'Trial expired',cond:'Consent',action:'3-step sequence',stream:'Marketing'},{id:'R8',name:'Sunset',trigger:'180 d no click or login',cond:'Marketing contact',action:'Re-permission, then suppress',stream:'Marketing'},{id:'R9',name:'Complaint / bounce',trigger:'Provider webhook',cond:'Any',action:'Suppress globally + log',stream:'System'},{id:'R10',name:'Hand-raise',trigger:'lead.hand_raised',cond:'Any',action:'Instant auto-reply + founder task, 1-hour SLA',stream:'Service/Internal'},{id:'R11',name:'Trigger outreach',trigger:'brreg.threshold_crossed',cond:'Fit score ≥ 30, not on the do-not-contact list',action:'Phone task or letter; generic email only',stream:'Internal'},{id:'R12',name:'Tool follow-up',trigger:'lead.tool_report_requested',cond:'Double opt-in confirmed',action:'Start nurture journey 3',stream:'Marketing'}],
+      exps:[{id:'E1',hyp:'Asking for the organisation number before the email raises signup completion',metric:'Visitor → trial',i:5,c:5,e:4,ice:100,status:'Running'},{id:'E2',hyp:'An industry-specific headline beats a generic one',metric:'Visitor → trial',i:4,c:4,e:5,ice:80,status:'Queued'},{id:'E3',hyp:'«Kartlegg arbeidsmiljøet gratis» beats «Laget med …» as the thank-you link text',metric:'Clicks per 1 000 responses',i:3,c:5,e:5,ice:75,status:'Running'},{id:'E4',hyp:'Showing the full Krav-sjekk result, with the PDF optional, beats gating the result',metric:'Trials within 30 days',i:4,c:4,e:4,ice:64,status:'Queued'},{id:'E5',hyp:'The company name in the subject line raises clicks (Sahni et al. replication)',metric:'Click → trial',i:4,c:3,e:4,ice:48,status:'Queued'},{id:'E6',hyp:'Plain-text founder emails beat designed emails in nurture',metric:'Click → trial',i:3,c:4,e:4,ice:48,status:'Queued'},{id:'E7',hyp:'A callback within 1 hour beats one the next day for hand-raisers',metric:'Trial → activation',i:5,c:3,e:3,ice:45,status:'Queued'},{id:'E8',hyp:'A letter to companies that just crossed 5 employees beats the holdout',metric:'Trials per 100 companies',i:3,c:3,e:4,ice:36,status:'Queued'},{id:'E9',hyp:'A GEO rewrite on 10 pages beats 10 control pages',metric:'AI citations and clicks',i:4,c:3,e:3,ice:36,status:'Queued'},{id:'E10',hyp:'«1 month free for both» beats a charity donation as the referral reward',metric:'Referral trials',i:3,c:3,e:3,ice:27,status:'Queued'}],
+      guardrails:[{t:'Anonymity',d:'Nothing on the thank-you page or results poster identifies a respondent, a survey or a group smaller than 5. Respondents never become leads or CRM contacts.'},{t:'Consent · markedsføringsloven § 15',d:'No marketing email to named personal addresses without prior consent. Generic addresses and phone calls are allowed, with a do-not-contact list and a GDPR notice.'},{t:'Honest compliance claims',d:'The 2026 § 4-3 change is a clarification — «Loven er presisert». The Krav-sjekk is guidance, not legal advice.'},{t:'Cookies · ekomloven § 3-15',d:'No ad tags without consent. The site is cookieless by default.'}],
+      risks:[{r:'Trial emails misclassified under § 15(3)',lik:'Medium',m:'Service/marketing split + consent checkbox; written legal opinion'},{r:'Anonymity breach through analytics, CRM coupling or the survey loop',lik:'Low, severe impact',m:'Separate schema, no grants, CI checks, audits; campaign tag only on survey pages'},{r:'Overclaiming the 2026 law change',lik:'Medium',m:'Copy guideline «presisering, ikke nye krav»; cite Arbeidstilsynet'},{r:'A paying customer objects to «Laget med …»',lik:'Medium',m:'Small, neutral line; removal policy decided before launch'},{r:'Wrong rule in the Krav-sjekk',lik:'Medium',m:'Legal review; versioned rules; «sist kontrollert» date per rule'},{r:'Thin programmatic pages hurt the site',lik:'Medium',m:'Data, template or question set on every page; noindex until ready'},{r:'Trigger outreach feels intrusive',lik:'Low–medium',m:'Helpful letter with the Krav-sjekk; 10 % holdout'},{r:'Over-building the CRM instead of shipping journeys',lik:'Medium',m:'Narrow MVP scope; ship journeys by week 4'},{r:'Partners stall without enablement',lik:'Medium',m:'Partner kit, pages and dashboard before recruiting at scale'},{r:'Sending-provider data residency',lik:'Medium',m:'DPA + sub-processor list; prefer Brevo or Mailjet'},{r:'AI Overviews erode SEO traffic',lik:'High',m:'GEO pattern; track branded search and trials'},{r:'Small samples mislead experiments',lik:'High',m:'Big changes, whole weeks, one metric; cohorts over 90 days'},{r:'The index exposes a customer’s data',lik:'Low',m:'Aggregates across many companies; minimum count per cell; written method'}],
+      decisions:[{q:'Does § 15(3) cover trial users?',def:'Consent checkbox and service/marketing split until counsel answers'},{q:'Legitimate-interest assessment for phone and letter prospecting from Brønnøysund roles',def:'Notice script + reservation list; assessment written before week 7'},{q:'Can paying customers remove «Laget med …», and from which plan?',def:'Shown on all plans'},{q:'Legal sign-off on the Krav-sjekk rules and wording',def:'Approved with a «guidance, not legal advice» note; rules v3'},{q:'Budget for printed letters to trigger companies',def:'Up to 200 a month in the test'},{q:'Referral reward',def:'One month free for both — or a donation (E10)'},{q:'Partner revenue share',def:'20 % recurring or a client discount'},{q:'Publish the Arbeidsmiljøindeks, and its minimum company count per cell?',def:'Undecided; method written first'},{q:'Sending provider after DPA review',def:'Brevo (EU); Mailjet as alternative'},{q:'European expansion (orgpace.com)',def:'Locale and legal-basis fields now; no paid English channels before Norwegian retention is proven'}],
+      coverage:[
+        {f:'Consent ledger (append-only), double opt-in, preference centre, suppression',where:['crm','consent'],status:'Built',note:'Lawful basis, wording version and DOI timestamps per record'},
+        {f:'Deliverability: two streams on subdomains, SPF/DKIM/DMARC, RFC 8058, Postmaster, hygiene',where:['admin','deliverability'],status:'Built',note:''},
+        {f:'Template registry with service/marketing classification',where:['admin','deliverability'],status:'Built',note:'Trial-tip templates flagged «legal opinion pending»'},
+        {f:'Event catalogue v1 with PII level per event',where:['growth','events'],status:'Built',note:''},
+        {f:'Trial-activation state machine S0–S7 with branches and 10 % holdout',where:['crm','journeys'],status:'Built',note:''},
+        {f:'Journeys 2–4: paid onboarding & årshjul, lead nurture D0–D16, advocacy/NPS; win-back',where:['crm','journeys'],status:'Built',note:''},
+        {f:'Automation rule catalogue R1–R12 with streams',where:['growth','rules'],status:'Built',note:''},
+        {f:'Lead scoring fit × intent; routing ≥ 60 or hand-raise → founder task',where:['crm','scoring'],status:'Built',note:''},
+        {f:'PQL flag and speed-to-lead task with 1-hour SLA',where:['crm','tasks'],status:'Built',note:'SLA timer on the task; no response-time report yet'},
+        {f:'Brønnøysund trigger engine: daily poll, 4 triggers, phone/letter/generic email, holdout, do-not-contact, 410 purge',where:['crm','triggers'],status:'Built',note:'Dry run until week 7'},
+        {f:'Partner programme: codes on the company, /partner/[code] pages, kit, dashboard, revenue share',where:['crm','partners'],status:'Built',note:'Partner-facing dashboard is internal only'},
+        {f:'Lead magnets with the gating rule and versioned Krav-sjekk rules',where:['content','magnets'],status:'Built',note:''},
+        {f:'Org.nr-first signup + industry landing-page system',where:['content','landing'],status:'Partial',note:'Landing pages and conversion exist; the org.nr-first form and the 5 industry variants are not modelled'},
+        {f:'Programmatic SEO/GEO with the GEO pattern and AI-citation tracking',where:['content','seo'],status:'Partial',note:'Health and search performance exist; no per-page GEO checklist or 50-prompt citation tracker'},
+        {f:'«Laget med …» thank-you link and results poster',where:['analytics','traffic'],status:'Partial',note:'Visible only as a traffic source; no on/off, copy or clicks-per-1 000-responses metric'},
+        {f:'Cookieless web analytics, goals and funnel',where:['analytics','traffic'],status:'Built',note:''},
+        {f:'Attribution: first/last touch, partner code, «Hvor hørte du om oss?» on the company',where:['customers','customers'],status:'Partial',note:'Sources in analytics; not stored on the customer record'},
+        {f:'Health score v1 per customer',where:['growth','events'],status:'Built',note:'Not yet shown on the customer detail'},
+        {f:'Experiment backlog with ICE; holdout readouts',where:['growth','experiments'],status:'Partial',note:'Backlog built; the holdout readout report is missing'},
+        {f:'90-day plan with gates; funnel definitions and lead math',where:['growth','plan'],status:'Built',note:''},
+        {f:'Risks, guardrails and open decisions',where:['growth','risks'],status:'Built',note:''},
+        {f:'Anonymity firewall (separate schema, no grants, CI checks)',where:['growth','events'],status:'Partial',note:'Stated as rules with check status; the checks themselves are engineering'},
+        {f:'Referral programme (codes, two-sided reward) and verneombud sharing',where:null,status:'Missing',note:'Exists only as a journey step'},
+        {f:'Segment builder on Brønnøysund attributes + events',where:['crm','contacts'],status:'Partial',note:'Lists are rule-based on lifecycle stage only'},
+        {f:'Parent-company relation (chains deciding for many units)',where:['customers','orgs'],status:'Partial',note:'Customer → organizations exists; no parent chain across customers'},
+        {f:'NPS results and review requests',where:['crm','journeys'],status:'Partial',note:'Journey exists; no NPS results screen'},
+        {f:'Tickets linked to the company; detractor → ticket',where:['crm','tickets'],status:'Built',note:''},
+        {f:'Sending-provider DPA, sub-processors, EU residency',where:['admin','deliverability'],status:'Partial',note:'Provider card; no DPA checklist'},
+        {f:'Person enrichment, SMS, predictive scoring, send-time optimisation, AI copy, multi-touch attribution',where:null,status:'Skipped by design',note:'The report says not to build these yet'},
+        {f:'Drag-and-drop page builder',where:['content','templates'],status:'Skipped by design',note:'Sentral’s editor is block-based on the template registry — keep the block set fixed, no free-form layout'}],
+      recs:[
+        {p:'Now',t:'Consent-aware send guard',d:'Block any Marketing-classified template to a contact without a granted record; show it as a pre-send checklist on campaigns and journey steps, like the publish checklist on pages.'},
+        {p:'Now',t:'Honest-compliance copy lint',d:'Flag «nye krav», «new law requirements» and unverified inspection claims in pages, landing pages and emails; suggest «Loven er presisert».'},
+        {p:'Now',t:'Speed-to-lead report',d:'Median response time to hand-raisers and PQLs, weekdays 08–16, against the 60-minute line — the gate for weeks 5–6.'},
+        {p:'Now',t:'Holdout readout',d:'Per marketing journey: trial → paid at day 30 for enrolled vs the 10 % holdout, cumulative cohorts, with a small-sample warning.'},
+        {p:'Next',t:'Referrals screen',d:'Referral codes on the company, redemptions, reward state (one month free for both), verneombud share-link clicks.'},
+        {p:'Next',t:'Segment builder',d:'Rules on Brønnøysund attributes (industry code, employees, threshold crossed) and events, with a live count and a holdout switch.'},
+        {p:'Next',t:'GEO checklist and AI-citation tracker',d:'Per page: answer first, statistics with sources, a quotation, a table, named author. Monthly run of 50 sample prompts; citations shown next to clicks.'},
+        {p:'Next',t:'Attribution on the customer record',d:'First touch, last touch, partner code and «Hvor hørte du om oss?» stored on the company; shown in customer detail and in CAC per source.'},
+        {p:'Next',t:'Health score on customer detail',d:'The six components with what is missing, and a low-health list for Support.'},
+        {p:'Later',t:'Anonymity firewall monitor',d:'CI check results, schema grants audit and a PII lint on the event catalogue — so the hard rule is visible, not assumed.'},
+        {p:'Later',t:'Parent company',d:'parent_company_id on customers so kindergarten chains and construction groups roll up seats, health and billing.'},
+        {p:'Later',t:'Partner-facing dashboard',d:'Read-only view per partner code: trials, activations, revenue share, kit downloads.'},
+        {p:'Later',t:'Growth boards per site',d:'Kursrom and Vaktplan get their own tiers, plan and rule catalogue from the HeiTuva template.'}],
+      cut:['Predictive lead scoring','Drag-and-drop page builder','SMS (needs its own consent)','Person enrichment (Apollo, Lusha)','Paid LinkedIn before consented audiences exist','G2/Capterra before the English launch','Public procurement','Send-time optimisation · AI copy generation · multi-touch attribution']};
+    D.brreg={polled:'Today 05:10',changes:2742,matched:38,queued:17,hold:2,dnc:14,purged:3,
+      types:[{t:'threshold_5',label:'Crossed 5 employees → verneombud duty',n:21,fit:14,tasks:9,hold:1},{t:'threshold_30',label:'Reached 30 employees → AMU duty',n:6,fit:5,tasks:4,hold:1},{t:'company_new',label:'New company in a target industry at 5+ employees',n:9,fit:6,tasks:3,hold:0},{t:'manager_changed',label:'New general manager registered',n:2,fit:2,tasks:1,hold:0}],
+      queue:[{org:'Fjellstua Drift AS',orgnr:'931 204 118',trigger:'threshold_5',emp:'4 → 6',nace:'56.101',fit:40,channel:'Phone',status:'Queued'},{org:'Nordfjord Bygg AS',orgnr:'925 118 330',trigger:'threshold_30',emp:'28 → 31',nace:'41.200',fit:45,channel:'Letter',status:'Print run Fri'},{org:'Barnehagene Vest AS',orgnr:'919 440 217',trigger:'threshold_30',emp:'27 → 32',nace:'88.911',fit:45,channel:'Generic email → post@',status:'Sent'},{org:'Lillesand Dagligvare AS',orgnr:'933 018 442',trigger:'company_new',emp:'— → 7',nace:'47.111',fit:35,channel:'Letter',status:'Holdout'},{org:'Klinikk Sør AS',orgnr:'928 776 104',trigger:'manager_changed',emp:'18',nace:'86.230',fit:35,channel:'Phone',status:'Queued'},{org:'Tromsø Elektro AS',orgnr:'921 555 908',trigger:'threshold_5',emp:'3 → 5',nace:'43.210',fit:40,channel:'—',status:'Do-not-contact'}],
+      results:[{t:'Phone (script v1)',contacts:42,trials:2},{t:'Letter with QR',contacts:65,trials:2},{t:'Generic email',contacts:120,trials:3}]};
+    D.partners={list:[{name:'Regnskap Vest AS',type:'Accounting',code:'REGNVEST',status:'Pilot signed',trials:2,share:'20 % recurring',contact:'Mona Lie'},{name:'Stamina Helse BHT',type:'BHT',code:'STAMINA',status:'Pilot signed',trials:1,share:'Client discount 15 %',contact:'Erlend Vik'},{name:'HMS Rådgiverne AS',type:'HMS consultant',code:'HMSRAD',status:'In talks',trials:0,share:'Affiliate 20 %',contact:'Siri Holm'},{name:'Verneombudskolen',type:'Course provider',code:'VOSKOLE',status:'Kit sent',trials:0,share:'Affiliate 20 %',contact:'Jan Berge'},{name:'PBL — Private Barnehagers Landsforbund',type:'Bransjeorganisasjon',code:'PBL',status:'Member offer drafted',trials:0,share:'Member discount',contact:'—'},{name:'Tripletex marketplace',type:'Accounting platform',code:'—',status:'Phase 2',trials:0,share:'—',contact:'—'}],
+      kit:[['Co-branded landing page template · /partner/[code]','Live'],['Referral code stored on the company at signup','Live'],['§ 4-3 checklist, co-branded','Done'],['Newsletter text for partners','Done'],['Webinar deck','Draft'],['Partner dashboard v0','Building'],['White-label report export (HMS consultants)','Planned']],
+      segments:[{t:'Accountants',d:'Tripletex serves «over 160 000» businesses (vendor claim). Offer a client view, 20 % recurring or a client discount, and a co-branded checklist.'},{t:'Bedriftshelsetjenester (BHT)',d:'About 50 industries and 95 000 businesses have a BHT duty. The approved-BHT register is open data — a clean list to approach.'},{t:'HMS/HR consultants and verneombud course providers',d:'Affiliate links and white-label report export.'},{t:'Bransjeorganisasjoner',d:'PBL has published member content on the § 4-3 change — a natural opening for member offers.'}]};
+    D.consent={ledger:[
+      {site:'heituva',who:'Kari Nordvik',purpose:'Newsletter «Arbeidsmiljøpulsen»',channel:'Email',status:'Granted',basis:'Consent',method:'Form + double opt-in',wording:'v3',doi:'Sent 12 Sep 09:02 · confirmed 12 Sep 09:05',when:'12 Sep 2026'},
+      {site:'heituva',who:'Silje Moen',purpose:'Krav-sjekk PDF + nurture',channel:'Email',status:'Granted',basis:'Consent',method:'Tool form + double opt-in',wording:'v3',doi:'Sent today 08:41 · confirmed 08:44',when:'Today'},
+      {site:'heituva',who:'Per Haugen',purpose:'Product tips — similar own products',channel:'Email',status:'Granted',basis:'Existing customer · § 15(3)',method:'Address obtained at purchase; opt-out in every message',wording:'v2',doi:'Not required',when:'Jan 2025'},
+      {site:'heituva',who:'Hege Sand',purpose:'§ 4-3 documentation pack',channel:'Email',status:'Granted',basis:'Consent',method:'Template form + double opt-in',wording:'v3',doi:'Sent 22 Sep · confirmed 22 Sep',when:'22 Sep 2026'},
+      {site:'heituva',who:'Anne Lied',purpose:'Newsletter «Arbeidsmiljøpulsen»',channel:'Email',status:'Withdrawn',basis:'Consent',method:'One-click unsubscribe (RFC 8058)',wording:'v2',doi:'Confirmed 3 Mar 2024',when:'3 Sep 2026'},
+      {site:'heituva',who:'Lise Kopperud',purpose:'Newsletter «Arbeidsmiljøpulsen»',channel:'Email',status:'Lapsed',basis:'Consent',method:'Form + double opt-in',wording:'v1',doi:'Confirmed 2 Feb 2024',when:'180 days without a click · re-permission sent (R8)'},
+      {site:'heituva',who:'Daglig leder · Fjellstua Drift AS',purpose:'Phone outreach after Brønnøysund trigger',channel:'Phone',status:'Notice given',basis:'Legitimate interest (phone)',method:'Art. 14 notice and right to object at first contact',wording:'script v1',doi:'Not applicable',when:'Pending call'},
+      {site:'heituva',who:'Tomas Rui',purpose:'Marketing at signup',channel:'Email',status:'Not given',basis:'—',method:'Checkbox left unticked — service messages only',wording:'v3',doi:'—',when:'Sep 2026'},
+      {site:'kursrom',who:'Lene Berge',purpose:'Course-manager newsletter',channel:'Email',status:'Granted',basis:'Consent',method:'Form + double opt-in',wording:'v2',doi:'Confirmed 4 Oct 2024',when:'4 Oct 2024'},
+      {site:'kursrom',who:'Åse Vik',purpose:'Course-manager newsletter',channel:'Email',status:'Withdrawn',basis:'Consent',method:'One-click unsubscribe',wording:'v2',doi:'Confirmed 2 Feb 2025',when:'12 Aug 2026'},
+      {site:'vaktplan',who:'Hanne Østby',purpose:'Shift-law updates',channel:'Email',status:'Granted',basis:'Existing customer · § 15(3)',method:'Address obtained at purchase',wording:'v2',doi:'Not required',when:'Nov 2022'},
+      {site:'vaktplan',who:'Eva Lund',purpose:'Shift-law updates',channel:'Email',status:'Withdrawn',basis:'Consent',method:'One-click unsubscribe',wording:'v2',doi:'Confirmed 5 Jan 2024',when:'31 Aug 2026'}],
+      suppress:[{site:'heituva',hash:'a91f…3c',reason:'Unsubscribe',when:'3 Sep 2026'},{site:'heituva',hash:'7be0…d4',reason:'Hard bounce',when:'18 Sep 2026'},{site:'heituva',hash:'c402…9a',reason:'Complaint (feedback loop)',when:'20 Sep 2026'},{site:'heituva',hash:'ee17…08',reason:'Legal 410 — removed from Brønnøysund',when:'24 Sep 2026'},{site:'heituva',hash:'51d9…b2',reason:'Manual — customer request',when:'Yesterday'},{site:'kursrom',hash:'0f3a…71',reason:'Unsubscribe',when:'12 Aug 2026'},{site:'kursrom',hash:'b8c1…e5',reason:'Hard bounce',when:'2 Sep 2026'},{site:'vaktplan',hash:'d77e…19',reason:'Unsubscribe',when:'31 Aug 2026'},{site:'vaktplan',hash:'4a02…c8',reason:'Complaint (feedback loop)',when:'9 Sep 2026'}],
+      purposes:[{name:'Newsletter',n:1240,doi:'98 %'},{name:'Tool and template follow-up (nurture)',n:312,doi:'96 %'},{name:'Product tips — existing customers · § 15(3)',n:214,doi:'not required'},{name:'Trial marketing checkbox',n:38,doi:'100 %'}]};
+    D.registry=[{key:'survey.invitation',cls:'Service',stream:'Transactional',loc:'nb · en · nn',v:'v7',sent:3120},{key:'survey.reminder',cls:'Service',stream:'Transactional',loc:'nb · en · nn',v:'v4',sent:1410},{key:'results.ready',cls:'Service',stream:'Transactional',loc:'nb · en',v:'v4',sent:96},{key:'trial.expiring',cls:'Service',stream:'Transactional',loc:'nb · en',v:'v3',sent:19},{key:'invoice.issued',cls:'Service',stream:'Transactional',loc:'nb',v:'v5',sent:12},{key:'onboarding.tip_day2',cls:'Service — legal opinion pending',stream:'Transactional',loc:'nb · en',v:'v2',sent:20},{key:'trial.upgrade_offer',cls:'Marketing',stream:'Marketing',loc:'nb · en',v:'v2',sent:41},{key:'newsletter.monthly',cls:'Marketing',stream:'Marketing',loc:'nb',v:'v9',sent:1221},{key:'nurture.d2_industry_guide',cls:'Marketing',stream:'Marketing',loc:'nb',v:'v3',sent:11},{key:'winback.step1',cls:'Marketing',stream:'Marketing',loc:'nb',v:'v1',sent:0}];
+    D.magnets=[{rank:1,name:'Krav-sjekk',type:'Tool',status:'Live · v1',desc:'Org.nr in → which HMS duties apply: verneombud from 5, AMU from 30 (10–30 on demand), BHT industries, § 4-3 mapping. Summary free; PDF with templates after consent.',done:412,consent:'17 %',trials:9,rules:'Rules v3 · last checked 22 Sep 2026 · legal review approved with «guidance, not legal advice»'},{rank:2,name:'Psykososial risiko-sjekk',type:'Tool',status:'Building',desc:'Ten questions about the company, never about employees. Score ungated; PDF and handlingsplan template after consent.',done:0,consent:'—',trials:0,rules:'Shares the Krav-sjekk consent flow'},{rank:3,name:'§ 4-3 dokumentasjonspakke',type:'Template',status:'Live',desc:'Checklist, risk-assessment template, handlingsplan template and AMU/verneombud meeting agenda, in 5 industry versions.',done:188,consent:'100 % (gated)',trials:6,rules:'Reviewed by a named HMS expert'},{rank:4,name:'Sykefraværskalkulator',type:'Tool',status:'Planned · weeks 5–6',desc:'The cost of absence from public NAV/SSB averages by industry.',done:0,consent:'—',trials:0,rules:'Data source: NAV/SSB, refreshed yearly'},{rank:5,name:'Årshjul for psykososialt arbeidsmiljø',type:'Template · PDF/ICS',status:'Planned',desc:'Bridges to HeiTuva reminders (R5).',done:0,consent:'—',trials:0,rules:'—'},{rank:6,name:'Industry guides',type:'Report',status:'2 of 5 live',desc:'Barnehage, byggeplass, butikk, helse og omsorg, kontor.',done:96,consent:'12 %',trials:2,rules:'GEO pattern: answer first, statistics, quotation, table, named author'},{rank:7,name:'Monthly newsletter «Arbeidsmiljøpulsen»',type:'Newsletter',status:'Live',desc:'Monthly at most, to consented contacts only.',done:1240,consent:'98 % DOI',trials:4,rules:'One CTA per issue'}];
+  }
+  journeyRow(j){const stepDot={Trigger:'#191510',State:'#F5C64A',Email:'#F3E2C9',Wait:'#E8DFC9',Condition:'#CFE0F5',Branch:'#CFE0F5',Task:'#F6D9C6','In-app':'#DCEBD3',Exit:'#A8D5D2'};const emails=j.steps.filter(x=>x.t==='Email').length,msgs=j.msgs||emails,tasks=j.steps.filter(x=>x.t==='Task').length;
+    const why={Email:'Sent to everyone who reaches this step while still in stage '+j.from+'. Contacts whose stage changes are skipped. Marketing-classified emails need a granted consent record.',Wait:'Waiting counts calendar days; sends land inside the send window.',Condition:'Branches on a contact property or product event.',Branch:'Side branch — evaluated on every tick alongside the main path.',Task:'Creates a task for the record owner and shows it in Tasks.',Exit:'Contacts leave when the goal is met or the stage changes.',Trigger:'Enrollment rule for this journey.',State:'A state advances on the entry event of the next state. Timer actions fire only while the contact is still here.','In-app':'Shown in the product. No consent needed; never in the holdout.'};
+    return {...j,dot:this.stageDot(j.status),emails,emailTxt:msgs+(msgs===1?' message':' messages')+' · '+tasks+(tasks===1?' task':' tasks')+(j.holdout&&!/None/.test(j.holdout)?' · holdout '+j.holdout.split(' ')[0]+' %':''),convPct:this.pct(j.converted,j.completed||1),convTxt:j.completed?this.pct(j.converted,j.completed)+' % reached the goal':'Not started',stream:j.stream||'Marketing',
+      stepsV:j.steps.map((st,i)=>({...st,i:i+1,dot:stepDot[st.t]||'#E8DFC9',isEmail:st.t==='Email',clkTxt:st.t==='Email'?(st.clk||0)+' % clicked':'',nTxt:st.t==='Exit'?st.n+' reached':st.t==='Trigger'?st.n+' enrolled':st.n+' here now',last:i===j.steps.length-1,lineBg:i===j.steps.length-1?'transparent':'#E8DFC9',sub:st.sub||'',
+        edit:()=>this.openModal(st.t+' — '+st.label,why[st.t]||'',st.t==='Email'?[{label:'Subject',placeholder:st.label},['Send delay','Immediately'],['Classification','Service · Marketing']]:st.t==='Wait'?[{label:'Wait for',placeholder:st.label}]:[{label:'Rule',placeholder:st.label}],'Save step')})),
+      open:()=>this.setState({journeyId:j.id})}}
+  journeysVals(){
+    const s=this.state,all=this.bySite(this.D.journeys),rows=all.map(j=>this.journeyRow(j)),cs=this.bySite(this.D.contacts);
+    const stages=['Lead','Trial','Customer','Churned'].map(st=>{const js=all.filter(j=>j.from===st);const n=cs.filter(c=>c.stage===st).length;return {stage:st,n,nTxt:n+(n===1?' contact':' contacts'),journeys:js.map(j=>j.name+' · '+j.status).join(', ')||'No journey for this stage',has:js.length>0,dot:js.some(j=>j.status==='Active')?'#A8D5D2':js.length?'#F5C64A':'#FBD5C4',go:js[0]?()=>this.setState({journeyId:js[0].id}):()=>this.newJourney(st)}});
+    const cur=all.find(j=>j.id===s.journeyId);let jd=null;
+    if(cur){const r=this.journeyRow(cur);const prim={Active:'Pause',Paused:'Resume',Draft:'Turn on'}[cur.status];
+      jd={...r,prim,facts:[{k:'Enrolls when',v:cur.entry||cur.steps[0].label},{k:'Goal',v:cur.goal},{k:'Exits when',v:cur.exit||'Goal met, or stage leaves '+cur.from},{k:'Stream',v:cur.stream||'Marketing'},{k:'Holdout',v:cur.holdout||'10 %'},{k:'Re-enrollment',v:cur.reenroll},{k:'Send window',v:cur.window},{k:'Suppression',v:'Unsubscribed, bounced, complained, past-due accounts'}],
+        stageBars:[['Enrolled now',cur.enrolled],['Completed',cur.completed],['Reached goal',cur.converted]].map(([k,v],i)=>({k,v,pct:this.pct(v,Math.max(cur.enrolled,cur.completed,1)),color:this.D.viz[i]})),
+        primary:()=>this.openModal(prim+' “'+cur.name+'”',prim==='Pause'?'Contacts keep their place and continue when you resume. Waits keep counting.':prim==='Turn on'?'Enrolls '+cs.filter(c=>c.stage===cur.from).length+' contacts currently in stage '+cur.from+' plus everyone who enters it later. Marketing steps need a granted consent record; 10 % are held out.':'Continues from where each contact stopped.',[],prim),
+        addStep:()=>this.openModal('Add a step','Steps run in order. Emails go only to contacts still in stage '+cur.from+'. Every message is classified service or marketing.',[['Step type','Email · Wait · Wait for event · Branch · Task · In-app · Webhook · Update property']],'Add step'),
+        test:()=>this.openModal('Test with a contact','Runs the journey for one contact with waits set to seconds. Emails go to you, not the contact.',[['Contact','Search contacts']],'Run test')};}
+    return {journeys:rows,journeyCount:all.length,activeJourneys:all.filter(j=>j.status==='Active').length,enrolledNow:all.reduce((a,j)=>a+j.enrolled,0),stageMap:stages,jd,backJourney:e=>{if(e&&e.preventDefault)e.preventDefault();this.setState({journeyId:null})},newJourneyBtn:()=>this.newJourney(),
+      principles:[{t:'Trigger on product events, not time alone.',d:'Every message has an entry event, an exit goal, a suppression rule and one primary CTA.'},{t:'Channel order: in-app, then email, then a human task.',d:'SMS later — it needs its own consent.'},{t:'10 % global holdout on marketing journeys.',d:'Never on service messages. Primary KPI: trial → paid at day 30.'},{t:'Service or marketing, on every template.',d:'Marketing needs a granted consent record. Onboarding tips without promotion are service — legal opinion pending.'}]};
+  }
+  tasksVals(){
+    const s=this.state,all=this.bySite(this.D.tasks),f=s.taskFilter;const typeDot={Call:'#F6D9C6',Email:'#F3E2C9',Meeting:'#CFE0F5',Note:'#E7DAF2',Task:'#DCEBD3'};
+    const rows=(f==='All'?all:all.filter(t=>t.status===f)).sort((a,b)=>(a.sla||999)-(b.sla||999)).map(t=>({...t,ownerP:this.who(t.owner),tdot:typeDot[t.type],pdot:t.prio==='High'?'#FBD5C4':'#E8DFC9',isOpen:t.status==='Open',isDone:t.status==='Done',hasSla:!!t.sla,slaTxt:t.sla?t.sla+' min left':'',sladot:t.sla<15?'#FBD5C4':'#F5C64A',
+      done:()=>this.openModal('Mark “'+t.title+'” done','Logs the outcome on the contact record and closes the task'+(t.sla?'. Response time is recorded against the 1-hour SLA':'')+'.',[['Outcome','e.g. Reached, proposal accepted']],'Mark done'),open:()=>this.openModal(t.title,t.type+' · '+t.contact+' · '+t.due,[{label:'Due',placeholder:t.due},{label:'Owner',placeholder:this.who(t.owner).name},{label:'Notes',placeholder:'Created by '+t.src}],'Save task')}));
+    const segs=['Open','Done','All'].map(k=>({label:k,n:k==='All'?all.length:all.filter(t=>t.status===k).length,bg:k===f?'#FFFDF6':'transparent',go:()=>this.setState({taskFilter:k})}));
+    return {tasks:rows,taskSegs:segs,openTasks:all.filter(t=>t.status==='Open').length,dueToday:all.filter(t=>t.status==='Open'&&t.due.startsWith('Today')).length,fromJourneys:all.filter(t=>/Journey|R1|R2|trigger/i.test(t.src)).length,slaOpen:all.filter(t=>t.sla&&t.status==='Open').length,
+      newTask:()=>this.openModal('New task','Tasks attach to a contact or deal and show up on the owner’s list and calendar.',[['Title','e.g. Call about renewal'],['Type','Call · Email · Meeting · Note · Task'],['Contact or deal','Search'],['Due','Tomorrow 09:00']],'Create task'),
+      meetingLink:()=>this.openModal('Your meeting link','Contacts pick a slot from your calendar (EU-hosted scheduler). Booked meetings become tasks and are logged on the contact.',[['Availability','Weekdays 09:00–15:00'],['Duration','30 minutes']],'Copy link',{note:'https://'+this.site().domain+'/meet/marte'})};
+  }
+  scoreParts(c){const L=this.D.leadSig[c.id]||{nace:'00.000',emp:0,cross:false,gm:false,sig:[]};const two=parseInt(L.nace.slice(0,2),10);const target=[41,42,43,46,47,85,86,87,88].includes(two)||(two>=58&&two<=74);
+    const fit=[['Target industry code',target,15],['5–100 employees',L.emp>=5&&L.emp<=100,15],['Crossed 5 or 30 employees · 90 d',!!L.cross,10],['New general manager · 180 d',!!L.gm,5],['Active, not under liquidation',true,5]].map(([label,on,pts])=>({label,on,got:on?pts:0}));
+    const im={tool:['Tool completed',10],pdf:['PDF requested',10],pricing:['Pricing page viewed',10],ind2:['Industry page visited twice',5],webinar:['Webinar attended',5],hand:['Hand-raise',10]};
+    const intent=Object.keys(im).map(k=>({label:im[k][0],on:L.sig.includes(k),got:L.sig.includes(k)?im[k][1]:0}));
+    const f=fit.reduce((a,x)=>a+x.got,0),n=intent.reduce((a,x)=>a+x.got,0);
+    const onI=intent.filter(x=>x.on),onF=fit.filter(x=>x.on&&x.label!=='Active, not under liquidation');const picks=[...onI.slice(0,2).map(x=>x.label),...onF.slice(0,1).map(x=>x.label)];const more=onI.length+onF.length-picks.length;
+    return {fit:f,intent:n,total:f+n,hand:L.sig.includes('hand'),pql:L.pql||'',top:(picks.join(' · ')||'Fit only')+(more>0?' · +'+more+' more':''),fitWhy:fit.filter(x=>x.on).map(x=>x.label).join(' · ')||'No fit signals',intentWhy:intent.filter(x=>x.on).map(x=>x.label).join(' · ')||'No intent yet',emp:L.emp,nace:L.nace}}
+  scoringVals(){
+    const cs=this.bySite(this.D.contacts).filter(c=>c.stage==='Lead'||c.stage==='Trial').map(c=>{const p=this.scoreParts(c);const hot=p.total>=60||p.hand;const route=hot?'Founder task · 1 h SLA':c.stage==='Trial'?(p.pql?'PQL → founder task':'Trial journey'):'Nurture';
+      return {...c,...p,ini:this.ini(c.name),hot,route,rdot:hot||p.pql?'#A8D5D2':c.stage==='Trial'?'#F5C64A':'#E8DFC9',why:p.top,brreg:'NACE '+p.nace+' · '+this.fmt(p.emp)+' employees',
+        go:()=>this.openModal(c.name+' · '+p.total+' points','Fit '+p.fit+' of 50 · intent '+p.intent+' of 50 · '+c.company,hot?[['Call within','60 minutes · weekdays 08–16'],['Owner','Tor Eide (founder)']]:[{label:'Route',placeholder:route}],hot?'Create founder task':'Save',{sections:[{h:'Fit — from Brønnøysund',t:p.fitWhy},{h:'Intent — first-party events after consent or signup',t:p.intentWhy},{h:'Latest activity',t:c.last}].concat(p.pql?[{h:'PQL',t:p.pql}]:[])})}}).sort((a,b)=>b.total-a.total);
+    const fitRules=[['Target industry code (41–43, 46–47, 58–74, 85, 86–88)',15],['5–100 employees',15],['Crossed 5 or 30 employees in the last 90 days',10],['New general manager in the last 180 days',5],['Active and not under liquidation',5]].map(([label,pts])=>({label,ptsTxt:'+'+pts}));
+    const intentRules=[['Tool completed',10],['PDF requested',10],['Pricing page viewed',10],['Industry page visited twice',5],['Webinar attended',5],['Hand-raise',10]].map(([label,pts])=>({label,ptsTxt:'+'+pts}));
+    return {scored:cs,hotN:cs.filter(c=>c.hot).length,nurtureN:cs.filter(c=>!c.hot&&c.stage==='Lead').length,trialN:cs.filter(c=>c.stage==='Trial').length,fitRules,intentRules,
+      editRules:()=>this.openModal('Edit scoring rules','Fit comes from Brønnøysund (0–50), intent from first-party events after consent or signup (0–50). Scores recompute nightly and on every tracked event. The site is cookieless — anonymous visitors are never identified.',[['Founder-task threshold','60'],['Hand-raise always routes to a task','Yes']],'Save rules')};
+  }
+  gwVals(){
+    const s=this.state,site=this.site(),G=this.D.growth;if(site.id!=='heituva')return {gw:{has:false}};
+    const st={Live:'#A8D5D2',Building:'#F5C64A',Planned:'#E8DFC9',Deferred:'#5F5849'};
+    const items=G.items.map(it=>{const name=it.name.replace('…',site.name);return {...it,name,ownerP:this.who(it.owner),dot:st[it.status],meta:it.effort+' · '+it.impact,
+      open:()=>this.openModal(name,it.rank+' · '+it.why,[],it.where?'Open in Sentral':'Close',{sections:[{h:'Build',t:it.build},{h:'KPI',t:it.kpi},{h:'Guardrail',t:it.guard},{h:'Effort · time to impact'+(it.score?' · U × E':''),t:it.effort+' · '+it.impact+(it.score?' · '+it.score:'')}],onPrimary:it.where?()=>this.go(it.where[0],it.where[1]):null})}});
+    const cols=G.tiers.map(t=>({...t,items:items.filter(i=>i.tier===t.id),n:items.filter(i=>i.tier===t.id).length}));
+    const count=k=>items.filter(i=>i.status===k).length;
+    const pst={Done:'#A8D5D2','In progress':'#F5C64A',Next:'#E8DFC9',Planned:'#E8DFC9'};
+    const plan=G.plan.map(p=>({...p,lead:p.lead.replace('…',site.name),dot:pst[p.status],gates:p.gates.map(g=>({t:g}))}));
+    const F=G.funnel,maxN=F[0].n;const funnel=F.map((f,i)=>({...f,nTxt:this.fmt(f.n),pct:f.n/maxN*100<1?(f.n/maxN*100).toFixed(1).replace('.',','):Math.round(f.n/maxN*100),bar:Math.max(1.5,f.n/maxN*100),step:i?Math.round(f.n/F[i-1].n*100)+' % of previous':'this month',color:this.D.viz[i%5]}));
+    const lm=G.leadMath.map(l=>({...l,nowPct:Math.min(100,Math.round(l.now/l.base*100))}));const lmNow=G.leadMath.reduce((a,l)=>a+l.now,0);
+    const piiDot={none:'#A8D5D2',aggregate:'#A8D5D2','count only':'#A8D5D2','role only':'#A8D5D2',company:'#DCEBD3',anonymous:'#DCEBD3'};
+    const events=G.events.map(e=>({...e,n7Txt:this.fmt(e.n7),pdot:piiDot[e.pii]||'#F5C64A'}));
+    const cs=this.bySite(this.D.customers).filter(c=>c.status==='Active'||c.status==='Trial');
+    const health=cs.map(c=>{const parts=G.health.map((h,j)=>{const on=((c.id*7+j*3)%10)>2||j===5;return {...h,got:on?h.pts:j===3?Math.round(h.pts/2):0}});const total=parts.reduce((a,p)=>a+p.got,0);return {name:c.name,total,dot:total>=70?'#A8D5D2':total>=45?'#F5C64A':'#FBD5C4',open:()=>this.setState({nav:'customers',sub:'customers',customerId:c.id}),miss:parts.filter(p=>p.got<p.pts).map(p=>p.label).join(' · ')||'All components met'}}).sort((a,b)=>a.total-b.total);
+    const off=s.ruleOff||{};const sdot={Service:'#A8D5D2',Marketing:'#F5C64A',Internal:'#DCEBD3',System:'#5F5849','Service/Internal':'#A8D5D2'};
+    const rules=G.rules.map(r=>{const on=!off[r.id];return {...r,on,knobX:on?'18px':'2px',trackBg:on?'#191510':'rgba(25,21,16,.15)',sdot:sdot[r.stream]||'#E8DFC9',toggle:()=>this.setState(x=>({ruleOff:{...(x.ruleOff||{}),[r.id]:!((x.ruleOff||{})[r.id])}})),
+      open:()=>this.openModal(r.id+' · '+r.name,'Trigger: '+r.trigger,[],'Save rule',{sections:[{h:'Condition',t:r.cond},{h:'Action',t:r.action},{h:'Stream',t:r.stream+(r.stream==='Marketing'?' — needs a granted consent record; the 10 % holdout applies':r.stream==='Service'?' — no consent needed; never in the holdout':'')}]})}});
+    const est={Running:'#A8D5D2',Queued:'#F5C64A',Done:'#5F5849'};
+    const exps=G.exps.map(e=>({...e,hyp:e.hyp.replace('…',site.name),pct:Math.round(e.ice/125*100),dot:est[e.status],iceTxt:e.i+' × '+e.c+' × '+e.e,open:()=>this.openModal(e.id+' · '+e.hyp.replace('…',site.name),'Primary metric: '+e.metric+' · ICE '+e.ice+' ('+e.i+' × '+e.c+' × '+e.e+')',[['Minimum detectable effect','e.g. +1,5 percentage points'],['Runs for','2 whole weeks']],e.status==='Queued'?'Start test':'Save')}));
+    const ldot={High:'#FBD5C4',Medium:'#F5C64A','Low–medium':'#F5C64A',Low:'#E8DFC9','Low, severe impact':'#FBD5C4'};
+    const risks=G.risks.map(r=>({...r,r:r.r.replace('…',site.name),dot:ldot[r.lik]||'#F5C64A'}));
+    const decisions=G.decisions.map((d,i)=>({...d,n:i+1,q:d.q.replace('…',site.name),decide:()=>this.openModal('Decision '+(i+1)+' · '+d.q.replace('…',site.name),'Default until decided: '+d.def,[['Decision',d.def],['Decided by','e.g. Norwegian counsel · founder']],'Record decision')}));
+    const cdot={Built:'#A8D5D2',Partial:'#F5C64A',Missing:'#FBD5C4','Skipped by design':'#5F5849'};
+    const cov=G.coverage.map(c=>({...c,f:c.f.replace('…',site.name),dot:cdot[c.status],hasWhere:!!c.where,go:c.where?()=>this.go(c.where[0],c.where[1]):null}));
+    const covN=k=>cov.filter(c=>c.status===k).length;
+    const recs=G.recs.map((r,i)=>({...r,n:i+1,pdot:r.p==='Now'?'#FBD5C4':r.p==='Next'?'#F5C64A':'#E8DFC9'}));
+    return {gw:{has:true,cols,kpis:[{label:'Live',value:count('Live'),sub:'shipped and measured'},{label:'Building',value:count('Building'),sub:'in the current two-week block'},{label:'Planned',value:count('Planned'),sub:'sequenced in the 90-day plan'},{label:'Week',value:'4 of 13',sub:'gate: journey sends > 95 % delivered'}],plan,funnel,lm,lmNow,assumptions:G.assumptions,bench:G.bench,events,evCount:events.length,health,healthParts:G.health,firewall:G.firewall.map(t=>({t})),rules,exps,guardrails:G.guardrails,risks,decisions,cov,recs,cut:G.cut.map(t=>({t})),
+      covKpis:[{label:'Built',value:covN('Built'),sub:'as a screen or flow in Sentral'},{label:'Partial',value:covN('Partial'),sub:'present, but missing a piece the report asks for'},{label:'Missing',value:covN('Missing'),sub:'recommended below'},{label:'Skipped by design',value:covN('Skipped by design'),sub:'the report says not to build these yet'}],
+      exportBoard:()=>this.openModal('Export growth board','Markdown or CSV with tiers, statuses, owners, KPIs and gates — the same structure as the report’s priority list.',[['Format','Markdown · CSV']],'Export'),
+      newRule:()=>this.openModal('New rule','Every rule names a trigger, a condition, an action and a stream. Marketing rules need consent and get the 10 % holdout.',[['Trigger','Event or timer'],['Condition','e.g. Trial, marketing consent'],['Action','Email · Task · In-app · Webhook'],['Stream','Service · Marketing · Internal · System']],'Create rule'),
+      proposeEvent:()=>this.openModal('Propose an event','New events go through the catalogue: name, version, PII level and allowed properties. CI rejects respondent identifiers.',[['Name','e.g. survey.exported'],['PII level','none · aggregate · company · user'],['Allowed properties','format, row_count']],'Propose'),
+      newExp:()=>this.openModal('New experiment','One primary metric. Set the minimum detectable effect first, run whole weeks, and never two tests on the same page at once.',[['Hypothesis','X beats Y on …'],['Primary metric','Visitor → trial'],['Impact · confidence · ease','1–5 each']],'Add to backlog')}};
+  }
+  consentVals(){
+    const site=this.site(),k=this.D.sites.indexOf(site),C=this.D.consent,rows=C.ledger.filter(r=>r.site===site.id),sup=C.suppress.filter(r=>r.site===site.id);
+    const sd={Granted:'#A8D5D2','Notice given':'#DCEBD3',Withdrawn:'#FBD5C4',Lapsed:'#F5C64A','Not given':'#5F5849'},sc=[1,.34,.52][k];
+    return {cl:{rows:rows.map(r=>({...r,dot:sd[r.status]||'#F5C64A',open:()=>this.openModal(r.who,r.purpose+' · '+r.channel,[],'Close',{sections:[{h:'Status · lawful basis',t:r.status+' · '+r.basis},{h:'Method · wording',t:r.method+' · wording '+r.wording},{h:'Double opt-in',t:r.doi},{h:'Recorded',t:r.when+' · append-only — withdrawals are new records, never edits'}]})})),rowCount:rows.length,sup,supCount:this.fmt(Math.round(212*sc)),purposes:C.purposes.map(p=>({...p,nTxt:this.fmt(Math.round(p.n*sc))})),
+      kpis:[{label:'Marketing contacts',value:this.fmt(Math.round(1804*sc)),sub:'100 % with a consent record'},{label:'Double opt-in confirmed',value:'97 %',sub:'unconfirmed after 7 days are never mailed'},{label:'Withdrawn · 30 d',value:Math.round(11*sc),sub:'honoured within 2 days, most within minutes'},{label:'Sunset queue',value:Math.round(46*sc),sub:'180 days without a click → re-permission → suppress (R8)'}],
+      addSup:()=>this.openModal('Add a suppression','Suppression is global across streams and is not undone by a new consent — only by manual review.',[['Email','name@company.no'],['Reason','Unsubscribe · Hard bounce · Complaint · Legal 410 · Manual']],'Suppress'),
+      exportLedger:()=>this.openModal('Export consent ledger','CSV of every record for '+site.name+' with wording version and form URL — what Forbrukertilsynet asks for in an audit.',[['From','1 Jan 2024'],['To','Today']],'Export CSV'),
+      recordPhone:()=>this.openModal('Record a phone notice','Logs the Art. 14 notice given at first contact and the right to object. Adds the number to the internal reservation list if asked.',[['Company','Search or org.nr'],['Outcome','Notice given · Objected → do-not-contact']],'Save')}};
+  }
+  triggersVals(){
+    const B=this.D.brreg;if(this.site().id!=='heituva')return {bt:{has:false}};
+    const sdot={Queued:'#F5C64A','Print run Fri':'#F5C64A',Sent:'#A8D5D2',Holdout:'#E8DFC9','Do-not-contact':'#5F5849'};
+    return {bt:{has:true,...B,changesTxt:this.fmt(B.changes),types:B.types.map(t=>({...t})),queue:B.queue.map(q=>({...q,dot:sdot[q.status]||'#F5C64A',open:()=>this.openModal(q.org+' · '+q.orgnr,q.trigger+' · '+q.emp+' employees · NACE '+q.nace+' · fit '+q.fit,[],q.channel==='Phone'?'Open call script':'Close',{sections:[{h:'Channel',t:q.channel==='—'?'None — on the do-not-contact list':q.channel+(q.channel==='Phone'?' — Art. 14 notice and right to object at first contact; name from the roles API':q.channel==='Letter'?' — company address; QR code to the Krav-sjekk':' — generic address only, opt-out in the footer')},{h:'Status',t:q.status},{h:'Data',t:'Enhetsregisteret (NLOD 2.0) · re-fetched on change · HTTP 410 entities purged'}]})})),
+      results:B.results.map(r=>({...r,per100:(r.trials/r.contacts*100).toFixed(1).replace('.',',')})),kpis:[{label:'Entity changes · yesterday',value:this.fmt(B.changes),sub:'flagged «Ny» or «Endring» in the update feed'},{label:'Matched triggers',value:B.matched,sub:'fit score ≥ 30 on '+B.types.reduce((a,t)=>a+t.fit,0)},{label:'Outreach tasks queued',value:B.queued,sub:B.hold+' held out (10 %)'},{label:'Do-not-contact',value:B.dnc,sub:B.purged+' entities purged (HTTP 410)'}],
+      runPoll:()=>this.openModal('Run poll now','Fetches the update feed since the last run, re-fetches changed entities and evaluates the four triggers. Dry run: tasks are queued, not assigned.',[],'Run'),
+      editTriggers:()=>this.openModal('Edit triggers','Thresholds follow the law: verneombud from 5 employees, AMU from 30. Add industry codes to narrow company_new.',[['Employee thresholds','5 · 30'],['Target industry codes','41–43, 46–47, 58–74, 85, 86–88'],['Fit score minimum','30']],'Save')}};
+  }
+  partnersVals(){
+    const P=this.D.partners;if(this.site().id!=='heituva')return {pt:{has:false}};
+    const sdot={'Pilot signed':'#A8D5D2','In talks':'#F5C64A','Kit sent':'#F5C64A','Member offer drafted':'#E8DFC9','Phase 2':'#5F5849'},kdot={Live:'#A8D5D2',Done:'#A8D5D2',Draft:'#F5C64A',Building:'#F5C64A',Planned:'#E8DFC9'};
+    const list=P.list.map(p=>({...p,dot:sdot[p.status]||'#F5C64A',page:p.code==='—'?'—':'/partner/'+p.code.toLowerCase(),open:()=>this.openModal(p.name,p.type+' · '+p.status,[{label:'Referral code',placeholder:p.code},{label:'Revenue share',placeholder:p.share},{label:'Contact',placeholder:p.contact}],'Save partner',{note:'Trials are attributed when the code is on the company at signup or the visitor arrives via /partner/'+p.code.toLowerCase()+'. Nothing is stored on respondents.'})}));
+    const active=P.list.filter(p=>p.status==='Pilot signed').length,trials=P.list.reduce((a,p)=>a+p.trials,0);
+    return {pt:{has:true,list,kit:P.kit.map(([t,s])=>({t,s,dot:kdot[s]})),segments:P.segments,active,kpis:[{label:'Active partners',value:active,sub:P.list.length+' in the programme · gate: 5 signed pilots by week 10'},{label:'Partner-sourced trials · 30 d',value:trials,sub:'target 1,5 per active partner a month'},{label:'This week',value:1,sub:'gate: ≥ 1 partner-sourced trial a week'},{label:'Revenue share',value:'20 %',sub:'recurring, or a client discount — decision 7'}],
+      addPartner:()=>this.openModal('Add partner','Creates the referral code, the co-branded page and a kit download link. Attribution is on the organisation number.',[['Organisation','Name or org.nr'],['Type','Accounting · BHT · HMS consultant · Course provider · Bransjeorganisasjon'],['Revenue share','20 % recurring · client discount']],'Create partner')}};
+  }
+  magnetsVals(){
+    const M=this.D.magnets;if(this.site().id!=='heituva')return {mg:{has:false}};
+    const sdot=s=>/Live/.test(s)?'#A8D5D2':/Building|of 5/.test(s)?'#F5C64A':'#E8DFC9';
+    const list=M.map(m=>({...m,dot:sdot(m.status),doneTxt:m.done?this.fmt(m.done):'—',short:m.desc.split(/\.\s|:\s/)[0],open:()=>this.openModal(m.name,m.type+' · '+m.status,[],'Open editor',{sections:[{h:'What it does',t:m.desc},{h:'Gating',t:m.type==='Newsletter'?'Consent + double opt-in at signup':'Score and summary ungated so they rank and get cited. PDF and templates after consent and double opt-in.'},{h:'Rules · review',t:m.rules},{h:'Events',t:'lead.tool_completed → lead.tool_report_requested → consent.granted → R12 nurture'}]})}));
+    const done=M.reduce((a,m)=>a+(m.type==='Newsletter'?0:m.done),0),trials=M.reduce((a,m)=>a+m.trials,0);
+    return {mg:{has:true,list,kpis:[{label:'Tool and template completions · 30 d',value:this.fmt(done),sub:'gate: ≥ 300 by week 4'},{label:'Consent rate',value:'15,4 %',sub:'target 15 % · Krav-sjekk 17 %'},{label:'Trials within 90 days',value:trials,sub:'10 % of subscribers is the planning assumption'},{label:'Double opt-in',value:'96 %',sub:'unconfirmed are never mailed'}],
+      newTool:()=>this.openModal('New tool','Tools ask for the organisation number first and read industry and employee count from Brønnøysund. Store rules as versioned data with a last-checked date.',[['Name','e.g. AMU-sjekk'],['Gated artefact','PDF · template · none']],'Create tool')}};
+  }
+  deliverabilityVals(){
+    const site=this.site(),k=this.D.sites.indexOf(site),sc=[1,.34,.52][k];
+    const check=(label,ok,val)=>({label,val,dot:ok?'#A8D5D2':'#F5C64A'});
+    const streams=[{name:'Transactional',sub:'varsel.'+site.domain,carries:'Survey invitations and reminders, setup, results ready, trial expiry, invoices',vol:this.fmt(Math.round(4780*sc)),spam:'0,02 %',bounce:'0,4 %',delivered:'99,4 %',checks:[check('SPF',true,'pass'),check('DKIM 2048',true,'pass · rotated Jun 2026'),check('DMARC',true,'p=quarantine · aligned'),check('One-click unsubscribe',true,'not applicable'),check('Postmaster reputation',true,'High')]},
+      {name:'Marketing',sub:'nyhet.'+site.domain,carries:'Newsletter, nurture, win-back, upgrade offers',vol:this.fmt(Math.round(1290*sc)),spam:'0,06 %',bounce:'0,9 %',delivered:'98,7 %',checks:[check('SPF',true,'pass'),check('DKIM 2048',true,'pass'),check('DMARC',k!==1,k===1?'p=none → quarantine planned':'p=quarantine · aligned'),check('One-click unsubscribe · RFC 8058',true,'List-Unsubscribe + Post · honoured ≤ 2 days'),check('Yahoo feedback loop',true,'connected')]}];
+    return {dl:{streams,kpis:[{label:'Delivered · 7 d',value:'99,2 %',sub:this.fmt(Math.round(6070*sc))+' messages on two streams'},{label:'Spam rate',value:'0,04 %',sub:'under 0,1 % — never 0,3 % (Google)'},{label:'Hard bounces',value:Math.round(31*sc),sub:'suppressed immediately (R9)'},{label:'Complaints',value:Math.round(3*sc),sub:'suppressed globally + logged'}],
+      registry:this.D.registry.map(t=>({...t,sentTxt:this.fmt(Math.round(t.sent*sc)),dot:t.cls==='Marketing'?'#F5C64A':/pending/.test(t.cls)?'#FBD5C4':'#A8D5D2'})),
+      provider:[{k:'Provider',v:'Brevo (FR) · EU-hosted'},{k:'DPA',v:'Signed 9 Sep 2026'},{k:'Sub-processors',v:'Reviewed 12 Sep 2026 · 4 listed'},{k:'Stream / IP separation',v:'Confirmed in writing'},{k:'Alternative',v:'Mailjet (EU) — decision 9'}],
+      hygiene:['Gradual ramp-up on new domains','Hard bounces suppressed immediately; complaints suppressed globally','Re-permission after 180 days without a click, then sunset','Optimise on clicks and product events, not opens','No bulk mail from the transactional stream'].map(t=>({t})),
+      runCheck:()=>this.openModal('Run authentication check','Resolves SPF, DKIM and DMARC for both subdomains and compares against the sending provider’s records.',[],'Run check'),
+      newTemplate:()=>this.openModal('New template','Templates live in a registry, not in code: key, version, stream, classification, locale. Marketing templates can only be sent with a granted consent record.',[['Key','e.g. nurture.d5_case'],['Classification','Service · Marketing'],['Stream','Transactional · Marketing']],'Create template')}};
+  }
   // @more
 }
 </script>
