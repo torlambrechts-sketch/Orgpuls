@@ -25,9 +25,20 @@ export function utmFrom(search: string): Utm {
   return out
 }
 
-/** The tags of the current address, if it has any. */
-export function currentUtm(): Utm {
-  return utmFrom(window.location.search)
+/**
+ * A partner's referral code from the address (`?ref=REGNVEST`), upper-cased, or nothing (0143, D-184).
+ * It travels with the page's campaign tags, and the signup reads it back from the day's events like
+ * the first and last touch: nothing is kept on the device.
+ */
+export function refFrom(search: string): string | undefined {
+  const v = new URLSearchParams(search).get('ref')?.trim().toUpperCase()
+  return v && /^[A-Z0-9]{2,20}$/.test(v) ? v : undefined
+}
+
+/** The tags of the current address, if it has any, and a partner's code. */
+export function currentUtm(): Utm & { ref?: string } {
+  const ref = refFrom(window.location.search)
+  return ref ? { ...utmFrom(window.location.search), ref } : utmFrom(window.location.search)
 }
 
 /** The referring host, or nothing when it is this site or not a URL. A full referring URL can carry someone else's query string. */

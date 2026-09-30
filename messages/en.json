@@ -9018,7 +9018,8 @@
         "orgLink": "Open the organisation",
         "registry": "Register",
         "nextStage": "Move to the next stage",
-        "moveTo": "Move to"
+        "moveTo": "Move to",
+        "stopped": "Stays closed: the company objected"
       },
       "lists": {
         "title": "Lists",
@@ -9747,11 +9748,19 @@
         "byStageLead": "Each working stage and the journeys that start on it.",
         "companies": "{count, plural, one {# company} other {# companies}}",
         "noJourney": "No journey starts here",
-        "tasks": "{count, plural, one {# task step} other {# task steps}}"
+        "tasks": "{count, plural, one {# task step} other {# task steps}}",
+        "principles": {
+          "title": "Design principles",
+          "sub": "What journeys are built toward. Not built yet: a journey started by a product event (today's follow-up chains run on time), and the 10 % holdout.",
+          "p1": "<b>Trigger on product events, not time alone.</b> <mut>Every message has an entry event, an exit goal, a suppression rule and one primary CTA.</mut>",
+          "p2": "<b>Channel order: in-app, then email, then a human task.</b> <mut>SMS later — it needs its own consent.</mut>",
+          "p3": "<b>10 % global holdout on marketing journeys.</b> <mut>Never on service messages. Primary KPI: trial → paid at day 30.</mut>",
+          "p4": "<b>Service or marketing, on every template.</b> <mut>Marketing needs a granted consent record. Onboarding tips without promotion are service — legal opinion pending.</mut>"
+        }
       },
       "tasks": {
         "title": "Tasks",
-        "lead": "{open} open · {today} due today · {journeys} created by journeys",
+        "lead": "{open} open · {today} due today · {sla} on a 1-hour SLA · {automated} created by journeys, rules and triggers",
         "new": "New task",
         "newSub": "A task belongs to a company and shows on its page and here.",
         "company": "Company",
@@ -9788,63 +9797,109 @@
         },
         "fromJourney": "Journey “{journey}”",
         "skip": "Skip",
-        "skippedOn": "Skipped {date}"
+        "skippedOn": "Skipped {date}",
+        "stoppedOn": "Stopped {date}: the company objected",
+        "dueSla": "{due} · SLA 1 h",
+        "sla": {
+          "left": "{n} min left",
+          "leftLong": "{h} h {m} min left",
+          "over": "{n} min over",
+          "overLong": "{h} h {m} min over",
+          "met": "SLA met",
+          "missed": "SLA missed"
+        },
+        "auto": {
+          "callback_hand_raise": "Call back hand-raiser",
+          "callback_lead_score": "Call — lead score of {min} or more",
+          "pql_trial": "Founder call — product-qualified trial",
+          "outreach_phone": "Phone: {trigger}",
+          "outreach_letter": "Letter: {trigger}",
+          "outreach_email": "Email the generic address"
+        },
+        "autoSrc": {
+          "callback_hand_raise": "lead.hand_raised ({rule}) · founder callback",
+          "callback_lead_score": "Lead scoring ≥ {min} ({rule}) · founder callback",
+          "pql_trial": "PQL ({rule}) · founder task",
+          "outreach": "Brønnøysund trigger {trigger} ({rule})",
+          "outreachTo": "Brønnøysund trigger {trigger} ({rule}) · to {to}"
+        },
+        "trigger": {
+          "threshold_5": "crossed 5 employees — verneombud duty",
+          "threshold_30": "reached 30 employees — AMU duty",
+          "company_new": "new company in a target industry",
+          "manager_changed": "new general manager"
+        },
+        "kindAuto": {
+          "call": "Call",
+          "email": "Email",
+          "letter": "Task"
+        }
       },
       "scoring": {
         "title": "Lead scoring",
-        "lead": "{hot} hot · {warm} warm · {cold} cold · trials only, scored from what they have done",
-        "health": "Account health",
-        "col": {
-          "trial": "Trial",
-          "score": "Score",
-          "why": "Why"
+        "lead": "Fit × intent, 0–100 · {hot} route to a founder task · {nurture} in nurture · {trial} in trial, where the PQL rule applies",
+        "table": "Contacts ranked by fit and intent",
+        "head": {
+          "contact": "Contact",
+          "score": "Fit · intent",
+          "why": "Strongest signals",
+          "route": "Route"
         },
-        "ends": "Trial ends {date}",
+        "sub": "{company} · {stage} · {brreg}",
+        "brreg": "NACE {nace} · {employees} employees",
+        "brregNone": "no Brønnøysund data",
+        "stage": {
+          "lead": "Lead",
+          "trial": "Trial"
+        },
+        "fit": "Fit",
+        "intent": "Intent",
+        "of50": "{n}/50",
+        "route": {
+          "founder": "Founder task · 1 h SLA",
+          "pql": "PQL → founder task",
+          "trial": "Trial journey",
+          "nurture": "Nurture"
+        },
+        "fitOnly": "Fit only",
+        "more": "+{n} more",
+        "none": "No leads or trials in the CRM yet.",
         "open": "Open",
-        "none": "No trials right now.",
-        "band": {
-          "hot": "Hot",
-          "warm": "Warm",
-          "cold": "Cold"
+        "openLabel": "Open {name}",
+        "fitTitle": "Fit · 0–50",
+        "fitSub": "From Brønnøysund — known before anyone signs up",
+        "intentTitle": "Intent · 0–50",
+        "intentSub": "First-party events, only after consent or signup — the site is cookieless",
+        "intentCap": "At most {n} today: {count} of the {total} have no source yet",
+        "part": {
+          "industry": "Target industry code ({codes})",
+          "size": "{min}–{max} employees",
+          "crossed": "Crossed {t5} or {t30} employees in the last {crossed} days",
+          "manager": "New general manager in the last {manager} days",
+          "active": "Active and not under liquidation",
+          "tool": "Tool completed",
+          "pdf": "PDF requested",
+          "pricing": "Pricing page viewed",
+          "industry_twice": "Industry page visited twice",
+          "webinar": "Webinar attended",
+          "hand_raise": "Hand-raise"
         },
-        "why": {
-          "employees": "Employees added",
-          "scheduled": "Survey planned",
-          "sent": "Survey sent",
-          "unlocked": "Results unlocked",
-          "measure": "Measure made",
-          "week": "Signed in this week",
-          "month": "Signed in this month",
-          "away": "Not signed in for 30 days",
-          "answered": "Good response rate",
-          "qualified": "Qualified trial"
+        "short": {
+          "industry": "Target industry code",
+          "size": "{min}–{max} employees",
+          "crossed": "Crossed {t5} or {t30} employees · {crossed} d",
+          "manager": "New general manager · {manager} d",
+          "active": "Active, not under liquidation",
+          "tool": "Tool completed",
+          "pdf": "PDF requested",
+          "pricing": "Pricing page viewed",
+          "industry_twice": "Industry page visited twice",
+          "webinar": "Webinar attended",
+          "hand_raise": "Hand-raise"
         },
-        "rules": "Rules",
-        "rulesLead": "Points add up to 100 at most; 70 and above is hot, 40 and above warm. A trial that unlocked results, or sent a survey with 10 or more employees, is qualified.",
-        "rule": {
-          "employees": "Added employees",
-          "employeesKind": "Activation",
-          "scheduled": "Planned a survey",
-          "scheduledKind": "Activation",
-          "sent": "Sent a survey",
-          "sentKind": "Activation",
-          "unlocked": "Unlocked results",
-          "unlockedKind": "Activation",
-          "measure": "Made a measure",
-          "measureKind": "Activation",
-          "week": "Signed in within 7 days",
-          "weekKind": "Recency",
-          "month": "Signed in within 30 days",
-          "monthKind": "Recency",
-          "answered60": "60 % or more answered the last survey",
-          "answered60Kind": "Response",
-          "answered40": "40 % or more answered",
-          "answered40Kind": "Response",
-          "size20": "20 employees or more",
-          "size20Kind": "Fit",
-          "size10": "10 employees or more",
-          "size10Kind": "Fit"
-        }
+        "noSource": "{part} · no source yet",
+        "points": "+{n}",
+        "routing": "<b>Routing.</b> {min} or more, or any hand-raise, creates a founder task with a one-hour SLA (weekdays 08–16). Below {min} goes to nurture. Trial users follow the PQL rule instead: activated, or ≥ 50 % response by day 7, or a verneombud invited on the 26–100 tier."
       },
       "audienceTabs": {
         "contacts": "Contacts",
@@ -11466,18 +11521,14 @@
         },
         "crmConsent": {
           "title": "Consent & suppression",
-          "lead": "Append-only ledger · markedsføringsloven § 15 · asking for consent by email is itself marketing",
-          "empty": "The consent ledger, the preference centre and the suppression list arrive with the ledger itself, folded over today’s contacts."
+          "lead": "Append-only ledger · markedsføringsloven § 15 · asking for consent by email is itself marketing"
         },
         "crmTriggers": {
-          "title": "Brønnøysund triggers",
-          "lead": "Daily poll of the update feed",
-          "empty": "The poll of Enhetsregisteret’s update feed, its triggers and the outreach queue arrive in dry run, with a holdout and a do-not-contact list."
+          "title": "Brønnøysund triggers"
         },
         "crmPartners": {
           "title": "Partners",
-          "lead": "Trusted reach at low ACV · attribution on the organisation number, never on respondents",
-          "empty": "Partners, their referral codes and the attribution on the organisation number arrive with this page."
+          "lead": "Trusted reach at low ACV · attribution on the organisation number, never on respondents"
         },
         "cmsMagnets": {
           "title": "Tools & lead magnets",
@@ -11547,7 +11598,7 @@
             "no_employee_is_a_contact": "No CRM contact is an employee who is not also an account",
             "no_event_names_a_respondent": "No event names a respondent, an invitation, its token or an employee",
             "nothing_attached_to_answers": "Nothing is attached to the tables a response writes, invitations included: survey events come from counts, hourly",
-            "growth_tables_closed": "The event stream, the catalogue and the consent ledger are closed to every client"
+            "growth_tables_closed": "The growth, consent, Brønnøysund and partner tables are closed to every client"
           },
           "evidence": {
             "no_link_to_respondents": "{tables} tables checked; {links, plural, =0 {no foreign key to a respondent table} one {# foreign key to a respondent table: {names}} other {# foreign keys to a respondent table: {names}}}",
@@ -12039,6 +12090,359 @@
             "stale": "Contacts with no engagement in 12 months are no longer mailed",
             "clicks": "Product mail keeps no opens or clicks; A/B tests decide on clicks by default, since Apple's proxy opens every mail",
             "separate": "No marketing on the product's domain: without its own authenticated sender, nothing marketing is sent"
+          }
+        }
+      },
+      "g3": {
+        "open": "Open",
+        "cancel": "Cancel",
+        "close": "Close",
+        "saving": "Saving …",
+        "dash": "—",
+        "today": "Today",
+        "yesterday": "Yesterday",
+        "problem": {
+          "invalid": "Check the fields and try again.",
+          "not_allowed": "Your role cannot do this.",
+          "failed": "It could not be saved. Try again.",
+          "already": "That address is already suppressed.",
+          "invalid_email": "That is not an e-mail address.",
+          "unknown_company": "No company with that organisation number in the CRM or the Brønnøysund engine.",
+          "code_taken": "Another partner has that code.",
+          "org_taken": "Another partner has that organisation number.",
+          "not_found": "That partner no longer exists.",
+          "rate_limited": "A poll ran or was asked for in the last 15 minutes.",
+          "not_configured": "The poll cannot be reached: the dispatcher's address and secret are not in the vault here.",
+          "unchanged": "It is already so.",
+          "share_pct": "A recurring share, a client discount or an affiliate share needs its per cent; a member discount has none."
+        },
+        "consent": {
+          "export": "Export ledger",
+          "recordPhone": "Record phone notice",
+          "addSup": "Add suppression",
+          "kpi": {
+            "marketing": "Marketing contacts",
+            "marketingSub": "{pct} % with a consent record",
+            "marketingNone": "no contacts yet",
+            "doi": "Double opt-in confirmed",
+            "doiSub": "unconfirmed are never mailed · the link lapses after 7 days",
+            "withdrawn": "Withdrawn · 30 d",
+            "withdrawnSub": "honoured at once: recorded as the unsubscribe commits",
+            "sunset": "Sunset queue",
+            "sunsetSub": "180 days without a click → re-permission (R8), not built yet"
+          },
+          "ledger": {
+            "title": "Consent ledger",
+            "sub": "{count} recent records · withdrawals are new records, never edits",
+            "table": "Consent records, newest first",
+            "empty": "No consent records yet.",
+            "head": {
+              "who": "Contact · purpose",
+              "basis": "Lawful basis · method",
+              "doi": "Double opt-in",
+              "status": "Status"
+            },
+            "whoLine": "{purpose} · {channel}",
+            "openLabel": "Open {who}"
+          },
+          "purpose": {
+            "marketing": "Marketing mail",
+            "phone_outreach": "Phone outreach after Brønnøysund trigger"
+          },
+          "channel": {
+            "email": "Email",
+            "phone": "Phone"
+          },
+          "basis": {
+            "consent": "Consent",
+            "existing_customer_15_3": "Existing customer · § 15(3)",
+            "legit_interest_phone": "Legitimate interest (phone)",
+            "business_address": "Business address in Brønnøysund",
+            "none": "—"
+          },
+          "method": {
+            "migrated": "Recorded from the CRM's earlier state",
+            "double_opt_in": "Form + double opt-in",
+            "one_click_unsubscribe": "One-click unsubscribe",
+            "preference_centre": "Preference centre",
+            "provider_complaint": "Complaint (feedback loop)",
+            "provider_bounce": "Hard bounce at the provider",
+            "provider_unsubscribe": "Unsubscribe at the provider",
+            "admin": "Changed by an admin",
+            "import": "Import",
+            "account_sync": "Account at signup",
+            "demo_request": "Demo request",
+            "system": "System",
+            "phone_notice": "Art. 14 notice and right to object at first contact"
+          },
+          "doi": {
+            "sentConfirmed": "Sent {sent} · confirmed {confirmed}",
+            "confirmed": "Confirmed {confirmed}",
+            "notRequired": "Not required",
+            "notApplicable": "Not applicable",
+            "none": "—"
+          },
+          "status": {
+            "granted": "Granted",
+            "withdrawn": "Withdrawn",
+            "lapsed": "Lapsed",
+            "not_given": "Not given",
+            "notice_given": "Notice given"
+          },
+          "pref": {
+            "title": "Preference centre",
+            "sub": "Purposes a contact can hold; one-click unsubscribe per purpose or all",
+            "doi": "DOI {pct} %",
+            "doiNotRequired": "DOI not required",
+            "doiNone": "DOI —",
+            "empty": "No purposes yet."
+          },
+          "sup": {
+            "title": "Suppression list",
+            "count": "{count} hashes",
+            "empty": "Nothing is suppressed.",
+            "reason": {
+              "unsubscribed": "Unsubscribe",
+              "hard_bounce": "Hard bounce",
+              "invalid": "Invalid address",
+              "spam": "Complaint (feedback loop)",
+              "blocked": "Blocked by the provider",
+              "manual": "Manual",
+              "erased": "Erased — legal removal or request"
+            },
+            "foot": "Only the SHA-256 of the address is kept. Lifted only when the person confirms a new double opt-in or opts back in on the preference centre."
+          },
+          "law": {
+            "title": "What the law says",
+            "named": "<b>Named work addresses need prior consent</b> — even ola.nordmann@firma.no, even when listed in Brønnøysund. post@firma.no and phone calls are allowed.",
+            "customers": "<b>Existing customers · § 15(3):</b> similar own products, address obtained at purchase, easy opt-out in every message. Whether a free trial counts is decision 1.",
+            "quality": "<b>Consent quality:</b> voluntary, explicit, informed on the same screen, documented. Double opt-in recommended; consent lapses if unused for a long time."
+          },
+          "addSupForm": {
+            "title": "Add a suppression",
+            "sub": "Suppression is global across the CRM's mail. The address is hashed before it is stored and is never written to the log.",
+            "email": "Email",
+            "reason": "Reason",
+            "submit": "Suppress"
+          },
+          "csv": {
+            "id": "Record",
+            "at": "Recorded at",
+            "email": "Email",
+            "name": "Name",
+            "company": "Company",
+            "org_number": "Organisation number",
+            "purpose": "Purpose",
+            "status": "Status",
+            "basis": "Lawful basis",
+            "method": "Method",
+            "doi_sent_at": "Double opt-in sent",
+            "doi_confirmed_at": "Double opt-in confirmed",
+            "by": "Recorded by",
+            "file": "orgpuls-consent-ledger.csv",
+            "notAllowed": "Not allowed",
+            "failed": "Failed"
+          },
+          "phoneForm": {
+            "title": "Record a phone notice",
+            "sub": "Logs the Art. 14 notice given at first contact and the right to object. An objection puts the organisation on the internal do-not-contact list.",
+            "org": "Organisation number",
+            "outcome": "Outcome",
+            "notice": "Notice given",
+            "objected": "Objected → do-not-contact",
+            "submit": "Save"
+          }
+        },
+        "triggers": {
+          "dryRun": "Dry run — tasks are queued, not assigned",
+          "lead": "Daily poll of the update feed · last run {when}",
+          "leadNever": "Daily poll of the update feed · no run yet",
+          "failed": "the attempt {when} failed:",
+          "pending": "a poll is on its way",
+          "editTriggers": "Edit triggers",
+          "runPoll": "Run poll now",
+          "polling": "Asking …",
+          "asked": "Asked. The results arrive when the poll has run.",
+          "notConfigured": "Not asked: the vault here holds no dispatcher address.",
+          "kpi": {
+            "changes": "Entity changes · last poll",
+            "changesYesterday": "Entity changes · yesterday",
+            "changesSub": "flagged «Ny» or «Endring» in the update feed",
+            "matched": "Matched triggers",
+            "matchedSub": "fit score ≥ {min} on {n}",
+            "queued": "Outreach tasks queued",
+            "queuedSub": "{n} held out ({pct} %)",
+            "dnc": "Do-not-contact",
+            "dncSub": "{n} entities purged (HTTP 410)"
+          },
+          "queue": {
+            "title": "Outreach queue",
+            "sub": "Fit score ≥ {min} · a phone call, a letter to the registered business address, or an email to a generic address only",
+            "table": "Outreach, newest first",
+            "empty": "Nothing queued yet",
+            "emptyText": "The poll has raised no trigger with fit {min} or more.",
+            "head": {
+              "company": "Company",
+              "trigger": "Trigger",
+              "employees": "Employees · NACE",
+              "fit": "Fit",
+              "channel": "Channel",
+              "status": "Status"
+            },
+            "from": "{from} → {to}",
+            "new": "— → {to}"
+          },
+          "channel": {
+            "phone": "Phone",
+            "letter": "Letter",
+            "email": "Generic email → {local}@",
+            "none": "—"
+          },
+          "status": {
+            "queued": "Queued",
+            "assigned": "Assigned",
+            "sent": "Sent",
+            "holdout": "Holdout",
+            "do_not_contact": "Do-not-contact"
+          },
+          "types": {
+            "title": "Triggers · last poll",
+            "titleYesterday": "Triggers · yesterday",
+            "line": "{fit} with fit ≥ {min} · {tasks, plural, one {# task} other {# tasks}} · {hold} held out",
+            "label": {
+              "threshold_5": "Crossed 5 employees → verneombud duty",
+              "threshold_30": "Reached 30 employees → AMU duty",
+              "company_new": "New company in a target industry at {t5}+ employees",
+              "manager_changed": "New general manager registered"
+            },
+            "empty": "No poll yet",
+            "emptyText": "No poll has finished yet, so no trigger has been raised."
+          },
+          "results": {
+            "title": "Results · pilot to date",
+            "sub": "Trials per 100 contacts by channel · {pct} % holdout for comparison (E8)",
+            "empty": "No outreach yet",
+            "emptyText": "No outreach has been made yet, so there is nothing to compare.",
+            "line": "{contacts, plural, one {# contact} other {# contacts}} · {trials, plural, one {# trial} other {# trials}}",
+            "lineHoldout": "{contacts} held out · {trials, plural, one {# trial} other {# trials}}",
+            "per100": "{n} / 100",
+            "channel": {
+              "phone": "Phone",
+              "letter": "Letter",
+              "email": "Generic email",
+              "holdout": "Holdout (not contacted)"
+            }
+          },
+          "guard": {
+            "title": "Guardrails",
+            "named": "No email to named addresses without consent — never guess fornavn@firma.no",
+            "phone": "Phone: Art. 14 notice and right to object at first contact; internal do-not-contact list ({n})",
+            "purged": "Entities removed for legal reasons (HTTP 410) are purged — {n} so far",
+            "roles": "Role data (the general manager's name, never a birth date) is used for phone and letter only — a GDPR question, decision 2"
+          },
+          "edit": {
+            "title": "Edit triggers",
+            "sub": "Thresholds follow the law: verneombud from {t5} employees, AMU from {t30}. The target industries and the fit minimum are the report's. These are the rules the engine applies.",
+            "thresholds": "Employee thresholds",
+            "industries": "Target industry codes",
+            "minimum": "Fit score minimum",
+            "mode": "Mode",
+            "dry": "Dry run — tasks are queued, not assigned",
+            "live": "Live — queued tasks are assigned to the CRM",
+            "reason": "Reason (logged)",
+            "save": "Save"
+          }
+        },
+        "partners": {
+          "add": "Add partner",
+          "kpi": {
+            "active": "Active partners",
+            "activeSub": "{total} in the programme · gate: 5 signed pilots by week 10",
+            "trials": "Partner-sourced trials · 30 d",
+            "trialsSub": "target 1,5 per active partner a month",
+            "week": "This week",
+            "weekSub": "gate: ≥ 1 partner-sourced trial a week",
+            "share": "Revenue share",
+            "shareValue": "20 %",
+            "shareSub": "proposed: recurring, or a client discount — open decision 7"
+          },
+          "shareOption": {
+            "recurring": "Recurring share",
+            "client_discount": "Client discount",
+            "affiliate": "Affiliate",
+            "member_discount": "Member discount"
+          },
+          "table": "Partners",
+          "head": {
+            "partner": "Partner",
+            "code": "Code · page",
+            "trials": "Trials 30 d",
+            "share": "Revenue share",
+            "status": "Status"
+          },
+          "empty": "No partners yet",
+          "emptyText": "A partner added here gets a referral code; trials that carry it count for them.",
+          "sub": "{kind} · {contact}",
+          "kind": {
+            "accounting": "Accounting",
+            "bht": "BHT",
+            "hms": "HMS consultant",
+            "bransje": "Bransjeorganisasjon"
+          },
+          "status": {
+            "in_talks": "In talks",
+            "kit_sent": "Kit sent",
+            "pilot_signed": "Pilot signed",
+            "member_offer_drafted": "Member offer drafted",
+            "phase_2": "Phase 2"
+          },
+          "share": {
+            "recurring": "{pct} % recurring",
+            "client_discount": "Client discount {pct} %",
+            "affiliate": "Affiliate {pct} %",
+            "member_discount": "Member discount",
+            "none": "—"
+          },
+          "kit": {
+            "title": "Partner kit",
+            "sub": "Enablement before recruiting at scale",
+            "state": {
+              "live": "Live",
+              "planned": "Planned"
+            },
+            "item": {
+              "page": "Co-branded landing page template · /partner/[code]",
+              "code": "Referral code stored on the company at signup",
+              "checklist": "§ 4-3 checklist, co-branded",
+              "newsletter": "Newsletter text for partners",
+              "webinar": "Webinar deck",
+              "dashboard": "Partner dashboard v0",
+              "whitelabel": "White-label report export (HMS consultants)"
+            }
+          },
+          "who": {
+            "title": "Who to approach",
+            "accountants": "<b>Accountants.</b> <mut>Tripletex serves «over 160 000» businesses (vendor claim). Offer a client view, 20 % recurring or a client discount, and a co-branded checklist.</mut>",
+            "bht": "<b>Bedriftshelsetjenester (BHT).</b> <mut>About 50 industries and 95 000 businesses have a BHT duty (report estimate). The approved-BHT register is open data — a clean list to approach.</mut>",
+            "hms": "<b>HMS/HR consultants and verneombud course providers.</b> <mut>Affiliate links and white-label report export.</mut>",
+            "bransje": "<b>Bransjeorganisasjoner.</b> <mut>PBL has published member content on the § 4-3 change — a natural opening for member offers.</mut>"
+          },
+          "form": {
+            "addTitle": "Add partner",
+            "editTitle": "{name}",
+            "sub": "Creates the referral code. Trials are attributed when the code is on the organisation at signup (?ref= on any page of the site); nothing is stored on respondents.",
+            "editSub": "Saves the partner. Trials are attributed when its code is on the organisation at signup (?ref= on any page of the site); a trial already attributed stays with this partner if the code changes. Nothing is stored on respondents.",
+            "name": "Organisation",
+            "org": "Organisation number",
+            "kind": "Type",
+            "contact": "Contact",
+            "code": "Referral code",
+            "shareKind": "Revenue share",
+            "sharePct": "Share, per cent",
+            "status": "Status",
+            "none": "None",
+            "create": "Create partner",
+            "save": "Save partner"
           }
         }
       }

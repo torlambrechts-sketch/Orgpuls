@@ -5,7 +5,7 @@ import { stageTone } from '@/components/admin/CrmTabs'
 import { StageMoveForm } from '@/components/admin/CrmStageForms'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
-import { crmCompany, crmStages } from '@/lib/admin/crm'
+import { autoTask, crmCompany, crmStages } from '@/lib/admin/crm'
 
 /**
  * One company (D-103): what the register says about it, its stage, owner and next step, the
@@ -26,6 +26,11 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
   const stageName = stage?.name ?? c.stage
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
+  // a rule's or a trigger's task holds a key (0143): worded as the Tasks page words it
+  const body = (a: (typeof data.activities)[number]) => {
+    const auto = a.origin ? autoTask(a.body) : null
+    return auto ? t(`crm.tasks.auto.${auto}`, { trigger: a.trigger ? t(`crm.tasks.trigger.${a.trigger}`) : '', min: data.rules.founder_min }) : a.body
+  }
   const row = (k: string, v: React.ReactNode) => (
     <div className="flex flex-wrap gap-x-[10px] border-b border-line py-[7px] text-[13px] last:border-b-0">
       <span className="w-[140px] flex-none text-mut">{k}</span>
@@ -109,10 +114,16 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
                     {a.contact ? ` · ${a.contact}` : ''}
                     {a.due_at ? ` · ${m.company.due}: ${day(a.due_at)}` : ''}
                     {a.kind === 'task' && canWrite ? (
-                      <TaskToggle id={a.id} company={c.id} done={Boolean(a.done_at)} labels={{ done: m.company.done, reopen: m.company.reopen }} />
+                      <TaskToggle
+                        id={a.id}
+                        company={c.id}
+                        done={Boolean(a.done_at)}
+                        stopped={a.stopped}
+                        labels={{ done: m.company.done, reopen: m.company.reopen, stopped: m.company.stopped, failed: t('growth.g3.problem.failed') }}
+                      />
                     ) : null}
                   </span>
-                  <span className={`mt-[3px] block whitespace-pre-line ${a.done_at ? 'text-mut line-through' : ''}`}>{a.body}</span>
+                  <span className={`mt-[3px] block whitespace-pre-line ${a.done_at ? 'text-mut line-through' : ''}`}>{body(a)}</span>
                 </li>
               ))}
             </ol>

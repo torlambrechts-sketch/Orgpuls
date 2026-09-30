@@ -55,6 +55,7 @@ import { createHash } from 'node:crypto'
 import { pathToFileURL } from 'node:url'
 import { g2FixtureSql } from './sentral-fixture.g2.mjs'
 import { g4Sql } from './sentral-fixture.g4.mjs'
+import { g3Sql } from './sentral-fixture.g3.mjs'
 
 export const DEFAULT_DB = 'postgresql://postgres:postgres@127.0.0.1:54322/postgres'
 export const LOCAL_HOSTS = ['127.0.0.1', 'localhost']
@@ -276,6 +277,7 @@ insert into app.crm_suppression (email_hash, reason, at) values
 ${g4Sql({ id, q, contacts: CONTACTS })}
 
 ${g2FixtureSql()}
+${g3Sql({ id, q, today, company: c, contact: p, task: (key) => `'${id(`task:${key}`)}'::uuid` })}
 commit;
 `
 }

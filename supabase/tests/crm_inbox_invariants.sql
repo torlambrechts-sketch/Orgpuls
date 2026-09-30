@@ -3,7 +3,8 @@
 --   * every seeded stage says what the buyer did to reach it; a stage's criterion is saved with it (1)
 --   * the inbox lists a trial sign-up and a contact-form lead as waiting, until a call or a note is
 --     logged after they came; a logged stage change is not an answer; a newsletter sign-up is not a lead (2)
---   * the week's median first response and the share inside the target follow the target (3)
+--   * the probe's first response is its own 20 minutes, and the week's count inside the target
+--     follows the target — measured on the probe, whatever else the database holds (3)
 --   * the target is 1–1440 minutes; an analyst reads the inbox and cannot set it (4)
 --   * nothing written here survives (5)
 --
@@ -21,6 +22,7 @@ declare
   v_json  jsonb;
   v_txt   text;
   v_sla   int;
+  v_in    int;
   v_rows  jsonb := '[]';
   claims  constant text := '{"sub":"%s","role":"authenticated","aal":"aal2"}';
 begin
@@ -62,16 +64,21 @@ begin
       'pass', v_txt = 'contact_form:waiting,trial:waiting|contact_form:waiting,trial:answered');
 
     -- 3 -------------------------------------------------------------- the week's figures follow the target
+    -- Scoped to the probe: its own row's answer time, and how the week's count inside the target moves
+    -- between the two targets. The count can only fall as the target tightens, and the probe alone
+    -- (answered in 20 minutes) is certain to leave it, so whatever else the database holds — a QA
+    -- fixture's leads answered at once, or none — the difference is at least one.
     perform public.admin_crm_sla(30);
     v_json := public.admin_crm_inbox(30);
-    v_txt := concat_ws('|', v_json->>'sla_minutes', ((v_json->'week'->>'within_sla')::int >= 1)::text,
-                       ((v_json->'week'->>'median_minutes')::numeric > 0)::text);
+    select round(extract(epoch from (r->>'answered_at')::timestamptz - (r->>'created_at')::timestamptz) / 60)::text into v_txt
+    from jsonb_array_elements(v_json->'rows') r where r->>'company' like 'Probe%' and r->>'kind' = 'trial';
+    v_txt := concat_ws('|', v_json->>'sla_minutes', v_txt);
+    v_in := (v_json->'week'->>'within_sla')::int;
     perform public.admin_crm_sla(5);
     v_json := public.admin_crm_inbox(30);
-    v_txt := v_txt || '|' || (v_json->>'sla_minutes') || '|'
-          || ((v_json->'week'->>'within_sla')::int < (v_json->'week'->>'answered')::int)::text;
+    v_txt := v_txt || '|' || (v_json->>'sla_minutes') || '|' || (v_in - (v_json->'week'->>'within_sla')::int >= 1)::text;
     v_rows := v_rows || jsonb_build_object('seq', 3, 'name', 'answered in 20 minutes: inside a 30-minute target, outside a 5-minute one',
-      'expected', '30|true|true|5|true', 'actual', v_txt, 'pass', v_txt = '30|true|true|5|true');
+      'expected', '30|20|5|true', 'actual', v_txt, 'pass', v_txt = '30|20|5|true');
 
     -- 4 -------------------------------------------------------------- limits and roles
     v_txt := concat_ws(',', public.admin_crm_sla(0)->>'error', public.admin_crm_sla(2000)->>'error');

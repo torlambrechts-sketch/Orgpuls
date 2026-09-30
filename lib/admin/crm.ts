@@ -356,6 +356,11 @@ const Activity = z.object({
   admin_email: z.string().nullable(),
   created_at: z.string(),
   contact: z.string().nullable(),
+  // 0143: a rule's or a trigger's task (its body a key, worded as Tasks words it), the trigger that made
+  // it, and whether its organisation objected — then it stays closed and «Reopen» is not offered
+  origin: z.enum(['rule', 'trigger']).nullable().default(null),
+  trigger: z.enum(['threshold_5', 'threshold_30', 'company_new', 'manager_changed']).nullable().default(null),
+  stopped: z.boolean().default(false),
 })
 export type Activity = z.infer<typeof Activity>
 
@@ -367,6 +372,8 @@ export const crmCompany = (id: string) =>
       company: Company,
       contacts: z.array(Contact),
       activities: z.array(Activity),
+      // 0143: the score a «lead score» callback is made at (app.lead_rules), for its title
+      rules: z.object({ founder_min: num }),
       mail: z.object({ sent: num, opened: num, clicked: num, last_at: tsn }),
       admins: z.array(z.object({ id: z.string(), email: z.string().nullable() })),
     }),
@@ -484,14 +491,39 @@ const TaskRow = z.object({
   campaign_id: z.string().nullable().default(null),
   step_kind: z.enum(STEP_KINDS).nullable().default(null),
   journey: z.string().nullable().default(null),
+  // 0143: a task a rule or a Brønnøysund trigger made — its rule, kind and key — and a callback's SLA
+  origin: z.enum(['rule', 'trigger']).nullable().default(null),
+  rule: z.string().regex(/^R[0-9]{1,2}$/).nullable().default(null),
+  task_kind: z.enum(['call', 'email', 'letter']).nullable().default(null),
+  sla_due_at: tsn.default(null),
+  sla_left: num.nullable().default(null),
+  sla_met: z.boolean().nullable().default(null),
+  trigger: z.enum(['threshold_5', 'threshold_30', 'company_new', 'manager_changed']).nullable().default(null),
+  manager: z.string().nullable().default(null),
+  // where a trigger's letter or email goes (the business address, the generic address), and whether an
+  // objection stopped it
+  to: z.string().nullable().default(null),
+  stopped: z.boolean().default(false),
 })
 export type TaskRow = z.infer<typeof TaskRow>
+/** What a rule's or a trigger's task is (its body is `auto:<key>`, 0143), worded by the admin's messages */
+export const AUTO_TASKS = ['callback_hand_raise', 'callback_lead_score', 'pql_trial', 'outreach_phone', 'outreach_letter', 'outreach_email'] as const
+export type AutoTask = (typeof AUTO_TASKS)[number]
+export const autoTask = (body: string): AutoTask | null => {
+  const key = body.startsWith('auto:') ? body.slice(5) : ''
+  return (AUTO_TASKS as readonly string[]).includes(key) ? (key as AutoTask) : null
+}
 /** Tasks open by due date, and those done in the last 90 days */
 export const crmTaskList = (view: (typeof TASK_VIEWS)[number]) =>
   call(
     'admin_crm_task_list',
     { p_view: view },
-    z.object({ counts: z.object({ open: num, done: num, all: num, journeys: num.default(0) }), rows: z.array(TaskRow) }),
+    z.object({
+      // 0143: the score a «lead score» callback is made at (app.lead_rules), for its title
+      rules: z.object({ founder_min: num }),
+      counts: z.object({ open: num, done: num, all: num, automated: num.default(0), sla_open: num.default(0) }),
+      rows: z.array(TaskRow),
+    }),
   )
 
 // ---------------------------------------------------------------- the pipeline in figures (0137)

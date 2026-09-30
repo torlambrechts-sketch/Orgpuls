@@ -1,119 +1,171 @@
 import type { Route } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { Avatar, Badge, BTN, PageHead, Problem, type BadgeTone } from '@/components/admin/ui'
-import { accountHealth, isError, type HealthRow } from '@/lib/admin/api'
+import { BTN, PageHead, Problem } from '@/components/admin/ui'
+import { isError } from '@/lib/admin/api'
+import { DOT_CLASS, type DotTone } from '@/lib/admin/dots'
+import { leadScores, type Scored } from '@/lib/admin/growthCrm'
+import { fmt, initials, naceRanges, strongestSignals } from '@/lib/admin/growthCrmView'
+
+const HEAD = 'text-[11px] uppercase tracking-[0.09em] text-mut'
+/** the route chip's dot, as the design's `rdot`: a founder task or a PQL teal, a trial yellow, nurture the line */
+const routeTone = (s: Scored): DotTone => (s.route === 'founder' || s.route === 'pql' ? 'teal' : s.route === 'trial' ? 'yellow' : 'line')
 
 /**
- * Lead scoring (X-095, the design's `isScoring`): the trials ranked by the health score (0060) —
- * points for what they have done in the product, how recently they signed in, how many answered
- * their last survey and how large they are. 70 and above is hot, 40 and above warm. The rules
- * panel is the score's own definition, point for point; it is not edited here.
+ * Lead scoring (design revision 3, `isScoring`; 0143, D-184): fit × intent, 0–100, for the contacts of
+ * the companies in a working stage (a lead, or a trial).
+ *
+ *   fit     0–50 from Brønnøysund (report § 7.3), known before anyone signs up: the company's
+ *           industry and size, a threshold crossed or a new general manager (the trigger engine),
+ *           and whether it is active
+ *   intent  0–50 from first-party signals after consent or signup. Of the design's six only the
+ *           hand-raise has a source today (a demo request, or a sales question from the contact
+ *           form); the others are named «no source yet» and score nothing, never a guess
+ *   route   60 or more, or a hand-raise → a founder task on the one-hour SLA (app.lead_route makes
+ *           it); a trial follows the PQL rule; the rest is nurture
+ *
+ * It replaces the points model this page read before (the account health score, 0060), which is
+ * untouched and still read by /admin/health. The weights are the database's (app.fit_score,
+ * app.lead_score); the rules panel lists them as the database applies them.
  */
-const band = (s: number): { key: 'hot' | 'warm' | 'cold'; tone: BadgeTone } =>
-  s >= 70 ? { key: 'hot', tone: 'red' } : s >= 40 ? { key: 'warm', tone: 'yellow' } : { key: 'cold', tone: 'grey' }
-
-/** The rules as admin_account_health (0060) computes them */
-const RULES = [
-  { key: 'employees', points: '+10' },
-  { key: 'scheduled', points: '+10' },
-  { key: 'sent', points: '+10' },
-  { key: 'unlocked', points: '+10' },
-  { key: 'measure', points: '+10' },
-  { key: 'week', points: '+25' },
-  { key: 'month', points: '+10' },
-  { key: 'answered60', points: '+15' },
-  { key: 'answered40', points: '+8' },
-  { key: 'size20', points: '+10' },
-  { key: 'size10', points: '+5' },
-] as const
-
 export default async function LeadScoring() {
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const s = (k: string, v?: Record<string, string | number>) => t(`crm.scoring.${k}`, v)
-  const data = await accountHealth()
+  const data = await leadScores()
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
-  const rows = data.rows.filter((r) => !r.demo && (r.access === 'trial' || r.access === 'grace')).sort((a, b) => b.score - a.score)
-  const n = (k: 'hot' | 'warm' | 'cold') => rows.filter((r) => band(r.score).key === k).length
-  const why = (r: HealthRow) =>
-    [
-      r.unlocked ? s('why.unlocked') : r.sent ? s('why.sent') : r.scheduled ? s('why.scheduled') : r.employees_uploaded ? s('why.employees') : null,
-      r.measure ? s('why.measure') : null,
-      r.recency_points >= 25 ? s('why.week') : r.recency_points > 0 ? s('why.month') : s('why.away'),
-      r.response_points ? s('why.answered') : null,
-      r.qualified ? s('why.qualified') : null,
-    ]
-      .filter(Boolean)
-      .join(' · ')
+  const rows = data.rows
+  const hot = rows.filter((r) => r.route === 'founder').length
+  const nurture = rows.filter((r) => r.route === 'nurture').length
+  const trial = rows.filter((r) => r.stage === 'trial').length
+  // the rules as the database scores them (app.fit_score, app.intent_score)
+  const fitPoints = data.fit_rules
+  const intentPoints = data.intent_rules
+  const unsourced = intentPoints.filter((p) => !p.sourced)
+  const reachable = intentPoints.filter((p) => p.sourced).reduce((n, p) => n + p.points, 0)
+  // the bands, windows and thresholds a part names are the engine's (app.brreg_rules), never a copy in the messages
+  const rules = data.rules
+  const values = {
+    codes: naceRanges(rules.industries),
+    min: rules.size[0],
+    max: rules.size[1],
+    t5: rules.thresholds[0],
+    t30: rules.thresholds[1],
+    crossed: rules.crossed_days,
+    manager: rules.manager_days,
+  }
+  const why = (r: Scored) => {
+    const top = strongestSignals(r.fit_parts, r.intent_parts)
+    if (!top.keys.length) return s('fitOnly')
+    return [...top.keys.map((k) => s(`short.${k}`, values)), ...(top.more > 0 ? [s('more', { n: top.more })] : [])].join(' · ')
+  }
 
   return (
-    <>
-      <PageHead title={s('title')} lead={s('lead', { hot: n('hot'), warm: n('warm'), cold: n('cold') })}>
-        <Link href={'/admin/health' as Route} className={BTN.secondary}>
-          {s('health')}
-        </Link>
-      </PageHead>
+    <div className="leading-[1.5]">
+      <PageHead title={s('title')} lead={s('lead', { hot, nurture, trial })} measure={false} />
       <div className="grid items-start gap-[18px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1.3fr)_minmax(300px,.7fr)]">
-        <section className="min-w-0 overflow-x-auto rounded-panel border border-line bg-sf">
-          <div className="min-w-[620px]">
-            <div aria-hidden="true" className="flex items-center gap-[14px] border-b border-line px-[20px] pb-[10px] pt-[14px] text-[11px] uppercase tracking-[0.09em] text-mut">
-              <span className="flex-[2]">{s('col.trial')}</span>
-              <span className="flex-[1.4]">{s('col.score')}</span>
-              <span className="flex-[1.6]">{s('col.why')}</span>
-              <span className="w-[70px]" />
+        {/*
+          The design's table is 860 px wide in a card that is 844 px at its widest (the admin column's
+          1320 px, from a 1392 px window): 16 px of its rows' right padding lie past the card, and the
+          design's scroller clips them. From 1392 px the card cannot narrow, so the build clips them
+          without a scroller (overflow-x: clip): a scroller there is a composited layer in Chromium, and
+          the text drawn after it (the Fit and Intent card) loses its sub-pixel antialiasing. Below
+          1392 px the card narrows and the table scrolls, as the design's.
+        */}
+        <section className="min-w-0 overflow-x-auto rounded-panel border border-line bg-sf min-[1392px]:overflow-x-clip">
+          <div role="table" aria-label={s('table')} className="min-w-[860px]">
+            <div role="row" className={`flex items-center gap-[14px] border-b border-line px-[20px] pb-[10px] pt-[14px] ${HEAD}`}>
+              <span role="columnheader" className="flex-[2.2]">{s('head.contact')}</span>
+              <span role="columnheader" className="flex-[1.6]">{s('head.score')}</span>
+              <span role="columnheader" className="flex-[1.6]">{s('head.why')}</span>
+              <span role="columnheader" className="w-[230px]">{s('head.route')}</span>
             </div>
-            <ul className="m-0 list-none p-0">
-              {rows.map((r) => {
-                const b = band(r.score)
-                const href = `/admin/orgs/${r.id}` as Route
-                return (
-                  <li key={r.id} className="relative flex items-center gap-[14px] border-b border-line px-[20px] py-[12px] hover:bg-bg">
-                    <div className="flex min-w-0 flex-[2] items-center gap-[12px]">
-                      <Avatar name={r.name} />
-                      <div className="min-w-0">
-                        <Link href={href} className="block text-[14px] font-semibold text-ink no-underline after:absolute after:inset-0 hover:text-ink hover:no-underline">
-                          {r.name}
-                        </Link>
-                        <div className="text-[12.5px] text-mut">{r.trial_ends_at ? s('ends', { date: fmt.format(new Date(r.trial_ends_at)) }) : ''}</div>
-                      </div>
+            {rows.map((r) => (
+              <div key={r.id} role="row" className="flex items-center gap-[14px] border-b border-line px-[20px] py-[12px]">
+                <div role="cell" className="flex min-w-0 flex-[2.2] items-center gap-[12px]">
+                  <span aria-hidden="true" className="flex h-[28px] w-[28px] flex-none items-center justify-center rounded-pill bg-sbg text-[11px] font-bold">
+                    {initials(r.name)}
+                  </span>
+                  <div className="min-w-0">
+                    <div className="text-[13.5px] font-semibold">{r.name}</div>
+                    <div className="text-[12px] text-mut">
+                      {s('sub', {
+                        company: r.company,
+                        stage: s(`stage.${r.stage}`),
+                        brreg: r.nace && r.employees !== null ? s('brreg', { nace: r.nace, employees: fmt(r.employees) }) : s('brregNone'),
+                      })}
                     </div>
-                    <div className="flex flex-[1.4] items-center gap-[10px]">
-                      <span aria-hidden="true" className="block h-[8px] flex-1 overflow-hidden rounded-pill bg-ink/[.08]">
-                        <span className="block h-full rounded-pill bg-ac" style={{ width: `${Math.min(100, r.score)}%` }} />
+                  </div>
+                </div>
+                <div role="cell" className="flex flex-[1.6] flex-col gap-[5px]">
+                  {(
+                    [
+                      ['fit', r.fit, 'bg-teal'],
+                      ['intent', r.intent, 'bg-ac'],
+                    ] as const
+                  ).map(([key, n, fill]) => (
+                    <div key={key} className="flex items-center gap-[8px]">
+                      <span className="w-[38px] text-[11px] text-mut">{s(key)}</span>
+                      <span aria-hidden="true" className="block h-[7px] flex-1 overflow-hidden rounded-pill bg-ink/[.08]">
+                        {/* the design's bar: the points as a per cent of the track (45 of 50 fills 45 %) */}
+                        <span className={`block h-full rounded-pill ${fill}`} style={{ width: `${Math.min(100, n)}%` }} />
                       </span>
-                      <Badge tone={b.tone}>{`${r.score} · ${s(`band.${b.key}`)}`}</Badge>
+                      <b className="min-w-[44px] text-right text-[12px]">{s('of50', { n })}</b>
                     </div>
-                    <div className="min-w-0 flex-[1.6] text-[13px] text-mut">{why(r)}</div>
-                    <div className="relative flex w-[70px] justify-end">
-                      <Link href={href} className={BTN.row} tabIndex={-1} aria-hidden="true">
-                        {s('open')}
-                      </Link>
-                    </div>
-                  </li>
-                )
-              })}
-            </ul>
+                  ))}
+                </div>
+                <div role="cell" className="min-w-0 flex-[1.6] text-[12.5px] text-mut">
+                  {why(r)}
+                </div>
+                <div role="cell" className="flex w-[230px] flex-none items-center justify-end gap-[8px]">
+                  <span className="inline-flex items-center gap-[6px] whitespace-nowrap rounded-pill bg-sbg px-[10px] py-[5px] text-[11.5px] font-bold">
+                    <span aria-hidden="true" className={`block h-[6px] w-[6px] rounded-pill ${DOT_CLASS[routeTone(r)]}`} />
+                    {/* the design's chip holds three runs (total, dot, route), each a flex item 6 px apart */}
+                    <span>{r.total}</span>
+                    <span aria-hidden="true">·</span>
+                    <span>{s(`route.${r.route}`)}</span>
+                  </span>
+                  <Link href={`/admin/crm/contacts/${r.id}` as Route} className={`${BTN.row} leading-[normal]`} aria-label={s('openLabel', { name: r.name })}>
+                    {s('open')}
+                  </Link>
+                </div>
+              </div>
+            ))}
             {rows.length ? null : <p className="m-0 px-[20px] py-[18px] text-[13px] text-mut">{s('none')}</p>}
           </div>
         </section>
+
         <section className="rounded-panel border border-line bg-sf px-[20px] py-[20px] md:px-[26px] md:py-[24px]">
-          <h2 className="m-0 font-display text-[22px] font-medium">{s('rules')}</h2>
-          <p className="mb-0 mt-[4px] text-[12.5px] text-mut">{s('rulesLead')}</p>
-          <ul className="m-0 mt-[12px] flex list-none flex-col p-0">
-            {RULES.map((r) => (
-              <li key={r.key} className="flex items-center justify-between gap-[12px] border-b border-line py-[10px]">
-                <span className="min-w-0">
-                  <span className="block text-[13.5px]">{s(`rule.${r.key}`)}</span>
-                  <span className="block text-[12px] text-mut">{s(`rule.${r.key}Kind`)}</span>
-                </span>
-                <b className="text-[14px]">{r.points}</b>
-              </li>
+          <h2 className="m-0 font-display text-[22px] font-medium">{s('fitTitle')}</h2>
+          <div className="mt-[4px] text-[12.5px] text-mut">{s('fitSub')}</div>
+          <div className="mt-[8px] flex flex-col">
+            {fitPoints.map((p) => (
+              <div key={p.key} className="flex items-center gap-[12px] border-b border-line py-[10px] text-[13.5px]">
+                <div className="min-w-0 flex-1">{s(`part.${p.key}`, values)}</div>
+                <b className="min-w-[36px] text-right">{s('points', { n: p.points })}</b>
+              </div>
             ))}
-          </ul>
+          </div>
+          <h2 className="m-0 mt-[22px] font-display text-[22px] font-medium">{s('intentTitle')}</h2>
+          <div className="mt-[4px] text-[12.5px] text-mut">
+            {s('intentSub')}
+            {unsourced.length ? (
+              <span className="block">{s('intentCap', { n: reachable, count: unsourced.length, total: intentPoints.length })}</span>
+            ) : null}
+          </div>
+          <div className="mt-[8px] flex flex-col">
+            {intentPoints.map((p) => (
+              <div key={p.key} className="flex items-center gap-[12px] border-b border-line py-[10px] text-[13.5px]">
+                <div className="min-w-0 flex-1">{p.sourced ? s(`part.${p.key}`) : s('noSource', { part: s(`part.${p.key}`) })}</div>
+                {/* the weight in ink, as the design draws every one; «no source yet» carries the status */}
+                <b className="min-w-[36px] text-right">{s('points', { n: p.points })}</b>
+              </div>
+            ))}
+          </div>
+          <div className="mt-[16px] rounded-cta border border-line bg-bg px-[16px] py-[14px] text-[13px] leading-[1.55] [text-wrap:pretty]">
+            {t.rich('crm.scoring.routing', { b: (ch) => <b>{ch}</b>, min: rules.founder_min })}
+          </div>
         </section>
       </div>
-    </>
+    </div>
   )
 }
-
-const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', timeZone: 'Europe/Oslo' })

@@ -51,7 +51,8 @@ export function StatusChip({
   /**
    * the header's «Dry run» chip: a hairline border and no fill. It is a sentence in the design and
    * wraps there (no nowrap) inside a sub-line that wraps too, so it may wrap here: at 390 px a
-   * nowrap chip that long would push the page sideways
+   * nowrap chip that long would push the page sideways. It sets no colour of its own in the design,
+   * so it takes the sub-line's muted text
    */
   outline?: boolean
   /** inside a design `<button>`, whose UA font resets the line-height to normal (the lowest-first list) */
@@ -61,7 +62,7 @@ export function StatusChip({
 }) {
   return (
     <span
-      className={`inline-flex items-center gap-[6px] rounded-pill font-bold text-ink ${inButton ? 'leading-[normal]' : 'leading-[1.5]'} ${CHIP_SIZE[size]} ${outline ? 'border border-line' : 'whitespace-nowrap bg-sbg'} ${className}`}
+      className={`inline-flex items-center gap-[6px] rounded-pill font-bold ${inButton ? 'leading-[normal]' : 'leading-[1.5]'} ${CHIP_SIZE[size]} ${outline ? 'border border-line text-mut' : 'whitespace-nowrap bg-sbg text-ink'} ${className}`}
     >
       <span aria-hidden="true" className={`block h-[6px] w-[6px] flex-none rounded-pill ${DOT_CLASS[tone]}`} />
       {children}
@@ -238,6 +239,20 @@ export function SectionCard({
       {head}
       {children}
     </section>
+  )
+}
+
+/**
+ * The design's empty treatment inside a card (`cd.noActs`, `cd.noOrgs`): a centred dashed box on the
+ * page colour, 22 px in, radius 12, a 14/600 line and a 12.5 px muted sentence, 14 px below what is
+ * above it. Nothing in it reads as data.
+ */
+export function CardEmpty({ title, text }: { title: string; text: string }) {
+  return (
+    <div className="mt-[14px] rounded-[12px] border border-dashed border-line bg-bg p-[22px] text-center leading-[1.5]">
+      <div className="text-[14px] font-semibold">{title}</div>
+      <div className="mt-[4px] text-[12.5px] text-mut [text-wrap:pretty]">{text}</div>
+    </div>
   )
 }
 
