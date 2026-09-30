@@ -3,8 +3,8 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { GROWTH_VIEWS } from '@/lib/admin/growth'
-import { ALLOWED_PARAMS, assertLocalDb, CONTACTS, DEFAULT_DB, fixtureSql, psqlConnection, psqlEnv, QA_GUARD } from '../../scripts/seed/sentral-fixture.mjs'
-import { assertLocalBase, judgeView, verdict } from '../../scripts/verify/sentral-judge.mjs'
+import { adminStateSql, ALLOWED_PARAMS, assertLocalDb, CONTACTS, DEFAULT_DB, fixtureSql, LOCAL_ADMIN, PASSWORD_VAR, psqlConnection, psqlEnv, QA_GUARD } from '../../scripts/seed/sentral-fixture.mjs'
+import { assertLocalBase, judgeView, tiles, verdict } from '../../scripts/verify/sentral-judge.mjs'
 import { baselineFile, pageFile, REPO, routeExists, slug, VIEW_ROUTES } from '../../scripts/verify/sentral-routes.mjs'
 
 /** The Sentral QA fixture never runs against a hosted database, and the admin gate's route map (D-181). */
@@ -108,6 +108,31 @@ describe('the fixture’s local-only guard', () => {
     expect(fixtureSql()).toBe(sql)
   })
 
+  it('never puts the admin’s password in its SQL, so --print and the server’s log cannot show it', () => {
+    const sql = fixtureSql()
+    expect(LOCAL_ADMIN.password.length).toBeGreaterThan(0)
+    expect(sql).not.toContain(LOCAL_ADMIN.password)
+    expect(sql).not.toMatch(/crypt\('/)
+    // psql reads it from its own environment and binds it as $1: the statement text holds no value
+    expect(sql).toContain(`\\getenv pw ${PASSWORD_VAR}`)
+    expect(sql).toMatch(/crypt\(\$1, gen_salt\('bf'\)\), true\) is not null as hashed \\bind :pw \\g/)
+    expect(sql.indexOf('\\getenv')).toBeGreaterThan(sql.indexOf('begin;'))
+    expect(psqlConnection(DEFAULT_DB, {}).env).not.toHaveProperty(PASSWORD_VAR)
+  })
+
+  it('writes the admin inactive and without a factor: only a run opens it, and closes it again', () => {
+    const sql = fixtureSql()
+    expect(sql).toContain("values (v_uid, 'super_admin', false)")
+    expect(sql).toContain('active = false;')
+    expect(sql).not.toMatch(/active = true/)
+    for (const open of [true, false]) {
+      const s = adminStateSql(open)
+      expect(s).toContain(`if not (${QA_GUARD})`)
+      expect(s.indexOf(QA_GUARD)).toBeLessThan(s.indexOf('delete from auth.mfa_factors'))
+      expect(s).toContain(`set active = ${open} where user_id = '${LOCAL_ADMIN.id}'`)
+    }
+  })
+
   it('writes no address a local send could deliver', () => {
     for (const c of CONTACTS) expect(c.email).toMatch(/\.example$/)
   })
@@ -152,6 +177,53 @@ describe('the admin gate’s route map', () => {
     } finally {
       process.chdir(cwd)
     }
+  })
+})
+
+/** a picture (RGBA, as pngjs decodes one) whose rows are black or white in irregular runs: any vertical shift shows */
+function stripes(width: number, height: number, offset = 0) {
+  const png = { width, height, data: Buffer.alloc(width * height * 4) }
+  for (let y = 0; y < height; y++) {
+    const src = y - offset
+    const on = src >= 0 && ((src * 7919) % 13) % 2 === 0
+    for (let x = 0; x < width; x++) {
+      const i = (y * width + x) * 4
+      const v = on ? 0 : 255
+      png.data[i] = v
+      png.data[i + 1] = x % 50 < 25 ? v : 128
+      png.data[i + 2] = v
+      png.data[i + 3] = 255
+    }
+  }
+  return png
+}
+
+describe('the admin gate’s comparison', () => {
+  const base = stripes(200, 200)
+
+  it('finds nothing differing between a render and itself', () => {
+    const r = tiles(base, stripes(200, 200))
+    expect(r.map(([t]) => t)).toEqual(['0:0', '0:100', '100:0', '100:100'])
+    expect(r.every(([, n]) => n === 0)).toBe(true)
+  })
+
+  it('finds a block pushed 20 px down within the shift, and not without it', () => {
+    const shot = stripes(200, 240, 20)
+    expect(tiles(base, shot, { shift: 40 }).every(([, n]) => n === 0)).toBe(true)
+    expect(tiles(base, shot, { shift: 0 }).every(([, n]) => n > 1000)).toBe(true)
+    expect(tiles(base, shot, { shift: 10 }).some(([, n]) => n > 0)).toBe(true)
+  })
+
+  it('counts a tile the shot is too narrow or too short for as wholly different', () => {
+    const narrow = tiles(base, stripes(150, 200))
+    expect(narrow).toContainEqual(['0:100', 10000])
+    expect(narrow).toContainEqual(['100:100', 10000])
+    expect(narrow).toContainEqual(['0:0', 0])
+    const short = tiles(base, stripes(200, 120), { shift: 0 })
+    expect(short).toContainEqual(['100:0', 10000])
+    expect(short).toContainEqual(['0:0', 0])
+    // so a claim on it is lost, not dropped
+    expect(judgeView(['0:100'], narrow, 10).lost).toEqual(['0:100'])
   })
 })
 

@@ -1,4 +1,5 @@
-import type { Section } from './access'
+import { canSee, type Section } from './access'
+import type { AdminRole } from './api'
 
 /**
  * Design revision 3's new views (Sentral › Growth and its neighbours, D-181), each with its
@@ -31,3 +32,10 @@ export type GrowthViewKey = keyof typeof GROWTH_VIEWS
 
 /** The addresses the menu may offer: every one of these routes exists (app/(admin)/admin/…). */
 export const GROWTH_PAGES: readonly string[] = Object.values(GROWTH_VIEWS).map((v) => v.href)
+
+/**
+ * Whether a role may open a view: the section's rule (lib/admin/access.ts), the same one the menu
+ * offers pages by, so an address typed by hand is refused exactly where the menu leaves it out. No
+ * role — a signed-out caller or an inactive admin — may open any.
+ */
+export const mayOpenGrowthView = (role: AdminRole | null | undefined, view: GrowthViewKey): boolean => !!role && canSee(role, GROWTH_VIEWS[view].section)

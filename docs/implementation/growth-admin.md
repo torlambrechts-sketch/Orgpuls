@@ -98,8 +98,15 @@ is in use, not that someone typed «Live».
   runtime (`sentral-baseline.mjs`).
 - **The admin at the same width.** `scripts/verify/sentral-run.mjs` signs in as the local admin
   (TOTP) and shoots each route.
-  - It compares the shot to its baseline tile by tile (100 × 100 px) with the same tolerance
-    as the product's v3 gate.
+  - It compares the shot to its baseline tile by tile (100 × 100 px). The tolerance is the
+    gate's agreed 0.1 %, taken of the tile (10 differing pixels in 10 000), not of the whole
+    screen as the product's v3 gate takes it: at 100 × 100, v3-run's 1 296 px would be 13 % of a
+    tile and passes a stub against a full design (D-181). `--limit 1296` gives v3-run's budget
+    back, for comparison.
+  - A tile the shot is too narrow or too short to hold counts as wholly different, so a claim on
+    it is lost rather than dropped.
+  - The local admin is active only while a run holds it: the run activates it and clears its
+    factor, enrols a fresh one, and deactivates it and deletes that factor when it ends.
   - Claims are recorded per view in `scripts/verify/sentral-claims.json`, the same model as
     `v3-claims.json`.
 - **A local-only QA fixture** (`scripts/seed/sentral-fixture.mjs`) writes the design's sample
@@ -112,7 +119,9 @@ is in use, not that someone typed «Live».
   «Live»), those tiles leave the claims, and the reason is written in the deviation entry. No
   claim is re-recorded without reading its diff (audit rule 7).
 - **Phone width.** Each view is also shot at 390 px: no horizontal scroll, the sub-bar in the
-  menu sheet, tables become the design's stacked rows.
+  menu sheet, tables become the design's stacked rows. Below 1280 (`--width 390`, `--width 1024`)
+  the run also fails a sub-bar that hides the page you are on, and a menu sheet that lets Tab or
+  Shift+Tab out or does not give focus back on Escape.
 
 ## 5. Phases
 
@@ -151,7 +160,10 @@ numbers and disjoint files.
    - no hard-coded text;
    - no fabricated values;
    - the immutability-trigger rule;
-   - dead code.
+   - dead code. At G2 this includes the shared shapes G0 built ahead of their consumers
+     (components/admin/growth.tsx: KpiStrip, Board, TierColumn, BoardCard, BulletRow,
+     BenchmarkRow, SectionCard, StatusChip, and PhaseEmpty's `children`; lib/admin/dots.ts'
+     `dotTone`): each is used by a view or deleted.
 5. **Visual verification** by a fresh agent. It runs `sentral-run.mjs` on the phase's views at
    1440 and 390, reads every lost tile against the render, and looks at focus-visible, empty
    states and console errors.

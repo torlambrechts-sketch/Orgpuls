@@ -20,13 +20,18 @@
  *      So the guards are independent: a URL that got past the first to a tunnelled hosted
  *      database would still meet a catalog without the QA mark.
  * It writes a super-admin with a known password (below): on a hosted project that would be a
- * back door, which is why both guards exist.
+ * back door, which is why both guards exist. The password never appears in the SQL: psql reads it
+ * from its own environment (`\getenv`) and sends it as a bound parameter (`\bind`), which the
+ * server hashes and does not write into a statement it could log; `--print` shows `$1` in its
+ * place. The admin is written INACTIVE, with no second factor: sentral-run.mjs activates it for
+ * the length of a run (`openAdmin`) and retires it again at the end (`closeAdmin`), so between runs
+ * the tracked default password opens nothing, and no one can enrol a factor of their own on it.
  *
  * What it writes, from the design's `loadGrowth()` and `loadData()` (Sentral_Admin.dc.html), and
  * only into tables that exist today; each later phase extends it for the tables it adds
  * (consent records, triggers, partners, magnets, registries):
- *   - the local admin, admin.local@orgpuls.test, super_admin, with its TOTP factors cleared so
- *     every sign-in enrols afresh (sentral-run.mjs reads the secret the enrolment shows);
+ *   - the local admin, admin.local@orgpuls.test, super_admin but inactive, with no TOTP factor, so
+ *     every run activates it and enrols afresh (sentral-run.mjs reads the secret the enrolment shows);
  *   - eight companies: the Brønnøysund outreach queue's six, Bygg & Betong Sør and Vestland
  *     fylkeskommune, with the queue's organisation numbers (each fails the mod-11 check digit,
  *     so no real undertaking holds one) and the lead-scoring signals' industry and headcount;
@@ -57,7 +62,8 @@ export const ALLOWED_PARAMS = ['sslmode', 'connect_timeout']
 /**
  * The local admin sentral-run.mjs signs in as. Local and QA only (see the guards above). The
  * password is SENTRAL_ADMIN_PASSWORD when that is set (untracked), else a local default; MFA is
- * enforced either way, since every run clears the factor and enrols afresh.
+ * enforced either way, since every run clears the factor and enrols afresh, and the admin is active
+ * only while a run holds it. Nothing here prints the password or puts it in SQL text.
  */
 export const LOCAL_ADMIN = {
   id: '00000000-0000-4000-8000-00000005e0a1',
@@ -87,6 +93,9 @@ export function assertLocalDb(url) {
   }
   return u
 }
+
+/** the variable psql reads the local admin's password from (`\getenv`); set only in psql's own environment */
+export const PASSWORD_VAR = 'SENTRAL_FIXTURE_ADMIN_PASSWORD'
 
 /** psql's environment: this process's, without a PG* variable that could override the connection */
 export const psqlEnv = (env = process.env) => Object.fromEntries(Object.entries(env).filter(([k]) => !k.startsWith('PG')))
@@ -203,22 +212,30 @@ do $$ begin
   end if;
 end $$;
 
--- the local admin, enrolling a fresh TOTP factor at every sign-in
+-- the local admin's password: read by psql from its environment and sent as a bound parameter, so
+-- it is in no statement text; the server keeps only its bcrypt hash, for this transaction
+\\getenv pw ${PASSWORD_VAR}
+select set_config('sentral.admin_hash', crypt($1, gen_salt('bf')), true) is not null as hashed \\bind :pw \\g
+
+-- the local admin: inactive and without a factor until sentral-run.mjs opens it for a run
 do $$
 declare v_uid uuid := '${a.id}';
 begin
+  if coalesce(current_setting('sentral.admin_hash', true), '') !~ '^\\$2[aby]\\$' then
+    raise exception 'sentral-fixture: the admin password was not bound; refusing';
+  end if;
   insert into auth.users (id, instance_id, aud, role, email, encrypted_password, email_confirmed_at, created_at, updated_at,
     raw_app_meta_data, raw_user_meta_data, confirmation_token, recovery_token, email_change, email_change_token_new,
     email_change_token_current, phone_change, phone_change_token, reauthentication_token)
   values (v_uid, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', ${q(a.email)},
-    crypt(${q(a.password)}, gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}'::jsonb, '{}'::jsonb,
+    current_setting('sentral.admin_hash'), now(), now(), now(), '{"provider":"email","providers":["email"]}'::jsonb, '{}'::jsonb,
     '', '', '', '', '', '', '', '')
   on conflict (id) do update set encrypted_password = excluded.encrypted_password, email = excluded.email;
   insert into auth.identities (id, user_id, provider_id, provider, identity_data, created_at, updated_at, last_sign_in_at)
   values (v_uid, v_uid, v_uid::text, 'email', jsonb_build_object('sub', v_uid::text, 'email', ${q(a.email)}, 'email_verified', true), now(), now(), now())
   on conflict do nothing;
-  insert into app.platform_admins (user_id, role) values (v_uid, 'super_admin')
-  on conflict (user_id) do update set role = excluded.role, active = true;
+  insert into app.platform_admins (user_id, role, active) values (v_uid, 'super_admin', false)
+  on conflict (user_id) do update set role = excluded.role, active = false;
   delete from auth.mfa_factors where user_id = v_uid;
 end $$;
 
@@ -244,18 +261,31 @@ commit;
 `
 }
 
-/** Clears the local admin's TOTP factors, so the next sign-in enrols (sentral-run.mjs). */
-export function resetAdminMfa(url) {
-  const conn = psqlConnection(url)
-  const sql = `do $$ begin
+/**
+ * The SQL that opens the local admin for a run (active, no factor: the sign-in enrols one) or
+ * closes it after (inactive, its factor gone), refusing any database that is not the QA stack.
+ */
+export function adminStateSql(open) {
+  return `do $$ begin
   if not (${QA_GUARD}) then raise exception 'not the local QA stack; refusing'; end if;
   delete from auth.mfa_factors where user_id = '${LOCAL_ADMIN.id}';
+  update app.platform_admins set active = ${open ? 'true' : 'false'} where user_id = '${LOCAL_ADMIN.id}';
+  if not found then raise exception 'sentral-fixture: the local admin is missing; run the fixture first'; end if;
 end $$;`
-  execFileSync('psql', [...conn.args, '-c', sql], { env: conn.env, stdio: ['ignore', 'ignore', 'inherit'] })
 }
+
+const adminState = (url, open) => {
+  const conn = psqlConnection(url)
+  execFileSync('psql', [...conn.args, '-c', adminStateSql(open)], { env: conn.env, stdio: ['ignore', 'ignore', 'inherit'] })
+}
+/** Activates the local admin and clears its TOTP factors, so the next sign-in enrols (sentral-run.mjs). */
+export const openAdmin = (url) => adminState(url, true)
+/** Deactivates the local admin and deletes the factor a run enrolled: between runs it opens nothing. */
+export const closeAdmin = (url) => adminState(url, false)
 
 function main(argv) {
   if (argv.includes('--print')) {
+    // the SQL carries no password (it binds $1 from psql's environment), so printing it shows none
     process.stdout.write(fixtureSql())
     return
   }
@@ -267,7 +297,9 @@ function main(argv) {
     console.error(e.message)
     process.exit(2)
   }
-  execFileSync('psql', conn.args, { input: fixtureSql(), env: conn.env, stdio: ['pipe', 'ignore', 'inherit'] })
+  // the admin's password reaches psql in its environment only, for the SQL's `\getenv`: not in its
+  // argv (which `ps` shows) and not in the script on its stdin
+  execFileSync('psql', conn.args, { input: fixtureSql(), env: { ...conn.env, [PASSWORD_VAR]: LOCAL_ADMIN.password }, stdio: ['pipe', 'ignore', 'inherit'] })
   console.log(`sentral fixture: ${COMPANIES.length} companies, ${CONTACTS.length} contacts, ${TASKS.length} tasks, ${SUPPRESSIONS.length} suppressions, the local admin`)
 }
 

@@ -11246,7 +11246,7 @@
         "growthBoard": {
           "title": "Growth board",
           "lead": "The report’s integrated priority list · product-led, compliance content drives acquisition, paid media stays small",
-          "empty": "The report’s tiers and board items arrive as registry rows, each with Orgpuls’ true status, derived from what is in use. The KPI row counts them."
+          "empty": "The report’s tiers and board items arrive as registry rows, each with Orgpuls’ true status, derived from what is in use, and a KPI row above the board will count them."
         },
         "growthPlan": {
           "title": "90-day plan",

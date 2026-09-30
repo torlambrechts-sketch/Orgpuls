@@ -47,12 +47,16 @@ export function StatusChip({
   tone: DotTone
   children: ReactNode
   size?: keyof typeof CHIP_SIZE
-  /** the header's «Dry run» chip: a hairline border and no fill */
+  /**
+   * the header's «Dry run» chip: a hairline border and no fill. It is a sentence in the design and
+   * wraps there (no nowrap) inside a sub-line that wraps too, so it may wrap here: at 390 px a
+   * nowrap chip that long would push the page sideways
+   */
   outline?: boolean
 }) {
   return (
     <span
-      className={`inline-flex items-center gap-[6px] whitespace-nowrap rounded-pill font-bold leading-[1.5] text-ink ${CHIP_SIZE[size]} ${outline ? 'border border-line' : 'bg-sbg'}`}
+      className={`inline-flex items-center gap-[6px] rounded-pill font-bold leading-[1.5] text-ink ${CHIP_SIZE[size]} ${outline ? 'border border-line' : 'whitespace-nowrap bg-sbg'}`}
     >
       <span aria-hidden="true" className={`block h-[6px] w-[6px] flex-none rounded-pill ${DOT_CLASS[tone]}`} />
       {children}
@@ -71,11 +75,22 @@ export function KpiStrip({ children, min = 200, className = '' }: { children: Re
   )
 }
 
+/**
+ * The board's column templates, one per tier count, spelled out so Tailwind emits each (no inline
+ * style). The design draws five tiers; the others are there for a registry with fewer or more.
+ */
+const BOARD_COLUMNS = {
+  3: '[grid-template-columns:repeat(3,minmax(230px,1fr))]',
+  4: '[grid-template-columns:repeat(4,minmax(230px,1fr))]',
+  5: '[grid-template-columns:repeat(5,minmax(230px,1fr))]',
+  6: '[grid-template-columns:repeat(6,minmax(230px,1fr))]',
+} as const
+
 /** The board: one column per tier, side by side, scrolling sideways below 1180 px */
-export function Board({ columns, children, className = '' }: { columns: number; children: ReactNode; className?: string }) {
+export function Board({ columns, children, className = '' }: { columns: keyof typeof BOARD_COLUMNS; children: ReactNode; className?: string }) {
   return (
     <div className={`overflow-x-auto pb-[6px] leading-[1.5] ${className}`}>
-      <div className="grid min-w-[1180px] gap-[14px]" style={{ gridTemplateColumns: `repeat(${columns}, minmax(230px, 1fr))` }}>
+      <div className={`grid min-w-[1180px] gap-[14px] ${BOARD_COLUMNS[columns]}`}>
         {children}
       </div>
     </div>

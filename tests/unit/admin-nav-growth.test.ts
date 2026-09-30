@@ -1,8 +1,9 @@
+import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { canSee, HREF } from '@/lib/admin/access'
 import { ROLES } from '@/lib/admin/api'
 import { DOT_CLASS, DOT_TONES, dotTone } from '@/lib/admin/dots'
-import { GROWTH_PAGES, GROWTH_VIEWS } from '@/lib/admin/growth'
+import { GROWTH_PAGES, GROWTH_VIEWS, mayOpenGrowthView, type GrowthViewKey } from '@/lib/admin/growth'
 import { currentItem, groupOf, navFor } from '@/lib/admin/nav'
 
 /** Sentral › Growth and design revision 3's other new pages in the menu (D-181). */
@@ -82,6 +83,35 @@ describe('the growth section', () => {
       const menu = navFor(role, GROWTH_PAGES).flatMap((g) => g.items.map((i) => i.href))
       for (const v of Object.values(GROWTH_VIEWS)) expect(menu.includes(v.href)).toBe(canSee(role, v.section))
     }
+  })
+})
+
+describe('a view opened by its address (GrowthStub)', () => {
+  const views = Object.keys(GROWTH_VIEWS) as GrowthViewKey[]
+
+  it('refuses every view to support, finance and editors, and to no role at all', () => {
+    for (const view of views) {
+      for (const role of ['support', 'finance', 'editor', null, undefined] as const) expect(mayOpenGrowthView(role, view), `${String(role)} ${view}`).toBe(false)
+    }
+  })
+
+  it('opens every view to the super-admin, the analyst and marketing', () => {
+    for (const view of views) {
+      for (const role of ['super_admin', 'analyst', 'marketing'] as const) expect(mayOpenGrowthView(role, view), `${role} ${view}`).toBe(true)
+    }
+  })
+
+  it('decides by the view’s own section, as the menu does', () => {
+    for (const role of ROLES) {
+      for (const view of views) expect(mayOpenGrowthView(role, view)).toBe(canSee(role, GROWTH_VIEWS[view].section))
+    }
+  })
+
+  it('is what the stub asks before it renders anything', () => {
+    const src = readFileSync('components/admin/GrowthStub.tsx', 'utf8')
+    const gate = src.indexOf('if (!mayOpenGrowthView(who?.role, view)) return <Problem')
+    expect(gate).toBeGreaterThan(-1)
+    expect(gate).toBeLessThan(src.indexOf('<PageHead'))
   })
 })
 

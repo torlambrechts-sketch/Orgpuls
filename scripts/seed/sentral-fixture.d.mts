@@ -12,4 +12,7 @@ export const CONTACTS: readonly { key: string; name: string; email: string; comp
 export const TASKS: readonly (readonly [string, string, string, string, string | null, number])[]
 export const SUPPRESSIONS: readonly (readonly [string, string, string])[]
 export function fixtureSql(): string
-export function resetAdminMfa(url: string): void
+export const PASSWORD_VAR: string
+export function adminStateSql(open: boolean): string
+export function openAdmin(url: string): void
+export function closeAdmin(url: string): void

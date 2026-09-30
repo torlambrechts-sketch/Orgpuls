@@ -37,12 +37,19 @@ const crop = (png, x, y, w, h) => {
   return o
 }
 
-/** each tile's best diff within ±shift px up and down: ['y:x', differing pixels] */
+/**
+ * Each tile of the render with its best diff within ±shift px up and down: ['y:x', differing
+ * pixels]. The render decides which tiles exist: a tile the shot is too narrow or too short to hold
+ * counts as wholly different (tile × tile), so a claim on it is lost, not silently dropped.
+ */
 export function tiles(basePng, shotPng, { shift = 40, tile = TILE } = {}) {
-  const w = Math.min(basePng.width, shotPng.width)
   const res = []
   for (let y = 0; y + tile <= basePng.height; y += tile) {
-    for (let x = 0; x + tile <= w; x += tile) {
+    for (let x = 0; x + tile <= basePng.width; x += tile) {
+      if (x + tile > shotPng.width) {
+        res.push([`${y}:${x}`, tile * tile])
+        continue
+      }
       const A = crop(basePng, x, y, tile, tile)
       let best = null
       for (const dy of [0, ...Array.from({ length: shift }, (_, i) => [i + 1, -(i + 1)]).flat()]) {

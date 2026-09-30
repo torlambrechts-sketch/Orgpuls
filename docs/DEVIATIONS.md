@@ -7752,11 +7752,16 @@ is diffed by the gate G0 made.
 - **The admin pixel gate**, scripts/verify/sentral-run.mjs, with the route map
   scripts/verify/sentral-routes.mjs (the plan's table: the thirteen new views and Lead scoring,
   Tasks and Journeys, which revision 3 changes) and claims in scripts/verify/sentral-claims.json. It
-  signs in as the fixture's local admin, clearing that admin's TOTP factors in the local database
-  first and answering the fresh enrolment with a code computed from the key it shows; shoots each
+  signs in as the fixture's local admin, activating it and clearing its TOTP factors in the local
+  database first and answering the fresh enrolment with a code computed from the key it shows (and,
+  however the run ends, deactivating it and deleting that factor again); shoots each
   built route full-page at 1440; compares 100 × 100 tiles, each searched ±40 px up and down as
   v3-run does; fails on a lost claim, a route that does not answer, or any console or page error.
-  `--width 390` (or any width) checks horizontal overflow instead of diffing. A view whose route has
+  `--width 390` (or any width) checks horizontal overflow instead of diffing; below 1280
+  (`--width 390`, `--width 1024`) it also fails a sub-bar that hides the page you are on and, once
+  per run, a menu sheet that lets Tab or Shift+Tab out or does not give focus back on Escape. A tile
+  of the render that the shot is too narrow or too short to hold counts as wholly different
+  (sentral-judge.mjs `tiles`), so a claim on it is lost, not dropped. A view whose route has
   no page, or no render, is skipped with a line saying so — and that **fails** the run when the view
   has recorded claims; a run that compares no view at all (an `--only` that matches nothing) fails
   too, because the plan's QC loop reads exit codes, not summaries. The verdict is a pure function in
@@ -7768,7 +7773,14 @@ is diffed by the gate G0 made.
   127.0.0.1: the run types the local admin's password into the page it names.
 - **The QA fixture**, scripts/seed/sentral-fixture.mjs: the local admin (admin.local@orgpuls.test,
   super_admin, a known password — local only; `SENTRAL_ADMIN_PASSWORD`, untracked, replaces the
-  default when set, and MFA is enforced either way), eight companies (the Brønnøysund queue's six with the
+  default when set, and MFA is enforced either way). The password is never in the SQL: psql reads it
+  from its own environment (`\getenv`, never its argv, which `ps` shows) and sends it as a bound
+  parameter (`\bind`, `crypt($1, gen_salt('bf'))`), so `--print` shows `$1` and a failed statement
+  cannot put it in the Postgres log (bind values are not logged, `log_parameter_max_length_on_error`
+  = 0). The admin is written **inactive** and without a factor: sentral-run.mjs activates it for the
+  length of a run and retires it after, so between runs the tracked default password opens nothing
+  and nobody can enrol a factor of their own on it (an inactive admin has no admin role,
+  `admin_role()` in 0049). Eight companies (the Brønnøysund queue's six with the
   design's organisation numbers, each of which fails the mod-11 check digit, plus Bygg & Betong Sør
   and Vestland fylkeskommune; industry and headcount from the lead-scoring signals), eight contacts
   (Silje Moen, Kristian Dale and the consent ledger's people who have an address, with the basis and
@@ -7794,7 +7806,13 @@ is diffed by the gate G0 made.
   section's roles, the menu agreeing with each view's section, the dot map) and
   tests/unit/sentral-fixture.test.ts (the guard against hosted, remote and redirecting URLs, URLs the
   two parsers read differently, and PG* variables; psql's arguments naming the checked host, the SQL guard before any write, idempotence, `.example` addresses, the route map naming
-  every render and finding every page).
+  every render and finding every page; no password in the SQL and the admin written inactive; the
+  comparison itself on generated PNG pairs — identical, a block pushed 20 px down, a shot too narrow
+  or too short). admin-nav-growth.test.ts also holds `mayOpenGrowthView`, the check GrowthStub makes
+  before it renders anything, to the section rule for every role and view. The shell's keyboard and
+  sub-bar behaviour is checked in the browser by sentral-run below 1280, not in
+  scripts/verify/shell-behaviour.mjs: that script is the product's shell, signed in as a product
+  user on :3000, and cannot reach /admin.
 
 **Where it differs from the design, and why:**
 - *Every new view* shows its head and the phase's empty panel instead of its content, until its
@@ -7837,6 +7855,15 @@ is diffed by the gate G0 made.
 - *The phone menu sheet traps focus*: it is `role=dialog aria-modal=true`, and with 57 entries Tab
   used to walk off its end onto the page behind it. Tab and Shift+Tab now wrap inside the sheet
   while it is open; Escape still closes it and returns focus to the menu button.
+- *The board's empty sentence* says a KPI row «will count» the items: the stub has neither cards
+  nor a KPI row, so it speaks of them in the future, as the other empty sentences do.
+- *`Board` sets its column template from a fixed map* (3–6 tiers, each an arbitrary Tailwind
+  value), not an inline style; the design draws five. *The outlined «Dry run» chip may wrap*: the
+  design's is a sentence with no nowrap inside a wrapping sub-line, so a nowrap chip would push a
+  390 px page sideways; the filled chips stay on one line.
+- *The shared shapes wait for G2*: KpiStrip, Board, TierColumn, BoardCard, BulletRow, BenchmarkRow,
+  SectionCard, StatusChip and `dotTone` have no consumer in G0, which the plan asks for. The G2
+  review's dead-code pass confirms each is used by a view or deleted (plan § 6, step 4).
 - *The empty panel's title names the phase* («Nothing here yet · built in phase G2»), where the
   design's empty treatment says «Not set up for {site} yet». Kept: the admin's readers are the team
   that works to the plan, the title says honestly why the page is empty and when it fills, and each
