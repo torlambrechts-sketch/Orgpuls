@@ -68,6 +68,29 @@ import { MAIL, RESPONDENT_UI, SIGNED_OFF_FLAGS, SURVEY_ONLY, SURVEY_SOURCE } fro
 import { complete, nest, type Approved } from '../_shared/survey-texts.ts'
 
 const BATCH = 25
+
+/** A claimed «Send test til meg» (0127): whom to, and the invitation's facts as the preview reads them */
+interface TestJob {
+  id: string
+  round_id: string
+  to: string
+  name: string | null
+  preview: {
+    org: string
+    lang: string
+    k: number
+    round: NonNullable<NoticeJob['round']>
+    publish_on: string | null
+    intro: string | null
+    intro_by: string | null
+    org_greeting: { text: string; by: string | null } | null
+    minutes: number | null
+    results_shared: boolean
+    since: NoticeJob['since']
+    logo: string | null
+    results_page: string | null
+  } | null
+}
 const BUDGET_MS = 40_000
 
 function same(a: string, b: string): boolean {
@@ -425,6 +448,53 @@ Deno.serve(async (req) => {
 
   if (tally.claimed) console.log(`[dispatch] claimed ${tally.claimed}, sent ${tally.sent} (${tally.sms} by SMS), retry ${tally.retry}, failed ${tally.failed}`)
 
+  // «Send test til meg» (0127, D-171): the invitation as it will read, to the daglig leder's own
+  // address, with the preview's link instead of a personal one
+  const tests = { sent: 0, failed: 0 }
+  {
+    const { data, error } = await svc.rpc('dispatch_test_claim', { p_batch: BATCH })
+    if (error) console.error(`[dispatch] test claim failed: ${error.code ?? ''} ${error.message}`)
+    for (const t of (data ?? []) as TestJob[]) {
+      let outcome: SendResult
+      try {
+        if (!t.preview) throw new Error('round gone')
+        const p = t.preview
+        const lang = p.lang === 'en' ? 'en' : 'no'
+        const job: NoticeJob = {
+          id: t.id,
+          kind: 'invitasjon',
+          audience: null,
+          channel: 'email',
+          sms_text: null,
+          lang,
+          org: p.org,
+          k: p.k,
+          round: p.round,
+          recipients: [{ email: t.to, phone: null, name: t.name, lang, member: true }],
+          token: null,
+          minutes: p.minutes,
+          results_shared: p.results_shared,
+          publish_on: p.publish_on,
+          greeting: p.intro ? { text: p.intro, by: p.intro_by } : p.org_greeting,
+          since: sinceOn ? p.since : null,
+          logo: p.logo,
+          results_page: p.results_page,
+          test_round: t.round_id,
+        }
+        const r = renderNotice(cat, job, { lang, member: true, name: t.name }, appUrl)
+        outcome = await brevoSend(key, { sender, to: [{ email: t.to, name: t.name }], subject: r.subject, html: r.html, text: r.text, tag: 'orgpuls-test' })
+      } catch (e) {
+        console.error(`[dispatch] test ${t.id}: render failed: ${(e as Error).message}`)
+        outcome = { ok: false, retryable: false, auth: false, code: 'render' }
+      }
+      await svc.rpc('dispatch_test_done', { p_id: t.id, p_ok: outcome.ok, p_error: outcome.ok ? null : outcome.code })
+      if (outcome.ok) tests.sent++
+      else tests.failed++
+      if (!outcome.ok) console.error(`[dispatch] test ${t.id}: ${outcome.code}`)
+      if (!outcome.ok && outcome.auth) return json({ error: 'provider_unauthorised', ...tally, tests }, 502)
+    }
+  }
+
   // replies to support tickets (0051, D-92), answered to the support inbox
   const replyTo = { email: Deno.env.get('ORGPULS_SUPPORT_MAIL') ?? 'hjelp@orgpuls.no', name: 'Orgpuls' }
   const tickets = { sent: 0, retry: 0, failed: 0 }
@@ -583,5 +653,5 @@ Deno.serve(async (req) => {
     }
     if (crm.sent + crm.retry + crm.failed) console.log(`[dispatch] marketing: sent ${crm.sent}, retry ${crm.retry}, failed ${crm.failed}`)
   }
-  return json({ ...tally, tickets, life, crm })
+  return json({ ...tally, tests, tickets, life, crm })
 })

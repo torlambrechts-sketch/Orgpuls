@@ -179,7 +179,8 @@ begin
     perform public.track_product_event('results_viewed');
     perform public.track_product_event('results_viewed');
     perform public.track_product_event('not_an_event');
-    select count(*) into v_cnt from app.product_events where user_id = v_dl and day = (now() at time zone 'Europe/Oslo')::date;
+    -- this event only: the leader may have been counted for other screens today, in a database that is not new
+    select count(*) into v_cnt from app.product_events where user_id = v_dl and name = 'results_viewed' and day = (now() at time zone 'Europe/Oslo')::date;
     v_rows := v_rows || jsonb_build_object('seq', 17, 'name', 'a leader''s results view is counted once a day', 'expected', '1',
       'actual', v_cnt::text, 'pass', v_cnt = 1);
 

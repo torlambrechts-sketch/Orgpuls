@@ -42,3 +42,30 @@ export async function saveRoundSend(
   revalidatePath('/maleoppsett')
   return { ok: true }
 }
+
+const TestResult = z.union([
+  z.object({ ok: z.literal(true), to: z.string() }),
+  z.object({ error: z.enum(['closed', 'mail_off', 'no_address', 'rate_limited']) }),
+])
+
+export type TestProblem = 'closed' | 'mail_off' | 'no_address' | 'rate_limited' | 'denied'
+
+/**
+ * «Send test til meg» (0127): the invitation as it will read, to the daglig leder's own address,
+ * with the preview's link. `send_test_invitation` decides who may and how often; the dispatcher
+ * sends it on its next run.
+ */
+export async function sendTestInvitation(
+  roundId: string,
+): Promise<{ ok: true; to: string } | { ok: false; problem: TestProblem }> {
+  const id = z.string().uuid().safeParse(roundId)
+  if (!id.success) return { ok: false, problem: 'denied' }
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('send_test_invitation', { p_round: id.data })
+  if (callFailed('sendTestInvitation', error)) return { ok: false, problem: 'denied' }
+  const parsed = TestResult.safeParse(data)
+  if (!parsed.success) return { ok: false, problem: 'denied' }
+  if ('error' in parsed.data) return { ok: false, problem: parsed.data.error }
+  revalidatePath('/maleoppsett')
+  return { ok: true, to: parsed.data.to }
+}

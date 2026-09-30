@@ -5592,9 +5592,10 @@ leaving them out takes a reason. The settings get a tab of their own.
   - The mail and SMS texts are new keys under `mail`, and the renderer handles both kinds.
 - **Not built, from the proposal:**
   - «Send test til meg». It needs a way to send a link that answers nothing; a real token
-    would be a real invitation.
+    would be a real invitation. Built since, with the preview's link (D-171).
   - A chosen send time.
   - A ready-to-send check before «Åpne». The reach count on the tab is the first half of it.
+    Built since, on Måleoppsett › Utsending (D-171).
   - Result sharing and language, which belong to engagement phases 1–2.
 - **Tests.**
   - `supabase/tests/survey_settings_invariants.sql` has 15 rows, and all 47 suites pass.
@@ -7502,3 +7503,36 @@ X-095, phase 10. From the design's `isUsers`, `isBilling`, `isSettings` and `isA
   written by the database functions, not the screens. The design's «kept for 24 months» is not
   claimed: nothing prunes the trail. The latest 500 entries are listed and the latest 1 000 exported;
   a CSV cell never starts a spreadsheet formula.
+
+---
+
+## D-171 — «Send test til meg» and «Klar til utsending» on Måleoppsett › Utsending
+
+**Design:** none. The design has no send card (D-156 built it), no test send and no pre-send check.
+Both were proposed with Målinger › Innstillinger (X-064) and left out of D-126 because a test needs a
+link that answers nothing.
+
+**Built (0127):**
+- **The test.** «Send test til meg» under the send card queues the invitation, as it will read, to
+  the address the daglig leder signs in with — never another address, at most five an hour, not for
+  a closed round or while the organisation's e-mail is off. The dispatcher renders it with the
+  invitation's own renderer from the facts the preview reads (`app.round_preview_json`, which
+  `round_send_preview` now calls), prefixed «Test:» and headed by a line saying what it is. Its link
+  is the round's preview, `/forhandsvis?runde=…`, which needs a sign-in and writes nothing: a test
+  carries no token, so there is nothing it could answer (D-34). The texts are `mail.test.*` in
+  bokmål and English: a test goes to a leader in the organisation's language, never to a
+  respondent, so like `mail.tiltak` and `mail.evaluering` it is outside the survey languages' set.
+  The card shows the viewer's last test: queued, sent (with the time) or not delivered.
+- **The check.** Above the introduction while the round is planned: how many in the audience the
+  opening will invite get it by e-mail, by SMS (or not, while SMS is off), or not at all; the
+  invited groups with fewer active employees than the threshold, which can never show a figure;
+  whether the verneombud was consulted and the tillitsvalgte consulted (section 6); and whether the
+  organisation's e-mail is off. Green where in order, amber where it needs a look, with a count.
+  It blocks nothing: the year wheel opens a round on its date, and the check says what that date will
+  meet. `round_ready` gives counts and group names only, to the daglig leder only.
+
+**Pixel gate:** the send card is below section 6 and only for the daglig leder on a round that is
+not closed (D-156); no v3 state draws it.
+
+`send_test_invariants.sql` (7) proves the posture, who may send, the limits, the claim, the preview
+unchanged and the check's counts; `tests/unit/mail.test.ts` the test's subject, lead and link.

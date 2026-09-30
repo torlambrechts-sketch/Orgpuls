@@ -2894,10 +2894,10 @@ the app calls it any more (wiring R1, known).
 - [ ] Invitation (D-149): write the greeting in Målinger › Innstillinger if you want one. The logo is uploaded in Oppsett › Selskap › Logo (D-154) and then heads every mail.
 - [ ] § 9-2 evaluation (D-153): record the ordning's evaluations under Rapport › Registrer til rapporten; until one is recorded, an organisation with a closed round is reminded every four weeks.
 - [ ] Engagement phase 2 (task #116): answer the eight decisions in docs/implementation/engagement-phase2-plan.md § 2 before it is built.
-- [x] Pixel gate: `07`, `09` and `19` lost their bottom-row tiles to the effect card (D-147) and «Siden for de ansatte» (D-151), which push the footer 400 px below the design's; `07`–`11` and `19` lost the drill panel's lower tiles to D-155, `12` the tone chips to D-157. Each diff read on 2026-09-30 and the claims re-recorded; the gate runs in CI since (X-098).
+- [x] Pixel gate: `07`, `09` and `19` lost their bottom-row tiles to the effect card (D-147) and «Siden for de ansatte» (D-151), which push the footer 400 px below the design's; `07`–`11` and `19` lost the drill panel's lower tiles to D-155, `12` the tone chips to D-157. Each diff read on 2026-09-30 and the claims re-recorded; the gate stays local (X-098).
 - [x] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131); decided in admin › Moduler since 0092 (D-140).
-- [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).
-- [ ] A ready-to-send check before a round opens (channel coverage, groups under the threshold, information and consultation done); the reach count on Målinger › Innstillinger is its first half (D-126).
+- [x] «Send test til meg» for a survey's invitation: to the daglig leder's own address, its link the round's preview, which answers nothing (0127, D-171).
+- [x] A ready-to-send check before a round opens: reach by channel, groups under the threshold, the two consultations, e-mail off (0127, D-171).
 - [ ] "View as customer" for support: whether, for whom, with what approval, and how the
   customer is told (D-107; the DPA's Vedlegg 2 limits staff access today).
 - [x] Google Search Console: connected 2026-09-28 (`sc-domain:orgpuls.com`, read-only service
@@ -3151,16 +3151,20 @@ lists, Templates. Contacts, Lists and Segments are one menu entry with three tab
 address is unchanged, so links, bookmarks and mail keep working; access is still the `crm` section.
 tests/unit/admin-nav-crm.test.ts pins the grouping and that the tabs light their one entry.
 
-### X-098 — The design's pixel gate runs in CI
+### X-098 — The design's pixel gate: claims re-recorded, and why it stays a local gate
 
-**Why.** Audit AUD-16: `scripts/verify/v3-run.mjs` failed on seven states and ran nowhere but by
-hand, so nothing noticed.
+**Why.** Audit AUD-16: `scripts/verify/v3-run.mjs` failed on seven states and was not in CI.
 
 **What.** Each lost tile was looked at against its baseline before anything was re-recorded (audit
 rule 7). Every one is a deviation already logged: the drill panel's comments instead of «Foreslåtte
 tiltak» (D-155, 07–11 and 19), no tone chips on Kommentarer (D-157, 12), and the effect card and
 «Siden for de ansatte» (D-147, D-151) that end Resultater and push its footer ~400 px below the
 design's, beyond the gate's ±40 px search (07, 09, 19). Only those tiles left the claims; 22 others
-that now match were added. The run finds Chromium as `shoot.mjs` does and runs in CI's smoke step,
-against the same build and the database built from the migrations, with the shots uploaded as
-`smoke-shots/v3`.
+that now match were added. The run finds Chromium as `shoot.mjs` does.
+
+**Not in CI.** Run in CI's smoke step (PR #3, run 215), 20 of 22 states lost tiles in every region,
+not only the ones above: the runner's Chrome for Testing and font stack set the same text a few
+pixels wider (the Målinger lead wraps a word earlier) and draw a glyph the container has as an empty
+box. The baselines and claims belong to the rendering they were captured with, as `qa/baselines`
+does (ci.yml says so); re-recording them on the runner would throw away the design's own pixels.
+The gate stays local: `/audit` runs it (phase 5), and it passes on 22 of 22 on 2026-09-30.

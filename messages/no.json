@@ -1366,6 +1366,40 @@
         "opened": "Runden er sendt ut, og innledningen kan ikke endres lenger.",
         "publish_range": "Dagen må være tidligst når runden stenger og senest 60 dager etter.",
         "denied": "Bare daglig leder kan endre utsendingen."
+      },
+      "ready": {
+        "head": "Klar til utsending",
+        "allGood": "Alt er klart for utsending.",
+        "toCheck": "{count, plural, one {# ting} other {# ting}} å se på før målingen åpner.",
+        "mailOff": "E-post er slått av for virksomheten, så ingen invitasjoner sendes.",
+        "reach": "{email} av {audience} i utvalget får invitasjonen på e-post.",
+        "smsOn": "{count} har bare mobilnummer og får den på SMS.",
+        "smsOff": "{count} har bare mobilnummer, og SMS er slått av. De får ingen invitasjon.",
+        "neither": "{count} har verken e-post eller mobilnummer og får ingen invitasjon. Legg dem inn under Oppsett › Ansatte.",
+        "empty": "Ingen aktive ansatte er med i utvalget.",
+        "small": "{groups} har færre enn {k} ansatte. Tall vises aldri for en så liten gruppe; svarene telles bare med i hele virksomheten.",
+        "smallNone": "Alle inviterte grupper har minst {k} ansatte.",
+        "vo": "Verneombudet er tatt med på råd.",
+        "voMissing": "Det er ikke registrert at verneombudet er tatt med på råd (seksjon 6).",
+        "tv": "Behov og utforming er drøftet med tillitsvalgte.",
+        "tvMissing": "Drøfting med tillitsvalgte er ikke registrert (seksjon 6).",
+        "ok": "I orden",
+        "warn": "Se på dette"
+      },
+      "test": {
+        "button": "Send test til meg",
+        "note": "Invitasjonen slik den blir, til e-postadressen du logger inn med. Lenken i testen åpner forhåndsvisningen og lagrer ingen svar.",
+        "queued": "Testen sendes til {to} i løpet av noen minutter.",
+        "sent": "Test sendt til {to} {when}.",
+        "failed": "Testen til {to} kom ikke fram. Prøv igjen, eller kontakt oss hvis det gjentar seg.",
+        "sending": "Sender …",
+        "problems": {
+          "closed": "Runden er stengt.",
+          "mail_off": "E-post er slått av for virksomheten.",
+          "no_address": "Kontoen din har ingen e-postadresse å sende til.",
+          "rate_limited": "Du har sendt fem tester den siste timen. Prøv igjen litt senere.",
+          "denied": "Bare daglig leder kan sende en test."
+        }
       }
     }
   },
@@ -3140,6 +3174,10 @@
       "none": "Det er ikke registrert noen evaluering ennå.",
       "what": "Gå gjennom med tillitsvalgte om målingen fortsatt trengs, og om den virker slik den skal. Registrer evalueringen under Rapport, så står den i dokumentasjonen og påminnelsen stopper.",
       "cta": "Åpne Rapport"
+    },
+    "test": {
+      "subject": "Test: {subject}",
+      "lead": "Dette er en test av invitasjonen, sendt bare til deg. Lenken åpner forhåndsvisningen i Orgpuls: du må være logget inn, og ingenting du svarer der blir lagret. De ansatte får hver sin personlige lenke når målingen åpner."
     }
   },
   "newPassword": {

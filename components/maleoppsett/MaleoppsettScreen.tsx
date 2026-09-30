@@ -6,7 +6,7 @@ import type { CommentPolicy, EvaluationCadence } from '@/lib/setup/read'
 import type { WheelCadence } from '@/lib/wheel/read'
 import type { IndustryMeta } from '@/content/industries/meta'
 import { SendCard } from '@/components/maleoppsett/SendCard'
-import type { SendPreview } from '@/lib/rounds/send'
+import type { RoundReady, SendPreview } from '@/lib/rounds/send'
 import type { MailMessages } from '@/supabase/functions/_shared/mail'
 
 /**
@@ -107,6 +107,8 @@ export interface MaleoppsettView {
     appUrl: string
     showSince: boolean
     viewerName: string | null
+    /** the ready-to-send check and the viewer's last test (0127) */
+    ready: RoundReady | null
   } | null
   /** the round has opened: its question set, modules included, is fixed */
   locked: boolean
@@ -177,6 +179,35 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
   const invitedHeadcount = invited.reduce((n, g) => n + g.headcount, 0)
   const thin = invited.filter((g) => g.thin)
   const selectedFactors = view.factors.filter((f) => f.selected).length
+
+  /*
+   * The ready-to-send check (0127, D-171): before the round opens, each line from `round_ready`,
+   * green where it is in order and amber where it needs a look. Nothing blocks the opening: the
+   * year wheel opens a round on its date, and the check says what that date will meet.
+   */
+  const ready = view.send?.ready ?? null
+  const readyItems: { ok: boolean; text: string }[] = []
+  if (ready && ready.status === 'planlagt') {
+    const r = (k: string, v?: Record<string, string | number>) => t(`maleoppsett.send.ready.${k}`, v)
+    if (!ready.mail) readyItems.push({ ok: false, text: r('mailOff') })
+    if (ready.audience === 0) readyItems.push({ ok: false, text: r('empty') })
+    else {
+      readyItems.push({ ok: ready.email === ready.audience, text: r('reach', { email: ready.email, audience: ready.audience }) })
+      if (ready.phone_only) readyItems.push({ ok: ready.sms, text: r(ready.sms ? 'smsOn' : 'smsOff', { count: ready.phone_only }) })
+      if (ready.neither) readyItems.push({ ok: false, text: r('neither', { count: ready.neither }) })
+    }
+    readyItems.push(
+      ready.small_groups.length
+        ? { ok: false, text: r('small', { groups: ready.small_groups.join(', '), k: ready.k }) }
+        : { ok: true, text: r('smallNone', { k: ready.k }) },
+      { ok: ready.consultations.verneombud_raad, text: r(ready.consultations.verneombud_raad ? 'vo' : 'voMissing') },
+      { ok: ready.consultations.droftet_tillitsvalgte, text: r(ready.consultations.droftet_tillitsvalgte ? 'tv' : 'tvMissing') },
+    )
+  }
+  const toCheck = readyItems.filter((i) => !i.ok).length
+  const lastTest = ready?.test ?? null
+  const clock = (iso: string) =>
+    `${fmt(iso, { day: 'numeric', month: 'short' })} ${fmt(iso, { hour: '2-digit', minute: '2-digit', hour12: false }).replace(':', locale.startsWith('en') ? ':' : '.')}`
 
   const pr = view.perRound
   const smsRule = (w: string) => t(`maleoppsett.perRound.sms.${w}`)
@@ -429,6 +460,39 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
                   publish_range: t('maleoppsett.send.problems.publish_range'),
                   denied: t('maleoppsett.send.problems.denied'),
                 },
+                ready: readyItems.length
+                  ? {
+                      head: t('maleoppsett.send.ready.head'),
+                      summary: toCheck ? t('maleoppsett.send.ready.toCheck', { count: toCheck }) : t('maleoppsett.send.ready.allGood'),
+                      items: readyItems,
+                      ok: t('maleoppsett.send.ready.ok'),
+                      warn: t('maleoppsett.send.ready.warn'),
+                    }
+                  : null,
+                test:
+                  view.status !== 'lukket'
+                    ? {
+                        button: t('maleoppsett.send.test.button'),
+                        note: t('maleoppsett.send.test.note'),
+                        sending: t('maleoppsett.send.test.sending'),
+                        queued: t.raw('maleoppsett.send.test.queued') as string,
+                        last: lastTest
+                          ? lastTest.status === 'sent' && lastTest.sent_at
+                            ? t('maleoppsett.send.test.sent', { to: lastTest.to, when: clock(lastTest.sent_at) })
+                            : lastTest.status === 'failed'
+                              ? t('maleoppsett.send.test.failed', { to: lastTest.to })
+                              : t('maleoppsett.send.test.queued', { to: lastTest.to })
+                          : null,
+                        lastFailed: lastTest?.status === 'failed',
+                        problems: {
+                          closed: t('maleoppsett.send.test.problems.closed'),
+                          mail_off: t('maleoppsett.send.test.problems.mail_off'),
+                          no_address: t('maleoppsett.send.test.problems.no_address'),
+                          rate_limited: t('maleoppsett.send.test.problems.rate_limited'),
+                          denied: t('maleoppsett.send.test.problems.denied'),
+                        },
+                      }
+                    : null,
               }}
             />
           </div>

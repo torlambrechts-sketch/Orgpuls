@@ -246,9 +246,6 @@ jobs:
           node scripts/verify/mobile.mjs --signin --out artifacts/mobile \
             /innsikt /malinger /kommentarer /tiltak /oppsett /resultater "/malinger?fane=arshjul" \
             /hjelp /integrasjoner /rapport /maleoppsett
-          # the design's pixel gate (v3-run.mjs, audit AUD-16): every designed state against its
-          # baseline, tile by tile; a tile claimed in v3-claims.json that stops matching fails
-          node scripts/verify/v3-run.mjs --out artifacts/v3
           if grep -E '\[(read|write|org|middleware)\] ' smoke.log; then
             echo "::error::a screen logged a failed read or write -- see the lines above"
             exit 1

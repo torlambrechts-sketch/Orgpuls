@@ -56,3 +56,35 @@ export async function getSendPreview(roundId: string): Promise<SendPreview | nul
   if (parseFailed('getSendPreview', parsed)) return null
   return parsed.data
 }
+
+/**
+ * What a round needs before it opens (0127, `round_ready`), for the send card's check: whom the
+ * invitation reaches and how, invited groups too small for any figure, the two consultations, and
+ * the viewer's last test. Counts and group names only; the daglig leder's.
+ */
+const Ready = z.object({
+  status: z.enum(['planlagt', 'apen', 'lukket']),
+  mail: z.boolean(),
+  sms: z.boolean(),
+  k: z.number().int().min(5),
+  audience: z.number().int().min(0),
+  email: z.number().int().min(0),
+  phone_only: z.number().int().min(0),
+  neither: z.number().int().min(0),
+  small_groups: z.array(z.string()),
+  consultations: z.object({ verneombud_raad: z.boolean(), droftet_tillitsvalgte: z.boolean() }),
+  test: z
+    .object({ to: z.string(), status: z.enum(['pending', 'sending', 'sent', 'failed']), at: Iso, sent_at: Iso.nullable() })
+    .nullable(),
+})
+
+export type RoundReady = z.infer<typeof Ready>
+
+export async function getRoundReady(roundId: string): Promise<RoundReady | null> {
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('round_ready', { p_round: roundId })
+  if (callFailed('getRoundReady', error)) return null
+  const parsed = Ready.safeParse(data)
+  if (parseFailed('getRoundReady', parsed)) return null
+  return parsed.data
+}

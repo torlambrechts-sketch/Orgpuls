@@ -234,6 +234,22 @@ describe('notices', () => {
     expect(forged.html).toContain('>Orgpuls</div>')
   })
 
+  it('sends a test of the invitation to the leader with the preview\'s link and no token (0127)', () => {
+    const round = '0b6f3c1e-7d2a-4f5b-9c8e-1a2b3c4d5e6f'
+    for (const lang of ['no', 'en'] as const) {
+      const r = renderNotice(cat, job({ token: null, lang, test_round: round }), { lang, member: true, name: 'Dina' }, APP)
+      expect(r.subject.startsWith('Test: ')).toBe(true)
+      expect(r.text).toContain(`${APP}/forhandsvis?runde=${round}`)
+      expect(r.text).not.toContain('/s/')
+      expect(r.text).toContain(lang === 'no' ? 'Dette er en test' : 'This is a test')
+    }
+    // a real invitation is untouched by the field's absence, and a round that is not an id never reaches a link
+    expect(renderNotice(cat, job(), { lang: 'no', member: false, name: 'Ola' }, APP).subject).toBe('Nordvik Anlegg AS: svar på grunnlinjen 2026')
+    expect(() => renderNotice(cat, job({ token: null, test_round: '../admin' }), { lang: 'no', member: true, name: null }, APP)).toThrow()
+    // only an invitation can be a test
+    expect(() => renderNotice(cat, job({ kind: 'paminnelse', token: null, test_round: round }), { lang: 'no', member: true, name: null }, APP)).toThrow()
+  })
+
   it('names a puls by its number within the year', () => {
     expect(roundName(no.mail, { kind: 'puls', year: 2027, pulse: 2, opens_at: null, closes_at: null })).toBe('puls 2 · 2027')
     expect(roundName(en.mail, { kind: 'grunnlinje', year: 2026, pulse: null, opens_at: null, closes_at: null })).toBe('the 2026 baseline')

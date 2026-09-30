@@ -1366,6 +1366,40 @@
         "opened": "The round has been sent, and its introduction can no longer be changed.",
         "publish_range": "The day must be no earlier than the close and no later than 60 days after.",
         "denied": "Only the managing director can change the sending."
+      },
+      "ready": {
+        "head": "Ready to send",
+        "allGood": "Everything is ready to send.",
+        "toCheck": "{count, plural, one {# thing} other {# things}} to look at before the survey opens.",
+        "mailOff": "E-mail is turned off for the organisation, so no invitations are sent.",
+        "reach": "{email} of {audience} in the audience get the invitation by e-mail.",
+        "smsOn": "{count} have only a mobile number and get it by SMS.",
+        "smsOff": "{count} have only a mobile number, and SMS is turned off. They get no invitation.",
+        "neither": "{count} have neither an e-mail address nor a mobile number and get no invitation. Add them under Setup › Employees.",
+        "empty": "No active employees are in the audience.",
+        "small": "{groups} have fewer than {k} employees. Figures are never shown for a group that small; their answers count only in the whole organisation.",
+        "smallNone": "Every invited group has at least {k} employees.",
+        "vo": "The safety representative has been consulted.",
+        "voMissing": "It is not recorded that the safety representative has been consulted (section 6).",
+        "tv": "Needs and design have been discussed with the union representatives.",
+        "tvMissing": "Discussion with the union representatives is not recorded (section 6).",
+        "ok": "In order",
+        "warn": "Look at this"
+      },
+      "test": {
+        "button": "Send a test to me",
+        "note": "The invitation as it will read, to the e-mail address you sign in with. The link in the test opens the preview and saves no answers.",
+        "queued": "The test is sent to {to} within a few minutes.",
+        "sent": "Test sent to {to} {when}.",
+        "failed": "The test to {to} did not get through. Try again, or contact us if it happens again.",
+        "sending": "Sending …",
+        "problems": {
+          "closed": "The round is closed.",
+          "mail_off": "E-mail is turned off for the organisation.",
+          "no_address": "Your account has no e-mail address to send to.",
+          "rate_limited": "You have sent five tests in the last hour. Try again a little later.",
+          "denied": "Only the general manager can send a test."
+        }
       }
     }
   },
@@ -3140,6 +3174,10 @@
       "none": "No evaluation has been recorded yet.",
       "what": "Go through with the employee representatives whether the survey is still needed and works as it should. Record the evaluation under Report, so it appears in the documentation and the reminder stops.",
       "cta": "Open Report"
+    },
+    "test": {
+      "subject": "Test: {subject}",
+      "lead": "This is a test of the invitation, sent only to you. The link opens the preview in Orgpuls: you need to be signed in, and nothing you answer there is saved. Each employee gets a personal link when the survey opens."
     }
   },
   "newPassword": {

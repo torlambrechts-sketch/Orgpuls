@@ -81,6 +81,11 @@ export interface NoticeJob {
    * unless `engagement_since_last` is on; an SMS never carries it (D-128).
    */
   since?: { first: true } | { first: false; since: string; items: { title: string; status: 'gjennomfort' | 'pagar' }[]; done: number } | null
+  /**
+   * «Send test til meg» (0127): the round whose invitation this tests. A test has no token; its
+   * link opens that round's preview, which needs a sign-in and answers nothing.
+   */
+  test_round?: string | null
 }
 
 export interface Recipient {
@@ -308,6 +313,12 @@ export function personalLink(appUrl: string, token: string): string {
   return `${appUrl.replace(/\/+$/, '')}/s/${token}`
 }
 
+/** A test's link (0127): the round's preview in the app, never a survey page */
+export function testLink(appUrl: string, round: string): string {
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(round)) throw new Error('test without a valid round')
+  return `${appUrl.replace(/\/+$/, '')}/forhandsvis?runde=${round}`
+}
+
 /** The kinds that carry one person's own link: a group of one, and a token minted for it. */
 export function isPersonal(kind: NoticeJob['kind']): boolean {
   return kind === 'invitasjon' || kind === 'paminnelse' || kind === 'siste_paminnelse' || kind === 'lenke'
@@ -410,8 +421,9 @@ export function renderNotice(
   }
 
   if (isPersonal(job.kind)) {
-    if (!job.token) throw new Error(`${job.kind} without a link`)
-    const link = personalLink(base, job.token)
+    const test = job.kind === 'invitasjon' && job.test_round ? job.test_round : null
+    if (!job.token && !test) throw new Error(`${job.kind} without a link`)
+    const link = test ? testLink(base, test) : personalLink(base, job.token as string)
     // the reminder texts, the second reminder's own lead, and the link a person asked for (0076)
     const reminder = job.kind === 'paminnelse' || job.kind === 'siste_paminnelse'
     const own = job.kind === 'invitasjon' ? 'invitasjon' : job.kind === 'lenke' ? 'lenke' : job.kind === 'paminnelse' ? 'paminnelse' : 'sistePaminnelse'
@@ -436,8 +448,22 @@ export function renderNotice(
       ...(reminder || job.kind === 'lenke' ? [pick(m, 'paminnelse.replaces')] : []),
       pick(m, 'invitasjon.personal'),
     ]
-    const subject = cap(fill(pick(m, `${own}.subject`), { org, round }))
-    return { subject, ...layout({ brand, title: subject, lang: group.lang, greeting, paragraphs, cta: { label: pick(m, 'invitasjon.cta'), url: link, plain: true }, after, footer }) }
+    const real = cap(fill(pick(m, `${own}.subject`), { org, round }))
+    // a test says so in its subject and above everything else, and where its link goes
+    const subject = test ? fill(pick(m, 'test.subject'), { subject: real }) : real
+    return {
+      subject,
+      ...layout({
+        brand,
+        title: subject,
+        lang: group.lang,
+        greeting,
+        paragraphs: test ? [pick(m, 'test.lead'), ...paragraphs] : paragraphs,
+        cta: { label: pick(m, 'invitasjon.cta'), url: link, plain: true },
+        after,
+        footer,
+      }),
+    }
   }
 
   if (job.kind === 'forvarsel') {

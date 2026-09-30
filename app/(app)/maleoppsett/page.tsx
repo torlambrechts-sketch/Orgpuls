@@ -15,7 +15,7 @@ import { getWheel, wheelMonths } from '@/lib/wheel/read'
 import { INDUSTRY_META } from '@/content/industries/meta'
 import { getIndustry, pageIn } from '@/content/industries'
 import { flag } from '@/lib/flags'
-import { getSendPreview } from '@/lib/rounds/send'
+import { getRoundReady, getSendPreview } from '@/lib/rounds/send'
 import { getViewer } from '@/lib/shell/read'
 import { MAIN_URL } from '@/lib/hosts'
 import type { MailMessages } from '@/supabase/functions/_shared/mail'
@@ -150,7 +150,7 @@ export default async function MaleoppsettPage({
    */
   let send: MaleoppsettView['send'] = null
   if (role === 'daglig_leder' && setup.status !== 'lukket') {
-    const [preview, viewer] = await Promise.all([getSendPreview(setup.id), getViewer()])
+    const [preview, viewer, ready] = await Promise.all([getSendPreview(setup.id), getViewer(), getRoundReady(setup.id)])
     if (preview) {
       const lang = preview.lang === 'en' ? 'en' : 'no'
       const messages = (await getMessages({ locale: lang })) as { mail?: MailMessages }
@@ -161,6 +161,7 @@ export default async function MaleoppsettPage({
         appUrl: MAIN_URL,
         showSince: flag('engagement_since_last'),
         viewerName: viewer.name,
+        ready,
       }
     }
   }
