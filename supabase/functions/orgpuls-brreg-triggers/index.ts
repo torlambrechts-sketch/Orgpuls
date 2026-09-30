@@ -247,7 +247,7 @@ Deno.serve(async (req) => {
     error = error ?? 'exception'
   }
 
-  await svc.rpc('brreg_poll_end', {
+  const end = await svc.rpc('brreg_poll_end', {
     p_poll: poll,
     p_changes: counts.changes,
     // the feeds move only past work that finished, so the next run reads the rest again
@@ -256,6 +256,9 @@ Deno.serve(async (req) => {
     p_roles_cursor: rolesDone,
     p_error: error,
   })
-  console.log(JSON.stringify({ poll, ...counts, error }))
+  // a poll whose end is not recorded stays «running» and its feeds' positions unsaved: say so
+  const ended = !end.error && typeof end.data === 'object' && end.data !== null && 'ok' in end.data && end.data.ok === true
+  if (!ended) error = error ?? 'end_failed'
+  console.log(JSON.stringify({ poll, ...counts, error, ended }))
   return json({ ok: !error, poll, ...counts, error })
 })

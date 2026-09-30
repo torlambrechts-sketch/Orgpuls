@@ -9550,3 +9550,20 @@ which no longer carries a kind (above).
 *Open:* when the first run ever fails, the next run reads the feed from «yesterday» again. After two
 failed days, one day's changes are not read. The engine ships in dry run, and the first live day is
 watched by hand.
+
+**Going live (2026-09-30).** Dry run was switched off at the owner's instruction. This was done as
+the database owner, since no admin session was available, and is recorded in the audit log as
+`crm.brreg_dry_run`, reason given. A first poll was run straight away. It did its work in 13 s: 4,411
+changes, 861 entities ingested, 2 triggers, 1 purge, 2 role changes and 1 name. Its end could not be
+recorded: the API's connections load pg-safeupdate, which refuses an UPDATE without a WHERE, and
+`brreg_poll_end` updated the one-row settings table without one. The poll stayed «running» and the
+feeds' positions were not saved. The work itself is committed, and ingesting is idempotent, so the next
+run only reads the same changes again. `admin_brreg_set_dry_run` had the same defect.
+
+0145 names the row in both. A new suite, `safeupdate_invariants`, scans every function in `app` and
+`public` for an UPDATE or DELETE of an `app` table without a WHERE. It found two older functions with
+the same defect, `admin_crm_settings` and `admin_crm_reply_stage` (0055/0093, both on the one-row
+`crm_settings`). They have failed through the API since they were written, and 0145 fixes them too.
+The suites run as the database owner, where the extension is not loaded, which is why none of the four
+was caught. The function now also reports a poll whose end it could not record (`end_failed`) instead
+of ignoring the reply.
