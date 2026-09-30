@@ -266,7 +266,8 @@ async function buildBoard(
         target: m.target,
         playbookKey: m.playbookKey,
         statement: followed(m.factorKey, s.scope, m.playbookKey),
-        start: m.createdAt,
+        // the day the work begins when a leader has set one (0131, D-173), else when it was recorded
+        start: m.startsOn ? `${m.startsOn}T12:00:00Z` : m.createdAt,
         // a late measure is still being carried out: its bar runs to today, not to the lapsed date
         dueDate: m.late && m.dueDate && m.dueDate < today ? today : m.dueDate,
       },

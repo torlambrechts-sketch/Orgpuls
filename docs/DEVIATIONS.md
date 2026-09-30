@@ -2895,7 +2895,8 @@ Where the build differs, and why:
 - **No "Når målet er nådd i to målinger på rad, foreslår Orgpuls å lukke tiltaket."**
   Nothing suggests closing a measure. A sentence promising it would describe a feature
   that does not exist.
-- **A bar starts when the measure was recorded.** The schema has no start date. A late
+- **A bar starts when the measure was recorded.** The schema has no start date (until 0131: a
+  measure with a start date is drawn from it, D-173). A late
   measure's bar runs to today, because it is still being done, not to the lapsed date.
   "Fast svar" is therefore short on the fixture (15 to 24 September), where the design
   draws it to late November.
@@ -7538,3 +7539,38 @@ not closed (D-156); no v3 state draws it.
 
 `send_test_invariants.sql` (7) proves the posture, who may send, the limits, the claim, the preview
 unchanged and the check's counts; `tests/unit/mail.test.ts` the test's subject, lead and link.
+
+## D-173 — A measure's start date: «Oppstart» beside «Frist», and where the plan's bar begins
+
+**Design:** none. The design's plan (v3 2992-3008) places its bars at fixed offsets, not dates, and
+the handlingsplan panel (bundle 1810) has a Frist and no start. D-75 drew each bar from the day the
+measure was recorded, which is when someone typed it in, not when the work begins.
+
+**Built (0131):**
+- **The column.** `app.measures.starts_on`, a date, empty until someone sets it. A check,
+  `measures_starts_before_due`, refuses a start after the deadline whichever of the two is changed;
+  the same day is allowed, and a start with no deadline is kept. It is a CHECK, not a trigger, so it
+  holds for every writer and no cascade or `SET NULL` meets it. No new write path: it rides the
+  measures' own policies (0013, 0026), so the daglig leder and the avdelingsleder set it, every member
+  reads it, and the verneombud reads it and cannot set it — as for the deadline. The step log (0105)
+  fires on `step` alone, and the demo copy (0094) copies every column it finds, so neither names it.
+- **The control.** «Oppstart» in Liste's handlingsplan («Rediger»), the field before «Frist» and the
+  same control as it: a native date input, 40 px, radius 10, on the card surface. `updateMeasure`
+  takes it through Zod and says «Oppstart kan ikke være etter fristen.» itself before the database
+  would; a refusal from the check reads the same. The Tavle's detail panel stays as designed
+  (Tiltak / Eier / Frist) and edits nothing, as before: «Rediger i listen» leads to the field.
+- **The plan's rule.** A bar begins on `starts_on` when there is one, else on `created_at` as before,
+  and ends on the deadline — or today, for a late measure still being done (D-75). A start after the
+  plan's five months keeps its minimum width inside the window rather than past its edge. A later
+  start is drawn later; the chosen-but-not-started bar is still the lighter one, by step, as before.
+
+**Not here:** a module measure (0071, D-115) has its own row of controls under the board and is not
+on the plan, so it gets no start field: a date nobody reads is a setting that does nothing. The
+report's section 5 prints the deadline only, as before.
+
+**Pixel gate:** unchanged for a measure without a start date — the plan reads `created_at` exactly as
+before and the field sits in the closed «Rediger» panel, which neither `13-tiltak-tavle` nor
+`14-tiltak-liste` opens. The fixture sets no start date: the design's bars are offsets, not dates.
+
+`measure_start_invariants.sql` (7) proves the posture, the order, who may set it, that another
+organisation neither reads nor sets it, that it is no step, and that a deleted round keeps it.

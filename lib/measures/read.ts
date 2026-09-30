@@ -46,6 +46,7 @@ const MeasureRow = z.object({
   title: z.string(),
   goal: z.string().nullable(),
   due_date: z.string().nullable(),
+  starts_on: z.string().nullable(),
   completed_on: z.string().nullable(),
   step: z.enum(STEPS),
   kind: z.enum(['kollektivt', 'individuelt']),
@@ -70,6 +71,8 @@ export interface Measure {
   title: string
   goal: string | null
   dueDate: string | null
+  /** the day the work begins, or null until a leader sets it — 0131, D-173 */
+  startsOn: string | null
   completedOn: string | null
   step: MeasureStep
   kind: MeasureKind
@@ -83,7 +86,7 @@ export interface Measure {
   playbookKey: string | null
   /** the index its followed statement should reach, 0–100, or null until set — 0040 */
   target: number | null
-  /** when it was written down: where its bar starts on Tiltak's plan */
+  /** when it was written down: where its bar starts on Tiltak's plan while it has no start date */
   createdAt: string
   round: { id: string; kind: string; year: number; pulseNo: number | null } | null
   /** past its deadline and not yet carried out — derived, never stored */
@@ -125,7 +128,7 @@ export async function getMeasures(): Promise<Measure[]> {
        * The one wanted here is the round the measure came out of, which is what the
        * chips filter by and what section 6 of the report compares against.
        */
-      'id, factor_key, law_ref, title, goal, due_date, completed_on, step, kind, effect_round_id, effect_note, playbook_key, target, created_at,' +
+      'id, factor_key, law_ref, title, goal, due_date, starts_on, completed_on, step, kind, effect_round_id, effect_note, playbook_key, target, created_at,' +
         ' factors(law_ref), employees(id, full_name),' +
         ' rounds!measures_round_id_fkey(id, measurements(kind, year)),' +
         ' measure_groups(group_id)',
@@ -154,6 +157,7 @@ export async function getMeasures(): Promise<Measure[]> {
       title: m.title,
       goal: m.goal,
       dueDate: m.due_date,
+      startsOn: m.starts_on,
       completedOn: m.completed_on,
       step: m.step,
       kind: m.kind,

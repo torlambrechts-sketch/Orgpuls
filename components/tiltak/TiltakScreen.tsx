@@ -141,7 +141,7 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
 
   /** Resolved once and handed to the client, which has no catalogue of its own. */
   const problems: Record<string, string> = Object.fromEntries(
-    ['invalid', 'denied', 'closingRule', 'effectRound', 'gone', 'noOrg'].map((k) => [k, t(`tiltak.problem.${k}`)]),
+    ['invalid', 'denied', 'closingRule', 'effectRound', 'startAfterDue', 'gone', 'noOrg'].map((k) => [k, t(`tiltak.problem.${k}`)]),
   )
 
   const href = (over: Record<string, string | undefined>) => {
@@ -348,6 +348,7 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
                 factorKey: m.factorKey,
                 ownerEmployeeId: m.owner?.id ?? '',
                 dueDate: m.dueDate ?? '',
+                startsOn: m.startsOn ?? '',
                 step: m.step,
                 kind: m.kind,
                 groupIds: m.groupIds,
@@ -380,6 +381,7 @@ export async function TiltakScreen({ view }: { view: TiltakView }) {
                 goal: t('tiltak.fieldGoal'),
                 owner: t('tiltak.fieldOwner'),
                 ownerUnset: t('tiltak.ownerUnset'),
+                start: t('tiltak.fieldStart'),
                 due: t('tiltak.fieldDue'),
                 target: t('tiltak.fieldTarget'),
                 factor: t('tiltak.fieldFactor'),

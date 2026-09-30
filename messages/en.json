@@ -1030,6 +1030,7 @@
     "fieldTitle": "Measure",
     "fieldGoal": "Goal — what should be different",
     "fieldOwner": "Responsible",
+    "fieldStart": "Start date",
     "fieldDue": "Deadline",
     "fieldFactor": "Factor",
     "fieldStatus": "Status",
@@ -1052,7 +1053,8 @@
       "closingRule": "A measure cannot be closed before its effect has been measured.",
       "gone": "The measure no longer exists.",
       "noOrg": "No organisation was found to attach the measure to.",
-      "effectRound": "The effect cannot be measured by the survey the measure came from."
+      "effectRound": "The effect cannot be measured by the survey the measure came from.",
+      "startAfterDue": "The start date cannot be after the deadline."
     },
     "effectHead": "Effect",
     "effectRound": "Measured in",
