@@ -3103,7 +3103,9 @@
     },
     "ticket": {
       "replyHint": "Reply to this e-mail to continue the case. Case number #{number}.",
-      "footer": "You are receiving this e-mail because you wrote to Orgpuls."
+      "footer": "You are receiving this e-mail because you wrote to Orgpuls.",
+      "csatLabel": "How did we handle your case? Give us a score from 1 to 5",
+      "csatNote": "The link can be used once and works for 30 days."
     },
     "optin": {
       "subject": "Confirm your subscription to the Orgpuls newsletter",
@@ -8340,7 +8342,8 @@
         "reply": "Replied",
         "note": "Note added",
         "round_linked": "Survey linked",
-        "round_unlinked": "Survey unlinked"
+        "round_unlinked": "Survey unlinked",
+        "csat": "Rated"
       },
       "requester": "Requester",
       "name": "Name",
@@ -8397,7 +8400,95 @@
         "open": "Open"
       },
       "deliveryAt": "{state} {at}",
-      "deliveryReason": "Provider: {reason}"
+      "deliveryReason": "Provider: {reason}",
+      "tabs": {
+        "label": "Tickets",
+        "queue": "Queue",
+        "reports": "Reports",
+        "canned": "Canned replies",
+        "mentions": "Mentions"
+      },
+      "mention": "Mention an admin",
+      "mentionNone": "Mention …",
+      "mentionHint": "Write @ and the part of an admin's address before the @ to mention them; they see it under Mentions.",
+      "mentioned": "Mentions {who}",
+      "csat": {
+        "title": "Rating",
+        "withLink": "with a rating link",
+        "hint": "Resolving with a reply: the e-mail carries a one-use link to rate the answer from 1 to 5.",
+        "outOf": "{rating} / 5",
+        "ratedAt": "rated {at}",
+        "waiting": "Rating link sent {at}, not used yet · works until {until}",
+        "expired": "Rating link sent {at}, expired unused"
+      },
+      "cannedPage": {
+        "lead": "The texts the reply box starts from, in Norwegian. Archived ones are kept here and not offered. Every change is in the audit log.",
+        "new": "New canned reply",
+        "edit": "Edit canned reply",
+        "cancel": "Cancel",
+        "title": "Title",
+        "body": "Text",
+        "bodyHint": "Greeting and signature included: the reply box puts the whole text in for editing, and nothing is sent as it stands.",
+        "sort": "Order",
+        "col": {
+          "title": "Title",
+          "text": "Text",
+          "sort": "Order",
+          "state": "State"
+        },
+        "active": "Active",
+        "archived": "Archived",
+        "archive": "Archive",
+        "restore": "Restore",
+        "empty": "No canned replies yet.",
+        "invalid": "A title (up to 120 characters), a text and an order from 0 to 999, please.",
+        "notFound": "That canned reply no longer exists."
+      },
+      "mentionsPage": {
+        "lead": "Internal notes that mention you · {count, plural, =0 {none unseen} one {# unseen} other {# unseen}}. Opening a ticket marks its mentions seen.",
+        "markAll": "Mark all as seen",
+        "by": "{who} · {at}",
+        "unseen": "unseen",
+        "empty": "Nobody has mentioned you in the last fortnight."
+      },
+      "report": {
+        "lead": "Tickets opened since {since}, the last {weeks} weeks. Deadlines count business hours, as on each ticket.",
+        "window": "Window",
+        "weeks": "{count} weeks",
+        "kpi": {
+          "opened": "Tickets opened",
+          "firstReply": "First reply in time",
+          "resolution": "Resolved in time",
+          "medianFirst": "Median first reply",
+          "medianResolve": "Median resolution",
+          "csat": "Average rating"
+        },
+        "openedSub": "in the last {weeks} weeks",
+        "metOf": "{met} of {due} due · {pending} not due yet",
+        "noneDue": "None has reached its deadline yet",
+        "noneAnswered": "No ticket has been answered yet",
+        "noneResolved": "No ticket has been resolved yet",
+        "calendar": "calendar time, from opening",
+        "ratings": "{count, plural, one {# rating} other {# ratings}} · {sent} links sent",
+        "noRatings": "No ratings yet · {sent} links sent",
+        "volume": "Tickets by week",
+        "perWeek": "weeks start on Monday",
+        "volumeLabel": "Tickets opened per week, the last {weeks} weeks: {total} in all",
+        "bar": "Week of {week}: {n}",
+        "empty": "No tickets were opened in the last {weeks} weeks.",
+        "byQueue": "By queue",
+        "byType": "By type",
+        "csatTitle": "Ratings",
+        "csatEmpty": "No customer has rated a resolved case in this window.",
+        "score": {
+          "1": "1 · Very poor",
+          "2": "2 · Poor",
+          "3": "3 · Fair",
+          "4": "4 · Good",
+          "5": "5 · Very good"
+        },
+        "note": "A ticket closed without a reply does not count towards first replies. A rating link goes with the reply that resolves a ticket and works once, for 30 days."
+      }
     },
     "crm": {
       "title": "CRM",
@@ -11483,5 +11574,34 @@
   },
   "shell": {
     "orgLogo": "The organisation’s logo"
+  },
+  "csat": {
+    "metaTitle": "Rating",
+    "badge": "Customer service",
+    "title": "How did we handle your case?",
+    "lead": "Case #{number}. Give us a score from 1 to 5, and tell us what we could have done better if you like.",
+    "legend": "Score",
+    "score": {
+      "1": "1 – Very poor",
+      "2": "2 – Poor",
+      "3": "3 – Fair",
+      "4": "4 – Good",
+      "5": "5 – Very good"
+    },
+    "comment": "Comment (optional)",
+    "commentHint": "Only we at Orgpuls read the comment. Please do not write sensitive details about yourself or others.",
+    "submit": "Send the rating",
+    "sending": "Sending …",
+    "thanksTitle": "Thank you for the rating!",
+    "thanksLead": "It helps us get better. You can close this page.",
+    "invalidTitle": "The link does not work",
+    "invalidLead": "The link has been used, has expired or is not valid. If you want to add something about the case, reply to the e-mail you had from us.",
+    "busyTitle": "Try again shortly",
+    "problem": {
+      "invalid_rating": "Choose a score from 1 to 5.",
+      "too_long": "The comment can be at most {max} characters.",
+      "rate_limited": "There are too many attempts just now. Try again in a few minutes.",
+      "failed": "Something went wrong. Try again shortly."
+    }
   }
 }

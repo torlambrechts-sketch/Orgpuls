@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { FilterToolbar } from '@/components/admin/CustomerForms'
 import { Icon } from '@/components/admin/icons'
+import { TicketTabs } from '@/components/admin/TicketTabs'
 import { STATUS_TONE } from '@/components/admin/tones'
 import { Avatar, Badge, BTN, FIELD_LABEL, PageHead, Problem, Segments } from '@/components/admin/ui'
 import { isError, TICKET_QUEUES, TICKET_VIEWS, tickets, type TicketRow } from '@/lib/admin/api'
@@ -41,6 +42,7 @@ export default async function AdminTickets({ searchParams }: { searchParams: Pro
   return (
     <>
       <PageHead title={t('tickets.title')} lead={k('lead', { count: list.rows.length, late })} />
+      <TicketTabs on="queue" unseen={list.mentions_unseen} />
       <section className="rounded-panel border border-line bg-sf">
         <FilterToolbar
           label={k('filters')}

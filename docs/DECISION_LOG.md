@@ -3094,7 +3094,8 @@ the app calls it any more (wiring R1, known).
 - [ ] Vercel Web Analytics still runs beside the site's own beacon; decide whether to keep both (D-91).
 - [x] Ticketing core: contact form and in-app help create tickets; queues, types, derived priority, business-hour deadlines, replies by e-mail, notes, problem links (0051, D-92, X-060).
 - [ ] E-mail in: replies to hjelp@orgpuls.no do not yet thread onto the ticket; they arrive in that inbox (D-92).
-- [ ] Ticketing Phase 2: CSAT, reporting, canned replies editable in the admin, attachments, @mentions, service requests executed from the ticket (D-92).
+- [x] Ticketing Phase 2, built: CSAT (a one-use rating link in the mail that resolves a case, /vurdering, shown on the ticket), reporting (Tickets › Reports), canned replies edited in the admin (Tickets › Canned replies), @mentions in internal notes (Tickets › Mentions) (0135, D-179).
+- [ ] Ticketing Phase 2, still open: attachments, and service requests executed from the ticket — still carried out on the organisation's page (D-179).
 - [x] Norwegian public holidays in the business-hours calendar: deadlines skip 1 Jan, 1 and 17 May, 25–26 Dec and the Easter-based holidays like a weekend (0132, D-92, D-174).
 - [x] A help button in the help panel that files a request with the current page: the /hjelp form, last in the panel, sends the screen's path and never its query (D-92, D-174).
 - [x] A recommendation for subscriptions and invoices: Stripe as ledger, EHF through the accounting system, a mirror written by webhook, lifecycle enforced in the database (docs/BILLING_RECOMMENDATION.md, D-93).

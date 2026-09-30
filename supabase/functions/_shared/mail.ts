@@ -618,6 +618,7 @@ export function authLink(appUrl: string, action: AuthAction, tokenHash: string):
 // ---------------------------------------------------------------------------------------
 // A reply to a support ticket (D-92). The admin writes the whole message, greeting and
 // signature included; this lays it out in the product's mail and adds the case number.
+// The reply that resolves the case also carries its one-use rating link (0135).
 // ---------------------------------------------------------------------------------------
 
 export interface TicketJob {
@@ -627,20 +628,28 @@ export interface TicketJob {
   subject: string
   number: number
   body: string
+  /** the rating key the claim minted for the reply that resolves the case (0135); else null */
+  csat_key?: string | null
 }
 
-export function renderTicketReply(cat: MailCatalogue, job: TicketJob, lang: Lang = 'no'): Rendered {
+/** The rating page, on the public site: the key is its only way in (0135) */
+export const csatUrl = (siteUrl: string, key: string) => `${siteUrl.replace(/\/+$/, '')}/vurdering?t=${key}`
+
+export function renderTicketReply(cat: MailCatalogue, job: TicketJob, siteUrl: string, lang: Lang = 'no'): Rendered {
   const m = cat[lang]
   const paragraphs = job.body
     .split(/\n\s*\n/)
     .map((p) => p.trim())
     .filter(Boolean)
+  // the key only as a well-formed key; the link as text, so the provider's click tracking cannot
+  // rewrite it and log the key with the address (D-97)
+  const key = job.csat_key && /^[0-9a-f]{64}$/.test(job.csat_key) ? job.csat_key : null
   const { text, html } = layout({
     lang,
     greeting: paragraphs[0] ?? '',
     paragraphs: paragraphs.slice(1),
-    cta: null,
-    after: [fill(pick(m, 'ticket.replyHint'), { number: job.number })],
+    cta: key ? { label: pick(m, 'ticket.csatLabel'), url: csatUrl(siteUrl, key), plain: true } : null,
+    after: [...(key ? [pick(m, 'ticket.csatNote')] : []), fill(pick(m, 'ticket.replyHint'), { number: job.number })],
     footer: pick(m, 'ticket.footer'),
   })
   return { subject: job.subject, text, html }

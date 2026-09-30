@@ -3103,7 +3103,9 @@
     },
     "ticket": {
       "replyHint": "Svar på denne e-posten hvis du vil fortsette saken. Saksnummer #{number}.",
-      "footer": "Du får denne e-posten fordi du skrev til Orgpuls."
+      "footer": "Du får denne e-posten fordi du skrev til Orgpuls.",
+      "csatLabel": "Hvordan løste vi saken? Gi oss en karakter fra 1 til 5",
+      "csatNote": "Lenken kan brukes én gang og virker i 30 dager."
     },
     "optin": {
       "subject": "Bekreft påmeldingen til nyhetsbrevet fra Orgpuls",
@@ -8340,7 +8342,8 @@
         "reply": "Replied",
         "note": "Note added",
         "round_linked": "Survey linked",
-        "round_unlinked": "Survey unlinked"
+        "round_unlinked": "Survey unlinked",
+        "csat": "Rated"
       },
       "requester": "Requester",
       "name": "Name",
@@ -8397,7 +8400,95 @@
         "open": "Open"
       },
       "deliveryAt": "{state} {at}",
-      "deliveryReason": "Provider: {reason}"
+      "deliveryReason": "Provider: {reason}",
+      "tabs": {
+        "label": "Tickets",
+        "queue": "Queue",
+        "reports": "Reports",
+        "canned": "Canned replies",
+        "mentions": "Mentions"
+      },
+      "mention": "Mention an admin",
+      "mentionNone": "Mention …",
+      "mentionHint": "Write @ and the part of an admin's address before the @ to mention them; they see it under Mentions.",
+      "mentioned": "Mentions {who}",
+      "csat": {
+        "title": "Rating",
+        "withLink": "with a rating link",
+        "hint": "Resolving with a reply: the e-mail carries a one-use link to rate the answer from 1 to 5.",
+        "outOf": "{rating} / 5",
+        "ratedAt": "rated {at}",
+        "waiting": "Rating link sent {at}, not used yet · works until {until}",
+        "expired": "Rating link sent {at}, expired unused"
+      },
+      "cannedPage": {
+        "lead": "The texts the reply box starts from, in Norwegian. Archived ones are kept here and not offered. Every change is in the audit log.",
+        "new": "New canned reply",
+        "edit": "Edit canned reply",
+        "cancel": "Cancel",
+        "title": "Title",
+        "body": "Text",
+        "bodyHint": "Greeting and signature included: the reply box puts the whole text in for editing, and nothing is sent as it stands.",
+        "sort": "Order",
+        "col": {
+          "title": "Title",
+          "text": "Text",
+          "sort": "Order",
+          "state": "State"
+        },
+        "active": "Active",
+        "archived": "Archived",
+        "archive": "Archive",
+        "restore": "Restore",
+        "empty": "No canned replies yet.",
+        "invalid": "A title (up to 120 characters), a text and an order from 0 to 999, please.",
+        "notFound": "That canned reply no longer exists."
+      },
+      "mentionsPage": {
+        "lead": "Internal notes that mention you · {count, plural, =0 {none unseen} one {# unseen} other {# unseen}}. Opening a ticket marks its mentions seen.",
+        "markAll": "Mark all as seen",
+        "by": "{who} · {at}",
+        "unseen": "unseen",
+        "empty": "Nobody has mentioned you in the last fortnight."
+      },
+      "report": {
+        "lead": "Tickets opened since {since}, the last {weeks} weeks. Deadlines count business hours, as on each ticket.",
+        "window": "Window",
+        "weeks": "{count} weeks",
+        "kpi": {
+          "opened": "Tickets opened",
+          "firstReply": "First reply in time",
+          "resolution": "Resolved in time",
+          "medianFirst": "Median first reply",
+          "medianResolve": "Median resolution",
+          "csat": "Average rating"
+        },
+        "openedSub": "in the last {weeks} weeks",
+        "metOf": "{met} of {due} due · {pending} not due yet",
+        "noneDue": "None has reached its deadline yet",
+        "noneAnswered": "No ticket has been answered yet",
+        "noneResolved": "No ticket has been resolved yet",
+        "calendar": "calendar time, from opening",
+        "ratings": "{count, plural, one {# rating} other {# ratings}} · {sent} links sent",
+        "noRatings": "No ratings yet · {sent} links sent",
+        "volume": "Tickets by week",
+        "perWeek": "weeks start on Monday",
+        "volumeLabel": "Tickets opened per week, the last {weeks} weeks: {total} in all",
+        "bar": "Week of {week}: {n}",
+        "empty": "No tickets were opened in the last {weeks} weeks.",
+        "byQueue": "By queue",
+        "byType": "By type",
+        "csatTitle": "Ratings",
+        "csatEmpty": "No customer has rated a resolved case in this window.",
+        "score": {
+          "1": "1 · Very poor",
+          "2": "2 · Poor",
+          "3": "3 · Fair",
+          "4": "4 · Good",
+          "5": "5 · Very good"
+        },
+        "note": "A ticket closed without a reply does not count towards first replies. A rating link goes with the reply that resolves a ticket and works once, for 30 days."
+      }
     },
     "crm": {
       "title": "CRM",
@@ -11483,5 +11574,34 @@
   },
   "shell": {
     "orgLogo": "Virksomhetens logo"
+  },
+  "csat": {
+    "metaTitle": "Vurdering",
+    "badge": "Kundeservice",
+    "title": "Hvordan løste vi saken?",
+    "lead": "Sak #{number}. Gi oss en karakter fra 1 til 5, og skriv gjerne hva vi kunne gjort bedre.",
+    "legend": "Karakter",
+    "score": {
+      "1": "1 – Svært dårlig",
+      "2": "2 – Dårlig",
+      "3": "3 – Middels",
+      "4": "4 – Bra",
+      "5": "5 – Svært bra"
+    },
+    "comment": "Kommentar (valgfritt)",
+    "commentHint": "Kommentaren leses bare av oss i Orgpuls. Ikke skriv sensitive opplysninger om deg selv eller andre.",
+    "submit": "Send vurderingen",
+    "sending": "Sender …",
+    "thanksTitle": "Takk for vurderingen!",
+    "thanksLead": "Den hjelper oss å bli bedre. Du kan lukke denne siden.",
+    "invalidTitle": "Lenken virker ikke",
+    "invalidLead": "Lenken er brukt, utløpt eller ikke gyldig. Vil du si noe mer om saken, kan du svare på e-posten du fikk fra oss.",
+    "busyTitle": "Prøv igjen om litt",
+    "problem": {
+      "invalid_rating": "Velg en karakter fra 1 til 5.",
+      "too_long": "Kommentaren kan være på høyst {max} tegn.",
+      "rate_limited": "Det er for mange forsøk akkurat nå. Prøv igjen om noen minutter.",
+      "failed": "Noe gikk galt. Prøv igjen om litt."
+    }
   }
 }
