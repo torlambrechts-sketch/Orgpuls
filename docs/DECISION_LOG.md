@@ -3102,7 +3102,7 @@ the app calls it any more (wiring R1, known).
 - [x] Delivery events from Brevo (bounce, block, spam, unsubscribe) in the admin and on Oppsett › Ansatte; no opens or clicks; token links written as text (0053, D-97).
 - [ ] In Brevo, switch transactional tracking to "anonymous" so opens are not tied to an address; the API cannot change it (D-97).
 - [x] SMS delivery reports through a second Brevo webhook (D-99).
-- [ ] Per-recipient ids for notices to several leaders; delivery state on the ticket page (D-97).
+- [x] Per-recipient ids for notices to several leaders; delivery state on the ticket page (0134, D-97, D-17X).
 - [x] Web analytics: country, region, city, the latest visits one by one, and the IP address as its /24 or /48 network (0054, D-100).
 - [ ] Decide whether the site may keep full IP addresses. It would need new wording in the privacy notice and in the databehandleravtale's vedlegg 1, which today says the statistics "sier ikke hvem som besøker" (D-100).
 - [x] Marketing CRM: contacts, consent, segments, campaigns, one-click unsubscribe, suppression, UTM reporting (0055, D-101, X-061).

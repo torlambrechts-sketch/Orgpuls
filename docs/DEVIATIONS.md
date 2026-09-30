@@ -7536,3 +7536,51 @@ not closed (D-156); no v3 state draws it.
 
 `send_test_invariants.sql` (7) proves the posture, who may send, the limits, the claim, the preview
 unchanged and the check's counts; `tests/unit/mail.test.ts` the test's subject, lead and link.
+
+---
+
+## D-17X — A notice to several people is one message per person; a ticket reply's delivery state
+
+**Design:** none; admin only. D-97 left this open: a notice to a role (forvarsel, resultat,
+svarprosent, evaluering … to the daglig leder, the avdelingsledere, the verneombud, the
+tillitsvalgte or everyone) went to Brevo as one request with a version per person, and the outbox
+kept the first version's message id. A delivery event for the second leader matched nothing, and one
+for the first set the state of the whole notice. Ticket replies had their state stored (0053) but
+the ticket page did not show it.
+
+**Built (0134):**
+- **One message per person.** The dispatcher sends each person of a notice to a role a message of
+  their own, four at a time, and records each as it is accepted with `dispatch_recipient_sent`:
+  a row in `app.outbox_recipients` with the notice, the provider's id, the address masked for the
+  admin («ki…@firma.no») and a key, SHA-256 of the lower-cased address. Never the address itself.
+  A retry reads the keys already reached (`dispatch_reached`) and sends only to the rest, so a
+  failure halfway does not send the first leaders the notice twice. The outbox row itself keeps no
+  provider id for such a notice.
+- **Nothing personal is split.** `dispatch_recipient_sent` refuses any row with an employee, an
+  invitation, or a personal kind (invitasjon, påminnelse, siste påminnelse, lenke), and the
+  dispatcher splits only a role's notice with no token (`perRecipient`). An invitation keeps its one
+  id on its outbox row as before; the new table has no column for an employee, an invitation, a
+  token or a response, so nothing here can be set next to an answer.
+- **The events.** `record_mail_event` matches a recipient's id after the outbox's own and before a
+  ticket reply's, and sets that person's state alone — the latest event wins, an older one arriving
+  late is kept in `mail_events` but overwrites nothing. The notice's own state, which the e-mail
+  log's counts read, becomes the worst of its recipients' latest states: a notice one leader never
+  got counts as bounced. A leader's bounce does not flag `address_problems`, which is keyed by
+  employee and shown on Oppsett › Ansatte; a leader's address is their sign-in.
+- **The admin.** Under an organisation's e-mail log, «Notices to roles, per recipient»: the latest
+  200 with the notice, the masked address, when it was sent, the state and its time, and for
+  anything but a delivery what the provider said (already masked by `record_mail_event`). On a
+  ticket, each reply's line reads «e-mail sent · delivered 30 Sep 10:02», a bounce or block in red,
+  with the provider's reason under it. Nothing is shown before the provider has reported.
+  `admin_notice_recipients` and `admin_ticket_mail` write no audit entry of their own: each is
+  read only with the page's main read, which is audited (`email_log.view`, `ticket.view`).
+
+**Not done:** notices sent before 0134 keep their one id; events for their other versions stay
+unmatched. The per-recipient table is not pruned, like the outbox and `mail_events` (nothing prunes
+them yet).
+
+`notice_recipients_invariants.sql` (11) proves the table's posture, its columns, the refusal of a
+personal row, the keys and masking, one leader's event setting only that leader's state, the
+rollup, a late older event overwriting nothing, the admin's masked view and the ticket reply's
+state; `tests/unit/mail.test.ts` the split, the key the database digests, the sends a retry still
+owes and the four-at-a-time sender.

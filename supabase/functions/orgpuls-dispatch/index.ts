@@ -10,6 +10,11 @@
  * with the support inbox as Reply-To; then the trial's service mail (0060, D-105), on the
  * product's sender with the same Reply-To, since each of those invites an answer.
  *
+ * A notice to a role (0134, D-97) goes to each person as a message of its own, recorded with its
+ * provider id as it is sent (`dispatch_recipient_sent`), so a delivery event is set on the person
+ * it concerns and a retry skips the people it already reached (`dispatch_reached`). A personal
+ * message is one person already, and keeps its one id on the outbox row.
+ *
  * Then marketing (0055, D-101): newsletter confirmations and campaigns, on the marketing
  * sender (ORGPULS_MARKETING_FROM). Without one, or with one on the product's own sending
  * domain, nothing marketing is sent: a campaign must never be able to hurt the reputation
@@ -45,7 +50,10 @@ import { createClient } from 'npm:@supabase/supabase-js@2'
 import { brevoSend, brevoSendSms, type SendResult } from '../_shared/brevo.ts'
 import {
   groupsOf,
+  inTurns,
   offeredFor,
+  pendingSends,
+  perRecipient,
   personalLang,
   personalLink,
   type LanguageOffer,
@@ -388,6 +396,7 @@ Deno.serve(async (req) => {
       let channel: 'email' | 'sms' = 'email'
       const offered = offeredFor(cat, job, offer)
       const sendMail = async () => {
+        if (perRecipient(job)) return sendEach()
         for (const g of groupsOf(job, offered)) {
           const to = g.to.filter((r) => r.email)
           if (to.length === 0) return { ok: false, retryable: false, auth: false, code: 'no_address' } as SendResult
@@ -397,6 +406,30 @@ Deno.serve(async (req) => {
           outcome = res
         }
         return outcome
+      }
+      // a notice to a role (0134, D-97): one message per person, each recorded with its own id as
+      // it goes, so a delivery event finds the person it concerns and a retry skips who got it
+      const sendEach = async (): Promise<SendResult> => {
+        const got = await svc.rpc('dispatch_reached', { p_id: job.id })
+        if (got.error) return { ok: false, retryable: true, auth: false, code: 'reached' }
+        const reached = new Set(Array.isArray(got.data) ? (got.data as unknown[]).filter((k): k is string => typeof k === 'string') : [])
+        const sends = await pendingSends(job, offered, reached)
+        if (sends.length === 0 && reached.size === 0) return { ok: false, retryable: false, auth: false, code: 'no_address' }
+        const rendered = new Map<string, ReturnType<typeof renderNotice>>()
+        const failed = await inTurns(sends, 4, async (s) => {
+          const at = `${s.group.lang}:${s.group.member}`
+          const r = rendered.get(at) ?? renderNotice(cat, job, s.group, appUrl)
+          rendered.set(at, r)
+          const res = await brevoSend(key, { sender, to: [{ email: s.to.email, name: s.to.name }], subject: r.subject, html: r.html, text: r.text, tag: `orgpuls-${job.kind}` })
+          if (res.ok) {
+            const rec = await svc.rpc('dispatch_recipient_sent', { p_id: job.id, p_email: s.to.email, p_provider_id: res.id || null })
+            const said = rec.data as { ok?: boolean; error?: string } | null
+            // by code only: never the address
+            if (rec.error || said?.ok === false) console.error(`[dispatch] ${job.id}: a recipient was not recorded: ${rec.error?.code ?? said?.error ?? ''}`)
+          }
+          return res
+        })
+        return failed ?? { ok: true, id: '' }
       }
       try {
         const person = job.recipients[0]

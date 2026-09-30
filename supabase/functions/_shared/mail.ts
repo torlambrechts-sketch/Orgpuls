@@ -512,6 +512,59 @@ export function groupsOf(
   return [...byKey.values()]
 }
 
+/**
+ * Whether a notice goes out as one provider message per person (0134, D-97): a notice to a role,
+ * never a personal message. Each person's message id is then recorded on its own
+ * (`dispatch_recipient_sent`), so a delivery event sets that person's state. A personal message —
+ * an invitation above all — keeps its one id on its outbox row and is never split out.
+ */
+export function perRecipient(job: Pick<NoticeJob, 'kind' | 'audience' | 'token'>): boolean {
+  return job.audience !== null && !isPersonal(job.kind) && !job.token
+}
+
+/** The key a notice's recipient is kept under (0134): SHA-256 of the lower-cased address, in hex, as the database digests it */
+export const addressKey = (email: string) => sha256(email.trim().toLowerCase())
+
+/**
+ * The messages a notice to a role still owes: one per person with an address, in the group whose
+ * words they read, less the people `reached` (their keys) already got it on an earlier attempt.
+ */
+export async function pendingSends(
+  job: NoticeJob,
+  offered: Lang[] | null,
+  reached: ReadonlySet<string>,
+): Promise<Array<{ group: { lang: Lang; member: boolean; name: string | null }; to: { email: string; name: string | null }; key: string }>> {
+  const out: Array<{ group: { lang: Lang; member: boolean; name: string | null }; to: { email: string; name: string | null }; key: string }> = []
+  const seen = new Set(reached)
+  for (const g of groupsOf(job, offered)) {
+    for (const r of g.to) {
+      if (!r.email) continue
+      const key = await addressKey(r.email)
+      if (seen.has(key)) continue
+      seen.add(key)
+      out.push({ group: { lang: g.lang, member: g.member, name: g.name }, to: { email: r.email, name: r.name }, key })
+    }
+  }
+  return out
+}
+
+/**
+ * Runs `send` over `items`, at most `n` at a time. At the first failure it takes no new item and,
+ * once those under way are done, returns that failure; null when every one succeeded.
+ */
+export async function inTurns<T, R extends { ok: boolean }>(items: readonly T[], n: number, send: (item: T) => Promise<R>): Promise<R | null> {
+  let failed: R | null = null
+  let next = 0
+  const worker = async () => {
+    while (failed === null && next < items.length) {
+      const res = await send(items[next++]!)
+      if (!res.ok && failed === null) failed = res
+    }
+  }
+  await Promise.all(Array.from({ length: Math.max(1, Math.min(n, items.length)) }, worker))
+  return failed
+}
+
 // ---------------------------------------------------------------------------------------
 // Auth's own mails, through the send-email hook.
 // ---------------------------------------------------------------------------------------
