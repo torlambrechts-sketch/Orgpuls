@@ -3043,7 +3043,7 @@ the app calls it any more (wiring R1, known).
 - [ ] The rail's "Legg til puls" / "Hopp over denne", and Deltakelse's "Lukk runden" / "Send påminnelse" while a round is open, need write paths of their own (D-74).
 - [x] `/arshjulet` became Målinger's Årshjul tab in P5, with a 308 (D-70, D-74).
 - [x] P6: Tiltak — the Tavle, its detail panel, the plan, and a target on each measure (X-045, D-75).
-- [ ] A measure has no start date, so the plan draws its bar from when it was recorded (D-75).
+- [x] A measure has no start date, so the plan draws its bar from when it was recorded (D-75): a leader sets «Oppstart» beside «Frist», and the plan draws from it (0131, D-173).
 - [x] P7: the Veiviser, Oversikt's "Veiviser" and Oppsett's "Kjør veiviseren" (X-046, D-76).
 - [ ] No action creates or renames a group; the wizard points to Oppsett › Grupper (D-76).
 - [ ] Microsoft Entra import, and a CSV parser that understands quoted fields (D-76).

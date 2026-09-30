@@ -56,6 +56,8 @@ export interface MeasureCardProps {
     factorKey: string
     ownerEmployeeId: string
     dueDate: string
+    /** 0131: the day the work begins, '' when unset (D-173) */
+    startsOn: string
     step: string
     kind: 'kollektivt' | 'individuelt'
     groupIds: string[]
@@ -79,6 +81,7 @@ export interface MeasureCardProps {
     goal: string
     owner: string
     ownerUnset: string
+    start: string
     due: string
     target: string
     factor: string
@@ -232,6 +235,11 @@ export function MeasureCard({ id, view, values, options, labels }: MeasureCardPr
                   </option>
                 ))}
               </select>
+            </Field>
+
+            {/* not in the design (D-173): the plan's bar starts here; the Frist field's own control */}
+            <Field label={labels.start}>
+              <input type="date" name="startsOn" defaultValue={values.startsOn} className={CONTROL} />
             </Field>
 
             <Field label={labels.due}>

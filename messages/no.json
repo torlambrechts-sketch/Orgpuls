@@ -1016,6 +1016,7 @@
     "fieldTitle": "Tiltak",
     "fieldGoal": "Mål — hva skal være annerledes",
     "fieldOwner": "Ansvarlig",
+    "fieldStart": "Oppstart",
     "fieldDue": "Frist",
     "fieldFactor": "Faktor",
     "fieldStatus": "Status",
@@ -1038,7 +1039,8 @@
       "closingRule": "Et tiltak kan ikke lukkes før effekten er målt.",
       "gone": "Tiltaket finnes ikke lenger.",
       "noOrg": "Fant ingen virksomhet å knytte tiltaket til.",
-      "effectRound": "Effekten kan ikke måles i den samme målingen som tiltaket kom fra."
+      "effectRound": "Effekten kan ikke måles i den samme målingen som tiltaket kom fra.",
+      "startAfterDue": "Oppstart kan ikke være etter fristen."
     },
     "effectHead": "Effektmåling",
     "effectRound": "Målt i",

@@ -537,7 +537,8 @@ function Plan({
           </div>
           <div className="mt-[8px] flex flex-col gap-[7px]">
             {rows.map((c) => {
-              const left = c.start ? pos(c.start) : 0
+              // a start after the window still draws its minimum width inside it
+              const left = Math.min(c.start ? pos(c.start) : 0, 96)
               const right = c.dueDate ? pos(`${c.dueDate}T12:00:00Z`) : 100
               const tone = heatTone(c.score ?? 50)
               return (

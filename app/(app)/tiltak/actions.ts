@@ -43,6 +43,7 @@ const MeasureFields = z.object({
   factorKey: z.string().min(1).max(40),
   ownerEmployeeId: Optional(Uuid),
   dueDate: Optional(z.string().regex(/^\d{4}-\d{2}-\d{2}$/)),
+  startsOn: Optional(z.string().regex(/^\d{4}-\d{2}-\d{2}$/)),
   step: z.enum(STEP_KEYS),
   kind: z.enum(['kollektivt', 'individuelt']),
   groupIds: z.array(Uuid),
@@ -172,6 +173,7 @@ export async function updateMeasure(formData: FormData): Promise<MeasureActionRe
     factorKey: formData.get('factorKey'),
     ownerEmployeeId: formData.get('ownerEmployeeId'),
     dueDate: formData.get('dueDate'),
+    startsOn: formData.get('startsOn'),
     step: formData.get('step'),
     kind: formData.get('kind'),
     groupIds: formData.getAll('groupIds'),
@@ -182,6 +184,8 @@ export async function updateMeasure(formData: FormData): Promise<MeasureActionRe
   if (!parsed.success) return problem('invalid')
 
   const m = parsed.data
+  // said here so the form can name it; 0131's check holds it for every other writer (D-173)
+  if (m.startsOn && m.dueDate && m.startsOn > m.dueDate) return problem('startAfterDue')
   const supabase = await createClient()
 
   const { data, error } = await supabase
@@ -193,6 +197,7 @@ export async function updateMeasure(formData: FormData): Promise<MeasureActionRe
       factor_key: m.factorKey,
       owner_employee_id: m.ownerEmployeeId,
       due_date: m.dueDate,
+      starts_on: m.startsOn,
       step: m.step,
       kind: m.kind,
       effect_round_id: m.effectRoundId,
@@ -207,6 +212,7 @@ export async function updateMeasure(formData: FormData): Promise<MeasureActionRe
   if (error) {
     if (error.message.includes('effect has been measured')) return problem('closingRule')
     if (error.message.includes('evaluated by the round')) return problem('effectRound')
+    if (error.message.includes('measures_starts_before_due')) return problem('startAfterDue')
     return problem('denied')
   }
   if (writeFailed('updateMeasure', null, data)) return problem('denied')
