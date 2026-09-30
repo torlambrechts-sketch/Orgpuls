@@ -419,7 +419,8 @@ export const tickets = (queue: string | null, view: string, search: string | nul
   call(
     'admin_tickets',
     { p_queue: queue, p_view: view, p_search: search },
-    z.object({ counts: z.record(z.string(), num), rows: z.array(TicketRow) }),
+    // 0135: the caller's unseen @mentions, for the tabs' badge
+    z.object({ counts: z.record(z.string(), num), rows: z.array(TicketRow), mentions_unseen: num }),
   )
 
 const Ticket = z.object({
@@ -462,7 +463,14 @@ const Ticket = z.object({
       internal: z.boolean(),
       created_at: ts,
       mail: z.string().nullable(),
+      // 0135: the reply carries a rating link; the admins a note mentions
+      csat: z.boolean(),
+      mentions: z.array(z.string()),
     }),
+  ),
+  // 0135: the rating links this ticket's resolutions carried, and what came back
+  csat: z.array(
+    z.object({ id: z.string(), created_at: ts, expires_at: ts, rating: numn, comment: z.string().nullable(), rated_at: tsn }),
   ),
   events: z.array(
     z.object({ at: ts, kind: z.string(), actor_email: z.string().nullable(), detail: z.record(z.string(), z.unknown()) }),
@@ -471,11 +479,58 @@ const Ticket = z.object({
   incidents: z.array(z.object({ id: z.string(), number: num, subject: z.string(), status: z.string() })),
   problems: z.array(z.object({ id: z.string(), number: num, subject: z.string() })),
   admins: z.array(z.object({ id: z.string(), email: z.string().nullable() })),
-  canned: z.array(z.object({ key: z.string(), title: z.string(), body: z.string() })),
+  canned: z.array(z.object({ id: z.string(), key: z.string(), title: z.string(), body: z.string() })),
   history: z.array(z.object({ id: z.string(), number: num, subject: z.string(), status: z.string(), created_at: ts })),
 })
 export type Ticket = z.infer<typeof Ticket>
 export const ticket = (id: string) => call('admin_ticket', { p_id: id }, Ticket)
+
+// ---------------------------------------------------------------- tickets, Phase 2 (0135)
+/** Admin › Tickets › Canned replies: every reply, archived ones last */
+const Canned = z.object({
+  id: z.string(),
+  key: z.string(),
+  title: z.string(),
+  body: z.string(),
+  sort: num,
+  active: z.boolean(),
+})
+export type CannedReply = z.infer<typeof Canned>
+export const cannedReplies = () => call('admin_canned_replies', {}, z.object({ rows: z.array(Canned), mentions_unseen: num }))
+
+/** The caller's @mentions in internal notes: unseen ones, and those seen in the last fortnight */
+const Mention = z.object({
+  id: z.string(),
+  ticket_id: z.string(),
+  number: num,
+  subject: z.string(),
+  status: z.enum(TICKET_STATUSES),
+  created_at: ts,
+  seen_at: tsn,
+  by_email: z.string().nullable(),
+  excerpt: z.string(),
+})
+export type Mention = z.infer<typeof Mention>
+export const ticketMentions = (all = false) =>
+  call('admin_ticket_mentions', { p_all: all }, z.object({ rows: z.array(Mention), mentions_unseen: num }))
+
+/** The report's windows, in weeks, as admin_ticket_report accepts them */
+export const REPORT_WEEKS = [4, 12, 26, 52] as const
+const Deadline = z.object({ met: num, missed: num, pending: num, median_hours: numn })
+const Report = z.object({
+  weeks: num,
+  since: ts,
+  total: num,
+  mentions_unseen: num,
+  weekly: z.array(z.object({ week: z.string(), n: num })),
+  by_queue: z.record(z.string(), num),
+  by_type: z.record(z.string(), num),
+  first_reply: Deadline,
+  resolution: Deadline,
+  csat: z.object({ rated: num, average: numn, dist: z.record(z.string(), num), sent: num }),
+})
+export type TicketReport = z.infer<typeof Report>
+export const ticketReport = (weeks: number) => call('admin_ticket_report', { p_weeks: weeks }, Report)
 
 export const orgTickets = (org: string) =>
   call(

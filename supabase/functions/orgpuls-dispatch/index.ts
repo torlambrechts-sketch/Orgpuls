@@ -7,7 +7,8 @@
  * service key is the database. `verify_jwt` is off because pg_net sends no JWT.
  *
  * After the notices, replies to support tickets (0051) are drained the same way, each sent
- * with the support inbox as Reply-To; then the trial's service mail (0060, D-105), on the
+ * with the support inbox as Reply-To (the one that resolves a case carries its rating link on the
+ * public site, 0135); then the trial's service mail (0060, D-105), on the
  * product's sender with the same Reply-To, since each of those invites an answer.
  *
  * Then marketing (0055, D-101): newsletter confirmations and campaigns, on the marketing
@@ -509,7 +510,7 @@ Deno.serve(async (req) => {
     for (const job of jobs) {
       let outcome: SendResult
       try {
-        const r = renderTicketReply(cat, job)
+        const r = renderTicketReply(cat, job, siteUrl)
         outcome = await brevoSend(key, {
           sender,
           to: [{ email: job.to_email, name: job.to_name }],

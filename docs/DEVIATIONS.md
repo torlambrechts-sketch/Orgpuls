@@ -7536,3 +7536,87 @@ not closed (D-156); no v3 state draws it.
 
 `send_test_invariants.sql` (7) proves the posture, who may send, the limits, the claim, the preview
 unchanged and the check's counts; `tests/unit/mail.test.ts` the test's subject, lead and link.
+
+---
+
+## D-17X — Ticketing phase 2
+
+**The request:** D-92's «left open», the admin specification's ticketing Phase 2: CSAT, reporting,
+canned replies editable in the admin, attachments, @mentions, and service requests executed from
+the ticket.
+
+**Design:** none. The Sentral design draws the ticket list only (`isTickets`, D-166). The new pages
+are drawn with Sentral's own shapes as the admin already has them: the tabs under the page head are
+the design's `stabs` (as Contacts & lists, X-097), the report's tiles, bars and share rows are
+Analytics › Overview's, and the rating page is the newsletter preference centre's card and option
+boxes. The ticket list gains that tab row; the design's list has none.
+
+**Built (0135):**
+- **CSAT.** The reply that resolves a ticket (a reply, not a note, with «then set status» Resolved)
+  is queued with `csat`. When the dispatcher claims it, the claim mints a key of 256 random bits,
+  keeps only its SHA-256 in `app.ticket_csat` with a 30-day expiry, and hands the plaintext to the
+  dispatcher, which prints `/vurdering?t=<key>` on the public site in that one mail — as text, never
+  as a link, so Brevo's click tracking cannot rewrite it and log the key with the address (D-97).
+  - The page is noindex, sends no referrer (next.config.ts) and asks for 1–5 and an optional comment
+    (at most 2 000 characters). Nothing is written until the button is pressed, so a mail scanner
+    opening the link rates nothing.
+  - A key is used once. `csat_open` and `csat_submit` answer a malformed, unknown, expired or used
+    key with the same `invalid`; the page shows one «Lenken virker ikke» for all of them. The input
+    is checked before the key, so a bad score says nothing about the key.
+  - **Rate limit, two layers.** Per network (/24 or /48), 30 opens or submits in ten minutes, in
+    memory, as lib/brreg/throttle.ts and for its reason: a counting table would need a function
+    anon may call, which anyone could use to spend someone else's allowance. And in the database,
+    every miss is a row holding only its time: past 200 misses in ten minutes both functions answer
+    `rate_limited` to everyone until the window passes. An attacker can pause ratings for ten
+    minutes; with 256-bit keys, guessing one is not a practical attack in any case.
+  - A key claimed again after a failed send is replaced, so the mail that goes out carries the key
+    that works; a key already used is never re-minted. A rating, once given, cannot be changed
+    (a trigger that compares the content and leaves the cascades alone).
+  - **On the ticket:** a «Rating» card (the score and comment, or «sent, not used yet · works
+    until», or «expired unused»), «with a rating link» on the reply that carried it, and «Rated ·
+    4 / 5» in the timeline. The timeline event holds the score only; the comment stays in the rating.
+  - The mail is in bokmål, as every ticket reply is (a ticket has no language); `mail.ticket.csat*`
+    and the page's `csat.*` are in bokmål and English. It goes to the person who wrote to support,
+    never to a respondent, so like `mail.test` it is outside the survey languages' set.
+  - A ticket resolved from the fields form, or by a note, sends no mail and so asks for no rating.
+- **Canned replies in the admin** (Tickets › Canned replies). They were already rows (0051); now
+  support and super-admins with a second factor create, edit, order, archive and restore them, each
+  change in `app.admin_audit` (`ticket.canned_*`). An archived reply is kept and not offered. A new
+  reply's key is made by the database: it is only the reply box's handle. The reply box now puts a
+  canned reply in at the cursor instead of replacing what was written.
+- **Reporting** (Tickets › Reports, 4/12/26/52 weeks). Over the tickets opened in the window:
+  volume by week (Monday to Monday, Oslo), by queue and by type; the share of first replies and of
+  resolutions within their deadline, with how many are not due yet; the median calendar hours to
+  the first reply and to resolution; the average rating, its spread and how many rating links were
+  sent. A share over nothing due and a median of nothing are «—» with the reason, never 0 %; with no
+  tickets in the window the chart is replaced by its empty state. Choices made:
+  - a ticket closed without a reply is not counted towards first replies (spam, a duplicate);
+  - the medians are calendar time, since the business-hours clock gives deadlines, not durations;
+  - the deadlines are the targets each ticket carries (0051), not the 30-day legal clock.
+- **@mentions.** An internal note that writes `@` and the part of an admin's address before its
+  `@` (`@tor`) mentions that admin, if they are active and handle tickets (support or super-admin);
+  never the note's author, never from a reply to the customer, and a customer's `kari@firma.no` in
+  the text names nobody. Two admins with the same local part at different domains are both
+  mentioned. The reply box has a picker that puts the handle in. The mentioned admin sees the unseen
+  count on the Mentions tab (above the queue, the report and the canned replies), and the list (unseen first; seen ones for a
+  fortnight); opening the ticket marks its mentions seen, and «Mark all as seen» the rest. No mail
+  is sent: there is no admin notification path to use.
+
+**Left open:**
+- **Attachments.** They need storage for files customers send: a bucket with its own policies,
+  size and type limits, virus scanning, and a retention rule in the privacy statement and in
+  0064's cancellation. None exists for tickets, and a file is the likeliest place for personal
+  data about third parties. Not built.
+- **Service requests executed from the ticket.** Still carried out on the organisation's page,
+  where each action is audited with its reason (D-92); the ticket links there.
+- **E-mail in** (D-92) is unchanged: a customer's answer to the resolution mail reaches the support
+  inbox, not the ticket.
+
+**Also:** `/vurdering` is added to `app.cms_reserved` (a CMS page may not take it) and to the
+middleware's public paths; `csat_open` and `csat_submit` are in the audit allow-list (S4) with their
+reasons.
+
+`ticketing_p2_invariants.sql` (18) proves the tables' posture, who may call what, which mail carries
+a link, the key's minting, one use, expiry, replacement and the limit, the canned replies' role check
+and audit, mentions, the readers' doors and the report's counts; `tests/unit/csat.test.ts` the page's
+parsing, the database answers' reading, the mail's link, the throttle and the report's figures.

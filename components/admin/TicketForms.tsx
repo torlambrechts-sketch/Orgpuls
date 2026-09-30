@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useState } from 'react'
+import { useActionState, useRef, useState } from 'react'
 import { linkRound, replyTicket, updateTicket, type AdminResult } from '@/lib/admin/actions'
 import { Button } from '@/components/ui/Button'
 
@@ -24,21 +24,30 @@ type Option = { value: string; label: string }
 
 /**
  * A reply to the requester, sent by e-mail, or an internal note, which never leaves the admin
- * (D-92). A canned reply fills the text for editing; it is never sent as it stands.
+ * (D-92). A canned reply (edited under Tickets › Canned replies, 0135) is put in at the cursor, for
+ * editing; it is never sent as it stands. In a note, `@` and the part of an admin's address before
+ * its `@` mentions them (0135); the picker puts that in for you.
  */
 export function ReplyForm({
   id,
   canned,
+  mentionable,
   statuses,
   labels,
 }: {
   id: string
   canned: { key: string; title: string; body: string }[]
+  /** the admins who handle tickets: `handle` is what follows the `@` */
+  mentionable: { handle: string; email: string }[]
   statuses: Option[]
   labels: {
     reply: string
     canned: string
     cannedNone: string
+    mention: string
+    mentionNone: string
+    mentionHint: string
+    csatHint: string
     internal: string
     internalHint: string
     thenStatus: string
@@ -53,6 +62,7 @@ export function ReplyForm({
   const [body, setBody] = useState('')
   const [internal, setInternal] = useState(false)
   const [status, setStatus] = useState('')
+  const text = useRef<HTMLTextAreaElement>(null)
   const [state, action, pending] = useActionState<AdminResult | null, FormData>(async (prev, fd) => {
     const r = await replyTicket(prev, fd)
     if (r.ok) {
@@ -62,30 +72,66 @@ export function ReplyForm({
     return r
   }, null)
 
+  /** puts `s` in at the cursor (or at the end), and the cursor after it */
+  const insert = (s: string) => {
+    const el = text.current
+    const at = el ? el.selectionStart : body.length
+    const to = el ? el.selectionEnd : body.length
+    const next = body.slice(0, at) + s + body.slice(to)
+    setBody(next)
+    requestAnimationFrame(() => {
+      if (!el) return
+      el.focus()
+      el.setSelectionRange(at + s.length, at + s.length)
+    })
+  }
+
   return (
     <form action={action} className="flex flex-col gap-[10px]">
       <input type="hidden" name="id" value={id} />
-      <label className="block">
-        <span className={label}>{labels.canned}</span>
-        <select
-          value=""
-          onChange={(e) => {
-            const c = canned.find((x) => x.key === e.target.value)
-            if (c) setBody(c.body)
-          }}
-          className={`${field} h-[36px]`}
-        >
-          <option value="">{labels.cannedNone}</option>
-          {canned.map((c) => (
-            <option key={c.key} value={c.key}>
-              {c.title}
-            </option>
-          ))}
-        </select>
-      </label>
+      <div className="grid gap-[10px] [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]">
+        <label className="block">
+          <span className={label}>{labels.canned}</span>
+          <select
+            value=""
+            onChange={(e) => {
+              const c = canned.find((x) => x.key === e.target.value)
+              if (c) insert(c.body)
+            }}
+            className={`${field} h-[36px]`}
+          >
+            <option value="">{labels.cannedNone}</option>
+            {canned.map((c) => (
+              <option key={c.key} value={c.key}>
+                {c.title}
+              </option>
+            ))}
+          </select>
+        </label>
+        {internal && mentionable.length ? (
+          <label className="block">
+            <span className={label}>{labels.mention}</span>
+            <select
+              value=""
+              onChange={(e) => {
+                if (e.target.value) insert(`@${e.target.value} `)
+              }}
+              className={`${field} h-[36px]`}
+            >
+              <option value="">{labels.mentionNone}</option>
+              {mentionable.map((a) => (
+                <option key={a.email} value={a.handle}>
+                  {a.email}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : null}
+      </div>
       <label className="block">
         <span className={label}>{labels.reply}</span>
         <textarea
+          ref={text}
           name="body"
           required
           maxLength={10000}
@@ -94,6 +140,7 @@ export function ReplyForm({
           onChange={(e) => setBody(e.target.value)}
           className={`${field} resize-y py-[9px] leading-[1.5] ${internal ? 'bg-sbg' : ''}`}
         />
+        {internal ? <span className="mt-[5px] block text-[12px] text-mut">{labels.mentionHint}</span> : null}
       </label>
       <div className="flex flex-wrap items-end gap-[14px]">
         <label className="flex items-center gap-[8px] text-[13px]">
@@ -120,6 +167,7 @@ export function ReplyForm({
           </select>
         </label>
       </div>
+      {!internal && status === 'resolved' ? <p className="m-0 text-[12px] text-mut">{labels.csatHint}</p> : null}
       <span className="flex flex-wrap items-center gap-[10px]">
         <Button type="submit" size="sm" disabled={pending}>
           {pending ? labels.saving : internal ? labels.note : labels.send}

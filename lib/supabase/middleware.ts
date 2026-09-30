@@ -99,6 +99,8 @@ const PUBLIC_PATHS = [
   '/nyhetsbrev',
   '/avmeld',
   '/api/avmeld',
+  // a support case's rating, from its resolution mail; the one-use key is the only way in (0135)
+  '/vurdering',
   // choosing a language on this host, then back to the page (D-109)
   '/api/sprak',
   // the approved site texts, public as the pages that show them, for the weekly fold-back (X-090)

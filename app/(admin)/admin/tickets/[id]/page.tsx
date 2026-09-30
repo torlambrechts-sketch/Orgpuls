@@ -71,9 +71,13 @@ export default async function AdminTicket({ params }: { params: Promise<{ id: st
                     <span>
                       {when(m.created_at)}
                       {m.mail ? ` · ${t(`tickets.mail.${m.mail}`)}` : ''}
+                      {m.csat ? ` · ${t('tickets.csat.withLink')}` : ''}
                     </span>
                   </div>
                   <p className="m-0 whitespace-pre-wrap break-words text-[13.5px] leading-[1.55]">{m.body}</p>
+                  {m.mentions.length ? (
+                    <p className="mb-0 mt-[6px] text-[12px] text-mut">{t('tickets.mentioned', { who: m.mentions.join(', ') })}</p>
+                  ) : null}
                 </li>
               ))}
             </ol>
@@ -83,11 +87,16 @@ export default async function AdminTicket({ params }: { params: Promise<{ id: st
             <ReplyForm
               id={k.id}
               canned={d.canned}
+              mentionable={d.admins.filter((a) => a.email).map((a) => ({ handle: a.email!.split('@')[0]!, email: a.email! }))}
               statuses={opts(['open', 'waiting_customer', 'waiting_us', 'resolved', 'closed'] as const, 'statuses')}
               labels={{
                 reply: t('tickets.replyLabel', { email: k.requester_email }),
                 canned: t('tickets.canned'),
                 cannedNone: t('tickets.cannedNone'),
+                mention: t('tickets.mention'),
+                mentionNone: t('tickets.mentionNone'),
+                mentionHint: t('tickets.mentionHint'),
+                csatHint: t('tickets.csat.hint'),
                 internal: t('tickets.internal'),
                 internalHint: t('tickets.internalHint'),
                 thenStatus: t('tickets.thenStatus'),
@@ -112,6 +121,9 @@ export default async function AdminTicket({ params }: { params: Promise<{ id: st
                   <span className="min-w-0 break-words">
                     <span className="font-semibold">{t(`tickets.events.${e.kind}`)}</span>
                     {e.actor_email ? <span className="text-mut"> · {e.actor_email}</span> : null}
+                    {e.kind === 'csat' && typeof e.detail.rating === 'number' ? (
+                      <span className="text-mut"> · {t('tickets.csat.outOf', { rating: e.detail.rating })}</span>
+                    ) : null}
                     {e.kind === 'updated' ? (
                       <span className="block text-mut">
                         {Object.entries(e.detail)
@@ -145,6 +157,28 @@ export default async function AdminTicket({ params }: { params: Promise<{ id: st
             {ctx.page ? <Row label={t('tickets.page')} value={ctx.page} /> : null}
             {ctx.browser ? <Row label={t('tickets.browser')} value={<span className="text-[12px]">{ctx.browser}</span>} /> : null}
           </Card>
+
+          {d.csat.length ? (
+            <Card title={t('tickets.csat.title')}>
+              {d.csat.map((c) => (
+                <div key={c.id} className="border-b border-line py-[8px] text-[13px] first:pt-0 last:border-0 last:pb-0">
+                  {c.rating !== null && c.rated_at ? (
+                    <>
+                      <span className="text-[22px] font-bold leading-none">{t('tickets.csat.outOf', { rating: c.rating })}</span>
+                      <span className="ml-[8px] text-[12.5px] text-mut">{t('tickets.csat.ratedAt', { at: when(c.rated_at) })}</span>
+                      {c.comment ? <p className="mb-0 mt-[6px] whitespace-pre-wrap break-words leading-[1.5]">{c.comment}</p> : null}
+                    </>
+                  ) : (
+                    <span className="text-mut">
+                      {Date.parse(c.expires_at) < Date.now()
+                        ? t('tickets.csat.expired', { at: when(c.created_at) })
+                        : t('tickets.csat.waiting', { at: when(c.created_at), until: when(c.expires_at) })}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </Card>
+          ) : null}
 
           <Card title={t('tickets.deadlines')}>
             <Row
