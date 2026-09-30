@@ -7632,27 +7632,26 @@ counted public holidays as working days, and an in-app request that could only b
   Kristi himmelfart, pinse, 1 and 17 May and Christmas. Christmas Eve and New Year's Eve are not
   public holidays and stay working days. Deadlines already stored are not rewritten: the trigger
   recomputes them only when a ticket's priority changes, as before.
-- **The panel's form.** The help panel's Hjelp tab ends with the same form as /hjelp
-  (`HelpRequestForm` and its server action `sendHelpRequest`, not a copy), under a rule and a
-  kicker in the panel's own «Les mer om dette» style, with one line saying the organisation, role and
-  page come with the request. It sends the path of the screen the panel was opened on; /hjelp's own
-  form sends `/hjelp`, where it sent nothing before. `helpPagePath` cuts anything after `?` or `#`
-  and never names a /s/ path (the respondent pages are outside the shell; this is a second lock).
-  The server action accepts `page` only as '' or a path: at most 160 characters (what
+- **The panel's form.** The help panel's Hjelp tab opens the same form as /hjelp
+  (`HelpRequestForm` and its server action `sendHelpRequest`, not a copy). Its trigger, «Skriv til
+  oss her», sits in the design's «Les mer om dette» row beside «Hele hjelpesiden →», in that
+  link's own style (32 px, the bar radius, ink border). The form, with one line saying the organisation, role and page come
+  with the request, opens under the articles only once the trigger is pressed (`aria-expanded`), so
+  the closed panel keeps the design's height. It sends the path of the screen the panel was opened
+  on; /hjelp's own form sends `/hjelp`, where it sent nothing before. `helpPagePath` cuts anything
+  after `?` or `#` and never names a /s/ path (the respondent pages are outside the shell; this is a
+  second lock). The server action accepts `page` only as '' or a path: at most 160 characters (what
   `submit_help_request` keeps), `/` followed by URL path characters only, never under /s/; a query,
   a fragment or a host is refused as invalid before the database. The RPC already stored the path
   in the ticket's context, and the admin ticket page already shows it (“Page”). The form now reads
   its texts with `useTranslations('hjelp.form')` itself, so both places use one set of messages.
   New text: `headerPanel.requestNote` (no, en). None of it is respondent-facing.
 
-**Pixel gate:** the top of the panel is unchanged — tabs, the screen's three steps, «Les mer om
-dette» and the three articles are where the design draws them. The new section is added at the end
-and, at 1440 × 900, is inside the viewport of `23-panel-hjelp` (the design's panel ends at
-y ≈ 354): the panel grows by about 76 px and the page under it moves down by as much, beyond
-`v3-run.mjs`'s ±40 px search. The claimed tiles below the panel in `21-hjelp` and `23-panel-hjelp`
-are expected to stop matching for that reason alone; the run needs the app on :3000 against the
-seeded local database, and was not run in this piece of work. Re-record those two states' claims
-after reading their diffs (audit rule 7).
+**Pixel gate:** a first version put the form in a section of its own at the end of the panel; it
+grew the panel by about 53 px and moved the page under it past `v3-run.mjs`'s search, and
+`21-hjelp` (89/132) and `23-panel-hjelp` (35/54) failed. With the trigger in the existing row, the
+only pixels that differ are the trigger's button, left of «Hele hjelpesiden →», in a tile no claim
+covers. Both states pass with their claims unchanged (104/132 and 48/54).
 
 `ticket_holidays_invariants.sql` (8) proves the function's posture, the holidays of 2026 and 2027
 exactly, Easter across the computus' range, deadlines over each holiday, an ordinary week unchanged

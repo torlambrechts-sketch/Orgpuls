@@ -115,6 +115,7 @@ export function HeaderBar({
   const panelId = useId()
   const { prefs, setPref, panel: mode, togglePanel, pickPanel, closePanel } = useShell()
   const [sciTab, setSciTab] = useState<SciTab>('forskning')
+  const [asking, setAsking] = useState(false)
   const side = prefs.layout === 'side'
 
   const screen = screenOf(pathname)
@@ -259,12 +260,23 @@ export function HeaderBar({
                     <span className="text-[11px] uppercase tracking-[.11em] text-mut">
                       {t('headerPanel.readMore')}
                     </span>
-                    <Link
-                      href="/hjelp"
-                      className="flex h-[32px] items-center rounded-bar border border-ink bg-sf px-[13px] text-[12px] font-bold text-ink no-underline hover:text-ink hover:no-underline"
-                    >
-                      {t('headerPanel.allHelp')}
-                    </Link>
+                    <span className="flex flex-wrap gap-[8px]">
+                      {/* the one addition to the design's row: the request form opens below (D-174) */}
+                      <button
+                        type="button"
+                        aria-expanded={asking}
+                        onClick={() => setAsking((v) => !v)}
+                        className="flex h-[32px] cursor-pointer items-center rounded-bar border border-ink bg-sf px-[13px] text-[12px] font-bold text-ink"
+                      >
+                        {t('hjelp.form.head')}
+                      </button>
+                      <Link
+                        href="/hjelp"
+                        className="flex h-[32px] items-center rounded-bar border border-ink bg-sf px-[13px] text-[12px] font-bold text-ink no-underline hover:text-ink hover:no-underline"
+                      >
+                        {t('headerPanel.allHelp')}
+                      </Link>
+                    </span>
                   </span>
                   <span className="mt-[11px] grid gap-[9px] [grid-template-columns:repeat(auto-fit,minmax(215px,1fr))]">
                     {articles.map((a) => (
@@ -287,16 +299,15 @@ export function HeaderBar({
                       </Link>
                     ))}
                   </span>
-                  {/* last, so the panel's top reads as the design's; the form names this screen (D-174) */}
-                  <div className="mt-[16px] flex flex-wrap items-end justify-between gap-x-[14px] border-t border-[rgba(25,21,16,.15)] pt-[14px]">
-                    <span className="min-w-0">
-                      <span className="block text-[11px] uppercase tracking-[.11em] text-mut">{t('hjelp.form.head')}</span>
-                      <span className="mt-[5px] block max-w-[820px] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
+                  {/* only once asked for, so the closed panel keeps the design's height; the form names this screen (D-174) */}
+                  {asking ? (
+                    <div className="mt-[16px] border-t border-[rgba(25,21,16,.15)] pt-[14px]">
+                      <span className="block max-w-[820px] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
                         {t('headerPanel.requestNote')}
                       </span>
-                    </span>
-                    <HelpRequestForm page={helpPagePath(pathname)} formClassName="basis-full max-w-[560px]" />
-                  </div>
+                      <HelpRequestForm page={helpPagePath(pathname)} formClassName="max-w-[560px]" defaultOpen />
+                    </div>
+                  ) : null}
                 </>
               ) : null}
 

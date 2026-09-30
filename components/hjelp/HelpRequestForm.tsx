@@ -17,14 +17,17 @@ import { REQUEST_CATEGORIES } from '@/lib/help/request'
 export function HelpRequestForm({
   page,
   formClassName = '',
+  defaultOpen = false,
 }: {
   page: string
   /** where the open form sits in its container: the panel sets it on a line of its own */
   formClassName?: string
+  /** the panel opens the form from its own trigger in the «Les mer om dette» row */
+  defaultOpen?: boolean
 }) {
   const t = useTranslations('hjelp.form')
   const id = useId()
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(defaultOpen)
   const [category, setCategory] = useState<(typeof REQUEST_CATEGORIES)[number]>('getting_started')
   const [subject, setSubject] = useState('')
   const [body, setBody] = useState('')
