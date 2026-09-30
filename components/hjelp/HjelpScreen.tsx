@@ -3,7 +3,6 @@ import { getTranslations } from 'next-intl/server'
 import { ButtonLink } from '@/components/ui/Button'
 import { ArticleList, type ArticleCard } from '@/components/hjelp/ArticleList'
 import { HelpRequestForm } from '@/components/hjelp/HelpRequestForm'
-import { REQUEST_CATEGORIES } from '@/lib/help/request'
 
 /**
  * Hjelp. Bundle lines 1057-1142.
@@ -111,25 +110,7 @@ export async function HjelpScreen({ view }: { view: HjelpView }) {
               <div className="rounded-tile border border-line bg-bg px-[16px] py-[14px]">
                 <span className="text-[13.5px] font-bold">{t('hjelp.form.head')}</span>
                 <div className="mt-[5px] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">{t('hjelp.form.note')}</div>
-                <HelpRequestForm
-                  labels={{
-                    open: t('hjelp.form.open'),
-                    category: t('hjelp.form.category'),
-                    categories: Object.fromEntries(REQUEST_CATEGORIES.map((c) => [c, t(`hjelp.form.categories.${c}`)])) as Record<
-                      (typeof REQUEST_CATEGORIES)[number],
-                      string
-                    >,
-                    subject: t('hjelp.form.subject'),
-                    body: t('hjelp.form.body'),
-                    bodyHint: t('hjelp.form.bodyHint'),
-                    send: t('hjelp.form.send'),
-                    sending: t('hjelp.form.sending'),
-                    sent: t.raw('hjelp.form.sent') as string,
-                    invalid: t('hjelp.form.invalid'),
-                    limited: t('hjelp.form.limited'),
-                    failed: t('hjelp.form.failed'),
-                  }}
-                />
+                <HelpRequestForm page="/hjelp" />
               </div>
             </div>
             <p className="mt-[13px] text-[12px] leading-[1.5] text-mut [text-wrap:pretty]">
