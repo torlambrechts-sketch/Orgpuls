@@ -8,9 +8,10 @@ import type { SequenceStep } from '@/lib/admin/crm'
 const pct = (a: number, b: number) => (b ? `${Math.round((100 * a) / b)} %` : '—')
 
 /**
- * A campaign's sequence (0111, X-091): every mail in its chain, first mail first, each with its
+ * A campaign's sequence (0111, X-091): every step in its chain, first mail first, each with its
  * funnel. Answers and clicks lead; opens are shown muted, a lower bound since Apple's automatic
- * opens are not counted. The page you are on is marked.
+ * opens are not counted. A call or LinkedIn step (0137) sends nothing: it shows its tasks — made,
+ * open, done, skipped — since the chain waits on them. The page you are on is marked.
  */
 export function SequenceSteps({ steps, current, m }: { steps: SequenceStep[]; current: string; m: CrmMessages }) {
   const q = m.sequence
@@ -20,10 +21,12 @@ export function SequenceSteps({ steps, current, m }: { steps: SequenceStep[]; cu
       {steps.map((s) => {
         const sent = s.stats.sent
         const here = s.id === current
+        const task = s.step_kind !== 'mail'
+        const label = (s.step_kind === 'call' ? q.callStep : s.step_kind === 'linkedin' ? q.linkedinStep : q.step).replace('{n}', String(s.step))
         return (
           <li key={s.id} className={`rounded-ctl border px-[14px] py-[10px] ${here ? 'border-ink bg-sbg' : 'border-line bg-bg'}`}>
             <span className="flex flex-wrap items-center gap-[8px]">
-              <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-mut">{q.step.replace('{n}', String(s.step))}</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-mut">{label}</span>
               {here ? (
                 <span className="text-[13.5px] font-bold">{s.name}</span>
               ) : (
@@ -36,18 +39,29 @@ export function SequenceSteps({ steps, current, m }: { steps: SequenceStep[]; cu
             <span className="mt-[2px] block text-[12px] text-mut">
               {s.step === 1
                 ? q.first
-                : `${q.after.replace('{days}', String(s.follow_days ?? '')).replace('{when}', m.pipeline.when[s.follow_when])} · ${s.follow_auto ? q.auto : q.manual}`}
+                : task
+                  ? `${q.afterTask.replace('{days}', String(s.follow_days ?? ''))} · ${s.subject}`
+                  : `${q.after.replace('{days}', String(s.follow_days ?? '')).replace('{when}', m.pipeline.when[s.follow_when])} · ${s.follow_auto ? q.auto : q.manual}`}
               {s.waiting ? ` · ${q.waiting.replace('{n}', String(s.waiting))}` : ''}
             </span>
-            <dl className="m-0 mt-[8px] grid gap-x-[14px] gap-y-[4px] text-[12.5px] [grid-template-columns:repeat(auto-fit,minmax(92px,1fr))]">
-              <Fig k={q.sent} v={String(sent)} />
-              <Fig k={q.replied} v={`${s.replied} · ${pct(s.replied, sent)}`} strong />
-              <Fig k={q.clicked} v={`${s.stats.clicked} · ${pct(s.stats.clicked, sent)}`} strong />
-              <Fig k={q.opened} v={`${s.stats.opened} · ${pct(s.stats.opened, sent)}`} muted />
-              <Fig k={q.delivered} v={String(s.stats.delivered)} />
-              <Fig k={q.bounced} v={String(s.stats.bounced)} />
-              <Fig k={q.unsubscribed} v={String(s.stats.unsubscribed)} />
-            </dl>
+            {task ? (
+              <dl className="m-0 mt-[8px] grid gap-x-[14px] gap-y-[4px] text-[12.5px] [grid-template-columns:repeat(auto-fit,minmax(92px,1fr))]">
+                <Fig k={q.tasksMade} v={String(s.tasks?.made ?? 0)} />
+                <Fig k={q.tasksOpen} v={String(s.tasks?.open ?? 0)} strong />
+                <Fig k={q.tasksDone} v={String(s.tasks?.done ?? 0)} strong />
+                <Fig k={q.tasksSkipped} v={String(s.tasks?.skipped ?? 0)} muted />
+              </dl>
+            ) : (
+              <dl className="m-0 mt-[8px] grid gap-x-[14px] gap-y-[4px] text-[12.5px] [grid-template-columns:repeat(auto-fit,minmax(92px,1fr))]">
+                <Fig k={q.sent} v={String(sent)} />
+                <Fig k={q.replied} v={`${s.replied} · ${pct(s.replied, sent)}`} strong />
+                <Fig k={q.clicked} v={`${s.stats.clicked} · ${pct(s.stats.clicked, sent)}`} strong />
+                <Fig k={q.opened} v={`${s.stats.opened} · ${pct(s.stats.opened, sent)}`} muted />
+                <Fig k={q.delivered} v={String(s.stats.delivered)} />
+                <Fig k={q.bounced} v={String(s.stats.bounced)} />
+                <Fig k={q.unsubscribed} v={String(s.stats.unsubscribed)} />
+              </dl>
+            )}
           </li>
         )
       })}

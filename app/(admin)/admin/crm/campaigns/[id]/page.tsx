@@ -4,6 +4,7 @@ import { CampaignActions, type CrmMessages } from '@/components/admin/CrmForms'
 import { Funnel } from '@/components/admin/CampaignFunnel'
 import { CampaignPipelineForm, ResendForm } from '@/components/admin/CrmStageForms'
 import { SequenceSteps } from '@/components/admin/CrmSequence'
+import { StepActions, StepForm } from '@/components/admin/CrmStepForms'
 import { STATUS_TONE } from '@/components/admin/CrmTabs'
 import { ALink, Badge, Card, PageHead, pct, Problem, Stat, Table, Td, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
@@ -51,6 +52,65 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
   const sender = senders.find((x) => x.id === c.sender_id)
   const stageName = (k: string | null) => stages.find((x) => x.key === k)?.name ?? k ?? ''
   const pipeline = m.pipeline
+
+  // 0137: a call or LinkedIn step has no mail to show or report; it has its task and its tasks
+  if (c.step_kind !== 'mail') {
+    const parent = earlier.find((x) => x.id === c.follows_id)?.name ?? '—'
+    const tasks = isError(sequence) ? null : (sequence.steps.find((x) => x.id === c.id)?.tasks ?? null)
+    const kind = m.sequence.kind[c.step_kind]
+    return (
+      <>
+        <PageHead title={c.name} lead={t('crm.step.lead', { kind, days: c.follow_days ?? 0, parent })}>
+          <span className="flex items-center gap-[10px]">
+            <Badge tone={STATUS_TONE[c.status]}>{m.campaigns.status[c.status]}</Badge>
+            <ALink href={`/admin/crm/campaigns/${c.follows_id ?? ''}`}>{parent}</ALink>
+          </span>
+        </PageHead>
+        <div className="grid items-start gap-[14px] xl:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
+          <div className="flex min-w-0 flex-col gap-[14px]">
+            <Card title={m.step.card}>
+              <p className="mb-[10px] mt-0 text-[12.5px] leading-[1.55] text-mut">{m.step.explain}</p>
+              {canWrite && c.status === 'draft' ? (
+                <StepForm
+                  step={{ id: c.id, name: c.name, subject: c.subject, step_kind: c.step_kind, follow_days: c.follow_days }}
+                  m={m}
+                  common={{ saving: common.saving, done: common.done }}
+                />
+              ) : (
+                <p className="m-0 text-[13.5px] font-semibold">{c.subject}</p>
+              )}
+            </Card>
+            {canWrite && c.status !== 'sent' && c.status !== 'cancelled' ? (
+              <Card title={m.campaign.send}>
+                <StepActions id={c.id} status={c.status} m={m} common={{ saving: common.saving, done: common.done }} />
+              </Card>
+            ) : null}
+            <Card title={m.step.tasks}>
+              <p className="mb-[10px] mt-0 text-[12.5px] text-mut">{m.step.tasksLead}</p>
+              {tasks && tasks.made ? (
+                <div className="grid gap-[10px] [grid-template-columns:repeat(auto-fit,minmax(110px,1fr))]">
+                  <Stat label={m.sequence.tasksMade} value={tasks.made} />
+                  <Stat label={m.sequence.tasksOpen} value={tasks.open} />
+                  <Stat label={m.sequence.tasksDone} value={tasks.done} />
+                  <Stat label={m.sequence.tasksSkipped} value={tasks.skipped} />
+                </div>
+              ) : (
+                <p className="m-0 text-[13px] text-mut">{m.step.noTasks}</p>
+              )}
+              <p className="mb-0 mt-[10px] text-[12.5px]">
+                <ALink href="/admin/crm/tasks">{m.step.openTasks}</ALink>
+              </p>
+            </Card>
+          </div>
+          <Card title={m.sequence.title}>
+            <p className="mb-[10px] mt-0 text-[12.5px] leading-[1.55] text-mut">{m.sequence.lead}</p>
+            {isError(sequence) ? <Problem text={t('common.failed')} /> : <SequenceSteps steps={sequence.steps} current={c.id} m={m} />}
+          </Card>
+        </div>
+      </>
+    )
+  }
+
   const summary = [
     c.stage_target ? pipeline.summary.target.replace('{stage}', stageName(c.stage_target)) : null,
     c.stage_on_send ? pipeline.summary.onSend.replace('{stage}', stageName(c.stage_on_send)) : null,
@@ -239,6 +299,14 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
               <div className="mt-[12px] border-t border-line pt-[12px]">
                 <ResendForm id={c.id} m={m} />
               </div>
+            ) : null}
+            {canWrite && c.status !== 'cancelled' ? (
+              <details className="mt-[12px] border-t border-line pt-[12px]">
+                <summary className="cursor-pointer text-[13px] font-semibold">{m.sequence.addStep}</summary>
+                <div className="mt-[10px]">
+                  <StepForm follows={{ id: c.id, name: c.name }} m={m} common={{ saving: common.saving, done: common.done }} />
+                </div>
+              </details>
             ) : null}
           </Card>
           {draft ? null : (

@@ -7,8 +7,9 @@ import { didKey, firstName, targetOf, when } from '@/lib/admin/activity'
 import { attention, auditList, isError, kpis } from '@/lib/admin/api'
 import { cmsPages, type CmsPage } from '@/lib/admin/cms'
 import { catalogues, designedMeta } from '@/lib/admin/cmsSite'
-import { crmCompanies, crmStages } from '@/lib/admin/crm'
+import { crmPipelineSummary, crmStages } from '@/lib/admin/crm'
 import { kr } from '@/lib/admin/format'
+import { shownSum, unvalued } from '@/lib/admin/pipeline'
 import { CMS_LOCALES, parseContent, pathOf, type CmsLocale } from '@/lib/cms/content'
 import { designedPages } from '@/lib/cms/designed'
 
@@ -26,7 +27,7 @@ const VIZ = ['bg-viz1', 'bg-viz2', 'bg-viz3', 'bg-viz4', 'bg-viz5'] as const
 export default async function Overview() {
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const d = (k: string, v?: Record<string, string | number>) => t(`dashboard.${k}`, v)
-  const [k, att, pages, stages, deals, audit, cat] = await Promise.all([kpis(), attention(), cmsPages(), crmStages(), crmCompanies(null, null), auditList(null, 200), catalogues()])
+  const [k, att, pages, stages, deals, audit, cat] = await Promise.all([kpis(), attention(), cmsPages(), crmStages(), crmPipelineSummary(), auditList(null, 200), catalogues()])
   const now = Date.now()
   const daysTo = (iso: string) => Math.max(1, Math.ceil((new Date(iso).getTime() - now) / DAY))
 
@@ -76,15 +77,16 @@ export default async function Overview() {
   const recent = isError(audit) ? null : audit.rows.filter((a) => t.has(didKey(a.action))).slice(0, 6)
 
   // ---------------------------------------------------------------- the pipeline: deals and their value (0119)
+  // summed in the database over every company (0137); a deal without a value is counted, not priced at 0 kr
   const open = isError(stages) ? [] : stages.rows.filter((s) => s.kind === 'open' && !s.archived).sort((a, b) => a.sort - b.sort)
-  const rows = isError(deals) ? [] : deals.rows
-  const inStage = (key: string) => rows.filter((c) => c.stage === key)
-  const value = (list: typeof rows) => list.reduce((n, c) => n + (c.value_nok ?? 0), 0)
-  const openDeals = rows.filter((c) => open.some((s) => s.key === c.stage))
-  const wonKeys = new Set(isError(stages) ? [] : stages.rows.filter((s) => s.kind === 'won').map((s) => s.key))
-  const quarter = quarterStart()
-  const wonQuarter = rows.filter((c) => wonKeys.has(c.stage) && Date.parse(c.stage_changed_at) >= quarter).length
-  const maxStage = Math.max(1, ...open.map((s) => value(inStage(s.key))))
+  const none = { count: 0, valued: 0, value: 0 }
+  const inStage = (key: string) => (isError(deals) ? none : (deals.stages.find((x) => x.key === key) ?? none))
+  const openDeals = isError(deals) ? none : deals.open
+  const wonQuarter = isError(deals) ? 0 : deals.won_quarter.count
+  const maxStage = Math.max(1, ...open.map((s) => inStage(s.key).value))
+  const pipelineHint = [d('kpi.pipelineSub', { count: openDeals.count, won: wonQuarter }), unvalued(openDeals) ? d('kpi.pipelineUnvalued', { count: unvalued(openDeals) }) : null]
+    .filter(Boolean)
+    .join(' · ')
 
   return (
     <>
@@ -97,7 +99,7 @@ export default async function Overview() {
             <Stat label={d('kpi.trials')} value={k.trials_active} hint={d('kpi.trialsSub', { count: k.trials_expiring_7d })} />
           </>
         )}
-        {isError(stages) || isError(deals) ? null : <Stat label={d('kpi.pipeline')} value={kr(value(openDeals))} hint={d('kpi.pipelineSub', { count: openDeals.length, won: wonQuarter })} />}
+        {isError(stages) || isError(deals) ? null : <Stat label={d('kpi.pipeline')} value={kr(openDeals.value)} hint={pipelineHint} />}
         {site ? (
           <Stat
             label={d('kpi.pages')}
@@ -195,15 +197,15 @@ export default async function Overview() {
           {isError(stages) || isError(deals) ? null : (
             <Panel>
               <h2 className="m-0 font-display text-[22px] font-medium">{d('pipeline.title')}</h2>
-              <p className="mb-0 mt-[4px] text-[12.5px] text-mut">{d('pipeline.lead', { value: kr(value(openDeals)), count: openDeals.length })}</p>
+              <p className="mb-0 mt-[4px] text-[12.5px] text-mut">{d('pipeline.lead', { value: kr(openDeals.value), count: openDeals.count })}</p>
               <div className="mt-[16px] flex flex-col gap-[12px]">
                 {open.map((s, i) => (
                   <BarRow
                     key={s.key}
                     name={s.name}
-                    pct={Math.round((100 * value(inStage(s.key))) / maxStage)}
+                    pct={Math.round((100 * inStage(s.key).value) / maxStage)}
                     colour={VIZ[i % VIZ.length]!}
-                    figure={<><b>{inStage(s.key).length}</b> <span className="text-mut">{kr(value(inStage(s.key)))}</span></>}
+                    figure={<><b>{inStage(s.key).count}</b> <span className="text-mut" title={unvalued(inStage(s.key)) ? t('crm.board.colUnvalued', { count: unvalued(inStage(s.key)), total: inStage(s.key).count }) : undefined}>{shownSum(inStage(s.key)) === null ? '—' : kr(shownSum(inStage(s.key)) ?? 0)}</span></>}
                   />
                 ))}
               </div>
@@ -264,10 +266,4 @@ function pageFacts(rows: CmsPage[], cat: Awaited<ReturnType<typeof catalogues>>)
     if (live.some((l) => !parseContent(l.current)?.description.trim())) nodesc++
   }
   return { byLang, published, missing, nodesc, drafts, scheduled, live: published, total: published + drafts }
-}
-
-/** The first day of this quarter, in Oslo */
-function quarterStart() {
-  const [y, mo] = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo', year: 'numeric', month: '2-digit' }).format(new Date()).split('-').map(Number)
-  return Date.UTC(y!, Math.floor((mo! - 1) / 3) * 3, 1)
 }
