@@ -7536,3 +7536,97 @@ not closed (D-156); no v3 state draws it.
 
 `send_test_invariants.sql` (7) proves the posture, who may send, the limits, the claim, the preview
 unchanged and the check's counts; `tests/unit/mail.test.ts` the test's subject, lead and link.
+
+## D-17X — Målinger: the rail's month changes, «Lukk runden» and «Send påminnelse» (0133)
+
+**Design:** v3 1170-1210 and 6100-6131 (the rail's detail line), 1195-1210 and 4455-4493 (the
+Deltakelse card while a round is open). D-74 left all four out: the wheel re-plans every month its
+cadence names, so a skip needs a record of its own, and the card's two buttons had no write path.
+
+**Built (0133):**
+- **The months.** `app.wheel_month_marks` holds one row per organisation and month the leader
+  changed: «hoppet_over» or «lagt_til». The wheel's planning step, now `app.wheel_plan`, reads it.
+  It plans no puls in a skipped month, and it plans a puls in an added month as it plans its own
+  (first Tuesday, 09:00, the factors with an open measure). `public.wheel_month_change` is the only
+  write. Its guards:
+  - daglig leder only;
+  - a month after the current one, this year or next (the rail's years);
+  - never a month with an open or closed round;
+  - «legg_til» refuses with no open measure (`no_factors`), in the wheel's grunnlinje month
+    (`occupied`), and without an active wheel (`no_wheel`), since nothing would open the round.
+  The rail draws the design's four buttons for a daglig leder on a month still ahead, while the
+  wheel is on:
+  - «Hopp over denne» on the wheel's planned puls. It deletes the round and records a skip
+    («Hoppet over», «Pulsen fra årshjulet er hoppet over denne måneden.»).
+  - «Fjern pulsen» on an added puls. It deletes the round and leaves the month empty, not skipped.
+  - «Ta pulsen tilbake» on a skipped month. It removes the skip and the wheel plans the month at
+    once.
+  - «＋ Legg til puls i …» on an empty month. The added puls reads «Lagt til», «Lagt til manuelt.»,
+    and «lagt til manuelt» on Kommende.
+- **«Lukk runden».** `public.close_round_now` (daglig leder, an open round) sets `closes_at` to
+  now, so every screen prints the day it closed and the publish date follows it (0129). It then
+  calls `app.close_round`, the tick's own close lifted out and used by the tick too: closed,
+  frozen, the result notice to every rung of the ladder. Results, notices and k are the close's
+  own. It never extends: the leader chose to close. The button asks once, as «Start neste puls nå»
+  does.
+- **«Send påminnelse til de N».** `public.send_round_reminder` queues the ladder's own reminder:
+  the round's «paminnelse» row per unanswered, unexpired invitation, re-queued as the extension and
+  request_link do. It never goes to anyone who has answered. `app.round_reminders` records every
+  reminder a round sends, from every source: the ladder (stige), the day before (siste, 0076), the
+  extension (forlengelse, 0096) and the leader (manuell, with who). The design's rule, «Maks to
+  påminnelser per runde» and «mer enn to oppleves som mas», is read as two per round for the person
+  receiving them. So all four sources count against the same two, and all four stop at two:
+  - the ladder's reminder is not queued after two manual ones;
+  - the day-before reminder is not queued after two of any kind;
+  - the extension still extends, but sends no third reminder.
+  The rounds open when 0133 ran were given the records their automatic reminders had already
+  earned.
+- **N.** `public.reminder_status` gives the count sent, when the last went, the cap, and N: the
+  round's outstanding invitations. N is one count for the whole round, never a group's. It is the
+  organisation total that participation already prints («14 av 22 har svart»), which D-123 keeps.
+  It is withheld (null) when fewer than k were asked in the whole round, D-123's rule for a group.
+- **The card while a round is open** is that round's, as the design's live state is. It shows:
+  - «{tittel} — pågår · Dag 3 av 7 · lukkes 5. oktober kl. 02:00»;
+  - its participation under D-123;
+  - for a daglig leder, «Lukk runden» and the reminder button, which reads «Send påminnelse til de
+    N», «Maks to påminnelser per runde» or «Alle har svart»;
+  - the design's note: «Går ut på samme kanal …», or «Sendt N ganger i denne runden, sist …», in
+    danger red at two.
+  With no round open it describes the latest closed round, as before (D-46).
+
+**Where the build differs, and why:**
+- **The count includes the wheel's own reminders.** The prototype counts presses only: its live
+  state is «Dag 3 av 7» with a day-2 reminder behind it and «0» sent. The reason it gives for the
+  cap is the respondent's experience. A round whose ladder has sent its reminder therefore allows
+  one press, not two. The decision log carries the question.
+- **N without a number.** When fewer than k were asked in the whole round, the button reads «Send
+  påminnelse». The design has no numberless variant for this button; «Alle har svart» and «Maks to»
+  are the only states without N.
+- **«sist i dag kl. 10.12»** is the design's only case. A reminder sent another day reads «sist 29.
+  september kl. 10:12». Times are Intl's, as everywhere else in the app («10:12», not «10.12»).
+- **Skipping deletes the planned round.** A setup made for it in Måleoppsett (its questions,
+  introduction, publish date) goes with it. «Ta pulsen tilbake» plans it afresh with the wheel's
+  defaults. Nothing in the design keeps a skipped round's setup, and a round kept but not sent would
+  appear under Kommende.
+- **The empty month's text** is the design's «Ingen utsending planlagt. Legg til en puls, så går den
+  ut automatisk …», with the wheel's own date, the first Tuesday, not the design's «12.». Roles that
+  cannot add, and a wheel that is off, keep «Ingen utsending planlagt denne måneden.»
+- **The detail line wraps its buttons** under a long puls text on the rail, as the design's flex-wrap
+  does. The build's text is the wheel's longer sentence (D-74).
+- **A refusal is printed** in danger red under the detail text or under the card's buttons, in the
+  words of the database's guard. The prototype has no refusals.
+
+**Pixel gate:** the rail's closed-month and planned-month states and the Deltakelse card's closed
+state are unchanged. The fixture's open puls now draws the design's live card instead of the closed
+one, which `baselines-v3/03` (the design's notLive state) does not capture. The buttons are the
+design's own classes: rail 34 px / 10 radius, red «Hopp over» / «Fjern» on a line border, amber «＋
+Legg til» / «Ta tilbake»; card 40 px / 11 radius.
+
+**Verified** on a local build at 1440 and 390, with no console errors, as the Lumio daglig leder
+and as the Nordvik daglig leder:
+- skip, take back, add and remove on the rail;
+- the close's confirm and cancel;
+- a reminder pressed to «Maks to påminnelser per runde»;
+- no horizontal scroll at 390.
+The Nordvik fixture was restored afterwards. `wheel_month_invariants.sql` (23) proves every rule.
+`demo_copy_plan` skips both tables.

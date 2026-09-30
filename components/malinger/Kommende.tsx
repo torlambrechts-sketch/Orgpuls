@@ -1,14 +1,28 @@
 import Link from 'next/link'
 import type { Route } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
+import { RoundControls } from './RoundControls'
 import { StartPulse } from './StartPulse'
-import { rateColour } from '@/lib/participation/read'
+import { rateColour, type Participation } from '@/lib/participation/read'
 import type { RoundListItem } from '@/lib/rounds/read'
+import type { ReminderStatus } from '@/lib/rounds/reminders'
 
 /**
  * Målinger › Kommende (v3 1133-1216): every round not closed yet, in the order it goes
  * out, then the latest result's line and the Deltakelse card with "Start neste puls nå".
+ *
+ * While a round is open the card is that round's, as the design's live state is (v3 4455-4493):
+ * «Dag 3 av 7 · lukkes …», its participation, and for a daglig leder «Lukk runden» and «Send
+ * påminnelse til de N» (0133). Otherwise it describes the latest closed round (D-46).
  */
+export interface LiveCard {
+  id: string
+  title: string
+  sub: string
+  participation: Participation | null
+  reminders: ReminderStatus | null
+}
+
 export interface UpcomingRow {
   id: string
   kind: 'grunnlinje' | 'puls'
@@ -37,18 +51,31 @@ export async function Kommende({
   latestTitle,
   canStart,
   roundOpen,
+  live,
 }: {
   rows: UpcomingRow[]
   latest: RoundListItem | null
   latestTitle: string | null
   canStart: boolean
   roundOpen: boolean
+  live: LiveCard | null
 }) {
   const t = await getTranslations('malinger')
   const locale = await getLocale()
   const date = (iso: string | null) =>
     iso ? new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', day: 'numeric', month: 'long' }).format(new Date(iso)) : ''
-  const part = latest?.participation ?? null
+  const part = live ? live.participation : (latest?.participation ?? null)
+  const reminders = live?.reminders ?? null
+  // «sist i dag kl. 10.12» (v3 4490), or the day it went when that was not today
+  const lastSent = (iso: string) => {
+    const fmt = (at: Date, o: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', ...o }).format(at)
+    const at = new Date(iso)
+    const time = fmt(at, { hour: '2-digit', minute: '2-digit' })
+    const day = { year: 'numeric', month: '2-digit', day: '2-digit' } as const
+    return fmt(at, day) === fmt(new Date(), day)
+      ? t('nudge.today', { time })
+      : t('nudge.on', { date: fmt(at, { day: 'numeric', month: 'long' }), time })
+  }
 
   return (
     <>
@@ -139,15 +166,15 @@ export async function Kommende({
         </div>
       ) : null}
 
-      {latest && latestTitle ? (
+      {live || (latest && latestTitle) ? (
         <section className="mt-[20px] rounded-panel border border-line bg-sf px-[26px] py-[24px]">
           <div className="flex flex-wrap items-start justify-between gap-[18px]">
             <span className="min-w-0">
               <h2 className="m-0 font-display text-[21px] font-semibold">{t('deltakelse')}</h2>
               <span className="mt-[4px] block text-[13px] text-mut">
-                {t('cardRoundTitle', { title: latestTitle })}
+                {live ? t('cardLiveTitle', { title: live.title }) : t('cardRoundTitle', { title: latestTitle ?? '' })}
                 {' · '}
-                {t('cardRoundSub', { date: date(latest.closesAt) })}
+                {live ? live.sub : t('cardRoundSub', { date: date(latest?.closesAt ?? null) })}
               </span>
             </span>
             {part ? (
@@ -198,11 +225,23 @@ export async function Kommende({
           <div className="mt-[18px] flex flex-wrap items-start justify-between gap-[18px] border-t border-line pt-[16px]">
             <span className="min-w-[min(280px,100%)] max-w-[600px] flex-1">
               <span className="block text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">{t('privacy')}</span>
-              <span className="mt-[8px] block text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
-                {t('reminderClosed')}
+              <span
+                className={`mt-[8px] block text-[12.5px] leading-[1.5] [text-wrap:pretty] ${
+                  reminders && reminders.sent >= reminders.max ? 'text-danger' : 'text-mut'
+                }`}
+              >
+                {!live
+                  ? t('reminderClosed')
+                  : reminders && reminders.sent > 0 && reminders.lastAt
+                    ? t('nudge.sent', { count: reminders.sent, when: lastSent(reminders.lastAt) })
+                    : t('nudge.note')}
               </span>
             </span>
-            {canStart ? <StartPulse roundOpen={roundOpen} /> : null}
+            {live ? (
+              canStart ? <RoundControls roundId={live.id} reminders={reminders} /> : null
+            ) : canStart ? (
+              <StartPulse roundOpen={roundOpen} />
+            ) : null}
           </div>
         </section>
       ) : null}

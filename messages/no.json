@@ -381,7 +381,7 @@
       "indexText": "indeks {index}",
       "plannedTitle": "{kind} {month} {year}",
       "baselineText": "Hele spørsmålssettet. Går ut automatisk i årshjulet.",
-      "pulseText": "Fra årshjulet. {count, plural, one {# spørsmål} other {# spørsmål}} om {factors}, sendes {date} kl. {time}.",
+      "pulseText": "{source, select, added {Lagt til manuelt.} other {Fra årshjulet.}} {count, plural, one {# spørsmål} other {# spørsmål}} om {factors}, sendes {date} kl. {time}.",
       "openMeasures": "faktorene med åpne tiltak",
       "leadText": "Verneombudet varsles {days, plural, one {# dag} other {# dager}} før.",
       "now": "Nå",
@@ -391,7 +391,26 @@
       "nonePlanned": "Ingen utsending planlagt denne måneden.",
       "count": "{count, plural, one {# måling} other {# målinger}} i {year} · {done} gjennomført",
       "nextIn": "{kind} i {month}",
-      "nextInYear": "{kind} i {month} {year}"
+      "nextInYear": "{kind} i {month} {year}",
+      "added": "Lagt til",
+      "skipped": "Hoppet over",
+      "skippedText": "Pulsen fra årshjulet er hoppet over denne måneden.",
+      "addText": "Ingen utsending planlagt. Legg til en puls, så går den ut automatisk {date}.",
+      "add": "＋ Legg til puls i {month}",
+      "skip": "Hopp over denne",
+      "remove": "Fjern pulsen",
+      "restore": "Ta pulsen tilbake",
+      "problem": {
+        "not_available": "Bare daglig leder kan endre årshjulet.",
+        "invalid": "Måneden kunne ikke endres.",
+        "past": "Bare måneder som ligger foran kan endres.",
+        "occupied": "Det er allerede en måling denne måneden.",
+        "not_planned": "Det er ingen planlagt puls denne måneden.",
+        "not_skipped": "Pulsen denne måneden er ikke hoppet over.",
+        "skipped": "Pulsen fra årshjulet er hoppet over denne måneden. Ta den tilbake i stedet.",
+        "no_wheel": "Årshjulet er ikke slått på, så en puls her ville aldri gått ut.",
+        "no_factors": "Ingen faktorer å spørre om: ingen tiltak er åpne."
+      }
     },
     "start": {
       "label": "Start neste puls nå",
@@ -581,6 +600,35 @@
       "anonymous": "Svaret er anonymt. Ingen enkeltsvar kan spores tilbake til deg, og resultater vises bare for grupper der minst {k} har svart.",
       "noneTitle": "Ingen QR-plakat ennå",
       "noneLead": "Daglig leder lager plakaten under Målinger › Innstillinger."
+    },
+    "addedMeta": "lagt til manuelt",
+    "cardLiveTitle": "{title} — pågår",
+    "cardLiveSub": "Dag {day} av {days} · lukkes {date} kl. {time}",
+    "nudge": {
+      "label": "Send påminnelse til de {count}",
+      "labelNoCount": "Send påminnelse",
+      "max": "Maks to påminnelser per runde",
+      "all": "Alle har svart",
+      "note": "Går ut på samme kanal som målingen. Teksten er nøytral og sier ingenting om hvem som mangler.",
+      "sent": "Sendt {count, plural, one {# gang} other {# ganger}} i denne runden, sist {when}. Mer enn to oppleves som mas og senker tilliten mer enn det løfter svarprosenten.",
+      "today": "i dag kl. {time}",
+      "on": "{date} kl. {time}",
+      "problem": {
+        "not_available": "Bare daglig leder kan sende påminnelser.",
+        "not_open": "Runden er lukket.",
+        "max_reached": "Maks to påminnelser per runde.",
+        "none_outstanding": "Alle har svart."
+      }
+    },
+    "close": {
+      "label": "Lukk runden",
+      "confirm": "Runden lukkes nå, og ingen flere svar kommer inn. Resultatet regnes ut av svarene som har kommet, med samme terskel som ellers.",
+      "cancel": "Avbryt",
+      "send": "Lukk runden nå",
+      "problem": {
+        "not_available": "Bare daglig leder kan lukke en runde.",
+        "not_open": "Runden er allerede lukket."
+      }
     }
   },
   "extra": {

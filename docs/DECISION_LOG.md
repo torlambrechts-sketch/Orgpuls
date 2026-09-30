@@ -2898,6 +2898,8 @@ the app calls it any more (wiring R1, known).
 - [x] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131); decided in admin › Moduler since 0092 (D-140).
 - [x] «Send test til meg» for a survey's invitation: to the daglig leder's own address, its link the round's preview, which answers nothing (0127, D-171).
 - [x] A ready-to-send check before a round opens: reach by channel, groups under the threshold, the two consultations, e-mail off (0127, D-171).
+- [x] Målinger's missing write paths (D-74): «＋ Legg til puls», «Hopp over denne» / «Fjern pulsen» / «Ta pulsen tilbake» on the year rail, and on the open round's Deltakelse card «Lukk runden» and «Send påminnelse til de N», at most two reminders per round counted with the wheel's own (0133, D-17X).
+- [ ] Reminder cap (D-17X): the ladder's, the day-before and the extension's reminders now stop at the round's two as well. Confirm that is the product's rule, or say which source may exceed it.
 - [ ] "View as customer" for support: whether, for whom, with what approval, and how the
   customer is told (D-107; the DPA's Vedlegg 2 limits staff access today).
 - [x] Google Search Console: connected 2026-09-28 (`sc-domain:orgpuls.com`, read-only service

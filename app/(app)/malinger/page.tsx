@@ -27,7 +27,8 @@ import { meanOf, notRelevantShare } from '@/lib/results/resultater'
 import { getNotRelevant } from '@/lib/results/read'
 import { roundNamer } from '@/lib/rounds/design-name'
 import { getRoundFactorKeys, getRoundRows, withParticipation, type RoundListItem, type RoundRow } from '@/lib/rounds/read'
-import { getWheel } from '@/lib/wheel/read'
+import { getWheel, getWheelMarks } from '@/lib/wheel/read'
+import { getReminderStatus } from '@/lib/rounds/reminders'
 import { Innstillinger } from '@/components/malinger/Innstillinger'
 import { getOrganization } from '@/lib/org/read'
 import { getSmsSettings } from '@/lib/settings/read'
@@ -70,7 +71,7 @@ export default async function MalingerPage({
   const t = await getTranslations()
   const locale = await getLocale()
 
-  const [rows, wheel, factors, role] = await Promise.all([getRoundRows(), getWheel(), getFactors(), getViewerRole()])
+  const [rows, wheel, factors, role, marks] = await Promise.all([getRoundRows(), getWheel(), getFactors(), getViewerRole(), getWheelMarks()])
 
   const oslo = (iso: string, opts: Intl.DateTimeFormatOptions) =>
     new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', ...opts }).format(new Date(iso))
@@ -193,6 +194,10 @@ export default async function MalingerPage({
             ? t('malinger.closesOn', { date: oslo(r.opensAt, { day: 'numeric', month: 'long' }) })
             : null,
         r.kind === 'puls' && keys.length ? list(keys) : null,
+        // 0133: a puls the leader added on the rail says so (v3 6103)
+        r.kind === 'puls' && r.status === 'planlagt' && at && marks.get(`${at.y}-${at.m}`) === 'lagt_til'
+          ? t('malinger.addedMeta')
+          : null,
       ]
         .filter(Boolean)
         .join(' · '),
@@ -209,6 +214,13 @@ export default async function MalingerPage({
   const year = params.ar && years.includes(params.ar) ? params.ar : now.y
   const forankring = wheel ? ((wheel.baselineMonth + 10) % 12) + 1 : null
   const lead = wheel?.ladder.find((s) => s.audience === 'verneombud')?.leadDays ?? null
+  // a wheel that is off opens nothing, so its months have nothing to change (0133 says no_wheel)
+  const canChange = role === 'daglig_leder' && !!wheel?.active
+  // the day the wheel sends in a month: its first Tuesday (app.first_tuesday, 0020)
+  const firstTuesday = (y: number, m: number) => {
+    const day = 1 + ((9 - new Date(Date.UTC(y, m - 1, 1)).getUTCDay()) % 7)
+    return oslo(`${y}-${String(m).padStart(2, '0')}-${String(day).padStart(2, '0')}T12:00:00Z`, { day: 'numeric', month: 'long' })
+  }
 
   const cellsOf = (y: number): RailCell[] =>
     Array.from({ length: 12 }, (_, i) => {
@@ -220,11 +232,15 @@ export default async function MalingerPage({
         : (upcoming.find((r) => r.opensAt && ym(r.opensAt).y === y && ym(r.opensAt).m === m && r.kind === 'grunnlinje') ??
           upcoming.find((r) => r.opensAt && ym(r.opensAt).y === y && ym(r.opensAt).m === m))
       const past = y < now.y || (y === now.y && m < now.m)
+      // 0133: the rail's month changes are a daglig leder's, for a month still ahead
+      const ahead = canChange && (y > now.y || (y === now.y && m > now.m))
+      const mark = marks.get(`${y}-${m}`) ?? null
       const monthName = oslo(`${y}-${String(m).padStart(2, '0')}-15T12:00:00Z`, { month: 'long' })
       const short = oslo(`${y}-${String(m).padStart(2, '0')}-15T12:00:00Z`, { month: 'short' }).replace(/\.$/, '')
       const base = {
         month: m,
         short: short.charAt(0).toLocaleUpperCase(locale) + short.slice(1),
+        long: monthName,
         isNow: y === now.y && m === now.m,
       }
 
@@ -247,22 +263,25 @@ export default async function MalingerPage({
             .join(' · '),
           roundId: d.id,
           compareWith: h.compareWith,
+          action: null,
         }
       }
       if (pl) {
         const row = upcomingRows.find((x) => x.id === pl.id)!
         const keys = upcomingKeys[upcoming.indexOf(pl)] ?? []
+        const added = pl.status === 'planlagt' && mark === 'lagt_til'
         return {
           ...base,
           state: pl.status === 'apen' ? 'open' : 'planned',
           kind: row.kind,
-          sub: t(pl.status === 'apen' ? 'malinger.state.apen' : 'malinger.state.planlagt'),
+          sub: pl.status === 'apen' ? t('malinger.state.apen') : added ? t('malinger.rail.added') : t('malinger.state.planlagt'),
           title: t('malinger.rail.plannedTitle', { kind: t(`malinger.kind.${row.kind}`), month: monthName, year: y }),
           text:
             row.kind === 'grunnlinje'
               ? t('malinger.rail.baselineText')
               : [
                   t('malinger.rail.pulseText', {
+                    source: added ? 'added' : 'wheel',
                     count: pl.questionCount,
                     factors: keys.length ? list(keys) : t('malinger.rail.openMeasures'),
                     date: pl.opensAt ? oslo(pl.opensAt, { day: 'numeric', month: 'long' }) : '',
@@ -274,17 +293,30 @@ export default async function MalingerPage({
                   .join(' '),
           roundId: pl.id,
           compareWith: null,
+          // the design's «Hopp over denne» / «Fjern pulsen»: a planned puls only (v3 6125)
+          action: ahead && pl.status === 'planlagt' && row.kind === 'puls' ? (added ? 'remove' : 'skip') : null,
         }
       }
+      const skipped = !past && mark === 'hoppet_over'
       return {
         ...base,
         state: 'empty',
         kind: m === forankring ? 'forankring' : null,
-        sub: y === now.y && m === now.m ? t('malinger.rail.now') : '',
+        sub: y === now.y && m === now.m ? t('malinger.rail.now') : skipped ? t('malinger.rail.skipped') : '',
         title: t('malinger.rail.monthTitle', { month: base.short, year: y }),
-        text: m === forankring ? t('malinger.rail.forankring') : past ? t('malinger.rail.none') : t('malinger.rail.nonePlanned'),
+        text:
+          m === forankring
+            ? t('malinger.rail.forankring')
+            : past
+              ? t('malinger.rail.none')
+              : skipped
+                ? t('malinger.rail.skippedText')
+                : ahead
+                  ? t('malinger.rail.addText', { date: firstTuesday(y, m) })
+                  : t('malinger.rail.nonePlanned'),
         roundId: null,
         compareWith: null,
+        action: ahead ? (skipped ? 'restore' : 'add') : null,
       }
     })
 
@@ -316,6 +348,33 @@ export default async function MalingerPage({
     sporsmal: factors.length,
   }
 
+  // ------------------------------------------------------------------ the open round
+  // While a round is open the Deltakelse card is that round's (v3 4455-4493): its day, its
+  // participation under D-123's rules, and «Lukk runden» and «Send påminnelse» (0133).
+  const openRound = upcoming.find((r) => r.status === 'apen' && r.opensAt && r.closesAt) ?? null
+  const live =
+    tab === 'kommende' && openRound?.opensAt && openRound.closesAt
+      ? await (async () => {
+          const DAY = 86_400_000
+          const opens = new Date(openRound.opensAt!).getTime()
+          const closes = new Date(openRound.closesAt!).getTime()
+          const days = Math.max(1, Math.round((closes - opens) / DAY))
+          const day = Math.min(days, Math.max(1, Math.floor((Date.now() - opens) / DAY) + 1))
+          return {
+            id: openRound.id,
+            title: upcomingRows.find((x) => x.id === openRound.id)?.title ?? name(openRound).title,
+            sub: t('malinger.cardLiveSub', {
+              day,
+              days,
+              date: oslo(openRound.closesAt!, { day: 'numeric', month: 'long' }),
+              time: oslo(openRound.closesAt!, { hour: '2-digit', minute: '2-digit' }),
+            }),
+            participation: openRound.participation ?? null,
+            reminders: await getReminderStatus(openRound.id),
+          }
+        })()
+      : null
+
   return (
     <MalingerFrame tab={tab} counts={counts} rail={rail} nextPlannedId={firstPlanned?.id ?? null}>
       {tab === 'kommende' ? (
@@ -325,6 +384,7 @@ export default async function MalingerPage({
           latestTitle={latest ? name(latest).title : null}
           canStart={role === 'daglig_leder'}
           roundOpen={upcoming.some((r) => r.status === 'apen')}
+          live={live}
         />
       ) : null}
       {tab === 'historikk' ? <Historikk rows={[...history].reverse()} latestYear={latestG?.year ?? null} /> : null}

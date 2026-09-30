@@ -138,3 +138,28 @@ export async function getQueueCounts(): Promise<{ pending: number; sent: number;
   // a count that could not be read is not a zero
   return parsed.success ? parsed.data : null
 }
+
+/**
+ * The months the leader changed on the rail (0133): «hoppet_over», a puls of the wheel's not
+ * wanted, and «lagt_til», a puls the cadence does not name. Read under RLS by every member; the
+ * rail draws them, and the wheel reads the same rows when it plans.
+ */
+const MarkRow = z.object({
+  year: z.coerce.number().int(),
+  month: z.coerce.number().int().min(1).max(12),
+  mark: z.enum(['hoppet_over', 'lagt_til']),
+})
+
+export type WheelMark = z.infer<typeof MarkRow>['mark']
+
+/** Keyed `${year}-${month}`. */
+export async function getWheelMarks(): Promise<Map<string, WheelMark>> {
+  const orgId = await getCurrentOrgId()
+  if (!orgId) return new Map()
+  const supabase = await createClient()
+  const { data, error } = await supabase.schema('app').from('wheel_month_marks').select('year, month, mark').eq('org_id', orgId)
+  if (readFailed('getWheelMarks', error, data)) return new Map()
+  const parsed = z.array(MarkRow).safeParse(data)
+  if (parseFailed('getWheelMarks', parsed)) return new Map()
+  return new Map(parsed.data.map((r) => [`${r.year}-${r.month}`, r.mark]))
+}
