@@ -75,7 +75,6 @@ export function Stat({ label, value, hint }: { label: string; value: ReactNode; 
   )
 }
 
-/** a status is a pill with a dot; the dot's colour is the state (the design's `dot()`) */
 /** a badge's tone, by what it means, painted from the admin's one dot registry (lib/admin/dots.ts) */
 const DOTS = {
   green: DOT_CLASS.teal,

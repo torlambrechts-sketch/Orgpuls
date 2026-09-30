@@ -69,10 +69,18 @@ export function judgeView(claimed, tileResults, limit) {
 /**
  * The run's verdict. `checked`: the views judged (1440) or shot (other widths); `skipped`: the
  * views not compared, each with why; `failures`: lines already counted as failed (a lost claim, a
- * route that did not answer, a page that scrolls sideways); `errors`: console and page errors.
+ * route that did not answer, a page that scrolls sideways); `errors`: console and page errors;
+ * `known`: every view the route map names — a claim under any other name is one no run can check
+ * (a renamed slug, a removed route), so it fails the run instead of being silently kept.
  */
-export function verdict({ claims = {}, checked = [], skipped = [], failures = [], errors = [] }) {
+export function verdict({ claims = {}, checked = [], skipped = [], failures = [], errors = [], known }) {
   const reasons = [...failures]
+  if (known) {
+    const names = new Set(known)
+    for (const [name, tiles] of Object.entries(claims)) {
+      if (!names.has(name)) reasons.push(`${name} has ${tiles.length} claimed tiles but no route in VIEW_ROUTES, so nothing checks them`)
+    }
+  }
   for (const s of skipped) {
     if ((claims[s.name] ?? []).length) reasons.push(`${s.name} has ${claims[s.name].length} claimed tiles but was skipped: ${s.why}`)
   }

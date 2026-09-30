@@ -199,6 +199,6 @@ if (flag('write') && width === 1440) {
 }
 console.log(errors.length ? `console errors (${errors.length}): ${errors.slice(0, 5).join(' / ')}` : 'no console errors')
 await b.close()
-const { ok, reasons } = verdict({ claims, checked, skipped, failures, errors })
+const { ok, reasons } = verdict({ claims, checked, skipped, failures, errors, known: VIEW_ROUTES.map((v) => v.name) })
 console.log(ok ? `pass: ${checked.length} of ${views.length} views compared` : `FAIL: ${reasons.join(' · ')}`)
 process.exit(ok ? 0 : 1)

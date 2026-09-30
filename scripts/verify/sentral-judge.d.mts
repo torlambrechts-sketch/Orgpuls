@@ -16,4 +16,5 @@ export function verdict(input: {
   skipped?: readonly { name: string; why: string }[]
   failures?: readonly string[]
   errors?: readonly string[]
+  known?: readonly string[]
 }): { ok: boolean; reasons: string[] }

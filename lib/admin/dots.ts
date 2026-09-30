@@ -76,6 +76,12 @@ const BY_KIND = {
   consent: { granted: 'teal', notice_given: 'green', withdrawn: 'peach', lapsed: 'yellow', not_given: 'mut' },
   // a recommendation's priority (`pdot`)
   priority: { now: 'peach', next: 'yellow', later: 'line' },
+  // a Brønnøysund outreach row (the trigger queue's `sdot`); «Print run Fri» is a queued print run
+  outreach: { queued: 'yellow', print_run: 'yellow', sent: 'teal', holdout: 'line', do_not_contact: 'mut' },
+  // a partner's status (Partners' `sdot`)
+  partner: { pilot_signed: 'teal', in_talks: 'yellow', kit_sent: 'yellow', member_offer_drafted: 'line', phase_2: 'mut' },
+  // a partner kit's or a lead magnet's state (Partners' `kdot`)
+  kit: { live: 'teal', done: 'teal', draft: 'yellow', building: 'yellow', planned: 'line' },
 } as const satisfies Record<string, Record<string, DotTone>>
 
 export type DotKind = keyof typeof BY_KIND

@@ -7,7 +7,12 @@
  *   1. the database URL's host is 127.0.0.1 or localhost, and its only query parameters are
  *      `sslmode` and `connect_timeout` (`assertLocalDb`) — no `host`, `hostaddr` or `service` that
  *      could send the connection elsewhere, and no `options`, which sets any setting at session
- *      start; psql runs without any PG* variable from the environment;
+ *      start. psql is never handed the URL itself: WHATWG and libpq read a URL differently (the
+ *      last '@' against the first, '#' as a fragment, ',' as a host list), so a URL can look local
+ *      to one and remote to the other. `psqlConnection` builds psql's -h/-p/-U/-d from the parts
+ *      that were checked, with the password in PGPASSWORD, no ~/.pgpass (PGPASSFILE=/dev/null)
+ *      and no other PG* variable from the environment, so the host libpq dials is the host the
+ *      guard read. A URL with '#', ',', '%', whitespace or a second '@' is refused before parsing;
  *   2. the SQL itself refuses a database that is not the QA stack: `app.environment` must be 'qa'
  *      AND the database itself must carry that setting in its catalog (pg_db_role_setting), which
  *      is what scripts/qa/up.sh's `alter database … set app.environment = 'qa'` writes. A session
@@ -49,11 +54,15 @@ export const LOCAL_HOSTS = ['127.0.0.1', 'localhost']
 /** the URL parameters a local run may need; anything else could redirect or reconfigure libpq */
 export const ALLOWED_PARAMS = ['sslmode', 'connect_timeout']
 
-/** The local admin sentral-run.mjs signs in as. Local and QA only (see the guards above). */
+/**
+ * The local admin sentral-run.mjs signs in as. Local and QA only (see the guards above). The
+ * password is SENTRAL_ADMIN_PASSWORD when that is set (untracked), else a local default; MFA is
+ * enforced either way, since every run clears the factor and enrols afresh.
+ */
 export const LOCAL_ADMIN = {
   id: '00000000-0000-4000-8000-00000005e0a1',
   email: 'admin.local@orgpuls.test',
-  password: 'admin-local-only',
+  password: process.env.SENTRAL_ADMIN_PASSWORD || 'admin-local-only',
 }
 
 /**
@@ -61,9 +70,12 @@ export const LOCAL_ADMIN = {
  * scheme that is not postgres, a remote host, or a parameter that would redirect libpq is refused.
  */
 export function assertLocalDb(url) {
+  const raw = String(url)
+  // the characters on which WHATWG and libpq disagree about where the host is
+  if (/[#,%\s\\]/.test(raw) || (raw.match(/@/g) ?? []).length > 1) throw new Error('sentral-fixture: the database URL has a character libpq reads differently; refusing')
   let u
   try {
-    u = new URL(String(url))
+    u = new URL(raw)
   } catch {
     throw new Error('sentral-fixture: the database URL does not parse; refusing')
   }
@@ -76,8 +88,32 @@ export function assertLocalDb(url) {
   return u
 }
 
-/** psql's environment: this process's, without a PG* variable that could override the URL */
+/** psql's environment: this process's, without a PG* variable that could override the connection */
 export const psqlEnv = (env = process.env) => Object.fromEntries(Object.entries(env).filter(([k]) => !k.startsWith('PG')))
+
+/** a user or database name psql takes as a name: anything with '=' or a scheme would be a conninfo */
+const NAME = /^[A-Za-z0-9_][A-Za-z0-9_.-]*$/
+
+/**
+ * psql's arguments and environment for a local URL, built from the parts assertLocalDb checked —
+ * never the URL string, so libpq cannot read a different host out of it. The password goes in
+ * PGPASSWORD and ~/.pgpass is not read.
+ */
+export function psqlConnection(url, env = process.env) {
+  const u = assertLocalDb(url)
+  const user = u.username || 'postgres'
+  const db = u.pathname.replace(/^\//, '') || 'postgres'
+  if (!NAME.test(user) || !NAME.test(db)) throw new Error('sentral-fixture: the user or database name is not a plain name; refusing')
+  const port = u.port || '5432'
+  const extra = { PGPASSFILE: '/dev/null' }
+  if (u.password) extra.PGPASSWORD = u.password
+  if (u.searchParams.has('sslmode')) extra.PGSSLMODE = u.searchParams.get('sslmode')
+  if (u.searchParams.has('connect_timeout')) extra.PGCONNECT_TIMEOUT = u.searchParams.get('connect_timeout')
+  return {
+    args: ['-h', u.hostname, '-p', port, '-U', user, '-d', db, '-X', '-q', '-v', 'ON_ERROR_STOP=1'],
+    env: { ...psqlEnv(env), ...extra },
+  }
+}
 
 const q = (v) => (v === null || v === undefined ? 'null' : `'${String(v).replace(/'/g, "''")}'`)
 const id = (name) => {
@@ -210,12 +246,12 @@ commit;
 
 /** Clears the local admin's TOTP factors, so the next sign-in enrols (sentral-run.mjs). */
 export function resetAdminMfa(url) {
-  assertLocalDb(url)
+  const conn = psqlConnection(url)
   const sql = `do $$ begin
   if not (${QA_GUARD}) then raise exception 'not the local QA stack; refusing'; end if;
   delete from auth.mfa_factors where user_id = '${LOCAL_ADMIN.id}';
 end $$;`
-  execFileSync('psql', [url, '-X', '-q', '-v', 'ON_ERROR_STOP=1', '-c', sql], { env: psqlEnv(), stdio: ['ignore', 'ignore', 'inherit'] })
+  execFileSync('psql', [...conn.args, '-c', sql], { env: conn.env, stdio: ['ignore', 'ignore', 'inherit'] })
 }
 
 function main(argv) {
@@ -224,13 +260,14 @@ function main(argv) {
     return
   }
   const url = argv.includes('--db') ? argv[argv.indexOf('--db') + 1] : DEFAULT_DB
+  let conn
   try {
-    assertLocalDb(url)
+    conn = psqlConnection(url)
   } catch (e) {
     console.error(e.message)
     process.exit(2)
   }
-  execFileSync('psql', [url, '-X', '-q', '-v', 'ON_ERROR_STOP=1'], { input: fixtureSql(), env: psqlEnv(), stdio: ['pipe', 'ignore', 'inherit'] })
+  execFileSync('psql', conn.args, { input: fixtureSql(), env: conn.env, stdio: ['pipe', 'ignore', 'inherit'] })
   console.log(`sentral fixture: ${COMPANIES.length} companies, ${CONTACTS.length} contacts, ${TASKS.length} tasks, ${SUPPRESSIONS.length} suppressions, the local admin`)
 }
 

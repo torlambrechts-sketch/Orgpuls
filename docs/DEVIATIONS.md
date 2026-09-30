@@ -7761,19 +7761,29 @@ is diffed by the gate G0 made.
   has recorded claims; a run that compares no view at all (an `--only` that matches nothing) fails
   too, because the plan's QC loop reads exit codes, not summaries. The verdict is a pure function in
   scripts/verify/sentral-judge.mjs, unit-tested (a lost claim, a skipped claimed view, zero views,
-  console errors). Every path resolves from the repository root, so a run from another directory
+  console errors, and a claim under a name the route map does not have: a renamed slug or a removed
+  route would otherwise leave its claims recorded and never checked, so the run fails on it, and a
+  unit test holds every key of sentral-claims.json to a view in VIEW_ROUTES). Every path resolves from the repository root, so a run from another directory
   compares the same sixteen views instead of skipping them all. `--base` must be localhost or
   127.0.0.1: the run types the local admin's password into the page it names.
 - **The QA fixture**, scripts/seed/sentral-fixture.mjs: the local admin (admin.local@orgpuls.test,
-  super_admin, a known password — local only), eight companies (the Brønnøysund queue's six with the
+  super_admin, a known password — local only; `SENTRAL_ADMIN_PASSWORD`, untracked, replaces the
+  default when set, and MFA is enforced either way), eight companies (the Brønnøysund queue's six with the
   design's organisation numbers, each of which fails the mod-11 check digit, plus Bygg & Betong Sør
   and Vestland fylkeskommune; industry and headcount from the lead-scoring signals), eight contacts
   (Silje Moen, Kristian Dale and the consent ledger's people who have an address, with the basis and
   status the ledger's status means), the four new tasks and five suppression hashes, one of them
   Anne Lied's own withdrawal. It refuses a URL whose host is not 127.0.0.1 or localhost, or that
   carries any query parameter but `sslmode` and `connect_timeout` — `host`, `hostaddr`, `service`,
-  and `options`, which would let the URL itself set `app.environment = 'qa'` at session start; runs
-  psql with no PG* variable; and its SQL refuses a database that is not the QA stack by two tests,
+  and `options`, which would let the URL itself set `app.environment = 'qa'` at session start. It
+  never hands psql the URL: WHATWG and libpq disagree about where a URL's host is (WHATWG takes the
+  last '@' and stops at '#'; libpq takes the first '@' and reads ',' as a host list), so
+  `postgresql://127.0.0.1#@remote/…` and `…@remote,x@127.0.0.1/…` read as local to the guard and
+  dialled the remote host. So a URL with '#', ',', '%', whitespace or a second '@' is refused
+  outright, and psql is called with `-h -p -U -d` built from the parts the guard checked, the
+  password in PGPASSWORD, `PGPASSFILE=/dev/null` (no ~/.pgpass) and no other PG* variable; a user or
+  database name must be a plain name, not a conninfo string. The three URLs the security review
+  found are must-refuse cases in the unit test. Its SQL refuses a database that is not the QA stack by two tests,
   the session's `app.environment` = 'qa' AND the database's own catalog entry for it
   (pg_db_role_setting, written by scripts/qa/up.sh's `alter database`), which no connection string
   can forge. Checked live: a forged `options` session on a database without the mark is refused.
@@ -7782,8 +7792,8 @@ is diffed by the gate G0 made.
 - **Tests**: tests/unit/admin-nav-growth.test.ts (the area's place and order, where the other new
   pages sit, the current page and area of each address, nothing offered before it is built, the
   section's roles, the menu agreeing with each view's section, the dot map) and
-  tests/unit/sentral-fixture.test.ts (the guard against hosted, remote and redirecting URLs and PG*
-  variables, the SQL guard before any write, idempotence, `.example` addresses, the route map naming
+  tests/unit/sentral-fixture.test.ts (the guard against hosted, remote and redirecting URLs, URLs the
+  two parsers read differently, and PG* variables; psql's arguments naming the checked host, the SQL guard before any write, idempotence, `.example` addresses, the route map naming
   every render and finding every page).
 
 **Where it differs from the design, and why:**
@@ -7824,6 +7834,9 @@ is diffed by the gate G0 made.
 - *Below 1280 px the sub-bar opens scrolled to the page you are on* (AdminShell, `scrollLeft`, so
   the window never moves): Growth's eight pages are wider than a phone, and arriving on Risks or
   Coverage review otherwise left the current page off-screen. The design draws no phone.
+- *The phone menu sheet traps focus*: it is `role=dialog aria-modal=true`, and with 57 entries Tab
+  used to walk off its end onto the page behind it. Tab and Shift+Tab now wrap inside the sheet
+  while it is open; Escape still closes it and returns focus to the menu button.
 - *The empty panel's title names the phase* («Nothing here yet · built in phase G2»), where the
   design's empty treatment says «Not set up for {site} yet». Kept: the admin's readers are the team
   that works to the plan, the title says honestly why the page is empty and when it fills, and each
@@ -7848,30 +7861,41 @@ rest do not.
 
 *The renders' wordmark.* The first renders (9c47a2c) drew «Sentral» in a fallback face:
 sentral-baseline.mjs answered Google Fonts with the product bundle's fonts.raw.css, which has no
-Bricolage Grotesque, so the wordmark was 62 px wide instead of 74 and every top-bar area of every
-render sat 12 px left of where the design puts it. sentral-baseline.mjs now adds the admin's own
-Bricolage @font-face (app/(admin)/admin/sentral.css, public/fonts) to what it serves, and all 36
-renders at 1440 were made again; each differs from the old one only in y 12–49 (the top bar), nothing
-else moved.
+Bricolage Grotesque, so the wordmark's ink was 74 px wide (x 80–153) instead of Bricolage's 62
+(x 80–141), and every top-bar area of every render sat 12 px right of where the design's own
+stylesheet puts it. sentral-baseline.mjs now adds the admin's own Bricolage @font-face
+(app/(admin)/admin/sentral.css, public/fonts) to what it serves, and all 36 renders at 1440 were
+made again; each differs from the old one only in y 12–49 (the top bar), nothing else moved. The
+62 px is the design's face, not a narrower cut: public/fonts/bricolage-grotesque-700-latin.woff2 is
+byte-identical to the latin file Google Fonts serves today for the design's own request
+(`Bricolage+Grotesque:opsz,wght@12..96,700`, checked 2026-09-30), so a browser opening
+Sentral_Admin.dc.html online draws the wordmark as the build does. A review that measured the build
+12 px narrower than «every rev-3 render» was measuring the pre-fix renders.
 
 The claims were then recorded at 1440 after reading the diffs of every view: 28 of 182 tiles on the
 board, 21/126 plan, 30/238 funnel, 18/182 events, 31/140 rules, 36/154 experiments, 15/182 risks,
 36/322 coverage, 15/210 consent, 9/182 triggers, 24/168 partners, 25/140 lead scoring, 36/126 tasks,
-19/126 journeys, 28/154 magnets, 33/196 deliverability.
+19/126 journeys, 28/154 magnets, 33/196 deliverability. Lead scoring, Tasks and Journeys have since
+lost every claim at row 200 and below (7, 8 and 7 remain, all in the head): the rows those pages
+list are the whole CRM's, which the fixture does not own — other work writes CRM rows to the same
+local database, and Tasks shows due times relative to the hour («Today · SLA 1 h», «12 min left») —
+so those tiles could fail, or pass, on a different database state. G3 re-records them against a
+fixture that owns every row those pages list.
 - Row 0, the top bar, is claimed where it matches: x 0–399 (the wordmark and the areas up to
-  Customers and CRM) and the blank tiles at x 900–1099 on the Growth views, magnets and
-  deliverability; x 0–199 on the CRM views, whose active area is CRM in both but whose next area is
+  Customers and CRM) and the blank tiles at x 900–1099 on the Growth views and deliverability,
+  x 1000–1099 on magnets; x 0–199 on the CRM views, whose active area is CRM in both but whose next area is
   the admin's Marketing. Consent and Journeys claim none: in the admin they are Marketing's, so the
   active pill is elsewhere. The rest of row 0 is the admin's own: the Marketing area, the one-site
   pill, no help button, the signed-in admin's initials (X-095, X-097, D-162).
 - Row 100: the sub-bar where the area is not the design's, the omitted buttons, and the five
   shorter sub-lines above (the board's lost its tiles 100:700–900 with its clause); the Growth views'
   titles and sub-lines otherwise match to the pixel.
-- Rows from 200: the views' content, which their phases build. For Lead scoring, Tasks and Journeys
-  the local database's rows are not the design's sample, and revision 3's changes to them are G3's.
+- Rows from 200: the views' content, which their phases build. Lead scoring, Tasks and Journeys
+  claim nothing there: the local database's rows are not the design's sample, nor fixed from one
+  run to the next, and revision 3's changes to them are G3's.
 
 What the claims are: the head, the top-bar tiles above, and blank canvas. The blank canvas deep in a
-page (the board at rows 600–800, x 1100–1300; experiments at rows 600–800, x 900–1300; 156 tiles at
+page (the board at rows 600–800, x 1100–1300; experiments at rows 600–800, x 900–1300; 110 tiles at
 row 300 or below across the sixteen views) matches only because the design's sample data ends there:
 a view built on real registry rows of another length will cover some of it and uncover other tiles.
 So these are not promises a faithful build keeps. G2, G3 and G4 each re-record their views' claims
@@ -7884,4 +7908,7 @@ PhaseEmpty is on a page. They are checked by nothing yet: G2 must use each of th
 and its audit confirms that. StatusChip carries the design's chip sizes (4 × 10 at 11 and 11.5 px,
 3 × 8 at 10.5 and 11 px, 5 × 11 at 11.5 px). lib/admin/dots.ts is the admin's one dot registry:
 ui.tsx's Badge paints its tones from DOT_CLASS, and the stream map includes the design's
-«Service/Internal» (teal).
+«Service/Internal» (teal). It also carries the maps G3 will need, so no later phase meets the yellow
+fallback for a state the design colours otherwise: `outreach` (the Brønnøysund queue's `sdot`:
+Holdout line, Do-not-contact mut), `partner` (Partners' `sdot`: Member offer drafted line, Phase 2
+mut) and `kit` (Partners' `kdot`: Planned line).

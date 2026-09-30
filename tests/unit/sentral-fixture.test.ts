@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { GROWTH_VIEWS } from '@/lib/admin/growth'
-import { ALLOWED_PARAMS, assertLocalDb, CONTACTS, DEFAULT_DB, fixtureSql, psqlEnv, QA_GUARD } from '../../scripts/seed/sentral-fixture.mjs'
+import { ALLOWED_PARAMS, assertLocalDb, CONTACTS, DEFAULT_DB, fixtureSql, psqlConnection, psqlEnv, QA_GUARD } from '../../scripts/seed/sentral-fixture.mjs'
 import { assertLocalBase, judgeView, verdict } from '../../scripts/verify/sentral-judge.mjs'
 import { baselineFile, pageFile, REPO, routeExists, slug, VIEW_ROUTES } from '../../scripts/verify/sentral-routes.mjs'
 
@@ -44,6 +44,35 @@ describe('the fixture’s local-only guard', () => {
       'dbname=postgresql://evil/x',
     ]) {
       expect(() => assertLocalDb(`postgresql://postgres:pw@127.0.0.1:54322/postgres?${p}`), p).toThrow(/refusing/)
+    }
+  })
+
+  it('refuses a URL that WHATWG reads as local and libpq as remote', () => {
+    // each of these passed the WHATWG parse as 127.0.0.1; psql dialled the other host
+    for (const url of [
+      'postgresql://127.0.0.1#@db.xyz.supabase.co/postgres',
+      'postgresql://postgres:postgres@db.xyz.supabase.co,x@127.0.0.1/postgres',
+      'postgresql://postgres:postgres@nonexistent-remote.invalid:5432,x@127.0.0.1:1/postgres',
+      'postgresql://postgres:postgres@localhost:54322,x@127.0.0.1:1/postgres',
+      'postgresql://a@b@127.0.0.1/postgres',
+      'postgresql://postgres:p%40ss@127.0.0.1:54322/postgres',
+      'postgresql://postgres:pw@127.0.0.1:54322/post%2Fgres',
+      'postgresql://postgres:pw@127.0.0.1:54322/postgres ',
+    ]) {
+      expect(() => assertLocalDb(url), url).toThrow(/refusing/)
+      expect(() => psqlConnection(url), url).toThrow(/refusing/)
+    }
+  })
+
+  it('connects psql to the host it checked, never by handing it the URL', () => {
+    const c = psqlConnection('postgresql://postgres:secret@127.0.0.1:54322/postgres?sslmode=disable&connect_timeout=5', { PATH: '/usr/bin', PGHOST: 'db.example.com', PGPASSFILE: '/root/.pgpass' })
+    expect(c.args.slice(0, 8)).toEqual(['-h', '127.0.0.1', '-p', '54322', '-U', 'postgres', '-d', 'postgres'])
+    expect(c.args.join(' ')).not.toMatch(/postgres(ql)?:\/\//)
+    expect(c.env).toEqual({ PATH: '/usr/bin', PGPASSFILE: '/dev/null', PGPASSWORD: 'secret', PGSSLMODE: 'disable', PGCONNECT_TIMEOUT: '5' })
+    expect(psqlConnection('postgresql://localhost/postgres', {}).args.slice(0, 8)).toEqual(['-h', 'localhost', '-p', '5432', '-U', 'postgres', '-d', 'postgres'])
+    // a database or user name psql would read as a conninfo string
+    for (const url of ['postgresql://postgres:pw@127.0.0.1:54322/host=db.example.com', 'postgresql://postgres:pw@127.0.0.1:54322/-h']) {
+      expect(() => psqlConnection(url), url).toThrow(/refusing/)
     }
   })
 
@@ -152,6 +181,21 @@ describe('the admin gate’s verdict', () => {
   it('fails a run that compared no view', () => {
     expect(verdict({ claims, checked: [] })).toEqual({ ok: false, reasons: ['no view was compared'] })
     expect(verdict({ claims: {}, checked: [], skipped: [{ name: 'CRM_Consent', why: 'not built' }] }).ok).toBe(false)
+  })
+
+  it('fails a claim no route checks', () => {
+    const known = ['Growth_Board', 'CRM_Consent']
+    expect(verdict({ claims, checked: ['Growth_Board'], known }).ok).toBe(true)
+    const orphan = verdict({ claims: { ...claims, Growth_Old: ['0:0'] }, checked: ['Growth_Board'], known })
+    expect(orphan.ok).toBe(false)
+    expect(orphan.reasons[0]).toMatch(/Growth_Old has 1 claimed tiles but no route/)
+  })
+
+  it('keeps no claim for a view the route map does not name', () => {
+    const recorded = JSON.parse(readFileSync(join(REPO, 'scripts', 'verify', 'sentral-claims.json'), 'utf8')) as Record<string, string[]>
+    const names = new Set(VIEW_ROUTES.map((v) => v.name))
+    for (const name of Object.keys(recorded)) expect(names.has(name), name).toBe(true)
+    expect(verdict({ claims: recorded, checked: ['Growth_Board'], known: [...names] })).toEqual({ ok: true, reasons: [] })
   })
 
   it('fails on console errors', () => {

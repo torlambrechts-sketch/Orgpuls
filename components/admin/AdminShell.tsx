@@ -33,7 +33,7 @@ type Labels = {
  * The prototype's buttons are links here, since each area and page is an address (D-06).
  *
  * Below `xl` (1280 px; `lg` until Growth made the bar eight areas wide, D-181) the areas move into
- * a sheet behind a menu button: Escape or a chosen page closes it,
+ * a sheet behind a menu button: Escape or a chosen page closes it, Tab stays inside it while it is open,
  * focus goes into it when it opens and back to the button when it closes. The sub-bar scrolls
  * sideways instead of wrapping, so the page starts where it does on a wide screen, and it opens
  * scrolled to the page you are on.
@@ -106,6 +106,22 @@ export function AdminShell({
       if (e.key === 'Escape') {
         setSheet(false)
         menuButton.current?.focus()
+        return
+      }
+      // the sheet is modal: Tab and Shift+Tab wrap inside it instead of reaching the page behind
+      if (e.key !== 'Tab' || !sheetPanel.current) return
+      const items = [...sheetPanel.current.querySelectorAll<HTMLElement>('a[href],button:not([disabled])')]
+      const first = items[0]
+      const last = items[items.length - 1]
+      if (!first || !last) return
+      const at = document.activeElement
+      const inside = at instanceof Node && sheetPanel.current.contains(at)
+      if (e.shiftKey && (!inside || at === first)) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && (!inside || at === last)) {
+        e.preventDefault()
+        first.focus()
       }
     }
     window.addEventListener('keydown', onKey)
