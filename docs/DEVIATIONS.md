@@ -8661,7 +8661,7 @@ registry row with its true state or a count from the table that records it.
   measured once a tool is live»; trials keep the design's planning line, the reason in the tooltip and
   for a screen reader). **Double opt-in is counted** (`app.growth_doi`): of the contacts sent a
   confirmation mail in 90 days — a crm_sends `optin` row the dispatcher marked `sent`, not
-  crm_contacts.optin_sent_at, which crm_subscribe stamps when it only *queues* the mail (a request
+  crm_contacts.optin_sent_at, which crm_newsletter_signup stamps when it only *queues* the mail (a request
   held, failed or skipped sent nothing) — those whose token was spent and whose consent dates from
   after their first such mail; null — «—» — when none was sent, never 0 % over nothing. The
   tooltip says «n of m contacts sent a confirmation mail in 90 days confirmed». The newsletter row
@@ -8691,7 +8691,11 @@ registry row with its true state or a count from the table that records it.
   delivery state is found in app.mail_events by its provider id) and the CRM's sends. Delivered, spam
   and bounce (hard, soft, invalid, blocked) are **rates over the messages the provider reported on**
   — a message with no report yet is not one that failed — on each stream's card and in the KPI row
-  alike, so a stream with sends and no event adds nothing to the KPIs' denominator (review of
+  alike, so a stream with sends and no event adds nothing to the KPIs' denominator. The provider's
+  last event replaces a message's state, so **delivered counts the states only a delivered message
+  reaches** — delivered, then a complaint (`spam`) or a provider-side unsubscribe — and a message
+  still `deferred` is in flight: not reported, as one with no event is not (review of 883bcd4). An
+  `error` is a reported failure (review of
   0ee8677: the first version summed every stream's sent, and 990 unreported marketing mails beside
   10 delivered transactional ones read «Delivered 1,0 %»). The KPI's sub-line says «reported on n
   of m sent»; each card's figures carry the same in a tooltip. The invitation tests (send_tests)
@@ -8707,10 +8711,13 @@ registry row with its true state or a count from the table that records it.
   its 7-day count is a count of non-responders. `app.mail_template_count` withholds the counts of
   notice.invitasjon, notice.paminnelse, notice.siste_paminnelse and notice.lenke from 1 to k − 1
   (app.k_min(), 5); the registry prints «< 5» with the reason. G1 bands these figures for the same
-  roles (plan § 3). What remains exposed, accepted here: the counts are platform-wide, with no
-  organisation, round or person, and the transactional stream's total is exact — so while exactly
-  one personal kind is withheld, subtracting the other rows from the total gives it. That total is
-  what the delivery rates stand on and cannot be banded without making them unreadable.
+  roles (plan § 3). **A withheld notice's messages are left out of every aggregate too** — the
+  stream's volume, reported, delivered, spam and bounce counts, and so the KPI row — because a
+  total that held them gave the withheld count back as the total less the rows shown (review of
+  883bcd4: two last reminders came out exactly). The read counts every figure over the messages of
+  no withheld template, returns `withheld` on the stream, and the page says in the stream's
+  tooltip and the Delivered KPI's that notices sent fewer than k times are left out — never how
+  many. On every stream the total is now exactly the sum of the rows shown (suite row 13).
 - **The authentication check** behind «Run authentication check»: the server looks each stream's
   domain up in public DNS with the campaign editor's own check (lib/admin/mailDomain.ts
   `domainChecks`, now with `{ fresh: true }` so a run asks DNS again rather than read the ten-minute
@@ -8722,7 +8729,10 @@ registry row with its true state or a count from the table that records it.
   only the run the same admin claimed in the last two minutes and has not recorded, checks each
   result is for its stream's own domain and a known level, marks the run recorded, and audits
   `deliverability.auth_check` with the run and each stream's levels. **Both are for the roles that
-  write in the CRM** (super_admin and marketing, as app.crm_can_write), with the second factor;
+  write in the CRM** (super_admin and marketing, as app.crm_can_write), with the second factor.
+  The claim is audited when it is made (`deliverability.auth_claim`, the run's id), so a claim whose
+  record never comes — or is refused — still leaves a trail after its admin_id is cleared with the
+  account;
   the analyst, read-only everywhere in the CRM, reads the page and is not offered the button.
   **The recorded levels are trusted server input, not proof.** The database cannot repeat a DNS
   lookup, so a super_admin or marketing session that calls the RPC directly through PostgREST
@@ -8760,7 +8770,7 @@ registry row with its true state or a count from the table that records it.
   (provider, hygiene, consent flow, Krav-sjekk), the hygiene lines G0's `BulletRow`, and the dots
   G0's `dotTone('kit' | 'stream', …)`; the gating rule's card keeps its ink border, and the stream
   cards and the two scrolling tables their own head, which SectionCard does not have.
-- **Tests**: supabase/tests/growth_g4_invariants.sql (12 rows: the role matrix with and without the
+- **Tests**: supabase/tests/growth_g4_invariants.sql (13 rows: the role matrix with and without the
   second factor and for a product user, the analyst reading but refused the claim and the write;
   every read and the write audited, a refusal not; the seven in order with their true and derived
   statuses, the descriptive names no row's and the newsletter named by its list; tools null, never
@@ -8771,7 +8781,9 @@ registry row with its true state or a count from the table that records it.
   source, the SMS left out of the volume and of the last event, an unmatched event too, Auth null;
   the claim once a minute, the record once, by its claimant, within two minutes, for its stream's
   domain and known levels; the seven tables closed; nothing survives; a personal notice withheld
-  below k and the invitation tests counted apart). tests/unit/growth-g4.test.ts (30: the registry
+  below k and the invitation tests counted apart; a withheld notice in no aggregate, the total
+  exactly the rows shown, a complaint delivered and a deferred mail unreported).
+  tests/unit/growth-g4.test.ts (31: the registry
   against the dispatcher's code — every NoticeJob kind, LifecycleStep, AUTH_ACTIONS and CrmJob kind
   has a seeded row; the marketing sender as the dispatcher uses it; the hygiene claims, A/B «by
   default» included, against the dispatcher and migrations; rates over the reported, the review's
@@ -8881,3 +8893,30 @@ sideways and the keys break at their separators. The claims were not re-recorded
 without the fixture's rows. The shared local database is reseeded by the other phases' runs (the
 base fixture deletes and writes its contacts again, which nulls the G4 sends' contact), so the gate
 reseeds before it shoots.
+
+**Review of 883bcd4 (fix 2).**
+- *Major — the withheld count came back by subtraction.* Fixed as above: every aggregate is counted
+  without the withheld notices' messages, so the stream's volume less the visible rows is 0 on every
+  stream; row 13 sends two last reminders below k and proves the transactional figures do not move,
+  read as the analyst. This also settles the minor that restated it: the earlier «accepted» wording is
+  gone.
+- *The claim is audited* (`deliverability.auth_claim`, target mail_auth_runs and the run's id; row 2).
+- *The recorded levels stay trusted input, accepted as documented above*: the Next app holds no
+  service-role key, and a DNS lookup in an edge function is a deployment for Tor to decide. The
+  migration's header now says plainly that a write role can record levels DNS did not give, and the
+  audit names who.
+- *Delivered and reported* as above; the rates' tooltip wording is unchanged because its «reported
+  on» now means what it says.
+- *The AMU rule's two figures*: a CHECK (`growth_krav_amu`) requires the on-demand figure, and the
+  page words a rule through `ruleValue`, which gives the design's «—» for a missing figure (never «0»)
+  and «From 30 · checked …» should a later AMU version carry no on-demand figure.
+- *The gating rule says «Test E4 will check»*, not «checks»: no experiment runs — E4 is a queued row
+  on G2's registry, and no tool is live to gate. Orgpuls' own wording, as the statuses are.
+- *D-185 named crm_subscribe*; the function that stamps optin_sent_at is crm_newsletter_signup.
+- The visual findings need no change (data, true statuses and documented omissions); the shell's
+  top bar is G0's.
+- The gate after fix 2, with the Sentral fixture seeded, on a QA build served on :3722: Tools & lead
+  magnets 71 of 154 tiles, all 71 claims kept; Deliverability 59 of 196, all 56 claims kept; no
+  console error; at 390 neither page scrolls sideways, the sub-bar shows the page and the menu sheet
+  keeps focus. The claims were not re-recorded. The fixture holds no personal notice, so its figures
+  are unchanged by the aggregate fix.

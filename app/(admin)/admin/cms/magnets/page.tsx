@@ -6,7 +6,7 @@ import { isError, whoami } from '@/lib/admin/api'
 import { dotTone } from '@/lib/admin/dots'
 import { mayOpenGrowthView } from '@/lib/admin/growth'
 import { growthMagnets } from '@/lib/admin/growthG4'
-import { allGuidance, dayMonth, doiRate, doneText, liveMagnets, shortOf, type GrowthMagnets, type Magnet } from '@/lib/admin/magnets'
+import { allGuidance, dayMonth, doiRate, doneText, liveMagnets, ruleValue, shortOf, type GrowthMagnets, type Magnet } from '@/lib/admin/magnets'
 
 const PANEL = 'rounded-panel border border-line bg-sf'
 const HEAD = 'text-[11px] uppercase tracking-[0.09em] text-mut'
@@ -184,14 +184,8 @@ function Rules({ res, m }: { res: GrowthMagnets; m: M }) {
       <div className="mt-[8px] flex flex-col text-[13px]">
         {res.rules.map((r) => {
           const date = dayMonth(r.checked_on)
-          const value =
-            r.key === 'verneombud'
-              ? m('krav.value.verneombud', { n: r.threshold ?? 0, date })
-              : r.key === 'amu'
-                ? m('krav.value.amu', { n: r.threshold ?? 0, from: r.on_demand_from ?? 0, date })
-                : r.key === 'bht'
-                  ? m('krav.value.bht', { reference: r.reference })
-                  : m('krav.value.wording_4_3', { say: r.say ?? '', never: r.never_say ?? '' })
+          const v = ruleValue(r)
+          const value = v ? m(`krav.value.${v.key}`, v.vars) : m('none')
           return (
             <div
               key={r.key}

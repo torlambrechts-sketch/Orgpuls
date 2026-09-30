@@ -37,7 +37,9 @@ type M = (k: string, v?: Record<string, string | number>) => string
  *   the check       SPF, DKIM and DMARC as public DNS last answered, recorded by «Run authentication
  *                   check» (super_admin and marketing); «not checked yet» until it has run
  *   the registry    every mail the product and the CRM send, classified, with seven days' count; Auth's
- *                   mail is recorded nowhere, so its count is «—»; a personal notice below k is «< k»
+ *                   mail is recorded nowhere, so its count is «—»; a personal notice below k is «< k»,
+ *                   and its messages are in no stream's figure or KPI either (the database leaves them
+ *                   out), which the stream's tooltip and the Delivered KPI's say
  *   provider        what is known of Brevo; nothing about a DPA or IPs that Sentral does not hold
  *   hygiene         what the dispatcher and the database actually do, the daily cap as it is set
  */
@@ -69,7 +71,11 @@ export default async function Page() {
         ) : null}
       </PageHead>
       <KpiStrip>
-        <Stat label={d('kpi.delivered')} value={k.delivered ?? none} hint={deliveredHint} />
+        <Stat
+          label={d('kpi.delivered')}
+          value={k.withheld ? <span title={d('kpi.withheldWhy', { k: res.k })}>{k.delivered ?? none}</span> : (k.delivered ?? none)}
+          hint={deliveredHint}
+        />
         <Stat label={d('kpi.spam')} value={k.spam ?? none} hint={d('kpi.spamSub')} />
         <Stat label={d('kpi.hard')} value={<span title={d('kpi.hardWhy')}>{k.hardBounces === null ? none : fmt(k.hardBounces)}</span>} hint={d('kpi.hardSub')} />
         <Stat
@@ -81,7 +87,7 @@ export default async function Page() {
 
       <div className="mt-[18px] grid gap-[18px] [grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))]">
         {res.streams.map((s) => (
-          <StreamCard key={s.key} s={s} d={d} />
+          <StreamCard key={s.key} s={s} d={d} k={res.k} />
         ))}
       </div>
 
@@ -179,7 +185,7 @@ function CheckLine({ tone, label, val, title }: { tone: DotTone; label: string; 
   )
 }
 
-function StreamCard({ s, d }: { s: Stream; d: M }) {
+function StreamCard({ s, d, k }: { s: Stream; d: M; k: number }) {
   const rates = streamRates(s)
   const gap = streamGap(s)
   const none = d('registry.none')
@@ -190,6 +196,7 @@ function StreamCard({ s, d }: { s: Stream; d: M }) {
   const basis = [
     gap ? d(`stream.gap.${gap}`) : d('stream.over', { reported: fmt(s.reported), sent: fmt(s.sent) }),
     s.tests ? d('stream.tests', { n: s.tests }) : null,
+    s.withheld ? d('stream.withheld', { k }) : null,
   ]
     .filter((x): x is string => x !== null)
     .join(' · ')

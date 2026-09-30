@@ -27,6 +27,9 @@
 --   * the new tables are closed: RLS on, no policy, no grant to a client or the service role (10)
 --   * nothing written here survives (11)
 --   * a personal notice's 7-day count is withheld below k; the invitation tests are counted apart (12)
+--   * a withheld notice's messages are in no aggregate either: a stream's volume, reported, delivered
+--     and the rest do not move when one is sent, so no total less the rows shown gives it back; a
+--     complaint is a delivered message, a deferred one is not yet reported (13)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/growth_g4_invariants.sql
 
@@ -60,6 +63,10 @@ declare
   v_txt  text;
   v_err  text;
   v_rows jsonb := '[]';
+  v_meas uuid;
+  v_round uuid;
+  v_b    int;
+  v_j2   jsonb;
   claims constant text := '{"sub":"%s","role":"authenticated","aal":"%s"}';
   good constant jsonb := '[{"stream":"transactional","domain":"orgpuls.com","spf":"pass","dkim":"pass","dmarc":"warn","dmarc_policy":"none"},
                            {"stream":"marketing","domain":"nyheter.orgpuls.com","spf":"pass","dkim":"pass","dmarc":"pass","dmarc_policy":"quarantine"}]';
@@ -109,11 +116,14 @@ begin
       (select count(*) from app.admin_audit where id > v_audit and action = 'deliverability.auth_check' and admin_id = v_mk
          and (detail->>'run')::bigint = v_run
          and detail->'results' @> '[{"stream":"transactional","dmarc":"warn","dmarc_policy":"none"},{"stream":"marketing","dmarc":"pass"}]'),
+      -- the claim is audited when it is made, before any lookup, whether or not a record follows
+      (select count(*) from app.admin_audit where id > v_audit and action = 'deliverability.auth_claim' and admin_id = v_mk
+         and target_type = 'mail_auth_runs' and target_id = v_run::text),
       -- a refused call writes nothing
       (select count(*) from app.admin_audit where id > v_audit and admin_id in (v_ed, v_sp, v_fi)))
     into v_txt;
-    v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'every read and the write are audited; a refusal is not',
-      'expected', '3,3,1,0', 'actual', v_txt, 'pass', v_txt = '3,3,1,0');
+    v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'every read, the claim and the write are audited; a refusal is not',
+      'expected', '3,3,1,1,0', 'actual', v_txt, 'pass', v_txt = '3,3,1,1,0');
 
     -- 3 -------------------------------------------------------------- the magnets, true status
     perform set_config('request.jwt.claims', format(claims, v_su, 'aal2'), true);
@@ -314,6 +324,53 @@ begin
     v_rows := v_rows || jsonb_build_object('seq', 12, 'name', 'a personal notice''s count is withheld below k; the invitation tests are counted apart',
       'expected', 'withheld,5,0,withheld,1,4,t', 'actual', v_txt, 'pass', v_txt = 'withheld,5,0,withheld,1,4,t');
 
+    -- 13 ------------------------------------------------------------- withheld from every aggregate
+    -- two last reminders, to two people who have not answered, delivered: below k their count is
+    -- withheld, and the stream's figures must not move either, or its total less the rows shown
+    -- would give the two back (review of 883bcd4)
+    perform set_config('request.jwt.claims', '', true);
+    select count(*) into v_b from app.mail_sent_7d() m where m.template = 'notice.siste_paminnelse';
+    insert into app.measurements (org_id, kind, year, label) values (v_org, 'grunnlinje', 2026, 'G4 probe') returning id into v_meas;
+    insert into app.rounds (org_id, measurement_id, status, opens_at, closes_at)
+    values (v_org, v_meas, 'apen', now() - interval '3 days', now() + interval '4 days') returning id into v_round;
+    with e as (
+      insert into app.employees (org_id, full_name, email) values (v_org, 'E1', 'e1@g4-probe.example'), (v_org, 'E2', 'e2@g4-probe.example') returning id)
+    insert into app.outbox (org_id, round_id, kind, employee_id, due_at, sent_at, channel, provider_id, delivery, delivery_at)
+    select v_org, v_round, 'siste_paminnelse', e.id, now() - interval '1 day', now() - interval '1 day', 'email', 'g4-sp-' || e.id, 'delivered', now()
+    from e;
+    -- and two campaign mails: one complained about after delivery, one deferred (still in flight)
+    insert into app.crm_sends (kind, campaign_id, contact_id, to_email, status, sent_at, delivery, delivery_at, unsub_hash)
+    values ('campaign', v_camp, v_c3, 'c3@g4-probe.example', 'sent', now() - interval '1 day', 'spam', now(), repeat('e', 64)),
+           ('campaign', v_camp, v_c4, 'c4@g4-probe.example', 'sent', now() - interval '1 day', 'deferred', now(), repeat('f', 64));
+    -- read as the analyst, the growth role that writes nothing
+    perform set_config('request.jwt.claims', format(claims, v_an, 'aal2'), true);
+    v_j2 := public.admin_growth_deliverability();
+    select concat_ws(',',
+      -- the probe is below k (true on any database without two recent last reminders of its own)
+      (v_b + 2 between 1 and app.k_min() - 1)::text,
+      (select coalesce(a->>'sent', 'null') || '/' || (a->>'withheld') from jsonb_array_elements(v_j2->'templates') a where a->>'key' = 'notice.siste_paminnelse'),
+      (select a->>'withheld' from jsonb_array_elements(v_j2->'streams') a where a->>'key' = 'transactional'),
+      -- the transactional stream's figures did not move
+      (select concat_ws('/', (a->>'sent')::int - (b->>'sent')::int, (a->>'reported')::int - (b->>'reported')::int,
+                             (a->>'delivered')::int - (b->>'delivered')::int, (a->>'tests')::int - (b->>'tests')::int)
+         from jsonb_array_elements(v_j2->'streams') a, jsonb_array_elements(v_j->'streams') b
+        where a->>'key' = 'transactional' and b->>'key' = 'transactional'),
+      -- on every stream, the total is exactly the rows shown (and the mail of no registry row): the
+      -- total less the rows shown reveals nothing
+      (select count(*) from jsonb_array_elements(v_j2->'streams') st
+        where (st->>'sent')::int
+              - (select coalesce(sum((t->>'sent')::int), 0) from jsonb_array_elements(v_j2->'templates') t where t->>'stream' = st->>'key')
+              - (select count(*) from app.mail_sent_7d() m where m.stream = st->>'key' and not exists (select 1 from app.mail_templates r where r.key = m.template))
+              = 0),
+      -- marketing: +2 sent, +1 reported (the deferred one is not), +1 delivered (the complaint is), +1 spam
+      (select concat_ws('/', (a->>'sent')::int - (b->>'sent')::int, (a->>'reported')::int - (b->>'reported')::int,
+                             (a->>'delivered')::int - (b->>'delivered')::int, (a->>'spam')::int - (b->>'spam')::int)
+         from jsonb_array_elements(v_j2->'streams') a, jsonb_array_elements(v_j->'streams') b
+        where a->>'key' = 'marketing' and b->>'key' = 'marketing'))
+    into v_txt;
+    v_rows := v_rows || jsonb_build_object('seq', 13, 'name', 'a withheld notice is in no aggregate, so no total less the rows shown gives it back; a complaint is delivered, a deferred mail not yet reported',
+      'expected', 'true,null/true,true,0/0/0/0,2,2/1/1/1', 'actual', v_txt, 'pass', v_txt = 'true,null/true,true,0/0/0/0,2,2/1/1/1');
+
     -- 9 -------------------------------------------------------------- the authentication check
     delete from app.mail_auth_checks;
     delete from app.mail_auth_runs;
@@ -386,7 +443,8 @@ begin
     union all select id::text from app.mail_events where message_id like 'g4-%'
     union all select key from app.mail_templates where key = 'crm.probe'
     union all select rule_key from app.growth_krav_rule_versions where version > 1 and checked_on = current_date and rule_key = 'verneombud'
-    union all select id::text from app.admin_audit where admin_email like '%@g4-probe.example') x;
+    union all select id::text from app.admin_audit where admin_email like '%@g4-probe.example'
+    union all select id::text from app.employees where email like '%@g4-probe.example') x;
   v_txt := v_txt || ',' || (select count(*) from app.growth_krav_rules) || ',' || (select count(*) from app.growth_magnets);
   v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'every probe row was rolled back', 'expected', '0,4,7', 'actual', v_txt, 'pass', v_txt = '0,4,7');
 
@@ -401,5 +459,5 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._g4;
   if v_failed is not null then raise exception 'growth G4 invariants failed: %', v_failed; end if;
-  if v_count <> 12 then raise exception 'growth G4 invariants: expected 12 rows, got %', v_count; end if;
+  if v_count <> 13 then raise exception 'growth G4 invariants: expected 13 rows, got %', v_count; end if;
 end $$;

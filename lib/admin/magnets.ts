@@ -101,3 +101,22 @@ export const shortOf = (desc: string) => desc.split(/\.\s|:\s/)[0] ?? desc
 
 /** Whether every current rule is marked guidance, not legal advice: the footer says so only then */
 export const allGuidance = (m: GrowthMagnets) => m.rules.length > 0 && m.rules.every((r) => r.guidance)
+
+type Rule = GrowthMagnets['rules'][number]
+/**
+ * The message and values of a Krav-sjekk rule's line, or null — the design's «—» — when a figure it
+ * needs is missing: never «0–30 on demand» from a null. AMU without its on-demand figure reads as
+ * the duty alone (0144's CHECK requires both, so that is only a later version's case).
+ */
+export function ruleValue(r: Rule): { key: string; vars: Record<string, string | number> } | null {
+  const date = dayMonth(r.checked_on)
+  if (r.key === 'verneombud') return r.threshold === null ? null : { key: 'verneombud', vars: { n: r.threshold, date } }
+  if (r.key === 'amu') {
+    if (r.threshold === null) return null
+    return r.on_demand_from === null
+      ? { key: 'amuOnly', vars: { n: r.threshold, date } }
+      : { key: 'amu', vars: { n: r.threshold, from: r.on_demand_from, date } }
+  }
+  if (r.key === 'bht') return { key: 'bht', vars: { reference: r.reference } }
+  return r.say === null || r.never_say === null ? null : { key: 'wording_4_3', vars: { say: r.say, never: r.never_say } }
+}

@@ -34,19 +34,26 @@
 -- 5. **The authentication check** (app.mail_auth_runs + app.mail_auth_checks): SPF, DKIM and DMARC
 --    for each stream's domain, looked up in public DNS by the server (lib/admin/mailDomain.ts, the
 --    campaign editor's check). A run is claimed first (public.admin_deliverability_claim: one a
---    minute, for everyone, before any lookup goes out), then recorded against its claim by
---    public.admin_deliverability_check. Both are for the roles that write in the CRM (super_admin
+--    minute, for everyone, before any lookup goes out, and audited), then recorded against its
+--    claim by public.admin_deliverability_check. Both are for the roles that write in the CRM (super_admin
 --    and marketing, as app.crm_can_write), with the second factor; the record is audited with its
 --    levels. Only the stream's own domain can be recorded. The levels are the server action's: the
 --    database cannot repeat a DNS lookup, so what it records is trusted input from a write role,
---    attributed and audited (D-185).
+--    attributed and audited; a write role can call the record directly and state levels DNS did
+--    not give, which the audit then shows as that admin's (D-185).
 -- 6. Two reads, public.admin_growth_magnets() and public.admin_growth_deliverability(), for super_admin,
 --    analyst and marketing with the second factor (the growth section, lib/admin/access.ts), each
 --    audited. Every figure is counted from the tables that record it: the outbox and its
 --    recipients, ticket and trial mail, the invitation tests, app.mail_events and the CRM's sends.
 --    Nothing a respondent wrote, and no address, is read or returned: only counts. A personal
 --    notice (invitation, reminders, a link) counts people, and a reminder only those who have not
---    answered, so its 7-day count is withheld below k (app.k_min()), as G1 bands such figures.
+--    answered, so its 7-day count is withheld below k (app.k_min()), as G1 bands such figures. A
+--    withheld notice's messages are then left out of every aggregate too — the stream's volume,
+--    its reported, delivered, spam and bounce counts, and so the KPIs — since a total that held
+--    them would give the withheld count back as the total less the rows shown. The stream says
+--    that it left some out (withheld), never how many.
+--    Delivered counts the states only a delivered message reaches (delivered, then a complaint or
+--    an unsubscribe); a message still deferred is in flight and not yet reported.
 --
 -- Every table here has RLS enabled, no policy and no grant: clients reach them only through the
 -- two reads, the claim and the one write.
@@ -110,6 +117,8 @@ create table app.growth_krav_rule_versions (
   guidance_only boolean not null,
   primary key (rule_key, version),
   constraint growth_krav_threshold check (rule_key not in ('verneombud', 'amu') or threshold is not null),
+  -- the AMU rule is two figures, both required: never a «0–30 on demand» from a missing one
+  constraint growth_krav_amu check (rule_key <> 'amu' or on_demand_from is not null),
   constraint growth_krav_on_demand check (on_demand_from is null or (threshold is not null and on_demand_from < threshold)),
   constraint growth_krav_wording check ((rule_key = 'wording_4_3') = (say is not null and never_say is not null))
 );
@@ -408,21 +417,38 @@ begin
   end if;
   perform app.admin_log('growth.deliverability_view');
   return (
-    with sent as materialized (select * from app.mail_sent_7d())
+    with sent as materialized (select * from app.mail_sent_7d()),
+    -- each template's count as the growth roles may see it: null where a personal notice is below k
+    counts as materialized (
+      select t.key, t.stream, app.mail_template_count(t.key, n.n) as shown
+      from app.mail_templates t
+      cross join lateral (select count(*) as n from sent x where x.template = t.key) n),
+    -- what every aggregate is counted over: every message but a withheld notice's. A stream total
+    -- that held them would give their count back by subtraction (the total less the rows shown),
+    -- so they are left out of every figure on the page, not only their own row
+    shown as materialized (
+      select x.* from sent x
+      where not exists (select 1 from counts c where c.key = x.template and c.shown is null))
     select jsonb_build_object('ok', true,
       'streams', (
         select jsonb_agg(jsonb_build_object(
                  'key', s.key, 'sender', s.sender, 'domain', app.mail_stream_domain(s.sender),
-                 -- messages sent, and how many of them the provider has reported anything on: every
-                 -- rate is over the reported, never over a message nothing reported on
-                 'sent', (select count(*) from sent x where x.stream = s.key),
-                 'reported', (select count(*) from sent x where x.stream = s.key and x.delivery is not null),
+                 -- a personal notice on this stream is below k, and its messages are in none of the figures
+                 'withheld', exists (select 1 from counts c join app.mail_templates t on t.key = c.key
+                                     where c.stream = s.key and c.shown is null and t.source <> 'auth'),
+                 -- messages sent, and how many of them the provider has reported on: every rate is
+                 -- over the reported, never over a message nothing reported on. A message still
+                 -- deferred is in flight, not reported, the same as one with no report yet
+                 'sent', (select count(*) from shown x where x.stream = s.key),
+                 'reported', (select count(*) from shown x where x.stream = s.key and x.delivery is not null and x.delivery <> 'deferred'),
                  -- the invitation tests, which keep no provider id and so are never reported
-                 'tests', (select count(*) from sent x where x.stream = s.key and x.template = 'notice.test'),
-                 'delivered', (select count(*) from sent x where x.stream = s.key and x.delivery = 'delivered'),
-                 'spam', (select count(*) from sent x where x.stream = s.key and x.delivery = 'spam'),
-                 'bounced', (select count(*) from sent x where x.stream = s.key and x.delivery in ('hard_bounce', 'soft_bounce', 'invalid', 'blocked')),
-                 'hard_bounces', (select count(*) from sent x where x.stream = s.key and x.delivery = 'hard_bounce'),
+                 'tests', (select count(*) from shown x where x.stream = s.key and x.template = 'notice.test'),
+                 -- delivered: the states only a delivered message reaches, so a complaint or an
+                 -- unsubscribe the provider reports after delivery is still a delivered message
+                 'delivered', (select count(*) from shown x where x.stream = s.key and x.delivery in ('delivered', 'spam', 'unsubscribed')),
+                 'spam', (select count(*) from shown x where x.stream = s.key and x.delivery = 'spam'),
+                 'bounced', (select count(*) from shown x where x.stream = s.key and x.delivery in ('hard_bounce', 'soft_bounce', 'invalid', 'blocked')),
+                 'hard_bounces', (select count(*) from shown x where x.stream = s.key and x.delivery = 'hard_bounce'),
                  -- when the provider last reported on this stream's e-mail: an event matched to an
                  -- e-mail notice (or one person's message of one), a ticket reply or trial mail; an
                  -- SMS report, and an event matched to nothing, are not this stream's
@@ -442,12 +468,12 @@ begin
         select jsonb_agg(jsonb_build_object('key', t.key, 'source', t.source, 'ref', t.ref, 'classification', t.classification,
                                             'stream', t.stream, 'locales', to_jsonb(t.locales), 'version', t.version,
                                             -- Auth's mail is recorded nowhere: no count rather than a 0
-                                            'sent', case when t.source = 'auth' then null else app.mail_template_count(t.key, n.n) end,
+                                            'sent', case when t.source = 'auth' then null else c.shown end,
                                             -- a personal notice below k: counted, and withheld
-                                            'withheld', t.source <> 'auth' and app.mail_template_count(t.key, n.n) is null)
+                                            'withheld', t.source <> 'auth' and c.shown is null)
                order by t.sort)
         from app.mail_templates t
-        cross join lateral (select count(*) as n from sent x where x.template = t.key) n),
+        join counts c on c.key = t.key),
       -- the campaign mail's daily cap (0111), which warms a new sending domain
       'daily_cap', (select c.daily_cap from app.crm_settings c where c.id),
       -- below this a personal notice's count is withheld
@@ -478,6 +504,9 @@ begin
     return jsonb_build_object('ok', false, 'error', 'too_soon');
   end if;
   insert into app.mail_auth_runs (admin_id) values (auth.uid()) returning id into v_id;
+  -- audited when claimed, not only when recorded: a claim sends DNS its lookups whether or not its
+  -- record follows, and the run's own admin_id is cleared with the account
+  perform app.admin_log('deliverability.auth_claim', null, 'mail_auth_runs', v_id::text);
   return jsonb_build_object('ok', true, 'run', v_id);
 end $fn$;
 revoke all on function public.admin_deliverability_claim() from public, anon;

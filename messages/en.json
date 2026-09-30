@@ -11645,7 +11645,7 @@
           },
           "gatingRule": {
             "title": "Gating rule",
-            "text": "Pillar content and tool scores stay <b>ungated</b> so they rank and get cited by AI answers. Gate only the take-away artefacts — PDFs and templates — behind consent and double opt-in. Test E4 checks whether gating the result costs trials."
+            "text": "Pillar content and tool scores stay <b>ungated</b> so they rank and get cited by AI answers. Gate only the take-away artefacts — PDFs and templates — behind consent and double opt-in. Test E4 will check whether gating the result costs trials."
           },
           "flow": {
             "title": "Shared consent flow",
@@ -11666,7 +11666,8 @@
               "verneombud": "From {n} employees · checked {date}",
               "amu": "From {n} · {from}–{n} on demand · checked {date}",
               "bht": "Industry list · {reference}",
-              "wording_4_3": "«{say}» — never «{never}»"
+              "wording_4_3": "«{say}» — never «{never}»",
+              "amuOnly": "From {n} · checked {date}"
             },
             "tip": "{reference} · version {version} · checked {date} against {source} · {guidance, select, yes {guidance, not legal advice} other {not marked as guidance}}",
             "footer": "Rules v{version} · versioned data, not code · every rule carries a «sist kontrollert» date · {guidance, select, yes {marked as guidance, not legal advice.} other {not every rule is marked as guidance.}}"
@@ -11697,7 +11698,8 @@
             "complaints": "Complaints",
             "complaintsSub": "marketing: suppressed at once",
             "hardWhy": "A marketing address is suppressed at once; a survey address that bounces is flagged to its organisation",
-            "complaintsWhy": "A complaint about marketing mail suppresses and unsubscribes the address at once"
+            "complaintsWhy": "A complaint about marketing mail suppresses and unsubscribes the address at once",
+            "withheldWhy": "Leaves out the personal notices sent fewer than {k} times in 7 days: their count is withheld, so their messages are in no figure"
           },
           "stream": {
             "name": {
@@ -11743,7 +11745,8 @@
             "eventsAt": "last received {date}",
             "eventsNone": "none received yet",
             "over": "Rates over the {reported} of {sent} messages the provider reported on",
-            "tests": "{n, plural, one {# invitation test} other {# invitation tests}} keep no provider id and are never reported"
+            "tests": "{n, plural, one {# invitation test} other {# invitation tests}} keep no provider id and are never reported",
+            "withheld": "personal notices sent fewer than {k} times are left out, their count withheld"
           },
           "registry": {
             "title": "Template registry",

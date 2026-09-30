@@ -16,7 +16,7 @@ import {
 } from '@/lib/admin/deliverability'
 import { dotTone } from '@/lib/admin/dots'
 import { GROWTH_VIEWS } from '@/lib/admin/growth'
-import { allGuidance, dayMonth, doiRate, doneText, GrowthMagnets, liveMagnets, rate, shortOf } from '@/lib/admin/magnets'
+import { allGuidance, dayMonth, doiRate, doneText, GrowthMagnets, liveMagnets, rate, ruleValue, shortOf } from '@/lib/admin/magnets'
 import en from '@/messages/en.json'
 import no from '@/messages/no.json'
 
@@ -151,6 +151,14 @@ describe('the magnets’ figures', () => {
     expect(liveMagnets(m)).toBe(0)
     expect(allGuidance(m)).toBe(true)
     expect(allGuidance({ ...m, rules: [{ ...m.rules[0]!, guidance: false }] })).toBe(false)
+    // a rule's line never makes a figure of a missing one: AMU without its on-demand figure is the duty alone
+    const amu = m.rules[0]!
+    expect(ruleValue(amu)).toEqual({ key: 'amu', vars: { n: 30, from: 10, date: '30 Sep' } })
+    expect(ruleValue({ ...amu, on_demand_from: null })).toEqual({ key: 'amuOnly', vars: { n: 30, date: '30 Sep' } })
+    expect(ruleValue({ ...amu, threshold: null })).toBeNull()
+    expect(ruleValue({ ...amu, key: 'verneombud', threshold: null })).toBeNull()
+    expect(ruleValue({ ...amu, key: 'wording_4_3', say: 'Loven er presisert', never_say: null })).toBeNull()
+    expect(MIGRATION).toContain("constraint growth_krav_amu check (rule_key <> 'amu' or on_demand_from is not null)")
     expect(() => GrowthMagnets.parse({ ...m, magnets: [{ ...m.magnets[0]!, status: 'invented' }] })).toThrow()
   })
 })
@@ -159,6 +167,7 @@ const stream = (over: Partial<Stream>): Stream => ({
   key: 'transactional',
   sender: 'no-reply@orgpuls.com',
   domain: 'orgpuls.com',
+  withheld: false,
   sent: 0,
   reported: 0,
   tests: 0,
@@ -194,6 +203,19 @@ describe('the streams’ figures', () => {
     expect(deliverabilityKpis([stream({ sent: 10, reported: 10, delivered: 10 }), m]).delivered).toBe('100,0 %')
     expect(streamGap(m)).toBe('no_events')
     expect(deliverabilityKpis([stream({ sent: 5 })])).toMatchObject({ gap: 'no_events', delivered: null, hardBounces: null, complaints: null })
+    expect(deliverabilityKpis([stream({ sent: 5 }), m]).withheld).toBe(false)
+    expect(deliverabilityKpis([stream({ sent: 5, withheld: true }), m]).withheld).toBe(true)
+  })
+
+  it('a withheld notice is left out of every aggregate the read returns, and delivered counts what only delivered mail reaches', () => {
+    // the stream totals are counted over `shown`, the messages of no withheld template
+    for (const f of ['sent', 'reported', 'tests', 'delivered', 'spam', 'bounced', 'hard_bounces']) {
+      expect(MIGRATION, f).toMatch(new RegExp(`'${f}', \\(select count\\(\\*\\) from shown x where x\\.stream = s\\.key`))
+    }
+    expect(MIGRATION).toContain("x.delivery in ('delivered', 'spam', 'unsubscribed')")
+    expect(MIGRATION).toContain("x.delivery is not null and x.delivery <> 'deferred'")
+    // the claim is audited when it is made, before its lookups
+    expect(MIGRATION).toContain("perform app.admin_log('deliverability.auth_claim', null, 'mail_auth_runs', v_id::text)")
   })
 
   it('a registry key breaks only after a separator', () => {
@@ -280,6 +302,10 @@ describe('the pages', () => {
     expect(t('deliverability.kpi.noEvents', { n: 1 })).toBe('1 message sent · no delivery event recorded')
     expect(t('deliverability.kpi.deliveredSub', { reported: '900', sent: '1 000' })).toBe('reported on 900 of 1 000 sent')
     expect(t('deliverability.registry.withheld', { k: 5 })).toBe('< 5')
+    expect(t('magnets.krav.value.amuOnly', { n: 30, date: '30 Sep' })).toBe('From 30 · checked 30 Sep')
+    expect(t('deliverability.stream.withheld', { k: 5 })).toMatch(/fewer than 5 times are left out/)
+    // no experiment runs yet: E4 is planned, not happening
+    for (const msgs of [en, no]) expect(msgs.admin.growth.g4.magnets.gatingRule.text).toContain('Test E4 will check')
     expect(t('magnets.name.newsletter', { list: 'Nyhetsbrevet' })).toBe('Newsletter «Nyhetsbrevet»')
   })
 

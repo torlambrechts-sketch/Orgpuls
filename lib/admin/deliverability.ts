@@ -32,11 +32,17 @@ const Stream = z.object({
   key: z.enum(STREAMS),
   sender: z.string(),
   domain: z.string(),
+  /**
+   * a personal notice on this stream is below k: its messages are in none of this stream's figures
+   * (a total that held them would give their count back by subtraction), and this says so, never how many
+   */
+  withheld: z.boolean(),
   sent: num,
-  /** of `sent`, how many the provider has reported anything on: every rate's denominator */
+  /** of `sent`, how many the provider has reported on (a deferred message is still in flight): every rate's denominator */
   reported: num,
   /** of `sent`, the invitation tests, which keep no provider id and are never reported */
   tests: num,
+  /** delivered, or a state only a delivered message reaches (a complaint, an unsubscribe) */
   delivered: num,
   spam: num,
   bounced: num,
@@ -108,6 +114,8 @@ export function deliverabilityKpis(streams: Stream[]) {
     spam: gap ? null : rate(sum('spam'), all.reported, 2),
     hardBounces: gap ? null : sum('hard_bounces'),
     complaints: gap ? null : sum('spam'),
+    /** a personal notice below k is left out of these figures, on some stream */
+    withheld: streams.some((s) => s.withheld),
   }
 }
 
