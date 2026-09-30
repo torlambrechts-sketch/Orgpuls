@@ -8997,3 +8997,20 @@ which no longer carries a kind (above).
   antialiasing; the table's rows hold the whole CRM and stay unclaimed). Tasks (31 match, 22 claimed)
   and Journeys (19 match, 7 claimed) keep their claims: the extra matches are in the task list and the
   stage cards, which hold the whole CRM's data.
+
+**Review 4 (2026-09-30).**
+- The poll has limits. Every call to the register times out after 15 s, and a run has a 120 s budget, well
+  under the Edge wall-clock limit. Steps 1–3 now go one feed page at a time, and the feed's position moves
+  past a page only once its entities are ingested and its removals purged. A run that reaches the budget
+  stops between pages, keeps what it finished and ends as `deadline`, so a large backlog is worked through
+  over several days instead of being retried from the start every day. The role feed moves only when every
+  lookup it read was done.
+- A purge that does not settle (any answer but 200, 404 or 410, or a failed `brreg_purge`) ends the run
+  with `purge_<status>` / `purge_failed`, so the page is read again and no removed entity is skipped for
+  good; the 500-per-run cap is gone, as the budget bounds the run.
+- An objection closes open outreach tasks in a statement of its own, so a task committed by an assignment
+  while the objection waited for its row lock is closed too.
+- While the engine is live, outreach sent back to the queue (its task or company deleted) is assigned again
+  by the daily run (`app.brreg_cron`); `growth_crm_invariants` row 29 proves it through that run.
+- The Results card's holdout share and the «new company» label read the engine's rules; a channel with one
+  contact reads «1 contact».

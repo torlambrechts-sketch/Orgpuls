@@ -15,6 +15,12 @@
  *   5. the general manager's name for outreach that will be a call or a letter, and for nothing else;
  *   6. the poll's end: the count of changes and the two feeds' positions, or a failure code.
  *
+ * Steps 1–3 run one feed page at a time, and the feed's position moves past a page only once its
+ * entities are ingested and its removals purged. Every call to the register has a time limit, and the
+ * run as a whole has a budget well under the platform's wall-clock limit: a run that reaches it stops
+ * between pages, keeps what it finished and ends as `deadline`, so the next run continues from there
+ * instead of starting the same backlog again.
+ *
  * Enhetsregisteret is open data (NLOD 2.0) and needs no key. Log lines carry counts and codes only.
  */
 import { createClient } from 'npm:@supabase/supabase-js@2'
@@ -39,6 +45,8 @@ const API = 'https://data.brreg.no/enhetsregisteret/api'
 const FEED_SIZE = 1000 // the feed allows size × (page + 1) ≤ 10 000; the id moves forward instead of the page
 const MAX_FEED_PAGES = 40
 const MAX_ROLE_LOOKUPS = 300
+const CALL_MS = 15_000 // one call to the register
+const BUDGET_MS = 120_000 // the whole run; the Edge wall-clock limit is 150 s on the smallest plan
 
 function same(a: string, b: string): boolean {
   const x = new TextEncoder().encode(a)
@@ -49,7 +57,7 @@ function same(a: string, b: string): boolean {
   return d === 0
 }
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } })
-const get = (url: string) => fetch(url, { headers: { accept: 'application/json' } })
+const get = (url: string) => fetch(url, { headers: { accept: 'application/json' }, signal: AbortSignal.timeout(CALL_MS) })
 const yesterday = () => new Date(Date.now() - 86_400_000).toISOString().slice(0, 10) + 'T00:00:00.000Z'
 
 Deno.serve(async (req) => {
@@ -66,42 +74,24 @@ Deno.serve(async (req) => {
   if ('error' in b) return json({ error: b.error }, 409)
   const poll = b.poll
 
-  let feedCursor: number | null = b.feedCursor
-  let rolesCursor: number | null = b.rolesCursor
+  const started = Date.now()
+  const late = () => Date.now() - started > BUDGET_MS
+  // the feeds' positions as far as the work is finished: only these are saved
+  let feedDone: number | null = b.feedCursor
+  let rolesDone: number | null = b.rolesCursor
   let error: string | null = null
-  const changed = new Map<string, Change>()
   const counts = { changes: 0, ingested: 0, raised: 0, purged: 0, roles: 0, named: 0 }
 
-  try {
-    // ---------------------------------------------------------------- 1. the update feed
-    let url = feedCursor === null
-      ? `${API}/oppdateringer/enheter?dato=${yesterday()}&size=${FEED_SIZE}&includeChanges=true`
-      : `${API}/oppdateringer/enheter?oppdateringsid=${feedCursor + 1}&size=${FEED_SIZE}&includeChanges=true`
-    for (let page = 0; page < MAX_FEED_PAGES; page++) {
-      const res = await get(url)
-      if (!res.ok) {
-        error = `feed_${res.status}`
-        await res.body?.cancel()
-        break
-      }
-      const items = parseFeed(await res.json())
-      foldFeed(items, changed)
-      for (const it of items) feedCursor = Math.max(feedCursor ?? 0, it.id)
-      if (items.length < FEED_SIZE || feedCursor === null) break
-      url = `${API}/oppdateringer/enheter?oppdateringsid=${feedCursor + 1}&size=${FEED_SIZE}&includeChanges=true`
-    }
-    counts.changes = changedCount(changed)
-
-    // ---------------------------------------------------------------- 2. the changed entities
+  /** one feed page's entities: re-fetched and ingested, the removed ones purged; an error code or null */
+  async function ingestPage(changed: Map<string, Change>): Promise<string | null> {
     const wanted = [...changed].filter(([, c]) => c.type === 'Ny' || c.type === 'Endring').map(([o]) => o)
     const gone = [...changed].filter(([, c]) => c.type === 'Fjernet').map(([o]) => o)
     for (const group of chunks(wanted, 100)) {
-      if (error) break
+      if (late()) return 'deadline'
       const res = await get(`${API}/enheter?organisasjonsnummer=${group.join(',')}&size=100`)
       if (!res.ok) {
-        error = `entities_${res.status}`
         await res.body?.cancel()
-        break
+        return `entities_${res.status}`
       }
       const found = new Set<string>()
       const rows = []
@@ -115,32 +105,70 @@ Deno.serve(async (req) => {
       for (const o of group) if (!found.has(o)) gone.push(o)
       if (rows.length) {
         const { data, error: e } = await svc.rpc('brreg_ingest', { p_poll: poll, p_rows: rows })
-        if (e) {
-          error = 'ingest_failed'
-          break
-        }
+        if (e) return 'ingest_failed'
         counts.ingested += replyCount(data, 'seen')
         counts.raised += replyCount(data, 'raised')
       }
     }
-
-    // ---------------------------------------------------------------- 3. HTTP 410: purge
-    for (const o of error ? [] : gone.slice(0, 500)) {
+    // HTTP 410: removed for legal reasons, purged. Any answer that does not settle it keeps the page
+    // unfinished, so the organisation is asked again next run rather than skipped for good.
+    for (const o of gone) {
+      if (late()) return 'deadline'
       const res = await get(`${API}/enheter/${o}`)
       await res.body?.cancel()
       if (res.status === 410) {
         const { error: e } = await svc.rpc('brreg_purge', { p_org: o })
-        if (!e) counts.purged++
+        if (e) return 'purge_failed'
+        counts.purged++
+      } else if (!res.ok && res.status !== 404) {
+        return `purge_${res.status}`
       }
+    }
+    return null
+  }
+
+  try {
+    // ---------------------------------------------------------------- 1–3. the update feed, a page at a time
+    let url = feedDone === null
+      ? `${API}/oppdateringer/enheter?dato=${yesterday()}&size=${FEED_SIZE}&includeChanges=true`
+      : `${API}/oppdateringer/enheter?oppdateringsid=${feedDone + 1}&size=${FEED_SIZE}&includeChanges=true`
+    for (let page = 0; page < MAX_FEED_PAGES; page++) {
+      if (late()) {
+        error = 'deadline'
+        break
+      }
+      const res = await get(url)
+      if (!res.ok) {
+        error = `feed_${res.status}`
+        await res.body?.cancel()
+        break
+      }
+      const items = parseFeed(await res.json())
+      if (!items.length) break
+      const changed = new Map<string, Change>()
+      foldFeed(items, changed)
+      const pageEnd = items.reduce((m, it) => Math.max(m, it.id), feedDone ?? 0)
+      error = await ingestPage(changed)
+      if (error) break
+      feedDone = pageEnd
+      counts.changes += changedCount(changed)
+      if (items.length < FEED_SIZE) break
+      url = `${API}/oppdateringer/enheter?oppdateringsid=${pageEnd + 1}&size=${FEED_SIZE}&includeChanges=true`
     }
 
     // ---------------------------------------------------------------- 4. the role feed: dates only
     if (!error) {
       const orgs = new Set<string>()
+      let rolesCursor: number | null = rolesDone
+      let rolesComplete = true
       let rurl = rolesCursor === null
         ? `${API}/oppdateringer/roller?afterTime=${yesterday()}&size=${FEED_SIZE}`
         : `${API}/oppdateringer/roller?afterId=${rolesCursor}&size=${FEED_SIZE}`
       for (let page = 0; page < MAX_FEED_PAGES; page++) {
+        if (late()) {
+          rolesComplete = false
+          break
+        }
         const res = await get(rurl)
         if (!res.ok) {
           error = `roles_feed_${res.status}`
@@ -159,19 +187,29 @@ Deno.serve(async (req) => {
       const follow = parseOrgList(cand.data).slice(0, MAX_ROLE_LOOKUPS)
       const rows: { org_number: string; manager_changed_on: string }[] = []
       for (const o of follow) {
+        if (late()) {
+          rolesComplete = false
+          break
+        }
         const res = await get(`${API}/enheter/${o}/roller`)
         if (!res.ok) {
           await res.body?.cancel()
-          continue
+          if (res.status === 404) continue
+          error = `roles_${res.status}`
+          break
         }
         const on = managerChangedOn(await res.json())
         if (on) rows.push({ org_number: o, manager_changed_on: on })
       }
       if (rows.length) {
-        const { data } = await svc.rpc('brreg_roles_ingest', { p_poll: poll, p_rows: rows })
+        const { data, error: e } = await svc.rpc('brreg_roles_ingest', { p_poll: poll, p_rows: rows })
+        if (e && !error) error = 'roles_ingest_failed'
         counts.roles = replyCount(data, 'raised')
         counts.raised += counts.roles
       }
+      // the role feed moves on only when every change read was looked up and ingested
+      if (rolesComplete && !error) rolesDone = rolesCursor
+      else if (!error) error = 'deadline'
     }
 
     // ---------------------------------------------------------------- 5. names, for a call or a letter only
@@ -180,6 +218,7 @@ Deno.serve(async (req) => {
       const list = parseNameNeeds(need.data)
       const named: { id: string; name: string }[] = []
       for (const r of list) {
+        if (late()) break // names are asked for again next run: nothing is lost
         const res = await get(`${API}/enheter/${r.org_number}/roller`)
         if (!res.ok) {
           await res.body?.cancel()
@@ -200,10 +239,10 @@ Deno.serve(async (req) => {
   await svc.rpc('brreg_poll_end', {
     p_poll: poll,
     p_changes: counts.changes,
-    // a failed poll keeps the feeds where they were, so the next one reads the same changes again
+    // the feeds move only past work that finished, so the next run reads the rest again
     // (ingesting is idempotent: a trigger is raised once per organisation and kind in 180 days)
-    p_feed_cursor: error ? b.feedCursor : feedCursor,
-    p_roles_cursor: error ? b.rolesCursor : rolesCursor,
+    p_feed_cursor: feedDone,
+    p_roles_cursor: rolesDone,
     p_error: error,
   })
   console.log(JSON.stringify({ poll, ...counts, error }))

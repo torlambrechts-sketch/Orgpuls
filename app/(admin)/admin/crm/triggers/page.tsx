@@ -176,7 +176,7 @@ export default async function Page() {
                 {res.types.map((x) => (
                   <div key={x.kind} className="border-b border-line py-[10px] text-[13px]">
                     <div className="flex justify-between gap-[10px]">
-                      <span className="font-semibold [text-wrap:pretty]">{b(`types.label.${x.kind}`)}</span>
+                      <span className="font-semibold [text-wrap:pretty]">{b(`types.label.${x.kind}`, { t5, t30 })}</span>
                       <b>{fmt(x.n)}</b>
                     </div>
                     <div className="mt-[2px] text-[12px] text-mut">
@@ -193,7 +193,7 @@ export default async function Page() {
 
           <section className={`${PANEL} ${CARD}`}>
             <h2 className="m-0 font-display text-[22px] font-medium">{b('results.title')}</h2>
-            <div className="mt-[4px] text-[12.5px] text-mut">{b('results.sub')}</div>
+            <div className="mt-[4px] text-[12.5px] text-mut">{b('results.sub', { pct: rules.holdout_pct })}</div>
             {contacted ? (
               <div className="mt-[8px] flex flex-col">
                 {[...res.results.map((r) => ({ key: r.channel, ...r })), { key: 'holdout' as const, ...res.holdout }].map((r) => {
@@ -202,7 +202,7 @@ export default async function Page() {
                     <div key={r.key} className="flex items-center gap-[10px] border-b border-line py-[10px] text-[13px]">
                       <span className="flex-1 font-semibold">{b(`results.channel.${r.key}`)}</span>
                       <span className="text-[12.5px] text-mut">
-                        {b(r.key === 'holdout' ? 'results.lineHoldout' : 'results.line', { contacts: fmt(r.contacts), trials: fmt(r.trials) })}
+                        {b(r.key === 'holdout' ? 'results.lineHoldout' : 'results.line', { contacts: r.contacts, trials: r.trials })}
                       </span>
                       <b className="min-w-[64px] text-right">{p === null ? dash : b('results.per100', { n: p })}</b>
                     </div>

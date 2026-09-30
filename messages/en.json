@@ -11839,7 +11839,7 @@
             "label": {
               "threshold_5": "Crossed 5 employees → verneombud duty",
               "threshold_30": "Reached 30 employees → AMU duty",
-              "company_new": "New company in a target industry at 5+ employees",
+              "company_new": "New company in a target industry at {t5}+ employees",
               "manager_changed": "New general manager registered"
             },
             "empty": "No poll yet",
@@ -11847,11 +11847,11 @@
           },
           "results": {
             "title": "Results · pilot to date",
-            "sub": "Trials per 100 contacts by channel · 10 % holdout for comparison (E8)",
+            "sub": "Trials per 100 contacts by channel · {pct} % holdout for comparison (E8)",
             "empty": "No outreach yet",
             "emptyText": "No outreach has been made yet, so there is nothing to compare.",
-            "line": "{contacts} contacts · {trials} trials",
-            "lineHoldout": "{contacts} held out · {trials} trials",
+            "line": "{contacts, plural, one {# contact} other {# contacts}} · {trials, plural, one {# trial} other {# trials}}",
+            "lineHoldout": "{contacts} held out · {trials, plural, one {# trial} other {# trials}}",
             "per100": "{n} / 100",
             "channel": {
               "phone": "Phone",

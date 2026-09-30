@@ -648,12 +648,15 @@ begin
     select v_txt || ',' || string_agg(concat_ws('/', status, activity_id is null, company_id is null, assigned_at is null), ',' order by org_number)
       into v_txt
     from app.brreg_outreach where org_number in ('999000176', '999000177');
-    -- assigning again makes a new task, for a new company where the old one went
-    select v_txt || ',' || string_agg(app.brreg_assign(id)::text, ',' order by org_number) into v_txt
+    -- live, the daily run assigns it again: a new task, for a new company where the old one went
+    update app.brreg_settings set dry_run = false;
+    perform app.brreg_cron();
+    update app.brreg_settings set dry_run = true;
+    select v_txt || ',' || string_agg((status = 'assigned')::text, ',' order by org_number) into v_txt
     from app.brreg_outreach where org_number in ('999000176', '999000177');
     select v_txt || ',' || string_agg(concat_ws('/', status, activity_id is not null, company_id is not null), ',' order by org_number) into v_txt
     from app.brreg_outreach where org_number in ('999000176', '999000177');
-    v_rows := v_rows || jsonb_build_object('seq', 29, 'name', 'a company or a task holding assigned outreach can be deleted; the outreach goes back to the queue and is assigned anew',
+    v_rows := v_rows || jsonb_build_object('seq', 29, 'name', 'a company or a task holding assigned outreach can be deleted; the outreach goes back to the queue and, live, the daily run assigns it anew',
       'expected', 'assigned/true,assigned/true,queued/t/t/t,queued/t/f/t,true,true,assigned/t/t,assigned/t/t', 'actual', v_txt,
       'pass', v_txt = 'assigned/true,assigned/true,queued/t/t/t,queued/t/f/t,true,true,assigned/t/t,assigned/t/t');
 

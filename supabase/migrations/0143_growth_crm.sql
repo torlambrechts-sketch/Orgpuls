@@ -212,7 +212,8 @@ create table app.brreg_outreach (
 );
 -- A task (or its company) deleted clears activity_id by the foreign key. That UPDATE is the database's own
 -- referential maintenance and must go through (CLAUDE.md): an assigned row whose task is gone is no longer
--- anyone's work, so it goes back to the queue, where assigning makes a new task. Nothing else changes.
+-- anyone's work, so it goes back to the queue, where assigning makes a new task (live: at the next daily
+-- run, app.brreg_cron). Nothing else changes.
 create function app.brreg_outreach_orphaned() returns trigger
   language plpgsql set search_path = ''
 as $fn$
@@ -711,6 +712,11 @@ create function app.brreg_cron() returns void
 as $fn$
 begin
   perform pg_advisory_xact_lock(hashtext('orgpuls:brreg_poll'));
+  -- live: outreach sent back to the queue since the last run (its task or company was deleted) is
+  -- assigned again, as the dry-run switch assigns what is queued
+  if not (select s.dry_run from app.brreg_settings s) then
+    perform app.brreg_assign(o.id) from app.brreg_outreach o where o.status = 'queued' order by o.created_at;
+  end if;
   if exists (select 1 from app.brreg_polls p where p.requested_at > now() - interval '15 minutes'
              or (p.status = 'running' and p.started_at > now() - interval '1 hour')) then
     return;
@@ -1155,16 +1161,14 @@ begin
     insert into app.brreg_dnc (org_number, reason, created_by) values (v_org, 'objected', auth.uid()) on conflict (org_number) do nothing;
     -- once the organisation has objected, no row of it has a purpose for the manager's name
     update app.brreg_outreach set manager_name = null where org_number = v_org and manager_name is not null;
-    with stopped as (
-      update app.brreg_outreach set status = 'do_not_contact'
-      where org_number = v_org and status in ('queued', 'assigned')
-      returning activity_id
-    ), closed as (
-      update app.crm_activities a set done_at = now(), skipped = true
-      where a.id in (select s.activity_id from stopped s where s.activity_id is not null) and a.done_at is null
-      returning a.id
-    )
-    select count(*) into v_stopped from stopped;
+    update app.brreg_outreach set status = 'do_not_contact'
+    where org_number = v_org and status in ('queued', 'assigned');
+    get diagnostics v_stopped = row_count;
+    -- a statement of its own, with a fresh snapshot: a task an assignment committed while the update
+    -- above waited on its row lock is closed as well
+    update app.crm_activities a set done_at = now(), skipped = true
+    where a.done_at is null
+      and a.id in (select o.activity_id from app.brreg_outreach o where o.org_number = v_org and o.activity_id is not null);
   end if;
   perform app.admin_log('crm.phone_notice', null, 'crm_company', v_company::text, null,
                         jsonb_build_object('objected', p_objected, 'stopped', v_stopped));
@@ -1270,6 +1274,11 @@ begin
     return jsonb_build_object('ok', false, 'error', 'not_allowed');
   end if;
   perform pg_advisory_xact_lock(hashtext('orgpuls:brreg_poll'));
+  -- live: outreach sent back to the queue since the last run (its task or company was deleted) is
+  -- assigned again, as the dry-run switch assigns what is queued
+  if not (select s.dry_run from app.brreg_settings s) then
+    perform app.brreg_assign(o.id) from app.brreg_outreach o where o.status = 'queued' order by o.created_at;
+  end if;
   if exists (select 1 from app.brreg_polls p where p.requested_at > now() - interval '15 minutes'
              or (p.status = 'running' and p.started_at > now() - interval '1 hour')) then
     return jsonb_build_object('ok', false, 'error', 'rate_limited');
