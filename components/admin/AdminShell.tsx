@@ -32,7 +32,8 @@ type Labels = {
  * product exists. The design's help button has no help behind it yet, so it is not drawn (D-162).
  * The prototype's buttons are links here, since each area and page is an address (D-06).
  *
- * Below `lg` the areas move into a sheet behind a menu button: Escape or a chosen page closes it,
+ * Below `xl` (1280 px; `lg` until Growth made the bar eight areas wide, D-181) the areas move into
+ * a sheet behind a menu button: Escape or a chosen page closes it,
  * focus goes into it when it opens and back to the button when it closes. The sub-bar scrolls
  * sideways instead of wrapping, so the page starts where it does on a wide screen.
  */
@@ -126,7 +127,7 @@ export function AdminShell({
             aria-label={sheet ? labels.closeMenu : labels.openMenu}
             aria-expanded={sheet}
             onClick={() => setSheet(!sheet)}
-            className="-ml-[6px] inline-flex h-[36px] w-[36px] flex-none items-center justify-center rounded-ctl text-ink lg:hidden"
+            className="-ml-[6px] inline-flex h-[36px] w-[36px] flex-none items-center justify-center rounded-ctl text-ink xl:hidden"
           >
             <Icon name={sheet ? 'close' : 'menu'} size={20} />
           </button>
@@ -134,7 +135,7 @@ export function AdminShell({
             <span aria-hidden="true" className="block h-[10px] w-[10px] rounded-pill bg-ac" />
             {labels.title}
           </Link>
-          <nav aria-label={labels.nav} className="ml-[10px] hidden gap-[2px] lg:flex">
+          <nav aria-label={labels.nav} className="ml-[10px] hidden gap-[2px] xl:flex">
             {groups.map((g) => (
               <Link
                 key={g.key}
@@ -187,7 +188,7 @@ export function AdminShell({
         <div className="border-b border-line">
           <div className={`${column} flex h-[48px] items-center gap-[14px]`}>
             <span className="hidden min-w-[86px] flex-none text-[11px] uppercase tracking-[0.09em] text-mut md:block">{area ? labels.groups[area] : ''}</span>
-            <nav aria-label={labels.sub} className="-mx-[4px] flex min-w-0 flex-1 items-center gap-[2px] overflow-x-auto px-[4px] [scrollbar-width:none] lg:overflow-visible">
+            <nav aria-label={labels.sub} className="-mx-[4px] flex min-w-0 flex-1 items-center gap-[2px] overflow-x-auto px-[4px] [scrollbar-width:none] xl:overflow-visible">
               {shown.map((i) => (
                 <Link
                   key={i.key}
@@ -199,7 +200,7 @@ export function AdminShell({
                 </Link>
               ))}
               {extra.length ? (
-                <div ref={moreBox} className="relative hidden flex-none lg:block">
+                <div ref={moreBox} className="relative hidden flex-none xl:block">
                   <button
                     type="button"
                     aria-expanded={more}
@@ -231,7 +232,7 @@ export function AdminShell({
       ) : null}
 
       {sheet ? (
-        <div className="fixed inset-0 z-[70] lg:hidden">
+        <div className="fixed inset-0 z-[70] xl:hidden">
           <button type="button" aria-label={labels.closeMenu} tabIndex={-1} onClick={() => setSheet(false)} className="absolute inset-0 cursor-default border-0 bg-ink/40" />
           <div ref={sheetPanel} role="dialog" aria-modal="true" aria-label={labels.nav} className="absolute inset-y-0 left-0 flex w-[300px] max-w-[88vw] flex-col overflow-y-auto bg-sf px-[14px] py-[16px] shadow-[0_18px_44px_rgba(25,21,16,0.2)]">
             <span className="mb-[12px] flex items-center gap-[8px] px-[8px] font-['Bricolage_Grotesque',system-ui,sans-serif] text-[20px] font-bold tracking-[-0.03em]">

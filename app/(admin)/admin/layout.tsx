@@ -5,6 +5,7 @@ import { AdminShell } from '@/components/admin/AdminShell'
 import { HREF, type Section } from '@/lib/admin/access'
 import { adminSignOut } from '@/lib/admin/actions'
 import { autoApprove, isError, whoami } from '@/lib/admin/api'
+import { GROWTH_PAGES } from '@/lib/admin/growth'
 import { navFor } from '@/lib/admin/nav'
 import Link from 'next/link'
 import './sentral.css'
@@ -43,6 +44,9 @@ const PAGES = [
   '/admin/web/pages',
   '/admin/web/goals',
   '/admin/web/visits',
+  // Sentral › Growth and design revision 3's other new pages (D-181): each page is built, most
+  // still in their phase's nothing-yet state
+  ...GROWTH_PAGES,
 ]
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -67,7 +71,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         title: t('title'),
         nav: t('nav.navLabel'),
         sub: t('nav.subLabel'),
-        groups: { overview: t('nav.area.overview'), customers: t('nav.area.customers'), crm: t('nav.area.crm'), marketing: t('nav.area.marketing'), content: t('nav.area.content'), analytics: t('nav.area.analytics'), admin: t('nav.area.admin') },
+        groups: { overview: t('nav.area.overview'), customers: t('nav.area.customers'), crm: t('nav.area.crm'), marketing: t('nav.area.marketing'), content: t('nav.area.content'), analytics: t('nav.area.analytics'), growth: t('nav.area.growth'), admin: t('nav.area.admin') },
         items: Object.fromEntries(groups.flatMap((g) => g.items).map((i) => [i.key, t(`nav.item.${i.key}`)])),
         site: t('nav.site'),
         siteName: t('nav.siteName'),

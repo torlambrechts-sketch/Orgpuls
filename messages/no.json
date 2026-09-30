@@ -7600,7 +7600,20 @@
         "cmsLanding": "Landing & front pages",
         "cmsMedia": "Media",
         "billing": "Billing & plans",
-        "settings": "Site settings"
+        "settings": "Site settings",
+        "growthBoard": "Board",
+        "growthPlan": "90-day plan",
+        "growthFunnel": "Funnel & lead math",
+        "growthEvents": "Event catalogue",
+        "growthRules": "Automation rules",
+        "growthExperiments": "Experiments",
+        "growthRisks": "Risks & decisions",
+        "growthCoverage": "Coverage review",
+        "crmConsent": "Consent",
+        "crmTriggers": "Brønnøysund triggers",
+        "crmPartners": "Partners",
+        "cmsMagnets": "Tools & lead magnets",
+        "deliverability": "Deliverability"
       },
       "openMenu": "Open the menu",
       "closeMenu": "Close the menu",
@@ -7612,7 +7625,8 @@
         "content": "Content",
         "analytics": "Analytics",
         "admin": "Admin",
-        "marketing": "Marketing"
+        "marketing": "Marketing",
+        "growth": "Growth"
       },
       "site": "Site",
       "siteName": "Orgpuls",
@@ -11225,6 +11239,76 @@
       "deferred": "deferred",
       "unsubscribed": "unsubscribed",
       "error": "provider error"
+    },
+    "growth": {
+      "phase": "Nothing here yet · built in phase {phase}",
+      "view": {
+        "growthBoard": {
+          "title": "Growth board",
+          "lead": "The report’s integrated priority list · product-led, compliance content drives acquisition, paid media stays small · click a card for build, KPI and guardrail",
+          "empty": "The report’s tiers and board items arrive as registry rows, each with Orgpuls’ true status, derived from what is in use. The KPI row counts them."
+        },
+        "growthPlan": {
+          "title": "90-day plan",
+          "lead": "Two tracks, one plan · gates must pass before the next block starts",
+          "empty": "The plan’s two-week blocks arrive as registry rows, and a gate that can be measured is read live."
+        },
+        "growthFunnel": {
+          "title": "Funnel & lead math",
+          "lead": "Definitions are events, not opinions · planning assumptions until 90 days of cohorts exist",
+          "empty": "The funnel is computed from the event stream and web analytics. The lead math’s assumptions and benchmarks are shown labelled as the report’s, never as Orgpuls’ own figures."
+        },
+        "growthEvents": {
+          "title": "Event catalogue v1",
+          "lead": "Org-level events drive journeys, scoring, analytics and the health score · one PII level per event",
+          "empty": "The catalogue, its 7-day counts, the health score and the anonymity firewall’s last CI run arrive with the event stream."
+        },
+        "growthRules": {
+          "title": "Automation rules",
+          "lead": "R1–R12 · every rule names a trigger, a condition, an action and a stream · marketing rules need consent and get the 10 % holdout",
+          "empty": "R1–R12 arrive as a registry, each bound to what implements it and shown with its true state."
+        },
+        "growthExperiments": {
+          "title": "Experiment backlog",
+          "lead": "ICE = impact × confidence × ease, max 125 · highest first · never two tests on the same page at once",
+          "empty": "The backlog arrives as registry rows, each with its ICE score and its status."
+        },
+        "growthRisks": {
+          "title": "Risks, guardrails and open decisions",
+          "lead": "The non-negotiables, the risks with their mitigations, and the decisions waiting on counsel or the founder",
+          "empty": "The guardrails, risks and open decisions arrive as registry rows. Recording a decision is an audited write."
+        },
+        "growthCoverage": {
+          "title": "Coverage review",
+          "lead": "Every feature and recommendation in the report, mapped to where it lives in Sentral — and what to build next",
+          "empty": "Each feature of the report arrives mapped to where it lives, its status derived from what has shipped."
+        },
+        "crmConsent": {
+          "title": "Consent & suppression",
+          "lead": "Append-only ledger · markedsføringsloven § 15 · asking for consent by email is itself marketing",
+          "empty": "The consent ledger, the preference centre and the suppression list arrive with the ledger itself, folded over today’s contacts."
+        },
+        "crmTriggers": {
+          "title": "Brønnøysund triggers",
+          "lead": "Daily poll of the update feed",
+          "empty": "The poll of Enhetsregisteret’s update feed, its triggers and the outreach queue arrive in dry run, with a holdout and a do-not-contact list."
+        },
+        "crmPartners": {
+          "title": "Partners",
+          "lead": "Trusted reach at low ACV · attribution on the organisation number, never on respondents",
+          "empty": "Partners, their referral codes and the attribution on the organisation number arrive with this page."
+        },
+        "cmsMagnets": {
+          "title": "Tools & lead magnets",
+          "lead": "Ranked as in the report · scores and pillar content stay ungated so they rank and get cited; only the take-away artefacts are gated",
+          "empty": "The magnet registry and the Krav-sjekk rules, versioned with the day they were last checked, arrive with this page."
+        },
+        "deliverability": {
+          "title": "Deliverability",
+          "lead": "One provider, two streams · spam rate under 0,1 %, never 0,3 % · optimise on clicks and events, not opens",
+          "empty": "The two streams, the SPF, DKIM and DMARC check read from DNS, the template registry and the provider arrive with this page, as they actually stand."
+        }
+      }
     }
   },
   "access": {

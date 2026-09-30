@@ -8,12 +8,29 @@ import type { ReactNode } from 'react'
  * with small-caps headings, segmented filters with counts, initials avatars and progress bars. In
  * English, with the product's own tokens.
  */
-export function PageHead({ title, lead, children }: { title: string; lead?: string; children?: ReactNode }) {
+export function PageHead({
+  title,
+  lead,
+  children,
+  measure = true,
+}: {
+  title: string
+  lead?: ReactNode
+  children?: ReactNode
+  /** false: the sub-line runs the head's width at the design's 1.5, as revision 3's views set it (D-181) */
+  measure?: boolean
+}) {
   return (
     <div className="mb-[22px] flex flex-wrap items-end justify-between gap-[16px] md:px-[18px]">
       <div className="min-w-0">
         <h1 className="m-0 font-display text-[28px] font-medium leading-[1.15] [text-wrap:balance]">{title}</h1>
-        {lead ? <p className="mb-0 mt-[6px] max-w-[80ch] text-[13px] leading-[1.55] text-mut">{lead}</p> : null}
+        {lead ? (
+          measure ? (
+            <p className="mb-0 mt-[6px] max-w-[80ch] text-[13px] leading-[1.55] text-mut">{lead}</p>
+          ) : (
+            <div className="mt-[6px] text-[13px] leading-[1.5] text-mut [text-wrap:pretty]">{lead}</div>
+          )
+        ) : null}
       </div>
       {children}
     </div>
