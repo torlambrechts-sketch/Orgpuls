@@ -11481,13 +11481,11 @@
         },
         "cmsMagnets": {
           "title": "Tools & lead magnets",
-          "lead": "Ranked as in the report · scores and pillar content stay ungated so they rank and get cited; only the take-away artefacts are gated",
-          "empty": "The magnet registry and the Krav-sjekk rules, versioned with the day they were last checked, arrive with this page."
+          "lead": "Ranked as in the report · scores and pillar content stay ungated so they rank and get cited; only the take-away artefacts are gated"
         },
         "deliverability": {
           "title": "Deliverability",
-          "lead": "One provider, two streams · spam rate under 0,1 %, never 0,3 % · optimise on clicks and events, not opens",
-          "empty": "The two streams, the SPF, DKIM and DMARC check read from DNS, the template registry and the provider arrive with this page, as they actually stand."
+          "lead": "One provider, two streams · spam rate under 0,1 %, never 0,3 % · optimise on clicks and events, not opens"
         }
       },
       "events": {
@@ -11814,6 +11812,233 @@
             "coverage": "Coverage",
             "recommended": "Recommended next",
             "cut": "Cut or deferred by the report"
+          }
+        }
+      },
+      "g4": {
+        "magnets": {
+          "kpi": {
+            "completions": "Tool and template completions · 30 d",
+            "completionsNone": "gate: ≥ 300 by week 4 · no tool live yet",
+            "consent": "Consent rate",
+            "consentNone": "target 15 % · measured once a tool is live",
+            "trials": "Trials within 90 days",
+            "trialsNone": "10 % of subscribers is the planning assumption",
+            "doi": "Double opt-in",
+            "doiSub": "unconfirmed are never mailed",
+            "doiNone": "unconfirmed are never mailed · none sent in 90 days",
+            "trialsWhy": "No tool is live, so no trial can be attributed to one",
+            "doiOf": "{confirmed} of {sent, plural, one {# contact} other {# contacts}} sent a confirmation mail in 90 days confirmed"
+          },
+          "table": "Tools and lead magnets",
+          "head": {
+            "rank": "#",
+            "magnet": "Magnet",
+            "completions": "Completions",
+            "consent": "Consent",
+            "trials": "Trials",
+            "status": "Status"
+          },
+          "kind": {
+            "tool": "Tool",
+            "template": "Template",
+            "report": "Report",
+            "newsletter": "Newsletter"
+          },
+          "kindFormat": "{kind} · {format}",
+          "format": {
+            "pdf_ics": "PDF/ICS"
+          },
+          "status": {
+            "planned": "Planned",
+            "building": "Building",
+            "live": "Live"
+          },
+          "none": "—",
+          "noneWhy": {
+            "tool": "Nothing is recorded: no public page for it exists yet",
+            "newsletter": "No subscriber attribution to a trial exists",
+            "noList": "Its CRM list does not exist, so nothing counts its subscribers"
+          },
+          "doiShare": "{rate} DOI",
+          "item": {
+            "krav_sjekk": "Org.nr in → which HMS duties apply: verneombud from 5, AMU from 30 (10–30 on demand), BHT industries, § 4-3 mapping. Summary free; PDF with templates after consent.",
+            "risiko_sjekk": "Ten questions about the company, never about employees. Score ungated; PDF and handlingsplan template after consent.",
+            "dokumentasjonspakke": "Checklist, risk-assessment template, handlingsplan template and AMU/verneombud meeting agenda, in 5 industry versions.",
+            "sykefravaer": "The cost of absence from public NAV/SSB averages by industry.",
+            "arshjul": "A year wheel to print or add to a calendar. Bridges to Orgpuls' own year-wheel reminders (R5).",
+            "bransjeguider": "Barnehage, byggeplass, butikk, helse og omsorg, kontor.",
+            "nyhetsbrev": "To confirmed subscribers only: the CRM list «Nyhetsbrevet», signed up for on /nyhetsbrev with double opt-in."
+          },
+          "open": "Open",
+          "close": "Close",
+          "dialog": {
+            "sub": "{kind} · {status}",
+            "what": "What it does",
+            "gating": "Gating",
+            "state": "Status",
+            "gate": {
+              "pdf": "Score and summary ungated so they rank and get cited. The PDF after consent and double opt-in.",
+              "pdf_templates": "Score and summary ungated so they rank and get cited. PDF and templates after consent and double opt-in.",
+              "templates": "The templates themselves are the take-away: all of it after consent and double opt-in.",
+              "pdf_ics": "The PDF and the calendar file after consent and double opt-in.",
+              "none": "Consent and double opt-in at signup."
+            },
+            "why": {
+              "planned": "Planned: no public page for it exists yet, so nothing records a completion. It has no design in this bundle.",
+              "building": "Building: not public yet.",
+              "live": "Live.",
+              "derived": "{status}: derived from the CRM list it sends to — live while that list is public and not archived."
+            }
+          },
+          "gatingRule": {
+            "title": "Gating rule",
+            "text": "Pillar content and tool scores stay <b>ungated</b> so they rank and get cited by AI answers. Gate only the take-away artefacts — PDFs and templates — behind consent and double opt-in. Test E4 will check whether gating the result costs trials."
+          },
+          "flow": {
+            "title": "Shared consent flow",
+            "s1": "Org.nr in → result shown, no person data stored <mut>· lead.tool_completed</mut>",
+            "s2": "«Send me the PDF» → email + unticked marketing checkbox on the same screen",
+            "s3": "Double opt-in email from {domain} <mut>· consent.granted</mut>",
+            "s4": "PDF delivered → nurture journey D0–D16 (R12) · exit on user.signed_up"
+          },
+          "krav": {
+            "title": "Krav-sjekk rules",
+            "label": {
+              "verneombud": "Verneombud",
+              "amu": "AMU",
+              "bht": "BHT duty",
+              "wording_4_3": "§ 4-3 wording"
+            },
+            "value": {
+              "verneombud": "From {n} employees · checked {date}",
+              "amu": "From {n} · {from}–{n} on demand · checked {date}",
+              "bht": "Industry list · {reference}",
+              "wording_4_3": "«{say}» — never «{never}»",
+              "amuOnly": "From {n} · checked {date}"
+            },
+            "tip": "{reference} · version {version} · checked {date} against {source} · {guidance, select, yes {guidance, not legal advice} other {not marked as guidance}}",
+            "footer": "Rules v{version} · versioned data, not code · every rule carries a «sist kontrollert» date · {guidance, select, yes {marked as guidance, not legal advice.} other {not every rule is marked as guidance.}}"
+          },
+          "name": {
+            "bransjeguider": "Industry guides",
+            "newsletter": "Newsletter «{list}»"
+          }
+        },
+        "deliverability": {
+          "run": "Run authentication check",
+          "running": "Checking…",
+          "problem": {
+            "too_soon": "A check ran less than a minute ago",
+            "not_allowed": "Your role may not run the check",
+            "invalid": "The check could not be recorded",
+            "failed": "The check failed"
+          },
+          "kpi": {
+            "delivered": "Delivered · 7 d",
+            "deliveredSub": "reported on {reported} of {sent} sent",
+            "nothingSent": "nothing sent on either stream in 7 days",
+            "noEvents": "{n, plural, one {# message sent} other {# messages sent}} · no delivery event recorded",
+            "spam": "Spam rate",
+            "spamSub": "under 0,1 % — never 0,3 % (Google)",
+            "hard": "Hard bounces",
+            "hardSub": "marketing: suppressed at once",
+            "complaints": "Complaints",
+            "complaintsSub": "marketing: suppressed at once",
+            "hardWhy": "A marketing address is suppressed at once; a survey address that bounces is flagged to its organisation",
+            "complaintsWhy": "A complaint about marketing mail suppresses and unsubscribes the address at once",
+            "withheldWhy": "Leaves out the personal notices sent fewer than {k} times in 7 days: their count is withheld, so their messages are in no figure"
+          },
+          "stream": {
+            "name": {
+              "transactional": "Transactional",
+              "marketing": "Marketing"
+            },
+            "label": "{name} stream",
+            "carries": {
+              "transactional": "Invitations and reminders, notices, results, trial mail, support replies, sign-in",
+              "marketing": "Newsletter confirmations and campaigns: newsletter, product news, events, offers"
+            },
+            "vol": "7 d",
+            "delivered": "Delivered",
+            "spam": "Spam",
+            "bounce": "Bounce",
+            "gap": {
+              "nothing_sent": "Nothing sent on this stream in 7 days",
+              "no_events": "No delivery event recorded for this stream's mail in 7 days"
+            },
+            "check": {
+              "spf": "SPF",
+              "dkim": "DKIM",
+              "dmarc": "DMARC",
+              "level": {
+                "pass": "pass",
+                "warn": "warning",
+                "fail": "fail",
+                "unknown": "lookup failed",
+                "never": "not checked yet"
+              },
+              "checked": "{level} · checked {date}",
+              "policy": "{level} · p={policy}",
+              "tip": "{domain}, as public DNS answered on {date} at {time} UTC",
+              "neverTip": "Run authentication check looks it up in public DNS"
+            },
+            "unsub": {
+              "transactional": "One-click unsubscribe",
+              "transactionalVal": "not applicable · service mail",
+              "marketing": "One-click unsubscribe · RFC 8058",
+              "marketingVal": "List-Unsubscribe + Post on every campaign"
+            },
+            "events": "Delivery events",
+            "eventsAt": "last received {date}",
+            "eventsNone": "none received yet",
+            "over": "Rates over the {reported} of {sent} messages the provider reported on",
+            "tests": "{n, plural, one {# invitation test} other {# invitation tests}} keep no provider id and are never reported",
+            "withheld": "personal notices sent fewer than {k} times are left out, their count withheld"
+          },
+          "registry": {
+            "title": "Template registry",
+            "sub": "Data, not code · every template is classified service or marketing and bound to one stream",
+            "table": "Template registry",
+            "head": {
+              "key": "Key",
+              "classification": "Classification",
+              "stream": "Stream",
+              "locales": "Locales",
+              "version": "Ver.",
+              "sent": "Sent 7 d"
+            },
+            "class": {
+              "service": "Service",
+              "marketing": "Marketing"
+            },
+            "version": "v{n}",
+            "notRecorded": "Auth's mail is sent by its hook and recorded nowhere",
+            "none": "—",
+            "withheld": "< {k}",
+            "withheldWhy": "Sent to fewer than {k} people: a personal notice counts people, and a reminder only those who have not answered, so its count is withheld"
+          },
+          "provider": {
+            "title": "Sending provider",
+            "provider": "Provider",
+            "providerVal": "Brevo (FR) · EU-hosted",
+            "dpa": "DPA",
+            "dpaVal": "Not recorded in Sentral",
+            "separation": "Stream separation",
+            "separationVal": "A domain each · IPs not confirmed",
+            "events": "Delivery events",
+            "eventsVal": "Brevo webhook → orgpuls-mail-events",
+            "alternative": "Alternative",
+            "alternativeVal": "Mailjet (EU) — decision 9"
+          },
+          "hygiene": {
+            "title": "Hygiene",
+            "cap": "Campaign mail capped at {cap} a day, so a new sending domain warms up",
+            "noCap": "No daily cap on campaign mail is set (CRM › Stages, sending)",
+            "suppress": "A hard bounce, an invalid or blocked address or a complaint suppresses a marketing address at once; a survey address that bounces is flagged to its organisation",
+            "stale": "Contacts with no engagement in 12 months are no longer mailed",
+            "clicks": "Product mail keeps no opens or clicks; A/B tests decide on clicks by default, since Apple's proxy opens every mail",
+            "separate": "No marketing on the product's domain: without its own authenticated sender, nothing marketing is sent"
           }
         }
       }

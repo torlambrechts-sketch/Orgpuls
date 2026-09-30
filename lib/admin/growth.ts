@@ -25,6 +25,7 @@ export const GROWTH_VIEWS = {
   crmConsent: { href: '/admin/crm/consent', section: 'crm', phase: 'G3' },
   crmTriggers: { href: '/admin/crm/triggers', section: 'crm', phase: 'G3' },
   crmPartners: { href: '/admin/crm/partners', section: 'crm', phase: 'G3' },
+  // G4 built both from their registries and counts (D-185); neither shows GrowthStub's empty state now
   cmsMagnets: { href: '/admin/cms/magnets', section: 'growth', phase: 'G4' },
   deliverability: { href: '/admin/deliverability', section: 'growth', phase: 'G4' },
 } as const satisfies Record<string, GrowthView>

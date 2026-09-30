@@ -8831,3 +8831,286 @@ ring (globals.css, bundle line 23) applies to each; the read-only switch is not 
 *Found on the way, not G2's:* on the shared local database web_invariants row 3 fails because G3's
 0143 adds `web_events.ref_code`, and crm_inbox_invariants row 3 can fail with the Sentral fixture's CRM
 rows present (D-182). None of the wiring audit's findings on this database names a G2 object.
+
+## D-185 — Sentral › Growth G4: Tools & lead magnets and Deliverability, from registries and real counts
+
+Phase G4 of docs/implementation/growth-admin.md (0144_growth_magnets_deliverability.sql): the design's
+`isMagnets` (/admin/cms/magnets) and `isDeliverability` (/admin/deliverability), each block either a
+registry row with its true state or a count from the table that records it.
+
+**Built:**
+- **The magnet registry** (`app.growth_magnets`: key, rank, name, kind tool|template|report|newsletter,
+  gated artefact, status, list_key). The report's seven in its order. **Six are `planned`**: no public
+  Krav-sjekk, risiko-sjekk, § 4-3 pack, sick-leave calculator, year-wheel template or industry guide
+  exists. The newsletter's status is **derived**, never typed (a CHECK makes `status` null exactly when
+  `list_key` is set): live while the CRM list `nyhetsbrev` exists, is public and is not archived.
+  What each does is a message (`admin.growth.g4.magnets.item.<key>`), as data-not-code asks. A row
+  holds a name only where it is a true proper name (Krav-sjekk, Sykefraværskalkulator …); «Industry
+  guides» is a message (`….magnets.name.bransjeguider`), and the newsletter is named by its CRM
+  list's own name (crm_lists.name_no, «Nyhetsbrevet»), read at each view, so renaming the list
+  renames the row.
+- **No fabricated figure on the magnets.** A tool that does not exist records no session, so its
+  completions, consent and trials are null and print as the design's «—», each with its reason in a
+  tooltip; the KPI row does the same («gate: ≥ 300 by week 4 · no tool live yet»; «target 15 % ·
+  measured once a tool is live»; trials keep the design's planning line, the reason in the tooltip and
+  for a screen reader). **Double opt-in is counted** (`app.growth_doi`): of the contacts sent a
+  confirmation mail in 90 days — a crm_sends `optin` row the dispatcher marked `sent`, not
+  crm_contacts.optin_sent_at, which crm_newsletter_signup stamps when it only *queues* the mail (a request
+  held, failed or skipped sent nothing) — those whose token was spent and whose consent dates from
+  after their first such mail; null — «—» — when none was sent, never 0 % over nothing. The
+  tooltip says «n of m contacts sent a confirmation mail in 90 days confirmed». The newsletter row
+  shows its subscribers (crm_list_members `subscribed`; a real 0 prints as 0, «—» only when its
+  list is gone) and the same measure for its list's contacts.
+- **Krav-sjekk rules as versioned data** (`app.growth_krav_rules` + `app.growth_krav_rule_versions`):
+  verneombud from 5 (aml § 6-1), AMU from 30 and 10–30 on demand (aml § 7-1), the BHT duty by the
+  industry list of forskrift om organisering, ledelse og medvirkning § 13-1, and the § 4-3 wording
+  rule («Loven er presisert» — never «nye krav»). Each version carries `checked_on` («sist
+  kontrollert»), `checked_against` and `guidance_only`. The immutability trigger follows CLAUDE.md:
+  it compares the columns that carry a version's meaning (rule_key, version, threshold,
+  on_demand_from, reference, say, never_say, checked_on, checked_against, guidance_only) and refuses
+  a change to any of them, so an update that changes none passes; a version is deleted only when
+  its rule is already gone (the cascade passes; the suite proves all three). The rule set's version is the number of changes plus one
+  («Rules v1»); the footer's «marked as guidance, not legal advice» is said only while every current
+  version is so marked.
+- **The streams** (`app.mail_streams`): transactional `no-reply@orgpuls.com` (ORGPULS_MAIL_FROM, D-65)
+  and marketing `hei@nyheter.orgpuls.com` (ORGPULS_MARKETING_FROM, D-101). That address is not a
+  fallback of the dispatcher's: without ORGPULS_MARKETING_FROM it sends no marketing mail at all
+  (its `marketing` sender is null); `hei@nyheter.orgpuls.com` is only the default of its
+  `marketing-setup` probe, which is why this row names it. The function secrets stay the
+  dispatcher's; this table is what Sentral reads, and a change of sender is a migration here as
+  well as a secret there.
+- **Seven days per stream**, counted by `app.mail_sent_7d()` from what records each send, one row per
+  e-mail message: a notice as one message (outbox) or one per person (outbox_recipients, 0134), the
+  invitation test (send_tests), the ticket reply (ticket_mail), the trial's mail (lifecycle_mail, whose
+  delivery state is found in app.mail_events by its provider id) and the CRM's sends. Delivered, spam
+  and bounce (hard, soft, invalid, blocked) are **rates over the messages the provider reported on**
+  — a message with no report yet is not one that failed — on each stream's card and in the KPI row
+  alike, so a stream with sends and no event adds nothing to the KPIs' denominator. The provider's
+  last event replaces a message's state, so **delivered counts the states only a delivered message
+  reaches** — delivered, then a complaint (`spam`) or a provider-side unsubscribe — and a message
+  still `deferred` is in flight: not reported, as one with no event is not (review of 883bcd4). An
+  `error` is a reported failure (review of
+  0ee8677: the first version summed every stream's sent, and 990 unreported marketing mails beside
+  10 delivered transactional ones read «Delivered 1,0 %»). The KPI's sub-line says «reported on n
+  of m sent»; each card's figures carry the same in a tooltip. The invitation tests (send_tests)
+  keep no provider id, so nothing can ever report on them: they are in the stream's volume, never
+  in a rate, and the card's tooltip counts them apart («n invitation tests keep no provider id»). A
+  stream with sends and no event says «No delivery event recorded» instead of «0 %». SMS is not
+  mail and is not counted, and neither an SMS report nor an event matched to no mail is the
+  transactional stream's «last received» delivery event: that is the newest event matched to an
+  e-mail notice (or one person's message of one), a ticket reply or trial mail. Only counts leave
+  the function; no address, no reason text.
+- **A personal notice's count is withheld below k.** An invitation, a link and a reminder each
+  count people, and a reminder is queued only for those who have not answered (0020, 0042), so
+  its 7-day count is a count of non-responders. `app.mail_template_count` withholds the counts of
+  notice.invitasjon, notice.paminnelse, notice.siste_paminnelse and notice.lenke from 1 to k − 1
+  (app.k_min(), 5); the registry prints «< 5» with the reason. G1 bands these figures for the same
+  roles (plan § 3). **A withheld notice's messages are left out of every aggregate too** — the
+  stream's volume, reported, delivered, spam and bounce counts, and so the KPI row — because a
+  total that held them gave the withheld count back as the total less the rows shown (review of
+  883bcd4: two last reminders came out exactly). The read counts every figure over the messages of
+  no withheld template, returns `withheld` on the stream, and the page says in the stream's
+  tooltip and the Delivered KPI's that notices sent fewer than k times are left out — never how
+  many. On every stream the total is now exactly the sum of the rows shown (suite row 13).
+- **The authentication check** behind «Run authentication check»: the server looks each stream's
+  domain up in public DNS with the campaign editor's own check (lib/admin/mailDomain.ts
+  `domainChecks`, now with `{ fresh: true }` so a run asks DNS again rather than read the ten-minute
+  cache). **The run is claimed before any lookup goes out**: `public.admin_deliverability_claim`
+  refuses a second run within the minute, for everyone (an advisory lock serialises two presses),
+  and a claimed run counts whether or not it is recorded — so neither concurrent presses nor a run
+  whose record is refused send DNS another set of lookups (app.mail_auth_runs). The action then
+  looks up and records through `public.admin_deliverability_check(p_run, p_results)`, which takes
+  only the run the same admin claimed in the last two minutes and has not recorded, checks each
+  result is for its stream's own domain and a known level, marks the run recorded, and audits
+  `deliverability.auth_check` with the run and each stream's levels. **Both are for the roles that
+  write in the CRM** (super_admin and marketing, as app.crm_can_write), with the second factor.
+  The claim is audited when it is made (`deliverability.auth_claim`, the run's id), so a claim whose
+  record never comes — or is refused — still leaves a trail after its admin_id is cleared with the
+  account;
+  the analyst, read-only everywhere in the CRM, reads the page and is not offered the button.
+  **The recorded levels are trusted server input, not proof.** The database cannot repeat a DNS
+  lookup, so a super_admin or marketing session that calls the RPC directly through PostgREST
+  could record levels of its own; the run and the audit row name who did. Recording through a
+  server-only credential would close it, but the Next app deliberately holds no service-role key
+  (the key stays in the edge functions), and a DNS lookup in an edge function is a deployment this
+  phase does not make: that is Tor's call. Until then the tooltip's «as public DNS answered» is
+  what the server's lookup found, as recorded by a write role and audited. A failed lookup is `unknown` («lookup
+  failed»), never a failure the domain does not have. Until a check has run the lines read «not
+  checked yet». Run against public DNS on 30 Sep 2026: DKIM passes on both domains; SPF is a warning
+  on both (no SPF record naming Brevo on orgpuls.com or nyheter.orgpuls.com); DMARC is a warning, p=none
+  (monitoring only) — the design's «p=quarantine · aligned» is not today's truth, and the page says so.
+- **The template registry** (`app.mail_templates`): 37 rows — the nine notice kinds, the invitation
+  test, the ticket reply, the nine trial and cancellation steps, Auth's four mails, the double opt-in,
+  the campaign test, a blank campaign and each of the ten CRM templates (inserted from
+  app.crm_templates) — each classified service or marketing, bound to one stream (a CHECK keeps
+  marketing off the product's stream), with its locales and version and a 7-day count. Auth's mails
+  are sent by their hook and recorded nowhere, so their count is «—» with that reason, not 0.
+- **The provider card** says what is known: Brevo (FR) · EU-hosted; DPA «Not recorded in Sentral»;
+  stream separation «A domain each · IPs not confirmed»; delivery events by the Brevo webhook into
+  orgpuls-mail-events; the report's alternative, Mailjet (EU) — decision 9.
+- **Hygiene** lines, each checked against the code: the campaign daily cap as crm_settings holds it
+  (0111) or that none is set; suppression of a marketing address at once on a hard bounce, an invalid
+  or blocked address or a complaint (record_crm_event), a survey address that bounces flagged to its
+  organisation (record_mail_event → address_problems); no mail to a contact silent for 12 months
+  (crm_mailable); no opens or clicks kept for product mail and A/B decided on clicks by default —
+  0059 sets `ab_metric` to click, and the campaign editor lets an admin choose opens (0053, 0059); no
+  marketing on the product's domain (the dispatcher refuses a marketing sender on it).
+- Two reads, `public.admin_growth_magnets()` and `public.admin_growth_deliverability()` (super_admin,
+  analyst and marketing with the second factor — the growth section of lib/admin/access.ts, checked
+  in the database, not by where the menu puts the page), audited `growth.magnets_view` and
+  `growth.deliverability_view`; the claim and the write above. Rows are parsed with Zod
+  (lib/admin/magnets.ts, lib/admin/deliverability.ts), never cast. The seven new tables have RLS,
+  no policy and no grant. The cards are G0's `SectionCard` where the design's card is that shape
+  (provider, hygiene, consent flow, Krav-sjekk), the hygiene lines G0's `BulletRow`, and the dots
+  G0's `dotTone('kit' | 'stream', …)`; the gating rule's card keeps its ink border, and the stream
+  cards and the two scrolling tables their own head, which SectionCard does not have.
+- **Tests**: supabase/tests/growth_g4_invariants.sql (13 rows: the role matrix with and without the
+  second factor and for a product user, the analyst reading but refused the claim and the write;
+  every read and the write audited, a refusal not; the seven in order with their true and derived
+  statuses, the descriptive names no row's and the newsletter named by its list; tools null, never
+  0, and double opt-in as confirmed of the contacts actually mailed within 90 days, a held request
+  not counted; the four rules, their references and checked dates, a content change refused and a
+  no-op update passed, the cascade; the two streams and the marketing CHECK; a registry row for
+  every outbox kind, lifecycle step, CRM send kind and CRM template; the 7-day derivations by
+  source, the SMS left out of the volume and of the last event, an unmatched event too, Auth null;
+  the claim once a minute, the record once, by its claimant, within two minutes, for its stream's
+  domain and known levels; the seven tables closed; nothing survives; a personal notice withheld
+  below k and the invitation tests counted apart; a withheld notice in no aggregate, the total
+  exactly the rows shown, a complaint delivered and a deferred mail unreported).
+  tests/unit/growth-g4.test.ts (31: the registry
+  against the dispatcher's code — every NoticeJob kind, LifecycleStep, AUTH_ACTIONS and CrmJob kind
+  has a seeded row; the marketing sender as the dispatcher uses it; the hygiene claims, A/B «by
+  default» included, against the dispatcher and migrations; rates over the reported, the review's
+  1,0 % case, double opt-in, a real 0, the design's formats, the DNS levels, the KPIs' gaps, the
+  parsers; keys that break only at a separator; the check offered to write roles and claimed
+  before its lookups; G0's card, bullet and dot maps used; no stub message left; the pages' role
+  gate before their read; no «New tool», «New template» or «Open editor»).
+- **The QA fixture** (scripts/seed/sentral-fixture.g4.mjs, registered in sentral-fixture.mjs): so
+  the gate sees the populated state, not only «—». A notice to a role (tiltak_forfalt →
+  avdelingsledere, no round, not an audience queue_measure_notices dedupes on) on the design
+  fixture's organisation, 48 messages two days ago — 46 delivered, a soft bounce, one unreported —
+  with their events in app.mail_events; the double opt-in mail of the three contacts the base
+  fixture confirmed (Silje Moen's today), delivered; Kari Nordvik on the newsletter, under the
+  double opt-in she confirmed. Deliverability then reads 97,9 % delivered over the 48 reported of
+  49 sent and a last delivery event; the magnets page 100 % double opt-in (3 of 3) and the
+  newsletter's one subscriber. (The first G4 commit added no fixture rows, so its gate only ever
+  saw the no-send state.)
+
+**Where it differs from the design or the report, and why:**
+- *Statuses and figures.* Every magnet's figure and status is Orgpuls' own: «Planned» where the design
+  has «Live · v1», «Building», «Live», «Planned · weeks 5–6», «2 of 5 live»; «—» where it has 412, 17 %,
+  9 and the rest; the KPIs «—» where it has 696, 15,4 % and 21. Deliverability's KPIs, streams and
+  sent counts are the local database's seven days, «—» where nothing is sent or reported.
+- *Industry guides stay «Planned»* although industry pages exist (/bygg-og-anlegg and
+  /helse-og-omsorg, app/(marketing)/[bransje], listed on /bransjer): those are public, ungated SEO
+  pages. The report's magnet is the gated take-away — a guide per industry as a PDF behind consent
+  and double opt-in, in five industries (barnehage, byggeplass, butikk, helse og omsorg, kontor) —
+  and no such PDF or its gate exists.
+- *The newsletter* is «Newsletter «Nyhetsbrevet»», the CRM list that exists, not the report's
+  «Monthly newsletter «Arbeidsmiljøpulsen»» (neither the name nor a monthly cadence exists); its line
+  says who it goes to. Årshjul's line names Orgpuls' own year-wheel reminders, not HeiTuva's.
+- *«Open»* shows the design's modal with three sections — what it does, how it is gated, and why its
+  status is what it is — and one «Close». The design's «Open editor» and its «Rules · review» and
+  «Events» sections are left out: no tool has an editor, no review is recorded, and the lead.tool_*
+  events do not exist (D-182). The consent-flow card keeps the report's event names: it describes the
+  planned flow, and its third step names the marketing stream's real domain (nyheter.orgpuls.com, the
+  design's `nyhet.{domain}`).
+- *No «New tool» and no «New template».* A tool is a public page with no design here, and templates are
+  the dispatcher's code and the CRM's templates; a form that created a row would create nothing that
+  sends. *No rule editing*: the rules are read-only; a change is a new version by migration, which the
+  append-only table and the rule-set version already carry. An audited admin edit waits for the public
+  Krav-sjekk that would read it.
+- *The public Krav-sjekk (and risiko-sjekk) is not built*: it has no design in this bundle (plan § 7).
+  The rules are data it can read when it is designed. The BHT rule stores the reference, not the
+  industry list itself: the list (NACE codes in § 13-1) arrives with the tool that reads it, so no
+  column is kept for no one.
+- *The BHT reference* is forskrift 2011-12-06-1355 § 13-1, not the design's «forskrift 2009-02-11-162»:
+  the industry list is in the 2011 regulation on organisation, management and participation today.
+- *«Sist kontrollert» is 30 Sep 2026 on every rule, not the design's 22 Sep*: the thresholds were read
+  against Lovdata when this migration was written (§ 6-1: fewer than 5 employees may agree otherwise in
+  writing; § 7-1: AMU from 30, on demand from 10 to 30). That reading was the agent's, not a lawyer's:
+  Tor should confirm each rule and, where he disagrees, a new version records it.
+- *Five check lines per stream, not the design's*: SPF, DKIM, DMARC as DNS last answered (the design's
+  «DKIM 2048 · rotated Jun 2026» — key length and rotation are not visible in a CNAME to Brevo's key,
+  so «DKIM»); one-click unsubscribe as the dispatcher does it; and **Delivery events** (when the
+  provider last reported) in place of «Postmaster reputation · High» and «Yahoo feedback loop ·
+  connected», which nothing in Orgpuls reads.
+- *The streams' domains are orgpuls.com and nyheter.orgpuls.com*, not two subdomains (`varsel.` /
+  `nyhet.`): the product sends from the apex (D-65), and the sub-line keeps G0's wording without «two
+  subdomains» (plan § 7).
+- *The transactional stream's line* lists what it carries in Orgpuls («Invitations and reminders,
+  notices, results, trial mail, support replies, sign-in»), cut to one line at 1440; the KPI subs are
+  «marketing: suppressed at once» (a survey address is flagged, not suppressed — the tooltip says so),
+  where the design says «suppressed immediately (R9)» and «suppressed globally + logged».
+- *37 registry rows, not ten*, keyed by the dispatcher's names (notice.invitasjon, trial.welcome,
+  crm.lovkrav …), with locales as Orgpuls writes them (no · en · pl · uk · lt · sv · da for a personal
+  notice, D-133), which wrap in the 90 px column. Every version is v1: the registry starts here. A
+  key breaks only after a «.», «_» or «-» (a `<wbr>` after each), so at 390 px «notice.|siste_|
+  paminnelse» wraps at its parts, never inside a word as «notice.invitasjo|n» did.
+- *The provider card* shows «Not recorded in Sentral» for the DPA and «IPs not confirmed», and no
+  sub-processor review: Sentral holds no record of either, and a date would be invented.
+- *Hygiene* describes the dispatcher: the design's «re-permission after 180 days» is not built (R8);
+  what is built is the 12-month stop.
+- *The phone layout* stacks the design's two-column grids below `lg`, as the Event catalogue does; the
+  magnet and template tables scroll inside their cards at the design's 920 and 640 px minimum.
+
+**The gate.** sentral-run with the Sentral fixture seeded, against a build in its own dist dir on
+:3710. Tools & lead magnets: 71 of 154 tiles match the render (G0 claimed 28); the four G0 claims the
+page lost are data — 300:300 (the completions KPI's reason in its sub-line), 400:800, 500:800,
+800:800 (the status column: «Planned» where the design has «Live · v1», «Building», «Planned · weeks
+5–6», and the newsletter's row, whose name fits one line here). Deliverability: 56 of 196 (G0: 33); lost
+300:300 (the KPI subs), 400:1100, 400:1200 (the marketing stream's figures), 500:500, 500:1200 (DNS
+lines: «warning · checked 30 Sep» for «pass»), 700:500, 700:1200 (the fifth check line, Delivery
+events). Each lost tile was read against the render; the claims were re-recorded with `--write` for
+the two views only, and both runs then pass with no console error. The new claims are the head, the
+KPI labels, the table heads, the magnets' names and chips, the gating, consent-flow and Krav-sjekk
+cards' fixed text, the stream cards' labels and the canvas; at 390 neither page scrolls sideways, the
+sub-bar shows the page, and the menu sheet keeps focus. By keyboard: «Open» shows the admin's 3 px
+focus ring, Enter opens the dialog, Escape closes it and gives focus back; «Run authentication check»
+records a check (both streams, as above) and a second press within the minute says «A check ran less
+than a minute ago».
+
+*Found on the way, not G4's:* web_invariants row 3 fails on the local database because 0143 (G3) adds
+`web_events.ref_code`; crm_inbox_invariants row 3 fails while the Sentral fixture's rows are present
+(D-182) and passes once its own delete statements have run. The worktrees of this run share one
+scratchpad directory, so a baseline file written there can be overwritten by another phase.
+
+**Review of 0ee8677 (fix 1).** Every finding above is folded into this entry: the KPI rates over the
+reported, the check's claim and its write roles, the withheld personal notices, the content-comparing
+guard, the header's test names, «by default», the stream's own last event, double opt-in from the
+sends, G0's shared shapes, the names as messages, the QA fixture, the keys' break points and a real
+0. Not done here: the renders' subpixel text antialiasing, which keeps text-dense tiles unclaimable,
+is sentral-run's and the baselines' (G0), not this phase's. The gate after the fix, with the fixture
+seeded: Tools & lead magnets 71 of 154 tiles, all 71 claims kept; Deliverability 59 of 196, all 56
+claims kept (the three more are the rate state's), no console error; at 390 neither page scrolls
+sideways and the keys break at their separators. The claims were not re-recorded: they hold with and
+without the fixture's rows. The shared local database is reseeded by the other phases' runs (the
+base fixture deletes and writes its contacts again, which nulls the G4 sends' contact), so the gate
+reseeds before it shoots.
+
+**Review of 883bcd4 (fix 2).**
+- *Major — the withheld count came back by subtraction.* Fixed as above: every aggregate is counted
+  without the withheld notices' messages, so the stream's volume less the visible rows is 0 on every
+  stream; row 13 sends two last reminders below k and proves the transactional figures do not move,
+  read as the analyst. This also settles the minor that restated it: the earlier «accepted» wording is
+  gone.
+- *The claim is audited* (`deliverability.auth_claim`, target mail_auth_runs and the run's id; row 2).
+- *The recorded levels stay trusted input, accepted as documented above*: the Next app holds no
+  service-role key, and a DNS lookup in an edge function is a deployment for Tor to decide. The
+  migration's header now says plainly that a write role can record levels DNS did not give, and the
+  audit names who.
+- *Delivered and reported* as above; the rates' tooltip wording is unchanged because its «reported
+  on» now means what it says.
+- *The AMU rule's two figures*: a CHECK (`growth_krav_amu`) requires the on-demand figure, and the
+  page words a rule through `ruleValue`, which gives the design's «—» for a missing figure (never «0»)
+  and «From 30 · checked …» should a later AMU version carry no on-demand figure.
+- *The gating rule says «Test E4 will check»*, not «checks»: no experiment runs — E4 is a queued row
+  on G2's registry, and no tool is live to gate. Orgpuls' own wording, as the statuses are.
+- *D-185 named crm_subscribe*; the function that stamps optin_sent_at is crm_newsletter_signup.
+- The visual findings need no change (data, true statuses and documented omissions); the shell's
+  top bar is G0's.
+- The gate after fix 2, with the Sentral fixture seeded, on a QA build served on :3722: Tools & lead
+  magnets 71 of 154 tiles, all 71 claims kept; Deliverability 59 of 196, all 56 claims kept; no
+  console error; at 390 neither page scrolls sideways, the sub-bar shows the page and the menu sheet
+  keeps focus. The claims were not re-recorded. The fixture holds no personal notice, so its figures
+  are unchanged by the aggregate fix.
