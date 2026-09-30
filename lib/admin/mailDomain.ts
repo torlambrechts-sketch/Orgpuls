@@ -31,10 +31,11 @@ const cname = (name: string) =>
 /** example.co.uk is not handled; the product's domains are two-label */
 const orgDomain = (d: string) => d.split('.').slice(-2).join('.')
 
-export async function domainChecks(domain: string | null): Promise<Check[]> {
+export async function domainChecks(domain: string | null, opts: { fresh?: boolean } = {}): Promise<Check[]> {
   if (!domain) return [{ id: 'domain_unknown', level: 'warn' }]
   const hit = cache.get(domain)
-  if (hit && Date.now() - hit.at < TTL) return hit.checks
+  // «Run authentication check» (Deliverability, D-185) asks DNS again rather than read the cache
+  if (hit && !opts.fresh && Date.now() - hit.at < TTL) return hit.checks
   const [b1, b2, legacy, own, parent, spf] = await Promise.all([
     cname(`brevo1._domainkey.${domain}`),
     cname(`brevo2._domainkey.${domain}`),
