@@ -31,8 +31,8 @@ test.describe('respondent language @respondent @p1.2', () => {
     // only the offered languages, each by its own name: Polish is incomplete
     await expect(picker.getByRole('link')).toHaveText(['Norsk', 'English'])
     await expect(picker.getByRole('link', { name: 'Norsk' })).toHaveAttribute('aria-current', 'true')
-    // the picker costs no height: the first question's button is still on screen
-    await expect(page.getByRole('button', { name: 'Neste' })).toBeInViewport()
+    // the picker costs no height: «Før du starter»'s button is still on screen (P1-4, D-150)
+    await expect(page.getByRole('button', { name: 'Start', exact: true })).toBeInViewport()
     await shoot(page, 'r-intro-picker')
   })
 
@@ -40,9 +40,10 @@ test.describe('respondent language @respondent @p1.2', () => {
     await page.goto('/s/qa-lumio-drift-000002')
     await expect(page.locator('main')).toHaveAttribute('lang', 'en')
     await expect(page.getByRole('navigation', { name: 'Language' }).getByRole('link', { name: 'English' })).toHaveAttribute('aria-current', 'true')
+    await page.getByRole('button', { name: 'Start', exact: true }).click()
     // the scale labels are translated with the statement
-    await expect(page.getByRole('button', { name: 'Strongly agree' })).toBeVisible()
-    await page.getByRole('button', { name: 'Slightly agree' }).click()
+    await expect(page.getByRole('button', { name: 'Strongly agree' }).first()).toBeVisible()
+    await page.getByRole('button', { name: 'Slightly agree' }).first().click()
     await shoot(page, 'r-question-en')
   })
 
@@ -50,8 +51,10 @@ test.describe('respondent language @respondent @p1.2', () => {
     test.skip(test.info().project.name !== 'mobile', 'mobile only (§ P1 visual table)')
     await page.goto('/s/qa-lumio-drift-000001')
     const progress = page.getByText(/^\d+ \/ \d+$/)
+    await page.getByRole('button', { name: 'Start', exact: true }).click()
+    // a page per factor (P1-4): answer each of its statements, then go on
     for (let i = 0; i < 4; i++) {
-      await page.getByRole('button', { name: 'Litt enig' }).click()
+      for (const b of await page.getByRole('button', { name: 'Litt enig' }).all()) await b.click()
       await page.getByRole('button', { name: 'Neste' }).click()
     }
     await expect(progress).toHaveText(/^5 \//)

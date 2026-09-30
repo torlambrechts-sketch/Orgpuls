@@ -11,10 +11,11 @@ import { authFile, expect, test } from './fixtures'
 test.describe('respondent @respondent @p0.2', () => {
   test('r-intro, r-question, r-submit', async ({ page }) => {
     await page.goto('/s/qa-lumio-drift-000001')
-    // today the flow has no intro of its own: the first screen is statement 1 (P0 report)
-    await expect(page.getByRole('button', { name: 'Neste' })).toBeVisible()
+    // the flow opens on «Før du starter» (P1-4, D-150), then asks a factor's statements a page at a time
+    await expect(page.getByRole('button', { name: 'Start', exact: true })).toBeVisible()
     await shoot(page, 'r-intro')
-    await page.getByRole('button', { name: 'Litt enig' }).click()
+    await page.getByRole('button', { name: 'Start', exact: true }).click()
+    await page.getByRole('button', { name: 'Litt enig' }).first().click()
     await shoot(page, 'r-question')
     const skip = page.getByRole('button', { name: 'Hopp over' })
     while (!(await page.getByRole('button', { name: 'Send inn' }).isVisible())) await skip.click()
