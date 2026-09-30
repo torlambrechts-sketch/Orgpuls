@@ -183,3 +183,44 @@ export function chunks<T>(xs: T[], size: number): T[][] {
   for (let i = 0; i < xs.length; i += size) out.push(xs.slice(i, i + size))
   return out
 }
+
+// ---------------------------------------------------------------- the database's replies, parsed rather than cast
+// (CLAUDE.md § 6): the poll id and the feeds' places drive the run, so each is checked before use.
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
+const cursorOf = (x: unknown): number | null | undefined =>
+  x === null || x === undefined ? null : Number.isSafeInteger(x) && (x as number) >= 0 ? (x as number) : undefined
+
+export type PollBegin = { poll: number; feedCursor: number | null; rolesCursor: number | null }
+/** brreg_poll_begin's reply: a positive poll id and two feed places (whole numbers, or none yet), or why not */
+export function parseBegin(json: unknown): PollBegin | { error: string } {
+  const o = obj(json)
+  if (o.ok !== true) return { error: typeof o.error === 'string' && /^[a-z_]{1,40}$/.test(o.error) ? o.error : 'begin_failed' }
+  const feedCursor = cursorOf(o.feed_cursor)
+  const rolesCursor = cursorOf(o.roles_cursor)
+  if (!Number.isSafeInteger(o.poll_id) || (o.poll_id as number) <= 0 || feedCursor === undefined || rolesCursor === undefined) return { error: 'begin_invalid' }
+  return { poll: o.poll_id as number, feedCursor, rolesCursor }
+}
+
+/** A count in a reply (`seen`, `raised`, `named`): a whole number, else 0 */
+export function replyCount(json: unknown, key: string): number {
+  const n = obj(json)[key]
+  return Number.isSafeInteger(n) && (n as number) >= 0 ? (n as number) : 0
+}
+
+/** brreg_role_candidates' organisation numbers, nine digits each */
+export function parseOrgList(json: unknown): string[] {
+  const list = obj(json).orgs
+  return Array.isArray(list) ? list.filter((o): o is string => typeof o === 'string' && ORG.test(o)) : []
+}
+
+/** brreg_outreach_names_needed's rows: an outreach id and its organisation number */
+export function parseNameNeeds(json: unknown): { id: string; org_number: string }[] {
+  const list = obj(json).rows
+  if (!Array.isArray(list)) return []
+  const out: { id: string; org_number: string }[] = []
+  for (const raw of list) {
+    const r = obj(raw)
+    if (typeof r.id === 'string' && UUID.test(r.id) && typeof r.org_number === 'string' && ORG.test(r.org_number)) out.push({ id: r.id, org_number: r.org_number })
+  }
+  return out
+}

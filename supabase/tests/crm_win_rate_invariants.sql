@@ -207,7 +207,8 @@ begin
     v_json := public.admin_crm_task_list('all');
     v_txt := (select concat_ws(':', r->>'step_kind', r->>'journey', (r->>'campaign_id' = v_step::text)::text)
               from jsonb_array_elements(v_json->'rows') r where r->>'id' = (select id::text from app.crm_activities where campaign_id = v_step and contact_id = v_ka))
-      || ',' || ((v_json->'counts'->>'journeys')::int >= 2)::text
+      -- the head's count of what journeys, rules and triggers made (0143: «automated», which replaced «journeys»)
+      || ',' || ((v_json->'counts'->>'automated')::int >= 2)::text
       || ',' || (select concat_ws(':', s->>'step_kind', s->'tasks'->>'made', s->'tasks'->>'done', s->'tasks'->>'open')
                  from jsonb_array_elements(public.admin_crm_sequence(v_next)->'steps') s where s->>'step' = '2')
       || ',' || (select concat_ws(':', j->>'mails', j->>'tasks') from jsonb_array_elements(public.admin_crm_journeys()->'rows') j where j->>'id' = v_camp::text)

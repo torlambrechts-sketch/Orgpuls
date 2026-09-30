@@ -9750,6 +9750,7 @@
         "tasks": "{count, plural, one {# task step} other {# task steps}}",
         "principles": {
           "title": "Design principles",
+          "sub": "What journeys are built toward. Not built yet: a journey started by a product event (today's follow-up chains run on time), and the 10 % holdout.",
           "p1": "<b>Trigger on product events, not time alone.</b> <mut>Every message has an entry event, an exit goal, a suppression rule and one primary CTA.</mut>",
           "p2": "<b>Channel order: in-app, then email, then a human task.</b> <mut>SMS later — it needs its own consent.</mut>",
           "p3": "<b>10 % global holdout on marketing journeys.</b> <mut>Never on service messages. Primary KPI: trial → paid at day 30.</mut>",
@@ -9831,8 +9832,7 @@
           "call": "Call",
           "email": "Email",
           "letter": "Task"
-        },
-        "manager": "{name} · {company}"
+        }
       },
       "scoring": {
         "title": "Lead scoring",
@@ -9871,7 +9871,7 @@
         "intentSub": "First-party events, only after consent or signup — the site is cookieless",
         "intentCap": "At most {n} today: {count} of the {total} have no source yet",
         "part": {
-          "industry": "Target industry code (41–43, 46–47, 58–74, 85, 86–88)",
+          "industry": "Target industry code ({codes})",
           "size": "5–100 employees",
           "crossed": "Crossed 5 or 30 employees in the last 90 days",
           "manager": "New general manager in the last 180 days",
@@ -11807,7 +11807,8 @@
             "title": "Outreach queue",
             "sub": "Fit score ≥ {min} · a phone call, a letter to the registered business address, or an email to a generic address only",
             "table": "Outreach, newest first",
-            "empty": "Nothing queued yet: the poll has raised no trigger with fit {min} or more.",
+            "empty": "Nothing queued yet",
+            "emptyText": "The poll has raised no trigger with fit {min} or more.",
             "head": {
               "company": "Company",
               "trigger": "Trigger",
@@ -11842,12 +11843,14 @@
               "company_new": "New company in a target industry at 5+ employees",
               "manager_changed": "New general manager registered"
             },
-            "empty": "No poll has finished yet, so no trigger has been raised."
+            "empty": "No poll yet",
+            "emptyText": "No poll has finished yet, so no trigger has been raised."
           },
           "results": {
             "title": "Results · pilot to date",
             "sub": "Trials per 100 contacts by channel · 10 % holdout for comparison (E8)",
-            "empty": "No outreach has been made yet, so there is nothing to compare.",
+            "empty": "No outreach yet",
+            "emptyText": "No outreach has been made yet, so there is nothing to compare.",
             "line": "{contacts} contacts · {trials} trials",
             "lineHoldout": "{contacts} held out · {trials} trials",
             "per100": "{n} / 100",
@@ -11863,7 +11866,7 @@
             "named": "No email to named addresses without consent — never guess fornavn@firma.no",
             "phone": "Phone: Art. 14 notice and right to object at first contact; internal do-not-contact list ({n})",
             "purged": "Entities removed for legal reasons (HTTP 410) are purged — {n} so far",
-            "roles": "Role data (name, birth date) is used for phone and letter only — a GDPR question, decision 2"
+            "roles": "Role data (the general manager's name, never a birth date) is used for phone and letter only — a GDPR question, decision 2"
           },
           "edit": {
             "title": "Edit triggers",
@@ -11905,7 +11908,8 @@
             "share": "Revenue share",
             "status": "Status"
           },
-          "empty": "No partners yet.",
+          "empty": "No partners yet",
+          "emptyText": "A partner added here gets a referral code; trials that carry it count for them.",
           "sub": "{kind} · {contact}",
           "kind": {
             "accounting": "Accounting",

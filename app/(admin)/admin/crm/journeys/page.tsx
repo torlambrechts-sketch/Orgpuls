@@ -106,6 +106,8 @@ export default async function CrmJourneys() {
           {/* revision 3 (D-184): the design's principles, under a hairline at the card's foot */}
           <div className="mt-[18px] border-t border-line pt-[16px]">
             <div className="text-[11px] uppercase tracking-[0.09em] text-mut">{j('principles.title')}</div>
+            {/* principles, not a description: what of them is not built yet is said, so none reads as current behaviour */}
+            <div className="mt-[4px] text-[12px] leading-[1.5] text-mut [text-wrap:pretty]">{j('principles.sub')}</div>
             <div className="mt-[10px] flex flex-col gap-[10px]">
               {(['p1', 'p2', 'p3', 'p4'] as const).map((key) => (
                 <div key={key} className="text-[13px] leading-[1.5] [text-wrap:pretty]">

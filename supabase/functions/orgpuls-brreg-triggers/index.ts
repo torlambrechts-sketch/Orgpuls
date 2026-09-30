@@ -18,7 +18,22 @@
  * Enhetsregisteret is open data (NLOD 2.0) and needs no key. Log lines carry counts and codes only.
  */
 import { createClient } from 'npm:@supabase/supabase-js@2'
-import { changedCount, chunks, foldFeed, managerChangedOn, managerName, parseEntities, parseFeed, parseRoleFeed, toRow, type Change } from '../_shared/brreg.ts'
+import {
+  changedCount,
+  chunks,
+  foldFeed,
+  managerChangedOn,
+  managerName,
+  parseBegin,
+  parseEntities,
+  parseFeed,
+  parseNameNeeds,
+  parseOrgList,
+  parseRoleFeed,
+  replyCount,
+  toRow,
+  type Change,
+} from '../_shared/brreg.ts'
 
 const API = 'https://data.brreg.no/enhetsregisteret/api'
 const FEED_SIZE = 1000 // the feed allows size × (page + 1) ≤ 10 000; the id moves forward instead of the page
@@ -46,12 +61,13 @@ Deno.serve(async (req) => {
 
   const svc = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, { auth: { persistSession: false } })
   const begin = await svc.rpc('brreg_poll_begin', { p_poll: pollId })
-  const b = begin.data as { ok?: boolean; error?: string; poll_id?: number; feed_cursor?: number | null; roles_cursor?: number | null } | null
-  if (begin.error || !b?.ok || !b.poll_id) return json({ error: b?.error ?? 'begin_failed' }, 409)
-  const poll = b.poll_id
+  // parsed, not cast: the poll id and the feeds' places drive everything below
+  const b = begin.error ? { error: 'begin_failed' } : parseBegin(begin.data)
+  if ('error' in b) return json({ error: b.error }, 409)
+  const poll = b.poll
 
-  let feedCursor: number | null = b.feed_cursor ?? null
-  let rolesCursor: number | null = b.roles_cursor ?? null
+  let feedCursor: number | null = b.feedCursor
+  let rolesCursor: number | null = b.rolesCursor
   let error: string | null = null
   const changed = new Map<string, Change>()
   const counts = { changes: 0, ingested: 0, raised: 0, purged: 0, roles: 0, named: 0 }
@@ -103,9 +119,8 @@ Deno.serve(async (req) => {
           error = 'ingest_failed'
           break
         }
-        const r = data as { seen?: number; raised?: number } | null
-        counts.ingested += r?.seen ?? 0
-        counts.raised += r?.raised ?? 0
+        counts.ingested += replyCount(data, 'seen')
+        counts.raised += replyCount(data, 'raised')
       }
     }
 
@@ -141,7 +156,7 @@ Deno.serve(async (req) => {
         rurl = `${API}/oppdateringer/roller?afterId=${rolesCursor}&size=${FEED_SIZE}`
       }
       const cand = await svc.rpc('brreg_role_candidates', { p_orgs: [...orgs] })
-      const follow = ((cand.data as { orgs?: string[] } | null)?.orgs ?? []).slice(0, MAX_ROLE_LOOKUPS)
+      const follow = parseOrgList(cand.data).slice(0, MAX_ROLE_LOOKUPS)
       const rows: { org_number: string; manager_changed_on: string }[] = []
       for (const o of follow) {
         const res = await get(`${API}/enheter/${o}/roller`)
@@ -154,7 +169,7 @@ Deno.serve(async (req) => {
       }
       if (rows.length) {
         const { data } = await svc.rpc('brreg_roles_ingest', { p_poll: poll, p_rows: rows })
-        counts.roles = (data as { raised?: number } | null)?.raised ?? 0
+        counts.roles = replyCount(data, 'raised')
         counts.raised += counts.roles
       }
     }
@@ -162,7 +177,7 @@ Deno.serve(async (req) => {
     // ---------------------------------------------------------------- 5. names, for a call or a letter only
     if (!error) {
       const need = await svc.rpc('brreg_outreach_names_needed')
-      const list = (need.data as { rows?: { id: string; org_number: string }[] } | null)?.rows ?? []
+      const list = parseNameNeeds(need.data)
       const named: { id: string; name: string }[] = []
       for (const r of list) {
         const res = await get(`${API}/enheter/${r.org_number}/roller`)
@@ -175,7 +190,7 @@ Deno.serve(async (req) => {
       }
       if (named.length) {
         const { data } = await svc.rpc('brreg_outreach_names', { p_rows: named })
-        counts.named = (data as { named?: number } | null)?.named ?? 0
+        counts.named = replyCount(data, 'named')
       }
     }
   } catch {
@@ -187,8 +202,8 @@ Deno.serve(async (req) => {
     p_changes: counts.changes,
     // a failed poll keeps the feeds where they were, so the next one reads the same changes again
     // (ingesting is idempotent: a trigger is raised once per organisation and kind in 180 days)
-    p_feed_cursor: error ? (b.feed_cursor ?? null) : feedCursor,
-    p_roles_cursor: error ? (b.roles_cursor ?? null) : rolesCursor,
+    p_feed_cursor: error ? b.feedCursor : feedCursor,
+    p_roles_cursor: error ? b.rolesCursor : rolesCursor,
     p_error: error,
   })
   console.log(JSON.stringify({ poll, ...counts, error }))

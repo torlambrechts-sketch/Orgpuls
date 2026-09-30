@@ -512,7 +512,7 @@ export const crmTaskList = (view: (typeof TASK_VIEWS)[number]) =>
     'admin_crm_task_list',
     { p_view: view },
     z.object({
-      counts: z.object({ open: num, done: num, all: num, journeys: num.default(0), automated: num.default(0), sla_open: num.default(0) }),
+      counts: z.object({ open: num, done: num, all: num, automated: num.default(0), sla_open: num.default(0) }),
       rows: z.array(TaskRow),
     }),
   )

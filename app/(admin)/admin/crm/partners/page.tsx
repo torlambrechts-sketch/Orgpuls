@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server'
-import { KpiStrip, StatusChip } from '@/components/admin/growth'
+import { CardEmpty, KpiStrip, StatusChip } from '@/components/admin/growth'
 import { PartnerDialog } from '@/components/admin/GrowthCrmForms'
 import { BTN, PageHead, Problem, Stat } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
@@ -16,12 +16,13 @@ const OPEN =
   'inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-bar border border-line bg-transparent px-[10px] py-[6px] text-[12px] font-semibold leading-[normal] text-ink no-underline hover:bg-ink/5 hover:text-ink hover:no-underline'
 
 /**
- * The partner kit (D-184). Its two parts the product holds are derived by the database
- * (admin_crm_partners' `kit`): the referral code on the organisation at signup is live while the path
- * carries it (web_events.ref_code, org_attribution.partner_id, the signup's source), the internal
- * dashboard v0 (this page's trials per code) while the organisation holds the partner. The rest is
- * not in the product: /partner/[code] has no design (plan § 7), and the documents and the export are
- * not built, so they read Planned. That part is a known interim until the kit is a registry row (G2).
+ * The partner kit (D-184). The one part the product holds, the referral code on the organisation at
+ * signup, is read from the database (admin_crm_partners' `kit.code`): a presence check — Live while
+ * its path exists (web_events.ref_code, org_attribution.partner_id, the signup's source), not a
+ * measure of use. The rest is not in the product and reads Planned: /partner/[code] has no design
+ * (plan § 7), the documents and the white-label export are not built, and there is no partner
+ * dashboard — no partner can see their referrals (the design's «Building»). That list is a known
+ * interim until the kit is a registry row (G2).
  */
 const KIT = ['page', 'code', 'checklist', 'newsletter', 'webinar', 'dashboard', 'whitelabel'] as const
 
@@ -52,7 +53,7 @@ export default async function Page() {
       : r.share_kind === 'member_discount' || r.share_pct !== null
         ? p(`share.${r.share_kind}`, { pct: r.share_pct ?? '' })
         : p(`shareOption.${r.share_kind}`)
-  const kitState = (item: (typeof KIT)[number]) => (item === 'code' || item === 'dashboard') && res.kit[item] ? 'live' : 'planned'
+  const kitState = (item: (typeof KIT)[number]) => (item === 'code' && res.kit.code ? 'live' : 'planned')
   const common = {
     cancel: t('growth.g3.cancel'),
     close: t('growth.g3.close'),
@@ -138,7 +139,11 @@ export default async function Page() {
                 </span>
               </div>
             ))}
-            {rows.length ? null : <p className="m-0 px-[20px] py-[18px] text-[13px] text-mut">{p('empty')}</p>}
+            {rows.length ? null : (
+              <div className="px-[20px] pb-[20px]">
+                <CardEmpty title={p('empty')} text={p('emptyText')} />
+              </div>
+            )}
           </div>
         </section>
 

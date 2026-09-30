@@ -8662,8 +8662,9 @@ Partners (CRM), and changes Lead scoring, Tasks and Journeys as design revision 
   withdrawal, puts the number on the do-not-contact list and, in the same transaction, stops every
   outreach not yet made for it — queued, or already assigned to a person, whose open task is closed as
   skipped (the task list reads «Stopped … the company objected»; the log names how many stopped).
-  Assigning refuses an organisation on the list, and a task reopened after an objection does not
-  assign it again.
+  Assigning refuses an organisation on the list, and a task an objection closed cannot be reopened:
+  `admin_crm_task_done` answers `stopped`, and a trigger on `crm_activities` (`brreg_task_stopped`)
+  refuses the reopening for any other writer.
 - **The ledger holds companies** (0143): `consent_records.company_id` (cascade), `contact_id`
   nullable, exactly one of them; a company's record can only be a phone notice. The guard compares the
   company too and lets a record go only with its contact or company (CLAUDE.md's rule). A phone
@@ -8684,18 +8685,29 @@ Partners (CRM), and changes Lead scoring, Tasks and Journeys as design revision 
   suppression list** (`app.crm_suppressed`: unsubscribed, bounced, complained, erased), else a phone
   call when it gives a number, else a letter to the business address. The suppression is checked
   again when the work is given to a person (`brreg_assign`): an address suppressed while its outreach
-  waited in dry run becomes a call or a letter, never an email. **The rules are one function**,
+  waited in dry run becomes a call or a letter, never an email. An address suppressed **after** the
+  work was given to a person — an unsubscribe, a bounce, a complaint or an erasure, by whatever path it
+  reaches `crm_suppression` — does the same at once: a trigger on the list (`brreg_suppression_reroute`)
+  makes the queued or assigned email outreach a call or a letter and rewrites its open task, and the
+  task list reads the list again before it names an email target, so a suppressed address is never
+  shown as one and a task marked done is a call or a letter made. **The rules are one function**,
   `app.brreg_rules()` (the law's 5 and 30, the target NACE divisions as ranges, the fit minimum 30):
   the ingest, `fit_target_nace`, the role candidates and the raise read it, and «Edit triggers» shows
-  it (`admin_brreg_triggers.rules`), so the dialog cannot say one thing while the engine does another. The **generic-address rule** is `app.brreg_generic_email` (a fixed
+  it (`admin_brreg_triggers.rules`), so the dialog cannot say one thing while the engine does another;
+  the page's «fit ≥ N» counts compare with its minimum, and Lead scoring's «Target industry code (…)»
+  is written from its ranges (`admin_lead_scores.industries`). The **generic-address rule** is `app.brreg_generic_email` (a fixed
   list of role local parts: post, postmottak, firmapost, kontakt, info …) and a CHECK on every column
   that holds an address; the edge function's `isGenericEmail` is the same list (a unit test holds them
   equal) and drops a named address before anything is sent to the database. **Holdout**:
   `app.brreg_holdout`, the first 28 bits of md5('orgpuls-holdout:' || number) mod 10 = 0 — about a
   tenth, always the same organisations. **Do-not-contact** is honoured before the holdout, and again
   when assigning. **410**: the
-  entity, its triggers and outreach, its list entry and a company the engine made (source brreg, no
-  account) with its tasks and phone notices go; `brreg_purges` keeps only a timestamp. **Dry run by
+  entity, its triggers and outreach and a company the engine made (source brreg, no account) with its
+  tasks and phone notices go; `brreg_purges` keeps only a timestamp. The do-not-contact entry
+  **stays**: it is a nine-digit organisation number (not a person) with its reason, time and who
+  recorded it, and it is what keeps an objection honoured should the number come back in the register
+  (the raise and the assignment still find it). The phone notice's ledger record goes with the company
+  it belongs to (the ledger's cascade); the objection's evidence is the list entry. **Dry run by
   default**: outreach is `queued`; «Edit triggers» shows the law's thresholds, the target industries and
   the fit minimum as the database holds them and switches the one setting (`admin_brreg_set_dry_run`,
   logged with the reason and how many were assigned; who switched it and when is the log's, not a
@@ -8715,13 +8727,19 @@ Partners (CRM), and changes Lead scoring, Tasks and Journeys as design revision 
   poll's triggers by kind (the empty treatment, and a dash in «fit score ≥ 30 on …», until a poll has
   finished — a count of a poll that does not exist is not a 0), results per channel from outreach marked done and organisations that signed
   up after it (beside the holdout), the empty treatment until any, and the guardrails with the real list
-  and purge counts.
+  and purge counts. The empty states (no poll, no outreach, nothing queued, and Partners' no partners)
+  use the design's in-card treatment (`cd.noActs`): a centred dashed box 22 px in, radius 12, a 14/600
+  line and a 12.5 px muted sentence (`CardEmpty` in components/admin/growth.tsx).
 - **Partners** (`app.partners`: org number, kind accounting|bht|hms|bransje, contact, referral code,
   revenue share as a kind and a per cent, status; `admin_crm_partners`, `admin_crm_partner_save`,
   logged). **Attribution** goes through the existing path: `?ref=CODE` on any page travels with the
   beacon's tags (lib/marketing/utm.ts `refFrom`; the org-number start forms forward it to /registrer),
   `track_web_event` keeps it upper-cased in `web_events.ref_code`, and `record_signup_source` puts the
-  partner whose code the visitor carried last that day on `org_attribution.partner_id`. No visual change
+  partner whose code the visitor carried last that day on `org_attribution.partner_id`. The code also
+  reaches Vercel Web Analytics: the site's events spread the page's tags (`currentUtm()`, now with
+  `ref`) into `track()`, and the org-number start forms carry it in /registrer's query string. A
+  partner's code is not personal data (it names a partner, never a visitor); the analytics payload
+  gained one tag. No visual change
   to /registrer. Trials in 30 and 7 days per partner are counted from that. «Add partner» and each row's
   «Open» are the same dialog (create or save), each with its own sub-line. A recurring share, a client
   discount or an affiliate share needs its per cent and a member discount has none (the table's CHECK,
@@ -8743,7 +8761,10 @@ Partners (CRM), and changes Lead scoring, Tasks and Journeys as design revision 
   1-hour SLA · N created by journeys, rules and triggers»; a due time on the SLA reads «Today · SLA 1 h»
   with the chip «38 min left» (peach under 15 or over; «SLA met»/«SLA missed» once done). A rule's or
   trigger's task is stored as a key (`auto:callback_hand_raise` …, a CHECK) and worded by the messages.
-- **Journeys**: the «Design principles» block, from the messages.
+- **Journeys**: the «Design principles» block, from the messages, with a muted line under its title
+  saying what of it is not built yet: a journey started by a product event (today's follow-up chains,
+  0093/0111, run on time) and the 10 % holdout (the only holdout in the schema is the Brønnøysund
+  engine's). Principles, not a description of current behaviour.
 - **The anonymity firewall covers these tables** (0143 § 10): `app.growth_firewall()` is 0141's, with
   rule 1's scope widened to `brreg_*` and `partners` and rule 7 listing the eight tables, so the Event
   catalogue page and CI would catch a future foreign key to a respondent or a client grant on one of
@@ -8753,23 +8774,31 @@ Partners (CRM), and changes Lead scoring, Tasks and Journeys as design revision 
   sends the registration date), `brreg_settings` no changed-by/changed-at, and G0's `print_run` outreach
   tone and the kit's unused Done/Draft/Building states are gone. The address stays: the letter task
   shows it.
-- **Tests**: supabase/tests/growth_crm_invariants.sql (26 rows: closed tables and no respondent FK, the
+- **Tests**: supabase/tests/growth_crm_invariants.sql (27 rows: closed tables and no respondent FK, the
   role matrix, a log for every write and no address in it, the hash, phone notices and their
   append-only guard, the generic rule by all four mechanisms, every derivation of the feed, fit, the
   holdout, dry run and assignment, the 410 purge, polls and the rate limit, working minutes, scoring and
   routing, the task list's SLA, partners and the referral code end to end, nothing survives; a suppressed generic address never
   emailed when raised or assigned, and a letter task naming its address; an objection after assignment;
-  the poll lock; the rules shown are the rules applied; a share's per cent and the kit derived; the
-  firewall catching a link or a grant on the new tables);
-  tests/unit/growth-crm.test.ts (the feed, entity and role parsing, the generic rule equal to the SQL
-  list, the pages' arithmetic and dates, the referral code, the fixture's G3 rows). web_invariants row 3
+  the poll lock; the rules shown are the rules applied, on both pages; a share's per cent and the kit's
+  referral code; the firewall catching a link or a grant on the new tables; an address suppressed after
+  assignment never emailed; a stopped task never reopened; the list entry surviving a 410);
+  tests/unit/growth-crm.test.ts (the feed, entity and role parsing, the database's replies to the edge
+  function parsed rather than cast — `parseBegin`, `replyCount`, `parseOrgList`, `parseNameNeeds` in
+  _shared/brreg.ts, CLAUDE.md § 6 — the generic rule equal to the SQL list, the pages' arithmetic and
+  dates, the referral code, the fixture's G3 rows). web_invariants row 3
   now lists `ref_code`, a campaign tag like utm_campaign.
 - **QA fixture**: scripts/seed/sentral-fixture.g3.mjs, registered in sentral-fixture.mjs's transaction:
   one finished poll today 05:10 with 2 742 changes, the queue's six organisations as entities raised
   through `app.brreg_raise` (so fit, channel, holdout and the list are the engine's), Tromsø Elektro on
   the list after an objection, Fjellstua Drift's phone notice, the six partners, and Tomas Rui's demo
-  request with G0's task 15 made the R10 callback on the SLA. G0's other call tasks are made tasks (kind
-  `task`, `task_kind` call): G0 wrote them as logged calls, which the Tasks page does not list.
+  request with G0's task 15 made the R10 callback on the SLA. G0's other two calls are tasks made by hand
+  (kind `task`: G0 wrote them as logged calls, which the Tasks page does not list) with **no**
+  `task_kind`: only a rule or a trigger writes one (`lead_route`, `brreg_assign`), so the design's «Call»
+  and «Task» chips on those rows are a state users cannot reach and are not drawn (their tiles stay
+  unclaimed). Two G0 titles are made neutral, «Call Silje Moen» and «Letter to Nordfjord Bygg»: «lead
+  score 75» contradicted the score Lead scoring computes (45) and «with Krav-sjekk QR code» a QR that
+  is not built.
 
 **Where it differs from the design, and why:**
 - *Consent figures*: «100 % with a consent record» is the share of all contacts with any record, so it
@@ -8793,7 +8822,9 @@ Partners (CRM), and changes Lead scoring, Tasks and Journeys as design revision 
   registered business address, or an email to a generic address only», «Letter: {trigger}» (the source
   line gives the address) and «Letter». The design's «phone task with script», «letter with QR to the
   Krav-sjekk» and «Letter with QR» are not true: no call script is kept, and the Krav-sjekk waits for its
-  own design (plan §§ 3, 7), so there is nothing for a QR code to point at. Where the render splits an
+  own design (plan §§ 3, 7), so there is nothing for a QR code to point at. The guardrail «Role data
+  (name, birth date) is used for phone and letter only» reads «Role data (the general manager's name,
+  never a birth date) …»: the product reads only the name (`managerName`). Where the render splits an
   interpolation into its own flex item (the guardrails' «list ( | 14 | )» and «purged — | 3 | so far»,
   the head's 10 px gap before «Today 05:10»), the build keeps the source's inline text. The fixture's statuses are the engine's: Fjellstua Drift falls in
   the holdout by its hash; fit is computed (30, 45, 45, 35, 40, 45 where the design says 40, 45, 45, 35,
@@ -8810,10 +8841,13 @@ Partners (CRM), and changes Lead scoring, Tasks and Journeys as design revision 
   the accounting platform «Accounting». No page path beside a code: /partner/[code] is not built (no
   design, plan § 7). Trials are 0 locally: the fixture makes no product organisations. The «Revenue share
   20 %» tile stays as the report's proposal, labelled «proposed … open decision 7». The kit's states are
-  true ones: the referral code on the company and the internal dashboard v0 (this page's trials per
-  code) are derived by `admin_crm_partners` (Live while `web_events.ref_code`, `org_attribution.partner_id`
-  and the signup's source carry the code, else Planned); the co-branded page, the checklist, the
-  newsletter text, the webinar deck and the white-label export are not in the product and read Planned.
+  true ones. The referral code on the company reads Live from `admin_crm_partners.kit.code`, which is a
+  **presence check**, not a measure of use: Live while `web_events.ref_code`,
+  `org_attribution.partner_id` and the signup's source exist, Planned if a migration takes the path
+  away. «Partner dashboard v0» reads Planned where the design says «Building»: no partner can see their
+  referrals anywhere in the product (this page's «Trials 30 d» is the admin's view, not a partner's), and
+  it is not being built in this phase. The co-branded page, the checklist, the newsletter text, the
+  webinar deck and the white-label export are not in the product and read Planned.
   That list is a known interim, in the page, until the kit becomes a registry row with G2.
 - *Lead scoring*: intent has one source today, the hand-raise (a demo request or a contact-form sales
   question from the contact's address, 90 days). Tool, PDF, pricing page, industry page twice and
@@ -8864,3 +8898,19 @@ they stay unclaimed). The Event catalogue's rule 7 line names the new tables in 
 before. crm_inbox_invariants depends on which Sentral fixture last ran on a shared database: with a
 fixture that logs Tomas Rui's call at the moment of his request (G0's, before G3 made it a task) the
 week's median answer time is 0 and row 3 fails; with this branch's fixture it passes.
+
+**Review fixes (G3, fix 2).** Folded into the entry above: an address suppressed after assignment
+(`brreg_suppression_reroute`) and a stopped task never reopened (`brreg_task_stopped`, and
+`admin_crm_task_done` answering `stopped`); the do-not-contact entry kept through a 410; «Partner
+dashboard v0» Planned, and the referral code's Live named a presence check; the fit minimum and the
+target industries read from `app.brreg_rules` on the triggers page's counts and on Lead scoring's card;
+the dead outputs dropped (`admin_consent.total`, the task list's `counts.journeys` — crm_win_rate
+row 9 now reads `counts.automated`, which counts journeys' tasks with the rest — and the unused
+`admin.crm.tasks.manager`); the fixture's manual tasks without a kind and with neutral titles; the
+edge function's replies parsed; the guardrail's birth-date copy; the analytics line; the in-card empty
+treatment; the principles' «not built yet» line. **crm_inbox_invariants row 3 no longer depends on the
+fixture**: it reads the probe's own answer time (20 minutes) and requires the week's count inside the
+target to fall by at least one from a 30- to a 5-minute target — the probe alone guarantees it, and no
+other row can make it rise — so it passes whatever the database holds. The gate at 1440: 6 of 6 CRM
+views, no console error; Tasks 23 → 22 claims: tile 500:0 held the «Call» chip of a task made by hand,
+which no longer carries a kind (above).

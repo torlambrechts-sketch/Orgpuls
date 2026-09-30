@@ -20,9 +20,10 @@
  *   - the design's six partners, with the four kinds the schema has (a course provider is an HMS
  *     partner, the accounting platform an accounting one);
  *   - Tomas Rui's demo request 48 minutes before the fixture runs, and G0's task 15 made the R10
- *     founder callback it routes to, on the one-hour SLA from that request; G0's other call tasks are
- *     tasks with the kind «call» (G0 wrote them as logged calls, which the Tasks page does not list),
- *     and its letter a task of the kind «letter».
+ *     founder callback it routes to, on the one-hour SLA from that request; G0's other two calls are
+ *     tasks made by hand (G0 wrote them as logged calls, which the Tasks page does not list), with no
+ *     kind — only a rule or a trigger writes one — and Silje Moen's and the letter's titles neutral:
+ *     G0's «lead score 75» and «Krav-sjekk QR code» contradict the engine's score and what is built.
  */
 
 /**
@@ -105,8 +106,12 @@ set kind = 'task', origin = 'rule', rule = 'R10', task_kind = 'call', body = 'au
     sla_due_at = app.add_business_hours(now() - interval '48 minutes', 1),
     due_at = (app.add_business_hours(now() - interval '48 minutes', 1) at time zone 'Europe/Oslo')::date
 where id = ${task('t15')};
--- the design's call and letter are tasks (a call logged after the fact is an activity, not a task)
-update app.crm_activities set kind = 'task', task_kind = 'call' where id in (${task('t14')}, ${task('t16')});
-update app.crm_activities set task_kind = 'letter' where id = ${task('t17')};
+-- the design's call and letter are tasks made by hand (a call logged after the fact is an activity, not
+-- a task). A kind is a rule's or a trigger's (task_kind, written with its origin), so they carry none;
+-- and their titles say nothing another page contradicts (Silje Moen's score is computed, and no
+-- letter carries a QR code)
+update app.crm_activities set kind = 'task', body = 'Call Silje Moen' where id = ${task('t14')};
+update app.crm_activities set kind = 'task' where id = ${task('t16')};
+update app.crm_activities set body = 'Letter to Nordfjord Bygg' where id = ${task('t17')};
 `
 }

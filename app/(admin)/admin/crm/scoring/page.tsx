@@ -5,7 +5,7 @@ import { BTN, PageHead, Problem } from '@/components/admin/ui'
 import { isError } from '@/lib/admin/api'
 import { DOT_CLASS, type DotTone } from '@/lib/admin/dots'
 import { leadScores, type Scored } from '@/lib/admin/growthCrm'
-import { fmt, initials, strongestSignals } from '@/lib/admin/growthCrmView'
+import { fmt, initials, naceRanges, strongestSignals } from '@/lib/admin/growthCrmView'
 
 const HEAD = 'text-[11px] uppercase tracking-[0.09em] text-mut'
 /** the route chip's dot, as the design's `rdot`: a founder task or a PQL teal, a trial yellow, nurture the line */
@@ -121,7 +121,8 @@ export default async function LeadScoring() {
           <div className="mt-[8px] flex flex-col">
             {fitPoints.map((p) => (
               <div key={p.key} className="flex items-center gap-[12px] border-b border-line py-[10px] text-[13.5px]">
-                <div className="min-w-0 flex-1">{s(`part.${p.key}`)}</div>
+                {/* the target industries are the engine's (app.brreg_rules), never a copy in the messages */}
+                <div className="min-w-0 flex-1">{s(`part.${p.key}`, { codes: naceRanges(data.industries) })}</div>
                 <b className="min-w-[36px] text-right">{s('points', { n: p.points })}</b>
               </div>
             ))}

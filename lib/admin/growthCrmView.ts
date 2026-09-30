@@ -13,6 +13,10 @@ export const pct = (part: number, whole: number): number | null => (whole > 0 ? 
 export const per100 = (trials: number, contacts: number): string | null =>
   contacts > 0 ? ((trials / contacts) * 100).toFixed(1).replace('.', ',') : null
 
+/** The engine's target NACE divisions (app.brreg_rules) as the pages write them: «41–43, 46–47, 58–74, 85, 86–88» */
+export const naceRanges = (ranges: readonly (readonly [number, number])[]) =>
+  ranges.map(([lo, hi]) => (lo === hi ? String(lo) : `${lo}–${hi}`)).join(', ')
+
 type Part = { key: string; on: boolean }
 /**
  * The «Strongest signals» of a scored contact, as the design's scoreParts picks them: the first two

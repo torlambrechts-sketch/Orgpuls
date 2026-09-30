@@ -46,7 +46,6 @@ const Consent = z.object({
     withdrawn_30d: num,
     sunset: num,
   }),
-  total: num,
   rows: z.array(ConsentRow),
   purposes: z.array(z.object({ key: Purpose, list: z.string().nullable(), granted: num, consent: num, doi: num })),
   suppression: z.object({
@@ -136,8 +135,8 @@ const Partner = z.object({
   trials_7: num,
 })
 export type Partner = z.infer<typeof Partner>
-/** The partner kit's parts the product holds, derived by the database (live while the path is there) */
-const Kit = z.object({ code: z.boolean(), dashboard: z.boolean() })
+/** The partner kit's one part the product holds, the referral code at signup: a presence check of its path, by the database */
+const Kit = z.object({ code: z.boolean() })
 export const crmPartners = () => call('admin_crm_partners', {}, z.object({ kit: Kit, rows: z.array(Partner) }))
 
 // ---------------------------------------------------------------- lead scoring
@@ -164,6 +163,10 @@ const Scored = z.object({
   employees: num.nullable(),
 })
 export type Scored = z.infer<typeof Scored>
-/** The contacts scored, highest first, and the rules as the database scores them */
+/** The contacts scored, highest first, and the rules as the database scores them (the target industries app.brreg_rules') */
 export const leadScores = () =>
-  call('admin_lead_scores', {}, z.object({ fit_rules: z.array(FitPart), intent_rules: z.array(IntentPart), rows: z.array(Scored) }))
+  call(
+    'admin_lead_scores',
+    {},
+    z.object({ fit_rules: z.array(FitPart), intent_rules: z.array(IntentPart), industries: Rules.shape.industries, rows: z.array(Scored) }),
+  )

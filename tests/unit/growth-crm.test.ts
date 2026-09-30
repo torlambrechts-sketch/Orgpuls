@@ -9,13 +9,17 @@ import {
   isGenericEmail,
   managerChangedOn,
   managerName,
+  parseBegin,
   parseEntities,
   parseFeed,
+  parseNameNeeds,
+  parseOrgList,
   parseRoleFeed,
+  replyCount,
   toRow,
 } from '../../supabase/functions/_shared/brreg'
 import { autoTask } from '@/lib/admin/crm'
-import { dayLabel, fmt, initials, isRecent, pct, per100, shortHash, slaState, stamp, stampAfter, strongestSignals } from '@/lib/admin/growthCrmView'
+import { dayLabel, fmt, initials, isRecent, naceRanges, pct, per100, shortHash, slaState, stamp, stampAfter, strongestSignals } from '@/lib/admin/growthCrmView'
 import { refFrom } from '@/lib/marketing/utm'
 import { ENTITIES, g3Sql, PARTNERS, POLL_ID } from '../../scripts/seed/sentral-fixture.g3.mjs'
 import { fixtureSql } from '../../scripts/seed/sentral-fixture.mjs'
@@ -164,7 +168,32 @@ describe('roles: a date to detect a new manager, a name only for a call or a let
   })
 })
 
+describe('the database’s replies to the edge function, parsed rather than cast', () => {
+  it('takes a poll id and two feed places only when they are whole numbers', () => {
+    expect(parseBegin({ ok: true, poll_id: 12, feed_cursor: 25281792, roles_cursor: null })).toEqual({ poll: 12, feedCursor: 25281792, rolesCursor: null })
+    expect(parseBegin({ ok: false, error: 'busy' })).toEqual({ error: 'busy' })
+    expect(parseBegin({ ok: true, poll_id: '12', feed_cursor: null, roles_cursor: null })).toEqual({ error: 'begin_invalid' })
+    expect(parseBegin({ ok: true, poll_id: 12, feed_cursor: 1.5, roles_cursor: null })).toEqual({ error: 'begin_invalid' })
+    expect(parseBegin({ ok: true, poll_id: 0, feed_cursor: null, roles_cursor: null })).toEqual({ error: 'begin_invalid' })
+    expect(parseBegin(null)).toEqual({ error: 'begin_failed' })
+  })
+
+  it('reads counts, organisation numbers and outreach rows, dropping anything else', () => {
+    expect(replyCount({ seen: 4 }, 'seen')).toBe(4)
+    expect(replyCount({ seen: '4' }, 'seen')).toBe(0)
+    expect(replyCount(null, 'raised')).toBe(0)
+    expect(parseOrgList({ orgs: ['921555908', '12', 921555908, "921555908'--"] })).toEqual(['921555908'])
+    const id = '5f0c4f5e-1c2b-4c8e-9d3a-0a1b2c3d4e5f'
+    expect(parseNameNeeds({ rows: [{ id, org_number: '921555908' }, { id: 'x', org_number: '921555908' }, { id, org_number: '9215' }] })).toEqual([{ id, org_number: '921555908' }])
+    expect(parseNameNeeds({})).toEqual([])
+  })
+})
+
 describe('the pages’ arithmetic', () => {
+  it('writes the engine’s target industries as ranges, a single division alone', () => {
+    expect(naceRanges([[41, 43], [46, 47], [58, 74], [85, 85], [86, 88]])).toBe('41–43, 46–47, 58–74, 85, 86–88')
+  })
+
   it('groups thousands with a space and never divides by nothing', () => {
     expect(fmt(2742)).toBe('2 742')
     expect(fmt(1804)).toBe('1 804')
@@ -241,6 +270,14 @@ describe('the QA fixture’s G3 rows', () => {
     for (const t of ['brreg_entities', 'brreg_polls', 'partners', 'demo_requests']) expect(sql.indexOf(`delete from app.${t}`), t).toBeLessThan(sql.indexOf(`insert into app.${t}`))
     expect(g3Sql(helpers)).toBe(sql)
     expect(sql).toContain(`id = ${POLL_ID}`)
+  })
+
+  it('gives a task a kind only with the rule that made it: a task made by hand has none', () => {
+    const sql = g3Sql({ id: String, q: (v: unknown) => `'${v}'`, today: String, company: String, contact: String, task: String })
+    const writes = sql.split(';').filter((st) => /update app\.crm_activities/.test(st))
+    expect(writes.length).toBeGreaterThan(0)
+    for (const st of writes) if (/task_kind/.test(st)) expect(st).toMatch(/origin = 'rule'/)
+    expect(sql).not.toMatch(/body = '[^']*(lead score|QR)/)
   })
 
   it('raises its triggers through the engine, never writing a status or a holdout itself', () => {

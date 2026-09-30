@@ -244,6 +244,20 @@ export function SectionCard({
   )
 }
 
+/**
+ * The design's empty treatment inside a card (`cd.noActs`, `cd.noOrgs`): a centred dashed box on the
+ * page colour, 22 px in, radius 12, a 14/600 line and a 12.5 px muted sentence, 14 px below what is
+ * above it. Nothing in it reads as data.
+ */
+export function CardEmpty({ title, text }: { title: string; text: string }) {
+  return (
+    <div className="mt-[14px] rounded-[12px] border border-dashed border-line bg-bg p-[22px] text-center leading-[1.5]">
+      <div className="text-[14px] font-semibold">{title}</div>
+      <div className="mt-[4px] text-[12.5px] text-mut [text-wrap:pretty]">{text}</div>
+    </div>
+  )
+}
+
 /** The design's empty treatment (`isSiteEmpty`): a dashed panel, one line and one sentence, nothing that reads as data */
 export function PhaseEmpty({ title, text, children }: { title: string; text: string; children?: ReactNode }) {
   return (

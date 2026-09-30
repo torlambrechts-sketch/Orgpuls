@@ -1,12 +1,12 @@
 import { getTranslations } from 'next-intl/server'
-import { KpiStrip, StatusChip } from '@/components/admin/growth'
+import { CardEmpty, KpiStrip, StatusChip } from '@/components/admin/growth'
 import { EditTriggersDialog, RunPollButton } from '@/components/admin/GrowthCrmForms'
 import { PageHead, Problem, Stat } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
 import { dotTone } from '@/lib/admin/dots'
 import { mayOpenGrowthView } from '@/lib/admin/growth'
 import { brregTriggers } from '@/lib/admin/growthCrm'
-import { fmt, isRecent, per100, stamp } from '@/lib/admin/growthCrmView'
+import { fmt, isRecent, naceRanges, per100, stamp } from '@/lib/admin/growthCrmView'
 
 const PANEL = 'rounded-panel border border-line bg-sf'
 const CARD = 'px-[20px] py-[20px] md:px-[26px] md:py-[24px]'
@@ -77,7 +77,7 @@ export default async function Page() {
                 sub: b('edit.sub', { t5: t5 ?? dash, t30: t30 ?? dash }),
                 rows: [
                   { label: b('edit.thresholds'), value: rules.thresholds.join(' · ') },
-                  { label: b('edit.industries'), value: rules.industries.map(([lo, hi]) => (lo === hi ? String(lo) : `${lo}–${hi}`)).join(', ') },
+                  { label: b('edit.industries'), value: naceRanges(rules.industries) },
                   { label: b('edit.minimum'), value: String(min) },
                 ],
                 mode: b('edit.mode'),
@@ -147,7 +147,11 @@ export default async function Page() {
                 </div>
               ))}
             </div>
-            {res.queue.length ? null : <p className="m-0 px-[20px] py-[18px] text-[13px] text-mut">{b('queue.empty', { min })}</p>}
+            {res.queue.length ? null : (
+              <div className="px-[20px] pb-[20px]">
+                <CardEmpty title={b('queue.empty')} text={b('queue.emptyText', { min })} />
+              </div>
+            )}
           </div>
         </section>
 
@@ -172,9 +176,7 @@ export default async function Page() {
               </div>
             ) : (
               // no poll has finished: the counts would be of a poll that does not exist
-              <div className="mt-[12px] rounded-cta border border-dashed border-line bg-bg px-[14px] py-[14px] text-[12.5px] text-mut [text-wrap:pretty]">
-                {b('types.empty')}
-              </div>
+              <CardEmpty title={b('types.empty')} text={b('types.emptyText')} />
             )}
           </section>
 
@@ -197,9 +199,7 @@ export default async function Page() {
                 })}
               </div>
             ) : (
-              <div className="mt-[12px] rounded-cta border border-dashed border-line bg-bg px-[14px] py-[14px] text-[12.5px] text-mut [text-wrap:pretty]">
-                {b('results.empty')}
-              </div>
+              <CardEmpty title={b('results.empty')} text={b('results.emptyText')} />
             )}
           </section>
 
