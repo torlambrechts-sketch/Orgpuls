@@ -4,11 +4,16 @@
  * views can be diffed against the design (scripts/verify/sentral-run.mjs), not only their chrome.
  *
  * LOCAL ONLY — it never runs against a hosted project. Two guards, both must pass:
- *   1. the database URL's host is 127.0.0.1 or localhost, with no `host`, `hostaddr` or `service`
- *      parameter that could send the connection elsewhere (`assertLocalDb`), and psql runs without
- *      any PG* variable from the environment;
- *   2. the SQL itself refuses a database whose `app.environment` is not 'qa' — the setting
- *      scripts/qa/up.sh gives the local stack and nothing else has.
+ *   1. the database URL's host is 127.0.0.1 or localhost, and its only query parameters are
+ *      `sslmode` and `connect_timeout` (`assertLocalDb`) — no `host`, `hostaddr` or `service` that
+ *      could send the connection elsewhere, and no `options`, which sets any setting at session
+ *      start; psql runs without any PG* variable from the environment;
+ *   2. the SQL itself refuses a database that is not the QA stack: `app.environment` must be 'qa'
+ *      AND the database itself must carry that setting in its catalog (pg_db_role_setting), which
+ *      is what scripts/qa/up.sh's `alter database … set app.environment = 'qa'` writes. A session
+ *      can set the first from the connection string; only an owner of the database the second.
+ *      So the guards are independent: a URL that got past the first to a tunnelled hosted
+ *      database would still meet a catalog without the QA mark.
  * It writes a super-admin with a known password (below): on a hosted project that would be a
  * back door, which is why both guards exist.
  *
@@ -41,6 +46,8 @@ import { pathToFileURL } from 'node:url'
 
 export const DEFAULT_DB = 'postgresql://postgres:postgres@127.0.0.1:54322/postgres'
 export const LOCAL_HOSTS = ['127.0.0.1', 'localhost']
+/** the URL parameters a local run may need; anything else could redirect or reconfigure libpq */
+export const ALLOWED_PARAMS = ['sslmode', 'connect_timeout']
 
 /** The local admin sentral-run.mjs signs in as. Local and QA only (see the guards above). */
 export const LOCAL_ADMIN = {
@@ -63,8 +70,8 @@ export function assertLocalDb(url) {
   if (!['postgres:', 'postgresql:'].includes(u.protocol)) throw new Error(`sentral-fixture: ${u.protocol} is not a postgres URL; refusing`)
   // a bracketed IPv6 literal or a host list is not on the allow-list either
   if (!LOCAL_HOSTS.includes(u.hostname)) throw new Error(`sentral-fixture: host «${u.hostname}» is not local; refusing`)
-  for (const p of ['host', 'hostaddr', 'service']) {
-    if (u.searchParams.has(p)) throw new Error(`sentral-fixture: the URL sets «${p}», which could connect elsewhere; refusing`)
+  for (const p of u.searchParams.keys()) {
+    if (!ALLOWED_PARAMS.includes(p)) throw new Error(`sentral-fixture: the URL sets «${p}», which could connect elsewhere or reconfigure the session; refusing`)
   }
   return u
 }
@@ -127,6 +134,14 @@ export const SUPPRESSIONS = [
   ['request@fixture.example', 'manual', `(now() - interval '1 day')`],
 ]
 
+/**
+ * The SQL guard, as a PL/pgSQL condition that is true on the QA stack only: the session's setting
+ * and the database's own catalog entry, which the connection string cannot write.
+ */
+export const QA_GUARD = `coalesce(current_setting('app.environment', true), '') = 'qa'
+    and exists (select 1 from pg_catalog.pg_db_role_setting s join pg_catalog.pg_database d on d.oid = s.setdatabase
+                 where d.datname = current_database() and s.setrole = 0 and 'app.environment=qa' = any(s.setconfig))`
+
 export function fixtureSql() {
   const c = (key) => `'${id(`company:${key}`)}'::uuid`
   const p = (key) => `'${id(`contact:${key}`)}'::uuid`
@@ -147,8 +162,8 @@ export function fixtureSql() {
 \\set ON_ERROR_STOP on
 begin;
 do $$ begin
-  if coalesce(current_setting('app.environment', true), '') <> 'qa' then
-    raise exception 'sentral-fixture: app.environment is not ''qa'' — this is not the local QA stack (npm run qa:up); refusing';
+  if not (${QA_GUARD}) then
+    raise exception 'sentral-fixture: this database is not marked as the local QA stack (npm run qa:up); refusing';
   end if;
 end $$;
 
@@ -197,7 +212,7 @@ commit;
 export function resetAdminMfa(url) {
   assertLocalDb(url)
   const sql = `do $$ begin
-  if coalesce(current_setting('app.environment', true), '') <> 'qa' then raise exception 'not the local QA stack; refusing'; end if;
+  if not (${QA_GUARD}) then raise exception 'not the local QA stack; refusing'; end if;
   delete from auth.mfa_factors where user_id = '${LOCAL_ADMIN.id}';
 end $$;`
   execFileSync('psql', [url, '-X', '-q', '-v', 'ON_ERROR_STOP=1', '-c', sql], { env: psqlEnv(), stdio: ['ignore', 'ignore', 'inherit'] })

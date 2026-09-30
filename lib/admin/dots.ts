@@ -16,7 +16,11 @@
 export const DOT_TONES = ['teal', 'yellow', 'peach', 'mut', 'line', 'green', 'ink'] as const
 export type DotTone = (typeof DOT_TONES)[number]
 
-/** The class that paints a dot of each tone; literal, so Tailwind keeps every one. */
+/**
+ * The class that paints a dot of each tone; literal, so Tailwind keeps every one. This is the
+ * admin's one dot registry: ui.tsx's `Badge` names its tones by meaning (green, red, grey) and
+ * paints them from here.
+ */
 export const DOT_CLASS: Record<DotTone, string> = {
   teal: 'bg-teal',
   yellow: 'bg-ac',
@@ -65,7 +69,7 @@ const BY_KIND = {
   // an experiment (`est`)
   experiment: { running: 'teal', queued: 'yellow', done: 'mut' },
   // a rule's or a template's stream (`sdot`)
-  stream: { service: 'teal', marketing: 'yellow', internal: 'green', system: 'mut' },
+  stream: { service: 'teal', marketing: 'yellow', internal: 'green', system: 'mut', service_internal: 'teal' },
   // an event's PII level (`piiDot`)
   pii: { none: 'teal', aggregate: 'teal', count_only: 'teal', role_only: 'teal', company: 'green', anonymous: 'green' },
   // a consent record (consentVals `sd`)

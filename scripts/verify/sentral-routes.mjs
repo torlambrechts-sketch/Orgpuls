@@ -4,11 +4,16 @@
  * `slug` names the view's render exactly as sentral-baseline.mjs names it
  * (design-reference/sentral/renders/<slug>-1440.png).
  *
- * A view is shot only when its route has a page in app/(admin)/admin; the rest are skipped with
- * a line saying so, so a phase that has not built its page yet does not fail the gate.
+ * A view is shot only when its route has a page in app/(admin)/admin. One that is not is skipped
+ * with a line saying so; that fails the gate when the view has recorded claims (sentral-judge.mjs).
+ * Paths resolve from the repository's root, not the working directory.
  */
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+/** The repository's root, whatever directory the gate is run from */
+export const REPO = fileURLToPath(new URL('../..', import.meta.url))
 
 /** as sentral-baseline.mjs's `slug`: «CRM › Brønnøysund triggers» → CRM_Bronnoysund_triggers */
 export const slug = (area, page) => `${area}-${page}`.replace(/[^A-Za-z0-9ø]+/g, '_').replace(/ø/g, 'o')
@@ -38,7 +43,7 @@ export const VIEW_ROUTES = [
 export const pageFile = (route) => join('app', '(admin)', ...route.split('/').filter(Boolean), 'page.tsx')
 
 /** Whether the admin serves the route yet */
-export const routeExists = (route, root = '.') => existsSync(join(root, pageFile(route)))
+export const routeExists = (route, root = REPO) => existsSync(join(root, pageFile(route)))
 
 /** The render a view is compared with */
-export const baselineFile = (name, width = 1440) => join('design-reference', 'sentral', 'renders', `${name}-${width}.png`)
+export const baselineFile = (name, width = 1440, root = REPO) => join(root, 'design-reference', 'sentral', 'renders', `${name}-${width}.png`)

@@ -1,6 +1,8 @@
 /** Types for sentral-fixture.mjs, so the unit tests can import its guard (D-181). */
 export const DEFAULT_DB: string
 export const LOCAL_HOSTS: readonly string[]
+export const ALLOWED_PARAMS: readonly string[]
+export const QA_GUARD: string
 export const LOCAL_ADMIN: { id: string; email: string; password: string }
 export function assertLocalDb(url: unknown): URL
 export function psqlEnv(env?: Record<string, string | undefined>): Record<string, string | undefined>

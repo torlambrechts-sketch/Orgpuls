@@ -14,6 +14,9 @@ import { GROWTH_VIEWS, type GrowthViewKey } from '@/lib/admin/growth'
  * The menu offers the page only to a role that may see its section; an address typed by hand is
  * answered the same way.
  */
+/** the views whose sub-line the design wraps with text-wrap: pretty; the others wrap plainly */
+const PRETTY_LEAD: ReadonlySet<GrowthViewKey> = new Set(['growthBoard'])
+
 export async function GrowthStub({ view }: { view: GrowthViewKey }) {
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const v = GROWTH_VIEWS[view]
@@ -21,7 +24,7 @@ export async function GrowthStub({ view }: { view: GrowthViewKey }) {
   if (!who?.role || !canSee(who.role, v.section)) return <Problem text={t('common.notAllowed')} />
   return (
     <div className="leading-[1.5]">
-      <PageHead title={t(`growth.view.${view}.title`)} lead={t(`growth.view.${view}.lead`)} measure={false} />
+      <PageHead title={t(`growth.view.${view}.title`)} lead={t(`growth.view.${view}.lead`)} measure={false} pretty={PRETTY_LEAD.has(view)} />
       <PhaseEmpty title={t('growth.phase', { phase: v.phase })} text={t(`growth.view.${view}.empty`)} />
     </div>
   )

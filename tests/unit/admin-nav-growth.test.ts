@@ -99,6 +99,7 @@ describe('the design’s dot colours', () => {
     expect(dotTone('shared', 'churned')).toBe('mut')
     expect(dotTone('consent', 'notice_given')).toBe('green')
     expect(dotTone('stream', 'internal')).toBe('green')
+    expect(dotTone('stream', 'service_internal')).toBe('teal')
     expect(dotTone('shared', 'something_new')).toBe('yellow')
   })
 })

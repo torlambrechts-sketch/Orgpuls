@@ -35,7 +35,8 @@ type Labels = {
  * Below `xl` (1280 px; `lg` until Growth made the bar eight areas wide, D-181) the areas move into
  * a sheet behind a menu button: Escape or a chosen page closes it,
  * focus goes into it when it opens and back to the button when it closes. The sub-bar scrolls
- * sideways instead of wrapping, so the page starts where it does on a wide screen.
+ * sideways instead of wrapping, so the page starts where it does on a wide screen, and it opens
+ * scrolled to the page you are on.
  */
 export function AdminShell({
   groups,
@@ -67,12 +68,25 @@ export function AdminShell({
   const menuButton = useRef<HTMLButtonElement>(null)
   const sheetPanel = useRef<HTMLDivElement>(null)
   const accountBox = useRef<HTMLDivElement>(null)
+  const subNav = useRef<HTMLElement>(null)
 
   // a chosen page closes whatever is open
   useEffect(() => {
     setSheet(false)
     setAccount(false)
     setMore(false)
+  }, [path])
+  // below xl the sub-bar scrolls sideways: bring the page you are on to its middle, so arriving on
+  // Growth's seventh page does not leave it off-screen. scrollLeft, not scrollIntoView, so the
+  // window itself never moves.
+  useEffect(() => {
+    const nav = subNav.current
+    if (!nav || nav.scrollWidth <= nav.clientWidth) return
+    const cur = nav.querySelector<HTMLElement>('a[aria-current="page"]')
+    if (!cur) return
+    const n = nav.getBoundingClientRect()
+    const c = cur.getBoundingClientRect()
+    nav.scrollLeft += c.left + c.width / 2 - (n.left + n.width / 2)
   }, [path])
   useEffect(() => {
     if (!more) return
@@ -188,7 +202,7 @@ export function AdminShell({
         <div className="border-b border-line">
           <div className={`${column} flex h-[48px] items-center gap-[14px]`}>
             <span className="hidden min-w-[86px] flex-none text-[11px] uppercase tracking-[0.09em] text-mut md:block">{area ? labels.groups[area] : ''}</span>
-            <nav aria-label={labels.sub} className="-mx-[4px] flex min-w-0 flex-1 items-center gap-[2px] overflow-x-auto px-[4px] [scrollbar-width:none] xl:overflow-visible">
+            <nav ref={subNav} aria-label={labels.sub} className="-mx-[4px] flex min-w-0 flex-1 items-center gap-[2px] overflow-x-auto px-[4px] [scrollbar-width:none] xl:overflow-visible">
               {shown.map((i) => (
                 <Link
                   key={i.key}

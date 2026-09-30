@@ -10,7 +10,8 @@ import { DOT_CLASS, type DotTone } from '@/lib/admin/dots'
  *
  *   KpiStrip        the row of KPI cards (Live · Building · Planned · Week); the card itself is
  *                   ui.tsx's `Stat`, which already matches the design's card to the pixel
- *   StatusChip      a pill on the soft yellow with a 6 px dot, the dot's colour from lib/admin/dots
+ *   StatusChip      a pill on the soft yellow with a 6 px dot, the dot's colour from lib/admin/dots;
+ *                   sizes 4 × 10 at 11 and 11.5, 3 × 8 at 10.5 and 11, 5 × 11 at 11.5 (CHIP_SIZE)
  *   TierColumn      a column of the board: its name, count and why over a rule, then its cards
  *   BoardCard       a board item: rank, name, why, and a footer of status, effort and owner
  *   BulletRow       a line with a dot before it: a gate, an assumption, a firewall check
@@ -31,6 +32,10 @@ const CHIP_SIZE = {
   md: 'px-[10px] py-[4px] text-[11.5px]',
   // a recommendation's priority
   xs: 'px-[8px] py-[3px] text-[10.5px]',
+  // a task's 1-hour SLA under its due time
+  sla: 'px-[8px] py-[3px] text-[11px]',
+  // the design's common status pill (consent, partners, magnets, deliverability), as ui.tsx's Badge
+  lg: 'px-[11px] py-[5px] text-[11.5px]',
 } as const
 
 export function StatusChip({
@@ -150,10 +155,14 @@ export function BoardCard({
   )
 }
 
-/** A line with a dot before it: a gate (line), an assumption (yellow), a firewall check (teal), a cut (mut) */
-export function BulletRow({ tone, children, small = false }: { tone: DotTone; children: ReactNode; small?: boolean }) {
+/**
+ * A line with a dot before it: a gate (line), an assumption (yellow), a firewall check (teal), a cut
+ * (mut). `pretty` only for the firewall's checks: the design sets text-wrap: pretty on those rows
+ * and on no other, so the gates, assumptions and cuts wrap plainly.
+ */
+export function BulletRow({ tone, children, small = false, pretty = false }: { tone: DotTone; children: ReactNode; small?: boolean; pretty?: boolean }) {
   return (
-    <div className={`flex gap-[8px] leading-[1.45] [text-wrap:pretty] ${small ? 'text-[12.5px]' : 'text-[13px]'}`}>
+    <div className={`flex gap-[8px] leading-[1.45] ${pretty ? '[text-wrap:pretty]' : ''} ${small ? 'text-[12.5px]' : 'text-[13px]'}`}>
       <span aria-hidden="true" className={`mt-[6px] block h-[6px] w-[6px] flex-none rounded-pill ${DOT_CLASS[tone]}`} />
       <span className="min-w-0">{children}</span>
     </div>

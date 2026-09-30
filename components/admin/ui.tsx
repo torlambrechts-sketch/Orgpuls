@@ -1,6 +1,7 @@
 import type { Route } from 'next'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
+import { DOT_CLASS } from '@/lib/admin/dots'
 
 /**
  * The admin's shapes, as the Sentral design draws them (X-095; D-90 before it): the page head with
@@ -13,12 +14,15 @@ export function PageHead({
   lead,
   children,
   measure = true,
+  pretty = false,
 }: {
   title: string
   lead?: ReactNode
   children?: ReactNode
   /** false: the sub-line runs the head's width at the design's 1.5, as revision 3's views set it (D-181) */
   measure?: boolean
+  /** the sub-line wraps with text-wrap: pretty — only where the design sets it (revision 3: the Growth board) */
+  pretty?: boolean
 }) {
   return (
     <div className="mb-[22px] flex flex-wrap items-end justify-between gap-[16px] md:px-[18px]">
@@ -28,7 +32,7 @@ export function PageHead({
           measure ? (
             <p className="mb-0 mt-[6px] max-w-[80ch] text-[13px] leading-[1.55] text-mut">{lead}</p>
           ) : (
-            <div className="mt-[6px] text-[13px] leading-[1.5] text-mut [text-wrap:pretty]">{lead}</div>
+            <div className={`mt-[6px] text-[13px] leading-[1.5] text-mut ${pretty ? '[text-wrap:pretty]' : ''}`}>{lead}</div>
           )
         ) : null}
       </div>
@@ -72,13 +76,14 @@ export function Stat({ label, value, hint }: { label: string; value: ReactNode; 
 }
 
 /** a status is a pill with a dot; the dot's colour is the state (the design's `dot()`) */
+/** a badge's tone, by what it means, painted from the admin's one dot registry (lib/admin/dots.ts) */
 const DOTS = {
-  green: 'bg-teal',
-  yellow: 'bg-ac',
-  red: 'bg-peach',
-  grey: 'bg-mut',
-  ink: 'bg-ink',
-} as const
+  green: DOT_CLASS.teal,
+  yellow: DOT_CLASS.yellow,
+  red: DOT_CLASS.peach,
+  grey: DOT_CLASS.mut,
+  ink: DOT_CLASS.ink,
+} as const satisfies Record<string, string>
 export type BadgeTone = keyof typeof DOTS
 export function Badge({ tone = 'grey', children }: { tone?: BadgeTone; children: ReactNode }) {
   return (

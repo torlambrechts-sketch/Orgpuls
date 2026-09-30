@@ -1,8 +1,11 @@
 import { existsSync, readFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { GROWTH_VIEWS } from '@/lib/admin/growth'
-import { assertLocalDb, CONTACTS, DEFAULT_DB, fixtureSql, psqlEnv } from '../../scripts/seed/sentral-fixture.mjs'
-import { baselineFile, pageFile, routeExists, slug, VIEW_ROUTES } from '../../scripts/verify/sentral-routes.mjs'
+import { ALLOWED_PARAMS, assertLocalDb, CONTACTS, DEFAULT_DB, fixtureSql, psqlEnv, QA_GUARD } from '../../scripts/seed/sentral-fixture.mjs'
+import { assertLocalBase, judgeView, verdict } from '../../scripts/verify/sentral-judge.mjs'
+import { baselineFile, pageFile, REPO, routeExists, slug, VIEW_ROUTES } from '../../scripts/verify/sentral-routes.mjs'
 
 /** The Sentral QA fixture never runs against a hosted database, and the admin gate's route map (D-181). */
 describe('the fixture’s local-only guard', () => {
@@ -29,10 +32,24 @@ describe('the fixture’s local-only guard', () => {
     }
   })
 
-  it('refuses a local-looking URL whose parameters would connect elsewhere', () => {
-    for (const p of ['host=db.example.com', 'hostaddr=10.1.2.3', 'service=prod']) {
-      expect(() => assertLocalDb(`postgresql://postgres:pw@127.0.0.1:54322/postgres?${p}`)).toThrow(/refusing/)
+  it('refuses a local-looking URL whose parameters would connect elsewhere or set the QA mark', () => {
+    for (const p of [
+      'host=db.example.com',
+      'hostaddr=10.1.2.3',
+      'service=prod',
+      // libpq's `options` sets any setting at session start: it could forge app.environment = 'qa'
+      'options=-c%20app.environment%3Dqa',
+      'sslmode=disable&options=-c%20app.environment%3Dqa',
+      'HOST=db.example.com',
+      'dbname=postgresql://evil/x',
+    ]) {
+      expect(() => assertLocalDb(`postgresql://postgres:pw@127.0.0.1:54322/postgres?${p}`), p).toThrow(/refusing/)
     }
+  })
+
+  it('allows only the parameters a local run needs', () => {
+    expect(ALLOWED_PARAMS).toEqual(['sslmode', 'connect_timeout'])
+    expect(() => assertLocalDb('postgresql://postgres:pw@127.0.0.1:54322/postgres?sslmode=disable&connect_timeout=5')).not.toThrow()
   })
 
   it('hands psql no PG* variable that could override the URL', () => {
@@ -40,10 +57,14 @@ describe('the fixture’s local-only guard', () => {
     expect(Object.keys(env)).toEqual(['PATH'])
   })
 
-  it('refuses in SQL too, unless the database is the QA stack', () => {
+  it('refuses in SQL too, unless the database is the QA stack by its own catalog', () => {
     const sql = fixtureSql()
     const guard = sql.indexOf("current_setting('app.environment', true)")
     expect(guard).toBeGreaterThan(-1)
+    // the session setting alone can come from the URL; the database's own setting cannot
+    expect(QA_GUARD).toMatch(/pg_db_role_setting/)
+    expect(QA_GUARD).toMatch(/'app\.environment=qa' = any\(s\.setconfig\)/)
+    expect(sql).toContain(`if not (${QA_GUARD})`)
     expect(guard).toBeLessThan(sql.indexOf('insert into'))
     expect(sql.indexOf('begin;')).toBeLessThan(guard)
     expect(sql.trimEnd().endsWith('commit;')).toBe(true)
@@ -87,5 +108,61 @@ describe('the admin gate’s route map', () => {
     expect(pageFile('/admin/crm/consent')).toBe('app/(admin)/admin/crm/consent/page.tsx')
     for (const v of VIEW_ROUTES) expect(routeExists(v.route), v.route).toBe(true)
     expect(routeExists('/admin/growth/not-a-page')).toBe(false)
+  })
+
+  it('resolves from the repository, not the working directory', () => {
+    expect(existsSync(join(REPO, 'package.json'))).toBe(true)
+    expect(baselineFile('Growth_Board').startsWith(REPO)).toBe(true)
+    const cwd = process.cwd()
+    try {
+      process.chdir(tmpdir())
+      for (const v of VIEW_ROUTES) {
+        expect(routeExists(v.route), v.route).toBe(true)
+        expect(existsSync(baselineFile(v.name)), v.name).toBe(true)
+      }
+    } finally {
+      process.chdir(cwd)
+    }
+  })
+})
+
+describe('the admin gate’s verdict', () => {
+  const claims = { Growth_Board: ['0:0', '100:0'], CRM_Consent: [] }
+
+  it('passes when every claimed tile still matches', () => {
+    const v = judgeView(claims.Growth_Board, [['0:0', 0], ['100:0', 10], ['200:0', 4000]], 10)
+    expect(v).toEqual({ pass: ['0:0', '100:0'], lost: [], rows: ['200'] })
+    expect(verdict({ claims, checked: ['Growth_Board'] })).toEqual({ ok: true, reasons: [] })
+  })
+
+  it('fails a lost claim', () => {
+    const v = judgeView(claims.Growth_Board, [['0:0', 0], ['100:0', 11]], 10)
+    expect(v.lost).toEqual(['100:0'])
+    expect(verdict({ claims, checked: ['Growth_Board'], failures: ['Growth_Board lost 1 claimed tiles'] }).ok).toBe(false)
+  })
+
+  it('fails a skipped view that has claims, and not one without', () => {
+    const skippedClaimed = verdict({ claims, checked: ['CRM_Consent'], skipped: [{ name: 'Growth_Board', why: 'not built' }] })
+    expect(skippedClaimed.ok).toBe(false)
+    expect(skippedClaimed.reasons[0]).toMatch(/Growth_Board has 2 claimed tiles but was skipped/)
+    expect(verdict({ claims, checked: ['Growth_Board'], skipped: [{ name: 'CRM_Consent', why: 'not built' }] }).ok).toBe(true)
+    expect(verdict({ claims, checked: ['Growth_Board'], skipped: [{ name: 'Admin_New', why: 'not built' }] }).ok).toBe(true)
+  })
+
+  it('fails a run that compared no view', () => {
+    expect(verdict({ claims, checked: [] })).toEqual({ ok: false, reasons: ['no view was compared'] })
+    expect(verdict({ claims: {}, checked: [], skipped: [{ name: 'CRM_Consent', why: 'not built' }] }).ok).toBe(false)
+  })
+
+  it('fails on console errors', () => {
+    expect(verdict({ claims, checked: ['Growth_Board'], errors: ['/admin/growth: boom'] }).ok).toBe(false)
+  })
+
+  it('only signs in to this machine', () => {
+    expect(assertLocalBase('http://localhost:3400').port).toBe('3400')
+    expect(() => assertLocalBase('http://127.0.0.1:3400')).not.toThrow()
+    for (const url of ['https://orgpuls.no', 'http://localhost.evil.example:3400', 'http://10.0.0.5:3400', 'http://user:pw@localhost:3400', 'file:///etc/passwd', 'nope']) {
+      expect(() => assertLocalBase(url), url).toThrow(/refusing/)
+    }
   })
 })

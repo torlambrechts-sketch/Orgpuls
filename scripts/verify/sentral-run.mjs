@@ -20,8 +20,11 @@
  * unclaimed row differs (audit rule 7), and write the reason into the deviation entry.
  *
  * Views come from sentral-routes.mjs (the plan's table). A view whose route has no page yet is
- * skipped with a line saying so. Console errors and page errors are collected and reported, and
- * fail the run.
+ * skipped with a line saying so — and that fails the run when the view has recorded claims, since
+ * a claim nobody checked is not kept. A run that compares no view at all (an `--only` that matches
+ * nothing, every route skipped) fails too. Console errors and page errors are collected and
+ * reported, and fail the run. The verdict is sentral-judge.mjs's `verdict`, tested on its own.
+ * Paths resolve from the repository's root, so the run means the same from any directory.
  *
  * `--width 390` is the phone check: no diff (the design is drawn for the desktop), but every view
  * is shot at 390 and a page that scrolls sideways is reported and fails the run.
@@ -29,7 +32,8 @@
  * It signs in as the local admin that scripts/seed/sentral-fixture.mjs writes: it clears that
  * admin's TOTP factors in the LOCAL database (refusing any other), enrols a new one on /admin/mfa
  * and answers with a code computed from the key the enrolment shows. Nothing is printed of it.
- * Run the fixture first, and serve the app against the local stack (scripts/qa/env.mjs).
+ * Run the fixture first, and serve the app against the local stack (scripts/qa/env.mjs). `--base`
+ * must be localhost or 127.0.0.1: the run types the local admin's password into the page it names.
  *
  *   node scripts/verify/sentral-run.mjs [--base http://localhost:3400] [--only Growth] [--write]
  *   node scripts/verify/sentral-run.mjs --width 390 [--only CRM_Consent]
@@ -39,10 +43,10 @@ import { createHmac } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { PNG } from 'pngjs'
-import pixelmatch from 'pixelmatch'
 import { chromium } from 'playwright-core'
 import { DEFAULT_DB, LOCAL_ADMIN, resetAdminMfa } from '../seed/sentral-fixture.mjs'
-import { baselineFile, routeExists, VIEW_ROUTES } from './sentral-routes.mjs'
+import { assertLocalBase, judgeView, TILE, tiles, verdict } from './sentral-judge.mjs'
+import { baselineFile, REPO, routeExists, VIEW_ROUTES } from './sentral-routes.mjs'
 
 const argv = process.argv.slice(2)
 const flag = (n) => argv.includes(`--${n}`)
@@ -53,9 +57,14 @@ const out = arg('out', '/tmp/sentral-run')
 const only = arg('only', null)
 const db = arg('db', DEFAULT_DB)
 const SHIFT = Number(arg('shift', 40))
-const CLAIMS = 'scripts/verify/sentral-claims.json'
-const TILE = 100
+const CLAIMS = join(REPO, 'scripts', 'verify', 'sentral-claims.json')
 const LIMIT = Number(arg('limit', Math.floor(TILE * TILE * 0.001)))
+try {
+  assertLocalBase(base)
+} catch (e) {
+  console.error(e.message)
+  process.exit(2)
+}
 mkdirSync(out, { recursive: true })
 
 /** RFC 6238 with SHA-1, 30 s steps, 6 digits — what the admin's authenticator enrolment issues */
@@ -119,43 +128,19 @@ async function signIn() {
 }
 
 const read = (f) => PNG.sync.read(readFileSync(f))
-const crop = (png, x, y, w, h) => {
-  const o = new PNG({ width: w, height: h })
-  PNG.bitblt(png, o, x, y, w, h, 0, 0)
-  return o
-}
-/** each tile's best diff within ±SHIFT: ['y:x', diffPx] */
-function tiles(basePng, shotPng) {
-  const w = Math.min(basePng.width, shotPng.width)
-  const res = []
-  for (let y = 0; y + TILE <= basePng.height; y += TILE) {
-    for (let x = 0; x + TILE <= w; x += TILE) {
-      const A = crop(basePng, x, y, TILE, TILE)
-      let best = null
-      for (const dy of [0, ...Array.from({ length: SHIFT }, (_, i) => [i + 1, -(i + 1)]).flat()]) {
-        if (y + dy < 0 || y + dy + TILE > shotPng.height) continue
-        const n = pixelmatch(A.data, crop(shotPng, x, y + dy, TILE, TILE).data, null, TILE, TILE, { threshold: 0.1 })
-        if (best === null || n < best) best = n
-        if (n === 0) break
-      }
-      res.push([`${y}:${x}`, best ?? TILE * TILE])
-    }
-  }
-  return res
-}
 
 const claims = existsSync(CLAIMS) ? JSON.parse(readFileSync(CLAIMS, 'utf8')) : {}
 const results = {}
-let failed = 0
+const checked = []
+const skipped = []
+const failures = []
 
 function judge(name, shot) {
-  const r = tiles(read(baselineFile(name)), read(shot))
-  const pass = r.filter(([, n]) => n <= LIMIT).map(([t]) => t)
+  const r = tiles(read(baselineFile(name)), read(shot), { shift: SHIFT })
   const claimed = claims[name] ?? []
-  const lost = claimed.filter((t) => !pass.includes(t))
-  if (lost.length) failed++
+  const { pass, lost, rows } = judgeView(claimed, r, LIMIT)
+  if (lost.length) failures.push(`${name} lost ${lost.length} claimed tiles`)
   results[name] = pass
-  const rows = [...new Set(r.filter(([, n]) => n > LIMIT).map(([t]) => t.split(':')[0]))]
   console.log(
     `${lost.length ? 'FAIL' : 'ok  '}  ${name.padEnd(30)} ${String(pass.length).padStart(4)}/${r.length} tiles` +
       (claimed.length ? `  ${claimed.length} claimed` : '  no claims yet') +
@@ -164,15 +149,21 @@ function judge(name, shot) {
   )
 }
 
+const skip = (v, why) => {
+  skipped.push({ name: v.name, why })
+  const claimed = (claims[v.name] ?? []).length
+  console.log(`${claimed ? 'FAIL' : 'skip'}  ${v.name.padEnd(30)} ${why}${claimed ? ` — and it has ${claimed} claimed tiles` : ''}`)
+}
+
 const state = await signIn()
 console.log(width === 1440 ? `sentral-run at 1440 · ${TILE} × ${TILE} tiles · ${LIMIT} px a tile · ±${SHIFT} px` : `sentral-run at ${width}: horizontal overflow only`)
 for (const v of views) {
   if (!routeExists(v.route)) {
-    console.log(`skip  ${v.name.padEnd(30)} ${v.route} is not built yet`)
+    skip(v, `${v.route} is not built yet`)
     continue
   }
   if (width === 1440 && !existsSync(baselineFile(v.name))) {
-    console.log(`skip  ${v.name.padEnd(30)} no render at ${baselineFile(v.name)}`)
+    skip(v, `no render at ${baselineFile(v.name)}`)
     continue
   }
   const ctx = await b.newContext({ viewport: { width, height: 900 }, storageState: state })
@@ -180,7 +171,7 @@ for (const v of views) {
   listen(p, v.route)
   const res = await p.goto(base + v.route, { waitUntil: 'networkidle' })
   if (!res || !res.ok() || new URL(p.url()).pathname !== v.route) {
-    failed++
+    failures.push(`${v.name}: ${v.route} did not answer`)
     console.log(`FAIL  ${v.name.padEnd(30)} ${v.route} answered ${res?.status() ?? 'nothing'} at ${new URL(p.url()).pathname}`)
     await ctx.close()
     continue
@@ -191,11 +182,12 @@ for (const v of views) {
   await p.evaluate(() => window.scrollTo(0, 0))
   const shot = join(out, `${v.name}-${width}.png`)
   await p.screenshot({ path: shot, fullPage: true })
+  checked.push(v.name)
   if (width === 1440) judge(v.name, shot)
   else {
     const { scroll, client } = await p.evaluate(() => ({ scroll: document.documentElement.scrollWidth, client: document.documentElement.clientWidth }))
     const over = scroll > client
-    if (over) failed++
+    if (over) failures.push(`${v.name} scrolls sideways at ${width}`)
     console.log(`${over ? 'FAIL' : 'ok  '}  ${v.name.padEnd(30)} ${width} px: ${over ? `scrolls sideways (${scroll} > ${client})` : 'no horizontal overflow'}`)
   }
   await ctx.close()
@@ -207,4 +199,6 @@ if (flag('write') && width === 1440) {
 }
 console.log(errors.length ? `console errors (${errors.length}): ${errors.slice(0, 5).join(' / ')}` : 'no console errors')
 await b.close()
-process.exit(failed || errors.length ? 1 : 0)
+const { ok, reasons } = verdict({ claims, checked, skipped, failures, errors })
+console.log(ok ? `pass: ${checked.length} of ${views.length} views compared` : `FAIL: ${reasons.join(' · ')}`)
+process.exit(ok ? 0 : 1)
