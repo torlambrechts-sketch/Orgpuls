@@ -42,8 +42,8 @@ test.describe('respondent language @respondent @p1.2', () => {
     await expect(page.getByRole('navigation', { name: 'Language' }).getByRole('link', { name: 'English' })).toHaveAttribute('aria-current', 'true')
     await page.getByRole('button', { name: 'Start', exact: true }).click()
     // the scale labels are translated with the statement
-    await expect(page.getByRole('button', { name: 'Strongly agree' }).first()).toBeVisible()
-    await page.getByRole('button', { name: 'Slightly agree' }).first().click()
+    await expect(page.getByRole('radio', { name: 'Strongly agree' }).first()).toBeVisible()
+    await page.getByRole('radio', { name: 'Slightly agree' }).first().click()
     await shoot(page, 'r-question-en')
   })
 
@@ -54,7 +54,7 @@ test.describe('respondent language @respondent @p1.2', () => {
     await page.getByRole('button', { name: 'Start', exact: true }).click()
     // a page per factor (P1-4): answer each of its statements, then go on
     for (let i = 0; i < 4; i++) {
-      for (const b of await page.getByRole('button', { name: 'Litt enig' }).all()) await b.click()
+      for (const b of await page.getByRole('radio', { name: 'Litt enig' }).all()) await b.click()
       await page.getByRole('button', { name: 'Neste' }).click()
     }
     await expect(progress).toHaveText(/^5 \//)

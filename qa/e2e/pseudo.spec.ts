@@ -40,7 +40,7 @@ test('respondent flow under the pseudo-locale @pseudo', async ({ page }) => {
     await expect(progress).toHaveText(new RegExp(`^\\[?${n} / ${total}\\]?$`))
     const kind = await page
       .locator('main')
-      .evaluate((el) => ['button[aria-pressed]', 'button[aria-expanded]', 'textarea'].map((s) => el.querySelectorAll(s).length).join('-'))
+      .evaluate((el) => ['[role=radio]', 'button[aria-expanded]', 'textarea'].map((s) => el.querySelectorAll(s).length).join('-'))
     const fresh = !kinds.has(kind)
     kinds.add(kind)
     const shot = `${dir}/q${String(n).padStart(2, '0')}.png`
@@ -50,7 +50,7 @@ test('respondent flow under the pseudo-locale @pseudo', async ({ page }) => {
     const questions = page.locator('main fieldset')
     const onPage = await questions.count()
     for (let q = 0; q < onPage; q++) {
-      const choices = questions.nth(q).locator('button[aria-pressed]')
+      const choices = questions.nth(q).getByRole('radio')
       const count = await choices.count()
       if (count > 0) await choices.nth(count - 1).click()
       else await questions.nth(q).locator('textarea').fill('E2E')

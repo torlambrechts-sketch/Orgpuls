@@ -15,7 +15,7 @@ test.describe('respondent @respondent @p0.2', () => {
     await expect(page.getByRole('button', { name: 'Start', exact: true })).toBeVisible()
     await shoot(page, 'r-intro')
     await page.getByRole('button', { name: 'Start', exact: true }).click()
-    await page.getByRole('button', { name: 'Litt enig' }).first().click()
+    await page.getByRole('radio', { name: 'Litt enig' }).first().click()
     await shoot(page, 'r-question')
     const skip = page.getByRole('button', { name: 'Hopp over' })
     while (!(await page.getByRole('button', { name: 'Send inn' }).isVisible())) await skip.click()

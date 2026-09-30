@@ -7813,3 +7813,31 @@ checks 10 and 11 fail («auth.audit_log_entries: 189»).
 - **Hjelp's article «GDPR: behandlingsgrunnlag og lagringstid»** still tells the customer to set up
   their own routine for deleting individual answers. That is still true while the agreement lasts,
   so it is unchanged.
+
+## D-177 — Likert options are a radiogroup
+
+**Design:** the bundle draws a question's options as rows with a ring (lines 1893-1929) and says
+nothing of their semantics; the build made each a `<button aria-pressed>`, so a screen reader heard
+six toggles, each on or off, with nothing tying them to the statement or to each other (deep audit
+2026-09-28, P3).
+
+**Built:** each question's options — the scale, a choice question's, a count or background
+question's, a module statement's, and «Ikke relevant for meg» with them — are one
+`role="radiogroup"` named by the statement's legend (`aria-labelledby`), each option
+`role="radio"` with `aria-checked` (WAI-ARIA APG, Radio Group). One tab stop per group: the chosen
+option, else the first. The arrow keys move and choose, wrapping; Space chooses; the number keys
+and Enter do what they did. The options stay `<button>`s with the same classes, so the rendering and
+the focus ring (bundle line 23, `app/globals.css`) are the bundle's; the group's wrapper takes the
+`mt-[16px]` its first row had, so nothing moves. Autosave and «Hopp over» are unchanged: a keyboard
+choice is the same `picked` entry a click makes. `components/respond/ChoiceGroup.tsx`,
+`lib/respond/radiogroup.ts`.
+
+**Proved by:** `tests/unit/radiogroup.test.ts` (the keyboard model; roles, aria-checked and the one
+tab stop as rendered) and `qa/e2e/respondent-keyboard.spec.ts` (@flow: names, Tab once per group,
+arrows and Space, the focus ring, a reload restoring a keyboard choice). The respondent-flow and
+pseudo specs select `[role=radio]`; their 44 captures (mobile, small, tiny, pseudo; no and en) are
+pixel-identical, at pixelmatch threshold 0, to the same run on the build before. The @p0.2/@p1.2
+specs now find the options by the radio role; they already failed before this change (they expect
+the first screen to be a question, which it has not been since D-150), so no baseline was
+re-recorded. `vitest.config.ts` compiles JSX with React's automatic runtime so a unit test can
+render a component.
