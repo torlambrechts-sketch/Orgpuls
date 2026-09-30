@@ -54,3 +54,4 @@ supabase/functions/_shared/messages.gen.ts
 
 # pseudo-locale catalogue, generated from messages/no.json by scripts/i18n/pseudo.mjs
 /.pseudo/
+/.claude/worktrees/

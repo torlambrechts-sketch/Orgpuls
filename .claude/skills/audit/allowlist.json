@@ -74,13 +74,16 @@
     "wheel_notifications",
     "rounds",
     "platform_settings",
-    "measurements"
+    "measurements",
+    "org_logos",
+    "evaluations"
   ],
   "app_only_settings": {
     "organizations.law_mode": "the help pages switch to their law-framed articles (app/(app)/hjelp)",
     "organizations.registry_registered_on": "a Brønnøysund fact shown in Oppsett › Selskap; not a setting",
     "organizations.registry_vat": "a Brønnøysund fact shown in Oppsett › Selskap; not a setting",
     "organizations.industry_source": "how the industry was set; lib/modules/read suggests modules from it",
-    "organizations.industry_suggested": "the registry's suggestion; lib/modules/read offers it"
+    "organizations.industry_suggested": "the registry's suggestion; lib/modules/read offers it",
+    "evaluations.counterpart": "who took part in the § 9-2 evaluation: printed by Rapport's evaluation line (components/rapport/RapportScreen.tsx, «Evaluert {date} med {who}.»); a record, not a setting"
   }
 }

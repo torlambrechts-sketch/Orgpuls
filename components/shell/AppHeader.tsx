@@ -1,3 +1,4 @@
+import { brandSrc } from '@/lib/org/brand'
 import { getTranslations } from 'next-intl/server'
 import { AccountMenu } from './AccountMenu'
 import { Logo } from './Logo'
@@ -43,7 +44,7 @@ export async function AppHeader({ items, assistantFace }: { items: NavEntry[]; a
 
   return (
     <HeaderBar
-      logo={<Logo src={brand?.inHeader ? logoPath(brand.key) : null} />}
+      logo={<Logo src={brandSrc(brand)} />}
       items={items}
       lawMode={lawMode}
       progress={progress}

@@ -18,7 +18,7 @@ export interface OrgLogo {
   inHeader: boolean
 }
 
-export const logoPath = (key: string) => `/logo/${key}`
+export { logoPath } from '@/lib/org/brand'
 
 /** A key from a definer function's JSON: a well-formed one, or nothing. */
 export const LogoKey = z

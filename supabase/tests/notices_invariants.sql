@@ -2,6 +2,7 @@
 -- (0098, 0099, D-149), proved against the live schema.
 --
 --   * a round-less outbox row is a measure's notice and nothing else (1)
+--   * the round's own introduction reaches the claimed invitation before the organisation's greeting (10)
 --   * the greeting: the daglig leder writes and clears it; a verneombud and anon cannot; over 600
 --     characters is refused (2)
 --   * an invitation's length: 37 items is «fire minutter», as the design says (3)
@@ -181,6 +182,19 @@ begin
     v_rows := v_rows || jsonb_build_object('seq', 8, 'name', 'a department 10 points behind: the daglig leder told once; the claim names no department',
       'expected', '1|Kontor|false/false', 'actual', v_txt, 'pass', v_txt = '1|Kontor|false/false');
 
+    -- 10 --------------------------------------------------------------- the round's own introduction
+    -- audit AUD-25: rounds.intro_message reaches the invitation the dispatcher claims, before the
+    -- organisation's greeting, signed by whoever wrote it
+    update app.rounds set intro_message = 'Denne runden handler om arbeidsmengde.', intro_by = v_dl where id = v_round;
+    update app.outbox set claimed_at = null, due_at = '2000-01-01', sent_at = null
+     where round_id = v_round and kind = 'invitasjon';
+    v_claim := public.dispatch_claim(100);
+    v_txt := coalesce((select concat_ws('/', j->'greeting'->>'text', j->'greeting'->>'by')
+                        from jsonb_array_elements(v_claim) j where j->>'kind' = 'invitasjon' and j->>'org' = 'Varsel Test AS'), '-');
+    v_rows := v_rows || jsonb_build_object('seq', 10, 'name', 'the round''s own introduction reaches the invitation, before the organisation''s greeting',
+      'expected', 'Denne runden handler om arbeidsmengde./Dina Leder', 'actual', v_txt,
+      'pass', v_txt = 'Denne runden handler om arbeidsmengde./Dina Leder');
+
     raise exception 'rollback-probe';
   exception when others then
     if sqlerrm <> 'rollback-probe' then raise; end if;
@@ -205,7 +219,7 @@ begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*)
     into v_failed, v_count from public._noi;
   if v_failed is not null then raise exception 'notice invariants failed: %', v_failed; end if;
-  if v_count <> 9 then raise exception 'notice invariants: expected 9 rows, got %', v_count; end if;
+  if v_count <> 10 then raise exception 'notice invariants: expected 10 rows, got %', v_count; end if;
 end $$;
 
 drop table public._noi;

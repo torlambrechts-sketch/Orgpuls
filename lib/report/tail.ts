@@ -2,6 +2,7 @@ import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { callFailed, parseFailed, readFailed } from '@/lib/supabase/read'
+import { failedAs } from '@/lib/report/failures'
 import { INFORMATION_AUDIENCES, INFORMATION_CHANNELS } from '@/lib/report/enums'
 import { getResultsDigest } from '@/lib/results/digest'
 
@@ -57,9 +58,9 @@ export async function getMeasureEffects(): Promise<MeasureEffect[]> {
     .not('factor_key', 'is', null)
     .order('created_at')
 
-  if (readFailed('getMeasureEffects', error, data)) return []
+  if (readFailed('getMeasureEffects', error, data)) return failedAs('effects', [])
   const parsed = z.array(EffectRow).safeParse(data)
-  if (parseFailed('getMeasureEffects', parsed)) return []
+  if (parseFailed('getMeasureEffects', parsed)) return failedAs('effects', [])
 
   const roundIds = [
     ...new Set(parsed.data.flatMap((m) => [m.round_id, m.effect_round_id]).filter(Boolean)),
@@ -134,7 +135,7 @@ export type ScreeningCounts = z.infer<typeof Screening>
 export async function getScreeningCounts(roundId: string): Promise<ScreeningCounts | null> {
   const supabase = await createClient()
   const { data, error } = await supabase.rpc('screening_counts', { p_round: roundId })
-  if (callFailed('getScreeningCounts', error)) return null
+  if (callFailed('getScreeningCounts', error)) return failedAs('screening', null)
   const parsed = Screening.safeParse(data)
   return parsed.success ? parsed.data : null
 }
@@ -173,7 +174,7 @@ export async function getInformation(roundId: string): Promise<InformationEvent[
     .eq('round_id', roundId)
     .order('held_on')
 
-  if (readFailed('getInformation', error, data)) return []
+  if (readFailed('getInformation', error, data)) return failedAs('information', [])
   const parsed = z.array(InformationRow).safeParse(data)
   return parsed.success ? parsed.data : []
 }
@@ -186,7 +187,7 @@ export async function getTrainings(): Promise<Training[]> {
     .select('id, title, audience, held_on, next_due, note')
     .order('held_on', { ascending: false })
 
-  if (readFailed('getTrainings', error, data)) return []
+  if (readFailed('getTrainings', error, data)) return failedAs('trainings', [])
   const parsed = z.array(TrainingRow).safeParse(data)
   return parsed.success ? parsed.data : []
 }
@@ -222,11 +223,11 @@ export async function getSigners(): Promise<Signer[]> {
     .in('duty_role', [...SIGNER_ROLES])
     .order('full_name')
 
-  if (readFailed('getSigners', error, data)) return []
+  if (readFailed('getSigners', error, data)) return failedAs('signers', [])
   const parsed = z
     .array(z.object({ full_name: z.string(), duty_role: z.enum(SIGNER_ROLES) }))
     .safeParse(data)
-  if (parseFailed('getSigners', parsed)) return []
+  if (parseFailed('getSigners', parsed)) return failedAs('signers', [])
 
   // the act's own order: the undertaking signs, then the two it must have involved
   const order = (r: SignerRole) => SIGNER_ROLES.indexOf(r)

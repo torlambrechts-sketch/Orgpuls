@@ -14,6 +14,7 @@ import {
 } from '@/components/rapport/RapportScreen'
 import { getExtraQuestions, getFactors } from '@/lib/instrument/read'
 import { getEvaluationStatus, getEvaluations } from '@/lib/report/evaluation'
+import { reportFailures } from '@/lib/report/failures'
 import { getOrgLogo, logoPath } from '@/lib/org/logo'
 import { getOrganization, getViewerRole } from '@/lib/org/read'
 import { getMeasures } from '@/lib/measures/read'
@@ -135,6 +136,8 @@ export default async function RapportPage({
   ])
   const summary = primaryRound ? (digest.summaries.get(primaryRound.id) ?? null) : null
   const prior = prevRound ? (digest.summaries.get(prevRound.id) ?? null) : null
+  // the sections whose read failed just now (review Q1): the document names them
+  const failed = reportFailures()
 
   const threshold = byGroup?.threshold ?? summary?.threshold ?? org?.threshold ?? 5
 
@@ -279,6 +282,7 @@ export default async function RapportPage({
     signers,
     evaluation,
     evaluations,
+    failed,
     logo: logo ? logoPath(logo.key) : null,
     // styling only: information_write_* and training_write_* (0026) check it themselves
     canRecord: role === 'daglig_leder' || role === 'verneombud',

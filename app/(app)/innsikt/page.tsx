@@ -55,7 +55,10 @@ export default async function InnsiktPage() {
   // the round still taking answers: what will measure whether the measures worked
   const open = rounds.find((r) => r.status === 'apen') ?? null
 
-  const current = closed[0] ?? null
+  // the index the page leads with is the arbeidsmiljøindeks: eleven factors, a grunnlinje's. A puls
+  // that closes after it asks two or three, so the page stays on the latest grunnlinje and only an
+  // organisation that has none yet is shown its latest closed round (D-46, decided 2026-09-30)
+  const current = closed.find((r) => r.kind === 'grunnlinje') ?? closed[0] ?? null
   // "−3 siden i fjor": the comparison is the previous round of the SAME kind. A puls asks
   // about two factors and a grunnlinje about eleven, so an index across the two compares
   // different questions; the design's own Resultat pairs 61 with 64 and a puls with the

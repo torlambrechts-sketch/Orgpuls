@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { createClient } from '@/lib/supabase/server'
 import { callFailed, parseFailed, readFailed } from '@/lib/supabase/read'
+import { failedAs } from '@/lib/report/failures'
 import { EVALUATION_CADENCES } from '@/lib/setup/read'
 
 /**
@@ -24,9 +25,9 @@ export async function getEvaluationStatus(org: string | null): Promise<Evaluatio
   if (!org) return null
   const supabase = await createClient()
   const { data, error } = await supabase.rpc('evaluation_status', { p_org: org })
-  if (callFailed('getEvaluationStatus', error)) return null
+  if (callFailed('getEvaluationStatus', error)) return failedAs('evaluation', null)
   const parsed = Status.safeParse(data)
-  if (parseFailed('getEvaluationStatus', parsed)) return null
+  if (parseFailed('getEvaluationStatus', parsed)) return failedAs('evaluation', null)
   return parsed.data
 }
 
@@ -49,8 +50,8 @@ export async function getEvaluations(): Promise<Evaluation[]> {
     .select('id, held_on, counterpart, note')
     .eq('org_id', org)
     .order('held_on', { ascending: false })
-  if (readFailed('getEvaluations', error, data)) return []
+  if (readFailed('getEvaluations', error, data)) return failedAs('evaluation', [])
   const parsed = z.array(Row).safeParse(data)
-  if (parseFailed('getEvaluations', parsed)) return []
+  if (parseFailed('getEvaluations', parsed)) return failedAs('evaluation', [])
   return parsed.data
 }

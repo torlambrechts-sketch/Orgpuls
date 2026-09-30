@@ -717,7 +717,7 @@
       "title": "Since last time",
       "done": "Done",
       "ongoing": "In progress",
-      "footer": "The measures were chosen from the answers you gave in {month}.",
+      "footer": "These are measures you have worked on since the survey in {month}.",
       "first": "This is the first survey. Afterwards you will see what is done with the answers."
     },
     "reason": "Asked because you are working on: {title} (started {date})",
@@ -726,7 +726,7 @@
       "title": "Thank you for your answers",
       "shared": "The results are shared with everyone on {date}.",
       "same": "The managing director and the safety representative see the same figures at the same time.",
-      "anonymous": "Nobody can see what you answered, and no group with fewer than {threshold} answers is shown.",
+      "anonymous": "Nobody can see what you answered to the questions, and no group with fewer than {threshold} answers is shown. Comments can be read by management, without a name.",
       "next": "Afterwards, measures are chosen from the answers, and you will see what is done."
     }
   },
@@ -968,7 +968,20 @@
       "afterNextRound": "The next evaluation is due when the next round has closed.",
       "notYet": "The first evaluation is due after the first survey has closed."
     },
-    "effectMovedSameYear": "{factor} went from {from} to {to} in {year}."
+    "effectMovedSameYear": "{factor} went from {from} to {to} in {year}.",
+    "failed": {
+      "head": "The report is not complete.",
+      "body": "These parts could not be read just now: {sections}. Reload the page before you print or present it.",
+      "section": {
+        "risk": "the risk assessment",
+        "effects": "the effect of the measures",
+        "screening": "the screening for violence and offensive behaviour",
+        "information": "information to employees",
+        "trainings": "training",
+        "signers": "signatures",
+        "evaluation": "the evaluation of the arrangement"
+      }
+    }
   },
   "tiltak": {
     "title": "Measures",

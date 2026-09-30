@@ -121,7 +121,8 @@ for (const fn of callable) {
 const SETTINGS = allow.settings_tables
 const matrix = []
 if (args.includes('--matrix')) {
-  const fns = query(`select p.proname, lower(p.prosrc) from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname in ('app','public')`)
+  // one row per function: a body's newlines and tabs would split it across rows (audit AUD-24)
+  const fns = query(`select p.proname, lower(translate(p.prosrc, E'\\n\\t\\r', '   ')) from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname in ('app','public')`)
   for (const [table, column] of query(
     `select table_name, column_name from information_schema.columns where table_schema = 'app' and table_name = any('{${SETTINGS.join(',')}}') and column_name not in ('id','org_id','created_at','updated_at') order by 1, ordinal_position`,
   )) {

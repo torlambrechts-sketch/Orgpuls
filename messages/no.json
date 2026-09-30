@@ -717,7 +717,7 @@
       "title": "Siden sist",
       "done": "Gjennomført",
       "ongoing": "Pågår",
-      "footer": "Tiltakene ble valgt ut fra svarene dere ga i {month}.",
+      "footer": "Dette er tiltak dere har jobbet med siden målingen i {month}.",
       "first": "Dette er første måling. Etterpå får dere se hva som blir gjort med svarene."
     },
     "reason": "Spørres fordi dere jobber med: {title} (startet {date})",
@@ -726,7 +726,7 @@
       "title": "Takk for svarene dine",
       "shared": "Resultatene deles med alle {date}.",
       "same": "Daglig leder og verneombud ser de samme tallene samtidig.",
-      "anonymous": "Ingen kan se hva du har svart, og ingen grupper vises med færre enn {threshold} svar.",
+      "anonymous": "Ingen kan se hva du svarte på spørsmålene, og ingen grupper vises med færre enn {threshold} svar. Kommentarer kan leses av ledelsen, uten navn.",
       "next": "Etterpå velges tiltak ut fra svarene, og du får se hva som blir gjort."
     }
   },
@@ -968,7 +968,20 @@
       "afterNextRound": "Neste evaluering forfaller når neste runde er lukket.",
       "notYet": "Første evaluering forfaller etter at den første målingen er lukket."
     },
-    "effectMovedSameYear": "{factor} gikk fra {from} til {to} i {year}."
+    "effectMovedSameYear": "{factor} gikk fra {from} til {to} i {year}.",
+    "failed": {
+      "head": "Rapporten er ikke komplett.",
+      "body": "Disse delene kunne ikke hentes nå: {sections}. Last siden på nytt før du skriver den ut eller legger den fram.",
+      "section": {
+        "risk": "risikovurderingen",
+        "effects": "effekten av tiltakene",
+        "screening": "kartleggingen av vold og krenkende atferd",
+        "information": "informasjon til de ansatte",
+        "trainings": "opplæring",
+        "signers": "signaturer",
+        "evaluation": "evalueringen av ordningen"
+      }
+    }
   },
   "tiltak": {
     "title": "Tiltak",

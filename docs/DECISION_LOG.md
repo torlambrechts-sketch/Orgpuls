@@ -2967,8 +2967,9 @@ the app calls it any more (wiring R1, known).
 - [x] P1/P3: migration 0025, eight indexes. No gain at fixture size, by design.
 - [x] Review findings S1–S5, P1–P7, Q3, Q5 and the `job_runs` cross-tenant read are fixed
       and held by tests. X-026, and §0 of the review.
-- [ ] Review Q1: the report cannot yet tell a failed section from an empty one. Needs a
-      decision on the failure treatment.
+- [x] Review Q1: the report tells a failed section from an empty one. A reader that fails still
+      returns what it has, records the section (lib/report/failures.ts), and the document opens
+      with «Rapporten er ikke komplett» naming the parts it could not read; it prints with it (X-100).
 - [ ] Review S4: the respondent token is still in the URL path. `Referrer-Policy` closes the
       third-party leak; a token-to-cookie exchange would take it out of access logs.
 - [ ] Review S6: enable leaked-password protection in the Supabase dashboard.
@@ -3002,8 +3003,7 @@ the app calls it any more (wiring R1, known).
       another account (D-57).
 - [x] Målinger's four dead buttons open real screens. "Forhåndsvis som ansatt" is a preview
       that sends nothing (D-58).
-- [ ] Innsikt's headline follows the latest closed round of any kind, so it will describe
-      a puls once one closes after the grunnlinje. Design question (D-46).
+- [x] Innsikt's headline stays on the latest closed grunnlinje; a puls that closes after it is shown on Resultater and Målinger (D-46, X-100).
 - [ ] The demo organisation ages: re-run `scripts/seed/demo-org.mjs` to refresh it, which
       on the hosted project is a scoped delete-and-reinsert to confirm first (D-47).
 - [x] Playbook: three suggested measures per factor on Resultat and Tiltak, adopted into
@@ -3196,3 +3196,22 @@ against docs/audits/2026-09-28-deep.md found one P2 fixed (AUD-15) and the rest 
 
 **Kept.** A-05: `approve_item_translations` and `approve_ui_translation` stay callable; their own
 check refuses everyone but a platform admin, and the translation suites approve through them.
+
+### X-100 — Innsikt on the grunnlinje, the report's failed sections, the audit's proving tests
+
+- **Innsikt** leads with the latest closed grunnlinje; an organisation with none is shown its latest
+  closed round (D-46). The index is eleven factors; a puls asks two or three.
+- **Rapport (review Q1)**: a section whose read fails is named at the top of the document, which
+  prints with the notice, instead of looking like nothing was recorded (`tests/unit/report-failures`).
+- **AUD-24**: `wiring.mjs --matrix` fills the database column (a function body's newlines no longer
+  split it), and `org_logos` and `evaluations` are settings tables; `evaluations.counterpart` is
+  allowlisted as a record Rapport prints, not a setting.
+- **AUD-25**: `notices_invariants` row 10 proves a round's introduction reaches the claimed
+  invitation before the organisation's greeting; `lib/org/brand.ts` is the one rule for the header
+  and the rail, unit-tested.
+- **AUD-36**: Oppsett's tabs, Integrasjoner, Målinger › Innstillinger and the poster render
+  read-only for roles that may read them — the database refuses their writes (AUD-31). The journey
+  now expects that (journeys.md J6).
+- **AUD-20**: the thank-you page says comments can be read by management, without a name; «Siden
+  sist» says the measures are ones worked on since the survey, not ones chosen from its answers.
+  Drafted in pl, uk, lt, sv and da in the same change (X-089).

@@ -1570,9 +1570,11 @@ realistic data it was on every screen.
   three chips reading "Puls 2026" named none of them. `lib/rounds/title.ts`.
 
 `tests/unit/rounds.test.ts` holds the state and numbering rules (eleven cases). Innsikt's
-headline still follows the latest closed round of any kind, so once a puls closes after
-the grunnlinje the index card describes that puls; whether it should stay on the
-grunnlinje is a design question and is left open.
+headline followed the latest closed round of any kind, so once a puls closed after the
+grunnlinje the index card would have described that puls. Since 2026-09-30 it stays on the latest
+grunnlinje — the index is eleven factors, a puls asks two or three — and only an organisation
+with no closed grunnlinje is shown its latest closed round (X-100). A puls's own result is on
+Resultater and Målinger, as before.
 
 ## D-47 — A demo organisation for evaluation, beside the fixture rather than in it
 

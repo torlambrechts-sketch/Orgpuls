@@ -70,6 +70,8 @@ export interface ReportFactor {
 }
 
 export interface RapportView {
+  /** sections whose read failed on this request (review Q1): named at the top, never shown as empty */
+  failed: ('risk' | 'effects' | 'screening' | 'information' | 'trainings' | 'signers' | 'evaluation')[]
   audience: Audience
   year: number
   scope: ReportScope
@@ -436,6 +438,12 @@ export async function RapportScreen({ view }: { view: RapportView }) {
           ) : null
         }
       >
+        {view.failed.length ? (
+          <div role="alert" className="mb-[18px] rounded-cta bg-sbg px-[18px] py-[14px] text-[13px] leading-[1.6] [text-wrap:pretty]">
+            <span className="font-bold">{t('rapport.failed.head')}</span>{' '}
+            {t('rapport.failed.body', { sections: view.failed.map((f) => t(`rapport.failed.section.${f}`)).join(', ') })}
+          </div>
+        ) : null}
         {/* eslint-disable-next-line @next/next/no-img-element -- the organisation's logo (0104, D-154), same-origin; its name follows */}
         {view.logo ? <img src={view.logo} alt="" className="mb-[14px] block h-[36px] w-auto max-w-[160px] object-contain" /> : null}
         <div className="text-[10.5px] uppercase tracking-[0.12em] text-mut">

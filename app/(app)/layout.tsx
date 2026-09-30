@@ -1,3 +1,4 @@
+import { brandSrc } from '@/lib/org/brand'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations } from 'next-intl/server'
 import { AppHeader } from '@/components/shell/AppHeader'
@@ -56,7 +57,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       <ShellPrefsProvider initial={prefs}>
         <WizardProvider gate={wizard} face={ASSISTANT_FACE}>
           <ShellFrame
-            rail={<SideRail items={items} assistantFace={ASSISTANT_FACE} brand={brand?.inHeader ? logoPath(brand.key) : null} />}
+            rail={<SideRail items={items} assistantFace={ASSISTANT_FACE} brand={brandSrc(brand)} />}
             header={<AppHeader items={items} assistantFace={ASSISTANT_FACE} />}
             footer={<AppFooter />}
           >

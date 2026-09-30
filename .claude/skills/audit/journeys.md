@@ -74,7 +74,10 @@ Actors: daglig leder, avdelingsleder, verneombud, an employee via `/r/<slug>`.
 ## J6 (P1) — Roles see what they may, and no more
 For avdelingsleder and verneombud: every nav item and page; assert the scope (own department,
 no single comments for verneombud, no admin of members). Direct URL to a page they may not see
-→ refused, not an empty page. Another organisation's round id in a URL → refused.
+→ refused, not an empty page. Another organisation's round id in a URL → refused (404; X-099).
+Pages they may read but not change — Oppsett's tabs, Integrasjoner, Målinger › Innstillinger, the
+poster — render read-only, with every control disabled and every write refused by the database
+(AUD-31, AUD-36): that is the intended state, not a refusal the journey should expect.
 
 ## J7 (P1) — Respondent edge cases
 Autosave: answer, reload → restored notice, answers back, no text stored (inspect
