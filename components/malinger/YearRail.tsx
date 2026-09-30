@@ -3,22 +3,29 @@
 import Link from 'next/link'
 import type { Route } from 'next'
 import { usePathname, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import { useTranslations } from 'next-intl'
+import { changeWheelMonth, type MonthProblem } from '@/app/(app)/malinger/actions'
 
 /**
  * The year rail (v3 883-941): twelve months of one year, each showing what was measured
  * then or what the wheel has planned, and a detail line for the month pressed.
  *
  * A month is a button: it only chooses which detail to read, so nothing is fetched. The
- * year is a link, because it is a different set of rounds. The detail's actions are the
- * ones the data backs: "Se resultatet", "Sammenlign med …" and "Se oppsett". The design's
- * "＋ Legg til puls" and "Hopp over denne" are not here: the wheel re-plans every month its
- * cadence names (0020), so a skip needs a record of its own first (D-74).
+ * year is a link, because it is a different set of rounds. The detail's actions: "Se
+ * resultatet", "Sammenlign med …" and "Se oppsett", and for a daglig leder on a month still
+ * ahead the design's month changes (v3 6125-6131, 0133): "Hopp over denne" on the wheel's
+ * planned puls, "Fjern pulsen" on one added by hand, "＋ Legg til puls i …" on an empty month
+ * and "Ta pulsen tilbake" on a skipped one. A skip is a record the wheel reads, so the month
+ * stays as it was left.
  */
+export type RailAction = 'skip' | 'remove' | 'add' | 'restore'
+
 export interface RailCell {
   month: number
   short: string
+  /** the month's name as "＋ Legg til puls i desember" says it */
+  long: string
   isNow: boolean
   state: 'done' | 'open' | 'planned' | 'empty'
   kind: 'grunnlinje' | 'puls' | 'forankring' | null
@@ -27,7 +34,11 @@ export interface RailCell {
   text: string
   roundId: string | null
   compareWith: { id: string; year: number } | null
+  /** what the viewer may change in this month: null for a month gone by, or a role that may not */
+  action: RailAction | null
 }
+
+const TO_RPC = { skip: 'hopp_over', remove: 'hopp_over', add: 'legg_til', restore: 'ta_tilbake' } as const
 
 export interface RailView {
   year: number
@@ -48,8 +59,11 @@ export function YearRail({ view }: { view: RailView }) {
   const pathname = usePathname()
   const search = useSearchParams()
   const [selected, setSelected] = useState(view.selected)
+  const [problem, setProblem] = useState<MonthProblem | null>(null)
+  const [pending, start] = useTransition()
 
   useEffect(() => setSelected(view.selected), [view.selected, view.year])
+  useEffect(() => setProblem(null), [selected, view.year])
   useEffect(() => {
     const url = new URL(window.location.href)
     url.searchParams.set('maned', String(selected))
@@ -64,6 +78,13 @@ export function YearRail({ view }: { view: RailView }) {
   }
 
   const cell = view.cells.find((c) => c.month === selected) ?? view.cells[0]!
+  // the answer is the database's (0133); a refusal is said in the words of its guard
+  const change = (action: RailAction) =>
+    start(async () => {
+      setProblem(null)
+      const r = await changeWheelMonth(view.year, cell.month, TO_RPC[action])
+      if (!r.ok) setProblem(r.problem)
+    })
   const focus = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink'
 
   return (
@@ -153,8 +174,23 @@ export function YearRail({ view }: { view: RailView }) {
         <span className="min-w-0">
           <span className="block text-[14px] font-bold">{cell.title}</span>
           <span className="mt-[2px] block text-[12.5px] text-mut [text-wrap:pretty]">{cell.text}</span>
+          {problem ? (
+            <span role="alert" className="mt-[4px] block text-[12px] leading-[1.45] text-danger [text-wrap:pretty]">
+              {t(`rail.problem.${problem}`)}
+            </span>
+          ) : null}
         </span>
         <span className="flex flex-wrap gap-[8px]">
+          {cell.action === 'skip' || cell.action === 'remove' ? (
+            <button
+              type="button"
+              disabled={pending}
+              onClick={() => change(cell.action!)}
+              className={`inline-flex h-[34px] cursor-pointer items-center rounded-ctl border border-line bg-transparent px-[13px] text-[12px] font-semibold text-danger disabled:cursor-default ${focus}`}
+            >
+              {t(cell.action === 'skip' ? 'rail.skip' : 'rail.remove')}
+            </button>
+          ) : null}
           {cell.compareWith ? (
             <Link
               href={`/resultater?maling=${cell.compareWith.id}&mot=${cell.roundId}` as Route}
@@ -178,6 +214,16 @@ export function YearRail({ view }: { view: RailView }) {
             >
               {t('seeSetup')}
             </Link>
+          ) : null}
+          {cell.action === 'add' || cell.action === 'restore' ? (
+            <button
+              type="button"
+              disabled={pending}
+              onClick={() => change(cell.action!)}
+              className={`inline-flex h-[34px] cursor-pointer items-center rounded-ctl border border-ink bg-ac px-[14px] text-[12px] font-bold text-ink disabled:cursor-default ${focus}`}
+            >
+              {cell.action === 'add' ? t('rail.add', { month: cell.long }) : t('rail.restore')}
+            </button>
           ) : null}
         </span>
       </div>

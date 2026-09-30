@@ -381,7 +381,7 @@
       "indexText": "index {index}",
       "plannedTitle": "{kind} {month} {year}",
       "baselineText": "The whole question set. Goes out automatically from the year wheel.",
-      "pulseText": "From the year wheel. {count, plural, one {# question} other {# questions}} about {factors}, sent {date} at {time}.",
+      "pulseText": "{source, select, added {Added by hand.} other {From the year wheel.}} {count, plural, one {# question} other {# questions}} about {factors}, sent {date} at {time}.",
       "openMeasures": "the factors with open measures",
       "leadText": "The safety representative is told {days, plural, one {# day} other {# days}} before.",
       "now": "Now",
@@ -391,7 +391,26 @@
       "nonePlanned": "Nothing planned this month.",
       "count": "{count, plural, one {# survey} other {# surveys}} in {year} · {done} completed",
       "nextIn": "{kind} in {month}",
-      "nextInYear": "{kind} in {month} {year}"
+      "nextInYear": "{kind} in {month} {year}",
+      "added": "Added",
+      "skipped": "Skipped",
+      "skippedText": "The year wheel’s pulse is skipped this month.",
+      "addText": "Nothing planned. Add a pulse and it goes out automatically on {date}.",
+      "add": "＋ Add a pulse in {month}",
+      "skip": "Skip this one",
+      "remove": "Remove the pulse",
+      "restore": "Bring the pulse back",
+      "problem": {
+        "not_available": "Only the general manager can change the year wheel.",
+        "invalid": "The month could not be changed.",
+        "past": "Only months ahead can be changed.",
+        "occupied": "There is already a survey this month.",
+        "not_planned": "No pulse is planned this month.",
+        "not_skipped": "The pulse this month is not skipped.",
+        "skipped": "The year wheel’s pulse is skipped this month. Bring it back instead.",
+        "no_wheel": "The year wheel is not switched on, so a pulse here would never go out.",
+        "no_factors": "Nothing to ask about: no measures are open."
+      }
     },
     "start": {
       "label": "Start the next pulse now",
@@ -581,6 +600,35 @@
       "anonymous": "Your answer is anonymous. No single answer can be traced back to you, and results are shown only for groups where at least {k} have answered.",
       "noneTitle": "No QR poster yet",
       "noneLead": "The general manager makes the poster under Surveys › Settings."
+    },
+    "addedMeta": "added by hand",
+    "cardLiveTitle": "{title} — open",
+    "cardLiveSub": "Day {day} of {days} · closes {date} at {time}",
+    "nudge": {
+      "label": "Send a reminder to the {count}",
+      "labelNoCount": "Send a reminder",
+      "max": "At most two reminders per round",
+      "all": "Everyone has answered",
+      "note": "Goes out on the same channel as the survey. The text is neutral and says nothing about who is missing.",
+      "sent": "Sent {count, plural, one {# time} other {# times}} this round, last {when}. More than two feels like nagging and lowers trust more than it raises the response rate.",
+      "today": "today at {time}",
+      "on": "{date} at {time}",
+      "problem": {
+        "not_available": "Only the general manager can send reminders.",
+        "not_open": "The round is closed.",
+        "max_reached": "At most two reminders per round.",
+        "none_outstanding": "Everyone has answered."
+      }
+    },
+    "close": {
+      "label": "Close the round",
+      "confirm": "The round closes now, and no further answers come in. The result is calculated from the answers that have arrived, with the same threshold as always.",
+      "cancel": "Cancel",
+      "send": "Close the round now",
+      "problem": {
+        "not_available": "Only the general manager can close a round.",
+        "not_open": "The round is already closed."
+      }
     }
   },
   "extra": {

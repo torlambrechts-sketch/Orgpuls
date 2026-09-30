@@ -43,6 +43,99 @@ export async function startNextPulse(): Promise<StartResult> {
 }
 
 /**
+ * The rail's month actions (0133): «Hopp over denne» and «Fjern pulsen» (hopp_over), «Ta pulsen
+ * tilbake» (ta_tilbake) and «＋ Legg til puls» (legg_til). The guards are the function's — daglig
+ * leder, a month after this one, no open or closed round in it — and this side re-checks nothing.
+ */
+const MONTH_PROBLEMS = ['not_available', 'invalid', 'past', 'occupied', 'not_planned', 'not_skipped', 'skipped', 'no_wheel', 'no_factors'] as const
+export type MonthProblem = (typeof MONTH_PROBLEMS)[number]
+export type MonthAction = 'legg_til' | 'hopp_over' | 'ta_tilbake'
+
+const MonthInput = z.object({
+  year: z.number().int().min(2020).max(2100),
+  month: z.number().int().min(1).max(12),
+  action: z.enum(['legg_til', 'hopp_over', 'ta_tilbake']),
+})
+const MonthResult = z.union([
+  z.object({ ok: z.literal(true), mark: z.enum(['hoppet_over', 'lagt_til']).nullable(), planned: z.boolean().optional() }),
+  z.object({ error: z.enum(MONTH_PROBLEMS) }),
+])
+
+export async function changeWheelMonth(year: number, month: number, action: MonthAction): Promise<{ ok: true } | { ok: false; problem: MonthProblem }> {
+  const org = await getCurrentOrgId()
+  const input = MonthInput.safeParse({ year, month, action })
+  if (!org || !input.success) return { ok: false, problem: 'invalid' }
+
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('wheel_month_change', {
+    p_org: org,
+    p_year: input.data.year,
+    p_month: input.data.month,
+    p_action: input.data.action,
+  })
+  if (callFailed('changeWheelMonth', error)) return { ok: false, problem: 'not_available' }
+  const parsed = MonthResult.safeParse(data)
+  if (!parsed.success) return { ok: false, problem: 'not_available' }
+  if ('error' in parsed.data) return { ok: false, problem: parsed.data.error }
+
+  revalidatePath('/malinger')
+  revalidatePath('/maleoppsett')
+  return { ok: true }
+}
+
+/**
+ * «Lukk runden» (0133): the round closes now, as the wheel closes one — results, notices and k
+ * are the close's own. Daglig leder only, an open round only; the function says so.
+ */
+const RoundId = z.string().uuid()
+const CloseResult = z.union([z.object({ ok: z.literal(true) }), z.object({ error: z.enum(['not_available', 'not_open']) })])
+export type CloseProblem = 'not_available' | 'not_open'
+
+export async function closeRoundNow(roundId: string): Promise<{ ok: true } | { ok: false; problem: CloseProblem }> {
+  const id = RoundId.safeParse(roundId)
+  if (!id.success) return { ok: false, problem: 'not_available' }
+
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('close_round_now', { p_round: id.data })
+  if (callFailed('closeRoundNow', error)) return { ok: false, problem: 'not_available' }
+  const parsed = CloseResult.safeParse(data)
+  if (!parsed.success) return { ok: false, problem: 'not_available' }
+  if ('error' in parsed.data) return { ok: false, problem: parsed.data.error }
+
+  revalidatePath('/malinger')
+  revalidatePath('/innsikt')
+  revalidatePath('/resultater')
+  return { ok: true }
+}
+
+/**
+ * «Send påminnelse til de N» (0133): the ladder's reminder, now, to those who have not
+ * answered. Never a third per round, counted with the wheel's own. The answer is a count of
+ * reminders, never who.
+ */
+const REMIND_PROBLEMS = ['not_available', 'not_open', 'max_reached', 'none_outstanding'] as const
+export type RemindProblem = (typeof REMIND_PROBLEMS)[number]
+const RemindResult = z.union([
+  z.object({ ok: z.literal(true), sent: z.number().int() }),
+  z.object({ error: z.enum(REMIND_PROBLEMS) }),
+])
+
+export async function sendRoundReminder(roundId: string): Promise<{ ok: true } | { ok: false; problem: RemindProblem }> {
+  const id = RoundId.safeParse(roundId)
+  if (!id.success) return { ok: false, problem: 'not_available' }
+
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('send_round_reminder', { p_round: id.data })
+  if (callFailed('sendRoundReminder', error)) return { ok: false, problem: 'not_available' }
+  const parsed = RemindResult.safeParse(data)
+  if (!parsed.success) return { ok: false, problem: 'not_available' }
+  if ('error' in parsed.data) return { ok: false, problem: parsed.data.error }
+
+  revalidatePath('/malinger')
+  return { ok: true }
+}
+
+/**
  * Turning an industry question set on or off for the organisation (0074, D-124). The
  * function checks the role and that the module may be used, records the choice and applies
  * it to the planned grunnlinjer; this side passes the organisation and reads the answer.
