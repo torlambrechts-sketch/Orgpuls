@@ -94,11 +94,12 @@ export default async function CrmTasks({ searchParams }: { searchParams: Promise
                       ) : null}
                       <div className="min-w-0">
                         <div className={`text-[13.5px] font-semibold ${r.done_at ? 'text-mut line-through' : ''}`}>
-                          {auto ? k(`auto.${auto}`, { trigger: r.trigger ? k(`trigger.${r.trigger}`) : '' }) : r.body}
+                          {auto ? k(`auto.${auto}`, { trigger: r.trigger ? k(`trigger.${r.trigger}`) : '', min: data.rules.founder_min }) : r.body}
                         </div>
                         <div className="text-[12px] text-mut">
                           {r.done_at
-                            ? k(r.stopped ? 'stoppedOn' : r.skipped ? 'skippedOn' : 'doneOn', { date: dayFmt.format(new Date(r.done_at)) })
+                            ? // «stopped» only where the objection closed it; a call made before the objection reads done
+                              k(r.skipped ? (r.stopped ? 'stoppedOn' : 'skippedOn') : 'doneOn', { date: dayFmt.format(new Date(r.done_at)) })
                             : r.campaign_id ? (
                               <Link href={`/admin/crm/campaigns/${r.campaign_id}` as Route} className="text-mut underline-offset-2 hover:text-ink">
                                 {k('fromJourney', { journey: r.journey ?? '—' })}
@@ -108,7 +109,7 @@ export default async function CrmTasks({ searchParams }: { searchParams: Promise
                                 ? r.to
                                   ? k('autoSrc.outreachTo', { trigger: r.trigger ?? '—', rule: r.rule ?? '', to: r.to })
                                   : k('autoSrc.outreach', { trigger: r.trigger ?? '—', rule: r.rule ?? '' })
-                                : k(`autoSrc.${auto}`, { rule: r.rule ?? '' })
+                                : k(`autoSrc.${auto}`, { rule: r.rule ?? '', min: data.rules.founder_min })
                             ) : (
                               k('manual')
                             )}

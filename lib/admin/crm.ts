@@ -356,6 +356,11 @@ const Activity = z.object({
   admin_email: z.string().nullable(),
   created_at: z.string(),
   contact: z.string().nullable(),
+  // 0143: a rule's or a trigger's task (its body a key, worded as Tasks words it), the trigger that made
+  // it, and whether its organisation objected — then it stays closed and «Reopen» is not offered
+  origin: z.enum(['rule', 'trigger']).nullable().default(null),
+  trigger: z.enum(['threshold_5', 'threshold_30', 'company_new', 'manager_changed']).nullable().default(null),
+  stopped: z.boolean().default(false),
 })
 export type Activity = z.infer<typeof Activity>
 
@@ -367,6 +372,8 @@ export const crmCompany = (id: string) =>
       company: Company,
       contacts: z.array(Contact),
       activities: z.array(Activity),
+      // 0143: the score a «lead score» callback is made at (app.lead_rules), for its title
+      rules: z.object({ founder_min: num }),
       mail: z.object({ sent: num, opened: num, clicked: num, last_at: tsn }),
       admins: z.array(z.object({ id: z.string(), email: z.string().nullable() })),
     }),
@@ -512,6 +519,8 @@ export const crmTaskList = (view: (typeof TASK_VIEWS)[number]) =>
     'admin_crm_task_list',
     { p_view: view },
     z.object({
+      // 0143: the score a «lead score» callback is made at (app.lead_rules), for its title
+      rules: z.object({ founder_min: num }),
       counts: z.object({ open: num, done: num, all: num, automated: num.default(0), sla_open: num.default(0) }),
       rows: z.array(TaskRow),
     }),

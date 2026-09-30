@@ -31,8 +31,8 @@ export function strongestSignals(fit: Part[], intent: Part[]): { keys: string[];
 }
 
 /** An SLA's state from the working minutes left (negative: over) or, once done, whether it was met */
-export type SlaClock = { kind: 'left' | 'over'; h: number; m: number; urgent: boolean }
-export type SlaState = SlaClock | { kind: 'met' | 'missed' }
+type SlaClock = { kind: 'left' | 'over'; h: number; m: number; urgent: boolean }
+type SlaState = SlaClock | { kind: 'met' | 'missed' }
 export function slaState(left: number | null, met: boolean | null): SlaState | null {
   if (met !== null) return { kind: met ? 'met' : 'missed' }
   if (left === null) return null

@@ -60,6 +60,12 @@ export default async function Page() {
         </StatusChip>
       ) : null}
       {res.last ? b('lead', { when: stamp(res.last.finished_at, now, t('growth.g3.today')) }) : b('leadNever')}
+      {/* an attempt that failed after the last run: never read as a run */}
+      {res.failed ? (
+        <span className="font-semibold text-danger">
+          · {b('failed', { when: stamp(res.failed.at, now, t('growth.g3.today')) })} <span className={MONO}>{res.failed.error}</span>
+        </span>
+      ) : null}
       {res.pending ? <span className="text-mut">· {b('pending')}</span> : null}
     </span>
   )
@@ -68,13 +74,14 @@ export default async function Page() {
     <div className="leading-[1.5]">
       <PageHead title={t('growth.view.crmTriggers.title')} lead={lead} measure={false}>
         {canWrite ? (
-          <div className="flex items-start gap-[10px] leading-[normal]">
+          // relative: Run poll now's answer sits under the pair, out of the head's flow
+          <div className="relative flex items-start gap-[10px] leading-[normal]">
             <EditTriggersDialog
               dryRun={res.dry_run}
               labels={{
                 open: b('editTriggers'),
                 title: b('edit.title'),
-                sub: b('edit.sub', { t5: t5 ?? dash, t30: t30 ?? dash }),
+                sub: b('edit.sub', { t5, t30 }),
                 rows: [
                   { label: b('edit.thresholds'), value: rules.thresholds.join(' · ') },
                   { label: b('edit.industries'), value: naceRanges(rules.industries) },
@@ -88,7 +95,11 @@ export default async function Page() {
               }}
               common={common}
             />
-            <RunPollButton labels={{ run: b('runPoll'), asking: b('polling'), asked: b('asked') }} problems={problems} />
+            <RunPollButton
+              labels={{ run: b('runPoll'), asking: b('polling'), asked: b('asked') }}
+              // one line under the pair: the vault's long sentence has a short form here
+              problems={{ ...problems, not_configured: b('notConfigured') }}
+            />
           </div>
         ) : null}
       </PageHead>
@@ -96,7 +107,7 @@ export default async function Page() {
       <KpiStrip>
         <Stat label={res.last && isRecent(res.last.finished_at, now) ? b('kpi.changesYesterday') : b('kpi.changes')} value={res.last?.changes != null ? fmt(res.last.changes) : dash} hint={b('kpi.changesSub')} />
         <Stat label={b('kpi.matched')} value={res.last ? fmt(k.matched) : dash} hint={b('kpi.matchedSub', { min, n: res.last ? fmt(k.raised) : dash })} />
-        <Stat label={b('kpi.queued')} value={fmt(k.queued)} hint={b('kpi.queuedSub', { n: fmt(k.held_out) })} />
+        <Stat label={b('kpi.queued')} value={fmt(k.queued)} hint={b('kpi.queuedSub', { n: fmt(k.held_out), pct: rules.holdout_pct })} />
         <Stat label={b('kpi.dnc')} value={fmt(k.dnc)} hint={b('kpi.dncSub', { n: fmt(k.purged) })} />
       </KpiStrip>
 

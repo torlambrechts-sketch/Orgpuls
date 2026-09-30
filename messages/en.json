@@ -9018,7 +9018,8 @@
         "orgLink": "Open the organisation",
         "registry": "Register",
         "nextStage": "Move to the next stage",
-        "moveTo": "Move to"
+        "moveTo": "Move to",
+        "stopped": "Stays closed: the company objected"
       },
       "lists": {
         "title": "Lists",
@@ -9809,7 +9810,7 @@
         },
         "auto": {
           "callback_hand_raise": "Call back hand-raiser",
-          "callback_lead_score": "Call — lead score of 60 or more",
+          "callback_lead_score": "Call — lead score of {min} or more",
           "pql_trial": "Founder call — product-qualified trial",
           "outreach_phone": "Phone: {trigger}",
           "outreach_letter": "Letter: {trigger}",
@@ -9817,7 +9818,7 @@
         },
         "autoSrc": {
           "callback_hand_raise": "lead.hand_raised ({rule}) · founder callback",
-          "callback_lead_score": "Lead scoring ≥ 60 ({rule}) · founder callback",
+          "callback_lead_score": "Lead scoring ≥ {min} ({rule}) · founder callback",
           "pql_trial": "PQL ({rule}) · founder task",
           "outreach": "Brønnøysund trigger {trigger} ({rule})",
           "outreachTo": "Brønnøysund trigger {trigger} ({rule}) · to {to}"
@@ -9872,9 +9873,9 @@
         "intentCap": "At most {n} today: {count} of the {total} have no source yet",
         "part": {
           "industry": "Target industry code ({codes})",
-          "size": "5–100 employees",
-          "crossed": "Crossed 5 or 30 employees in the last 90 days",
-          "manager": "New general manager in the last 180 days",
+          "size": "{min}–{max} employees",
+          "crossed": "Crossed {t5} or {t30} employees in the last {crossed} days",
+          "manager": "New general manager in the last {manager} days",
           "active": "Active and not under liquidation",
           "tool": "Tool completed",
           "pdf": "PDF requested",
@@ -9885,9 +9886,9 @@
         },
         "short": {
           "industry": "Target industry code",
-          "size": "5–100 employees",
-          "crossed": "Crossed 5 or 30 employees · 90 d",
-          "manager": "New general manager · 180 d",
+          "size": "{min}–{max} employees",
+          "crossed": "Crossed {t5} or {t30} employees · {crossed} d",
+          "manager": "New general manager · {manager} d",
           "active": "Active, not under liquidation",
           "tool": "Tool completed",
           "pdf": "PDF requested",
@@ -9898,7 +9899,7 @@
         },
         "noSource": "{part} · no source yet",
         "points": "+{n}",
-        "routing": "<b>Routing.</b> 60 or more, or any hand-raise, creates a founder task with a one-hour SLA (weekdays 08–16). Below 60 goes to nurture. Trial users follow the PQL rule instead: activated, or ≥ 50 % response by day 7, or a verneombud invited on the 26–100 tier."
+        "routing": "<b>Routing.</b> {min} or more, or any hand-raise, creates a founder task with a one-hour SLA (weekdays 08–16). Below {min} goes to nurture. Trial users follow the PQL rule instead: activated, or ≥ 50 % response by day 7, or a verneombud invited on the 26–100 tier."
       },
       "audienceTabs": {
         "contacts": "Contacts",
@@ -11527,18 +11528,14 @@
         },
         "crmConsent": {
           "title": "Consent & suppression",
-          "lead": "Append-only ledger · markedsføringsloven § 15 · asking for consent by email is itself marketing",
-          "empty": "The consent ledger, the preference centre and the suppression list arrive with the ledger itself, folded over today’s contacts."
+          "lead": "Append-only ledger · markedsføringsloven § 15 · asking for consent by email is itself marketing"
         },
         "crmTriggers": {
-          "title": "Brønnøysund triggers",
-          "lead": "Daily poll of the update feed",
-          "empty": "The poll of Enhetsregisteret’s update feed, its triggers and the outreach queue arrive in dry run, with a holdout and a do-not-contact list."
+          "title": "Brønnøysund triggers"
         },
         "crmPartners": {
           "title": "Partners",
-          "lead": "Trusted reach at low ACV · attribution on the organisation number, never on respondents",
-          "empty": "Partners, their referral codes and the attribution on the organisation number arrive with this page."
+          "lead": "Trusted reach at low ACV · attribution on the organisation number, never on respondents"
         },
         "cmsMagnets": {
           "title": "Tools & lead magnets",
@@ -11787,11 +11784,13 @@
           "dryRun": "Dry run — tasks are queued, not assigned",
           "lead": "Daily poll of the update feed · last run {when}",
           "leadNever": "Daily poll of the update feed · no run yet",
+          "failed": "the attempt {when} failed:",
           "pending": "a poll is on its way",
           "editTriggers": "Edit triggers",
           "runPoll": "Run poll now",
           "polling": "Asking …",
           "asked": "Asked. The results arrive when the poll has run.",
+          "notConfigured": "Not asked: the vault here holds no dispatcher address.",
           "kpi": {
             "changes": "Entity changes · last poll",
             "changesYesterday": "Entity changes · yesterday",
@@ -11799,7 +11798,7 @@
             "matched": "Matched triggers",
             "matchedSub": "fit score ≥ {min} on {n}",
             "queued": "Outreach tasks queued",
-            "queuedSub": "{n} held out (10 %)",
+            "queuedSub": "{n} held out ({pct} %)",
             "dnc": "Do-not-contact",
             "dncSub": "{n} entities purged (HTTP 410)"
           },

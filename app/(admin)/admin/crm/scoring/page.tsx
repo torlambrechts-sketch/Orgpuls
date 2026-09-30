@@ -42,17 +42,36 @@ export default async function LeadScoring() {
   const intentPoints = data.intent_rules
   const unsourced = intentPoints.filter((p) => !p.sourced)
   const reachable = intentPoints.filter((p) => p.sourced).reduce((n, p) => n + p.points, 0)
+  // the bands, windows and thresholds a part names are the engine's (app.brreg_rules), never a copy in the messages
+  const rules = data.rules
+  const values = {
+    codes: naceRanges(rules.industries),
+    min: rules.size[0],
+    max: rules.size[1],
+    t5: rules.thresholds[0],
+    t30: rules.thresholds[1],
+    crossed: rules.crossed_days,
+    manager: rules.manager_days,
+  }
   const why = (r: Scored) => {
     const top = strongestSignals(r.fit_parts, r.intent_parts)
     if (!top.keys.length) return s('fitOnly')
-    return [...top.keys.map((k) => s(`short.${k}`)), ...(top.more > 0 ? [s('more', { n: top.more })] : [])].join(' · ')
+    return [...top.keys.map((k) => s(`short.${k}`, values)), ...(top.more > 0 ? [s('more', { n: top.more })] : [])].join(' · ')
   }
 
   return (
     <div className="leading-[1.5]">
       <PageHead title={s('title')} lead={s('lead', { hot, nurture, trial })} measure={false} />
       <div className="grid items-start gap-[18px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1.3fr)_minmax(300px,.7fr)]">
-        <section className="min-w-0 overflow-x-auto rounded-panel border border-line bg-sf">
+        {/*
+          The design's table is 860 px wide in a card that is 844 px at its widest (the admin column's
+          1320 px, from a 1392 px window): 16 px of its rows' right padding lie past the card, and the
+          design's scroller clips them. From 1392 px the card cannot narrow, so the build clips them
+          without a scroller (overflow-x: clip): a scroller there is a composited layer in Chromium, and
+          the text drawn after it (the Fit and Intent card) loses its sub-pixel antialiasing. Below
+          1392 px the card narrows and the table scrolls, as the design's.
+        */}
+        <section className="min-w-0 overflow-x-auto rounded-panel border border-line bg-sf min-[1392px]:overflow-x-clip">
           <div role="table" aria-label={s('table')} className="min-w-[860px]">
             <div role="row" className={`flex items-center gap-[14px] border-b border-line px-[20px] pb-[10px] pt-[14px] ${HEAD}`}>
               <span role="columnheader" className="flex-[2.2]">{s('head.contact')}</span>
@@ -121,8 +140,7 @@ export default async function LeadScoring() {
           <div className="mt-[8px] flex flex-col">
             {fitPoints.map((p) => (
               <div key={p.key} className="flex items-center gap-[12px] border-b border-line py-[10px] text-[13.5px]">
-                {/* the target industries are the engine's (app.brreg_rules), never a copy in the messages */}
-                <div className="min-w-0 flex-1">{s(`part.${p.key}`, { codes: naceRanges(data.industries) })}</div>
+                <div className="min-w-0 flex-1">{s(`part.${p.key}`, values)}</div>
                 <b className="min-w-[36px] text-right">{s('points', { n: p.points })}</b>
               </div>
             ))}
@@ -138,12 +156,13 @@ export default async function LeadScoring() {
             {intentPoints.map((p) => (
               <div key={p.key} className="flex items-center gap-[12px] border-b border-line py-[10px] text-[13.5px]">
                 <div className="min-w-0 flex-1">{p.sourced ? s(`part.${p.key}`) : s('noSource', { part: s(`part.${p.key}`) })}</div>
-                <b className={`min-w-[36px] text-right ${p.sourced ? '' : 'text-mut'}`}>{s('points', { n: p.points })}</b>
+                {/* the weight in ink, as the design draws every one; «no source yet» carries the status */}
+                <b className="min-w-[36px] text-right">{s('points', { n: p.points })}</b>
               </div>
             ))}
           </div>
           <div className="mt-[16px] rounded-cta border border-line bg-bg px-[16px] py-[14px] text-[13px] leading-[1.55] [text-wrap:pretty]">
-            {t.rich('crm.scoring.routing', { b: (ch) => <b>{ch}</b> })}
+            {t.rich('crm.scoring.routing', { b: (ch) => <b>{ch}</b>, min: rules.founder_min })}
           </div>
         </section>
       </div>

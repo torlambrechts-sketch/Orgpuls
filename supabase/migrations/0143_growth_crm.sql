@@ -210,6 +210,21 @@ create table app.brreg_outreach (
   check (channel is not null or status = 'do_not_contact'),
   check (status <> 'assigned' or activity_id is not null)
 );
+-- A task (or its company) deleted clears activity_id by the foreign key. That UPDATE is the database's own
+-- referential maintenance and must go through (CLAUDE.md): an assigned row whose task is gone is no longer
+-- anyone's work, so it goes back to the queue, where assigning makes a new task. Nothing else changes.
+create function app.brreg_outreach_orphaned() returns trigger
+  language plpgsql set search_path = ''
+as $fn$
+begin
+  new.status := 'queued';
+  new.assigned_at := null;
+  return new;
+end $fn$;
+revoke all on function app.brreg_outreach_orphaned() from public, anon, authenticated;
+create trigger brreg_outreach_orphaned before update of activity_id on app.brreg_outreach
+  for each row when (old.activity_id is not null and new.activity_id is null and new.status = 'assigned')
+  execute function app.brreg_outreach_orphaned();
 create index brreg_outreach_status on app.brreg_outreach (status, created_at desc);
 create index brreg_outreach_activity on app.brreg_outreach (activity_id) where activity_id is not null;
 create index brreg_outreach_company on app.brreg_outreach (company_id) where company_id is not null;
@@ -222,13 +237,26 @@ revoke all on app.brreg_outreach from public, anon, authenticated;
 -- (46–47), information and professional services (58–74), education (85), health and social work
 -- (86–88) — and the fit a trigger needs before outreach. The ingest, fit and the raise read them
 -- here, and «Edit triggers» shows them from here (admin_brreg_triggers), so the page cannot say
--- one thing while the engine does another.
+-- one thing while the engine does another. Fit's own bands are here too — the size band (5–100), the
+-- window for a crossing (90 days) and for a new general manager (180 days) — and the holdout's share
+-- (10 %, a divisor of 100): app.fit_score and app.brreg_holdout read them, and Lead scoring and the
+-- triggers page write them from here.
 create function app.brreg_rules() returns jsonb
   language sql immutable set search_path = ''
 as $fn$
-  select '{"thresholds": [5, 30], "industries": [[41, 43], [46, 47], [58, 74], [85, 85], [86, 88]], "fit_min": 30}'::jsonb
+  select '{"thresholds": [5, 30], "industries": [[41, 43], [46, 47], [58, 74], [85, 85], [86, 88]], "fit_min": 30,
+           "size": [5, 100], "crossed_days": 90, "manager_days": 180, "holdout_pct": 10}'::jsonb
 $fn$;
 revoke all on function app.brreg_rules() from public, anon, authenticated;
+
+-- Lead scoring's routing: the score from which a lead is a founder callback. app.lead_score routes by
+-- it; Lead scoring and Tasks write it from here.
+create function app.lead_rules() returns jsonb
+  language sql immutable set search_path = ''
+as $fn$
+  select '{"founder_min": 60}'::jsonb
+$fn$;
+revoke all on function app.lead_rules() from public, anon, authenticated;
 
 create function app.fit_target_nace(p_nace text) returns boolean
   language sql immutable set search_path = ''
@@ -245,11 +273,12 @@ create function app.fit_score(p_nace text, p_employees int, p_crossed_at timesta
   returns jsonb
   language sql stable set search_path = ''
 as $fn$
-  with p(key, points, hit, ord) as (values
+  with r as (select app.brreg_rules() as v),
+  p(key, points, hit, ord) as (values
     ('industry', 15, coalesce(app.fit_target_nace(p_nace), false), 1),
-    ('size', 15, coalesce(p_employees between 5 and 100, false), 2),
-    ('crossed', 10, coalesce(p_crossed_at > now() - interval '90 days', false), 3),
-    ('manager', 5, coalesce(p_manager_on > (now() at time zone 'Europe/Oslo')::date - 180, false), 4),
+    ('size', 15, coalesce(p_employees between (select (r.v->'size'->>0)::int from r) and (select (r.v->'size'->>1)::int from r), false), 2),
+    ('crossed', 10, coalesce(p_crossed_at > now() - make_interval(days => (select (r.v->>'crossed_days')::int from r)), false), 3),
+    ('manager', 5, coalesce(p_manager_on > (now() at time zone 'Europe/Oslo')::date - (select (r.v->>'manager_days')::int from r), false), 4),
     ('active', 5, coalesce(p_active, false), 5))
   select jsonb_build_object('total', sum(case when p.hit then p.points else 0 end),
                             'parts', jsonb_agg(jsonb_build_object('key', p.key, 'points', p.points, 'on', p.hit) order by p.ord))
@@ -258,11 +287,12 @@ $fn$;
 revoke all on function app.fit_score(text, int, timestamptz, date, boolean) from public, anon, authenticated;
 
 -- ============================================================ 4. Brønnøysund: the engine
--- 10 % of organisations are held out, always the same ones: a hash of the number, never chance.
+-- 10 % of organisations (app.brreg_rules' holdout_pct) are held out, always the same ones: a hash of
+-- the number, never chance.
 create function app.brreg_holdout(p_org text) returns boolean
   language sql immutable set search_path = ''
 as $fn$
-  select ('x' || left(md5('orgpuls-holdout:' || p_org), 7))::bit(28)::int % 10 = 0
+  select ('x' || left(md5('orgpuls-holdout:' || p_org), 7))::bit(28)::int % (100 / (app.brreg_rules()->>'holdout_pct')::int) = 0
 $fn$;
 revoke all on function app.brreg_holdout(text) from public, anon, authenticated;
 
@@ -298,7 +328,8 @@ begin
     return false;
   end if;
   if exists (select 1 from app.brreg_dnc d where d.org_number = o.org_number) then
-    update app.brreg_outreach set status = 'do_not_contact' where id = o.id;
+    -- stopped for good: the manager's name has no purpose left
+    update app.brreg_outreach set status = 'do_not_contact', manager_name = null where id = o.id;
     return false;
   end if;
   select * into en from app.brreg_entities e where e.org_number = o.org_number;
@@ -392,14 +423,27 @@ revoke all on function app.brreg_outreach_done() from public, anon, authenticate
 create trigger brreg_outreach_done after update of done_at on app.crm_activities
   for each row when (old.done_at is distinct from new.done_at) execute function app.brreg_outreach_done();
 
--- A task an objection closed stays closed: reopening it would put a company on the do-not-contact
--- list back in front of a person as work to do. Only a reopening is refused (done_at set → null);
--- the column is no foreign key, so no referential action ever takes this path.
+-- Whether a Brønnøysund task's organisation objected: its outreach stopped, or its number on the
+-- do-not-contact list — however the task ended. An objection recorded after the call was marked done
+-- (the most common order: the company objects on that call) leaves the outreach «sent», and the list
+-- is what still says no.
+create function app.brreg_task_objected(p_task uuid) returns boolean
+  language sql stable security definer set search_path = ''
+as $fn$
+  select exists (select 1 from app.brreg_outreach o
+                 where o.activity_id = p_task
+                   and (o.status = 'do_not_contact' or exists (select 1 from app.brreg_dnc d where d.org_number = o.org_number)))
+$fn$;
+revoke all on function app.brreg_task_objected(uuid) from public, anon, authenticated;
+
+-- A task whose organisation objected stays closed: reopening it would put a company on the
+-- do-not-contact list back in front of a person as work to do. Only a reopening is refused (done_at
+-- set → null); the column is no foreign key, so no referential action ever takes this path.
 create function app.brreg_task_stopped() returns trigger
   language plpgsql security definer set search_path = ''
 as $fn$
 begin
-  if exists (select 1 from app.brreg_outreach o where o.activity_id = new.id and o.status = 'do_not_contact') then
+  if app.brreg_task_objected(new.id) then
     raise exception 'this outreach was stopped by an objection; its task stays closed' using errcode = 'check_violation';
   end if;
   return new;
@@ -596,7 +640,7 @@ begin
   for r in select x from jsonb_array_elements(p_rows) x loop
     if char_length(btrim(coalesce(r->>'name', ''))) between 2 and 120 and r->>'id' ~ '^[0-9a-f-]{36}$' then
       update app.brreg_outreach set manager_name = btrim(r->>'name')
-      where id = (r->>'id')::uuid and channel in ('phone', 'letter') and manager_name is null;
+      where id = (r->>'id')::uuid and channel in ('phone', 'letter') and manager_name is null and status in ('queued', 'assigned');
       if found then v_n := v_n + 1; end if;
     end if;
   end loop;
@@ -740,7 +784,7 @@ begin
     end;
   end if;
   v_total := (v_fit->>'total')::int + (v_intent->>'total')::int;
-  v_route := case when v_total >= 60 or v_hand is not null then 'founder'
+  v_route := case when v_total >= (app.lead_rules()->>'founder_min')::int or v_hand is not null then 'founder'
                   when v_trial then case when v_pql is not null then 'pql' else 'trial' end
                   else 'nurture' end;
   return jsonb_build_object('fit', (v_fit->>'total')::int, 'fit_parts', v_fit->'parts',
@@ -1075,7 +1119,10 @@ end $fn$;
 
 -- The Art. 14 notice at a first call: a ledger record on the company. An objection is a withdrawal
 -- and puts the number on the do-not-contact list; every outreach not yet made for it stops — queued,
--- or already assigned to a person, whose open task is closed as skipped in the same transaction.
+-- or already assigned to a person, whose open task is closed as skipped in the same transaction — and
+-- no row of it keeps the general manager's name, which has no purpose once the company has said no.
+-- Outreach already made stays «sent» (a contact that happened); its task cannot be reopened
+-- (app.brreg_task_objected reads the list).
 create function public.admin_consent_phone_notice(p_org_number text, p_objected boolean) returns jsonb
   language plpgsql security definer set search_path = ''
 as $fn$
@@ -1106,6 +1153,8 @@ begin
           'phone_notice', auth.uid());
   if p_objected then
     insert into app.brreg_dnc (org_number, reason, created_by) values (v_org, 'objected', auth.uid()) on conflict (org_number) do nothing;
+    -- once the organisation has objected, no row of it has a purpose for the manager's name
+    update app.brreg_outreach set manager_name = null where org_number = v_org and manager_name is not null;
     with stopped as (
       update app.brreg_outreach set status = 'do_not_contact'
       where org_number = v_org and status in ('queued', 'assigned')
@@ -1140,6 +1189,13 @@ begin
     -- the rules the engine applies, for «Edit triggers» (the thresholds, the industries, the fit minimum)
     'rules', app.brreg_rules(),
     'last', case when p.id is null then null else jsonb_build_object('id', p.id, 'finished_at', p.finished_at, 'changes', p.changes) end,
+    -- the latest attempt that failed after the last finished poll (the feed's error code, or no_answer: a
+    -- request nobody answered within the hour), so an engine that keeps failing never reads as a run
+    'failed', (select jsonb_build_object('at', x.at, 'error', x.error) from (
+                 select coalesce(f.finished_at, f.requested_at + interval '1 hour') as at, coalesce(f.error, 'no_answer') as error
+                 from app.brreg_polls f
+                 where f.status = 'failed' or (f.status in ('requested', 'running') and f.requested_at < now() - interval '1 hour')) x
+               where x.at > coalesce(p.finished_at, '-infinity'::timestamptz) order by x.at desc limit 1),
     'pending', exists (select 1 from app.brreg_polls x where x.status in ('requested', 'running') and x.requested_at > now() - interval '1 hour'),
     'kpis', jsonb_build_object(
       'raised', (select count(*) from app.brreg_triggers t where t.poll_id = p.id),
@@ -1312,8 +1368,9 @@ begin
   return jsonb_build_object('ok', true,
     -- the rules as the database scores them, row or no row
     'fit_rules', app.fit_score(null, null, null, null, null)->'parts',
-    -- the target industries fit scores (app.brreg_rules), for the card's «Target industry code (…)»
-    'industries', app.brreg_rules()->'industries',
+    -- the rules fit and routing apply (app.brreg_rules, app.lead_rules), which the card writes: the
+    -- target industries, the size band, the thresholds and their windows, the founder score
+    'rules', app.brreg_rules() || app.lead_rules(),
     'intent_rules', app.intent_score(false)->'parts',
     'rows', (
     select coalesce(jsonb_agg(jsonb_build_object('id', c.id, 'name', coalesce(nullif(btrim(c.name), ''), c.email),
@@ -1337,6 +1394,8 @@ begin
     return jsonb_build_object('ok', false, 'error', 'invalid');
   end if;
   return jsonb_build_object('ok', true,
+    -- the score a «lead score» callback was made at (app.lead_rules), for its title
+    'rules', app.lead_rules(),
     'counts', (select jsonb_build_object(
         'open', count(*) filter (where a.done_at is null),
         'done', count(*) filter (where a.done_at > now() - interval '90 days'),
@@ -1363,7 +1422,7 @@ begin
         'to', (select case o.channel when 'letter' then e.address
                                      when 'email' then case when not app.crm_suppressed(o.email) then o.email end end
                from app.brreg_outreach o join app.brreg_entities e on e.org_number = o.org_number where o.activity_id = a.id),
-        'stopped', exists (select 1 from app.brreg_outreach o where o.activity_id = a.id and o.status = 'do_not_contact'))
+        'stopped', app.brreg_task_objected(a.id))
         order by (a.done_at is not null), a.sla_due_at nulls last, a.due_at nulls last, a.done_at desc, a.created_at), '[]')
       from app.crm_activities a join app.crm_companies co on co.id = a.company_id
       left join app.crm_campaigns st on st.id = a.campaign_id
@@ -1373,8 +1432,9 @@ begin
                         else a.done_at is null or a.done_at > now() - interval '90 days' end));
 end $fn$;
 
--- 0137's «Mark done» and «Reopen», with one refusal: a task an objection closed is not reopened
--- (app.brreg_task_stopped holds the same rule for any other writer).
+-- 0137's «Mark done» and «Reopen», with one refusal: a task whose organisation objected — before the
+-- task was done or after — is not reopened (app.brreg_task_stopped holds the same rule for any other
+-- writer).
 create or replace function public.admin_crm_task_done(p_id uuid) returns jsonb
   language plpgsql security definer set search_path = ''
 as $fn$
@@ -1382,8 +1442,7 @@ begin
   if not app.crm_can_write() then
     return jsonb_build_object('ok', false, 'error', 'not_allowed');
   end if;
-  if exists (select 1 from app.crm_activities a join app.brreg_outreach o on o.activity_id = a.id
-             where a.id = p_id and a.done_at is not null and o.status = 'do_not_contact') then
+  if exists (select 1 from app.crm_activities a where a.id = p_id and a.done_at is not null) and app.brreg_task_objected(p_id) then
     return jsonb_build_object('ok', false, 'error', 'stopped');
   end if;
   -- 0137: reopening a task also takes back a skip
@@ -1393,6 +1452,43 @@ begin
   end if;
   perform app.admin_log('crm.task_done', null, 'crm_activity', p_id::text);
   return jsonb_build_object('ok', true);
+end $fn$;
+
+-- ---------------------------------------------------------------- A company's page: 0056's, with the task's origin
+-- Each activity also says what made its task and which Brønnøysund trigger (so the page words `auto:…` as
+-- Tasks does, with the founder score from app.lead_rules) and whether its organisation objected, so
+-- «Reopen» is not offered on a task that stays closed.
+create or replace function public.admin_crm_company(p_id uuid) returns jsonb
+  language plpgsql security definer set search_path = ''
+as $fn$
+declare
+  v_co app.crm_companies;
+begin
+  if not app.crm_can_read() then
+    return jsonb_build_object('ok', false, 'error', 'not_allowed');
+  end if;
+  select * into v_co from app.crm_companies where id = p_id;
+  if v_co.id is null then
+    return jsonb_build_object('ok', false, 'error', 'not_found');
+  end if;
+  perform app.admin_log('crm.company', v_co.org_id, 'crm_company', p_id::text);
+  return jsonb_build_object('ok', true, 'company', app.crm_company_json(v_co),
+    -- the score a «lead score» callback is made at (app.lead_rules), for its title
+    'rules', app.lead_rules(),
+    'contacts', (select coalesce(jsonb_agg(app.crm_contact_json(c) order by c.created_at), '[]') from app.crm_contacts c where c.company_id = p_id),
+    'activities', (select coalesce(jsonb_agg(jsonb_build_object('id', a.id, 'kind', a.kind, 'body', a.body, 'due_at', a.due_at, 'done_at', a.done_at,
+                     'admin_email', a.admin_email, 'created_at', a.created_at,
+                     'contact', (select coalesce(c.name, c.email) from app.crm_contacts c where c.id = a.contact_id),
+                     'origin', a.origin,
+                     'trigger', (select t.kind from app.brreg_outreach o join app.brreg_triggers t on t.id = o.trigger_id where o.activity_id = a.id),
+                     'stopped', a.kind = 'task' and app.brreg_task_objected(a.id)) order by a.created_at desc), '[]')
+                   from app.crm_activities a where a.company_id = p_id),
+    'mail', (select jsonb_build_object('sent', count(*) filter (where s.status = 'sent'), 'opened', count(*) filter (where s.opened_at is not null),
+                     'clicked', count(*) filter (where s.clicked_at is not null), 'last_at', max(s.sent_at))
+             from app.crm_sends s join app.crm_contacts c on c.id = s.contact_id where c.company_id = p_id and s.kind = 'campaign'),
+    'admins', (select coalesce(jsonb_agg(jsonb_build_object('id', a.user_id, 'email', u.email) order by u.email), '[]')
+               from app.platform_admins a join auth.users u on u.id = a.user_id
+               where a.active and a.role in ('super_admin', 'marketing')));
 end $fn$;
 
 -- ============================================================ 9. grants

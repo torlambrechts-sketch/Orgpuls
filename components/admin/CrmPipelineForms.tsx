@@ -203,8 +203,26 @@ export function ActivityForm({
   )
 }
 
-export function TaskToggle({ id, company, done, labels }: { id: string; company: string; done: boolean; labels: { done: string; reopen: string } }) {
-  const [, action, pending] = useKeptAction(toggleTask, () => undefined)
+/**
+ * «Done» or «Reopen» on a company's task. A Brønnøysund task whose organisation objected stays closed
+ * (0143): no «Reopen», the reason instead; and should the objection land between the page and the
+ * press, the database's refusal (`stopped`) is shown, not swallowed.
+ */
+export function TaskToggle({
+  id,
+  company,
+  done,
+  stopped,
+  labels,
+}: {
+  id: string
+  company: string
+  done: boolean
+  stopped: boolean
+  labels: { done: string; reopen: string; stopped: string; failed: string }
+}) {
+  const [state, action, pending] = useKeptAction(toggleTask, () => undefined)
+  if (done && stopped) return <span className="text-[12px]">{labels.stopped}</span>
   return (
     <form action={action} className="inline">
       <input type="hidden" name="id" value={id} />
@@ -212,6 +230,11 @@ export function TaskToggle({ id, company, done, labels }: { id: string; company:
       <button type="submit" disabled={pending} className="cursor-pointer border-0 bg-transparent p-0 text-[12px] font-semibold text-link underline">
         {done ? labels.reopen : labels.done}
       </button>
+      {state && !state.ok ? (
+        <span role="alert" className="ml-[6px] text-[12px] font-semibold text-danger">
+          {state.problem === 'stopped' ? labels.stopped : labels.failed}
+        </span>
+      ) : null}
     </form>
   )
 }

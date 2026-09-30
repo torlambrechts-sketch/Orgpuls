@@ -66,6 +66,9 @@ export function g3Sql({ id, q, today, company, contact, task }) {
   const raises = ENTITIES.map(
     ([, , orgnr, , , before, after, kind]) => `select app.brreg_raise(${q(orgnr)}, ${q(kind)}, ${POLL_ID}, ${before === null || kind === 'manager_changed' ? 'null' : before}, ${after});`,
   ).join('\n')
+  // the queue lists the newest first; raised in one transaction the rows share one time, so they are
+  // set a second apart in the design's order (its first row the newest), never left to a tie
+  const order = ENTITIES.map(([, , orgnr], i) => `(${q(orgnr)}, ${i})`).join(', ')
   const partners = PARTNERS.map(
     ([key, name, kind, person, code, share, pct, status]) =>
       `('${id(`partner:${key}`)}'::uuid, ${q(name)}, ${q(kind)}, ${q(person)}, ${q(code)}, ${q(share)}, ${pct ?? 'null'}, ${q(status)})`,
@@ -90,6 +93,8 @@ update app.brreg_entities set manager_changed_on = (now() at time zone 'Europe/O
 -- Tromsø Elektro objected at its first call: the do-not-contact list before its trigger
 insert into app.brreg_dnc (org_number, reason) values ('921555908', 'objected');
 ${raises}
+update app.brreg_outreach o set created_at = o.created_at - make_interval(secs => x.i)
+from (values ${order}) x(org, i) where o.org_number = x.org;
 
 insert into app.consent_records (company_id, purpose, status, lawful_basis, method) values
   (${company('fjellstua')}, 'phone_outreach', 'notice_given', 'legit_interest_phone', 'phone_notice'),

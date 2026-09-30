@@ -185,13 +185,20 @@ export function EditTriggersDialog({
 /** «Run poll now»: asks for a poll (once in 15 minutes); what it finds arrives when it has run */
 export function RunPollButton({ labels, problems }: { labels: { run: string; asking: string; asked: string }; problems: Record<string, string> }) {
   const [state, run, pending] = useActionState<AdminResult | null, FormData>(async (prev) => runPollNow(prev), null)
+  // The answer is placed under the button pair (the nearest positioned ancestor, which the page marks
+  // relative), out of the flow: in the flow it widened the form and grew the head, moving «Edit
+  // triggers» away and the title down. One line, inside the head's 22 px margin; right-aligned from md,
+  // left-aligned on a phone, where the pair wraps under the title.
   return (
-    <form action={run} className="flex flex-col items-end gap-[6px]">
+    <form action={run}>
       <button type="submit" className={BTN.primary} disabled={pending}>
         {pending ? labels.asking : labels.run}
       </button>
       {state ? (
-        <span role="status" className={`max-w-[260px] text-right text-[12px] ${state.ok ? 'text-mut' : 'font-semibold text-danger'}`}>
+        <span
+          role="status"
+          className={`absolute left-0 top-full mt-[3px] w-max max-w-[min(420px,calc(100vw-32px))] text-[12px] leading-[1.5] md:left-auto md:right-0 md:text-right ${state.ok ? 'text-mut' : 'font-semibold text-danger'}`}
+        >
           {state.ok ? labels.asked : (problems[state.problem] ?? problems.failed)}
         </span>
       ) : null}
@@ -200,7 +207,7 @@ export function RunPollButton({ labels, problems }: { labels: { run: string; ask
 }
 
 // ---------------------------------------------------------------- Partners
-export type PartnerValues = {
+type PartnerValues = {
   id: string
   name: string
   org_number: string | null
