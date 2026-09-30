@@ -7705,3 +7705,111 @@ personal row, the keys and masking, one leader's event setting only that leader'
 rollup, a late older event overwriting nothing, the admin's masked view and the ticket reply's
 state; `tests/unit/mail.test.ts` the split, the key the database digests, the sends a retry still
 owes and the four-at-a-time sender.
+
+---
+
+## D-176 — Retention and deletion routine
+
+**The request:** the checklist line «An automated retention and deletion routine; the agreement
+promises deletion within 30 days of termination (D-87)», with the retention card on Oppsett ›
+Personvern saying what now happens.
+
+**What already existed, and was kept.** The routine was built in 0064–0066 (D-108, D-110); the
+checklist line was never ticked, and D-87's «the retention card still says the routine is not
+automated» had gone stale with it:
+- *Termination* is a cancellation: the daglig leder cancels in Oppsett › Betaling (D-110), or
+  support, finance or a super-admin registers one on Admin › Organisation with a reason, audited
+  (`org.cancel`). Either can be undone until the deletion is carried out (`withdraw_cancellation`,
+  `admin_cancel_withdraw`, audited). The organisation is read-only from the midnight after its last
+  day; deletion is due thirty Oslo days later.
+- *The purge* is `app.deletion_run()`, scheduled daily at 02:40 UTC as `orgpuls-deletion`. It acts
+  only on organisations with a cancellation whose date has come, through
+  `app.delete_organisation()`: rounds first (their answers go with them), then the organisation,
+  whose rows cascade; its support tickets; CRM contacts known only through the customer; and the
+  sign-in accounts that belonged to it alone. `app.deletion_log` records it.
+- The brief's names `app.purge_terminated_orgs()` and `app.purge_preview()` were not added: two
+  routines for one promise would drift. The dry run is `app.deletion_preview()`, beside them.
+
+**What the texts promise**, read verbatim:
+- The agreement, § 11: «Når avtalen opphører, sletter Orgpuls virksomhetens personopplysninger innen
+  30 dager, med mindre lov krever at de lagres. … Sikkerhetskopier slettes i underdatabehandlerens
+  faste syklus.»
+- Appendix 1: «Lagringstid: så lenge avtalen gjelder, med mindre virksomheten sletter opplysningene
+  tidligere eller ber Orgpuls gjøre det.»
+- The privacy statement: visit statistics 13 months; a demo request 30 days; a demo sandbox 14 days
+  without a sign-in; after unsubscribing only a hash; the account and the organisation «så lenge
+  kundeforholdet varer»; support «så lenge det trengs».
+
+Nothing promises a retention period for a live organisation's own data, so none is built: no expiry
+for invitation tokens, outbox rows or logs was invented. The privacy statement's periods were already
+kept by `orgpuls-web-retention`, `orgpuls-demo-expire` and the suppression hash.
+
+**What an audit against the whole catalog found, fixed in 0136:**
+- **The sign-in log kept the people.** Supabase Auth writes `auth.audit_log_entries` at every
+  sign-in, with the account's id and e-mail address. Deleting the account left them: on the fixture,
+  188 rows naming the deleted daglig leder survived the deletion. `delete_organisation` now deletes,
+  for every account it deletes, the entries about it, matched by id and by address.
+- **The log counted six kinds, not every table.** `app.org_row_counts()` derives from the catalog
+  every table that holds the organisation's rows: each app table with an `org_id`, and every table
+  under those, under the organisation and under its departing accounts by a cascading key, as deep as
+  the keys go (35 tables on the fixture, including Auth's identities, sessions and sign-in log). A
+  table added later is counted without anyone editing it. `deletion_log.tables` keeps the counts per
+  table beside the old summary.
+- **Nothing guarded the deleting function.** It deleted whatever organisation it was given. It now
+  refuses one without a cancellation, and the schedule one whose date has not come.
+- **No dry run.** `app.deletion_preview()` lists every cancellation not carried out, with what the run
+  would delete, table by table, and whether the next run will. Admin › Operations shows it in
+  «Registered, not yet deleted»: the four kinds support asks about, the rows and tables (each table on
+  hover), and «Due» in red. A due row still listed after 02:40 UTC means the run failed.
+
+**The retention card** (Oppsett › Personvern, no and en) now says what happens: kept while the
+agreement lasts; deleted automatically 30 days after it ends (the employee list, the answers, the
+comments, the measures and the users); individual answers are not deleted automatically while the
+agreement lasts. The Personvern tab is not in a pixel baseline.
+
+**Proved:** `retention_invariants.sql`, 14 checks:
+- no client counts, previews, deletes or runs deletions;
+- the daily run is scheduled, once;
+- the guard;
+- only the daglig leder cancels, and only a platform admin registers a cancellation or lists them;
+- the dates are thirty Oslo days apart;
+- the dry run counts the fixture exactly;
+- 29 days after the end nothing changes;
+- undo by the daglig leder and by support, audited, and not by the verneombud.
+- 30 days after the end:
+  - no app table with an `org_id` keeps a row;
+  - every table in app and Auth lost exactly the rows the log counted, and not one more;
+  - none of its 568 ids or 37 addresses is left in any column of any table in app, auth, public,
+    storage, net, cron or vault, apart from the platform's own records.
+- the log's per-table counts equal the dry run's, with no person in them;
+- the other organisation is unchanged, table by table.
+
+The table lists are read from the catalog when the suite runs. Without the new sign-in-log delete,
+checks 10 and 11 fail («auth.audit_log_entries: 189»).
+
+**Left open:**
+- **«Innen 30 dager», to the hour.** The agreement ends at the midnight after the last day. Deletion
+  is due at the midnight thirty Oslo days later, and the run carries it out at 02:40 UTC (03:40 or
+  04:40 in Oslo). That is three to five hours past thirty full days. Every customer-facing text
+  names that date («slettes 27. oktober»), so the product agrees with itself. Whether the agreement
+  should say «30 dager etter», or the run should delete the evening before, belongs to the lawyer's
+  review (DECISION_LOG). Not changed.
+- **A lapsed trial is never deleted.** After its grace an unconfirmed trial stays read-only
+  indefinitely (D-94). No text promises its deletion, and whether the agreement «opphører» when a
+  trial lapses is the owner's decision. Nothing is built.
+- **Kept by design, as 0064 decided:**
+  - `deletion_log`: the organisation number and name. For an enkeltpersonforetak the name can be a
+    person's.
+  - `admin_audit`: the organisation's id and name, and admins' reasons. Nothing prunes it (D-170).
+  - The CRM: the company, from the public register, marked lost, with its stage change; and a
+    contact who subscribed with their own consent.
+- **Outside the repository:** backups («underdatabehandlerens faste syklus») and the
+  sub-processors' operational logs with IP addresses.
+- **Visit statistics:** the privacy statement says 13 months, but `orgpuls-web-retention` deletes
+  after 400 days, about four days more, and the web report is built on those 400 days (D-167). Not
+  changed here.
+- **A failed run** rolls back that night's run whole. Cron records the error, and Operations shows
+  the row as due past its date. No mail tells anyone.
+- **Hjelp's article «GDPR: behandlingsgrunnlag og lagringstid»** still tells the customer to set up
+  their own routine for deleting individual answers. That is still true while the agreement lasts,
+  so it is unchanged.

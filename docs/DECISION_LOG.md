@@ -2991,7 +2991,9 @@ the app calls it any more (wiring R1, known).
 - [x] Memberships can be granted, scoped and withdrawn from the Roller tab, by invitation
       only; the direct-insert policy is gone. X-031, D-51.
 - [ ] Automatic deletion of individual answers is not configured. The Personvern tab says
-      so rather than repeating the design's "slettes automatisk etter 24 måneder" (D-33).
+      so rather than repeating the design's "slettes automatisk etter 24 måneder" (D-33). Since
+      0136 the card says what is automated: everything is deleted 30 days after the agreement ends;
+      nothing is deleted while it lasts (D-176).
 - [ ] The design's Integrasjoner wizard is not built and will not be until a channel
       exists to connect. `/integrasjoner` documents what each one needs instead (D-35).
 - [ ] Hjelp has no chat, no telephone and no status monitor. The design offers all three
@@ -3071,7 +3073,7 @@ the app calls it any more (wiring R1, known).
 - [ ] Have a lawyer review the agreement, including the chosen terms: 36 h breach notice, 30 days for sub-processors, audits, deletion (D-87).
 - [ ] Orgpuls AS's organisation number and address on the processor's side of the agreement (D-87).
 - [ ] Orgpuls's own DPAs with Supabase, Vercel and Brevo: outside the repository (X-055).
-- [ ] An automated retention and deletion routine; the agreement promises deletion within 30 days of termination (D-87).
+- [x] An automated retention and deletion routine; the agreement promises deletion within 30 days of termination (D-87). Built in 0064–0066 (D-108, D-110): a cancellation by the daglig leder or support, undoable, and `app.deletion_run()` daily. Completed in 0136 (D-176). It now also deletes Auth's sign-in log for the deleted accounts, is guarded, and counts every table from the catalog. It has a dry run on Admin › Operations, and the Personvern retention card says what happens. `retention_invariants.sql` proves it table by table. Open: the run deletes 3–5 hours past thirty full days, which is for the lawyer review; lapsed trials are never deleted, which is the owner's call.
 - [x] The public site follows design-reference/orgpuls/nettside, pixel-diffed page by page, with the design's untrue claims corrected (D-88, X-056).
 - [x] Names and photographs for the team cards on Om oss: moot, the page is removed (D-95).
 - [ ] A privacy statement and terms page; the footer lists both and registration refers to the first (D-88).

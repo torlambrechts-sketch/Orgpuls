@@ -1900,7 +1900,7 @@
       },
       "retention": {
         "head": "Lagringstid",
-        "body": "Automatisk sletting av enkeltsvar er ikke satt opp i denne installasjonen ennå. Rutinen må beskrives og settes opp før dere tar målingen i bruk for fullt."
+        "body": "Opplysningene lagres så lenge avtalen gjelder. Sier dere opp, slettes alt automatisk 30 dager etter at avtalen er slutt: ansattlisten, svarene, kommentarene, tiltakene og brukerne. Mens avtalen gjelder, slettes ikke enkeltsvar automatisk."
       },
       "access": {
         "head": "Innsyn og sletting",
@@ -9861,8 +9861,11 @@
       "schedule": "Daily run",
       "noPending": "No cancellation is waiting.",
       "noDone": "Nothing has been deleted yet.",
-      "note": "The log keeps the organisation number and name, the dates, who ran it and how many rows of each kind: the record that the promise in the data processing agreement (§ 11) was kept. It holds no person's data.",
-      "countsLine": "{responses} answers · {employees} employees · {accounts} accounts · {tickets} tickets"
+      "note": "The log keeps the organisation number and name, the dates, who ran it and how many rows it deleted from each table: the record that the promise in the data processing agreement (§ 11) was kept. It holds no person's data. The pending rows are a dry run: what the daily run would delete today.",
+      "countsLine": "{responses} answers · {employees} employees · {accounts} accounts · {tickets} tickets",
+      "willDelete": "What the run will delete",
+      "dueNow": "Due: the next daily run (02:40 UTC) deletes it. Still listed after that run means the run failed.",
+      "rowsLine": "{rows, plural, one {# row} other {# rows}} in {tables, plural, one {# table} other {# tables}}"
     },
     "modules": {
       "title": "Bransjemoduler",
