@@ -13,6 +13,9 @@ const fmt = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
 /** a customer's score as the design colours it: 70 and over teal, 45 and over yellow, else peach */
 const band = (total: number) => (total >= 70 ? 'good' : total >= 45 ? 'fair' : 'poor')
 
+/** the time the firewall was computed, as the design's «· 06:00» */
+const clock = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo' })
+
 const PANEL = 'rounded-panel border border-line bg-sf'
 const HEAD = 'text-[11px] uppercase tracking-[0.09em] text-mut'
 
@@ -28,10 +31,10 @@ const HEAD = 'text-[11px] uppercase tracking-[0.09em] text-mut'
  *                      the maximum a customer can reach while it has none; it is no one's shortfall
  *   the firewall       app.growth_firewall()'s rules, computed when the page is read: never a
  *                      hard-coded «passing». Each rule's evidence arrives as counts and object names
- *                      and is worded here, through next-intl
+ *                      and is worded here, through next-intl; the chip names the time it was computed
  *
- * «Used by» shows «—» for every event: nothing reads the stream yet (the funnel, scoring and the
- * journeys that will are G2 and G3's), and the design's own «—» is what an event nothing uses shows.
+ * «Used by» names the funnel stages that count the event (0142, D-183); an event nothing reads shows
+ * the design's own «—».
  */
 export default async function Page() {
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
@@ -40,6 +43,7 @@ export default async function Page() {
   const res = await growthEvents()
   if (isError(res)) return <Problem text={res.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const failing = res.firewall.filter((f) => !f.pass).length
+  const checked = clock.format(new Date(res.checked_at))
   // a component nothing in the schema can score (NPS): named on its row and in the card's line, never
   // counted as a customer's shortfall
   const unsourced = res.parts.filter((p) => p.no_source)
@@ -78,7 +82,7 @@ export default async function Page() {
                   {t(`growth.events.pii.${e.pii}`)}
                 </span>
                 <span role="cell" className="min-w-0 flex-[1.4] text-[12.5px] text-mut">
-                  {t('growth.events.unused')}
+                  {e.used.length ? t('growth.events.usedBy', { stages: e.used.join(' · ') }) : t('growth.events.unused')}
                 </span>
                 <b role="cell" className="w-[70px] text-right">
                   {fmt(e.n7)}
@@ -142,7 +146,7 @@ export default async function Page() {
             <div className="flex items-center justify-between gap-[10px]">
               <h2 className="m-0 font-display text-[22px] font-medium">{t('growth.events.firewall.title')}</h2>
               <StatusChip tone={dotTone('firewall', failing ? 'fail' : 'pass')}>
-                {failing ? t('growth.events.firewall.failing', { count: failing }) : t('growth.events.firewall.passing')}
+                {failing ? t('growth.events.firewall.failing', { count: failing, time: checked }) : t('growth.events.firewall.passing', { time: checked })}
               </StatusChip>
             </div>
             <div className="mt-[4px] text-[12.5px] text-mut">{t('growth.events.firewall.sub')}</div>

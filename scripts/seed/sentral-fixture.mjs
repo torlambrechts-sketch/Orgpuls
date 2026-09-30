@@ -53,6 +53,7 @@
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { pathToFileURL } from 'node:url'
+import { g2FixtureSql } from './sentral-fixture.g2.mjs'
 
 export const DEFAULT_DB = 'postgresql://postgres:postgres@127.0.0.1:54322/postgres'
 export const LOCAL_HOSTS = ['127.0.0.1', 'localhost']
@@ -272,6 +273,7 @@ insert into app.crm_activities (id, company_id, contact_id, kind, body, due_at) 
 insert into app.crm_suppression (email_hash, reason, at) values
   ${sups};
 
+${g2FixtureSql()}
 commit;
 `
 }

@@ -8637,3 +8637,147 @@ crm_inbox_invariants row 3 fails (the week's median answer time counts the fixtu
 — with and without 0141. The fixture's rows were removed again (its own delete statements) before
 the suites ran; G3, which re-records the CRM views against a fixture that owns their rows, should make
 the suite independent of them.
+
+## D-183 — Sentral › Growth G2: the report's registry, the eight Growth pages, the funnel and the lead math
+
+Phase G2 of docs/implementation/growth-admin.md (0142_growth_registry.sql): the Board, the 90-day plan,
+Funnel & lead math, the Event catalogue (finished), Automation rules, Experiments, Risks & decisions and
+the Coverage review, each on registry rows seeded with the report's text (the design's `loadGrowth()`,
+copied verbatim, «…» and «HeiTuva» read as Orgpuls) and the status that is true for Orgpuls today.
+
+**Built:**
+- **The registry** (0142, seventeen tables in `app`, each RLS on, no policy, no grant to anon,
+  authenticated or service_role): tiers and board items (rank, name, why, build, KPI, guardrail,
+  effort, time to impact, U × E, status, live check, admin route, owner), plan blocks and gates, the
+  plan's start date (`growth_settings`), rules R1–R12 with what implements each, experiments E1–E10,
+  guardrails, risks, open decisions (default, decided value, decided by, decided at), funnel stages,
+  lead sources with their first-touch channels, planning assumptions, labelled benchmarks, coverage,
+  recommendations and cuts.
+- **Derived, not typed.** A board item is «Live» only while its live check holds
+  (`app.growth_live`: the consent ledger holds records, the event stream is written, the year wheel's
+  hourly job is active); the stored status cannot say live (a CHECK), only building, planned or
+  deferred. A rule's switch is on only while its implementation exists and is enabled
+  (`app.growth_impl_live`: R1 the lifecycle mail `setup_help` with the sequence on and its job active,
+  R5 the job `orgpuls-wheel`, R9 `public.record_crm_event`; the other nine name nothing and are off).
+  A plan block's status comes from the start date and the calendar (`app.growth_plan_status`); with no
+  start date, as on a fresh database, the week is «Not started» and every block «Planned».
+- **Computed** (this month, Oslo): Visitors are the site's own sessions (app.web_events, the 30-minute
+  rule of 0050); Signup, Setup (a band of five or more), Value (sent and threshold reached), Activated
+  (both events, the later within 14 days of org.created), Paid, Retained (a survey planned after one
+  was sent) and Expansion are organisation counts from app.growth_events; PQL has no source and shows
+  «—» and «no source yet». Percentages of visitors and of the previous stage are «—» where either count
+  is missing or zero. The lead math's «now» is the month's trials by first-touch channel
+  (org_attribution): SEO/GEO = organic + ai, the nurture = email, Google Ads = paid; the product loop,
+  partners and Brønnøysund have no channel of their own and show «—» and «no channel to count yet»;
+  the card's «now» sums only the countable sources. Base, stretch, assumptions and benchmarks are the
+  report's, under the design's own labels («Planning assumptions», «Benchmarks, labelled»).
+- **Reads** (`public.admin_growth_view(view)`, one per page, audited `growth.<view>_view`) and **writes**
+  (`admin_growth_set_item`: status and owner, audited `growth.item_update` with from and to;
+  `admin_growth_set_experiment`, `growth.experiment_update`; `admin_growth_decide`, `growth.decide` with
+  what it replaced) for super_admin, analyst and marketing with a second factor, Zod-parsed on both sides
+  (lib/admin/growthData.ts, lib/admin/growthActions.ts). An owner must be an active admin who sees
+  Growth.
+- **CSV exports** (`/admin/growth/export?kind=board|plan|review`, a route handler on
+  `admin_growth_export`, audited `growth.export` with the kind): the board with the derived status and
+  the owner's address, the plan with its gates in one cell, the review's coverage, recommendations and
+  cuts. Cells go through csvCell (no formula).
+- **The Event catalogue, finished**: «Used by» names the funnel stages that count an event (from the
+  registry), «—» otherwise; the firewall's chip says when it was computed («Passing · checked 16:38»,
+  `checked_at`, the read's clock), never a stored «CI passing · 06:00».
+- **Shared shapes**: every one G0 made now has a consumer (KpiStrip, Board, TierColumn, BoardCard,
+  BulletRow, BenchmarkRow, SectionCard, StatusChip; PhaseEmpty stays GrowthStub's for G3/G4). BoardCard
+  is now only the design's `<button>` (its link and plain variants had no consumer and are gone); its
+  owner avatar shows only when an owner is set, and its empty slot keeps the avatar's 24 px so the card
+  keeps the design's height. StatusChip takes a className for the plan's chip margin. `ExportButton`
+  is added (the outlined ink button, as a link).
+- **QA fixture**: scripts/seed/sentral-fixture.g2.mjs, registered in sentral-fixture.mjs, sets the local
+  plan's start to three weeks before this Monday, so the plan derives the design's week 4 (Done, In
+  progress, Next, Planned) and the Board's «Week 4 of 13». It writes no registry row.
+- **Tests**: supabase/tests/growth_registry_invariants.sql (14 rows: closed tables and functions; reads
+  and writes refused to support and to aal1, and audited; item status and owner with from/to and the
+  refusals; «live» never stored and derived; each implementation kind on and off; the plan without a
+  start, at week 4, after the end, and a non-Monday refused; the funnel from the stream, PQL null, an
+  unknown event refused, «now» null without a channel and never counting a demo; experiments; decisions;
+  exports; the Event catalogue's `used` and `checked_at`; the registry's honesty; nothing survives);
+  tests/unit/growth-registry.test.ts (the funnel, lead math, week, ICE and count arithmetic; the links
+  offered by role; every seeded address a page; parsing; the CSVs; every status worded and coloured;
+  the risks line in words; each page's role gate before its read; no sample figure in any page; every
+  shared shape used).
+
+**Where it differs from the design or the report, and why:**
+- *True statuses, not the sample's.* Board: Live are the consent ledger (with records), the event
+  catalogue and the årshjul reminders (the year wheel's reminders exist), each derived; Building are
+  deliverability, free tools (G4), SEO, nurture, Brønnøysund (G3), partners (G3) and speed-to-lead (G3's
+  SLA); Planned are the org.nr-first signup (it waits for E1, plan § 7), «Laget med Orgpuls» (plan § 7),
+  referral, news-jacking, LinkedIn, Ads, webinars and reviews; LinkedIn paid is deferred. The design's
+  Live on deliverability, nurture, speed-to-lead and LinkedIn is not true today. Experiments are all
+  «Queued» (none runs). Coverage: 6 built, 14 partial, 8 missing, 2 skipped, each note saying what
+  exists and what is missing (the design's 17/10/1/2 describe a Sentral that has G3 and G4's pages); G3
+  and G4 run in parallel, so their rows say «Phase G3/G4» and G5 re-derives the review from what shipped.
+- *Owners start empty*: the design's ib, ol, jh, te and sk are sample people, not Orgpuls admins. The
+  avatar shows the owner's initials from the admin's address once one is set.
+- *The board's card* opens the design's modal with its four sections; it adds Status and Owner fields
+  (the write path above), a note saying why an item shows as Live (or when it will), and «Open in
+  Sentral» as a secondary link beside Save (the design's primary is that link; here the form's Save is
+  primary). The link is offered only where the viewer's role may open the page.
+- *The «Week» card's sub-line* is the current block's first gate («Activation baseline measured» in week
+  4), not the design's second («journey sends > 95 % delivered»): nothing records which gate is being
+  worked towards. Without a start date it reads «Not started · the plan has no start date yet». The
+  start date has no control (the design draws none); it is set in `app.growth_settings` when the plan
+  starts.
+- *Plan statuses are calendar-derived*: «Done» means the block's weeks are past, not that its gates
+  passed (nothing measures most gates yet; the gates are drawn as the design draws them, without a
+  state).
+- *Rules' switches are read-only* (`role=switch`, `aria-readonly`, not focusable): flipping one would
+  not stop the function, trigger or job that implements the rule. The rule's card has no «Save rule»;
+  it shows condition, action, stream (with the design's consent/holdout sentence) and «Implemented by».
+  «New rule», «New experiment» and «Propose an event» are omitted: no write path creates a rule, an
+  experiment or a catalogue entry (a catalogue entry is a migration, with its emitter).
+- *The experiment card* has a Status field and Save in place of the design's «Minimum detectable
+  effect», «Runs for» and «Start test»: nothing stores an MDE or a run length. The rows are buttons (the
+  design's clickable div), in a list rather than a table.
+- *«Decide»* records a decision with who gave it; a decided row reads «Decided: {value} · {by}, {date}»
+  in place of «Default: …» (the design draws only the undecided state), and the sub-line counts only
+  the decisions still open, in words as the design writes them («ten decisions waiting»).
+- *Funnel*: the Visitors row names «web analytics · sessions», not `web.page_viewed` (not an Orgpuls
+  event, D-182), and counts every session on the public site, while its definition keeps the report's
+  «relevant visits to landing, tool and SEO pages». PQL shows «—» / «no source yet». A zero stage has no
+  bar (the design's 1,5 % floor applies only to a stage that has any).
+- *Recommended next* drops the design's 13th, «Growth boards per site» (Kursrom and Vaktplan from the
+  HeiTuva template): Orgpuls is one site. For the same reason the design's `isSiteEmpty` («Not set up for
+  {site} yet», «Start from the HeiTuva template») is not built.
+- *Firewall rule 7* (growth tables closed) still lists G1's four tables; G2's seventeen are proved
+  closed by growth_registry_invariants row 1 instead of by replacing app.growth_firewall(), which G3 and
+  G4 may touch in parallel. G5 can fold them in.
+
+**The gate.** sentral-run at 1440 against the local stack with the Sentral fixture (plan in week 4):
+Board 130/182, plan 117/126, funnel 189/238, events 26/182, rules 123/140, experiments 137/154, risks
+163/182, coverage 113/322, no console error. Every lost and every new tile was read against the render
+before the claims were re-recorded with `--write`:
+- row 0 is the top bar (the admin's Marketing area and one-site pill, D-181) on every view;
+- the Board's rows 200–1200 differ where a card's status or the KPI figures differ (3 · 7 · 8 and «gate:
+  Activation baseline measured» for the design's 5 · 6 · 7 and «journey sends…»); the columns, cards,
+  sections and spacing match;
+- the plan differs only at row 300 («Laget med Orgpuls» for «Laget med HeiTuva») and the top bar;
+- the funnel differs in every stage's figures (this database's counts, «—» where there is no source)
+  and the lead math's «now» and bars; tiles 600:1200 and 700:1200 were lost because partners and
+  Brønnøysund read «no channel to count yet» where the design prints «0 % of base»;
+- the Event catalogue differs in its rows (Orgpuls' 21 events, D-182); 500:700 was lost because
+  org.created is now «Funnel · Signup», and 1200:900–1300 because the catalogue is shorter than the
+  design's 22 rows, so the admin's footer line sits where the design's canvas was blank;
+- the rules differ in their switches (three on, nine off, where the design draws all twelve on) and
+  the header's omitted «New rule»; once the name cell became a flex container the rows are the
+  design's height;
+- experiments differ in their chips («Queued» for E1 and E3's «Running») and the omitted button;
+- risks differ in the decisions card's lower rows and «Laget med Orgpuls»;
+- coverage differs in the KPI figures, the status chips and notes (true statuses, longer notes that
+  wrap to more lines, so the table runs longer), and the recommendations card's end (twelve, not
+  thirteen); the claims lost at 500–800 × 500–700 are the status and note columns.
+At 390 no view scrolls sideways and the sub-bar shows the page (rules and coverage first overflowed:
+the header's screen-reader label is absolutely positioned and escaped the table's scroller; the
+scroller is now `relative`). Every control is a button, link, select or input, so the product's focus
+ring (globals.css, bundle line 23) applies to each; the read-only switch is not a control.
+
+*Found on the way, not G2's:* on the shared local database web_invariants row 3 fails because G3's
+0143 adds `web_events.ref_code`, and crm_inbox_invariants row 3 can fail with the Sentral fixture's CRM
+rows present (D-182). None of the wiring audit's findings on this database names a G2 object.

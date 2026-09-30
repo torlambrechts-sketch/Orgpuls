@@ -2,6 +2,17 @@ import 'server-only'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { callFailed, parseFailed } from '@/lib/supabase/read'
+import {
+  EXPORT_SCHEMA,
+  GrowthBoard,
+  GrowthCoverage,
+  GrowthExperiments,
+  GrowthFunnel,
+  GrowthPlan,
+  GrowthRisks,
+  GrowthRules,
+  type GrowthRead,
+} from './growthData'
 
 /**
  * The platform admin's reads (D-90), one per SECURITY DEFINER function in 0049. Each checks
@@ -936,6 +947,8 @@ const GrowthEvents = z.object({
       /** what emits it: the product table or the tick */
       source: z.string(),
       n7: num,
+      /** what reads it: the funnel stages that count it (0142) */
+      used: z.array(z.string()),
     }),
   ),
   /** each health component with its maximum; `no_source` where nothing in the schema can score it (NPS) */
@@ -945,7 +958,24 @@ const GrowthEvents = z.object({
   health: z.array(z.object({ org_id: z.string(), name: z.string(), total: num, missing: z.array(z.enum(HEALTH_PARTS)) })),
   /** each rule's evidence is structured — counts, and database object names as data — and worded by the page */
   firewall: z.array(z.object({ rule: z.enum(FIREWALL_RULES), pass: z.boolean(), evidence: FirewallEvidence })),
+  /** when the firewall's rules were computed: this read (0142) */
+  checked_at: ts,
 })
 export type GrowthEvents = z.infer<typeof GrowthEvents>
 /** The event catalogue with 7-day counts, health score v1 lowest first, and the anonymity firewall's rules as they stand */
 export const growthEvents = () => call('admin_growth_events', {}, GrowthEvents)
+
+// ---------------------------------------------------------------- Growth G2 (0142, D-183)
+/** One Growth page's registry and computed figures, each audited as `growth.<view>_view` */
+const view = <S extends z.ZodTypeAny>(v: GrowthRead, schema: S) => call('admin_growth_view', { p_view: v }, schema)
+export const growthBoard = () => view('board', GrowthBoard)
+export const growthPlan = () => view('plan', GrowthPlan)
+export const growthFunnel = () => view('funnel', GrowthFunnel)
+export const growthRules = () => view('rules', GrowthRules)
+export const growthExperiments = () => view('experiments', GrowthExperiments)
+export const growthRisks = () => view('risks', GrowthRisks)
+export const growthCoverage = () => view('coverage', GrowthCoverage)
+/** The rows a CSV export writes, audited as `growth.export` with its kind */
+export const growthExportBoard = () => call('admin_growth_export', { p_kind: 'board' }, EXPORT_SCHEMA.board)
+export const growthExportPlan = () => call('admin_growth_export', { p_kind: 'plan' }, EXPORT_SCHEMA.plan)
+export const growthExportReview = () => call('admin_growth_export', { p_kind: 'review' }, EXPORT_SCHEMA.review)

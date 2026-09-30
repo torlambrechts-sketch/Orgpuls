@@ -1,7 +1,6 @@
-import type { Route } from 'next'
-import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { DOT_CLASS, type DotTone } from '@/lib/admin/dots'
+import { initialsOf } from '@/lib/admin/growthMath'
 
 /**
  * The shapes design revision 3 of Sentral repeats across Growth, Consent, Brønnøysund triggers,
@@ -44,6 +43,7 @@ export function StatusChip({
   size = 'sm',
   outline = false,
   inButton = false,
+  className = '',
 }: {
   tone: DotTone
   children: ReactNode
@@ -56,10 +56,12 @@ export function StatusChip({
   outline?: boolean
   /** inside a design `<button>`, whose UA font resets the line-height to normal (the lowest-first list) */
   inButton?: boolean
+  /** where the design puts a margin on the chip itself (the plan's «mt 6» under the weeks) */
+  className?: string
 }) {
   return (
     <span
-      className={`inline-flex items-center gap-[6px] rounded-pill font-bold text-ink ${inButton ? 'leading-[normal]' : 'leading-[1.5]'} ${CHIP_SIZE[size]} ${outline ? 'border border-line' : 'whitespace-nowrap bg-sbg'}`}
+      className={`inline-flex items-center gap-[6px] rounded-pill font-bold text-ink ${inButton ? 'leading-[normal]' : 'leading-[1.5]'} ${CHIP_SIZE[size]} ${outline ? 'border border-line' : 'whitespace-nowrap bg-sbg'} ${className}`}
     >
       <span aria-hidden="true" className={`block h-[6px] w-[6px] flex-none rounded-pill ${DOT_CLASS[tone]}`} />
       {children}
@@ -115,25 +117,21 @@ export function TierColumn({ name, count, why, children }: { name: string; count
   )
 }
 
-/** Initials in a 24 px round tile, the name in its title, as the board's owner */
-function Owner({ name }: { name: string }) {
-  const ini = name
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((w) => w[0]!.toUpperCase())
-    .slice(0, 2)
-    .join('')
+/** Initials in a 24 px round tile, the admin's address in its title, as the board's owner */
+function Owner({ email }: { email: string }) {
   return (
-    <span title={name} className="flex h-[24px] w-[24px] flex-none items-center justify-center rounded-pill bg-sbg text-[10.5px] font-bold">
-      <span aria-hidden="true">{ini}</span>
-      <span className="sr-only">{name}</span>
+    <span title={email} className="flex h-[24px] w-[24px] flex-none items-center justify-center rounded-pill bg-sbg text-[10.5px] font-bold">
+      <span aria-hidden="true">{initialsOf(email)}</span>
+      <span className="sr-only">{email}</span>
     </span>
   )
 }
 
-const CARD =
-  'flex flex-col gap-[8px] rounded-cta border border-line bg-sf px-[16px] py-[14px] text-left text-ink no-underline hover:border-ink hover:text-ink hover:no-underline'
-
+/**
+ * A board item, as the design draws it: a `<button>` that opens the item's card (build, KPI,
+ * guardrail). A button's UA line-height is normal, and the design's rank and footer inherit it, so
+ * the card sets it too (the product's reset makes a button inherit instead).
+ */
 export function BoardCard({
   rank,
   name,
@@ -141,35 +139,35 @@ export function BoardCard({
   status,
   meta,
   owner,
-  href,
+  onOpen,
 }: {
   rank: string
   name: string
   why: string
   status: { tone: DotTone; label: string }
   meta: string
+  /** the owning admin's address; the avatar shows only when one is set */
   owner: string | null
-  /** where the card opens; without one the card is not a control */
-  href?: string
+  onOpen: () => void
 }) {
-  const body = (
-    <>
-      <span className="text-[11px] text-mut">{rank}</span>
-      <span className="text-[14px] font-semibold leading-[1.3] [text-wrap:pretty]">{name}</span>
-      <span className="text-[12.5px] leading-[1.45] text-mut [text-wrap:pretty]">{why}</span>
-      <span className="mt-[2px] flex items-center justify-between gap-[8px] border-t border-line pt-[8px]">
-        <StatusChip tone={status.tone}>{status.label}</StatusChip>
+  return (
+    <button
+      type="button"
+      onClick={onOpen}
+      aria-haspopup="dialog"
+      className="flex w-full cursor-pointer flex-col gap-[8px] rounded-cta border border-line bg-sf px-[16px] py-[14px] text-left leading-[normal] text-ink hover:border-ink"
+    >
+      <span className="block text-[11px] text-mut">{rank}</span>
+      <span className="block text-[14px] font-semibold leading-[1.3] [text-wrap:pretty]">{name}</span>
+      <span className="block text-[12.5px] leading-[1.45] text-mut [text-wrap:pretty]">{why}</span>
+      <span className="mt-[2px] flex w-full items-center justify-between gap-[8px] border-t border-line pt-[8px]">
+        <StatusChip tone={status.tone} inButton>
+          {status.label}
+        </StatusChip>
         <span className="text-[11.5px] text-mut">{meta}</span>
-        {owner ? <Owner name={owner} /> : <span className="w-[24px]" />}
+        {owner ? <Owner email={owner} /> : <span className="h-[24px] w-[24px] flex-none" />}
       </span>
-    </>
-  )
-  return href ? (
-    <Link href={href as Route} className={`${CARD} leading-[1.5]`}>
-      {body}
-    </Link>
-  ) : (
-    <div className={`${CARD} leading-[1.5]`}>{body}</div>
+    </button>
   )
 }
 
@@ -251,5 +249,22 @@ export function PhaseEmpty({ title, text, children }: { title: string; text: str
       <div className="mx-auto mt-[6px] max-w-[520px] text-[13px] text-mut [text-wrap:pretty]">{text}</div>
       {children ? <div className="mt-[18px]">{children}</div> : null}
     </div>
+  )
+}
+
+/**
+ * «Export board», «Export plan», «Export review»: the design's outlined ink button, here a link to the
+ * CSV route (app/(admin)/admin/growth/export), which is navigation, not an action on the page (D-06).
+ * A plain anchor, so nothing prefetches an audited export.
+ */
+export function ExportButton({ kind, label }: { kind: 'board' | 'plan' | 'review'; label: string }) {
+  return (
+    <a
+      href={`/admin/growth/export?kind=${kind}`}
+      download
+      className="inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-ctl border border-ink bg-transparent px-[15px] py-[9px] text-[12.5px] font-semibold leading-[normal] text-ink no-underline hover:bg-ink/5 hover:text-ink hover:no-underline"
+    >
+      {label}
+    </a>
   )
 }
