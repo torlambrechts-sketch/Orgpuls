@@ -5,18 +5,20 @@ import type { AdminRole } from './api'
  * it. The database decides what each call returns; this only keeps a role from being offered
  * a page that would answer "not allowed".
  */
-export const SECTIONS = ['dashboard', 'orgs', 'health', 'users', 'ops', 'web', 'seo', 'acquisition', 'crm', 'cms', 'modules', 'legal', 'translations', 'tickets', 'audit', 'admins', 'billing', 'settings'] as const
+export const SECTIONS = ['dashboard', 'orgs', 'health', 'users', 'ops', 'web', 'seo', 'acquisition', 'crm', 'cms', 'modules', 'legal', 'translations', 'tickets', 'audit', 'admins', 'billing', 'settings', 'growth'] as const
 export type Section = (typeof SECTIONS)[number]
 
 const BY_ROLE: Record<AdminRole, readonly Section[]> = {
   super_admin: SECTIONS,
   support: ['dashboard', 'orgs', 'health', 'users', 'ops', 'web', 'tickets'],
   finance: ['dashboard', 'orgs', 'health', 'web', 'acquisition', 'billing'],
-  analyst: ['dashboard', 'web', 'seo', 'acquisition', 'crm', 'cms', 'modules'],
+  // Growth (D-181): the board, plan, funnel, events, rules, experiments, risks and coverage, the
+  // magnets and deliverability — for the roles that see the CRM, as the plan's access model has it
+  analyst: ['dashboard', 'web', 'seo', 'acquisition', 'crm', 'cms', 'modules', 'growth'],
   // the CRM (0055, D-101): contacts, segments and campaigns, and the site they drive traffic to
   // account health (0060, D-105): which trials to call
   // the site's pages (0114, X-094): the CMS is marketing's, as the campaigns that point at it are
-  marketing: ['dashboard', 'health', 'web', 'seo', 'acquisition', 'crm', 'cms'],
+  marketing: ['dashboard', 'health', 'web', 'seo', 'acquisition', 'crm', 'cms', 'growth'],
   // the site's words (0125, 0126; D-170): pages, templates, landing pages, media, redirects, the
   // notice and SEO — no customer, no admin, no figure of the business
   editor: ['dashboard', 'cms', 'seo'],
@@ -44,6 +46,8 @@ export const HREF: Record<Section, string> = {
   // Admin › Billing & plans and Site settings (X-095, D-170)
   billing: '/admin/billing',
   settings: '/admin/settings',
+  // Sentral › Growth (D-181)
+  growth: '/admin/growth',
 }
 
 export const sectionsFor = (role: AdminRole, built: readonly Section[]) => BY_ROLE[role].filter((s) => built.includes(s))

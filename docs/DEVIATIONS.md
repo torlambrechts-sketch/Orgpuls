@@ -8100,3 +8100,235 @@ open puls, so the card now draws the design's own live state («Lukk runden», �
 which is shorter, and the footer rises by 132 px. Everything above the card matches as before. The
 claims for 03 were re-recorded after reading that diff: `1500:240` leaves, and four tiles that now match
 (`1100:480`, `1200:240`, `1200:480`, `1600:960`) are claimed.
+
+## D-181 — Sentral › Growth: the area, its routes and the admin pixel gate
+
+Phase G0 of docs/implementation/growth-admin.md, from design revision 3 (Sentral_Admin.dc.html, 30 Sep
+2026) and its renders. G0 is the harness and the shell: every later phase fills a route G0 made, and
+is diffed by the gate G0 made.
+
+**Built:**
+- **The Growth area** (lib/admin/nav.ts), in the top bar between Analytics and Admin as the design
+  draws it, with the design's eight pages in its order: Board, 90-day plan, Funnel & lead math, Event
+  catalogue, Automation rules, Experiments, Risks & decisions, Coverage review. Consent sits in
+  **Marketing** beside Contacts & lists (the plan: it is the mail's legal basis); Brønnøysund triggers
+  and Partners in **CRM** after Lead scoring; Tools & lead magnets in **Content** after Landing & front
+  pages; Deliverability in **Admin** between Site settings and Audit log. The thirteen addresses are
+  one registry, lib/admin/growth.ts, with each view's section and the phase that fills it; the layout
+  offers them as built because each has its page.
+- **Access**: a section `growth` (lib/admin/access.ts) for exactly the roles that see the CRM —
+  super_admin, analyst and marketing. The Growth pages, Tools & lead magnets and Deliverability are
+  `growth`; Consent, triggers and Partners are `crm`, as the CRM's pages are. Magnets and
+  Deliverability are not `cms` and `settings`: they will carry consent rates, trials and send volumes,
+  figures of the business that an editor does not see (D-170), and marketing runs the mail. Each
+  page also refuses a role that may not see its section when its address is typed by hand.
+- **No migration.** Nothing in the database reads a section: the sections are the menu's, and each
+  RPC checks its own roles. `app.admin_audit.action` is free-form (`^[a-z_]+\.[a-z_]+$`), so there
+  are no audit kinds to register. 0140 stays reserved and unused; the `growth` read gate is added in
+  the migration of the first RPC that needs it (G1/G2), where it has a consumer and a test.
+- **Thirteen routes** — /admin/growth, /admin/growth/{plan,funnel,events,rules,experiments,risks,
+  coverage}, /admin/crm/{consent,triggers,partners}, /admin/cms/magnets, /admin/deliverability —
+  each the admin shell, the design's page head (Playfair title, the sub-line) and the design's own
+  empty treatment (`isSiteEmpty`: a dashed panel, one line, one sentence) reading «Nothing here yet ·
+  built in phase G2/G3/G4» and what the phase brings. No figure, status, chip or sample row: nothing
+  on these pages could be read as data. All text is in `admin.growth` and `admin.nav` (en, no).
+- **Shared shapes** (components/admin/growth.tsx), transcribed from the design's markup: `KpiStrip`
+  (the card is ui.tsx's `Stat`, which already matches the design's KPI card), `StatusChip` (the soft
+  yellow pill, 4 × 10 px, 11 px bold, with its 6 px dot; the 11.5 and 10.5 px sizes and the outlined
+  «Dry run» variant), `Board` + `TierColumn` + `BoardCard` (radius 12, 14 × 16 padding, the footer
+  of status, effort and a 24 px owner tile), `BulletRow` (gates, assumptions, firewall lines),
+  `BenchmarkRow` (metric, figure, source), `SectionCard` (padded 24 × 26 or with flush rows under a
+  20 px head; dashed on the canvas colour) and `PhaseEmpty`. The dot colours are lib/admin/dots.ts:
+  the design's `dot()` and each Growth view's own map, keyed by the status as the database will hold
+  it, every colour an existing token (teal, ac, peach, mut, line, viz2). The design's root sets
+  line-height 1.5 and the product's is `normal` (globals.css), so each shape sets 1.5 itself.
+- **The admin pixel gate**, scripts/verify/sentral-run.mjs, with the route map
+  scripts/verify/sentral-routes.mjs (the plan's table: the thirteen new views and Lead scoring,
+  Tasks and Journeys, which revision 3 changes) and claims in scripts/verify/sentral-claims.json. It
+  signs in as the fixture's local admin, activating it and clearing its TOTP factors in the local
+  database first and answering the fresh enrolment with a code computed from the key it shows (and,
+  however the run ends, deactivating it and deleting that factor again); shoots each
+  built route full-page at 1440; compares 100 × 100 tiles, each searched ±40 px up and down as
+  v3-run does; fails on a lost claim, a route that does not answer, or any console or page error.
+  `--width 390` (or any width) checks horizontal overflow instead of diffing; below 1280
+  (`--width 390`, `--width 1024`) it also fails a sub-bar that hides the page you are on and, once
+  per run, a menu sheet that lets Tab or Shift+Tab out or does not give focus back on Escape. A tile
+  of the render that the shot is too narrow or too short to hold counts as wholly different
+  (sentral-judge.mjs `tiles`), so a claim on it is lost, not dropped. A view whose route has
+  no page, or no render, is skipped with a line saying so — and that **fails** the run when the view
+  has recorded claims; a run that compares no view at all (an `--only` that matches nothing) fails
+  too, because the plan's QC loop reads exit codes, not summaries. The verdict is a pure function in
+  scripts/verify/sentral-judge.mjs, unit-tested (a lost claim, a skipped claimed view, zero views,
+  console errors, and a claim under a name the route map does not have: a renamed slug or a removed
+  route would otherwise leave its claims recorded and never checked, so the run fails on it, and a
+  unit test holds every key of sentral-claims.json to a view in VIEW_ROUTES). Every path resolves from the repository root, so a run from another directory
+  compares the same sixteen views instead of skipping them all. `--base` must be localhost or
+  127.0.0.1: the run types the local admin's password into the page it names.
+- **The QA fixture**, scripts/seed/sentral-fixture.mjs: the local admin (admin.local@orgpuls.test,
+  super_admin, a known password — local only; `SENTRAL_ADMIN_PASSWORD`, untracked, replaces the
+  default when set, and MFA is enforced either way). The password is never in the SQL: psql reads it
+  from its own environment (`\getenv`, never its argv, which `ps` shows) and sends it as a bound
+  parameter (`\bind`, `crypt($1, gen_salt('bf'))`), so `--print` shows `$1` and a failed statement
+  cannot put it in the Postgres log (bind values are not logged, `log_parameter_max_length_on_error`
+  = 0). The admin is written **inactive** and without a factor: sentral-run.mjs activates it for the
+  length of a run and retires it after, so between runs the tracked default password opens nothing
+  and nobody can enrol a factor of their own on it (an inactive admin has no admin role,
+  `admin_role()` in 0049). Eight companies (the Brønnøysund queue's six with the
+  design's organisation numbers, each of which fails the mod-11 check digit, plus Bygg & Betong Sør
+  and Vestland fylkeskommune; industry and headcount from the lead-scoring signals), eight contacts
+  (Silje Moen, Kristian Dale and the consent ledger's people who have an address, with the basis and
+  status the ledger's status means), the four new tasks and five suppression hashes, one of them
+  Anne Lied's own withdrawal. It refuses a URL whose host is not 127.0.0.1 or localhost, or that
+  carries any query parameter but `sslmode` and `connect_timeout` — `host`, `hostaddr`, `service`,
+  and `options`, which would let the URL itself set `app.environment = 'qa'` at session start. It
+  never hands psql the URL: WHATWG and libpq disagree about where a URL's host is (WHATWG takes the
+  last '@' and stops at '#'; libpq takes the first '@' and reads ',' as a host list), so
+  `postgresql://127.0.0.1#@remote/…` and `…@remote,x@127.0.0.1/…` read as local to the guard and
+  dialled the remote host. So a URL with '#', ',', '%', whitespace or a second '@' is refused
+  outright, and psql is called with `-h -p -U -d` built from the parts the guard checked, the
+  password in PGPASSWORD, `PGPASSFILE=/dev/null` (no ~/.pgpass) and no other PG* variable; a user or
+  database name must be a plain name, not a conninfo string. The three URLs the security review
+  found are must-refuse cases in the unit test. Its SQL refuses a database that is not the QA stack by two tests,
+  the session's `app.environment` = 'qa' AND the database's own catalog entry for it
+  (pg_db_role_setting, written by scripts/qa/up.sh's `alter database`), which no connection string
+  can forge. Checked live: a forged `options` session on a database without the mark is refused.
+  Idempotent (ids derived from names, deleted and
+  written again in one transaction), and the only source of these rows.
+- **Tests**: tests/unit/admin-nav-growth.test.ts (the area's place and order, where the other new
+  pages sit, the current page and area of each address, nothing offered before it is built, the
+  section's roles, the menu agreeing with each view's section, the dot map) and
+  tests/unit/sentral-fixture.test.ts (the guard against hosted, remote and redirecting URLs, URLs the
+  two parsers read differently, and PG* variables; psql's arguments naming the checked host, the SQL guard before any write, idempotence, `.example` addresses, the route map naming
+  every render and finding every page; no password in the SQL and the admin written inactive; the
+  comparison itself on generated PNG pairs — identical, a block pushed 20 px down, a shot too narrow
+  or too short). admin-nav-growth.test.ts also holds `mayOpenGrowthView`, the check GrowthStub makes
+  before it renders anything, to the section rule for every role and view. The shell's keyboard and
+  sub-bar behaviour is checked in the browser by sentral-run below 1280, not in
+  scripts/verify/shell-behaviour.mjs: that script is the product's shell, signed in as a product
+  user on :3000, and cannot reach /admin.
+
+**Where it differs from the design, and why:**
+- *Every new view* shows its head and the phase's empty panel instead of its content, until its
+  phase: rendering the design's sample figures would be fabricated data. The empty panel is the
+  design's own, without its «Start from the HeiTuva template» button, which copies a board between
+  sites Orgpuls does not have.
+- *No header buttons yet*: Export board, Export plan, Export review, Propose an event, New rule, New
+  experiment, Export ledger, Record phone notice, Add suppression, Edit triggers, Run poll now, Add
+  partner, New tool, New template and Run authentication check each come back with the phase that
+  backs them. A button that opens a form that saves nothing would lie.
+- *Five sub-lines* say less than the design's, because what they count or name does not exist yet:
+  the Growth board drops «· click a card for build, KPI and guardrail» (the stub has no cards; G2
+  draws them and the clause with them);
+  Event catalogue drops «{n} org-level events» (the catalogue is G1's); Risks says «The
+  non-negotiables, the risks with their mitigations, and the decisions…» instead of «Four…,
+  thirteen…, ten…» (G2 counts its rows); Brønnøysund triggers drops the «Dry run — tasks are queued,
+  not assigned, until week 7» chip and «· last run {time}» (there is no poll yet; G3 draws the chip,
+  dry run being the engine's default); Deliverability drops «two subdomains» (sending on `varsel.`
+  and `nyhet.` waits, plan § 7).
+- *Deliverability sits in Admin*, where the design draws it, but its section is `growth`: so the
+  analyst and marketing roles, who see no other Admin page, now see an Admin area holding only
+  Deliverability. Nothing is exposed by it — the page is a stub and checks `canSee` itself — but the
+  area is not an access boundary: when G4 adds the deliverability RPCs they must check the same
+  roles as lib/admin/access.ts gives `growth` (super_admin, analyst, marketing), not rely on where
+  the menu puts the page. Kept in the design's place; the bundle wins on visuals.
+- *The menu*: Consent is under Marketing, not CRM, and the CRM and Marketing sub-bars are the
+  admin's own split (X-097), so row 100 of the CRM, Marketing, Content and Admin views differs from
+  the design's; the Growth sub-bar is the design's to the pixel. The phone sheet's icons for the new
+  pages are chosen from the admin's existing set; the design draws no phone sheet.
+- *The shell switches to the menu sheet below 1280 px, not 1024*: with eight areas, the top bar and
+  Growth's eight-page sub-bar overflowed between 1024 and 1279 (1 106 px wide at 1024). At 1440,
+  the design's width, nothing moves. components/admin/AdminShell.tsx, `lg:` → `xl:`.
+- *PageHead* has `measure={false}`: revision 3's sub-lines run the head's full width at 1.5; the
+  admin's 80ch at 1.55 would wrap the board's. `pretty` (text-wrap: pretty) is a separate switch,
+  on only for the Growth board, the one head the design sets it on; `BulletRow` likewise sets it
+  only when asked (the firewall's teal checks), not on gates, assumptions or cuts.
+- *Below 1280 px the sub-bar opens scrolled to the page you are on* (AdminShell, `scrollLeft`, so
+  the window never moves): Growth's eight pages are wider than a phone, and arriving on Risks or
+  Coverage review otherwise left the current page off-screen. The design draws no phone.
+- *The phone menu sheet traps focus*: it is `role=dialog aria-modal=true`, and with 57 entries Tab
+  used to walk off its end onto the page behind it. Tab and Shift+Tab now wrap inside the sheet
+  while it is open; Escape still closes it and returns focus to the menu button.
+- *The board's empty sentence* says a KPI row «will count» the items: the stub has neither cards
+  nor a KPI row, so it speaks of them in the future, as the other empty sentences do.
+- *`Board` sets its column template from a fixed map* (3–6 tiers, each an arbitrary Tailwind
+  value), not an inline style; the design draws five. *The outlined «Dry run» chip may wrap*: the
+  design's is a sentence with no nowrap inside a wrapping sub-line, so a nowrap chip would push a
+  390 px page sideways; the filled chips stay on one line.
+- *The shared shapes wait for G2*: KpiStrip, Board, TierColumn, BoardCard, BulletRow, BenchmarkRow,
+  SectionCard, StatusChip and `dotTone` have no consumer in G0, which the plan asks for. The G2
+  review's dead-code pass confirms each is used by a view or deleted (plan § 6, step 4).
+- *The empty panel's title names the phase* («Nothing here yet · built in phase G2»), where the
+  design's empty treatment says «Not set up for {site} yet». Kept: the admin's readers are the team
+  that works to the plan, the title says honestly why the page is empty and when it fills, and each
+  title goes when its phase replaces the stub.
+- *The plan counts fourteen new views*; there are thirteen routes. The fourteenth is the design's
+  `isSiteEmpty`, «Not set up for {site} yet», drawn for a second product. Orgpuls has one; its
+  dashed panel is what the phase empty state reuses.
+- *The fixture* keeps the design's names and local parts but writes addresses on `.example`, not
+  `.no`: some of the design's domains are real organisations' (bergen.kommune.no, vlfk.no), and a
+  local send must never reach one. Barnehagene Vest AS has 62 employees, as the lead-scoring signals
+  give it, not the trigger queue's «27 → 32». The tasks' 1-hour SLA and the scoring signals have no
+  column yet (G3); consent records, triggers, partners, magnets and the registries have no table yet,
+  and each phase extends the fixture with its tables. The ledger's «Daglig leder · Fjellstua Drift
+  AS» phone notice has no address, so it is not a contact: it is a consent record, G1's.
+
+**The gate's tolerance, and the claims.** v3-run allows each tile 0.1 % of a whole 1440 × 900
+screen, 1 296 differing pixels. At 100 × 100 that is 13 % of a tile, and the first run with it passed
+all 126 tiles of the 90-day plan's render against a page that showed only its head: the budget is
+blind to a whole KPI card. sentral-run therefore takes the agreed 0.1 % of the tile, 10 pixels
+(`--limit 1296` gives v3-run's back for comparison). With it, identical regions pass with 0 and the
+rest do not.
+
+*The renders' wordmark.* The first renders (9c47a2c) drew «Sentral» in a fallback face:
+sentral-baseline.mjs answered Google Fonts with the product bundle's fonts.raw.css, which has no
+Bricolage Grotesque, so the wordmark's ink was 74 px wide (x 80–153) instead of Bricolage's 62
+(x 80–141), and every top-bar area of every render sat 12 px right of where the design's own
+stylesheet puts it. sentral-baseline.mjs now adds the admin's own Bricolage @font-face
+(app/(admin)/admin/sentral.css, public/fonts) to what it serves, and all 36 renders at 1440 were
+made again; each differs from the old one only in y 12–49 (the top bar), nothing else moved. The
+62 px is the design's face, not a narrower cut: public/fonts/bricolage-grotesque-700-latin.woff2 is
+byte-identical to the latin file Google Fonts serves today for the design's own request
+(`Bricolage+Grotesque:opsz,wght@12..96,700`, checked 2026-09-30), so a browser opening
+Sentral_Admin.dc.html online draws the wordmark as the build does. A review that measured the build
+12 px narrower than «every rev-3 render» was measuring the pre-fix renders.
+
+The claims were then recorded at 1440 after reading the diffs of every view: 28 of 182 tiles on the
+board, 21/126 plan, 30/238 funnel, 18/182 events, 31/140 rules, 36/154 experiments, 15/182 risks,
+36/322 coverage, 15/210 consent, 9/182 triggers, 24/168 partners, 25/140 lead scoring, 36/126 tasks,
+19/126 journeys, 28/154 magnets, 33/196 deliverability. Lead scoring, Tasks and Journeys have since
+lost every claim at row 200 and below (7, 8 and 7 remain, all in the head): the rows those pages
+list are the whole CRM's, which the fixture does not own — other work writes CRM rows to the same
+local database, and Tasks shows due times relative to the hour («Today · SLA 1 h», «12 min left») —
+so those tiles could fail, or pass, on a different database state. G3 re-records them against a
+fixture that owns every row those pages list.
+- Row 0, the top bar, is claimed where it matches: x 0–399 (the wordmark and the areas up to
+  Customers and CRM) and the blank tiles at x 900–1099 on the Growth views and deliverability,
+  x 1000–1099 on magnets; x 0–199 on the CRM views, whose active area is CRM in both but whose next area is
+  the admin's Marketing. Consent and Journeys claim none: in the admin they are Marketing's, so the
+  active pill is elsewhere. The rest of row 0 is the admin's own: the Marketing area, the one-site
+  pill, no help button, the signed-in admin's initials (X-095, X-097, D-162).
+- Row 100: the sub-bar where the area is not the design's, the omitted buttons, and the five
+  shorter sub-lines above (the board's lost its tiles 100:700–900 with its clause); the Growth views'
+  titles and sub-lines otherwise match to the pixel.
+- Rows from 200: the views' content, which their phases build. Lead scoring, Tasks and Journeys
+  claim nothing there: the local database's rows are not the design's sample, nor fixed from one
+  run to the next, and revision 3's changes to them are G3's.
+
+What the claims are: the head, the top-bar tiles above, and blank canvas. The blank canvas deep in a
+page (the board at rows 600–800, x 1100–1300; experiments at rows 600–800, x 900–1300; 110 tiles at
+row 300 or below across the sixteen views) matches only because the design's sample data ends there:
+a view built on real registry rows of another length will cover some of it and uncover other tiles.
+So these are not promises a faithful build keeps. G2, G3 and G4 each re-record their views' claims
+with `--write`, after reading every lost and every new tile, and write the reasons into their own
+deviation entry. At 390 px none of the sixteen views scrolls sideways; nor at 1024 or 1280.
+
+*Scaffolding.* KpiStrip, Board, TierColumn, BoardCard, BulletRow, BenchmarkRow, SectionCard,
+StatusChip and dotTone have no consumer in G0 — the plan puts the shared shapes here, and only
+PhaseEmpty is on a page. They are checked by nothing yet: G2 must use each of them or delete it,
+and its audit confirms that. StatusChip carries the design's chip sizes (4 × 10 at 11 and 11.5 px,
+3 × 8 at 10.5 and 11 px, 5 × 11 at 11.5 px). lib/admin/dots.ts is the admin's one dot registry:
+ui.tsx's Badge paints its tones from DOT_CLASS, and the stream map includes the design's
+«Service/Internal» (teal). It also carries the maps G3 will need, so no later phase meets the yellow
+fallback for a state the design colours otherwise: `outreach` (the Brønnøysund queue's `sdot`:
+Holdout line, Do-not-contact mut), `partner` (Partners' `sdot`: Member offer drafted line, Phase 2
+mut) and `kit` (Partners' `kdot`: Planned line).

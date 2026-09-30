@@ -2,7 +2,8 @@
  * Renders the Sentral admin design (design-reference/sentral/Sentral_Admin.dc.html) into one
  * baseline per view, the way site-baseline.mjs renders the public site: headless Chromium,
  * a 1440 × 900 viewport, full page, React/ReactDOM/Babel from node_modules/.cache/dc-vendor
- * and the design's own font files, so nothing is fetched by the browser.
+ * and the design's own font files (plus the wordmark's Bricolage Grotesque from public/fonts),
+ * so nothing is fetched by the browser.
  *
  * The prototype has no router: a view is reached by pressing its area in the top bar and its
  * page in the sub-bar (behind «More» when the bar has no room), as a person would.
@@ -104,10 +105,22 @@ const ctx = await b.newContext({ viewport: { width, height: 900 } })
 await ctx.route(/unpkg\.com/, (r) =>
   r.fulfill({ path: join(VENDOR, basename(new URL(r.request().url()).pathname)), contentType: 'application/javascript' }),
 )
-await ctx.route(/fonts\.googleapis\.com/, (r) => r.fulfill({ path: join(FONTS, 'fonts.raw.css'), contentType: 'text/css' }))
-await ctx.route(/fonts\.gstatic\.com/, (r) =>
-  r.fulfill({ path: join(FONTS, basename(new URL(r.request().url()).pathname)), contentType: 'font/woff2' }),
+// The design asks Google for DM Sans, Playfair Display AND Bricolage Grotesque 700 (the wordmark).
+// The product bundle's fonts.raw.css has no Bricolage, so it is added from the admin's own
+// @font-face (app/(admin)/admin/sentral.css, public/fonts): without it the wordmark fell back to
+// system-ui, 12 px narrower, and every top-bar area of every render sat 12 px out (D-181).
+const WORDMARK = readFileSync(join('app', '(admin)', 'admin', 'sentral.css'), 'utf8')
+  .match(/@font-face\s*{[^}]*}/)[0]
+  .replace(/url\(\/fonts\/([^)]+)\)/, 'url(https://fonts.gstatic.com/orgpuls-public/$1)')
+const PUBLIC_FONTS = join('public', 'fonts')
+await ctx.route(/fonts\.googleapis\.com/, (r) =>
+  r.fulfill({ body: `${readFileSync(join(FONTS, 'fonts.raw.css'), 'utf8')}\n${WORDMARK}\n`, contentType: 'text/css' }),
 )
+await ctx.route(/fonts\.gstatic\.com/, (r) => {
+  const path = new URL(r.request().url()).pathname
+  const dir = path.startsWith('/orgpuls-public/') ? PUBLIC_FONTS : FONTS
+  return r.fulfill({ path: join(dir, basename(path)), contentType: 'font/woff2' })
+})
 
 mkdirSync(OUT, { recursive: true })
 const errors = []
