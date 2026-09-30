@@ -23,6 +23,7 @@ import {
 } from '@/app/(app)/oppsett/wizard-actions'
 import type { WizardModel } from '@/lib/wizard/read'
 import { wheelMonths } from '@/lib/wheel/months'
+import { parseCsv } from '@/lib/csv/parse'
 
 /**
  * The Veiviser (design 3, v3 191-406; D-76): nine steps in a dialog over the page.
@@ -344,7 +345,8 @@ export function Veiviser({ face, onClose }: { face: string; onClose: (later: boo
     if (!f) return
     try {
       const text = await f.text()
-      setFile({ name: f.name, text, lines: text.split('\n').filter((l) => l.trim()).length })
+      // records as the import reads them: a quoted field may span lines
+      setFile({ name: f.name, text, lines: parseCsv(text).length })
       setProblem(null)
     } catch {
       setProblem(t('people.problem.unreadable'))

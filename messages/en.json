@@ -1738,6 +1738,21 @@
         "ok": "Shown alone",
         "insufficient_data": "Only in the whole",
         "protected": "Held back"
+      },
+      "edit": {
+        "newName": "New group",
+        "newPlaceholder": "Customer service",
+        "add": "Add",
+        "group": "Group",
+        "newNameFor": "New name",
+        "rename": "Rename",
+        "created": "“{name}” has been added. Link the employees to it under People.",
+        "renamed": "The group is now called “{name}”. Results from earlier measurements go with it.",
+        "problem": {
+          "invalid": "The group needs a name of at most 60 characters.",
+          "duplicate": "You already have a group with this name.",
+          "denied": "Only the daglig leder can add and change groups."
+        }
       }
     },
     "terskel": {

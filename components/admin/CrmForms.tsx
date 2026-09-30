@@ -5,6 +5,7 @@ import type en from '@/messages/en.json'
 import { Outcome, useKeptAction } from '@/components/admin/ActionForms'
 import { Button } from '@/components/ui/Button'
 import type { AdminResult } from '@/lib/admin/actions'
+import { parseCsv as parseSheet } from '@/lib/csv/parse'
 import type { Block, Campaign, Filter } from '@/lib/admin/crm'
 import {
   campaignAction,
@@ -155,34 +156,12 @@ export function ContactActionForm({ m, common, id, kind }: { m: CrmMessages; com
   )
 }
 
-/** A small CSV reader: quoted fields, commas or semicolons, a header row. */
+/** The shared CSV reader (lib/csv/parse.ts), with the first row as the header. */
 function parseCsv(text: string): Record<string, string>[] {
-  const lines = text.replace(/\r\n?/g, '\n').split('\n').filter((l) => l.trim())
-  const first = lines[0]
+  const [first, ...rest] = parseSheet(text)
   if (first === undefined) return []
-  const sep = (first.match(/;/g)?.length ?? 0) > (first.match(/,/g)?.length ?? 0) ? ';' : ','
-  const split = (line: string) => {
-    const out: string[] = []
-    let cur = ''
-    let quoted = false
-    for (let i = 0; i < line.length; i++) {
-      const c = line[i]
-      if (quoted) {
-        if (c === '"' && line[i + 1] === '"') (cur += '"'), i++
-        else if (c === '"') quoted = false
-        else cur += c
-      } else if (c === '"') quoted = true
-      else if (c === sep) out.push(cur), (cur = '')
-      else cur += c
-    }
-    out.push(cur)
-    return out.map((s) => s.trim())
-  }
-  const head = split(first).map((h) => h.toLowerCase())
-  return lines.slice(1).map((l) => {
-    const cells = split(l)
-    return Object.fromEntries(head.map((h, i) => [h, cells[i] ?? ''])) as Record<string, string>
-  })
+  const head = first.map((h) => h.toLowerCase())
+  return rest.map((cells) => Object.fromEntries(head.map((h, i) => [h, cells[i] ?? ''])) as Record<string, string>)
 }
 
 const IMPORT_COLUMNS = ['email', 'name', 'company', 'org_number', 'role', 'tags', 'consent_source', 'consent_at', 'lang']

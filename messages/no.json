@@ -1738,6 +1738,21 @@
         "ok": "Vises alene",
         "insufficient_data": "Bare i helheten",
         "protected": "Holdes tilbake"
+      },
+      "edit": {
+        "newName": "Ny gruppe",
+        "newPlaceholder": "Kundeservice",
+        "add": "Legg til",
+        "group": "Gruppe",
+        "newNameFor": "Nytt navn",
+        "rename": "Gi nytt navn",
+        "created": "«{name}» er lagt til. Koble de ansatte til gruppen under Ansatte.",
+        "renamed": "Gruppen heter nå «{name}». Resultatene fra tidligere målinger følger med.",
+        "problem": {
+          "invalid": "Gruppen trenger et navn på høyst 60 tegn.",
+          "duplicate": "Dere har allerede en gruppe med dette navnet.",
+          "denied": "Bare daglig leder kan legge til og endre grupper."
+        }
       }
     },
     "terskel": {

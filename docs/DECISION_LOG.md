@@ -3045,8 +3045,12 @@ the app calls it any more (wiring R1, known).
 - [x] P6: Tiltak — the Tavle, its detail panel, the plan, and a target on each measure (X-045, D-75).
 - [ ] A measure has no start date, so the plan draws its bar from when it was recorded (D-75).
 - [x] P7: the Veiviser, Oversikt's "Veiviser" and Oppsett's "Kjør veiviseren" (X-046, D-76).
-- [ ] No action creates or renames a group; the wizard points to Oppsett › Grupper (D-76).
-- [ ] Microsoft Entra import, and a CSV parser that understands quoted fields (D-76).
+- [x] No action creates or renames a group; the wizard points to Oppsett › Grupper (D-76). Done:
+  «Ny gruppe» and «Gi nytt navn» there, no delete; 0130, D-172.
+- [x] A CSV parser that understands quoted fields (D-76). Done: `lib/csv/parse.ts`, shared by the
+  employee import, its preview, the Veiviser and the admin contact import; D-172.
+- [ ] Microsoft Entra import (D-76). Still open: it needs an app registration in Microsoft Entra
+  (a client id and a consent flow the customer's tenant approves), which no session can make.
 - [x] No line says small groups are merged; Grupper shows each group's real release (X-048, D-78).
 - [x] P8: the security pass (0042), FK indexes (0043), the v3 pixel run and functions in fra1 (X-047, D-77).
 - [x] A respondent gets a private link to each comment's conversation and can read and answer replies (X-048, D-78).

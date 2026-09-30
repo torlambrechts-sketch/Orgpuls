@@ -9,6 +9,7 @@ import { writeFailed } from '@/lib/supabase/write'
 import { lookupOrgNumber } from '@/lib/brreg/lookup'
 import { DUTY_ROLES } from '@/lib/settings/read'
 import { normalizePhone } from '@/supabase/functions/_shared/sms'
+import { parseCsv } from '@/lib/csv/parse'
 import { INDUSTRY_SLUGS, industryForNace } from '@/content/industries/meta'
 
 /**
@@ -330,13 +331,17 @@ export async function addEmployee(formData: FormData): Promise<SettingsResult> {
  * never guessed at.
  */
 const MAX_ROWS = 2000
+// 2000 rows of six columns with room to spare; a longer paste is refused before it is read
+const MAX_CHARS = 1_000_000
 
 export type ImportResult =
   | { ok: true; written: number; updated: number; skipped: number }
   | { ok: false; problem: string }
 
 export async function importEmployees(formData: FormData): Promise<ImportResult> {
-  const text = String(formData.get('rows') ?? '')
+  const pasted = z.string().max(MAX_CHARS).safeParse(String(formData.get('rows') ?? ''))
+  if (!pasted.success) return { ok: false, problem: 'too_many' }
+  const text = pasted.data
   if (text.trim() === '') return { ok: false, problem: 'empty' }
 
   const id = await orgId()
@@ -355,11 +360,9 @@ export async function importEmployees(formData: FormData): Promise<ImportResult>
   const byEmail = new Map((existing.success ? existing.data : []).map((e) => [e.email.toLowerCase(), e.id]))
   const phoneUpdates: { id: string; phone: string | null; language: string | null }[] = []
 
-  const lines = text
-    .split('\n')
-    .map((l) => l.trim())
-    .filter(Boolean)
-  if (lines.length > MAX_ROWS) return { ok: false, problem: 'too_many' }
+  // quoted fields, a comma inside a name, CRLF and a byte-order mark: lib/csv/parse.ts
+  const records = parseCsv(text)
+  if (records.length > MAX_ROWS) return { ok: false, problem: 'too_many' }
 
   const rows: {
     org_id: string
@@ -371,9 +374,9 @@ export async function importEmployees(formData: FormData): Promise<ImportResult>
   }[] = []
   let skipped = 0
 
-  for (const [index, line] of lines.entries()) {
-    const cells = line.split(/[\t;,]/).map((c) => c.trim())
-    const name = cells[0] ?? ''
+  for (const [index, cells] of records.entries()) {
+    // a quoted name may hold a line break; the register keeps a name on one line
+    const name = (cells[0] ?? '').replace(/\s+/g, ' ')
     // an optional header row, recognised the way the design recognises it
     if (index === 0 && /^(navn|name)$/i.test(name)) continue
     if (name === '') {
@@ -486,6 +489,76 @@ export async function setEmployeeDutyRole(formData: FormData): Promise<SettingsR
 }
 
 /* ------------------------------------------------------------------ Grupper */
+
+/**
+ * Creating and renaming a group (D-172). The write is the table's own, under 0026's
+ * `group_admin_insert` / `group_admin_update`: the daglig leder of the organisation, nobody
+ * else. What a policy cannot say is said by the table (0130): a name trimmed and 1..60
+ * characters, one per organisation in any case — «salg» beside «Salg» is the duplicate the
+ * import could not tell apart — and a renamed group's former names kept for comment masking.
+ *
+ * There is no delete. Results, round audiences and memberships are keyed by the group's id,
+ * which is also why a rename is safe: a closed round's figures follow the group to its new name.
+ */
+const GroupName = z.string().trim().min(1).max(60)
+
+const groupProblem = (code: string | undefined) =>
+  code === '23505' ? 'duplicate' : code === '23514' ? 'invalid' : 'denied'
+
+const revalidateGroups = () => {
+  revalidate()
+  revalidatePath('/malinger')
+  revalidatePath('/resultater')
+}
+
+export async function createGroup(formData: FormData): Promise<SettingsResult> {
+  const parsed = GroupName.safeParse(String(formData.get('name') ?? ''))
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+
+  const id = await orgId()
+  if (!id) return { ok: false, problem: 'denied' }
+
+  const supabase = await createClient()
+  // last in the list: after the highest sort_order the organisation has
+  const { data: last } = await supabase
+    .schema('app')
+    .from('groups')
+    .select('sort_order')
+    .eq('org_id', id)
+    .order('sort_order', { ascending: false })
+    .limit(1)
+  const order = z.array(z.object({ sort_order: z.number().int() })).safeParse(last ?? [])
+  const next = (order.success ? (order.data[0]?.sort_order ?? 0) : 0) + 1
+
+  const { data, error } = await supabase
+    .schema('app')
+    .from('groups')
+    .insert({ org_id: id, name: parsed.data, sort_order: next })
+    .select('id')
+  if (error) return { ok: false, problem: groupProblem(error.code) }
+  if (writeFailed('createGroup', null, data)) return { ok: false, problem: 'denied' }
+  revalidateGroups()
+  return { ok: true }
+}
+
+export async function renameGroup(formData: FormData): Promise<SettingsResult> {
+  const parsed = z
+    .object({ id: z.string().uuid(), name: GroupName })
+    .safeParse({ id: formData.get('id'), name: String(formData.get('name') ?? '') })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .schema('app')
+    .from('groups')
+    .update({ name: parsed.data.name })
+    .eq('id', parsed.data.id)
+    .select('id')
+  if (error) return { ok: false, problem: groupProblem(error.code) }
+  if (writeFailed('renameGroup', null, data)) return { ok: false, problem: 'denied' }
+  revalidateGroups()
+  return { ok: true }
+}
 
 /**
  * The threshold may be raised, never lowered below the floor.
