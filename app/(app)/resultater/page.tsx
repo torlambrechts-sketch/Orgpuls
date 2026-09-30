@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation'
 import { countView } from '@/lib/analytics/product'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
@@ -85,6 +86,8 @@ export default async function ResultaterPage({
   const grunnlinjer = closed.filter((r) => r.kind === 'grunnlinje')
   const latestGrunnlinje = grunnlinjer.at(-1) ?? null
 
+  // a round that is not this organisation's is refused, never swapped for another (audit AUD-35)
+  if (params.maling && !rows.some((r) => r.id === params.maling)) notFound()
   const selected = closed.find((r) => r.id === params.maling) ?? latestGrunnlinje ?? closed.at(-1) ?? null
   if (!selected) return <ResultaterEmpty />
 

@@ -229,6 +229,10 @@ begin
   select ct.id into v_thread from app.comment_threads ct
   where ct.key_hash = extensions.digest(v_key,'sha256');
 
+  -- a leader answers only what they may read (0128): the group needs k answers in the round
+  insert into app.responses (org_id, round_id, group_id, submitted_hour)
+  select v_org, v_round, v_grp, date_trunc('hour', now()) from generate_series(2, app.k_threshold(v_org));
+
   perform set_config('request.jwt.claims',
     json_build_object('sub', v_leader, 'role','authenticated')::text, true);
 

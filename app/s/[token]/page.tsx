@@ -26,6 +26,8 @@ import { bcp47 } from '@/lib/i18n/locales'
  * the server's, shuffled per token, because the screen tells the respondent it is.
  */
 export const dynamic = 'force-dynamic'
+// a personal link is never indexed, whatever robots.txt says or a crawler honours (audit AUD-19)
+export const metadata = { robots: { index: false, follow: false } }
 
 export default async function RespondPage({
   params,

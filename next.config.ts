@@ -78,6 +78,8 @@ const securityHeaders = [
 ]
 
 const nextConfig: NextConfig = {
+  // no «X-Powered-By: Next.js» on any response (audit P3)
+  poweredByHeader: false,
   reactStrictMode: true,
   // the QA tenant builds against the local stack into its own directory (scripts/qa/serve.mjs),
   // so a QA build never overwrites the one that talks to the hosted project

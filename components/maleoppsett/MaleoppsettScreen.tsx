@@ -458,6 +458,7 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
                   too_long: t('maleoppsett.send.problems.too_long'),
                   opened: t('maleoppsett.send.problems.opened'),
                   publish_range: t('maleoppsett.send.problems.publish_range'),
+                  publish_later: t('maleoppsett.send.problems.publish_later'),
                   denied: t('maleoppsett.send.problems.denied'),
                 },
                 ready: readyItems.length

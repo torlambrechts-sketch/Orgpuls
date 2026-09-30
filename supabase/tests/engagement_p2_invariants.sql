@@ -217,7 +217,9 @@ begin
       public.set_round_send(v_r3, 'Hei', '2027-11-22')->>'error',
       public.set_round_send(v_r3, '  Velkommen til årets kartlegging.  ', '2027-10-01')->>'ok',
       public.set_round_send(v_r2, 'Endret etter utsending', null)->>'error',
-      public.set_round_send(v_r2, null, (now() at time zone 'Europe/Oslo')::date + 20)->>'ok',
+      -- 0129 (AUD-23): an open round's date may come sooner than the one its invitation named, not later
+      public.set_round_send(v_r2, null, (now() at time zone 'Europe/Oslo')::date + 20)->>'error',
+      public.set_round_send(v_r2, null, ((select closes_at from app.rounds where id = v_r2) at time zone 'Europe/Oslo')::date)->>'ok',
       public.set_round_send(v_r1, null, null)->>'error');
     reset role;
     v_txt := v_txt || '|' || (select concat_ws(',', intro_message, (intro_by = v_dl)::text, results_publish_on::text) from app.rounds where id = v_r3);
@@ -227,10 +229,10 @@ begin
     perform public.set_round_send(v_r3, 'Velkommen til årets kartlegging.', '2027-10-05');
     reset role;
     v_txt := v_txt || '|' || (select (due_at = timestamptz '2027-10-05 09:00+02')::text from app.outbox where round_id = v_r3);
-    v_rows := v_rows || jsonb_build_object('seq', 9, 'name', 'set_round_send: daglig leder only; too long, out of range, opened and closed refused; trimmed and signed; a held notice follows',
-      'expected', 'denied,denied,denied,too_long,publish_range,publish_range,true,opened,true,closed|Velkommen til årets kartlegging.,true,2027-10-01|true',
+    v_rows := v_rows || jsonb_build_object('seq', 9, 'name', 'set_round_send: daglig leder only; too long, out of range, opened, later once open and closed refused; trimmed and signed; a held notice follows',
+      'expected', 'denied,denied,denied,too_long,publish_range,publish_range,true,opened,publish_later,true,closed|Velkommen til årets kartlegging.,true,2027-10-01|true',
       'actual', v_txt,
-      'pass', v_txt = 'denied,denied,denied,too_long,publish_range,publish_range,true,opened,true,closed|Velkommen til årets kartlegging.,true,2027-10-01|true');
+      'pass', v_txt = 'denied,denied,denied,too_long,publish_range,publish_range,true,opened,publish_later,true,closed|Velkommen til årets kartlegging.,true,2027-10-01|true');
 
     -- 10 -------------------------------------------------------------- the preview's reader
     set local role authenticated;

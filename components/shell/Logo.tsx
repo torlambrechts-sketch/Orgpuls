@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl'
 /**
  * The Orgpuls mark: a pulse polyline with a trailing dot, in a rounded square.
  * Transcribed from Orgpuls_Offline_Source.html line 57 (header, 30px) and line 2484
@@ -7,12 +8,13 @@
  * mark is a separate component rather than inlined into the header.
  */
 export function LogoMark({ size = 30, src = null }: { size?: number; src?: string | null }) {
+  const t = useTranslations()
   // the organisation's own logo in the slot (0104, D-154): bundle v3 line 73, `brandIsLogo`
   if (src)
     return (
       <span
         role="img"
-        aria-label="Logo"
+        aria-label={t('shell.orgLogo')}
         className="block flex-none rounded-bar"
         style={{ width: size, height: size, background: `#FFFDF6 url(${JSON.stringify(src)}) center/contain no-repeat` }}
       />

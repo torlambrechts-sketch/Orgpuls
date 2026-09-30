@@ -19,10 +19,10 @@ const Send = z.object({
 
 const Result = z.union([
   z.object({ ok: z.literal(true) }),
-  z.object({ error: z.enum(['closed', 'too_long', 'opened', 'publish_range']) }),
+  z.object({ error: z.enum(['closed', 'too_long', 'opened', 'publish_range', 'publish_later']) }),
 ])
 
-export type SendProblem = 'closed' | 'too_long' | 'opened' | 'publish_range' | 'denied'
+export type SendProblem = 'closed' | 'too_long' | 'opened' | 'publish_range' | 'publish_later' | 'denied'
 
 export async function saveRoundSend(
   values: z.infer<typeof Send>,

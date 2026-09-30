@@ -174,11 +174,12 @@ export function escapeHtml(s: string): string {
 /** "12. oktober" / "12 October", in the organisation's own zone. */
 const DATE_LOCALE: Record<Lang, string> = { no: 'nb-NO', en: 'en-GB', pl: 'pl-PL', uk: 'uk-UA', lt: 'lt-LT', sv: 'sv-SE', da: 'da-DK' }
 
-export function dateOf(iso: string | null, lang: Lang): string {
+export function dateOf(iso: string | null, lang: Lang, withYear = false): string {
   if (!iso) return ''
   return new Intl.DateTimeFormat(DATE_LOCALE[lang] ?? 'nb-NO', {
     day: 'numeric',
     month: 'long',
+    ...(withYear ? { year: 'numeric' as const } : {}),
     timeZone: 'Europe/Oslo',
   }).format(new Date(iso))
 }
@@ -394,8 +395,9 @@ export function renderNotice(
     const ev = job.evaluation ?? null
     const subject = fill(pick(m, 'evaluering.subject'), { org })
     const paragraphs = [
-      ev?.due_on ? fill(pick(m, 'evaluering.lead'), { date: dateOf(ev.due_on, group.lang) }) : pick(m, 'evaluering.leadNoDate'),
-      ev?.last_on ? fill(pick(m, 'evaluering.last'), { date: dateOf(ev.last_on, group.lang) }) : pick(m, 'evaluering.none'),
+      // a yearly cadence: the year is the point (audit AUD-21)
+      ev?.due_on ? fill(pick(m, 'evaluering.lead'), { date: dateOf(ev.due_on, group.lang, true) }) : pick(m, 'evaluering.leadNoDate'),
+      ev?.last_on ? fill(pick(m, 'evaluering.last'), { date: dateOf(ev.last_on, group.lang, true) }) : pick(m, 'evaluering.none'),
       pick(m, 'evaluering.what'),
     ]
     const cta = group.member ? { label: pick(m, 'evaluering.cta'), url: `${base}/rapport` } : null

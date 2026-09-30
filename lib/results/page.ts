@@ -29,8 +29,9 @@ const RoundPage = z.object({
     closes_at: z.string().nullable(),
   }),
   threshold: z.coerce.number(),
-  asked: z.coerce.number(),
-  answered: z.coerce.number(),
+  // null when fewer than k answered: no figure there, the count included (0129, AUD-22)
+  asked: z.coerce.number().nullable(),
+  answered: z.coerce.number().nullable(),
   index: z.coerce.number().nullable(),
   band: Band.nullable(),
   factors: z.array(z.object({ key: z.string(), sort_order: z.coerce.number(), index: z.coerce.number(), band: Band })),

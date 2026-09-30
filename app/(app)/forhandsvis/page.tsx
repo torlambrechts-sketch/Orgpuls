@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { RespondFlow } from '@/components/respond/RespondFlow'
@@ -37,6 +38,8 @@ export default async function PreviewPage({ searchParams }: { searchParams: Prom
 
   // the round asked for, or the one employees would meet next: open now, then the next
   // planned, then the latest that closed
+  // a round that is not this organisation's is refused, never swapped for another (audit AUD-35)
+  if (params.runde && !rounds.some((r) => r.id === params.runde)) notFound()
   const byOpening = (a: RoundListItem, b: RoundListItem) => (a.opensAt ?? '').localeCompare(b.opensAt ?? '')
   const round =
     rounds.find((r) => r.id === params.runde) ??

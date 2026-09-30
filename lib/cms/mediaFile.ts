@@ -1,6 +1,6 @@
 import 'server-only'
 import { z } from 'zod'
-import { createClient } from '@/lib/supabase/server'
+import { anonClient } from '@/lib/supabase/anon'
 import { MEDIA_KEY, MEDIA_TYPES } from './media'
 
 /**
@@ -12,14 +12,15 @@ const File = z.object({ mime: z.enum(MEDIA_TYPES), data: z.string() })
 
 export async function mediaResponse(key: string): Promise<Response> {
   if (!MEDIA_KEY.test(key)) return new Response(null, { status: 404 })
-  const supabase = await createClient()
+  const supabase = anonClient()
+  if (!supabase) return new Response(null, { status: 404 })
   const { data, error } = await supabase.rpc('cms_media_file', { p_key: key })
   const file = File.safeParse(data)
   if (error || !file.success) return new Response(null, { status: 404 })
   return new Response(Buffer.from(file.data.data, 'base64'), {
     headers: {
       'content-type': file.data.mime,
-      'cache-control': 'public, max-age=31536000, immutable',
+      'cache-control': 'public, max-age=31536000, s-maxage=31536000, immutable',
       'x-content-type-options': 'nosniff',
       'content-security-policy': "default-src 'none'; sandbox",
     },

@@ -16,6 +16,8 @@ import { googleEnabled } from '@/lib/auth/google'
  * site (security headers), and analytics never reports this path (lib/analytics/scrub.ts).
  */
 export const dynamic = 'force-dynamic'
+// a personal link is never indexed, whatever robots.txt says or a crawler honours (audit AUD-19)
+export const metadata = { robots: { index: false, follow: false } }
 
 export default async function BliMedPage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = await params

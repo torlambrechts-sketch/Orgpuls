@@ -208,7 +208,8 @@ export async function RapportScreen({ view }: { view: RapportView }) {
       : t('rapport.evaluation.line', { date: long(e.held_on) ?? e.held_on })
   const evaluationDue = (ev: EvaluationStatus) =>
     ev.due_on
-      ? ev.due_on <= new Date().toISOString().slice(0, 10)
+      ? // today where the organisation is, as dispatch_claim reads it; not UTC (audit P3)
+        ev.due_on <= new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Oslo' }).format(new Date())
         ? t('rapport.evaluation.overdue', { date: long(ev.due_on) ?? ev.due_on })
         : t('rapport.evaluation.next', { date: long(ev.due_on) ?? ev.due_on })
       : ev.cadence === 'etter_hver_runde'
@@ -842,7 +843,9 @@ export async function RapportScreen({ view }: { view: RapportView }) {
               */}
               <span className="font-semibold">{e.title}.</span>{' '}
               {e.before !== null && e.after !== null && e.fromYear !== null && e.toYear !== null
-                ? t('rapport.effectMoved', {
+                ? e.fromYear === e.toYear
+                  ? t('rapport.effectMovedSameYear', { factor: t(`factor.${e.factorKey}.label`), from: e.before, to: e.after, year: e.toYear })
+                  : t('rapport.effectMoved', {
                     factor: t(`factor.${e.factorKey}.label`),
                     from: e.before,
                     to: e.after,

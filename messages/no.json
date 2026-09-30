@@ -275,7 +275,7 @@
   },
   "malinger": {
     "title": "Målinger",
-    "lead": "Én grunnlinje i året dekker kartleggingsplikten. Pulsene mellom måler bare det dere har satt tiltak på — fem spørsmål, under ett minutt.",
+    "lead": "Én grunnlinje i året dekker kartleggingsplikten. Pulsene mellom måler bare det dere har satt tiltak på — tre spørsmål per tema, rundt ett minutt.",
     "previewAsEmployee": "Forhåndsvis som ansatt",
     "newMeasurement": "＋ Ny måling",
     "kind": {
@@ -967,7 +967,8 @@
       "overdue": "Evalueringen forfalt {date}.",
       "afterNextRound": "Neste evaluering forfaller når neste runde er lukket.",
       "notYet": "Første evaluering forfaller etter at den første målingen er lukket."
-    }
+    },
+    "effectMovedSameYear": "{factor} gikk fra {from} til {to} i {year}."
   },
   "tiltak": {
     "title": "Tiltak",
@@ -1353,8 +1354,8 @@
       "introLocked": "Runden er sendt ut, og innledningen kan ikke endres lenger.",
       "count": "{n} av {max} tegn",
       "publishLabel": "Resultatene deles med alle",
-      "publishNote": "Ledere ser resultatene når runden stenger. Alle ansatte får dem denne dagen, tidligst når runden stenger og senest 60 dager etter.",
-      "publishNoteNoNotice": "Ledere ser resultatene når runden stenger. Siden for de ansatte åpner denne dagen, tidligst når runden stenger og senest 60 dager etter. Årshjulet varsler ikke alle ansatte om resultatene.",
+      "publishNote": "Ledere ser resultatene når runden stenger. Alle ansatte får dem denne dagen, tidligst når runden stenger og senest 60 dager etter. Når runden er sendt ut, kan dagen bare flyttes fram.",
+      "publishNoteNoNotice": "Ledere ser resultatene når runden stenger. Siden for de ansatte åpner denne dagen, tidligst når runden stenger og senest 60 dager etter. Årshjulet varsler ikke alle ansatte om resultatene. Når runden er sendt ut, kan dagen bare flyttes fram.",
       "publishNone": "Dagen settes når runden har en svarfrist.",
       "save": "Lagre utsending",
       "saved": "Lagret.",
@@ -1365,7 +1366,8 @@
         "too_long": "Innledningen kan være høyst 600 tegn.",
         "opened": "Runden er sendt ut, og innledningen kan ikke endres lenger.",
         "publish_range": "Dagen må være tidligst når runden stenger og senest 60 dager etter.",
-        "denied": "Bare daglig leder kan endre utsendingen."
+        "denied": "Bare daglig leder kan endre utsendingen.",
+        "publish_later": "Invitasjonen har sagt denne dagen. Den kan komme tidligere, men ikke senere."
       },
       "ready": {
         "head": "Klar til utsending",
@@ -2101,7 +2103,7 @@
       "saving": "Lagrer …",
       "problem": {
         "too_large": "Filen er større enn 256 kB. Lagre logoen i mindre størrelse og prøv igjen.",
-        "type": "Bare PNG, JPG eller WebP kan brukes. SVG tas ikke imot.",
+        "type": "Bare PNG, JPG eller WebP kan brukes.",
         "unreadable": "Filen kunne ikke leses. Prøv en annen.",
         "denied": "Bare daglig leder kan endre logoen."
       }
@@ -2419,7 +2421,7 @@
       },
       "verify": {
         "title": "Se at det virket",
-        "body": "En puls på fem spørsmål viser om tallet har flyttet seg. Så begynner runden på nytt.",
+        "body": "En kort puls, tre spørsmål per tema, viser om tallet har flyttet seg. Så begynner runden på nytt.",
         "time": "Under ett minutt for hver ansatt"
       }
     },
@@ -2659,7 +2661,7 @@
       "conv": {
         "title": "Slik håndterer du samtaler",
         "s1": "Svar selv om du ikke har en løsning. «Jeg har lest dette» er nok.",
-        "s2": "Del med verneombudet hvis saken er alvorlig — detaljer anonymiseres.",
+        "s2": "Er saken alvorlig, kan du be om direkte kontakt. Personen velger selv om hen vil skrive til deg.",
         "s3": "Lukk samtalen når dere er ferdige, så den ikke ligger og teller som ubesvart.",
         "sci": "Å få svar på en anonym kommentar er den enkeltfaktoren som best forutsier om folk skriver igjen ved neste måling. Ubesvarte kommentarer gir lavere svarprosent neste runde enn ingen kommentarfelt i det hele tatt."
       },
@@ -2676,7 +2678,7 @@
         "s1Plain": "Velg type. Grunnlinje gir hele bildet, puls måler effekt.",
         "s2": "Velg faktorer og kommentarmodus. Færre spørsmål gir høyere svarprosent.",
         "s3": "Sjekk gruppene mot terskelen, og la varselet til verneombudet stå på.",
-        "sci": "Fem spørsmål tar under ett minutt og gir typisk 15–20 prosentpoeng høyere svarprosent enn et fullt skjema. Rotasjon av spørsmål hindrer at folk svarer på autopilot."
+        "sci": "Korte pulser tar rundt ett minutt og gir typisk 15–20 prosentpoeng høyere svarprosent enn et fullt skjema. Spørsmålene kommer i blandet rekkefølge, så folk ikke svarer på autopilot."
       },
       "wheel": {
         "title": "Slik virker årshjulet",
@@ -3743,7 +3745,7 @@
       }
     },
     "rhythm": {
-      "lead": "Hovedundersøkelsen tas én gang i året. Pulsene er korte oppfølginger på fem spørsmål som sjekker om tiltakene virker. Alt sendes ut automatisk.",
+      "lead": "Hovedundersøkelsen tas én gang i året. Pulsene er korte oppfølginger, tre spørsmål per tema, som sjekker om tiltakene virker. Alt sendes ut automatisk.",
       "preset": {
         "kvartalspuls": {
           "label": "Hvert kvartal",
@@ -5826,7 +5828,7 @@
         "crumb": "Personvernerklæring",
         "kicker": "Personvern",
         "h1": "Personvernerklæring",
-        "lead": "Her står hva Orgpuls AS samler inn om deg, hvorfor, hvor lenge vi beholder det og hvem som hjelper oss. Sist oppdatert 27. september 2026.",
+        "lead": "Her står hva Orgpuls AS samler inn om deg, hvorfor, hvor lenge vi beholder det og hvem som hjelper oss. Sist oppdatert 30. september 2026.",
         "blocks": [
           {
             "t": "h2",
@@ -5887,7 +5889,7 @@
           },
           {
             "t": "p",
-            "text": "Til virksomheter kan vi sende e-post om Orgpuls til funksjonsadresser (for eksempel post@), med grunnlag i berettiget interesse. Personlige adresser får e-post fra oss bare med samtykke, eller når du allerede er kunde og ikke har reservert deg. Hver e-post har en avmeldingslenke."
+            "text": "Til virksomheter kan vi sende e-post om Orgpuls til funksjonsadresser (for eksempel post@), med grunnlag i berettiget interesse. Personlige adresser får e-post fra oss bare med samtykke, eller når du allerede er kunde og ikke har reservert deg. Hver e-post har en avmeldingslenke. Når vi skriver til en virksomhet, henter vi navn, organisasjonsnummer, bransje og adresse fra Enhetsregisteret, og navnet på daglig leder fra de offentlige rolleopplysningene der. Navnet bruker vi bare til å henvende oss til virksomheten, på virksomhetens egen adresse. Grunnlaget er berettiget interesse, artikkel 6 nr. 1 bokstav f, og opplysningene kommer fra en offentlig kilde (artikkel 14). Du kan protestere når som helst, se under."
           },
           {
             "t": "h2",
@@ -11374,5 +11376,8 @@
   },
   "cms": {
     "preview": "Forhåndsvisning av et utkast: ikke publisert, og ikke synlig for søkemotorer."
+  },
+  "shell": {
+    "orgLogo": "Virksomhetens logo"
   }
 }

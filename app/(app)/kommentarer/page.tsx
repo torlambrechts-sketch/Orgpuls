@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation'
 import { countView } from '@/lib/analytics/product'
 import type { Route } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
@@ -64,6 +65,8 @@ export default async function KommentarerPage({
    * latest. Only a daglig leder is answered (open_answers refuses anyone else), so for other
    * roles this is null and the section is absent.
    */
+  // a round that is not this organisation's is refused, never swapped for another (audit AUD-35)
+  if (params.maling && !rows.some((r) => r.id === params.maling)) notFound()
   const openRound = rows.find((r) => r.id === params.maling && r.status === 'lukket') ?? null
   const byId = new Map(rows.map((r) => [r.id, r]))
   const latestClosed = rows

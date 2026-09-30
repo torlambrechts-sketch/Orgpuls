@@ -1,5 +1,6 @@
 import 'server-only'
 import { z } from 'zod'
+import { getCurrentOrgId } from '@/lib/org/current'
 import { createClient } from '@/lib/supabase/server'
 import { callFailed, parseFailed, readFailed } from '@/lib/supabase/read'
 import { EVALUATION_CADENCES } from '@/lib/setup/read'
@@ -38,11 +39,15 @@ const Row = z.object({
 export type Evaluation = z.infer<typeof Row>
 
 export async function getEvaluations(): Promise<Evaluation[]> {
+  // the current organisation's, not whatever RLS lets the member read (audit P3)
+  const org = await getCurrentOrgId()
+  if (!org) return []
   const supabase = await createClient()
   const { data, error } = await supabase
     .schema('app')
     .from('evaluations')
     .select('id, held_on, counterpart, note')
+    .eq('org_id', org)
     .order('held_on', { ascending: false })
   if (readFailed('getEvaluations', error, data)) return []
   const parsed = z.array(Row).safeParse(data)

@@ -204,7 +204,8 @@ export function SendCard({
             type="date"
             value={publishOn}
             min={closeOn}
-            max={addDays(closeOn, 60)}
+            // once the invitation has named the day it may only come sooner (0129, AUD-23)
+            max={introOpen || !preview.publish_on ? addDays(closeOn, 60) : preview.publish_on}
             disabled={pending}
             onChange={(e) => {
               setPublishOn(e.target.value)

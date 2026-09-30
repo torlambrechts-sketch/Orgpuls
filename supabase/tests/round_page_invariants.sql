@@ -100,6 +100,10 @@ begin
     insert into app.measures (org_id, round_id, factor_key, title, step, kind)
     values (v_org, v_a, 'mengde', 'Bare foreslått', 'foreslatt', 'kollektivt'),
            (v_org, v_a, 'ytring', 'Samtale med én person', 'besluttet', 'individuelt');
+    -- 0129 (AUD-22): a department's own measure, which the page promises not to show
+    with m as (insert into app.measures (org_id, round_id, factor_key, title, step, kind)
+               values (v_org, v_a, 'ytring', 'Avdelingens eget tiltak', 'pagar', 'kollektivt') returning id)
+    insert into app.measure_groups (measure_id, group_id) select m.id, v_ga from m;
 
     -- 2 ---------------------------------------------------------------- who may do what
     v_txt := concat_ws('|',
@@ -131,10 +135,11 @@ begin
 
     -- 4 ---------------------------------------------------------------- below k
     v_json := public.round_page(v_sb);
-    v_txt := concat_ws('|', v_json->>'status', v_json->>'answered', coalesce(v_json->>'index', 'none'),
-                       jsonb_array_length(v_json->'factors'));
-    v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'three answered: the counts, no index, no factor',
-      'expected', 'insufficient_data|0|none|0', 'actual', v_txt, 'pass', v_txt = 'insufficient_data|0|none|0');
+    v_txt := concat_ws('|', v_json->>'status', coalesce(v_json->>'asked', 'none'), coalesce(v_json->>'answered', 'none'),
+                       coalesce(v_json->>'index', 'none'), jsonb_array_length(v_json->'factors'));
+    -- 0129 (AUD-22): «ingen tall der færre enn k har svart» holds for the count of answers too
+    v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'three answered: no count, no index, no factor',
+      'expected', 'insufficient_data|none|none|none|0', 'actual', v_txt, 'pass', v_txt = 'insufficient_data|none|none|none|0');
 
     -- 5 ---------------------------------------------------------------- at k
     v_json := public.round_page(v_sa);
@@ -152,7 +157,7 @@ begin
     v_txt := concat_ws('|', jsonb_array_length(v_json->'measures'), v_json->'measures'->0->>'title',
                        v_json->'measures'->0->>'step', v_json->'measures'->0->>'factor',
                        (select string_agg(k, ',' order by k) from jsonb_object_keys(v_json->'measures'->0) k));
-    v_rows := v_rows || jsonb_build_object('seq', 6, 'name', 'one measure: collective and decided, the name masked, the department kept, no owner',
+    v_rows := v_rows || jsonb_build_object('seq', 6, 'name', 'one measure: collective, decided and the whole organisation''s; the name masked, a place kept, no owner',
       'expected', '1|Ukentlig møte med ⟦n⟧ ⟦n⟧ på Lager|pagar|ytring|done,due,factor,step,title', 'actual', v_txt,
       'pass', v_txt = '1|Ukentlig møte med ⟦n⟧ ⟦n⟧ på Lager|pagar|ytring|done,due,factor,step,title');
 

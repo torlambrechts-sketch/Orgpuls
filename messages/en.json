@@ -275,7 +275,7 @@
   },
   "malinger": {
     "title": "Measurements",
-    "lead": "One baseline a year covers the duty to survey. The pulses in between measure only what you have put actions on — five questions, under a minute.",
+    "lead": "One baseline a year covers the duty to survey. The pulses in between measure only what you have put actions on — three questions per topic, about a minute.",
     "previewAsEmployee": "Preview as employee",
     "newMeasurement": "＋ New measurement",
     "kind": {
@@ -967,7 +967,8 @@
       "overdue": "The evaluation was due {date}.",
       "afterNextRound": "The next evaluation is due when the next round has closed.",
       "notYet": "The first evaluation is due after the first survey has closed."
-    }
+    },
+    "effectMovedSameYear": "{factor} went from {from} to {to} in {year}."
   },
   "tiltak": {
     "title": "Measures",
@@ -1353,8 +1354,8 @@
       "introLocked": "The round has been sent, and its introduction can no longer be changed.",
       "count": "{n} of {max} characters",
       "publishLabel": "Results shared with everyone",
-      "publishNote": "Leaders see the results when the round closes. All employees get them on this day, no earlier than the close and no later than 60 days after.",
-      "publishNoteNoNotice": "Leaders see the results when the round closes. The employees' page opens on this day, no earlier than the close and no later than 60 days after. The year wheel does not notify all employees of the results.",
+      "publishNote": "Leaders see the results when the round closes. All employees get them on this day, no earlier than the close and no later than 60 days after. Once the round is sent out, the day can only move earlier.",
+      "publishNoteNoNotice": "Leaders see the results when the round closes. The employees' page opens on this day, no earlier than the close and no later than 60 days after. The year wheel does not notify all employees of the results. Once the round is sent out, the day can only move earlier.",
       "publishNone": "The day is set once the round has a deadline.",
       "save": "Save sending",
       "saved": "Saved.",
@@ -1365,7 +1366,8 @@
         "too_long": "The introduction can be at most 600 characters.",
         "opened": "The round has been sent, and its introduction can no longer be changed.",
         "publish_range": "The day must be no earlier than the close and no later than 60 days after.",
-        "denied": "Only the managing director can change the sending."
+        "denied": "Only the managing director can change the sending.",
+        "publish_later": "The invitation has named this day. It can come sooner, but not later."
       },
       "ready": {
         "head": "Ready to send",
@@ -2101,7 +2103,7 @@
       "saving": "Saving …",
       "problem": {
         "too_large": "The file is larger than 256 kB. Save the logo at a smaller size and try again.",
-        "type": "Only PNG, JPG or WebP can be used. SVG is not accepted.",
+        "type": "Only PNG, JPG or WebP can be used.",
         "unreadable": "The file could not be read. Try another one.",
         "denied": "Only the general manager can change the logo."
       }
@@ -2419,7 +2421,7 @@
       },
       "verify": {
         "title": "See that it worked",
-        "body": "A five-question pulse shows whether the number moved. Then the round starts again.",
+        "body": "A short pulse, three questions per topic, shows whether the number moved. Then the round starts again.",
         "time": "Under a minute per employee"
       }
     },
@@ -2659,7 +2661,7 @@
       "conv": {
         "title": "How to handle conversations",
         "s1": "Reply even if you do not have a solution. “I have read this” is enough.",
-        "s2": "Share with the safety representative if the matter is serious — details are anonymised.",
+        "s2": "If the matter is serious, you can ask for direct contact. The person decides whether to write to you.",
         "s3": "Close the conversation when you are done, so it does not keep counting as unanswered.",
         "sci": "Getting a reply to an anonymous comment is the single factor that best predicts whether people write again at the next measurement. Unanswered comments lead to a lower response rate next round than having no comment field at all."
       },
@@ -2676,7 +2678,7 @@
         "s1Plain": "Choose the type. A baseline gives the whole picture, a pulse measures effect.",
         "s2": "Choose factors and comment mode. Fewer questions give a higher response rate.",
         "s3": "Check the groups against the threshold, and leave the notice to the safety representative on.",
-        "sci": "Five questions take under a minute and typically give a response rate 15–20 percentage points higher than a full form. Rotating questions stops people answering on autopilot."
+        "sci": "Short pulses take about a minute and typically give a response rate 15–20 percentage points higher than a full form. The questions come in a shuffled order, so people do not answer on autopilot."
       },
       "wheel": {
         "title": "How the annual cycle works",
@@ -3743,7 +3745,7 @@
       }
     },
     "rhythm": {
-      "lead": "The main survey runs once a year. Pulses are short follow-ups of five questions that check whether the measures work. Everything is sent automatically.",
+      "lead": "The main survey runs once a year. Pulses are short follow-ups, three questions per topic, that check whether the measures work. Everything is sent automatically.",
       "preset": {
         "kvartalspuls": {
           "label": "Every quarter",
@@ -5826,7 +5828,7 @@
         "crumb": "Privacy statement",
         "kicker": "Privacy",
         "h1": "Privacy statement",
-        "lead": "What Orgpuls AS collects about you, why, how long we keep it and who helps us. Last updated 27 September 2026.",
+        "lead": "What Orgpuls AS collects about you, why, how long we keep it and who helps us. Last updated 30 September 2026.",
         "blocks": [
           {
             "t": "h2",
@@ -5887,7 +5889,7 @@
           },
           {
             "t": "p",
-            "text": "We may send e-mail about Orgpuls to organisations' role addresses (such as post@), on the basis of legitimate interest. Personal addresses receive e-mail from us only with consent, or when you are already a customer and have not opted out. Every e-mail has an unsubscribe link."
+            "text": "We may send e-mail about Orgpuls to organisations' role addresses (such as post@), on the basis of legitimate interest. Personal addresses receive e-mail from us only with consent, or when you are already a customer and have not opted out. Every e-mail has an unsubscribe link. When we write to an organisation, we take its name, organisation number, industry and address from the Central Coordinating Register for Legal Entities (Enhetsregisteret), and the general manager’s name from its public role information. We use the name only to address the organisation, at its own address. The basis is legitimate interest, Article 6(1)(f), and the information comes from a public source (Article 14). You can object at any time, see below."
           },
           {
             "t": "h2",
@@ -11374,5 +11376,8 @@
   },
   "cms": {
     "preview": "Preview of a draft: not published, and not visible to search engines."
+  },
+  "shell": {
+    "orgLogo": "The organisation’s logo"
   }
 }

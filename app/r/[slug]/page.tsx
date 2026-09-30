@@ -51,7 +51,7 @@ function Page({ page, t, locale }: { page: RoundPage; t: T; locale: string }) {
       ? t('malinger.roundTitle', { kind: t('malinger.kind.grunnlinje'), year: page.round.year })
       : t('resultater.pulseTitle', { month, year: page.round.year })
   const factorName = (key: string) => (t.has(`factor.${key}.label`) ? t(`factor.${key}.label`) : null)
-  const pct = page.asked > 0 ? Math.round((100 * page.answered) / page.asked) : null
+  const pct = page.asked && page.answered !== null ? Math.round((100 * page.answered) / page.asked) : null
 
   const strongest = [...page.factors].sort((a, b) => b.index - a.index || a.sort_order - b.sort_order).slice(0, TOP)
   // what is being worked on is what a measure was decided for — not a ranking of our own
@@ -72,11 +72,13 @@ function Page({ page, t, locale }: { page: RoundPage; t: T; locale: string }) {
 
       <section aria-labelledby="rp-answers" className="mt-[22px] rounded-card border border-line bg-sf px-[22px] py-[20px]">
         <h2 id="rp-answers" className="m-0 text-[12px] font-bold uppercase tracking-[0.06em] text-mut">{t('roundPage.answersHead')}</h2>
-        <div className="mt-[8px] font-display text-[22px] font-medium leading-[1.25]">
-          {pct === null
-            ? t('roundPage.answeredOnly', { answered: page.answered })
-            : t('roundPage.answered', { answered: page.answered, asked: page.asked, pct })}
-        </div>
+        {page.answered !== null ? (
+          <div className="mt-[8px] font-display text-[22px] font-medium leading-[1.25]">
+            {pct === null
+              ? t('roundPage.answeredOnly', { answered: page.answered })
+              : t('roundPage.answered', { answered: page.answered, asked: page.asked ?? 0, pct })}
+          </div>
+        ) : null}
         <p className="mb-0 mt-[8px] text-[13px] leading-[1.6] text-mut [text-wrap:pretty]">{t('roundPage.anonymous', { k: page.threshold })}</p>
       </section>
 

@@ -216,12 +216,12 @@ describe('notices', () => {
     const evaluation = { cadence: 'arlig', last_on: null, due_on: '2026-09-15' }
     const r = renderNotice(cat, job({ kind: 'evaluering', audience: 'daglig_leder', round: null, token: null, evaluation }), { lang: 'no', member: true, name: null }, APP)
     expect(r.subject).toBe('Nordvik Anlegg AS: tid for å evaluere målingen')
-    expect(r.text).toContain('forfalt evalueringen 15. september')
+    expect(r.text).toContain('forfalt evalueringen 15. september 2026')
     expect(r.text).toContain('Det er ikke registrert noen evaluering ennå.')
     expect(r.text).toContain(`${APP}/rapport`)
     expect(r.text).not.toMatch(/\{\w+\}/)
     const en = renderNotice(cat, job({ kind: 'evaluering', audience: 'daglig_leder', round: null, token: null, evaluation: { ...evaluation, last_on: '2025-09-01' } }), { lang: 'en', member: true, name: null }, APP)
-    expect(en.text).toContain('Last recorded evaluation: 1 September.')
+    expect(en.text).toContain('Last recorded evaluation: 1 September 2025.')
   })
 
   it('heads a notice with the organisation\'s logo, and only by an address the database made (0104)', () => {

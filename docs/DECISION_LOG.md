@@ -3057,7 +3057,7 @@ the app calls it any more (wiring R1, known).
 - [x] The header's account chip opens a menu with the signed-in identity, Oppsett and "Logg ut" (D-80).
 - [x] Oppsett is in the account menu, not the main nav (D-81).
 - [x] A leader can ask for direct contact; the employee alone decides, by writing from their own e-mail (0046, D-82).
-- [ ] Narrow `reply_to_thread` and `set_thread` to `app.thread_visible`, as `conversations` reads (D-82).
+- [x] Narrow `reply_to_thread` and `set_thread` to `app.thread_visible`, as `conversations` reads (D-82): 0128, `thread_scope_invariants.sql`.
 - [x] The public site has a menu, a footer of sections, and Plattform, Bruksområder, Priser, Om oss, Sikkerhet, Kontakt and Helse og omsorg (X-051, D-83).
 - [x] The start page and Plattform show real screens of the product, captured from the fixture (X-052, D-84).
 - [x] Landing-page review: orgnr field in the hero, product beside it, Lovdata links, 44 px targets, LCP (X-053, D-85; docs/reviews/landing-2026-09-25.md).
@@ -3072,7 +3072,7 @@ the app calls it any more (wiring R1, known).
 - [x] Names and photographs for the team cards on Om oss: moot, the page is removed (D-95).
 - [ ] A privacy statement and terms page; the footer lists both and registration refers to the first (D-88).
 - [x] A stored inbox for the contact form: it files a ticket in the admin's queue (0051, D-92).
-- [ ] App copy still says "fem spørsmål" for a pulse (malinger.lead, veiviser.rhythm.lead, start.step.verify.body); a pulse is three statements per factor with open measures (X-056).
+- [x] App copy said "fem spørsmål" for a pulse (malinger.lead, veiviser.rhythm.lead, start.step.verify.body, the Målinger help panel): now «tre spørsmål per tema, rundt ett minutt» (X-099). The v3 claims hold.
 - [x] Oppsett › Betaling: a 15-day trial, extendable once, plan and invoice details, confirmation (0048, D-89, X-057).
 - [x] Decide what happens when a trial ends unconfirmed: 14 days' grace, then read-only (0052, D-94).
 - [x] Tell Orgpuls when a customer confirms a plan or asks for an offer: the admin's organisation list and dashboard show confirmations and offers requested (D-90). A push notification is still open.
@@ -3130,7 +3130,7 @@ the app calls it any more (wiring R1, known).
 - [x] Translate the strings added by 0105/0107 in pl, uk, lt, sv and da — machine drafts written 2026-09-29 (X-089); Tor reviews them in admin › Translations.
 - [ ] The deep audit's P2/P3 findings (docs/audits/2026-09-28-deep.md): v3 pixel gate in CI and the Resultater/Kommentarer claims re-recorded after reading the diff, `qa:visual` specs brought up to the intro page, npm audit (postcss via next), `noindex` on `/s/[token]` and `/bli-med`, the thank-you and «Siden sist» wording, the evaluation mail's year, the employees' page and department measures, `wiring.mjs --matrix`, and the P3 list.
 - [x] Fold-back (X-090): the workflow reads the approved texts from www.orgpuls.com/api/i18n/overrides and needs no key in GitHub (a run on 2026-09-29 showed the repository's Actions hold no anon key under any of the names the workflow reads; CI builds with a placeholder). Its pull requests are opened with the workflow token, which starts no other workflow: CI runs in full on merge.
-- [ ] CRM (X-091): the privacy statement should say that the names of general managers are read from Enhetsregisteret for B2B outreach to the company's address (GDPR art. 14). It is a text change in the site copy; no approval step (X-078).
+- [x] CRM (X-091): the privacy statement says that names of general managers are read from Enhetsregisteret for outreach to the company's address (GDPR art. 14), no and en, dated 30 September 2026 (X-099).
 - [ ] CRM (X-091, D-159): deal value (plan, seats, MRR) on a company, so the board can show pipeline value and win rate honestly; LinkedIn/call steps in a sequence.
 - [ ] Campaign mail (X-092): put the company's postal address (and org.nr.) in the text `mail.crm.sender` under admin › Translations, for bokmål and English: every campaign footer shows it, and the inbox check asks for it. It is not in the repository, so nothing was invented.
 - [ ] Sending domain (X-092): the inbox check reads today, from public DNS, that nyheter.orgpuls.com has Brevo's DKIM, is covered by `_dmarc.orgpuls.com` with `p=none`, and has no SPF record. At the DNS host (Spaceship): add `v=spf1 include:spf.brevo.com ~all` as a TXT on nyheter.orgpuls.com, and after two to four weeks of clean DMARC reports (rua goes to Brevo) move `_dmarc.orgpuls.com` to `p=quarantine`.
@@ -3168,3 +3168,31 @@ pixels wider (the Målinger lead wraps a word earlier) and draw a glyph the cont
 box. The baselines and claims belong to the rendering they were captured with, as `qa/baselines`
 does (ci.yml says so); re-recording them on the runner would throw away the design's own pixels.
 The gate stays local: `/audit` runs it (phase 5), and it passes on 22 of 22 on 2026-09-30.
+
+### X-099 — The deep audit's open P2 and P3 findings, and the backlog's small items
+
+**Why.** Tor, 2026-09-30: «start with CI then 1 and 2 and all engineering work». A read of the code
+against docs/audits/2026-09-28-deep.md found one P2 fixed (AUD-15) and the rest open.
+
+**Fixed.**
+- AUD-22: the employees' page no longer lists a department's own measures, and gives no count of
+  answers where fewer than k answered — both things its text promised (0129, round_page rows 4, 6).
+- AUD-23, AUD-26: a publish date needs a close; once the round is open it may come sooner than the
+  day the invitation named, never later; a close moved earlier pulls the date back within close + 60
+  (0129, `audit_p2_invariants`, engagement row 9). The send card says so and caps its date field.
+- AUD-19: `/s/[token]` and `/bli-med/[token]` say noindex themselves.
+- AUD-21: the evaluation reminder prints its dates with the year.
+- AUD-35: `/resultater`, `/kommentarer` and `/forhandsvis` answer 404 to a round that is not the
+  organisation's, instead of showing another.
+- P3: no `X-Powered-By`; logos and media are read with a client that has no session and cached at
+  the CDN too; the org logo's label is translated; the logo and evaluation reads name the current
+  organisation; Rapport's «today» is Oslo's; «var 38 i 2026 og 47 i 2026» reads «gikk fra 38 til 47
+  i 2026»; a GIF is no longer refused with a sentence about SVG; the evaluation reminder is not
+  queued while an organisation's e-mail is off; two foreign keys get their indexes.
+- D-82: replying to and closing a conversation take the scope of reading it (0128).
+- Copy that promised what the product does not do: «fem spørsmål» for a pulse, «Rotasjon av
+  spørsmål» (the order is shuffled; the questions do not rotate), «Del med verneombudet» in the
+  conversation help (there is no such action; asking for direct contact is).
+
+**Kept.** A-05: `approve_item_translations` and `approve_ui_translation` stay callable; their own
+check refuses everyone but a platform admin, and the translation suites approve through them.

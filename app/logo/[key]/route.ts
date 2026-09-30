@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { createClient } from '@/lib/supabase/server'
+import { anonClient } from '@/lib/supabase/anon'
 import { LOGO_KEY } from '@/lib/org/logo'
 
 /**
@@ -17,7 +17,8 @@ export async function GET(_: Request, { params }: { params: Promise<{ key: strin
   const { key } = await params
   if (!LOGO_KEY.test(key)) return new Response(null, { status: 404 })
 
-  const supabase = await createClient()
+  const supabase = anonClient()
+  if (!supabase) return new Response(null, { status: 404 })
   const { data, error } = await supabase.rpc('org_logo', { p_key: key })
   const logo = Logo.safeParse(data)
   if (error || !logo.success) return new Response(null, { status: 404 })
@@ -25,7 +26,8 @@ export async function GET(_: Request, { params }: { params: Promise<{ key: strin
   return new Response(Buffer.from(logo.data.data, 'base64'), {
     headers: {
       'content-type': logo.data.mime,
-      'cache-control': 'public, max-age=31536000, immutable',
+      // s-maxage: the CDN keeps it too, so a logo in a thousand mails is one database read
+      'cache-control': 'public, max-age=31536000, s-maxage=31536000, immutable',
       'x-content-type-options': 'nosniff',
       'content-security-policy': "default-src 'none'; sandbox",
     },
