@@ -7705,7 +7705,8 @@
         "pipelineSub": "{count, plural, one {# deal} other {# deals}} · {won} won this quarter",
         "pages": "Published pages",
         "pagesValue": "{live} of {total}",
-        "pagesSub": "{drafts, plural, one {# draft} other {# drafts}} · {scheduled} scheduled"
+        "pagesSub": "{drafts, plural, one {# draft} other {# drafts}} · {scheduled} scheduled",
+        "pipelineUnvalued": "{count} without a value"
       },
       "attention": {
         "title": "Needs attention",
@@ -8713,7 +8714,8 @@
         "not_moved": "That company was not moved: it follows its plan, or the stage cannot be set by hand.",
         "inbox_blocked": "The inbox check has red items: fix them before scheduling.",
         "placeholder_left": "Text in [brackets] is still in the campaign: replace it before scheduling.",
-        "invalid_value": "The value is whole kroner, up to 100 million."
+        "invalid_value": "The value is whole kroner, up to 100 million.",
+        "invalid_step": "A call or LinkedIn step has no mail: it cannot be resent, and only a call or LinkedIn step is changed here."
       },
       "stage": {
         "new": "New",
@@ -9101,7 +9103,7 @@
       },
       "sequence": {
         "title": "Sequence",
-        "lead": "Every mail in this chain, in order, with what each one did. Answers and clicks are the numbers that count; opens are shown, but read them as a lower bound.",
+        "lead": "Every step in this chain, in order, with what each one did. Answers and clicks are the numbers that count; opens are shown, but read them as a lower bound. A call or LinkedIn step sends nothing: it gives the company's owner a task, and the chain waits until it is done or skipped.",
         "step": "Mail {n}",
         "first": "First mail",
         "after": "+{days} days · {when}",
@@ -9118,7 +9120,26 @@
         "resend": "Resend after",
         "days": "days",
         "resendHint": "A draft follow-up with this mail's content, to those who did not click, sending itself. Edit the subject before you arm it.",
-        "none": "This campaign is not part of a sequence yet."
+        "none": "This campaign is not part of a sequence yet.",
+        "callStep": "Call {n}",
+        "linkedinStep": "LinkedIn {n}",
+        "afterTask": "+{days} days · a task for the owner",
+        "tasksMade": "Tasks",
+        "tasksOpen": "Open",
+        "tasksDone": "Done",
+        "tasksSkipped": "Skipped",
+        "addStep": "Add a call or LinkedIn step",
+        "addStepHint": "It sends nothing. When a contact comes due, the company's owner gets a task in Tasks, linked to this step; the next step waits until the task is done or skipped. A contact without a company gets no task and goes no further.",
+        "stepKind": "Step",
+        "kind": {
+          "call": "Call",
+          "linkedin": "LinkedIn"
+        },
+        "stepTitle": "What to do",
+        "titleHint": "e.g. Call about the proposal",
+        "stepAfter": "Days after the step before",
+        "add": "Add step",
+        "defaultName": "{campaign} · {kind}"
       },
       "sending": {
         "title": "Sending",
@@ -9204,7 +9225,10 @@
         "cancel": "Cancel",
         "close": "Close",
         "saving": "Saving …",
-        "notSaved": "The deal was not saved."
+        "notSaved": "The deal was not saved.",
+        "leadUnvalued": "{count, plural, one {# deal has} other {# deals have}} no value yet and {count, plural, one {is} other {are}} not in the sums.",
+        "winRate": "win rate {rate} % ({won} of {closed} closed since {date})",
+        "colUnvalued": "{count} of {total} without a value, not in the sum"
       },
       "studio": {
         "preview": "Preview",
@@ -9547,7 +9571,7 @@
       },
       "journeys": {
         "title": "Journeys",
-        "lead": "{active} active · {waiting, plural, one {# contact} other {# contacts}} waiting for the next mail · each journey starts on one stage",
+        "lead": "{active} active · {waiting, plural, one {# contact} other {# contacts}} waiting for the next step · each journey starts on one stage",
         "new": "New journey",
         "newSub": "A journey starts as a campaign aimed at a stage. Add follow-ups that send themselves in its studio.",
         "close": "Close",
@@ -9569,11 +9593,12 @@
         "byStage": "Journeys by stage",
         "byStageLead": "Each working stage and the journeys that start on it.",
         "companies": "{count, plural, one {# company} other {# companies}}",
-        "noJourney": "No journey starts here"
+        "noJourney": "No journey starts here",
+        "tasks": "{count, plural, one {# task step} other {# task steps}}"
       },
       "tasks": {
         "title": "Tasks",
-        "lead": "{open} open · {today} due today",
+        "lead": "{open} open · {today} due today · {journeys} created by journeys",
         "new": "New task",
         "newSub": "A task belongs to a company and shows on its page and here.",
         "company": "Company",
@@ -9603,7 +9628,14 @@
           "open": "Nothing open.",
           "done": "Nothing done in the last 90 days.",
           "all": "No tasks yet."
-        }
+        },
+        "kind": {
+          "call": "Call",
+          "linkedin": "LinkedIn"
+        },
+        "fromJourney": "Journey “{journey}”",
+        "skip": "Skip",
+        "skippedOn": "Skipped {date}"
       },
       "scoring": {
         "title": "Lead scoring",
@@ -9665,6 +9697,21 @@
         "contacts": "Contacts",
         "lists": "Lists",
         "segments": "Segments"
+      },
+      "step": {
+        "lead": "{kind} step · {days} days after “{parent}”",
+        "card": "The step",
+        "explain": "A call or LinkedIn step sends no mail. Each contact who comes due gets a task for their company's owner, due that day, and the next step counts its days from when the task is done or skipped.",
+        "name": "Name",
+        "save": "Save step",
+        "tasks": "Its tasks",
+        "tasksLead": "One per contact who came due. Open tasks hold the chain for that contact.",
+        "openTasks": "Open the tasks →",
+        "turnOn": "Turn on",
+        "turnOnHint": "Turned on, it makes tasks as contacts come due, weekdays 08–16.",
+        "stop": "Stop",
+        "turnOff": "Turn off",
+        "noTasks": "No tasks yet."
       }
     },
     "health": {

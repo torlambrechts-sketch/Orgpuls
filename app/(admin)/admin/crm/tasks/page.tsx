@@ -1,7 +1,7 @@
 import type { Route } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { NewTask, TaskDone } from '@/components/admin/TaskForms'
+import { NewTask, TaskDone, TaskSkip } from '@/components/admin/TaskForms'
 import { Avatar, PageHead, Problem, Segments } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
 import { crmCompanies, crmTaskList, TASK_VIEWS } from '@/lib/admin/crm'
@@ -9,8 +9,11 @@ import { crmCompanies, crmTaskList, TASK_VIEWS } from '@/lib/admin/crm'
 /**
  * Tasks (X-095, the design's `isTasks`): the CRM's tasks (0056) across every company — open ones by
  * due date, those done in the last 90 days — each with its company, the contact it is about, when it
- * is due and who made it; «Mark done» and «New task» work here as on the company's page.
+ * is due and who made it; «Mark done» and «New task» work here as on the company's page. A task a
+ * call or LinkedIn step made (0137) carries its kind as the design's chip, names its journey and
+ * links to the step, is the company owner's, and may be skipped: the sequence waits on it.
  */
+const CHIP = { call: 'bg-viz1', linkedin: 'bg-viz4' } as const
 const osloDay = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' })
 const dayFmt = new Intl.DateTimeFormat('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'Europe/Oslo' })
 
@@ -29,7 +32,7 @@ export default async function CrmTasks({ searchParams }: { searchParams: Promise
 
   return (
     <>
-      <PageHead title={k('title')} lead={k('lead', { open: data.counts.open, today: dueToday })}>
+      <PageHead title={k('title')} lead={k('lead', { open: data.counts.open, today: dueToday, journeys: data.counts.journeys })}>
         {canWrite && !isError(companies) ? (
           <NewTask
             companies={companies.rows.map((c) => ({ id: c.id, name: c.name }))}
@@ -59,9 +62,22 @@ export default async function CrmTasks({ searchParams }: { searchParams: Promise
                 return (
                   <li key={r.id} className="flex items-center gap-[14px] border-b border-line px-[20px] py-[14px]">
                     <span aria-hidden="true" className={`block h-[6px] w-[6px] flex-none rounded-pill ${r.done_at ? 'bg-teal' : late ? 'bg-peach' : 'bg-ac'}`} />
+                    {r.step_kind === 'call' || r.step_kind === 'linkedin' ? (
+                      <span className={`flex-none whitespace-nowrap rounded-pill px-[7px] py-[2px] text-[11px] font-semibold text-mut ${CHIP[r.step_kind]}`}>{k(`kind.${r.step_kind}`)}</span>
+                    ) : null}
                     <div className="min-w-0 flex-[2.2]">
                       <div className={`text-[14px] font-semibold ${r.done_at ? 'text-mut line-through' : ''}`}>{r.body}</div>
-                      <div className="text-[12.5px] text-mut">{r.done_at ? k('doneOn', { date: dayFmt.format(new Date(r.done_at)) }) : k('manual')}</div>
+                      <div className="text-[12.5px] text-mut">
+                        {r.done_at
+                          ? k(r.skipped ? 'skippedOn' : 'doneOn', { date: dayFmt.format(new Date(r.done_at)) })
+                          : r.campaign_id ? (
+                            <Link href={`/admin/crm/campaigns/${r.campaign_id}` as Route} className="text-mut underline-offset-2 hover:text-ink">
+                              {k('fromJourney', { journey: r.journey ?? '—' })}
+                            </Link>
+                          ) : (
+                            k('manual')
+                          )}
+                      </div>
                     </div>
                     <div className="min-w-0 flex-[1.4] text-[13px] text-mut">
                       {r.contact ? `${r.contact} · ` : ''}
@@ -71,7 +87,10 @@ export default async function CrmTasks({ searchParams }: { searchParams: Promise
                     </div>
                     <div className={`w-[130px] text-[13px] font-semibold ${late ? 'text-danger' : ''}`}>{due(r.due_at)}</div>
                     <div className="w-[36px]">{r.admin_email ? <Avatar name={r.admin_email} /> : null}</div>
-                    <div className="flex w-[100px] justify-end">{!r.done_at && canWrite ? <TaskDone id={r.id} company={r.company_id} label={k('markDone')} /> : null}</div>
+                    <div className="flex w-[100px] flex-col items-end gap-[4px]">
+                      {!r.done_at && canWrite ? <TaskDone id={r.id} company={r.company_id} label={k('markDone')} /> : null}
+                      {!r.done_at && canWrite && r.campaign_id ? <TaskSkip id={r.id} company={r.company_id} label={k('skip')} /> : null}
+                    </div>
                   </li>
                 )
               })}

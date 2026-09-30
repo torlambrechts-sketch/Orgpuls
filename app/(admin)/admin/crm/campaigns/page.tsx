@@ -25,7 +25,8 @@ export default async function CrmCampaigns() {
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
-  const rows = data.rows
+  // 0137: call and LinkedIn steps send nothing; they are shown in their sequence and journey
+  const rows = data.rows.filter((r) => r.step_kind === 'mail')
   const now = Date.now()
   const at = (r: CampaignRow) => Date.parse(r.finished_at ?? r.scheduled_at ?? '') || 0
   const recent = rows.filter((r) => r.stats.sent > 0 && now - at(r) <= 30 * DAY)

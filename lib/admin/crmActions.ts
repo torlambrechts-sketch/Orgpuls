@@ -8,7 +8,7 @@ import { LOCALES } from '@/lib/i18n/locales'
 import { createClient } from '@/lib/supabase/server'
 import type { AdminResult } from './actions'
 import { generalManagers, searchRegistry, SearchInput, type Manager, type RegistryHit } from './brreg'
-import { ACTIVITY_KINDS, Block, CAMPAIGN_KINDS, CONTACT_ROLES, crmCompanies, Filter, StageKey, STAGE_KINDS } from './crm'
+import { ACTIVITY_KINDS, Block, CAMPAIGN_KINDS, CONTACT_ROLES, crmCompanies, Filter, StageKey, STAGE_KINDS, TASK_STEP_KINDS } from './crm'
 import { isError } from './api'
 import { blockingChecks } from './campaignMail'
 
@@ -609,6 +609,68 @@ export async function toggleTask(_prev: AdminResult | null, formData: FormData):
     revalidatePath('/admin/crm/tasks')
   }
   return r.ok ? { ok: true } : r
+}
+
+/** «Skip» (0137): an open task a call or LinkedIn step made is passed over; the sequence goes on */
+export async function skipTask(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const id = z.string().uuid().safeParse(formData.get('id'))
+  const company = z.string().uuid().safeParse(formData.get('company'))
+  if (!id.success || !company.success) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_crm_task_skip', { p_id: id.data })
+  if (r.ok) {
+    revalidatePath(`/admin/crm/prospects/${company.data}`)
+    revalidatePath('/admin/crm/tasks')
+  }
+  return r.ok ? { ok: true } : r
+}
+
+// ---------------------------------------------------------------- call and LinkedIn steps (0137)
+const StepInput = z.object({
+  id: z.union([z.string().uuid(), z.literal('')]),
+  follows_id: z.union([z.string().uuid(), z.literal('')]),
+  step_kind: z.enum(TASK_STEP_KINDS),
+  title: z.string().trim().min(1).max(150),
+  name: z.string().trim().min(1).max(120),
+  follow_days: z.coerce.number().int().min(1).max(60),
+})
+
+/** A call or LinkedIn step: made as a draft after a step (then opened), or a draft one changed */
+export async function saveStep(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = StepInput.safeParse({
+    id: formData.get('id') ?? '',
+    follows_id: formData.get('follows_id') ?? '',
+    step_kind: formData.get('step_kind'),
+    title: formData.get('title'),
+    name: formData.get('name'),
+    follow_days: formData.get('follow_days'),
+  })
+  if (!parsed.success) return { ok: false, problem: parsed.error.issues.some((i) => i.path[0] === 'title') ? 'no_subject' : 'invalid' }
+  const { id, ...p } = parsed.data
+  if (!id && !p.follows_id) return { ok: false, problem: 'invalid_follow' }
+  const r = await rpc('admin_crm_step_save', { p_id: id || null, p: { ...p, follow_days: String(p.follow_days) } })
+  if (!r.ok) return r
+  const saved = z.string().uuid().safeParse(r.data?.id)
+  if (!saved.success) return { ok: false, problem: 'failed' }
+  revalidatePath(`/admin/crm/campaigns/${saved.data}`)
+  revalidatePath('/admin/crm/journeys')
+  if (id) return { ok: true }
+  if (p.follows_id) revalidatePath(`/admin/crm/campaigns/${p.follows_id}`)
+  redirect(`/admin/crm/campaigns/${saved.data}` as Route)
+}
+
+/** Arm a call or LinkedIn step, or stop it: it has no mail, so no inbox check and no test */
+export async function stepAction(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z.object({ id: z.string().uuid(), action: z.enum(['arm', 'cancel']) }).safeParse({ id: formData.get('id'), action: formData.get('action') })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const { id, action } = parsed.data
+  const r =
+    action === 'arm'
+      ? await rpc('admin_crm_campaign_schedule', { p_id: id, p_at: new Date().toISOString() })
+      : await rpc('admin_crm_campaign_cancel', { p_id: id })
+  if (!r.ok) return r
+  revalidatePath(`/admin/crm/campaigns/${id}`)
+  revalidatePath('/admin/crm/journeys')
+  return { ok: true }
 }
 
 export type RegistryResult =

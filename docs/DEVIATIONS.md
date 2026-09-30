@@ -7841,3 +7841,77 @@ specs now find the options by the radio role; they already failed before this ch
 the first screen to be a question, which it has not been since D-150), so no baseline was
 re-recorded. `vitest.config.ts` compiles JSX with React's automatic runtime so a unit test can
 render a component.
+
+## D-178 — CRM: win rate, pipeline value and manual sequence steps
+
+X-091, the open item after D-159 and D-165: «deal value (plan, seats, MRR) on a company, so the board
+can show pipeline value and win rate honestly; LinkedIn/call steps in a sequence». The deal value
+exists since 0119 (D-165): a yearly contract value per company, whole kroner, an estimate. 0137
+builds what can be backed, and no more.
+
+**What the design draws.** `isPipeline`: a lead «{sum} open across {n} deals · {sum} won this
+quarter», and per column «{count} · {sum}». No win rate, no weighted pipeline, no probability per
+stage, no plan, seats or MRR on a deal (the deal dialog asks for contact, next step and value). The
+design's Customers and Overview draw MRR, but per customer, from billing (D-163, D-164). `isJourneys`
+and `isTasks`: a journey's «Task» step («Creates a task for the record owner and shows it in Tasks»),
+«N emails · M tasks», a task's type chip and its source («Journey “Lead → Trial”»), «N created by
+journeys».
+
+**Built (0137):**
+- *Sums that say what they leave out.* The board had summed values as though a deal without one were
+  worth 0 kr, over at most the 500 companies the list returns. `admin_crm_pipeline_summary` sums in
+  the database over every company, per stage and over the open stages, with how many deals carry a
+  value. The lead's figures come from it; under the board a line says how many open deals have no
+  value and are not in the sums. A column whose deals all lack a value shows «—», not «0 kr» (an
+  empty column is still «0 kr»: nothing is there); a column with some unvalued deals keeps its sum and
+  says «N of M without a value» in the header's tooltip. The Overview's «Open pipeline» card and
+  «Pipeline by stage» read the same figures, the card's hint adding «N without a value».
+- *The win rate, from a stage history that starts now.* Stage changes were half recorded: the save
+  logs «a → b» as text, while the plan sync, the first call and a cancellation only move
+  `stage_changed_at`, which forgets the stage before. `app.crm_stage_changes` is written by a trigger
+  on `crm_companies`, so every writer is recorded, with the kinds of the stage left and reached at the
+  time (a stage renamed or re-kinded later does not rewrite history). It is a record: rows are not
+  changed, and are deleted only with their company. RLS on, no policy, no grant. It is **not
+  backfilled**: a company's current stage says where it is, not where it came from, and a customer
+  who cancels moves from a won stage to a lost one (0064) — churn, not a lost deal. So the rate counts
+  from the migration (`crm_settings.stage_history_since`), and the lead says «since {date}».
+  Definition: among companies whose last move in the period from an open or parked stage to a won or
+  lost one was a win or a loss, won ÷ (won + lost). A deal lost, reopened and won counts once, as won.
+  The period is this quarter (Oslo), or the history's start if later. Over nothing closed there is no
+  rate and nothing is drawn — not «0 %» (`lib/admin/pipeline.ts`, unit-tested). It is appended to the
+  design's lead as «· win rate 67 % (2 of 3 closed since 30 Sept 2026)», with the counts it rests on.
+- *Call and LinkedIn steps.* A step in a sequence may be a call or a LinkedIn message
+  (`crm_campaigns.step_kind`). It sends nothing. When a contact comes due — its days after the step
+  before, with the mail's exits: an answer, an unsubscribe, a bounce, a company won, lost, parked or
+  moved on — the dispatcher's claim (in business hours) makes a task for the company's owner, due
+  that day, linked to the step (`crm_activities.campaign_id`), one per contact and step. The chain
+  waits on it: the step after counts its days from when the task was done or skipped, and the step is
+  finished only when everyone due has a task and none is open. «Add a call or LinkedIn step» sits in
+  a campaign's Sequence card; it makes a draft and opens it; the step's page shows its task text, its
+  tasks (made, open, done, skipped), the chain, and «Turn on» / «Turn off» / «Stop». On Tasks, such a
+  task carries the design's chip (Call, LinkedIn), «Journey “…”» linking to the step, and the design's
+  «N created by journeys» in the lead. Journeys say «N e-mails · M task steps»; «In journey» counts
+  open step tasks too. This supersedes D-166's «a journey has no task steps».
+
+**Not built, and why:**
+- *Weighted pipeline and a probability per stage.* The design draws neither; a probability nobody
+  set would be a number the schema does not have. Not added.
+- *Plan, seats and MRR on a deal.* The design's deal has none; its MRR is a customer's, from billing,
+  which does not exist yet (D-163). A monthly figure derived as value ÷ 12 would restate the same
+  estimate with a unit that reads like revenue, so it is not shown.
+- *«Skip» on a hand-made task.* The design has «Mark done» only. Skip exists for a task a step made,
+  because the sequence waits on it; reopening a task takes a skip back. On a company's page a skipped
+  task shows as done (struck through): that reader was not changed.
+- *A task for a contact without a company.* A task belongs to a company (0056), so such a contact
+  gets no task and goes no further in that chain; the form says so.
+- *Owner.* A step's task is the company owner's at the moment it is made (`admin_id`, which the Tasks
+  page shows as the owner); a company without an owner gives an unassigned task. The task is not
+  reassigned when the company's owner changes.
+- *The chip colours.* Call is the design's `#F6D9C6` (viz1). The design has no LinkedIn type; it takes
+  Email's `#F3E2C9` (viz4), the nearest kind (a written message).
+- *Seven steps.* A chain holds at most seven steps of any kind (0111's cap now counts call and
+  LinkedIn steps too).
+
+`crm_win_rate_invariants.sql` (12) proves the history, its posture, the sums, the win-rate counts,
+the task steps, skip, the readers and the roles; `tests/unit/pipeline.test.ts` the sums and the rate,
+including that zero closed deals render nothing.

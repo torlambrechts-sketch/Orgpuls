@@ -25,6 +25,9 @@ export const BLOCK_TYPES = [
 ] as const
 export const TEMPLATE_CATEGORIES = ['newsletter', 'product', 'event', 'sales', 'customer'] as const
 export const CAMPAIGN_KINDS = ['newsletter', 'campaign', 'promotion', 'announcement'] as const
+/** 0137: a sequence step sends its mail, or makes a call or LinkedIn task for the company's owner */
+export const STEP_KINDS = ['mail', 'call', 'linkedin'] as const
+export const TASK_STEP_KINDS = ['call', 'linkedin'] as const
 
 const Contact = z.object({
   id: z.string(),
@@ -143,6 +146,7 @@ const CampaignRow = z.object({
   slug: z.string().nullable(),
   signups: num,
   stats: Stats,
+  step_kind: z.enum(STEP_KINDS).default('mail'),
 })
 export type CampaignRow = z.infer<typeof CampaignRow>
 export const crmCampaigns = () => call('admin_crm_campaigns', {}, z.object({ rows: z.array(CampaignRow) }))
@@ -199,6 +203,8 @@ const Campaign = z.object({
   // 0111: who a follow-up goes to, and whether it sends itself as each recipient comes due
   follow_when: z.enum(['no_reply', 'no_click', 'no_open']).default('no_reply'),
   follow_auto: z.boolean().default(false),
+  // 0137: a call or LinkedIn step makes tasks instead of sending
+  step_kind: z.enum(STEP_KINDS).default('mail'),
 })
 export type Campaign = z.infer<typeof Campaign>
 
@@ -218,6 +224,9 @@ const SequenceStep = z.object({
   stats: Stats,
   replied: num,
   waiting: num.nullable(),
+  // 0137: a call or LinkedIn step's tasks, by state
+  step_kind: z.enum(STEP_KINDS).default('mail'),
+  tasks: z.object({ made: num, open: num, done: num, skipped: num }).nullable().default(null),
 })
 export type SequenceStep = z.infer<typeof SequenceStep>
 /** The chain a campaign belongs to, first mail first, each step's funnel and the answers it brought */
@@ -446,6 +455,7 @@ const Journey = z.object({
   stage_target: z.string().nullable(),
   stage_on_send: z.string().nullable(),
   mails: num,
+  tasks: num.default(0),
   reached: num,
   in_journey: num,
   completed: num,
@@ -469,8 +479,40 @@ const TaskRow = z.object({
   done_at: tsn,
   created_at: z.string(),
   admin_email: z.string().nullable(),
+  // 0137: the call or LinkedIn step that made it, and whether it was skipped
+  skipped: z.boolean().default(false),
+  campaign_id: z.string().nullable().default(null),
+  step_kind: z.enum(STEP_KINDS).nullable().default(null),
+  journey: z.string().nullable().default(null),
 })
 export type TaskRow = z.infer<typeof TaskRow>
 /** Tasks open by due date, and those done in the last 90 days */
 export const crmTaskList = (view: (typeof TASK_VIEWS)[number]) =>
-  call('admin_crm_task_list', { p_view: view }, z.object({ counts: z.object({ open: num, done: num, all: num }), rows: z.array(TaskRow) }))
+  call(
+    'admin_crm_task_list',
+    { p_view: view },
+    z.object({ counts: z.object({ open: num, done: num, all: num, journeys: num.default(0) }), rows: z.array(TaskRow) }),
+  )
+
+// ---------------------------------------------------------------- the pipeline in figures (0137)
+const Totals = z.object({ count: num, valued: num, value: num })
+/**
+ * Every company, summed in the database: per stage and over the open stages, the deals, how many
+ * carry a value and the sum of those; won this quarter; and the deals closed since `since` (the
+ * quarter, or when the stage history began if later), for the win rate.
+ */
+export const crmPipelineSummary = () =>
+  call(
+    'admin_crm_pipeline_summary',
+    { p_from: null },
+    z.object({
+      stages: z.array(Totals.extend({ key: StageKey })),
+      open: Totals,
+      won_quarter: Totals,
+      closed: z.object({ won: num, lost: num }),
+      since: z.string(),
+      history_since: z.string(),
+      quarter: z.string(),
+    }),
+  )
+export type PipelineSummary = Exclude<Awaited<ReturnType<typeof crmPipelineSummary>>, { error: string }>

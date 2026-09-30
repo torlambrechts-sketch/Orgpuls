@@ -2,13 +2,27 @@
 
 import { useActionState, useState } from 'react'
 import type { AdminResult } from '@/lib/admin/actions'
-import { logActivity, toggleTask } from '@/lib/admin/crmActions'
+import { logActivity, skipTask, toggleTask } from '@/lib/admin/crmActions'
 import { Modal } from './Modal'
 import { BTN, FIELD, FIELD_LABEL } from './ui'
 
 /** «Mark done» on a task row (X-095): the company page's toggle (0056) */
 export function TaskDone({ id, company, label }: { id: string; company: string; label: string }) {
   const [, action, pending] = useActionState<AdminResult | null, FormData>(toggleTask, null)
+  return (
+    <form action={action}>
+      <input type="hidden" name="id" value={id} />
+      <input type="hidden" name="company" value={company} />
+      <button type="submit" className={BTN.row} disabled={pending}>
+        {label}
+      </button>
+    </form>
+  )
+}
+
+/** «Skip» (0137): only on a task a call or LinkedIn step made; the sequence goes on without it */
+export function TaskSkip({ id, company, label }: { id: string; company: string; label: string }) {
+  const [, action, pending] = useActionState<AdminResult | null, FormData>(skipTask, null)
   return (
     <form action={action}>
       <input type="hidden" name="id" value={id} />

@@ -55,8 +55,12 @@ export default async function CrmJourneys() {
                       {[
                         r.stage_target ? j('enrolls', { stage: name(r.stage_target)! }) : j('noStage'),
                         j('mails', { count: r.mails }),
+                        // 0137: call and LinkedIn steps, the design's «· N tasks»
+                        r.tasks ? j('tasks', { count: r.tasks }) : null,
                         j('goal', { stage: name(r.stage_on_send ?? r.stage_target) ?? '—' }),
-                      ].join(' · ')}
+                      ]
+                        .filter(Boolean)
+                        .join(' · ')}
                     </span>
                   </span>
                   <Metric label={j('inJourney')} value={r.in_journey} />

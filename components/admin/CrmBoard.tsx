@@ -8,6 +8,7 @@ import type { Company, Stage } from '@/lib/admin/crm'
 import { moveCard, saveCompany, saveDeal } from '@/lib/admin/crmActions'
 import type { AdminResult } from '@/lib/admin/actions'
 import { kr } from '@/lib/admin/format'
+import { shownSum, totals, unvalued } from '@/lib/admin/pipeline'
 import { Modal } from './Modal'
 import { Avatar, Badge, BTN, FIELD, FIELD_LABEL } from './ui'
 
@@ -124,7 +125,10 @@ export function PipelineBoard({
           <div className="grid gap-[14px]" style={grid(columns.length)}>
             {columns.map((s, i) => {
               const cards = rows.filter((r) => r.stage === s.key)
-              const total = cards.reduce((n, c) => n + (c.value_nok ?? 0), 0)
+              // 0137: a deal without a value is counted, never priced at 0 kr; a column of such deals has no sum
+              const sum = totals(cards)
+              const shown = shownSum(sum)
+              const missing = unvalued(sum)
               const droppable = canWrite && !s.managed
               return (
                 <section
@@ -144,11 +148,14 @@ export function PipelineBoard({
                   }}
                   className={`flex min-w-0 flex-col gap-[10px] rounded-[12px] ${over === s.key ? 'bg-sbg' : ''}`}
                 >
-                  <header className="flex items-center gap-[8px] border-b border-line px-[4px] pb-[6px]" title={[s.exit_criterion, s.managed ? b.managed : null].filter(Boolean).join(' · ') || undefined}>
+                  <header
+                    className="flex items-center gap-[8px] border-b border-line px-[4px] pb-[6px]"
+                    title={[s.exit_criterion, s.managed ? b.managed : null, missing ? fill(b.colUnvalued, { count: missing, total: sum.count }) : null].filter(Boolean).join(' · ') || undefined}
+                  >
                     <span aria-hidden="true" className={`block h-[10px] w-[10px] flex-none rounded-pill ${VIZ[i % VIZ.length]}`} />
                     <span className="flex-1 text-[13.5px] font-bold">{s.name}</span>
                     <span className="whitespace-nowrap text-[12px] text-mut">
-                      {cards.length} · {kr(total)}
+                      {cards.length} · {shown === null ? '—' : kr(shown)}
                     </span>
                   </header>
                   {cards.length ? (
