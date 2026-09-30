@@ -8,7 +8,7 @@ type Cell = string | number | null
 /**
  * The Growth exports' rows (0142, D-183), headers first, every word through next-intl
  * (`admin.growth.g2`). Pure, so the unit test holds the columns: the board's status is the derived
- * one the page shows, the owner an address or nothing, the plan's gates one cell, the review its
+ * one the page shows, the owner an address or nothing, the plan's gates one cell (each with its state), the review its
  * three sections one after another.
  */
 export function growthCsv<K extends ExportKind>(kind: K, data: Rows<K>, t: T): Cell[][] {
@@ -37,7 +37,7 @@ export function growthCsv<K extends ExportKind>(kind: K, data: Rows<K>, t: T): C
     const d = data as Rows<'plan'>
     return [
       ['weeks', 'status', 'foundation', 'lead', 'gates'].map((h) => t(`csv.plan.${h}`)),
-      ...d.rows.map((b) => [t('plan.range', { from: b.from, to: b.to }), t(`status.plan.${b.status}`), b.foundation, b.lead, b.gates.join(' | ')]),
+      ...d.rows.map((b) => [t('plan.range', { from: b.from, to: b.to }), t(`status.plan.${b.status}`), b.foundation, b.lead, b.gates.map((x) => t('plan.gateCsv', { gate: x.gate, state: x.state })).join(' | ')]),
     ]
   }
   const d = data as Rows<'review'>

@@ -11586,6 +11586,7 @@
           },
           "plan": {
             "done": "Done",
+            "gates_open": "Gates open",
             "in_progress": "In progress",
             "next": "Next",
             "planned": "Planned"
@@ -11626,7 +11627,7 @@
             "live": "Live",
             "liveSub": "shipped and measured",
             "building": "Building",
-            "buildingSub": "in the current two-week block",
+            "buildingSub": "being built now",
             "planned": "Planned",
             "plannedSub": "sequenced in the 90-day plan",
             "week": "Week",
@@ -11634,6 +11635,7 @@
             "gate": "gate: {gate}",
             "notStarted": "Not started",
             "notStartedSub": "the plan has no start date yet",
+            "startsSub": "the plan starts {date}",
             "finished": "Finished",
             "finishedSub": "all {weeks} weeks are past"
           },
@@ -11649,11 +11651,10 @@
           "status": "Status",
           "owner": "Owner",
           "nobody": "Nobody yet",
+          "inactiveOwner": "{email} (no longer a Growth admin)",
           "open": "Open in Sentral",
           "live": {
-            "consent_ledger": "the consent ledger holds records",
-            "event_stream": "the event stream is being written",
-            "year_wheel": "the year wheel’s hourly job is active"
+            "consent_ledger": "the consent ledger holds records"
           },
           "liveNow": "Shown as Live because {reason}. The status set here applies if that stops being true.",
           "liveOnce": "Shows as Live once {reason}; until then it shows the status set here."
@@ -11667,7 +11668,13 @@
             "gates": "Gates"
           },
           "weeks": "Weeks {range}",
-          "range": "{from}–{to}"
+          "range": "{from}–{to}",
+          "gate": {
+            "met": "Gate met",
+            "unmet": "Gate not met",
+            "unmeasured": "Not measured yet"
+          },
+          "gateCsv": "{gate} ({state, select, met {met} unmet {not met} other {not measured yet}})"
         },
         "funnel": {
           "title": "From visitor to expansion",

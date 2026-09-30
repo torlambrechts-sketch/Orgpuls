@@ -13,8 +13,9 @@ const VIZ = ['bg-viz1', 'bg-viz2', 'bg-viz3', 'bg-viz4', 'bg-viz5'] as const
  * month: the visitors are the site's own sessions (app.web_events, cookieless), every other stage an
  * organisation count from the event stream (0141), each as the stage's definition says. PQL has no
  * source — there is no PQL flag — so it shows «—», not a number. The lead math's «now» is the month's
- * trials by first-touch channel, for the sources the attribution can name; the others show «—». The
- * base, stretch, assumptions and benchmarks are the report's, labelled as such.
+ * trials, all of them (app.growth_trials); each source's «now» is its part by first-touch channel, for
+ * the sources the attribution can name; the others show «—». The base, stretch, assumptions and
+ * benchmarks are the report's, labelled as such.
  */
 export default async function Page() {
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
@@ -25,7 +26,7 @@ export default async function Page() {
   const g = (k: string, v?: Record<string, string | number>) => t(`growth.g2.${k}`, v)
   const dash = g('dash')
   const rows = funnelRows(res.stages)
-  const lm = leadMath(res.lead)
+  const lm = leadMath(res.lead, res.trials)
 
   return (
     <div className="leading-[1.5]">
@@ -35,12 +36,13 @@ export default async function Page() {
           <div className="mt-[18px] flex flex-col gap-[14px]">
             {rows.map((f, i) => (
               <div key={f.key} className="flex flex-col gap-[6px]">
-                <div className="flex flex-wrap items-baseline gap-[10px]">
-                  <span className="min-w-[90px] text-[13.5px] font-semibold">{f.stage}</span>
-                  <span className="text-[11.5px] text-mut [font-family:ui-monospace,Menlo,monospace]">{f.event}</span>
-                  <span className="flex-1" />
-                  <b className="text-[13px]">{f.n === null ? dash : fmt(f.n)}</b>
-                  <span className="min-w-[120px] whitespace-nowrap text-right text-[12px] text-mut">
+                {/* below sm two rows, the stage and its count over the events and the percentages; the design's one row from sm */}
+                <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-[10px] gap-y-[2px] sm:flex sm:flex-wrap sm:items-baseline sm:gap-[10px]">
+                  <span className="order-1 min-w-[90px] text-[13.5px] font-semibold sm:order-none">{f.stage}</span>
+                  <span className="order-3 min-w-0 text-[11.5px] text-mut [font-family:ui-monospace,Menlo,monospace] [overflow-wrap:anywhere] sm:order-none">{f.event}</span>
+                  <span className="hidden flex-1 sm:block" />
+                  <b className="order-2 text-right text-[13px] sm:order-none">{f.n === null ? dash : fmt(f.n)}</b>
+                  <span className="order-4 whitespace-nowrap text-right text-[12px] text-mut sm:order-none sm:min-w-[120px]">
                     {f.n === null
                       ? g('funnel.noSource')
                       : g('funnel.share', {
@@ -62,7 +64,7 @@ export default async function Page() {
           <SectionCard
             flush
             title={g('funnel.lead.title')}
-            sub={g('funnel.lead.sub', { now: lm.now === null ? dash : fmt(lm.now), base: fmt(lm.base), stretch: fmt(lm.stretch) })}
+            sub={g('funnel.lead.sub', { now: fmt(lm.now), base: fmt(lm.base), stretch: fmt(lm.stretch) })}
           >
             <div className="mt-[10px] flex flex-col">
               {lm.rows.map((l) => (

@@ -242,12 +242,11 @@ export function SectionCard({
 }
 
 /** The design's empty treatment (`isSiteEmpty`): a dashed panel, one line and one sentence, nothing that reads as data */
-export function PhaseEmpty({ title, text, children }: { title: string; text: string; children?: ReactNode }) {
+export function PhaseEmpty({ title, text }: { title: string; text: string }) {
   return (
     <div className="rounded-panel border border-dashed border-line bg-bg px-[20px] py-[44px] text-center leading-[1.5] md:px-[32px]">
       <div className="text-[15px] font-semibold">{title}</div>
       <div className="mx-auto mt-[6px] max-w-[520px] text-[13px] text-mut [text-wrap:pretty]">{text}</div>
-      {children ? <div className="mt-[18px]">{children}</div> : null}
     </div>
   )
 }

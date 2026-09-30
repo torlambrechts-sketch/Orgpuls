@@ -14,7 +14,10 @@ export type GrowthRead = (typeof GROWTH_READS)[number]
 export const ITEM_STATUSES = ['live', 'building', 'planned', 'deferred'] as const
 /** What an admin may set: «live» is never set, only derived */
 export const ITEM_SETTABLE = ['building', 'planned', 'deferred'] as const
-export const PLAN_STATUSES = ['done', 'in_progress', 'next', 'planned'] as const
+/** «gates_open»: the block's weeks are past and a gate is unmet or not measured, so it is not «done» */
+export const PLAN_STATUSES = ['done', 'gates_open', 'in_progress', 'next', 'planned'] as const
+/** A gate read live (app.growth_gate_state); «unmeasured» where nothing in the schema records it yet */
+export const GATE_STATES = ['met', 'unmet', 'unmeasured'] as const
 export const EXPERIMENT_STATUSES = ['queued', 'running', 'done'] as const
 export const STREAMS = ['service', 'marketing', 'internal', 'system', 'service_internal'] as const
 export const IMPL_KINDS = ['none', 'function', 'trigger', 'cron', 'lifecycle'] as const
@@ -78,13 +81,15 @@ export const PlanBlock = z.object({
   foundation: z.string(),
   lead: z.string(),
   status: z.enum(PLAN_STATUSES),
-  gates: z.array(z.string()),
+  gates: z.array(z.object({ gate: z.string(), state: z.enum(GATE_STATES) })),
 })
 export const GrowthPlan = z.object({ plan: PlanState, blocks: z.array(PlanBlock) })
 export type GrowthPlan = z.infer<typeof GrowthPlan>
 
 export const GrowthFunnel = z.object({
   month: z.string(),
+  /** the month's trials (organisations created, never a demo): the lead math's «now» */
+  trials: num,
   /** n is null where nothing in the schema counts the stage */
   stages: z.array(z.object({ key: z.string(), stage: z.string(), event: z.string(), definition: z.string(), n: numn })),
   /** now is null where the attribution cannot name the source */

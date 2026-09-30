@@ -69,8 +69,8 @@ export function BoardItem({
 }: {
   card: { rank: string; name: string; why: string; status: { tone: DotTone; label: string }; meta: string; owner: string | null }
   dialog: { title: string; sub: string; sections: Section[]; note: string | null; openHref: string | null }
-  /** the item's key and what an admin may set; null for a role that may not write */
-  form: { key: string; status: string; owner: string; statuses: Option[]; owners: Option[] } | null
+  /** the item's key and what an admin may set (every role that opens the board may write) */
+  form: { key: string; status: string; owner: string; statuses: Option[]; owners: Option[] }
   labels: Common & { status: string; owner: string; nobody: string; open: string }
 }) {
   const [open, setOpen] = useState(false)
@@ -85,30 +85,26 @@ export function BoardItem({
       <Modal open={open} onClose={() => setOpen(false)} title={dialog.title} sub={dialog.sub} closeLabel={labels.close}>
         <form action={action}>
           <div className="mt-[22px] flex flex-col gap-[16px]">
-            {form ? (
-              <>
-                <input type="hidden" name="key" value={form.key} />
-                <Field label={labels.status}>
-                  <select name="status" defaultValue={form.status} className={FIELD}>
-                    {form.statuses.map((o) => (
-                      <option key={o.value} value={o.value}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
-                </Field>
-                <Field label={labels.owner}>
-                  <select name="owner" defaultValue={form.owner} className={FIELD}>
-                    <option value="">{labels.nobody}</option>
-                    {form.owners.map((o) => (
-                      <option key={o.value} value={o.value}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
-                </Field>
-              </>
-            ) : null}
+            <input type="hidden" name="key" value={form.key} />
+            <Field label={labels.status}>
+              <select name="status" defaultValue={form.status} className={FIELD}>
+                {form.statuses.map((o) => (
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field label={labels.owner}>
+              <select name="owner" defaultValue={form.owner} className={FIELD}>
+                <option value="">{labels.nobody}</option>
+                {form.owners.map((o) => (
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
+                ))}
+              </select>
+            </Field>
             <Sections items={dialog.sections} />
             {dialog.note ? <Note>{dialog.note}</Note> : null}
             <Failed state={state} text={labels.failed} />
@@ -122,15 +118,9 @@ export function BoardItem({
                 {labels.open}
               </Link>
             ) : null}
-            {form ? (
-              <button type="submit" className={`${BTN.dark} leading-[normal]`} disabled={pending}>
-                {pending ? labels.saving : labels.save}
-              </button>
-            ) : (
-              <button type="button" className={`${BTN.dark} leading-[normal]`} onClick={() => setOpen(false)}>
-                {labels.close}
-              </button>
-            )}
+            <button type="submit" className={`${BTN.dark} leading-[normal]`} disabled={pending}>
+              {pending ? labels.saving : labels.save}
+            </button>
           </div>
         </form>
       </Modal>
@@ -149,7 +139,7 @@ export function RuleName({
   id: string
   name: string
   dialog: { title: string; sub: string; sections: Section[] }
-  labels: { cancel: string; close: string }
+  labels: { close: string }
 }) {
   const [open, setOpen] = useState(false)
   return (
@@ -167,10 +157,8 @@ export function RuleName({
         <div className="mt-[22px] flex flex-col gap-[16px]">
           <Sections items={dialog.sections} />
         </div>
+        {/* read only: the design's footer for a card with nothing to save, its primary «Close» alone */}
         <div className={FOOT}>
-          <button type="button" className={`${BTN.secondary} leading-[normal]`} onClick={() => setOpen(false)}>
-            {labels.cancel}
-          </button>
           <button type="button" className={`${BTN.dark} leading-[normal]`} onClick={() => setOpen(false)}>
             {labels.close}
           </button>
@@ -190,7 +178,7 @@ export function ExperimentRow({
 }: {
   row: { id: string; hypothesis: string; metric: string; pct: number; ice: number; iceText: string; status: { tone: DotTone; label: string } }
   dialog: { title: string; sub: string }
-  form: { key: string; status: string; statuses: Option[] } | null
+  form: { key: string; status: string; statuses: Option[] }
   labels: Common & { status: string }
 }) {
   const [open, setOpen] = useState(false)
@@ -226,35 +214,25 @@ export function ExperimentRow({
       <Modal open={open} onClose={() => setOpen(false)} title={dialog.title} sub={dialog.sub} closeLabel={labels.close}>
         <form action={action}>
           <div className="mt-[22px] flex flex-col gap-[16px]">
-            {form ? (
-              <>
-                <input type="hidden" name="key" value={form.key} />
-                <Field label={labels.status}>
-                  <select name="status" defaultValue={form.status} className={FIELD}>
-                    {form.statuses.map((o) => (
-                      <option key={o.value} value={o.value}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
-                </Field>
-              </>
-            ) : null}
+            <input type="hidden" name="key" value={form.key} />
+            <Field label={labels.status}>
+              <select name="status" defaultValue={form.status} className={FIELD}>
+                {form.statuses.map((o) => (
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
+                ))}
+              </select>
+            </Field>
             <Failed state={state} text={labels.failed} />
           </div>
           <div className={FOOT}>
             <button type="button" className={`${BTN.secondary} leading-[normal]`} onClick={() => setOpen(false)}>
               {labels.cancel}
             </button>
-            {form ? (
-              <button type="submit" className={`${BTN.dark} leading-[normal]`} disabled={pending}>
-                {pending ? labels.saving : labels.save}
-              </button>
-            ) : (
-              <button type="button" className={`${BTN.dark} leading-[normal]`} onClick={() => setOpen(false)}>
-                {labels.close}
-              </button>
-            )}
+            <button type="submit" className={`${BTN.dark} leading-[normal]`} disabled={pending}>
+              {pending ? labels.saving : labels.save}
+            </button>
           </div>
         </form>
       </Modal>
@@ -272,7 +250,7 @@ export function DecideButton({
   n: number
   dialog: { title: string; sub: string }
   placeholders: { value: string; by: string }
-  labels: Common & { open: string; value: string; by: string; record: string }
+  labels: Omit<Common, 'save'> & { open: string; value: string; by: string; record: string }
 }) {
   const [open, setOpen] = useState(false)
   const [state, action, pending] = useActionState<AdminResult | null, FormData>(async (prev, fd) => {

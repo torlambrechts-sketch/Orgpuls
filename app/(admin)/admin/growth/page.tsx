@@ -27,7 +27,8 @@ export default async function Page() {
   if (isError(res)) return <Problem text={res.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const g = (k: string, v?: Record<string, string | number>) => t(`growth.g2.${k}`, v)
   const n = countBy(res.items, ITEM_STATUSES)
-  const week = planWeek(res.plan.week, res.plan.weeks)
+  const week = planWeek(res.plan.week, res.plan.weeks, res.plan.start)
+  const day = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Europe/Oslo' })
   const columns = (COLUMNS as readonly number[]).includes(res.tiers.length) ? (res.tiers.length as Columns) : 5
   const owners = res.admins.map((a) => ({ value: a.id, label: a.email ?? a.id }))
   const statuses = ITEM_SETTABLE.map((s) => ({ value: s, label: g(`status.item.${s}`) }))
@@ -62,7 +63,9 @@ export default async function Page() {
                 : undefined
               : week.kind === 'finished'
                 ? g('board.kpi.finishedSub', { weeks: week.weeks })
-                : g('board.kpi.notStartedSub')
+                : week.kind === 'starts'
+                  ? g('board.kpi.startsSub', { date: day.format(new Date(`${week.start}T12:00:00Z`)) })
+                  : g('board.kpi.notStartedSub')
           }
         />
       </KpiStrip>
@@ -99,7 +102,17 @@ export default async function Page() {
                       : null,
                     openHref: mayFollow(who?.role, it.href) ? it.href : null,
                   }}
-                  form={{ key: it.key, status: it.stored, owner: it.owner?.id ?? '', statuses, owners }}
+                  form={{
+                    key: it.key,
+                    status: it.stored,
+                    owner: it.owner?.id ?? '',
+                    statuses,
+                    // an owner who is no longer an active Growth admin stays selected, marked, so saving a status keeps them
+                    owners:
+                      it.owner && !owners.some((o) => o.value === it.owner!.id)
+                        ? [...owners, { value: it.owner.id, label: g('board.inactiveOwner', { email: it.owner.email ?? it.owner.id }) }]
+                        : owners,
+                  }}
                   labels={labels}
                 />
               ))}

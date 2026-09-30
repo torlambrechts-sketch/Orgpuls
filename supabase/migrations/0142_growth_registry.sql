@@ -9,18 +9,19 @@
 --
 -- 1. **A status that can be derived is derived.**
 --      * A board item is «Live» only when its live check holds (app.growth_live: the consent ledger has
---        records, the event stream has events, the year wheel's hourly job is active). The stored
---        status cannot say «live»: it holds building, planned or deferred, what the team says of an
---        item nothing in the database can prove.
+--        records), and only an item whose whole scope the check covers carries one. The stored status
+--        cannot say «live»: it holds building, planned or deferred, what the team says of an item
+--        nothing in the database can prove.
 --      * A rule is live only when what implements it exists and is enabled (app.growth_impl_live: a
 --        function, a trigger, a scheduled job, a lifecycle mail); a rule nothing implements is off.
---      * A plan block's status comes from the plan's start date (app.growth_settings.plan_start) and
---        the calendar: before a start date is set every block is planned, and the current week is
---        «not started», never an invented «4 of 13».
+--      * A plan block's status comes from the plan's start date (app.growth_settings.plan_start), the
+--        calendar and its gates: before the start date (or without one) every block is planned and the
+--        week is «not started», never an invented «4 of 13»; a block whose weeks are past is «done» only
+--        when every gate is measured and met (app.growth_gate_state), and «gates open» otherwise.
 --      * The funnel's counts come from the event stream (0141) and web analytics (0050), this month;
 --        a stage with no source (PQL: there is no PQL flag) has no count. The lead math's «now» is the
---        month's trials by first-touch channel (0059's org_attribution), only for a source whose
---        channel the attribution can name; the others have none.
+--        month's trials (app.growth_trials); a source's own «now» is its share by first-touch channel
+--        (0059's org_attribution), only for a source whose channel the attribution can name.
 -- 2. **Every write is audited and role-checked.** The Growth section's roles (super_admin, analyst,
 --    marketing) with a second factor, as admin_growth_events (0141). Status and owner of a board item,
 --    the status of an experiment, a decision recorded; each writes app.admin_audit with what changed.
@@ -45,10 +46,6 @@ begin
   return case p_check
     -- the consent ledger (0141) holds records: every marketing path writes one
     when 'consent_ledger' then exists (select 1 from app.consent_records)
-    -- the event stream (0141) is being written
-    when 'event_stream' then exists (select 1 from app.growth_events)
-    -- the year wheel's reminders: the hourly job that queues them is scheduled and active
-    when 'year_wheel' then app.growth_impl_live('cron', 'orgpuls-wheel')
     else false
   end;
 end $fn$;
@@ -111,7 +108,10 @@ create table app.growth_items (
   score text check (char_length(score) between 1 and 40),
   -- what the team says of it; «live» is never stored, it is derived from live_check
   status text not null check (status in ('building', 'planned', 'deferred')),
-  live_check text check (live_check in ('consent_ledger', 'event_stream', 'year_wheel')),
+  -- only where the check covers the whole item: «Event catalogue v1 + trial-activation journey» and the
+  -- årshjul (with its tier notice) are compound, and a written stream or an active wheel job proves
+  -- only part of each, so they carry none and show what the team says (D-183)
+  live_check text check (live_check in ('consent_ledger')),
   -- where it lives in the admin
   href text check (href ~ '^/admin(/[a-z0-9_-]+)*$'),
   -- an admin who owns it; none until someone is named
@@ -134,29 +134,91 @@ create table app.growth_plan_gates (
   block text not null references app.growth_plan_blocks(key) on delete cascade,
   sort int not null check (sort > 0),
   gate text not null check (char_length(gate) between 1 and 200),
+  -- how the gate is read live (app.growth_gate_state), and the figure it must reach; null: nothing in
+  -- the schema measures it yet, so it is «not measured» and its block cannot be done
+  measure text check (measure in ('consent_coverage', 'doi_subscribers', 'trials_30d')),
+  target int check (target > 0),
+  check ((measure is null) = (target is null)),
   primary key (block, sort)
 );
 
--- A block's status from the calendar: done once its weeks are past, in progress in them, next when it
--- follows the current block, planned otherwise — and planned throughout before the plan starts.
-create function app.growth_plan_status(p_from int, p_to int, p_week int) returns text
-  language sql stable set search_path = ''
+-- The month's trials: organisations created in the window, never a demo. The lead math's «now», and
+-- the base every source's first-touch share is taken from (app.growth_lead_now).
+create function app.growth_trials(p_from timestamptz, p_to timestamptz) returns bigint
+  language sql stable security definer set search_path = ''
+as $fn$
+  select count(*) from app.organizations o
+  where o.created_at >= p_from and o.created_at < p_to and not app.is_demo(o.id)
+$fn$;
+revoke all on function app.growth_trials(timestamptz, timestamptz) from public, anon, authenticated;
+
+-- What a gate reads, live; null where nothing measures it (no measure, or nothing to measure over).
+--   consent_coverage  the % of marketing contacts (a basis other than none) with a marketing consent
+--                     record; no marketing contact at all is null, not 100 %
+--   doi_subscribers   contacts whose latest marketing consent is granted by a confirmed double opt-in
+--   trials_30d        trials in the last 30 days (app.growth_trials)
+create function app.growth_gate_value(p_measure text) returns numeric
+  language plpgsql stable security definer set search_path = ''
+as $fn$
+declare
+  v_all bigint;
+  v_n bigint;
+begin
+  if p_measure = 'consent_coverage' then
+    select count(*), count(*) filter (where exists (select 1 from app.consent_records r where r.contact_id = c.id and r.purpose = 'marketing'))
+      into v_all, v_n
+    from app.crm_contacts c where c.product_id = 'orgpuls' and c.basis <> 'none';
+    return case when v_all = 0 then null else v_n * 100.0 / v_all end;
+  elsif p_measure = 'doi_subscribers' then
+    select count(*) into v_n
+    from (select distinct on (r.contact_id) r.status, r.doi_confirmed_at
+          from app.consent_records r join app.crm_contacts c on c.id = r.contact_id and c.product_id = 'orgpuls'
+          where r.purpose = 'marketing'
+          order by r.contact_id, r.created_at desc, r.id desc) l
+    where l.status = 'granted' and l.doi_confirmed_at is not null;
+    return v_n;
+  elsif p_measure = 'trials_30d' then
+    return app.growth_trials(now() - interval '30 days', now());
+  end if;
+  return null;
+end $fn$;
+revoke all on function app.growth_gate_value(text) from public, anon, authenticated;
+
+-- A gate's state: met when what it reads reaches its target, unmet below it, unmeasured without a value.
+create function app.growth_gate_state(p_measure text, p_target int) returns text
+  language sql stable security definer set search_path = ''
+as $fn$
+  select case when v.v is null or p_target is null then 'unmeasured' when v.v >= p_target then 'met' else 'unmet' end
+  from (select app.growth_gate_value(p_measure) as v) v
+$fn$;
+revoke all on function app.growth_gate_state(text, int) from public, anon, authenticated;
+
+-- A block's status from the calendar and its gates: in progress in its weeks, next when it follows
+-- the current block, planned otherwise — and planned throughout before the plan starts. A block whose
+-- weeks are past is done only when every gate is met; with a gate unmet or not measured it is
+-- «gates open», never a «done» nothing proved.
+create function app.growth_plan_status(p_block text, p_from int, p_to int, p_week int) returns text
+  language sql stable security definer set search_path = ''
 as $fn$
   select case
     when p_week is null or p_week < 1 then 'planned'
-    when p_to < p_week then 'done'
+    when p_to < p_week then
+      case when coalesce(bool_and(app.growth_gate_state(g.measure, g.target) = 'met'), true) then 'done' else 'gates_open' end
     when p_from <= p_week then 'in_progress'
     when p_from = (select min(b.week_from) from app.growth_plan_blocks b where b.week_from > p_week) then 'next'
     else 'planned'
   end
+  from (select 1) one
+  left join app.growth_plan_gates g on g.block = p_block and p_to < p_week
 $fn$;
-revoke all on function app.growth_plan_status(int, int, int) from public, anon, authenticated;
+revoke all on function app.growth_plan_status(text, int, int, int) from public, anon, authenticated;
 
--- The plan's current week (1-based) from its start date, in Oslo; null before a start date is set.
+-- The plan's current week (1-based) from its start date, in Oslo; null without a start date and
+-- before it (a start set for next Monday is not «week 1» today).
 create function app.growth_plan_week() returns int
   language sql stable security definer set search_path = ''
 as $fn$
-  select case when s.plan_start is null then null
+  select case when s.plan_start is null or (now() at time zone 'Europe/Oslo')::date < s.plan_start then null
               else ((now() at time zone 'Europe/Oslo')::date - s.plan_start) / 7 + 1 end
   from app.growth_settings s
 $fn$;
@@ -225,7 +287,7 @@ create table app.growth_funnel_stages (
   events text[] not null default '{}',
   definition text not null check (char_length(definition) between 1 and 200),
   -- how the stage is counted this month (app.growth_funnel_count)
-  measure text not null check (measure in ('web_sessions', 'any', 'all', 'all_14d', 'setup', 'second_cycle', 'none')),
+  measure text not null check (measure in ('web_sessions', 'any', 'all', 'all_14d', 'setup', 'second_cycle', 'upgrade', 'none')),
   check ((measure in ('web_sessions', 'none')) = (cardinality(events) = 0))
 );
 
@@ -240,6 +302,7 @@ begin
 end $fn$;
 create trigger growth_funnel_events_known before insert or update of events on app.growth_funnel_stages
   for each row execute function app.growth_funnel_events_known();
+revoke all on function app.growth_funnel_events_known() from public, anon, authenticated;
 
 create table app.growth_lead_sources (
   key text primary key check (key ~ '^[a-z_]{1,20}$'),
@@ -284,10 +347,14 @@ begin
     select count(distinct g.org_id) into v_n from app.growth_events g
     where g.name = any (p_events) and g.org_id is not null and g.occurred_at >= p_from and g.occurred_at < p_to;
   elsif p_measure = 'setup' then
-    -- an employee list of five or more: a band, never a count (0141)
-    select count(distinct g.org_id) into v_n from app.growth_events g
-    where g.name = any (p_events) and g.org_id is not null and g.occurred_at >= p_from and g.occurred_at < p_to
-      and coalesce(g.props ->> 'employee_count_band', 'under_5') <> 'under_5';
+    -- the list reached five: the organisation's fifth employee was added this month, however the list
+    -- was built (one import or one at a time), and the stream saw the list being added. Only the
+    -- moment is read, never who; a demo has no events.
+    select count(*) into v_n from (
+      select e.org_id, e.created_at, row_number() over (partition by e.org_id order by e.created_at, e.id) as nth
+      from app.employees e) f
+    where f.nth = 5 and f.created_at >= p_from and f.created_at < p_to
+      and exists (select 1 from app.growth_events g where g.org_id = f.org_id and g.name = any (p_events));
   elsif p_measure in ('all', 'all_14d') then
     -- every event has happened, the last of them this month (and, for activation, within 14 days of signup)
     select count(*) into v_n from (
@@ -302,10 +369,24 @@ begin
            or r.reached <= (select min(c.occurred_at) from app.growth_events c where c.org_id = r.org_id and c.name = 'org.created')
                             + interval '14 days');
   elsif p_measure = 'second_cycle' then
-    -- a survey planned this month by an organisation that has already sent one
+    -- a survey planned this month by an organisation that sent its first survey before it, and at
+    -- most six months before it
     select count(distinct g.org_id) into v_n from app.growth_events g
+    cross join lateral (select min(s.occurred_at) as first_sent from app.growth_events s
+                        where s.org_id = g.org_id and s.name = 'survey.sent') f
     where g.name = any (p_events) and g.org_id is not null and g.occurred_at >= p_from and g.occurred_at < p_to
-      and exists (select 1 from app.growth_events s where s.org_id = g.org_id and s.name = 'survey.sent' and s.occurred_at < g.occurred_at);
+      and f.first_sent < g.occurred_at and g.occurred_at <= f.first_sent + interval '6 months';
+  elsif p_measure = 'upgrade' then
+    -- a move to a larger plan this month: the plan named against the one before it (the previous
+    -- change, or the plan the subscription started on), in the order the plans grow (0048)
+    select count(distinct c.org_id) into v_n from (
+      select g.org_id, g.name, g.occurred_at,
+             array_position(array['small', 'usual', 'group'], g.props ->> 'plan') as size,
+             lag(array_position(array['small', 'usual', 'group'], g.props ->> 'plan'))
+               over (partition by g.org_id order by g.occurred_at, g.id) as before
+      from app.growth_events g
+      where g.org_id is not null and (g.name = any (p_events) or g.name = 'subscription.started')) c
+    where c.name = any (p_events) and c.occurred_at >= p_from and c.occurred_at < p_to and c.size > c.before;
   else
     return null;
   end if;
@@ -313,7 +394,8 @@ begin
 end $fn$;
 revoke all on function app.growth_funnel_count(text, text[], timestamptz, timestamptz) from public, anon, authenticated;
 
--- The month's trials whose first touch is one of a source's channels; null when the source names none.
+-- The month's trials (app.growth_trials) whose first touch is one of a source's channels; null when the
+-- source names none.
 create function app.growth_lead_now(p_channels text[], p_from timestamptz, p_to timestamptz) returns bigint
   language sql stable security definer set search_path = ''
 as $fn$
@@ -375,7 +457,7 @@ insert into app.growth_items (key, tier, sort, rank_label, name, why, status, li
    'SPF, DKIM 2048 and aligned DMARC on varsel.<domain> (transactional) and nyhet.<domain> (marketing). RFC 8058 one-click unsubscribe. Google Postmaster and the Yahoo feedback loop.',
    'Never send bulk mail from the transactional stream.'),
   ('events', 't0', 3, 'Review 1 · #2', 'Event catalogue v1 + trial-activation journey', 'Converts every lead the engine produces',
-   'building', 'event_stream', 'M', '2–4 weeks', 'Activation rate · trial → paid at day 30', null, '/admin/growth/events',
+   'building', null, 'M', '2–4 weeks', 'Activation rate · trial → paid at day 30', null, '/admin/growth/events',
    'About 20 org-level events drive the S0–S7 state machine. 10 % holdout on marketing journeys, never on service messages.',
    'Only aggregate survey events — never respondent identifiers.'),
   ('signup', 't1', 1, 'Review 2 · #1', 'Org.nr-first signup + landing-page system', 'Multiplies all other sources',
@@ -415,7 +497,7 @@ insert into app.growth_items (key, tier, sort, rank_label, name, why, status, li
    'One month free for both sides, shown after first results and in the NPS promoter flow. Verneombud get a share link in the product only.',
    'Reward still open: one month free or a donation (E10).'),
   ('arshjul', 't2', 5, 'Review 1 · #6', 'Årshjul / survey-cycle reminders', 'Retention at low ACV',
-   'building', 'year_wheel', 'S', '1–2 months', 'Second cycle scheduled within 6 months', null, '/admin/crm/journeys',
+   'building', null, 'S', '1–2 months', 'Second cycle scheduled within 6 months', null, '/admin/crm/journeys',
    'Cycle −30 days «Neste kartlegging nærmer seg» with pre-filled scheduling, quarterly pulse suggestion, tier notice 30 days ahead.',
    'Service stream — no promotion, no consent needed.'),
   ('news', 't3', 1, 'Review 2 · #10', 'News-jacking + Arbeidsmiljøindeks', 'Links and brand',
@@ -457,14 +539,18 @@ insert into app.growth_plan_blocks (key, week_from, week_to, foundation, lead) v
   ('w11_13', 11, 13, 'NPS + review requests; monthly newsletter; cookieless funnel reports; holdout readout',
    'Employee results poster (groups of 5 or more); first partner webinar; PR pitch to trade media; 90-day review');
 
-insert into app.growth_plan_gates (block, sort, gate) values
-  ('w01_02', 1, 'DMARC aligned on both streams'), ('w01_02', 2, '100 % of marketing contacts have a consent record'),
-  ('w01_02', 3, 'Signup completion measured'), ('w01_02', 4, 'No survey ID or cookie leaves the survey page'),
-  ('w03_04', 1, 'Activation baseline measured'), ('w03_04', 2, 'Journey sends > 95 % delivered'), ('w03_04', 3, '≥ 300 tool completions and 15 % consent rate'),
-  ('w05_06', 1, '≥ 150 double-opt-in subscribers'), ('w05_06', 2, 'Risiko-sjekk → trial ≥ 5 %'), ('w05_06', 3, 'Median response to hand-raisers < 60 min on weekdays'),
-  ('w07_08', 1, 'Trial → paid tracked per cohort'), ('w07_08', 2, 'First 100 trigger contacts logged with 10 % holdout'),
-  ('w09_10', 1, '5 signed partner pilots'), ('w09_10', 2, '≥ 1 partner-sourced trial a week'),
-  ('w11_13', 1, '60+ trials a month'), ('w11_13', 2, 'CAC per source known'), ('w11_13', 3, 'Holdout readout (directional)');
+-- The gates the schema can read carry a measure and its target; the others are «not measured» until
+-- something records them (DMARC and the sends are G4's, the tools G4's, the SLA and triggers G3's).
+insert into app.growth_plan_gates (block, sort, gate, measure, target) values
+  ('w01_02', 1, 'DMARC aligned on both streams', null, null), ('w01_02', 2, '100 % of marketing contacts have a consent record', 'consent_coverage', 100),
+  ('w01_02', 3, 'Signup completion measured', null, null), ('w01_02', 4, 'No survey ID or cookie leaves the survey page', null, null),
+  ('w03_04', 1, 'Activation baseline measured', null, null), ('w03_04', 2, 'Journey sends > 95 % delivered', null, null),
+  ('w03_04', 3, '≥ 300 tool completions and 15 % consent rate', null, null),
+  ('w05_06', 1, '≥ 150 double-opt-in subscribers', 'doi_subscribers', 150), ('w05_06', 2, 'Risiko-sjekk → trial ≥ 5 %', null, null),
+  ('w05_06', 3, 'Median response to hand-raisers < 60 min on weekdays', null, null),
+  ('w07_08', 1, 'Trial → paid tracked per cohort', null, null), ('w07_08', 2, 'First 100 trigger contacts logged with 10 % holdout', null, null),
+  ('w09_10', 1, '5 signed partner pilots', null, null), ('w09_10', 2, '≥ 1 partner-sourced trial a week', null, null),
+  ('w11_13', 1, '60+ trials a month', 'trials_30d', 60), ('w11_13', 2, 'CAC per source known', null, null), ('w11_13', 3, 'Holdout readout (directional)', null, null);
 
 -- What implements each rule in Orgpuls today. Nothing else does: R2–R4, R6–R8 and R10–R12 wait for a
 -- PQL flag, marketing consent under § 15, the sunset, the hand-raise task, Brønnøysund (G3) and the
@@ -531,14 +617,14 @@ insert into app.growth_decisions (sort, question, default_value) values
 
 insert into app.growth_funnel_stages (key, sort, stage, event_label, events, definition, measure) values
   ('visitors', 1, 'Visitors', 'web analytics · sessions', '{}', 'Relevant visits to landing, tool and SEO pages', 'web_sessions'),
-  ('signup', 2, 'Signup', 'org.created', '{org.created}', 'Organisation number entered and Brønnøysund lookup succeeded', 'any'),
+  ('signup', 2, 'Signup', 'org.created', '{org.created,org.brreg_verified}', 'Organisation number entered and Brønnøysund lookup succeeded', 'all'),
   ('setup', 3, 'Setup', 'employees.imported', '{employees.imported}', 'Employee list added with ≥ 5 recipients', 'setup'),
   ('value', 4, 'Value', 'survey.sent · survey.threshold_reached', '{survey.sent,survey.threshold_reached}', 'First survey sent and the anonymity minimum reached', 'all'),
   ('activated', 5, 'Activated', 'results.viewed + action_item.created', '{results.viewed,action_item.created}', 'Within 14 days of signup · validate against 90-day retention once 100+ cohorts exist', 'all_14d'),
   ('pql', 6, 'PQL', 'flag → founder task', '{}', 'Activated, or ≥ 50 % response by trial day 7, or 26–100 tier with a verneombud invited', 'none'),
   ('paid', 7, 'Paid', 'subscription.started', '{subscription.started}', 'Trial → paid · planning assumption 12,5 %', 'any'),
   ('retained', 8, 'Retained', 'survey.scheduled', '{survey.scheduled}', 'Second survey cycle scheduled within 6 months', 'second_cycle'),
-  ('expansion', 9, 'Expansion', 'subscription.tier_changed', '{subscription.tier_changed}', 'Tier upgrade when the employee count crosses 25', 'any');
+  ('expansion', 9, 'Expansion', 'subscription.tier_changed', '{subscription.tier_changed}', 'Tier upgrade when the employee count crosses 25', 'upgrade');
 
 -- «now» is known only where the site's attribution names the source: search and AI answers for SEO/GEO,
 -- a mail for the nurture, paid media for the ads. The product loop, partners and Brønnøysund have no
@@ -693,11 +779,14 @@ begin
     return jsonb_build_object('ok', true, 'plan', app.growth_plan_json(),
       'blocks', (select jsonb_agg(jsonb_build_object('key', b.key, 'from', b.week_from, 'to', b.week_to,
                    'foundation', b.foundation, 'lead', b.lead,
-                   'status', app.growth_plan_status(b.week_from, b.week_to, v_week),
-                   'gates', (select coalesce(jsonb_agg(g.gate order by g.sort), '[]') from app.growth_plan_gates g where g.block = b.key))
+                   'status', app.growth_plan_status(b.key, b.week_from, b.week_to, v_week),
+                   'gates', (select coalesce(jsonb_agg(jsonb_build_object('gate', g.gate, 'state', app.growth_gate_state(g.measure, g.target)) order by g.sort), '[]')
+                            from app.growth_plan_gates g where g.block = b.key))
                  order by b.week_from) from app.growth_plan_blocks b));
   elsif p_view = 'funnel' then
     return jsonb_build_object('ok', true, 'month', (v_from at time zone 'Europe/Oslo')::date,
+      -- the month's trials, the lead math's «now»: every source's share below is part of it
+      'trials', app.growth_trials(v_from, v_to),
       'stages', (select jsonb_agg(jsonb_build_object('key', f.key, 'stage', f.stage, 'event', f.event_label, 'definition', f.definition,
                    'n', app.growth_funnel_count(f.measure, f.events, v_from, v_to)) order by f.sort) from app.growth_funnel_stages f),
       'lead', (select jsonb_agg(jsonb_build_object('key', l.key, 'source', l.source, 'base', l.base, 'stretch', l.stretch, 'needs', l.needs,
@@ -755,8 +844,9 @@ begin
   elsif p_kind = 'plan' then
     return jsonb_build_object('ok', true,
       'rows', (select jsonb_agg(jsonb_build_object('from', b.week_from, 'to', b.week_to, 'foundation', b.foundation, 'lead', b.lead,
-                 'status', app.growth_plan_status(b.week_from, b.week_to, v_week),
-                 'gates', (select coalesce(jsonb_agg(g.gate order by g.sort), '[]') from app.growth_plan_gates g where g.block = b.key))
+                 'status', app.growth_plan_status(b.key, b.week_from, b.week_to, v_week),
+                 'gates', (select coalesce(jsonb_agg(jsonb_build_object('gate', g.gate, 'state', app.growth_gate_state(g.measure, g.target)) order by g.sort), '[]')
+                            from app.growth_plan_gates g where g.block = b.key))
                order by b.week_from) from app.growth_plan_blocks b));
   else
     return jsonb_build_object('ok', true,
@@ -772,7 +862,7 @@ grant execute on function public.admin_growth_export(text) to authenticated;
 
 -- ============================================================ 11. the writes
 -- A board item's status (building, planned or deferred: «live» is derived, never set) and its owner
--- (an active admin who sees Growth, or none). Audited with what changed.
+-- (an active admin who sees Growth, the owner it already has, or none). Audited with what changed.
 create function public.admin_growth_set_item(p_key text, p_status text, p_owner uuid) returns jsonb
   language plpgsql security definer set search_path = ''
 as $fn$
@@ -789,7 +879,9 @@ begin
   if p_status is null or p_status not in ('building', 'planned', 'deferred') then
     return jsonb_build_object('ok', false, 'error', 'invalid_status');
   end if;
-  if p_owner is not null and not app.growth_owner_ok(p_owner) then
+  -- a new owner must be an active Growth admin; the owner the item already has may stay (they may since
+  -- have been deactivated, and a status change must not silently clear them)
+  if p_owner is not null and p_owner is distinct from r.owner and not app.growth_owner_ok(p_owner) then
     return jsonb_build_object('ok', false, 'error', 'invalid_owner');
   end if;
   if r.status = p_status and r.owner is not distinct from p_owner then

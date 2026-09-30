@@ -44,24 +44,34 @@ export function funnelRows(stages: FunnelStage[]): FunnelRow[] {
 export type LeadSource = { key: string; source: string; base: number; stretch: number; needs: string; now: number | null }
 export type LeadRow = LeadSource & { nowPct: number | null }
 
-/** The lead math: each source's «now» against its base (capped at 100, as the design), and the totals */
-export function leadMath(sources: LeadSource[]) {
+/**
+ * The lead math: each source's «now» against its base (capped at 100, as the design), and the totals.
+ * The card's «now» is the month's trials, every one of them, not the sum of the sources that have a
+ * channel: those are a part of it, and the rest have no first touch to name.
+ */
+export function leadMath(sources: LeadSource[], trials: number) {
   const rows: LeadRow[] = sources.map((l) => ({ ...l, nowPct: l.now === null || l.base <= 0 ? null : Math.min(100, Math.round((l.now / l.base) * 100)) }))
-  const known = rows.filter((l) => l.now !== null)
   return {
     rows,
-    /** the month's trials from the sources that can be counted; null when none can */
-    now: known.length ? known.reduce((a, l) => a + (l.now ?? 0), 0) : null,
+    /** the month's trials (organisations created, never a demo) */
+    now: trials,
     base: rows.reduce((a, l) => a + l.base, 0),
     stretch: rows.reduce((a, l) => a + l.stretch, 0),
   }
 }
 
-export type PlanWeek = { kind: 'not_started' } | { kind: 'week'; week: number; weeks: number } | { kind: 'finished'; weeks: number }
+export type PlanWeek =
+  | { kind: 'not_started' }
+  | { kind: 'starts'; start: string }
+  | { kind: 'week'; week: number; weeks: number }
+  | { kind: 'finished'; weeks: number }
 
-/** The plan's week as the KPI shows it: not started without a start date (or before it), finished after */
-export function planWeek(week: number | null, weeks: number): PlanWeek {
-  if (week === null || week < 1) return { kind: 'not_started' }
+/**
+ * The plan's week as the KPI shows it: not started without a start date, «starts …» before a start date
+ * still ahead (the database gives no week then), finished after
+ */
+export function planWeek(week: number | null, weeks: number, start: string | null = null): PlanWeek {
+  if (week === null || week < 1) return start ? { kind: 'starts', start } : { kind: 'not_started' }
   if (week > weeks) return { kind: 'finished', weeks }
   return { kind: 'week', week, weeks }
 }

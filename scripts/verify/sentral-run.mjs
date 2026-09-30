@@ -47,7 +47,8 @@
  *   options: --out dir (shots, default /tmp/sentral-run) · --shift px · --limit px · --db local-url
  */
 import { createHmac } from 'node:crypto'
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { PNG } from 'pngjs'
 import { chromium } from 'playwright-core'
@@ -96,6 +97,64 @@ const executablePath = [
   process.env.PLAYWRIGHT_BROWSERS_PATH && `${process.env.PLAYWRIGHT_BROWSERS_PATH}/chromium`,
   '/opt/pw-browsers/chromium',
 ].find((p) => p && existsSync(p))
+/**
+ * One run at a time on this machine. Every run signs in as the one local admin, and a run's
+ * closeAdmin (and the next run's openAdmin, which deletes the factor) signs out any other run
+ * mid-flight, so worktrees running in parallel wait here for each other: a directory under the
+ * system's temp dir, made atomically, holding the owner's pid; one whose owner has gone is taken over.
+ */
+const LOCK = join(tmpdir(), 'orgpuls-sentral-run.lock')
+const LOCK_PID = join(LOCK, 'pid')
+function lockAlive() {
+  let pid
+  try {
+    pid = Number(readFileSync(LOCK_PID, 'utf8'))
+  } catch {
+    // made a moment ago, its pid not written yet
+    try {
+      return Date.now() - statSync(LOCK).mtimeMs < 10000
+    } catch {
+      return false
+    }
+  }
+  try {
+    process.kill(pid, 0)
+    return true
+  } catch (e) {
+    return e.code === 'EPERM'
+  }
+}
+async function acquireLock(maxMs = 45 * 60000) {
+  const t0 = Date.now()
+  let told = false
+  for (;;) {
+    try {
+      mkdirSync(LOCK)
+      writeFileSync(LOCK_PID, String(process.pid))
+      return
+    } catch (e) {
+      if (e.code !== 'EEXIST') throw e
+    }
+    if (!lockAlive()) {
+      rmSync(LOCK, { recursive: true, force: true })
+      continue
+    }
+    if (Date.now() - t0 > maxMs) throw new Error(`another sentral-run has held ${LOCK} for ${Math.round(maxMs / 60000)} minutes`)
+    if (!told) console.log(`waiting for another sentral-run to finish (${LOCK})`)
+    told = true
+    await new Promise((r) => setTimeout(r, 2000))
+  }
+}
+function releaseLock() {
+  try {
+    if (Number(readFileSync(LOCK_PID, 'utf8')) === process.pid) rmSync(LOCK, { recursive: true, force: true })
+  } catch {
+    // not ours, or already gone
+  }
+}
+await acquireLock()
+process.on('exit', releaseLock)
+
 const b = await chromium.launch({ args: ['--no-sandbox'], ...(executablePath ? { executablePath } : {}) })
 const errors = []
 const listen = (p, where) => {
@@ -278,6 +337,7 @@ try {
   } catch (e) {
     failures.push(`the local admin was not closed after the run: ${e.message}`)
   }
+  releaseLock()
   await b.close()
 }
 console.log(errors.length ? `console errors (${errors.length}): ${errors.slice(0, 5).join(' / ')}` : 'no console errors')

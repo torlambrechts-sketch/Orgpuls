@@ -8654,22 +8654,41 @@ copied verbatim, «…» and «HeiTuva» read as Orgpuls) and the status that is
   lead sources with their first-touch channels, planning assumptions, labelled benchmarks, coverage,
   recommendations and cuts.
 - **Derived, not typed.** A board item is «Live» only while its live check holds
-  (`app.growth_live`: the consent ledger holds records, the event stream is written, the year wheel's
-  hourly job is active); the stored status cannot say live (a CHECK), only building, planned or
+  (`app.growth_live`: the consent ledger holds records), and only an item whose whole scope the check
+  covers carries one; the stored status cannot say live (a CHECK), only building, planned or
   deferred. A rule's switch is on only while its implementation exists and is enabled
   (`app.growth_impl_live`: R1 the lifecycle mail `setup_help` with the sequence on and its job active,
   R5 the job `orgpuls-wheel`, R9 `public.record_crm_event`; the other nine name nothing and are off).
-  A plan block's status comes from the start date and the calendar (`app.growth_plan_status`); with no
-  start date, as on a fresh database, the week is «Not started» and every block «Planned».
+  A plan block's status comes from the start date, the calendar and its gates
+  (`app.growth_plan_status`); with no start date, as on a fresh database, or before a start date still
+  ahead, there is no week and every block is «Planned» (the Board says «Not started · the plan starts
+  <date>» for a start ahead). A block whose weeks are past is «Done» only when every gate is measured
+  and met, and «Gates open» (peach) otherwise.
+- **Gates read live** (`app.growth_plan_gates.measure/target`, `app.growth_gate_value`,
+  `app.growth_gate_state`): «100 % of marketing contacts have a consent record» (contacts with a basis
+  other than none that have a marketing consent record; with no marketing contact it is not measured,
+  never 100 % of nothing), «≥ 150 double-opt-in subscribers» (contacts whose latest marketing record is
+  granted by a confirmed double opt-in) and «60+ trials a month» (non-demo organisations created in the
+  last 30 days). The other fourteen gates have no measure — DMARC and the sends are G4's, the tools
+  G4's, the SLA, triggers and partners G3's, the cohort, CAC and holdout readouts do not exist — and
+  are «Not measured yet», so no block can be «Done» yet. Each gate's dot is teal (met), peach (not met)
+  or the design's plain dot (not measured), with the state in words for a screen reader and a key under
+  the table.
 - **Computed** (this month, Oslo): Visitors are the site's own sessions (app.web_events, the 30-minute
-  rule of 0050); Signup, Setup (a band of five or more), Value (sent and threshold reached), Activated
-  (both events, the later within 14 days of org.created), Paid, Retained (a survey planned after one
-  was sent) and Expansion are organisation counts from app.growth_events; PQL has no source and shows
+  rule of 0050); Signup (org.created and org.brreg_verified, the later this month: the definition's
+  «Brønnøysund lookup succeeded»), Setup (the organisation's fifth employee added this month, however the
+  list was built — one import or one at a time; the stream's per-statement band could not see a list
+  built in small batches), Value (sent and threshold reached), Activated (both events, the later within
+  14 days of org.created), Paid, Retained (a survey planned after the first send and at most six months
+  after it) and Expansion (a tier change to a larger plan than the one before it, small < usual <
+  group, never a downgrade) are organisation counts from app.growth_events; PQL has no source and shows
   «—» and «no source yet». Percentages of visitors and of the previous stage are «—» where either count
   is missing or zero. The lead math's «now» is the month's trials by first-touch channel
   (org_attribution): SEO/GEO = organic + ai, the nurture = email, Google Ads = paid; the product loop,
-  partners and Brønnøysund have no channel of their own and show «—» and «no channel to count yet»;
-  the card's «now» sums only the countable sources. Base, stretch, assumptions and benchmarks are the
+  partners and Brønnøysund have no channel of their own and show «—» and «no channel to count yet».
+  The card's «now» is the month's trials, all of them (`app.growth_trials`: organisations created, never
+  a demo), not the sum of the sources that have a channel — those are part of it. It can exceed Signup
+  by the organisations whose registry lookup did not succeed. Base, stretch, assumptions and benchmarks are the
   report's, under the design's own labels («Planning assumptions», «Benchmarks, labelled»).
 - **Reads** (`public.admin_growth_view(view)`, one per page, audited `growth.<view>_view`) and **writes**
   (`admin_growth_set_item`: status and owner, audited `growth.item_update` with from and to;
@@ -8685,7 +8704,7 @@ copied verbatim, «…» and «HeiTuva» read as Orgpuls) and the status that is
   registry), «—» otherwise; the firewall's chip says when it was computed («Passing · checked 16:38»,
   `checked_at`, the read's clock), never a stored «CI passing · 06:00».
 - **Shared shapes**: every one G0 made now has a consumer (KpiStrip, Board, TierColumn, BoardCard,
-  BulletRow, BenchmarkRow, SectionCard, StatusChip; PhaseEmpty stays GrowthStub's for G3/G4). BoardCard
+  BulletRow, BenchmarkRow, SectionCard, StatusChip; PhaseEmpty stays GrowthStub's for G3/G4, without its unused `children`; the dialogs lost their never-taken no-form branches and «Decide» its unused Save label). BoardCard
   is now only the design's `<button>` (its link and plain variants had no consumer and are gone); its
   owner avatar shows only when an owner is set, and its empty slot keeps the avatar's 24 px so the card
   keeps the design's height. StatusChip takes a className for the plan's chip margin. `ExportButton`
@@ -8693,22 +8712,28 @@ copied verbatim, «…» and «HeiTuva» read as Orgpuls) and the status that is
 - **QA fixture**: scripts/seed/sentral-fixture.g2.mjs, registered in sentral-fixture.mjs, sets the local
   plan's start to three weeks before this Monday, so the plan derives the design's week 4 (Done, In
   progress, Next, Planned) and the Board's «Week 4 of 13». It writes no registry row.
-- **Tests**: supabase/tests/growth_registry_invariants.sql (14 rows: closed tables and functions; reads
+- **Tests**: supabase/tests/growth_registry_invariants.sql (16 rows: closed tables and functions; reads
   and writes refused to support and to aal1, and audited; item status and owner with from/to and the
   refusals; «live» never stored and derived; each implementation kind on and off; the plan without a
   start, at week 4, after the end, and a non-Monday refused; the funnel from the stream, PQL null, an
   unknown event refused, «now» null without a channel and never counting a demo; experiments; decisions;
-  exports; the Event catalogue's `used` and `checked_at`; the registry's honesty; nothing survives);
+  exports; the Event catalogue's `used` and `checked_at`; the registry's honesty; nothing survives; the
+  gates read live (coverage unmet, met and unmeasured; double opt-in by the latest, confirmed record);
+  every funnel measure on events built for it in March 2020 — sessions split at 30 minutes, Signup
+  needing the lookup, Setup's fifth employee, Value's two events, activation inside vs outside 14 days,
+  Retained after a first send and within six months, an upgrade but not a downgrade);
   tests/unit/growth-registry.test.ts (the funnel, lead math, week, ICE and count arithmetic; the links
   offered by role; every seeded address a page; parsing; the CSVs; every status worded and coloured;
   the risks line in words; each page's role gate before its read; no sample figure in any page; every
   shared shape used).
 
 **Where it differs from the design or the report, and why:**
-- *True statuses, not the sample's.* Board: Live are the consent ledger (with records), the event
-  catalogue and the årshjul reminders (the year wheel's reminders exist), each derived; Building are
-  deliverability, free tools (G4), SEO, nurture, Brønnøysund (G3), partners (G3) and speed-to-lead (G3's
-  SLA); Planned are the org.nr-first signup (it waits for E1, plan § 7), «Laget med Orgpuls» (plan § 7),
+- *True statuses, not the sample's.* Board: Live is the consent ledger (with records), derived;
+  Building are deliverability, the event catalogue + trial-activation journey, free tools (G4), SEO,
+  nurture, Brønnøysund (G3), partners (G3), speed-to-lead (G3's SLA) and the årshjul reminders — the
+  last two as the design marks them: each is compound, and a written event stream or an active wheel
+  job would prove only part of it (no S0–S7 state machine, branches or holdout; no tier notice 30 days
+  ahead, rule R6 is off), so neither carries a live check; Planned are the org.nr-first signup (it waits for E1, plan § 7), «Laget med Orgpuls» (plan § 7),
   referral, news-jacking, LinkedIn, Ads, webinars and reviews; LinkedIn paid is deferred. The design's
   Live on deliverability, nurture, speed-to-lead and LinkedIn is not true today. Experiments are all
   «Queued» (none runs). Coverage: 6 built, 14 partial, 8 missing, 2 skipped, each note saying what
@@ -8725,12 +8750,18 @@ copied verbatim, «…» and «HeiTuva» read as Orgpuls) and the status that is
   worked towards. Without a start date it reads «Not started · the plan has no start date yet». The
   start date has no control (the design draws none); it is set in `app.growth_settings` when the plan
   starts.
-- *Plan statuses are calendar-derived*: «Done» means the block's weeks are past, not that its gates
-  passed (nothing measures most gates yet; the gates are drawn as the design draws them, without a
-  state).
+- *Plan statuses read the gates*: the design's «Done» for weeks 1–2 reads «Gates open» here (DMARC is
+  not measured yet), and three gates carry a state dot the design does not draw (above). The Board's
+  «Building» card says «being built now», not the design's «in the current two-week block»: the stored
+  status says an item is being built, not which block it belongs to, and before the plan starts there
+  is no current block.
+- *Board owners*: an owner who has since stopped being an active Growth admin stays in the Owner
+  select, marked «(no longer a Growth admin)», and `admin_growth_set_item` accepts the owner the item
+  already has, so saving a status never silently clears an owner (a new owner must still be active).
 - *Rules' switches are read-only* (`role=switch`, `aria-readonly`, not focusable): flipping one would
   not stop the function, trigger or job that implements the rule. The rule's card has no «Save rule»;
-  it shows condition, action, stream (with the design's consent/holdout sentence) and «Implemented by».
+  it shows condition, action, stream (with the design's consent/holdout sentence) and «Implemented by»,
+  and its footer is the primary «Close» alone (the design's footer for a card with nothing to save).
   «New rule», «New experiment» and «Propose an event» are omitted: no write path creates a rule, an
   experiment or a catalogue entry (a catalogue entry is a migration, with its emitter).
 - *The experiment card* has a Status field and Save in place of the design's «Minimum detectable
@@ -8743,6 +8774,15 @@ copied verbatim, «…» and «HeiTuva» read as Orgpuls) and the status that is
   event, D-182), and counts every session on the public site, while its definition keeps the report's
   «relevant visits to landing, tool and SEO pages». PQL shows «—» / «no source yet». A zero stage has no
   bar (the design's 1,5 % floor applies only to a stage that has any).
+- *Coverage «Open»*: a coverage row offers «Open» only where the feature has a page to open (its
+  href), so «Laget med Orgpuls», referral, NPS and the skipped person-enrichment row show none, where
+  the design draws Open on NPS and «Laget med HeiTuva».
+- *Where a count approximates its printed definition*: Visitors counts every public session, not only
+  landing, tool and SEO pages (above); the Google Ads «now» counts every first touch on the `paid`
+  channel (0059 cannot tell search ads from paid social or display) and the nurture's every `email`
+  first touch (a newsletter or a lifecycle mail alike). The experiment rules (four message keys on the
+  Experiments page) stay page copy, worded in the messages, not registry rows: they are the design's
+  fixed guidance, not report content that changes.
 - *Recommended next* drops the design's 13th, «Growth boards per site» (Kursrom and Vaktplan from the
   HeiTuva template): Orgpuls is one site. For the same reason the design's `isSiteEmpty` («Not set up for
   {site} yet», «Start from the HeiTuva template») is not built.
@@ -8751,14 +8791,17 @@ copied verbatim, «…» and «HeiTuva» read as Orgpuls) and the status that is
   G4 may touch in parallel. G5 can fold them in.
 
 **The gate.** sentral-run at 1440 against the local stack with the Sentral fixture (plan in week 4):
-Board 130/182, plan 117/126, funnel 189/238, events 26/182, rules 123/140, experiments 137/154, risks
+Board 132/182, plan 114/126, funnel 189/238, events 26/182, rules 123/140, experiments 137/154, risks
 163/182, coverage 113/322, no console error. Every lost and every new tile was read against the render
 before the claims were re-recorded with `--write`:
 - row 0 is the top bar (the admin's Marketing area and one-site pill, D-181) on every view;
-- the Board's rows 200–1200 differ where a card's status or the KPI figures differ (3 · 7 · 8 and «gate:
-  Activation baseline measured» for the design's 5 · 6 · 7 and «journey sends…»); the columns, cards,
-  sections and spacing match;
-- the plan differs only at row 300 («Laget med Orgpuls» for «Laget med HeiTuva») and the top bar;
+- the Board's rows 200–1200 differ where a card's status or the KPI figures differ (1 · 9 · 8 and «gate:
+  Activation baseline measured» for the design's 5 · 6 · 7 and «journey sends…»); 300:400–500 was lost
+  to «being built now»; 900:0–100 and 1200:600–700 were gained when the event catalogue and the årshjul
+  went back to the design's «Building»; the columns, cards, sections and spacing match;
+- the plan differs at row 300 («Laget med Orgpuls» for «Laget med HeiTuva»; 300:0–100 lost to «Gates
+  open» for «Done», 300:1000 to the met consent gate's teal dot), the gate key under the table and the
+  top bar;
 - the funnel differs in every stage's figures (this database's counts, «—» where there is no source)
   and the lead math's «now» and bars; tiles 600:1200 and 700:1200 were lost because partners and
   Brønnøysund read «no channel to count yet» where the design prints «0 % of base»;
@@ -8773,9 +8816,16 @@ before the claims were re-recorded with `--write`:
 - coverage differs in the KPI figures, the status chips and notes (true statuses, longer notes that
   wrap to more lines, so the table runs longer), and the recommendations card's end (twelve, not
   thirteen); the claims lost at 500–800 × 500–700 are the status and note columns.
-At 390 no view scrolls sideways and the sub-bar shows the page (rules and coverage first overflowed:
-the header's screen-reader label is absolutely positioned and escaped the table's scroller; the
-scroller is now `relative`). Every control is a button, link, select or input, so the product's focus
+At 390 no view scrolls sideways and the sub-bar shows the page (rules, coverage and the plan first
+overflowed: a screen-reader label is absolutely positioned and escaped the table's scroller; the
+scroller is now `relative`). Below `sm` a funnel stage is two rows, the stage and its count over its
+events and percentages, instead of the desktop row wrapping ragged; from `sm` it is the design's row.
+
+*The harness:* sentral-run now takes a lock (a directory under the system temp dir holding its pid, taken
+over when that pid is gone) for the whole run: every run signs in as the one local admin, and one run's
+closeAdmin — or the next run's openAdmin, which deletes the factor — signed a parallel run out mid-flight.
+Branches without the lock can still do that to a locked run; a run that reports «answered 200 at
+/admin/mfa» is re-run. Every control is a button, link, select or input, so the product's focus
 ring (globals.css, bundle line 23) applies to each; the read-only switch is not a control.
 
 *Found on the way, not G2's:* on the shared local database web_invariants row 3 fails because G3's

@@ -27,7 +27,6 @@ export default async function Page() {
   const labels = {
     cancel: g('dialog.cancel'),
     close: g('dialog.close'),
-    save: g('dialog.save'),
     saving: g('dialog.saving'),
     failed: g('dialog.failed'),
     open: g('risks.decide'),

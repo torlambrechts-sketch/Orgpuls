@@ -61,7 +61,9 @@ const BY_KIND = {
   // the board's items (gwVals `st`)
   board: { live: 'teal', building: 'yellow', planned: 'line', deferred: 'mut' },
   // the 90-day plan's blocks (`pst`)
-  plan: { done: 'teal', in_progress: 'yellow', next: 'line', planned: 'line' },
+  plan: { done: 'teal', gates_open: 'peach', in_progress: 'yellow', next: 'line', planned: 'line' },
+  // a plan gate read live: met as done, unmet as missing, not measured as the design's plain gate
+  gate: { met: 'teal', unmet: 'peach', unmeasured: 'line' },
   // the coverage review (`cdot`)
   coverage: { built: 'teal', partial: 'yellow', missing: 'peach', skipped: 'mut' },
   // a risk's likelihood (`ldot`)

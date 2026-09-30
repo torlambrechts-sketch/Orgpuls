@@ -9,6 +9,7 @@ import {
   COVERAGE_STATUSES,
   EXPERIMENT_STATUSES,
   EXPORT_SCHEMA,
+  GATE_STATES,
   GrowthBoard,
   GrowthFunnel,
   ITEM_STATUSES,
@@ -52,14 +53,23 @@ describe('the funnel', () => {
 describe('the lead math', () => {
   const src = (key: string, now: number | null, base: number, stretch: number) => ({ key, source: key, base, stretch, needs: '', now })
 
-  it('caps «now» at 100 % of base and totals the known sources only', () => {
-    const lm = leadMath([src('seo', 12, 45, 110), src('ads', 9, 5, 15), src('loop', null, 20, 50)])
+  it('caps a source’s «now» at 100 % of base; the card’s «now» is the month’s trials, not the sum of the countable sources', () => {
+    const lm = leadMath([src('seo', 12, 45, 110), src('ads', 9, 5, 15), src('loop', null, 20, 50)], 30)
     expect(lm.rows.map((r) => r.nowPct)).toEqual([27, 100, null])
-    expect(lm).toMatchObject({ now: 21, base: 70, stretch: 175 })
+    // 12 + 9 have a channel; the other nine trials have none to name, and still count
+    expect(lm).toMatchObject({ now: 30, base: 70, stretch: 175 })
   })
 
-  it('has no «now» at all when no source can be counted — never a 0 over an unknown', () => {
-    expect(leadMath([src('loop', null, 20, 50), src('partners', null, 15, 40)]).now).toBeNull()
+  it('reads the month’s trials even when no source can be counted, and the per-source «now» stays unknown', () => {
+    const lm = leadMath([src('loop', null, 20, 50), src('partners', null, 15, 40)], 2)
+    expect(lm.now).toBe(2)
+    expect(lm.rows.map((r) => r.now)).toEqual([null, null])
+  })
+
+  it('the funnel page prints the month’s trials as the card’s «now», never the partial sum', () => {
+    const src = readFileSync('app/(admin)/admin/growth/funnel/page.tsx', 'utf8')
+    expect(src).toMatch(/leadMath\(res\.lead, res\.trials\)/)
+    expect(MIGRATION).toMatch(/'trials', app\.growth_trials\(v_from, v_to\)/)
   })
 
   it('the seeded base and stretch add up to the report’s 120 and 300, and three sources have no channel', () => {
@@ -76,6 +86,8 @@ describe('the plan’s week, ICE and the KPI counts', () => {
   it('says «not started» without a start date or before it, never an invented week', () => {
     expect(planWeek(null, 13)).toEqual({ kind: 'not_started' })
     expect(planWeek(0, 13)).toEqual({ kind: 'not_started' })
+    // a start date still ahead: the database gives no week, and the card says when it starts
+    expect(planWeek(null, 13, '2026-10-05')).toEqual({ kind: 'starts', start: '2026-10-05' })
     expect(planWeek(4, 13)).toEqual({ kind: 'week', week: 4, weeks: 13 })
     expect(planWeek(14, 13)).toEqual({ kind: 'finished', weeks: 13 })
   })
@@ -149,6 +161,7 @@ describe('parsing', () => {
   it('keeps a stage with no source and a source with no channel as null, never 0', () => {
     const f = GrowthFunnel.parse({
       month: '2026-09-01',
+      trials: 2,
       stages: [{ key: 'pql', stage: 'PQL', event: 'flag', definition: 'd', n: null }],
       lead: [{ key: 'loop', source: 's', base: 20, stretch: 50, needs: 'n', now: null }],
       assumptions: [],
@@ -170,9 +183,13 @@ describe('the CSV exports', () => {
     expect(csvCell(rows[1]![2])).toBe(`"'=HYPERLINK()"`)
   })
 
-  it('the plan’s gates are one cell and the review keeps its three sections in order', () => {
-    const plan = growthCsv('plan', { rows: [{ from: 1, to: 2, foundation: 'f', lead: 'l', status: 'planned', gates: ['a', 'b'] }] }, (k, v) => t(k, v))
-    expect(plan[1]).toEqual(['1–2', 'Planned', 'f', 'l', 'a | b'])
+  it('the plan’s gates are one cell, each with its state, and the review keeps its three sections in order', () => {
+    const gates = [
+      { gate: 'a', state: 'met' },
+      { gate: 'b', state: 'unmeasured' },
+    ] as const
+    const plan = growthCsv('plan', { rows: [{ from: 1, to: 2, foundation: 'f', lead: 'l', status: 'gates_open', gates: [...gates] }] }, (k, v) => t(k, v))
+    expect(plan[1]).toEqual(['1–2', 'Gates open', 'f', 'l', 'a (met) | b (not measured yet)'])
     const review = growthCsv(
       'review',
       { coverage: [{ feature: 'x', status: 'partial', note: '', href: null }], recommendations: [{ n: 1, priority: 'now', title: 'r', body: 'b' }], cuts: ['c'] },
@@ -200,6 +217,12 @@ describe('the messages and the dots', () => {
         // the design colours each; none falls to the yellow default by accident
         expect(['teal', 'yellow', 'peach', 'mut', 'line', 'green']).toContain(dotTone(dot, k))
       }
+    for (const k of GATE_STATES) {
+      expect(en.admin.growth.g2.plan.gate[k], k).toBeTruthy()
+      expect(['teal', 'peach', 'line']).toContain(dotTone('gate', k))
+    }
+    // a block whose weeks are past with a gate open is never drawn as done
+    expect(dotTone('plan', 'gates_open')).toBe('peach')
     expect(dotTone('board', 'live')).toBe('teal')
     expect(dotTone('plan', 'next')).toBe('line')
     expect(dotTone('likelihood', 'low_severe')).toBe('peach')

@@ -22,7 +22,7 @@ export default async function Page() {
   const res = await growthRules()
   if (isError(res)) return <Problem text={res.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const g = (k: string, v?: Record<string, string | number>) => t(`growth.g2.${k}`, v)
-  const labels = { cancel: g('dialog.cancel'), close: g('dialog.close') }
+  const labels = { close: g('dialog.close') }
 
   return (
     <div className="leading-[1.5]">
