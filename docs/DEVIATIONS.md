@@ -7540,6 +7540,47 @@ not closed (D-156); no v3 state draws it.
 `send_test_invariants.sql` (7) proves the posture, who may send, the limits, the claim, the preview
 unchanged and the check's counts; `tests/unit/mail.test.ts` the test's subject, lead and link.
 
+## D-172 — Groups created and renamed in Oppsett › Grupper, and one CSV reader
+
+**Design:** none. The Grupper tab (bundle 2246-2264) lists fixed groups; nothing in either bundle
+adds or renames one. D-76 left it open: the Veiviser points to Oppsett › Grupper, which could not.
+
+**Built (0130):**
+- **Under the rule line**, a «Ny gruppe» field with «Legg til», and a «Gruppe» select with a «Nytt
+  navn» field and «Gi nytt navn». They are the Lokasjoner tab's add form — the same label, field,
+  select and submit classes, behind the same `border-t` — so the tab gains no new visual language,
+  and the rows above keep the design's drawing (a rename in the row would have changed it). Shown
+  disabled to anyone but the daglig leder, as the Lokasjoner form is. No baseline draws the tab.
+- **The write is the table's own.** `authenticated` already held insert and update on `app.groups`
+  under 0026's `group_admin_insert` / `group_admin_update` (daglig leder only), so `createGroup` and
+  `renameGroup` write through RLS and parse with Zod, like `addLocation`; no definer RPC. What a
+  policy cannot say, the table now says for every writer: a name trimmed and 1–60 characters
+  (`groups_name_shape`), and one per organisation in any case (`groups_org_name_ci` on
+  `lower(name)`), because the employee import matches column C case-insensitively and «Salg» beside
+  «salg» would make that match a guess. A duplicate reads «Dere har allerede en gruppe med dette
+  navnet».
+- **No delete.** Results, round audiences and memberships are keyed by `group_id`. Renaming is safe
+  for that reason — a closed round's figures follow the group to its new name — and deleting is not.
+  0026's delete policy is left as it was (`survey_settings_invariants` proves its effect on an open
+  round); no action calls it.
+- **A rename keeps the old name masked.** `app.mask_patterns` reads the register as it is now, so a
+  comment written about «Verksted» would lose its «[avdeling]» marker once the group became
+  «Mekanisk». `app.groups.former_names`, written only by the `groups_keep_names` trigger (a client's
+  value is replaced), keeps the names a group has had, and `mask_patterns` masks them too.
+
+**The CSV reader.** `lib/csv/parse.ts` replaces the employee import's `split(/[\t;,]/)` on the
+server, in its preview and in the Veiviser's row count, and the admin contact import's own reader.
+It detects one delimiter — tab, semicolon or comma, the most frequent outside quotes in the first
+lines — and reads quoted fields with the delimiter, line breaks and `""` inside, CRLF or CR, and a
+byte-order mark. A sheet that mixed delimiters on one line was split on all three before; it is now
+split on the one detected, so «Nordmann, Kari» in a tab-separated paste stays one name. A paste over
+1 000 000 characters is refused as `too_many`, like one over 2 000 rows.
+
+`group_write_invariants.sql` (7) proves the path, who may write, the name's shape, the case-blind
+key, the rename and its former names, and masking after a rename; `tests/unit/csv-parse.test.ts`
+(16) the reader. Microsoft Entra import stays open: it needs an app registration in Microsoft's
+tenant, which no session can make.
+
 ## D-173 — A measure's start date: «Oppstart» beside «Frist», and where the plan's bar begins
 
 **Design:** none. The design's plan (v3 2992-3008) places its bars at fixed offsets, not dates, and

@@ -5,6 +5,8 @@ import { useTranslations } from 'next-intl'
 import { addEmployee, importEmployees } from '@/app/(app)/oppsett/actions'
 import { normalizePhone } from '@/supabase/functions/_shared/sms'
 import type { Group } from '@/lib/org/read'
+// the reader the server uses too: tab, semicolon or comma, quoted fields
+import { parseCsv } from '@/lib/csv/parse'
 
 /**
  * Where the people come from. Bundle lines 2112-2205.
@@ -48,9 +50,6 @@ interface Labels {
   problems: Record<string, string>
 }
 
-/** The same split the server uses: tab, semicolon or comma, whichever the sheet produced. */
-const CELLS = /[\t;,]/
-
 export function ImportForm({
   canWrite,
   groups,
@@ -76,11 +75,7 @@ export function ImportForm({
   const [pending, startTransition] = useTransition()
 
   const rows = useMemo(() => {
-    const lines = text
-      .split('\n')
-      .map((l) => l.trim())
-      .filter(Boolean)
-    const parsed = lines.map((l) => l.split(CELLS).map((c) => c.trim()))
+    const parsed = parseCsv(text)
     const head = parsed[0]
     return head && /^(navn|name)$/i.test(head[0] ?? '') ? parsed.slice(1) : parsed
   }, [text])

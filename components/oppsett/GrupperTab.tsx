@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import { ThresholdPicker } from '@/components/oppsett/ThresholdPicker'
+import { GroupForm } from '@/components/oppsett/GroupForm'
 import type { OppsettView } from '@/components/oppsett/OppsettScreen'
 
 /**
@@ -18,6 +19,8 @@ import type { OppsettView } from '@/components/oppsett/OppsettScreen'
  * A group with nobody in it still prints. The design shows only populated groups because
  * its fixture has no empty ones; hiding an empty group would hide the reason a department's
  * results never appear.
+ *
+ * Under the rule line, the daglig leder creates and renames groups (GroupForm, D-172).
  */
 export async function GrupperTab({ view }: { view: OppsettView }) {
   const t = await getTranslations()
@@ -72,6 +75,8 @@ export async function GrupperTab({ view }: { view: OppsettView }) {
         <p className="mt-[14px] max-w-[680px] text-[13px] leading-[1.6] text-mut [text-wrap:pretty]">
           {t('oppsett.grupper.rule', { threshold: view.company.threshold })}
         </p>
+
+        <GroupForm groups={view.groups} canWrite={view.canWrite} />
       </section>
 
       <section className="mt-[16px] rounded-panel border border-line bg-sf px-[26px] py-[24px]">
