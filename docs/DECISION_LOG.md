@@ -2894,7 +2894,7 @@ the app calls it any more (wiring R1, known).
 - [ ] Invitation (D-149): write the greeting in Målinger › Innstillinger if you want one. The logo is uploaded in Oppsett › Selskap › Logo (D-154) and then heads every mail.
 - [ ] § 9-2 evaluation (D-153): record the ordning's evaluations under Rapport › Registrer til rapporten; until one is recorded, an organisation with a closed round is reminded every four weeks.
 - [ ] Engagement phase 2 (task #116): answer the eight decisions in docs/implementation/engagement-phase2-plan.md § 2 before it is built.
-- [ ] Pixel gate: `07-resultater-varmekart`, `09-resultater-segmentprofil` and `19-side-resultater` each LOST two bottom-row tiles (row 2000). Measured 2026-09-28 on main's own build (6114bf6) against a freshly rebuilt database, so it predates D-153/D-154: the page now ends in the effect card (D-147) and «Siden for de ansatte» (D-151), which push the footer below where the claims were recorded. Needs a look with `probe.mjs`, then the claims re-recorded or the cause fixed. 07 and 19 also lose the drill-down's lower tiles since D-155 (by the owner's choice); re-record them together.
+- [x] Pixel gate: `07`, `09` and `19` lost their bottom-row tiles to the effect card (D-147) and «Siden for de ansatte» (D-151), which push the footer 400 px below the design's; `07`–`11` and `19` lost the drill panel's lower tiles to D-155, `12` the tone chips to D-157. Each diff read on 2026-09-30 and the claims re-recorded; the gate runs in CI since (X-098).
 - [x] «Foreløpig» on a provisional module's results, with the validation status in the registry (D-131); decided in admin › Moduler since 0092 (D-140).
 - [ ] «Send test til meg» for a survey's invitation: needs a preview link that answers nothing (D-126).
 - [ ] A ready-to-send check before a round opens (channel coverage, groups under the threshold, information and consultation done); the reach count on Målinger › Innstillinger is its first half (D-126).
@@ -3150,3 +3150,17 @@ lists, Templates. Contacts, Lists and Segments are one menu entry with three tab
 «More». Tickets moved to Customers, next to the organisations and users support works on. Every
 address is unchanged, so links, bookmarks and mail keep working; access is still the `crm` section.
 tests/unit/admin-nav-crm.test.ts pins the grouping and that the tabs light their one entry.
+
+### X-098 — The design's pixel gate runs in CI
+
+**Why.** Audit AUD-16: `scripts/verify/v3-run.mjs` failed on seven states and ran nowhere but by
+hand, so nothing noticed.
+
+**What.** Each lost tile was looked at against its baseline before anything was re-recorded (audit
+rule 7). Every one is a deviation already logged: the drill panel's comments instead of «Foreslåtte
+tiltak» (D-155, 07–11 and 19), no tone chips on Kommentarer (D-157, 12), and the effect card and
+«Siden for de ansatte» (D-147, D-151) that end Resultater and push its footer ~400 px below the
+design's, beyond the gate's ±40 px search (07, 09, 19). Only those tiles left the claims; 22 others
+that now match were added. The run finds Chromium as `shoot.mjs` does and runs in CI's smoke step,
+against the same build and the database built from the migrations, with the shots uploaded as
+`smoke-shots/v3`.

@@ -86,7 +86,12 @@ const WIZARD = [
   'Klart',
 ]
 
-const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-sandbox'] })
+// the image's Chromium here, the one `playwright-core install` fetched on a CI runner (as shoot.mjs)
+const executablePath = [
+  process.env.PLAYWRIGHT_BROWSERS_PATH && `${process.env.PLAYWRIGHT_BROWSERS_PATH}/chromium`,
+  '/opt/pw-browsers/chromium',
+].find((p) => p && existsSync(p))
+const b = await chromium.launch({ args: ['--no-sandbox'], ...(executablePath ? { executablePath } : {}) })
 const errors = []
 async function page(cookies, width = 1440) {
   const ctx = await b.newContext({ viewport: { width, height: 900 } })

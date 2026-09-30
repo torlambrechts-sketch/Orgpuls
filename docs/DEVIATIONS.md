@@ -7046,8 +7046,8 @@ krav» with nine answers is one of nine people, and what they write is often eno
 them. With none on the factor: «Ingen har skrevet en kommentar om dette i denne målingen.»
 
 **Pixel gate:** `07-resultater-varmekart` and `19-side-resultater` lose the tiles of the panel's
-lower half (900:1200, and 1000:720 on 07). Not re-recorded yet: both screens also carry the older
-bottom-row losses (DECISION_LOG open items), and re-recording now would hide those.
+lower half (900:1200, and 1000:720 on 07). Re-recorded on 2026-09-30 with the bottom-row losses,
+after reading each diff (X-098).
 
 ---
 
@@ -7109,7 +7109,7 @@ virksomheten …» as before; an avdelingsleder, whose comments are their own gr
 commented.
 
 **Pixel gate:** `12-kommentarer` loses the tone chips' tiles; the Resultater states lose D-155's
-panel tiles (open: re-record after the diff is read, audit AUD-16).
+panel tiles. Both re-recorded on 2026-09-30 after the diffs were read (X-098).
 
 
 ---
