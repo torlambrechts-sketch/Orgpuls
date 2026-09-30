@@ -602,9 +602,20 @@ const Cancellation = z.object({
 export type Cancellation = z.infer<typeof Cancellation>['row']
 export const orgCancellation = (org: string) => call('admin_org_cancellation', { p_org: org }, Cancellation)
 
+// rows per table: what the run would delete, or did (0136)
+const TableCounts = z.record(z.string(), z.coerce.number())
 const Deletions = z.object({
   pending: z.array(
-    z.object({ org_id: z.string(), name: z.string(), org_number: z.string().nullable(), cancelled_at: ts, effective_at: ts, deletion_due_at: ts }),
+    z.object({
+      org_id: z.string(),
+      name: z.string(),
+      org_number: z.string().nullable(),
+      cancelled_at: ts,
+      effective_at: ts,
+      deletion_due_at: ts,
+      due: z.boolean(),
+      tables: TableCounts,
+    }),
   ),
   done: z.array(
     z.object({
@@ -616,6 +627,7 @@ const Deletions = z.object({
       run_by: z.enum(['schedule', 'admin']),
       admin: z.string().nullable(),
       counts: z.record(z.string(), z.coerce.number()),
+      tables: TableCounts,
     }),
   ),
 })

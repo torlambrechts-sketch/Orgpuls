@@ -156,7 +156,7 @@ export default async function AdminOps() {
           <Card title={t('deletions.title')}>
             <h3 className="m-0 mb-[6px] text-[13.5px] font-bold">{t('deletions.pending')}</h3>
             <Table
-              head={[t('deletions.org'), t('deletions.orgnr'), t('deletions.lastDay'), t('deletions.due')]}
+              head={[t('deletions.org'), t('deletions.orgnr'), t('deletions.lastDay'), t('deletions.due'), t('deletions.willDelete')]}
               empty={del.pending.length ? undefined : t('deletions.noPending')}
             >
               {del.pending.map((p) => (
@@ -166,7 +166,13 @@ export default async function AdminOps() {
                   </Td>
                   <Td>{p.org_number ?? '—'}</Td>
                   <Td>{day(new Date(new Date(p.effective_at).getTime() - 1000).toISOString())}</Td>
-                  <Td>{day(p.deletion_due_at)}</Td>
+                  <Td>
+                    {day(p.deletion_due_at)}
+                    {p.due ? <span className="block text-[12px] font-semibold text-danger">{t('deletions.dueNow')}</span> : null}
+                  </Td>
+                  <Td className="text-[12px]">
+                    <TableCountsLine tables={p.tables} />
+                  </Td>
                 </tr>
               ))}
             </Table>
@@ -189,6 +195,7 @@ export default async function AdminOps() {
                       accounts: d.counts.accounts ?? 0,
                       tickets: d.counts.tickets ?? 0,
                     })}
+                    {Object.keys(d.tables).length ? <RowsLine tables={d.tables} /> : null}
                   </Td>
                 </tr>
               ))}
@@ -198,5 +205,33 @@ export default async function AdminOps() {
         </section>
       )}
     </>
+  )
+}
+
+/** What the daily run would delete, from the dry run (0136): the four kinds support asks about, then every row. */
+async function TableCountsLine({ tables }: { tables: Record<string, number> }) {
+  const t = await getTranslations({ locale: 'en', namespace: 'admin' })
+  return (
+    <>
+      {t('deletions.countsLine', {
+        responses: tables.responses ?? 0,
+        employees: tables.employees ?? 0,
+        accounts: tables['auth.users'] ?? 0,
+        tickets: tables.tickets ?? 0,
+      })}
+      <RowsLine tables={tables} />
+    </>
+  )
+}
+
+/** Every row, in every table the catalog names, with the tables listed on hover. */
+async function RowsLine({ tables }: { tables: Record<string, number> }) {
+  const t = await getTranslations({ locale: 'en', namespace: 'admin' })
+  const entries = Object.entries(tables).sort(([a], [b]) => a.localeCompare(b))
+  const rows = entries.reduce((n, [, v]) => n + v, 0)
+  return (
+    <span className="block text-mut" title={entries.map(([k, v]) => `${k}: ${v}`).join('\n')}>
+      {t('deletions.rowsLine', { rows, tables: entries.length })}
+    </span>
   )
 }
