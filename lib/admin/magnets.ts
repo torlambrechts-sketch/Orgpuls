@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import type { DotTone } from './dots'
 
 /**
  * Sentral › Content › Tools & lead magnets (0144, D-185): the shapes public.admin_growth_magnets()
@@ -22,7 +21,10 @@ export const GrowthMagnets = z.object({
     z.object({
       key: z.string().regex(/^[a-z][a-z0-9_]{1,39}$/),
       rank: num,
-      name: z.string(),
+      /** a true proper name; null where the name is descriptive, which is a message (….magnets.name.<key>) */
+      name: z.string().nullable(),
+      /** the CRM list a newsletter is, by its name (Nyhetsbrevet); null for anything else */
+      list_name: z.string().nullable(),
       kind: z.enum(MAGNET_KINDS),
       gated: z.enum(MAGNET_GATES),
       status: z.enum(MAGNET_STATUSES),
@@ -68,19 +70,14 @@ export function rate(part: number, whole: number, decimals = 0): string | null {
   return `${((100 * part) / whole).toFixed(decimals).replace('.', ',')} %`
 }
 
-/** A row's completions as the design writes them: a count, or «—» for none (`m.done ? fmt : '—'`) */
-export const doneText = (n: number | null) => (n ? fmt(n) : null)
+/**
+ * A row's completions as the design writes them: a count, or «—» where nothing counts them (a tool
+ * with no page). A real zero — a newsletter with no subscriber — is a count, and prints as 0.
+ */
+export const doneText = (n: number | null) => (n === null ? null : fmt(n))
 
 /** The double opt-in rate: confirmed of sent, or null when no confirmation mail went out */
 export const doiRate = (d: Doi | null) => (d ? rate(d.confirmed, d.sent) : null)
-
-/**
- * A magnet's status dot, as the design's `sdot`: live teal, building yellow, planned the hairline
- * colour. (The design's «2 of 5 live» is building; no magnet here has such a count.)
- */
-export function magnetTone(status: Magnet['status']): DotTone {
-  return status === 'live' ? 'teal' : status === 'building' ? 'yellow' : 'line'
-}
 
 /**
  * How many tools, templates and reports are live: completions, consent and trials are counted from

@@ -11488,13 +11488,11 @@
         },
         "cmsMagnets": {
           "title": "Tools & lead magnets",
-          "lead": "Ranked as in the report · scores and pillar content stay ungated so they rank and get cited; only the take-away artefacts are gated",
-          "empty": "The magnet registry and the Krav-sjekk rules, versioned with the day they were last checked, arrive with this page."
+          "lead": "Ranked as in the report · scores and pillar content stay ungated so they rank and get cited; only the take-away artefacts are gated"
         },
         "deliverability": {
           "title": "Deliverability",
-          "lead": "One provider, two streams · spam rate under 0,1 %, never 0,3 % · optimise on clicks and events, not opens",
-          "empty": "The two streams, the SPF, DKIM and DMARC check read from DNS, the template registry and the provider arrive with this page, as they actually stand."
+          "lead": "One provider, two streams · spam rate under 0,1 %, never 0,3 % · optimise on clicks and events, not opens"
         }
       },
       "events": {
@@ -11582,7 +11580,7 @@
             "doiSub": "unconfirmed are never mailed",
             "doiNone": "unconfirmed are never mailed · none sent in 90 days",
             "trialsWhy": "No tool is live, so no trial can be attributed to one",
-            "doiOf": "{confirmed} of {sent, plural, one {# confirmation mail} other {# confirmation mails}} sent in 90 days"
+            "doiOf": "{confirmed} of {sent, plural, one {# contact} other {# contacts}} sent a confirmation mail in 90 days confirmed"
           },
           "table": "Tools and lead magnets",
           "head": {
@@ -11611,7 +11609,8 @@
           "none": "—",
           "noneWhy": {
             "tool": "Nothing is recorded: no public page for it exists yet",
-            "newsletter": "No subscriber attribution to a trial exists"
+            "newsletter": "No subscriber attribution to a trial exists",
+            "noList": "Its CRM list does not exist, so nothing counts its subscribers"
           },
           "doiShare": "{rate} DOI",
           "item": {
@@ -11671,6 +11670,10 @@
             },
             "tip": "{reference} · version {version} · checked {date} against {source} · {guidance, select, yes {guidance, not legal advice} other {not marked as guidance}}",
             "footer": "Rules v{version} · versioned data, not code · every rule carries a «sist kontrollert» date · {guidance, select, yes {marked as guidance, not legal advice.} other {not every rule is marked as guidance.}}"
+          },
+          "name": {
+            "bransjeguider": "Industry guides",
+            "newsletter": "Newsletter «{list}»"
           }
         },
         "deliverability": {
@@ -11684,7 +11687,7 @@
           },
           "kpi": {
             "delivered": "Delivered · 7 d",
-            "deliveredSub": "{n, plural, one {# message on two streams} other {# messages on two streams}}",
+            "deliveredSub": "reported on {reported} of {sent} sent",
             "nothingSent": "nothing sent on either stream in 7 days",
             "noEvents": "{n, plural, one {# message sent} other {# messages sent}} · no delivery event recorded",
             "spam": "Spam rate",
@@ -11738,7 +11741,9 @@
             },
             "events": "Delivery events",
             "eventsAt": "last received {date}",
-            "eventsNone": "none received yet"
+            "eventsNone": "none received yet",
+            "over": "Rates over the {reported} of {sent} messages the provider reported on",
+            "tests": "{n, plural, one {# invitation test} other {# invitation tests}} keep no provider id and are never reported"
           },
           "registry": {
             "title": "Template registry",
@@ -11758,7 +11763,9 @@
             },
             "version": "v{n}",
             "notRecorded": "Auth's mail is sent by its hook and recorded nowhere",
-            "none": "—"
+            "none": "—",
+            "withheld": "< {k}",
+            "withheldWhy": "Sent to fewer than {k} people: a personal notice counts people, and a reminder only those who have not answered, so its count is withheld"
           },
           "provider": {
             "title": "Sending provider",
@@ -11779,7 +11786,7 @@
             "noCap": "No daily cap on campaign mail is set (CRM › Stages, sending)",
             "suppress": "A hard bounce, an invalid or blocked address or a complaint suppresses a marketing address at once; a survey address that bounces is flagged to its organisation",
             "stale": "Contacts with no engagement in 12 months are no longer mailed",
-            "clicks": "Product mail keeps no opens or clicks; A/B tests decide on clicks, since Apple's proxy opens every mail",
+            "clicks": "Product mail keeps no opens or clicks; A/B tests decide on clicks by default, since Apple's proxy opens every mail",
             "separate": "No marketing on the product's domain: without its own authenticated sender, nothing marketing is sent"
           }
         }

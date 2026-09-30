@@ -3,18 +3,22 @@ import { createTranslator, type AbstractIntlMessages } from 'next-intl'
 import { describe, expect, it } from 'vitest'
 import { AUTH_ACTIONS } from '@/supabase/functions/_shared/mail'
 import {
-  classTone,
   Deliverability,
   deliverabilityKpis,
+  keyParts,
   levelsOf,
   levelTone,
   localeList,
+  mayRunAuthCheck,
   streamGap,
   streamRates,
   type Stream,
 } from '@/lib/admin/deliverability'
-import { allGuidance, dayMonth, doiRate, doneText, GrowthMagnets, liveMagnets, magnetTone, rate, shortOf } from '@/lib/admin/magnets'
+import { dotTone } from '@/lib/admin/dots'
+import { GROWTH_VIEWS } from '@/lib/admin/growth'
+import { allGuidance, dayMonth, doiRate, doneText, GrowthMagnets, liveMagnets, rate, shortOf } from '@/lib/admin/magnets'
 import en from '@/messages/en.json'
+import no from '@/messages/no.json'
 
 /** Sentral › Growth G4: Tools & lead magnets and Deliverability (0144, D-185). */
 const MIGRATION = readFileSync('supabase/migrations/0144_growth_magnets_deliverability.sql', 'utf8')
@@ -69,8 +73,10 @@ describe('the template registry covers every mail the dispatcher can send', () =
   it('names the senders the dispatcher is deployed with', () => {
     expect(MIGRATION).toContain("('transactional', 'no-reply@orgpuls.com', 1)")
     expect(MIGRATION).toContain("('marketing', 'hei@nyheter.orgpuls.com', 2)")
-    // the dispatcher's own fallback for the marketing domain
-    expect(DISPATCH).toContain("'hei@nyheter.orgpuls.com'")
+    // the marketing-setup probe's default names the same sender; the dispatcher itself sends no
+    // marketing at all without ORGPULS_MARKETING_FROM (its `marketing` is null)
+    expect(DISPATCH).toContain("marketingFrom.includes('@') ? marketingFrom : 'hei@nyheter.orgpuls.com'")
+    expect(DISPATCH).toMatch(/\? \{ email: marketingFrom, name: [^}]+\}\s*: null/)
   })
 })
 
@@ -80,6 +86,11 @@ describe('the hygiene the page claims is what the code does', () => {
   })
   it('no marketing on the product’s domain', () => {
     expect(DISPATCH).toMatch(/domainOf\(marketingFrom\) !== domainOf\(sender\.email\)/)
+  })
+  it('A/B tests decide on clicks by default, and an admin may choose opens', () => {
+    expect(en.admin.growth.g4.deliverability.hygiene.clicks).toMatch(/decide on clicks by default/)
+    expect(readFileSync('supabase/migrations/0059_attribution_server.sql', 'utf8')).toContain("alter column ab_metric set default 'click'")
+    expect(readFileSync('lib/admin/crmActions.ts', 'utf8')).toContain("ab_metric: z.enum(['open', 'click'])")
   })
   it('suppression on a bounce or a complaint, and twelve months of silence', () => {
     const crm = readFileSync('supabase/migrations/0141_growth_foundations.sql', 'utf8')
@@ -104,16 +115,16 @@ describe('the magnets’ figures', () => {
     expect(doiRate({ sent: 3, confirmed: 2 })).toBe('67 %')
   })
 
-  it('completions print as the design’s `fmt`, «—» for none', () => {
+  it('completions print as the design’s `fmt`, «—» where nothing counts them, a real 0 as 0', () => {
     expect(doneText(null)).toBeNull()
-    expect(doneText(0)).toBeNull()
+    expect(doneText(0)).toBe('0')
     expect(doneText(1240)).toBe('1 240')
   })
 
-  it('a planned magnet is the hairline colour, live teal', () => {
-    expect(magnetTone('planned')).toBe('line')
-    expect(magnetTone('building')).toBe('yellow')
-    expect(magnetTone('live')).toBe('teal')
+  it('a planned magnet is the hairline colour, live teal: G0’s kit map, not a copy', () => {
+    expect(dotTone('kit', 'planned')).toBe('line')
+    expect(dotTone('kit', 'building')).toBe('yellow')
+    expect(dotTone('kit', 'live')).toBe('teal')
   })
 
   it('the design’s short line and its day', () => {
@@ -126,8 +137,8 @@ describe('the magnets’ figures', () => {
   it('parses the read and counts no live tool', () => {
     const m = GrowthMagnets.parse({
       magnets: [
-        { key: 'krav_sjekk', rank: 1, name: 'Krav-sjekk', kind: 'tool', gated: 'pdf_templates', status: 'planned', derived: false, completions: null, doi: null },
-        { key: 'nyhetsbrev', rank: 7, name: 'N', kind: 'newsletter', gated: 'none', status: 'live', derived: true, completions: '4', doi: { sent: 2, confirmed: 1 } },
+        { key: 'krav_sjekk', rank: 1, name: 'Krav-sjekk', list_name: null, kind: 'tool', gated: 'pdf_templates', status: 'planned', derived: false, completions: null, doi: null },
+        { key: 'nyhetsbrev', rank: 7, name: null, list_name: 'Nyhetsbrevet', kind: 'newsletter', gated: 'none', status: 'live', derived: true, completions: '4', doi: { sent: 2, confirmed: 1 } },
       ],
       doi: { sent: 0, confirmed: 0 },
       rules: [
@@ -150,6 +161,7 @@ const stream = (over: Partial<Stream>): Stream => ({
   domain: 'orgpuls.com',
   sent: 0,
   reported: 0,
+  tests: 0,
   delivered: 0,
   spam: 0,
   bounced: 0,
@@ -167,15 +179,43 @@ describe('the streams’ figures', () => {
     expect(streamRates(stream({ sent: 40 })).delivered).toBeNull()
   })
 
-  it('rates over the messages sent, to the design’s decimals', () => {
-    const r = streamRates(stream({ sent: 1000, reported: 999, delivered: 994, spam: 1, bounced: 4 }))
+  it('rates over the messages the provider reported on, to the design’s decimals', () => {
+    const r = streamRates(stream({ sent: 1000, reported: 1000, delivered: 994, spam: 1, bounced: 4 }))
     expect(r).toEqual({ delivered: '99,4 %', spam: '0,10 %', bounce: '0,4 %' })
+    // a message with no report is not a failed one: 12 invitation tests are never reported
+    expect(streamRates(stream({ sent: 22, reported: 10, tests: 12, delivered: 10 })).delivered).toBe('100,0 %')
   })
 
-  it('the KPI row sums both streams and holds its counts back without an event', () => {
+  it('the KPI row stands on the same reports as the cards: a stream with no event adds nothing to a denominator', () => {
     const k = deliverabilityKpis([stream({ sent: 900, reported: 900, delivered: 890, spam: 1, hard_bounces: 3 }), stream({ key: 'marketing', sent: 100 })])
-    expect(k).toMatchObject({ sent: 1000, gap: null, delivered: '89,0 %', spam: '0,10 %', hardBounces: 3, complaints: 1 })
+    expect(k).toMatchObject({ sent: 1000, reported: 900, gap: null, delivered: '98,9 %', spam: '0,11 %', hardBounces: 3, complaints: 1 })
+    // the review's case: 10 transactional sent and delivered, 990 marketing with no webhook event
+    const m = stream({ key: 'marketing', sent: 990 })
+    expect(deliverabilityKpis([stream({ sent: 10, reported: 10, delivered: 10 }), m]).delivered).toBe('100,0 %')
+    expect(streamGap(m)).toBe('no_events')
     expect(deliverabilityKpis([stream({ sent: 5 })])).toMatchObject({ gap: 'no_events', delivered: null, hardBounces: null, complaints: null })
+  })
+
+  it('a registry key breaks only after a separator', () => {
+    expect(keyParts('notice.siste_paminnelse')).toEqual(['notice.', 'siste_', 'paminnelse'])
+    expect(keyParts('trial.read_only_soon').join('')).toBe('trial.read_only_soon')
+    expect(keyParts('crm.kundehistorie')).toEqual(['crm.', 'kundehistorie'])
+    expect(keyParts('crm.bygg-og-anlegg')).toEqual(['crm.', 'bygg-', 'og-', 'anlegg'])
+  })
+
+  it('offers the check to the roles that write in the CRM only', () => {
+    expect(mayRunAuthCheck('super_admin')).toBe(true)
+    expect(mayRunAuthCheck('marketing')).toBe(true)
+    expect(mayRunAuthCheck('analyst')).toBe(false)
+    expect(mayRunAuthCheck(null)).toBe(false)
+  })
+
+  it('claims the minute before any lookup goes out, and records against the claim', () => {
+    const src = readFileSync('lib/admin/deliverabilityActions.ts', 'utf8')
+    const claim = src.indexOf("rpc('admin_deliverability_claim')")
+    expect(claim).toBeGreaterThan(-1)
+    expect(claim).toBeLessThan(src.indexOf('domainChecks(s.domain, { fresh: true })'))
+    expect(src).toContain("rpc('admin_deliverability_check', { p_run: c.data.run, p_results: results })")
   })
 
   it('maps the DNS check to the levels the table keeps; a failed lookup is unknown, not a failure', () => {
@@ -195,16 +235,20 @@ describe('the streams’ figures', () => {
     expect(levelTone('warn')).toBe('yellow')
     expect(levelTone('fail')).toBe('peach')
     expect(levelTone(null)).toBe('line')
-    expect(classTone('marketing')).toBe('yellow')
-    expect(classTone('service')).toBe('teal')
+    expect(dotTone('stream', 'marketing')).toBe('yellow')
+    expect(dotTone('stream', 'service')).toBe('teal')
     expect(localeList(['no', 'en'])).toBe('no · en')
   })
 
   it('parses the read; Auth’s count may be null, a stream’s key may not be invented', () => {
     const d = Deliverability.parse({
       streams: [stream({ sent: '3' as unknown as number })],
-      templates: [{ key: 'auth.signup', source: 'auth', ref: 'signup', classification: 'service', stream: 'transactional', locales: ['no', 'en'], version: 1, sent: null }],
+      templates: [
+        { key: 'auth.signup', source: 'auth', ref: 'signup', classification: 'service', stream: 'transactional', locales: ['no', 'en'], version: 1, sent: null, withheld: false },
+        { key: 'notice.paminnelse', source: 'notice', ref: 'paminnelse', classification: 'service', stream: 'transactional', locales: ['no'], version: 1, sent: null, withheld: true },
+      ],
       daily_cap: null,
+      k: 5,
     })
     expect(d.streams[0]!.sent).toBe(3)
     expect(() => Deliverability.parse({ ...d, streams: [{ ...d.streams[0]!, key: 'varsel' }] })).toThrow()
@@ -234,6 +278,30 @@ describe('the pages', () => {
     )
     expect(t('magnets.krav.footer', { version: 2, guidance: 'no' })).toMatch(/not every rule is marked as guidance/)
     expect(t('deliverability.kpi.noEvents', { n: 1 })).toBe('1 message sent · no delivery event recorded')
+    expect(t('deliverability.kpi.deliveredSub', { reported: '900', sent: '1 000' })).toBe('reported on 900 of 1 000 sent')
+    expect(t('deliverability.registry.withheld', { k: 5 })).toBe('< 5')
+    expect(t('magnets.name.newsletter', { list: 'Nyhetsbrevet' })).toBe('Newsletter «Nyhetsbrevet»')
+  })
+
+  it('use G0’s shared card, bullet and dot maps rather than copies of them', () => {
+    const del = readFileSync('app/(admin)/admin/deliverability/page.tsx', 'utf8')
+    const mag = readFileSync('app/(admin)/admin/cms/magnets/page.tsx', 'utf8')
+    expect(del).toMatch(/<SectionCard title=\{d\('provider.title'\)\}>/)
+    expect(del).toMatch(/<BulletRow key=\{h\} tone="teal" pretty>/)
+    expect(del).toContain("dotTone('stream', x.classification)")
+    expect(mag).toContain("dotTone('kit', x.status)")
+    expect(mag).toMatch(/<SectionCard title=\{m\('krav.title'\)\}>/)
+    for (const src of [del, mag]) expect(src).not.toMatch(/classTone|magnetTone/)
+  })
+
+  it('leave no stub message behind for the two views, and keep their phase', () => {
+    for (const msgs of [en, no]) {
+      const views = msgs.admin.growth.view as Record<string, Record<string, string>>
+      expect(views.cmsMagnets).not.toHaveProperty('empty')
+      expect(views.deliverability).not.toHaveProperty('empty')
+    }
+    expect(GROWTH_VIEWS.cmsMagnets.phase).toBe('G4')
+    expect(GROWTH_VIEWS.deliverability.phase).toBe('G4')
   })
 
   it('draw no «New tool», «New template» or «Open editor»: nothing backs them', () => {

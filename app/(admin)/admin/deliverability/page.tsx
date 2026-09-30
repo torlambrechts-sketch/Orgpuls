@@ -1,10 +1,21 @@
 import { getTranslations } from 'next-intl/server'
-import { KpiStrip, StatusChip } from '@/components/admin/growth'
+import { Fragment } from 'react'
+import { BulletRow, KpiStrip, SectionCard, StatusChip } from '@/components/admin/growth'
 import { RunAuthCheck } from '@/components/admin/G4Controls'
 import { PageHead, Problem, Stat } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
-import { classTone, deliverabilityKpis, levelTone, localeList, streamGap, streamRates, type AuthLevel, type Stream } from '@/lib/admin/deliverability'
-import { DOT_CLASS, type DotTone } from '@/lib/admin/dots'
+import {
+  deliverabilityKpis,
+  keyParts,
+  levelTone,
+  localeList,
+  mayRunAuthCheck,
+  streamGap,
+  streamRates,
+  type AuthLevel,
+  type Stream,
+} from '@/lib/admin/deliverability'
+import { DOT_CLASS, dotTone, type DotTone } from '@/lib/admin/dots'
 import { mayOpenGrowthView } from '@/lib/admin/growth'
 import { growthDeliverability } from '@/lib/admin/growthG4'
 import { dayMonth, fmt } from '@/lib/admin/magnets'
@@ -22,11 +33,11 @@ type M = (k: string, v?: Record<string, string | number>) => string
  *   KPIs, streams   seven days of each stream counted from what records it — the outbox and its
  *                   recipients, ticket and trial mail, invitation tests and the CRM's sends — with
  *                   the provider's delivery state from app.mail_events and the CRM's own. A rate only
- *                   over messages sent, and only once the provider reported on any of them
+ *                   over the messages the provider reported on, with how many of the sent that is
  *   the check       SPF, DKIM and DMARC as public DNS last answered, recorded by «Run authentication
- *                   check»; «not checked yet» until it has run
+ *                   check» (super_admin and marketing); «not checked yet» until it has run
  *   the registry    every mail the product and the CRM send, classified, with seven days' count; Auth's
- *                   mail is recorded nowhere, so its count is «—»
+ *                   mail is recorded nowhere, so its count is «—»; a personal notice below k is «< k»
  *   provider        what is known of Brevo; nothing about a DPA or IPs that Sentral does not hold
  *   hygiene         what the dispatcher and the database actually do, the daily cap as it is set
  */
@@ -39,16 +50,23 @@ export default async function Page() {
   const d: M = (k, v) => t(`growth.g4.deliverability.${k}`, v)
   const k = deliverabilityKpis(res.streams)
   const none = d('registry.none')
-  const deliveredHint = k.gap === 'nothing_sent' ? d('kpi.nothingSent') : k.gap === 'no_events' ? d('kpi.noEvents', { n: k.sent }) : d('kpi.deliveredSub', { n: fmt(k.sent) })
+  const deliveredHint =
+    k.gap === 'nothing_sent'
+      ? d('kpi.nothingSent')
+      : k.gap === 'no_events'
+        ? d('kpi.noEvents', { n: k.sent })
+        : d('kpi.deliveredSub', { reported: fmt(k.reported), sent: fmt(k.sent) })
 
   return (
     <div className="leading-[1.5]">
       <PageHead title={t('growth.view.deliverability.title')} lead={t('growth.view.deliverability.lead')} measure={false}>
-        <RunAuthCheck
-          label={d('run')}
-          busyLabel={d('running')}
-          problems={{ too_soon: d('problem.too_soon'), not_allowed: d('problem.not_allowed'), invalid: d('problem.invalid'), failed: d('problem.failed') }}
-        />
+        {mayRunAuthCheck(who?.role) ? (
+          <RunAuthCheck
+            label={d('run')}
+            busyLabel={d('running')}
+            problems={{ too_soon: d('problem.too_soon'), not_allowed: d('problem.not_allowed'), invalid: d('problem.invalid'), failed: d('problem.failed') }}
+          />
+        ) : null}
       </PageHead>
       <KpiStrip>
         <Stat label={d('kpi.delivered')} value={k.delivered ?? none} hint={deliveredHint} />
@@ -85,11 +103,17 @@ export default async function Page() {
               </div>
               {res.templates.map((x) => (
                 <div key={x.key} role="row" className="flex items-center gap-[14px] border-b border-line px-[20px] py-[11px] text-[13px]">
-                  <span role="cell" className="min-w-0 flex-[1.6] text-[12px] font-semibold [font-family:ui-monospace,Menlo,monospace] [overflow-wrap:anywhere]">
-                    {x.key}
+                  {/* a key breaks only after a separator, never inside a word */}
+                  <span role="cell" className="min-w-0 flex-[1.6] text-[12px] font-semibold [font-family:ui-monospace,Menlo,monospace] [overflow-wrap:break-word]">
+                    {keyParts(x.key).map((part, i) => (
+                      <Fragment key={i}>
+                        {i > 0 ? <wbr /> : null}
+                        {part}
+                      </Fragment>
+                    ))}
                   </span>
                   <span role="cell" className="flex-[1.4]">
-                    <StatusChip tone={classTone(x.classification)}>{d(`registry.class.${x.classification}`)}</StatusChip>
+                    <StatusChip tone={dotTone('stream', x.classification)}>{d(`registry.class.${x.classification}`)}</StatusChip>
                   </span>
                   <span role="cell" className="w-[110px] text-[12.5px]">
                     {d(`stream.name.${x.stream}`)}
@@ -100,8 +124,12 @@ export default async function Page() {
                   <span role="cell" className="w-[40px] text-[12px] text-mut">
                     {d('registry.version', { n: x.version })}
                   </span>
-                  <b role="cell" className="w-[70px] text-right" title={x.sent === null ? d('registry.notRecorded') : undefined}>
-                    {x.sent === null ? none : fmt(x.sent)}
+                  <b
+                    role="cell"
+                    className="w-[70px] text-right"
+                    title={x.withheld ? d('registry.withheldWhy', { k: res.k }) : x.sent === null ? d('registry.notRecorded') : undefined}
+                  >
+                    {x.withheld ? d('registry.withheld', { k: res.k }) : x.sent === null ? none : fmt(x.sent)}
                   </b>
                 </div>
               ))}
@@ -110,8 +138,7 @@ export default async function Page() {
         </div>
 
         <div className="flex min-w-0 flex-col gap-[18px]">
-          <section className={CARD}>
-            <h2 className="m-0 font-display text-[22px] font-medium">{d('provider.title')}</h2>
+          <SectionCard title={d('provider.title')}>
             <div className="mt-[8px] flex flex-col">
               {(['provider', 'dpa', 'separation', 'events', 'alternative'] as const).map((p) => (
                 <div key={p} className="flex justify-between gap-[12px] border-b border-line py-[9px] text-[13px]">
@@ -120,9 +147,8 @@ export default async function Page() {
                 </div>
               ))}
             </div>
-          </section>
-          <section className={CARD}>
-            <h2 className="m-0 font-display text-[22px] font-medium">{d('hygiene.title')}</h2>
+          </SectionCard>
+          <SectionCard title={d('hygiene.title')}>
             <div className="mt-[12px] flex flex-col gap-[8px]">
               {[
                 res.daily_cap === null ? d('hygiene.noCap') : d('hygiene.cap', { cap: fmt(res.daily_cap) }),
@@ -131,13 +157,12 @@ export default async function Page() {
                 d('hygiene.clicks'),
                 d('hygiene.separate'),
               ].map((h) => (
-                <div key={h} className="flex gap-[8px] text-[13px] leading-[1.45] [text-wrap:pretty]">
-                  <span aria-hidden="true" className={`mt-[6px] block h-[6px] w-[6px] flex-none rounded-pill ${DOT_CLASS.teal}`} />
-                  <span className="min-w-0">{h}</span>
-                </div>
+                <BulletRow key={h} tone="teal" pretty>
+                  {h}
+                </BulletRow>
               ))}
             </div>
-          </section>
+          </SectionCard>
         </div>
       </div>
     </div>
@@ -161,6 +186,13 @@ function StreamCard({ s, d }: { s: Stream; d: M }) {
   const c = s.check
   const lvl = (l: AuthLevel | undefined) => (l ? d(`stream.check.level.${l}`) : d('stream.check.level.never'))
   const tip = c ? d('stream.check.tip', { domain: c.domain, date: dayMonth(c.checked_at), time: new Date(c.checked_at).toISOString().slice(11, 16) }) : d('stream.check.neverTip')
+  // what the rates stand on: the reported of the sent, and the tests nothing can report on
+  const basis = [
+    gap ? d(`stream.gap.${gap}`) : d('stream.over', { reported: fmt(s.reported), sent: fmt(s.sent) }),
+    s.tests ? d('stream.tests', { n: s.tests }) : null,
+  ]
+    .filter((x): x is string => x !== null)
+    .join(' · ')
   const figures: [string, string][] = [
     [d('stream.vol'), fmt(s.sent)],
     [d('stream.delivered'), rates.delivered ?? none],
@@ -172,17 +204,14 @@ function StreamCard({ s, d }: { s: Stream; d: M }) {
       <div className={HEAD}>{d('stream.label', { name: d(`stream.name.${s.key}`) })}</div>
       <h2 className="m-0 mt-[8px] text-[18px] font-bold [font-family:ui-monospace,Menlo,monospace] [overflow-wrap:anywhere]">{s.domain}</h2>
       <div className="mt-[4px] text-[12.5px] text-mut [text-wrap:pretty]">{d(`stream.carries.${s.key}`)}</div>
-      <div
-        title={gap ? d(`stream.gap.${gap}`) : undefined}
-        className="mt-[14px] flex flex-wrap gap-[14px] rounded-cta border border-line bg-bg px-[14px] py-[12px]"
-      >
+      <div title={basis} className="mt-[14px] flex flex-wrap gap-[14px] rounded-cta border border-line bg-bg px-[14px] py-[12px]">
         {figures.map(([label, value]) => (
           <div key={label}>
             <div className={HEAD}>{label}</div>
             <div className="text-[18px] font-bold">{value}</div>
           </div>
         ))}
-        {gap ? <span className="sr-only">{d(`stream.gap.${gap}`)}</span> : null}
+        <span className="sr-only">{basis}</span>
       </div>
       <div className="mt-[8px] flex flex-col">
         <CheckLine tone={levelTone(c?.spf ?? null)} label={d('stream.check.spf')} val={c ? d('stream.check.checked', { level: lvl(c.spf), date: dayMonth(c.checked_at) }) : lvl(undefined)} title={tip} />

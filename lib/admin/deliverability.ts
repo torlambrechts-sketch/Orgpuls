@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import type { Check } from '@/lib/crm/deliverability'
+import type { AdminRole } from './api'
 import type { DotTone } from './dots'
 import { rate } from './magnets'
 
@@ -7,12 +8,12 @@ import { rate } from './magnets'
  * Sentral › Admin › Deliverability (0144, D-185): the shapes public.admin_deliverability() returns,
  * and what the page computes from them. Pure, so tests/unit/growth-g4.test.ts runs it.
  *
- * Every rate is over the messages the stream sent in seven days, and only when the provider has
- * reported on at least one of them: a stream with no delivery event says so, rather than print
- * «0 %» delivered.
+ * Every rate is over the messages the provider has reported on, never over one it has not: a
+ * message with no report yet is not a message that failed, and the invitation tests keep no
+ * provider id, so nothing can ever report on them. A stream with no delivery event says so,
+ * rather than print «0 %» delivered, and the figures say how many of the sent were reported.
  */
 export const STREAMS = ['transactional', 'marketing'] as const
-export type StreamKey = (typeof STREAMS)[number]
 export const AUTH_LEVELS = ['pass', 'warn', 'fail', 'unknown'] as const
 export type AuthLevel = (typeof AUTH_LEVELS)[number]
 export const TEMPLATE_SOURCES = ['notice', 'ticket', 'lifecycle', 'auth', 'crm'] as const
@@ -26,15 +27,16 @@ const AuthCheck = z.object({
   dmarc: z.enum(AUTH_LEVELS),
   dmarc_policy: z.enum(['none', 'quarantine', 'reject']).nullable(),
 })
-export type AuthCheck = z.infer<typeof AuthCheck>
 
 const Stream = z.object({
   key: z.enum(STREAMS),
   sender: z.string(),
   domain: z.string(),
   sent: num,
-  /** of `sent`, how many the provider has reported anything on */
+  /** of `sent`, how many the provider has reported anything on: every rate's denominator */
   reported: num,
+  /** of `sent`, the invitation tests, which keep no provider id and are never reported */
+  tests: num,
   delivered: num,
   spam: num,
   bounced: num,
@@ -55,13 +57,23 @@ export const Deliverability = z.object({
       stream: z.enum(STREAMS),
       locales: z.array(z.string()),
       version: num,
-      /** null where nothing records the send (Auth's hook) */
+      /** null where nothing records the send (Auth's hook), or where a personal notice's count is below k */
       sent: num.nullable(),
+      /** a personal notice counted fewer than k times in 7 days: its count is withheld */
+      withheld: z.boolean(),
     }),
   ),
   daily_cap: num.nullable(),
+  /** k (app.k_min()): a personal notice counted fewer times than this has its count withheld */
+  k: num,
 })
 export type Deliverability = z.infer<typeof Deliverability>
+
+/**
+ * Who may run the authentication check: the roles that write in the CRM (app.crm_can_write), as
+ * admin_deliverability_claim checks. The analyst reads the page and is not offered the button.
+ */
+export const mayRunAuthCheck = (role: AdminRole | null | undefined) => role === 'super_admin' || role === 'marketing'
 
 /** Why a stream's rates read «—», or null when they are real */
 export function streamGap(s: Pick<Stream, 'sent' | 'reported'>): 'nothing_sent' | 'no_events' | null {
@@ -70,22 +82,30 @@ export function streamGap(s: Pick<Stream, 'sent' | 'reported'>): 'nothing_sent' 
   return null
 }
 
-/** A stream's three rates as the design prints them (delivered and bounce to a tenth, spam to a hundredth) */
+/**
+ * A stream's three rates as the design prints them (delivered and bounce to a tenth, spam to a
+ * hundredth), over the messages the provider reported on
+ */
 export function streamRates(s: Stream) {
   if (streamGap(s)) return { delivered: null, spam: null, bounce: null }
-  return { delivered: rate(s.delivered, s.sent, 1), spam: rate(s.spam, s.sent, 2), bounce: rate(s.bounced, s.sent, 1) }
+  return { delivered: rate(s.delivered, s.reported, 1), spam: rate(s.spam, s.reported, 2), bounce: rate(s.bounced, s.reported, 1) }
 }
 
-/** The KPI row over both streams: counts only where the provider reported, rates only over a sent message */
+/**
+ * The KPI row over both streams, on the same footing as each stream's card: rates over the
+ * messages the provider reported on, so a stream with sends and no report adds nothing to a
+ * denominator; counts only once anything was reported. `reported` of `sent` is the sub-line.
+ */
 export function deliverabilityKpis(streams: Stream[]) {
   const sum = (k: 'sent' | 'reported' | 'delivered' | 'spam' | 'hard_bounces') => streams.reduce((a, s) => a + s[k], 0)
   const all = { sent: sum('sent'), reported: sum('reported') }
   const gap = streamGap(all)
   return {
     sent: all.sent,
+    reported: all.reported,
     gap,
-    delivered: gap ? null : rate(sum('delivered'), all.sent, 1),
-    spam: gap ? null : rate(sum('spam'), all.sent, 2),
+    delivered: gap ? null : rate(sum('delivered'), all.reported, 1),
+    spam: gap ? null : rate(sum('spam'), all.reported, 2),
     hardBounces: gap ? null : sum('hard_bounces'),
     complaints: gap ? null : sum('spam'),
   }
@@ -119,5 +139,9 @@ export function levelsOf(checks: Check[]): { spf: AuthLevel; dkim: AuthLevel; dm
 /** A template's locales as the design lists them: «no · en» */
 export const localeList = (l: string[]) => l.join(' · ')
 
-/** The design's `dot` for a template's classification: service teal, marketing yellow */
-export const classTone = (c: 'service' | 'marketing'): DotTone => (c === 'marketing' ? 'yellow' : 'teal')
+/**
+ * A registry key as it may break: after a '.', '_' or '-' only, never inside a word
+ * («notice.|siste_|paminnelse»). The parts, each ending at its separator, for the page to join
+ * with <wbr>.
+ */
+export const keyParts = (key: string) => key.match(/[^._-]+[._-]?|[._-]/g) ?? [key]

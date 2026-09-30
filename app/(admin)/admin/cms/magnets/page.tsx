@@ -1,15 +1,17 @@
 import { getTranslations } from 'next-intl/server'
-import { KpiStrip, StatusChip } from '@/components/admin/growth'
+import { KpiStrip, SectionCard, StatusChip } from '@/components/admin/growth'
 import { MagnetOpen } from '@/components/admin/G4Controls'
 import { PageHead, Problem, Stat } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
+import { dotTone } from '@/lib/admin/dots'
 import { mayOpenGrowthView } from '@/lib/admin/growth'
 import { growthMagnets } from '@/lib/admin/growthG4'
-import { allGuidance, dayMonth, doiRate, doneText, liveMagnets, magnetTone, shortOf, type GrowthMagnets, type Magnet } from '@/lib/admin/magnets'
+import { allGuidance, dayMonth, doiRate, doneText, liveMagnets, shortOf, type GrowthMagnets, type Magnet } from '@/lib/admin/magnets'
 
 const PANEL = 'rounded-panel border border-line bg-sf'
 const HEAD = 'text-[11px] uppercase tracking-[0.09em] text-mut'
-const CARD = 'rounded-panel border bg-sf px-[20px] py-[20px] md:px-[26px] md:py-[24px]'
+// the gating rule's card: SectionCard's, with the design's ink border
+const CARD = 'rounded-panel border border-ink bg-sf px-[20px] py-[20px] md:px-[26px] md:py-[24px]'
 
 /**
  * Sentral › Content › Tools & lead magnets (design revision 3, `isMagnets`; 0144, D-185).
@@ -67,15 +69,14 @@ export default async function Page() {
         </div>
 
         <div className="flex min-w-0 flex-col gap-[18px]">
-          <section className={`${CARD} border-ink`}>
+          <section className={CARD}>
             <h2 className="m-0 font-display text-[22px] font-medium">{m('gatingRule.title')}</h2>
             <div className="mt-[10px] text-[13px] leading-[1.55] [text-wrap:pretty]">
               {t.rich('growth.g4.magnets.gatingRule.text', { b: (c) => <b>{c}</b> })}
             </div>
           </section>
 
-          <section className={`${CARD} border-line`}>
-            <h2 className="m-0 font-display text-[22px] font-medium">{m('flow.title')}</h2>
+          <SectionCard title={m('flow.title')}>
             <ol className="m-0 mt-[12px] flex list-none flex-col gap-[8px] p-0 text-[13px] leading-[1.5]">
               {(['s1', 's2', 's3', 's4'] as const).map((s, i) => (
                 <li key={s} className="flex gap-[10px]">
@@ -92,7 +93,7 @@ export default async function Page() {
                 </li>
               ))}
             </ol>
-          </section>
+          </SectionCard>
 
           <Rules res={res} m={m} />
         </div>
@@ -113,7 +114,18 @@ function Why({ why, children }: { why: string; children: string }) {
   )
 }
 
+/**
+ * A magnet's name: the row's own where it is a true proper name; otherwise a message — the
+ * newsletter named by its CRM list («Newsletter «Nyhetsbrevet»»), or its kind if the list is gone
+ */
+function nameOf(x: Magnet, m: M) {
+  if (x.name) return x.name
+  if (x.kind === 'newsletter') return x.list_name ? m('name.newsletter', { list: x.list_name }) : m(`kind.${x.kind}`)
+  return m(`name.${x.key}`)
+}
+
 function Row({ x, m }: { x: Magnet; m: M }) {
+  const name = nameOf(x, m)
   const desc = m(`item.${x.key}`)
   const kind = x.gated === 'pdf_ics' ? m('kindFormat', { kind: m(`kind.${x.kind}`), format: m('format.pdf_ics') }) : m(`kind.${x.kind}`)
   const status = m(`status.${x.status}`)
@@ -121,6 +133,8 @@ function Row({ x, m }: { x: Magnet; m: M }) {
   const consent = x.doi ? doiRate(x.doi) : null
   // a tool records nothing yet; the newsletter's subscribers are real, its trials have no attribution
   const noneWhy = m(x.kind === 'newsletter' ? 'noneWhy.newsletter' : 'noneWhy.tool')
+  // a newsletter's completions are its subscribers, «—» only when its CRM list is gone
+  const doneWhy = x.kind === 'newsletter' ? m('noneWhy.noList') : noneWhy
   return (
     <div role="row" className="flex items-center gap-[14px] border-b border-line px-[20px] py-[12px] text-[13px]">
       <span role="cell" className="w-[26px] font-bold text-mut">
@@ -128,29 +142,29 @@ function Row({ x, m }: { x: Magnet; m: M }) {
       </span>
       <div role="cell" className="min-w-0 flex-[2.2]">
         <div className="flex flex-wrap items-center gap-[8px] font-semibold">
-          {x.name}
+          {name}
           <span className="rounded-pill border border-line px-[7px] py-[2px] text-[11px] font-semibold text-mut">{kind}</span>
         </div>
         <div className="overflow-hidden text-ellipsis whitespace-nowrap text-[12px] text-mut" title={desc}>
           {shortOf(desc)}
         </div>
       </div>
-      <b role="cell" className="w-[92px] text-right" title={done ? undefined : x.kind === 'newsletter' ? undefined : noneWhy}>
+      <b role="cell" className="w-[92px] text-right" title={done === null ? doneWhy : undefined}>
         {done ?? m('none')}
       </b>
-      <span role="cell" className="w-[96px] text-right text-[12.5px]" title={consent ? undefined : noneWhy}>
+      <span role="cell" className="w-[96px] text-right text-[12.5px]" title={consent ? undefined : x.kind === 'newsletter' ? m('kpi.doiNone') : noneWhy}>
         {consent ? m('doiShare', { rate: consent }) : m('none')}
       </span>
       <b role="cell" className="w-[70px] text-right" title={noneWhy}>
         {m('none')}
       </b>
       <span role="cell" className="w-[150px]">
-        <StatusChip tone={magnetTone(x.status)}>{status}</StatusChip>
+        <StatusChip tone={dotTone('kit', x.status)}>{status}</StatusChip>
       </span>
       <span role="cell" className="flex w-[60px] justify-end">
         <MagnetOpen
           label={m('open')}
-          title={x.name}
+          title={name}
           sub={m('dialog.sub', { kind, status })}
           closeLabel={m('close')}
           sections={[
@@ -166,8 +180,7 @@ function Row({ x, m }: { x: Magnet; m: M }) {
 
 function Rules({ res, m }: { res: GrowthMagnets; m: M }) {
   return (
-    <section className={`${CARD} border-line`}>
-      <h2 className="m-0 font-display text-[22px] font-medium">{m('krav.title')}</h2>
+    <SectionCard title={m('krav.title')}>
       <div className="mt-[8px] flex flex-col text-[13px]">
         {res.rules.map((r) => {
           const date = dayMonth(r.checked_on)
@@ -194,6 +207,6 @@ function Rules({ res, m }: { res: GrowthMagnets; m: M }) {
       <div className="mt-[12px] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
         {m('krav.footer', { version: res.ruleset_version, guidance: allGuidance(res) ? 'yes' : 'no' })}
       </div>
-    </section>
+    </SectionCard>
   )
 }

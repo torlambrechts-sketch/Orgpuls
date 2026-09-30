@@ -6,7 +6,9 @@
 -- 1. **The magnet registry** (app.growth_magnets): the report's seven magnets in its order, each with
 --    its kind, the artefact it gates and its TRUE status. No public tool, template pack or guide
 --    exists yet, so six are 'planned'. The newsletter's status is derived, never typed: it is live
---    while its CRM list exists, is public and is not archived. Completions, consent and trials have
+--    while its CRM list exists, is public and is not archived. A row keeps a true proper name only
+--    («Krav-sjekk»); a descriptive name is a message (admin.growth.g4.magnets.name.<key>), and the
+--    newsletter's names its CRM list, read from that list. Completions, consent and trials have
 --    no source for a tool that does not exist, so the read returns null for them (the page prints
 --    the design's «—»), never 0 % over nothing.
 -- 2. **Krav-sjekk rules as versioned data** (app.growth_krav_rules + app.growth_krav_rule_versions):
@@ -15,8 +17,9 @@
 --    (FOR-2011-12-06-1355) and the § 4-3 wording rule. Every version carries the day it was last
 --    checked, against what, and whether it is guidance rather than legal advice. A version is
 --    never edited: a change is a new version, written by a migration (no admin edit is built,
---    D-185). The immutability trigger follows CLAUDE.md: nobody may change a version's content,
---    and a version is deleted only when its rule is already gone.
+--    D-185). The immutability trigger follows CLAUDE.md: it compares the columns that carry a
+--    version's meaning and refuses any change to them, and a version is deleted only when its rule
+--    is already gone.
 -- 3. **The mail streams** (app.mail_streams): the two senders the dispatcher is deployed with — the
 --    product's no-reply@orgpuls.com (ORGPULS_MAIL_FROM, D-65) and the marketing sender
 --    hei@nyheter.orgpuls.com (ORGPULS_MARKETING_FROM, D-101). The function secrets are the
@@ -25,28 +28,37 @@
 --    nine notice kinds, the invitation test, the ticket reply, the nine trial and cancellation
 --    steps, Auth's four mails, the newsletter confirmation, the campaign test, and each CRM
 --    template — classified service or marketing and bound to one stream. A marketing mail is only
---    ever on the marketing stream (CHECK). mail_registry_invariants proves every kind the database
---    can queue has a row; tests/unit/mail-registry.test.ts proves the same of the dispatcher's code.
--- 5. **The authentication check** (app.mail_auth_checks): SPF, DKIM and DMARC for each stream's
---    domain, looked up in public DNS by the server (lib/admin/mailDomain.ts, the campaign editor's
---    check) and recorded by public.admin_deliverability_check, role-checked, audited and limited
---    to one run a minute. Only the stream's own domain can be recorded.
+--    ever on the marketing stream (CHECK). supabase/tests/growth_g4_invariants.sql (row 7) proves
+--    every kind the database can queue has a row; tests/unit/growth-g4.test.ts proves the same of
+--    the dispatcher's code.
+-- 5. **The authentication check** (app.mail_auth_runs + app.mail_auth_checks): SPF, DKIM and DMARC
+--    for each stream's domain, looked up in public DNS by the server (lib/admin/mailDomain.ts, the
+--    campaign editor's check). A run is claimed first (public.admin_deliverability_claim: one a
+--    minute, for everyone, before any lookup goes out), then recorded against its claim by
+--    public.admin_deliverability_check. Both are for the roles that write in the CRM (super_admin
+--    and marketing, as app.crm_can_write), with the second factor; the record is audited with its
+--    levels. Only the stream's own domain can be recorded. The levels are the server action's: the
+--    database cannot repeat a DNS lookup, so what it records is trusted input from a write role,
+--    attributed and audited (D-185).
 -- 6. Two reads, public.admin_growth_magnets() and public.admin_growth_deliverability(), for super_admin,
 --    analyst and marketing with the second factor (the growth section, lib/admin/access.ts), each
 --    audited. Every figure is counted from the tables that record it: the outbox and its
 --    recipients, ticket and trial mail, the invitation tests, app.mail_events and the CRM's sends.
---    Nothing a respondent wrote, and no address, is read or returned: only counts.
+--    Nothing a respondent wrote, and no address, is read or returned: only counts. A personal
+--    notice (invitation, reminders, a link) counts people, and a reminder only those who have not
+--    answered, so its 7-day count is withheld below k (app.k_min()), as G1 bands such figures.
 --
 -- Every table here has RLS enabled, no policy and no grant: clients reach them only through the
--- two reads and the one write.
+-- two reads, the claim and the one write.
 
 -- ============================================================ 1. the magnets
 create table app.growth_magnets (
   key text primary key check (key ~ '^[a-z][a-z0-9_]{1,39}$'),
   -- the report's order
   rank int not null unique check (rank between 1 and 99),
-  -- a proper name, as the report gives it; what it does is a message (admin.growth.g4.magnets.item.<key>)
-  name text not null check (char_length(name) between 2 and 80),
+  -- a true proper name, as the report gives it; null where the name is descriptive, which is then a
+  -- message (admin.growth.g4.magnets.name.<key>). What it does is a message too (….item.<key>)
+  name text check (char_length(name) between 2 and 80),
   kind text not null check (kind in ('tool', 'template', 'report', 'newsletter')),
   -- the take-away behind consent and double opt-in; 'none' for the newsletter, whose signup is the consent
   gated text not null check (gated in ('pdf', 'pdf_templates', 'templates', 'pdf_ics', 'none')),
@@ -67,8 +79,8 @@ insert into app.growth_magnets (key, rank, name, kind, gated, status, list_key) 
   ('dokumentasjonspakke', 3, '§ 4-3 dokumentasjonspakke', 'template', 'templates', 'planned', null),
   ('sykefravaer', 4, 'Sykefraværskalkulator', 'tool', 'pdf', 'planned', null),
   ('arshjul', 5, 'Årshjul for psykososialt arbeidsmiljø', 'template', 'pdf_ics', 'planned', null),
-  ('bransjeguider', 6, 'Industry guides', 'report', 'pdf', 'planned', null),
-  ('nyhetsbrev', 7, 'Newsletter «Nyhetsbrevet»', 'newsletter', 'none', null, 'nyhetsbrev');
+  ('bransjeguider', 6, null, 'report', 'pdf', 'planned', null),
+  ('nyhetsbrev', 7, null, 'newsletter', 'none', null, 'nyhetsbrev');
 
 -- ============================================================ 2. the Krav-sjekk rules
 create table app.growth_krav_rules (
@@ -106,13 +118,21 @@ comment on table app.growth_krav_rule_versions is
 alter table app.growth_krav_rule_versions enable row level security;
 revoke all on app.growth_krav_rule_versions from public, anon, authenticated, service_role;
 
--- nobody may change a version's content; a version goes only with its rule (CLAUDE.md)
+-- nobody may change a version's content; a version goes only with its rule (CLAUDE.md): the rule
+-- compares the columns that carry meaning, so an update that changes none of them passes
 create function app.growth_krav_version_guard() returns trigger
   language plpgsql set search_path = ''
 as $fn$
 begin
   if tg_op = 'UPDATE' then
-    raise exception 'a Krav-sjekk rule version is never edited; add a new version' using errcode = 'P0001';
+    if (new.rule_key, new.version, new.threshold, new.on_demand_from, new.reference, new.say, new.never_say,
+        new.checked_on, new.checked_against, new.guidance_only)
+       is distinct from
+       (old.rule_key, old.version, old.threshold, old.on_demand_from, old.reference, old.say, old.never_say,
+        old.checked_on, old.checked_against, old.guidance_only) then
+      raise exception 'a Krav-sjekk rule version is never edited; add a new version' using errcode = 'P0001';
+    end if;
+    return new;
   end if;
   if exists (select 1 from app.growth_krav_rules r where r.key = old.rule_key) then
     raise exception 'a Krav-sjekk rule version is deleted only with its rule' using errcode = 'P0001';
@@ -219,8 +239,25 @@ from app.crm_templates t;
 -- ============================================================ 5. the authentication check
 create type app.mail_auth_level as enum ('pass', 'warn', 'fail', 'unknown');
 
+-- a run of «Run authentication check», claimed before any lookup goes out: one a minute, for everyone
+create table app.mail_auth_runs (
+  id bigint generated always as identity primary key,
+  -- who claimed it; only they may record it
+  admin_id uuid references auth.users (id) on delete set null,
+  claimed_at timestamptz not null default now(),
+  -- set when its results were recorded; a run is recorded once
+  recorded_at timestamptz,
+  check (recorded_at is null or recorded_at >= claimed_at)
+);
+create index mail_auth_runs_claimed_at on app.mail_auth_runs (claimed_at desc);
+comment on table app.mail_auth_runs is
+  'Each «Run authentication check» (0144, D-185): claimed before its DNS lookups, so one a minute goes out; recorded once.';
+alter table app.mail_auth_runs enable row level security;
+revoke all on app.mail_auth_runs from public, anon, authenticated, service_role;
+
 create table app.mail_auth_checks (
   id bigint generated always as identity primary key,
+  run_id bigint not null references app.mail_auth_runs (id) on delete cascade,
   stream text not null references app.mail_streams (key) on delete cascade,
   -- the domain looked up: the stream's sender's, at the time
   domain text not null check (domain ~ '^[a-z0-9-]+(\.[a-z0-9-]+)+$'),
@@ -229,30 +266,37 @@ create table app.mail_auth_checks (
   dkim app.mail_auth_level not null,
   dmarc app.mail_auth_level not null,
   -- the DMARC record's p= (none, quarantine, reject), when there is one
-  dmarc_policy text check (dmarc_policy in ('none', 'quarantine', 'reject'))
+  dmarc_policy text check (dmarc_policy in ('none', 'quarantine', 'reject')),
+  unique (run_id, stream)
 );
 create index mail_auth_checks_stream_at on app.mail_auth_checks (stream, checked_at desc);
 comment on table app.mail_auth_checks is
-  'SPF, DKIM and DMARC of each stream''s domain as public DNS answered (0144, D-185); written by admin_deliverability_check.';
+  'SPF, DKIM and DMARC of each stream''s domain as the server''s lookup in public DNS found them (0144, D-185); written by admin_deliverability_check.';
 alter table app.mail_auth_checks enable row level security;
 revoke all on app.mail_auth_checks from public, anon, authenticated, service_role;
 
--- ============================================================ 6. the reads and the write
+-- ============================================================ 6. the reads, the claim and the write
 /*
- * Double opt-in, as it stands: of the confirmation mails sent in 90 days, how many were
- * confirmed. A contact is confirmed when its token is spent and its consent dates from after the
- * mail; one still holding a token has not confirmed (it may yet, within seven days, or it expired).
- * With a list key, only the contacts on that list. Null when no confirmation was sent: never a
- * rate over nothing.
+ * Double opt-in, as it stands: of the contacts sent a confirmation mail in 90 days (a crm_sends
+ * 'optin' row the dispatcher marked sent; a request held, failed or skipped sent nothing), how many
+ * confirmed after it. A contact is confirmed when its token is spent and its consent dates from
+ * after its first such mail; one still holding a token has not confirmed (it may yet, within seven
+ * days, or it expired). With a list key, only the contacts on that list. Null when no
+ * confirmation was sent: never a rate over nothing.
  */
 create function app.growth_doi(p_list text default null) returns jsonb
   language sql stable security definer set search_path = ''
 as $fn$
+  with mailed as (
+    select s.contact_id, min(s.sent_at) as first_sent
+    from app.crm_sends s
+    where s.kind = 'optin' and s.status = 'sent' and s.sent_at > now() - interval '90 days' and s.contact_id is not null
+    group by s.contact_id)
   select jsonb_build_object('sent', count(*),
-                            'confirmed', count(*) filter (where c.optin_hash is null and c.consent_at >= c.optin_sent_at and c.basis = 'consent'))
-  from app.crm_contacts c
+                            'confirmed', count(*) filter (where c.optin_hash is null and c.consent_at >= x.first_sent and c.basis = 'consent'))
+  from mailed x
+  join app.crm_contacts c on c.id = x.contact_id
   where c.product_id = 'orgpuls'
-    and c.optin_sent_at > now() - interval '90 days'
     and (p_list is null or exists (select 1 from app.crm_list_members m join app.crm_lists l on l.id = m.list_id
                                    where m.contact_id = c.id and l.product_id = 'orgpuls' and l.key = p_list))
 $fn$;
@@ -270,6 +314,8 @@ begin
     'magnets', (
       select coalesce(jsonb_agg(jsonb_build_object(
                'key', m.key, 'rank', m.rank, 'name', m.name, 'kind', m.kind, 'gated', m.gated,
+               -- the newsletter is named after its CRM list, as the list is named
+               'list_name', l.name_no,
                'status', coalesce(m.status, case when l.id is not null and l.public and l.archived_at is null then 'live' else 'planned' end),
                'derived', m.list_key is not null,
                -- a newsletter's completions are its subscribers; a tool records nothing yet (no tool exists)
@@ -314,7 +360,7 @@ as $fn$
   from app.outbox_recipients r join app.outbox o on o.id = r.outbox_id
   where r.sent_at > now() - interval '7 days'
   union all
-  -- «Send test til meg»: the provider's id is not kept, so no delivery state
+  -- «Send test til meg»: the provider's id is not kept, so no delivery state, ever
   select 'transactional', 'notice.test', null::app.mail_delivery
   from app.send_tests t
   where t.sent_at > now() - interval '7 days'
@@ -338,6 +384,21 @@ as $fn$
 $fn$;
 revoke all on function app.mail_sent_7d() from public, anon, authenticated;
 
+/*
+ * A template's 7-day count as the growth roles may see it. A personal notice counts people — an
+ * invitation each, a link each, and a reminder only for those who have not answered — so below k
+ * (app.k_min()) its count is withheld (null), as G1 bands recipient and response figures. Zero and
+ * any count of k or more are shown; a notice to a role, trial or CRM mail counts no respondent.
+ */
+create function app.mail_template_count(p_key text, p_n bigint) returns bigint
+  language sql immutable set search_path = ''
+as $fn$
+  select case when p_key in ('notice.invitasjon', 'notice.paminnelse', 'notice.siste_paminnelse', 'notice.lenke')
+                   and p_n between 1 and app.k_min() - 1 then null
+              else p_n end
+$fn$;
+revoke all on function app.mail_template_count(text, bigint) from public, anon, authenticated;
+
 create function public.admin_growth_deliverability() returns jsonb
   language plpgsql security definer set search_path = ''
 as $fn$
@@ -352,16 +413,25 @@ begin
       'streams', (
         select jsonb_agg(jsonb_build_object(
                  'key', s.key, 'sender', s.sender, 'domain', app.mail_stream_domain(s.sender),
-                 -- messages sent, and how many of them the provider has reported anything on
+                 -- messages sent, and how many of them the provider has reported anything on: every
+                 -- rate is over the reported, never over a message nothing reported on
                  'sent', (select count(*) from sent x where x.stream = s.key),
                  'reported', (select count(*) from sent x where x.stream = s.key and x.delivery is not null),
+                 -- the invitation tests, which keep no provider id and so are never reported
+                 'tests', (select count(*) from sent x where x.stream = s.key and x.template = 'notice.test'),
                  'delivered', (select count(*) from sent x where x.stream = s.key and x.delivery = 'delivered'),
                  'spam', (select count(*) from sent x where x.stream = s.key and x.delivery = 'spam'),
                  'bounced', (select count(*) from sent x where x.stream = s.key and x.delivery in ('hard_bounce', 'soft_bounce', 'invalid', 'blocked')),
                  'hard_bounces', (select count(*) from sent x where x.stream = s.key and x.delivery = 'hard_bounce'),
-                 -- when the provider last reported on this stream's mail
+                 -- when the provider last reported on this stream's e-mail: an event matched to an
+                 -- e-mail notice (or one person's message of one), a ticket reply or trial mail; an
+                 -- SMS report, and an event matched to nothing, are not this stream's
                  'last_event_at', case s.key
-                    when 'transactional' then (select max(e.received_at) from app.mail_events e)
+                    when 'transactional' then (
+                      select max(e.received_at) from app.mail_events e
+                      where exists (select 1 from app.outbox o where o.id = e.outbox_id and coalesce(o.channel, 'email') = 'email')
+                         or e.ticket_mail_id is not null
+                         or exists (select 1 from app.lifecycle_mail l where btrim(l.provider_id, '<> ') = e.message_id))
                     else (select max(c.delivery_at) from app.crm_sends c) end,
                  'check', (select jsonb_build_object('checked_at', k.checked_at, 'domain', k.domain, 'spf', k.spf, 'dkim', k.dkim,
                                                      'dmarc', k.dmarc, 'dmarc_policy', k.dmarc_policy)
@@ -372,39 +442,74 @@ begin
         select jsonb_agg(jsonb_build_object('key', t.key, 'source', t.source, 'ref', t.ref, 'classification', t.classification,
                                             'stream', t.stream, 'locales', to_jsonb(t.locales), 'version', t.version,
                                             -- Auth's mail is recorded nowhere: no count rather than a 0
-                                            'sent', case when t.source = 'auth' then null
-                                                         else (select count(*) from sent x where x.template = t.key) end)
+                                            'sent', case when t.source = 'auth' then null else app.mail_template_count(t.key, n.n) end,
+                                            -- a personal notice below k: counted, and withheld
+                                            'withheld', t.source <> 'auth' and app.mail_template_count(t.key, n.n) is null)
                order by t.sort)
-        from app.mail_templates t),
+        from app.mail_templates t
+        cross join lateral (select count(*) as n from sent x where x.template = t.key) n),
       -- the campaign mail's daily cap (0111), which warms a new sending domain
-      'daily_cap', (select c.daily_cap from app.crm_settings c where c.id))
+      'daily_cap', (select c.daily_cap from app.crm_settings c where c.id),
+      -- below this a personal notice's count is withheld
+      'k', app.k_min())
     from (select 1) one);
 end $fn$;
 revoke all on function public.admin_growth_deliverability() from public, anon;
 grant execute on function public.admin_growth_deliverability() to authenticated;
 
 /*
- * Records what public DNS answered for each stream's domain. The lookup is the server's
- * (lib/admin/mailDomain.ts); this checks the caller's role, that each result is for its stream's
- * own domain, and that no check was recorded in the last minute, then records and audits it.
+ * Claims a run of «Run authentication check» before the server sends any lookup to DNS: for the
+ * roles that write in the CRM (super_admin and marketing, as app.crm_can_write) with the second
+ * factor, and one run a minute for everyone, serialised by an advisory lock so two presses cannot
+ * both pass. A claimed run counts against the minute whether or not it is recorded. Returns the
+ * run's id, which the record names.
  */
-create function public.admin_deliverability_check(p_results jsonb) returns jsonb
+create function public.admin_deliverability_claim() returns jsonb
+  language plpgsql security definer set search_path = ''
+as $fn$
+declare
+  v_id bigint;
+begin
+  if not app.is_platform_admin(array['super_admin', 'marketing']::app.platform_role[]) then
+    return jsonb_build_object('ok', false, 'error', 'not_allowed');
+  end if;
+  perform pg_advisory_xact_lock(hashtext('app.mail_auth_runs'));
+  if exists (select 1 from app.mail_auth_runs r where r.claimed_at > now() - interval '1 minute') then
+    return jsonb_build_object('ok', false, 'error', 'too_soon');
+  end if;
+  insert into app.mail_auth_runs (admin_id) values (auth.uid()) returning id into v_id;
+  return jsonb_build_object('ok', true, 'run', v_id);
+end $fn$;
+revoke all on function public.admin_deliverability_claim() from public, anon;
+grant execute on function public.admin_deliverability_claim() to authenticated;
+
+/*
+ * Records what the server's lookup in public DNS found for each stream's domain, against the run
+ * the same admin claimed in the last two minutes and has not recorded. It checks the role again,
+ * that each result is for its stream's own domain, each stream once, and each level known, then
+ * records it and audits it with the levels. The database cannot repeat the lookup: the levels are
+ * the server action's (lib/admin/deliverabilityActions.ts), trusted input from a write role,
+ * attributed and audited (D-185).
+ */
+create function public.admin_deliverability_check(p_run bigint, p_results jsonb) returns jsonb
   language plpgsql security definer set search_path = ''
 as $fn$
 declare
   v_r jsonb;
   v_n int := 0;
 begin
-  if not app.is_platform_admin(array['super_admin', 'analyst', 'marketing']::app.platform_role[]) then
+  if not app.is_platform_admin(array['super_admin', 'marketing']::app.platform_role[]) then
     return jsonb_build_object('ok', false, 'error', 'not_allowed');
   end if;
   if jsonb_typeof(p_results) is distinct from 'array' or jsonb_array_length(p_results) not between 1 and 2 then
     return jsonb_build_object('ok', false, 'error', 'invalid');
   end if;
-  -- one run a minute, for everyone: the lookups go to public resolvers
-  perform pg_advisory_xact_lock(hashtext('app.mail_auth_checks'));
-  if exists (select 1 from app.mail_auth_checks k where k.checked_at > now() - interval '1 minute') then
-    return jsonb_build_object('ok', false, 'error', 'too_soon');
+  -- the run: this admin's, claimed in the last two minutes, not yet recorded
+  perform 1 from app.mail_auth_runs r
+  where r.id = p_run and r.admin_id = auth.uid() and r.recorded_at is null and r.claimed_at > now() - interval '2 minutes'
+  for update;
+  if not found then
+    return jsonb_build_object('ok', false, 'error', 'invalid');
   end if;
   for v_r in select * from jsonb_array_elements(p_results) loop
     if not exists (select 1 from app.mail_streams s where s.key = v_r->>'stream' and app.mail_stream_domain(s.sender) = v_r->>'domain')
@@ -419,15 +524,18 @@ begin
     return jsonb_build_object('ok', false, 'error', 'invalid');
   end if;
   for v_r in select * from jsonb_array_elements(p_results) loop
-    insert into app.mail_auth_checks (stream, domain, spf, dkim, dmarc, dmarc_policy)
-    values (v_r->>'stream', v_r->>'domain', (v_r->>'spf')::app.mail_auth_level, (v_r->>'dkim')::app.mail_auth_level,
+    insert into app.mail_auth_checks (run_id, stream, domain, spf, dkim, dmarc, dmarc_policy)
+    values (p_run, v_r->>'stream', v_r->>'domain', (v_r->>'spf')::app.mail_auth_level, (v_r->>'dkim')::app.mail_auth_level,
             (v_r->>'dmarc')::app.mail_auth_level, v_r->>'dmarc_policy');
     v_n := v_n + 1;
   end loop;
+  update app.mail_auth_runs set recorded_at = now() where id = p_run;
   perform app.admin_log('deliverability.auth_check', null, 'mail_streams', null, null,
-    jsonb_build_object('results', (select jsonb_agg(jsonb_build_object('stream', x->>'stream', 'spf', x->>'spf', 'dkim', x->>'dkim', 'dmarc', x->>'dmarc'))
+    jsonb_build_object('run', p_run,
+                       'results', (select jsonb_agg(jsonb_build_object('stream', x->>'stream', 'spf', x->>'spf', 'dkim', x->>'dkim',
+                                                                        'dmarc', x->>'dmarc', 'dmarc_policy', x->>'dmarc_policy'))
                                    from jsonb_array_elements(p_results) x)));
   return jsonb_build_object('ok', true, 'recorded', v_n);
 end $fn$;
-revoke all on function public.admin_deliverability_check(jsonb) from public, anon;
-grant execute on function public.admin_deliverability_check(jsonb) to authenticated;
+revoke all on function public.admin_deliverability_check(bigint, jsonb) from public, anon;
+grant execute on function public.admin_deliverability_check(bigint, jsonb) to authenticated;
