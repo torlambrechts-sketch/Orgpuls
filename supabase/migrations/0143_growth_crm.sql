@@ -857,6 +857,17 @@ begin
     else
       v_body := 'auto:pql_trial'; v_rule := 'R2'; v_from := now();
     end if;
+    -- a call the organisation did not ask for (R2) is not made once it has objected to phone outreach:
+    -- on the do-not-contact list, or its latest phone notice withdrawn. A hand-raise (R10) is the
+    -- person's own request and is answered.
+    if v_rule = 'R2' and exists (
+         select 1 from app.crm_companies co
+         where co.id = r.company_id
+           and (exists (select 1 from app.brreg_dnc d where d.org_number = co.org_number)
+                or (select cr.status from app.consent_records cr where cr.company_id = co.id and cr.purpose = 'phone_outreach'
+                    order by cr.id desc limit 1) = 'withdrawn')) then
+      continue;
+    end if;
     -- once: a callback once per contact after the hand-raise (or in 30 days for a score); a PQL once per
     -- company in 30 days, whichever of its people it names (a trial is the company's, not a person's)
     if exists (select 1 from app.crm_activities a where a.origin = 'rule' and a.body = v_body
@@ -1292,13 +1303,19 @@ end $fn$;
 create function public.admin_brreg_poll_now() returns jsonb
   language plpgsql security definer set search_path = ''
 as $fn$
-declare v jsonb;
+declare
+  v jsonb;
+  v_n int;
 begin
   if not app.crm_can_write() then
     return jsonb_build_object('ok', false, 'error', 'not_allowed');
   end if;
   perform pg_advisory_xact_lock(hashtext('orgpuls:brreg_poll'));
-  perform app.brreg_requeue_sweep();
+  -- the sweep writes companies and tasks: audited whether or not a poll follows
+  v_n := app.brreg_requeue_sweep();
+  if v_n > 0 then
+    perform app.admin_log('crm.brreg_requeue', null, 'brreg_outreach', null, null, jsonb_build_object('assigned', v_n));
+  end if;
   if exists (select 1 from app.brreg_polls p where p.requested_at > now() - interval '15 minutes'
              or (p.status = 'running' and p.started_at > now() - interval '1 hour')) then
     return jsonb_build_object('ok', false, 'error', 'rate_limited');
@@ -1388,12 +1405,14 @@ end $fn$;
 
 -- ---------------------------------------------------------------- Lead scoring
 create function public.admin_lead_scores() returns jsonb
-  language plpgsql stable security definer set search_path = ''
+  language plpgsql security definer set search_path = ''
 as $fn$
 begin
   if not app.crm_can_read() then
     return jsonb_build_object('ok', false, 'error', 'not_allowed');
   end if;
+  -- names and addresses of open leads: read under audit, as the CRM's other contact reads are
+  perform app.admin_log('crm.lead_scores', null, null, null, null, null);
   return jsonb_build_object('ok', true,
     -- the rules as the database scores them, row or no row
     'fit_rules', app.fit_score(null, null, null, null, null)->'parts',
@@ -1413,7 +1432,7 @@ end $fn$;
 
 -- ---------------------------------------------------------------- Tasks: 0137's list, with the SLA and the origin
 create or replace function public.admin_crm_task_list(p_view text default 'open') returns jsonb
-  language plpgsql stable security definer set search_path = ''
+  language plpgsql security definer set search_path = ''
 as $fn$
 begin
   if not app.crm_can_read() then
@@ -1422,6 +1441,8 @@ begin
   if coalesce(p_view, '') not in ('open', 'done', 'all') then
     return jsonb_build_object('ok', false, 'error', 'invalid');
   end if;
+  -- contacts' names, a register's general manager and outreach addresses: read under audit
+  perform app.admin_log('crm.task_list', null, null, null, null, jsonb_build_object('view', p_view));
   return jsonb_build_object('ok', true,
     -- the score a «lead score» callback was made at (app.lead_rules), for its title
     'rules', app.lead_rules(),
@@ -1547,8 +1568,9 @@ end $$;
 
 -- ============================================================ 10. the anonymity firewall covers these tables
 -- 0141's app.growth_firewall(), unchanged but for its scope: rule 1 (no foreign key to or from a
--- respondent's table) now reads the Brønnøysund tables and partners too, and rule 7 (closed to every
--- client: RLS, no policy, no grant) lists the eight tables 0143 makes. The Event catalogue page and CI
+-- respondent's table) now reads the Brønnøysund tables, partners and 0144's mail tables too, and rule 7
+-- (closed to every client: RLS, no policy, no grant) reads every table in that scope from the catalogue
+-- — 0142's registry and 0144's tables included — instead of a list. The Event catalogue page and CI
 -- read it live, so a future link or grant on one of them fails there, not only in this phase's tests.
 create or replace function app.growth_firewall() returns table (seq int, rule text, pass boolean, evidence jsonb)
   language plpgsql stable security definer set search_path = ''
@@ -1571,11 +1593,12 @@ declare
   -- roles, Supabase's read-only and replication users): no client, API key or product path reaches
   -- them. Any other role that can touch an answer table fails rule 3, whatever it is called.
   v_platform constant text[] := array['pg_read_all_data', 'pg_write_all_data', 'supabase_read_only_user', 'supabase_etl_admin'];
-  -- the growth, CRM, event and consent tables, and the CRM's Brønnøysund engine and partners (0143)
-  v_scope constant text := '^(crm_|growth_|consent_|event_|brreg_)|_events$|^partners$';
-  v_own constant text[] := array['event_catalogue', 'growth_events', 'consent_records', 'consent_purposes',
-                                 'brreg_settings', 'brreg_polls', 'brreg_entities', 'brreg_triggers', 'brreg_dnc', 'brreg_purges',
-                                 'brreg_outreach', 'partners'];
+  -- the growth, CRM, event and consent tables, the CRM's Brønnøysund engine and partners (0143), and
+  -- the mail streams, templates and authentication checks (0144). Rules 1 and 7 read every table of
+  -- `app` whose name matches, from the catalogue: a table a later migration adds under one of these
+  -- names is covered the moment it exists, with no list to remember.
+  v_scope constant text := '^(crm_|growth_|consent_|event_|brreg_|mail_)|_events$|^partners$';
+  v_own text[];
   -- the tables a respondent's submission writes: the answer tables, invitations (submit_response
   -- stamps responded_at in the respondent's own transaction), and whatever else submit_response's
   -- source writes, read from it so that a table added to the write path is covered with it
@@ -1691,7 +1714,9 @@ begin
   return next;
 
   -- 7 the growth tables are closed to clients: row level security, no policy, and no grant to a
-  --   client or the service role, on the table or any column
+  --   client or the service role, on the table or any column — every table of `app` in scope
+  select coalesce(array_agg(c.relname::text order by c.relname), '{}') into v_own
+  from pg_class c where c.relnamespace = 'app'::regnamespace and c.relkind in ('r', 'p') and c.relname ~ v_scope;
   select coalesce(jsonb_agg(t order by t), '[]') into v_names
   from unnest(v_own) t
   where to_regclass('app.' || t) is null

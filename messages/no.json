@@ -11592,13 +11592,13 @@
           "failed": "(failing)",
           "line": "{rule}<mut> · {evidence}</mut>",
           "rule": {
-            "no_link_to_respondents": "No foreign key joins a growth, CRM, event or consent table to a response, an answer, an invitation or an employee, in either direction",
+            "no_link_to_respondents": "No foreign key joins a growth, CRM, mail, event, consent, Brønnøysund or partner table to a response, an answer, an invitation or an employee, in either direction",
             "catalogue_has_no_respondent_props": "The event catalogue allows no prop that could carry a respondent; one that could is refused",
             "no_role_reads_answers": "No role but the tables' owner and the platform's own holds any privilege on an answer table",
             "no_employee_is_a_contact": "No CRM contact is an employee who is not also an account",
             "no_event_names_a_respondent": "No event names a respondent, an invitation, its token or an employee",
             "nothing_attached_to_answers": "Nothing is attached to the tables a response writes, invitations included: survey events come from counts, hourly",
-            "growth_tables_closed": "The growth, consent, Brønnøysund and partner tables are closed to every client"
+            "growth_tables_closed": "Every growth, CRM, mail, event, consent, Brønnøysund and partner table is closed to every client"
           },
           "evidence": {
             "no_link_to_respondents": "{tables} tables checked; {links, plural, =0 {no foreign key to a respondent table} one {# foreign key to a respondent table: {names}} other {# foreign keys to a respondent table: {names}}}",

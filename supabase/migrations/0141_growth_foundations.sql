@@ -1630,9 +1630,12 @@ begin
   else
     select count(*) into v_inv from app.invitations i where i.round_id = v_round;
     select count(*) into v_ans from app.responses x where x.round_id = v_round;
-    if v_inv > 0 and v_ans::numeric / v_inv >= 0.6 then
+    -- below k invitations the points would say roughly how many of fewer than five answered: none
+    if v_inv < app.k_min() then
+      v_miss := v_miss || '{"response_rate": "too_few_invited"}';
+    elsif v_ans::numeric / v_inv >= 0.6 then
       v_got := v_got || jsonb_build_object('response_rate', v_max->'response_rate');
-    elsif v_inv > 0 and v_ans::numeric / v_inv >= 0.4 then
+    elsif v_ans::numeric / v_inv >= 0.4 then
       v_got := v_got || jsonb_build_object('response_rate', round((v_max->>'response_rate')::numeric / 2));
       v_miss := v_miss || '{"response_rate": "response_rate_below_60"}';
     else

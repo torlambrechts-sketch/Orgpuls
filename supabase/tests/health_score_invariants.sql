@@ -97,6 +97,21 @@ begin
     v_rows := v_rows || jsonb_build_object('seq', 5, 'name', 'a wheel whose last round opened 20 months ago is overdue',
       'expected', '0:survey_overdue', 'actual', v_txt, 'pass', v_txt = '0:survey_overdue');
 
+    -- 8 -------------------------------------------------------------- below k invitations
+    -- three invited, three answered: a full score would say that all of fewer than five answered
+    insert into app.employees (org_id, full_name, email) select v_late, 'Sein ' || g, 's' || g || '@hsc-probe.no' from generate_series(1, 3) g;
+    select r.id into v_closed from app.rounds r where r.org_id = v_late and r.status = 'lukket';
+    insert into app.invitations (org_id, round_id, employee_id, token_hash, expires_at)
+    select v_late, v_closed, e.id, extensions.digest('hsc' || e.id::text, 'sha256'), now() - interval '19 months'
+    from app.employees e where e.org_id = v_late;
+    for v_i in 1..3 loop
+      insert into app.responses (org_id, round_id, group_id, submitted_hour) values (v_late, v_closed, null, date_trunc('hour', now() - interval '19 months'));
+    end loop;
+    select c->>'points' || ':' || (c->>'missing') into v_txt
+    from jsonb_array_elements(app.health_score(v_late)->'components') c where c->>'key' = 'response_rate';
+    v_rows := v_rows || jsonb_build_object('seq', 8, 'name', 'a round with fewer than k invited scores no response rate, whatever answered',
+      'expected', '0:too_few_invited', 'actual', v_txt, 'pass', v_txt = '0:too_few_invited');
+
     -- 6 -------------------------------------------------------------- every organisation
     select concat_ws('|',
       count(*) filter (where jsonb_array_length(h->'components') <> 6
@@ -133,5 +148,5 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._hsc;
   if v_failed is not null then raise exception 'health score invariants failed: %', v_failed; end if;
-  if v_count <> 7 then raise exception 'health score invariants: expected 7 rows, got %', v_count; end if;
+  if v_count <> 8 then raise exception 'health score invariants: expected 8 rows, got %', v_count; end if;
 end $$;

@@ -8344,6 +8344,27 @@ and two row edges further down (600:600, 1000:600). Both views were re-recorded 
 reading each lost tile: 189 → 188 and 80 → 73 claimed. CRM › Tasks had failed only in a run made after the
 SQL suites had written their probes. On a freshly reseeded database it passes (31 of 126, 22 claimed).
 
+*G5, the whole-change security review (2026-09-30).* An independent review of 0141–0144 against the
+ten checks in the plan passed on RLS, roles and second factor, exports, consent on the send paths,
+`?ref=`, logs, search_path and the immutability triggers. It found one major issue and four minor
+ones, all fixed in 0141 and 0143 before either reached the hosted project:
+- *Major: the firewall covered 12 of the 36 new tables.* Rule 7 hard-coded 0141 and 0143's tables, so a
+  grant or policy on 0142's registry or on 0144's tables did not fail it. Rule 1's scope also missed
+  the four `mail_*` tables. Rule 7 now reads every `app` table in scope from the catalogue; that is 55
+  tables today, the older CRM tables included, and all of them are closed. The scope now includes
+  `mail_`. `growth_crm_invariants` row 26 grants a client every one of the 36 tables and adds a link
+  from a mail table to `responses`, and asserts that the firewall names all of them. It closes D-183's
+  «G5 can fold them in».
+- «Run poll now» audits the outreach its sweep re-assigns (`crm.brreg_requeue`) before it can return
+  early. The lead scores and the task list, which show contacts' names, addresses and a register's
+  general manager, are now read under audit (`crm.lead_scores`, `crm.task_list`) like the CRM's other
+  contact reads. Row 32 covers all three.
+- Routing's R2 (a score or PQL call nobody asked for) skips an organisation that objected to phone
+  outreach, whether it is on the do-not-contact list or its latest phone notice was withdrawn. R10, the
+  person's own hand-raise, is still answered. Row 31 covers this.
+- The health score's response-rate part scores nothing below k invitations (`too_few_invited`), so it
+  cannot say how many of fewer than five answered (`health_score_invariants` row 8).
+
 ## D-182 — Sentral › Growth G1: events, the anonymity firewall, the consent ledger, health score
 
 Phase G1 of docs/implementation/growth-admin.md (0141_growth_foundations.sql): the foundations G2–G4

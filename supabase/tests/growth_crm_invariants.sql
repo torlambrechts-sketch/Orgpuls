@@ -541,22 +541,43 @@ begin
       'expected', 'invalid,refused,{"code": true},{"code": false}', 'actual', v_txt,
       'pass', v_txt = 'invalid,refused,{"code": true},{"code": false}');
 
-    -- 26 ----------------------------------------------------------------- the firewall covers the eight tables
-    v_txt := (select f.evidence->>'tables' from app.growth_firewall() f where f.rule = 'growth_tables_closed')
-      || ',' || (select (f.evidence->>'tables')::int >= 8 from app.growth_firewall() f where f.rule = 'no_link_to_respondents');
+    -- 26 ----------------------------------------------------------------- the firewall covers every new table
+    -- every table 0141–0144 make, each granted to a client inside a rolled-back block: rule 7 must name
+    -- all 36, read from the catalogue rather than a list; a link from a Brønnøysund or a mail table to a
+    -- respondent's must fail rule 1
+    declare
+      v_new constant text[] := array['brreg_dnc', 'brreg_entities', 'brreg_outreach', 'brreg_polls', 'brreg_purges', 'brreg_settings',
+        'brreg_triggers', 'consent_purposes', 'consent_records', 'event_catalogue', 'growth_assumptions', 'growth_benchmarks',
+        'growth_coverage', 'growth_cuts', 'growth_decisions', 'growth_events', 'growth_experiments', 'growth_funnel_stages',
+        'growth_guardrails', 'growth_items', 'growth_krav_rule_versions', 'growth_krav_rules', 'growth_lead_sources', 'growth_magnets',
+        'growth_plan_blocks', 'growth_plan_gates', 'growth_recommendations', 'growth_risks', 'growth_rules', 'growth_settings',
+        'growth_tiers', 'mail_auth_checks', 'mail_auth_runs', 'mail_streams', 'mail_templates', 'partners'];
+      t text;
     begin
-      create table app.brreg_probe_link (id uuid primary key, invitation_id uuid references app.invitations (id));
-      grant select on app.partners to authenticated;
-      select v_txt || ',' || string_agg(concat_ws('/', f.rule, f.pass,
-               case f.rule when 'no_link_to_respondents' then f.evidence->'names' ? 'brreg_probe_link.brreg_probe_link_invitation_id_fkey'
-                           else f.evidence->'names' ? 'partners' end), ',' order by f.seq)
-        into v_txt from app.growth_firewall() f where f.rule in ('no_link_to_respondents', 'growth_tables_closed');
-      raise exception 'rollback';
-    exception when others then if sqlerrm <> 'rollback' then raise; end if;
+      v_txt := (select string_agg(f.pass::text, ',' order by f.seq) from app.growth_firewall() f
+                where f.rule in ('no_link_to_respondents', 'growth_tables_closed'));
+      begin
+        create table app.brreg_probe_link (id uuid primary key, invitation_id uuid references app.invitations (id));
+        create table app.mail_probe_link (id uuid primary key, response_id uuid references app.responses (id));
+        foreach t in array v_new loop
+          execute format('grant select on app.%I to authenticated', t);
+        end loop;
+        select v_txt || '|' || concat_ws(',',
+                 (select f.pass from app.growth_firewall() f where f.rule = 'no_link_to_respondents'),
+                 (select f.evidence->'names' ? 'brreg_probe_link.brreg_probe_link_invitation_id_fkey'
+                     and f.evidence->'names' ? 'mail_probe_link.mail_probe_link_response_id_fkey'
+                  from app.growth_firewall() f where f.rule = 'no_link_to_respondents'),
+                 (select f.pass from app.growth_firewall() f where f.rule = 'growth_tables_closed'),
+                 (select count(*) from unnest(v_new) n, app.growth_firewall() f
+                  where f.rule = 'growth_tables_closed' and not (f.evidence->'names' ? n)))
+          into v_txt;
+        raise exception 'rollback';
+      exception when others then if sqlerrm <> 'rollback' then raise; end if;
+      end;
     end;
-    v_rows := v_rows || jsonb_build_object('seq', 26, 'name', 'a link from a Brønnøysund table to a respondent, or a client grant on partners, fails the anonymity firewall',
-      'expected', '12,true,no_link_to_respondents/f/t,growth_tables_closed/f/t', 'actual', v_txt,
-      'pass', v_txt = '12,true,no_link_to_respondents/f/t,growth_tables_closed/f/t');
+    v_rows := v_rows || jsonb_build_object('seq', 26, 'name', 'a client grant on any of the 36 tables 0141–0144 make, or a link from a Brønnøysund or mail table to a respondent, fails the anonymity firewall',
+      'expected', 'true,true|f,t,f,0', 'actual', v_txt,
+      'pass', v_txt = 'true,true|f,t,f,0');
 
     -- 27 ----------------------------------------------------------------- suppressed after assignment
     perform set_config('request.jwt.claims', format(claims, v_mkt, 'aal2'), true);
@@ -686,6 +707,53 @@ begin
     v_rows := v_rows || jsonb_build_object('seq', 30, 'name', 'a failed poll after the last finished one is shown with its code; a request nobody answered as no_answer; none once a poll finished after it',
       'expected', '5,feed_503,7,none,no_answer,t', 'actual', v_txt, 'pass', v_txt = '5,feed_503,7,none,no_answer,t');
 
+    -- 31 ----------------------------------------------------------------- an objection stops R2
+    -- two trials that would each get a PQL call: one on the do-not-contact list, one whose latest phone
+    -- notice is withdrawn. Neither gets the call.
+    declare
+      v_o1 uuid := '00000000-0000-4000-8000-0000000c3a31';
+      v_o2 uuid := '00000000-0000-4000-8000-0000000c3a32';
+      v_c1 uuid;
+      v_c2 uuid;
+    begin
+      insert into app.organizations (id, name, org_number, employee_count) values
+        (v_o1, 'Probe Innsigelse AS', '999000181', 40), (v_o2, 'Probe Tilbaketrukket AS', '999000182', 40);
+      insert into app.crm_companies (name, org_number, employees, source, stage, org_id)
+      values ('Probe Innsigelse AS', '999000181', 40, 'signup', 'trial', v_o1) returning id into v_c1;
+      insert into app.crm_companies (name, org_number, employees, source, stage, org_id)
+      values ('Probe Tilbaketrukket AS', '999000182', 40, 'signup', 'trial', v_o2) returning id into v_c2;
+      insert into app.crm_contacts (email, name, source, basis, status, company_id) values
+        ('dl@probe-innsigelse.example', 'Probe En', 'user', 'none', 'active', v_c1),
+        ('dl@probe-tilbake.example', 'Probe To', 'user', 'none', 'active', v_c2);
+      insert into app.growth_events (name, occurred_at, org_id, props, source, dedupe_key) values
+        ('action_item.created', now(), v_o1, '{"measure_kind":"standard"}', 'trigger', 'gcrm-probe-31a'),
+        ('action_item.created', now(), v_o2, '{"measure_kind":"standard"}', 'trigger', 'gcrm-probe-31b');
+      insert into app.brreg_dnc (org_number, reason) values ('999000181', 'objected');
+      insert into app.consent_records (company_id, purpose, status, lawful_basis, method)
+      values (v_c2, 'phone_outreach', 'withdrawn', 'legit_interest_phone', 'phone_notice');
+      select string_agg(app.lead_score(c.id)->>'route', ',' order by c.email) into v_txt
+      from app.crm_contacts c where c.company_id in (v_c1, v_c2);
+      perform app.lead_route();
+      v_txt := v_txt || ',' || (select count(*) from app.crm_activities a where a.company_id in (v_c1, v_c2) and a.origin = 'rule');
+    end;
+    v_rows := v_rows || jsonb_build_object('seq', 31, 'name', 'a trial that objected to phone outreach (do-not-contact, or its phone notice withdrawn) gets no R2 call',
+      'expected', 'pql,pql,0', 'actual', v_txt, 'pass', v_txt = 'pql,pql,0');
+
+    -- 32 ----------------------------------------------------------------- reads and the sweep are audited
+    perform set_config('request.jwt.claims', format(claims, v_mkt, 'aal2'), true);
+    v_cnt := (select coalesce(max(a.id), 0) from app.admin_audit a);
+    delete from app.crm_companies where id = (select company_id from app.brreg_outreach where org_number = '999000176');
+    update app.brreg_settings set dry_run = false;
+    perform public.admin_lead_scores();
+    perform public.admin_crm_task_list('open');
+    perform public.admin_brreg_poll_now();
+    update app.brreg_settings set dry_run = true;
+    select string_agg(concat_ws('/', a.action, a.admin_id = v_mkt, a.detail->>'assigned', a.detail->>'view'), ',' order by a.action) into v_txt
+    from app.admin_audit a where a.id > v_cnt and a.action in ('crm.lead_scores', 'crm.task_list', 'crm.brreg_requeue');
+    v_rows := v_rows || jsonb_build_object('seq', 32, 'name', 'lead scores and the task list are read under audit; «Run poll now» audits the outreach it reassigns before any early return',
+      'expected', 'crm.brreg_requeue/t/1,crm.lead_scores/t,crm.task_list/t/open', 'actual', v_txt,
+      'pass', v_txt = 'crm.brreg_requeue/t/1,crm.lead_scores/t,crm.task_list/t/open');
+
     raise exception 'rollback';
   exception when others then
     if sqlerrm <> 'rollback' then raise; end if;
@@ -720,5 +788,5 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._gcrm;
   if v_failed is not null then raise exception 'growth crm invariants failed: %', v_failed; end if;
-  if v_count <> 30 then raise exception 'growth crm invariants: expected 30 rows, got %', v_count; end if;
+  if v_count <> 32 then raise exception 'growth crm invariants: expected 32 rows, got %', v_count; end if;
 end $$;
