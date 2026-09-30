@@ -8333,6 +8333,17 @@ fallback for a state the design colours otherwise: `outreach` (the Brønnøysund
 Holdout line, Do-not-contact mut), `partner` (Partners' `sdot`: Member offer drafted line, Phase 2
 mut) and `kit` (Partners' `kdot`: Planned line).
 
+*G5, the whole run (2026-09-30).* With G2, G3 and G4's fixtures in one database, 1440 px compares every
+view and 390 px shows no sideways scroll on any of the sixteen. Two views lost claimed tiles, both to data
+that one phase's fixture alone did not have. Growth › Funnel: the Value row reads «1 · 100 % of
+previous» now that G3/G4's events exist; the tile at 500:700 had matched the design's «% of previous»
+digits by chance. Marketing › Consent: the ledger lists the newest record first, and that is now G3's
+phone notice (Tromsø Elektro, withdrawn) above the contacts' double opt-ins. It also counts nine records
+where G3 alone had eight. This moves the first row's cap line and the heading's count (400:0–400:400),
+and two row edges further down (600:600, 1000:600). Both views were re-recorded with `--write` after
+reading each lost tile: 189 → 188 and 80 → 73 claimed. CRM › Tasks had failed only in a run made after the
+SQL suites had written their probes. On a freshly reseeded database it passes (31 of 126, 22 claimed).
+
 ## D-182 — Sentral › Growth G1: events, the anonymity firewall, the consent ledger, health score
 
 Phase G1 of docs/implementation/growth-admin.md (0141_growth_foundations.sql): the foundations G2–G4
@@ -9491,3 +9502,27 @@ which no longer carries a kind (above).
   by the daily run (`app.brreg_cron`); `growth_crm_invariants` row 29 proves it through that run.
 - The Results card's holdout share and the «new company» label read the engine's rules; a channel with one
   contact reads «1 contact».
+
+**Review 4, second pass (2026-09-30).** A security re-check of the poll fix above found:
+- *The role feed could skip or stall* (major). It read every role page first and looked up at most 300
+  candidates, then moved the feed to the last change it read, so candidates past the 300th were never
+  looked up. The role feed now runs one page (200 changes) at a time: the page's candidates, their
+  lookups, `brreg_roles_ingest`, and only then the feed's position past that page. A 404 is skipped (the
+  entity is gone), any other failure ends the run with `roles_<status>`, `candidates_failed` or
+  `roles_ingest_failed`, and the page is read again next run.
+- The run budget is 100 s instead of 120 s, leaving a call's 15 s and the end-of-poll write inside the
+  platform's 150 s.
+- An organisation missing from the search whose single fetch answers 200 (the search lagging the
+  register) is ingested from that answer instead of being dropped.
+- An objection takes the entity's row lock first. `brreg_ingest` holds the same lock when it raises, so a
+  trigger raised meanwhile either reads the do-not-contact entry or is stopped by the objection's update.
+- The objection clears the manager's name in the same update that stops the outreach, and again after it,
+  so a name written while the update waited does not survive.
+- The requeue sweep is `app.brreg_requeue_sweep()`, called by `brreg_cron` and `admin_brreg_poll_now`. Each
+  assignment runs in its own exception block, so one that fails stays queued and never stops the poll.
+  Row 29 now proves it with a refusing trigger: the first run leaves that row queued and assigns the other,
+  and the second run assigns both.
+
+*Open:* when the first run ever fails, the next run reads the feed from «yesterday» again. After two
+failed days, one day's changes are not read. The engine ships in dry run, and the first live day is
+watched by hand.

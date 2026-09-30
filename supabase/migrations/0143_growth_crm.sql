@@ -705,6 +705,30 @@ begin
 end $fn$;
 revoke all on function app.brreg_request(text, uuid) from public, anon, authenticated;
 
+-- Live: outreach sent back to the queue since the last run (its task or company was deleted) is
+-- assigned again, as the dry-run switch assigns what is queued. Each assignment on its own: one that
+-- fails is left queued for the next run and never stands between the engine and its poll.
+create function app.brreg_requeue_sweep() returns int
+  language plpgsql security definer set search_path = ''
+as $fn$
+declare
+  v_id uuid;
+  v_n int := 0;
+begin
+  if (select s.dry_run from app.brreg_settings s) then
+    return 0;
+  end if;
+  for v_id in select o.id from app.brreg_outreach o where o.status = 'queued' order by o.created_at loop
+    begin
+      if app.brreg_assign(v_id) then v_n := v_n + 1; end if;
+    exception when others then
+      null;
+    end;
+  end loop;
+  return v_n;
+end $fn$;
+revoke all on function app.brreg_requeue_sweep() from public, anon, authenticated;
+
 -- The daily job: not while a poll runs or one was just asked for. The lock serialises it with «Run
 -- poll now», so two requests can never both pass the check and both call the register.
 create function app.brreg_cron() returns void
@@ -712,11 +736,7 @@ create function app.brreg_cron() returns void
 as $fn$
 begin
   perform pg_advisory_xact_lock(hashtext('orgpuls:brreg_poll'));
-  -- live: outreach sent back to the queue since the last run (its task or company was deleted) is
-  -- assigned again, as the dry-run switch assigns what is queued
-  if not (select s.dry_run from app.brreg_settings s) then
-    perform app.brreg_assign(o.id) from app.brreg_outreach o where o.status = 'queued' order by o.created_at;
-  end if;
+  perform app.brreg_requeue_sweep();
   if exists (select 1 from app.brreg_polls p where p.requested_at > now() - interval '15 minutes'
              or (p.status = 'running' and p.started_at > now() - interval '1 hour')) then
     return;
@@ -1158,12 +1178,16 @@ begin
   values (v_company, 'phone_outreach', case when p_objected then 'withdrawn' else 'notice_given' end, 'legit_interest_phone',
           'phone_notice', auth.uid());
   if p_objected then
+    -- the entity's row lock orders the objection with brreg_ingest, whose brreg_raise reads the list
+    -- under the same lock: a trigger raised meanwhile either sees the objection or is stopped below
+    perform 1 from app.brreg_entities e where e.org_number = v_org for update;
     insert into app.brreg_dnc (org_number, reason, created_by) values (v_org, 'objected', auth.uid()) on conflict (org_number) do nothing;
-    -- once the organisation has objected, no row of it has a purpose for the manager's name
-    update app.brreg_outreach set manager_name = null where org_number = v_org and manager_name is not null;
-    update app.brreg_outreach set status = 'do_not_contact'
+    update app.brreg_outreach set status = 'do_not_contact', manager_name = null
     where org_number = v_org and status in ('queued', 'assigned');
     get diagnostics v_stopped = row_count;
+    -- once the organisation has objected, no row of it has a purpose for the manager's name — run
+    -- after the update above, so a name written while it waited is cleared as well
+    update app.brreg_outreach set manager_name = null where org_number = v_org and manager_name is not null;
     -- a statement of its own, with a fresh snapshot: a task an assignment committed while the update
     -- above waited on its row lock is closed as well
     update app.crm_activities a set done_at = now(), skipped = true
@@ -1274,11 +1298,7 @@ begin
     return jsonb_build_object('ok', false, 'error', 'not_allowed');
   end if;
   perform pg_advisory_xact_lock(hashtext('orgpuls:brreg_poll'));
-  -- live: outreach sent back to the queue since the last run (its task or company was deleted) is
-  -- assigned again, as the dry-run switch assigns what is queued
-  if not (select s.dry_run from app.brreg_settings s) then
-    perform app.brreg_assign(o.id) from app.brreg_outreach o where o.status = 'queued' order by o.created_at;
-  end if;
+  perform app.brreg_requeue_sweep();
   if exists (select 1 from app.brreg_polls p where p.requested_at > now() - interval '15 minutes'
              or (p.status = 'running' and p.started_at > now() - interval '1 hour')) then
     return jsonb_build_object('ok', false, 'error', 'rate_limited');

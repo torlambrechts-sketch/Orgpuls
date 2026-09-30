@@ -648,17 +648,27 @@ begin
     select v_txt || ',' || string_agg(concat_ws('/', status, activity_id is null, company_id is null, assigned_at is null), ',' order by org_number)
       into v_txt
     from app.brreg_outreach where org_number in ('999000176', '999000177');
-    -- live, the daily run assigns it again: a new task, for a new company where the old one went
+    -- live, the daily run assigns it again: a new task, for a new company where the old one went.
+    -- An assignment that fails stays queued and stops neither the others nor the run: the first run
+    -- cannot make 176's company, the second can.
+    execute 'create function public._gcrm_refuse() returns trigger language plpgsql as '
+      || quote_literal('begin if new.org_number = ''999000176'' then raise exception ''probe''; end if; return new; end');
+    execute 'create trigger _gcrm_refuse before insert on app.crm_companies for each row execute function public._gcrm_refuse()';
     update app.brreg_settings set dry_run = false;
+    perform app.brreg_cron();
+    select v_txt || ',' || string_agg(status, ',' order by org_number) into v_txt
+    from app.brreg_outreach where org_number in ('999000176', '999000177');
+    execute 'drop trigger _gcrm_refuse on app.crm_companies';
+    execute 'drop function public._gcrm_refuse()';
     perform app.brreg_cron();
     update app.brreg_settings set dry_run = true;
     select v_txt || ',' || string_agg((status = 'assigned')::text, ',' order by org_number) into v_txt
     from app.brreg_outreach where org_number in ('999000176', '999000177');
     select v_txt || ',' || string_agg(concat_ws('/', status, activity_id is not null, company_id is not null), ',' order by org_number) into v_txt
     from app.brreg_outreach where org_number in ('999000176', '999000177');
-    v_rows := v_rows || jsonb_build_object('seq', 29, 'name', 'a company or a task holding assigned outreach can be deleted; the outreach goes back to the queue and, live, the daily run assigns it anew',
-      'expected', 'assigned/true,assigned/true,queued/t/t/t,queued/t/f/t,true,true,assigned/t/t,assigned/t/t', 'actual', v_txt,
-      'pass', v_txt = 'assigned/true,assigned/true,queued/t/t/t,queued/t/f/t,true,true,assigned/t/t,assigned/t/t');
+    v_rows := v_rows || jsonb_build_object('seq', 29, 'name', 'a company or a task holding assigned outreach can be deleted; the outreach goes back to the queue and, live, the daily run assigns it anew — one that fails stays queued and stops nothing',
+      'expected', 'assigned/true,assigned/true,queued/t/t/t,queued/t/f/t,queued,assigned,true,true,assigned/t/t,assigned/t/t', 'actual', v_txt,
+      'pass', v_txt = 'assigned/true,assigned/true,queued/t/t/t,queued/t/f/t,queued,assigned,true,true,assigned/t/t,assigned/t/t');
 
     -- 30 ----------------------------------------------------------------- a failed poll shows as failed
     perform set_config('request.jwt.claims', format(claims, v_ana, 'aal2'), true);

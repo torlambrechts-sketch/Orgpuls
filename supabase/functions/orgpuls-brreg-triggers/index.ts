@@ -16,7 +16,7 @@
  *   6. the poll's end: the count of changes and the two feeds' positions, or a failure code.
  *
  * Steps 1–3 run one feed page at a time, and the feed's position moves past a page only once its
- * entities are ingested and its removals purged. Every call to the register has a time limit, and the
+ * entities are ingested and its removals purged; step 4 runs the role feed the same way. Every call to the register has a time limit, and the
  * run as a whole has a budget well under the platform's wall-clock limit: a run that reaches it stops
  * between pages, keeps what it finished and ends as `deadline`, so the next run continues from there
  * instead of starting the same backlog again.
@@ -44,9 +44,9 @@ import {
 const API = 'https://data.brreg.no/enhetsregisteret/api'
 const FEED_SIZE = 1000 // the feed allows size × (page + 1) ≤ 10 000; the id moves forward instead of the page
 const MAX_FEED_PAGES = 40
-const MAX_ROLE_LOOKUPS = 300
+const ROLE_PAGE = 200 // a role page's lookups fit the budget; the feed's position moves a page at a time
 const CALL_MS = 15_000 // one call to the register
-const BUDGET_MS = 120_000 // the whole run; the Edge wall-clock limit is 150 s on the smallest plan
+const BUDGET_MS = 100_000 // new work starts only within this; the Edge wall-clock limit is 150 s on the smallest plan
 
 function same(a: string, b: string): boolean {
   const x = new TextEncoder().encode(a)
@@ -115,13 +115,23 @@ Deno.serve(async (req) => {
     for (const o of gone) {
       if (late()) return 'deadline'
       const res = await get(`${API}/enheter/${o}`)
-      await res.body?.cancel()
       if (res.status === 410) {
+        await res.body?.cancel()
         const { error: e } = await svc.rpc('brreg_purge', { p_org: o })
         if (e) return 'purge_failed'
         counts.purged++
-      } else if (!res.ok && res.status !== 404) {
-        return `purge_${res.status}`
+      } else if (res.ok) {
+        // still registered, only missing from the search (its index lags): ingested from the single fetch
+        const row = toRow(await res.json(), changed.get(o))
+        if (row) {
+          const { data, error: e } = await svc.rpc('brreg_ingest', { p_poll: poll, p_rows: [row] })
+          if (e) return 'ingest_failed'
+          counts.ingested += replyCount(data, 'seen')
+          counts.raised += replyCount(data, 'raised')
+        }
+      } else {
+        await res.body?.cancel()
+        if (res.status !== 404) return `purge_${res.status}`
       }
     }
     return null
@@ -156,60 +166,61 @@ Deno.serve(async (req) => {
       url = `${API}/oppdateringer/enheter?oppdateringsid=${pageEnd + 1}&size=${FEED_SIZE}&includeChanges=true`
     }
 
-    // ---------------------------------------------------------------- 4. the role feed: dates only
-    if (!error) {
-      const orgs = new Set<string>()
-      let rolesCursor: number | null = rolesDone
-      let rolesComplete = true
-      let rurl = rolesCursor === null
-        ? `${API}/oppdateringer/roller?afterTime=${yesterday()}&size=${FEED_SIZE}`
-        : `${API}/oppdateringer/roller?afterId=${rolesCursor}&size=${FEED_SIZE}`
-      for (let page = 0; page < MAX_FEED_PAGES; page++) {
-        if (late()) {
-          rolesComplete = false
-          break
-        }
-        const res = await get(rurl)
-        if (!res.ok) {
-          error = `roles_feed_${res.status}`
-          await res.body?.cancel()
-          break
-        }
-        const events = parseRoleFeed(await res.json())
-        for (const ev of events) {
-          orgs.add(ev.org)
-          rolesCursor = Math.max(rolesCursor ?? 0, ev.id)
-        }
-        if (events.length < FEED_SIZE || rolesCursor === null) break
-        rurl = `${API}/oppdateringer/roller?afterId=${rolesCursor}&size=${FEED_SIZE}`
+    // ---------------------------------------------------------------- 4. the role feed: dates only, a page at a time
+    // The role feed's position moves past a page only once every organisation on it the engine follows
+    // was looked up and ingested; a page that does not finish is read again next run.
+    let rurl = rolesDone === null
+      ? `${API}/oppdateringer/roller?afterTime=${yesterday()}&size=${ROLE_PAGE}`
+      : `${API}/oppdateringer/roller?afterId=${rolesDone}&size=${ROLE_PAGE}`
+    for (let page = 0; !error && page < MAX_FEED_PAGES; page++) {
+      if (late()) {
+        error = 'deadline'
+        break
       }
-      const cand = await svc.rpc('brreg_role_candidates', { p_orgs: [...orgs] })
-      const follow = parseOrgList(cand.data).slice(0, MAX_ROLE_LOOKUPS)
+      const res = await get(rurl)
+      if (!res.ok) {
+        error = `roles_feed_${res.status}`
+        await res.body?.cancel()
+        break
+      }
+      const events = parseRoleFeed(await res.json())
+      if (!events.length) break
+      const pageEnd = events.reduce((m, ev) => Math.max(m, ev.id), rolesDone ?? 0)
+      const cand = await svc.rpc('brreg_role_candidates', { p_orgs: [...new Set(events.map((ev) => ev.org))] })
+      if (cand.error) {
+        error = 'candidates_failed'
+        break
+      }
       const rows: { org_number: string; manager_changed_on: string }[] = []
-      for (const o of follow) {
+      for (const o of parseOrgList(cand.data)) {
         if (late()) {
-          rolesComplete = false
+          error = 'deadline'
           break
         }
-        const res = await get(`${API}/enheter/${o}/roller`)
-        if (!res.ok) {
-          await res.body?.cancel()
-          if (res.status === 404) continue
-          error = `roles_${res.status}`
+        const r = await get(`${API}/enheter/${o}/roller`)
+        if (!r.ok) {
+          await r.body?.cancel()
+          if (r.status === 404) continue
+          error = `roles_${r.status}`
           break
         }
-        const on = managerChangedOn(await res.json())
+        const on = managerChangedOn(await r.json())
         if (on) rows.push({ org_number: o, manager_changed_on: on })
       }
+      if (error) break
       if (rows.length) {
         const { data, error: e } = await svc.rpc('brreg_roles_ingest', { p_poll: poll, p_rows: rows })
-        if (e && !error) error = 'roles_ingest_failed'
-        counts.roles = replyCount(data, 'raised')
-        counts.raised += counts.roles
+        if (e) {
+          error = 'roles_ingest_failed'
+          break
+        }
+        const raised = replyCount(data, 'raised')
+        counts.roles += raised
+        counts.raised += raised
       }
-      // the role feed moves on only when every change read was looked up and ingested
-      if (rolesComplete && !error) rolesDone = rolesCursor
-      else if (!error) error = 'deadline'
+      rolesDone = pageEnd
+      if (events.length < ROLE_PAGE) break
+      rurl = `${API}/oppdateringer/roller?afterId=${pageEnd}&size=${ROLE_PAGE}`
     }
 
     // ---------------------------------------------------------------- 5. names, for a call or a letter only
