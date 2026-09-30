@@ -12,7 +12,7 @@ import { crmJourneys, crmStages } from '@/lib/admin/crm'
  * journeys (0120). Each starts with a campaign aimed at a stage and carries on with follow-ups that
  * send themselves to those who have not answered; it counts who it reached, who is still waiting for
  * the next mail, who got the last one, and whose company moved forward — the goal. Beside them, each
- * working stage with the journeys aimed at it.
+ * working stage with the journeys aimed at it, and (revision 3, D-184) the design's four principles.
  */
 const TONE = { active: 'green', draft: 'yellow', done: 'grey', cancelled: 'red' } as const
 
@@ -103,6 +103,17 @@ export default async function CrmJourneys() {
               )
             })}
           </ul>
+          {/* revision 3 (D-184): the design's principles, under a hairline at the card's foot */}
+          <div className="mt-[18px] border-t border-line pt-[16px]">
+            <div className="text-[11px] uppercase tracking-[0.09em] text-mut">{j('principles.title')}</div>
+            <div className="mt-[10px] flex flex-col gap-[10px]">
+              {(['p1', 'p2', 'p3', 'p4'] as const).map((key) => (
+                <div key={key} className="text-[13px] leading-[1.5] [text-wrap:pretty]">
+                  {t.rich(`crm.journeys.principles.${key}`, { b: (ch) => <b>{ch}</b>, mut: (ch) => <span className="text-mut">{ch}</span> })}
+                </div>
+              ))}
+            </div>
+          </div>
         </section>
       </div>
     </>
