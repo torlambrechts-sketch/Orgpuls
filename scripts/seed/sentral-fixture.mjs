@@ -148,7 +148,11 @@ export const COMPANIES = [
 /**
  * The contacts, as the design's consent ledger and D.contacts describe them. `basis` and
  * `status` are what the ledger's status means today: Granted → consent (or customer under
- * § 15(3)), Withdrawn → unsubscribed, Lapsed → consent without a click in 180 days, Not given → none.
+ * § 15(3)), Withdrawn → unsubscribed, Not given → none. The design's Lapsed («consent without a
+ * click in 180 days», Lise Kopperud) is not what the product does: nothing lapses a consent for
+ * inactivity (rule R8 is not built), and the ledger (0141) writes `lapsed` only when an address is
+ * suppressed, so Lise is recorded granted (D-182). The contacts with an `optinSentAt` confirmed a
+ * double opt-in, and are written under that method, so their records carry both times.
  */
 export const CONTACTS = [
   { key: 'silje', name: 'Silje Moen', email: 'silje@barnehagenevest.example', company: 'barnehagene', role: 'daglig_leder', source: 'event', basis: 'consent', status: 'active', consentAt: today('08:44'), optinSentAt: today('08:41'), consentSource: 'Krav-sjekk form + double opt-in, wording v3', engaged: today('08:44') },
@@ -192,8 +196,10 @@ export function fixtureSql() {
   const p = (key) => `'${id(`contact:${key}`)}'::uuid`
   const companies = COMPANIES.map(([key, name, orgnr, nace, emp, source, stage]) =>
     `(${c(key)}, ${q(name)}, ${q(orgnr)}, ${q(nace)}, ${emp}, ${q(source)}, ${q(stage)})`).join(',\n  ')
-  const contacts = CONTACTS.map((x) =>
-    `(${p(x.key)}, ${q(x.email)}, ${q(x.name)}, ${x.company ? q(COMPANIES.find((k) => k[0] === x.company)[1]) : 'null'}, ${x.company ? c(x.company) : 'null'}, ${q(x.role ?? null)}, ${q(x.source)}, ${q(x.basis)}, ${q(x.status)}, ${x.consentAt ?? 'null'}, ${q(x.consentSource ?? null)}, ${x.optinSentAt ?? 'null'}, ${x.engaged ?? 'null'}, ${x.updated ?? 'now()'})`).join(',\n  ')
+  const contactRow = (x) =>
+    `(${p(x.key)}, ${q(x.email)}, ${q(x.name)}, ${x.company ? q(COMPANIES.find((k) => k[0] === x.company)[1]) : 'null'}, ${x.company ? c(x.company) : 'null'}, ${q(x.role ?? null)}, ${q(x.source)}, ${q(x.basis)}, ${q(x.status)}, ${x.consentAt ?? 'null'}, ${q(x.consentSource ?? null)}, ${x.optinSentAt ?? 'null'}, ${x.engaged ?? 'null'}, ${x.updated ?? 'now()'})`
+  const contacts = CONTACTS.filter((x) => !x.optinSentAt).map(contactRow).join(',\n  ')
+  const confirmed = CONTACTS.filter((x) => x.optinSentAt).map(contactRow).join(',\n  ')
   const tasks = TASKS.map(([key, kind, body, company, contact, days]) =>
     `('${id(`task:${key}`)}'::uuid, ${c(company)}, ${contact ? p(contact) : 'null'}, ${q(kind)}, ${q(body)}, ${osloDay(days)})`).join(',\n  ')
   const sups = SUPPRESSIONS.map(([email, reason, at]) => `(app.crm_hash(${q(email)}), ${q(reason)}, ${at})`).join(',\n  ')
@@ -247,6 +253,15 @@ delete from app.crm_suppression where email_hash in (${supEmails});
 
 insert into app.crm_companies (id, name, org_number, nace_code, employees, source, stage) values
   ${companies};
+
+-- the double opt-ins, recorded in the consent ledger (0141) as confirmed: the method is the path's
+-- (app.consent_via), and the ledger's deferred trigger reads it when the constraints are checked
+select set_config('app.consent_via', 'double_opt_in', true) is not null as via;
+insert into app.crm_contacts (id, email, name, company, company_id, role, source, basis, status, consent_at, consent_source, optin_sent_at, last_engaged_at, updated_at) values
+  ${confirmed};
+set constraints all immediate;
+set constraints all deferred;
+select set_config('app.consent_via', '', true) is not null as via;
 
 insert into app.crm_contacts (id, email, name, company, company_id, role, source, basis, status, consent_at, consent_source, optin_sent_at, last_engaged_at, updated_at) values
   ${contacts};

@@ -17,18 +17,25 @@
 --        from counts, as a band, with the hour truncated.
 --      * Recipient counts are bands. No band says how many when there are fewer than five.
 --      * An event that carries no organisation (pii_level 'none') carries no key either, and its hour
---        is truncated: nothing on it leads back to the row, and so the person, it came from.
+--        is truncated: nothing on it leads back to the row, and so the person, it came from. The
+--        catalogue marks such events hour_only (employees.imported and the threshold too), and the
+--        stream refuses a finer time on one. occurred_at is the stream's only time and its id is
+--        random: no insertion time and no sequence that would order an event among the rows it
+--        came from.
 --      * A respondent, an invitation, an employee and the employees' eNPS are never events.
 --      * Demo organisations (app.is_demo) emit nothing.
 --      * An event goes with its organisation and its account (cascade), as retention requires.
 --      * Events that have a timestamp in the product are backfilled with source 'backfill'.
 -- 2. **The anonymity firewall** (app.growth_firewall()) computes each rule live from the catalog and
---    the data: no foreign key from a growth, CRM, event or consent table to a respondent table; no
---    catalogue prop that could carry a respondent; no client or service role privilege on an answer
---    table (table or column grants); no contact who is an employee and not an account; no event whose
---    key or props equal a respondent's id; nothing on the answer tables but their own guards; the growth
---    tables closed to clients. Its evidence is structured (counts and object names), which the page
---    words through next-intl.
+--    the data: no foreign key in either direction between a growth, CRM, event or consent table and a
+--    respondent table; no catalogue prop that could carry a respondent; no privilege on an answer table
+--    (table or column) for any role but a superuser, the owner and the platform's own; no contact who
+--    is an employee, active or not, and not an account; no event whose key or props equal a
+--    respondent's id, an invitation's token hash or an employee's address; nothing on the tables a
+--    submission writes (the answer tables and invitations) but their own guards — no other trigger, no
+--    rule, no policy, no constraint, default or index calling a function; the growth tables closed to
+--    clients. Its evidence is structured (counts and object names), which the page words through
+--    next-intl.
 -- 3. **The consent ledger** (app.consent_records) is append-only. It is written by deferred triggers
 --    on crm_contacts, crm_list_members and crm_suppression, so no path that changes consent — the ones
 --    that exist and any added later — can change it without a record. Each path names its method
@@ -68,54 +75,63 @@ create table app.event_catalogue (
   -- the catalogue's reading order (the report's, group by group)
   sort int not null unique check (sort > 0),
   pii_level app.growth_pii not null,
+  -- the event is stamped with the hour and nothing finer: an exact time would join it to the row it
+  -- came from (a consent record, a demo request, the employees one statement wrote). Every event that
+  -- carries no organisation is hour_only.
+  hour_only boolean not null default false,
   allowed_props text[] not null default '{}',
   source text not null check (char_length(source) between 3 and 200),
   description text not null check (char_length(description) between 3 and 300),
   created_at timestamptz not null default now(),
-  constraint event_catalogue_props_ok check (app.growth_props_ok(allowed_props))
+  constraint event_catalogue_props_ok check (app.growth_props_ok(allowed_props)),
+  constraint event_catalogue_none_hour_only check (pii_level <> 'none' or hour_only)
 );
 comment on table app.event_catalogue is
   'The events Orgpuls emits (0141, D-182): one PII level and a fixed set of props per event. Read by the stream''s check and by the firewall.';
 alter table app.event_catalogue enable row level security;
 revoke all on app.event_catalogue from public, anon, authenticated;
 
-insert into app.event_catalogue (sort, name, event_group, pii_level, allowed_props, source, description) values
-  (10, 'user.signed_up', 'signup', 'user', '{role}', 'app.memberships insert: an account''s first membership', 'An account joined an organisation, with its role.'),
-  (20, 'org.created', 'signup', 'org', '{}', 'app.organizations insert', 'An organisation signed up.'),
-  (30, 'org.brreg_verified', 'signup', 'org', '{}', 'app.organizations registry_fetched_at set', 'The organisation''s entry in Enhetsregisteret was fetched.'),
-  (40, 'employees.imported', 'setup', 'org', '{employee_count_band}', 'app.employees insert, one event per statement and organisation', 'Employees were added to the list; how many, as a band.'),
-  (50, 'survey.created', 'survey', 'org', '{measurement_kind}', 'app.measurements insert', 'A measurement was created: a baseline, a pulse or a follow-up.'),
-  (60, 'survey.scheduled', 'survey', 'org', '{measurement_kind}', 'app.rounds planned with an opening date', 'A round was given its opening date.'),
-  (70, 'survey.sent', 'survey', 'org', '{recipient_count_band,measurement_kind}', 'app.rounds opened', 'A round opened. Recipients as a band, never a count below five.'),
-  (80, 'survey.threshold_reached', 'survey', 'org', '{response_rate_band}', 'app.growth_tick(), hourly, from counts', 'A round reached the anonymity threshold. The response rate as a band, the hour truncated.'),
-  (90, 'results.viewed', 'value', 'user', '{view,role}', 'app.product_events insert', 'A leader opened results, the report, comments or measures (once a day per page).'),
-  (100, 'action_item.created', 'value', 'org', '{measure_kind}', 'app.measures insert', 'A measure (tiltak) was created.'),
-  (110, 'stakeholder.invited', 'value', 'org', '{role}', 'app.member_invites insert', 'A colleague was invited into the organisation with a role.'),
-  (120, 'trial.extended', 'trial', 'org', '{}', 'app.billing trial_ends_at moved later before a plan is confirmed: the customer''s extend_trial or Sentral''s admin_extend_trial', 'The trial was extended.'),
-  (130, 'trial.expiring', 'trial', 'org', '{}', 'app.growth_tick(): three days before trial_ends_at', 'The trial ends in three days and no plan is confirmed.'),
-  (140, 'trial.expired', 'trial', 'org', '{}', 'app.growth_tick(): trial_ends_at passed', 'The trial ended without a confirmed plan.'),
-  (150, 'subscription.started', 'billing', 'org', '{plan}', 'app.billing confirmed_at set', 'A plan was confirmed.'),
-  (160, 'subscription.tier_changed', 'billing', 'org', '{plan}', 'app.billing plan changed after confirmation', 'A confirmed plan moved to another tier.'),
-  (170, 'subscription.cancelled', 'billing', 'org', '{cancel_source}', 'app.billing cancelled_at set', 'The subscription was cancelled.'),
-  (180, 'ticket.created', 'support', 'org', '{category,priority,channel}', 'app.tickets insert by a signed-in account', 'A customer''s account raised a support ticket.'),
-  (190, 'consent.granted', 'consent', 'none', '{purpose,lawful_basis,method}', 'app.consent_records insert', 'A contact''s consent, or another basis, for a purpose was recorded.'),
-  (200, 'consent.withdrawn', 'consent', 'none', '{purpose,method}', 'app.consent_records insert', 'A contact withdrew from a purpose.'),
-  (210, 'lead.hand_raised', 'lead', 'none', '{channel}', 'app.demo_requests insert; a sales request from the contact form (app.tickets)', 'Someone asked for a demo or for sales to get in touch.');
+insert into app.event_catalogue (sort, name, event_group, pii_level, hour_only, allowed_props, source, description) values
+  (10, 'user.signed_up', 'signup', 'user', false, '{role}', 'app.memberships insert: an account''s first membership', 'An account joined an organisation, with its role.'),
+  (20, 'org.created', 'signup', 'org', false, '{}', 'app.organizations insert', 'An organisation signed up.'),
+  (30, 'org.brreg_verified', 'signup', 'org', false, '{}', 'app.organizations registry_fetched_at set', 'The organisation''s entry in Enhetsregisteret was fetched.'),
+  (40, 'employees.imported', 'setup', 'org', true, '{employee_count_band}', 'app.employees insert, one event per statement and organisation', 'Employees were added to the list; how many, as a band.'),
+  (50, 'survey.created', 'survey', 'org', false, '{measurement_kind}', 'app.measurements insert', 'A measurement was created: a baseline, a pulse or a follow-up.'),
+  (60, 'survey.scheduled', 'survey', 'org', false, '{measurement_kind}', 'app.rounds planned with an opening date', 'A round was given its opening date.'),
+  (70, 'survey.sent', 'survey', 'org', false, '{recipient_count_band,measurement_kind}', 'app.growth_tick(), hourly: a round that opened, its invitations counted', 'A round opened. Recipients as a band, never a count below five.'),
+  (80, 'survey.threshold_reached', 'survey', 'org', true, '{response_rate_band}', 'app.growth_tick(), hourly, from counts', 'A round reached the anonymity threshold. The response rate as a band, the hour truncated.'),
+  (90, 'results.viewed', 'value', 'user', false, '{view,role}', 'app.product_events insert', 'A leader opened results, the report, comments or measures (once a day per page).'),
+  (100, 'action_item.created', 'value', 'org', false, '{measure_kind}', 'app.measures insert', 'A measure (tiltak) was created.'),
+  (110, 'stakeholder.invited', 'value', 'org', false, '{role}', 'app.member_invites insert', 'A colleague was invited into the organisation with a role.'),
+  (120, 'trial.extended', 'trial', 'org', false, '{}', 'app.billing trial_ends_at moved later before a plan is confirmed: the customer''s extend_trial or Sentral''s admin_extend_trial', 'The trial was extended.'),
+  (130, 'trial.expiring', 'trial', 'org', false, '{}', 'app.growth_tick(): three days before trial_ends_at', 'The trial ends in three days and no plan is confirmed.'),
+  (140, 'trial.expired', 'trial', 'org', false, '{}', 'app.growth_tick(): trial_ends_at passed', 'The trial ended without a confirmed plan.'),
+  (150, 'subscription.started', 'billing', 'org', false, '{plan}', 'app.billing confirmed_at set', 'A plan was confirmed.'),
+  (160, 'subscription.tier_changed', 'billing', 'org', false, '{plan}', 'app.billing plan changed after confirmation', 'A confirmed plan moved to another tier.'),
+  (170, 'subscription.cancelled', 'billing', 'org', false, '{cancel_source}', 'app.billing cancelled_at set', 'The subscription was cancelled.'),
+  (180, 'ticket.created', 'support', 'org', false, '{category,priority,channel}', 'app.tickets insert from the app (channel in_app): a signed-in account''s', 'A customer''s account raised a support ticket in the app.'),
+  (190, 'consent.granted', 'consent', 'none', true, '{purpose,lawful_basis,method}', 'app.consent_records insert', 'A contact''s consent, or another basis, for a purpose was recorded.'),
+  (200, 'consent.withdrawn', 'consent', 'none', true, '{purpose,method}', 'app.consent_records insert', 'A contact withdrew from a purpose.'),
+  (210, 'lead.hand_raised', 'lead', 'none', true, '{channel}', 'app.demo_requests insert; a sales request from the contact form (app.tickets)', 'Someone asked for a demo or for sales to get in touch.');
 
 -- ============================================================ the stream
 -- An event goes with its organisation and with its account (ON DELETE CASCADE): the deletion 30 days
 -- after an agreement ends leaves no row of the organisation (0136, retention_invariants.sql), and an
 -- account's events are the account's.
+-- occurred_at is the only time an event keeps, and its id is random. An insertion time (a created_at
+-- defaulting to now()) would be the exact instant of the row the event came from — the consent record,
+-- the demo request, the employees of one statement all default to the same now() — and would undo the
+-- hour an hour_only event is stamped with; a sequence would order the events as those rows are
+-- ordered. Neither exists.
 create table app.growth_events (
-  id bigint generated always as identity primary key,
+  id uuid primary key default gen_random_uuid(),
   name text not null references app.event_catalogue (name),
   occurred_at timestamptz not null,
   org_id uuid references app.organizations (id) on delete cascade,
   user_id uuid references auth.users (id) on delete cascade,
   props jsonb not null default '{}' check (jsonb_typeof(props) = 'object'),
   source text not null check (source in ('trigger', 'tick', 'backfill')),
-  dedupe_key text check (dedupe_key ~ '^[0-9a-z:._+-]{1,120}$'),
-  created_at timestamptz not null default now()
+  dedupe_key text check (dedupe_key ~ '^[0-9a-z:._+-]{1,120}$')
 );
 comment on table app.growth_events is
   'Org-level product events (0141, D-182). Written only by triggers on product tables and the hourly tick; never by a respondent, never about one.';
@@ -132,8 +148,9 @@ values ('growth_events', null, 'skip', null, 'a demo emits no growth event');
 
 -- The catalogue is the contract: every prop is one the entry allows; every value a short keyword with
 -- a letter in it — not a number, not an id — except a band, which must be one of its fixed vocabulary
--- (app.growth_band_ok: a count band is never a bare count); and a person only on an event whose PII
--- level is 'user'.
+-- (app.growth_band_ok: a count band is never a bare count); a person only on an event whose PII level
+-- is 'user'; an hour_only event on the hour, never a finer time; and an event with no organisation
+-- carries no key (a key would be the id of the row it came from).
 create function app.growth_event_check() returns trigger
   language plpgsql security definer set search_path = ''
 as $fn$
@@ -167,6 +184,12 @@ begin
   end if;
   if new.org_id is not null and e.pii_level = 'none' then
     raise exception 'growth event %: carries no organisation', new.name using errcode = 'check_violation';
+  end if;
+  if e.pii_level = 'none' and new.dedupe_key is not null then
+    raise exception 'growth event %: carries no key', new.name using errcode = 'check_violation';
+  end if;
+  if e.hour_only and new.occurred_at <> date_trunc('hour', new.occurred_at) then
+    raise exception 'growth event %: is stamped with the hour, nothing finer', new.name using errcode = 'check_violation';
   end if;
   return new;
 end $fn$;
@@ -380,19 +403,22 @@ revoke all on function app.growth_on_billing() from public, anon, authenticated;
 create trigger growth_billing after update on app.billing
   for each row execute function app.growth_on_billing();
 
--- tickets: a customer's account raising one; a sales request from the contact form is a hand-raise.
--- Anything else a person without an account writes (who may be an employee) emits nothing. A
--- hand-raise carries no key and its hour truncated: the ticket's number or time would lead to the
--- requester's address (pii_level 'none').
+-- tickets: a customer's account raising one in the app (channel in_app, the one channel a signed-in
+-- account writes); a sales request from the contact form is a hand-raise. The contact form is
+-- unauthenticated: public.submit_contact links a ticket to the account whose address was typed, and
+-- marks the link unverified, so anyone typing a customer's address would otherwise emit that
+-- customer's ticket.created. Anything else from the form (whose sender may be an employee) emits
+-- nothing. A hand-raise carries no key and its hour truncated: the ticket's number or time would lead
+-- to the requester's address (pii_level 'none').
 create function app.growth_on_ticket() returns trigger
   language plpgsql security definer set search_path = ''
 as $fn$
 begin
-  if new.user_id is not null and new.org_id is not null then
+  if new.channel = 'in_app' and new.user_id is not null and new.org_id is not null then
     perform app.growth_emit('ticket.created', new.created_at, new.org_id, null,
                             jsonb_build_object('category', new.category::text, 'priority', new.priority::text, 'channel', new.channel),
                             'trigger', new.id::text);
-  elsif new.user_id is null and new.channel = 'contact_form' and new.category = 'sales' then
+  elsif new.channel = 'contact_form' and new.category = 'sales' then
     perform app.growth_emit('lead.hand_raised', date_trunc('hour', new.created_at), null, null,
                             jsonb_build_object('channel', 'contact_form'), 'trigger', null);
   end if;
@@ -520,8 +546,9 @@ from app.memberships ms
 where ms.active and not app.is_demo(ms.org_id) and exists (select 1 from auth.users u where u.id = ms.user_id)
 order by ms.user_id, ms.created_at;
 
--- one event per statement, as the trigger emits them: the employees one statement wrote share its
--- time (created_at is its now()); the hour truncated, as the trigger's
+-- one event per transaction's timestamp: the employees one statement wrote share its time
+-- (created_at is its transaction's now()), and so do those of several statements in one transaction,
+-- which the rows cannot tell apart; the hour truncated, as the trigger's
 insert into app.growth_events (name, occurred_at, org_id, props, source)
 select 'employees.imported', date_trunc('hour', e.created_at), e.org_id, jsonb_build_object('employee_count_band', app.growth_count_band(count(*))),
        'backfill'
@@ -538,6 +565,24 @@ select 'survey.sent', least(r.opens_at, now()), r.org_id,
                                             'measurement_kind', (select m.kind::text from app.measurements m where m.id = r.measurement_id))),
        'backfill', r.id::text
 from app.rounds r where r.status in ('apen', 'lukket') and r.opens_at is not null and not app.is_demo(r.org_id);
+
+-- survey.threshold_reached: the hour the round's responses reached its threshold — responses keep
+-- only their hour, so it is the hour of the k-th — with the response rate at that hour as a band: what
+-- the hourly tick emits for a round that reaches it now. survey.scheduled has no backfill: a round
+-- keeps no time at which it was planned.
+insert into app.growth_events (name, occurred_at, org_id, props, source, dedupe_key)
+select 'survey.threshold_reached', h.hour, ro.org_id, jsonb_build_object('response_rate_band', app.growth_rate_band(h.answered, inv.n)),
+       'backfill', ro.id::text
+from app.rounds ro
+join app.organizations o on o.id = ro.org_id
+cross join lateral (select count(*) as n from app.invitations i where i.round_id = ro.id) inv
+cross join lateral (
+  select s.submitted_hour as hour, s.cum::bigint as answered
+  from (select r.submitted_hour, sum(count(*)) over (order by r.submitted_hour) as cum
+        from app.responses r where r.round_id = ro.id group by r.submitted_hour) s
+  where s.cum >= greatest(app.k_min(), coalesce(o.threshold, app.k_min()))
+  order by s.submitted_hour limit 1) h
+where ro.status in ('apen', 'lukket') and inv.n > 0 and not app.is_demo(ro.org_id);
 
 insert into app.growth_events (name, occurred_at, org_id, props, source, dedupe_key)
 select 'action_item.created', me.created_at, me.org_id, jsonb_build_object('measure_kind', me.kind::text), 'backfill', me.id::text
@@ -588,11 +633,11 @@ where b.trial_ends_at <= now() and (b.confirmed_at is null or b.confirmed_at > b
 insert into app.growth_events (name, occurred_at, org_id, props, source, dedupe_key)
 select 'ticket.created', t.created_at, t.org_id,
        jsonb_build_object('category', t.category::text, 'priority', t.priority::text, 'channel', t.channel), 'backfill', t.id::text
-from app.tickets t where t.user_id is not null and t.org_id is not null and not app.is_demo(t.org_id);
+from app.tickets t where t.channel = 'in_app' and t.user_id is not null and t.org_id is not null and not app.is_demo(t.org_id);
 
 insert into app.growth_events (name, occurred_at, props, source)
 select 'lead.hand_raised', date_trunc('hour', t.created_at), jsonb_build_object('channel', 'contact_form'), 'backfill'
-from app.tickets t where t.user_id is null and t.channel = 'contact_form' and t.category = 'sales';
+from app.tickets t where t.channel = 'contact_form' and t.category = 'sales';
 
 insert into app.growth_events (name, occurred_at, props, source)
 select 'lead.hand_raised', date_trunc('hour', d.at), jsonb_build_object('channel', 'demo'), 'backfill'
@@ -779,7 +824,8 @@ begin
     insert into app.consent_records (contact_id, purpose, status, lawful_basis, method, doi_sent_at, doi_confirmed_at, created_by)
     values (c.id, v_purpose, d.status, d.lawful_basis, v_via,
             case when v_via = 'double_opt_in' and d.status = 'granted' then c.optin_sent_at end,
-            case when v_via = 'double_opt_in' and d.status = 'granted' then now() end,
+            -- the confirmation's time is the contact's consent_at (crm_confirm stamps it now())
+            case when v_via = 'double_opt_in' and d.status = 'granted' then coalesce(c.consent_at, now()) end,
             v_by);
     v_n := v_n + 1;
   end loop;
@@ -852,11 +898,13 @@ create trigger consent_event after insert on app.consent_records
 
 -- ---------------------------------------------------------------- the backfill: one record per contact
 -- The contact's current state for the contact-level purpose, at the time its own columns give; and one
--- per list membership that is subscribed or unsubscribed. Method 'migrated'.
+-- per list membership that is subscribed or unsubscribed. Method 'migrated'. A double opt-in is known
+-- by its consent_source naming one: crm_confirm writes 'double opt-in (<source>)', and a source
+-- written otherwise ('Newsletter form + double opt-in, wording v3') says the same.
 insert into app.consent_records (contact_id, purpose, status, lawful_basis, method, doi_sent_at, doi_confirmed_at, created_at)
 select c.id, 'marketing', d.status, d.lawful_basis, 'migrated',
-       case when d.status = 'granted' and c.basis = 'consent' and c.consent_source like 'double opt-in%' and c.optin_sent_at <= c.consent_at then c.optin_sent_at end,
-       case when d.status = 'granted' and c.basis = 'consent' and c.consent_source like 'double opt-in%' then c.consent_at end,
+       case when d.status = 'granted' and c.basis = 'consent' and c.consent_source ~* 'double opt-in' and c.optin_sent_at <= c.consent_at then c.optin_sent_at end,
+       case when d.status = 'granted' and c.basis = 'consent' and c.consent_source ~* 'double opt-in' then c.consent_at end,
        case d.status
          when 'withdrawn' then coalesce((select s.at from app.crm_suppression s where s.email_hash = app.crm_hash(c.email) and s.reason in ('unsubscribed', 'spam')),
                                         (select max(se.unsubscribed_at) from app.crm_sends se where se.contact_id = c.id), c.updated_at)
@@ -1321,7 +1369,8 @@ end $function$
 -- Each rule computed live, from the catalog and the rows. Nothing here returns a row of any table:
 -- its evidence is structured — counts, and the names of database objects as data — and the Event
 -- catalogue page words it through next-intl (admin.growth.events.firewall.evidence.<rule>).
--- growth_firewall_invariants.sql proves every rule passes and that each fails when broken.
+-- growth_firewall_invariants.sql proves every rule passes and that each fails when broken, by each
+-- mechanism it checks.
 create function app.growth_firewall() returns table (seq int, rule text, pass boolean, evidence jsonb)
   language plpgsql stable security definer set search_path = ''
 as $fn$
@@ -1339,22 +1388,33 @@ declare
   v_guards constant text[] := array['forbid_answer_change', 'forbid_extra_answer_change', 'forbid_module_answer_change',
                                     'forbid_comment_change', 'check_extra_answer', 'not_relevant_exclusive',
                                     'org_question_answer_fixed', 'org_question_answer_kind'];
+  -- the platform's own roles, which hold every table by design (Postgres' read-all and write-all
+  -- roles, Supabase's read-only and replication users): no client, API key or product path reaches
+  -- them. Any other role that can touch an answer table fails rule 3, whatever it is called.
+  v_platform constant text[] := array['pg_read_all_data', 'pg_write_all_data', 'supabase_read_only_user', 'supabase_etl_admin'];
   -- the growth, CRM, event and consent tables
   v_scope constant text := '^(crm_|growth_|consent_|event_)|_events$';
   v_own constant text[] := array['event_catalogue', 'growth_events', 'consent_records', 'consent_purposes'];
+  -- the tables a respondent's submission writes: the answer tables, invitations (submit_response
+  -- stamps responded_at in the respondent's own transaction), and whatever else submit_response's
+  -- source writes, read from it so that a table added to the write path is covered with it
+  v_write text[];
   v_n bigint;
   v_m bigint;
   v_names jsonb;
 begin
-  -- 1 no foreign key from a growth, CRM, event or consent table to a respondent table
+  -- 1 no foreign key between a growth, CRM, event or consent table and a respondent table, in either
+  --   direction: from the growth side it reads a respondent; from the respondent side it ties an
+  --   answer to an event or a contact
   select count(*) into v_m from pg_class c join pg_namespace n on n.oid = c.relnamespace
   where n.nspname in ('app', 'public') and c.relkind in ('r', 'p') and c.relname ~ v_scope;
   select count(*), coalesce(jsonb_agg(s.relname || '.' || con.conname order by s.relname, con.conname), '[]') into v_n, v_names
   from pg_constraint con
   join pg_class s on s.oid = con.conrelid join pg_namespace sn on sn.oid = s.relnamespace
   join pg_class t on t.oid = con.confrelid join pg_namespace tn on tn.oid = t.relnamespace
-  where con.contype = 'f' and sn.nspname in ('app', 'public') and s.relname ~ v_scope
-    and tn.nspname = 'app' and t.relname = any (v_resp);
+  where con.contype = 'f'
+    and ((sn.nspname in ('app', 'public') and s.relname ~ v_scope and tn.nspname = 'app' and t.relname = any (v_resp))
+      or (sn.nspname = 'app' and s.relname = any (v_resp) and tn.nspname in ('app', 'public') and t.relname ~ v_scope));
   seq := 1; rule := 'no_link_to_respondents'; pass := v_n = 0;
   evidence := jsonb_build_object('tables', v_m, 'links', v_n, 'names', v_names);
   return next;
@@ -1367,30 +1427,34 @@ begin
   evidence := jsonb_build_object('events', v_m, 'props', v_n, 'flagged', jsonb_array_length(v_names), 'names', v_names);
   return next;
 
-  -- 3 no client, service or CRM role holds any privilege on an answer table: on the table, or on any
-  --   of its columns (a column grant reads the rows as well, and the service role bypasses RLS)
-  select coalesce(jsonb_agg(r.rolname || ' on ' || t order by r.rolname, t), '[]') into v_names
-  from pg_roles r cross join unnest(v_answer) t
-  where (r.rolname in ('anon', 'authenticated', 'service_role') or r.rolname ~ '(crm|growth|marketing)')
-    and to_regclass('app.' || t) is not null
-    and (has_table_privilege(r.oid, ('app.' || t)::regclass, 'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')
-         or has_any_column_privilege(r.oid, ('app.' || t)::regclass, 'SELECT,INSERT,UPDATE,REFERENCES'));
-  select count(*) into v_n from pg_roles r where r.rolname in ('anon', 'authenticated', 'service_role') or r.rolname ~ '(crm|growth|marketing)';
+  -- 3 no role but a superuser, the table's owner and the platform's own holds any privilege on an
+  --   answer table: on the table, on any of its columns (a column grant reads the rows as well, and the
+  --   service role bypasses RLS), or through a role it is a member of
+  select coalesce(jsonb_agg(r.rolname || ' on ' || t.relname order by r.rolname, t.relname), '[]') into v_names
+  from pg_roles r cross join pg_class t
+  where t.relnamespace = 'app'::regnamespace and t.relname = any (v_answer)
+    and not r.rolsuper and r.oid <> t.relowner and not (r.rolname = any (v_platform))
+    and (has_table_privilege(r.oid, t.oid, 'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')
+         or has_any_column_privilege(r.oid, t.oid, 'SELECT,INSERT,UPDATE,REFERENCES'));
+  select count(*) into v_n from pg_roles r
+  where not r.rolsuper and not (r.rolname = any (v_platform))
+    and not exists (select 1 from pg_class t where t.relnamespace = 'app'::regnamespace and t.relname = any (v_answer) and t.relowner = r.oid);
   seq := 3; rule := 'no_role_reads_answers'; pass := jsonb_array_length(v_names) = 0;
   evidence := jsonb_build_object('roles', v_n, 'tables', cardinality(v_answer), 'held', jsonb_array_length(v_names), 'names', v_names);
   return next;
 
-  -- 4 no contact is an active employee who is not also an account: a count, never an address
+  -- 4 no contact shares an address with an employee — active or not — unless that address is an
+  --   account's in an organisation: a count, never an address
   select count(distinct c.id) into v_n
   from app.crm_contacts c join app.employees e on lower(btrim(e.email)) = c.email
-  where e.active
-    and not exists (select 1 from auth.users u join app.memberships m on m.user_id = u.id and m.active
+  where not exists (select 1 from auth.users u join app.memberships m on m.user_id = u.id and m.active
                     where lower(btrim(u.email)) = c.email);
   seq := 4; rule := 'no_employee_is_a_contact'; pass := v_n = 0;
   evidence := jsonb_build_object('contacts', v_n);
   return next;
 
-  -- 5 no event's key or props hold a respondent's, an invitation's or an employee's id, or an employee's address
+  -- 5 no event's key or props hold a respondent's, an invitation's or an employee's id, an
+  --   invitation's token hash (hex), or an employee's address
   select count(distinct x.id) into v_n
   from (select g.id, vals.v from app.growth_events g
         cross join lateral (select unnest(string_to_array(coalesce(g.dedupe_key, ''), ':')) as v
@@ -1399,23 +1463,50 @@ begin
          and (exists (select 1 from app.employees e where e.id = x.v::uuid)
               or exists (select 1 from app.invitations i where i.id = x.v::uuid)
               or exists (select 1 from app.responses r where r.id = x.v::uuid)))
+     or (x.v ~ '^([0-9a-f]{2})+$' and exists (select 1 from app.invitations i where i.token_hash = decode(x.v, 'hex')))
      or exists (select 1 from app.employees e where lower(btrim(e.email)) = x.v);
   select count(*) into v_m from app.growth_events;
   seq := 5; rule := 'no_event_names_a_respondent'; pass := v_n = 0;
   evidence := jsonb_build_object('events', v_m, 'flagged', v_n);
   return next;
 
-  -- 6 nothing is attached to an answer table but its own guards: a trigger whose function is not one
-  --   of them, or one of them that reaches growth, consent or the CRM, fails
-  select count(*) filter (where p.proname = any (v_guards) and pn.nspname = 'app' and p.prosrc !~* '(growth|consent|crm)'),
-         coalesce(jsonb_agg(t.tgrelid::regclass::text || '.' || t.tgname order by t.tgrelid::regclass::text, t.tgname)
-                    filter (where not (p.proname = any (v_guards) and pn.nspname = 'app' and p.prosrc !~* '(growth|consent|crm)')), '[]')
+  -- 6 nothing is attached to the tables a respondent's submission writes but their own guards: a
+  --   trigger whose function is not one of them (or one of them that reaches growth, consent or the
+  --   CRM), any rewrite rule, any policy, and any constraint, column default or index that calls a
+  --   function outside pg_catalog — each runs, or could run, inside the respondent's transaction
+  select array_agg(distinct x.w order by x.w) into v_write
+  from (select unnest(v_answer || array['invitations']) as w
+        union
+        select lower(m[1]) from pg_proc p cross join lateral regexp_matches(p.prosrc, '(?:insert\s+into|update|delete\s+from)\s+app\.([a-z_0-9]+)', 'gi') m
+        where p.pronamespace = 'public'::regnamespace and p.proname = 'submit_response') x
+  where to_regclass('app.' || x.w) is not null;
+  with t as (select c.oid, c.relname from pg_class c where c.relnamespace = 'app'::regnamespace and c.relname = any (v_write)),
+  att as (
+    select 'app.' || t.relname || '.' || tg.tgname as name,
+           p.proname = any (v_guards) and pn.nspname = 'app' and p.prosrc !~* '(growth|consent|crm)' as guard
+    from t join pg_trigger tg on tg.tgrelid = t.oid and not tg.tgisinternal
+    join pg_proc p on p.oid = tg.tgfoid join pg_namespace pn on pn.oid = p.pronamespace
+    union all
+    select 'app.' || t.relname || '.' || r.rulename, false from t join pg_rewrite r on r.ev_class = t.oid
+    union all
+    select 'app.' || t.relname || '.' || po.polname, false from t join pg_policy po on po.polrelid = t.oid
+    union all
+    -- a constraint, a column default or an index (its expression or predicate) that calls a function
+    -- outside pg_catalog
+    select distinct 'app.' || t.relname || '.' || coalesce(con.conname, a.attname, ic.relname), false
+    from pg_depend d
+    join pg_proc p on p.oid = d.refobjid and d.refclassid = 'pg_proc'::regclass and p.pronamespace <> 'pg_catalog'::regnamespace
+    left join pg_constraint con on d.classid = 'pg_constraint'::regclass and con.oid = d.objid
+    left join pg_attrdef ad on d.classid = 'pg_attrdef'::regclass and ad.oid = d.objid
+    left join pg_attribute a on a.attrelid = ad.adrelid and a.attnum = ad.adnum
+    left join pg_index ix on d.classid = 'pg_class'::regclass and ix.indexrelid = d.objid
+    left join pg_class ic on ic.oid = ix.indexrelid
+    join t on t.oid = coalesce(con.conrelid, ad.adrelid, ix.indrelid))
+  select count(*) filter (where att.guard), coalesce(jsonb_agg(att.name order by att.name) filter (where not att.guard), '[]')
     into v_n, v_names
-  from pg_trigger t join pg_proc p on p.oid = t.tgfoid join pg_namespace pn on pn.oid = p.pronamespace
-  where not t.tgisinternal
-    and t.tgrelid in (select c.oid from pg_class c where c.relnamespace = 'app'::regnamespace and c.relname = any (v_answer));
+  from att;
   seq := 6; rule := 'nothing_attached_to_answers'; pass := jsonb_array_length(v_names) = 0;
-  evidence := jsonb_build_object('tables', cardinality(v_answer), 'guards', v_n, 'other', jsonb_array_length(v_names), 'names', v_names);
+  evidence := jsonb_build_object('tables', cardinality(v_write), 'guards', v_n, 'other', jsonb_array_length(v_names), 'names', v_names);
   return next;
 
   -- 7 the growth tables are closed to clients: row level security, no policy, and no grant to a

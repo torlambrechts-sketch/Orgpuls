@@ -68,7 +68,7 @@ export default async function Page() {
                   title={t('growth.events.tip', { description: e.description, source: e.source, version: e.version })}
                   className="min-w-0 flex-[2.2] text-[12px] font-semibold [font-family:ui-monospace,Menlo,monospace] [overflow-wrap:anywhere]"
                 >
-                  {e.props.length ? `${e.name} {${e.props.join(', ')}}` : e.name}
+                  {e.props.length ? t('growth.events.withProps', { name: e.name, props: e.props.join(', ') }) : e.name}
                 </span>
                 <span role="cell" className="w-[90px] text-[12.5px] text-mut">
                   {t(`growth.events.group.${e.group}`)}
@@ -149,11 +149,11 @@ export default async function Page() {
             <div className="mt-[12px] flex flex-col gap-[8px]">
               {res.firewall.map((f) => (
                 <BulletRow key={f.rule} tone={dotTone('firewall', f.pass ? 'pass' : 'fail')} small pretty>
-                  {t(`growth.events.firewall.rule.${f.rule}`)}
-                  <span className="text-mut">
-                    {' · '}
-                    {t(`growth.events.firewall.evidence.${f.rule}`, { ...f.evidence, names: f.evidence.names.join(', ') })}
-                  </span>
+                  {t.rich('growth.events.firewall.line', {
+                    rule: t(`growth.events.firewall.rule.${f.rule}`),
+                    evidence: t(`growth.events.firewall.evidence.${f.rule}`, { ...f.evidence, names: f.evidence.names.join(', ') }),
+                    mut: (chunks) => <span className="text-mut">{chunks}</span>,
+                  })}
                   {f.pass ? null : <span className="sr-only"> {t('growth.events.firewall.failed')}</span>}
                 </BulletRow>
               ))}

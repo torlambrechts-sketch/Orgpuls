@@ -43,6 +43,8 @@ declare
   v_txt     text;
   v_n       bigint;
   v_rows    jsonb := '[]';
+  -- the events that were there before this suite: what it emits is every other one
+  v_seen    uuid[] := array(select g.id from app.growth_events g);
   claims    constant text := '{"sub":"%s","role":"authenticated","aal":"aal2"}';
   v_expected constant text :=
     'p1 marketing=granted/consent/double_opt_in doi; p1 list:nyhetsbrev=granted/consent/double_opt_in doi; '
@@ -246,7 +248,7 @@ begin
     -- 7 -------------------------------------------------------------- consent events carry no one
     select concat_ws('|',
       (select count(*) filter (where name = 'consent.granted') > 0 and count(*) filter (where name = 'consent.withdrawn') > 0
-       from app.growth_events where source = 'trigger' and name like 'consent.%' and created_at = now()),
+       from app.growth_events where source = 'trigger' and name like 'consent.%' and not (id = any (v_seen))),
       (select count(*) from app.growth_events where name like 'consent.%' and (org_id is not null or user_id is not null or dedupe_key is not null
          or occurred_at <> date_trunc('hour', occurred_at) or props::text like '%@%' or props::text ~ '[0-9a-f]{8}-[0-9a-f]{4}-')))
       into v_txt;

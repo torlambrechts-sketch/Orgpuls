@@ -8350,7 +8350,7 @@ need a reader (the wiring audit's W1) and every block of that view is G1's own d
   (member_invites), trial.extended (the trial's end moving later before a plan is confirmed — the
   customer's extend_trial or Sentral's admin_extend_trial, which leaves trial_extended_at alone) /
   trial.expiring / trial.expired, subscription.started /
-  tier_changed / cancelled (billing), ticket.created (a signed-in account's ticket),
+  tier_changed / cancelled (billing), ticket.created (a ticket a signed-in account raises in the app),
   consent.granted / consent.withdrawn (the ledger), lead.hand_raised (a demo request, or a sales
   request from the contact form). A catalogue CHECK refuses a prop that could carry a respondent,
   a person, an id or an exact count (`app.growth_prop_forbidden`: respondent, token, response,
@@ -8361,7 +8361,13 @@ need a reader (the wiring audit's W1) and every block of that view is G1's own d
   value, and no value without a letter, so a numeric string such as "3" is refused too), a band prop
   whose value is not one of its fixed bands (`app.growth_band_ok`: a `*_rate_band` one of the four
   rate bands, any other `*_band` one of the seven count bands — a bare count is never a band), a
-  person on an event whose PII level is not `user`, and an organisation on a `none` event. Rows are
+  person on an event whose PII level is not `user`, an organisation or a key on a `none` event, and
+  a time finer than the hour on an event the catalogue marks `hour_only` (every `none` event,
+  employees.imported and survey.threshold_reached; a catalogue CHECK makes every `none` event
+  hour_only). `occurred_at` is the stream's only time and its id is a random uuid: no `created_at`
+  (a `now()` default is the exact instant of the row the event came from — the consent record, the
+  demo request, the employees of one statement all default to the same `now()` — and would undo the
+  hour), and no identity sequence (it would order the events as those rows are ordered). Rows are
   never edited (guard); they go with their organisation and their account by cascade. One way in,
   `app.growth_emit`, which skips demo organisations and makes keyed events happen once; a demo marked
   after it was made (`demo_orgs` insert) takes back what it emitted. Bands: recipients and employees
@@ -8373,34 +8379,49 @@ need a reader (the wiring audit's W1) and every block of that view is G1's own d
   survey.threshold_reached once a round's responses reach the organisation's threshold (never below
   k = 5), the hour truncated, once per round; trial.expiring and trial.expired at the times they fell.
 - **Backfill** (source `backfill`) wherever the product kept the time: organisations, registry
-  fetches, first memberships, employee imports (one per statement, as the trigger emits them),
-  measurements, opened rounds, measures, invites, product_events, trial extensions (the customer's
-  from billing.trial_extended_at, Sentral's from admin_audit `trial.extend`), confirmations,
-  cancellations, trial ends, account tickets, demo and sales requests. 0 events reference a
-  respondent after it (firewall rule 5).
+  fetches, first memberships, employee imports (one per transaction's timestamp: employees.created_at
+  is the transaction's `now()`, so several insert statements in one transaction share it and the rows
+  cannot tell them apart, where the trigger emits one per statement), measurements, opened rounds,
+  thresholds reached (the hour of the round's k-th response — responses keep only their hour — with
+  the rate at that hour as a band, what the tick would have emitted then), measures, invites,
+  product_events, trial extensions (the customer's from billing.trial_extended_at, Sentral's from
+  admin_audit `trial.extend`), confirmations, cancellations, trial ends, in-app tickets, demo and
+  sales requests. 0 events reference a respondent after it (firewall rule 5).
 - **Nothing on an event leads to a person it does not name.** employees.imported is stamped with the
   hour, not the statement's time (employees.created_at is that time, and would join the event to the
   rows it counts). The events that carry no organisation (pii_level `none`: consent.granted,
   consent.withdrawn, lead.hand_raised) carry no dedupe key and the hour truncated: a ticket number, a
   demo request's id or a consent record's id, or their exact time, would lead to an address. Each is
-  emitted once by its row's insert trigger, so nothing needs a key. At low volume an hour can still
-  hold one request; the stream is closed to every client and read only as counts.
+  emitted once by its row's insert trigger, so nothing needs a key. The stream keeps no other time
+  and no ordered id that would restore what the hour removes (the first build's `created_at` did:
+  review 2), and the check refuses a finer time or a key on these events rather than trusting each
+  emitter (growth_events_invariants rows 2 and 15). At low volume an hour can still hold one request,
+  and a table's physical order is not a column; the stream is closed to every client and read only
+  as counts, ordered by `occurred_at`.
 - **The anonymity firewall** (`app.growth_firewall()`): seven rules computed live, each with
   structured evidence (counts, and the names of the database objects that break it, as data; the page
-  words it through `admin.growth.events.firewall.evidence.<rule>`) — no foreign key from a growth,
-  CRM, event or consent table (`^(crm_|growth_|consent_|event_)` or `*_events`) to responses, answers,
-  extra_answers, response_comments, invitations, employees, the module/own-question answer tables or
-  a respondent's conversation (comment_threads, thread_messages, contact_requests); no catalogue prop
-  that could carry a respondent; no privilege of anon, authenticated, service_role or any role named
-  crm/growth/marketing on an answer table or any of its columns (`has_any_column_privilege`: a column
-  grant reads the rows, and the service role bypasses RLS); no contact who is an active employee and
-  not an account (a count); no event whose key or props hold a respondent's, invitation's or
-  employee's id or an employee's address; no trigger on an answer table (the twelve, threads
-  included) but the tables' own guards, by name (forbid_*_change, check_extra_answer,
-  not_relevant_exclusive, org_question_answer_fixed/_kind), and none of those reaching growth,
-  consent or the CRM — an allowlist, so one layer of indirection does not get past it; the four G1
-  tables closed (RLS, no policy, no grant to anon, authenticated or service_role on the table or
-  any column).
+  words it through `admin.growth.events.firewall.evidence.<rule>`) — no foreign key, in either
+  direction, between a growth, CRM, event or consent table (`^(crm_|growth_|consent_|event_)` or
+  `*_events`) and responses, answers, extra_answers, response_comments, invitations, employees, the
+  module/own-question answer tables or a respondent's conversation (comment_threads, thread_messages,
+  contact_requests) — from the growth side it reads a respondent, from the respondent side it ties an
+  answer to an event; no catalogue prop that could carry a respondent; no privilege on an answer
+  table or any of its columns (`has_any_column_privilege`: a column grant reads the rows, and the
+  service role bypasses RLS) for any role, however named and whether held directly or through
+  membership, but a superuser, the table's owner and the platform's own roles (`pg_read_all_data`,
+  `pg_write_all_data`, `supabase_read_only_user`, `supabase_etl_admin`: they hold every table by
+  design and no client or product path reaches them); no contact who shares an address with an
+  employee, active or not, and is not an account (a count); no event whose key or props hold a
+  respondent's, invitation's or employee's id, an invitation's token hash (hex) or an employee's
+  address; nothing attached to the tables a submission writes — the twelve answer tables (threads
+  included), invitations (submit_response stamps responded_at in the respondent's own transaction)
+  and any other table submit_response's source writes, read from it — but the answer tables' own
+  guards: a trigger only by name (forbid_*_change, check_extra_answer, not_relevant_exclusive,
+  org_question_answer_fixed/_kind), none of them reaching growth, consent or the CRM — an allowlist,
+  so one layer of indirection does not get past it — and no rewrite rule, no policy, and no
+  constraint, column default or index that calls a function outside pg_catalog (found through
+  pg_depend); the four G1 tables closed (RLS, no policy, no grant to anon, authenticated or
+  service_role on the table or any column).
 - **The consent ledger** (`app.consent_records`, append-only; `app.consent_purposes`). Deferred
   triggers on crm_contacts (basis, status and email — suppression is kept by address, so an address
   that moves onto a suppressed one lapses and one that moves off it is granted again; app.crm_sync
@@ -8415,14 +8436,16 @@ need a reader (the wiring audit's W1) and every block of that view is G1's own d
   admin's role, anything else `system` (the QA fixture's direct inserts). Records carry the author
   (created_by) — none for `account_sync` and `system`: crm_sync runs inside the admin's CRM reads,
   and whoever opened the page made no change — and for a double opt-in the time the mail was leased
-  and the time it was confirmed. A list membership still waiting for its double opt-in records
+  (optin_sent_at) and the time it was confirmed (the contact's consent_at, which crm_confirm stamps). A list membership still waiting for its double opt-in records
   nothing, and an unsubscribe while it waits records no withdrawal for that list (no consent was given
   to withdraw), unless the purpose already has a record.
   The immutability trigger compares the content columns; created_by may only be cleared by its
   account's deletion; a record is deleted only when its contact is already gone (erasure). A
   granted or withdrawn record is an event without the contact. Backfill: one record per contact
   (method `migrated`, its own timestamps: consent_at, the suppression's or unsubscribe's time, the
-  plan's confirmation) and one per subscribed or unsubscribed list membership; a list withdrawn
+  plan's confirmation; a double opt-in, with both times, wherever consent_source names one —
+  crm_confirm's `double opt-in (<source>)` or the Sentral fixture's `… + double opt-in, wording v3`)
+  and one per subscribed or unsubscribed list membership; a list withdrawn
   because its contact unsubscribed from everything (record_crm_event and admin_crm_contact_action
   leave the membership `subscribed`) is dated as the contact's withdrawal, not the membership's
   creation.
@@ -8441,17 +8464,24 @@ need a reader (the wiring audit's W1) and every block of that view is G1's own d
   analyst and marketing with the second factor, audited `growth.events_view`): the catalogue with
   7-day counts, the health score's components and the organisations in a trial or on a plan lowest
   first, and the firewall's rules as they stand when the page is read.
-- **Tests**: growth_events_invariants (14 rows: the stream refuses a JSON number, a numeric string
-  and a band outside its vocabulary, and the catalogue a `recipient_count` prop; every path emits,
+- **Tests**: growth_events_invariants (15 rows: the stream refuses a JSON number, a numeric string,
+  a band outside its vocabulary, a finer time on an hour_only event and a key on a `none` event, and
+  the catalogue a `recipient_count` prop; the stream has no time but occurred_at, no sequence, and
+  every hour_only event in it is on the hour; a contact-form ticket with an account's address typed
+  in emits no ticket.created, and its sales question is a hand-raise; every path emits,
   including a registry fetch, a planned round, the customer's and Sentral's trial extensions, a trial
   that runs out with and without a plan, a tier change, a cancellation, a demo request and a sales
   question; every catalogue event was emitted by the suite and is named by a trigger or the tick, so a
-  catalogue row without an emitter fails), growth_firewall_invariants (13: every rule passes with
-  counts as evidence, and each turns false in a rolled-back probe — a foreign key to invitations or a
-  comment thread, a catalogue prop with the catalogue's own check dropped, a table grant and a column
-  grant to service_role on an answer table, an employee as a contact, an event keyed by an invitation,
-  a growth trigger on responses, a trigger reaching the stream through an innocently named function, a
-  table grant and a column grant on the stream), consent_ledger_invariants (10: every path and its
+  catalogue row without an emitter fails), growth_firewall_invariants (21: every rule passes with
+  counts as evidence, and each turns false in a rolled-back probe, by each mechanism it checks — a
+  foreign key to invitations or a comment thread, and one from extra_answers to the stream; a
+  catalogue prop with the catalogue's own check dropped; a table grant and a column grant to
+  service_role on an answer table, and a grant to a role named for nothing and to a member of it; an
+  employee, and a former employee, as a contact; an event keyed by an invitation's id and by its
+  token hash; a growth trigger on responses, a trigger reaching the stream through an innocently
+  named function, a trigger on invitations, a rewrite rule on responses, a CHECK constraint on answers
+  calling a function, a column default on invitations calling one, a policy and a function index on
+  answers; a table grant and a column grant on the stream), consent_ledger_invariants (10: every path and its
   method, append-only, cascade, an account's address moving onto a suppressed one and off it through
   crm_sync with no author, an unconfirmed list's unsubscribe, the CRM's state equal to the ledger's
   latest record for every contact and list membership in the database, no gap),
@@ -8486,12 +8516,17 @@ need a reader (the wiring audit's W1) and every block of that view is G1's own d
   organisation's history, as the data processing agreement requires.
 - *user.signed_up is an account's first active membership*, not its profile: the signup writes the
   profile before the organisation and the membership. Invited members count, with their role.
-- *ticket.created only for a signed-in account's ticket.* A ticket from someone without an account
-  may come from an employee; it emits nothing, except a sales request from the contact form, which is
-  lead.hand_raised with no person or organisation.
-- *No backfill* for survey.scheduled (a round has no creation time) or survey.threshold_reached
-  (nothing records when a threshold was met); org.brreg_verified's backfilled time is the latest
-  registry fetch, the only one kept.
+- *ticket.created only for a ticket raised in the app* (channel `in_app`, the one channel a signed-in
+  account writes). The contact form is unauthenticated: public.submit_contact links a ticket to the
+  account whose address was typed and marks the link unverified (`context.verified = false`), so
+  counting it would let anyone emit a customer's ticket.created. A ticket from the form emits
+  nothing — its sender may be an employee — except a sales request, which is lead.hand_raised with
+  no person or organisation, whoever typed the address.
+- *No backfill for survey.scheduled*: a round keeps no time at which it was planned, so the event
+  begins at the migration. survey.threshold_reached is backfilled from the hour of the round's k-th
+  response (responses keep their hour, nothing finer), and from then on the tick emits it for a round
+  that is open or closed within two days. org.brreg_verified's backfilled time is the latest registry
+  fetch, the only one kept.
 - *The tick shares the hourly job* (`select app.wheel_tick(); select app.growth_tick()`), as asked,
   and catches its own failure (a warning with the SQLSTATE only, no row text), so a growth bug can
   never undo the scheduler's turn.
@@ -8520,6 +8555,10 @@ need a reader (the wiring audit's W1) and every block of that view is G1's own d
 - *Lapse by inactivity is not recorded.* `lapsed` is written when an address is suppressed (bounce,
   invalid, blocked, manual, erasure); twelve months without engagement is a time-derived condition of
   crm_mailable, and the design's «180 days without a click · re-permission sent» is rule R8, not built.
+  This is where the ledger departs from the design's sample: the Sentral fixture's Lise Kopperud (last
+  engaged 181 days ago), the design's «Lapsed», is recorded `granted`, which is what the dispatcher
+  does with her today; the fixture's comment says so. G3's consent page shows the ledger, so its claim
+  on that row reads «Granted» until R8 is built.
 - *No wording_version, form_url or channel on a record, and no channel on a purpose.* No path
   receives them: the signup RPC takes neither a wording version nor a form, every record today is
   e-mail, and a column nothing writes is a promise nothing keeps (the wiring audit's W1). They arrive
@@ -8580,6 +8619,18 @@ Sentral renders in English only, `getTranslations({ locale: 'en' })`), shown as 
 their own rows (measures, measurements) leave growth events behind in a local database, since events
 outlive what they record by design; a local database's 7-day counts therefore include test noise.
 No product change: a hosted database runs no suite.
+
+*Review 2 (the same phase).* The stream's `created_at` (it restored the exact time the hour removed:
+an import's event joined its employees, a consent event its record) is gone, and the identity id is
+a random uuid; the catalogue's `hour_only` is enforced by the stream's check. The firewall checks
+each rule by every mechanism that reaches the data: foreign keys both ways; any role, however named,
+by any grant or membership, bar the owner, superusers and the platform's four; former employees; an
+invitation's token hash in a key; and on the tables a submission writes, invitations included,
+rules, policies and function calls in constraints, defaults and indexes besides triggers — each
+proved by its own probe. ticket.created is the app's channel only. The threshold is backfilled; the
+DOI backfill knows the fixture's wording and the fixture's double opt-ins are written under that
+method; the page's separators are message patterns (`withProps`, `firewall.line`); the catalogue
+names the tick as survey.sent's emitter.
 
 *Found on the way, not G1's:* with the Sentral fixture's rows in the local database,
 crm_inbox_invariants row 3 fails (the week's median answer time counts the fixture's leads and tasks)

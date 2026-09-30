@@ -103,12 +103,23 @@ describe('the firewall’s evidence, worded', () => {
     expect(say('firewall.evidence.no_employee_is_a_contact', { contacts: 1 })).toBe(
       '1 contact shares an address with an employee who is not an account',
     )
-    expect(say('firewall.evidence.nothing_attached_to_answers', { tables: 12, guards: 13, other: 0, names: '' })).toBe(
-      "12 answer tables; 13 triggers, each a table's own guard",
+    expect(say('firewall.evidence.nothing_attached_to_answers', { tables: 13, guards: 13, other: 0, names: '' })).toBe(
+      "13 tables; 13 triggers, each a table's own guard; no rule, policy, or function in a constraint, default or index",
+    )
+    expect(say('firewall.evidence.nothing_attached_to_answers', { tables: 13, guards: 13, other: 2, names: 'app.invitations.zz, app.answers.zz_chk' })).toBe(
+      "13 tables; 13 triggers, each a table's own guard; 2 other attachments: app.invitations.zz, app.answers.zz_chk",
     )
     expect(say('firewall.evidence.growth_tables_closed', { tables: 4, open: 0, names: '' })).toBe(
       '4 tables; row level security, no policy, no client grant',
     )
+  })
+
+  it('words the page’s own separators through the catalogue: an event’s props in braces, a rule and its evidence', () => {
+    expect(say('withProps', { name: 'survey.sent', props: 'recipient_count_band, measurement_kind' })).toBe(
+      'survey.sent {recipient_count_band, measurement_kind}',
+    )
+    const line = t.rich('firewall.line' as never, { rule: 'R', evidence: 'E', mut: (c: unknown) => `[${String(c)}]` } as never)
+    expect(Array.isArray(line) ? line.join('') : line).toBe('R[ · E]')
   })
 
   it('says the reachable maximum while a component has no source, and nothing extra when all have one', () => {

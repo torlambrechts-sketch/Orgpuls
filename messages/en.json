@@ -11523,6 +11523,7 @@
           "user": "user"
         },
         "unused": "—",
+        "withProps": "{name} '{'{props}'}'",
         "tip": "{description}\n{source} · version {version}",
         "health": {
           "title": "Health score v1",
@@ -11547,13 +11548,14 @@
           "passing": "Passing · checked now",
           "failing": "{count, plural, one {# rule failing} other {# rules failing}} · checked now",
           "failed": "(failing)",
+          "line": "{rule}<mut> · {evidence}</mut>",
           "rule": {
-            "no_link_to_respondents": "No growth, CRM, event or consent table has a foreign key to a response, an answer, an invitation or an employee",
+            "no_link_to_respondents": "No foreign key joins a growth, CRM, event or consent table to a response, an answer, an invitation or an employee, in either direction",
             "catalogue_has_no_respondent_props": "The event catalogue allows no prop that could carry a respondent; one that could is refused",
-            "no_role_reads_answers": "No client, service or CRM role holds any privilege on an answer table",
+            "no_role_reads_answers": "No role but the tables' owner and the platform's own holds any privilege on an answer table",
             "no_employee_is_a_contact": "No CRM contact is an employee who is not also an account",
-            "no_event_names_a_respondent": "No event names a respondent, an invitation or an employee",
-            "nothing_attached_to_answers": "Nothing is attached to the answer tables: survey events come from counts, hourly",
+            "no_event_names_a_respondent": "No event names a respondent, an invitation, its token or an employee",
+            "nothing_attached_to_answers": "Nothing is attached to the tables a response writes, invitations included: survey events come from counts, hourly",
             "growth_tables_closed": "The event stream, the catalogue and the consent ledger are closed to every client"
           },
           "evidence": {
@@ -11561,8 +11563,8 @@
             "catalogue_has_no_respondent_props": "{events} events, {props} props; {flagged, plural, =0 {none could carry a respondent} one {# could carry a respondent: {names}} other {# could carry a respondent: {names}}}",
             "no_role_reads_answers": "{roles} roles × {tables} answer tables; {held, plural, =0 {no privilege held} one {# privilege held: {names}} other {# privileges held: {names}}}",
             "no_employee_is_a_contact": "{contacts, plural, one {# contact shares} other {# contacts share}} an address with an employee who is not an account",
-            "no_event_names_a_respondent": "{events} events; {flagged} reference a respondent, an invitation or an employee",
-            "nothing_attached_to_answers": "{tables} answer tables; {guards} triggers, each a table's own guard{other, plural, =0 {} one {; # other trigger: {names}} other {; # other triggers: {names}}}",
+            "no_event_names_a_respondent": "{events} events; {flagged} reference a respondent, an invitation, its token or an employee",
+            "nothing_attached_to_answers": "{tables} tables; {guards} triggers, each a table's own guard{other, plural, =0 {; no rule, policy, or function in a constraint, default or index} one {; # other attachment: {names}} other {; # other attachments: {names}}}",
             "growth_tables_closed": "{tables} tables; {open, plural, =0 {row level security, no policy, no client grant} one {# open: {names}} other {# open: {names}}}"
           }
         }
