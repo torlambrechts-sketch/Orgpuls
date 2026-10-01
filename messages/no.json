@@ -2593,16 +2593,16 @@
     "confirmCompany": "Ja, dette er oss",
     "tryAnother": "Prøv et annet nummer",
     "step2Title": "Og hvem er du?",
-    "step2Lead": "Du blir første administrator og kan invitere resten etterpå. De ansatte som bare skal svare, trenger ingen konto — de bruker lenken de får tilsendt.",
+    "step2Lead": "Du blir første administrator og kan invitere resten etterpå. De ansatte som bare skal svare, trenger ingen konto – de bruker lenken de får tilsendt.",
     "name": "Navn",
     "namePlaceholder": "Fornavn Etternavn",
     "email": "E-post på jobben",
     "emailPlaceholder": "navn@virksomhet.no",
-    "emailHint": "Bruk adressen din på jobben.",
+    "emailHint": "Den blir brukernavnet ditt når du logger inn.",
     "password": "Velg et passord",
     "passwordPlaceholder": "Minst 8 tegn",
     "pwHintEmpty": "Minst 8 tegn. Lengde teller mer enn spesialtegn.",
-    "pwHintShort": "For kort — {count} av 8 tegn",
+    "pwHintShort": "For kort – {count} av 8 tegn",
     "pwHintOk": "Greit. Blir sterkere med noen tegn mer.",
     "pwHintGood": "Godt passord",
     "sizeQuestion": "Omtrent hvor mange ansatte er dere?",
@@ -2612,9 +2612,9 @@
       "to100": "51–100",
       "over100": "Over 100"
     },
-    "sizeNote": "Tallet brukes som nevner i svarprosenten og kan rettes under Oppsett når registeret er fylt ut.",
+    "sizeNote": "Vi regner ut svarprosenten fra tallet. Dere kan rette det under Oppsett når ansattregisteret er fylt ut.",
     "consent": "Jeg bekrefter at jeg kan inngå avtaler på vegne av virksomheten, og har lest personvernerklæringen.",
-    "createAccount": "Opprett konto",
+    "createAccount": "Prøv gratis i 15 dager",
     "creating": "Oppretter …",
     "back": "Tilbake",
     "ctaHintReady": "Ingen kortopplysninger nå. Etter 15 dager spør vi om dere vil fortsette.",
@@ -2630,7 +2630,7 @@
       },
       "threshold": {
         "title": "Se over grupper og terskel",
-        "note": "Fem svar er gulvet og kan ikke settes lavere",
+        "note": "Gulvet er 5 svar og kan ikke settes lavere",
         "time": "5 min"
       },
       "send": {
@@ -2642,11 +2642,11 @@
     "openOrgpuls": "Åpne Orgpuls",
     "inclHead": "Dette er med fra dag én",
     "incl": {
-      "instrument": "Hele spørsmålssettet — 11 faktorer, 37 spørsmål",
+      "instrument": "Hele spørsmålssettet – 11 faktorer, 37 spørsmål",
       "report": "Rapport klar til Arbeidstilsynet, AMU og styret",
       "measures": "Tiltak med eier, frist og krav om målt effekt",
       "conversations": "Anonyme samtaler med de ansatte",
-      "users": "Ubegrenset antall brukere — verneombud og ledere koster ikke ekstra"
+      "users": "Ubegrenset antall brukere – verneombud og ledere koster ikke ekstra"
     },
     "reassure1": "Vi henter bare offentlig informasjon fra Brønnøysundregistrene. Ingenting går ut til de ansatte før du har godkjent utsendingen.",
     "reassure2": "Ingen kortopplysninger nå, og ingen automatisk fornyelse. Vi spør før noe blir fakturert.",
@@ -2657,7 +2657,7 @@
       "invalid_org_number": "Et organisasjonsnummer er ni siffer. Sjekk tallet og prøv igjen.",
       "not_found": "Enhetsregisteret kjenner ikke dette nummeret.",
       "deleted": "Virksomheten står som slettet i Enhetsregisteret.",
-      "unreachable": "Enhetsregisteret svarte ikke. Prøv igjen om litt — ingenting er endret.",
+      "unreachable": "Enhetsregisteret svarte ikke. Prøv igjen om litt – ingenting er endret.",
       "signup_failed": "Kontoen kunne ikke opprettes med disse opplysningene. Sjekk e-postadressen og passordet, eller logg inn hvis du allerede har konto.",
       "confirm_email": "Kontoen er opprettet. Åpne e-posten vi sendte og bekreft adressen, så kan du logge inn og fullføre oppsettet.",
       "org_failed": "Virksomheten kunne ikke opprettes. Prøv igjen.",
@@ -5807,29 +5807,29 @@
         "description": "Liten 265 kr og Vanlig 565 kr i måneden eks. mva. Ingen tillegg, ingen oppstartsavgift og ingen binding. Prøv gratis i 15 dager uten kort.",
         "crumb": "Priser",
         "kicker": "Priser",
-        "h1": "Én pris i måneden, alt inkludert",
-        "lead": "Ingen tillegg for rapporter, integrasjoner eller antall målinger. Månedlig avtale uten bindingstid, og 15 dager gratis uten kortopplysninger.",
+        "h1": "Kartlegg arbeidsmiljøet fra 265 kr i måneden",
+        "lead": "Ingen tillegg for rapporter, integrasjoner eller flere målinger. Dere betaler per måned uten binding, og prøver gratis i 15 dager uten kort.",
         "blocks": [
           {
             "t": "plans"
           },
           {
             "t": "h2",
-            "text": "Dette får dere uansett pakke"
+            "text": "Med i alle pakker"
           },
           {
             "t": "ul",
             "items": [
               "Årlig kartlegging og puls imellom, så mange runder dere vil",
-              "Rapport som følger arbeidsmiljøloven § 3-1 bokstav c",
+              "Rapport klar til Arbeidstilsynet, etter arbeidsmiljøloven § 3-1 bokstav c",
               "Ubegrenset antall tiltak, med ferdige forslag",
-              "Tilgang for verneombudet uten ekstra kostnad",
+              "Verneombudet er med uten ekstra kostnad",
               "Ingen oppstartsavgift og ingen bindingstid"
             ]
           },
           {
             "t": "p",
-            "text": "Alle priser er uten merverdiavgift. Pakken Vanlig legger til resultat per avdeling og team, anonyme samtaler med de ansatte og utvikling over tid."
+            "text": "Alle priser er eks. mva. Pakken Vanlig legger til resultat per avdeling og team, anonyme samtaler med de ansatte og utvikling over tid."
           }
         ],
         "faq": [
@@ -5846,18 +5846,18 @@
             "a": "Nei. Verneombudet har tilgang uten ekstra kostnad."
           },
           {
-            "q": "Vi er flere enn 100, eller flere selskaper?",
-            "a": "Da gjelder Flere selskaper, etter avtale. [Skriv til oss](/kontakt), så finner vi en løsning."
+            "q": "Hva om vi er over 100 ansatte eller flere selskaper?",
+            "a": "Da gjelder pakken Flere selskaper, med pris etter avtale. [Skriv til oss](/kontakt), så blir vi enige om en pris."
           }
         ]
       },
       "sikkerhet": {
         "title": "Sikkerhet, personvern og anonymitet | Orgpuls",
-        "description": "Hvordan Orgpuls holder svarene anonyme: ingen kobling til person, minst fem svar per gruppe, data i EU. Hva vi lagrer, og hva vi ikke lagrer.",
+        "description": "Hvordan Orgpuls holder svarene anonyme: ingen kobling til person, minst 5 svar per gruppe, data i EU. Hva vi lagrer, og hva vi ikke lagrer.",
         "crumb": "Sikkerhet og personvern",
         "kicker": "Sikkerhet og personvern",
         "h1": "Anonymitet som ikke avhenger av at noen holder et løfte",
-        "lead": "Orgpuls lover at ingen kan se hvem som har svart hva. Det løftet er bygget inn i hvordan dataene lagres, ikke i en rutine noen må følge. Her er hva det betyr i praksis.",
+        "lead": "Ingen kan se hvem som har svart hva – heller ikke dere. Det er bygget inn i hvordan svarene lagres, ikke i en rutine noen må følge. Derfor kan de ansatte svare ærlig.",
         "blocks": [
           {
             "t": "h2",
@@ -5865,55 +5865,55 @@
           },
           {
             "t": "p",
-            "text": "Om den enkelte ansatte lagres navn, e-post og gruppe i ansattregisteret, og mobilnummer hvis dere bruker SMS. Selve svaret lagres i en tabell som **ikke har noen kolonne som kunne holdt en kobling til en person**. Raden inneholder hvilken runde svaret hører til, hvilken gruppe personen er i, og timen det ble levert, avrundet til hele timer."
+            "text": "I ansattregisteret lagrer vi navn, e-post og gruppe for hver ansatt, og mobilnummer hvis dere bruker SMS. Selve svaret havner i en tabell som **ikke har noen kolonne som kunne holdt en kobling til en person**. Raden viser runden, gruppen og timen svaret kom inn – ikke minuttet."
           },
           {
             "t": "p",
-            "text": "Invitasjonslenken slås opp på en kryptografisk sjekksum idet den brukes. Invitasjonen husker at den er brukt, slik at påminnelsen ikke går til deg – men aldri hvilket svar den ga. Det finnes ingen visning, eksport eller spørring som kan svare på hva en navngitt person har svart – heller ikke for administratorer – fordi opplysningen ikke finnes."
+            "text": "Orgpuls kjenner igjen invitasjonslenken på en kryptografisk sjekksum. Invitasjonen husker at den er brukt, så du ikke får påminnelse – men aldri svaret. Ingen skjerm, eksport eller spørring viser hva en navngitt person har svart, heller ikke for administratorer: opplysningen finnes ikke."
           },
           {
             "t": "h2",
-            "text": "Fem svar, ellers en strek"
+            "text": "Færre enn 5 svar gir en strek"
           },
           {
             "t": "p",
-            "text": "Ingen gruppe vises før minst fem har svart. Grensen håndheves av databasen og kan ikke senkes, bare heves. Når tallene for de andre gruppene ville avslørt en skjult gruppe, holdes en gruppe til tilbake, slik at ingen kan regne seg fram."
+            "text": "Ingen gruppe vises før minst 5 har svart. Databasen håndhever grensen: dere kan heve den opp til 10, men aldri senke den. Ville tallene for de andre gruppene avsløre en skjult gruppe, skjuler Orgpuls én gruppe til, så ingen kan regne seg fram."
           },
           {
             "t": "h2",
-            "text": "Kommentarer og samtaler"
+            "text": "Kommentarer og samtaler forblir anonyme"
           },
           {
             "t": "p",
-            "text": "En kommentar vises bare når gruppen den kommer fra har nok svar, og gruppen følger aldri med kommentaren. Den som skrev får en privat nøkkel til samtalen; databasen lagrer bare en sjekksum av den. Vil en leder snakke direkte, kan de be om det – men bare den ansatte kan gi seg til kjenne, ved å skrive fra sin egen e-post."
+            "text": "En kommentar vises bare når gruppen den kommer fra, har nok svar, og gruppen følger aldri med kommentaren. Den som skrev, får en privat nøkkel til samtalen; databasen lagrer bare en sjekksum av den. Vil en leder snakke direkte, kan lederen be om det – men bare den ansatte kan gi seg til kjenne, ved å skrive fra sin egen e-post."
           },
           {
             "t": "h2",
-            "text": "Behandlingsgrunnlag"
+            "text": "Grunnlaget er lovplikt, ikke samtykke"
           },
           {
             "t": "p",
-            "text": "Behandlingsgrunnlaget er rettslig forpliktelse, GDPR artikkel 6 nr. 1 bokstav c, jf. arbeidsmiljøloven § 3-1 og § 4-3 – ikke samtykke, fordi en ansatt ikke kan samtykke fritt overfor sin arbeidsgiver. Spørsmålene er utformet for å unngå helseopplysninger, som arbeidsgiver ikke skal innhente. Screeningen for krenkende atferd og for vold og trusler rapporteres bare som antall."
+            "text": "Behandlingen bygger på rettslig forpliktelse: GDPR artikkel 6 nr. 1 bokstav c, jf. arbeidsmiljøloven § 3-1 og § 4-3. En ansatt kan ikke samtykke fritt overfor arbeidsgiveren sin, så samtykke brukes ikke. Spørsmålene unngår helseopplysninger, som arbeidsgiver ikke skal be om, og svar om vold, trusler og krenkende atferd vises bare som antall."
           },
           {
             "t": "h2",
-            "text": "Lagring"
+            "text": "Lagret i EU og ikke delt videre"
           },
           {
             "t": "ul",
             "items": [
-              "Dataene lagres på servere i EU (Frankfurt), under GDPR",
-              "Svarene deles ikke med tredjeparter, og ingen svar brukes til å trene modeller",
+              "Vi lagrer dataene på servere i EU (Frankfurt), under GDPR",
+              "Vi deler ikke svarene med tredjeparter og bruker ingen svar til å trene KI-modeller",
               "Et enkeltsvar kan ikke hentes ut eller slettes enkeltvis, fordi det ikke kan knyttes til en person (GDPR artikkel 11)"
             ]
           },
           {
             "t": "h2",
-            "text": "Databehandleravtale"
+            "text": "Databehandleravtalen ligger klar i Orgpuls"
           },
           {
             "t": "p",
-            "text": "Virksomheten er behandlingsansvarlig, og Orgpuls AS er databehandler. Databehandleravtalen etter GDPR artikkel 28 ligger i Orgpuls under Oppsett, der daglig leder leser og signerer den, og kan skrives ut eller lagres som PDF. Underleverandørene er Supabase (database og innlogging, Frankfurt), Vercel (drift, Frankfurt) og Brevo (e-post og SMS)."
+            "text": "Dere er behandlingsansvarlig og Orgpuls AS databehandler, etter GDPR artikkel 28. Daglig leder leser og signerer avtalen under Oppsett, og kan skrive den ut eller lagre den som PDF. Vi bruker tre underleverandører: Supabase (database og innlogging, Frankfurt), Vercel (drift, Frankfurt) og Brevo (e-post og SMS)."
           },
           {
             "t": "box",
@@ -5927,8 +5927,8 @@
         "description": "Spørsmål om Orgpuls, hjelp med oppsettet eller avtale for flere selskaper? Skriv til hjelp@orgpuls.no.",
         "crumb": "Kontakt",
         "kicker": "Kontakt",
-        "h1": "Snakk med oss",
-        "lead": "Den raskeste veien til oss er e-post. Skriv hva det gjelder og hvor mange ansatte dere er, så svarer vi.",
+        "h1": "Spør oss – vi svarer innen én virkedag",
+        "lead": "Bruk skjemaet under eller e-post. Skriv hva det gjelder og hvor mange ansatte dere er, så kan vi svare konkret med en gang.",
         "blocks": [
           {
             "t": "cards",
@@ -5949,7 +5949,7 @@
           },
           {
             "t": "p",
-            "text": "Vil dere heller prøve selv først? Registrer med organisasjonsnummeret – dere er i gang på tre minutter, uten kortopplysninger."
+            "text": "Vil dere heller prøve selv først? Registrer med organisasjonsnummeret – dere er i gang på 3 minutter, uten kortopplysninger."
           }
         ]
       },
@@ -6080,7 +6080,7 @@
       },
       "bransjer": {
         "title": "Bransjer: arbeidsmiljøundersøkelse med egne bransjemoduler | Orgpuls",
-        "description": "Egne spørsmålssett for bygg og anlegg og for helse og omsorg, i tillegg til hovedundersøkelsen. Anonymt, med tiltak som følger opp.",
+        "description": "Egne spørsmålssett for bygg og anlegg, helse og omsorg, barnehage og skole, kunnskap og kontor og handel – i tillegg til hovedundersøkelsen. Anonymt, med tiltak som følger opp.",
         "crumb": "Bransjer"
       }
     },
@@ -7576,7 +7576,7 @@
     "contact": {
       "k": "Kontakt",
       "t": "Skriv til oss",
-      "d": "Spørsmål om produktet, pris for konsern, eller hjelp til første utsending. Vi svarer selv, på norsk, innen én virkedag.",
+      "d": "Spørsmål om produktet, pris for konsern eller hjelp til første utsending. Vi svarer selv, på norsk, innen én virkedag.",
       "topics": [
         "Spørsmål om produktet",
         "Pris for konsern eller over 100 ansatte",
@@ -7597,15 +7597,15 @@
     },
     "bransjer": {
       "crumb": "Bransjer",
-      "h1": "Arbeidsmiljøet der dere faktisk jobber",
-      "lead": "Hovedundersøkelsen dekker det som gjelder alle arbeidsplasser. For bransjer med egne risikoer finnes egne bransjemoduler: flere påstander, egne tiltak og hjemmelen for hver faktor.",
+      "h1": "Kartlegg risikoene i deres egen bransje",
+      "lead": "Vold, alenevakter og tidspress rammer bransjer ulikt. Hovedundersøkelsen dekker det loven krever av alle, og en bransjemodul legger til påstander, tiltak og hjemmelen for hver faktor.",
       "facts": "{factors} faktorer · {statements} påstander · ca. {minutes} min ekstra",
       "cards": [
         {
           "slug": "bygg-og-anlegg",
           "k": "Bygg, anlegg og verksted",
           "t": "Bygg og anlegg",
-          "d": "Sikkerhet under tidspress, mange firma på samme plass, språk på laget, nye og unge, og om det er rom for å si at man ikke har det bra.",
+          "d": "Sikkerhet under tidspress, mange firmaer på samme plass, språk på laget, nye og unge, og om det er rom for å si at man ikke har det bra.",
           "cta": "Se bygg og anlegg"
         },
         {
@@ -7626,7 +7626,7 @@
           "slug": "kunnskap-og-kontor",
           "k": "Rådgivning, IT, finans, media og eiendom",
           "t": "Kunnskap og kontor",
-          "d": "Avbrytelser og møter, tilgjengelighet utenom arbeidstid, hybridarbeid og KI. Forenklet eller utvidet.",
+          "d": "Avbrytelser og møter, tilgjengelighet utenom arbeidstid, hybridarbeid og KI. Velg forenklet eller utvidet.",
           "cta": "Se kunnskap og kontor"
         },
         {
@@ -12646,7 +12646,7 @@
     "metaTitle": "Prøv Orgpuls-demoen",
     "metaDescription": "Din egen kopi av en ferdig kartlagt virksomhet: tre år med kartlegginger, tiltak, samtaler og rapporten til Arbeidstilsynet. Fiktive data, ingenting sendes.",
     "badge": "Demo",
-    "lead": "Du får din egen kopi av Demobedriften AS, med 64 fiktive ansatte, tre år med kartlegginger, tiltak, samtaler og rapporten til Arbeidstilsynet. Vi sender en innloggingslenke til e-postadressen din.",
+    "lead": "Du får din egen kopi av Demobedriften AS: 64 fiktive ansatte, 3 år med kartlegginger, tiltak, samtaler og rapporten til Arbeidstilsynet. Skriv inn jobb-e-posten din, så sender vi deg en lenke.",
     "mail": "Jobb-e-post",
     "consent": "Ja, Orgpuls kan sende meg e-post om produktet. Jeg kan melde meg av når som helst.",
     "submit": "Send meg lenken",
@@ -12654,7 +12654,7 @@
     "sentTitle": "Sjekk innboksen",
     "sentLead": "Vi har sendt en innloggingslenke til {mail}. Åpne den for å komme inn i demoen.",
     "invalid": "Skriv en gyldig e-postadresse.",
-    "limited": "Det er bedt om mange lenker herfra i dag. Prøv igjen i morgen, eller ta kontakt med oss.",
+    "limited": "Mange har bedt om lenker herfra i dag. Prøv igjen i morgen, eller ta kontakt med oss.",
     "closed": "Demoen er stengt akkurat nå. Ta kontakt med oss, så viser vi deg Orgpuls.",
     "failed": "Noe gikk galt. Prøv igjen om litt.",
     "startFailed": "Vi fikk ikke åpnet demoen. Be om en ny lenke.",
@@ -12663,7 +12663,7 @@
       "Demoen er din egen. Ingen andre ser det du gjør, og du ser ikke andres.",
       "Alt er fiktivt: navn, svar og kommentarer er skrevet for demoen.",
       "Ingenting sendes. Invitasjoner, påminnelser og SMS er slått av, og rapporten er merket DEMO.",
-      "Demoen blir som ny etter et døgn, eller når du trykker «Tilbakestill». Etter 14 dager uten innlogging slettes den."
+      "Demoen blir som ny etter et døgn, eller når du trykker «Tilbakestill». Etter 14 dager uten innlogging sletter vi den."
     ],
     "privacy": "Vi bruker adressen til å sende lenken, og lagrer forespørselen i 30 dager. Uten avkrysning får du ingen annen e-post fra oss.",
     "privacyLink": "Personvernerklæringen",
