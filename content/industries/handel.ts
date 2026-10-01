@@ -25,14 +25,14 @@ export const handel: IndustryPage = {
   seo: {
     title: 'Arbeidsmiljøundersøkelse for handel og butikk | Orgpuls',
     description:
-      'Medarbeiderundersøkelse for butikk, lager og netthandel: tyveri og trusler, alenevakter, krevende kunder, bemanning, vaktplan, deltid og tunge løft. Anonymt, på tvers av vakter.',
+      'Arbeidsmiljøundersøkelse for butikk, lager og netthandel: tyveri og trusler, alenevakter, krevende kunder, bemanning, vaktplan, deltid og tunge løft. Anonymt. 15 dager gratis.',
   },
   hero: {
     pill: 'Butikk, lager og netthandel',
     h1: 'Arbeidsmiljø­undersøkelse for handel',
     lead:
-      'Hovedundersøkelsen måler emosjonelle krav, arbeidsmengde og støtte. Handel-modulen legger til det som skjer på butikkgulvet: tyveri og trusler, alenevakter, kunder som går over grensen, bemanning i travle timer, vaktplan, deltid og tunge løft. Alt anonymt, på mobilen, på tvers av vakter.',
-    thresholdNote: 'Ingen gruppe vises før minst fem har svart.',
+      'Se hvor tyveri, trusler og alenevakter gjør jobben utrygg – og få forslag til tiltak for hver faktor. Handel-modulen kommer i tillegg til hovedundersøkelsen. Den spør også om krevende kunder, bemanning i travle timer, vaktplan, deltid og tunge løft. Ansatte på alle vakter svarer anonymt på mobilen.',
+    thresholdNote: 'Ingen gruppe vises før minst 5 har svart.',
     preview: {
       company: 'Solbakken Handel AS',
       caption: 'Handel-modulen · indeks 0–100',
@@ -49,7 +49,7 @@ export const handel: IndustryPage = {
         text: 'Lageret har verken kundekontakt eller alenevakter, så de faktorene er ikke spurt der.',
         featureFlag: 'module_factor_toggles',
       },
-      footnote: 'Kontoret har tre svar og vises ikke som egen kolonne. Eksempelet er en tenkt virksomhet.',
+      footnote: 'Fargene viser hvilke grupper og faktorer dere bør ta tak i først. Kontoret har 3 svar og vises ikke som egen kolonne. Eksempelet er en tenkt virksomhet.',
     },
   },
   challengesIntro: {
@@ -69,7 +69,7 @@ export const handel: IndustryPage = {
     },
     {
       title: 'Kunder som går over grensen',
-      body: '28 prosent i detaljhandelen er ofte eller av og til i konflikt med kunder, mot 16 prosent i arbeidslivet ellers – og 38 prosent blant de yngste. 12 prosent av kvinnene har opplevd uønsket seksuell oppmerksomhet det siste året, nesten alltid fra kunder, og bare et mindretall melder fra.{{cite:regj_natt}} I Storbritannia er 78 prosent av butikkansatte blitt skjelt ut og 54 prosent truet det siste året.{{cite:usdaw2025}}',
+      body: 'I detaljhandelen er 28 prosent ofte eller av og til i konflikt med kunder, mot 16 prosent i arbeidslivet ellers – og 38 prosent blant de yngste. Det siste året har 12 prosent av kvinnene opplevd uønsket seksuell oppmerksomhet, nesten alltid fra kunder, og bare et mindretall melder fra.{{cite:regj_natt}} I Storbritannia er 78 prosent av butikkansatte blitt skjelt ut og 54 prosent truet det siste året.{{cite:usdaw2025}}',
       measuredBy: { kind: 'module', itemCode: 'HA-KU-3' },
     },
     {
@@ -89,7 +89,7 @@ export const handel: IndustryPage = {
     },
     {
       title: 'Ny, ung – og fort alene',
-      body: '28 prosent av butikkansatte har ikke fått opplæring i å håndtere ran, trusler eller tyveri, og nær halvparten av elevene og studentene i butikk har jobbet der under ett år.{{cite:regj_natt}}',
+      body: 'Blant butikkansatte har 28 prosent ikke fått opplæring i å håndtere ran, trusler eller tyveri. Nær halvparten av elevene og studentene i butikk har jobbet der under ett år.{{cite:regj_natt}}',
       measuredBy: { kind: 'module', itemCode: 'HA-OP-2' },
     },
     {
@@ -99,21 +99,21 @@ export const handel: IndustryPage = {
     },
     {
       title: 'Følelsene i kundemøtet',
-      body: 'Butikkansatte opplever oftere høye emosjonelle krav (30 mot 20 prosent) og lav kontroll over egen arbeidssituasjon (32 mot 25 prosent) enn arbeidslivet ellers.{{cite:regj_natt}} Dette måles i hovedundersøkelsen og gjentas ikke i modulen.',
+      body: 'Butikkansatte opplever oftere høye emosjonelle krav (30 mot 20 prosent) og lav kontroll over egen arbeidssituasjon (32 mot 25 prosent) enn arbeidslivet ellers.{{cite:regj_natt}} Hovedundersøkelsen måler dette, så modulen gjentar det ikke.',
       measuredBy: { kind: 'core', factorKey: 'emosjon', ordinal: 1, alongside: [2, 3] },
     },
   ],
   moduleOverview: {
     title: 'Handel-modulen',
     intro:
-      'Et tillegg til hovedundersøkelsen, bygget på samme måte: påstander på en femdelt skala, indeks fra 0 til 100 og tre forslag til tiltak per faktor.',
+      'Modulen kommer i tillegg til hovedundersøkelsen og er bygget på samme måte. Svarene på en skala med fem trinn blir en indeks fra 0 til 100, og hver faktor har 3 forslag til tiltak.',
     coreNote: 'Handel-modulen gjentar ikke disse, men går et lag dypere der butikkgulvet er annerledes.',
   },
   loop: {
     title: 'Fra svar til tiltak på neste personalmøte',
     steps: [
       { title: 'Mål', text: 'Hovedmåling med handel-modulen, på SMS eller QR-kode på pauserommet.' },
-      { title: 'Se per butikk', text: 'Resultat per butikk og lager, for grupper med minst fem svar.' },
+      { title: 'Se per butikk', text: 'Resultat per butikk og lager, for grupper med minst 5 svar.' },
       { title: 'Velg tiltak', text: 'Tre forslag per faktor. Hvert tiltak får en eier og en frist.' },
       { title: 'Mål igjen', text: 'Pulsen spør bare om faktorene dere jobber med, til tiltaket har virket.' },
     ],
@@ -127,7 +127,7 @@ export const handel: IndustryPage = {
   },
   law: {
     title: 'Det loven peker på i handelen',
-    intro: 'Handel-modulen gir dokumentasjon for kartleggingen der butikk og lager har egne krav. Hver faktor viser hjemmelen i rapporten.',
+    intro: 'Handel-modulen gir dere dokumentasjon på kartleggingen der butikk og lager har egne krav. I rapporten ser dere hjemmelen for hver faktor.',
     items: [
       {
         ref: 'aml § 4-3 (6)',
@@ -160,7 +160,7 @@ export const handel: IndustryPage = {
   faq: [
     {
       q: 'Hvor mye lenger blir undersøkelsen?',
-      a: 'Handel-modulen er 24 påstander og to korte ja/nei-spørsmål, rundt tre minutter ekstra. Hovedmålingen tar rundt fire minutter.',
+      a: 'Rundt 3 minutter. Handel-modulen er 24 påstander og 2 korte ja/nei-spørsmål, og hovedmålingen tar rundt 4 minutter.',
     },
     {
       q: 'Kan vi spørre om tyveri og trusler?',
@@ -168,15 +168,15 @@ export const handel: IndustryPage = {
     },
     {
       q: 'Ser butikksjefen hvem som føler seg utrygg på alenevakter?',
-      a: 'Nei. Spørsmålet vises bare som antall for hele virksomheten, aldri per butikk eller vakt. Ingen gruppe vises før minst fem har svart.',
+      a: 'Nei. Spørsmålet vises bare som antall for hele virksomheten, aldri per butikk eller vakt. Ingen gruppe vises før minst 5 har svart.',
     },
     {
       q: 'Hva med ekstrahjelper og studenter?',
-      a: 'De kan legges inn i ansattlista som alle andre. Undersøkelsen sendes på SMS eller deles som QR-kode på pauserommet og er åpen i flere dager, så alle vakter rekker å svare.',
+      a: 'Legg dem inn i ansattlista som alle andre. Send undersøkelsen på SMS, eller del den som QR-kode på pauserommet. Den står åpen i flere dager, så alle vakter rekker å svare.',
     },
     {
       q: 'Kan vi se resultat per butikk?',
-      a: 'Ja, i pakken Vanlig, for butikker med minst fem svar. Har en butikk for få svar, teller svarene med i virksomhetens tall.',
+      a: 'Ja, i pakken Vanlig, for butikker med minst 5 svar. Har en butikk for få svar, teller svarene med i virksomhetens tall.',
     },
     {
       q: 'Hva koster det?',
@@ -185,20 +185,20 @@ export const handel: IndustryPage = {
   ],
   cta: {
     title: 'Prøv det i deres egen butikk',
-    text: 'Skriv inn organisasjonsnummeret, legg inn ansattlista og send på SMS. Dere er i gang på tre minutter, uten kortopplysninger.',
+    text: 'Skriv inn organisasjonsnummeret, legg inn ansattlista og send på SMS. Dere er i gang på 3 minutter, uten kortopplysninger.',
   },
   questionPage: {
     crumb: 'Spørsmålssettet',
     h1: 'Spørsmåls­settet for handel',
-    lead: 'Åtte faktorer med tre påstander hver, i tillegg til hovedundersøkelsen. Hver faktor har en begrunnelse fra forskning og tilsyn, en hjemmel og tre forslag til tiltak som kan måles på nytt i pulsen.',
-    scaleNote: 'Påstandene står i tilfeldig rekkefølge for hver person. Ordlyden er låst, så tallene kan sammenlignes fra måling til måling.',
+    lead: 'Se alle 24 påstandene handel-modulen legger til hovedundersøkelsen – 8 faktorer med 3 påstander hver. Hver faktor har en begrunnelse fra forskning og tilsyn, en hjemmel og 3 forslag til tiltak dere kan måle på nytt i pulsen.',
+    scaleNote: 'Hver person får påstandene i tilfeldig rekkefølge. Ordlyden ligger fast, så dere kan sammenligne tall fra måling til måling.',
     countTitle: 'To spørsmål som bare telles',
     countIntro: 'Noen spørsmål passer ikke i en indeks, men sier mye om det avvikssystemet ikke fanger og om alenevaktene. De vises bare som antall for hele virksomheten.',
     segmentsTitle: 'Bakgrunnsspørsmål',
     segmentsIntro: 'Valgfrie, for å se forskjell mellom butikk og lager, og mellom heltid og deltid. Undersøkelsen spør ikke om alder, fordi mange i handelen er unge og gruppene da blir for små.',
     rulesTitle: 'Slik rapporteres svarene',
     rules: [
-      { title: 'Minst fem svar', text: 'Ingen gruppe vises før minst fem har svart. Grensen kan heves, men aldri senkes.' },
+      { title: 'Minst 5 svar', text: 'Ingen gruppe vises før minst 5 har svart. Grensen kan heves, men aldri senkes.' },
       { title: 'Ingen regning bakover', text: 'Hvis en gruppe kan regnes ut fra totalen og de andre gruppene, holdes en gruppe til tilbake.' },
       {
         title: 'Ja/nei-spørsmålene',
@@ -206,7 +206,7 @@ export const handel: IndustryPage = {
       },
       {
         title: 'Segmenter',
-        text: 'Arbeidssted og stillingsstørrelse vises bare der det er minst fem svar, og aldri kombinert med en gruppe hvis det gir færre enn fem.',
+        text: 'Arbeidssted og stillingsstørrelse vises bare der det er minst 5 svar, og aldri kombinert med en gruppe hvis det gir færre enn 5.',
         featureFlag: 'module_segments',
       },
       { title: 'Samme indeks', text: 'Hver påstand regnes om til 0–100, og faktoren er snittet av sine tre påstander.' },
@@ -214,7 +214,7 @@ export const handel: IndustryPage = {
         title: 'Foreløpige terskler',
         text: '65 eller mer er lav risiko, 50–64 middels og under 50 høy – det samme som i hovedundersøkelsen, men merket foreløpig til modulen er validert.',
       },
-      { title: 'Pulsen', text: 'Når en faktor har åpne tiltak, kommer påstanden tiltaket skal måles på med i neste puls.' },
+      { title: 'Pulsen', text: 'Når en faktor har åpne tiltak, kommer påstanden som måler tiltaket, med i neste puls.' },
       {
         title: 'Velg det som gjelder',
         text: 'Alene på vakt kan slås av der ingen jobber alene, og Grenser mot kunder der ingen har kundekontakt. Da stilles heller ikke spørsmålet om å jobbe alene og føle seg utrygg.',
@@ -222,7 +222,7 @@ export const handel: IndustryPage = {
       },
     ],
     coreNote: 'Handel-modulen gjentar ikke disse.',
-    cta: { title: 'Legg handel-modulen til neste måling', text: 'Skriv inn organisasjonsnummeret. Dere er i gang på tre minutter, uten kortopplysninger.' },
+    cta: { title: 'Legg handel-modulen til neste måling', text: 'Skriv inn organisasjonsnummeret. Dere er i gang på 3 minutter, uten kortopplysninger.' },
   },
   related: ['kunnskap-og-kontor', 'helse-og-omsorg'],
 }

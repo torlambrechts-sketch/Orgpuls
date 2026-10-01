@@ -21,14 +21,14 @@ export const barnehageOgSkole: IndustryPage = {
   seo: {
     title: 'Arbeidsmiljøundersøkelse for barnehage og skole | Orgpuls',
     description:
-      'Medarbeiderundersøkelse for barnehager, skoler og SFO: vold og trusler, bemanning og vikarer, tid til kjerneoppgavene, foreldresamarbeid, tilrettelegging, støy og vanskelige saker. Anonymt.',
+      'Arbeidsmiljøundersøkelse for barnehager, skoler og SFO: vold og trusler, bemanning og vikarer, tid til kjerneoppgavene, foreldre, støy og vanskelige saker. Anonymt. 15 dager gratis.',
   },
   hero: {
     pill: 'Barnehage, skole og SFO',
     h1: 'Arbeidsmiljø­undersøkelse for barnehage og skole',
     lead:
-      'Hovedundersøkelsen måler de emosjonelle kravene, arbeidsmengden og støtten. Barnehage- og skolemodulen legger til det som skjer i barnehagen og klasserommet: vold og trusler, bemanning og vikarer, tid til planlegging, foreldresamarbeid, tilrettelegging, støy og tunge saker. Påstandene sier «barna» i barnehagen og «elevene» i skolen.',
-    thresholdNote: 'Ingen gruppe vises før minst fem har svart.',
+      'Se hvor vold, fravær uten vikar og for lite tid til planlegging tærer på personalet – og få forslag til tiltak for hver faktor. Barnehage- og skolemodulen kommer i tillegg til hovedundersøkelsen. Den spør også om foreldre, tilrettelegging, støy og tunge saker. Påstandene sier «barna» i barnehagen og «elevene» i skolen.',
+    thresholdNote: 'Ingen gruppe vises før minst 5 har svart.',
     preview: {
       company: 'Nordlys skole AS',
       caption: 'Barnehage- og skolemodulen · indeks 0–100',
@@ -41,7 +41,7 @@ export const barnehageOgSkole: IndustryPage = {
         { factorKey: 'tilrettelegging_og_inkludering', values: [45, 53, 57] },
         { factorKey: 'stoy_kropp_og_pauser', values: [51, 64, 48] },
       ],
-      footnote: 'Administrasjonen har tre svar og vises ikke som egen kolonne. Eksempelet er en tenkt virksomhet.',
+      footnote: 'På 1.–4. trinn ligger 4 av 6 faktorer under 50 – der starter tiltakene. Administrasjonen har 3 svar og vises ikke som egen kolonne. Eksempelet er en tenkt virksomhet.',
     },
   },
   challengesIntro: {
@@ -51,12 +51,12 @@ export const barnehageOgSkole: IndustryPage = {
   challenges: [
     {
       title: 'Vold og trusler i hverdagen',
-      body: '28 prosent av grunnskolelærerne ble utsatt for vold på jobb det siste året – høyest av alle yrker – og i undervisningsyrkene samlet økte andelen fra 12 til 18 prosent fra 2022 til 2025.{{cite:ssb_vold2026}} Åtte av ti rektorer i grunnskolen rapporterer slike hendelser, oftest fra et fåtall av de yngste elevene.{{cite:kd_nifu2025}} I Sverige hadde tre av fire inspiserte skoler mangler i arbeidet med å forebygge vold og trusler mot personalet.{{cite:av_skola2025}}',
+      body: 'Det siste året ble 28 prosent av grunnskolelærerne utsatt for vold på jobb – høyest av alle yrker – og i undervisningsyrkene samlet økte andelen fra 12 til 18 prosent fra 2022 til 2025.{{cite:ssb_vold2026}} Åtte av ti rektorer i grunnskolen rapporterer slike hendelser, oftest fra et fåtall av de yngste elevene.{{cite:kd_nifu2025}} I Sverige hadde tre av fire inspiserte skoler mangler i arbeidet med å forebygge vold og trusler mot personalet.{{cite:av_skola2025}}',
       measuredBy: { kind: 'module', itemCode: 'BS-VT-1' },
     },
     {
       title: 'Når noen er syke, blir de andre sykere',
-      body: 'Sykefraværet i barnehagene var 9,2 prosent i 2025 – nesten 70 prosent høyere enn snittet – og tilsvarer om lag 1,75 årsverk i hver barnehage.{{cite:udf_barnehage2026}} Når fravær ikke dekkes med vikar, blir de som er igjen slitne, og sirkelen fortsetter.{{cite:vg_ssb2025}}',
+      body: 'Sykefraværet i barnehagene var 9,2 prosent i 2025 – nesten 70 prosent høyere enn snittet – og tilsvarer om lag 1,75 årsverk i hver barnehage.{{cite:udf_barnehage2026}} Når ingen vikar dekker fraværet, blir de som er igjen slitne, og sirkelen fortsetter.{{cite:vg_ssb2025}}',
       measuredBy: { kind: 'module', itemCode: 'BS-BE-2' },
     },
     {
@@ -76,12 +76,12 @@ export const barnehageOgSkole: IndustryPage = {
     },
     {
       title: 'For få pedagoger, mange nye',
-      body: 'Det mangler om lag 2 600 barnehagelærerårsverk, andelen barnehagelærere har sunket til 42 prosent, og søkningen til utdanningen har falt kraftig siden 2020.{{cite:udf_barnehage2026}} Opplæring av nye og vikarer blir avgjørende.',
+      body: 'Det mangler om lag 2 600 barnehagelærerårsverk, andelen barnehagelærere har sunket til 42 prosent, og søkningen til utdanningen har falt kraftig siden 2020.{{cite:udf_barnehage2026}} Da blir det avgjørende at nye og vikarer får opplæring.',
       measuredBy: { kind: 'module', itemCode: 'BS-KO-1' },
     },
     {
       title: 'Støy, kropp og pauser',
-      body: 'SSB forklarer det høye sykefraværet i barnehagene med at arbeidet er fysisk krevende og gir mye kontakt med mennesker. Barnehagelærere har det høyeste sykefraværet av alle yrkesgrupper i barnehagen.{{cite:vg_ssb2025}} Pauser der man faktisk er avløst, er sjeldne mange steder.',
+      body: 'SSB forklarer det høye sykefraværet i barnehagene med at arbeidet er fysisk krevende og gir mye kontakt med mennesker. Barnehagelærere har det høyeste sykefraværet av alle yrkesgrupper i barnehagen.{{cite:vg_ssb2025}} Pauser med ordentlig avløsning er sjeldne mange steder.',
       measuredBy: { kind: 'module', itemCode: 'BS-FY-3' },
     },
     {
@@ -91,14 +91,14 @@ export const barnehageOgSkole: IndustryPage = {
     },
     {
       title: 'De følelsesmessige kravene',
-      body: '38 prosent av barnehageansatte opplever høye emosjonelle krav i arbeidet med barn og foreldre.{{cite:stami_emo}} Emosjonelle krav måles i hovedundersøkelsen og gjentas ikke i modulen.',
+      body: 'Blant barnehageansatte opplever 38 prosent høye emosjonelle krav i arbeidet med barn og foreldre.{{cite:stami_emo}} Hovedundersøkelsen måler disse kravene, så modulen gjentar dem ikke.',
       measuredBy: { kind: 'core', factorKey: 'emosjon', ordinal: 1, alongside: [2, 3] },
     },
   ],
   moduleOverview: {
     title: 'Barnehage- og skolemodulen',
     intro:
-      'Et tillegg til hovedundersøkelsen, bygget på samme måte: påstander på en femdelt skala, indeks fra 0 til 100 og tre forslag til tiltak per faktor. Ordbruken tilpasses: «barna» i barnehagen, «elevene» i skolen.',
+      'Modulen kommer i tillegg til hovedundersøkelsen og er bygget på samme måte. Svarene på en skala med fem trinn blir en indeks fra 0 til 100, og hver faktor har 3 forslag til tiltak. Ordbruken tilpasses: «barna» i barnehagen, «elevene» i skolen.',
     coreAlso: 'teller hvor mange som har opplevd vold eller trusler',
     coreNote: 'Modulen gjentar ikke disse, men går et lag dypere der barnehagen og skolen er annerledes.',
   },
@@ -106,7 +106,7 @@ export const barnehageOgSkole: IndustryPage = {
     title: 'Fra svar til tiltak på neste personalmøte',
     steps: [
       { title: 'Mål', text: 'Hovedmåling med barnehage- og skolemodulen, på SMS eller QR-kode på personalrommet.' },
-      { title: 'Se per trinn eller avdeling', text: 'Resultat per trinn, avdeling eller SFO, for grupper med minst fem svar.' },
+      { title: 'Se per trinn eller avdeling', text: 'Resultat per trinn, avdeling eller SFO, for grupper med minst 5 svar.' },
       { title: 'Velg tiltak', text: 'Tre forslag per faktor. Hvert tiltak får en eier og en frist.' },
       { title: 'Mål igjen', text: 'Pulsen spør bare om faktorene dere jobber med, til tiltaket har virket.' },
     ],
@@ -120,7 +120,7 @@ export const barnehageOgSkole: IndustryPage = {
   },
   law: {
     title: 'Det loven peker på i barnehage og skole',
-    intro: 'Barnehage- og skolemodulen gir dokumentasjon for kartleggingen der arbeidet med barn og elever har egne krav. Hver faktor viser hjemmelen i rapporten.',
+    intro: 'Barnehage- og skolemodulen gir dere dokumentasjon på kartleggingen der arbeidet med barn og elever har egne krav. I rapporten ser dere hjemmelen for hver faktor.',
     items: [
       {
         ref: 'aml § 4-3 (6)',
@@ -161,7 +161,7 @@ export const barnehageOgSkole: IndustryPage = {
     },
     {
       q: 'Ser styreren eller rektoren hvem som svarte?',
-      a: 'Nei. Ingen gruppe vises før minst fem har svart, og grensen kan ikke senkes. Små avdelinger teller med i virksomhetens tall.',
+      a: 'Nei. Ingen gruppe vises før minst 5 har svart, og grensen kan ikke senkes. Små avdelinger teller med i virksomhetens tall.',
     },
     {
       q: 'Hva koster det?',
@@ -169,27 +169,27 @@ export const barnehageOgSkole: IndustryPage = {
     },
   ],
   cta: {
-    title: 'Prøv det på deres egen virksomhet',
-    text: 'Skriv inn organisasjonsnummeret, legg inn ansattlista og send på SMS. Dere er i gang på tre minutter, uten kortopplysninger.',
+    title: 'Prøv det i deres egen virksomhet',
+    text: 'Skriv inn organisasjonsnummeret, legg inn ansattlista og send på SMS. Dere er i gang på 3 minutter, uten kortopplysninger.',
   },
   questionPage: {
     crumb: 'Spørsmålssettet',
     h1: 'Spørsmåls­settet for barnehage og skole',
-    lead: 'Åtte faktorer med tre påstander hver, i tillegg til hovedundersøkelsen. Hver faktor har en begrunnelse fra forskning, tilsyn eller regelverket, en hjemmel og tre forslag til tiltak som kan måles på nytt i pulsen.',
-    scaleNote: 'Påstandene står i tilfeldig rekkefølge for hver person. Ordlyden er låst, så tallene kan sammenlignes fra måling til måling.',
+    lead: 'Se alle 24 påstandene modulen legger til hovedundersøkelsen – 8 faktorer med 3 påstander hver. Hver faktor har en begrunnelse fra forskning, tilsyn eller regelverket, en hjemmel og 3 forslag til tiltak dere kan måle på nytt i pulsen.',
+    scaleNote: 'Hver person får påstandene i tilfeldig rekkefølge. Ordlyden ligger fast, så dere kan sammenligne tall fra måling til måling.',
     countTitle: 'To spørsmål som bare telles',
     countIntro: 'Noen spørsmål passer ikke i en indeks, men sier mye om det avvikssystemet ikke fanger. De vises bare som antall for hele virksomheten.',
     segmentsTitle: 'Bakgrunnsspørsmål',
     segmentsIntro:
-      'Valgfrie, for å se forskjell mellom roller og stillingsstørrelser. Hovedundersøkelsens spørsmål om vold og trusler siste tolv måneder og om krenkende atferd gjenbrukes og gjentas ikke her.',
+      'Valgfrie, for å se forskjell mellom roller og stillingsstørrelser. Hovedundersøkelsen spør allerede om vold og trusler de siste 12 månedene og om krenkende atferd, så det gjentas ikke her.',
     rulesTitle: 'Slik rapporteres svarene',
     rules: [
-      { title: 'Minst fem svar', text: 'Ingen gruppe eller segment vises før minst fem har svart. Grensen kan heves, men aldri senkes.' },
+      { title: 'Minst 5 svar', text: 'Ingen gruppe eller segment vises før minst 5 har svart. Grensen kan heves, men aldri senkes.' },
       { title: 'Ingen regning bakover', text: 'Hvis en gruppe kan regnes ut fra totalen og de andre gruppene, holdes en gruppe til tilbake.' },
       { title: 'Ja/nei-spørsmålene', text: 'BS-T-1 og BS-T-2 vises bare som antall for hele virksomheten, aldri per trinn, avdeling eller segment.' },
       {
         title: 'Segmenter',
-        text: 'Rolle og stillingsstørrelse vises bare der det er minst fem svar. «Leder eller administrasjon» slås sammen med nærmeste gruppe når den har færre enn fem svar.',
+        text: 'Rolle og stillingsstørrelse vises bare der det er minst 5 svar. «Leder eller administrasjon» slås sammen med nærmeste gruppe når den har færre enn 5 svar.',
         featureFlag: 'module_segments',
       },
       { title: 'Samme indeks', text: 'Hver påstand regnes om til 0–100, og faktoren er snittet av sine tre påstander.' },
@@ -197,10 +197,10 @@ export const barnehageOgSkole: IndustryPage = {
       // the brief § 5.1: the pilot tests that the three work alike; until then the page claims no more
       { title: 'Ordbruk', text: 'Påstandene sier «barna» i barnehagen og «elevene» i skolen. Kodene og skåringen er de samme, og piloten tester at de tre versjonene fungerer likt.' },
       { title: 'Vanskelige saker', text: 'Faktoren handler om plikter, ikke om enkeltsaker. Ikke skriv om enkeltbarn eller enkeltelever i kommentarfeltet.' },
-      { title: 'Pulsen', text: 'Når en faktor har åpne tiltak, kommer påstanden tiltaket skal måles på med i neste puls.' },
+      { title: 'Pulsen', text: 'Når en faktor har åpne tiltak, kommer påstanden som måler tiltaket, med i neste puls.' },
     ],
     coreNote: 'Barnehage- og skolemodulen gjentar ikke disse.',
-    cta: { title: 'Legg barnehage- og skolemodulen til neste måling', text: 'Skriv inn organisasjonsnummeret. Dere er i gang på tre minutter, uten kortopplysninger.' },
+    cta: { title: 'Legg barnehage- og skolemodulen til neste måling', text: 'Skriv inn organisasjonsnummeret. Dere er i gang på 3 minutter, uten kortopplysninger.' },
   },
   related: ['helse-og-omsorg'],
   sourcesFromFactors: false,
