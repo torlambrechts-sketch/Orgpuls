@@ -9567,3 +9567,65 @@ the same defect, `admin_crm_settings` and `admin_crm_reply_stage` (0055/0093, bo
 The suites run as the database owner, where the extension is not loaded, which is why none of the four
 was caught. The function now also reports a poll whose end it could not record (`end_failed`) instead
 of ignoring the reply.
+
+## D-186 — The public site's copy against the conversion instruction (2026-10-01)
+
+**Asked (Tor):** review and update every public page with the instruction in
+`docs/marketing/konverteringsinstruks.md` («Systeminstruksjon for Claude Design – tekst og bilder
+som konverterer»), and report back.
+
+**Done:** seven reviewers, one per page group, each read its pages through their components, ran the
+instruction's section 7 checklist, fixed the copy in `no` and `en`, and listed what copy alone cannot
+fix. The groups: the front page with the header, footer and start band; Plattform; Hvorfor and
+Bruksområder; the landing pages (lovkrav, verneombud, små bedrifter, and the bygg and helse fallbacks);
+Priser, Sikkerhet, Kontakt, Demo, Registrer and the Bransjer hub; the five industry pages and their
+question pages; the six articles. About 250 texts changed. What changed, everywhere:
+- **H1 and lead say what, for whom and the result**, and leads open with the reader's problem.
+- **One primary action, one wording:** «Prøv gratis» / «Prøv gratis i 15 dager», replacing «Kom i
+  gang», «Start gratis», «Kom i gang gratis» and «Opprett konto». Risk text by the button only where it
+  is true (15 days, no card, no lock-in, eks. mva).
+- **Active voice, Norwegian idiom, digits when the number is the point** («minst 5 svar», «4
+  minutter»), spaced en dash for asides, « », no filler words; «Heatmap» → «Varmekart».
+- **LIX at or under 40** for nearly every main block. What stays above it is law quoted verbatim, proper
+  nouns or search keywords.
+- **Nothing invented.** Two claims that had no source were taken out: on Hvorfor, «De fleste vi
+  snakker med …» and the large HR system's «Uker til måneder»; on bygg, the superlative about SMS and
+  response rate. The product shot caption now says the company is an example.
+- **Two structural bugs in articles:** H2s with their paragraph at the end of the article.
+- **A legal reference:** Handel cited forskriften kap. 23A, repealed 1 January 2026. It now cites kap.
+  3A, as helse and barnehage already did (D-131); the text is unchanged.
+
+**Copy now differs from the design bundle.** The bundle's pages hold the design's own words; the site
+now holds these. As with D-88, `scripts/verify/site-pixel.mjs` fails where a sentence wraps
+differently; that is the copy, not a regression. The visual check for this change is the phone and
+desktop run below.
+
+**Not done, because it is design or needs material we do not have** (instruction section in brackets):
+- A trust strip under each hero, with the verifiable signals that exist: answers in the EU, nothing
+  shown under 5, QPS Nordic, § 4-3 (1.1, 1.7).
+- Risk text directly under the hero buttons. Today it is only in the start band and price lines (1.5,
+  2.1).
+- A problem section, a 3-step «Slik fungerer det» and an objections section on the front page,
+  Plattform, verneombud and små bedrifter (1.1).
+- Hero images that show the result rather than the tool, real screenshots on Plattform, and captions
+  on the section drawings (1.4, 1.5, 1.9).
+- Second outlined buttons that compete with the primary action («Se hvordan det virker», «Se
+  bruksområdene», «Tips daglig leder», the sign-up field on Kontakt). They should be text links (2.1).
+- Labels above the front page's org.nr. field; inputs at 15 px instead of 16 px on the sign-up,
+  contact and demo forms (7 «Skjema», 1.11).
+- Customer quotes, logos, results and photos of real people: none exist yet, and none were invented
+  (1.7, 1.9, 5).
+- The illustrated drawings name people («Anne Rygg») and periods («grunnlinje 2026») without saying
+  they are examples (5).
+- Two internal notes are visible on live industry pages: «(hjemmel verifiseres)» on Handel and «Status
+  i EØS må verifiseres.» on Kunnskap og kontor. They are legal statements for Tor to settle.
+- Changed texts that are legal units come up again in admin › Legal review. That is a record, not a
+  gate (X-078).
+
+**Visual check.** The new front-page H1 ran to 6 lines at 56 px on a 390 px phone and pushed «Prøv
+gratis i 15 dager» below the first screen. The H1 is now 40 px on phones and 56 px from `sm` up,
+with balanced wrapping: 4 lines, the button on the first screen, the desktop unchanged.
+`scripts/verify/mobile.mjs` at 390 px on all 20 public routes (/, plattform, hvorfor, bruksomrader,
+priser, sikkerhet, kontakt, demo, registrer, bransjer, lovkrav, verneombud, smaa-bedrifter, the five
+industry pages, bygg-og-anlegg/sporsmal, artikler): no horizontal overflow and no squeezed text. The
+only warnings are tables and long links that wrap.

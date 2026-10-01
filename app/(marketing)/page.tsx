@@ -58,7 +58,7 @@ export default async function StartPage() {
       <section id="topp" className="mx-auto max-w-[1120px] px-[26px] pt-[60px]">
         <div className="max-w-[780px]">
           <span className="inline-block rounded-pill bg-sbg px-[13px] py-[6px] text-[12px] font-bold">{t('pill')}</span>
-          <h1 className="m-0 mt-[19px] font-display text-[56px] font-semibold leading-[1.04] [text-wrap:balance]">{t('h1')}</h1>
+          <h1 className="m-0 mt-[19px] font-display text-[40px] font-semibold leading-[1.04] [text-wrap:balance] sm:text-[56px]">{t('h1')}</h1>
           <p className="m-0 mt-[17px] max-w-[54ch] text-[17.5px] leading-[1.65] text-body [text-wrap:pretty]">{t('lead')}</p>
           <div className="mt-[26px] flex flex-wrap gap-[10px]">
             <a
