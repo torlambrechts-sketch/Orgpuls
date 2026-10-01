@@ -6944,7 +6944,7 @@
       "compare": {
         "k": "Compared",
         "t": "Against spreadsheets and large HR systems",
-        "d": "Most people we talk to use either their own form in a spreadsheet or a survey module in a large HR system. Both can work. This is how they differ from Orgpuls.",
+        "d": "Two common alternatives are your own form in a spreadsheet and a survey module in a large HR system. Both can work. This is how they differ from Orgpuls.",
         "cols": [
           "Spreadsheet and form",
           "Large HR system",
@@ -6954,7 +6954,7 @@
           {
             "k": "Time to first send-out",
             "a": "Days",
-            "b": "Weeks to months",
+            "b": "Depends on the setup",
             "c": "20 minutes"
           },
           {
@@ -6979,7 +6979,7 @@
             "k": "Suggested measures",
             "a": "No",
             "b": "Rarely",
-            "c": "Three per factor"
+            "c": "3 per factor"
           },
           {
             "k": "Checks whether measures worked",
@@ -6997,7 +6997,7 @@
             "k": "Price for 30 employees",
             "a": "Your own time",
             "b": "By agreement",
-            "c": "NOK 565/month"
+            "c": "NOK 565/month excl. VAT"
           }
         ]
       },

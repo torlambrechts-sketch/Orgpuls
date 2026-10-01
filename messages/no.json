@@ -7185,7 +7185,7 @@
       "compare": {
         "k": "Sammenlignet",
         "t": "Mot regneark og mot store HR-systemer",
-        "d": "De fleste vi snakker med, bruker enten et eget skjema i et regneark eller en undersøkelsesmodul i et stort HR-system. Begge kan fungere. Slik skiller de seg fra Orgpuls.",
+        "d": "To vanlige alternativer er et eget skjema i et regneark og en undersøkelsesmodul i et stort HR-system. Begge kan fungere. Slik skiller de seg fra Orgpuls.",
         "cols": [
           "Regneark og skjema",
           "Stort HR-system",
@@ -7195,7 +7195,7 @@
           {
             "k": "Tid til første utsending",
             "a": "Dager",
-            "b": "Uker til måneder",
+            "b": "Varierer med oppsettet",
             "c": "20 minutter"
           },
           {
@@ -7220,7 +7220,7 @@
             "k": "Forslag til tiltak",
             "a": "Nei",
             "b": "Sjelden",
-            "c": "Tre per faktor"
+            "c": "3 per faktor"
           },
           {
             "k": "Måler om tiltak virket",
@@ -7238,7 +7238,7 @@
             "k": "Pris for 30 ansatte",
             "a": "Egen tid",
             "b": "Etter avtale",
-            "c": "565 kr/mnd"
+            "c": "565 kr/mnd eks. mva"
           }
         ]
       },
