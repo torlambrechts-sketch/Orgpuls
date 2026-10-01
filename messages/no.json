@@ -3947,7 +3947,7 @@
       "readArticle": "Les artikkelen →",
       "byline": "Oppdatert {date} · {minutes} min lesing",
       "sources": "Kilder",
-      "disclaimer": "Artikkelen er generell informasjon, ikke juridisk rådgivning. Lovhenvisningene er kontrollert mot Lovdata og Arbeidstilsynet i september 2026.",
+      "disclaimer": "Dette er generell informasjon, ikke juridiske råd. Vi sjekket hva loven sier hos Lovdata og Arbeidstilsynet i september 2026.",
       "nextTitle": "Hvordan gjør vi dette i praksis?",
       "nextLink": "Mer om dette: {page} →",
       "priceFrom": "Fra 265 kr/mnd eks. mva",
@@ -3963,10 +3963,10 @@
       "showcase": {
         "eyebrow": "Slik ser det ut",
         "title": "Fra svar til tiltak, på noen få skjermer",
-        "lead": "Skjermbildene er tatt i Orgpuls med demobedriften Nordvik Anlegg AS: 34 ansatte i fire avdelinger, og en grunnlinje der 28 svarte.",
+        "lead": "Skjermbildene er fra Orgpuls og viser demobedriften Nordvik Anlegg AS, med 34 ansatte i 4 avdelinger. På grunnlinjen svarte 28 av dem.",
         "oversikt": {
           "title": "Oversikten sier det med ord",
-          "body": "Lederen ser først en setning om hva som løfter og hva som trekker ned, og så alle de elleve faktorene på én skala fra 0 til 100. Under 50 bør dere gjøre noe med."
+          "body": "Lederen ser først en setning om hva som løfter og hva som trekker ned, og så alle de 11 faktorene på én skala fra 0 til 100. Under 50 bør dere gjøre noe med."
         },
         "varmekart": {
           "title": "Varmekart per avdeling",
@@ -3977,7 +3977,7 @@
           "body": "Tiltakene ligger på en tavle med eier og frist. Et tiltak lukkes ikke før en ny måling har vist om det virket."
         },
         "sporsmal": {
-          "title": "Rundt fire minutter på mobilen",
+          "title": "Rundt 4 minutter på mobilen",
           "body": "De ansatte svarer fra lenken de får, uten å logge inn. Én påstand om gangen, på en femdelt skala, og et frivillig felt for den som vil si mer."
         },
         "arshjul": {
@@ -3997,10 +3997,10 @@
     },
     "index": {
       "title": "Artikler om arbeidsmiljø og kartlegging | Orgpuls",
-      "description": "Praktiske artikler om kartlegging av psykososialt arbeidsmiljø, medarbeiderundersøkelser, anonymitet og verneombudets rolle – med henvisning til loven.",
+      "description": "Praktiske artikler om psykososialt arbeidsmiljø og medarbeiderundersøkelser. Les om anonymitet, verneombudets rolle og hva loven krever.",
       "crumb": "Artikler",
       "eyebrow": "Artikler",
-      "h1": "Arbeidsmiljø, forklart",
+      "h1": "Arbeidsmiljø og lovkrav forklart",
       "lead": "Hva loven krever, hvilke spørsmål som gir svar, og hvordan dere får til en rytme som varer. Skrevet for daglige ledere, HR og verneombud i norske virksomheter."
     },
     "lp": {
@@ -6236,20 +6236,20 @@
       "menu": "Meny",
       "demo": "Se demo",
       "signIn": "Logg inn",
-      "getStarted": "Kom i gang",
+      "getStarted": "Prøv gratis",
       "sections": "Seksjoner",
       "crumbs": "Du er her",
       "trial": "Prøv gratis i 15 dager",
       "start": {
-        "title": "Prøv det på deres egen virksomhet",
-        "lead": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Gratis i 15 dager. Ingen kort.",
+        "title": "Prøv Orgpuls på deres egen virksomhet",
+        "lead": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Gratis i 15 dager, uten kort og uten binding.",
         "placeholder": "Organisasjonsnummer",
-        "submit": "Kom i gang",
+        "submit": "Prøv gratis",
         "fetching": "Vi henter {orgnr} fra Brønnøysundregistrene …",
-        "invalid": "Et organisasjonsnummer har ni sifre."
+        "invalid": "Et organisasjonsnummer har 9 sifre."
       },
       "footer": {
-        "about": "Medarbeiderundersøkelse og arbeidsmiljøkartlegging for norske virksomheter. Data lagres i EU.",
+        "about": "Medarbeiderundersøkelse og arbeidsmiljøkartlegging for norske virksomheter. Vi lagrer data i EU.",
         "bottom": "© {year} Orgpuls · <privacy>Personvern</privacy> · Vilkår",
         "head": {
           "produkt": "Produkt",
@@ -6294,8 +6294,8 @@
     },
     "home": {
       "pill": "Medarbeiderundersøkelse og arbeidsmiljø",
-      "h1": "Første måling ute før lunsj.",
-      "lead": "Hent virksomheten fra Brønnøysund, lim inn ansattlista, velg dato. Orgpuls sender ut, minner på og varsler verneombudet. Resultatet kommer med forslag til tiltak — og hver rolle får sin egen vei inn.",
+      "h1": "Kartlegg arbeids­miljøet – første måling ute før lunsj.",
+      "lead": "Hent virksomheten fra Brønnøysund, lim inn ansattlista og velg dato. Orgpuls sender ut, minner på og varsler verneombudet. Så får dere resultatet med forslag til tiltak – og dokumentasjonen loven krever.",
       "how": "Se hvordan det virker",
       "stats": [
         {
@@ -6319,10 +6319,10 @@
           "s": "Uten HR-avdeling",
           "get": [
             "Én side: hva står bra til, hva gjør vi nå",
-            "Rapport til ledelsen på to sider",
+            "Rapport til ledelsen på 2 sider",
             "Lovkravet dekket uten å lese paragrafer"
           ],
-          "cta": "Se for daglig leder"
+          "cta": "Se hva du får"
         },
         {
           "i": "HR",
@@ -6333,18 +6333,18 @@
             "Utvikling over år, måling for måling",
             "Roller og tilgang styrt fra ett sted"
           ],
-          "cta": "Se for HR"
+          "cta": "Se hva du får"
         },
         {
           "i": "AL",
           "t": "Avdelingsleder",
           "s": "Eget team",
           "get": [
-            "Bare ditt team, over terskelen",
+            "Bare ditt team, når minst 5 har svart",
             "Anonyme kommentarer du kan svare på",
-            "Tre forslag til tiltak, klare til å velge"
+            "3 forslag til tiltak, klare til å velge"
           ],
-          "cta": "Se for avdelingsleder"
+          "cta": "Se hva du får"
         },
         {
           "i": "VO",
@@ -6355,34 +6355,34 @@
             "Varsel før hver utsending",
             "Risikovurderingen med hjemmel per faktor"
           ],
-          "cta": "Se for verneombud"
+          "cta": "Se hva du får"
         }
       ],
       "explore": "Utforsk",
       "teasers": [
         {
           "k": "Plattform",
-          "t": "Fire deler som henger sammen",
-          "d": "Målinger, resultater, kommentarer og tiltak i én sløyfe. Bygget på et fast spørsmålssett og en terskel som aldri går under fem svar.",
+          "t": "Fra svar til tiltak på ett sted",
+          "d": "Målinger, resultater, kommentarer og tiltak henger sammen. Spørsmålene er faste, og ingen gruppe vises med under 5 svar.",
           "cta": "Se plattformen"
         },
         {
           "k": "Bruksområder",
-          "t": "Åtte situasjoner der Orgpuls gjør jobben lettere",
+          "t": "8 situasjoner der Orgpuls gjør jobben lettere",
           "d": "Fra årlig kartlegging og puls til ny leder, omorganisering, tilsyn og AMU-møtet.",
           "cta": "Se bruksområdene"
         },
         {
           "k": "Hvorfor Orgpuls",
-          "t": "Kontinuerlig oppfølging skaper resultater på sikt",
-          "d": "Positivt fokus, tiltak med eier og frist, og loven dekket underveis. Med kilder.",
+          "t": "Følg opp jevnt, og se om tiltakene virker",
+          "d": "Start med det som fungerer, gi tiltakene eier og frist, og dekk loven underveis. Med kilder.",
           "cta": "Les hvorfor"
         }
       ],
       "about": {
         "k": "Om oss",
         "t": "Små team, korte veier",
-        "d": "Orgpuls lages av et lite norsk team med bakgrunn fra HR, ledelse og produktutvikling. Du snakker med de som bygger produktet, ikke et supportsenter. Data lagres i EU, og vi selger dem ikke videre.",
+        "d": "Orgpuls er laget av et lite norsk team med bakgrunn fra HR, ledelse og produktutvikling. Du snakker med dem som bygger produktet, ikke med et supportsenter. Vi lagrer dataene i EU og selger dem ikke videre.",
         "team": [
           {
             "n": "Produkt",
@@ -6400,10 +6400,10 @@
       },
       "price": {
         "k": "Pris",
-        "t": "Fra 265 kr i måneden. Alt inkludert.",
-        "d": "565 kr for 26–100 ansatte. Ingen bindingstid. Verneombud og tillitsvalgte koster ikke ekstra.",
+        "t": "Fra 265 kr i måneden, alt inkludert.",
+        "d": "565 kr for 26–100 ansatte, eks. mva. Ingen bindingstid. Verneombud og tillitsvalgte koster ikke ekstra.",
         "see": "Se prisene",
-        "start": "Kom i gang gratis"
+        "start": "Prøv gratis i 15 dager"
       },
       "industries": {
         "k": "Bransjer",
