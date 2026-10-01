@@ -2480,7 +2480,7 @@
     "smsSetup": "Sett opp SMS"
   },
   "start": {
-    "ctaFree": "Kom i gang gratis",
+    "ctaFree": "Prøv gratis i 15 dager",
     "step": {
       "listen": {
         "title": "Lytt",
@@ -2510,7 +2510,7 @@
         "who": "Til og med 25 ansatte",
         "price": "265 kr",
         "unit": "per måned",
-        "cta": "Start gratis",
+        "cta": "Prøv gratis",
         "item": {
           "a": "Årlig kartlegging og puls mellom",
           "b": "Rapport klar til Arbeidstilsynet",
@@ -2523,7 +2523,7 @@
         "who": "26 til 100 ansatte",
         "price": "565 kr",
         "unit": "per måned",
-        "cta": "Start gratis",
+        "cta": "Prøv gratis",
         "item": {
           "a": "Alt i Liten",
           "b": "Resultat per avdeling og team",
@@ -2569,7 +2569,7 @@
       }
     },
     "finalTitle": "Prøv det på deres egen virksomhet",
-    "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på tre minutter, og trenger ikke oppgi kort før dere har bestemt dere."
+    "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på 3 minutter, og trenger ikke oppgi kort før dere har bestemt dere."
   },
   "registrer": {
     "step1": "Virksomhet",
@@ -3951,7 +3951,7 @@
       "nextTitle": "Hvordan gjør vi dette i praksis?",
       "nextLink": "Mer om dette: {page} →",
       "priceFrom": "Fra 265 kr/mnd eks. mva",
-      "anonymity": "Ingen avdeling vises før minst fem har svart.",
+      "anonymity": "Ingen avdeling vises før minst 5 har svart.",
       "related": "Relaterte sider"
     },
     "home": {
@@ -6125,7 +6125,7 @@
     },
     "signup": {
       "label": "Organisasjonsnummer",
-      "submit": "Start gratis",
+      "submit": "Prøv gratis",
       "invalid": "Organisasjonsnummeret har ni siffer. Sjekk at alle er med.",
       "invalidChecksum": "Sjekk nummeret – det ser ikke ut som et gyldig organisasjonsnummer."
     },
