@@ -4013,8 +4013,8 @@
           "text": "What the Act and the regulation require of mapping, and how you document it."
         },
         "kicker": "Working Environment Act § 3-1 and § 4-3",
-        "h1": "Mapping the psychosocial working environment – without a separate project",
-        "lead": "The Working Environment Act requires you to map the psychosocial working environment, assess the risk, put measures in place and follow up. Since 1 January 2026 the regulation says more clearly how. Orgpuls makes each step part of work you do anyway.",
+        "h1": "Mapping the psychosocial working environment – documented, without a separate project",
+        "lead": "The Working Environment Act requires you to map the psychosocial working environment, assess the risk, put measures in place and follow up. Since 1 January 2026 the regulation says more clearly how. Orgpuls makes each step part of work you do anyway – and the report is ready the day someone asks.",
         "blocks": [
           {
             "t": "h2",
@@ -4022,7 +4022,7 @@
           },
           {
             "t": "p",
-            "text": "The requirement is in section 3-1, second paragraph, letter c of the Working Environment Act: the employer shall map hazards and problems, assess the risks on that basis, draw up plans and implement measures to reduce the risk. For the psychosocial working environment, chapter 1A of the regulation on the performance of work expands on this, in force since 1 January 2026."
+            "text": "The requirement is in section 3-1, second paragraph, letter c of the Working Environment Act: the employer shall map hazards and problems, assess the risks on that basis, draw up plans and implement measures to reduce the risk. The regulation on the performance of work expands on this for the psychosocial working environment in chapter 1A. The chapter has applied since 1 January 2026."
           },
           {
             "t": "law",
@@ -4033,7 +4033,7 @@
               },
               {
                 "ref": "AML § 4-3",
-                "text": "The psychosocial working environment shall be fully satisfactory. **How Orgpuls does it:** eleven factors covering what the section names, among them unclear and conflicting demands, emotional demands, workload and support."
+                "text": "The psychosocial working environment shall be fully satisfactory. **How Orgpuls does it:** 11 factors covering what the section names, among them unclear and conflicting demands, emotional demands, workload and support."
               },
               {
                 "ref": "Regulation § 1A-2",
@@ -4051,11 +4051,11 @@
           },
           {
             "t": "p",
-            "text": "The regulation requires the mapping and risk assessment to be documented and to form part of the systematic health, safety and environment work. In Orgpuls every survey, every risk assessment and every measure is stored with a date and an owner. The report follows the four steps of section 3-1 letter c in order: what was mapped, what the risk assessment concluded, which measures were put in place, and what the follow-up showed."
+            "text": "The regulation requires the mapping and risk assessment to be documented and to form part of the systematic health, safety and environment work. Orgpuls stores every survey, every risk assessment and every measure with a date and an owner. The report follows the four steps of section 3-1 letter c in order: what was mapped, what the risk assessment concluded, which measures were put in place, and what the follow-up showed."
           },
           {
             "t": "p",
-            "text": "The figures stay as they were when the round closed, so the documentation does not change afterwards. The report can be printed or saved as PDF the day someone asks."
+            "text": "The figures stay as they were when the round closed, so the documentation does not change afterwards. You can print the report or save it as PDF the day someone asks."
           },
           {
             "t": "box",
@@ -4071,7 +4071,7 @@
             "items": [
               {
                 "title": "Baseline",
-                "text": "The full question set once a year: 33 statements across eleven factors. About four minutes per employee."
+                "text": "The full question set once a year: 33 statements across 11 factors. About 4 minutes per employee."
               },
               {
                 "title": "Measures",
@@ -4079,7 +4079,7 @@
               },
               {
                 "title": "Pulse",
-                "text": "Short surveys between baselines, only on the factors where a measure is running. Under a minute."
+                "text": "Short surveys between baselines, only on the factors where a measure is running. Under 1 minute."
               },
               {
                 "title": "Report",
@@ -4107,7 +4107,7 @@
           }
         ],
         "finalTitle": "Do all four steps in one rhythm",
-        "finalBody": "Enter your organisation number and we fetch the rest from the Brønnøysund registers. You are up and running in three minutes, and you give no card details until you have decided."
+        "finalBody": "Enter your organisation number and we fetch the rest from the Brønnøysund registers. You are up and running in 3 minutes, and you give no card details until you have decided."
       },
       "verneombud": {
         "title": "Safety representatives and work environment mapping | Orgpuls",
@@ -4119,7 +4119,7 @@
         },
         "kicker": "Working Environment Act § 6-2",
         "h1": "Safety representatives in the mapping: you see the same figures as management",
-        "lead": "As a safety representative you shall be consulted when the organisation maps the working environment and puts measures in place. For that you need access to the same basis as management – not a summary afterwards.",
+        "lead": "As a safety representative you shall be consulted when your organisation maps the working environment and puts measures in place. For that you need the same basis as management – not a summary afterwards. Orgpuls gives you that, at no extra cost.",
         "tip": {
           "label": "Tip your manager",
           "subject": "Mapping the working environment",
@@ -4132,7 +4132,7 @@
           },
           {
             "t": "p",
-            "text": "Section 6-2 of the Working Environment Act says the safety representative shall see to it that the employees' psychosocial working environment is safeguarded, and shall be consulted during the planning and implementation of measures that matter for the working environment. Section 1A-2 of the regulation on the performance of work also requires the mapping and risk assessment to be done together with the employees and their representatives."
+            "text": "Section 6-2 of the Working Environment Act says the safety representative shall see to it that the employees' psychosocial working environment is safeguarded. The safety representative shall also be consulted during the planning and implementation of measures that matter for the working environment. Section 1A-2 of the regulation on the performance of work also requires the mapping and risk assessment to be done together with the employees and their representatives."
           },
           {
             "t": "h2",
@@ -4151,10 +4151,10 @@
               },
               {
                 "title": "Anonymity you can vouch for",
-                "text": "No group is shown until at least five have answered. The limit cannot be lowered – not even by an administrator."
+                "text": "No group is shown until at least 5 have answered. The limit cannot be lowered – not even by an administrator."
               },
               {
-                "title": "At no cost",
+                "title": "No extra cost",
                 "text": "The safety representative has access at no extra cost to the organisation."
               }
             ]
@@ -4165,7 +4165,7 @@
           },
           {
             "t": "p",
-            "text": "Many safety representatives know the mapping should be done, but not how to raise it. The «Tip your manager» button at the top of this page opens a ready e-mail in your own mail program. You can change it before you send it, and we never see it."
+            "text": "Do you know the mapping should be done, but not how to raise it? The «Tip your manager» button at the top of this page opens a ready e-mail in your own mail program. You can change it before you send it, and we never see it."
           },
           {
             "t": "box",
@@ -4178,7 +4178,7 @@
           },
           {
             "t": "p",
-            "text": "When a small department is not shown, nothing is being hidden from you. The figure is not calculated for anyone. The answers still count in the whole, so no voice is lost. Read more about [what anonymous means in an employee survey](/artikler/anonym-medarbeiderundersokelse)."
+            "text": "When a small department is not shown, nobody is hiding anything from you: the figure is not calculated for anyone. The answers still count in the whole, so no voice is lost. Read more about [what anonymous means in an employee survey](/artikler/anonym-medarbeiderundersokelse)."
           }
         ],
         "faq": [
@@ -4188,7 +4188,7 @@
           },
           {
             "q": "Can management see who answered what?",
-            "a": "No. The answer is stored without name, e-mail address or IP address, and no group is shown until at least five have answered."
+            "a": "No. The answer is stored without name, e-mail address or IP address, and no group is shown until at least 5 have answered."
           },
           {
             "q": "Does it cost me anything as safety representative?",
@@ -4200,7 +4200,7 @@
           }
         ],
         "finalTitle": "Tip management, or start yourself",
-        "finalBody": "Both manager and safety representative in a small organisation? Start with the organisation number – you are up and running in three minutes.",
+        "finalBody": "Both manager and safety representative in a small organisation? Start with the organisation number – you are up and running in 3 minutes.",
         "signupLabel": "Are you a manager? Organisation number"
       },
       "smaaBedrifter": {
@@ -4213,7 +4213,7 @@
         },
         "kicker": "For organisations with 5–25 employees",
         "h1": "Employee survey for small businesses – set up in under an hour",
-        "lead": "Small businesses rarely have an HR department, but they have the same legal requirements as large organisations. Orgpuls is an employee survey that handles sending, reminders and documentation, so you can spend the time on what comes out of it.",
+        "lead": "Small businesses rarely have an HR department, but they have the same legal requirements as large ones. Orgpuls is an employee survey that handles sending, reminders and documentation. You spend your time on what comes out of it.",
         "blocks": [
           {
             "t": "h2",
@@ -4221,11 +4221,11 @@
           },
           {
             "t": "p",
-            "text": "It is the first question in a small organisation, and it is the right one to ask. In Orgpuls no group is shown until at least five people have answered. If you are twelve, you see figures for the whole organisation, but not for a department of three. The limit lives in the database and cannot be lowered – not even by the managing director."
+            "text": "It is the first question in a small organisation, and it is the right one to ask. Orgpuls shows no group until at least 5 people have answered. If you are 12, you see figures for the whole organisation, but not for a department of 3."
           },
           {
             "t": "p",
-            "text": "The answer is stored without name, e-mail address or IP address. There is no column that could link an answer to a person."
+            "text": "The limit lives in the database and cannot be lowered – not even by the managing director. The answer is stored without name, e-mail address or IP address, and no column can link an answer to a person."
           },
           {
             "t": "h2",
@@ -4240,19 +4240,19 @@
             "rows": [
               [
                 "Signing up with the organisation number",
-                "About three minutes"
+                "About 3 minutes"
               ],
               [
                 "First-time setup",
-                "Under an hour"
+                "Under 1 hour"
               ],
               [
                 "The main survey, per employee",
-                "About four minutes"
+                "About 4 minutes"
               ],
               [
                 "A pulse, per employee",
-                "Under a minute"
+                "Under 1 minute"
               ]
             ]
           },
@@ -4262,7 +4262,7 @@
           },
           {
             "t": "p",
-            "text": "The survey is sent by e-mail or SMS, and can also be shared as a link or a QR code in the break room. Everyone answers on their phone, in Norwegian. Employees can be pasted in from a spreadsheet – you do not need an HR system."
+            "text": "You send the survey by e-mail or SMS, or share it as a link or a QR code in the break room. Everyone answers on their phone, in Norwegian. You paste employees in from a spreadsheet – you do not need an HR system."
           },
           {
             "t": "h2",
@@ -4271,7 +4271,7 @@
           {
             "t": "ul",
             "items": [
-              "Annual mapping of eleven factors, with short pulses in between",
+              "Annual mapping of 11 factors, with short pulses in between",
               "The findings that lift the most, turned into measures with an owner and a deadline",
               "A report that follows section 3-1 letter c of the Working Environment Act",
               "Access for the safety representative at no extra cost"
@@ -4289,7 +4289,7 @@
             "a": "Yes. Section 3-1 of the Working Environment Act applies to every organisation with employees. The regulation says mapping shall be adapted to the organisation's size, so it can be simple – but it must be done and documented."
           },
           {
-            "q": "What if only four answer?",
+            "q": "What if only 4 answer?",
             "a": "Then a dash is shown instead of a number. The figure is not hidden from you in particular – it is not calculated for anyone. That is the price of nobody being able to recognise an answer."
           },
           {
@@ -4302,7 +4302,7 @@
           }
         ],
         "finalTitle": "Try it on your own organisation",
-        "finalBody": "Enter your organisation number and we fetch the rest from the Brønnøysund registers. You are up and running in three minutes, and you give no card details until you have decided."
+        "finalBody": "Enter your organisation number and we fetch the rest from the Brønnøysund registers. You are up and running in 3 minutes, and you give no card details until you have decided."
       },
       "byggOgAnlegg": {
         "title": "Work environment survey for construction | Orgpuls",
@@ -4310,11 +4310,11 @@
         "crumb": "Construction",
         "card": {
           "title": "Construction",
-          "text": "Sent by SMS to people on site and in the workshop, with results per department."
+          "text": "Send by SMS to people on site and in the workshop, and see the result per department."
         },
         "kicker": "Construction, civil works and workshops",
         "h1": "A work environment survey for construction – reaching people on site, rig and workshop",
-        "lead": "In construction many employees do not sit at a PC, and the e-mail goes unread. Orgpuls sends the work environment survey by SMS, and everyone answers on their phone in about four minutes.",
+        "lead": "In construction many employees do not sit at a PC, and the e-mail goes unread. Orgpuls sends the work environment survey by SMS, and everyone answers on their phone in about 4 minutes.",
         "blocks": [
           {
             "t": "h2",
@@ -4322,7 +4322,7 @@
           },
           {
             "t": "p",
-            "text": "Where people work outdoors, the channel is the biggest single factor in the response rate. An SMS or a QR code in the site hut moves more than any wording in the invitation. Orgpuls sends one reminder to those who have not answered – from the system, not the manager – and nobody learns who is missing."
+            "text": "Where people work outdoors, the channel decides much of the response rate. An SMS or a QR code in the site hut reaches people where they are. Orgpuls sends one reminder to those who have not answered – from the system, not the manager – and nobody learns who is missing."
           },
           {
             "t": "h2",
@@ -4330,11 +4330,11 @@
           },
           {
             "t": "p",
-            "text": "With the Usual plan you see the result per department and team, so you see where workload, time pressure and speaking up differ. A department is shown once at least five have answered."
+            "text": "With the Usual plan you see the result per department and team, so you see where workload, time pressure and speaking up differ. A department is shown once at least 5 have answered."
           },
           {
             "t": "p",
-            "text": "The example on the front page is Nordvik Anlegg AS, an imaginary company with departments on site, in the workshop and in administration. The departments with enough answers are shown there, while administration – five employees and three answers – only counts in the whole."
+            "text": "The example on the front page is Nordvik Anlegg AS – an imaginary company with departments on site, in the workshop and in administration. The departments with enough answers are shown there. Administration has 5 employees and 3 answers, so it only counts in the whole."
           },
           {
             "t": "h2",
@@ -4362,11 +4362,11 @@
           },
           {
             "q": "How long does it take an employee?",
-            "a": "About four minutes for the main survey and under a minute for a pulse. Everything can be answered on a phone."
+            "a": "About 4 minutes for the main survey and under 1 minute for a pulse. Everyone can answer on a phone."
           },
           {
             "q": "Can we see results per project or department?",
-            "a": "Yes, per group as you set the groups up, on the Usual plan. A group is shown once at least five have answered."
+            "a": "Yes, per group as you set the groups up, on the Usual plan. A group is shown once at least 5 have answered."
           },
           {
             "q": "What does it cost?",
@@ -4374,7 +4374,7 @@
           }
         ],
         "finalTitle": "Try it on the next project",
-        "finalBody": "Enter the organisation number, add the crew and send by SMS. You are up and running in three minutes, without card details."
+        "finalBody": "Enter the organisation number, add the crew and send by SMS. You are up and running in 3 minutes, without card details."
       },
       "helseOgOmsorg": {
         "title": "Work environment mapping in health and care | Orgpuls",
@@ -4386,7 +4386,7 @@
         },
         "kicker": "Health, care and work with people",
         "h1": "Work environment mapping in health and care – where the emotional demands are greatest",
-        "lead": "In work with people the strain is often something other than workload alone. Orgpuls measures the emotional demands, whether anyone is left alone with them, and whether people have experienced violence or threats – anonymously, on mobile, across shifts.",
+        "lead": "In work with people, it is often something other than the workload that weighs on you. Orgpuls measures the emotional demands, whether anyone is left alone with them, and whether people have experienced violence or threats. Everyone answers anonymously on their phone, whatever their shift.",
         "blocks": [
           {
             "t": "h2",
@@ -4415,7 +4415,7 @@
           },
           {
             "t": "p",
-            "text": "Orgpuls measures eleven factors with three statements each. Some of them fit work with people particularly well (translated):"
+            "text": "Orgpuls measures 11 factors with 3 statements each. Some of them fit work with people particularly well (translated):"
           },
           {
             "t": "ul",
@@ -4438,7 +4438,7 @@
           },
           {
             "t": "p",
-            "text": "The survey is sent by e-mail or SMS, or shared as a link and a QR code in the staff room. It stays open for several days, so every shift has time to answer. The main survey takes about four minutes, a pulse under a minute. One reminder goes to those who have not answered – from the system, not the manager."
+            "text": "You send the survey by e-mail or SMS, or share it as a link and a QR code in the staff room. It stays open for several days, so every shift has time to answer: about 4 minutes for the main survey, under 1 minute for a pulse. One reminder goes to those who have not answered – from the system, not the manager."
           },
           {
             "t": "h2",
@@ -4446,7 +4446,7 @@
           },
           {
             "t": "p",
-            "text": "No group is shown until at least five have answered, and the limit cannot be lowered. If a department has too few answers, they still count in the organisation's figures. When a department could be worked out from the others, one more is held back."
+            "text": "No group is shown until at least 5 have answered, and the limit cannot be lowered. If a department has too few answers, they still count in the organisation's figures. If a department could be worked out from the others, Orgpuls holds back one more."
           }
         ],
         "faq": [
@@ -4468,7 +4468,7 @@
           }
         ],
         "finalTitle": "Try it on your own organisation",
-        "finalBody": "Enter your organisation number and we fetch the rest from the Brønnøysund registers. You are up and running in three minutes, without card details."
+        "finalBody": "Enter your organisation number and we fetch the rest from the Brønnøysund registers. You are up and running in 3 minutes, without card details."
       }
     },
     "articles": {

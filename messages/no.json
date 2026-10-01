@@ -4013,8 +4013,8 @@
           "text": "Hva arbeidsmiljøloven og forskriften krever av kartlegging, og hvordan dere dokumenterer det."
         },
         "kicker": "Arbeidsmiljøloven § 3-1 og § 4-3",
-        "h1": "Kartlegging av psykososialt arbeidsmiljø – uten et eget prosjekt",
-        "lead": "Arbeidsmiljøloven krever at dere kartlegger det psykososiale arbeidsmiljøet, vurderer risikoen, setter tiltak og følger opp. Fra 1. januar 2026 sier forskriften tydeligere hvordan. Orgpuls gjør hvert steg til en del av jobben dere uansett gjør.",
+        "h1": "Kartlegging av psykososialt arbeidsmiljø – dokumentert, uten et eget prosjekt",
+        "lead": "Arbeidsmiljøloven krever at dere kartlegger det psykososiale arbeidsmiljøet, vurderer risikoen, setter tiltak og følger opp. Fra 1. januar 2026 sier forskriften tydeligere hvordan. Orgpuls gjør hvert steg til en del av jobben dere uansett gjør – og rapporten er klar den dagen noen spør.",
         "blocks": [
           {
             "t": "h2",
@@ -4022,7 +4022,7 @@
           },
           {
             "t": "p",
-            "text": "Kravet står i arbeidsmiljøloven § 3-1 andre ledd bokstav c: arbeidsgiver skal «kartlegge farer og problemer og på denne bakgrunn vurdere risikoforholdene i virksomheten, utarbeide planer og iverksette tiltak for å redusere risikoen». For det psykososiale arbeidsmiljøet utdyper forskrift om utførelse av arbeid dette i kapittel 1A, som gjelder fra 1. januar 2026."
+            "text": "Kravet står i arbeidsmiljøloven § 3-1 andre ledd bokstav c: arbeidsgiver skal «kartlegge farer og problemer og på denne bakgrunn vurdere risikoforholdene i virksomheten, utarbeide planer og iverksette tiltak for å redusere risikoen». Forskrift om utførelse av arbeid utdyper dette for det psykososiale arbeidsmiljøet i kapittel 1A. Kapittelet gjelder fra 1. januar 2026."
           },
           {
             "t": "law",
@@ -4033,7 +4033,7 @@
               },
               {
                 "ref": "AML § 4-3",
-                "text": "Det psykososiale arbeidsmiljøet skal være fullt forsvarlig. **Slik gjør Orgpuls det:** elleve faktorer som dekker det paragrafen nevner, blant annet uklare og motstridende krav, emosjonelle krav, arbeidsmengde og støtte."
+                "text": "Det psykososiale arbeidsmiljøet skal være fullt forsvarlig. **Slik gjør Orgpuls det:** 11 faktorer som dekker det paragrafen nevner, blant annet uklare og motstridende krav, emosjonelle krav, arbeidsmengde og støtte."
               },
               {
                 "ref": "Forskriften § 1A-2",
@@ -4051,16 +4051,16 @@
           },
           {
             "t": "p",
-            "text": "Forskriften krever at kartleggingen og risikovurderingen dokumenteres og inngår i det systematiske HMS-arbeidet. I Orgpuls lagres hver måling, hver risikovurdering og hvert tiltak med dato og eier. Rapporten følger de fire stegene i § 3-1 bokstav c i rekkefølge: hva som ble kartlagt, hva risikovurderingen kom til, hvilke tiltak som ble satt i verk, og hva oppfølgingen viste."
+            "text": "Forskriften krever at kartleggingen og risikovurderingen dokumenteres og inngår i det systematiske HMS-arbeidet. Orgpuls lagrer hver måling, hver risikovurdering og hvert tiltak med dato og eier. Rapporten følger de fire stegene i § 3-1 bokstav c i rekkefølge: hva som ble kartlagt, hva risikovurderingen kom til, hvilke tiltak som ble satt i verk, og hva oppfølgingen viste."
           },
           {
             "t": "p",
-            "text": "Tallene står slik de var da runden ble lukket, så dokumentasjonen endrer seg ikke i ettertid. Rapporten kan skrives ut eller lagres som PDF den dagen noen spør."
+            "text": "Tallene står slik de var da runden ble lukket, så dokumentasjonen endrer seg ikke i ettertid. Dere kan skrive ut rapporten eller lagre den som PDF den dagen noen spør."
           },
           {
             "t": "box",
             "title": "Hva Orgpuls ikke dekker",
-            "text": "Orgpuls dekker kartleggingen og risikovurderingen av det psykososiale arbeidsmiljøet. Mål for HMS-arbeidet, avvikshåndtering, sykefraværsoppfølging og vernerunder har dere et annet sted. Arbeidstilsynet forventer at kartleggingen bygger på flere kilder – en undersøkelse er én av dem."
+            "text": "Orgpuls dekker kartleggingen og risikovurderingen av det psykososiale arbeidsmiljøet. HMS-mål, avvikshåndtering, oppfølging av sykefravær og vernerunder har dere et annet sted. Arbeidstilsynet forventer at kartleggingen bygger på flere kilder – en undersøkelse er én av dem."
           },
           {
             "t": "h2",
@@ -4071,7 +4071,7 @@
             "items": [
               {
                 "title": "Grunnlinje",
-                "text": "Hele spørsmålssettet én gang i året: 33 påstander om elleve faktorer. Rundt fire minutter per ansatt."
+                "text": "Hele spørsmålssettet én gang i året: 33 påstander om 11 faktorer. Rundt 4 minutter per ansatt."
               },
               {
                 "title": "Tiltak",
@@ -4079,7 +4079,7 @@
               },
               {
                 "title": "Puls",
-                "text": "Korte målinger mellom grunnlinjene, bare om faktorene der et tiltak løper. Under ett minutt."
+                "text": "Korte målinger mellom grunnlinjene, bare om faktorene der et tiltak løper. Under 1 minutt."
               },
               {
                 "title": "Rapport",
@@ -4107,7 +4107,7 @@
           }
         ],
         "finalTitle": "Gjør alle fire stegene i én og samme rytme",
-        "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på tre minutter, og trenger ikke oppgi kort før dere har bestemt dere."
+        "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på 3 minutter, og trenger ikke oppgi kort før dere har bestemt dere."
       },
       "verneombud": {
         "title": "Verneombud og kartlegging av arbeidsmiljøet | Orgpuls",
@@ -4119,7 +4119,7 @@
         },
         "kicker": "Arbeidsmiljøloven § 6-2",
         "h1": "Verneombud i kartleggingen: du ser de samme tallene som ledelsen",
-        "lead": "Som verneombud skal du tas med på råd når virksomheten kartlegger arbeidsmiljøet og setter tiltak. Da trenger du innsyn i det samme grunnlaget som ledelsen – ikke et sammendrag i etterkant.",
+        "lead": "Som verneombud skal du tas med på råd når dere kartlegger arbeidsmiljøet og setter tiltak. Da trenger du det samme grunnlaget som ledelsen – ikke et sammendrag etterpå. Med Orgpuls får du det, uten at det koster noe ekstra.",
         "tip": {
           "label": "Tips daglig leder",
           "subject": "Kartlegging av arbeidsmiljøet",
@@ -4132,7 +4132,7 @@
           },
           {
             "t": "p",
-            "text": "Arbeidsmiljøloven § 6-2 sier at verneombudet skal påse at «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt», og at verneombudet skal «tas med på råd under planlegging og gjennomføring av tiltak som har betydning for arbeidsmiljøet». Forskrift om utførelse av arbeid § 1A-2 krever i tillegg at kartleggingen og risikovurderingen gjøres i samarbeid med arbeidstakerne og deres representanter."
+            "text": "Arbeidsmiljøloven § 6-2 sier at verneombudet skal påse at «arbeidstakernes psykososiale arbeidsmiljø er ivaretatt». Verneombudet skal også «tas med på råd under planlegging og gjennomføring av tiltak som har betydning for arbeidsmiljøet». Forskrift om utførelse av arbeid § 1A-2 krever i tillegg at kartleggingen og risikovurderingen gjøres i samarbeid med arbeidstakerne og deres representanter."
           },
           {
             "t": "h2",
@@ -4151,10 +4151,10 @@
               },
               {
                 "title": "Anonymitet du kan stå inne for",
-                "text": "Ingen gruppe vises før minst fem har svart. Grensen kan ikke settes lavere – heller ikke av en administrator."
+                "text": "Ingen gruppe vises før minst 5 har svart. Grensen kan ikke settes lavere – heller ikke av en administrator."
               },
               {
-                "title": "Uten kostnad",
+                "title": "Ingen ekstra kostnad",
                 "text": "Verneombudet har tilgang uten at det koster virksomheten ekstra."
               }
             ]
@@ -4165,7 +4165,7 @@
           },
           {
             "t": "p",
-            "text": "Mange verneombud vet at kartleggingen burde vært gjort, men ikke hvordan de skal ta det opp. Knappen «Tips daglig leder» øverst på siden åpner en ferdig e-post i ditt eget e-postprogram. Du kan endre den før du sender, og vi ser den aldri."
+            "text": "Vet du at kartleggingen burde vært gjort, men ikke hvordan du skal ta det opp? Knappen «Tips daglig leder» øverst på siden åpner en ferdig e-post i ditt eget e-postprogram. Du kan endre den før du sender, og vi ser den aldri."
           },
           {
             "t": "box",
@@ -4178,7 +4178,7 @@
           },
           {
             "t": "p",
-            "text": "Når en liten avdeling ikke vises, er det ikke fordi noe skjules for deg. Tallet er ikke regnet ut for noen. Svarene teller likevel med i helheten, så ingen stemmer går tapt. Les mer om [hva anonymt betyr i en medarbeiderundersøkelse](/artikler/anonym-medarbeiderundersokelse)."
+            "text": "Når en liten avdeling ikke vises, skjuler ingen noe for deg: tallet er ikke regnet ut for noen. Svarene teller likevel med i helheten, så ingen stemmer går tapt. Les mer om [hva anonymt betyr i en medarbeiderundersøkelse](/artikler/anonym-medarbeiderundersokelse)."
           }
         ],
         "faq": [
@@ -4188,7 +4188,7 @@
           },
           {
             "q": "Kan ledelsen se hvem som har svart hva?",
-            "a": "Nei. Svaret lagres uten navn, e-postadresse eller IP-adresse, og ingen gruppe vises før minst fem har svart."
+            "a": "Nei. Svaret lagres uten navn, e-postadresse eller IP-adresse, og ingen gruppe vises før minst 5 har svart."
           },
           {
             "q": "Koster det noe for meg som verneombud?",
@@ -4200,7 +4200,7 @@
           }
         ],
         "finalTitle": "Tips ledelsen, eller start selv",
-        "finalBody": "Er du både leder og verneombud i en liten virksomhet? Start med organisasjonsnummeret – dere er i gang på tre minutter.",
+        "finalBody": "Er du både leder og verneombud i en liten virksomhet? Start med organisasjonsnummeret – dere er i gang på 3 minutter.",
         "signupLabel": "Er du leder? Organisasjonsnummer"
       },
       "smaaBedrifter": {
@@ -4213,7 +4213,7 @@
         },
         "kicker": "For virksomheter med 5–25 ansatte",
         "h1": "Medarbeider­undersøkelse for små bedrifter – satt opp på under en time",
-        "lead": "Små bedrifter har sjelden en HR-avdeling, men de har de samme lovkravene som store virksomheter. Orgpuls er en medarbeiderundersøkelse som tar seg av utsending, påminnelser og dokumentasjon, så dere kan bruke tiden på det som kommer fram.",
+        "lead": "Små bedrifter har sjelden en HR-avdeling, men de har de samme lovkravene som store. Orgpuls er en medarbeiderundersøkelse som tar seg av utsending, påminnelser og dokumentasjon. Dere bruker tiden på det som kommer fram.",
         "blocks": [
           {
             "t": "h2",
@@ -4221,11 +4221,11 @@
           },
           {
             "t": "p",
-            "text": "Det er det første spørsmålet i en liten virksomhet, og det er riktig å stille det. I Orgpuls vises ingen gruppe før minst fem personer har svart. Er dere tolv, ser dere tall for hele virksomheten, men ikke for en avdeling på tre. Grensen ligger i databasen og kan ikke senkes – heller ikke av daglig leder."
+            "text": "Det er det første spørsmålet i en liten virksomhet, og det er riktig å stille det. Orgpuls viser ingen gruppe før minst 5 personer har svart. Er dere 12, ser dere tall for hele virksomheten, men ikke for en avdeling på 3."
           },
           {
             "t": "p",
-            "text": "Svaret lagres uten navn, e-postadresse eller IP-adresse. Det finnes ingen kolonne som kunne koblet et svar til en person."
+            "text": "Grensen ligger i databasen og kan ikke senkes – heller ikke av daglig leder. Svaret lagres uten navn, e-postadresse eller IP-adresse, og ingen kolonne kan koble et svar til en person."
           },
           {
             "t": "h2",
@@ -4240,19 +4240,19 @@
             "rows": [
               [
                 "Registrering med organisasjonsnummer",
-                "Rundt tre minutter"
+                "Rundt 3 minutter"
               ],
               [
                 "Oppsett første gang",
-                "Under en time"
+                "Under 1 time"
               ],
               [
                 "Hovedmålingen, per ansatt",
-                "Rundt fire minutter"
+                "Rundt 4 minutter"
               ],
               [
                 "En puls, per ansatt",
-                "Under ett minutt"
+                "Under 1 minutt"
               ]
             ]
           },
@@ -4262,7 +4262,7 @@
           },
           {
             "t": "p",
-            "text": "Undersøkelsen sendes på e-post eller SMS, og kan også deles som lenke eller QR-kode på pauserommet. Alle svarer på mobilen, på norsk. De ansatte kan limes inn fra et regneark – dere trenger ikke et HR-system."
+            "text": "Dere sender undersøkelsen på e-post eller SMS, eller deler den som lenke eller QR-kode på pauserommet. Alle svarer på mobilen, på norsk. Dere kan lime inn de ansatte fra et regneark – dere trenger ikke et HR-system."
           },
           {
             "t": "h2",
@@ -4271,7 +4271,7 @@
           {
             "t": "ul",
             "items": [
-              "Årlig kartlegging av elleve faktorer, med korte pulser imellom",
+              "Årlig kartlegging av 11 faktorer, med korte pulser imellom",
               "Funnene som løfter mest, gjort om til tiltak med eier og frist",
               "Rapport som følger kravet i arbeidsmiljøloven § 3-1 bokstav c",
               "Tilgang for verneombudet uten ekstra kostnad"
@@ -4289,7 +4289,7 @@
             "a": "Ja. Arbeidsmiljøloven § 3-1 gjelder alle virksomheter med ansatte. Forskriften sier at kartleggingen skal tilpasses virksomhetens størrelse, så den kan være enkel – men den skal gjøres og dokumenteres."
           },
           {
-            "q": "Hva om bare fire svarer?",
+            "q": "Hva om bare 4 svarer?",
             "a": "Da vises en strek i stedet for et tall. Tallet er ikke skjult for dere spesielt – det er ikke regnet ut for noen. Det er prisen for at ingen kan kjenne igjen et svar."
           },
           {
@@ -4302,7 +4302,7 @@
           }
         ],
         "finalTitle": "Prøv det på deres egen virksomhet",
-        "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på tre minutter, og trenger ikke oppgi kort før dere har bestemt dere."
+        "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på 3 minutter, og trenger ikke oppgi kort før dere har bestemt dere."
       },
       "byggOgAnlegg": {
         "title": "Arbeidsmiljøundersøkelse for bygg og anlegg | Orgpuls",
@@ -4310,11 +4310,11 @@
         "crumb": "Bygg og anlegg",
         "card": {
           "title": "Bygg og anlegg",
-          "text": "Utsending på SMS til folk på prosjekt og verksted, og resultat per avdeling."
+          "text": "Send på SMS til folk på prosjekt og verksted, og se resultatet per avdeling."
         },
         "kicker": "Bygg, anlegg og verksted",
         "h1": "Arbeidsmiljø­undersøkelse for bygg og anlegg – som når folk på prosjekt, rigg og verksted",
-        "lead": "I bygg og anlegg sitter mange av de ansatte ikke ved en PC, og e-posten blir liggende. Orgpuls sender arbeidsmiljøundersøkelsen på SMS, og alle svarer på mobilen på rundt fire minutter.",
+        "lead": "I bygg og anlegg sitter mange av de ansatte ikke ved en PC, og e-posten blir liggende. Orgpuls sender arbeidsmiljøundersøkelsen på SMS, og alle svarer på mobilen på rundt 4 minutter.",
         "blocks": [
           {
             "t": "h2",
@@ -4322,7 +4322,7 @@
           },
           {
             "t": "p",
-            "text": "I virksomheter der folk jobber ute, er kanalen den største enkeltfaktoren for svarprosenten. En SMS eller en QR-kode i brakka flytter mer enn noen formulering i invitasjonen. Orgpuls sender én påminnelse til dem som ikke har svart – fra systemet, ikke fra lederen – og ingen får vite hvem som mangler."
+            "text": "Der folk jobber ute, avgjør kanalen mye av svarprosenten. En SMS eller en QR-kode i brakka når folk der de er. Orgpuls sender én påminnelse til dem som ikke har svart – fra systemet, ikke fra lederen – og ingen får vite hvem som mangler."
           },
           {
             "t": "h2",
@@ -4330,11 +4330,11 @@
           },
           {
             "t": "p",
-            "text": "Med pakken Vanlig ser dere resultatet per avdeling og team, så dere ser hvor arbeidsmengde, tidspress og ytringsklima skiller seg. En avdeling vises når minst fem har svart."
+            "text": "Med pakken Vanlig ser dere resultatet per avdeling og team, så dere ser hvor arbeidsmengde, tidspress og ytringsklima skiller seg. En avdeling vises når minst 5 har svart."
           },
           {
             "t": "p",
-            "text": "Eksempelet på forsiden er Nordvik Anlegg AS, en tenkt virksomhet med avdelinger på prosjekt, i verkstedet og i administrasjonen. Der vises avdelingene som har nok svar, mens administrasjonen – fem ansatte og tre svar – bare teller med i helheten."
+            "text": "Eksempelet på forsiden er Nordvik Anlegg AS – en tenkt virksomhet med avdelinger på prosjekt, i verkstedet og i administrasjonen. Der vises avdelingene som har nok svar. Administrasjonen har 5 ansatte og 3 svar, så den teller bare med i helheten."
           },
           {
             "t": "h2",
@@ -4362,11 +4362,11 @@
           },
           {
             "q": "Hvor lang tid tar det for en ansatt?",
-            "a": "Rundt fire minutter for hovedmålingen og under ett minutt for en puls. Alt kan besvares på mobilen."
+            "a": "Rundt 4 minutter for hovedmålingen og under 1 minutt for en puls. Alle kan svare på mobilen."
           },
           {
             "q": "Kan vi se resultat per prosjekt eller avdeling?",
-            "a": "Ja, per gruppe slik dere setter opp gruppene, i pakken Vanlig. En gruppe vises når minst fem har svart."
+            "a": "Ja, per gruppe slik dere setter opp gruppene, i pakken Vanlig. En gruppe vises når minst 5 har svart."
           },
           {
             "q": "Hva koster det?",
@@ -4374,7 +4374,7 @@
           }
         ],
         "finalTitle": "Prøv på neste prosjekt",
-        "finalBody": "Skriv inn organisasjonsnummeret, legg inn mannskapet og send på SMS. Dere er i gang på tre minutter, uten kortopplysninger."
+        "finalBody": "Skriv inn organisasjonsnummeret, legg inn mannskapet og send på SMS. Dere er i gang på 3 minutter, uten kortopplysninger."
       },
       "helseOgOmsorg": {
         "title": "Arbeidsmiljøkartlegging i helse og omsorg | Orgpuls",
@@ -4386,7 +4386,7 @@
         },
         "kicker": "Helse, omsorg og arbeid med mennesker",
         "h1": "Arbeidsmiljøkartlegging i helse og omsorg – der de emosjonelle kravene er størst",
-        "lead": "I arbeid med mennesker er belastningen ofte en annen enn arbeidsmengde alene. Orgpuls måler de emosjonelle kravene, om noen står alene i dem, og om folk har opplevd vold eller trusler – anonymt, på mobilen, på tvers av turnus.",
+        "lead": "I arbeid med mennesker er det ofte noe annet enn arbeidsmengden som tynger. Orgpuls måler de emosjonelle kravene, om noen står alene i dem, og om folk har opplevd vold eller trusler. Alle svarer anonymt på mobilen, uansett turnus.",
         "blocks": [
           {
             "t": "h2",
@@ -4415,7 +4415,7 @@
           },
           {
             "t": "p",
-            "text": "Orgpuls måler elleve faktorer med tre påstander hver. Noen av dem treffer arbeid med mennesker særlig godt:"
+            "text": "Orgpuls måler 11 faktorer med 3 påstander hver. Noen av dem treffer arbeid med mennesker særlig godt:"
           },
           {
             "t": "ul",
@@ -4438,7 +4438,7 @@
           },
           {
             "t": "p",
-            "text": "Undersøkelsen sendes på e-post eller SMS, eller deles som lenke og QR-kode på vaktrommet. Den er åpen i flere dager, så alle skift rekker å svare. Hovedmålingen tar rundt fire minutter, en puls under ett minutt. Én påminnelse går til dem som ikke har svart – fra systemet, ikke fra lederen."
+            "text": "Dere sender undersøkelsen på e-post eller SMS, eller deler den som lenke og QR-kode på vaktrommet. Den er åpen i flere dager, så alle skift rekker å svare: rundt 4 minutter for hovedmålingen, under 1 minutt for en puls. Én påminnelse går til dem som ikke har svart – fra systemet, ikke fra lederen."
           },
           {
             "t": "h2",
@@ -4446,7 +4446,7 @@
           },
           {
             "t": "p",
-            "text": "Ingen gruppe vises før minst fem har svart, og grensen kan ikke senkes. Har en avdeling for få svar, teller svarene likevel med i virksomhetens tall. Når en avdeling ville kunne regnes ut fra de andre, holdes en til tilbake."
+            "text": "Ingen gruppe vises før minst 5 har svart, og grensen kan ikke senkes. Har en avdeling for få svar, teller svarene likevel med i virksomhetens tall. Kan en avdeling regnes ut fra de andre, holder Orgpuls tilbake en til."
           }
         ],
         "faq": [
@@ -4464,11 +4464,11 @@
           },
           {
             "q": "Hva koster det?",
-            "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, Vanlig 565 kr for 26–100 ansatte. Prisene er eks. mva., uten binding og med 15 dager gratis."
+            "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, Vanlig 565 kr for 26–100 ansatte. Prisene er eks. mva, uten binding og med 15 dager gratis."
           }
         ],
         "finalTitle": "Prøv det på deres egen virksomhet",
-        "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på tre minutter, uten kortopplysninger."
+        "finalBody": "Skriv inn organisasjonsnummeret, så henter vi resten fra Brønnøysundregistrene. Dere er i gang på 3 minutter, uten kortopplysninger."
       }
     },
     "articles": {
