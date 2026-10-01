@@ -5520,7 +5520,7 @@
     "pages": {
       "plattform": {
         "title": "The platform: mapping, measures and follow-up | Orgpuls",
-        "description": "Anonymous mapping, results per factor and department, measures with owner and deadline, a pulse that shows whether they worked, and a report for inspection.",
+        "description": "Anonymous working environment survey with results per factor and department. Measures with owner and deadline, a pulse that shows whether they worked, and a report for the Labour Inspection Authority.",
         "crumb": "Platform",
         "kicker": "The platform",
         "h1": "One platform for the whole round: map, understand, act and see that it worked",
@@ -5593,7 +5593,7 @@
           },
           {
             "t": "p",
-            "text": "Employees can write a comment on a statement. Management can reply without knowing who wrote it, and the writer can read the reply and answer back through a private link. If a manager wants to talk directly, they can ask – and the employee alone decides whether to make themselves known, by writing an e-mail from their own e-mail."
+            "text": "Employees can write a comment on a statement. Management can reply without knowing who wrote it, and the writer can read the reply and answer back through a private link. If a manager wants to talk directly, they can ask – and the employee alone decides whether to make themselves known, by writing from their own e-mail."
           },
           {
             "t": "shot",
@@ -6035,7 +6035,7 @@
       }
     },
     "shots": {
-      "caption": "{screen} · Nordvik Anlegg AS",
+      "caption": "{screen} · Nordvik Anlegg AS — example",
       "oversikt": {
         "screen": "Overview",
         "alt": "Screenshot of the Orgpuls overview (Norwegian interface): index 61, three points lower than last year, 28 of 34 answered, and the eleven factors scored from 41 to 78."
@@ -6986,8 +6986,8 @@
     },
     "plattform": {
       "crumb": "Platform",
-      "h1": "Four parts that fit together",
-      "lead": "The survey is the start. The results point to what moves the score, the comments explain why, and measures are closed only when the next survey shows whether they worked.",
+      "h1": "Survey, act and see what works",
+      "lead": "The working environment survey the law requires, for managers and safety representatives. You see what pulls the score down and why, give each measure an owner and a deadline — and the next survey shows whether they worked.",
       "next": "See the use cases →",
       "sections": {
         "malinger": "Surveys and annual cycle",
@@ -7040,12 +7040,12 @@
           }
         ]
       },
-      "get": "What you get",
+      "get": "From survey to measured effect",
       "features": [
         {
           "k": "Surveys",
           "t": "An annual cycle that runs itself",
-          "d": "A main survey each year, short pulses in between. Send-outs, reminders and notices to the safety representative happen automatically."
+          "d": "One main survey a year, short pulses in between. No need to remember send-outs, reminders or notices to the safety representative."
         },
         {
           "k": "Results",
@@ -7088,11 +7088,11 @@
       },
       "callouts": [
         {
-          "t": "Threshold of five, can be raised to ten",
-          "d": "Groups with fewer responses are shown as a dash — for administrators too. Never below five."
+          "t": "Threshold of 5 responses, can be raised to 10",
+          "d": "Groups with fewer responses are shown as a dash — for administrators too. Never below 5."
         },
         {
-          "t": "Four views",
+          "t": "Four views of the same figures",
           "d": "Heatmap, priority, segment profile and trend. Same data, different question."
         },
         {
@@ -7101,16 +7101,16 @@
         },
         {
           "t": "The role sets the view",
-          "d": "The department manager sees their team. The safety representative sees the whole. Nobody sees individuals."
+          "d": "The department manager sees their team. The safety representative sees the whole. Nobody sees who answered."
         }
       ],
       "malinger": {
         "k": "Surveys",
         "t": "The annual cycle runs itself",
-        "d": "One main survey a year sets the baseline. The pulses in between measure only what you have put measures on — three statements per factor. Send-outs, reminders and notices are all automatic.",
+        "d": "One main survey a year sets the baseline. The pulses in between measure only what you have put measures on — 3 statements per factor. Orgpuls sends them out, reminds and notifies for you.",
         "points": [
           "Baseline: 37 questions, all employees, once a year",
-          "Pulse: three statements from each factor with open measures",
+          "Pulse: 3 statements from each factor with open measures",
           "A factor drops out of the pulse when its measures are closed",
           "Add a pulse to any month directly in the annual cycle"
         ],
@@ -7164,13 +7164,13 @@
       },
       "respondent": {
         "k": "What answering is like",
-        "t": "Four minutes, on a phone, on a break",
+        "t": "4 minutes, on a phone, on a break",
         "d": "One question at a time, factor visible, comment optional. The order is random for each person, so nobody can guess who answered what from when the answer came in.",
         "points": [
-          "The answer is anonymous — name, email and IP are not stored with it",
-          "The manager sees figures only once the threshold is reached — at least five responses",
-          "Questions can be skipped; comments are optional",
-          "Sent by email or SMS to those who don't work at a screen"
+          "Anonymous: we never store name, email or IP with the answer",
+          "The manager sees figures only once at least 5 have answered",
+          "Employees can skip questions, and comments are optional",
+          "Invitation by email, or by SMS for those who don't work at a screen"
         ],
         "phone": {
           "time": "09:41",
@@ -7260,7 +7260,7 @@
         "views": [
           {
             "t": "Heatmap",
-            "d": "Team × factor with a threshold lock. Groups under five responses are shown as —."
+            "d": "Team × factor with a threshold lock. Groups under 5 responses are shown as —."
           },
           {
             "t": "Priority",
@@ -7285,12 +7285,12 @@
       "kommentarer": {
         "k": "Comments",
         "t": "An anonymous conversation, not an inbox",
-        "d": "Free-text answers are grouped automatically by factor and tone. The manager replies without knowing who wrote, and the employee reads the reply via their private link.",
+        "d": "Orgpuls sorts free-text answers by factor and tone. The manager replies without knowing who wrote, and the employee reads the reply via their private link.",
         "points": [
           "Grouped by factor, with tone taken from the answer the comment belongs to",
           "The reply reaches the writer — via a private link, without anyone knowing who",
           "Filter by survey, factor and status",
-          "A factor is shown only once at least five have answered"
+          "A factor is shown only once at least 5 have answered"
         ],
         "themes": [
           {
@@ -7330,7 +7330,7 @@
       "tiltak": {
         "k": "Measures",
         "t": "From finding to effect, with owner and deadline",
-        "d": "Each factor has three ready-made, research-based suggestions — a workshop, a routine or a leadership practice — with time required and which statement to measure. The measure is tied to the factor and closed only when the next pulse shows whether it worked.",
+        "d": "Each factor has 3 ready-made, research-based suggestions: a routine, a workshop or a leadership practice. Each says how long it takes and which statement measures the effect. You can close the measure once the next pulse shows whether it worked.",
         "suggestTitle": "Suggestions · speaking up (41)",
         "measuredOn": "Measured on: {q}",
         "suggest": [
@@ -7372,7 +7372,7 @@
       "rapport": {
         "k": "Report and documentation",
         "t": "Report to AMU, management or the Labour Inspection Authority",
-        "d": "The report is written from the figures: findings, risk assessment, measures and legal basis per factor. Choose the year, scope and recipient. You read it through and approve it — nothing goes out automatically.",
+        "d": "Orgpuls writes the report from the figures: findings, risk assessment, measures and legal basis per factor. You read it through and approve it — nothing goes out on its own.",
         "points": [
           "Choose year, scope and recipient: the Norwegian Labour Inspection Authority, the working environment committee (AMU), the management team or employees",
           "Legal basis per factor: aml. § 3-1 c, § 4-3, regulation ch. 1A",
@@ -7405,7 +7405,7 @@
       "roller": {
         "k": "Roles and access",
         "t": "Who sees what",
-        "d": "The role sets the view. Nobody sees individuals, and the threshold (at least 5 responses) applies to administrators too. Simple view gives one page; full view gives all the analyses.",
+        "d": "The role sets what you see. Nobody sees who answered, and the threshold of 5 responses applies to administrators too. Simple view gives one page; full view gives all the analyses.",
         "roles": [
           "Managing director",
           "Department manager",
@@ -7470,7 +7470,7 @@
         "cards": [
           {
             "t": "Brønnøysund",
-            "d": "Enter the org. no. — name, address, industry and headcount are fetched."
+            "d": "Enter the org. no., and we fetch the name, address, industry and headcount."
           },
           {
             "t": "Employees",
@@ -7482,7 +7482,7 @@
           },
           {
             "t": "Wizard",
-            "d": "Nine steps from organisation to first send-out. Can be run again."
+            "d": "Nine steps from organisation to first send-out. You can run it again."
           },
           {
             "t": "Email and SMS",

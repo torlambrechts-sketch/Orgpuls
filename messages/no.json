@@ -5520,7 +5520,7 @@
     "pages": {
       "plattform": {
         "title": "Plattformen: kartlegging, tiltak og oppfølging | Orgpuls",
-        "description": "Anonym kartlegging, resultater per faktor og avdeling, tiltak med eier og frist, puls som viser om de virket, og rapport til tilsyn.",
+        "description": "Anonym arbeidsmiljøkartlegging med resultater per faktor og avdeling. Tiltak med eier og frist, puls som viser om de virket, og rapport til Arbeidstilsynet.",
         "crumb": "Plattform",
         "kicker": "Plattformen",
         "h1": "Én plattform for hele runden: kartlegge, forstå, handle og se at det virket",
@@ -5593,7 +5593,7 @@
           },
           {
             "t": "p",
-            "text": "De ansatte kan skrive en kommentar til en påstand. Ledelsen kan svare uten å vite hvem som skrev, og den som skrev kan lese svaret og svare tilbake via en privat lenke. Vil en leder snakke direkte, kan de be om det – og den ansatte bestemmer selv om de vil gi seg til kjenne, ved å skrive en e-post fra sin egen e-post."
+            "text": "De ansatte kan skrive en kommentar til en påstand. Ledelsen kan svare uten å vite hvem som skrev, og den som skrev kan lese svaret og svare tilbake via en privat lenke. Vil en leder snakke direkte, kan de be om det – og den ansatte bestemmer selv om de vil gi seg til kjenne, ved å skrive fra sin egen e-post."
           },
           {
             "t": "shot",
@@ -6035,7 +6035,7 @@
       }
     },
     "shots": {
-      "caption": "{screen} · Nordvik Anlegg AS",
+      "caption": "{screen} · Nordvik Anlegg AS – eksempel",
       "oversikt": {
         "screen": "Oversikt",
         "alt": "Skjermbilde av Oversikt i Orgpuls: indeks 61, tre poeng lavere enn i fjor, 28 av 34 svarte, og de elleve faktorene med skår fra 41 til 78."
@@ -6413,8 +6413,8 @@
     },
     "plattform": {
       "crumb": "Plattform",
-      "h1": "Fire deler som henger sammen",
-      "lead": "Målingen er starten. Resultatet peker på hva som trekker, kommentarene forklarer hvorfor, og tiltakene lukkes først når neste måling viser om de virket.",
+      "h1": "Kartlegg, handle og se hva som virker",
+      "lead": "Arbeidsmiljøkartleggingen loven krever, for ledere og verneombud. Du ser hva som trekker ned og hvorfor, gir tiltakene eier og frist – og neste måling viser om de virket.",
       "next": "Se bruksområdene →",
       "sections": {
         "malinger": "Målinger og årshjul",
@@ -6451,7 +6451,7 @@
         "waiting": "Venter på deg",
         "todo": [
           {
-            "t": "Fast avvikssvar innen fem dager — Verksted",
+            "t": "Fast avvikssvar innen fem dager – Verksted",
             "m": "Du er ansvarlig · frist gikk ut i går",
             "cta": "Oppdater"
           },
@@ -6467,12 +6467,12 @@
           }
         ]
       },
-      "get": "Det du får",
+      "get": "Fra måling til målt effekt",
       "features": [
         {
           "k": "Målinger",
           "t": "Årshjul som går av seg selv",
-          "d": "Hovedundersøkelse i året, korte pulser mellom. Utsending, påminnelser og varsel til verneombud skjer automatisk."
+          "d": "Én hovedmåling i året, korte pulser mellom. Du slipper å huske utsending, påminnelser og varsel til verneombud."
         },
         {
           "k": "Resultater",
@@ -6507,7 +6507,7 @@
           "Adm. · 3"
         ],
         "tabs": [
-          "Heatmap",
+          "Varmekart",
           "Prioritet",
           "Segmentprofil",
           "Utvikling"
@@ -6515,12 +6515,12 @@
       },
       "callouts": [
         {
-          "t": "Terskel på fem, kan heves til ti",
-          "d": "Grupper med færre svar vises som en strek — også for administratorer. Aldri under fem."
+          "t": "Terskel på 5 svar, kan heves til 10",
+          "d": "Grupper med færre svar vises som en strek – også for administratorer. Aldri under 5."
         },
         {
-          "t": "Fire visninger",
-          "d": "Heatmap, prioritet, segmentprofil og utvikling. Samme data, ulikt spørsmål."
+          "t": "Fire visninger av samme tall",
+          "d": "Varmekart, prioritet, segmentprofil og utvikling. Samme data, ulikt spørsmål."
         },
         {
           "t": "Forslag under tallene",
@@ -6528,16 +6528,16 @@
         },
         {
           "t": "Rollen styrer visningen",
-          "d": "Avdelingslederen ser sitt team. Verneombudet ser helheten. Ingen ser enkeltpersoner."
+          "d": "Avdelingslederen ser sitt team. Verneombudet ser helheten. Ingen ser hvem som svarte."
         }
       ],
       "malinger": {
         "k": "Målinger",
         "t": "Årshjulet går av seg selv",
-        "d": "Én hovedundersøkelse i året setter nullpunktet. Pulsene mellom måler bare det dere har satt tiltak på — tre påstander per faktor. Alt sendes ut, minnes på og varsles automatisk.",
+        "d": "Én hovedundersøkelse i året setter nullpunktet. Pulsene mellom måler bare det dere har satt inn tiltak på – 3 påstander per faktor. Orgpuls sender ut, minner på og varsler for dere.",
         "points": [
           "Grunnlinje: 37 spørsmål, alle ansatte, én gang i året",
-          "Puls: tre påstander fra hver faktor med åpne tiltak",
+          "Puls: 3 påstander fra hver faktor med åpne tiltak",
           "Faktoren faller ut av pulsen når tiltakene er lukket",
           "Legg til en puls i en måned direkte i årshjulet"
         ],
@@ -6591,13 +6591,13 @@
       },
       "respondent": {
         "k": "Slik er det å svare",
-        "t": "Fire minutter, på mobilen, i pausa",
+        "t": "4 minutter, på mobilen, i pausa",
         "d": "Ett spørsmål om gangen, faktoren synlig, kommentar frivillig. Rekkefølgen er tilfeldig per person, så ingen kan gjette hvem som svarte hva ut fra når svaret kom inn.",
         "points": [
-          "Svaret er anonymt — navn, e-post og IP lagres ikke sammen med det",
-          "Lederen ser tall først når terskelen er nådd — minst fem svar",
-          "Spørsmål kan hoppes over; kommentar er frivillig",
-          "Sendes som e-post eller SMS til de som ikke sitter ved en skjerm"
+          "Anonymt: vi lagrer aldri navn, e-post eller IP sammen med svaret",
+          "Lederen ser tall først når minst 5 har svart",
+          "Den ansatte kan hoppe over spørsmål, og kommentar er frivillig",
+          "Invitasjon på e-post, eller SMS til dem som ikke sitter ved en skjerm"
         ],
         "phone": {
           "time": "09:41",
@@ -6619,7 +6619,7 @@
       },
       "resultater": {
         "k": "Resultater",
-        "t": "Sortert etter hva som trekker helheten — ikke etter lavest tall",
+        "t": "Sortert etter hva som trekker helheten – ikke etter lavest tall",
         "d": "Ni til elleve faktorer med indeks 0–100, utvikling fra i fjor og risikonivå. Trykk på en faktor og se påstandene bak tallet, svarfordelingen og tre forslag til tiltak.",
         "head": [
           "Faktor",
@@ -6686,12 +6686,12 @@
         "t": "Samme tall, fire spørsmål",
         "views": [
           {
-            "t": "Heatmap",
-            "d": "Team × faktor med terskelsperre. Grupper under fem svar vises som —."
+            "t": "Varmekart",
+            "d": "Team × faktor med terskelsperre. Grupper under 5 svar vises som —."
           },
           {
             "t": "Prioritet",
-            "d": "Hva trekker helheten mest — ikke hva som har lavest tall."
+            "d": "Hva trekker helheten mest – ikke hva som har lavest tall."
           },
           {
             "t": "Segmentprofil",
@@ -6712,12 +6712,12 @@
       "kommentarer": {
         "k": "Kommentarer",
         "t": "Anonym samtale, ikke innboks",
-        "d": "Frisvar grupperes automatisk etter faktor og tone. Lederen svarer uten å vite hvem som skrev, og den ansatte leser svaret via sin private lenke.",
+        "d": "Orgpuls sorterer frisvarene etter faktor og tone. Lederen svarer uten å vite hvem som skrev, og den ansatte leser svaret via sin private lenke.",
         "points": [
           "Gruppert per faktor, med tone ut fra svaret kommentaren hører til",
-          "Svaret når den som skrev — via en privat lenke, uten at noen vet hvem",
+          "Svaret når den som skrev – via en privat lenke, uten at noen vet hvem",
           "Filter på måling, faktor og status",
-          "En faktor vises først når minst fem har svart"
+          "En faktor vises først når minst 5 har svart"
         ],
         "themes": [
           {
@@ -6751,13 +6751,13 @@
           "status": "Besvart",
           "text": "«Omleggingen av morgenmøtet var et godt grep.»",
           "youLabel": "Du svarte:",
-          "you": "Så fint å høre — vi fortsetter med det."
+          "you": "Så fint å høre – vi fortsetter med det."
         }
       },
       "tiltak": {
         "k": "Tiltak",
         "t": "Fra funn til effekt, med eier og frist",
-        "d": "Hver faktor har tre ferdige forslag bygget på forskning — workshop, rutine eller lederpraksis — med tidsbruk og hvilken påstand som skal måles. Tiltaket henger på faktoren og lukkes først når neste puls viser om det virket.",
+        "d": "Hver faktor har 3 ferdige forslag bygget på forskning: en rutine, en workshop eller en lederpraksis. Hvert forslag sier hvor lang tid det tar og hvilken påstand som måler effekten. Dere kan lukke tiltaket når neste puls viser om det virket.",
         "suggestTitle": "Forslag · ytringsklima (41)",
         "measuredOn": "Måles på: {q}",
         "suggest": [
@@ -6799,11 +6799,11 @@
       "rapport": {
         "k": "Rapport og dokumentasjon",
         "t": "Rapport til AMU, ledelsen eller Arbeidstilsynet",
-        "d": "Rapporten skrives fra tallene: funn, risikovurdering, tiltak og hjemmel per faktor. Velg år, omfang og mottaker. Du leser gjennom og godkjenner — ingenting går ut automatisk.",
+        "d": "Orgpuls lager rapporten ut fra tallene: funn, risikovurdering, tiltak og hjemmel per faktor. Du leser den og godkjenner – ingenting går ut av seg selv.",
         "points": [
           "Velg år, omfang og mottaker: Arbeidstilsynet, AMU, ledergruppa eller de ansatte",
           "Hjemmel per faktor: aml. § 3-1 c, § 4-3, forskrift kap. 1A",
-          "Drøfting med tillitsvalgte og varsel til verneombud dokumenteres",
+          "Drøfting med tillitsvalgte og varsel til verneombud står dokumentert",
           "Lagre som PDF; dataene er deres"
         ],
         "pages": [
@@ -6832,7 +6832,7 @@
       "roller": {
         "k": "Roller og tilgang",
         "t": "Hvem ser hva",
-        "d": "Rollen styrer visningen. Ingen ser enkeltpersoner, og terskelen (minst 5 svar) gjelder også administratorer. Enkel visning gir én side; full visning gir alle analysene.",
+        "d": "Rollen styrer hva du ser. Ingen ser hvem som svarte, og terskelen på 5 svar gjelder også administratorer. Enkel visning gir én side; full visning gir alle analysene.",
         "roles": [
           "Daglig leder",
           "Avdelingsleder",
@@ -6897,7 +6897,7 @@
         "cards": [
           {
             "t": "Brønnøysund",
-            "d": "Skriv org.nr. — navn, adresse, bransje og antall ansatte hentes."
+            "d": "Skriv org.nr., så henter vi navn, adresse, bransje og antall ansatte."
           },
           {
             "t": "Ansatte",
@@ -6905,19 +6905,19 @@
           },
           {
             "t": "Grupper og terskel",
-            "d": "Små grupper vises ikke, men teller med i helheten. Terskel 5, kan heves til 10 — aldri lavere."
+            "d": "Små grupper vises ikke, men teller med i helheten. Terskel 5, kan heves til 10 – aldri lavere."
           },
           {
             "t": "Veiviser",
-            "d": "Ni steg fra virksomhet til første utsending. Kan kjøres igjen."
+            "d": "Ni steg fra virksomhet til første utsending. Du kan kjøre den igjen."
           },
           {
             "t": "E-post og SMS",
-            "d": "Invitasjoner på e-post, og på SMS når dere slår det på — for dem uten fast skjerm."
+            "d": "Invitasjoner på e-post, og på SMS når dere slår det på – for dem uten fast skjerm."
           },
           {
             "t": "Personvern",
-            "d": "Data i EU. Behandlingsgrunnlaget er dokumentert, og databehandleravtalen signeres i appen."
+            "d": "Data i EU. Behandlingsgrunnlaget er dokumentert, og dere signerer databehandleravtalen i appen."
           }
         ],
         "integrations": "Integrasjoner",
@@ -6933,14 +6933,14 @@
           "Visma",
           "Simployer"
         ],
-        "note": "Alt fungerer uten HR-system: lim inn eller last opp CSV, så holder Orgpuls registeret. Koblinger merket «kommer» er under arbeid — si fra hvilket system dere bruker."
+        "note": "Alt fungerer uten HR-system: lim inn eller last opp CSV, så holder Orgpuls registeret. Koblinger merket «kommer» er under arbeid – si fra hvilket system dere bruker."
       },
       "assistent": {
         "k": "Assistenten",
         "t": "Tuva viser vei på hver side",
         "d": "Hun står i hjørnet av hver side: tre steg for skjermen du er på, forskningen og lovkravet den bygger på, og hva som gjenstår før dere er i gang. Hun leser aldri svar, og ingen språkmodell gjør det heller.",
         "tuvaName": "Tuva:",
-        "tuva": "To av fire steg er igjen før dere er helt i gang. Neste er å sjekke grupper og terskel — så er dere klare for første måling.",
+        "tuva": "To av fire steg er igjen før dere er helt i gang. Neste er å sjekke grupper og terskel – så er dere klare for første måling.",
         "draft": "Fortsett oppsettet",
         "chips": [
           "Hjelp per side",
