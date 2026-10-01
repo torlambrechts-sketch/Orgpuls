@@ -3947,7 +3947,7 @@
       "readArticle": "Read the article →",
       "byline": "Updated {date} · {minutes} min read",
       "sources": "Sources",
-      "disclaimer": "This article is general information, not legal advice. The legal references were checked against Lovdata and Arbeidstilsynet in September 2026.",
+      "disclaimer": "This is general information, not legal advice. We checked what the law says with Lovdata and Arbeidstilsynet in September 2026.",
       "nextTitle": "How do we do this in practice?",
       "nextLink": "More on this: {page} →",
       "priceFrom": "From NOK 265/month excl. VAT",
@@ -3963,10 +3963,10 @@
       "showcase": {
         "eyebrow": "What it looks like",
         "title": "From answers to action, on a few screens",
-        "lead": "These screenshots are from Orgpuls with the demo company Nordvik Anlegg AS: 34 employees in four departments, and a baseline that 28 answered.",
+        "lead": "The screenshots are from Orgpuls and show the demo company Nordvik Anlegg AS, with 34 employees in 4 departments. 28 of them answered the baseline.",
         "oversikt": {
           "title": "The overview says it in words",
-          "body": "A manager first reads one sentence on what lifts and what drags, then all eleven factors on one scale from 0 to 100. Under 50 is where you should act."
+          "body": "A manager first reads one sentence on what lifts and what drags, then all 11 factors on one scale from 0 to 100. Under 50 is where you should act."
         },
         "varmekart": {
           "title": "A heatmap by department",
@@ -3977,7 +3977,7 @@
           "body": "Measures sit on a board with an owner and a deadline. A measure is not closed until a new survey has shown whether it worked."
         },
         "sporsmal": {
-          "title": "About four minutes on a phone",
+          "title": "About 4 minutes on a phone",
           "body": "Employees answer from the link they receive, without signing in. One statement at a time, on a five-point scale, and an optional field for anyone who wants to say more."
         },
         "arshjul": {
@@ -3997,10 +3997,10 @@
     },
     "index": {
       "title": "Articles on the work environment and mapping | Orgpuls",
-      "description": "Practical articles on mapping the psychosocial working environment, employee surveys, anonymity and the safety representative's role – with references to the law.",
+      "description": "Practical articles on the psychosocial working environment and employee surveys. Read about anonymity, the safety representative's role and what the law requires.",
       "crumb": "Articles",
       "eyebrow": "Articles",
-      "h1": "The work environment, explained",
+      "h1": "The working environment and the law, explained",
       "lead": "What the law requires, which questions give answers, and how to build a rhythm that lasts. Written for managing directors, HR and safety representatives in Norwegian organisations."
     },
     "lp": {
@@ -6236,20 +6236,20 @@
       "menu": "Menu",
       "demo": "See the demo",
       "signIn": "Sign in",
-      "getStarted": "Get started",
+      "getStarted": "Try it free",
       "sections": "Sections",
       "crumbs": "You are here",
       "trial": "Try free for 15 days",
       "start": {
-        "title": "Try it on your own organisation",
-        "lead": "Enter your organisation number and we'll fetch the name, address and industry from the Brønnøysund Register Centre. Free for 15 days. No card.",
+        "title": "Try Orgpuls on your own organisation",
+        "lead": "Enter your organisation number and we'll fetch the name, address and industry from the Brønnøysund Register Centre. Free for 15 days, no card and no lock-in.",
         "placeholder": "Organisation number",
-        "submit": "Get started",
+        "submit": "Try it free",
         "fetching": "Fetching {orgnr} from the Brønnøysund Register Centre …",
-        "invalid": "An organisation number has nine digits."
+        "invalid": "An organisation number has 9 digits."
       },
       "footer": {
-        "about": "Employee surveys and working environment surveys for Norwegian organisations. Data is stored in the EU.",
+        "about": "Employee surveys and working environment surveys for Norwegian organisations. We store data in the EU.",
         "bottom": "© {year} Orgpuls · <privacy>Privacy</privacy> · Terms",
         "head": {
           "produkt": "Product",
@@ -6294,8 +6294,8 @@
     },
     "home": {
       "pill": "Employee surveys and working environment",
-      "h1": "First survey out before lunch.",
-      "lead": "Fetch your organisation from Brønnøysund, paste in the staff list, pick a date. Orgpuls sends it out, sends reminders and notifies the safety representative. Results come with suggested measures — and each role gets its own way in.",
+      "h1": "Survey your workplace – the first one out before lunch.",
+      "lead": "Fetch your organisation from Brønnøysund, paste in the staff list and pick a date. Orgpuls sends it out, sends reminders and notifies the safety representative. Then you get the results with suggested measures – and the documentation the law requires.",
       "how": "See how it works",
       "stats": [
         {
@@ -6319,10 +6319,10 @@
           "s": "No HR department",
           "get": [
             "One page: what's going well, what we do now",
-            "A two-page report for management",
+            "A 2-page report for management",
             "The legal requirement met without reading the Act"
           ],
-          "cta": "See it for managing directors"
+          "cta": "See what you get"
         },
         {
           "i": "HR",
@@ -6333,18 +6333,18 @@
             "Trends over the years, survey by survey",
             "Roles and access managed in one place"
           ],
-          "cta": "See it for HR"
+          "cta": "See what you get"
         },
         {
           "i": "DM",
           "t": "Department manager",
           "s": "Your own team",
           "get": [
-            "Only your team, above the threshold",
+            "Only your team, once at least 5 have answered",
             "Anonymous comments you can reply to",
-            "Three suggested measures, ready to choose"
+            "3 suggested measures, ready to choose"
           ],
-          "cta": "See it for department managers"
+          "cta": "See what you get"
         },
         {
           "i": "SR",
@@ -6355,34 +6355,34 @@
             "Notice before every send-out",
             "The risk assessment with legal basis per factor"
           ],
-          "cta": "See it for safety representatives"
+          "cta": "See what you get"
         }
       ],
       "explore": "Explore",
       "teasers": [
         {
           "k": "Platform",
-          "t": "Four parts that fit together",
-          "d": "Surveys, results, comments and measures in one loop. Built on a fixed question set and a threshold that never goes below five responses.",
+          "t": "From answers to action in one place",
+          "d": "Surveys, results, comments and measures fit together. The questions are fixed, and no group is shown with fewer than 5 responses.",
           "cta": "See the platform"
         },
         {
           "k": "Use cases",
-          "t": "Eight situations where Orgpuls makes the job easier",
+          "t": "8 situations where Orgpuls makes the job easier",
           "d": "From the annual survey and pulses to a new manager, reorganisation, inspections and the AMU meeting.",
           "cta": "See the use cases"
         },
         {
           "k": "Why Orgpuls",
-          "t": "Continuous follow-up delivers results over time",
-          "d": "Positive focus, measures with an owner and a deadline, and the law covered along the way. With sources.",
+          "t": "Follow up steadily, and see whether measures work",
+          "d": "Start with what works, give each measure an owner and a deadline, and cover the law along the way. With sources.",
           "cta": "Read why"
         }
       ],
       "about": {
         "k": "About us",
         "t": "Small team, direct lines",
-        "d": "Orgpuls is made by a small Norwegian team with backgrounds in HR, management and product development. You talk to the people who build the product, not a support centre. Data is stored in the EU, and we don't sell it on.",
+        "d": "Orgpuls is made by a small Norwegian team with backgrounds in HR, management and product development. You talk to the people who build the product, not a support centre. We store the data in the EU and don't sell it on.",
         "team": [
           {
             "n": "Product",
@@ -6400,10 +6400,10 @@
       },
       "price": {
         "k": "Pricing",
-        "t": "From NOK 265 a month. Everything included.",
-        "d": "NOK 565 for 26–100 employees. No lock-in period. Safety and union representatives cost nothing extra.",
+        "t": "From NOK 265 a month, everything included.",
+        "d": "NOK 565 for 26–100 employees, excl. VAT. No lock-in period. Safety and union representatives cost nothing extra.",
         "see": "See pricing",
-        "start": "Get started for free"
+        "start": "Try free for 15 days"
       },
       "industries": {
         "k": "Industries",
