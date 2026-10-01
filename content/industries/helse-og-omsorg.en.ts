@@ -14,7 +14,7 @@ export const helseOgOmsorgEn: IndustryPage = {
   seo: {
     title: 'Work environment survey for health and care | Orgpuls',
     description:
-      'A work environment survey for health and care with its own module: violence and threats, staffing, rotas, part-time work, boundaries with service users and relatives, and patient handling. Anonymous. 15 days free.',
+      'Work environment survey for health and care: violence and threats, staffing, rotas, part-time work and boundaries with users. Anonymous. 15 days free.',
   },
   hero: {
     pill: 'Health, care and work with people',

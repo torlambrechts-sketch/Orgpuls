@@ -15,7 +15,7 @@ export const byggOgAnlegg: IndustryPage = {
   seo: {
     title: 'Arbeidsmiljøundersøkelse for bygg og anlegg | Orgpuls',
     description:
-      'Arbeidsmiljøundersøkelse for bygg og anlegg med egen bygg-modul: sikkerhet under tidspress, samordning, språk, nye og unge, psykisk helse og arbeidstid. Anonymt på SMS. 15 dager gratis.',
+      'Arbeidsmiljøundersøkelse for bygg og anlegg: sikkerhet under tidspress, samordning, språk, nye og unge og psykisk helse. Anonymt på SMS. 15 dager gratis.',
   },
   hero: {
     pill: 'Bygg, anlegg og verksted',

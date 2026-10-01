@@ -25,7 +25,7 @@ export const handel: IndustryPage = {
   seo: {
     title: 'Arbeidsmiljøundersøkelse for handel og butikk | Orgpuls',
     description:
-      'Arbeidsmiljøundersøkelse for butikk, lager og netthandel: tyveri og trusler, alenevakter, krevende kunder, bemanning, vaktplan, deltid og tunge løft. Anonymt. 15 dager gratis.',
+      'Arbeidsmiljøundersøkelse for butikk, lager og netthandel: tyveri og trusler, alenevakter, krevende kunder, bemanning og vaktplan. Anonymt. 15 dager gratis.',
   },
   hero: {
     pill: 'Butikk, lager og netthandel',

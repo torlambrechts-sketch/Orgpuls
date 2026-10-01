@@ -3997,7 +3997,7 @@
     },
     "index": {
       "title": "Articles on the work environment and mapping | Orgpuls",
-      "description": "Practical articles on the psychosocial working environment and employee surveys. Read about anonymity, the safety representative's role and what the law requires.",
+      "description": "Practical articles on the psychosocial working environment and employee surveys: anonymity, the safety representative's role and what the law requires.",
       "crumb": "Articles",
       "eyebrow": "Articles",
       "h1": "The working environment and the law, explained",
@@ -4474,7 +4474,7 @@
     "articles": {
       "nyeRegler2026": {
         "title": "New rules on the psychosocial work environment, 2026 | Orgpuls",
-        "description": "Since 1 January 2026 the regulation has its own chapter on the psychosocial working environment. What the change means for mapping, measures and documentation.",
+        "description": "Since 1 January 2026 the regulation has its own chapter on the psychosocial working environment. What it means for mapping, measures and documentation.",
         "h1": "New rules on the psychosocial working environment from 1 January 2026",
         "lead": "On 1 January 2026 the regulation on the performance of work gained a new chapter 1A on the psychosocial working environment. Arbeidstilsynet says the requirements are not new, but are now written more clearly. For many organisations it is still a good reason to look at how they map.",
         "blocks": [
@@ -4688,7 +4688,7 @@
       },
       "kravKartlegging": {
         "title": "Requirements for mapping the work environment | Orgpuls",
-        "description": "The Working Environment Act requires every organisation to map the psychosocial working environment. The four steps, who should take part, and common mistakes.",
+        "description": "The Working Environment Act requires every organisation to map the psychosocial working environment. The four steps, who takes part, and common mistakes.",
         "h1": "Requirements for mapping the psychosocial working environment",
         "lead": "Every organisation with employees shall map the psychosocial working environment, assess the risk, put measures in place and follow up. The requirement is in section 3-1 of the Working Environment Act and is expanded on in the regulation on the performance of work. Here is what it means, step by step.",
         "blocks": [
@@ -4874,7 +4874,7 @@
       },
       "sporsmal": {
         "title": "Employee survey: the questions that give answers | Orgpuls",
-        "description": "Which questions belong in an employee survey? The topics that matter, eleven example questions with an answer scale, and why fewer questions give better answers.",
+        "description": "Which questions belong in an employee survey? The topics that matter, eleven example questions with an answer scale, and why fewer questions work better.",
         "h1": "Employee survey: the questions that give answers",
         "lead": "A good employee survey is short, covers what affects the working environment, and asks questions people can answer honestly. Here are the topics to include, example questions and what to do with the answers.",
         "blocks": [
@@ -5396,7 +5396,7 @@
       },
       "verneombud": {
         "title": "The safety representative's role in mapping",
-        "description": "What is the safety representative entitled and obliged to do when the working environment is mapped? Access, involvement and raising it with management – with references to the law.",
+        "description": "What can the safety representative ask for when the work environment is mapped? Access, involvement and raising it with management – with legal references.",
         "h1": "The safety representative's role in mapping the working environment",
         "lead": "The safety representative shall see to it that the psychosocial working environment is safeguarded, and be consulted when measures are planned. That brings both rights and a role in the mapping itself. Here is what the law says, and what it means in practice.",
         "blocks": [
@@ -5570,7 +5570,7 @@
     "pages": {
       "plattform": {
         "title": "The platform: mapping, measures and follow-up | Orgpuls",
-        "description": "Anonymous working environment survey with results per factor and department. Measures with owner and deadline, a pulse that shows whether they worked, and a report for the Labour Inspection Authority.",
+        "description": "Anonymous work environment survey with results by factor and department, measures with owner and deadline, a pulse that shows what worked, and a report.",
         "crumb": "Platform",
         "kicker": "The platform",
         "h1": "One platform for the whole round: map, understand, act and see that it worked",
@@ -5728,7 +5728,7 @@
       },
       "bruksomrader": {
         "title": "Use cases: working environment surveys in practice | Orgpuls",
-        "description": "Eight situations and six industries: see how you use Orgpuls for the annual survey, pulses, a new manager, reorganisation, inspections and the working environment committee.",
+        "description": "Eight situations and six industries: how to use Orgpuls for the annual survey, pulses, a new manager, reorganisation, inspections and the AMU committee.",
         "crumb": "Use cases",
         "kicker": "Use cases",
         "h1": "The same legal requirement, different workplaces",
@@ -5955,7 +5955,7 @@
       },
       "personvernerklaering": {
         "title": "Privacy statement | Orgpuls",
-        "description": "What personal data Orgpuls AS processes when you visit the website, register an organisation, subscribe to the newsletter or contact us – and what rights you have.",
+        "description": "What personal data Orgpuls AS processes when you visit the website, register an organisation, get the newsletter or contact us, and the rights you have.",
         "crumb": "Privacy statement",
         "kicker": "Privacy",
         "h1": "Privacy statement",
@@ -6770,7 +6770,7 @@
     },
     "hvorfor": {
       "seoTitle": "Why Orgpuls – continuous follow-up of the working environment",
-      "seoDescription": "Positive focus, measures with an owner and a deadline, anonymity that cannot be switched off, and the Working Environment Act covered along the way. The choices Orgpuls is built on, and why.",
+      "seoDescription": "Positive focus, measures with owner and deadline, anonymity that cannot be switched off, and the law covered along the way. The choices behind Orgpuls.",
       "crumb": "Why Orgpuls",
       "h1": "Track the working environment all year and see what works",
       "lead": "One survey a year shows how people were doing in September — not whether the measures worked. With Orgpuls, managers and safety representatives build on what works, give every finding an owner and measure the effect. Here are the choices behind it, and why.",

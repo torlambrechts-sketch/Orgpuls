@@ -21,7 +21,7 @@ export const helseOgOmsorg: IndustryPage = {
   seo: {
     title: 'Arbeidsmiljøundersøkelse for helse og omsorg | Orgpuls',
     description:
-      'Arbeidsmiljøundersøkelse for helse og omsorg med egen helse-modul: vold og trusler, bemanning, turnus, deltid, grenser mot brukere og pårørende og forflytning. Anonymt. 15 dager gratis.',
+      'Arbeidsmiljøundersøkelse for helse og omsorg: vold og trusler, bemanning, turnus, deltid, grenser mot brukere og forflytning. Anonymt. 15 dager gratis.',
   },
   hero: {
     pill: 'Helse, omsorg og arbeid med mennesker',

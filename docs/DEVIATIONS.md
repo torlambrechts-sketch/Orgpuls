@@ -9697,3 +9697,25 @@ titles «Daglig leder», «HR», «Avdelingsleder» and «Verneombud», the teas
 and «Om oss» and the price band's headings. Admin › Translations reviews by that map, so these
 were not in its page-by-page review either. `isStructuralPath` (and the crawler's copy) now treat
 `t` as data only inside `blocks`. A unit test covers both cases. The page map is regenerated.
+
+## D-189 — SEO descriptions within 155 characters (2026-10-01)
+
+**Asked (Tor):** fix the SEO descriptions over the limit that the site text export showed (D-188).
+
+**Done:** 22 meta descriptions were over 155 characters, where Google cuts them off. Each is now
+120–155 characters, the range `scripts/verify/landing-audit.mjs` already checks. 15 are in the
+message files and 7 in the industry pages' content files:
+- **Norwegian:** Plattform, Hvorfor, Bransjer, the privacy statement, two articles (spørsmål,
+  verneombud), and the five industry pages.
+- **English:** Plattform, Hvorfor, Bruksområder, the article index, the privacy statement, four
+  articles, and the two English industry pages.
+
+Each kept its keyword at the start and its offer at the end («Anonymt. 15 dager gratis.»). What
+was cut is the tail of a list, such as «deltid og tunge løft» on Handel and «KI» on Kunnskap og
+kontor. Nothing new was claimed. The privacy statement was not in the export (D-188 leaves it out),
+but its descriptions were over the limit too.
+
+**Guard:** `tests/unit/seo-descriptions.test.ts` fails if any SEO description in `no` or `en`, in
+the messages or an industry page, is over 155 characters. It failed on the old texts and passes on
+the new ones. Changed texts that are legal units come up again in admin › Legal review (a record,
+X-078).

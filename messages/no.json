@@ -4874,7 +4874,7 @@
       },
       "sporsmal": {
         "title": "Medarbeiderundersøkelse: spørsmålene som gir svar | Orgpuls",
-        "description": "Hvilke spørsmål bør være med i en medarbeiderundersøkelse? Temaene som betyr noe, elleve eksempelspørsmål med svarskala, og hvorfor færre spørsmål gir bedre svar.",
+        "description": "Hvilke spørsmål bør være med i en medarbeiderundersøkelse? Temaene som betyr noe, elleve eksempelspørsmål, og hvorfor færre spørsmål gir bedre svar.",
         "h1": "Medarbeiderundersøkelse: spørsmålene som gir svar",
         "lead": "En god medarbeiderundersøkelse er kort, dekker det som påvirker arbeidsmiljøet, og stiller spørsmål folk kan svare ærlig på. Her er temaene som bør være med, eksempler på spørsmål og hva dere gjør med svarene.",
         "blocks": [
@@ -5396,7 +5396,7 @@
       },
       "verneombud": {
         "title": "Verneombudets rolle i kartleggingen av arbeidsmiljøet",
-        "description": "Hva har verneombudet rett og plikt til når arbeidsmiljøet kartlegges? Innsyn, medvirkning og hvordan du tar det opp med ledelsen – med henvisning til loven.",
+        "description": "Hva har verneombudet rett og plikt til når arbeidsmiljøet kartlegges? Innsyn, medvirkning og hvordan du tar det opp med ledelsen – med lovhenvisninger.",
         "h1": "Verneombudets rolle i kartleggingen av arbeidsmiljøet",
         "lead": "Verneombudet skal påse at det psykososiale arbeidsmiljøet er ivaretatt, og tas med på råd når tiltak planlegges. Det gir både rettigheter og en rolle i selve kartleggingen. Her er hva loven sier, og hva det betyr i praksis.",
         "blocks": [
@@ -5570,7 +5570,7 @@
     "pages": {
       "plattform": {
         "title": "Plattformen: kartlegging, tiltak og oppfølging | Orgpuls",
-        "description": "Anonym arbeidsmiljøkartlegging med resultater per faktor og avdeling. Tiltak med eier og frist, puls som viser om de virket, og rapport til Arbeidstilsynet.",
+        "description": "Anonym arbeidsmiljøkartlegging med resultat per faktor og avdeling. Tiltak med eier og frist, puls som viser om de virket, og rapport til Arbeidstilsynet.",
         "crumb": "Plattform",
         "kicker": "Plattformen",
         "h1": "Én plattform for hele runden: kartlegge, forstå, handle og se at det virket",
@@ -5955,7 +5955,7 @@
       },
       "personvernerklaering": {
         "title": "Personvernerklæring | Orgpuls",
-        "description": "Hvilke personopplysninger Orgpuls AS behandler når du besøker nettsidene, registrerer en virksomhet, abonnerer på nyhetsbrevet eller kontakter oss – og hvilke rettigheter du har.",
+        "description": "Personopplysningene Orgpuls AS behandler når du besøker nettsidene, registrerer en virksomhet, får nyhetsbrev eller kontakter oss – og rettighetene dine.",
         "crumb": "Personvernerklæring",
         "kicker": "Personvern",
         "h1": "Personvernerklæring",
@@ -6080,7 +6080,7 @@
       },
       "bransjer": {
         "title": "Bransjer: arbeidsmiljøundersøkelse med egne bransjemoduler | Orgpuls",
-        "description": "Egne spørsmålssett for bygg og anlegg, helse og omsorg, barnehage og skole, kunnskap og kontor og handel – i tillegg til hovedundersøkelsen. Anonymt, med tiltak som følger opp.",
+        "description": "Egne spørsmål for bygg og anlegg, helse og omsorg, barnehage og skole, kunnskap og kontor og handel, i tillegg til hovedundersøkelsen. Anonymt, med tiltak.",
         "crumb": "Bransjer"
       }
     },
@@ -7011,7 +7011,7 @@
     },
     "hvorfor": {
       "seoTitle": "Hvorfor Orgpuls – kontinuerlig oppfølging av arbeidsmiljøet",
-      "seoDescription": "Positivt fokus, tiltak med eier og frist, anonymitet som ikke kan skrus av, og arbeidsmiljøloven dekket underveis. Valgene Orgpuls er bygget på, og hvorfor.",
+      "seoDescription": "Positivt fokus, tiltak med eier og frist, anonymitet som ikke kan skrus av, og arbeidsmiljøloven dekket underveis. Valgene Orgpuls bygger på, og hvorfor.",
       "crumb": "Hvorfor Orgpuls",
       "h1": "Følg opp arbeidsmiljøet hele året og se hva som virker",
       "lead": "Én undersøkelse i året viser hvordan folk hadde det i september – ikke om tiltakene virket. Med Orgpuls bygger ledere og verneombud på det som fungerer, gir hvert funn en eier og måler effekten. Her er valgene bak, og hvorfor.",

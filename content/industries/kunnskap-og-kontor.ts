@@ -24,7 +24,7 @@ export const kunnskapOgKontor: IndustryPage = {
   seo: {
     title: 'Arbeidsmiljøundersøkelse for kunnskap og kontor | Orgpuls',
     description:
-      'Arbeidsmiljøundersøkelse for rådgivning, IT, finans, media og eiendom: konsentrasjon, digitale verktøy, tilgjengelighet, restitusjon, hybridarbeid og KI. Anonymt. 15 dager gratis.',
+      'Arbeidsmiljøundersøkelse for rådgivning, IT, finans og media: konsentrasjon, digitale verktøy, tilgjengelighet og hybridarbeid. Anonymt. 15 dager gratis.',
   },
   hero: {
     pill: 'Rådgivning, IT, finans, media og eiendom',

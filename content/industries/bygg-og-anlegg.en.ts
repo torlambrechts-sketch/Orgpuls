@@ -16,7 +16,7 @@ export const byggOgAnleggEn: IndustryPage = {
   seo: {
     title: 'Work environment survey for construction | Orgpuls',
     description:
-      'A work environment survey for construction with its own module: safety under time pressure, coordination, language, new and young workers, mental health and working hours. Anonymous, by SMS. 15 days free.',
+      'Work environment survey for construction: safety under time pressure, coordination, language, new and young workers. Anonymous by SMS. 15 days free.',
   },
   hero: {
     pill: 'Construction, civil works and workshops',

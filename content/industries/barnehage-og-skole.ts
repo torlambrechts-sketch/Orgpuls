@@ -21,7 +21,7 @@ export const barnehageOgSkole: IndustryPage = {
   seo: {
     title: 'Arbeidsmiljøundersøkelse for barnehage og skole | Orgpuls',
     description:
-      'Arbeidsmiljøundersøkelse for barnehager, skoler og SFO: vold og trusler, bemanning og vikarer, tid til kjerneoppgavene, foreldre, støy og vanskelige saker. Anonymt. 15 dager gratis.',
+      'Arbeidsmiljøundersøkelse for barnehager, skoler og SFO: vold og trusler, bemanning, vikarer, tid til kjerneoppgaver og foreldre. Anonymt. 15 dager gratis.',
   },
   hero: {
     pill: 'Barnehage, skole og SFO',
