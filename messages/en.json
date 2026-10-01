@@ -5677,8 +5677,8 @@
         "finalTitle": "See the platform on your own organisation"
       },
       "bruksomrader": {
-        "title": "Use cases: work environment mapping for everyone | Orgpuls",
-        "description": "Orgpuls for the legal requirement, for safety representatives, for small businesses, for construction and for health and care. Find the page that fits you.",
+        "title": "Use cases: working environment surveys in practice | Orgpuls",
+        "description": "Eight situations and six industries: see how you use Orgpuls for the annual survey, pulses, a new manager, reorganisation, inspections and the working environment committee.",
         "crumb": "Use cases",
         "kicker": "Use cases",
         "h1": "The same legal requirement, different workplaces",
@@ -6445,19 +6445,19 @@
     },
     "bruksomrader": {
       "crumb": "Use cases",
-      "h1": "From statutory survey to management tool",
-      "lead": "Same questions, same threshold and same list of measures — used in eight different ways. Pick the situation that resembles yours and see how it is handled in practice.",
+      "h1": "From statutory survey to measures with measured effect",
+      "lead": "The legal requirement is the same for everyone, but every workplace is different. Pick the situation that resembles yours and see how you solve it in practice.",
       "next": "See the platform →",
       "usesLabel": "What you use",
       "sections": [
         {
           "k": "Annual survey",
           "t": "The survey the law requires, done in an hour",
-          "d": "One main survey a year covers the survey duty in § 3-1 c of the Working Environment Act and sets the baseline everything else is measured against. The questions are ready, the threshold is set and the report writes itself.",
+          "d": "One main survey a year covers the survey duty in § 3-1 c of the Working Environment Act. It sets the baseline you measure everything else against. The questions are ready, the threshold is set, and Orgpuls writes the report.",
           "points": [
-            "33 statements across eleven factors, four minutes to answer",
-            "The safety representative is notified two days before send-out",
-            "One reminder, and the round closes after fourteen days",
+            "33 statements on 11 factors, about 4 minutes to answer",
+            "The safety representative is notified 2 days before send-out",
+            "One reminder, and the round closes after 14 days",
             "Risk assessment per factor with legal basis, ready for the working environment committee (AMU)"
           ],
           "m": {
@@ -6469,10 +6469,10 @@
         {
           "k": "Pulse between surveys",
           "t": "See whether measures work — before next year",
-          "d": "The pulse asks the three statements for each factor you have put measures on, and shows whether the curve turns while there is still time to adjust.",
+          "d": "The pulse asks the three statements for each factor you have put measures on. It shows whether the curve turns while there is still time to adjust.",
           "points": [
-            "Questions are drawn from the factors with open measures",
-            "Same wording as the main survey, so the figures can be compared",
+            "The pulse asks only about factors with open measures",
+            "Same wording as the main survey, so you can compare the figures",
             "A factor drops out once its measures are closed"
           ],
           "m": {
@@ -6491,10 +6491,10 @@
         {
           "k": "Without an HR department",
           "t": "Managing director, 20 employees, no HR department",
-          "d": "Simple view gives one page: what people are happy with, what pulls down, and three things to do now. Tuva shows what remains before you're up and running, and help is on every page.",
+          "d": "Simple view puts it all on one page: what people are happy with, what pulls down, and three things to do now. The assistant Tuva shows what remains before you're up and running, and help is on every page.",
           "points": [
-            "The overview opens automatically for managing directors with fewer than 50 employees",
-            "Employees are pasted in or uploaded as a CSV — no HR system needed",
+            "Managing directors with fewer than 50 employees get simple view automatically",
+            "Paste employees in or upload a CSV — no HR system needed",
             "The wizard takes you from org. no. to first send-out in 20 minutes"
           ],
           "m": {
@@ -6523,7 +6523,7 @@
         {
           "k": "One team stands out",
           "t": "When one team has it harder than the rest",
-          "d": "The heatmap shows team against factor. The segment profile compares one team with the rest and points to where the difference is greatest — without any individual being identifiable.",
+          "d": "The heatmap shows team against factor. The segment profile compares one team with the rest and shows where the difference is greatest — without singling out any individual.",
           "points": [
             "Groups below the threshold are shown as a dash, for administrators too",
             "The department manager sees only their own team",
@@ -6551,7 +6551,7 @@
         {
           "k": "Reorganisation and change",
           "t": "Measure before and after a change",
-          "d": "Add an extra pulse to the annual cycle four to six weeks after a reorganisation, a system change or a merger. Then you see whether people know what is expected of them, and whether support from managers holds up.",
+          "d": "Add an extra pulse to the annual cycle 4–6 weeks after a reorganisation, a system change or a merger. Then you see whether people know what is expected of them, and whether support from managers holds up.",
           "points": [
             "Add a pulse in any month with one click",
             "Choose the affected factors: role clarity, conflicting demands, support from manager",
@@ -6566,15 +6566,15 @@
               "Knows where responsibility ends · before",
               "Knows where responsibility ends · after"
             ],
-            "foot": "The drop is largest on the limits of responsibility. A short role map per team is often enough to put it right."
+            "foot": "The drop is largest on the limits of responsibility. A short role map per team is a good first measure."
           }
         },
         {
           "k": "New manager",
           "t": "Give a new manager an honest starting point",
-          "d": "The baseline from before the change of manager and the pulse afterwards show how the team experiences support, role clarity and speaking up. The figures apply to the team as a whole — never individuals, and never the manager as a person.",
+          "d": "Measure the team before the change of manager and again afterwards. Then you see how people experience support, role clarity and speaking up. The figures apply to the whole team. They never say anything about one person — not even the manager.",
           "points": [
-            "The team must have at least five responses before anything is shown",
+            "The team must have at least 5 responses before anything is shown",
             "The manager gets their own leadership practice suggestions per factor",
             "Anonymous comments can be answered without knowing who wrote them"
           ],
@@ -6591,7 +6591,7 @@
         },
         {
           "k": "Inspections and documentation",
-          "t": "When the Labour Inspection Authority asks for documentation",
+          "t": "Ready when the Labour Inspection Authority asks for documentation",
           "d": "The report brings together the survey, risk assessment, measures and participation, with legal basis per factor. Choose year and scope, read it through and save as PDF.",
           "points": [
             "Covers aml. § 3-1 c and § 4-3, cf. regulation ch. 1A",
@@ -6624,7 +6624,7 @@
         {
           "k": "Safety reps, union reps and AMU",
           "t": "The same figures on the table for all parties",
-          "d": "The safety representative sees the same figures and the same risk assessment as management, at the same time. Consultation with union representatives is documented before the first send-out, as § 9-2 requires for a recurring survey.",
+          "d": "The safety representative sees the same figures as management, at the same time. That includes the risk assessment. Before the first send-out you log the consultation with union representatives, as § 9-2 requires when a survey is repeated.",
           "points": [
             "The safety representative is notified before every send-out",
             "Measures have an owner and a deadline before the AMU meeting starts",
@@ -6656,7 +6656,7 @@
       "sectors": {
         "k": "Industries",
         "t": "Same tool, different working days",
-        "d": "The questions are the same everywhere, so the figures can be compared over time. What sets industries apart is which factors tend to weigh most, and how people are reached.",
+        "d": "The questions are the same everywhere, so you can compare over time. Industries differ in which factors often pull down, and how you reach people.",
         "items": [
           {
             "t": "Building and construction",
@@ -6713,19 +6713,19 @@
       "seoTitle": "Why Orgpuls – continuous follow-up of the working environment",
       "seoDescription": "Positive focus, measures with an owner and a deadline, anonymity that cannot be switched off, and the Working Environment Act covered along the way. The choices Orgpuls is built on, and why.",
       "crumb": "Why Orgpuls",
-      "h1": "Continuous follow-up delivers results over time",
-      "lead": "A survey once a year tells you how people were doing in September. Orgpuls is built for what happens next: building on what works, giving every finding an owner, and seeing whether it worked. Here are the choices we have made, and why.",
+      "h1": "Track the working environment all year and see what works",
+      "lead": "One survey a year shows how people were doing in September — not whether the measures worked. With Orgpuls, managers and safety representatives build on what works, give every finding an owner and measure the effect. Here are the choices behind it, and why.",
       "next": "See the use cases →",
       "usesLabel": "See it in the platform",
       "sections": [
         {
           "k": "Positive focus",
           "t": "Start with what works",
-          "d": "The summary first says what gives people energy, then what drains it. What is strong is what you build on — and it is easier to get people on board to improve something when they see that the good is noticed too.",
+          "d": "The summary first shows what gives people energy, then what drains it. You build on what is strong — and people are more willing to improve something when they see that the good is noticed too.",
           "points": [
             "The summary starts with what people enjoy",
             "Every area gets a label — including “Good”, not just “Needs work”",
-            "Comments with a positive tone are shown alongside the critical ones"
+            "Comments with a positive tone appear alongside the critical ones"
           ],
           "m": {
             "title": "What people are most satisfied with",
@@ -6742,7 +6742,7 @@
         {
           "k": "Continuous follow-up",
           "t": "One survey is a snapshot. Four are a direction.",
-          "d": "The main survey sets the baseline. Short pulses in between measure only what you are working on, so you see whether the curve turns while there is still time to adjust — not twelve months later.",
+          "d": "The main survey sets the baseline. Short pulses in between measure only what you are working on. Then you see whether the curve turns while there is still time to adjust — not a year later.",
           "points": [
             "The annual cycle sends out, reminds and notifies by itself",
             "The pulse asks only about the factors you have open measures on",
@@ -6799,11 +6799,11 @@
         {
           "k": "Anonymity",
           "t": "Anonymity that cannot be switched off",
-          "d": "No response is linked to a name, email or IP. A group is shown only once enough people have answered — and that applies to administrators too. The threshold is five responses and can be raised, but never lowered.",
+          "d": "Orgpuls never links a response to a name, email or IP. Nobody sees a group until enough people have answered — not even administrators. The threshold is 5 responses. You can raise it, but never lower it.",
           "points": [
             "Small groups are not shown, but count towards the whole",
             "The question order is random for each person",
-            "Comments on a factor are shown only once at least five have written"
+            "Comments on a factor are shown only once at least 5 people have written"
           ],
           "src": "GDPR and the Norwegian Data Protection Authority's guidance on anonymisation",
           "m": {
@@ -6828,10 +6828,10 @@
         {
           "k": "The research behind it",
           "t": "Questions with research behind them",
-          "d": "The factors are based on QPS Nordic, the Nordic questionnaire for psychological and social factors at work. The wording is locked, so the figures can be compared from year to year.",
+          "d": "The questions are based on QPS Nordic, a Nordic questionnaire on psychological and social factors at work. The wording is locked, so you can compare year on year.",
           "points": [
-            "Eleven factors, three statements each, scale 1–5",
-            "Converted to an index of 0–100 to make it easy to read",
+            "11 factors, 3 statements each, scale 1–5",
+            "Answers become an easy-to-read index from 0 to 100",
             "The suggested measures build on established research into what works"
           ],
           "src": "QPS Nordic · National Institute of Occupational Health (STAMI)",
@@ -6860,10 +6860,10 @@
         {
           "k": "The law covered",
           "t": "The law covered along the way — not on top",
-          "d": "The Working Environment Act calls for surveying, risk assessment, plans and measures. Orgpuls is built around exactly that sequence, so the documentation takes shape while you work. If you'd rather not see sections of the Act, they can be switched off in the interface.",
+          "d": "The Working Environment Act requires surveying, risk assessment, plans and measures. Orgpuls follows exactly that sequence, so the documentation takes shape while you work. If you'd rather not see sections of the Act, you can switch them off.",
           "points": [
             "The survey duty in § 3-1 c and the requirements in § 4-3",
-            "Notice to the safety representative and consultation with union representatives are logged",
+            "Orgpuls logs notice to the safety representative and consultation with union representatives",
             "A dedicated report for the Norwegian Labour Inspection Authority, ready to save as PDF"
           ],
           "src": "Working Environment Act §§ 3-1 c, 4-3, 6-2 and 9-2 · Regulation on the Performance of Work ch. 1A",
@@ -6894,7 +6894,7 @@
       "compare": {
         "k": "Compared",
         "t": "Against spreadsheets and large HR systems",
-        "d": "Most people we talk to use either their own form in a spreadsheet or a survey module in a large HR system. Both can work. Here is where the difference lies.",
+        "d": "Most people we talk to use either their own form in a spreadsheet or a survey module in a large HR system. Both can work. This is how they differ from Orgpuls.",
         "cols": [
           "Spreadsheet and form",
           "Large HR system",
@@ -6902,7 +6902,7 @@
         ],
         "rows": [
           {
-            "k": "Time to first survey",
+            "k": "Time to first send-out",
             "a": "Days",
             "b": "Weeks to months",
             "c": "20 minutes"
@@ -6959,7 +6959,7 @@
         "items": [
           {
             "q": "Can the manager see who answered what?",
-            "a": "No. Responses are never linked to a name, email or IP. Groups are shown only once the threshold is reached — at least five responses — and that applies to administrators too."
+            "a": "No. Orgpuls never links a response to a name, email or IP. Nobody sees a group until the threshold is reached — at least 5 responses — and that applies to administrators too."
           },
           {
             "q": "Why not just one survey a year?",
@@ -6971,7 +6971,7 @@
           },
           {
             "q": "Do we need an HR system?",
-            "a": "No. Employees can be pasted in, uploaded as a CSV or added by hand."
+            "a": "No. You can paste employees in, upload them as a CSV or add them by hand."
           },
           {
             "q": "Can we change the questions?",

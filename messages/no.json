@@ -5677,8 +5677,8 @@
         "finalTitle": "Se plattformen på deres egen virksomhet"
       },
       "bruksomrader": {
-        "title": "Bruksområder: arbeidsmiljøkartlegging for alle | Orgpuls",
-        "description": "Orgpuls for lovkravet, for verneombud, for små bedrifter, for bygg og anlegg og for helse og omsorg. Finn siden som passer dere.",
+        "title": "Bruksområder: arbeidsmiljøkartlegging i praksis | Orgpuls",
+        "description": "Åtte situasjoner og seks bransjer: se hvordan dere bruker Orgpuls til årlig kartlegging, puls, ny leder, omorganisering, tilsyn og AMU.",
         "crumb": "Bruksområder",
         "kicker": "Bruksområder",
         "h1": "Samme lovkrav, ulike arbeidsplasser",
@@ -6954,19 +6954,19 @@
       "seoTitle": "Hvorfor Orgpuls – kontinuerlig oppfølging av arbeidsmiljøet",
       "seoDescription": "Positivt fokus, tiltak med eier og frist, anonymitet som ikke kan skrus av, og arbeidsmiljøloven dekket underveis. Valgene Orgpuls er bygget på, og hvorfor.",
       "crumb": "Hvorfor Orgpuls",
-      "h1": "Kontinuerlig oppfølging skaper resultater på sikt",
-      "lead": "En undersøkelse i året forteller hvordan folk hadde det i september. Orgpuls er bygget for det som skjer etterpå: å bygge på det som fungerer, gi hvert funn en eier, og se om det virket. Her er valgene vi har tatt, og hvorfor.",
+      "h1": "Følg opp arbeidsmiljøet hele året og se hva som virker",
+      "lead": "Én undersøkelse i året viser hvordan folk hadde det i september – ikke om tiltakene virket. Med Orgpuls bygger ledere og verneombud på det som fungerer, gir hvert funn en eier og måler effekten. Her er valgene bak, og hvorfor.",
       "next": "Se bruksområdene →",
       "usesLabel": "Se i plattformen",
       "sections": [
         {
           "k": "Positivt fokus",
           "t": "Start med det som fungerer",
-          "d": "Oppsummeringen sier først hva som gir folk energi, så hva som tapper den. Det som er sterkt, er det dere bygger på — og det er lettere å få med folk på å forbedre noe når de ser at det gode også blir sett.",
+          "d": "Oppsummeringen viser først hva som gir folk energi, så hva som tapper den. Dere bygger på det som er sterkt – og folk blir lettere med på å forbedre noe når de ser at det gode også blir sett.",
           "points": [
             "Oppsummeringen starter med det folk trives med",
-            "Hvert område får en merkelapp — også «Bra», ikke bare «Trenger innsats»",
-            "Kommentarer med positiv tone vises sammen med de kritiske"
+            "Hvert område får en merkelapp – også «Bra», ikke bare «Trenger innsats»",
+            "Kommentarer med positiv tone står sammen med de kritiske"
           ],
           "m": {
             "title": "Det folk er mest fornøyd med",
@@ -6983,7 +6983,7 @@
         {
           "k": "Kontinuerlig oppfølging",
           "t": "Én måling er et øyeblikksbilde. Fire er en retning.",
-          "d": "Hovedundersøkelsen setter nullpunktet. Korte pulser mellom måler bare det dere jobber med, så dere ser om kurven snur mens det fortsatt er tid til å justere — ikke tolv måneder senere.",
+          "d": "Hovedundersøkelsen setter nullpunktet. Korte pulser imellom måler bare det dere jobber med. Da ser dere om kurven snur mens det ennå er tid til å justere – ikke et år senere.",
           "points": [
             "Årshjulet sender ut, minner på og varsler av seg selv",
             "Pulsen spør bare om faktorene dere har åpne tiltak på",
@@ -7040,11 +7040,11 @@
         {
           "k": "Anonymitet",
           "t": "Anonymitet som ikke kan skrus av",
-          "d": "Ingen svar knyttes til navn, e-post eller IP. En gruppe vises først når nok folk har svart — og det gjelder også administratorer. Terskelen er fem svar og kan heves, men aldri senkes.",
+          "d": "Orgpuls knytter aldri et svar til navn, e-post eller IP. Ingen ser en gruppe før nok folk har svart – heller ikke administratorer. Terskelen er 5 svar. Dere kan heve den, men aldri senke den.",
           "points": [
             "Små grupper vises ikke, men teller med i helheten",
             "Rekkefølgen på spørsmålene er tilfeldig per person",
-            "Kommentarer til en faktor vises først når minst fem har skrevet"
+            "Kommentarer til en faktor vises først når minst 5 har skrevet"
           ],
           "src": "GDPR og Datatilsynets veiledning om anonymisering",
           "m": {
@@ -7069,10 +7069,10 @@
         {
           "k": "Forskningen bak",
           "t": "Spørsmål med forskning bak",
-          "d": "Faktorene bygger på QPS Nordic, det nordiske spørreskjemaet for psykologiske og sosiale faktorer i arbeid. Ordlyden er låst, slik at tallene kan sammenlignes fra år til år.",
+          "d": "Spørsmålene bygger på QPS Nordic. Det er et nordisk skjema om psykologiske og sosiale faktorer i arbeid. Ordlyden er låst, så dere kan sammenligne år for år.",
           "points": [
-            "Elleve faktorer, tre påstander hver, skala 1–5",
-            "Regnes om til en indeks 0–100 for å være lett å lese",
+            "11 faktorer, 3 påstander hver, skala 1–5",
+            "Svarene blir en lettlest indeks fra 0 til 100",
             "Forslagene til tiltak bygger på kjent forskning om hva som virker"
           ],
           "src": "QPS Nordic · Statens arbeidsmiljøinstitutt (STAMI)",
@@ -7100,12 +7100,12 @@
         },
         {
           "k": "Loven dekket",
-          "t": "Loven dekket underveis — ikke i tillegg",
-          "d": "Arbeidsmiljøloven ber om kartlegging, risikovurdering, planer og tiltak. Orgpuls er bygget rundt akkurat den rekkefølgen, så dokumentasjonen blir til mens dere jobber. Vil dere ikke se paragrafer, kan de skrus av i grensesnittet.",
+          "t": "Loven dekket underveis – ikke i tillegg",
+          "d": "Arbeidsmiljøloven krever kartlegging, risikovurdering, planer og tiltak. Orgpuls følger akkurat den rekkefølgen, så dokumentasjonen blir til mens dere jobber. Vil dere ikke se paragrafer, kan dere skru dem av.",
           "points": [
             "Kartleggingsplikten i § 3-1 c og kravene i § 4-3",
-            "Varsel til verneombud og drøfting med tillitsvalgte logges",
-            "Egen rapport til Arbeidstilsynet, klar til å lagres som PDF"
+            "Orgpuls logger varsel til verneombudet og drøfting med tillitsvalgte",
+            "Egen rapport til Arbeidstilsynet, klar til å lagre som PDF"
           ],
           "src": "Arbeidsmiljøloven §§ 3-1 c, 4-3, 6-2 og 9-2 · forskrift om utførelse av arbeid kap. 1A",
           "m": {
@@ -7135,7 +7135,7 @@
       "compare": {
         "k": "Sammenlignet",
         "t": "Mot regneark og mot store HR-systemer",
-        "d": "De fleste vi snakker med, bruker enten et eget skjema i et regneark, eller en undersøkelsesmodul i et stort HR-system. Begge kan fungere. Her er hvor forskjellen ligger.",
+        "d": "De fleste vi snakker med, bruker enten et eget skjema i et regneark eller en undersøkelsesmodul i et stort HR-system. Begge kan fungere. Slik skiller de seg fra Orgpuls.",
         "cols": [
           "Regneark og skjema",
           "Stort HR-system",
@@ -7143,7 +7143,7 @@
         ],
         "rows": [
           {
-            "k": "Tid til første måling",
+            "k": "Tid til første utsending",
             "a": "Dager",
             "b": "Uker til måneder",
             "c": "20 minutter"
@@ -7196,11 +7196,11 @@
         "k": "Ofte stilte spørsmål",
         "nav": "Spørsmål",
         "t": "Det folk lurer på før de starter",
-        "d": "Finner du ikke svaret, skriv til oss fra <link>kontaktskjemaet</link>. Vi svarer selv, på norsk.",
+        "d": "Finner du ikke svaret? Skriv til oss i <link>kontaktskjemaet</link>. Vi svarer selv, på norsk.",
         "items": [
           {
             "q": "Kan lederen se hvem som svarte hva?",
-            "a": "Nei. Svar knyttes aldri til navn, e-post eller IP. Grupper vises først når terskelen er nådd — minst fem svar — og det gjelder også administratorer."
+            "a": "Nei. Orgpuls knytter aldri et svar til navn, e-post eller IP. Ingen ser en gruppe før terskelen er nådd – minst 5 svar – og det gjelder også administratorer."
           },
           {
             "q": "Hvorfor ikke bare én undersøkelse i året?",
@@ -7208,11 +7208,11 @@
           },
           {
             "q": "Blir ikke folk lei av å svare?",
-            "a": "Pulsen spør bare om faktorene dere har åpne tiltak på, og en faktor faller ut når tiltakene er lukket. Det som sliter ut folk, er å svare uten å se at noe skjer — derfor får alle se tiltakene."
+            "a": "Pulsen spør bare om faktorene dere har åpne tiltak på, og en faktor faller ut når tiltakene er lukket. Det som sliter ut folk, er å svare uten å se at noe skjer – derfor får alle se tiltakene."
           },
           {
             "q": "Trenger vi et HR-system?",
-            "a": "Nei. Ansatte kan limes inn, lastes opp som CSV eller legges inn for hånd."
+            "a": "Nei. Dere kan lime inn de ansatte, laste dem opp som CSV eller legge dem inn for hånd."
           },
           {
             "q": "Kan vi endre spørsmålene?",
@@ -7259,19 +7259,19 @@
     },
     "bruksomrader": {
       "crumb": "Bruksområder",
-      "h1": "Fra lovpålagt kartlegging til lederverktøy",
-      "lead": "Samme spørsmål, samme terskel og samme tiltaksliste — brukt på åtte ulike måter. Velg situasjonen som ligner deres, og se hvordan den løses i praksis.",
+      "h1": "Fra lovpålagt kartlegging til tiltak med målt effekt",
+      "lead": "Lovkravet er likt for alle, men hverdagen er ulik. Velg situasjonen som ligner deres, og se hvordan dere løser den i praksis.",
       "next": "Se plattformen →",
       "usesLabel": "Dette bruker dere",
       "sections": [
         {
           "k": "Årlig kartlegging",
           "t": "Kartleggingen loven krever, gjort på en time",
-          "d": "Én hovedundersøkelse i året dekker kartleggingsplikten i arbeidsmiljøloven § 3-1 c og setter nullpunktet alt annet måles mot. Spørsmålene er ferdige, terskelen er satt og rapporten skriver seg selv.",
+          "d": "Én hovedundersøkelse i året dekker kartleggingsplikten i arbeidsmiljøloven § 3-1 c. Den gir nullpunktet dere måler alt annet mot. Spørsmålene er klare, terskelen er satt, og Orgpuls lager rapporten.",
           "points": [
-            "33 påstander fordelt på elleve faktorer, fire minutter å svare",
-            "Verneombudet varsles to dager før utsending",
-            "Én påminnelse, og runden lukkes etter fjorten dager",
+            "33 påstander om 11 faktorer, rundt 4 minutter å svare",
+            "Verneombudet får varsel 2 dager før utsending",
+            "Én påminnelse, og runden stenger etter 14 dager",
             "Risikovurdering per faktor med hjemmel, klar til AMU"
           ],
           "m": {
@@ -7282,11 +7282,11 @@
         },
         {
           "k": "Puls mellom målingene",
-          "t": "Se om tiltakene virker — før neste år",
-          "d": "Pulsen stiller de tre påstandene for hver faktor dere har satt tiltak på, og viser om kurven snur mens det fortsatt er tid til å justere.",
+          "t": "Se om tiltakene virker – før neste år",
+          "d": "Pulsen stiller de tre påstandene for hver faktor dere har satt tiltak på. Den viser om kurven snur mens det ennå er tid til å justere.",
           "points": [
-            "Spørsmålene hentes fra faktorene med åpne tiltak",
-            "Samme ordlyd som hovedundersøkelsen, så tallene kan sammenlignes",
+            "Pulsen spør bare om faktorene med åpne tiltak",
+            "Samme ordlyd som hovedundersøkelsen, så dere kan sammenligne tallene",
             "Faktoren faller ut når tiltakene er lukket"
           ],
           "m": {
@@ -7305,10 +7305,10 @@
         {
           "k": "Uten HR-avdeling",
           "t": "Daglig leder, 20 ansatte, ingen HR-avdeling",
-          "d": "Enkel visning gir én side: hva folk er fornøyd med, hva som trekker ned, og tre ting å gjøre nå. Tuva viser hva som gjenstår før dere er i gang, og hjelpen står på hver side.",
+          "d": "Enkel visning samler alt på én side: hva folk er fornøyd med, hva som trekker ned, og tre ting å gjøre nå. Assistenten Tuva viser hva som gjenstår før dere er i gang, og hjelpen står på hver side.",
           "points": [
-            "Oversikten åpnes automatisk for daglig leder under 50 ansatte",
-            "Ansatte limes inn eller lastes opp som CSV — HR-system trengs ikke",
+            "Daglig leder med under 50 ansatte får enkel visning automatisk",
+            "Lim inn de ansatte eller last opp en CSV – uten HR-system",
             "Veiviseren tar deg fra org.nr. til første utsending på 20 minutter"
           ],
           "m": {
@@ -7337,7 +7337,7 @@
         {
           "k": "Ett team skiller seg ut",
           "t": "Når ett team har det tyngre enn resten",
-          "d": "Heatmapet viser team mot faktor. Segmentprofilen sammenligner ett team med resten og peker på hvor forskjellen er størst — uten at noen enkeltperson kan identifiseres.",
+          "d": "Varmekartet viser team mot faktor. Segmentprofilen sammenligner ett team med resten og viser hvor forskjellen er størst – uten å peke ut noen enkeltperson.",
           "points": [
             "Grupper under terskelen vises som strek, også for administrator",
             "Avdelingslederen ser bare sitt eget team",
@@ -7365,7 +7365,7 @@
         {
           "k": "Omorganisering og endring",
           "t": "Mål før og etter en endring",
-          "d": "Legg en ekstra puls i årshjulet fire til seks uker etter en omorganisering, et systembytte eller en sammenslåing. Da ser dere om folk vet hva som forventes, og om lederstøtten holder.",
+          "d": "Legg en ekstra puls i årshjulet 4–6 uker etter en omorganisering, et systembytte eller en sammenslåing. Da ser dere om folk vet hva som forventes, og om lederstøtten holder.",
           "points": [
             "Legg til en puls i en hvilken som helst måned med ett klikk",
             "Velg faktorene som påvirkes: rolleklarhet, motstridende krav, lederstøtte",
@@ -7380,15 +7380,15 @@
               "Vet hvor ansvaret slutter · før",
               "Vet hvor ansvaret slutter · etter"
             ],
-            "foot": "Fallet er størst på ansvarsgrenser. Et kort rollekart per team er ofte nok til å rette det opp."
+            "foot": "Fallet er størst på ansvarsgrenser. Et kort rollekart per team er et godt første tiltak."
           }
         },
         {
           "k": "Ny leder",
           "t": "Gi en ny leder et ærlig utgangspunkt",
-          "d": "Grunnlinjen fra før lederbyttet og pulsen etterpå viser hvordan teamet opplever støtte, rolleklarhet og ytringsklima. Tallene gjelder teamet som helhet — aldri enkeltpersoner, og aldri lederen som person.",
+          "d": "Mål teamet før lederbyttet og igjen etterpå. Da ser dere hvordan folk opplever støtte, rolleklarhet og ytringsklima. Tallene gjelder hele teamet. De sier aldri noe om én person – heller ikke om lederen.",
           "points": [
-            "Teamet må ha minst fem svar før noe vises",
+            "Teamet må ha minst 5 svar før noe vises",
             "Lederen får egne forslag til lederpraksis per faktor",
             "Anonyme kommentarer kan besvares uten å vite hvem som skrev"
           ],
@@ -7405,11 +7405,11 @@
         },
         {
           "k": "Tilsyn og dokumentasjon",
-          "t": "Når Arbeidstilsynet ber om dokumentasjon",
+          "t": "Klar når Arbeidstilsynet ber om dokumentasjon",
           "d": "Rapporten samler kartlegging, risikovurdering, tiltak og medvirkning, med hjemmel per faktor. Velg år og omfang, les gjennom og lagre som PDF.",
           "points": [
             "Dekker aml. § 3-1 c og § 4-3, jf. forskrift kap. 1A",
-            "Viser at verneombudet ble varslet og tillitsvalgte ble tatt med",
+            "Viser at verneombudet fikk varsel og at tillitsvalgte var med",
             "Tiltakslogg med eier, frist og målt effekt"
           ],
           "m": {
@@ -7438,7 +7438,7 @@
         {
           "k": "Verneombud, tillitsvalgte og AMU",
           "t": "Samme tall på bordet for alle parter",
-          "d": "Verneombudet ser de samme tallene og den samme risikovurderingen som ledelsen, samtidig. Drøftingen med tillitsvalgte dokumenteres før første utsending, slik § 9-2 krever for en gjentakende måling.",
+          "d": "Verneombudet ser de samme tallene som ledelsen, på samme tid. Det gjelder også risikovurderingen. Før første utsending logger dere drøftingen med de tillitsvalgte, slik § 9-2 krever når en måling gjentas.",
           "points": [
             "Verneombudet varsles før hver utsending",
             "Tiltak har eier og frist før AMU-møtet starter",
@@ -7460,7 +7460,7 @@
               },
               {
                 "tag": "Risiko",
-                "t": "To faktorer med høy risiko — tiltak besluttet",
+                "t": "To faktorer med høy risiko – tiltak besluttet",
                 "meta": "Til behandling"
               }
             ]
@@ -7470,11 +7470,11 @@
       "sectors": {
         "k": "Bransjer",
         "t": "Samme verktøy, ulike hverdager",
-        "d": "Spørsmålene er de samme overalt, så tallene kan sammenlignes over tid. Det som skiller bransjene, er hvilke faktorer som pleier å trekke, og hvordan folk nås.",
+        "d": "Spørsmålene er like overalt. Da kan dere sammenligne over tid. Bransjene skiller seg på hvilke faktorer som ofte trekker ned, og hvordan dere når folk.",
         "items": [
           {
             "t": "Bygg og anlegg",
-            "d": "Team med ulik hverdag — verksted, prosjekt og drift. Heatmapet viser hvor forskjellene er, uten å peke på personer.",
+            "d": "Team med ulik hverdag – verksted, prosjekt og drift. Varmekartet viser hvor forskjellene er, uten å peke på personer.",
             "f": [
               "Ytringsklima",
               "Arbeidsmengde"
@@ -7490,7 +7490,7 @@
           },
           {
             "t": "Handel og service",
-            "d": "Mange deltidsansatte og flere lokasjoner. Grupper per lokasjon som er for små, vises ikke, men teller med i helheten.",
+            "d": "Mange deltidsansatte og flere lokasjoner. For små grupper per lokasjon vises ikke, men teller med i helheten.",
             "f": [
               "Rolleklarhet",
               "Anerkjennelse"
