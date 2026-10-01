@@ -45,7 +45,7 @@ const flatten = (o, p = '', out = {}) => {
   return out
 }
 /** lib/i18n/keyed.ts `isStructuralPath`: a block's kind, a link, an id — data, not words */
-const isStructural = (path) => /\.\d+\.(t|id|href|slug|url)$/.test(path)
+const isStructural = (path) => /\.blocks\.\d+\.t$|\.\d+\.(id|href|slug|url)$/.test(path)
 const catalogue = Object.fromEntries(Object.entries(flatten(JSON.parse(readFileSync('messages/no.json', 'utf8')))).filter(([k]) => !isStructural(k)))
 
 let server = null

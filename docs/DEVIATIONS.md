@@ -9670,3 +9670,30 @@ bokmål and English. The site pixel check differs from the bundle here by design
 
 **Still open from D-186:** problem, steps and objection sections; result images and captions;
 second outlined buttons as text links; «eksempel» labels on drawings; customer proof.
+
+## D-188 — The site's texts as one document for a copywriter; the page map's missing card titles (2026-10-01)
+
+**Asked (Tor):** every text on the public pages in one structured document, by page, language and
+section, to run through a copywriter and hand back.
+
+**Built:** `scripts/i18n/site-text.mts`. `--out <file.md>` writes the document: a shared part
+(header, footer, the buttons and lines several pages use, each listed once), then each page with a
+Norwegian and an English part, split into sections in the order the page shows them. An article
+or template page is split at its H2s. Each text sits under an id line, `[[no:site.home.h1]]` or
+`[[no:bransje.handel.hero.h1]]`, with a hint: what kind of text, its length, a 60/155 limit on
+SEO titles and descriptions, a ⚖ mark where it cites law, and a warning to keep `{…}`, `<…>` and
+`{{cite:…}}`. `--diff <file.md>` reads an edited copy back and lists every text that changed,
+was dropped or was added. An unchanged copy reads back as no changes: tested on the full
+document and on one edited H1. Losing a soft hyphen is not counted as a change.
+
+Which texts a page shows comes from the page map (X-090); the industry pages' own words come from
+`content/industries`. Left out: sign-in, new password, unsubscribe, invitations, the newsletter
+archive, the privacy statement, and the survey's statements (`factor.*`, the instrument, locked).
+Three industry pages have no English page yet; their English part says so.
+
+**Found and fixed:** the keys mode treated every `t` in a list as a block's kind and never marked
+it. Outside a `blocks` array, `t` is a card's title, so the page map was missing 94 texts: the role
+titles «Daglig leder», «HR», «Avdelingsleder» and «Verneombud», the teaser and industry card titles,
+and «Om oss» and the price band's headings. Admin › Translations reviews by that map, so these
+were not in its page-by-page review either. `isStructuralPath` (and the crawler's copy) now treat
+`t` as data only inside `blocks`. A unit test covers both cases. The page map is regenerated.

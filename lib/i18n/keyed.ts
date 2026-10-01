@@ -16,8 +16,11 @@ type Tree = { [k: string]: unknown }
  * A value the site's content blocks read as data, not as words (lib/marketing/blocks.ts): a
  * block's kind, an internal link, a picture's id, an industry's slug, a source's address. Each
  * sits in an array element. Never marked, and not a text to review or translate.
+ *
+ * `t` is a kind only in a `blocks` array. Elsewhere it is a card's title («Daglig leder», a
+ * teaser's heading), which the page map missed while every `.N.t` counted as data (D-188).
  */
-export const isStructuralPath = (path: string) => /\.\d+\.(t|id|href|slug|url)$/.test(path)
+export const isStructuralPath = (path: string) => /\.blocks\.\d+\.t$|\.\d+\.(id|href|slug|url)$/.test(path)
 
 function mark(value: unknown, path: string): unknown {
   if (typeof value === 'string') return isStructuralPath(path) ? value : `${KEY_OPEN}${path}${KEY_CLOSE}${value}`

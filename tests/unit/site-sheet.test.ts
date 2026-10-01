@@ -128,7 +128,9 @@ describe('the page map and the keys mode', () => {
   })
 
   it('marks every text with its path, leaves data alone, and is off unless asked for', () => {
-    const tree = { a: { b: 'Hei {name}', blocks: [{ t: 'p', text: 'Tekst' }, { t: 'links', items: [{ title: 'T', href: '/x' }] }] } }
+    const tree = {
+      a: { b: 'Hei {name}', blocks: [{ t: 'p', text: 'Tekst' }, { t: 'links', items: [{ title: 'T', href: '/x' }] }], roles: [{ t: 'Daglig leder' }] },
+    }
     expect(keyedMessages('no', tree)).toBe(tree)
     const env = process.env
     process.env = { ...env, ORGPULS_I18N_KEYS: '1' }
@@ -137,6 +139,8 @@ describe('the page map and the keys mode', () => {
       expect(k.a.b).toBe('⟪a.b⟫Hei {name}')
       expect(k.a.blocks[0]).toEqual({ t: 'p', text: '⟪a.blocks.0.text⟫Tekst' })
       expect(k.a.blocks[1]).toEqual({ t: 'links', items: [{ title: '⟪a.blocks.1.items.0.title⟫T', href: '/x' }] })
+      // outside a blocks array `t` is a card's title, a text like any other (D-188)
+      expect(k.a.roles[0]).toEqual({ t: '⟪a.roles.0.t⟫Daglig leder' })
       expect(keyedMessages('en', tree)).toBe(tree)
       process.env = { ...env, ORGPULS_I18N_KEYS: '1', VERCEL_ENV: 'production' }
       expect(keyedMessages('no', tree)).toBe(tree)
