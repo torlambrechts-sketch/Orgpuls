@@ -135,7 +135,10 @@ export const handel: IndustryPage = {
         reviewed: true,
       },
       {
-        ref: 'Forskriften kap. 23A',
+        // was «kap. 23A», repealed 1 January 2026 (FOR-2025-12-16-2615); kap. 3A replaces it with the
+        // same duties, as corrected on helse-og-omsorg and barnehage-og-skole (D-131). The text is
+        // unchanged; the reference awaits Tor's look in admin › Legal review
+        ref: 'Forskriften kap. 3A',
         text: 'Der ansatte kan utsettes for vold eller trusler, skal risikoen vurderes, og det skal finnes tiltak, opplæring og oppfølging.',
         reviewed: true,
       },
