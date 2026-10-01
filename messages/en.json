@@ -2593,16 +2593,16 @@
     "confirmCompany": "Yes, that is us",
     "tryAnother": "Try another number",
     "step2Title": "And who are you?",
-    "step2Lead": "You become the first administrator and can invite the rest afterwards. Employees who only answer need no account — they use the link they are sent.",
+    "step2Lead": "You become the first administrator and can invite the rest afterwards. Employees who only answer need no account – they use the link they are sent.",
     "name": "Name",
     "namePlaceholder": "First Last",
     "email": "Work e-mail",
     "emailPlaceholder": "name@company.no",
-    "emailHint": "Use your address at work.",
+    "emailHint": "It becomes your username when you sign in.",
     "password": "Choose a password",
     "passwordPlaceholder": "At least 8 characters",
     "pwHintEmpty": "At least 8 characters. Length counts for more than symbols.",
-    "pwHintShort": "Too short — {count} of 8 characters",
+    "pwHintShort": "Too short – {count} of 8 characters",
     "pwHintOk": "Fine. Stronger with a few more characters.",
     "pwHintGood": "Good password",
     "sizeQuestion": "Roughly how many employees are you?",
@@ -2612,9 +2612,9 @@
       "to100": "51–100",
       "over100": "Over 100"
     },
-    "sizeNote": "The number is the denominator of the response rate and can be corrected under Settings once the register is filled in.",
+    "sizeNote": "We work out the response rate from this number. You can correct it under Settings once the register is filled in.",
     "consent": "I confirm that I can enter into agreements on behalf of the undertaking, and have read the privacy statement.",
-    "createAccount": "Create the account",
+    "createAccount": "Try free for 15 days",
     "creating": "Creating …",
     "back": "Back",
     "ctaHintReady": "No card details now. After 15 days we ask whether you want to continue.",
@@ -2630,7 +2630,7 @@
       },
       "threshold": {
         "title": "Check the groups and the threshold",
-        "note": "Five answers is the floor and cannot be set lower",
+        "note": "The floor is 5 answers and cannot be set lower",
         "time": "5 min"
       },
       "send": {
@@ -2642,11 +2642,11 @@
     "openOrgpuls": "Open Orgpuls",
     "inclHead": "Included from day one",
     "incl": {
-      "instrument": "The whole question set — 11 factors, 37 questions",
+      "instrument": "The whole question set – 11 factors, 37 questions",
       "report": "A report ready for the inspectorate, the committee and the board",
       "measures": "Measures with an owner, a deadline and a required effect",
       "conversations": "Anonymous conversations with employees",
-      "users": "Unlimited users — safety representatives and managers cost nothing extra"
+      "users": "Unlimited users – safety representatives and managers cost nothing extra"
     },
     "reassure1": "We only fetch public information from the company register. Nothing goes out to employees before you have approved the send.",
     "reassure2": "No card details now, and no automatic renewal. We ask before anything is invoiced.",
@@ -2657,7 +2657,7 @@
       "invalid_org_number": "An organisation number is nine digits. Check the number and try again.",
       "not_found": "The company register does not know this number.",
       "deleted": "The undertaking is recorded as dissolved in the register.",
-      "unreachable": "The company register did not answer. Try again shortly — nothing was changed.",
+      "unreachable": "The company register did not answer. Try again shortly – nothing was changed.",
       "signup_failed": "The account could not be created with these details. Check the e-mail address and the password, or sign in if you already have an account.",
       "confirm_email": "The account has been created. Open the e-mail we sent and confirm the address, then sign in and finish the setup.",
       "org_failed": "The undertaking could not be created. Try again.",
@@ -5757,23 +5757,23 @@
         "description": "Small NOK 265 and Usual NOK 565 a month excl. VAT. No add-ons, no start-up fee and no lock-in. Try free for 15 days without a card.",
         "crumb": "Pricing",
         "kicker": "Pricing",
-        "h1": "One price a month, everything included",
-        "lead": "No add-ons for reports, integrations or number of surveys. A monthly agreement with no lock-in, and 15 days free without card details.",
+        "h1": "Survey your work environment from NOK 265 a month",
+        "lead": "No add-ons for reports, integrations or extra surveys. You pay monthly with no lock-in, and try it free for 15 days without a card.",
         "blocks": [
           {
             "t": "plans"
           },
           {
             "t": "h2",
-            "text": "What you get on any plan"
+            "text": "Included in every plan"
           },
           {
             "t": "ul",
             "items": [
               "Annual mapping with pulses in between, as many rounds as you like",
-              "A report that follows section 3-1 letter c of the Working Environment Act",
+              "A report ready for the Labour Inspection Authority, under section 3-1 letter c of the Working Environment Act",
               "Unlimited measures, with ready suggestions",
-              "Access for the safety representative at no extra cost",
+              "The safety representative is included at no extra cost",
               "No start-up fee and no lock-in"
             ]
           },
@@ -5796,18 +5796,18 @@
             "a": "No. The safety representative has access at no extra cost."
           },
           {
-            "q": "We are more than 100, or several companies?",
-            "a": "Then Several companies applies, by agreement. [Write to us](/kontakt) and we will find a solution."
+            "q": "What if we have over 100 employees, or several companies?",
+            "a": "Then the Several companies plan applies, priced by agreement. [Write to us](/kontakt) and we will agree a price."
           }
         ]
       },
       "sikkerhet": {
         "title": "Security, privacy and anonymity | Orgpuls",
-        "description": "How Orgpuls keeps answers anonymous: no link to a person, at least five answers per group, data in the EU. What we store, and what we do not.",
+        "description": "How Orgpuls keeps answers anonymous: no link to a person, at least 5 answers per group, data in the EU. What we store, and what we do not.",
         "crumb": "Security and privacy",
         "kicker": "Security and privacy",
         "h1": "Anonymity that does not depend on anyone keeping a promise",
-        "lead": "Orgpuls promises that nobody can see who answered what. That promise is built into how the data is stored, not into a routine someone has to follow. Here is what that means in practice.",
+        "lead": "Nobody can see who answered what – not even you. It is built into how the answers are stored, not into a routine someone has to follow. That is why employees can answer honestly.",
         "blocks": [
           {
             "t": "h2",
@@ -5815,55 +5815,55 @@
           },
           {
             "t": "p",
-            "text": "For each employee, the register holds name, e-mail and group, and a mobile number if you use SMS. The answer itself is stored in a table that **has no column that could hold a link to a person**. The row holds which round the answer belongs to, which group the person is in, and the hour it was submitted, rounded to the hour."
+            "text": "The register holds each employee’s name, e-mail and group, and a mobile number if you use SMS. The answer itself goes into a table that **has no column that could hold a link to a person**. The row shows the round, the group and the hour the answer came in – not the minute."
           },
           {
             "t": "p",
-            "text": "The invitation link is looked up by a cryptographic checksum when it is used. The invitation records that it has been used, so the reminder does not go to you – but never which answer it gave. There is no view, export or query that can say what a named person answered – not even for administrators – because the information does not exist."
+            "text": "Orgpuls recognises the invitation link by a cryptographic checksum. The invitation records that it has been used, so you get no reminder – but never the answer. No screen, export or query shows what a named person answered, not even to administrators: the information does not exist."
           },
           {
             "t": "h2",
-            "text": "Five answers, or a dash"
+            "text": "Fewer than 5 answers show a dash"
           },
           {
             "t": "p",
-            "text": "No group is shown until at least five have answered. The limit is enforced by the database and cannot be lowered, only raised. When the figures for the other groups would reveal a hidden group, one more group is held back, so nobody can calculate their way there."
+            "text": "No group is shown until at least 5 have answered. The database enforces the limit: you can raise it up to 10, but never lower it. If the figures for the other groups would reveal a hidden group, Orgpuls hides one more, so nobody can work their way back to it."
           },
           {
             "t": "h2",
-            "text": "Comments and conversations"
+            "text": "Comments and conversations stay anonymous"
           },
           {
             "t": "p",
-            "text": "A comment is shown only when the group it comes from has enough answers, and the group never travels with the comment. The writer gets a private key to the conversation; the database stores only a checksum of it. If a manager wants to talk directly, they can ask – but only the employee can make themselves known, by writing from their own e-mail."
+            "text": "A comment is shown only when the group it comes from has enough answers, and the group never travels with the comment. The writer gets a private key to the conversation; the database stores only a checksum of it. If a manager wants to talk directly, the manager can ask – but only the employee can make themselves known, by writing from their own e-mail."
           },
           {
             "t": "h2",
-            "text": "Legal basis"
+            "text": "The basis is a legal duty, not consent"
           },
           {
             "t": "p",
-            "text": "The legal basis is legal obligation, GDPR article 6(1)(c), with sections 3-1 and 4-3 of the Working Environment Act – not consent, because an employee cannot consent freely to their employer. The questions are designed to avoid health information, which an employer shall not collect. The screening for offensive behaviour and for violence and threats is reported only as a count."
+            "text": "The processing rests on legal obligation: GDPR Article 6(1)(c), with sections 3-1 and 4-3 of the Working Environment Act. An employee cannot consent freely to their employer, so consent is not used. The questions avoid health information, which an employer shall not ask for, and answers about violence, threats and offensive behaviour are shown only as counts."
           },
           {
             "t": "h2",
-            "text": "Storage"
+            "text": "Stored in the EU, not passed on"
           },
           {
             "t": "ul",
             "items": [
-              "The data is stored on servers in the EU (Frankfurt), under the GDPR",
-              "Answers are not shared with third parties, and no answers are used to train models",
+              "We store the data on servers in the EU (Frankfurt), under the GDPR",
+              "We do not share answers with third parties, and use no answers to train AI models",
               "A single answer cannot be retrieved or deleted on its own, because it cannot be linked to a person (GDPR article 11)"
             ]
           },
           {
             "t": "h2",
-            "text": "Data processing agreement"
+            "text": "The data processing agreement is ready in Orgpuls"
           },
           {
             "t": "p",
-            "text": "The organisation is the controller, and Orgpuls AS is the processor. The data processing agreement under GDPR Article 28 is in Orgpuls under Settings, where the managing director reads and signs it, and can print or save it as PDF. The sub-processors are Supabase (database and sign-in, Frankfurt), Vercel (hosting, Frankfurt) and Brevo (e-mail and SMS)."
+            "text": "You are the controller and Orgpuls AS the processor, under GDPR Article 28. The managing director reads and signs the agreement under Settings, and can print it or save it as PDF. We use three sub-processors: Supabase (database and sign-in, Frankfurt), Vercel (hosting, Frankfurt) and Brevo (e-mail and SMS)."
           },
           {
             "t": "box",
@@ -5877,8 +5877,8 @@
         "description": "Questions about Orgpuls, help with setup, or an agreement for several companies? Write to hjelp@orgpuls.no.",
         "crumb": "Contact",
         "kicker": "Contact",
-        "h1": "Talk to us",
-        "lead": "The quickest way to reach us is e-mail. Say what it is about and how many employees you have, and we will reply.",
+        "h1": "Ask us – we reply within one working day",
+        "lead": "Use the form below or e-mail. Say what it is about and how many employees you have, so we can give a concrete answer straight away.",
         "blocks": [
           {
             "t": "cards",
@@ -5899,7 +5899,7 @@
           },
           {
             "t": "p",
-            "text": "Would you rather try it yourself first? Sign up with your organisation number – you are up and running in three minutes, without card details."
+            "text": "Would you rather try it yourself first? Sign up with your organisation number – you are up and running in 3 minutes, without card details."
           }
         ]
       },
@@ -7526,7 +7526,7 @@
     "contact": {
       "k": "Contact",
       "t": "Write to us",
-      "d": "Questions about the product, pricing for corporate groups, or help with the first send-out. We reply personally, in Norwegian, within one working day.",
+      "d": "Questions about the product, pricing for corporate groups or help with the first send-out. We reply personally, in Norwegian, within one working day.",
       "topics": [
         "Questions about the product",
         "Pricing for groups or over 100 employees",
@@ -7547,8 +7547,8 @@
     },
     "bransjer": {
       "crumb": "Industries",
-      "h1": "The work environment where you actually work",
-      "lead": "The main survey covers what applies to every workplace. Industries with risks of their own have industry modules of their own: more statements, their own measures and the legal basis for every factor.",
+      "h1": "Survey the risks of your own industry",
+      "lead": "Violence, working alone and time pressure hit industries differently. The main survey covers what the law requires of everyone, and an industry module adds statements, measures and the legal basis for every factor.",
       "facts": "{factors} factors · {statements} statements · about {minutes} min extra",
       "cards": [
         {
@@ -7576,7 +7576,7 @@
           "slug": "kunnskap-og-kontor",
           "k": "Consultancy, IT, finance, media and real estate",
           "t": "Knowledge and office work",
-          "d": "Interruptions and meetings, availability outside working hours, hybrid work and AI. Simplified or extended.",
+          "d": "Interruptions and meetings, availability outside working hours, hybrid work and AI. Choose simplified or extended.",
           "cta": "See knowledge and office work"
         },
         {
@@ -12596,7 +12596,7 @@
     "metaTitle": "Try the Orgpuls demo",
     "metaDescription": "Your own copy of an organisation already surveyed: three years of surveys, measures, conversations and the report for the Labour Inspection Authority. Fictional data, nothing is sent.",
     "badge": "Demo",
-    "lead": "You get your own copy of Demobedriften AS, with 64 fictional employees, three years of surveys, measures, conversations and the report for the Labour Inspection Authority. We send a sign-in link to your email address.",
+    "lead": "You get your own copy of Demobedriften AS: 64 fictional employees, 3 years of surveys, measures, conversations and the report for the Labour Inspection Authority. Enter your work email and we send you a link.",
     "mail": "Work email",
     "consent": "Yes, Orgpuls may email me about the product. I can unsubscribe at any time.",
     "submit": "Send me the link",
@@ -12604,7 +12604,7 @@
     "sentTitle": "Check your inbox",
     "sentLead": "We have sent a sign-in link to {mail}. Open it to enter the demo.",
     "invalid": "Enter a valid email address.",
-    "limited": "Many links have been requested from here today. Try again tomorrow, or get in touch with us.",
+    "limited": "Many people have asked for links from here today. Try again tomorrow, or get in touch with us.",
     "closed": "The demo is closed right now. Get in touch and we will show you Orgpuls.",
     "failed": "Something went wrong. Try again in a moment.",
     "startFailed": "We could not open the demo. Ask for a new link.",
@@ -12613,7 +12613,7 @@
       "The demo is your own. Nobody else sees what you do, and you do not see theirs.",
       "Everything is fictional: names, answers and comments are written for the demo.",
       "Nothing is sent. Invitations, reminders and SMS are switched off, and the report is marked DEMO.",
-      "The demo is as new after a day, or when you press «Reset». After 14 days without a sign-in it is deleted."
+      "The demo is as new after a day, or when you press «Reset». After 14 days without a sign-in we delete it."
     ],
     "privacy": "We use the address to send the link, and keep the request for 30 days. Without the box ticked you get no other email from us.",
     "privacyLink": "Privacy policy",
