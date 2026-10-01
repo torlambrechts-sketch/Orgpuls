@@ -80,7 +80,7 @@ export function SignInPanel({ google = false, problem = null }: { google?: boole
               inputMode="email"
               autoComplete="email"
               placeholder={t('emailPlaceholder')}
-              className="h-[48px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[15px] text-ink outline-none"
+              className="h-[48px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[16px] text-ink outline-none"
             />
           </label>
           {resetState.status === 'invalid' ? (
@@ -114,7 +114,7 @@ export function SignInPanel({ google = false, problem = null }: { google?: boole
               inputMode="email"
               autoComplete="email"
               placeholder={t('emailPlaceholder')}
-              className="h-[48px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[15px] text-ink outline-none"
+              className="h-[48px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[16px] text-ink outline-none"
             />
           </label>
 
@@ -148,7 +148,7 @@ export function SignInPanel({ google = false, problem = null }: { google?: boole
               minLength={8}
               autoComplete="current-password"
               placeholder={t('passwordPlaceholder')}
-              className="h-[48px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[15px] text-ink outline-none"
+              className="h-[48px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[16px] text-ink outline-none"
             />
           </div>
 

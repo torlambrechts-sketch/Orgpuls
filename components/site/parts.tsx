@@ -66,7 +66,45 @@ export async function HeroButtons({ next }: { next: { href: string; label: strin
       >
         {next.label}
       </Link>
+      <RiskLine />
+      <TrustStrip />
     </div>
+  )
+}
+
+/** What makes it safe to try, directly under the hero's buttons (D-187; instruction 1.5, 2.1). */
+export async function RiskLine({ className = 'basis-full mt-[2px]' }: { className?: string }) {
+  const t = await getTranslations('site.chrome')
+  return <p className={`m-0 text-[13px] leading-[1.5] text-mut ${className}`}>{t('risk')}</p>
+}
+
+export type TrustKey = 'eu' | 'k' | 'qps' | 'law'
+
+/**
+ * The trust strip under a hero (D-187; instruction 1.1, 1.7): verifiable facts about the product,
+ * not customer proof, which does not exist yet. A page leaves out a fact its hero already states
+ * beside the button, so nothing is said twice.
+ */
+export async function TrustStrip({
+  items = ['eu', 'k', 'qps', 'law'],
+  className = 'basis-full mt-[14px]',
+}: {
+  items?: TrustKey[]
+  className?: string
+}) {
+  const t = await getTranslations('site.chrome.trust')
+  return (
+    <ul
+      aria-label={t('label')}
+      className={`m-0 flex list-none flex-wrap gap-x-[22px] gap-y-[8px] border-t border-line p-0 pt-[14px] ${className}`}
+    >
+      {items.map((k) => (
+        <li key={k} className="flex gap-[8px] text-[13px] font-semibold leading-[1.5] text-ink">
+          <Tick size={16} />
+          {t(k)}
+        </li>
+      ))}
+    </ul>
   )
 }
 
@@ -83,6 +121,7 @@ export async function StartBand() {
           <p className="m-0 mt-[12px] max-w-[48ch] text-[15px] leading-[1.65] text-body [text-wrap:pretty]">{t('lead')}</p>
         </div>
         <OrgStart
+          label={t('label')}
           placeholder={t('placeholder')}
           submit={t('submit')}
           fetching={t.raw('fetching') as string}

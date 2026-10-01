@@ -6293,10 +6293,11 @@
       "start": {
         "title": "Prøv Orgpuls på deres egen virksomhet",
         "lead": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Gratis i 15 dager, uten kort og uten binding.",
-        "placeholder": "Organisasjonsnummer",
+        "placeholder": "9 sifre",
         "submit": "Prøv gratis",
         "fetching": "Vi henter {orgnr} fra Brønnøysundregistrene …",
-        "invalid": "Et organisasjonsnummer har 9 sifre."
+        "invalid": "Et organisasjonsnummer har 9 sifre.",
+        "label": "Organisasjonsnummer"
       },
       "footer": {
         "about": "Medarbeiderundersøkelse og arbeidsmiljøkartlegging for norske virksomheter. Vi lagrer data i EU.",
@@ -6340,7 +6341,15 @@
           "sammenlignet": "Sammenlignet"
         }
       },
-      "language": "Språk"
+      "language": "Språk",
+      "risk": "Uten betalingskort · Ingen bindingstid",
+      "trust": {
+        "label": "Kort om Orgpuls",
+        "eu": "Svar lagres i EU",
+        "k": "Ingen gruppe vises under 5 svar",
+        "qps": "Spørsmål bygd på QPS Nordic",
+        "law": "Dekker arbeidsmiljøloven § 4-3"
+      }
     },
     "home": {
       "pill": "Medarbeiderundersøkelse og arbeidsmiljø",

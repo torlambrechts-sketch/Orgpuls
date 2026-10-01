@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { IndustryCards } from '@/components/industry/IndustryCards'
 import { JsonLd } from '@/components/marketing/JsonLd'
-import { Eyebrow, StartBand, Tick } from '@/components/site/parts'
+import { Eyebrow, RiskLine, StartBand, Tick, TrustStrip } from '@/components/site/parts'
 import { pageMeta } from '@/lib/marketing/meta'
 import { graph, organization, software, website } from '@/lib/marketing/schema'
 import { zip } from '@/lib/site/zip'
@@ -73,6 +73,7 @@ export default async function StartPage() {
             >
               {t('how')}
             </Link>
+            <RiskLine />
           </div>
           <div className="mt-[26px] flex flex-wrap gap-[24px]">
             {stats.map((s) => (
@@ -82,6 +83,8 @@ export default async function StartPage() {
               </span>
             ))}
           </div>
+          {/* the stats already say a group needs 5 answers */}
+          <TrustStrip items={['eu', 'qps', 'law']} className="mt-[24px]" />
         </div>
 
         <div className="mt-[44px]">
@@ -183,7 +186,7 @@ export default async function StartPage() {
             <span className="mt-[6px] block font-display text-[28px] font-semibold [text-wrap:balance]">{t('price.t')}</span>
             <span className="mt-[6px] block text-[14px] opacity-75">{t('price.d')}</span>
           </div>
-          <div className="flex flex-none flex-wrap gap-[9px]">
+          <div className="flex max-w-full flex-none flex-wrap gap-[9px]">
             <Link
               href="/priser"
               className="flex h-[50px] items-center rounded-tile border border-[rgba(252,246,233,.35)] px-[22px] text-[15px] font-semibold text-bg hover:text-bg"

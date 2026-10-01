@@ -48,7 +48,7 @@ export function ContactBlock({ words: w, to, lang }: { words: Words; to: string;
   const [note, setNote] = useState<{ ok: boolean; text: string } | null>(null)
   const [sending, startSending] = useTransition()
 
-  const field = 'h-[46px] rounded-cta border border-line bg-bg px-[14px] text-[14.5px] font-normal text-ink'
+  const field = 'h-[46px] rounded-cta border border-line bg-bg px-[14px] text-[16px] font-normal text-ink'
 
   return (
     <div className="grid items-start gap-[30px] rounded-[24px] border border-line bg-sf px-[40px] py-[36px] [grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))] max-sm:px-[22px]">
@@ -133,7 +133,7 @@ export function ContactBlock({ words: w, to, lang }: { words: Words; to: string;
             value={msg}
             rows={4}
             onChange={(e) => (setMsg(e.target.value), setNote(null))}
-            className="resize-y rounded-cta border border-line bg-bg px-[14px] py-[12px] text-[14.5px] font-normal leading-[1.5] text-ink"
+            className="resize-y rounded-cta border border-line bg-bg px-[14px] py-[12px] text-[16px] font-normal leading-[1.5] text-ink"
           />
         </label>
         <label className="flex cursor-pointer items-start gap-[10px] text-[13px] font-medium leading-[1.5] text-body">

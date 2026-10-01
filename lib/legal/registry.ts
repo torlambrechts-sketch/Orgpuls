@@ -187,6 +187,8 @@ export const MESSAGE_SPECS: MessageSpec[] = [
     paths: [
       'site.home.roles[0].get[2]', 'site.home.roles[3].get[2]', 'site.home.teasers[2].d', 'site.home.about.d',
       'site.chrome.footer.about', 'site.bransjer.lead', 'site.bransjer.other.d', 'seo.common.disclaimer', 'seo.common.anonymity', 'seo.common.priceLine',
+      // the hero's risk line and trust strip (D-187)
+      'site.chrome.risk', 'site.chrome.trust.eu', 'site.chrome.trust.k', 'site.chrome.trust.qps', 'site.chrome.trust.law',
       'seo.index.description', 'seo.index.lead', 'seo.pages.priser.blocks[2].items[1]', 'seo.pages.priser.faq[2]',
       // the pills on every share card (scripts/marketing/og-images.mjs), in Norwegian on both hosts
       'seo.og.pills', 'seo.home.showcase.samtaler.body', 'seo.home.showcase.varmekart.body',

@@ -268,7 +268,7 @@ export function SignUpFlow({
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     placeholder={t('namePlaceholder')}
-                    className="h-[46px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[15px] text-ink outline-none"
+                    className="h-[46px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[16px] text-ink outline-none"
                   />
                 </label>
                 <label className="block">
@@ -282,7 +282,7 @@ export function SignUpFlow({
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={t('emailPlaceholder')}
-                    className="h-[46px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[15px] text-ink outline-none"
+                    className="h-[46px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[16px] text-ink outline-none"
                   />
                 </label>
               </div>
@@ -301,7 +301,7 @@ export function SignUpFlow({
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder={t('passwordPlaceholder')}
-                  className="h-[46px] w-full rounded-cta border-[1.5px] bg-bg px-[15px] text-[15px] text-ink outline-none"
+                  className="h-[46px] w-full rounded-cta border-[1.5px] bg-bg px-[15px] text-[16px] text-ink outline-none"
                   style={{
                     borderColor:
                       password.length === 0 ? '#E8DFC9' : password.length < 8 ? '#D4633A' : '#191510',

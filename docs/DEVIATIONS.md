@@ -9629,3 +9629,44 @@ with balanced wrapping: 4 lines, the button on the first screen, the desktop unc
 priser, sikkerhet, kontakt, demo, registrer, bransjer, lovkrav, verneombud, smaa-bedrifter, the five
 industry pages, bygg-og-anlegg/sporsmal, artikler): no horizontal overflow and no squeezed text. The
 only warnings are tables and long links that wrap.
+
+## D-187 — Trust strip, risk line and form fields from the conversion instruction (2026-10-01)
+
+**Asked (Tor):** implement three of the design items D-186 left open: the trust strip, risk text
+under the hero buttons, and the forms. None of them is in the design bundle; they come from
+`docs/marketing/konverteringsinstruks.md` (1.1, 1.5, 1.7, 1.11, 2.1, section 7 «Skjema»).
+
+**Trust strip** (`TrustStrip`, `components/site/parts.tsx`; `site.chrome.trust.*`): a thin rule
+and up to four ticked facts under the hero, in the site's own Tick and type: «Svar lagres i EU»
+(the project is in eu-central-1), «Ingen gruppe vises under 5 svar» (`app.k_min()`), «Spørsmål
+bygd på QPS Nordic», «Dekker arbeidsmiljøloven § 4-3». They are verifiable facts, not customer
+proof: there are no quotes, logos or results yet, and none were invented. A hero leaves out a fact
+already said beside its button: the front page drops the 5-answer item (its third stat says it);
+the template pages (landing pages, Priser, Sikkerhet, Kontakt, CMS pages) drop EU and 5 (the price
+and anonymity lines say them); the industry pages drop them too (price line and threshold note).
+Plattform, Hvorfor and Bruksområder show all four. Not on Bransjer (no action in its hero) or on
+document pages (`plain`).
+
+**Risk line** (`RiskLine`; `site.chrome.risk`): «Uten betalingskort · Ingen bindingstid» directly
+under the buttons on the front page and on Plattform, Hvorfor and Bruksområder. «15 dager» is not
+repeated: the button says it. The template and industry heroes already had the price line by the
+field. Both texts are true per the billing terms (D-73) and registered as site claims in
+`lib/legal/registry.ts`, with the strip's four.
+
+**Forms:**
+- The start band's org.nr. field (front page and every page ending in the band) has a visible
+  label above it; the placeholder is now the format, «9 sifre», not the label repeated.
+- Every visible text field on the public site and the sign-in, sign-up, invitation and
+  new-password forms is 16 px (was 14–15 px): demo, contact, newsletter, CSAT, OrgStart,
+  SignUpFlow, SignInPanel, NewPasswordForm, JoinInvite. Below 16 px, iOS zooms the page when the
+  field gets focus. The off-screen bot traps are unchanged.
+
+**Also fixed:** D-186's «Prøv gratis i 15 dager» made the front page's price band wider than a
+375 px screen (scrollWidth 389). Its button row may now wrap (`max-w-full`).
+
+**Checked:** tsc, lint, i18n, vitest 61 files / 602 tests; page map regenerated (37 pages); every
+public route at 360, 375 and 390 px with no horizontal overflow; heroes at 1440 and 390 px in
+bokmål and English. The site pixel check differs from the bundle here by design, as in D-88/D-186.
+
+**Still open from D-186:** problem, steps and objection sections; result images and captions;
+second outlined buttons as text links; «eksempel» labels on drawings; customer proof.

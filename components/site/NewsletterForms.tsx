@@ -8,7 +8,7 @@ import { confirmNewsletter, savePreferences, signUpNewsletter, unsubscribeNewsle
  * form's fields and the sign-in panel's card, so they read as the same site.
  */
 
-const field = 'h-[46px] rounded-cta border border-line bg-bg px-[14px] text-[14.5px] font-normal text-ink'
+const field = 'h-[46px] rounded-cta border border-line bg-bg px-[14px] text-[16px] font-normal text-ink'
 const cta =
   'mt-[6px] h-[50px] cursor-pointer rounded-tile border border-ink bg-ac px-[22px] text-[15.5px] font-bold text-ink disabled:cursor-default disabled:opacity-70'
 

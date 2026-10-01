@@ -2,7 +2,7 @@
 
 import type { Route } from 'next'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { trackEvent } from '@/lib/marketing/events'
 import { currentUtm } from '@/lib/marketing/utm'
 
@@ -17,17 +17,21 @@ import { currentUtm } from '@/lib/marketing/utm'
  * a GET form to /registrer, so it works before JavaScript has loaded.
  */
 export function OrgStart({
+  label,
   placeholder,
   submit,
   fetching,
   invalid,
 }: {
+  /** shown above the field (D-187): a placeholder alone disappears as the reader types */
+  label: string
   placeholder: string
   submit: string
   /** with `{orgnr}`, grouped in threes */
   fetching: string
   invalid: string
 }) {
+  const id = useId()
   const router = useRouter()
   const [value, setValue] = useState('')
   const [note, setNote] = useState<{ ok: boolean; text: string } | null>(null)
@@ -50,7 +54,11 @@ export function OrgStart({
       }}
       className="flex flex-wrap gap-[9px]"
     >
+      <label htmlFor={`${id}-orgnr`} className="basis-full text-[13px] font-bold">
+        {label}
+      </label>
       <input
+        id={`${id}-orgnr`}
         name="orgnr"
         value={value}
         onChange={(e) => {
@@ -60,9 +68,8 @@ export function OrgStart({
         inputMode="numeric"
         autoComplete="off"
         placeholder={placeholder}
-        aria-label={placeholder}
         aria-invalid={note ? !note.ok : undefined}
-        className="h-[52px] min-w-[200px] flex-1 rounded-tile border border-line bg-bg px-[16px] text-[15px] text-ink"
+        className="h-[52px] min-w-[200px] flex-1 rounded-tile border border-line bg-bg px-[16px] text-[16px] text-ink"
       />
       <button
         type="submit"

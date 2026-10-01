@@ -8,7 +8,7 @@ import { requestDemo } from '@/lib/demo/actions'
  * (NewsletterForms.tsx) with one field and the consent box, so it reads as the same site. The
  * box is never ticked for the visitor: consent is what they give, not what we assume.
  */
-const field = 'h-[46px] rounded-cta border border-line bg-bg px-[14px] text-[14.5px] font-normal text-ink'
+const field = 'h-[46px] rounded-cta border border-line bg-bg px-[14px] text-[16px] font-normal text-ink'
 const cta =
   'mt-[6px] h-[50px] cursor-pointer rounded-tile border border-ink bg-ac px-[22px] text-[15.5px] font-bold text-ink disabled:cursor-default disabled:opacity-70'
 

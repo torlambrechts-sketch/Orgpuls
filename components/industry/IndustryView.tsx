@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { Faq } from '@/components/start/Faq'
 import { SignupStart } from '@/components/marketing/SignupStart'
+import { TrustStrip } from '@/components/site/parts'
 import { citeOrder } from '@/content/industries/cites'
 import { getIndustry, pageIn } from '@/content/industries'
 import { listOf, moduleFile, pageFactors, simplifiedFactors, type PageLang } from '@/content/industries/modules'
@@ -103,6 +104,8 @@ export async function IndustryView({
             </div>
             <p className="mb-0 mt-[9px] text-[12.5px] text-mut">{ts('seo.common.priceLine')}</p>
             <p className="mb-0 mt-[4px] text-[12.5px] text-mut">{page.hero.thresholdNote}</p>
+            {/* the price line says where answers are stored, the note what a group needs */}
+            <TrustStrip items={['qps', 'law']} className="mt-[16px]" />
           </div>
           {page.hero.preview && mod ? (
             <PreviewBoard preview={page.hero.preview} mod={mod} moduleTitle={moduleTitle} t={t} />

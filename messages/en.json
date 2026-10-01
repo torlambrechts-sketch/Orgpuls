@@ -6293,10 +6293,11 @@
       "start": {
         "title": "Try Orgpuls on your own organisation",
         "lead": "Enter your organisation number and we'll fetch the name, address and industry from the Brønnøysund Register Centre. Free for 15 days, no card and no lock-in.",
-        "placeholder": "Organisation number",
+        "placeholder": "9 digits",
         "submit": "Try it free",
         "fetching": "Fetching {orgnr} from the Brønnøysund Register Centre …",
-        "invalid": "An organisation number has 9 digits."
+        "invalid": "An organisation number has 9 digits.",
+        "label": "Organisation number"
       },
       "footer": {
         "about": "Employee surveys and working environment surveys for Norwegian organisations. We store data in the EU.",
@@ -6340,7 +6341,15 @@
           "sammenlignet": "Compared"
         }
       },
-      "language": "Language"
+      "language": "Language",
+      "risk": "No card · No lock-in",
+      "trust": {
+        "label": "Orgpuls in brief",
+        "eu": "Answers stored in the EU",
+        "k": "No group shown under 5 answers",
+        "qps": "Questions built on QPS Nordic",
+        "law": "Covers the Working Environment Act § 4-3"
+      }
     },
     "home": {
       "pill": "Employee surveys and working environment",

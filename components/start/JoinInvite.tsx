@@ -37,7 +37,7 @@ export function JoinWithPassword({ token }: { token: string }) {
           required
           minLength={8}
           autoComplete="current-password"
-          className="h-[48px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[15px] text-ink outline-none"
+          className="h-[48px] w-full rounded-cta border-[1.5px] border-line bg-bg px-[15px] text-[16px] text-ink outline-none"
         />
       </label>
       <p className="mt-[8px] text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">{t('passwordNote')}</p>

@@ -8,6 +8,7 @@ import type { ShotId } from '@/lib/marketing/shot-ids'
 import { absolute } from '@/lib/marketing/site'
 import { ArticleCards } from './ArticleCards'
 import { Blocks } from './Blocks'
+import { TrustStrip } from '@/components/site/parts'
 import { CtaBand } from './CtaBand'
 import { JsonLd } from './JsonLd'
 import { ProductShot } from './ProductShot'
@@ -124,6 +125,8 @@ export async function PageView({
                   <span className="block">{t('seo.common.priceLine')}</span>
                   <span className="block">{t('seo.common.anonymity')}</span>
                 </p>
+                {/* the two lines above say where answers are stored and what a group needs */}
+                <TrustStrip items={['qps', 'law']} className="mt-[16px]" />
               </>
             )}
             {tip ? (

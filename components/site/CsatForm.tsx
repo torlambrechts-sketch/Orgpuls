@@ -71,7 +71,7 @@ export function CsatForm({ token, words: w }: { token: string; words: Words }) {
           maxLength={COMMENT_MAX}
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          className="box-border block w-full resize-y rounded-tile border-[1.5px] border-line bg-bg px-[14px] py-[12px] text-[14px] leading-[1.5] text-ink outline-none focus-visible:border-ink"
+          className="box-border block w-full resize-y rounded-tile border-[1.5px] border-line bg-bg px-[14px] py-[12px] text-[16px] leading-[1.5] text-ink outline-none focus-visible:border-ink"
         />
         <span className="mt-[5px] block text-[12.5px] leading-[1.5] text-mut">{w.commentHint}</span>
       </label>
