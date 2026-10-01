@@ -4497,7 +4497,21 @@
           },
           {
             "t": "p",
-            "text": "Chapter 1A has five sections: a fully satisfactory psychosocial working environment (§ 1A-1), mapping and risk assessment (§ 1A-2), measures (§ 1A-3), information and training (§ 1A-4) and the employee's duty to take part (§ 1A-5). In practice, § 1A-2 and § 1A-3 matter most."
+            "text": "Chapter 1A has 5 sections:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "a fully satisfactory psychosocial working environment (§ 1A-1)",
+              "mapping and risk assessment (§ 1A-2)",
+              "measures (§ 1A-3)",
+              "information and training (§ 1A-4)",
+              "the employee's duty to take part (§ 1A-5)"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "In practice, § 1A-2 and § 1A-3 matter most."
           },
           {
             "t": "quote",
@@ -4510,7 +4524,7 @@
           },
           {
             "t": "h3",
-            "text": "Four requirements for how it is done"
+            "text": "Four requirements for how the mapping is done"
           },
           {
             "t": "p",
@@ -4535,7 +4549,7 @@
           },
           {
             "t": "p",
-            "text": "The duty to map and assess risk is not new. It is in section 3-1 of the Working Environment Act, and section 4-3 requires the psychosocial working environment to be fully satisfactory. What is new is that the regulation describes how: that the factors are to be assessed one by one and together, and that the work is to be repeated and documented."
+            "text": "The duty to map and assess risk is not new. It is in section 3-1 of the Working Environment Act, and section 4-3 requires the psychosocial working environment to be fully satisfactory. What is new is that the regulation describes how. The factors are to be assessed one by one and together, and the work is to be repeated and documented."
           },
           {
             "t": "p",
@@ -4556,7 +4570,11 @@
           },
           {
             "t": "p",
-            "text": "One overall wellbeing score is not enough. The regulation asks you to look at the factors one by one and at how they interact. A high workload is one thing. A high workload combined with little support from the manager is a different and bigger risk."
+            "text": "One overall wellbeing score is not enough. The regulation asks you to look at the factors one by one and at how they interact."
+          },
+          {
+            "t": "p",
+            "text": "A high workload is one thing. A high workload combined with little support from the manager is a different and bigger risk."
           },
           {
             "t": "h3",
@@ -4564,7 +4582,11 @@
           },
           {
             "t": "p",
-            "text": "Working together means more than reporting the result afterwards. Under section 6-2 of the Working Environment Act the safety representative shall be consulted during the planning and implementation of measures. Let the safety representative see the same basis as management. Read more about [the safety representative's role in mapping](/artikler/verneombudets-rolle-i-kartleggingen)."
+            "text": "Working together means more than reporting the result afterwards. Under section 6-2 of the Working Environment Act the safety representative shall be consulted during the planning and implementation of measures."
+          },
+          {
+            "t": "p",
+            "text": "Let the safety representative see the same basis as management. Read more about [the safety representative's role in mapping](/artikler/verneombudets-rolle-i-kartleggingen)."
           },
           {
             "t": "h3",
@@ -4580,11 +4602,7 @@
           },
           {
             "t": "p",
-            "text": "The documentation shall be part of the systematic HSE work. The simplest way is for it to be produced while you work: what was measured, what you assessed, which measures you chose, who owns them, and what the next survey showed."
-          },
-          {
-            "t": "h2",
-            "text": "How Orgpuls covers the requirements"
+            "text": "The documentation shall be part of the systematic HSE work. The simplest way is to produce it as you work: what was measured, what you assessed, which measures you chose, who owns them, and what the next survey showed."
           },
           {
             "t": "h2",
@@ -4608,7 +4626,7 @@
           },
           {
             "t": "p",
-            "text": "Not necessarily. If you already map the psychosocial working environment, assess risk, put measures in place and document it, you are on the right track. Go through the four requirements in the fourth paragraph of § 1A-2 and see whether anything is missing – often it is the follow-up and the documentation."
+            "text": "Not necessarily. If you already map the psychosocial working environment, assess risk, put measures in place and document it, you are on the right track. Go through the four requirements in the fourth paragraph of § 1A-2 and see whether anything is missing. Often it is the follow-up and the documentation."
           },
           {
             "t": "h3",
@@ -4616,7 +4634,7 @@
           },
           {
             "t": "p",
-            "text": "Yes. The rules apply to every employer. Mapping shall be adapted to the organisation's nature, activities and size, so an organisation of ten can keep it simpler than one of two hundred – but cannot skip it."
+            "text": "Yes. The rules apply to every employer. Mapping shall be adapted to the organisation's nature, activities and size. An organisation of 10 can therefore keep it simpler than one of 200, but it cannot skip it."
           },
           {
             "t": "h3",
@@ -4627,8 +4645,16 @@
             "text": "It can be a good part of the mapping, but it rarely covers everything. Arbeidstilsynet recommends several sources, for example safety inspections and appraisal conversations. And a survey without risk assessment, measures and follow-up does not meet the requirement on its own."
           },
           {
+            "t": "h2",
+            "text": "How Orgpuls covers the requirements"
+          },
+          {
             "t": "p",
-            "text": "Orgpuls measures eleven psychosocial factors with three statements each, and shows the risk per factor. The findings become measures with an owner and a deadline, and short pulses measure whether the measures work. The safety representative sees the same figures as management. Everything is stored with a date, and the report follows the steps of section 3-1 letter c. See [what the law requires, and how Orgpuls does it](/lovkrav)."
+            "text": "Orgpuls measures 11 psychosocial factors with 3 statements each, and shows the risk per factor. The findings become measures with an owner and a deadline, and short pulses measure whether the measures work."
+          },
+          {
+            "t": "p",
+            "text": "The safety representative sees the same figures as management. Everything is stored with a date, and the report follows the steps of section 3-1 letter c. See [what the law requires, and how Orgpuls does it](/lovkrav)."
           }
         ],
         "sources": [
@@ -4658,7 +4684,7 @@
           }
         ],
         "ctaTitle": "Map under the new rules – without a separate project",
-        "ctaBody": "Orgpuls turns mapping, risk assessment, measures and follow-up into one rhythm. 15 days free, no card."
+        "ctaBody": "Orgpuls turns mapping, risk assessment, measures and follow-up into one rhythm. Start with your organisation number – the first 15 days are free."
       },
       "kravKartlegging": {
         "title": "Requirements for mapping the work environment | Orgpuls",
@@ -4668,7 +4694,7 @@
         "blocks": [
           {
             "t": "h2",
-            "text": "The short answer"
+            "text": "The requirement in short"
           },
           {
             "t": "p",
@@ -4705,7 +4731,7 @@
           },
           {
             "t": "h2",
-            "text": "The four steps"
+            "text": "Four steps: map, assess, put measures in place, follow up"
           },
           {
             "t": "h3",
@@ -4737,16 +4763,16 @@
           },
           {
             "t": "p",
-            "text": "Did the measure work? You only know when you measure again. Many skip this step, and that is why the next mapping often shows the same as the last."
+            "text": "Did the measure work? You only know when you measure again. Many skip this step. That is why the next mapping often shows the same as the last."
           },
           {
             "t": "box",
-            "title": "Three findings, not nine",
-            "text": "A mapping that produces ten measures usually produces none. Choose the two or three findings that matter most, do them properly, and measure whether they worked before taking on the next."
+            "title": "Choose 2–3 findings, not 10",
+            "text": "A mapping that produces 10 measures usually produces none. Choose the two or three findings that matter most, do them properly, and measure whether they worked before taking on the next."
           },
           {
             "t": "h2",
-            "text": "Who should take part?"
+            "text": "Who should take part in the mapping?"
           },
           {
             "t": "p",
@@ -4758,7 +4784,7 @@
           },
           {
             "t": "h2",
-            "text": "Common mistakes"
+            "text": "Common mistakes in mapping"
           },
           {
             "t": "ul",
@@ -4844,13 +4870,13 @@
           }
         ],
         "ctaTitle": "Do all four steps in Orgpuls",
-        "ctaBody": "Mapping, risk assessment, measures and follow-up – documented while you work. 15 days free, no card."
+        "ctaBody": "Document mapping, risk assessment, measures and follow-up as you work. Start with your organisation number – the first 15 days are free."
       },
       "sporsmal": {
         "title": "Employee survey: the questions that give answers | Orgpuls",
         "description": "Which questions belong in an employee survey? The topics that matter, eleven example questions with an answer scale, and why fewer questions give better answers.",
         "h1": "Employee survey: the questions that give answers",
-        "lead": "A good employee survey is short, covers what actually affects the working environment, and asks questions people can answer honestly. Here are the topics to include, example questions and what to do with the answers.",
+        "lead": "A good employee survey is short, covers what affects the working environment, and asks questions people can answer honestly. Here are the topics to include, example questions and what to do with the answers.",
         "blocks": [
           {
             "t": "h2",
@@ -4858,11 +4884,15 @@
           },
           {
             "t": "p",
-            "text": "It is tempting to ask about everything. But every question costs time, and fatigue gives worse answers towards the end. More importantly: every question quietly promises that someone will act on the answer. Only ask what you are willing to follow up."
+            "text": "It is tempting to ask about everything. But every question costs time, and fatigue gives worse answers towards the end."
           },
           {
             "t": "p",
-            "text": "A main survey of around 30 statements takes about four minutes to answer. Short pulses between main surveys should take under a minute."
+            "text": "More importantly: every question quietly promises that someone will act on the answer. Only ask what you are willing to follow up."
+          },
+          {
+            "t": "p",
+            "text": "A main survey of around 30 statements takes about 4 minutes to answer. Short pulses between main surveys should take under 1 minute."
           },
           {
             "t": "h2",
@@ -4893,7 +4923,7 @@
               ],
               [
                 "Emotional demands",
-                "The strain of working with people, and whether anyone shares it with you"
+                "The strain of working with people, and whether you are left alone with it"
               ],
               [
                 "Support from the manager",
@@ -4927,7 +4957,7 @@
           },
           {
             "t": "h2",
-            "text": "Eleven example questions"
+            "text": "11 example questions"
           },
           {
             "t": "p",
@@ -4979,11 +5009,15 @@
           },
           {
             "t": "h2",
-            "text": "Anonymity: why a limit of five answers"
+            "text": "Anonymity: why the limit is 5 answers"
           },
           {
             "t": "p",
-            "text": "People answer honestly when they know the answer cannot be traced back. That takes more than not storing the name: a department of three people is recognisable regardless. So no group should be shown until a minimum has answered. In Orgpuls the limit is five, and it cannot be lowered. Read more in [Anonymous employee survey: what does anonymous mean?](/artikler/anonym-medarbeiderundersokelse)"
+            "text": "People answer honestly when they know the answer cannot be traced back. That takes more than not storing the name: a department of three people is recognisable regardless."
+          },
+          {
+            "t": "p",
+            "text": "So no group should be shown until a minimum has answered. In Orgpuls the limit is 5, and it cannot be lowered. Read more in [Anonymous employee survey: what does anonymous mean?](/artikler/anonym-medarbeiderundersokelse)"
           },
           {
             "t": "h2",
@@ -4991,7 +5025,15 @@
           },
           {
             "t": "p",
-            "text": "The result is not the answer – it is the start of a conversation. Share it with employees within two weeks. Choose the two or three findings that matter most and turn them into measures with an owner and a deadline. Do not take on nine things at once."
+            "text": "The result is not the answer – it is the start of a conversation. Share it with employees within two weeks."
+          },
+          {
+            "t": "p",
+            "text": "Choose the two or three findings that matter most and turn them into measures with an owner and a deadline. Do not take on nine things at once."
+          },
+          {
+            "t": "p",
+            "text": "Then measure again on the factors where measures are running. You see whether anything has moved, and employees see that their answers led somewhere. That keeps the response rate up next time."
           },
           {
             "t": "h2",
@@ -5003,19 +5045,19 @@
           },
           {
             "t": "p",
-            "text": "The level is still less interesting than the movement. A factor at 61 says little on its own. A fall from 64 to 61 since last year, while the rest stand still, is a signal. Look at the factors before the total – the total can stand still while two factors move in opposite directions."
+            "text": "The level is still less interesting than the movement. A factor at 61 says little on its own."
+          },
+          {
+            "t": "p",
+            "text": "A fall from 64 to 61 since last year, while the rest stand still, is a signal. Look at the factors before the total – the total can stand still while two factors move in opposite directions."
           },
           {
             "t": "h2",
-            "text": "Why five answer options"
+            "text": "Why the scale has 5 answer options"
           },
           {
             "t": "p",
-            "text": "A five-point scale with a midpoint lets people say «neither» when that is what they mean. Without a midpoint they are forced to take a side, and that adds noise. More steps rarely give better data – the difference between 6 and 7 on a ten-point scale means different things to different people."
-          },
-          {
-            "t": "p",
-            "text": "Then measure again on the factors where measures are running. You see whether anything has moved, and employees see that their answers led somewhere. That is what keeps the response rate up next time."
+            "text": "A five-point scale with a midpoint lets people say «neither» when that is what they mean. Without a midpoint they have to take a side, and that adds noise. More steps rarely give better data – the difference between 6 and 7 on a ten-point scale means different things to different people."
           }
         ],
         "sources": [
@@ -5032,8 +5074,8 @@
             "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
           }
         ],
-        "ctaTitle": "Use a question set that is ready made",
-        "ctaBody": "Orgpuls has eleven factors with three statements each, plus the questions outside the index. 15 days free, no card."
+        "ctaTitle": "Use a ready-made question set",
+        "ctaBody": "Orgpuls has 11 factors with 3 statements each, plus the questions outside the index. Start with your organisation number – the first 15 days are free."
       },
       "hvorOfte": {
         "title": "How often should you measure the work environment? | Orgpuls",
@@ -5043,7 +5085,7 @@
         "blocks": [
           {
             "t": "h2",
-            "text": "What the rules say"
+            "text": "What the rules say about how often"
           },
           {
             "t": "p",
@@ -5063,7 +5105,7 @@
           },
           {
             "t": "h2",
-            "text": "Baseline and pulse"
+            "text": "Baseline and pulse: two kinds of survey"
           },
           {
             "t": "cards",
@@ -5080,7 +5122,7 @@
           },
           {
             "t": "h2",
-            "text": "An example annual wheel"
+            "text": "Annual wheel: an example"
           },
           {
             "t": "table",
@@ -5093,7 +5135,7 @@
               [
                 "February",
                 "Baseline: the full question set",
-                "About four minutes"
+                "About 4 minutes"
               ],
               [
                 "March",
@@ -5103,17 +5145,17 @@
               [
                 "May",
                 "Pulse on the factors with open measures",
-                "Under a minute"
+                "Under 1 minute"
               ],
               [
                 "September",
                 "Pulse",
-                "Under a minute"
+                "Under 1 minute"
               ],
               [
                 "November",
                 "Pulse, and planning next year",
-                "Under a minute"
+                "Under 1 minute"
               ]
             ]
           },
@@ -5127,11 +5169,11 @@
           },
           {
             "t": "p",
-            "text": "Short. A pulse that takes more than a couple of minutes starts to feel like a new survey, and then the response rate falls. Keep it to the factors where a measure is running – often two or three factors with three statements each – and it takes under a minute."
+            "text": "Short. A pulse that takes more than a couple of minutes starts to feel like a new survey, and then the response rate falls. Keep it to the factors where a measure is running – often 2–3 factors with 3 statements each – and it takes under 1 minute."
           },
           {
             "t": "h2",
-            "text": "What about the response rate?"
+            "text": "Does the response rate fall when you measure more often?"
           },
           {
             "t": "p",
@@ -5183,11 +5225,15 @@
           },
           {
             "t": "h2",
-            "text": "Small organisations"
+            "text": "Pulses in small organisations"
           },
           {
             "t": "p",
-            "text": "In a small organisation it is tempting to drop the pulses. But that is exactly where they are cheapest: a few statements, under a minute per person. Remember that no group should be shown under five answers. If you are few, you see the figures for the whole organisation, not per department."
+            "text": "In a small organisation it is tempting to drop the pulses. But that is exactly where they are cheapest: a few statements, under 1 minute per person."
+          },
+          {
+            "t": "p",
+            "text": "Remember that no group should be shown under 5 answers. If you are few, you see the figures for the whole organisation, not per department."
           },
           {
             "t": "p",
@@ -5209,7 +5255,7 @@
           }
         ],
         "ctaTitle": "Set the rhythm once – and it runs by itself",
-        "ctaBody": "The annual wheel in Orgpuls plans baseline and pulses for the whole year. 15 days free, no card."
+        "ctaBody": "The annual wheel in Orgpuls plans baseline and pulses for the whole year. Start with your organisation number – the first 15 days are free."
       },
       "anonym": {
         "title": "Anonymous employee survey: what does anonymous mean?",
@@ -5243,15 +5289,19 @@
           },
           {
             "t": "p",
-            "text": "A department of three is recognisable even if no name is written anywhere. The solution is a lower limit: no group is shown until a minimum has answered. Five is common. The limit must apply to everyone – administrators too – and it should not be possible to lower it to «see the figure anyway»."
-          },
-          {
-            "t": "h3",
-            "text": "3. You can calculate your way there"
+            "text": "A department of three is recognisable even if no name is written anywhere. The solution is a lower limit: no group is shown until a minimum has answered."
           },
           {
             "t": "p",
-            "text": "This is the one most often overlooked. If you see the figure for the whole organisation and for every department but one, you can calculate the last. Then it does not help that the small department is hidden. A good tool therefore holds back one more department when that is needed so the sum does not add up."
+            "text": "Five is common. The limit must apply to everyone – administrators too – and it should not be possible to lower it to «see the figure anyway»."
+          },
+          {
+            "t": "h3",
+            "text": "3. The hidden group can be calculated"
+          },
+          {
+            "t": "p",
+            "text": "This is the one most often overlooked. If you see the figure for the whole organisation and for every department but one, you can calculate the last. Then it does not help that the small department is hidden. A good tool therefore holds back one more department when the sum would otherwise add up."
           },
           {
             "t": "box",
@@ -5260,7 +5310,7 @@
           },
           {
             "t": "h2",
-            "text": "Comments are the hardest"
+            "text": "Comments are the hardest to keep anonymous"
           },
           {
             "t": "p",
@@ -5268,7 +5318,7 @@
           },
           {
             "t": "h2",
-            "text": "Anonymous, but still a conversation"
+            "text": "Reply to anonymous comments – without knowing who wrote them"
           },
           {
             "t": "p",
@@ -5290,13 +5340,13 @@
           },
           {
             "t": "h2",
-            "text": "How Orgpuls does it"
+            "text": "How Orgpuls protects anonymity"
           },
           {
             "t": "ul",
             "items": [
               "The answer is stored without name, e-mail or IP address, and the time is rounded to the hour. There is no column that could hold a link.",
-              "No group is shown until at least five have answered. The limit lives in the database and cannot be lowered, only raised.",
+              "No group is shown until at least 5 have answered. The limit lives in the database and cannot be lowered, only raised.",
               "When the figures for the other groups would reveal a hidden group, one more group is held back.",
               "Answers are stored in the EU and are not shared with third parties."
             ]
@@ -5307,7 +5357,7 @@
           },
           {
             "t": "p",
-            "text": "Reminders raise the response rate, but they are also where anonymity most often leaks. If the manager sends reminders, the manager must know who has not answered – and then also who has. The fix is for the system to send the reminder, once, and for the list of who is missing to be unreadable by anyone in the organisation."
+            "text": "Reminders raise the response rate, but they are also where anonymity most often leaks. If the manager sends reminders, the manager must know who has not answered – and then also who has. The fix is for the system to send the reminder, once, and for nobody in the organisation to be able to read the list of who is missing."
           },
           {
             "t": "h2",
@@ -5341,8 +5391,8 @@
             "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
           }
         ],
-        "ctaTitle": "Anonymous – in a way that holds",
-        "ctaBody": "Five answers, or a dash – and no administrator who can change it. 15 days free, no card."
+        "ctaTitle": "Measure anonymously – with a limit that cannot be lowered",
+        "ctaBody": "Below 5 answers Orgpuls shows a dash, and no administrator can lower the limit. Start with your organisation number – the first 15 days are free."
       },
       "verneombud": {
         "title": "The safety representative's role in mapping",
@@ -5352,7 +5402,7 @@
         "blocks": [
           {
             "t": "h2",
-            "text": "What the law says"
+            "text": "What the law says about the safety representative"
           },
           {
             "t": "quote",
@@ -5373,7 +5423,7 @@
           },
           {
             "t": "p",
-            "text": "The main rule in section 6-1 is yes: a safety representative shall be elected in every organisation. Organisations with fewer than five employees may agree in writing on another arrangement. With more than ten employees, several safety representatives may be elected."
+            "text": "The main rule in section 6-1 is yes: a safety representative shall be elected in every organisation. Organisations with fewer than 5 employees may agree in writing on another arrangement. With more than 10 employees, several safety representatives may be elected."
           },
           {
             "t": "h2",
@@ -5404,13 +5454,13 @@
               ],
               [
                 "Follow-up",
-                "Sees to it that the measures are actually carried out, and that the psychosocial working environment is safeguarded"
+                "Sees to it that the measures are carried out, and that the psychosocial working environment is safeguarded"
               ]
             ]
           },
           {
             "t": "h2",
-            "text": "Access in practice"
+            "text": "Access: the same result as management, not individual answers"
           },
           {
             "t": "p",
@@ -5422,8 +5472,8 @@
           },
           {
             "t": "box",
-            "title": "In Orgpuls",
-            "text": "The safety representative sees the same figures as the managing director, and follows the measures with their owner and deadline. The safety representative has access at no extra cost to the organisation."
+            "title": "The safety representative in Orgpuls",
+            "text": "The safety representative sees the same figures as the managing director, and follows the measures with their owner and deadline. Access costs the organisation nothing extra."
           },
           {
             "t": "h2",
@@ -5451,8 +5501,12 @@
             "text": "If the organisation has a working environment committee"
           },
           {
+            "t": "p",
+            "text": "Organisations where at least 30 people are regularly employed shall have a working environment committee (AMU). Between 10 and 30 employees, one shall be set up when one of the parties demands it. If there is an AMU, it is a natural place to raise the mapping and its follow-up."
+          },
+          {
             "t": "h2",
-            "text": "The union representatives' role"
+            "text": "The union representatives' role in mapping"
           },
           {
             "t": "p",
@@ -5485,10 +5539,6 @@
           {
             "t": "p",
             "text": "Ask about the measures: who owns them, and when are they due? Without an owner and a deadline, measures become intentions. The next survey is the best argument – it shows whether anything has moved."
-          },
-          {
-            "t": "p",
-            "text": "Organisations where at least 30 people are regularly employed shall have a working environment committee (AMU). Between 10 and 30 employees, one shall be set up when one of the parties demands it. If there is an AMU, it is a natural place to raise the mapping and its follow-up."
           }
         ],
         "sources": [
@@ -5514,7 +5564,7 @@
           }
         ],
         "ctaTitle": "Give the safety representative the same basis as management",
-        "ctaBody": "In Orgpuls the safety representative has access at no extra cost. 15 days free, no card."
+        "ctaBody": "In Orgpuls the safety representative has access at no extra cost. Start with your organisation number – the first 15 days are free."
       }
     },
     "pages": {
