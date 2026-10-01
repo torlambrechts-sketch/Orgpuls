@@ -4493,11 +4493,25 @@
           },
           {
             "t": "h2",
-            "text": "Hva som faktisk står i forskriften"
+            "text": "Hva forskriften sier"
           },
           {
             "t": "p",
-            "text": "Kapittel 1A har fem paragrafer: fullt forsvarlig psykososialt arbeidsmiljø (§ 1A-1), kartlegging og risikovurdering (§ 1A-2), tiltak (§ 1A-3), informasjon og opplæring (§ 1A-4) og arbeidstakerens medvirkningsplikt (§ 1A-5). I praksis er det § 1A-2 og § 1A-3 som betyr mest."
+            "text": "Kapittel 1A har 5 paragrafer:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "fullt forsvarlig psykososialt arbeidsmiljø (§ 1A-1)",
+              "kartlegging og risikovurdering (§ 1A-2)",
+              "tiltak (§ 1A-3)",
+              "informasjon og opplæring (§ 1A-4)",
+              "arbeidstakerens medvirkningsplikt (§ 1A-5)"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "I praksis betyr § 1A-2 og § 1A-3 mest."
           },
           {
             "t": "quote",
@@ -4510,7 +4524,7 @@
           },
           {
             "t": "h3",
-            "text": "Fire krav til hvordan det gjøres"
+            "text": "4 krav til hvordan kartleggingen gjøres"
           },
           {
             "t": "p",
@@ -4535,7 +4549,7 @@
           },
           {
             "t": "p",
-            "text": "Plikten til å kartlegge og vurdere risiko er ikke ny. Den står i arbeidsmiljøloven § 3-1, og § 4-3 krever at det psykososiale arbeidsmiljøet skal være fullt forsvarlig. Det nye er at forskriften beskriver hvordan: at faktorene skal vurderes hver for seg og i sammenheng, og at arbeidet skal gjentas og dokumenteres."
+            "text": "Plikten til å kartlegge og vurdere risiko er ikke ny. Den står i arbeidsmiljøloven § 3-1, og § 4-3 krever at det psykososiale arbeidsmiljøet skal være fullt forsvarlig. Det nye er at forskriften beskriver hvordan. Faktorene skal vurderes hver for seg og i sammenheng, og arbeidet skal gjentas og dokumenteres."
           },
           {
             "t": "p",
@@ -4543,7 +4557,7 @@
           },
           {
             "t": "box",
-            "title": "Tre spørsmål å stille internt",
+            "title": "3 spørsmål å stille internt",
             "text": "Når kartla vi det psykososiale arbeidsmiljøet sist? Hvem var med – verneombud og tillitsvalgte? Og kan vi vise hva som skjedde med funnene? Er svaret på ett av dem uklart, er det der dere bør begynne."
           },
           {
@@ -4556,7 +4570,11 @@
           },
           {
             "t": "p",
-            "text": "En samlet trivselsscore er ikke nok. Forskriften ber dere se på faktorene hver for seg og på hvordan de virker sammen. Høy arbeidsmengde er én ting. Høy arbeidsmengde kombinert med lite støtte fra leder er en annen og større risiko."
+            "text": "En samlet trivselsscore er ikke nok. Forskriften ber dere se på faktorene hver for seg og på hvordan de virker sammen."
+          },
+          {
+            "t": "p",
+            "text": "Høy arbeidsmengde er én ting. Høy arbeidsmengde kombinert med lite støtte fra leder er en annen og større risiko."
           },
           {
             "t": "h3",
@@ -4564,7 +4582,11 @@
           },
           {
             "t": "p",
-            "text": "Samarbeid betyr mer enn å informere om resultatet i etterkant. Verneombudet skal ifølge arbeidsmiljøloven § 6-2 tas med på råd under planlegging og gjennomføring av tiltak. La verneombudet se det samme grunnlaget som ledelsen. Les mer om [verneombudets rolle i kartleggingen](/artikler/verneombudets-rolle-i-kartleggingen)."
+            "text": "Samarbeid betyr mer enn å informere om resultatet i etterkant. Verneombudet skal ifølge arbeidsmiljøloven § 6-2 tas med på råd under planlegging og gjennomføring av tiltak."
+          },
+          {
+            "t": "p",
+            "text": "La verneombudet se det samme grunnlaget som ledelsen. Les mer om [verneombudets rolle i kartleggingen](/artikler/verneombudets-rolle-i-kartleggingen)."
           },
           {
             "t": "h3",
@@ -4580,11 +4602,7 @@
           },
           {
             "t": "p",
-            "text": "Dokumentasjonen skal inngå i det systematiske HMS-arbeidet. Det enkleste er at den lages mens dere jobber: hva som ble målt, hva dere vurderte, hvilke tiltak dere valgte, hvem som eier dem, og hva neste måling viste."
-          },
-          {
-            "t": "h2",
-            "text": "Slik dekker Orgpuls kravene"
+            "text": "Dokumentasjonen skal inngå i det systematiske HMS-arbeidet. Det enkleste er å lage den mens dere jobber: hva som ble målt, hva dere vurderte, hvilke tiltak dere valgte, hvem som eier dem, og hva neste måling viste."
           },
           {
             "t": "h2",
@@ -4608,7 +4626,7 @@
           },
           {
             "t": "p",
-            "text": "Ikke nødvendigvis. Har dere allerede kartlagt det psykososiale arbeidsmiljøet, vurdert risiko, satt tiltak og dokumentert det, er dere på rett spor. Gå gjennom de fire kravene i § 1A-2 fjerde ledd og se om noe mangler – ofte er det oppfølgingen og dokumentasjonen."
+            "text": "Ikke nødvendigvis. Har dere allerede kartlagt det psykososiale arbeidsmiljøet, vurdert risiko, satt tiltak og dokumentert det, er dere på rett spor. Gå gjennom de fire kravene i § 1A-2 fjerde ledd og se om noe mangler. Ofte er det oppfølgingen og dokumentasjonen."
           },
           {
             "t": "h3",
@@ -4616,7 +4634,7 @@
           },
           {
             "t": "p",
-            "text": "Ja. Reglene gjelder alle arbeidsgivere. Kartleggingen skal tilpasses virksomhetens art, aktiviteter og størrelse, så en virksomhet med ti ansatte kan gjøre det enklere enn en med to hundre – men ikke hoppe over det."
+            "text": "Ja. Reglene gjelder alle arbeidsgivere. Kartleggingen skal tilpasses virksomhetens art, aktiviteter og størrelse. En virksomhet med 10 ansatte kan derfor gjøre det enklere enn en med 200, men den kan ikke hoppe over det."
           },
           {
             "t": "h3",
@@ -4627,8 +4645,16 @@
             "text": "Den kan være en god del av kartleggingen, men den dekker sjelden alt. Arbeidstilsynet anbefaler flere kilder, for eksempel vernerunder og medarbeidersamtaler. Og en undersøkelse uten risikovurdering, tiltak og oppfølging oppfyller ikke kravet alene."
           },
           {
+            "t": "h2",
+            "text": "Slik dekker Orgpuls kravene"
+          },
+          {
             "t": "p",
-            "text": "Orgpuls måler elleve psykososiale faktorer med tre påstander hver, og viser risikoen per faktor. Funnene blir tiltak med eier og frist, og korte pulser måler om tiltakene virker. Verneombudet ser de samme tallene som ledelsen. Alt lagres med dato, og rapporten følger stegene i § 3-1 bokstav c. Se [hva loven krever, og hvordan Orgpuls gjør det](/lovkrav)."
+            "text": "Orgpuls måler 11 psykososiale faktorer med 3 påstander hver, og viser risikoen per faktor. Funnene blir tiltak med eier og frist, og korte pulser måler om tiltakene virker."
+          },
+          {
+            "t": "p",
+            "text": "Verneombudet ser de samme tallene som ledelsen. Alt lagres med dato, og rapporten følger stegene i § 3-1 bokstav c. Se [hva loven krever, og hvordan Orgpuls gjør det](/lovkrav)."
           }
         ],
         "sources": [
@@ -4658,7 +4684,7 @@
           }
         ],
         "ctaTitle": "Kartlegg etter de nye reglene – uten et eget prosjekt",
-        "ctaBody": "Orgpuls gjør kartlegging, risikovurdering, tiltak og oppfølging til én rytme. 15 dager gratis, ingen kort."
+        "ctaBody": "Orgpuls gjør kartlegging, risikovurdering, tiltak og oppfølging til én rytme. Start med organisasjonsnummeret – de første 15 dagene er gratis."
       },
       "kravKartlegging": {
         "title": "Krav til kartlegging av psykososialt arbeidsmiljø | Orgpuls",
@@ -4668,7 +4694,7 @@
         "blocks": [
           {
             "t": "h2",
-            "text": "Det korte svaret"
+            "text": "Kravet kort fortalt"
           },
           {
             "t": "p",
@@ -4705,7 +4731,7 @@
           },
           {
             "t": "h2",
-            "text": "De fire stegene"
+            "text": "Fire steg: kartlegge, vurdere, sette tiltak, følge opp"
           },
           {
             "t": "h3",
@@ -4737,16 +4763,16 @@
           },
           {
             "t": "p",
-            "text": "Virket tiltaket? Det vet dere først når dere måler igjen. Mange hopper over dette steget, og det er grunnen til at neste kartlegging ofte viser det samme som forrige."
+            "text": "Virket tiltaket? Det vet dere først når dere måler igjen. Mange hopper over dette steget. Derfor viser neste kartlegging ofte det samme som forrige."
           },
           {
             "t": "box",
-            "title": "Tre funn, ikke ni",
-            "text": "En kartlegging som gir ti tiltak, gir som regel ingen. Velg de to–tre funnene som betyr mest, gjør dem ordentlig, og mål om de virket før dere tar fatt på neste."
+            "title": "Velg 2–3 funn, ikke 10",
+            "text": "En kartlegging som gir 10 tiltak, gir som regel ingen. Velg de 2–3 funnene som betyr mest, gjør dem ordentlig, og mål om de virket før dere tar fatt på neste."
           },
           {
             "t": "h2",
-            "text": "Hvem skal være med?"
+            "text": "Hvem skal være med i kartleggingen?"
           },
           {
             "t": "p",
@@ -4758,7 +4784,7 @@
           },
           {
             "t": "h2",
-            "text": "Vanlige feil"
+            "text": "Vanlige feil i kartleggingen"
           },
           {
             "t": "ul",
@@ -4780,8 +4806,8 @@
               "Bestem hvem som er med: ledelse, verneombud og tillitsvalgte.",
               "Informer de ansatte om formålet, om anonymiteten og om når resultatet kommer.",
               "Velg et verktøy som dekker faktorene i § 4-3 og har en fast grense for anonymitet.",
-              "Sett av tid til å gå gjennom resultatet innen to uker etter at målingen lukkes.",
-              "Velg to–tre tiltak med eier og frist.",
+              "Sett av tid til å gå gjennom resultatet innen 2 uker etter at målingen lukkes.",
+              "Velg 2–3 tiltak med eier og frist.",
               "Planlegg neste måling før dere lukker denne."
             ]
           },
@@ -4844,13 +4870,13 @@
           }
         ],
         "ctaTitle": "Gjør alle fire stegene i Orgpuls",
-        "ctaBody": "Kartlegging, risikovurdering, tiltak og oppfølging – dokumentert mens dere jobber. 15 dager gratis, ingen kort."
+        "ctaBody": "Dokumenter kartlegging, risikovurdering, tiltak og oppfølging mens dere jobber. Start med organisasjonsnummeret – de første 15 dagene er gratis."
       },
       "sporsmal": {
         "title": "Medarbeiderundersøkelse: spørsmålene som gir svar | Orgpuls",
         "description": "Hvilke spørsmål bør være med i en medarbeiderundersøkelse? Temaene som betyr noe, elleve eksempelspørsmål med svarskala, og hvorfor færre spørsmål gir bedre svar.",
         "h1": "Medarbeiderundersøkelse: spørsmålene som gir svar",
-        "lead": "En god medarbeiderundersøkelse er kort, dekker det som faktisk påvirker arbeidsmiljøet, og stiller spørsmål folk kan svare ærlig på. Her er temaene som bør være med, eksempler på spørsmål og hva dere gjør med svarene.",
+        "lead": "En god medarbeiderundersøkelse er kort, dekker det som påvirker arbeidsmiljøet, og stiller spørsmål folk kan svare ærlig på. Her er temaene som bør være med, eksempler på spørsmål og hva dere gjør med svarene.",
         "blocks": [
           {
             "t": "h2",
@@ -4858,11 +4884,15 @@
           },
           {
             "t": "p",
-            "text": "Det er fristende å spørre om alt. Men hvert spørsmål koster tid, og trøtthet gir dårligere svar mot slutten. Viktigere: hvert spørsmål lover indirekte at noen skal gjøre noe med svaret. Spør bare om det dere er villige til å følge opp."
+            "text": "Det er fristende å spørre om alt. Men hvert spørsmål koster tid, og trøtthet gir dårligere svar mot slutten."
           },
           {
             "t": "p",
-            "text": "En hovedmåling på rundt 30 påstander tar omtrent fire minutter å svare på. Korte pulser mellom hovedmålingene bør ta under ett minutt."
+            "text": "Viktigere: hvert spørsmål lover indirekte at noen skal gjøre noe med svaret. Spør bare om det dere er villige til å følge opp."
+          },
+          {
+            "t": "p",
+            "text": "En hovedmåling på rundt 30 påstander tar omtrent 4 minutter å svare på. Korte pulser mellom hovedmålingene bør ta under 1 minutt."
           },
           {
             "t": "h2",
@@ -4893,7 +4923,7 @@
               ],
               [
                 "Emosjonelle krav",
-                "Belastningen i arbeid med mennesker, og om noen tar den med deg"
+                "Belastningen i arbeid med mennesker, og om du står alene med den"
               ],
               [
                 "Støtte fra leder",
@@ -4927,7 +4957,7 @@
           },
           {
             "t": "h2",
-            "text": "Elleve eksempelspørsmål"
+            "text": "11 eksempelspørsmål"
           },
           {
             "t": "p",
@@ -4979,11 +5009,15 @@
           },
           {
             "t": "h2",
-            "text": "Anonymitet: hvorfor en grense på fem svar"
+            "text": "Anonymitet: hvorfor grensen er 5 svar"
           },
           {
             "t": "p",
-            "text": "Folk svarer ærlig når de vet at svaret ikke kan spores tilbake. Det krever mer enn at navnet ikke lagres: en avdeling på tre personer er gjenkjennelig uansett. Derfor bør ingen gruppe vises før et minimum har svart. I Orgpuls er grensen fem, og den kan ikke settes lavere. Les mer i [Anonym medarbeiderundersøkelse: hva betyr anonymt?](/artikler/anonym-medarbeiderundersokelse)"
+            "text": "Folk svarer ærlig når de vet at svaret ikke kan spores tilbake. Det krever mer enn at navnet ikke lagres: en avdeling på tre personer er gjenkjennelig uansett."
+          },
+          {
+            "t": "p",
+            "text": "Derfor bør ingen gruppe vises før et minimum har svart. I Orgpuls er grensen 5, og den kan ikke settes lavere. Les mer i [Anonym medarbeiderundersøkelse: hva betyr anonymt?](/artikler/anonym-medarbeiderundersokelse)"
           },
           {
             "t": "h2",
@@ -4991,7 +5025,15 @@
           },
           {
             "t": "p",
-            "text": "Resultatet er ikke svaret – det er starten på en samtale. Del det med de ansatte innen to uker. Velg to–tre funn som betyr mest, og gjør dem til tiltak med eier og frist. Ikke ta tak i ni ting samtidig."
+            "text": "Resultatet er ikke svaret – det er starten på en samtale. Del det med de ansatte innen 2 uker."
+          },
+          {
+            "t": "p",
+            "text": "Velg 2–3 funn som betyr mest, og gjør dem til tiltak med eier og frist. Ikke ta tak i ni ting samtidig."
+          },
+          {
+            "t": "p",
+            "text": "Mål så igjen på faktorene der tiltakene løper. Da ser dere om noe har flyttet seg, og de ansatte ser at svarene førte til noe. Det holder svarprosenten oppe neste gang."
           },
           {
             "t": "h2",
@@ -5003,19 +5045,19 @@
           },
           {
             "t": "p",
-            "text": "Nivået er likevel mindre interessant enn bevegelsen. At en faktor står på 61, sier lite alene. At den har falt fra 64 til 61 siden i fjor, mens resten står stille, er et signal. Se på faktorene før dere ser på totalen – totalen kan stå stille mens to faktorer beveger seg i hver sin retning."
+            "text": "Nivået er likevel mindre interessant enn bevegelsen. At en faktor står på 61, sier lite alene."
+          },
+          {
+            "t": "p",
+            "text": "At den har falt fra 64 til 61 siden i fjor, mens resten står stille, er et signal. Se på faktorene før dere ser på totalen – totalen kan stå stille mens to faktorer beveger seg i hver sin retning."
           },
           {
             "t": "h2",
-            "text": "Hvorfor fem svaralternativer"
+            "text": "Hvorfor skalaen har 5 svaralternativer"
           },
           {
             "t": "p",
-            "text": "En femdelt skala med et midtpunkt lar folk si «verken eller» når det er det de mener. Uten midtpunkt tvinges de til å velge side, og det gir støy. Flere trinn gir sjelden bedre data – forskjellen mellom 6 og 7 på en tidelt skala betyr ulike ting for ulike folk."
-          },
-          {
-            "t": "p",
-            "text": "Mål så igjen på faktorene der tiltakene løper. Da ser dere om noe har flyttet seg, og de ansatte ser at svarene førte til noe. Det er det som holder svarprosenten oppe neste gang."
+            "text": "En femdelt skala med et midtpunkt lar folk si «verken eller» når det er det de mener. Uten midtpunkt må de velge side, og det gir støy. Flere trinn gir sjelden bedre data – forskjellen mellom 6 og 7 på en tidelt skala betyr ulike ting for ulike folk."
           }
         ],
         "sources": [
@@ -5032,8 +5074,8 @@
             "url": "https://www.arbeidstilsynet.no/arbeidsmiljo/psykososialt-arbeidsmiljo/"
           }
         ],
-        "ctaTitle": "Bruk et spørsmålssett som er ferdig laget",
-        "ctaBody": "Orgpuls har elleve faktorer med tre påstander hver, og spørsmålene utenfor indeksen. 15 dager gratis, ingen kort."
+        "ctaTitle": "Bruk et ferdig spørsmålssett",
+        "ctaBody": "Orgpuls har 11 faktorer med 3 påstander hver, og spørsmålene utenfor indeksen. Start med organisasjonsnummeret – de første 15 dagene er gratis."
       },
       "hvorOfte": {
         "title": "Hvor ofte bør dere måle arbeidsmiljøet? | Orgpuls",
@@ -5043,7 +5085,7 @@
         "blocks": [
           {
             "t": "h2",
-            "text": "Hva regelverket sier"
+            "text": "Hva regelverket sier om hvor ofte"
           },
           {
             "t": "p",
@@ -5063,7 +5105,7 @@
           },
           {
             "t": "h2",
-            "text": "Grunnlinje og puls"
+            "text": "Grunnlinje og puls: to slags målinger"
           },
           {
             "t": "cards",
@@ -5080,7 +5122,7 @@
           },
           {
             "t": "h2",
-            "text": "Et eksempel på årshjul"
+            "text": "Årshjul: et eksempel"
           },
           {
             "t": "table",
@@ -5093,7 +5135,7 @@
               [
                 "Februar",
                 "Grunnlinje: hele spørsmålssettet",
-                "Rundt fire minutter"
+                "Rundt 4 minutter"
               ],
               [
                 "Mars",
@@ -5103,17 +5145,17 @@
               [
                 "Mai",
                 "Puls på faktorene med åpne tiltak",
-                "Under ett minutt"
+                "Under 1 minutt"
               ],
               [
                 "September",
                 "Puls",
-                "Under ett minutt"
+                "Under 1 minutt"
               ],
               [
                 "November",
                 "Puls, og planlegging av neste år",
-                "Under ett minutt"
+                "Under 1 minutt"
               ]
             ]
           },
@@ -5127,11 +5169,11 @@
           },
           {
             "t": "p",
-            "text": "Kort. En puls som tar mer enn et par minutter, begynner å føles som en ny undersøkelse, og da faller svarprosenten. Hold den til faktorene der et tiltak løper – ofte to–tre faktorer med tre påstander hver – så tar den under ett minutt."
+            "text": "Kort. En puls som tar mer enn et par minutter, begynner å føles som en ny undersøkelse, og da faller svarprosenten. Hold den til faktorene der et tiltak løper – ofte 2–3 faktorer med 3 påstander hver – så tar den under 1 minutt."
           },
           {
             "t": "h2",
-            "text": "Hva med svarprosenten?"
+            "text": "Faller svarprosenten når dere måler oftere?"
           },
           {
             "t": "p",
@@ -5183,11 +5225,15 @@
           },
           {
             "t": "h2",
-            "text": "Små virksomheter"
+            "text": "Pulser i små virksomheter"
           },
           {
             "t": "p",
-            "text": "I en liten virksomhet er det fristende å droppe pulsene. Men det er nettopp der de er billigst: noen få påstander, under ett minutt per person. Husk at ingen gruppe bør vises under fem svar. Er dere få, ser dere tallene for hele virksomheten, ikke per avdeling."
+            "text": "I en liten virksomhet er det fristende å droppe pulsene. Men det er nettopp der de er billigst: noen få påstander, under 1 minutt per person."
+          },
+          {
+            "t": "p",
+            "text": "Husk at ingen gruppe bør vises under 5 svar. Er dere få, ser dere tallene for hele virksomheten, ikke per avdeling."
           },
           {
             "t": "p",
@@ -5209,7 +5255,7 @@
           }
         ],
         "ctaTitle": "Sett rytmen én gang – så går den av seg selv",
-        "ctaBody": "Årshjulet i Orgpuls planlegger grunnlinje og puls for hele året. 15 dager gratis, ingen kort."
+        "ctaBody": "Årshjulet i Orgpuls planlegger grunnlinje og puls for hele året. Start med organisasjonsnummeret – de første 15 dagene er gratis."
       },
       "anonym": {
         "title": "Anonym medarbeiderundersøkelse: hva betyr anonymt?",
@@ -5243,15 +5289,19 @@
           },
           {
             "t": "p",
-            "text": "En avdeling på tre er gjenkjennelig selv om ingen navn står noe sted. Løsningen er en nedre grense: ingen gruppe vises før et minimum har svart. Fem er vanlig. Grensen må gjelde alle – også administratorer – og den bør ikke kunne senkes for å «se tallet likevel»."
-          },
-          {
-            "t": "h3",
-            "text": "3. Man kan regne seg fram"
+            "text": "En avdeling på tre er gjenkjennelig selv om ingen navn står noe sted. Løsningen er en nedre grense: ingen gruppe vises før et minimum har svart."
           },
           {
             "t": "p",
-            "text": "Denne overses oftest. Ser du tallet for hele virksomheten og for alle avdelinger unntatt én, kan du regne ut den siste. Da hjelper det ikke at den lille avdelingen er skjult. Et godt verktøy holder derfor tilbake en avdeling til når det trengs for at regnestykket ikke skal gå opp."
+            "text": "Fem er vanlig. Grensen må gjelde alle – også administratorer – og den bør ikke kunne senkes for å «se tallet likevel»."
+          },
+          {
+            "t": "h3",
+            "text": "3. Den skjulte gruppen kan regnes ut"
+          },
+          {
+            "t": "p",
+            "text": "Denne overses oftest. Ser du tallet for hele virksomheten og for alle avdelinger unntatt én, kan du regne ut den siste. Da hjelper det ikke at den lille avdelingen er skjult. Et godt verktøy holder derfor tilbake én avdeling til når regnestykket ellers ville gått opp."
           },
           {
             "t": "box",
@@ -5260,7 +5310,7 @@
           },
           {
             "t": "h2",
-            "text": "Kommentarer er det vanskeligste"
+            "text": "Kommentarer er vanskeligst å holde anonyme"
           },
           {
             "t": "p",
@@ -5268,7 +5318,7 @@
           },
           {
             "t": "h2",
-            "text": "Anonymt, men likevel en samtale"
+            "text": "Svar på anonyme kommentarer – uten å vite hvem som skrev"
           },
           {
             "t": "p",
@@ -5290,13 +5340,13 @@
           },
           {
             "t": "h2",
-            "text": "Slik gjør Orgpuls det"
+            "text": "Slik sikrer Orgpuls anonymiteten"
           },
           {
             "t": "ul",
             "items": [
               "Svaret lagres uten navn, e-post og IP-adresse, og tidspunktet rundes av til hele timen. Det finnes ingen kolonne som kunne holdt en kobling.",
-              "Ingen gruppe vises før minst fem har svart. Grensen ligger i databasen og kan ikke senkes, bare heves.",
+              "Ingen gruppe vises før minst 5 har svart. Grensen ligger i databasen og kan ikke senkes, bare heves.",
               "Når tallene for de andre gruppene ville avslørt en skjult gruppe, holdes en gruppe til tilbake.",
               "Svarene lagres i EU og deles ikke med tredjeparter."
             ]
@@ -5307,7 +5357,7 @@
           },
           {
             "t": "p",
-            "text": "Påminnelser øker svarprosenten, men de er også det stedet anonymiteten oftest lekker. Hvis lederen purrer, må lederen vite hvem som ikke har svart – og da vet lederen også hvem som har. Det løses ved at systemet sender påminnelsen, én gang, og at listen over hvem som mangler ikke kan leses av noen i virksomheten."
+            "text": "Påminnelser øker svarprosenten, men de er også det stedet anonymiteten oftest lekker. Hvis lederen purrer, må lederen vite hvem som ikke har svart – og da vet lederen også hvem som har. Løsningen er at systemet sender påminnelsen, én gang, og at ingen i virksomheten kan lese listen over hvem som mangler."
           },
           {
             "t": "h2",
@@ -5341,8 +5391,8 @@
             "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
           }
         ],
-        "ctaTitle": "Anonymt – på en måte som holder",
-        "ctaBody": "Fem svar, ellers en strek – og ingen administrator som kan endre det. 15 dager gratis, ingen kort."
+        "ctaTitle": "Mål anonymt – med en grense som ikke kan senkes",
+        "ctaBody": "Under 5 svar viser Orgpuls en strek, og ingen administrator kan senke grensen. Start med organisasjonsnummeret – de første 15 dagene er gratis."
       },
       "verneombud": {
         "title": "Verneombudets rolle i kartleggingen av arbeidsmiljøet",
@@ -5352,7 +5402,7 @@
         "blocks": [
           {
             "t": "h2",
-            "text": "Hva loven sier"
+            "text": "Hva loven sier om verneombudet"
           },
           {
             "t": "quote",
@@ -5373,7 +5423,7 @@
           },
           {
             "t": "p",
-            "text": "Hovedregelen i § 6-1 er ja: det skal velges verneombud ved hver virksomhet. Virksomheter med færre enn fem arbeidstakere kan skriftlig avtale en annen ordning. Har virksomheten flere enn ti arbeidstakere, kan det velges flere verneombud."
+            "text": "Hovedregelen i § 6-1 er ja: det skal velges verneombud ved hver virksomhet. Virksomheter med færre enn 5 arbeidstakere kan skriftlig avtale en annen ordning. Har virksomheten flere enn 10 arbeidstakere, kan det velges flere verneombud."
           },
           {
             "t": "h2",
@@ -5404,13 +5454,13 @@
               ],
               [
                 "Oppfølging",
-                "Påser at tiltakene faktisk gjennomføres, og at det psykososiale arbeidsmiljøet er ivaretatt"
+                "Påser at tiltakene blir gjennomført, og at det psykososiale arbeidsmiljøet er ivaretatt"
               ]
             ]
           },
           {
             "t": "h2",
-            "text": "Innsyn i praksis"
+            "text": "Innsyn: samme resultat som ledelsen, ikke enkeltsvar"
           },
           {
             "t": "p",
@@ -5422,8 +5472,8 @@
           },
           {
             "t": "box",
-            "title": "I Orgpuls",
-            "text": "Verneombudet ser de samme tallene som daglig leder, og følger tiltakene med eier og frist. Verneombudet har tilgang uten at det koster virksomheten ekstra."
+            "title": "Verneombudet i Orgpuls",
+            "text": "Verneombudet ser de samme tallene som daglig leder, og følger tiltakene med eier og frist. Tilgangen koster ikke virksomheten noe ekstra."
           },
           {
             "t": "h2",
@@ -5451,8 +5501,12 @@
             "text": "Hvis virksomheten har arbeidsmiljøutvalg"
           },
           {
+            "t": "p",
+            "text": "Virksomheter der det jevnlig er minst 30 arbeidstakere, skal ha arbeidsmiljøutvalg (AMU). Mellom 10 og 30 arbeidstakere skal det opprettes når en av partene krever det. Er det et AMU, er det et naturlig sted å ta opp kartleggingen og oppfølgingen av den."
+          },
+          {
             "t": "h2",
-            "text": "Tillitsvalgtes rolle"
+            "text": "Tillitsvalgtes rolle i kartleggingen"
           },
           {
             "t": "p",
@@ -5485,10 +5539,6 @@
           {
             "t": "p",
             "text": "Spør etter tiltakene: hvem eier dem, og når skal de være gjort? Uten eier og frist blir tiltak til intensjoner. Neste måling er det beste argumentet – den viser om noe har flyttet seg."
-          },
-          {
-            "t": "p",
-            "text": "Virksomheter der det jevnlig er minst 30 arbeidstakere, skal ha arbeidsmiljøutvalg (AMU). Mellom 10 og 30 arbeidstakere skal det opprettes når en av partene krever det. Er det et AMU, er det et naturlig sted å ta opp kartleggingen og oppfølgingen av den."
           }
         ],
         "sources": [
@@ -5514,7 +5564,7 @@
           }
         ],
         "ctaTitle": "Gi verneombudet det samme grunnlaget som ledelsen",
-        "ctaBody": "I Orgpuls har verneombudet tilgang uten ekstra kostnad. 15 dager gratis, ingen kort."
+        "ctaBody": "I Orgpuls har verneombudet tilgang uten ekstra kostnad. Start med organisasjonsnummeret – de første 15 dagene er gratis."
       }
     },
     "pages": {
