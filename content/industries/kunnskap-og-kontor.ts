@@ -24,14 +24,14 @@ export const kunnskapOgKontor: IndustryPage = {
   seo: {
     title: 'Arbeidsmiljøundersøkelse for kunnskap og kontor | Orgpuls',
     description:
-      'Medarbeiderundersøkelse for rådgivning, IT, finans, media og eiendom: konsentrasjon, digitale verktøy, tilgjengelighet, restitusjon, hybridarbeid og KI. Forenklet eller utvidet. Anonymt.',
+      'Arbeidsmiljøundersøkelse for rådgivning, IT, finans, media og eiendom: konsentrasjon, digitale verktøy, tilgjengelighet, restitusjon, hybridarbeid og KI. Anonymt. 15 dager gratis.',
   },
   hero: {
     pill: 'Rådgivning, IT, finans, media og eiendom',
     h1: 'Arbeidsmiljø­undersøkelse for kunnskap og kontor',
     lead:
-      'Hovedundersøkelsen måler arbeidsmengde, roller og støtte. Kontor-modulen legger til det som preger kunnskapsarbeid: avbrytelser og møter, digitale verktøy, tilgjengelighet utenom arbeidstid, restitusjon, hybridarbeid og KI. Velg forenklet eller utvidet, alt anonymt.',
-    thresholdNote: 'Ingen gruppe vises før minst fem har svart.',
+      'Se hvor avbrytelser, møter og krav om å svare utenom arbeidstid går ut over konsentrasjonen og hvilen – og få forslag til tiltak for hver faktor. Kontor-modulen kommer i tillegg til hovedundersøkelsen. Den spør også om digitale verktøy, hybridarbeid og KI. Velg forenklet eller utvidet – alle svarer anonymt.',
+    thresholdNote: 'Ingen gruppe vises før minst 5 har svart.',
     preview: {
       company: 'Fjellstad Rådgivning AS',
       caption: 'Kontor-modulen, forenklet · indeks 0–100',
@@ -44,12 +44,12 @@ export const kunnskapOgKontor: IndustryPage = {
         { factorKey: 'f_laering', values: [70, 66, 52] },
         { factorKey: 'f_teknologi_ki', values: [58, 72, 47] },
       ],
-      footnote: 'Tersklene er foreløpige til modulen er validert. Eksempelet er en tenkt virksomhet.',
+      footnote: 'Rådgivning ligger under 50 på 2 faktorer – der starter tiltakene. Tersklene er foreløpige til modulen er validert. Eksempelet er en tenkt virksomhet.',
     },
   },
   challengesIntro: {
     title: 'Ni utfordringer i kunnskaps- og kontorarbeid',
-    text: 'Hentet fra internasjonal forskning og nordiske kilder. Åtte måles i kontor-modulen, én dekkes av hovedundersøkelsen. Alle kan følges opp med tiltak på samme måte som resten av arbeidsmiljøet.',
+    text: 'Hentet fra internasjonal forskning og nordiske kilder. Kontor-modulen måler åtte av dem, og hovedundersøkelsen dekker den niende. Dere kan følge opp alle med tiltak, som resten av arbeidsmiljøet.',
   },
   challenges: [
     {
@@ -94,21 +94,21 @@ export const kunnskapOgKontor: IndustryPage = {
     },
     {
       title: 'Mye å gjøre',
-      body: 'Arbeidsmengde, tidspress, rolleklarhet og medvirkning er kjernen i hovedundersøkelsen og gjentas ikke i modulen. Modulen spør i stedet hvor presset kommer fra: avbrytelser, kanaler, tilgjengelighet og kunder.',
+      body: 'Hovedundersøkelsen måler arbeidsmengde, tidspress, rolleklarhet og medvirkning, så modulen gjentar dem ikke. Den spør i stedet hvor presset kommer fra: avbrytelser, kanaler, tilgjengelighet og kunder.',
       measuredBy: { kind: 'core', factorKey: 'mengde', ordinal: 1, alongside: [2, 3] },
     },
   ],
   moduleOverview: {
     title: 'Kontor-modulen',
     intro:
-      'Et tillegg til hovedundersøkelsen, bygget på samme måte: påstander på en femdelt skala, indeks fra 0 til 100 og tre forslag til tiltak per faktor. Velg forenklet (24 påstander, ca. 3 minutter) eller utvidet (opptil 62 påstander, ca. 7 minutter). De 24 kjernepåstandene er med i begge.',
+      'Modulen kommer i tillegg til hovedundersøkelsen og er bygget på samme måte. Svarene på en skala med fem trinn blir en indeks fra 0 til 100, og hver faktor har 3 forslag til tiltak. Velg forenklet (24 påstander, ca. 3 minutter) eller utvidet (opptil 62 påstander, ca. 7 minutter) – de 24 kjernepåstandene er med i begge.',
     coreNote: 'Modulen gjentar ikke disse, men spør hvor presset kommer fra i kunnskapsarbeid.',
   },
   loop: {
     title: 'Fra svar til tiltak på neste teammøte',
     steps: [
       { title: 'Mål', text: 'Hovedmåling med kontor-modulen, forenklet eller utvidet, på SMS eller e-post.' },
-      { title: 'Se per team', text: 'Resultat per team eller avdeling, for grupper med minst fem svar.' },
+      { title: 'Se per team', text: 'Resultat per team eller avdeling, for grupper med minst 5 svar.' },
       { title: 'Velg tiltak', text: 'Tre forslag per faktor. Hvert tiltak får en eier og en frist.' },
       { title: 'Mål igjen', text: 'Pulsen spør bare om faktorene dere jobber med, til tiltaket har virket.' },
     ],
@@ -122,7 +122,7 @@ export const kunnskapOgKontor: IndustryPage = {
   },
   law: {
     title: 'Det loven peker på i kunnskaps- og kontorarbeid',
-    intro: 'Kontor-modulen gir dokumentasjon for kartleggingen der kunnskapsarbeid har egne belastninger. Hver faktor viser hjemmelen i rapporten.',
+    intro: 'Kontor-modulen gir dere dokumentasjon på kartleggingen der kunnskapsarbeid har egne belastninger. I rapporten ser dere hjemmelen for hver faktor.',
     items: [
       {
         ref: 'aml § 4-3 og forskriften kap. 1A',
@@ -147,7 +147,7 @@ export const kunnskapOgKontor: IndustryPage = {
   faq: [
     {
       q: 'Forenklet eller utvidet – hva skal vi velge?',
-      a: 'Forenklet er 24 påstander og tar rundt tre minutter ekstra. Utvidet er opptil 62 påstander og passer som fordypning, for eksempel annethvert år. De 24 kjernepåstandene er med i begge, så resultatene kan sammenlignes over tid.',
+      a: 'Forenklet er 24 påstander og tar rundt 3 minutter ekstra. Utvidet er opptil 62 påstander og passer som fordypning, for eksempel annethvert år. De 24 kjernepåstandene er med i begge, så dere kan sammenligne resultatene over tid.',
     },
     {
       q: 'Er spørsmålene validert?',
@@ -155,7 +155,7 @@ export const kunnskapOgKontor: IndustryPage = {
     },
     {
       q: 'Ser lederen hvem som ble kontaktet i fritiden?',
-      a: 'Nei. Spørsmålet vises bare som antall for hele virksomheten, aldri per team. Ingen gruppe vises før minst fem har svart, og grensen kan ikke senkes.',
+      a: 'Nei. Spørsmålet vises bare som antall for hele virksomheten, aldri per team. Ingen gruppe vises før minst 5 har svart, og grensen kan ikke senkes.',
     },
     {
       q: 'Vi jobber mye hjemmefra. Passer modulen?',
@@ -167,30 +167,30 @@ export const kunnskapOgKontor: IndustryPage = {
     },
   ],
   cta: {
-    title: 'Prøv det på deres egen virksomhet',
-    text: 'Skriv inn organisasjonsnummeret, legg inn ansattlista og send på SMS eller e-post. Dere er i gang på tre minutter, uten kortopplysninger.',
+    title: 'Prøv det i deres egen virksomhet',
+    text: 'Skriv inn organisasjonsnummeret, legg inn ansattlista og send på SMS eller e-post. Dere er i gang på 3 minutter, uten kortopplysninger.',
   },
   questionPage: {
     crumb: 'Spørsmålssettet',
     h1: 'Spørsmåls­settet for kunnskap og kontor',
-    lead: 'Utvidet er femten faktorer og opptil 62 påstander. Forenklet er åtte faktorer med tre påstander hver, alle kjernepåstander som også er med i utvidet. Hver faktor har en begrunnelse fra forskning eller regelverket, en hjemmel og tre forslag til tiltak som kan måles på nytt i pulsen.',
-    scaleNote: 'Påstandene står i tilfeldig rekkefølge for hver person. Ordlyden er låst, så tallene kan sammenlignes fra måling til måling.',
+    lead: 'Utvidet har 15 faktorer og opptil 62 påstander. Forenklet har 8 faktorer med 3 påstander hver – alle kjernepåstander som også er med i utvidet. Hver faktor har en begrunnelse fra forskning eller regelverket, en hjemmel og 3 forslag til tiltak dere kan måle på nytt i pulsen.',
+    scaleNote: 'Hver person får påstandene i tilfeldig rekkefølge. Ordlyden ligger fast, så dere kan sammenligne tall fra måling til måling.',
     countTitle: 'Fire spørsmål som bare telles',
     countIntro: 'Noen spørsmål passer ikke i en indeks, men sier mye om tilgjengelighet og hjemmekontor. De vises bare som antall for hele virksomheten.',
     segmentsTitle: 'Bakgrunnsspørsmål',
     segmentsIntro: 'Valgfrie, for å se forskjell mellom arbeidsformer og hvor mye som går til kundearbeid. Lederrolle og stillingstype brukes ikke, fordi det gir for små grupper.',
     rulesTitle: 'Slik rapporteres svarene',
     rules: [
-      { title: 'Minst fem svar', text: 'Ingen gruppe eller segment vises før minst fem har svart. Grensen kan heves, men aldri senkes.' },
+      { title: 'Minst 5 svar', text: 'Ingen gruppe eller segment vises før minst 5 har svart. Grensen kan heves, men aldri senkes.' },
       { title: 'Ingen regning bakover', text: 'Hvis en gruppe kan regnes ut fra totalen og de andre gruppene, holdes en gruppe til tilbake.' },
       { title: 'Ja/nei-spørsmålene', text: 'KK-T-1 til KK-T-4 vises bare som antall for hele virksomheten, aldri per team eller segment. «Jobber ikke fast hjemmefra» holdes utenfor andelen.' },
       { title: 'Forenklet og utvidet', text: 'Kjernepåstandene er med i begge. I utvidet regnes de åtte forenklede faktorene også ut, som sammenlignbar indeks.' },
       { title: 'Samme indeks', text: 'Hver påstand regnes om til 0–100, og faktoren er snittet av sine påstander. En faktor vises bare når alle påstandene i den er stilt.' },
       { title: 'Foreløpige terskler', text: '65 eller mer er lav risiko, 50–64 middels og under 50 høy – det samme som i hovedundersøkelsen, men merket foreløpig til modulen er validert.' },
-      { title: 'Pulsen', text: 'Når en faktor har åpne tiltak, kommer påstanden tiltaket skal måles på med i neste puls.' },
+      { title: 'Pulsen', text: 'Når en faktor har åpne tiltak, kommer påstanden som måler tiltaket, med i neste puls.' },
     ],
     coreNote: 'Kontor-modulen gjentar ikke disse.',
-    cta: { title: 'Legg kontor-modulen til neste måling', text: 'Skriv inn organisasjonsnummeret. Dere er i gang på tre minutter, uten kortopplysninger.' },
+    cta: { title: 'Legg kontor-modulen til neste måling', text: 'Skriv inn organisasjonsnummeret. Dere er i gang på 3 minutter, uten kortopplysninger.' },
   },
   related: ['bygg-og-anlegg'],
   sourcesFromFactors: false,

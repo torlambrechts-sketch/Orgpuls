@@ -15,14 +15,14 @@ export const byggOgAnlegg: IndustryPage = {
   seo: {
     title: 'Arbeidsmiljøundersøkelse for bygg og anlegg | Orgpuls',
     description:
-      'Medarbeiderundersøkelse for bygg og anlegg med egen bygg-modul: sikkerhet under tidspress, samordning, språk, nye og unge, psykisk helse og arbeidstid. Anonymt, på SMS, med tiltak.',
+      'Arbeidsmiljøundersøkelse for bygg og anlegg med egen bygg-modul: sikkerhet under tidspress, samordning, språk, nye og unge, psykisk helse og arbeidstid. Anonymt på SMS. 15 dager gratis.',
   },
   hero: {
     pill: 'Bygg, anlegg og verksted',
     h1: 'Arbeidsmiljø­undersøkelse for bygg og anlegg',
     lead:
-      'Hovedundersøkelsen dekker det som gjelder alle arbeidsplasser. Bygg-modulen legger til det som skjer på en byggeplass: sikkerhet under tidspress, mange firma på samme sted, språk på laget, nye og unge, og om det er rom for å si at man ikke har det bra. Alt anonymt, på mobilen, med tiltak som følger opp.',
-    thresholdNote: 'Ingen gruppe vises før minst fem har svart.',
+      'Se hvor tidspress, mange firma og språk på laget går ut over sikkerheten – og få forslag til tiltak for hver faktor. Bygg-modulen kommer i tillegg til hovedundersøkelsen. Den spør også om nye og unge, og om det er rom for å si at man ikke har det bra. Mannskapet svarer anonymt på mobilen.',
+    thresholdNote: 'Ingen gruppe vises før minst 5 har svart.',
     preview: {
       company: 'Nordvik Anlegg AS',
       caption: 'Hovedmåling september · indeks 0–100',
@@ -35,22 +35,22 @@ export const byggOgAnlegg: IndustryPage = {
         { factorKey: 'nye_og_unge', values: [69, 74, 61] },
         { factorKey: 'a_si_at_man_ikke_har_det_bra', values: [55, 62, 52] },
       ],
-      footnote: 'Administrasjonen har tre svar og vises ikke som egen kolonne. Eksempelet er en tenkt virksomhet.',
+      footnote: 'Prosjekt Sør ligger under 50 på 3 faktorer – der starter tiltakene. Administrasjonen har 3 svar og vises ikke som egen kolonne. Eksempelet er en tenkt virksomhet.',
     },
   },
   challengesIntro: {
     title: 'Åtte utfordringer som går igjen på byggeplassen',
-    text: 'Hentet fra norsk, svensk og dansk tilsyn og forskning, og fra internasjonale funn der de nordiske tallene mangler. Alle åtte kan måles anonymt og følges opp med tiltak – på samme måte som resten av arbeidsmiljøet.',
+    text: 'Hentet fra norsk, svensk og dansk tilsyn og forskning, og fra internasjonale funn der nordiske tall mangler. Dere kan måle alle åtte anonymt og følge dem opp med tiltak – som resten av arbeidsmiljøet.',
   },
   challenges: [
     {
       title: 'Fremdriften går foran sikkerheten',
-      body: 'Dødsfallene i bygg og anlegg er de laveste på ti år, men næringen hadde fortsatt 3 902 registrerte arbeidsskader i 2024.{{cite:at_kompass}} Svenske Arbetsmiljöverket fant i 2026 at tidspress, prispress og taushetskultur er det som oftest hindrer en god sikkerhetskultur på byggeplassen.{{cite:av_kultur}} Tallene i avvikssystemet sier lite om dette. Det gjør svarene på om folk tør å stanse en jobb.',
+      body: 'Dødsfallene i bygg og anlegg er de laveste på ti år, men næringen hadde fortsatt 3 902 registrerte arbeidsskader i 2024.{{cite:at_kompass}} Svenske Arbetsmiljöverket fant i 2026 at tidspress, prispress og taushetskultur er det som oftest hindrer en god sikkerhetskultur på byggeplassen.{{cite:av_kultur}} Tallene i avvikssystemet sier lite om dette, men svarene på om folk tør å stanse en jobb, sier mye.',
       measuredBy: { kind: 'module', itemCode: 'BA-SF-2' },
     },
     {
       title: 'Tidsplanen er laget uten dem som skal gjøre jobben',
-      body: 'I en europeisk undersøkelse svarte 74 prosent i svensk byggbransje at de jobbet under tidspress, mot 47 prosent i EU.{{cite:ki_osa}} Det danske Arbejdstilsynet peker på urealistiske tidsplaner og dårlig planlegging som årsak, og på at tidspress gir ulykker fordi det ryddes mindre og hjelpemidler blir stående.{{cite:at_dk}} Hovedundersøkelsen måler arbeidsmengden. Bygg-modulen måler hvor den kommer fra.',
+      body: 'I en europeisk undersøkelse svarte 74 prosent i svensk byggbransje at de jobbet under tidspress, mot 47 prosent i EU.{{cite:ki_osa}} Det danske Arbejdstilsynet peker på urealistiske tidsplaner og dårlig planlegging som årsak, og på at tidspress gir ulykker fordi folk rydder mindre og lar hjelpemidler bli stående.{{cite:at_dk}} Hovedundersøkelsen måler arbeidsmengden, bygg-modulen måler hvor den kommer fra.',
       measuredBy: { kind: 'module', itemCode: 'BA-PF-1' },
     },
     {
@@ -76,26 +76,26 @@ export const byggOgAnlegg: IndustryPage = {
     },
     {
       title: 'Lange dager og lang vei hjem',
-      body: '12 prosent i anlegg jobber mer enn 48 timer i uka, mot 8 prosent i arbeidslivet ellers, og halvparten jobber i kulde.{{cite:noa}} Lange uker øker risikoen for feil og ulykker. Pendling og perioder borte kommer i tillegg, og tapper mer enn det som synes i timelistene.',
+      body: 'I anlegg jobber 12 prosent mer enn 48 timer i uka, mot 8 prosent i arbeidslivet ellers, og halvparten jobber i kulde.{{cite:noa}} Lange uker øker risikoen for feil og ulykker. Pendling og perioder borte kommer i tillegg, og tapper mer enn det som synes i timelistene.',
       measuredBy: { kind: 'module', itemCode: 'BA-AR-1' },
     },
     {
       title: 'Tonen på riggen',
-      body: 'Bygg og anlegg har den laveste andelen kvinner og en utpreget mannsdominert kultur. Kvinnelige lærlinger forteller om arbeidstøy og brakkefasiliteter som ikke passer, og om oppmerksomhet de helst ville vært foruten.{{cite:samforsk}} Dette måles i hovedundersøkelsen med faktoren Integritet og verdighet, og med spørsmålet om krenkende atferd – som bare vises som antall for hele virksomheten.',
+      body: 'Bygg og anlegg har den laveste andelen kvinner og en utpreget mannsdominert kultur. Kvinnelige lærlinger forteller om arbeidstøy og brakkefasiliteter som ikke passer, og om oppmerksomhet de helst ville vært foruten.{{cite:samforsk}} Hovedundersøkelsen måler dette med faktoren Integritet og verdighet og med spørsmålet om krenkende atferd. Det spørsmålet vises bare som antall for hele virksomheten.',
       measuredBy: { kind: 'core', factorKey: 'integritet', ordinal: 1 },
     },
   ],
   moduleOverview: {
     title: 'Bygg-modulen',
     intro:
-      'Et tillegg til hovedundersøkelsen, bygget på samme måte: påstander på en femdelt skala, regnet om til en indeks fra 0 til 100, med tre forslag til tiltak per faktor. Sikkerhetsfaktorene bygger på dimensjonene i det nordiske sikkerhetsklimaskjemaet NOSACQ-50, som ble utviklet på byggeplasser i de fem nordiske landene.{{cite:nosacq}}',
+      'Modulen kommer i tillegg til hovedundersøkelsen og er bygget på samme måte. Svarene på en skala med fem trinn blir en indeks fra 0 til 100, og hver faktor har 3 forslag til tiltak. Sikkerhetsfaktorene bygger på dimensjonene i det nordiske sikkerhetsklimaskjemaet NOSACQ-50, som ble utviklet på byggeplasser i de fem nordiske landene.{{cite:nosacq}}',
     coreNote: 'Bygg-modulen gjentar ikke disse, men går et lag dypere der byggeplassen er annerledes.',
   },
   loop: {
     title: 'Fra svar til tiltak på neste prosjektmøte',
     steps: [
       { title: 'Mål', text: 'Hovedmåling med bygg-modulen, på SMS eller QR-kode i brakka.' },
-      { title: 'Se per prosjekt', text: 'Resultat per prosjekt og verksted, for grupper med minst fem svar.' },
+      { title: 'Se per prosjekt', text: 'Resultat per prosjekt og verksted, for grupper med minst 5 svar.' },
       { title: 'Velg tiltak', text: 'Tre forslag per faktor. Hvert tiltak får en eier og en frist.' },
       { title: 'Mål igjen', text: 'Pulsen spør bare om faktorene dere jobber med, til tiltaket har virket.' },
     ],
@@ -109,7 +109,7 @@ export const byggOgAnlegg: IndustryPage = {
   },
   law: {
     title: 'Det loven peker på',
-    intro: 'Bygg-modulen gir dokumentasjon for kartleggingen der byggeplassen har egne krav. Hver faktor viser hjemmelen i rapporten.',
+    intro: 'Bygg-modulen gir dere dokumentasjon på kartleggingen der byggeplassen har egne krav. I rapporten ser dere hjemmelen for hver faktor.',
     items: [
       {
         ref: 'aml § 4-3 og forskriften kap. 1A',
@@ -134,7 +134,7 @@ export const byggOgAnlegg: IndustryPage = {
   faq: [
     {
       q: 'Hvor mye lenger blir undersøkelsen?',
-      a: 'Bygg-modulen er 24 påstander og to korte ja/nei-spørsmål, rundt tre minutter ekstra. Hovedmålingen tar rundt fire minutter.',
+      a: 'Rundt 3 minutter. Bygg-modulen er 24 påstander og 2 korte ja/nei-spørsmål, og hovedmålingen tar rundt 4 minutter.',
     },
     {
       q: 'Kan vi velge bare de faktorene som gjelder oss?',
@@ -143,51 +143,51 @@ export const byggOgAnlegg: IndustryPage = {
     },
     {
       q: 'Kan vi sende til underentreprenører og innleide?',
-      a: 'Undersøkelsen går til deres egne ansatte. Hvordan samarbeidet med andre firma oppleves, fanges opp gjennom faktoren Samordning på byggeplassen. Innleide som er en del av laget kan legges inn i ansattlista på vanlig måte.',
+      a: 'Undersøkelsen går til deres egne ansatte. Faktoren Samordning på byggeplassen fanger opp hvordan de opplever samarbeidet med andre firma. Innleide som er en del av laget, kan dere legge inn i ansattlista som vanlig.',
     },
     {
       q: 'Hva med ansatte uten e-post?',
-      a: 'Undersøkelsen kan sendes på SMS, eller deles som lenke og QR-kode i brakka. E-postadresse er valgfritt.',
+      a: 'Send undersøkelsen på SMS, eller del den som lenke og QR-kode i brakka. E-postadresse er valgfritt.',
     },
     {
       q: 'Ser lederen hvem som har svart nei på sikkerhetsspørsmålene?',
-      a: 'Nei. Ingen gruppe vises før minst fem har svart, og grensen kan ikke senkes. De to ja/nei-spørsmålene om nestenulykker og utrygge jobber vises bare som antall for hele virksomheten, aldri per prosjekt.',
+      a: 'Nei. Ingen gruppe vises før minst 5 har svart, og grensen kan ikke senkes. De to ja/nei-spørsmålene om nestenulykker og utrygge jobber vises bare som antall for hele virksomheten, aldri per prosjekt.',
     },
     {
       q: 'Kan vi se resultat per prosjekt?',
-      a: 'Ja, i pakken Vanlig, for grupper med minst fem svar. Har et prosjekt for få svar, teller svarene med i virksomhetens tall.',
+      a: 'Ja, i pakken Vanlig, for grupper med minst 5 svar. Har et prosjekt for få svar, teller svarene med i virksomhetens tall.',
     },
     {
       q: 'Hva koster det?',
-      a: 'Liten koster 265 kr i måneden for til og med 25 ansatte, Vanlig 565 kr for 26–100 ansatte. Prisene er eks. mva, uten binding og med 15 dager gratis.',
+      a: 'Liten koster 265 kr i måneden for til og med 25 ansatte, Vanlig 565 kr for 26–100 ansatte. Prisene er eks. mva., uten binding og med 15 dager gratis.',
     },
   ],
   cta: {
     title: 'Prøv på neste prosjekt',
-    text: 'Skriv inn organisasjonsnummeret, legg inn mannskapet og send på SMS. Dere er i gang på tre minutter, uten kortopplysninger.',
+    text: 'Skriv inn organisasjonsnummeret, legg inn mannskapet og send på SMS. Dere er i gang på 3 minutter, uten kortopplysninger.',
   },
   questionPage: {
     crumb: 'Spørsmålssettet',
     h1: 'Spørsmåls\u00ADsettet for bygg og anlegg',
-    lead: 'Åtte faktorer med tre påstander hver, i tillegg til hovedundersøkelsen. Hver faktor har en begrunnelse fra forskning og tilsyn, en hjemmel og tre forslag til tiltak som kan måles på nytt i pulsen.',
-    scaleNote: 'Påstandene står i tilfeldig rekkefølge for hver person. Ordlyden er låst, så tallene kan sammenlignes fra måling til måling.',
+    lead: 'Se alle 24 påstandene bygg-modulen legger til hovedundersøkelsen – 8 faktorer med 3 påstander hver. Hver faktor har en begrunnelse fra forskning og tilsyn, en hjemmel og 3 forslag til tiltak dere kan måle på nytt i pulsen.',
+    scaleNote: 'Hver person får påstandene i tilfeldig rekkefølge. Ordlyden ligger fast, så dere kan sammenligne tall fra måling til måling.',
     countTitle: 'To spørsmål som bare telles',
     countIntro: 'Noen spørsmål passer ikke i en indeks, men sier mye om det avvikssystemet ikke fanger. De vises bare som antall for hele virksomheten.',
     segmentsTitle: 'Bakgrunnsspørsmål',
-    segmentsIntro: 'Valgfrie, for å se forskjell mellom byggeplass og verksted, og mellom nye og erfarne. Hovedundersøkelsens krenkende-atferd-spørsmål gjenbrukes og gjentas ikke her.',
+    segmentsIntro: 'Valgfrie, for å se forskjell mellom byggeplass og verksted, og mellom nye og erfarne. Hovedundersøkelsen spør allerede om krenkende atferd, så det spørsmålet gjentas ikke her.',
     rulesTitle: 'Slik rapporteres svarene',
     rules: [
-      { title: 'Minst fem svar', text: 'Ingen gruppe vises før minst fem har svart. Grensen kan heves, men aldri senkes.' },
+      { title: 'Minst 5 svar', text: 'Ingen gruppe vises før minst 5 har svart. Grensen kan heves, men aldri senkes.' },
       { title: 'Ingen regning bakover', text: 'Hvis en gruppe kan regnes ut fra totalen og de andre gruppene, holdes en gruppe til tilbake.' },
       { title: 'Ja/nei-spørsmålene', text: 'BA-T-1 og BA-T-2 vises bare som antall for hele virksomheten, aldri per prosjekt.' },
       {
         title: 'Segmenter',
-        text: 'Arbeidssted og ansiennitet vises bare der det er minst fem svar, og aldri kombinert med en gruppe hvis det gir færre enn fem.',
+        text: 'Arbeidssted og ansiennitet vises bare der det er minst 5 svar, og aldri kombinert med en gruppe hvis det gir færre enn 5.',
         featureFlag: 'module_segments',
       },
       { title: 'Samme indeks', text: 'Hver påstand regnes om til 0–100, og faktoren er snittet av sine tre påstander.' },
       { title: 'Risikonivå', text: '65 eller mer er lav risiko, 50–64 middels og under 50 høy – det samme som i hovedundersøkelsen.' },
-      { title: 'Pulsen', text: 'Når en faktor har åpne tiltak, kommer påstanden tiltaket skal måles på med i neste puls.' },
+      { title: 'Pulsen', text: 'Når en faktor har åpne tiltak, kommer påstanden som måler tiltaket, med i neste puls.' },
       {
         title: 'Velg det som gjelder',
         text: 'Faktorer som ikke passer, kan slås av. Samordning på byggeplassen gir for eksempel lite mening i et verksted uten underentreprenører.',
@@ -195,7 +195,7 @@ export const byggOgAnlegg: IndustryPage = {
       },
     ],
     coreNote: 'Bygg-modulen gjentar ikke disse.',
-    cta: { title: 'Legg bygg-modulen til neste måling', text: 'Skriv inn organisasjonsnummeret. Dere er i gang på tre minutter, uten kortopplysninger.' },
+    cta: { title: 'Legg bygg-modulen til neste måling', text: 'Skriv inn organisasjonsnummeret. Dere er i gang på 3 minutter, uten kortopplysninger.' },
   },
   related: ['helse-og-omsorg'],
 }

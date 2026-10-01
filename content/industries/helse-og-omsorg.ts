@@ -21,14 +21,14 @@ export const helseOgOmsorg: IndustryPage = {
   seo: {
     title: 'Arbeidsmiljøundersøkelse for helse og omsorg | Orgpuls',
     description:
-      'Medarbeiderundersøkelse for helse og omsorg med egen helse-modul: vold og trusler, bemanning og forsvarlighet, turnus, deltid, grenser mot brukere og pårørende, dokumentasjon og forflytning. Anonymt, på tvers av turnus.',
+      'Arbeidsmiljøundersøkelse for helse og omsorg med egen helse-modul: vold og trusler, bemanning, turnus, deltid, grenser mot brukere og pårørende og forflytning. Anonymt. 15 dager gratis.',
   },
   hero: {
     pill: 'Helse, omsorg og arbeid med mennesker',
     h1: 'Arbeidsmiljø­undersøkelse for helse og omsorg',
     lead:
-      'Hovedundersøkelsen måler de emosjonelle kravene og om noen står alene i dem. Helse-modulen legger til det som gjør omsorgsarbeid annerledes: vold og trusler, bemanning og samvittighet, turnus og deltid, grenser mot brukere og pårørende, dokumentasjon og tunge forflytninger. Alt anonymt, på mobilen, på tvers av turnus.',
-    thresholdNote: 'Ingen gruppe vises før minst fem har svart.',
+      'Se hvor vold, stram bemanning og turnus uten hvile går ut over de ansatte – og få forslag til tiltak for hver faktor. Helse-modulen kommer i tillegg til hovedundersøkelsen. Den spør også om deltid, grenser mot brukere og pårørende, dokumentasjon og tunge løft. Ansatte på alle vakter svarer anonymt på mobilen.',
+    thresholdNote: 'Ingen gruppe vises før minst 5 har svart.',
     preview: {
       company: 'Lindely Omsorg AS',
       caption: 'Hovedmåling september · indeks 0–100',
@@ -45,37 +45,37 @@ export const helseOgOmsorg: IndustryPage = {
         text: 'Nattevakten har valgt bort forflytning, fordi de tyngste forflytningene skjer på dagtid.',
         featureFlag: 'module_factor_toggles',
       },
-      footnote: 'Kjøkkenet har tre svar og vises ikke som egen kolonne. Eksempelet er en tenkt virksomhet.',
+      footnote: 'Hjemmetjenesten ligger under 50 på vold og trusler – der starter tiltaket. Kjøkkenet har 3 svar og vises ikke som egen kolonne. Eksempelet er en tenkt virksomhet.',
     },
   },
   challengesIntro: {
     title: 'Ni utfordringer som går igjen i helse og omsorg',
-    text: 'Helse- og sosialtjenester har det høyeste sykefraværet av alle næringer, 9 prosent i første kvartal 2026.{{cite:nav_q1}} Utfordringene under er hentet fra norsk, svensk og dansk tilsyn og forskning. Alle kan måles anonymt og følges opp med tiltak – på samme måte som resten av arbeidsmiljøet.',
+    text: 'Helse- og sosialtjenester har det høyeste sykefraværet av alle næringer, 9 prosent i første kvartal 2026.{{cite:nav_q1}} Utfordringene under er hentet fra norsk, svensk og dansk tilsyn og forskning. Dere kan måle alle anonymt og følge dem opp med tiltak – som resten av arbeidsmiljøet.',
   },
   challenges: [
     {
       title: 'Vold og trusler er en del av hverdagen',
-      body: 'Rundt en av fire ansatte i kommunale helse- og omsorgstjenester har vært utsatt for vold eller trusler.{{cite:ks_vold}} I Sverige står vold og trusler bak en av fire anmeldte arbeidsulykker med sykefravær i omsorgsboliger, mot seks prosent i arbeidslivet ellers.{{cite:av_vold24}} I Danmark fant Arbejdstilsynet at mer enn hvert tiende plejecenter de besøkte i 2022, ikke beskyttet de ansatte godt nok.{{cite:foa_dk}} Hovedundersøkelsen teller allerede hvor mange som har opplevd det. Helse-modulen spør om det som kan gjøres noe med: om risikoen er kjent, om hendelsene blir meldt, og om den som var involvert blir fulgt opp.',
+      body: 'Rundt en av fire ansatte i kommunale helse- og omsorgstjenester har vært utsatt for vold eller trusler.{{cite:ks_vold}} I Sverige står vold og trusler bak en av fire anmeldte arbeidsulykker med sykefravær i omsorgsboliger, mot 6 prosent i arbeidslivet ellers.{{cite:av_vold24}} I Danmark fant Arbejdstilsynet at mer enn hvert tiende plejecenter de besøkte i 2022, ikke beskyttet de ansatte godt nok.{{cite:foa_dk}} Hovedundersøkelsen teller hvor mange som har opplevd det, og helse-modulen spør om det dere kan gjøre noe med: om risikoen er kjent, om hendelser blir meldt og om den som var involvert, blir fulgt opp.',
       measuredBy: { kind: 'module', itemCode: 'HO-VT-2' },
     },
     {
       title: 'For få på vakt til å gjøre jobben forsvarlig',
-      body: 'En av fire sykepleiere sier de sjelden eller aldri kan gi forsvarlig pleie til alle pasientene i løpet av en vakt.{{cite:nsf_forsvarlig}} Dansk forskning kaller det moralsk stress: man vet hva som er riktig, men får ikke gjort det.{{cite:ae_dk}} Det måles ikke av spørsmål om arbeidsmengde alene.',
+      body: 'En av fire sykepleiere sier de sjelden eller aldri kan gi forsvarlig pleie til alle pasientene i løpet av en vakt.{{cite:nsf_forsvarlig}} Dansk forskning kaller det moralsk stress: man vet hva som er riktig, men får ikke gjort det.{{cite:ae_dk}} Spørsmål om arbeidsmengde alene fanger ikke opp dette.',
       measuredBy: { kind: 'module', itemCode: 'HO-BF-2' },
     },
     {
       title: 'Turnus som ikke gir hvile',
-      body: 'En SINTEF-undersøkelse blant over 18 000 sykepleiere beskriver ubesatte stillinger, stram bemanning og turnuser med lite rom for hvile mellom vaktene.{{cite:sintef_nsf}} Om turnusen fungerer, merkes først på dem som går den.',
+      body: 'En SINTEF-undersøkelse blant over 18 000 sykepleiere beskriver ubesatte stillinger, stram bemanning og turnuser med lite rom for hvile mellom vaktene.{{cite:sintef_nsf}} De som går turnusen, merker først om den fungerer.',
       measuredBy: { kind: 'module', itemCode: 'HO-TH-1' },
     },
     {
       title: 'Deltid som ingen har valgt',
-      body: '43 000 kommunalt ansatte jobber ufrivillig deltid, og sju av ti deltidsansatte i kommunene jobber i helse og omsorg.{{cite:fafo_deltid}} Deltidsansatte får ofte svakere tilhørighet til arbeidsplassen, og det går ut over både fagmiljø og kontinuitet.{{cite:hdir_heltid}}',
+      body: 'Ufrivillig deltid gjelder 43 000 kommunalt ansatte, og sju av ti deltidsansatte i kommunene jobber i helse og omsorg.{{cite:fafo_deltid}} Deltidsansatte får ofte svakere tilhørighet til arbeidsplassen, og det går ut over både fagmiljø og kontinuitet.{{cite:hdir_heltid}}',
       measuredBy: { kind: 'module', itemCode: 'HO-HF-1' },
     },
     {
       title: 'Når brukere og pårørende går over grensen',
-      body: '20 prosent av sykepleierne og 16,5 prosent av helsefagarbeiderne har opplevd seksuell trakassering det siste året, blant de høyeste andelene i arbeidslivet.{{cite:ssb_trakassering}} Det skjer ofte i møte med brukere, der det er lett å bortforklare – og der ansvaret for å forebygge fortsatt ligger hos arbeidsgiver.',
+      body: 'Det siste året har 20 prosent av sykepleierne og 16,5 prosent av helsefagarbeiderne opplevd seksuell trakassering – blant de høyeste andelene i arbeidslivet.{{cite:ssb_trakassering}} Det skjer ofte i møte med brukere, der det er lett å bortforklare. Likevel ligger ansvaret for å forebygge hos arbeidsgiver.',
       measuredBy: { kind: 'module', itemCode: 'HO-GP-2' },
     },
     {
@@ -95,14 +95,14 @@ export const helseOgOmsorg: IndustryPage = {
     },
     {
       title: 'Det følelsesmessige arbeidet',
-      body: 'Arbeid med mennesker gir belastninger som ikke handler om mengde: sorg, sinne, uro og ansvar for andres liv. Det er kjernen i hovedundersøkelsen for helse og omsorg, og gjentas derfor ikke i modulen.',
+      body: 'Arbeid med mennesker gir belastninger som ikke handler om mengde: sorg, sinne, uro og ansvar for andres liv. Hovedundersøkelsen måler disse belastningene, så modulen gjentar dem ikke.',
       measuredBy: { kind: 'core', factorKey: 'emosjon', ordinal: 1, alongside: [2, 3] },
     },
   ],
   moduleOverview: {
     title: 'Helse-modulen',
     intro:
-      'Et tillegg til hovedundersøkelsen, bygget på samme måte: påstander på en femdelt skala, regnet om til en indeks fra 0 til 100, med tre forslag til tiltak per faktor.',
+      'Modulen kommer i tillegg til hovedundersøkelsen og er bygget på samme måte. Svarene på en skala med fem trinn blir en indeks fra 0 til 100, og hver faktor har 3 forslag til tiltak.',
     coreAlso: 'teller hvor mange som har opplevd vold eller trusler',
     coreNote: 'Helse-modulen gjentar ikke disse, men går et lag dypere der omsorgsarbeidet er annerledes.',
   },
@@ -110,7 +110,7 @@ export const helseOgOmsorg: IndustryPage = {
     title: 'Fra svar til tiltak på neste personalmøte',
     steps: [
       { title: 'Mål', text: 'Hovedmåling med helse-modulen, på SMS eller QR-kode på vaktrommet.' },
-      { title: 'Se per avdeling', text: 'Resultat per avdeling og post, for grupper med minst fem svar.' },
+      { title: 'Se per avdeling', text: 'Resultat per avdeling og post, for grupper med minst 5 svar.' },
       { title: 'Velg tiltak', text: 'Tre forslag per faktor. Hvert tiltak får en eier og en frist.' },
       { title: 'Mål igjen', text: 'Pulsen spør bare om faktorene dere jobber med, til tiltaket har virket.' },
     ],
@@ -124,7 +124,7 @@ export const helseOgOmsorg: IndustryPage = {
   },
   law: {
     title: 'Det loven peker på i arbeid med mennesker',
-    intro: 'Helse-modulen gir dokumentasjon for kartleggingen der omsorgsarbeidet har egne krav. Hver faktor viser hjemmelen i rapporten.',
+    intro: 'Helse-modulen gir dere dokumentasjon på kartleggingen der omsorgsarbeidet har egne krav. I rapporten ser dere hjemmelen for hver faktor.',
     items: [
       {
         ref: 'aml § 4-3 (2) b',
@@ -165,7 +165,7 @@ export const helseOgOmsorg: IndustryPage = {
   faq: [
     {
       q: 'Hvor mye lenger blir undersøkelsen?',
-      a: 'Helse-modulen er 24 påstander og to korte ja/nei-spørsmål, rundt tre minutter ekstra. Hovedmålingen tar rundt fire minutter.',
+      a: 'Rundt 3 minutter. Helse-modulen er 24 påstander og 2 korte ja/nei-spørsmål, og hovedmålingen tar rundt 4 minutter.',
       more: {
         text: 'Dere kan også velge bare de faktorene som gjelder dere, for eksempel uten forflytning på et legekontor.',
         featureFlag: 'module_factor_toggles',
@@ -177,15 +177,15 @@ export const helseOgOmsorg: IndustryPage = {
     },
     {
       q: 'Ser lederen hvem som svarte at bemanningen ikke var forsvarlig?',
-      a: 'Nei. Spørsmålet vises bare som antall for hele virksomheten, aldri per avdeling eller vakt. Ingen gruppe vises før minst fem har svart, og grensen kan ikke senkes.',
+      a: 'Nei. Spørsmålet vises bare som antall for hele virksomheten, aldri per avdeling eller vakt. Ingen gruppe vises før minst 5 har svart, og grensen kan ikke senkes.',
     },
     {
-      q: 'Når folk går i turnus og på natt?',
-      a: 'Undersøkelsen sendes på e-post eller SMS, eller deles som lenke og QR-kode på vaktrommet. Den er åpen i flere dager, så alle vakter rekker å svare.',
+      q: 'Hvordan når vi dem som går turnus og natt?',
+      a: 'Send undersøkelsen på e-post eller SMS, eller del den som lenke og QR-kode på vaktrommet. Den står åpen i flere dager, så alle vakter rekker å svare.',
     },
     {
       q: 'Kan vi se resultat per avdeling eller post?',
-      a: 'Ja, i pakken Vanlig, for avdelinger med minst fem svar. Har en avdeling for få svar, teller svarene med i virksomhetens tall.',
+      a: 'Ja, i pakken Vanlig, for avdelinger med minst 5 svar. Har en avdeling for få svar, teller svarene med i virksomhetens tall.',
     },
     {
       q: 'Hva koster det?',
@@ -193,32 +193,32 @@ export const helseOgOmsorg: IndustryPage = {
     },
   ],
   cta: {
-    title: 'Prøv det på deres egen virksomhet',
-    text: 'Skriv inn organisasjonsnummeret, legg inn ansattlista og send på SMS. Dere er i gang på tre minutter, uten kortopplysninger.',
+    title: 'Prøv det i deres egen virksomhet',
+    text: 'Skriv inn organisasjonsnummeret, legg inn ansattlista og send på SMS. Dere er i gang på 3 minutter, uten kortopplysninger.',
   },
   questionPage: {
     crumb: 'Spørsmålssettet',
     h1: 'Spørsmåls­settet for helse og omsorg',
-    lead: 'Åtte faktorer med tre påstander hver, i tillegg til hovedundersøkelsen. Hver faktor har en begrunnelse fra forskning og tilsyn, en hjemmel og tre forslag til tiltak som kan måles på nytt i pulsen.',
-    scaleNote: 'Påstandene står i tilfeldig rekkefølge for hver person. Ordlyden er låst, så tallene kan sammenlignes fra måling til måling.',
+    lead: 'Se alle 24 påstandene helse-modulen legger til hovedundersøkelsen – 8 faktorer med 3 påstander hver. Hver faktor har en begrunnelse fra forskning og tilsyn, en hjemmel og 3 forslag til tiltak dere kan måle på nytt i pulsen.',
+    scaleNote: 'Hver person får påstandene i tilfeldig rekkefølge. Ordlyden ligger fast, så dere kan sammenligne tall fra måling til måling.',
     countTitle: 'To spørsmål som bare telles',
     countIntro: 'Noen spørsmål passer ikke i en indeks, men sier mye om det avvikssystemet ikke fanger. De vises bare som antall for hele virksomheten.',
     segmentsTitle: 'Bakgrunnsspørsmål',
     segmentsIntro:
-      'Valgfrie, for å se forskjell mellom dag, kveld og natt, og mellom heltid og deltid. Hovedundersøkelsens spørsmål om vold og trusler siste tolv måneder og om krenkende atferd gjenbrukes og gjentas ikke her.',
+      'Valgfrie, for å se forskjell mellom dag, kveld og natt, og mellom heltid og deltid. Hovedundersøkelsen spør allerede om vold og trusler de siste 12 månedene og om krenkende atferd, så det gjentas ikke her.',
     rulesTitle: 'Slik rapporteres svarene',
     rules: [
-      { title: 'Minst fem svar', text: 'Ingen gruppe eller segment vises før minst fem har svart. Grensen kan heves, men aldri senkes.' },
+      { title: 'Minst 5 svar', text: 'Ingen gruppe eller segment vises før minst 5 har svart. Grensen kan heves, men aldri senkes.' },
       { title: 'Ingen regning bakover', text: 'Hvis en gruppe kan regnes ut fra totalen og de andre gruppene, holdes en gruppe til tilbake.' },
-      { title: 'Ja/nei-spørsmålene', text: 'HO-T-1 og HO-T-2 vises bare som antall for hele virksomheten, aldri per prosjekt eller segment.' },
+      { title: 'Ja/nei-spørsmålene', text: 'HO-T-1 og HO-T-2 vises bare som antall for hele virksomheten, aldri per avdeling eller segment.' },
       {
         title: 'Segmenter',
-        text: 'Vaktordning og stillingsstørrelse vises bare der det er minst fem svar, og aldri kombinert med en gruppe hvis det gir færre enn fem.',
+        text: 'Vaktordning og stillingsstørrelse vises bare der det er minst 5 svar, og aldri kombinert med en gruppe hvis det gir færre enn 5.',
         featureFlag: 'module_segments',
       },
       { title: 'Samme indeks', text: 'Hver påstand regnes om til 0–100, og faktoren er snittet av sine tre påstander.' },
       { title: 'Risikonivå', text: '65 eller mer er lav risiko, 50–64 middels og under 50 høy – det samme som i hovedundersøkelsen.' },
-      { title: 'Pulsen', text: 'Når en faktor har åpne tiltak, kommer påstanden tiltaket skal måles på med i neste puls.' },
+      { title: 'Pulsen', text: 'Når en faktor har åpne tiltak, kommer påstanden som måler tiltaket, med i neste puls.' },
       {
         title: 'Velg det som gjelder',
         text: 'Faktorer som ikke passer, kan slås av. Forflytning gir for eksempel lite mening på et legekontor.',
@@ -226,7 +226,7 @@ export const helseOgOmsorg: IndustryPage = {
       },
     ],
     coreNote: 'Helse-modulen gjentar ikke disse.',
-    cta: { title: 'Legg helse-modulen til neste måling', text: 'Skriv inn organisasjonsnummeret. Dere er i gang på tre minutter, uten kortopplysninger.' },
+    cta: { title: 'Legg helse-modulen til neste måling', text: 'Skriv inn organisasjonsnummeret. Dere er i gang på 3 minutter, uten kortopplysninger.' },
   },
   related: ['bygg-og-anlegg'],
   // the reference lists only what the page itself cites

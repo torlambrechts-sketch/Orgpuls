@@ -14,14 +14,14 @@ export const helseOgOmsorgEn: IndustryPage = {
   seo: {
     title: 'Work environment survey for health and care | Orgpuls',
     description:
-      'An employee survey for health and care with its own health and care module: violence and threats, staffing and responsible care, rotas, part-time work, boundaries with service users and relatives, documentation and patient handling. Anonymous, across every shift.',
+      'A work environment survey for health and care with its own module: violence and threats, staffing, rotas, part-time work, boundaries with service users and relatives, and patient handling. Anonymous. 15 days free.',
   },
   hero: {
     pill: 'Health, care and work with people',
     h1: 'Work environment survey for health and care',
     lead:
-      'The main survey measures the emotional demands and whether anyone is left alone with them. The health and care module adds what makes care work different: violence and threats, staffing and conscience, rotas and part-time work, boundaries with service users and relatives, documentation and heavy transfers. All anonymous, on the phone, across every shift.',
-    thresholdNote: 'No group is shown until at least five have answered.',
+      'See where violence, tight staffing and rotas without rest take their toll on staff – and get suggested measures for every factor. The health and care module comes on top of the main survey. It also asks about part-time work, boundaries with service users and relatives, documentation and heavy lifting. Staff on every shift answer anonymously on their phones.',
+    thresholdNote: 'No group is shown until at least 5 have answered.',
     preview: {
       company: 'Lindely Omsorg AS',
       caption: 'Main survey September · index 0–100',
@@ -38,37 +38,37 @@ export const helseOgOmsorgEn: IndustryPage = {
         text: 'The night shift has left out patient handling, because the heaviest transfers happen in the daytime.',
         featureFlag: 'module_factor_toggles',
       },
-      footnote: 'The kitchen has three answers and is not shown as a column of its own. The example is an imaginary company.',
+      footnote: 'Home care is below 50 on violence and threats – that is where the measure starts. The kitchen has 3 answers and is not shown as a column of its own. The example is an imaginary company.',
     },
   },
   challengesIntro: {
     title: 'Nine challenges that keep coming back in health and care',
-    text: 'Health and social services have the highest sickness absence of all industries, 9 per cent in the first quarter of 2026.{{cite:nav_q1}} The challenges below are drawn from Norwegian, Swedish and Danish inspectorates and research. All can be measured anonymously and followed up with measures – in the same way as the rest of the work environment.',
+    text: 'Health and social services have the highest sickness absence of all industries, 9 per cent in the first quarter of 2026.{{cite:nav_q1}} The challenges below are drawn from Norwegian, Swedish and Danish inspectorates and research. You can measure them all anonymously and follow them up with measures – like the rest of the work environment.',
   },
   challenges: [
     {
       title: 'Violence and threats are part of everyday work',
-      body: 'Around one in four employees in municipal health and care services have been exposed to violence or threats.{{cite:ks_vold}} In Sweden, violence and threats lie behind one in four reported occupational accidents with sickness absence in residential care, against six per cent in working life as a whole.{{cite:av_vold24}} In Denmark the Working Environment Authority found that more than one in ten care homes it visited in 2022 did not protect its staff well enough.{{cite:foa_dk}} The main survey already counts how many have experienced it. The health and care module asks about what can be acted on: whether the risk is known, whether incidents are reported, and whether the person involved is followed up.',
+      body: 'Around one in four employees in municipal health and care services have been exposed to violence or threats.{{cite:ks_vold}} In Sweden, violence and threats lie behind one in four reported occupational accidents with sickness absence in residential care, against 6 per cent in working life as a whole.{{cite:av_vold24}} In Denmark the Working Environment Authority found that more than one in ten care homes it visited in 2022 did not protect its staff well enough.{{cite:foa_dk}} The main survey counts how many have experienced it, and the health and care module asks about what you can act on: whether the risk is known, whether incidents are reported and whether the person involved is followed up.',
       measuredBy: { kind: 'module', itemCode: 'HO-VT-2' },
     },
     {
       title: 'Too few on shift to do the job responsibly',
-      body: 'One in four nurses say they rarely or never manage to give responsible care to all their patients during a shift.{{cite:nsf_forsvarlig}} Danish research calls it moral stress: you know what is right, but you cannot get it done.{{cite:ae_dk}} Questions about workload alone do not measure it.',
+      body: 'One in four nurses say they rarely or never manage to give responsible care to all their patients during a shift.{{cite:nsf_forsvarlig}} Danish research calls it moral stress: you know what is right, but you cannot get it done.{{cite:ae_dk}} Questions about workload alone do not capture this.',
       measuredBy: { kind: 'module', itemCode: 'HO-BF-2' },
     },
     {
       title: 'Rotas that give no rest',
-      body: 'A SINTEF survey of more than 18,000 nurses describes vacant posts, tight staffing and rotas with little room for rest between shifts.{{cite:sintef_nsf}} Whether the rota works is felt first by the people who work it.',
+      body: 'A SINTEF survey of more than 18,000 nurses describes vacant posts, tight staffing and rotas with little room for rest between shifts.{{cite:sintef_nsf}} The people who work the rota are the first to notice whether it works.',
       measuredBy: { kind: 'module', itemCode: 'HO-TH-1' },
     },
     {
       title: 'Part-time that nobody chose',
-      body: '43,000 municipal employees work part-time involuntarily, and seven in ten part-time employees in the municipalities work in health and care.{{cite:fafo_deltid}} Part-time employees often feel a weaker sense of belonging to the workplace, and that affects both the professional community and continuity.{{cite:hdir_heltid}}',
+      body: 'Involuntary part-time work affects 43,000 municipal employees, and seven in ten part-time employees in the municipalities work in health and care.{{cite:fafo_deltid}} Part-time employees often feel a weaker sense of belonging to the workplace, and that affects both the professional community and continuity.{{cite:hdir_heltid}}',
       measuredBy: { kind: 'module', itemCode: 'HO-HF-1' },
     },
     {
       title: 'When service users and relatives cross the line',
-      body: '20 per cent of nurses and 16.5 per cent of healthcare workers have experienced sexual harassment in the past year, among the highest shares in working life.{{cite:ssb_trakassering}} It often happens with service users, where it is easy to explain away – and where the duty to prevent it still lies with the employer.',
+      body: 'In the past year, 20 per cent of nurses and 16.5 per cent of healthcare workers have experienced sexual harassment – among the highest shares in working life.{{cite:ssb_trakassering}} It often happens with service users, where it is easy to explain away. Even so, the duty to prevent it lies with the employer.',
       measuredBy: { kind: 'module', itemCode: 'HO-GP-2' },
     },
     {
@@ -88,14 +88,14 @@ export const helseOgOmsorgEn: IndustryPage = {
     },
     {
       title: 'The emotional work',
-      body: 'Work with people brings strain that is not about quantity: grief, anger, unrest and responsibility for other people’s lives. It is at the core of the main survey for health and care, and is therefore not repeated in the module.',
+      body: 'Work with people brings strain that is not about quantity: grief, anger, unrest and responsibility for other people’s lives. The main survey measures this strain, so the module does not repeat it.',
       measuredBy: { kind: 'core', factorKey: 'emosjon', ordinal: 1, alongside: [2, 3] },
     },
   ],
   moduleOverview: {
     title: 'The health and care module',
     intro:
-      'An addition to the main survey, built the same way: statements on a five-point scale, converted to an index from 0 to 100, with three suggested measures per factor.',
+      'The module comes on top of the main survey and is built the same way. Answers on a five-point scale become an index from 0 to 100, and every factor has 3 suggested measures.',
     coreAlso: 'counts how many have experienced violence or threats',
     coreNote: 'The health and care module does not repeat these, but goes one layer deeper where care work is different.',
   },
@@ -103,7 +103,7 @@ export const helseOgOmsorgEn: IndustryPage = {
     title: 'From answers to measures at the next staff meeting',
     steps: [
       { title: 'Measure', text: 'Main survey with the health and care module, by SMS or a QR code in the staff room.' },
-      { title: 'See per department', text: 'Results per department and ward, for groups with at least five answers.' },
+      { title: 'See per department', text: 'Results per department and ward, for groups with at least 5 answers.' },
       { title: 'Choose measures', text: 'Three suggestions per factor. Every measure gets an owner and a deadline.' },
       { title: 'Measure again', text: 'The pulse asks only about the factors you are working on, until the measure has worked.' },
     ],
@@ -118,7 +118,7 @@ export const helseOgOmsorgEn: IndustryPage = {
   law: {
     title: 'What the law points to in work with people',
     intro:
-      'The health and care module documents the survey where care work has requirements of its own. Every factor shows its legal basis in the report. The references are to Norwegian law; the English wording is ours, not an official translation.',
+      'The health and care module documents the survey where care work has requirements of its own. The report shows the legal basis for every factor. The references are to Norwegian law; the English wording is ours, not an official translation.',
     items: [
       {
         ref: 'Working Environment Act § 4-3 (2) b',
@@ -161,7 +161,7 @@ export const helseOgOmsorgEn: IndustryPage = {
   faq: [
     {
       q: 'How much longer does the survey get?',
-      a: 'The health and care module is 24 statements and two short yes/no questions, about three minutes extra. The main survey takes about four minutes.',
+      a: 'About 3 minutes. The health and care module is 24 statements and 2 short yes/no questions, and the main survey takes about 4 minutes.',
       more: {
         text: 'You can also choose only the factors that apply to you, for example leaving out patient handling at a GP surgery.',
         featureFlag: 'module_factor_toggles',
@@ -173,15 +173,15 @@ export const helseOgOmsorgEn: IndustryPage = {
     },
     {
       q: 'Does the manager see who answered that staffing was not responsible?',
-      a: 'No. The question is only shown as a count for the whole organisation, never per department or shift. No group is shown until at least five have answered, and the threshold cannot be lowered.',
+      a: 'No. The question is only shown as a count for the whole organisation, never per department or shift. No group is shown until at least 5 have answered, and the threshold cannot be lowered.',
     },
     {
-      q: 'What about people on rotas and nights?',
-      a: 'The survey is sent by e-mail or SMS, or shared as a link and QR code in the staff room. It stays open for several days, so every shift has time to answer.',
+      q: 'How do we reach people on rotas and nights?',
+      a: 'Send the survey by e-mail or SMS, or share it as a link and QR code in the staff room. It stays open for several days, so every shift has time to answer.',
     },
     {
       q: 'Can we see results per department or ward?',
-      a: 'Yes, on the Usual plan, for departments with at least five answers. If a department has too few answers, they count towards the organisation’s figures.',
+      a: 'Yes, on the Usual plan, for departments with at least 5 answers. If a department has too few answers, they count towards the organisation’s figures.',
     },
     {
       q: 'What does it cost?',
@@ -189,32 +189,32 @@ export const helseOgOmsorgEn: IndustryPage = {
     },
   ],
   cta: {
-    title: 'Try it on your own organisation',
-    text: 'Enter the organisation number, add the employee list and send by SMS. You are up and running in three minutes, with no card details.',
+    title: 'Try it in your own organisation',
+    text: 'Enter the organisation number, add the employee list and send by SMS. You are up and running in 3 minutes, with no card details.',
   },
   questionPage: {
     crumb: 'The question set',
     h1: 'The question set for health and care',
-    lead: 'Eight factors with three statements each, in addition to the main survey. Every factor has a rationale from research and inspection, a legal basis and three suggested measures that can be measured again in the pulse.',
-    scaleNote: 'The statements appear in random order for each person. The wording is fixed, so the figures can be compared from one survey to the next.',
+    lead: 'See all 24 statements the health and care module adds to the main survey – 8 factors with 3 statements each. Every factor has a rationale from research and inspection, a legal basis and 3 suggested measures you can measure again in the pulse.',
+    scaleNote: 'Each person gets the statements in random order. The wording is fixed, so you can compare the figures from one survey to the next.',
     countTitle: 'Two questions that are only counted',
     countIntro: 'Some questions do not fit in an index, but say a lot about what the deviation system misses. They are only shown as counts for the whole organisation.',
     segmentsTitle: 'Background questions',
     segmentsIntro:
-      'Optional, to see the difference between day, evening and night, and between full-time and part-time. The main survey’s questions on violence and threats in the last twelve months and on offensive behaviour are reused and not repeated here.',
+      'Optional, to see the difference between day, evening and night, and between full-time and part-time. The main survey already asks about violence and threats in the last 12 months and about offensive behaviour, so those questions are not repeated here.',
     rulesTitle: 'How the answers are reported',
     rules: [
-      { title: 'At least five answers', text: 'No group or segment is shown until at least five have answered. The threshold can be raised, but never lowered.' },
+      { title: 'At least 5 answers', text: 'No group or segment is shown until at least 5 have answered. The threshold can be raised, but never lowered.' },
       { title: 'No working backwards', text: 'If a group could be worked out from the total and the other groups, one more group is held back.' },
       { title: 'The yes/no questions', text: 'HO-T-1 and HO-T-2 are only shown as counts for the whole organisation, never per department or segment.' },
       {
         title: 'Segments',
-        text: 'Shift pattern and position size are only shown where there are at least five answers, and never combined with a group if that gives fewer than five.',
+        text: 'Shift pattern and position size are only shown where there are at least 5 answers, and never combined with a group if that gives fewer than 5.',
         featureFlag: 'module_segments',
       },
       { title: 'The same index', text: 'Every statement is converted to 0–100, and the factor is the average of its three statements.' },
       { title: 'Risk level', text: '65 or more is low risk, 50–64 medium and below 50 high – the same as in the main survey.' },
-      { title: 'The pulse', text: 'When a factor has open measures, the statement the measure is to be measured on is included in the next pulse.' },
+      { title: 'The pulse', text: 'When a factor has open measures, the statement that tracks the measure is included in the next pulse.' },
       {
         title: 'Choose what applies',
         text: 'Factors that do not fit can be switched off. Patient handling, for example, makes little sense at a GP surgery.',
@@ -222,7 +222,7 @@ export const helseOgOmsorgEn: IndustryPage = {
       },
     ],
     coreNote: 'The health and care module does not repeat these.',
-    cta: { title: 'Add the health and care module to the next survey', text: 'Enter the organisation number. You are up and running in three minutes, with no card details.' },
+    cta: { title: 'Add the health and care module to the next survey', text: 'Enter the organisation number. You are up and running in 3 minutes, with no card details.' },
   },
   related: ['bygg-og-anlegg'],
   sourcesFromFactors: false,
