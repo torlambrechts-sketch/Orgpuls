@@ -6369,117 +6369,270 @@
       }
     },
     "home": {
-      "pill": "Medarbeiderundersøkelse og arbeidsmiljø",
-      "h1": "Kartlegg arbeids­miljøet – første måling ute før lunsj.",
-      "lead": "Hent virksomheten fra Brønnøysund, lim inn ansattlista og velg dato. Orgpuls sender ut, minner på og varsler verneombudet. Så får dere resultatet med forslag til tiltak – og dokumentasjonen loven krever.",
-      "how": "Se hvordan det virker",
-      "stats": [
+      "h1": "Orgpuls – kartlegging av arbeidsmiljøet for små og mellomstore bedrifter",
+      "example": "Tenkte eksempeldata.",
+      "carousel": {
+        "roledescription": "karusell",
+        "label": "Hva Orgpuls hjelper med",
+        "tablist": "Velg tema",
+        "prev": "Forrige tema",
+        "next": "Neste tema",
+        "announce": "Tema {n} av 3: {label}"
+      },
+      "risk": "Uten betalingskort · ingen bindingstid · fra 265 kr/mnd eks. mva.",
+      "done": "ferdig",
+      "bar": {
+        "oversikt": "app.orgpuls.no · Oversikt",
+        "resultater": "app.orgpuls.no · Resultater"
+      },
+      "slides": [
         {
-          "v": "20 min",
-          "l": "fra org.nr. til første utsending"
+          "tab": "Fang opp tidlig",
+          "eyebrow": "For små og mellomstore bedrifter",
+          "title": "Fang opp det som sliter folk ut – før det blir sykmelding eller oppsigelse.",
+          "lead": "I en liten bedrift merkes hver sykmelding og hver oppsigelse. Orgpuls kartlegger arbeidsmiljøet anonymt og viser hva dere bør gjøre – uten HR-avdeling, og oppsettet tar under en time.",
+          "link": "Se hvordan det virker",
+          "caption": "Dere ser med en gang hva som fungerer – og hva dere bør gjøre nå."
         },
         {
-          "v": "4 min",
-          "l": "å svare på hovedundersøkelsen"
+          "tab": "Oppfyll loven",
+          "eyebrow": "Arbeidsmiljøloven § 4-3",
+          "title": "Oppfyll lovkravet – uten å bli HMS-ekspert.",
+          "lead": "Loven krever at dere kartlegger det psykososiale arbeidsmiljøet. Orgpuls spør om faktorene loven peker på, tar med verneombudet og lager dokumentasjonen Arbeidstilsynet ber om.",
+          "link": "Se hva loven krever",
+          "caption": "Dokumentasjonen blir til mens dere jobber."
         },
         {
-          "v": "5 svar",
-          "l": "minste antall før en gruppe vises"
+          "tab": "Fra svar til tiltak",
+          "eyebrow": "Fra undersøkelse til tiltak",
+          "title": "Fra svar til tiltak – uten et eget prosjekt.",
+          "lead": "Resultatet kommer med tre forslag til tiltak per faktor. Dere velger, gir tiltaket en eier og en frist, og neste puls viser om det hjalp. Ingenting blir liggende i en skuff.",
+          "link": "Se hvordan tiltak fungerer",
+          "caption": "Hvert tiltak har en eier, en frist og en status."
         }
       ],
-      "who": "Hvem er du?",
-      "roles": [
-        {
-          "i": "DL",
-          "t": "Daglig leder",
-          "s": "Uten HR-avdeling",
-          "get": [
-            "Én side: hva står bra til, hva gjør vi nå",
-            "Rapport til ledelsen på 2 sider",
-            "Lovkravet dekket uten å lese paragrafer"
-          ],
-          "cta": "Se hva du får"
-        },
-        {
-          "i": "HR",
-          "t": "HR",
-          "s": "75–500 ansatte",
-          "get": [
-            "Resultat per avdeling, team og segment",
-            "Utvikling over år, måling for måling",
-            "Roller og tilgang styrt fra ett sted"
-          ],
-          "cta": "Se hva du får"
-        },
-        {
-          "i": "AL",
-          "t": "Avdelingsleder",
-          "s": "Eget team",
-          "get": [
-            "Bare ditt team, når minst 5 har svart",
-            "Anonyme kommentarer du kan svare på",
-            "3 forslag til tiltak, klare til å velge"
-          ],
-          "cta": "Se hva du får"
-        },
-        {
-          "i": "VO",
-          "t": "Verneombud",
-          "s": "Og tillitsvalgte",
-          "get": [
-            "Samme tall som ledelsen, samtidig",
-            "Varsel før hver utsending",
-            "Risikovurderingen med hjemmel per faktor"
-          ],
-          "cta": "Se hva du får"
-        }
-      ],
-      "explore": "Utforsk",
-      "teasers": [
-        {
-          "k": "Plattform",
-          "t": "Fra svar til tiltak på ett sted",
-          "d": "Målinger, resultater, kommentarer og tiltak henger sammen. Spørsmålene er faste, og ingen gruppe vises med under 5 svar.",
-          "cta": "Se plattformen"
-        },
-        {
-          "k": "Bruksområder",
-          "t": "8 situasjoner der Orgpuls gjør jobben lettere",
-          "d": "Fra årlig kartlegging og puls til ny leder, omorganisering, tilsyn og AMU-møtet.",
-          "cta": "Se bruksområdene"
-        },
-        {
-          "k": "Hvorfor Orgpuls",
-          "t": "Følg opp jevnt, og se om tiltakene virker",
-          "d": "Start med det som fungerer, gi tiltakene eier og frist, og dekk loven underveis. Med kilder.",
-          "cta": "Les hvorfor"
-        }
-      ],
-      "about": {
-        "k": "Om oss",
-        "t": "Små team, korte veier",
-        "d": "Orgpuls er laget av et lite norsk team med bakgrunn fra HR, ledelse og produktutvikling. Du snakker med dem som bygger produktet, ikke med et supportsenter. Vi lagrer dataene i EU og selger dem ikke videre.",
-        "team": [
+      "law": {
+        "title": "Lovkrav · Nordvik Anlegg AS",
+        "pill": "4 av 4 på plass",
+        "rows": [
           {
-            "n": "Produkt",
-            "r": "HR og ledelse"
+            "t": "Kartlegging av det psykososiale arbeidsmiljøet",
+            "s": "Spørsmålene dekker faktorene § 4-3 og forskriften peker på."
           },
           {
-            "n": "Fag",
-            "r": "Arbeidsmiljø og forskning"
+            "t": "Risikovurdering per faktor",
+            "s": "Lav, middels eller høy risiko – med lovhjemmel i rapporten."
           },
           {
-            "n": "Kunder",
-            "r": "Oppstart og support"
+            "t": "Medvirkning fra verneombud og ansatte",
+            "s": "Verneombudet får varsel og ser de samme tallene som ledelsen."
+          },
+          {
+            "t": "Dokumentasjon klar for tilsyn",
+            "s": "Rapporten er klar når Arbeidstilsynet eller AMU spør."
           }
         ]
       },
-      "price": {
-        "k": "Pris",
-        "t": "Fra 265 kr i måneden, alt inkludert.",
-        "d": "565 kr for 26–100 ansatte, eks. mva. Ingen bindingstid. Verneombud og tillitsvalgte koster ikke ekstra.",
-        "see": "Se prisene",
-        "start": "Prøv gratis i 15 dager"
+      "measures": {
+        "title": "Tiltak · Prosjekt Sør",
+        "meta": "3 aktive · 1 lukket",
+        "rows": [
+          {
+            "t": "Fast avklaring av tidsplan med laget",
+            "s": "{factor} · eier: anleggsleder · frist 15. nov.",
+            "pill": "Pågår"
+          },
+          {
+            "t": "«Stopp og meld» på morgenmøtet",
+            "s": "{factor} · eier: basen · frist 1. des.",
+            "pill": "Besluttet"
+          },
+          {
+            "t": "Fadder for nye i de første 4 ukene",
+            "s": "{factor} · eier: prosjektleder · frist 10. jan.",
+            "pill": "Foreslått"
+          },
+          {
+            "t": "Kort teammøte hver uke",
+            "s": "{factor} · effekt målt i pulsen",
+            "pill": "Lukket"
+          }
+        ]
+      },
+      "trust": [
+        {
+          "tile": "5",
+          "t": "Anonymt – minst 5 svar"
+        },
+        {
+          "tile": "EU",
+          "t": "Svar lagres i EU"
+        },
+        {
+          "tile": "§",
+          "t": "Dekker aml. § 4-3"
+        },
+        {
+          "tile": "Q",
+          "t": "Spørsmål bygd på QPS Nordic"
+        }
+      ],
+      "challenges": {
+        "k": "Kjenner du deg igjen?",
+        "title": "Loven er den samme for 12 ansatte som for 1 200",
+        "lead": "Arbeidsmiljøloven § 4-3 gjelder alle arbeidsgivere. Forskjellen er at en liten bedrift må få det gjort uten egen HR, uten konsulent og uten å bruke uker på det.",
+        "problem": "Utfordringen",
+        "solution": "Med Orgpuls",
+        "cards": [
+          {
+            "t": "Ingen HR-avdeling",
+            "p": "Daglig leder har arbeidsmiljøet i tillegg til salg, lønn og drift.",
+            "s": "Orgpuls planlegger, sender ut og minner på. Du ser over, og resten går av seg selv."
+          },
+          {
+            "t": "For få til å være anonyme",
+            "p": "Med 12 ansatte er det lett å tro at lederen vet hvem som skrev hva.",
+            "s": "Ingen gruppe vises under 5 svar. Grensen ligger i produktet – dere kan ikke skru den av."
+          },
+          {
+            "t": "Uklart hva loven krever",
+            "p": "Paragrafene er skrevet for jurister, og Arbeidstilsynet kan spørre.",
+            "s": "Spørsmålene dekker faktorene § 4-3 og forskriften peker på. Rapporten viser hjemmel per faktor."
+          },
+          {
+            "t": "Lite tid og lite budsjett",
+            "p": "En konsulent og et eget prosjekt er mer enn bedriften har rom for.",
+            "s": "Fra 265 kr i måneden, alt inkludert. Ingen bindingstid, og første måling planlegges samme dag."
+          }
+        ]
+      },
+      "survey": {
+        "k": "Målinger",
+        "title": "Det loven krever. På 4 minutter.",
+        "lead": "Elleve faktorer bygd på QPS Nordic, tre påstander per faktor, svar fra 1 til 5. Det dekker kartleggingen loven krever – og er kort nok til at folk svarer.",
+        "mock": "Eksempel på spørreskjemaet: tre påstander om ytringsklima, svar fra 1 til 5, kommentar frivillig",
+        "note": {
+          "t": "Anonymt av struktur",
+          "d": "Ingen gruppe vises under 5 svar. Fem er gulvet, og det er produktets – ikke deres."
+        },
+        "caption": "Slik ser en side ut for den ansatte.",
+        "h3": "Fire minutter for den ansatte. Ferdig dokumentasjon for dere.",
+        "points": [
+          "Utsending på e-post og SMS – også til dem uten jobbadresse.",
+          "Påminnelser går av seg selv, og verneombudet får varsel før hver runde.",
+          "Svar på norsk og engelsk.",
+          "Rapport klar til Arbeidstilsynet, med hjemmel per faktor."
+        ],
+        "link": "Se spørsmålssettet"
+      },
+      "band": {
+        "k": "Mindre å huske på",
+        "title": "Laget for deg som har arbeidsmiljøet som én av ti oppgaver",
+        "lead": "Orgpuls planlegger rundene, sender ut, minner på og skriver rapporten. Du bruker tiden på å følge opp.",
+        "stats": [
+          {
+            "v": "20 min",
+            "l": "fra org.nr. til planlagt utsending"
+          },
+          {
+            "v": "4 min",
+            "l": "å svare på hovedundersøkelsen"
+          },
+          {
+            "v": "5 svar",
+            "l": "minste antall før en gruppe vises"
+          },
+          {
+            "v": "11",
+            "l": "faktorer som dekker § 4-3 og forskriften kap. 1A"
+          }
+        ],
+        "callout": {
+          "head": "Verksted · 8 svar",
+          "value": "28",
+          "text": "Lavest i kartet. Tre forslag til tiltak ligger klare."
+        },
+        "caption": "Verksted skiller seg ut på ytringsklima.",
+        "h3": "Også trygt når alle kjenner alle.",
+        "text": "Grupper under 5 svar vises som «—», så ingen kan pekes ut – heller ikke på et verksted med seks ansatte. Verneombudet ser de samme tallene som ledelsen, samtidig."
+      },
+      "results": {
+        "title": "Én side: det som fungerer, og det dere gjør nå",
+        "lead": "Resultatet kommer som en setning, ikke en tabell. Tallene ligger under, faktor for faktor, med endringen siden sist.",
+        "since": "Siden sist",
+        "index": {
+          "label": "Arbeidsmiljøindeks",
+          "value": "61",
+          "delta": "−3",
+          "meta": "Grunnlinje 2026 · Nordvik Anlegg"
+        },
+        "caption": "Indeksen faller, og arbeidsmengden trekker mest ned."
+      },
+      "loop": {
+        "title": "Å måle er første steg. Det er tiltakene som virker.",
+        "lead": "Målinger, resultater, kommentarer og tiltak i én sløyfe. Hver runde starter der den forrige sluttet.",
+        "pillars": [
+          {
+            "t": "Mål",
+            "d": "Grunnlinje én gang i året, puls mellom. Årshjulet planlegger rundene selv."
+          },
+          {
+            "t": "Forstå",
+            "d": "Resultat per avdeling og faktor, og anonyme kommentarer du kan svare på uten å vite hvem som skrev."
+          },
+          {
+            "t": "Følg opp",
+            "d": "Tre forslag til tiltak per faktor. Hvert tiltak får eier og frist, og neste puls viser om det virket."
+          }
+        ]
+      },
+      "roles": {
+        "k": "Hvem er du?",
+        "title": "Arbeidsmiljøet er sjelden én persons jobb",
+        "lead": "Ledere, HR og verneombud deler ansvaret. Hver rolle får sin egen vei inn.",
+        "cta": "Se hva du får",
+        "cards": [
+          {
+            "i": "DL",
+            "t": "Daglig leder",
+            "s": "Uten HR-avdeling",
+            "get": [
+              "Én side: hva som fungerer, og hva dere gjør nå",
+              "Lovkravet dekket uten å lese paragrafer",
+              "Rapport til ledergruppa på 2 sider"
+            ]
+          },
+          {
+            "i": "HR",
+            "t": "HR",
+            "s": "Ofte alene i rollen",
+            "get": [
+              "Resultat per avdeling, team og segment",
+              "Utvikling over år, måling for måling",
+              "Roller og tilgang styrt fra ett sted"
+            ]
+          },
+          {
+            "i": "AL",
+            "t": "Avdelingsleder",
+            "s": "Eget team",
+            "get": [
+              "Bare ditt team, når minst 5 har svart",
+              "Anonyme kommentarer du kan svare på",
+              "Tre forslag til tiltak, klare til å velge"
+            ]
+          },
+          {
+            "i": "VO",
+            "t": "Verneombud",
+            "s": "Og tillitsvalgte",
+            "get": [
+              "Samme tall som ledelsen, samtidig",
+              "Varsel før hver utsending",
+              "Risikovurderingen med hjemmel per faktor"
+            ]
+          }
+        ]
       },
       "industries": {
         "k": "Bransjer",
