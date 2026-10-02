@@ -350,9 +350,7 @@ begin
     v_r := public.entra_select_groups(v_org, jsonb_build_array(jsonb_build_object('id', g1, 'name', 'Drift Nord')));
     reset role;
     update app.employees set source = 'entra', entra_object_id = u1 where id = v_kari;
-    -- (the round first: an organisation with invitations cannot be deleted in one statement today, with
-    -- or without this import — invitations' employee SET NULL meets the round already gone)
-    delete from app.rounds where id = v_round;
+    -- in one statement, invitations and all: the organisation's rounds go first (0190, D-206)
     delete from app.organizations where id = v_org;
     v_txt := v_txt || ',' || (select count(*) from app.employees where org_id = v_org) || ',' || (select count(*) from app.entra_sync where org_id = v_org);
     v_rows := v_rows || jsonb_build_object('seq', 11, 'name', 'disconnecting releases the synced people as ordinary ones; deleting the organisation still cascades',

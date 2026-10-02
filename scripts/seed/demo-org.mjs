@@ -512,6 +512,8 @@ delete from app.measures         where org_id = ${org};
 delete from app.org_questions    where org_id = ${org};
 delete from app.measurements     where org_id = ${org};
 delete from app.employees        where org_id = ${org};
+-- a deleted person's name is kept for masking (0190); the template's people come back below
+delete from app.employee_former_names where org_id = ${org};
 delete from app.groups           where org_id = ${org};
 
 insert into app.organizations (
