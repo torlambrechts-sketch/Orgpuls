@@ -10,6 +10,7 @@ import { SiteHeader } from '@/components/site/v3/SiteHeader'
 import { FOOTERS, SITE_NAV, type FooterId } from '@/lib/site/nav'
 import { industryLinks } from '@/lib/site/industries'
 import { INDUSTRY_META } from '@/content/industries/meta'
+import { CONTACT_MAIL } from '@/lib/marketing/site'
 import { siteIndexing } from '@/lib/site/indexing'
 import { siteNotice } from '@/lib/site/notice'
 
@@ -92,9 +93,20 @@ export default async function MarketingLayout({ children }: { children: React.Re
         language={<LanguageSwitch label={t('language')} size="text" hosts={hosts} />}
         bottom={t.rich('footer.bottom', {
           year: new Date().getFullYear(),
-          // the design's words, now a link to the page they name (D-104), underlined as a link in prose (G5)
+          // the company and how to reach it, for e-handelsloven § 8 as far as the facts go (D-194)
+          mail: (chunks) => (
+            <a href={`mailto:${CONTACT_MAIL}`} className="text-inherit underline underline-offset-2 hover:text-ink">
+              {chunks}
+            </a>
+          ),
+          // the design's words, now links to the pages they name (D-104, D-194), underlined as links in prose (G5)
           privacy: (chunks) => (
             <Link href="/personvernerklaering" className="text-inherit underline underline-offset-2 hover:text-ink">
+              {chunks}
+            </Link>
+          ),
+          terms: (chunks) => (
+            <Link href="/vilkar" className="text-inherit underline underline-offset-2 hover:text-ink">
               {chunks}
             </Link>
           ),

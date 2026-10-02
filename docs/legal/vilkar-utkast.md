@@ -1,8 +1,13 @@
-# Vilkår for bruk av Orgpuls — UTKAST til gjennomgang
+# Vilkår for bruk av Orgpuls — utkastet bak /vilkar (kildegrunnlag)
 
-> **Status:** utkast, 26. september 2026. Ikke publisert, og ikke lenket fra nettsiden.
-> Når teksten er godkjent, legges den inn som `/vilkar` på samme måte som
-> personvernerklæringen (D-104), på norsk og engelsk.
+> **Status:** publisert 2. oktober 2026 på `/vilkar`, på norsk og engelsk, som versjon 1 som
+> gjelder fra 2. oktober 2026 (D-194). Den publiserte teksten er meldingene
+> `seo.pages.vilkar` i `messages/no.json` og `messages/en.json`, og det er den den juridiske
+> gjennomgangen viser (`msg:no:doc.terms`, `msg:en:doc.terms`). Denne filen er kildegrunnlaget:
+> utkastet slik det ble skrevet, med merknadene, og beslutningene som ble tatt ved publisering
+> nederst. Endres vilkårene, endres meldingene, og versjon og dato i ingressen.
+>
+> Opprinnelig status: utkast, 26. september 2026. Ikke publisert, og ikke lenket fra nettsiden.
 >
 > **Slik leser du utkastet:**
 > - **[BESLUTNING: …]** er et valg bare dere kan ta. Utkastet foreslår en vanlig løsning,
@@ -224,19 +229,32 @@ eller nettsiden endres også, ikke bare teksten.
 | Sletting innen 30 dager etter opphør | databehandleravtalen punkt 11, FAQ på forsiden; utført av en daglig jobb og logget (D-108) |
 | Kundestøtte på hjelp@orgpuls.no | kontaktsiden, Hjelp |
 
-Beslutninger som trengs, samlet:
+Beslutninger tatt ved publisering 2. oktober 2026 (D-194), etter utkastets forslag:
 
-1. Faktureringsintervall og om det skal finnes årspris.
-2. Betalingsfrist, og hvor lenge før tjenesten begrenses ved manglende betaling.
-3. Varsel ved prisendring og ved endring av vilkår.
-4. Oppetidsløfte (eller ikke) og svartid på kundestøtte.
-5. Ansvarstak.
-6. Refusjon ved oppsigelse (virkningstidspunktet følger nå produktet: utgangen av
-   måneden, eller samme dag i prøveperioden).
-7. Orgpuls' egen oppsigelsesfrist.
-8. Verneting.
-9. Om anonymiserte tall på tvers av kunder skal kunne brukes.
+1. Varsel før en vesentlig funksjon fjernes: 30 dager.
+2. Fakturering månedlig forskuddsvis (produktet sier «Månedlig avtale»). Årspris: ingen, avsnittet
+   er fjernet.
+3. Betalingsfrist 14 dager fra fakturadato.
+4. Ved manglende betaling: lesetilgang 30 dager etter forfall, og etter minst én skriftlig
+   påminnelse.
+5. Prisendringer varsles 60 dager i forveien, endringer i vilkårene 30 dager i forveien.
+6. Bytte av pakke: ingenting flytter en plan automatisk (`save_billing` avviser Liten over
+   25 ansatte). Når antallet ansatte passerer pakkens grense, velger daglig leder den større pakken
+   under Oppsett › Betaling, og dens pris gjelder fra neste faktureringsperiode.
+7. Oppetid: ingen tall. Bare «Vi arbeider for … varsler vi på forhånd».
+8. Kundestøtte: ingen svartid, «på virkedager».
+9. Ansvarstak: det kunden har betalt de siste 12 månedene før skaden, ikke ved forsett eller grov
+   uaktsomhet.
+10. Betalt periode refunderes ikke.
+11. Orgpuls' egen oppsigelse: tre måneders varsel.
+12. Verneting: tingretten der Orgpuls AS har sitt forretningskontor.
+13. Anonymiserte tall på tvers av kunder: ingenting loves, avsnittet er fjernet.
+14. QPS Nordic: «Spørsmålssettet bygger på QPS Nordic.», uten mer.
 
-Opplysninger som mangler: organisasjonsnummer og forretningsadresse for Orgpuls AS.
+Opplysninger som mangler: organisasjonsnummer og forretningsadresse for Orgpuls AS. De finnes ikke
+noe sted i koden, og Enhetsregisteret har ingen enhet som heter Orgpuls. Partene står derfor som
+«Orgpuls AS» uten org.nr. og adresse, og kontakten som «Orgpuls AS · hjelp@orgpuls.no», til
+opplysningene finnes.
 
-Må sjekkes: vilkårene for QPS Nordic.
+Må fortsatt sjekkes: vilkårene for bruk av QPS Nordic-formuleringene, og om de krever
+kildehenvisning.

@@ -4,7 +4,8 @@
  *
  * The words are messages (`site.chrome.*`); this holds where each one goes. The design's links
  * point at its own files and at `#`: each is mapped here to the page or section that answers it.
- * A footer entry without `href` is text, not a link: «Vilkår» has no page to go to.
+ * A footer entry without `href` is text, not a link; «Vilkår» was one until /vilkar was published
+ * (D-194).
  */
 export type SiteLink = { key: string; href?: string }
 export type FooterColumn = { head: string; links: SiteLink[] }
@@ -61,7 +62,7 @@ const FOOTER_HOME: FooterColumn[] = [
   },
   {
     head: 'omOss',
-    links: [{ key: 'kontakt', href: '/kontakt#skriv' }, { key: 'personvernerklaering', href: '/personvernerklaering' }, { key: 'vilkar' }],
+    links: [{ key: 'kontakt', href: '/kontakt#skriv' }, { key: 'personvernerklaering', href: '/personvernerklaering' }, { key: 'vilkar', href: '/vilkar' }],
   },
 ]
 

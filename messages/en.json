@@ -6083,6 +6083,268 @@
           }
         ]
       },
+      "vilkar": {
+        "title": "Terms of use | Orgpuls",
+        "description": "The terms between Orgpuls AS and the organisation using Orgpuls: the trial, prices and payment, anonymity, liability, cancellation and deletion.",
+        "crumb": "Terms",
+        "kicker": "Terms",
+        "h1": "Terms of use for Orgpuls",
+        "lead": "What applies between Orgpuls AS and the organisation that uses Orgpuls. Version 1 · in force from 2 October 2026.",
+        "blocks": [
+          {
+            "t": "h2",
+            "text": "1. About the agreement"
+          },
+          {
+            "t": "p",
+            "text": "These terms apply between Orgpuls AS (\"Orgpuls\", \"we\") and the organisation that registers for and uses Orgpuls (\"the customer\", \"you\")."
+          },
+          {
+            "t": "p",
+            "text": "The agreement is entered into when the organisation is registered. The person who registers confirms that they are authorised to enter into the agreement on the organisation's behalf."
+          },
+          {
+            "t": "p",
+            "text": "The agreement consists of these terms, the prices at [orgpuls.com/priser](/priser) and the data processing agreement, which the managing director signs in Orgpuls under Settings › Data processing agreement. In case of conflict, the data processing agreement takes precedence where the processing of personal data is concerned. Otherwise these terms take precedence."
+          },
+          {
+            "t": "h2",
+            "text": "2. The service"
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls is a tool for surveying the psychosocial work environment under sections 3-1 and 4-3 of the Working Environment Act. It covers:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "sending surveys and reminders;",
+              "anonymous results;",
+              "measures and follow-up;",
+              "the report."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "What each package includes is stated on the pricing page:"
+          },
+          {
+            "t": "table",
+            "head": [
+              "Package",
+              "For",
+              "Price"
+            ],
+            "rows": [
+              [
+                "Liten",
+                "up to and including 25 employees",
+                "see the pricing page"
+              ],
+              [
+                "Vanlig",
+                "26–100 employees",
+                "see the pricing page"
+              ],
+              [
+                "Flere selskaper",
+                "more than 100 employees, or several companies",
+                "by agreement"
+              ]
+            ]
+          },
+          {
+            "t": "p",
+            "text": "The service is provided as it is at any given time. We develop it further and may change, add or remove features. If we remove something essential to the package you pay for, we notify you at least 30 days in advance. You may then cancel with effect from the change."
+          },
+          {
+            "t": "h2",
+            "text": "3. Trial period"
+          },
+          {
+            "t": "p",
+            "text": "The first 15 days are free and require no card details. By agreement, the trial period can be extended once by up to 15 days."
+          },
+          {
+            "t": "p",
+            "text": "If no plan has been chosen when the trial period is over:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "everything works as before for 14 more days;",
+              "after that you can sign in, read all results and reports, work on measures and choose a plan, but not start new surveys until a plan has been chosen;",
+              "a survey that is already open finishes as planned."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "4. Prices and payment"
+          },
+          {
+            "t": "p",
+            "text": "The prices are on the pricing page and are stated excluding VAT. There is no setup fee."
+          },
+          {
+            "t": "ul",
+            "items": [
+              "**Invoicing.** The managing director chooses a plan and gives the invoice address under Settings › Payment. Invoices are sent by e-mail or as EHF. The first invoice runs from the day the trial period ends, or from the day the plan is confirmed if that is later.",
+              "**Invoicing interval.** The agreement is monthly and is invoiced monthly in advance.",
+              "**Payment terms.** 14 days from the invoice date. Late payment is subject to the Norwegian Late Payment Interest Act (forsinkelsesrenteloven).",
+              "**Non-payment.** If an invoice has not been paid 30 days after its due date, and after at least one written reminder, we may restrict the service to read-only access as in section 3 until the invoice is paid.",
+              "**Price changes** are notified at least 60 days before they apply. You may cancel before the change takes effect.",
+              "**Changing package.** If the number of employees passes the package's limit (for example from 25 to 26 employees), the managing director chooses the larger package under Settings › Payment. The new package's price applies from the next invoicing period."
+            ]
+          },
+          {
+            "t": "h2",
+            "text": "5. Your responsibilities"
+          },
+          {
+            "t": "p",
+            "text": "You are the employer and the controller, and Orgpuls is the tool. This means you are responsible for:"
+          },
+          {
+            "t": "ul",
+            "items": [
+              "entering correct information about the employees, and keeping it up to date;",
+              "informing the employees about the survey and what it is used for;",
+              "involving the safety representative and employee representatives as the Working Environment Act requires;",
+              "giving access only to people who should have it (managing director, department managers, safety representative), and keeping sign-in details to yourselves;",
+              "not trying to find out who answered what. This includes combining Orgpuls' results with other information to single out individuals, or pressuring anyone to identify themselves;",
+              "not using the service in breach of the law, or in a way that harms the service or other customers."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls provides a basis for systematic health, safety and environment work, but does not fulfil the duty for you. It is you who assess risk, decide on measures and follow them up. The report is an aid, not legal advice."
+          },
+          {
+            "t": "h2",
+            "text": "6. Anonymity and privacy"
+          },
+          {
+            "t": "p",
+            "text": "Answers are stored with no link to the person who gave them. Results are not shown for a group with fewer than five answers, and the threshold can be raised but not lowered. How this is built is described under [Security and privacy](/sikkerhet)."
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls processes personal data about the employees as your processor, under the data processing agreement."
+          },
+          {
+            "t": "p",
+            "text": "For data about the users of the account (name, e-mail, sign-in) and about the organisation as a customer, Orgpuls is the controller, as described in the [privacy statement](/personvernerklaering)."
+          },
+          {
+            "t": "h2",
+            "text": "7. Availability and support"
+          },
+          {
+            "t": "p",
+            "text": "We work to keep the service available around the clock. Planned maintenance that will be noticeable is announced in advance."
+          },
+          {
+            "t": "p",
+            "text": "Support is given at [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no) and through the form in Orgpuls, on working days."
+          },
+          {
+            "t": "h2",
+            "text": "8. Rights"
+          },
+          {
+            "t": "p",
+            "text": "The information you enter, and the results of the surveys, belong to you. Reports can be downloaded as PDF at any time."
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls AS owns the software, the design and the texts in the service, including suggested measures. You receive a non-exclusive right to use the service for your own organisation during the agreement period."
+          },
+          {
+            "t": "p",
+            "text": "The question set is based on QPS Nordic."
+          },
+          {
+            "t": "h2",
+            "text": "9. Liability"
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls is not liable for indirect loss, such as lost profit, loss of data resulting from the customer's own actions, or claims from third parties."
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls' total liability under the agreement is limited to what the customer has paid in the 12 months before the damage. These limitations do not apply in the case of intent or gross negligence."
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls is not responsible for the customer complying with the Working Environment Act or the inspection authority's requirements. See section 5."
+          },
+          {
+            "t": "h2",
+            "text": "10. Cancellation and deletion"
+          },
+          {
+            "t": "p",
+            "text": "The agreement is monthly and has no binding period."
+          },
+          {
+            "t": "p",
+            "text": "**Cancellation by the customer.** The managing director cancels in Orgpuls under Settings › Payment, or in writing to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)."
+          },
+          {
+            "t": "ul",
+            "items": [
+              "A confirmed subscription runs to the end of the current month. A trial period ends the same day.",
+              "The cancellation can be withdrawn until the deletion has been carried out.",
+              "A paid period is not refunded."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "**Cancellation by Orgpuls.** Orgpuls may terminate the agreement with three months' notice. In the event of material breach, such as attempts to identify respondents or non-payment under section 4, Orgpuls may terminate the agreement with immediate effect."
+          },
+          {
+            "t": "p",
+            "text": "**Deletion.** When the agreement has ended, Orgpuls deletes the organisation's data within 30 days, unless the law requires it to be kept. Reports you have downloaded are yours to keep. Download them before the agreement ends."
+          },
+          {
+            "t": "h2",
+            "text": "11. Changes to the terms"
+          },
+          {
+            "t": "p",
+            "text": "We may change the terms. Material changes are notified by e-mail to the managing director and in Orgpuls at least 30 days before they apply. You may cancel before the change takes effect."
+          },
+          {
+            "t": "p",
+            "text": "The current version and its date are always shown on this page."
+          },
+          {
+            "t": "h2",
+            "text": "12. Force majeure"
+          },
+          {
+            "t": "p",
+            "text": "Neither party is liable for circumstances beyond its control that prevent performance, such as extensive power cuts, cyber attacks on subcontractors, strikes or orders from the authorities, for as long as the circumstance lasts."
+          },
+          {
+            "t": "h2",
+            "text": "13. Governing law and disputes"
+          },
+          {
+            "t": "p",
+            "text": "The agreement is governed by Norwegian law. The parties shall first try to resolve disagreements through negotiation. The legal venue is the district court (tingrett) where Orgpuls AS has its registered business office."
+          },
+          {
+            "t": "h2",
+            "text": "Contact"
+          },
+          {
+            "t": "p",
+            "text": "Orgpuls AS · [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)"
+          }
+        ]
+      },
       "bransjer": {
         "title": "Industries: work environment surveys with industry modules | Orgpuls",
         "description": "Question sets of their own for construction and for health and care, in addition to the main survey. Anonymous, with measures that follow up.",
@@ -6313,7 +6575,7 @@
       },
       "footer": {
         "about": "Answers are stored in the EU, and no single answer can be traced back to a person.",
-        "bottom": "© {year} Orgpuls · <privacy>Privacy</privacy> · Terms",
+        "bottom": "© {year} Orgpuls AS · <mail>hjelp@orgpuls.no</mail> · <privacy>Privacy</privacy> · <terms>Terms</terms>",
         "head": {
           "produkt": "Product",
           "bruksomrader": "Use cases",
@@ -10473,7 +10735,7 @@
           "privacy": "Privacy statement (personvernerklæring)",
           "security": "Security page",
           "personvernTab": "Oppsett › Personvern: the privacy notice to customers",
-          "termsDraft": "Terms of use: draft, not published",
+          "terms": "Terms of use (vilkår)",
           "dpaSigning": "Signing the data processing agreement",
           "industryPage": "{page}: the industry page",
           "moduleFile": "{module}: legal basis and sources",
@@ -10577,7 +10839,6 @@
         "moduleOnSite": "{path}, and the report when an organisation asks the module",
         "moduleInReport": "the report, when an organisation asks the module",
         "moduleSources": "the industry page's sources («Kilder»), and the report",
-        "unpublished": "not published",
         "siteClaims": "the start page, /bransjer, /priser, the footer and every share card",
         "dpaTab": "the app: Oppsett › Databehandleravtale",
         "personvernTab": "the app: Oppsett › Personvern",

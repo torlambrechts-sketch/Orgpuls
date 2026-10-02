@@ -591,7 +591,7 @@ function Empty({ title, lead }: { title: string; lead: string }) {
   )
 }
 
-/** The last day of this month in Oslo: "at the end of the current month", the usual notice (docs/legal/vilkar-utkast.md § 10). */
+/** The last day of this month in Oslo: "at the end of the current month", the usual notice (the terms, /vilkar § 10). */
 function endOfMonth(): string {
   const [y, m] = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo', year: 'numeric', month: '2-digit' }).format(new Date()).split('-').map(Number)
   const last = new Date(Date.UTC(y!, m!, 0))
