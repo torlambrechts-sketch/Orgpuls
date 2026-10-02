@@ -25,7 +25,7 @@ import { recordSource } from '@/lib/signup/source'
 
 export type LookupState =
   | { status: 'idle' }
-  | { status: 'found'; orgNumber: string; name: string; rows: { key: string; value: string }[] }
+  | { status: 'found'; orgNumber: string; name: string; rows: { key: string; value: string }[]; employees: number | null }
   | { status: 'problem'; problem: string }
 
 export async function lookupCompany(_prev: LookupState, formData: FormData): Promise<LookupState> {
@@ -55,7 +55,8 @@ export async function lookupCompany(_prev: LookupState, formData: FormData): Pro
     .filter(([, v]) => v !== null && v !== '')
     .map(([key, value]) => ({ key: key as string, value: value as string }))
 
-  return { status: 'found', orgNumber: f.orgNumber, name: f.name, rows }
+  // the register's headcount preselects the size band (0 means none registered, not none employed)
+  return { status: 'found', orgNumber: f.orgNumber, name: f.name, rows, employees: f.employees ? f.employees : null }
 }
 
 const SignUp = z.object({

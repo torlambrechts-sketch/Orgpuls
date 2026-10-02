@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useActionState, useEffect, useRef, useState, useTransition } from 'react'
+import { bandOf, countFor, SIZES, type SizeKey } from '@/lib/start/size'
 import { useTranslations } from 'next-intl'
 import {
   createAccount,
@@ -34,12 +35,7 @@ import { HeardAbout } from '@/components/start/HeardAbout'
  * callback creates the organisation and lands back here, on step 3 (`done`).
  */
 
-const SIZES = [
-  { key: 'under25', count: 20 },
-  { key: 'to50', count: 38 },
-  { key: 'to100', count: 75 },
-  { key: 'over100', count: 150 },
-] as const
+
 
 export function SignUpFlow({
   google = false,
@@ -57,7 +53,8 @@ export function SignUpFlow({
   const [company, setCompany] = useState<{ orgNumber: string; name: string } | null>(
     done ? { orgNumber: '', name: done.company } : null,
   )
-  const [size, setSize] = useState<(typeof SIZES)[number]['key']>('under25')
+  const [size, setSize] = useState<SizeKey>('under25')
+  const [sizeTouched, setSizeTouched] = useState(false)
   const [password, setPassword] = useState('')
   const [firstName, setFirstName] = useState(done?.firstName ?? '')
   // a Google signup is only complete when the callback lands back here with the organisation made
@@ -79,6 +76,11 @@ export function SignUpFlow({
   const [creating, setCreating] = useState(false)
 
   const found = lookup.status === 'found' ? lookup : null
+  const registerCount = found?.employees ?? null
+  // the register's headcount picks the band until the visitor picks one themselves
+  useEffect(() => {
+    if (registerCount !== null && !sizeTouched) setSize(bandOf(registerCount))
+  }, [registerCount, sizeTouched])
 
   // Arriving from a landing page's form (SignupStart) with ?orgnr=: fill it in and look it
   // up at once, so the visitor lands on their company rather than on an empty field.
@@ -238,7 +240,7 @@ export function SignUpFlow({
               action={(data) => {
                 data.set('orgNumber', company.orgNumber)
                 data.set('companyName', company.name)
-                data.set('employeeCount', String(SIZES.find((s) => s.key === size)!.count))
+                data.set('employeeCount', String(countFor(size, registerCount)))
                 setCreating(true)
                 startTransition(async () => {
                   const result = await createAccount({ status: 'idle' }, data)
@@ -353,7 +355,7 @@ export function SignUpFlow({
                         name="size"
                         value={s.key}
                         checked={size === s.key}
-                        onChange={() => setSize(s.key)}
+                        onChange={() => (setSize(s.key), setSizeTouched(true))}
                         className="peer absolute h-px w-px overflow-hidden opacity-0"
                       />
                       <span
@@ -435,7 +437,7 @@ export function SignUpFlow({
                   <input type="hidden" name="flow" value="signup" />
                   <input type="hidden" name="orgNumber" value={company.orgNumber} />
                   <input type="hidden" name="companyName" value={company.name} />
-                  <input type="hidden" name="employeeCount" value={String(SIZES.find((s) => s.key === size)!.count)} />
+                  <input type="hidden" name="employeeCount" value={String(countFor(size, registerCount))} />
                   <GoogleButton inForm label={t('google')} disabled={!consent} />
                   <div className="mt-[9px] max-w-[52ch] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">{t('googleHint')}</div>
                 </>

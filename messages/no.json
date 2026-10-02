@@ -2607,8 +2607,8 @@
     "pwHintGood": "Godt passord",
     "sizeQuestion": "Omtrent hvor mange ansatte er dere?",
     "size": {
-      "under25": "Under 25",
-      "to50": "25–50",
+      "under25": "1–25",
+      "to50": "26–50",
       "to100": "51–100",
       "over100": "Over 100"
     },

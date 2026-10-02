@@ -9742,3 +9742,21 @@ site promises reminders that go by themselves.
   grunnlinje without a standard; it now expects day 2, with the reason beside it.
 - **Not changed:** the day-before reminder (`final_reminder`) keeps the column's default (off) without
   a standard, as start_next_pulse does.
+
+## D-193 — Sign-up size bands meet where the plans do; the register's headcount preselects
+
+Found by the SMB adoption review (2026-10-02). /registrer asked «Omtrent hvor mange ansatte er
+dere?» with «Under 25 / 25–50 / 51–100 / Over 100», and stored 20, 38, 75 or 150. Liten covers up to
+25 employees (0048, `save_billing` refuses Liten above 25), so a company of exactly 25 picked
+«25–50», was stored as 38, and was refused the plan it qualifies for.
+
+- **Bands:** «1–25 / 26–50 / 51–100 / Over 100» (no and en), bounded in `lib/start/size.ts`.
+- **Preselected:** the Brønnøysund lookup in step 1 already fetched `antallAnsatte`; it now picks the
+  band until the visitor picks one, and is the number stored when it falls in the band chosen (0 in
+  the register means none registered, and is ignored).
+- **Test:** `tests/unit/signup-size.test.ts` — 25 is Liten, 26 is not; no company of 25 or fewer is
+  given a count Liten refuses.
+
+The same pass corrected two stale in-app texts: the SMS row in Oppsett › Integrasjoner said «Ikke
+bygget» even with SMS on, and the SMS help article said SMS «faktureres per melding» (SMS is built,
+D-66, and nothing bills a customer per message).
