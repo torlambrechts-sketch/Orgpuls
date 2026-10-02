@@ -9,6 +9,7 @@ import { SiteFooter, type FooterData } from '@/components/site/v3/SiteFooter'
 import { SiteHeader } from '@/components/site/v3/SiteHeader'
 import { FOOTERS, SITE_NAV, type FooterId } from '@/lib/site/nav'
 import { industryLinks } from '@/lib/site/industries'
+import { INDUSTRY_META } from '@/content/industries/meta'
 import { siteIndexing } from '@/lib/site/indexing'
 import { siteNotice } from '@/lib/site/notice'
 
@@ -34,12 +35,17 @@ export default async function MarketingLayout({ children }: { children: React.Re
   // on the production hosts each language has its own; the switch links across (D-98)
   const hosts = PUBLIC_HOSTS.includes(hostOf((await headers()).get('host'))) ? { no: MAIN_URL, en: EN_URL } : undefined
   const industries = await industryLinks()
+  // Bransjer's column links to the cards /bransjer shows in this language: on English only the
+  // industries with an English page have one, so a link to any other card would land nowhere
+  const shown = new Set(industries.map((i) => INDUSTRY_META.find((m) => `/${m.slug}` === i.href)?.anchor))
   const columns = Object.fromEntries(
     (Object.keys(FOOTERS) as FooterId[]).map((id) => [
       id,
       FOOTERS[id].map((c) => ({
         head: t(`footer.head.${c.head}`),
-        links: c.links.map((l) => ({ label: t(`footer.link.${l.key}`), href: l.href })),
+        links: c.links
+          .filter((l) => !l.href?.startsWith('/bransjer#') || shown.has(l.href.slice('/bransjer#'.length)))
+          .map((l) => ({ label: t(`footer.link.${l.key}`), href: l.href })),
       })),
     ]),
   ) as FooterData

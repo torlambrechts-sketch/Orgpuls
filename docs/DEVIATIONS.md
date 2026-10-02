@@ -9797,3 +9797,181 @@ and signup so we get the email.»
   locally, as D-143), the guide (1 → 3 of 6 after two links and a reload), «Opprett konto», no
   sideways scroll at 1440/390, no console errors. `demo_invariants.sql` 17/17 (rows 15–16 new);
   every SQL suite passes on the merged tree; live /demo serves the new page.
+
+## D-190 — Site v3: the five pages built from the handoff bundle, and where they differ from it (2026-10-02)
+
+The build follows `design-reference/orgpuls/nettside-v3/{Forside,Plattform,Bruksomrader,Bransjer,Pris}.dc.html`.
+Desktop (1440) keeps the design's layout pixel for pixel. It differs from the bundle in these ways:
+
+1. **Copy.**
+   - Wording changed in about 150 strings, in `no` and `en`, after a product-truth check, a Norwegian copy review, an
+     adoption review and a WCAG review (a decision sheet the team wrote for this work; every shipped string was checked byte for byte against it by script).
+   - The pixel gate fails in the bands where a sentence now wraps differently. That is the copy, not a regression, as
+     with D-88 and D-186.
+2. **Claims the product does not keep were reworded**, never shipped:
+   - «Du godkjenner, resten går» → «Du ser over …»: no round waits for an approval.
+   - «første måling er ute samme dag» → «planlegges samme dag»: the first send is at least 3 days ahead.
+   - «De elleve faktorene forskriften kapittel 1A nevner» and «11 faktorer, slik forskriften kap. 1A ber om»: kap. 1A
+     names five factors and no number.
+   - «fra QPS Nordic» → «bygd på QPS Nordic». «Bygd på forskning fra STAMI» → «Spørsmål bygd på QPS Nordic».
+   - «Rapport til styret» → «ledergruppa».
+   - «Ett spørsmål om gangen» → «Ett tema om gangen».
+   - «resultatet kommer dag sju»: the main survey runs 14 days.
+   - «lukkes først når neste måling viser om de virket»: «effekt målt» is a step a person sets.
+   - «Hjemmel per faktor står ved siden av tallet» → «i rapporten og på hvert tiltak».
+   - The avdelingsleder notice «Samme dag» → «1 dag før» (AUD-08).
+   - «PDF · 4 sider», with invented section rows → the report's real sections, no page count.
+   - Kunnskap og kontor «15 faktorer · 62 påstander · ca. 3 min» → «8–15 · 24–62 · ca. 3–7 min».
+   - «under ett minutt på en puls» → «et par minutter».
+   - «ikke brutt ned på avdeling» for twelve people: groups show at 5 answers.
+   - «Dere flyttes til Vanlig fra neste måned»: nothing moves a plan.
+   - «sletter … etter 30 dager» → 30 days after the agreement ends.
+   - «Lederen får egne forslag til lederpraksis» → «for de fleste faktorene».
+   - «før AMU-møtet starter» and «sendt automatisk» → the AMU case.
+   - «fast oppfølging av avvik»: Orgpuls does no incident handling.
+   - «pleier å trekke» → «ofte er verdt å følge med på».
+   - «Alle data lagres i EU» → the DS trust line «Svar lagres i EU …».
+   - «Svar på sju språk» → «norsk og engelsk»: only `locale_en` is signed off.
+   - «så ofte dere vil» → «helt ned til hver måned».
+   - «Spørsmål vi får ofte» → «Spørsmål og svar».
+   - Simployer removed from the integrations row (the in-app roadmap names Huldt & Lillevik), and «Under arbeid» →
+     «Ikke klart ennå».
+   - Two unsourced generalisations reworded or removed (F20, F45). «Dekker lovkravet» → «Dekker aml. § 4-3».
+3. **The front-page survey mock shows the real instrument.**
+   - The three statements are `factor.ytring.s1–s3`, replacing invented ones.
+   - The head is «Ytringsklima · 4 / 15» (the respondent counts pages), and the bar is 27 %.
+   - The comment line is `respond.commentPrompt`.
+4. **«Tenkte eksempeldata.» on every example card, as a `<figcaption>`.**
+   - Three captions the design lacks were added: the front-page survey mock, the ink-band heat map, and the Resultater
+     block (61 −3, «Siden sist», Nordvik Anlegg).
+   - On the ink band the caption is cream.
+5. **Bruksområder «Ny leder» card has three bars, not four.** «Blir hørt når noe skal endres» is Medvirkning's
+   statement, not Støtte fra leder's.
+6. **Plattform «Slik er det å svare».**
+   - The card shows the survey-mock renderer (`app/(marketing)/plattform/SurveyMock.tsx`), not `sporsmal.webp`. The
+     shot predates D-150 (one factor's three statements per page), and a recapture from the fixture would show a
+     pulse («1 / 2») about 1900 px tall in this card. `sporsmal.webp` is unchanged where other pages still use it.
+   - The card head «Spørsmål 13 av 37» → «Spørreskjemaet på mobil · ett tema per side».
+7. **CTA family (D-186).**
+   - «Kom i gang» → «Prøv gratis» in the header and the start band. «Start gratis» → «Prøv gratis» on the plan cards.
+   - The start-band submit has no arrow.
+   - The hero «Prøv gratis i 15 dager →» is unchanged.
+   - Arriving at `#kom-i-gang` focuses the org.nr. field.
+8. **Header.**
+   - Added «Se demo» → `/demo` beside «Logg inn» (Tor's request).
+   - «Bransjer ▾» is a real disclosure (SubMenu) on all five pages, where the design drew ▾ on the front page only and
+     as a plain link (WCAG 3.2.3/3.2.4).
+   - Below 1024 px the header folds into «Meny» (D-85), instead of the design's hidden sideways scroller, which hid
+     Bransjer and Pris on every phone (1.4.10).
+   - Hvorfor Orgpuls is no longer in the header, as the design draws it. It is linked from the front-page trust strip.
+9. **Typography (copy T1–T4).**
+   - A spaced en dash for asides instead of the em dash, which stays only as the withheld-cell value «—».
+   - Non-breaking spaces between numbers and units.
+   - Digits where the number is the point.
+   - Month abbreviations end with a full stop.
+   - Some lines wrap differently because « – » is narrower than «—».
+10. **Contrast (WCAG 1.4.3 / 1.4.11).**
+    - Text in faint `#8A8272` is now mut `#5F5849`: the browser-bar URL, «±0», «Ca. 3 min igjen», the comment line,
+      the year-wheel «Ferie» tag and the placeholder.
+    - The org.nr. border is `#8A8272`, which passes 3:1.
+    - Digit and ✓ marks on green `#5C9A55` use ink text.
+    - Focus on the ink band is cream.
+    - Prose links («bruksområdene», the © line's «Personvern») are underlined (1.4.1).
+11. **Org.nr. field (D-187).**
+    - A visible label above the field, with the placeholder «9 sifre».
+    - 16 px.
+    - A persistent polite live region for the note.
+12. **Footer.**
+    - Every `#` and self link now goes to a real route or route + anchor (mapping in the decision sheet).
+    - «Vilkår» stays text, since there is no terms page.
+    - The link pitch is 24 px (`leading-[18px]`, WCAG 2.5.8), so each footer row moves 1 px.
+    - One `<nav>` for the footer.
+13. **Links.**
+    - The design's prototype-file and `#` links go to real targets.
+    - The slide links go to `/lovkrav` and `/plattform#tiltak`.
+    - «Se spørsmålssettet» goes to the question-set article.
+    - The role cards go to four role-specific pages or anchors, with one shared label «Se hva du får».
+    - The Bransjer module cards go to their industry pages, not to themselves.
+    - «Snakk med oss» goes to `/kontakt#skriv`.
+    - «Assistenten» is dropped and «Fire visninger» → «Resultater», since Plattform v3 has neither section.
+    - The four trust-strip items are links to their proof (/sikkerhet, /lovkrav, /hvorfor#forskning).
+14. **Front-page carousel (WCAG 2.2.2).**
+    - No autoplay. Slide 1 first.
+    - Full APG tab semantics: roving tabindex, arrows and Home/End, labelled prev/next, and a polite announcement on
+      user changes only.
+    - One sr-only H1 («Orgpuls – kartlegging av arbeidsmiljøet for små og mellomstore bedrifter»), with the slide
+      titles as h2 and no visual change.
+15. **Front-page section ids** renamed to what they hold (`plattform` → `malinger`, `bruksomrader` → `resultater`,
+    `bransjer` → `roller`). The unused inner `id="pris"` is dropped.
+16. **Phones (below 640 px).** The 390 baselines are a reference, not a gate.
+    - 16 px side gutters, as the DS readme says for phones, instead of 18 + 56 px.
+    - H1 40 px (34 px below 360 px), section H2 30 px, and other display sizes as the decision sheet gives them.
+    - The floating cards («Anonymt av struktur», «Verksted · 8 svar», «Siden sist», «Arbeidsmiljøindeks») are static
+      under their image below 768 px. As drawn, they hid the deltas, the heat map and the comment line.
+    - Year wheel 4 × 3; Pris size table in one column; Pris read-out may wrap.
+    - The trend chart's «Mål 60» label is hidden (the card meta says it).
+    - The heat-map heads are smaller, or three-letter forms with full aria-labels.
+    - No sideways scroll at 320/360/390 (WCAG 1.4.10).
+17. **Accessibility structure with no visual change.**
+    - A skip link, and one `<main>` holding hero to start band.
+    - Real headings where the design used spans: card, pillar, role, module, sector, plan, group and FAQ titles.
+    - Lists, figures, ARIA tables for the heat maps, sr-only data for the trend chart, decorative glyphs hidden.
+    - The FAQ as disclosures that may be open together.
+    - The Pris slider's `aria-valuetext` names the plan and price.
+    - Fixed control heights became min-heights.
+18. **Pris.**
+    - The footnote names invoice and EHF («Faktura hver måned, også som EHF»), which is true per 0048.
+    - Flere selskaper's fourth item «Ingen bindingstid» → «Pris og vilkår i et eget tilbud»: that plan is confirmed
+      through an offer.
+19. **Kept as designed, on purpose.**
+    - Forside's header is sticky inside the top band, and the subpages' headers are static.
+    - Each page carries its own footer columns.
+    - Case order on Bruksområder and Plattform is unchanged.
+    - Plan names Liten / Vanlig / Flere selskaper.
+20. **Not done, open:**
+    - A sixth FAQ item «Hva skjer etter de 15 dagene?» and «Holder dette hvis Arbeidstilsynet kommer?» (a layout
+      change).
+    - A three-step «Slik kommer dere i gang» on the front page.
+    - A sticky header on every page.
+    - Deep links to carousel tabs.
+    - A company identity line in the footer (e-handelsloven § 8; needs Tor's data).
+    - A terms page.
+    - Renaming «Usual» in English.
+    - The SMS texts and the planned rounds without a reminder day that the claims check found are fixed separately
+      (D-192 and the SMS help texts).
+21. **Implementation choices per page.**
+    - **Forside.** «§ 4-3» is kept on one line by a `whitespace-nowrap` span (the browser broke after the hyphen even
+      with U+00A0). The product shots are plain `<img>` with width, height and eager loading: `next/image`'s lazy
+      decoding left them blank in full-page captures. Challenge and role cards are one column below 640 px. The share
+      card (`og.png`) is not regenerated; `site.home.h1` is now the sr-only H1.
+    - **Plattform.** Below 360 px a row's pill drops under its text.
+    - **Bruksområder.** On English the AMU mark reads «Risk», and the heat map's short heads below 360 px are «Voice,
+      Load, Mgr, Role, Mean»; the sheet gave Norwegian only. The old industries block and SectionNav are gone (v3 has
+      neither).
+    - **Bransjer.** The cards are one `<ul>` on a 6-column grid at 1024 px and up; a remainder leads as wider cards,
+      which reproduces the design's 2 + 3 and keeps working as industries are added. The module heading is a plural
+      message driven by the number of cards: the English site shows only the industries with an English page (bygg,
+      helse), so it reads «Two modules …». Module figures are read from the module files (`moduleFacts`), so
+      kunnskap og kontor shows its variant range. Each card has the anchor the footer links to.
+    - **Pris.** One headcount drives the slider, the number field (R-02), the plan cards and the size row. The FAQ
+      answers are server HTML with `hidden="until-found"` (React 19 renders `hidden` as a boolean only), escaped,
+      kept in step by an effect, so find-in-page opens a closed answer. `seo.pages.priser.blocks` is no longer
+      rendered; the page map now lists it among the texts on no crawled page.
+    - **/hvorfor** (v2 page under the v3 chrome): its H1 is 34/40 px on phones instead of a fixed 50 px, which
+      scrolled the page sideways by 36 px at 320.
+22. **Pixel results at 1440** (production builds; full-page diff against `nettside-v3/baselines`, 0.1 % per band):
+
+    | Page | Design's words | Shipped words | Where the design's words still differ |
+    |---|---|---|---|
+    | Forside | 0.18 % (hero 0 px, slides 0/0/1 px) | 9.35 % | shared start band and footer |
+    | Plattform | 0.17 % (bands 900–4500 ≤ 0.008 %) | 7.20 % | shared start band and footer |
+    | Bruksområder | 0.19 % (body 118 px) | 3.29 % | shared start band and footer |
+    | Bransjer | 0.32 % (hero 0 px) | 7.43 % | shared start band and footer |
+    | Pris | 0.36 % (body 36 px) | 1.89 % | shared start band and footer |
+
+    With the design's own strings rendered, every page body is within budget band by band; the only band over budget
+    is the last, and the region diff puts it in the shared chrome's decided changes (11, 12 and the header's «Se
+    demo»). With the shipped strings every band over budget was read: each is the copy of item 1–3, a line that now
+    wraps differently, and the shift that follows. The 390 baselines are 416 px wide (the design overflows) and are
+    compared by eye, not by the gate.
+

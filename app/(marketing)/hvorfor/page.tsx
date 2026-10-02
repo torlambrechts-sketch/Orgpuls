@@ -76,7 +76,7 @@ export default async function HvorforPage() {
 
       <section className="mx-auto max-w-[1120px] px-[26px] pt-[60px]">
         <Crumbs page={t('crumb')} />
-        <h1 className="m-0 mt-[16px] max-w-[20ch] font-display text-[50px] font-semibold leading-[1.06] [text-wrap:balance]">
+        <h1 className="m-0 mt-[16px] max-w-[20ch] font-display text-[34px] min-[360px]:text-[40px] sm:text-[50px] font-semibold leading-[1.06] [text-wrap:balance]">
           {t('h1')}
         </h1>
         <p className="m-0 mt-[16px] max-w-[58ch] text-[17px] leading-[1.65] text-body [text-wrap:pretty]">{t('lead')}</p>
