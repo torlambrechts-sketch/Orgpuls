@@ -17,6 +17,7 @@ import {
   saveSetup,
   type SetupActionResult,
 } from '@/app/(app)/maleoppsett/actions'
+import { saveRoundSlack } from '@/app/(app)/maleoppsett/slack-actions'
 import { saveWheel } from '@/app/(app)/malinger/arshjul-actions'
 
 /**
@@ -78,6 +79,8 @@ export interface PerRound {
     labels: { standard: string; changed: string; reset: string }
   }
   finalReminder: null | { on: boolean; label: string; sub: string }
+  /** the round's Slack rule (0185), shown while the organisation has Slack on */
+  slack: null | { value: 'paaminn' | 'alle' | null; head: string; note: string; options: { value: string; label: string }[] }
   sms: null | { value: 'mangler' | 'paaminn' | 'alle' | null; head: string; note: string; options: { value: string; label: string }[] }
   /** the round's Teams rule (0176), shown while the organisation has Teams on */
   teams: null | { value: 'mangler' | 'paaminn' | 'alle' | null; head: string; note: string; options: { value: string; label: string }[] }
@@ -206,6 +209,7 @@ export function SetupForm(props: SetupFormProps) {
   const [extrasOn, setExtrasOn] = useState<string[]>(pr.panel.on)
   const [reason, setReason] = useState(pr.panel.reason ?? '')
   const [finalOn, setFinalOn] = useState(pr.finalReminder?.on ?? false)
+  const [slackWhen, setSlackWhen] = useState<string>(pr.slack?.value ?? '')
   const [smsWhen, setSmsWhen] = useState<string>(pr.sms?.value ?? '')
   const [teamsWhen, setTeamsWhen] = useState<string>(pr.teams?.value ?? '')
   const screeningOff = !(extrasOn.includes('krenkende') && extrasOn.includes('vold'))
@@ -239,6 +243,13 @@ export function SetupForm(props: SetupFormProps) {
     if (!extrasOff && next.includes('krenkende') && next.includes('vold')) {
       runKeyed(() => saveRoundExtras(roundId, next, null))
     }
+  }
+
+  // 0185: the round's Slack rule, saved on its own as it is picked
+  const slackRule = (w: string) => {
+    setSlackWhen(w)
+    if (!canWrite || props.locked) return
+    run(() => saveRoundSlack({ roundId, slackWhen: w === '' ? null : (w as 'paaminn' | 'alle') }))
   }
 
   const delivery = (next: { finalReminder?: boolean; smsWhen?: string; teamsWhen?: string }) => {
@@ -596,6 +607,34 @@ export function SetupForm(props: SetupFormProps) {
         >
           {labels.groupWarn}
         </div>
+
+        {pr.slack ? (
+          <div className="mt-[18px] border-t border-line pt-[16px]">
+            <div className="flex flex-wrap items-center justify-between gap-[10px]">
+              <div className="text-[13.5px] font-semibold">{pr.slack.head}</div>
+              {/* one section, one mark: on SMS when shown, else on Teams, else here */}
+              {pr.sms || pr.teams ? null : mark('utsending')}
+            </div>
+            <div className="mt-[9px] flex flex-wrap gap-[7px]">
+              {pr.slack.options.map((o) => (
+                <Chip
+                  key={o.value || 'standard'}
+                  type="radio"
+                  name="slackWhen"
+                  value={o.value}
+                  label={o.label}
+                  checked={slackWhen === o.value}
+                  disabled={!canWrite || props.locked}
+                  paddingY={7}
+                  paddingX={13}
+                  text="12.5px"
+                  onChange={() => slackRule(o.value)}
+                />
+              ))}
+            </div>
+            <div className="mt-[9px] max-w-[560px] text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">{pr.slack.note}</div>
+          </div>
+        ) : null}
 
         {pr.sms ? (
           <div className="mt-[18px] border-t border-line pt-[16px]">

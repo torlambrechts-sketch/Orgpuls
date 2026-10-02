@@ -501,6 +501,16 @@
         "label": "E-post",
         "note": "Hver ansatt med e-postadresse får sin egen lenke. Alltid på."
       },
+      "slack": {
+        "label": "Slack",
+        "off": "Av. Lenken går på e-post og SMS.",
+        "on": {
+          "paaminn": "På, for påminnelsene.",
+          "alle": "På, for alle som er funnet i Slack."
+        },
+        "change": "Endre Slack",
+        "setUp": "Sett opp Slack"
+      },
       "sms": {
         "label": "SMS",
         "off": "Av. De som bare har mobilnummer, får ingen lenke.",
@@ -1412,6 +1422,12 @@
       "reset": "Tilbake til standard",
       "finalLabel": "Siste påminnelse dagen før fristen",
       "finalSub": "Går bare til dem som ikke har svart.",
+      "slackHead": "Slack i denne målingen",
+      "slackNote": "Her velger dere hvem som får lenken i Slack i denne målingen. Den som ikke kan nås i Slack, får e-post.",
+      "slack": {
+        "paaminn": "Påminnelsene",
+        "alle": "Alle i Slack"
+      },
       "smsHead": "SMS i denne målingen",
       "smsNote": "E-post går alltid til dem som har adresse. Her velger dere hvem som også får lenken på SMS i denne målingen.",
       "smsStandard": "Som virksomheten",
@@ -1948,6 +1964,14 @@
         "needOff": "Koblingen til Microsoft 365 er ikke satt opp hos Orgpuls ennå. Fram til da vedlikeholdes registeret under Ansatte.",
         "needBound": "Microsoft-innlogging godtas bare fra organisasjonen dere har koblet til. Velg gruppene på Entra-siden, så hentes ansatte derfra og holdes oppdatert."
       },
+      "slack": {
+        "name": "Slack",
+        "what": "Målingen kommer som en direktemelding i Slack i stedet for e-post. Folk finnes på e-postadressen fra jobben.",
+        "need": "Daglig leder installerer Orgpuls-appen i arbeidsområdet. Appen sender bare, og leser ingen kanaler eller meldinger.",
+        "needOff": "Slack er ikke satt opp hos Orgpuls ennå. Fram til da går målingen på e-post og SMS.",
+        "needOn": "Lenken går i Slack til dem som er funnet der. Den som ikke kan nås der, får e-post.",
+        "needBroken": "Slack har avvist koblingen. Lenken går på e-post til dere kobler til på nytt."
+      },
       "teams": {
         "name": "Microsoft Teams",
         "what": "Målingen kommer som en melding i Teams i stedet for e-post.",
@@ -1985,6 +2009,10 @@
       "accounts": {
         "head": "Hva lagres om dem som logger inn",
         "body": "Om brukerne av Orgpuls lagres navn, e-postadresse og rolle. Passord lagres bare som en kryptografisk hash. Logger noen inn med Microsoft, lagres i tillegg ID-en til Microsoft 365-organisasjonen (tenant-ID) og kontoens objekt-ID der, slik at bare den samme Microsoft-kontoen kan logge inn på kontoen igjen. Ingenting av dette er knyttet til svarene."
+      },
+      "slack": {
+        "head": "Slack",
+        "body": "Sender dere målingen i Slack, lagres hver ansatts medlems-ID i arbeidsområdet, funnet på e-postadressen fra jobben, og appens tilgangsnøkler, kryptert. Ingenting av det er knyttet til svarene. Slack er deres eget verktøy, ikke en underleverandør for Orgpuls. Slack-administratoren hos dere kan lese meldingene appen sender, slik en e-postadministrator kan lese e-post, og en påminnelse viser at mottakeren ikke hadde svart da den ble sendt."
       },
       "special": {
         "head": "Særlige kategorier",
@@ -2463,6 +2491,16 @@
           "p4": "Registeret oppdateres hver natt, eller bare når du trykker «Synkroniser nå». Navn og e-post endres i Entra, ikke i Orgpuls. Gruppen kan du sette for hånd under Ansatte; da følger personen den til du velger «Følg Entra» igjen."
         }
       },
+      "slack": {
+        "title": "Send målingen i Slack",
+        "lead": "Hva Slack krever, hva meldingen inneholder, og hva Slack-administratoren hos dere kan se.",
+        "body": {
+          "p1": "Daglig leder kobler til under Oppsett → Integrasjoner → Slack og installerer Orgpuls-appen i arbeidsområdet. Den som installerer, må ha lov til å installere apper der, ellers må en Slack-administrator godkjenne den. Appen ber om fire tilganger: sende meldinger, åpne en direktemelding, se hvem som er medlem, og lese e-postadressen deres. Den leser ingen kanaler, ingen meldinger og ingenting som skrives til den.",
+          "p2": "De ansatte finnes på e-postadressen fra jobben: adressen i ansattregisteret må være den samme som i Slack. Det skjer når dere kobler til, deretter hvert døgn, og når du trykker «Synkroniser nå». Gjester, eksterne fra Slack Connect, roboter og deaktiverte kontoer tas aldri med. Slå på Slack og velg om det skal brukes til alle utsendinger eller bare til påminnelsene. Den Slack ikke når, eller som Slack avviser, får lenken på e-post i samme utsending.",
+          "p3": "Meldingen er én kort tekst og den personlige lenken, uten forhåndsvisning, knapper eller sporing. Den inneholder ingen resultater, ingen avdeling og ingen kommentarer. Vi ber ikke om lesebekreftelse, registrerer ikke klikk, og meldingen endres eller slettes ikke når noen svarer. Lenken er ny for hver melding, og svaret lagres uten kobling til den. Slack er virksomhetens eget verktøy: meldingen leveres i arbeidsområdet deres, under avtalen dere har med Slack.",
+          "p4": "To ting bør de ansatte vite. Slack-administratoren hos dere kan lese meldingene Orgpuls-appen sender, slik en e-postadministrator kan lese e-post, og på enkelte Slack-planer eksportere dem. Og en påminnelse viser, for den som kan lese den, at mottakeren ikke hadde svart da den ble sendt — det samme gjelder påminnelser på e-post og SMS. Kobler dere fra, trekkes appens tilgang tilbake, og det Orgpuls visste om arbeidsområdet slettes."
+        }
+      },
       "sms": {
         "title": "Send på SMS",
         "lead": "For folk uten fast e-post i arbeidstiden. Slik setter dere det opp.",
@@ -2525,6 +2563,10 @@
         "groups": "Hvilke grupper som skal synkroniseres, og hvilken som teller når noen er i flere. En gruppe som ikke er valgt, finnes ikke for Orgpuls, og medlemmene der får ikke målingen.",
         "sync": "Hver natt eller bare når du ber om det. Den som slutter, settes som inaktiv i registeret, mens svarene de allerede har gitt blir liggende — de er ikke knyttet til personen."
       },
+      "slack": {
+        "install": "Daglig leder installerer Orgpuls-appen i arbeidsområdet, eller ber en Slack-administrator godkjenne den. Appen ber bare om å sende direktemeldinger og se hvem som er medlem.",
+        "match": "De ansatte finnes på e-postadressen fra jobben, når dere kobler til og deretter hvert døgn — aldri per melding. Gjester og eksterne tas ikke med."
+      },
       "teams": {
         "entraFirst": "Entra ID først. Teams-varselet bruker samme brukerkatalog, så uten den vet vi ikke hvem meldingen skal til.",
         "message": "Orgpuls-appen i Teams, lastet opp av en Teams-administrator hos dere. Meldingen er én kort tekst og en knapp til den personlige lenken."
@@ -2540,6 +2582,7 @@
     "queueOff": "Utsending er slått av for denne virksomheten. {count, plural, one {# varsel står i kø og blir ikke sendt.} other {# varsler står i kø og blir ikke sendt.}}",
     "mailReady": "Ingenting å sette opp. Avsenderdomenet er verifisert med DKIM og DMARC, og lenken lages i det øyeblikket e-posten sendes.",
     "smsSetup": "Sett opp SMS",
+    "slackSetup": "Sett opp Slack",
     "entraSetup": {
       "open": "Koble til Microsoft 365",
       "back": "← Integrasjoner",
@@ -3419,6 +3462,117 @@
     "expiredTitle": "Lenken er brukt eller utløpt",
     "expiredLead": "En lenke for nytt passord virker én gang og i én time. Be om en ny på innloggingssiden.",
     "toSignIn": "Til innlogging"
+  },
+  "slackSetup": {
+    "back": "← Integrasjoner",
+    "title": "Slack",
+    "statusOn": "Tilkoblet",
+    "statusOff": "Ikke tilkoblet",
+    "statusBroken": "Virker ikke",
+    "lead": "Målingen kommer som en direktemelding fra Orgpuls i Slack i stedet for e-post: én kort tekst og den personlige lenken. Svaret lagres uten kobling til meldingen.",
+    "step1": "1 · Arbeidsområdet",
+    "workspaceLabel": "Slack-arbeidsområde",
+    "workspacePlaceholder": "Ikke koblet til",
+    "workspaceNone": "Daglig leder kobler til ved å installere Orgpuls-appen i arbeidsområdet deres. Den som installerer, må ha lov til å installere apper der, ellers må en Slack-administrator godkjenne den.",
+    "workspaceBound": "Koblet til {date}.",
+    "workspaceBoundBy": "Koblet til {date} av {name}.",
+    "workspaceBroken": "Slack avviste koblingen {date}: appen er fjernet, eller tilgangen er trukket tilbake. Lenken går på e-post til dere kobler til på nytt.",
+    "step2": "2 · Hva appen får gjøre",
+    "perm": {
+      "chat_write": {
+        "scope": "chat:write",
+        "what": "Sende én direktemelding med lenken til hver ansatt",
+        "kind": "Sende meldinger"
+      },
+      "im_write": {
+        "scope": "im:write",
+        "what": "Åpne direktemeldingen med den ansatte",
+        "kind": "Direktemelding"
+      },
+      "users_read": {
+        "scope": "users:read",
+        "what": "Se hvem som er medlem av arbeidsområdet, for å finne de ansatte",
+        "kind": "Lesetilgang"
+      },
+      "users_read_email": {
+        "scope": "users:read.email",
+        "what": "Lese e-postadressen deres, bare for å finne dem i ansattregisteret",
+        "kind": "Lesetilgang"
+      },
+      "never": {
+        "scope": "—",
+        "what": "Vi leser ingen kanaler eller meldinger, tar ikke imot noe som skrives til appen, og meldingen har ingen knapper eller sporing",
+        "kind": "Aldri"
+      }
+    },
+    "permNote": "Appen abonnerer ikke på hendelser og har ingen knapper. Meldingsfanen er bare til lesing, og det som skrives til appen, kommer aldri fram til Orgpuls.",
+    "step3": "3 · Hvem Slack når",
+    "matchedLine": "{matched} av {total} ansatte er funnet i Slack",
+    "matchedNote": "Folk finnes på e-postadressen fra jobben: adressen i ansattregisteret må være den samme som i Slack. {withEmail, plural, one {# ansatt} other {# ansatte}} har e-post i registeret. Gjester, eksterne fra Slack Connect, roboter og deaktiverte kontoer tas aldri med.",
+    "membersLine": "{count, plural, =0 {Ingen i arbeidsområdet kan nås} one {# person i arbeidsområdet kan nås} other {# personer i arbeidsområdet kan nås}}",
+    "synced": "Sist synkronisert {date}. Det skjer av seg selv hvert døgn.",
+    "syncedAsked": "Sist synkronisert {date}. Ny synkronisering er bedt om og starter om litt.",
+    "syncPending": "Venter på første synkronisering. Den starter om noen minutter.",
+    "syncError": "Siste synkronisering stoppet. Den prøves igjen ved neste utsending.",
+    "sent30": "{count, plural, =0 {Ingen meldinger er sendt i Slack de siste 30 dagene} one {# melding er sendt i Slack de siste 30 dagene} other {# meldinger er sendt i Slack de siste 30 dagene}}",
+    "syncNow": "Synkroniser nå",
+    "syncAsked": "Synkronisering er bedt om og starter om litt.",
+    "step4": "4 · Når skal Slack brukes",
+    "mode": {
+      "paaminn": "Bare som påminnelse",
+      "alle": "Alle som kan nås i Slack"
+    },
+    "modeNote": {
+      "paaminn": "Alle får e-post først. De som ikke har svart når påminnelsen går ut, får den i Slack.",
+      "alle": "Invitasjonen og påminnelsene går i Slack til alle som er funnet der. De andre får e-post."
+    },
+    "preview": "Slik ser meldingen ut",
+    "previewSender": "Orgpuls",
+    "previewNote": "Påminnelsene har sin egen tekst. Lenken er ny for hver melding, og Slack viser ingen forhåndsvisning av den.",
+    "legal": "Meldingen inneholder bare en kort tekst og den personlige lenken — ingen resultater, avdeling eller kommentarer. Vi ber ikke om lesebekreftelse og registrerer ikke klikk. Slack-administratoren hos dere kan lese meldingene appen sender, slik en e-postadministrator kan lese e-post, og en påminnelse viser at mottakeren ikke hadde svart da den ble sendt.",
+    "activate": "Slå på Slack",
+    "deactivate": "Slå av Slack",
+    "toggleNote": "Gjelder fra neste utsending. Rytmen, stilletiden om natta og påminnelsene er de samme som for e-post. Den Slack ikke når, får e-post i samme utsending.",
+    "readOnly": "Bare daglig leder kan endre Slack-oppsettet.",
+    "saving": "Lagrer …",
+    "saveProblem": {
+      "invalid": "Oppsettet kunne ikke lagres. Prøv igjen.",
+      "denied": "Bare daglig leder kan endre Slack-oppsettet.",
+      "noOrg": "Fant ikke virksomheten din.",
+      "notReady": "Slack kan ikke slås på før appen er koblet til og virker."
+    },
+    "connect": "Koble til Slack",
+    "reconnect": "Koble til på nytt",
+    "disconnect": "Koble fra",
+    "connectNote": "Du sendes til Slack for å installere Orgpuls-appen i arbeidsområdet, og kommer tilbake hit.",
+    "connectedNote": "Kobler dere fra, trekkes appens tilgang tilbake i Slack, og ingen får lenken der lenger.",
+    "done": "Slack er koblet til. De ansatte finnes i arbeidsområdet i løpet av noen minutter. Slå på Slack når dere er klare.",
+    "undone": "Slack er koblet fra. Tilgangen trekkes tilbake i Slack, og lenken går på e-post igjen.",
+    "gate": {
+      "not_configured": "Slack er ikke satt opp hos Orgpuls ennå, så ingenting kan sendes i Slack. Fram til da går målingen på e-post og SMS som før.",
+      "leader_only": "Daglig leder kobler virksomheten til Slack."
+    },
+    "lastEvent": {
+      "connected": "Sist koblet til {date}.",
+      "disconnected": "Sist koblet fra {date}.",
+      "broken": "Slack avviste koblingen {date}."
+    },
+    "problem": {
+      "not_signed_in": "Du må være logget inn.",
+      "nonce_invalid": "Svaret fra Slack hørte ikke til denne økten. Start på nytt herfra.",
+      "nonce_used": "Svaret fra Slack er allerede brukt. Start på nytt herfra.",
+      "nonce_expired": "Det tok for lang tid. Start på nytt herfra.",
+      "not_allowed": "Bare daglig leder kan koble til Slack.",
+      "demo": "En demovirksomhet kan ikke kobles til Slack.",
+      "consent_refused": "Installasjonen ble avbrutt i Slack. Ingenting er koblet til.",
+      "enterprise_install": "Appen ble installert for hele Enterprise Grid-organisasjonen. Installer den i ett arbeidsområde i stedet.",
+      "invalid_install": "Slack ga ikke tilgangene appen trenger. Prøv igjen, og godkjenn alle fire.",
+      "team_taken": "Dette arbeidsområdet er allerede koblet til en annen virksomhet i Orgpuls.",
+      "not_configured": "Slack er ikke satt opp hos Orgpuls ennå.",
+      "failed": "Det gikk ikke. Prøv igjen.",
+      "exchange_failed": "Slack godtok ikke installasjonen. Prøv igjen.",
+      "not_connected": "Slack er ikke koblet til."
+    }
   },
   "smsSetup": {
     "back": "← Integrasjoner",
@@ -6185,7 +6339,7 @@
           {
             "t": "box",
             "title": "Svar på medarbeiderundersøkelser",
-            "text": "Når en virksomhet bruker Orgpuls til å kartlegge arbeidsmiljøet, er virksomheten behandlingsansvarlig og Orgpuls databehandler etter en databehandleravtale. Svarene lagres uten kobling til den som svarte. Henter virksomheten de ansatte fra Microsoft Entra ID, gjør vi det på virksomhetens vegne og bare for gruppene den velger: navn, e-postadresse, språk, gruppetilhørighet og objekt-ID i katalogen, og mobilnummer bare hvis virksomheten slår det på. Hvordan det er bygget, står under [Sikkerhet og personvern](/sikkerhet). Spørsmål om en kartlegging du er med i, retter du til arbeidsgiveren din."
+            "text": "Når en virksomhet bruker Orgpuls til å kartlegge arbeidsmiljøet, er virksomheten behandlingsansvarlig og Orgpuls databehandler etter en databehandleravtale. Svarene lagres uten kobling til den som svarte. Henter virksomheten de ansatte fra Microsoft Entra ID, gjør vi det på virksomhetens vegne og bare for gruppene den velger: navn, e-postadresse, språk, gruppetilhørighet og objekt-ID i katalogen, og mobilnummer bare hvis virksomheten slår det på. Bruker arbeidsgiveren din Slack til å sende deg lenken, finner Orgpuls deg i arbeidsområdet på e-postadressen fra jobben og lagrer medlems-ID-en din der, på arbeidsgiverens vegne. Meldingen er en kort tekst og den personlige lenken, uten lesebekreftelse og uten registrering av klikk. Slack er arbeidsgiverens eget verktøy: Slack-administratoren der kan lese meldingene, slik en e-postadministrator kan lese e-post, og en påminnelse viser at du ikke hadde svart da den ble sendt. Svaret ditt lagres uten kobling til meldingen. Hvordan det er bygget, står under [Sikkerhet og personvern](/sikkerhet). Spørsmål om en kartlegging du er med i, retter du til arbeidsgiveren din."
           },
           {
             "t": "h2",
@@ -6710,16 +6864,7 @@
           "De registrerte er de ansatte virksomheten inviterer til kartleggingen, og virksomhetens brukere av Orgpuls: daglig leder, avdelingsledere og verneombud.",
           "Om de ansatte lagres:"
         ],
-        "ul": [
-          "navn og e-postadresse",
-          "mobilnummer, bare hvis virksomheten legger det inn eller velger å hente det fra Microsoft Entra ID, for utsending på SMS",
-          "foretrukket språk, hvis virksomheten legger det inn eller det hentes fra Microsoft Entra ID, slik at målingen kan tilbys på det språket",
-          "for virksomheter som sender målingen i Teams: hvilken samtale Orgpuls-appen har med den ansatte i Teams, og om Teams har avvist en melding til den ansatte",
-          "hvilken avdeling den ansatte hører til, og eventuelt en rolle som verneombud, tillitsvalgt eller leder",
-          "hvis virksomheten henter de ansatte fra Microsoft Entra ID: personens objekt-ID i katalogen, hvilke av de valgte gruppene personen er med i, og om kontoen er aktiv – bare for å holde registeret oppdatert. Ingenting skrives tilbake til katalogen",
-          "for hver måling: om invitasjon og påminnelse er sendt, og om den ansatte har svart, slik at påminnelser bare går til dem som ikke har svart – aldri hva den ansatte svarte",
-          "navnet på den som er ansvarlig for et tiltak, hvis virksomheten velger en ansatt som ansvarlig"
-        ]
+        "ul": ["navn og e-postadresse", "mobilnummer, bare hvis virksomheten legger det inn eller velger å hente det fra Microsoft Entra ID, for utsending på SMS", "foretrukket språk, hvis virksomheten legger det inn eller det hentes fra Microsoft Entra ID, slik at målingen kan tilbys på det språket", "for virksomheter som sender målingen i Teams: hvilken samtale Orgpuls-appen har med den ansatte i Teams, og om Teams har avvist en melding til den ansatte", "for virksomheter som sender målingen i Slack: den ansattes medlems-ID i virksomhetens Slack-arbeidsområde, funnet ut fra jobb-e-postadressen, og Slack-tilgangen Orgpuls-appen fikk da virksomheten koblet til – bare for å sende lenken som direktemelding", "hvilken avdeling den ansatte hører til, og eventuelt en rolle som verneombud, tillitsvalgt eller leder", "hvis virksomheten henter de ansatte fra Microsoft Entra ID: personens objekt-ID i katalogen, hvilke av de valgte gruppene personen er med i, og om kontoen er aktiv – bare for å holde registeret oppdatert. Ingenting skrives tilbake til katalogen", "for hver måling: om invitasjon og påminnelse er sendt, og om den ansatte har svart, slik at påminnelser bare går til dem som ikke har svart – aldri hva den ansatte svarte", "navnet på den som er ansvarlig for et tiltak, hvis virksomheten velger en ansatt som ansvarlig"]
       },
       {
         "h": "Vedlegg 1 – Svar, brukere og tekniske opplysninger",

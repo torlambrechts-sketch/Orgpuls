@@ -27,6 +27,8 @@ export type InnstillingerCopy = {
   reachLink: string
   channelsHead: string
   email: { label: string; note: string }
+  /** Slack (0185, D-205) */
+  slack: { label: string; note: string; link: string }
   sms: { label: string; note: string; link: string }
   /** Microsoft Teams (0176, D-203) */
   teams: { label: string; note: string; link: string }
@@ -137,6 +139,15 @@ export function Innstillinger({
         <div className="mt-[18px] text-[13.5px] font-semibold">{copy.channelsHead}</div>
         <div className="mt-[10px] flex flex-col gap-[8px]">
           <ChannelRow label={copy.email.label} note={copy.email.note} />
+          <ChannelRow
+            label={copy.slack.label}
+            note={copy.slack.note}
+            action={
+              <Link href={'/integrasjoner/slack' as Route} className="text-[12.5px] font-semibold text-link">
+                {copy.slack.link}
+              </Link>
+            }
+          />
           <ChannelRow
             label={copy.sms.label}
             note={copy.sms.note}

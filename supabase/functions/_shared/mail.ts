@@ -46,8 +46,8 @@ export interface NoticeJob {
     | 'svarprosent'
     | 'evaluering'
   audience: string | null
-  /** the channel the database chose for the link (0033, Teams since 0176); role notices are always e-mail */
-  channel: 'email' | 'sms' | 'teams'
+  /** the channel the database chose for the link (0033; Teams since 0176, Slack since 0185); role notices are always e-mail */
+  channel: 'email' | 'sms' | 'teams' | 'slack'
   /** the organisation's own SMS text, or null for the default */
   sms_text: string | null
   lang: string
@@ -98,6 +98,8 @@ export interface Recipient {
   name: string | null
   lang: string | null
   member: boolean
+  /** present only when Slack carries this person's link (0185): the member id, and the organisation whose bot writes */
+  slack?: { user_id: string; org: string } | null
 }
 
 export type AuthAction = 'recovery' | 'signup' | 'magiclink' | 'invite'

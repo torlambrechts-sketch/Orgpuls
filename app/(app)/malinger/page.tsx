@@ -34,6 +34,7 @@ import { Innstillinger } from '@/components/malinger/Innstillinger'
 import { getOrganization } from '@/lib/org/read'
 import { getSmsSettings } from '@/lib/settings/read'
 import { getTeamsSettings } from '@/lib/teams/read'
+import { getSlackSettings } from '@/lib/slack/read'
 import type { DefaultsValues } from '@/app/(app)/malinger/innstillinger-actions'
 import { EXTRA_KEYS, PRODUCT_DEFAULTS, SCREENING, getDefaultsLog, getEntryCode, getInviteGreeting, getReach, getSurveyDefaults } from '@/lib/settings/survey'
 import { GreetingCard } from '@/components/malinger/GreetingCard'
@@ -608,6 +609,7 @@ async function Settings({ canEdit }: { canEdit: boolean }) {
   const date = (iso: string) => new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', dateStyle: 'long' }).format(new Date(iso))
   const values = saved ?? PRODUCT_DEFAULTS
   const smsOn = sms?.enabled ?? false
+  const slack = await getSlackSettings()
   const reachable = reach.email + (smsOn ? reach.phoneOnly : 0)
   const on = published.filter((m) => chosen.has(m.key)).map((m) => m.name)
   const list = (xs: string[]) => new Intl.ListFormat(locale, { type: 'conjunction' }).format(xs)
@@ -644,6 +646,11 @@ async function Settings({ canEdit }: { canEdit: boolean }) {
         reachLink: k('reachLink'),
         channelsHead: k('channelsHead'),
         email: { label: k('email.label'), note: k('email.note') },
+        slack: {
+          label: k('slack.label'),
+          note: slack?.enabled ? k(`slack.on.${slack.when}`) : k('slack.off'),
+          link: k(slack?.enabled ? 'slack.change' : 'slack.setUp'),
+        },
         sms: {
           label: k('sms.label'),
           note: smsOn ? k(`sms.on.${sms?.when ?? 'mangler'}`) : k('sms.off'),

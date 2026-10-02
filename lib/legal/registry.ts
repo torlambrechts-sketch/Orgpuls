@@ -270,7 +270,7 @@ export const MESSAGE_SPECS: MessageSpec[] = [
       'tiltak.lead', 'tiltak.kindNote.kollektivt', 'tiltak.kindNote.individuelt', 'kommentarer.varselNote',
       'veiviser.law.lead', 'veiviser.law.on.note', 'veiviser.law.off.note', 'veiviser.rhythm.preset.minimum.note',
       'veiviser.safety.duty', 'veiviser.safety.dutySmall', 'veiviser.safety.amuMust', 'veiviser.safety.amuMay',
-      'oversikt.lawOk', 'oversikt.voLead', 'innsikt.loopHead', 'innsikt.lead.verneombud', 'arshjulet.lead', 'smsSetup.legal',
+      'oversikt.lawOk', 'oversikt.voLead', 'innsikt.loopHead', 'innsikt.lead.verneombud', 'arshjulet.lead', 'smsSetup.legal', 'slackSetup.legal',
       'start.faq.inspection.q', 'start.faq.inspection.a', 'registrer.todo.send.note', 'playbook.kontakt.ev',
       'registrer.incl.report',
     ],

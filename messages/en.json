@@ -501,6 +501,16 @@
         "label": "E-mail",
         "note": "Every employee with an e-mail address gets their own link. Always on."
       },
+      "slack": {
+        "label": "Slack",
+        "off": "Off. The link goes by e-mail and SMS.",
+        "on": {
+          "paaminn": "On, for the reminders.",
+          "alle": "On, for everyone found in Slack."
+        },
+        "change": "Change Slack",
+        "setUp": "Set up Slack"
+      },
       "sms": {
         "label": "SMS",
         "off": "Off. Those with only a mobile number get no link.",
@@ -1412,6 +1422,12 @@
       "reset": "Back to standard",
       "finalLabel": "Last reminder the day before the deadline",
       "finalSub": "Goes only to those who have not answered.",
+      "slackHead": "Slack in this survey",
+      "slackNote": "Choose who gets the link in Slack in this survey. Anyone who cannot be reached in Slack gets an e-mail.",
+      "slack": {
+        "paaminn": "The reminders",
+        "alle": "Everyone in Slack"
+      },
       "smsHead": "SMS in this survey",
       "smsNote": "E-mail always goes to those with an address. Here you choose who also gets the link by SMS in this survey.",
       "smsStandard": "As the organisation",
@@ -1948,6 +1964,14 @@
         "needOff": "The connection to Microsoft 365 is not set up at Orgpuls yet. Until then, the register is kept under People.",
         "needBound": "Microsoft sign-in is accepted only from the organisation you connected. Choose the groups on the Entra page, and employees are brought in from there and kept up to date."
       },
+      "slack": {
+        "name": "Slack",
+        "what": "The survey arrives as a direct message in Slack instead of an e-mail. People are found by their work e-mail.",
+        "need": "The managing director installs the Orgpuls app in the workspace. The app only sends, and reads no channels or messages.",
+        "needOff": "Slack is not set up at Orgpuls yet. Until then the survey goes by e-mail and SMS.",
+        "needOn": "The link goes in Slack to those found there. Anyone who cannot be reached there gets an e-mail.",
+        "needBroken": "Slack has refused the connection. The link goes by e-mail until you connect again."
+      },
       "teams": {
         "name": "Microsoft Teams",
         "what": "The survey arrives as a Teams message instead of an e-mail.",
@@ -1985,6 +2009,10 @@
       "accounts": {
         "head": "What is stored about those who sign in",
         "body": "For the users of Orgpuls, we store name, e-mail address and role. Passwords are stored only as a cryptographic hash. If someone signs in with Microsoft, we also store the ID of the Microsoft 365 organisation (tenant ID) and the account’s object ID there, so that only the same Microsoft account can sign in to the account again. None of this is linked to the answers."
+      },
+      "slack": {
+        "head": "Slack",
+        "body": "If you send the survey in Slack, each employee’s member ID in the workspace is stored, found by their work e-mail, along with the app’s access keys, encrypted. None of it is connected to the answers. Slack is your own tool, not a sub-processor of Orgpuls. Your Slack admin can read the messages the app sends, as an e-mail admin can read e-mail, and a reminder shows that the recipient had not answered when it was sent."
       },
       "special": {
         "head": "Special categories",
@@ -2463,6 +2491,16 @@
           "p4": "The register is updated every night, or only when you press «Synchronise now». Name and e-mail are changed in Entra, not in Orgpuls. You can set the group by hand under People; the person then keeps it until you choose «Follow Entra» again."
         }
       },
+      "slack": {
+        "title": "Send the survey in Slack",
+        "lead": "What Slack needs, what the message contains, and what your Slack admin can see.",
+        "body": {
+          "p1": "The managing director connects under Setup → Integrations → Slack and installs the Orgpuls app in the workspace. Whoever installs it must be allowed to install apps there, or a Slack admin must approve it. The app asks for four permissions: send messages, open a direct message, see who is a member, and read their e-mail address. It reads no channels, no messages and nothing written to it.",
+          "p2": "Employees are found by their work e-mail: the address in the employee register must be the same as in Slack. This happens when you connect, then every day, and when you press “Synchronise now”. Guests, external people from Slack Connect, bots and deactivated accounts are never included. Turn on Slack and choose whether it is used for every send or only the reminders. Anyone Slack does not reach, or whom Slack refuses, gets the link by e-mail in the same send.",
+          "p3": "The message is one short text and the personal link, with no preview, buttons or tracking. It contains no results, no department and no comments. We ask for no read receipt, record no clicks, and the message is not changed or deleted when someone answers. The link is new for each message, and the answer is stored with no connection to it. Slack is your organisation’s own tool: the message is delivered in your workspace, under your agreement with Slack.",
+          "p4": "Two things your employees should know. Your Slack admin can read the messages the Orgpuls app sends, as an e-mail admin can read e-mail, and on some Slack plans export them. And a reminder shows, to anyone who can read it, that the recipient had not answered when it was sent — the same holds for reminders by e-mail and SMS. If you disconnect, the app’s access is revoked and what Orgpuls knew about the workspace is deleted."
+        }
+      },
       "sms": {
         "title": "Sending by SMS",
         "lead": "For people without regular e-mail during the working day. How to set it up.",
@@ -2525,6 +2563,10 @@
         "groups": "Which groups to synchronise, and which one counts when someone is in several. A group that is not selected does not exist for Orgpuls, and its members do not receive the survey.",
         "sync": "Every night, or only when you ask. Someone who leaves is set as inactive in the register, while the answers they already gave stay — they are not linked to the person."
       },
+      "slack": {
+        "install": "The managing director installs the Orgpuls app in the workspace, or asks a Slack admin to approve it. The app only asks to send direct messages and see who is a member.",
+        "match": "Employees are found by their work e-mail, when you connect and then every day — never per message. Guests and external people are left out."
+      },
       "teams": {
         "entraFirst": "Entra ID first. The Teams notice uses the same directory, so without it we do not know who the message is for.",
         "message": "The Orgpuls app in Teams, uploaded by a Teams administrator at your organisation. The message is one short text and a button to the personal link."
@@ -2540,6 +2582,7 @@
     "queueOff": "Sending is switched off for this organisation. {count, plural, one {# notice is queued and will not be sent.} other {# notices are queued and will not be sent.}}",
     "mailReady": "Nothing to set up. The sender domain is verified with DKIM and DMARC, and the link is made at the moment the e-mail is sent.",
     "smsSetup": "Set up SMS",
+    "slackSetup": "Set up Slack",
     "entraSetup": {
       "open": "Connect Microsoft 365",
       "back": "← Integrations",
@@ -3419,6 +3462,117 @@
     "expiredTitle": "The link has been used or has expired",
     "expiredLead": "A link for a new password works once, for one hour. Ask for a new one on the sign-in page.",
     "toSignIn": "To sign-in"
+  },
+  "slackSetup": {
+    "back": "← Integrations",
+    "title": "Slack",
+    "statusOn": "Connected",
+    "statusOff": "Not connected",
+    "statusBroken": "Not working",
+    "lead": "The survey arrives as a direct message from Orgpuls in Slack instead of an e-mail: one short text and the personal link. The answer is stored with no connection to the message.",
+    "step1": "1 · Your workspace",
+    "workspaceLabel": "Slack workspace",
+    "workspacePlaceholder": "Not connected",
+    "workspaceNone": "The managing director connects by installing the Orgpuls app in your workspace. Whoever installs it must be allowed to install apps there, or a Slack admin must approve it.",
+    "workspaceBound": "Connected on {date}.",
+    "workspaceBoundBy": "Connected on {date} by {name}.",
+    "workspaceBroken": "Slack refused the connection on {date}: the app was removed, or its access was revoked. The link goes by e-mail until you connect again.",
+    "step2": "2 · What the app may do",
+    "perm": {
+      "chat_write": {
+        "scope": "chat:write",
+        "what": "Send one direct message with the link to each employee",
+        "kind": "Send messages"
+      },
+      "im_write": {
+        "scope": "im:write",
+        "what": "Open the direct message with the employee",
+        "kind": "Direct message"
+      },
+      "users_read": {
+        "scope": "users:read",
+        "what": "See who is a member of the workspace, to find your employees",
+        "kind": "Read access"
+      },
+      "users_read_email": {
+        "scope": "users:read.e-mail",
+        "what": "Read their e-mail address, only to find them in the employee register",
+        "kind": "Read access"
+      },
+      "never": {
+        "scope": "—",
+        "what": "We read no channels or messages, receive nothing written to the app, and the message has no buttons or tracking",
+        "kind": "Never"
+      }
+    },
+    "permNote": "The app subscribes to no events and has no buttons. Its Messages tab is read-only, and anything written to the app never reaches Orgpuls.",
+    "step3": "3 · Who Slack reaches",
+    "matchedLine": "{matched} of {total} employees found in Slack",
+    "matchedNote": "People are found by their work e-mail: the address in the employee register must be the same as in Slack. {withEmail, plural, one {# employee has} other {# employees have}} an e-mail in the register. Guests, external people from Slack Connect, bots and deactivated accounts are never included.",
+    "membersLine": "{count, plural, =0 {Nobody in the workspace can be reached} one {# person in the workspace can be reached} other {# people in the workspace can be reached}}",
+    "synced": "Last synchronised on {date}. This happens by itself every day.",
+    "syncedAsked": "Last synchronised on {date}. A new synchronisation has been requested and starts shortly.",
+    "syncPending": "Waiting for the first synchronisation. It starts within a few minutes.",
+    "syncError": "The last synchronisation stopped. It is tried again with the next send.",
+    "sent30": "{count, plural, =0 {No messages sent in Slack in the last 30 days} one {# message sent in Slack in the last 30 days} other {# messages sent in Slack in the last 30 days}}",
+    "syncNow": "Synchronise now",
+    "syncAsked": "Synchronisation requested; it starts shortly.",
+    "step4": "4 · When to use Slack",
+    "mode": {
+      "paaminn": "Reminders only",
+      "alle": "Everyone reachable in Slack"
+    },
+    "modeNote": {
+      "paaminn": "Everyone gets an e-mail first. Those who have not answered when the reminder goes out get it in Slack.",
+      "alle": "The invitation and the reminders go in Slack to everyone found there. The others get an e-mail."
+    },
+    "preview": "What the message looks like",
+    "previewSender": "Orgpuls",
+    "previewNote": "The reminders have their own text. The link is new for each message, and Slack shows no preview of it.",
+    "legal": "The message holds only a short text and the personal link — no results, department or comments. We ask for no read receipt and record no clicks. Your Slack admin can read the messages the app sends, as an e-mail admin can read e-mail, and a reminder shows that the recipient had not answered when it was sent.",
+    "activate": "Turn on Slack",
+    "deactivate": "Turn off Slack",
+    "toggleNote": "Applies from the next send. The rhythm, the quiet hours at night and the reminders are the same as for e-mail. Anyone Slack does not reach gets an e-mail in the same send.",
+    "readOnly": "Only the managing director can change the Slack setup.",
+    "saving": "Saving …",
+    "saveProblem": {
+      "invalid": "The setup could not be saved. Try again.",
+      "denied": "Only the managing director can change the Slack setup.",
+      "noOrg": "Could not find your organisation.",
+      "notReady": "Slack cannot be turned on until the app is connected and working."
+    },
+    "connect": "Connect Slack",
+    "reconnect": "Connect again",
+    "disconnect": "Disconnect",
+    "connectNote": "You are sent to Slack to install the Orgpuls app in your workspace, and come back here.",
+    "connectedNote": "If you disconnect, the app’s access is revoked in Slack and nobody gets the link there any more.",
+    "done": "Slack is connected. Your employees are found in the workspace within a few minutes. Turn on Slack when you are ready.",
+    "undone": "Slack is disconnected. Its access is revoked in Slack, and the link goes by e-mail again.",
+    "gate": {
+      "not_configured": "Slack is not set up at Orgpuls yet, so nothing can be sent in Slack. Until then the survey goes by e-mail and SMS as before.",
+      "leader_only": "The managing director connects the organisation to Slack."
+    },
+    "lastEvent": {
+      "connected": "Last connected on {date}.",
+      "disconnected": "Last disconnected on {date}.",
+      "broken": "Slack refused the connection on {date}."
+    },
+    "problem": {
+      "not_signed_in": "You need to be signed in.",
+      "nonce_invalid": "Slack’s answer did not belong to this session. Start again from here.",
+      "nonce_used": "Slack’s answer has already been used. Start again from here.",
+      "nonce_expired": "It took too long. Start again from here.",
+      "not_allowed": "Only the managing director can connect Slack.",
+      "demo": "A demo organisation cannot be connected to Slack.",
+      "consent_refused": "The installation was cancelled in Slack. Nothing is connected.",
+      "enterprise_install": "The app was installed for the whole Enterprise Grid organisation. Install it in one workspace instead.",
+      "invalid_install": "Slack did not grant the access the app needs. Try again and approve all four.",
+      "team_taken": "This workspace is already connected to another organisation in Orgpuls.",
+      "not_configured": "Slack is not set up at Orgpuls yet.",
+      "failed": "That did not work. Try again.",
+      "exchange_failed": "Slack did not accept the installation. Try again.",
+      "not_connected": "Slack is not connected."
+    }
   },
   "smsSetup": {
     "back": "← Integrations",
@@ -6185,7 +6339,7 @@
           {
             "t": "box",
             "title": "Answers to employee surveys",
-            "text": "When an organisation uses Orgpuls to survey its work environment, the organisation is the controller and Orgpuls the processor under a data processing agreement. Answers are stored with no link to the person who gave them. If the organisation brings in its employees from Microsoft Entra ID, we do so on its behalf and only for the groups it chooses: name, e-mail address, language, group membership and object ID in the directory, and a mobile number only if the organisation turns it on. How that is built is described under [Security and privacy](/sikkerhet). Questions about a survey you take part in go to your employer."
+            "text": "When an organisation uses Orgpuls to survey its work environment, the organisation is the controller and Orgpuls the processor under a data processing agreement. Answers are stored with no link to the person who gave them. If the organisation brings in its employees from Microsoft Entra ID, we do so on its behalf and only for the groups it chooses: name, e-mail address, language, group membership and object ID in the directory, and a mobile number only if the organisation turns it on. If your employer uses Slack to send you the link, Orgpuls finds you in the workspace by your work e-mail and stores your member ID there, on your employer’s behalf. The message is a short text and the personal link, with no read receipt and no record of clicks. Slack is your employer’s own tool: the Slack admin there can read the messages, as an e-mail admin can read e-mail, and a reminder shows that you had not answered when it was sent. Your answer is stored with no connection to the message. How that is built is described under [Security and privacy](/sikkerhet). Questions about a survey you take part in go to your employer."
           },
           {
             "t": "h2",
@@ -6710,16 +6864,7 @@
           "The data subjects are the employees the organisation invites to the mapping, and the organisation's users of Orgpuls: the managing director, department managers and safety representatives.",
           "About employees, the following is stored:"
         ],
-        "ul": [
-          "name and e-mail address",
-          "mobile number, only if the organisation enters it or chooses to read it from Microsoft Entra ID, for sending by SMS",
-          "preferred language, if the organisation enters it or it is read from Microsoft Entra ID, so that the survey can be offered in that language",
-          "for organisations that send the survey in Teams: which conversation the Orgpuls app has with the employee in Teams, and whether Teams has turned away a message to the employee",
-          "which department the employee belongs to, and any role as safety representative, union representative or manager",
-          "if the organisation brings in its employees from Microsoft Entra ID: the person's object ID in the directory, which of the chosen groups the person is in, and whether the account is active – only to keep the register up to date. Nothing is written back to the directory",
-          "for each survey: whether an invitation and a reminder were sent and whether the employee has answered, so that reminders go only to those who have not – never what the employee answered",
-          "the name of the person responsible for a measure, if the organisation chooses an employee as responsible"
-        ]
+        "ul": ["name and e-mail address", "mobile number, only if the organisation enters it or chooses to read it from Microsoft Entra ID, for sending by SMS", "preferred language, if the organisation enters it or it is read from Microsoft Entra ID, so that the survey can be offered in that language", "for organisations that send the survey in Teams: which conversation the Orgpuls app has with the employee in Teams, and whether Teams has turned away a message to the employee", "for organisations that send the survey in Slack: the employee's member ID in the organisation's Slack workspace, found from the work e-mail address, and the Slack access the Orgpuls app was given when the organisation connected – only to send the link as a direct message", "which department the employee belongs to, and any role as safety representative, union representative or manager", "if the organisation brings in its employees from Microsoft Entra ID: the person's object ID in the directory, which of the chosen groups the person is in, and whether the account is active – only to keep the register up to date. Nothing is written back to the directory", "for each survey: whether an invitation and a reminder were sent and whether the employee has answered, so that reminders go only to those who have not – never what the employee answered", "the name of the person responsible for a measure, if the organisation chooses an employee as responsible"]
       },
       {
         "h": "Annex 1 – Answers, users and technical data",

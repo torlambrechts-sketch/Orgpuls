@@ -33,6 +33,11 @@
  * gives every unsent claim back without spending an attempt, so a bad key cannot exhaust
  * the queue. Log lines carry row ids and HTTP codes — never an address, never a link.
  *
+ * Slack (0185, D-205) is a direct message from the organisation's own installation, falling back
+ * the same way: whatever Slack refuses, the person gets the same link by e-mail in the same run.
+ * Each run first revokes the tokens a disconnect left and matches the workspaces due a sync
+ * (_shared/slack.ts), and never logs a token, a member id or a text.
+ *
  *   POST                  drain until the queue is empty or 40 s have passed
  *   POST ?probe=1         report the Brevo account's state, send nothing
  *   POST ?probe=send      send one sample invitation in Brevo's sandbox (validated, dropped)
@@ -95,6 +100,7 @@ import {
   type FetchLike,
   type TeamsOutcome,
 } from '../_shared/teams.ts'
+import { afterSlack, slackApp, slackRun, type FetchLike as SlackFetch } from '../_shared/slack.ts'
 import { MAIL, RESPONDENT_UI, SIGNED_OFF_FLAGS, SURVEY_ONLY, SURVEY_SOURCE } from '../_shared/messages.gen.ts'
 import { complete, nest, type Approved } from '../_shared/survey-texts.ts'
 
@@ -431,8 +437,20 @@ Deno.serve(async (req) => {
     }
     cat[lang] = await withMailOverrides(cat[lang], (o.data ?? {}) as Record<string, unknown>)
   }
+  // Slack (0185): the tokens a disconnect left are revoked, and the workspaces due a match are matched,
+  // before anything is claimed, so a workspace connected minutes ago is reached by this run
+  const slack = slackRun({
+    fetch: fetch as unknown as SlackFetch,
+    rpc: async (fn, args) => await svc.rpc(fn, args),
+    app: slackApp(Deno.env.get('SLACK_CLIENT_ID'), Deno.env.get('SLACK_CLIENT_SECRET')),
+    sleep: (ms) => new Promise((r) => setTimeout(r, ms)),
+    log: (line) => console.error(line),
+  })
+  const slackRevoked = await slack.revoke()
+  const slackSync = await slack.sync()
+  if (slackRevoked || slackSync.synced || slackSync.failed) console.log(`[dispatch] slack: ${slackRevoked} revoked, ${slackSync.synced} matched, ${slackSync.failed} not`)
   const started = Date.now()
-  const tally = { claimed: 0, sent: 0, sms: 0, teams: 0, failed: 0, retry: 0, released: 0 }
+  const tally = { claimed: 0, sent: 0, sms: 0, teams: 0, slack: 0, failed: 0, retry: 0, released: 0 }
 
   while (Date.now() - started < BUDGET_MS) {
     const { data, error } = await svc.rpc('dispatch_claim', { p_batch: BATCH })
@@ -448,7 +466,7 @@ Deno.serve(async (req) => {
       const job = jobs[i]
       if (!sinceOn) job.since = null
       let outcome: SendResult = { ok: true, id: '' }
-      let channel: 'email' | 'sms' | 'teams' = 'email'
+      let channel: 'email' | 'sms' | 'teams' | 'slack' = 'email'
       const offered = offeredFor(cat, job, offer)
       const sendMail = async () => {
         if (perRecipient(job)) return sendEach()
@@ -533,6 +551,14 @@ Deno.serve(async (req) => {
           } else {
             outcome = { ok: false, retryable: !res.ok && (res.kind === 'retry' || res.kind === 'auth'), auth: false, code: res.ok ? 'teams' : res.code }
           }
+        } else if (job.channel === 'slack' && person && job.token) {
+          // 0185: the SMS's lead and the plain link, as a direct message; refused, the same link by e-mail
+          const res = await slack.send(job, smsLead(cat, job, personalLang(job, person, offered)), personalLink(appUrl, job.token))
+          const via = afterSlack(res, person)
+          if (!res.ok) console.error(`[dispatch] ${job.id}: ${res.code}${via === 'email' ? ', falling back to e-mail' : ''}`)
+          channel = via === 'slack' ? 'slack' : 'email'
+          if (via === 'email') job.channel = 'email'
+          outcome = via === 'slack' ? { ok: true, id: '' } : via === 'email' ? await sendMail() : { ok: false, retryable: true, auth: false, code: res.ok ? 'slack' : res.code }
         } else if (job.channel === 'sms' && person?.phone && job.token) {
           outcome = await sendSms(person)
           channel = 'sms'
@@ -557,6 +583,7 @@ Deno.serve(async (req) => {
         tally.sent++
         if (channel === 'sms') tally.sms++
         if (channel === 'teams') tally.teams++
+        if (channel === 'slack') tally.slack++
       } else if (outcome.auth) {
         const rest = jobs.slice(i).map((j) => j.id)
         await svc.rpc('dispatch_release', { p_ids: rest, p_error: 'provider_unauthorised' })
@@ -573,7 +600,7 @@ Deno.serve(async (req) => {
     if (jobs.length < BATCH) break
   }
 
-  if (tally.claimed) console.log(`[dispatch] claimed ${tally.claimed}, sent ${tally.sent} (${tally.sms} by SMS, ${tally.teams} by Teams), retry ${tally.retry}, failed ${tally.failed}`)
+  if (tally.claimed) console.log(`[dispatch] claimed ${tally.claimed}, sent ${tally.sent} (${tally.sms} by SMS, ${tally.teams} by Teams, ${tally.slack} by Slack), retry ${tally.retry}, failed ${tally.failed}`)
 
   // «Send test til meg» (0127, D-171): the invitation as it will read, to the daglig leder's own
   // address, with the preview's link instead of a personal one

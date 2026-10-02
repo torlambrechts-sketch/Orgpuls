@@ -25,6 +25,9 @@ import { ButtonLink } from '@/components/ui/Button'
  * **Teams is built since D-203:** its card says «Tilkoblet» only when the organisation has it on
  * with a tenant bound and this deployment's bot set up, keeps its two steps (Entra first, then the
  * app in Teams) and carries the button to the Teams screen once a tenant is bound and a bot exists.
+ * **Slack is not in the design (D-205).** Its card is the Entra card's frame — name, pill, what it
+ * does, «Dette må til» and the button — after Teams, with nothing restyled. «Tilkoblet» only over a
+ * working installation; without the Orgpuls Slack app configured it says so and has no button.
  *
  * One number here is real and is therefore computed rather than described: how many of the
  * register carry a mobile number. It is the thing that decides whether SMS is worth
@@ -49,12 +52,17 @@ export interface IntegrasjonerView {
   teamsOn: boolean
   /** whether this deployment has an Orgpuls bot for Teams (TEAMS_BOT_APP_ID) */
   teamsBot: boolean
+  /** Slack (0185): a working installation in the organisation's workspace */
+  slackOn: boolean
+  /** whether the Orgpuls Slack app is configured (SLACK_CLIENT_ID/SECRET), or an installation exists */
+  slackReady: boolean
 }
 
 const CHANNELS = [
   { key: 'epost', steps: [] },
   { key: 'entra', steps: ['tenant', 'permissions', 'groups', 'sync'] },
   { key: 'teams', steps: ['entraFirst', 'message'] },
+  { key: 'slack', steps: ['install', 'match'] },
   { key: 'sms', steps: [] },
   { key: 'hr', steps: ['vendor', 'fields'] },
 ] as const
@@ -124,7 +132,7 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
                 style={
                   c.key === 'epost' && view.mailOn
                     ? { background: 'rgba(25,21,16,.07)', color: '#5F5849' }
-                    : (c.key === 'sms' && view.smsOn) || (c.key === 'entra' && view.entraOn) || (c.key === 'teams' && view.teamsOn)
+                    : (c.key === 'sms' && view.smsOn) || (c.key === 'entra' && view.entraOn) || (c.key === 'teams' && view.teamsOn) || (c.key === 'slack' && view.slackOn)
                       ? { background: '#CFE7E4', color: '#20431C' }
                       : c.key === 'hr'
                       ? { background: 'rgba(25,21,16,.05)', color: '#8A8272' }
@@ -135,7 +143,7 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
                   ? view.mailOn
                     ? t('oppsett.integrasjoner.statusAlways')
                     : t('oppsett.integrasjoner.statusMailOff')
-                  : (c.key === 'sms' && view.smsOn) || (c.key === 'entra' && view.entraOn) || (c.key === 'teams' && view.teamsOn)
+                  : (c.key === 'sms' && view.smsOn) || (c.key === 'entra' && view.entraOn) || (c.key === 'teams' && view.teamsOn) || (c.key === 'slack' && view.slackOn)
                     ? t('oppsett.integrasjoner.statusOn')
                     : c.key === 'hr'
                       ? t('oppsett.integrasjoner.statusSoon')
@@ -237,6 +245,22 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
                 ) : (
                   <p className="mb-0 mt-[12px] max-w-[640px] text-[13px] leading-[1.55] text-mut [text-wrap:pretty]">
                     {view.entraOn ? t('oppsett.integrasjoner.teams.needBot') : t('oppsett.integrasjoner.teams.need')}
+                  </p>
+                )
+              ) : null}
+              {c.key === 'slack' ? (
+                view.slackReady ? (
+                  <ButtonLink
+                    href="/integrasjoner/slack"
+                    size="xxs"
+                    tone={view.slackOn ? 'secondary' : 'primary'}
+                    className="mt-[16px]"
+                  >
+                    {view.slackOn ? t('oppsett.integrasjoner.btnSettings') : t('integrasjoner.slackSetup')}
+                  </ButtonLink>
+                ) : (
+                  <p className="mb-0 mt-[12px] max-w-[640px] text-[13px] leading-[1.55] text-mut [text-wrap:pretty]">
+                    {t('oppsett.integrasjoner.slack.needOff')}
                   </p>
                 )
               ) : null}

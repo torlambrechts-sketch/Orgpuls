@@ -12,6 +12,7 @@ import { getRounds } from '@/lib/rounds/read'
 import { getLatestSetupOfKind, getRoundQuestions, getRoundSetup } from '@/lib/setup/read'
 import { getGroupStats, getSmsSettings } from '@/lib/settings/read'
 import { getTeamsSettings } from '@/lib/teams/read'
+import { getSlackSettings } from '@/lib/slack/read'
 import { getWheel, wheelMonths } from '@/lib/wheel/read'
 import { INDUSTRY_META } from '@/content/industries/meta'
 import { getIndustry, pageIn } from '@/content/industries'
@@ -89,6 +90,8 @@ export default async function MaleoppsettPage({
     getTeamsSettings(),
   ])
   const chosenModules = await getModulesById(chosen.map((c) => c.moduleId))
+  // Slack (0185, D-205): the round's own rule is offered while the organisation has Slack on
+  const slack = await getSlackSettings()
   // the organisation's industry, chosen or from its NACE code (0091)
   const industry = orgIndustry.chosen
   const offered = [
@@ -264,6 +267,8 @@ export default async function MaleoppsettPage({
           : [],
       extrasOffReason: setup.extrasOffReason,
       finalReminder: setup.finalReminder,
+      slackWhen: setup.slackWhen,
+      slackEnabled: Boolean(slack?.enabled),
       smsWhen: setup.smsWhen,
       smsEnabled: Boolean(sms?.enabled),
       teamsWhen: setup.teamsWhen,
@@ -278,7 +283,7 @@ export default async function MaleoppsettPage({
             tillegg:
               setup.kind === 'grunnlinje' &&
               [...setup.extraKeys].sort().join() !== [...standard.extras].sort().join(),
-            utsending: setup.smsWhen !== null || setup.teamsWhen !== null,
+            utsending: setup.smsWhen !== null || setup.teamsWhen !== null || setup.slackWhen !== null,
           }
         : null,
     },

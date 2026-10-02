@@ -7,6 +7,7 @@ import { countWithPhone, getRoster, getSmsSettings } from '@/lib/settings/read'
 import { getQueueCounts } from '@/lib/wheel/read'
 import { entraClientId, getEntraStatus } from '@/lib/entra/read'
 import { getTeamsSettings, teamsBotConfigured } from '@/lib/teams/read'
+import { getSlackStatus, slackConfigured } from '@/lib/slack/read'
 
 /**
  * Integrasjoner — the data half. Bundle lines 1143-1284.
@@ -28,6 +29,8 @@ export default async function IntegrasjonerPage() {
   ])
 
   const entra = org ? await getEntraStatus(org.id) : null
+  // Slack (0185, D-205): an installation the database holds and Slack has not refused
+  const slack = org ? await getSlackStatus(org.id) : null
 
   const view: IntegrasjonerView = {
     withPhone,
@@ -39,6 +42,8 @@ export default async function IntegrasjonerPage() {
     entraReady: (entra?.bound ?? false) || entraClientId() !== null,
     teamsOn: (teams?.enabled ?? false) && (entra?.bound ?? false) && teamsBotConfigured(),
     teamsBot: teamsBotConfigured(),
+    slackOn: (slack?.connected ?? false) && (slack?.working ?? false),
+    slackReady: (slack?.connected ?? false) || slackConfigured(),
   }
 
   return <IntegrasjonerScreen view={view} />

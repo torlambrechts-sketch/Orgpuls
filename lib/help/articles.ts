@@ -51,6 +51,7 @@ export const HELP_ARTICLES: HelpArticle[] = [
   { key: 'hvaLovenKrever', category: 'regelverk', read: 8, lawOnly: true },
   { key: 'kontrolltiltak', category: 'regelverk', read: 5, lawOnly: true },
   { key: 'rapportTilTilsynet', category: 'regelverk', read: 4, lawOnly: true },
+  { key: 'slack', category: 'oppsett', read: 4 },
   { key: 'rollerOgTilgang', category: 'oppsett', read: 5 },
   { key: 'entra', category: 'oppsett', read: 5, sections: ['import'] },
   { key: 'sms', category: 'oppsett', read: 4 },

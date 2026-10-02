@@ -45,6 +45,7 @@ const SetupRow = z.object({
   reminder_day: z.number().nullable(),
   close_after_days: z.coerce.number(),
   final_reminder: z.boolean(),
+  slack_when: z.enum(['paaminn', 'alle']).nullable(),
   sms_when: z.enum(['mangler', 'paaminn', 'alle']).nullable(),
   teams_when: z.enum(['mangler', 'paaminn', 'alle']).nullable(),
   extras_off_reason: z.string().nullable(),
@@ -91,6 +92,8 @@ export interface RoundSetup {
   closeAfterDays: number
   /** a second reminder the day before closing (0076) */
   finalReminder: boolean
+  /** this round's Slack rule; null follows the organisation's (0185) */
+  slackWhen: 'paaminn' | 'alle' | null
   /** this round's SMS rule; null follows the organisation's (0076) */
   smsWhen: 'mangler' | 'paaminn' | 'alle' | null
   /** this round's Teams rule; null follows the organisation's (0176) */
@@ -107,7 +110,7 @@ export interface RoundSetup {
 }
 
 const SELECT =
-  'id, status, opens_at, closes_at, audience, comment_policy, allow_dialogue, reminder_day,' +
+  'id, status, opens_at, closes_at, audience, comment_policy, allow_dialogue, reminder_day, slack_when,' +
   ' close_after_days, final_reminder, sms_when, teams_when, extras_off_reason,' +
   ' measurements!inner(id, kind, year, label, evaluation_cadence),' +
   ' round_factors(factor_key), round_extra_questions(extra_key), round_groups(group_id),' +
@@ -127,6 +130,7 @@ const shape = (r: z.infer<typeof SetupRow>): RoundSetup => ({
   reminderDay: r.reminder_day,
   closeAfterDays: r.close_after_days,
   finalReminder: r.final_reminder,
+  slackWhen: r.slack_when,
   smsWhen: r.sms_when,
   teamsWhen: r.teams_when,
   extrasOffReason: r.extras_off_reason,

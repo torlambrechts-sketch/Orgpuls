@@ -2,7 +2,8 @@
 # Every SQL suite, as CI runs them, against the local QA stack (never a hosted project).
 set -euo pipefail
 cd "$(dirname "$0")/../.."
-db=$(supabase status -o json | node -e 'process.stdin.on("data",d=>console.log(JSON.parse(d).DB_URL))')
+# DATABASE_URL picks another local stack (an isolated rebuild); without it, the default local stack
+db=${DATABASE_URL:-$(supabase status -o json | node -e 'process.stdin.on("data",d=>console.log(JSON.parse(d).DB_URL))')}
 case "$db" in postgresql://*@127.0.0.1:*|postgresql://*@localhost:*) ;; *) echo "test:db: not a local stack" >&2; exit 2 ;; esac
 # every suite runs, and the run fails at the end: stopping at the first failure left the rest
 # unrun and unreported (audit 2026-09-28, AUD-15)

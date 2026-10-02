@@ -4,6 +4,7 @@ import type { RosterPerson } from '@/lib/settings/read'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { entraClientId, getEntraStatus } from '@/lib/entra/read'
 import { getTeamsSettings, teamsBotConfigured } from '@/lib/teams/read'
+import { getSlackStatus, slackConfigured } from '@/lib/slack/read'
 
 /**
  * Integrasjoner, the Oppsett tab. Bundle lines 2323-2348.
@@ -31,13 +32,16 @@ import { getTeamsSettings, teamsBotConfigured } from '@/lib/teams/read'
  * Entra ID først» and carries the design's muted «Krever Entra» button, which opens the Teams screen
  * that says the same and where to go; without a bot it says so and has no button. The design's
  * «Svarprosenten er typisk 10–15 poeng høyere …» is not used: nothing backs it (X-056).
+ * Slack is not in the design (D-205): its row is the Entra row's, after Teams. «Tilkoblet» only over a
+ * working installation; the button opens the Slack screen whenever the Orgpuls Slack app is
+ * configured (SLACK_CLIENT_ID/SECRET) or an installation exists, and without either it says so.
  *
  * The SMS row's "9 av 34 har mobilnummer" is counted from the register rather than
  * written, because it is the one number here that is real and it is the one that decides
  * whether SMS would be worth connecting.
  */
 
-const ROWS = ['epost', 'entra', 'teams', 'sms', 'hr'] as const
+const ROWS = ['epost', 'entra', 'teams', 'slack', 'sms', 'hr'] as const
 
 export async function IntegrasjonerTab({
   roster,
@@ -60,6 +64,9 @@ export async function IntegrasjonerTab({
   const teams = await getTeamsSettings()
   const teamsBot = teamsBotConfigured()
   const teamsOn = (teams?.enabled ?? false) && entraOn && teamsBot
+  const slack = orgId ? await getSlackStatus(orgId) : null
+  const slackOn = (slack?.connected ?? false) && (slack?.working ?? false)
+  const slackReady = (slack?.connected ?? false) || slackConfigured()
 
   return (
     <section className="mt-[20px] rounded-panel border border-line bg-sf px-[26px] py-[24px]">
@@ -88,7 +95,7 @@ export async function IntegrasjonerTab({
                     style={
                       k === 'epost' && mailOn
                         ? { background: 'rgba(25,21,16,.07)', color: '#5F5849' }
-                        : (k === 'sms' && smsOn) || (k === 'entra' && entraOn) || (k === 'teams' && teamsOn)
+                        : (k === 'sms' && smsOn) || (k === 'entra' && entraOn) || (k === 'teams' && teamsOn) || (k === 'slack' && slackOn)
                           ? { background: '#CFE7E4', color: '#20431C' }
                           : soon
                           ? { background: 'rgba(25,21,16,.05)', color: '#8A8272' }
@@ -99,7 +106,7 @@ export async function IntegrasjonerTab({
                       ? mailOn
                         ? t('oppsett.integrasjoner.statusAlways')
                         : t('oppsett.integrasjoner.statusMailOff')
-                      : (k === 'sms' && smsOn) || (k === 'entra' && entraOn) || (k === 'teams' && teamsOn)
+                      : (k === 'sms' && smsOn) || (k === 'entra' && entraOn) || (k === 'teams' && teamsOn) || (k === 'slack' && slackOn)
                         ? t('oppsett.integrasjoner.statusOn')
                         : soon
                           ? t('oppsett.integrasjoner.statusSoon')
@@ -135,6 +142,14 @@ export async function IntegrasjonerTab({
                               : teamsOn
                                 ? t('oppsett.integrasjoner.teams.needOn')
                                 : t('oppsett.integrasjoner.teams.needReady')
+                          : k === 'slack'
+                          ? slack?.connected
+                            ? slackOn
+                              ? t('oppsett.integrasjoner.slack.needOn')
+                              : t('oppsett.integrasjoner.slack.needBroken')
+                            : slackReady
+                              ? t('oppsett.integrasjoner.slack.need')
+                              : t('oppsett.integrasjoner.slack.needOff')
                           : t(`oppsett.integrasjoner.${k}.need`)}
                 </span>
               </span>
@@ -163,6 +178,15 @@ export async function IntegrasjonerTab({
                     : teamsOn
                       ? t('oppsett.integrasjoner.btnSettings')
                       : t('oppsett.integrasjoner.btnSetup')}
+                </Link>
+              ) : k === 'slack' && slackReady ? (
+                <Link
+                  href="/integrasjoner/slack"
+                  className={`inline-flex h-[38px] items-center justify-center rounded-ctl border border-ink px-[14px] text-[12.5px] font-bold text-ink no-underline hover:text-ink hover:no-underline ${
+                    slackOn ? 'bg-transparent' : 'bg-ac'
+                  }`}
+                >
+                  {slackOn ? t('oppsett.integrasjoner.btnSettings') : t('oppsett.integrasjoner.btnSetup')}
                 </Link>
               ) : k === 'sms' ? (
                 <Link

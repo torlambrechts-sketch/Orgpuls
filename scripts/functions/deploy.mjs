@@ -21,7 +21,7 @@ import { localeRegistry } from '../lib/locales.mjs'
 const REF = process.env.SUPABASE_PROJECT_REF ?? 'jmhhszsnjfqgclxzhciq'
 const TOKEN = process.env.SB_MCP_PAT ?? process.env.SUPABASE_ACCESS_TOKEN
 const FUNCTIONS = ['orgpuls-dispatch', 'orgpuls-auth-mail', 'orgpuls-mail-events', 'orgpuls-seo', 'orgpuls-brreg-triggers', 'orgpuls-entra-sync', 'orgpuls-teams-bot']
-const SHARED = ['_shared/mail.ts', '_shared/brevo.ts', '_shared/sms.ts', '_shared/seo.ts', '_shared/survey-texts.ts', '_shared/brreg.ts', '_shared/entra.ts', '_shared/teams.ts', '_shared/messages.gen.ts']
+const SHARED = ['_shared/mail.ts', '_shared/brevo.ts', '_shared/sms.ts', '_shared/seo.ts', '_shared/survey-texts.ts', '_shared/brreg.ts', '_shared/entra.ts', '_shared/teams.ts', '_shared/slack.ts', '_shared/messages.gen.ts']
 const ROOT = 'supabase/functions'
 
 const mail = (lang) => JSON.parse(readFileSync(`messages/${lang}.json`, 'utf8')).mail

@@ -21,7 +21,7 @@ import type { DpaSignature } from '@/lib/legal/read'
  * its status and a link there; the other two documents are still not drawn.
  */
 
-const CARDS = ['basis', 'stored', 'accounts', 'special', 'retention', 'access', 'processor', 'dpia', 'protocol'] as const
+const CARDS = ['basis', 'stored', 'accounts', 'slack', 'special', 'retention', 'access', 'processor', 'dpia', 'protocol'] as const
 
 export async function PersonvernTab({ threshold, signed }: { threshold: number; signed: DpaSignature[] }) {
   const t = await getTranslations()

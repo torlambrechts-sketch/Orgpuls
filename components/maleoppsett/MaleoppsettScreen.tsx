@@ -119,6 +119,9 @@ export interface MaleoppsettView {
     extraQuestions: { key: string; screening: boolean }[]
     extrasOffReason: string | null
     finalReminder: boolean
+    /** this round's Slack rule, and whether the organisation has Slack on (0185) */
+    slackWhen: 'paaminn' | 'alle' | null
+    slackEnabled: boolean
     smsWhen: 'mangler' | 'paaminn' | 'alle' | null
     smsEnabled: boolean
     /** this round's Teams rule, and whether the organisation has Teams on (0176) */
@@ -249,6 +252,17 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
         : null,
       finalReminder: pr.standard
         ? { on: pr.finalReminder, label: t('maleoppsett.perRound.finalLabel'), sub: t('maleoppsett.perRound.finalSub') }
+        : null,
+      slack: pr.slackEnabled
+        ? {
+            value: pr.slackWhen,
+            head: t('maleoppsett.perRound.slackHead'),
+            note: t('maleoppsett.perRound.slackNote'),
+            options: [
+              { value: '', label: t('maleoppsett.perRound.smsStandard') },
+              ...(['paaminn', 'alle'] as const).map((w) => ({ value: w, label: t(`maleoppsett.perRound.slack.${w}`) })),
+            ],
+          }
         : null,
       sms: pr.smsEnabled
         ? {

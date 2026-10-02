@@ -10346,3 +10346,58 @@ override with `TEAMS_SERVICE_URL`).
 secret, messaging endpoint `{SUPABASE_URL}/functions/v1/orgpuls-teams-bot`, the Teams channel added;
 Edge Function secrets `TEAMS_BOT_APP_ID`, `TEAMS_BOT_TENANT_ID` and `TEAMS_BOT_CERT_PEM` +
 `TEAMS_BOT_CERT_KEY` (or `TEAMS_BOT_SECRET`); `TEAMS_BOT_APP_ID` in Vercel.
+
+## D-205 — Slack: invitations and reminders by direct message (0185, 0186) (2026-10-02)
+
+**The design has no Slack anywhere.** The Integrasjoner card, the Oppsett row, `/integrasjoner/slack`,
+the round's Slack rule in Måleoppsett and the row in Målinger › Innstillinger reuse the Entra, Teams and
+SMS frames and their control classes exactly; nothing is restyled and no new control is made. Every
+value is real: «Tilkoblet» only over an installation Slack has not refused, the workspace name Slack
+gave at install, and matched, active, with-e-mail and sent-in-30-days counts from `public.slack_status`
+(daglig leder only). The preview is the dispatcher's own text. Without `SLACK_CLIENT_ID` /
+`SLACK_CLIENT_SECRET` the card and the screen say Slack is not set up and offer no button, as Entra does
+without `ENTRA_CLIENT_ID`.
+
+**Channel.** OAuth v2 per workspace (bot scopes `chat:write`, `im:write`, `users:read`,
+`users:read.email`; token rotation; tokens in Supabase Vault; the install row and Vault unreadable by
+any client role). A message is `conversations.open` plus `chat.postMessage` carrying the SMS lead
+(`mail.sms.*`, already translated in every survey language — no new respondent text, so X-089 adds
+nothing) and the personal link as a plain `<url>`, with `unfurl_links:false, unfurl_media:false`, and no
+blocks, buttons, metadata, read receipts or click tracking. No Events API, no interactivity. The
+Messages tab is **on, read-only**, because Slack refuses bot direct messages with it off
+(`messages_tab_disabled`); the plan said "no Messages tab", and nothing typed is received either way.
+The rule is per organisation and per round: `paaminn` | `alle` — no `mangler`, because matching is by
+work e-mail. Order in the claim: Teams, Slack, SMS, e-mail. Any refusal falls back to e-mail in the same
+run, as SMS does; a person refusal unmatches the person, an installation refusal marks the install broken.
+
+**Identity.** `app.slack_members(employee_id → slack_user_id)`, register side, RLS with no policy and no
+grant. Matched by SHA-256 digest of the work e-mail at setup, daily and on «Synkroniser nå». Excluded:
+bots, Slackbot, deactivated, guests, invited, `is_stranger`, other teams (except the same Enterprise
+Grid). Nothing on invitations, the outbox or the answer tables names a Slack identity; respondent tables
+are untouched.
+
+**Binding.** A single-use SHA-256 nonce bound to the organisation, the daglig leder and the session,
+valid 15 minutes (the 0155 pattern). Daglig leder only; demo organisations are refused; org-wide (Grid)
+installs are refused; one organisation per workspace. Disconnect queues `auth.revoke`, deletes every
+match, turns Slack off and logs who and when. The help article «Slack», a «Slack» card on Oppsett ›
+Personvern and the privacy statement's survey box say the Slack admin can read the bot's messages like
+a mailbox admin and that a reminder shows the person had not answered by then.
+
+**DPA.** Slack is the organisation's own tool, not an Orgpuls sub-processor, so vedlegg 3 is unchanged.
+Vedlegg 1 now lists what Slack delivery stores — the employee's Slack member id and the workspace's bot
+access — as it lists the Teams conversation: version 2026-10-02.5 (0186).
+
+**Verified:** `slack_invariants.sql` and all 113 SQL suites on a database rebuilt from migrations
+through 0186 (port 55322, seeded as CI); tsc, lint, i18n, vitest (777), the edge-function type-check and
+the page map. 0185 and 0186 are applied on hosted, and the 63 dispatch, Slack, Teams and Entra functions
+there hash identically to the tested rebuild. Found on the way: `scripts/qa/test-db.sh` ignored
+`DATABASE_URL` and always ran the default local stack; it now honours it.
+
+**Waiting on the owner:** create the Slack app from the manifest in docs/integrations (or the D-205
+report): scopes above, redirect URLs `https://www.orgpuls.com/integrasjoner/slack/callback` and
+`https://en.orgpuls.com/integrasjoner/slack/callback`, token rotation on, Messages tab read-only, no
+events, no interactivity, unlisted distribution; then `SLACK_CLIENT_ID` and `SLACK_CLIENT_SECRET` in
+Vercel and as Edge Function secrets.
+
+**Open decisions:** a group of companies sharing one Slack workspace can connect only one Orgpuls
+organisation; Enterprise Grid org-wide installs are refused.

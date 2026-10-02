@@ -18,10 +18,10 @@ import { z } from 'zod'
  * same day (0151): 2026-10-02.2 says that a lower threshold, never under three, may be chosen;
  * 2026-10-02.3 (0166, D-202) what the Entra import stores; 2026-10-02.4 (0177, D-203) adds
  * Microsoft's Azure Bot Service, which relays a Teams message, to vedlegg 3, and the Teams
- * conversation to vedlegg 1.
+ * conversation to vedlegg 1; 2026-10-02.5 (0186, D-205) adds what Slack delivery stores to vedlegg 1.
  */
-export const DPA_VERSION = '2026-10-02.4'
-export const DPA_SHA256 = '0800a2cc3c86931e7d5aa3f1d3e82964822fa7f6f9bc42c8aadc0aa3923bbff4'
+export const DPA_VERSION = '2026-10-02.5'
+export const DPA_SHA256 = '45e91dac28116bac62a3ac42fd1ba95d93bb0176daa5f6a8102609c0ebf3a702'
 
 export const DpaSection = z.object({
   h: z.string().min(1),
