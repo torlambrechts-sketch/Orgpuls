@@ -45,3 +45,13 @@ verify_enabled = true
 # secret = "env(SUPABASE_AUTH_EXTERNAL_AZURE_SECRET)"
 # url = "https://login.microsoftonline.com/organizations"
 # skip_nonce_check = false
+
+# The Microsoft sign-in rules at token issuance (0156, D-204): Supabase Auth asks this function
+# before it signs any access token, so a client that exchanges the OAuth code itself cannot get
+# round /auth/callback's check. It returns every non-Microsoft issuance unchanged. The hosted
+# project sets the same hook in the dashboard (Authentication › Hooks), before the azure provider.
+# The function is made by migration 0156: a stack whose database lacks it refuses every sign-in,
+# so restart the stack only on a database built from these migrations.
+[auth.hook.custom_access_token]
+enabled = true
+uri = "pg-functions://postgres/public/entra_access_token_hook"
