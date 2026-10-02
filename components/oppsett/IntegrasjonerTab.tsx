@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server'
 import type { RosterPerson } from '@/lib/settings/read'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { entraClientId, getEntraStatus } from '@/lib/entra/read'
+import { getTeamsSettings, teamsBotConfigured } from '@/lib/teams/read'
 
 /**
  * Integrasjoner, the Oppsett tab. Bundle lines 2323-2348.
@@ -24,6 +25,12 @@ import { entraClientId, getEntraStatus } from '@/lib/entra/read'
  * binding are built, so the row says «Tilkoblet» when — and only when — the organisation has
  * bound a tenant, and carries the button to the Entra screen whenever there is an Entra
  * application to consent to (ENTRA_CLIENT_ID). Without one it says so and has no button.
+ *
+ * Microsoft Teams is the third since D-203: it says «Tilkoblet» only when the organisation has it
+ * on, a tenant bound and this deployment's bot set up. Without a tenant it says the design's «Krever
+ * Entra ID først» and carries the design's muted «Krever Entra» button, which opens the Teams screen
+ * that says the same and where to go; without a bot it says so and has no button. The design's
+ * «Svarprosenten er typisk 10–15 poeng høyere …» is not used: nothing backs it (X-056).
  *
  * The SMS row's "9 av 34 har mobilnummer" is counted from the register rather than
  * written, because it is the one number here that is real and it is the one that decides
@@ -50,6 +57,9 @@ export async function IntegrasjonerTab({
   const entra = orgId ? await getEntraStatus(orgId) : null
   const entraOn = entra?.bound ?? false
   const entraReady = entraOn || entraClientId() !== null
+  const teams = await getTeamsSettings()
+  const teamsBot = teamsBotConfigured()
+  const teamsOn = (teams?.enabled ?? false) && entraOn && teamsBot
 
   return (
     <section className="mt-[20px] rounded-panel border border-line bg-sf px-[26px] py-[24px]">
@@ -78,7 +88,7 @@ export async function IntegrasjonerTab({
                     style={
                       k === 'epost' && mailOn
                         ? { background: 'rgba(25,21,16,.07)', color: '#5F5849' }
-                        : (k === 'sms' && smsOn) || (k === 'entra' && entraOn)
+                        : (k === 'sms' && smsOn) || (k === 'entra' && entraOn) || (k === 'teams' && teamsOn)
                           ? { background: '#CFE7E4', color: '#20431C' }
                           : soon
                           ? { background: 'rgba(25,21,16,.05)', color: '#8A8272' }
@@ -89,7 +99,7 @@ export async function IntegrasjonerTab({
                       ? mailOn
                         ? t('oppsett.integrasjoner.statusAlways')
                         : t('oppsett.integrasjoner.statusMailOff')
-                      : (k === 'sms' && smsOn) || (k === 'entra' && entraOn)
+                      : (k === 'sms' && smsOn) || (k === 'entra' && entraOn) || (k === 'teams' && teamsOn)
                         ? t('oppsett.integrasjoner.statusOn')
                         : soon
                           ? t('oppsett.integrasjoner.statusSoon')
@@ -117,7 +127,15 @@ export async function IntegrasjonerTab({
                           : entraReady
                             ? t('oppsett.integrasjoner.entra.need')
                             : t('oppsett.integrasjoner.entra.needOff')
-                        : t(`oppsett.integrasjoner.${k}.need`)}
+                        : k === 'teams'
+                          ? !entraOn
+                            ? t('oppsett.integrasjoner.teams.need')
+                            : !teamsBot
+                              ? t('oppsett.integrasjoner.teams.needBot')
+                              : teamsOn
+                                ? t('oppsett.integrasjoner.teams.needOn')
+                                : t('oppsett.integrasjoner.teams.needReady')
+                          : t(`oppsett.integrasjoner.${k}.need`)}
                 </span>
               </span>
               {k === 'entra' && entraReady ? (
@@ -128,6 +146,23 @@ export async function IntegrasjonerTab({
                   }`}
                 >
                   {entraOn ? t('oppsett.integrasjoner.btnSettings') : t('oppsett.integrasjoner.btnSetup')}
+                </Link>
+              ) : k === 'teams' && (!entraOn || teamsBot) ? (
+                <Link
+                  href="/integrasjoner/teams"
+                  className={`inline-flex h-[38px] items-center justify-center rounded-ctl border px-[14px] text-[12.5px] font-bold no-underline hover:no-underline ${
+                    !entraOn
+                      ? 'border-line bg-transparent text-faint hover:text-faint'
+                      : teamsOn
+                        ? 'border-ink bg-transparent text-ink hover:text-ink'
+                        : 'border-ink bg-ac text-ink hover:text-ink'
+                  }`}
+                >
+                  {!entraOn
+                    ? t('oppsett.integrasjoner.btnRequiresEntra')
+                    : teamsOn
+                      ? t('oppsett.integrasjoner.btnSettings')
+                      : t('oppsett.integrasjoner.btnSetup')}
                 </Link>
               ) : k === 'sms' ? (
                 <Link

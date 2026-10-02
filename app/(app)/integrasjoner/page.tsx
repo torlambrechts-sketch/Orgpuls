@@ -6,6 +6,7 @@ import { getOrganization } from '@/lib/org/read'
 import { countWithPhone, getRoster, getSmsSettings } from '@/lib/settings/read'
 import { getQueueCounts } from '@/lib/wheel/read'
 import { entraClientId, getEntraStatus } from '@/lib/entra/read'
+import { getTeamsSettings, teamsBotConfigured } from '@/lib/teams/read'
 
 /**
  * Integrasjoner — the data half. Bundle lines 1143-1284.
@@ -17,12 +18,13 @@ import { entraClientId, getEntraStatus } from '@/lib/entra/read'
 export const dynamic = 'force-dynamic'
 
 export default async function IntegrasjonerPage() {
-  const [withPhone, roster, queue, org, sms] = await Promise.all([
+  const [withPhone, roster, queue, org, sms, teams] = await Promise.all([
     countWithPhone(),
     getRoster(),
     getQueueCounts(),
     getOrganization(),
     getSmsSettings(),
+    getTeamsSettings(),
   ])
 
   const entra = org ? await getEntraStatus(org.id) : null
@@ -35,6 +37,8 @@ export default async function IntegrasjonerPage() {
     smsOn: sms?.enabled ?? false,
     entraOn: entra?.bound ?? false,
     entraReady: (entra?.bound ?? false) || entraClientId() !== null,
+    teamsOn: (teams?.enabled ?? false) && (entra?.bound ?? false) && teamsBotConfigured(),
+    teamsBot: teamsBotConfigured(),
   }
 
   return <IntegrasjonerScreen view={view} />

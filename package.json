@@ -26,7 +26,9 @@
     "test:db": "bash scripts/qa/test-db.sh",
     "test:invariants": "node scripts/qa/invariants.mjs",
     "i18n:registry": "node scripts/i18n/registry-seed.mjs",
-    "i18n:pages": "node scripts/i18n/page-map.mjs"
+    "i18n:pages": "node scripts/i18n/page-map.mjs",
+    "teams:package": "tsx scripts/teams/package.ts",
+    "teams:icons": "node scripts/teams/icons.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.5",

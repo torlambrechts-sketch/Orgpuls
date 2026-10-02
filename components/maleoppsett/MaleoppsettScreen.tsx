@@ -121,6 +121,9 @@ export interface MaleoppsettView {
     finalReminder: boolean
     smsWhen: 'mangler' | 'paaminn' | 'alle' | null
     smsEnabled: boolean
+    /** this round's Teams rule, and whether the organisation has Teams on (0176) */
+    teamsWhen: 'mangler' | 'paaminn' | 'alle' | null
+    teamsEnabled: boolean
     /** set once the organisation has saved a standard */
     standard: null | { rytme: boolean; kommentarer: boolean; tillegg: boolean; utsending: boolean }
   }
@@ -255,6 +258,17 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
             options: [
               { value: '', label: t('maleoppsett.perRound.smsStandard') },
               ...(['mangler', 'paaminn', 'alle'] as const).map((w) => ({ value: w, label: smsRule(w) })),
+            ],
+          }
+        : null,
+      teams: pr.teamsEnabled
+        ? {
+            value: pr.teamsWhen,
+            head: t('maleoppsett.perRound.teamsHead'),
+            note: t('maleoppsett.perRound.teamsNote'),
+            options: [
+              { value: '', label: t('maleoppsett.perRound.smsStandard') },
+              ...(['mangler', 'paaminn', 'alle'] as const).map((w) => ({ value: w, label: t(`maleoppsett.perRound.teams.${w}`) })),
             ],
           }
         : null,

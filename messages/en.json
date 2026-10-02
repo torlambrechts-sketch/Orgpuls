@@ -512,6 +512,17 @@
         "change": "Change SMS",
         "setUp": "Set up SMS"
       },
+      "teams": {
+        "label": "Microsoft Teams",
+        "off": "Off. The link goes by e-mail and SMS.",
+        "on": {
+          "mangler": "On, for those without e-mail.",
+          "paaminn": "On, for reminders.",
+          "alle": "On, for everyone who can be reached in Teams."
+        },
+        "change": "Change Teams",
+        "setUp": "Set up Teams"
+      },
       "qr": {
         "label": "QR poster",
         "note": "Put the poster up in the site hut or break room. The employee scans the code, enters a mobile number or e-mail and gets their own link. The answer is as anonymous as always, and each employee can answer only once.",
@@ -1408,6 +1419,13 @@
         "mangler": "Only those without e-mail",
         "paaminn": "The reminders",
         "alle": "Everyone with a mobile"
+      },
+      "teamsHead": "Teams in this survey",
+      "teamsNote": "Here you choose who gets the link in Teams in this survey. Anyone who cannot be reached in Teams gets e-mail.",
+      "teams": {
+        "mangler": "Only those without e-mail",
+        "paaminn": "The reminders",
+        "alle": "Everyone with the app"
       }
     },
     "ownNoteSome": "Your own questions are reported on their own and are not counted in the index. That is deliberate — the index has to stay comparable with last year.",
@@ -1932,8 +1950,11 @@
       },
       "teams": {
         "name": "Microsoft Teams",
-        "what": "Meant to send the measurement as a Teams message instead of e-mail.",
-        "need": "Not built, and would need Entra ID first in any case — the Teams notice uses the same directory."
+        "what": "The survey arrives as a Teams message instead of an e-mail.",
+        "need": "Needs Entra ID first — the Teams notice uses the same directory.",
+        "needReady": "Ready to connect.",
+        "needBot": "The Orgpuls Teams app is not set up in this installation yet, so nothing can be sent in Teams.",
+        "needOn": "The link goes in Teams to those who have the app. Anyone who cannot be reached there gets e-mail."
       },
       "sms": {
         "name": "SMS",
@@ -1949,7 +1970,8 @@
       "statusMailOff": "Switched off",
       "statusOn": "Connected",
       "btnSetup": "Set up",
-      "btnSettings": "Settings"
+      "btnSettings": "Settings",
+      "btnRequiresEntra": "Requires Entra"
     },
     "personvern": {
       "basis": {
@@ -1978,7 +2000,7 @@
       },
       "processor": {
         "head": "Processor",
-        "body": "Orgpuls is the processor. The sub-processors are Supabase (database, Frankfurt), Vercel (hosting, Frankfurt) and Brevo (e-mail and SMS). The agreement is under Data processing agreement, where the managing director signs it."
+        "body": "Orgpuls is the processor. The sub-processors are Supabase (database, Frankfurt), Vercel (hosting, Frankfurt), Brevo (e-mail and SMS) and, for organisations that send the survey in Teams, Microsoft (Azure Bot Service, EU). The agreement is under Data processing agreement, where the managing director signs it."
       },
       "dpia": {
         "head": "Data protection impact assessment",
@@ -2450,6 +2472,16 @@
           "p3": "The message is short, with a sender name you choose and a personal link appended at the end. The link cannot be used twice, and it says nothing about who answered what.",
           "p4": "SMS is the channel that moves the response rate most for sites, workshops and shift work. Decide whether it is used for every send or only for the reminders."
         }
+      },
+      "teams": {
+        "title": "Send the survey in Teams",
+        "lead": "What Teams needs, what the message holds, and what the Teams administrator at your organisation can see.",
+        "body": {
+          "p1": "The Teams notice uses the same directory as Entra ID. First connect your organisation's Microsoft 365 to Orgpuls under Settings → Integrations. Then a Teams administrator at your organisation downloads the app package under Settings → Integrations → Teams, uploads it in the Teams admin center and makes the app available to employees, for example with an app setup policy.",
+          "p2": "Switch Teams on and choose when it is used: only for those without e-mail, only for the reminders, or for everyone who can be reached in Teams. An employee is reached in Teams when they have a Microsoft account in the register and the app is installed. Everyone else gets the link by e-mail or SMS as before, and anyone who has blocked or removed the app gets e-mail in the same send.",
+          "p3": "The message is one short text and a button that opens the survey in the browser. It holds no results, no department and no comments. We ask for no read receipt, record no clicks, and the message is not changed or deleted when someone answers. The link is new for every message, and the answer is stored with no connection to it. The message is relayed by Microsoft's Azure Bot Service in the EU, a sub-processor for this part.",
+          "p4": "Two things employees should know. The Teams administrator at your organisation can read the messages the Orgpuls app sends, as an e-mail administrator can read e-mail. And a reminder shows, to anyone who can read it, that the recipient had not answered when it was sent — the same is true of reminders by e-mail and SMS."
+        }
       }
     },
     "form": {
@@ -2495,7 +2527,7 @@
       },
       "teams": {
         "entraFirst": "Entra ID first. The Teams notice uses the same directory, so without it we do not know who the message is for.",
-        "message": "A message template and an approved app in Teams. The content is the same as the e-mail: one sentence and a personal link."
+        "message": "The Orgpuls app in Teams, uploaded by a Teams administrator at your organisation. The message is one short text and a button to the personal link."
       },
       "hr": {
         "vendor": "Which system you use — Tripletex, Visma or Huldt & Lillevik.",
@@ -2580,7 +2612,8 @@
         "not_configured": "The connection to Microsoft 365 is not set up at Orgpuls yet.",
         "failed": "That did not work. Try again."
       }
-    }
+    },
+    "teamsSetup": "Set up Teams"
   },
   "start": {
     "ctaFree": "Try it free for 15 days",
@@ -3433,6 +3466,73 @@
       "invalid": "The setup could not be saved. The text can have up to 300 characters.",
       "denied": "Only the managing director can change the SMS setup.",
       "noOrg": "Your organisation was not found."
+    }
+  },
+  "teamsSetup": {
+    "back": "← Integrations",
+    "title": "Microsoft Teams",
+    "statusOn": "Connected",
+    "statusOff": "Not connected",
+    "lead": "The survey arrives as a Teams message instead of an e-mail: one short text and a button that opens the survey in the browser. The answer is stored with no connection to the message.",
+    "needTenant": {
+      "title": "Connect Microsoft 365 first",
+      "body": "The Teams notice uses the same directory as Entra ID: Teams finds people by their Microsoft account, not by their e-mail address. Connect your organisation's Microsoft 365 to Orgpuls, and Teams can be switched on here.",
+      "cta": "Connect Microsoft 365"
+    },
+    "needBot": {
+      "title": "The Teams app is not set up yet",
+      "body": "The Orgpuls Teams app is not registered in this installation, so no messages can be sent in Teams. Until it is, the survey goes by e-mail and SMS as before."
+    },
+    "step1": "1 · Who Teams reaches",
+    "reachLine": "{withObject} of {total} employees have a Microsoft account in the register",
+    "reachNote": "Teams finds people by their Microsoft account, not by their e-mail address. The account comes from the Microsoft 365 directory. Anyone without one gets the link by e-mail or SMS.",
+    "appLine": "{count, plural, =0 {Nobody has the Orgpuls app in Teams yet} one {# has the Orgpuls app in Teams} other {# have the Orgpuls app in Teams}}",
+    "appNote": "The app has to be installed for the employee before Teams can deliver. Anyone without it gets the link by e-mail instead, in the same send.",
+    "blocked": "{count, plural, one {# has blocked or removed the app} other {# have blocked or removed the app}}",
+    "unreachable": "{count, plural, one {# could not be reached in Teams} other {# could not be reached in Teams}}",
+    "problemsLast": "Latest {date}. They get the link by e-mail instead.",
+    "problemsNone": "Teams has turned nobody away.",
+    "sent30": "{count, plural, =0 {No messages sent in Teams in the last 30 days} one {# message sent in Teams in the last 30 days} other {# messages sent in Teams in the last 30 days}}",
+    "step2": "2 · When Teams is used",
+    "mode": {
+      "mangler": "Only those without e-mail",
+      "paaminn": "Only as a reminder",
+      "alle": "Everyone who can be reached in Teams"
+    },
+    "modeNote": {
+      "mangler": "Teams reaches those without an e-mail address in the register. Everyone else gets the survey by e-mail as before.",
+      "paaminn": "Everyone gets e-mail first. Those who have not answered when the reminder goes out get it in Teams.",
+      "alle": "The invitation and the reminders go in Teams to everyone who has the app. The others get e-mail."
+    },
+    "step3": "3 · The app in Teams",
+    "installLead": "A Teams administrator at your organisation adds the app once and makes it available to employees:",
+    "install": {
+      "s1": "Download the app package below.",
+      "s2": "In the Teams admin center: Teams apps › Manage apps › Upload new app, and choose the package.",
+      "s3": "Install it for employees with an app setup policy (Teams apps › Setup policies), or let each person add it themselves from the apps in Teams.",
+      "s4": "The app takes no messages and asks for no access to anything in Microsoft 365."
+    },
+    "download": "Download the app package (.zip)",
+    "preview": "What the message looks like",
+    "previewSender": "Orgpuls",
+    "previewNote": "The reminders have their own text. The personal link sits only behind the button, and is new for every message.",
+    "legal": "The message holds only a short text and a button to the personal link — no results, department or comments. We ask for no read receipt and record no clicks. The Teams administrator at your organisation can read the messages the app sends, as an e-mail administrator can read e-mail, and a reminder shows that the recipient had not answered when it was sent.",
+    "activate": "Switch Teams on",
+    "deactivate": "Switch Teams off",
+    "toggleNote": "Applies from the next send. The schedule, the quiet hours at night and the reminders are the same as for e-mail.",
+    "readOnly": "Only the managing director can change the Teams setup.",
+    "saving": "Saving …",
+    "problem": {
+      "invalid": "The setup could not be saved. Try again.",
+      "denied": "Only the managing director can change the Teams setup.",
+      "noOrg": "Your organisation was not found.",
+      "notReady": "Teams cannot be switched on until Microsoft 365 is connected and the Teams app is set up."
+    },
+    "app": {
+      "nameShort": "Orgpuls",
+      "nameFull": "Orgpuls work environment survey",
+      "descriptionShort": "The link to your work environment survey, right in Teams.",
+      "descriptionFull": "Orgpuls sends you the link to your organisation's work environment survey as a Teams message instead of an e-mail. The message has a short text and a button that opens the survey in your browser. Your answer is stored with no connection to you, and the app takes no messages."
     }
   },
   "oversikt": {
@@ -6026,7 +6126,7 @@
           },
           {
             "t": "p",
-            "text": "You are the controller and Orgpuls the processor, under GDPR Article 28. The managing director reads and signs the agreement under Settings, and can print it or save it as PDF. We use three sub-processors: Supabase (database and sign-in, Frankfurt), Vercel (hosting, Frankfurt) and Brevo (e-mail and SMS)."
+            "text": "You are the controller and Orgpuls the processor, under GDPR Article 28. The managing director reads and signs the agreement under Settings, and can print it or save it as PDF. We use three sub-processors: Supabase (database and sign-in, Frankfurt), Vercel (hosting, Frankfurt) and Brevo (e-mail and SMS), and a fourth for organisations that send the survey in Teams: Microsoft (Azure Bot Service, EU)."
           },
           {
             "t": "box",
@@ -6166,7 +6266,8 @@
               "Vercel Inc. (USA): hosting of the website and the application, and the cookieless measurement of page views. Server functions run in Frankfurt.",
               "Brevo SAS (France): sending e-mail and SMS, and recording delivery, opens and clicks on e-mail.",
               "Google (Ireland): sign-in with Google, only if you choose it.",
-              "Microsoft (Ireland): sign-in with Microsoft, only if you choose it."
+              "Microsoft (Ireland): sign-in with Microsoft, only if you choose it.",
+              "Microsoft Ireland Operations Ltd (Ireland): Azure Bot Service relays the Teams message with the survey link, for organisations that have switched Teams on. The service is set up in the EU (West Europe)."
             ]
           },
           {
@@ -6616,6 +6717,7 @@
           "name and e-mail address",
           "mobile number, only if the organisation enters it or chooses to read it from Microsoft Entra ID, for sending by SMS",
           "preferred language, if the organisation enters it or it is read from Microsoft Entra ID, so that the survey can be offered in that language",
+          "for organisations that send the survey in Teams: which conversation the Orgpuls app has with the employee in Teams, and whether Teams has turned away a message to the employee",
           "which department the employee belongs to, and any role as safety representative, union representative or manager",
           "if the organisation brings in its employees from Microsoft Entra ID: the person's object ID in the directory, which of the chosen groups the person is in, and whether the account is active – only to keep the register up to date. Nothing is written back to the directory",
           "for each survey: whether an invitation and a reminder were sent and whether the employee has answered, so that reminders go only to those who have not – never what the employee answered",
@@ -6650,7 +6752,8 @@
         "ul": [
           "Supabase Inc. (USA): database, sign-in and background jobs. Data is stored in Frankfurt, Germany.",
           "Vercel Inc. (USA): hosting of the website and the application. The server functions run in Frankfurt, Germany.",
-          "Brevo SAS (France): sending of e-mail and SMS."
+          "Brevo SAS (France): sending of e-mail and SMS.",
+          "Microsoft Ireland Operations Ltd (Ireland): Azure Bot Service, which relays the Teams message with the survey link. Used only when the organisation has switched Teams on. The service runs in the EU (West Europe)."
         ]
       }
     ]

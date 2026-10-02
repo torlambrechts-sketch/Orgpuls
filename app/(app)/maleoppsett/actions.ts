@@ -405,6 +405,8 @@ const Delivery = z.object({
   roundId: Uuid,
   finalReminder: z.boolean(),
   smsWhen: z.enum(['mangler', 'paaminn', 'alle']).nullable(),
+  // 0176: the round's Teams rule, null for the organisation's
+  teamsWhen: z.enum(['mangler', 'paaminn', 'alle']).nullable(),
 })
 
 export async function saveRoundDelivery(values: z.infer<typeof Delivery>): Promise<SetupActionResult> {
@@ -414,7 +416,7 @@ export async function saveRoundDelivery(values: z.infer<typeof Delivery>): Promi
   const { data, error } = await supabase
     .schema('app')
     .from('rounds')
-    .update({ final_reminder: v.data.finalReminder, sms_when: v.data.smsWhen })
+    .update({ final_reminder: v.data.finalReminder, sms_when: v.data.smsWhen, teams_when: v.data.teamsWhen })
     .eq('id', v.data.roundId)
     .eq('status', 'planlagt')
     .select('id')

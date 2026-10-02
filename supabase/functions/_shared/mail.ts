@@ -46,8 +46,8 @@ export interface NoticeJob {
     | 'svarprosent'
     | 'evaluering'
   audience: string | null
-  /** the channel the database chose for the link (0033); role notices are always e-mail */
-  channel: 'email' | 'sms'
+  /** the channel the database chose for the link (0033, Teams since 0176); role notices are always e-mail */
+  channel: 'email' | 'sms' | 'teams'
   /** the organisation's own SMS text, or null for the default */
   sms_text: string | null
   lang: string
@@ -93,6 +93,8 @@ export interface Recipient {
   email: string | null
   /** present only when SMS may carry this person's link (0033) */
   phone: string | null
+  /** present only when Teams carries this person's link (0176): whom the bot addresses */
+  teams?: { object_id: string; tenant_id: string; conversation_id: string | null; service_url: string | null } | null
   name: string | null
   lang: string | null
   member: boolean

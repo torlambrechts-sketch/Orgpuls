@@ -79,6 +79,8 @@ export interface PerRound {
   }
   finalReminder: null | { on: boolean; label: string; sub: string }
   sms: null | { value: 'mangler' | 'paaminn' | 'alle' | null; head: string; note: string; options: { value: string; label: string }[] }
+  /** the round's Teams rule (0176), shown while the organisation has Teams on */
+  teams: null | { value: 'mangler' | 'paaminn' | 'alle' | null; head: string; note: string; options: { value: string; label: string }[] }
 }
 
 export interface SetupFormProps {
@@ -205,6 +207,7 @@ export function SetupForm(props: SetupFormProps) {
   const [reason, setReason] = useState(pr.panel.reason ?? '')
   const [finalOn, setFinalOn] = useState(pr.finalReminder?.on ?? false)
   const [smsWhen, setSmsWhen] = useState<string>(pr.sms?.value ?? '')
+  const [teamsWhen, setTeamsWhen] = useState<string>(pr.teams?.value ?? '')
   const screeningOff = !(extrasOn.includes('krenkende') && extrasOn.includes('vold'))
   const extrasOff = !canWrite || props.locked
   const [draft, setDraft] = useState('')
@@ -238,15 +241,16 @@ export function SetupForm(props: SetupFormProps) {
     }
   }
 
-  const delivery = (next: { finalReminder?: boolean; smsWhen?: string }) => {
+  const delivery = (next: { finalReminder?: boolean; smsWhen?: string; teamsWhen?: string }) => {
     const f = next.finalReminder ?? finalOn
     const w = next.smsWhen ?? smsWhen
+    const tw = next.teamsWhen ?? teamsWhen
     setFinalOn(f)
     setSmsWhen(w)
+    setTeamsWhen(tw)
     if (!canWrite || props.locked) return
-    run(() =>
-      saveRoundDelivery({ roundId, finalReminder: f, smsWhen: w === '' ? null : (w as 'mangler' | 'paaminn' | 'alle') }),
-    )
+    const rule = (v: string) => (v === '' ? null : (v as 'mangler' | 'paaminn' | 'alle'))
+    run(() => saveRoundDelivery({ roundId, finalReminder: f, smsWhen: rule(w), teamsWhen: rule(tw) }))
   }
 
   const reset = (section: 'rytme' | 'kommentarer' | 'tillegg' | 'utsending') => run(() => resetRoundSection(roundId, section))
@@ -617,6 +621,34 @@ export function SetupForm(props: SetupFormProps) {
               ))}
             </div>
             <div className="mt-[9px] max-w-[560px] text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">{pr.sms.note}</div>
+          </div>
+        ) : null}
+
+        {pr.teams ? (
+          <div className="mt-[18px] border-t border-line pt-[16px]">
+            <div className="flex flex-wrap items-center justify-between gap-[10px]">
+              <div className="text-[13.5px] font-semibold">{pr.teams.head}</div>
+              {/* one section, one mark: it sits on SMS when that is shown */}
+              {pr.sms ? null : mark('utsending')}
+            </div>
+            <div className="mt-[9px] flex flex-wrap gap-[7px]">
+              {pr.teams.options.map((o) => (
+                <Chip
+                  key={o.value || 'standard'}
+                  type="radio"
+                  name="teamsWhen"
+                  value={o.value}
+                  label={o.label}
+                  checked={teamsWhen === o.value}
+                  disabled={!canWrite || props.locked}
+                  paddingY={7}
+                  paddingX={13}
+                  text="12.5px"
+                  onChange={() => delivery({ teamsWhen: o.value })}
+                />
+              ))}
+            </div>
+            <div className="mt-[9px] max-w-[560px] text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">{pr.teams.note}</div>
           </div>
         ) : null}
       </Section>
