@@ -951,7 +951,9 @@
     "bliMed.problem.failed",
     "bliMed.or",
     "bliMed.google",
-    "bliMed.googleNote"
+    "bliMed.microsoft",
+    "bliMed.googleNote",
+    "bliMed.providerNote"
    ]
   },
   {
@@ -1962,6 +1964,7 @@
    "states": [
     "auth.error",
     "auth.invalidEmail",
+    "auth.hintMicrosoft",
     "auth.forgotTitle",
     "auth.forgotLead",
     "auth.sendReset",
@@ -1970,8 +1973,11 @@
     "auth.backToSignIn",
     "auth.or",
     "auth.google",
+    "auth.microsoft",
     "auth.googleProblem.google_failed",
-    "auth.googleProblem.google_no_account"
+    "auth.googleProblem.google_no_account",
+    "auth.microsoftProblem.microsoft_failed",
+    "auth.microsoftProblem.microsoft_refused"
    ]
   },
   {
@@ -2143,19 +2149,21 @@
     "seo.pages.personvernerklaering.blocks.17.text",
     "seo.pages.personvernerklaering.blocks.18.text",
     "seo.pages.personvernerklaering.blocks.19.text",
-    "seo.pages.personvernerklaering.blocks.20.items.0",
-    "seo.pages.personvernerklaering.blocks.20.items.1",
-    "seo.pages.personvernerklaering.blocks.20.items.2",
-    "seo.pages.personvernerklaering.blocks.20.items.3",
-    "seo.pages.personvernerklaering.blocks.21.text",
+    "seo.pages.personvernerklaering.blocks.20.text",
+    "seo.pages.personvernerklaering.blocks.21.items.0",
+    "seo.pages.personvernerklaering.blocks.21.items.1",
+    "seo.pages.personvernerklaering.blocks.21.items.2",
+    "seo.pages.personvernerklaering.blocks.21.items.3",
+    "seo.pages.personvernerklaering.blocks.21.items.4",
     "seo.pages.personvernerklaering.blocks.22.text",
-    "seo.pages.personvernerklaering.blocks.23.items.0",
-    "seo.pages.personvernerklaering.blocks.23.items.1",
-    "seo.pages.personvernerklaering.blocks.23.items.2",
-    "seo.pages.personvernerklaering.blocks.23.items.3",
-    "seo.pages.personvernerklaering.blocks.23.items.4",
-    "seo.pages.personvernerklaering.blocks.24.text",
+    "seo.pages.personvernerklaering.blocks.23.text",
+    "seo.pages.personvernerklaering.blocks.24.items.0",
+    "seo.pages.personvernerklaering.blocks.24.items.1",
+    "seo.pages.personvernerklaering.blocks.24.items.2",
+    "seo.pages.personvernerklaering.blocks.24.items.3",
+    "seo.pages.personvernerklaering.blocks.24.items.4",
     "seo.pages.personvernerklaering.blocks.25.text",
+    "seo.pages.personvernerklaering.blocks.26.text",
     "start.finalTitle",
     "start.finalBody"
    ],
@@ -2597,9 +2605,12 @@
     "registrer.problem.not_signed_in",
     "registrer.problem.rate_limited",
     "registrer.problem.google_failed",
+    "registrer.problem.microsoft_failed",
     "registrer.googleOr",
     "registrer.google",
+    "registrer.microsoft",
     "registrer.googleHint",
+    "registrer.providerHint",
     "registrer.heard.question",
     "registrer.heard.note",
     "registrer.heard.thanks",
