@@ -10244,3 +10244,57 @@ succeed and a recorded Microsoft session is refused after its organisation binds
 tsc, lint, i18n, vitest, db lint and the security audit pass. 0156 is applied on hosted; only
 `supabase_auth_admin` can execute the hook, and a dry run with a password event returns the claims
 unchanged.
+
+## D-202 — Employees and groups from Microsoft Entra ID, kept in sync (0165, 0166) (2026-10-02)
+
+Step 2 of the integration plan: Integrasjoner › Microsoft Entra ID cards 3 and 4, the Edge Function
+orgpuls-entra-sync and migration 0165. Graph is read with application permissions User.Read.All and
+GroupMember.Read.All (read only) by certificate client credentials (RS256; Microsoft's page now
+recommends PS256). Imported: display name, mail (or a UPN that is a mailbox — not #EXT#, not
+*.onmicrosoft.com; otherwise skipped as no_mailbox), accountEnabled, membership of the selected groups,
+preferredLanguage mapped to no/en/pl/uk/lt/sv/da (others leave the language as it is), and mobilePhone
+only when the organisation opted in (normalised as the register requires; an invalid number is
+dropped, the person kept, and a number is never cleared by the sync). Guests are excluded. A nightly
+cron (01:40 UTC) and «Synkroniser nå» (once per 5 minutes) start a run; without the Entra
+credentials every run ends as `not_configured` and the screen says so.
+
+Where it departs from the design:
+- Card 2 lists the real scopes: the design's Group.Read.All is GroupMember.Read.All, and its
+  «Navn, e-post og stilling» is name, e-mail, language and account state — job title is never read.
+- Card 3 adds a search field and an order list: a tenant has hundreds of groups, and a person in two
+  selected groups must land in one, by the daglig leder's ranking. Chips show «N medlemmer» from the
+  last run's mirror, «fra katalogen» before; the design's consultants note is replaced by the true
+  rule (guests are left out).
+- Card 4 adds the mobile-number opt-in. The leaver note says «settes som inaktive» rather than
+  «fjernes»: nobody is deleted.
+- The right column shows the last run as recorded (counts, waiting moves, conflicts by name for the
+  daglig leder, not-imported counts by reason) and «Synkroniser nå»; before a run, «Ingen
+  synkronisering ennå». The design's «Fant 34 brukere … kl. 03.10» is printed only from a real run.
+- The setup wizard's Entra note now points to Integrasjoner instead of saying the integration is not
+  ready.
+
+Rules (0165, proved in entra_import_invariants.sql): nothing deletes an employee or a group; a person
+disabled, removed or in no selected group is set inactive at once (only active = false, as a manual
+deactivation — an unused invitation stays valid); while any round is open, a group change is held in
+app.entra_deferred and made by the first run after it closes; the first run links CSV people by e-mail
+(any case) and never creates a duplicate; a renamed Entra group renames its Orgpuls group through the
+former_names trigger; the sync never reads or writes answers, responses, invitations or token hashes.
+Every sync table has RLS with no policy and no grant. Nested groups: delta reports direct membership
+only, so full syncs read transitiveMembers, and a group that nests is read whole every run.
+
+In Ansatte, a synced person carries «Entra»; their name, e-mail and active state cannot be changed by
+a client (employees_entra_guard). Their group may be set by hand, which pins it until «Følg Entra».
+Disconnecting, or unbinding the tenant, turns synced people back into ordinary employees.
+
+The DPA's section 3 and annex 1 name what the sync stores (object id, membership, account state,
+language, phone only on opt-in): version 2026-10-02.3 (0166).
+
+Not covered, queued: a person renamed in Entra (or by hand, as before) loses masking of their old name
+in older comments, because mask_patterns reads current names. Found in passing: deleting an
+organisation that has invitations fails (invitations' ON DELETE SET NULL on the employee meets the
+round already deleted) — pre-existing, queued.
+
+**Waiting on the owner:** on the same app registration, add the application permissions
+User.Read.All and GroupMember.Read.All; upload a certificate; set ENTRA_CLIENT_ID,
+ENTRA_CERT_PRIVATE_KEY (PKCS#8) and ENTRA_CERT_THUMBPRINT as Edge Function secrets. Tenants already
+bound must consent again.

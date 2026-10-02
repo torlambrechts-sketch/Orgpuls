@@ -3879,7 +3879,7 @@
       "fileNote": "Drop the file here, or press to choose one. The first line should be headings.",
       "fileChosen": "{name} · {count, plural, one {# line} other {# lines}} are read in when you press Next.",
       "fileAria": "Choose a CSV file",
-      "entraNote": "Entra is not connected yet. Upload a CSV exported from Entra, or paste the list, and we will connect once the integration is ready.",
+      "entraNote": "Connect Microsoft 365 under Oppsett › Integrasjoner › Microsoft Entra ID, and employees and groups are fetched from there and kept up to date. Until then, upload a CSV or paste the list.",
       "pastePlaceholder": "Kari Nordmann, kari@firma.no, Drift\nOla Hansen, 912 34 567, Verksted",
       "pasteAria": "Employees, one per line",
       "register": "Open the register and add people →",
