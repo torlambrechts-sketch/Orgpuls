@@ -91,7 +91,7 @@
     "komIGang": "Getting started",
     "anonymitet": "Anonymity",
     "kontaktOss": "Contact us",
-    "legal": "© 2026 Orgpuls AS · orgpuls.no · hjelp@orgpuls.no",
+    "legal": "© 2026 Orgpuls · orgpuls.no · hjelp@orgpuls.no",
     "databehandleravtale": "Data processing agreement",
     "personvern": "Privacy",
     "driftsstatus": "System status"
@@ -1956,7 +1956,7 @@
       },
       "processor": {
         "head": "Processor",
-        "body": "Orgpuls AS is the processor. The sub-processors are Supabase (database, Frankfurt), Vercel (hosting, Frankfurt) and Brevo (e-mail and SMS). The agreement is under Data processing agreement, where the managing director signs it."
+        "body": "Orgpuls is the processor. The sub-processors are Supabase (database, Frankfurt), Vercel (hosting, Frankfurt) and Brevo (e-mail and SMS). The agreement is under Data processing agreement, where the managing director signs it."
       },
       "dpia": {
         "head": "Data protection impact assessment",
@@ -2064,7 +2064,7 @@
       "forProcessor": "For the processor",
       "signatureLine": "Signed electronically by {name}, {title}, {when}",
       "notYetSigned": "Not signed yet",
-      "processorLine": "Orgpuls AS. The agreement is Orgpuls' standard terms and binds Orgpuls once the organisation signs.",
+      "processorLine": "Orgpuls. The agreement is Orgpuls' standard terms and binds Orgpuls once the organisation signs.",
       "form": {
         "name": "Name",
         "title": "Position",
@@ -5917,7 +5917,7 @@
           },
           {
             "t": "p",
-            "text": "You are the controller and Orgpuls AS the processor, under GDPR Article 28. The managing director reads and signs the agreement under Settings, and can print it or save it as PDF. We use three sub-processors: Supabase (database and sign-in, Frankfurt), Vercel (hosting, Frankfurt) and Brevo (e-mail and SMS)."
+            "text": "You are the controller and Orgpuls the processor, under GDPR Article 28. The managing director reads and signs the agreement under Settings, and can print it or save it as PDF. We use three sub-processors: Supabase (database and sign-in, Frankfurt), Vercel (hosting, Frankfurt) and Brevo (e-mail and SMS)."
           },
           {
             "t": "box",
@@ -5959,11 +5959,11 @@
       },
       "personvernerklaering": {
         "title": "Privacy statement | Orgpuls",
-        "description": "What personal data Orgpuls AS processes when you visit the website, register an organisation, get the newsletter or contact us, and the rights you have.",
+        "description": "What personal data Orgpuls processes when you visit the website, register an organisation, get the newsletter or contact us, and the rights you have.",
         "crumb": "Privacy statement",
         "kicker": "Privacy",
         "h1": "Privacy statement",
-        "lead": "What Orgpuls AS collects about you, why, how long we keep it and who helps us. Last updated 2 October 2026.",
+        "lead": "What Orgpuls collects about you, why, how long we keep it and who helps us. Last updated 2 October 2026.",
         "blocks": [
           {
             "t": "h2",
@@ -5971,12 +5971,12 @@
           },
           {
             "t": "p",
-            "text": "Orgpuls AS is the controller for the data described here: visits to the website, organisation signups, the newsletter, marketing and customer support. Send questions about privacy to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)."
+            "text": "Orgpuls is the controller for the data described here: visits to the website, organisation signups, the newsletter, marketing and customer support. Send questions about privacy to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)."
           },
           {
             "t": "box",
             "title": "Answers to employee surveys",
-            "text": "When an organisation uses Orgpuls to survey its work environment, the organisation is the controller and Orgpuls AS the processor under a data processing agreement. Answers are stored with no link to the person who gave them. How that is built is described under [Security and privacy](/sikkerhet). Questions about a survey you take part in go to your employer."
+            "text": "When an organisation uses Orgpuls to survey its work environment, the organisation is the controller and Orgpuls the processor under a data processing agreement. Answers are stored with no link to the person who gave them. How that is built is described under [Security and privacy](/sikkerhet). Questions about a survey you take part in go to your employer."
           },
           {
             "t": "h2",
@@ -6085,11 +6085,11 @@
       },
       "vilkar": {
         "title": "Terms of use | Orgpuls",
-        "description": "The terms between Orgpuls AS and the organisation using Orgpuls: the trial, prices and payment, anonymity, liability, cancellation and deletion.",
+        "description": "The terms between Orgpuls and the organisation using Orgpuls: the trial, prices and payment, anonymity, liability, cancellation and deletion.",
         "crumb": "Terms",
         "kicker": "Terms",
         "h1": "Terms of use for Orgpuls",
-        "lead": "What applies between Orgpuls AS and the organisation that uses Orgpuls. Version 1 · in force from 2 October 2026.",
+        "lead": "What applies between Orgpuls and the organisation that uses Orgpuls. Version 1 · in force from 2 October 2026.",
         "blocks": [
           {
             "t": "h2",
@@ -6097,7 +6097,7 @@
           },
           {
             "t": "p",
-            "text": "These terms apply between Orgpuls AS (\"Orgpuls\", \"we\") and the organisation that registers for and uses Orgpuls (\"the customer\", \"you\")."
+            "text": "These terms apply between Orgpuls (\"we\") and the organisation that registers for and uses Orgpuls (\"the customer\", \"you\")."
           },
           {
             "t": "p",
@@ -6257,7 +6257,7 @@
           },
           {
             "t": "p",
-            "text": "Orgpuls AS owns the software, the design and the texts in the service, including suggested measures. You receive a non-exclusive right to use the service for your own organisation during the agreement period."
+            "text": "Orgpuls owns the software, the design and the texts in the service, including suggested measures. You receive a non-exclusive right to use the service for your own organisation during the agreement period."
           },
           {
             "t": "p",
@@ -6333,7 +6333,7 @@
           },
           {
             "t": "p",
-            "text": "The agreement is governed by Norwegian law. The parties shall first try to resolve disagreements through negotiation. The legal venue is the district court (tingrett) where Orgpuls AS has its registered business office."
+            "text": "The agreement is governed by Norwegian law. The parties shall first try to resolve disagreements through negotiation. The legal venue is the district court (tingrett) where Orgpuls has its registered business office."
           },
           {
             "t": "h2",
@@ -6341,7 +6341,7 @@
           },
           {
             "t": "p",
-            "text": "Orgpuls AS · [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)"
+            "text": "Orgpuls · [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)"
           }
         ]
       },
@@ -6406,12 +6406,12 @@
   },
   "dpa": {
     "title": "Data processing agreement",
-    "lead": "This agreement governs how Orgpuls AS processes personal data on behalf of the organisation, under the General Data Protection Regulation (GDPR) Article 28. It follows the requirements the Norwegian Data Protection Authority (Datatilsynet) sets out for data processing agreements, and the structure of the European Commission's standard contractual clauses between controllers and processors (Implementing Decision (EU) 2021/915). This is a translation; the Norwegian version governs.",
+    "lead": "This agreement governs how Orgpuls processes personal data on behalf of the organisation, under the General Data Protection Regulation (GDPR) Article 28. It follows the requirements the Norwegian Data Protection Authority (Datatilsynet) sets out for data processing agreements, and the structure of the European Commission's standard contractual clauses between controllers and processors (Implementing Decision (EU) 2021/915). This is a translation; the Norwegian version governs.",
     "sections": [
       {
         "h": "1. Parties and roles",
         "p": [
-          "The organisation using Orgpuls is the controller. Orgpuls AS is the processor.",
+          "The organisation using Orgpuls is the controller. Orgpuls is the processor.",
           "The organisation decides the purpose of the processing and which data is entered. Orgpuls processes the data only to provide the service."
         ]
       },
@@ -6575,7 +6575,7 @@
       },
       "footer": {
         "about": "Answers are stored in the EU, and no single answer can be traced back to a person.",
-        "bottom": "© {year} Orgpuls AS · <mail>hjelp@orgpuls.no</mail> · <privacy>Privacy</privacy> · <terms>Terms</terms>",
+        "bottom": "© {year} Orgpuls · <mail>hjelp@orgpuls.no</mail> · <privacy>Privacy</privacy> · <terms>Terms</terms>",
         "head": {
           "produkt": "Product",
           "bruksomrader": "Use cases",

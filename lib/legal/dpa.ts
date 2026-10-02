@@ -14,8 +14,8 @@ import { z } from 'zod'
  * Publishing a new version: edit the text, set DPA_VERSION and DPA_SHA256 here, and insert
  * the same pair into app.dpa_versions in a new migration.
  */
-export const DPA_VERSION = '2026-09-25'
-export const DPA_SHA256 = '92a39e5765e43fab1ddf9c7c80b196bc65e6d0a6951c40b223212a1c929a5771'
+export const DPA_VERSION = '2026-10-02'
+export const DPA_SHA256 = '1ebeb268e4dce2b3a7df88393da508246395c3b0987dcdd89061a6c4e41469d6'
 
 export const DpaSection = z.object({
   h: z.string().min(1),

@@ -153,7 +153,7 @@ for (const pg of pages) {
   need(r.vagueLinks.length === 0, `vague link text: ${r.vagueLinks.join(', ')}`)
   need(r.thirdPartyScripts.length === 0, `third-party scripts: ${r.thirdPartyScripts.join(', ')}`)
   need(errors.length === 0, `console errors: ${errors.join(' | ')}`)
-  need(/Orgpuls AS/.test(r.footer), 'footer has no company name')
+  need(/© \d{4} Orgpuls/.test(r.footer), 'footer has no company name')
   need(/kontakt/i.test(r.footer), 'footer has no contact link')
   need(/personvern/i.test(r.footer), 'footer has no privacy link')
   if (!/org\.?\s?nr/i.test(r.footer)) r.note.push('footer has no org.nr.')

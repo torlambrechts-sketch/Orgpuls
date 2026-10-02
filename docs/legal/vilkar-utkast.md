@@ -7,6 +7,10 @@
 > utkastet slik det ble skrevet, med merknadene, og beslutningene som ble tatt ved publisering
 > nederst. Endres vilkårene, endres meldingene, og versjon og dato i ingressen.
 >
+> **Part (2. oktober 2026, D-196):** det finnes ikke noe Orgpuls AS. Selskapet bak produktet er Pundit
+> Invest AS, og organisasjonsnummeret for Orgpuls er ikke klart ennå. Den publiserte teksten kaller derfor
+> parten «Orgpuls», uten «AS», org.nr. og adresse. «Orgpuls AS» i utkastet under er slik det ble skrevet.
+>
 > Opprinnelig status: utkast, 26. september 2026. Ikke publisert, og ikke lenket fra nettsiden.
 >
 > **Slik leser du utkastet:**

@@ -10041,3 +10041,20 @@ shows it, framed as the design frames it, instead of the drawn survey mock of D-
 is on it. The share cards are regenerated with the new shots; the site's own card (`public/og.png`) carries the
 first slide's title, since the front page's H1 is screen-reader only and begins with the brand the card already
 shows beside the logo.
+
+## D-196 — «Orgpuls», not «Orgpuls AS»: there is no such company (2026-10-02)
+
+The site, the privacy statement, the terms (D-194), the security page, the in-app privacy and DPA tabs and the data
+processing agreement all named the provider «Orgpuls AS». No company of that name exists: Pundit Invest AS is behind
+the product, and an organisation number for Orgpuls is not ready yet (the owner, 2 October 2026). Every such text now
+says «Orgpuls» (17 messages in each of no and en; the DPA tab's contact line; comments), the schema.org Organization
+drops `legalName`, and the landing audit looks for «© yyyy Orgpuls» in the footer. Historical entries in this file,
+the decision log and the design references keep the old wording as written.
+
+The DPA's Norwegian text changed in two places (the lead and section 1), so it is a new version: `2026-10-02`, hash
+`1ebeb268…69d6` (lib/legal/dpa.ts, migration 0149, applied locally and on hosted). Hosted had no signature to
+`2026-09-25`, so no organisation is asked to sign again.
+
+Still open: the company details e-handelsloven § 8 asks for (name of the legal entity, organisation number, address)
+are not on the site. Pundit Invest AS is not named on the site either; that is the owner's call once the
+organisation number for Orgpuls exists.

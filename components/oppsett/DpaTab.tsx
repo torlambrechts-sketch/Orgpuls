@@ -7,7 +7,7 @@ import { DpaSignForm } from './DpaSignForm'
 
 /**
  * Oppsett › Databehandleravtale (D-87): the agreement between the organisation, as controller,
- * and Orgpuls AS, as processor, and the organisation's signature of it.
+ * and Orgpuls, as processor, and the organisation's signature of it.
  *
  * The status comes first, because it is what a leader opens the tab to check: signed (by
  * whom, as what, when, which version, with the text's checksum) or not. The daglig leder
@@ -130,7 +130,7 @@ export async function DpaTab({
           <div className="rounded-cta border border-line bg-bg px-[16px] py-[12px]">
             <dt className="text-[11.5px] font-bold text-mut">{t('oppsett.dpa.processor')}</dt>
             <dd className="m-0 mt-[4px] text-[13.5px] font-semibold">
-              Orgpuls AS · <a href={`mailto:${CONTACT_MAIL}`}>{CONTACT_MAIL}</a>
+              Orgpuls · <a href={`mailto:${CONTACT_MAIL}`}>{CONTACT_MAIL}</a>
             </dd>
           </div>
         </dl>

@@ -13,7 +13,6 @@ export const organization = () => ({
   '@type': 'Organization',
   '@id': `${SITE_URL}/#organization`,
   name: 'Orgpuls',
-  legalName: 'Orgpuls AS',
   url: SITE_URL,
   logo: absolute('/apple-icon.png'),
   email: 'hjelp@orgpuls.no',

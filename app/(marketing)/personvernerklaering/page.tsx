@@ -5,7 +5,7 @@ import { pageMeta } from '@/lib/marketing/meta'
 
 /**
  * The privacy statement (D-104): the footer's "Personvernerklæring", which had no page (D-88).
- * Orgpuls AS as controller for the site, signups, the newsletter and support; the survey
+ * Orgpuls as controller for the site, signups, the newsletter and support; the survey
  * itself is the customer's, and /sikkerhet explains it. The words are messages, the shape is
  * PageTemplate, as every other page of the site.
  */
