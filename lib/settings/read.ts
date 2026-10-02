@@ -118,6 +118,8 @@ const RosterRow = z.object({
   group_id: z.string().nullable(),
   duty_role: z.enum(DUTY_ROLES).nullable(),
   created_at: z.string(),
+  source: z.enum(['manual', 'entra']),
+  entra_group_pinned: z.boolean(),
 })
 
 export interface RosterPerson {
@@ -128,6 +130,10 @@ export interface RosterPerson {
   groupId: string | null
   dutyRole: DutyRole | null
   createdAt: string
+  /** synced from Microsoft Entra ID (0165): name and e-mail are the directory's */
+  source: 'manual' | 'entra'
+  /** a synced person whose group was set here by hand, which the sync then leaves alone */
+  pinned: boolean
 }
 
 export async function getRoster(): Promise<RosterPerson[]> {
@@ -135,7 +141,7 @@ export async function getRoster(): Promise<RosterPerson[]> {
   const { data, error } = await supabase
     .schema('app')
     .from('employees')
-    .select('id, full_name, email, active, group_id, duty_role, created_at')
+    .select('id, full_name, email, active, group_id, duty_role, created_at, source, entra_group_pinned')
     .order('full_name')
 
   if (readFailed('getRoster', error, data)) return []
@@ -149,6 +155,8 @@ export async function getRoster(): Promise<RosterPerson[]> {
     groupId: r.group_id,
     dutyRole: r.duty_role,
     createdAt: r.created_at,
+    source: r.source,
+    pinned: r.entra_group_pinned,
   }))
 }
 

@@ -92,7 +92,8 @@ export default async function EntraPage({
     leaverNote: ti('leaverNote'),
     roundNote: ti('roundNote'),
     pending: ti('pending'),
-    readOnly: ti('readOnly'),
+    // why nothing here can be changed: no Entra application in this installation, or not the daglig leder
+    readOnly: clientId === null ? ti('error.not_configured') : ti('readOnly'),
     problems: Object.fromEntries(
       ['not_allowed', 'no_tenant', 'not_set_up', 'no_groups', 'busy', 'rate_limited', 'not_configured', 'name_taken',
         'consent_missing', 'permission_missing', 'invalid', 'denied', 'noOrg', 'unavailable'].map((k) => [k, ti(`problem.${k}`)]),

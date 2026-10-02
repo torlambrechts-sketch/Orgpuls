@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { setEmployeeDutyRole, setEmployeeGroup } from '@/app/(app)/oppsett/actions'
+import { followEntra } from '@/app/(app)/integrasjoner/entra/import-actions'
 import type { DutyRole, RosterPerson } from '@/lib/settings/read'
 
 /**
@@ -12,6 +13,8 @@ import type { DutyRole, RosterPerson } from '@/lib/settings/read'
 export interface RosterRow extends RosterPerson {
   groupLabel: string
   roleLabel: string
+  /** «La {name} følge gruppen i Entra igjen», for a pinned synced person */
+  followLabel: string
 }
 import type { Group } from '@/lib/org/read'
 
@@ -29,6 +32,11 @@ import type { Group } from '@/lib/org/read'
  * policy consults `duty_role`, and access is `app.memberships.role`, which is granted
  * somewhere else entirely. The note under the table says so, because a column labelled
  * "Rolle" in a settings screen will otherwise be read as one.
+ *
+ * A person synced from Microsoft Entra ID (0165, D-202) carries a small «Entra» mark: their name
+ * and e-mail come from the directory, and the database refuses a change to them from here. The
+ * group may still be set by hand, which pins it — the sync leaves it alone — and «Følg Entra»
+ * lets it go again.
  */
 export function RosterTable({
   roster,
@@ -54,6 +62,10 @@ export function RosterTable({
     inactive: string
     duty: Record<string, string>
     denied: string
+    entraChip: string
+    entraLocked: string
+    pinned: string
+    follow: string
   }
 }) {
   const [problem, setProblem] = useState(false)
@@ -87,11 +99,23 @@ export function RosterTable({
               key={p.id}
               className={`grid items-center gap-[12px] border-t border-line px-[16px] py-[9px] text-[13px] ${COLS}`}
             >
-              <span className="font-semibold">{p.name}</span>
+              <span className="flex min-w-0 flex-wrap items-center gap-x-[7px] gap-y-[2px]">
+                <span className="font-semibold">{p.name}</span>
+                {p.source === 'entra' ? (
+                  <span
+                    title={labels.entraLocked}
+                    className="rounded-pill px-[7px] py-[1px] text-[10.5px] font-bold"
+                    style={{ background: 'rgba(25,21,16,.07)', color: '#5F5849' }}
+                  >
+                    {labels.entraChip}
+                  </span>
+                ) : null}
+              </span>
               <span className="overflow-hidden text-ellipsis text-mut">
                 {p.email ?? labels.noEmail}
               </span>
 
+              <span className="flex min-w-0 flex-col gap-[3px]">
               <select
                 value={p.groupId ?? ''}
                 disabled={!canWrite}
@@ -113,6 +137,26 @@ export function RosterTable({
                   </option>
                 ))}
               </select>
+              {p.source === 'entra' && p.pinned ? (
+                <span className="flex flex-wrap items-baseline gap-x-[6px] text-[11px] text-mut">
+                  {labels.pinned}
+                  {canWrite ? (
+                    <button
+                      type="button"
+                      aria-label={p.followLabel}
+                      onClick={() => {
+                        const data = new FormData()
+                        data.set('id', p.id)
+                        write(() => followEntra(data))
+                      }}
+                      className="cursor-pointer border-0 bg-transparent p-0 text-[11px] font-bold text-link underline"
+                    >
+                      {labels.follow}
+                    </button>
+                  ) : null}
+                </span>
+              ) : null}
+              </span>
 
               <select
                 value={p.dutyRole ?? ''}
