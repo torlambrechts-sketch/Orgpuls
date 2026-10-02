@@ -1920,7 +1920,7 @@
       "sms": {
         "name": "SMS",
         "what": "For people without regular e-mail use during the working day — sites, workshops, shifts. One message with a link, no app.",
-        "need": "Not built. It would also need mobile numbers in the register: {withPhone} of {total} have one today."
+        "need": "It needs mobile numbers in the register: {withPhone} of {total} have one today."
       },
       "hr": {
         "name": "HR system",
@@ -2413,12 +2413,12 @@
       },
       "sms": {
         "title": "Sending by SMS",
-        "lead": "For people without regular e-mail during the working day. What it will require.",
+        "lead": "For people without regular e-mail during the working day. How to set it up.",
         "body": {
-          "p1": "SMS sending is not built in this installation. This article describes what it will require.",
+          "p1": "Switch SMS on under Settings → Integrations → SMS. There you choose the sender name and the text, and whether SMS goes only to those without e-mail, only as a reminder, or to everyone.",
           "p2": "The main requirement is mobile numbers in the register. Settings → Integrations shows how many of the register have one today. Without a number a person cannot be reached by SMS, and falls back to e-mail or a link.",
           "p3": "The message is short, with a sender name you choose and a personal link appended at the end. The link cannot be used twice, and it says nothing about who answered what.",
-          "p4": "SMS is the channel that moves the response rate most for sites, workshops and shift work. It is billed per message, so it is worth deciding whether it is used for every send or only for the reminders."
+          "p4": "SMS is the channel that moves the response rate most for sites, workshops and shift work. Decide whether it is used for every send or only for the reminders."
         }
       }
     },

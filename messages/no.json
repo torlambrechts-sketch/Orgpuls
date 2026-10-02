@@ -1920,7 +1920,7 @@
       "sms": {
         "name": "SMS",
         "what": "For folk uten fast e-postbruk i arbeidstiden — anlegg, verksted, skift. Én melding med lenke, ingen app.",
-        "need": "Ikke bygget. Krever dessuten mobilnummer i ansattregisteret: {withPhone} av {total} har det i dag."
+        "need": "Krever mobilnummer i ansattregisteret: {withPhone} av {total} har det i dag."
       },
       "hr": {
         "name": "HR-system",
@@ -2413,12 +2413,12 @@
       },
       "sms": {
         "title": "Send på SMS",
-        "lead": "For folk uten fast e-post i arbeidstiden. Hva det vil kreve.",
+        "lead": "For folk uten fast e-post i arbeidstiden. Slik setter dere det opp.",
         "body": {
-          "p1": "SMS-utsending er ikke bygget i denne installasjonen. Denne artikkelen beskriver hva den vil kreve.",
+          "p1": "Slå på SMS under Oppsett → Integrasjoner → SMS. Der velger dere avsendernavn og tekst, og om SMS skal gå bare til dem uten e-post, bare som påminnelse, eller til alle.",
           "p2": "Det viktigste kravet er mobilnumre i ansattregisteret. Oppsett → Integrasjoner viser hvor mange av registeret som har ett i dag. Uten nummer kan en person ikke nås på SMS, og faller tilbake til e-post eller lenke.",
           "p3": "Meldingen er kort, med et avsendernavn dere velger og en personlig lenke som legges til til slutt. Lenken kan ikke brukes to ganger, og den sier ingenting om hvem som svarte hva.",
-          "p4": "SMS er den kanalen som flytter svarprosenten mest for anlegg, verksted og skift. Den faktureres per melding, så det er verdt å bestemme om den skal brukes til alle utsendinger eller bare til påminnelsene."
+          "p4": "SMS er den kanalen som flytter svarprosenten mest for anlegg, verksted og skift. Bestem om den skal brukes til alle utsendinger eller bare til påminnelsene."
         }
       }
     },
