@@ -10401,3 +10401,35 @@ Vercel and as Edge Function secrets.
 
 **Open decisions:** a group of companies sharing one Slack workspace can connect only one Orgpuls
 organisation; Enterprise Grid org-wide installs are refused.
+
+## D-206 — Former employee names stay masked; an organisation with invitations can be deleted (0190) (2026-10-02)
+
+Two follow-ups from D-202.
+
+**Former names.** Comment masking (`app.mask_patterns`, 0095) read only the register as it is now. A
+person renamed in Ansatte or by the Entra sync lost the masking of their old name in comments, replies
+and open answers written earlier, and a person deleted from the register lost it altogether. Groups
+have kept their former names since 0130; people now do too, in `app.employee_former_names` — an
+organisation and a name, with nothing saying whose name it is or when it changed; RLS on, no policy, no
+grant; only `mask_patterns` reads it. The trigger `employees_keep_names` writes the old name after any
+change of `full_name`, whoever makes it (a client, the CSV import, `entra_sync_apply`), and the person's
+name when someone is deleted while the organisation exists — deleting a person must not unmask what was
+written about them. Inside the organisation's own cascade it writes nothing. The names are kept as long
+as the organisation's answers are (the agreement, 0136), are deleted with the organisation, and a demo
+sandbox copies the template's (copy plan step 21). The fixture generators clear them on a rerun. No
+answer table, response column or policy changed.
+
+**Deleting an organisation.** A one-statement delete of an organisation failed two ways: within the
+transaction that wrote its invitations, the employees' ON DELETE SET NULL updated an invitation whose
+round the same cascade had already removed, and PostgreSQL re-checks the foreign keys of a row written
+in the current transaction (`invitations_org_id_round_id_fkey`); and in any transaction, once someone
+had answered, `responses_group_id_fkey` (0042) refused the groups' delete. `delete_organisation` and
+`demo_drop` already avoided both by deleting rounds first. A BEFORE DELETE trigger on
+`app.organizations` (`organizations_rounds_first`) makes that the order for every path. No foreign key
+changed or was deferred, no anonymity constraint changed, and the answer tables' immutability triggers
+are untouched; `responses_group_id_fkey` still refuses deleting a group that holds responses.
+
+Proved in `former_names_invariants.sql` (10 assertions; three through the leader-facing reader
+`public.conversations`); `entra_import_invariants.sql` deletes its organisation in one statement again.
+Not covered: a removed location's name likewise stops masking (locations have no former names). The DPA
+is unchanged: names are a stated register category, kept for the agreement's term.
