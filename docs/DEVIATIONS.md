@@ -10151,3 +10151,52 @@ Every public text that stated 5 as a fixed rule now says what the product does (
 in force from 2 October 2026, because the change is made on the day it takes effect; the draft's status block records
 it. The share cards were regenerated for the new pill. Left as is on purpose: texts about the law (§ 6-1, five
 employees), general «bør» advice, and descriptions of examples set at the default.
+
+## D-201 — «Fortsett med Microsoft» and «Koble til Microsoft 365» (0155) (2026-10-02)
+
+**The request:** "Start building Entra ID sign-in" — step 1 of the integration plan.
+
+**Supersedes D-38 for Microsoft.** The start design's first alternative sign-in button and its
+hint («Er dere på Microsoft 365, slipper du passordet. Bruk knappen under.») are now drawn,
+because the provider behind them exists. They render only when Supabase's /auth/v1/settings
+reports `azure` on (as D-102 does for Google), above Google, 9 px apart, in the design's button
+style, with Microsoft's four-square logo in the design's 10 px icon gap (Microsoft's branding
+guidance; Google's G is the precedent). The same button is on /registrer step 2 and /bli-med,
+which the design does not draw. BankID stays out.
+
+**What was built:**
+- Sign-in through Supabase Auth's `azure` provider, multitenant `organizations` endpoint,
+  scopes `openid profile email`, PKCE, the D-102 signup cookie.
+- `entra_sign_in_check` (0155) after every OAuth exchange and after an invitation is accepted:
+  no membership, a tenant other than the organisation's bound one, another object id for a
+  bound membership, a platform admin, an ambiguous or incomplete identity, a personal account,
+  or a first binding without `xms_edov` (unless Microsoft made the account) are refused and
+  signed out locally. Identity is read from `auth.identities` (custom_claims.tid/oid), never
+  from e-mail, UPN or user_metadata. The login page shows one message for every refusal that
+  would reveal whether an account exists.
+- Oppsett › Integrasjoner › Microsoft Entra ID: a daglig leder signed in with Microsoft binds
+  the organisation's tenant by Microsoft admin consent (single-use hashed nonce; the returned
+  tenant must be the caller's own identity's). One tenant per organisation and one organisation
+  per tenant. Unbinding keeps who and when (app.entra_tenant_log).
+- The design's connection screen (`isEntra`) is built for its first two cards; cards 3 and 4
+  (groups, sync) keep the frame and say «Kommer», with none of the design's controls. Its lead,
+  the tenant field (read-only, from the identity, not typed) and the permission rows say what
+  is true now rather than the design's import copy. Without ENTRA_CLIENT_ID there is no button.
+- Personvern gets a ninth card, «Hva lagres om dem som logger inn»; the privacy statement and
+  hjelp.article.entra say what a Microsoft sign-in stores (tenant id, object id).
+- The callback's sign-outs, Google's included, are now `scope: 'local'`.
+
+**Not built, logged:** the import (groups, sync) — step 2. A client that performs the PKCE code
+exchange itself bypasses the callback's check; closing that needs a Custom Access Token hook or
+an RLS gate. The DPA lists the organisation's users and their account data as processor data
+(sections 13, 14, 15), which the privacy statement treats as controller data; left for the
+owner, since changing it is a new DPA version.
+
+**Waiting on the owner:** the Azure app registration and the Supabase provider switch
+(docs/integrations/entra-signin.md), and ENTRA_CLIENT_ID in Vercel.
+
+**Verified:** entra_signin_invariants.sql 42/42; unit tests; tsc, lint, i18n, build, page map;
+every SQL suite; the Oppsett «Sett opp» button 0 px from baseline 09; /logg-inn,
+/integrasjoner/entra, Oppsett at 1440 and 390 with the provider forced on and off, no console
+errors. 0155 is applied on hosted (applied before the code shipped, since the callback fails
+closed without `entra_sign_in_check`).
