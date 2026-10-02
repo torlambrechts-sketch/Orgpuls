@@ -57,3 +57,6 @@ supabase/functions/_shared/messages.gen.ts
 # pseudo-locale catalogue, generated from messages/no.json by scripts/i18n/pseudo.mjs
 /.pseudo/
 /.claude/worktrees/
+
+# the Teams app package, built per deployment (npm run teams:package)
+teams-app/dist/

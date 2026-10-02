@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.30/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.30",
+  "version": "1.0.0",
+  "id": "{{TEAMS_APP_ID}}",
+  "localizationInfo": {
+    "defaultLanguageTag": "en-us",
+    "additionalLanguages": [{ "languageTag": "nb-no", "file": "nb-no.json" }]
+  },
+  "developer": {
+    "name": "Pundit Invest AS",
+    "websiteUrl": "https://www.orgpuls.com",
+    "privacyUrl": "https://www.orgpuls.com/personvernerklaering",
+    "termsOfUseUrl": "https://www.orgpuls.com/vilkar"
+  },
+  "name": { "short": "{{NAME_SHORT}}", "full": "{{NAME_FULL}}" },
+  "description": { "short": "{{DESCRIPTION_SHORT}}", "full": "{{DESCRIPTION_FULL}}" },
+  "icons": { "color": "color.png", "outline": "outline.png" },
+  "accentColor": "#FCF6E9",
+  "bots": [
+    {
+      "botId": "{{TEAMS_BOT_APP_ID}}",
+      "scopes": ["personal"],
+      "isNotificationOnly": true,
+      "supportsFiles": false,
+      "supportsCalling": false,
+      "supportsVideo": false
+    }
+  ],
+  "defaultInstallScope": "personal",
+  "validDomains": ["{{APP_HOST}}"]
+}
