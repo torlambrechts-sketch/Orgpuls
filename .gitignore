@@ -49,6 +49,7 @@ supabase/functions/_shared/messages.gen.ts
 /.next-qa/
 /.next-qa*/
 /.next-devprobe/
+/.next-*/
 /test-results/
 /playwright-report/
 /qa/.auth/
