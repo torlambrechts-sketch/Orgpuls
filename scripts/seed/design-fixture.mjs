@@ -984,6 +984,8 @@ delete from app.risk_assessments where org_id = '${ORG}';
 delete from app.measures      where org_id = '${ORG}';
 delete from app.measurements where org_id = '${ORG}';
 delete from app.employees   where org_id = '${ORG}';
+-- a deleted person's name is kept for masking (0190); the fixture's people come back below
+delete from app.employee_former_names where org_id = '${ORG}';
 delete from app.groups      where org_id = '${ORG}';
 
 -- inserted, not updated. No migration seeds an organisation, so on a database built
