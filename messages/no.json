@@ -2659,7 +2659,7 @@
       "deleted": "Virksomheten står som slettet i Enhetsregisteret.",
       "unreachable": "Enhetsregisteret svarte ikke. Prøv igjen om litt – ingenting er endret.",
       "signup_failed": "Kontoen kunne ikke opprettes med disse opplysningene. Sjekk e-postadressen og passordet, eller logg inn hvis du allerede har konto.",
-      "confirm_email": "Kontoen er opprettet. Åpne e-posten vi sendte og bekreft adressen, så kan du logge inn og fullføre oppsettet.",
+      "confirm_email": "Vi har sendt deg en e-post. Trykk på lenken i den for å bekrefte adressen – da opprettes virksomheten, og du kommer rett videre i oppsettet.",
       "org_failed": "Virksomheten kunne ikke opprettes. Prøv igjen.",
       "already_a_member": "Du hører allerede til en virksomhet. Logg inn i stedet.",
       "already_registered": "Denne virksomheten er allerede registrert i Orgpuls. Be en administrator der om å invitere deg.",

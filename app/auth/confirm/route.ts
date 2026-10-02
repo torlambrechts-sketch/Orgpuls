@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import type { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { completePendingSignup } from '@/lib/signup/pending'
 
 /**
  * Where an Auth mail's link lands. D-65.
@@ -42,6 +43,13 @@ export async function GET(request: NextRequest) {
     // a used or expired reset link lands on the page that explains it
     if (parsed.data.type === 'recovery') redirect('/nytt-passord')
     redirect('/logg-inn')
+  }
+
+  // a confirmed sign-up: the organisation it named is made now (lib/signup/pending.ts, D-200)
+  if (parsed.data.type === 'email') {
+    const made = await completePendingSignup(supabase)
+    if (made.kind === 'created') redirect('/registrer?ferdig=1' as Route)
+    if (made.kind === 'failed') redirect(`/registrer?feil=${made.reason}` as Route)
   }
 
   // a login link asked for on /demo lands here like any other; the visitor is sent on to

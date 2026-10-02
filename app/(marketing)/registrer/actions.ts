@@ -7,7 +7,7 @@ import { headers } from 'next/headers'
 import { lookupOrgNumber } from '@/lib/brreg/lookup'
 import { lookupAllowed, networkOf } from '@/lib/brreg/throttle'
 import { HEARD } from '@/lib/signup/heard'
-import { recordSource } from '@/lib/signup/source'
+import { completePendingSignup, PENDING_KEY } from '@/lib/signup/pending'
 
 /**
  * Signing up.
@@ -95,10 +95,21 @@ export async function createAccount(
 
   const supabase = await createClient()
 
+  // the company goes with the account, so the organisation can be made by the first confirmed
+  // session when the project asks for e-mail confirmation (lib/signup/pending.ts, D-200)
   const { data: signUp, error: signUpError } = await supabase.auth.signUp({
     email: parsed.data.email,
     password: parsed.data.password,
-    options: { data: { full_name: parsed.data.fullName } },
+    options: {
+      data: {
+        full_name: parsed.data.fullName,
+        [PENDING_KEY]: {
+          orgNumber: parsed.data.orgNumber,
+          companyName: parsed.data.companyName,
+          employeeCount: parsed.data.employeeCount,
+        },
+      },
+    },
   })
 
   /*
@@ -109,31 +120,12 @@ export async function createAccount(
    */
   if (signUpError) return { status: 'problem', problem: 'signup_failed' }
 
-  // no session means the project requires e-mail confirmation first
+  // no session means the project requires e-mail confirmation first: the link makes the organisation
   if (!signUp.session) return { status: 'problem', problem: 'confirm_email' }
 
-  const { data, error } = await supabase.rpc('create_organisation', {
-    p_name: parsed.data.companyName,
-    p_org_number: parsed.data.orgNumber,
-    p_employee_count: parsed.data.employeeCount,
-    p_full_name: parsed.data.fullName,
-  })
-
-  if (error) return { status: 'problem', problem: 'org_failed' }
-
-  const outcome = z
-    .union([
-      z.object({ ok: z.literal(true) }),
-      z.object({ ok: z.literal(false), error: z.string() }),
-    ])
-    .safeParse(data)
-
-  if (!outcome.success) return { status: 'problem', problem: 'org_failed' }
-  if (!outcome.data.ok) return { status: 'problem', problem: outcome.data.error }
-
-  await recordSource(supabase)
-  // a language chosen on the site before signing up is saved on the new profile (D-96)
-  await restoreLocale(supabase)
+  const made = await completePendingSignup(supabase)
+  if (made.kind === 'failed') return { status: 'problem', problem: made.reason }
+  if (made.kind === 'none') return { status: 'problem', problem: 'org_failed' }
   return { status: 'idle' }
 }
 

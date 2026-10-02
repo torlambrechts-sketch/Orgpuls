@@ -2659,7 +2659,7 @@
       "deleted": "The undertaking is recorded as dissolved in the register.",
       "unreachable": "The company register did not answer. Try again shortly – nothing was changed.",
       "signup_failed": "The account could not be created with these details. Check the e-mail address and the password, or sign in if you already have an account.",
-      "confirm_email": "The account has been created. Open the e-mail we sent and confirm the address, then sign in and finish the setup.",
+      "confirm_email": "We have sent you an e-mail. Press the link in it to confirm the address – your organisation is then created and you go straight on with the setup.",
       "org_failed": "The undertaking could not be created. Try again.",
       "already_a_member": "You already belong to an undertaking. Sign in instead.",
       "already_registered": "This undertaking is already registered in Orgpuls. Ask an administrator there to invite you.",

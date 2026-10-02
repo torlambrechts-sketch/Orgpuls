@@ -10082,3 +10082,26 @@ the signature identifies the legal party; the next DPA version should name Pundi
 
 Noted, not changed: the register shows Pundit Invest AS as not registered for VAT, while the site, the price page
 and Oppsett › Betaling quote prices «eks. mva.».
+
+## D-200 — A sign-up survives e-mail confirmation (2026-10-02)
+
+The Entra review found that hosted Auth auto-confirms e-mail (`mailer_autoconfirm: true`). With Supabase's automatic
+identity linking, an address registered by someone else with a password could later inherit its owner's Microsoft or
+Google sign-in. The owner asked to turn confirmation on. Turning it on as the code stood would have lost every new
+sign-up: `auth.signUp` returns no session, the organisation was only created when it did, and a confirmed account
+with no organisation is signed out.
+
+Now the sign-up form keeps the company it named on the account (`user_metadata.pending_org`: org.nr., name,
+headcount), and the first confirmed session makes the organisation (`lib/signup/pending.ts`): the confirmation link
+(`/auth/confirm`, type `email`) or a password sign-in on another device (`logg-inn`). Both land on `/registrer?ferdig=1`,
+the step a Google sign-up already lands on; a refusal (`org_number_taken` and the rest) lands on `/registrer?feil=…`.
+`create_organisation` checks everything again, so a user who edits their own metadata can name only their own
+sign-up. The pending value is cleared once the organisation exists. With confirmation off the form behaves as before.
+The confirmation text («Vi har sendt deg en e-post …») says the link creates the organisation.
+
+Verified on a local production build: a confirmed account carrying a pending company signs in, lands on
+`/registrer?ferdig=1`, holds a daglig_leder membership in the new organisation (threshold 5) with the pending value
+cleared, and its next sign-in goes to `/innsikt`.
+
+The setting itself (Authentication › Sign In / Providers › Email › «Confirm email») is the owner's to switch in the
+Supabase dashboard: this session has no management token, and the Supabase connector has no Auth configuration tool.

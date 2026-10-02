@@ -3,7 +3,9 @@
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { restoreLocale } from '@/lib/i18n/server'
+import type { Route } from 'next'
 import { createClient } from '@/lib/supabase/server'
+import { completePendingSignup } from '@/lib/signup/pending'
 
 /**
  * Zod at the server boundary, per the security contract. The schema is deliberately
@@ -28,6 +30,11 @@ export async function signIn(_prev: SignInState, formData: FormData): Promise<Si
   const supabase = await createClient()
   const { error } = await supabase.auth.signInWithPassword(parsed.data)
   if (error) return { error: 'invalid' }
+
+  // an account confirmed on another device signs in here first: its organisation is made now (D-200)
+  const made = await completePendingSignup(supabase)
+  if (made.kind === 'created') redirect('/registrer?ferdig=1' as Route)
+  if (made.kind === 'failed') redirect(`/registrer?feil=${made.reason}` as Route)
 
   // the language saved on the profile, or the organisation's (D-96)
   await restoreLocale(supabase)
