@@ -10200,3 +10200,47 @@ every SQL suite; the Oppsett «Sett opp» button 0 px from baseline 09; /logg-in
 /integrasjoner/entra, Oppsett at 1440 and 390 with the provider forced on and off, no console
 errors. 0155 is applied on hosted (applied before the code shipped, since the callback fails
 closed without `entra_sign_in_check`).
+
+## D-204 — Entra sign-in rules enforced at token issuance (0156) (2026-10-02)
+
+**The request:** close the bypass D-201 logged. A client that exchanged the OAuth code itself
+(`/auth/v1/token?grant_type=pkce`), used the implicit flow or posted a Microsoft ID token never
+reached `/auth/callback`, so `entra_sign_in_check` never ran for it. The worst case was an Entra
+identity from another tenant, linked by Supabase Auth to an existing account through an unverified
+e-mail claim, getting a session on that account.
+
+**What was built:** `public.entra_access_token_hook`, a Supabase Custom Access Token hook (Postgres
+function: `stable`, `security definer`, `search_path ''`, executable by `supabase_auth_admin` only —
+no client role, not service_role). It judges every `oauth` issuance (PKCE, implicit, id_token) with
+the sign-in rules; re-judges a `token_refresh` only for sessions the callback recorded as Microsoft
+sessions (`app.entra_sessions`); returns every other issuance, and every account without a Microsoft
+identity, with its claims unchanged. Every refusal is one 403 «Sign-in refused»; the log carries the
+rule code only. The rules live in one read-only function, `app.entra_rules`, used by both the hook
+and `entra_sign_in_check` (which still binds and records), so they cannot drift. The callback shows
+`microsoft_refused` for the hook's 403; `supabase/config.toml` turns the hook on locally.
+
+**Decisions:** a recorded Microsoft session stops renewing once the rules refuse it (another tenant
+bound, the binding no longer matching, a platform admin) and ends within the access-token lifetime.
+Unbinding the tenant does not end sessions — it only relaxes the tenant rule. Refreshes are never
+classified by the sign-in time window, so a stranger's refused attempt cannot sign the owner out of
+a password session. «No membership yet» passes the hook only where a first binding would be allowed
+(`xms_edov`, or Microsoft made the account). A fault inside the hook refuses an account with a
+Microsoft identity and leaves everyone else alone.
+
+**Fixed in passing:** 0155 recognised a Microsoft sign-in from `auth.identities.last_sign_in_at`,
+which Supabase Auth (v2.197.0) sets only when it creates an identity; a returning sign-in moves
+`updated_at` instead. From an identity's second sign-in, the callback therefore ran no rule and
+«Koble til Microsoft 365» found no Microsoft session. The test is now
+`greatest(last_sign_in_at, updated_at)`. The provider was never on in production, so nobody passed
+through the gap.
+
+**Waiting on the owner:** Dashboard › Authentication › Hooks › Customize Access Token › Postgres ›
+`public.entra_access_token_hook`, **before** the azure provider is enabled; then confirm a password
+sign-in still works (docs/integrations/entra-signin.md § 2).
+
+**Verified:** `entra_token_hook_invariants.sql` 45/45 and every other SQL suite on a database rebuilt
+from migrations with the hook on; against local GoTrue with the hook on, password sign-in and refresh
+succeed and a recorded Microsoft session is refused after its organisation binds another tenant.
+tsc, lint, i18n, vitest, db lint and the security audit pass. 0156 is applied on hosted; only
+`supabase_auth_admin` can execute the hook, and a dry run with a password event returns the claims
+unchanged.
