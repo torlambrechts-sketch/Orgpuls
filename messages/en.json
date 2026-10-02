@@ -1790,7 +1790,12 @@
           "spam": "the message was reported as unwanted",
           "unsubscribed": "the recipient has unsubscribed from SMS"
         }
-      }
+      },
+      "entraChip": "Entra",
+      "entraLocked": "Name and e-mail come from Microsoft Entra ID and are changed there.",
+      "pinned": "Group set here",
+      "follow": "Follow Entra",
+      "followFor": "Let {name} follow their group in Entra again"
     },
     "grupper": {
       "title": "Groups",
@@ -1914,8 +1919,8 @@
       },
       "entra": {
         "name": "Microsoft Entra ID",
-        "what": "Meant to fetch people, e-mail and group membership automatically, so new employees arrive by themselves and leavers are taken out.",
-        "need": "Not built. Until then the register is maintained under People."
+        "what": "Brings in employees, e-mail and group membership automatically. New employees come in by themselves, those who leave are taken out.",
+        "need": "Requires an administrator to approve read access to users and groups. We never write back."
       },
       "teams": {
         "name": "Microsoft Teams",
@@ -2415,6 +2420,13 @@
           "p2": "The permissions are read access to users and groups, and nothing else. No integration in Orgpuls writes back to the source system, and none of them gets access to the answers — they read who works here, not what anybody answered.",
           "p3": "You choose which groups are synchronised. A group that is not selected does not exist for Orgpuls, and its members do not get the measurement.",
           "p4": "When somebody leaves the directory, they are taken out of the register. The answers they have already given stay — they are not linked to the person, so there is nothing to remove. Until the connection exists, the register is maintained under Settings → People."
+        },
+        "import": {
+          "head": "How employees are brought in from the directory",
+          "p1": "The managing director chooses which groups in Entra ID to include, and in which order. Each group becomes a group in Orgpuls with the same name, and if a group with that name already exists, it is used. Someone in more than one of the groups is placed in the one listed first.",
+          "p2": "From the directory we read the name, e-mail address, whether the account is active, preferred language and which of the chosen groups the person is in — the mobile number only if you turn it on. Guest accounts are not brought in. The first time, each person is linked to whoever already stands in the register with the same e-mail address, so nobody is added twice.",
+          "p3": "Someone who is disabled, deleted or no longer in any of the groups is set as inactive. Nobody is deleted, and answers already given stay. While a survey is open, nobody is moved between groups: the move waits until the survey has closed.",
+          "p4": "The register is updated every night, or only when you press «Synchronise now». Name and e-mail are changed in Entra, not in Orgpuls. You can set the group by hand under People; the person then keeps it until you choose «Follow Entra» again."
         }
       },
       "sms": {
@@ -13256,6 +13268,122 @@
       "too_long": "The comment can be at most {max} characters.",
       "rate_limited": "There are too many attempts just now. Try again in a few minutes.",
       "failed": "Something went wrong. Try again shortly."
+    }
+  },
+  "entraImport": {
+    "back": "← Integrations",
+    "title": "Microsoft Entra ID",
+    "statusOn": "Connected",
+    "statusOff": "Not connected",
+    "lead": "Brings in employees, e-mail addresses and group membership from the directory you already have, so you do not keep the employee register in two places.",
+    "step1": "1 · Your directory",
+    "tenantBound": "Connected to the directory with tenant ID {tenant}.",
+    "tenantNone": "No directory is connected yet. An administrator in Microsoft 365 must approve Orgpuls before anything can be read.",
+    "found": "Found {people, plural, one {# employee} other {# employees}} in {groups, plural, one {# group} other {# groups}}. Last synchronised {when}.",
+    "foundNone": "No synchronisation yet.",
+    "step2": "2 · What we ask for",
+    "perm": {
+      "user": "Name, e-mail, language and whether the account is active, for employees in the chosen groups. Mobile number only if you turn it on.",
+      "group": "Group names and membership, to build the reporting groups",
+      "none": "We never write to the directory, and we do not ask for mail, files or calendars",
+      "read": "Read access",
+      "noWrite": "No write access"
+    },
+    "step3": "3 · Which groups to include",
+    "search": "Search the groups",
+    "searchPlaceholder": "Group name",
+    "searchButton": "Search",
+    "loading": "Fetching the groups from the directory …",
+    "fromDirectory": "from the directory",
+    "members": "{count, plural, one {# member} other {# members}}",
+    "more": "The directory has more groups than these. Search to find the rest.",
+    "noMatch": "No groups with that name.",
+    "order": "Order when someone is in several groups",
+    "orderNote": "Someone in more than one of the groups is placed in the one listed first.",
+    "up": "Move {name} up",
+    "down": "Move {name} down",
+    "saveGroups": "Save the group choice",
+    "saved": "Saved. The next synchronisation reads all the groups again.",
+    "groupNote": "Guest accounts are left out. A group that is not chosen does not exist for Orgpuls, and its members do not get the survey.",
+    "step4": "4 · Synchronisation",
+    "mode": {
+      "nightly": "Automatically every night",
+      "nightlyNote": "New employees come in, those who leave are taken out. Recommended.",
+      "manual": "Only when I ask for it",
+      "manualNote": "You decide when the register is updated."
+    },
+    "phone": "Also bring in mobile numbers",
+    "phoneNote": "For sending by SMS. Without this, no mobile numbers are read from the directory. A number that is not a mobile number is skipped.",
+    "leaverNote": "When someone leaves, they are set as inactive in the register and get no new surveys. The answers they already gave stay in the aggregated figures. They are anonymous and cannot be taken out again.",
+    "roundNote": "While a survey is open, nobody is moved between groups. The move waits until the survey has closed, so no group changes while people are answering.",
+    "result": "Last synchronisation",
+    "never": "No synchronisation yet.",
+    "run": {
+      "running": "Running, started {when}",
+      "done": "Finished {when}",
+      "failed": "Stopped {when}",
+      "requested": "Requested {when}. Starting shortly."
+    },
+    "count": {
+      "added": "Added",
+      "linked": "Linked to someone already there",
+      "updated": "Updated",
+      "deactivated": "Set as inactive",
+      "moved": "Moved to a new group",
+      "deferred": "Waiting for the survey to close",
+      "renamed": "Groups with a new name"
+    },
+    "skippedHead": "Not brought in",
+    "skip": {
+      "guest": "Guest account",
+      "disabled": "The account is disabled",
+      "no_mailbox": "Has no mailbox",
+      "no_name": "Has no name",
+      "email_taken": "The e-mail address belongs to someone else in the register",
+      "email_ambiguous": "The e-mail address is on several people in the register",
+      "no_data": "Could not read the person from the directory"
+    },
+    "deferredHead": "Waiting for the survey to close",
+    "deferredRow": "{name}: {from} → {to}",
+    "noGroup": "no group",
+    "conflictsHead": "In several groups",
+    "conflictRow": "{name} is in {groups} and is placed in {chosen}.",
+    "error": {
+      "not_configured": "The Microsoft connection is not set up in this installation yet. Please contact us.",
+      "consent_missing": "The directory has not approved Orgpuls. An administrator in Microsoft 365 must grant consent again.",
+      "permission_missing": "Orgpuls lacks read access to users or groups. An administrator in Microsoft 365 must approve the permissions again.",
+      "cert": "Microsoft did not accept the certificate Orgpuls signs in with. It must be fixed on our side — please contact us.",
+      "throttled": "Microsoft asked us to wait. We try again at the next synchronisation.",
+      "deadline": "The synchronisation did not finish in time. The rest is done at the next run.",
+      "other": "The synchronisation stopped. Try again, or contact us if it happens again."
+    },
+    "syncNow": "Synchronise now",
+    "syncNote": {
+      "nightly": "The register is updated every night. The button fetches the changes straight away.",
+      "manual": "The register is updated only when you press here."
+    },
+    "functionNotReady": "Synchronisation is not switched on in this installation yet, so nothing can be fetched. Please contact us.",
+    "requestedNow": "The synchronisation has been requested. Reload the page in a minute to see the result.",
+    "pending": "Saving …",
+    "disconnect": "Disconnect",
+    "disconnectConfirm": "Disconnect Entra ID? The people and groups stay in the register as ordinary entries, and the directory is no longer read.",
+    "readOnly": "Only the managing director can set up Entra ID.",
+    "bindFirst": "Connect the directory first. Then choose the groups here.",
+    "problem": {
+      "not_allowed": "Only the managing director can change this.",
+      "no_tenant": "No directory is connected.",
+      "not_set_up": "Choose the groups first.",
+      "no_groups": "Choose at least one group first.",
+      "busy": "A synchronisation is already running.",
+      "rate_limited": "A synchronisation was just requested. Wait a few minutes.",
+      "not_configured": "The Microsoft connection is not set up in this installation yet. Please contact us.",
+      "name_taken": "One of the groups has the same name as an Orgpuls group already linked to another Entra group. Rename it under Settings › Groups first.",
+      "consent_missing": "The directory has not approved Orgpuls. An administrator in Microsoft 365 must grant consent again.",
+      "permission_missing": "Orgpuls lacks read access to groups. An administrator in Microsoft 365 must approve the permissions again.",
+      "invalid": "Something in the choice was not accepted. Reload the page and try again.",
+      "denied": "The change was not saved.",
+      "noOrg": "Could not find your organisation.",
+      "unavailable": "Could not reach the directory right now. Try again shortly."
     }
   }
 }

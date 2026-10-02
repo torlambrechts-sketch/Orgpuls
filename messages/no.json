@@ -1790,7 +1790,12 @@
           "spam": "meldingen ble rapportert som uønsket",
           "unsubscribed": "mottakeren har meldt seg av SMS"
         }
-      }
+      },
+      "entraChip": "Entra",
+      "entraLocked": "Navn og e-post kommer fra Microsoft Entra ID og endres der.",
+      "pinned": "Gruppe satt her",
+      "follow": "Følg Entra",
+      "followFor": "La {name} følge gruppen i Entra igjen"
     },
     "grupper": {
       "title": "Grupper",
@@ -1914,8 +1919,8 @@
       },
       "entra": {
         "name": "Microsoft Entra ID",
-        "what": "Skal hente ansatte, e-post og gruppetilhørighet automatisk, slik at nye ansatte kommer inn av seg selv og de som slutter tas ut.",
-        "need": "Ikke bygget. Fram til da vedlikeholdes registeret under Ansatte."
+        "what": "Henter ansatte, e-post og gruppetilhørighet automatisk. Nye ansatte kommer inn av seg selv, de som slutter tas ut.",
+        "need": "Krever at en administrator godkjenner lesetilgang til brukere og grupper. Vi skriver aldri tilbake."
       },
       "teams": {
         "name": "Microsoft Teams",
@@ -2415,6 +2420,13 @@
           "p2": "Tillatelsene er lesetilgang til brukere og grupper, og ingenting annet. Ingen integrasjon i Orgpuls skriver tilbake til kildesystemet, og ingen av dem får tilgang til svarene — de leser hvem som jobber her, ikke hva noen har svart.",
           "p3": "Dere velger hvilke grupper som skal synkroniseres. En gruppe som ikke er valgt finnes ikke for Orgpuls, og medlemmene der får ikke målingen.",
           "p4": "Når noen slutter i katalogen, tas de ut av registeret. Svarene de allerede har gitt blir liggende — de er ikke knyttet til personen, så det er ingenting å fjerne. Fram til koblingen finnes, vedlikeholdes registeret under Oppsett → Ansatte."
+        },
+        "import": {
+          "head": "Slik hentes ansatte fra katalogen",
+          "p1": "Daglig leder velger hvilke grupper i Entra ID som skal med, og i hvilken rekkefølge. Hver gruppe blir en gruppe i Orgpuls med samme navn, og finnes det allerede en gruppe med det navnet, brukes den. Den som er med i flere av gruppene, havner i den som står øverst.",
+          "p2": "Fra katalogen hentes navn, e-postadresse, om kontoen er aktiv, foretrukket språk og hvilke av de valgte gruppene personen er med i — mobilnummer bare hvis dere slår det på. Gjestekontoer hentes ikke. Første gang kobles hver person til den som allerede står i registeret med samme e-postadresse, så ingen blir lagt inn to ganger.",
+          "p3": "Den som er deaktivert, slettet eller ikke lenger er med i noen av gruppene, settes som inaktiv. Ingen slettes, og svar som er gitt blir liggende. Mens en måling er åpen, flyttes ingen mellom grupper: flyttingen venter til målingen er lukket.",
+          "p4": "Registeret oppdateres hver natt, eller bare når du trykker «Synkroniser nå». Navn og e-post endres i Entra, ikke i Orgpuls. Gruppen kan du sette for hånd under Ansatte; da følger personen den til du velger «Følg Entra» igjen."
         }
       },
       "sms": {
@@ -13256,6 +13268,122 @@
       "too_long": "Kommentaren kan være på høyst {max} tegn.",
       "rate_limited": "Det er for mange forsøk akkurat nå. Prøv igjen om noen minutter.",
       "failed": "Noe gikk galt. Prøv igjen om litt."
+    }
+  },
+  "entraImport": {
+    "back": "← Integrasjoner",
+    "title": "Microsoft Entra ID",
+    "statusOn": "Tilkoblet",
+    "statusOff": "Ikke tilkoblet",
+    "lead": "Henter ansatte, e-postadresser og gruppetilhørighet fra katalogen dere allerede har. Da slipper dere å vedlikeholde ansattregisteret to steder.",
+    "step1": "1 · Katalogen deres",
+    "tenantBound": "Koblet til katalogen med tenant-ID {tenant}.",
+    "tenantNone": "Ingen katalog er koblet til ennå. En administrator i Microsoft 365 må godkjenne Orgpuls før noe kan hentes.",
+    "found": "Fant {people, plural, one {# ansatt} other {# ansatte}} i {groups, plural, one {# gruppe} other {# grupper}}. Sist synkronisert {when}.",
+    "foundNone": "Ingen synkronisering ennå.",
+    "step2": "2 · Hva vi ber om",
+    "perm": {
+      "user": "Navn, e-post, språk og om kontoen er aktiv, for ansatte i valgte grupper. Mobilnummer bare hvis dere slår det på.",
+      "group": "Gruppenavn og medlemskap, for å bygge rapportgruppene",
+      "none": "Vi skriver aldri til katalogen, og ber ikke om e-post, filer eller kalender",
+      "read": "Lesetilgang",
+      "noWrite": "Ingen skrivetilgang"
+    },
+    "step3": "3 · Hvilke grupper skal med",
+    "search": "Søk i gruppene",
+    "searchPlaceholder": "Gruppenavn",
+    "searchButton": "Søk",
+    "loading": "Henter gruppene fra katalogen …",
+    "fromDirectory": "fra katalogen",
+    "members": "{count, plural, one {# medlem} other {# medlemmer}}",
+    "more": "Katalogen har flere grupper enn dette. Søk for å finne resten.",
+    "noMatch": "Fant ingen grupper med det navnet.",
+    "order": "Rekkefølge når noen er i flere grupper",
+    "orderNote": "Den som er med i flere av gruppene, havner i den som står øverst.",
+    "up": "Flytt {name} opp",
+    "down": "Flytt {name} ned",
+    "saveGroups": "Lagre gruppevalget",
+    "saved": "Lagret. Neste synkronisering leser alle gruppene på nytt.",
+    "groupNote": "Gjestekontoer er holdt utenfor. En gruppe som ikke er valgt finnes ikke for Orgpuls, og medlemmene der får ikke målingen.",
+    "step4": "4 · Synkronisering",
+    "mode": {
+      "nightly": "Automatisk hver natt",
+      "nightlyNote": "Nye ansatte kommer inn, de som slutter tas ut. Anbefalt.",
+      "manual": "Bare når jeg ber om det",
+      "manualNote": "Dere styrer selv når registeret oppdateres."
+    },
+    "phone": "Hent mobilnummer også",
+    "phoneNote": "For utsending på SMS. Uten dette hentes ingen mobilnumre fra katalogen. Et nummer som ikke er et mobilnummer, hoppes over.",
+    "leaverNote": "Når noen slutter, settes de som inaktive i registeret og får ingen nye målinger. Svarene de allerede har gitt, blir liggende i de aggregerte tallene. De er anonyme og kan ikke trekkes ut igjen.",
+    "roundNote": "Mens en måling er åpen, flyttes ingen mellom grupper. Flyttingen venter til målingen er lukket, slik at ingen gruppe endrer seg mens folk svarer.",
+    "result": "Siste synkronisering",
+    "never": "Ingen synkronisering ennå.",
+    "run": {
+      "running": "Pågår, startet {when}",
+      "done": "Fullført {when}",
+      "failed": "Stoppet {when}",
+      "requested": "Bedt om {when}. Starter om litt."
+    },
+    "count": {
+      "added": "Lagt til",
+      "linked": "Koblet til en som var der fra før",
+      "updated": "Oppdatert",
+      "deactivated": "Satt som inaktiv",
+      "moved": "Flyttet til ny gruppe",
+      "deferred": "Venter på at målingen lukkes",
+      "renamed": "Grupper med nytt navn"
+    },
+    "skippedHead": "Ikke hentet inn",
+    "skip": {
+      "guest": "Gjestekonto",
+      "disabled": "Kontoen er deaktivert",
+      "no_mailbox": "Har ingen e-postkasse",
+      "no_name": "Mangler navn",
+      "email_taken": "E-postadressen brukes av en annen i registeret",
+      "email_ambiguous": "E-postadressen står på flere i registeret",
+      "no_data": "Fikk ikke lest personen fra katalogen"
+    },
+    "deferredHead": "Venter på at målingen lukkes",
+    "deferredRow": "{name}: {from} → {to}",
+    "noGroup": "uten gruppe",
+    "conflictsHead": "I flere grupper",
+    "conflictRow": "{name} er i {groups} og står i {chosen}.",
+    "error": {
+      "not_configured": "Microsoft-koblingen er ikke satt opp i denne installasjonen ennå. Ta kontakt med oss.",
+      "consent_missing": "Katalogen har ikke godkjent Orgpuls. En administrator i Microsoft 365 må gi samtykke på nytt.",
+      "permission_missing": "Orgpuls mangler lesetilgang til brukere eller grupper. En administrator i Microsoft 365 må godkjenne tillatelsene på nytt.",
+      "cert": "Microsoft godtok ikke sertifikatet Orgpuls logger inn med. Det må rettes hos oss — ta kontakt.",
+      "throttled": "Microsoft ba oss vente. Vi prøver igjen ved neste synkronisering.",
+      "deadline": "Synkroniseringen ble ikke ferdig i tide. Resten tas ved neste kjøring.",
+      "other": "Synkroniseringen stoppet. Prøv igjen, eller ta kontakt hvis det gjentar seg."
+    },
+    "syncNow": "Synkroniser nå",
+    "syncNote": {
+      "nightly": "Registeret oppdateres hver natt. Knappen henter endringene med en gang.",
+      "manual": "Registeret oppdateres bare når du trykker her."
+    },
+    "functionNotReady": "Synkroniseringen er ikke slått på i denne installasjonen ennå, så ingenting kan hentes. Ta kontakt med oss.",
+    "requestedNow": "Synkroniseringen er bedt om. Last siden på nytt om et minutt for å se resultatet.",
+    "pending": "Lagrer …",
+    "disconnect": "Koble fra",
+    "disconnectConfirm": "Koble fra Entra ID? Folkene og gruppene blir liggende i registeret som vanlige oppføringer, og katalogen leses ikke lenger.",
+    "readOnly": "Bare daglig leder kan sette opp Entra ID.",
+    "bindFirst": "Koble til katalogen først. Deretter velger du gruppene her.",
+    "problem": {
+      "not_allowed": "Bare daglig leder kan endre dette.",
+      "no_tenant": "Ingen katalog er koblet til.",
+      "not_set_up": "Velg gruppene først.",
+      "no_groups": "Velg minst én gruppe først.",
+      "busy": "En synkronisering pågår allerede.",
+      "rate_limited": "Det er nettopp bedt om en synkronisering. Vent noen minutter.",
+      "not_configured": "Microsoft-koblingen er ikke satt opp i denne installasjonen ennå. Ta kontakt med oss.",
+      "name_taken": "En av gruppene har samme navn som en Orgpuls-gruppe som allerede er koblet til en annen Entra-gruppe. Gi den nytt navn under Oppsett › Grupper først.",
+      "consent_missing": "Katalogen har ikke godkjent Orgpuls. En administrator i Microsoft 365 må gi samtykke på nytt.",
+      "permission_missing": "Orgpuls mangler lesetilgang til grupper. En administrator i Microsoft 365 må godkjenne tillatelsene på nytt.",
+      "invalid": "Noe i valget ble ikke godtatt. Last siden på nytt og prøv igjen.",
+      "denied": "Endringen ble ikke lagret.",
+      "noOrg": "Fant ikke virksomheten din.",
+      "unavailable": "Fikk ikke kontakt med katalogen akkurat nå. Prøv igjen om litt."
     }
   }
 }
