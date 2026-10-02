@@ -113,6 +113,8 @@ export default async function PrisPage() {
               valuetextGroup: t.raw('size.valuetextGroup') as string,
               readout: t.raw('size.readout') as string,
               readoutGroup: t.raw('size.readoutGroup') as string,
+              unitOne: t('size.unitOne'),
+              unitOther: t('size.unitOther'),
               plans: plans.map((p) => p.name),
             }}
           />

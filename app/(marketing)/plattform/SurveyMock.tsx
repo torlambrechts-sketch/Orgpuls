@@ -26,11 +26,11 @@ export async function SurveyMock() {
       aria-label={t('site.plattform.respondent.mock')}
       className="-mx-[8px] -my-[6px] rounded-tile border border-line bg-bg p-[26px] max-sm:p-[18px]"
     >
-      <span className="flex items-baseline justify-between gap-[12px]">
+      <span className="flex flex-wrap items-baseline justify-between gap-x-[12px] gap-y-[4px]">
         <span className="text-[11px] font-bold uppercase tracking-[.11em] text-mut">
-          {t('factor.ytring.name')} · {t('respond.progress', { n: PAGE, total: PAGES })}
+          {t('factor.ytring.name')} · <span className="whitespace-nowrap">{t('respond.progress', { n: PAGE, total: PAGES })}</span>
         </span>
-        <span className="text-[12px] text-mut">{t('respond.timeLeft', { minutes: 3 })}</span>
+        <span className="whitespace-nowrap text-[12px] text-mut">{t('respond.timeLeft', { minutes: 3 })}</span>
       </span>
       <span className="mt-[10px] block h-[6px] rounded-bar bg-track">
         <span className="block h-full rounded-bar bg-ink" style={{ width: `${Math.round((PAGE / PAGES) * 100)}%` }} />

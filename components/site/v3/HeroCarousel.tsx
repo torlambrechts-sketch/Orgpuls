@@ -8,8 +8,10 @@ import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from 
  *
  * - No autoplay. The first theme is server-rendered and shown; a theme changes only when the
  *   visitor picks one. The design's 8-second timer is gone (WCAG 2.2.2).
- * - All three panels are in the HTML, the inactive ones `hidden`, so search engines, readers and
- *   visitors without JavaScript have every theme.
+ * - All three panels are in the HTML, the inactive ones out of view (`display: none`; below 640px
+ *   `visibility: hidden` in a shared grid cell, so the stage keeps the tallest theme's height and the
+ *   controls do not move between themes) and `inert`, so search engines and visitors without
+ *   JavaScript have every theme while a screen reader and Tab reach only the shown one.
  * - The tabs are a real APG tablist: roving tabindex, ←/→ move and select (wrapping), Home/End go
  *   to the ends. The number circles are decoration.
  * - «Forrige tema» / «Neste tema» keep focus where it is and wrap. A change they make is
@@ -80,9 +82,18 @@ export function HeroCarousel({
       className="w-full max-w-[1240px] self-center px-[56px] py-[40px] max-sm:px-0 max-sm:py-[32px]"
     >
       <div id="hero-panels" ref={stage} className="flex min-h-[560px] items-center max-sm:min-h-0">
-        <div className="w-full">
+        {/* below 640px the panels share one grid cell, the inactive ones invisible, so the stage is as
+            tall as the tallest theme and the tabs and arrows stay under the visitor's thumb */}
+        <div className="w-full max-sm:grid">
           {panels.map((p, i) => (
-            <div key={i} role="tabpanel" id={`hero-panel-${i}`} aria-labelledby={`hero-tab-${i}`} hidden={i !== cur}>
+            <div
+              key={i}
+              role="tabpanel"
+              id={`hero-panel-${i}`}
+              aria-labelledby={`hero-tab-${i}`}
+              inert={i !== cur}
+              className={`max-sm:[grid-area:1/1] ${i === cur ? '' : 'invisible sm:hidden'}`}
+            >
               {p}
             </div>
           ))}

@@ -317,11 +317,11 @@ export default async function StartPage() {
                   aria-label={t('survey.mock')}
                   className="max-w-[420px] rounded-card border border-line bg-bg p-[26px] max-sm:px-[16px] max-sm:py-[18px]"
                 >
-                  <span className="flex items-baseline justify-between gap-[12px]">
+                  <span className="flex flex-wrap items-baseline justify-between gap-x-[12px] gap-y-[4px]">
                     <span className="text-[11px] font-bold uppercase tracking-[.11em] text-mut">
-                      {factor('ytring.name')} · {respond('progress', { n: 4, total: 15 })}
+                      {factor('ytring.name')} · <span className="whitespace-nowrap">{respond('progress', { n: 4, total: 15 })}</span>
                     </span>
-                    <span className="text-[12px] text-mut">{respond('timeLeft', { minutes: 3 })}</span>
+                    <span className="whitespace-nowrap text-[12px] text-mut">{respond('timeLeft', { minutes: 3 })}</span>
                   </span>
                   <span className="mt-[10px] block h-[6px] rounded-bar bg-track">
                     <span className="block h-full w-[27%] rounded-bar bg-ink" />

@@ -9964,8 +9964,8 @@ Desktop (1440) keeps the design's layout pixel for pixel. It differs from the bu
     | Page | Design's words | Shipped words | Where the design's words still differ |
     |---|---|---|---|
     | Forside | 0.18 % (hero 0 px, slides 0/0/1 px) | 9.35 % | shared start band and footer |
-    | Plattform | 0.17 % (bands 900–4500 ≤ 0.008 %) | 7.20 % | shared start band and footer |
-    | Bruksområder | 0.19 % (body 118 px) | 3.29 % | shared start band and footer |
+    | Plattform | 0.17 % (bands 900–4500 ≤ 0.008 %) | 6.59 % | shared start band and footer |
+    | Bruksområder | 0.19 % (body 118 px) | 3.39 % | shared start band and footer |
     | Bransjer | 0.32 % (hero 0 px) | 7.43 % | shared start band and footer |
     | Pris | 0.36 % (body 36 px) | 1.89 % | shared start band and footer |
 
@@ -9974,4 +9974,23 @@ Desktop (1440) keeps the design's layout pixel for pixel. It differs from the bu
     demo»). With the shipped strings every band over budget was read: each is the copy of item 1–3, a line that now
     wraps differently, and the shift that follows. The 390 baselines are 416 px wide (the design overflows) and are
     compared by eye, not by the gate.
+23. **An independent review after the merge** (a reviewer that built none of it; every page at 1440, 320/360/390,
+    English, keyboard and links) found eight defects, fixed here:
+    - Pris: a typed headcount above the slider's 150 kept the last valid figure, so «200» read as Liten at 265 kr.
+      Past 150 the slider now rests at its end, the field keeps the typed number, and both say Flere selskaper. At 1
+      the read-out and `aria-valuetext` say «1 ansatt» / «1 employee» (`site.pris.size.unitOne`/`unitOther`).
+    - Forside: the daglig leder card's «Rapport til ledergruppa på 2 sider» claimed a page count the report does not
+      have; it is «Rapport til ledergruppa».
+    - Bruksområder «Tilsyn og dokumentasjon»: the card still showed the design's invented report rows; it now shows
+      the report's real sections (Metode og medvirkning, Kartlegging, Risikovurdering, Tiltak), as Plattform does.
+    - Plattform «Roller og tilgang»: «Til høyre: …» was false below 360 px, where the tags drop under the text; it is
+      «Merkene viser …».
+    - Forside and Plattform survey mock: «4 / 15» and «Ca. 3 min igjen» no longer break inside themselves on a phone.
+    - Forside carousel: below 640 px the three panels share one grid cell, the inactive ones invisible and `inert`,
+      so the tabs and arrows no longer jump up to 197 px between themes. At 640 px and up the inactive panels are
+      `display: none` as before.
+    - Bransjer: the «Flere påstander» tile says «ca. 3–7 minutter» (kunnskap og kontor's extended set is 7); the
+      English lead names the care home and the building firm, the two modules the English site shows.
+    - English footer: the link filter of the previous commit was verified running (only #bygg and #helse remain).
+    Plattform's report card keeps the real section numbers 1, 3, 4, 5 (section 2, Datagrunnlag, is not drawn).
 

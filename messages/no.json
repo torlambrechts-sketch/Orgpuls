@@ -6599,7 +6599,7 @@
             "get": [
               "Én side: hva som fungerer, og hva dere gjør nå",
               "Lovkravet dekket uten å lese paragrafer",
-              "Rapport til ledergruppa på 2 sider"
+              "Rapport til ledergruppa"
             ]
           },
           {
@@ -6870,7 +6870,7 @@
           "Verneombudet ser helheten og risikovurderingen"
         ],
         "use": "Bruksområde: verneombud og AMU",
-        "caption": "Til høyre: når hver rolle får varsel før utsending.",
+        "caption": "Merkene viser når hver rolle får varsel før utsending.",
         "card": {
           "title": "Tilgang per rolle",
           "meta": "minst 5 svar"
@@ -7348,20 +7348,20 @@
             "done": "ferdig",
             "rows": [
               {
-                "title": "Sammendrag og indeks",
+                "title": "Metode og medvirkning",
+                "sub": "Verneombud, tillitsvalgte og drøfting"
+              },
+              {
+                "title": "Kartlegging",
                 "sub": "Hva som står bra til, hva som trekker ned"
               },
               {
-                "title": "Risikovurdering per faktor",
+                "title": "Risikovurdering",
                 "sub": "Sannsynlighet, konsekvens og hjemmel"
               },
               {
-                "title": "Tiltak med eier og frist",
-                "sub": "Status og målt effekt"
-              },
-              {
-                "title": "Medvirkning og hjemmel",
-                "sub": "Verneombud, tillitsvalgte og drøfting"
+                "title": "Tiltak",
+                "sub": "Ansvarlig, frist og status"
               }
             ]
           },
@@ -7521,7 +7521,7 @@
       "how": {
         "pastander": {
           "t": "Flere påstander",
-          "d": "Kommer i tillegg til hovedundersøkelsen, ca. 3 minutter ekstra."
+          "d": "Kommer i tillegg til hovedundersøkelsen, ca. 3–7 minutter ekstra."
         },
         "tiltak": {
           "t": "Egne tiltak",
@@ -7647,10 +7647,12 @@
       "size": {
         "label": "Hvor mange ansatte er dere?",
         "number": "Antall ansatte",
-        "valuetext": "{n} ansatte – {plan}, {price} kr per måned",
-        "valuetextGroup": "{n} ansatte – {plan}, pris etter avtale",
-        "readout": "ansatte · <b>{plan}</b> · {price} <abbr>kr/mnd</abbr><sr>kroner per måned</sr> · {perHead} kr per ansatt",
-        "readoutGroup": "ansatte · <b>{plan}</b> · pris etter avtale"
+        "valuetext": "{n} {unit} – {plan}, {price} kr per måned",
+        "valuetextGroup": "{n} {unit} – {plan}, pris etter avtale",
+        "readout": "{unit} · <b>{plan}</b> · {price} <abbr>kr/mnd</abbr><sr>kroner per måned</sr> · {perHead} kr per ansatt",
+        "readoutGroup": "{unit} · <b>{plan}</b> · pris etter avtale",
+        "unitOne": "ansatt",
+        "unitOther": "ansatte"
       },
       "fits": "Passer dere",
       "fitsSr": "(passer dere)",

@@ -66,6 +66,9 @@ export type SliderWords = {
   valuetextGroup: string
   readout: string
   readoutGroup: string
+  /** «ansatt» / «ansatte»: the unit after the number, singular at 1 */
+  unitOne: string
+  unitOther: string
   /** the plan names, in PLAN_SIZES order */
   plans: string[]
 }
@@ -82,7 +85,7 @@ export function SizeSlider({ w }: { w: SliderWords }) {
   const [draft, setDraft] = useState<string | null>(null)
   const fit = fitOf(n)
   const monthly = PLAN_SIZES[fit]!.monthly
-  const values = { n, plan: w.plans[fit]!, price: monthly ?? '', perHead: monthly ? Math.round(monthly / n) : '' }
+  const values = { n, unit: n === 1 ? w.unitOne : w.unitOther, plan: w.plans[fit]!, price: monthly ?? '', perHead: monthly ? Math.round(monthly / n) : '' }
   const valuetext = (monthly ? w.valuetext : w.valuetextGroup).replace(/\{(\w+)\}/g, (_, k: keyof typeof values) => String(values[k]))
   return (
     <div className="mt-[36px] flex flex-wrap items-center gap-x-[28px] gap-y-[14px] rounded-[20px] border border-line bg-sf px-[24px] py-[20px]">
@@ -96,7 +99,10 @@ export function SizeSlider({ w }: { w: SliderWords }) {
         max={SIZE_RANGE.max}
         step={1}
         value={n}
-        onChange={(e) => setN(Number(e.target.value))}
+        onChange={(e) => {
+          setDraft(null)
+          setN(Number(e.target.value))
+        }}
         aria-valuetext={valuetext}
         className="m-[2px] h-[28px] min-w-0 flex-[1_1_220px] cursor-pointer accent-ink"
       />
@@ -112,9 +118,11 @@ export function SizeSlider({ w }: { w: SliderWords }) {
           onChange={(e) => {
             setDraft(e.target.value)
             const v = Number(e.target.value)
-            if (Number.isInteger(v) && v >= SIZE_RANGE.min && v <= SIZE_RANGE.max) setN(v)
+            // past the slider's end every headcount is Flere selskaper: the slider rests at its end,
+            // the field keeps the typed number, and both name the same plan
+            if (Number.isInteger(v) && v >= SIZE_RANGE.min) setN(Math.min(v, SIZE_RANGE.max))
           }}
-          onBlur={() => setDraft(null)}
+          onBlur={() => setDraft((d) => (d !== null && Number.isInteger(Number(d)) && Number(d) > SIZE_RANGE.max ? String(Number(d)) : null))}
           className="m-0 flex-none border-0 bg-transparent p-0 font-display text-[30px] font-semibold tabular-nums text-ink [appearance:textfield] [field-sizing:content] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
         />
         <span className="min-w-0 text-[13.5px] text-body">{rich(monthly ? w.readout : w.readoutGroup, values)}</span>

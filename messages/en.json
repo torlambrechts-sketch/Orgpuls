@@ -6599,7 +6599,7 @@
             "get": [
               "One page: what works, and what you do now",
               "The legal requirement covered without reading the Act",
-              "A 2-page report for the management team"
+              "A report for the management team"
             ]
           },
           {
@@ -6778,20 +6778,20 @@
             "done": "done",
             "rows": [
               {
-                "title": "Summary and index",
+                "title": "Method and participation",
+                "sub": "Safety representative, union representatives and consultation"
+              },
+              {
+                "title": "Survey",
                 "sub": "What is going well, what drags things down"
               },
               {
-                "title": "Risk assessment per factor",
+                "title": "Risk assessment",
                 "sub": "Likelihood, consequence and legal basis"
               },
               {
-                "title": "Measures with owner and deadline",
-                "sub": "Status and measured effect"
-              },
-              {
-                "title": "Participation and legal basis",
-                "sub": "Safety representative, union representatives and consultation"
+                "title": "Measures",
+                "sub": "Owner, deadline and status"
               }
             ]
           },
@@ -7426,7 +7426,7 @@
           "The safety representative sees the overall picture and the risk assessment"
         ],
         "use": "Use case: safety representative and AMU",
-        "caption": "On the right: when each role is notified before a send-out.",
+        "caption": "The tags show when each role is notified before a send-out.",
         "card": {
           "title": "Access by role",
           "meta": "at least 5 answers"
@@ -7516,7 +7516,7 @@
     "bransjer": {
       "crumb": "Industries",
       "h1": "Survey the risks in your own industry.",
-      "lead": "The main survey covers what applies to every workplace. For industries with their own risks, an industry module adds statements and measures – also for the small shop, the kindergarten or the building firm with 15 employees.",
+      "lead": "The main survey covers what applies to every workplace. For industries with their own risks, an industry module adds statements and measures – also for the care home or the building firm with 15 employees.",
       "toModules": "See the modules",
       "how": {
         "pastander": {
@@ -7647,10 +7647,12 @@
       "size": {
         "label": "How many employees do you have?",
         "number": "Number of employees",
-        "valuetext": "{n} employees – {plan}, NOK {price} per month",
-        "valuetextGroup": "{n} employees – {plan}, price by agreement",
-        "readout": "employees · <b>{plan}</b> · NOK {price}<abbr>/month</abbr><sr> per month</sr> · NOK {perHead} per employee",
-        "readoutGroup": "employees · <b>{plan}</b> · price by agreement"
+        "valuetext": "{n} {unit} – {plan}, NOK {price} per month",
+        "valuetextGroup": "{n} {unit} – {plan}, price by agreement",
+        "readout": "{unit} · <b>{plan}</b> · NOK {price}<abbr>/month</abbr><sr> per month</sr> · NOK {perHead} per employee",
+        "readoutGroup": "{unit} · <b>{plan}</b> · price by agreement",
+        "unitOne": "employee",
+        "unitOther": "employees"
       },
       "fits": "Fits you",
       "fitsSr": "(fits you)",
