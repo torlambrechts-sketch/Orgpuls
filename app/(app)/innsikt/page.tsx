@@ -1,4 +1,5 @@
 import { getLocale, getTranslations } from 'next-intl/server'
+import { K_DEFAULT } from '@/lib/org/threshold'
 import {
   InnsiktScreen,
   type InnsiktView,
@@ -289,7 +290,7 @@ export default async function InnsiktPage() {
     index: ok?.index ?? null,
     delta,
     bands,
-    threshold: summary?.threshold ?? org?.threshold ?? 5,
+    threshold: summary?.threshold ?? org?.threshold ?? K_DEFAULT,
     riskAssessed: risk !== null,
     loop,
     year,

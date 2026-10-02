@@ -1,6 +1,6 @@
 import { getFormatter, getTranslations } from 'next-intl/server'
 import { PrintButton } from '@/components/rapport/PrintButton'
-import { DPA_VERSION, DpaText } from '@/lib/legal/dpa'
+import { DPA_VERSION, DpaText, dpaVersionDay } from '@/lib/legal/dpa'
 import type { DpaSignature } from '@/lib/legal/read'
 import { CONTACT_MAIL } from '@/lib/marketing/site'
 import { DpaSignForm } from './DpaSignForm'
@@ -35,7 +35,7 @@ export async function DpaTab({
   const current = signatures.find((s) => s.version === DPA_VERSION) ?? null
   const earlier = signatures.filter((s) => s.version !== DPA_VERSION)
   const when = (iso: string) => format.dateTime(new Date(iso), { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Oslo' })
-  const version = format.dateTime(new Date(`${DPA_VERSION}T12:00:00Z`), { dateStyle: 'long' })
+  const version = format.dateTime(new Date(`${dpaVersionDay(DPA_VERSION)}T12:00:00Z`), { dateStyle: 'long' })
 
   return (
     <div className="mt-[20px] flex flex-col gap-[16px]">

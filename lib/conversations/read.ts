@@ -12,9 +12,9 @@ import { unmask } from '@/lib/text/mask'
  * An RPC, not a table read — `app.comment_threads` and `app.thread_messages` have RLS
  * with no policy and no grant, the same shape as `app.responses` and `app.answers`, so
  * `public.conversations()` is the only way anything leaves. What it applies before
- * returning anything is in migration 0018: a thread whose group did not clear
- * `app.k_threshold()` is absent, and the group never travels with the comment that is
- * released.
+ * returning anything is in migration 0018: a thread whose group did not clear its own
+ * round's k (`app.k_round()`, 0150) is absent, and the group never travels with the
+ * comment that is released.
  *
  * Nothing in this file re-derives either of those. It parses what the server decided.
  * A second opinion about k on this side would eventually disagree with the database's,

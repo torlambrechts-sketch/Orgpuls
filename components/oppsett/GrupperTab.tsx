@@ -89,6 +89,13 @@ export async function GrupperTab({ view }: { view: OppsettView }) {
           canWrite={view.canWrite}
           labels={{
             floorNote: t('oppsett.terskel.floorNote'),
+            lowNote: t('oppsett.terskel.lowNote'),
+            low: [3, 4].map((n) => ({
+              n,
+              warn: t('oppsett.terskel.lowWarn', { threshold: n }),
+              confirm: t('oppsett.terskel.lowConfirm', { threshold: n }),
+            })),
+            cancel: t('oppsett.terskel.lowCancel'),
             denied: t('oppsett.problem.denied'),
             saved: t('oppsett.saved'),
           }}

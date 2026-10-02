@@ -561,7 +561,8 @@
         "comment_policy": "comments",
         "allow_dialogue": "conversation",
         "extras": "additional questions",
-        "extras_off_reason": "reason"
+        "extras_off_reason": "reason",
+        "threshold": "threshold from {from} to {to}"
       },
       "save": "Save standard",
       "saving": "Saving …",
@@ -887,7 +888,7 @@
     "ledelseIndexUp": "Index, up {points}",
     "ledelseRate": "Response rate",
     "ledelseHigh": "Factors at high risk",
-    "ansatteAnonymity": "No figure in this report can be traced back to an individual. Groups with fewer than five answers are not shown on their own. If you wrote a comment, your manager's reply is in the app.",
+    "ansatteAnonymity": "No figure in this report can be traced back to an individual. Groups with fewer than {threshold, select, 3 {three} 4 {four} 5 {five} 6 {six} 7 {seven} 8 {eight} 9 {nine} 10 {ten} other {{threshold}}} answers are not shown on their own. If you wrote a comment, your manager's reply is in the app.",
     "footerLeft": "{org} · {orgnr} · psychosocial working environment {year}",
     "footerRight": "Prepared in Orgpuls",
     "noData": "No measurement in {year} has enough answers to be reported.",
@@ -1823,7 +1824,11 @@
     "terskel": {
       "title": "Threshold",
       "lead": "How many answers it takes before a group is shown on its own.",
-      "floorNote": "Five is the floor, and it is the product’s rather than yours. The database always counts at least five whatever is set here, so the threshold can be raised but not lowered."
+      "floorNote": "Five is the default and strongly recommended. Small teams may go down to three, never lower: the database always counts at least three. A change applies to the surveys that have not opened yet. A survey that has opened keeps the threshold its employees answered under.",
+      "lowNote": "With fewer than five answers the figures can be linked to individuals. The result then counts as personal data, with the requirements for access and erasure that brings.",
+      "lowWarn": "A threshold of {threshold} is only for small teams. Five is strongly recommended: with fewer answers it is easier to recognise who said what, especially in comments. Below five the figures can be linked to individuals and count as personal data, with duties of access and erasure. The new threshold applies to surveys that have not opened yet.",
+      "lowConfirm": "Use a threshold of {threshold}",
+      "lowCancel": "Keep the threshold"
     },
     "roller": {
       "title": "Who sees what",
@@ -1847,7 +1852,7 @@
         "own_group": "Own",
         "own": "Theirs"
       },
-      "matrixNote": "“Own” means their own department only, “Theirs” only their own conversation. No role, not even the managing director, can see which answer a named person gave — that link does not exist in the database. Everything in the table is also subject to the threshold: a manager of four people gets no figures for the four.",
+      "matrixNote": "“Own” means their own department only, “Theirs” only their own conversation. No role, not even the managing director, can see which answer a named person gave — that link does not exist in the database. Everything in the table is also subject to the threshold: a manager of fewer people than the threshold gets no figures for them.",
       "writeNote": "Only the daglig leder can change anything under Settings. The other roles can read what is here. “Union representative” is a position in the register rather than a login — it grants no access in itself.",
       "can": {
         "daglig_leder": "The whole undertaking, every factor, every anonymous conversation. Never sees who answered what.",
@@ -1965,7 +1970,8 @@
       "protocol": {
         "head": "Record of processing",
         "body": "The processing must be entered in the record of processing activities, with purpose, categories and retention. The record is kept outside Orgpuls today."
-      }
+      },
+      "lowWarn": "A threshold of {threshold} is low. With groups this small, results can be linked to individuals, and they are then personal data with full duties of access and erasure. Consider 5."
     },
     "regelverk": {
       "title": "Legal basis",
@@ -2236,7 +2242,7 @@
         "lead": "Add people, set the threshold, choose a measurement and send. The shortest route from an empty account to the first round.",
         "body": {
           "p1": "Start under Settings → People. Paste names, e-mail addresses and groups from the spreadsheet you already have. The order is name, e-mail, group, manager, and a header row is optional. People without a group are imported anyway and land in “No group” — they get the measurement, but their answers cannot be broken down by department.",
-          "p2": "Then check the groups and the threshold. Groups decide what you can break the result down by, and should follow where people actually work together. The threshold decides how many answers it takes before a group is shown on its own. Five is the floor and cannot be lowered.",
+          "p2": "Then check the groups and the threshold. Groups decide what you can break the result down by, and should follow where people actually work together. The threshold decides how many answers it takes before a group is shown on its own. Five is the default and strongly recommended; small teams may go down to three, never lower.",
           "p3": "Finally, set the measurement up under Measurement setup. That is where you confirm that the safety representative was consulted and the need discussed with the union representatives — not a checkbox, but the documentation § 9-2 requires. Only then can the round be planned.",
           "p4": "One thing to know before you send: sending needs a mail integration that is not connected in this installation. The year wheel plans the rounds and queues the notices, but the queue stands until somebody connects sending."
         }
@@ -2253,12 +2259,12 @@
       },
       "velgTerskel": {
         "title": "Choosing the right threshold for your size",
-        "lead": "Why five is the default, what happens to groups below it, and why the floor cannot be lowered.",
+        "lead": "Why five is the default, what happens to groups below it, and when three or four can be right.",
         "body": {
           "p1": "The threshold is how many answers a group must have before its result is shown for that group alone. Below it no figures are shown for the group on its own — its answers count in the whole. When the small groups together have fewer answers than the threshold, the smallest of the other groups is held back too, so that nobody can work them out by subtraction.",
-          "p2": "Five is the default, and in Orgpuls five is also the floor. It is not a setting that can be lowered: the threshold is enforced by a function in the database that always counts at least five, whatever the configuration says. You can raise it to ten if you want to be stricter.",
+          "p2": "Five is the default, and it is strongly recommended. Small teams may lower the threshold to four or three, but never further: the floor is three, enforced by a function in the database that always counts at least three, whatever the configuration says. You can raise it to ten if you want to be stricter. A change applies to the surveys that have not opened yet; a survey that has opened keeps the threshold its employees answered under.",
           "p3": "The reason is not the Working Environment Act but data protection law. In a group of three a result can in practice be traced back to individuals, and then it is no longer anonymous figures — it is personal data, with a full right of access and erasure.",
-          "p4": "The consequence is worth planning for: with many small departments you get few figures to steer by. Merging groups that actually work together is a better answer than lowering the threshold, which does not work anyway."
+          "p4": "The consequence is worth planning for: with many small departments you get few figures to steer by. Merging groups that actually work together is usually a better answer than lowering the threshold. If you lower it all the same, Oppsett shows a warning before the change is saved."
         }
       },
       "grunnlinjeEllerPuls": {
@@ -2317,7 +2323,7 @@
         "body": {
           "p1": "A dash means the group had fewer answers than the threshold. The number is not hidden from you in particular; it has not been calculated for anyone.",
           "p2": "It is worth noting that the group is not left out of the whole either. The answers count towards the undertaking's figures — they are just not shown for that group alone.",
-          "p3": "What you can do is merge groups that actually work together, or get the response rate up in that group. What you cannot do is lower the threshold below five: the database always counts at least five whatever the configuration says.",
+          "p3": "What you can do is merge groups that actually work together, or get the response rate up in that group. The threshold can be lowered to three for small teams, but never further, and not for a survey that has already opened: it keeps the threshold its employees answered under.",
           "p4": "The temptation is real, and worth resisting. A number for a group of three is not an anonymous number."
         }
       },
@@ -2549,7 +2555,7 @@
     "faq": {
       "anonymous": {
         "q": "Are the answers really anonymous?",
-        "a": "Yes. We never store a name, an e-mail address or an IP address with the answer — there is no column that could hold the link. And no group is shown before at least five people have answered. Below that line there is only a dash, for administrators too. Five is the floor and cannot be set lower."
+        "a": "Yes. We never store a name, an e-mail address or an IP address with the answer — there is no column that could hold the link. And no group is shown before at least five people have answered. Below that line there is only a dash, for administrators too. Five is the default and strongly recommended; small teams may go down to three, never lower."
       },
       "twelve": {
         "q": "What if we are only twelve people?",
@@ -2630,7 +2636,7 @@
       },
       "threshold": {
         "title": "Check the groups and the threshold",
-        "note": "The floor is 5 answers and cannot be set lower",
+        "note": "5 answers is the default. Small teams may go down to 3, never lower",
         "time": "5 min"
       },
       "send": {
@@ -3794,8 +3800,9 @@
       "someSmall": "{names} have fewer than {n}. They are shown only as part of the whole.",
       "problem": {
         "denied": "Only the managing director can change the threshold.",
-        "invalid": "The threshold must be between 5 and 10."
-      }
+        "invalid": "The threshold must be between 3 and 10."
+      },
+      "lowWarn": "With fewer than five answers the figures can be linked to individuals. The result then counts as personal data, with the requirements for access and erasure that brings. Five is strongly recommended; three and four are for small teams, and with fewer answers it is easier to recognise who said what, especially in comments."
     },
     "safety": {
       "duty": "{count, plural, one {With # employee} other {With # employees}} you must have a safety representative. They see the results at the same time as management and are notified before each send-out.",
@@ -6509,7 +6516,7 @@
       {
         "h": "Annex 1 – Answers, users and technical data",
         "p": [
-          "Answers are stored without name, e-mail address, invitation or any other link to the person who gave them: only which department the answer concerns and the hour it arrived. Results for a department are not shown until at least five have answered. Comments and replies in anonymous conversations are stored the same way. They may contain personal data if the writer includes it, and are never shown with a name.",
+          "Answers are stored without name, e-mail address, invitation or any other link to the person who gave them: only which department the answer concerns and the hour it arrived. Results for a department are not shown until at least five have answered, or fewer — never under three — where the organisation has chosen a lower limit for small teams. Comments and replies in anonymous conversations are stored the same way. They may contain personal data if the writer includes it, and are never shown with a name.",
           "About users, name, e-mail address, role and department are stored. Passwords are stored only as a cryptographic hash.",
           "The questions are designed not to collect health data or other special categories of personal data, under GDPR Article 9 and the Working Environment Act section 9-3. The questions on offensive behaviour and violence are reported only as counts for the whole organisation.",
           "The sub-processors record IP address and time in operational logs, used for operation and security. The statistics on use of the website use no cookies and do not identify visitors.",
@@ -6521,7 +6528,7 @@
         "ul": [
           "The data is stored in a database in Frankfurt, Germany, and is encrypted in transit and at rest.",
           "Access control on every database table: a user sees only their own organisation, and only what their role allows.",
-          "The tables holding answers are closed to all users. Results are read only through functions that withhold departments with fewer than five answers.",
+          "The tables holding answers are closed to all users. Results are read only through functions that withhold departments with fewer answers than the organisation’s limit: five by default, never under three.",
           "The link an employee answers with is stored only as a SHA-256 hash. The time of an answer is stored rounded to the hour.",
           "Sign-in with e-mail address and password. Passwords are stored as hashes.",
           "Free text from employees is not written to logs or analytics tools.",

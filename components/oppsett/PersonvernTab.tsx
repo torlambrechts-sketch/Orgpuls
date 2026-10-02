@@ -2,16 +2,15 @@ import type { Route } from 'next'
 import Link from 'next/link'
 import { getFormatter, getTranslations } from 'next-intl/server'
 import { DPA_VERSION } from '@/lib/legal/dpa'
+import { belowDefault } from '@/lib/org/threshold'
 import type { DpaSignature } from '@/lib/legal/read'
 
 /**
  * Personvern. Bundle lines 2303-2322.
  *
- * Eight cards of plain statement about what is processed and why. The design's threshold
- * warning — shown when the threshold is under five — is unreachable here and the card is
- * therefore absent: `app.k_min()` is a function returning 5 and the column refuses
- * anything below it, so there is no state in which the warning could be true. Rendering it
- * would be rendering a warning about a configuration the database will not accept. D-31.
+ * Eight cards of plain statement about what is processed and why. Above them, the design's
+ * threshold warning, shown while the organisation's threshold is under five: since 0150 a
+ * small team may choose three or four (D-198), and this is the state the design's card is for.
  *
  * The design's three document buttons were omitted while nothing stood behind them (D-33).
  * The data processing agreement now exists, on its own tab (D-87), and this tab opens with
@@ -44,6 +43,13 @@ export async function PersonvernTab({ threshold, signed }: { threshold: number; 
           {current ? t('oppsett.tab.databehandleravtale') : t('oppsett.dpa.status.open')}
         </Link>
       </div>
+      {belowDefault(threshold) ? (
+        <div className="mt-[14px] rounded-row border border-orange bg-peach px-[20px] py-[16px]">
+          <div className="text-[13.5px] leading-[1.6] text-rustdeep [text-wrap:pretty]">
+            {t('oppsett.personvern.lowWarn', { threshold })}
+          </div>
+        </div>
+      ) : null}
       <div className="mt-[14px] grid gap-[14px] [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
         {CARDS.map((k) => (
           <div key={k} className="rounded-note border border-line bg-sf px-[22px] py-[20px]">

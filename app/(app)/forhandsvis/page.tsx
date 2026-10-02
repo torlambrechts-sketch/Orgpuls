@@ -131,13 +131,14 @@ export default async function PreviewPage({ searchParams }: { searchParams: Prom
             questions,
             extra,
             modules,
-            threshold: org.threshold,
+            // the round's own threshold (0150), as respond_form sends it
+            threshold: round.threshold,
             // the round's own questions (0095), as respond_form sends them
             own: own.map((q) => ({ id: q.id, text: q.body, kind: q.kind })),
             org: org.name,
           })}
           copy={{
-            ...respondCopy(t, org.threshold),
+            ...respondCopy(t, round.threshold),
             doneTitle: t('preview.doneTitle'),
             doneLead: t('preview.doneLead'),
           }}

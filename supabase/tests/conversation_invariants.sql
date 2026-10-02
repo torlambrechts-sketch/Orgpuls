@@ -231,7 +231,8 @@ begin
 
   -- a leader answers only what they may read (0128): the group needs k answers in the round
   insert into app.responses (org_id, round_id, group_id, submitted_hour)
-  select v_org, v_round, v_grp, date_trunc('hour', now()) from generate_series(2, app.k_threshold(v_org));
+  -- the round's k (0150): a thread is answerable at the threshold its round opened with
+  select v_org, v_round, v_grp, date_trunc('hour', now()) from generate_series(2, app.k_round(v_round));
 
   perform set_config('request.jwt.claims',
     json_build_object('sub', v_leader, 'role','authenticated')::text, true);

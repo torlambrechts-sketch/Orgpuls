@@ -14,7 +14,10 @@ import { pickWording, WORDINGS, type Wording as WordingKey } from './wording'
  *     release rule decides a factor only where every statement of it is released; a module in
  *     two variants (kunnskap og kontor, 0089) has three to five in each extended factor and
  *     exactly three in each simplified one;
- *   - a minimum of five responses that cannot be lowered, the product's k (app.k_min());
+ *   - a declared minimum of five responses that the module cannot lower: the product's default
+ *     and recommendation (app.k_min()), as the industry pages print it. It gates nothing by
+ *     itself: a module's cells are released at the round's own k (app.k_round, 0150) like the
+ *     core's, one threshold per round, the one its respondents were shown, never under three;
  *   - codes of a fixed shape, so a statement is addressed the same way everywhere.
  */
 
@@ -215,7 +218,7 @@ export const ModuleFile = z
       ),
     }),
     anonymity: z.object({
-      min_responses: z.number().int().min(5, 'the minimum is five and cannot be lowered'),
+      min_responses: z.number().int().min(5, 'a module declares at least five, the product default (app.k_min())'),
       can_lower: z.literal(false),
       count_items_reported_at: z.literal('organisation_only'),
       segments_require_min: z.number().int().min(5),

@@ -8,6 +8,7 @@ import { getCurrentOrgId } from '@/lib/org/current'
 import { getOrganization } from '@/lib/org/read'
 import { getOrgLogo, logoPath } from '@/lib/org/logo'
 import { getEntryCode } from '@/lib/settings/survey'
+import { getRoundRows } from '@/lib/rounds/read'
 
 /**
  * The QR poster (0076, D-126), printed from Målinger › Innstillinger and put up where people
@@ -23,7 +24,15 @@ export const dynamic = 'force-dynamic'
 export default async function PosterPage() {
   const t = await getTranslations('malinger.plakat')
   const org = await getCurrentOrgId()
-  const [organization, code, logo] = await Promise.all([getOrganization(), org ? getEntryCode(org) : Promise.resolve(null), getOrgLogo()])
+  const [organization, code, logo, rounds] = await Promise.all([
+    getOrganization(),
+    org ? getEntryCode(org) : Promise.resolve(null),
+    getOrgLogo(),
+    getRoundRows(),
+  ])
+  // the poster's promise is the lowest threshold it can lead to: the setting, or an open round
+  // that opened under a lower one and keeps it (0150)
+  const k = Math.min(organization?.threshold ?? Infinity, ...rounds.filter((r) => r.status === 'apen').map((r) => r.threshold))
 
   const back = (
     <ButtonLink href={{ pathname: '/malinger', query: { fane: 'innstillinger' } }} size="xxs" tone="ghost">
@@ -101,7 +110,7 @@ export default async function PosterPage() {
         </ol>
 
         <p className="mx-auto mt-[26px] max-w-[460px] border-t border-line pt-[16px] text-[13px] leading-[1.55] text-mut [text-wrap:pretty]">
-          {t('anonymous', { k: organization.threshold })}
+          {t('anonymous', { k })}
         </p>
       </article>
     </main>

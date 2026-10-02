@@ -187,7 +187,8 @@ begin
     exception when insufficient_privilege then v_txt := v_txt || ',no-qr';
     end;
     begin
-      perform public.sign_dpa(v_org_a, (select version from app.dpa_versions order by published_on desc limit 1), 'Ola Demo', 'Daglig leder');
+      -- the version in force as sign_dpa picks it: two can share a day since 0151 (2026-10-02, 2026-10-02.2)
+      perform public.sign_dpa(v_org_a, (select version from app.dpa_versions order by published_on desc, version desc limit 1), 'Ola Demo', 'Daglig leder');
       v_txt := v_txt || ',' || coalesce((select 'signed' from app.dpa_signatures where org_id = v_org_a limit 1), 'not-signed');
     exception when insufficient_privilege then v_txt := v_txt || ',no-dpa';
     end;

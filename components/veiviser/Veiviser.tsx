@@ -24,6 +24,7 @@ import {
 import type { WizardModel } from '@/lib/wizard/read'
 import { wheelMonths } from '@/lib/wheel/months'
 import { parseCsv } from '@/lib/csv/parse'
+import { belowDefault } from '@/lib/org/threshold'
 
 /**
  * The Veiviser (design 3, v3 191-406; D-76): nine steps in a dialog over the page.
@@ -34,16 +35,18 @@ import { parseCsv } from '@/lib/csv/parse'
  * "Fortsett senere" and Escape close it there.
  *
  * What the prototype invents is not drawn: no "Daglig leder" from the register (it does
- * not return one), no thresholds of 3 or 4 (k is 5 and cannot be lowered, S1), no Entra
- * import (there is no integration), and the verneombud is a person in the register, not a
- * name typed into a field (`duty_role`, 0021).
+ * not return one), no Entra import (there is no integration), and the verneombud is a
+ * person in the register, not a name typed into a field (`duty_role`, 0021). The threshold
+ * offers the design's 3 and 4 since 0150 (D-198); choosing one shows the warning before
+ * the step saves it.
  */
 const STEPS = ['velkommen', 'virksomheten', 'ansatte', 'grupper', 'verneombud', 'maling', 'rytme', 'utsending', 'klart'] as const
 const LAST = STEPS.length - 1
 type Method = 'csv' | 'paste' | 'entra' | 'hand'
 type Cadence = 'kvartalspuls' | 'halvarspuls' | 'manedspuls' | 'minimum'
 const PRESETS: Cadence[] = ['kvartalspuls', 'halvarspuls', 'manedspuls', 'minimum']
-const THRESHOLDS = [5, 8]
+// the design's chips: 3 and 4 are for small teams and carry the warning (0150, D-198)
+const THRESHOLDS = [3, 4, 5, 8]
 
 const focus = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink'
 const chip = (on: boolean) => ({
@@ -649,6 +652,11 @@ export function Veiviser({ face, onClose }: { face: string; onClose: (later: boo
                     </button>
                   ))}
                 </div>
+                {belowDefault(threshold) ? (
+                  <div role="alert" className="mt-[10px] max-w-[560px] text-[12.5px] leading-[1.55] text-danger [text-wrap:pretty]">
+                    {t('groups.lowWarn')}
+                  </div>
+                ) : null}
                 <div className="mt-[10px] max-w-[560px] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
                   {small.length
                     ? t('groups.someSmall', {

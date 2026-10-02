@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { LOCALES } from '@/lib/i18n/locales'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentOrgId } from '@/lib/org/current'
+import { K_FLOOR, K_MAX } from '@/lib/org/threshold'
 import { writeFailed } from '@/lib/supabase/write'
 import { lookupOrgNumber } from '@/lib/brreg/lookup'
 import { DUTY_ROLES } from '@/lib/settings/read'
@@ -21,9 +22,10 @@ import { INDUSTRY_SLUGS, industryForNace } from '@/content/industries/meta'
  * and a second check in TypeScript is a second rule that can drift from the first.
  *
  * `threshold` is the exception worth naming, because it looks like a security control and
- * is not one. What withholds a result is `app.k_threshold()`, floored at `app.k_min()`,
- * which is a *function* returning 5. This column can only raise the floor, never lower it,
- * and the database refuses anything outside 5..10 whatever is posted here.
+ * is only half of one. A round takes the organisation's threshold while it is planned and keeps
+ * it from the moment it opens (`app.rounds.k`, 0150), and what withholds a result is that
+ * round's k, floored at `app.k_floor()` — a *function* returning 3. The database refuses
+ * anything outside 3..10 whatever is posted here, and logs every change.
  */
 
 export type SettingsResult = { ok: true } | { ok: false; problem: string }
@@ -561,14 +563,15 @@ export async function renameGroup(formData: FormData): Promise<SettingsResult> {
 }
 
 /**
- * The threshold may be raised, never lowered below the floor.
+ * The threshold: 5 by default and strongly recommended, down to 3 for small teams, up to 10
+ * (D-198). The screen warns before it saves a 3 or a 4 (ThresholdPicker, the wizard).
  *
- * The design offers 3 as a chip. The column refuses anything under 5 and `app.k_min()`
- * would override it even if it did not, so a 3 chip would be a control that appears to do
- * something and cannot. The screen offers what the database accepts. D-31.
+ * The change applies to the rounds that have not opened; a round that has opened keeps the
+ * threshold its respondents were shown (0150). The database logs who changed it, from what to
+ * what (app.survey_defaults_log, read by Målinger › Innstillinger).
  */
 export async function setThreshold(formData: FormData): Promise<SettingsResult> {
-  const parsed = z.coerce.number().int().min(5).max(10).safeParse(formData.get('threshold'))
+  const parsed = z.coerce.number().int().min(K_FLOOR).max(K_MAX).safeParse(formData.get('threshold'))
   if (!parsed.success) return { ok: false, problem: 'invalid_threshold' }
 
   const id = await orgId()
@@ -586,6 +589,9 @@ export async function setThreshold(formData: FormData): Promise<SettingsResult> 
   revalidate()
   revalidatePath('/resultater')
   revalidatePath('/kommentarer')
+  // the change log, and the planned rounds that now carry the new threshold
+  revalidatePath('/malinger')
+  revalidatePath('/maleoppsett')
   return { ok: true }
 }
 
