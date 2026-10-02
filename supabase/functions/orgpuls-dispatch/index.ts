@@ -25,7 +25,11 @@
  * The loop: claim a batch (the database mints each respondent link, leases the row and,
  * since 0033, picks the channel), render, send, and report each row as done or failed. An
  * SMS that cannot be sent — no credits, an unregistered sender, a number the operator
- * refuses — falls back to e-mail when the person has an address, so nobody is left out. A rejected key stops the run and
+ * refuses — falls back to e-mail when the person has an address, so nobody is left out.
+ * A Teams message (0176, D-203) does the same: a person who blocked the app, or for whom it is
+ * not installed, is recorded as such (teams_dispatch_result) and gets the same link by e-mail
+ * in the same run, or by SMS where that may carry it; refused bot credentials stop Teams for the
+ * rest of the run, never the run itself. A rejected key stops the run and
  * gives every unsent claim back without spending an attempt, so a bad key cannot exhaust
  * the queue. Log lines carry row ids and HTTP codes — never an address, never a link.
  *
@@ -43,6 +47,8 @@
  *                         register the marketing domain (the sender's, else nyheter.orgpuls.com) in
  *                         Brevo, once, and return the DNS records it asks for; with authenticate=1,
  *                         ask Brevo to check them and, once authenticated, register the sender
+ *   POST ?probe=teams     whether the Teams bot is configured and Microsoft issues it a token: the
+ *                         credential kind and HTTP codes only, never the token (0176, D-203)
  *   POST ?probe=smsstatus&id=<messageId>
  *                         the delivery events Brevo holds for one SMS: event names, dates
  *                         and reasons only — the number is dropped before anything is returned.
@@ -63,6 +69,7 @@ import {
   renderNotice,
   renderOptin,
   renderTicketReply,
+  pick,
   smsLead,
   unsubscribeApi,
   type CrmJob,
@@ -73,6 +80,21 @@ import {
   withMailOverrides,
 } from '../_shared/mail.ts'
 import { normalizePhone, smsContent, smsLength } from '../_shared/sms.ts'
+import {
+  afterTeams,
+  botToken,
+  credentialKind,
+  DEFAULT_SERVICE_URL,
+  isServiceUrl,
+  pickLead,
+  sendTeams,
+  teamsActivity,
+  teamsRecord,
+  teamsTarget,
+  type BotCredentials,
+  type FetchLike,
+  type TeamsOutcome,
+} from '../_shared/teams.ts'
 import { MAIL, RESPONDENT_UI, SIGNED_OFF_FLAGS, SURVEY_ONLY, SURVEY_SOURCE } from '../_shared/messages.gen.ts'
 import { complete, nest, type Approved } from '../_shared/survey-texts.ts'
 
@@ -149,6 +171,31 @@ Deno.serve(async (req) => {
       ? { email: marketingFrom, name: Deno.env.get('ORGPULS_MARKETING_FROM_NAME') ?? 'Orgpuls' }
       : null
   const siteUrl = Deno.env.get('ORGPULS_SITE_URL') ?? appUrl
+  // Teams (0176, D-203): the bot's own single-tenant registration; a certificate where one is set
+  const bot: BotCredentials = {
+    appId: (Deno.env.get('TEAMS_BOT_APP_ID') ?? '').trim().toLowerCase(),
+    tenantId: (Deno.env.get('TEAMS_BOT_TENANT_ID') ?? '').trim().toLowerCase(),
+    secret: Deno.env.get('TEAMS_BOT_SECRET') ?? null,
+    certPem: Deno.env.get('TEAMS_BOT_CERT_PEM') ?? null,
+    keyPem: Deno.env.get('TEAMS_BOT_CERT_KEY') ?? null,
+  }
+  const teamsServiceUrl = isServiceUrl(Deno.env.get('TEAMS_SERVICE_URL')) ? (Deno.env.get('TEAMS_SERVICE_URL') as string) : DEFAULT_SERVICE_URL
+  const teamsFetch = fetch as unknown as FetchLike
+  let botTok: { token: string; expiresAt: number } | null = null
+  // set when Microsoft refuses the bot: nothing more goes by Teams in this run
+  let teamsDown = credentialKind(bot) === null
+  const teamsToken = async (): Promise<string | null> => {
+    if (teamsDown) return null
+    if (botTok && botTok.expiresAt > Date.now()) return botTok.token
+    const t = await botToken(teamsFetch, bot, Date.now(), crypto.randomUUID())
+    if (!t.ok) {
+      console.error(`[dispatch] teams token: ${t.code}`)
+      teamsDown = true
+      return null
+    }
+    botTok = { token: t.token, expiresAt: t.expiresAt }
+    return t.token
+  }
 
   if (probe === 'marketing-setup') {
     // D-101: only a subdomain of orgpuls.com, never the product's own sending domain
@@ -239,6 +286,13 @@ Deno.serve(async (req) => {
     const content = 'Test fra Orgpuls: SMS-utsendingen virker. Du trenger ikke gjøre noe med denne meldingen.'
     const res = await brevoSendSms(key, { sender: smsSender, recipient: to, content, unicode: smsLength(content).unicode, tag: 'orgpuls-probe' })
     return json(res.ok ? { ok: true, id: res.id, sender: smsSender, parts: smsLength(content).parts } : res)
+  }
+
+  if (probe === 'teams') {
+    const kind = credentialKind(bot)
+    if (!kind) return json({ ok: false, code: 'teams_not_configured' })
+    const t = await botToken(teamsFetch, bot, Date.now(), crypto.randomUUID())
+    return json(t.ok ? { ok: true, credential: kind, serviceUrl: teamsServiceUrl } : { ok: false, credential: kind, code: t.code })
   }
 
   if (probe === 'smsstatus') {
@@ -378,7 +432,7 @@ Deno.serve(async (req) => {
     cat[lang] = await withMailOverrides(cat[lang], (o.data ?? {}) as Record<string, unknown>)
   }
   const started = Date.now()
-  const tally = { claimed: 0, sent: 0, sms: 0, failed: 0, retry: 0, released: 0 }
+  const tally = { claimed: 0, sent: 0, sms: 0, teams: 0, failed: 0, retry: 0, released: 0 }
 
   while (Date.now() - started < BUDGET_MS) {
     const { data, error } = await svc.rpc('dispatch_claim', { p_batch: BATCH })
@@ -394,7 +448,7 @@ Deno.serve(async (req) => {
       const job = jobs[i]
       if (!sinceOn) job.since = null
       let outcome: SendResult = { ok: true, id: '' }
-      let channel: 'email' | 'sms' = 'email'
+      let channel: 'email' | 'sms' | 'teams' = 'email'
       const offered = offeredFor(cat, job, offer)
       const sendMail = async () => {
         if (perRecipient(job)) return sendEach()
@@ -432,18 +486,55 @@ Deno.serve(async (req) => {
         })
         return failed ?? { ok: true, id: '' }
       }
+      // one SMS to one person, used by the SMS channel and as Teams' second fallback
+      const sendSms = async (person: NonNullable<(typeof job.recipients)[number]>): Promise<SendResult> => {
+        const lang = personalLang(job, person, offered)
+        const content = smsContent(smsLead(cat, job, lang), personalLink(appUrl, job.token as string))
+        return brevoSendSms(key, { sender: smsSender, recipient: person.phone as string, content, unicode: smsLength(content).unicode, tag: `orgpuls-${job.kind}` })
+      }
       try {
         const person = job.recipients[0]
-        if (job.channel === 'sms' && person?.phone && job.token) {
-          const lang = personalLang(job, person, offered)
-          const content = smsContent(smsLead(cat, job, lang), personalLink(appUrl, job.token))
-          outcome = await brevoSendSms(key, {
-            sender: smsSender,
-            recipient: person.phone,
-            content,
-            unicode: smsLength(content).unicode,
-            tag: `orgpuls-${job.kind}`,
-          })
+        if (job.channel === 'teams' && person && job.token) {
+          // 0176: one card, the SMS's lead and one button to the link (supabase/functions/_shared/teams.ts)
+          const target = teamsTarget(job)
+          let res: TeamsOutcome
+          if (!target) res = { ok: false, kind: 'other', code: 'teams_no_target' }
+          else if (teamsDown) res = { ok: false, kind: 'auth', code: 'teams_unavailable' }
+          else {
+            const lang = personalLang(job, person, offered)
+            const lead = pickLead(smsLead(cat, job, lang), smsLead(cat, { ...job, sms_text: null }, lang))
+            const activity = teamsActivity(lead, pick(cat[lang], 'invitasjon.cta'), personalLink(appUrl, job.token))
+            res = await sendTeams(
+              { fetch: teamsFetch, sleep: (ms) => new Promise((r) => setTimeout(r, ms)), token: teamsToken, appId: bot.appId, defaultServiceUrl: teamsServiceUrl },
+              target,
+              activity,
+            )
+          }
+          // what Teams said about the person is a register fact; a new conversation is kept
+          const record = teamsRecord(res)
+          if (record) {
+            const kept = await svc.rpc('teams_dispatch_result', { p_outbox: job.id, ...record })
+            if (kept.error) console.error(`[dispatch] ${job.id}: teams result not recorded: ${kept.error.code ?? ''}`)
+          }
+          if (!res.ok && res.kind === 'auth') teamsDown = true
+          const via = afterTeams(res, person)
+          if (!res.ok) console.error(`[dispatch] ${job.id}: ${res.code}${via === 'none' ? '' : `, falling back to ${via}`}`)
+          if (via === 'teams') {
+            channel = 'teams'
+            outcome = { ok: true, id: '' }
+          } else if (via === 'email') {
+            // the same link, by the channel that works
+            channel = 'email'
+            job.channel = 'email'
+            outcome = await sendMail()
+          } else if (via === 'sms') {
+            channel = 'sms'
+            outcome = await sendSms(person)
+          } else {
+            outcome = { ok: false, retryable: !res.ok && (res.kind === 'retry' || res.kind === 'auth'), auth: false, code: res.ok ? 'teams' : res.code }
+          }
+        } else if (job.channel === 'sms' && person?.phone && job.token) {
+          outcome = await sendSms(person)
           channel = 'sms'
           if (!outcome.ok && !outcome.auth && person.email) {
             // the same link, by the channel that works; the failure is logged by code
@@ -461,9 +552,11 @@ Deno.serve(async (req) => {
       }
 
       if (outcome.ok) {
-        await svc.rpc('dispatch_done', { p_id: job.id, p_ok: true, p_provider_id: outcome.id || null, p_channel: channel })
+        const done = await svc.rpc('dispatch_done', { p_id: job.id, p_ok: true, p_provider_id: outcome.id || null, p_channel: channel })
+        if (done.error) console.error(`[dispatch] ${job.id}: done not recorded: ${done.error.code ?? ''}`)
         tally.sent++
         if (channel === 'sms') tally.sms++
+        if (channel === 'teams') tally.teams++
       } else if (outcome.auth) {
         const rest = jobs.slice(i).map((j) => j.id)
         await svc.rpc('dispatch_release', { p_ids: rest, p_error: 'provider_unauthorised' })
@@ -480,7 +573,7 @@ Deno.serve(async (req) => {
     if (jobs.length < BATCH) break
   }
 
-  if (tally.claimed) console.log(`[dispatch] claimed ${tally.claimed}, sent ${tally.sent} (${tally.sms} by SMS), retry ${tally.retry}, failed ${tally.failed}`)
+  if (tally.claimed) console.log(`[dispatch] claimed ${tally.claimed}, sent ${tally.sent} (${tally.sms} by SMS, ${tally.teams} by Teams), retry ${tally.retry}, failed ${tally.failed}`)
 
   // «Send test til meg» (0127, D-171): the invitation as it will read, to the daglig leder's own
   // address, with the preview's link instead of a personal one
