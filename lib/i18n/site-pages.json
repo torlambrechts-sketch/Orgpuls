@@ -2349,6 +2349,7 @@
     "seo.pages.priser.lead",
     "site.pris.size.label",
     "site.pris.size.valuetext",
+    "site.pris.size.unitOther",
     "site.pris.plans.0.name",
     "site.pris.size.number",
     "site.pris.size.readout",
@@ -2430,7 +2431,8 @@
     "seo.pages.priser.blocks.2.items.4",
     "seo.pages.priser.blocks.3.text",
     "site.pris.size.valuetextGroup",
-    "site.pris.size.readoutGroup"
+    "site.pris.size.readoutGroup",
+    "site.pris.size.unitOne"
    ]
   },
   {
