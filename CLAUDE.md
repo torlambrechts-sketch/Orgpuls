@@ -39,8 +39,11 @@ before starting a segment.
 - Every UI string comes from next-intl. **Never hard-code user-facing text.**
 
 ## Security invariants — violating any of these fails the PR
-1. **k-anonymity, k=5, database-enforced.** `app.k_min()` is a *function* returning 5,
-   not a column, so no row can lower it; an organisation may raise it to at most 10.
+1. **k-anonymity, floor 3, default 5, database-enforced.** `app.k_floor()` is a *function*
+   returning 3 and `app.k_min()` a function returning 5, the default and the strong
+   recommendation — functions, not columns, so no row can lower them. An organisation's
+   threshold is 3..10 (under 5 only after an explicit warning, for small teams). A round
+   freezes its k when it opens; readers apply `app.k_round(round)`, floored at 3 (D-198).
    Clients never select from `responses`, `answers`, `extra_answers` or
    `response_comments`: those have RLS enabled with **no policy** and no grant, so every
    client role is denied by default. Result reads go through SECURITY DEFINER RPCs that

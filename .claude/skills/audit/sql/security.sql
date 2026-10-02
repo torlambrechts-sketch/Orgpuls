@@ -35,8 +35,11 @@ from pg_class c join pg_namespace n on n.oid = c.relnamespace cross join unnest(
 where c.relkind = 'r' and n.nspname = 'app'
   and (has_table_privilege(r, c.oid, 'insert') or has_table_privilege(r, c.oid, 'update') or has_table_privilege(r, c.oid, 'delete'))
 union all
--- S6 the k floor is still a function returning 5 (invariant 1)
-select 'S6 k floor', 'app.k_min()', coalesce((select app.k_min()::text), 'missing')
+-- S6 the k floor is still a function returning 3, the default one returning 5 (invariant 1, D-198)
+select 'S6 k floor', 'app.k_floor()', coalesce((select app.k_floor()::text), 'missing')
+where coalesce((select app.k_floor()), -1) <> 3
+union all
+select 'S6 k default', 'app.k_min()', coalesce((select app.k_min()::text), 'missing')
 where coalesce((select app.k_min()), -1) <> 5
 union all
 -- S7 app.responses carries a column that could link a person (invariant 2)
