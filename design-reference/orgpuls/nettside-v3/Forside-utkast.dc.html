@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/radius.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/effects.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/base.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/styles.css">
+  <script src="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/_ds_bundle.js"></script>
+  <style>
+    body{margin:0;background:#FCF6E9;color:#191510}
+    a{color:#2F5D2A}
+    a:hover{color:#1E3D1A;text-decoration:underline}
+    @keyframes ht-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    @media (prefers-reduced-motion: reduce){*{animation:none!important}}
+  </style>
+</helmet>
+<div style="min-height:100vh;background:var(--op-bg);color:var(--op-ink);font-family:var(--font-sans);font-size:14px;padding:18px 18px 0;box-sizing:border-box;display:flex;flex-direction:column;gap:18px">
+
+  <header data-screen-label="Nav" style="position:sticky;top:12px;z-index:40;align-self:center;width:100%;max-width:1120px;box-sizing:border-box">
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:18px;border-radius:18px;border:1px solid var(--op-line);background:var(--op-sf);padding:10px 12px 10px 16px;box-shadow:0 18px 40px -28px rgba(25,21,16,.35)">
+      <a href="#topp" style="display:flex;flex:none;align-items:center;color:var(--op-ink);text-decoration:none">
+        <x-import component-from-global-scope="OrgpulsDesignSystem_d91c81.Logo" size="{{ 31 }}" wordmark="{{ 20 }}" radius="{{ 10 }}" hint-size="130px,31px"></x-import>
+      </a>
+      <nav aria-label="Hovedmeny" style="display:flex;min-width:0;flex:1;flex-wrap:wrap;gap:2px;height:34px;overflow:hidden">
+        <a href="#plattform" style="border-radius:9px;padding:8px 12px;font-size:14px;font-weight:600;color:var(--op-ink);text-decoration:none;background:var(--op-sbg)">Plattform</a>
+        <a href="#bruksomrader" style="border-radius:9px;padding:8px 12px;font-size:14px;font-weight:600;color:var(--op-ink);text-decoration:none">Bruksområder</a>
+        <a href="#bransjer" style="display:inline-flex;align-items:center;gap:6px;border-radius:9px;padding:8px 12px;font-size:14px;font-weight:600;color:var(--op-ink);text-decoration:none">Bransjer <span aria-hidden="true" style="font-size:10px">▾</span></a>
+        <a href="#hvorfor" style="border-radius:9px;padding:8px 12px;font-size:14px;font-weight:600;color:var(--op-ink);text-decoration:none">Hvorfor Orgpuls</a>
+        <a href="#pris" style="border-radius:9px;padding:8px 12px;font-size:14px;font-weight:600;color:var(--op-ink);text-decoration:none">Pris</a>
+      </nav>
+      <span style="display:flex;flex:none;align-items:center;gap:8px">
+        <a href="#logg-inn" style="display:flex;height:38px;align-items:center;border-radius:10px;padding:0 13px;font-size:14px;font-weight:600;color:var(--op-ink);text-decoration:none">Logg inn</a>
+        <a href="#kom-i-gang" style="display:flex;height:38px;align-items:center;gap:8px;border-radius:10px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 16px;font-size:14px;font-weight:700;color:var(--op-ink);text-decoration:none">Kom i gang <span aria-hidden="true">→</span></a>
+      </span>
+    </div>
+  </header>
+
+  <section id="topp" data-screen-label="Hero" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;border-radius:24px;border:1px solid var(--op-line);background:var(--op-sbg);overflow:hidden;animation:ht-in .25s ease both">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(440px,100%),1fr));align-items:center;gap:40px;padding:72px 0 72px 56px">
+      <div style="padding-right:12px;max-width:560px">
+        <span style="display:inline-block;border-radius:999px;background:var(--op-sf);border:1px solid var(--op-line);padding:6px 13px;font-size:12px;font-weight:700">Medarbeiderundersøkelse og arbeidsmiljø</span>
+        <h1 style="margin:20px 0 0;font-family:var(--font-display);font-size:60px;font-weight:600;line-height:1.04;letter-spacing:-.01em;text-wrap:balance">Første måling ute før lunsj.</h1>
+        <p style="margin:20px 0 0;max-width:50ch;font-size:17.5px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Hent virksomheten fra Brønnøysund, lim inn ansattlista, velg dato. Orgpuls sender ut, minner på og varsler verneombudet. Resultatet kommer med forslag til tiltak.</p>
+        <div style="margin-top:28px;display:flex;flex-wrap:wrap;gap:10px">
+          <a href="#kom-i-gang" style="display:flex;height:50px;align-items:center;gap:9px;border-radius:13px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 24px;font-size:16px;font-weight:700;color:var(--op-ink);text-decoration:none">Prøv gratis i 15 dager <span aria-hidden="true">→</span></a>
+          <a href="#plattform" style="display:flex;height:50px;align-items:center;border-radius:13px;border:1px solid var(--op-ink);background:var(--op-sf);padding:0 22px;font-size:16px;font-weight:600;color:var(--op-ink);text-decoration:none">Se hvordan det virker</a>
+        </div>
+        <p style="margin:22px 0 0;font-size:12.5px;color:var(--op-mut)">Ingen kort · Ingen bindingstid · Svar lagres i EU</p>
+      </div>
+      <div style="position:relative;min-height:470px">
+        <div style="position:absolute;left:0;top:0;width:640px;border-radius:18px;border:1px solid var(--op-line);background:var(--op-sf);box-shadow:0 18px 40px -28px rgba(25,21,16,.35);overflow:hidden">
+          <div style="display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;border-bottom:1px solid var(--op-line)">
+            <span style="width:9px;height:9px;border-radius:999px;background:var(--op-line)"></span>
+            <span style="width:9px;height:9px;border-radius:999px;background:var(--op-line)"></span>
+            <span style="width:9px;height:9px;border-radius:999px;background:var(--op-line)"></span>
+            <span style="margin-left:12px;font-size:11.5px;color:var(--op-faint)">app.orgpuls.no · Innsikt</span>
+          </div>
+          <sc-if value="{{ shotOversikt }}" hint-placeholder-val="{{ true }}"><img src="assets/oversikt.webp" alt="Orgpuls Innsikt for Nordvik Anlegg" style="display:block;width:100%;height:auto"></sc-if>
+          <sc-if value="{{ shotResultater }}" hint-placeholder-val="{{ false }}"><img src="assets/resultater.webp" alt="Orgpuls Resultater" style="display:block;width:100%;height:auto"></sc-if>
+          <sc-if value="{{ shotVarmekart }}" hint-placeholder-val="{{ false }}"><img src="assets/varmekart.webp" alt="Orgpuls varmekart" style="display:block;width:100%;height:auto"></sc-if>
+        </div>
+        <div style="position:absolute;left:-36px;bottom:6px;width:268px;box-sizing:border-box;border-radius:16px;border:1px solid var(--op-ink);background:var(--op-sf);padding:16px 18px;box-shadow:0 18px 40px -24px rgba(25,21,16,.45)">
+          <span style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.11em;color:var(--op-mut)">Deltakelse</span>
+          <span style="margin-top:8px;display:flex;align-items:baseline;gap:8px"><span style="font-family:var(--font-display);font-size:38px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums">82 %</span><span style="font-size:12.5px;color:var(--op-mut)">28 av 34 svarte</span></span>
+          <span style="margin-top:12px;display:block;height:8px;border-radius:9px;background:var(--op-track);overflow:hidden"><span style="display:block;width:82%;height:100%;border-radius:9px;background:var(--op-greenbar)"></span></span>
+        </div>
+        <div style="position:absolute;left:250px;bottom:-14px;width:290px;box-sizing:border-box;border-radius:16px;border:1px solid var(--op-line);background:var(--op-peach2);padding:16px 18px;box-shadow:0 18px 40px -24px rgba(25,21,16,.45)">
+          <span style="display:flex;align-items:center;justify-content:space-between;gap:10px"><span style="font-size:14.5px;font-weight:700;color:var(--op-dangerdeep)">Ytringsklima</span><span style="border-radius:999px;background:var(--op-sf);padding:3px 10px;font-size:11.5px;font-weight:700;color:var(--op-danger)">Trenger innsats</span></span>
+          <span style="margin-top:10px;display:flex;gap:26px">
+            <span><span style="display:block;font-family:var(--font-display);font-size:26px;font-weight:600;color:var(--op-dangerdeep)">41</span><span style="font-size:12px;color:var(--op-dangerdeep)">Indeks av 100</span></span>
+            <span><span style="display:block;font-family:var(--font-display);font-size:26px;font-weight:600;color:var(--op-dangerdeep)">−7</span><span style="font-size:12px;color:var(--op-dangerdeep)">Siden i fjor</span></span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="plattform" data-screen-label="Måling og svar" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;border-radius:24px;border:1px solid var(--op-line);background:var(--op-sf);padding:72px 56px">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+      <span style="display:inline-flex;align-items:center;gap:7px;border-radius:999px;background:var(--op-sbg);padding:6px 13px;font-size:12px;font-weight:700"><span aria-hidden="true">◷</span> Målinger</span>
+      <h2 style="margin:0;max-width:22ch;font-family:var(--font-display);font-size:40px;font-weight:600;line-height:1.1;text-wrap:balance">Spørsmålene loven ber om. Ikke flere.</h2>
+      <p style="margin:0;max-width:60ch;font-size:16px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Elleve faktorer fra QPS Nordic, tre utsagn hver, svar fra 1 til 5. Det er nok til å dokumentere kartleggingen etter arbeidsmiljøloven § 4-3 — og kort nok til at folk svarer.</p>
+    </div>
+    <div style="margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));align-items:center;gap:56px">
+      <div style="position:relative;padding:0 40px 40px 0">
+        <div style="max-width:420px;border-radius:20px;border:1px solid var(--op-line);background:var(--op-bg);padding:26px;box-sizing:border-box">
+          <span style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.11em;color:var(--op-mut)">Ytringsklima · 4 av 11</span><span style="font-size:12px;color:var(--op-faint)">Ca. 3 min igjen</span></span>
+          <span style="margin-top:10px;display:block;height:6px;border-radius:9px;background:var(--op-track)"><span style="display:block;width:36%;height:100%;border-radius:9px;background:var(--op-ink)"></span></span>
+          <div style="margin-top:22px;display:flex;flex-direction:column;gap:18px">
+            <sc-for list="{{ statements }}" as="s" hint-placeholder-count="3">
+              <div>
+                <span style="display:block;font-family:var(--font-display);font-size:17px;font-weight:600;line-height:1.3;text-wrap:pretty">{{ s.t }}</span>
+                <span style="margin-top:10px;display:grid;grid-template-columns:repeat(5,1fr);gap:6px">
+                  <sc-for list="{{ s.opts }}" as="o" hint-placeholder-count="5">
+                    <span style="display:flex;height:38px;align-items:center;justify-content:center;border-radius:14px;border:{{ o.border }};background:{{ o.bg }};font-size:14px;font-weight:{{ o.weight }}">{{ o.n }}</span>
+                  </sc-for>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+          <span style="margin-top:20px;display:block;border-radius:14px;border:1px dashed var(--op-rule);padding:12px 14px;font-size:13px;color:var(--op-faint)">Vil du si noe mer? Valgfritt, og like anonymt.</span>
+        </div>
+        <div style="position:absolute;right:0;bottom:0;width:250px;box-sizing:border-box;border-radius:16px;border:1px solid var(--op-line);background:var(--op-mint);padding:16px 18px;box-shadow:0 18px 40px -24px rgba(25,21,16,.45)">
+          <span style="display:block;font-size:14px;font-weight:700;color:var(--op-greendeep)">Anonymt av struktur</span>
+          <span style="margin-top:6px;display:block;font-size:13px;line-height:1.5;color:var(--op-greendeep);text-wrap:pretty">Ingen gruppe vises under fem svar. Fem er gulvet, og det er produktets — ikke deres.</span>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin:0;max-width:24ch;font-family:var(--font-display);font-size:28px;font-weight:600;line-height:1.15;text-wrap:balance">Fire minutter for den ansatte. Ferdig dokumentasjon for dere.</h3>
+        <div style="margin-top:22px;display:flex;flex-direction:column;gap:13px">
+          <sc-for list="{{ surveyPoints }}" as="p" hint-placeholder-count="4">
+            <span style="display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.55;color:var(--op-body);text-wrap:pretty">
+              <x-import component-from-global-scope="OrgpulsDesignSystem_d91c81.Tick" size="{{ 18 }}" hint-size="18px,18px"></x-import>
+              <span>{{ p }}</span>
+            </span>
+          </sc-for>
+        </div>
+        <a href="#plattform" style="margin-top:24px;display:inline-block;font-size:14.5px;font-weight:700">Se spørsmålssettet →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="hvorfor" data-screen-label="Ink band" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;border-radius:24px;background:{{ bandBg }};color:{{ bandInk }};border:1px solid var(--op-line);padding:72px 56px">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+      <span style="display:inline-flex;align-items:center;gap:7px;border-radius:999px;background:var(--op-ac);color:var(--op-ink);padding:6px 13px;font-size:12px;font-weight:700"><span aria-hidden="true">✓</span> Lovkravet dekket</span>
+      <h2 style="margin:0;max-width:24ch;font-family:var(--font-display);font-size:40px;font-weight:600;line-height:1.1;text-wrap:balance">Mindre tid på skjema. Mer tid på tiltak.</h2>
+      <p style="margin:0;max-width:58ch;font-size:16px;line-height:1.65;opacity:.78;text-wrap:pretty">Orgpuls planlegger rundene, sender ut, minner på og skriver rapporten. Dere bruker tiden på det som kommer etterpå.</p>
+    </div>
+    <div style="margin-top:52px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:13px">
+      <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+        <div style="text-align:center;padding:10px 12px">
+          <span style="display:block;font-family:var(--font-display);font-size:52px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums">{{ s.v }}</span>
+          <span style="margin:12px auto 0;display:block;max-width:22ch;font-size:15px;line-height:1.5;opacity:.78;text-wrap:balance">{{ s.l }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin-top:72px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));align-items:center;gap:56px">
+      <div style="position:relative;padding-bottom:30px">
+        <div style="border-radius:18px;border:1px solid var(--op-line);background:var(--op-sf);overflow:hidden">
+          <img src="assets/varmekart.webp" alt="Varmekart: gruppe × faktor" style="display:block;width:100%;height:auto">
+        </div>
+        <div style="position:absolute;right:-18px;bottom:0;width:270px;box-sizing:border-box;border-radius:16px;border:1px solid var(--op-ink);background:var(--op-sf);color:var(--op-ink);padding:16px 18px;box-shadow:0 34px 80px rgba(25,21,16,.3)">
+          <span style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.11em;color:var(--op-mut)">Verksted · 8 svar</span>
+          <span style="margin-top:6px;display:flex;align-items:baseline;gap:10px"><span style="font-family:var(--font-display);font-size:30px;font-weight:600">28</span><span style="font-size:13.5px;font-weight:700">Ytringsklima</span></span>
+          <span style="margin-top:4px;display:block;font-size:12.5px;line-height:1.5;color:var(--op-body)">Laveste celle i kartet. Tre forslag til tiltak er klare.</span>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin:0;max-width:20ch;font-family:var(--font-display);font-size:36px;font-weight:600;line-height:1.12;text-wrap:balance">Se hvor det trengs — aldri hvem som svarte.</h3>
+        <p style="margin:16px 0 0;max-width:46ch;font-size:16px;line-height:1.65;opacity:.78;text-wrap:pretty">Varmekartet viser hver avdeling mot hver faktor. Grupper under fem svar vises som «—», og verneombudet ser de samme tallene som ledelsen, samtidig.</p>
+        <a href="#kom-i-gang" style="margin-top:26px;display:inline-flex;height:50px;align-items:center;gap:9px;border-radius:13px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 24px;font-size:16px;font-weight:700;color:var(--op-ink);text-decoration:none">Prøv gratis <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="bruksomrader" data-screen-label="Resultater" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;border-radius:24px;border:1px solid var(--op-line);background:var(--op-sf);padding:72px 56px">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+      <h2 style="margin:0;max-width:24ch;font-family:var(--font-display);font-size:40px;font-weight:600;line-height:1.1;text-wrap:balance">Én side: hva står bra til, og hva gjør vi nå</h2>
+      <p style="margin:0;max-width:58ch;font-size:16px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Resultatet kommer som en setning, ikke en tabell. Tallene ligger under, faktor for faktor, med endringen siden sist.</p>
+    </div>
+    <div style="position:relative;margin:48px auto 0;max-width:900px;padding:0 0 30px">
+      <div style="border-radius:18px;border:1px solid var(--op-line);background:var(--op-sf);box-shadow:0 18px 40px -28px rgba(25,21,16,.35);overflow:hidden">
+        <div style="display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;border-bottom:1px solid var(--op-line)">
+          <span style="width:9px;height:9px;border-radius:999px;background:var(--op-line)"></span>
+          <span style="width:9px;height:9px;border-radius:999px;background:var(--op-line)"></span>
+          <span style="width:9px;height:9px;border-radius:999px;background:var(--op-line)"></span>
+          <span style="margin-left:12px;font-size:11.5px;color:var(--op-faint)">app.orgpuls.no · Resultater</span>
+        </div>
+        <img src="assets/resultater.webp" alt="Orgpuls Resultater" style="display:block;width:100%;height:auto">
+      </div>
+      <div style="position:absolute;left:-44px;bottom:0;width:250px;box-sizing:border-box;border-radius:16px;border:1px solid var(--op-ink);background:var(--op-sf);padding:16px 18px;box-shadow:0 18px 40px -24px rgba(25,21,16,.45)">
+        <span style="display:block;font-size:14px;font-weight:700">Siden sist</span>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ deltas }}" as="d" hint-placeholder-count="3">
+            <span style="display:flex;justify-content:space-between;gap:10px;font-size:13px"><span>{{ d.f }}</span><span style="font-weight:700;font-variant-numeric:tabular-nums;color:{{ d.c }}">{{ d.v }}</span></span>
+          </sc-for>
+        </div>
+      </div>
+      <div style="position:absolute;right:-44px;top:70px;width:230px;box-sizing:border-box;border-radius:16px;border:1px solid var(--op-line);background:var(--op-sbg);padding:16px 18px;box-shadow:0 18px 40px -24px rgba(25,21,16,.45)">
+        <span style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.11em;color:var(--op-cautiondeep)">Arbeidsmiljøindeks</span>
+        <span style="margin-top:6px;display:flex;align-items:baseline;gap:9px"><span style="font-family:var(--font-display);font-size:44px;font-weight:600;line-height:.9">61</span><span style="font-size:13px;font-weight:700;color:var(--op-danger)">−3</span></span>
+        <span style="margin-top:6px;display:block;font-size:12.5px;color:var(--op-cautiondeep)">Grunnlinje 2026 · Nordvik Anlegg</span>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Sløyfen" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;padding:56px 56px 24px">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+      <h2 style="margin:0;max-width:24ch;font-family:var(--font-display);font-size:40px;font-weight:600;line-height:1.1;text-wrap:balance">Å måle er første steg. Tiltakene gjør forskjellen.</h2>
+      <p style="margin:0;max-width:58ch;font-size:16px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Målinger, resultater, kommentarer og tiltak i én sløyfe. Hver runde starter der den forrige sluttet.</p>
+    </div>
+    <div style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:13px">
+      <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="3">
+        <div style="display:flex;min-height:230px;flex-direction:column;gap:12px;border-radius:20px;border:{{ p.border }};background:{{ p.bg }};padding:26px;box-sizing:border-box">
+          <span style="display:flex;height:44px;width:44px;align-items:center;justify-content:center;border-radius:13px;background:{{ p.tile }};color:{{ p.tileInk }};font-size:19px">{{ p.g }}</span>
+          <span style="margin-top:6px;font-family:var(--font-display);font-size:26px;font-weight:600;line-height:1.15">{{ p.t }}</span>
+          <span style="font-size:14.5px;line-height:1.6;color:var(--op-body);text-wrap:pretty">{{ p.d }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <sc-if value="{{ showRoles }}" hint-placeholder-val="{{ true }}">
+    <section id="bransjer" data-screen-label="Roller" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;padding:40px 56px 0">
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+        <span style="display:inline-block;border-radius:999px;background:var(--op-sbg);padding:6px 13px;font-size:12px;font-weight:700">Hvem er du?</span>
+        <h2 style="margin:0;max-width:24ch;font-family:var(--font-display);font-size:40px;font-weight:600;line-height:1.1;text-wrap:balance">Hver rolle får sin egen vei inn</h2>
+      </div>
+      <div style="margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:13px">
+        <sc-for list="{{ roles }}" as="r" hint-placeholder-count="4">
+          <a href="#plattform" style="display:flex;min-height:290px;flex-direction:column;gap:12px;border-radius:20px;border:1px solid var(--op-line);padding:22px 20px;color:var(--op-ink);text-decoration:none;background:{{ r.bg }};box-sizing:border-box">
+            <span style="display:flex;height:44px;width:44px;align-items:center;justify-content:center;border-radius:13px;background:var(--op-ink);font-family:var(--font-display);font-size:19px;font-weight:600;color:var(--op-bg)">{{ r.i }}</span>
+            <span><span style="display:block;font-size:18px;font-weight:700">{{ r.t }}</span><span style="margin-top:3px;display:block;font-size:13px;color:var(--op-mut)">{{ r.s }}</span></span>
+            <span style="display:flex;flex:1;flex-direction:column;gap:7px">
+              <sc-for list="{{ r.get }}" as="g" hint-placeholder-count="3">
+                <span style="display:flex;gap:8px;font-size:13.5px;line-height:1.45;text-wrap:pretty"><x-import component-from-global-scope="OrgpulsDesignSystem_d91c81.Tick" size="{{ 16 }}" hint-size="16px,16px"></x-import>{{ g }}</span>
+              </sc-for>
+            </span>
+            <span style="display:flex;height:42px;align-items:center;justify-content:center;border-radius:11px;border:1px solid var(--op-ink);background:var(--op-sf);font-size:13.5px;font-weight:700">{{ r.cta }}</span>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+  </sc-if>
+
+  <section id="kom-i-gang" data-screen-label="Kom i gang" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;padding:40px 56px 56px">
+    <div id="pris" style="display:grid;align-items:center;gap:26px;border-radius:24px;border:1px solid var(--op-line);background:var(--op-sf);padding:36px 40px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))">
+      <div>
+        <h2 style="margin:0;max-width:22ch;font-family:var(--font-display);font-size:32px;font-weight:600;line-height:1.14;text-wrap:balance">Prøv det på deres egen virksomhet</h2>
+        <p style="margin:12px 0 0;max-width:48ch;font-size:15px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Fra 265 kr i måneden. Gratis i 15 dager, uten kort.</p>
+      </div>
+      <form onSubmit="{{ submit }}" style="display:flex;flex-wrap:wrap;gap:9px">
+        <x-import component-from-global-scope="OrgpulsDesignSystem_d91c81.Input" size="site" value="{{ org }}" on-change="{{ onOrg }}" input-mode="numeric" placeholder="Organisasjonsnummer" aria-label="Organisasjonsnummer" style="min-width:200px;flex:1" hint-size="240px,52px"></x-import>
+        <button type="submit" style="height:52px;cursor:pointer;border-radius:13px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 22px;font-size:16px;font-weight:700;color:var(--op-ink);font-family:inherit">Kom i gang</button>
+        <sc-if value="{{ note }}" hint-placeholder-val="{{ false }}">
+          <span role="status" style="flex-basis:100%;font-size:13px;line-height:1.5;color:{{ noteColor }}">{{ note }}</span>
+        </sc-if>
+      </form>
+    </div>
+  </section>
+
+  <footer style="margin:0 -18px;border-top:1px solid var(--op-line);background:var(--op-sf)">
+    <div style="margin:0 auto;max-width:1120px;display:grid;gap:24px;padding:36px 26px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+      <div><span style="font-family:var(--font-display);font-size:19px;font-weight:600">Orgpuls</span><p style="margin:8px 0 0;max-width:28ch;font-size:12.5px;line-height:1.6;color:var(--op-mut)">Svar lagres i EU, og ingen enkeltsvar kan spores tilbake til en person.</p></div>
+      <sc-for list="{{ footer }}" as="c" hint-placeholder-count="4">
+        <nav aria-label="{{ c.h }}"><span style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--op-mut)">{{ c.h }}</span>
+          <span style="margin-top:10px;display:flex;flex-direction:column;gap:6px"><sc-for list="{{ c.l }}" as="l" hint-placeholder-count="4"><a href="#" style="font-size:13px;color:var(--op-ink);text-decoration:none">{{ l }}</a></sc-for></span>
+        </nav>
+      </sc-for>
+    </div>
+    <div style="margin:0 auto;max-width:1120px;padding:0 26px 22px;font-size:11.5px;color:var(--op-mut)">© 2026 Orgpuls · Personvern · Vilkår</div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;heroShot&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;oversikt&quot;,&quot;resultater&quot;,&quot;varmekart&quot;],&quot;default&quot;:&quot;oversikt&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;band&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ink&quot;,&quot;soft&quot;],&quot;default&quot;:&quot;ink&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showRoles&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { org: '', note: null, ok: true };
+  renderVals() {
+    const shot = this.props.heroShot ?? 'oversikt';
+    const ink = (this.props.band ?? 'ink') === 'ink';
+    const opt = (sel) => [1, 2, 3, 4, 5].map((n) => ({ n, border: n === sel ? '1px solid #191510' : '1px solid #E8DFC9', bg: n === sel ? '#FBEBBE' : '#FFFDF6', weight: n === sel ? 700 : 500 }));
+    return {
+      shotOversikt: shot === 'oversikt',
+      shotResultater: shot === 'resultater',
+      shotVarmekart: shot === 'varmekart',
+      bandBg: ink ? '#191510' : '#FBEBBE',
+      bandInk: ink ? '#FCF6E9' : '#191510',
+      showRoles: this.props.showRoles ?? true,
+      statements: [
+        { t: 'Jeg kan si fra om ting jeg er uenig i på jobben.', opts: opt(4) },
+        { t: 'Det er trygt å ta opp problemer med nærmeste leder.', opts: opt(3) },
+        { t: 'Folk her lytter når noen sier fra.', opts: opt(0) },
+      ],
+      surveyPoints: [
+        'Utsending på e-post og SMS — også til de uten jobbadresse.',
+        'Påminnelser går av seg selv, og verneombudet varsles før hver runde.',
+        'Svar på norsk, engelsk, polsk, ukrainsk, litauisk, svensk og dansk.',
+        'Rapport klar til Arbeidstilsynet, med hjemmel per faktor.',
+      ],
+      stats: [
+        { v: '20 min', l: 'fra org.nr. til første utsending' },
+        { v: '4 min', l: 'å svare på hovedundersøkelsen' },
+        { v: '5 svar', l: 'minste antall før en gruppe vises' },
+        { v: '11', l: 'faktorer, slik forskriften kapittel 1A ber om' },
+      ],
+      deltas: [
+        { f: 'Mening og anerkjennelse', v: '+4', c: '#2F5D2A' },
+        { f: 'Kontakt og kommunikasjon', v: '±0', c: '#8A8272' },
+        { f: 'Arbeidsmengde', v: '−9', c: '#A33A16' },
+      ],
+      pillars: [
+        { g: '◷', t: 'Mål', d: 'Grunnlinje én gang i året, puls mellom. Årshjulet planlegger rundene selv.', bg: '#FFFDF6', border: '1px solid #E8DFC9', tile: '#F2EAD6', tileInk: '#191510' },
+        { g: '▤', t: 'Forstå', d: 'Resultat per avdeling og faktor, og anonyme kommentarer du kan svare på uten å vite hvem som skrev.', bg: '#FBEBBE', border: '1px solid #191510', tile: '#F5C64A', tileInk: '#191510' },
+        { g: '✓', t: 'Følg opp', d: 'Tre forslag til tiltak per område. Hvert tiltak får eier og frist, og neste puls viser om det virket.', bg: '#FFFDF6', border: '1px solid #E8DFC9', tile: '#F2EAD6', tileInk: '#191510' },
+      ],
+      roles: [
+        { i: 'DL', t: 'Daglig leder', s: 'Uten HR-avdeling', bg: '#FFFDF6', get: ['Én side: hva står bra til, hva gjør vi nå', 'Rapport til ledelsen på to sider', 'Lovkravet dekket uten å lese paragrafer'], cta: 'Se for daglig leder' },
+        { i: 'HR', t: 'HR', s: '75–500 ansatte', bg: '#FBEBBE', get: ['Resultat per avdeling, team og segment', 'Utvikling over år, måling for måling', 'Roller og tilgang styrt fra ett sted'], cta: 'Se for HR' },
+        { i: 'AL', t: 'Avdelingsleder', s: 'Eget team', bg: '#FFFDF6', get: ['Bare ditt team, over terskelen', 'Anonyme kommentarer du kan svare på', 'Tre forslag til tiltak, klare til å velge'], cta: 'Se for avdelingsleder' },
+        { i: 'VO', t: 'Verneombud', s: 'Og tillitsvalgte', bg: '#CFE7E4', get: ['Samme tall som ledelsen, samtidig', 'Varsel før hver utsending', 'Risikovurderingen med hjemmel per faktor'], cta: 'Se for verneombud' },
+      ],
+      footer: [
+        { h: 'Produkt', l: ['Plattform', 'Målinger og årshjul', 'Resultater', 'Kommentarer', 'Tiltak', 'Pris'] },
+        { h: 'Bruksområder', l: ['Arbeidsmiljøkartlegging', 'Medarbeiderundersøkelse', 'Pulsmålinger', 'Rapport til Arbeidstilsynet'] },
+        { h: 'Ressurser', l: ['Slik virker det', 'Arbeidsmiljøloven forklart', 'Spørsmålssettet', 'Personvern og anonymitet'] },
+        { h: 'Om oss', l: ['Hvorfor Orgpuls', 'Kontakt', 'Personvernerklæring', 'Vilkår'] },
+      ],
+      org: this.state.org,
+      note: this.state.note,
+      noteColor: this.state.ok ? '#2F5D2A' : '#A33A16',
+      onOrg: (e) => this.setState({ org: e.target.value, note: null }),
+      submit: (e) => {
+        e.preventDefault();
+        const d = this.state.org.replace(/\D/g, '');
+        this.setState(d.length === 9
+          ? { ok: true, note: 'Vi henter ' + d.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3') + ' fra Brønnøysundregistrene …' }
+          : { ok: false, note: 'Et organisasjonsnummer har ni sifre.' });
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

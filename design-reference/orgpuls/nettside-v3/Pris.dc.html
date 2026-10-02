@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/radius.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/effects.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/base.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/styles.css">
+  <script src="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/_ds_bundle.js"></script>
+  <style>
+    body{margin:0;background:#FCF6E9;color:#191510}
+    a{color:#2F5D2A}
+    a:hover{color:#1E3D1A;text-decoration:underline}
+    @keyframes ht-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    @media (prefers-reduced-motion: reduce){*{animation:none!important}}
+  </style>
+</helmet>
+<div style="min-height:100vh;background:var(--op-bg);color:var(--op-ink);font-family:var(--font-sans);font-size:14px;display:flex;flex-direction:column">
+
+  <div data-screen-label="Topp" style="background:var(--op-mint);padding:18px 18px 56px;display:flex;flex-direction:column;gap:18px">
+    <header data-screen-label="Nav" style="align-self:center;width:100%;max-width:1120px;box-sizing:border-box">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:18px;border-radius:18px;border:1px solid var(--op-line);background:var(--op-sf);padding:10px 12px 10px 16px">
+        <a href="Forside.dc.html" style="display:flex;flex:none;align-items:center;color:var(--op-ink);text-decoration:none">
+          <x-import component-from-global-scope="OrgpulsDesignSystem_d91c81.Logo" size="{{ 31 }}" wordmark="{{ 20 }}" radius="{{ 10 }}" hint-size="130px,31px"></x-import>
+        </a>
+        <nav aria-label="Hovedmeny" style="display:flex;min-width:0;flex:1;flex-wrap:nowrap;gap:0;overflow-x:auto;scrollbar-width:none">
+          <a href="Plattform.dc.html" style="border-radius:9px;padding:8px 10px;font-size:14px;white-space:nowrap;flex:none;font-weight:600;color:var(--op-ink);text-decoration:none">Plattform</a>
+          <a href="Bruksomrader.dc.html" style="border-radius:9px;padding:8px 10px;font-size:14px;white-space:nowrap;flex:none;font-weight:600;color:var(--op-ink);text-decoration:none">Bruksområder</a>
+          <a href="Bransjer.dc.html" style="border-radius:9px;padding:8px 10px;font-size:14px;white-space:nowrap;flex:none;font-weight:600;color:var(--op-ink);text-decoration:none">Bransjer</a>
+          <a href="Pris.dc.html" aria-current="page" style="border-radius:9px;padding:8px 10px;font-size:14px;white-space:nowrap;flex:none;font-weight:700;color:var(--op-ink);text-decoration:none;background:var(--op-sbg)">Pris</a>
+        </nav>
+        <span style="display:flex;flex:none;align-items:center;gap:8px">
+          <a href="#logg-inn" style="display:flex;height:38px;align-items:center;border-radius:10px;padding:0 13px;font-size:14px;font-weight:600;color:var(--op-ink);text-decoration:none;white-space:nowrap">Logg inn</a>
+          <a href="#kom-i-gang" style="display:flex;height:38px;align-items:center;gap:8px;border-radius:10px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 16px;font-size:14px;font-weight:700;color:var(--op-ink);text-decoration:none;white-space:nowrap">Kom i gang <span aria-hidden="true">→</span></a>
+        </span>
+      </div>
+    </header>
+
+    <section data-screen-label="Hero" style="align-self:center;width:100%;max-width:1240px;box-sizing:border-box;padding:40px 56px 0;animation:ht-in .25s ease both">
+      <nav aria-label="Brødsmuler" style="display:flex;gap:8px;font-size:13px;color:var(--op-body)"><a href="Forside.dc.html" style="color:var(--op-body)">Orgpuls</a><span aria-hidden="true">›</span><span>Pris</span></nav>
+      <div style="margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:24px 48px;align-items:end">
+        <div>
+          <span style="display:inline-block;border-radius:9px;background:var(--op-ink);color:var(--op-bg);padding:7px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em">Pris</span>
+          <h1 style="margin:22px 0 0;font-family:var(--font-display);font-size:56px;font-weight:600;line-height:1.04;letter-spacing:-.01em;text-wrap:balance">Fra 265 kr i måneden. Alt inkludert.</h1>
+        </div>
+        <div>
+          <p style="margin:0;max-width:50ch;font-size:17px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Én fast pris etter antall ansatte — ikke per bruker, ikke per måling. Ingen bindingstid. Verneombud og tillitsvalgte koster ikke ekstra. Gratis i 15 dager, uten kort.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:36px;display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px;border-radius:20px;border:1px solid var(--op-line);background:var(--op-sf);padding:20px 24px">
+        <label for="ansatte" style="flex:none;font-size:15px;font-weight:700">Hvor mange ansatte er dere?</label>
+        <input id="ansatte" type="range" min="1" max="150" step="1" value="{{ n }}" onChange="{{ onN }}" aria-valuetext="{{ nText }}" style="flex:1 1 220px;min-width:0;accent-color:#191510;height:28px;cursor:pointer">
+        <span style="flex:none;display:flex;align-items:baseline;gap:10px;min-width:250px"><span style="font-family:var(--font-display);font-size:30px;font-weight:600;font-variant-numeric:tabular-nums">{{ n }}</span><span style="font-size:13.5px;color:var(--op-body)">ansatte · <strong style="color:var(--op-ink)">{{ fitName }}</strong> · {{ fitPer }}</span></span>
+      </div>
+
+      <div style="margin-top:13px;display:grid;align-items:stretch;gap:13px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))">
+        <sc-for list="{{ plans }}" as="p" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;gap:13px;border-radius:20px;padding:26px;border:{{ p.border }};background:{{ p.bg }};box-sizing:border-box">
+            <span style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px"><span style="font-size:17px;font-weight:700">{{ p.name }}</span><sc-if value="{{ p.fit }}" hint-placeholder-val="{{ false }}"><span style="border-radius:999px;background:var(--op-ac);padding:4px 11px;font-size:11.5px;font-weight:700">Passer dere</span></sc-if></span>
+            <span style="font-size:13px;color:var(--op-mut)">{{ p.who }}</span>
+            <span style="display:flex;flex-wrap:wrap;align-items:baseline;gap:7px"><span style="font-family:var(--font-display);font-size:40px;font-weight:600;line-height:1">{{ p.price }}</span><span style="font-size:13px;color:var(--op-mut)">{{ p.unit }}</span></span>
+            <span style="margin-top:4px;display:flex;flex-direction:column;gap:8px;flex:1">
+              <sc-for list="{{ p.items }}" as="it" hint-placeholder-count="4"><span style="display:flex;align-items:flex-start;gap:9px;font-size:13.5px;line-height:1.5;text-wrap:pretty"><x-import component-from-global-scope="OrgpulsDesignSystem_d91c81.Tick" size="{{ 16 }}" hint-size="16px,16px"></x-import><span>{{ it }}</span></span></sc-for>
+            </span>
+            <a href="{{ p.href }}" style="margin-top:8px;display:flex;height:46px;align-items:center;justify-content:center;border-radius:12px;border:1px solid var(--op-ink);font-size:14.5px;font-weight:700;color:var(--op-ink);text-decoration:none;background:{{ p.ctaBg }}">{{ p.cta }}</a>
+          </div>
+        </sc-for>
+      </div>
+      <p style="margin:14px 0 0;font-size:12.5px;color:var(--op-body)">Alle priser er eks. mva. og faktureres månedlig.</p>
+    </section>
+  </div>
+
+  <main style="display:flex;flex-direction:column">
+    <section data-screen-label="Inkludert" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;padding:72px 18px 24px">
+      <div style="border-radius:24px;background:var(--op-ink);color:var(--op-bg);padding:56px 40px 44px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:28px 56px;align-items:end">
+          <div>
+            <span style="display:inline-flex;align-items:center;gap:7px;border-radius:999px;background:var(--op-ac);color:var(--op-ink);padding:6px 13px;font-size:12px;font-weight:700"><span aria-hidden="true">✓</span> Alt inkludert</span>
+            <h2 style="margin:18px 0 0;max-width:20ch;font-family:var(--font-display);font-size:42px;font-weight:600;line-height:1.08;text-wrap:balance">Alt er med i alle planer. Det eneste som skiller, er hvor mange dere er.</h2>
+          </div>
+          <p style="margin:0;max-width:46ch;font-size:16px;line-height:1.65;opacity:.8;text-wrap:pretty">En bedrift med åtte ansatte får de samme spørsmålene, den samme rapporten og den samme hjelpen som en med åtti. Ingen funksjoner er låst bak en dyrere plan.</p>
+        </div>
+
+        <div style="margin-top:40px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-radius:16px;border:1px solid rgba(252,246,233,.22);overflow:hidden">
+          <sc-for list="{{ sizes }}" as="z" hint-placeholder-count="3">
+            <div style="display:flex;flex-direction:column;gap:4px;padding:16px 18px;border-left:{{ z.divider }};background:{{ z.bg }};color:{{ z.ink }}">
+              <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;opacity:.75">{{ z.name }}</span>
+              <span style="font-family:var(--font-display);font-size:24px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums">{{ z.range }}</span>
+              <span style="font-size:13px;opacity:.85">{{ z.price }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(140px,100%),1fr));gap:28px 20px">
+          <sc-for list="{{ groups }}" as="g" hint-placeholder-count="5">
+            <div style="display:flex;flex-direction:column;gap:12px;padding-top:16px;border-top:1px solid rgba(252,246,233,.22)">
+              <span style="display:flex;align-items:center;gap:9px"><span style="display:flex;width:28px;height:28px;align-items:center;justify-content:center;border-radius:9px;background:rgba(252,246,233,.12);font-size:14px">{{ g.g }}</span><span style="font-size:15px;font-weight:700">{{ g.t }}</span></span>
+              <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="3">
+                <span style="display:flex;gap:9px;align-items:flex-start;font-size:13.5px;line-height:1.5;text-wrap:pretty"><span aria-hidden="true" style="flex:none;color:var(--op-ac);font-weight:700">✓</span><span style="opacity:.88">{{ it }}</span></span>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section data-screen-label="Spørsmål" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;padding:56px 56px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:24px 64px;align-items:start">
+      <div>
+        <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--op-mut)">Spørsmål vi får ofte</span>
+        <h2 style="margin:12px 0 0;max-width:18ch;font-family:var(--font-display);font-size:38px;font-weight:600;line-height:1.1;text-wrap:balance">Det små bedrifter lurer på</h2>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <sc-for list="{{ faq }}" as="q" hint-placeholder-count="5">
+          <div style="border-radius:16px;border:1px solid var(--op-line);background:var(--op-sf)">
+            <button type="button" aria-expanded="{{ q.open }}" onClick="{{ q.toggle }}" style="display:flex;width:100%;cursor:pointer;align-items:center;justify-content:space-between;gap:12px;border:none;background:transparent;padding:17px 20px;text-align:left;font-size:15.5px;font-weight:700;color:var(--op-ink);font-family:inherit">{{ q.q }}<span aria-hidden="true" style="font-size:18px;line-height:1;color:var(--op-mut)">{{ q.sign }}</span></button>
+            <sc-if value="{{ q.open }}" hint-placeholder-val="{{ false }}"><p style="margin:0;padding:0 20px 18px;max-width:62ch;font-size:14.5px;line-height:1.65;color:var(--op-body);text-wrap:pretty">{{ q.a }}</p></sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+  </main>
+
+  <section id="kom-i-gang" data-screen-label="Kom i gang" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;padding:56px 56px">
+    <div style="display:grid;align-items:center;gap:26px;border-radius:24px;border:1px solid var(--op-line);background:var(--op-sf);padding:36px 40px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))">
+      <div>
+        <h2 style="margin:0;max-width:22ch;font-family:var(--font-display);font-size:32px;font-weight:600;line-height:1.14;text-wrap:balance">Prøv det på deres egen virksomhet</h2>
+        <p style="margin:12px 0 0;max-width:48ch;font-size:15px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Fra 265 kr i måneden, alt inkludert. Gratis i 15 dager, uten kort.</p>
+      </div>
+      <form onSubmit="{{ submit }}" style="display:flex;flex-wrap:wrap;gap:9px">
+        <x-import component-from-global-scope="OrgpulsDesignSystem_d91c81.Input" size="site" value="{{ org }}" on-change="{{ onOrg }}" input-mode="numeric" placeholder="Organisasjonsnummer" aria-label="Organisasjonsnummer" style="min-width:200px;flex:1" hint-size="240px,52px"></x-import>
+        <button type="submit" style="height:52px;cursor:pointer;border-radius:13px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 22px;font-size:16px;font-weight:700;color:var(--op-ink);font-family:inherit">Kom i gang</button>
+        <sc-if value="{{ note }}" hint-placeholder-val="{{ false }}"><span role="status" style="flex-basis:100%;font-size:13px;line-height:1.5;color:{{ noteColor }}">{{ note }}</span></sc-if>
+      </form>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid var(--op-line);background:var(--op-sf)">
+    <div style="margin:0 auto;max-width:1120px;display:grid;gap:24px;padding:36px 26px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))">
+      <div><span style="font-family:var(--font-display);font-size:19px;font-weight:600">Orgpuls</span><p style="margin:8px 0 0;max-width:28ch;font-size:12.5px;line-height:1.6;color:var(--op-mut)">Alle data lagres i EU, og ingen enkeltsvar kan spores tilbake til en person.</p></div>
+      <sc-for list="{{ footer }}" as="f" hint-placeholder-count="4">
+        <nav aria-label="{{ f.h }}"><span style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--op-mut)">{{ f.h }}</span>
+          <span style="margin-top:10px;display:flex;flex-direction:column;gap:6px"><sc-for list="{{ f.l }}" as="l" hint-placeholder-count="4"><a href="{{ l.href }}" style="font-size:13px;color:var(--op-ink);text-decoration:none">{{ l.t }}</a></sc-for></span>
+        </nav>
+      </sc-for>
+    </div>
+    <div style="margin:0 auto;max-width:1120px;padding:0 26px 22px;font-size:11.5px;color:var(--op-mut)">© 2026 Orgpuls · Personvern · Vilkår</div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { org: '', note: null, ok: true, n: 18, open: 0 };
+  renderVals() {
+    const n = this.state.n;
+    const fit = n <= 25 ? 0 : n <= 100 ? 1 : 2;
+    const L = (t, href) => ({ t, href });
+    const SAME = ['Alle funksjoner inkludert', 'Ubegrenset antall målinger og tiltak', 'Verneombud og tillitsvalgte uten ekstra kostnad', 'Ingen bindingstid'];
+    const raw = [
+      { name: 'Liten', who: 'Til og med 25 ansatte', price: '265 kr', unit: 'per måned', cta: 'Start gratis', href: '#kom-i-gang', items: SAME },
+      { name: 'Vanlig', who: '26 til 100 ansatte', price: '565 kr', unit: 'per måned', cta: 'Start gratis', href: '#kom-i-gang', items: SAME },
+      { name: 'Flere selskaper', who: 'Konsern og over 100 ansatte', price: 'Etter avtale', unit: '', cta: 'Snakk med oss', href: '#', items: SAME },
+    ];
+    const plans = raw.map((p, i) => ({ ...p, fit: i === fit, border: i === fit ? '2px solid #191510' : '1px solid #E8DFC9', bg: i === fit ? '#FBEBBE' : '#FFFDF6', ctaBg: i === fit ? '#F5C64A' : 'transparent' }));
+    const monthly = [265, 565][fit];
+    const faqRaw = [
+      ['Hva om vi bare er tolv personer?', 'Da får dere tall for hele virksomheten, men ikke brutt ned på avdeling. Med tolv ansatte er en avdeling på tre personer gjenkjennelig.'],
+      ['Er svarene virkelig anonyme?', 'Ja. Vi lagrer aldri navn, e-postadresse eller IP-adresse sammen med svaret — det finnes ingen kolonne som kunne holdt koblingen. Og ingen gruppe vises før minst fem personer har svart.'],
+      ['Hvor mye tid tar det for oss?', 'Oppsettet tar under en time første gang. Deretter planlegger årshjulet rundene selv. De ansatte bruker fire minutter på den årlige kartleggingen og under ett minutt på en puls.'],
+      ['Hva skjer når vi passerer 25 ansatte?', 'Dere flyttes til Vanlig fra neste måned. Alt dere har målt og alle tiltak følger med.'],
+      ['Hva skjer med dataene hvis vi slutter?', 'Dere eier dem. Last ned alt som PDF når som helst, også etter en oppsigelse. Sier dere opp, sletter vi svarene etter 30 dager.'],
+    ];
+    return {
+      n, nText: n + ' ansatte',
+      onN: (e) => this.setState({ n: Number(e.target.value) }),
+      fitName: raw[fit].name,
+      fitPer: fit < 2 ? monthly + ' kr/mnd · ' + Math.round(monthly / n) + ' kr per ansatt' : 'pris etter avtale',
+      plans,
+      sizes: raw.map((p, i) => ({ name: p.name, range: ['1–25 ansatte', '26–100 ansatte', 'Over 100'][i], price: p.unit ? p.price + ' per måned' : p.price, bg: i === fit ? '#F5C64A' : 'transparent', ink: i === fit ? '#191510' : '#FCF6E9', divider: i ? '1px solid rgba(252,246,233,.22)' : 'none' })),
+      groups: [
+        { g: '◷', t: 'Måling', items: ['Hovedundersøkelse og pulser, så ofte dere vil', 'Årshjulet planlegger rundene selv', 'Utsending på e-post og SMS', 'Svar på sju språk'] },
+        { g: '▤', t: 'Resultater', items: ['Resultat per avdeling og team, over fem svar', 'Varmekart og utvikling over tid', 'Anonyme kommentarer du kan svare på'] },
+        { g: '✓', t: 'Oppfølging', items: ['Tre forslag til tiltak per område', 'Ubegrenset antall tiltak med eier og frist', 'Pulsen viser om tiltaket virket'] },
+        { g: '§', t: 'Dokumentasjon', items: ['Risikovurdering per faktor med hjemmel', 'Rapport klar til Arbeidstilsynet, som PDF', 'Logg over varsel og drøfting'] },
+        { g: '◉', t: 'Roller og hjelp', items: ['Verneombud og tillitsvalgte uten ekstra kostnad', 'Avdelingsledere ser bare eget team', 'Hjelp fra dem som bygger produktet'] },
+      ],
+      faq: faqRaw.map(([q, a], i) => ({ q, a, open: this.state.open === i, sign: this.state.open === i ? '−' : '+', toggle: () => this.setState((s) => ({ open: s.open === i ? -1 : i })) })),
+      footer: [
+        { h: 'Produkt', l: [L('Plattform', 'Plattform.dc.html'), L('Pris', 'Pris.dc.html')] },
+        { h: 'Bruksområder', l: [L('Uten HR-avdeling', 'Bruksomrader.dc.html#uten-hr'), L('Årlig kartlegging', 'Bruksomrader.dc.html#kartlegging'), L('Puls mellom målingene', 'Bruksomrader.dc.html#puls'), L('Tilsyn og dokumentasjon', 'Bruksomrader.dc.html#tilsyn')] },
+        { h: 'Bransjer', l: [L('Handel', 'Bransjer.dc.html#handel'), L('Kunnskap og kontor', 'Bransjer.dc.html#kontor'), L('Bygg og anlegg', 'Bransjer.dc.html#bygg'), L('Barnehage og skole', 'Bransjer.dc.html#skole'), L('Helse og omsorg', 'Bransjer.dc.html#helse')] },
+        { h: 'Om oss', l: [L('Personvern og anonymitet', '#'), L('Kontakt', '#')] },
+      ],
+      org: this.state.org, note: this.state.note, noteColor: this.state.ok ? '#2F5D2A' : '#A33A16',
+      onOrg: (e) => this.setState({ org: e.target.value, note: null }),
+      submit: (e) => {
+        e.preventDefault();
+        const d = this.state.org.replace(/\D/g, '');
+        this.setState(d.length === 9 ? { ok: true, note: 'Vi henter ' + d.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3') + ' fra Brønnøysundregistrene …' } : { ok: false, note: 'Et organisasjonsnummer har ni sifre.' });
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

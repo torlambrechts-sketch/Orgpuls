@@ -1,0 +1,96 @@
+/* Orgpuls colour tokens — transcribed verbatim from tailwind.config.ts (which itself transcribes the design bundle).
+   Base palette first, then semantic aliases. Do not add a colour the bundle does not contain. */
+:root{
+  /* surfaces */
+  --op-bg:#FCF6E9;            /* app canvas, inset field background */
+  --op-sf:#FFFDF6;            /* card surface */
+  /* ink / text */
+  --op-ink:#191510;           /* text, hard border, active pill fill */
+  --op-body:#3A342A;          /* document body text */
+  --op-mut:#5F5849;           /* muted text, labels, leads */
+  --op-faint:#8A8272;         /* faintest text, placeholders */
+  --op-disabled:#A39A88;      /* disabled text */
+  /* lines */
+  --op-line:#E8DFC9;          /* hairline border */
+  --op-rule:#C4BCA8;          /* dashed border, inactive dot, unselected pill border */
+  /* accent (yellow) */
+  --op-ac:#F5C64A;            /* primary CTA fill */
+  --op-sbg:#FBEBBE;           /* soft yellow: selected chip, accent panel, Tuva note */
+  --op-band:#F5DC96;          /* middle risk band */
+  --op-sand:#EFE6D2;          /* the playbook's Lederpraksis pill */
+  --op-track:#F2EAD6;         /* the Enkel/Full track, a side-rail icon at rest */
+  --op-cream:#F7EDD2;         /* Prioritet's "Følg med" quadrant */
+  --op-amberbar:#E0A21F;      /* middle-band bar */
+  --op-caution:#8A6A00;       /* caution text */
+  --op-cautiondeep:#5C4600;   /* ink on a yellow fill */
+  /* green */
+  --op-link:#2F5D2A;          /* link, done ring */
+  --op-linkhover:#1E3D1A;
+  --op-greendeep:#20431C;     /* ink on a mint fill */
+  --op-greenbar:#5C9A55;      /* low-risk bar, participation bar */
+  --op-mint:#CFE7E4;          /* positive fill */
+  --op-mint2:#B5DAD4;         /* top distribution segment, 72+ heat */
+  --op-mint3:#8FC7BE;         /* Segmentprofil "over resten" bar */
+  --op-teal:#A8D5D2;          /* puls dot */
+  --op-pulse:#E4EEEC;         /* a puls — its chip, type pill, summary card */
+  --op-sage:#9DB8B3;          /* a puls chip's border, a puls bar, the compared year */
+  --op-stone:#D9CFB8;         /* a grunnlinje bar on the time line */
+  /* warm / risk */
+  --op-peach:#FBD5C4;
+  --op-peach2:#F0B9A0;        /* high-risk fill */
+  --op-orange:#E38258;        /* under-40 heat, masked-cell border */
+  --op-orange2:#EC9B77;       /* 40–49 heat */
+  --op-rustbar:#D4633A;       /* high-risk bar, nav badge */
+  --op-danger:#A33A16;        /* danger text, negative delta */
+  --op-dangerdeep:#6B240C;    /* ink on a peach fill */
+  --op-rustdeep:#5A2410;      /* ink on a peach fill — the varsel notice */
+  /* heat-map ink (lib/results/tone.ts) */
+  --op-heat-ink-1:#4A1706;    /* on orange, <40 */
+  --op-heat-ink-2:#5E1F09;    /* on orange2, 40–49 */
+  /* Sentral (admin) chart palette — one per pipeline stage, in order */
+  --op-viz1:#F6D9C6;--op-viz2:#DCEBD3;--op-viz3:#CFE0F5;--op-viz4:#F3E2C9;--op-viz5:#E7DAF2;
+  /* translucent inks used by the bundle */
+  --op-ink-a05:rgba(25,21,16,.05);
+  --op-ink-a06:rgba(25,21,16,.06);
+  --op-ink-a07:rgba(25,21,16,.07);
+  --op-ink-a08:rgba(25,21,16,.08);
+  --op-ink-a10:rgba(25,21,16,.10);
+  --op-ink-a15:rgba(25,21,16,.15);
+  --op-ink-a42:rgba(25,21,16,.42);
+  --op-bg-a35:rgba(252,246,233,.35);
+
+  /* ---- semantic aliases ---- */
+  --surface-canvas:var(--op-bg);
+  --surface-card:var(--op-sf);
+  --surface-inset:var(--op-bg);
+  --surface-accent:var(--op-sbg);
+  --surface-positive:var(--op-mint);
+  --surface-warning:var(--op-band);
+  --surface-danger:var(--op-peach2);
+  --surface-ink:var(--op-ink);
+  --surface-track:var(--op-track);
+  --surface-pulse:var(--op-pulse);
+  --text-primary:var(--op-ink);
+  --text-body:var(--op-body);
+  --text-muted:var(--op-mut);
+  --text-faint:var(--op-faint);
+  --text-disabled:var(--op-disabled);
+  --text-on-ink:var(--op-bg);
+  --text-on-accent:var(--op-ink);
+  --text-on-positive:var(--op-greendeep);
+  --text-on-warning:var(--op-cautiondeep);
+  --text-on-danger:var(--op-dangerdeep);
+  --text-link:var(--op-link);
+  --text-link-hover:var(--op-linkhover);
+  --text-danger:var(--op-danger);
+  --text-caution:var(--op-caution);
+  --border-hairline:var(--op-line);
+  --border-rule:var(--op-rule);
+  --border-strong:var(--op-ink);
+  --accent:var(--op-ac);
+  --focus-ring:var(--op-ink);
+  --bar-low:var(--op-greenbar);
+  --bar-mid:var(--op-amberbar);
+  --bar-high:var(--op-rustbar);
+  --badge-count:var(--op-rustbar);
+}

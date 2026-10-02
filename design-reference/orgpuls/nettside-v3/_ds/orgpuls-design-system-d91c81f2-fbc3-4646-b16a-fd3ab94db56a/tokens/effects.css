@@ -1,0 +1,16 @@
+/* Orgpuls shadows, motion and focus. Shadows are rare: flat hairline cards everywhere; a shadow marks only a floating layer or a framed screenshot. */
+:root{
+  --shadow-menu:0 18px 40px -24px rgba(25,21,16,.45);   /* account menu, sub-menu, phone mock */
+  --shadow-shot:0 18px 40px -28px rgba(25,21,16,.35);   /* product-shot browser frame */
+  --shadow-modal:0 34px 80px rgba(25,21,16,.3);         /* modal */
+  --scrim-modal:rgba(25,21,16,.42);
+  --ease-entry:ease; /* @kind other */ --dur-entry:.25s; /* @kind other */ /* every screen root enters with ht-in */
+  --dur-rail:180ms; /* @kind other */ --ease-rail:ease-in-out; /* @kind other */ /* side rail width */
+  --dur-knob:150ms; /* @kind other */ /* switch knob */
+  --focus-outline:3px solid #191510; /* @kind other */ --focus-offset:2px;--focus-radius:6px;
+  --border-hair:1px solid #E8DFC9; /* @kind other */
+  --border-mark:1.5px solid #191510; /* @kind other */ /* logo mark, sign-in fields */
+  --border-strong:1px solid #191510; /* @kind other */
+  --border-dashed:1px dashed #C4BCA8; /* @kind other */
+}
+@keyframes ht-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}

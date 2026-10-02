@@ -1,0 +1,14 @@
+/* Orgpuls base — the bundle's own resets (app/globals.css). No line-height on html: elements inherit `normal` (~1.2). Root is 14px. */
+*{box-sizing:border-box}
+html{line-height:normal}
+html,body{margin:0;padding:0}
+body{min-height:100vh;background:var(--op-bg);color:var(--op-ink);font-family:var(--font-sans);font-size:14px;-webkit-font-smoothing:antialiased}
+a{color:var(--op-link);text-decoration:none}
+a:hover{color:var(--op-linkhover);text-decoration:underline}
+input,select,textarea,button{font-family:inherit}
+input::placeholder,textarea::placeholder{color:var(--op-faint)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--op-ink);outline-offset:2px;border-radius:6px}
+.animate-entry{animation:ht-in .25s ease}
+@media (prefers-reduced-motion:reduce){.animate-entry{animation:none}}
+.op-display{font-family:var(--font-display)}
+.op-eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:var(--op-mut)}

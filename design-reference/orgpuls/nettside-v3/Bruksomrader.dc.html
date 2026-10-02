@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/radius.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/effects.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/base.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/styles.css">
+  <script src="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/_ds_bundle.js"></script>
+  <style>
+    body{margin:0;background:#FCF6E9;color:#191510}
+    a{color:#2F5D2A}
+    a:hover{color:#1E3D1A;text-decoration:underline}
+    @keyframes ht-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    @media (prefers-reduced-motion: reduce){*{animation:none!important}}
+  </style>
+</helmet>
+<div style="min-height:100vh;background:var(--op-bg);color:var(--op-ink);font-family:var(--font-sans);font-size:14px;display:flex;flex-direction:column">
+
+  <div data-screen-label="Topp" style="background:var(--op-mint);padding:18px 18px 56px;display:flex;flex-direction:column;gap:18px">
+    <header data-screen-label="Nav" style="align-self:center;width:100%;max-width:1120px;box-sizing:border-box">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:18px;border-radius:18px;border:1px solid var(--op-line);background:var(--op-sf);padding:10px 12px 10px 16px">
+        <a href="Forside.dc.html" style="display:flex;flex:none;align-items:center;color:var(--op-ink);text-decoration:none">
+          <x-import component-from-global-scope="OrgpulsDesignSystem_d91c81.Logo" size="{{ 31 }}" wordmark="{{ 20 }}" radius="{{ 10 }}" hint-size="130px,31px"></x-import>
+        </a>
+        <nav aria-label="Hovedmeny" style="display:flex;min-width:0;flex:1;flex-wrap:nowrap;gap:0;overflow-x:auto;scrollbar-width:none">
+          <a href="Plattform.dc.html" style="border-radius:9px;padding:8px 10px;font-size:14px;white-space:nowrap;flex:none;font-weight:600;color:var(--op-ink);text-decoration:none">Plattform</a>
+          <a href="Bruksomrader.dc.html" aria-current="page" style="border-radius:9px;padding:8px 10px;font-size:14px;white-space:nowrap;flex:none;font-weight:700;color:var(--op-ink);text-decoration:none;background:var(--op-sbg)">Bruksområder</a>
+          <a href="Bransjer.dc.html" style="border-radius:9px;padding:8px 10px;font-size:14px;white-space:nowrap;flex:none;font-weight:600;color:var(--op-ink);text-decoration:none">Bransjer</a>
+          <a href="Pris.dc.html" style="border-radius:9px;padding:8px 10px;font-size:14px;white-space:nowrap;flex:none;font-weight:600;color:var(--op-ink);text-decoration:none">Pris</a>
+        </nav>
+        <span style="display:flex;flex:none;align-items:center;gap:8px">
+          <a href="#logg-inn" style="display:flex;height:38px;align-items:center;border-radius:10px;padding:0 13px;font-size:14px;font-weight:600;color:var(--op-ink);text-decoration:none;white-space:nowrap">Logg inn</a>
+          <a href="#kom-i-gang" style="display:flex;height:38px;align-items:center;gap:8px;border-radius:10px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 16px;font-size:14px;font-weight:700;color:var(--op-ink);text-decoration:none;white-space:nowrap">Kom i gang <span aria-hidden="true">→</span></a>
+        </span>
+      </div>
+    </header>
+
+    <section data-screen-label="Hero" style="align-self:center;width:100%;max-width:1240px;box-sizing:border-box;padding:40px 56px 0;animation:ht-in .25s ease both">
+      <nav aria-label="Brødsmuler" style="display:flex;gap:8px;font-size:13px;color:var(--op-body)"><a href="Forside.dc.html" style="color:var(--op-body)">Orgpuls</a><span aria-hidden="true">›</span><span>Bruksområder</span></nav>
+      <div style="margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:24px 48px;align-items:end">
+        <div>
+          <span style="display:inline-block;border-radius:9px;background:var(--op-ink);color:var(--op-bg);padding:7px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em">Bruksområder</span>
+          <h1 style="margin:22px 0 0;font-family:var(--font-display);font-size:56px;font-weight:600;line-height:1.04;letter-spacing:-.01em;text-wrap:balance">Fra lovpålagt kartlegging til lederverktøy.</h1>
+        </div>
+        <div>
+          <p style="margin:0;max-width:50ch;font-size:17px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Samme spørsmål, samme terskel og samme tiltaksliste — brukt på åtte måter. Velg situasjonen som ligner deres, og se hvordan den løses i praksis.</p>
+          <div style="margin-top:22px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 26px">
+            <a href="#kom-i-gang" style="display:flex;height:50px;align-items:center;gap:9px;border-radius:13px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 22px;font-size:15.5px;font-weight:700;color:var(--op-ink);text-decoration:none">Prøv gratis i 15 dager <span aria-hidden="true">→</span></a>
+            <a href="Plattform.dc.html" style="font-size:15.5px;font-weight:700;text-decoration:none">Se plattformen →</a>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:10px">
+        <sc-for list="{{ cases }}" as="c" hint-placeholder-count="8">
+          <a href="#{{ c.id }}" style="display:flex;gap:12px;align-items:flex-start;border-radius:16px;border:{{ c.idxBorder }};background:{{ c.idxBg }};padding:14px 16px;color:var(--op-ink);text-decoration:none">
+            <span style="display:flex;flex:none;width:30px;height:30px;align-items:center;justify-content:center;border-radius:999px;background:{{ c.idxDot }};font-size:13px;font-weight:700">{{ c.n }}</span>
+            <span style="min-width:0"><span style="display:block;font-size:14.5px;font-weight:700">{{ c.eyebrow }}</span><span style="margin-top:2px;display:block;font-size:12.5px;line-height:1.45;color:var(--op-body);text-wrap:pretty">{{ c.short }}</span></span>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+  </div>
+
+  <main style="display:flex;flex-direction:column">
+    <sc-for list="{{ cases }}" as="c" hint-placeholder-count="3">
+      <section id="{{ c.id }}" data-screen-label="{{ c.eyebrow }}" style="border-bottom:1px solid var(--op-line);background:{{ c.bg }}">
+        <div style="margin:0 auto;max-width:1240px;box-sizing:border-box;padding:72px 56px;display:flex;flex-wrap:wrap;flex-direction:{{ c.dir }};align-items:center;gap:40px 64px">
+          <div style="flex:1 1 380px;min-width:0">
+            <span style="display:flex;align-items:center;gap:10px"><span style="display:flex;width:28px;height:28px;align-items:center;justify-content:center;border-radius:999px;background:var(--op-ink);color:var(--op-bg);font-size:12.5px;font-weight:700">{{ c.n }}</span><span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--op-mut)">{{ c.eyebrow }}</span></span>
+            <h2 style="margin:16px 0 0;max-width:22ch;font-family:var(--font-display);font-size:38px;font-weight:600;line-height:1.1;text-wrap:balance">{{ c.h }}</h2>
+            <p style="margin:14px 0 0;max-width:52ch;font-size:16px;line-height:1.65;color:var(--op-body);text-wrap:pretty">{{ c.p }}</p>
+            <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ c.ticks }}" as="t" hint-placeholder-count="3">
+                <span style="display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.5;text-wrap:pretty"><x-import component-from-global-scope="OrgpulsDesignSystem_d91c81.Tick" size="{{ 18 }}" hint-size="18px,18px"></x-import><span>{{ t }}</span></span>
+              </sc-for>
+            </div>
+            <div style="margin-top:22px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px">
+              <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--op-mut)">Dette bruker dere</span>
+              <sc-for list="{{ c.uses }}" as="u" hint-placeholder-count="2">
+                <a href="Plattform.dc.html" style="font-size:14px;font-weight:700;text-decoration:none">{{ u }} →</a>
+              </sc-for>
+            </div>
+          </div>
+          <div style="flex:1 1 420px;min-width:0">
+            <div style="border-radius:20px;border:1px solid var(--op-line);background:var(--op-sf);padding:22px 24px;box-shadow:0 18px 40px -28px rgba(25,21,16,.35)">
+              <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 12px;margin-bottom:16px"><span style="font-size:15px;font-weight:700">{{ c.cardTitle }}</span><span style="font-size:12.5px;color:var(--op-mut)">{{ c.cardMeta }}</span></div>
+
+              <sc-if value="{{ c.isRows }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:9px">
+                  <sc-for list="{{ c.rows }}" as="r" hint-placeholder-count="3">
+                    <div style="display:flex;gap:13px;align-items:center;border-radius:15px;border:1px solid var(--op-line);background:var(--op-bg);padding:13px 16px">
+                      <span style="display:flex;flex:none;min-width:30px;height:30px;padding:0 6px;box-sizing:border-box;align-items:center;justify-content:center;border-radius:999px;background:{{ r.markBg }};color:{{ r.markInk }};font-size:12px;font-weight:700">{{ r.mark }}</span>
+                      <span style="flex:1;min-width:0"><span style="display:block;font-size:14.5px;font-weight:700;text-wrap:pretty">{{ r.title }}</span><span style="margin-top:2px;display:block;font-size:12.5px;color:var(--op-body)">{{ r.sub }}</span></span>
+                      <sc-if value="{{ r.pill }}" hint-placeholder-val="{{ false }}"><span style="flex:none;border-radius:999px;background:{{ r.pillBg }};color:{{ r.pillInk }};padding:4px 10px;font-size:11.5px;font-weight:700">{{ r.pill }}</span></sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ c.isYear }}" hint-placeholder-val="{{ false }}">
+                <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px">
+                  <sc-for list="{{ c.months }}" as="m" hint-placeholder-count="12">
+                    <div style="display:flex;min-height:66px;flex-direction:column;justify-content:space-between;gap:6px;border-radius:13px;border:{{ m.border }};background:{{ m.bg }};padding:9px 10px;box-sizing:border-box">
+                      <span style="font-size:12.5px;font-weight:700">{{ m.m }}</span>
+                      <span style="font-size:11px;font-weight:700;color:{{ m.ink }}">{{ m.tag }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ c.isTrend }}" hint-placeholder-val="{{ false }}">
+                <div style="position:relative;height:200px;display:flex;align-items:flex-end;gap:12px;border-bottom:1px solid var(--op-line)">
+                  <span style="position:absolute;left:0;right:0;bottom:120px;border-top:1.5px dashed var(--op-ink);opacity:.5"></span>
+                  <span style="position:absolute;right:0;bottom:124px;font-size:11px;font-weight:700;color:var(--op-mut)">Mål 60</span>
+                  <sc-for list="{{ c.trend }}" as="b" hint-placeholder-count="5">
+                    <span style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;height:100%">
+                      <span style="font-family:var(--font-display);font-size:18px;font-weight:600;font-variant-numeric:tabular-nums">{{ b.v }}</span>
+                      <span style="width:100%;max-width:56px;height:{{ b.h }};border-radius:9px 9px 0 0;background:{{ b.c }}"></span>
+                    </span>
+                  </sc-for>
+                </div>
+                <div style="margin-top:8px;display:flex;gap:12px">
+                  <sc-for list="{{ c.trend }}" as="b" hint-placeholder-count="5"><span style="flex:1;text-align:center;font-size:11.5px;color:var(--op-mut)">{{ b.l }}</span></sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ c.isHeat }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <div style="display:grid;grid-template-columns:minmax(92px,1.3fr) repeat(5,minmax(0,1fr));gap:6px">
+                    <span></span>
+                    <sc-for list="{{ c.heatCols }}" as="h" hint-placeholder-count="5"><span style="text-align:center;font-size:11px;font-weight:700;color:var(--op-mut)">{{ h }}</span></sc-for>
+                  </div>
+                  <sc-for list="{{ c.heat }}" as="row" hint-placeholder-count="4">
+                    <div style="display:grid;grid-template-columns:minmax(92px,1.3fr) repeat(5,minmax(0,1fr));gap:6px;align-items:center">
+                      <span style="font-size:13px;font-weight:700">{{ row.g }} <span style="font-weight:400;color:var(--op-mut)">· {{ row.n }}</span></span>
+                      <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="5">
+                        <span style="display:flex;height:38px;align-items:center;justify-content:center;border-radius:9px;background:{{ cell.bg }};font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums">{{ cell.v }}</span>
+                      </sc-for>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ c.isBars }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:14px">
+                  <sc-for list="{{ c.bars }}" as="b" hint-placeholder-count="4">
+                    <div>
+                      <span style="display:flex;justify-content:space-between;gap:12px;font-size:13.5px"><span>{{ b.l }}</span><span style="font-weight:700;font-variant-numeric:tabular-nums">{{ b.v }}</span></span>
+                      <span style="margin-top:6px;display:block;height:8px;border-radius:9px;background:var(--op-track);overflow:hidden"><span style="display:block;width:{{ b.w }};height:100%;border-radius:9px;background:{{ b.c }}"></span></span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+            <p style="margin:14px 0 0;font-size:14px;line-height:1.6;color:var(--op-body);text-wrap:pretty"><strong style="color:var(--op-greendeep)">{{ c.caption }}</strong> Tenkte eksempeldata.</p>
+          </div>
+        </div>
+      </section>
+    </sc-for>
+  </main>
+
+  <section id="kom-i-gang" data-screen-label="Kom i gang" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;padding:56px 56px">
+    <div style="display:grid;align-items:center;gap:26px;border-radius:24px;border:1px solid var(--op-line);background:var(--op-sf);padding:36px 40px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))">
+      <div>
+        <h2 style="margin:0;max-width:22ch;font-family:var(--font-display);font-size:32px;font-weight:600;line-height:1.14;text-wrap:balance">Prøv det på deres egen virksomhet</h2>
+        <p style="margin:12px 0 0;max-width:48ch;font-size:15px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Fra 265 kr i måneden, alt inkludert. Gratis i 15 dager, uten kort.</p>
+      </div>
+      <form onSubmit="{{ submit }}" style="display:flex;flex-wrap:wrap;gap:9px">
+        <x-import component-from-global-scope="OrgpulsDesignSystem_d91c81.Input" size="site" value="{{ org }}" on-change="{{ onOrg }}" input-mode="numeric" placeholder="Organisasjonsnummer" aria-label="Organisasjonsnummer" style="min-width:200px;flex:1" hint-size="240px,52px"></x-import>
+        <button type="submit" style="height:52px;cursor:pointer;border-radius:13px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 22px;font-size:16px;font-weight:700;color:var(--op-ink);font-family:inherit">Kom i gang</button>
+        <sc-if value="{{ note }}" hint-placeholder-val="{{ false }}"><span role="status" style="flex-basis:100%;font-size:13px;line-height:1.5;color:{{ noteColor }}">{{ note }}</span></sc-if>
+      </form>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid var(--op-line);background:var(--op-sf)">
+    <div style="margin:0 auto;max-width:1120px;display:grid;gap:24px;padding:36px 26px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))">
+      <div><span style="font-family:var(--font-display);font-size:19px;font-weight:600">Orgpuls</span><p style="margin:8px 0 0;max-width:28ch;font-size:12.5px;line-height:1.6;color:var(--op-mut)">Alle data lagres i EU, og ingen enkeltsvar kan spores tilbake til en person.</p></div>
+      <sc-for list="{{ footer }}" as="f" hint-placeholder-count="4">
+        <nav aria-label="{{ f.h }}"><span style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--op-mut)">{{ f.h }}</span>
+          <span style="margin-top:10px;display:flex;flex-direction:column;gap:6px"><sc-for list="{{ f.l }}" as="l" hint-placeholder-count="4"><a href="{{ l.href }}" style="font-size:13px;color:var(--op-ink);text-decoration:none">{{ l.t }}</a></sc-for></span>
+        </nav>
+      </sc-for>
+    </div>
+    <div style="margin:0 auto;max-width:1120px;padding:0 26px 22px;font-size:11.5px;color:var(--op-mut)">© 2026 Orgpuls · Personvern · Vilkår</div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { org: '', note: null, ok: true };
+  renderVals() {
+    const heatBg = (v) => v == null ? '#F2EAD6' : v < 45 ? '#E38258' : v < 55 ? '#EC9B77' : v < 65 ? '#F5DC96' : v < 75 ? '#CFE7E4' : '#B5DAD4';
+    const barC = (v) => v < 50 ? '#D4633A' : v < 65 ? '#E0A21F' : '#5C9A55';
+    const bars = (list) => list.map(([l, v]) => ({ l, v, w: v + '%', c: barC(v) }));
+    const yellow = ['#F5C64A', '#191510'], mint = ['#CFE7E4', '#20431C'], sand = ['#F2EAD6', '#4A4339'], green = ['#5C9A55', '#FFFDF6'];
+    const row = (mark, [markBg, markInk], title, sub, pill, pp) => ({ mark, markBg, markInk, title, sub, pill: pill || null, pillBg: pp ? pp[0] : null, pillInk: pp ? pp[1] : null });
+    const raw = [
+      { id: 'uten-hr', eyebrow: 'Uten HR-avdeling', short: 'Daglig leder, 20 ansatte, ingen HR', smb: true,
+        h: 'Daglig leder, 20 ansatte, ingen HR-avdeling',
+        p: 'Enkel visning gir én side: hva folk er fornøyd med, hva som trekker ned, og tre ting å gjøre nå. Tuva viser hva som gjenstår før dere er i gang, og hjelpen står på hver side.',
+        ticks: ['Oversikten åpnes automatisk for daglig leder under 50 ansatte', 'Ansatte limes inn eller lastes opp som CSV — HR-system trengs ikke', 'Veiviseren tar deg fra org.nr. til første utsending på 20 minutter'],
+        uses: ['Oppsett', 'Assistenten'], vis: 'rows', cardTitle: 'Gjør dette nå', cardMeta: 'Oversikt · enkel visning',
+        rows: [row('1', yellow, 'Fast svar på avviksmeldinger innen fem dager', 'Ytringsklima · frist 15. okt'), row('2', yellow, 'Prioriteringsmøte hver mandag', 'Arbeidsmengde · deg · frist 1. nov'), row('❝', sand, 'To anonyme kommentarer venter på svar', 'Kommentarer · 6 dager')],
+        caption: 'Folk trives med meningen i arbeidet. Det som trekker ned, er ytringsklima og arbeidsmengde.' },
+      { id: 'kartlegging', eyebrow: 'Årlig kartlegging', short: 'Kartleggingen loven krever, på en time',
+        h: 'Kartleggingen loven krever, gjort på en time',
+        p: 'Én hovedundersøkelse i året dekker kartleggingsplikten i arbeidsmiljøloven § 3-1 c og setter nullpunktet alt annet måles mot. Spørsmålene er ferdige, terskelen er satt og rapporten skriver seg selv.',
+        ticks: ['33 påstander fordelt på elleve faktorer, fire minutter å svare', 'Verneombudet varsles to dager før utsending', 'Én påminnelse, og runden lukkes etter fjorten dager', 'Risikovurdering per faktor med hjemmel, klar til AMU'],
+        uses: ['Målinger og årshjul', 'Rapport'], vis: 'year', cardTitle: 'Årshjul 2026', cardMeta: '1 hovedundersøkelse · 3 pulser',
+        months: [['Jan'], ['Feb'], ['Mar', 'Puls'], ['Apr'], ['Mai'], ['Jun', 'Puls'], ['Jul', 'Ferie'], ['Aug'], ['Sep', 'Hoved'], ['Okt'], ['Nov'], ['Des', 'Puls']].map(([m, tag]) => ({ m, tag: tag || '', bg: tag === 'Hoved' ? '#FBEBBE' : tag === 'Puls' ? '#E4EEEC' : tag === 'Ferie' ? '#F2EAD6' : '#FCF6E9', border: tag === 'Hoved' ? '1px solid #191510' : '1px solid #E8DFC9', ink: tag === 'Hoved' ? '#5C4600' : tag === 'Puls' ? '#20431C' : '#8A8272' })),
+        caption: 'Hovedundersøkelsen i september gir resultater før budsjett- og tiltaksarbeidet til høsten.' },
+      { id: 'puls', eyebrow: 'Puls mellom målingene', short: 'Se om tiltakene virker — før neste år',
+        h: 'Se om tiltakene virker — før neste år',
+        p: 'Pulsen stiller de tre påstandene for hver faktor dere har satt tiltak på, og viser om kurven snur mens det fortsatt er tid til å justere.',
+        ticks: ['Spørsmålene hentes fra faktorene med åpne tiltak', 'Samme ordlyd som hovedundersøkelsen, så tallene kan sammenlignes', 'Faktoren faller ut når tiltakene er lukket'],
+        uses: ['Målinger og årshjul', 'Resultater'], vis: 'trend', cardTitle: 'Ytringsklima · hele virksomheten', cardMeta: 'stiplet linje = mål 60',
+        trend: [[48, 'Grunnl. 25', '#D9CFB8'], [41, 'Grunnl. 26', '#D9CFB8'], [44, 'Puls des', '#9DB8B3'], [48, 'Puls mar', '#9DB8B3'], [53, 'Puls jun', '#9DB8B3']].map(([v, l, c]) => ({ v, l, c, h: Math.round(v * 2) + 'px' })),
+        caption: 'Tiltaket «fast svar på avviksmeldinger» startet i oktober. Pulsene viser at det virker, men ikke nok ennå.' },
+      { id: 'tilsyn', eyebrow: 'Tilsyn og dokumentasjon', short: 'Når Arbeidstilsynet ber om papirene',
+        h: 'Når Arbeidstilsynet ber om dokumentasjon',
+        p: 'Rapporten samler kartlegging, risikovurdering, tiltak og medvirkning, med hjemmel per faktor. Velg år og omfang, les gjennom og lagre som PDF.',
+        ticks: ['Dekker aml. § 3-1 c og § 4-3, jf. forskrift kap. 1A', 'Viser at verneombudet ble varslet og tillitsvalgte ble tatt med', 'Tiltakslogg med eier, frist og målt effekt'],
+        uses: ['Rapport', 'Tiltak'], vis: 'rows', cardTitle: 'Rapport · 2026', cardMeta: 'PDF',
+        rows: [row('✓', green, 'Sammendrag og indeks', 'Hva som står bra til, hva som trekker ned'), row('✓', green, 'Risikovurdering per faktor', 'Sannsynlighet, konsekvens og hjemmel'), row('3', sand, 'Tiltak med eier og frist', 'Status og målt effekt'), row('4', sand, 'Medvirkning og hjemmel', 'Verneombud, tillitsvalgte og drøfting')],
+        caption: 'Rapporten skriver seg selv mens dere jobber.' },
+      { id: 'ett-team', eyebrow: 'Ett team skiller seg ut', short: 'Når ett team har det tyngre enn resten',
+        h: 'Når ett team har det tyngre enn resten',
+        p: 'Varmekartet viser team mot faktor. Segmentprofilen sammenligner ett team med resten og peker på hvor forskjellen er størst — uten at noen enkeltperson kan identifiseres.',
+        ticks: ['Grupper under terskelen vises som strek, også for administrator', 'Avdelingslederen ser bare sitt eget team', 'Tre forslag til tiltak per faktor, klare til å velges'],
+        uses: ['Fire visninger', 'Tiltak'], vis: 'heat', cardTitle: 'Team × faktor', cardMeta: 'terskel 5 svar',
+        heatCols: ['Ytring', 'Mengde', 'Leder', 'Rolle', 'Mening'],
+        heat: [['Drift', 8, [49, 51, 70, 74, 81]], ['Prosjekt', 9, [46, 31, 58, 59, 75]], ['Verksted', 8, [28, 47, 55, 72, 77]], ['Adm.', 3, [null, null, null, null, null]]].map(([g, n, vals]) => ({ g, n, cells: vals.map((v) => ({ v: v == null ? '—' : v, bg: heatBg(v) })) })),
+        caption: 'Verksted og Prosjekt skiller seg ut på hver sin faktor — to ulike problemer som trenger to ulike tiltak.' },
+      { id: 'endring', eyebrow: 'Omorganisering og endring', short: 'Mål før og etter en endring',
+        h: 'Mål før og etter en endring',
+        p: 'Legg en ekstra puls i årshjulet fire til seks uker etter en omorganisering, et systembytte eller en sammenslåing. Da ser dere om folk vet hva som forventes, og om lederstøtten holder.',
+        ticks: ['Legg til en puls i en hvilken som helst måned med ett klikk', 'Velg faktorene som påvirkes: rolleklarhet, motstridende krav, lederstøtte', 'Sammenlign med grunnlinjen fra før endringen'],
+        uses: ['Målinger og årshjul', 'Fire visninger'], vis: 'bars', cardTitle: 'Rolleklarhet · før og etter', cardMeta: 'grunnlinje mot puls 6 uker etter',
+        bars: bars([['Vet hva som forventes · før', 74], ['Vet hva som forventes · etter', 58], ['Vet hvor ansvaret slutter · før', 67], ['Vet hvor ansvaret slutter · etter', 49]]),
+        caption: 'Fallet er størst på ansvarsgrenser. Et kort rollekart per team er ofte nok til å rette det opp.' },
+      { id: 'ny-leder', eyebrow: 'Ny leder', short: 'Et ærlig utgangspunkt for ny leder',
+        h: 'Gi en ny leder et ærlig utgangspunkt',
+        p: 'Grunnlinjen fra før lederbyttet og pulsen etterpå viser hvordan teamet opplever støtte, rolleklarhet og ytringsklima. Tallene gjelder teamet som helhet — aldri enkeltpersoner, og aldri lederen som person.',
+        ticks: ['Teamet må ha minst fem svar før noe vises', 'Lederen får egne forslag til lederpraksis per faktor', 'Anonyme kommentarer kan besvares uten å vite hvem som skrev'],
+        uses: ['Resultater', 'Kommentarer'], vis: 'bars', cardTitle: 'Støtte fra leder · Prosjekt', cardMeta: '9 svar',
+        bars: bars([['Får støtte når jobben blir krevende', 61], ['Lederen vet hva jobben innebærer', 63], ['Kan ta opp vanskelige ting', 68], ['Blir hørt når noe skal endres', 60]]),
+        caption: 'Et utgangspunkt å bygge på, ikke en karakter.' },
+      { id: 'amu', eyebrow: 'Verneombud og AMU', short: 'Samme tall på bordet for alle parter',
+        h: 'Samme tall på bordet for alle parter',
+        p: 'Verneombudet ser de samme tallene og den samme risikovurderingen som ledelsen, samtidig. Drøftingen med tillitsvalgte dokumenteres før første utsending, slik § 9-2 krever for en gjentakende måling.',
+        ticks: ['Verneombudet varsles før hver utsending', 'Tiltak har eier og frist før AMU-møtet starter', 'Ingen i noen rolle ser enkeltsvar'],
+        uses: ['Roller og tilgang', 'Rapport'], vis: 'rows', cardTitle: 'Før AMU-møtet', cardMeta: 'sendt automatisk',
+        rows: [row('§ 6-2', mint, 'Verneombudet varslet 2 dager før utsending', 'Gjort 12. sep', 'Gjort', mint), row('§ 9-2', mint, 'Behov og utforming drøftet med tillitsvalgt', 'Gjort 3. feb', 'Gjort', mint), row('Risiko', ['#F0B9A0', '#6B240C'], 'To faktorer med høy risiko — tiltak besluttet', 'Til behandling', 'Til behandling', ['#FBEBBE', '#5C4600'])],
+        caption: 'Medvirkningen er dokumentert før noen spør.' },
+    ];
+    const cases = raw.map((c, i) => ({ ...c, n: i + 1, dir: i % 2 ? 'row-reverse' : 'row', bg: i % 2 ? '#FFFDF6' : '#FCF6E9',
+      isRows: c.vis === 'rows', isYear: c.vis === 'year', isTrend: c.vis === 'trend', isHeat: c.vis === 'heat', isBars: c.vis === 'bars',
+      idxBg: c.smb ? '#FBEBBE' : '#FFFDF6', idxBorder: c.smb ? '1px solid #191510' : '1px solid #E8DFC9', idxDot: c.smb ? '#F5C64A' : '#F2EAD6' }));
+    const L = (t, href) => ({ t, href });
+    return {
+      cases,
+      footer: [
+        { h: 'Produkt', l: [L('Plattform', 'Plattform.dc.html'), L('Resultater', 'Forside.dc.html#bruksomrader'), L('Pris', 'Pris.dc.html')] },
+        { h: 'Bruksområder', l: [L('Uten HR-avdeling', '#uten-hr'), L('Årlig kartlegging', '#kartlegging'), L('Puls mellom målingene', '#puls'), L('Tilsyn og dokumentasjon', '#tilsyn'), L('Verneombud og AMU', '#amu')] },
+        { h: 'Bransjer', l: [L('Handel', 'Bransjer.dc.html#handel'), L('Kunnskap og kontor', 'Bransjer.dc.html#kontor'), L('Bygg og anlegg', 'Bransjer.dc.html#bygg'), L('Barnehage og skole', 'Bransjer.dc.html#skole'), L('Helse og omsorg', 'Bransjer.dc.html#helse')] },
+        { h: 'Om oss', l: [L('Personvern og anonymitet', '#'), L('Kontakt', '#')] },
+      ],
+      org: this.state.org, note: this.state.note, noteColor: this.state.ok ? '#2F5D2A' : '#A33A16',
+      onOrg: (e) => this.setState({ org: e.target.value, note: null }),
+      submit: (e) => {
+        e.preventDefault();
+        const d = this.state.org.replace(/\D/g, '');
+        this.setState(d.length === 9 ? { ok: true, note: 'Vi henter ' + d.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3') + ' fra Brønnøysundregistrene …' } : { ok: false, note: 'Et organisasjonsnummer har ni sifre.' });
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

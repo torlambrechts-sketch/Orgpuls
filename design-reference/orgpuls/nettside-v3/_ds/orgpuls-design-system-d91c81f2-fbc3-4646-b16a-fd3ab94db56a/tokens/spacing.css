@@ -1,0 +1,23 @@
+/* Orgpuls spacing. The bundle does not snap to a 4/8 grid — paddings are instance values (13, 15, 17, 22, 26 …).
+   These are the recurring ones, plus the page columns and control heights. Use the literal the source uses; never round. */
+:root{
+  --space-1:2px;--space-2:3px;--space-3:4px;--space-4:6px;--space-5:7px;--space-6:8px;--space-7:9px;--space-8:10px;--space-9:11px;--space-10:12px;--space-11:13px;--space-12:14px;--space-13:16px;--space-14:18px;--space-15:20px;--space-16:22px;--space-17:24px;--space-18:26px;--space-19:28px;--space-20:30px;--space-21:34px;--space-22:36px;--space-23:40px;--space-24:44px;--space-25:60px;--space-26:80px;
+  /* card paddings, by container */
+  --pad-card:26px;            /* Card (radius 20) */
+  --pad-panel:22px 24px;      /* Section / Oversikt panel (radius 18) */
+  --pad-note:16px 18px;       /* NoteCard (radius 16) */
+  --pad-row:15px 18px;        /* Row (radius 15) */
+  --pad-measure:20px 22px;    /* MeasureCard (radius 16) */
+  --pad-site-card:22px 20px;  /* site role card (radius 20) */
+  /* page columns */
+  --page-w:1180px;            /* app page column, top layout (lifted in the side layout) */
+  --overview-w:880px;         /* Oversikt's narrower column (1040px beside the rail) */
+  --site-w:1120px;            /* marketing site column */
+  --page-x:28px;              /* app page horizontal padding (16px on a phone) */
+  --site-x:26px;              /* site horizontal padding */
+  --rail-open:220px;--rail-closed:62px;
+  /* control heights (Button scale) */
+  --h-tiny:30px;--h-xxs:32px;--h-xs:34px;--h-sm:36px;--h-field:38px;--h-panel:40px;--h-md:42px;--h-lg:44px;--h-respond:46px;--h-signin:48px;--h-site:50px;--h-band:52px;
+  /* gaps */
+  --gap-nav:2px;--gap-chip:7px;--gap-list:8px;--gap-card:13px;--gap-grid:18px;
+}

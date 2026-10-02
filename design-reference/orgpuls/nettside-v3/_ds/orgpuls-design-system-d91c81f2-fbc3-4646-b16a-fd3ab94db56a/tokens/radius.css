@@ -1,0 +1,23 @@
+/* Orgpuls has no single corner radius — it has a scale, and which value a component uses is part of its identity.
+   Transcribed from tailwind.config.ts borderRadius, every value observed in the bundle. */
+:root{
+  --radius-focus:6px;   /* focus ring, mint tick (18px) */
+  --radius-tick:5px;    /* 16px tick, check mark square */
+  --radius-chip:7px;    /* segmented inner button, heat score tile, 20px Tuva face */
+  --radius-tab:8px;     /* header-panel tab, side-rail icon tile */
+  --radius-bar:9px;     /* stacked bar, brand mark, small CTA, site nav link */
+  --radius-ctl:10px;    /* nav button, Hjelp button, role select, row CTA, 38–40px fields */
+  --radius-btn:11px;    /* checklist button, avatar 26–38px, md button */
+  --radius-cta:12px;    /* primary CTA (lg), two-line report button, 48px sign-in fields */
+  --radius-tile:13px;   /* Deltakelse group row, factor card, todo row, site 50–52px CTA */
+  --radius-opt:14px;    /* respondent option, comment box, primary answer button, mint law line */
+  --radius-row:15px;    /* task/worklist row */
+  --radius-note:16px;   /* Tuva note card, rounds-list table, measure card */
+  --radius-panel:18px;  /* Målinger/Oversikt panel card, menus, team face */
+  --radius-plan:19px;   /* pricing plan card */
+  --radius-card:20px;   /* panel card (Card) — the container almost every screen is built from */
+  --radius-modal:22px;  /* modal, ink price band, product shot frame */
+  --radius-band:24px;   /* StartBand ("Prøv det på deres egen virksomhet") */
+  --radius-phone:34px;  /* phone mock outer */
+  --radius-pill:999px;  /* pills, dots, avatar chip */
+}

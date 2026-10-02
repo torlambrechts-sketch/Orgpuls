@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/radius.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/effects.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/base.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/styles.css">
+  <script src="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/_ds_bundle.js"></script>
+  <style>
+    body{margin:0;background:#FCF6E9;color:#191510}
+    a{color:#2F5D2A}
+    a:hover{color:#1E3D1A;text-decoration:underline}
+    @keyframes ht-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    @media (prefers-reduced-motion: reduce){*{animation:none!important}}
+  </style>
+</helmet>
+<div style="min-height:100vh;background:var(--op-bg);color:var(--op-ink);font-family:var(--font-sans);font-size:14px;display:flex;flex-direction:column">
+
+  <div data-screen-label="Topp" style="background:var(--op-mint);padding:18px 18px 56px;display:flex;flex-direction:column;gap:18px">
+    <header data-screen-label="Nav" style="align-self:center;width:100%;max-width:1120px;box-sizing:border-box">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:18px;border-radius:18px;border:1px solid var(--op-line);background:var(--op-sf);padding:10px 12px 10px 16px">
+        <a href="Forside.dc.html" style="display:flex;flex:none;align-items:center;color:var(--op-ink);text-decoration:none">
+          <x-import component-from-global-scope="OrgpulsDesignSystem_d91c81.Logo" size="{{ 31 }}" wordmark="{{ 20 }}" radius="{{ 10 }}" hint-size="130px,31px"></x-import>
+        </a>
+        <nav aria-label="Hovedmeny" style="display:flex;min-width:0;flex:1;flex-wrap:nowrap;gap:0;overflow-x:auto;scrollbar-width:none">
+          <a href="Plattform.dc.html" style="border-radius:9px;padding:8px 10px;font-size:14px;white-space:nowrap;flex:none;font-weight:600;color:var(--op-ink);text-decoration:none">Plattform</a>
+          <a href="Bruksomrader.dc.html" style="border-radius:9px;padding:8px 10px;font-size:14px;white-space:nowrap;flex:none;font-weight:600;color:var(--op-ink);text-decoration:none">Bruksområder</a>
+          <a href="Bransjer.dc.html" aria-current="page" style="border-radius:9px;padding:8px 10px;font-size:14px;white-space:nowrap;flex:none;font-weight:700;color:var(--op-ink);text-decoration:none;background:var(--op-sbg)">Bransjer</a>
+          <a href="Pris.dc.html" style="border-radius:9px;padding:8px 10px;font-size:14px;white-space:nowrap;flex:none;font-weight:600;color:var(--op-ink);text-decoration:none">Pris</a>
+        </nav>
+        <span style="display:flex;flex:none;align-items:center;gap:8px">
+          <a href="#logg-inn" style="display:flex;height:38px;align-items:center;border-radius:10px;padding:0 13px;font-size:14px;font-weight:600;color:var(--op-ink);text-decoration:none;white-space:nowrap">Logg inn</a>
+          <a href="#kom-i-gang" style="display:flex;height:38px;align-items:center;gap:8px;border-radius:10px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 16px;font-size:14px;font-weight:700;color:var(--op-ink);text-decoration:none;white-space:nowrap">Kom i gang <span aria-hidden="true">→</span></a>
+        </span>
+      </div>
+    </header>
+
+    <section data-screen-label="Hero" style="align-self:center;width:100%;max-width:1240px;box-sizing:border-box;padding:40px 56px 0;animation:ht-in .25s ease both">
+      <nav aria-label="Brødsmuler" style="display:flex;gap:8px;font-size:13px;color:var(--op-body)"><a href="Forside.dc.html" style="color:var(--op-body)">Orgpuls</a><span aria-hidden="true">›</span><span>Bransjer</span></nav>
+      <div style="margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:24px 48px;align-items:end">
+        <div>
+          <span style="display:inline-block;border-radius:9px;background:var(--op-ink);color:var(--op-bg);padding:7px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em">Bransjer</span>
+          <h1 style="margin:22px 0 0;font-family:var(--font-display);font-size:56px;font-weight:600;line-height:1.04;letter-spacing:-.01em;text-wrap:balance">Arbeidsmiljøet der dere faktisk jobber.</h1>
+        </div>
+        <div>
+          <p style="margin:0;max-width:50ch;font-size:17px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Hovedundersøkelsen dekker det som gjelder alle arbeidsplasser. For bransjer med egne risikoer finnes bransjemoduler — også for den lille butikken, barnehagen eller byggefirmaet med femten ansatte.</p>
+          <div style="margin-top:22px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 26px">
+            <a href="#kom-i-gang" style="display:flex;height:50px;align-items:center;gap:9px;border-radius:13px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 22px;font-size:15.5px;font-weight:700;color:var(--op-ink);text-decoration:none">Prøv gratis i 15 dager <span aria-hidden="true">→</span></a>
+            <a href="#moduler" style="font-size:15.5px;font-weight:700;text-decoration:none">Se modulene ↓</a>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:10px">
+        <sc-for list="{{ how }}" as="w" hint-placeholder-count="3">
+          <div style="display:flex;gap:12px;align-items:flex-start;border-radius:16px;border:1px solid var(--op-line);background:var(--op-sf);padding:14px 16px">
+            <span style="display:flex;flex:none;width:30px;height:30px;align-items:center;justify-content:center;border-radius:999px;background:#F2EAD6;font-size:13px;font-weight:700">{{ w.g }}</span>
+            <span><span style="display:block;font-size:14.5px;font-weight:700">{{ w.t }}</span><span style="margin-top:2px;display:block;font-size:12.5px;line-height:1.45;color:var(--op-body);text-wrap:pretty">{{ w.d }}</span></span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+  </div>
+
+  <main style="display:flex;flex-direction:column">
+    <section id="moduler" data-screen-label="Bransjemoduler" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;padding:72px 56px 56px">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--op-mut)">Bransjemoduler</span>
+        <h2 style="margin:0;max-width:26ch;font-family:var(--font-display);font-size:38px;font-weight:600;line-height:1.1;text-wrap:balance">Fem moduler, i tillegg til hovedundersøkelsen</h2>
+      </div>
+      <div style="margin-top:32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:13px">
+        <sc-for list="{{ modsNew }}" as="m" hint-placeholder-count="2">
+          <a id="{{ m.id }}" href="#{{ m.id }}" style="display:flex;flex-direction:column;gap:12px;border-radius:20px;border:1px solid var(--op-line);background:var(--op-sf);padding:24px 24px 22px;color:var(--op-ink);text-decoration:none;box-sizing:border-box">
+            <span style="display:flex;align-items:center;justify-content:space-between;gap:10px"><span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--op-mut)">{{ m.sub }}</span><sc-if value="{{ m.isNew }}" hint-placeholder-val="{{ false }}"><span style="border-radius:999px;background:var(--op-ac);padding:3px 10px;font-size:11.5px;font-weight:700">Ny</span></sc-if></span>
+            <span style="font-family:var(--font-display);font-size:28px;font-weight:600;line-height:1.1">{{ m.t }}</span>
+            <span style="display:flex;flex-wrap:wrap;gap:6px">
+              <sc-for list="{{ m.topics }}" as="tp" hint-placeholder-count="4"><span style="border-radius:999px;border:1px solid var(--op-line);background:var(--op-bg);padding:5px 11px;font-size:12.5px;font-weight:600">{{ tp }}</span></sc-for>
+            </span>
+            <sc-if value="{{ m.extra }}" hint-placeholder-val="{{ false }}"><span style="font-size:13.5px;line-height:1.5;color:var(--op-body)">{{ m.extra }}</span></sc-if>
+            <span style="margin-top:auto;padding-top:14px;border-top:1px solid var(--op-line);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px"><span style="font-size:12.5px;color:var(--op-mut);font-variant-numeric:tabular-nums">{{ m.stats }}</span><span style="font-size:14px;font-weight:700;color:var(--op-link)">Se {{ m.lc }} →</span></span>
+          </a>
+        </sc-for>
+      </div>
+      <div style="margin-top:13px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:13px">
+        <sc-for list="{{ mods }}" as="m" hint-placeholder-count="3">
+          <a id="{{ m.id }}" href="#{{ m.id }}" style="display:flex;flex-direction:column;gap:12px;border-radius:20px;border:1px solid var(--op-line);background:var(--op-sf);padding:24px 24px 22px;color:var(--op-ink);text-decoration:none;box-sizing:border-box">
+            <span style="display:flex;align-items:center;justify-content:space-between;gap:10px"><span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--op-mut)">{{ m.sub }}</span><sc-if value="{{ m.isNew }}" hint-placeholder-val="{{ false }}"><span style="border-radius:999px;background:var(--op-ac);padding:3px 10px;font-size:11.5px;font-weight:700">Ny</span></sc-if></span>
+            <span style="font-family:var(--font-display);font-size:28px;font-weight:600;line-height:1.1">{{ m.t }}</span>
+            <span style="display:flex;flex-wrap:wrap;gap:6px">
+              <sc-for list="{{ m.topics }}" as="tp" hint-placeholder-count="4"><span style="border-radius:999px;border:1px solid var(--op-line);background:var(--op-bg);padding:5px 11px;font-size:12.5px;font-weight:600">{{ tp }}</span></sc-for>
+            </span>
+            <sc-if value="{{ m.extra }}" hint-placeholder-val="{{ false }}"><span style="font-size:13.5px;line-height:1.5;color:var(--op-body)">{{ m.extra }}</span></sc-if>
+            <span style="margin-top:auto;padding-top:14px;border-top:1px solid var(--op-line);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px"><span style="font-size:12.5px;color:var(--op-mut);font-variant-numeric:tabular-nums">{{ m.stats }}</span><span style="font-size:14px;font-weight:700;color:var(--op-link)">Se {{ m.lc }} →</span></span>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+
+    <section data-screen-label="Ulike hverdager" style="border-top:1px solid var(--op-line);border-bottom:1px solid var(--op-line);background:var(--op-sf)">
+      <div style="margin:0 auto;max-width:1240px;box-sizing:border-box;padding:72px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:40px 64px;align-items:start">
+        <div>
+          <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--op-mut)">Andre bransjer</span>
+          <h2 style="margin:12px 0 0;max-width:20ch;font-family:var(--font-display);font-size:38px;font-weight:600;line-height:1.1;text-wrap:balance">Samme verktøy, ulike hverdager</h2>
+          <p style="margin:14px 0 0;max-width:46ch;font-size:16px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Spørsmålene er de samme overalt, så tallene kan sammenlignes over tid. Det som skiller bransjene, er hvilke faktorer som pleier å trekke, og hvordan folk nås.</p>
+          <p style="margin:14px 0 0;max-width:46ch;font-size:14.5px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Kravene til kartlegging er de samme for alle, og hovedundersøkelsen dekker dem. Se <a href="Bruksomrader.dc.html">bruksområdene</a> for sider etter behov, rolle og størrelse.</p>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ sectors }}" as="s" hint-placeholder-count="6">
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 18px;align-items:start;padding:18px 0;border-top:1px solid var(--op-line)">
+              <span style="font-size:16px;font-weight:700">{{ s.t }}</span>
+              <span style="display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px">
+                <sc-for list="{{ s.f }}" as="f" hint-placeholder-count="2"><span style="border-radius:999px;background:var(--op-sbg);color:#5C4600;padding:4px 10px;font-size:12px;font-weight:700">{{ f }}</span></sc-for>
+              </span>
+              <span style="grid-column:1 / -1;max-width:60ch;font-size:14px;line-height:1.55;color:var(--op-body);text-wrap:pretty">{{ s.d }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section id="kom-i-gang" data-screen-label="Kom i gang" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;padding:56px 56px">
+    <div style="display:grid;align-items:center;gap:26px;border-radius:24px;border:1px solid var(--op-line);background:var(--op-sf);padding:36px 40px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))">
+      <div>
+        <h2 style="margin:0;max-width:22ch;font-family:var(--font-display);font-size:32px;font-weight:600;line-height:1.14;text-wrap:balance">Prøv det på deres egen virksomhet</h2>
+        <p style="margin:12px 0 0;max-width:48ch;font-size:15px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Fra 265 kr i måneden, alt inkludert. Gratis i 15 dager, uten kort.</p>
+      </div>
+      <form onSubmit="{{ submit }}" style="display:flex;flex-wrap:wrap;gap:9px">
+        <x-import component-from-global-scope="OrgpulsDesignSystem_d91c81.Input" size="site" value="{{ org }}" on-change="{{ onOrg }}" input-mode="numeric" placeholder="Organisasjonsnummer" aria-label="Organisasjonsnummer" style="min-width:200px;flex:1" hint-size="240px,52px"></x-import>
+        <button type="submit" style="height:52px;cursor:pointer;border-radius:13px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 22px;font-size:16px;font-weight:700;color:var(--op-ink);font-family:inherit">Kom i gang</button>
+        <sc-if value="{{ note }}" hint-placeholder-val="{{ false }}"><span role="status" style="flex-basis:100%;font-size:13px;line-height:1.5;color:{{ noteColor }}">{{ note }}</span></sc-if>
+      </form>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid var(--op-line);background:var(--op-sf)">
+    <div style="margin:0 auto;max-width:1120px;display:grid;gap:24px;padding:36px 26px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))">
+      <div><span style="font-family:var(--font-display);font-size:19px;font-weight:600">Orgpuls</span><p style="margin:8px 0 0;max-width:28ch;font-size:12.5px;line-height:1.6;color:var(--op-mut)">Alle data lagres i EU, og ingen enkeltsvar kan spores tilbake til en person.</p></div>
+      <sc-for list="{{ footer }}" as="f" hint-placeholder-count="4">
+        <nav aria-label="{{ f.h }}"><span style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--op-mut)">{{ f.h }}</span>
+          <span style="margin-top:10px;display:flex;flex-direction:column;gap:6px"><sc-for list="{{ f.l }}" as="l" hint-placeholder-count="4"><a href="{{ l.href }}" style="font-size:13px;color:var(--op-ink);text-decoration:none">{{ l.t }}</a></sc-for></span>
+        </nav>
+      </sc-for>
+    </div>
+    <div style="margin:0 auto;max-width:1120px;padding:0 26px 22px;font-size:11.5px;color:var(--op-mut)">© 2026 Orgpuls · Personvern · Vilkår</div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { org: '', note: null, ok: true };
+  renderVals() {
+    const M = (id, sub, t, lc, topics, stats, isNew, extra) => ({ id, sub, t, lc, topics, stats, isNew, extra: extra || null });
+    const L = (t, href) => ({ t, href });
+    return {
+      how: [
+        { g: '＋', t: 'Flere påstander', d: 'Kommer i tillegg til hovedundersøkelsen, ca. 3 minutter ekstra.' },
+        { g: '✓', t: 'Egne tiltak', d: 'Forslag skrevet for hverdagen i bransjen, ikke for et kontor.' },
+        { g: '§', t: 'Hjemmel per faktor', d: 'Rapporten viser hvilken regel hver faktor svarer på.' },
+      ],
+      modsNew: [
+        M('handel', 'Butikk, lager og netthandel', 'Handel', 'handel', ['Tyveri og trusler', 'Alenevakter', 'Krevende kunder', 'Vaktplan og deltid'], '8 faktorer · 24 påstander · ca. 3 min ekstra', true),
+        M('kontor', 'Rådgivning, IT, finans, media og eiendom', 'Kunnskap og kontor', 'kunnskap og kontor', ['Avbrytelser og møter', 'Tilgjengelighet utenom arbeidstid', 'Hybridarbeid', 'KI'], '15 faktorer · 62 påstander · ca. 3 min ekstra', true, 'Velg forenklet eller utvidet.'),
+      ],
+      mods: [
+        M('bygg', 'Bygg, anlegg og verksted', 'Bygg og anlegg', 'bygg og anlegg', ['Sikkerhet under tidspress', 'Mange firma på samme plass', 'Språk på laget', 'Nye og unge', 'Rom for å si fra'], '8 faktorer · 24 påstander · ca. 3 min ekstra', false),
+        M('skole', 'Barnehage, skole og SFO', 'Barnehage og skole', 'barnehage og skole', ['Vold og trusler', 'Bemanning og vikarer', 'Foreldresamarbeid', 'Tilrettelegging', 'Tid til kjerneoppgavene'], '8 faktorer · 24 påstander · ca. 3 min ekstra', false),
+        M('helse', 'Helse, omsorg og arbeid med mennesker', 'Helse og omsorg', 'helse og omsorg', ['Vold og trusler', 'Bemanning', 'Turnus og deltid', 'Grenser mot brukere', 'Tunge forflytninger'], '8 faktorer · 24 påstander · ca. 3 min ekstra', false),
+      ],
+      sectors: [
+        { t: 'Bygg og anlegg', f: ['Ytringsklima', 'Arbeidsmengde'], d: 'Team med ulik hverdag — verksted, prosjekt og drift. Varmekartet viser hvor forskjellene er, uten å peke på personer.' },
+        { t: 'Helse og omsorg', f: ['Emosjonelle krav', 'Lederstøtte'], d: 'Turnus og mange uten fast skjerm. Utsending på SMS, og pulsen følger emosjonelle krav gjennom året.' },
+        { t: 'Handel og service', f: ['Rolleklarhet', 'Anerkjennelse'], d: 'Mange deltidsansatte og flere lokasjoner. Lokasjoner med for få svar vises ikke, men teller med i helheten.' },
+        { t: 'Kommune og offentlig', f: ['Motstridende krav', 'Medvirkning'], d: 'Tydelige krav til medvirkning og dokumentasjon. Drøfting og varsel til verneombud logges i rapporten.' },
+        { t: 'Teknologi og konsulent', f: ['Rolleklarhet', 'Arbeidsmengde'], d: 'Rask vekst og hyppige endringer. Ekstra pulser etter omorganisering viser om strukturen sitter.' },
+        { t: 'Industri og produksjon', f: ['Ytringsklima', 'Kollegastøtte'], d: 'Skift og fysisk arbeid. Kort undersøkelse på mobil, og fast oppfølging av avvik og ytringsklima.' },
+      ],
+      footer: [
+        { h: 'Produkt', l: [L('Plattform', 'Plattform.dc.html'), L('Pris', 'Pris.dc.html')] },
+        { h: 'Bruksområder', l: [L('Uten HR-avdeling', 'Bruksomrader.dc.html#uten-hr'), L('Årlig kartlegging', 'Bruksomrader.dc.html#kartlegging'), L('Puls mellom målingene', 'Bruksomrader.dc.html#puls'), L('Tilsyn og dokumentasjon', 'Bruksomrader.dc.html#tilsyn')] },
+        { h: 'Bransjer', l: [L('Handel', '#handel'), L('Kunnskap og kontor', '#kontor'), L('Bygg og anlegg', '#bygg'), L('Barnehage og skole', '#skole'), L('Helse og omsorg', '#helse')] },
+        { h: 'Om oss', l: [L('Personvern og anonymitet', '#'), L('Kontakt', '#')] },
+      ],
+      org: this.state.org, note: this.state.note, noteColor: this.state.ok ? '#2F5D2A' : '#A33A16',
+      onOrg: (e) => this.setState({ org: e.target.value, note: null }),
+      submit: (e) => {
+        e.preventDefault();
+        const d = this.state.org.replace(/\D/g, '');
+        this.setState(d.length === 9 ? { ok: true, note: 'Vi henter ' + d.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3') + ' fra Brønnøysundregistrene …' } : { ok: false, note: 'Et organisasjonsnummer har ni sifre.' });
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/radius.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/effects.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/tokens/base.css">
+  <link rel="stylesheet" href="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/styles.css">
+  <script src="_ds/orgpuls-design-system-d91c81f2-fbc3-4646-b16a-fd3ab94db56a/_ds_bundle.js"></script>
+  <style>
+    body{margin:0;background:#FCF6E9;color:#191510}
+    a{color:#2F5D2A}
+    a:hover{color:#1E3D1A;text-decoration:underline}
+    @keyframes ht-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    @media (prefers-reduced-motion: reduce){*{animation:none!important}}
+  </style>
+</helmet>
+<div style="min-height:100vh;background:var(--op-bg);color:var(--op-ink);font-family:var(--font-sans);font-size:14px;padding:18px 18px 0;box-sizing:border-box;display:flex;flex-direction:column;gap:18px">
+
+  <div data-screen-label="Topp" style="margin:-18px -18px 0;background:var(--op-mint);padding:18px 18px 8px;display:flex;flex-direction:column;gap:18px">
+  <header data-screen-label="Nav" style="position:sticky;top:12px;z-index:40;align-self:center;width:100%;max-width:1120px;box-sizing:border-box">
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:18px;border-radius:18px;border:1px solid var(--op-line);background:var(--op-sf);padding:10px 12px 10px 16px;box-shadow:0 18px 40px -28px rgba(25,21,16,.35)">
+      <a href="#topp" style="display:flex;flex:none;align-items:center;color:var(--op-ink);text-decoration:none">
+        <x-import component-from-global-scope="OrgpulsDesignSystem_d91c81.Logo" size="{{ 31 }}" wordmark="{{ 20 }}" radius="{{ 10 }}" hint-size="130px,31px"></x-import>
+      </a>
+      <nav aria-label="Hovedmeny" style="display:flex;min-width:0;flex:1;flex-wrap:nowrap;gap:0;overflow-x:auto;scrollbar-width:none">
+        <a href="Plattform.dc.html" style="border-radius:9px;padding:8px 10px;font-size:14px;white-space:nowrap;flex:none;font-weight:600;color:var(--op-ink);text-decoration:none">Plattform</a>
+        <a href="Bruksomrader.dc.html" style="border-radius:9px;padding:8px 10px;font-size:14px;white-space:nowrap;flex:none;font-weight:600;color:var(--op-ink);text-decoration:none">Bruksområder</a>
+        <a href="Bransjer.dc.html" style="display:inline-flex;align-items:center;gap:6px;border-radius:9px;padding:8px 10px;font-size:14px;white-space:nowrap;flex:none;font-weight:600;color:var(--op-ink);text-decoration:none">Bransjer <span aria-hidden="true" style="font-size:10px">▾</span></a>
+        <a href="Pris.dc.html" style="border-radius:9px;padding:8px 10px;font-size:14px;white-space:nowrap;flex:none;font-weight:600;color:var(--op-ink);text-decoration:none">Pris</a>
+      </nav>
+      <span style="display:flex;flex:none;align-items:center;gap:8px">
+        <a href="#logg-inn" style="display:flex;height:38px;align-items:center;border-radius:10px;padding:0 13px;font-size:14px;font-weight:600;color:var(--op-ink);text-decoration:none;white-space:nowrap">Logg inn</a>
+        <a href="#kom-i-gang" style="display:flex;height:38px;align-items:center;gap:8px;border-radius:10px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 16px;font-size:14px;font-weight:700;color:var(--op-ink);text-decoration:none;white-space:nowrap">Kom i gang <span aria-hidden="true">→</span></a>
+      </span>
+    </div>
+  </header>
+
+  <section id="topp" data-screen-label="Hero slider" aria-roledescription="karusell" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;padding:40px 56px 40px">
+    <div style="min-height:560px;display:flex;align-items:center">
+      <div style="width:100%">
+      <sc-if value="{{ s1 }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));align-items:center;gap:48px;animation:ht-in .25s ease both">
+          <div style="max-width:580px"><span style="display:inline-block;border-radius:9px;background:var(--op-ink);color:var(--op-bg);padding:7px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em">For små og mellomstore bedrifter</span><h1 style="margin:22px 0 0;font-family:var(--font-display);font-size:60px;font-weight:600;line-height:1.04;letter-spacing:-.01em;text-wrap:balance">Fang opp det som sliter folk ut — før det blir sykmelding eller oppsigelse.</h1><p style="margin:20px 0 0;max-width:50ch;font-size:17.5px;line-height:1.65;color:var(--op-body);text-wrap:pretty">I en liten bedrift merkes hver sykmelding og hver oppsigelse. Orgpuls viser hva som trekker arbeidsmiljøet ned, og hva dere bør gjøre — uten HR-avdeling og på under en time.</p><div style="margin-top:28px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 28px">
+            <a href="#kom-i-gang" style="display:flex;height:52px;align-items:center;gap:9px;border-radius:13px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 24px;font-size:16px;font-weight:700;color:var(--op-ink);text-decoration:none">Prøv gratis i 15 dager <span aria-hidden="true">→</span></a>
+            <a href="#plattform" style="font-size:16px;font-weight:700;color:var(--op-link);text-decoration:none">Se hvordan det virker <span aria-hidden="true">↓</span></a>
+          </div>
+          <p style="margin:18px 0 0;font-size:13px;color:var(--op-mut)">Uten betalingskort · ingen bindingstid · fra 265 kr/mnd.</p></div>
+          <div><div style="border-radius:18px;border:1px solid var(--op-line);background:var(--op-sf);box-shadow:0 18px 40px -28px rgba(25,21,16,.35);overflow:hidden"><div style="display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;border-bottom:1px solid var(--op-line)"><span style="width:9px;height:9px;border-radius:999px;background:var(--op-line)"></span><span style="width:9px;height:9px;border-radius:999px;background:var(--op-line)"></span><span style="width:9px;height:9px;border-radius:999px;background:var(--op-line)"></span><span style="margin-left:12px;font-size:11.5px;color:var(--op-faint)">app.orgpuls.no · Oversikt</span></div><img src="assets/oversikt.webp" alt="Orgpuls Oversikt for Nordvik Anlegg" style="display:block;width:100%;height:auto"></div><p style="margin:16px 0 0;font-size:14px;line-height:1.6;color:var(--op-body)"><strong style="color:var(--op-greendeep)">Dere ser med en gang hva som fungerer — og hva dere bør gjøre nå.</strong> Tenkte eksempeldata.</p></div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ s2 }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));align-items:center;gap:48px;animation:ht-in .25s ease both">
+          <div style="max-width:580px"><span style="display:inline-block;border-radius:9px;background:var(--op-ink);color:var(--op-bg);padding:7px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em">Arbeidsmiljøloven § 4-3</span><h1 style="margin:22px 0 0;font-family:var(--font-display);font-size:60px;font-weight:600;line-height:1.04;letter-spacing:-.01em;text-wrap:balance">Oppfyll lovkravet — uten å bli HMS-ekspert.</h1><p style="margin:20px 0 0;max-width:50ch;font-size:17.5px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Loven krever at dere kartlegger det psykososiale arbeidsmiljøet. Orgpuls stiller spørsmålene loven peker på, tar med verneombudet og lager dokumentasjonen Arbeidstilsynet ber om.</p><div style="margin-top:28px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 28px">
+            <a href="#kom-i-gang" style="display:flex;height:52px;align-items:center;gap:9px;border-radius:13px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 24px;font-size:16px;font-weight:700;color:var(--op-ink);text-decoration:none">Prøv gratis i 15 dager <span aria-hidden="true">→</span></a>
+            <a href="#plattform" style="font-size:16px;font-weight:700;color:var(--op-link);text-decoration:none">Se hva loven krever <span aria-hidden="true">→</span></a>
+          </div>
+          <p style="margin:18px 0 0;font-size:13px;color:var(--op-mut)">Uten betalingskort · ingen bindingstid · fra 265 kr/mnd.</p></div>
+          <div><div style="border-radius:20px;border:1px solid var(--op-line);background:var(--op-sf);padding:24px;box-shadow:0 18px 40px -28px rgba(25,21,16,.35)"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px"><span style="font-size:15px;font-weight:700">Lovkrav · Nordvik Anlegg AS</span><span style="border-radius:999px;background:var(--op-mint);color:var(--op-greendeep);padding:4px 11px;font-size:12px;font-weight:700">4 av 4 på plass</span></div><div style="display:flex;flex-direction:column;gap:10px"><div style="display:flex;gap:14px;align-items:flex-start;border-radius:15px;border:1px solid var(--op-line);background:var(--op-bg);padding:15px 18px"><span style="display:flex;flex:none;width:26px;height:26px;align-items:center;justify-content:center;border-radius:999px;background:var(--op-greenbar);color:var(--op-sf);font-size:13px;font-weight:700">✓</span><span><span style="display:block;font-size:15px;font-weight:700">Kartlegging av det psykososiale arbeidsmiljøet</span><span style="margin-top:3px;display:block;font-size:13.5px;line-height:1.5;color:var(--op-body)">Spørsmålene dekker faktorene aml. § 4-3 peker på.</span></span></div><div style="display:flex;gap:14px;align-items:flex-start;border-radius:15px;border:1px solid var(--op-line);background:var(--op-bg);padding:15px 18px"><span style="display:flex;flex:none;width:26px;height:26px;align-items:center;justify-content:center;border-radius:999px;background:var(--op-greenbar);color:var(--op-sf);font-size:13px;font-weight:700">✓</span><span><span style="display:block;font-size:15px;font-weight:700">Risikovurdering per faktor</span><span style="margin-top:3px;display:block;font-size:13.5px;line-height:1.5;color:var(--op-body)">Lav, middels eller høy risiko — med lovhjemmel i rapporten.</span></span></div><div style="display:flex;gap:14px;align-items:flex-start;border-radius:15px;border:1px solid var(--op-line);background:var(--op-bg);padding:15px 18px"><span style="display:flex;flex:none;width:26px;height:26px;align-items:center;justify-content:center;border-radius:999px;background:var(--op-greenbar);color:var(--op-sf);font-size:13px;font-weight:700">✓</span><span><span style="display:block;font-size:15px;font-weight:700">Medvirkning fra verneombud og ansatte</span><span style="margin-top:3px;display:block;font-size:13.5px;line-height:1.5;color:var(--op-body)">Verneombudet varsles og ser de samme tallene som ledelsen.</span></span></div><div style="display:flex;gap:14px;align-items:flex-start;border-radius:15px;border:1px solid var(--op-line);background:var(--op-bg);padding:15px 18px"><span style="display:flex;flex:none;width:26px;height:26px;align-items:center;justify-content:center;border-radius:999px;background:var(--op-greenbar);color:var(--op-sf);font-size:13px;font-weight:700">✓</span><span><span style="display:block;font-size:15px;font-weight:700">Dokumentasjon klar for tilsyn</span><span style="margin-top:3px;display:block;font-size:13.5px;line-height:1.5;color:var(--op-body)">Rapporten er klar når Arbeidstilsynet eller AMU spør.</span></span></div></div></div><p style="margin:16px 0 0;font-size:14px;line-height:1.6;color:var(--op-body)"><strong style="color:var(--op-greendeep)">Dokumentasjonen blir til mens dere jobber.</strong> Tenkte eksempeldata.</p></div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ s3 }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));align-items:center;gap:48px;animation:ht-in .25s ease both">
+          <div style="max-width:580px"><span style="display:inline-block;border-radius:9px;background:var(--op-ink);color:var(--op-bg);padding:7px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em">Fra undersøkelse til handling</span><h1 style="margin:22px 0 0;font-family:var(--font-display);font-size:60px;font-weight:600;line-height:1.04;letter-spacing:-.01em;text-wrap:balance">Fra svar til tiltak — uten et eget prosjekt.</h1><p style="margin:20px 0 0;max-width:50ch;font-size:17.5px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Resultatet kommer med tre forslag til tiltak per område. Dere velger, gir tiltaket en eier og en frist, og neste puls viser om det hjalp. Ingenting blir liggende i en mappe.</p><div style="margin-top:28px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 28px">
+            <a href="#kom-i-gang" style="display:flex;height:52px;align-items:center;gap:9px;border-radius:13px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 24px;font-size:16px;font-weight:700;color:var(--op-ink);text-decoration:none">Prøv gratis i 15 dager <span aria-hidden="true">→</span></a>
+            <a href="#plattform" style="font-size:16px;font-weight:700;color:var(--op-link);text-decoration:none">Se hvordan tiltak fungerer <span aria-hidden="true">→</span></a>
+          </div>
+          <p style="margin:18px 0 0;font-size:13px;color:var(--op-mut)">Uten betalingskort · ingen bindingstid · fra 265 kr/mnd.</p></div>
+          <div><div style="border-radius:20px;border:1px solid var(--op-line);background:var(--op-sf);padding:24px;box-shadow:0 18px 40px -28px rgba(25,21,16,.35)"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px"><span style="font-size:15px;font-weight:700">Tiltak · Prosjekt Sør</span><span style="font-size:12.5px;color:var(--op-mut)">3 aktive · 1 lukket</span></div><div style="display:flex;flex-direction:column;gap:10px"><div style="display:flex;gap:14px;align-items:center;border-radius:15px;border:1px solid var(--op-line);background:var(--op-bg);padding:14px 18px 14px 14px"><span style="flex:none;width:7px;align-self:stretch;border-radius:999px;background:#E0A21F"></span><span style="flex:1;min-width:0"><span style="display:block;font-size:15px;font-weight:700">Fast avklaring av tidsplan med laget</span><span style="margin-top:3px;display:block;font-size:13px;color:var(--op-body)">Arbeidsmengde · eier: anleggsleder · frist 15. nov.</span></span><span style="flex:none;border-radius:999px;background:#FBEBBE;color:#5C4600;padding:4px 11px;font-size:12px;font-weight:700">Pågår</span></div><div style="display:flex;gap:14px;align-items:center;border-radius:15px;border:1px solid var(--op-line);background:var(--op-bg);padding:14px 18px 14px 14px"><span style="flex:none;width:7px;align-self:stretch;border-radius:999px;background:#E0A21F"></span><span style="flex:1;min-width:0"><span style="display:block;font-size:15px;font-weight:700">«Stopp og meld» på morgenmøtet</span><span style="margin-top:3px;display:block;font-size:13px;color:var(--op-body)">Ytringsklima · eier: basen · frist 1. des.</span></span><span style="flex:none;border-radius:999px;background:#F5DC96;color:#5C4600;padding:4px 11px;font-size:12px;font-weight:700">Besluttet</span></div><div style="display:flex;gap:14px;align-items:center;border-radius:15px;border:1px solid var(--op-line);background:var(--op-bg);padding:14px 18px 14px 14px"><span style="flex:none;width:7px;align-self:stretch;border-radius:999px;background:#D9CFB8"></span><span style="flex:1;min-width:0"><span style="display:block;font-size:15px;font-weight:700">Fadder for nye i de første 4 ukene</span><span style="margin-top:3px;display:block;font-size:13px;color:var(--op-body)">Rolleklarhet · eier: prosjektleder · frist 10. jan.</span></span><span style="flex:none;border-radius:999px;background:#F2EAD6;color:#4A4339;padding:4px 11px;font-size:12px;font-weight:700">Foreslått</span></div><div style="display:flex;gap:14px;align-items:center;border-radius:15px;border:1px solid var(--op-line);background:var(--op-bg);padding:14px 18px 14px 14px"><span style="flex:none;width:7px;align-self:stretch;border-radius:999px;background:#5C9A55"></span><span style="flex:1;min-width:0"><span style="display:block;font-size:15px;font-weight:700">Ukentlig kort teammøte</span><span style="margin-top:3px;display:block;font-size:13px;color:var(--op-body)">Støtte fra leder · effekt målt i pulsen</span></span><span style="flex:none;border-radius:999px;background:#CFE7E4;color:#20431C;padding:4px 11px;font-size:12px;font-weight:700">Lukket</span></div></div></div><p style="margin:16px 0 0;font-size:14px;line-height:1.6;color:var(--op-body)"><strong style="color:var(--op-greendeep)">Hvert tiltak har en eier, en frist og en status.</strong> Tenkte eksempeldata.</p></div>
+        </div>
+      </sc-if>
+      </div>
+    </div>
+    <div style="margin-top:28px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px">
+      <div role="tablist" aria-label="Velg tema" style="display:flex;flex-wrap:wrap;gap:10px">
+        <sc-for list="{{ steps }}" as="st" hint-placeholder-count="3">
+          <button type="button" role="tab" aria-selected="{{ st.on }}" onClick="{{ st.go }}" style="display:flex;height:50px;align-items:center;gap:11px;cursor:pointer;border-radius:999px;border:{{ st.border }};background:{{ st.bg }};padding:0 20px 0 7px;font-family:inherit;font-size:15.5px;font-weight:{{ st.weight }};color:var(--op-ink)"><span style="display:flex;width:36px;height:36px;align-items:center;justify-content:center;border-radius:999px;background:{{ st.dot }};font-size:14px;font-weight:700">{{ st.n }}</span>{{ st.label }}</button>
+        </sc-for>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button type="button" aria-label="Forrige" onClick="{{ prev }}" style="display:flex;width:52px;height:52px;align-items:center;justify-content:center;cursor:pointer;border-radius:999px;border:1px solid var(--op-ink);background:var(--op-sf);font-size:20px;color:var(--op-ink);font-family:inherit">←</button>
+        <button type="button" aria-label="Neste" onClick="{{ next }}" style="display:flex;width:52px;height:52px;align-items:center;justify-content:center;cursor:pointer;border-radius:999px;border:1px solid var(--op-ink);background:var(--op-sf);font-size:20px;color:var(--op-ink);font-family:inherit">→</button>
+      </div>
+    </div>
+  </section>
+
+  </div>
+  <div data-screen-label="Tillit" style="margin:-18px -18px 0;border-bottom:1px solid var(--op-line);background:var(--op-sf)">
+    <div style="margin:0 auto;max-width:1240px;box-sizing:border-box;padding:22px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:14px 24px">
+      <span style="display:flex;align-items:center;gap:12px;font-size:14.5px;font-weight:700"><span style="display:flex;flex:none;width:30px;height:30px;align-items:center;justify-content:center;border-radius:9px;background:var(--op-mint);color:var(--op-greendeep);font-size:12px;font-weight:700">5</span>Anonymt — minst 5 svar</span>
+      <span style="display:flex;align-items:center;gap:12px;font-size:14.5px;font-weight:700"><span style="display:flex;flex:none;width:30px;height:30px;align-items:center;justify-content:center;border-radius:9px;background:var(--op-mint);color:var(--op-greendeep);font-size:12px;font-weight:700">EU</span>Alle data lagres i EU</span>
+      <span style="display:flex;align-items:center;gap:12px;font-size:14.5px;font-weight:700"><span style="display:flex;flex:none;width:30px;height:30px;align-items:center;justify-content:center;border-radius:9px;background:var(--op-mint);color:var(--op-greendeep);font-size:12px;font-weight:700">§</span>Dekker lovkravet</span>
+      <span style="display:flex;align-items:center;gap:12px;font-size:14.5px;font-weight:700"><span style="display:flex;flex:none;width:30px;height:30px;align-items:center;justify-content:center;border-radius:9px;background:var(--op-mint);color:var(--op-greendeep);font-size:12px;font-weight:700">Q</span>Bygd på forskning fra STAMI</span>
+    </div>
+  </div>
+
+  <section id="utfordringer" data-screen-label="Utfordringer" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;padding:56px 56px 40px">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+      <span style="display:inline-block;border-radius:999px;background:var(--op-sbg);padding:6px 13px;font-size:12px;font-weight:700">Kjenner dere dere igjen?</span>
+      <h2 style="margin:0;max-width:24ch;font-family:var(--font-display);font-size:40px;font-weight:600;line-height:1.1;text-wrap:balance">Loven er den samme for 12 ansatte som for 1 200</h2>
+      <p style="margin:0;max-width:58ch;font-size:16px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Arbeidsmiljøloven § 4-3 gjelder alle arbeidsgivere. Forskjellen er at en liten bedrift må få det gjort uten egen HR, uten konsulent og uten å bruke uker på det.</p>
+    </div>
+    <div style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:13px">
+      <sc-for list="{{ challenges }}" as="c" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;border-radius:20px;border:1px solid var(--op-line);background:var(--op-sf);overflow:hidden">
+          <div style="display:flex;flex-direction:column;gap:8px;padding:22px 22px 18px">
+            <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--op-danger)">Utfordringen</span>
+            <span style="font-family:var(--font-display);font-size:22px;font-weight:600;line-height:1.15;text-wrap:balance">{{ c.t }}</span>
+            <span style="font-size:14px;line-height:1.55;color:var(--op-body);text-wrap:pretty">{{ c.p }}</span>
+          </div>
+          <div style="margin-top:auto;display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--op-line);background:var(--op-mint);padding:16px 22px 20px">
+            <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--op-greendeep)">Med Orgpuls</span>
+            <span style="font-size:14px;line-height:1.55;color:var(--op-greendeep);text-wrap:pretty">{{ c.s }}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="plattform" data-screen-label="Måling og svar" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;border-radius:24px;border:1px solid var(--op-line);background:var(--op-sf);padding:72px 56px">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+      <span style="display:inline-flex;align-items:center;gap:7px;border-radius:999px;background:var(--op-sbg);padding:6px 13px;font-size:12px;font-weight:700"><span aria-hidden="true">◷</span> Målinger</span>
+      <h2 style="margin:0;max-width:22ch;font-family:var(--font-display);font-size:40px;font-weight:600;line-height:1.1;text-wrap:balance">Spørsmålene loven ber om. Ikke flere.</h2>
+      <p style="margin:0;max-width:60ch;font-size:16px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Elleve faktorer fra QPS Nordic, tre utsagn hver, svar fra 1 til 5. Det er nok til å dokumentere kartleggingen etter arbeidsmiljøloven § 4-3 — og kort nok til at folk svarer.</p>
+    </div>
+    <div style="margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));align-items:center;gap:56px">
+      <div style="position:relative;padding:0 40px 40px 0">
+        <div style="max-width:420px;border-radius:20px;border:1px solid var(--op-line);background:var(--op-bg);padding:26px;box-sizing:border-box">
+          <span style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.11em;color:var(--op-mut)">Ytringsklima · 4 av 11</span><span style="font-size:12px;color:var(--op-faint)">Ca. 3 min igjen</span></span>
+          <span style="margin-top:10px;display:block;height:6px;border-radius:9px;background:var(--op-track)"><span style="display:block;width:36%;height:100%;border-radius:9px;background:var(--op-ink)"></span></span>
+          <div style="margin-top:22px;display:flex;flex-direction:column;gap:18px">
+            <sc-for list="{{ statements }}" as="s" hint-placeholder-count="3">
+              <div>
+                <span style="display:block;font-family:var(--font-display);font-size:17px;font-weight:600;line-height:1.3;text-wrap:pretty">{{ s.t }}</span>
+                <span style="margin-top:10px;display:grid;grid-template-columns:repeat(5,1fr);gap:6px">
+                  <sc-for list="{{ s.opts }}" as="o" hint-placeholder-count="5">
+                    <span style="display:flex;height:38px;align-items:center;justify-content:center;border-radius:14px;border:{{ o.border }};background:{{ o.bg }};font-size:14px;font-weight:{{ o.weight }}">{{ o.n }}</span>
+                  </sc-for>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+          <span style="margin-top:20px;display:block;border-radius:14px;border:1px dashed var(--op-rule);padding:12px 14px;font-size:13px;color:var(--op-faint)">Vil du si noe mer? Valgfritt, og like anonymt.</span>
+        </div>
+        <div style="position:absolute;right:0;bottom:0;width:250px;box-sizing:border-box;border-radius:16px;border:1px solid var(--op-line);background:var(--op-mint);padding:16px 18px;box-shadow:0 18px 40px -24px rgba(25,21,16,.45)">
+          <span style="display:block;font-size:14px;font-weight:700;color:var(--op-greendeep)">Anonymt av struktur</span>
+          <span style="margin-top:6px;display:block;font-size:13px;line-height:1.5;color:var(--op-greendeep);text-wrap:pretty">Ingen gruppe vises under fem svar. Fem er gulvet, og det er produktets — ikke deres.</span>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin:0;max-width:24ch;font-family:var(--font-display);font-size:28px;font-weight:600;line-height:1.15;text-wrap:balance">Fire minutter for den ansatte. Ferdig dokumentasjon for dere.</h3>
+        <div style="margin-top:22px;display:flex;flex-direction:column;gap:13px">
+          <sc-for list="{{ surveyPoints }}" as="p" hint-placeholder-count="4">
+            <span style="display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.55;color:var(--op-body);text-wrap:pretty">
+              <x-import component-from-global-scope="OrgpulsDesignSystem_d91c81.Tick" size="{{ 18 }}" hint-size="18px,18px"></x-import>
+              <span>{{ p }}</span>
+            </span>
+          </sc-for>
+        </div>
+        <a href="#plattform" style="margin-top:24px;display:inline-block;font-size:14.5px;font-weight:700">Se spørsmålssettet →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="hvorfor" data-screen-label="Ink band" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;border-radius:24px;background:{{ bandBg }};color:{{ bandInk }};border:1px solid var(--op-line);padding:72px 56px">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+      <span style="display:inline-flex;align-items:center;gap:7px;border-radius:999px;background:var(--op-ac);color:var(--op-ink);padding:6px 13px;font-size:12px;font-weight:700"><span aria-hidden="true">✓</span> Lovkravet dekket</span>
+      <h2 style="margin:0;max-width:24ch;font-family:var(--font-display);font-size:40px;font-weight:600;line-height:1.1;text-wrap:balance">Laget for deg som har arbeidsmiljøet som én av ti oppgaver</h2>
+      <p style="margin:0;max-width:58ch;font-size:16px;line-height:1.65;opacity:.78;text-wrap:pretty">Orgpuls planlegger rundene, sender ut, minner på og skriver rapporten. Du bruker tiden på det som kommer etterpå.</p>
+    </div>
+    <div style="margin-top:52px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:13px">
+      <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+        <div style="text-align:center;padding:10px 12px">
+          <span style="display:block;font-family:var(--font-display);font-size:52px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums">{{ s.v }}</span>
+          <span style="margin:12px auto 0;display:block;max-width:22ch;font-size:15px;line-height:1.5;opacity:.78;text-wrap:balance">{{ s.l }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin-top:72px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));align-items:center;gap:56px">
+      <div style="position:relative;padding-bottom:30px">
+        <div style="border-radius:18px;border:1px solid var(--op-line);background:var(--op-sf);overflow:hidden">
+          <img src="assets/varmekart.webp" alt="Varmekart: gruppe × faktor" style="display:block;width:100%;height:auto">
+        </div>
+        <div style="position:absolute;right:-18px;bottom:0;width:270px;box-sizing:border-box;border-radius:16px;border:1px solid var(--op-ink);background:var(--op-sf);color:var(--op-ink);padding:16px 18px;box-shadow:0 34px 80px rgba(25,21,16,.3)">
+          <span style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.11em;color:var(--op-mut)">Verksted · 8 svar</span>
+          <span style="margin-top:6px;display:flex;align-items:baseline;gap:10px"><span style="font-family:var(--font-display);font-size:30px;font-weight:600">28</span><span style="font-size:13.5px;font-weight:700">Ytringsklima</span></span>
+          <span style="margin-top:4px;display:block;font-size:12.5px;line-height:1.5;color:var(--op-body)">Laveste celle i kartet. Tre forslag til tiltak er klare.</span>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin:0;max-width:20ch;font-family:var(--font-display);font-size:36px;font-weight:600;line-height:1.12;text-wrap:balance">Også trygt når alle kjenner alle.</h3>
+        <p style="margin:16px 0 0;max-width:46ch;font-size:16px;line-height:1.65;opacity:.78;text-wrap:pretty">I en liten bedrift er anonymitet det folk lurer mest på. Grupper under fem svar vises som «—», så ingen kan pekes ut — heller ikke på et verksted med seks ansatte. Verneombudet ser de samme tallene som ledelsen, samtidig.</p>
+        <a href="#kom-i-gang" style="margin-top:26px;display:inline-flex;height:50px;align-items:center;gap:9px;border-radius:13px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 24px;font-size:16px;font-weight:700;color:var(--op-ink);text-decoration:none">Prøv gratis <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="bruksomrader" data-screen-label="Resultater" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;border-radius:24px;border:1px solid var(--op-line);background:var(--op-sf);padding:72px 56px">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+      <h2 style="margin:0;max-width:24ch;font-family:var(--font-display);font-size:40px;font-weight:600;line-height:1.1;text-wrap:balance">Én side: hva står bra til, og hva gjør vi nå</h2>
+      <p style="margin:0;max-width:58ch;font-size:16px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Resultatet kommer som en setning, ikke en tabell. Tallene ligger under, faktor for faktor, med endringen siden sist.</p>
+    </div>
+    <div style="position:relative;margin:48px auto 0;max-width:900px;padding:0 0 30px">
+      <div style="border-radius:18px;border:1px solid var(--op-line);background:var(--op-sf);box-shadow:0 18px 40px -28px rgba(25,21,16,.35);overflow:hidden">
+        <div style="display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;border-bottom:1px solid var(--op-line)">
+          <span style="width:9px;height:9px;border-radius:999px;background:var(--op-line)"></span>
+          <span style="width:9px;height:9px;border-radius:999px;background:var(--op-line)"></span>
+          <span style="width:9px;height:9px;border-radius:999px;background:var(--op-line)"></span>
+          <span style="margin-left:12px;font-size:11.5px;color:var(--op-faint)">app.orgpuls.no · Resultater</span>
+        </div>
+        <img src="assets/resultater.webp" alt="Orgpuls Resultater" style="display:block;width:100%;height:auto">
+      </div>
+      <div style="position:absolute;left:-44px;bottom:0;width:250px;box-sizing:border-box;border-radius:16px;border:1px solid var(--op-ink);background:var(--op-sf);padding:16px 18px;box-shadow:0 18px 40px -24px rgba(25,21,16,.45)">
+        <span style="display:block;font-size:14px;font-weight:700">Siden sist</span>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ deltas }}" as="d" hint-placeholder-count="3">
+            <span style="display:flex;justify-content:space-between;gap:10px;font-size:13px"><span>{{ d.f }}</span><span style="font-weight:700;font-variant-numeric:tabular-nums;color:{{ d.c }}">{{ d.v }}</span></span>
+          </sc-for>
+        </div>
+      </div>
+      <div style="position:absolute;right:-44px;top:70px;width:230px;box-sizing:border-box;border-radius:16px;border:1px solid var(--op-line);background:var(--op-sbg);padding:16px 18px;box-shadow:0 18px 40px -24px rgba(25,21,16,.45)">
+        <span style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.11em;color:var(--op-cautiondeep)">Arbeidsmiljøindeks</span>
+        <span style="margin-top:6px;display:flex;align-items:baseline;gap:9px"><span style="font-family:var(--font-display);font-size:44px;font-weight:600;line-height:.9">61</span><span style="font-size:13px;font-weight:700;color:var(--op-danger)">−3</span></span>
+        <span style="margin-top:6px;display:block;font-size:12.5px;color:var(--op-cautiondeep)">Grunnlinje 2026 · Nordvik Anlegg</span>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Sløyfen" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;padding:56px 56px 24px">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+      <h2 style="margin:0;max-width:24ch;font-family:var(--font-display);font-size:40px;font-weight:600;line-height:1.1;text-wrap:balance">Å måle er første steg. Tiltakene gjør forskjellen.</h2>
+      <p style="margin:0;max-width:58ch;font-size:16px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Målinger, resultater, kommentarer og tiltak i én sløyfe. Hver runde starter der den forrige sluttet.</p>
+    </div>
+    <div style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:13px">
+      <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="3">
+        <div style="display:flex;min-height:230px;flex-direction:column;gap:12px;border-radius:20px;border:{{ p.border }};background:{{ p.bg }};padding:26px;box-sizing:border-box">
+          <span style="display:flex;height:44px;width:44px;align-items:center;justify-content:center;border-radius:13px;background:{{ p.tile }};color:{{ p.tileInk }};font-size:19px">{{ p.g }}</span>
+          <span style="margin-top:6px;font-family:var(--font-display);font-size:26px;font-weight:600;line-height:1.15">{{ p.t }}</span>
+          <span style="font-size:14.5px;line-height:1.6;color:var(--op-body);text-wrap:pretty">{{ p.d }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <sc-if value="{{ showRoles }}" hint-placeholder-val="{{ true }}">
+    <section id="bransjer" data-screen-label="Roller" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;padding:40px 56px 0">
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+        <span style="display:inline-block;border-radius:999px;background:var(--op-sbg);padding:6px 13px;font-size:12px;font-weight:700">Hvem er du?</span>
+        <h2 style="margin:0;max-width:24ch;font-family:var(--font-display);font-size:40px;font-weight:600;line-height:1.1;text-wrap:balance">Hvem tar arbeidsmiljøet hos dere?</h2>
+        <p style="margin:0;max-width:56ch;font-size:16px;line-height:1.65;color:var(--op-body);text-wrap:pretty">I en mindre bedrift er det sjelden én person med arbeidsmiljø som hele jobben. Hver rolle får sin egen vei inn.</p>
+      </div>
+      <div style="margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:13px">
+        <sc-for list="{{ roles }}" as="r" hint-placeholder-count="4">
+          <a href="#plattform" style="display:flex;min-height:290px;flex-direction:column;gap:12px;border-radius:20px;border:1px solid var(--op-line);padding:22px 20px;color:var(--op-ink);text-decoration:none;background:{{ r.bg }};box-sizing:border-box">
+            <span style="display:flex;height:44px;width:44px;align-items:center;justify-content:center;border-radius:13px;background:var(--op-ink);font-family:var(--font-display);font-size:19px;font-weight:600;color:var(--op-bg)">{{ r.i }}</span>
+            <span><span style="display:block;font-size:18px;font-weight:700">{{ r.t }}</span><span style="margin-top:3px;display:block;font-size:13px;color:var(--op-mut)">{{ r.s }}</span></span>
+            <span style="display:flex;flex:1;flex-direction:column;gap:7px">
+              <sc-for list="{{ r.get }}" as="g" hint-placeholder-count="3">
+                <span style="display:flex;gap:8px;font-size:13.5px;line-height:1.45;text-wrap:pretty"><x-import component-from-global-scope="OrgpulsDesignSystem_d91c81.Tick" size="{{ 16 }}" hint-size="16px,16px"></x-import>{{ g }}</span>
+              </sc-for>
+            </span>
+            <span style="display:flex;height:42px;align-items:center;justify-content:center;border-radius:11px;border:1px solid var(--op-ink);background:var(--op-sf);font-size:13.5px;font-weight:700">{{ r.cta }}</span>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+  </sc-if>
+
+  <section id="kom-i-gang" data-screen-label="Kom i gang" style="width:100%;max-width:1240px;align-self:center;box-sizing:border-box;padding:40px 56px 56px">
+    <div id="pris" style="display:grid;align-items:center;gap:26px;border-radius:24px;border:1px solid var(--op-line);background:var(--op-sf);padding:36px 40px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))">
+      <div>
+        <h2 style="margin:0;max-width:22ch;font-family:var(--font-display);font-size:32px;font-weight:600;line-height:1.14;text-wrap:balance">Prøv det på deres egen virksomhet</h2>
+        <p style="margin:12px 0 0;max-width:48ch;font-size:15px;line-height:1.65;color:var(--op-body);text-wrap:pretty">Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Ingen konsulent, ingen oppstartsmøte. Fra 265 kr i måneden, alt inkludert. Gratis i 15 dager, uten kort.</p>
+      </div>
+      <form onSubmit="{{ submit }}" style="display:flex;flex-wrap:wrap;gap:9px">
+        <x-import component-from-global-scope="OrgpulsDesignSystem_d91c81.Input" size="site" value="{{ org }}" on-change="{{ onOrg }}" input-mode="numeric" placeholder="Organisasjonsnummer" aria-label="Organisasjonsnummer" style="min-width:200px;flex:1" hint-size="240px,52px"></x-import>
+        <button type="submit" style="height:52px;cursor:pointer;border-radius:13px;border:1px solid var(--op-ink);background:var(--op-ac);padding:0 22px;font-size:16px;font-weight:700;color:var(--op-ink);font-family:inherit">Kom i gang</button>
+        <sc-if value="{{ note }}" hint-placeholder-val="{{ false }}">
+          <span role="status" style="flex-basis:100%;font-size:13px;line-height:1.5;color:{{ noteColor }}">{{ note }}</span>
+        </sc-if>
+      </form>
+    </div>
+  </section>
+
+  <footer style="margin:0 -18px;border-top:1px solid var(--op-line);background:var(--op-sf)">
+    <div style="margin:0 auto;max-width:1120px;display:grid;gap:24px;padding:36px 26px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+      <div><span style="font-family:var(--font-display);font-size:19px;font-weight:600">Orgpuls</span><p style="margin:8px 0 0;max-width:28ch;font-size:12.5px;line-height:1.6;color:var(--op-mut)">Alle data lagres i EU, og ingen enkeltsvar kan spores tilbake til en person.</p></div>
+      <sc-for list="{{ footer }}" as="c" hint-placeholder-count="4">
+        <nav aria-label="{{ c.h }}"><span style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--op-mut)">{{ c.h }}</span>
+          <span style="margin-top:10px;display:flex;flex-direction:column;gap:6px"><sc-for list="{{ c.l }}" as="l" hint-placeholder-count="4"><a href="#" style="font-size:13px;color:var(--op-ink);text-decoration:none">{{ l }}</a></sc-for></span>
+        </nav>
+      </sc-for>
+    </div>
+    <div style="margin:0 auto;max-width:1120px;padding:0 26px 22px;font-size:11.5px;color:var(--op-mut)">© 2026 Orgpuls · Personvern · Vilkår</div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;autoplay&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;band&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ink&quot;,&quot;soft&quot;],&quot;default&quot;:&quot;ink&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showRoles&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { org: '', note: null, ok: true, slide: 0 };
+  componentDidMount() { this.arm(); }
+  componentDidUpdate(p) { if (p.autoplay !== this.props.autoplay) this.arm(); }
+  componentWillUnmount() { clearInterval(this.t); }
+  arm() {
+    clearInterval(this.t);
+    if (this.props.autoplay ?? true) this.t = setInterval(() => this.setState((s) => ({ slide: (s.slide + 1) % 3 })), 8000);
+  }
+  go(i) { this.setState({ slide: (i + 3) % 3 }); this.arm(); }
+  renderVals() {
+    const cur = this.state.slide;
+    const steps = ['Fang opp tidlig', 'Oppfyll loven', 'Fra svar til handling'].map((label, i) => ({
+      label, n: i + 1, on: i === cur, go: () => this.go(i),
+      border: i === cur ? '1px solid #191510' : '1px solid #E8DFC9',
+      bg: i === cur ? '#FBEBBE' : '#FFFDF6', dot: i === cur ? '#F5C64A' : '#F2EAD6', weight: i === cur ? 700 : 600,
+    }));
+    const ink = (this.props.band ?? 'ink') === 'ink';
+    const opt = (sel) => [1, 2, 3, 4, 5].map((n) => ({ n, border: n === sel ? '1px solid #191510' : '1px solid #E8DFC9', bg: n === sel ? '#FBEBBE' : '#FFFDF6', weight: n === sel ? 700 : 500 }));
+    return {
+      s1: cur === 0, s2: cur === 1, s3: cur === 2, steps,
+      prev: () => this.go(cur - 1), next: () => this.go(cur + 1),
+      bandBg: ink ? '#191510' : '#FBEBBE',
+      bandInk: ink ? '#FCF6E9' : '#191510',
+      showRoles: this.props.showRoles ?? true,
+      statements: [
+        { t: 'Jeg kan si fra om ting jeg er uenig i på jobben.', opts: opt(4) },
+        { t: 'Det er trygt å ta opp problemer med nærmeste leder.', opts: opt(3) },
+        { t: 'Folk her lytter når noen sier fra.', opts: opt(0) },
+      ],
+      challenges: [
+        { t: 'Ingen HR-avdeling', p: 'Daglig leder har arbeidsmiljøet i tillegg til salg, lønn og drift.', s: 'Rundene planlegges, sendes ut og purres av seg selv. Du godkjenner, resten går.' },
+        { t: 'For få til å være anonyme', p: 'Med 12 ansatte tror alle at lederen vet hvem som skrev hva.', s: 'Ingen gruppe vises under fem svar. Det er produktets gulv — ikke noe dere kan skru av.' },
+        { t: 'Uklart hva loven krever', p: 'Paragrafene er skrevet for jurister, og Arbeidstilsynet kan spørre.', s: 'De elleve faktorene forskriften kapittel 1A nevner, og en rapport med hjemmel per faktor.' },
+        { t: 'Lite tid og lite budsjett', p: 'En konsulent og et eget prosjekt er mer enn bedriften har rom for.', s: 'Fra 265 kr i måneden, alt inkludert. Ingen bindingstid, og første måling er ute samme dag.' },
+      ],
+      surveyPoints: [
+        'Utsending på e-post og SMS — også til de uten jobbadresse.',
+        'Påminnelser går av seg selv, og verneombudet varsles før hver runde.',
+        'Svar på norsk, engelsk, polsk, ukrainsk, litauisk, svensk og dansk.',
+        'Rapport klar til Arbeidstilsynet, med hjemmel per faktor.',
+      ],
+      stats: [
+        { v: '20 min', l: 'fra org.nr. til første utsending' },
+        { v: '4 min', l: 'å svare på hovedundersøkelsen' },
+        { v: '5 svar', l: 'minste antall før en gruppe vises' },
+        { v: '11', l: 'faktorer, slik forskriften kapittel 1A ber om' },
+      ],
+      deltas: [
+        { f: 'Mening og anerkjennelse', v: '+4', c: '#2F5D2A' },
+        { f: 'Kontakt og kommunikasjon', v: '±0', c: '#8A8272' },
+        { f: 'Arbeidsmengde', v: '−9', c: '#A33A16' },
+      ],
+      pillars: [
+        { g: '◷', t: 'Mål', d: 'Grunnlinje én gang i året, puls mellom. Årshjulet planlegger rundene selv.', bg: '#FFFDF6', border: '1px solid #E8DFC9', tile: '#F2EAD6', tileInk: '#191510' },
+        { g: '▤', t: 'Forstå', d: 'Resultat per avdeling og faktor, og anonyme kommentarer du kan svare på uten å vite hvem som skrev.', bg: '#FBEBBE', border: '1px solid #191510', tile: '#F5C64A', tileInk: '#191510' },
+        { g: '✓', t: 'Følg opp', d: 'Tre forslag til tiltak per område. Hvert tiltak får eier og frist, og neste puls viser om det virket.', bg: '#FFFDF6', border: '1px solid #E8DFC9', tile: '#F2EAD6', tileInk: '#191510' },
+      ],
+      roles: [
+        { i: 'DL', t: 'Daglig leder', s: 'Uten HR-avdeling', bg: '#FBEBBE', get: ['Én side: hva står bra til, hva gjør vi nå', 'Lovkravet dekket uten å lese paragrafer', 'Rapport til styret på to sider'], cta: 'Se for daglig leder' },
+        { i: 'HR', t: 'HR', s: 'Ofte alene i rollen', bg: '#FFFDF6', get: ['Resultat per avdeling, team og segment', 'Utvikling over år, måling for måling', 'Roller og tilgang styrt fra ett sted'], cta: 'Se for HR' },
+        { i: 'AL', t: 'Avdelingsleder', s: 'Eget team', bg: '#FFFDF6', get: ['Bare ditt team, over terskelen', 'Anonyme kommentarer du kan svare på', 'Tre forslag til tiltak, klare til å velge'], cta: 'Se for avdelingsleder' },
+        { i: 'VO', t: 'Verneombud', s: 'Og tillitsvalgte', bg: '#CFE7E4', get: ['Samme tall som ledelsen, samtidig', 'Varsel før hver utsending', 'Risikovurderingen med hjemmel per faktor'], cta: 'Se for verneombud' },
+      ],
+      footer: [
+        { h: 'Produkt', l: ['Plattform', 'Målinger og årshjul', 'Resultater', 'Kommentarer', 'Tiltak', 'Pris'] },
+        { h: 'Bruksområder', l: ['Arbeidsmiljøkartlegging', 'Medarbeiderundersøkelse', 'Pulsmålinger', 'Rapport til Arbeidstilsynet'] },
+        { h: 'Ressurser', l: ['Slik virker det', 'Arbeidsmiljøloven forklart', 'Spørsmålssettet', 'Personvern og anonymitet'] },
+        { h: 'Om oss', l: ['Kontakt', 'Personvernerklæring', 'Vilkår'] },
+      ],
+      org: this.state.org,
+      note: this.state.note,
+      noteColor: this.state.ok ? '#2F5D2A' : '#A33A16',
+      onOrg: (e) => this.setState({ org: e.target.value, note: null }),
+      submit: (e) => {
+        e.preventDefault();
+        const d = this.state.org.replace(/\D/g, '');
+        this.setState(d.length === 9
+          ? { ok: true, note: 'Vi henter ' + d.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3') + ' fra Brønnøysundregistrene …' }
+          : { ok: false, note: 'Et organisasjonsnummer har ni sifre.' });
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

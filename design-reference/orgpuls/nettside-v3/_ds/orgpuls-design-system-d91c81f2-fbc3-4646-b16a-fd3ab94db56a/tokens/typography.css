@@ -1,0 +1,49 @@
+/* Orgpuls type tokens. Root is 14px (not 16). Display face is Playfair Display, UI face is DM Sans.
+   Sizes are the bundle's own — transcribed, not rounded to a scale. */
+:root{
+  --font-sans:'DM Sans','DM Sans Fallback','Orgpuls Cyrillic',system-ui,sans-serif;
+  --font-display:'Playfair Display','Playfair Display Fallback',serif;
+  --font-dmsans:var(--font-sans);
+  --font-playfair:var(--font-display);
+  /* body / UI sizes */
+  --text-2xs:10.5px;   /* step labels under a bar, year-rail months */
+  --text-xs:11px;      /* eyebrow (uppercase, .11em), pill, badge */
+  --text-xs-plus:11.5px;/* meta, legal line */
+  --text-sm:12px;      /* field label, segmented control */
+  --text-sm-plus:12.5px;/* pill, small button, muted meta */
+  --text-md:13px;      /* list text, help steps */
+  --text-md-plus:13.5px;/* control text, card list */
+  --text-base:14px;    /* body (root) */
+  --text-base-plus:14.5px;/* row title, lg button, lead */
+  --text-lg:15px;      /* panel title, site body */
+  --text-lg-plus:15.5px;/* sign-in CTA */
+  --text-xl:16px;      /* measure title, site button */
+  --text-xl-plus:16.5px;/* plan name */
+  --text-2xl:17.5px;   /* site hero lead */
+  --text-3xl:18px;     /* role card title */
+  /* display sizes (Playfair) */
+  --display-xs:17px;   /* side-layout page title */
+  --display-sm:19px;   /* wordmark */
+  --display-md:21px;   /* panel heading (Oversikt cards) */
+  --display-md-plus:22px;/* "Venter på deg" */
+  --display-lg:24px;   /* respondent statement, teaser card */
+  --display-lg-plus:26px;/* respondent intro / thanks */
+  --display-xl:28px;   /* hero stat, price band */
+  --display-xl-plus:30px;/* Oversikt sentence */
+  --display-2xl:32px;  /* Deltakelse %, StartBand title */
+  --display-3xl:34px;  /* Innsikt h1 */
+  --display-4xl:36px;  /* site h2 */
+  --display-5xl:38px;  /* plan price */
+  --display-hero:56px; /* site h1 */
+  --display-index:62px;/* the index figure */
+  /* weights */
+  --weight-regular:400;--weight-medium:500;--weight-semibold:600;--weight-bold:700;
+  /* leading */
+  --leading-none:1;--leading-index:.85;--leading-display:1.04;--leading-tight:1.1;--leading-heading:1.15;--leading-snug:1.3;--leading-body:1.5;--leading-relaxed:1.6;--leading-loose:1.65;--leading-prose:1.7;
+  /* tracking */
+  --tracking-display:-0.01em;   /* wordmark, display headings */
+  --tracking-eyebrow:.11em;     /* uppercase eyebrow in the app */
+  --tracking-eyebrow-site:.12em;/* uppercase eyebrow on the site */
+  --tracking-table:.09em;       /* table head */
+  --tracking-badge:.04em;       /* uppercase factor pill */
+}
