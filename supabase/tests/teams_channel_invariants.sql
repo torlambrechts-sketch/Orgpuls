@@ -15,7 +15,8 @@
 --   * the bot's write paths: an unknown tenant or person is ignored, an install keeps the
 --     conversation and clears a problem, a removal forgets it and records the person as blocked,
 --     the dispatcher's report records blocked/unreachable (24-28)
---   * a changed object id, or an unbound tenant, forgets the conversation and the problem (29, 30)
+--   * a changed object id, or an unbound tenant, forgets the conversation and the problem; an
+--     unbound tenant also turns Teams off (29, 30)
 --   * teams_status: counts for the daglig leder, null for anyone else; the list of addresses to
 --     correct leaves Teams out (31, 32)
 --   * no client may read teams_conversations or the outbox, or call the bot's or the dispatcher's
@@ -267,7 +268,8 @@ begin
     delete from app.entra_tenants where org_id = v_org;
     c_unbind := concat_ws(',',
       (select count(*) from app.teams_conversations where org_id = v_org)::text,
-      (select count(*) from app.address_problems where org_id = v_org and channel = 'teams')::text);
+      (select count(*) from app.address_problems where org_id = v_org and channel = 'teams')::text,
+      (select teams_enabled::text from app.organizations where id = v_org));
 
     -- 37: a round's Teams rule is fixed once it has opened (as a client)
     perform set_config('request.jwt.claims', format(claims, v_dl), true);
@@ -319,7 +321,7 @@ begin
     (28, 'and nothing but blocked or unreachable, on Microsoft''s host, for a personal row', 'invalid,invalid,not_personal',
          coalesce(c_report_bad, 'none'), c_report_bad = 'invalid,invalid,not_personal'),
     (29, 'a new object id forgets the conversation and the problem', '0,0',                       coalesce(c_objchange, 'none'), c_objchange = '0,0'),
-    (30, 'unbinding the tenant forgets what the bot knew there', '0,0',                            coalesce(c_unbind, 'none'), c_unbind = '0,0'),
+    (30, 'unbinding the tenant forgets what the bot knew there, and turns Teams off', '0,0,false', coalesce(c_unbind, 'none'), c_unbind = '0,0,false'),
     (31, 'teams_status: counts for the daglig leder, null for the verneombud', 'true,true,2,true,true,true,null',
          coalesce(c_status, 'none'), c_status = 'true,true,2,true,true,true,null'),
     (32, 'the list of addresses to correct leaves Teams out',   '0',                               coalesce(c_list, 'none'), c_list = '0'),

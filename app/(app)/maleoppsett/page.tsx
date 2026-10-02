@@ -11,6 +11,7 @@ import { getGroups, getOrganization, getViewerRole } from '@/lib/org/read'
 import { getRounds } from '@/lib/rounds/read'
 import { getLatestSetupOfKind, getRoundQuestions, getRoundSetup } from '@/lib/setup/read'
 import { getGroupStats, getSmsSettings } from '@/lib/settings/read'
+import { getTeamsSettings } from '@/lib/teams/read'
 import { getWheel, wheelMonths } from '@/lib/wheel/read'
 import { INDUSTRY_META } from '@/content/industries/meta'
 import { getIndustry, pageIn } from '@/content/industries'
@@ -78,13 +79,14 @@ export default async function MaleoppsettPage({
   // the round's own questions (0095, D-145): a question belongs to the round that asks it
   const orgQuestions = await getRoundQuestions(setup.id)
 
-  const [published, chosen, orgIndustry, standard, extraRegistry, sms] = await Promise.all([
+  const [published, chosen, orgIndustry, standard, extraRegistry, sms, teams] = await Promise.all([
     getPublishedModules(org.id),
     getRoundModules([setup.id]),
     getOrgIndustry(),
     getSurveyDefaults(org.id),
     getExtraQuestions(),
     getSmsSettings(),
+    getTeamsSettings(),
   ])
   const chosenModules = await getModulesById(chosen.map((c) => c.moduleId))
   // the organisation's industry, chosen or from its NACE code (0091)
@@ -264,6 +266,8 @@ export default async function MaleoppsettPage({
       finalReminder: setup.finalReminder,
       smsWhen: setup.smsWhen,
       smsEnabled: Boolean(sms?.enabled),
+      teamsWhen: setup.teamsWhen,
+      teamsEnabled: Boolean(teams?.enabled),
       standard: standard
         ? {
             rytme:
@@ -274,7 +278,7 @@ export default async function MaleoppsettPage({
             tillegg:
               setup.kind === 'grunnlinje' &&
               [...setup.extraKeys].sort().join() !== [...standard.extras].sort().join(),
-            utsending: setup.smsWhen !== null,
+            utsending: setup.smsWhen !== null || setup.teamsWhen !== null,
           }
         : null,
     },

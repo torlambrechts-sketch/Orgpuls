@@ -15,10 +15,12 @@ import { z } from 'zod'
  * the same pair into app.dpa_versions in a new migration.
  *
  * A version is the date it was published, with `.2`, `.3` … for a second or third version the
- * same day (0151): 2026-10-02.2 says that a lower threshold, never under three, may be chosen.
+ * same day (0151): 2026-10-02.2 says that a lower threshold, never under three, may be chosen;
+ * 2026-10-02.3 (0177, D-203) adds Microsoft's Azure Bot Service, which relays a Teams message, to
+ * vedlegg 3, and the Teams conversation to vedlegg 1.
  */
-export const DPA_VERSION = '2026-10-02.2'
-export const DPA_SHA256 = '534a40a60b5bd909e6c011c2875048bc0495c95300727cbfcac98705e37faa23'
+export const DPA_VERSION = '2026-10-02.3'
+export const DPA_SHA256 = 'a9dbe4c601cbee8e269575d99aff2b7755f739114d1d2d71a44492c9618ecfb9'
 
 export const DpaSection = z.object({
   h: z.string().min(1),

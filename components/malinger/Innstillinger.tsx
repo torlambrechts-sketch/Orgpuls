@@ -28,6 +28,8 @@ export type InnstillingerCopy = {
   channelsHead: string
   email: { label: string; note: string }
   sms: { label: string; note: string; link: string }
+  /** Microsoft Teams (0176, D-203) */
+  teams: { label: string; note: string; link: string }
   qr: {
     label: string
     note: string
@@ -141,6 +143,15 @@ export function Innstillinger({
             action={
               <Link href={'/integrasjoner/sms' as Route} className="text-[12.5px] font-semibold text-link">
                 {copy.sms.link}
+              </Link>
+            }
+          />
+          <ChannelRow
+            label={copy.teams.label}
+            note={copy.teams.note}
+            action={
+              <Link href={'/integrasjoner/teams' as Route} className="text-[12.5px] font-semibold text-link">
+                {copy.teams.link}
               </Link>
             }
           />

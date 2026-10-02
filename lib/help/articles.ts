@@ -51,6 +51,7 @@ export const HELP_ARTICLES: HelpArticle[] = [
   { key: 'rollerOgTilgang', category: 'oppsett', read: 5 },
   { key: 'entra', category: 'oppsett', read: 5 },
   { key: 'sms', category: 'oppsett', read: 4 },
+  { key: 'teams', category: 'oppsett', read: 4 },
 ]
 
 export const articleByKey = (key: string): HelpArticle | null =>

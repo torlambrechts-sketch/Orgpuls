@@ -46,6 +46,7 @@ const SetupRow = z.object({
   close_after_days: z.coerce.number(),
   final_reminder: z.boolean(),
   sms_when: z.enum(['mangler', 'paaminn', 'alle']).nullable(),
+  teams_when: z.enum(['mangler', 'paaminn', 'alle']).nullable(),
   extras_off_reason: z.string().nullable(),
   measurements: z.object({
     id: z.string(),
@@ -92,6 +93,8 @@ export interface RoundSetup {
   finalReminder: boolean
   /** this round's SMS rule; null follows the organisation's (0076) */
   smsWhen: 'mangler' | 'paaminn' | 'alle' | null
+  /** this round's Teams rule; null follows the organisation's (0176) */
+  teamsWhen: 'mangler' | 'paaminn' | 'alle' | null
   /** why the screening was left out of this round, when it was (0076) */
   extrasOffReason: string | null
   evaluationCadence: EvaluationCadence
@@ -105,7 +108,7 @@ export interface RoundSetup {
 
 const SELECT =
   'id, status, opens_at, closes_at, audience, comment_policy, allow_dialogue, reminder_day,' +
-  ' close_after_days, final_reminder, sms_when, extras_off_reason,' +
+  ' close_after_days, final_reminder, sms_when, teams_when, extras_off_reason,' +
   ' measurements!inner(id, kind, year, label, evaluation_cadence),' +
   ' round_factors(factor_key), round_extra_questions(extra_key), round_groups(group_id),' +
   ' round_consultations(kind, confirmed, held_on, counterpart),' +
@@ -125,6 +128,7 @@ const shape = (r: z.infer<typeof SetupRow>): RoundSetup => ({
   closeAfterDays: r.close_after_days,
   finalReminder: r.final_reminder,
   smsWhen: r.sms_when,
+  teamsWhen: r.teams_when,
   extrasOffReason: r.extras_off_reason,
   evaluationCadence: r.measurements.evaluation_cadence,
   factorKeys: r.round_factors.map((f) => f.factor_key),

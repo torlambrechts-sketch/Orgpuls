@@ -140,7 +140,8 @@ end $fn$;
 create trigger employees_teams_identity_changed after update of entra_object_id on app.employees
   for each row execute function app.employee_teams_identity_changed();
 
--- a tenant unbound or replaced: what the bot knew in the old tenant is for nobody
+-- a tenant unbound or replaced: what the bot knew in the old tenant is for nobody, and with no
+-- tenant at all Teams is off, so no screen says it is on while nothing can be sent
 create function app.entra_tenant_teams_reset() returns trigger
   language plpgsql security definer set search_path = ''
 as $fn$
@@ -148,6 +149,9 @@ begin
   if tg_op = 'DELETE' or new.tenant_id is distinct from old.tenant_id then
     delete from app.teams_conversations where org_id = old.org_id;
     delete from app.address_problems where org_id = old.org_id and channel = 'teams';
+  end if;
+  if tg_op = 'DELETE' then
+    update app.organizations set teams_enabled = false where id = old.org_id and teams_enabled;
   end if;
   return null;
 end $fn$;

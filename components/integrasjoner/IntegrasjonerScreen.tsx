@@ -22,6 +22,10 @@ import { ButtonLink } from '@/components/ui/Button'
  * (the groups and the sync are the import, still to come), and carries the button to the Entra
  * screen when there is an application to consent to.
  *
+ * **Teams is built since D-203:** its card says «Tilkoblet» only when the organisation has it on
+ * with a tenant bound and this deployment's bot set up, keeps its two steps (Entra first, then the
+ * app in Teams) and carries the button to the Teams screen once a tenant is bound and a bot exists.
+ *
  * One number here is real and is therefore computed rather than described: how many of the
  * register carry a mobile number. It is the thing that decides whether SMS is worth
  * connecting at all, and it is counted with `head: true` so the numbers themselves never
@@ -41,6 +45,10 @@ export interface IntegrasjonerView {
   entraOn: boolean
   /** whether there is an Entra application to consent to (ENTRA_CLIENT_ID), or a binding already */
   entraReady: boolean
+  /** Teams (0176): on, with a tenant bound and this deployment's bot set up */
+  teamsOn: boolean
+  /** whether this deployment has an Orgpuls bot for Teams (TEAMS_BOT_APP_ID) */
+  teamsBot: boolean
 }
 
 const CHANNELS = [
@@ -116,7 +124,7 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
                 style={
                   c.key === 'epost' && view.mailOn
                     ? { background: 'rgba(25,21,16,.07)', color: '#5F5849' }
-                    : (c.key === 'sms' && view.smsOn) || (c.key === 'entra' && view.entraOn)
+                    : (c.key === 'sms' && view.smsOn) || (c.key === 'entra' && view.entraOn) || (c.key === 'teams' && view.teamsOn)
                       ? { background: '#CFE7E4', color: '#20431C' }
                       : c.key === 'hr'
                       ? { background: 'rgba(25,21,16,.05)', color: '#8A8272' }
@@ -127,7 +135,7 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
                   ? view.mailOn
                     ? t('oppsett.integrasjoner.statusAlways')
                     : t('oppsett.integrasjoner.statusMailOff')
-                  : (c.key === 'sms' && view.smsOn) || (c.key === 'entra' && view.entraOn)
+                  : (c.key === 'sms' && view.smsOn) || (c.key === 'entra' && view.entraOn) || (c.key === 'teams' && view.teamsOn)
                     ? t('oppsett.integrasjoner.statusOn')
                     : c.key === 'hr'
                       ? t('oppsett.integrasjoner.statusSoon')
@@ -213,6 +221,22 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
                 ) : (
                   <p className="mb-0 mt-[12px] max-w-[640px] text-[13px] leading-[1.55] text-mut [text-wrap:pretty]">
                     {t('oppsett.integrasjoner.entra.needOff')}
+                  </p>
+                )
+              ) : null}
+              {c.key === 'teams' ? (
+                view.entraOn && view.teamsBot ? (
+                  <ButtonLink
+                    href="/integrasjoner/teams"
+                    size="xxs"
+                    tone={view.teamsOn ? 'secondary' : 'primary'}
+                    className="mt-[16px]"
+                  >
+                    {view.teamsOn ? t('oppsett.integrasjoner.btnSettings') : t('integrasjoner.teamsSetup')}
+                  </ButtonLink>
+                ) : (
+                  <p className="mb-0 mt-[12px] max-w-[640px] text-[13px] leading-[1.55] text-mut [text-wrap:pretty]">
+                    {view.entraOn ? t('oppsett.integrasjoner.teams.needBot') : t('oppsett.integrasjoner.teams.need')}
                   </p>
                 )
               ) : null}

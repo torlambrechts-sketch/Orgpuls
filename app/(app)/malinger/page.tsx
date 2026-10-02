@@ -33,6 +33,7 @@ import { getReminderStatus } from '@/lib/rounds/reminders'
 import { Innstillinger } from '@/components/malinger/Innstillinger'
 import { getOrganization } from '@/lib/org/read'
 import { getSmsSettings } from '@/lib/settings/read'
+import { getTeamsSettings } from '@/lib/teams/read'
 import type { DefaultsValues } from '@/app/(app)/malinger/innstillinger-actions'
 import { EXTRA_KEYS, PRODUCT_DEFAULTS, SCREENING, getDefaultsLog, getEntryCode, getInviteGreeting, getReach, getSurveyDefaults } from '@/lib/settings/survey'
 import { GreetingCard } from '@/components/malinger/GreetingCard'
@@ -590,7 +591,7 @@ async function Settings({ canEdit }: { canEdit: boolean }) {
   const locale = await getLocale()
   const org = await getCurrentOrgId()
   if (!org) return null
-  const [saved, log, code, reach, sms, organization, extras, published, chosen, greeting] = await Promise.all([
+  const [saved, log, code, reach, sms, organization, extras, published, chosen, greeting, teams] = await Promise.all([
     getSurveyDefaults(org),
     getDefaultsLog(org),
     getEntryCode(org),
@@ -601,6 +602,7 @@ async function Settings({ canEdit }: { canEdit: boolean }) {
     getPublishedModules(org),
     getOrgModuleChoices(org),
     getInviteGreeting(org),
+    getTeamsSettings(),
   ])
   const k = (key: string, values?: Record<string, string | number>) => t(`malinger.innstillinger.${key}`, values)
   const date = (iso: string) => new Intl.DateTimeFormat(locale, { timeZone: 'Europe/Oslo', dateStyle: 'long' }).format(new Date(iso))
@@ -646,6 +648,11 @@ async function Settings({ canEdit }: { canEdit: boolean }) {
           label: k('sms.label'),
           note: smsOn ? k(`sms.on.${sms?.when ?? 'mangler'}`) : k('sms.off'),
           link: k(smsOn ? 'sms.change' : 'sms.setUp'),
+        },
+        teams: {
+          label: k('teams.label'),
+          note: teams?.enabled ? k(`teams.on.${teams.when}`) : k('teams.off'),
+          link: k(teams?.enabled ? 'teams.change' : 'teams.setUp'),
         },
         qr: {
           label: k('qr.label'),

@@ -512,6 +512,17 @@
         "change": "Endre SMS",
         "setUp": "Sett opp SMS"
       },
+      "teams": {
+        "label": "Microsoft Teams",
+        "off": "Av. Lenken går på e-post og SMS.",
+        "on": {
+          "mangler": "På, for dem som ikke har e-post.",
+          "paaminn": "På, for påminnelsene.",
+          "alle": "På, for alle som kan nås i Teams."
+        },
+        "change": "Endre Teams",
+        "setUp": "Sett opp Teams"
+      },
       "qr": {
         "label": "QR-plakat",
         "note": "Heng plakaten i brakka eller på pauserommet. Den ansatte skanner koden, skriver mobilnummer eller e-post og får sin egen lenke. Svaret er like anonymt som ellers, og hver ansatt kan bare svare én gang.",
@@ -1408,6 +1419,13 @@
         "mangler": "Bare de uten e-post",
         "paaminn": "Påminnelsene",
         "alle": "Alle med mobil"
+      },
+      "teamsHead": "Teams i denne målingen",
+      "teamsNote": "Her velger dere hvem som får lenken i Teams i denne målingen. Den som ikke kan nås i Teams, får e-post.",
+      "teams": {
+        "mangler": "Bare de uten e-post",
+        "paaminn": "Påminnelsene",
+        "alle": "Alle med appen"
       }
     },
     "ownNoteSome": "Egne spørsmål rapporteres for seg og regnes ikke inn i indeksen. Det er med vilje — indeksen skal kunne sammenliknes mot i fjor.",
@@ -1927,8 +1945,11 @@
       },
       "teams": {
         "name": "Microsoft Teams",
-        "what": "Skal sende målingen som en melding i Teams i stedet for e-post.",
-        "need": "Ikke bygget, og vil uansett kreve Entra ID først — Teams-varselet bruker samme brukerkatalog."
+        "what": "Målingen kommer som en melding i Teams i stedet for e-post.",
+        "need": "Krever Entra ID først — Teams-varselet bruker samme brukerkatalog.",
+        "needReady": "Klar til å kobles til.",
+        "needBot": "Orgpuls' Teams-app er ikke satt opp i denne installasjonen ennå, så ingenting kan sendes i Teams.",
+        "needOn": "Lenken går i Teams til dem som har appen. Den som ikke kan nås der, får e-post."
       },
       "sms": {
         "name": "SMS",
@@ -1944,7 +1965,8 @@
       "statusMailOff": "Slått av",
       "statusOn": "Tilkoblet",
       "btnSetup": "Sett opp",
-      "btnSettings": "Innstillinger"
+      "btnSettings": "Innstillinger",
+      "btnRequiresEntra": "Krever Entra"
     },
     "personvern": {
       "basis": {
@@ -1973,7 +1995,7 @@
       },
       "processor": {
         "head": "Databehandler",
-        "body": "Orgpuls er databehandler. Underleverandørene er Supabase (database, Frankfurt), Vercel (drift, Frankfurt) og Brevo (e-post og SMS). Avtalen ligger under Databehandleravtale, der daglig leder signerer den."
+        "body": "Orgpuls er databehandler. Underleverandørene er Supabase (database, Frankfurt), Vercel (drift, Frankfurt), Brevo (e-post og SMS) og, for virksomheter som sender målingen i Teams, Microsoft (Azure Bot Service, EU). Avtalen ligger under Databehandleravtale, der daglig leder signerer den."
       },
       "dpia": {
         "head": "Vurdering av personvernkonsekvenser",
@@ -2438,6 +2460,16 @@
           "p3": "Meldingen er kort, med et avsendernavn dere velger og en personlig lenke som legges til til slutt. Lenken kan ikke brukes to ganger, og den sier ingenting om hvem som svarte hva.",
           "p4": "SMS er den kanalen som flytter svarprosenten mest for anlegg, verksted og skift. Bestem om den skal brukes til alle utsendinger eller bare til påminnelsene."
         }
+      },
+      "teams": {
+        "title": "Send målingen i Teams",
+        "lead": "Hva Teams krever, hva meldingen inneholder, og hva Teams-administratoren hos dere kan se.",
+        "body": {
+          "p1": "Teams-varselet bruker samme brukerkatalog som Entra ID. Koble først virksomhetens Microsoft 365 til Orgpuls under Oppsett → Integrasjoner. Deretter laster en Teams-administrator hos dere ned app-pakken under Oppsett → Integrasjoner → Teams, laster den opp i Teams administrasjonssenter og gjør appen tilgjengelig for de ansatte, for eksempel med en policy for appoppsett.",
+          "p2": "Slå på Teams og velg når det skal brukes: bare for dem uten e-post, bare til påminnelsene, eller for alle som kan nås i Teams. En ansatt nås i Teams når hen har en Microsoft-konto i registeret og appen er installert. Alle andre får lenken på e-post eller SMS som før, og den som har blokkert eller fjernet appen, får e-post i samme utsending.",
+          "p3": "Meldingen er én kort tekst og en knapp som åpner undersøkelsen i nettleseren. Den inneholder ingen resultater, ingen avdeling og ingen kommentarer. Vi ber ikke om lesebekreftelse, registrerer ikke klikk, og meldingen endres eller slettes ikke når noen svarer. Lenken er ny for hver melding, og svaret lagres uten kobling til den. Meldingen formidles av Microsofts Azure Bot Service i EU, som er underdatabehandler for denne delen.",
+          "p4": "To ting bør de ansatte vite. Teams-administratoren hos dere kan lese meldingene Orgpuls-appen sender, slik en e-postadministrator kan lese e-post. Og en påminnelse viser, for den som kan lese den, at mottakeren ikke hadde svart da den ble sendt — det samme gjelder påminnelser på e-post og SMS."
+        }
       }
     },
     "form": {
@@ -2483,7 +2515,7 @@
       },
       "teams": {
         "entraFirst": "Entra ID først. Teams-varselet bruker samme brukerkatalog, så uten den vet vi ikke hvem meldingen skal til.",
-        "message": "En meldingsmal og en godkjent app i Teams. Innholdet er det samme som i e-posten: én setning og en personlig lenke."
+        "message": "Orgpuls-appen i Teams, lastet opp av en Teams-administrator hos dere. Meldingen er én kort tekst og en knapp til den personlige lenken."
       },
       "hr": {
         "vendor": "Hvilket system dere bruker — Tripletex, Visma eller Huldt & Lillevik.",
@@ -2562,7 +2594,8 @@
         "not_configured": "Koblingen til Microsoft 365 er ikke satt opp hos Orgpuls ennå.",
         "failed": "Det gikk ikke. Prøv igjen."
       }
-    }
+    },
+    "teamsSetup": "Sett opp Teams"
   },
   "start": {
     "ctaFree": "Prøv gratis i 15 dager",
@@ -3415,6 +3448,73 @@
       "invalid": "Oppsettet kunne ikke lagres. Teksten kan ha inntil 300 tegn.",
       "denied": "Bare daglig leder kan endre SMS-oppsettet.",
       "noOrg": "Fant ikke virksomheten din."
+    }
+  },
+  "teamsSetup": {
+    "back": "← Integrasjoner",
+    "title": "Microsoft Teams",
+    "statusOn": "Tilkoblet",
+    "statusOff": "Ikke tilkoblet",
+    "lead": "Målingen kommer som en melding i Teams i stedet for e-post: én kort tekst og en knapp som åpner undersøkelsen i nettleseren. Svaret lagres uten kobling til meldingen.",
+    "needTenant": {
+      "title": "Koble til Microsoft 365 først",
+      "body": "Teams-varselet bruker samme brukerkatalog som Entra ID: Teams finner folk på Microsoft-kontoen deres, ikke på e-postadressen. Koble virksomhetens Microsoft 365 til Orgpuls, så kan Teams slås på her.",
+      "cta": "Koble til Microsoft 365"
+    },
+    "needBot": {
+      "title": "Teams-appen er ikke satt opp ennå",
+      "body": "Orgpuls' Teams-app er ikke registrert i denne installasjonen, så ingen meldinger kan sendes i Teams. Fram til den er det, går målingen på e-post og SMS som før."
+    },
+    "step1": "1 · Hvem Teams når",
+    "reachLine": "{withObject} av {total} ansatte har en Microsoft-konto i registeret",
+    "reachNote": "Teams finner folk på Microsoft-kontoen, ikke på e-postadressen. Kontoen kommer fra Microsoft 365-katalogen. Den som ikke har en, får lenken på e-post eller SMS.",
+    "appLine": "{count, plural, =0 {Ingen har Orgpuls-appen i Teams ennå} one {# har Orgpuls-appen i Teams} other {# har Orgpuls-appen i Teams}}",
+    "appNote": "Appen må være installert for den ansatte før Teams kan levere. Den som ikke har den, får lenken på e-post i stedet, i samme utsending.",
+    "blocked": "{count, plural, one {# har blokkert eller fjernet appen} other {# har blokkert eller fjernet appen}}",
+    "unreachable": "{count, plural, one {# kunne ikke nås i Teams} other {# kunne ikke nås i Teams}}",
+    "problemsLast": "Sist {date}. De får lenken på e-post i stedet.",
+    "problemsNone": "Teams har ikke avvist noen.",
+    "sent30": "{count, plural, =0 {Ingen meldinger er sendt i Teams de siste 30 dagene} one {# melding er sendt i Teams de siste 30 dagene} other {# meldinger er sendt i Teams de siste 30 dagene}}",
+    "step2": "2 · Når skal Teams brukes",
+    "mode": {
+      "mangler": "Bare de uten e-post",
+      "paaminn": "Bare som påminnelse",
+      "alle": "Alle som kan nås i Teams"
+    },
+    "modeNote": {
+      "mangler": "Teams når dem som ikke har e-postadresse i registeret. Alle andre får målingen på e-post som før.",
+      "paaminn": "Alle får e-post først. De som ikke har svart når påminnelsen går ut, får den i Teams.",
+      "alle": "Invitasjonen og påminnelsene går i Teams til alle som har appen. De andre får e-post."
+    },
+    "step3": "3 · Appen i Teams",
+    "installLead": "En Teams-administrator hos dere legger appen inn én gang og gjør den tilgjengelig for de ansatte:",
+    "install": {
+      "s1": "Last ned app-pakken under.",
+      "s2": "I Teams administrasjonssenter: Teams-apper › Administrer apper › Last opp ny app, og velg pakken.",
+      "s3": "Installer den for de ansatte med en policy for appoppsett (Teams-apper › Oppsettpolicyer), eller la hver enkelt legge den til selv fra appene i Teams.",
+      "s4": "Appen tar ikke imot meldinger og ber ikke om tilgang til noe i Microsoft 365."
+    },
+    "download": "Last ned app-pakken (.zip)",
+    "preview": "Slik ser meldingen ut",
+    "previewSender": "Orgpuls",
+    "previewNote": "Påminnelsene har sin egen tekst. Den personlige lenken ligger bare bak knappen, og er ny for hver melding.",
+    "legal": "Meldingen inneholder bare en kort tekst og en knapp til den personlige lenken — ingen resultater, avdeling eller kommentarer. Vi ber ikke om lesebekreftelse og registrerer ikke klikk. Teams-administratoren hos dere kan lese meldingene appen sender, slik en e-postadministrator kan lese e-post, og en påminnelse viser at mottakeren ikke hadde svart da den ble sendt.",
+    "activate": "Slå på Teams",
+    "deactivate": "Slå av Teams",
+    "toggleNote": "Gjelder fra neste utsending. Rytmen, stilletiden om natta og påminnelsene er de samme som for e-post.",
+    "readOnly": "Bare daglig leder kan endre Teams-oppsettet.",
+    "saving": "Lagrer …",
+    "problem": {
+      "invalid": "Oppsettet kunne ikke lagres. Prøv igjen.",
+      "denied": "Bare daglig leder kan endre Teams-oppsettet.",
+      "noOrg": "Fant ikke virksomheten din.",
+      "notReady": "Teams kan ikke slås på før Microsoft 365 er koblet til og Teams-appen er satt opp."
+    },
+    "app": {
+      "nameShort": "Orgpuls",
+      "nameFull": "Orgpuls arbeidsmiljøundersøkelse",
+      "descriptionShort": "Lenken til arbeidsmiljøundersøkelsen, rett i Teams.",
+      "descriptionFull": "Orgpuls sender deg lenken til arbeidsmiljøundersøkelsen i virksomheten din som en melding i Teams, i stedet for på e-post. Meldingen har en kort tekst og en knapp som åpner undersøkelsen i nettleseren. Svaret ditt lagres uten kobling til deg, og appen tar ikke imot meldinger."
     }
   },
   "oversikt": {
@@ -6008,7 +6108,7 @@
           },
           {
             "t": "p",
-            "text": "Dere er behandlingsansvarlig og Orgpuls databehandler, etter GDPR artikkel 28. Daglig leder leser og signerer avtalen under Oppsett, og kan skrive den ut eller lagre den som PDF. Vi bruker tre underleverandører: Supabase (database og innlogging, Frankfurt), Vercel (drift, Frankfurt) og Brevo (e-post og SMS)."
+            "text": "Dere er behandlingsansvarlig og Orgpuls databehandler, etter GDPR artikkel 28. Daglig leder leser og signerer avtalen under Oppsett, og kan skrive den ut eller lagre den som PDF. Vi bruker tre underleverandører: Supabase (database og innlogging, Frankfurt), Vercel (drift, Frankfurt) og Brevo (e-post og SMS), og en fjerde for virksomheter som sender målingen i Teams: Microsoft (Azure Bot Service, EU)."
           },
           {
             "t": "box",
@@ -6148,7 +6248,8 @@
               "Vercel Inc. (USA): drift av nettsidene og applikasjonen, og den cookiefrie målingen av sidevisninger. Serverfunksjonene kjøres i Frankfurt.",
               "Brevo SAS (Frankrike): utsending av e-post og SMS, og registrering av levering, åpning og klikk på e-post.",
               "Google (Irland): innlogging med Google, bare hvis du velger det.",
-              "Microsoft (Irland): innlogging med Microsoft, bare hvis du velger det."
+              "Microsoft (Irland): innlogging med Microsoft, bare hvis du velger det.",
+              "Microsoft Ireland Operations Ltd (Irland): Azure Bot Service formidler Teams-meldingen med lenken til undersøkelsen, for virksomheter som har slått på Teams. Tjenesten er satt opp i EU (Vest-Europa)."
             ]
           },
           {
@@ -6597,6 +6698,7 @@
         "ul": [
           "navn og e-postadresse",
           "mobilnummer, bare hvis virksomheten legger det inn, for utsending på SMS",
+          "for virksomheter som sender målingen i Teams: hvilken samtale Orgpuls-appen har med den ansatte i Teams, og om Teams har avvist en melding til den ansatte",
           "hvilken avdeling den ansatte hører til, og eventuelt en rolle som verneombud, tillitsvalgt eller leder",
           "for hver måling: om invitasjon og påminnelse er sendt, og om den ansatte har svart, slik at påminnelser bare går til dem som ikke har svart – aldri hva den ansatte svarte",
           "navnet på den som er ansvarlig for et tiltak, hvis virksomheten velger en ansatt som ansvarlig"
@@ -6630,7 +6732,8 @@
         "ul": [
           "Supabase Inc. (USA): database, innlogging og bakgrunnsjobber. Data lagres i Frankfurt, Tyskland.",
           "Vercel Inc. (USA): drift av nettsidene og applikasjonen. Serverfunksjonene kjøres i Frankfurt, Tyskland.",
-          "Brevo SAS (Frankrike): utsending av e-post og SMS."
+          "Brevo SAS (Frankrike): utsending av e-post og SMS.",
+          "Microsoft Ireland Operations Ltd (Irland): Azure Bot Service, som formidler Teams-meldingen med lenken til undersøkelsen. Brukes bare når virksomheten har slått på Teams. Tjenesten kjøres i EU (Vest-Europa)."
         ]
       }
     ]
