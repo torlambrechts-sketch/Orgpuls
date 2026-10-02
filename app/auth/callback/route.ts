@@ -35,6 +35,16 @@ import { createClient } from '@/lib/supabase/server'
  * that is not final is "no membership yet" on the invitation and signup paths: the membership is
  * made next (accept_invite, create_organisation) and the rules run again straight after.
  *
+ * **This route is not the only way to a session (D-204).** A client can exchange the code itself
+ * (POST /auth/v1/token?grant_type=pkce), take the implicit flow's tokens, or post a Microsoft ID
+ * token, and never come here. So the same rules (app.entra_rules, shared with the check above)
+ * also run inside Supabase Auth, in the Custom Access Token hook public.entra_access_token_hook
+ * (0156): every 'oauth' issuance is judged, and a refresh of a session this route recorded as
+ * Microsoft's is judged again. The hook must be switched on in the dashboard before the azure
+ * provider (docs/integrations/entra-signin.md). A sign-in it refuses fails the exchange below
+ * with a 403 and never becomes a session; this route's check remains the one that binds the
+ * membership and records the session.
+ *
  * The query is parsed before use and every redirect is a fixed path: no open redirect.
  */
 const Query = z.object({
@@ -61,6 +71,8 @@ export async function GET(request: NextRequest) {
   const { data, error } = await supabase.auth.exchangeCodeForSession(code)
   if (error || !data.user) {
     console.error(`[auth] ${p} exchange refused: ${error?.code ?? error?.status ?? 'no_user'}`)
+    // the token hook's refusal (0156): the one message every rule's refusal gets, never which rule
+    if (p === 'azure' && error?.status === 403) redirect('/logg-inn?feil=microsoft_refused')
     redirect(failed)
   }
   const user = data.user
