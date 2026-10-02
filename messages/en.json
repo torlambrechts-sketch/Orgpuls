@@ -5728,7 +5728,7 @@
       },
       "bruksomrader": {
         "title": "Use cases: working environment surveys in practice | Orgpuls",
-        "description": "Eight situations and six industries: how to use Orgpuls for the annual survey, pulses, a new manager, reorganisation, inspections and the AMU committee.",
+        "description": "Eight situations in practice: no HR department, the annual survey, pulses, inspections, one team standing out, reorganisation, a new manager and the AMU.",
         "crumb": "Use cases",
         "kicker": "Use cases",
         "h1": "The same legal requirement, different workplaces",
@@ -6517,269 +6517,252 @@
     },
     "bruksomrader": {
       "crumb": "Use cases",
-      "h1": "From statutory survey to measures with measured effect",
-      "lead": "The legal requirement is the same for everyone, but every workplace is different. Pick the situation that resembles yours and see how you solve it in practice.",
-      "next": "See the platform →",
+      "eyebrow": "Use cases",
+      "h1": "From the statutory survey to a tool for managers.",
+      "lead": "The same questions, the same threshold and the same list of measures – used in eight ways. Pick the situation closest to yours and see how you handle it in practice.",
+      "next": "See the platform",
       "usesLabel": "What you use",
+      "example": "Example data.",
+      "use": {
+        "opp": "Setup",
+        "mal": "Surveys and the year wheel",
+        "rap": "Report",
+        "res": "Results",
+        "tilt": "Measures",
+        "kom": "Comments",
+        "rol": "Roles and access"
+      },
       "sections": [
         {
-          "k": "Annual survey",
-          "t": "The survey the law requires, done in an hour",
-          "d": "One main survey a year covers the survey duty in § 3-1 c of the Working Environment Act. It sets the baseline you measure everything else against. The questions are ready, the threshold is set, and Orgpuls writes the report.",
-          "points": [
-            "33 statements on 11 factors, about 4 minutes to answer",
-            "The safety representative is notified 2 days before send-out",
-            "One reminder, and the round closes after 14 days",
-            "Risk assessment per factor with legal basis, ready for the working environment committee (AMU)"
+          "eyebrow": "No HR department",
+          "short": "Managing director, 20 staff, no HR",
+          "h": "A managing director, 20 employees, no HR department",
+          "p": "The simple view gives you one page: what people are happy with, what drags things down and three things to do now. Tuva, the assistant, shows what is left before you are up and running, and help is on every page.",
+          "ticks": [
+            "A managing director with fewer than 50 employees gets the simple view automatically",
+            "Paste in your staff or upload a CSV – no HR system needed",
+            "The wizard takes you from organisation number to a planned send-out in about 20 minutes"
           ],
-          "m": {
-            "title": "Annual cycle 2026",
-            "note": "1 main survey · 3 pulses",
-            "foot": "The main survey in September gives results ahead of the budget and action-planning work in the autumn."
-          }
+          "card": {
+            "title": "Do this now",
+            "meta": "Overview · simple view",
+            "rows": [
+              {
+                "title": "A fixed reply to incident reports within five days",
+                "sub": "{factor} · due 15 Oct"
+              },
+              {
+                "title": "A priorities meeting every Monday",
+                "sub": "{factor} · owner: you · due 1 Nov"
+              },
+              {
+                "title": "Two anonymous comments waiting for a reply",
+                "sub": "Comments · waiting 6 days"
+              }
+            ]
+          },
+          "caption": "People find meaning in their work. What drags things down is freedom to speak up and workload."
         },
         {
-          "k": "Pulse between surveys",
-          "t": "See whether measures work — before next year",
-          "d": "The pulse asks the three statements for each factor you have put measures on. It shows whether the curve turns while there is still time to adjust.",
-          "points": [
+          "eyebrow": "Annual survey",
+          "short": "The survey the law requires, in an hour",
+          "h": "The survey the law requires, done in an hour",
+          "p": "One main survey a year covers the duty to survey in § 3-1 c of the Working Environment Act and sets the baseline you measure everything else against. The questions are ready, the threshold is set, and Orgpuls produces the report.",
+          "ticks": [
+            "33 statements on 11 factors, about 4 minutes to answer",
+            "The safety representative is notified 2 days before the send-out",
+            "Reminders go out automatically, and the round closes after 14 days",
+            "A risk assessment per factor with the legal basis, ready for the AMU"
+          ],
+          "card": {
+            "title": "Year wheel 2026",
+            "meta": "1 main survey · 3 pulses"
+          },
+          "caption": "A main survey in September gives you results before the autumn's budget and action planning."
+        },
+        {
+          "eyebrow": "Pulses between surveys",
+          "short": "See whether the measures work – before next year",
+          "h": "See whether the measures work – before next year",
+          "p": "The pulse asks the three statements for each factor you have put measures on, and shows whether the curve turns while there is still time to adjust.",
+          "ticks": [
             "The pulse asks only about factors with open measures",
-            "Same wording as the main survey, so you can compare the figures",
+            "The same wording as the main survey, so you can compare the figures",
             "A factor drops out once its measures are closed"
           ],
-          "m": {
-            "title": "Speaking up · whole organisation",
-            "note": "dashed line = target 60",
+          "card": {
+            "title": "{factor} · whole organisation",
+            "meta": "dashed line = target 60",
+            "goal": "Target 60",
             "labels": [
-              "Baseline 25",
-              "Baseline 26",
+              "Base. 25",
+              "Base. 26",
               "Pulse Dec",
               "Pulse Mar",
               "Pulse Jun"
             ],
-            "foot": "The measure “always reply to incident reports” started in October. The pulses show it is working, but not enough yet."
-          }
+            "sr": "Baseline 2025: 48. Baseline 2026: 41. Pulse December: 44. Pulse March: 48. Pulse June: 53. Target: 60."
+          },
+          "caption": "The measure \"a fixed reply to incident reports\" started in October. The pulses show it is working, but not enough yet."
         },
         {
-          "k": "Without an HR department",
-          "t": "Managing director, 20 employees, no HR department",
-          "d": "Simple view puts it all on one page: what people are happy with, what pulls down, and three things to do now. The assistant Tuva shows what remains before you're up and running, and help is on every page.",
-          "points": [
-            "Managing directors with fewer than 50 employees get simple view automatically",
-            "Paste employees in or upload a CSV — no HR system needed",
-            "The wizard takes you from org. no. to first send-out in 20 minutes"
+          "eyebrow": "Inspections and documentation",
+          "short": "When the Labour Inspection Authority asks for the paperwork",
+          "h": "Ready when the Labour Inspection Authority asks for documentation",
+          "p": "The report brings together the survey, the risk assessment, the measures and participation, with the legal basis for each factor. Choose the year and scope, read it through and save it as PDF.",
+          "ticks": [
+            "Covers WEA § 3-1 c and § 4-3, cf. Regulations ch. 1A",
+            "Shows that the safety representative was notified and union representatives were involved",
+            "A log of measures with owner, deadline and measured effect"
           ],
-          "m": {
-            "title": "Do this now",
-            "note": "Overview · simple view",
-            "cards": [
+          "card": {
+            "title": "Report · 2026",
+            "meta": "PDF",
+            "done": "done",
+            "rows": [
               {
-                "tag": "Speaking up",
-                "t": "Always reply to incident reports within five days",
-                "meta": "Due 15 Oct"
+                "title": "Summary and index",
+                "sub": "What is going well, what drags things down"
               },
               {
-                "tag": "Workload",
-                "t": "Priorities meeting every Monday",
-                "meta": "You · due 1 Nov"
+                "title": "Risk assessment per factor",
+                "sub": "Likelihood, consequence and legal basis"
               },
               {
-                "tag": "Comments",
-                "t": "Two anonymous comments are awaiting a reply",
-                "meta": "6 days"
+                "title": "Measures with owner and deadline",
+                "sub": "Status and measured effect"
+              },
+              {
+                "title": "Participation and legal basis",
+                "sub": "Safety representative, union representatives and consultation"
               }
-            ],
-            "foot": "People value the meaning in their work. What pulls down is speaking up and workload."
-          }
+            ]
+          },
+          "caption": "The documentation builds up as you work."
         },
         {
-          "k": "One team stands out",
-          "t": "When one team has it harder than the rest",
-          "d": "The heatmap shows team against factor. The segment profile compares one team with the rest and shows where the difference is greatest — without singling out any individual.",
-          "points": [
-            "Groups below the threshold are shown as a dash, for administrators too",
+          "eyebrow": "One team stands out",
+          "short": "When one team is having a harder time than the rest",
+          "h": "When one team is having a harder time than the rest",
+          "p": "The heat map shows team against factor. The segment profile compares one team with the rest and shows where the difference is largest – without singling out any individual.",
+          "ticks": [
+            "Groups with fewer than 5 answers show as a dash, administrators included",
             "The department manager sees only their own team",
-            "Three suggested measures per factor, ready to choose"
+            "Three suggested measures per factor, ready to pick"
           ],
-          "m": {
+          "card": {
             "title": "Team × factor",
-            "note": "threshold 5 responses",
-            "cols": [
-              "Speak",
+            "meta": "at least 5 answers",
+            "table": "Team and factor",
+            "short": [
+              "Voice",
               "Load",
               "Mgr",
               "Role",
-              "Meaning"
+              "Mean"
             ],
+            "hidden": "hidden, under 5 answers",
             "teams": [
-              "Operations · 8",
-              "Projects · 9",
-              "Workshop · 8",
-              "Admin · 3"
-            ],
-            "foot": "Workshop and Projects each stand out on a different factor. Those are two different problems, and they need two different measures."
-          }
+              {
+                "g": "Operations",
+                "sr": "Operations, 8 answers"
+              },
+              {
+                "g": "Project",
+                "sr": "Project, 9 answers"
+              },
+              {
+                "g": "Workshop",
+                "sr": "Workshop, 8 answers"
+              },
+              {
+                "g": "Admin",
+                "sr": "Administration, 3 answers"
+              }
+            ]
+          },
+          "caption": "Workshop and Project stand out on different factors. They are two different problems, and each needs its own measure."
         },
         {
-          "k": "Reorganisation and change",
-          "t": "Measure before and after a change",
-          "d": "Add an extra pulse to the annual cycle 4–6 weeks after a reorganisation, a system change or a merger. Then you see whether people know what is expected of them, and whether support from managers holds up.",
-          "points": [
+          "eyebrow": "Reorganisation and change",
+          "short": "Measure before and after a change",
+          "h": "Measure before and after a change",
+          "p": "Add an extra pulse to the year wheel 4–6 weeks after a reorganisation, a system change or a merger. Then you can see whether people know what is expected of them, and whether support from managers holds up.",
+          "ticks": [
             "Add a pulse in any month with one click",
-            "Choose the affected factors: role clarity, conflicting demands, support from manager",
+            "Choose the factors affected: role clarity, conflicting demands, support from manager",
             "Compare with the baseline from before the change"
           ],
-          "m": {
-            "title": "Role clarity · before and after",
-            "note": "baseline vs pulse 6 weeks after",
-            "rows": [
+          "card": {
+            "title": "{factor} · before and after",
+            "meta": "baseline against a pulse 6 weeks later",
+            "bars": [
               "Knows what is expected · before",
               "Knows what is expected · after",
-              "Knows where responsibility ends · before",
-              "Knows where responsibility ends · after"
-            ],
-            "foot": "The drop is largest on the limits of responsibility. A short role map per team is a good first measure."
-          }
+              "Knows where their responsibility ends · before",
+              "Knows where their responsibility ends · after"
+            ]
+          },
+          "caption": "The drop is largest on where responsibility ends. A short role map per team is a good first measure."
         },
         {
-          "k": "New manager",
-          "t": "Give a new manager an honest starting point",
-          "d": "Measure the team before the change of manager and again afterwards. Then you see how people experience support, role clarity and speaking up. The figures apply to the whole team. They never say anything about one person — not even the manager.",
-          "points": [
-            "The team must have at least 5 responses before anything is shown",
-            "The manager gets their own leadership practice suggestions per factor",
-            "Anonymous comments can be answered without knowing who wrote them"
+          "eyebrow": "New manager",
+          "short": "An honest starting point for a new manager",
+          "h": "Give a new manager an honest starting point",
+          "p": "The baseline from before the change of manager and the pulse afterwards show how the team experiences support, role clarity and freedom to speak up. The figures are for the team as a whole – never individuals, and never the manager as a person.",
+          "ticks": [
+            "The team needs at least 5 answers before anything is shown",
+            "Leadership-practice suggestions for most factors",
+            "The manager can reply to anonymous comments without knowing who wrote them"
           ],
-          "m": {
-            "title": "Support from manager · Projects",
-            "note": "9 responses",
-            "rows": [
+          "card": {
+            "title": "{factor} · Project",
+            "meta": "9 answers",
+            "bars": [
               "Gets support when the job gets demanding",
               "The manager knows what the job involves",
-              "Can raise difficult issues",
-              "Is heard when something is to change"
+              "Can raise difficult matters"
             ]
-          }
+          },
+          "caption": "A starting point to build on, not a grade."
         },
         {
-          "k": "Inspections and documentation",
-          "t": "Ready when the Labour Inspection Authority asks for documentation",
-          "d": "The report brings together the survey, risk assessment, measures and participation, with legal basis per factor. Choose year and scope, read it through and save as PDF.",
-          "points": [
-            "Covers aml. § 3-1 c and § 4-3, cf. regulation ch. 1A",
-            "Shows that the safety representative was notified and union representatives were involved",
-            "Log of measures with owner, deadline and measured effect"
-          ],
-          "m": {
-            "title": "Report · 2026",
-            "note": "PDF",
-            "steps": [
-              {
-                "t": "Summary and index",
-                "d": "What is going well, what pulls down"
-              },
-              {
-                "t": "Risk assessment per factor",
-                "d": "Likelihood, consequence and legal basis"
-              },
-              {
-                "t": "Measures with owner and deadline",
-                "d": "Status and measured effect"
-              },
-              {
-                "t": "Participation and legal basis",
-                "d": "Safety representative, union representatives and consultation"
-              }
-            ]
-          }
-        },
-        {
-          "k": "Safety reps, union reps and AMU",
-          "t": "The same figures on the table for all parties",
-          "d": "The safety representative sees the same figures as management, at the same time. That includes the risk assessment. Before the first send-out you log the consultation with union representatives, as § 9-2 requires when a survey is repeated.",
-          "points": [
+          "eyebrow": "Safety representative and AMU",
+          "short": "The same figures on the table for everyone",
+          "h": "The same figures on the table for everyone",
+          "p": "The safety representative sees the same figures and the same risk assessment as management, at the same time. Before the first send-out, you log the consultation with union representatives, as § 9-2 requires for a recurring survey.",
+          "ticks": [
             "The safety representative is notified before every send-out",
-            "Measures have an owner and a deadline before the AMU meeting starts",
-            "Nobody in any role sees individual responses"
+            "The measures are listed with owner and deadline in the AMU case",
+            "No one in any role sees individual answers"
           ],
-          "m": {
+          "card": {
             "title": "Before the AMU meeting",
-            "note": "sent automatically",
-            "cards": [
+            "meta": "from the AMU case",
+            "rows": [
               {
-                "tag": "§ 6-2",
-                "t": "Safety representative notified 2 days before send-out",
-                "meta": "Done 12 Sep"
+                "mark": "§ 6-2",
+                "title": "Safety representative notified 2 days before the send-out",
+                "sub": "Done 12 Sep",
+                "pill": "Done"
               },
               {
-                "tag": "§ 9-2",
-                "t": "Need and design discussed with union representative",
-                "meta": "Done 3 Feb"
+                "mark": "§ 9-2",
+                "title": "Need and design discussed with the union representative",
+                "sub": "Done 3 Feb",
+                "pill": "Done"
               },
               {
-                "tag": "Risk",
-                "t": "Two high-risk factors — measures decided",
-                "meta": "For review"
+                "mark": "Risk",
+                "title": "Two factors at high risk – measures decided",
+                "sub": "To be raised at the AMU meeting",
+                "pill": "Under review"
               }
             ]
-          }
+          },
+          "caption": "Participation is on record before anyone asks."
         }
-      ],
-      "sectors": {
-        "k": "Industries",
-        "t": "Same tool, different working days",
-        "d": "The questions are the same everywhere, so you can compare over time. Industries differ in which factors often pull down, and how you reach people.",
-        "items": [
-          {
-            "t": "Building and construction",
-            "d": "Teams with very different days — workshop, projects and operations. The heatmap shows where the differences are, without pointing at people.",
-            "f": [
-              "Speaking up",
-              "Workload"
-            ]
-          },
-          {
-            "t": "Health and care",
-            "d": "Shift rotas and many without a fixed screen. Send-outs by SMS, and the pulse tracks emotional demands through the year.",
-            "f": [
-              "Emotional demands",
-              "Support from manager"
-            ]
-          },
-          {
-            "t": "Retail and services",
-            "d": "Many part-time staff and several locations. Location groups that are too small are not shown, but count towards the whole.",
-            "f": [
-              "Role clarity",
-              "Recognition"
-            ]
-          },
-          {
-            "t": "Municipal and public sector",
-            "d": "Clear requirements for participation and documentation. Consultation and notice to the safety representative are logged in the report.",
-            "f": [
-              "Conflicting demands",
-              "Participation"
-            ]
-          },
-          {
-            "t": "Technology and consulting",
-            "d": "Rapid growth and frequent change. Extra pulses after a reorganisation show whether the structure holds.",
-            "f": [
-              "Role clarity",
-              "Workload"
-            ]
-          },
-          {
-            "t": "Industry and manufacturing",
-            "d": "Shifts and physical work. A short survey on mobile, and steady follow-up of incident reports and speaking up.",
-            "f": [
-              "Speaking up",
-              "Support from colleagues"
-            ]
-          }
-        ]
-      }
+      ]
     },
     "hvorfor": {
       "seoTitle": "Why Orgpuls – continuous follow-up of the working environment",

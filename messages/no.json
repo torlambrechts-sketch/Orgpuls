@@ -5728,7 +5728,7 @@
       },
       "bruksomrader": {
         "title": "Bruksområder: arbeidsmiljøkartlegging i praksis | Orgpuls",
-        "description": "Åtte situasjoner og seks bransjer: se hvordan dere bruker Orgpuls til årlig kartlegging, puls, ny leder, omorganisering, tilsyn og AMU.",
+        "description": "Åtte situasjoner i praksis: uten HR-avdeling, årlig kartlegging, puls, tilsyn, ett team som skiller seg ut, omorganisering, ny leder og AMU.",
         "crumb": "Bruksområder",
         "kicker": "Bruksområder",
         "h1": "Samme lovkrav, ulike arbeidsplasser",
@@ -7331,39 +7331,83 @@
     },
     "bruksomrader": {
       "crumb": "Bruksområder",
-      "h1": "Fra lovpålagt kartlegging til tiltak med målt effekt",
-      "lead": "Lovkravet er likt for alle, men hverdagen er ulik. Velg situasjonen som ligner deres, og se hvordan dere løser den i praksis.",
-      "next": "Se plattformen →",
+      "eyebrow": "Bruksområder",
+      "h1": "Fra lovpålagt kartlegging til lederverktøy.",
+      "lead": "Samme spørsmål, samme terskel og samme tiltaksliste – brukt på åtte måter. Velg situasjonen som ligner deres, og se hvordan dere løser den i praksis.",
+      "next": "Se plattformen",
       "usesLabel": "Dette bruker dere",
+      "example": "Tenkte eksempeldata.",
+      "use": {
+        "opp": "Oppsett",
+        "mal": "Målinger og årshjul",
+        "rap": "Rapport",
+        "res": "Resultater",
+        "tilt": "Tiltak",
+        "kom": "Kommentarer",
+        "rol": "Roller og tilgang"
+      },
       "sections": [
         {
-          "k": "Årlig kartlegging",
-          "t": "Kartleggingen loven krever, gjort på en time",
-          "d": "Én hovedundersøkelse i året dekker kartleggingsplikten i arbeidsmiljøloven § 3-1 c. Den gir nullpunktet dere måler alt annet mot. Spørsmålene er klare, terskelen er satt, og Orgpuls lager rapporten.",
-          "points": [
-            "33 påstander om 11 faktorer, rundt 4 minutter å svare",
-            "Verneombudet får varsel 2 dager før utsending",
-            "Én påminnelse, og runden stenger etter 14 dager",
-            "Risikovurdering per faktor med hjemmel, klar til AMU"
+          "eyebrow": "Uten HR-avdeling",
+          "short": "Daglig leder, 20 ansatte, ingen HR",
+          "h": "Daglig leder, 20 ansatte, ingen HR-avdeling",
+          "p": "Enkel visning gir én side: hva folk er fornøyd med, hva som trekker ned, og tre ting å gjøre nå. Assistenten Tuva viser hva som gjenstår før dere er i gang, og hjelpen står på hver side.",
+          "ticks": [
+            "Daglig leder med under 50 ansatte får enkel visning automatisk",
+            "Lim inn de ansatte eller last opp en CSV – uten HR-system",
+            "Veiviseren tar deg fra org.nr. til planlagt utsending på rundt 20 minutter"
           ],
-          "m": {
-            "title": "Årshjul 2026",
-            "note": "1 hovedundersøkelse · 3 pulser",
-            "foot": "Hovedundersøkelsen i september gir resultater før budsjett- og tiltaksarbeidet til høsten."
-          }
+          "card": {
+            "title": "Gjør dette nå",
+            "meta": "Oversikt · enkel visning",
+            "rows": [
+              {
+                "title": "Fast svar på avviksmeldinger innen fem dager",
+                "sub": "{factor} · frist 15. okt."
+              },
+              {
+                "title": "Prioriteringsmøte hver mandag",
+                "sub": "{factor} · eier: deg · frist 1. nov."
+              },
+              {
+                "title": "To anonyme kommentarer venter på svar",
+                "sub": "Kommentarer · venter i 6 dager"
+              }
+            ]
+          },
+          "caption": "Folk trives med meningen i arbeidet. Det som trekker ned, er ytringsklima og arbeidsmengde."
         },
         {
-          "k": "Puls mellom målingene",
-          "t": "Se om tiltakene virker – før neste år",
-          "d": "Pulsen stiller de tre påstandene for hver faktor dere har satt tiltak på. Den viser om kurven snur mens det ennå er tid til å justere.",
-          "points": [
+          "eyebrow": "Årlig kartlegging",
+          "short": "Kartleggingen loven krever, på en time",
+          "h": "Kartleggingen loven krever, gjort på en time",
+          "p": "Én hovedundersøkelse i året dekker kartleggingsplikten i arbeidsmiljøloven § 3-1 c og setter grunnlinjen dere måler alt annet mot. Spørsmålene er ferdige, terskelen er satt, og Orgpuls lager rapporten.",
+          "ticks": [
+            "33 påstander om 11 faktorer, rundt 4 minutter å svare",
+            "Verneombudet får varsel 2 dager før utsending",
+            "Påminnelser går automatisk, og runden stenger etter 14 dager",
+            "Risikovurdering per faktor med hjemmel, klar til AMU"
+          ],
+          "card": {
+            "title": "Årshjul 2026",
+            "meta": "1 hovedundersøkelse · 3 pulser"
+          },
+          "caption": "Hovedundersøkelsen i september gir resultater før budsjett- og tiltaksarbeidet til høsten."
+        },
+        {
+          "eyebrow": "Puls mellom målingene",
+          "short": "Se om tiltakene virker – før neste år",
+          "h": "Se om tiltakene virker – før neste år",
+          "p": "Pulsen stiller de tre påstandene for hver faktor dere har satt tiltak på, og viser om kurven snur mens det fortsatt er tid til å justere.",
+          "ticks": [
             "Pulsen spør bare om faktorene med åpne tiltak",
             "Samme ordlyd som hovedundersøkelsen, så dere kan sammenligne tallene",
             "Faktoren faller ut når tiltakene er lukket"
           ],
-          "m": {
-            "title": "Ytringsklima · hele virksomheten",
-            "note": "stiplet linje = mål 60",
+          "card": {
+            "title": "{factor} · hele virksomheten",
+            "meta": "stiplet linje = mål 60",
+            "goal": "Mål 60",
             "labels": [
               "Grunnl. 25",
               "Grunnl. 26",
@@ -7371,229 +7415,168 @@
               "Puls mar",
               "Puls jun"
             ],
-            "foot": "Tiltaket «fast svar på avviksmeldinger» startet i oktober. Pulsene viser at det virker, men ikke nok ennå."
-          }
+            "sr": "Grunnlinje 2025: 48. Grunnlinje 2026: 41. Puls desember: 44. Puls mars: 48. Puls juni: 53. Mål: 60."
+          },
+          "caption": "Tiltaket «fast svar på avviksmeldinger» startet i oktober. Pulsene viser at det virker, men ikke nok ennå."
         },
         {
-          "k": "Uten HR-avdeling",
-          "t": "Daglig leder, 20 ansatte, ingen HR-avdeling",
-          "d": "Enkel visning samler alt på én side: hva folk er fornøyd med, hva som trekker ned, og tre ting å gjøre nå. Assistenten Tuva viser hva som gjenstår før dere er i gang, og hjelpen står på hver side.",
-          "points": [
-            "Daglig leder med under 50 ansatte får enkel visning automatisk",
-            "Lim inn de ansatte eller last opp en CSV – uten HR-system",
-            "Veiviseren tar deg fra org.nr. til første utsending på 20 minutter"
+          "eyebrow": "Tilsyn og dokumentasjon",
+          "short": "Når Arbeidstilsynet ber om papirene",
+          "h": "Klar når Arbeidstilsynet ber om dokumentasjon",
+          "p": "Rapporten samler kartlegging, risikovurdering, tiltak og medvirkning, med hjemmel per faktor. Velg år og omfang, les gjennom og lagre som PDF.",
+          "ticks": [
+            "Dekker aml. § 3-1 c og § 4-3, jf. forskrift kap. 1A",
+            "Viser at verneombudet fikk varsel og at tillitsvalgte var med",
+            "Tiltakslogg med eier, frist og målt effekt"
           ],
-          "m": {
-            "title": "Gjør dette nå",
-            "note": "Oversikt · enkel visning",
-            "cards": [
+          "card": {
+            "title": "Rapport · 2026",
+            "meta": "PDF",
+            "done": "ferdig",
+            "rows": [
               {
-                "tag": "Ytringsklima",
-                "t": "Fast svar på avviksmeldinger innen fem dager",
-                "meta": "Frist 15. okt"
+                "title": "Sammendrag og indeks",
+                "sub": "Hva som står bra til, hva som trekker ned"
               },
               {
-                "tag": "Arbeidsmengde",
-                "t": "Prioriteringsmøte hver mandag",
-                "meta": "Deg · frist 1. nov"
+                "title": "Risikovurdering per faktor",
+                "sub": "Sannsynlighet, konsekvens og hjemmel"
               },
               {
-                "tag": "Kommentarer",
-                "t": "To anonyme kommentarer venter på svar",
-                "meta": "6 dager"
+                "title": "Tiltak med eier og frist",
+                "sub": "Status og målt effekt"
+              },
+              {
+                "title": "Medvirkning og hjemmel",
+                "sub": "Verneombud, tillitsvalgte og drøfting"
               }
-            ],
-            "foot": "Folk trives med meningen i arbeidet. Det som trekker ned, er ytringsklima og arbeidsmengde."
-          }
+            ]
+          },
+          "caption": "Dokumentasjonen blir til mens dere jobber."
         },
         {
-          "k": "Ett team skiller seg ut",
-          "t": "Når ett team har det tyngre enn resten",
-          "d": "Varmekartet viser team mot faktor. Segmentprofilen sammenligner ett team med resten og viser hvor forskjellen er størst – uten å peke ut noen enkeltperson.",
-          "points": [
-            "Grupper under terskelen vises som strek, også for administrator",
+          "eyebrow": "Ett team skiller seg ut",
+          "short": "Når ett team har det tyngre enn resten",
+          "h": "Når ett team har det tyngre enn resten",
+          "p": "Varmekartet viser team mot faktor. Segmentprofilen sammenligner ett team med resten og peker på hvor forskjellen er størst – uten å peke ut noen enkeltperson.",
+          "ticks": [
+            "Grupper under 5 svar vises som strek, også for administrator",
             "Avdelingslederen ser bare sitt eget team",
             "Tre forslag til tiltak per faktor, klare til å velges"
           ],
-          "m": {
+          "card": {
             "title": "Team × faktor",
-            "note": "terskel 5 svar",
-            "cols": [
-              "Ytring",
-              "Mengde",
-              "Leder",
-              "Rolle",
-              "Mening"
+            "meta": "minst 5 svar",
+            "table": "Team og faktor",
+            "short": [
+              "Ytr",
+              "Mgd",
+              "Led",
+              "Rol",
+              "Men"
             ],
+            "hidden": "skjult, under 5 svar",
             "teams": [
-              "Drift · 8",
-              "Prosjekt · 9",
-              "Verksted · 8",
-              "Adm. · 3"
-            ],
-            "foot": "Verksted og Prosjekt skiller seg ut på hver sin faktor. Det er to ulike problemer, og de trenger to ulike tiltak."
-          }
+              {
+                "g": "Drift",
+                "sr": "Drift, 8 svar"
+              },
+              {
+                "g": "Prosjekt",
+                "sr": "Prosjekt, 9 svar"
+              },
+              {
+                "g": "Verksted",
+                "sr": "Verksted, 8 svar"
+              },
+              {
+                "g": "Adm.",
+                "sr": "Administrasjon, 3 svar"
+              }
+            ]
+          },
+          "caption": "Verksted og Prosjekt skiller seg ut på hver sin faktor. Det er to ulike problemer, og de trenger hvert sitt tiltak."
         },
         {
-          "k": "Omorganisering og endring",
-          "t": "Mål før og etter en endring",
-          "d": "Legg en ekstra puls i årshjulet 4–6 uker etter en omorganisering, et systembytte eller en sammenslåing. Da ser dere om folk vet hva som forventes, og om lederstøtten holder.",
-          "points": [
+          "eyebrow": "Omorganisering og endring",
+          "short": "Mål før og etter en endring",
+          "h": "Mål før og etter en endring",
+          "p": "Legg en ekstra puls i årshjulet 4–6 uker etter en omorganisering, et systembytte eller en sammenslåing. Da ser dere om folk vet hva som forventes, og om lederstøtten holder.",
+          "ticks": [
             "Legg til en puls i en hvilken som helst måned med ett klikk",
-            "Velg faktorene som påvirkes: rolleklarhet, motstridende krav, lederstøtte",
+            "Velg faktorene som påvirkes: rolleklarhet, motstridende krav, støtte fra leder",
             "Sammenlign med grunnlinjen fra før endringen"
           ],
-          "m": {
-            "title": "Rolleklarhet · før og etter",
-            "note": "grunnlinje mot puls 6 uker etter",
-            "rows": [
+          "card": {
+            "title": "{factor} · før og etter",
+            "meta": "grunnlinje mot puls 6 uker etter",
+            "bars": [
               "Vet hva som forventes · før",
               "Vet hva som forventes · etter",
               "Vet hvor ansvaret slutter · før",
               "Vet hvor ansvaret slutter · etter"
-            ],
-            "foot": "Fallet er størst på ansvarsgrenser. Et kort rollekart per team er et godt første tiltak."
-          }
+            ]
+          },
+          "caption": "Fallet er størst på ansvarsgrenser. Et kort rollekart per team er et godt første tiltak."
         },
         {
-          "k": "Ny leder",
-          "t": "Gi en ny leder et ærlig utgangspunkt",
-          "d": "Mål teamet før lederbyttet og igjen etterpå. Da ser dere hvordan folk opplever støtte, rolleklarhet og ytringsklima. Tallene gjelder hele teamet. De sier aldri noe om én person – heller ikke om lederen.",
-          "points": [
-            "Teamet må ha minst 5 svar før noe vises",
-            "Lederen får egne forslag til lederpraksis per faktor",
-            "Anonyme kommentarer kan besvares uten å vite hvem som skrev"
+          "eyebrow": "Ny leder",
+          "short": "Et ærlig utgangspunkt for ny leder",
+          "h": "Gi en ny leder et ærlig utgangspunkt",
+          "p": "Grunnlinjen fra før lederbyttet og pulsen etterpå viser hvordan teamet opplever støtte, rolleklarhet og ytringsklima. Tallene gjelder teamet som helhet – aldri enkeltpersoner, og aldri lederen som person.",
+          "ticks": [
+            "Teamet må ha minst 5 svar før noe vises",
+            "Forslag til lederpraksis for de fleste faktorene",
+            "Lederen kan svare på anonyme kommentarer uten å vite hvem som skrev"
           ],
-          "m": {
-            "title": "Støtte fra leder · Prosjekt",
-            "note": "9 svar",
-            "rows": [
+          "card": {
+            "title": "{factor} · Prosjekt",
+            "meta": "9 svar",
+            "bars": [
               "Får støtte når jobben blir krevende",
               "Lederen vet hva jobben innebærer",
-              "Kan ta opp vanskelige ting",
-              "Blir hørt når noe skal endres"
+              "Kan ta opp vanskelige ting"
             ]
-          }
+          },
+          "caption": "Et utgangspunkt å bygge på, ikke en karakter."
         },
         {
-          "k": "Tilsyn og dokumentasjon",
-          "t": "Klar når Arbeidstilsynet ber om dokumentasjon",
-          "d": "Rapporten samler kartlegging, risikovurdering, tiltak og medvirkning, med hjemmel per faktor. Velg år og omfang, les gjennom og lagre som PDF.",
-          "points": [
-            "Dekker aml. § 3-1 c og § 4-3, jf. forskrift kap. 1A",
-            "Viser at verneombudet fikk varsel og at tillitsvalgte var med",
-            "Tiltakslogg med eier, frist og målt effekt"
-          ],
-          "m": {
-            "title": "Rapport · 2026",
-            "note": "PDF",
-            "steps": [
-              {
-                "t": "Sammendrag og indeks",
-                "d": "Hva som står bra til, hva som trekker ned"
-              },
-              {
-                "t": "Risikovurdering per faktor",
-                "d": "Sannsynlighet, konsekvens og hjemmel"
-              },
-              {
-                "t": "Tiltak med eier og frist",
-                "d": "Status og målt effekt"
-              },
-              {
-                "t": "Medvirkning og hjemmel",
-                "d": "Verneombud, tillitsvalgte og drøfting"
-              }
-            ]
-          }
-        },
-        {
-          "k": "Verneombud, tillitsvalgte og AMU",
-          "t": "Samme tall på bordet for alle parter",
-          "d": "Verneombudet ser de samme tallene som ledelsen, på samme tid. Det gjelder også risikovurderingen. Før første utsending logger dere drøftingen med de tillitsvalgte, slik § 9-2 krever når en måling gjentas.",
-          "points": [
-            "Verneombudet varsles før hver utsending",
-            "Tiltak har eier og frist før AMU-møtet starter",
+          "eyebrow": "Verneombud og AMU",
+          "short": "Samme tall på bordet for alle parter",
+          "h": "Samme tall på bordet for alle parter",
+          "p": "Verneombudet ser de samme tallene og den samme risikovurderingen som ledelsen, samtidig. Før første utsending logger dere drøftingen med de tillitsvalgte, slik § 9-2 krever for en gjentakende måling.",
+          "ticks": [
+            "Verneombudet får varsel før hver utsending",
+            "Tiltakene står med eier og frist i AMU-saken",
             "Ingen i noen rolle ser enkeltsvar"
           ],
-          "m": {
+          "card": {
             "title": "Før AMU-møtet",
-            "note": "sendt automatisk",
-            "cards": [
+            "meta": "fra AMU-saken",
+            "rows": [
               {
-                "tag": "§ 6-2",
-                "t": "Verneombudet varslet 2 dager før utsending",
-                "meta": "Gjort 12. sep"
+                "mark": "§ 6-2",
+                "title": "Verneombudet varslet 2 dager før utsending",
+                "sub": "Gjort 12. sep.",
+                "pill": "Gjort"
               },
               {
-                "tag": "§ 9-2",
-                "t": "Behov og utforming drøftet med tillitsvalgt",
-                "meta": "Gjort 3. feb"
+                "mark": "§ 9-2",
+                "title": "Behov og utforming drøftet med tillitsvalgt",
+                "sub": "Gjort 3. feb.",
+                "pill": "Gjort"
               },
               {
-                "tag": "Risiko",
-                "t": "To faktorer med høy risiko – tiltak besluttet",
-                "meta": "Til behandling"
+                "mark": "Risiko",
+                "title": "To faktorer med høy risiko – tiltak besluttet",
+                "sub": "Tas opp i AMU-møtet",
+                "pill": "Til behandling"
               }
             ]
-          }
+          },
+          "caption": "Medvirkningen er dokumentert før noen spør."
         }
-      ],
-      "sectors": {
-        "k": "Bransjer",
-        "t": "Samme verktøy, ulike hverdager",
-        "d": "Spørsmålene er like overalt. Da kan dere sammenligne over tid. Bransjene skiller seg på hvilke faktorer som ofte trekker ned, og hvordan dere når folk.",
-        "items": [
-          {
-            "t": "Bygg og anlegg",
-            "d": "Team med ulik hverdag – verksted, prosjekt og drift. Varmekartet viser hvor forskjellene er, uten å peke på personer.",
-            "f": [
-              "Ytringsklima",
-              "Arbeidsmengde"
-            ]
-          },
-          {
-            "t": "Helse og omsorg",
-            "d": "Turnus og mange uten fast skjerm. Utsending på SMS, og pulsen følger emosjonelle krav gjennom året.",
-            "f": [
-              "Emosjonelle krav",
-              "Lederstøtte"
-            ]
-          },
-          {
-            "t": "Handel og service",
-            "d": "Mange deltidsansatte og flere lokasjoner. For små grupper per lokasjon vises ikke, men teller med i helheten.",
-            "f": [
-              "Rolleklarhet",
-              "Anerkjennelse"
-            ]
-          },
-          {
-            "t": "Kommune og offentlig",
-            "d": "Tydelige krav til medvirkning og dokumentasjon. Drøfting og varsel til verneombud logges i rapporten.",
-            "f": [
-              "Motstridende krav",
-              "Medvirkning"
-            ]
-          },
-          {
-            "t": "Teknologi og konsulent",
-            "d": "Rask vekst og hyppige endringer. Ekstra pulser etter omorganisering viser om strukturen sitter.",
-            "f": [
-              "Rolleklarhet",
-              "Arbeidsmengde"
-            ]
-          },
-          {
-            "t": "Industri og produksjon",
-            "d": "Skift og fysisk arbeid. Kort undersøkelse på mobil, og fast oppfølging av avvik og ytringsklima.",
-            "f": [
-              "Ytringsklima",
-              "Kollegastøtte"
-            ]
-          }
-        ]
-      }
+      ]
     },
     "contact": {
       "k": "Kontakt",

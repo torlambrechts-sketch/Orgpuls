@@ -174,7 +174,7 @@ export const MESSAGE_SPECS: MessageSpec[] = [
     paths: ['site.hvorfor.seoDescription', 'site.hvorfor.sections[3]', 'site.hvorfor.sections[5]', 'site.hvorfor.compare.rows[2]', 'site.hvorfor.compare.rows[6]', 'site.hvorfor.faq.items[5]'],
     where: onSite('/hvorfor'),
   },
-  { id: 'site.bruksomrader', section: 'site', paths: ['site.bruksomrader.h1', 'site.bruksomrader.sections[0]', 'site.bruksomrader.sections[6]', 'site.bruksomrader.sections[7]'], where: onSite('/bruksomrader') },
+  { id: 'site.bruksomrader', section: 'site', paths: ['site.bruksomrader.h1', 'site.bruksomrader.sections[1]', 'site.bruksomrader.sections[3]', 'site.bruksomrader.sections[7]'], where: onSite('/bruksomrader') },
   {
     id: 'site.plattform',
     section: 'site',
