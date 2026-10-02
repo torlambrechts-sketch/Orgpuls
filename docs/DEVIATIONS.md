@@ -10105,3 +10105,49 @@ cleared, and its next sign-in goes to `/innsikt`.
 
 The setting itself (Authentication › Sign In / Providers › Email › «Confirm email») is the owner's to switch in the
 Supabase dashboard: this session has no management token, and the Supabase connector has no Auth configuration tool.
+
+## D-198 — The anonymity floor is three; five is the default and the recommendation (2026-10-02)
+
+The owner, 2 October 2026: «Gulvet for anonymitet kan senkes til 3 … 5 er sterkt anbefalt, men kan senkes til 3.
+Ved små team.» CLAUDE.md lists lowering the floor as stop-and-ask; this is the owner's own instruction. It supersedes
+D-01 and D-31 (the 5–10 control, the unreachable warning card). CLAUDE.md's invariant 1 still says k = 5 and is the
+owner's to update.
+
+- The floor is `app.k_floor()`, a function returning 3, so no row can lower it. `app.k_min()` stays 5: the default every
+  organisation starts at (signup, the column default) and the floor of the platform's own analytics (0141, 0144).
+  `organizations.threshold` is 3..10 (0150).
+- No retroactive exposure. A round keeps the threshold it opened with (`app.rounds.k`): while planned it follows the
+  setting both ways, the update that opens it freezes it, and any later change is refused. Every result reader takes
+  `app.k_round(round)` — that k, never below three — instead of the organisation's current setting; readers spanning
+  rounds apply each round's own. Existing rounds took their organisation's value (5 everywhere on hosted). Raising
+  applies to planned rounds and never lowers an opened one. The migration fails if any other function still reads the
+  organisation's threshold for results.
+- Every change of the setting is logged in `app.survey_defaults_log` (who, when, from → to), shown in Målinger ›
+  Innstillinger as «terskel fra X til Y».
+- Oppsett › Grupper offers 3, 4, 5, 6, 8, 10. A 3 or 4 is saved only after the warning card is confirmed («Terskel 3 er
+  bare for små team. Fem er sterkt anbefalt …»). Personvern shows the design's «Terskel N er lavt …» card while the
+  threshold is under five. The wizard offers the design's 3, 4, 5, 8 with the design's warning.
+- Respondents, the invitation, the preview and the employee report state the round's k; the QR poster states the
+  lowest that can apply.
+- A module's declared `min_responses` stays at least five (its recommendation); its cells are released at the round's
+  k like the core's.
+- The data processing agreement is version 2026-10-02.2 (0151): section 9 says five by default, never under three. The
+  version format takes a same-day suffix.
+
+Proven by `supabase/tests/k_floor_invariants.sql` (24 assertions) and the updated suppression, module-results,
+comment-theme and conversation suites; every suite passes; the design figures (index 61, «28 av 34 · 82 %») are
+unchanged. 0150 and 0151 are applied on hosted (floor 3, every round's k 5).
+
+## D-199 — Public site: 5 is the default anonymity limit, not a fixed one (2026-10-02)
+
+Every public text that stated 5 as a fixed rule now says what the product does (D-198):
+- the trust strip and pills use the short form «5 svar som standard» (the dash form wrapped at 1440);
+- longer texts say «Som standard … minst 5 … små team kan senke grensen til 3», «aldri under 3», and that a round keeps
+  its limit;
+- the trade-off (fewer answers make it easier to recognise who said what) is stated once on the pages that explain
+  why: /smaa-bedrifter, /sikkerhet, the anonymity and questions articles, and the /priser FAQ.
+
+47 keys per language in seo.* and site.*, the five industry pages, /sikkerhet and /vilkar § 6. /vilkar stays Versjon 1,
+in force from 2 October 2026, because the change is made on the day it takes effect; the draft's status block records
+it. The share cards were regenerated for the new pill. Left as is on purpose: texts about the law (§ 6-1, five
+employees), general «bør» advice, and descriptions of examples set at the default.
