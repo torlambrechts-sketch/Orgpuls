@@ -94,10 +94,10 @@ describe('nothing stating law is left out of the review', () => {
   }
   /**
    * Not texts anyone outside the team reads: the admin app's own help (the one legal reading it
-   * acts on, the CRM's basis, is reviewed), and the page-template blocks /plattform and
-   * /bruksomrader do not render (lib/legal/registry.ts' header).
+   * acts on, the CRM's basis, is reviewed), and the page-template blocks /plattform, /bruksomrader
+   * and /priser do not render (lib/legal/registry.ts' header).
    */
-  const UNRENDERED = /^seo\.pages\.(plattform|bruksomrader)\.(blocks|lead)/
+  const UNRENDERED = /^seo\.pages\.(plattform|bruksomrader)\.(blocks|lead)|^seo\.pages\.priser\.blocks/
   // the admin app renders messages/en.json only, so its Norwegian copy is never read
   const NOT_PUBLISHED = { no: [/^admin\./, UNRENDERED], en: [/^admin\.(?!crm\.settings\.)/, UNRENDERED] }
 
