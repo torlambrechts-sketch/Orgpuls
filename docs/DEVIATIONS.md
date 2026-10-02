@@ -9719,3 +9719,26 @@ but its descriptions were over the limit too.
 the messages or an industry page, is over 155 characters. It failed on the old texts and passes on
 the new ones. Changed texts that are legal units come up again in admin › Legal review (a record,
 X-078).
+
+## D-192 — A round the year wheel plans sends its reminder (0147)
+
+Found by the claims review for the v3 site (2026-10-02): every planned round on hosted had no
+reminder day. A planned round takes its organisation's standard (`round_apply_defaults`, 0076/0097);
+an organisation that never saved one has none, and the rounds the wheel plans for it
+(`app.plan_round`, the scheduler) were inserted without a reminder day. `rounds.reminder_day` had no
+default, so it stayed null, and the tick skips a round with none (0133, step 3). Meanwhile the year
+wheel's tab showed «påminnelse dag 2» for the same round (ArshjulTab falls back to 2), the
+Innstillinger tab shows 2 as the standard, start_next_pulse gives 2 without a standard (0108), and the
+site promises reminders that go by themselves.
+
+- **Fix:** `rounds.reminder_day` defaults to 2, the standard's own default. An insert that leaves the
+  column out gets it; an insert that names it keeps what it names, so a person's «Ingen påminnelse»
+  (Måleoppsett) survives, and a standard still overrides at insert.
+- **Backfill:** planned rounds without a reminder in organisations without a standard get day 2.
+  Nothing else plans a round in such an organisation, so these were inserted by omission. Hosted held
+  two, both test organisations, four planned rounds each.
+- **Tests:** `round_default_invariants.sql` (4 rows; rows 1 and 3 failed before the migration).
+  `survey_settings_invariants.sql` row 2 asserted «nothing else moves» — no reminder — for a
+  grunnlinje without a standard; it now expects day 2, with the reason beside it.
+- **Not changed:** the day-before reminder (`final_reminder`) keeps the column's default (off) without
+  a standard, as start_next_pulse does.

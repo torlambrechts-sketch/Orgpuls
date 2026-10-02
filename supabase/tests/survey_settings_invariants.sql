@@ -79,10 +79,11 @@ begin
     values (v_org, v_meas, 'planlagt', '2096-02-01', '2096-02-08') returning id into v_plain;
     select array_to_string(app.round_extras(v_plain), ' ') || ',' || coalesce(r.reminder_day::text, 'none') || ',' || r.close_after_days::text
       into v_txt from app.rounds r where r.id = v_plain;
-    -- 0097: and the product's two weeks for a grunnlinje
-    v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'no standard: a new grunnlinje asks the four extras and stays open 14 days; nothing else moves',
-      'expected', 'anbefaling apent_felt krenkende vold,none,14', 'actual', v_txt,
-      'pass', v_txt = 'anbefaling apent_felt krenkende vold,none,14');
+    -- 0097: and the product's two weeks for a grunnlinje. 0147: and the product's reminder on day 2 —
+    -- a round inserted without one had none, so it sent no reminder while the year wheel said day 2
+    v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'no standard: a new grunnlinje asks the four extras, reminds on day 2 and stays open 14 days',
+      'expected', 'anbefaling apent_felt krenkende vold,2,14', 'actual', v_txt,
+      'pass', v_txt = 'anbefaling apent_felt krenkende vold,2,14');
 
     -- 3 ------------------------------------------------------------ who, and the reason
     perform set_config('request.jwt.claims', format(claims, v_vo), true);
