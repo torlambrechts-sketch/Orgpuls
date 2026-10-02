@@ -1,4 +1,5 @@
 import { countView } from '@/lib/analytics/product'
+import { K_DEFAULT } from '@/lib/org/threshold'
 import { DemoStamp } from '@/components/shell/DemoNotice'
 import { getDemoState } from '@/lib/demo/read'
 import { getRoundModules } from '@/lib/modules/read'
@@ -139,7 +140,7 @@ export default async function RapportPage({
   // the sections whose read failed just now (review Q1): the document names them
   const failed = reportFailures()
 
-  const threshold = byGroup?.threshold ?? summary?.threshold ?? org?.threshold ?? 5
+  const threshold = byGroup?.threshold ?? summary?.threshold ?? org?.threshold ?? K_DEFAULT
 
   const teams = (byGroup?.groups ?? [])
     .filter((g) => g.status === 'ok')

@@ -46,6 +46,7 @@ const RoundRow = z.object({
   opens_at: z.string().nullable(),
   closes_at: z.string().nullable(),
   audience: z.string(),
+  k: z.coerce.number(),
   // a to-one embed comes back as an object, a to-many as an array
   measurements: z.object({ kind: z.string(), year: z.coerce.number() }),
   round_factors: z.array(
@@ -63,6 +64,11 @@ export interface RoundListItem {
   /** 'planlagt' | 'apen' | 'lukket' — app.round_status, not a computed label */
   status: string
   audience: string
+  /**
+   * the round's own anonymity threshold (app.rounds.k, 0150): the organisation's while the round
+   * is planned, frozen when it opens. What its respondents were told, and what its results use.
+   */
+  threshold: number
   questionCount: number
   /** when it went out — the statutory report prints "sendt 7. september" */
   opensAt: string | null
@@ -164,7 +170,7 @@ export const getRoundRows = cache(async (): Promise<RoundRow[]> => {
       // ambiguous — and had PostgREST resolved it the other way, this count would
       // have been answers rather than questions, which is a plausible wrong number
       // rather than an error.
-      'id, status, opens_at, closes_at, audience, measurements!inner(kind, year), round_factors(factors(statements!statements_factor_key_fkey(ordinal))), round_extra_questions(extra_key)',
+      'id, status, opens_at, closes_at, audience, k, measurements!inner(kind, year), round_factors(factors(statements!statements_factor_key_fkey(ordinal))), round_extra_questions(extra_key)',
     )
     .order('closes_at', { ascending: false })
 
@@ -191,6 +197,7 @@ export const getRoundRows = cache(async (): Promise<RoundRow[]> => {
     kind: r.measurements.kind,
     year: r.measurements.year,
     audience: r.audience,
+    threshold: r.k,
     // counted, not multiplied by an assumed three: app.statements permits ordinals
     // 1..9, so a factor with a different number of statements changes this total
     questionCount:

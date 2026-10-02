@@ -53,7 +53,12 @@ describe('segment filter', () => {
     expect(segmentCellOk(5, 5, 10)).toBe(true)
     expect(segmentCellOk(5, 6, 10)).toBe(false) // the complement is 4
     expect(segmentCellOk(5, 4, 12)).toBe(false)
-    expect(segmentCellOk(3, 5, 10)).toBe(true) // never below five
+    expect(segmentCellOk(3, 5, 10)).toBe(true)
+    // the floor is three since 0150 (D-198): a round at k 3 shows 3 against 3, and nothing goes lower
+    expect(segmentCellOk(3, 3, 6)).toBe(true)
+    expect(segmentCellOk(3, 3, 5)).toBe(false) // the complement is 2
+    expect(segmentCellOk(2, 2, 6)).toBe(false) // never below three
+    expect(segmentCellOk(1, 2, 4)).toBe(false)
     expect(segmentCellOk(7, 6, 14)).toBe(false)
   })
 })

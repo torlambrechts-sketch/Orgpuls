@@ -13,9 +13,12 @@ import { z } from 'zod'
  *
  * Publishing a new version: edit the text, set DPA_VERSION and DPA_SHA256 here, and insert
  * the same pair into app.dpa_versions in a new migration.
+ *
+ * A version is the date it was published, with `.2`, `.3` … for a second or third version the
+ * same day (0151): 2026-10-02.2 says that a lower threshold, never under three, may be chosen.
  */
-export const DPA_VERSION = '2026-10-02'
-export const DPA_SHA256 = '1ebeb268e4dce2b3a7df88393da508246395c3b0987dcdd89061a6c4e41469d6'
+export const DPA_VERSION = '2026-10-02.2'
+export const DPA_SHA256 = '534a40a60b5bd909e6c011c2875048bc0495c95300727cbfcac98705e37faa23'
 
 export const DpaSection = z.object({
   h: z.string().min(1),
@@ -42,4 +45,9 @@ export function canonicalDpa(text: DpaText): string {
 
 export function dpaHash(text: DpaText): string {
   return createHash('sha256').update(canonicalDpa(text)).digest('hex')
+}
+
+/** The day a version was published: the version without its same-day suffix (2026-10-02.2 → 2026-10-02). */
+export function dpaVersionDay(version: string): string {
+  return version.slice(0, 10)
 }

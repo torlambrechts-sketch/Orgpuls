@@ -11,9 +11,9 @@ import { callFailed, parseFailed, readFailed } from '@/lib/supabase/read'
  * Four columns, all of them printed on the statutory report's front matter: the legal
  * name, the organisation number Arbeidstilsynet identifies the undertaking by, the
  * headcount the response rate is a fraction of, and the privacy threshold — which is
- * read here for display only. What results are actually withheld by is
- * `app.k_threshold()`, floored at `app.k_min()`, and no screen may substitute this
- * column for it.
+ * read here for display only. What results are actually withheld by is the round's own
+ * k (`app.k_round()`, 0150: the threshold the round opened with, floored at
+ * `app.k_floor()`), and no screen may substitute this column for it.
  */
 const OrgRow = z.object({
   id: z.string(),

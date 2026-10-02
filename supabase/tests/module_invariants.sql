@@ -191,7 +191,9 @@ begin
     v_rows := v_rows || jsonb_build_object('seq', 7, 'name', 'same content re-seeds as a no-op; changed content is refused',
       'expected', 'unchanged,refused', 'actual', v_txt, 'pass', v_txt = 'unchanged,refused');
 
-    -- 8 ---------------------------------------------------------------- the floor is five
+    -- 8 ------------------------------------------------- a module declares at least five
+    -- (still so since 0150: the module's declared minimum is the product default; its cells are
+    -- released at the round's own k, floored at three, like the core's)
     begin
       insert into app.question_modules (key, version, name, description, estimated_minutes, scale, scoring, anonymity, content_hash)
       values ('lav-terskel', '1.0.0', 'Lav', 'Lav', 3, '{}', '{}', '{"min_responses": 4, "can_lower": false}', repeat('a', 64));

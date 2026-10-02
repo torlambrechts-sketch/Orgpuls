@@ -85,9 +85,14 @@ export async function getSurveyDefaults(orgId: string): Promise<(SurveyDefaults 
 }
 
 const LogRow = z.object({ id: z.number(), changed_at: z.string(), change: z.record(z.string(), z.unknown()) })
-export type DefaultsChange = { id: number; at: string; keys: string[] }
+/** the organisation's threshold, from and to (0150): logged by the database when it changes */
+const ThresholdChange = z.object({ from: z.coerce.number(), to: z.coerce.number() })
+export type DefaultsChange = { id: number; at: string; keys: string[]; threshold: { from: number; to: number } | null }
 
-/** The last changes to the standard, newest first: when, and which settings. */
+/**
+ * The last changes to the standard, newest first: when, and which settings. A change of the
+ * anonymity threshold is logged here too (0150, D-198), with what it went from and to.
+ */
 export async function getDefaultsLog(orgId: string, limit = 5): Promise<DefaultsChange[]> {
   const supabase = await createClient()
   const { data, error } = await supabase
@@ -100,7 +105,10 @@ export async function getDefaultsLog(orgId: string, limit = 5): Promise<Defaults
   if (readFailed('getDefaultsLog', error, data)) return []
   const parsed = z.array(LogRow).safeParse(data)
   if (parseFailed('getDefaultsLog', parsed)) return []
-  return parsed.data.map((r) => ({ id: r.id, at: r.changed_at, keys: Object.keys(r.change) }))
+  return parsed.data.map((r) => {
+    const threshold = ThresholdChange.safeParse(r.change.threshold)
+    return { id: r.id, at: r.changed_at, keys: Object.keys(r.change), threshold: threshold.success ? threshold.data : null }
+  })
 }
 
 /** The organisation's QR entry code, or null before a daglig leder has made one. */

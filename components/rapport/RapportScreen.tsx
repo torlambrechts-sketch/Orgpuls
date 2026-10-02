@@ -461,7 +461,7 @@ export async function RapportScreen({ view }: { view: RapportView }) {
         {view.audience === 'ledelse' ? ledelseBody() : null}
         {view.audience === 'ansatte' ? (
           <div className="mt-[28px] rounded-cta bg-sbg px-[18px] py-[16px] text-[13px] leading-[1.65] [text-wrap:pretty]">
-            {t('rapport.ansatteAnonymity')}
+            {t('rapport.ansatteAnonymity', { threshold: view.threshold })}
           </div>
         ) : null}
       </Sheet>

@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { K_DEFAULT } from '@/lib/org/threshold'
 import { countView } from '@/lib/analytics/product'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
@@ -134,7 +135,7 @@ export default async function ResultaterPage({
   const history = new Map((workspace?.history ?? []).map((h) => [h.round_id, h]))
   const current = history.get(selected.id)
   const summary = current?.summary ?? null
-  const threshold = workspace?.items?.threshold ?? summary?.threshold ?? current?.groups?.threshold ?? 5
+  const threshold = workspace?.items?.threshold ?? summary?.threshold ?? current?.groups?.threshold ?? K_DEFAULT
 
   // group order is the organisation's own (app.groups.sort_order, carried by participation)
   const order = new Map((participation?.groups ?? []).map((g) => [g.group_name, g.sort_order]))

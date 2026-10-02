@@ -226,7 +226,7 @@ begin
     select coalesce(sum(rel.n) filter (where rel.status <> 'ok'), 0) as rest
     from app.group_release(rd.id) rel
   ) x
-  where x.rest between 1 and app.k_threshold(rd.org_id) - 1;
+  where x.rest between 1 and app.k_round(rd.id) - 1;  -- each round at its own k (0150)
   v_rows := v_rows || jsonb_build_object('seq', 13,
     'name', 'no round in this database leaves a remainder of 1..k-1',
     'expected', '0 rounds', 'actual', v_cnt || ' rounds', 'pass', v_cnt = 0);

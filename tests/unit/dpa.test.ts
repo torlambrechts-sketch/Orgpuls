@@ -15,6 +15,6 @@ describe('the data processing agreement', () => {
 
   it('is the text the published version was hashed from: a change to the words needs a new version', () => {
     expect(dpaHash(DpaText.parse(no.dpa))).toBe(DPA_SHA256)
-    expect(DPA_VERSION).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+    expect(DPA_VERSION).toMatch(/^\d{4}-\d{2}-\d{2}(\.\d+)?$/)
   })
 })

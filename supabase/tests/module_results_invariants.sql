@@ -49,7 +49,8 @@ begin
       ) g on true
       group by a.factor_key, a.ordinal
     ) x
-    cross join lateral app.release_cells(app.k_threshold(r.org_id),
+    -- each round at its own k (0150): a round keeps the threshold it opened with
+    cross join lateral app.release_cells(app.k_round(r.id),
       (select array_agg(gr.group_id) from app.group_release(r.id) gr),
       (select array_agg(gr.status) from app.group_release(r.id) gr), x.gs, x.ns) rc
   ) diff
@@ -61,7 +62,7 @@ begin
   where r.org_id = v_org and r.status = 'lukket' group by r.id order by count(*) desc limit 1;
   select r.id into v_open from app.rounds r where r.org_id = v_org and r.status = 'apen' limit 1;
   select m.user_id into v_dl from app.memberships m where m.org_id = v_org and m.role = 'daglig_leder' and m.active limit 1;
-  v_k := app.k_threshold(v_org);
+  v_k := app.k_round(v_round);  -- the round's k, not the organisation's current setting (0150)
 
   begin
     perform app.module_seed(jsonb_build_object(

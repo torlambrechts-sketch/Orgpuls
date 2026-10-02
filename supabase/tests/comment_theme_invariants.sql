@@ -51,7 +51,7 @@ begin
     where r.org_id = v_org and not exists (select 1 from app.responses x where x.round_id = r.id)
     order by r.id limit 1;
   select g.id into v_small from app.groups g where g.org_id = v_org and g.name = 'Administrasjon';
-  v_k := app.k_threshold(v_org);
+  v_k := app.k_round(v_round);  -- the round's k, not the organisation's current setting (0150)
   -- a factor the round asked that nobody commented on, so the probes below are the only
   -- voices on it; the fixture's own comments must not decide what these checks see
   select rf.factor_key into v_factor

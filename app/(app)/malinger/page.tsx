@@ -1,4 +1,5 @@
 import { getLocale, getTranslations } from 'next-intl/server'
+import { K_DEFAULT } from '@/lib/org/threshold'
 import { z } from 'zod'
 import { ArshjulTab } from '@/components/arshjulet/ArshjulTab'
 import { Historikk, type HistoryRow } from '@/components/malinger/Historikk'
@@ -694,10 +695,16 @@ async function Settings({ canEdit }: { canEdit: boolean }) {
         })),
         final: { label: k('final.label'), sub: k('final.sub') },
         s4: k('s4'),
-        threshold: k('threshold', { k: organization?.threshold ?? 5 }),
+        threshold: k('threshold', { k: organization?.threshold ?? K_DEFAULT }),
         thresholdLink: k('thresholdLink'),
         logHead: k('logHead'),
-        log: log.map((l) => k('logLine', { date: date(l.at), fields: list(l.keys.map(field)) })),
+        log: log.map((l) =>
+          k('logLine', {
+            date: date(l.at),
+            // the threshold's change says from what to what (0150); every other setting by its name
+            fields: list(l.keys.map((key) => (key !== 'threshold' ? field(key) : l.threshold ? k('field.threshold', l.threshold) : key))),
+          }),
+        ),
         logNone: k('logNone'),
         save: k('save'),
         saving: k('saving'),
