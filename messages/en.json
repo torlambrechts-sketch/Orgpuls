@@ -6121,7 +6121,7 @@
       },
       "sporsmal": {
         "screen": "Questionnaire",
-        "alt": "Screenshot of the questionnaire on a phone (Norwegian interface): one statement about speaking up without fear of consequences, with five answers from strongly disagree to strongly agree."
+        "alt": "Screenshot of the questionnaire on a phone (Norwegian interface), page 1 of 16: the theme freedom to speak up, one statement about speaking up without fear of consequences, answers from strongly disagree to strongly agree, «not relevant to me» and an optional comment."
       },
       "rapport": {
         "screen": "Report",
@@ -7273,8 +7273,7 @@
         "card": {
           "title": "The questionnaire on a phone",
           "meta": "one topic per page"
-        },
-        "mock": "Example of the questionnaire: three statements on freedom to speak up, answers from 1 to 5, comment optional"
+        }
       },
       "resultater": {
         "eyebrow": "Results",

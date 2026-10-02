@@ -9,7 +9,7 @@ import { StartBand } from '@/components/site/v3/StartBand'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, graph, organization } from '@/lib/marketing/schema'
 import { zip } from '@/lib/site/zip'
-import { SurveyMock } from './SurveyMock'
+import sporsmal from '@/assets/produkt/sporsmal.webp'
 
 /**
  * Plattform (D-190): design-reference/orgpuls/nettside-v3/Plattform.dc.html.
@@ -158,7 +158,20 @@ export default async function PlattformPage() {
         })}
       </ol>
     ),
-    respondent: <SurveyMock />,
+    // the respondent flow as an employee meets it on a phone: a real screen of the demo
+    // organisation's main survey (scripts/marketing/product-shots.mjs), framed as the design frames it
+    respondent: (
+      <div className="-mx-[8px] -my-[6px] overflow-hidden rounded-[13px] border border-line">
+        {/* eslint-disable-next-line @next/next/no-img-element -- eager and sized, as the design draws it (D-190 §21) */}
+        <img
+          src={sporsmal.src}
+          width={sporsmal.width}
+          height={sporsmal.height}
+          alt={all('seo.shots.sporsmal.alt')}
+          className="block h-auto w-full"
+        />
+      </div>
+    ),
     resultater: (
       <Rows
         rows={resultRows.map((r) => ({

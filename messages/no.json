@@ -6121,7 +6121,7 @@
       },
       "sporsmal": {
         "screen": "Spørreskjema",
-        "alt": "Skjermbilde av spørreskjemaet på en mobil: påstanden «Jeg kan si fra om kritikkverdige forhold uten å frykte konsekvenser» med fem svar fra Helt uenig til Helt enig."
+        "alt": "Skjermbilde av spørreskjemaet på en mobil, side 1 av 16: temaet Ytringsklima med påstanden «Jeg kan si fra om kritikkverdige forhold uten å frykte konsekvenser», svarene fra Helt uenig til Helt enig, Ikke relevant for meg og en frivillig kommentar."
       },
       "rapport": {
         "screen": "Rapport",
@@ -6717,8 +6717,7 @@
         "card": {
           "title": "Spørreskjemaet på mobil",
           "meta": "ett tema per side"
-        },
-        "mock": "Eksempel på spørreskjemaet: tre påstander om ytringsklima, svar fra 1 til 5, kommentar frivillig"
+        }
       },
       "resultater": {
         "eyebrow": "Resultater",

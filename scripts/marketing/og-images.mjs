@@ -13,7 +13,7 @@
  *
  * Writes public/og/<slug>.png for a landing page, public/og/artikler/<slug>.png for an article
  * (its H1, with its landing page's picture), and public/og.png, the site's own card (the start
- * page's H1). Run it when an H1, a picture or a pill (messages seo.og.pills) changes.
+ * page's first slide title). Run it when an H1, a picture or a pill (messages seo.og.pills) changes.
  */
 import { mkdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -61,7 +61,9 @@ const ARTICLE_CARDS = [...siteSrc.matchAll(/slug: '([^']+)',\s*key: '([^']+)',[\
 }))
 if (ARTICLE_CARDS.length === 0 || ARTICLE_CARDS.some((a) => !a.h1 || !a.shot)) throw new Error('lib/marketing/site.ts ARTICLES changed shape')
 // the site's own card (public/og.png, lib/marketing/meta.ts), for every page without one: the start page's H1
-const DEFAULT_CARD = { slug: 'default', h1: no.site.home.h1, shot: 'rapport', file: '../og.png' }
+// the start page's first slide title: its H1 is for screen readers and opens with the brand, which
+// the card already shows beside the logo (D-190)
+const DEFAULT_CARD = { slug: 'default', h1: no.site.home.slides[0].title, shot: 'rapport', file: '../og.png' }
 // the three claims on every card are messages (seo.og.pills), so they are in the legal review (D-130)
 const PILLS = no.seo.og.pills
 if (!Array.isArray(PILLS) || PILLS.length !== 3) throw new Error('messages seo.og.pills changed shape')

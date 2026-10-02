@@ -39,7 +39,8 @@ const at = (text) => ({ text, up: null })
 
 /**
  * `anchors` are unioned; `pad` is added round them; `maxHeight` cuts a long list off
- * where a reader has seen enough of it; `hide` removes one element, by its words, first. Widths are CSS pixels at the given viewport.
+ * where a reader has seen enough of it; `click` presses one button, by its name, first; `hide` removes one
+ * element, by its words. Widths are CSS pixels at the given viewport.
  */
 const SHOTS = [
   {
@@ -71,10 +72,16 @@ const SHOTS = [
   { id: 'arshjul', route: '/malinger', width: 1440, anchors: [card('Årshjulet')], pad: 20 },
   {
     id: 'sporsmal',
-    route: '/forhandsvis',
+    // the 2026 baseline, the main survey (a fixture id, stable across reseeds): the respondent
+    // flow by factor, one theme per page (D-150), as an employee sees it on a phone
+    route: '/forhandsvis?runde=00000000-0000-4000-8000-000000000002',
     width: 390,
-    anchors: [card('Hopp over')],
-    pad: 14,
+    anchors: [card('Jeg kan si fra om kritikkverdige forhold')],
+    pad: 0,
+    // past the intro page every respondent meets first (D-150)
+    click: 'Start',
+    // the first statement and its answers: the phone-shaped crop the site's card shows
+    maxHeight: 721,
     // the leader's preview is the respondent's own flow plus this banner; without it, the
     // picture is what an employee sees
     hide: 'Forhåndsvisning — ingenting du velger her blir sendt.',
@@ -101,6 +108,10 @@ for (const s of SHOTS.filter((s) => !only.length || only.includes(s.id))) {
   await p.goto(base + s.route, { waitUntil: 'networkidle' })
   await p.mouse.move(0, 0)
   await p.waitForTimeout(700)
+  if (s.click) {
+    await p.getByRole('button', { name: s.click, exact: true }).first().click()
+    await p.waitForTimeout(700)
+  }
   if (s.hide)
     await p
       .getByText(s.hide)
