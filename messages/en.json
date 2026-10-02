@@ -5959,7 +5959,7 @@
         "crumb": "Privacy statement",
         "kicker": "Privacy",
         "h1": "Privacy statement",
-        "lead": "What Orgpuls AS collects about you, why, how long we keep it and who helps us. Last updated 30 September 2026.",
+        "lead": "What Orgpuls AS collects about you, why, how long we keep it and who helps us. Last updated 2 October 2026.",
         "blocks": [
           {
             "t": "h2",
@@ -6004,11 +6004,11 @@
           },
           {
             "t": "p",
-            "text": "If you ask for a demo, we store the email address, whether you ticked the box for email from us, and a visitor code for the network you came from, made from the IP address with a key that changes every day. The IP address itself is not stored. The request is deleted after 30 days. We use it to send the sign-in link and to prevent misuse, such as many links to the same address. The basis is that you asked for the demo, Article 6(1)(b), and our legitimate interest in stopping misuse, point (f)."
+            "text": "If you ask for a demo, we store your name, the email address, the organisation and the role you give, whether you ticked the box for email from us, and a visitor code for the network you came from, made from the IP address with a key that changes every day. The IP address itself is not stored. The request is deleted after 30 days. We use it to send the sign-in link and to prevent misuse, such as many links to the same address. The basis is that you asked for the demo, Article 6(1)(b), and our legitimate interest in stopping misuse, point (f)."
           },
           {
             "t": "p",
-            "text": "The demo is a copy of a fictional organisation that only you can access. It and your sign-in are deleted after 14 days without a sign-in, or as soon as you choose to create your own account. Once you have opened the link, we store the address as a contact marked «demo». We email you about Orgpuls only if you ticked the box, Article 6(1)(a), and you can unsubscribe in every email."
+            "text": "The demo is a copy of a fictional organisation that only you can access. It and your sign-in are deleted after 14 days without a sign-in, or as soon as you choose to create your own account. Once you have opened the link, we store your address, name, organisation and role as a contact marked «demo», so that we know who has tried Orgpuls. If you were already a contact, we keep what we had and only fill in what was missing. The basis is our legitimate interest in knowing who tries the product, point (f). We keep the contact until you ask us to delete it or object. We email you about Orgpuls only if you ticked the box, Article 6(1)(a), and you can unsubscribe in every email."
           },
           {
             "t": "h2",
@@ -6036,7 +6036,7 @@
           },
           {
             "t": "p",
-            "text": "We use only the cookies the service needs to work: signing in, your language choice, display choices in the app, and a short-lived cookie that remembers the organisation while you sign up with Google. None is used for statistics or advertising."
+            "text": "We use only the cookies the service needs to work: signing in, your language choice, display choices in the app, and a short-lived cookie that remembers the organisation while you sign up with Google. In the demo, the browser remembers which places in the demo guide you have visited; this is stored on your device only. None is used for statistics or advertising."
           },
           {
             "t": "h2",
@@ -6064,6 +6064,7 @@
             "items": [
               "Visit statistics: 13 months. The visit code changes every day.",
               "The account and the organisation's data: for as long as the customer relationship lasts, and then as long as the Accounting Act requires for what is part of the accounts.",
+              "Demo: the request 30 days. The demo and its sign-in 14 days without a sign-in. The contact until you ask us to delete it.",
               "Newsletter: until you unsubscribe. After that, only the hash that prevents new mailings.",
               "Support enquiries: as long as needed to follow up the case and the customer relationship."
             ]
@@ -12651,31 +12652,163 @@
     }
   },
   "demo": {
-    "title": "See all of Orgpuls in a demo",
+    "title": "See all of Orgpuls – with an organisation already surveyed",
     "metaTitle": "Try the Orgpuls demo",
     "metaDescription": "Your own copy of an organisation already surveyed: three years of surveys, measures, conversations and the report for the Labour Inspection Authority. Fictional data, nothing is sent.",
     "badge": "Demo",
-    "lead": "You get your own copy of Demobedriften AS: 64 fictional employees, 3 years of surveys, measures, conversations and the report for the Labour Inspection Authority. Enter your work email and we send you a link.",
-    "mail": "Work email",
-    "consent": "Yes, Orgpuls may email me about the product. I can unsubscribe at any time.",
-    "submit": "Send me the link",
-    "sending": "Sending …",
-    "sentTitle": "Check your inbox",
-    "sentLead": "We have sent a sign-in link to {mail}. Open it to enter the demo.",
-    "invalid": "Enter a valid email address.",
-    "limited": "Many people have asked for links from here today. Try again tomorrow, or get in touch with us.",
-    "closed": "The demo is closed right now. Get in touch and we will show you Orgpuls.",
-    "failed": "Something went wrong. Try again in a moment.",
+    "lead": "You get your own copy of Demobedriften AS: 64 fictional employees in 6 departments, 3 years of surveys, measures, conversations and a finished report for the Labour Inspection Authority. Click around as the managing director and see what you get out of Orgpuls.",
+    "points": [
+      "Ready at once – no setup",
+      "Only you see your demo",
+      "Fictional data – nothing is sent to anyone"
+    ],
+    "form": {
+      "title": "Get your own demo",
+      "lead": "Fill in the form and we send you a link that signs you straight in.",
+      "name": "Full name",
+      "mail": "Work email",
+      "company": "Organisation",
+      "role": "Role",
+      "rolePick": "Choose a role",
+      "roles": {
+        "daglig_leder": "Managing director",
+        "hr": "HR",
+        "leder": "Manager",
+        "verneombud": "Safety representative",
+        "annet": "Other"
+      },
+      "consent": "Yes, Orgpuls may email me about the product. I can unsubscribe at any time.",
+      "submit": "Send me the link to the demo",
+      "sending": "Sending …",
+      "nameMissing": "Enter your name.",
+      "mailInvalid": "Enter a valid email address.",
+      "companyMissing": "Enter the name of your organisation.",
+      "roleMissing": "Choose your role.",
+      "fieldsProblem": "Something is missing in the form. See the notes by the fields.",
+      "limited": "Many people have asked for links from here today. Try again tomorrow, or get in touch with us.",
+      "closed": "The demo is closed right now. Get in touch and we will show you Orgpuls.",
+      "failed": "Something went wrong. Try again in a moment.",
+      "note": "Free and without commitment. You need no payment card."
+    },
+    "sent": {
+      "title": "Check your inbox",
+      "lead": "We have sent a sign-in link to {mail}. Open it and you go straight into the demo.",
+      "from": "The email comes from Orgpuls, no-reply@orgpuls.com. The link works for one hour.",
+      "helpTitle": "No email?",
+      "help": [
+        "Wait a couple of minutes, and look in your spam and promotions folders.",
+        "Check that the address above is right. If it is wrong, fill in the form again.",
+        "If nothing arrives, write to us at <mail>hjelp@orgpuls.no</mail>."
+      ],
+      "again": "Fill in the form again"
+    },
     "startFailed": "We could not open the demo. Ask for a new link.",
-    "rulesTitle": "How the demo works",
+    "closed": "The demo is closed right now. Get in touch and we will show you Orgpuls.",
+    "explore": {
+      "kicker": "What you can explore",
+      "title": "From survey to finished report – try the whole cycle",
+      "lead": "The demo is the whole product, not a video. Here are six places to start.",
+      "note": "The pictures show the example organisation Nordvik Anlegg AS. In the demo you see the same screens with the figures of Demobedriften AS.",
+      "cards": {
+        "oversikt": {
+          "title": "See where you stand",
+          "try": "Insight shows the index, the response rate and what to do next."
+        },
+        "varmekart": {
+          "title": "Find what pulls you down",
+          "try": "The heat map shows which department and which factor stand out."
+        },
+        "samtaler": {
+          "title": "Reply to an anonymous comment",
+          "try": "Write a reply to the employee – without anyone knowing who wrote the comment."
+        },
+        "tiltak": {
+          "title": "Follow measures until they work",
+          "try": "Move a measure on along the board, with an owner and a deadline."
+        },
+        "arshjul": {
+          "title": "See the whole year in the year wheel",
+          "try": "The baseline and the pulses are planned, month by month."
+        },
+        "rapport": {
+          "title": "Open the report for the Labour Inspection Authority",
+          "try": "Written from the figures – marked DEMO in the demo."
+        }
+      }
+    },
+    "how": {
+      "kicker": "How it works",
+      "title": "Into the demo in three steps",
+      "steps": [
+        {
+          "title": "Fill in the form",
+          "text": "Name, work email, organisation and role. No payment card, no commitment."
+        },
+        {
+          "title": "Open the link in your inbox",
+          "text": "The link signs you straight in. You need no password."
+        },
+        {
+          "title": "Explore at your own pace",
+          "text": "Try what you like. The demo is as new after a day, or when you press «Reset»."
+        }
+      ]
+    },
+    "rulesTitle": "Good to know",
     "rules": [
       "The demo is your own. Nobody else sees what you do, and you do not see theirs.",
       "Everything is fictional: names, answers and comments are written for the demo.",
       "Nothing is sent. Invitations, reminders and SMS are switched off, and the report is marked DEMO.",
       "The demo is as new after a day, or when you press «Reset». After 14 days without a sign-in we delete it."
     ],
-    "privacy": "We use the address to send the link, and keep the request for 30 days. Without the box ticked you get no other email from us.",
+    "end": {
+      "title": "See it for yourself",
+      "lead": "It takes four fields and one link. The demo is ready when you open it.",
+      "cta": "To the form",
+      "alt": "Rather start with your own figures? Try Orgpuls free for 15 days"
+    },
+    "privacy": "We keep the request – name, email, organisation and role – for 30 days. Once you have opened the link, you are stored as a contact with us. Without the box ticked you get no other email from us.",
     "privacyLink": "Privacy policy",
+    "tour": {
+      "title": "Explore the demo",
+      "lead": "Six places to try. The tick comes once you have been there.",
+      "progress": "{done} of {total} seen",
+      "hide": "Hide",
+      "show": "Show",
+      "close": "Close the guide",
+      "seen": "Seen",
+      "items": {
+        "innsikt": {
+          "title": "See where you stand",
+          "hint": "Insight: the index, the loop and what to do next"
+        },
+        "resultater": {
+          "title": "Find what pulls you down",
+          "hint": "Results: the heat map by department and factor"
+        },
+        "kommentarer": {
+          "title": "Reply to an anonymous comment",
+          "hint": "Comments: reply without knowing who wrote it"
+        },
+        "tiltak": {
+          "title": "Move a measure on",
+          "hint": "Measures: press «Move on» on a card on the board"
+        },
+        "malinger": {
+          "title": "See the year wheel",
+          "hint": "Surveys: when the surveys go out through the year"
+        },
+        "rapport": {
+          "title": "Open the report for the Labour Inspection Authority",
+          "hint": "Report: written from the figures, marked DEMO"
+        }
+      },
+      "own": {
+        "title": "Create your own account",
+        "hint": "Ready for your own figures? The demo is deleted, and you register your organisation with the same email address.",
+        "cta": "Create account"
+      }
+    },
     "notice": {
       "head": "Demo with fictional data.",
       "body": "Nothing is sent from here, and the report is marked DEMO. The demo is as new {fresh}.",

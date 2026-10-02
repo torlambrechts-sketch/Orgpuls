@@ -4,6 +4,8 @@
 --   * the copy plan names every table that holds an organisation's data (2)
 --   * a request: a bad or throwaway address is refused; one address gets three links a day,
 --     and the network is kept only as the day's hash (3)
+--   * a request says who is asking: without a name or a company, or with a role outside the
+--     CRM's set, it is refused; with them, all three are stored (15, 0146)
 --   * the first login makes a copy with the template's data, its rounds in their states (4)
 --   * the copy has no org.nr, no billing row, mail and SMS off, one daglig leder, a member
 --     lock, and no token the template holds (5)
@@ -11,11 +13,12 @@
 --   * nothing leaves a demo: name and switches locked, no QR code, DPA or invitation, and the
 --     outbox drops its rows (7)
 --   * within a day the same copy; after it, or on «Tilbakestill», a new one (8, 9)
---   * the proved address becomes a CRM contact, mailable only with the box ticked (10)
+--   * the proved address becomes a CRM contact, mailable only with the box ticked (10), with
+--     the request's name, company and role; an existing contact's are never overwritten (16)
 --   * the CRM's sync and the signup counts leave a demo out (11)
 --   * somebody with a real organisation is sent there, not into a demo (12)
 --   * leaving, or 14 idle days, takes the copy and the login (13, 14)
---   * nothing written here survives (15)
+--   * nothing written here survives (17)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/demo_invariants.sql
 
@@ -28,6 +31,7 @@ declare
   v_a      uuid := '00000000-0000-4000-8000-0000000de0a1';
   v_b      uuid := '00000000-0000-4000-8000-0000000de0b1';
   v_real   uuid := '00000000-0000-4000-8000-0000000de0c1';
+  v_c      uuid := '00000000-0000-4000-8000-0000000de0d1';
   v_fix    uuid := '00000000-0000-4000-8000-000000000001';
   v_org_a  uuid;
   v_org_b  uuid;
@@ -77,12 +81,12 @@ begin
     -- 3 -------------------------------------------------------------- requests
     execute 'set local role anon';
     v_txt := concat_ws(',',
-      public.demo_request('not an address', '203.0.113.9', false, 'no')->>'error',
-      public.demo_request('someone@mailinator.com', '203.0.113.9', false, 'no')->>'error',
-      public.demo_request('Visitor.A@demo-test.example', '203.0.113.9', true, 'no')->>'ok',
-      public.demo_request('visitor.a@demo-test.example', '203.0.113.10', true, 'no')->>'ok',
-      public.demo_request('visitor.a@demo-test.example', '203.0.113.11', true, 'no')->>'ok',
-      public.demo_request('visitor.a@demo-test.example', '203.0.113.12', true, 'no')->>'error');
+      public.demo_request('not an address', 'Ada Visitor', 'Visitor AS', 'daglig_leder', '203.0.113.9', false, 'no')->>'error',
+      public.demo_request('someone@mailinator.com', 'Ada Visitor', 'Visitor AS', 'daglig_leder', '203.0.113.9', false, 'no')->>'error',
+      public.demo_request('Visitor.A@demo-test.example', 'Ada  Visitor ', ' Visitor AS', 'daglig_leder', '203.0.113.9', true, 'no')->>'ok',
+      public.demo_request('visitor.a@demo-test.example', 'Ada Visitor', 'Visitor AS', 'daglig_leder', '203.0.113.10', true, 'no')->>'ok',
+      public.demo_request('visitor.a@demo-test.example', 'Ada Visitor', 'Visitor AS', 'daglig_leder', '203.0.113.11', true, 'no')->>'ok',
+      public.demo_request('visitor.a@demo-test.example', 'Ada Visitor', 'Visitor AS', 'daglig_leder', '203.0.113.12', true, 'no')->>'error');
     execute 'reset role';
     v_txt := v_txt || '|' || (select count(*) from app.demo_requests where email = 'visitor.a@demo-test.example')
                    || '|' || (select count(*) from app.demo_requests where network !~ '^[0-9a-f]{32}$' or network like '%203.0%');
@@ -91,6 +95,28 @@ begin
       'pass', v_txt = 'invalid,invalid,true,true,true,limited|3|0');
     insert into app.demo_requests (email, domain, network, consent, lang)
     values ('visitor.b@gmail.com', 'gmail.com', repeat('b', 32), false, 'no');
+
+    -- 15 ------------------------------------------------------------- who is asking (0146)
+    execute 'set local role anon';
+    v_txt := concat_ws(',',
+      public.demo_request('visitor.c@demo-test.example', '', 'Demo Firma AS', 'hr', '203.0.113.20', false, 'no')->>'error',
+      public.demo_request('visitor.c@demo-test.example', '   ', 'Demo Firma AS', 'hr', '203.0.113.20', false, 'no')->>'error',
+      public.demo_request('visitor.c@demo-test.example', null, 'Demo Firma AS', 'hr', '203.0.113.20', false, 'no')->>'error',
+      public.demo_request('visitor.c@demo-test.example', 'Kari Demo', '', 'hr', '203.0.113.20', false, 'no')->>'error',
+      public.demo_request('visitor.c@demo-test.example', repeat('n', 121), 'Demo Firma AS', 'hr', '203.0.113.20', false, 'no')->>'error',
+      public.demo_request('visitor.c@demo-test.example', 'Kari Demo', repeat('c', 201), 'hr', '203.0.113.20', false, 'no')->>'error',
+      public.demo_request('visitor.c@demo-test.example', 'Kari Demo', 'Demo Firma AS', 'sjef', '203.0.113.20', false, 'no')->>'error',
+      public.demo_request('visitor.c@demo-test.example', 'Kari Demo', 'Demo Firma AS', null, '203.0.113.20', false, 'no')->>'error',
+      public.demo_request('visitor.c@demo-test.example', 'Kari Demo', 'Demo Firma AS', 'hr', '203.0.113.20', false, 'en')->>'ok');
+    execute 'reset role';
+    v_txt := v_txt || '|' || (select string_agg(format('%s/%s/%s', name, company, role), ',' order by at, id)
+                              from app.demo_requests where email = 'visitor.c@demo-test.example')
+                   || '|' || (select string_agg(distinct format('%s/%s/%s', name, company, role), ',')
+                              from app.demo_requests where email = 'visitor.a@demo-test.example');
+    v_rows := v_rows || jsonb_build_object('seq', 15, 'name', 'a request without a name or a company, or with another role, is refused; with them all three are stored',
+      'expected', 'invalid,invalid,invalid,invalid,invalid,invalid,invalid,invalid,true|Kari Demo/Demo Firma AS/hr|Ada Visitor/Visitor AS/daglig_leder',
+      'actual', v_txt,
+      'pass', v_txt = 'invalid,invalid,invalid,invalid,invalid,invalid,invalid,invalid,true|Kari Demo/Demo Firma AS/hr|Ada Visitor/Visitor AS/daglig_leder');
 
     -- 4 -------------------------------------------------------------- the first login
     perform set_config('request.jwt.claims', format(claims, v_a), true);
@@ -204,6 +230,22 @@ begin
       'expected', 'visitor.a@demo-test.example:demo:consent:t,visitor.b@gmail.com:demo:none:t|false', 'actual', v_txt,
       'pass', v_txt = 'visitor.a@demo-test.example:demo:consent:t,visitor.b@gmail.com:demo:none:t|false');
 
+    -- 16 ------------------------------------------------------------- who the lead is (0146)
+    -- a new contact takes the request's name, company and role; a request from before 0146 has
+    -- none and leaves them empty; an existing contact keeps its own and only fills what it lacks
+    insert into app.crm_contacts (email, name, source, basis, status, tags)
+    values ('visitor.c@demo-test.example', 'Kari Fra Salg', 'manual', 'none', 'active', '{}');
+    insert into auth.users (id, email, created_at) values (v_c, 'visitor.c@demo-test.example', now());
+    perform app.demo_lead(v_c);
+    select string_agg(format('%s=%s/%s/%s', c.email, coalesce(c.name, '-'), coalesce(c.company, '-'), coalesce(c.role, '-')), ','
+                      order by c.email) into v_txt
+    from app.crm_contacts c
+    where c.email in ('visitor.a@demo-test.example', 'visitor.b@gmail.com', 'visitor.c@demo-test.example');
+    v_rows := v_rows || jsonb_build_object('seq', 16, 'name', 'the lead carries name, company and role; an existing contact''s name is never overwritten',
+      'expected', 'visitor.a@demo-test.example=Ada Visitor/Visitor AS/daglig_leder,visitor.b@gmail.com=-/-/-,visitor.c@demo-test.example=Kari Fra Salg/Demo Firma AS/hr',
+      'actual', v_txt,
+      'pass', v_txt = 'visitor.a@demo-test.example=Ada Visitor/Visitor AS/daglig_leder,visitor.b@gmail.com=-/-/-,visitor.c@demo-test.example=Kari Fra Salg/Demo Firma AS/hr');
+
     -- 11 ------------------------------------------------------------- nobody counts a demo
     perform app.crm_sync();
     v_txt := concat_ws(',',
@@ -247,15 +289,15 @@ begin
     if sqlerrm <> 'rollback' then raise; end if;
   end;
 
-  -- 15 --------------------------------------------------------------- nothing left
+  -- 17 --------------------------------------------------------------- nothing left
   select count(*) into v_n from (
-    select id::text from auth.users where id in (v_a, v_b, v_real)
-    union all select user_id::text from app.demo_sandboxes where user_id in (v_a, v_b, v_real)
+    select id::text from auth.users where id in (v_a, v_b, v_real, v_c)
+    union all select user_id::text from app.demo_sandboxes where user_id in (v_a, v_b, v_real, v_c)
     union all select email from app.demo_requests where email like '%demo-test.example' or email = 'visitor.b@gmail.com'
     union all select email from app.crm_contacts where email like '%demo-test.example' or email = 'visitor.b@gmail.com'
     union all select org_id::text from app.demo_orgs where kind = 'sandbox'
   ) left_over;
-  v_rows := v_rows || jsonb_build_object('seq', 15, 'name', 'every probe row was rolled back',
+  v_rows := v_rows || jsonb_build_object('seq', 17, 'name', 'every probe row was rolled back',
     'expected', '0', 'actual', v_n::text, 'pass', v_n = 0);
 
   insert into public._demo
@@ -270,7 +312,7 @@ begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*)
     into v_failed, v_count from public._demo;
   if v_failed is not null then raise exception 'demo invariants failed: %', v_failed; end if;
-  if v_count <> 15 then raise exception 'demo invariants: expected 15 rows, got %', v_count; end if;
+  if v_count <> 17 then raise exception 'demo invariants: expected 17 rows, got %', v_count; end if;
 end $$;
 
 drop table public._demo;
