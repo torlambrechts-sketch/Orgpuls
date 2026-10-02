@@ -5,6 +5,7 @@ import {
 import { getOrganization } from '@/lib/org/read'
 import { countWithPhone, getRoster, getSmsSettings } from '@/lib/settings/read'
 import { getQueueCounts } from '@/lib/wheel/read'
+import { entraClientId, getEntraStatus } from '@/lib/entra/read'
 
 /**
  * Integrasjoner — the data half. Bundle lines 1143-1284.
@@ -24,12 +25,16 @@ export default async function IntegrasjonerPage() {
     getSmsSettings(),
   ])
 
+  const entra = org ? await getEntraStatus(org.id) : null
+
   const view: IntegrasjonerView = {
     withPhone,
     total: roster.filter((p) => p.active).length,
     queue,
     mailOn: org?.mail_enabled ?? false,
     smsOn: sms?.enabled ?? false,
+    entraOn: entra?.bound ?? false,
+    entraReady: (entra?.bound ?? false) || entraClientId() !== null,
   }
 
   return <IntegrasjonerScreen view={view} />

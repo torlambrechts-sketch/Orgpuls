@@ -17,6 +17,11 @@ import { ButtonLink } from '@/components/ui/Button'
  * prints what connecting will require, in the order the wizard would ask for it, which is
  * genuinely what a leader deciding whether to set this up needs to read. D-35.
  *
+ * **Entra ID is built in part since D-201:** Microsoft sign-in and the tenant binding. Its card
+ * says «Tilkoblet» only over a real binding, keeps the four steps with their text made true
+ * (the groups and the sync are the import, still to come), and carries the button to the Entra
+ * screen when there is an application to consent to.
+ *
  * One number here is real and is therefore computed rather than described: how many of the
  * register carry a mobile number. It is the thing that decides whether SMS is worth
  * connecting at all, and it is counted with `head: true` so the numbers themselves never
@@ -32,6 +37,10 @@ export interface IntegrasjonerView {
   mailOn: boolean
   /** whether this organisation has SMS on (0033) */
   smsOn: boolean
+  /** whether this organisation has bound a Microsoft 365 tenant (0155) */
+  entraOn: boolean
+  /** whether there is an Entra application to consent to (ENTRA_CLIENT_ID), or a binding already */
+  entraReady: boolean
 }
 
 const CHANNELS = [
@@ -107,7 +116,7 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
                 style={
                   c.key === 'epost' && view.mailOn
                     ? { background: 'rgba(25,21,16,.07)', color: '#5F5849' }
-                    : c.key === 'sms' && view.smsOn
+                    : (c.key === 'sms' && view.smsOn) || (c.key === 'entra' && view.entraOn)
                       ? { background: '#CFE7E4', color: '#20431C' }
                       : c.key === 'hr'
                       ? { background: 'rgba(25,21,16,.05)', color: '#8A8272' }
@@ -118,7 +127,7 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
                   ? view.mailOn
                     ? t('oppsett.integrasjoner.statusAlways')
                     : t('oppsett.integrasjoner.statusMailOff')
-                  : c.key === 'sms' && view.smsOn
+                  : (c.key === 'sms' && view.smsOn) || (c.key === 'entra' && view.entraOn)
                     ? t('oppsett.integrasjoner.statusOn')
                     : c.key === 'hr'
                       ? t('oppsett.integrasjoner.statusSoon')
@@ -191,6 +200,22 @@ export async function IntegrasjonerScreen({ view }: { view: IntegrasjonerView })
                   </li>
                 ))}
               </ol>
+              {c.key === 'entra' ? (
+                view.entraReady ? (
+                  <ButtonLink
+                    href="/integrasjoner/entra"
+                    size="xxs"
+                    tone={view.entraOn ? 'secondary' : 'primary'}
+                    className="mt-[16px]"
+                  >
+                    {view.entraOn ? t('oppsett.integrasjoner.btnSettings') : t('integrasjoner.entraSetup.open')}
+                  </ButtonLink>
+                ) : (
+                  <p className="mb-0 mt-[12px] max-w-[640px] text-[13px] leading-[1.55] text-mut [text-wrap:pretty]">
+                    {t('oppsett.integrasjoner.entra.needOff')}
+                  </p>
+                )
+              ) : null}
             </div>
             )}
           </section>

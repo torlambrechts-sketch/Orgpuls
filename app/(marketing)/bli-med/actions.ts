@@ -7,6 +7,8 @@ import { restoreLocale } from '@/lib/i18n/server'
 import { createClient } from '@/lib/supabase/server'
 import { callFailed } from '@/lib/supabase/read'
 import { getInvitePreview } from '@/lib/members/read'
+import { checkMicrosoftSignIn } from '@/lib/entra/read'
+import { signInProblem } from '@/lib/entra/schema'
 
 /**
  * Accepting an invitation (0028). The token is the capability; `accept_invite` holds every
@@ -29,6 +31,15 @@ async function accept(token: string): Promise<JoinState> {
   const verdict = Verdict.safeParse(data)
   if (!verdict.success) return { problem: 'failed' }
   if (!verdict.data.ok) return { problem: verdict.data.error }
+  // a Microsoft session is a member now: the sign-in rules run for it, and bind it (D-201).
+  // A refusal (the organisation bound another tenant) signs this browser out; the membership
+  // the invitation granted stays, and the password or the right Microsoft account still opens it.
+  const check = await checkMicrosoftSignIn(supabase)
+  if (!check.ok) {
+    console.error(`[auth] microsoft sign-in refused after an invitation: ${check.error}`)
+    await supabase.auth.signOut({ scope: 'local' })
+    redirect(`/logg-inn?feil=${signInProblem(check.error)}` as Route)
+  }
   // the language saved on the profile, or the organisation's (D-96)
   await restoreLocale(supabase)
   redirect('/innsikt')

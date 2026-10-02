@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import type { RosterPerson } from '@/lib/settings/read'
+import { getCurrentOrgId } from '@/lib/org/current'
+import { entraClientId, getEntraStatus } from '@/lib/entra/read'
 
 /**
  * Integrasjoner, the Oppsett tab. Bundle lines 2323-2348.
@@ -17,6 +19,11 @@ import type { RosterPerson } from '@/lib/settings/read'
  * none: there is nothing behind them. A button that opens nothing is a promise. D-33.
  * SMS is the exception since D-66: its row carries the design's button, "Sett opp" while
  * off and "Innstillinger" once connected, and it opens the real SMS screen.
+ *
+ * Microsoft Entra ID is the second exception since D-201: Microsoft sign-in and the tenant
+ * binding are built, so the row says «Tilkoblet» when — and only when — the organisation has
+ * bound a tenant, and carries the button to the Entra screen whenever there is an Entra
+ * application to consent to (ENTRA_CLIENT_ID). Without one it says so and has no button.
  *
  * The SMS row's "9 av 34 har mobilnummer" is counted from the register rather than
  * written, because it is the one number here that is real and it is the one that decides
@@ -38,6 +45,11 @@ export async function IntegrasjonerTab({
   smsOn: boolean
 }) {
   const t = await getTranslations()
+  // this tab reads the binding itself, so the Oppsett page and screen need no new prop
+  const orgId = await getCurrentOrgId()
+  const entra = orgId ? await getEntraStatus(orgId) : null
+  const entraOn = entra?.bound ?? false
+  const entraReady = entraOn || entraClientId() !== null
 
   return (
     <section className="mt-[20px] rounded-panel border border-line bg-sf px-[26px] py-[24px]">
@@ -66,7 +78,7 @@ export async function IntegrasjonerTab({
                     style={
                       k === 'epost' && mailOn
                         ? { background: 'rgba(25,21,16,.07)', color: '#5F5849' }
-                        : k === 'sms' && smsOn
+                        : (k === 'sms' && smsOn) || (k === 'entra' && entraOn)
                           ? { background: '#CFE7E4', color: '#20431C' }
                           : soon
                           ? { background: 'rgba(25,21,16,.05)', color: '#8A8272' }
@@ -77,7 +89,7 @@ export async function IntegrasjonerTab({
                       ? mailOn
                         ? t('oppsett.integrasjoner.statusAlways')
                         : t('oppsett.integrasjoner.statusMailOff')
-                      : k === 'sms' && smsOn
+                      : (k === 'sms' && smsOn) || (k === 'entra' && entraOn)
                         ? t('oppsett.integrasjoner.statusOn')
                         : soon
                           ? t('oppsett.integrasjoner.statusSoon')
@@ -99,10 +111,25 @@ export async function IntegrasjonerTab({
                       ? mailOn
                         ? t('oppsett.integrasjoner.epost.needOn')
                         : t('oppsett.integrasjoner.epost.needOff')
-                      : t(`oppsett.integrasjoner.${k}.need`)}
+                      : k === 'entra'
+                        ? entraOn
+                          ? t('oppsett.integrasjoner.entra.needBound')
+                          : entraReady
+                            ? t('oppsett.integrasjoner.entra.need')
+                            : t('oppsett.integrasjoner.entra.needOff')
+                        : t(`oppsett.integrasjoner.${k}.need`)}
                 </span>
               </span>
-              {k === 'sms' ? (
+              {k === 'entra' && entraReady ? (
+                <Link
+                  href="/integrasjoner/entra"
+                  className={`inline-flex h-[38px] items-center justify-center rounded-ctl border border-ink px-[14px] text-[12.5px] font-bold text-ink no-underline hover:text-ink hover:no-underline ${
+                    entraOn ? 'bg-transparent' : 'bg-ac'
+                  }`}
+                >
+                  {entraOn ? t('oppsett.integrasjoner.btnSettings') : t('oppsett.integrasjoner.btnSetup')}
+                </Link>
+              ) : k === 'sms' ? (
                 <Link
                   href="/integrasjoner/sms"
                   className={`inline-flex h-[38px] items-center justify-center rounded-ctl border border-ink px-[14px] text-[12.5px] font-bold text-ink no-underline hover:text-ink hover:no-underline ${

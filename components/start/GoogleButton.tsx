@@ -16,7 +16,7 @@ export function GoogleDivider({ label }: { label: string }) {
   )
 }
 
-const BUTTON =
+export const PROVIDER_BUTTON =
   'flex h-[46px] w-full cursor-pointer items-center justify-center gap-[10px] rounded-cta border-[1.5px] border-line bg-bg text-[14.5px] font-semibold text-ink disabled:cursor-default disabled:opacity-60'
 
 /**
@@ -40,7 +40,7 @@ export function GoogleButton({
     <button
       type="submit"
       disabled={disabled}
-      className={BUTTON}
+      className={PROVIDER_BUTTON}
       {...(inForm ? { formAction: continueWithGoogle, formNoValidate: true, onClick } : { onClick })}
     >
       <GoogleG />
