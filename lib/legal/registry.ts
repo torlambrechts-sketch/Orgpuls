@@ -178,7 +178,7 @@ export const MESSAGE_SPECS: MessageSpec[] = [
   {
     id: 'site.plattform',
     section: 'site',
-    paths: ['site.plattform.rapport', 'site.plattform.resultater.rows', 'site.plattform.oppsett.cards[5]', 'site.plattform.assistent.d', 'site.plattform.respondent.points[0]', 'site.plattform.roller.d'],
+    paths: ['site.plattform.rapport', 'site.plattform.resultater.ticks[2]', 'site.plattform.resultater.rows', 'site.plattform.oppsett.ticks[2]', 'site.plattform.respondent.ticks[0]', 'site.plattform.roller.p'],
     where: onSite('/plattform'),
   },
   {

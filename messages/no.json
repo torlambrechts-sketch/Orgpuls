@@ -6485,136 +6485,46 @@
     },
     "plattform": {
       "crumb": "Plattform",
-      "h1": "Kartlegg, handle og se hva som virker",
-      "lead": "Arbeidsmiljøkartleggingen loven krever, for ledere og verneombud. Du ser hva som trekker ned og hvorfor, gir tiltakene eier og frist – og neste måling viser om de virket.",
-      "next": "Se bruksområdene →",
-      "sections": {
-        "malinger": "Målinger og årshjul",
-        "respondent": "Slik er det å svare",
-        "resultater": "Resultater",
-        "segment": "Fire visninger",
-        "kommentarer": "Kommentarer",
-        "tiltak": "Tiltak",
-        "rapport": "Rapport",
-        "roller": "Roller og tilgang",
-        "oppsett": "Oppsett og integrasjoner",
-        "assistent": "Assistenten"
-      },
-      "app": {
-        "nav": [
-          "Innsikt",
-          "Målinger",
-          "Resultater",
-          "Kommentarer",
-          "Tiltak",
-          "Oppsett"
-        ],
-        "org": "Demo Bedrift · 34 ansatte",
-        "indexLabel": "Arbeidsmiljøindeks · grunnlinje 2026",
-        "index": "61",
-        "delta": "−3 siden i fjor",
-        "answered": "28 av 34 svarte · 82 %",
-        "bands": [
-          "4 forsvarlig",
-          "5 følges opp",
-          "2 høy risiko"
-        ],
-        "tuva": "Verksted har åtte svar, over terskelen på fem, så tallet vises. Adm. har tre og vises som en strek.",
-        "waiting": "Venter på deg",
-        "todo": [
-          {
-            "t": "Fast avvikssvar innen fem dager – Verksted",
-            "m": "Du er ansvarlig · frist gikk ut i går",
-            "cta": "Oppdater"
-          },
-          {
-            "t": "To anonyme kommentarer venter på svar",
-            "m": "Eldste har ventet seks dager",
-            "cta": "Åpne"
-          },
-          {
-            "t": "Godkjenn pulsen 12. oktober",
-            "m": "Seks påstander fra de to høyrisikofaktorene",
-            "cta": "Se utvalget"
-          }
-        ]
-      },
-      "get": "Fra måling til målt effekt",
-      "features": [
+      "eyebrow": "Plattform",
+      "h1": "Kartlegging som ender i tiltak.",
+      "lead": "Målingen er starten. Resultatet viser hva som trekker ned, kommentarene forklarer hvorfor, og neste måling viser om tiltakene virket. Klart på 20 minutter – med eller uten HR-system.",
+      "next": "Se bruksområdene",
+      "index": [
         {
-          "k": "Målinger",
-          "t": "Årshjul som går av seg selv",
-          "d": "Én hovedmåling i året, korte pulser mellom. Du slipper å huske utsending, påminnelser og varsel til verneombud."
+          "t": "Målinger",
+          "d": "Årshjul som går av seg selv"
         },
         {
-          "k": "Resultater",
-          "t": "Hva trekker opp, hva trekker ned",
-          "d": "Indeks per faktor og team, med terskel som verner anonymiteten. Forslag til tiltak ligger under tallene."
+          "t": "Resultater",
+          "d": "Hva trekker opp, hva trekker ned"
         },
         {
-          "k": "Kommentarer",
-          "t": "Svar de ansatte uten å vite hvem",
-          "d": "Anonyme kommentarer gruppert etter faktor. Du svarer i appen, og den som skrev ser svaret via sin lenke."
+          "t": "Kommentarer",
+          "d": "Svar de ansatte uten å vite hvem"
         },
         {
-          "k": "Tiltak",
-          "t": "Eier, frist og målt effekt",
-          "d": "Hvert tiltak henger på en faktor og lukkes først når neste måling viser om det virket."
+          "t": "Tiltak",
+          "d": "Eier, frist og målt effekt"
         }
       ],
-      "heat": {
-        "title": "Team × faktor",
-        "note": "Grupper under terskelen vises som —",
-        "cols": [
-          "Ytringsklima",
-          "Arbeidsmengde",
-          "Lederstøtte",
-          "Rolleklarhet",
-          "Mening"
-        ],
-        "teams": [
-          "Drift · 8",
-          "Prosjekt · 9",
-          "Verksted · 8",
-          "Adm. · 3"
-        ],
-        "tabs": [
-          "Varmekart",
-          "Prioritet",
-          "Segmentprofil",
-          "Utvikling"
-        ]
-      },
-      "callouts": [
-        {
-          "t": "Terskel på 5 svar, kan heves til 10",
-          "d": "Grupper med færre svar vises som en strek – også for administratorer. Aldri under 5."
-        },
-        {
-          "t": "Fire visninger av samme tall",
-          "d": "Varmekart, prioritet, segmentprofil og utvikling. Samme data, ulikt spørsmål."
-        },
-        {
-          "t": "Forslag under tallene",
-          "d": "Trykk på en faktor og få tre tiltak bygget på forskning, med tidsbruk og hva som skal måles."
-        },
-        {
-          "t": "Rollen styrer visningen",
-          "d": "Avdelingslederen ser sitt team. Verneombudet ser helheten. Ingen ser hvem som svarte."
-        }
-      ],
+      "lesMer": "Les mer",
+      "example": "Tenkte eksempeldata.",
       "malinger": {
-        "k": "Målinger",
-        "t": "Årshjulet går av seg selv",
-        "d": "Én hovedundersøkelse i året setter nullpunktet. Pulsene mellom måler bare det dere har satt inn tiltak på – 3 påstander per faktor. Orgpuls sender ut, minner på og varsler for dere.",
-        "points": [
-          "Grunnlinje: 37 spørsmål, alle ansatte, én gang i året",
-          "Puls: 3 påstander fra hver faktor med åpne tiltak",
+        "eyebrow": "Målinger og årshjul",
+        "h": "Årshjulet går av seg selv",
+        "p": "Én hovedundersøkelse i året setter grunnlinjen. Pulsene mellom måler bare det dere har satt tiltak på – tre påstander per faktor. Orgpuls sender ut, minner på og varsler for dere.",
+        "ticks": [
+          "Grunnlinje: 37 spørsmål, alle ansatte, én gang i året",
+          "Puls: tre påstander fra hver faktor med åpne tiltak",
           "Faktoren faller ut av pulsen når tiltakene er lukket",
           "Legg til en puls i en måned direkte i årshjulet"
         ],
-        "wheelTitle": "Årshjul 2026",
-        "wheelNote": "4 utsendinger · pause i juli",
+        "use": "Bruksområde: årlig kartlegging",
+        "caption": "Verneombudet får varsel 2 dager før, og de ansatte får invitasjonen tirsdag kl. 09.00. En puls stenger etter 7 dager, hovedundersøkelsen etter 14.",
+        "card": {
+          "title": "Årshjul 2026",
+          "meta": "4 utsendinger · pause i juli"
+        },
         "months": [
           "Jan",
           "Feb",
@@ -6629,396 +6539,242 @@
           "Nov",
           "Des"
         ],
-        "base": "Hoved",
-        "pulse": "Puls",
-        "holiday": "Ferie",
-        "each": "Hver utsending",
-        "cascade": [
-          {
-            "who": "Verneombud og tillitsvalgte",
-            "when": "2 dager før"
-          },
-          {
-            "who": "Daglig leder",
-            "when": "1 dag før"
-          },
-          {
-            "who": "Ansatte",
-            "when": "tirsdag kl. 09.00"
-          },
-          {
-            "who": "Påminnelse",
-            "when": "dag 4"
-          },
-          {
-            "who": "Resultat til ledelse og verneombud",
-            "when": "dag 7"
-          }
-        ],
-        "chips": [
-          "Grunnlinje · 37 spørsmål",
-          "Puls · 3 per faktor",
-          "Påminnelse · én"
-        ]
-      },
-      "respondent": {
-        "k": "Slik er det å svare",
-        "t": "4 minutter, på mobilen, i pausa",
-        "d": "Ett spørsmål om gangen, faktoren synlig, kommentar frivillig. Rekkefølgen er tilfeldig per person, så ingen kan gjette hvem som svarte hva ut fra når svaret kom inn.",
-        "points": [
-          "Anonymt: vi lagrer aldri navn, e-post eller IP sammen med svaret",
-          "Lederen ser tall først når minst 5 har svart",
-          "Den ansatte kan hoppe over spørsmål, og kommentar er frivillig",
-          "Invitasjon på e-post, eller SMS til dem som ikke sitter ved en skjerm"
-        ],
-        "phone": {
-          "time": "09:41",
-          "org": "Demo Bedrift",
-          "progress": "13 / 37",
-          "factor": "Ytringsklima",
-          "statement": "Jeg kan si fra om kritikkverdige forhold uten å frykte konsekvenser",
-          "options": [
-            "Helt uenig",
-            "Litt uenig",
-            "Verken eller",
-            "Litt enig",
-            "Helt enig"
-          ],
-          "more": "Vil du si mer? Frivillig +",
-          "skip": "Hopp over",
-          "next": "Neste"
+        "tags": {
+          "pulse": "Puls",
+          "holiday": "Ferie",
+          "main": "Hoved"
         }
       },
-      "resultater": {
-        "k": "Resultater",
-        "t": "Sortert etter hva som trekker helheten – ikke etter lavest tall",
-        "d": "Ni til elleve faktorer med indeks 0–100, utvikling fra i fjor og risikonivå. Trykk på en faktor og se påstandene bak tallet, svarfordelingen og tre forslag til tiltak.",
-        "head": [
-          "Faktor",
-          "Indeks og utvikling",
-          "Risiko"
+      "respondent": {
+        "eyebrow": "Slik er det å svare",
+        "h": "Fire minutter, på mobilen, i pausa",
+        "p": "Ett tema om gangen, faktoren synlig, kommentar frivillig. Rekkefølgen er tilfeldig per person, så ingen kan gjette hvem som svarte hva ut fra når svaret kom inn.",
+        "ticks": [
+          "Vi lagrer aldri navn, e-post eller IP sammen med svaret",
+          "Lederen ser tall først når minst 5 har svart",
+          "Alle kan hoppe over spørsmål, og kommentar er frivillig",
+          "Invitasjon på e-post, eller SMS til dem uten fast skjerm"
         ],
+        "use": "Spørsmålssettet",
+        "caption": "Slik ser det ut for den ansatte.",
+        "card": {
+          "title": "Spørreskjemaet på mobil",
+          "meta": "ett tema per side"
+        },
+        "mock": "Eksempel på spørreskjemaet: tre påstander om ytringsklima, svar fra 1 til 5, kommentar frivillig"
+      },
+      "resultater": {
+        "eyebrow": "Resultater",
+        "h": "Sortert etter hva som betyr mest – ikke etter lavest tall",
+        "p": "Faktorer med indeks 0–100, utvikling fra i fjor og risikonivå. Trykk på en faktor og se påstandene bak tallet, svarfordelingen og tre forslag til tiltak.",
+        "ticks": [
+          "Varmekart, prioritet, segmentprofil og utvikling – samme tall, fire spørsmål",
+          "Grupper under 5 svar vises som «—», også for administrator",
+          "Hjemmel per faktor står i rapporten og på hvert tiltak"
+        ],
+        "use": "Bruksområde: ett team skiller seg ut",
+        "caption": "Øverst står det som trekker mest ned, med forslag rett under.",
+        "card": {
+          "title": "Faktor · indeks og utvikling",
+          "meta": "Risiko"
+        },
         "rows": [
           {
-            "l": "Ytringsklima",
-            "law": "aml. § 4-3"
+            "mark": "41",
+            "sub": "aml. § 4-3 · −7 siden i fjor",
+            "pill": "Høy"
           },
           {
-            "l": "Arbeidsmengde",
-            "law": "forskrift kap. 1A"
+            "mark": "44",
+            "sub": "forskrift kap. 1A · −9",
+            "pill": "Høy"
           },
           {
-            "l": "Motstridende krav",
-            "law": "forskrift kap. 1A"
+            "mark": "52",
+            "sub": "forskrift kap. 1A · −6",
+            "pill": "Middels"
           },
           {
-            "l": "Emosjonelle krav",
-            "law": "forskrift kap. 1A"
+            "mark": "64",
+            "sub": "forskrift kap. 1A · −5",
+            "pill": "Middels"
           },
           {
-            "l": "Støtte fra leder",
-            "law": "forskrift kap. 1A"
-          },
-          {
-            "l": "Rolleklarhet",
-            "law": "forskrift kap. 1A"
+            "mark": "71",
+            "sub": "forskrift kap. 1A · −2",
+            "pill": "Lav"
           }
-        ],
-        "risk": {
-          "high": "Høy",
-          "mid": "Middels",
-          "low": "Lav"
-        },
-        "top3": "Gjør disse tre",
-        "top": [
-          {
-            "t": "Ytringsklima på Verksted",
-            "m": "Indeks 28 · 8 svar"
-          },
-          {
-            "t": "Arbeidsmengde på Prosjekt",
-            "m": "Indeks 31 · 9 svar"
-          },
-          {
-            "t": "Støtte fra leder",
-            "m": "Størst fall blant nyansatte"
-          }
-        ],
-        "trend": "Utvikling · ytringsklima",
-        "trendLabels": [
-          "2023",
-          "2024",
-          "2025",
-          "Tiltak",
-          "Puls"
-        ]
-      },
-      "segment": {
-        "k": "Fire visninger",
-        "t": "Samme tall, fire spørsmål",
-        "views": [
-          {
-            "t": "Varmekart",
-            "d": "Team × faktor med terskelsperre. Grupper under 5 svar vises som —."
-          },
-          {
-            "t": "Prioritet",
-            "d": "Hva trekker helheten mest – ikke hva som har lavest tall."
-          },
-          {
-            "t": "Segmentprofil",
-            "d": "Ett team mot resten. Hvor skiller det seg, og på hva?"
-          },
-          {
-            "t": "Utvikling",
-            "d": "Grunnlinje og puls på samme linje, med tiltaket markert."
-          }
-        ],
-        "prio": [
-          "Ytring",
-          "Mengde",
-          "Leder",
-          "Rolle"
         ]
       },
       "kommentarer": {
-        "k": "Kommentarer",
-        "t": "Anonym samtale, ikke innboks",
-        "d": "Orgpuls sorterer frisvarene etter faktor og tone. Lederen svarer uten å vite hvem som skrev, og den ansatte leser svaret via sin private lenke.",
-        "points": [
+        "eyebrow": "Kommentarer",
+        "h": "Anonym samtale, ikke innboks",
+        "p": "Orgpuls sorterer frisvarene etter faktor og tone. Lederen svarer uten å vite hvem som skrev, og den ansatte leser svaret via sin private lenke.",
+        "ticks": [
           "Gruppert per faktor, med tone ut fra svaret kommentaren hører til",
-          "Svaret når den som skrev – via en privat lenke, uten at noen vet hvem",
-          "Filter på måling, faktor og status",
+          "Svaret når den som skrev – uten at noen vet hvem",
           "En faktor vises først når minst 5 har svart"
         ],
-        "themes": [
-          {
-            "l": "Alle faktorer",
-            "n": "18 kommentarer"
-          },
-          {
-            "l": "Ytringsklima",
-            "n": "9 · negativ"
-          },
-          {
-            "l": "Arbeidsmengde",
-            "n": "6 · negativ"
-          },
-          {
-            "l": "Støtte fra kollegaer",
-            "n": "5 · positiv"
-          }
-        ],
-        "c1": {
-          "factor": "Ytringsklima",
-          "tone": "Negativ",
-          "status": "Venter · 6 dager",
-          "text": "«Det hjelper ikke å si fra. Vi meldte avvik på riggingen i vår og hørte aldri noe.»",
-          "reply": "Skriv et svar …",
-          "send": "Send"
+        "use": "Bruksområde: ny leder",
+        "caption": "Den som skrev ser svaret ditt – du får aldri vite hvem det var.",
+        "card": {
+          "title": "Alle faktorer",
+          "meta": "18 kommentarer"
         },
-        "c2": {
-          "factor": "Anerkjennelse og mening",
-          "tone": "Positiv",
-          "status": "Besvart",
-          "text": "«Omleggingen av morgenmøtet var et godt grep.»",
-          "youLabel": "Du svarte:",
-          "you": "Så fint å høre – vi fortsetter med det."
-        }
+        "rows": [
+          {
+            "title": "«Det hjelper ikke å si fra. Vi meldte avvik på riggingen i vår og hørte aldri noe.»",
+            "sub": "{factor} · venter · 6 dager",
+            "pill": "Negativ"
+          },
+          {
+            "title": "«Omleggingen av morgenmøtet var et godt grep.»",
+            "sub": "{factor} · du svarte: Så fint å høre – vi fortsetter med det.",
+            "pill": "Positiv"
+          }
+        ]
       },
       "tiltak": {
-        "k": "Tiltak",
-        "t": "Fra funn til effekt, med eier og frist",
-        "d": "Hver faktor har 3 ferdige forslag bygget på forskning: en rutine, en workshop eller en lederpraksis. Hvert forslag sier hvor lang tid det tar og hvilken påstand som måler effekten. Dere kan lukke tiltaket når neste puls viser om det virket.",
-        "suggestTitle": "Forslag · ytringsklima (41)",
-        "measuredOn": "Måles på: {q}",
-        "suggest": [
+        "eyebrow": "Tiltak",
+        "h": "Fra funn til effekt, med eier og frist",
+        "p": "Hver faktor har tre ferdige forslag bygd på forskning: en rutine, en workshop eller en lederpraksis. Hvert forslag sier hvor lang tid det tar, og hvilken påstand som måler effekten.",
+        "ticks": [
+          "Seks steg: foreslått, besluttet, pågår, gjennomført, effekt målt, lukket",
+          "Eier og frist på hvert tiltak",
+          "Effekten måles på samme påstand i neste puls"
+        ],
+        "use": "Bruksområde: puls mellom målingene",
+        "caption": "Tre forslag per faktor, klare til å velges.",
+        "card": {
+          "title": "Forslag · {factor}",
+          "meta": "indeks 41"
+        },
+        "rows": [
           {
-            "type": "Rutine",
-            "time": "Løpende",
-            "t": "Svar på hver melding innen fem dager",
-            "q": "Når noen melder fra om et problem, skjer det noe med det"
+            "title": "Svar på hver melding innen fem dager",
+            "sub": "Rutine · løpende"
           },
           {
-            "type": "Workshop",
-            "time": "90 min",
-            "t": "Workshop: Hva hindrer oss i å si fra?",
-            "q": "Jeg kan si fra om kritikkverdige forhold uten å frykte konsekvenser"
+            "title": "Workshop: Hva hindrer oss i å si fra?",
+            "sub": "Workshop · 90 min"
           },
           {
-            "type": "Lederpraksis",
-            "time": "I hvert møte",
-            "t": "Lederen spør først og snakker sist",
-            "q": "Uenighet blir tatt opp åpent hos oss, ikke i gangen etterpå"
+            "title": "Lederen spør først og snakker sist",
+            "sub": "Lederpraksis · i hvert møte"
           }
         ],
-        "card": {
-          "factor": "Ytringsklima",
-          "late": "Over frist",
-          "t": "Fast svar på avviksmeldinger innen fem dager",
-          "m": "Anne Rygg · frist gikk ut i går · fra grunnlinje 2026",
-          "steps": [
-            "Foreslått",
-            "Besluttet",
-            "Pågår",
-            "Gjennomført",
-            "Effekt målt",
-            "Lukket"
-          ],
-          "note": "Effekten måles i pulsen 12. oktober på påstanden «Når noen melder fra om et problem, skjer det noe med det». Tiltaket kan lukkes når indeksen er målt på nytt."
-        }
+        "pill": "Legg i plan"
       },
       "rapport": {
-        "k": "Rapport og dokumentasjon",
-        "t": "Rapport til AMU, ledelsen eller Arbeidstilsynet",
-        "d": "Orgpuls lager rapporten ut fra tallene: funn, risikovurdering, tiltak og hjemmel per faktor. Du leser den og godkjenner – ingenting går ut av seg selv.",
-        "points": [
-          "Velg år, omfang og mottaker: Arbeidstilsynet, AMU, ledergruppa eller de ansatte",
-          "Hjemmel per faktor: aml. § 3-1 c, § 4-3, forskrift kap. 1A",
+        "eyebrow": "Rapport",
+        "h": "Rapport til AMU, ledelsen eller Arbeidstilsynet",
+        "p": "Orgpuls skriver rapporten ut fra tallene: funn, risikovurdering, tiltak og hjemmel per faktor. Velg år, omfang og mottaker. Du leser gjennom og godkjenner – ingenting går ut automatisk.",
+        "ticks": [
+          "Hjemmel per faktor: aml. § 3-1 c, § 4-3, forskrift kap. 1A",
           "Drøfting med tillitsvalgte og varsel til verneombud står dokumentert",
-          "Lagre som PDF; dataene er deres"
+          "Lagre som PDF – dataene er deres"
         ],
-        "pages": [
+        "use": "Bruksområde: tilsyn og dokumentasjon",
+        "caption": "Klar når Arbeidstilsynet eller AMU spør.",
+        "card": {
+          "title": "Rapport · 2026",
+          "meta": "PDF"
+        },
+        "rows": [
           {
-            "k": "Side 1",
-            "t": "Sammendrag og indeks",
-            "f": "Demo Bedrift · 2026"
+            "mark": "1",
+            "title": "Metode og medvirkning",
+            "sub": "Verneombud · tillitsvalgt"
           },
           {
-            "k": "Side 2",
-            "t": "Risikovurdering per faktor",
-            "f": "aml. § 3-1 c"
+            "mark": "3",
+            "title": "Kartlegging",
+            "sub": "Hva som står bra til, hva som trekker ned"
           },
           {
-            "k": "Side 3",
-            "t": "Tiltak med eier og frist",
-            "f": "4 tiltak · 1 effekt målt"
+            "mark": "4",
+            "title": "Risikovurdering",
+            "sub": "aml. § 3-1 c · hjemmel per faktor"
           },
           {
-            "k": "Side 4",
-            "t": "Medvirkning og hjemmel",
-            "f": "Verneombud · tillitsvalgt"
+            "mark": "5",
+            "title": "Tiltak",
+            "sub": "4 tiltak · 1 effekt målt"
           }
         ]
       },
       "roller": {
-        "k": "Roller og tilgang",
-        "t": "Hvem ser hva",
-        "d": "Rollen styrer hva du ser. Ingen ser hvem som svarte, og terskelen på 5 svar gjelder også administratorer. Enkel visning gir én side; full visning gir alle analysene.",
-        "roles": [
-          "Daglig leder",
-          "Avdelingsleder",
-          "Verneombud"
+        "eyebrow": "Roller og tilgang",
+        "h": "Ingen ser hvem som svarte",
+        "p": "Rollen styrer hva du ser. Ingen ser enkeltsvar, og grensen på 5 svar gjelder også administratorer. Enkel visning gir én side, full visning gir alle analysene.",
+        "ticks": [
+          "Daglig leder ser hele virksomheten og alle kommentarer",
+          "Avdelingslederen ser eget team når minst 5 har svart",
+          "Verneombudet ser helheten og risikovurderingen"
         ],
+        "use": "Bruksområde: verneombud og AMU",
+        "caption": "Til høyre: når hver rolle får varsel før utsending.",
+        "card": {
+          "title": "Tilgang per rolle",
+          "meta": "minst 5 svar"
+        },
         "rows": [
           {
-            "k": "Hele virksomheten",
-            "c": [
-              "Ja",
-              "—",
-              "Ja"
-            ]
+            "mark": "DL",
+            "title": "Daglig leder",
+            "sub": "Hele virksomheten · alle kommentarer · setter eier og frist",
+            "pill": "1 dag før"
           },
           {
-            "k": "Eget team over terskel",
-            "c": [
-              "Ja",
-              "Ja",
-              "Ja"
-            ]
+            "mark": "AL",
+            "title": "Avdelingsleder",
+            "sub": "Eget team · egne kommentarer og tiltak",
+            "pill": "1 dag før"
           },
           {
-            "k": "Anonyme kommentarer",
-            "c": [
-              "Alle",
-              "Egne",
-              "—"
-            ]
-          },
-          {
-            "k": "Risikovurdering og hjemmel",
-            "c": [
-              "Ja",
-              "—",
-              "Ja"
-            ]
-          },
-          {
-            "k": "Tiltak: sette eier og frist",
-            "c": [
-              "Ja",
-              "Egne",
-              "—"
-            ]
-          },
-          {
-            "k": "Varsel før utsending",
-            "c": [
-              "1 dag før",
-              "Samme dag",
-              "2 dager før"
-            ]
+            "mark": "VO",
+            "title": "Verneombud",
+            "sub": "Hele virksomheten · risikovurdering og hjemmel",
+            "pill": "2 dager før"
           }
-        ],
-        "yes": "Ja",
-        "none": "—"
+        ]
       },
       "oppsett": {
-        "k": "Oppsett og integrasjoner",
-        "t": "Klart på 20 minutter, med eller uten HR-system",
-        "cards": [
+        "eyebrow": "Oppsett",
+        "h": "Klart på 20 minutter, med eller uten HR-system",
+        "p": "Skriv org.nr., så henter vi navn, adresse, bransje og antall ansatte fra Brønnøysund. Lim inn de ansatte eller last opp en CSV – så holder Orgpuls listen oppdatert.",
+        "ticks": [
+          "Veiviser i 9 steg fra virksomhet til første utsending",
+          "Små grupper vises ikke, men teller med i helheten",
+          "Data i EU, og dere signerer databehandleravtalen i appen"
+        ],
+        "use": "Bruksområde: uten HR-avdeling",
+        "caption": "Alt fungerer uten HR-system.",
+        "card": {
+          "title": "Integrasjoner",
+          "meta": "fungerer uten HR-system"
+        },
+        "rows": [
           {
-            "t": "Brønnøysund",
-            "d": "Skriv org.nr., så henter vi navn, adresse, bransje og antall ansatte."
+            "title": "Brønnøysund",
+            "sub": "Virksomheten hentes fra org.nr.",
+            "pill": "Klar"
           },
           {
-            "t": "Ansatte",
-            "d": "Lim inn, last opp CSV eller legg inn for hånd. Gruppe og rolle rett i tabellen."
+            "title": "CSV eller lim inn liste",
+            "sub": "Gruppe og rolle rett i tabellen",
+            "pill": "Klar"
           },
           {
-            "t": "Grupper og terskel",
-            "d": "Små grupper vises ikke, men teller med i helheten. Terskel 5, kan heves til 10 – aldri lavere."
+            "title": "E-post og SMS",
+            "sub": "For dem uten fast skjerm",
+            "pill": "Klar"
           },
           {
-            "t": "Veiviser",
-            "d": "Ni steg fra virksomhet til første utsending. Du kan kjøre den igjen."
-          },
-          {
-            "t": "E-post og SMS",
-            "d": "Invitasjoner på e-post, og på SMS når dere slår det på – for dem uten fast skjerm."
-          },
-          {
-            "t": "Personvern",
-            "d": "Data i EU. Behandlingsgrunnlaget er dokumentert, og dere signerer databehandleravtalen i appen."
+            "title": "Entra ID, Teams, Tripletex, Visma, Huldt & Lillevik",
+            "sub": "Ikke klart ennå – si fra hva dere bruker",
+            "pill": "Kommer"
           }
-        ],
-        "integrations": "Integrasjoner",
-        "soon": "Kommer",
-        "list": [
-          "CSV",
-          "Lim inn liste",
-          "E-post",
-          "SMS",
-          "Microsoft Entra ID",
-          "Microsoft Teams",
-          "Tripletex",
-          "Visma",
-          "Simployer"
-        ],
-        "note": "Alt fungerer uten HR-system: lim inn eller last opp CSV, så holder Orgpuls registeret. Koblinger merket «kommer» er under arbeid – si fra hvilket system dere bruker."
-      },
-      "assistent": {
-        "k": "Assistenten",
-        "t": "Tuva viser vei på hver side",
-        "d": "Hun står i hjørnet av hver side: tre steg for skjermen du er på, forskningen og lovkravet den bygger på, og hva som gjenstår før dere er i gang. Hun leser aldri svar, og ingen språkmodell gjør det heller.",
-        "tuvaName": "Tuva:",
-        "tuva": "To av fire steg er igjen før dere er helt i gang. Neste er å sjekke grupper og terskel – så er dere klare for første måling.",
-        "draft": "Fortsett oppsettet",
-        "chips": [
-          "Hjelp per side",
-          "Grunnlag og lov",
-          "Veiviser ved oppstart",
-          "Kom i gang-liste"
         ]
       }
     },
