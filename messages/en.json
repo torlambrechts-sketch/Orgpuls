@@ -6365,117 +6365,270 @@
       }
     },
     "home": {
-      "pill": "Employee surveys and working environment",
-      "h1": "Survey your workplace – the first one out before lunch.",
-      "lead": "Fetch your organisation from Brønnøysund, paste in the staff list and pick a date. Orgpuls sends it out, sends reminders and notifies the safety representative. Then you get the results with suggested measures – and the documentation the law requires.",
-      "how": "See how it works",
-      "stats": [
+      "h1": "Orgpuls – working environment surveys for small and medium-sized businesses",
+      "example": "Example data.",
+      "carousel": {
+        "roledescription": "carousel",
+        "label": "What Orgpuls helps with",
+        "tablist": "Choose a theme",
+        "prev": "Previous theme",
+        "next": "Next theme",
+        "announce": "Theme {n} of 3: {label}"
+      },
+      "risk": "No card needed · no lock-in · from NOK 265/month excl. VAT",
+      "done": "done",
+      "bar": {
+        "oversikt": "app.orgpuls.no · Overview",
+        "resultater": "app.orgpuls.no · Results"
+      },
+      "slides": [
         {
-          "v": "20 min",
-          "l": "from org. no. to first send-out"
+          "tab": "Catch it early",
+          "eyebrow": "For small and medium-sized businesses",
+          "title": "Catch what wears people down – before it turns into sick leave or a resignation.",
+          "lead": "In a small business, every sick leave and every resignation is felt. Orgpuls surveys the working environment anonymously and shows what to do about it – no HR department needed, and setup takes under an hour.",
+          "link": "See how it works",
+          "caption": "You see straight away what works – and what to do now."
         },
         {
-          "v": "4 min",
-          "l": "to answer the main survey"
+          "tab": "Meet the law",
+          "eyebrow": "Working Environment Act § 4-3",
+          "title": "Meet the legal requirement – without becoming a health and safety expert.",
+          "lead": "The law requires you to survey the psychosocial working environment. Orgpuls asks about the factors the law points to, involves the safety representative and produces the documentation the Labour Inspection Authority asks for.",
+          "link": "See what the law requires",
+          "caption": "The documentation builds up as you work."
         },
         {
-          "v": "5 responses",
-          "l": "minimum before a group is shown"
+          "tab": "From answers to measures",
+          "eyebrow": "From survey to measures",
+          "title": "From answers to measures – without a separate project.",
+          "lead": "The results come with three suggested measures per factor. You choose, give each measure an owner and a deadline, and the next pulse shows whether it helped. Nothing gets left in a drawer.",
+          "link": "See how measures work",
+          "caption": "Every measure has an owner, a deadline and a status."
         }
       ],
-      "who": "Who are you?",
-      "roles": [
-        {
-          "i": "MD",
-          "t": "Managing director",
-          "s": "No HR department",
-          "get": [
-            "One page: what's going well, what we do now",
-            "A 2-page report for management",
-            "The legal requirement met without reading the Act"
-          ],
-          "cta": "See what you get"
-        },
-        {
-          "i": "HR",
-          "t": "HR",
-          "s": "75–500 employees",
-          "get": [
-            "Results per department, team and segment",
-            "Trends over the years, survey by survey",
-            "Roles and access managed in one place"
-          ],
-          "cta": "See what you get"
-        },
-        {
-          "i": "DM",
-          "t": "Department manager",
-          "s": "Your own team",
-          "get": [
-            "Only your team, once at least 5 have answered",
-            "Anonymous comments you can reply to",
-            "3 suggested measures, ready to choose"
-          ],
-          "cta": "See what you get"
-        },
-        {
-          "i": "SR",
-          "t": "Safety representative",
-          "s": "And union representatives",
-          "get": [
-            "The same figures as management, at the same time",
-            "Notice before every send-out",
-            "The risk assessment with legal basis per factor"
-          ],
-          "cta": "See what you get"
-        }
-      ],
-      "explore": "Explore",
-      "teasers": [
-        {
-          "k": "Platform",
-          "t": "From answers to action in one place",
-          "d": "Surveys, results, comments and measures fit together. The questions are fixed, and no group is shown with fewer than 5 responses.",
-          "cta": "See the platform"
-        },
-        {
-          "k": "Use cases",
-          "t": "8 situations where Orgpuls makes the job easier",
-          "d": "From the annual survey and pulses to a new manager, reorganisation, inspections and the AMU meeting.",
-          "cta": "See the use cases"
-        },
-        {
-          "k": "Why Orgpuls",
-          "t": "Follow up steadily, and see whether measures work",
-          "d": "Start with what works, give each measure an owner and a deadline, and cover the law along the way. With sources.",
-          "cta": "Read why"
-        }
-      ],
-      "about": {
-        "k": "About us",
-        "t": "Small team, direct lines",
-        "d": "Orgpuls is made by a small Norwegian team with backgrounds in HR, management and product development. You talk to the people who build the product, not a support centre. We store the data in the EU and don't sell it on.",
-        "team": [
+      "law": {
+        "title": "Legal requirements · Nordvik Anlegg AS",
+        "pill": "4 of 4 in place",
+        "rows": [
           {
-            "n": "Product",
-            "r": "HR and management"
+            "t": "Survey of the psychosocial working environment",
+            "s": "The questions cover the factors § 4-3 and the regulations point to."
           },
           {
-            "n": "Expertise",
-            "r": "Working environment and research"
+            "t": "Risk assessment per factor",
+            "s": "Low, medium or high risk – with the legal basis in the report."
           },
           {
-            "n": "Customers",
-            "r": "Onboarding and support"
+            "t": "Participation from the safety representative and employees",
+            "s": "The safety representative is notified and sees the same figures as management."
+          },
+          {
+            "t": "Documentation ready for inspection",
+            "s": "The report is ready when the Labour Inspection Authority or the AMU asks."
           }
         ]
       },
-      "price": {
-        "k": "Pricing",
-        "t": "From NOK 265 a month, everything included.",
-        "d": "NOK 565 for 26–100 employees, excl. VAT. No lock-in period. Safety and union representatives cost nothing extra.",
-        "see": "See pricing",
-        "start": "Try free for 15 days"
+      "measures": {
+        "title": "Measures · Prosjekt Sør",
+        "meta": "3 active · 1 closed",
+        "rows": [
+          {
+            "t": "Regular schedule check with the crew",
+            "s": "{factor} · owner: site manager · due 15 Nov",
+            "pill": "In progress"
+          },
+          {
+            "t": "\"Stop and report\" at the morning meeting",
+            "s": "{factor} · owner: foreman · due 1 Dec",
+            "pill": "Decided"
+          },
+          {
+            "t": "A buddy for new starters in their first 4 weeks",
+            "s": "{factor} · owner: project manager · due 10 Jan",
+            "pill": "Suggested"
+          },
+          {
+            "t": "A short team meeting every week",
+            "s": "{factor} · effect measured in the pulse",
+            "pill": "Closed"
+          }
+        ]
+      },
+      "trust": [
+        {
+          "tile": "5",
+          "t": "Anonymous – at least 5 answers"
+        },
+        {
+          "tile": "EU",
+          "t": "Answers stored in the EU"
+        },
+        {
+          "tile": "§",
+          "t": "Covers WEA § 4-3"
+        },
+        {
+          "tile": "Q",
+          "t": "Questions built on QPS Nordic"
+        }
+      ],
+      "challenges": {
+        "k": "Sound familiar?",
+        "title": "The law is the same for 12 employees as for 1,200",
+        "lead": "The Working Environment Act § 4-3 applies to every employer. The difference is that a small business has to get it done without its own HR, without a consultant and without spending weeks on it.",
+        "problem": "The challenge",
+        "solution": "With Orgpuls",
+        "cards": [
+          {
+            "t": "No HR department",
+            "p": "The managing director handles the working environment on top of sales, payroll and operations.",
+            "s": "Orgpuls plans, sends out and reminds people. You look it over, and the rest runs by itself."
+          },
+          {
+            "t": "Too few to be anonymous",
+            "p": "With 12 employees, it is easy to think the manager knows who wrote what.",
+            "s": "No group is shown with fewer than 5 answers. The limit is built into the product – you cannot switch it off."
+          },
+          {
+            "t": "Unclear what the law requires",
+            "p": "The sections are written for lawyers, and the Labour Inspection Authority may ask.",
+            "s": "The questions cover the factors § 4-3 and the regulations point to. The report shows the legal basis for each factor."
+          },
+          {
+            "t": "Little time, small budget",
+            "p": "A consultant and a separate project are more than the business has room for.",
+            "s": "From NOK 265 a month, everything included. No lock-in, and the first survey is planned the same day."
+          }
+        ]
+      },
+      "survey": {
+        "k": "Surveys",
+        "title": "What the law requires. In 4 minutes.",
+        "lead": "Eleven factors built on QPS Nordic, three statements per factor, answers from 1 to 5. It covers the survey the law requires – and it is short enough that people answer.",
+        "mock": "Example of the questionnaire: three statements on freedom to speak up, answers from 1 to 5, comment optional",
+        "note": {
+          "t": "Anonymous by design",
+          "d": "No group is shown with fewer than 5 answers. Five is the floor, and it is the product's – not yours."
+        },
+        "caption": "This is what a page looks like for the employee.",
+        "h3": "Four minutes for the employee. Finished documentation for you.",
+        "points": [
+          "Sent by e-mail and SMS – including to people without a work address.",
+          "Reminders go out by themselves, and the safety representative is notified before every round.",
+          "Answers in Norwegian and English.",
+          "A report ready for the Labour Inspection Authority, with the legal basis for each factor."
+        ],
+        "link": "See the question set"
+      },
+      "band": {
+        "k": "Less to keep track of",
+        "title": "Made for you, if the working environment is one of ten jobs on your desk",
+        "lead": "Orgpuls plans the rounds, sends them out, sends reminders and writes the report. You spend your time on the follow-up.",
+        "stats": [
+          {
+            "v": "20 min",
+            "l": "from organisation number to a planned send-out"
+          },
+          {
+            "v": "4 min",
+            "l": "to answer the main survey"
+          },
+          {
+            "v": "5 answers",
+            "l": "the minimum before a group is shown"
+          },
+          {
+            "v": "11",
+            "l": "factors that cover § 4-3 and Regulations ch. 1A"
+          }
+        ],
+        "callout": {
+          "head": "Workshop · 8 answers",
+          "value": "28",
+          "text": "The lowest in the map. Three suggested measures are ready."
+        },
+        "caption": "The workshop stands out on freedom to speak up.",
+        "h3": "Safe even when everyone knows everyone.",
+        "text": "Groups with fewer than 5 answers show as «—», so no one can be singled out – not even in a workshop of six. The safety representative sees the same figures as management, at the same time."
+      },
+      "results": {
+        "title": "One page: what works, and what you do now",
+        "lead": "The result comes as a sentence, not a table. The figures sit underneath, factor by factor, with the change since last time.",
+        "since": "Since last time",
+        "index": {
+          "label": "Working environment index",
+          "value": "61",
+          "delta": "−3",
+          "meta": "Baseline 2026 · Nordvik Anlegg"
+        },
+        "caption": "The index is down, and workload pulls it down most."
+      },
+      "loop": {
+        "title": "Measuring is the first step. The measures are what make it better.",
+        "lead": "Surveys, results, comments and measures in one loop. Each round starts where the last one ended.",
+        "pillars": [
+          {
+            "t": "Measure",
+            "d": "A baseline once a year, pulses in between. The year wheel plans the rounds for you."
+          },
+          {
+            "t": "Understand",
+            "d": "Results by department and factor, and anonymous comments you can reply to without knowing who wrote them."
+          },
+          {
+            "t": "Follow up",
+            "d": "Three suggested measures per factor. Each measure gets an owner and a deadline, and the next pulse shows whether it worked."
+          }
+        ]
+      },
+      "roles": {
+        "k": "Who are you?",
+        "title": "The working environment is rarely one person's job",
+        "lead": "Managers, HR and the safety representative share the responsibility. Each role gets its own way in.",
+        "cta": "See what you get",
+        "cards": [
+          {
+            "i": "MD",
+            "t": "Managing director",
+            "s": "No HR department",
+            "get": [
+              "One page: what works, and what you do now",
+              "The legal requirement covered without reading the Act",
+              "A 2-page report for the management team"
+            ]
+          },
+          {
+            "i": "HR",
+            "t": "HR",
+            "s": "Often the only one in the role",
+            "get": [
+              "Results by department, team and segment",
+              "Trends over the years, survey by survey",
+              "Roles and access managed in one place"
+            ]
+          },
+          {
+            "i": "DM",
+            "t": "Department manager",
+            "s": "Your own team",
+            "get": [
+              "Only your team, once at least 5 have answered",
+              "Anonymous comments you can reply to",
+              "Three suggested measures, ready to choose"
+            ]
+          },
+          {
+            "i": "SR",
+            "t": "Safety representative",
+            "s": "And union representatives",
+            "get": [
+              "The same figures as management, at the same time",
+              "Notice before every send-out",
+              "The risk assessment with the legal basis per factor"
+            ]
+          }
+        ]
       },
       "industries": {
         "k": "Industries",

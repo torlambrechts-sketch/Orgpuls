@@ -185,7 +185,10 @@ export const MESSAGE_SPECS: MessageSpec[] = [
     id: 'site.claims',
     section: 'site',
     paths: [
-      'site.home.roles[0].get[2]', 'site.home.roles[3].get[2]', 'site.home.teasers[2].d', 'site.home.about.d',
+      // the front page (D-190): its trust strip, the law it cites (slide 2, challenge 3, the fourth stat) and what it promises
+      'site.home.trust', 'site.home.slides', 'site.home.law.rows', 'site.home.challenges',
+      'site.home.survey.lead', 'site.home.survey.note.d', 'site.home.survey.points', 'site.home.band.stats', 'site.home.band.text',
+      'site.home.roles.cards[0].get[2]', 'site.home.roles.cards[3].get[2]',
       'site.chrome.footer.about', 'site.bransjer.lead', 'site.bransjer.other.d', 'seo.common.disclaimer', 'seo.common.anonymity', 'seo.common.priceLine',
       // the hero's risk line and trust strip (D-187)
       'site.chrome.risk', 'site.chrome.trust.eu', 'site.chrome.trust.k', 'site.chrome.trust.qps', 'site.chrome.trust.law',
@@ -198,7 +201,7 @@ export const MESSAGE_SPECS: MessageSpec[] = [
   {
     id: 'site.terms',
     section: 'site',
-    paths: ['seo.pages.priser.description', 'seo.pages.priser.lead', 'seo.pages.priser.faq[0]', 'seo.pages.priser.faq[1]', 'seo.pages.priser.blocks[2].items[4]', 'site.home.price.d', 'site.chrome.band.lead', 'site.chrome.band.leadHome'],
+    paths: ['seo.pages.priser.description', 'seo.pages.priser.lead', 'seo.pages.priser.faq[0]', 'seo.pages.priser.faq[1]', 'seo.pages.priser.blocks[2].items[4]', 'site.home.risk', 'site.chrome.band.lead', 'site.chrome.band.leadHome'],
     where: place('prices'),
   },
   // -------- documents
