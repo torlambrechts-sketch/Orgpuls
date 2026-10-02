@@ -29,6 +29,9 @@ export interface HelpArticle {
   /** minutes, printed as "4 min" — the design's own figures */
   read: number
   lawOnly?: boolean
+  /** further sections after the four paragraphs, each a heading and four paragraphs under
+   *  `hjelp.article.<key>.<section>` — kept apart so one part of an article can change alone */
+  sections?: readonly string[]
 }
 
 export const HELP_ARTICLES: HelpArticle[] = [
@@ -49,7 +52,7 @@ export const HELP_ARTICLES: HelpArticle[] = [
   { key: 'kontrolltiltak', category: 'regelverk', read: 5, lawOnly: true },
   { key: 'rapportTilTilsynet', category: 'regelverk', read: 4, lawOnly: true },
   { key: 'rollerOgTilgang', category: 'oppsett', read: 5 },
-  { key: 'entra', category: 'oppsett', read: 5 },
+  { key: 'entra', category: 'oppsett', read: 5, sections: ['import'] },
   { key: 'sms', category: 'oppsett', read: 4 },
   { key: 'teams', category: 'oppsett', read: 4 },
 ]

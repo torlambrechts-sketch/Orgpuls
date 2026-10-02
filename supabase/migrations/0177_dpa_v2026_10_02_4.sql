@@ -5,8 +5,8 @@
 -- Operations Ltd (Azure Bot Service, run in the EU, West Europe), used only when the organisation
 -- has switched Teams on; vedlegg 1 lists what is kept for it: which conversation the bot has with
 -- an employee, and whether Teams turned a message away. A changed text is a new version (0047,
--- lib/legal/dpa.ts); 2026-10-02 and 2026-10-02.2 were published earlier the same day (0149, 0151),
--- so this is 2026-10-02.3, the newest by sign_dpa's order (published_on, then version).
+-- lib/legal/dpa.ts). The text is 2026-10-02.3 (0166, the Entra import, D-202) with these two
+-- additions, so this is 2026-10-02.4, the newest by sign_dpa's order (published_on, then version).
 
 insert into app.dpa_versions (version, text_sha256, published_on)
-values ('2026-10-02.3', 'a9dbe4c601cbee8e269575d99aff2b7755f739114d1d2d71a44492c9618ecfb9', date '2026-10-02');
+values ('2026-10-02.4', '602002caefb594d783c2db99e395a2ae97590b938d0c21d1d84e46bb2afbde7e', date '2026-10-02');

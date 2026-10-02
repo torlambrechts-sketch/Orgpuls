@@ -1,8 +1,10 @@
 import { notFound } from 'next/navigation'
 import { getFormatter, getTranslations } from 'next-intl/server'
 import { ButtonLink } from '@/components/ui/Button'
+import { EntraGroupsAndSync, EntraSyncButtons, type EntraGroupLabels } from '@/components/integrasjoner/EntraImport'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { entraClientId, getEntraStatus } from '@/lib/entra/read'
+import { SKIP_REASONS, getEntraSync } from '@/lib/entra/import'
 import { bindProblemFrom, entraGate } from '@/lib/entra/schema'
 import { startEntraBinding, unbindEntra } from './actions'
 
@@ -17,17 +19,26 @@ import { startEntraBinding, unbindEntra } from './actions'
  * til» sends a daglig leder, signed in with Microsoft, to Microsoft's admin consent; the binding
  * is made by the database when the answer comes back (0155).
  *
- * Cards 3 and 4 (groups, synchronisation) are the import, which is the next step and not built:
- * they keep the design's frame and say so in words, with none of the design's controls, so
- * nothing here can look as if it synchronised anything. No count is shown, and «Tilkoblet»
- * only when the binding row exists.
+ * Cards 3 and 4 (groups, synchronisation) are the import (0165, D-202): the tenant's groups to
+ * tick and rank, the mode and the phone opt-in, and on the right the last run as the database
+ * recorded it, with «Synkroniser nå». Before a run the result says there has been none; a count
+ * is shown only as a run wrote it. They appear once a tenant is bound, and to the daglig leder
+ * only, since entra_sync_status answers nobody else. «Tilkoblet» only when the binding row exists.
  *
  * Without ENTRA_CLIENT_ID in the environment there is no application to consent to: the screen
  * says the connection is not set up yet and offers no button.
  */
 export const dynamic = 'force-dynamic'
 
-const PERMS = ['signin', 'profile', 'never'] as const
+const PERMS = ['signin', 'profile', 'users', 'groups', 'never'] as const
+const COUNTS = ['added', 'linked', 'updated', 'deactivated', 'moved', 'deferred', 'renamed'] as const
+/** a run's error code as the screen words it */
+const errorKey = (code: string) =>
+  ['not_configured', 'consent_missing', 'permission_missing', 'throttled', 'deadline'].includes(code)
+    ? code
+    : code.startsWith('cert_')
+      ? 'cert'
+      : 'other'
 
 export default async function EntraPage({
   searchParams,
@@ -35,15 +46,58 @@ export default async function EntraPage({
   searchParams: Promise<{ feil?: string; koblet?: string; frakoblet?: string }>
 }) {
   const t = await getTranslations('integrasjoner.entraSetup')
+  const ti = await getTranslations('entraImport')
   const tn = await getTranslations()
   const format = await getFormatter()
   const params = await searchParams
   const orgId = await getCurrentOrgId()
   if (!orgId) notFound()
-  const status = await getEntraStatus(orgId)
-  const gate = entraGate(status, entraClientId())
+  const [status, sync] = await Promise.all([getEntraStatus(orgId), getEntraSync(orgId)])
+  const clientId = entraClientId()
+  const gate = entraGate(status, clientId)
   const problem = bindProblemFrom(params.feil)
   const date = (iso: string | null | undefined) => (iso ? format.dateTime(new Date(iso), { dateStyle: 'long' }) : '')
+  const when = (iso: string | null | undefined) =>
+    iso ? format.dateTime(new Date(iso), { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Europe/Oslo' }) : ''
+  // the import: only once a tenant is bound, and only for the daglig leder (entra_sync_status)
+  const importing = Boolean(status?.bound && sync)
+  const run = sync?.run ?? null
+  const lastDone = run?.status === 'done' ? run.finished_at : null
+  const memberLabels: Record<string, string> = {}
+  for (const g of sync?.groups ?? []) memberLabels[String(g.members)] = ti('members', { count: g.members })
+  const groupLabels: EntraGroupLabels = {
+    step3: ti('step3'),
+    search: ti('search'),
+    searchPlaceholder: ti('searchPlaceholder'),
+    searchButton: ti('searchButton'),
+    loading: ti('loading'),
+    fromDirectory: ti('fromDirectory'),
+    members: memberLabels,
+    more: ti('more'),
+    noMatch: ti('noMatch'),
+    order: ti('order'),
+    orderNote: ti('orderNote'),
+    up: ti.raw('up') as string,
+    down: ti.raw('down') as string,
+    saveGroups: ti('saveGroups'),
+    saved: ti('saved'),
+    groupNote: ti('groupNote'),
+    step4: ti('step4'),
+    modes: {
+      nightly: { label: ti('mode.nightly'), note: ti('mode.nightlyNote') },
+      manual: { label: ti('mode.manual'), note: ti('mode.manualNote') },
+    },
+    phone: ti('phone'),
+    phoneNote: ti('phoneNote'),
+    leaverNote: ti('leaverNote'),
+    roundNote: ti('roundNote'),
+    pending: ti('pending'),
+    readOnly: ti('readOnly'),
+    problems: Object.fromEntries(
+      ['not_allowed', 'no_tenant', 'not_set_up', 'no_groups', 'busy', 'rate_limited', 'not_configured', 'name_taken',
+        'consent_missing', 'permission_missing', 'invalid', 'denied', 'noOrg', 'unavailable'].map((k) => [k, ti(`problem.${k}`)]),
+    ),
+  }
 
   const tenant = status?.tenant_id ?? status?.own_tenant ?? ''
   const card = 'rounded-panel border border-line bg-sf px-[24px] py-[22px]'
@@ -94,6 +148,13 @@ export default async function EntraPage({
                   ? t('tenantOwn')
                   : t('tenantNone')}
             </div>
+            {importing && sync ? (
+              <div className="mt-[6px] max-w-[560px] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
+                {lastDone
+                  ? ti('found', { people: sync.synced, groups: sync.groups.length, when: when(lastDone) })
+                  : ti('foundNone')}
+              </div>
+            ) : null}
           </section>
 
           {/* 2 · Hva vi ber om */}
@@ -114,21 +175,112 @@ export default async function EntraPage({
             <div className="mt-[12px] max-w-[580px] text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">{t('permNote')}</div>
           </section>
 
-          {/* 3 · Hvilke grupper skal med — 4 · Synkronisering: the import, not built */}
-          {(['step3', 'step4'] as const).map((k) => (
-            <section key={k} className={card}>
-              <div className="flex flex-wrap items-center gap-[9px]">
-                <span className={head}>{t(k)}</span>
-                <span className="rounded-pill px-[10px] py-[3px] text-[11px] font-bold" style={{ background: 'rgba(25,21,16,.05)', color: '#8A8272' }}>
-                  {tn('oppsett.integrasjoner.statusSoon')}
-                </span>
-              </div>
-              <div className="mt-[10px] max-w-[580px] text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">{t(`${k}Later`)}</div>
-            </section>
-          ))}
+          {/* 3 · Hvilke grupper skal med, 4 · Synkronisering: the import (D-202) */}
+          {importing && sync ? (
+            <EntraGroupsAndSync
+              chosen={sync.groups.map((g) => ({ id: g.entra_group_id, name: g.entra_name ?? g.name, members: sync.run ? g.members : null }))}
+              mode={sync.mode}
+              includePhone={sync.include_phone}
+              canWrite={Boolean(status?.daglig_leder) && clientId !== null}
+              labels={groupLabels}
+            />
+          ) : (
+            (['step3', 'step4'] as const).map((k) => (
+              <section key={k} className={card}>
+                <div className={head}>{ti(k)}</div>
+                <div className="mt-[10px] max-w-[580px] text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">
+                  {status?.bound ? ti('readOnly') : ti('bindFirst')}
+                </div>
+              </section>
+            ))
+          )}
         </div>
 
         <div className="flex min-w-0 flex-col gap-[14px] md:sticky md:top-[78px]">
+          {importing && sync ? (
+            <>
+              <section className="rounded-panel border border-line bg-sf p-[20px]" aria-labelledby="entra-result">
+                <div id="entra-result" className={head}>{ti('result')}</div>
+                <div className="mt-[11px] text-[13.5px] font-bold">
+                  {run ? ti(`run.${run.status}`, { when: when(run.status === 'running' ? run.started_at : run.finished_at) }) : ti('never')}
+                </div>
+                {sync.requested_at ? (
+                  <div className="mt-[4px] text-[12.5px] text-mut">{ti('run.requested', { when: when(sync.requested_at) })}</div>
+                ) : null}
+                {run?.status === 'failed' && run.error ? (
+                  <p role="alert" className="mb-0 mt-[8px] text-[12.5px] leading-[1.5] text-danger [text-wrap:pretty]">
+                    {ti(`error.${errorKey(run.error)}`)}
+                  </p>
+                ) : null}
+                {run?.status === 'done' ? (
+                  COUNTS.some((k) => (run.counts[k] ?? 0) > 0) ? (
+                    <dl className="m-0 mt-[10px] flex flex-col gap-[4px]">
+                      {COUNTS.filter((k) => (run.counts[k] ?? 0) > 0).map((k) => (
+                        <div key={k} className="flex items-baseline justify-between gap-[12px] text-[12.5px]">
+                          <dt className="text-mut">{ti(`count.${k}`)}</dt>
+                          <dd className="m-0 font-bold">{run.counts[k]}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  ) : (
+                    <div className="mt-[6px] text-[12.5px] text-mut">{ti('noChanges')}</div>
+                  )
+                ) : null}
+
+                {sync.deferred.length ? (
+                  <div className="mt-[14px] border-t border-line pt-[12px]">
+                    <div className="text-[12.5px] font-bold">{ti('deferredHead')}</div>
+                    <ul className="m-0 mt-[6px] flex list-none flex-col gap-[3px] p-0 text-[12.5px] leading-[1.5]">
+                      {sync.deferred.map((d) => (
+                        <li key={d.employee_id}>{ti('deferredRow', { name: d.name, from: d.from ?? ti('noGroup'), to: d.to })}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+                {sync.conflicts.length ? (
+                  <div className="mt-[14px] border-t border-line pt-[12px]">
+                    <div className="text-[12.5px] font-bold">{ti('conflictsHead')}</div>
+                    <ul className="m-0 mt-[6px] flex list-none flex-col gap-[3px] p-0 text-[12.5px] leading-[1.5]">
+                      {sync.conflicts.map((c) => (
+                        <li key={c.employee_id}>
+                          {ti('conflictRow', { name: c.name, groups: format.list(c.groups ?? [], { type: 'conjunction' }), chosen: c.chosen ?? '' })}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+                {SKIP_REASONS.some((r) => (sync.skipped[r] ?? 0) > 0) ? (
+                  <div className="mt-[14px] border-t border-line pt-[12px]">
+                    <div className="text-[12.5px] font-bold">{ti('skippedHead')}</div>
+                    <dl className="m-0 mt-[6px] flex flex-col gap-[3px]">
+                      {SKIP_REASONS.filter((r) => (sync.skipped[r] ?? 0) > 0).map((r) => (
+                        <div key={r} className="flex items-baseline justify-between gap-[12px] text-[12.5px]">
+                          <dt className="text-mut">{ti(`skip.${r}`)}</dt>
+                          <dd className="m-0 font-bold">{sync.skipped[r]}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                ) : null}
+              </section>
+              {status?.daglig_leder ? (
+                <EntraSyncButtons
+                  canSync={clientId !== null && sync.function_ready && sync.groups.length > 0}
+                  canDisconnect={sync.set_up}
+                  labels={{
+                    syncNow: ti('syncNow'),
+                    syncNote: ti(`syncNote.${sync.mode}`),
+                    functionNotReady: clientId === null ? ti('error.not_configured') : sync.function_ready ? null : ti('functionNotReady'),
+                    requestedNow: ti('requestedNow'),
+                    disconnect: ti('disconnect'),
+                    disconnectConfirm: ti('disconnectConfirm'),
+                    pending: ti('pending'),
+                    problems: groupLabels.problems,
+                  }}
+                />
+              ) : null}
+            </>
+          ) : null}
           {params.koblet === '1' && status?.bound ? (
             <div role="status" className="rounded-note bg-mint px-[20px] py-[16px] text-[13px] leading-[1.55] text-greendeep [text-wrap:pretty]">
               {t('done')}

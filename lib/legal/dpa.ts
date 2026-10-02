@@ -16,11 +16,12 @@ import { z } from 'zod'
  *
  * A version is the date it was published, with `.2`, `.3` … for a second or third version the
  * same day (0151): 2026-10-02.2 says that a lower threshold, never under three, may be chosen;
- * 2026-10-02.3 (0177, D-203) adds Microsoft's Azure Bot Service, which relays a Teams message, to
- * vedlegg 3, and the Teams conversation to vedlegg 1.
+ * 2026-10-02.3 (0166, D-202) what the Entra import stores; 2026-10-02.4 (0177, D-203) adds
+ * Microsoft's Azure Bot Service, which relays a Teams message, to vedlegg 3, and the Teams
+ * conversation to vedlegg 1.
  */
-export const DPA_VERSION = '2026-10-02.3'
-export const DPA_SHA256 = 'a9dbe4c601cbee8e269575d99aff2b7755f739114d1d2d71a44492c9618ecfb9'
+export const DPA_VERSION = '2026-10-02.4'
+export const DPA_SHA256 = '602002caefb594d783c2db99e395a2ae97590b938d0c21d1d84e46bb2afbde7e'
 
 export const DpaSection = z.object({
   h: z.string().min(1),

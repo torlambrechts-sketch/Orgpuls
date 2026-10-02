@@ -60,6 +60,21 @@ export default async function ArticlePage({
             </p>
           ))}
         </div>
+
+        {(article.sections ?? []).map((s) => (
+          <section key={s} className="mt-[28px]">
+            <h2 className="m-0 font-display text-[22px] font-semibold leading-[1.2]">
+              {t(`hjelp.article.${article.key}.${s}.head`)}
+            </h2>
+            <div className="mt-[12px] flex flex-col gap-[16px]">
+              {PARAGRAPHS.map((p) => (
+                <p key={p} className="m-0 text-[15px] leading-[1.7] text-body [text-wrap:pretty]">
+                  {t(`hjelp.article.${article.key}.${s}.${p}`)}
+                </p>
+              ))}
+            </div>
+          </section>
+        ))}
       </article>
     </main>
   )

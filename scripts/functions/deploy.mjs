@@ -10,7 +10,7 @@
  * check and deploy; the generated file is not committed.
  *
  * Deploys through the Management API with SB_MCP_PAT (or SUPABASE_ACCESS_TOKEN) from the
- * environment. `verify_jwt` is off for all six: the dispatcher, the SEO sync and the Brønnøysund poll authenticate the dispatch
+ * environment. `verify_jwt` is off for all seven: the dispatcher, the SEO sync, the Brønnøysund poll and the Entra sync authenticate the dispatch
  * secret, the Auth hook a Standard Webhooks signature, the mail-events webhook a key in its URL, and the
  * Teams bot (0176) the Bot Framework JWT Microsoft's Bot Connector signs every call with.
  */
@@ -20,8 +20,8 @@ import { localeRegistry } from '../lib/locales.mjs'
 
 const REF = process.env.SUPABASE_PROJECT_REF ?? 'jmhhszsnjfqgclxzhciq'
 const TOKEN = process.env.SB_MCP_PAT ?? process.env.SUPABASE_ACCESS_TOKEN
-const FUNCTIONS = ['orgpuls-dispatch', 'orgpuls-auth-mail', 'orgpuls-mail-events', 'orgpuls-seo', 'orgpuls-brreg-triggers', 'orgpuls-teams-bot']
-const SHARED = ['_shared/mail.ts', '_shared/brevo.ts', '_shared/sms.ts', '_shared/teams.ts', '_shared/seo.ts', '_shared/survey-texts.ts', '_shared/brreg.ts', '_shared/messages.gen.ts']
+const FUNCTIONS = ['orgpuls-dispatch', 'orgpuls-auth-mail', 'orgpuls-mail-events', 'orgpuls-seo', 'orgpuls-brreg-triggers', 'orgpuls-entra-sync', 'orgpuls-teams-bot']
+const SHARED = ['_shared/mail.ts', '_shared/brevo.ts', '_shared/sms.ts', '_shared/seo.ts', '_shared/survey-texts.ts', '_shared/brreg.ts', '_shared/entra.ts', '_shared/teams.ts', '_shared/messages.gen.ts']
 const ROOT = 'supabase/functions'
 
 const mail = (lang) => JSON.parse(readFileSync(`messages/${lang}.json`, 'utf8')).mail
