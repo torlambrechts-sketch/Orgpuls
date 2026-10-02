@@ -28,7 +28,7 @@ export const helseOgOmsorg: IndustryPage = {
     h1: 'Arbeidsmiljø­undersøkelse for helse og omsorg',
     lead:
       'Se hvor vold, stram bemanning og turnus uten hvile går ut over de ansatte – og få forslag til tiltak for hver faktor. Helse-modulen kommer i tillegg til hovedundersøkelsen. Den spør også om deltid, grenser mot brukere og pårørende, dokumentasjon og tunge løft. Ansatte på alle vakter svarer anonymt på mobilen.',
-    thresholdNote: 'Ingen gruppe vises før minst 5 har svart.',
+    thresholdNote: 'Som standard vises ingen gruppe før minst 5 har svart.',
     preview: {
       company: 'Lindely Omsorg AS',
       caption: 'Hovedmåling september · indeks 0–100',
@@ -110,7 +110,7 @@ export const helseOgOmsorg: IndustryPage = {
     title: 'Fra svar til tiltak på neste personalmøte',
     steps: [
       { title: 'Mål', text: 'Hovedmåling med helse-modulen, på SMS eller QR-kode på vaktrommet.' },
-      { title: 'Se per avdeling', text: 'Resultat per avdeling og post, for grupper med minst 5 svar.' },
+      { title: 'Se per avdeling', text: 'Resultat per avdeling og post, for grupper med nok svar – 5 som standard.' },
       { title: 'Velg tiltak', text: 'Tre forslag per faktor. Hvert tiltak får en eier og en frist.' },
       { title: 'Mål igjen', text: 'Pulsen spør bare om faktorene dere jobber med, til tiltaket har virket.' },
     ],
@@ -177,7 +177,7 @@ export const helseOgOmsorg: IndustryPage = {
     },
     {
       q: 'Ser lederen hvem som svarte at bemanningen ikke var forsvarlig?',
-      a: 'Nei. Spørsmålet vises bare som antall for hele virksomheten, aldri per avdeling eller vakt. Ingen gruppe vises før minst 5 har svart, og grensen kan ikke senkes.',
+      a: 'Nei. Spørsmålet vises bare som antall for hele virksomheten, aldri per avdeling eller vakt. Som standard vises ingen gruppe før minst 5 har svart, og grensen kan aldri settes under 3.',
     },
     {
       q: 'Hvordan når vi dem som går turnus og natt?',
@@ -185,7 +185,7 @@ export const helseOgOmsorg: IndustryPage = {
     },
     {
       q: 'Kan vi se resultat per avdeling eller post?',
-      a: 'Ja, i pakken Vanlig, for avdelinger med minst 5 svar. Har en avdeling for få svar, teller svarene med i virksomhetens tall.',
+      a: 'Ja, i pakken Vanlig, for avdelinger med nok svar – 5 som standard. Har en avdeling for få svar, teller svarene med i virksomhetens tall.',
     },
     {
       q: 'Hva koster det?',
@@ -208,12 +208,12 @@ export const helseOgOmsorg: IndustryPage = {
       'Valgfrie, for å se forskjell mellom dag, kveld og natt, og mellom heltid og deltid. Hovedundersøkelsen spør allerede om vold og trusler de siste 12 månedene og om krenkende atferd, så det gjentas ikke her.',
     rulesTitle: 'Slik rapporteres svarene',
     rules: [
-      { title: 'Minst 5 svar', text: 'Ingen gruppe eller segment vises før minst 5 har svart. Grensen kan heves, men aldri senkes.' },
+      { title: 'Minst 5 svar som standard', text: 'Ingen gruppe eller segment vises før minst 5 har svart. Grensen kan heves til 10. Små team kan senke den til 3; en runde beholder grensen den startet med.' },
       { title: 'Ingen regning bakover', text: 'Hvis en gruppe kan regnes ut fra totalen og de andre gruppene, holdes en gruppe til tilbake.' },
       { title: 'Ja/nei-spørsmålene', text: 'HO-T-1 og HO-T-2 vises bare som antall for hele virksomheten, aldri per avdeling eller segment.' },
       {
         title: 'Segmenter',
-        text: 'Vaktordning og stillingsstørrelse vises bare der det er minst 5 svar, og aldri kombinert med en gruppe hvis det gir færre enn 5.',
+        text: 'Vaktordning og stillingsstørrelse vises bare der grensen er nådd, og aldri kombinert med en gruppe hvis det gir færre svar enn grensen.',
         featureFlag: 'module_segments',
       },
       { title: 'Samme indeks', text: 'Hver påstand regnes om til 0–100, og faktoren er snittet av sine tre påstander.' },

@@ -32,7 +32,7 @@ export const handel: IndustryPage = {
     h1: 'Arbeidsmiljø­undersøkelse for handel',
     lead:
       'Se hvor tyveri, trusler og alenevakter gjør jobben utrygg – og få forslag til tiltak for hver faktor. Handel-modulen kommer i tillegg til hovedundersøkelsen. Den spør også om krevende kunder, bemanning i travle timer, vaktplan, deltid og tunge løft. Ansatte på alle vakter svarer anonymt på mobilen.',
-    thresholdNote: 'Ingen gruppe vises før minst 5 har svart.',
+    thresholdNote: 'Som standard vises ingen gruppe før minst 5 har svart.',
     preview: {
       company: 'Solbakken Handel AS',
       caption: 'Handel-modulen · indeks 0–100',
@@ -113,7 +113,7 @@ export const handel: IndustryPage = {
     title: 'Fra svar til tiltak på neste personalmøte',
     steps: [
       { title: 'Mål', text: 'Hovedmåling med handel-modulen, på SMS eller QR-kode på pauserommet.' },
-      { title: 'Se per butikk', text: 'Resultat per butikk og lager, for grupper med minst 5 svar.' },
+      { title: 'Se per butikk', text: 'Resultat per butikk og lager, for grupper med nok svar – 5 som standard.' },
       { title: 'Velg tiltak', text: 'Tre forslag per faktor. Hvert tiltak får en eier og en frist.' },
       { title: 'Mål igjen', text: 'Pulsen spør bare om faktorene dere jobber med, til tiltaket har virket.' },
     ],
@@ -171,7 +171,7 @@ export const handel: IndustryPage = {
     },
     {
       q: 'Ser butikksjefen hvem som føler seg utrygg på alenevakter?',
-      a: 'Nei. Spørsmålet vises bare som antall for hele virksomheten, aldri per butikk eller vakt. Ingen gruppe vises før minst 5 har svart.',
+      a: 'Nei. Spørsmålet vises bare som antall for hele virksomheten, aldri per butikk eller vakt. Som standard vises ingen gruppe før minst 5 har svart.',
     },
     {
       q: 'Hva med ekstrahjelper og studenter?',
@@ -179,7 +179,7 @@ export const handel: IndustryPage = {
     },
     {
       q: 'Kan vi se resultat per butikk?',
-      a: 'Ja, i pakken Vanlig, for butikker med minst 5 svar. Har en butikk for få svar, teller svarene med i virksomhetens tall.',
+      a: 'Ja, i pakken Vanlig, for butikker med nok svar – 5 som standard. Har en butikk for få svar, teller svarene med i virksomhetens tall.',
     },
     {
       q: 'Hva koster det?',
@@ -201,7 +201,7 @@ export const handel: IndustryPage = {
     segmentsIntro: 'Valgfrie, for å se forskjell mellom butikk og lager, og mellom heltid og deltid. Undersøkelsen spør ikke om alder, fordi mange i handelen er unge og gruppene da blir for små.',
     rulesTitle: 'Slik rapporteres svarene',
     rules: [
-      { title: 'Minst 5 svar', text: 'Ingen gruppe vises før minst 5 har svart. Grensen kan heves, men aldri senkes.' },
+      { title: 'Minst 5 svar som standard', text: 'Ingen gruppe vises før minst 5 har svart. Grensen kan heves til 10. Små team kan senke den til 3; en runde beholder grensen den startet med.' },
       { title: 'Ingen regning bakover', text: 'Hvis en gruppe kan regnes ut fra totalen og de andre gruppene, holdes en gruppe til tilbake.' },
       {
         title: 'Ja/nei-spørsmålene',
@@ -209,7 +209,7 @@ export const handel: IndustryPage = {
       },
       {
         title: 'Segmenter',
-        text: 'Arbeidssted og stillingsstørrelse vises bare der det er minst 5 svar, og aldri kombinert med en gruppe hvis det gir færre enn 5.',
+        text: 'Arbeidssted og stillingsstørrelse vises bare der grensen er nådd, og aldri kombinert med en gruppe hvis det gir færre svar enn grensen.',
         featureFlag: 'module_segments',
       },
       { title: 'Samme indeks', text: 'Hver påstand regnes om til 0–100, og faktoren er snittet av sine tre påstander.' },

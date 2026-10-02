@@ -21,7 +21,7 @@ export const helseOgOmsorgEn: IndustryPage = {
     h1: 'Work environment survey for health and care',
     lead:
       'See where violence, tight staffing and rotas without rest take their toll on staff – and get suggested measures for every factor. The health and care module comes on top of the main survey. It also asks about part-time work, boundaries with service users and relatives, documentation and heavy lifting. Staff on every shift answer anonymously on their phones.',
-    thresholdNote: 'No group is shown until at least 5 have answered.',
+    thresholdNote: 'By default no group is shown until at least 5 have answered.',
     preview: {
       company: 'Lindely Omsorg AS',
       caption: 'Main survey September · index 0–100',
@@ -103,7 +103,7 @@ export const helseOgOmsorgEn: IndustryPage = {
     title: 'From answers to measures at the next staff meeting',
     steps: [
       { title: 'Measure', text: 'Main survey with the health and care module, by SMS or a QR code in the staff room.' },
-      { title: 'See per department', text: 'Results per department and ward, for groups with at least 5 answers.' },
+      { title: 'See per department', text: 'Results per department and ward, for groups with enough answers – 5 by default.' },
       { title: 'Choose measures', text: 'Three suggestions per factor. Every measure gets an owner and a deadline.' },
       { title: 'Measure again', text: 'The pulse asks only about the factors you are working on, until the measure has worked.' },
     ],
@@ -173,7 +173,7 @@ export const helseOgOmsorgEn: IndustryPage = {
     },
     {
       q: 'Does the manager see who answered that staffing was not responsible?',
-      a: 'No. The question is only shown as a count for the whole organisation, never per department or shift. No group is shown until at least 5 have answered, and the threshold cannot be lowered.',
+      a: 'No. The question is only shown as a count for the whole organisation, never per department or shift. By default no group is shown until at least 5 have answered, and the threshold can never be set below 3.',
     },
     {
       q: 'How do we reach people on rotas and nights?',
@@ -181,7 +181,7 @@ export const helseOgOmsorgEn: IndustryPage = {
     },
     {
       q: 'Can we see results per department or ward?',
-      a: 'Yes, on the Usual plan, for departments with at least 5 answers. If a department has too few answers, they count towards the organisation’s figures.',
+      a: 'Yes, on the Usual plan, for departments with enough answers – 5 by default. If a department has too few answers, they count towards the organisation’s figures.',
     },
     {
       q: 'What does it cost?',
@@ -204,12 +204,12 @@ export const helseOgOmsorgEn: IndustryPage = {
       'Optional, to see the difference between day, evening and night, and between full-time and part-time. The main survey already asks about violence and threats in the last 12 months and about offensive behaviour, so those questions are not repeated here.',
     rulesTitle: 'How the answers are reported',
     rules: [
-      { title: 'At least 5 answers', text: 'No group or segment is shown until at least 5 have answered. The threshold can be raised, but never lowered.' },
+      { title: 'At least 5 answers by default', text: 'No group or segment is shown until at least 5 have answered. The threshold can be raised to 10. Small teams can lower it to 3; a round keeps the threshold it started with.' },
       { title: 'No working backwards', text: 'If a group could be worked out from the total and the other groups, one more group is held back.' },
       { title: 'The yes/no questions', text: 'HO-T-1 and HO-T-2 are only shown as counts for the whole organisation, never per department or segment.' },
       {
         title: 'Segments',
-        text: 'Shift pattern and position size are only shown where there are at least 5 answers, and never combined with a group if that gives fewer than 5.',
+        text: 'Shift pattern and position size are only shown where the threshold is reached, and never combined with a group if that gives fewer answers than the threshold.',
         featureFlag: 'module_segments',
       },
       { title: 'The same index', text: 'Every statement is converted to 0–100, and the factor is the average of its three statements.' },
