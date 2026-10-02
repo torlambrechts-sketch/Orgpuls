@@ -3,7 +3,9 @@ import { getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { SectionNav } from '@/components/site/SectionNav'
-import { Crumbs, Eyebrow, HeroButtons, Points, SectionHead, StartBand } from '@/components/site/parts'
+import { Crumbs, Eyebrow, HeroButtons, Points, SectionHead } from '@/components/site/parts'
+import { SiteTop } from '@/components/site/v3/SiteTop'
+import { StartBand } from '@/components/site/v3/StartBand'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, graph, organization } from '@/lib/marketing/schema'
 import { zip } from '@/lib/site/zip'
@@ -213,6 +215,7 @@ export default async function PlattformPage() {
 
   return (
     <div>
+      <SiteTop />
       <JsonLd
         data={graph(
           organization(),

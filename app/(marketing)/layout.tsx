@@ -3,25 +3,26 @@ import Link from 'next/link'
 import { headers } from 'next/headers'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { EN_URL, hostOf, MAIN_URL, PUBLIC_HOSTS } from '@/lib/hosts'
-import { HeaderNav } from '@/components/site/HeaderNav'
-import { hasPublicPage, INDUSTRIES, pageIn } from '@/content/industries'
-import { flag } from '@/lib/flags'
-import { SiteFooter, type FooterData } from '@/components/site/SiteFooter'
 import { SiteBeacon } from '@/components/marketing/SiteBeacon'
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch'
-import { DESIGNED_FOOTER, FOOTERS, SITE_NAV_V2, type FooterId } from '@/lib/site/nav'
+import { SiteFooter, type FooterData } from '@/components/site/v3/SiteFooter'
+import { SiteHeader } from '@/components/site/v3/SiteHeader'
+import { FOOTERS, SITE_NAV, type FooterId } from '@/lib/site/nav'
+import { industryLinks } from '@/lib/site/industries'
 import { siteIndexing } from '@/lib/site/indexing'
 import { siteNotice } from '@/lib/site/notice'
 
 /**
- * The public chrome (D-88): design-reference/orgpuls/nettside, the `<header>` and `<footer>`
- * every page of the site's design shares.
+ * The public chrome (D-190): design-reference/orgpuls/nettside-v3, the mint top band with the
+ * floating header card, and the footer every page of the design shares.
  *
- * A separate shell from the application's, and deliberately so: no role, no account chip
- * and no assistant, because nobody reading it is signed in. The header is the logo, the
- * site's five sections and the two account buttons; the footer is the one each page's design
- * draws (lib/site/nav). The page you are on, and which footer it has, are read from the path
- * by two small client components. Beside "Logg inn", Norsk / English (D-96).
+ * A separate shell from the application's, and deliberately so: no role, no account chip and no
+ * assistant, because nobody reading it is signed in. The order is the skip link, the header (in
+ * the top of the mint band), one `<main>` and the footer (G-01, G-02). On the five v3 pages
+ * (lib/site/nav `V3_ROUTES`) the page's first element, `SiteTop`, continues the band with its hero;
+ * on every other public page the band closes under the header. The footer is the one each page's
+ * design draws, read from the path; its bottom line carries Norsk / English (D-96). The whole site
+ * sets in the v3 design's type stack (`font-site`), whose fallback draws → ✓ ▾ as the design does.
  */
 /** Admin › Site settings › «Allow search engines» (0126): off, every page here says noindex */
 export async function generateMetadata(): Promise<Metadata> {
@@ -32,109 +33,62 @@ export default async function MarketingLayout({ children }: { children: React.Re
   const t = await getTranslations('site.chrome')
   // on the production hosts each language has its own; the switch links across (D-98)
   const hosts = PUBLIC_HOSTS.includes(hostOf((await headers()).get('host'))) ? { no: MAIN_URL, en: EN_URL } : undefined
-  // Bransjer's pages (D-129): every industry in the registry, by its name in the site's language.
-  // Each address is a whole page either way — the industry page once launched, its landing page before
-  const lang = (await getLocale()) === 'en' ? 'en' : 'no'
-  const industries = INDUSTRIES.flatMap((i) => {
-    if (!hasPublicPage(i, lang)) return []
-    const label = (pageIn(i, lang) ?? pageIn(i, 'no'))?.navLabel
-    return label ? [{ href: `/${i.slug}`, label }] : []
-  })
-
-  // «Bransjer» in the footer (innstillinger-og-forside.md § 5.4, D-141): the design's footer has four
-  // columns, so the fifth waits behind `home_industries_block` until every industry page is out
-  const industryColumn = flag('home_industries_block') && industries.length ? [{ head: t('footer.head.bransjer'), links: industries }] : []
+  const industries = await industryLinks()
   const columns = Object.fromEntries(
-    (Object.keys(FOOTERS) as FooterId[]).map((id) => {
-      const cols = FOOTERS[id].map((c) => ({
+    (Object.keys(FOOTERS) as FooterId[]).map((id) => [
+      id,
+      FOOTERS[id].map((c) => ({
         head: t(`footer.head.${c.head}`),
         links: c.links.map((l) => ({ label: t(`footer.link.${l.key}`), href: l.href })),
-      }))
-      return [id, [...cols.slice(0, 2), ...industryColumn, ...cols.slice(2)]]
-    }),
+      })),
+    ]),
   ) as FooterData
 
   // the site notice (0123): only while it is switched on in admin
-  const notice = await siteNotice(lang)
+  const notice = await siteNotice((await getLocale()) === 'en' ? 'en' : 'no')
 
   return (
-    <div className="min-h-screen bg-bg text-[14px] text-ink">
+    <div className="min-h-screen bg-bg font-site text-[14px] text-ink">
+      {/* G-01: the first thing a keyboard reaches; drawn as the header's button while focused */}
+      <a
+        href="#innhold"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-[18px] focus:top-[18px] focus:z-50 focus:flex focus:min-h-[38px] focus:items-center focus:rounded-ctl focus:border focus:border-ink focus:bg-ac focus:px-[16px] focus:text-[14px] focus:font-bold focus:text-ink focus:no-underline"
+      >
+        {t('skip')}
+      </a>
       {notice ? (
         <p role="status" className="m-0 border-b border-line bg-band px-[26px] py-[9px] text-center text-[13px] font-semibold text-ink">
           {notice}
         </p>
       ) : null}
-      <header className="sticky top-0 z-40 border-b border-line bg-sf">
-        <div className="mx-auto flex max-w-[1120px] flex-wrap items-center gap-[22px] px-[26px] py-[13px] max-lg:gap-[12px]">
-          <Link href="/" className="flex flex-none items-center gap-[10px] text-ink hover:text-ink max-lg:min-h-[44px]">
-            <span className="flex h-[33px] w-[33px] items-center justify-center rounded-ctl border-[1.5px] border-ink bg-sf">
-              <svg width="22" height="13" viewBox="0 0 20 12" fill="none" aria-hidden="true" className="block">
-                <path
-                  d="M1 6.2h3.6l1.7-4.4 2.9 8.8 1.9-4.4h2.4"
-                  stroke="#191510"
-                  strokeWidth="1.7"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <circle cx="17" cy="6.2" r="1.9" fill="#191510" />
-              </svg>
-            </span>
-            <span className="font-display text-[21px] font-semibold tracking-[-0.01em]">Orgpuls</span>
-          </Link>
-          <HeaderNav
-            items={SITE_NAV_V2.map((i) => ({
-              href: i.href!,
-              label: t(`nav.${i.key}`),
-              ...(i.industries ? { children: industries, all: t('nav.alleBransjer') } : {}),
-            }))}
-            label={t('navLabel')}
-            menuLabel={t('menu')}
-            language={<LanguageSwitch label={t('language')} size="lg" hosts={hosts} />}
-            account={[
-              { href: '/demo', label: t('demo') },
-              { href: '/logg-inn', label: t('signIn') },
-              { href: '/registrer', label: t('getStarted') },
-            ]}
-          />
-          {/* on a phone these move into the menu, so the header is one row and the page starts sooner */}
-          <span className="hidden flex-none items-center gap-[9px] sm:flex">
-            <LanguageSwitch label={t('language')} hosts={hosts} />
-            <Link
-              href="/logg-inn"
-              className="flex h-[38px] items-center rounded-ctl px-[15px] text-[14px] font-semibold text-ink hover:text-ink"
-            >
-              {t('signIn')}
-            </Link>
-            {/* the demo (D-143, D-144): the site's secondary button, as «Se plattformen →» is drawn. Between
-                1024 and 1180 px the full menu and four controls do not fit one row, so it waits there */}
-            <Link
-              href="/demo"
-              className="flex h-[38px] items-center rounded-ctl border border-ink bg-sf px-[17px] text-[14px] font-bold text-ink hover:text-ink lg:hidden min-[1180px]:flex"
-            >
-              {t('demo')}
-            </Link>
-            <Link
-              href="/registrer"
-              className="flex h-[38px] items-center rounded-ctl border border-ink bg-ac px-[17px] text-[14px] font-bold text-ink hover:text-ink"
-            >
-              {t('getStarted')}
-            </Link>
-          </span>
-        </div>
-      </header>
+      <SiteHeader
+        items={SITE_NAV.map((i) => ({
+          href: i.href,
+          label: t(`nav.${i.key}`),
+          ...(i.industries ? { children: industries, all: t('nav.alleBransjer') } : {}),
+        }))}
+        label={t('navLabel')}
+        menu={t('menu')}
+        demo={t('demo')}
+        signIn={t('signIn')}
+        cta={t('getStarted')}
+      />
 
-      <main>{children}</main>
+      <main id="innhold" tabIndex={-1} className="focus:outline-none">
+        {children}
+      </main>
       <SiteBeacon />
 
       <SiteFooter
         columns={columns}
-        designed={DESIGNED_FOOTER}
+        label={t('footerNav')}
         about={t('footer.about')}
+        language={<LanguageSwitch label={t('language')} size="text" hosts={hosts} />}
         bottom={t.rich('footer.bottom', {
           year: new Date().getFullYear(),
-          // the design's words, now a link to the page they name (D-104); drawn as the text around it
+          // the design's words, now a link to the page they name (D-104), underlined as a link in prose (G5)
           privacy: (chunks) => (
-            <Link href="/personvernerklaering" className="text-inherit hover:text-ink">
+            <Link href="/personvernerklaering" className="text-inherit underline underline-offset-2 hover:text-ink">
               {chunks}
             </Link>
           ),

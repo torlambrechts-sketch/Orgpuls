@@ -198,7 +198,7 @@ export const MESSAGE_SPECS: MessageSpec[] = [
   {
     id: 'site.terms',
     section: 'site',
-    paths: ['seo.pages.priser.description', 'seo.pages.priser.lead', 'seo.pages.priser.faq[0]', 'seo.pages.priser.faq[1]', 'seo.pages.priser.blocks[2].items[4]', 'site.home.price.d'],
+    paths: ['seo.pages.priser.description', 'seo.pages.priser.lead', 'seo.pages.priser.faq[0]', 'seo.pages.priser.faq[1]', 'seo.pages.priser.blocks[2].items[4]', 'site.home.price.d', 'site.chrome.band.lead', 'site.chrome.band.leadHome'],
     where: place('prices'),
   },
   // -------- documents

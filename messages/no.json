@@ -6288,20 +6288,27 @@
       "demo": "Se demo",
       "signIn": "Logg inn",
       "getStarted": "Prøv gratis",
+      "skip": "Hopp til hovedinnhold",
+      "footerNav": "Bunnmeny",
       "sections": "Seksjoner",
       "crumbs": "Du er her",
       "trial": "Prøv gratis i 15 dager",
       "start": {
         "title": "Prøv Orgpuls på deres egen virksomhet",
         "lead": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Gratis i 15 dager, uten kort og uten binding.",
-        "placeholder": "9 sifre",
+        "placeholder": "9 sifre",
         "submit": "Prøv gratis",
         "fetching": "Vi henter {orgnr} fra Brønnøysundregistrene …",
-        "invalid": "Et organisasjonsnummer har 9 sifre.",
+        "invalid": "Et organisasjonsnummer har 9 sifre.",
         "label": "Organisasjonsnummer"
       },
+      "band": {
+        "title": "Prøv det på deres egen virksomhet",
+        "lead": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Fra 265 kr i måneden, alt inkludert. Gratis i 15 dager, uten betalingskort.",
+        "leadHome": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Ingen konsulent, ingen oppstartsmøte. Fra 265 kr i måneden, alt inkludert. Gratis i 15 dager, uten betalingskort."
+      },
       "footer": {
-        "about": "Medarbeiderundersøkelse og arbeidsmiljøkartlegging for norske virksomheter. Vi lagrer data i EU.",
+        "about": "Svar lagres i EU, og ingen enkeltsvar kan spores tilbake til en person.",
         "bottom": "© {year} Orgpuls · <privacy>Personvern</privacy> · Vilkår",
         "head": {
           "produkt": "Produkt",
@@ -6339,7 +6346,12 @@
           "positivt": "Positivt fokus",
           "anonymitet": "Anonymitet",
           "forskning": "Forskningen bak",
-          "sammenlignet": "Sammenlignet"
+          "sammenlignet": "Sammenlignet",
+          "handel": "Handel",
+          "kontor": "Kunnskap og kontor",
+          "bygg": "Bygg og anlegg",
+          "skole": "Barnehage og skole",
+          "helse": "Helse og omsorg"
         }
       },
       "language": "Språk",

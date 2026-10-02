@@ -64,6 +64,9 @@ const config: Config = {
       fontFamily: {
         display: ['var(--font-playfair)', 'Playfair Display', 'serif'],
         sans: ['var(--font-dmsans)', 'DM Sans', 'system-ui', 'sans-serif'],
+        // the v3 site design's stack (nettside-v3 tokens/typography.css `--font-sans`, D-190): its
+        // fallback has no unicode-range, so → ✓ ▾ come from the scaled Arial (app/globals.css)
+        site: ['DM Sans', 'DM Sans Site Fallback', 'Orgpuls Cyrillic', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         // the bundle's base is 14px, not Tailwind's 16px

@@ -8,7 +8,7 @@ const toSignup = (href: string | null) => href === '/registrer' || !!href?.start
 
 /**
  * Mounted on the public site only (D-91): counts each page view with its address's campaign
- * tags, and counts a press on anything that leads to /registrer, a link or the
+ * tags, and counts a press on anything that leads to /registrer (or to the start band, #kom-i-gang), a link or the
  * organisation-number form. It stores nothing on the device (D-104). It is never on the
  * respondent's pages.
  */
@@ -21,7 +21,9 @@ export function SiteBeacon() {
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
       const link = e.target instanceof Element ? e.target.closest('a[href]') : null
-      if (link && toSignup(link.getAttribute('href'))) sendBeacon('cta', 'kom-i-gang')
+      // a «Prøv gratis» to the page's start band counts as the press it replaced (/registrer, D-190)
+      const href = link?.getAttribute('href') ?? null
+      if (toSignup(href) || href === '#kom-i-gang') sendBeacon('cta', 'kom-i-gang')
     }
     const onSubmit = (e: SubmitEvent) => {
       if (e.target instanceof HTMLFormElement && toSignup(e.target.getAttribute('action'))) sendBeacon('cta', 'orgnr')

@@ -3,7 +3,9 @@ import Link from 'next/link'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { industryCards, NewChip } from '@/components/industry/IndustryCards'
 import { JsonLd } from '@/components/marketing/JsonLd'
-import { Crumbs, Eyebrow, StartBand } from '@/components/site/parts'
+import { Crumbs, Eyebrow } from '@/components/site/parts'
+import { SiteTop } from '@/components/site/v3/SiteTop'
+import { StartBand } from '@/components/site/v3/StartBand'
 import { getIndustry, pageIn } from '@/content/industries'
 import { moduleFile } from '@/content/industries/modules'
 import { pageMeta } from '@/lib/marketing/meta'
@@ -31,6 +33,7 @@ export default async function BransjerPage() {
 
   return (
     <div>
+      <SiteTop />
       <JsonLd
         data={graph(
           organization(),

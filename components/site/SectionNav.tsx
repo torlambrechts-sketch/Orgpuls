@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 /**
  * The strip of section links under the header on a subpage (D-88; Plattform.dc.html lines
- * 41-49). It sticks under the header, and the section you are reading is bold and
+ * 41-49). It sticks to the top of the screen (the v3 header scrolls away, D-190), and the section you are reading is bold and
  * underlined: the last one whose top has passed 130px, as the design computes it. A link
  * scrolls to its section 118px below the top, so the heading clears both sticky bars.
  *
@@ -28,7 +28,7 @@ export function SectionNav({ label, items }: { label: string; items: { id: strin
   }, [items])
 
   return (
-    <div className="sticky top-[71px] z-30 border-b border-line bg-[rgba(252,246,233,.94)] backdrop-blur-[6px] sm:top-[65px]">
+    <div className="sticky top-0 z-30 border-b border-line bg-[rgba(252,246,233,.94)] backdrop-blur-[6px]">
       <div className="mx-auto max-w-[1120px] overflow-x-auto px-[26px] [scrollbar-width:none]">
         <nav aria-label={label} className="flex min-w-max gap-[2px]">
           {items.map((s) => (
