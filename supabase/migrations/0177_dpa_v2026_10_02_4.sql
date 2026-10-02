@@ -6,7 +6,8 @@
 -- has switched Teams on; vedlegg 1 lists what is kept for it: which conversation the bot has with
 -- an employee, and whether Teams turned a message away. A changed text is a new version (0047,
 -- lib/legal/dpa.ts). The text is 2026-10-02.3 (0166, the Entra import, D-202) with these two
--- additions, so this is 2026-10-02.4, the newest by sign_dpa's order (published_on, then version).
+-- additions, and section 6 says the 30-day notice does not apply to a sub-processor used only when
+-- the organisation itself switches an integration on (the owner's decision, D-203), so this is 2026-10-02.4, the newest by sign_dpa's order (published_on, then version).
 
 insert into app.dpa_versions (version, text_sha256, published_on)
-values ('2026-10-02.4', '602002caefb594d783c2db99e395a2ae97590b938d0c21d1d84e46bb2afbde7e', date '2026-10-02');
+values ('2026-10-02.4', '0800a2cc3c86931e7d5aa3f1d3e82964822fa7f6f9bc42c8aadc0aa3923bbff4', date '2026-10-02');

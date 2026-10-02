@@ -6658,10 +6658,7 @@
       },
       {
         "h": "6. Sub-processors",
-        "p": [
-          "The organisation authorises the sub-processors in Annex 3. Orgpuls shall notify the organisation by e-mail at least 30 days before a sub-processor is added or replaced, and the organisation may object. If the parties cannot agree, the organisation may terminate the agreement before the change takes effect.",
-          "Orgpuls shall impose the same obligations on sub-processors as follow from this agreement, and is liable to the organisation for their performance."
-        ]
+        "p": ["The organisation authorises the sub-processors in Annex 3. Orgpuls shall notify the organisation by e-mail at least 30 days before a sub-processor is added or replaced, and the organisation may object. If the parties cannot agree, the organisation may terminate the agreement before the change takes effect.", "The duty to notify does not apply to a sub-processor that is used only when the organisation itself switches on an integration, such as Microsoft for Teams. It is listed in Annex 3 before the integration can be switched on, and the organisation authorises it by switching the integration on. When the integration is switched off, it is no longer used for the organisation.", "Orgpuls shall impose the same obligations on sub-processors as follow from this agreement, and is liable to the organisation for their performance."]
       },
       {
         "h": "7. Transfers outside the EEA",

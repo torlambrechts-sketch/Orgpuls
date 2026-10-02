@@ -21,7 +21,7 @@ import { z } from 'zod'
  * conversation to vedlegg 1.
  */
 export const DPA_VERSION = '2026-10-02.4'
-export const DPA_SHA256 = '602002caefb594d783c2db99e395a2ae97590b938d0c21d1d84e46bb2afbde7e'
+export const DPA_SHA256 = '0800a2cc3c86931e7d5aa3f1d3e82964822fa7f6f9bc42c8aadc0aa3923bbff4'
 
 export const DpaSection = z.object({
   h: z.string().min(1),

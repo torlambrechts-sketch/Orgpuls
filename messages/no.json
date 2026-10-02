@@ -6658,10 +6658,7 @@
       },
       {
         "h": "6. Underdatabehandlere",
-        "p": [
-          "Virksomheten godkjenner underdatabehandlerne i vedlegg 3. Orgpuls skal varsle virksomheten på e-post minst 30 dager før en underdatabehandler legges til eller byttes ut, og virksomheten kan protestere. Blir partene ikke enige, kan virksomheten si opp avtalen før endringen trer i kraft.",
-          "Orgpuls skal pålegge underdatabehandlerne de samme pliktene som følger av denne avtalen, og er ansvarlig overfor virksomheten for at de oppfyller dem."
-        ]
+        "p": ["Virksomheten godkjenner underdatabehandlerne i vedlegg 3. Orgpuls skal varsle virksomheten på e-post minst 30 dager før en underdatabehandler legges til eller byttes ut, og virksomheten kan protestere. Blir partene ikke enige, kan virksomheten si opp avtalen før endringen trer i kraft.", "Varslingsplikten gjelder ikke en underdatabehandler som bare brukes når virksomheten selv slår på en integrasjon, som Microsoft for Teams. Den står i vedlegg 3 før integrasjonen kan slås på, og virksomheten godkjenner den ved å slå integrasjonen på. Slås integrasjonen av, brukes den ikke lenger for virksomheten.", "Orgpuls skal pålegge underdatabehandlerne de samme pliktene som følger av denne avtalen, og er ansvarlig overfor virksomheten for at de oppfyller dem."]
       },
       {
         "h": "7. Overføring ut av EØS",

@@ -10298,3 +10298,51 @@ round already deleted) — pre-existing, queued.
 User.Read.All and GroupMember.Read.All; upload a certificate; set ENTRA_CLIENT_ID,
 ENTRA_CERT_PRIVATE_KEY (PKCS#8) and ENTRA_CERT_THUMBPRINT as Edge Function secrets. Tenants already
 bound must consent again.
+
+## D-203 — Microsoft Teams as a channel for a person's survey link (0176, 0177) (2026-10-02)
+
+An invitation or a reminder can go as a Teams message from the Orgpuls bot instead of an e-mail
+(0176). The claim chooses Teams when the organisation has it on, has bound its Microsoft 365 tenant
+(0155), the person carries an Entra object id (0165) and Teams has not turned them away, and the rule
+says so — the organisation's, or the round's own (`rounds.teams_when`, frozen once the round opens),
+with SMS's three choices; Teams comes before SMS. A link someone asked for and every notice to a role
+stay as they were. The message is one Adaptive Card: the SMS lead already translated per language,
+and one «Svar nå» button (`mail.invitasjon.cta`) that opens the personal link — no URL in the text,
+no Submit or Execute action, no read receipt, nothing kept to edit or delete the card, so nothing
+reacts to an answer. A person who blocked or removed the app (403 MessageWritesBlocked), or for whom
+it is not installed, is recorded as a register fact (`address_problems`, channel teams) and gets the
+same link by e-mail in the same run. The Teams identity lives in `app.teams_conversations` (RLS, no
+policy, no grant) and nowhere near invitations or answers. `dispatch_done` now refuses an unknown
+channel instead of recording it as e-mail.
+
+The bot is plain REST (no Bot Framework SDK): a single-tenant registration, a token by certificate (or
+secret), the 1:1 conversation created by object id and kept. Its messaging endpoint, the edge function
+`orgpuls-teams-bot`, validates the Bot Framework JWT in full and acts only on installs and removals; a
+message's text is never read or logged. The app package (manifest schema 1.30, notification-only,
+personal scope, icons from the mark) is downloaded from Oppsett › Integrasjoner › Teams or built with
+`npm run teams:package`; the customer's Teams administrator uploads it. Installing it through Graph is
+not built.
+
+Not used: the design's «Svarprosenten er typisk 10–15 poeng høyere for dem som lever i Teams» —
+nothing backs it (X-056). The design's Teams card has no screen of its own; the Teams screen is built
+as the SMS screen was (D-66). The Teams app's listing texts exist in English and Norwegian only; an
+employee whose Teams runs in another language sees the English listing, while the message itself is
+in their survey language. Unbinding the tenant turns Teams off.
+
+Microsoft Ireland Operations Ltd (Azure Bot Service, EU) is named as a sub-processor in the privacy
+statement, the in-app processor card, the security page and the DPA's vedlegg 3. **The owner decided
+(2026-10-02) that existing customers are not notified**: Microsoft is used only by an organisation that
+switches Teams on. The DPA's section 6 now says so — the 30-day notice does not apply to a
+sub-processor used only when the organisation itself switches an integration on; it is listed in
+vedlegg 3 before it can be switched on, and switching it on authorises it. Published as 2026-10-02.4
+(0177), on top of 2026-10-02.3 (0166).
+
+Still to prove with a real bot and a second tenant: that a single-tenant bot reaches users in another
+tenant (since 31 July 2025 new multi-tenant bots cannot be created), that Teams' tokens to the endpoint
+carry the issuer `https://api.botframework.com` as documented, and the EMEA service URL (inferred;
+override with `TEAMS_SERVICE_URL`).
+
+**Waiting on the owner:** an Azure Bot resource (West Europe, single-tenant) with a certificate or
+secret, messaging endpoint `{SUPABASE_URL}/functions/v1/orgpuls-teams-bot`, the Teams channel added;
+Edge Function secrets `TEAMS_BOT_APP_ID`, `TEAMS_BOT_TENANT_ID` and `TEAMS_BOT_CERT_PEM` +
+`TEAMS_BOT_CERT_KEY` (or `TEAMS_BOT_SECRET`); `TEAMS_BOT_APP_ID` in Vercel.
