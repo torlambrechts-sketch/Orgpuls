@@ -141,6 +141,7 @@ export async function AnsatteTab({
             ...p,
             groupLabel: t('oppsett.ansatte.groupFor', { name: p.name }),
             roleLabel: t('oppsett.ansatte.roleFor', { name: p.name }),
+            followLabel: t('oppsett.ansatte.followFor', { name: p.name }),
           }))}
           groups={view.groups}
           canWrite={view.canWrite}
@@ -160,6 +161,10 @@ export async function AnsatteTab({
               DUTY_ROLES.map((r) => [r, t(`oppsett.ansatte.duty.${r}`)]),
             ),
             denied: t('oppsett.problem.denied'),
+            entraChip: t('oppsett.ansatte.entraChip'),
+            entraLocked: t('oppsett.ansatte.entraLocked'),
+            pinned: t('oppsett.ansatte.pinned'),
+            follow: t('oppsett.ansatte.follow'),
           }}
         />
 
