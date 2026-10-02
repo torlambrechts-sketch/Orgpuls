@@ -6,6 +6,8 @@ import { AcceptInvite, JoinWithPassword } from '@/components/start/JoinInvite'
 import { signOutForInvite } from '@/app/(marketing)/bli-med/actions'
 import { GoogleButton, GoogleDivider } from '@/components/start/GoogleButton'
 import { googleEnabled } from '@/lib/auth/google'
+import { microsoftEnabled } from '@/lib/auth/microsoft'
+import { MicrosoftButton } from '@/components/start/MicrosoftButton'
 
 /**
  * Where an invitation link lands (0028, D-51). Not in the design; built in the sign-in
@@ -29,6 +31,7 @@ export default async function BliMedPage({ params }: { params: Promise<{ token: 
   const supabase = await createClient()
   const { data: auth } = await supabase.auth.getUser()
   const signedInAs = auth.user?.email?.toLowerCase() ?? null
+  const [google, microsoft] = signedInAs === null ? await Promise.all([googleEnabled(), microsoftEnabled()]) : [false, false]
 
   const card = 'rounded-card border border-line bg-sf p-[clamp(24px,3.5vw,32px)]'
 
@@ -65,11 +68,16 @@ export default async function BliMedPage({ params }: { params: Promise<{ token: 
         {signedInAs === null ? (
           <>
             <JoinWithPassword token={token} />
-            {(await googleEnabled()) ? (
+            {google || microsoft ? (
               <>
                 <GoogleDivider label={t('or')} />
-                <GoogleButton label={t('google')} fields={{ flow: 'invite', token }} />
-                <p className="mb-0 mt-[8px] text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">{t('googleNote')}</p>
+                <div className="flex flex-col gap-[9px]">
+                  {microsoft ? <MicrosoftButton label={t('microsoft')} fields={{ flow: 'invite', token }} /> : null}
+                  {google ? <GoogleButton label={t('google')} fields={{ flow: 'invite', token }} /> : null}
+                </div>
+                <p className="mb-0 mt-[8px] text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">
+                  {microsoft ? t('providerNote') : t('googleNote')}
+                </p>
               </>
             ) : null}
           </>

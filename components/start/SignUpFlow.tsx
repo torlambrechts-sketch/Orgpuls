@@ -12,6 +12,7 @@ import {
   type SignUpState,
 } from '@/app/(marketing)/registrer/actions'
 import { GoogleButton, GoogleDivider } from '@/components/start/GoogleButton'
+import { MicrosoftButton } from '@/components/start/MicrosoftButton'
 import { trackEvent } from '@/lib/marketing/events'
 import { HeardAbout } from '@/components/start/HeardAbout'
 
@@ -33,16 +34,22 @@ import { HeardAbout } from '@/components/start/HeardAbout'
  * **Google (D-102):** step 2 can create the account with Google instead of a password,
  * once the provider is switched on. The company and the consent go with the form; the
  * callback creates the organisation and lands back here, on step 3 (`done`).
+ *
+ * **Microsoft (D-201):** the same, through the `azure` provider, above Google as on /logg-inn.
+ * The callback runs the Microsoft sign-in rules once the organisation exists, which binds the
+ * new membership to the Microsoft person who made it.
  */
 
 
 
 export function SignUpFlow({
   google = false,
+  microsoft = false,
   problem = null,
   done = null,
 }: {
   google?: boolean
+  microsoft?: boolean
   problem?: string | null
   done?: { firstName: string; company: string } | null
 }) {
@@ -137,7 +144,9 @@ export function SignUpFlow({
         <div className="min-w-0">
           {problem && step === 1 ? (
             <p role="alert" className="mb-[12px] mt-0 text-[13.5px] leading-[1.55] text-danger [text-wrap:pretty]">
-              {t.has(`problem.${problem}`) ? t(`problem.${problem}`) : t('problem.google_failed')}
+              {t.has(`problem.${problem}`)
+                ? t(`problem.${problem}`)
+                : t(problem.startsWith('microsoft_') ? 'problem.microsoft_failed' : 'problem.google_failed')}
             </p>
           ) : null}
           {/* ------------------------------------------------------- step 1 */}
@@ -431,15 +440,20 @@ export function SignUpFlow({
                     : t('ctaHintMissing')}
               </div>
 
-              {google ? (
+              {google || microsoft ? (
                 <>
                   <GoogleDivider label={t('googleOr')} />
                   <input type="hidden" name="flow" value="signup" />
                   <input type="hidden" name="orgNumber" value={company.orgNumber} />
                   <input type="hidden" name="companyName" value={company.name} />
                   <input type="hidden" name="employeeCount" value={String(countFor(size, registerCount))} />
-                  <GoogleButton inForm label={t('google')} disabled={!consent} />
-                  <div className="mt-[9px] max-w-[52ch] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">{t('googleHint')}</div>
+                  <div className="flex flex-col gap-[9px]">
+                    {microsoft ? <MicrosoftButton inForm label={t('microsoft')} disabled={!consent} /> : null}
+                    {google ? <GoogleButton inForm label={t('google')} disabled={!consent} /> : null}
+                  </div>
+                  <div className="mt-[9px] max-w-[52ch] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
+                    {microsoft ? t('providerHint') : t('googleHint')}
+                  </div>
                 </>
               ) : null}
             </form>

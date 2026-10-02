@@ -12,12 +12,16 @@ import type { DpaSignature } from '@/lib/legal/read'
  * threshold warning, shown while the organisation's threshold is under five: since 0150 a
  * small team may choose three or four (D-198), and this is the state the design's card is for.
  *
+ * One card is not the design's: «Hva lagres om dem som logger inn» (`accounts`, D-201) says
+ * what is kept about the leaders' own accounts, including the Microsoft tenant and object id
+ * a Microsoft sign-in stores. The design's eight say nothing about accounts.
+ *
  * The design's three document buttons were omitted while nothing stood behind them (D-33).
  * The data processing agreement now exists, on its own tab (D-87), and this tab opens with
  * its status and a link there; the other two documents are still not drawn.
  */
 
-const CARDS = ['basis', 'stored', 'special', 'retention', 'access', 'processor', 'dpia', 'protocol'] as const
+const CARDS = ['basis', 'stored', 'accounts', 'special', 'retention', 'access', 'processor', 'dpia', 'protocol'] as const
 
 export async function PersonvernTab({ threshold, signed }: { threshold: number; signed: DpaSignature[] }) {
   const t = await getTranslations()
