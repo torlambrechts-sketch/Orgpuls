@@ -5959,7 +5959,7 @@
         "crumb": "Personvernerklæring",
         "kicker": "Personvern",
         "h1": "Personvernerklæring",
-        "lead": "Her står hva Orgpuls AS samler inn om deg, hvorfor, hvor lenge vi beholder det og hvem som hjelper oss. Sist oppdatert 30. september 2026.",
+        "lead": "Her står hva Orgpuls AS samler inn om deg, hvorfor, hvor lenge vi beholder det og hvem som hjelper oss. Sist oppdatert 2. oktober 2026.",
         "blocks": [
           {
             "t": "h2",
@@ -6004,11 +6004,11 @@
           },
           {
             "t": "p",
-            "text": "Ber du om en demo, lagrer vi e-postadressen, om du krysset av for e-post fra oss, og en besøkskode for nettverket du kom fra, laget av IP-adressen med en nøkkel som byttes hvert døgn. Selve IP-adressen lagres ikke. Forespørselen slettes etter 30 dager. Vi bruker den til å sende innloggingslenken og til å hindre misbruk, som mange lenker til samme adresse. Grunnlaget er at du har bedt om demoen, artikkel 6 nr. 1 bokstav b, og vår berettigede interesse i å stanse misbruk, bokstav f."
+            "text": "Ber du om en demo, lagrer vi navnet ditt, e-postadressen, virksomheten og rollen du oppgir, om du krysset av for e-post fra oss, og en besøkskode for nettverket du kom fra, laget av IP-adressen med en nøkkel som byttes hvert døgn. Selve IP-adressen lagres ikke. Forespørselen slettes etter 30 dager. Vi bruker den til å sende innloggingslenken og til å hindre misbruk, som mange lenker til samme adresse. Grunnlaget er at du har bedt om demoen, artikkel 6 nr. 1 bokstav b, og vår berettigede interesse i å stanse misbruk, bokstav f."
           },
           {
             "t": "p",
-            "text": "Demoen er en kopi av en fiktiv virksomhet som bare du har tilgang til. Den og innloggingen din slettes etter 14 dager uten innlogging, eller straks du velger å opprette en egen konto. Når du har åpnet lenken, lagrer vi adressen som en kontakt merket «demo». Vi sender deg e-post om Orgpuls bare hvis du krysset av for det, artikkel 6 nr. 1 bokstav a, og du kan melde deg av i hver e-post."
+            "text": "Demoen er en kopi av en fiktiv virksomhet som bare du har tilgang til. Den og innloggingen din slettes etter 14 dager uten innlogging, eller straks du velger å opprette en egen konto. Når du har åpnet lenken, lagrer vi adressen, navnet, virksomheten og rollen din som en kontakt merket «demo», slik at vi vet hvem som har prøvd Orgpuls. Fantes du allerede som kontakt, beholder vi det vi hadde, og fyller bare inn det som manglet. Grunnlaget er vår berettigede interesse i å kjenne dem som prøver produktet, bokstav f. Kontakten beholder vi til du ber oss slette den eller protesterer. Vi sender deg e-post om Orgpuls bare hvis du krysset av for det, artikkel 6 nr. 1 bokstav a, og du kan melde deg av i hver e-post."
           },
           {
             "t": "h2",
@@ -6036,7 +6036,7 @@
           },
           {
             "t": "p",
-            "text": "Vi bruker bare informasjonskapsler som trengs for at tjenesten skal virke: innlogging, språkvalget ditt, visningsvalg i appen, og en kortvarig kapsel som husker virksomheten mens du registrerer deg med Google. Ingen brukes til statistikk eller annonser."
+            "text": "Vi bruker bare informasjonskapsler som trengs for at tjenesten skal virke: innlogging, språkvalget ditt, visningsvalg i appen, og en kortvarig kapsel som husker virksomheten mens du registrerer deg med Google. I demoen husker nettleseren hvilke steder i demoguiden du har vært innom; det lagres bare på enheten din. Ingen brukes til statistikk eller annonser."
           },
           {
             "t": "h2",
@@ -6064,6 +6064,7 @@
             "items": [
               "Besøksstatistikk: 13 måneder. Besøkskoden byttes hvert døgn.",
               "Kontoen og virksomhetens opplysninger: så lenge kundeforholdet varer, og deretter så lenge regnskapsloven krever for det som inngår i regnskapet.",
+              "Demo: forespørselen 30 dager. Demoen og innloggingen 14 dager uten innlogging. Kontakten til du ber oss slette den.",
               "Nyhetsbrev: til du melder deg av. Deretter bare hashen som hindrer nye utsendelser.",
               "Henvendelser til kundestøtte: så lenge det trengs for å følge opp saken og kundeforholdet."
             ]
@@ -12651,31 +12652,163 @@
     }
   },
   "demo": {
-    "title": "Se hele Orgpuls i en demo",
+    "title": "Se hele Orgpuls – med en ferdig kartlagt virksomhet",
     "metaTitle": "Prøv Orgpuls-demoen",
     "metaDescription": "Din egen kopi av en ferdig kartlagt virksomhet: tre år med kartlegginger, tiltak, samtaler og rapporten til Arbeidstilsynet. Fiktive data, ingenting sendes.",
     "badge": "Demo",
-    "lead": "Du får din egen kopi av Demobedriften AS: 64 fiktive ansatte, 3 år med kartlegginger, tiltak, samtaler og rapporten til Arbeidstilsynet. Skriv inn jobb-e-posten din, så sender vi deg en lenke.",
-    "mail": "Jobb-e-post",
-    "consent": "Ja, Orgpuls kan sende meg e-post om produktet. Jeg kan melde meg av når som helst.",
-    "submit": "Send meg lenken",
-    "sending": "Sender …",
-    "sentTitle": "Sjekk innboksen",
-    "sentLead": "Vi har sendt en innloggingslenke til {mail}. Åpne den for å komme inn i demoen.",
-    "invalid": "Skriv en gyldig e-postadresse.",
-    "limited": "Mange har bedt om lenker herfra i dag. Prøv igjen i morgen, eller ta kontakt med oss.",
-    "closed": "Demoen er stengt akkurat nå. Ta kontakt med oss, så viser vi deg Orgpuls.",
-    "failed": "Noe gikk galt. Prøv igjen om litt.",
+    "lead": "Du får din egen kopi av Demobedriften AS: 64 fiktive ansatte i 6 avdelinger, 3 år med kartlegginger, tiltak, samtaler og en ferdig rapport til Arbeidstilsynet. Klikk deg rundt som daglig leder, og se hva dere får ut av Orgpuls.",
+    "points": [
+      "Klar med en gang – ingen oppsett",
+      "Bare du ser demoen din",
+      "Fiktive data – ingenting sendes til noen"
+    ],
+    "form": {
+      "title": "Få din egen demo",
+      "lead": "Fyll inn skjemaet, så sender vi deg en lenke som logger deg rett inn.",
+      "name": "Fullt navn",
+      "mail": "Jobb-e-post",
+      "company": "Virksomhet",
+      "role": "Rolle",
+      "rolePick": "Velg rolle",
+      "roles": {
+        "daglig_leder": "Daglig leder",
+        "hr": "HR",
+        "leder": "Leder",
+        "verneombud": "Verneombud",
+        "annet": "Annet"
+      },
+      "consent": "Ja, Orgpuls kan sende meg e-post om produktet. Jeg kan melde meg av når som helst.",
+      "submit": "Send meg lenken til demoen",
+      "sending": "Sender …",
+      "nameMissing": "Skriv navnet ditt.",
+      "mailInvalid": "Skriv en gyldig e-postadresse.",
+      "companyMissing": "Skriv navnet på virksomheten.",
+      "roleMissing": "Velg rollen din.",
+      "fieldsProblem": "Noe mangler i skjemaet. Se merknadene ved feltene.",
+      "limited": "Mange har bedt om lenker herfra i dag. Prøv igjen i morgen, eller ta kontakt med oss.",
+      "closed": "Demoen er stengt akkurat nå. Ta kontakt med oss, så viser vi deg Orgpuls.",
+      "failed": "Noe gikk galt. Prøv igjen om litt.",
+      "note": "Gratis og uten binding. Du trenger ikke betalingskort."
+    },
+    "sent": {
+      "title": "Sjekk innboksen",
+      "lead": "Vi har sendt en innloggingslenke til {mail}. Åpne den, så kommer du rett inn i demoen.",
+      "from": "E-posten kommer fra Orgpuls, no-reply@orgpuls.com. Lenken virker i én time.",
+      "helpTitle": "Kom det ingen e-post?",
+      "help": [
+        "Vent et par minutter, og se i søppelpost og i fanen for kampanjer.",
+        "Sjekk at adressen over er riktig. Er den feil, fyller du inn skjemaet på nytt.",
+        "Kommer det fortsatt ingenting, skriv til oss på <mail>hjelp@orgpuls.no</mail>."
+      ],
+      "again": "Fyll inn skjemaet på nytt"
+    },
     "startFailed": "Vi fikk ikke åpnet demoen. Be om en ny lenke.",
-    "rulesTitle": "Slik fungerer demoen",
+    "closed": "Demoen er stengt akkurat nå. Ta kontakt med oss, så viser vi deg Orgpuls.",
+    "explore": {
+      "kicker": "Dette kan du utforske",
+      "title": "Fra kartlegging til ferdig rapport – prøv hele løpet",
+      "lead": "Demoen er hele produktet, ikke en film. Her er seks steder å begynne.",
+      "note": "Bildene er fra eksempelvirksomheten Nordvik Anlegg AS. I demoen ser du de samme skjermene med tallene til Demobedriften AS.",
+      "cards": {
+        "oversikt": {
+          "title": "Se hvor dere står",
+          "try": "Innsikt viser indeksen, svarprosenten og hva som bør gjøres nå."
+        },
+        "varmekart": {
+          "title": "Finn det som trekker ned",
+          "try": "I varmekartet ser du hvilken avdeling og hvilken faktor som skiller seg ut."
+        },
+        "samtaler": {
+          "title": "Svar på en anonym kommentar",
+          "try": "Skriv et svar til den ansatte – uten at noen vet hvem som skrev kommentaren."
+        },
+        "tiltak": {
+          "title": "Følg tiltakene til de virker",
+          "try": "Flytt et tiltak videre på tavla, med eier og frist."
+        },
+        "arshjul": {
+          "title": "Se hele året i årshjulet",
+          "try": "Grunnlinjen og pulsene ligger klare, måned for måned."
+        },
+        "rapport": {
+          "title": "Åpne rapporten til Arbeidstilsynet",
+          "try": "Ferdig skrevet fra tallene – i demoen merket DEMO."
+        }
+      }
+    },
+    "how": {
+      "kicker": "Slik fungerer det",
+      "title": "Inne i demoen på tre steg",
+      "steps": [
+        {
+          "title": "Fyll inn skjemaet",
+          "text": "Navn, jobb-e-post, virksomhet og rolle. Ingen betalingskort, ingen binding."
+        },
+        {
+          "title": "Åpne lenken i innboksen",
+          "text": "Lenken logger deg rett inn. Du trenger ikke passord."
+        },
+        {
+          "title": "Utforsk i ditt eget tempo",
+          "text": "Prøv det du vil. Demoen blir som ny etter et døgn, eller når du trykker «Tilbakestill»."
+        }
+      ]
+    },
+    "rulesTitle": "Godt å vite",
     "rules": [
       "Demoen er din egen. Ingen andre ser det du gjør, og du ser ikke andres.",
       "Alt er fiktivt: navn, svar og kommentarer er skrevet for demoen.",
       "Ingenting sendes. Invitasjoner, påminnelser og SMS er slått av, og rapporten er merket DEMO.",
       "Demoen blir som ny etter et døgn, eller når du trykker «Tilbakestill». Etter 14 dager uten innlogging sletter vi den."
     ],
-    "privacy": "Vi bruker adressen til å sende lenken, og lagrer forespørselen i 30 dager. Uten avkrysning får du ingen annen e-post fra oss.",
+    "end": {
+      "title": "Se det med egne øyne",
+      "lead": "Det tar fire felt og én lenke. Demoen er klar når du åpner den.",
+      "cta": "Til skjemaet",
+      "alt": "Vil du heller starte med egne tall? Prøv Orgpuls gratis i 15 dager"
+    },
+    "privacy": "Vi lagrer forespørselen – navn, e-post, virksomhet og rolle – i 30 dager. Når du har åpnet lenken, blir du lagret som kontakt hos oss. Uten avkrysning får du ingen annen e-post fra oss.",
     "privacyLink": "Personvernerklæringen",
+    "tour": {
+      "title": "Utforsk demoen",
+      "lead": "Seks steder å prøve. Haken kommer når du har vært innom.",
+      "progress": "{done} av {total} sett",
+      "hide": "Skjul",
+      "show": "Vis",
+      "close": "Lukk guiden",
+      "seen": "Sett",
+      "items": {
+        "innsikt": {
+          "title": "Se hvor dere står",
+          "hint": "Innsikt: indeksen, sløyfen og hva som bør gjøres nå"
+        },
+        "resultater": {
+          "title": "Finn det som trekker ned",
+          "hint": "Resultater: varmekartet per avdeling og faktor"
+        },
+        "kommentarer": {
+          "title": "Svar på en anonym kommentar",
+          "hint": "Kommentarer: svar uten å vite hvem som skrev"
+        },
+        "tiltak": {
+          "title": "Flytt et tiltak videre",
+          "hint": "Tiltak: trykk «Flytt videre» på et kort på tavla"
+        },
+        "malinger": {
+          "title": "Se årshjulet",
+          "hint": "Målinger: når målingene går ut gjennom året"
+        },
+        "rapport": {
+          "title": "Åpne rapporten til Arbeidstilsynet",
+          "hint": "Rapport: ferdig skrevet fra tallene, merket DEMO"
+        }
+      },
+      "own": {
+        "title": "Opprett egen konto",
+        "hint": "Klar for egne tall? Demoen slettes, og du registrerer virksomheten med samme e-postadresse.",
+        "cta": "Opprett konto"
+      }
+    },
     "notice": {
       "head": "Demo med fiktive data.",
       "body": "Ingenting sendes herfra, og rapporten er merket DEMO. Demoen blir som ny {fresh}.",

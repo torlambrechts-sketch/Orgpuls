@@ -16,7 +16,7 @@
     "public.crm_unsubscribe(p_token text, p_scope text)": "one-click unsubscribe (D-101)",
     "public.csat_open(p_token text)": "a support case's rating page (0135, /vurdering): a 256-bit one-use key minted by the dispatcher's claim, looked up by its SHA-256, expiring in 30 days; answers the case number or one `invalid` for malformed, unknown, expired and used keys; a miss is counted, 200 in ten minutes closes it for everyone; the page is noindex",
     "public.csat_submit(p_token text, p_rating integer, p_comment text)": "the rating itself (0135): 1–5 and an optional comment, once per key; the input is checked before the key; a spent key answers exactly as an unknown one; same miss count and limit as csat_open",
-    "public.demo_request(p_email text, p_ip text, p_consent boolean, p_lang text)": "demo sandbox request, rate-limited (D-143)",
+    "public.demo_request(p_email text, p_name text, p_company text, p_role text, p_ip text, p_consent boolean, p_lang text)": "demo sandbox request with name, company and role, rate-limited (D-143, D-191)",
     "public.entry_info(p_code text)": "QR poster page: round name by entry code (D-126)",
     "public.follow_up(p_key text, p_body text)": "respondent's private conversation, by its key (0018)",
     "public.invite_preview(p_token text)": "member invitation link before sign-up (0028)",
