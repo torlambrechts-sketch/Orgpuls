@@ -9848,7 +9848,7 @@ Desktop (1440) keeps the design's layout pixel for pixel. It differs from the bu
 5. **Bruksområder «Ny leder» card has three bars, not four.** «Blir hørt når noe skal endres» is Medvirkning's
    statement, not Støtte fra leder's.
 6. **Plattform «Slik er det å svare».**
-   - The card shows the survey-mock renderer (`app/(marketing)/plattform/SurveyMock.tsx`), not `sporsmal.webp`. The
+   - (Superseded by D-195, which puts the recaptured screen here.) The card first showed the survey-mock renderer (`app/(marketing)/plattform/SurveyMock.tsx`), not `sporsmal.webp`. The
      shot predates D-150 (one factor's three statements per page), and a recapture from the fixture would show a
      pulse («1 / 2») about 1900 px tall in this card. `sporsmal.webp` is unchanged where other pages still use it.
    - The card head «Spørsmål 13 av 37» → «Spørreskjemaet på mobil · ett tema per side».
@@ -9994,3 +9994,50 @@ Desktop (1440) keeps the design's layout pixel for pixel. It differs from the bu
     - English footer: the link filter of the previous commit was verified running (only #bygg and #helse remain).
     Plattform's report card keeps the real section numbers 1, 3, 4, 5 (section 2, Datagrunnlag, is not drawn).
 
+
+## D-194 — The terms of use are published at /vilkar (no, en), and the footer names the company (2026-10-02)
+
+The draft `docs/legal/vilkar-utkast.md` (26 September 2026) is published as version 1, in force from 2 October 2026,
+built as the privacy statement is (D-104): messages `seo.pages.vilkar` in no and en, PageTemplate (plain, WebPage
+JSON-LD), SEO title and description, the sitemap (`SITE_PAGES`), the public paths, site-text `LEFT_OUT`, and
+`app.cms_reserved` (0148, applied locally and on hosted; hosted had no CMS page with the slug). The footer's «Vilkår»
+was text with no page (D-88); it now links to /vilkar in the Om oss column and in the bottom line, which also names
+the company for e-handelsloven § 8 as far as the facts go: «© {year} Orgpuls AS · hjelp@orgpuls.no · Personvern ·
+Vilkår». In the legal review the draft unit `doc:terms-draft:no` (not live) is replaced by `msg:no:doc.terms` and
+`msg:en:doc.terms` (live). The draft stays in docs/legal as the source record, with the resolved decisions listed.
+
+Decisions, taken from the draft's own proposals at the owner's request («Do the outstanding»):
+- 30 days' notice before an essential feature is removed; terms changes notified 30 days ahead, price changes 60.
+- Invoicing monthly in advance (the product says «Månedlig avtale»); no yearly price.
+- Payment term 14 days; read-only access 30 days after the due date and after at least one written reminder.
+- Changing package: nothing moves a plan (`save_billing` refuses Liten above 25); past the limit the daglig leder
+  chooses the larger package under Oppsett › Betaling, and its price applies from the next invoicing period.
+- No uptime figure and no support response time («på virkedager»).
+- Liability cap: what the customer paid in the 12 months before the damage, not for intent or gross negligence.
+- A paid period is not refunded. Orgpuls' own notice is 3 months.
+- Venue: «tingretten der Orgpuls AS har sitt forretningskontor».
+- Nothing is promised about anonymised figures across customers; QPS Nordic: «Spørsmålssettet bygger på QPS
+  Nordic.» with no further claim.
+
+Every product fact is kept as the draft states it (15-day trial without card, one extension of up to 15 days, then
+14 days and read-only, an open round finishes, prices ex VAT, no setup fee, no binding, invoice by e-mail or EHF,
+k ≥ 5 can only be raised, the DPA takes precedence for personal data, deletion within 30 days after the agreement
+ends, cancellation under Oppsett › Betaling or by e-mail, to the end of the month, a trial the same day, undoable
+until deletion), checked against `oppsett.billing.*`, 0048, 0052 and 0066.
+
+Missing, not invented: Orgpuls AS's organisation number and business address. They exist nowhere in the repo, and
+the Brønnøysund register has no entity named Orgpuls (searched 2 October 2026), although the site, the privacy
+statement and the DPA all name «Orgpuls AS». The party is «Orgpuls AS» without org.nr. or address, so the footer's
+e-handelsloven § 8 information is incomplete until they exist. Still to check: the terms for using QPS Nordic's
+wording commercially. The text has not been read by a lawyer; legal review in admin is a record, not a gate (X-078).
+
+## D-195 — Product shots recaptured from the demo organisation; Plattform's survey card is a real screen (2026-10-02)
+
+Every picture in `assets/produkt` is recaptured (`scripts/marketing/product-shots.mjs`) from the design fixture's
+organisation, Nordvik Anlegg AS, reseeded first, on the current build. The survey shot was the pre-D-150 flow; it is
+now the 2026 main survey past the intro page every respondent meets, page 1 of 16 (Ytringsklima, six answers, the
+optional comment), cut to the phone shape the design's card draws (721 px tall). Plattform's «Slik er det å svare»
+shows it, framed as the design frames it, instead of the drawn survey mock of D-190 §6, and its alt text says what
+is on it. The share cards are regenerated with the new shots; the site's own card (`public/og.png`) carries the
+first slide's title, since the front page's H1 is screen-reader only and begins with the brand the card already
+shows beside the logo.
