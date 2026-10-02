@@ -88,6 +88,7 @@ const PUBLIC_PATHS = [
   '/sikkerhet',
   '/kontakt',
   '/personvernerklaering',
+  '/vilkar',
   '/artikler',
   '/sitemap.xml',
   '/robots.txt',

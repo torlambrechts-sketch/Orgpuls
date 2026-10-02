@@ -38,7 +38,13 @@ describe('the legal review registry', () => {
     }
     expect(units.filter((u) => /^industry:bygg-og-anlegg:no:law:/.test(u.key))).toHaveLength(6)
     expect(units.filter((u) => /^industry:helse-og-omsorg:no:law:/.test(u.key))).toHaveLength(7)
-    expect(units.find((u) => u.key === 'doc:terms-draft:no')?.lines.length).toBeGreaterThan(10)
+    // the terms of use are published at /vilkar (D-194): a live unit in both languages, and no draft unit
+    for (const lang of ['no', 'en']) {
+      const terms = units.find((u) => u.key === `msg:${lang}:doc.terms`)
+      expect(terms?.live, lang).toBe(true)
+      expect(terms?.lines.length, lang).toBeGreaterThan(40)
+    }
+    expect(units.some((u) => u.key.startsWith('doc:terms-draft'))).toBe(false)
   })
 
   it('hashes the text it shows, so a changed word is a changed hash', () => {

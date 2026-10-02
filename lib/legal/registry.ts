@@ -1,7 +1,5 @@
 import 'server-only'
 import { createHash } from 'node:crypto'
-import { readFileSync } from 'node:fs'
-import { join } from 'node:path'
 import en from '@/messages/en.json'
 import no from '@/messages/no.json'
 import { INDUSTRIES, pageIn } from '@/content/industries'
@@ -16,8 +14,9 @@ import { DPA_SHA256, DPA_VERSION } from './dpa'
  *
  * A legal text is one the product or the site states law in, paraphrases it, or makes a legal or
  * compliance promise with — and the legal documents themselves. Each is read from where it
- * lives (the industry registry, the module files, the message files, the database, the terms
- * draft), never copied here, so what the review shows is what is published.
+ * lives (the industry registry, the module files, the message files, the database), never
+ * copied here, so what the review shows is what is published. The terms of use are the messages
+ * of /vilkar since they were published (D-194); the draft in docs/legal is their source record.
  *
  * One unit is what a reviewer reads as one thing: one law item on an industry page, one factor's
  * legal basis in a module, one landing page, one article, one document, one in-app section. Its
@@ -221,6 +220,8 @@ export const MESSAGE_SPECS: MessageSpec[] = [
     where: place('dpaTab'),
   },
   { id: 'doc.privacy', section: 'documents', paths: ['seo.pages.personvernerklaering'], where: onSite('/personvernerklaering') },
+  // the terms of use, published from docs/legal/vilkar-utkast.md (D-194)
+  { id: 'doc.terms', section: 'documents', paths: ['seo.pages.vilkar'], where: onSite('/vilkar') },
   { id: 'doc.security', section: 'documents', paths: ['seo.pages.sikkerhet'], where: onSite('/sikkerhet') },
   { id: 'doc.personvernTab', section: 'documents', paths: ['oppsett.personvern'], where: place('personvernTab') },
   // -------- in the product
@@ -470,25 +471,7 @@ function moduleUnits(published: ReadonlySet<string>): LegalUnit[] {
   })
 }
 
-// ---------------------------------------------------------------- the terms draft and the instrument
-
-const TERMS_DRAFT = 'docs/legal/vilkar-utkast.md'
-
-function termsUnit(): LegalUnit[] {
-  let text: string
-  try {
-    text = readFileSync(join(process.cwd(), TERMS_DRAFT), 'utf8')
-  } catch {
-    return [unit({ key: 'doc:terms-draft:no', section: 'documents', title: { key: 'doc.termsDraft' }, lang: 'no', source: TERMS_DRAFT, where: place('unpublished'), live: false, lines: [], missing: [TERMS_DRAFT] })]
-  }
-  // one line per paragraph, so a long document reads as it is written
-  const lines = text
-    .split(/\n{2,}/)
-    .map((p) => p.trim())
-    .filter(Boolean)
-    .map((p, i) => ({ path: `¶${i + 1}`, text: p }))
-  return [unit({ key: 'doc:terms-draft:no', section: 'documents', title: { key: 'doc.termsDraft' }, lang: 'no', source: TERMS_DRAFT, where: place('unpublished'), live: false, lines })]
-}
+// ---------------------------------------------------------------- the instrument
 
 /** The instrument's law references (app.factors.law_ref): language-independent, from the database */
 function instrumentUnit(factors: { key: string; lawRef: string }[] | null): LegalUnit[] {
@@ -580,7 +563,6 @@ export function legalUnits(input: LegalInputs | NonNullable<LegalInputs['factors
   const all = [
     ...industryUnits(),
     ...moduleUnits(i.publishedModules ?? new Set()),
-    ...termsUnit(),
     ...messageUnits(i.messages),
     ...instrumentUnit(i.factors),
     ...crmUnits(i.crmTemplates ?? null, i.crmLists ?? null),

@@ -92,7 +92,7 @@ const PAGES: [string, string][] = [
   ['/artikler/verneombudets-rolle-i-kartleggingen', 'Artikkel: Verneombudets rolle'],
   ['/nyhetsbrev', 'Nyhetsbrev'],
 ]
-const LEFT_OUT = ['/logg-inn', '/nytt-passord', '/avmeld', '/bli-med', '/nyhetsbrev/arkiv', '/personvernerklaering']
+const LEFT_OUT = ['/logg-inn', '/nytt-passord', '/avmeld', '/bli-med', '/nyhetsbrev/arkiv', '/personvernerklaering', '/vilkar']
 
 /** Labels for the shared texts' groups and for a page's own sections, by key prefix (longest wins). */
 const GROUPS: [string, string][] = [

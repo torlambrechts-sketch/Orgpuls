@@ -87,8 +87,6 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   // Content › Media sends an image the browser has made web-sized, at most 2 MB, as base64 (0124)
   experimental: { serverActions: { bodySizeLimit: '3mb' } },
-  // the legal review reads the terms draft from docs/ at request time (lib/legal/registry.ts, D-130)
-  outputFileTracingIncludes: { '/admin/legal': ['./docs/legal/vilkar-utkast.md'] },
   async headers() {
     return [
       { source: '/:path*', headers: securityHeaders },
