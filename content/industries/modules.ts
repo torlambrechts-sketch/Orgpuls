@@ -105,3 +105,25 @@ export function simplifiedFactors(m: ModuleFile): PageFactor[] {
 /** The factors a page shows by default: the page's variant's, or all of a module asked one way */
 export const pageFactors = (m: ModuleFile, variant?: 'forenklet' | 'utvidet'): PageFactor[] =>
   variant === 'forenklet' && m.variants ? simplifiedFactors(m) : m.factors
+
+/** A figure, or a range «8–15» (an unspaced en dash) when its ends differ */
+const span = (a: number, b: number) => (a === b ? String(a) : `${Math.min(a, b)}–${Math.max(a, b)}`)
+const statementsIn = (fs: PageFactor[]) => fs.reduce((n, f) => n + f.items.length, 0)
+
+/**
+ * A module's size as the Bransjer cards print it: factors, statements and minutes, read from the
+ * file, never typed (claims R7). A module in variants is a range from the simplified variant to the
+ * extended one (kunnskap og kontor: 8–15 factors, 24–62 statements, 3–7 minutes).
+ */
+export function moduleFacts(m: ModuleFile): { factors: string; statements: string; minutes: string } {
+  const [simple, ext] = m.variants ?? []
+  if (!simple || !ext) {
+    return { factors: String(m.factors.length), statements: String(statementsIn(m.factors)), minutes: String(m.estimated_minutes) }
+  }
+  const s = simplifiedFactors(m)
+  return {
+    factors: span(s.length, m.factors.length),
+    statements: span(statementsIn(s), statementsIn(m.factors)),
+    minutes: span(simple.estimated_minutes, ext.estimated_minutes),
+  }
+}

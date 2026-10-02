@@ -19,6 +19,8 @@ export type IndustryMeta = {
    * of Norwegian undertakings with 5–100 employees, largest first (Brønnøysund, September 2026)
    */
   sortOrder: number
+  /** its card's id on /bransjer, which the site footer links to (`/bransjer#handel`, lib/site/nav.ts) */
+  anchor: string
 }
 
 export const INDUSTRY_META: IndustryMeta[] = [
@@ -26,6 +28,7 @@ export const INDUSTRY_META: IndustryMeta[] = [
   // helse's 88 (the first prefix that matches wins); SN2025 moves them to 85
   {
     slug: 'barnehage-og-skole',
+    anchor: 'skole',
     sortOrder: 4,
     naceCodePrefixes: ['85', '88911', '88913'],
     moduleKey: 'barnehage-og-skole',
@@ -34,6 +37,7 @@ export const INDUSTRY_META: IndustryMeta[] = [
   },
   {
     slug: 'bygg-og-anlegg',
+    anchor: 'bygg',
     sortOrder: 3,
     naceCodePrefixes: ['41', '42', '43'],
     moduleKey: 'bygg-og-anlegg',
@@ -43,6 +47,7 @@ export const INDUSTRY_META: IndustryMeta[] = [
   {
     // SN2025 divisions 58–66 and 68–74: publishing, IT, finance, real estate, consultancy (not 67 or 75)
     slug: 'kunnskap-og-kontor',
+    anchor: 'kontor',
     sortOrder: 2,
     naceCodePrefixes: ['58', '59', '60', '61', '62', '63', '64', '65', '66', '68', '69', '70', '71', '72', '73', '74'],
     moduleKey: 'kunnskap-og-kontor',
@@ -52,6 +57,7 @@ export const INDUSTRY_META: IndustryMeta[] = [
   {
     // SN2025 divisions 46 (wholesale) and 47 (retail)
     slug: 'handel',
+    anchor: 'handel',
     sortOrder: 1,
     naceCodePrefixes: ['46', '47'],
     moduleKey: 'handel',
@@ -60,6 +66,7 @@ export const INDUSTRY_META: IndustryMeta[] = [
   },
   {
     slug: 'helse-og-omsorg',
+    anchor: 'helse',
     sortOrder: 5,
     naceCodePrefixes: ['86', '87', '88'],
     moduleKey: 'helse-og-omsorg',

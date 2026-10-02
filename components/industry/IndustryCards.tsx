@@ -4,7 +4,16 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { hasPublicPage, INDUSTRIES, isNewIndustry, pageIn } from '@/content/industries'
 
-const Card = z.object({ slug: z.string(), k: z.string(), t: z.string(), d: z.string(), cta: z.string() })
+/** `topics` and `extra` are the Bransjer hub's module cards (D-190); the start page's cards read `d` */
+const Card = z.object({
+  slug: z.string(),
+  k: z.string(),
+  t: z.string(),
+  d: z.string(),
+  cta: z.string(),
+  topics: z.array(z.string()).default([]),
+  extra: z.string().optional(),
+})
 export type IndustryCard = z.infer<typeof Card> & { isNew: boolean }
 
 /**

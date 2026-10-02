@@ -7619,49 +7619,132 @@
     },
     "bransjer": {
       "crumb": "Industries",
-      "h1": "Survey the risks of your own industry",
-      "lead": "Violence, working alone and time pressure hit industries differently. The main survey covers what the law requires of everyone, and an industry module adds statements, measures and the legal basis for every factor.",
-      "facts": "{factors} factors · {statements} statements · about {minutes} min extra",
+      "h1": "Survey the risks in your own industry.",
+      "lead": "The main survey covers what applies to every workplace. For industries with their own risks, an industry module adds statements and measures – also for the small shop, the kindergarten or the building firm with 15 employees.",
+      "toModules": "See the modules",
+      "how": {
+        "pastander": {
+          "t": "More statements",
+          "d": "Added to the main survey, about 3 minutes extra."
+        },
+        "tiltak": {
+          "t": "Measures of its own",
+          "d": "Suggestions written for everyday work in your industry."
+        },
+        "hjemmel": {
+          "t": "Legal basis per factor",
+          "d": "The report shows which legal rule each factor rests on."
+        }
+      },
+      "modules": {
+        "k": "Industry modules",
+        "title": "{count, plural, =1 {One module} =2 {Two modules} =3 {Three modules} =4 {Four modules} =5 {Five modules} =6 {Six modules} =7 {Seven modules} =8 {Eight modules} other {# modules}}, on top of the main survey",
+        "topics": "Topics in the module"
+      },
+      "facts": "{factors} factors · {statements} statements · about {minutes} min extra",
       "cards": [
         {
           "slug": "bygg-og-anlegg",
-          "k": "Construction, civil works and workshops",
-          "t": "Construction",
+          "k": "Building, construction and workshops",
+          "t": "Building and construction",
           "d": "Safety under time pressure, many companies in one place, language in the team, new and young workers, and whether there is room to say you are not doing well.",
-          "cta": "See construction"
+          "cta": "See building and construction",
+          "topics": [
+            "Safety under time pressure",
+            "Many firms on one site",
+            "Language on the crew",
+            "New and young workers",
+            "Room to speak up"
+          ]
         },
         {
           "slug": "helse-og-omsorg",
           "k": "Health, care and work with people",
           "t": "Health and care",
           "d": "Violence and threats, staffing and responsible care, rotas and part-time work, boundaries with service users and relatives, documentation and heavy transfers.",
-          "cta": "See health and care"
+          "cta": "See health and care",
+          "topics": [
+            "Violence and threats",
+            "Staffing",
+            "Shifts and part-time",
+            "Boundaries with service users",
+            "Heavy patient handling"
+          ]
         },
         {
           "slug": "barnehage-og-skole",
           "k": "Kindergartens, schools and after-school care",
           "t": "Kindergartens and schools",
           "d": "Violence and threats, staffing and substitutes, working with parents, inclusion, and time for the core work.",
-          "cta": "See kindergartens and schools"
+          "cta": "See kindergartens and schools",
+          "topics": [
+            "Violence and threats",
+            "Staffing and substitutes",
+            "Working with parents",
+            "Adaptation",
+            "Time for core tasks"
+          ]
         },
         {
           "slug": "kunnskap-og-kontor",
-          "k": "Consultancy, IT, finance, media and real estate",
+          "k": "Consulting, IT, finance, media and property",
           "t": "Knowledge and office work",
           "d": "Interruptions and meetings, availability outside working hours, hybrid work and AI. Choose simplified or extended.",
-          "cta": "See knowledge and office work"
+          "cta": "See knowledge and office work",
+          "topics": [
+            "Interruptions and meetings",
+            "Availability outside working hours",
+            "Hybrid work",
+            "AI"
+          ],
+          "extra": "Choose simplified or extended."
         },
         {
           "slug": "handel",
           "k": "Shops, warehouses and online retail",
           "t": "Retail",
           "d": "Theft and threats, working alone, difficult customers, rotas and part-time work.",
-          "cta": "See retail"
+          "cta": "See retail",
+          "topics": [
+            "Theft and threats",
+            "Working alone",
+            "Demanding customers",
+            "Rotas and part-time"
+          ]
         }
       ],
       "other": {
         "k": "Other industries",
-        "d": "The survey requirements are the same for everyone, and the main survey covers them. See the <link>use cases</link> for pages by need, role and size."
+        "title": "One tool, different working days",
+        "p": "The questions are the same everywhere, so you can compare the figures over time. What sets industries apart is which factors are often worth watching, and how you reach people.",
+        "d": "The survey requirements are the same for everyone, and the main survey covers them. See the <link>use cases</link> for pages by need, role and size.",
+        "factors": "Factors often worth watching:",
+        "sectors": {
+          "bygg": {
+            "t": "Building and construction",
+            "d": "Teams with different days – workshop, projects and operations. The heat map shows where the differences are, without pointing at people."
+          },
+          "helse": {
+            "t": "Health and care",
+            "d": "Shifts, and many without a screen at work. Sent by SMS, and the pulse follows up measures on emotional demands through the year."
+          },
+          "handel": {
+            "t": "Retail and service",
+            "d": "Many part-timers and several locations. Locations with too few answers are not shown, but they count towards the total."
+          },
+          "kommune": {
+            "t": "Municipal and public sector",
+            "d": "Clear requirements for participation and documentation. Consultation and notice to the safety representative are logged in the report."
+          },
+          "teknologi": {
+            "t": "Technology and consulting",
+            "d": "Fast growth and frequent change. Extra pulses after a reorganisation show whether the new structure has settled."
+          },
+          "industri": {
+            "t": "Industry and manufacturing",
+            "d": "Shifts and physical work. A short survey on the phone, and steady follow-up of freedom to speak up."
+          }
+        }
       }
     }
   },

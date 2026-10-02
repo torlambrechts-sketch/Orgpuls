@@ -7619,49 +7619,132 @@
     },
     "bransjer": {
       "crumb": "Bransjer",
-      "h1": "Kartlegg risikoene i deres egen bransje",
-      "lead": "Vold, alenevakter og tidspress rammer bransjer ulikt. Hovedundersøkelsen dekker det loven krever av alle, og en bransjemodul legger til påstander, tiltak og hjemmelen for hver faktor.",
-      "facts": "{factors} faktorer · {statements} påstander · ca. {minutes} min ekstra",
+      "h1": "Kartlegg risikoene i deres egen bransje.",
+      "lead": "Hovedundersøkelsen dekker det som gjelder alle arbeidsplasser. For bransjer med egne risikoer legger en bransjemodul til påstander og tiltak – også for den lille butikken, barnehagen eller byggefirmaet med 15 ansatte.",
+      "toModules": "Se modulene",
+      "how": {
+        "pastander": {
+          "t": "Flere påstander",
+          "d": "Kommer i tillegg til hovedundersøkelsen, ca. 3 minutter ekstra."
+        },
+        "tiltak": {
+          "t": "Egne tiltak",
+          "d": "Forslag skrevet for hverdagen i deres bransje."
+        },
+        "hjemmel": {
+          "t": "Hjemmel per faktor",
+          "d": "Rapporten viser hvilken lovregel hver faktor bygger på."
+        }
+      },
+      "modules": {
+        "k": "Bransjemoduler",
+        "title": "{count, plural, =1 {Én modul} =2 {To moduler} =3 {Tre moduler} =4 {Fire moduler} =5 {Fem moduler} =6 {Seks moduler} =7 {Sju moduler} =8 {Åtte moduler} other {# moduler}}, i tillegg til hovedundersøkelsen",
+        "topics": "Temaer i modulen"
+      },
+      "facts": "{factors} faktorer · {statements} påstander · ca. {minutes} min ekstra",
       "cards": [
         {
           "slug": "bygg-og-anlegg",
           "k": "Bygg, anlegg og verksted",
           "t": "Bygg og anlegg",
           "d": "Sikkerhet under tidspress, mange firmaer på samme plass, språk på laget, nye og unge, og om det er rom for å si at man ikke har det bra.",
-          "cta": "Se bygg og anlegg"
+          "cta": "Se bygg og anlegg",
+          "topics": [
+            "Sikkerhet under tidspress",
+            "Mange firmaer på samme plass",
+            "Språk på laget",
+            "Nye og unge",
+            "Rom for å si fra"
+          ]
         },
         {
           "slug": "helse-og-omsorg",
           "k": "Helse, omsorg og arbeid med mennesker",
           "t": "Helse og omsorg",
           "d": "Vold og trusler, bemanning og forsvarlig omsorg, turnus og deltid, grenser mot brukere og pårørende, dokumentasjon og tunge forflytninger.",
-          "cta": "Se helse og omsorg"
+          "cta": "Se helse og omsorg",
+          "topics": [
+            "Vold og trusler",
+            "Bemanning",
+            "Turnus og deltid",
+            "Grenser mot brukere",
+            "Tunge forflytninger"
+          ]
         },
         {
           "slug": "barnehage-og-skole",
           "k": "Barnehage, skole og SFO",
           "t": "Barnehage og skole",
           "d": "Vold og trusler, bemanning og vikarer, foreldresamarbeid, tilrettelegging og tid til kjerneoppgavene.",
-          "cta": "Se barnehage og skole"
+          "cta": "Se barnehage og skole",
+          "topics": [
+            "Vold og trusler",
+            "Bemanning og vikarer",
+            "Foreldresamarbeid",
+            "Tilrettelegging",
+            "Tid til kjerneoppgavene"
+          ]
         },
         {
           "slug": "kunnskap-og-kontor",
           "k": "Rådgivning, IT, finans, media og eiendom",
           "t": "Kunnskap og kontor",
           "d": "Avbrytelser og møter, tilgjengelighet utenom arbeidstid, hybridarbeid og KI. Velg forenklet eller utvidet.",
-          "cta": "Se kunnskap og kontor"
+          "cta": "Se kunnskap og kontor",
+          "topics": [
+            "Avbrytelser og møter",
+            "Tilgjengelighet utenom arbeidstid",
+            "Hybridarbeid",
+            "KI"
+          ],
+          "extra": "Velg forenklet eller utvidet."
         },
         {
           "slug": "handel",
           "k": "Butikk, lager og netthandel",
           "t": "Handel",
           "d": "Tyveri og trusler, alenevakter, krevende kunder, vaktplan og deltid.",
-          "cta": "Se handel"
+          "cta": "Se handel",
+          "topics": [
+            "Tyveri og trusler",
+            "Alenevakter",
+            "Krevende kunder",
+            "Vaktplan og deltid"
+          ]
         }
       ],
       "other": {
         "k": "Andre bransjer",
-        "d": "Kravene til kartlegging er de samme for alle, og hovedundersøkelsen dekker dem. Se <link>bruksområdene</link> for sider etter behov, rolle og størrelse."
+        "title": "Samme verktøy, ulike hverdager",
+        "p": "Spørsmålene er de samme overalt, så dere kan sammenligne tallene over tid. Det som skiller bransjene, er hvilke faktorer som ofte er verdt å følge med på, og hvordan dere når folk.",
+        "d": "Kravene til kartlegging er de samme for alle, og hovedundersøkelsen dekker dem. Se <link>bruksområdene</link> for sider etter behov, rolle og størrelse.",
+        "factors": "Faktorer som ofte er verdt å følge:",
+        "sectors": {
+          "bygg": {
+            "t": "Bygg og anlegg",
+            "d": "Team med ulik hverdag – verksted, prosjekt og drift. Varmekartet viser hvor forskjellene er, uten å peke på personer."
+          },
+          "helse": {
+            "t": "Helse og omsorg",
+            "d": "Turnus og mange uten fast skjerm. Utsending på SMS, og pulsen følger opp tiltak på emosjonelle krav gjennom året."
+          },
+          "handel": {
+            "t": "Handel og service",
+            "d": "Mange deltidsansatte og flere lokasjoner. Lokasjoner med for få svar vises ikke, men teller med i helheten."
+          },
+          "kommune": {
+            "t": "Kommune og offentlig",
+            "d": "Tydelige krav til medvirkning og dokumentasjon. Drøfting og varsel til verneombud logges i rapporten."
+          },
+          "teknologi": {
+            "t": "Teknologi og konsulent",
+            "d": "Rask vekst og hyppige endringer. Ekstra pulser etter omorganisering viser om strukturen sitter."
+          },
+          "industri": {
+            "t": "Industri og produksjon",
+            "d": "Skift og fysisk arbeid. Kort undersøkelse på mobil, og fast oppfølging av ytringsklimaet."
+          }
+        }
       }
     }
   },
