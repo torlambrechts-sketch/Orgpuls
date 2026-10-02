@@ -9760,3 +9760,40 @@ dere?» with «Under 25 / 25–50 / 51–100 / Over 100», and stored 20, 38, 75
 The same pass corrected two stale in-app texts: the SMS row in Oppsett › Integrasjoner said «Ikke
 bygget» even with SMS on, and the SMS help article said SMS «faktureres per melding» (SMS is built,
 D-66, and nothing bills a customer per message).
+
+## D-191 — The demo: a signup, a page that shows what to explore, and a guide inside (0146)
+
+Tor, 2026-10-02: «Create a clear demo, explore the product page with the demo login. Require email
+and signup so we get the email.»
+
+- **Signup (0146).** /demo asks for full name, work e-mail, company and role (daglig leder, HR,
+  leder, verneombud, annet), with the marketing box still optional and unticked. `public.demo_request`
+  takes the new fields and answers 'invalid' without a name (1–120) or company (1–200) or with a role
+  outside the CRM's five; every 0094 guard stays (rate limits, throwaway domains, the network kept as
+  the day's hash only, the same answer for an address with an account). The old four-argument
+  signature is dropped, so app and migration shipped together (2026-10-02, c34780c).
+- **The address is still proved.** Nothing becomes a contact until the login link is opened;
+  `app.demo_lead` then gives a new contact name, company and role, and fills only empty fields on an
+  existing one.
+- **Privacy.** The /demo line and the privacy statement say what is stored (name, e-mail, company,
+  role), that the request is kept 30 days and the contact until the person asks to be deleted, with
+  no mail unless the box is ticked; the guide's localStorage use is named under cookies. Dated
+  2 October 2026.
+- **/demo has no design.** It uses the v3 site's language: Plattform's mint hero and ink pill, r20
+  cards, alternating sections, the yellow button. «Dette kan du utforske» shows six real product shots
+  (16:10 window, top-aligned, since the screens range from 0.29 to 0.79 in shape), captioned «Nordvik
+  Anlegg AS – eksempel», with a note that the demo shows the same screens with Demobedriften AS's
+  figures. The hero's ticks are drawn on #FFFDF6: the site's mint tick vanishes on the mint band. The
+  numbers stated (64 employees, 6 departments, surveys 2024–2026) are the template's.
+- **The sent state** names the sender (no-reply@orgpuls.com) and says the link works for an hour and
+  what to do if nothing arrives; not the subject, since a new user may get the signup template.
+- **«Utforsk demoen».** A checklist card on /innsikt, rendered from DemoNotice, so it exists only in
+  a demo: six deep links (Innsikt, the heat map, unanswered comments, Tiltak, the year wheel, Rapport)
+  and «Opprett egen konto». Visited steps tick off; progress and the folded/closed state live in
+  localStorage under `orgpuls.demoTour`, tied to the copy (`fresh_after`), so a reset starts it over.
+  In Enkel view a link switches to Full on the way. The app's Card and Button; keyboard and focus work.
+- **Verified** end to end on a production build: empty submit (four inline errors, focus on the
+  first), valid submit (request stored with the new fields), the link (minted with Auth's admin API
+  locally, as D-143), the guide (1 → 3 of 6 after two links and a reload), «Opprett konto», no
+  sideways scroll at 1440/390, no console errors. `demo_invariants.sql` 17/17 (rows 15–16 new);
+  every SQL suite passes on the merged tree; live /demo serves the new page.
