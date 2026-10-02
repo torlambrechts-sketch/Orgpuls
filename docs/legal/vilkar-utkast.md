@@ -11,6 +11,8 @@
 > Invest AS, og organisasjonsnummeret for Orgpuls er ikke klart ennå. Den publiserte teksten kaller derfor
 > parten «Orgpuls», uten «AS», org.nr. og adresse. «Orgpuls AS» i utkastet under er slik det ble skrevet.
 >
+> **§ 6 (2. oktober 2026, D-199):** den publiserte § 6 sier nå at grensen er fem svar som standard, kan heves til ti og kan senkes av daglig leder til tre eller fire (aldri under tre), og at en runde beholder grensen som gjaldt da den ble åpnet. Endret innenfor versjon 1, samme dag som den gjelder fra; «kan heves, men ikke senkes» under er slik utkastet ble skrevet.
+>
 > Opprinnelig status: utkast, 26. september 2026. Ikke publisert, og ikke lenket fra nettsiden.
 >
 > **Slik leser du utkastet:**

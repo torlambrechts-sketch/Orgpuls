@@ -3951,7 +3951,7 @@
       "nextTitle": "How do we do this in practice?",
       "nextLink": "More on this: {page} →",
       "priceFrom": "From NOK 265/month excl. VAT",
-      "anonymity": "No department is shown until at least 5 have answered.",
+      "anonymity": "By default, no department is shown until at least 5 have answered.",
       "related": "Related pages"
     },
     "home": {
@@ -4151,7 +4151,7 @@
               },
               {
                 "title": "Anonymity you can vouch for",
-                "text": "No group is shown until at least 5 have answered. The limit cannot be lowered – not even by an administrator."
+                "text": "By default no group is shown until at least 5 have answered, and the limit applies to administrators too. Small teams can lower it to 3, but never further."
               },
               {
                 "title": "No extra cost",
@@ -4188,7 +4188,7 @@
           },
           {
             "q": "Can management see who answered what?",
-            "a": "No. The answer is stored without name, e-mail address or IP address, and no group is shown until at least 5 have answered."
+            "a": "No. The answer is stored without name, e-mail address or IP address, and by default no group is shown until at least 5 have answered."
           },
           {
             "q": "Does it cost me anything as safety representative?",
@@ -4221,11 +4221,11 @@
           },
           {
             "t": "p",
-            "text": "It is the first question in a small organisation, and it is the right one to ask. Orgpuls shows no group until at least 5 people have answered. If you are 12, you see figures for the whole organisation, but not for a department of 3."
+            "text": "It is the first question in a small organisation, and it is the right one to ask. By default, Orgpuls shows no group until at least 5 people have answered. If you are 12, you see figures for the whole organisation, but not for a department of 3."
           },
           {
             "t": "p",
-            "text": "The limit lives in the database and cannot be lowered – not even by the managing director. The answer is stored without name, e-mail address or IP address, and no column can link an answer to a person."
+            "text": "The limit lives in the database. If you are very few, the managing director can lower it to 3 or 4 – you then see figures for smaller groups, but it also becomes easier to recognise who said what. That is why 5 is strongly recommended. A round keeps the limit it started with, and nobody can set it below 3. The answer is stored without name, e-mail address or IP address, and no column can link an answer to a person."
           },
           {
             "t": "h2",
@@ -4290,7 +4290,7 @@
           },
           {
             "q": "What if only 4 answer?",
-            "a": "Then a dash is shown instead of a number. The figure is not hidden from you in particular – it is not calculated for anyone. That is the price of nobody being able to recognise an answer."
+            "a": "With the default limit of 5, a dash is shown instead of a number. The figure is not hidden from you in particular – it is not calculated for anyone. That is the price of nobody being able to recognise an answer. If the managing director lowered the limit to 3 or 4 before the round started, the figure is shown."
           },
           {
             "q": "Do we need an HR system?",
@@ -4330,7 +4330,7 @@
           },
           {
             "t": "p",
-            "text": "With the Usual plan you see the result per department and team, so you see where workload, time pressure and speaking up differ. A department is shown once at least 5 have answered."
+            "text": "With the Usual plan you see the result per department and team, so you see where workload, time pressure and speaking up differ. By default, a department is shown once at least 5 have answered."
           },
           {
             "t": "p",
@@ -4366,7 +4366,7 @@
           },
           {
             "q": "Can we see results per project or department?",
-            "a": "Yes, per group as you set the groups up, on the Usual plan. A group is shown once at least 5 have answered."
+            "a": "Yes, per group as you set the groups up, on the Usual plan. By default a group is shown once at least 5 have answered; small teams can lower the limit to 3."
           },
           {
             "q": "What does it cost?",
@@ -4446,7 +4446,7 @@
           },
           {
             "t": "p",
-            "text": "No group is shown until at least 5 have answered, and the limit cannot be lowered. If a department has too few answers, they still count in the organisation's figures. If a department could be worked out from the others, Orgpuls holds back one more."
+            "text": "By default no group is shown until at least 5 have answered, and the limit can never be set below 3. If a department has too few answers, they still count in the organisation's figures. If a department could be worked out from the others, Orgpuls holds back one more."
           }
         ],
         "faq": [
@@ -4460,7 +4460,7 @@
           },
           {
             "q": "Can we see results per department or ward?",
-            "a": "Yes, on the Usual plan, for departments with at least five answers."
+            "a": "Yes, on the Usual plan, for departments with enough answers – at least five by default."
           },
           {
             "q": "What does it cost?",
@@ -4805,7 +4805,7 @@
             "items": [
               "Decide who takes part: management, the safety representative and the union representatives.",
               "Tell employees about the purpose, the anonymity and when the result will come.",
-              "Choose a tool that covers the factors in section 4-3 and has a fixed anonymity limit.",
+              "Choose a tool that covers the factors in section 4-3 and has an anonymity limit nobody can get around.",
               "Set aside time to go through the result within two weeks of the survey closing.",
               "Choose two or three measures with an owner and a deadline.",
               "Plan the next survey before you close this one."
@@ -5009,7 +5009,7 @@
           },
           {
             "t": "h2",
-            "text": "Anonymity: why the limit is 5 answers"
+            "text": "Anonymity: why the limit should be 5 answers"
           },
           {
             "t": "p",
@@ -5017,7 +5017,7 @@
           },
           {
             "t": "p",
-            "text": "So no group should be shown until a minimum has answered. In Orgpuls the limit is 5, and it cannot be lowered. Read more in [Anonymous employee survey: what does anonymous mean?](/artikler/anonym-medarbeiderundersokelse)"
+            "text": "So no group should be shown until a minimum has answered. In Orgpuls the limit is 5 by default. Small teams can lower it to 3, but the fewer the answers, the easier it is to recognise who said what. Read more in [Anonymous employee survey: what does anonymous mean?](/artikler/anonym-medarbeiderundersokelse)"
           },
           {
             "t": "h2",
@@ -5293,7 +5293,7 @@
           },
           {
             "t": "p",
-            "text": "Five is common. The limit must apply to everyone – administrators too – and it should not be possible to lower it to «see the figure anyway»."
+            "text": "Five is common, and it is what we recommend. The limit must apply to everyone – administrators too. A small team may have reason to go down to 3, but the fewer the answers, the easier it is to recognise who said what. And it should never be possible to lower the limit afterwards to «see the figure anyway»."
           },
           {
             "t": "h3",
@@ -5346,7 +5346,7 @@
             "t": "ul",
             "items": [
               "The answer is stored without name, e-mail or IP address, and the time is rounded to the hour. There is no column that could hold a link.",
-              "No group is shown until at least 5 have answered. The limit lives in the database and cannot be lowered, only raised.",
+              "No group is shown until the limit is reached: 5 answers by default. The limit lives in the database and can be raised to 10. Small teams can lower it to 3; a round keeps the limit it started with, so a lower limit never opens earlier rounds.",
               "When the figures for the other groups would reveal a hidden group, one more group is held back.",
               "Answers are stored in the EU and are not shared with third parties."
             ]
@@ -5365,7 +5365,7 @@
           },
           {
             "t": "p",
-            "text": "People believe in anonymity when it is explained concretely, not when they are given a promise. A short text before the survey goes out can read like this:"
+            "text": "People believe in anonymity when it is explained concretely, not when they are given a promise. A short text before the survey goes out can read like this, with the default limit of 5:"
           },
           {
             "t": "box",
@@ -5391,8 +5391,8 @@
             "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
           }
         ],
-        "ctaTitle": "Measure anonymously – with a limit that cannot be lowered",
-        "ctaBody": "Below 5 answers Orgpuls shows a dash, and no administrator can lower the limit. Start with your organisation number – the first 15 days are free."
+        "ctaTitle": "Measure anonymously – with a limit the database enforces",
+        "ctaBody": "By default Orgpuls shows a dash below 5 answers, and nobody can set the limit below 3. Start with your organisation number – the first 15 days are free."
       },
       "verneombud": {
         "title": "The safety representative's role in mapping",
@@ -5530,7 +5530,7 @@
           },
           {
             "t": "p",
-            "text": "Stand firm. The limit on how small a group can be shown exists to protect employees, and it is why people dare to answer honestly. A group too small to be shown still counts in the figures for the whole."
+            "text": "Stand firm. The limit on how small a group can be shown exists to protect employees, and it is why people dare to answer honestly. A group too small to be shown still counts in the figures for the whole. In Orgpuls a lower limit also only applies to rounds that start after the change – it never opens a round that has already run."
           },
           {
             "t": "h3",
@@ -5635,7 +5635,7 @@
           },
           {
             "t": "p",
-            "text": "A department is shown once at least five have answered. When a department could be worked out from the others, one more is held back. Read more about [anonymity and security](/sikkerhet)."
+            "text": "By default a department is shown once at least five have answered; small teams can choose 3. When a department could be worked out from the others, one more is held back. Read more about [anonymity and security](/sikkerhet)."
           },
           {
             "t": "h2",
@@ -5835,11 +5835,11 @@
         "faq": [
           {
             "q": "What if there are only twelve of us?",
-            "a": "Then you get figures for the whole organisation. A department is shown only once at least 5 people in it have answered. If fewer than 5 answer, no figures are shown – the answers could not be anonymous then."
+            "a": "Then you get figures for the whole organisation. By default a department is shown once at least 5 people in it have answered; fewer count in the whole. For small teams the managing director can lower the limit to 3, but 5 is strongly recommended – the fewer the answers, the easier it is to recognise who said what."
           },
           {
             "q": "Are the answers really anonymous?",
-            "a": "Yes. We never store a name, e-mail address or IP address with the answer – there is no column that could hold the link. And no group is shown until at least 5 people have answered."
+            "a": "Yes. We never store a name, e-mail address or IP address with the answer – there is no column that could hold the link. And by default no group is shown until at least 5 people have answered; the limit can never be set below 3."
           },
           {
             "q": "How much time does it take us?",
@@ -5857,7 +5857,7 @@
       },
       "sikkerhet": {
         "title": "Security, privacy and anonymity | Orgpuls",
-        "description": "How Orgpuls keeps answers anonymous: no link to a person, at least 5 answers per group, data in the EU. What we store, and what we do not.",
+        "description": "How Orgpuls keeps answers anonymous: no link to a person, at least 5 answers per group by default, data in the EU. What we store, and what we do not.",
         "crumb": "Security and privacy",
         "kicker": "Security and privacy",
         "h1": "Anonymity that does not depend on anyone keeping a promise",
@@ -5877,11 +5877,11 @@
           },
           {
             "t": "h2",
-            "text": "Fewer than 5 answers show a dash"
+            "text": "Fewer than 5 answers show a dash – by default"
           },
           {
             "t": "p",
-            "text": "No group is shown until at least 5 have answered. The database enforces the limit: you can raise it up to 10, but never lower it. If the figures for the other groups would reveal a hidden group, Orgpuls hides one more, so nobody can work their way back to it."
+            "text": "By default no group is shown until at least 5 have answered, and 5 is strongly recommended. The database enforces the limit: you can raise it up to 10, and a small team can lower it to 3 – never further. The fewer the answers, the easier it is to recognise who said what, so the managing director gets a warning before the limit is lowered. A round keeps the limit it started with, so a lower limit never opens earlier rounds. If the figures for the other groups would reveal a hidden group, Orgpuls hides one more, so nobody can work their way back to it."
           },
           {
             "t": "h2",
@@ -6225,7 +6225,7 @@
           },
           {
             "t": "p",
-            "text": "Answers are stored with no link to the person who gave them. Results are not shown for a group with fewer than five answers, and the threshold can be raised but not lowered. How this is built is described under [Security and privacy](/sikkerhet)."
+            "text": "Answers are stored with no link to the person who gave them. Results are not shown for a group with fewer answers than the threshold. The threshold is five answers by default and can be raised to ten. The managing director can lower it to three or four, but never below three, and a round keeps the threshold that applied when it was opened. How this is built is described under [Security and privacy](/sikkerhet)."
           },
           {
             "t": "p",
@@ -6400,7 +6400,7 @@
       "pills": [
         "15 days free",
         "Covers the Working Environment Act",
-        "Anonymous – at least 5 answers"
+        "Anonymous – 5 answers by default"
       ]
     }
   },
@@ -6625,7 +6625,7 @@
       "trust": {
         "label": "Orgpuls in brief",
         "eu": "Answers stored in the EU",
-        "k": "No group shown under 5 answers",
+        "k": "At least 5 answers per group by default",
         "qps": "Questions built on QPS Nordic",
         "law": "Covers the Working Environment Act § 4-3"
       }
@@ -6724,7 +6724,7 @@
       "trust": [
         {
           "tile": "5",
-          "t": "Anonymous – at least 5 answers"
+          "t": "Anonymous – 5 answers by default"
         },
         {
           "tile": "EU",
@@ -6754,7 +6754,7 @@
           {
             "t": "Too few to be anonymous",
             "p": "With 12 employees, it is easy to think the manager knows who wrote what.",
-            "s": "No group is shown with fewer than 5 answers. The limit is built into the product – you cannot switch it off."
+            "s": "By default no group is shown with fewer than 5 answers. Small teams can choose 3, but the limit cannot be switched off."
           },
           {
             "t": "Unclear what the law requires",
@@ -6775,7 +6775,7 @@
         "mock": "Example of the questionnaire: three statements on freedom to speak up, answers from 1 to 5, comment optional",
         "note": {
           "t": "Anonymous by design",
-          "d": "No group is shown with fewer than 5 answers. Five is the floor, and it is the product's – not yours."
+          "d": "No group is shown with fewer than 5 answers, unless a small team chooses 3. It goes no lower – that floor is the product's, not yours."
         },
         "caption": "This is what a page looks like for the employee.",
         "h3": "Four minutes for the employee. Finished documentation for you.",
@@ -6802,7 +6802,7 @@
           },
           {
             "v": "5 answers",
-            "l": "the minimum before a group is shown"
+            "l": "the recommended minimum per group"
           },
           {
             "v": "11",
@@ -6816,7 +6816,7 @@
         },
         "caption": "The workshop stands out on freedom to speak up.",
         "h3": "Safe even when everyone knows everyone.",
-        "text": "Groups with fewer than 5 answers show as «—», so no one can be singled out – not even in a workshop of six. The safety representative sees the same figures as management, at the same time."
+        "text": "By default, groups with fewer than 5 answers show as «—», so no one can be singled out – not even in a workshop of six. The safety representative sees the same figures as management, at the same time."
       },
       "results": {
         "title": "One page: what works, and what you do now",
@@ -6879,7 +6879,7 @@
             "t": "Department manager",
             "s": "Your own team",
             "get": [
-              "Only your team, once at least 5 have answered",
+              "Only your team, and only once enough have answered",
               "Anonymous comments you can reply to",
               "Three suggested measures, ready to choose"
             ]
@@ -7065,13 +7065,13 @@
           "h": "When one team is having a harder time than the rest",
           "p": "The heat map shows team against factor. The segment profile compares one team with the rest and shows where the difference is largest – without singling out any individual.",
           "ticks": [
-            "Groups with fewer than 5 answers show as a dash, administrators included",
+            "Groups below the limit show as a dash, administrators included",
             "The department manager sees only their own team",
             "Three suggested measures per factor, ready to pick"
           ],
           "card": {
             "title": "Team × factor",
-            "meta": "at least 5 answers",
+            "meta": "threshold 5 answers",
             "table": "Team and factor",
             "short": [
               "Voice",
@@ -7130,7 +7130,7 @@
           "h": "Give a new manager an honest starting point",
           "p": "The baseline from before the change of manager and the pulse afterwards show how the team experiences support, role clarity and freedom to speak up. The figures are for the team as a whole – never individuals, and never the manager as a person.",
           "ticks": [
-            "The team needs at least 5 answers before anything is shown",
+            "The team needs 5 answers by default before anything shows",
             "Leadership-practice suggestions for most factors",
             "The manager can reply to anonymous comments without knowing who wrote them"
           ],
@@ -7273,11 +7273,11 @@
         {
           "k": "Anonymity",
           "t": "Anonymity that cannot be switched off",
-          "d": "Orgpuls never links a response to a name, email or IP. Nobody sees a group until enough people have answered — not even administrators. The threshold is 5 responses. You can raise it, but never lower it.",
+          "d": "Orgpuls never links a response to a name, email or IP. Nobody sees a group until enough people have answered — not even administrators. The threshold is 5 responses by default. Small teams can choose 3.",
           "points": [
             "Small groups are not shown, but count towards the whole",
             "The question order is random for each person",
-            "Comments on a factor are shown only once at least 5 people have written"
+            "Comments on a factor show only once enough have written – 5 by default"
           ],
           "src": "GDPR and the Norwegian Data Protection Authority's guidance on anonymisation",
           "m": {
@@ -7433,7 +7433,7 @@
         "items": [
           {
             "q": "Can the manager see who answered what?",
-            "a": "No. Orgpuls never links a response to a name, email or IP. Nobody sees a group until the threshold is reached — at least 5 responses — and that applies to administrators too."
+            "a": "No. Orgpuls never links a response to a name, email or IP. Nobody sees a group until the threshold is reached — 5 responses by default, never below 3 — and that applies to administrators too."
           },
           {
             "q": "Why not just one survey a year?",
@@ -7526,7 +7526,7 @@
         "p": "One topic at a time, the factor visible, comments optional. The order is random for each person, so no one can guess who answered what from when the answer came in.",
         "ticks": [
           "We never store a name, e-mail or IP address with the answer",
-          "Managers see figures only once at least 5 have answered",
+          "Managers see figures only once enough have answered – 5 by default",
           "Anyone can skip a question, and comments are optional",
           "Invitation by e-mail, or SMS for those without a screen at work"
         ],
@@ -7543,7 +7543,7 @@
         "p": "Factors with an index from 0 to 100, the change since last year and the risk level. Tap a factor to see the statements behind the figure, the answer distribution and three suggested measures.",
         "ticks": [
           "Heat map, priority, segment profile and trend – the same figures, four questions",
-          "Groups with fewer than 5 answers show as «—», administrators included",
+          "Groups below the limit show as «—», administrators included",
           "The legal basis for each factor is in the report and on every measure"
         ],
         "use": "Use case: one team stands out",
@@ -7587,7 +7587,7 @@
         "ticks": [
           "Grouped by factor, with the tone taken from the answer the comment belongs to",
           "The reply reaches the person who wrote – without anyone knowing who",
-          "A factor is shown only once at least 5 have answered"
+          "A factor is shown only once enough have answered – 5 by default"
         ],
         "use": "Use case: new manager",
         "caption": "The person who wrote sees your reply – you never find out who it was.",
@@ -7680,17 +7680,17 @@
       "roller": {
         "eyebrow": "Roles and access",
         "h": "No one sees who answered",
-        "p": "Your role decides what you see. No one sees individual answers, and the 5-answer limit applies to administrators too. The simple view gives one page; the full view gives every analysis.",
+        "p": "Your role decides what you see. No one sees individual answers, and the limit – 5 answers by default – applies to administrators too. The simple view gives one page; the full view gives every analysis.",
         "ticks": [
           "The managing director sees the whole organisation and every comment",
-          "The department manager sees their own team once at least 5 have answered",
+          "The department manager sees their own team once enough have answered",
           "The safety representative sees the overall picture and the risk assessment"
         ],
         "use": "Use case: safety representative and AMU",
         "caption": "The tags show when each role is notified before a send-out.",
         "card": {
           "title": "Access by role",
-          "meta": "at least 5 answers"
+          "meta": "threshold 5 answers"
         },
         "rows": [
           {
@@ -7992,7 +7992,7 @@
           {
             "t": "Results",
             "items": [
-              "Results by department and team, once at least 5 have answered",
+              "Results by department and team, from 5 answers by default",
               "Heat map and trends over time",
               "Anonymous comments you can reply to"
             ]

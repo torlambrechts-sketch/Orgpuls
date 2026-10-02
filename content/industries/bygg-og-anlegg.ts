@@ -22,7 +22,7 @@ export const byggOgAnlegg: IndustryPage = {
     h1: 'Arbeidsmiljø­undersøkelse for bygg og anlegg',
     lead:
       'Se hvor tidspress, mange firma og språk på laget går ut over sikkerheten – og få forslag til tiltak for hver faktor. Bygg-modulen kommer i tillegg til hovedundersøkelsen. Den spør også om nye og unge, og om det er rom for å si at man ikke har det bra. Mannskapet svarer anonymt på mobilen.',
-    thresholdNote: 'Ingen gruppe vises før minst 5 har svart.',
+    thresholdNote: 'Som standard vises ingen gruppe før minst 5 har svart.',
     preview: {
       company: 'Nordvik Anlegg AS',
       caption: 'Hovedmåling september · indeks 0–100',
@@ -95,7 +95,7 @@ export const byggOgAnlegg: IndustryPage = {
     title: 'Fra svar til tiltak på neste prosjektmøte',
     steps: [
       { title: 'Mål', text: 'Hovedmåling med bygg-modulen, på SMS eller QR-kode i brakka.' },
-      { title: 'Se per prosjekt', text: 'Resultat per prosjekt og verksted, for grupper med minst 5 svar.' },
+      { title: 'Se per prosjekt', text: 'Resultat per prosjekt og verksted, for grupper med nok svar – 5 som standard.' },
       { title: 'Velg tiltak', text: 'Tre forslag per faktor. Hvert tiltak får en eier og en frist.' },
       { title: 'Mål igjen', text: 'Pulsen spør bare om faktorene dere jobber med, til tiltaket har virket.' },
     ],
@@ -151,11 +151,11 @@ export const byggOgAnlegg: IndustryPage = {
     },
     {
       q: 'Ser lederen hvem som har svart nei på sikkerhetsspørsmålene?',
-      a: 'Nei. Ingen gruppe vises før minst 5 har svart, og grensen kan ikke senkes. De to ja/nei-spørsmålene om nestenulykker og utrygge jobber vises bare som antall for hele virksomheten, aldri per prosjekt.',
+      a: 'Nei. Som standard vises ingen gruppe før minst 5 har svart, og grensen kan aldri settes under 3. De to ja/nei-spørsmålene om nestenulykker og utrygge jobber vises bare som antall for hele virksomheten, aldri per prosjekt.',
     },
     {
       q: 'Kan vi se resultat per prosjekt?',
-      a: 'Ja, i pakken Vanlig, for grupper med minst 5 svar. Har et prosjekt for få svar, teller svarene med i virksomhetens tall.',
+      a: 'Ja, i pakken Vanlig, for grupper med nok svar – 5 som standard. Har et prosjekt for få svar, teller svarene med i virksomhetens tall.',
     },
     {
       q: 'Hva koster det?',
@@ -177,12 +177,12 @@ export const byggOgAnlegg: IndustryPage = {
     segmentsIntro: 'Valgfrie, for å se forskjell mellom byggeplass og verksted, og mellom nye og erfarne. Hovedundersøkelsen spør allerede om krenkende atferd, så det spørsmålet gjentas ikke her.',
     rulesTitle: 'Slik rapporteres svarene',
     rules: [
-      { title: 'Minst 5 svar', text: 'Ingen gruppe vises før minst 5 har svart. Grensen kan heves, men aldri senkes.' },
+      { title: 'Minst 5 svar som standard', text: 'Ingen gruppe vises før minst 5 har svart. Grensen kan heves til 10. Små team kan senke den til 3; en runde beholder grensen den startet med.' },
       { title: 'Ingen regning bakover', text: 'Hvis en gruppe kan regnes ut fra totalen og de andre gruppene, holdes en gruppe til tilbake.' },
       { title: 'Ja/nei-spørsmålene', text: 'BA-T-1 og BA-T-2 vises bare som antall for hele virksomheten, aldri per prosjekt.' },
       {
         title: 'Segmenter',
-        text: 'Arbeidssted og ansiennitet vises bare der det er minst 5 svar, og aldri kombinert med en gruppe hvis det gir færre enn 5.',
+        text: 'Arbeidssted og ansiennitet vises bare der grensen er nådd, og aldri kombinert med en gruppe hvis det gir færre svar enn grensen.',
         featureFlag: 'module_segments',
       },
       { title: 'Samme indeks', text: 'Hver påstand regnes om til 0–100, og faktoren er snittet av sine tre påstander.' },

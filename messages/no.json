@@ -3951,7 +3951,7 @@
       "nextTitle": "Hvordan gjør vi dette i praksis?",
       "nextLink": "Mer om dette: {page} →",
       "priceFrom": "Fra 265 kr/mnd eks. mva",
-      "anonymity": "Ingen avdeling vises før minst 5 har svart.",
+      "anonymity": "Som standard vises ingen avdeling før minst 5 har svart.",
       "related": "Relaterte sider"
     },
     "home": {
@@ -4151,7 +4151,7 @@
               },
               {
                 "title": "Anonymitet du kan stå inne for",
-                "text": "Ingen gruppe vises før minst 5 har svart. Grensen kan ikke settes lavere – heller ikke av en administrator."
+                "text": "Som standard vises ingen gruppe før minst 5 har svart, og grensen gjelder også administratorer. Små team kan senke den til 3, men aldri lavere."
               },
               {
                 "title": "Ingen ekstra kostnad",
@@ -4188,7 +4188,7 @@
           },
           {
             "q": "Kan ledelsen se hvem som har svart hva?",
-            "a": "Nei. Svaret lagres uten navn, e-postadresse eller IP-adresse, og ingen gruppe vises før minst 5 har svart."
+            "a": "Nei. Svaret lagres uten navn, e-postadresse eller IP-adresse, og som standard vises ingen gruppe før minst 5 har svart."
           },
           {
             "q": "Koster det noe for meg som verneombud?",
@@ -4221,11 +4221,11 @@
           },
           {
             "t": "p",
-            "text": "Det er det første spørsmålet i en liten virksomhet, og det er riktig å stille det. Orgpuls viser ingen gruppe før minst 5 personer har svart. Er dere 12, ser dere tall for hele virksomheten, men ikke for en avdeling på 3."
+            "text": "Det er det første spørsmålet i en liten virksomhet, og det er riktig å stille det. Som standard viser Orgpuls ingen gruppe før minst 5 personer har svart. Er dere 12, ser dere tall for hele virksomheten, men ikke for en avdeling på 3."
           },
           {
             "t": "p",
-            "text": "Grensen ligger i databasen og kan ikke senkes – heller ikke av daglig leder. Svaret lagres uten navn, e-postadresse eller IP-adresse, og ingen kolonne kan koble et svar til en person."
+            "text": "Grensen ligger i databasen. Er dere svært få, kan daglig leder senke den til 3 eller 4 – da ser dere tall for mindre grupper, men det blir også lettere å kjenne igjen hvem som sa hva. Derfor er 5 sterkt anbefalt. En runde beholder grensen den startet med, og ingen kan sette den under 3. Svaret lagres uten navn, e-postadresse eller IP-adresse, og ingen kolonne kan koble et svar til en person."
           },
           {
             "t": "h2",
@@ -4290,7 +4290,7 @@
           },
           {
             "q": "Hva om bare 4 svarer?",
-            "a": "Da vises en strek i stedet for et tall. Tallet er ikke skjult for dere spesielt – det er ikke regnet ut for noen. Det er prisen for at ingen kan kjenne igjen et svar."
+            "a": "Med standardgrensen på 5 vises en strek i stedet for et tall. Tallet er ikke skjult for dere spesielt – det er ikke regnet ut for noen. Det er prisen for at ingen kan kjenne igjen et svar. Har daglig leder senket grensen til 3 eller 4 før runden startet, vises tallet."
           },
           {
             "q": "Trenger vi et HR-system?",
@@ -4330,7 +4330,7 @@
           },
           {
             "t": "p",
-            "text": "Med pakken Vanlig ser dere resultatet per avdeling og team, så dere ser hvor arbeidsmengde, tidspress og ytringsklima skiller seg. En avdeling vises når minst 5 har svart."
+            "text": "Med pakken Vanlig ser dere resultatet per avdeling og team, så dere ser hvor arbeidsmengde, tidspress og ytringsklima skiller seg. Som standard vises en avdeling når minst 5 har svart."
           },
           {
             "t": "p",
@@ -4366,7 +4366,7 @@
           },
           {
             "q": "Kan vi se resultat per prosjekt eller avdeling?",
-            "a": "Ja, per gruppe slik dere setter opp gruppene, i pakken Vanlig. En gruppe vises når minst 5 har svart."
+            "a": "Ja, per gruppe slik dere setter opp gruppene, i pakken Vanlig. Som standard vises en gruppe når minst 5 har svart; små team kan senke grensen til 3."
           },
           {
             "q": "Hva koster det?",
@@ -4446,7 +4446,7 @@
           },
           {
             "t": "p",
-            "text": "Ingen gruppe vises før minst 5 har svart, og grensen kan ikke senkes. Har en avdeling for få svar, teller svarene likevel med i virksomhetens tall. Kan en avdeling regnes ut fra de andre, holder Orgpuls tilbake en til."
+            "text": "Som standard vises ingen gruppe før minst 5 har svart, og grensen kan aldri settes under 3. Har en avdeling for få svar, teller svarene likevel med i virksomhetens tall. Kan en avdeling regnes ut fra de andre, holder Orgpuls tilbake en til."
           }
         ],
         "faq": [
@@ -4460,7 +4460,7 @@
           },
           {
             "q": "Kan vi se resultat per avdeling eller post?",
-            "a": "Ja, i pakken Vanlig, for avdelinger med minst fem svar."
+            "a": "Ja, i pakken Vanlig, for avdelinger med nok svar – minst fem som standard."
           },
           {
             "q": "Hva koster det?",
@@ -4805,7 +4805,7 @@
             "items": [
               "Bestem hvem som er med: ledelse, verneombud og tillitsvalgte.",
               "Informer de ansatte om formålet, om anonymiteten og om når resultatet kommer.",
-              "Velg et verktøy som dekker faktorene i § 4-3 og har en fast grense for anonymitet.",
+              "Velg et verktøy som dekker faktorene i § 4-3 og har en nedre grense for anonymitet som ingen kan omgå.",
               "Sett av tid til å gå gjennom resultatet innen 2 uker etter at målingen lukkes.",
               "Velg 2–3 tiltak med eier og frist.",
               "Planlegg neste måling før dere lukker denne."
@@ -5009,7 +5009,7 @@
           },
           {
             "t": "h2",
-            "text": "Anonymitet: hvorfor grensen er 5 svar"
+            "text": "Anonymitet: hvorfor grensen bør være 5 svar"
           },
           {
             "t": "p",
@@ -5017,7 +5017,7 @@
           },
           {
             "t": "p",
-            "text": "Derfor bør ingen gruppe vises før et minimum har svart. I Orgpuls er grensen 5, og den kan ikke settes lavere. Les mer i [Anonym medarbeiderundersøkelse: hva betyr anonymt?](/artikler/anonym-medarbeiderundersokelse)"
+            "text": "Derfor bør ingen gruppe vises før et minimum har svart. I Orgpuls er grensen 5 som standard. Små team kan senke den til 3, men jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva. Les mer i [Anonym medarbeiderundersøkelse: hva betyr anonymt?](/artikler/anonym-medarbeiderundersokelse)"
           },
           {
             "t": "h2",
@@ -5293,7 +5293,7 @@
           },
           {
             "t": "p",
-            "text": "Fem er vanlig. Grensen må gjelde alle – også administratorer – og den bør ikke kunne senkes for å «se tallet likevel»."
+            "text": "Fem er vanlig, og det er det vi anbefaler. Grensen må gjelde alle – også administratorer. Et lite team kan ha grunn til å gå ned til 3, men jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva. Og grensen bør aldri kunne senkes i etterkant for å «se tallet likevel»."
           },
           {
             "t": "h3",
@@ -5346,7 +5346,7 @@
             "t": "ul",
             "items": [
               "Svaret lagres uten navn, e-post og IP-adresse, og tidspunktet rundes av til hele timen. Det finnes ingen kolonne som kunne holdt en kobling.",
-              "Ingen gruppe vises før minst 5 har svart. Grensen ligger i databasen og kan ikke senkes, bare heves.",
+              "Ingen gruppe vises før grensen er nådd: 5 svar som standard. Grensen ligger i databasen og kan heves til 10. Små team kan senke den til 3; en runde beholder grensen den startet med, så en lavere grense åpner aldri tidligere runder.",
               "Når tallene for de andre gruppene ville avslørt en skjult gruppe, holdes en gruppe til tilbake.",
               "Svarene lagres i EU og deles ikke med tredjeparter."
             ]
@@ -5365,7 +5365,7 @@
           },
           {
             "t": "p",
-            "text": "Folk tror på anonymitet når de får den forklart konkret, ikke når de får et løfte. En kort tekst før utsendingen kan se slik ut:"
+            "text": "Folk tror på anonymitet når de får den forklart konkret, ikke når de får et løfte. En kort tekst før utsendingen kan se slik ut, med standardgrensen på 5:"
           },
           {
             "t": "box",
@@ -5391,8 +5391,8 @@
             "url": "https://lovdata.no/lov/2005-06-17-62/%C2%A74-3"
           }
         ],
-        "ctaTitle": "Mål anonymt – med en grense som ikke kan senkes",
-        "ctaBody": "Under 5 svar viser Orgpuls en strek, og ingen administrator kan senke grensen. Start med organisasjonsnummeret – de første 15 dagene er gratis."
+        "ctaTitle": "Mål anonymt – med en grense databasen håndhever",
+        "ctaBody": "Som standard viser Orgpuls en strek under 5 svar, og ingen kan sette grensen under 3. Start med organisasjonsnummeret – de første 15 dagene er gratis."
       },
       "verneombud": {
         "title": "Verneombudets rolle i kartleggingen av arbeidsmiljøet",
@@ -5530,7 +5530,7 @@
           },
           {
             "t": "p",
-            "text": "Stå fast. Grensen for hvor små grupper som vises, finnes for å beskytte de ansatte, og den er grunnen til at folk tør å svare ærlig. En gruppe som er for liten til å vises, teller likevel med i tallene for helheten."
+            "text": "Stå fast. Grensen for hvor små grupper som vises, finnes for å beskytte de ansatte, og den er grunnen til at folk tør å svare ærlig. En gruppe som er for liten til å vises, teller likevel med i tallene for helheten. I Orgpuls gjelder en lavere grense dessuten bare runder som starter etter endringen – den åpner aldri en runde som allerede er gjennomført."
           },
           {
             "t": "h3",
@@ -5635,7 +5635,7 @@
           },
           {
             "t": "p",
-            "text": "En avdeling vises når minst fem har svart. Når en avdeling ville kunne regnes ut fra de andre, holdes en til tilbake. Les mer om [anonymitet og sikkerhet](/sikkerhet)."
+            "text": "Som standard vises en avdeling når minst fem har svart; små team kan velge 3. Når en avdeling ville kunne regnes ut fra de andre, holdes en til tilbake. Les mer om [anonymitet og sikkerhet](/sikkerhet)."
           },
           {
             "t": "h2",
@@ -5835,11 +5835,11 @@
         "faq": [
           {
             "q": "Hva om vi bare er tolv personer?",
-            "a": "Da får dere tall for hele virksomheten. En avdeling vises bare når minst 5 i den har svart. Er færre enn 5 med på å svare, vises ingen tall – da kunne ikke svarene vært anonyme."
+            "a": "Da får dere tall for hele virksomheten. Som standard vises en avdeling når minst 5 i den har svart; færre teller med i helheten. For små team kan daglig leder senke grensen til 3, men 5 er sterkt anbefalt – jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
           },
           {
             "q": "Er svarene virkelig anonyme?",
-            "a": "Ja. Vi lagrer aldri navn, e-postadresse eller IP-adresse sammen med svaret – det finnes ingen kolonne som kunne holdt koblingen. Og ingen gruppe vises før minst 5 personer har svart."
+            "a": "Ja. Vi lagrer aldri navn, e-postadresse eller IP-adresse sammen med svaret – det finnes ingen kolonne som kunne holdt koblingen. Og som standard vises ingen gruppe før minst 5 personer har svart; grensen kan aldri settes under 3."
           },
           {
             "q": "Hvor mye tid tar det for oss?",
@@ -5857,7 +5857,7 @@
       },
       "sikkerhet": {
         "title": "Sikkerhet, personvern og anonymitet | Orgpuls",
-        "description": "Hvordan Orgpuls holder svarene anonyme: ingen kobling til person, minst 5 svar per gruppe, data i EU. Hva vi lagrer, og hva vi ikke lagrer.",
+        "description": "Hvordan Orgpuls holder svarene anonyme: ingen kobling til person, minst 5 svar per gruppe som standard, data i EU. Hva vi lagrer, og hva vi ikke lagrer.",
         "crumb": "Sikkerhet og personvern",
         "kicker": "Sikkerhet og personvern",
         "h1": "Anonymitet som ikke avhenger av at noen holder et løfte",
@@ -5877,11 +5877,11 @@
           },
           {
             "t": "h2",
-            "text": "Færre enn 5 svar gir en strek"
+            "text": "Færre enn 5 svar gir en strek – som standard"
           },
           {
             "t": "p",
-            "text": "Ingen gruppe vises før minst 5 har svart. Databasen håndhever grensen: dere kan heve den opp til 10, men aldri senke den. Ville tallene for de andre gruppene avsløre en skjult gruppe, skjuler Orgpuls én gruppe til, så ingen kan regne seg fram."
+            "text": "Som standard vises ingen gruppe før minst 5 har svart, og 5 er sterkt anbefalt. Databasen håndhever grensen: dere kan heve den opp til 10, og et lite team kan senke den til 3 – aldri lavere. Jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva, så daglig leder får en advarsel før grensen senkes. En runde beholder grensen den startet med, så en lavere grense åpner aldri tidligere runder. Ville tallene for de andre gruppene avsløre en skjult gruppe, skjuler Orgpuls én gruppe til, så ingen kan regne seg fram."
           },
           {
             "t": "h2",
@@ -6225,7 +6225,7 @@
           },
           {
             "t": "p",
-            "text": "Svarene lagres uten kobling til den som svarte. Resultater vises ikke for en gruppe med færre enn fem svar, og grensen kan heves, men ikke senkes. Hvordan dette er bygget, står under [Sikkerhet og personvern](/sikkerhet)."
+            "text": "Svarene lagres uten kobling til den som svarte. Resultater vises ikke for en gruppe med færre svar enn grensen. Grensen er fem svar som standard og kan heves til ti. Daglig leder kan senke den til tre eller fire, men aldri under tre, og en runde beholder grensen som gjaldt da den ble åpnet. Hvordan dette er bygget, står under [Sikkerhet og personvern](/sikkerhet)."
           },
           {
             "t": "p",
@@ -6400,7 +6400,7 @@
       "pills": [
         "15 dager gratis",
         "Dekker arbeidsmiljøloven",
-        "Anonymt – minst 5 svar"
+        "Anonymt, 5 svar som standard"
       ]
     }
   },
@@ -6625,7 +6625,7 @@
       "trust": {
         "label": "Kort om Orgpuls",
         "eu": "Svar lagres i EU",
-        "k": "Ingen gruppe vises under 5 svar",
+        "k": "Minst 5 svar per gruppe som standard",
         "qps": "Spørsmål bygd på QPS Nordic",
         "law": "Dekker arbeidsmiljøloven § 4-3"
       }
@@ -6724,7 +6724,7 @@
       "trust": [
         {
           "tile": "5",
-          "t": "Anonymt – minst 5 svar"
+          "t": "Anonymt, 5 svar som standard"
         },
         {
           "tile": "EU",
@@ -6754,7 +6754,7 @@
           {
             "t": "For få til å være anonyme",
             "p": "Med 12 ansatte er det lett å tro at lederen vet hvem som skrev hva.",
-            "s": "Ingen gruppe vises under 5 svar. Grensen ligger i produktet – dere kan ikke skru den av."
+            "s": "Ingen gruppe vises under 5 svar som standard. Små team kan velge 3, men grensen kan ikke skrus av."
           },
           {
             "t": "Uklart hva loven krever",
@@ -6775,7 +6775,7 @@
         "mock": "Eksempel på spørreskjemaet: tre påstander om ytringsklima, svar fra 1 til 5, kommentar frivillig",
         "note": {
           "t": "Anonymt av struktur",
-          "d": "Ingen gruppe vises under 5 svar. Fem er gulvet, og det er produktets – ikke deres."
+          "d": "Ingen gruppe vises under 5 svar, med mindre et lite team velger 3. Lavere går det ikke – det gulvet er produktets, ikke deres."
         },
         "caption": "Slik ser en side ut for den ansatte.",
         "h3": "Fire minutter for den ansatte. Ferdig dokumentasjon for dere.",
@@ -6802,7 +6802,7 @@
           },
           {
             "v": "5 svar",
-            "l": "minste antall før en gruppe vises"
+            "l": "anbefalt minimum per gruppe"
           },
           {
             "v": "11",
@@ -6816,7 +6816,7 @@
         },
         "caption": "Verksted skiller seg ut på ytringsklima.",
         "h3": "Også trygt når alle kjenner alle.",
-        "text": "Grupper under 5 svar vises som «—», så ingen kan pekes ut – heller ikke på et verksted med seks ansatte. Verneombudet ser de samme tallene som ledelsen, samtidig."
+        "text": "Som standard vises grupper under 5 svar som «—», så ingen kan pekes ut – heller ikke på et verksted med seks ansatte. Verneombudet ser de samme tallene som ledelsen, samtidig."
       },
       "results": {
         "title": "Én side: det som fungerer, og det dere gjør nå",
@@ -6879,7 +6879,7 @@
             "t": "Avdelingsleder",
             "s": "Eget team",
             "get": [
-              "Bare ditt team, når minst 5 har svart",
+              "Bare ditt team, og først når nok har svart",
               "Anonyme kommentarer du kan svare på",
               "Tre forslag til tiltak, klare til å velge"
             ]
@@ -6970,7 +6970,7 @@
         "p": "Ett tema om gangen, faktoren synlig, kommentar frivillig. Rekkefølgen er tilfeldig per person, så ingen kan gjette hvem som svarte hva ut fra når svaret kom inn.",
         "ticks": [
           "Vi lagrer aldri navn, e-post eller IP sammen med svaret",
-          "Lederen ser tall først når minst 5 har svart",
+          "Lederen ser tall først når nok har svart – 5 som standard",
           "Alle kan hoppe over spørsmål, og kommentar er frivillig",
           "Invitasjon på e-post, eller SMS til dem uten fast skjerm"
         ],
@@ -6987,7 +6987,7 @@
         "p": "Faktorer med indeks 0–100, utvikling fra i fjor og risikonivå. Trykk på en faktor og se påstandene bak tallet, svarfordelingen og tre forslag til tiltak.",
         "ticks": [
           "Varmekart, prioritet, segmentprofil og utvikling – samme tall, fire spørsmål",
-          "Grupper under 5 svar vises som «—», også for administrator",
+          "Grupper under grensen vises som «—», også for administrator",
           "Hjemmel per faktor står i rapporten og på hvert tiltak"
         ],
         "use": "Bruksområde: ett team skiller seg ut",
@@ -7031,7 +7031,7 @@
         "ticks": [
           "Gruppert per faktor, med tone ut fra svaret kommentaren hører til",
           "Svaret når den som skrev – uten at noen vet hvem",
-          "En faktor vises først når minst 5 har svart"
+          "En faktor vises først når nok har svart – 5 som standard"
         ],
         "use": "Bruksområde: ny leder",
         "caption": "Den som skrev ser svaret ditt – du får aldri vite hvem det var.",
@@ -7124,17 +7124,17 @@
       "roller": {
         "eyebrow": "Roller og tilgang",
         "h": "Ingen ser hvem som svarte",
-        "p": "Rollen styrer hva du ser. Ingen ser enkeltsvar, og grensen på 5 svar gjelder også administratorer. Enkel visning gir én side, full visning gir alle analysene.",
+        "p": "Rollen styrer hva du ser. Ingen ser enkeltsvar, og grensen – 5 svar som standard – gjelder også administratorer. Enkel visning gir én side, full visning gir alle analysene.",
         "ticks": [
           "Daglig leder ser hele virksomheten og alle kommentarer",
-          "Avdelingslederen ser eget team når minst 5 har svart",
+          "Avdelingslederen ser eget team når nok har svart",
           "Verneombudet ser helheten og risikovurderingen"
         ],
         "use": "Bruksområde: verneombud og AMU",
         "caption": "Merkene viser når hver rolle får varsel før utsending.",
         "card": {
           "title": "Tilgang per rolle",
-          "meta": "minst 5 svar"
+          "meta": "terskel 5 svar"
         },
         "rows": [
           {
@@ -7286,11 +7286,11 @@
         {
           "k": "Anonymitet",
           "t": "Anonymitet som ikke kan skrus av",
-          "d": "Orgpuls knytter aldri et svar til navn, e-post eller IP. Ingen ser en gruppe før nok folk har svart – heller ikke administratorer. Terskelen er 5 svar. Dere kan heve den, men aldri senke den.",
+          "d": "Orgpuls knytter aldri et svar til navn, e-post eller IP. Ingen ser en gruppe før nok folk har svart – heller ikke administratorer. Terskelen er 5 svar som standard. Små team kan velge 3.",
           "points": [
             "Små grupper vises ikke, men teller med i helheten",
             "Rekkefølgen på spørsmålene er tilfeldig per person",
-            "Kommentarer til en faktor vises først når minst 5 har skrevet"
+            "Kommentarer til en faktor vises først når nok har skrevet – 5 som standard"
           ],
           "src": "GDPR og Datatilsynets veiledning om anonymisering",
           "m": {
@@ -7446,7 +7446,7 @@
         "items": [
           {
             "q": "Kan lederen se hvem som svarte hva?",
-            "a": "Nei. Orgpuls knytter aldri et svar til navn, e-post eller IP. Ingen ser en gruppe før terskelen er nådd – minst 5 svar – og det gjelder også administratorer."
+            "a": "Nei. Orgpuls knytter aldri et svar til navn, e-post eller IP. Ingen ser en gruppe før terskelen er nådd – 5 svar som standard, aldri under 3 – og det gjelder også administratorer."
           },
           {
             "q": "Hvorfor ikke bare én undersøkelse i året?",
@@ -7634,13 +7634,13 @@
           "h": "Når ett team har det tyngre enn resten",
           "p": "Varmekartet viser team mot faktor. Segmentprofilen sammenligner ett team med resten og peker på hvor forskjellen er størst – uten å peke ut noen enkeltperson.",
           "ticks": [
-            "Grupper under 5 svar vises som strek, også for administrator",
+            "Grupper under grensen vises som strek, også for administrator",
             "Avdelingslederen ser bare sitt eget team",
             "Tre forslag til tiltak per faktor, klare til å velges"
           ],
           "card": {
             "title": "Team × faktor",
-            "meta": "minst 5 svar",
+            "meta": "terskel 5 svar",
             "table": "Team og faktor",
             "short": [
               "Ytr",
@@ -7699,7 +7699,7 @@
           "h": "Gi en ny leder et ærlig utgangspunkt",
           "p": "Grunnlinjen fra før lederbyttet og pulsen etterpå viser hvordan teamet opplever støtte, rolleklarhet og ytringsklima. Tallene gjelder teamet som helhet – aldri enkeltpersoner, og aldri lederen som person.",
           "ticks": [
-            "Teamet må ha minst 5 svar før noe vises",
+            "Teamet må ha nok svar før noe vises – 5 som standard",
             "Forslag til lederpraksis for de fleste faktorene",
             "Lederen kan svare på anonyme kommentarer uten å vite hvem som skrev"
           ],
@@ -7992,7 +7992,7 @@
           {
             "t": "Resultater",
             "items": [
-              "Resultat per avdeling og team, når minst 5 har svart",
+              "Resultat per avdeling og team, fra 5 svar som standard",
               "Varmekart og utvikling over tid",
               "Anonyme kommentarer du kan svare på"
             ]

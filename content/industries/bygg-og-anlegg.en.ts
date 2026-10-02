@@ -23,7 +23,7 @@ export const byggOgAnleggEn: IndustryPage = {
     h1: 'Work environment survey for construction',
     lead:
       'See where time pressure, many companies on one site and language in the team undermine safety – and get suggested measures for every factor. The construction module comes on top of the main survey. It also asks about new and young workers, and whether there is room to say you are not doing well. The crew answers anonymously on their phones.',
-    thresholdNote: 'No group is shown until at least 5 have answered.',
+    thresholdNote: 'By default no group is shown until at least 5 have answered.',
     preview: {
       company: 'Nordvik Anlegg AS',
       caption: 'Main survey September · index 0–100',
@@ -96,7 +96,7 @@ export const byggOgAnleggEn: IndustryPage = {
     title: 'From answers to measures at the next project meeting',
     steps: [
       { title: 'Measure', text: 'Main survey with the construction module, by SMS or a QR code in the site hut.' },
-      { title: 'See per project', text: 'Results per project and workshop, for groups with at least 5 answers.' },
+      { title: 'See per project', text: 'Results per project and workshop, for groups with enough answers – 5 by default.' },
       { title: 'Choose measures', text: 'Three suggestions per factor. Every measure gets an owner and a deadline.' },
       { title: 'Measure again', text: 'The pulse asks only about the factors you are working on, until the measure has worked.' },
     ],
@@ -161,11 +161,11 @@ export const byggOgAnleggEn: IndustryPage = {
     },
     {
       q: 'Does the manager see who answered no to the safety questions?',
-      a: 'No. No group is shown until at least 5 have answered, and the threshold cannot be lowered. The two yes/no questions on near misses and unsafe jobs are only shown as counts for the whole organisation, never per project.',
+      a: 'No. By default no group is shown until at least 5 have answered, and the threshold can never be set below 3. The two yes/no questions on near misses and unsafe jobs are only shown as counts for the whole organisation, never per project.',
     },
     {
       q: 'Can we see results per project?',
-      a: 'Yes, on the Usual plan, for groups with at least 5 answers. If a project has too few answers, they count towards the organisation’s figures.',
+      a: 'Yes, on the Usual plan, for groups with enough answers – 5 by default. If a project has too few answers, they count towards the organisation’s figures.',
     },
     {
       q: 'What does it cost?',
@@ -187,12 +187,12 @@ export const byggOgAnleggEn: IndustryPage = {
     segmentsIntro: 'Optional, to see the difference between site and workshop, and between new and experienced. The main survey already asks about offensive behaviour, so that question is not repeated here.',
     rulesTitle: 'How the answers are reported',
     rules: [
-      { title: 'At least 5 answers', text: 'No group is shown until at least 5 have answered. The threshold can be raised, but never lowered.' },
+      { title: 'At least 5 answers by default', text: 'No group is shown until at least 5 have answered. The threshold can be raised to 10. Small teams can lower it to 3; a round keeps the threshold it started with.' },
       { title: 'No working backwards', text: 'If a group could be worked out from the total and the other groups, one more group is held back.' },
       { title: 'The yes/no questions', text: 'BA-T-1 and BA-T-2 are only shown as counts for the whole organisation, never per project.' },
       {
         title: 'Segments',
-        text: 'Place of work and length of service are only shown where there are at least 5 answers, and never combined with a group if that gives fewer than 5.',
+        text: 'Place of work and length of service are only shown where the threshold is reached, and never combined with a group if that gives fewer answers than the threshold.',
         featureFlag: 'module_segments',
       },
       { title: 'The same index', text: 'Every statement is converted to 0–100, and the factor is the average of its three statements.' },

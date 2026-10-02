@@ -31,7 +31,7 @@ export const kunnskapOgKontor: IndustryPage = {
     h1: 'Arbeidsmiljø­undersøkelse for kunnskap og kontor',
     lead:
       'Se hvor avbrytelser, møter og krav om å svare utenom arbeidstid går ut over konsentrasjonen og hvilen – og få forslag til tiltak for hver faktor. Kontor-modulen kommer i tillegg til hovedundersøkelsen. Den spør også om digitale verktøy, hybridarbeid og KI. Velg forenklet eller utvidet – alle svarer anonymt.',
-    thresholdNote: 'Ingen gruppe vises før minst 5 har svart.',
+    thresholdNote: 'Som standard vises ingen gruppe før minst 5 har svart.',
     preview: {
       company: 'Fjellstad Rådgivning AS',
       caption: 'Kontor-modulen, forenklet · indeks 0–100',
@@ -108,7 +108,7 @@ export const kunnskapOgKontor: IndustryPage = {
     title: 'Fra svar til tiltak på neste teammøte',
     steps: [
       { title: 'Mål', text: 'Hovedmåling med kontor-modulen, forenklet eller utvidet, på SMS eller e-post.' },
-      { title: 'Se per team', text: 'Resultat per team eller avdeling, for grupper med minst 5 svar.' },
+      { title: 'Se per team', text: 'Resultat per team eller avdeling, for grupper med nok svar – 5 som standard.' },
       { title: 'Velg tiltak', text: 'Tre forslag per faktor. Hvert tiltak får en eier og en frist.' },
       { title: 'Mål igjen', text: 'Pulsen spør bare om faktorene dere jobber med, til tiltaket har virket.' },
     ],
@@ -155,7 +155,7 @@ export const kunnskapOgKontor: IndustryPage = {
     },
     {
       q: 'Ser lederen hvem som ble kontaktet i fritiden?',
-      a: 'Nei. Spørsmålet vises bare som antall for hele virksomheten, aldri per team. Ingen gruppe vises før minst 5 har svart, og grensen kan ikke senkes.',
+      a: 'Nei. Spørsmålet vises bare som antall for hele virksomheten, aldri per team. Som standard vises ingen gruppe før minst 5 har svart, og grensen kan aldri settes under 3.',
     },
     {
       q: 'Vi jobber mye hjemmefra. Passer modulen?',
@@ -181,7 +181,7 @@ export const kunnskapOgKontor: IndustryPage = {
     segmentsIntro: 'Valgfrie, for å se forskjell mellom arbeidsformer og hvor mye som går til kundearbeid. Lederrolle og stillingstype brukes ikke, fordi det gir for små grupper.',
     rulesTitle: 'Slik rapporteres svarene',
     rules: [
-      { title: 'Minst 5 svar', text: 'Ingen gruppe eller segment vises før minst 5 har svart. Grensen kan heves, men aldri senkes.' },
+      { title: 'Minst 5 svar som standard', text: 'Ingen gruppe eller segment vises før minst 5 har svart. Grensen kan heves til 10. Små team kan senke den til 3; en runde beholder grensen den startet med.' },
       { title: 'Ingen regning bakover', text: 'Hvis en gruppe kan regnes ut fra totalen og de andre gruppene, holdes en gruppe til tilbake.' },
       { title: 'Ja/nei-spørsmålene', text: 'KK-T-1 til KK-T-4 vises bare som antall for hele virksomheten, aldri per team eller segment. «Jobber ikke fast hjemmefra» holdes utenfor andelen.' },
       { title: 'Forenklet og utvidet', text: 'Kjernepåstandene er med i begge. I utvidet regnes de åtte forenklede faktorene også ut, som sammenlignbar indeks.' },
