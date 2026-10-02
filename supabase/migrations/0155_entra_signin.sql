@@ -69,7 +69,9 @@ revoke all on app.entra_tenants from public, anon, authenticated;
 grant select on app.entra_tenants to authenticated;
 
 -- ---------------------------------------------------------------- who bound and unbound, kept
-create table app.entra_tenant_events (
+-- `_log`, not `_events`: a table named `*_events` is in the growth firewall's scope (0141), which
+-- holds that analytics tables have no client grant; this is an audit trail the daglig leder reads.
+create table app.entra_tenant_log (
   id          bigint generated always as identity primary key,
   org_id      uuid not null references app.organizations (id) on delete cascade,
   tenant_id   text not null,
@@ -77,13 +79,13 @@ create table app.entra_tenant_events (
   actor       uuid references auth.users (id) on delete set null,
   happened_at timestamptz not null default now()
 );
-create index entra_tenant_events_org_idx on app.entra_tenant_events (org_id, happened_at desc);
+create index entra_tenant_log_org_idx on app.entra_tenant_log (org_id, happened_at desc);
 
-alter table app.entra_tenant_events enable row level security;
-create policy entra_tenant_events_read on app.entra_tenant_events
+alter table app.entra_tenant_log enable row level security;
+create policy entra_tenant_log_read on app.entra_tenant_log
   for select to authenticated using (app.has_role(org_id, array['daglig_leder']::app.org_role[]));
-revoke all on app.entra_tenant_events from public, anon, authenticated;
-grant select on app.entra_tenant_events to authenticated;
+revoke all on app.entra_tenant_log from public, anon, authenticated;
+grant select on app.entra_tenant_log to authenticated;
 
 -- ---------------------------------------------------------------- a membership's Microsoft person
 -- Not columns on app.memberships: every member reads that table's rows for the organisation,
@@ -139,7 +141,7 @@ revoke all on app.entra_sessions from public, anon, authenticated;
 -- a demo copy carries none of it: a tenant and a person's object id belong to the real organisation
 insert into app.demo_copy_plan (table_name, step, mode, via, note) values
   ('entra_tenants', null, 'skip', null, 'a Microsoft tenant binding belongs to the real organisation (0155)'),
-  ('entra_tenant_events', null, 'skip', null, 'the binding''s history belongs to the real organisation (0155)'),
+  ('entra_tenant_log', null, 'skip', null, 'the binding''s history belongs to the real organisation (0155)'),
   ('member_identities', null, 'skip', null, 'a member''s Microsoft object id is that person''s, not the demo''s (0155)'),
   ('entra_bind_nonces', null, 'skip', null, 'single-use consent nonces (0155)');
 
@@ -351,7 +353,7 @@ begin
   select * into v_t from app.entra_tenants t where t.org_id = p_org;
   if v_dl then
     select jsonb_build_object('event', e.event, 'happened_at', e.happened_at) into v_last
-    from app.entra_tenant_events e where e.org_id = p_org order by e.happened_at desc, e.id desc limit 1;
+    from app.entra_tenant_log e where e.org_id = p_org order by e.happened_at desc, e.id desc limit 1;
   end if;
   return jsonb_build_object(
     'ok', true,
@@ -454,7 +456,7 @@ begin
   exception when unique_violation then
     return jsonb_build_object('ok', false, 'error', 'tenant_taken');
   end;
-  insert into app.entra_tenant_events (org_id, tenant_id, event, actor) values (v_n.org_id, v_tenant, 'bound', auth.uid());
+  insert into app.entra_tenant_log (org_id, tenant_id, event, actor) values (v_n.org_id, v_tenant, 'bound', auth.uid());
   return jsonb_build_object('ok', true);
 end $fn$;
 revoke all on function public.entra_bind_complete(text, text, text, text) from public, anon;
@@ -471,7 +473,7 @@ begin
   end if;
   delete from app.entra_tenants t where t.org_id = p_org returning t.tenant_id into v_tenant;
   if v_tenant is null then return jsonb_build_object('ok', false, 'error', 'not_bound'); end if;
-  insert into app.entra_tenant_events (org_id, tenant_id, event, actor) values (p_org, v_tenant, 'unbound', auth.uid());
+  insert into app.entra_tenant_log (org_id, tenant_id, event, actor) values (p_org, v_tenant, 'unbound', auth.uid());
   return jsonb_build_object('ok', true);
 end $fn$;
 revoke all on function public.entra_unbind(uuid) from public, anon;

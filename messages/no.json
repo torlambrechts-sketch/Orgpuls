@@ -11,6 +11,7 @@
     "error": "E-postadressen eller passordet stemmer ikke.",
     "invalidEmail": "Skriv inn en gyldig e-postadresse.",
     "hint": "Bruk adressen du ble registrert med. Har du glemt passordet, sender vi en lenke.",
+    "hintMicrosoft": "Er dere på Microsoft 365, slipper du passordet. Bruk knappen under.",
     "forgot": "Glemt passord?",
     "forgotTitle": "Glemt passord",
     "forgotLead": "Skriv inn e-postadressen din, så sender vi en lenke for å sette et nytt passord.",
@@ -26,9 +27,14 @@
     "lockedBody": "Se i søppelposten først. Er du fortsatt låst ute, skriv til hjelp@orgpuls.no — oppgi navn og hvilken virksomhet du jobber i.",
     "or": "eller",
     "google": "Fortsett med Google",
+    "microsoft": "Fortsett med Microsoft",
     "googleProblem": {
       "google_failed": "Innloggingen med Google gikk ikke gjennom. Prøv igjen, eller logg inn med e-post og passord.",
       "google_no_account": "Vi fant ingen Orgpuls-konto for denne Google-kontoen. Registrer virksomheten først, eller bruk invitasjonen du har fått på e-post."
+    },
+    "microsoftProblem": {
+      "microsoft_failed": "Innloggingen med Microsoft gikk ikke gjennom. Prøv igjen, eller logg inn med e-post og passord.",
+      "microsoft_refused": "Vi kunne ikke logge deg inn med denne Microsoft-kontoen. Har virksomheten koblet Orgpuls til Microsoft 365, må du bruke jobbkontoen fra den organisasjonen, den samme du har logget inn med før. Er dere ikke kunde ennå, registrer virksomheten først, og er du invitert, bruk lenken i invitasjonen. Du kan også logge inn med e-post og passord."
     }
   },
   "app": {
@@ -1919,8 +1925,10 @@
       },
       "entra": {
         "name": "Microsoft Entra ID",
-        "what": "Henter ansatte, e-post og gruppetilhørighet automatisk. Nye ansatte kommer inn av seg selv, de som slutter tas ut.",
-        "need": "Krever at en administrator godkjenner lesetilgang til brukere og grupper. Vi skriver aldri tilbake."
+        "what": "Ledere logger inn med Microsoft-kontoen fra jobben, og ansatte, e-post og gruppetilhørighet hentes automatisk fra katalogen. Nye ansatte kommer inn av seg selv, de som slutter tas ut.",
+        "need": "Daglig leder kobler til, innlogget med Microsoft. Godkjenningen gjøres av en global administrator i Entra og gir lesetilgang til brukere og grupper. Vi skriver aldri tilbake.",
+        "needOff": "Koblingen til Microsoft 365 er ikke satt opp hos Orgpuls ennå. Fram til da vedlikeholdes registeret under Ansatte.",
+        "needBound": "Microsoft-innlogging godtas bare fra organisasjonen dere har koblet til. Velg gruppene på Entra-siden, så hentes ansatte derfra og holdes oppdatert."
       },
       "teams": {
         "name": "Microsoft Teams",
@@ -1950,7 +1958,11 @@
       },
       "stored": {
         "head": "Hva lagres om den enkelte",
-        "body": "Om de ansatte lagres bare navn, e-postadresse og mobilnummer (hvis dere legger det inn), og hvilken avdeling de hører til. Per måling registreres om invitasjonen er sendt og om personen har svart, slik at påminnelser bare går til dem som ikke har svart. Svarene lagres uten kobling til person: det finnes ingen kolonne som kunne holdt koblingen."
+        "body": "Om de ansatte lagres bare navn, e-postadresse og mobilnummer (hvis dere legger det inn), hvilken avdeling de hører til og eventuelt foretrukket språk. Henter dere ansatte fra Microsoft Entra ID, lagres også hver persons objekt-ID i katalogen og hvilke av de valgte gruppene personen er med i — mobilnummer derfra bare hvis dere slår det på. Per måling registreres om invitasjonen er sendt og om personen har svart, slik at påminnelser bare går til dem som ikke har svart. Svarene lagres uten kobling til person: det finnes ingen kolonne som kunne holdt koblingen."
+      },
+      "accounts": {
+        "head": "Hva lagres om dem som logger inn",
+        "body": "Om brukerne av Orgpuls lagres navn, e-postadresse og rolle. Passord lagres bare som en kryptografisk hash. Logger noen inn med Microsoft, lagres i tillegg ID-en til Microsoft 365-organisasjonen (tenant-ID) og kontoens objekt-ID der, slik at bare den samme Microsoft-kontoen kan logge inn på kontoen igjen. Ingenting av dette er knyttet til svarene."
       },
       "special": {
         "head": "Særlige kategorier",
@@ -2413,13 +2425,13 @@
         }
       },
       "entra": {
-        "title": "Koble til Microsoft Entra ID",
-        "lead": "Hvilke tillatelser vi ber om, hvilke grupper som synkes, og hva som skjer når noen slutter.",
+        "title": "Logg inn med Microsoft og koble til Microsoft 365",
+        "lead": "Hvordan innloggingen med Microsoft virker, hvem som godkjenner koblingen, og hva appen i Entra er satt opp med.",
         "body": {
-          "p1": "Entra-koblingen er ikke bygget i denne installasjonen. Denne artikkelen beskriver hva den vil kreve, slik at dere vet hva dere går til.",
-          "p2": "Tillatelsene er lesetilgang til brukere og grupper, og ingenting annet. Ingen integrasjon i Orgpuls skriver tilbake til kildesystemet, og ingen av dem får tilgang til svarene — de leser hvem som jobber her, ikke hva noen har svart.",
-          "p3": "Dere velger hvilke grupper som skal synkroniseres. En gruppe som ikke er valgt finnes ikke for Orgpuls, og medlemmene der får ikke målingen.",
-          "p4": "Når noen slutter i katalogen, tas de ut av registeret. Svarene de allerede har gitt blir liggende — de er ikke knyttet til personen, så det er ingenting å fjerne. Fram til koblingen finnes, vedlikeholdes registeret under Oppsett → Ansatte."
+          "p1": "Ledere kan logge inn med Microsoft-kontoen fra jobben med «Fortsett med Microsoft». Innloggingen skjer hos Microsoft, så virksomhetens regler for betinget tilgang og totrinnsbekreftelse gjelder der. Første gang du logger inn med Microsoft, knyttes Orgpuls-kontoen din til akkurat den Microsoft-kontoen: organisasjonens ID og kontoens objekt-ID. Senere godtas bare den samme kontoen, så en e-postadresse som gis videre til en ny person, gir ikke tilgang. E-postadressen eller brukernavnet avgjør aldri hvem du er.",
+          "p2": "Daglig leder kan koble virksomheten til Microsoft 365 under Oppsett › Integrasjoner: logg inn med Microsoft, og trykk «Godkjenn og koble til». Godkjenningen gjøres av en som er global administrator eller administrator for privilegerte roller i Entra. Deretter godtas Microsoft-innlogging til virksomheten bare fra denne organisasjonen, og en Microsoft 365-organisasjon kan bare kobles til én virksomhet i Orgpuls. Koblingen fjernes under samme fane, og godkjenningen trekkes tilbake i Azure-portalen under Enterprise applications.",
+          "p3": "Henting av ansatte og grupper fra katalogen er ikke bygget ennå. Fram til den kommer, vedlikeholdes registeret under Oppsett › Ansatte, og koblingen gir ingen tilgang til katalogen utover innloggingen. Ingen integrasjon i Orgpuls skriver tilbake til kildesystemet, og ingen av dem får tilgang til svarene.",
+          "p4": "Appen i Entra er registrert for flere organisasjoner (multitenant). Den sender innloggingen tilbake til https://[prosjekt].supabase.co/auth/v1/callback og godkjenningen til https://www.orgpuls.com/integrasjoner/entra/callback, og ID-tokenet har det valgfrie kravet xms_edov, som sier om eieren av e-postdomenet har bekreftet adressen. Uten det bindes ikke en eksisterende konto til Microsoft første gang."
         },
         "import": {
           "head": "Slik hentes ansatte fra katalogen",
@@ -2476,10 +2488,10 @@
     "privacyNote": "Ingen av kanalene over får tilgang til svarene. De leser hvem som jobber her, og de leverer en lenke — koblingen mellom en person og et svar finnes ikke i databasen, så det er ingenting å lekke gjennom en integrasjon.",
     "step": {
       "entra": {
-        "tenant": "Domenet eller tenant-ID-en til katalogen deres.",
-        "permissions": "Lesetilgang til brukere og grupper, godkjent av en administrator. Ingenting mer — vi skriver aldri tilbake.",
-        "groups": "Hvilke grupper som skal synkroniseres. En gruppe som ikke er valgt finnes ikke for Orgpuls, og medlemmene der får ikke målingen.",
-        "sync": "Hvor ofte katalogen leses, og hva som skjer med dem som slutter: de tas ut av registeret, mens svarene de allerede har gitt blir liggende — de er ikke knyttet til personen."
+        "tenant": "Daglig leder logger inn med Microsoft-kontoen fra jobben. Organisasjonen den kontoen hører til, er den som kobles til — den skrives aldri inn for hånd.",
+        "permissions": "En global administrator eller administrator for privilegerte roller i Entra godkjenner appen for organisasjonen. Ingenting mer — vi skriver aldri tilbake.",
+        "groups": "Hvilke grupper som skal synkroniseres, og hvilken som teller når noen er i flere. En gruppe som ikke er valgt, finnes ikke for Orgpuls, og medlemmene der får ikke målingen.",
+        "sync": "Hver natt eller bare når du ber om det. Den som slutter, settes som inaktiv i registeret, mens svarene de allerede har gitt blir liggende — de er ikke knyttet til personen."
       },
       "teams": {
         "entraFirst": "Entra ID først. Teams-varselet bruker samme brukerkatalog, så uten den vet vi ikke hvem meldingen skal til.",
@@ -2495,7 +2507,80 @@
     "queueOn": "Varslene sendes på e-post fra no-reply@orgpuls.com hvert femte minutt når de forfaller. {sent, plural, =0 {Ingen er sendt ennå} one {# er sendt} other {# er sendt}}, {pending, plural, =0 {ingen står i kø} one {# står i kø} other {# står i kø}} og {failed, plural, =0 {ingen har feilet} one {# kunne ikke sendes} other {# kunne ikke sendes}}.",
     "queueOff": "Utsending er slått av for denne virksomheten. {count, plural, one {# varsel står i kø og blir ikke sendt.} other {# varsler står i kø og blir ikke sendt.}}",
     "mailReady": "Ingenting å sette opp. Avsenderdomenet er verifisert med DKIM og DMARC, og lenken lages i det øyeblikket e-posten sendes.",
-    "smsSetup": "Sett opp SMS"
+    "smsSetup": "Sett opp SMS",
+    "entraSetup": {
+      "open": "Koble til Microsoft 365",
+      "back": "← Integrasjoner",
+      "statusOn": "Tilkoblet",
+      "statusOff": "Ikke tilkoblet",
+      "lead": "Ledere logger inn med Microsoft-kontoen fra jobben, og ansatte, e-postadresser og gruppetilhørighet hentes fra katalogen dere allerede har. Da slipper dere å vedlikeholde ansattregisteret to steder.",
+      "step1": "1 · Katalogen deres",
+      "tenantLabel": "Tenant-ID",
+      "tenantPlaceholder": "Logg inn med Microsoft først",
+      "tenantBound": "Koblet til {date}. Microsoft-innlogging til virksomheten godtas bare fra denne organisasjonen.",
+      "tenantOwn": "Dette er organisasjonen du er logget inn fra. Det er den som kobles til, og ingen annen.",
+      "tenantNone": "Tenant-ID-en hentes fra Microsoft-kontoen du er logget inn med, og skrives aldri inn for hånd. Logg ut og inn igjen med «Fortsett med Microsoft» for å koble til.",
+      "step2": "2 · Hva vi ber om",
+      "perm": {
+        "signin": {
+          "scope": "openid profile email",
+          "what": "Hvem du er når du logger inn: navn, e-postadresse og hvilken organisasjon kontoen hører til",
+          "kind": "Innlogging"
+        },
+        "profile": {
+          "scope": "User.Read",
+          "what": "Din egen profil, bare ved innloggingen",
+          "kind": "Innlogging"
+        },
+        "users": {
+          "scope": "User.Read.All",
+          "what": "Navn, e-post, språk og om kontoen er aktiv, for ansatte i valgte grupper. Mobilnummer bare hvis dere slår det på.",
+          "kind": "Lesetilgang"
+        },
+        "groups": {
+          "scope": "GroupMember.Read.All",
+          "what": "Gruppenavn og medlemskap, for å bygge rapportgruppene",
+          "kind": "Lesetilgang"
+        },
+        "never": {
+          "scope": "—",
+          "what": "Vi skriver aldri til katalogen, og ber ikke om e-post, filer eller kalender",
+          "kind": "Ingen skrivetilgang"
+        }
+      },
+      "permNote": "Innloggingen gjelder deg selv. Hentingen av ansatte bruker appens egne lesetillatelser, som godkjennes i det samme administratorsamtykket.",
+      "connect": "Godkjenn og koble til",
+      "disconnect": "Koble fra",
+      "toggleNote": "Godkjenningen gjøres av en som er global administrator eller administrator for privilegerte roller i Entra. Dere kan trekke den tilbake når som helst fra Azure-portalen.",
+      "boundNote": "Kobler dere fra, godtas Microsoft-innlogging fra alle organisasjoner igjen. Godkjenningen trekkes tilbake i Azure-portalen.",
+      "mfaNote": "Innloggingen skjer hos Microsoft, så virksomhetens regler for betinget tilgang og totrinnsbekreftelse gjelder der.",
+      "gate": {
+        "not_configured": "Koblingen til Microsoft 365 er ikke satt opp hos Orgpuls ennå, så den kan ikke startes herfra.",
+        "not_leader": "Bare daglig leder kan koble virksomheten til Microsoft 365.",
+        "needs_microsoft": "For å koble til må du være logget inn med Microsoft-kontoen fra jobben. Logg ut, og logg inn igjen med «Fortsett med Microsoft»."
+      },
+      "done": "Virksomheten er koblet til Microsoft 365. Microsoft-innlogging godtas nå bare fra denne organisasjonen.",
+      "undone": "Koblingen er fjernet. Husk å trekke tilbake godkjenningen i Azure-portalen hvis appen ikke skal brukes lenger.",
+      "lastEvent": {
+        "bound": "Sist endret: koblet til {date}.",
+        "unbound": "Sist endret: koblet fra {date}."
+      },
+      "problem": {
+        "not_signed_in": "Økten er utløpt. Logg inn igjen og prøv på nytt.",
+        "not_allowed": "Bare daglig leder kan koble virksomheten til Microsoft 365.",
+        "not_microsoft": "Du må være logget inn med Microsoft i denne økten. Logg ut, logg inn med «Fortsett med Microsoft», og prøv igjen.",
+        "already_bound": "Virksomheten er allerede koblet til en Microsoft 365-organisasjon.",
+        "tenant_taken": "Denne Microsoft 365-organisasjonen er allerede koblet til en annen virksomhet i Orgpuls.",
+        "tenant_mismatch": "Godkjenningen gjaldt en annen organisasjon enn den du er logget inn fra. Ingenting er koblet til.",
+        "consent_refused": "Godkjenningen ble ikke gitt i Microsoft. Ingenting er koblet til.",
+        "nonce_invalid": "Svaret fra Microsoft hørte ikke til en forespørsel fra deg. Start på nytt.",
+        "nonce_used": "Denne godkjenningen er allerede brukt. Start på nytt.",
+        "nonce_expired": "Det gikk for lang tid før godkjenningen kom tilbake. Start på nytt.",
+        "not_bound": "Virksomheten er ikke koblet til Microsoft 365.",
+        "not_configured": "Koblingen til Microsoft 365 er ikke satt opp hos Orgpuls ennå.",
+        "failed": "Det gikk ikke. Prøv igjen."
+      }
+    }
   },
   "start": {
     "ctaFree": "Prøv gratis i 15 dager",
@@ -2684,11 +2769,14 @@
       "invalid_name": "Virksomheten mangler navn.",
       "not_signed_in": "Økten er utløpt. Prøv igjen.",
       "rate_limited": "For mange oppslag på kort tid. Vent noen minutter og prøv igjen.",
-      "google_failed": "Registreringen med Google gikk ikke gjennom. Prøv igjen, eller registrer deg med e-post og passord."
+      "google_failed": "Registreringen med Google gikk ikke gjennom. Prøv igjen, eller registrer deg med e-post og passord.",
+      "microsoft_failed": "Registreringen med Microsoft gikk ikke gjennom. Prøv igjen, eller registrer deg med e-post og passord."
     },
     "googleOr": "eller",
     "google": "Fortsett med Google",
+    "microsoft": "Fortsett med Microsoft",
     "googleHint": "Kryss av for vilkårene over først. Navnet og e-postadressen hentes fra Google-kontoen.",
+    "providerHint": "Kryss av for vilkårene over først. Navnet og e-postadressen hentes fra kontoen du velger.",
     "heard": {
       "question": "Hvordan hørte du om oss?",
       "note": "Valgfritt – det hjelper oss å vite hva som fungerer.",
@@ -2842,7 +2930,9 @@
     },
     "or": "eller",
     "google": "Fortsett med Google",
-    "googleNote": "Bruk Google-kontoen med adressen invitasjonen ble sendt til."
+    "microsoft": "Fortsett med Microsoft",
+    "googleNote": "Bruk Google-kontoen med adressen invitasjonen ble sendt til.",
+    "providerNote": "Bruk kontoen med adressen invitasjonen ble sendt til. Med Microsoft bruker du jobbkontoen."
   },
   "preview": {
     "back": "← Målinger",
@@ -5888,7 +5978,7 @@
           },
           {
             "t": "p",
-            "text": "I ansattregisteret lagrer vi navn, e-post og gruppe for hver ansatt, og mobilnummer hvis dere bruker SMS. Selve svaret havner i en tabell som **ikke har noen kolonne som kunne holdt en kobling til en person**. Raden viser runden, gruppen og timen svaret kom inn – ikke minuttet."
+            "text": "I ansattregisteret lagrer vi navn, e-post og gruppe for hver ansatt, og mobilnummer hvis dere bruker SMS. Henter dere ansatte fra Microsoft Entra ID, lagres også personens objekt-ID i katalogen. Selve svaret havner i en tabell som **ikke har noen kolonne som kunne holdt en kobling til en person**. Raden viser runden, gruppen og timen svaret kom inn – ikke minuttet."
           },
           {
             "t": "p",
@@ -5995,7 +6085,7 @@
           {
             "t": "box",
             "title": "Svar på medarbeiderundersøkelser",
-            "text": "Når en virksomhet bruker Orgpuls til å kartlegge arbeidsmiljøet, er virksomheten behandlingsansvarlig og Orgpuls databehandler etter en databehandleravtale. Svarene lagres uten kobling til den som svarte. Hvordan det er bygget, står under [Sikkerhet og personvern](/sikkerhet). Spørsmål om en kartlegging du er med i, retter du til arbeidsgiveren din."
+            "text": "Når en virksomhet bruker Orgpuls til å kartlegge arbeidsmiljøet, er virksomheten behandlingsansvarlig og Orgpuls databehandler etter en databehandleravtale. Svarene lagres uten kobling til den som svarte. Henter virksomheten de ansatte fra Microsoft Entra ID, gjør vi det på virksomhetens vegne og bare for gruppene den velger: navn, e-postadresse, språk, gruppetilhørighet og objekt-ID i katalogen, og mobilnummer bare hvis virksomheten slår det på. Hvordan det er bygget, står under [Sikkerhet og personvern](/sikkerhet). Spørsmål om en kartlegging du er med i, retter du til arbeidsgiveren din."
           },
           {
             "t": "h2",
@@ -6020,6 +6110,10 @@
           {
             "t": "p",
             "text": "Logger du inn med Google, får vi navnet og e-postadressen din fra Google. Vi får aldri passordet ditt der."
+          },
+          {
+            "t": "p",
+            "text": "Logger du inn med Microsoft, får vi navnet og e-postadressen din fra Microsoft, og vi lagrer to tekniske kjennetegn for kontoen: ID-en til Microsoft 365-organisasjonen den hører til (tenant-ID), og kontoens objekt-ID der. Vi bruker dem bare til å sikre at det er den samme Microsoft-kontoen, fra organisasjonen virksomheten eventuelt har koblet til, som logger inn igjen. Vi får aldri passordet ditt der. Kjennetegnene slettes sammen med kontoen. Grunnlaget er avtalen med virksomheten, artikkel 6 nr. 1 bokstav b, og vår berettigede interesse i å sikre innloggingen, bokstav f."
           },
           {
             "t": "h2",
@@ -6071,7 +6165,8 @@
               "Supabase Inc. (USA): database, innlogging og bakgrunnsjobber. Data lagres i Frankfurt, Tyskland.",
               "Vercel Inc. (USA): drift av nettsidene og applikasjonen, og den cookiefrie målingen av sidevisninger. Serverfunksjonene kjøres i Frankfurt.",
               "Brevo SAS (Frankrike): utsending av e-post og SMS, og registrering av levering, åpning og klikk på e-post.",
-              "Google (Irland): innlogging med Google, bare hvis du velger det."
+              "Google (Irland): innlogging med Google, bare hvis du velger det.",
+              "Microsoft (Irland): innlogging med Microsoft, bare hvis du velger det."
             ]
           },
           {
@@ -6445,7 +6540,7 @@
       {
         "h": "3. Personopplysningene",
         "p": [
-          "Orgpuls er laget for å behandle så få personopplysninger som mulig. Om de ansatte lagres bare navn, e-postadresse og, hvis virksomheten legger det inn, mobilnummer, i tillegg til avdeling. Svarene i kartleggingen lagres uten kobling til den som svarte. Vedlegg 1 beskriver behandlingen i sin helhet."
+          "Orgpuls er laget for å behandle så få personopplysninger som mulig. Om de ansatte lagres bare navn, e-postadresse og, hvis virksomheten legger det inn, mobilnummer og foretrukket språk, i tillegg til avdeling. Kobler virksomheten Orgpuls til Microsoft Entra ID, hentes de samme opplysningene derfra, sammen med personens objekt-ID i katalogen. Svarene i kartleggingen lagres uten kobling til den som svarte. Vedlegg 1 beskriver behandlingen i sin helhet."
         ]
       },
       {
@@ -6519,8 +6614,10 @@
         ],
         "ul": [
           "navn og e-postadresse",
-          "mobilnummer, bare hvis virksomheten legger det inn, for utsending på SMS",
+          "mobilnummer, bare hvis virksomheten legger det inn eller velger å hente det fra Microsoft Entra ID, for utsending på SMS",
+          "foretrukket språk, hvis virksomheten legger det inn eller det hentes fra Microsoft Entra ID, slik at målingen kan tilbys på det språket",
           "hvilken avdeling den ansatte hører til, og eventuelt en rolle som verneombud, tillitsvalgt eller leder",
+          "hvis virksomheten henter de ansatte fra Microsoft Entra ID: personens objekt-ID i katalogen, hvilke av de valgte gruppene personen er med i, og om kontoen er aktiv – bare for å holde registeret oppdatert. Ingenting skrives tilbake til katalogen",
           "for hver måling: om invitasjon og påminnelse er sendt, og om den ansatte har svart, slik at påminnelser bare går til dem som ikke har svart – aldri hva den ansatte svarte",
           "navnet på den som er ansvarlig for et tiltak, hvis virksomheten velger en ansatt som ansvarlig"
         ]
@@ -13271,24 +13368,8 @@
     }
   },
   "entraImport": {
-    "back": "← Integrasjoner",
-    "title": "Microsoft Entra ID",
-    "statusOn": "Tilkoblet",
-    "statusOff": "Ikke tilkoblet",
-    "lead": "Henter ansatte, e-postadresser og gruppetilhørighet fra katalogen dere allerede har. Da slipper dere å vedlikeholde ansattregisteret to steder.",
-    "step1": "1 · Katalogen deres",
-    "tenantBound": "Koblet til katalogen med tenant-ID {tenant}.",
-    "tenantNone": "Ingen katalog er koblet til ennå. En administrator i Microsoft 365 må godkjenne Orgpuls før noe kan hentes.",
     "found": "Fant {people, plural, one {# ansatt} other {# ansatte}} i {groups, plural, one {# gruppe} other {# grupper}}. Sist synkronisert {when}.",
     "foundNone": "Ingen synkronisering ennå.",
-    "step2": "2 · Hva vi ber om",
-    "perm": {
-      "user": "Navn, e-post, språk og om kontoen er aktiv, for ansatte i valgte grupper. Mobilnummer bare hvis dere slår det på.",
-      "group": "Gruppenavn og medlemskap, for å bygge rapportgruppene",
-      "none": "Vi skriver aldri til katalogen, og ber ikke om e-post, filer eller kalender",
-      "read": "Lesetilgang",
-      "noWrite": "Ingen skrivetilgang"
-    },
     "step3": "3 · Hvilke grupper skal med",
     "search": "Søk i gruppene",
     "searchPlaceholder": "Gruppenavn",
@@ -13365,7 +13446,7 @@
     "functionNotReady": "Synkroniseringen er ikke slått på i denne installasjonen ennå, så ingenting kan hentes. Ta kontakt med oss.",
     "requestedNow": "Synkroniseringen er bedt om. Last siden på nytt om et minutt for å se resultatet.",
     "pending": "Lagrer …",
-    "disconnect": "Koble fra",
+    "disconnect": "Stopp hentingen",
     "disconnectConfirm": "Koble fra Entra ID? Folkene og gruppene blir liggende i registeret som vanlige oppføringer, og katalogen leses ikke lenger.",
     "readOnly": "Bare daglig leder kan sette opp Entra ID.",
     "bindFirst": "Koble til katalogen først. Deretter velger du gruppene her.",
@@ -13384,6 +13465,7 @@
       "denied": "Endringen ble ikke lagret.",
       "noOrg": "Fant ikke virksomheten din.",
       "unavailable": "Fikk ikke kontakt med katalogen akkurat nå. Prøv igjen om litt."
-    }
+    },
+    "noChanges": "Ingen endringer."
   }
 }

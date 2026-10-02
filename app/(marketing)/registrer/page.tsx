@@ -1,5 +1,6 @@
 import { SignUpFlow } from '@/components/start/SignUpFlow'
 import { googleEnabled } from '@/lib/auth/google'
+import { microsoftEnabled } from '@/lib/auth/microsoft'
 import { createClient } from '@/lib/supabase/server'
 
 /**
@@ -9,14 +10,14 @@ import { createClient } from '@/lib/supabase/server'
  * submits: there is no half-created state for a URL to address, and none for a back
  * button to replay.
  *
- * A Google signup (D-102) comes back from /auth/callback as `?ferdig=1` with the
+ * A Google (D-102) or Microsoft (D-201) signup comes back from /auth/callback as `?ferdig=1` with the
  * organisation made, and opens on step 3; a refusal comes back as `?feil=<code>`.
  */
 export const dynamic = 'force-dynamic'
 
 export default async function RegistrerPage({ searchParams }: { searchParams: Promise<{ feil?: string; ferdig?: string }> }) {
   const { feil, ferdig } = await searchParams
-  const google = await googleEnabled()
+  const [google, microsoft] = await Promise.all([googleEnabled(), microsoftEnabled()])
 
   let done: { firstName: string; company: string } | null = null
   if (ferdig === '1') {
@@ -38,5 +39,5 @@ export default async function RegistrerPage({ searchParams }: { searchParams: Pr
     }
   }
 
-  return <SignUpFlow google={google} problem={feil && /^[a-z_]{1,40}$/.test(feil) ? feil : null} done={done} />
+  return <SignUpFlow google={google} microsoft={microsoft} problem={feil && /^[a-z_]{1,40}$/.test(feil) ? feil : null} done={done} />
 }

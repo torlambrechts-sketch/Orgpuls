@@ -13,7 +13,7 @@ import { callFailed, parseFailed } from '@/lib/supabase/read'
  * round to close and who is in two groups. Parsed, not cast: `supabase gen types` does not emit
  * the app schema, so a cast would assert a shape nothing checked.
  *
- * The tenant itself is step 1's (0155): public.entra_status says whether one is bound.
+ * The tenant itself is step 1's (0155): lib/entra/read.ts reads whether one is bound.
  */
 
 export const SKIP_REASONS = ['guest', 'disabled', 'no_mailbox', 'no_name', 'email_taken', 'email_ambiguous', 'no_data'] as const
@@ -83,23 +83,5 @@ export async function getEntraSync(orgId: string): Promise<EntraSyncStatus | nul
   if (typeof data === 'object' && data !== null && (data as { ok?: unknown }).ok === false) return null
   const parsed = Status.safeParse(data)
   if (parseFailed('getEntraSync', parsed)) return null
-  return parsed.data
-}
-
-const Tenant = z.object({
-  ok: z.literal(true),
-  bound: z.boolean(),
-  tenant_id: z.string().nullable(),
-  bound_at: z.string().nullable(),
-})
-export type EntraTenant = z.infer<typeof Tenant>
-
-/** step 1's binding (0155): whether a Microsoft tenant is bound to the organisation, and which */
-export async function getEntraTenant(orgId: string): Promise<EntraTenant | null> {
-  const supabase = await createClient()
-  const { data, error } = await supabase.rpc('entra_status', { p_org: orgId })
-  if (callFailed('getEntraTenant', error)) return null
-  const parsed = Tenant.safeParse(data)
-  if (parseFailed('getEntraTenant', parsed)) return null
   return parsed.data
 }

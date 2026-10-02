@@ -31,3 +31,17 @@ extra_search_path = ["public", "extensions"]
 [auth.mfa.totp]
 enroll_enabled = true
 verify_enabled = true
+
+# «Fortsett med Microsoft» (0155, D-201) is Supabase Auth's `azure` provider against the
+# multitenant `organizations` endpoint. It stays off here: a local stack has no Entra app, and
+# the button only renders when /auth/v1/settings reports the provider on. To try it locally,
+# register a dev redirect URI on the Entra app (http://127.0.0.1:54321/auth/v1/callback), put
+# the two values in supabase/.env (never in this file) and uncomment — then restart the stack.
+# The hosted project is configured in the dashboard instead: docs/integrations/entra-signin.md.
+#
+# [auth.external.azure]
+# enabled = true
+# client_id = "env(SUPABASE_AUTH_EXTERNAL_AZURE_CLIENT_ID)"
+# secret = "env(SUPABASE_AUTH_EXTERNAL_AZURE_SECRET)"
+# url = "https://login.microsoftonline.com/organizations"
+# skip_nonce_check = false

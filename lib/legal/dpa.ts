@@ -17,8 +17,8 @@ import { z } from 'zod'
  * A version is the date it was published, with `.2`, `.3` … for a second or third version the
  * same day (0151): 2026-10-02.2 says that a lower threshold, never under three, may be chosen.
  */
-export const DPA_VERSION = '2026-10-02.2'
-export const DPA_SHA256 = '534a40a60b5bd909e6c011c2875048bc0495c95300727cbfcac98705e37faa23'
+export const DPA_VERSION = '2026-10-02.3'
+export const DPA_SHA256 = '8fa0b0a58a40af3530cfbca33bcf265fe66c9f9d53f788b9991cd5cb595b2131'
 
 export const DpaSection = z.object({
   h: z.string().min(1),

@@ -11,6 +11,7 @@
     "error": "The e-mail address or the password is not right.",
     "invalidEmail": "Enter a valid e-mail address.",
     "hint": "Use the address you were registered with. If you have forgotten the password, we send a link.",
+    "hintMicrosoft": "If you are on Microsoft 365, you can skip the password. Use the button below.",
     "forgot": "Forgotten your password?",
     "forgotTitle": "Forgotten password",
     "forgotLead": "Enter your e-mail address and we will send a link to set a new password.",
@@ -26,9 +27,14 @@
     "lockedBody": "Check the spam folder first. If you are still locked out, write to hjelp@orgpuls.no — give your name and which undertaking you work for.",
     "or": "or",
     "google": "Continue with Google",
+    "microsoft": "Continue with Microsoft",
     "googleProblem": {
       "google_failed": "Signing in with Google did not go through. Try again, or sign in with e-mail and password.",
       "google_no_account": "We found no Orgpuls account for this Google account. Register your organisation first, or use the invitation you received by e-mail."
+    },
+    "microsoftProblem": {
+      "microsoft_failed": "Signing in with Microsoft did not go through. Try again, or sign in with e-mail and password.",
+      "microsoft_refused": "We could not sign you in with this Microsoft account. If your organisation has connected Orgpuls to Microsoft 365, use the work account from that organisation, the same one you signed in with before. If you are not a customer yet, register your organisation first, and if you were invited, use the link in the invitation. You can also sign in with e-mail and password."
     }
   },
   "app": {
@@ -1919,8 +1925,10 @@
       },
       "entra": {
         "name": "Microsoft Entra ID",
-        "what": "Brings in employees, e-mail and group membership automatically. New employees come in by themselves, those who leave are taken out.",
-        "need": "Requires an administrator to approve read access to users and groups. We never write back."
+        "what": "Leaders sign in with their work Microsoft account, and employees, e-mail and group membership are brought in from the directory automatically. New employees come in by themselves, those who leave are taken out.",
+        "need": "The managing director connects it, signed in with Microsoft. A Global Administrator in Entra approves it, granting read access to users and groups. We never write back.",
+        "needOff": "The connection to Microsoft 365 is not set up at Orgpuls yet. Until then, the register is kept under People.",
+        "needBound": "Microsoft sign-in is accepted only from the organisation you connected. Choose the groups on the Entra page, and employees are brought in from there and kept up to date."
       },
       "teams": {
         "name": "Microsoft Teams",
@@ -1950,7 +1958,11 @@
       },
       "stored": {
         "head": "What is stored about each person",
-        "body": "About employees, only name, e-mail address and mobile number (if you enter it) are stored, and which department they belong to. For each survey, whether the invitation was sent and whether the person has answered is recorded, so that reminders go only to those who have not. Answers are stored without any link to a person: there is no column that could hold one."
+        "body": "About employees, only name, e-mail address and mobile number (if you enter it) are stored, which department they belong to and, where given, their preferred language. If you bring in employees from Microsoft Entra ID, each person's object ID in the directory and which of the chosen groups they are in are stored too — a mobile number from there only if you turn it on. For each survey, whether the invitation was sent and whether the person has answered is recorded, so that reminders go only to those who have not. Answers are stored without any link to a person: there is no column that could hold one."
+      },
+      "accounts": {
+        "head": "What is stored about those who sign in",
+        "body": "For the users of Orgpuls, we store name, e-mail address and role. Passwords are stored only as a cryptographic hash. If someone signs in with Microsoft, we also store the ID of the Microsoft 365 organisation (tenant ID) and the account’s object ID there, so that only the same Microsoft account can sign in to the account again. None of this is linked to the answers."
       },
       "special": {
         "head": "Special categories",
@@ -2413,13 +2425,13 @@
         }
       },
       "entra": {
-        "title": "Connecting Microsoft Entra ID",
-        "lead": "Which permissions we ask for, which groups sync, and what happens when somebody leaves.",
+        "title": "Sign in with Microsoft and connect Microsoft 365",
+        "lead": "How signing in with Microsoft works, who approves the connection, and what the app in Entra is set up with.",
         "body": {
-          "p1": "The Entra connection is not built in this installation. This article describes what it will require, so that you know what you would be taking on.",
-          "p2": "The permissions are read access to users and groups, and nothing else. No integration in Orgpuls writes back to the source system, and none of them gets access to the answers — they read who works here, not what anybody answered.",
-          "p3": "You choose which groups are synchronised. A group that is not selected does not exist for Orgpuls, and its members do not get the measurement.",
-          "p4": "When somebody leaves the directory, they are taken out of the register. The answers they have already given stay — they are not linked to the person, so there is nothing to remove. Until the connection exists, the register is maintained under Settings → People."
+          "p1": "Leaders can sign in with their work Microsoft account using «Continue with Microsoft». Sign-in happens at Microsoft, so your organisation’s Conditional Access and multi-factor rules apply there. The first time you sign in with Microsoft, your Orgpuls account is tied to exactly that Microsoft account: the organisation’s ID and the account’s object ID. After that only the same account is accepted, so an e-mail address handed on to a new person does not give access. Your e-mail address or user name never decides who you are.",
+          "p2": "The managing director can connect the organisation to Microsoft 365 under Settings › Integrations: sign in with Microsoft, and press «Approve and connect». The approval is given by a Global Administrator or Privileged Role Administrator in Entra. From then on, Microsoft sign-in to the organisation is accepted from that organisation only, and a Microsoft 365 organisation can be connected to one organisation in Orgpuls only. The connection is removed on the same tab, and the approval is withdrawn in the Azure portal under Enterprise applications.",
+          "p3": "Fetching employees and groups from the directory is not built yet. Until it arrives, the register is kept under Settings › People, and the connection gives no access to the directory beyond the sign-in. No integration in Orgpuls writes back to the source system, and none of them has access to the answers.",
+          "p4": "The app in Entra is registered for multiple organisations (multitenant). It sends the sign-in back to https://[project].supabase.co/auth/v1/callback and the approval to https://www.orgpuls.com/integrasjoner/entra/callback, and its ID token carries the optional claim xms_edov, which says whether the owner of the e-mail domain has verified the address. Without it, an existing account is not tied to Microsoft the first time."
         },
         "import": {
           "head": "How employees are brought in from the directory",
@@ -2476,10 +2488,10 @@
     "privacyNote": "None of the channels above gets access to the answers. They read who works here, and they deliver a link — the connection between a person and an answer does not exist in the database, so there is nothing for an integration to leak.",
     "step": {
       "entra": {
-        "tenant": "The domain or tenant ID of your directory.",
-        "permissions": "Read access to users and groups, approved by an administrator. Nothing more — we never write back.",
-        "groups": "Which groups are synchronised. A group that is not selected does not exist for Orgpuls, and its members do not get the measurement.",
-        "sync": "How often the directory is read, and what happens to leavers: they are taken out of the register, while the answers they already gave stay — they are not linked to the person."
+        "tenant": "The managing director signs in with their work Microsoft account. The organisation that account belongs to is the one that gets connected — it is never typed in by hand.",
+        "permissions": "A Global Administrator or Privileged Role Administrator in Entra approves the app for the organisation. Nothing more — we never write back.",
+        "groups": "Which groups to synchronise, and which one counts when someone is in several. A group that is not selected does not exist for Orgpuls, and its members do not receive the survey.",
+        "sync": "Every night, or only when you ask. Someone who leaves is set as inactive in the register, while the answers they already gave stay — they are not linked to the person."
       },
       "teams": {
         "entraFirst": "Entra ID first. The Teams notice uses the same directory, so without it we do not know who the message is for.",
@@ -2495,7 +2507,80 @@
     "queueOn": "Notices are sent by e-mail from no-reply@orgpuls.com every five minutes when they fall due. {sent, plural, =0 {None has been sent yet} one {# has been sent} other {# have been sent}}, {pending, plural, =0 {none is queued} one {# is queued} other {# are queued}} and {failed, plural, =0 {none has failed} one {# could not be sent} other {# could not be sent}}.",
     "queueOff": "Sending is switched off for this organisation. {count, plural, one {# notice is queued and will not be sent.} other {# notices are queued and will not be sent.}}",
     "mailReady": "Nothing to set up. The sender domain is verified with DKIM and DMARC, and the link is made at the moment the e-mail is sent.",
-    "smsSetup": "Set up SMS"
+    "smsSetup": "Set up SMS",
+    "entraSetup": {
+      "open": "Connect Microsoft 365",
+      "back": "← Integrations",
+      "statusOn": "Connected",
+      "statusOff": "Not connected",
+      "lead": "Leaders sign in with their work Microsoft account, and employees, e-mail addresses and group membership are brought in from the directory you already have, so you do not keep the employee register in two places.",
+      "step1": "1 · Your directory",
+      "tenantLabel": "Tenant ID",
+      "tenantPlaceholder": "Sign in with Microsoft first",
+      "tenantBound": "Connected on {date}. Microsoft sign-in to the organisation is accepted from this organisation only.",
+      "tenantOwn": "This is the organisation you are signed in from. It is the one that gets connected, and no other.",
+      "tenantNone": "The tenant ID is taken from the Microsoft account you are signed in with, and is never typed in by hand. Sign out and back in with «Continue with Microsoft» to connect.",
+      "step2": "2 · What we ask for",
+      "perm": {
+        "signin": {
+          "scope": "openid profile email",
+          "what": "Who you are when you sign in: name, e-mail address and which organisation the account belongs to",
+          "kind": "Sign-in"
+        },
+        "profile": {
+          "scope": "User.Read",
+          "what": "Your own profile, at sign-in only",
+          "kind": "Sign-in"
+        },
+        "users": {
+          "scope": "User.Read.All",
+          "what": "Name, e-mail, language and whether the account is active, for employees in the chosen groups. Mobile number only if you turn it on.",
+          "kind": "Read access"
+        },
+        "groups": {
+          "scope": "GroupMember.Read.All",
+          "what": "Group names and membership, to build the reporting groups",
+          "kind": "Read access"
+        },
+        "never": {
+          "scope": "—",
+          "what": "We never write to the directory, and do not ask for e-mail, files or calendar",
+          "kind": "No write access"
+        }
+      },
+      "permNote": "Sign-in concerns you alone. Bringing in employees uses the app's own read permissions, approved in the same administrator consent.",
+      "connect": "Approve and connect",
+      "disconnect": "Disconnect",
+      "toggleNote": "The approval is given by a Global Administrator or Privileged Role Administrator in Entra. You can withdraw it at any time from the Azure portal.",
+      "boundNote": "If you disconnect, Microsoft sign-in is accepted from any organisation again. The approval is withdrawn in the Azure portal.",
+      "mfaNote": "Sign-in happens at Microsoft, so your organisation’s Conditional Access and multi-factor rules apply there.",
+      "gate": {
+        "not_configured": "The connection to Microsoft 365 is not set up at Orgpuls yet, so it cannot be started from here.",
+        "not_leader": "Only the managing director can connect the organisation to Microsoft 365.",
+        "needs_microsoft": "To connect, you must be signed in with your work Microsoft account. Sign out, and sign in again with «Continue with Microsoft»."
+      },
+      "done": "The organisation is connected to Microsoft 365. Microsoft sign-in is now accepted from this organisation only.",
+      "undone": "The connection is removed. Remember to withdraw the approval in the Azure portal if the app is no longer to be used.",
+      "lastEvent": {
+        "bound": "Last change: connected on {date}.",
+        "unbound": "Last change: disconnected on {date}."
+      },
+      "problem": {
+        "not_signed_in": "The session has expired. Sign in again and try once more.",
+        "not_allowed": "Only the managing director can connect the organisation to Microsoft 365.",
+        "not_microsoft": "You must be signed in with Microsoft in this session. Sign out, sign in with «Continue with Microsoft», and try again.",
+        "already_bound": "The organisation is already connected to a Microsoft 365 organisation.",
+        "tenant_taken": "This Microsoft 365 organisation is already connected to another organisation in Orgpuls.",
+        "tenant_mismatch": "The approval was for a different organisation than the one you are signed in from. Nothing was connected.",
+        "consent_refused": "The approval was not given in Microsoft. Nothing was connected.",
+        "nonce_invalid": "The answer from Microsoft did not belong to a request of yours. Start again.",
+        "nonce_used": "This approval has already been used. Start again.",
+        "nonce_expired": "Too much time passed before the approval came back. Start again.",
+        "not_bound": "The organisation is not connected to Microsoft 365.",
+        "not_configured": "The connection to Microsoft 365 is not set up at Orgpuls yet.",
+        "failed": "That did not work. Try again."
+      }
+    }
   },
   "start": {
     "ctaFree": "Try it free for 15 days",
@@ -2684,11 +2769,14 @@
       "invalid_name": "The undertaking has no name.",
       "not_signed_in": "The session has expired. Try again.",
       "rate_limited": "Too many lookups in a short time. Wait a few minutes and try again.",
-      "google_failed": "Signing up with Google did not go through. Try again, or sign up with e-mail and password."
+      "google_failed": "Signing up with Google did not go through. Try again, or sign up with e-mail and password.",
+      "microsoft_failed": "Registering with Microsoft did not go through. Try again, or register with e-mail and password."
     },
     "googleOr": "or",
     "google": "Continue with Google",
+    "microsoft": "Continue with Microsoft",
     "googleHint": "Tick the terms above first. Your name and e-mail address come from your Google account.",
+    "providerHint": "Tick the terms above first. Your name and e-mail address come from the account you choose.",
     "heard": {
       "question": "How did you hear about us?",
       "note": "Optional – it helps us know what works.",
@@ -2842,7 +2930,9 @@
     },
     "or": "or",
     "google": "Continue with Google",
-    "googleNote": "Use the Google account with the address the invitation was sent to."
+    "microsoft": "Continue with Microsoft",
+    "googleNote": "Use the Google account with the address the invitation was sent to.",
+    "providerNote": "Use the account with the address the invitation was sent to. With Microsoft, use your work account."
   },
   "preview": {
     "back": "← Surveys",
@@ -5888,7 +5978,7 @@
           },
           {
             "t": "p",
-            "text": "The register holds each employee’s name, e-mail and group, and a mobile number if you use SMS. The answer itself goes into a table that **has no column that could hold a link to a person**. The row shows the round, the group and the hour the answer came in – not the minute."
+            "text": "The register holds each employee’s name, e-mail and group, and a mobile number if you use SMS. If you bring in employees from Microsoft Entra ID, the person’s object ID in the directory is stored too. The answer itself goes into a table that **has no column that could hold a link to a person**. The row shows the round, the group and the hour the answer came in – not the minute."
           },
           {
             "t": "p",
@@ -5995,7 +6085,7 @@
           {
             "t": "box",
             "title": "Answers to employee surveys",
-            "text": "When an organisation uses Orgpuls to survey its work environment, the organisation is the controller and Orgpuls the processor under a data processing agreement. Answers are stored with no link to the person who gave them. How that is built is described under [Security and privacy](/sikkerhet). Questions about a survey you take part in go to your employer."
+            "text": "When an organisation uses Orgpuls to survey its work environment, the organisation is the controller and Orgpuls the processor under a data processing agreement. Answers are stored with no link to the person who gave them. If the organisation brings in its employees from Microsoft Entra ID, we do so on its behalf and only for the groups it chooses: name, e-mail address, language, group membership and object ID in the directory, and a mobile number only if the organisation turns it on. How that is built is described under [Security and privacy](/sikkerhet). Questions about a survey you take part in go to your employer."
           },
           {
             "t": "h2",
@@ -6020,6 +6110,10 @@
           {
             "t": "p",
             "text": "If you sign in with Google, we receive your name and e-mail address from Google. We never receive your password there."
+          },
+          {
+            "t": "p",
+            "text": "If you sign in with Microsoft, we receive your name and e-mail address from Microsoft, and we store two technical identifiers for the account: the ID of the Microsoft 365 organisation it belongs to (tenant ID), and the account’s object ID there. We use them only to make sure it is the same Microsoft account, from the organisation your organisation may have connected, that signs in again. We never receive your password there. The identifiers are deleted with the account. The basis is the agreement with the organisation, Article 6(1)(b), and our legitimate interest in securing the sign-in, point (f)."
           },
           {
             "t": "h2",
@@ -6071,7 +6165,8 @@
               "Supabase Inc. (USA): database, sign-in and background jobs. Data is stored in Frankfurt, Germany.",
               "Vercel Inc. (USA): hosting of the website and the application, and the cookieless measurement of page views. Server functions run in Frankfurt.",
               "Brevo SAS (France): sending e-mail and SMS, and recording delivery, opens and clicks on e-mail.",
-              "Google (Ireland): sign-in with Google, only if you choose it."
+              "Google (Ireland): sign-in with Google, only if you choose it.",
+              "Microsoft (Ireland): sign-in with Microsoft, only if you choose it."
             ]
           },
           {
@@ -6445,7 +6540,7 @@
       {
         "h": "3. The personal data",
         "p": [
-          "Orgpuls is built to process as little personal data as possible. About employees, only name, e-mail address and, if the organisation enters it, mobile number are stored, together with their department. Answers are stored without any link to the person who gave them. Annex 1 describes the processing in full."
+          "Orgpuls is built to process as little personal data as possible. About employees, only name, e-mail address and, if the organisation enters them, mobile number and preferred language are stored, together with their department. If the organisation connects Orgpuls to Microsoft Entra ID, the same data is read from there, together with the person's object ID in the directory. Answers are stored without any link to the person who gave them. Annex 1 describes the processing in full."
         ]
       },
       {
@@ -6519,8 +6614,10 @@
         ],
         "ul": [
           "name and e-mail address",
-          "mobile number, only if the organisation enters it, for sending by SMS",
+          "mobile number, only if the organisation enters it or chooses to read it from Microsoft Entra ID, for sending by SMS",
+          "preferred language, if the organisation enters it or it is read from Microsoft Entra ID, so that the survey can be offered in that language",
           "which department the employee belongs to, and any role as safety representative, union representative or manager",
+          "if the organisation brings in its employees from Microsoft Entra ID: the person's object ID in the directory, which of the chosen groups the person is in, and whether the account is active – only to keep the register up to date. Nothing is written back to the directory",
           "for each survey: whether an invitation and a reminder were sent and whether the employee has answered, so that reminders go only to those who have not – never what the employee answered",
           "the name of the person responsible for a measure, if the organisation chooses an employee as responsible"
         ]
@@ -13271,24 +13368,8 @@
     }
   },
   "entraImport": {
-    "back": "← Integrations",
-    "title": "Microsoft Entra ID",
-    "statusOn": "Connected",
-    "statusOff": "Not connected",
-    "lead": "Brings in employees, e-mail addresses and group membership from the directory you already have, so you do not keep the employee register in two places.",
-    "step1": "1 · Your directory",
-    "tenantBound": "Connected to the directory with tenant ID {tenant}.",
-    "tenantNone": "No directory is connected yet. An administrator in Microsoft 365 must approve Orgpuls before anything can be read.",
     "found": "Found {people, plural, one {# employee} other {# employees}} in {groups, plural, one {# group} other {# groups}}. Last synchronised {when}.",
     "foundNone": "No synchronisation yet.",
-    "step2": "2 · What we ask for",
-    "perm": {
-      "user": "Name, e-mail, language and whether the account is active, for employees in the chosen groups. Mobile number only if you turn it on.",
-      "group": "Group names and membership, to build the reporting groups",
-      "none": "We never write to the directory, and we do not ask for mail, files or calendars",
-      "read": "Read access",
-      "noWrite": "No write access"
-    },
     "step3": "3 · Which groups to include",
     "search": "Search the groups",
     "searchPlaceholder": "Group name",
@@ -13365,7 +13446,7 @@
     "functionNotReady": "Synchronisation is not switched on in this installation yet, so nothing can be fetched. Please contact us.",
     "requestedNow": "The synchronisation has been requested. Reload the page in a minute to see the result.",
     "pending": "Saving …",
-    "disconnect": "Disconnect",
+    "disconnect": "Stop importing",
     "disconnectConfirm": "Disconnect Entra ID? The people and groups stay in the register as ordinary entries, and the directory is no longer read.",
     "readOnly": "Only the managing director can set up Entra ID.",
     "bindFirst": "Connect the directory first. Then choose the groups here.",
@@ -13384,6 +13465,7 @@
       "denied": "The change was not saved.",
       "noOrg": "Could not find your organisation.",
       "unavailable": "Could not reach the directory right now. Try again shortly."
-    }
+    },
+    "noChanges": "No changes."
   }
 }

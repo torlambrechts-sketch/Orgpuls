@@ -7,7 +7,8 @@ import { createClient } from '@/lib/supabase/server'
 import { SIGNUP_COOKIE } from './cookies'
 
 /**
- * "Fortsett med Google" (D-102): signing in, signing up and accepting an invitation.
+ * "Fortsett med Google" (D-102) and «Fortsett med Microsoft» (D-201): signing in, signing up and
+ * accepting an invitation.
  *
  * The browser goes to Google and back to /auth/callback on the host it started from, with
  * the flow in the query. Supabase keeps the PKCE verifier in a cookie, so the code that
@@ -17,6 +18,11 @@ import { SIGNUP_COOKIE } from './cookies'
  * given in step 2 travel in a short-lived, http-only cookie. Nothing is written until the
  * callback has a session; create_organisation then checks everything again, as it does
  * for a password signup.
+ *
+ * Microsoft goes through Supabase Auth's `azure` provider, configured against the multitenant
+ * `organizations` endpoint, asking for `openid profile email`. The provider in the callback's
+ * query only chooses which message a failure shows: the callback runs the Microsoft sign-in
+ * rules after every exchange, whatever the query says (app/auth/callback/route.ts).
  */
 
 const Flow = z.discriminatedUnion('flow', [
@@ -38,13 +44,18 @@ async function origin(): Promise<string> {
   return `${proto}://${host}`
 }
 
-export async function continueWithGoogle(formData: FormData): Promise<void> {
+type Provider = 'google' | 'azure'
+const PROBLEM: Record<Provider, string> = { google: 'google_failed', azure: 'microsoft_failed' }
+
+async function startOAuth(provider: Provider, formData: FormData): Promise<void> {
   const parsed = Flow.safeParse(Object.fromEntries(formData))
-  if (!parsed.success) redirect('/logg-inn?feil=google_failed')
+  if (!parsed.success) redirect(`/logg-inn?feil=${PROBLEM[provider]}` as never)
   const f = parsed.data
+  const failed = `${f.flow === 'signup' ? '/registrer' : '/logg-inn'}?feil=${PROBLEM[provider]}`
 
   const callback = new URL('/auth/callback', await origin())
   callback.searchParams.set('flow', f.flow)
+  if (provider === 'azure') callback.searchParams.set('p', 'azure')
   if (f.flow === 'invite') callback.searchParams.set('token', f.token)
   if (f.flow === 'signup') {
     ;(await cookies()).set(
@@ -60,9 +71,21 @@ export async function continueWithGoogle(formData: FormData): Promise<void> {
 
   const supabase = await createClient()
   const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'google',
-    options: { redirectTo: callback.toString(), queryParams: { prompt: 'select_account' } },
+    provider,
+    options: {
+      redirectTo: callback.toString(),
+      queryParams: { prompt: 'select_account' },
+      ...(provider === 'azure' ? { scopes: 'openid profile email' } : {}),
+    },
   })
-  if (error || !data.url) redirect(f.flow === 'signup' ? '/registrer?feil=google_failed' : '/logg-inn?feil=google_failed')
+  if (error || !data.url) redirect(failed as never)
   redirect(data.url as never)
+}
+
+export async function continueWithGoogle(formData: FormData): Promise<void> {
+  return startOAuth('google', formData)
+}
+
+export async function continueWithMicrosoft(formData: FormData): Promise<void> {
+  return startOAuth('azure', formData)
 }

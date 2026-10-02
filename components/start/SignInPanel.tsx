@@ -10,6 +10,7 @@ import {
   type SignInState,
 } from '@/app/(marketing)/logg-inn/actions'
 import { GoogleButton, GoogleDivider } from '@/components/start/GoogleButton'
+import { MicrosoftButton } from '@/components/start/MicrosoftButton'
 
 /**
  * Sign-in. Orgpuls_Start.dc.html lines 435-500.
@@ -23,10 +24,23 @@ import { GoogleButton, GoogleDivider } from '@/components/start/GoogleButton'
  * **Google is the exception (D-102):** once the provider is switched on in Supabase, it takes
  * the design's alternative-button slot, divider and all, with the design's own styling.
  *
+ * **So is Microsoft, since D-201, superseding D-38 for it:** once the `azure` provider is on,
+ * «Fortsett med Microsoft» is the design's first alternative button, above Google, 9 px apart as
+ * the design stacks them; and the line under «Logg inn» becomes the design's own hint, «Er dere
+ * på Microsoft 365, slipper du passordet», which is true from then on. BankID stays out.
+ *
  * "Glemt passord?" is real and sends through Supabase. Its answer does not depend on
  * whether the address exists, because this endpoint is answerable by anybody.
  */
-export function SignInPanel({ google = false, problem = null }: { google?: boolean; problem?: string | null }) {
+export function SignInPanel({
+  google = false,
+  microsoft = false,
+  problem = null,
+}: {
+  google?: boolean
+  microsoft?: boolean
+  problem?: string | null
+}) {
   const t = useTranslations('auth')
   const [mode, setMode] = useState<'signin' | 'forgot'>('signin')
 
@@ -49,7 +63,9 @@ export function SignInPanel({ google = false, problem = null }: { google?: boole
 
       {problem ? (
         <p role="alert" className="mt-[12px] text-[13px] leading-[1.5] text-danger [text-wrap:pretty]">
-          {t(`googleProblem.${problem === 'google_no_account' ? 'google_no_account' : 'google_failed'}`)}
+          {problem.startsWith('microsoft_')
+            ? t(`microsoftProblem.${problem === 'microsoft_refused' ? 'microsoft_refused' : 'microsoft_failed'}`)
+            : t(`googleProblem.${problem === 'google_no_account' ? 'google_no_account' : 'google_failed'}`)}
         </p>
       ) : null}
 
@@ -166,16 +182,19 @@ export function SignInPanel({ google = false, problem = null }: { google?: boole
             </p>
           ) : (
             <div className="mt-[9px] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">
-              {t('hint')}
+              {microsoft ? t('hintMicrosoft') : t('hint')}
             </div>
           )}
         </form>
       )}
 
-      {google && mode === 'signin' ? (
+      {(google || microsoft) && mode === 'signin' ? (
         <>
           <GoogleDivider label={t('or')} />
-          <GoogleButton label={t('google')} fields={{ flow: 'login' }} />
+          <div className="flex flex-col gap-[9px]">
+            {microsoft ? <MicrosoftButton label={t('microsoft')} fields={{ flow: 'login' }} /> : null}
+            {google ? <GoogleButton label={t('google')} fields={{ flow: 'login' }} /> : null}
+          </div>
         </>
       ) : null}
 
