@@ -91,7 +91,7 @@
     "komIGang": "Getting started",
     "anonymitet": "Anonymity",
     "kontaktOss": "Contact us",
-    "legal": "© 2026 Orgpuls · orgpuls.no · hjelp@orgpuls.no",
+    "legal": "© 2026 Orgpuls · provided by Pundit Invest AS, org. no. 922 698 422 · orgpuls.no · hjelp@orgpuls.no",
     "databehandleravtale": "Data processing agreement",
     "personvern": "Privacy",
     "driftsstatus": "System status"
@@ -2064,7 +2064,7 @@
       "forProcessor": "For the processor",
       "signatureLine": "Signed electronically by {name}, {title}, {when}",
       "notYetSigned": "Not signed yet",
-      "processorLine": "Orgpuls. The agreement is Orgpuls' standard terms and binds Orgpuls once the organisation signs.",
+      "processorLine": "Pundit Invest AS, org. no. 922 698 422, Øvre Prinsdals vei 36L, 1266 Oslo, which provides Orgpuls. The agreement is Orgpuls' standard terms and binds Pundit Invest AS once the organisation signs.",
       "form": {
         "name": "Name",
         "title": "Position",
@@ -5971,7 +5971,7 @@
           },
           {
             "t": "p",
-            "text": "Orgpuls is the controller for the data described here: visits to the website, organisation signups, the newsletter, marketing and customer support. Send questions about privacy to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)."
+            "text": "Pundit Invest AS, org. no. 922 698 422, Øvre Prinsdals vei 36L, 1266 Oslo, which provides Orgpuls, is the controller for the data described here: visits to the website, organisation signups, the newsletter, marketing and customer support. Send questions about privacy to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)."
           },
           {
             "t": "box",
@@ -6089,7 +6089,7 @@
         "crumb": "Terms",
         "kicker": "Terms",
         "h1": "Terms of use for Orgpuls",
-        "lead": "What applies between Orgpuls and the organisation that uses Orgpuls. Version 1 · in force from 2 October 2026.",
+        "lead": "What applies between Pundit Invest AS, which provides Orgpuls, and the organisation that uses Orgpuls. Version 1 · in force from 2 October 2026.",
         "blocks": [
           {
             "t": "h2",
@@ -6097,7 +6097,7 @@
           },
           {
             "t": "p",
-            "text": "These terms apply between Orgpuls (\"we\") and the organisation that registers for and uses Orgpuls (\"the customer\", \"you\")."
+            "text": "These terms apply between Pundit Invest AS, org. no. 922 698 422, Øvre Prinsdals vei 36L, 1266 Oslo, which provides Orgpuls (\"Orgpuls\", \"we\"), and the organisation that registers for and uses Orgpuls (\"the customer\", \"you\")."
           },
           {
             "t": "p",
@@ -6257,7 +6257,7 @@
           },
           {
             "t": "p",
-            "text": "Orgpuls owns the software, the design and the texts in the service, including suggested measures. You receive a non-exclusive right to use the service for your own organisation during the agreement period."
+            "text": "Pundit Invest AS owns the software, the design and the texts in the service, including suggested measures. You receive a non-exclusive right to use the service for your own organisation during the agreement period."
           },
           {
             "t": "p",
@@ -6333,7 +6333,7 @@
           },
           {
             "t": "p",
-            "text": "The agreement is governed by Norwegian law. The parties shall first try to resolve disagreements through negotiation. The legal venue is the district court (tingrett) where Orgpuls has its registered business office."
+            "text": "The agreement is governed by Norwegian law. The parties shall first try to resolve disagreements through negotiation. The legal venue is Oslo District Court (Oslo tingrett), where Pundit Invest AS has its registered business office."
           },
           {
             "t": "h2",
@@ -6341,7 +6341,7 @@
           },
           {
             "t": "p",
-            "text": "Orgpuls · [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)"
+            "text": "Pundit Invest AS, org. no. 922 698 422, Øvre Prinsdals vei 36L, 1266 Oslo · [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)"
           }
         ]
       },
@@ -6575,7 +6575,7 @@
       },
       "footer": {
         "about": "Answers are stored in the EU, and no single answer can be traced back to a person.",
-        "bottom": "© {year} Orgpuls · <mail>hjelp@orgpuls.no</mail> · <privacy>Privacy</privacy> · <terms>Terms</terms>",
+        "bottom": "© {year} Orgpuls · provided by Pundit Invest AS, org. no. 922 698 422, Øvre Prinsdals vei 36L, 1266 Oslo · <mail>hjelp@orgpuls.no</mail> · <privacy>Privacy</privacy> · <terms>Terms</terms>",
         "head": {
           "produkt": "Product",
           "bruksomrader": "Use cases",

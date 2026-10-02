@@ -13,6 +13,8 @@ export const organization = () => ({
   '@type': 'Organization',
   '@id': `${SITE_URL}/#organization`,
   name: 'Orgpuls',
+  // the company that provides Orgpuls, as the site footer and /vilkar name it (D-197)
+  legalName: 'Pundit Invest AS',
   url: SITE_URL,
   logo: absolute('/apple-icon.png'),
   email: 'hjelp@orgpuls.no',

@@ -10058,3 +10058,27 @@ The DPA's Norwegian text changed in two places (the lead and section 1), so it i
 Still open: the company details e-handelsloven § 8 asks for (name of the legal entity, organisation number, address)
 are not on the site. Pundit Invest AS is not named on the site either; that is the owner's call once the
 organisation number for Orgpuls exists.
+
+## D-197 — Pundit Invest AS named as the provider (2026-10-02)
+
+The owner chose to name the company behind Orgpuls now rather than wait for an organisation number of its own
+(D-196). From the Brønnøysund register (searched 2 October 2026): Pundit Invest AS, org.nr. 922 698 422, business
+address Øvre Prinsdals vei 36L, 1266 Oslo.
+
+Where it is named (no and en):
+- the site footer's bottom line: «© {year} Orgpuls · levert av Pundit Invest AS, org.nr. 922 698 422, Øvre Prinsdals
+  vei 36L, 1266 Oslo · hjelp@orgpuls.no · Personvern · Vilkår» — the e-handelsloven § 8 details are now complete;
+- the app footer (`footer.legal`): name and org.nr.;
+- /vilkar: the party (§ 1 and the lead), the owner of the software (§ 8), the contact line, and the venue, which
+  becomes «Oslo tingrett, der Pundit Invest AS har sitt forretningskontor» (the register's address is in Oslo);
+- /personvernerklaering: the controller for the site, signups, the newsletter, marketing and support;
+- Oppsett › Databehandleravtale: the processor line beside the agreement names Pundit Invest AS, with org.nr. and
+  address, as the party the agreement binds;
+- schema.org Organization: `legalName: 'Pundit Invest AS'`.
+
+The DPA's own text keeps «Orgpuls er databehandler»: `app.dpa_versions` is immutable and one version per date, and
+2026-10-02 was published earlier the same day (D-196). The processor line shown with the agreement and printed with
+the signature identifies the legal party; the next DPA version should name Pundit Invest AS in its section 1.
+
+Noted, not changed: the register shows Pundit Invest AS as not registered for VAT, while the site, the price page
+and Oppsett › Betaling quote prices «eks. mva.».
