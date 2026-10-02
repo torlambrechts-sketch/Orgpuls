@@ -4,7 +4,9 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { IndustryCards } from '@/components/industry/IndustryCards'
 import { JsonLd } from '@/components/marketing/JsonLd'
-import { Eyebrow, RiskLine, StartBand, Tick, TrustStrip } from '@/components/site/parts'
+import { Eyebrow, RiskLine, Tick, TrustStrip } from '@/components/site/parts'
+import { SiteTop } from '@/components/site/v3/SiteTop'
+import { StartBand } from '@/components/site/v3/StartBand'
 import { pageMeta } from '@/lib/marketing/meta'
 import { graph, organization, software, website } from '@/lib/marketing/schema'
 import { zip } from '@/lib/site/zip'
@@ -53,6 +55,7 @@ export default async function StartPage() {
 
   return (
     <div>
+      <SiteTop />
       <JsonLd data={graph(organization(), website(await getLocale()), software(seo('description')))} />
 
       <section id="topp" className="mx-auto max-w-[1120px] px-[26px] pt-[60px]">
@@ -203,7 +206,7 @@ export default async function StartPage() {
         </div>
       </section>
 
-      <StartBand />
+      <StartBand variant="front" />
     </div>
   )
 }

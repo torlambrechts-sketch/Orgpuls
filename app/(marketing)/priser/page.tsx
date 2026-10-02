@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { PageTemplate } from '@/components/marketing/PageTemplate'
+import { SiteTop } from '@/components/site/v3/SiteTop'
+import { StartBand } from '@/components/site/v3/StartBand'
 import { pageMeta } from '@/lib/marketing/meta'
 import { software } from '@/lib/marketing/schema'
 
@@ -14,6 +16,11 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Page() {
   const t = await getTranslations()
   return (
-    <PageTemplate k="seo.pages.priser" path="/priser" schemaType="WebPage" extraSchema={[software(t('seo.home.description'))]} />
+    <>
+      {/* a v3 page (D-190): it continues the top band and ends in the start band the header targets */}
+      <SiteTop />
+      <PageTemplate k="seo.pages.priser" path="/priser" schemaType="WebPage" extraSchema={[software(t('seo.home.description'))]} />
+      <StartBand />
+    </>
   )
 }

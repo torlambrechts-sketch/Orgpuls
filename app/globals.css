@@ -26,6 +26,21 @@
   unicode-range: U+0000-00FF, U+0100-02BA, U+02BB-02BC, U+02BD-02C5, U+02C6, U+02C7-02CC, U+02CE-02D7, U+02DA, U+02DC, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2000-206F, U+20A0-20C0, U+2113, U+2122, U+2191, U+2193, U+2212, U+2215, U+2C60-2C7F, U+A720-A7FF, U+FEFF, U+FFFD;
 }
 
+/*
+ * The same fallback as the v3 site design declares it (nettside-v3/_ds/…/tokens/fonts.css, D-190):
+ * with no unicode-range, so a glyph DM Sans lacks — →, ✓, ▾ — is drawn by the scaled Arial, as
+ * that design's baselines show it, not by system-ui. Only the public site's stack (`font-site`,
+ * the marketing layout) names it; the application keeps the face above.
+ */
+@font-face {
+  font-family: 'DM Sans Site Fallback';
+  src: local('Arial'), local('Liberation Sans');
+  size-adjust: 104.53%;
+  ascent-override: 94.9%;
+  descent-override: 29.66%;
+  line-gap-override: 0%;
+}
+
 @font-face {
   font-family: 'Playfair Display Fallback';
   src: local('Times New Roman'), local('Liberation Serif');
@@ -70,6 +85,8 @@
    */
   html {
     line-height: normal;
+    /* G-09 (D-190): the public front page's header sets this while it is stuck, so an anchor clears it */
+    scroll-padding-top: var(--site-sticky, 0px);
   }
 
   * {

@@ -1,36 +1,35 @@
 /**
- * The public site's menu and footers (D-88), from design-reference/orgpuls/nettside.
+ * The public site's menu and footers, from design-reference/orgpuls/nettside-v3 (D-190), mapped as
+ * the v3 decision sheet's link table (G7/G8) sets them.
  *
- * The words are messages (`site.chrome.*`); this holds where each one goes. The design's
- * links point at its own files and at `#`: each is mapped here to the page or section that
- * answers it. Two footer entries have nowhere to go yet — there is no privacy statement and
- * no terms page — so they have no `href` and render as text, not as links to nothing.
- *
- * Om oss was removed (D-95): the menu no longer names it, and the footers' "Om oss" columns
- * link to the contact form on /kontakt (and to Hvorfor, or to Sikkerhet where Hvorfor has its own column).
- *
- * The design gives the pages two footers. Forside and Plattform carry the first (Produkt,
- * Bruksområder, Ressurser, Om oss); Hvorfor, Bruksområder and Om oss the second, whose
- * columns link into the new pages' sections, and Bruksområder's own adds "Verneombud og
- * AMU". Each page gets the footer its design draws; every other public page gets the second.
+ * The words are messages (`site.chrome.*`); this holds where each one goes. The design's links
+ * point at its own files and at `#`: each is mapped here to the page or section that answers it.
+ * A footer entry without `href` is text, not a link: «Vilkår» has no page to go to.
  */
 export type SiteLink = { key: string; href?: string }
 export type FooterColumn = { head: string; links: SiteLink[] }
 
 /**
- * The header's menu. Bransjer is not in the design; Tor asked for it with its pages under it
- * (D-129). Its pages are the industry registry's (content/industries), so a new industry is
- * a new entry there, not a change here.
+ * The five pages drawn by the v3 design. Each continues the layout's mint top band with its own
+ * hero (`SiteTop`) and ends in the start band (`#kom-i-gang`), which the header's primary button
+ * targets there; every other public page gets the header band with a foot of its own.
  */
-export const SITE_NAV_V2: (SiteLink & { industries?: true })[] = [
+export const V3_ROUTES = ['/', '/plattform', '/bruksomrader', '/bransjer', '/priser'] as const
+export const isV3Route = (pathname: string) => (V3_ROUTES as readonly string[]).includes(pathname)
+
+/**
+ * The header's menu: Plattform, Bruksområder, Bransjer, Pris. Bransjer's pages are the industry
+ * registry's (content/industries), so a new industry is a new entry there, not a change here.
+ */
+export const SITE_NAV: (SiteLink & { href: string; industries?: true })[] = [
   { key: 'plattform', href: '/plattform' },
   { key: 'bruksomrader', href: '/bruksomrader' },
-  { key: 'hvorfor', href: '/hvorfor' },
-  { key: 'pris', href: '/priser' },
   { key: 'bransjer', href: '/bransjer', industries: true },
+  { key: 'pris', href: '/priser' },
 ]
 
-const FOOTER_FIRST: FooterColumn[] = [
+/** Forside's footer: Produkt (6), Bruksområder (4), Ressurser (4), Om oss (3) */
+const FOOTER_HOME: FooterColumn[] = [
   {
     head: 'produkt',
     links: [
@@ -49,7 +48,6 @@ const FOOTER_FIRST: FooterColumn[] = [
       { key: 'medarbeiderundersokelse', href: '/smaa-bedrifter' },
       { key: 'pulsmalinger', href: '/bruksomrader#puls' },
       { key: 'rapportArbeidstilsynet', href: '/bruksomrader#tilsyn' },
-      { key: 'amu', href: '/bruksomrader#amu' },
     ],
   },
   {
@@ -59,48 +57,45 @@ const FOOTER_FIRST: FooterColumn[] = [
       { key: 'lovenForklart', href: '/lovkrav' },
       { key: 'sporsmalssettet', href: '/artikler/medarbeiderundersokelse-sporsmal' },
       { key: 'personvernAnonymitet', href: '/sikkerhet' },
-      { key: 'faq', href: '/hvorfor#sporsmal' },
     ],
   },
   {
     head: 'omOss',
-    links: [
-      { key: 'hvorfor', href: '/hvorfor' },
-      { key: 'kontakt', href: '/kontakt#skriv' },
-      { key: 'personvernerklaering', href: '/personvernerklaering' },
-      { key: 'vilkar' },
-    ],
+    links: [{ key: 'kontakt', href: '/kontakt#skriv' }, { key: 'personvernerklaering', href: '/personvernerklaering' }, { key: 'vilkar' }],
   },
 ]
 
-const secondFooter = (withAmu: boolean): FooterColumn[] => [
+/**
+ * The subpages' footer: Produkt, Bruksområder, Bransjer, Om oss. Plattform and Bruksområder draw
+ * the long form (Resultater; Verneombud og AMU), Bransjer and Pris the short one.
+ */
+const subpageFooter = (long: boolean): FooterColumn[] => [
   {
     head: 'produkt',
     links: [
       { key: 'plattform', href: '/plattform' },
-      { key: 'malinger', href: '/plattform#malinger' },
-      { key: 'resultater', href: '/plattform#resultater' },
-      { key: 'tiltak', href: '/plattform#tiltak' },
+      ...(long ? [{ key: 'resultater', href: '/plattform#resultater' }] : []),
       { key: 'pris', href: '/priser' },
     ],
   },
   {
     head: 'bruksomrader',
     links: [
+      { key: 'utenHr', href: '/bruksomrader#uten-hr' },
       { key: 'arlig', href: '/bruksomrader#kartlegging' },
       { key: 'puls', href: '/bruksomrader#puls' },
-      { key: 'utenHr', href: '/bruksomrader#uten-hr' },
       { key: 'tilsyn', href: '/bruksomrader#tilsyn' },
-      ...(withAmu ? [{ key: 'amu', href: '/bruksomrader#amu' }] : []),
+      ...(long ? [{ key: 'amu', href: '/bruksomrader#amu' }] : []),
     ],
   },
   {
-    head: 'hvorfor',
+    head: 'bransjer',
     links: [
-      { key: 'positivt', href: '/hvorfor#positivt' },
-      { key: 'anonymitet', href: '/hvorfor#anonymitet' },
-      { key: 'forskning', href: '/hvorfor#forskning' },
-      { key: 'sammenlignet', href: '/hvorfor#sammenlignet' },
+      { key: 'handel', href: '/bransjer#handel' },
+      { key: 'kontor', href: '/bransjer#kontor' },
+      { key: 'bygg', href: '/bransjer#bygg' },
+      { key: 'skole', href: '/bransjer#skole' },
+      { key: 'helse', href: '/bransjer#helse' },
     ],
   },
   {
@@ -112,17 +107,9 @@ const secondFooter = (withAmu: boolean): FooterColumn[] => [
   },
 ]
 
-export const FOOTERS = {
-  first: FOOTER_FIRST,
-  second: secondFooter(false),
-  bruksomrader: secondFooter(true),
-} as const
+export const FOOTERS = { home: FOOTER_HOME, long: subpageFooter(true), short: subpageFooter(false) } as const
 export type FooterId = keyof typeof FOOTERS
 
-/** The pages the design draws, and which footer each carries. */
-export const DESIGNED_FOOTER: Record<string, FooterId> = {
-  '/': 'first',
-  '/plattform': 'first',
-  '/hvorfor': 'second',
-  '/bruksomrader': 'bruksomrader',
-}
+/** Which footer a page carries: the one its design draws; every other public page the long one. */
+export const footerFor = (pathname: string): FooterId =>
+  pathname === '/' ? 'home' : pathname === '/bransjer' || pathname === '/priser' ? 'short' : 'long'

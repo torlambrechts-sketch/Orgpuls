@@ -5,7 +5,9 @@ import { JsonLd } from '@/components/marketing/JsonLd'
 import { SectionNav } from '@/components/site/SectionNav'
 import { Overview, StorySection, type MockShape } from '@/components/site/Story'
 import { IndustryCards } from '@/components/industry/IndustryCards'
-import { Crumbs, Eyebrow, HeroButtons, SectionHead, StartBand } from '@/components/site/parts'
+import { Crumbs, Eyebrow, HeroButtons, SectionHead } from '@/components/site/parts'
+import { SiteTop } from '@/components/site/v3/SiteTop'
+import { StartBand } from '@/components/site/v3/StartBand'
 import { flag } from '@/lib/flags'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, graph, organization } from '@/lib/marketing/schema'
@@ -64,6 +66,7 @@ export default async function BruksomraderPage() {
 
   return (
     <div>
+      <SiteTop />
       <JsonLd
         data={graph(
           organization(),
