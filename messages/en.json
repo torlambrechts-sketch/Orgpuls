@@ -5804,11 +5804,11 @@
       },
       "priser": {
         "title": "Pricing: employee surveys from NOK 265/month | Orgpuls",
-        "description": "Small NOK 265 and Usual NOK 565 a month excl. VAT. No add-ons, no start-up fee and no lock-in. Try free for 15 days without a card.",
+        "description": "Small NOK 265 and Usual NOK 565 a month excl. VAT. No add-ons, no start-up fee and no lock-in. Try free for 15 days, no card needed.",
         "crumb": "Pricing",
         "kicker": "Pricing",
-        "h1": "Survey your work environment from NOK 265 a month",
-        "lead": "No add-ons for reports, integrations or extra surveys. You pay monthly with no lock-in, and try it free for 15 days without a card.",
+        "h1": "From NOK 265 a month. Everything included.",
+        "lead": "One fixed price by headcount – not per user, not per survey. No lock-in. Safety and union representatives cost nothing extra. Free for 15 days, no card needed.",
         "blocks": [
           {
             "t": "plans"
@@ -5834,20 +5834,24 @@
         ],
         "faq": [
           {
-            "q": "Do we need a card to try it?",
-            "a": "No. You sign up with your organisation number and can use Orgpuls for 15 days without card details."
+            "q": "What if there are only twelve of us?",
+            "a": "Then you get figures for the whole organisation. A department is shown only once at least 5 people in it have answered. If fewer than 5 answer, no figures are shown – the answers could not be anonymous then."
           },
           {
-            "q": "Is there a lock-in?",
-            "a": "No. The agreement is monthly, with no lock-in and no start-up fee."
+            "q": "Are the answers really anonymous?",
+            "a": "Yes. We never store a name, e-mail address or IP address with the answer – there is no column that could hold the link. And no group is shown until at least 5 people have answered."
           },
           {
-            "q": "Does the safety representative cost extra?",
-            "a": "No. The safety representative has access at no extra cost."
+            "q": "How much time does it take us?",
+            "a": "Setup takes under an hour the first time. After that, the year wheel plans the rounds for you. Employees spend 4 minutes on the annual survey and a couple of minutes on a pulse."
           },
           {
-            "q": "What if we have over 100 employees, or several companies?",
-            "a": "Then the Several companies plan applies, priced by agreement. [Write to us](/kontakt) and we will agree a price."
+            "q": "What happens when we pass 25 employees?",
+            "a": "Then the Usual plan applies, the price for 26 to 100 employees. The managing director changes the plan under Setup, and everything you have measured and all your measures come with you."
+          },
+          {
+            "q": "What happens to our data if we stop?",
+            "a": "You own it. The reports can be downloaded as PDF at any time, including for 30 days after the agreement ends. After that, we delete all the data."
           }
         ]
       },
@@ -7662,6 +7666,128 @@
       "other": {
         "k": "Other industries",
         "d": "The survey requirements are the same for everyone, and the main survey covers them. See the <link>use cases</link> for pages by need, role and size."
+      }
+    },
+    "pris": {
+      "size": {
+        "label": "How many employees do you have?",
+        "number": "Number of employees",
+        "valuetext": "{n} employees – {plan}, NOK {price} per month",
+        "valuetextGroup": "{n} employees – {plan}, price by agreement",
+        "readout": "employees · <b>{plan}</b> · NOK {price}<abbr>/month</abbr><sr> per month</sr> · NOK {perHead} per employee",
+        "readoutGroup": "employees · <b>{plan}</b> · price by agreement"
+      },
+      "fits": "Fits you",
+      "fitsSr": "(fits you)",
+      "plans": [
+        {
+          "name": "Small",
+          "who": "Up to 25 employees",
+          "price": "NOK 265",
+          "unit": "per month",
+          "items": [
+            "All features included",
+            "Unlimited surveys and measures",
+            "Safety and union representatives at no extra cost",
+            "No lock-in"
+          ],
+          "cta": "Try it free"
+        },
+        {
+          "name": "Usual",
+          "who": "26 to 100 employees",
+          "price": "NOK 565",
+          "unit": "per month",
+          "items": [
+            "All features included",
+            "Unlimited surveys and measures",
+            "Safety and union representatives at no extra cost",
+            "No lock-in"
+          ],
+          "cta": "Try it free"
+        },
+        {
+          "name": "Several companies",
+          "who": "Groups and over 100 employees",
+          "price": "By agreement",
+          "items": [
+            "All features included",
+            "Unlimited surveys and measures",
+            "Safety and union representatives at no extra cost",
+            "Price and terms in a separate offer"
+          ],
+          "cta": "Talk to us"
+        }
+      ],
+      "footnote": "All prices exclude VAT. Invoiced monthly, also as EHF e-invoice.",
+      "included": {
+        "eyebrow": "Everything included",
+        "title": "Everything is in every plan. The only difference is how many of you there are.",
+        "lead": "A business with 8 employees gets the same questions, the same report and the same help as one with 80. No features are locked behind a more expensive plan.",
+        "sizes": [
+          {
+            "name": "Small",
+            "range": "1–25 employees",
+            "price": "NOK 265 per month"
+          },
+          {
+            "name": "Usual",
+            "range": "26–100 employees",
+            "price": "NOK 565 per month"
+          },
+          {
+            "name": "Several companies",
+            "range": "Over 100 employees",
+            "price": "By agreement"
+          }
+        ],
+        "groups": [
+          {
+            "t": "Surveys",
+            "items": [
+              "Main survey and pulses, as often as every month",
+              "The year wheel plans the rounds for you",
+              "Sent by e-mail and SMS",
+              "Answers in Norwegian and English"
+            ]
+          },
+          {
+            "t": "Results",
+            "items": [
+              "Results by department and team, once at least 5 have answered",
+              "Heat map and trends over time",
+              "Anonymous comments you can reply to"
+            ]
+          },
+          {
+            "t": "Follow-up",
+            "items": [
+              "Three suggested measures per factor",
+              "Unlimited measures with owner and deadline",
+              "The pulse shows whether the measure worked"
+            ]
+          },
+          {
+            "t": "Documentation",
+            "items": [
+              "Risk assessment per factor with the legal basis",
+              "A report ready for the Labour Inspection Authority, as PDF",
+              "A log of notices and consultation"
+            ]
+          },
+          {
+            "t": "Roles and help",
+            "items": [
+              "Safety and union representatives at no extra cost",
+              "Department managers see only their own team",
+              "Help from the people who build the product"
+            ]
+          }
+        ]
+      },
+      "faq": {
+        "eyebrow": "Questions and answers",
+        "title": "What small businesses ask"
       }
     }
   },

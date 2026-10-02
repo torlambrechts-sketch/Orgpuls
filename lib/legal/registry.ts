@@ -26,7 +26,7 @@ import { DPA_SHA256, DPA_VERSION } from './dpa'
  * unit shows it as changed until it is approved again.
  *
  * Left out, on purpose: labels that only name a law or a role ("Verneombud", "Hjemmel"), the
- * unrendered seo.pages.plattform/bruksomrader blocks (published nowhere), and the survey's
+ * unrendered seo.pages.plattform/bruksomrader/priser blocks (published nowhere), and the survey's
  * own statements, which are the instrument rather than a claim about the law. Not yet covered,
  * because they are rules in code or one organisation's own data rather than text (D-130): the
  * chapter 1A coverage map and the BHT industry codes (components/oppsett/RegelverkTab.tsx,
@@ -189,7 +189,9 @@ export const MESSAGE_SPECS: MessageSpec[] = [
       'site.chrome.footer.about', 'site.bransjer.lead', 'site.bransjer.other.d', 'seo.common.disclaimer', 'seo.common.anonymity', 'seo.common.priceLine',
       // the hero's risk line and trust strip (D-187)
       'site.chrome.risk', 'site.chrome.trust.eu', 'site.chrome.trust.k', 'site.chrome.trust.qps', 'site.chrome.trust.law',
-      'seo.index.description', 'seo.index.lead', 'seo.pages.priser.blocks[2].items[1]', 'seo.pages.priser.faq[2]',
+      'seo.index.description', 'seo.index.lead',
+      // /priser (D-190): the anonymity answers, the k floor per group, and the report and risk assessment
+      'seo.pages.priser.faq[0]', 'seo.pages.priser.faq[1]', 'site.pris.included.groups[1]', 'site.pris.included.groups[3]',
       // the pills on every share card (scripts/marketing/og-images.mjs), in Norwegian on both hosts
       'seo.og.pills', 'seo.home.showcase.samtaler.body', 'seo.home.showcase.varmekart.body',
     ],
@@ -198,7 +200,12 @@ export const MESSAGE_SPECS: MessageSpec[] = [
   {
     id: 'site.terms',
     section: 'site',
-    paths: ['seo.pages.priser.description', 'seo.pages.priser.lead', 'seo.pages.priser.faq[0]', 'seo.pages.priser.faq[1]', 'seo.pages.priser.blocks[2].items[4]', 'site.home.price.d', 'site.chrome.band.lead', 'site.chrome.band.leadHome'],
+    paths: [
+      'seo.pages.priser.description', 'seo.pages.priser.h1', 'seo.pages.priser.lead', 'site.pris.plans', 'site.pris.footnote',
+      // a plan change past 25, and the data after the agreement ends
+      'seo.pages.priser.faq[3]', 'seo.pages.priser.faq[4]',
+      'site.home.price.d', 'site.chrome.band.lead', 'site.chrome.band.leadHome',
+    ],
     where: place('prices'),
   },
   // -------- documents

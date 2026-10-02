@@ -5804,11 +5804,11 @@
       },
       "priser": {
         "title": "Priser: medarbeiderundersøkelse fra 265 kr/mnd | Orgpuls",
-        "description": "Liten 265 kr og Vanlig 565 kr i måneden eks. mva. Ingen tillegg, ingen oppstartsavgift og ingen binding. Prøv gratis i 15 dager uten kort.",
-        "crumb": "Priser",
-        "kicker": "Priser",
-        "h1": "Kartlegg arbeidsmiljøet fra 265 kr i måneden",
-        "lead": "Ingen tillegg for rapporter, integrasjoner eller flere målinger. Dere betaler per måned uten binding, og prøver gratis i 15 dager uten kort.",
+        "description": "Liten 265 kr og Vanlig 565 kr i måneden eks. mva. Ingen tillegg, ingen oppstartsavgift og ingen binding. Prøv gratis i 15 dager, uten betalingskort.",
+        "crumb": "Pris",
+        "kicker": "Pris",
+        "h1": "Fra 265 kr i måneden. Alt inkludert.",
+        "lead": "Én fast pris etter antall ansatte – ikke per bruker, ikke per måling. Ingen bindingstid. Verneombud og tillitsvalgte koster ikke ekstra. Gratis i 15 dager, uten betalingskort.",
         "blocks": [
           {
             "t": "plans"
@@ -5834,20 +5834,24 @@
         ],
         "faq": [
           {
-            "q": "Må vi oppgi kort for å prøve?",
-            "a": "Nei. Dere registrerer med organisasjonsnummeret og kan bruke Orgpuls i 15 dager uten kortopplysninger."
+            "q": "Hva om vi bare er tolv personer?",
+            "a": "Da får dere tall for hele virksomheten. En avdeling vises bare når minst 5 i den har svart. Er færre enn 5 med på å svare, vises ingen tall – da kunne ikke svarene vært anonyme."
           },
           {
-            "q": "Er det bindingstid?",
-            "a": "Nei. Avtalen er månedlig, uten bindingstid og uten oppstartsavgift."
+            "q": "Er svarene virkelig anonyme?",
+            "a": "Ja. Vi lagrer aldri navn, e-postadresse eller IP-adresse sammen med svaret – det finnes ingen kolonne som kunne holdt koblingen. Og ingen gruppe vises før minst 5 personer har svart."
           },
           {
-            "q": "Koster det noe for verneombudet?",
-            "a": "Nei. Verneombudet har tilgang uten ekstra kostnad."
+            "q": "Hvor mye tid tar det for oss?",
+            "a": "Oppsettet tar under en time første gang. Deretter planlegger årshjulet rundene selv. De ansatte bruker 4 minutter på den årlige kartleggingen og et par minutter på en puls."
           },
           {
-            "q": "Hva om vi er over 100 ansatte eller flere selskaper?",
-            "a": "Da gjelder pakken Flere selskaper, med pris etter avtale. [Skriv til oss](/kontakt), så blir vi enige om en pris."
+            "q": "Hva skjer når vi passerer 25 ansatte?",
+            "a": "Da gjelder Vanlig, prisen for 26 til 100 ansatte. Daglig leder bytter plan under Oppsett, og alt dere har målt og alle tiltak følger med."
+          },
+          {
+            "q": "Hva skjer med dataene hvis vi slutter?",
+            "a": "Dere eier dem. Rapportene kan lastes ned som PDF når som helst, også i 30 dager etter at avtalen er slutt. Deretter sletter vi alle opplysningene."
           }
         ]
       },
@@ -7662,6 +7666,128 @@
       "other": {
         "k": "Andre bransjer",
         "d": "Kravene til kartlegging er de samme for alle, og hovedundersøkelsen dekker dem. Se <link>bruksområdene</link> for sider etter behov, rolle og størrelse."
+      }
+    },
+    "pris": {
+      "size": {
+        "label": "Hvor mange ansatte er dere?",
+        "number": "Antall ansatte",
+        "valuetext": "{n} ansatte – {plan}, {price} kr per måned",
+        "valuetextGroup": "{n} ansatte – {plan}, pris etter avtale",
+        "readout": "ansatte · <b>{plan}</b> · {price} <abbr>kr/mnd</abbr><sr>kroner per måned</sr> · {perHead} kr per ansatt",
+        "readoutGroup": "ansatte · <b>{plan}</b> · pris etter avtale"
+      },
+      "fits": "Passer dere",
+      "fitsSr": "(passer dere)",
+      "plans": [
+        {
+          "name": "Liten",
+          "who": "Til og med 25 ansatte",
+          "price": "265 kr",
+          "unit": "per måned",
+          "items": [
+            "Alle funksjoner inkludert",
+            "Ubegrenset antall målinger og tiltak",
+            "Verneombud og tillitsvalgte uten ekstra kostnad",
+            "Ingen bindingstid"
+          ],
+          "cta": "Prøv gratis"
+        },
+        {
+          "name": "Vanlig",
+          "who": "26 til 100 ansatte",
+          "price": "565 kr",
+          "unit": "per måned",
+          "items": [
+            "Alle funksjoner inkludert",
+            "Ubegrenset antall målinger og tiltak",
+            "Verneombud og tillitsvalgte uten ekstra kostnad",
+            "Ingen bindingstid"
+          ],
+          "cta": "Prøv gratis"
+        },
+        {
+          "name": "Flere selskaper",
+          "who": "Konsern og over 100 ansatte",
+          "price": "Etter avtale",
+          "items": [
+            "Alle funksjoner inkludert",
+            "Ubegrenset antall målinger og tiltak",
+            "Verneombud og tillitsvalgte uten ekstra kostnad",
+            "Pris og vilkår i et eget tilbud"
+          ],
+          "cta": "Snakk med oss"
+        }
+      ],
+      "footnote": "Alle priser er eks. mva. Faktura hver måned, også som EHF.",
+      "included": {
+        "eyebrow": "Alt inkludert",
+        "title": "Alt er med i alle planer. Det eneste som skiller, er hvor mange dere er.",
+        "lead": "En bedrift med 8 ansatte får de samme spørsmålene, den samme rapporten og den samme hjelpen som en med 80. Ingen funksjoner er låst bak en dyrere plan.",
+        "sizes": [
+          {
+            "name": "Liten",
+            "range": "1–25 ansatte",
+            "price": "265 kr per måned"
+          },
+          {
+            "name": "Vanlig",
+            "range": "26–100 ansatte",
+            "price": "565 kr per måned"
+          },
+          {
+            "name": "Flere selskaper",
+            "range": "Over 100 ansatte",
+            "price": "Etter avtale"
+          }
+        ],
+        "groups": [
+          {
+            "t": "Måling",
+            "items": [
+              "Hovedundersøkelse og pulser, helt ned til hver måned",
+              "Årshjulet planlegger rundene selv",
+              "Utsending på e-post og SMS",
+              "Svar på norsk og engelsk"
+            ]
+          },
+          {
+            "t": "Resultater",
+            "items": [
+              "Resultat per avdeling og team, når minst 5 har svart",
+              "Varmekart og utvikling over tid",
+              "Anonyme kommentarer du kan svare på"
+            ]
+          },
+          {
+            "t": "Oppfølging",
+            "items": [
+              "Tre forslag til tiltak per faktor",
+              "Ubegrenset antall tiltak med eier og frist",
+              "Pulsen viser om tiltaket virket"
+            ]
+          },
+          {
+            "t": "Dokumentasjon",
+            "items": [
+              "Risikovurdering per faktor med hjemmel",
+              "Rapport klar til Arbeidstilsynet, som PDF",
+              "Logg over varsel og drøfting"
+            ]
+          },
+          {
+            "t": "Roller og hjelp",
+            "items": [
+              "Verneombud og tillitsvalgte uten ekstra kostnad",
+              "Avdelingsledere ser bare eget team",
+              "Hjelp fra dem som bygger produktet"
+            ]
+          }
+        ]
+      },
+      "faq": {
+        "eyebrow": "Spørsmål og svar",
+        "title": "Det små bedrifter lurer på"
       }
     }
   },
