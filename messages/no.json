@@ -8767,6 +8767,338 @@
           "fafo_innleie": "Fafo-notat 2024:22: Virkninger av innstramninger i innleieregelverket (Alsos mfl.)",
           "noa_anlegg": "STAMI, NOA: Fakta om arbeidsmiljøet i anleggsvirksomheter, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022"
         }
+      },
+      "helse": {
+        "nav": "Helse og omsorg",
+        "seo": {
+          "title": "Arbeidsmiljøkartlegging for helse og omsorg | Orgpuls",
+          "description": "Kartlegg arbeidsmiljøet i omsorg, hjemmetjeneste og klinikk: vold og trusler, bemanning, turnus og deltid. Anonymt på SMS eller QR. 15 dager gratis."
+        },
+        "hero": {
+          "k": "Helse og omsorg · omsorg, hjemmetjeneste og klinikk",
+          "h1": "Arbeidsmiljø­kartlegging for helse og omsorg: se hva som tærer på personalet – og følg det opp",
+          "lead": "Se hvor vold og trusler, stram bemanning og turnus uten hvile går ut over de ansatte – for hele virksomheten og for hver avdeling med nok svar. Alle vakter svarer anonymt på mobilen. Dere får forslag til tiltak med eier og frist, ny måling i pulsen og en rapport som viser at kartleggingen er gjort.",
+          "secondary": "Se spørsmålene for helse og omsorg",
+          "figure": {
+            "title": "Slik svarer de ansatte",
+            "meta": "På mobilen · ca. 4 + {minutes} min",
+            "caption": "Spørreskjemaet på mobil, ett tema per side."
+          },
+          "tiles": [
+            {
+              "t": "{factors} faktorer for omsorgsarbeid",
+              "d": "Helse-modulen kommer i tillegg til hovedundersøkelsen og tar ca. {minutes} minutter ekstra."
+            },
+            {
+              "t": "Svar fra alle vakter",
+              "d": "Lenke på SMS eller e-post, eller QR-plakat på vaktrommet. Ingen app, og ingen trenger jobb-e-post."
+            },
+            {
+              "t": "Rapport for Arbeidstilsynet",
+              "d": "Kartlegging, risikovurdering og tiltak samlet, med hjemmel for hver faktor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Hverdagen i tall",
+          "title": "Arbeidsmiljøet i helse og omsorg: dette viser tallene",
+          "lead": "Rundt 588 000 jobber i helse- og sosialtjenester – om lag én av fem sysselsatte i Norge. Tallene er hentet fra norsk forskning og offentlig statistikk.",
+          "items": [
+            {
+              "v": "9,6 %",
+              "l": "sykefravær i helse- og sosialtjenester i 2. kvartal 2026 – høyest av alle næringer, mot 6,6 % i snitt"
+            },
+            {
+              "v": "34 %",
+              "l": "av de ansatte på sykehjem har vært utsatt for vold, mot 5 % av alle sysselsatte"
+            },
+            {
+              "v": "38 %",
+              "l": "i hjemmetjenesten opplever høye emosjonelle krav, mot 20 % av alle sysselsatte"
+            },
+            {
+              "v": "35 %",
+              "l": "i helse- og sosialtjenester jobber deltid, mot 24 % i alle næringer"
+            }
+          ],
+          "h3": "Mye blir aldri meldt",
+          "note": "Arbeidstilsynets inspektører beskriver at det meldes relativt få avvik på arbeidsmiljøområdet i helse- og sosialtjenester, selv om mange burde vært meldt. Dermed blir heller ikke den reelle arbeidsmiljøtilstanden synlig.",
+          "text": "Et anonymt spørreskjema gir de ansatte en måte å si det på uten å stå fram. Helse-modulen spør om vold og trusler som ikke ble meldt, og om vakter der bemanningen ikke var forsvarlig. Svarene vises bare som antall for hele virksomheten."
+        },
+        "why": {
+          "k": "Hvorfor kartlegge",
+          "title": "Hvorfor omsorgsvirksomheten må kartlegge arbeidsmiljøet",
+          "lead": "Arbeidsmiljøloven gjelder alle arbeidsgivere med ansatte, også legekontoret med fem ansatte og BPA-firmaet med assistenter hjemme hos hver bruker. I arbeid med mennesker peker loven særlig på emosjonelle krav, vold og trusler og alenearbeid.",
+          "law": {
+            "title": "Det loven krever i arbeid med mennesker",
+            "pill": "Gjelder alle med ansatte",
+            "rows": [
+              {
+                "ref": "aml § 3-1 (2) c",
+                "t": "Kartlegg farer og problemer, vurder risikoen, lag planer og sett i verk tiltak."
+              },
+              {
+                "ref": "aml § 4-3 (2)",
+                "t": "De psykososiale faktorene skal være fullt forsvarlige – blant annet uklare eller motstridende krav, emosjonelle krav og belastninger i arbeid med mennesker, og arbeidsmengde og tidspress."
+              },
+              {
+                "ref": "aml § 4-3 (6)",
+                "t": "Arbeidstaker skal, så langt det er mulig, beskyttes mot vold, trusler og uheldige belastninger som følge av kontakt med andre."
+              },
+              {
+                "ref": "aml § 4-1 (3)",
+                "t": "Vurder om det er særlig risiko ved alenearbeid, og sett i verk tiltakene som trengs."
+              },
+              {
+                "ref": "Forskriften kap. 3A",
+                "t": "Kartlegg og risikovurder vold og trusler – blant annet alenearbeid, arbeidstid og bemanning – og sørg for tiltak, opplæring og oppfølging."
+              },
+              {
+                "ref": "Forskriften § 1A-2",
+                "t": "Kartleggingen skal gjøres sammen med de ansatte, gjentas regelmessig og dokumenteres."
+              }
+            ],
+            "link": "Les mer om lovkravet"
+          },
+          "tilsyn": {
+            "t": "Arbeidstilsynet prioriterer sykehjem og hjemmetjeneste",
+            "p": "I 2025 var sykehjem og hjemmetjeneste blant næringene Arbeidstilsynet prioriterte i tilsyn med psykiske og muskel- og skjelettplager. I tilsyn med sykehjem og hjemmetjeneste blir vold og trusler ofte løftet fram som en utfordring, og i 2025 manglet over sju av ti virksomheter tilstrekkelig kartlegging, risikovurdering, plan og tiltak mot vold og trusler.",
+            "d": "I Orgpuls får hvert tiltak en eier og en frist, og verneombudet ser de samme tallene som ledelsen."
+          },
+          "gap": {
+            "t": "Mange små virksomheter har ikke gjort det",
+            "p": "Om lag halvparten av dem som jobber på helseklinikker – blant annet lege- og tannlegeklinikker og fysikalske institutter – er i virksomheter med under 10 sysselsatte. Blant private virksomheter med færre enn 20 ansatte gjennomfører 28 % en medarbeiderundersøkelse, og 23 % gjør ingen av kartleggingene Fafo spurte om."
+          },
+          "cost": {
+            "t": "Det koster å la det ligge",
+            "items": [
+              "1 av 3 på sykehjem og 2 av 5 i hjemmetjenesten med sykefravær sier at fraværet har sammenheng med jobben. Slikt fravær kan ofte forebygges på arbeidsplassen.",
+              "29 % av de ansatte i hjemmetjenestene var ikke lenger på samme arbeidssted ett år senere, mot 24 % i arbeidslivet samlet (2023). Blant dem under 30 år var det 45 %.",
+              "Ansatte i store stillinger har lavest frafall, og tjenestesteder med mange heltidsansatte har lettere for å utvikle «den gode vakta», som både trekker til seg og holder på folk, skriver Fafo."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Utfordringer og løsninger",
+          "title": "Åtte utfordringer i helse og omsorg – og hvordan dere tar tak i dem",
+          "lead": "Utfordringene er hentet fra norsk forskning, statistikk og tilsyn. Under hver står det hvilke spørsmål som måler den, og hva dere får å jobbe med.",
+          "items": [
+            {
+              "t": "Vold og trusler – ofte alene hos brukeren",
+              "looks": "En bruker som blir urolig under stellet, en nattevakt alene på avdelingen, et hjemmebesøk der døra går igjen bak deg. Ofte er du den eneste der.",
+              "fig": "34 % på sykehjem har vært utsatt for vold, og 27 % for hets eller trusler. I hjemmetjenesten er tallene 12 og 18 %. Arbeidstilsynet bruker ansatte i hjemmetjenesten som eksempel på alenearbeid.",
+              "solve": "Faktoren Vold og trusler spør om dere har gått gjennom situasjonene som kan føre til vold, om også små hendelser blir meldt, og om den som var involvert blir fulgt opp. Et ja/nei-spørsmål teller hendelser som ikke ble meldt. Kontakt og kommunikasjon i hovedundersøkelsen spør om man kan tilkalle hjelp raskt når man er alene."
+            },
+            {
+              "t": "Følelsene man tar med seg hjem",
+              "looks": "En beboer som dør, pårørende som er fortvilet, en bruker som er sint på alt. Du skal være profesjonell hele vakta – og så kjøre hjem.",
+              "fig": "38 % i hjemmetjenesten og 35 % på sykehjem opplever høye emosjonelle krav, mot 20 % av alle sysselsatte. I hjemmetjenesten er 34 % ofte psykisk utmattet etter jobb.",
+              "solve": "Hovedundersøkelsen måler Emosjonelle krav: om man sjelden blir stående alene i følelsesmessig krevende situasjoner, om dere snakker om vanskelige hendelser etterpå, og om man får reagere som menneske på jobb. Helse-modulen gjentar ikke disse. Støtte fra leder viser om lederen stiller opp når jobben blir krevende."
+            },
+            {
+              "t": "For få på vakt",
+              "looks": "To er syke, vikaren kjenner ikke brukerne, og lista er like lang. Noe må vente – og det er du som må velge hva.",
+              "fig": "Arbeidstilsynets inspektører beskriver en næring med høy arbeidsbelastning og tidspress, og en ubalanse mellom oppgaver og ressurser.",
+              "solve": "Faktoren Bemanning og forsvarlig omsorg spør om bemanningen gjør det mulig å gi forsvarlig omsorg, om man slipper å gå hjem med dårlig samvittighet, og om det er tydelig hva som kan vente. Et ja/nei-spørsmål teller vakter der bemanningen ikke var forsvarlig. Tid til kjerneoppgavene viser om dokumentasjon og systemer tar tid fra brukerne."
+            },
+            {
+              "t": "Mellom bruker, pårørende og leder",
+              "looks": "Pårørende vil ha mer enn tjenesten kan gi, brukeren vil noe annet, og lederen har bestemt en tredje ting. Og kommentarene om kroppen din blir ledd bort.",
+              "fig": "På sykehjem opplever 22 % høy grad av rollekonflikt, mot 13 % av alle sysselsatte – blant annet motstridende forventninger fra beboere, pårørende, ledere og kolleger. 18 % er utsatt for uønsket seksuell oppmerksomhet, mot 5 %.",
+              "solve": "Faktoren Grenser mot brukere og pårørende spør om dere har avklart hva dere gjør når noen går over grensen, om seksuelle kommentarer blir tatt på alvor, og om man får støtte til å si nei til pårørende. Motstridende krav i hovedundersøkelsen viser om det er klart hvem som bestemmer når to ting kolliderer."
+            },
+            {
+              "t": "Turnus, kveld og natt",
+              "looks": "Kveldsvakt til halv elleve og dagvakt klokka sju. Telefonen om en ekstravakt kommer på fridagen – igjen.",
+              "fig": "Om lag 9 av 10 på sykehjem jobber utenom vanlig dagtid, og 1 av 3 jobber om natten. 24 % oppgir søvnvansker som helt eller delvis skyldes jobben.",
+              "solve": "Faktoren Turnus og hvile spør om turnusen gir nok hvile mellom vaktene, om man kan påvirke den, og om ekstravakter på kort varsel er unntaket. Forslagene til tiltak er konkrete, som turnusverksted og en fast rekkefølge for ekstravakter. Er nattevakten en egen gruppe, får den egne tall når nok har svart."
+            },
+            {
+              "t": "Deltid som ingen har valgt",
+              "looks": "Mange små stillinger, mange vikarer og noen som tar alle ekstravaktene. De som jobber lite, får ikke med seg beskjedene.",
+              "fig": "Blant turnusansatte i kommunal pleie og omsorg jobber nærmere 35 % heltid. Fafo beskriver ansatte som jobber deltid fordi vaktene oppleves som for slitsomme – en tilpasning til et arbeidsmiljø de ikke har bestemt selv.",
+              "solve": "Faktoren Stilling og tilhørighet spør om man har stillingsstørrelsen man ønsker, om viktig informasjon når fram også til dem som jobber lite, og om man føler seg som en del av fagmiljøet. Ett av forslagene er å tilby ledige stillingsandeler til deltidsansatte først, slik fortrinnsretten krever."
+            },
+            {
+              "t": "Nye, vikarer og mange språk",
+              "looks": "Vikaren fra byrået er her for første gang, og den nye har gått to følgevakter. Rapporten går fort, og ikke alle forstår alt.",
+              "fig": "Fafo beskriver at ufaglærte vikarer ofte kalles inn og må ta ansvar for oppgaver de ikke har formell kompetanse til, og at kollegaer da må bruke mer tid på veiledning. 1 av 5 som jobber på sykehjem, er innvandrere.",
+              "solve": "Faktoren Faglig trygghet spør om nye og vikarer får nok opplæring før de står alene på vakt, om man har noen å rådføre seg med, og om dere forstår hverandre godt nok til at rapport og beskjeder blir riktige. Spørreskjemaet finnes på norsk, engelsk, polsk og litauisk."
+            },
+            {
+              "t": "Tunge løft når det er travelt",
+              "looks": "Personløfteren står i den andre enden av gangen, og det er travelt. Det går fortere å ta det selv.",
+              "fig": "30 % på sykehjem og 34 % i hjemmetjenesten løfter i ubekvemme stillinger, mot 14 % av alle sysselsatte. 35 % på sykehjem oppgir ryggsmerter som helt eller delvis skyldes jobben.",
+              "solve": "Faktoren Forflytning og tunge løft spør om dere har hjelpemidlene dere trenger, om det er tid til å bruke dem også når det er travelt, og om dere er nok folk til tunge forflytninger. Ett av forslagene er en forflytningsplan per bruker."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "vold_og_trusler": "Vold og trusler",
+          "bemanning_og_forsvarlig_omsorg": "Bemanning og forsvarlig omsorg",
+          "turnus_og_hvile": "Turnus og hvile",
+          "stilling_og_tilhorighet": "Stilling og tilhørighet",
+          "grenser_mot_brukere_og_parorende": "Grenser mot brukere og pårørende",
+          "tid_til_kjerneoppgavene": "Tid til kjerneoppgavene",
+          "faglig_trygghet": "Faglig trygghet",
+          "forflytning_og_tunge_loft": "Forflytning og tunge løft"
+        },
+        "moduleTag": "Helse-modulen",
+        "proof": {
+          "k": "Slik ser det ut",
+          "title": "Fra svar til tiltak i samme verktøy",
+          "lead": "Bildene er ekte skjermbilder fra demo-virksomheten vår, Nordvik Anlegg AS – en tenkt anleggsbedrift, ikke en helsevirksomhet. Demoen viser hovedundersøkelsen. Helse-modulens faktorer får egne resultater og forslag til tiltak, med eier, frist og ny måling i pulsen.",
+          "blocks": [
+            {
+              "k": "Resultater",
+              "h3": "Se hvilken avdeling som sliter – uten å se hvem",
+              "ticks": [
+                "Hver faktor får en skår fra 0 til 100, for hele virksomheten og for hver gruppe med nok svar",
+                "Lag én gruppe per avdeling, post eller sone i hjemmetjenesten – resultat per gruppe er med i pakken Vanlig",
+                "En gruppe med for få svar vises med strek, men svarene teller med i tallene for hele virksomheten"
+              ],
+              "caption": "Varmekartet: faktorene mot gruppene."
+            },
+            {
+              "k": "Tiltak",
+              "h3": "Hvert funn blir et tiltak med eier og frist",
+              "ticks": [
+                "Tre forslag til tiltak per faktor, skrevet for omsorgsarbeid – for eksempel «Samtale samme vakt» og «Bemanningssjekk før vakt»",
+                "Hvert tiltak får en eier og en frist",
+                "Verneombudet ser de samme tallene som ledelsen"
+              ],
+              "caption": "Tiltakstavla i Orgpuls."
+            },
+            {
+              "k": "Oppfølging",
+              "h3": "Følg opp med puls gjennom året",
+              "ticks": [
+                "Planlegg hovedmålingen og pulsene i årshjulet",
+                "Pulsen tar med påstandene som måler tiltakene dere jobber med",
+                "Resultatene sammenlignes med forrige måling"
+              ],
+              "caption": "Årshjulet: grunnlinje og pulser gjennom året."
+            },
+            {
+              "k": "Rapport",
+              "h3": "Rapporten Arbeidstilsynet spør etter",
+              "ticks": [
+                "Kartlegging, risikovurdering og tiltak samlet, med dato",
+                "Hjemmel for hver faktor",
+                "Helse-modulen får en egen del i rapporten",
+                "Last den ned som PDF den dagen noen spør"
+              ],
+              "caption": "Rapporten, del 3: kartleggingen."
+            }
+          ]
+        },
+        "steps": {
+          "k": "Slik kommer dere i gang",
+          "title": "Fra organisasjonsnummer til rapport i fire steg",
+          "items": [
+            {
+              "t": "Registrer virksomheten",
+              "d": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Hører bransjekoden til helse og omsorg, foreslår Orgpuls helse-modulen."
+            },
+            {
+              "t": "Legg inn de ansatte",
+              "d": "Lag én gruppe per avdeling, post eller sone. Send lenken på SMS eller e-post, eller heng opp QR-plakaten på vaktrommet."
+            },
+            {
+              "t": "Se resultatet",
+              "d": "Hver faktor får en skår fra 0 til 100 i grønt, gult eller rødt – for hele virksomheten og for hver avdeling med nok svar."
+            },
+            {
+              "t": "Velg tiltak og følg opp",
+              "d": "Velg blant forslagene, gi tiltaket en eier og en frist, og la pulsen måle om det virket. Rapporten oppdaterer seg selv."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymitet",
+          "title": "Anonymt – også på en liten avdeling",
+          "lead": "Ingen enkeltsvar kan spores tilbake til en person. Det er bygd inn i måten svarene lagres på, ikke bare lovet i en personvernerklæring.",
+          "items": [
+            {
+              "t": "5 svar som standard",
+              "d": "Ingen gruppe vises før minst 5 har svart. Små team kan senke grensen til 3, aldri lavere. Jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+            },
+            {
+              "t": "Avdelinger med få svar",
+              "d": "En avdeling med for få svar vises ikke som egen gruppe, men svarene teller med i tallene for hele virksomheten. Kan en gruppe regnes ut fra totalen og de andre gruppene, holdes en gruppe til tilbake."
+            },
+            {
+              "t": "Ja/nei-spørsmålene",
+              "d": "Spørsmålene om vold og trusler som ikke ble meldt, og om vakter der bemanningen ikke var forsvarlig, vises bare som antall for hele virksomheten – aldri per avdeling eller vakt."
+            },
+            {
+              "t": "Avdelingslederen ser sin avdeling",
+              "d": "En avdelingsleder ser bare sin egen gruppe. Verneombudet ser de samme tallene som ledelsen."
+            }
+          ],
+          "link": "Les om personvern og anonymitet"
+        },
+        "faq": {
+          "k": "Spørsmål og svar",
+          "title": "Det ledere i helse og omsorg lurer på",
+          "items": [
+            {
+              "q": "Hvor lang tid tar det for de ansatte?",
+              "a": "Hovedundersøkelsen tar rundt 4 minutter, og helse-modulen rundt 3 minutter til: 24 påstander og 2 korte ja/nei-spørsmål. Undersøkelsen står åpen i 14 dager, så de som går dag, kveld, natt og helg, rekker å svare."
+            },
+            {
+              "q": "Hva koster det?",
+              "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, og Vanlig 565 kr for 26–100 ansatte. Helse-modulen er med i begge. Prisene er eks. mva., uten bindingstid, og de første 15 dagene er gratis."
+            },
+            {
+              "q": "Ser lederen hvem som svarte at bemanningen ikke var forsvarlig?",
+              "a": "Nei. Spørsmålet vises bare som antall for hele virksomheten, aldri per avdeling eller vakt. Som standard vises ingen gruppe før minst 5 har svart, og grensen kan aldri settes under 3."
+            },
+            {
+              "q": "Mange har ikke jobb-e-post, og noen jobber bare noen vakter i måneden. Når vi dem?",
+              "a": "Ja. Send lenken på SMS, eller heng opp QR-plakaten på vaktrommet. Den ansatte skanner koden, skriver inn mobilnummer eller e-post og får sin egen lenke. Alt fungerer på mobilen, og undersøkelsen står åpen lenge nok til at alle vakter rekker å svare."
+            },
+            {
+              "q": "Kan de svare på polsk eller litauisk?",
+              "a": "Ja. Spørreskjemaet finnes på norsk, engelsk, polsk og litauisk. Et språk tilbys når alle spørsmålene i målingen har en godkjent oversettelse. Ukrainsk, svensk og dansk er ikke klare ennå."
+            },
+            {
+              "q": "Vi er et legekontor eller en tannklinikk. Passer helse-modulen for oss?",
+              "a": "Helse-modulen er laget for omsorgsarbeid med vakter, og i dag får alle de samme åtte faktorene – også forflytning, som betyr lite på et legekontor. Hovedundersøkelsen dekker det som gjelder alle, blant annet emosjonelle krav, arbeidsmengde og støtte fra leder. Dere kan også velge å måle uten bransjemodul."
+            },
+            {
+              "q": "Vi er et bemanningsbyrå i helse. Kan vi bruke helse-modulen?",
+              "a": "Ja. Orgpuls foreslår helse-modulen når bransjekoden er helse- og sosialtjenester. Har dere en annen bransjekode, kan dere velge helse-modulen selv under Oppsett. Undersøkelsen går til dem dere legger inn i ansattlista, også dem som jobber ute hos kundene."
+            },
+            {
+              "q": "Holder dette hvis Arbeidstilsynet kommer?",
+              "a": "Orgpuls dekker kartleggingen og risikovurderingen av det psykososiale arbeidsmiljøet. Rapporten samler kartlegging, risikovurdering, tiltak og oppfølging med dato. Avvikssystem, rutiner for vold og trusler og opplæring har dere et annet sted, og Arbeidstilsynet forventer at kartleggingen bygger på flere kilder – en undersøkelse er én av dem."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "Alle spørsmålene i helse-modulen",
+          "lovkrav": "Lovkravet forklart",
+          "verneombud": "Verneombudet og kartleggingen",
+          "smaa": "Arbeidsmiljøkartlegging for små bedrifter",
+          "priser": "Priser"
+        },
+        "sources": {
+          "ssb_aku": "SSB, tabell 07203: Sysselsatte (AKU) etter næring og heltid/deltid, 2025",
+          "ssb_fravaer": "SSB, tabell 12440: Sykefravær for lønnstakere etter næring, 2. kvartal 2026",
+          "noa_sykehjem": "STAMI, NOA: Fakta om arbeidsmiljøet på sykehjem og omsorgsinstitusjoner, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022",
+          "noa_hjemme": "STAMI, NOA: Fakta om arbeidsmiljøet i hjemmetjenesten, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022",
+          "at_signal": "Arbeidstilsynet: Signal nr. 1 2024 – Arbeidstilsynets bransjekunnskap, innspill fra 145 inspektører",
+          "lovdata_aml": "Lovdata: Arbeidsmiljøloven §§ 3-1, 4-1 og 4-3",
+          "lovdata_forskrift": "Lovdata: Forskrift om utførelse av arbeid, kapittel 1A og 3A (i kraft 1. januar 2026)",
+          "at_arsrapport": "Arbeidstilsynet: Årsrapport 2025 – en analyse av Arbeidstilsynets innsats",
+          "fafo_verneombud": "Fafo-rapport 2025:10: Kartlegging av verneombudenes arbeid (Andersen, Bråten og Huseby), spørreundersøkelse blant 1 200 virksomhetsledere",
+          "noa_klinikk": "STAMI, NOA: Fakta om arbeidsmiljøet på helseklinikker, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022",
+          "fafo_mobilitet": "Fafo-rapport 2025:19: Mobilitet i helse- og omsorgstjenestene i perioden 2015–2024 (Nielsen og Moland)",
+          "fafo_deltid": "Fafo-rapport 2026:28: Deltidsansettelser og bærekraftig bemanning (Nielsen, Bråthen og Moland), skrevet for KS",
+          "at_alene": "Arbeidstilsynet: Alenearbeid",
+          "fafo_ufaglaerte": "Fafo-rapport 2025:08: Nye stillinger for ikke-faglærte i pleie- og omsorgstjenestene (Jordell, Yssen og Moland)"
+        }
       }
     },
     "bransjer": {
@@ -11793,6 +12125,7 @@
           "claims": "Short legal claims across the site",
           "handel": "/handel · the law card, the inspection, the figures and the claims about anonymity",
           "bygg": "/bygg-og-anlegg · the law card, the inspection, the figures and the claims about anonymity",
+          "helse": "/helse-og-omsorg · the law card, the inspection, the figures and the claims about anonymity",
           "bransjer": "/bransjer · why an industry module, and the questions and answers",
           "terms": "Prices and terms of purchase"
         },

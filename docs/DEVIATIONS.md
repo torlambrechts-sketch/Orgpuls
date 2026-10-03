@@ -10626,3 +10626,98 @@ with eight questions; the English bygg page links its question page and the Engl
 not. `node scripts/audit/wiring.mjs` exits 1 on six findings (W2 `organizations.bht_name`, R1 on five admin
 translation and legal RPCs), none in anything this change touches: it adds no column, setting or RPC. No
 database writes.
+
+## D-210 — /helse-og-omsorg on the industry landing template (2026-10-03)
+
+The owner's brief for the industry pages (D-207) applied to helse og omsorg: a conversion landing page on why
+the survey is needed, the industry's own challenges and how Orgpuls meets each, with Fafo's material used
+well, for leaders of private and municipal-adjacent care businesses (omsorgsbedrifter, hjemmetjeneste- and
+BPA-firms, private nursing homes, GP, dental and physiotherapy clinics, healthcare staffing agencies).
+`/helse-og-omsorg` moves onto the template D-207 built, by a registry entry (`content/industries/landing.ts`,
+`msg: 'helse'`) and its messages (`site.bransje.helse`, no and en). No new colour, font, radius, control or
+block, and no change to the renderer: four proof blocks instead of three is the registry's `proof` array.
+
+**The page.** Hero («Arbeidsmiljø­kartlegging for helse og omsorg: se hva som tærer på personalet – og følg det
+opp»; the owner's rule after /handel: no claim of an outcome Orgpuls does not deliver itself – no safer care,
+less sick leave, lower turnover or better patient safety; the copy says what it does: shows where the strain
+is, per department with enough answers, measures with owner and deadline, the pulse, the report), the real
+mobile questionnaire, three tiles (8 factors, «Svar fra alle vakter», the report); «Hverdagen i tall» (588 000
+in health and social services, one in five employed; 9,6 % sick leave in Q2 2026, the highest of all
+industries, against 6,6 %; 34 % in nursing homes exposed to violence against 5 %; 38 % in home care with high
+emotional demands against 20 %; 35 % part-time against 24 %; the note that inspectors see few incidents
+reported); «Hvorfor omsorgsvirksomheten må kartlegge arbeidsmiljøet» (law card: aml §§ 3-1 (2) c, 4-3 (2),
+4-3 (6), 4-1 (3), forskriften kap. 3A and § 1A-2; Arbeidstilsynet's 2025 priority on nursing homes and home
+care and its violence findings; the small-business gap, half of clinic staff in firms under 10; the cost);
+eight challenges (violence and threats, often alone; emotional demands; too few on shift; between user,
+relatives and manager; rotas and nights; part-time nobody chose; new staff, temps and many languages; heavy
+lifting when busy), each mapped to the module's and the core survey's factors; four real screens (heat map,
+measures, year wheel, report); four steps; anonymity; eight FAQs with FAQPage JSON-LD; the start band;
+«Les videre»; fourteen numbered sources.
+
+**Facts.** Every figure is from a document fetched and read on 3 October 2026 and recorded in
+`docs/marketing/helse-sources.md` with page and sentence: SSB tables 07203 (AKU 2025) and 12440 (Q2 2026,
+read through SSB's API), STAMI/NOA for nursing homes, home care and health clinics (LKU-A 2022), Arbeidstilsynet
+Signal nr. 1 2024, its annual report 2025, its page on working alone, Fafo-rapport 2026:28 (Nielsen, Bråthen
+og Moland, for KS), 2025:19 (Nielsen og Moland), 2025:08 (Jordell, Yssen og Moland), 2025:10, and Lovdata (aml
+§ 4-3 and § 4-1 read on Lovdata). Written to what the sources say: Fafo 2025:19 finds fairly stable staffing in
+health and care compared with working life as a whole, so the page claims no general turnover problem, only
+home care's 29 % against 24 %, which Fafo itself points out; inspectors' input in Signal is attributed as
+inspectors'; the «sju av ti» in Arbeidstilsynet's report is quoted in the order the report gives it. The module
+file's own rationale figures (KS, Sykepleien, SINTEF, Swedish and Danish sources) stay on the question page and
+are not used here; the sources file says why. No testimonial, logo, customer count or result claim.
+
+**Product claims, and where they are true.**
+- The eight module factors, their statements and suggested measures («Samtale samme vakt», «Bemanningssjekk før
+  vakt», «Tilby før du lyser ut», «Forflytningsplan per bruker»): `modules/helse-og-omsorg/v1.json`. 24
+  statements, 2 yes/no questions, ~3 min: the same file (`moduleFacts`).
+- The two yes/no questions (unreported violence and threats, shifts with staffing that was not responsible)
+  shown only for the whole business: `count_items` HO-T-1, HO-T-2, `anonymity.count_items_reported_at:
+  organisation_only`. The core survey's `vold` and `krenkende`: counts only (0007, 0009, 0076).
+- Core factors named: `factor.kontakt|emosjon|leder|mengde|motstrid`; the module does not repeat the emotional
+  demands statements (`relation_to_core.core_statements_not_repeated`), and the page says so.
+- 5 answers by default, 3 for small teams, never lower: `app.k_floor()` / `app.k_min()`; complementary
+  suppression (0045).
+- SMS, e-mail and the QR poster in the staff room: `app/(app)/malinger/plakat`, `app/inn/[code]`,
+  `lib/entry/qr.ts`. Teams and Slack are not named (D-203, D-205).
+- The module suggested from NACE 86–88, and chosen by hand under Oppsett for another code (a staffing agency):
+  `content/industries/meta.ts` (0091, D-139). Measuring without an industry module is the same setting's
+  «Ingen bransjemodul». Results per group in the Usual plan, as the pricing page says. The year wheel and the
+  pulse that re-asks the statements behind open measures: `components/arshjulet`, 0071, D-115; the module's part
+  of the report: D-116.
+- Shift type and position size as segments are built but off (`module_segments`), so the page does not offer
+  results per shift type; it says a night shift that is its own group gets its own figures. Factor toggles are
+  off (`module_factor_toggles`), so the FAQ says a GP surgery gets all eight factors today.
+- **Languages: «norsk, engelsk, polsk og litauisk».** Polish and Lithuanian are being switched on in production
+  by a parallel change the owner approved on 3 October 2026; Ukrainian, Swedish and Danish are not, and the FAQ
+  says so. A read-only check on the hosted database found every one of the 28 items of the published helse
+  module (1.0.1) approved in English, Polish and Lithuanian (`app.item_translations`). The keys that name
+  languages: `site.bransje.helse.challenges.items[6].solve` and `site.bransje.helse.faq.items[4]` (q and a), in
+  no.json and en.json. If the flags do not ship, these are the two keys to change.
+- The demo company is honest about itself: Nordvik Anlegg AS is a fictional civil engineering firm, not a care
+  business; its screens show the core survey, and the proof lead says so.
+
+**English is live.** `modules/helse-og-omsorg/v1.json` carries `translations.en`, so `live.en` is on (D-120) and
+en.orgpuls.com/helse-og-omsorg shows the landing page, replacing the older English page as the Norwegian one is
+replaced. The English module factor names are the translation's (the unit test from D-208 holds them).
+
+**Also changed.** `content/industries/helse-og-omsorg.ts` and `.en.ts` keep their content as the record and still
+feed the question pages, the menu name and launch state; the legal review lists the landing's unit (`site.helse`,
+with `admin.legal.unit.site.helse`) and marks the old law items unpublished (D-207's rule, from the registry);
+`tests/unit/legal-registry.test.ts` now checks a launched page still on the older template (barnehage og skole)
+for published law items, and helse's landing unit as live. The share card `public/og/helse-og-omsorg.png` is
+regenerated with the new H1 and the questionnaire shot (og-images reads it from the message; no article card
+uses helse's picture). `lib/i18n/site-pages.json` regenerated.
+
+**Pixel gate.** Unchanged: the five v3 pages capture at exactly D-207's numbers on this build (Forside 9.3752 %,
+Plattform 6.6768 %, Bruksområder 3.3886 %, Bransjer 13.1639 %, Pris 2.0562 %).
+
+**Verified** on a production build (hosted env, read-only; `NEXT_DIST_DIR=.next-helse`): tsc 0, lint 0,
+verify:i18n 0, vitest 796/796, build 0; the page map regenerated and `--check` 0 (38 pages, QA build
+`.next-qa-helse` on the local stack, served on its own port); the mobile gate at 390 and 360 for
+/helse-og-omsorg, /handel, /bygg-og-anlegg, /bransjer, /barnehage-og-skole, /kunnskap-og-kontor and
+/helse-og-omsorg/sporsmal: exit 0, no sideways scroll, no squeezed text; axe serious/critical 0, one H1, no
+console errors on those pages at 1440 and 390 in Norwegian, and on /helse-og-omsorg, /handel?forhandsvis=1,
+/bygg-og-anlegg, /bransjer and /helse-og-omsorg/sporsmal in English; FAQPage JSON-LD with eight questions on
+/helse-og-omsorg in both languages. `node scripts/audit/wiring.mjs` exits 1 on the same six findings as D-208,
+none in anything this change touches: it adds no column, setting or RPC. No database writes (two read-only
+queries on the hosted translation registry).

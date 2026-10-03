@@ -92,9 +92,11 @@ describe('industry landing pages', () => {
   }
 
   it('leaves the other industries on their own template, and the five v3 pages as they were', () => {
-    expect(isV3Route('/helse-og-omsorg')).toBe(false)
+    expect(isV3Route('/barnehage-og-skole')).toBe(false)
+    expect(isV3Route('/kunnskap-og-kontor')).toBe(false)
     expect(isV3Route('/handel/sporsmal')).toBe(false)
     expect(isV3Route('/bygg-og-anlegg/sporsmal')).toBe(false)
+    expect(isV3Route('/helse-og-omsorg/sporsmal')).toBe(false)
     for (const r of ['/', '/plattform', '/bruksomrader', '/bransjer', '/priser']) expect(isV3Route(r)).toBe(true)
   })
 })
