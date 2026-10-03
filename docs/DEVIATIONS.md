@@ -10593,3 +10593,66 @@ anon class is unchanged. **Not yet on hosted:** `app.crm_purge`, `app.crm_purge_
 the repository's settings, which already allow the Supabase tools; DEC-28). Until it lands nothing on hosted is removed
 for good: a deleted record stays in the restore list, and «Delete permanently» answers `failed`. Neither is
 reachable there yet, as the admin screens ship at the Phase 0 gate (DEC-23).
+
+## D-211 — CRM access: permission sets, visibility groups, teams and audit completeness (0196) (2026-10-03)
+
+Work package WP-0.4 of the CRM enrichment brief (SEC-07, SEC-08, SEC-09 teams, SF-01; Q2, Q3 as DEC-12, Q4).
+**Permission sets** are rows (`app.crm_permission_sets`) over a catalogue of twenty actions
+(`app.crm_permission_actions`): create, edit, delete, import, export and bulk edit for companies and deals and
+for contacts; change visibility and view reports for deals; create, edit, delete, send and view reports for
+campaigns; and the CRM's global settings. Three are built in: Admin (every action, present and future — its kind
+decides, its list is empty), Regular (all twenty, editable) and Read only (the two report actions, editable). The
+super-admin adds and removes custom sets on Admin › Users & roles and gives a staff member a set
+(`app.crm_staff_access`). Without one, a staff member works under their role's: the owner under Admin, sales &
+marketing under Regular, the analyst under Read only; support, finance and the editor have none, as they had no
+CRM access before. The role stays the coarse gate (DEC-11): `app.crm_can(action)` first asks `crm_can_write()`
+for a write action or `crm_can_read()` for a report, then the set. With the built-in sets every role can do exactly
+what it could before 0196. All 37 CRM writes moved from `crm_can_write()` to `crm_can(action)`; a change to more
+than one record needs bulk edit as well; restoring, and the restore list's actions, need delete (closing D-210's
+"who may restore follows the role"). The screens read `may` (`app.crm_may(area)`) to leave out what the database would
+refuse: the companies and contacts lists and pages, where the ticked-companies bar needs bulk edit.
+
+**Visibility.** A company carries `visibility` — the owner only, the owner's group, the owner's group and its
+sub-groups, or everyone — and a new one takes the rule `default_visibility_company` (everyone by default).
+Groups (`app.crm_visibility_groups`) nest without cycles; a staff member sits in at most one.
+`app.crm_visible(owner, visibility)` lets through the system's own jobs, everyone, a company with no owner or
+one's own, and the Admin set; otherwise it compares the owner's group with the viewer's. Every reader of
+companies and activities applies it — the lists, the page, the figures, tasks, the inbox, the attention panel,
+lead scores, the history, the restore list — and every write that names a company answers `not_found` for one
+the caller cannot see, never revealing it exists. The consent ledger keeps every record (consent is a person's,
+and contacts are not owned) but does not name a company the reader cannot see. Changing visibility needs its
+action. An activity follows its company. **Teams** (`app.crm_teams`, `app.crm_team_members`: a manager and
+members, staff only) are kept on the same page for assignment, reports and goals as they arrive (AUT-11, INS-05).
+Rules `limit_permission_sets` and `limit_visibility_groups` count custom sets and groups, unlimited by default.
+
+**Audit and roles.** Twenty-one admin readers now write an audit row (the trail itself as `audit.view`, the
+attention panel, web and CMS traffic, an organisation's owner, cancellation and notice recipients, a ticket's
+mail, and thirteen CRM readers); a reader that audits is VOLATILE, as PostgREST runs a STABLE function read-only.
+The nineteen that write none are reviewed with their reason in `crm_access_invariants.sql` — none returns
+customer, person or CRM data — and the suite fails on any new admin reader that neither audits nor is reviewed.
+The audit and web CSV exports go through audited readers. Q2: `admin_set_admin` accepts every
+`app.platform_role`, the editor included. DEC-12: an organisation's page and the audit trail become allow-lists
+— the trail is the super-admin's, or support's for one organisation; marketing reads neither.
+
+**Deviations from the plan.** `app.crm_can(action, entity)` became `app.crm_can(action)`, the entity in the
+action's key (`deals.edit`): one catalogue, and an unknown action raises. The brief enforces visibility "by
+row-level security"; the CRM tables are closed to every client role (RLS on, no policy, no grant), so a policy
+would never run — the definer calls are the only route, each applies `app.crm_visible`, and seq 13 fails on any
+function reading companies or activities that neither applies it nor is reviewed (five calls and 24 helpers, each
+with its reason), on a client call reaching a helper that trusts its caller without filtering, and on a reviewed
+helper a client could execute. The plan's "plan gates (counts)" are count rules, unlimited by default, until
+plans exist (ENT-01). The plan counted about 25 unaudited readers; 21 now audit and 19 are reviewed exceptions.
+
+**Not done.** On the campaign, list, segment, sender and template pages the controls are still offered by role;
+the set refuses in the database (`not_allowed`, whose text names the permission set), and the contacts list's
+«New list» link follows the role. No projects area, as there are no projects (PRJ, Phase 6). Contacts have no
+owner yet, so every CRM reader sees every contact (an owner arrives with CRM-01, WP-1.5); visibility defaults
+per record type cover companies until deals and leads exist (WP-1.1, WP-1.7); limiting a pipeline to groups needs
+the pipeline record (WP-1.1); SEC-08's setting for showing hidden activities and notes as placeholders arrives
+with the calendar (WP-1.4). SEC-09's replacing a user and reassigning their records, copying access from another
+user, the user overview and the own profile are not built. Field rules (SF-01 step 4) come with custom fields
+(WP-0.5), entitlements (step 5) with ENT-01.
+
+Proved in `crm_access_invariants.sql` (13 assertions); `crm_restore_invariants.sql` reviews the two new
+visibility helpers and `crm_rules_invariants.sql` lists the three new rules. Screens in
+`docs/crm-enrichment/screens/phase-0/SEC-07-*`, `SEC-08-*`, `SET-rules-access-*`.

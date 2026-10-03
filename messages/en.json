@@ -9350,6 +9350,110 @@
         "note": "A ticket closed without a reply does not count towards first replies. A rating link goes with the reply that resolves a ticket and works once, for 30 days."
       }
     },
+    "crmAccess": {
+      "title": "CRM access",
+      "lead": "What each staff member may do in the CRM, and whose companies they see. The role stays the coarse gate; a permission set narrows it. A change applies at once and is written to the audit log.",
+      "save": "Save",
+      "staff": {
+        "title": "Staff",
+        "lead": "Without a set of their own, a staff member works under their role's: Admin for the owner, Regular for sales & marketing, Read only for the analyst. Other roles have no CRM actions.",
+        "set": "Permission set",
+        "roleDefault": "Their role's: {set}",
+        "roleNone": "Their role's: none",
+        "group": "Visibility group",
+        "noGroup": "No group",
+        "inactive": "Inactive"
+      },
+      "sets": {
+        "title": "Permission sets",
+        "lead": "Admin holds every action, present and future. Regular and Read only can be changed; custom sets can be added and removed.",
+        "name": "Name",
+        "actions": "Actions",
+        "adminAll": "Every action, including any added later.",
+        "members": "Working under it: {n}",
+        "add": "Add the set",
+        "addTitle": "A custom set",
+        "delete": "Remove the set",
+        "kind": {
+          "admin": "Built in · every action",
+          "regular": "Built in",
+          "custom": "Custom"
+        }
+      },
+      "area": {
+        "deals": "Companies and deals",
+        "contacts": "Contacts",
+        "campaigns": "Campaigns",
+        "global": "Settings"
+      },
+      "action": {
+        "deals": {
+          "create": "Add",
+          "edit": "Edit",
+          "delete": "Delete and restore",
+          "import": "Import",
+          "export": "Export",
+          "bulk_edit": "Change many at once",
+          "visibility": "Change who sees it",
+          "reports": "See the figures"
+        },
+        "contacts": {
+          "create": "Add",
+          "edit": "Edit and unsubscribe",
+          "delete": "Delete, restore and erase",
+          "import": "Import",
+          "export": "Export",
+          "bulk_edit": "Change many at once"
+        },
+        "campaigns": {
+          "create": "Add",
+          "edit": "Edit, lists and segments",
+          "delete": "Delete",
+          "send": "Schedule, test and send",
+          "reports": "See the figures"
+        },
+        "global": {
+          "settings": "Stages, senders, sending and the register"
+        }
+      },
+      "groups": {
+        "title": "Visibility groups",
+        "lead": "Each staff member sits in one group; groups can sit inside others. A company can be seen by its owner only, the owner's group, the owner's group and its sub-groups, or everyone.",
+        "empty": "No groups yet. Until there are, a company limited to a group is seen only by its owner and by staff under the Admin set.",
+        "name": "Name",
+        "parent": "Inside",
+        "top": "At the top",
+        "members": "Staff in it: {n}",
+        "add": "Add the group",
+        "addTitle": "A new group",
+        "delete": "Remove the group"
+      },
+      "teams": {
+        "title": "Teams",
+        "lead": "A manager and members, for assignment, reports and goals as they arrive.",
+        "empty": "No teams yet.",
+        "name": "Name",
+        "manager": "Manager",
+        "noManager": "No manager",
+        "members": "Members",
+        "add": "Add the team",
+        "addTitle": "A new team",
+        "delete": "Remove the team"
+      },
+      "problem": {
+        "failed": "It could not be saved. Try again.",
+        "not_allowed": "Only a super-admin with the second factor changes CRM access.",
+        "invalid": "Something in the form is not valid.",
+        "invalid_name": "Give it a name of 1–80 characters.",
+        "exists": "That name is taken.",
+        "builtin": "A built-in set cannot be removed, and Admin always holds every action.",
+        "cycle": "A group cannot sit inside itself or one of its own sub-groups.",
+        "has_children": "Move or remove its sub-groups first.",
+        "too_many": "A limit set under Settings › CRM rules stops this.",
+        "not_found": "It no longer exists.",
+        "reason_required": "Typed reasons are on under Settings › CRM rules: give a reason of at least five characters."
+      }
+    },
     "crm": {
       "title": "CRM",
       "lead": "People who sign in, and prospects who said yes. Respondents are never contacts: nothing here reads the employee register.",
@@ -9699,6 +9803,7 @@
           "origin": "Origin",
           "rule": "Rule",
           "task_kind": "Task kind",
+          "visibility": "Who sees it",
           "sla_due_at": "Answer due"
         }
       },
@@ -9762,6 +9867,13 @@
           "open": "Open the restore list"
         }
       },
+      "visibility": {
+        "label": "Who sees it",
+        "everyone": "Everyone",
+        "group_tree": "The owner's group and its sub-groups",
+        "group": "The owner's group",
+        "owner": "The owner only"
+      },
       "delete": {
         "company": "Delete company",
         "contact": "Delete contact",
@@ -9788,7 +9900,7 @@
       },
       "problem": {
         "failed": "It could not be saved. Try again.",
-        "not_allowed": "Your role cannot do this.",
+        "not_allowed": "Your role or your permission set does not allow this.",
         "invalid": "Something in the form is not valid.",
         "invalid_email": "That e-mail address does not look right.",
         "consent_required": "A CRM rule under Settings › CRM rules asks for a consent source: say where the consent came from.",
@@ -12454,7 +12566,8 @@
           "contacts": "Contacts and consent",
           "audit": "Reasons",
           "limits": "Limits",
-          "deletion": "Deletion and restore"
+          "deletion": "Deletion and restore",
+          "access": "Access"
         },
         "default": "Default: {value}",
         "atDefault": "At its default",
@@ -12480,7 +12593,11 @@
           "opt_in_only": "Opt-in only",
           "off": "Off",
           "required": "Required per row",
-          "on": "On"
+          "on": "On",
+          "everyone": "Everyone",
+          "group_tree": "Owner's group and sub-groups",
+          "group": "Owner's group",
+          "owner": "Owner only"
         },
         "rule": {
           "contact_rule": {
@@ -12538,6 +12655,18 @@
           "restore_window_days": {
             "name": "Days in the restore list",
             "why": "How long a deleted company, contact or activity can be restored before the job removes it for good. Unlimited: kept until someone restores it or deletes it permanently."
+          },
+          "default_visibility_company": {
+            "name": "Who sees a new company",
+            "why": "Who a company is visible to when it is added: everyone, as today; the owner's group and its sub-groups; the owner's group; or the owner only. A staff member whose set allows it changes it on the company."
+          },
+          "limit_permission_sets": {
+            "name": "Custom permission sets",
+            "why": "The most custom permission sets. Admin, Regular and Read only are built in and not counted."
+          },
+          "limit_visibility_groups": {
+            "name": "Visibility groups",
+            "why": "The most visibility groups."
           }
         }
       }

@@ -7,7 +7,7 @@ import type { CrmHistory as History } from '@/lib/admin/crm'
  * History on a company or contact page (0194, D-209; PIP-04): every change to a tracked field — what it was,
  * what it became, who and from where — newest first, a page at a time, under the record's own events
  * (created, stage changes, completed tasks). Values are shown as stored; a link to another record is said to
- * have changed rather than shown as an id.
+ * have changed rather than shown as an id; a field the page has words for (who sees a company) shows those.
  */
 type Labels = {
   title: string
@@ -25,15 +25,18 @@ type Labels = {
   event: Record<string, string>
   field: Record<string, string>
 }
+/** Words for a field's stored values, where the page has them (0196: who sees a company) */
+type Values = Record<string, Record<string, string>>
 
-function shown(v: unknown, l: Labels): string {
+function shown(v: unknown, l: Labels, words?: Record<string, string>): string {
   if (v === null || v === undefined || v === '') return l.none
+  if (typeof v === 'string' && words?.[v]) return words[v]
   if (Array.isArray(v)) return v.length ? v.map((x) => String(x)).join(', ') : l.none
   if (typeof v === 'object') return JSON.stringify(v)
   return String(v)
 }
 
-export function CrmHistory({ data, labels: l, base, before }: { data: History; labels: Labels; base: string; before: number | null }) {
+export function CrmHistory({ data, labels: l, base, before, values }: { data: History; labels: Labels; base: string; before: number | null; values?: Values }) {
   const lastId = data.changes.length ? data.changes[data.changes.length - 1]!.id : null
   return (
     <Card title={l.title}>
@@ -65,9 +68,9 @@ export function CrmHistory({ data, labels: l, base, before }: { data: History; l
                   l.linked
                 ) : (
                   <>
-                    <span className="text-mut line-through decoration-ink/30">{shown(c.old, l)}</span>
+                    <span className="text-mut line-through decoration-ink/30">{shown(c.old, l, values?.[c.field])}</span>
                     {' → '}
-                    <span>{shown(c.new, l)}</span>
+                    <span>{shown(c.new, l, values?.[c.field])}</span>
                   </>
                 )}
               </div>

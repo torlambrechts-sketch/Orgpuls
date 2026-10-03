@@ -34,7 +34,7 @@ Answers of 2026-10-03 are in `DECISIONS.md` (DEC-01…09); open items are carrie
 - **Blocks:** nothing else, but I recommend shipping (a) as its own small change before Phase C. It is outside
   this phase's "no code" rule, so it needs your go-ahead.
 
-### Q2. The `editor` admin role cannot be granted
+### Q2. The `editor` admin role cannot be granted — **resolved 2026-10-03 (P7, D-211, migration 0196)**
 - **Found.** The admins page offers `editor` (`app/(admin)/admin/admins/page.tsx:22,38`, from `ROLES` in
   `lib/admin/api.ts:23`), but `public.admin_set_admin` (`mig/0055_crm.sql:1071`, never redefined) accepts only
   super_admin, support, finance, analyst, marketing → `invalid_role`. `admin_roles_invariants.sql:31` inserts
@@ -42,12 +42,12 @@ Answers of 2026-10-03 are in `DECISIONS.md` (DEC-01…09); open items are carrie
 - **Options.** Fix the whitelist in a new migration plus a test that calls `admin_set_admin` with every enum
   value; or remove `editor` from the UI. **Blocks:** nothing in this brief; it bears on SEC-07.
 
-### Q3. Some admin gates list excluded roles instead of allowed ones
+### Q3. Some admin gates list excluded roles instead of allowed ones — **resolved 2026-10-03 (DEC-12, D-211, migration 0196)**
 - **Found.** After `0126:131-132`, `marketing` can read `admin_org_detail` and the full admin audit trail
   (`0049:265,447` as patched). Appendix 2 limits the audit trail per org to support/super-admin.
 - **Question.** Intended? If not, the fix is an allow-list. **Blocks:** SEC-07 design.
 
-### Q4. Admin reads that write no audit row
+### Q4. Admin reads that write no audit row — **resolved 2026-10-03 (D-211, migration 0196): 21 readers audit, 19 reviewed exceptions**
 - **Found.** About 25 admin readers (13 in the CRM, e.g. `admin_crm_segment_preview`, which returns up to 20
   contact e-mails) never call `app.admin_log`, though the file headers say every read does (`lib/admin/api.ts:17-22`).
   The web and audit CSV exports leave no audit row (04 §7).

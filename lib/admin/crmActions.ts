@@ -8,7 +8,7 @@ import { LOCALES } from '@/lib/i18n/locales'
 import { createClient } from '@/lib/supabase/server'
 import type { AdminResult } from './actions'
 import { generalManagers, searchRegistry, SearchInput, type Manager, type RegistryHit } from './brreg'
-import { ACTIVITY_KINDS, Block, CAMPAIGN_KINDS, CONTACT_ROLES, crmCompanies, Filter, StageKey, STAGE_KINDS, TASK_STEP_KINDS } from './crm'
+import { ACTIVITY_KINDS, Block, CAMPAIGN_KINDS, CONTACT_ROLES, crmCompanies, Filter, StageKey, STAGE_KINDS, TASK_STEP_KINDS, VISIBILITIES } from './crm'
 import { isError } from './api'
 import { blockingChecks } from './campaignMail'
 
@@ -370,6 +370,12 @@ export async function saveCompany(_prev: AdminResult | null, formData: FormData)
   if (!parsed.data.stage) delete p.stage
   if (id) delete p.org_number
   if (id && versionOf(formData.get('version')) !== undefined) p.version = versionOf(formData.get('version'))
+  // 0196 (SEC-08): who sees the company, sent only by a form whose set may change it; the database checks again
+  const visibility = formData.get('visibility')
+  if (visibility !== null) {
+    if (!(VISIBILITIES as readonly string[]).includes(String(visibility))) return { ok: false, problem: 'invalid' }
+    p.visibility = String(visibility)
+  }
   const r = await rpc('admin_crm_company_save', { p_id: id ? id.data : null, p })
   if (!r.ok) return r
   revalidatePath('/admin/crm/prospects')

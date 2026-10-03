@@ -60,6 +60,8 @@ declare
     'app.crm_log(uuid,uuid,text,text,date)',        -- writes for a caller that has checked
     'app.crm_record_label(text,uuid)',              -- names a deleted record for the restore list
     'app.crm_stage_changes_guard()',                -- existence, not visibility
+    'app.crm_visible_company(uuid)',                -- 0196: a company's visibility, deleted or not: the caller decides
+    'app.crm_visible_ids(text,uuid[])',             -- 0196: the visible ids among those given, live or deleted: the caller decides
     'app.crm_sync()',                               -- the account sync keeps a deleted contact current, and deleted
     'app.delete_organisation(uuid,text,uuid)',      -- an organisation's deletion removes deleted contacts too
     'app.growth_doi(text)',                         -- a growth figure over what the database holds

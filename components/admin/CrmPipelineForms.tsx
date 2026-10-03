@@ -6,6 +6,7 @@ import type { CrmMessages } from '@/components/admin/CrmForms'
 import { Button } from '@/components/ui/Button'
 import type { Municipality } from '@/lib/admin/brreg'
 import type { Company, List, Stage } from '@/lib/admin/crm'
+import { VISIBILITIES } from '@/lib/admin/crmLabel'
 import {
   addToList,
   createCampaign,
@@ -66,6 +67,7 @@ export function CompanyForm({
   company,
   admins,
   stages,
+  canVisibility = false,
 }: {
   m: CrmMessages
   common: Common
@@ -73,6 +75,8 @@ export function CompanyForm({
   admins: { id: string; email: string | null }[]
   /** the stages, as data (0093): a person sets those that do not follow the plan */
   stages: Stage[]
+  /** 0196 (SEC-08): the permission set allows changing who sees the company; otherwise the field is not sent */
+  canVisibility?: boolean
 }) {
   const f = m.prospects
   const [name, setName] = useState(company?.name ?? '')
@@ -87,6 +91,7 @@ export function CompanyForm({
   const [tags, setTags] = useState(company?.tags.join(', ') ?? '')
   const [stage, setStage] = useState<string>(company ? (company.org_id ? '' : company.stage) : 'new')
   const [lost, setLost] = useState(company?.lost_reason ?? '')
+  const [visibility, setVisibility] = useState<string>(company?.visibility ?? 'everyone')
   const [state, action, pending] = useKeptAction(saveCompany, () => undefined)
   const followsPlan = Boolean(company?.org_id)
 
@@ -129,6 +134,18 @@ export function CompanyForm({
         <Field name="next_step" text={f.nextStep} value={nextStep} set={setNextStep} max={300} />
         <Field name="next_step_at" text={f.nextStepAt} value={nextAt} set={setNextAt} type="date" />
         <Field name="tags" text={f.tags} value={tags} set={setTags} max={400} />
+        {canVisibility && company ? (
+          <label className="block [grid-column:1/-1]">
+            <span className={label}>{m.visibility.label}</span>
+            <select name="visibility" value={visibility} onChange={(e) => setVisibility(e.target.value)} className={input}>
+              {VISIBILITIES.map((v) => (
+                <option key={v} value={v}>
+                  {m.visibility[v]}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : null}
         {stages.find((s) => s.key === stage)?.kind === 'lost' ? <Field name="lost_reason" text={f.lostReason} value={lost} set={setLost} max={300} /> : null}
       </div>
       {followsPlan ? <p className="m-0 text-[12px] text-mut">{m.company.followsPlan}</p> : null}

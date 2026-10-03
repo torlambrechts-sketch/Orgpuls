@@ -2,6 +2,9 @@ import 'server-only'
 import { z } from 'zod'
 import { LOCALES } from '@/lib/i18n/locales'
 import { call } from './api'
+import { VISIBILITIES } from './crmLabel'
+
+export { VISIBILITIES }
 
 /**
  * The CRM's reads (0055, D-101; 0056–0058, D-103). Each function checks the admin's role and second factor and
@@ -9,6 +12,14 @@ import { call } from './api'
  */
 const num = z.coerce.number()
 const tsn = z.string().nullable()
+/**
+ * 0196 (SEC-07): what the signed-in staff member's permission set allows in one area, keyed by action
+ * ({"create": true, "edit": false, …}). The database checks every call; the screens read this only to leave
+ * out what would be refused.
+ */
+const May = z.record(z.string(), z.boolean())
+export type May = z.infer<typeof May>
+export const may = (m: May | undefined, action: string) => m?.[action] === true
 
 export const CONTACT_TYPES = ['prospect', 'trial', 'customer', 'former'] as const
 export const CONTACT_ROLES = ['daglig_leder', 'hr', 'leder', 'verneombud', 'annet'] as const
@@ -74,6 +85,7 @@ const Contacts = z.object({
   rows: z.array(Contact),
   // 0192: the list's cap, a CRM rule setting (null: every contact)
   limit: num.nullable(),
+  may: May.default({}),
 })
 export const crmContacts = (q: string | null, type: string | null) =>
   call('admin_crm_contacts', { p_q: q, p_type: type, p_limit: null }, Contacts)
@@ -91,7 +103,8 @@ const TimelineRow = z.object({
   unsubscribed_at: tsn,
 })
 export type TimelineRow = z.infer<typeof TimelineRow>
-export const crmContact = (id: string) => call('admin_crm_contact', { p_id: id }, z.object({ contact: Contact, timeline: z.array(TimelineRow) }))
+export const crmContact = (id: string) =>
+  call('admin_crm_contact', { p_id: id }, z.object({ contact: Contact, timeline: z.array(TimelineRow), may: May.default({}), may_campaigns: May.default({}) }))
 
 export const Filter = z
   .object({
@@ -343,6 +356,8 @@ const Company = z.object({
   // 0119: the deal's yearly value, and who to talk to
   value_nok: num.nullable().default(null),
   contact_name: z.string().nullable().default(null),
+  // 0196 (SEC-08): who sees the company
+  visibility: z.enum(VISIBILITIES).default('everyone'),
 })
 export type Company = z.infer<typeof Company>
 
@@ -351,7 +366,7 @@ export const crmCompanies = (q: string | null, stage: string | null) =>
     'admin_crm_companies',
     { p_q: q, p_stage: stage, p_owner: null },
     // 0192: limit is the list's cap, a CRM rule setting (null: every company)
-    z.object({ stages: z.record(z.string(), num), tasks_due: num, rows: z.array(Company), limit: num.nullable() }),
+    z.object({ stages: z.record(z.string(), num), tasks_due: num, rows: z.array(Company), limit: num.nullable(), may: May.default({}) }),
   )
 
 const Activity = z.object({
@@ -383,6 +398,8 @@ export const crmCompany = (id: string) =>
       rules: z.object({ founder_min: num }),
       mail: z.object({ sent: num, opened: num, clicked: num, last_at: tsn }),
       admins: z.array(z.object({ id: z.string(), email: z.string().nullable() })),
+      may: May.default({}),
+      may_contacts: May.default({}),
     }),
   )
 
@@ -629,3 +646,41 @@ export const DeletePreview = z.object({
   effects: z.record(z.string(), num),
 })
 export type DeletePreview = z.infer<typeof DeletePreview>
+
+// ---------------------------------------------------------------- access (0196, D-211)
+export const CRM_AREAS = ['deals', 'contacts', 'campaigns', 'global'] as const
+export type CrmArea = (typeof CRM_AREAS)[number]
+const Uuid = z.string().uuid()
+const Access = z.object({
+  actions: z.array(z.object({ key: z.string(), area: z.enum(CRM_AREAS), kind: z.enum(['write', 'read']) })),
+  sets: z.array(
+    z.object({ id: Uuid, key: z.string(), name: z.string(), kind: z.enum(['admin', 'regular', 'custom']), builtin: z.boolean(), actions: z.array(z.string()), members: num }),
+  ),
+  staff: z.array(
+    z.object({
+      user_id: Uuid,
+      email: z.string().nullable(),
+      role: z.string(),
+      active: z.boolean(),
+      // their own set (null: the role's), the set in force, and their visibility group
+      set_id: Uuid.nullable(),
+      effective_set: Uuid.nullable(),
+      group_id: Uuid.nullable(),
+    }),
+  ),
+  groups: z.array(z.object({ id: Uuid, name: z.string(), parent_id: Uuid.nullable(), members: num })),
+  teams: z.array(
+    z.object({
+      id: Uuid,
+      name: z.string(),
+      manager_id: Uuid.nullable(),
+      manager: z.string().nullable(),
+      members: z.array(z.object({ user_id: Uuid, email: z.string().nullable() })),
+    }),
+  ),
+  limits: z.object({ sets: num.nullable(), groups: num.nullable() }),
+  default_visibility: z.enum(VISIBILITIES),
+})
+export type CrmAccess = z.infer<typeof Access>
+/** Admin › Users & roles › CRM access: the catalogue, the sets and who has which, the groups and the teams */
+export const crmAccess = () => call('admin_crm_access', {}, Access)

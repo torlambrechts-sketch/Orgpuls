@@ -6,7 +6,7 @@ import { ContactForm, SettingsForm, type CrmMessages } from '@/components/admin/
 import { Icon } from '@/components/admin/icons'
 import { Avatar, Badge, BTN, Card, PageHead, Problem, Segments, type BadgeTone } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
-import { CONTACT_TYPES, crmContacts, crmLists, crmSegments, type Contact } from '@/lib/admin/crm'
+import { CONTACT_TYPES, crmContacts, crmLists, crmSegments, type Contact, may } from '@/lib/admin/crm'
 import { crmRuleState } from '@/lib/admin/crmRules'
 import { AudienceTabs } from '@/components/admin/AudienceTabs'
 
@@ -40,12 +40,15 @@ export default async function CrmContacts({ searchParams }: { searchParams: Prom
   return (
     <>
       <PageHead title={cl('title')} lead={cl('lead', { count: c.total, site: t('nav.siteName'), not: c.total - c.mailable })}>
-        {canWrite ? (
+        {canWrite || may(data.may, 'import') ? (
           <div className="flex gap-[10px]">
-            <Link href={'/admin/crm/segments?new' as Route} className={BTN.secondary}>
-              {cl('newList')}
-            </Link>
-            <ImportDialog m={m} label={cl('import')} title={m.import.title} sub={cl('importSub')} close={cl('close')} />
+            {canWrite ? (
+              <Link href={'/admin/crm/segments?new' as Route} className={BTN.secondary}>
+                {cl('newList')}
+              </Link>
+            ) : null}
+            {/* 0196 (SEC-07): importing is the permission set's to allow */}
+            {may(data.may, 'import') ? <ImportDialog m={m} label={cl('import')} title={m.import.title} sub={cl('importSub')} close={cl('close')} /> : null}
           </div>
         ) : null}
       </PageHead>
@@ -109,7 +112,7 @@ export default async function CrmContacts({ searchParams }: { searchParams: Prom
         </section>
       </div>
 
-      {canWrite ? (
+      {may(data.may, 'create') ? (
         <Card title={m.add.title} className="mt-[18px]">
           {/* the contact rule (0192, D-208) decides what adding a contact asks for, or whether it is offered */}
           {rules.optInOnly ? (

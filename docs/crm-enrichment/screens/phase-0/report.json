@@ -30,5 +30,117 @@
     "overflowPx": 0,
     "errors": [],
     "file": "PIP-10-bulk-delete-preview-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SEC-07-access-empty",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-07-access-empty-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SEC-07-access-empty",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-07-access-empty-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SEC-07-access-populated",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-07-access-populated-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SEC-07-access-populated",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-07-access-populated-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SEC-07-set-editor",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-07-set-editor-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SEC-07-set-editor",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-07-set-editor-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SEC-08-group-editor",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-08-group-editor-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SEC-08-group-editor",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-08-group-editor-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SEC-08-company-visibility",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-08-company-visibility-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SEC-08-company-visibility",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-08-company-visibility-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SEC-07-prospects-narrowed",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-07-prospects-narrowed-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SEC-07-prospects-narrowed",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-07-prospects-narrowed-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SET-rules-access",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SET-rules-access-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SET-rules-access",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SET-rules-access-390.png"
   }
 ]

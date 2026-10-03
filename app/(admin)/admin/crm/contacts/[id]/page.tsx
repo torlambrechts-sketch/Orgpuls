@@ -3,7 +3,7 @@ import { ContactActionForm, ContactForm, type CrmMessages } from '@/components/a
 import { ContactListForms } from '@/components/admin/CrmPipelineForms'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
-import { crmContact, crmHistory, crmLists } from '@/lib/admin/crm'
+import { crmContact, crmHistory, crmLists, may } from '@/lib/admin/crm'
 import { CrmHistory } from '@/components/admin/CrmHistory'
 import { CrmDeleted } from '@/components/admin/CrmDeleted'
 import { DeleteRecords } from '@/components/admin/CrmTrash'
@@ -31,6 +31,9 @@ export default async function CrmContact({ params, searchParams }: { params: Pro
     )
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const c = data.contact
+  // 0196 (SEC-07): what this staff member's permission set allows here; the database checks every call
+  const canEdit = may(data.may, 'edit')
+  const canDelete = may(data.may, 'delete')
   const row = (k: string, v: React.ReactNode) => (
     <div className="flex flex-wrap gap-x-[10px] border-b border-line py-[7px] text-[13px] last:border-b-0">
       <span className="w-[140px] flex-none text-mut">{k}</span>
@@ -80,7 +83,7 @@ export default async function CrmContact({ params, searchParams }: { params: Pro
       </div>
 
       <Card title={m.contactLists.title} className="mt-[16px]">
-        {canWrite ? (
+        {may(data.may_campaigns, 'edit') ? (
           <ContactListForms m={m} common={common} contact={c.id} lists={listOptions} member={c.lists ?? []} />
         ) : (
           <p className="m-0 text-[13px]">
@@ -111,24 +114,32 @@ export default async function CrmContact({ params, searchParams }: { params: Pro
         </Table>
       </Card>
 
-      {canWrite ? (
+      {canEdit || canDelete ? (
         <div className="mt-[16px] grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,2fr)_minmax(0,1fr)]">
-          <Card title={m.contact.edit}>
-            <ContactForm m={m} common={common} contact={c} />
-          </Card>
+          {canEdit ? (
+            <Card title={m.contact.edit}>
+              <ContactForm m={m} common={common} contact={c} />
+            </Card>
+          ) : (
+            <span />
+          )}
           <div className="flex flex-col gap-[14px]">
-            {c.status !== 'unsubscribed' ? (
+            {canEdit && c.status !== 'unsubscribed' ? (
               <Card title={m.contact.unsubscribe}>
                 <ContactActionForm m={m} common={common} id={c.id} kind="unsubscribe" reasonRequired={rules.reasonRequired} />
               </Card>
             ) : null}
-            <Card title={m.delete.contact}>
-              <p className="mb-[10px] mt-0 text-[12.5px] leading-[1.5] text-mut">{m.delete.lead}</p>
-              <DeleteRecords entity="contact" ids={[c.id]} m={m} common={common} reasonRequired={rules.reasonRequired} />
-            </Card>
-            <Card title={m.contact.erase}>
-              <ContactActionForm m={m} common={common} id={c.id} kind="erase" reasonRequired={rules.reasonRequired} />
-            </Card>
+            {canDelete ? (
+              <>
+                <Card title={m.delete.contact}>
+                  <p className="mb-[10px] mt-0 text-[12.5px] leading-[1.5] text-mut">{m.delete.lead}</p>
+                  <DeleteRecords entity="contact" ids={[c.id]} m={m} common={common} reasonRequired={rules.reasonRequired} />
+                </Card>
+                <Card title={m.contact.erase}>
+                  <ContactActionForm m={m} common={common} id={c.id} kind="erase" reasonRequired={rules.reasonRequired} />
+                </Card>
+              </>
+            ) : null}
           </div>
         </div>
       ) : null}
