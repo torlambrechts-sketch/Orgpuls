@@ -10592,7 +10592,8 @@ anon class is unchanged. **Not yet on hosted:** `app.crm_purge`, `app.crm_purge_
 `orgpuls-crm-purge` — that part is held at the approval step of the Supabase connector's tool permissions on claude.ai (not
 the repository's settings, which already allow the Supabase tools; DEC-28). Until it lands nothing on hosted is removed
 for good: a deleted record stays in the restore list, and «Delete permanently» answers `failed`. Neither is
-reachable there yet, as the admin screens ship at the Phase 0 gate (DEC-23).
+reachable there yet, as the admin screens ship at the Phase 0 gate (DEC-23). Retried on 2026-10-03 with 0196:
+still held, as is 0196's part that removes sets, groups and team members (D-211).
 
 ## D-211 — CRM access: permission sets, visibility groups, teams and audit completeness (0196) (2026-10-03)
 
@@ -10656,3 +10657,20 @@ user, the user overview and the own profile are not built. Field rules (SF-01 st
 Proved in `crm_access_invariants.sql` (13 assertions); `crm_restore_invariants.sql` reviews the two new
 visibility helpers and `crm_rules_invariants.sql` lists the three new rules. Screens in
 `docs/crm-enrichment/screens/phase-0/SEC-07-*`, `SEC-08-*`, `SET-rules-access-*`.
+
+0196 on hosted (2026-10-03): a drift check first found the 72 functions 0196 edits identical (md5) to the
+repository's pre-0196 build. Applied in thirteen parts: `0196a` the tables, rules and column, `0196b` the helpers,
+`0196c` the four calls that read and save access, and `0196e`–`0196n` the 72 edits as anchored blocks that refuse
+to run unless every anchor matches as often as expected — dry-run locally from the pre-0196 bodies, with 72 of 72
+identical to the build. Verified on hosted: the 85 functions applied have the repository build's md5; the six
+tables have RLS on, no policy and no client grant; the helpers are executable by no client role and the four
+calls by `authenticated` only; the catalogue, the three built-in sets and the three rules are at their defaults,
+and every company is visible to everyone; the one active staff member, the owner, works under Admin, so nothing
+changes for anyone. The security advisors add exactly the four calls (`authenticated`, gated inside) and the six
+tables (RLS without policy) to their deliberate classes, and the anon class is unchanged; the performance
+advisors find no unindexed foreign key on the new tables. **Not yet on hosted:** `0196d` — removing a custom
+set, removing a group, and saving or removing a team (`admin_crm_set_delete`, `admin_crm_group_delete`,
+`admin_crm_team_save`, `admin_crm_team_delete`, as written in the migration, with their grants) — is held at the
+same approval step of the Supabase connector as 0195's purge part (DEC-28). Until it lands, a super-admin on
+hosted can add and assign sets and groups but not remove them, and no team can be made; nothing on hosted calls
+these before the admin screens ship at the Phase 0 gate (DEC-23).
