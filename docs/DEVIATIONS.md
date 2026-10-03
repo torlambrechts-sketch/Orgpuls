@@ -10589,6 +10589,7 @@ the six new events, the requests table with RLS on, no policy and no client gran
 anon and no engine function by any client role; the security advisors add exactly the six admin calls
 (`authenticated`, gated inside) and the requests table (RLS without policy) to their deliberate classes, and the
 anon class is unchanged. **Not yet on hosted:** `app.crm_purge`, `app.crm_purge_due` and the job
-`orgpuls-crm-purge` — that part is held at the tool's approval step. Until it lands nothing on hosted is removed
+`orgpuls-crm-purge` — that part is held at the approval step of the Supabase connector's tool permissions on claude.ai (not
+the repository's settings, which already allow the Supabase tools; DEC-28). Until it lands nothing on hosted is removed
 for good: a deleted record stays in the restore list, and «Delete permanently» answers `failed`. Neither is
 reachable there yet, as the admin screens ship at the Phase 0 gate (DEC-23).

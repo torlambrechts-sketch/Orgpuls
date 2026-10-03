@@ -55,6 +55,7 @@ recommended option every time.
 | DEC-24 | Migration 0195 (WP-0.3) cancelled at the production confirmation step (2026-10-03) | **Apply now**. The retries of the whole file were cancelled at the confirmation step as well (nothing reached the project) |
 | DEC-25 | How 0195 reaches production after four cancelled applies (2026-10-03) | **Claude applies it, a different way** (Tor: "You have all the rights and access … try something different or again"): applied in parts, each verified (D-210). The purge part is held at the tool's approval step |
 | DEC-26 | What follows WP-0.3 (2026-10-03) | **WP-0.4 locally** (permission sets, teams, visibility, audit completeness, marketing restricted to the CRM) while 0195's last part is settled |
+| DEC-28 | How the purge part of 0195 gets past the approval hold (2026-10-03) | **Allow `apply_migration`.** Correction: the repository's `.claude/settings.json` already allows every Supabase tool; the hold is the Supabase connector's own tool permission, set at claude.ai › Customize › Connectors › Supabase › tool permissions (`apply_migration` → allowed). Once it is allowed, the purge part is applied and verified |
 | DEC-27 | When bulk changes other than deletes become revertible (CRM-12) (2026-10-03) | **With WP-1.2's bulk edit**, where bulk changes beyond stage moves first exist; the 0194 changelog already holds what a revert needs |
 
 Still open (asked at the phase that needs them): Q7 lead object (plan follows the brief: own table), Q13
