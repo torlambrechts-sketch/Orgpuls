@@ -31,5 +31,30 @@ in the order the questions were put. Two readings are marked **(reading)**: corr
 | DEC-08 | Q12 health score as a scoring criterion | (reading) **Allowed, with a setting to turn it off.** The health score (organization-level counts) may be a scoring criterion; a setting switches that use off. The anonymity firewall itself stays fixed and is not a setting (R6, CLAUDE.md invariants) | PRO-03; firewall test follows calls through helpers |
 | DEC-09 | Q18 production | **Yes**: CLAUDE.md's operating authority applies — migrations reach the hosted project as each package passes its gates | Phase C |
 
-Not answered yet, carried to `07-IMPLEMENTATION-PLAN.md` § 2: Q2 (editor role), Q3, Q4, Q7, Q13–Q17, Q19,
+## Answers in selection format — 2026-10-03
+
+Asked with a recommendation per question (the rule now in CLAUDE.md "How to ask Tor"). Tor chose the
+recommended option every time.
+
+| # | Question | Decision |
+| --- | --- | --- |
+| DEC-10 | Start building? | **Start Phase 0 now**: WP-0.1 → 0.8 one package at a time, each tested and applied on hosted, stop at the Phase 0 gate |
+| DEC-11 | Staff permissions (P1, open point 10) | **Permission sets** assigned per staff member (admin, regular, custom); today's roles stay the coarse gate |
+| DEC-12 | Marketing reads org detail and the audit trail (Q3, P8) | **Restrict marketing to the CRM**: those gates become allow-lists (support and super-admin keep them) |
+| DEC-13 | Getting 0191 to main | **A pull request** with just the fix and its test |
+| DEC-14 | Job runtime (P2, open point 3) | **pg_cron + edge functions** through Phases 0–1; decide on a worker before Phase 2 |
+| DEC-15 | Mobile and desktop clients (Q17, P6) | **Defer to Phase 8** |
+| DEC-16 | Admin language (Q20, P10) | **English + per-user date/number format and time zone** |
+| DEC-17 | Three research rows not carried (open point 7) | **Leave all out** |
+| DEC-18 | Geocoding (P3, CRM-03) | **OpenStreetMap Nominatim** behind an adapter, rate-limited, cached per address |
+| DEC-19 | Webhook signing (P4) | **Signed, HMAC-SHA256**, a secret per subscription |
+| DEC-20 | Abuse protection defaults (P5) | **Honeypot on + per-IP rate limit 60/min**, both settings that can be switched off |
+| DEC-21 | `product_id` on existing CRM tables (Q14, P9) | **Add with default 'orgpuls'** (additive, no rewrite) |
+
+Still open (asked at the phase that needs them): Q7 lead object (plan follows the brief: own table), Q13
+threshold (plan keeps the product rule: floor 3, default 5), Q19 admin e2e (WP-0.7 adds it), open points 2
+(providers beyond geocoding), 5 (recording consent, signature level), 6 (LinkedIn connector, recurring
+activities), 8 (targets and costs).
+
+Earlier note: not answered yet, carried to `07-IMPLEMENTATION-PLAN.md` § 2: Q2 (editor role), Q3, Q4, Q7, Q13–Q17, Q19,
 Q20 and the ten open points. Where the plan needs an answer it proposes a default and says what it blocks.
