@@ -24,6 +24,13 @@ describe('the CRM and Marketing areas', () => {
     }
   })
 
+  it('keeps the restore list behind CRM\'s More (0195)', () => {
+    const nav = navFor('super_admin', [...BUILT, '/admin/crm/restore'])
+    const item = nav.find((x) => x.key === 'crm')?.items.find((i) => i.key === 'crmRestore')
+    expect(item?.more).toBe(true)
+    expect(groupOf(nav, '/admin/crm/restore')).toBe('crm')
+  })
+
   it('opens Marketing on its overview and a company record in CRM', () => {
     expect(currentItem(all, '/admin/crm')?.key).toBe('crmOverview')
     expect(groupOf(all, '/admin/crm/prospects/123')).toBe('crm')

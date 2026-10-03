@@ -132,8 +132,8 @@ begin
     v_txt := (select count(*) from app.crm_changes where record_id = v_ct) || ','
       || (select string_agg(e.name || '[' || array_to_string(e.fields, '+') || ']', ';' order by e.id) from app.crm_events e where e.record_id = v_ct);
     v_rows := v_rows || jsonb_build_object('seq', 8, 'name', 'erasing a contact removes its history; its events name no value',
-      'expected', '0,contact.added[];contact.updated[name];contact.deleted[]', 'actual', v_txt,
-      'pass', v_txt = '0,contact.added[];contact.updated[name];contact.deleted[]');
+      'expected', '0,contact.added[];contact.updated[name];contact.purged[]', 'actual', v_txt,
+      'pass', v_txt = '0,contact.added[];contact.updated[name];contact.purged[]');
 
     -- 9 -------------------------------------------------------------- a completed task
     perform public.admin_crm_activity(v_co, null, 'task', 'Følg opp tilbud', current_date + 2);

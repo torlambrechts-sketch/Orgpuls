@@ -10543,3 +10543,38 @@ build on hosted before it ran; afterwards all ten functions it creates or replac
 build's md5, RLS is on for the three new tables with no grant, and the security advisors list the new objects
 only under the existing deliberate classes (RLS without policy; admin RPCs executable by `authenticated`,
 gated inside) — none is executable by `anon`.
+
+## D-210 — CRM soft delete, the restore list and the purge (0195) (2026-10-03)
+
+Work package WP-0.3 of the CRM enrichment brief (`docs/crm-enrichment/INSTRUCTIONS.md` CRM-12, SF-15, PIP-17).
+A company, contact or activity is deleted by marking it (`deleted_at`, `deleted_by`, `deleted_source`), listed
+in CRM › Restore with who, when, from where and the day the job removes it, restored with its links, and
+removed for good by the job `orgpuls-crm-purge` (`app.crm_purge_due`, daily 02:25 UTC) once it has waited
+longer than the rule `restore_window_days` (30 by default; unlimited keeps it). A company takes its live
+activities with it (`deleted_with`) and brings them back. A bulk delete is shown before it is done (names,
+counts, what goes with it); the rule `delete_approval` (off by default) makes a bulk delete wait until a
+second admin — never its requester — approves it (`app.crm_delete_requests`). Deleting permanently before
+the window is a super-admin's call. Every call is audited (`crm.delete`, `crm.delete_preview`,
+`crm.delete_request`, `crm.delete_approve`/`reject`, `crm.restore`, `crm.purge`, `crm.trash`); events
+`.deleted`, `.restored` and `.purged` are written by the 0194 trigger, and erasure now emits `.purged`.
+
+**Deviation from the plan:** the plan names `deleted_at/by` columns, which this keeps; it does not say how
+readers leave a deleted row out. A trash table (copy the row, delete it, re-insert on restore) was rejected:
+the foreign keys would act at once — an outreach re-queued by `brreg_outreach_orphaned`, list memberships and
+consent records cascaded away — and a restore would re-insert them through triggers that write consent
+records and growth events a second time. With a flag nothing cascades until the purge. The price is that
+every reader filters: 32 functions were patched (lists, counts, the pipeline, tasks, segments, automations,
+the send path through `app.crm_mailable`/`app.crm_on_list`), and the 35 that read these tables without
+filtering are listed with their reason in `crm_restore_invariants.sql`, which fails on any new reader that
+neither filters `deleted_at` nor is added there. A deleted record keeps its unique key: adding or importing
+the same org number or address points to the restore list (`exists_deleted`, import reason `deleted`).
+Privacy actions are never blocked: erasure, unsubscribing and the recipient's own links work on a deleted
+contact, and a person who proves their address again (double opt-in, a demo request) brings it back.
+
+**Not done:** bulk changes other than deletes cannot be reverted (CRM-12's "bulk changes can be reverted");
+bulk delete is offered on the companies list, which is the only list with selection today — contacts are
+deleted one at a time until the list views of WP-1.2/1.5. Who may restore follows the role until WP-0.4.
+
+Proved in `crm_restore_invariants.sql` (12 assertions); `crm_history_invariants.sql` seq 8 now expects
+`contact.purged` for an erasure and `crm_rules_invariants.sql` lists the two new rules. Screens in
+`docs/crm-enrichment/screens/phase-0/CRM-12-*`, `PIP-17-*`, `PIP-10-bulk-delete-*`, `SET-rules-deletion-*`.

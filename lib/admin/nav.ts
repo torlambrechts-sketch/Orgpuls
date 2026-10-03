@@ -88,6 +88,8 @@ const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }
       { key: 'crmTriggers', section: 'crm', href: '/admin/crm/triggers', icon: 'building' },
       { key: 'crmPartners', section: 'crm', href: '/admin/crm/partners', icon: 'users' },
       { key: 'crmStages', section: 'crm', href: '/admin/crm/stages', icon: 'flag', more: true },
+      // 0195 (D-210): what was deleted, for restore
+      { key: 'crmRestore', section: 'crm', href: '/admin/crm/restore', icon: 'log', more: true },
     ],
   },
   {

@@ -570,3 +570,62 @@ const History = z.object({
 export type CrmHistory = z.infer<typeof History>
 export const crmHistory = (entity: 'company' | 'contact', id: string, before: number | null) =>
   call('admin_crm_history', { p_entity: entity, p_record: id, p_before: before }, History)
+
+// ---------------------------------------------------------------- the restore list (0195, D-210)
+export const TRASH_ENTITIES = ['company', 'contact', 'activity'] as const
+export type TrashEntity = (typeof TRASH_ENTITIES)[number]
+/** a record's name as the database gives it: a company's name and number, a contact's name and address, an activity's text */
+const RecordLabel = z.object({
+  name: tsn.default(null),
+  detail: tsn.default(null),
+  kind: tsn.default(null),
+  origin: tsn.default(null),
+})
+export type RecordLabel = z.infer<typeof RecordLabel>
+const Trash = z.object({
+  // days a deleted record waits before the job removes it; null: unlimited
+  window: num.nullable(),
+  approval: z.boolean(),
+  may_write: z.boolean(),
+  may_purge: z.boolean(),
+  counts: z.object({ company: num, contact: num, activity: num }),
+  rows: z.array(
+    z.object({
+      entity: z.enum(TRASH_ENTITIES),
+      id: z.string().uuid(),
+      label: RecordLabel.nullable(),
+      deleted_at: z.string(),
+      deleted_by: tsn,
+      source: z.string(),
+      restorable: z.boolean(),
+      with_activities: num,
+      purge_at: tsn,
+    }),
+  ),
+  requests: z.array(
+    z.object({
+      id: z.string().uuid(),
+      entity: z.enum(TRASH_ENTITIES),
+      count: num,
+      names: z.array(RecordLabel.nullable()),
+      reason: tsn,
+      requested_at: z.string(),
+      requested_by: tsn,
+      mine: z.boolean(),
+    }),
+  ),
+})
+export type CrmTrash = z.infer<typeof Trash>
+export const crmTrash = (entity: TrashEntity | null) => call('admin_crm_trash', { p_entity: entity }, Trash)
+
+/** What a delete would do (admin_crm_delete_preview): read by a server action, shown before the delete is confirmed */
+export const DeletePreview = z.object({
+  entity: z.enum(TRASH_ENTITIES),
+  count: num,
+  missing: num,
+  names: z.array(RecordLabel.nullable()),
+  approval: z.boolean(),
+  window: num.nullable(),
+  effects: z.record(z.string(), num),
+})
+export type DeletePreview = z.infer<typeof DeletePreview>

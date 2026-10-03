@@ -37,9 +37,9 @@ begin
   -- 1 ---------------------------------------------------------------- the registry and its defaults
   select string_agg(key || '=' || coalesce(default_value #>> '{}', ''), ',' order by sort) into v_txt from app.crm_setting_defs;
   v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'every setting with its documented default, none set',
-    'expected', 'contact_rule=none,mailable_engagement_months=12,import_consent_source=off,typed_reason=off,limit_contact_import_rows=,limit_register_import_rows=,limit_bulk_move=,limit_company_read=,limit_contact_read=,limit_campaign_blocks=,limit_sequence_mails=,limit_test_sends_per_hour= / 0 set',
+    'expected', 'contact_rule=none,mailable_engagement_months=12,import_consent_source=off,typed_reason=off,limit_contact_import_rows=,limit_register_import_rows=,limit_bulk_move=,limit_company_read=,limit_contact_read=,limit_campaign_blocks=,limit_sequence_mails=,limit_test_sends_per_hour=,delete_approval=off,restore_window_days=30 / 0 set',
     'actual', coalesce(v_txt, '') || ' / ' || (select count(*) from app.crm_setting_values) || ' set',
-    'pass', v_txt = 'contact_rule=none,mailable_engagement_months=12,import_consent_source=off,typed_reason=off,limit_contact_import_rows=,limit_register_import_rows=,limit_bulk_move=,limit_company_read=,limit_contact_read=,limit_campaign_blocks=,limit_sequence_mails=,limit_test_sends_per_hour='
+    'pass', v_txt = 'contact_rule=none,mailable_engagement_months=12,import_consent_source=off,typed_reason=off,limit_contact_import_rows=,limit_register_import_rows=,limit_bulk_move=,limit_company_read=,limit_contact_read=,limit_campaign_blocks=,limit_sequence_mails=,limit_test_sends_per_hour=,delete_approval=off,restore_window_days=30'
       and not exists (select 1 from app.crm_setting_values));
 
   begin
@@ -200,8 +200,8 @@ begin
     v_txt := v_txt || ',analyst sees ' || coalesce(jsonb_array_length(v_json->'rules'), 0) || ' rules, '
       || case when (v_json->>'may_change')::boolean then 'may change' else 'may not change' end;
     v_rows := v_rows || jsonb_build_object('seq', 14, 'name', 'the settings log is append-only; the CRM''s readers see the rules, only a super-admin may change them',
-      'expected', 'refused,refused,analyst sees 12 rules, may not change', 'actual', v_txt,
-      'pass', v_txt = 'refused,refused,analyst sees 12 rules, may not change');
+      'expected', 'refused,refused,analyst sees 14 rules, may not change', 'actual', v_txt,
+      'pass', v_txt = 'refused,refused,analyst sees 14 rules, may not change');
     -- 19 ------------------------------------------------------------- the engagement window (0193)
     insert into app.crm_contacts (email, source, basis, status, consent_at, consent_source, last_engaged_at)
     values ('stille@rules-test.example', 'import', 'consent', 'active', now() - interval '2 years', 'Liste fra 2024', now() - interval '20 months');

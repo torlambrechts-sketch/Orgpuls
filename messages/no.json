@@ -8426,6 +8426,7 @@
         "crmCampaigns": "Campaigns",
         "crmTemplates": "Templates",
         "crmStages": "Stages and senders",
+        "crmRestore": "Restore",
         "web": "Overview",
         "acquisition": "Cost per customer",
         "seo": "SEO",
@@ -9642,12 +9643,18 @@
         "event": {
           "company.added": "Created",
           "company.stage_changed": "Stage changed",
-          "company.deleted": "Removed",
+          "company.deleted": "Moved to the restore list",
+          "company.restored": "Restored",
+          "company.purged": "Removed for good",
           "contact.added": "Created",
-          "contact.deleted": "Erased",
+          "contact.deleted": "Moved to the restore list",
+          "contact.restored": "Restored",
+          "contact.purged": "Erased or removed for good",
           "activity.added": "Activity logged",
           "activity.completed": "Task done",
-          "activity.deleted": "Activity removed"
+          "activity.deleted": "Activity moved to the restore list",
+          "activity.restored": "Activity restored",
+          "activity.purged": "Activity removed for good"
         },
         "field": {
           "name": "Name",
@@ -9694,6 +9701,90 @@
           "task_kind": "Task kind",
           "sla_due_at": "Answer due"
         }
+      },
+      "trash": {
+        "title": "Restore",
+        "lead": "Companies, contacts and activities deleted from the CRM, with who deleted them, when and from where. Each comes back with its links until the job removes it for good.",
+        "window": "Removed for good {days} days after it was deleted (Settings › CRM rules).",
+        "windowUnlimited": "Kept until someone restores it or deletes it permanently (Settings › CRM rules).",
+        "all": "All",
+        "entity": {
+          "company": "Companies",
+          "contact": "Contacts",
+          "activity": "Activities"
+        },
+        "one": {
+          "company": "company",
+          "contact": "contact",
+          "activity": "activity"
+        },
+        "many": {
+          "company": "companies",
+          "contact": "contacts",
+          "activity": "activities"
+        },
+        "col": {
+          "record": "Record",
+          "type": "Type",
+          "deletedBy": "Deleted by",
+          "deletedAt": "Deleted",
+          "source": "From",
+          "purgeAt": "Removed for good",
+          "actions": "Actions"
+        },
+        "withActivities": "and {n} activities with it",
+        "auto": "A task made by a rule or a trigger",
+        "noOne": "no one signed in",
+        "kept": "Kept",
+        "empty": "Nothing has been deleted.",
+        "restore": "Restore",
+        "restoring": "Restoring…",
+        "restored": "Restored.",
+        "waits": "Its company is deleted: restore the company first.",
+        "purge": "Delete permanently",
+        "purgeSure": "Delete permanently — it cannot be undone",
+        "purged": "Deleted for good.",
+        "requests": {
+          "title": "Waiting for a second admin",
+          "lead": "Second-admin approval is on under Settings › CRM rules: a bulk delete waits until another admin approves it.",
+          "line": "{count} {kind} · asked by {by}, {at}",
+          "reason": "Reason: {reason}",
+          "more": "and {n} more",
+          "approve": "Approve and delete",
+          "reject": "Reject",
+          "mine": "Your request: another admin approves or rejects it.",
+          "done": "Decided."
+        },
+        "notice": {
+          "title": "In the restore list",
+          "company": "This company was deleted. Restored, it comes back with its activities, its contacts' links and its history, until the job removes it for good.",
+          "contact": "This contact was deleted. It is not mailed and is in no list or segment until it is restored.",
+          "open": "Open the restore list"
+        }
+      },
+      "delete": {
+        "company": "Delete company",
+        "contact": "Delete contact",
+        "activity": "Delete",
+        "bulk": "Delete ticked",
+        "checking": "Checking…",
+        "lead": "A deleted record goes to the restore list (CRM › Restore) and can be restored with its links until the job removes it for good.",
+        "count": "{count} {kind} will be deleted:",
+        "more": "and {n} more",
+        "missing": "{n} ticked are already deleted or gone.",
+        "effects": {
+          "company": "Activities that go with them: {activities} (open tasks: {open_tasks}). Contacts that stay, and lose the link only when the company is removed for good: {contacts}.",
+          "contact": "Not mailed from now on. Kept for a restore: list memberships {lists}, consent records {consent_records}. Queued mails skipped: {queued}."
+        },
+        "window": "Removed for good after {days} days.",
+        "windowUnlimited": "Kept until someone restores it or deletes it permanently.",
+        "approval": "Second-admin approval is on: this delete waits until another admin approves it.",
+        "confirm": "Delete",
+        "ask": "Ask for approval",
+        "cancel": "Cancel",
+        "done": "Deleted. It is in the restore list.",
+        "pending": "Waiting for another admin to approve.",
+        "noneTicked": "Tick the companies to delete first."
       },
       "problem": {
         "failed": "It could not be saved. Try again.",
@@ -9748,7 +9839,11 @@
         "invalid_step": "A call or LinkedIn step has no mail: it cannot be resent, and only a call or LinkedIn step is changed here.",
         "blocked_by_setting": "The contact rule under Settings › CRM rules allows only people who signed up themselves.",
         "too_many": "A limit set under Settings › CRM rules stops this.",
-        "stale": "Someone else saved this while you had it open. Reload the page to see their change, then save again."
+        "stale": "Someone else saved this while you had it open. Reload the page to see their change, then save again.",
+        "deleted": "It is in the restore list (CRM › Restore): restore it there first.",
+        "exists_deleted": "A deleted record already holds this. Restore it under CRM › Restore instead of adding it again.",
+        "own_request": "You asked for this delete: another admin approves or rejects it.",
+        "company_deleted": "Its company is in the restore list: restore the company first."
       },
       "stage": {
         "new": "New",
@@ -12358,7 +12453,8 @@
         "area": {
           "contacts": "Contacts and consent",
           "audit": "Reasons",
-          "limits": "Limits"
+          "limits": "Limits",
+          "deletion": "Deletion and restore"
         },
         "default": "Default: {value}",
         "atDefault": "At its default",
@@ -12434,6 +12530,14 @@
           "limit_test_sends_per_hour": {
             "name": "Test sends per hour",
             "why": "The most test sends in an hour, across all campaigns."
+          },
+          "delete_approval": {
+            "name": "Second-admin approval for bulk deletes",
+            "why": "Whether deleting more than one record at once waits until another admin approves it. A single delete goes to the restore list at once either way."
+          },
+          "restore_window_days": {
+            "name": "Days in the restore list",
+            "why": "How long a deleted company, contact or activity can be restored before the job removes it for good. Unlimited: kept until someone restores it or deletes it permanently."
           }
         }
       }

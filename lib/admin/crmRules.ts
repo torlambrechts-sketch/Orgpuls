@@ -13,7 +13,7 @@ export type { CrmRuleState }
 // JSON numbers arrive as numbers; a coerced number would turn null (unlimited) into 0
 const Value = z.union([z.string(), z.number(), z.null()])
 
-export const RULE_AREAS = ['contacts', 'audit', 'limits'] as const
+export const RULE_AREAS = ['contacts', 'audit', 'limits', 'deletion'] as const
 
 const Rule = z.object({
   key: z.string(),

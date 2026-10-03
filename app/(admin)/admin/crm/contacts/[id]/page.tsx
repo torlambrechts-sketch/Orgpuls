@@ -5,6 +5,8 @@ import { ALink, Badge, Card, day, PageHead, Problem, Table, Td, when } from '@/c
 import { isError, whoami } from '@/lib/admin/api'
 import { crmContact, crmHistory, crmLists } from '@/lib/admin/crm'
 import { CrmHistory } from '@/components/admin/CrmHistory'
+import { CrmDeleted } from '@/components/admin/CrmDeleted'
+import { DeleteRecords } from '@/components/admin/CrmTrash'
 import { crmRuleState } from '@/lib/admin/crmRules'
 
 /**
@@ -20,10 +22,15 @@ export default async function CrmContact({ params, searchParams }: { params: Pro
   const m = t.raw('crm') as CrmMessages
   const [data, who, lists, rules, history] = await Promise.all([crmContact(id), whoami(), crmLists(), crmRuleState(), crmHistory('contact', id, before)])
   const listOptions = isError(lists) ? [] : lists.rows.filter((l) => !l.archived).map((l) => ({ id: l.id, key: l.key, name: l.name_no }))
-  if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
-  const c = data.contact
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
+  // 0195 (D-210): a deleted contact is read from the restore list; its page says so and offers the restore
+  if (isError(data) && data.error === 'deleted')
+    return (
+      <CrmDeleted entity="contact" id={id} back="/admin/crm/contacts" backText={m.contact.back} canWrite={canWrite} reasonRequired={rules.reasonRequired} m={m} common={common} />
+    )
+  if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
+  const c = data.contact
   const row = (k: string, v: React.ReactNode) => (
     <div className="flex flex-wrap gap-x-[10px] border-b border-line py-[7px] text-[13px] last:border-b-0">
       <span className="w-[140px] flex-none text-mut">{k}</span>
@@ -115,6 +122,10 @@ export default async function CrmContact({ params, searchParams }: { params: Pro
                 <ContactActionForm m={m} common={common} id={c.id} kind="unsubscribe" reasonRequired={rules.reasonRequired} />
               </Card>
             ) : null}
+            <Card title={m.delete.contact}>
+              <p className="mb-[10px] mt-0 text-[12.5px] leading-[1.5] text-mut">{m.delete.lead}</p>
+              <DeleteRecords entity="contact" ids={[c.id]} m={m} common={common} reasonRequired={rules.reasonRequired} />
+            </Card>
             <Card title={m.contact.erase}>
               <ContactActionForm m={m} common={common} id={c.id} kind="erase" reasonRequired={rules.reasonRequired} />
             </Card>

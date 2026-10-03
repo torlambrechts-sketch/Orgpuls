@@ -5,10 +5,12 @@ import type { CrmMessages } from '@/components/admin/CrmForms'
 import { CompanyForm, ManagerRefresh, RegistryPicker } from '@/components/admin/CrmPipelineForms'
 import { stageTone } from '@/components/admin/CrmTabs'
 import { StageMoveForm } from '@/components/admin/CrmStageForms'
+import { DeleteRecords } from '@/components/admin/CrmTrash'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td } from '@/components/admin/ui'
 import { isError, listAdmins, whoami } from '@/lib/admin/api'
 import { registryMunicipalities } from '@/lib/admin/brreg'
 import { crmCompanies, crmStages } from '@/lib/admin/crm'
+import { crmRuleState } from '@/lib/admin/crmRules'
 
 /**
  * Prospects (D-103): every company we sell to or serve, by stage, with its owner and next
@@ -26,7 +28,13 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
   const stages = stageData.rows
   const byKey = new Map(stages.map((s) => [s.key, s]))
   const chosen = byKey.has(stage ?? '') ? (stage as string) : null
-  const [data, who, admins, municipalities] = await Promise.all([crmCompanies(q?.trim() || null, chosen), whoami(), listAdmins(), registryMunicipalities()])
+  const [data, who, admins, municipalities, rules] = await Promise.all([
+    crmCompanies(q?.trim() || null, chosen),
+    whoami(),
+    listAdmins(),
+    registryMunicipalities(),
+    crmRuleState(),
+  ])
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
@@ -79,6 +87,10 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
           <div className="mb-[12px] flex flex-col gap-[6px] rounded-ctl border border-line bg-bg px-[12px] py-[10px]">
             <StageMoveForm id="bulk-stage" stages={stages} m={m} common={common} />
             <p className="m-0 text-[12px] text-mut">{p.bulk.hint}</p>
+            {/* 0195 (D-210): the ticked companies, to the restore list after a preview */}
+            <div className="border-t border-line pt-[8px]">
+              <DeleteRecords entity="company" bulkForm="bulk-stage" m={m} common={common} reasonRequired={rules.reasonRequired} />
+            </div>
           </div>
         ) : null}
         <Table

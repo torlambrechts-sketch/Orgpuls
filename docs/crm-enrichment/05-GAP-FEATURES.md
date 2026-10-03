@@ -22,9 +22,9 @@ The column *Work package* is left empty: it is filled in Phase B (A4).
 
 | Module | Features | Implemented | Partial | Missing | Conflict | Unknown |
 | --- | --- | --- | --- | --- | --- | --- |
-| PIP Pipeline and deals | 17 | 0 | 8 | 8 | 1 | 0 |
+| PIP Pipeline and deals | 17 | 0 | 9 | 7 | 1 | 0 |
 | ACT Activities | 9 | 0 | 2 | 7 | 0 | 0 |
-| CRM CRM records | 15 | 0 | 7 | 7 | 1 | 0 |
+| CRM CRM records | 15 | 0 | 8 | 6 | 1 | 0 |
 | CUS Customization | 8 | 0 | 3 | 5 | 0 | 0 |
 | LEA Leads | 6 | 0 | 2 | 4 | 0 | 0 |
 | COM Email and communications | 14 | 0 | 3 | 11 | 0 | 0 |
@@ -43,7 +43,7 @@ The column *Work package* is left empty: it is filled in Phase B (A4).
 | INT Integrations and API | 11 | 0 | 0 | 11 | 0 | 0 |
 | MOB Mobile app | 8 | 0 | 0 | 8 | 0 | 0 |
 | ENT Plans and entitlements | 4 | 0 | 0 | 3 | 1 | 0 |
-| **Total** | **183** | **0** | **52** | **127** | **4** | **0** |
+| **Total** | **183** | **0** | **54** | **125** | **4** | **0** |
 
 User flows, system flows, settings, Part F entities and Part G non-functional requirements follow the feature
 tables, each with its own counts.
@@ -63,14 +63,14 @@ tables, each with its own counts.
 | PIP-07 Won, lost and lost reasons | Partial | Won/lost are stage kinds; a lost-kind stage asks for a free-text `lost_reason` (`CA/CrmPipelineForms.tsx:131`); won this quarter and win rate shown (`CRM/pipeline/page.tsx:30-31`) | No predefined reason list, no "reason mandatory" setting, no optional comment saved as a note, no explicit reopen that clears status, lost reason is not a reporting dimension. | — | INS-01 | |
 | PIP-08 Participants | Missing | A company has many contacts (`CRM/prospects/[id]/page.tsx:84-98`), which is not participation in a deal | No participant link, no suggestion in a composer (there is no 1:1 composer), no bulk import of participants. | — | PIP-03, COM-02 | |
 | PIP-09 Followers | Missing | — | No follower table, no notifications. | — | SF-07 | |
-| PIP-10 List view | Partial | List view sorted by value (`CA/CrmBoard.tsx:202-223`); companies table (`CRM/prospects/page.tsx:84-117`); bulk stage move ≤500 (`LA/crmActions.ts:406-420`) | No selectable columns, multi-column sort, inline edit, bulk edit of other fields, bulk delete, CSV/XLSX export, visible system ID, admin default columns, bulk-edit permission, changelog per changed deal. | Second-admin approval | SEC-07, CRM-10 | |
+| PIP-10 List view | Partial | List view sorted by value (`CA/CrmBoard.tsx:202-223`); companies table (`CRM/prospects/page.tsx:84-117`); bulk stage move ≤500 (`LA/crmActions.ts:406-420`); **WP-0.3:** bulk delete of ticked companies with a preview | No selectable columns, multi-column sort, inline edit, bulk edit of other fields, CSV/XLSX export, visible system ID, admin default columns, bulk-edit permission, changelog per changed deal. | Second-admin approval | SEC-07, CRM-10 | |
 | PIP-11 Forecast view | Missing | — | No date columns, totals or drag to change date (and no expected close date field). | — | PIP-03 | |
 | PIP-12 Filters | Partial | Company search `?q=` and stage chips (`CRM/prospects/page.tsx:42-77`); contact search and type (`CRM/contacts/page.tsx:55-70`); saved contact segments with 13 dimensions (`LA/crm.ts:92-108`) | No global search across records, no ALL/ANY condition groups, no saved filter visibility or favourite, nothing on leads/activities/projects/products, no custom-field conditions. | — | SF-25, CUS-01 | |
 | PIP-13 Archive | Missing | Stages can be archived and `parked` is a stage kind (`LA/crm.ts:254-266`); deals themselves cannot be archived | No archive/unarchive of a deal or lead, no archive view. | — | PIP-16 | |
 | PIP-14 Deal card customization | Missing | Card fields are fixed in `CA/CrmBoard.tsx:174-180` | No per-pipeline card field choice. | — | PIP-02 | |
 | PIP-15 Closed deals toggle and stage timing | Partial | Stage history exists and feeds win rate (`mig/0137_crm_win_rate_steps.sql`; `supabase/tests/crm_win_rate_invariants.sql`); lost/parked stages listed as links under the board (`CA/CrmBoard.tsx:227-235`) | No toggle to show won/lost on the board, no per-user memory, no progress bar with days per stage. | — | PIP-04 | |
 | PIP-16 Capacity and waitlist | Missing | — | No capacity setting, waitlist, or overflow path. (Spec default is no limit; the mechanism still has to exist.) | Plan gates and usage limits | ENT-02 | |
-| PIP-17 Duplicate and restore | Missing | — | No duplicate, no soft delete or restore of a company/deal. | — | CRM-12 | |
+| PIP-17 Duplicate and restore | Partial | **WP-0.3 (0195):** a deleted company (today's deal) goes to the restore list and is restored with its activities, its contacts' links and its history for the window, 30 days by default (`CRM/restore/page.tsx`; CRI 3, 5, 7; screens `PIP-17-*`, `CRM-12-*`) | No duplicate. The deal record arrives in WP-1.1 and is built with the same flag. | Days in the restore list | CRM-12 | |
 
 ## Activities (ACT)
 
@@ -101,7 +101,7 @@ tables, each with its own counts.
 | CRM-09 Import | Partial | Contact CSV import ≤5,000 rows with rejected rows returned (`LA/crmActions.ts:94-123`; `admin_crm_import` `mig/0141_growth_foundations.sql:1057`); company import from Brønnøysund ≤200 (`admin_crm_company_import` `:961`) | No all-entities session, no column-to-field mapping UI (fixed columns, `CA/CrmForms.tsx:167`), no merge-or-create choice, no downloadable skip file, no import history or revert. The admin spec's "consent source required per row" is the code's behaviour today (consent_source column) — the brief makes it a setting, off by default. | Consent source on import; Contact rule | AIA-05, ENT-02 | |
 | CRM-10 Export | Partial | Consent ledger CSV with formula-safe cells (`CRM/consent/export/route.ts:1-30`, logs `crm.consent_export`) | No export of contact, company or deal list views, no XLSX, no export permission, no SEC-02 alert. | — | SEC-07, SEC-02 | |
 | CRM-11 Merge duplicates | Missing | Org merge in the admin spec is also missing (see 04) | No matching rules, duplicate list, compare view or merge. | Second-admin approval | SF-10 | |
-| CRM-12 Restore data | Missing | Contacts can be erased with a reason (`admin_crm_contact_action` `mig/0055_crm.sql:721`) — a hard erase, not a soft delete | No soft delete, 30-day restore list, bulk revert or purge job for CRM records. | Second-admin approval | SF-15 | |
+| CRM-12 Restore data | Partial | **WP-0.3 (0195):** companies, contacts and activities are soft-deleted (who, when, from where), listed in CRM › Restore with the day the job removes them, restored with their links (CRI 3–6); the purge job `orgpuls-crm-purge` removes what is past the window (CRI 7); bulk delete with a preview and second-admin approval as a setting, off by default (CRI 8, 9; screens `PIP-10-bulk-delete-*`, `CRM-12-approval-pending`); erasure stays a hard erase | Bulk changes other than deletes cannot be reverted. Deals, leads and products are covered when they are built (WP-1.1, 1.7, Phase 4). Who may restore follows the role until permission sets (WP-0.4). | Second-admin approval; days in the restore list | SF-15 | |
 | CRM-13 Related organizations | Missing | — | No parent/daughter/related links. | — | — | |
 | CRM-14 Contact labels | Partial | Free-text `tags[]` on contacts, filterable in segments (`LA/crm.ts:92-108`) | No colour, no label set separate from deals/leads, not a managed list. | — | — | |
 | CRM-15 Source fields | Partial | Contact `source` (user/newsletter/contact_form/import/manual/event/brreg, plus `demo` written by `mig/0146_demo_signup.sql:106-107` but missing from `LA/crm.ts:15`); company `source` (`LA/crm.ts:308-340`) | No source on leads/deals as a separate record, values differ from the spec list (no API, automation, app, prospect search, web form, chatbot, live chat, web visitors, campaign, messaging), not a reporting dimension. `demo` is not filterable. | — | INS-01 | |
@@ -408,7 +408,7 @@ Each step is given a status. A flow is Implemented only when every step is.
 | SF-12 Scoring | Partial | Lead scores computed on read (`admin_lead_scores`) | Not per deal, no models, no stored score or event. |
 | SF-13 Feed generation | Missing | — | — |
 | SF-14 Report query | Missing | — | — |
-| SF-15 Delete, restore and erasure | Partial | Contact erase with reason; org deletion queue (04) | No CRM soft delete, restore or purge. |
+| SF-15 Delete, restore and erasure | Partial | Contact erase with reason; org deletion queue (04); **WP-0.3 (0195):** steps 1–4 — the delete marks the row with who, when and from where, it is listed for restore, restored with its links, and removed by the job after the window (CRI 3–7) | Step 5: erasure removes a person from the CRM and the mail queue; modules that do not exist yet (leads, mail threads, meetings) join it as they are built. |
 | SF-16 Entitlements and metering | Missing | — | — |
 | SF-17 Lead capture from forms and chat | Partial | Contact form → ticket (+newsletter if ticked) with honeypot; demo → contact | No lead creation, assignment or resubmission rule. |
 | SF-18 Web visitor identification | Conflict | Cookieless hashing | See WEB-02. |
@@ -452,7 +452,8 @@ Each step is given a status. A flow is Implemented only when every step is.
 | Email open and click tracking | Missing (as a setting) | Tracking is always on for campaigns | — |
 | Form tracking fields | Missing | — | — |
 | Web visitor identification | Missing | — | See WEB-02 Conflict. |
-| Second-admin approval | Missing | — | — |
+| Second-admin approval | Implemented | WP-0.3: `delete_approval` off / on, default off; consumers `admin_crm_delete`, `admin_crm_delete_decide`; CRI 8; screen `CRM-12-approval-pending` | Applies to bulk deletes; merges (CRM-11) read it when built |
+| Days in the restore list | Implemented | WP-0.3: `restore_window_days`, 30 by default, unlimited allowed; consumer `app.crm_purge_due`; CRI 7 | Not in the brief's register by name: the brief fixes thirty days (A9, CRM-12); as DEC-07 and DEC-22 make the fixed numbers settings, it is one |
 | Count limits | Partial | WP-0.1: the caps found in code are settings, unlimited by default — contact import rows, register import rows, bulk move, company and contact list, campaign blocks, sequence mails, test sends per hour; CRR 5, 10, 11 | The register's other counts (actions and delays per path, group email recipients, webhooks, signers, options per field, score models) arrive with their features |
 | Plan gates and usage limits | Missing | — | — |
 | API rate limits | Missing | — | — |

@@ -1,50 +1,34 @@
 [
   {
     "width": 1440,
-    "state": "PIP-04-history-empty",
+    "state": "PIP-17-company-delete-preview",
     "status": 200,
     "overflowPx": 0,
     "errors": [],
-    "file": "PIP-04-history-empty-1440.png"
+    "file": "PIP-17-company-delete-preview-1440.png"
   },
   {
     "width": 390,
-    "state": "PIP-04-history-empty",
+    "state": "PIP-17-company-delete-preview",
     "status": 200,
     "overflowPx": 0,
     "errors": [],
-    "file": "PIP-04-history-empty-390.png"
+    "file": "PIP-17-company-delete-preview-390.png"
   },
   {
     "width": 1440,
-    "state": "PIP-04-history",
+    "state": "PIP-10-bulk-delete-preview",
     "status": 200,
     "overflowPx": 0,
     "errors": [],
-    "file": "PIP-04-history-1440.png"
+    "file": "PIP-10-bulk-delete-preview-1440.png"
   },
   {
     "width": 390,
-    "state": "PIP-04-history",
+    "state": "PIP-10-bulk-delete-preview",
     "status": 200,
     "overflowPx": 0,
     "errors": [],
-    "file": "PIP-04-history-390.png"
-  },
-  {
-    "width": 1440,
-    "state": "CRM-01-contact-history",
-    "status": 200,
-    "overflowPx": 0,
-    "errors": [],
-    "file": "CRM-01-contact-history-1440.png"
-  },
-  {
-    "width": 390,
-    "state": "CRM-01-contact-history",
-    "status": 200,
-    "overflowPx": 0,
-    "errors": [],
-    "file": "CRM-01-contact-history-390.png"
+    "file": "PIP-10-bulk-delete-preview-390.png"
   }
 ]

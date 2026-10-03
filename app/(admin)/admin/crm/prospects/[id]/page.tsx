@@ -7,6 +7,8 @@ import { ALink, Badge, Card, day, PageHead, Problem, Table, Td, when } from '@/c
 import { isError, whoami } from '@/lib/admin/api'
 import { autoTask, crmCompany, crmHistory, crmStages } from '@/lib/admin/crm'
 import { CrmHistory } from '@/components/admin/CrmHistory'
+import { CrmDeleted } from '@/components/admin/CrmDeleted'
+import { DeleteRecords } from '@/components/admin/CrmTrash'
 import { crmRuleState } from '@/lib/admin/crmRules'
 
 /**
@@ -22,14 +24,19 @@ export default async function CrmProspect({ params, searchParams }: { params: Pr
   const m = t.raw('crm') as CrmMessages
   const p = m.prospects
   const [data, who, stageData, rules, history] = await Promise.all([crmCompany(id), whoami(), crmStages(), crmRuleState(), crmHistory('company', id, before)])
+  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
+  const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
+  // 0195 (D-210): a deleted company is read from the restore list; its page says so and offers the restore
+  if (isError(data) && data.error === 'deleted')
+    return (
+      <CrmDeleted entity="company" id={id} back="/admin/crm/prospects" backText={m.company.back} canWrite={canWrite} reasonRequired={rules.reasonRequired} m={m} common={common} />
+    )
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const c = data.company
   // the stages, as data (0093)
   const stages = isError(stageData) ? [] : stageData.rows
   const stage = stages.find((s) => s.key === c.stage)
   const stageName = stage?.name ?? c.stage
-  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
-  const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
   // a rule's or a trigger's task holds a key (0143): worded as the Tasks page words it
   const body = (a: (typeof data.activities)[number]) => {
     const auto = a.origin ? autoTask(a.body) : null
@@ -74,6 +81,11 @@ export default async function CrmProspect({ params, searchParams }: { params: Pr
           {canWrite && !c.org_id && stages.length ? (
             <div className="mt-[12px]">
               <StageMoveForm ids={[c.id]} stages={stages} m={m} common={common} compact />
+            </div>
+          ) : null}
+          {canWrite ? (
+            <div className="mt-[12px] border-t border-line pt-[12px]">
+              <DeleteRecords entity="company" ids={[c.id]} m={m} common={common} reasonRequired={rules.reasonRequired} />
             </div>
           ) : null}
         </Card>
@@ -126,6 +138,7 @@ export default async function CrmProspect({ params, searchParams }: { params: Pr
                         labels={{ done: m.company.done, reopen: m.company.reopen, stopped: m.company.stopped, failed: t('growth.g3.problem.failed') }}
                       />
                     ) : null}
+                    {canWrite ? <DeleteRecords entity="activity" ids={[a.id]} m={m} common={common} reasonRequired={rules.reasonRequired} compact /> : null}
                   </span>
                   <span className={`mt-[3px] block whitespace-pre-line ${a.done_at ? 'text-mut line-through' : ''}`}>{body(a)}</span>
                 </li>
