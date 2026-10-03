@@ -10490,7 +10490,10 @@ opt-in token expiry (security); five soft bounces suspending an address (CMP-06)
 technical safeguard); `refreshManagers` taking 100 companies a press from the Brønnøysund roles API (paced for
 an external service; pressing again continues). Two were found and not changed in this package: the
 newsletter signup's rate limit belongs to the public-endpoint work (DEC-20), and the 12-month engagement
-window in `app.crm_mailable` decides who campaigns may mail — put to Tor.
+window in `app.crm_mailable` decides who campaigns may mail. Tor decided it is a setting with 12 months
+as its default (DEC-22): 0193 adds `mailable_engagement_months`, read by `app.crm_mailable` and
+`app.crm_on_list` (unlimited: a consented contact never ages out); `crm_rules_invariants` 19 proves it, and
+0193 is applied on hosted with both functions' md5 equal to the repository build.
 
 Proved in `crm_rules_invariants.sql` (18 assertions: defaults, each rule in both states, who may change,
 the log, closed to clients, no audited CRM function read-only, every key consumed). `crm_invariants` (9),
