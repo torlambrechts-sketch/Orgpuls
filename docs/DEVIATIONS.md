@@ -10537,3 +10537,9 @@ card on the company and contact pages shows the events and the changelog, newest
 
 Proved in `crm_history_invariants.sql` (11 assertions). All 117 SQL suites pass; screens in
 `docs/crm-enrichment/screens/phase-0/PIP-04-history*`, `CRM-01-contact-history*`.
+
+0194 is applied on hosted (2026-10-03). The three replaced functions matched the repository's pre-0194
+build on hosted before it ran; afterwards all ten functions it creates or replaces have the repository
+build's md5, RLS is on for the three new tables with no grant, and the security advisors list the new objects
+only under the existing deliberate classes (RLS without policy; admin RPCs executable by `authenticated`,
+gated inside) — none is executable by `anon`.
