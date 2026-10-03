@@ -73,6 +73,22 @@ describe('industry landing pages', () => {
       }
     })
 
+    it(`${l.slug}: every module factor name in the messages is the file's, and the variants block has its picks`, () => {
+      const mod = moduleFile(l.module)
+      const fileNames = new Map([...mod.factors, ...(mod.variants?.[0].factors ?? [])].map((f) => [f.id, f.name]))
+      const names = at(no as Words, `${base}.moduleFactors`) as Record<string, string>
+      const namesEn = at(en as Words, `${base}.moduleFactors`) as Record<string, string>
+      for (const [id, name] of Object.entries(names)) {
+        expect(fileNames.get(id), id).toBe(name)
+        expect(namesEn[id], id).toEqual(expect.any(String))
+      }
+      // D-212: a module in two variants may show both; the picks are extended factors of the file
+      if (!l.variants) return
+      expect(mod.variants).toBeDefined()
+      for (const cat of [no, en] as Words[]) expect(arr(cat, `${base}.variants.picks.items`)).toHaveLength(l.variants.picks.length)
+      for (const id of l.variants.picks.flat()) expect(mod.factors.some((f) => f.id === id), id).toBe(true)
+    })
+
     it(`${l.slug}: pictures, articles and the v3 chrome`, () => {
       for (const s of [l.heroShot, ...l.proof]) expect(SHOT_IDS).toContain(s)
       for (const a of l.articles) expect(ARTICLES.some((x) => x.slug === a), a).toBe(true)
@@ -93,10 +109,10 @@ describe('industry landing pages', () => {
 
   it('leaves the other industries on their own template, and the five v3 pages as they were', () => {
     expect(isV3Route('/barnehage-og-skole')).toBe(false)
-    expect(isV3Route('/kunnskap-og-kontor')).toBe(false)
     expect(isV3Route('/handel/sporsmal')).toBe(false)
     expect(isV3Route('/bygg-og-anlegg/sporsmal')).toBe(false)
     expect(isV3Route('/helse-og-omsorg/sporsmal')).toBe(false)
+    expect(isV3Route('/kunnskap-og-kontor/sporsmal')).toBe(false)
     for (const r of ['/', '/plattform', '/bruksomrader', '/bransjer', '/priser']) expect(isV3Route(r)).toBe(true)
   })
 })

@@ -10770,3 +10770,136 @@ console errors on those pages at 1440 and 390 in Norwegian, and on /helse-og-oms
 /helse-og-omsorg in both languages. `node scripts/audit/wiring.mjs` exits 1 on the same six findings as D-208,
 none in anything this change touches: it adds no column, setting or RPC. No database writes (two read-only
 queries on the hosted translation registry).
+
+## D-212 — /kunnskap-og-kontor on the industry landing template (2026-10-03)
+
+The owner's brief for the industry pages (D-207) applied to kunnskap og kontor: a conversion landing page on why
+the survey is needed, the challenges particular to knowledge and office work and how Orgpuls meets each, with
+Fafo's material used well, for leaders of consultancies, IT, finance, media and real-estate firms.
+`/kunnskap-og-kontor` moves onto the template D-207 built, by a registry entry (`content/industries/landing.ts`,
+`msg: 'kontor'`) and its messages (`site.bransje.kontor`, no and en). No new colour, font, radius or control.
+
+**One renderer change, generic: the variants block.** This module is the only one asked in two variants (0089,
+D-137), and the choice is the page's selling point («velg det som passer dere»), so it needs a block the other
+industries do not: `components/industry/IndustryLanding.tsx` draws «Varianter» between the challenges and the
+proof when the registry entry has `variants` and the module file has `variants`; for every other industry
+nothing changes. Everything in it is read, not typed: the simplified set's 8 factors, 24 statements and ~3 minutes
+(`simplifiedFactors`, `variants[0].estimated_minutes`); the extended set's 8–15 factors (`min_factors` to the
+file's factor count), up to 62 statements and ~7 minutes; the factor names (messages held equal to the file by the
+unit test); and the file's own «Kun utvidet» (`extended_only`) and «Valgfri» (`optional`) chips, worded as the
+question page words them (`industry.variant.*`). The registry's `variants.picks` adds four examples of extended
+factors to weigh – consultancy (Kunde- og leveransepress, Tilgjengelighet, Læring), IT (KI og endring, Digitale
+verktøy, Fokus), finance (Jobbtrygghet, Digital overvåking, KI) and hybrid teams (Hybrid samhandling,
+Tilhørighet, Rettferdighet og karriere) – labelled «Eksempler … – dere velger selv», since the product does not
+recommend factors per kind of business. Composed from the template's own parts: the why section's r20 cards (the
+recommended set on sbg with an ink border, as the inspection card), the challenge cards' chips, the hero's tiles,
+the ✓ row.
+
+**What the page promises about the choice, and where it is true.**
+- Forenklet or utvidet, chosen by a daglig leder under Målinger › Spørsmålssett, a standing choice for the
+  planned grunnlinjer and every new one: `components/malinger/ModuleChoices.tsx`, `setOrgModuleVariant`
+  (D-137). Not behind a flag.
+- In utvidet the organisation ticks the extended factors, at least 8 (`module_variants.min_factors`, refused by
+  the database as by the card), with Rettferdighet og karriere off by default (`default_off`); the 24 core
+  statements are always asked (`locked_items`, `app.round_module_fill_variant`). Read-only check on hosted
+  3 October 2026: kunnskap-og-kontor 1.0.0 published, provisional, utvidet `min 8`, `default_off
+  [rettferdighet_og_karriere]`.
+- «Sammenlignbar indeks»: in utvidet the eight simplified factors are computed alongside
+  (`components/resultater/ModuleResults.tsx`, `comparable`), so a round can be compared with simplified ones.
+  The page words it as the product does (`resultater.module.comparableLead`).
+- In forenklet everyone gets the same eight; statements cannot be left out one by one in a module in variants
+  (0088 answers `not_available`); «Ikke relevant for meg» (0087). The FAQ says all three.
+- Not promised: a per-round choice (Måleoppsett shows the variant and leaves the toggles out), the segments
+  (`module_segments` off, so no «hybrid vs office» split is offered), hiding office statements for home
+  workers. The recommendation «forenklet i vanlige målinger, utvidet annethvert år» is the product's own
+  (`malinger.modules.variant.recommend`).
+
+**The page.** Hero («Arbeidsmiljø­kartlegging for kunnskap og kontor: se hva som stjeler fokus og fritid – og følg
+det opp»; the owner's rule: no outcome Orgpuls does not deliver itself – no less burnout, sick leave or turnover,
+no higher productivity; the copy says what it does: shows where the strain is, per team with enough answers,
+measures with owner and deadline, the pulse, the report), the real mobile questionnaire, three tiles (8–15
+factors, «Invitasjon på e-post», the report); «Hverdagen i tall»; «Hvorfor kontorbedriften må kartlegge
+arbeidsmiljøet»; eight challenges; the variants block; four real screens (heat map, measures, year wheel,
+report); four steps (the second is choosing the variant); anonymity; nine FAQs with FAQPage JSON-LD; the start
+band; «Les videre»; eighteen numbered sources.
+
+**Written to what the sources say.** Office work scores well on much, and the page says so in the stat band
+(«Høy trivsel, men ikke alt synes»: 86 % satisfied against 83 %, sick leave below average – and 1 in 5 report
+work-related mental health complaints, NOA). It claims no higher job demands (57 % against 54 % is left out) and
+argues from what is particular: availability after hours (Fafo 2025:26: 22 % of businesses have guidelines on
+the right to disconnect; 41 % in professional occupations get enquiries weekly against 17 %; expectations
+informal), home and hybrid work (STAMI: 4,2 % → 9,6 % working from home several days a week; STAMI's review;
+Abelia's member survey; Fafo's Ledelsesbarometer), concentration in open plan (NOA 58 % in shared offices;
+Fafo 2025:37, worded as one evaluation in the ministries; STAMI's thesis on open plan and sick leave, with its
+own «forskjellene er små»), reorganisation and AI (NOA 55 % against 48 %, finance 65 %; SSB: 9 in 10 in
+information and communication use AI), and the law, which applies to every employer (aml §§ 3-1, 4-3 (2) a, c,
+d, 10-8 (1); hjemmekontorforskriften §§ 2–3; forskriften § 1A-2). Arbeidstilsynet's annual report is quoted on
+risk moving to how work is organised, and its 2025 inspection findings are said to be «i andre bransjer»: the
+page does not claim office firms are inspected now. Nav's 28 % for mental disorders is of all doctor-certified
+sick-leave days and says «i hele arbeidslivet». Every figure is in `docs/marketing/kontor-sources.md` with the
+sentence and page it comes from, fetched 3 October 2026. The old page's invented example company («Fjellstad
+Rådgivning AS» with indices per department) and its international figures (module file rationale sources) are
+not used; the sources file says why. No testimonial, logo, customer count or result claim.
+
+**Product claims, and where they are true.**
+- Module factors, statements and suggested measures («Faste fokusblokker», «Møterevisjon»,
+  «Tilgjengelighetsavtale», «Fri betyr fri», «Kvartalsvis gjennomgang» of evening and weekend work with the
+  verneombud, «Hybrid teamavtale», «Ukentlig én-til-én»): `modules/kunnskap-og-kontor/v1.json`. Kunde- og
+  leveransepress is extended-only, and the challenge says «I utvidet kan dere velge».
+- The yes/no questions shown only for the whole business: KK-T-1 (contacted in free time with an answer expected)
+  and KK-T-2 (written home office agreement) in both variants, KK-T-3/4 in utvidet;
+  `anonymity.count_items_reported_at: organisation_only`.
+- Core factors named: `factor.rolle|kollega|mengde|motstrid|medvirk|ytring|leder`; the module does not repeat
+  them (`relation_to_core.covered_by_core_factors`).
+- Anonymous comments with an anonymous reply, in every plan (`site.pris.included.groups.1.items.2`).
+- 5 answers by default, 3 for small teams, never lower: `app.k_floor()` / `app.k_min()`; complementary
+  suppression (0045).
+- Invitations by e-mail or SMS (`supabase/functions/orgpuls-dispatch`); e-mail is named first, as it is the norm
+  in offices. Teams and Slack are not named (D-203, D-205); the challenge copy names «chat» and «kanaler», not
+  products.
+- The module suggested from NACE 58–66 and 68–74 (`content/industries/meta.ts`). Results per group in the Usual
+  plan. The year wheel and the pulse (`components/arshjulet`, 0071, D-115); the report's own part per module,
+  naming the variant asked (D-116, D-140).
+- **Languages: «norsk, engelsk, polsk og litauisk»**, as the helse page has it. A read-only check on hosted found
+  every one of the 68 items of the published kontor module approved in English, Polish and Lithuanian
+  (`app.item_translations`). The keys that name languages: `site.bransje.kontor.faq.items[6]` (q and a), in
+  no.json and en.json. Ukrainian, Swedish and Danish: «ikke klare ennå».
+- The demo company is honest about itself: Nordvik Anlegg AS is a fictional civil engineering firm, not an office
+  business; its screens show the core survey, and the proof lead says so.
+
+**English is written, not live.** `modules/kunnskap-og-kontor/v1.json` has no `translations.en`, so `live.en` is
+off (D-120, `validate.ts`, the unit test): en.orgpuls.com/kunnskap-og-kontor shows the landing page only with
+`?forhandsvis=1`, marked noindex, and links /demo instead of the question page. The English module factor names
+in `site.bransje.kontor.moduleFactors` are the approved English names in the hosted registry (`mfactor:` rows),
+so the preview names what an English respondent reads; one switch publishes it once the file carries them.
+
+**Also changed.** `content/industries/kunnskap-og-kontor.ts` keeps its content as the record and still feeds the
+question page, the menu name, launch state and default variant; the legal review lists the landing's unit
+(`site.kontor`, with `admin.legal.unit.site.kontor`) and marks the old law items unpublished (D-207's rule, from
+the registry). `/kunnskap-og-kontor` joins `isV3Route` through the registry. The share card
+`public/og/kunnskap-og-kontor.png` is regenerated with the new H1 (og-images reads it from the message).
+`tests/unit/industry-landing.test.ts` gains a generic check (every `moduleFactors` name is the file's, extended or
+simplified; picks are extended factors of the file and as many as the messages) and no longer expects
+/kunnskap-og-kontor off the v3 chrome; a parallel change (D-211) edits the same list, so expect a merge there, in
+`scripts/marketing/og-images.mjs` and in `lib/i18n/site-pages.json` (regenerated).
+
+**Pixel gate.** Plattform 6.6768 %, Bruksområder 3.3886 % and Bransjer 13.1639 % capture at exactly D-207's
+numbers on this build. Forside (9.3789 %, was 9.3752 %) and Pris (2.7752 %, was 2.0562 %) differ from D-207's
+record because of D-209's copy on the base commit («Svar på norsk, engelsk, polsk og litauisk» on the front page
+and in Pris' included list): D-210 measured on a branch cut before D-209 was merged. Nothing this change touches
+is drawn on either page (its messages are `site.bransje.kontor` and one admin label; the registry entry affects
+only /kunnskap-og-kontor). The numbers above are the record for the next change.
+
+**Verified** on a production build (hosted env, read-only; `NEXT_DIST_DIR=.next-kko`, served on port 3412): tsc 0,
+lint 0, verify:i18n 0, vitest 808/808, build 0 (`tsconfig.json` restored after each build); the page map
+regenerated and `--check` 0 (38 pages; QA build `.next-qa-kko` in keys mode on the local stack, port 3413); the
+mobile gate at 390 and 360 for /kunnskap-og-kontor, /kunnskap-og-kontor/sporsmal, /handel, /bygg-og-anlegg,
+/helse-og-omsorg, /bransjer and /barnehage-og-skole: exit 0, no sideways scroll, no squeezed text (the same
+wrapping warnings as the other landing pages: long H2s, FAQ buttons, long factor chips at 360); axe
+serious/critical 0, one H1, no console errors on those seven pages at 1440 and 390 in Norwegian, and on
+/kunnskap-og-kontor?forhandsvis=1 (noindex, links /demo), /helse-og-omsorg and /bransjer in English;
+/kunnskap-og-kontor without the preview parameter answers 404 in English, as before. FAQPage JSON-LD with nine
+questions. `node scripts/audit/wiring.mjs` exits 1 on the same six findings as D-208, none in anything this
+change touches: it adds no column, setting or RPC. Full-page screenshots at 1440 and 390 in
+`qa/shots/kontor-redesign/` (not committed). No database writes (read-only queries on the hosted module registry
+and translation registry).

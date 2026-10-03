@@ -9,7 +9,7 @@ import { StartBand } from '@/components/site/v3/StartBand'
 import { Faq } from '@/components/site/v3/pris/Faq'
 import type { IndustryLanding as Landing } from '@/content/industries/landing'
 import { liveQuestionPages } from '@/content/industries'
-import { moduleFacts, moduleFile } from '@/content/industries/modules'
+import { moduleFacts, moduleFile, simplifiedFactors } from '@/content/industries/modules'
 import { ARTICLES } from '@/lib/marketing/site'
 import { SHOTS } from '@/lib/marketing/shots'
 import type { ShotId } from '@/lib/marketing/shot-ids'
@@ -26,6 +26,8 @@ import type { ShotId } from '@/lib/marketing/shot-ids'
  *   hvorfor ......... Forside slide 2's law card (✓ rows), beside r20 cards
  *   utfordringer .... Forside's problem/solution cards (rust eyebrow, mint foot), two across, on
  *                     Bransjer's sf band
+ *   varianter ....... only for a module in two variants (D-212): both sets in the why section's
+ *                     r20 cards, with the challenge cards' chips and the hero's tiles
  *   slik ser det ut . Plattform's zigzag cases with a real screen in the browser frame
  *   steg ............ Forside's Sløyfen pillars
  *   anonymitet ...... ✓ rows in an r24 panel
@@ -59,7 +61,8 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
     getTranslations('site.chrome'),
     getTranslations(),
   ])
-  const facts = moduleFacts(moduleFile(landing.module, lang))
+  const mod = moduleFile(landing.module, lang)
+  const facts = moduleFacts(mod)
   const fmt = (s: string) => s.replace('{factors}', facts.factors).replace('{statements}', facts.statements).replace('{minutes}', facts.minutes)
 
   const tiles = z.array(Item).length(3).parse(t.raw('hero.tiles'))
@@ -391,6 +394,17 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
         </div>
       </section>
 
+      {/* -------------------------------------------- the variants, where there are two */}
+      {landing.variants && mod.variants ? (
+        <Variants
+          raw={t.raw('variants')}
+          picks={landing.variants.picks}
+          mod={mod}
+          names={moduleNames}
+          chips={{ extendedOnly: all('industry.variant.extendedOnly'), optional: all('industry.variant.optional') }}
+        />
+      ) : null}
+
       {/* ------------------------------------------------------------- the proof */}
       <section id="slik-ser-det-ut" data-screen-label="Slik ser det ut" aria-labelledby="proof-h">
         <div className={`${COLUMN} pt-[72px] max-sm:pt-[48px]`}>
@@ -549,6 +563,150 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
         </div>
       </section>
     </>
+  )
+}
+
+const VariantsWords = z.object({
+  k: Str,
+  title: Str,
+  lead: Str,
+  facts: z.object({ factors: Str, statements: Str, minutes: Str, about: Str, upTo: Str }),
+  simple: z.object({ t: Str, badge: Str, d: Str, list: Str }),
+  extended: z.object({ t: Str, badge: Str, d: Str, list: Str }),
+  picks: z.object({ title: Str, lead: Str, items: z.array(Item) }),
+  note: Str,
+})
+
+/** {name} in a message read raw */
+const fill = (s: string, values: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (m, k: string) => String(values[k] ?? m))
+
+/**
+ * A module in two variants (kunnskap og kontor, 0089, D-212): both sets side by side, their sizes and
+ * factors read from the module file, never typed – the simplified set (F1–F8) and the extended one the
+ * organisation picks from (at least `min_factors`), with the file's own «Kun utvidet» and «Valgfri» –
+ * and the registry's picks, extended factors to weigh for a kind of business. Composed from the
+ * template's own parts: the why section's r20 cards (the emphasised one on sbg with an ink border),
+ * the challenge cards' chips, the hero's tiles and the ✓ row.
+ */
+function Variants({
+  raw,
+  picks,
+  mod,
+  names,
+  chips,
+}: {
+  raw: unknown
+  picks: string[][]
+  mod: ReturnType<typeof moduleFile>
+  names: Record<string, string>
+  chips: { extendedOnly: string; optional: string }
+}) {
+  const w = VariantsWords.parse(raw)
+  const items = z.array(Item).length(picks.length).parse(w.picks.items)
+  const [simpleVariant, extendedVariant] = mod.variants!
+  const simple = simplifiedFactors(mod)
+  const count = (fs: { items: unknown[] }[]) => fs.reduce((n, f) => n + f.items.length, 0)
+  const nameOf = (id: string, fallback: string) => names[id] ?? fallback
+  const fileName = new Map(mod.factors.map((f) => [f.id, f.name]))
+
+  const cards = [
+    {
+      key: 'forenklet',
+      words: w.simple,
+      emphasis: true,
+      figures: [
+        { v: String(simple.length), l: w.facts.factors },
+        { v: String(count(simple)), l: w.facts.statements },
+        { v: fill(w.facts.about, { n: simpleVariant.estimated_minutes }), l: w.facts.minutes },
+      ],
+      d: w.simple.d,
+      factors: simple.map((f) => ({ id: f.id, label: nameOf(f.id, f.name), tags: [] as string[] })),
+    },
+    {
+      key: 'utvidet',
+      words: w.extended,
+      emphasis: false,
+      figures: [
+        { v: `${extendedVariant.min_factors}–${mod.factors.length}`, l: w.facts.factors },
+        { v: fill(w.facts.upTo, { n: count(mod.factors) }), l: w.facts.statements },
+        { v: fill(w.facts.about, { n: extendedVariant.estimated_minutes }), l: w.facts.minutes },
+      ],
+      d: fill(w.extended.d, { factors: mod.factors.length, min: extendedVariant.min_factors }),
+      factors: mod.factors.map((f) => ({
+        id: f.id,
+        label: nameOf(f.id, f.name),
+        tags: [...(f.extended_only ? [chips.extendedOnly] : []), ...(f.optional ? [chips.optional] : [])],
+      })),
+    },
+  ]
+
+  return (
+    <section id="varianter" data-screen-label="Varianter" aria-labelledby="varianter-h" className={`${COLUMN} pt-[72px] max-sm:pt-[48px]`}>
+      <span className={`${EYEBROW} text-mut`}>{w.k}</span>
+      <h2 id="varianter-h" className={`${H2} mt-[12px] max-w-[24ch]`}>
+        {w.title}
+      </h2>
+      <p className={`${LEAD} mt-[14px] max-w-[62ch]`}>{w.lead}</p>
+      <div className="mt-[36px] grid items-start gap-[13px] [grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr))]">
+        {cards.map((c) => (
+          <div
+            key={c.key}
+            className={`rounded-card border px-[24px] py-[22px] max-sm:px-[16px] max-sm:py-[18px] ${c.emphasis ? 'border-ink bg-sbg' : 'border-line bg-sf'}`}
+          >
+            <div className="flex flex-wrap items-center justify-between gap-x-[12px] gap-y-[8px]">
+              <h3 className="m-0 font-display text-[24px] font-semibold leading-[1.15] max-sm:text-[22px]">{c.words.t}</h3>
+              <span className={`rounded-pill px-[11px] py-[4px] text-[12px] font-bold ${c.emphasis ? 'bg-mint text-greendeep' : 'bg-track text-ink'}`}>
+                {c.words.badge}
+              </span>
+            </div>
+            <dl className="m-0 mt-[18px] flex flex-wrap gap-x-[28px] gap-y-[12px]">
+              {c.figures.map((f) => (
+                <div key={f.l} className="flex flex-col-reverse">
+                  <dt className="mt-[4px] text-[12.5px] text-body">{f.l}</dt>
+                  <dd className="m-0 font-display text-[28px] font-semibold leading-none tabular-nums max-sm:text-[24px]">{f.v}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="m-0 mt-[16px] text-[14.5px] leading-[1.6] text-body [text-wrap:pretty]">{c.d}</p>
+            <p className="m-0 mt-[16px] text-[12px] font-bold text-mut">{c.words.list}</p>
+            <ul className="m-0 mt-[8px] flex list-none flex-wrap gap-[6px] p-0">
+              {c.factors.map((f) => (
+                <li key={f.id} className={`rounded-pill px-[10px] py-[4px] text-[12px] font-bold text-ink ${c.emphasis ? 'bg-ac' : 'bg-track'}`}>
+                  {f.label}
+                  {f.tags.map((tag) => (
+                    <span key={tag} className="font-semibold">
+                      {' '}
+                      · {tag}
+                    </span>
+                  ))}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <h3 className="m-0 mt-[40px] font-display text-[22px] font-semibold leading-[1.2] [text-wrap:balance]">{w.picks.title}</h3>
+      <p className="m-0 mt-[8px] max-w-[62ch] text-[14.5px] leading-[1.6] text-body [text-wrap:pretty]">{w.picks.lead}</p>
+      <ul className="m-0 mt-[18px] grid list-none gap-[10px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(460px,100%),1fr))]">
+        {items.map((p, i) => (
+          <li key={p.t} className="flex flex-col gap-[8px] rounded-note border border-line bg-sf px-[16px] py-[14px]">
+            <span className="text-[14.5px] font-bold">{p.t}</span>
+            <span className="text-[12.5px] leading-[1.45] text-body [text-wrap:pretty]">{p.d}</span>
+            <ul className="m-0 mt-[2px] flex list-none flex-wrap gap-[6px] p-0">
+              {(picks[i] ?? []).map((id) => (
+                <li key={id} className="rounded-pill bg-ac px-[10px] py-[4px] text-[12px] font-bold text-ink">
+                  {nameOf(id, fileName.get(id) ?? id)}
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+      <p className="m-0 mt-[20px] flex max-w-[72ch] items-start gap-[10px] text-[14px] font-semibold leading-[1.5]">
+        <Tick />
+        <span>{w.note}</span>
+      </p>
+    </section>
   )
 }
 

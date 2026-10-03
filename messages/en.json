@@ -8768,6 +8768,404 @@
           "noa_anlegg": "STAMI, NOA: Fakta om arbeidsmiljøet i anleggsvirksomheter, figures from the Norwegian Living Conditions Survey on the Work Environment 2022"
         }
       },
+      "kontor": {
+        "nav": "Knowledge and office work",
+        "seo": {
+          "title": "Work environment survey for knowledge and office work | Orgpuls",
+          "description": "Survey the work environment in consultancy, IT, finance and media: focus, availability, hybrid work and AI. Simplified or extended. Free for 15 days."
+        },
+        "hero": {
+          "k": "Knowledge and office work · consultancy, IT, finance, media and real estate",
+          "h1": "A work environment survey for knowledge and office work: see what eats into focus and free time – and follow it up",
+          "lead": "See where interruptions, pressure to answer after hours and hybrid work take their toll – for the whole business and for each team with enough answers. Choose simplified or extended, and pick the factors that fit your working day. You get suggested measures with an owner and a deadline, a new measurement in the pulse and a report showing the survey was done.",
+          "secondary": "See the knowledge and office questions",
+          "figure": {
+            "title": "How your staff answer",
+            "meta": "On phone or PC · about 4 + {minutes} min",
+            "caption": "The questionnaire on a phone, one theme per page."
+          },
+          "tiles": [
+            {
+              "t": "{factors} factors for knowledge work",
+              "d": "The office module comes on top of the main survey and takes about {minutes} minutes more – simplified or extended, you choose."
+            },
+            {
+              "t": "Invitations by e-mail",
+              "d": "Each employee gets their own link by e-mail or text message and answers on a phone or PC. No app to install."
+            },
+            {
+              "t": "Report for the Labour Inspection Authority",
+              "d": "Survey, risk assessment and measures in one place, with the legal basis for each factor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Working life in figures",
+          "title": "The office work environment: what the figures show",
+          "lead": "Around 400,000 people work in information and communication, finance and insurance, and technical services and real estate, and about 800,000 sit in an office almost all their working time. The figures come from Norwegian research and official statistics.",
+          "items": [
+            {
+              "v": "29%",
+              "l": "of people in office workplaces work from home or on the move outside normal hours every week, against 17% of all employed"
+            },
+            {
+              "v": "22%",
+              "l": "of businesses have guidelines on the right to disconnect from work in free time"
+            },
+            {
+              "v": "9.6%",
+              "l": "of employees work from home several days a week since the pandemic, against 4.2% in 2019"
+            },
+            {
+              "v": "28%",
+              "l": "of doctor-certified sick-leave days in the second quarter of 2026 were due to mental disorders – across all of working life"
+            }
+          ],
+          "h3": "High satisfaction, but not everything shows",
+          "note": "86% of people in office workplaces are satisfied with their job, against 83% of all employed, and sick leave is below average. Even so, 1 in 5 report mental health complaints wholly or partly caused by their job.",
+          "text": "An anonymous questionnaire shows what is not said at the all-hands. Among other things, the office module asks whether employees have been contacted in their free time with an answer expected. The answer is shown only as a count for the whole business."
+        },
+        "why": {
+          "k": "Why survey",
+          "title": "Why an office business has to survey its work environment",
+          "lead": "The Working Environment Act applies to every employer with employees – including the consultancy with six consultants. For knowledge work, the law points among other things to workload and time pressure, unclear expectations and support at work, and the home office is part of the work environment.",
+          "law": {
+            "title": "What the law requires in knowledge and office work",
+            "pill": "Applies to every employer",
+            "rows": [
+              {
+                "ref": "aml § 3-1 (2) c",
+                "t": "Identify hazards and problems, assess the risk, make plans and put measures in place."
+              },
+              {
+                "ref": "aml § 4-3 (2)",
+                "t": "The psychosocial factors must be fully satisfactory – among them unclear or conflicting demands and expectations, workload and time pressure, and support and help at work."
+              },
+              {
+                "ref": "aml § 10-8 (1)",
+                "t": "Employees shall have at least 11 consecutive hours off work in every 24 hours."
+              },
+              {
+                "ref": "Home office regulation",
+                "t": "Regular work from home requires a written agreement, covering among other things working hours and when the employee is to be available. The psychosocial work environment at home must also be taken care of (§§ 2 and 3)."
+              },
+              {
+                "ref": "Regulation § 1A-2",
+                "t": "The survey must be done together with the employees, repeated regularly and documented."
+              }
+            ],
+            "link": "Read more about the legal requirement"
+          },
+          "tilsyn": {
+            "t": "The Labour Inspection Authority: risk is more about how work is organised",
+            "p": "“More and more people in Norway work in occupations where the risk is less about machinery and physical hazards and more about how work is organised, time pressure and emotional strain,” the Authority writes in its 2025 annual report. The requirements were clarified from 1 January 2026, and the Authority is giving guidance first. In its 2025 inspections – in other industries – the survey was inadequate in nearly two out of three, and measures often lacked a person responsible and a deadline.",
+            "d": "In Orgpuls every measure gets an owner and a deadline, and the safety representative sees the same figures as management."
+          },
+          "gap": {
+            "t": "Small businesses survey less often",
+            "p": "Among private businesses with fewer than 20 employees, 28% run an employee survey, and 23% do none of the surveys Fafo asked about. Among businesses with fewer than 20 employees, 19% have guidelines on the right to disconnect."
+          },
+          "cost": {
+            "t": "Leaving it costs",
+            "items": [
+              "1 in 3 people on sick leave in office workplaces say their absence is related to their job. Absence like that can often be prevented at the workplace.",
+              "Employees in open-plan offices with fixed desks were more likely to take both self-certified and doctor-certified sick leave than those in single or small shared offices, a STAMI doctoral thesis shows. The differences are small, but they apply to many people.",
+              "Sick leave due to mental disorders often lasts a long time, which increases the chance of dropping out of working life altogether, says NAV's director Hege Nilssen."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Challenges and solutions",
+          "title": "Eight challenges in knowledge and office work – and how to tackle them",
+          "lead": "Many office workplaces score well on a lot. The challenges here are what is particular to knowledge work, drawn from Norwegian research, statistics and guidance. Under each one you see which questions measure it and what you get to work with.",
+          "items": [
+            {
+              "t": "No peace to think",
+              "looks": "A quick question at your desk, notifications in three channels, four meetings before lunch. The work that needs concentration gets done after everyone else has gone home.",
+              "fig": "58% of people who work in an office sit in a shared office or open plan all or part of the time. In Fafo's evaluation of an activity-based office in the ministries, work that needs concentration was experienced as harder in the open plan.",
+              "solve": "Focus and interruptions asks whether people get uninterrupted time for work that needs concentration, and whether they are disturbed when they need quiet. Meeting culture asks whether meetings are useful. In the simplified set they come together as Concentration and workflow, with suggestions such as fixed focus blocks and a meeting review."
+            },
+            {
+              "t": "Always available",
+              "looks": "The client e-mails on Sunday evening, and the manager answers in the chat at eleven at night. Nobody has said you must reply – but everyone does.",
+              "fig": "22% of people in office workplaces feel they are expected to be available in their free time, against 19% of all employed. Expectations are often informal and unspoken, Fafo writes.",
+              "solve": "Availability asks whether it is accepted not to answer outside working hours, and whether the team has clear agreements on when to be available. A yes/no question counts how many have been contacted in their free time with an answer expected – shown only as a count for the whole business. One of the suggestions is a team availability agreement."
+            },
+            {
+              "t": "Work comes home",
+              "looks": "The laptop sits on the kitchen table, and “just one more thing” turns into an hour every evening. It is flexible – until it isn't.",
+              "fig": "Among employees without management duties, 41% in professional occupations get work enquiries in their free time at least once a week, against 17% of operators and craft workers. Two in three managers with staff get such enquiries every week.",
+              "solve": "Work and private life asks whether the job leaves enough time for private life, and Recovery and switching off whether people manage to switch off in their free time. The suggestions include “Off means off” and a quarterly review of evening and weekend work together with the safety representative."
+            },
+            {
+              "t": "Together, but apart",
+              "looks": "Half the team is in on Tuesday, the rest on Thursday. The new hire hasn't met everyone yet, and sparring only happens when someone remembers to invite them.",
+              "fig": "In Abelia's HR survey of technology and knowledge businesses, 40% of the businesses name weaker social cohesion from flexible and hybrid work as a major challenge. STAMI finds that working from home can give more control and flexibility, but is also linked to higher demands for availability, less support from colleagues and somewhat more role ambiguity and role conflict.",
+              "solve": "Hybrid collaboration asks whether collaboration works wherever people work, and Belonging and professional network whether people get informal contact and professional sparring. Role clarity and Support from colleagues in the main survey show the rest. The suggestions include a hybrid team agreement and a weekly one-to-one."
+            },
+            {
+              "t": "The client is always in a hurry",
+              "looks": "The deadline was set in the sales meeting, the order changed along the way, and the hours still have to be logged as billable.",
+              "fig": "About 1 in 10 employees regularly get work enquiries in their free time and are expected to answer. Most are managers or in particularly independent positions, spend at least 2 hours a week on it, and many report stress and working while ill.",
+              "solve": "In the extended set you can choose Client and delivery pressure: whether deadlines are realistic, whether people get support from their manager when a client makes unreasonable demands, and whether billable-hour targets are reasonable. Workload and time pressure and Conflicting demands in the main survey are included for everyone."
+            },
+            {
+              "t": "New systems, new structure, new AI",
+              "looks": "A new system in spring, a reorganisation in autumn – and now everyone is to use AI, but nobody has said how.",
+              "fig": "55% of people in office workplaces have been through a reorganisation, against 48% of all employed. In banking, finance and insurance it is 65%. 9 in 10 businesses in information and communication use AI in 2026.",
+              "solve": "AI and changes in work tasks asks whether people know how to use AI safely, and whether they are involved when new technology changes their work. Job security and restructuring asks whether people feel their skills will be in demand, and in the extended set whether changes are explained. Participation and control in the main survey shows whether employees are heard."
+            },
+            {
+              "t": "Screen, chair and kitchen table",
+              "looks": "Eight hours at the screen, half the week at a kitchen table and a channel for every project. Nobody has asked how your neck is doing.",
+              "fig": "42% of people in office workplaces do repetitive arm and hand movements, PC work among them, against 25% of all employed. If someone works from home one day every week as a fixed arrangement, the home office regulation applies, the Labour Inspection Authority writes.",
+              "solve": "Physical workplace and equipment asks whether the office gives peace, and whether people have equipment that is good for the body – at home too. A yes/no question counts how many work from home regularly without a written agreement. Digital tools asks whether the tools make the job easier, and whether the volume of messages is manageable."
+            },
+            {
+              "t": "What isn't said on screen",
+              "looks": "In the video meeting, everyone says it's going fine. The one who is struggling says so at lunch – if she is in the office that day.",
+              "fig": "Among managers whose staff can work from home, 47% find it demanding to manage employees who work from home, and 45% think it affects the work environment negatively.",
+              "solve": "Freedom to speak up and Support from manager in the main survey show whether people dare to speak up and whether the manager is there for them. Answers are anonymous and shown per team with enough answers – also for those the manager rarely sees. In the comment field they can write what they don't say out loud, and you can reply anonymously."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "fokus_og_avbrytelser": "Focus and interruptions",
+          "motekultur": "Meeting culture",
+          "digitale_verktoy": "Digital tools and information load",
+          "tilgjengelighet": "Availability and pressure to respond",
+          "arbeid_privatliv": "Work and private life",
+          "restitusjon": "Recovery and switching off",
+          "hybrid_samhandling": "Hybrid collaboration",
+          "tilhorighet": "Belonging and professional network",
+          "fysisk_arbeidsplass": "Physical workplace and equipment",
+          "kunde_og_leveransepress": "Client and delivery pressure",
+          "laering_og_utvikling": "Learning and professional development",
+          "ki_og_endring": "AI and changes in work tasks",
+          "overvaking_og_tillit": "Digital monitoring and trust",
+          "jobbtrygghet": "Job security and restructuring",
+          "rettferdighet_og_karriere": "Fairness and career",
+          "f_konsentrasjon": "Concentration and workflow",
+          "f_digitale_verktoy": "Digital tools and information load",
+          "f_tilgjengelighet": "Availability and boundaries",
+          "f_privatliv_restitusjon": "Work, private life and recovery",
+          "f_hybrid": "Collaboration and belonging in hybrid work",
+          "f_fysisk": "Physical workplace and equipment",
+          "f_laering": "Learning and professional development",
+          "f_teknologi_ki": "Technological change and AI"
+        },
+        "moduleTag": "Office module",
+        "variants": {
+          "k": "Simplified or extended",
+          "title": "One module, two variants: choose what fits you",
+          "lead": "The 24 core statements are in both variants, so the figures can be compared from one survey to the next. The managing director chooses under Measurements › Question set, and the choice holds until you change it.",
+          "facts": {
+            "factors": "factors",
+            "statements": "statements",
+            "minutes": "min extra",
+            "about": "about {n}",
+            "upTo": "up to {n}"
+          },
+          "simple": {
+            "t": "Simplified",
+            "badge": "Recommended for regular surveys",
+            "d": "Eight factors of three statements each, drawn from the core statements. Everyone who uses simplified gets the same eight.",
+            "list": "The factors in simplified"
+          },
+          "extended": {
+            "t": "Extended",
+            "badge": "Every other year, in depth",
+            "d": "All {factors} factors, with more statements each. You tick at least {min} of them. Factors marked “Extended only” exist only here, and the one marked “Optional” stays off until you turn it on.",
+            "list": "The factors you choose from"
+          },
+          "picks": {
+            "title": "Choose by your working day",
+            "lead": "Examples of factors you might emphasise in extended – you decide. The main survey is included for everyone.",
+            "items": [
+              {
+                "t": "Consultancy",
+                "d": "Client deadlines, billable hours and clients who change the order along the way."
+              },
+              {
+                "t": "IT and technology",
+                "d": "New tools every six months, AI in daily work and many channels."
+              },
+              {
+                "t": "Finance and insurance",
+                "d": "Reorganisations, digital traces of work and clients waiting for an answer."
+              },
+              {
+                "t": "Hybrid teams",
+                "d": "Some in the office, some at home – and the same chance to be seen."
+              }
+            ]
+          },
+          "note": "If you use extended, the eight simplified factors are calculated too, as a comparable index – so you can compare with surveys where you used simplified."
+        },
+        "proof": {
+          "k": "How it looks",
+          "title": "From answers to measures in one tool",
+          "lead": "The pictures are real screenshots from our demo company, Nordvik Anlegg AS – a fictional civil engineering firm, not an office business. The demo shows the main survey. The office module's factors get their own results and suggested measures, with an owner, a deadline and a new measurement in the pulse.",
+          "blocks": [
+            {
+              "k": "Results",
+              "h3": "See which team is struggling – without seeing who",
+              "ticks": [
+                "Each factor gets a score from 0 to 100, for the whole business and for each group with enough answers",
+                "Make one group per team, department or office – results per group are part of the Usual plan",
+                "A group with too few answers is shown with a dash, but its answers count in the figures for the whole business"
+              ],
+              "caption": "The heat map: factors against groups."
+            },
+            {
+              "k": "Measures",
+              "h3": "Every finding becomes a measure with an owner and a deadline",
+              "ticks": [
+                "Three suggested measures per factor, written for knowledge work – for example “Availability agreement” and “Fixed focus blocks”",
+                "Each measure gets an owner and a deadline",
+                "The safety representative sees the same figures as management"
+              ],
+              "caption": "The measures board in Orgpuls."
+            },
+            {
+              "k": "Follow-up",
+              "h3": "Follow up with pulses through the year",
+              "ticks": [
+                "Plan the main survey and the pulses in the year wheel",
+                "The pulse includes the statements that measure the measures you are working on",
+                "Results are compared with the previous survey"
+              ],
+              "caption": "The year wheel: baseline and pulses through the year."
+            },
+            {
+              "k": "Report",
+              "h3": "The report the Labour Inspection Authority asks for",
+              "ticks": [
+                "Survey, risk assessment and measures in one place, with dates",
+                "The legal basis for each factor",
+                "The office module gets its own part of the report, naming the variant you used",
+                "Download it as a PDF the day someone asks"
+              ],
+              "caption": "The report, part 3: the survey."
+            }
+          ]
+        },
+        "steps": {
+          "k": "How to get started",
+          "title": "From organisation number to report in four steps",
+          "items": [
+            {
+              "t": "Register your business",
+              "d": "Enter your organisation number and we fetch the name, address and industry from the Brønnøysund Register Centre. If the industry code belongs to knowledge and office work – IT, finance, consultancy or real estate, for example – Orgpuls suggests the office module."
+            },
+            {
+              "t": "Choose a variant and add your employees",
+              "d": "Choose simplified or extended under Question set. Make one group per team or department, and send the invitation by e-mail or text message."
+            },
+            {
+              "t": "See the results",
+              "d": "Each factor gets a score from 0 to 100 in green, yellow or red – for the whole business and for each team with enough answers."
+            },
+            {
+              "t": "Choose measures and follow up",
+              "d": "Pick from the suggestions, give the measure an owner and a deadline, and let the pulse measure whether it worked. The report updates itself."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymity",
+          "title": "Anonymous – even in a small team",
+          "lead": "No single answer can be traced back to a person. It is built into the way answers are stored, not just promised in a privacy policy.",
+          "items": [
+            {
+              "t": "5 answers by default",
+              "d": "No group is shown until at least 5 have answered. Small teams can lower the threshold to 3, never lower. The fewer the answers, the easier it is to recognise who said what."
+            },
+            {
+              "t": "Teams with few answers",
+              "d": "A team with too few answers is not shown as a group of its own, but its answers count in the figures for the whole business. If a group could be worked out from the total and the other groups, one more group is held back."
+            },
+            {
+              "t": "The yes/no questions",
+              "d": "The questions about contact in free time and a written home office agreement are shown only as counts for the whole business – never per team."
+            },
+            {
+              "t": "A department manager sees their team",
+              "d": "A department manager sees only their own group. The safety representative sees the same figures as management."
+            }
+          ],
+          "link": "Read about privacy and anonymity"
+        },
+        "faq": {
+          "k": "Questions and answers",
+          "title": "What leaders of knowledge businesses ask",
+          "items": [
+            {
+              "q": "Simplified or extended – which should we choose?",
+              "a": "Simplified is 8 factors and 24 statements and takes about 3 minutes more. Extended has 15 factors and up to 62 statements and takes about 7 minutes. We recommend simplified for regular surveys and extended every other year, in depth. The 24 core statements are in both, so you can compare results over time."
+            },
+            {
+              "q": "Can we choose only the factors that fit us?",
+              "a": "In extended, yes: you tick at least 8 of the 15 factors. The core statements are always included, and Fairness and career stays off until you turn it on. In simplified everyone gets the same eight factors. Single statements cannot be removed, but anyone who cannot answer a statement chooses “Not relevant to me”."
+            },
+            {
+              "q": "How long does it take for employees?",
+              "a": "The main survey takes about 4 minutes. The office module adds about 3 minutes in simplified, with 24 statements and 2 short yes/no questions, and about 7 minutes in extended, with up to 62 statements and 4 yes/no questions."
+            },
+            {
+              "q": "What does it cost?",
+              "a": "Small costs NOK 265 a month for up to 25 employees, and Usual NOK 565 for 26–100 employees. The office module is included in both. Prices exclude VAT, with no lock-in, and the first 15 days are free."
+            },
+            {
+              "q": "Does the manager see who was contacted in their free time?",
+              "a": "No. The question is shown only as a count for the whole business, never per team. By default no group is shown until at least 5 have answered, and the threshold can never be set below 3."
+            },
+            {
+              "q": "We work from home a lot. Does the module fit?",
+              "a": "Yes. The statements about collaboration, sparring, availability and equipment apply wherever people work. Anyone who doesn't use the office can answer “Not relevant to me” to the statement about their workplace there, and that answer does not count in the index. A yes/no question shows how many work from home regularly without a written agreement."
+            },
+            {
+              "q": "Can they answer in English?",
+              "a": "Yes. The questionnaire is available in Norwegian, English, Polish and Lithuanian. A language is offered when every question in the survey has an approved translation. Ukrainian, Swedish and Danish are not ready yet."
+            },
+            {
+              "q": "Are the questions validated?",
+              "a": "The office module's factors build on validated scales and research, but the wording is our own. The module is marked provisional until it has been tested in a pilot, and its risk levels are shown as provisional until then."
+            },
+            {
+              "q": "Will this hold if the Labour Inspection Authority comes?",
+              "a": "Orgpuls covers the survey and risk assessment of the psychosocial work environment. The report brings together survey, risk assessment, measures and follow-up with dates. Home office agreements, routines and training live elsewhere, and the Authority expects the survey to draw on several sources – a questionnaire is one of them."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "All the questions in the office module",
+          "lovkrav": "The legal requirement explained",
+          "verneombud": "The safety representative and the survey",
+          "smaa": "Work environment surveys for small businesses",
+          "priser": "Prices"
+        },
+        "sources": {
+          "ssb_aku": "Statistics Norway, table 07203: Employed persons (LFS) by industry, 2025",
+          "noa_kontor": "STAMI, NOA: Facts about the work environment in office workplaces, figures from the Living Conditions Survey on the Working Environment 2022",
+          "fafo_koble": "Fafo report 2025:26: Employees' right to disconnect (Bråten, Andersen, Blinkenberg and Nergaard)",
+          "stami_varig": "STAMI: A lasting change after the pandemic, from the 2024 fact book on work environment and health",
+          "nav_fravaer": "NAV: Sick leave up in the first half of the year, sick-leave statistics for the second quarter of 2026",
+          "lovdata_aml": "Lovdata: Working Environment Act §§ 3-1, 4-3 and 10-8",
+          "lovdata_hjemmekontor": "Lovdata: Regulation on work performed in the employee's home (home office regulation), §§ 2 and 3",
+          "lovdata_forskrift": "Lovdata: Regulation on the performance of work, chapter 1A (in force 1 January 2026)",
+          "at_arsrapport": "Labour Inspection Authority: Annual report 2025 – an analysis of the Authority's work",
+          "fafo_verneombud": "Fafo report 2025:10: Mapping the work of safety representatives (Andersen, Bråten and Huseby), survey of 1,200 business leaders",
+          "stami_landskap": "STAMI: The office affects employees' sick leave, on Randi Hovden Borge's doctoral thesis",
+          "fafo_abw": "Fafo report 2025:37: Activity-based workplaces – evaluation of a pilot in the government quarter (Hilsen, Andersen and Dønnum)",
+          "noa_finans": "STAMI, NOA: Facts about the work environment in banking, finance and insurance, figures from the Living Conditions Survey on the Working Environment 2022",
+          "stami_hjemmekontor": "STAMI: New knowledge about home offices, work environment and health",
+          "ssb_ki": "Statistics Norway: Use of AI in business is accelerating",
+          "at_hjemmekontor": "Labour Inspection Authority: Home office",
+          "fafo_ledelse": "Fafo: Management barometer 2025 – home office and remote management (Andersen), fact sheet",
+          "abelia_hr": "Abelia: HR survey 2023 – Rapid technological change challenges forward-looking employers too"
+        }
+      },
       "helse": {
         "nav": "Health and care",
         "seo": {
@@ -12126,6 +12524,7 @@
           "handel": "/handel · the law card, the inspection, the figures and the claims about anonymity",
           "bygg": "/bygg-og-anlegg · the law card, the inspection, the figures and the claims about anonymity",
           "helse": "/helse-og-omsorg · the law card, the inspection, the figures and the claims about anonymity",
+          "kontor": "/kunnskap-og-kontor · the law card, the inspection, the figures and the claims about anonymity",
           "bransjer": "/bransjer · why an industry module, and the questions and answers",
           "terms": "Prices and terms of purchase"
         },

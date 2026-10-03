@@ -13,6 +13,13 @@ import type { IndustryPage } from './types'
  * closing note, the question page's words) follow the other industries', in this one's words. The
  * brief's answer about home workers claimed statements hidden by work form, which is not built;
  * it says what is: «Ikke relevant for meg» (0087).
+ *
+ * Since D-212 the address /kunnskap-og-kontor is drawn by the landing template (content/industries/landing.ts,
+ * messages `site.bransje.kontor`), as /handel's, /bygg-og-anlegg's and /helse-og-omsorg's are. What this file
+ * still feeds: the question page (`questionPage`, /kunnskap-og-kontor/sporsmal), the menu's name (`navLabel`),
+ * whether the menu and /bransjer list it (`launched`), the module key and default variant, and the legal
+ * review's record of the claims below. Its hero (with the invented example company's preview), challenges,
+ * law block and FAQ are no longer shown on the site; they stay as the record of what the page said until D-212.
  */
 export const kunnskapOgKontor: IndustryPage = {
   slug: 'kunnskap-og-kontor',

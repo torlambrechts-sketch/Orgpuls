@@ -45,6 +45,12 @@ export type IndustryLanding = {
   stats: { leadCites: string[]; items: string[][]; noteCites: string[] }
   why: { lawCites: string[]; tilsynCites: string[]; gapCites: string[]; costCites: string[][] }
   challenges: LandingChallenge[]
+  /**
+   * A module in two variants (kunnskap og kontor, 0089, D-212): the page shows both, their sizes and
+   * factors read from the module file, and `picks` – extended factors to weigh for a kind of business,
+   * one list per `site.bransje.<msg>.variants.picks.items` entry. Absent for a module asked one way.
+   */
+  variants?: { picks: string[][] }
   /** `site.bransje.<msg>.proof.blocks`, one picture each */
   proof: ShotId[]
   faqCount: number
@@ -244,6 +250,91 @@ export const LANDINGS: IndustryLanding[] = [
       },
       { key: 'at_alene', url: 'https://www.arbeidstilsynet.no/arbeidstid-og-organisering/alenearbeid', year: '2026' },
       { key: 'fafo_ufaglaerte', url: 'https://www.fafo.no/images/pub/2025/20921_2.pdf', year: '2025' },
+    ],
+  },
+  {
+    // D-212. A module in two variants (0089, D-137): the variants block shows both, from the file.
+    // English waits: modules/kunnskap-og-kontor/v1.json has no `translations.en` (D-120)
+    slug: 'kunnskap-og-kontor',
+    msg: 'kontor',
+    live: { no: true, en: false },
+    module: 'kunnskap-og-kontor',
+    heroShot: 'sporsmal',
+    stats: {
+      leadCites: ['ssb_aku', 'noa_kontor'],
+      items: [['noa_kontor'], ['fafo_koble'], ['stami_varig'], ['nav_fravaer']],
+      noteCites: ['noa_kontor'],
+    },
+    why: {
+      lawCites: ['lovdata_aml', 'lovdata_hjemmekontor', 'lovdata_forskrift'],
+      tilsynCites: ['at_arsrapport'],
+      gapCites: ['fafo_verneombud', 'fafo_koble'],
+      costCites: [['noa_kontor'], ['stami_landskap'], ['nav_fravaer']],
+    },
+    challenges: [
+      { cites: ['noa_kontor', 'fafo_abw'], module: ['fokus_og_avbrytelser', 'motekultur'], core: [] },
+      { cites: ['noa_kontor', 'fafo_koble'], module: ['tilgjengelighet'], core: [] },
+      { cites: ['fafo_koble'], module: ['arbeid_privatliv', 'restitusjon'], core: [] },
+      { cites: ['abelia_hr', 'stami_hjemmekontor'], module: ['hybrid_samhandling', 'tilhorighet'], core: ['rolle', 'kollega'] },
+      { cites: ['fafo_koble'], module: ['kunde_og_leveransepress'], core: ['mengde', 'motstrid'] },
+      { cites: ['noa_kontor', 'noa_finans', 'ssb_ki'], module: ['ki_og_endring', 'jobbtrygghet'], core: ['medvirk'] },
+      { cites: ['noa_kontor', 'at_hjemmekontor'], module: ['fysisk_arbeidsplass', 'digitale_verktoy'], core: [] },
+      { cites: ['fafo_ledelse'], module: [], core: ['ytring', 'leder'] },
+    ],
+    variants: {
+      picks: [
+        ['kunde_og_leveransepress', 'tilgjengelighet', 'laering_og_utvikling'],
+        ['ki_og_endring', 'digitale_verktoy', 'fokus_og_avbrytelser'],
+        ['jobbtrygghet', 'overvaking_og_tillit', 'ki_og_endring'],
+        ['hybrid_samhandling', 'tilhorighet', 'rettferdighet_og_karriere'],
+      ],
+    },
+    proof: ['varmekart', 'tiltak', 'arshjul', 'rapport'],
+    faqCount: 9,
+    related: [
+      { key: 'sporsmal', href: '/kunnskap-og-kontor/sporsmal' },
+      { key: 'lovkrav', href: '/lovkrav' },
+      { key: 'verneombud', href: '/verneombud' },
+      { key: 'smaa', href: '/smaa-bedrifter' },
+      { key: 'priser', href: '/priser' },
+    ],
+    articles: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'anonym-medarbeiderundersokelse'],
+    fetched: '2026-10-03',
+    sources: [
+      { key: 'ssb_aku', url: 'https://www.ssb.no/statbank/table/07203/', year: '2025' },
+      { key: 'noa_kontor', url: 'https://noa.stami.no/yrker-og-naeringer/noa/kontorarbeidsplasser/', year: '2022' },
+      { key: 'fafo_koble', url: 'https://www.fafo.no/images/pub/2025/20939.pdf', year: '2025' },
+      { key: 'stami_varig', url: 'https://stami.no/her-skjedde-ei-varig-endring-etter-pandemien/', year: '2024' },
+      {
+        key: 'nav_fravaer',
+        url: 'https://www.nav.no/no/nav-og-samfunn/statistikk/sykefravar-statistikk/nyheter/okt-sykefravaer-i-forste-halvar',
+        year: '2026',
+      },
+      { key: 'lovdata_aml', url: 'https://lovdata.no/lov/2005-06-17-62', year: '2026' },
+      { key: 'lovdata_hjemmekontor', url: 'https://lovdata.no/forskrift/2002-07-05-715', year: '2022' },
+      { key: 'lovdata_forskrift', url: 'https://lovdata.no/forskrift/2011-12-06-1357', year: '2026' },
+      {
+        key: 'at_arsrapport',
+        url: 'https://www.arbeidstilsynet.no/globalassets/rapportar/arsrapport/arsrapport-2025/arbeidstilsynets-arsrapport-2025.pdf',
+        year: '2026',
+      },
+      { key: 'fafo_verneombud', url: 'https://www.fafo.no/images/pub/2025/20923.pdf', year: '2025' },
+      { key: 'stami_landskap', url: 'https://stami.no/hvordan-pavirker-kontorlandskap-og-hjemmekontor-ansattes-sykefravaer/', year: '2026' },
+      { key: 'fafo_abw', url: 'https://www.fafo.no/images/pub/2025/20951.pdf', year: '2025' },
+      {
+        key: 'abelia_hr',
+        url: 'https://www.abelia.no/nyheter/2023/november/rask-teknologisk-utvikling-utfordrer-ogsa-fremtidsrettede-arbeidsgivere/',
+        year: '2023',
+      },
+      { key: 'stami_hjemmekontor', url: 'https://stami.no/ny-kunnskap-om-hjemmekontor-arbeidsmiljo-og-helse/', year: '2024' },
+      { key: 'noa_finans', url: 'https://noa.stami.no/yrker-og-naeringer/noa/bank-finans-forsikring/', year: '2022' },
+      {
+        key: 'ssb_ki',
+        url: 'https://www.ssb.no/teknologi-og-innovasjon/informasjons-og-kommunikasjonsteknologi-ikt/statistikk/bruk-av-ikt-i-naeringslivet/artikler/bruken-av-ki-i-naeringslivet-akselererer',
+        year: '2026',
+      },
+      { key: 'at_hjemmekontor', url: 'https://www.arbeidstilsynet.no/lonn-og-ansettelse/ansettelse/heimekontor', year: '2026' },
+      { key: 'fafo_ledelse', url: 'https://www.fafo.no/images/pub/2025/Ledelsesbarometeret_hjemmekontor_og_fjernledelse.pdf', year: '2025' },
     ],
   },
 ]
