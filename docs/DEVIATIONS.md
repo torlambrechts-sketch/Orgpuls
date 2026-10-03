@@ -11030,3 +11030,70 @@ questions. `node scripts/audit/wiring.mjs` exits 1 on the same six findings as D
 change touches: it adds no column, setting or RPC. Full-page screenshots at 1440 and 390 in
 `qa/shots/kontor-redesign/` (not committed). No database writes (read-only queries on the hosted module registry
 and translation registry).
+
+## D-213 — The older industry template removed; content files cut to what still has a reader (2026-10-03)
+
+The owner, 3 October 2026: «slett gamle sider». All five industry pages are on the landing template
+(D-207, D-208, D-210, D-211, D-212), so the template they replaced, and what only it read, are removed.
+
+**Removed.**
+- `components/industry/IndustryView.tsx` (486 lines): the older template, with its result preview board, the
+  loop example and the FAQ. The three things the question page borrowed from it (the wrapper, heading and section
+  classes, the closing start band `IndustryCta`, the numbered `SourceList`) now live in
+  `components/industry/QuestionView.tsx`, their only reader, unchanged.
+- In `app/(marketing)/[bransje]/page.tsx`: the branch that drew the older template, and the one that drew the
+  pre-industry landing page (`LandingTemplate` with `seo.lp.byggOgAnlegg|helseOgOmsorg`) where an industry was not
+  launched. An industry address now shows its landing page where it is live, the same with ?forhandsvis=1 where it
+  is not, and 404 otherwise.
+- From the content files (`content/industries/<slug>.ts`, `.en.ts`) and their type: `seo`, `hero` (with the
+  invented example company's preview), `challengesIntro`, `challenges`, `moduleOverview`, `loop`, `faq`, `cta`,
+  `related`, `sourcesFromFactors`, `extraSources`, `module.defaultVariant` and `moduleName.inline`. What stays has a
+  reader: `navLabel` (the menu, the question page's crumb), `launched` (menu, cards, sitemap, question page),
+  `module`, `moduleName` (the question page's pill, now a string), `questionPage`, `card` («Ny»), and `law` (below).
+  The seven files went from 1 550 lines to 554.
+- Code only the older template used: `stripCites` and the exported `CITE_TOKEN` and `Segment` (cites.ts),
+  `pageFactors` (modules.ts), the `ResultPreview`/`MeasuredBy`/`CiteKey` types, and validate.ts's checks of
+  challenges, cites, the preview and the loop. validate.ts now checks what is left: a module file exists, an English
+  page is on a translated module, a question page has a module, a «Ny» date is a date, and an entry is launched
+  exactly where its landing page is live (and every live landing page has an entry), so the menu, the sitemap and
+  the question page cannot drift from the page.
+- Messages, each grepped across app/, components/, lib/, scripts/, content/ and tests/ first, in no and en:
+  `industry.tagModule|tagCore|measuredIn|measuredCore|coreFactor|coreAlongside|seeAll|seeQuestions|helpline|
+  coreCoveredAlso|loopExample|loopSteps|remeasure|faqTitle|related`, `industry.facts.*` (7), `industry.board.*` (6),
+  and `admin.cms.site.industryLead` (the CMS's note that an industry page's words are its content file, no longer
+  true). The page map's `unseen` list drops the same 28 `industry.*` keys.
+- Tests of the older template only (cites and statements in challenges, preview and twin figures) are gone;
+  tests/unit/industry.test.ts now holds the entries to the landing registry, industry-landing.test.ts asserts all
+  five industry pages in the v3 chrome and their question pages outside it, and legal-registry.test.ts asserts what
+  each language publishes.
+
+**Fixed on the way.**
+- admin › CMS listed an industry page's title and description from its content file's `seo`, which no address has
+  shown since the landing template. `lib/cms/designed.ts` now gives the landing's message keys
+  (`site.bransje.<msg>.seo.*`, editable like the other designed pages) and the languages it is live in.
+- The menu and the cards (`hasPublicPage`) and the sitemap counted bygg and helse as public in a language because
+  they once had a landing page there; that page is gone, so all five follow `launched`, and the sitemap lists the
+  industries by launch and the remaining landing pages (lovkrav, verneombud, små bedrifter) as before.
+- tests/unit/seo-descriptions.test.ts read the content files' `seo.description`, which no page printed; it now reads
+  the landing pages' (`site.bransje.*.seo.description`), and three were over 155 characters: no barnehage (157,
+  «SMS eller QR» → «mobilen»), en handel (163, «psychosocial» dropped) and en barnehage (180, shortened).
+- scripts/i18n/site-text.mts no longer lists the content files' retired words, nor `law`, as page text.
+
+**Kept on purpose.**
+- `law` in the content files (bygg, helse, barnehage, kontor and handel in Norwegian; bygg and helse in English). The
+  legal review lists every item as an unpublished unit (`industry:<slug>:<lang>:law:*`, `:law-intro`), and all of
+  them are approved on hosted (`app.legal_approvals`, read-only: 43 law items and 7 intros). They are the record of
+  what the pages said; dropping the field would drop that history from the review. They are `live: false` now
+  unconditionally.
+- The claims unit (`industry:<slug>:<lang>:claims`) keeps its key and now holds only the question page's lead and
+  rules, which is what is published; the older template's threshold note, challenges and FAQ are gone from it, so the
+  review will show those seven approved units as changed since approval. That is what changed.
+- `seo.lp.byggOgAnlegg` and `seo.lp.helseOgOmsorg` and their place in `LANDING_PAGES`: /verneombud still links
+  /bygg-og-anlegg with that card (`LANDING_RELATED`), the landing records are typed over `LANDING_PAGES`, and the
+  legal review lists both as unpublished units (`live` is now a constant false). Their page body is read by nothing
+  else.
+- `PreviewBanner`, `CitedText`, `Variant`, `Wording`: the question page and the CMS use them.
+
+**Verified.** tsc 0, lint 0, verify:i18n 0, vitest 818/818; `node scripts/audit/wiring.mjs` exits 1 on the same six
+findings as D-208, none in this change (no column, setting or RPC). The build, the page map, the mobile and axe gates
+and the v3 pixel gate are run with D-214, which follows on the same branch.

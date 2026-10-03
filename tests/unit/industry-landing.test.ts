@@ -126,13 +126,12 @@ describe('industry landing pages', () => {
     })
   }
 
-  it('leaves the other industries on their own template, and the five v3 pages as they were', () => {
-    expect(isV3Route('/barnehage-og-skole/sporsmal')).toBe(false)
-    for (const r of ['/barnehage-og-skole', '/kunnskap-og-kontor']) expect(isV3Route(r)).toBe(true)
-    expect(isV3Route('/handel/sporsmal')).toBe(false)
-    expect(isV3Route('/bygg-og-anlegg/sporsmal')).toBe(false)
-    expect(isV3Route('/helse-og-omsorg/sporsmal')).toBe(false)
-    expect(isV3Route('/kunnskap-og-kontor/sporsmal')).toBe(false)
+  it('puts every industry page in the v3 chrome and its question page outside it, and the five v3 pages as they were (D-213)', () => {
+    for (const l of LANDINGS) {
+      expect(isV3Route(`/${l.slug}`), l.slug).toBe(true)
+      expect(isV3Route(`/${l.slug}/sporsmal`), l.slug).toBe(false)
+    }
+    expect(LANDINGS).toHaveLength(5)
     for (const r of ['/', '/plattform', '/bruksomrader', '/bransjer', '/priser']) expect(isV3Route(r)).toBe(true)
   })
 })

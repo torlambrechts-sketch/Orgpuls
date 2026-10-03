@@ -77,7 +77,7 @@ export default async function CmsSitePage({ searchParams }: { searchParams: Prom
             <span aria-hidden="true">·</span>
             <span>{m.group[page.group]}</span>
           </p>
-          <p className="m-0 mt-[8px] max-w-[80ch] text-[12.5px] leading-[1.55] text-mut">{page.industry ? m.site.industryLead : m.site.lead}</p>
+          <p className="m-0 mt-[8px] max-w-[80ch] text-[12.5px] leading-[1.55] text-mut">{m.site.lead}</p>
         </div>
         <span className="flex flex-wrap gap-[10px]">
           {langs.map((l) => (
@@ -112,7 +112,7 @@ export default async function CmsSitePage({ searchParams }: { searchParams: Prom
         })}
       </div>
 
-      {!page.industry && page.title && page.description ? (
+      {page.title && page.description ? (
         <Card title={m.site.meta} className="mt-[14px]">
           {page.suffix ? <p className="m-0 mb-[10px] text-[12.5px] text-mut">{m.site.suffix.replace('{suffix}', page.suffix)}</p> : null}
           {superAdmin ? (

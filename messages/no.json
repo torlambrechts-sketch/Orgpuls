@@ -9502,7 +9502,7 @@
         "nav": "Barnehage og skole",
         "seo": {
           "title": "Arbeidsmiljøkartlegging for barnehage og skole | Orgpuls",
-          "description": "Kartlegg arbeidsmiljøet i barnehage, skole og SFO: vold og trusler, bemanning, foreldre og tid til kjerneoppgavene. Anonymt på SMS eller QR. 15 dager gratis."
+          "description": "Kartlegg arbeidsmiljøet i barnehage, skole og SFO: vold og trusler, bemanning, foreldre og tid til kjerneoppgavene. Anonymt på mobilen. 15 dager gratis."
         },
         "hero": {
           "k": "Barnehage, skole og SFO",
@@ -13530,7 +13530,6 @@
       },
       "site": {
         "lead": "A designed page: its layout is code and pixel-checked against the design. Its title and description are messages, edited here for both languages; every other text on it is in Translations.",
-        "industryLead": "An industry page: its words are its content file, reviewed with its module, and are changed in code.",
         "meta": "Title and description",
         "title": "Title",
         "description": "Description",
@@ -15110,40 +15109,8 @@
     "readMore": "Les mer"
   },
   "industry": {
-    "tagModule": "{module}: {factor}",
-    "tagCore": "Dekkes av hovedundersøkelsen",
-    "measuredIn": "Påstand i {module}",
-    "measuredCore": "Påstand i hovedundersøkelsen",
-    "coreFactor": "Faktor: {factor}",
-    "coreAlongside": "Sammen med {list}.",
-    "seeAll": "Se alle påstandene og tiltakene",
-    "seeQuestions": "Se hele spørsmålssettet",
-    "helpline": "Trenger du noen å snakke med nå? Mental Helse Hjelpetelefonen er åpen hele døgnet på <number>116 123</number>.",
-    "facts": {
-      "factors": "faktorer",
-      "statements": "påstander, tre per faktor",
-      "statementsRange": "påstander, tre til fem per faktor",
-      "minutes": "ekstra svartid",
-      "minutesValue": "{n} min",
-      "threshold": "svar før en gruppe vises",
-      "upTo": "opptil {n}"
-    },
     "coreCovered": "Hovedundersøkelsen dekker allerede {list}.",
-    "coreCoveredAlso": "Hovedundersøkelsen dekker allerede {list}, og {also}.",
-    "loopExample": "Eksempel · {factor} · {group}",
-    "loopSteps": "Tiltakets steg",
-    "remeasure": "Måles på nytt med «{statement}».",
-    "faqTitle": "Spørsmål vi får ofte",
     "sources": "Kilder",
-    "related": "Andre bransjer",
-    "board": {
-      "label": "Eksempel på resultat per gruppe for {company}, en tenkt virksomhet",
-      "scroll": "Tabellen kan rulles sidelengs",
-      "factor": "Faktor",
-      "low": "Lav risiko 65+",
-      "mid": "Middels 50–64",
-      "high": "Høy under 50"
-    },
     "versionPill": "{module} · spørsmålssett",
     "scaleHead": "Svarskala og indeks",
     "tocLabel": "Innhold",

@@ -8152,7 +8152,7 @@
         "nav": "Retail",
         "seo": {
           "title": "Work environment survey for shops and retail | Orgpuls",
-          "description": "Survey the psychosocial work environment in your shops: violence and threats, lone shifts, difficult customers and staffing. Anonymous, on the phone. 15 days free."
+          "description": "Survey the work environment in your shops: violence and threats, lone shifts, difficult customers and staffing. Anonymous, on the phone. 15 days free."
         },
         "hero": {
           "k": "Retail · shops, chains and warehouses",
@@ -9502,7 +9502,7 @@
         "nav": "Kindergartens and schools",
         "seo": {
           "title": "Work environment survey for kindergartens and schools | Orgpuls",
-          "description": "Survey the work environment in kindergartens, schools and after-school care: violence and threats, staffing, parents and time for core tasks. Anonymous by text or QR. 15 days free."
+          "description": "Survey the work environment in kindergartens and schools: violence and threats, staffing, parents and time for core tasks. Anonymous. 15 days free."
         },
         "hero": {
           "k": "Kindergartens, schools and after-school care",
@@ -13530,7 +13530,6 @@
       },
       "site": {
         "lead": "A designed page: its layout is code and pixel-checked against the design. Its title and description are messages, edited here for both languages; every other text on it is in Translations.",
-        "industryLead": "An industry page: its words are its content file, reviewed with its module, and are changed in code.",
         "meta": "Title and description",
         "title": "Title",
         "description": "Description",
@@ -15110,40 +15109,8 @@
     "readMore": "Read more"
   },
   "industry": {
-    "tagModule": "{module}: {factor}",
-    "tagCore": "Covered by the main survey",
-    "measuredIn": "Statement in {module}",
-    "measuredCore": "Statement in the main survey",
-    "coreFactor": "Factor: {factor}",
-    "coreAlongside": "Together with {list}.",
-    "seeAll": "See all the statements and the measures",
-    "seeQuestions": "See the full question set",
-    "helpline": "Need someone to talk to now? The Mental Helse helpline is open around the clock on <number>116 123</number>.",
-    "facts": {
-      "factors": "factors",
-      "statements": "statements, three per factor",
-      "statementsRange": "statements, three to five per factor",
-      "minutes": "extra answering time",
-      "minutesValue": "{n} min",
-      "threshold": "answers before a group is shown",
-      "upTo": "up to {n}"
-    },
     "coreCovered": "The main survey already covers {list}.",
-    "coreCoveredAlso": "The main survey already covers {list}, and {also}.",
-    "loopExample": "Example · {factor} · {group}",
-    "loopSteps": "The measure’s steps",
-    "remeasure": "Re-measured with “{statement}”.",
-    "faqTitle": "Frequently asked questions",
     "sources": "Sources",
-    "related": "Other industries",
-    "board": {
-      "label": "Example results by group for {company}, a fictional company",
-      "scroll": "The table scrolls sideways",
-      "factor": "Factor",
-      "low": "Low risk 65+",
-      "mid": "Medium 50–64",
-      "high": "High under 50"
-    },
     "versionPill": "{module} · question set",
     "scaleHead": "Answer scale and index",
     "tocLabel": "Contents",

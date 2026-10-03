@@ -8,9 +8,9 @@ import type { IndustryPage } from './types'
  * shares), and this registry for what is not words — which module and which core factors measure
  * each challenge, which source backs each figure, which product pictures prove the claims.
  *
- * Moving another industry onto the template is an entry here and its messages; nothing in the
- * component changes. An industry without an entry keeps the older template (IndustryView) and its
- * content file. The messages' arrays are read in the registry's order and must be as long as the
+ * Every industry is on the template (D-213): an industry is an entry here, its messages and its
+ * entry in content/industries (menu name, launch, question page); nothing in the component changes.
+ * The messages' arrays are read in the registry's order and must be as long as the
  * registry says (the template parses them with exact lengths, and tests/unit/industry-landing
  * checks both languages), so a figure can never lose its source by drifting out of step.
  *
@@ -42,7 +42,9 @@ export type IndustryLanding = {
   /**
    * Live in a language. Off, the address shows it only with ?forhandsvis=1, marked noindex. The
    * English page waits for the module file's English translation, as every English industry page
-   * does (validate.ts: the page quotes what an English respondent is asked).
+   * does (validate.ts: the page quotes what an English respondent is asked). The entry's `launched`
+   * in content/industries is the same switch for the menu and the question page; the build refuses
+   * the two apart.
    */
   live: Record<PageLang, boolean>
   module: string

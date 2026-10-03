@@ -6,7 +6,7 @@ import type { DesignedPage } from '@/lib/cms/designed'
 /**
  * A designed page's title and description as a reader gets them now, in each language (X-094):
  * the messages with the admin's approved overrides applied, as the page's own generateMetadata
- * reads them, or an industry page's content file. Null where the page has none in that language.
+ * reads them. Null where the page has none in that language, or is not live in it.
  */
 export type DesignedMeta = Record<CmsLocale, { title: string; description: string } | null>
 
@@ -17,9 +17,9 @@ export async function catalogues() {
 type Catalogues = Awaited<ReturnType<typeof catalogues>>
 
 export function designedMeta(p: DesignedPage, t: Catalogues): DesignedMeta {
-  if (p.industry) return p.industry
   const one = (lang: CmsLocale) => {
     const tr = t[lang]
+    if (p.live && !p.live[lang]) return null
     if (!p.title || !p.description || !tr.has(p.title) || !tr.has(p.description)) return null
     return { title: `${tr(p.title)}${p.suffix ?? ''}`, description: tr(p.description) }
   }

@@ -102,10 +102,6 @@ export function simplifiedFactors(m: ModuleFile): PageFactor[] {
   }))
 }
 
-/** The factors a page shows by default: the page's variant's, or all of a module asked one way */
-export const pageFactors = (m: ModuleFile, variant?: 'forenklet' | 'utvidet'): PageFactor[] =>
-  variant === 'forenklet' && m.variants ? simplifiedFactors(m) : m.factors
-
 /** A figure, or a range «8–15» (an unspaced en dash) when its ends differ */
 const span = (a: number, b: number) => (a === b ? String(a) : `${Math.min(a, b)}–${Math.max(a, b)}`)
 const statementsIn = (fs: PageFactor[]) => fs.reduce((n, f) => n + f.items.length, 0)
