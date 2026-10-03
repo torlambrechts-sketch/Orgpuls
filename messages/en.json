@@ -8427,6 +8427,7 @@
         "crmTemplates": "Templates",
         "crmStages": "Stages and senders",
         "crmRestore": "Restore",
+        "crmFields": "Custom fields",
         "web": "Overview",
         "acquisition": "Cost per customer",
         "seo": "SEO",
@@ -9350,6 +9351,160 @@
         "note": "A ticket closed without a reply does not count towards first replies. A rating link goes with the reply that resolves a ticket and works once, for 30 days."
       }
     },
+    "crmFields": {
+      "title": "Custom fields",
+      "lead": "Fields an admin adds to companies and contacts without a deploy: forms, lists, filters and import read them from here. A field's key is fixed when it is made; every change is kept as a version.",
+      "entity": {
+        "company": "Companies",
+        "contact": "Contacts"
+      },
+      "types": {
+        "text": "Text",
+        "large_text": "Large text",
+        "single_option": "Single option",
+        "multiple_options": "Multiple options",
+        "autocomplete": "Autocomplete",
+        "number": "Number",
+        "monetary": "Monetary",
+        "user": "User",
+        "organization": "Organization",
+        "person": "Person",
+        "phone": "Phone",
+        "time": "Time",
+        "time_range": "Time range",
+        "date": "Date",
+        "date_range": "Date range",
+        "address": "Address"
+      },
+      "importance": {
+        "none": "No rule",
+        "important": "Important",
+        "required": "Required"
+      },
+      "ops": {
+        "contains": "contains",
+        "eq": "is",
+        "in": "is",
+        "any": "includes",
+        "gte": "at least",
+        "lte": "at most",
+        "empty": "is empty",
+        "not_empty": "is filled"
+      },
+      "inputs": {
+        "required": "required",
+        "important": "Important",
+        "calculated": "calculated",
+        "readOnly": "read only",
+        "kr": "kr",
+        "nobody": "Nobody",
+        "orgHint": "Org.nr or exact name",
+        "personHint": "E-mail address",
+        "from": "from",
+        "to": "to",
+        "street": "Street",
+        "postcode": "Postcode",
+        "city": "City",
+        "country": "Country",
+        "notFilled": "Not filled in yet"
+      },
+      "filter": {
+        "title": "Custom fields",
+        "field": "Field",
+        "op": "Condition",
+        "value": "Value",
+        "add": "Add a condition",
+        "remove": "Remove",
+        "apply": "Filter",
+        "clear": "Clear the conditions",
+        "hiddenConditions": "This segment also filters on fields hidden from you. It still selects by them, so you can use it, but not change it.",
+        "hiddenShort": "and conditions you cannot see"
+      },
+      "problemFields": {
+        "required_fields": "Fill in the required fields first: {fields}.",
+        "invalid_field": "A value does not fit its field: {fields}.",
+        "unknown_field": "There is no such field: {fields}.",
+        "read_only_field": "This field is read only for you: {fields}.",
+        "formula_field": "This field is calculated: {fields}."
+      },
+      "groups": {
+        "title": "Groups",
+        "lead": "Fields sit in groups, in this order, on the forms and the record's page.",
+        "name": "Name",
+        "sort": "Order",
+        "add": "Add the group",
+        "addTitle": "A new group",
+        "archive": "Archive the group",
+        "unarchive": "Bring it back",
+        "archived": "Archived",
+        "empty": "No groups yet.",
+        "none": "No group",
+        "save": "Save"
+      },
+      "fields": {
+        "title": "Fields",
+        "empty": "No fields yet. A field added here appears at once on the forms, the record's page, the filters and the import.",
+        "addTitle": "A new field",
+        "archivedTitle": "Archived fields",
+        "key": "Key",
+        "keyHint": "Lowercase letters, digits and underscores; fixed once the field is made.",
+        "label": "Label",
+        "description": "Description",
+        "descriptionHint": "Shown behind the ⓘ next to the field.",
+        "type": "Type",
+        "group": "Group",
+        "sort": "Order",
+        "options": "Options",
+        "optionsHint": "One per line: «label», or «key | label». An option a record holds cannot be removed.",
+        "importance": "Rule",
+        "importanceHint": "Important nudges on the record's page; required blocks saving by hand.",
+        "fromStage": "Required from stage",
+        "anyStage": "At every stage",
+        "inAddForm": "In the add form",
+        "inDetail": "On the record's page",
+        "formula": "Formula",
+        "formulaHint": "For number and monetary fields: {key} for another number or monetary field, + − × / as + - * /, and parentheses. On companies also {value_nok} and {employees}. Leave empty for a field people fill in.",
+        "hidden": "Hidden from",
+        "readOnly": "Read only for",
+        "accessHint": "By permission set. Staff under the Admin set see and change every field.",
+        "save": "Save the field",
+        "add": "Add the field",
+        "archive": "Archive the field",
+        "unarchive": "Bring it back",
+        "version": "Version {n}",
+        "computed": "Calculated",
+        "readOnlyNote": "Only staff whose permission set holds the CRM's settings add or change fields.",
+        "accessRead": "Read only for you"
+      },
+      "problem": {
+        "invalid": "Something in the form is not right.",
+        "invalid_key": "The key needs lowercase letters, digits or underscores, starting with a letter (2 to 41 characters).",
+        "reserved_key": "That key is one of the record's own columns: choose another.",
+        "exists": "A field or group with that name or key already exists.",
+        "invalid_label": "The label needs 1 to 80 characters.",
+        "invalid_type": "Choose one of the types.",
+        "invalid_options": "Each option needs a label, and each key may appear only once.",
+        "invalid_group": "That group is not one of this record's groups.",
+        "invalid_stage": "That stage does not exist.",
+        "invalid_sets": "A permission set in the list does not exist.",
+        "type_in_use": "Records hold values for this field, so its type stays.",
+        "option_in_use": "A record holds an option you removed; it stays.",
+        "used_by_formula": "Another field's formula reads this field.",
+        "formula_type": "Only number and monetary fields can be calculated.",
+        "invalid_formula": "The formula cannot be read: check the brackets and the operators.",
+        "formula_ref": "The formula reads something that is not a number or monetary field of this record.",
+        "formula_self": "A formula cannot read its own field.",
+        "formula_cycle": "Formulas would read each other in a circle.",
+        "group_in_use": "A live field sits in this group: move or archive it first.",
+        "too_many": "The CRM rules allow no more here.",
+        "stale": "Someone saved this field meanwhile: open it again.",
+        "not_found": "It is gone.",
+        "not_allowed": "Your role or your permission set does not allow this.",
+        "reason_required": "A reason is required (CRM rules).",
+        "invalid_name": "The name needs 1 to 80 characters.",
+        "failed": "That did not work. Try again."
+      }
+    },
     "crmAccess": {
       "title": "CRM access",
       "lead": "What each staff member may do in the CRM, and whose companies they see. The role stays the coarse gate; a permission set narrows it. A change applies at once and is written to the audit log.",
@@ -9549,7 +9704,7 @@
       },
       "import": {
         "title": "Import from CSV",
-        "lead": "A header row with email and consent_source is required; name, company, org_number, role, tags (separated by ;), consent_at and lang are optional. A row without a consent source is refused.",
+        "lead": "A header row with email is required; consent_source, name, company, org_number, role, tags (separated by ;), consent_at and lang are optional, and whether a row needs a consent source follows the CRM rules. Any other column whose header is a custom field's key or label fills that field.",
         "file": "CSV file",
         "rows": "Rows read: {count}",
         "submit": "Import",
@@ -9558,6 +9713,10 @@
         "row": "Row",
         "reason": "Reason",
         "noHeader": "The file has no email column.",
+        "warnings": "Imported with remarks",
+        "warnInvalid": "a value did not fit and was left out: {fields}",
+        "warnRequired": "required fields are empty: {fields}",
+        "unknownColumns": "Columns that name no field you may fill, so not read: {columns}",
         "empty": "No rows found."
       },
       "settings": {
@@ -9955,7 +10114,12 @@
         "deleted": "It is in the restore list (CRM › Restore): restore it there first.",
         "exists_deleted": "A deleted record already holds this. Restore it under CRM › Restore instead of adding it again.",
         "own_request": "You asked for this delete: another admin approves or rejects it.",
-        "company_deleted": "Its company is in the restore list: restore the company first."
+        "company_deleted": "Its company is in the restore list: restore the company first.",
+        "required_fields": "Fill in the required fields first.",
+        "invalid_field": "A value does not fit its field.",
+        "unknown_field": "There is no such field.",
+        "read_only_field": "That field is read only for you.",
+        "formula_field": "That field is calculated."
       },
       "stage": {
         "new": "New",
@@ -10071,6 +10235,7 @@
           "submit": "Move",
           "select": "Select {name}",
           "result": "Moved {moved}; left {skipped} where they were.",
+          "blocked": "{blocked} of them wait for required fields to be filled in.",
           "hint": "Tick companies in the table, then move them. A customer organisation follows its plan and is left where it is."
         }
       },
@@ -12667,6 +12832,14 @@
           "limit_visibility_groups": {
             "name": "Visibility groups",
             "why": "The most visibility groups."
+          },
+          "limit_custom_fields": {
+            "name": "Custom fields",
+            "why": "The most live custom fields, companies and contacts together."
+          },
+          "limit_field_options": {
+            "name": "Options per field",
+            "why": "The most options in one option field."
           }
         }
       }

@@ -186,8 +186,9 @@ language plpgsql immutable set search_path = '' as $$
 declare
   m text[];
 begin
+  -- make_date, not a cast: a cast reads the session's DateStyle, which would make this function only stable
   if p ~ '^\d{4}-\d{2}-\d{2}$' then
-    return p::date;
+    return make_date(substr(p, 1, 4)::int, substr(p, 6, 2)::int, substr(p, 9, 2)::int);
   end if;
   m := regexp_match(btrim(p), '^(\d{1,2})\.(\d{1,2})\.(\d{4})$');
   if m is not null then
@@ -1689,6 +1690,13 @@ begin
                  and c.id < coalesce((select min((r->>'id')::bigint) from jsonb_array_elements(v_rows) r), 0))
     into v_more;
   return jsonb_build_object('ok', true, 'changes', v_rows, 'more', v_more,
+    -- 0197: the names behind the references on this page's custom lines, as the record's page names them (an
+    -- organization the viewer cannot see, or a record that is gone, has none)
+    'refs', (select coalesce(jsonb_object_agg(r.key, r.value), '{}'::jsonb)
+             from jsonb_array_elements(v_rows) x
+             cross join lateral (values (x -> 'old'), (x -> 'new')) t(val)
+             cross join lateral jsonb_each(app.crm_custom_refs(p_entity, jsonb_build_object(substr(x ->> 'field', 8), t.val))) r
+             where x ->> 'field' like 'custom.%' and jsonb_typeof(t.val) = 'string'),
     'events', (select coalesce(jsonb_agg(jsonb_build_object('name', e.name, 'at', e.occurred_at, 'source', e.source, 'by', u.email,
                                                             'fields', to_jsonb(e.fields)) order by e.id desc), '[]')
                from (select * from app.crm_events e where e.entity = p_entity and e.record_id = p_record

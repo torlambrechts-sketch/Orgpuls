@@ -1,12 +1,27 @@
 'use client'
 
 import { useState } from 'react'
+import type { FieldDef } from '@/lib/admin/crmFieldTypes'
 import { ImportForm, NewCampaignForm, type CrmMessages } from './CrmForms'
 import { Modal } from './Modal'
 import { BTN } from './ui'
 
-/** «Import contacts» (X-095): the CRM's import (D-101) in the design's dialog */
-export function ImportDialog({ m, label, title, sub, close }: { m: CrmMessages; label: string; title: string; sub: string; close: string }) {
+/** «Import contacts» (X-095): the CRM's import (D-101) in the design's dialog; fields name the custom fields its remarks cite (0197) */
+export function ImportDialog({
+  m,
+  fields = [],
+  label,
+  title,
+  sub,
+  close,
+}: {
+  m: CrmMessages
+  fields?: FieldDef[]
+  label: string
+  title: string
+  sub: string
+  close: string
+}) {
   const [open, setOpen] = useState(false)
   return (
     <>
@@ -15,7 +30,7 @@ export function ImportDialog({ m, label, title, sub, close }: { m: CrmMessages; 
       </button>
       <Modal open={open} onClose={() => setOpen(false)} title={title} sub={sub} closeLabel={close}>
         <div className="mt-[22px]">
-          <ImportForm m={m} />
+          <ImportForm m={m} fields={fields} />
         </div>
       </Modal>
     </>

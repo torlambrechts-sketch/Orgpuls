@@ -257,10 +257,15 @@ begin
 
     -- 10 ------------------------------------------------------------- history
     perform public.admin_crm_company_save(v_co, '{"custom":{"region":"nord"}}'::jsonb);
-    v_txt := (select x->>'field' || ':' || (x->'old')::text || '>' || (x->'new')::text from jsonb_array_elements(public.admin_crm_history('company', v_co, null)->'changes') x
-              where x->>'field' = 'custom.region' order by (x->>'id')::bigint desc limit 1);
-    v_rows := v_rows || jsonb_build_object('seq', 10, 'name', 'a custom value''s change is a history line of its own, with the old and new value',
-      'expected', 'custom.region:"vest">"nord"', 'actual', v_txt, 'pass', v_txt = 'custom.region:"vest">"nord"');
+    perform public.admin_crm_field_save(null, '{"entity":"company","key":"parent","label":"Parent","type":"organization"}'::jsonb, null);
+    perform public.admin_crm_company_save(v_co, '{"custom":{"parent":"Felt To AS"}}'::jsonb);
+    v_json := public.admin_crm_history('company', v_co, null);
+    v_txt := (select x->>'field' || ':' || (x->'old')::text || '>' || (x->'new')::text from jsonb_array_elements(v_json->'changes') x
+              where x->>'field' = 'custom.region' order by (x->>'id')::bigint desc limit 1)
+      -- a reference's line comes with the name behind it, as the record's page shows it
+      || '|' || coalesce(v_json->'refs'->>(v_co2::text), 'no name');
+    v_rows := v_rows || jsonb_build_object('seq', 10, 'name', 'a custom value''s change is a history line of its own, with the old and new value and the names behind references',
+      'expected', 'custom.region:"vest">"nord"|Felt To AS', 'actual', v_txt, 'pass', v_txt = 'custom.region:"vest">"nord"|Felt To AS');
 
     -- 11 ------------------------------------------------------------- limits
     insert into app.crm_setting_values (key, value) values ('limit_custom_fields', to_jsonb((select count(*) from app.crm_fields x where x.archived_at is null)));

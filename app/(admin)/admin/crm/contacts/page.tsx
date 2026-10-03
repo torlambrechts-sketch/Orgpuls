@@ -9,6 +9,10 @@ import { isError, whoami } from '@/lib/admin/api'
 import { CONTACT_TYPES, crmContacts, crmLists, crmSegments, type Contact, may } from '@/lib/admin/crm'
 import { crmRuleState } from '@/lib/admin/crmRules'
 import { AudienceTabs } from '@/components/admin/AudienceTabs'
+import type { FieldMessages } from '@/components/admin/CustomFields'
+import { addFormFields } from '@/lib/admin/crmFieldTypes'
+import { crmFields, liveFields } from '@/lib/admin/crmFields'
+import { crmOwners } from '@/lib/admin/crm'
 
 /**
  * Contacts & lists (X-095, the design's `isContacts`; 0055, D-101 before it): people who sign in,
@@ -27,7 +31,19 @@ export default async function CrmContacts({ searchParams }: { searchParams: Prom
   const cl = (k: string, v?: Record<string, string | number>) => t(`crm.contactsPage.${k}`, v)
   const kind = (CONTACT_TYPES as readonly string[]).includes(type ?? '') ? (type as (typeof CONTACT_TYPES)[number]) : null
   const query = q?.trim().slice(0, 100) || null
-  const [data, who, segments, lists, rules] = await Promise.all([crmContacts(query, kind), whoami(), crmSegments(), crmLists(), crmRuleState()])
+  const [data, who, segments, lists, rules, registry, owners] = await Promise.all([
+    crmContacts(query, kind),
+    whoami(),
+    crmSegments(),
+    crmLists(),
+    crmRuleState(),
+    crmFields('contact'),
+    crmOwners(),
+  ])
+  // 0197 (D-212): the contacts' custom fields an add form shows
+  const fm = t.raw('crmFields') as FieldMessages
+  const contactFields = isError(registry) ? [] : liveFields(registry, 'contact')
+  const addFields = addFormFields(contactFields)
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
@@ -48,7 +64,9 @@ export default async function CrmContacts({ searchParams }: { searchParams: Prom
               </Link>
             ) : null}
             {/* 0196 (SEC-07): importing is the permission set's to allow */}
-            {may(data.may, 'import') ? <ImportDialog m={m} label={cl('import')} title={m.import.title} sub={cl('importSub')} close={cl('close')} /> : null}
+            {may(data.may, 'import') ? (
+              <ImportDialog m={m} fields={contactFields} label={cl('import')} title={m.import.title} sub={cl('importSub')} close={cl('close')} />
+            ) : null}
           </div>
         ) : null}
       </PageHead>
@@ -120,7 +138,7 @@ export default async function CrmContacts({ searchParams }: { searchParams: Prom
           ) : (
             <>
               <p className="mb-[10px] mt-0 text-[12.5px] leading-[1.5] text-mut">{rules.consentRequired ? m.add.leadRule : m.add.lead}</p>
-              <ContactForm m={m} common={common} consentRequired={rules.consentRequired} />
+              <ContactForm m={m} common={common} consentRequired={rules.consentRequired} fields={addFields} fm={fm} staff={isError(owners) ? [] : owners.rows} />
             </>
           )}
         </Card>

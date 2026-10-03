@@ -2,6 +2,7 @@ import 'server-only'
 import { z } from 'zod'
 import { LOCALES } from '@/lib/i18n/locales'
 import { call } from './api'
+import { Conditions, Custom, CustomRefs, type Condition } from './crmFieldTypes'
 import { VISIBILITIES } from './crmLabel'
 
 export { VISIBILITIES }
@@ -65,6 +66,9 @@ const Contact = z.object({
   created_at: z.string(),
   company_id: z.string().nullable().optional(),
   lists: z.array(z.string()).optional(),
+  // 0197: the custom values the viewer may see, and the names behind their references
+  custom: Custom.default({}),
+  custom_refs: CustomRefs.default({}),
 })
 export type Contact = z.infer<typeof Contact>
 
@@ -121,11 +125,14 @@ export const Filter = z
     stages: z.array(StageKey).optional(),
     lists: z.array(z.string()).optional(),
     bases: z.array(z.enum(BASES)).optional(),
+    // 0197: conditions on the contacts' custom fields
+    custom: Conditions.optional(),
   })
   .strict()
 export type Filter = z.infer<typeof Filter>
 
-const Segment = z.object({ id: z.string(), name: z.string(), filter: Filter, updated_at: z.string(), total: num, mailable: num })
+// 0197: a segment holding a condition on a field hidden from the viewer says so (the condition itself is not shown)
+const Segment = z.object({ id: z.string(), name: z.string(), filter: Filter, updated_at: z.string(), total: num, mailable: num, hidden_conditions: z.boolean().default(false) })
 export type Segment = z.infer<typeof Segment>
 export const crmSegments = () => call('admin_crm_segments', {}, z.object({ rows: z.array(Segment) }))
 
@@ -358,13 +365,17 @@ const Company = z.object({
   contact_name: z.string().nullable().default(null),
   // 0196 (SEC-08): who sees the company
   visibility: z.enum(VISIBILITIES).default('everyone'),
+  // 0197: the custom values the viewer may see, and the names behind their references
+  custom: Custom.default({}),
+  custom_refs: CustomRefs.default({}),
 })
 export type Company = z.infer<typeof Company>
 
-export const crmCompanies = (q: string | null, stage: string | null) =>
+/** 0197: custom conditions narrow the list (CUS-01); the database checks them against the registry */
+export const crmCompanies = (q: string | null, stage: string | null, custom: Condition[] | null = null) =>
   call(
     'admin_crm_companies',
-    { p_q: q, p_stage: stage, p_owner: null },
+    { p_q: q, p_stage: stage, p_owner: null, p_custom: custom?.length ? Conditions.parse(custom) : null },
     // 0192: limit is the list's cap, a CRM rule setting (null: every company)
     z.object({ stages: z.record(z.string(), num), tasks_due: num, rows: z.array(Company), limit: num.nullable(), may: May.default({}) }),
   )
@@ -583,6 +594,8 @@ const History = z.object({
   events: z.array(z.object({ name: z.string(), at: z.string(), source: z.string(), by: tsn, fields: z.array(z.string()) })),
   created_by: tsn,
   updated_by: tsn,
+  // 0197: the names behind the references on the page's custom lines
+  refs: CustomRefs.default({}),
 })
 export type CrmHistory = z.infer<typeof History>
 export const crmHistory = (entity: 'company' | 'contact', id: string, before: number | null) =>

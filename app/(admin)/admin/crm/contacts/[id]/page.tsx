@@ -3,11 +3,14 @@ import { ContactActionForm, ContactForm, type CrmMessages } from '@/components/a
 import { ContactListForms } from '@/components/admin/CrmPipelineForms'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
-import { crmContact, crmHistory, crmLists, may } from '@/lib/admin/crm'
+import { crmContact, crmHistory, crmLists, crmOwners, may } from '@/lib/admin/crm'
 import { CrmHistory } from '@/components/admin/CrmHistory'
 import { CrmDeleted } from '@/components/admin/CrmDeleted'
 import { DeleteRecords } from '@/components/admin/CrmTrash'
 import { crmRuleState } from '@/lib/admin/crmRules'
+import type { FieldMessages } from '@/components/admin/CustomFields'
+import { customRows, historyWords } from '@/components/admin/CustomFieldRows'
+import { crmFields, liveFields } from '@/lib/admin/crmFields'
 
 /**
  * One contact (D-101): who they are, the consent we hold and where it came from, every mail
@@ -20,7 +23,19 @@ export default async function CrmContact({ params, searchParams }: { params: Pro
   const before = /^\d{1,18}$/.test(sp.before ?? '') ? Number(sp.before) : null
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
-  const [data, who, lists, rules, history] = await Promise.all([crmContact(id), whoami(), crmLists(), crmRuleState(), crmHistory('contact', id, before)])
+  const [data, who, lists, rules, history, registry, owners] = await Promise.all([
+    crmContact(id),
+    whoami(),
+    crmLists(),
+    crmRuleState(),
+    crmHistory('contact', id, before),
+    crmFields('contact'),
+    crmOwners(),
+  ])
+  // 0197 (D-212): the contacts' custom fields, and the staff a user field may name
+  const fm = t.raw('crmFields') as FieldMessages
+  const fields = isError(registry) ? [] : liveFields(registry, 'contact')
+  const staff = isError(owners) ? [] : owners.rows
   const listOptions = isError(lists) ? [] : lists.rows.filter((l) => !l.archived).map((l) => ({ id: l.id, key: l.key, name: l.name_no }))
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
@@ -59,6 +74,7 @@ export default async function CrmContact({ params, searchParams }: { params: Pro
           {row(m.add.lang, c.lang === 'en' ? 'English' : 'Norsk')}
           {row(m.col.added, day(c.created_at))}
           {row(m.col.engaged, when(c.last_engaged_at))}
+          {customRows(fields, c.custom, c.custom_refs, fm, row)}
           {row(
             m.col.status,
             <span className="flex flex-wrap gap-[4px]">
@@ -118,7 +134,7 @@ export default async function CrmContact({ params, searchParams }: { params: Pro
         <div className="mt-[16px] grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,2fr)_minmax(0,1fr)]">
           {canEdit ? (
             <Card title={m.contact.edit}>
-              <ContactForm m={m} common={common} contact={c} />
+              <ContactForm m={m} common={common} contact={c} fields={fields} fm={fm} staff={staff} />
             </Card>
           ) : (
             <span />
@@ -146,7 +162,13 @@ export default async function CrmContact({ params, searchParams }: { params: Pro
       {/* 0194 (D-209): every change to this contact, with who and from where */}
       {isError(history) ? null : (
         <div className="mt-[14px]">
-          <CrmHistory data={history} labels={m.history} base={`/admin/crm/contacts/${id}`} before={before} />
+          <CrmHistory
+            data={history}
+            labels={{ ...m.history, field: { ...m.history.field, ...historyWords(fields) } }}
+            base={`/admin/crm/contacts/${id}`}
+            before={before}
+            fields={fields}
+          />
         </div>
       )}
     </>

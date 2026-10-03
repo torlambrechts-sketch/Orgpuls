@@ -31,6 +31,13 @@ describe('the CRM and Marketing areas', () => {
     expect(groupOf(nav, '/admin/crm/restore')).toBe('crm')
   })
 
+  it('keeps the custom fields behind CRM\'s More (0197)', () => {
+    const nav = navFor('super_admin', [...BUILT, '/admin/crm/fields'])
+    const item = nav.find((x) => x.key === 'crm')?.items.find((i) => i.key === 'crmFields')
+    expect(item?.more).toBe(true)
+    expect(groupOf(nav, '/admin/crm/fields')).toBe('crm')
+  })
+
   it('opens Marketing on its overview and a company record in CRM', () => {
     expect(currentItem(all, '/admin/crm')?.key).toBe('crmOverview')
     expect(groupOf(all, '/admin/crm/prospects/123')).toBe('crm')

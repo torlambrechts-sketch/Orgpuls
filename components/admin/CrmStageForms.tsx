@@ -46,7 +46,7 @@ export function StageMoveForm({
   const [to, setTo] = useState('')
   const [state, action, pending] = useKeptAction(moveStage, () => undefined)
   const b = m.prospects.bulk
-  const [moved, skipped] = state?.ok && state.message ? state.message.split(':') : []
+  const [moved, skipped, blocked] = state?.ok && state.message ? state.message.split(':') : []
   return (
     <form id={id} action={action} className="flex flex-wrap items-end gap-[8px]">
       {ids?.map((x) => <input key={x} type="hidden" name="ids" value={x} />)}
@@ -67,6 +67,7 @@ export function StageMoveForm({
       {state?.ok && moved !== undefined ? (
         <span role="status" className="text-[12.5px] font-semibold text-link">
           {b.result.replace('{moved}', moved).replace('{skipped}', skipped ?? '0')}
+          {Number(blocked ?? 0) > 0 ? ` ${b.blocked.replace('{blocked}', blocked ?? '0')}` : ''}
         </span>
       ) : (
         <Outcome state={state} problems={m.problem} done={common.done} />

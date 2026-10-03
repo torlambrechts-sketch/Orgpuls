@@ -11,6 +11,9 @@ import { isError, listAdmins } from '@/lib/admin/api'
 import { registryMunicipalities } from '@/lib/admin/brreg'
 import { crmCompanies, crmStages, may } from '@/lib/admin/crm'
 import { crmRuleState } from '@/lib/admin/crmRules'
+import { ConditionEditor, type FieldMessages } from '@/components/admin/CustomFields'
+import { addFormFields, Conditions, type Condition } from '@/lib/admin/crmFieldTypes'
+import { crmFields, liveFields } from '@/lib/admin/crmFields'
 
 /**
  * Prospects (D-103): every company we sell to or serve, by stage, with its owner and next
@@ -18,8 +21,8 @@ import { crmRuleState } from '@/lib/admin/crmRules'
  * picked from Brønnøysund's register. The stages are data (0093); ticked companies can be moved
  * together, to a stage or each to its next.
  */
-export default async function CrmProspects({ searchParams }: { searchParams: Promise<{ q?: string; stage?: string }> }) {
-  const { q, stage } = await searchParams
+export default async function CrmProspects({ searchParams }: { searchParams: Promise<{ q?: string; stage?: string; cf?: string }> }) {
+  const { q, stage, cf } = await searchParams
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const p = m.prospects
@@ -28,13 +31,28 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
   const stages = stageData.rows
   const byKey = new Map(stages.map((s) => [s.key, s]))
   const chosen = byKey.has(stage ?? '') ? (stage as string) : null
-  const [data, admins, municipalities, rules] = await Promise.all([
-    crmCompanies(q?.trim() || null, chosen),
+  // 0197 (D-212): conditions on custom fields, from the filter's hidden value; a list the registry no longer allows is
+  // dropped and the page says so
+  const conditions = ((): Condition[] => {
+    try {
+      const parsed = Conditions.safeParse(JSON.parse(cf ?? '[]'))
+      return parsed.success ? parsed.data : []
+    } catch {
+      return []
+    }
+  })()
+  const [first, admins, municipalities, rules, registry] = await Promise.all([
+    crmCompanies(q?.trim() || null, chosen, conditions),
     listAdmins(),
     registryMunicipalities(),
     crmRuleState(),
+    crmFields('company'),
   ])
+  const dropped = conditions.length > 0 && isError(first) && first.error === 'invalid_filter'
+  const data = dropped ? await crmCompanies(q?.trim() || null, chosen) : first
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
+  const fm = t.raw('crmFields') as FieldMessages
+  const companyFields = isError(registry) ? [] : liveFields(registry, 'company')
   // 0196 (SEC-07): what this staff member's permission set allows here; the database checks every call. The
   // ticked-companies bar changes many at once, so it needs bulk edit too; one company is moved or deleted on its page
   const bulk = may(data.may, 'bulk_edit')
@@ -86,6 +104,24 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
           <button type="submit" className="h-[38px] cursor-pointer rounded-ctl border border-ink bg-sf px-[14px] text-[13px] font-bold">
             {t('common.search')}
           </button>
+          {companyFields.length ? (
+            <details className="basis-full" open={conditions.length > 0 && !dropped}>
+              <summary className="cursor-pointer text-[12.5px] font-semibold text-link">
+                {fm.filter.title}
+                {conditions.length && !dropped ? ` · ${conditions.length}` : ''}
+              </summary>
+              <div className="mt-[8px] flex flex-col gap-[8px]">
+                <ConditionEditor fields={companyFields} initial={dropped ? [] : conditions} name="cf" m={fm} />
+                <span className="flex flex-wrap items-center gap-[12px]">
+                  <button type="submit" className="h-[34px] cursor-pointer rounded-ctl border border-ink bg-sf px-[12px] text-[12.5px] font-bold">
+                    {fm.filter.apply}
+                  </button>
+                  {conditions.length ? <ALink href={`/admin/crm/prospects${chosen ? `?stage=${chosen}` : ''}`}>{fm.filter.clear}</ALink> : null}
+                </span>
+              </div>
+            </details>
+          ) : null}
+          {dropped ? <p role="status" className="m-0 basis-full text-[12.5px] font-semibold text-danger">{m.problem.invalid_filter}</p> : null}
         </form>
         {canPick && data.rows.length ? (
           <div className="mb-[12px] flex flex-col gap-[6px] rounded-ctl border border-line bg-bg px-[12px] py-[10px]">
@@ -149,7 +185,7 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
       ) : null}
       {may(data.may, 'create') ? (
         <Card title={p.add} className="mt-[16px]">
-          <CompanyForm m={m} common={common} admins={owners} stages={stages} />
+          <CompanyForm m={m} common={common} admins={owners} stages={stages} fields={addFormFields(companyFields)} fm={fm} />
         </Card>
       ) : null}
     </>

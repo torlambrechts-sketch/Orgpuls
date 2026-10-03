@@ -1,13 +1,16 @@
 import type { Route } from 'next'
 import Link from 'next/link'
-import { Card, when } from '@/components/admin/ui'
+import { Card, day, when } from '@/components/admin/ui'
 import type { CrmHistory as History } from '@/lib/admin/crm'
+import { shownValue, type FieldDef } from '@/lib/admin/crmFieldTypes'
 
 /**
  * History on a company or contact page (0194, D-209; PIP-04): every change to a tracked field — what it was,
  * what it became, who and from where — newest first, a page at a time, under the record's own events
  * (created, stage changes, completed tasks). Values are shown as stored; a link to another record is said to
  * have changed rather than shown as an id; a field the page has words for (who sees a company) shows those.
+ * A custom value (0197) reads as on the record's page: option labels, kroner, dates, an address in its order, the
+ * name behind a reference, or «—» for one the viewer may not see.
  */
 type Labels = {
   title: string
@@ -31,13 +34,38 @@ type Values = Record<string, Record<string, string>>
 function shown(v: unknown, l: Labels, words?: Record<string, string>): string {
   if (v === null || v === undefined || v === '') return l.none
   if (typeof v === 'string' && words?.[v]) return words[v]
-  if (Array.isArray(v)) return v.length ? v.map((x) => String(x)).join(', ') : l.none
-  if (typeof v === 'object') return JSON.stringify(v)
+  if (Array.isArray(v)) return v.length ? v.map((x) => words?.[String(x)] ?? String(x)).join(', ') : l.none
+  if (typeof v === 'object') {
+    // 0197: a custom value of several parts — an amount, a range, an address — read as text
+    const o = v as Record<string, unknown>
+    if (typeof o.amount === 'number') return `${o.amount.toLocaleString('nb-NO', { maximumFractionDigits: 2 })} ${String(o.currency ?? '')}`.trim()
+    if ('from' in o || 'to' in o) return `${String(o.from ?? '')}–${String(o.to ?? '')}`
+    return Object.values(o).filter((x) => x !== null && x !== '').map(String).join(', ')
+  }
   return String(v)
 }
 
-export function CrmHistory({ data, labels: l, base, before, values }: { data: History; labels: Labels; base: string; before: number | null; values?: Values }) {
+export function CrmHistory({
+  data,
+  labels: l,
+  base,
+  before,
+  values,
+  fields = [],
+}: {
+  data: History
+  labels: Labels
+  base: string
+  before: number | null
+  values?: Values
+  /** the record's custom fields (0197), so their lines read as the page shows them */
+  fields?: FieldDef[]
+}) {
   const lastId = data.changes.length ? data.changes[data.changes.length - 1]!.id : null
+  const text = (field: string, v: unknown) => {
+    const f = field.startsWith('custom.') ? fields.find((x) => `custom.${x.key}` === field) : undefined
+    return f ? (shownValue(f, v, data.refs, (iso) => day(iso)) ?? l.none) : shown(v, l, values?.[field])
+  }
   return (
     <Card title={l.title}>
       <p className="m-0 text-[12.5px] leading-[1.5] text-mut">
@@ -68,9 +96,9 @@ export function CrmHistory({ data, labels: l, base, before, values }: { data: Hi
                   l.linked
                 ) : (
                   <>
-                    <span className="text-mut line-through decoration-ink/30">{shown(c.old, l, values?.[c.field])}</span>
+                    <span className="text-mut line-through decoration-ink/30">{text(c.field, c.old)}</span>
                     {' → '}
-                    <span>{shown(c.new, l, values?.[c.field])}</span>
+                    <span>{text(c.field, c.new)}</span>
                   </>
                 )}
               </div>

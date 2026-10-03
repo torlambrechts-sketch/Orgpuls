@@ -35,6 +35,7 @@ const PAGES = [
   '/admin/crm/scoring',
   '/admin/crm/templates',
   '/admin/crm/stages',
+  '/admin/crm/fields',
   '/admin/crm/restore',
   '/admin/cms/redirects',
   '/admin/cms/templates',

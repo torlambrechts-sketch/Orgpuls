@@ -10,6 +10,10 @@ import { CrmHistory } from '@/components/admin/CrmHistory'
 import { CrmDeleted } from '@/components/admin/CrmDeleted'
 import { DeleteRecords } from '@/components/admin/CrmTrash'
 import { crmRuleState } from '@/lib/admin/crmRules'
+import type { FieldMessages } from '@/components/admin/CustomFields'
+import { addFormFields } from '@/lib/admin/crmFieldTypes'
+import { customRows, historyWords } from '@/components/admin/CustomFieldRows'
+import { crmFields, liveFields } from '@/lib/admin/crmFields'
 
 /**
  * One company (D-103): what the register says about it, its stage, owner and next step, the
@@ -23,7 +27,18 @@ export default async function CrmProspect({ params, searchParams }: { params: Pr
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const p = m.prospects
-  const [data, who, stageData, rules, history] = await Promise.all([crmCompany(id), whoami(), crmStages(), crmRuleState(), crmHistory('company', id, before)])
+  const [data, who, stageData, rules, history, registry] = await Promise.all([
+    crmCompany(id),
+    whoami(),
+    crmStages(),
+    crmRuleState(),
+    crmHistory('company', id, before),
+    crmFields(null),
+  ])
+  // 0197 (D-212): the custom fields of companies and of the people added here
+  const fm = t.raw('crmFields') as FieldMessages
+  const companyFields = isError(registry) ? [] : liveFields(registry, 'company')
+  const contactFields = isError(registry) ? [] : liveFields(registry, 'contact')
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
   // 0195 (D-210): a deleted company is read from the restore list; its page says so and offers the restore
@@ -81,6 +96,7 @@ export default async function CrmProspect({ params, searchParams }: { params: Pr
           {c.tags.length ? row(p.tags, c.tags.join(', ')) : null}
           {c.lost_reason ? row(p.lostReason, c.lost_reason) : null}
           {row(m.visibility.label, m.visibility[c.visibility])}
+          {customRows(companyFields, c.custom, c.custom_refs, fm, row)}
           {c.org_id ? <p className="mb-0 mt-[10px]"><ALink href={`/admin/orgs/${c.org_id}`}>{m.company.orgLink}</ALink></p> : null}
           {canEdit && !c.org_id && stages.length ? (
             <div className="mt-[12px]">
@@ -156,7 +172,7 @@ export default async function CrmProspect({ params, searchParams }: { params: Pr
           <div className="flex flex-col gap-[14px]">
             {canEdit ? (
               <Card title={m.company.edit}>
-                <CompanyForm m={m} common={common} company={c} admins={data.admins} stages={stages} canVisibility={may(data.may, 'visibility')} />
+                <CompanyForm m={m} common={common} company={c} admins={data.admins} stages={stages} canVisibility={may(data.may, 'visibility')} fields={companyFields} fm={fm} />
               </Card>
             ) : null}
             {may(data.may_contacts, 'create') ? (
@@ -164,7 +180,7 @@ export default async function CrmProspect({ params, searchParams }: { params: Pr
                 {rules.optInOnly ? (
                   <p className="m-0 text-[12.5px] leading-[1.5] text-mut">{m.add.optInOnly}</p>
                 ) : (
-                  <ContactForm m={m} common={common} companyId={c.id} consentRequired={rules.consentRequired} />
+                  <ContactForm m={m} common={common} companyId={c.id} consentRequired={rules.consentRequired} fields={addFormFields(contactFields)} fm={fm} staff={data.admins} />
                 )}
               </Card>
             ) : null}
@@ -174,7 +190,14 @@ export default async function CrmProspect({ params, searchParams }: { params: Pr
       {/* 0194 (D-209): every change to this company, with who and from where */}
       {isError(history) ? null : (
         <div className="mt-[14px]">
-          <CrmHistory data={history} labels={m.history} base={`/admin/crm/prospects/${id}`} before={before} values={{ visibility: m.visibility }} />
+          <CrmHistory
+            data={history}
+            labels={{ ...m.history, field: { ...m.history.field, ...historyWords(companyFields) } }}
+            base={`/admin/crm/prospects/${id}`}
+            before={before}
+            values={{ visibility: m.visibility }}
+            fields={companyFields}
+          />
         </div>
       )}
     </>

@@ -29,8 +29,28 @@ async function rpc(fn: string, args: Record<string, unknown>): Promise<AdminResu
   if (error) return { ok: false, problem: 'failed' }
   const reply = Reply.safeParse(data)
   if (!reply.success) return { ok: false, problem: 'failed' }
-  if (!reply.data.ok) return { ok: false, problem: reply.data.error ?? 'failed' }
+  if (!reply.data.ok) {
+    // 0197: the custom fields a refusal names, by key
+    const named = z.union([z.array(z.string()), z.string()]).safeParse(reply.data.fields ?? reply.data.field)
+    const fields = named.success ? (Array.isArray(named.data) ? named.data : [named.data]) : undefined
+    return { ok: false, problem: reply.data.error ?? 'failed', ...(fields ? { fields } : {}) }
+  }
   return { ok: true, data: reply.data }
+}
+
+/** 0197: a form's custom values (one hidden JSON value, keyed by field key); the database checks each one */
+function customOf(formData: FormData): Record<string, unknown> | undefined | null {
+  const raw = formData.get('custom')
+  if (raw === null || raw === '') return undefined
+  try {
+    const parsed = z
+      .record(z.string().regex(/^[a-z][a-z0-9_]{1,40}$/), z.unknown())
+      .refine((o) => Object.keys(o).length <= 200)
+      .safeParse(JSON.parse(String(raw).slice(0, 200_000)))
+    return parsed.success ? parsed.data : null
+  } catch {
+    return null
+  }
 }
 
 const tagList = (raw: FormDataEntryValue | null) =>
@@ -61,6 +81,9 @@ export async function saveContact(_prev: AdminResult | null, formData: FormData)
   if (company && !z.string().uuid().safeParse(company).success) return { ok: false, problem: 'invalid' }
   if (formData.has('company_id')) p.company_id = company
   if (id && versionOf(formData.get('version')) !== undefined) p.version = versionOf(formData.get('version'))
+  const custom = customOf(formData)
+  if (custom === null) return { ok: false, problem: 'invalid_field' }
+  if (custom) p.custom = custom
   if (!id) {
     p.email = String(formData.get('email') ?? '').slice(0, 254)
     p.consent_source = String(formData.get('consent_source') ?? '').slice(0, 200)
@@ -94,7 +117,17 @@ export async function contactAction(_prev: AdminResult | null, formData: FormDat
 }
 
 export type ImportResult =
-  | { ok: true; inserted: number; updated: number; suppressed: number; rejected: { row: number; reason: string }[] }
+  | {
+      ok: true
+      inserted: number
+      updated: number
+      suppressed: number
+      rejected: { row: number; reason: string }[]
+      /** 0197: rows imported with a remark — a custom value that did not fit, a required custom field left empty */
+      warnings: { row: number; reason: string; fields: string[] }[]
+      /** 0197: columns naming no custom field the importer may fill, so not read */
+      unknown_columns: string[]
+    }
   | { ok: false; problem: string }
 
 const ImportRow = z.object({
@@ -107,6 +140,11 @@ const ImportRow = z.object({
   consent_source: z.string().max(200).optional(),
   consent_at: z.string().max(40).optional(),
   lang: z.string().max(4).optional(),
+  // 0197: the sheet's other columns, by header, for the custom fields; the database matches them by key or label
+  custom: z
+    .record(z.string().max(80), z.string().max(10_000))
+    .refine((o) => Object.keys(o).length <= 100)
+    .optional(),
 })
 
 /** Rows parsed from the admin's CSV in the browser; the database checks every one again. */
@@ -121,6 +159,8 @@ export async function importContacts(rows: unknown): Promise<ImportResult> {
       updated: z.coerce.number(),
       suppressed: z.coerce.number(),
       rejected: z.array(z.object({ row: z.coerce.number(), reason: z.string() })),
+      warnings: z.array(z.object({ row: z.coerce.number(), reason: z.string(), fields: z.array(z.string()) })).default([]),
+      unknown_columns: z.array(z.string()).default([]),
     })
     .safeParse(r.data)
   if (!out.success) return { ok: false, problem: 'failed' }
@@ -157,6 +197,15 @@ function filterOf(formData: FormData): Filter | null {
   const nace = String(formData.get('nace') ?? '').trim()
   if (nace) f.nace = nace
   if (formData.get('mailable_only') === 'on') f.mailable_only = true
+  // 0197: conditions on the contacts' custom fields, one hidden JSON value; the database checks the fields again
+  const custom = String(formData.get('custom') ?? '')
+  if (custom) {
+    try {
+      f.custom = JSON.parse(custom.slice(0, 20_000))
+    } catch {
+      return null
+    }
+  }
   const parsed = Filter.safeParse(f)
   return parsed.success ? parsed.data : null
 }
@@ -376,6 +425,9 @@ export async function saveCompany(_prev: AdminResult | null, formData: FormData)
     if (!(VISIBILITIES as readonly string[]).includes(String(visibility))) return { ok: false, problem: 'invalid' }
     p.visibility = String(visibility)
   }
+  const custom = customOf(formData)
+  if (custom === null) return { ok: false, problem: 'invalid_field' }
+  if (custom) p.custom = custom
   const r = await rpc('admin_crm_company_save', { p_id: id ? id.data : null, p })
   if (!r.ok) return r
   revalidatePath('/admin/crm/prospects')
@@ -426,8 +478,9 @@ export async function moveStage(_prev: AdminResult | null, formData: FormData): 
     revalidatePath('/admin/crm/prospects')
     revalidatePath('/admin/crm')
     for (const id of parsed.data.ids.slice(0, 20)) revalidatePath(`/admin/crm/prospects/${id}`)
-    // how many moved, and how many were left (a customer organisation, or no stage after its own)
-    return { ok: true, message: `${Number(r.data?.moved ?? 0)}:${Number(r.data?.skipped ?? 0)}` }
+    // how many moved, how many were left (a customer organisation, or no stage after its own), and of those how many
+    // wait for a required custom field the stage asks for (0197)
+    return { ok: true, message: `${Number(r.data?.moved ?? 0)}:${Number(r.data?.skipped ?? 0)}:${Number(r.data?.blocked ?? 0)}` }
   }
   return r
 }
@@ -482,7 +535,9 @@ export async function moveCard(id: string, to: string): Promise<AdminResult> {
   revalidatePath('/admin/crm/pipeline')
   revalidatePath('/admin/crm/prospects')
   revalidatePath(`/admin/crm/prospects/${parsed.data.id}`)
-  return Number(r.data?.moved ?? 0) > 0 ? { ok: true } : { ok: false, problem: 'not_moved' }
+  if (Number(r.data?.moved ?? 0) > 0) return { ok: true }
+  // 0197: the stage asks for a required custom field the company has not filled in
+  return { ok: false, problem: Number(r.data?.blocked ?? 0) > 0 ? 'required_fields' : 'not_moved' }
 }
 
 /**
@@ -514,14 +569,13 @@ export async function saveDeal(_prev: AdminResult | null, formData: FormData): P
   const r = await rpc('admin_crm_company_save', { p_id: id, p })
   if (!r.ok) return r
   const from = formData.get('from')
-  if (stage && stage !== from) {
-    const m = await rpc('admin_crm_stage_move', { p_ids: [id], p_to: stage })
-    if (!m.ok) return m
-  }
+  // 0197: the values are saved either way; a stage that asks for a required custom field the company lacks waits for it
+  const move = stage && stage !== from ? await rpc('admin_crm_stage_move', { p_ids: [id], p_to: stage }) : null
+  if (move && !move.ok) return move
   revalidatePath('/admin/crm/pipeline')
   revalidatePath(`/admin/crm/prospects/${id}`)
   revalidatePath('/admin')
-  return { ok: true }
+  return Number(move?.data?.blocked ?? 0) > 0 ? { ok: false, problem: 'required_fields' } : { ok: true }
 }
 
 /** Where a logged answer moves a company. */

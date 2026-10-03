@@ -10674,3 +10674,81 @@ set, removing a group, and saving or removing a team (`admin_crm_set_delete`, `a
 same approval step of the Supabase connector as 0195's purge part (DEC-28). Until it lands, a super-admin on
 hosted can add and assign sets and groups but not remove them, and no team can be made; nothing on hosted calls
 these before the admin screens ship at the Phase 0 gate (DEC-23).
+
+## D-212 — CRM custom fields: the registry, values, quality rules, hidden and read-only fields, formulas (0197) (2026-10-03)
+
+Work package WP-0.5 of the CRM enrichment brief (CUS-01, CUS-02, CUS-03, CUS-04, SF-38). **The registry** is rows:
+`app.crm_field_groups` and `app.crm_fields`, one list for companies and one for contacts, kept on CRM › Custom
+fields (`/admin/crm/fields`). A field has a key, fixed when it is made, and a label, a description (shown behind
+an ⓘ next to the input), one of sixteen types, a group and an order, its options, a rule, whether it is in the add
+form and on the record's page, an optional formula and the permission sets it is hidden from or read only for.
+Every save is a whole new version in `app.crm_field_versions`, which nobody may change (SF-38 step 1); a form
+sends the version it was opened at and a stale one is refused. Every CRM reader sees the registry; the holders of
+the CRM's settings action change it, with a reason while typed reasons are on. A field is archived, not deleted:
+its values stay, out of sight, and come back with it. Keys that are the record's own columns, a type change while
+records hold values, removing an option a record holds, archiving a field a formula reads and archiving a group a
+live field sits in are refused. Rules `limit_custom_fields` and `limit_field_options` count fields per record type
+and options per field, unlimited by default (the brief's 1,000 options and its per-company field count are
+these rules until entitlements exist, ENT-01).
+
+**Values** live in one `custom jsonb` per company and per contact, keyed by field key. `app.crm_field_value`
+checks and normalises a value for its type — text, large text, single option, multiple options, autocomplete,
+number, monetary (kroner), user, organization, person, phone, time, time range, date, date range and address —
+so nothing that is not a valid value of a live field is stored. A reference is stored as the record's id and
+typed as an org number, an exact name or an e-mail address; an organization the caller cannot see cannot be
+named, and its name is not shown (0196). The add forms show the fields marked for them and every required one;
+the edit forms show every field the caller may see, a read-only one as text and a calculated one marked
+calculated; the record's page shows each field with a value — option labels, kroner, dates, links to the company
+or contact a reference names — and «Not filled in yet» for an important or required field that is empty. Each
+change to a custom value is a line of its own in the record's history (`custom.<key>`), with the field's label,
+read as the page reads it: the history call returns the names behind the references on its lines, by the same
+rule (`app.crm_custom_refs`), so a line never shows an id.
+
+**Quality rules (CUS-02).** Important is a nudge on the page and in the form. Required, at every stage or from a
+given stage on (companies), refuses a manual save that leaves it empty — the form names the fields — and a stage
+move by hand: the bulk move says how many of the ticked companies wait for required fields, the board puts the
+card back and says why, the deal dialog saves its values and says the stage waits. An import reports a required
+field left empty and imports the row anyway. A stage move the database makes on its own — the first logged
+activity taking a new company to Contacted, a logged reply, a campaign's send (`app.crm_advance`), a customer's
+plan — is not a manual edit and is not stopped (CUS-02: "required rules apply to manual edits").
+
+**Hidden and read-only (CUS-03)**, per permission set (0196): a field hidden from the caller's set is absent from
+every reader — the record, the lists, the history, the segment filters and the registry itself — and every writer
+refuses it as unknown; a read-only field is shown and refused as read only. A segment holding a condition on a
+field hidden from the viewer shows that it has one, without the condition, and is theirs to use but not to change
+or preview (the database refuses the save). The Admin set and the system's own jobs see and write every field.
+
+**Formulas (CUS-04).** A number or monetary field may be calculated from the record's other number and monetary
+fields and, on companies, `value_nok` and `employees`, with + − × / and parentheses. A formula is compiled once
+into postfix form when it is saved — no dynamic SQL ever runs it — and may not read itself or close a circle; a
+trigger recomputes every formula on every write, so the stored value always equals the result, and nobody types
+a formula field.
+
+**Filters and import.** The companies list filters on custom conditions (by type: contains, is, includes, at
+least, at most, is empty, is filled) and segments filter contacts the same way, so a new field is a filter
+without a deploy. The contacts' CSV import reads any other column whose header is a field's key or label;
+a value that does not fit is left out and reported, a column that names no field the importer may fill is
+reported once, and a value the contact already holds stays, as its name does.
+
+**Deviations from the plan.** The plan's "expression indexes per filterable field" became one GIN index
+(`jsonb_path_ops`) per table: creating an index when an admin adds a field would be a schema change outside the
+migrations (CLAUDE.md invariant 8); equality and option conditions use it, range conditions scan, which is fine at
+the CRM's size and is revisited with search (WP-1.8). Hidden and read-only are per permission set, not per user:
+the brief's "chosen users" are chosen through their set. Monetary is kroner until currencies (CUS-06).
+`admin_crm_companies(text, text, uuid)` became `admin_crm_companies(text, text, uuid, jsonb)` (the conditions);
+the old signature is dropped so no caller reaches a list without the registry's filter.
+
+**Not done.** Fields on deals, leads, products, projects and activities wait for those records (WP-1.1, WP-1.7,
+Phase 4, Phase 6, ACT-02); today a deal is its company, so a company field is a deal field. Fields shown only in
+chosen pipelines wait for pipelines (WP-1.1). Reports on custom fields wait for reports (INS-07) and the API for
+INT-01. Companies have no sheet import — they come from the Brønnøysund search, which fills no custom field and
+reports no required one. The board's drag and the deal dialog cannot fill a required field; the company's page
+can.
+
+Proved in `crm_fields_invariants.sql` (14 assertions: a new field in the record, the list, the registry, the
+filters and the import without a deploy; each of the sixteen types valid and invalid; required blocking a save
+and a stage move and reported on import; hidden fields absent through every reader for a denied set; formulas
+equal to their inputs, no self-reference or circle; versions; history; limits; archive guards; no reader handing
+out a whole row past the registry). `crm_access_invariants.sql` reviews the new readers, `crm_restore_invariants.sql`
+the four new helpers, `crm_rules_invariants.sql` the two rules and `crm_pipeline_invariants.sql` the new list
+signature. Screens in `docs/crm-enrichment/screens/phase-0/CUS-0*`.
