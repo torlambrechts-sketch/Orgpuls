@@ -79,6 +79,25 @@ describe('industry landing pages', () => {
       expect(isV3Route(`/${l.slug}`)).toBe(true)
     })
 
+    it(`${l.slug}: a label names every audience it marks, and a worded module offers each wording (D-211)`, () => {
+      for (const cat of [no, en] as Words[]) {
+        for (const c of l.challenges) if (c.audience) expect(at(cat, `${base}.audience.${c.audience}`), c.audience).toEqual(expect.any(String))
+      }
+      const wording = moduleFile(l.module).wording
+      if (!l.wording) return
+      // the example is one of the module's statements, said in every wording the page links to
+      expect(wording).toBeDefined()
+      const item = moduleFile(l.module).factors.flatMap((f) => f.items).find((i) => i.id === l.wording?.example)
+      expect(item?.text_variants, l.wording.example).toBeDefined()
+      for (const w of wording!.modes.filter((m) => m !== wording!.default && m !== 'begge')) {
+        expect(item?.text_variants?.[w as 'barnehage' | 'skole']).toEqual(expect.any(String))
+        for (const cat of [no, en] as Words[]) {
+          expect(at(cat, `${base}.wording.items.${w}.t`), w).toEqual(expect.any(String))
+          expect(at(cat, `${base}.wording.items.${w}.link`), w).toEqual(expect.any(String))
+        }
+      }
+    })
+
     it(`${l.slug}: an English page waits for the module's English translation (D-120)`, () => {
       if (l.live.en) expect(moduleFile(l.module).translations?.en).toBeDefined()
     })
@@ -92,7 +111,7 @@ describe('industry landing pages', () => {
   }
 
   it('leaves the other industries on their own template, and the five v3 pages as they were', () => {
-    expect(isV3Route('/barnehage-og-skole')).toBe(false)
+    expect(isV3Route('/barnehage-og-skole/sporsmal')).toBe(false)
     expect(isV3Route('/kunnskap-og-kontor')).toBe(false)
     expect(isV3Route('/handel/sporsmal')).toBe(false)
     expect(isV3Route('/bygg-og-anlegg/sporsmal')).toBe(false)
