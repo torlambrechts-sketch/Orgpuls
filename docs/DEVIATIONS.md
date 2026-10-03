@@ -10578,3 +10578,8 @@ deleted one at a time until the list views of WP-1.2/1.5. Who may restore follow
 Proved in `crm_restore_invariants.sql` (12 assertions); `crm_history_invariants.sql` seq 8 now expects
 `contact.purged` for an erasure and `crm_rules_invariants.sql` lists the two new rules. Screens in
 `docs/crm-enrichment/screens/phase-0/CRM-12-*`, `PIP-17-*`, `PIP-10-bulk-delete-*`, `SET-rules-deletion-*`.
+
+0195 is not yet applied on hosted (2026-10-03): the apply was cancelled at the confirmation step, and nothing
+reached the project (checked: no column, rule or job). The 32 functions it changes match the repository's
+pre-0195 build on hosted, and the readers' edits were dry-run against that build locally with an identical
+result, so it applies as it stands once confirmed.
