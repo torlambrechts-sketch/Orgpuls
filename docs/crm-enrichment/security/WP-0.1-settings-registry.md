@@ -18,7 +18,7 @@ A7, item by item. Evidence in `supabase/tests/crm_rules_invariants.sql` (CRR) un
 | 12 | API runs with the caller's permissions | Both functions run as the caller's admin role |
 | 13 | No message bodies, tokens or personal data in logs | Logged: rule key, old and new value, the admin, the typed reason |
 | 14 | Dependency audit | No dependency added |
-| 15 | `supabase db lint`, advisors | db lint run with the CI command (exit recorded in the phase report); advisors checked after applying on hosted |
+| 15 | `supabase db lint`, advisors | `supabase db lint --level warning` exit 0 on the rebuilt database, no finding on a 0192 object. Hosted security advisors after applying (2026-10-03): the new objects appear only under `rls_enabled_no_policy` (INFO; the repository's deny-by-default design, 134 tables) and `authenticated_security_definer_function_executable` (WARN; every admin RPC, 286 — each checks the admin role and aal2 inside). None under `anon_security_definer_function_executable` |
 | 16 | Anonymity firewall re-proved | `growth_firewall_invariants`, `respondent_invariants`, `definer_grants_invariants` pass on the rebuilt database. No new reference to a response table |
 
 Loosening, approved: DEC-04 and DEC-07 turn the consent-source and typed-reason checks off by default. The

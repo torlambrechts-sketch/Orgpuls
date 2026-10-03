@@ -10499,3 +10499,9 @@ transaction to keep proving the strict behaviour. Unit: `tests/unit/crm-rules.te
 found by looking at the screens, not by the SQL suite, and each now has an assertion: the rules reader was
 declared STABLE while it writes the audit row (PostgREST runs a stable function read-only), and
 `greatest(null, 1)` turned "no limit" on the contacts list into one row.
+
+0192 is applied on hosted (2026-10-03). The hosted project took a form of it that rewrites the 19 consumers
+in place from their live text, after their live definitions were shown byte-identical to the repository's
+pre-0192 ones; a dry run of that script on a local database at the pre-0192 state, and afterwards on hosted,
+gave the same fingerprint as a database built from the repository (all 26 function definitions, the tables'
+columns, constraints, indexes and triggers, RLS, the 11 settings, the grants).
