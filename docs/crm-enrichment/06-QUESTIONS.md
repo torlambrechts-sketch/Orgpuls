@@ -4,13 +4,13 @@ Phase A output (A3.6). Every Conflict and Unknown from 04 and 05, every differen
 Appendix 2 and the brief, and the ten open points of Part G. Format per A11: what was found, the options,
 what each changes, and what work is blocked. Answers go to `DECISIONS.md` with the date.
 
-Nothing below has been acted on. Phase B (the implementation plan) waits for these answers (A3.7).
+Answers of 2026-10-03 are in `DECISIONS.md` (DEC-01…09); open items are carried in `07-IMPLEMENTATION-PLAN.md` § 2. Phase B (the implementation plan) waits for these answers (A3.7).
 
 ---
 
 ## A. Security findings in existing code (need a decision now, not at a phase gate)
 
-### Q1. A SECURITY DEFINER function returns contact e-mails to anonymous callers
+### Q1. A SECURITY DEFINER function returns contact e-mails to anonymous callers — **resolved 2026-10-03 (DEC-01, D-207, migration 0191, applied on hosted)**
 - **Found.** `app.crm_follow_audience(app.crm_campaigns)` is `SECURITY DEFINER`, returns `(contact_id, email)` for
   the contacts who received the campaign named in the row's `follows_id`, and no migration revokes it, so
   `anon` and `authenticated` keep PostgreSQL's default `EXECUTE` (body: `mig/0111_crm_sequences.sql`, revised in

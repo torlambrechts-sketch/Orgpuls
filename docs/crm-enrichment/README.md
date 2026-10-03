@@ -11,6 +11,7 @@ for Tor's review after each.
 | `04-GAP-ADMIN-SPEC.md` | A3.4 | Appendix 2, item by item |
 | `05-GAP-FEATURES.md` | A3.5 | The 183 features, flows, settings, entities and NFRs, with status and evidence |
 | `06-QUESTIONS.md` | A3.6 | Conflicts, unknowns, security findings, open points |
+| `07-IMPLEMENTATION-PLAN.md` | A4 | Data model mapping, open decisions with defaults, work packages, order, test plan |
 | `DECISIONS.md` | R3 | Tor's answers, dated |
 
-Status on 2026-10-03: Phase A complete, stopped for review (A3.7). No application code or database was changed.
+Status on 2026-10-03: Phase A complete; answers recorded (DEC-01…09); the e-mail exposure fixed (0191, D-207); Phase B plan written and waiting for approval before Phase C.
