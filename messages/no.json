@@ -9425,7 +9425,8 @@
       "suppressedBadge": "Suppressed",
       "add": {
         "title": "Add a contact",
-        "lead": "Only someone who said yes to hearing from us. Say where and when they did: it is stored as the consent's source.",
+        "lead": "Add a person. Where they said yes to hearing from us, say where and when: it is stored as the consent's source.",
+        "leadRule": "Only someone who said yes to hearing from us. Say where and when they did: it is stored as the consent's source.",
         "email": "E-mail",
         "name": "Name",
         "company": "Company",
@@ -9435,6 +9436,8 @@
         "tags": "Tags (comma-separated)",
         "lang": "Language",
         "consentSource": "Consent source (e.g. “Arendalsuka 2026, sign-up sheet”)",
+        "consentHint": "Optional. Without one the contact is kept with no basis, and no campaign mails them.",
+        "optInOnly": "The contact rule under Settings › CRM rules allows only people who signed up themselves, so contacts are not added by hand.",
         "consentAt": "Consent date",
         "event": "Met at an event",
         "submit": "Add contact"
@@ -9620,13 +9623,13 @@
         "not_allowed": "Your role cannot do this.",
         "invalid": "Something in the form is not valid.",
         "invalid_email": "That e-mail address does not look right.",
-        "consent_required": "Say where the consent came from.",
+        "consent_required": "A CRM rule under Settings › CRM rules asks for a consent source: say where the consent came from.",
         "invalid_consent_at": "The consent date is not valid.",
         "exists": "That already exists.",
         "invalid_tags": "Tags are lowercase letters, digits, - and _.",
         "invalid_role": "Choose a role from the list.",
         "invalid_org_number": "An org.nr is nine digits.",
-        "reason_required": "Give a reason of at least five characters.",
+        "reason_required": "Typed reasons are on under Settings › CRM rules: give a reason of at least five characters.",
         "not_found": "It no longer exists.",
         "invalid_filter": "The filter is not valid.",
         "invalid_name": "Give it a name.",
@@ -9639,7 +9642,7 @@
         "no_subject": "Write a subject first.",
         "no_segment": "Choose a segment first.",
         "invalid_time": "Choose a time from now and within a year.",
-        "rate_limited": "Ten tests an hour at most. Try again later.",
+        "rate_limited": "The test-sends-per-hour limit under Settings › CRM rules is reached. Try again later.",
         "not_cancellable": "This campaign cannot be cancelled now.",
         "invalid_file": "The file could not be read.",
         "invalid_kind": "Choose a kind.",
@@ -9659,13 +9662,15 @@
         "invalid_follow": "Velg kampanjen som skal følges opp, og etter hvor mange dager (1–60).",
         "follows_unsent": "Kampanjen dette følger opp, er ikke sendt ennå.",
         "managed": "Prøveperiode og kunde følger abonnementet; typen kan ikke endres.",
-        "too_many_steps": "A sequence holds at most seven mails.",
+        "too_many_steps": "The mails-per-sequence limit under Settings › CRM rules stops this.",
         "auto_no_ab": "An automatic follow-up cannot have a second subject line.",
         "not_moved": "That company was not moved: it follows its plan, or the stage cannot be set by hand.",
         "inbox_blocked": "The inbox check has red items: fix them before scheduling.",
         "placeholder_left": "Text in [brackets] is still in the campaign: replace it before scheduling.",
         "invalid_value": "The value is whole kroner, up to 100 million.",
-        "invalid_step": "A call or LinkedIn step has no mail: it cannot be resent, and only a call or LinkedIn step is changed here."
+        "invalid_step": "A call or LinkedIn step has no mail: it cannot be resent, and only a call or LinkedIn step is changed here.",
+        "blocked_by_setting": "The contact rule under Settings › CRM rules allows only people who signed up themselves.",
+        "too_many": "A limit set under Settings › CRM rules stops this."
       },
       "stage": {
         "new": "New",
@@ -10141,7 +10146,7 @@
         "days": "{n} d in stage",
         "empty": "No deals here",
         "notMoved": "That company was not moved.",
-        "capped": "Showing the 500 companies with the nearest next step; the Companies page has them all.",
+        "capped": "Showing the first {limit} companies by next step: a limit set under Settings › CRM rules.",
         "leadSum": "{open} open across {count, plural, one {# deal} other {# deals}} · {won} won this quarter",
         "viewLabel": "Show the pipeline as",
         "viewBoard": "Board",
@@ -12222,7 +12227,8 @@
       "tab": {
         "general": "General",
         "access": "Access",
-        "integrations": "Integrations"
+        "integrations": "Integrations",
+        "rules": "CRM rules"
       },
       "general": {
         "name": "Site name",
@@ -12267,6 +12273,87 @@
         "search": "Search engines",
         "searchText": "Google Search Console and IndexNow report to SEO › Performance, with when each last synced and whether it failed.",
         "searchOpen": "Open SEO › Performance"
+      },
+      "rules": {
+        "lead": "Every rule that can stop a CRM action, with its value and its default. Each starts unrestricted; a change applies at once and is written to the audit log.",
+        "readOnly": "Only a super-admin changes a rule.",
+        "area": {
+          "contacts": "Contacts and consent",
+          "audit": "Reasons",
+          "limits": "Limits"
+        },
+        "default": "Default: {value}",
+        "atDefault": "At its default",
+        "changed": "Changed by {by}, {at}",
+        "appliesTo": "Applies to {ids}",
+        "unlimited": "Unlimited",
+        "limitLabel": "Limit",
+        "reason": "Reason",
+        "reasonHint": "Typed reasons are on: give at least five characters.",
+        "save": "Save",
+        "saving": "Saving…",
+        "done": "Saved.",
+        "problem": {
+          "failed": "It could not be saved. Try again.",
+          "not_allowed": "Only a super-admin with the second factor changes a rule.",
+          "invalid": "Choose one of the options, or a whole number of 1 or more.",
+          "reason_required": "Typed reasons are on: give a reason of at least five characters.",
+          "not_found": "That rule no longer exists."
+        },
+        "option": {
+          "none": "No rule",
+          "source_and_basis": "Source and basis required",
+          "opt_in_only": "Opt-in only",
+          "off": "Off",
+          "required": "Required per row",
+          "on": "On"
+        },
+        "rule": {
+          "contact_rule": {
+            "name": "Contact rule",
+            "why": "Whether a contact may be added without a consent source. «No rule»: a contact without one is kept with no basis, and no campaign mails them. «Source and basis required»: a manual or imported contact needs a consent source. «Opt-in only»: contacts come only from people who signed up themselves."
+          },
+          "import_consent_source": {
+            "name": "Consent source on import",
+            "why": "Whether every imported row needs a consent source. A row without one is otherwise kept with no basis."
+          },
+          "typed_reason": {
+            "name": "Typed reason for CRM actions",
+            "why": "Whether unsubscribing on someone's behalf, erasing a contact, taking someone off a list, the customer exception and changing a rule need a typed reason. The audit row is written either way."
+          },
+          "limit_contact_import_rows": {
+            "name": "Rows per contact import",
+            "why": "The most rows one contact import may hold."
+          },
+          "limit_register_import_rows": {
+            "name": "Rows per register import",
+            "why": "The most companies one Brønnøysund import may add."
+          },
+          "limit_bulk_move": {
+            "name": "Companies per bulk move",
+            "why": "The most companies one bulk stage move may move."
+          },
+          "limit_company_read": {
+            "name": "Companies per list",
+            "why": "The most companies the pipeline and the companies list show at once."
+          },
+          "limit_contact_read": {
+            "name": "Contacts per list",
+            "why": "The most contacts the contacts list shows at once."
+          },
+          "limit_campaign_blocks": {
+            "name": "Blocks per campaign",
+            "why": "The most content blocks one campaign may hold."
+          },
+          "limit_sequence_mails": {
+            "name": "Mails per sequence",
+            "why": "The most mails in one follow-up chain."
+          },
+          "limit_test_sends_per_hour": {
+            "name": "Test sends per hour",
+            "why": "The most test sends in an hour, across all campaigns."
+          }
+        }
       }
     },
     "delivery": {

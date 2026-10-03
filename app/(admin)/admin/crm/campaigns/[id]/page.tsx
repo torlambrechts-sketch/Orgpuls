@@ -11,6 +11,7 @@ import { isError, whoami } from '@/lib/admin/api'
 import { drawCampaign, footerOf, inboxCheck, mailCatalogue, sendingDomain } from '@/lib/admin/campaignMail'
 import { domainChecks } from '@/lib/admin/mailDomain'
 import { crmCampaign, crmCampaigns, crmLists, crmSegments, crmSenders, crmSequence, crmStages } from '@/lib/admin/crm'
+import { crmRuleState } from '@/lib/admin/crmRules'
 
 /**
  * One campaign (D-101, D-103): its content while it is a draft, a preview drawn by the module
@@ -27,7 +28,7 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const r = m.report
-  const [data, segs, lists, who, stageData, senderData, all, sequence] = await Promise.all([
+  const [data, segs, lists, who, stageData, senderData, all, sequence, rules] = await Promise.all([
     crmCampaign(id),
     crmSegments(),
     crmLists(),
@@ -36,6 +37,7 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
     crmSenders(),
     crmCampaigns(),
     crmSequence(id),
+    crmRuleState(),
   ])
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const c = data.campaign
@@ -203,6 +205,7 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
             sender={sender ? { name: sender.name, email: sender.email, signature: sender.signature } : null}
             domain={domain}
             footer={{ no: footerOf(cat, 'no'), en: footerOf(cat, 'en') }}
+            maxBlocks={rules.maxBlocks}
           />
         </Card>
       ) : null}

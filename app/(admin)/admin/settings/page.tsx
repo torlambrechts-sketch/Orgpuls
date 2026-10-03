@@ -1,9 +1,11 @@
 import type { Route } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { CrmRuleForm, type RuleFormLabels } from '@/components/admin/CrmRuleForm'
 import { FixedSwitch, IndexingSwitch } from '@/components/admin/SettingsSwitch'
 import { FIELD, FIELD_LABEL, PageHead, Problem, when } from '@/components/admin/ui'
 import { isError, ops, siteSettings } from '@/lib/admin/api'
+import { crmRules, RULE_AREAS } from '@/lib/admin/crmRules'
 import { ADMIN_HOST, EN_HOST, MAIN_HOST } from '@/lib/hosts'
 
 /**
@@ -12,8 +14,10 @@ import { ADMIN_HOST, EN_HOST, MAIN_HOST } from '@/lib/hosts'
  * exist — the second factor (always on), «Allow search engines» (0126), and the two that are changed
  * where they belong. Integrations: what sends and runs, from Operations. The design's API keys,
  * webhooks, customer single sign-on and branding are not features Orgpuls has, and are not drawn.
+ * CRM rules (0192, D-208): every rule that can stop a CRM action, its value, its default and the last
+ * change — each unrestricted until switched on here (docs/crm-enrichment DECISIONS.md DEC-04, DEC-07).
  */
-const TABS = ['general', 'access', 'integrations'] as const
+const TABS = ['general', 'access', 'integrations', 'rules'] as const
 type Tab = (typeof TABS)[number]
 
 export default async function AdminSettings({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
@@ -21,7 +25,11 @@ export default async function AdminSettings({ searchParams }: { searchParams: Pr
   const sp = await searchParams
   const tab: Tab = (TABS as readonly string[]).includes(sp.tab ?? '') ? (sp.tab as Tab) : 'general'
   const s = (k: string, v?: Record<string, string | number>) => t(`settings.${k}`, v)
-  const [settings, run] = await Promise.all([siteSettings(), tab === 'integrations' ? ops() : Promise.resolve(null)])
+  const [settings, run, rules] = await Promise.all([
+    siteSettings(),
+    tab === 'integrations' ? ops() : Promise.resolve(null),
+    tab === 'rules' ? crmRules() : Promise.resolve(null),
+  ])
   if (isError(settings)) return <Problem text={settings.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
 
   const general = [
@@ -120,6 +128,69 @@ export default async function AdminSettings({ searchParams }: { searchParams: Pr
             <FixedSwitch on={settings.notice_on} label={s('access.notice')} />
           </div>
         </div>
+      ) : null}
+
+      {tab === 'rules' && rules ? (
+        isError(rules) ? (
+          <div className="mt-[16px]">
+            <Problem text={rules.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
+          </div>
+        ) : (
+          <div className="mt-[16px] flex flex-col gap-[18px]">
+            <p className="m-0 text-[13px] leading-[1.55] text-mut [text-wrap:pretty] md:px-[18px]">
+              {s('rules.lead')}
+              {rules.may_change ? '' : ` ${s('rules.readOnly')}`}
+            </p>
+            {RULE_AREAS.map((area) => {
+              const list = rules.rules.filter((r) => r.area === area)
+              if (!list.length) return null
+              const labels: RuleFormLabels = {
+                unlimited: s('rules.unlimited'),
+                limitLabel: s('rules.limitLabel'),
+                reason: s('rules.reason'),
+                reasonHint: s('rules.reasonHint'),
+                save: s('rules.save'),
+                saving: s('rules.saving'),
+                done: s('rules.done'),
+                problem: t.raw('settings.rules.problem') as Record<string, string>,
+                option: t.raw('settings.rules.option') as Record<string, string>,
+              }
+              const shown = (v: string | number | null) => (v === null ? s('rules.unlimited') : typeof v === 'number' ? String(v) : (labels.option[v] ?? v))
+              return (
+                <section key={area} aria-labelledby={`rules-${area}`} className="flex flex-col gap-[10px]">
+                  <h2 id={`rules-${area}`} className="m-0 font-display text-[22px] font-medium md:px-[18px]">
+                    {s(`rules.area.${area}`)}
+                  </h2>
+                  {list.map((r) => (
+                    <div key={r.key} className={`${row} flex-col items-stretch md:flex-row md:items-center`}>
+                      <div className="min-w-0 flex-1">
+                        <div className="text-[14px] font-semibold">{s(`rules.rule.${r.key}.name`)}</div>
+                        <div className="mt-[2px] text-[12.5px] text-mut [text-wrap:pretty]">{s(`rules.rule.${r.key}.why`)}</div>
+                        <div className="mt-[6px] text-[12px] text-mut">
+                          {s('rules.default', { value: shown(r.default) })} · {s('rules.appliesTo', { ids: r.applies_to.join(', ') })} ·{' '}
+                          {r.is_default || !r.changed_at ? s('rules.atDefault') : s('rules.changed', { by: r.changed_by ?? '—', at: when(r.changed_at) })}
+                        </div>
+                      </div>
+                      {rules.may_change ? (
+                        <CrmRuleForm
+                          ruleKey={r.key}
+                          name={s(`rules.rule.${r.key}.name`)}
+                          kind={r.kind}
+                          options={r.options}
+                          value={r.value}
+                          reasonRequired={rules.reason_required}
+                          labels={labels}
+                        />
+                      ) : (
+                        <span className="text-[13px] font-semibold">{shown(r.value)}</span>
+                      )}
+                    </div>
+                  ))}
+                </section>
+              )
+            })}
+          </div>
+        )
       ) : null}
 
       {tab === 'integrations' ? (

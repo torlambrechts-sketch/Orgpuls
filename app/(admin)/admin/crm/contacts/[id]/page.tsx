@@ -4,6 +4,7 @@ import { ContactListForms } from '@/components/admin/CrmPipelineForms'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
 import { crmContact, crmLists } from '@/lib/admin/crm'
+import { crmRuleState } from '@/lib/admin/crmRules'
 
 /**
  * One contact (D-101): who they are, the consent we hold and where it came from, every mail
@@ -14,7 +15,7 @@ export default async function CrmContact({ params }: { params: Promise<{ id: str
   const { id } = await params
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
-  const [data, who, lists] = await Promise.all([crmContact(id), whoami(), crmLists()])
+  const [data, who, lists, rules] = await Promise.all([crmContact(id), whoami(), crmLists(), crmRuleState()])
   const listOptions = isError(lists) ? [] : lists.rows.filter((l) => !l.archived).map((l) => ({ id: l.id, key: l.key, name: l.name_no }))
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const c = data.contact
@@ -108,11 +109,11 @@ export default async function CrmContact({ params }: { params: Promise<{ id: str
           <div className="flex flex-col gap-[14px]">
             {c.status !== 'unsubscribed' ? (
               <Card title={m.contact.unsubscribe}>
-                <ContactActionForm m={m} common={common} id={c.id} kind="unsubscribe" />
+                <ContactActionForm m={m} common={common} id={c.id} kind="unsubscribe" reasonRequired={rules.reasonRequired} />
               </Card>
             ) : null}
             <Card title={m.contact.erase}>
-              <ContactActionForm m={m} common={common} id={c.id} kind="erase" />
+              <ContactActionForm m={m} common={common} id={c.id} kind="erase" reasonRequired={rules.reasonRequired} />
             </Card>
           </div>
         </div>

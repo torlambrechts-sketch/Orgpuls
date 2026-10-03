@@ -70,9 +70,11 @@ const Contacts = z.object({
   customer_exception: z.boolean(),
   waiting: num,
   rows: z.array(Contact),
+  // 0192: the list's cap, a CRM rule setting (null: every contact)
+  limit: num.nullable(),
 })
 export const crmContacts = (q: string | null, type: string | null) =>
-  call('admin_crm_contacts', { p_q: q, p_type: type, p_limit: 300 }, Contacts)
+  call('admin_crm_contacts', { p_q: q, p_type: type, p_limit: null }, Contacts)
 
 const TimelineRow = z.object({
   kind: z.string(),
@@ -344,7 +346,8 @@ export const crmCompanies = (q: string | null, stage: string | null) =>
   call(
     'admin_crm_companies',
     { p_q: q, p_stage: stage, p_owner: null },
-    z.object({ stages: z.record(z.string(), num), tasks_due: num, rows: z.array(Company) }),
+    // 0192: limit is the list's cap, a CRM rule setting (null: every company)
+    z.object({ stages: z.record(z.string(), num), tasks_due: num, rows: z.array(Company), limit: num.nullable() }),
   )
 
 const Activity = z.object({

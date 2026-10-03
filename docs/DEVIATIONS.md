@@ -10453,3 +10453,49 @@ function in `app`, other than a trigger function, is executable by anon or authe
 its reviewed list (the RLS helpers `is_org_member`, `has_role`, `k_threshold`, `module_visible`, and
 `visible_groups`, `round_answered`, `module_usable`, granted to authenticated on purpose in 0022 and 0071).
 0191 is applied on hosted; afterwards the open definers there are exactly that list.
+
+## D-208 — CRM rule settings: every limit and rule that can stop a CRM action is a setting (0192) (2026-10-03)
+
+The CRM enrichment brief (`docs/crm-enrichment/INSTRUCTIONS.md` R5, A9, CUS-07) asks that every limit,
+gate and compliance rule be a setting whose default leaves the feature fully working, and Tor decided the
+brief's defaults and the removal of the restrictions built into today's code (`docs/crm-enrichment/
+DECISIONS.md` DEC-04, DEC-07, 2026-10-03). Work package WP-0.1.
+
+**Registry.** `app.crm_setting_defs` (key, area, kind choice/limit, options, default, what it applies to),
+`app.crm_setting_values` (the value set, who, when) and `app.crm_setting_log` (every change with old and new
+value, who and the reason; append-only by trigger). RLS on, no policy, no grant. Functions read a rule
+through `app.crm_rule/crm_limit/crm_choice(key)` (an unknown key raises). Admin › Settings gains a fourth
+tab, **CRM rules**, listing every rule with its value, its default and the last change; a super-admin with
+the second factor changes one (`public.admin_crm_rule_set`, audited as `crm.rule_set`); the CRM's readers
+see them read-only (`public.admin_crm_rules`). A setting is registered by the package that builds what it
+governs, so each has a consumer; `scripts/audit/wiring.mjs` W3 fails a key no function reads.
+
+**What moved behind a setting, and the defaults now:**
+- contact rule *none* (was: a consent source required). A contact added by hand or import without a source
+  is kept with basis `none`, so `app.crm_mailable` never mails it and the consent ledger records nothing
+  (`app.consent_sync` writes no record for `not_given`): turning the rule off cannot fabricate consent.
+  *source_and_basis* is the old behaviour; *opt_in_only* refuses manual and imported contacts.
+- consent source per import row *off*; typed reason for unsubscribe-on-behalf, erase, leaving a list and the
+  customer exception *off* (the audit row is written either way, with the reason when one is given).
+- limits, all *unlimited*: rows per contact import (was 5,000), per register import (2,000; 200 in the form),
+  companies per bulk move (500), companies per list (500), contacts per list (1,000; 300 asked by the page),
+  blocks per campaign (30), mails per sequence (7; the chain walkers' loop guard rises from 20 to 1,000 so
+  an unlimited chain is walked whole), test sends per hour (10).
+- `app.crm_blocks_ok` keeps its per-block rules (what the template can render) and loses only the block
+  count, staying immutable for the CHECK on `crm_templates`; the limit is applied in `admin_crm_campaign_save`.
+A refusal by a setting returns `{error, setting}` and the admin's message names Settings › CRM rules.
+
+Left as they were, with the reason: field lengths and value ranges (validation, not limits); the seven-day
+opt-in token expiry (security); five soft bounces suspending an address (CMP-06); dispatch retries (a
+technical safeguard); `refreshManagers` taking 100 companies a press from the Brønnøysund roles API (paced for
+an external service; pressing again continues). Two were found and not changed in this package: the
+newsletter signup's rate limit belongs to the public-endpoint work (DEC-20), and the 12-month engagement
+window in `app.crm_mailable` decides who campaigns may mail — put to Tor.
+
+Proved in `crm_rules_invariants.sql` (18 assertions: defaults, each rule in both states, who may change,
+the log, closed to clients, no audited CRM function read-only, every key consumed). `crm_invariants` (9),
+`crm_pipeline_invariants` (18) and `crm_sequences_invariants` (4) now switch their rule on inside their own
+transaction to keep proving the strict behaviour. Unit: `tests/unit/crm-rules.test.ts`. Two defects were
+found by looking at the screens, not by the SQL suite, and each now has an assertion: the rules reader was
+declared STABLE while it writes the audit row (PostgREST runs a stable function read-only), and
+`greatest(null, 1)` turned "no limit" on the contacts list into one row.

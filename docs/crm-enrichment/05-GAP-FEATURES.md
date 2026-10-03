@@ -116,7 +116,7 @@ tables, each with its own counts.
 | CUS-04 Formula fields | Missing | — | — | — | CUS-01 | |
 | CUS-05 Languages and locale | Partial | Admin is English by decision, from next-intl `admin` namespace with `locale:'en'` forced (`app/(admin)/admin/layout.tsx:58`); `messages/no.json` carries a near copy that can never render | No per-user interface language, date/number format or time zone; number formatting is mixed en-GB/nb-NO (`CRM/page.tsx:13` vs `CRM/campaigns/page.tsx:62`). | — | — | |
 | CUS-06 Currencies | Missing | Value is `value_nok` (`mig/0119_crm_deal_value.sql:23`) | No currency field, rates or conversion. | — | — | |
-| CUS-07 Module switches and rule settings | Partial | One-row settings tables: `crm_settings` (customer exception, super_admin only, `mig/0145_brreg_settings_where.sql:65`), SLA, daily cap, reply stage, brreg dry run; feature flags are env + JSON (`lib/flags.ts`) | No settings registry with key/type/options/default/scope; none of the 15 register rows exists as a setting; no module switches; no "which setting blocked you" message. Changes are audited via `app.admin_log`. | All rows of the register | SF-34 | |
+| CUS-07 Module switches and rule settings | Partial | **WP-0.1 (0192, D-208):** settings registry `app.crm_setting_defs/values/log`; Admin › Settings › CRM rules shows every rule with value, default and last change (`app/(admin)/admin/settings/page.tsx`, `components/admin/CrmRuleForm.tsx`; screens `screens/phase-0/CUS-07-rules-*.png`); every rule defaults to unrestricted; changes logged and audited; a refusal names its setting; tests `supabase/tests/crm_rules_invariants.sql` (18), `tests/unit/crm-rules.test.ts` | Met: rule settings with defaults, logging, "with default settings no feature is blocked" for every rule that exists today. Not yet: module switches (a module off disappears from navigation and its API answers disabled) and plan gates — they arrive with ENT-01 and each module | All rows of the register | SF-34 | WP-0.1 |
 | CUS-08 Sandbox | Partial | Local QA tenant Lumio AS / Kari Nordmann (`scripts/qa/seed.mjs:2,47,171`) and admin fixture (`scripts/seed/sentral-fixture.mjs`), local only; hosted demo template "Demobedriften AS" (`scripts/seed/demo-org.mjs`) | No sandbox company inside the admin, no sample records marked as samples and removable in one step. | — | — | |
 
 ## Leads (LEA)
@@ -446,23 +446,23 @@ Each step is given a status. A flow is Implemented only when every step is.
 
 | Setting | Status | Evidence | What exists |
 | --- | --- | --- | --- |
-| Contact rule | Conflict | The admin spec's hard rule "only users and prospects who opted in" is partly built: a new contact needs a consent source (`LA/crmActions.ts:40-75`) | The brief makes it a setting, default *no rule*. Today's behaviour is closer to "source and basis required". Changing the default weakens an existing check → R7 and CLAUDE.md "stop and ask". |
-| Consent source on import | Conflict | `consent_source` column on the import (`CA/CrmForms.tsx:167`) | Same as above: brief default *off*. |
+| Contact rule | Implemented | WP-0.1: `contact_rule` none / source_and_basis / opt_in_only, default none (DEC-04); consumers `admin_crm_save_contact`, `admin_crm_import`; CRR 2, 6, 7; screens `CRM-01-contacts-*` | Applies to the contact paths that exist; LGN-04, PRO-05, PRO-07, WEB-04, AIA-07, MTG-05, MOB-01 read it when built |
+| Consent source on import | Implemented | WP-0.1: `import_consent_source` off / required, default off; consumer `admin_crm_import`; CRR 3, 8 | — |
 | Consent and suppression checks on sales email | Missing | No sales email exists | — |
 | Email open and click tracking | Missing (as a setting) | Tracking is always on for campaigns | — |
 | Form tracking fields | Missing | — | — |
 | Web visitor identification | Missing | — | See WEB-02 Conflict. |
 | Second-admin approval | Missing | — | — |
-| Count limits | Missing | Fixed caps exist in code: 30 blocks per campaign, 5,000 import rows, 500 bulk moves, 200 register imports, daily cap setting (1..5000 or empty = none) | The fixed caps are hard-coded limits, which R5 forbids; each must become a setting or be justified (06). |
+| Count limits | Partial | WP-0.1: the caps found in code are settings, unlimited by default — contact import rows, register import rows, bulk move, company and contact list, campaign blocks, sequence mails, test sends per hour; CRR 5, 10, 11 | The register's other counts (actions and delays per path, group email recipients, webhooks, signers, options per field, score models) arrive with their features |
 | Plan gates and usage limits | Missing | — | — |
 | API rate limits | Missing | — | — |
 | Technical safeguards | Missing | — | — |
 | Anonymity firewall | Partial | Fixed in the database (CLAUDE.md invariants 1–3; `respondent_invariants.sql`, `growth_firewall_invariants.sql`, `crm_invariants.sql`) | Already a constant; new CRM code must keep it. Not in any registry (correct). |
-| Typed reason for CRM actions | Partial | Unsubscribe/erase/list-remove/settings already require a reason (`LA/crmActions.ts:77-133,808-816`) | Required on those actions today; the brief makes it a setting, off by default → R7 question. |
+| Typed reason for CRM actions | Implemented | WP-0.1: `typed_reason` off / on, default off; consumers contact action, list removal, customer exception, rule changes (`app.crm_reason_ok`); CRR 4, 9, 13 | Each new CRM write adds it as it is built |
 | Consent-gated loading of site widgets | Missing | No widgets | — |
 | Recording consent notices to attendees | Missing | — | — |
 
-**Counts:** 0 Implemented, 2 Partial, 10 Missing, 3 Conflict.
+**Counts (after WP-0.1):** 3 Implemented, 2 Partial, 10 Missing, 0 Conflict.
 
 ## Part F — entities and conventions
 

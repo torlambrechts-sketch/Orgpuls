@@ -65,12 +65,15 @@ export function ContactForm({
   common,
   contact,
   companyId,
+  consentRequired = false,
 }: {
   m: CrmMessages
   common: Common
   contact?: { id: string; name: string | null; company: string | null; org_number: string | null; role: string | null; tags: string[]; lang: string }
   /** a person added on a company's page belongs to it, and the page stays */
   companyId?: string
+  /** the contact rule «source and basis required» is on (0192); otherwise a consent source is optional */
+  consentRequired?: boolean
 }) {
   const [email, setEmail] = useState('')
   const [name, setName] = useState(contact?.name ?? '')
@@ -119,12 +122,13 @@ export function ContactForm({
       </div>
       {contact ? null : (
         <div className="grid gap-[10px] [grid-template-columns:minmax(0,2fr)_minmax(0,1fr)]">
-          <Text name="consent_source" labelText={m.add.consentSource} value={consentSource} set={setConsentSource} required max={200} />
+          <Text name="consent_source" labelText={m.add.consentSource} value={consentSource} set={setConsentSource} required={consentRequired} max={200} />
           <Text name="consent_at" labelText={m.add.consentAt} value={consentAt} set={setConsentAt} type="date" />
           <label className="flex items-center gap-[8px] text-[13px]">
             <input type="checkbox" name="source" value="event" checked={event} onChange={(e) => setEvent(e.target.checked)} />
             {m.add.event}
           </label>
+          {consentRequired ? null : <p className="m-0 text-[12px] leading-[1.45] text-mut [grid-column:1/-1]">{m.add.consentHint}</p>}
         </div>
       )}
       <span className="flex flex-wrap items-center gap-[10px]">
@@ -137,7 +141,20 @@ export function ContactForm({
   )
 }
 
-export function ContactActionForm({ m, common, id, kind }: { m: CrmMessages; common: Common; id: string; kind: 'unsubscribe' | 'erase' }) {
+export function ContactActionForm({
+  m,
+  common,
+  id,
+  kind,
+  reasonRequired = false,
+}: {
+  m: CrmMessages
+  common: Common
+  id: string
+  kind: 'unsubscribe' | 'erase'
+  /** typed reasons are on (0192); the audit row is written either way */
+  reasonRequired?: boolean
+}) {
   const [reason, setReason] = useState('')
   const [state, action, pending] = useKeptAction(contactAction, () => setReason(''))
   return (
@@ -145,7 +162,7 @@ export function ContactActionForm({ m, common, id, kind }: { m: CrmMessages; com
       <p className="m-0 text-[12.5px] leading-[1.5] text-mut">{kind === 'erase' ? m.contact.eraseLead : m.contact.unsubscribeLead}</p>
       <input type="hidden" name="id" value={id} />
       <input type="hidden" name="action" value={kind} />
-      <Text name="reason" labelText={common.reason} value={reason} set={setReason} required max={500} />
+      <Text name="reason" labelText={common.reason} value={reason} set={setReason} required={reasonRequired} max={500} />
       <span className="flex flex-wrap items-center gap-[10px]">
         <Button type="submit" size="sm" tone={kind === 'erase' ? 'solid' : 'quiet'} disabled={pending}>
           {pending ? common.saving : kind === 'erase' ? m.contact.erase : m.contact.unsubscribe}
@@ -212,7 +229,7 @@ export function ImportForm({ m }: { m: CrmMessages }) {
                   {m.import.rejected} ({result.rejected.length})
                 </summary>
                 <ul className="m-0 mt-[6px] pl-[18px] text-[12.5px]">
-                  {result.rejected.slice(0, 200).map((r) => (
+                  {result.rejected.map((r) => (
                     <li key={r.row}>
                       {m.import.row} {r.row + 1}: {m.problem[r.reason as keyof typeof m.problem] ?? r.reason}
                     </li>
@@ -231,7 +248,7 @@ export function ImportForm({ m }: { m: CrmMessages }) {
   )
 }
 
-export function SettingsForm({ m, common, on }: { m: CrmMessages; common: Common; on: boolean }) {
+export function SettingsForm({ m, common, on, reasonRequired = false }: { m: CrmMessages; common: Common; on: boolean; reasonRequired?: boolean }) {
   const [checked, setChecked] = useState(on)
   const [reason, setReason] = useState('')
   const [state, action, pending] = useKeptAction(saveCrmSettings, () => setReason(''))
@@ -241,7 +258,7 @@ export function SettingsForm({ m, common, on }: { m: CrmMessages; common: Common
         <input type="checkbox" name="customer_exception" checked={checked} onChange={(e) => setChecked(e.target.checked)} />
         {m.settings.toggle}
       </label>
-      <Text name="reason" labelText={common.reason} value={reason} set={setReason} required max={500} />
+      <Text name="reason" labelText={common.reason} value={reason} set={setReason} required={reasonRequired} max={500} />
       <span className="flex flex-wrap items-center gap-[10px]">
         <Button type="submit" size="sm" tone="quiet" disabled={pending}>
           {pending ? common.saving : m.settings.submit}

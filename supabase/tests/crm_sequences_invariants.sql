@@ -130,6 +130,8 @@ begin
       'expected', 'abcd,abd,ad,c', 'actual', v_txt, 'pass', v_txt = 'abcd,abd,ad,c');
 
     -- 4 -------------------------------------------------------------- resend, and the seven-mail cap
+    -- 0192: the cap is a setting, unlimited by default (crm_rules_invariants proves off); here it is seven
+    insert into app.crm_setting_values (key, value) values ('limit_sequence_mails', '7');
     v_json := public.admin_crm_campaign_resend(v_camp, 7);
     v_resend := (v_json->>'id')::uuid;
     select concat_ws(':', r.status, r.follow_days, r.follow_when, r.follow_auto::text, (r.subject = p.subject)::text, (r.blocks = p.blocks)::text)
@@ -143,7 +145,7 @@ begin
     v_txt := concat_ws('|', v_txt, app.crm_chain_depth(v_prev), public.admin_crm_campaign_resend(v_prev, 3)->>'error',
       public.admin_crm_campaign_pipeline(v_follow, jsonb_build_object('follows_id', v_prev, 'follow_days', 3))->>'error');
     v_rows := v_rows || jsonb_build_object('seq', 4,
-      'name', 'a resend is a draft follow-up of the same mail to non-clickers, sending itself; a chain stops at seven',
+      'name', 'a resend is a draft follow-up of the same mail to non-clickers, sending itself; with the setting at seven, a chain stops at seven',
       'expected', 'draft:7:no_click:true:true:true|7|too_many_steps|too_many_steps', 'actual', v_txt,
       'pass', v_txt = 'draft:7:no_click:true:true:true|7|too_many_steps|too_many_steps');
 

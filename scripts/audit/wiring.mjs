@@ -13,6 +13,8 @@
  *   W2  a column of a settings table no database function reads: the setting's effect, if any,
  *       lives in the application alone. Confirm the application acts on it — a screen that shows
  *       the value back is not an effect (year_wheels.notify_lead_days, found by this check).
+ *   W3  a registered CRM rule (app.crm_setting_defs, 0192) that no database function reads through
+ *       app.crm_rule / crm_limit / crm_choice.
  *   R1  a public function a client may call that no application file calls: a feature without
  *       a screen, or a leftover.
  *   M   the settings matrix: every column of the settings tables, with the functions and files
@@ -102,6 +104,15 @@ for (const [table, column] of query(
     const where = inCode(column)
     findings.push(`W2 ${object} — no database function reads this setting; it is read by ${where.length ? where.slice(0, 3).join(', ') : 'nothing'}. Show the effect it has, or it is a setting that does nothing`)
   }
+}
+
+// ---------------------------------------------------------------- W3: a registered CRM rule with no consumer
+// The CRM rule registry (0192, D-208) holds its settings as rows, which W2's column scan cannot see. A
+// key no function reads through app.crm_rule / crm_limit / crm_choice is a setting that does nothing.
+for (const [key] of query(`select key from app.crm_setting_defs order by sort, key`)) {
+  if (allow.app_only_settings[`crm_setting:${key}`]) continue
+  const read = new RegExp(`crm_(rule|limit|choice)\\('${key}'`).test(fnSrc)
+  if (!read) findings.push(`W3 crm_setting:${key} — no database function reads this registered rule through crm_rule/crm_limit/crm_choice: a setting that does nothing`)
 }
 
 // ---------------------------------------------------------------- R1: callable, never called

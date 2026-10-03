@@ -14,8 +14,11 @@ import { blockingChecks } from './campaignMail'
 
 /**
  * The CRM's writes (0055, D-101; 0056–0058, D-103). The database decides who may do what, with a second
- * factor, and logs each call; these actions shape the request and name the refusal.
+ * factor, and logs each call; these actions shape the request and name the refusal. Limits, the contact
+ * rule and typed reasons are CRM rule settings (0192, D-208), checked in the database: nothing here caps
+ * a count or requires a reason on its own.
  */
+const reasonOf = (raw: FormDataEntryValue | null) => String(raw ?? '').trim().slice(0, 500)
 const Reply = z.object({ ok: z.boolean(), error: z.string().optional() }).passthrough()
 
 async function rpc(fn: string, args: Record<string, unknown>): Promise<AdminResult & { data?: Record<string, unknown> }> {
@@ -76,9 +79,9 @@ export async function saveContact(_prev: AdminResult | null, formData: FormData)
 
 export async function contactAction(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
   const parsed = z
-    .object({ id: z.string().uuid(), action: z.enum(['unsubscribe', 'erase']), reason: z.string().trim().min(5).max(500) })
-    .safeParse({ id: formData.get('id'), action: formData.get('action'), reason: formData.get('reason') })
-  if (!parsed.success) return { ok: false, problem: 'reason_required' }
+    .object({ id: z.string().uuid(), action: z.enum(['unsubscribe', 'erase']), reason: z.string() })
+    .safeParse({ id: formData.get('id'), action: formData.get('action'), reason: reasonOf(formData.get('reason')) })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
   const r = await rpc('admin_crm_contact_action', { p_id: parsed.data.id, p_action: parsed.data.action, p_reason: parsed.data.reason })
   if (!r.ok) return r
   revalidatePath('/admin/crm/contacts')
@@ -105,7 +108,7 @@ const ImportRow = z.object({
 
 /** Rows parsed from the admin's CSV in the browser; the database checks every one again. */
 export async function importContacts(rows: unknown): Promise<ImportResult> {
-  const parsed = z.array(ImportRow).min(1).max(5000).safeParse(rows)
+  const parsed = z.array(ImportRow).min(1).safeParse(rows)
   if (!parsed.success) return { ok: false, problem: 'invalid_file' }
   const r = await rpc('admin_crm_import', { p_rows: parsed.data })
   if (!r.ok) return { ok: false, problem: r.problem }
@@ -124,9 +127,9 @@ export async function importContacts(rows: unknown): Promise<ImportResult> {
 
 export async function saveCrmSettings(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
   const parsed = z
-    .object({ on: z.boolean(), reason: z.string().trim().min(5).max(500) })
-    .safeParse({ on: formData.get('customer_exception') === 'on', reason: formData.get('reason') })
-  if (!parsed.success) return { ok: false, problem: 'reason_required' }
+    .object({ on: z.boolean(), reason: z.string() })
+    .safeParse({ on: formData.get('customer_exception') === 'on', reason: reasonOf(formData.get('reason')) })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
   const r = await rpc('admin_crm_settings', { p_customer_exception: parsed.data.on, p_reason: parsed.data.reason })
   if (r.ok) revalidatePath('/admin/crm/contacts')
   return r.ok ? { ok: true } : r
@@ -242,7 +245,7 @@ export async function saveCampaign(_prev: AdminResult | null, formData: FormData
       publish_web: z.boolean(),
       slug: z.string().max(80),
       web_description: z.string().max(200),
-      blocks: z.array(Block).max(30),
+      blocks: z.array(Block),
     })
     .safeParse({
       id: formData.get('id'),
@@ -405,7 +408,7 @@ export async function logActivity(_prev: AdminResult | null, formData: FormData)
 /** Move companies, one or many: to a stage, or (empty) each to the next open stage after its own. */
 export async function moveStage(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
   const parsed = z
-    .object({ ids: z.array(z.string().uuid()).min(1).max(500), to: z.union([StageKey, z.literal('')]) })
+    .object({ ids: z.array(z.string().uuid()).min(1), to: z.union([StageKey, z.literal('')]) })
     .safeParse({ ids: formData.getAll('ids'), to: formData.get('to') ?? '' })
   if (!parsed.success) return { ok: false, problem: 'invalid' }
   const r = await rpc('admin_crm_stage_move', { p_ids: parsed.data.ids, p_to: parsed.data.to || null })
@@ -722,7 +725,7 @@ const Tag = z
 
 /** Companies from the register, with their general manager and the batch's tag (0110) */
 export async function importCompanies(rows: unknown, tag: unknown = null): Promise<CompanyImport> {
-  const parsed = z.array(CompanyRow).min(1).max(200).safeParse(rows)
+  const parsed = z.array(CompanyRow).min(1).safeParse(rows)
   const t = Tag.safeParse(typeof tag === 'string' && tag.trim() === '' ? null : tag)
   if (!parsed.success || !t.success) return { ok: false, problem: 'invalid' }
   const r = await rpc('admin_crm_company_import', {
@@ -807,9 +810,9 @@ export async function addToList(_prev: AdminResult | null, formData: FormData): 
 
 export async function removeFromList(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
   const parsed = z
-    .object({ list: z.string().uuid(), contact: z.string().uuid(), reason: z.string().trim().min(5).max(500) })
-    .safeParse({ list: formData.get('list'), contact: formData.get('contact'), reason: formData.get('reason') })
-  if (!parsed.success) return { ok: false, problem: 'reason_required' }
+    .object({ list: z.string().uuid(), contact: z.string().uuid(), reason: z.string() })
+    .safeParse({ list: formData.get('list'), contact: formData.get('contact'), reason: reasonOf(formData.get('reason')) })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
   const r = await rpc('admin_crm_list_remove', { p_list: parsed.data.list, p_contact: parsed.data.contact, p_reason: parsed.data.reason })
   if (r.ok) revalidatePath(`/admin/crm/contacts/${parsed.data.contact}`)
   return r.ok ? { ok: true } : r

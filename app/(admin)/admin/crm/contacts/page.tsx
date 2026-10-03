@@ -7,6 +7,7 @@ import { Icon } from '@/components/admin/icons'
 import { Avatar, Badge, BTN, Card, PageHead, Problem, Segments, type BadgeTone } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
 import { CONTACT_TYPES, crmContacts, crmLists, crmSegments, type Contact } from '@/lib/admin/crm'
+import { crmRuleState } from '@/lib/admin/crmRules'
 import { AudienceTabs } from '@/components/admin/AudienceTabs'
 
 /**
@@ -26,7 +27,7 @@ export default async function CrmContacts({ searchParams }: { searchParams: Prom
   const cl = (k: string, v?: Record<string, string | number>) => t(`crm.contactsPage.${k}`, v)
   const kind = (CONTACT_TYPES as readonly string[]).includes(type ?? '') ? (type as (typeof CONTACT_TYPES)[number]) : null
   const query = q?.trim().slice(0, 100) || null
-  const [data, who, segments, lists] = await Promise.all([crmContacts(query, kind), whoami(), crmSegments(), crmLists()])
+  const [data, who, segments, lists, rules] = await Promise.all([crmContacts(query, kind), whoami(), crmSegments(), crmLists(), crmRuleState()])
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
@@ -110,15 +111,22 @@ export default async function CrmContacts({ searchParams }: { searchParams: Prom
 
       {canWrite ? (
         <Card title={m.add.title} className="mt-[18px]">
-          <p className="mb-[10px] mt-0 text-[12.5px] leading-[1.5] text-mut">{m.add.lead}</p>
-          <ContactForm m={m} common={common} />
+          {/* the contact rule (0192, D-208) decides what adding a contact asks for, or whether it is offered */}
+          {rules.optInOnly ? (
+            <p className="m-0 text-[12.5px] leading-[1.5] text-mut">{m.add.optInOnly}</p>
+          ) : (
+            <>
+              <p className="mb-[10px] mt-0 text-[12.5px] leading-[1.5] text-mut">{rules.consentRequired ? m.add.leadRule : m.add.lead}</p>
+              <ContactForm m={m} common={common} consentRequired={rules.consentRequired} />
+            </>
+          )}
         </Card>
       ) : null}
 
       <Card title={m.settings.title} className="mt-[18px]">
         <p className="mb-[10px] mt-0 max-w-[80ch] text-[12.5px] leading-[1.55] text-mut">{m.settings.lead}</p>
         <p className="mb-[10px] mt-0 text-[13px] font-semibold">{data.customer_exception ? m.settings.on : m.settings.off}</p>
-        {who?.role === 'super_admin' ? <SettingsForm m={m} common={common} on={data.customer_exception} /> : <p className="m-0 text-[12px] text-mut">{m.settings.superOnly}</p>}
+        {who?.role === 'super_admin' ? <SettingsForm m={m} common={common} on={data.customer_exception} reasonRequired={rules.reasonRequired} /> : <p className="m-0 text-[12px] text-mut">{m.settings.superOnly}</p>}
       </Card>
     </>
   )

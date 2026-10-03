@@ -264,12 +264,14 @@ begin
       'consent_source', 'Møtt på messe', 'company_id', v_id));
     v_txt := coalesce((select (c.company_id = v_id)::text from app.crm_contacts c where c.id = (v_json->>'id')::uuid), 'none');
     perform public.admin_crm_list_add(v_list, array[(v_json->>'id')::uuid], 'Muntlig samtykke på messe');
+    -- 0192: a typed reason is a setting, off by default (crm_rules_invariants proves off); here it is on
+    insert into app.crm_setting_values (key, value) values ('typed_reason', '"on"');
     v_txt := v_txt || ',' || coalesce(public.admin_crm_list_remove(v_list, (v_json->>'id')::uuid, 'x')->>'error', 'ok')
       || ',' || coalesce(public.admin_crm_list_remove(v_list, (v_json->>'id')::uuid, 'Ba om å slippe produktnytt')->>'error', 'ok');
     v_txt := v_txt || ',' || (select m.status from app.crm_list_members m where m.list_id = v_list and m.contact_id = (v_json->>'id')::uuid)
       || ',' || (public.admin_crm_known_orgnrs(array['999000001', '123456789'])->'known')::text;
     perform set_config('request.jwt.claims', '', true);
-    v_rows := v_rows || jsonb_build_object('seq', 18, 'name', 'a contact belongs to a company; leaving a list needs a reason; known org.nr are named',
+    v_rows := v_rows || jsonb_build_object('seq', 18, 'name', 'a contact belongs to a company; with the setting on, leaving a list needs a reason; known org.nr are named',
       'expected', 'true,reason_required,ok,unsubscribed,["999000001"]', 'actual', v_txt,
       'pass', v_txt = 'true,reason_required,ok,unsubscribed,["999000001"]');
 

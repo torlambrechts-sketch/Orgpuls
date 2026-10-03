@@ -6,6 +6,7 @@ import { StageMoveForm } from '@/components/admin/CrmStageForms'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
 import { autoTask, crmCompany, crmStages } from '@/lib/admin/crm'
+import { crmRuleState } from '@/lib/admin/crmRules'
 
 /**
  * One company (D-103): what the register says about it, its stage, owner and next step, the
@@ -17,7 +18,7 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const p = m.prospects
-  const [data, who, stageData] = await Promise.all([crmCompany(id), whoami(), crmStages()])
+  const [data, who, stageData, rules] = await Promise.all([crmCompany(id), whoami(), crmStages(), crmRuleState()])
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const c = data.company
   // the stages, as data (0093)
@@ -137,7 +138,11 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
               <CompanyForm m={m} common={common} company={c} admins={data.admins} stages={stages} />
             </Card>
             <Card title={m.company.addContact}>
-              <ContactForm m={m} common={common} companyId={c.id} />
+              {rules.optInOnly ? (
+                <p className="m-0 text-[12.5px] leading-[1.5] text-mut">{m.add.optInOnly}</p>
+              ) : (
+                <ContactForm m={m} common={common} companyId={c.id} consentRequired={rules.consentRequired} />
+              )}
             </Card>
           </div>
         ) : null}
