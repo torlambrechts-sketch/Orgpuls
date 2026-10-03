@@ -52,6 +52,7 @@ recommended option every time.
 | DEC-21 | `product_id` on existing CRM tables (Q14, P9) | **Add with default 'orgpuls'** (additive, no rewrite) |
 | DEC-22 | The 12-month engagement window in `app.crm_mailable` | **A setting, default 12 months**, switchable under Settings › CRM rules (protects the marketing domain and so survey-invitation deliverability) |
 | DEC-23 | When CRM work reaches production users | **At the Phase 0 gate**: merge to main after Phase 0's gate flows pass and Tor has reviewed the phase report. Database changes go out per package and stay backward compatible with the deployed app |
+| DEC-24 | Migration 0195 (WP-0.3) cancelled at the production confirmation step (2026-10-03) | **Apply now**. The retry was cancelled at the confirmation step as well (nothing reached the project); it waits for the prompt to be approved, then is verified by md5 and the advisors |
 
 Still open (asked at the phase that needs them): Q7 lead object (plan follows the brief: own table), Q13
 threshold (plan keeps the product rule: floor 3, default 5), Q19 admin e2e (WP-0.7 adds it), open points 2
