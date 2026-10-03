@@ -168,6 +168,13 @@ A cloud session is a fresh VM with a clone of this repo and nothing from a lapto
   content over — do not try to edit around it, and do not wrap a command to dodge a
   pattern match.
 
+## How to ask Tor
+Every question to Tor comes with a recommendation and is asked in selection format (the
+`AskUserQuestion` tool): two to four concrete options, the recommended one first and marked
+"(Recommended)", each with what it changes. Group related questions, up to four per prompt, and
+never bury a question in prose at the end of a report. Record the answers with their date where
+the work keeps its decisions (e.g. `docs/crm-enrichment/DECISIONS.md`, `docs/DECISION_LOG.md`).
+
 ## When ambiguous
 If the design bundle and this file conflict, this file wins on security, the bundle wins
 on visuals. If something is genuinely unspecified, choose the minimal consistent option
