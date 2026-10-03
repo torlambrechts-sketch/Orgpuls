@@ -50,6 +50,8 @@ recommended option every time.
 | DEC-19 | Webhook signing (P4) | **Signed, HMAC-SHA256**, a secret per subscription |
 | DEC-20 | Abuse protection defaults (P5) | **Honeypot on + per-IP rate limit 60/min**, both settings that can be switched off |
 | DEC-21 | `product_id` on existing CRM tables (Q14, P9) | **Add with default 'orgpuls'** (additive, no rewrite) |
+| DEC-22 | The 12-month engagement window in `app.crm_mailable` | **A setting, default 12 months**, switchable under Settings › CRM rules (protects the marketing domain and so survey-invitation deliverability) |
+| DEC-23 | When CRM work reaches production users | **At the Phase 0 gate**: merge to main after Phase 0's gate flows pass and Tor has reviewed the phase report. Database changes go out per package and stay backward compatible with the deployed app |
 
 Still open (asked at the phase that needs them): Q7 lead object (plan follows the brief: own table), Q13
 threshold (plan keeps the product rule: floor 3, default 5), Q19 admin e2e (WP-0.7 adds it), open points 2

@@ -12313,6 +12313,10 @@
             "name": "Contact rule",
             "why": "Whether a contact may be added without a consent source. «No rule»: a contact without one is kept with no basis, and no campaign mails them. «Source and basis required»: a manual or imported contact needs a consent source. «Opt-in only»: contacts come only from people who signed up themselves."
           },
+          "mailable_engagement_months": {
+            "name": "Months without engagement before campaigns stop",
+            "why": "A contact who has not opened, clicked or consented within this many months is no longer mailed by campaigns. It protects the marketing domain's reputation, and with it survey invitations. Unlimited: a consented contact never ages out."
+          },
           "import_consent_source": {
             "name": "Consent source on import",
             "why": "Whether every imported row needs a consent source. A row without one is otherwise kept with no basis."

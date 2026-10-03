@@ -10,6 +10,7 @@
 --     is logged with who and the reason, the log is append-only, and the CRM's readers see the rules (12–14)
 --   * an unknown key is an error; no client role may touch the tables or the readers (15, 16)
 --   * every registered key has a consumer: a function that reads it through crm_rule/crm_limit/crm_choice (17)
+--   * the engagement window of mailability is a setting, 12 months by default (19, 0193)
 --   * nothing written here survives (18)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/crm_rules_invariants.sql
@@ -36,9 +37,9 @@ begin
   -- 1 ---------------------------------------------------------------- the registry and its defaults
   select string_agg(key || '=' || coalesce(default_value #>> '{}', ''), ',' order by sort) into v_txt from app.crm_setting_defs;
   v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'every setting with its documented default, none set',
-    'expected', 'contact_rule=none,import_consent_source=off,typed_reason=off,limit_contact_import_rows=,limit_register_import_rows=,limit_bulk_move=,limit_company_read=,limit_contact_read=,limit_campaign_blocks=,limit_sequence_mails=,limit_test_sends_per_hour= / 0 set',
+    'expected', 'contact_rule=none,mailable_engagement_months=12,import_consent_source=off,typed_reason=off,limit_contact_import_rows=,limit_register_import_rows=,limit_bulk_move=,limit_company_read=,limit_contact_read=,limit_campaign_blocks=,limit_sequence_mails=,limit_test_sends_per_hour= / 0 set',
     'actual', coalesce(v_txt, '') || ' / ' || (select count(*) from app.crm_setting_values) || ' set',
-    'pass', v_txt = 'contact_rule=none,import_consent_source=off,typed_reason=off,limit_contact_import_rows=,limit_register_import_rows=,limit_bulk_move=,limit_company_read=,limit_contact_read=,limit_campaign_blocks=,limit_sequence_mails=,limit_test_sends_per_hour='
+    'pass', v_txt = 'contact_rule=none,mailable_engagement_months=12,import_consent_source=off,typed_reason=off,limit_contact_import_rows=,limit_register_import_rows=,limit_bulk_move=,limit_company_read=,limit_contact_read=,limit_campaign_blocks=,limit_sequence_mails=,limit_test_sends_per_hour='
       and not exists (select 1 from app.crm_setting_values));
 
   begin
@@ -199,8 +200,22 @@ begin
     v_txt := v_txt || ',analyst sees ' || coalesce(jsonb_array_length(v_json->'rules'), 0) || ' rules, '
       || case when (v_json->>'may_change')::boolean then 'may change' else 'may not change' end;
     v_rows := v_rows || jsonb_build_object('seq', 14, 'name', 'the settings log is append-only; the CRM''s readers see the rules, only a super-admin may change them',
-      'expected', 'refused,refused,analyst sees 11 rules, may not change', 'actual', v_txt,
-      'pass', v_txt = 'refused,refused,analyst sees 11 rules, may not change');
+      'expected', 'refused,refused,analyst sees 12 rules, may not change', 'actual', v_txt,
+      'pass', v_txt = 'refused,refused,analyst sees 12 rules, may not change');
+    -- 19 ------------------------------------------------------------- the engagement window (0193)
+    insert into app.crm_contacts (email, source, basis, status, consent_at, consent_source, last_engaged_at)
+    values ('stille@rules-test.example', 'import', 'consent', 'active', now() - interval '2 years', 'Liste fra 2024', now() - interval '20 months');
+    v_txt := (select app.crm_mailable(c)::text from app.crm_contacts c where c.email = 'stille@rules-test.example');
+    insert into app.crm_setting_values (key, value) values ('mailable_engagement_months', 'null');
+    v_txt := v_txt || ',' || (select app.crm_mailable(c)::text from app.crm_contacts c where c.email = 'stille@rules-test.example');
+    update app.crm_setting_values set value = '24' where key = 'mailable_engagement_months';
+    v_txt := v_txt || ',' || (select app.crm_mailable(c)::text from app.crm_contacts c where c.email = 'stille@rules-test.example');
+    update app.crm_setting_values set value = '6' where key = 'mailable_engagement_months';
+    v_txt := v_txt || ',' || (select app.crm_mailable(c)::text from app.crm_contacts c where c.email = 'stille@rules-test.example');
+    delete from app.crm_setting_values where key = 'mailable_engagement_months';
+    v_rows := v_rows || jsonb_build_object('seq', 19, 'name', 'engagement window: 12 months by default; unlimited and 24 months mail a contact silent for 20 months, 6 months does not',
+      'expected', 'false,true,true,false', 'actual', v_txt, 'pass', v_txt = 'false,true,true,false');
+
     perform set_config('request.jwt.claims', '', true);
 
     raise exception 'rollback-probe';
@@ -262,5 +277,5 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._crr;
   if v_failed is not null then raise exception 'crm rules invariants failed: %', v_failed; end if;
-  if v_count <> 18 then raise exception 'crm rules invariants: expected 18 rows, got %', v_count; end if;
+  if v_count <> 19 then raise exception 'crm rules invariants: expected 19 rows, got %', v_count; end if;
 end $$;
