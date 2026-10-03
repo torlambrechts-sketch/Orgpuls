@@ -172,8 +172,11 @@ A cloud session is a fresh VM with a clone of this repo and nothing from a lapto
 Every question to Tor comes with a recommendation and is asked in selection format (the
 `AskUserQuestion` tool): two to four concrete options, the recommended one first and marked
 "(Recommended)", each with what it changes. Group related questions, up to four per prompt, and
-never bury a question in prose at the end of a report. Record the answers with their date where
-the work keeps its decisions (e.g. `docs/crm-enrichment/DECISIONS.md`, `docs/DECISION_LOG.md`).
+never bury a question in prose at the end of a report. This is always the rule, with no
+exceptions: it covers anything left open — a decision, a next step, and a request for Tor to act
+(approve a prompt, run something, review something) — and it applies at the end of every turn
+that leaves something open, not only mid-task. Record the answers with their date where the work
+keeps its decisions (e.g. `docs/crm-enrichment/DECISIONS.md`, `docs/DECISION_LOG.md`).
 
 ## When ambiguous
 If the design bundle and this file conflict, this file wins on security, the bundle wins
