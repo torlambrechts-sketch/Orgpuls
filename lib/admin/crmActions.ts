@@ -19,6 +19,8 @@ import { blockingChecks } from './campaignMail'
  * a count or requires a reason on its own.
  */
 const reasonOf = (raw: FormDataEntryValue | null) => String(raw ?? '').trim().slice(0, 500)
+/** the version an edit form was opened at (0194); the database refuses a stale one */
+const versionOf = (raw: FormDataEntryValue | null) => (/^\d{1,9}$/.test(String(raw ?? '')) ? Number(raw) : undefined)
 const Reply = z.object({ ok: z.boolean(), error: z.string().optional() }).passthrough()
 
 async function rpc(fn: string, args: Record<string, unknown>): Promise<AdminResult & { data?: Record<string, unknown> }> {
@@ -58,6 +60,7 @@ export async function saveContact(_prev: AdminResult | null, formData: FormData)
   const company = String(formData.get('company_id') ?? '')
   if (company && !z.string().uuid().safeParse(company).success) return { ok: false, problem: 'invalid' }
   if (formData.has('company_id')) p.company_id = company
+  if (id && versionOf(formData.get('version')) !== undefined) p.version = versionOf(formData.get('version'))
   if (!id) {
     p.email = String(formData.get('email') ?? '').slice(0, 254)
     p.consent_source = String(formData.get('consent_source') ?? '').slice(0, 200)
@@ -366,6 +369,7 @@ export async function saveCompany(_prev: AdminResult | null, formData: FormData)
   // a customer's stage follows its plan: the form leaves it out, and the database refuses it
   if (!parsed.data.stage) delete p.stage
   if (id) delete p.org_number
+  if (id && versionOf(formData.get('version')) !== undefined) p.version = versionOf(formData.get('version'))
   const r = await rpc('admin_crm_company_save', { p_id: id ? id.data : null, p })
   if (!r.ok) return r
   revalidatePath('/admin/crm/prospects')
@@ -498,7 +502,9 @@ export async function saveDeal(_prev: AdminResult | null, formData: FormData): P
       stage: formData.get('stage') ?? '',
     })
   if (!parsed.success) return { ok: false, problem: parsed.error.issues[0]?.path[0] === 'value_nok' ? 'invalid_value' : 'invalid' }
-  const { id, stage, ...p } = parsed.data
+  const { id, stage, ...rest } = parsed.data
+  const p: Record<string, unknown> = { ...rest }
+  if (versionOf(formData.get('version')) !== undefined) p.version = versionOf(formData.get('version'))
   const r = await rpc('admin_crm_company_save', { p_id: id, p })
   if (!r.ok) return r
   const from = formData.get('from')

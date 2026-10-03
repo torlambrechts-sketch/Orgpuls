@@ -1,114 +1,50 @@
 [
   {
     "width": 1440,
-    "state": "CUS-07-rules-default",
+    "state": "PIP-04-history-empty",
     "status": 200,
     "overflowPx": 0,
     "errors": [],
-    "file": "CUS-07-rules-default-1440.png"
+    "file": "PIP-04-history-empty-1440.png"
   },
   {
     "width": 390,
-    "state": "CUS-07-rules-default",
+    "state": "PIP-04-history-empty",
     "status": 200,
     "overflowPx": 0,
     "errors": [],
-    "file": "CUS-07-rules-default-390.png"
+    "file": "PIP-04-history-empty-390.png"
   },
   {
     "width": 1440,
-    "state": "CUS-07-rules-changed",
+    "state": "PIP-04-history",
     "status": 200,
     "overflowPx": 0,
     "errors": [],
-    "file": "CUS-07-rules-changed-1440.png"
+    "file": "PIP-04-history-1440.png"
   },
   {
     "width": 390,
-    "state": "CUS-07-rules-changed",
+    "state": "PIP-04-history",
     "status": 200,
     "overflowPx": 0,
     "errors": [],
-    "file": "CUS-07-rules-changed-390.png"
+    "file": "PIP-04-history-390.png"
   },
   {
     "width": 1440,
-    "state": "CRM-01-contacts-rule-source",
+    "state": "CRM-01-contact-history",
     "status": 200,
     "overflowPx": 0,
     "errors": [],
-    "file": "CRM-01-contacts-rule-source-1440.png"
+    "file": "CRM-01-contact-history-1440.png"
   },
   {
     "width": 390,
-    "state": "CRM-01-contacts-rule-source",
+    "state": "CRM-01-contact-history",
     "status": 200,
     "overflowPx": 0,
     "errors": [],
-    "file": "CRM-01-contacts-rule-source-390.png"
-  },
-  {
-    "width": 1440,
-    "state": "CRM-01-company-rule-source",
-    "status": 200,
-    "overflowPx": 0,
-    "errors": [],
-    "file": "CRM-01-company-rule-source-1440.png"
-  },
-  {
-    "width": 390,
-    "state": "CRM-01-company-rule-source",
-    "status": 200,
-    "overflowPx": 0,
-    "errors": [],
-    "file": "CRM-01-company-rule-source-390.png"
-  },
-  {
-    "width": 1440,
-    "state": "CRM-01-contacts-rule-optin",
-    "status": 200,
-    "overflowPx": 0,
-    "errors": [],
-    "file": "CRM-01-contacts-rule-optin-1440.png"
-  },
-  {
-    "width": 390,
-    "state": "CRM-01-contacts-rule-optin",
-    "status": 200,
-    "overflowPx": 0,
-    "errors": [],
-    "file": "CRM-01-contacts-rule-optin-390.png"
-  },
-  {
-    "width": 1440,
-    "state": "CRM-01-contacts-default",
-    "status": 200,
-    "overflowPx": 0,
-    "errors": [],
-    "file": "CRM-01-contacts-default-1440.png"
-  },
-  {
-    "width": 390,
-    "state": "CRM-01-contacts-default",
-    "status": 200,
-    "overflowPx": 0,
-    "errors": [],
-    "file": "CRM-01-contacts-default-390.png"
-  },
-  {
-    "width": 1440,
-    "state": "PIP-01-pipeline-capped",
-    "status": 200,
-    "overflowPx": 0,
-    "errors": [],
-    "file": "PIP-01-pipeline-capped-1440.png"
-  },
-  {
-    "width": 390,
-    "state": "PIP-01-pipeline-capped",
-    "status": 200,
-    "overflowPx": 0,
-    "errors": [],
-    "file": "PIP-01-pipeline-capped-390.png"
+    "file": "CRM-01-contact-history-390.png"
   }
 ]

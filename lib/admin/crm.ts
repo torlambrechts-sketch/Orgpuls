@@ -31,6 +31,8 @@ export const TASK_STEP_KINDS = ['call', 'linkedin'] as const
 
 const Contact = z.object({
   id: z.string(),
+  // 0194: the version a form was opened at, sent back so a stale save is refused
+  version: num.optional(),
   email: z.string(),
   name: z.string().nullable(),
   company: z.string().nullable(),
@@ -309,6 +311,8 @@ export const crmSenders = () => call('admin_crm_senders', {}, z.object({ rows: z
 // ---------------------------------------------------------------- companies (0056)
 const Company = z.object({
   id: z.string(),
+  // 0194: the version a form was opened at, sent back so a stale save is refused
+  version: num.optional(),
   org_number: z.string().nullable(),
   name: z.string(),
   form_code: z.string().nullable(),
@@ -551,3 +555,18 @@ export const crmPipelineSummary = () =>
     }),
   )
 export type PipelineSummary = Exclude<Awaited<ReturnType<typeof crmPipelineSummary>>, { error: string }>
+
+// ---------------------------------------------------------------- record history (0194, D-209)
+const HistoryValue = z.union([z.string(), z.number(), z.boolean(), z.array(z.unknown()), z.record(z.string(), z.unknown()), z.null()])
+const History = z.object({
+  changes: z.array(
+    z.object({ id: num, field: z.string(), old: HistoryValue.optional(), new: HistoryValue.optional(), by: tsn, source: z.string(), at: z.string() }),
+  ),
+  more: z.boolean(),
+  events: z.array(z.object({ name: z.string(), at: z.string(), source: z.string(), by: tsn, fields: z.array(z.string()) })),
+  created_by: tsn,
+  updated_by: tsn,
+})
+export type CrmHistory = z.infer<typeof History>
+export const crmHistory = (entity: 'company' | 'contact', id: string, before: number | null) =>
+  call('admin_crm_history', { p_entity: entity, p_record: id, p_before: before }, History)

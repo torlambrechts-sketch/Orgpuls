@@ -3,7 +3,8 @@ import { ContactActionForm, ContactForm, type CrmMessages } from '@/components/a
 import { ContactListForms } from '@/components/admin/CrmPipelineForms'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
-import { crmContact, crmLists } from '@/lib/admin/crm'
+import { crmContact, crmHistory, crmLists } from '@/lib/admin/crm'
+import { CrmHistory } from '@/components/admin/CrmHistory'
 import { crmRuleState } from '@/lib/admin/crmRules'
 
 /**
@@ -11,11 +12,13 @@ import { crmRuleState } from '@/lib/admin/crmRules'
  * the CRM sent them with its delivery, opens and clicks, and the two ways to stop: an
  * unsubscribe on their behalf, or erasure.
  */
-export default async function CrmContact({ params }: { params: Promise<{ id: string }> }) {
+export default async function CrmContact({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ before?: string }> }) {
   const { id } = await params
+  const sp = await searchParams
+  const before = /^\d{1,18}$/.test(sp.before ?? '') ? Number(sp.before) : null
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
-  const [data, who, lists, rules] = await Promise.all([crmContact(id), whoami(), crmLists(), crmRuleState()])
+  const [data, who, lists, rules, history] = await Promise.all([crmContact(id), whoami(), crmLists(), crmRuleState(), crmHistory('contact', id, before)])
   const listOptions = isError(lists) ? [] : lists.rows.filter((l) => !l.archived).map((l) => ({ id: l.id, key: l.key, name: l.name_no }))
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const c = data.contact
@@ -118,6 +121,12 @@ export default async function CrmContact({ params }: { params: Promise<{ id: str
           </div>
         </div>
       ) : null}
+      {/* 0194 (D-209): every change to this contact, with who and from where */}
+      {isError(history) ? null : (
+        <div className="mt-[14px]">
+          <CrmHistory data={history} labels={m.history} base={`/admin/crm/contacts/${id}`} before={before} />
+        </div>
+      )}
     </>
   )
 }

@@ -5,7 +5,8 @@ import { stageTone } from '@/components/admin/CrmTabs'
 import { StageMoveForm } from '@/components/admin/CrmStageForms'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
-import { autoTask, crmCompany, crmStages } from '@/lib/admin/crm'
+import { autoTask, crmCompany, crmHistory, crmStages } from '@/lib/admin/crm'
+import { CrmHistory } from '@/components/admin/CrmHistory'
 import { crmRuleState } from '@/lib/admin/crmRules'
 
 /**
@@ -13,12 +14,14 @@ import { crmRuleState } from '@/lib/admin/crmRules'
  * people we know there, what our campaigns did with them, and the log of everything said
  * and planned.
  */
-export default async function CrmProspect({ params }: { params: Promise<{ id: string }> }) {
+export default async function CrmProspect({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ before?: string }> }) {
   const { id } = await params
+  const sp = await searchParams
+  const before = /^\d{1,18}$/.test(sp.before ?? '') ? Number(sp.before) : null
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const p = m.prospects
-  const [data, who, stageData, rules] = await Promise.all([crmCompany(id), whoami(), crmStages(), crmRuleState()])
+  const [data, who, stageData, rules, history] = await Promise.all([crmCompany(id), whoami(), crmStages(), crmRuleState(), crmHistory('company', id, before)])
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const c = data.company
   // the stages, as data (0093)
@@ -147,6 +150,12 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
           </div>
         ) : null}
       </div>
+      {/* 0194 (D-209): every change to this company, with who and from where */}
+      {isError(history) ? null : (
+        <div className="mt-[14px]">
+          <CrmHistory data={history} labels={m.history} base={`/admin/crm/prospects/${id}`} before={before} />
+        </div>
+      )}
     </>
   )
 }

@@ -69,7 +69,7 @@ export function ContactForm({
 }: {
   m: CrmMessages
   common: Common
-  contact?: { id: string; name: string | null; company: string | null; org_number: string | null; role: string | null; tags: string[]; lang: string }
+  contact?: { id: string; version?: number; name: string | null; company: string | null; org_number: string | null; role: string | null; tags: string[]; lang: string }
   /** a person added on a company's page belongs to it, and the page stays */
   companyId?: string
   /** the contact rule «source and basis required» is on (0192); otherwise a consent source is optional */
@@ -89,6 +89,7 @@ export function ContactForm({
   return (
     <form action={action} className="flex flex-col gap-[10px]">
       {contact ? <input type="hidden" name="id" value={contact.id} /> : null}
+      {contact?.version !== undefined ? <input type="hidden" name="version" value={contact.version} /> : null}
       {companyId ? (
         <>
           <input type="hidden" name="company_id" value={companyId} />

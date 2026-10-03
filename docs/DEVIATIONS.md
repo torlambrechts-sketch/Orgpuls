@@ -10508,3 +10508,32 @@ in place from their live text, after their live definitions were shown byte-iden
 pre-0192 ones; a dry run of that script on a local database at the pre-0192 state, and afterwards on hosted,
 gave the same fingerprint as a database built from the repository (all 26 function definitions, the tables'
 columns, constraints, indexes and triggers, RLS, the 11 settings, the grants).
+
+## D-209 — CRM record history: changelog, events and the standard columns (0194) (2026-10-03)
+
+Work package WP-0.2 of the CRM enrichment brief (`docs/crm-enrichment/INSTRUCTIONS.md` A6, PIP-04, SF-02).
+Triggers on `app.crm_companies`, `app.crm_contacts` and `app.crm_activities` write, in the same transaction
+as the change, one `app.crm_changes` line per tracked field (field, old value, new value, actor, source, time)
+and an event in `app.crm_events` (company/contact/activity `.added`, `.updated` naming the fields,
+`.deleted`, `company.stage_changed`, `activity.completed`). Every path is covered — forms, imports, the
+account sync, the dispatcher's own updates. Source: `app.change_source` when set; the import and the account
+sync by the consent ledger's marker (`app.consent_via`, 0141); a signed-in admin is `user`, a change without a
+session `automation`. Bookkeeping columns are not tracked (a token's hash never is), and the new `version`
+moves only when a tracked field changes, so an engagement stamp never makes an open form stale. The three
+tables gain `version`, `created_by` (companies, contacts; activities already carry `admin_id`) and
+`updated_by`; `crm_activities` gains `product_id`. The company and contact save functions refuse a form opened
+at an older version (`stale`); the forms and the deal dialog send it.
+
+**Deviation from the brief:** the brief puts CRM events in "the admin's single typed events table".
+`app.growth_events` is analytics by design: its guard refuses any UUID in an event's props (0141) and its
+catalogue is the pixel-gated Growth › Event catalogue view. CRM events must name their record for workflows
+and webhooks, so they have their own catalogue (`app.crm_event_types`, the same `object.past_tense` names) and
+outbox; the growth guard is untouched. The dispatcher that delivers them is WP-0.6.
+
+History is append-only: a line is never changed, and goes only once its record is gone, so erasing a contact
+removes its old values (SEC-11) while its events, which carry field names and never values, remain. A History
+card on the company and contact pages shows the events and the changelog, newest first, 50 at a time
+(`public.admin_crm_history`, audited as `crm.history`; analysts read it, support does not).
+
+Proved in `crm_history_invariants.sql` (11 assertions). All 117 SQL suites pass; screens in
+`docs/crm-enrichment/screens/phase-0/PIP-04-history*`, `CRM-01-contact-history*`.

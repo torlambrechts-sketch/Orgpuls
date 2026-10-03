@@ -93,6 +93,7 @@ export function CompanyForm({
   return (
     <form action={action} className="flex flex-col gap-[10px]">
       {company ? <input type="hidden" name="id" value={company.id} /> : null}
+      {company?.version !== undefined ? <input type="hidden" name="version" value={company.version} /> : null}
       <div className="grid gap-[10px] [grid-template-columns:repeat(auto-fit,minmax(190px,1fr))]">
         <Field name="name" text={f.name} value={name} set={setName} required max={200} />
         {company ? null : <Field name="org_number" text={f.orgNumber} value={orgNumber} set={setOrgNumber} max={20} />}
