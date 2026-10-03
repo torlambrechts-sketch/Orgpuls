@@ -62,6 +62,10 @@ declare
     'app.crm_stage_changes_guard()',                -- existence, not visibility
     'app.crm_visible_company(uuid)',                -- 0196: a company's visibility, deleted or not: the caller decides
     'app.crm_visible_ids(text,uuid[])',             -- 0196: the visible ids among those given, live or deleted: the caller decides
+    'app.crm_field_in_use(text,text)',              -- 0197: a value in the restore list still holds a field's type
+    'app.crm_options_in_use(text,text,text[])',     -- 0197: and its options
+    'app.crm_formulas_recompute(text)',             -- 0197: a deleted record's formulas follow too, for the day it comes back
+    'admin_crm_field_save(uuid,jsonb,text)',        -- 0197: names the record tables only to keep a key from shadowing a column
     'app.crm_sync()',                               -- the account sync keeps a deleted contact current, and deleted
     'app.delete_organisation(uuid,text,uuid)',      -- an organisation's deletion removes deleted contacts too
     'app.growth_doi(text)',                         -- a growth figure over what the database holds

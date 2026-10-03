@@ -67,7 +67,8 @@ declare
     'public.admin_crm_journeys',           -- campaign outcomes as counts over the recipients, who are contacts (not owned); names no company
     'public.admin_crm_sequence',           -- the same, per step
     'public.admin_crm_known_orgnrs',       -- which of the org numbers the caller typed are in the CRM, so an import never duplicates a hidden company
-    'public.admin_crm_stage_save'          -- a settings write: a stage that holds any company, seen or not, is in use
+    'public.admin_crm_stage_save',         -- a settings write: a stage that holds any company, seen or not, is in use
+    'public.admin_crm_field_save'          -- 0197: names the record table only so a field's key never shadows one of its columns
   ];
   -- helpers no client may call: jobs, triggers and the send loop (no viewer), or helpers whose callers filter
   v_unfiltered_helpers text[] := array[
@@ -75,6 +76,8 @@ declare
     'app.crm_changes_guard', 'app.crm_follow_audience', 'app.crm_follow_done', 'app.crm_purge_due', 'app.crm_segment_contacts',
     'app.crm_stage_changes_guard', 'app.crm_step_tasks', 'app.crm_sync', 'app.delete_organisation', 'app.lead_contacts',
     'app.lead_route', 'app.lead_score', 'public.crm_mail_claim',
+    -- 0197: whether any record holds a field's value or option (a yes or no for the registry), and the formula recompute
+    'app.crm_field_in_use', 'app.crm_options_in_use', 'app.crm_formulas_recompute',
     -- given what their callers may see (the second check holds them to it)
     'app.crm_company_json', 'app.crm_log', 'app.crm_purge', 'app.crm_record_label', 'app.crm_soft_delete', 'app.crm_undelete'
   ];

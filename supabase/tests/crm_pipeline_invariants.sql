@@ -60,7 +60,7 @@ begin
     has_function_privilege('anon', 'public.crm_preferences(text)', 'execute'),
     has_function_privilege('anon', 'public.crm_set_preferences(text,text[],boolean)', 'execute'),
     has_function_privilege('anon', 'public.crm_archive_item(text)', 'execute'),
-    has_function_privilege('anon', 'public.admin_crm_companies(text,text,uuid)', 'execute'),
+    has_function_privilege('anon', 'public.admin_crm_companies(text,text,uuid,jsonb)', 'execute'),
     has_function_privilege('authenticated', 'public.record_crm_event(text,text,timestamptz,text)', 'execute'),
     has_function_privilege('authenticated', 'app.crm_log(uuid,uuid,text,text,date)', 'execute'));
   v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'the preference centre and archive are public; the rest is not',
