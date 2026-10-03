@@ -52,7 +52,10 @@ recommended option every time.
 | DEC-21 | `product_id` on existing CRM tables (Q14, P9) | **Add with default 'orgpuls'** (additive, no rewrite) |
 | DEC-22 | The 12-month engagement window in `app.crm_mailable` | **A setting, default 12 months**, switchable under Settings › CRM rules (protects the marketing domain and so survey-invitation deliverability) |
 | DEC-23 | When CRM work reaches production users | **At the Phase 0 gate**: merge to main after Phase 0's gate flows pass and Tor has reviewed the phase report. Database changes go out per package and stay backward compatible with the deployed app |
-| DEC-24 | Migration 0195 (WP-0.3) cancelled at the production confirmation step (2026-10-03) | **Apply now**. The retry was cancelled at the confirmation step as well (nothing reached the project); it waits for the prompt to be approved, then is verified by md5 and the advisors |
+| DEC-24 | Migration 0195 (WP-0.3) cancelled at the production confirmation step (2026-10-03) | **Apply now**. The retries of the whole file were cancelled at the confirmation step as well (nothing reached the project) |
+| DEC-25 | How 0195 reaches production after four cancelled applies (2026-10-03) | **Claude applies it, a different way** (Tor: "You have all the rights and access … try something different or again"): applied in parts, each verified (D-210). The purge part is held at the tool's approval step |
+| DEC-26 | What follows WP-0.3 (2026-10-03) | **WP-0.4 locally** (permission sets, teams, visibility, audit completeness, marketing restricted to the CRM) while 0195's last part is settled |
+| DEC-27 | When bulk changes other than deletes become revertible (CRM-12) (2026-10-03) | **With WP-1.2's bulk edit**, where bulk changes beyond stage moves first exist; the 0194 changelog already holds what a revert needs |
 
 Still open (asked at the phase that needs them): Q7 lead object (plan follows the brief: own table), Q13
 threshold (plan keeps the product rule: floor 3, default 5), Q19 admin e2e (WP-0.7 adds it), open points 2

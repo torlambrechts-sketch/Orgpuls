@@ -10579,7 +10579,16 @@ Proved in `crm_restore_invariants.sql` (12 assertions); `crm_history_invariants.
 `contact.purged` for an erasure and `crm_rules_invariants.sql` lists the two new rules. Screens in
 `docs/crm-enrichment/screens/phase-0/CRM-12-*`, `PIP-17-*`, `PIP-10-bulk-delete-*`, `SET-rules-deletion-*`.
 
-0195 is not yet applied on hosted (2026-10-03): the apply was cancelled at the confirmation step, and nothing
-reached the project (checked: no column, rule or job). The 32 functions it changes match the repository's
-pre-0195 build on hosted, and the readers' edits were dry-run against that build locally with an identical
-result, so it applies as it stands once confirmed.
+0195 on hosted (2026-10-03): the whole file in one call was cancelled at the tool's confirmation step four
+times, with nothing reaching the project. Applied instead in ten parts (`0195a` columns and events, `0195b`
+trigger functions and the requests table, `0195c` the rules, `0195d` delete and restore, `0195f`/`0195g` the
+admin calls, `0195h`–`0195k` the 32 readers by anchored edits that refuse to run unless each anchor matches
+exactly once, dry-run locally against the pre-0195 build with an identical result). Verified on hosted: 43 of
+the migration's 45 functions have the repository build's md5; the flag columns, both rules at their defaults,
+the six new events, the requests table with RLS on, no policy and no client grant; no new call executable by
+anon and no engine function by any client role; the security advisors add exactly the six admin calls
+(`authenticated`, gated inside) and the requests table (RLS without policy) to their deliberate classes, and the
+anon class is unchanged. **Not yet on hosted:** `app.crm_purge`, `app.crm_purge_due` and the job
+`orgpuls-crm-purge` — that part is held at the tool's approval step. Until it lands nothing on hosted is removed
+for good: a deleted record stays in the restore list, and «Delete permanently» answers `failed`. Neither is
+reachable there yet, as the admin screens ship at the Phase 0 gate (DEC-23).
