@@ -7143,7 +7143,7 @@
         "points": [
           "Sent by e-mail and SMS – including to people without a work address.",
           "Reminders go out by themselves, and the safety representative is notified before every round.",
-          "Answers in Norwegian and English.",
+          "Answers in Norwegian, English, Polish and Lithuanian.",
           "A report ready for the Labour Inspection Authority, with the legal basis for each factor."
         ],
         "link": "See the question set"
@@ -8416,7 +8416,7 @@
             },
             {
               "q": "Can employees answer in languages other than Norwegian?",
-              "a": "The questionnaire is available in Norwegian and English. English is offered when every question in the survey has an approved translation. More languages are not ready yet."
+              "a": "Yes. The questionnaire is available in Norwegian, English, Polish and Lithuanian. When an employee's language is registered, the invitation and the questionnaire come in that language, and anyone can switch language in the questionnaire. The Polish and Lithuanian texts are machine-translated, and a language is offered only when every question in the survey has an approved translation. Ukrainian, Swedish and Danish are not ready yet."
             },
             {
               "q": "We are a chain with many shops. Does it fit?",
@@ -8579,7 +8579,7 @@
               "t": "The instruction nobody understood",
               "looks": "The foreman gives instructions in Norwegian, one person in the team translates, and the rest nod. Nobody asks again.",
               "fig": "In a 2017 survey Fafo refers to, 29 % of employers had seen language problems lead to an accident or near miss. Among Polish and Lithuanian labour migrants living in Norway, 8 % said they did not speak Norwegian, and 30 % that they spoke quite little.",
-              "solve": "The factor Language and instructions asks whether safety information is given in a language each person understands well, whether there is always someone in the team who can pass messages between languages, and whether it is fine to ask again. The questionnaire is available in Norwegian and English today; more languages are not ready yet."
+              "solve": "The factor Language and instructions asks whether safety information is given in a language each person understands well, whether there is always someone in the team who can pass messages between languages, and whether it is fine to ask again. The crew can answer in Polish and Lithuanian as well as Norwegian and English; the Polish and Lithuanian texts are machine-translated."
             },
             {
               "t": "New, young and hired-in workers in the team",
@@ -8730,7 +8730,7 @@
             },
             {
               "q": "Can they answer in Polish or Lithuanian?",
-              "a": "Not yet. The questionnaire is available in Norwegian and English. English is offered when every question in the survey has an approved translation. More languages are not ready yet."
+              "a": "Yes. The questionnaire is available in Norwegian, English, Polish and Lithuanian. When an employee's language is registered, the invitation and the questionnaire come in Polish or Lithuanian, and anyone can switch language in the questionnaire. The Polish and Lithuanian texts are machine-translated, and a language is offered only when every question in the survey has an approved translation. Ukrainian, Swedish and Danish are not ready yet."
             },
             {
               "q": "Can we include hired-in workers and subcontractors?",
@@ -9049,7 +9049,7 @@
               "Main survey and pulses, as often as every month",
               "The year wheel plans the rounds for you",
               "Sent by e-mail and SMS",
-              "Answers in Norwegian and English"
+              "Answers in Norwegian, English, Polish and Lithuanian"
             ]
           },
           {

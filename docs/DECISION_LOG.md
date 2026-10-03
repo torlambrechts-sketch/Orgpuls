@@ -3145,6 +3145,8 @@ the app calls it any more (wiring R1, known).
 - [ ] Sending domain (X-092): the inbox check reads today, from public DNS, that nyheter.orgpuls.com has Brevo's DKIM, is covered by `_dmarc.orgpuls.com` with `p=none`, and has no SPF record. At the DNS host (Spaceship): add `v=spf1 include:spf.brevo.com ~all` as a TXT on nyheter.orgpuls.com, and after two to four weeks of clean DMARC reports (rua goes to Brevo) move `_dmarc.orgpuls.com` to `p=quarantine`.
 - [ ] CMS (X-094): the site's pages are listed in admin › Content › Pages. A campaign page for an ad should be made from the campaign splash template and marked noindex; a page for search from the landing page template, with a focus keyword. The six templates' first words are drafts; change them in the templates (0114) if a house style emerges.
 - [ ] CMS (D-161): pictures uploaded to a page, A/B tests of a page, and machine translation are not built; say if one is wanted.
+- [ ] Polish and Lithuanian (X-102, D-209): redeploy the edge functions (`node scripts/functions/deploy.mjs`) after this change reaches main. The dispatcher carries the signed-off flags and `personalLang` from its own bundle, so until it is redeployed invitations and reminders stay in bokmål for Polish and Lithuanian employees while the survey page already offers both.
+- [ ] Polish and Lithuanian (X-102): the 553 texts per language are machine drafts approved automatically (auto-approve, X-082); Tor's own read of them in admin › Translations is still to come (X-089).
 
 ### X-097 — CRM split into CRM and Marketing
 
@@ -3224,3 +3226,30 @@ check refuses everyone but a platform admin, and the translation suites approve 
 - **AUD-20**: the thank-you page says comments can be read by management, without a name; «Siden
   sist» says the measures are ones worked on since the survey, not ones chosen from its answers.
   Drafted in pl, uk, lt, sv and da in the same change (X-089).
+
+### X-102 — Polish and Lithuanian in the survey
+
+Tor, 2026-10-03, answering «Skal jeg slå på polsk og litauisk i undersøkelsen?»: "Ja". The context was
+bygg og anlegg, where 29 % of workers are foreign, most of them Polish and Lithuanian.
+
+- **Signed off in code.** `locale_pl` and `locale_lt` are in lib/flags.signed-off.json beside
+  `locale_en`, so the app and the dispatcher (scripts/functions/deploy.mjs bundles the same file) have
+  them on in production without an environment variable. Ukrainian, Swedish and Danish stay off.
+- **The rule is unchanged** (lib/i18n/offered.ts, D-133): a language is offered only where every item
+  the survey asks and every page string carry an approval, the page strings made from the current
+  bokmål. Read-only on hosted, 3 October 2026: pl and lt each have every key `app.all_item_keys()`
+  names approved (0 missing of 415: core, extras, the five published modules' items, options and
+  wordings), all 57 module factor names, and all 100 page strings and 38 mail texts with a
+  `source_hash` equal to today's lib/i18n/survey-source.json. The 41 module rows English has beyond
+  them are helse og omsorg 1.0.0, retired, which no round uses. Nothing needed translating or approving.
+- **How they were approved.** All 553 rows per language are origin *machine* with `approved_auto` set:
+  approved by the platform's auto-approve (X-082), not row by row. The public site says so — the Polish
+  and Lithuanian text is «maskinoversatt» — and Tor's review in admin › Translations is an open item.
+- **Found on the way:** the dispatcher's `personalLang` knew only bokmål and English, so a Polish or
+  Lithuanian employee's invitation and reminders would have stayed in bokmål with the language on.
+  Fixed, with the e-mail's `lang` attribute (D-209).
+- **The site says what is true:** «Svar på norsk, engelsk, polsk og litauisk» on the front page and the
+  price page; /bygg-og-anlegg's FAQ answers «Ja» and its language challenge says the crew can answer in
+  Polish and Lithuanian; /handel's FAQ likewise; Ukrainian, Swedish and Danish «ikke klare ennå» (D-209).
+- **Numbering:** X-101 is reserved by docs/implementation/growth-admin.md for G5's execution record, so
+  this entry is X-102.

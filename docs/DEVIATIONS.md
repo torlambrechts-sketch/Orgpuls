@@ -10626,3 +10626,52 @@ with eight questions; the English bygg page links its question page and the Engl
 not. `node scripts/audit/wiring.mjs` exits 1 on six findings (W2 `organizations.bht_name`, R1 on five admin
 translation and legal RPCs), none in anything this change touches: it adds no column, setting or RPC. No
 database writes.
+
+## D-209 — Polish and Lithuanian switched on; a Polish employee's own mail was bokmål (2026-10-03)
+
+X-102 signs off `locale_pl` and `locale_lt`. What deviates, or was found and fixed on the way:
+
+**The dispatcher dropped every survey language from a person's own messages.** `personalLang`
+(supabase/functions/_shared/mail.ts) took the employee's language only if it was `no` or `en`, so a
+Polish or Lithuanian employee fell through to the organisation's language: with both languages offered
+on the page, their invitation, reminders and SMS would still have gone out in bokmål. It now takes any
+language of the registry; `offeredFor` still decides which are offered (mail texts and page strings
+approved from the current bokmål, items complete), so nothing goes out in a language that is not ready.
+The e-mail's `<html lang>` said `nb` for everything but English; it now says the language it is in.
+`tests/unit/survey-languages.test.ts` proves both, and that Polish stays bokmål while its flag is off.
+
+**Copy changed (no and en, path by path).** `site.home.survey.points.2`, `site.pris.included.groups.0.items.3`,
+`site.bransje.handel.faq.items.4.a`, `site.bransje.bygg.challenges.items.2.solve`,
+`site.bransje.bygg.faq.items.4.a`. D-208's line «Languages: norsk og engelsk» no longer holds. The texts say
+the Polish and Lithuanian text is machine-translated, because it is (all 553 rows per language are
+`source = 'machine'`, `approved_auto`), and repeat the site's existing rule that a language is offered
+only when every question has an approved translation. «Er språket registrert på den ansatte»: the
+language comes from column F of the Ansatte paste (`languageOf`, app/(app)/oppsett/actions.ts) or from
+Entra; the respondent picker lets anyone switch. helse og omsorg's copy is not touched (another change
+is rebuilding that page). No respondent page string changed, so lib/i18n/survey-source.json and the
+approved hashes are as they were, and the page map's keys did not move (`page-map.mjs --check`: 38 pages).
+
+**Not found, so not changed.** The brief named an Ansatte language column help and language picker
+hints; neither exists as text. `oppsett.ansatte.pasteLead` names five columns and not the language
+column F the paste reads — left as it is, since it states no language.
+
+**How it was verified.** The local QA stack offers only English (its seed holds three Polish
+qa-fixture rows). For the walk-through, the hosted project's approved pl and lt rows were read
+(read-only) and loaded into the local database with module and factor ids remapped by module key and
+item code; the app was built and served with `ORGPULS_FLAGS` empty, so only the signed-off flags applied.
+Piotr Nowak's link (language pl) opened in Polish with the picker «Norsk · English · Polski · Lietuvių»;
+a Salg link with `?lang=lt` in Lithuanian; both walked all 13 screens at 390 px, `lang` right on every
+screen, no bokmål page string, factor label or statement on any, nothing scrolling sideways, no console
+error, and both submitted (the invitations are marked answered). The dispatcher's path —
+`dispatch_language_texts`, `round_locale_state`, `offeredFor`, `groupsOf`, `renderNotice`, `smsLead` — rendered
+the invitation and both reminders in Polish and Lithuanian for a pl and an lt employee, and in bokmål
+for one with none. The local database was then rebuilt with `npm run qa:up -- --reset` (the load leaves
+rows in the append-only translation log that two suites count) and every SQL suite passed on it.
+A measure's title in «Siden sist» is the organisation's own text and stays as written.
+
+**SMS cost.** Lithuanian needs characters outside GSM-7, so its invitation and reminder SMS are UCS-2,
+two segments each (Polish fits one). Not changed; noted for the pricing of SMS.
+
+**Deploy.** The dispatcher bundles lib/flags.signed-off.json and mail.ts at deploy
+(scripts/functions/deploy.mjs). Until the functions are redeployed, the survey page offers Polish and
+Lithuanian but personal messages stay in bokmål (open item, X-102).

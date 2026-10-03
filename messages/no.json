@@ -7143,7 +7143,7 @@
         "points": [
           "Utsending på e-post og SMS – også til dem uten jobbadresse.",
           "Påminnelser går av seg selv, og verneombudet får varsel før hver runde.",
-          "Svar på norsk og engelsk.",
+          "Svar på norsk, engelsk, polsk og litauisk.",
           "Rapport klar til Arbeidstilsynet, med hjemmel per faktor."
         ],
         "link": "Se spørsmålssettet"
@@ -8416,7 +8416,7 @@
             },
             {
               "q": "Kan de ansatte svare på andre språk enn norsk?",
-              "a": "Spørreskjemaet finnes på norsk og engelsk. Engelsk tilbys når alle spørsmålene i målingen har en godkjent oversettelse. Flere språk er ikke klare ennå."
+              "a": "Ja. Spørreskjemaet finnes på norsk, engelsk, polsk og litauisk. Er språket registrert på den ansatte, kommer invitasjonen og skjemaet på det språket, og alle kan bytte språk selv i skjemaet. Den polske og litauiske teksten er maskinoversatt, og et språk tilbys bare når alle spørsmålene i målingen har en godkjent oversettelse. Ukrainsk, svensk og dansk er ikke klare ennå."
             },
             {
               "q": "Vi er en kjede med mange butikker. Passer det?",
@@ -8579,7 +8579,7 @@
               "t": "Beskjeden som ikke ble forstått",
               "looks": "Bas gir beskjed på norsk, én på laget oversetter, og resten nikker. Ingen spør igjen.",
               "fig": "I en undersøkelse fra 2017 som Fafo viser til, hadde 29 % av arbeidsgiverne opplevd at språkproblemer førte til en ulykke eller nestenulykke. Blant bosatte arbeidsinnvandrere fra Polen og Litauen svarte 8 % at de ikke snakket norsk, og 30 % at de snakket ganske lite.",
-              "solve": "Faktoren Språk og beskjeder spør om sikkerhetsinformasjonen gis på et språk den enkelte forstår godt, om det alltid er noen på laget som kan formidle mellom språkene, og om det er greit å spørre igjen. Spørreskjemaet finnes i dag på norsk og engelsk; flere språk er ikke klare ennå."
+              "solve": "Faktoren Språk og beskjeder spør om sikkerhetsinformasjonen gis på et språk den enkelte forstår godt, om det alltid er noen på laget som kan formidle mellom språkene, og om det er greit å spørre igjen. Mannskapet kan svare på polsk og litauisk i tillegg til norsk og engelsk; den polske og litauiske teksten er maskinoversatt."
             },
             {
               "t": "Nye, unge og innleide på laget",
@@ -8730,7 +8730,7 @@
             },
             {
               "q": "Kan de svare på polsk eller litauisk?",
-              "a": "Ikke ennå. Spørreskjemaet finnes på norsk og engelsk. Engelsk tilbys når alle spørsmålene i målingen har en godkjent oversettelse. Flere språk er ikke klare ennå."
+              "a": "Ja. Spørreskjemaet finnes på norsk, engelsk, polsk og litauisk. Er språket registrert på den ansatte, kommer invitasjonen og skjemaet på polsk eller litauisk, og alle kan bytte språk selv i skjemaet. Den polske og litauiske teksten er maskinoversatt, og et språk tilbys bare når alle spørsmålene i målingen har en godkjent oversettelse. Ukrainsk, svensk og dansk er ikke klare ennå."
             },
             {
               "q": "Kan vi ta med innleide og underentreprenører?",
@@ -9049,7 +9049,7 @@
               "Hovedundersøkelse og pulser, helt ned til hver måned",
               "Årshjulet planlegger rundene selv",
               "Utsending på e-post og SMS",
-              "Svar på norsk og engelsk"
+              "Svar på norsk, engelsk, polsk og litauisk"
             ]
           },
           {

@@ -1,0 +1,117 @@
+{
+  "locale": "lt",
+  "token": "qa-lumio-salg-000001",
+  "picker": [
+    "Norsk",
+    "English",
+    "Polski",
+    "Lietuvių"
+  ],
+  "current": "Lietuvių",
+  "screens": [
+    {
+      "id": "intro",
+      "lang": "lt",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski"
+    },
+    {
+      "id": "page1",
+      "lang": "lt",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Toliau"
+    },
+    {
+      "id": "page2",
+      "lang": "lt",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Toliau"
+    },
+    {
+      "id": "page3",
+      "lang": "lt",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Toliau"
+    },
+    {
+      "id": "page4",
+      "lang": "lt",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Toliau"
+    },
+    {
+      "id": "page5",
+      "lang": "lt",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Toliau"
+    },
+    {
+      "id": "page6",
+      "lang": "lt",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Toliau"
+    },
+    {
+      "id": "page7",
+      "lang": "lt",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Toliau"
+    },
+    {
+      "id": "page8",
+      "lang": "lt",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Toliau"
+    },
+    {
+      "id": "page9",
+      "lang": "lt",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Toliau"
+    },
+    {
+      "id": "page10",
+      "lang": "lt",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Toliau"
+    },
+    {
+      "id": "page11",
+      "lang": "lt",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Pateikti"
+    },
+    {
+      "id": "done",
+      "lang": "lt",
+      "sideways": false,
+      "leaks": [],
+      "head": "✓ | Dėkojame už atsakymus | Organizacijos vadovas ir darbuotojų atstovas saugai ir sveikatai tuos pačius skaičius mato vienu metu. | Niekas negali matyti, ką at"
+    }
+  ],
+  "done": true,
+  "errors": []
+}
