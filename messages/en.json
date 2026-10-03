@@ -8451,6 +8451,322 @@
           "lovdata_aml": "Lovdata: Working Environment Act sections 3-1, 4-1 and 4-3",
           "lovdata_forskrift": "Lovdata: Regulations concerning the performance of work, chapters 1A and 3A (in force 1 January 2026)"
         }
+      },
+      "bygg": {
+        "nav": "Construction",
+        "seo": {
+          "title": "Work environment survey for construction | Orgpuls",
+          "description": "Survey the work environment on site: time pressure, many companies, language in the team and new people. Anonymous by text or QR. 15 days free."
+        },
+        "hero": {
+          "k": "Construction · contractors and trades",
+          "h1": "A work environment survey for construction: see what wears the crew down – and follow it up",
+          "lead": "See where time pressure, many companies on site and language in the team create pressure – for the whole business and for each project with enough answers. The crew answers anonymously on their phones. You get suggested measures with an owner and a deadline, a new measurement in the pulse and a report showing the survey was done.",
+          "secondary": "See the construction questions",
+          "figure": {
+            "title": "How the crew answers",
+            "meta": "On the phone · about 4 + {minutes} min",
+            "caption": "The questionnaire on a phone, one theme per page."
+          },
+          "tiles": [
+            {
+              "t": "{factors} factors for the building site",
+              "d": "The construction module comes on top of the main survey and takes about {minutes} minutes more."
+            },
+            {
+              "t": "Answers from the site hut",
+              "d": "A link by text message or e-mail, or a QR poster in the site hut. No app, and nobody needs a work e-mail address."
+            },
+            {
+              "t": "Report for the Labour Inspection Authority",
+              "d": "Survey, risk assessment and measures in one place, with the legal basis for each factor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Everyday work in figures",
+          "title": "The work environment in construction: what the figures show",
+          "lead": "Around 240,000 residents of Norway work in construction, and about 21,000 more are here on short stays. The figures come from Norwegian research and official statistics.",
+          "items": [
+            {
+              "v": "29 %",
+              "l": "of workers in construction were foreign nationals in 2024"
+            },
+            {
+              "v": "16",
+              "l": "occupational injuries per 1,000 employed in 2024, against 11.8 across all industries"
+            },
+            {
+              "v": "1 in 3",
+              "l": "in building work are employed by a business with 9 or fewer people"
+            },
+            {
+              "v": "1 in 2",
+              "l": "on sick leave in building work say the absence is related to their job"
+            }
+          ],
+          "h3": "Much is never said at the morning meeting",
+          "note": "Fafo’s report on health and safety in construction describes how reporting unwanted incidents can be seen as snitching, how a loose tie to the employer can lead many not to report, and how fear of reprisals applies particularly to foreign workers.",
+          "text": "An anonymous questionnaire gives the crew a way to say it without standing up in front of everyone. The construction module asks about near misses that were not reported, and the answer is shown only as a count for the whole business."
+        },
+        "why": {
+          "k": "Why survey",
+          "title": "Why a construction company has to survey its work environment",
+          "lead": "The Working Environment Act applies to every employer with employees, including the trade business with five in the team. On a building site there are requirements of its own on top: coordination when several companies work in one place, and a language everyone in the work team understands.",
+          "law": {
+            "title": "What the law asks of a construction company",
+            "pill": "Applies to every employer",
+            "rows": [
+              {
+                "ref": "WEA § 3-1 (2) c",
+                "t": "Identify hazards and problems, assess the risk, make plans and put measures in place."
+              },
+              {
+                "ref": "WEA § 4-3",
+                "t": "The psychosocial factors of the work environment must be fully satisfactory – including workload and time pressure, and support and help at work. Nobody may be subjected to harassment or other improper conduct."
+              },
+              {
+                "ref": "WEA § 2-2 (2)",
+                "t": "When several businesses work at the same workplace, the principal enterprise is responsible for coordinating their health and safety work."
+              },
+              {
+                "ref": "Construction Client Regulations § 19a",
+                "t": "At least one person in every work team must be able to understand and make themselves understood in a language the others in the team understand, where safety requires it."
+              },
+              {
+                "ref": "Regulation § 1A-2",
+                "t": "The survey must be done together with the employees, repeated regularly and documented."
+              }
+            ],
+            "link": "More about the legal requirement"
+          },
+          "tilsyn": {
+            "t": "The Labour Inspection Authority prioritises building firms",
+            "p": "In 2025 building firms were among the industries the Labour Inspection Authority prioritised in inspections of mental and musculoskeletal strain. In nearly two in three of those inspections the survey was inadequate, and action plans, named owners and deadlines for measures often fell short. More than half of all infringement fines went to the construction industry.",
+            "d": "In Orgpuls every measure gets an owner and a deadline, and the safety representative sees the same figures as management."
+          },
+          "gap": {
+            "t": "Many small firms have not done it",
+            "p": "Among private businesses with fewer than 20 employees, 28 % run an employee survey, and 23 % carry out none of the surveys Fafo asked about. Fafo still finds major health and safety challenges in many of the smallest construction firms."
+          },
+          "cost": {
+            "t": "Leaving it costs",
+            "items": [
+              "1 in 2 on sick leave in building work say the absence is related to their job. Such absence can often be prevented at the workplace.",
+              "An analysis the Labour Inspection Authority refers to found a strong link between actions that triggered accidents and uncertain management of risk. That may point to psychosocial measures also needing high priority in construction.",
+              "1 in 5 of those who worked in construction in 2015 worked in another industry in 2022. Younger people are over-represented among those who move."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Challenges and solutions",
+          "title": "Eight challenges on the building site – and how to tackle them",
+          "lead": "The challenges come from Norwegian research and inspections. Under each you see which questions measure it, and what you get to work with.",
+          "items": [
+            {
+              "t": "Time pressure that comes before safety",
+              "looks": "The concrete truck is booked, the scaffolding is not finished, and the client is waiting. That is when the shortcuts get taken.",
+              "fig": "Fafo’s informants describe ever greater time pressure in projects, making it more tempting to take shortcuts. The accidents the Labour Inspection Authority has analysed typically happened in work that departed from the original plan.",
+              "solve": "The factor Safety before progress asks whether safety holds when time is short, and whether people can stop an unsafe job without getting into trouble. Planning and progress shows whether the schedule is realistic. A yes/no question counts how many have been asked to do a job they thought was unsafe."
+            },
+            {
+              "t": "Many companies on one site",
+              "looks": "A main contractor, three subcontractors and an electrician who arrived today. Who tells whom when the crane lifts over the roof?",
+              "fig": "Lack of planning and communication between businesses has been a cause in many of the accidents the Labour Inspection Authority has analysed. Construction firms in the Oslo region have met the ban on hiring from staffing agencies with, among other things, more subcontractors and more overtime.",
+              "solve": "The factor Coordination on site asks whether it is clear who is in charge when several companies work together, and whether you are told about the risk in the work others are doing around you. The suggested measures are concrete, such as a joint morning meeting for every company on site."
+            },
+            {
+              "t": "The instruction nobody understood",
+              "looks": "The foreman gives instructions in Norwegian, one person in the team translates, and the rest nod. Nobody asks again.",
+              "fig": "In a 2017 survey Fafo refers to, 29 % of employers had seen language problems lead to an accident or near miss. Among Polish and Lithuanian labour migrants living in Norway, 8 % said they did not speak Norwegian, and 30 % that they spoke quite little.",
+              "solve": "The factor Language and instructions asks whether safety information is given in a language each person understands well, whether there is always someone in the team who can pass messages between languages, and whether it is fine to ask again. The questionnaire is available in Norwegian and English today; more languages are not ready yet."
+            },
+            {
+              "t": "New, young and hired-in workers in the team",
+              "looks": "An apprentice on their first project, two hired-in workers who arrived on Monday and a summer temp. All get tasks before they know the site.",
+              "fig": "Young people under 25, people new in the job and hired-in workers are among the groups the Labour Inspection Authority names as most exposed to accidents. The injury rate is considerably higher in the youngest age groups.",
+              "solve": "The factor New and young people in the team asks whether new people are trained before they get risky tasks, whether they have a fixed person to ask, and whether they get time to learn. Hired-in workers who are part of the team can be added to your employee list, and then they answer like everyone else."
+            },
+            {
+              "t": "The near miss nobody reports",
+              "looks": "A panel slips from the crane and lands where someone stood ten minutes earlier. No deviation report is written.",
+              "fig": "Fafo describes how reporting unwanted incidents can be seen as snitching, and that many with a loose tie to the employer do not report. Fear of reprisals applies particularly to foreign workers.",
+              "solve": "A yes/no question counts near misses that were not reported – only as a count for the whole business, never per project. Safety in the team asks whether you speak up to each other and learn from incidents, and Freedom to speak up in the main survey shows whether people dare to say something."
+            },
+            {
+              "t": "Teams that do not talk to each other",
+              "looks": "Each team eats on its own in the site hut. When something goes wrong, it is easier to blame the others than to speak up.",
+              "fig": "An informant in Fafo’s report describes how the divides carry into the break rooms and can cause conflict and a lack of trust between people from different countries. The Labour Inspection Authority names a good climate for speaking up between workers and managers as important for safety.",
+              "solve": "The main survey measures Support from colleagues and Integrity and dignity, and asks anonymously about offensive behaviour. That question is shown only as a count for the whole business."
+            },
+            {
+              "t": "Long days and a long way home",
+              "looks": "Long days to earn the time off, and then the flight or the drive home. On Sunday evening the trip back begins.",
+              "fig": "12 % in civil engineering work more than 48 hours a week, against 8.2 % of all employed. Fafo’s informants name working hours as a known risk, particularly for those who commute between their home country and Norway and work long days to earn time off.",
+              "solve": "The factor Working hours and recovery asks whether working hours give enough rest, whether travel time and commuting are manageable over time, and whether overtime is the exception rather than the rule."
+            },
+            {
+              "t": "When something nearly went wrong",
+              "looks": "After a fall from the scaffolding, work is under way again the next morning. Nobody asks those who stood next to it how they are doing.",
+              "fig": "3,902 occupational injuries were registered in construction in 2024. 43 % in building work do heavy physical work, against 21 % of all employed.",
+              "solve": "The factor Saying you're not doing well asks whether there is a talk with those who were there after an accident or near miss, and whether people know where to get help. One of the suggestions is to gather those who were there the same week, with a manager or the occupational health service."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "sikkerhet_foran_fremdrift": "Safety before progress",
+          "sikkerhet_i_laget": "Safety in the team",
+          "planlegging_og_fremdrift": "Planning and progress",
+          "samordning_pa_byggeplassen": "Coordination on site",
+          "sprak_og_beskjeder": "Language and instructions",
+          "nye_og_unge": "New and young people in the team",
+          "a_si_at_man_ikke_har_det_bra": "Saying you're not doing well",
+          "arbeidstid_og_restitusjon": "Working hours and recovery"
+        },
+        "moduleTag": "Construction module",
+        "proof": {
+          "k": "What it looks like",
+          "title": "From answers to measures in one tool",
+          "lead": "The pictures are real screenshots from our demo company, Nordvik Anlegg AS – a fictional civil engineering firm with projects, a workshop, operations and administration. The demo shows the main survey. The construction module’s factors get results and suggested measures of their own, with an owner, a deadline and a new measurement in the pulse.",
+          "blocks": [
+            {
+              "k": "Results",
+              "h3": "See which project is struggling – without seeing who",
+              "ticks": [
+                "Each factor gets a score from 0 to 100, for the whole business and for each group with enough answers",
+                "Make one group per project, workshop or team – results per group are included in the Usual plan",
+                "A group with too few answers is shown as a dash, but its answers count in the figures for the whole business"
+              ],
+              "caption": "The heat map: the factors against the groups."
+            },
+            {
+              "k": "Measures",
+              "h3": "Every finding becomes a measure with an owner and a deadline",
+              "ticks": [
+                "Three suggested measures per factor, written for the building site – such as «Stop and report» and «Joint morning meeting»",
+                "Every measure gets an owner and a deadline",
+                "The next pulse measures whether it worked"
+              ],
+              "caption": "The measures board in Orgpuls."
+            },
+            {
+              "k": "Report",
+              "h3": "The report the Labour Inspection Authority asks for",
+              "ticks": [
+                "Survey, risk assessment and measures in one place, with dates",
+                "The legal basis for each factor",
+                "The construction module gets its own part of the report",
+                "Download it as a PDF the day someone asks"
+              ],
+              "caption": "The report, part 3: the survey."
+            }
+          ]
+        },
+        "steps": {
+          "k": "Getting started",
+          "title": "From organisation number to report in four steps",
+          "items": [
+            {
+              "t": "Register your business",
+              "d": "Enter your organisation number, and we fetch name, address and industry from the Brønnøysund Register Centre. If your industry code is construction, Orgpuls suggests the construction module."
+            },
+            {
+              "t": "Add your crew",
+              "d": "Make one group per project, workshop or team. Send the link by text message or e-mail, or put up the QR poster in the site hut."
+            },
+            {
+              "t": "See the results",
+              "d": "Each factor gets a score from 0 to 100 in green, yellow or red – for the whole business and for each project with enough answers."
+            },
+            {
+              "t": "Choose measures and follow up",
+              "d": "Pick from the suggestions, give each measure an owner and a deadline, and let the pulse measure whether it worked. The report updates itself."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymity",
+          "title": "Anonymous – even in a small team",
+          "lead": "No single answer can be traced back to a person. That is built into how answers are stored, not just promised in a privacy notice.",
+          "items": [
+            {
+              "t": "5 answers by default",
+              "d": "No group is shown until at least 5 have answered. Small teams can lower the limit to 3, never below. The fewer the answers, the easier it is to recognise who said what."
+            },
+            {
+              "t": "Projects with few answers",
+              "d": "A project with too few answers is not shown as a group of its own, but its answers count in the figures for the whole business. If a group could be worked out from the total and the other groups, one more group is held back."
+            },
+            {
+              "t": "The yes/no questions",
+              "d": "The questions about unreported near misses and jobs people thought were unsafe are shown only as a count for the whole business – never per project."
+            },
+            {
+              "t": "The project manager sees their project",
+              "d": "A department manager sees only their own group. The safety representative sees the same figures as management."
+            }
+          ],
+          "link": "Read about privacy and anonymity"
+        },
+        "faq": {
+          "k": "Questions and answers",
+          "title": "What construction managers ask",
+          "items": [
+            {
+              "q": "How long does it take the crew?",
+              "a": "The main survey takes about 4 minutes, and the construction module about 3 minutes more: 24 statements and 2 short yes/no questions. The survey stays open for 14 days, so people on different projects and rotations have time to answer."
+            },
+            {
+              "q": "What does it cost?",
+              "a": "Small costs NOK 265 a month for up to 25 employees, and Usual NOK 565 for 26–100 employees. The construction module is included in both. Prices exclude VAT, there is no lock-in, and the first 15 days are free."
+            },
+            {
+              "q": "Is it anonymous when the team is only five or six people?",
+              "a": "Yes. By default no group is shown until at least 5 have answered, and a team with fewer answers only counts in the figures for the whole business. Small teams can lower the limit to 3, but the fewer the answers, the easier it is to recognise who said what."
+            },
+            {
+              "q": "The crew has no work e-mail. Does it work?",
+              "a": "Yes. Send the link by text message, or put up the QR poster in the site hut. The employee scans the code, enters a mobile number or e-mail address and gets their own link. Everything works on a phone."
+            },
+            {
+              "q": "Can they answer in Polish or Lithuanian?",
+              "a": "Not yet. The questionnaire is available in Norwegian and English. English is offered when every question in the survey has an approved translation. More languages are not ready yet."
+            },
+            {
+              "q": "Can we include hired-in workers and subcontractors?",
+              "a": "The survey goes to the people you add to your employee list. Hired-in workers who are part of the team can be added as usual. Subcontractors’ people have their own employer. The factor Coordination on site shows how your own people experience working with other companies."
+            },
+            {
+              "q": "We have job safety analyses, safety rounds and a deviation system. Do we need this as well?",
+              "a": "Job safety analyses, safety rounds and the deviation system deal with the hazards in the work. Orgpuls surveys the psychosocial work environment – time pressure, coordination, language, support and the climate for speaking up – which the law requires in § 4-3 and chapter 1A of the regulation. It does not replace physical measures: the Labour Inspection Authority and STAMI write that psychosocial measures can reinforce other measures, but have little effect on their own."
+            },
+            {
+              "q": "Will this hold up if the Labour Inspection Authority visits?",
+              "a": "Orgpuls covers the survey and risk assessment of the psychosocial work environment. The report brings together survey, risk assessment, measures and follow-up, with dates. Incident handling, safety rounds, the health and safety plan for the site and HMS cards live elsewhere, and the Labour Inspection Authority expects the survey to draw on several sources – a questionnaire is one of them."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "All the questions in the construction module",
+          "lovkrav": "The legal requirement explained",
+          "verneombud": "The safety representative and the survey",
+          "smaa": "Work environment surveys for small businesses",
+          "priser": "Pricing"
+        },
+        "sources": {
+          "at_kompass26": "Norwegian Labour Inspection Authority and STAMI, Kompass no. 1 2026: Ulykker i bygg og anlegg – rapport 2025",
+          "noa": "STAMI, NOA: Fakta om arbeidsmiljøet i byggevirksomhet, figures from the Norwegian Living Conditions Survey on the Work Environment 2022",
+          "fafo_hms": "Fafo report 2025:33: Østeuropeisk arbeidskraft og HMS i bygg (Ødegård, Huseby and Bråten)",
+          "lovdata_aml": "Lovdata: Working Environment Act sections 2-2, 3-1 and 4-3",
+          "lovdata_bhf": "Lovdata: Construction Client Regulations section 19a, language requirements (in force 1 January 2024)",
+          "lovdata_forskrift": "Lovdata: Regulations concerning the performance of work, chapter 1A (in force 1 January 2026)",
+          "at_arsrapport": "Norwegian Labour Inspection Authority: Årsrapport 2025 – en analyse av Arbeidstilsynets innsats (annual report)",
+          "fafo_verneombud": "Fafo report 2025:10: Kartlegging av verneombudenes arbeid (Andersen, Bråten and Huseby), a survey of 1,200 heads of businesses",
+          "at_kompass25": "Norwegian Labour Inspection Authority and STAMI, Kompass no. 1 2025: Helseproblemer og ulykker i bygg og anlegg – rapport 2024",
+          "fafo_dapi": "Fafo report 2024:35: Arbeidstakere i bygge- og anleggsnæringen i 2015 og 2022 (Andersen and Dapi)",
+          "fafo_innleie": "Fafo note 2024:22: Virkninger av innstramninger i innleieregelverket (Alsos et al.)",
+          "noa_anlegg": "STAMI, NOA: Fakta om arbeidsmiljøet i anleggsvirksomheter, figures from the Norwegian Living Conditions Survey on the Work Environment 2022"
+        }
       }
     },
     "bransjer": {
@@ -11476,6 +11792,7 @@
           "plattform": "/plattform · the report and the legal basis",
           "claims": "Short legal claims across the site",
           "handel": "/handel · the law card, the inspection, the figures and the claims about anonymity",
+          "bygg": "/bygg-og-anlegg · the law card, the inspection, the figures and the claims about anonymity",
           "bransjer": "/bransjer · why an industry module, and the questions and answers",
           "terms": "Prices and terms of purchase"
         },

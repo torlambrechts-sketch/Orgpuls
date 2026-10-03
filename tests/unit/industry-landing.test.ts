@@ -49,7 +49,7 @@ describe('industry landing pages', () => {
       for (const c of l.challenges) expect(c.cites.length).toBeGreaterThan(0)
       for (const s of l.stats.items) expect(s.length).toBeGreaterThan(0)
       // and the record of them exists
-      expect(readFileSync(`docs/marketing/${l.slug}-sources.md`, 'utf8')).toContain('hentet 2026-10-03')
+      expect(readFileSync(`docs/marketing/${l.msg}-sources.md`, 'utf8')).toContain('hentet 2026-10-03')
     })
 
     it(`${l.slug}: the factors it names are the module's and the instrument's`, () => {
@@ -82,11 +82,19 @@ describe('industry landing pages', () => {
     it(`${l.slug}: an English page waits for the module's English translation (D-120)`, () => {
       if (l.live.en) expect(moduleFile(l.module).translations?.en).toBeDefined()
     })
+
+    it(`${l.slug}: the English module factor names are the translation's`, () => {
+      const tr = moduleFile(l.module).translations?.en
+      if (!tr) return
+      const namesEn = at(en as Words, `${base}.moduleFactors`) as Record<string, string>
+      for (const id of l.challenges.flatMap((c) => c.module)) expect(namesEn[id], id).toBe(tr.factors[id]?.name)
+    })
   }
 
   it('leaves the other industries on their own template, and the five v3 pages as they were', () => {
-    expect(isV3Route('/bygg-og-anlegg')).toBe(false)
+    expect(isV3Route('/helse-og-omsorg')).toBe(false)
     expect(isV3Route('/handel/sporsmal')).toBe(false)
+    expect(isV3Route('/bygg-og-anlegg/sporsmal')).toBe(false)
     for (const r of ['/', '/plattform', '/bruksomrader', '/bransjer', '/priser']) expect(isV3Route(r)).toBe(true)
   })
 })

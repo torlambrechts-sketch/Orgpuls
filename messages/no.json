@@ -8451,6 +8451,322 @@
           "lovdata_aml": "Lovdata: Arbeidsmiljøloven §§ 3-1, 4-1 og 4-3",
           "lovdata_forskrift": "Lovdata: Forskrift om utførelse av arbeid, kapittel 1A og 3A (i kraft 1. januar 2026)"
         }
+      },
+      "bygg": {
+        "nav": "Bygg og anlegg",
+        "seo": {
+          "title": "Arbeidsmiljøkartlegging for bygg og anlegg | Orgpuls",
+          "description": "Kartlegg arbeidsmiljøet på byggeplassen: tidspress, mange firma, språk på laget og nye folk. Anonymt på SMS eller QR i brakka. 15 dager gratis."
+        },
+        "hero": {
+          "k": "Bygg og anlegg · entreprenør og håndverk",
+          "h1": "Arbeidsmiljø­kartlegging for bygg og anlegg: se hva som sliter på laget – og følg det opp",
+          "lead": "Se hvor tidspress, mange firma på plassen og språk på laget skaper press – for hele virksomheten og for hvert prosjekt med nok svar. Mannskapet svarer anonymt på mobilen. Dere får forslag til tiltak med eier og frist, ny måling i pulsen og en rapport som viser at kartleggingen er gjort.",
+          "secondary": "Se spørsmålene for bygg og anlegg",
+          "figure": {
+            "title": "Slik svarer mannskapet",
+            "meta": "På mobilen · ca. 4 + {minutes} min",
+            "caption": "Spørreskjemaet på mobil, ett tema per side."
+          },
+          "tiles": [
+            {
+              "t": "{factors} faktorer for byggeplassen",
+              "d": "Bygg-modulen kommer i tillegg til hovedundersøkelsen og tar ca. {minutes} minutter ekstra."
+            },
+            {
+              "t": "Svar fra brakka",
+              "d": "Lenke på SMS eller e-post, eller QR-plakat i brakka. Ingen app, og ingen trenger jobb-e-post."
+            },
+            {
+              "t": "Rapport for Arbeidstilsynet",
+              "d": "Kartlegging, risikovurdering og tiltak samlet, med hjemmel for hver faktor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Hverdagen i tall",
+          "title": "Arbeidsmiljøet i bygg og anlegg: dette viser tallene",
+          "lead": "Rundt 240 000 bosatte jobber i bygge- og anleggsvirksomhet, og om lag 21 000 til er her på korttidsopphold. Tallene er hentet fra norsk forskning og offentlig statistikk.",
+          "items": [
+            {
+              "v": "29 %",
+              "l": "av arbeidstakerne i bygge- og anleggsvirksomhet var utenlandske i 2024"
+            },
+            {
+              "v": "16",
+              "l": "arbeidsskader per 1 000 sysselsatte i 2024, mot 11,8 i alle næringer"
+            },
+            {
+              "v": "1 av 3",
+              "l": "i byggevirksomhet jobber i en virksomhet med 9 eller færre sysselsatte"
+            },
+            {
+              "v": "1 av 2",
+              "l": "med sykefravær i byggevirksomhet sier at fraværet har sammenheng med jobben"
+            }
+          ],
+          "h3": "Mye blir aldri sagt på tavlemøtet",
+          "note": "Fafos rapport om HMS i bygg beskriver at det å melde uønskede hendelser kan bli sett på som tysting, at løs tilknytning til arbeidsgiver kan få mange til å la være å melde fra, og at frykt for represalier gjelder særlig utenlandske arbeidstakere.",
+          "text": "Et anonymt spørreskjema gir mannskapet en måte å si det på uten å stå fram. Bygg-modulen spør om nestenulykker som ikke ble meldt, og svaret vises bare som antall for hele virksomheten."
+        },
+        "why": {
+          "k": "Hvorfor kartlegge",
+          "title": "Hvorfor byggefirmaet må kartlegge arbeidsmiljøet",
+          "lead": "Arbeidsmiljøloven gjelder alle arbeidsgivere med ansatte, også håndverksbedriften med fem på laget. På byggeplassen kommer egne krav i tillegg: samordning når flere firma jobber på samme sted, og et språk alle på arbeidslaget forstår.",
+          "law": {
+            "title": "Det loven krever av byggefirmaet",
+            "pill": "Gjelder alle med ansatte",
+            "rows": [
+              {
+                "ref": "aml § 3-1 (2) c",
+                "t": "Kartlegg farer og problemer, vurder risikoen, lag planer og sett i verk tiltak."
+              },
+              {
+                "ref": "aml § 4-3",
+                "t": "De psykososiale arbeidsmiljøfaktorene skal være fullt forsvarlige – blant annet arbeidsmengde og tidspress, og støtte og hjelp i arbeidet. Ingen skal utsettes for trakassering eller annen utilbørlig opptreden."
+              },
+              {
+                "ref": "aml § 2-2 (2)",
+                "t": "Når flere virksomheter jobber på samme arbeidsplass, har hovedbedriften ansvaret for å samordne HMS-arbeidet."
+              },
+              {
+                "ref": "Byggherreforskriften § 19a",
+                "t": "Minst én på hvert arbeidslag skal kunne forstå og gjøre seg forstått på et språk de andre på laget forstår, når sikkerheten krever det."
+              },
+              {
+                "ref": "Forskriften § 1A-2",
+                "t": "Kartleggingen skal gjøres sammen med de ansatte, gjentas regelmessig og dokumenteres."
+              }
+            ],
+            "link": "Les mer om lovkravet"
+          },
+          "tilsyn": {
+            "t": "Arbeidstilsynet prioriterer byggevirksomheter",
+            "p": "I 2025 var byggevirksomheter blant næringene Arbeidstilsynet prioriterte i tilsyn med psykiske og muskel- og skjelettplager. I nær to av tre av disse tilsynene var kartleggingen mangelfull, og handlingsplaner, ansvarlige og frister for tiltakene holdt ofte ikke mål. Over halvparten av alle overtredelsesgebyrene gikk til byggenæringen.",
+            "d": "I Orgpuls får hvert tiltak en eier og en frist, og verneombudet ser de samme tallene som ledelsen."
+          },
+          "gap": {
+            "t": "Mange små firma har ikke gjort det",
+            "p": "Blant private virksomheter med færre enn 20 ansatte gjennomfører 28 % en medarbeiderundersøkelse, og 23 % gjør ingen av kartleggingene Fafo spurte om. Fafo finner fortsatt store HMS-utfordringer i mange av de minste byggefirmaene."
+          },
+          "cost": {
+            "t": "Det koster å la det ligge",
+            "items": [
+              "1 av 2 i byggevirksomhet med sykefravær sier at fraværet har sammenheng med jobben. Slikt fravær kan ofte forebygges på arbeidsplassen.",
+              "En analyse Arbeidstilsynet viser til, fant en sterk sammenheng mellom handlinger som utløste ulykker og usikker ledelse av risiko. Det kan peke mot at også psykososiale tiltak må prioriteres høyt i bygg og anlegg.",
+              "1 av 5 som jobbet i bygg og anlegg i 2015, jobbet i en annen næring i 2022. Yngre er overrepresentert blant dem som bytter."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Utfordringer og løsninger",
+          "title": "Åtte utfordringer på byggeplassen – og hvordan dere tar tak i dem",
+          "lead": "Utfordringene er hentet fra norsk forskning og tilsyn. Under hver står det hvilke spørsmål som måler den, og hva dere får å jobbe med.",
+          "items": [
+            {
+              "t": "Tidspress som går foran sikkerheten",
+              "looks": "Betongbilen er bestilt, stillaset er ikke ferdig, og byggherren venter. Det er da snarveiene blir tatt.",
+              "fig": "Fafos informanter beskriver et stadig større tidspress i prosjektene, som gjør det mer fristende å ta snarveier. Ulykkene Arbeidstilsynet har analysert, skjedde typisk ved arbeid som avvek fra den opprinnelige planen.",
+              "solve": "Faktoren Sikkerhet foran fremdrift spør om sikkerheten holder når det blir dårlig tid, og om man kan stanse en utrygg jobb uten å få problemer. Planlegging og fremdrift viser om tidsplanen er realistisk. Et ja/nei-spørsmål teller hvor mange som er blitt bedt om å gjøre en jobb de mente var utrygg."
+            },
+            {
+              "t": "Mange firma på samme plass",
+              "looks": "Hovedentreprenør, tre underentreprenører og en elektriker som kom i dag. Hvem sier fra til hvem når kranen skal løfte over taket?",
+              "fig": "Manglende planlegging og kommunikasjon mellom virksomhetene har vært en årsak i mange av ulykkene Arbeidstilsynet har analysert. Byggfirma i Oslo-området har møtt innleieforbudet blant annet med flere underentreprenører og mer overtid.",
+              "solve": "Faktoren Samordning på byggeplassen spør om det er tydelig hvem som har ansvaret når flere firma jobber sammen, og om dere får vite om risikoen i arbeidet andre gjør rundt dere. Forslagene til tiltak er konkrete, som et felles tavlemøte for alle firma på plassen."
+            },
+            {
+              "t": "Beskjeden som ikke ble forstått",
+              "looks": "Bas gir beskjed på norsk, én på laget oversetter, og resten nikker. Ingen spør igjen.",
+              "fig": "I en undersøkelse fra 2017 som Fafo viser til, hadde 29 % av arbeidsgiverne opplevd at språkproblemer førte til en ulykke eller nestenulykke. Blant bosatte arbeidsinnvandrere fra Polen og Litauen svarte 8 % at de ikke snakket norsk, og 30 % at de snakket ganske lite.",
+              "solve": "Faktoren Språk og beskjeder spør om sikkerhetsinformasjonen gis på et språk den enkelte forstår godt, om det alltid er noen på laget som kan formidle mellom språkene, og om det er greit å spørre igjen. Spørreskjemaet finnes i dag på norsk og engelsk; flere språk er ikke klare ennå."
+            },
+            {
+              "t": "Nye, unge og innleide på laget",
+              "looks": "En lærling på sitt første prosjekt, to innleide som kom mandag og en sommervikar. Alle får oppgaver før de kjenner plassen.",
+              "fig": "Unge under 25 år, nye i jobben og innleide er blant gruppene Arbeidstilsynet peker på som mest utsatt for ulykker. Skadehyppigheten er betydelig høyere i de yngste aldersgruppene.",
+              "solve": "Faktoren Nye og unge på laget spør om nye får opplæring før de får oppgaver med risiko, om de har en fast person å spørre, og om de får tid til å lære. Innleide som er en del av laget, kan dere legge inn i ansattlista, så svarer de som de andre."
+            },
+            {
+              "t": "Nestenulykken ingen melder",
+              "looks": "En plate glipper fra kranen og lander der noen sto for ti minutter siden. Det blir ikke skrevet noe avvik.",
+              "fig": "Fafo beskriver at det å melde uønskede hendelser kan bli sett på som tysting, og at mange med løs tilknytning lar være å melde fra. Frykt for represalier gjelder særlig utenlandske arbeidstakere.",
+              "solve": "Et ja/nei-spørsmål teller nestenulykker som ikke ble meldt – bare som antall for hele virksomheten, aldri per prosjekt. Sikkerhet i laget spør om dere sier fra til hverandre og lærer av hendelser, og Ytringsklima i hovedundersøkelsen viser om folk tør å si fra."
+            },
+            {
+              "t": "Lag som ikke snakker sammen",
+              "looks": "Hvert lag spiser for seg i brakka. Når noe går galt, er det lettere å skylde på de andre enn å si fra.",
+              "fig": "En informant i Fafos rapport beskriver hvordan skillene forplanter seg til pauserommene og kan gi konflikter og manglende tillit mellom folk fra ulike land. Arbeidstilsynet peker på et godt ytringsklima mellom arbeidstakere og ledere som viktig for sikkerheten.",
+              "solve": "Hovedundersøkelsen måler Støtte fra kollegaer og Integritet og verdighet, og spør anonymt om krenkende atferd. Det spørsmålet vises bare som antall for hele virksomheten."
+            },
+            {
+              "t": "Lange dager og lang vei hjem",
+              "looks": "Lange dager for å tjene opp friperioden, og så flyet eller bilen hjem. Søndag kveld begynner reisen tilbake.",
+              "fig": "12 % i anleggsvirksomhet jobber mer enn 48 timer i uka, mot 8,2 % av alle sysselsatte. Fafos informanter peker på arbeidstid som en kjent risiko, særlig for dem som pendler mellom hjemlandet og Norge og jobber lange dager for å tjene opp friperioder.",
+              "solve": "Faktoren Arbeidstid og restitusjon spør om arbeidstiden gir nok hvile, om reisetid og pendling er til å leve med over tid, og om overtid er unntaket og ikke normalen."
+            },
+            {
+              "t": "Når noe nesten gikk galt",
+              "looks": "Etter et fall fra stillaset er jobben i gang igjen neste morgen. Ingen spør dem som sto ved siden av, hvordan det går.",
+              "fig": "3 902 arbeidsskader ble registrert i bygge- og anleggsvirksomhet i 2024. 43 % i byggevirksomhet har tungt fysisk arbeid, mot 21 % av alle sysselsatte.",
+              "solve": "Faktoren Å si at man ikke har det bra spør om det tas en prat med dem som var der etter en ulykke eller nestenulykke, og om folk vet hvor de kan få hjelp. Et av forslagene er å samle dem som var der samme uke, med leder eller bedriftshelsetjenesten."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "sikkerhet_foran_fremdrift": "Sikkerhet foran fremdrift",
+          "sikkerhet_i_laget": "Sikkerhet i laget",
+          "planlegging_og_fremdrift": "Planlegging og fremdrift",
+          "samordning_pa_byggeplassen": "Samordning på byggeplassen",
+          "sprak_og_beskjeder": "Språk og beskjeder",
+          "nye_og_unge": "Nye og unge på laget",
+          "a_si_at_man_ikke_har_det_bra": "Å si at man ikke har det bra",
+          "arbeidstid_og_restitusjon": "Arbeidstid og restitusjon"
+        },
+        "moduleTag": "Bygg-modulen",
+        "proof": {
+          "k": "Slik ser det ut",
+          "title": "Fra svar til tiltak i samme verktøy",
+          "lead": "Bildene er ekte skjermbilder fra demo-virksomheten vår, Nordvik Anlegg AS – en tenkt anleggsbedrift med prosjekt, verksted, drift og administrasjon. Demoen viser hovedundersøkelsen. Bygg-modulens faktorer får egne resultater og forslag til tiltak, med eier, frist og ny måling i pulsen.",
+          "blocks": [
+            {
+              "k": "Resultater",
+              "h3": "Se hvilket prosjekt som sliter – uten å se hvem",
+              "ticks": [
+                "Hver faktor får en skår fra 0 til 100, for hele virksomheten og for hver gruppe med nok svar",
+                "Lag én gruppe per prosjekt, verksted eller lag – resultat per gruppe er med i pakken Vanlig",
+                "En gruppe med for få svar vises med strek, men svarene teller med i tallene for hele virksomheten"
+              ],
+              "caption": "Varmekartet: faktorene mot gruppene."
+            },
+            {
+              "k": "Tiltak",
+              "h3": "Hvert funn blir et tiltak med eier og frist",
+              "ticks": [
+                "Tre forslag til tiltak per faktor, skrevet for byggeplassen – for eksempel «Stopp og meld» og «Felles tavlemøte»",
+                "Hvert tiltak får en eier og en frist",
+                "Neste puls måler om tiltaket virket"
+              ],
+              "caption": "Tiltakstavla i Orgpuls."
+            },
+            {
+              "k": "Rapport",
+              "h3": "Rapporten Arbeidstilsynet spør etter",
+              "ticks": [
+                "Kartlegging, risikovurdering og tiltak samlet, med dato",
+                "Hjemmel for hver faktor",
+                "Bygg-modulen får en egen del i rapporten",
+                "Last den ned som PDF den dagen noen spør"
+              ],
+              "caption": "Rapporten, del 3: kartleggingen."
+            }
+          ]
+        },
+        "steps": {
+          "k": "Slik kommer dere i gang",
+          "title": "Fra organisasjonsnummer til rapport i fire steg",
+          "items": [
+            {
+              "t": "Registrer virksomheten",
+              "d": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Er bransjekoden bygg og anlegg, foreslår Orgpuls bygg-modulen."
+            },
+            {
+              "t": "Legg inn mannskapet",
+              "d": "Lag én gruppe per prosjekt, verksted eller lag. Send lenken på SMS eller e-post, eller heng opp QR-plakaten i brakka."
+            },
+            {
+              "t": "Se resultatet",
+              "d": "Hver faktor får en skår fra 0 til 100 i grønt, gult eller rødt – for hele virksomheten og for hvert prosjekt med nok svar."
+            },
+            {
+              "t": "Velg tiltak og følg opp",
+              "d": "Velg blant forslagene, gi tiltaket en eier og en frist, og la pulsen måle om det virket. Rapporten oppdaterer seg selv."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymitet",
+          "title": "Anonymt – også på et lite lag",
+          "lead": "Ingen enkeltsvar kan spores tilbake til en person. Det er bygd inn i måten svarene lagres på, ikke bare lovet i en personvernerklæring.",
+          "items": [
+            {
+              "t": "5 svar som standard",
+              "d": "Ingen gruppe vises før minst 5 har svart. Små team kan senke grensen til 3, aldri lavere. Jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+            },
+            {
+              "t": "Prosjekter med få svar",
+              "d": "Et prosjekt med for få svar vises ikke som egen gruppe, men svarene teller med i tallene for hele virksomheten. Kan en gruppe regnes ut fra totalen og de andre gruppene, holdes en gruppe til tilbake."
+            },
+            {
+              "t": "Ja/nei-spørsmålene",
+              "d": "Spørsmålene om nestenulykker som ikke ble meldt og jobber folk mente var utrygge, vises bare som antall for hele virksomheten – aldri per prosjekt."
+            },
+            {
+              "t": "Prosjektlederen ser sitt prosjekt",
+              "d": "En avdelingsleder ser bare sin egen gruppe. Verneombudet ser de samme tallene som ledelsen."
+            }
+          ],
+          "link": "Les om personvern og anonymitet"
+        },
+        "faq": {
+          "k": "Spørsmål og svar",
+          "title": "Det ledere i bygg og anlegg lurer på",
+          "items": [
+            {
+              "q": "Hvor lang tid tar det for mannskapet?",
+              "a": "Hovedundersøkelsen tar rundt 4 minutter, og bygg-modulen rundt 3 minutter til: 24 påstander og 2 korte ja/nei-spørsmål. Undersøkelsen står åpen i 14 dager, så folk på ulike prosjekter og turnuser rekker å svare."
+            },
+            {
+              "q": "Hva koster det?",
+              "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, og Vanlig 565 kr for 26–100 ansatte. Bygg-modulen er med i begge. Prisene er eks. mva., uten bindingstid, og de første 15 dagene er gratis."
+            },
+            {
+              "q": "Er det anonymt når laget bare er fem–seks stykker?",
+              "a": "Ja. Som standard vises ingen gruppe før minst 5 har svart, og et lag med færre svar teller bare med i tallene for hele virksomheten. Små team kan senke grensen til 3, men jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+            },
+            {
+              "q": "Mannskapet har ikke jobb-e-post. Går det?",
+              "a": "Ja. Send lenken på SMS, eller heng opp QR-plakaten i brakka. Den ansatte skanner koden, skriver inn mobilnummer eller e-post og får sin egen lenke. Alt fungerer på mobilen."
+            },
+            {
+              "q": "Kan de svare på polsk eller litauisk?",
+              "a": "Ikke ennå. Spørreskjemaet finnes på norsk og engelsk. Engelsk tilbys når alle spørsmålene i målingen har en godkjent oversettelse. Flere språk er ikke klare ennå."
+            },
+            {
+              "q": "Kan vi ta med innleide og underentreprenører?",
+              "a": "Undersøkelsen går til dem dere legger inn i ansattlista. Innleide som er en del av laget, kan dere legge inn som vanlig. Underentreprenørenes folk har sin egen arbeidsgiver. Faktoren Samordning på byggeplassen viser hvordan deres egne folk opplever samarbeidet med andre firma."
+            },
+            {
+              "q": "Vi har SJA, vernerunder og avvikssystem. Trenger vi dette i tillegg?",
+              "a": "SJA, vernerunder og avvikssystemet handler om farene i arbeidet. Orgpuls kartlegger det psykososiale arbeidsmiljøet – tidspress, samordning, språk, støtte og ytringsklima – som loven krever i § 4-3 og forskriften kapittel 1A. Det erstatter ikke fysiske tiltak: Arbeidstilsynet og STAMI skriver at psykososiale tiltak kan forsterke andre tiltak, men har liten effekt alene."
+            },
+            {
+              "q": "Holder dette hvis Arbeidstilsynet kommer?",
+              "a": "Orgpuls dekker kartleggingen og risikovurderingen av det psykososiale arbeidsmiljøet. Rapporten samler kartlegging, risikovurdering, tiltak og oppfølging med dato. Avvikshåndtering, vernerunder, SHA-plan og HMS-kort har dere et annet sted, og Arbeidstilsynet forventer at kartleggingen bygger på flere kilder – en undersøkelse er én av dem."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "Alle spørsmålene i bygg-modulen",
+          "lovkrav": "Lovkravet forklart",
+          "verneombud": "Verneombudet og kartleggingen",
+          "smaa": "Arbeidsmiljøkartlegging for små bedrifter",
+          "priser": "Priser"
+        },
+        "sources": {
+          "at_kompass26": "Arbeidstilsynet og STAMI, Kompass nr. 1 2026: Ulykker i bygg og anlegg – rapport 2025",
+          "noa": "STAMI, NOA: Fakta om arbeidsmiljøet i byggevirksomhet, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022",
+          "fafo_hms": "Fafo-rapport 2025:33: Østeuropeisk arbeidskraft og HMS i bygg (Ødegård, Huseby og Bråten)",
+          "lovdata_aml": "Lovdata: Arbeidsmiljøloven §§ 2-2, 3-1 og 4-3",
+          "lovdata_bhf": "Lovdata: Byggherreforskriften § 19a, krav om språkferdigheter (i kraft 1. januar 2024)",
+          "lovdata_forskrift": "Lovdata: Forskrift om utførelse av arbeid, kapittel 1A (i kraft 1. januar 2026)",
+          "at_arsrapport": "Arbeidstilsynet: Årsrapport 2025 – en analyse av Arbeidstilsynets innsats",
+          "fafo_verneombud": "Fafo-rapport 2025:10: Kartlegging av verneombudenes arbeid (Andersen, Bråten og Huseby), spørreundersøkelse blant 1 200 virksomhetsledere",
+          "at_kompass25": "Arbeidstilsynet og STAMI, Kompass nr. 1 2025: Helseproblemer og ulykker i bygg og anlegg – rapport 2024",
+          "fafo_dapi": "Fafo-rapport 2024:35: Arbeidstakere i bygge- og anleggsnæringen i 2015 og 2022 (Andersen og Dapi)",
+          "fafo_innleie": "Fafo-notat 2024:22: Virkninger av innstramninger i innleieregelverket (Alsos mfl.)",
+          "noa_anlegg": "STAMI, NOA: Fakta om arbeidsmiljøet i anleggsvirksomheter, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022"
+        }
       }
     },
     "bransjer": {
@@ -11476,6 +11792,7 @@
           "plattform": "/plattform · the report and the legal basis",
           "claims": "Short legal claims across the site",
           "handel": "/handel · the law card, the inspection, the figures and the claims about anonymity",
+          "bygg": "/bygg-og-anlegg · the law card, the inspection, the figures and the claims about anonymity",
           "bransjer": "/bransjer · why an industry module, and the questions and answers",
           "terms": "Prices and terms of purchase"
         },

@@ -43,13 +43,13 @@ const PAGES = [
   { slug: 'lovkrav', key: 'lovkrav', shot: 'rapport' },
   { slug: 'verneombud', key: 'verneombud', shot: 'varmekart' },
   { slug: 'smaa-bedrifter', key: 'smaaBedrifter', shot: 'oversikt' },
-  { slug: 'bygg-og-anlegg', key: 'byggOgAnlegg', shot: 'sporsmal' },
   { slug: 'helse-og-omsorg', key: 'helseOgOmsorg', shot: 'samtaler' },
   // an industry page with no landing page before it: the H1 is the page's own (content/industries)
   { slug: 'barnehage-og-skole', h1: industryH1('barnehage-og-skole'), shot: 'sporsmal' },
   { slug: 'kunnskap-og-kontor', h1: industryH1('kunnskap-og-kontor'), shot: 'sporsmal' },
   // an industry on the landing template (content/industries/landing.ts, D-207): the H1 is its message
   { slug: 'handel', h1: no.site.bransje.handel.hero.h1, shot: 'sporsmal' },
+  { slug: 'bygg-og-anlegg', h1: no.site.bransje.bygg.hero.h1, shot: 'sporsmal' },
   // the hub (D-207): its H1, and the overview a leader gets
   { slug: 'bransjer', h1: no.site.bransjer.h1, shot: 'oversikt' },
 ]

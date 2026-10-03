@@ -8,6 +8,7 @@ import { SiteTop } from '@/components/site/v3/SiteTop'
 import { StartBand } from '@/components/site/v3/StartBand'
 import { Faq } from '@/components/site/v3/pris/Faq'
 import type { IndustryLanding as Landing } from '@/content/industries/landing'
+import { liveQuestionPages } from '@/content/industries'
 import { moduleFacts, moduleFile } from '@/content/industries/modules'
 import { ARTICLES } from '@/lib/marketing/site'
 import { SHOTS } from '@/lib/marketing/shots'
@@ -95,9 +96,11 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
     const a = ARTICLES.find((x) => x.slug === slug)
     return a ? [{ href: `/artikler/${slug}`, label: all(`seo.articles.${a.key}.h1`) }] : []
   })
+  // the question page exists in a language only where the industry's page there is launched (D-118);
+  // it is drawn from the content file, so an English one follows from the module's translation (D-120)
+  const questionPage = liveQuestionPages(lang).includes(landing.slug)
   const related = [...landing.related.map((r) => ({ href: r.href, label: t(`related.${r.key}`) })), ...articles]
-    // the question page exists in a language only with the industry page there (D-118)
-    .filter((r) => lang === 'no' || r.href !== `/${landing.slug}/sporsmal`)
+    .filter((r) => questionPage || r.href !== `/${landing.slug}/sporsmal`)
   const hero = SHOTS[landing.heroShot].img
 
   return (
@@ -138,7 +141,7 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
                 <a href="#kom-i-gang" className={`flex min-h-[50px] ${CTA}`}>
                   {chrome('trial')} <span aria-hidden="true">→</span>
                 </a>
-                {lang === 'no' ? (
+                {questionPage ? (
                   <Link href={`/${landing.slug}/sporsmal` as Route} className="text-[15.5px] font-bold hover:no-underline">
                     {t('hero.secondary')} <span aria-hidden="true">→</span>
                   </Link>
@@ -376,7 +379,7 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
           </ol>
           <p className="m-0 mt-[24px] text-[14px] text-body">
             <span className="tabular-nums">{fmt(common.raw('facts') as string)}</span>
-            {lang === 'no' ? (
+            {questionPage ? (
               <>
                 {' · '}
                 <Link href={`/${landing.slug}/sporsmal` as Route} className="font-bold">

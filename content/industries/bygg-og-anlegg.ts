@@ -5,6 +5,12 @@ import type { IndustryPage } from './types'
  * is the module file's (modules/bygg-og-anlegg/v1.json) by code; every figure carries the
  * source it came from. Two sentences of the reference describe factor toggles, which are
  * built but switched off (`module_factor_toggles`), and are left out until they ship (D-118).
+ *
+ * Since D-208 the address /bygg-og-anlegg is drawn by the landing template (content/industries/landing.ts,
+ * messages `site.bransje.bygg`), as /handel's is since D-207. What this file still feeds: the question
+ * page (`questionPage`, /bygg-og-anlegg/sporsmal), the menu's name (`navLabel`), whether the menu and
+ * /bransjer list it (`launched`), the module key, and the legal review's record of the claims below. Its hero, challenges, law block and
+ * FAQ are no longer shown on the site; they stay as the record of what the page said until D-208.
  */
 export const byggOgAnlegg: IndustryPage = {
   slug: 'bygg-og-anlegg',

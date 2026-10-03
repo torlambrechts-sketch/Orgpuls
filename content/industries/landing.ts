@@ -14,7 +14,7 @@ import type { IndustryPage } from './types'
  * registry says (the template parses them with exact lengths, and tests/unit/industry-landing
  * checks both languages), so a figure can never lose its source by drifting out of step.
  *
- * Every source is a document someone fetched and read; docs/marketing/<slug>-sources.md records
+ * Every source is a document someone fetched and read; docs/marketing/<msg>-sources.md records
  * what each figure is, where in the source it stands, and when it was fetched. The page numbers the
  * sources in this order.
  */
@@ -114,6 +114,72 @@ export const LANDINGS: IndustryLanding[] = [
       },
       { key: 'lovdata_forskrift', url: 'https://lovdata.no/forskrift/2011-12-06-1357', year: '2026' },
       { key: 'lovdata_aml', url: 'https://lovdata.no/lov/2005-06-17-62', year: '2026' },
+    ],
+  },
+  {
+    // D-208. English is live: modules/bygg-og-anlegg/v1.json carries the English translation (D-120)
+    slug: 'bygg-og-anlegg',
+    msg: 'bygg',
+    live: { no: true, en: true },
+    module: 'bygg-og-anlegg',
+    heroShot: 'sporsmal',
+    stats: {
+      leadCites: ['at_kompass26'],
+      items: [['at_kompass26'], ['at_kompass26'], ['noa'], ['noa']],
+      noteCites: ['fafo_hms'],
+    },
+    why: {
+      lawCites: ['lovdata_aml', 'lovdata_bhf', 'lovdata_forskrift'],
+      tilsynCites: ['at_arsrapport'],
+      gapCites: ['fafo_hms', 'fafo_verneombud'],
+      costCites: [['noa'], ['at_kompass25'], ['fafo_dapi']],
+    },
+    challenges: [
+      { cites: ['fafo_hms', 'at_kompass25'], module: ['sikkerhet_foran_fremdrift', 'planlegging_og_fremdrift'], core: ['mengde'] },
+      { cites: ['at_kompass25', 'fafo_innleie'], module: ['samordning_pa_byggeplassen'], core: ['kontakt'] },
+      { cites: ['fafo_hms'], module: ['sprak_og_beskjeder'], core: [] },
+      { cites: ['at_kompass26', 'at_kompass25'], module: ['nye_og_unge'], core: [] },
+      { cites: ['fafo_hms'], module: ['sikkerhet_i_laget'], core: ['ytring'] },
+      { cites: ['fafo_hms', 'at_kompass25'], module: [], core: ['kollega', 'integritet'] },
+      { cites: ['fafo_hms', 'noa_anlegg'], module: ['arbeidstid_og_restitusjon'], core: [] },
+      { cites: ['at_kompass26', 'noa'], module: ['a_si_at_man_ikke_har_det_bra'], core: [] },
+    ],
+    proof: ['varmekart', 'tiltak', 'rapport'],
+    faqCount: 8,
+    related: [
+      { key: 'sporsmal', href: '/bygg-og-anlegg/sporsmal' },
+      { key: 'lovkrav', href: '/lovkrav' },
+      { key: 'verneombud', href: '/verneombud' },
+      { key: 'smaa', href: '/smaa-bedrifter' },
+      { key: 'priser', href: '/priser' },
+    ],
+    articles: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'anonym-medarbeiderundersokelse'],
+    fetched: '2026-10-03',
+    sources: [
+      {
+        key: 'at_kompass26',
+        url: 'https://www.arbeidstilsynet.no/globalassets/rapportar/kompass/kompass-tema-nr-1.-2026-ulykker-i-bygg-og-anlegg.pdf',
+        year: '2026',
+      },
+      { key: 'noa', url: 'https://noa.stami.no/yrker-og-naeringer/noa/bygg/', year: '2022' },
+      { key: 'fafo_hms', url: 'https://www.fafo.no/images/pub/2026/20947.pdf', year: '2025' },
+      { key: 'lovdata_aml', url: 'https://lovdata.no/lov/2005-06-17-62', year: '2026' },
+      { key: 'lovdata_bhf', url: 'https://lovdata.no/forskrift/2009-08-03-1028', year: '2024' },
+      { key: 'lovdata_forskrift', url: 'https://lovdata.no/forskrift/2011-12-06-1357', year: '2026' },
+      {
+        key: 'at_arsrapport',
+        url: 'https://www.arbeidstilsynet.no/globalassets/rapportar/arsrapport/arsrapport-2025/arbeidstilsynets-arsrapport-2025.pdf',
+        year: '2026',
+      },
+      { key: 'fafo_verneombud', url: 'https://www.fafo.no/images/pub/2025/20923.pdf', year: '2025' },
+      {
+        key: 'at_kompass25',
+        url: 'https://www.arbeidstilsynet.no/globalassets/rapportar/kompass/kompass-tema-nr-1.-2025-helseproblemer-og-ulykker-i-bygg-og-anlegg.pdf',
+        year: '2025',
+      },
+      { key: 'fafo_dapi', url: 'https://www.fafo.no/images/pub/20902.pdf', year: '2024' },
+      { key: 'fafo_innleie', url: 'https://www.fafo.no/images/pub/10416.pdf', year: '2024' },
+      { key: 'noa_anlegg', url: 'https://noa.stami.no/yrker-og-naeringer/noa/anlegg/', year: '2022' },
     ],
   },
 ]
