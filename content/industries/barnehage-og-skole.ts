@@ -11,6 +11,14 @@ import type { IndustryPage } from './types'
  * paragrafer»; it names the sections (§ 12-4, § 13-4, checked against Lovdata 2026-09-27).
  * Parts the template needs and the brief does not write (the loop's steps, the module overview's
  * closing note, the question page's rules) follow helse og omsorg's, in this industry's words.
+ *
+ * Since D-211 the address /barnehage-og-skole is drawn by the landing template (content/industries/landing.ts,
+ * messages `site.bransje.barnehage`), as /handel's, /bygg-og-anlegg's and /helse-og-omsorg's are. What this file
+ * still feeds: the question page (`questionPage`, /barnehage-og-skole/sporsmal, with its wording switch, which the
+ * landing page opens in either wording through `?ordbruk=`), the menu's name (`navLabel`), whether the menu and
+ * /bransjer list it (`launched`), the module key, and the legal review's record of the claims below. Its hero,
+ * challenges, law block and FAQ are no longer shown on the site; they stay as the record of what the page said
+ * until D-211.
  */
 export const barnehageOgSkole: IndustryPage = {
   slug: 'barnehage-og-skole',

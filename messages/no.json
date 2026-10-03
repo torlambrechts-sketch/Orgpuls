@@ -9497,6 +9497,358 @@
           "at_alene": "Arbeidstilsynet: Alenearbeid",
           "fafo_ufaglaerte": "Fafo-rapport 2025:08: Nye stillinger for ikke-faglærte i pleie- og omsorgstjenestene (Jordell, Yssen og Moland)"
         }
+      },
+      "barnehage": {
+        "nav": "Barnehage og skole",
+        "seo": {
+          "title": "Arbeidsmiljøkartlegging for barnehage og skole | Orgpuls",
+          "description": "Kartlegg arbeidsmiljøet i barnehage, skole og SFO: vold og trusler, bemanning, foreldre og tid til kjerneoppgavene. Anonymt på SMS eller QR. 15 dager gratis."
+        },
+        "hero": {
+          "k": "Barnehage, skole og SFO",
+          "h1": "Arbeidsmiljø­kartlegging for barnehage og skole: se hva som sliter på de voksne – og følg det opp",
+          "lead": "Se hvor vold og trusler, for få voksne og krevende foreldresamarbeid går ut over personalet – for hele barnehagen eller skolen og for hver avdeling, hvert trinn eller SFO med nok svar. Påstandene sier «barna» i barnehagen og «elevene» i skolen. Dere får forslag til tiltak med eier og frist, ny måling i pulsen og en rapport som viser at kartleggingen er gjort.",
+          "secondary": "Velg barnehage eller skole",
+          "figure": {
+            "title": "Slik svarer de ansatte",
+            "meta": "På mobilen · ca. 4 + {minutes} min",
+            "caption": "Spørreskjemaet på mobil, ett tema per side."
+          },
+          "tiles": [
+            {
+              "t": "{factors} faktorer for barnehage og skole",
+              "d": "Modulen kommer i tillegg til hovedundersøkelsen og tar ca. {minutes} minutter ekstra. Påstandene sier «barna» eller «elevene»."
+            },
+            {
+              "t": "Svar fra hele personalet",
+              "d": "Lenke på SMS eller e-post, eller QR-plakat på personalrommet. Ingen app, og ingen trenger jobb-e-post."
+            },
+            {
+              "t": "Rapport for Arbeidstilsynet",
+              "d": "Kartlegging, risikovurdering og tiltak samlet, med hjemmel for hver faktor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Hverdagen i tall",
+          "title": "Arbeidsmiljøet i barnehage og skole: dette viser tallene",
+          "lead": "Rundt 104 000 jobber i barnehager og SFO, og rundt 232 000 i undervisning. Litt over halvparten av barnehagene er private. Tallene er hentet fra norsk forskning, tilsyn og offentlig statistikk.",
+          "items": [
+            {
+              "v": "10,3 %",
+              "l": "legemeldt sykefravær i barnehagene i 1. kvartal 2025, mot 6,1 % i alle næringer"
+            },
+            {
+              "v": "28 %",
+              "l": "av grunnskolelærerne ble utsatt for vold på jobb siste år – høyest av alle yrker, mot 5,7 % av alle sysselsatte"
+            },
+            {
+              "v": "60 %",
+              "l": "i barnehage og SFO jobber på huk eller på knærne, mot 17 % av alle sysselsatte"
+            },
+            {
+              "v": "43 %",
+              "l": "av grunnskolelærerne opplever høye emosjonelle krav, mot 20 % i arbeidslivet som helhet"
+            }
+          ],
+          "h3": "Mye blir aldri meldt",
+          "note": "Nesten 9 av 10 lærere i videregående skole sier at skolen har et system for å melde vold og trusler. Likevel blir det lite brukt, finner Fafo. De som mener det ikke fungerer, peker på at for få bruker det, at det er for dårlig kjent, og at avvik som meldes, ikke blir fulgt opp.",
+          "text": "Et anonymt spørreskjema gir de ansatte en måte å si det på uten å stå fram. Modulen spør om hendelser med vold eller trusler fra barn eller elever som ikke ble meldt, og om dager der fravær ikke ble dekket med vikar. Svarene vises bare som antall for hele virksomheten."
+        },
+        "why": {
+          "k": "Hvorfor kartlegge",
+          "title": "Hvorfor barnehagen og skolen må kartlegge arbeidsmiljøet",
+          "lead": "Arbeidsmiljøloven gjelder alle arbeidsgivere med ansatte – også den lille private barnehagen, friskolen og SFO-en. Barnas og elevenes rettigheter etter barnehageloven og opplæringsloven gjelder samtidig med de ansattes etter arbeidsmiljøloven, og i arbeid med mennesker peker loven særlig på emosjonelle krav og vold og trusler.",
+          "law": {
+            "title": "Det loven krever – også i arbeid med barn",
+            "pill": "Gjelder alle med ansatte",
+            "rows": [
+              {
+                "ref": "aml § 3-1 (2) c",
+                "t": "Kartlegg farer og problemer, vurder risikoen, lag planer og sett i verk tiltak."
+              },
+              {
+                "ref": "aml § 4-3 (2)",
+                "t": "De psykososiale faktorene skal være fullt forsvarlige – blant annet uklare eller motstridende krav, emosjonelle krav og belastninger i arbeid med mennesker, og arbeidsmengde og tidspress."
+              },
+              {
+                "ref": "aml § 4-3 (6)",
+                "t": "Arbeidstaker skal, så langt det er mulig, beskyttes mot vold, trusler og uheldige belastninger som følge av kontakt med andre."
+              },
+              {
+                "ref": "Forskriften kap. 3A",
+                "t": "Kartlegg og risikovurder vold og trusler – blant annet alenearbeid, arbeidstid og bemanning – og sørg for tiltak, opplæring og oppfølging."
+              },
+              {
+                "ref": "Forskriften § 1A-2",
+                "t": "Kartleggingen skal gjøres sammen med de ansatte, gjentas regelmessig og dokumenteres."
+              }
+            ],
+            "link": "Les mer om lovkravet"
+          },
+          "tilsyn": {
+            "t": "Arbeidstilsynet fant mangler hos nær 9 av 10 skoler",
+            "p": "I 2023–2025 førte Arbeidstilsynet over 1 000 tilsyn i grunnskoler, SFO-er og videregående skoler. Nær 9 av 10 hadde mangler i kartlegging, risikovurdering og tiltak mot vold og trusler, og 8 av 10 hadde ikke sørget for nødvendig opplæring og øvelse. «Mange hopper rett fra kartlegging til tiltak», sier en rådgiver i Arbeidstilsynet – og da blir tiltakene for generelle eller mangler en ansvarlig.",
+            "d": "I Orgpuls får hvert tiltak en eier og en frist, og verneombudet ser de samme tallene som ledelsen."
+          },
+          "gap": {
+            "t": "Mange små virksomheter har ikke gjort det",
+            "p": "Nær 1 av 5 barnehager har under 26 barn, og private grunnskoler er om lag 10 % av skolene, men har bare 5 % av elevene. Blant private virksomheter med færre enn 20 ansatte gjennomfører 28 % en medarbeiderundersøkelse, og 23 % gjør ingen av kartleggingene Fafo spurte om."
+          },
+          "cost": {
+            "t": "Det koster å la det ligge",
+            "items": [
+              "1 av 2 i barnehage og SFO og 1 av 3 i undervisning med sykefravær sier at fraværet har sammenheng med jobben. Slikt fravær kan ofte forebygges på arbeidsplassen.",
+              "38 % av lærerne på ungdomstrinnet får mye stress av ekstra arbeid når kolleger er borte, opp fra 26 % i 2018. TALIS-forskerne ser fare for en ond sirkel der fravær gir stress, som kan gi enda mer fravær.",
+              "Vikarer koster mer enn lønn. Da barnehager fikk faste ekstra ansatte i stedet, ble de mindre sårbare for uventet fravær, og ansatte og ledere sparte tid og krefter på å følge opp og veilede vikarer, finner Fafo."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Utfordringer og løsninger",
+          "title": "Åtte utfordringer i barnehage og skole – og hvordan dere tar tak i dem",
+          "lead": "Utfordringene er hentet fra norsk forskning, statistikk og tilsyn. De fleste gjelder både barnehage og skole; de som gjelder bare den ene, er merket. Under hver står det hvilke spørsmål som måler den, og hva dere får å jobbe med.",
+          "items": [
+            {
+              "t": "Vold og trusler fra barn og elever",
+              "looks": "Et barn som biter og sparker i garderoben, en elev som kaster en stol når overgangen blir for brå. Ofte er det de samme situasjonene som kommer igjen.",
+              "fig": "28 % av grunnskolelærerne og nær 1 av 5 barnehagelærere og barnehage- og skoleassistenter ble utsatt for vold på jobb siste år, mot 5,7 % av alle sysselsatte. 8 av 10 ledere i grunnskolen rapporterer voldshendelser det siste året.",
+              "solve": "Faktoren Vold og trusler spør om rutinene er kjent, om man vet hvilket handlingsrom man har til å gripe inn når en situasjon blir farlig, og om den som var involvert, blir fulgt opp. Et ja/nei-spørsmål teller hendelser som ikke ble meldt. Påstanden sier «et barn» i barnehagen og «en elev» i skolen."
+            },
+            {
+              "t": "For få voksne i ytterkantene av dagen",
+              "looks": "Normen holder på papiret. Men ved åpning, i pausene og når de siste blir hentet, står én voksen alene med flere barn enn noen kan ha oversikt over.",
+              "fig": "99 % av barnehagene oppfyller bemanningsnormen. Men i en spørring fra 2019 oppga 86 % av styrerne at de har full bemanning under 6 timer av dagen, og Udir skriver at bemanning på papiret kan være noe annet enn bemanning i virkeligheten.",
+              "solve": "Faktoren Bemanning og vikarer spør om bemanningen gjør det mulig å gi barna det de trenger, om det blir satt inn vikar når noen er borte, og om man sjelden står alene med flere barn enn man har oversikt over. Et ja/nei-spørsmål teller dager der fravær ikke ble dekket med vikar. Arbeidsmengde og tidspress i hovedundersøkelsen viser om tempoet er for høyt."
+            },
+            {
+              "t": "Dokumentasjon og vurdering tar tiden",
+              "looks": "Planer, vurderinger, referater og meldinger. Tiden til å følge opp eleven som trenger det, blir det som er igjen.",
+              "fig": "Over halvparten av lærerne på ungdomstrinnet får mye stress av mengden administrativt arbeid og av vurdering og karaktersetting. «Lærere har mange roller og dokumentasjonskrav, og de jobber mye og har lite tid til pause i hverdagen», sier en inspektør i Arbeidstilsynet.",
+              "solve": "Faktoren Tid til kjerneoppgavene spør om man har tid til å planlegge og forberede arbeidet med elevene, om dokumentasjon og rapportering står i forhold til nytten, og om møtetid og fellestid brukes til det som er viktigst. Ett av forslagene er beskyttet planleggingstid. Arbeidsmengde og tidspress i hovedundersøkelsen viser det samlede presset."
+            },
+            {
+              "t": "Foreldre – også etter arbeidstid",
+              "looks": "En melding sent på kvelden, en bekymret forelder ved porten, en samtale som låser seg. Samarbeidet er viktig – og noen ganger det tyngste i uka.",
+              "fig": "Om lag halvparten av lærerne på ungdomstrinnet får mye stress av å håndtere foreldres bekymringer, og det har økt siden 2018. Samtidig føler 76 % seg verdsatt av foreldrene. 41 % i undervisning opplever at jobben forstyrrer privatlivet, blant annet fordi elever og foresatte tar kontakt etter arbeidstid.",
+              "solve": "Faktoren Samarbeid med foreldre spør om det er tydelig hva foreldre kan forvente, om man får støtte fra ledelsen når samarbeidet blir krevende, og om man slipper å svare foreldre utenom arbeidstiden. Forslagene er blant annet svartid i arbeidstiden og at lederen er med i de krevende møtene."
+            },
+            {
+              "t": "Barn og elever som trenger mer enn dere kan gi",
+              "looks": "Et barn som trenger en voksen hele dagen, en elev som venter på utredning. Tilretteleggingen skjer i en vanlig gruppe, med de voksne som er der.",
+              "fig": "Flere lærere på ungdomstrinnet enn i 2018 melder om en mer sammensatt elevgruppe og behov for mer kompetanse til tilpasning. NIFU finner at elever med behov for tilrettelagt opplæring ofte er involvert i voldshendelser, og at spesialpedagoger og assistenter som jobber tett med dem, er mest utsatt.",
+              "solve": "Faktoren Tilrettelegging og inkludering spør om man får nok støtte til å møte barn eller elever med særskilte behov, om dere har tilgang til spesialpedagogisk kompetanse, og om man vet hvem man kan kontakte når et barn trenger mer hjelp enn dere kan gi. Ett av forslagene er faste møter med støttetjenestene."
+            },
+            {
+              "t": "Mange uten pedagogisk utdanning – og nye hele tiden",
+              "looks": "Den faste assistenten kjenner barna best, vikaren er her for første gang, og det er uklart hvem som har ansvaret for hva.",
+              "fig": "I barnehagene er 42,2 % av grunnbemanningen barnehagelærere og 22,8 % barne- og ungdomsarbeidere – 35 % er verken det ene eller det andre. I grunnskolen stiller loven ingen krav til utdanning for assistenter, og assistenter og andre står for nesten en tredjedel av årstimene i elevrettet arbeid.",
+              "solve": "Faktoren Kompetanse og fellesskap i personalet spør om nye og vikarer får opplæring før de har ansvar for barn alene, om dere har tid til faglige samtaler, og om det er tydelig hvordan oppgavene fordeles mellom pedagoger og andre ansatte. Ett av forslagene er en vikarmappe og en fast gjennomgang første dag. Støtte fra kollegaer i hovedundersøkelsen viser hvordan laget fungerer."
+            },
+            {
+              "t": "Lave stoler, løft og støy",
+              "looks": "Påkledning på huk, en toåring på hofta og en voksen på barnestol ved lunsjen. Og lyden av en full avdeling i ett rom.",
+              "fig": "I barnehage og SFO jobber 60 % på huk eller på knærne og 38 % løfter i ubekvemme stillinger, mot 17 og 14 % av alle sysselsatte. 35 % oppgir ryggsmerter som helt eller delvis skyldes jobben. 24 % opplever høyt lydnivå, mot 8,6 % – målinger viser lav risiko for hørselsskade, men lyden kan være mentalt belastende.",
+              "solve": "Faktoren Støy, kropp og pauser spør om støynivået er til å leve med, om dere har møbler og utstyr som gjør at man kan jobbe godt for kroppen, og om man får tatt pauser. Forslagene er konkrete: et støykart, pauser der man er avløst, og voksenstoler og stellebord med heis."
+            },
+            {
+              "t": "Tunge saker og følelsene man tar med hjem",
+              "looks": "En bekymring for hvordan et barn har det hjemme, en mobbesak som ikke slipper taket. Man skal være rolig og profesjonell – og så gå hjem.",
+              "fig": "31 % i barnehage og SFO og 32 % i undervisning opplever høye emosjonelle krav, mot 20 % av alle sysselsatte. I barnehage og SFO er 41 % ofte psykisk utmattet etter jobb.",
+              "solve": "Faktoren Vanskelige saker spør om man vet hvordan dere går fram ved bekymring for hvordan et barn har det hjemme, om man står alene med saker om mobbing og krenkelser, og om dere har tid til å følge dem opp. Ett av forslagene er to ansvarlige på hver sak, aldri én. Hovedundersøkelsen måler Emosjonelle krav, så modulen gjentar dem ikke."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "vold_og_trusler": "Vold og trusler fra barn og elever",
+          "bemanning_og_vikarer": "Bemanning og vikarer",
+          "tid_til_kjerneoppgavene": "Tid til kjerneoppgavene",
+          "samarbeid_med_foreldre": "Samarbeid med foreldre",
+          "tilrettelegging_og_inkludering": "Tilrettelegging og inkludering",
+          "kompetanse_og_fellesskap": "Kompetanse og fellesskap i personalet",
+          "stoy_kropp_og_pauser": "Støy, kropp og pauser",
+          "vanskelige_saker": "Vanskelige saker"
+        },
+        "moduleTag": "Bransjemodulen",
+        "audience": {
+          "barnehage": "Barnehage",
+          "skole": "Skole"
+        },
+        "wording": {
+          "k": "Barnehage eller skole",
+          "title": "Se spørsmålene slik deres ansatte får dem",
+          "lead": "Påstandene er de samme, men ordbruken følger virksomheten: «barna» i barnehagen og «elevene» i skolen og SFO. Orgpuls foreslår ordbruken ut fra bransjekoden, og dere kan endre den under Målinger.",
+          "begge": "Har dere både barnehage og skole? Velg «Begge», så sier påstandene «barna eller elevene». Kodene og skåringen er de samme i alle tre.",
+          "example": "Samme påstand, to ordbruk:",
+          "items": {
+            "barnehage": {
+              "t": "Barnehage",
+              "link": "Se spørsmålene for barnehage"
+            },
+            "skole": {
+              "t": "Skole og SFO",
+              "link": "Se spørsmålene for skole og SFO"
+            }
+          }
+        },
+        "proof": {
+          "k": "Slik ser det ut",
+          "title": "Fra svar til tiltak i samme verktøy",
+          "lead": "Bildene er ekte skjermbilder fra demo-virksomheten vår, Nordvik Anlegg AS – en tenkt anleggsbedrift, ikke en barnehage eller skole. Demoen viser hovedundersøkelsen. Barnehage- og skolemodulens faktorer får egne resultater og forslag til tiltak, med eier, frist og ny måling i pulsen.",
+          "blocks": [
+            {
+              "k": "Resultater",
+              "h3": "Se hvilken avdeling eller hvilket trinn som sliter – uten å se hvem",
+              "ticks": [
+                "Hver faktor får en skår fra 0 til 100, for hele virksomheten og for hver gruppe med nok svar",
+                "Lag én gruppe per avdeling, trinn eller SFO – resultat per gruppe er med i pakken Vanlig",
+                "En gruppe med for få svar vises med strek, men svarene teller med i tallene for hele virksomheten"
+              ],
+              "caption": "Varmekartet: faktorene mot gruppene."
+            },
+            {
+              "k": "Tiltak",
+              "h3": "Hvert funn blir et tiltak med eier og frist",
+              "ticks": [
+                "Tre forslag til tiltak per faktor, skrevet for barnehage og skole – for eksempel «Handlingsrom på ett ark» og «Vikarmappe og første dag»",
+                "Hvert tiltak får en eier og en frist",
+                "Verneombudet ser de samme tallene som ledelsen"
+              ],
+              "caption": "Tiltakstavla i Orgpuls."
+            },
+            {
+              "k": "Oppfølging",
+              "h3": "Følg opp med puls gjennom året",
+              "ticks": [
+                "Planlegg hovedmålingen og pulsene i årshjulet",
+                "Pulsen tar med påstandene som måler tiltakene dere jobber med",
+                "Resultatene sammenlignes med forrige måling"
+              ],
+              "caption": "Årshjulet: grunnlinje og pulser gjennom året."
+            },
+            {
+              "k": "Rapport",
+              "h3": "Rapporten Arbeidstilsynet spør etter",
+              "ticks": [
+                "Kartlegging, risikovurdering og tiltak samlet, med dato",
+                "Hjemmel for hver faktor",
+                "Barnehage- og skolemodulen får en egen del i rapporten",
+                "Last den ned som PDF den dagen noen spør"
+              ],
+              "caption": "Rapporten, del 3: kartleggingen."
+            }
+          ]
+        },
+        "steps": {
+          "k": "Slik kommer dere i gang",
+          "title": "Fra organisasjonsnummer til rapport i fire steg",
+          "items": [
+            {
+              "t": "Registrer virksomheten",
+              "d": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Er bransjekoden barnehage, skole eller SFO, foreslår Orgpuls modulen og ordbruken."
+            },
+            {
+              "t": "Legg inn de ansatte",
+              "d": "Lag én gruppe per avdeling, trinn eller SFO. Send lenken på SMS eller e-post, eller heng opp QR-plakaten på personalrommet."
+            },
+            {
+              "t": "Se resultatet",
+              "d": "Hver faktor får en skår fra 0 til 100 i grønt, gult eller rødt – for hele virksomheten og for hver gruppe med nok svar."
+            },
+            {
+              "t": "Velg tiltak og følg opp",
+              "d": "Velg blant forslagene, gi tiltaket en eier og en frist, og la pulsen måle om det virket. Rapporten oppdaterer seg selv."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymitet",
+          "title": "Anonymt – også i en liten barnehage",
+          "lead": "Ingen enkeltsvar kan spores tilbake til en person. Det er bygd inn i måten svarene lagres på, ikke bare lovet i en personvernerklæring.",
+          "items": [
+            {
+              "t": "5 svar som standard",
+              "d": "Ingen gruppe vises før minst 5 har svart. Små team kan senke grensen til 3, aldri lavere. Jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+            },
+            {
+              "t": "Avdelinger og trinn med få svar",
+              "d": "En avdeling eller et trinn med for få svar vises ikke som egen gruppe, men svarene teller med i tallene for hele virksomheten. Kan en gruppe regnes ut fra totalen og de andre gruppene, holdes en gruppe til tilbake."
+            },
+            {
+              "t": "Ja/nei-spørsmålene",
+              "d": "Spørsmålene om vold og trusler som ikke ble meldt, og om dager der fravær ikke ble dekket med vikar, vises bare som antall for hele virksomheten – aldri per avdeling eller trinn."
+            },
+            {
+              "t": "Avdelingslederen ser sin avdeling",
+              "d": "En avdelingsleder ser bare sin egen gruppe. Verneombudet ser de samme tallene som ledelsen."
+            }
+          ],
+          "link": "Les om personvern og anonymitet"
+        },
+        "faq": {
+          "k": "Spørsmål og svar",
+          "title": "Det styrere og rektorer lurer på",
+          "items": [
+            {
+              "q": "Passer det både for barnehager og skoler?",
+              "a": "Ja. Påstandene er de samme, men ordbruken følger virksomheten: «barna» i barnehagen, «elevene» i skolen og SFO, og «barna eller elevene» der dere har begge deler. Orgpuls foreslår ordbruken ut fra bransjekoden, og dere kan endre den under Målinger. En måling som er åpnet, beholder sin. Modulen er foreløpig: piloten tester at de tre versjonene fungerer likt."
+            },
+            {
+              "q": "Hvor lang tid tar det for de ansatte?",
+              "a": "Hovedundersøkelsen tar rundt 4 minutter, og barnehage- og skolemodulen rundt 3 minutter til: 24 påstander og 2 korte ja/nei-spørsmål. Undersøkelsen står åpen i 14 dager, så også de som jobber deltid eller bare i SFO, rekker å svare."
+            },
+            {
+              "q": "Hva koster det?",
+              "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, og Vanlig 565 kr for 26–100 ansatte. Barnehage- og skolemodulen er med i begge. Prisene er eks. mva., uten bindingstid, og de første 15 dagene er gratis."
+            },
+            {
+              "q": "Vi er en liten barnehage. Ser styreren hvem som svarte?",
+              "a": "Nei. Som standard vises ingen gruppe før minst 5 har svart, og en avdeling med færre svar teller bare med i tallene for hele barnehagen. Små team kan senke grensen til 3, aldri lavere – men jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+            },
+            {
+              "q": "Assistenter og vikarer har ikke jobb-e-post. Når vi dem?",
+              "a": "Ja. Send lenken på SMS, eller heng opp QR-plakaten på personalrommet. Den ansatte skanner koden, skriver inn mobilnummer eller e-post og får sin egen lenke. Undersøkelsen går til dem dere legger inn i ansattlista, og alt fungerer på mobilen."
+            },
+            {
+              "q": "Kan de svare på polsk eller litauisk?",
+              "a": "Ja. Spørreskjemaet finnes på norsk, engelsk, polsk og litauisk. Et språk tilbys når alle spørsmålene i målingen har en godkjent oversettelse. Ukrainsk, svensk og dansk er ikke klare ennå."
+            },
+            {
+              "q": "Vi har allerede rutiner for vold og trusler. Trenger vi dette i tillegg?",
+              "a": "Rutinene er en del av det forskriften krever. Orgpuls kartlegger det psykososiale arbeidsmiljøet sammen med de ansatte, som loven krever i § 4-3 og forskriften kapittel 1A – vold og trusler, bemanning, foreldresamarbeid, tid og støtte. Svarene viser om rutinene er kjent, og om den som var involvert, blir fulgt opp."
+            },
+            {
+              "q": "Holder dette hvis Arbeidstilsynet kommer?",
+              "a": "Orgpuls dekker kartleggingen og risikovurderingen av det psykososiale arbeidsmiljøet. Rapporten samler kartlegging, risikovurdering, tiltak og oppfølging med dato. Rutiner for vold og trusler, avvikssystem og opplæring og øvelse har dere et annet sted, og Arbeidstilsynet forventer at kartleggingen bygger på flere kilder – en undersøkelse er én av dem."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "Alle spørsmålene i barnehage- og skolemodulen",
+          "lovkrav": "Lovkravet forklart",
+          "verneombud": "Verneombudet og kartleggingen",
+          "smaa": "Arbeidsmiljøkartlegging for små bedrifter",
+          "priser": "Priser"
+        },
+        "sources": {
+          "noa_bhg": "STAMI, NOA: Fakta om arbeidsmiljøet i barnehage og skolefritidsordning, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022",
+          "noa_und": "STAMI, NOA: Fakta om arbeidsmiljøet innen undervisning, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022",
+          "udir_bhg": "Utdanningsdirektoratet: Fakta om barnehager 2025 – barn og barnehager",
+          "ssb_bhg_fravaer": "SSB innsikt 2025/7: Barnehager har nesten dobbelt så høyt sykefravær som andre næringer",
+          "ssb_vold": "SSB: Fire av ti grunnskolelærere utsatt for vold, trusler, trakassering eller mobbing på jobb, tall fra Levekårsundersøkelsen om arbeidsmiljø 2025",
+          "at_skole": "Arbeidstilsynet: Tilsyn og veiledning i undervisningssektoren 2023–2025",
+          "fafo_vgs": "Fafo-rapport 2026:06: Lærernes arbeidsmiljø i videregående skole (Andersen og Bråten), skrevet for Utdanningsforbundet",
+          "lovdata_aml": "Lovdata: Arbeidsmiljøloven §§ 3-1 og 4-3",
+          "lovdata_forskrift": "Lovdata: Forskrift om utførelse av arbeid, kapittel 1A og 3A (i kraft 1. januar 2026)",
+          "fafo_verneombud": "Fafo-rapport 2025:10: Kartlegging av verneombudenes arbeid (Andersen, Bråten og Huseby), spørreundersøkelse blant 1 200 virksomhetsledere",
+          "talis": "NIFU og Universitetet i Oslo: Den norske lærerrollen i endring – resultater fra TALIS 2024",
+          "fafo_fredrikstad": "Fafo-rapport 2024:30: Utvidet bemanning i barnehagen – overskudd av krefter i banken? (Yssen, Bråthen og Moland)",
+          "fafo_oslo": "Fafo-rapport 2024:13: Forsøk med ekstra grunnbemanning i utvalgte barnehager i Oslo kommune (Bråten, Jensen og Svalund)",
+          "nifu_vold": "NIFU-rapport 2025:14: Når skolen blir utrygg for de voksne (Samuelsen og Borg), for Utdanningsdirektoratet",
+          "udir_norm": "Utdanningsdirektoratet: Statistikk om barnehagenes tilpasning til bemannings- og pedagognormen",
+          "udir_ansatte": "Utdanningsdirektoratet: Fakta om barnehager 2025 – ansatte",
+          "udf_assist": "Utdanningsforbundet, faktaark 2026:3: Bruk av assistenter og andre ansatte i elevrettet arbeid i grunnskolen, tall fra GSI"
+        }
       }
     },
     "bransjer": {
@@ -12525,6 +12877,7 @@
           "bygg": "/bygg-og-anlegg · the law card, the inspection, the figures and the claims about anonymity",
           "helse": "/helse-og-omsorg · the law card, the inspection, the figures and the claims about anonymity",
           "kontor": "/kunnskap-og-kontor · the law card, the inspection, the figures and the claims about anonymity",
+          "barnehage": "/barnehage-og-skole · the law card, the inspection, the figures and the claims about anonymity",
           "bransjer": "/bransjer · why an industry module, and the questions and answers",
           "terms": "Prices and terms of purchase"
         },

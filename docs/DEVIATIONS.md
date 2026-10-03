@@ -10771,6 +10771,133 @@ console errors on those pages at 1440 and 390 in Norwegian, and on /helse-og-oms
 none in anything this change touches: it adds no column, setting or RPC. No database writes (two read-only
 queries on the hosted translation registry).
 
+## D-211 — /barnehage-og-skole on the industry landing template (2026-10-03)
+
+The owner's brief for the industry pages (D-207) applied to barnehage og skole: a conversion landing page on why
+the survey is needed, the sector's own challenges and how Orgpuls meets each, for heads and owners of private
+kindergartens and of private and independent schools and SFO. `/barnehage-og-skole` moves onto the template by a
+registry entry (`content/industries/landing.ts`, `msg: 'barnehage'`) and its messages (`site.bransje.barnehage`, no
+and en). No new colour, font, radius or control.
+
+**Two audiences, one page.** The module is worded (0083, D-131): one statement, three wordings – «barna» in a
+kindergarten, «elevene» in a school and SFO, both where an organisation has both. Two pages would duplicate the
+law, the product and the anonymity, split the search term and leave the organisation that has both nowhere to go,
+so the page is one, built from what the two share, and says where they differ:
+- Five of the eight challenges apply to both and carry no label. Three carry a chip over the card: «For få voksne i
+  ytterkantene av dagen» and «Lave stoler, løft og støy» (Barnehage), «Dokumentasjon og vurdering tar tiden»
+  (Skole). Every figure says whom it is about («i barnehagene», «grunnskolelærerne», «lærerne på
+  ungdomstrinnet»); the stat band has two kindergarten and two school figures.
+- A panel at the end of the challenges, «Barnehage eller skole – Se spørsmålene slik deres ansatte får dem», shows
+  one statement (BS-BE-3) in both wordings, read from the module file, each with a link to the question page in
+  that wording (`/barnehage-og-skole/sporsmal?ordbruk=barnehage|skole`), and tells an organisation with both to
+  choose «Begge». The hero's text link «Velg barnehage eller skole ↓» goes to it.
+- The question page opens in the wording the address asks for: `?ordbruk=` sets the wording switch's starting
+  value (`WordingScope initial`), rendered on the server, so it works without script; anything else is «begge», as
+  before. The switch, the codes and the page's content are otherwise unchanged.
+
+**Renderer change, generic and data-driven.** Two optional registry fields: `challenges[].audience` (a label key
+under `site.bransje.<msg>.audience`) and `wording.example` (an item code; the panel renders only when the module file
+has `wording`, the item has `text_variants` and the question page is live in the page's language, and it lists the
+file's `wording.modes` other than its default). Handel, bygg and helse set neither and render as before. `QuestionView`
+takes an optional `wording`; the question route parses `?ordbruk=` with `isWording`. A unit test holds the labels in
+both languages and the example's variants.
+
+**The page.** Hero («Arbeidsmiljø­kartlegging for barnehage og skole: se hva som sliter på de voksne – og følg det
+opp»; the owner's rule: no claim of an outcome Orgpuls does not deliver – no safer kindergartens, less sick leave,
+lower turnover or better learning; the copy says what it does: where the strain is, per avdeling, trinn or SFO with
+enough answers, measures with owner and deadline, the pulse, the report), the real mobile questionnaire, three
+tiles; «Hverdagen i tall» (10,3 % doctor-certified sick leave in kindergartens in Q1 2025 against 6,1 %; 28 % of
+grunnskolelærere exposed to violence in the past year, the highest of all occupations, against 5,7 %; 60 % in
+kindergarten and SFO working squatting or kneeling against 17 %; 43 % of grunnskolelærere with high emotional demands
+against 20 %; the note that a reporting system exists but is little used); «Hvorfor barnehagen og skolen må
+kartlegge arbeidsmiljøet» (law card: aml §§ 3-1 (2) c, 4-3 (2), 4-3 (6), forskriften kap. 3A and § 1A-2, helse's
+checked wording; Arbeidstilsynet's 1 005 school and SFO inspections 2023–2025 with shortcomings at nearly 9 in 10;
+the small-unit gap; the cost); eight challenges (violence and threats; too few adults at the edges of the day;
+documentation and assessment; parents after hours; children who need more; many without teaching qualifications and
+new people; low chairs, lifting and noise; difficult cases and emotional demands), each mapped to one of the module's
+eight factors and, where it fits, a core factor; the wording panel; four real screens (heat map, measures, year
+wheel, report); four steps; anonymity; eight FAQs with FAQPage JSON-LD; the start band; «Les videre»; seventeen
+numbered sources.
+
+**Facts.** Every figure is from a document fetched and read on 3 October 2026 and recorded in
+`docs/marketing/barnehage-sources.md` with page or section and sentence: STAMI/NOA for kindergartens and SFO and for
+education (LKU-A 2022), Udir's Fakta om barnehager 2025 (children; staff), SSB innsikt 2025/7 (kindergarten sick
+leave), SSB's LKU-A 2025 article on violence (with figure 2's table), Arbeidstilsynet's education-sector inspection
+report 2023–2025, Fafo-rapport 2026:06, 2025:10, 2024:30 and 2024:13, NIFU 2025:14 (via Udir), TALIS 2024 (NIFU/UiO,
+via Udir and NVA), Udir's 2021 chapter on the staffing norm (a 2019 survey, said so on the page), Utdanningsforbundet's
+fact sheet 2026:3 (GSI figures) and Lovdata. Written to what the sources say: SSB table 12440 puts education's sick
+leave at about the average (6,8 % against 6,6 % in Q2 2026), so the page claims high sick leave only for
+kindergartens; Arbeidstilsynet's report puts musculoskeletal complaints in education below average, so the physical
+challenge is labelled Barnehage; NOA says noise carries a low risk of hearing damage, and the page says so; TALIS
+samples lower secondary teachers, and the page says «lærerne på ungdomstrinnet»; SSB itself says the rise in violence
+may reflect more attention and stricter reporting, so only the 2025 level is used; Fafo's two staffing trials found
+that extra staff did not change sick leave, and the page uses them only for what they did find (less vulnerability
+to absence, time saved on substitutes). Inspectors' and advisers' quotes in Arbeidstilsynet's report are attributed
+as theirs. The module file's own rationale figures (Utdanningsforbundet's staffing campaign, VG, Arbetsmiljöverket,
+the ministry's note) stay on the question page. No testimonial, logo, customer count or result claim.
+
+**Product claims, and where they are true.**
+- The eight factors, their statements, the two wordings and the suggested measures («Handlingsrom på ett ark»,
+  «Vikarmappe og første dag», «Beskyttet planleggingstid», «Svartid i arbeidstiden», «Leder er med», «To på hver
+  sak», «Voksenhøyde»): `modules/barnehage-og-skole/v1.json`. 24 statements, 2 yes/no questions, ~3 min: the same
+  file (`moduleFacts`).
+- The yes/no questions (unreported violence or threats from a child or pupil; days when absence was not covered by a
+  substitute) shown only for the whole organisation: `count_items` BS-T-1, BS-T-2,
+  `anonymity.count_items_reported_at: organisation_only`. The core survey's `vold` and `krenkende`: counts only.
+- Core factors named: `factor.mengde|kollega|emosjon`; the module does not repeat the emotional demands statements
+  (`relation_to_core.covered_by_core_factors`), and the page says so.
+- The wording suggested from the industry code (85.1 and 88.911 a kindergarten, 85.2, 85.3 and 88.913 a school) and
+  chosen under Målinger › Spørsmålssett; an opened round keeps its wording: `wording.auto_from_nace`,
+  `app.org_wording`, `set_org_module_wording`, `components/malinger/ModuleChoices.tsx` (D-131). The module suggested
+  from NACE 85, 88.911 and 88.913: `content/industries/meta.ts`. «Modulen er foreløpig»: `validation_status`.
+- 5 answers by default, 3 for small teams, never lower: `app.k_floor()` / `app.k_min()`; complementary suppression
+  (0045). SMS, e-mail and the QR poster in the staff room: `app/(app)/malinger/plakat`, `app/inn/[code]`,
+  `lib/entry/qr.ts`. Teams and Slack are not named (D-203, D-205).
+- Results per group in the Usual plan; measures with owner and deadline; the pulse re-asking the statements behind
+  open measures; the year wheel; the module's part of the report: `components/resultater/ModuleResults.tsx`, 0071,
+  D-115, D-116, `components/arshjulet`. Role and position segments are built but off (`module_segments`), so the
+  page offers results per group (avdeling, trinn, SFO), not per role.
+- **Languages: «norsk, engelsk, polsk og litauisk»**, phrased as helse's. A read-only check on the hosted database
+  found all 28 items of the published module (1.0.0) approved in English, Polish and Lithuanian, and the 26 items
+  with wordings approved in both wordings (`…:v:barnehage`, `…:v:skole`) in all three (`app.item_translations`);
+  `locale_pl` and `locale_lt` are signed off (`lib/flags.signed-off.json`). The keys that name languages:
+  `site.bransje.barnehage.faq.items[5]` (q and a), in no.json and en.json.
+- The demo company is honest about itself: Nordvik Anlegg AS is a fictional civil engineering firm, not a
+  kindergarten or school; its screens show the core survey, and the proof lead says so.
+
+**English is not live.** `modules/barnehage-og-skole/v1.json` has no `translations.en` (the database has approved
+English texts, but the pages read the file), so `live.en` is off (D-120, validate.ts). The English messages are
+written in full; en.orgpuls.com/barnehage-og-skole shows the page with `?forhandsvis=1`, marked noindex, and is a 404
+without it, as before. In English the question page is not live, so the wording panel is not shown and the hero links
+the demo.
+
+**Also changed.** `content/industries/barnehage-og-skole.ts` keeps its content as the record and still feeds the
+question page and its switch, the menu name, launch state and the legal review's record; the legal review lists the
+landing's unit (`site.barnehage`, with `admin.legal.unit.site.barnehage`) and marks the old law items unpublished
+(D-207's rule, from the registry). `tests/unit/legal-registry.test.ts` now checks every launched industry still on the
+older template, whichever that is, instead of naming barnehage og skole, and checks barnehage's landing unit live in
+Norwegian and not in English. The share card `public/og/barnehage-og-skole.png` is regenerated with the new H1
+(og-images reads it from the message). `lib/i18n/site-pages.json` regenerated. Merge note: the parallel change for
+/kunnskap-og-kontor (D-212) touches neighbouring lines in `tests/unit/industry-landing.test.ts` (the list of routes
+not on the v3 chrome), `tests/unit/legal-registry.test.ts`, `landing.ts` (the next entry), `og-images.mjs` and
+`site-pages.json`; expect a merge there.
+
+**Pixel gate.** Unchanged by this change: the five v3 pages capture at the same pixel counts on this build as on a
+build of the commit before it, measured the same day (Forside 9.3789 %, Plattform 6.6768 %, Bruksområder 3.3886 %,
+Bransjer 13.1639 %, Pris 2.7752 %). Forside and Pris differ from D-207's numbers because of D-209's copy changes on
+those pages, already in the base.
+
+**Verified** on a production build (hosted env, read-only; `NEXT_DIST_DIR=.next-bhg`): tsc 0, lint 0, verify:i18n 0,
+vitest 808/808, build 0; the page map regenerated and `--check` 0 (38 pages, QA build `.next-qa-bhg` on the local
+stack, served on its own port); the mobile gate at 390 and 360 for /barnehage-og-skole, /barnehage-og-skole/sporsmal
+(plain, `?ordbruk=barnehage`, `?ordbruk=skole`), /handel, /bygg-og-anlegg, /helse-og-omsorg, /bransjer and
+/kunnskap-og-kontor: exit 0, no sideways scroll, no squeezed text; axe serious/critical 0, one H1, no console errors on
+those pages at 1440 and 390 in Norwegian, and on /barnehage-og-skole?forhandsvis=1, /helse-og-omsorg, /bygg-og-anlegg,
+/handel?forhandsvis=1 and /bransjer in English; FAQPage JSON-LD with eight questions; the question page
+server-renders the asked wording with its radio checked. `node scripts/audit/wiring.mjs` exits 1 on the same six
+findings as D-208, none in anything this change touches: it adds no column, setting or RPC. No database writes
+(read-only queries on the hosted translation registry).
+
 ## D-212 — /kunnskap-og-kontor on the industry landing template (2026-10-03)
 
 The owner's brief for the industry pages (D-207) applied to kunnskap og kontor: a conversion landing page on why

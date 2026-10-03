@@ -27,6 +27,12 @@ export type LandingChallenge = {
   module: string[]
   /** the core instrument's factors that measure it (`factor.<id>.label`) */
   core: string[]
+  /**
+   * Whom it concerns, where it is not everyone the page speaks to: a label over the card
+   * (`site.bransje.<msg>.audience.<key>`). Barnehage og skole labels what is a kindergarten's or a
+   * school's alone (D-211); a challenge without one applies to both.
+   */
+  audience?: string
 }
 
 export type IndustryLanding = {
@@ -42,6 +48,12 @@ export type IndustryLanding = {
   module: string
   /** the hero's picture: a real screen (assets/produkt) */
   heroShot: ShotId
+  /**
+   * A worded module (its file's `wording`, 0083, D-131): the page offers the question page in each
+   * wording (`/<slug>/sporsmal?ordbruk=<wording>`), showing this statement as each wording says it,
+   * with its words in `site.bransje.<msg>.wording` (D-211).
+   */
+  wording?: { example: string }
   stats: { leadCites: string[]; items: string[][]; noteCites: string[] }
   why: { lawCites: string[]; tilsynCites: string[]; gapCites: string[]; costCites: string[][] }
   challenges: LandingChallenge[]
@@ -335,6 +347,104 @@ export const LANDINGS: IndustryLanding[] = [
       },
       { key: 'at_hjemmekontor', url: 'https://www.arbeidstilsynet.no/lonn-og-ansettelse/ansettelse/heimekontor', year: '2026' },
       { key: 'fafo_ledelse', url: 'https://www.fafo.no/images/pub/2025/Ledelsesbarometeret_hjemmekontor_og_fjernledelse.pdf', year: '2025' },
+    ],
+  },
+  {
+    // D-211. One page for kindergartens and schools: the challenges both share, the rest labelled
+    // (`audience`), and the question page in either wording. English waits for the module file's
+    // English translation (D-120): modules/barnehage-og-skole/v1.json has none.
+    slug: 'barnehage-og-skole',
+    msg: 'barnehage',
+    live: { no: true, en: false },
+    module: 'barnehage-og-skole',
+    heroShot: 'sporsmal',
+    wording: { example: 'BS-BE-3' },
+    stats: {
+      leadCites: ['noa_bhg', 'noa_und', 'udir_bhg'],
+      items: [['ssb_bhg_fravaer'], ['ssb_vold'], ['noa_bhg'], ['at_skole']],
+      noteCites: ['fafo_vgs'],
+    },
+    why: {
+      lawCites: ['lovdata_aml', 'lovdata_forskrift'],
+      tilsynCites: ['at_skole'],
+      gapCites: ['udir_bhg', 'at_skole', 'fafo_verneombud'],
+      costCites: [['noa_bhg', 'noa_und'], ['talis'], ['fafo_fredrikstad', 'fafo_oslo']],
+    },
+    challenges: [
+      { cites: ['ssb_vold', 'nifu_vold'], module: ['vold_og_trusler'], core: [] },
+      { cites: ['udir_norm', 'udir_ansatte'], module: ['bemanning_og_vikarer'], core: ['mengde'], audience: 'barnehage' },
+      { cites: ['talis', 'at_skole'], module: ['tid_til_kjerneoppgavene'], core: ['mengde'], audience: 'skole' },
+      { cites: ['talis', 'noa_und'], module: ['samarbeid_med_foreldre'], core: [] },
+      { cites: ['talis', 'nifu_vold'], module: ['tilrettelegging_og_inkludering'], core: [] },
+      { cites: ['udir_ansatte', 'udf_assist'], module: ['kompetanse_og_fellesskap'], core: ['kollega'] },
+      { cites: ['noa_bhg'], module: ['stoy_kropp_og_pauser'], core: [], audience: 'barnehage' },
+      { cites: ['noa_bhg', 'noa_und'], module: ['vanskelige_saker'], core: ['emosjon'] },
+    ],
+    proof: ['varmekart', 'tiltak', 'arshjul', 'rapport'],
+    faqCount: 8,
+    related: [
+      { key: 'sporsmal', href: '/barnehage-og-skole/sporsmal' },
+      { key: 'lovkrav', href: '/lovkrav' },
+      { key: 'verneombud', href: '/verneombud' },
+      { key: 'smaa', href: '/smaa-bedrifter' },
+      { key: 'priser', href: '/priser' },
+    ],
+    articles: ['krav-til-kartlegging-av-psykososialt-arbeidsmiljo', 'anonym-medarbeiderundersokelse'],
+    fetched: '2026-10-03',
+    sources: [
+      { key: 'noa_bhg', url: 'https://noa.stami.no/yrker-og-naeringer/noa/barnehage/', year: '2022' },
+      { key: 'noa_und', url: 'https://noa.stami.no/yrker-og-naeringer/noa/undervisning-grunnskole/', year: '2022' },
+      {
+        key: 'udir_bhg',
+        url: 'https://www.udir.no/tall-og-forskning/statistikk/statistikk-barnehage/analyser/2026/fakta-2025/barn-barnehager/',
+        year: '2026',
+      },
+      {
+        key: 'ssb_bhg_fravaer',
+        url: 'https://www.ssb.no/arbeid-og-lonn/arbeidsmiljo-sykefravaer-og-arbeidskonflikter/statistikk/sykefravaer/artikler/barnehager-har-nesten-dobbelt-sa-hoyt-sykefravaer-som-andre-naeringer',
+        year: '2025',
+      },
+      {
+        key: 'ssb_vold',
+        url: 'https://www.ssb.no/arbeid-og-lonn/arbeidsmiljo-sykefravaer-og-arbeidskonflikter/statistikk/arbeidsmiljo-levekarsundersokelsen/artikler/fire-av-ti-grunnskolelaerere-utsatt-for-vold-trusler-trakassering-eller-mobbing-pa-jobb',
+        year: '2026',
+      },
+      {
+        key: 'at_skole',
+        url: 'https://www.arbeidstilsynet.no/globalassets/rapportar/tilsynsprosjekter/tilsyn-og-veiledning-i-undervisningssektoren---oppsummering-2023-2025.pdf',
+        year: '2026',
+      },
+      { key: 'fafo_vgs', url: 'https://www.fafo.no/images/pub/2026/20957_1.pdf', year: '2026' },
+      { key: 'lovdata_aml', url: 'https://lovdata.no/lov/2005-06-17-62', year: '2026' },
+      { key: 'lovdata_forskrift', url: 'https://lovdata.no/forskrift/2011-12-06-1357', year: '2026' },
+      { key: 'fafo_verneombud', url: 'https://www.fafo.no/images/pub/2025/20923.pdf', year: '2025' },
+      {
+        key: 'talis',
+        url: 'https://www.udir.no/tall-og-forskning/finn-forskning/rapporter/2025/talis-den-norske-larerrollen-i-endring/',
+        year: '2025',
+      },
+      { key: 'fafo_fredrikstad', url: 'https://www.fafo.no/images/pub/20897.pdf', year: '2024' },
+      { key: 'fafo_oslo', url: 'https://www.fafo.no/images/pub/20880.pdf', year: '2024' },
+      {
+        key: 'nifu_vold',
+        url: 'https://www.udir.no/tall-og-forskning/finn-forskning/rapporter/2025/nar-skolen-blir-utrygg-for-de-voksne/',
+        year: '2025',
+      },
+      {
+        key: 'udir_norm',
+        url: 'https://www.udir.no/tall-og-forskning/finn-forskning/rapporter/oppfolging-av-bemanningsnorm-og-forsterket-pedagognorm-i-barnehagen/statistikk-om-barnehagenes-tilpasning-til-bemannings--og-pedagognormen/',
+        year: '2021',
+      },
+      {
+        key: 'udir_ansatte',
+        url: 'https://www.udir.no/tall-og-forskning/statistikk/statistikk-barnehage/analyser/2026/fakta-2025/ansatte/',
+        year: '2026',
+      },
+      {
+        key: 'udf_assist',
+        url: 'https://www.utdanningsforbundet.no/var-politikk/publikasjoner/2026/bruk-av-assistenter-og-andre-ansatte-i-elevrettet-arbeid-i-grunnskolen/',
+        year: '2026',
+      },
     ],
   },
 ]

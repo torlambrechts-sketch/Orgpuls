@@ -7,6 +7,7 @@ import type { IndustryPage } from '@/content/industries/types'
 import { flag, type FlagName } from '@/lib/flags'
 import { CitedText } from './CitedText'
 import { InVariant, VariantScope, VariantSwitch } from './Variant'
+import type { Wording } from '@/lib/modules/wording'
 import { Worded, WordingScope, WordingSwitch } from './Wording'
 import { H2, IndustryCta, SEC, SourceList, WRAP } from './IndustryView'
 
@@ -21,9 +22,12 @@ const on = (f?: string) => !f || flag(f as FlagName)
 export async function QuestionView({
   page,
   lang,
+  wording,
 }: {
   page: IndustryPage & { module: NonNullable<IndustryPage['module']>; questionPage: NonNullable<IndustryPage['questionPage']> }
   lang: PageLang
+  /** the wording the page opens in, for a worded module (`?ordbruk=`, D-211) */
+  wording?: Wording
 }) {
   const t = await getTranslations('industry')
   const ts = await getTranslations()
@@ -299,5 +303,5 @@ export async function QuestionView({
     </div>
   )
   if (inVariants) return <VariantScope simpleIds={simple.map((f) => f.id)}>{body}</VariantScope>
-  return worded ? <WordingScope>{body}</WordingScope> : body
+  return worded ? <WordingScope initial={wording}>{body}</WordingScope> : body
 }

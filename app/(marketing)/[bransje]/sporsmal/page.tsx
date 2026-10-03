@@ -7,6 +7,7 @@ import { JsonLd } from '@/components/marketing/JsonLd'
 import { getIndustry, INDUSTRIES, pageIn } from '@/content/industries'
 import type { PageLang } from '@/content/industries/modules'
 import { assertIndustries } from '@/content/industries/validate'
+import { isWording } from '@/lib/modules/wording'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, graph, organization } from '@/lib/marketing/schema'
 import { absolute } from '@/lib/marketing/site'
@@ -24,7 +25,7 @@ export function generateStaticParams() {
   return INDUSTRIES.filter((i) => [i.page, i.pageEn].some((p) => p?.module && p.questionPage)).map((i) => ({ bransje: i.slug }))
 }
 
-type Props = { params: Promise<{ bransje: string }>; searchParams: Promise<{ forhandsvis?: string }> }
+type Props = { params: Promise<{ bransje: string }>; searchParams: Promise<{ forhandsvis?: string; ordbruk?: string }> }
 
 async function resolve(props: Props) {
   const { bransje } = await props.params
@@ -57,6 +58,9 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function QuestionRoute(props: Props) {
   const { page, lang, preview } = await resolve(props)
+  // a worded module opens in the wording the industry page linked to (D-211); anything else is «begge»
+  const asked = (await props.searchParams).ordbruk
+  const wording = isWording(asked) ? asked : undefined
   const t = await getTranslations()
   return (
     <>
@@ -73,7 +77,7 @@ export default async function QuestionRoute(props: Props) {
         )}
       />
       {preview ? <PreviewBanner text={t('industry.preview')} /> : null}
-      <QuestionView page={page} lang={lang} />
+      <QuestionView page={page} lang={lang} wording={wording} />
     </>
   )
 }

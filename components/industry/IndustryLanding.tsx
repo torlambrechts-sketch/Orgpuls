@@ -25,7 +25,9 @@ import type { ShotId } from '@/lib/marketing/shot-ids'
  *   tallene ......... Forside's ink band: pill, H2, four 52px figures
  *   hvorfor ......... Forside slide 2's law card (✓ rows), beside r20 cards
  *   utfordringer .... Forside's problem/solution cards (rust eyebrow, mint foot), two across, on
- *                     Bransjer's sf band
+ *                     Bransjer's sf band; a worded module (barnehage og skole, D-211) labels the
+ *                     cards that concern one audience, and ends the band with the question page
+ *                     in each wording (the anonymity panel's frame, the law card's rows)
  *   varianter ....... only for a module in two variants (D-212): both sets in the why section's
  *                     r20 cards, with the challenge cards' chips and the hero's tiles
  *   slik ser det ut . Plattform's zigzag cases with a real screen in the browser frame
@@ -44,6 +46,7 @@ const LawRow = z.object({ ref: Str, t: Str })
 const Challenge = z.object({ t: Str, looks: Str, fig: Str, solve: Str })
 const Block = z.object({ k: Str, h3: Str, ticks: z.array(Str).min(1), caption: Str })
 const Qa = z.object({ q: Str, a: Str })
+const WordingWords = z.object({ k: Str, title: Str, lead: Str, begge: Str, example: Str, items: z.record(Str, z.object({ t: Str, link: Str })) })
 
 const COLUMN = 'mx-auto w-full max-w-[1240px] px-[56px] max-sm:px-[16px]'
 const EYEBROW = 'text-[11px] font-bold uppercase tracking-[.12em]'
@@ -75,6 +78,7 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
   const trust = z.array(Item).min(1).parse(t.raw('trust.items'))
   const faq = z.array(Qa).length(landing.faqCount).parse(t.raw('faq.items'))
   const moduleNames = z.record(Str, Str).parse(t.raw('moduleFactors'))
+  const audiences = landing.challenges.some((c) => c.audience) ? z.record(Str, Str).parse(t.raw('audience')) : {}
 
   const number = new Map(landing.sources.map((s, i) => [s.key, i + 1]))
   const cites = (keys: string[], tone: 'ink' | 'cream' = 'ink') =>
@@ -105,6 +109,11 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
   const related = [...landing.related.map((r) => ({ href: r.href, label: t(`related.${r.key}`) })), ...articles]
     .filter((r) => questionPage || r.href !== `/${landing.slug}/sporsmal`)
   const hero = SHOTS[landing.heroShot].img
+  // a worded module (D-211): the question page in each wording but the file's default («begge»),
+  // each shown by the registry's example statement as that wording says it
+  const example = landing.wording && mod.factors.flatMap((f) => f.items).find((i) => i.id === landing.wording?.example)
+  const wordingWords = landing.wording && mod.wording && example?.text_variants && questionPage ? WordingWords.parse(t.raw('wording')) : null
+  const wordings = wordingWords && mod.wording ? mod.wording.modes.filter((w): w is 'barnehage' | 'skole' => w !== 'begge' && w !== mod.wording?.default) : []
 
   return (
     <>
@@ -144,7 +153,11 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
                 <a href="#kom-i-gang" className={`flex min-h-[50px] ${CTA}`}>
                   {chrome('trial')} <span aria-hidden="true">→</span>
                 </a>
-                {questionPage ? (
+                {wordingWords ? (
+                  <a href="#ordbruk" className="text-[15.5px] font-bold hover:no-underline">
+                    {t('hero.secondary')} <span aria-hidden="true">↓</span>
+                  </a>
+                ) : questionPage ? (
                   <Link href={`/${landing.slug}/sporsmal` as Route} className="text-[15.5px] font-bold hover:no-underline">
                     {t('hero.secondary')} <span aria-hidden="true">→</span>
                   </Link>
@@ -353,6 +366,9 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
                         {i + 1}
                       </span>
                       <span className={`${EYEBROW} text-danger`}>{common('problem')}</span>
+                      {reg.audience ? (
+                        <span className="ml-auto rounded-pill bg-sbg px-[10px] py-[4px] text-[12px] font-bold text-ink">{audiences[reg.audience] ?? reg.audience}</span>
+                      ) : null}
                     </div>
                     <h3 className="m-0 font-display text-[24px] font-semibold leading-[1.15] [text-wrap:balance] max-sm:text-[22px]">{c.t}</h3>
                     <p className="m-0 text-[14.5px] leading-[1.6] text-body [text-wrap:pretty]">{c.looks}</p>
@@ -380,6 +396,44 @@ export async function IndustryLanding({ landing, lang }: { landing: Landing; lan
               )
             })}
           </ol>
+          {wordingWords && example?.text_variants ? (
+            <div
+              id="ordbruk"
+              className="mt-[40px] grid scroll-mt-[24px] items-start gap-x-[56px] gap-y-[24px] rounded-[24px] border border-line bg-bg px-[40px] py-[40px] [grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr))] max-sm:px-[16px] max-sm:py-[26px]"
+            >
+              <div>
+                <span className={`${EYEBROW} text-mut`}>{wordingWords.k}</span>
+                <h3 className="m-0 mt-[12px] max-w-[20ch] font-display text-[30px] font-semibold leading-[1.12] [text-wrap:balance] max-sm:text-[26px]">
+                  {wordingWords.title}
+                </h3>
+                <p className={`${LEAD} mt-[14px] max-w-[46ch]`}>{wordingWords.lead}</p>
+                <p className="m-0 mt-[14px] max-w-[46ch] text-[14.5px] leading-[1.6] text-body [text-wrap:pretty]">{wordingWords.begge}</p>
+              </div>
+              <div>
+                <p className="m-0 text-[13px] font-semibold text-mut">{wordingWords.example}</p>
+                <ul className="m-0 mt-[10px] flex list-none flex-col gap-[10px] p-0">
+                  {wordings.map((w) => {
+                    const words = wordingWords.items[w]
+                    if (!words) return null
+                    return (
+                      <li key={w} className="rounded-card border border-line bg-sf px-[20px] py-[18px] max-sm:px-[16px]">
+                        <span className="block text-[15px] font-bold">{words.t}</span>
+                        <span className="mt-[8px] block rounded-row border border-line bg-bg px-[14px] py-[11px] text-[14px] leading-[1.5] text-body [text-wrap:pretty]">
+                          «{example.text_variants?.[w]}»
+                        </span>
+                        <Link
+                          href={`/${landing.slug}/sporsmal?ordbruk=${w}` as Route}
+                          className="mt-[12px] inline-flex min-h-[24px] items-center text-[14.5px] font-bold hover:no-underline"
+                        >
+                          {words.link} <span aria-hidden="true">&nbsp;→</span>
+                        </Link>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </div>
+            </div>
+          ) : null}
           <p className="m-0 mt-[24px] text-[14px] text-body">
             <span className="tabular-nums">{fmt(common.raw('facts') as string)}</span>
             {questionPage ? (

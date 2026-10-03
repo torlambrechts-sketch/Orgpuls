@@ -32,24 +32,16 @@ const no = JSON.parse(readFileSync('messages/no.json', 'utf8'))
 const fonts = readFileSync('app/fonts.css', 'utf8')
 
 // the same pairs as LANDING_HERO in lib/marketing/site.ts
-function industryH1(slug) {
-  const src = readFileSync(`content/industries/${slug}.ts`, 'utf8')
-  const m = src.match(/hero: \{[\s\S]*?h1: '([^']+)'/)
-  if (!m) throw new Error(`content/industries/${slug}.ts changed shape; update how its H1 is read here`)
-  return JSON.parse(`"${m[1]}"`)
-}
-
 const PAGES = [
   { slug: 'lovkrav', key: 'lovkrav', shot: 'rapport' },
   { slug: 'verneombud', key: 'verneombud', shot: 'varmekart' },
   { slug: 'smaa-bedrifter', key: 'smaaBedrifter', shot: 'oversikt' },
-  // an industry page with no landing page before it: the H1 is the page's own (content/industries)
-  { slug: 'barnehage-og-skole', h1: industryH1('barnehage-og-skole'), shot: 'sporsmal' },
   // an industry on the landing template (content/industries/landing.ts, D-207): the H1 is its message
   { slug: 'handel', h1: no.site.bransje.handel.hero.h1, shot: 'sporsmal' },
   { slug: 'bygg-og-anlegg', h1: no.site.bransje.bygg.hero.h1, shot: 'sporsmal' },
   { slug: 'helse-og-omsorg', h1: no.site.bransje.helse.hero.h1, shot: 'sporsmal' },
   { slug: 'kunnskap-og-kontor', h1: no.site.bransje.kontor.hero.h1, shot: 'sporsmal' },
+  { slug: 'barnehage-og-skole', h1: no.site.bransje.barnehage.hero.h1, shot: 'sporsmal' },
   // the hub (D-207): its H1, and the overview a leader gets
   { slug: 'bransjer', h1: no.site.bransjer.h1, shot: 'oversikt' },
 ]

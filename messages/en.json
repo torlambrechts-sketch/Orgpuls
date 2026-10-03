@@ -9497,6 +9497,358 @@
           "at_alene": "Labour Inspection Authority: Working alone",
           "fafo_ufaglaerte": "Fafo report 2025:08: New positions for unskilled staff in nursing and care services (Jordell, Yssen and Moland)"
         }
+      },
+      "barnehage": {
+        "nav": "Kindergartens and schools",
+        "seo": {
+          "title": "Work environment survey for kindergartens and schools | Orgpuls",
+          "description": "Survey the work environment in kindergartens, schools and after-school care: violence and threats, staffing, parents and time for core tasks. Anonymous by text or QR. 15 days free."
+        },
+        "hero": {
+          "k": "Kindergartens, schools and after-school care",
+          "h1": "A work environment survey for kindergartens and schools: see what wears the adults down – and follow it up",
+          "lead": "See where violence and threats, too few adults and demanding work with parents take their toll on staff – for the whole kindergarten or school and for each unit, year group or after-school club with enough answers. The statements say «the children» in a kindergarten and «the pupils» in a school. You get suggested measures with an owner and a deadline, a new measurement in the pulse and a report showing the survey was done.",
+          "secondary": "Choose kindergarten or school",
+          "figure": {
+            "title": "How your staff answer",
+            "meta": "On the phone · about 4 + {minutes} min",
+            "caption": "The questionnaire on a phone, one theme per page."
+          },
+          "tiles": [
+            {
+              "t": "{factors} factors for kindergartens and schools",
+              "d": "The module comes on top of the main survey and takes about {minutes} minutes more. The statements say «the children» or «the pupils»."
+            },
+            {
+              "t": "Answers from all your staff",
+              "d": "A link by text message or e-mail, or a QR poster in the staff room. No app, and nobody needs a work e-mail address."
+            },
+            {
+              "t": "Report for the Labour Inspection Authority",
+              "d": "Survey, risk assessment and measures in one place, with the legal basis for each factor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Everyday work in figures",
+          "title": "The work environment in kindergartens and schools: what the figures show",
+          "lead": "Around 104,000 people work in kindergartens and after-school care, and around 232,000 in education. Just over half of all kindergartens are private. The figures come from Norwegian research, inspections and official statistics.",
+          "items": [
+            {
+              "v": "10.3 %",
+              "l": "doctor-certified sickness absence in kindergartens in the first quarter of 2025, against 6.1 % in all industries"
+            },
+            {
+              "v": "28 %",
+              "l": "of primary and lower secondary teachers were exposed to violence at work in the past year – the highest of all occupations, against 5.7 % of everyone employed"
+            },
+            {
+              "v": "60 %",
+              "l": "in kindergartens and after-school care work squatting or kneeling, against 17 % of everyone employed"
+            },
+            {
+              "v": "43 %",
+              "l": "of primary and lower secondary teachers face high emotional demands, against 20 % in working life as a whole"
+            }
+          ],
+          "h3": "Much is never reported",
+          "note": "Nearly 9 in 10 upper secondary teachers say their school has a system for reporting violence and threats. Even so, it is little used, Fafo finds. Those who say it does not work point to too few using it, too few knowing it, and reported incidents not being followed up.",
+          "text": "An anonymous questionnaire gives employees a way to say it without stepping forward. The module asks about violence or threats from children or pupils that were not reported, and about days when absence was not covered by a substitute. The answers are shown only as a count for the whole organisation."
+        },
+        "why": {
+          "k": "Why survey",
+          "title": "Why kindergartens and schools have to survey their work environment",
+          "lead": "The Working Environment Act applies to every employer with employees – including the small private kindergarten, the independent school and the after-school club. The children’s and pupils’ rights under the Kindergarten Act and the Education Act apply alongside the employees’ rights under the Working Environment Act, and in work with people the law points in particular to emotional demands and to violence and threats.",
+          "law": {
+            "title": "What the law requires – also in work with children",
+            "pill": "Applies to every employer",
+            "rows": [
+              {
+                "ref": "WEA § 3-1 (2) c",
+                "t": "Identify hazards and problems, assess the risk, make plans and put measures in place."
+              },
+              {
+                "ref": "WEA § 4-3 (2)",
+                "t": "The psychosocial factors must be fully satisfactory – including unclear or conflicting demands, emotional demands and strain in work with people, and workload and time pressure."
+              },
+              {
+                "ref": "WEA § 4-3 (6)",
+                "t": "Employees shall, as far as possible, be protected against violence, threats and adverse strain resulting from contact with others."
+              },
+              {
+                "ref": "Regulation ch. 3A",
+                "t": "Identify and assess the risk of violence and threats – including working alone, working hours and staffing – and provide measures, training and follow-up."
+              },
+              {
+                "ref": "Regulation § 1A-2",
+                "t": "The survey must be done together with the employees, repeated regularly and documented."
+              }
+            ],
+            "link": "More about the legal requirement"
+          },
+          "tilsyn": {
+            "t": "The Labour Inspection Authority found shortcomings at nearly 9 in 10 schools",
+            "p": "In 2023–2025 the Labour Inspection Authority carried out more than 1,000 inspections of primary and lower secondary schools, after-school clubs and upper secondary schools. Nearly 9 in 10 had shortcomings in surveying, risk assessment and measures against violence and threats, and 8 in 10 had not made sure of the necessary training and practice. «Many jump straight from survey to measures», says an adviser at the Authority – and then the measures are too general or have nobody responsible.",
+            "d": "In Orgpuls every measure gets an owner and a deadline, and the safety representative sees the same figures as management."
+          },
+          "gap": {
+            "t": "Many small organisations have not done it",
+            "p": "Nearly 1 in 5 kindergartens have fewer than 26 children, and private primary and lower secondary schools are about 10 % of schools but have only 5 % of the pupils. Among private businesses with fewer than 20 employees, 28 % run an employee survey, and 23 % do none of the surveys Fafo asked about."
+          },
+          "cost": {
+            "t": "Leaving it costs",
+            "items": [
+              "1 in 2 in kindergartens and after-school care and 1 in 3 in education who are on sick leave say the absence is related to their job. Such absence can often be prevented at the workplace.",
+              "38 % of lower secondary teachers feel a lot of stress from extra work when colleagues are away, up from 26 % in 2018. The TALIS researchers see a risk of a vicious circle in which absence causes stress, which can cause more absence.",
+              "Substitutes cost more than wages. When kindergartens got permanent extra staff instead, they became less vulnerable to unexpected absence, and staff and managers saved time and energy on following up and guiding substitutes, Fafo finds."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Challenges and solutions",
+          "title": "Eight challenges in kindergartens and schools – and how you tackle them",
+          "lead": "The challenges come from Norwegian research, statistics and inspections. Most apply to both kindergartens and schools; those that apply to only one are marked. Under each you see which questions measure it and what you get to work with.",
+          "items": [
+            {
+              "t": "Violence and threats from children and pupils",
+              "looks": "A child who bites and kicks in the cloakroom, a pupil who throws a chair when a transition comes too fast. Often it is the same situations that come back.",
+              "fig": "28 % of primary and lower secondary teachers and nearly 1 in 5 kindergarten teachers and kindergarten and school assistants were exposed to violence at work in the past year, against 5.7 % of everyone employed. 8 in 10 primary and lower secondary school leaders report violent incidents in the past year.",
+              "solve": "The factor Violence and threats asks whether the routines are known, whether people know what room they have to step in when a situation becomes dangerous, and whether the person involved is followed up. A yes/no question counts incidents that were not reported. The statement says «a child» in a kindergarten and «a pupil» in a school."
+            },
+            {
+              "t": "Too few adults at the edges of the day",
+              "looks": "The norm holds on paper. But at opening time, during breaks and when the last children are collected, one adult is alone with more children than anyone can keep track of.",
+              "fig": "99 % of kindergartens meet the staffing norm. But in a 2019 survey, 86 % of heads said they are fully staffed for less than 6 hours of the day, and the Directorate for Education writes that staffing on paper can be something other than staffing in reality.",
+              "solve": "The factor Staffing and substitutes asks whether staffing makes it possible to give the children what they need, whether a substitute is brought in when someone is away, and whether people are seldom alone with more children than they can keep track of. A yes/no question counts days when absence was not covered by a substitute. Workload and time pressure in the main survey shows whether the pace is too high."
+            },
+            {
+              "t": "Documentation and assessment take the time",
+              "looks": "Plans, assessments, minutes and messages. The time for following up the pupil who needs it is what is left over.",
+              "fig": "More than half of lower secondary teachers feel a lot of stress from the amount of administrative work and from assessment and grading. «Teachers have many roles and documentation requirements, they work a lot and have little time for breaks in their day», says an inspector at the Labour Inspection Authority.",
+              "solve": "The factor Time for core tasks asks whether people have time to plan and prepare the work with the pupils, whether documentation and reporting are worth the effort, and whether meeting time is used for what matters most. One of the suggestions is protected planning time. Workload and time pressure in the main survey shows the overall pressure."
+            },
+            {
+              "t": "Parents – also after working hours",
+              "looks": "A message late in the evening, a worried parent at the gate, a conversation that gets stuck. The cooperation matters – and is sometimes the heaviest part of the week.",
+              "fig": "About half of lower secondary teachers feel a lot of stress from handling parents’ concerns, and this has grown since 2018. At the same time, 76 % feel valued by parents. 41 % in education feel that the job interferes with their private life, partly because pupils and parents get in touch after working hours.",
+              "solve": "The factor Cooperation with parents asks whether it is clear what parents can expect, whether people get support from management when the cooperation becomes demanding, and whether they are spared answering parents outside working hours. The suggestions include reply times within working hours and the manager joining the demanding meetings."
+            },
+            {
+              "t": "Children and pupils who need more than you can give",
+              "looks": "A child who needs an adult all day, a pupil waiting for an assessment. The adaptation happens in an ordinary group, with the adults who are there.",
+              "fig": "More lower secondary teachers than in 2018 report a more varied pupil group and a need for more competence in adapting teaching. NIFU finds that pupils who need individually adapted education are often involved in violent incidents, and that special needs teachers and assistants who work closely with them are the most exposed.",
+              "solve": "The factor Adaptation and inclusion asks whether people get enough support to meet children or pupils with special needs, whether you have access to special needs expertise, and whether people know whom to contact when a child needs more help than you can give. One of the suggestions is regular meetings with the support services."
+            },
+            {
+              "t": "Many without teaching qualifications – and new people all the time",
+              "looks": "The permanent assistant knows the children best, the substitute is here for the first time, and it is unclear who is responsible for what.",
+              "fig": "In kindergartens, 42.2 % of the core staff are kindergarten teachers and 22.8 % are child and youth workers – 35 % are neither. In primary and lower secondary school the law sets no education requirement for assistants, and assistants and others account for nearly a third of the annual hours of pupil-related work.",
+              "solve": "The factor Competence and community among staff asks whether new staff and substitutes are trained before they are responsible for children alone, whether you have time for professional conversations, and whether it is clear how tasks are divided between teachers and other staff. One of the suggestions is a substitute folder and a fixed walk-through on the first day. Support from colleagues in the main survey shows how the team works."
+            },
+            {
+              "t": "Low chairs, lifting and noise",
+              "looks": "Dressing children while squatting, a two-year-old on the hip and an adult on a child’s chair at lunch. And the sound of a full unit in one room.",
+              "fig": "In kindergartens and after-school care, 60 % work squatting or kneeling and 38 % lift in awkward positions, against 17 and 14 % of everyone employed. 35 % report back pain caused wholly or partly by the job. 24 % experience high noise levels, against 8.6 % – measurements show a low risk of hearing damage, but the noise can be mentally draining.",
+              "solve": "The factor Noise, body and breaks asks whether the noise level is bearable, whether you have furniture and equipment that let people work in a way that is good for the body, and whether people get their breaks. The suggestions are concrete: a noise map, breaks where someone takes over, and adult chairs and height-adjustable changing tables."
+            },
+            {
+              "t": "Difficult cases and the feelings you take home",
+              "looks": "A worry about how a child is doing at home, a bullying case that does not let go. You are meant to stay calm and professional – and then go home.",
+              "fig": "31 % in kindergartens and after-school care and 32 % in education face high emotional demands, against 20 % of everyone employed. In kindergartens and after-school care, 41 % are often mentally exhausted after work.",
+              "solve": "The factor Difficult cases asks whether people know how you proceed when you are worried about how a child is doing at home, whether people are left alone with cases of bullying and harassment, and whether you have time to follow them up. One of the suggestions is two people responsible for every case, never one. The main survey measures Emotional demands, so the module does not repeat them."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "vold_og_trusler": "Violence and threats from children and pupils",
+          "bemanning_og_vikarer": "Staffing and substitutes",
+          "tid_til_kjerneoppgavene": "Time for core tasks",
+          "samarbeid_med_foreldre": "Cooperation with parents",
+          "tilrettelegging_og_inkludering": "Adaptation and inclusion",
+          "kompetanse_og_fellesskap": "Competence and community among staff",
+          "stoy_kropp_og_pauser": "Noise, body and breaks",
+          "vanskelige_saker": "Difficult cases"
+        },
+        "moduleTag": "Industry module",
+        "audience": {
+          "barnehage": "Kindergarten",
+          "skole": "School"
+        },
+        "wording": {
+          "k": "Kindergarten or school",
+          "title": "See the questions as your staff get them",
+          "lead": "The statements are the same, but the wording follows the organisation: «the children» in a kindergarten and «the pupils» in a school and after-school club. Orgpuls suggests the wording from your industry code, and you can change it under Measurements.",
+          "begge": "Do you run both a kindergarten and a school? Choose «Both», and the statements say «the children or the pupils». The codes and the scoring are the same in all three.",
+          "example": "The same statement, two wordings:",
+          "items": {
+            "barnehage": {
+              "t": "Kindergarten",
+              "link": "See the questions for kindergartens"
+            },
+            "skole": {
+              "t": "School and after-school club",
+              "link": "See the questions for schools and after-school clubs"
+            }
+          }
+        },
+        "proof": {
+          "k": "What it looks like",
+          "title": "From answers to measures in one tool",
+          "lead": "The pictures are real screenshots from our demo company, Nordvik Anlegg AS – a fictional civil engineering firm, not a kindergarten or school. The demo shows the main survey. The kindergarten and school module’s factors get results and suggested measures of their own, with an owner, a deadline and a new measurement in the pulse.",
+          "blocks": [
+            {
+              "k": "Results",
+              "h3": "See which unit or year group is struggling – without seeing who",
+              "ticks": [
+                "Each factor gets a score from 0 to 100, for the whole organisation and for each group with enough answers",
+                "Make one group per unit, year group or after-school club – results per group are included in the Usual plan",
+                "A group with too few answers is shown as a dash, but its answers count in the figures for the whole organisation"
+              ],
+              "caption": "The heat map: the factors against the groups."
+            },
+            {
+              "k": "Measures",
+              "h3": "Every finding becomes a measure with an owner and a deadline",
+              "ticks": [
+                "Three suggested measures per factor, written for kindergartens and schools – such as «Room to act on one page» and «Substitute folder and first day»",
+                "Every measure gets an owner and a deadline",
+                "The safety representative sees the same figures as management"
+              ],
+              "caption": "The measures board in Orgpuls."
+            },
+            {
+              "k": "Follow-up",
+              "h3": "Follow up with pulses through the year",
+              "ticks": [
+                "Plan the main survey and the pulses in the year wheel",
+                "The pulse includes the statements that measure the measures you are working on",
+                "Results are compared with the previous measurement"
+              ],
+              "caption": "The year wheel: baseline and pulses through the year."
+            },
+            {
+              "k": "Report",
+              "h3": "The report the Labour Inspection Authority asks for",
+              "ticks": [
+                "Survey, risk assessment and measures in one place, with dates",
+                "The legal basis for each factor",
+                "The kindergarten and school module gets its own part of the report",
+                "Download it as a PDF the day someone asks"
+              ],
+              "caption": "The report, part 3: the survey."
+            }
+          ]
+        },
+        "steps": {
+          "k": "Getting started",
+          "title": "From organisation number to report in four steps",
+          "items": [
+            {
+              "t": "Register your organisation",
+              "d": "Enter your organisation number, and we fetch name, address and industry from the Brønnøysund Register Centre. If your industry code is a kindergarten, school or after-school club, Orgpuls suggests the module and the wording."
+            },
+            {
+              "t": "Add your staff",
+              "d": "Make one group per unit, year group or after-school club. Send the link by text message or e-mail, or put up the QR poster in the staff room."
+            },
+            {
+              "t": "See the results",
+              "d": "Each factor gets a score from 0 to 100 in green, yellow or red – for the whole organisation and for each group with enough answers."
+            },
+            {
+              "t": "Choose measures and follow up",
+              "d": "Pick from the suggestions, give each measure an owner and a deadline, and let the pulse measure whether it worked. The report updates itself."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymity",
+          "title": "Anonymous – even in a small kindergarten",
+          "lead": "No single answer can be traced back to a person. That is built into how answers are stored, not just promised in a privacy notice.",
+          "items": [
+            {
+              "t": "5 answers by default",
+              "d": "No group is shown until at least 5 have answered. Small teams can lower the limit to 3, never below. The fewer the answers, the easier it is to recognise who said what."
+            },
+            {
+              "t": "Units and year groups with few answers",
+              "d": "A unit or year group with too few answers is not shown as a group of its own, but its answers count in the figures for the whole organisation. If a group could be worked out from the total and the other groups, one more group is held back."
+            },
+            {
+              "t": "The yes/no questions",
+              "d": "The questions about violence and threats that were not reported, and about days when absence was not covered by a substitute, are shown only as a count for the whole organisation – never per unit or year group."
+            },
+            {
+              "t": "The unit manager sees their unit",
+              "d": "A unit manager sees only their own group. The safety representative sees the same figures as management."
+            }
+          ],
+          "link": "Read about privacy and anonymity"
+        },
+        "faq": {
+          "k": "Questions and answers",
+          "title": "What heads of kindergartens and schools ask",
+          "items": [
+            {
+              "q": "Does it suit both kindergartens and schools?",
+              "a": "Yes. The statements are the same, but the wording follows the organisation: «the children» in a kindergarten, «the pupils» in a school and after-school club, and «the children or the pupils» where you have both. Orgpuls suggests the wording from your industry code, and you can change it under Measurements. A survey that has opened keeps its wording. The module is provisional: the pilot tests that the three versions work alike."
+            },
+            {
+              "q": "How long does it take for staff?",
+              "a": "The main survey takes around 4 minutes, and the kindergarten and school module around 3 more: 24 statements and 2 short yes/no questions. The survey stays open for 14 days, so people who work part-time or only in the after-school club have time to answer."
+            },
+            {
+              "q": "What does it cost?",
+              "a": "Small costs NOK 265 a month for up to 25 employees, and Usual NOK 565 for 26–100 employees. The kindergarten and school module is included in both. Prices exclude VAT, with no lock-in, and the first 15 days are free."
+            },
+            {
+              "q": "We are a small kindergarten. Can the head see who answered?",
+              "a": "No. By default no group is shown until at least 5 have answered, and a unit with fewer answers counts only in the figures for the whole kindergarten. Small teams can lower the limit to 3, never below – but the fewer the answers, the easier it is to recognise who said what."
+            },
+            {
+              "q": "Assistants and substitutes have no work e-mail. Can we reach them?",
+              "a": "Yes. Send the link by text message, or put up the QR poster in the staff room. The employee scans the code, enters a mobile number or e-mail address and gets their own link. The survey goes to the people you add to the staff list, and everything works on a phone."
+            },
+            {
+              "q": "Can they answer in Polish or Lithuanian?",
+              "a": "Yes. The questionnaire is available in Norwegian, English, Polish and Lithuanian. A language is offered when every question in the survey has an approved translation. Ukrainian, Swedish and Danish are not ready yet."
+            },
+            {
+              "q": "We already have routines for violence and threats. Do we need this as well?",
+              "a": "The routines are part of what the regulation requires. Orgpuls surveys the psychosocial work environment together with the employees, as the law requires in § 4-3 and chapter 1A of the regulation – violence and threats, staffing, cooperation with parents, time and support. The answers show whether the routines are known and whether the person involved is followed up."
+            },
+            {
+              "q": "Will this hold if the Labour Inspection Authority comes?",
+              "a": "Orgpuls covers the survey and risk assessment of the psychosocial work environment. The report brings together survey, risk assessment, measures and follow-up with dates. Routines for violence and threats, incident reporting and training and practice live elsewhere, and the Labour Inspection Authority expects the survey to draw on several sources – a questionnaire is one of them."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "All the questions in the kindergarten and school module",
+          "lovkrav": "The legal requirement explained",
+          "verneombud": "The safety representative and the survey",
+          "smaa": "Work environment surveys for small businesses",
+          "priser": "Pricing"
+        },
+        "sources": {
+          "noa_bhg": "STAMI, NOA: Facts about the work environment in kindergartens and after-school care, figures from the Living Conditions Survey on the work environment 2022",
+          "noa_und": "STAMI, NOA: Facts about the work environment in education, figures from the Living Conditions Survey on the work environment 2022",
+          "udir_bhg": "Norwegian Directorate for Education and Training: Facts about kindergartens 2025 – children and kindergartens",
+          "ssb_bhg_fravaer": "Statistics Norway, insight 2025/7: Kindergartens have almost twice the sickness absence of other industries",
+          "ssb_vold": "Statistics Norway: Four in ten primary and lower secondary teachers exposed to violence, threats, harassment or bullying at work, figures from the Living Conditions Survey on the work environment 2025",
+          "at_skole": "Labour Inspection Authority: Inspection and guidance in the education sector 2023–2025",
+          "fafo_vgs": "Fafo report 2026:06: Teachers’ work environment in upper secondary school (Andersen and Bråten), written for the Union of Education Norway",
+          "lovdata_aml": "Lovdata: Working Environment Act §§ 3-1 and 4-3",
+          "lovdata_forskrift": "Lovdata: Regulations concerning the performance of work, chapters 1A and 3A (in force 1 January 2026)",
+          "fafo_verneombud": "Fafo report 2025:10: Mapping the work of safety representatives (Andersen, Bråten and Huseby), a survey of 1,200 business leaders",
+          "talis": "NIFU and the University of Oslo: The Norwegian teacher role in change – results from TALIS 2024",
+          "fafo_fredrikstad": "Fafo report 2024:30: Extended staffing in kindergartens (Yssen, Bråthen and Moland)",
+          "fafo_oslo": "Fafo report 2024:13: Trial of extra core staffing in selected kindergartens in Oslo (Bråten, Jensen and Svalund)",
+          "nifu_vold": "NIFU report 2025:14: When school becomes unsafe for the adults (Samuelsen and Borg), for the Directorate for Education and Training",
+          "udir_norm": "Norwegian Directorate for Education and Training: Statistics on kindergartens’ adaptation to the staffing and teacher norms",
+          "udir_ansatte": "Norwegian Directorate for Education and Training: Facts about kindergartens 2025 – staff",
+          "udf_assist": "Union of Education Norway, fact sheet 2026:3: Use of assistants and other staff in pupil-related work in primary and lower secondary school, figures from GSI"
+        }
       }
     },
     "bransjer": {
@@ -12525,6 +12877,7 @@
           "bygg": "/bygg-og-anlegg · the law card, the inspection, the figures and the claims about anonymity",
           "helse": "/helse-og-omsorg · the law card, the inspection, the figures and the claims about anonymity",
           "kontor": "/kunnskap-og-kontor · the law card, the inspection, the figures and the claims about anonymity",
+          "barnehage": "/barnehage-og-skole · the law card, the inspection, the figures and the claims about anonymity",
           "bransjer": "/bransjer · why an industry module, and the questions and answers",
           "terms": "Prices and terms of purchase"
         },
