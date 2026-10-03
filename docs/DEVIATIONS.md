@@ -11194,3 +11194,11 @@ wordings and kontor's simplified set; en.orgpuls.com's sitemap lists the three p
 v3 pixel gate is unchanged at D-212's record (Forside 9.3789 %, Plattform 6.6768 %, Bruksområder 3.3886 %,
 Bransjer 13.1639 %, Pris 2.7752 %). `node scripts/audit/wiring.mjs`: the same six findings as D-208. Screenshots of
 the three English pages at 1440 and 390: `qa/shots/en-live/` (not committed). Hosted: read-only SELECTs only.
+
+**D-214, hosted (2026-10-03):** 0191 applied; handel, barnehage-og-skole and kunnskap-og-kontor published as 1.0.1
+through the seed (the same module_sync «Make live» calls), rounds moved 0. Approved module texts per survey
+language rose from 359 to 621 (+262, every statement of the three new versions carried); en/pl/lt coverage of
+`app.all_item_keys()` afterwards: pl 0 and lt 0 of 415 missing. English misses six keys, all
+`extra:tiltak_effekt` (the effect question and its five options, GAP-B) — older than this work: the question was
+never given an approved English registry row, so English is not offered in a round that asks it until that is
+approved in admin › Oversettelser.
