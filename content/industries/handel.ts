@@ -5,6 +5,12 @@ import type { IndustryPage } from './types'
  * it quotes is the module file's (modules/handel/v1.json) by code, or the core instrument's by
  * factor and ordinal; every figure carries its source.
  *
+ * Since D-207 the address /handel is drawn by the landing template (content/industries/landing.ts,
+ * messages `site.bransje.handel`). What this file still feeds: the question page (`questionPage`,
+ * /handel/sporsmal), the «Ny» date on the cards (`card`), the menu's name (`navLabel`), the module
+ * key, and the legal review's record of the claims below. Its hero, challenges, law block and FAQ
+ * are no longer shown on the site; they stay as the record of what the page said until D-207.
+ *
  * Launched 2026-09-28 with the module published as provisional (X-078). The lone-work law item
  * still names no paragraph (§ 5), as approved.
  *

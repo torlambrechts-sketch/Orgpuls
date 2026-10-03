@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto'
 import en from '@/messages/en.json'
 import no from '@/messages/no.json'
 import { INDUSTRIES, pageIn } from '@/content/industries'
+import { LANDINGS } from '@/content/industries/landing'
 import { MODULE_KEYS, moduleFile, moduleSource } from '@/content/industries/modules'
 import type { IndustryPage } from '@/content/industries/types'
 import { LOCALES, type Locale } from '@/lib/i18n/locales'
@@ -174,6 +175,17 @@ export const MESSAGE_SPECS: MessageSpec[] = [
     where: onSite('/hvorfor'),
   },
   { id: 'site.bruksomrader', section: 'site', paths: ['site.bruksomrader.h1', 'site.bruksomrader.sections[1]', 'site.bruksomrader.sections[3]', 'site.bruksomrader.sections[7]'], where: onSite('/bruksomrader') },
+  // the industry landing pages (D-207): the law card, the inspection and the claims about anonymity and the report
+  ...LANDINGS.map(
+    (l): MessageSpec => ({
+      id: `site.${l.msg}`,
+      section: 'site',
+      paths: [`site.bransje.${l.msg}.why`, `site.bransje.${l.msg}.challenges.items`, `site.bransje.${l.msg}.trust`, `site.bransje.${l.msg}.faq`, `site.bransje.${l.msg}.sources`],
+      where: onSite(`/${l.slug}`),
+      live: (lang) => l.live[lang === 'en' ? 'en' : 'no'],
+    }),
+  ),
+  { id: 'site.bransjer', section: 'site', paths: ['site.bransjer.why', 'site.bransjer.faq'], where: onSite('/bransjer') },
   {
     id: 'site.plattform',
     section: 'site',
@@ -358,6 +370,9 @@ function industryUnits(): LegalUnit[] {
       const file = `content/industries/${entry.slug}${lang === 'en' ? '.en' : ''}.ts`
       const where: Msg = { key: lang === 'en' ? 'industryEn' : 'path', values: { path: `/${entry.slug}` } }
       const base = `industry:${entry.slug}:${lang}`
+      // an address on the landing template (D-207) shows the landing's own law card, so the content
+      // file's law items are published only where the older template still draws the page
+      const lawShown = page.launched && !LANDINGS.find((l) => l.slug === entry.slug)?.live[lang === 'en' ? 'en' : 'no']
       const seen = new Set<string>()
       const law = page.law.items.map((l, i) => {
         // keyed by the reference, so reordering the items keeps each approval; a second item with
@@ -373,7 +388,7 @@ function industryUnits(): LegalUnit[] {
           lang,
           source: `${file} › law.items[${i}]`,
           where,
-          live: page.launched,
+          live: lawShown,
           // the hashed paths carry no position (it is in `source`), so moving an item is not a change
           lines: [
             { path: 'law.ref', text: l.ref },
@@ -388,7 +403,7 @@ function industryUnits(): LegalUnit[] {
         lang,
         source: `${file} › law.title, law.intro`,
         where,
-        live: page.launched,
+        live: lawShown,
         lines: [
           { path: 'law.title', text: page.law.title },
           { path: 'law.intro', text: page.law.intro },

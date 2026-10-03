@@ -474,7 +474,7 @@ export function SourceList({ sources, title }: { sources: { key: string; title: 
       </h2>
       <ol className="mb-0 mt-[18px] max-w-[84ch] pl-[20px] text-[13.5px] text-body">
         {sources.map((s) => (
-          <li key={s.key} id={`k-${s.key}`} className="my-[6px] scroll-mt-[90px]">
+          <li key={s.key} id={`k-${s.key}`} className="my-[10px] scroll-mt-[90px]">
             <a href={s.url} rel="noopener" className="break-words">
               {s.title}
             </a>

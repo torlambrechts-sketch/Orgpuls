@@ -14,6 +14,8 @@
 
 /** Bokmål and English are the platform's; the rest are survey languages whose texts come from the registry (D-133) */
 export type Lang = 'no' | 'en' | 'pl' | 'uk' | 'lt' | 'sv' | 'da'
+const LANGS: readonly string[] = ['no', 'en', 'pl', 'uk', 'lt', 'sv', 'da'] satisfies readonly Lang[]
+const isLang = (v: unknown): v is Lang => typeof v === 'string' && LANGS.includes(v)
 /** The `mail` subtree of one language's messages. */
 export type MailMessages = Record<string, unknown>
 export type MailCatalogue = Record<'no' | 'en', MailMessages> & Partial<Record<Lang, MailMessages>>
@@ -240,7 +242,7 @@ function layout(p: Parts): { text: string; html: string } {
     : ''
 
   const html = `<!doctype html>
-<html lang="${p.lang === 'en' ? 'en' : 'nb'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(p.title ?? 'Orgpuls')}</title></head>
+<html lang="${p.lang === 'no' ? 'nb' : p.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(p.title ?? 'Orgpuls')}</title></head>
 <body style="margin:0;padding:0;background:#FCF6E9;font-family:'DM Sans',Arial,Helvetica,sans-serif">
 <div style="max-width:560px;margin:0 auto;padding:28px 16px">
 ${
@@ -304,7 +306,9 @@ export function offeredFor(cat: MailCatalogue, job: NoticeJob, offer: LanguageOf
 export function personalLang(job: NoticeJob, r: Recipient, offered: Lang[] | null): Lang {
   const org = langOf(job.lang)
   if (!offered) return org
-  const own = r.lang === 'en' || r.lang === 'no' ? r.lang : null
+  // any survey language: `offered` holds only those whose mail texts and page strings are ready
+  // (offeredFor), so a Polish employee gets Polish exactly when the survey is offered in it (D-209)
+  const own = isLang(r.lang) ? r.lang : null
   if (own && offered.includes(own)) return own
   return offered.includes(org) ? org : 'no'
 }

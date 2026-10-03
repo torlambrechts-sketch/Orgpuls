@@ -7143,7 +7143,7 @@
         "points": [
           "Utsending på e-post og SMS – også til dem uten jobbadresse.",
           "Påminnelser går av seg selv, og verneombudet får varsel før hver runde.",
-          "Svar på norsk og engelsk.",
+          "Svar på norsk, engelsk, polsk og litauisk.",
           "Rapport klar til Arbeidstilsynet, med hjemmel per faktor."
         ],
         "link": "Se spørsmålssettet"
@@ -8135,11 +8135,1727 @@
       "limited": "Du har sendt flere meldinger den siste timen. Vent litt, eller skriv til oss på e-post.",
       "failed": "Meldingen kom ikke fram. Skriv til oss på {mail}, så svarer vi innen én virkedag."
     },
+    "bransje": {
+      "common": {
+        "problem": "Utfordring",
+        "solution": "Slik tar Orgpuls tak i det",
+        "measured": "Måles med",
+        "coreTag": "Hovedundersøkelsen",
+        "sourceMark": "Kilde {n}",
+        "sources": "Kilder",
+        "sourcesLead": "Tallene og lovhenvisningene er hentet {date}. Hver kilde står med årstall.",
+        "realShot": "Ekte skjermbilde fra demo-virksomheten Nordvik Anlegg AS.",
+        "related": "Les videre",
+        "facts": "{factors} faktorer · {statements} påstander · ca. {minutes} min ekstra"
+      },
+      "handel": {
+        "nav": "Handel",
+        "seo": {
+          "title": "Arbeidsmiljøkartlegging for butikk og varehandel | Orgpuls",
+          "description": "Kartlegg det psykososiale arbeidsmiljøet i butikken: vold og trusler, alenevakter, krevende kunder og bemanning. Anonymt på mobilen. 15 dager gratis."
+        },
+        "hero": {
+          "k": "Handel · butikk, kjede og lager",
+          "h1": "Arbeidsmiljø­kartlegging for butikk: se hva som gjør vaktene tunge – og følg det opp",
+          "lead": "Se hvor trusler, alenevakter og travle timer sliter på de ansatte – for hele virksomheten og for hver butikk med nok svar. Alle svarer anonymt på mobilen, og dere får forslag til tiltak og en rapport som viser at kartleggingen er gjort.",
+          "secondary": "Se spørsmålene for handel",
+          "figure": {
+            "title": "Slik svarer de ansatte",
+            "meta": "På mobilen · ca. 4 + {minutes} min",
+            "caption": "Spørreskjemaet på mobil, ett tema per side."
+          },
+          "tiles": [
+            {
+              "t": "{factors} faktorer for butikk og lager",
+              "d": "Handel-modulen kommer i tillegg til hovedundersøkelsen og tar ca. {minutes} minutter ekstra."
+            },
+            {
+              "t": "Svar på mobilen",
+              "d": "Lenke på SMS eller e-post, eller QR-plakat på pauserommet. Ingen app, og ingen trenger jobb-e-post."
+            },
+            {
+              "t": "Rapport for Arbeidstilsynet",
+              "d": "Kartlegging, risikovurdering og tiltak samlet, med hjemmel for hver faktor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Hverdagen i tall",
+          "title": "Psykososialt arbeidsmiljø i varehandelen: dette viser tallene",
+          "lead": "Rundt 350 000 mennesker jobber i varehandelen, mange av dem unge og på deltid. Tallene er hentet fra norsk forskning og offentlig statistikk.",
+          "items": [
+            {
+              "v": "12 %",
+              "l": "av butikkansatte hadde det siste året opplevd trusler så alvorlige at de ble redde"
+            },
+            {
+              "v": "32 %",
+              "l": "jobber alene i butikken – alltid, ofte eller noen ganger"
+            },
+            {
+              "v": "27 %",
+              "l": "opplever konflikter med kunder, mot 16 % av alle sysselsatte"
+            },
+            {
+              "v": "37 %",
+              "l": "i varehandelen jobber deltid, mot 24 % i alle næringer"
+            }
+          ],
+          "h3": "Mye når aldri fram til lederen",
+          "note": "Av dem som ble truet, meldte 30 % ikke fra til arbeidsgiver. Bare 5 % av butikklederne i samme undersøkelse hadde fått et varsel om vold eller trusler det siste året.",
+          "text": "Et anonymt spørreskjema fanger det som ikke blir meldt. Handel-modulen spør om hendelser som aldri ble meldt, og svaret vises bare som antall for hele virksomheten."
+        },
+        "why": {
+          "k": "Hvorfor kartlegge",
+          "title": "Hvorfor butikken må kartlegge arbeidsmiljøet",
+          "lead": "Arbeidsmiljøloven gjelder alle arbeidsgivere med ansatte, også butikken med 6 ansatte. For handel peker regelverket på det samme som tallene: vold og trusler, alenearbeid og bemanning.",
+          "law": {
+            "title": "Det loven krever av butikken",
+            "pill": "Gjelder alle med ansatte",
+            "rows": [
+              {
+                "ref": "aml § 3-1 (2) c",
+                "t": "Kartlegg farer og problemer, vurder risikoen, lag planer og sett i verk tiltak."
+              },
+              {
+                "ref": "aml § 4-3",
+                "t": "Det psykososiale arbeidsmiljøet skal være fullt forsvarlig, og de ansatte skal så langt det er mulig beskyttes mot vold, trusler og uheldige belastninger fra kontakt med andre."
+              },
+              {
+                "ref": "aml § 4-1 (3)",
+                "t": "Vurder om det er særlig risiko ved alenearbeid, og sett i verk tiltakene som trengs."
+              },
+              {
+                "ref": "Forskriften kap. 3A",
+                "t": "Kartlegg og risikovurder vold og trusler – blant annet alenearbeid, arbeidstid og bemanning – og sørg for tiltak, opplæring og oppfølging."
+              },
+              {
+                "ref": "Forskriften § 1A-2",
+                "t": "Kartleggingen skal gjøres sammen med de ansatte, gjentas regelmessig og dokumenteres."
+              }
+            ],
+            "link": "Les mer om lovkravet"
+          },
+          "tilsyn": {
+            "t": "Arbeidstilsynet fører tilsyn med varehandelen",
+            "p": "I 2026 følger Arbeidstilsynet opp butikker med søkelys på unge ansatte, arbeidsavtaler og verneombud. I tidligere tilsyn fant de avvik knyttet til verneombud i 44 % av tilsynene der det ble kontrollert.",
+            "d": "I Orgpuls ser verneombudet de samme tallene som ledelsen, uten ekstra kostnad."
+          },
+          "gap": {
+            "t": "Mange små virksomheter har ikke gjort det",
+            "p": "Blant private virksomheter med færre enn 20 ansatte gjennomfører 28 % en medarbeiderundersøkelse. 23 % gjør ingen av kartleggingene Fafo spurte om – verken vernerunder, medarbeidersamtaler eller undersøkelser."
+          },
+          "cost": {
+            "t": "Det koster å la det ligge",
+            "items": [
+              "2 av 5 i butikkhandelen med sykefravær sier at fraværet har sammenheng med jobben. Slikt fravær kan ofte forebygges på arbeidsplassen.",
+              "Vold og trusler gir mer sykefravær og gjør det vanskeligere å beholde og rekruttere folk, skriver Arbeidstilsynet.",
+              "Mange unge tar butikkjobb ved siden av skole eller studier, og de fleste blir ikke i bransjen over tid."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Utfordringer og løsninger",
+          "title": "Åtte utfordringer i butikk – og hvordan dere tar tak i dem",
+          "lead": "Utfordringene er hentet fra norsk forskning og tilsyn. Under hver står det hvilke spørsmål som måler den, og hva dere får å jobbe med.",
+          "items": [
+            {
+              "t": "Vold og trusler i butikk – ved tyveri og ran",
+              "looks": "En kunde blir stoppet med varer i jakka og blir truende. Den ansatte må bestemme seg på sekunder: gripe inn, tilkalle hjelp eller la det gå.",
+              "fig": "12 % hadde det siste året opplevd trusler så alvorlige at de ble redde. Flest varsler til Arbeidstilsynet om vold og trusler i varehandelen kommer fra dagligvarebutikker og bensinstasjoner.",
+              "solve": "Handel-modulen spør om rutinene er kjent, om hjelpen kommer raskt og om dere blir fulgt opp etterpå. Et eget ja/nei-spørsmål teller hendelser som ikke ble meldt. Hovedundersøkelsen teller hvor mange som har opplevd vold eller trusler."
+            },
+            {
+              "t": "Alene på vakt ved åpning, stenging og kveld",
+              "looks": "Den siste går gjennom butikken, teller opp kassa og låser. Skjer det noe, er det ingen å rope på.",
+              "fig": "32 % jobber alene av og til eller oftere. I kjedebutikker med alenearbeid hadde 1 av 3 ikke gjort en egen risikovurdering av det.",
+              "solve": "Faktoren Alene på vakt måler om det er trygt, om det blir pauser og om leder er lett å nå. Et ja/nei-spørsmål teller hvor mange som har følt seg utrygge alene – aldri per butikk eller vakt. Svarene er grunnlaget for risikovurderingen loven krever."
+            },
+            {
+              "t": "Krevende kunder og følelser som må holdes inne",
+              "looks": "Klagen i kassakøen tas med et smil, og kjeften over prisene tas imot uten å svare igjen – vakt etter vakt.",
+              "fig": "27 % opplever konflikter med kunder, og 33 % må skjule negative følelser. Blant alle sysselsatte er tallene 16 og 17 %.",
+              "solve": "Hovedundersøkelsen måler emosjonelle krav med tre påstander. Handel-modulen legger til Grenser mot kunder: om det er greit å avslutte en samtale som går over grensen, og om lederen stiller opp."
+            },
+            {
+              "t": "For få på jobb når det er travelt",
+              "looks": "Fredag ettermiddag: lang kø, hyller som skal fylles, og én som også skal svare på telefonen.",
+              "fig": "Lav bemanning gjør det vanskeligere å forebygge og håndtere vold og trusler, skriver Arbeidstilsynet. Forskriften nevner bemanning blant det risikovurderingen skal se på.",
+              "solve": "Faktoren Bemanning og tempo viser om bemanningen følger de travle timene, og om det er tydelig hva som kan vente. Sammen med Arbeidsmengde og tidspress ser dere hvilke butikker som strekker seg for langt."
+            },
+            {
+              "t": "Kvelder, lørdager og vaktplan på kort varsel",
+              "looks": "Vaktplanen kommer sent, og en ledig vakt dukker opp på telefonen samme morgen.",
+              "fig": "85 % jobber lørdager, og 60 % har vakter tidlig kveld på hverdager. Arbeid utover avtalt tid er vanligst i varehandelen og i helse og omsorg.",
+              "solve": "Faktoren Vaktplan og forutsigbarhet måler om planen kommer i god tid, og om de ansatte kan påvirke vaktene. Medvirkning og kontroll i hovedundersøkelsen viser om de har noe de skulle ha sagt."
+            },
+            {
+              "t": "Deltid, unge og nye som fort står alene",
+              "looks": "En student tar lørdagsvakter, jobber noen timer i uka og møter sjelden de andre.",
+              "fig": "37 % i varehandelen jobber deltid, og 1 av 4 under 20 timer i uka. 28 % av dem som jobber alene, har ikke fått opplæring i hva de skal gjøre hvis noe skjer.",
+              "solve": "Undersøkelsen går på SMS eller QR-plakat, så ekstrahjelpen svarer like lett som butikksjefen. Den står åpen i 14 dager, så alle vakter rekker å svare. Opplæring og nye på jobb og Stilling og tilhørighet viser om de nye blir tatt imot."
+            },
+            {
+              "t": "Tunge løft og mange timer på beina",
+              "looks": "Varemottak med tunge kasser, påfylling på huk og en hel vakt stående i kassa.",
+              "fig": "73 % jobber stående, mot 35 % av alle sysselsatte. 22 % gjør ubekvemme løft, mot 14 %.",
+              "solve": "Faktoren Fysisk arbeid og hjelpemidler viser om hjelpemidlene finnes, om det er tid til å bruke dem, og om de ansatte kan variere arbeidsstillingen – per butikk og lager."
+            },
+            {
+              "t": "Uønsket seksuell oppmerksomhet fra kunder",
+              "looks": "Kommentarer over disken, eller en kunde som kommer tilbake igjen og igjen. Mange lar være å si fra.",
+              "fig": "16 % hadde opplevd uønsket seksuell oppmerksomhet det siste året. Bare 1 av 3 av dem meldte fra til arbeidsgiver.",
+              "solve": "Hovedundersøkelsen spør anonymt om krenkende atferd og måler integritet og verdighet. Grenser mot kunder spør om seksuelle kommentarer og berøring blir tatt på alvor. Loven sier at dere skal forebygge trakassering, også fra kunder."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "sikkerhet_tyveri_trusler": "Sikkerhet ved tyveri, trusler og ran",
+          "alene_pa_vakt": "Alene på vakt",
+          "grenser_mot_kunder": "Grenser mot kunder",
+          "bemanning_og_tempo": "Bemanning og tempo",
+          "vaktplan": "Vaktplan og forutsigbarhet",
+          "stilling_og_tilhorighet": "Stilling og tilhørighet",
+          "opplaering": "Opplæring og nye på jobb",
+          "fysisk_arbeid": "Fysisk arbeid og hjelpemidler"
+        },
+        "moduleTag": "Handel-modulen",
+        "proof": {
+          "k": "Slik ser det ut",
+          "title": "Fra svar til tiltak i samme verktøy",
+          "lead": "Bildene er ekte skjermbilder fra demo-virksomheten vår, Nordvik Anlegg AS, som ikke bruker handel-modulen. Handel-modulens faktorer får egne forslag til tiltak, med eier, frist og ny måling i pulsen.",
+          "blocks": [
+            {
+              "k": "Tiltak",
+              "h3": "Hvert funn blir et tiltak med eier og frist",
+              "ticks": [
+                "Tre forslag til tiltak per faktor, skrevet for butikk – for eksempel «Pause og innsjekk» for alenevakter",
+                "Hvert tiltak får en eier og en frist",
+                "Neste puls måler om tiltaket virket"
+              ],
+              "caption": "Tiltakstavla i Orgpuls."
+            },
+            {
+              "k": "Rapport",
+              "h3": "Rapporten Arbeidstilsynet spør etter",
+              "ticks": [
+                "Kartlegging, risikovurdering og tiltak samlet, med dato",
+                "Hjemmel for hver faktor",
+                "Handel-modulen får en egen del i rapporten",
+                "Last den ned som PDF den dagen noen spør"
+              ],
+              "caption": "Rapporten, del 3: kartleggingen."
+            }
+          ]
+        },
+        "steps": {
+          "k": "Slik kommer dere i gang",
+          "title": "Fra organisasjonsnummer til rapport i fire steg",
+          "items": [
+            {
+              "t": "Registrer virksomheten",
+              "d": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Er bransjekoden handel, foreslår Orgpuls handel-modulen."
+            },
+            {
+              "t": "Legg inn de ansatte",
+              "d": "Lag én gruppe per butikk eller lager. Send lenken på SMS eller e-post, eller heng opp QR-plakaten."
+            },
+            {
+              "t": "Se resultatet",
+              "d": "Hver faktor får en skår fra 0 til 100 i grønt, gult eller rødt – for hele virksomheten og for hver butikk med nok svar."
+            },
+            {
+              "t": "Velg tiltak og følg opp",
+              "d": "Velg blant forslagene, gi tiltaket en eier og en frist, og la pulsen måle om det virket. Rapporten oppdaterer seg selv."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymitet",
+          "title": "Anonymt – også i en liten butikk",
+          "lead": "Ingen enkeltsvar kan spores tilbake til en person. Det er bygd inn i måten svarene lagres på, ikke bare lovet i en personvernerklæring.",
+          "items": [
+            {
+              "t": "5 svar som standard",
+              "d": "Ingen gruppe vises før minst 5 har svart. Små team kan senke grensen til 3, aldri lavere. Jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+            },
+            {
+              "t": "Butikker med få svar",
+              "d": "En butikk med for få svar vises ikke som egen gruppe, men svarene teller med i tallene for hele virksomheten."
+            },
+            {
+              "t": "Ja/nei-spørsmålene",
+              "d": "Spørsmålene om utrygge alenevakter og hendelser som ikke ble meldt, vises bare som antall for hele virksomheten – aldri per butikk eller vakt."
+            },
+            {
+              "t": "Butikksjefen ser sin butikk",
+              "d": "En avdelingsleder ser bare sin egen gruppe. Verneombudet ser de samme tallene som ledelsen."
+            }
+          ],
+          "link": "Les om personvern og anonymitet"
+        },
+        "faq": {
+          "k": "Spørsmål og svar",
+          "title": "Det butikkledere lurer på",
+          "items": [
+            {
+              "q": "Hvor lang tid tar det for de ansatte?",
+              "a": "Hovedundersøkelsen tar rundt 4 minutter, og handel-modulen rundt 3 minutter til. Undersøkelsen står åpen i 14 dager, så alle vakter rekker å svare."
+            },
+            {
+              "q": "Hva koster det?",
+              "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, og Vanlig 565 kr for 26–100 ansatte. Handel-modulen er med i begge. Prisene er eks. mva., uten bindingstid, og de første 15 dagene er gratis."
+            },
+            {
+              "q": "Er det anonymt når butikken bare har 6 ansatte?",
+              "a": "Ja. Som standard vises ingen gruppe før minst 5 har svart, og en butikk med færre svar teller bare med i tallene for hele virksomheten. Små team kan senke grensen til 3, men jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+            },
+            {
+              "q": "Mange ansatte har ikke jobb-e-post eller PC. Går det?",
+              "a": "Ja. Send lenken på SMS, eller heng opp QR-plakaten på pauserommet. Den ansatte skanner koden, skriver inn mobilnummer eller e-post og får sin egen lenke. Alt fungerer på mobilen."
+            },
+            {
+              "q": "Kan de ansatte svare på andre språk enn norsk?",
+              "a": "Ja. Spørreskjemaet finnes på norsk, engelsk, polsk og litauisk. Er språket registrert på den ansatte, kommer invitasjonen og skjemaet på det språket, og alle kan bytte språk selv i skjemaet. Den polske og litauiske teksten er maskinoversatt, og et språk tilbys bare når alle spørsmålene i målingen har en godkjent oversettelse. Ukrainsk, svensk og dansk er ikke klare ennå."
+            },
+            {
+              "q": "Vi er en kjede med mange butikker. Passer det?",
+              "a": "Ja. Lag én gruppe per butikk, så ser dere resultatet for hver butikk med nok svar, og butikksjefen kan se sin egen. Er butikkene egne selskaper, eller er dere over 100 ansatte, får dere et eget tilbud i planen Flere selskaper."
+            },
+            {
+              "q": "Er handel-modulen ferdig utprøvd?",
+              "a": "Den bygger på norsk forskning og tilsyn, men er ikke validert ennå. Derfor er risikogrensene merket foreløpig i resultatene. Hovedundersøkelsen er bygd på QPS Nordic."
+            },
+            {
+              "q": "Holder dette hvis Arbeidstilsynet kommer?",
+              "a": "Orgpuls dekker kartleggingen og risikovurderingen av det psykososiale arbeidsmiljøet. Rapporten samler kartlegging, risikovurdering, tiltak og oppfølging med dato. Avvikshåndtering, vernerunder og arbeidsavtaler har dere et annet sted, og Arbeidstilsynet forventer at kartleggingen bygger på flere kilder – en undersøkelse er én av dem."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "Alle spørsmålene i handel-modulen",
+          "lovkrav": "Lovkravet forklart",
+          "priser": "Priser",
+          "smaa": "Arbeidsmiljøkartlegging for små bedrifter"
+        },
+        "sources": {
+          "fafo": "Fafo-notat 2024:17: Arbeid utenom ordinær dagtid – detaljhandel (Andersen og Nergaard), spørreundersøkelse blant 6 198 butikkansatte i Handel og Kontor og 700 virksomheter, høsten 2023",
+          "fafo_merarbeid": "Fafo-rapport 2026:10: Merarbeid i norsk arbeidsliv (Nergaard, Andersen og Bøckmann)",
+          "fafo_verneombud": "Fafo-rapport 2025:10: Kartlegging av verneombudenes arbeid (Andersen, Bråten og Huseby), spørreundersøkelse blant 1 200 virksomhetsledere",
+          "fafo_senior": "Fafo, Faktaflak mars 2023: Seniorer i varehandelen (Hilsen)",
+          "stami": "STAMI, NOA: Fakta om arbeidsmiljøet innen butikkhandel, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022",
+          "ssb": "SSB, tabell 07203: Sysselsatte etter næring og heltid/deltid (AKU), 2025",
+          "at_tilsyn": "Arbeidstilsynet: Arbeidstilsynet fører tilsyn med varehandel, pressemelding 1. juli 2026",
+          "at_vold": "Arbeidstilsynet: Vold og trusler i arbeidslivet, veiledning",
+          "at_kompass": "Arbeidstilsynet, Kompass nr. 4 2026: Dødsfall og personskader som følge av vold og trusler i norsk landbasert arbeidsliv",
+          "lovdata_aml": "Lovdata: Arbeidsmiljøloven §§ 3-1, 4-1 og 4-3",
+          "lovdata_forskrift": "Lovdata: Forskrift om utførelse av arbeid, kapittel 1A og 3A (i kraft 1. januar 2026)"
+        }
+      },
+      "bygg": {
+        "nav": "Bygg og anlegg",
+        "seo": {
+          "title": "Arbeidsmiljøkartlegging for bygg og anlegg | Orgpuls",
+          "description": "Kartlegg arbeidsmiljøet på byggeplassen: tidspress, mange firma, språk på laget og nye folk. Anonymt på SMS eller QR i brakka. 15 dager gratis."
+        },
+        "hero": {
+          "k": "Bygg og anlegg · entreprenør og håndverk",
+          "h1": "Arbeidsmiljø­kartlegging for bygg og anlegg: se hva som sliter på laget – og følg det opp",
+          "lead": "Se hvor tidspress, mange firma på plassen og språk på laget skaper press – for hele virksomheten og for hvert prosjekt med nok svar. Mannskapet svarer anonymt på mobilen. Dere får forslag til tiltak med eier og frist, ny måling i pulsen og en rapport som viser at kartleggingen er gjort.",
+          "secondary": "Se spørsmålene for bygg og anlegg",
+          "figure": {
+            "title": "Slik svarer mannskapet",
+            "meta": "På mobilen · ca. 4 + {minutes} min",
+            "caption": "Spørreskjemaet på mobil, ett tema per side."
+          },
+          "tiles": [
+            {
+              "t": "{factors} faktorer for byggeplassen",
+              "d": "Bygg-modulen kommer i tillegg til hovedundersøkelsen og tar ca. {minutes} minutter ekstra."
+            },
+            {
+              "t": "Svar fra brakka",
+              "d": "Lenke på SMS eller e-post, eller QR-plakat i brakka. Ingen app, og ingen trenger jobb-e-post."
+            },
+            {
+              "t": "Rapport for Arbeidstilsynet",
+              "d": "Kartlegging, risikovurdering og tiltak samlet, med hjemmel for hver faktor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Hverdagen i tall",
+          "title": "Arbeidsmiljøet i bygg og anlegg: dette viser tallene",
+          "lead": "Rundt 240 000 bosatte jobber i bygge- og anleggsvirksomhet, og om lag 21 000 til er her på korttidsopphold. Tallene er hentet fra norsk forskning og offentlig statistikk.",
+          "items": [
+            {
+              "v": "29 %",
+              "l": "av arbeidstakerne i bygge- og anleggsvirksomhet var utenlandske i 2024"
+            },
+            {
+              "v": "16",
+              "l": "arbeidsskader per 1 000 sysselsatte i 2024, mot 11,8 i alle næringer"
+            },
+            {
+              "v": "1 av 3",
+              "l": "i byggevirksomhet jobber i en virksomhet med 9 eller færre sysselsatte"
+            },
+            {
+              "v": "1 av 2",
+              "l": "med sykefravær i byggevirksomhet sier at fraværet har sammenheng med jobben"
+            }
+          ],
+          "h3": "Mye blir aldri sagt på tavlemøtet",
+          "note": "Fafos rapport om HMS i bygg beskriver at det å melde uønskede hendelser kan bli sett på som tysting, at løs tilknytning til arbeidsgiver kan få mange til å la være å melde fra, og at frykt for represalier gjelder særlig utenlandske arbeidstakere.",
+          "text": "Et anonymt spørreskjema gir mannskapet en måte å si det på uten å stå fram. Bygg-modulen spør om nestenulykker som ikke ble meldt, og svaret vises bare som antall for hele virksomheten."
+        },
+        "why": {
+          "k": "Hvorfor kartlegge",
+          "title": "Hvorfor byggefirmaet må kartlegge arbeidsmiljøet",
+          "lead": "Arbeidsmiljøloven gjelder alle arbeidsgivere med ansatte, også håndverksbedriften med fem på laget. På byggeplassen kommer egne krav i tillegg: samordning når flere firma jobber på samme sted, og et språk alle på arbeidslaget forstår.",
+          "law": {
+            "title": "Det loven krever av byggefirmaet",
+            "pill": "Gjelder alle med ansatte",
+            "rows": [
+              {
+                "ref": "aml § 3-1 (2) c",
+                "t": "Kartlegg farer og problemer, vurder risikoen, lag planer og sett i verk tiltak."
+              },
+              {
+                "ref": "aml § 4-3",
+                "t": "De psykososiale arbeidsmiljøfaktorene skal være fullt forsvarlige – blant annet arbeidsmengde og tidspress, og støtte og hjelp i arbeidet. Ingen skal utsettes for trakassering eller annen utilbørlig opptreden."
+              },
+              {
+                "ref": "aml § 2-2 (2)",
+                "t": "Når flere virksomheter jobber på samme arbeidsplass, har hovedbedriften ansvaret for å samordne HMS-arbeidet."
+              },
+              {
+                "ref": "Byggherreforskriften § 19a",
+                "t": "Minst én på hvert arbeidslag skal kunne forstå og gjøre seg forstått på et språk de andre på laget forstår, når sikkerheten krever det."
+              },
+              {
+                "ref": "Forskriften § 1A-2",
+                "t": "Kartleggingen skal gjøres sammen med de ansatte, gjentas regelmessig og dokumenteres."
+              }
+            ],
+            "link": "Les mer om lovkravet"
+          },
+          "tilsyn": {
+            "t": "Arbeidstilsynet prioriterer byggevirksomheter",
+            "p": "I 2025 var byggevirksomheter blant næringene Arbeidstilsynet prioriterte i tilsyn med psykiske og muskel- og skjelettplager. I nær to av tre av disse tilsynene var kartleggingen mangelfull, og handlingsplaner, ansvarlige og frister for tiltakene holdt ofte ikke mål. Over halvparten av alle overtredelsesgebyrene gikk til byggenæringen.",
+            "d": "I Orgpuls får hvert tiltak en eier og en frist, og verneombudet ser de samme tallene som ledelsen."
+          },
+          "gap": {
+            "t": "Mange små firma har ikke gjort det",
+            "p": "Blant private virksomheter med færre enn 20 ansatte gjennomfører 28 % en medarbeiderundersøkelse, og 23 % gjør ingen av kartleggingene Fafo spurte om. Fafo finner fortsatt store HMS-utfordringer i mange av de minste byggefirmaene."
+          },
+          "cost": {
+            "t": "Det koster å la det ligge",
+            "items": [
+              "1 av 2 i byggevirksomhet med sykefravær sier at fraværet har sammenheng med jobben. Slikt fravær kan ofte forebygges på arbeidsplassen.",
+              "En analyse Arbeidstilsynet viser til, fant en sterk sammenheng mellom handlinger som utløste ulykker og usikker ledelse av risiko. Det kan peke mot at også psykososiale tiltak må prioriteres høyt i bygg og anlegg.",
+              "1 av 5 som jobbet i bygg og anlegg i 2015, jobbet i en annen næring i 2022. Yngre er overrepresentert blant dem som bytter."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Utfordringer og løsninger",
+          "title": "Åtte utfordringer på byggeplassen – og hvordan dere tar tak i dem",
+          "lead": "Utfordringene er hentet fra norsk forskning og tilsyn. Under hver står det hvilke spørsmål som måler den, og hva dere får å jobbe med.",
+          "items": [
+            {
+              "t": "Tidspress som går foran sikkerheten",
+              "looks": "Betongbilen er bestilt, stillaset er ikke ferdig, og byggherren venter. Det er da snarveiene blir tatt.",
+              "fig": "Fafos informanter beskriver et stadig større tidspress i prosjektene, som gjør det mer fristende å ta snarveier. Ulykkene Arbeidstilsynet har analysert, skjedde typisk ved arbeid som avvek fra den opprinnelige planen.",
+              "solve": "Faktoren Sikkerhet foran fremdrift spør om sikkerheten holder når det blir dårlig tid, og om man kan stanse en utrygg jobb uten å få problemer. Planlegging og fremdrift viser om tidsplanen er realistisk. Et ja/nei-spørsmål teller hvor mange som er blitt bedt om å gjøre en jobb de mente var utrygg."
+            },
+            {
+              "t": "Mange firma på samme plass",
+              "looks": "Hovedentreprenør, tre underentreprenører og en elektriker som kom i dag. Hvem sier fra til hvem når kranen skal løfte over taket?",
+              "fig": "Manglende planlegging og kommunikasjon mellom virksomhetene har vært en årsak i mange av ulykkene Arbeidstilsynet har analysert. Byggfirma i Oslo-området har møtt innleieforbudet blant annet med flere underentreprenører og mer overtid.",
+              "solve": "Faktoren Samordning på byggeplassen spør om det er tydelig hvem som har ansvaret når flere firma jobber sammen, og om dere får vite om risikoen i arbeidet andre gjør rundt dere. Forslagene til tiltak er konkrete, som et felles tavlemøte for alle firma på plassen."
+            },
+            {
+              "t": "Beskjeden som ikke ble forstått",
+              "looks": "Bas gir beskjed på norsk, én på laget oversetter, og resten nikker. Ingen spør igjen.",
+              "fig": "I en undersøkelse fra 2017 som Fafo viser til, hadde 29 % av arbeidsgiverne opplevd at språkproblemer førte til en ulykke eller nestenulykke. Blant bosatte arbeidsinnvandrere fra Polen og Litauen svarte 8 % at de ikke snakket norsk, og 30 % at de snakket ganske lite.",
+              "solve": "Faktoren Språk og beskjeder spør om sikkerhetsinformasjonen gis på et språk den enkelte forstår godt, om det alltid er noen på laget som kan formidle mellom språkene, og om det er greit å spørre igjen. Mannskapet kan svare på polsk og litauisk i tillegg til norsk og engelsk; den polske og litauiske teksten er maskinoversatt."
+            },
+            {
+              "t": "Nye, unge og innleide på laget",
+              "looks": "En lærling på sitt første prosjekt, to innleide som kom mandag og en sommervikar. Alle får oppgaver før de kjenner plassen.",
+              "fig": "Unge under 25 år, nye i jobben og innleide er blant gruppene Arbeidstilsynet peker på som mest utsatt for ulykker. Skadehyppigheten er betydelig høyere i de yngste aldersgruppene.",
+              "solve": "Faktoren Nye og unge på laget spør om nye får opplæring før de får oppgaver med risiko, om de har en fast person å spørre, og om de får tid til å lære. Innleide som er en del av laget, kan dere legge inn i ansattlista, så svarer de som de andre."
+            },
+            {
+              "t": "Nestenulykken ingen melder",
+              "looks": "En plate glipper fra kranen og lander der noen sto for ti minutter siden. Det blir ikke skrevet noe avvik.",
+              "fig": "Fafo beskriver at det å melde uønskede hendelser kan bli sett på som tysting, og at mange med løs tilknytning lar være å melde fra. Frykt for represalier gjelder særlig utenlandske arbeidstakere.",
+              "solve": "Et ja/nei-spørsmål teller nestenulykker som ikke ble meldt – bare som antall for hele virksomheten, aldri per prosjekt. Sikkerhet i laget spør om dere sier fra til hverandre og lærer av hendelser, og Ytringsklima i hovedundersøkelsen viser om folk tør å si fra."
+            },
+            {
+              "t": "Lag som ikke snakker sammen",
+              "looks": "Hvert lag spiser for seg i brakka. Når noe går galt, er det lettere å skylde på de andre enn å si fra.",
+              "fig": "En informant i Fafos rapport beskriver hvordan skillene forplanter seg til pauserommene og kan gi konflikter og manglende tillit mellom folk fra ulike land. Arbeidstilsynet peker på et godt ytringsklima mellom arbeidstakere og ledere som viktig for sikkerheten.",
+              "solve": "Hovedundersøkelsen måler Støtte fra kollegaer og Integritet og verdighet, og spør anonymt om krenkende atferd. Det spørsmålet vises bare som antall for hele virksomheten."
+            },
+            {
+              "t": "Lange dager og lang vei hjem",
+              "looks": "Lange dager for å tjene opp friperioden, og så flyet eller bilen hjem. Søndag kveld begynner reisen tilbake.",
+              "fig": "12 % i anleggsvirksomhet jobber mer enn 48 timer i uka, mot 8,2 % av alle sysselsatte. Fafos informanter peker på arbeidstid som en kjent risiko, særlig for dem som pendler mellom hjemlandet og Norge og jobber lange dager for å tjene opp friperioder.",
+              "solve": "Faktoren Arbeidstid og restitusjon spør om arbeidstiden gir nok hvile, om reisetid og pendling er til å leve med over tid, og om overtid er unntaket og ikke normalen."
+            },
+            {
+              "t": "Når noe nesten gikk galt",
+              "looks": "Etter et fall fra stillaset er jobben i gang igjen neste morgen. Ingen spør dem som sto ved siden av, hvordan det går.",
+              "fig": "3 902 arbeidsskader ble registrert i bygge- og anleggsvirksomhet i 2024. 43 % i byggevirksomhet har tungt fysisk arbeid, mot 21 % av alle sysselsatte.",
+              "solve": "Faktoren Å si at man ikke har det bra spør om det tas en prat med dem som var der etter en ulykke eller nestenulykke, og om folk vet hvor de kan få hjelp. Et av forslagene er å samle dem som var der samme uke, med leder eller bedriftshelsetjenesten."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "sikkerhet_foran_fremdrift": "Sikkerhet foran fremdrift",
+          "sikkerhet_i_laget": "Sikkerhet i laget",
+          "planlegging_og_fremdrift": "Planlegging og fremdrift",
+          "samordning_pa_byggeplassen": "Samordning på byggeplassen",
+          "sprak_og_beskjeder": "Språk og beskjeder",
+          "nye_og_unge": "Nye og unge på laget",
+          "a_si_at_man_ikke_har_det_bra": "Å si at man ikke har det bra",
+          "arbeidstid_og_restitusjon": "Arbeidstid og restitusjon"
+        },
+        "moduleTag": "Bygg-modulen",
+        "proof": {
+          "k": "Slik ser det ut",
+          "title": "Fra svar til tiltak i samme verktøy",
+          "lead": "Bildene er ekte skjermbilder fra demo-virksomheten vår, Nordvik Anlegg AS – en tenkt anleggsbedrift med prosjekt, verksted, drift og administrasjon. Demoen viser hovedundersøkelsen. Bygg-modulens faktorer får egne resultater og forslag til tiltak, med eier, frist og ny måling i pulsen.",
+          "blocks": [
+            {
+              "k": "Resultater",
+              "h3": "Se hvilket prosjekt som sliter – uten å se hvem",
+              "ticks": [
+                "Hver faktor får en skår fra 0 til 100, for hele virksomheten og for hver gruppe med nok svar",
+                "Lag én gruppe per prosjekt, verksted eller lag – resultat per gruppe er med i pakken Vanlig",
+                "En gruppe med for få svar vises med strek, men svarene teller med i tallene for hele virksomheten"
+              ],
+              "caption": "Varmekartet: faktorene mot gruppene."
+            },
+            {
+              "k": "Tiltak",
+              "h3": "Hvert funn blir et tiltak med eier og frist",
+              "ticks": [
+                "Tre forslag til tiltak per faktor, skrevet for byggeplassen – for eksempel «Stopp og meld» og «Felles tavlemøte»",
+                "Hvert tiltak får en eier og en frist",
+                "Neste puls måler om tiltaket virket"
+              ],
+              "caption": "Tiltakstavla i Orgpuls."
+            },
+            {
+              "k": "Rapport",
+              "h3": "Rapporten Arbeidstilsynet spør etter",
+              "ticks": [
+                "Kartlegging, risikovurdering og tiltak samlet, med dato",
+                "Hjemmel for hver faktor",
+                "Bygg-modulen får en egen del i rapporten",
+                "Last den ned som PDF den dagen noen spør"
+              ],
+              "caption": "Rapporten, del 3: kartleggingen."
+            }
+          ]
+        },
+        "steps": {
+          "k": "Slik kommer dere i gang",
+          "title": "Fra organisasjonsnummer til rapport i fire steg",
+          "items": [
+            {
+              "t": "Registrer virksomheten",
+              "d": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Er bransjekoden bygg og anlegg, foreslår Orgpuls bygg-modulen."
+            },
+            {
+              "t": "Legg inn mannskapet",
+              "d": "Lag én gruppe per prosjekt, verksted eller lag. Send lenken på SMS eller e-post, eller heng opp QR-plakaten i brakka."
+            },
+            {
+              "t": "Se resultatet",
+              "d": "Hver faktor får en skår fra 0 til 100 i grønt, gult eller rødt – for hele virksomheten og for hvert prosjekt med nok svar."
+            },
+            {
+              "t": "Velg tiltak og følg opp",
+              "d": "Velg blant forslagene, gi tiltaket en eier og en frist, og la pulsen måle om det virket. Rapporten oppdaterer seg selv."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymitet",
+          "title": "Anonymt – også på et lite lag",
+          "lead": "Ingen enkeltsvar kan spores tilbake til en person. Det er bygd inn i måten svarene lagres på, ikke bare lovet i en personvernerklæring.",
+          "items": [
+            {
+              "t": "5 svar som standard",
+              "d": "Ingen gruppe vises før minst 5 har svart. Små team kan senke grensen til 3, aldri lavere. Jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+            },
+            {
+              "t": "Prosjekter med få svar",
+              "d": "Et prosjekt med for få svar vises ikke som egen gruppe, men svarene teller med i tallene for hele virksomheten. Kan en gruppe regnes ut fra totalen og de andre gruppene, holdes en gruppe til tilbake."
+            },
+            {
+              "t": "Ja/nei-spørsmålene",
+              "d": "Spørsmålene om nestenulykker som ikke ble meldt og jobber folk mente var utrygge, vises bare som antall for hele virksomheten – aldri per prosjekt."
+            },
+            {
+              "t": "Prosjektlederen ser sitt prosjekt",
+              "d": "En avdelingsleder ser bare sin egen gruppe. Verneombudet ser de samme tallene som ledelsen."
+            }
+          ],
+          "link": "Les om personvern og anonymitet"
+        },
+        "faq": {
+          "k": "Spørsmål og svar",
+          "title": "Det ledere i bygg og anlegg lurer på",
+          "items": [
+            {
+              "q": "Hvor lang tid tar det for mannskapet?",
+              "a": "Hovedundersøkelsen tar rundt 4 minutter, og bygg-modulen rundt 3 minutter til: 24 påstander og 2 korte ja/nei-spørsmål. Undersøkelsen står åpen i 14 dager, så folk på ulike prosjekter og turnuser rekker å svare."
+            },
+            {
+              "q": "Hva koster det?",
+              "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, og Vanlig 565 kr for 26–100 ansatte. Bygg-modulen er med i begge. Prisene er eks. mva., uten bindingstid, og de første 15 dagene er gratis."
+            },
+            {
+              "q": "Er det anonymt når laget bare er fem–seks stykker?",
+              "a": "Ja. Som standard vises ingen gruppe før minst 5 har svart, og et lag med færre svar teller bare med i tallene for hele virksomheten. Små team kan senke grensen til 3, men jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+            },
+            {
+              "q": "Mannskapet har ikke jobb-e-post. Går det?",
+              "a": "Ja. Send lenken på SMS, eller heng opp QR-plakaten i brakka. Den ansatte skanner koden, skriver inn mobilnummer eller e-post og får sin egen lenke. Alt fungerer på mobilen."
+            },
+            {
+              "q": "Kan de svare på polsk eller litauisk?",
+              "a": "Ja. Spørreskjemaet finnes på norsk, engelsk, polsk og litauisk. Er språket registrert på den ansatte, kommer invitasjonen og skjemaet på polsk eller litauisk, og alle kan bytte språk selv i skjemaet. Den polske og litauiske teksten er maskinoversatt, og et språk tilbys bare når alle spørsmålene i målingen har en godkjent oversettelse. Ukrainsk, svensk og dansk er ikke klare ennå."
+            },
+            {
+              "q": "Kan vi ta med innleide og underentreprenører?",
+              "a": "Undersøkelsen går til dem dere legger inn i ansattlista. Innleide som er en del av laget, kan dere legge inn som vanlig. Underentreprenørenes folk har sin egen arbeidsgiver. Faktoren Samordning på byggeplassen viser hvordan deres egne folk opplever samarbeidet med andre firma."
+            },
+            {
+              "q": "Vi har SJA, vernerunder og avvikssystem. Trenger vi dette i tillegg?",
+              "a": "SJA, vernerunder og avvikssystemet handler om farene i arbeidet. Orgpuls kartlegger det psykososiale arbeidsmiljøet – tidspress, samordning, språk, støtte og ytringsklima – som loven krever i § 4-3 og forskriften kapittel 1A. Det erstatter ikke fysiske tiltak: Arbeidstilsynet og STAMI skriver at psykososiale tiltak kan forsterke andre tiltak, men har liten effekt alene."
+            },
+            {
+              "q": "Holder dette hvis Arbeidstilsynet kommer?",
+              "a": "Orgpuls dekker kartleggingen og risikovurderingen av det psykososiale arbeidsmiljøet. Rapporten samler kartlegging, risikovurdering, tiltak og oppfølging med dato. Avvikshåndtering, vernerunder, SHA-plan og HMS-kort har dere et annet sted, og Arbeidstilsynet forventer at kartleggingen bygger på flere kilder – en undersøkelse er én av dem."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "Alle spørsmålene i bygg-modulen",
+          "lovkrav": "Lovkravet forklart",
+          "verneombud": "Verneombudet og kartleggingen",
+          "smaa": "Arbeidsmiljøkartlegging for små bedrifter",
+          "priser": "Priser"
+        },
+        "sources": {
+          "at_kompass26": "Arbeidstilsynet og STAMI, Kompass nr. 1 2026: Ulykker i bygg og anlegg – rapport 2025",
+          "noa": "STAMI, NOA: Fakta om arbeidsmiljøet i byggevirksomhet, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022",
+          "fafo_hms": "Fafo-rapport 2025:33: Østeuropeisk arbeidskraft og HMS i bygg (Ødegård, Huseby og Bråten)",
+          "lovdata_aml": "Lovdata: Arbeidsmiljøloven §§ 2-2, 3-1 og 4-3",
+          "lovdata_bhf": "Lovdata: Byggherreforskriften § 19a, krav om språkferdigheter (i kraft 1. januar 2024)",
+          "lovdata_forskrift": "Lovdata: Forskrift om utførelse av arbeid, kapittel 1A (i kraft 1. januar 2026)",
+          "at_arsrapport": "Arbeidstilsynet: Årsrapport 2025 – en analyse av Arbeidstilsynets innsats",
+          "fafo_verneombud": "Fafo-rapport 2025:10: Kartlegging av verneombudenes arbeid (Andersen, Bråten og Huseby), spørreundersøkelse blant 1 200 virksomhetsledere",
+          "at_kompass25": "Arbeidstilsynet og STAMI, Kompass nr. 1 2025: Helseproblemer og ulykker i bygg og anlegg – rapport 2024",
+          "fafo_dapi": "Fafo-rapport 2024:35: Arbeidstakere i bygge- og anleggsnæringen i 2015 og 2022 (Andersen og Dapi)",
+          "fafo_innleie": "Fafo-notat 2024:22: Virkninger av innstramninger i innleieregelverket (Alsos mfl.)",
+          "noa_anlegg": "STAMI, NOA: Fakta om arbeidsmiljøet i anleggsvirksomheter, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022"
+        }
+      },
+      "kontor": {
+        "nav": "Kunnskap og kontor",
+        "seo": {
+          "title": "Arbeidsmiljøkartlegging for kunnskap og kontor | Orgpuls",
+          "description": "Kartlegg arbeidsmiljøet i rådgivning, IT, finans og media: konsentrasjon, tilgjengelighet, hybridarbeid og KI. Forenklet eller utvidet. 15 dager gratis."
+        },
+        "hero": {
+          "k": "Kunnskap og kontor · rådgivning, IT, finans, media og eiendom",
+          "h1": "Arbeidsmiljø­kartlegging for kunnskap og kontor: se hva som stjeler fokus og fritid – og følg det opp",
+          "lead": "Se hvor avbrytelser, krav om å svare utenom arbeidstid og hybridarbeid går ut over de ansatte – for hele virksomheten og for hvert team med nok svar. Velg forenklet eller utvidet, og plukk faktorene som passer hverdagen deres. Dere får forslag til tiltak med eier og frist, ny måling i pulsen og en rapport som viser at kartleggingen er gjort.",
+          "secondary": "Se spørsmålene for kunnskap og kontor",
+          "figure": {
+            "title": "Slik svarer de ansatte",
+            "meta": "På mobil eller PC · ca. 4 + {minutes} min",
+            "caption": "Spørreskjemaet på mobil, ett tema per side."
+          },
+          "tiles": [
+            {
+              "t": "{factors} faktorer for kunnskapsarbeid",
+              "d": "Kontor-modulen kommer i tillegg til hovedundersøkelsen og tar ca. {minutes} minutter ekstra – forenklet eller utvidet, dere velger."
+            },
+            {
+              "t": "Invitasjon på e-post",
+              "d": "Hver ansatt får sin egen lenke på e-post eller SMS og svarer på mobil eller PC. Ingen app å installere."
+            },
+            {
+              "t": "Rapport for Arbeidstilsynet",
+              "d": "Kartlegging, risikovurdering og tiltak samlet, med hjemmel for hver faktor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Hverdagen i tall",
+          "title": "Arbeidsmiljøet på kontoret: dette viser tallene",
+          "lead": "Rundt 400 000 jobber i informasjon og kommunikasjon, finans og forsikring og teknisk tjenesteyting og eiendom, og om lag 800 000 sitter på kontor nesten hele arbeidstiden. Tallene er hentet fra norsk forskning og offentlig statistikk.",
+          "items": [
+            {
+              "v": "29 %",
+              "l": "på kontorarbeidsplasser jobber hjemmefra eller på farten utenom vanlig arbeidstid hver uke, mot 17 % av alle sysselsatte"
+            },
+            {
+              "v": "22 %",
+              "l": "av virksomhetene har retningslinjer om retten til å koble fra jobben i fritiden"
+            },
+            {
+              "v": "9,6 %",
+              "l": "av arbeidstakerne jobber hjemmefra flere dager i uka etter pandemien, mot 4,2 % i 2019"
+            },
+            {
+              "v": "28 %",
+              "l": "av de legemeldte sykefraværsdagene i 2. kvartal 2026 skyldtes psykiske lidelser – i hele arbeidslivet"
+            }
+          ],
+          "h3": "Høy trivsel, men ikke alt synes",
+          "note": "86 % på kontorarbeidsplasser er fornøyd med jobben, mot 83 % av alle sysselsatte, og sykefraværet er lavere enn snittet. Likevel oppgir 1 av 5 psykiske plager som helt eller delvis skyldes jobben.",
+          "text": "Et anonymt spørreskjema viser det som ikke blir sagt i allmøtet. Kontor-modulen spør blant annet om de ansatte er blitt kontaktet i fritiden med forventning om svar. Svaret vises bare som antall for hele virksomheten."
+        },
+        "why": {
+          "k": "Hvorfor kartlegge",
+          "title": "Hvorfor kontorbedriften må kartlegge arbeidsmiljøet",
+          "lead": "Arbeidsmiljøloven gjelder alle arbeidsgivere med ansatte – også rådgivningsselskapet med seks konsulenter. For kunnskapsarbeid peker loven blant annet på arbeidsmengde og tidspress, uklare forventninger og støtte i arbeidet, og hjemmekontoret er en del av arbeidsmiljøet.",
+          "law": {
+            "title": "Det loven krever i kunnskaps- og kontorarbeid",
+            "pill": "Gjelder alle med ansatte",
+            "rows": [
+              {
+                "ref": "aml § 3-1 (2) c",
+                "t": "Kartlegg farer og problemer, vurder risikoen, lag planer og sett i verk tiltak."
+              },
+              {
+                "ref": "aml § 4-3 (2)",
+                "t": "De psykososiale faktorene skal være fullt forsvarlige – blant annet uklare eller motstridende krav og forventninger, arbeidsmengde og tidspress, og støtte og hjelp i arbeidet."
+              },
+              {
+                "ref": "aml § 10-8 (1)",
+                "t": "Arbeidstaker skal ha minst 11 timer sammenhengende arbeidsfri i løpet av 24 timer."
+              },
+              {
+                "ref": "Hjemmekontorforskriften",
+                "t": "Fast hjemmearbeid krever en skriftlig avtale, blant annet om arbeidstid og når den ansatte skal være tilgjengelig. Også det psykososiale arbeidsmiljøet hjemme skal være ivaretatt (§§ 2 og 3)."
+              },
+              {
+                "ref": "Forskriften § 1A-2",
+                "t": "Kartleggingen skal gjøres sammen med de ansatte, gjentas regelmessig og dokumenteres."
+              }
+            ],
+            "link": "Les mer om lovkravet"
+          },
+          "tilsyn": {
+            "t": "Arbeidstilsynet: risikoen handler mer om hvordan arbeidet er organisert",
+            "p": "«Stadig flere i Norge jobber i yrker der risikoen i mindre grad handler om maskiner og fysiske farer, men i større grad om hvordan arbeidet er organisert, tidspress og emosjonelle belastninger», skriver Arbeidstilsynet i årsrapporten for 2025. Kravene ble tydeliggjort fra 1. januar 2026, og tilsynet veileder først. I tilsynene i 2025 – i andre bransjer – var kartleggingen mangelfull i nær to av tre, og tiltakene manglet ofte ansvarlige og frister.",
+            "d": "I Orgpuls får hvert tiltak en eier og en frist, og verneombudet ser de samme tallene som ledelsen."
+          },
+          "gap": {
+            "t": "Små bedrifter kartlegger sjeldnere",
+            "p": "Blant private virksomheter med færre enn 20 ansatte gjennomfører 28 % en medarbeiderundersøkelse, og 23 % gjør ingen av kartleggingene Fafo spurte om. Blant virksomhetene med færre enn 20 ansatte har 19 % retningslinjer om retten til å koble fra."
+          },
+          "cost": {
+            "t": "Det koster å la det ligge",
+            "items": [
+              "1 av 3 på kontorarbeidsplasser med sykefravær sier at fraværet har sammenheng med jobben. Slikt fravær kan ofte forebygges på arbeidsplassen.",
+              "Ansatte i åpne kontorlandskap med faste plasser hadde høyere sannsynlighet for både egenmeldt og legemeldt sykefravær enn ansatte på enekontor eller mindre delekontor, viser en doktorgrad fra STAMI. Forskjellene er små, men gjelder mange.",
+              "Sykefravær med psykiske lidelser varer ofte lenge, og det øker sjansen for å falle helt ut av arbeidslivet, sier arbeids- og velferdsdirektør Hege Nilssen."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Utfordringer og løsninger",
+          "title": "Åtte utfordringer i kunnskaps- og kontorarbeid – og hvordan dere tar tak i dem",
+          "lead": "Mange kontorarbeidsplasser skårer godt på mye. Utfordringene her er det som er særegent for kunnskapsarbeid, hentet fra norsk forskning, statistikk og veiledning. Under hver står det hvilke spørsmål som måler den, og hva dere får å jobbe med.",
+          "items": [
+            {
+              "t": "Ingen ro til å tenke",
+              "looks": "Et kjapt spørsmål ved pulten, varsler i tre kanaler, fire møter før lunsj. Det som krever konsentrasjon, blir gjort når de andre har gått hjem.",
+              "fig": "58 % av dem som jobber på kontor, sitter i delt kontor eller kontorlandskap hele eller deler av tiden. I Fafos evaluering av et aktivitetsbasert kontor i departementene opplevdes konsentrasjonskrevende arbeid som mer krevende i det åpne landskapet.",
+              "solve": "Fokus og avbrytelser spør om man får sammenhengende tid til arbeid som krever konsentrasjon, og om man blir forstyrret når man trenger ro. Møtekultur spør om møtene er nyttige. I forenklet er de samlet i faktoren Konsentrasjon og arbeidsflyt, med forslag som faste fokusblokker og en møterevisjon."
+            },
+            {
+              "t": "Alltid tilgjengelig",
+              "looks": "Kunden sender e-post søndag kveld, og lederen svarer i chatten klokka elleve. Ingen har sagt at du må svare – men alle gjør det.",
+              "fig": "22 % på kontorarbeidsplasser opplever at det er forventet at de er tilgjengelige i fritiden, mot 19 % av alle sysselsatte. Forventningene er ofte uformelle og underkommuniserte, skriver Fafo.",
+              "solve": "Tilgjengelighet spør om det er akseptert å ikke svare utenom arbeidstid, og om teamet har klare avtaler om når man skal være tilgjengelig. Et ja/nei-spørsmål teller hvor mange som er blitt kontaktet i fritiden der det var forventet at de svarte – vist bare som antall for hele virksomheten. Ett av forslagene er en tilgjengelighetsavtale i teamet."
+            },
+            {
+              "t": "Jobben følger med hjem",
+              "looks": "PC-en står på kjøkkenbordet, og «bare én ting til» blir til en time hver kveld. Det er fleksibelt – helt til det ikke er det.",
+              "fig": "Blant ansatte uten lederansvar får 41 % i akademikeryrker jobbhenvendelser i fritiden minst én gang i uka, mot 17 % av operatører og håndverkere. To av tre ledere med personalansvar får slike henvendelser hver uke.",
+              "solve": "Arbeid og privatliv spør om jobben gir nok tid til privatlivet, og Restitusjon og løsrivelse om man klarer å koble av i fritiden. Forslagene inkluderer «Fri betyr fri» og en kvartalsvis gjennomgang av kvelds- og helgearbeidet sammen med verneombudet."
+            },
+            {
+              "t": "Sammen, men hver for seg",
+              "looks": "Halve teamet er på kontoret tirsdag, resten torsdag. Den nye har ikke møtt alle ennå, og sparringen skjer bare når noen husker å invitere.",
+              "fig": "I Abelias HR-undersøkelse blant teknologi- og kunnskapsbedrifter oppgir 40 % av bedriftene svakere sosialt samhold som følge av fleksible og hybride arbeidsformer som en stor utfordring. STAMI finner at hjemmekontor kan gi mer kontroll og fleksibilitet, men også henger sammen med økte krav til tilgjengelighet, mindre kollegastøtte og noe mer rolleuklarhet og rollekonflikt.",
+              "solve": "Hybrid samhandling spør om samarbeidet fungerer uansett hvor man jobber, og Tilhørighet og faglig nettverk om man får uformell kontakt og faglig sparring. Rolleklarhet og Støtte fra kollegaer i hovedundersøkelsen viser resten. Forslagene inkluderer en hybrid teamavtale og ukentlig én-til-én."
+            },
+            {
+              "t": "Kunden har alltid hastverk",
+              "looks": "Fristen ble satt i salgsmøtet, bestillingen endret seg underveis, og timene skal fortsatt føres som fakturerbare.",
+              "fig": "Om lag 1 av 10 arbeidstakere får jevnlig jobbhenvendelser i fritiden og forventes å svare. De fleste er ledere eller i særlig selvstendige stillinger, bruker minst 2 timer i uka på det, og mange rapporterer stress og arbeid under sykdom.",
+              "solve": "I utvidet kan dere velge Kunde- og leveransepress: om fristene er realistiske, om man får støtte fra leder når kunden stiller urimelige krav, og om kravene til fakturerbar tid er rimelige. Arbeidsmengde og tidspress og Motstridende krav i hovedundersøkelsen er med for alle."
+            },
+            {
+              "t": "Nye systemer, ny organisering, ny KI",
+              "looks": "Nytt fagsystem i vår, ny organisering til høsten – og nå skal alle bruke KI, men ingen har sagt hvordan.",
+              "fig": "55 % på kontorarbeidsplasser har opplevd omorganisering, mot 48 % av alle sysselsatte. I bank, finans og forsikring er det 65 %. 9 av 10 foretak i informasjon og kommunikasjon bruker KI i 2026.",
+              "solve": "KI og endring spør om man vet hvordan man bruker KI trygt, og om man blir involvert når ny teknologi endrer jobben. Jobbtrygghet og omstilling spør om man er trygg på at kompetansen vil være etterspurt, og i utvidet om endringer blir forklart. Medvirkning og kontroll i hovedundersøkelsen viser om de ansatte blir hørt."
+            },
+            {
+              "t": "Skjerm, stol og kjøkkenbord",
+              "looks": "Åtte timer foran skjermen, halve uka ved et kjøkkenbord og en kanal for hvert prosjekt. Ingen har spurt hvordan det går med nakken.",
+              "fig": "42 % på kontorarbeidsplasser jobber med gjentakende arm- og håndbevegelser, blant annet PC-arbeid, mot 25 % av alle sysselsatte. Jobber noen hjemme én dag hver uke som fast ordning, gjelder hjemmekontorforskriften, skriver Arbeidstilsynet.",
+              "solve": "Fysisk arbeidsplass og utstyr spør om kontoret gir ro, og om man har utstyr som er godt for kroppen – også hjemme. Et ja/nei-spørsmål teller hvor mange som jobber fast hjemmefra uten skriftlig avtale. Digitale verktøy spør om verktøyene gjør jobben enklere, og om mengden meldinger er til å håndtere."
+            },
+            {
+              "t": "Det som ikke blir sagt på skjermen",
+              "looks": "I videomøtet sier alle at det går fint. Den som strever, sier det i lunsjen – hvis hun er på kontoret den dagen.",
+              "fig": "Blant ledere med ansatte som kan jobbe hjemmefra, synes 47 % det er krevende å lede ansatte som jobber hjemmefra, og 45 % mener det påvirker arbeidsmiljøet negativt.",
+              "solve": "Ytringsklima og Støtte fra leder i hovedundersøkelsen viser om folk tør å si fra, og om lederen stiller opp. Svarene er anonyme og vises per team med nok svar – også for dem lederen sjelden ser. I kommentarfeltet kan de skrive det de ikke sier høyt, og dere kan svare anonymt."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "fokus_og_avbrytelser": "Fokus og avbrytelser",
+          "motekultur": "Møtekultur",
+          "digitale_verktoy": "Digitale verktøy og informasjonsmengde",
+          "tilgjengelighet": "Tilgjengelighet og responspress",
+          "arbeid_privatliv": "Arbeid og privatliv",
+          "restitusjon": "Restitusjon og løsrivelse",
+          "hybrid_samhandling": "Hybrid samhandling",
+          "tilhorighet": "Tilhørighet og faglig nettverk",
+          "fysisk_arbeidsplass": "Fysisk arbeidsplass og utstyr",
+          "kunde_og_leveransepress": "Kunde- og leveransepress",
+          "laering_og_utvikling": "Læring og faglig utvikling",
+          "ki_og_endring": "KI og endring i arbeidsoppgaver",
+          "overvaking_og_tillit": "Digital overvåking og tillit",
+          "jobbtrygghet": "Jobbtrygghet og omstilling",
+          "rettferdighet_og_karriere": "Rettferdighet og karriere",
+          "f_konsentrasjon": "Konsentrasjon og arbeidsflyt",
+          "f_digitale_verktoy": "Digitale verktøy og informasjonsmengde",
+          "f_tilgjengelighet": "Tilgjengelighet og grenser",
+          "f_privatliv_restitusjon": "Arbeid, privatliv og restitusjon",
+          "f_hybrid": "Samhandling og tilhørighet i hybridarbeid",
+          "f_fysisk": "Fysisk arbeidsplass og utstyr",
+          "f_laering": "Læring og faglig utvikling",
+          "f_teknologi_ki": "Teknologisk endring og KI"
+        },
+        "moduleTag": "Kontor-modulen",
+        "variants": {
+          "k": "Forenklet eller utvidet",
+          "title": "Én modul, to varianter: velg det som passer dere",
+          "lead": "De 24 kjernepåstandene er med i begge variantene, så tallene kan sammenlignes fra måling til måling. Daglig leder velger under Målinger › Spørsmålssett, og valget gjelder til dere endrer det.",
+          "facts": {
+            "factors": "faktorer",
+            "statements": "påstander",
+            "minutes": "min ekstra",
+            "about": "ca. {n}",
+            "upTo": "opptil {n}"
+          },
+          "simple": {
+            "t": "Forenklet",
+            "badge": "Anbefalt i vanlige målinger",
+            "d": "Åtte faktorer med tre påstander hver, samlet fra kjernepåstandene. Alle som bruker forenklet, får de samme åtte.",
+            "list": "Faktorene i forenklet"
+          },
+          "extended": {
+            "t": "Utvidet",
+            "badge": "Annethvert år som fordypning",
+            "d": "Alle de {factors} faktorene, med flere påstander hver. Dere krysser av for minst {min} av dem. Faktorer merket «Kun utvidet» finnes bare her, og den som er «Valgfri», er av til dere slår den på.",
+            "list": "Faktorene dere velger blant"
+          },
+          "picks": {
+            "title": "Velg etter hverdagen deres",
+            "lead": "Eksempler på faktorer dere kan legge vekt på i utvidet – dere velger selv. Hovedundersøkelsen er med for alle.",
+            "items": [
+              {
+                "t": "Rådgivning og konsulent",
+                "d": "Kundefrister, fakturerbar tid og kunder som endrer bestillingen underveis."
+              },
+              {
+                "t": "IT og teknologi",
+                "d": "Nye verktøy hvert halvår, KI i hverdagen og mange kanaler."
+              },
+              {
+                "t": "Finans og forsikring",
+                "d": "Omorganisering, digitale spor av arbeidet og kunder som venter svar."
+              },
+              {
+                "t": "Hybride team",
+                "d": "Noen på kontoret, noen hjemme – og like muligheter til å bli sett."
+              }
+            ]
+          },
+          "note": "Bruker dere utvidet, regnes de åtte forenklede faktorene også ut, som sammenlignbar indeks – slik at dere kan sammenligne med målinger der dere brukte forenklet."
+        },
+        "proof": {
+          "k": "Slik ser det ut",
+          "title": "Fra svar til tiltak i samme verktøy",
+          "lead": "Bildene er ekte skjermbilder fra demo-virksomheten vår, Nordvik Anlegg AS – en tenkt anleggsbedrift, ikke en kontorbedrift. Demoen viser hovedundersøkelsen. Kontor-modulens faktorer får egne resultater og forslag til tiltak, med eier, frist og ny måling i pulsen.",
+          "blocks": [
+            {
+              "k": "Resultater",
+              "h3": "Se hvilket team som sliter – uten å se hvem",
+              "ticks": [
+                "Hver faktor får en skår fra 0 til 100, for hele virksomheten og for hver gruppe med nok svar",
+                "Lag én gruppe per team, avdeling eller kontor – resultat per gruppe er med i pakken Vanlig",
+                "En gruppe med for få svar vises med strek, men svarene teller med i tallene for hele virksomheten"
+              ],
+              "caption": "Varmekartet: faktorene mot gruppene."
+            },
+            {
+              "k": "Tiltak",
+              "h3": "Hvert funn blir et tiltak med eier og frist",
+              "ticks": [
+                "Tre forslag til tiltak per faktor, skrevet for kunnskapsarbeid – for eksempel «Tilgjengelighetsavtale» og «Faste fokusblokker»",
+                "Hvert tiltak får en eier og en frist",
+                "Verneombudet ser de samme tallene som ledelsen"
+              ],
+              "caption": "Tiltakstavla i Orgpuls."
+            },
+            {
+              "k": "Oppfølging",
+              "h3": "Følg opp med puls gjennom året",
+              "ticks": [
+                "Planlegg hovedmålingen og pulsene i årshjulet",
+                "Pulsen tar med påstandene som måler tiltakene dere jobber med",
+                "Resultatene sammenlignes med forrige måling"
+              ],
+              "caption": "Årshjulet: grunnlinje og pulser gjennom året."
+            },
+            {
+              "k": "Rapport",
+              "h3": "Rapporten Arbeidstilsynet spør etter",
+              "ticks": [
+                "Kartlegging, risikovurdering og tiltak samlet, med dato",
+                "Hjemmel for hver faktor",
+                "Kontor-modulen får en egen del i rapporten, med varianten dere brukte",
+                "Last den ned som PDF den dagen noen spør"
+              ],
+              "caption": "Rapporten, del 3: kartleggingen."
+            }
+          ]
+        },
+        "steps": {
+          "k": "Slik kommer dere i gang",
+          "title": "Fra organisasjonsnummer til rapport i fire steg",
+          "items": [
+            {
+              "t": "Registrer virksomheten",
+              "d": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Hører bransjekoden til kunnskap og kontor – for eksempel IT, finans, rådgivning eller eiendom – foreslår Orgpuls kontor-modulen."
+            },
+            {
+              "t": "Velg variant og legg inn de ansatte",
+              "d": "Velg forenklet eller utvidet under Spørsmålssett. Lag én gruppe per team eller avdeling, og send invitasjonen på e-post eller SMS."
+            },
+            {
+              "t": "Se resultatet",
+              "d": "Hver faktor får en skår fra 0 til 100 i grønt, gult eller rødt – for hele virksomheten og for hvert team med nok svar."
+            },
+            {
+              "t": "Velg tiltak og følg opp",
+              "d": "Velg blant forslagene, gi tiltaket en eier og en frist, og la pulsen måle om det virket. Rapporten oppdaterer seg selv."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymitet",
+          "title": "Anonymt – også i et lite team",
+          "lead": "Ingen enkeltsvar kan spores tilbake til en person. Det er bygd inn i måten svarene lagres på, ikke bare lovet i en personvernerklæring.",
+          "items": [
+            {
+              "t": "5 svar som standard",
+              "d": "Ingen gruppe vises før minst 5 har svart. Små team kan senke grensen til 3, aldri lavere. Jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+            },
+            {
+              "t": "Team med få svar",
+              "d": "Et team med for få svar vises ikke som egen gruppe, men svarene teller med i tallene for hele virksomheten. Kan en gruppe regnes ut fra totalen og de andre gruppene, holdes en gruppe til tilbake."
+            },
+            {
+              "t": "Ja/nei-spørsmålene",
+              "d": "Spørsmålene om kontakt i fritiden og om skriftlig avtale om hjemmekontor vises bare som antall for hele virksomheten – aldri per team."
+            },
+            {
+              "t": "Avdelingslederen ser sitt team",
+              "d": "En avdelingsleder ser bare sin egen gruppe. Verneombudet ser de samme tallene som ledelsen."
+            }
+          ],
+          "link": "Les om personvern og anonymitet"
+        },
+        "faq": {
+          "k": "Spørsmål og svar",
+          "title": "Det ledere i kunnskapsbedrifter lurer på",
+          "items": [
+            {
+              "q": "Forenklet eller utvidet – hva skal vi velge?",
+              "a": "Forenklet er 8 faktorer og 24 påstander og tar rundt 3 minutter ekstra. Utvidet har 15 faktorer og opptil 62 påstander og tar rundt 7 minutter. Vi anbefaler forenklet i vanlige målinger og utvidet annethvert år som fordypning. De 24 kjernepåstandene er med i begge, så dere kan sammenligne resultatene over tid."
+            },
+            {
+              "q": "Kan vi velge bare de faktorene som passer oss?",
+              "a": "I utvidet, ja: dere krysser av for minst 8 av de 15 faktorene. Kjernepåstandene er alltid med, og Rettferdighet og karriere er av til dere slår den på. I forenklet får alle de samme åtte faktorene. Enkeltpåstander kan ikke tas ut, men den som ikke kan svare på en påstand, velger «Ikke relevant for meg»."
+            },
+            {
+              "q": "Hvor lang tid tar det for de ansatte?",
+              "a": "Hovedundersøkelsen tar rundt 4 minutter. Kontor-modulen tar rundt 3 minutter til i forenklet, med 24 påstander og 2 korte ja/nei-spørsmål, og rundt 7 minutter i utvidet, med opptil 62 påstander og 4 ja/nei-spørsmål."
+            },
+            {
+              "q": "Hva koster det?",
+              "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, og Vanlig 565 kr for 26–100 ansatte. Kontor-modulen er med i begge. Prisene er eks. mva., uten bindingstid, og de første 15 dagene er gratis."
+            },
+            {
+              "q": "Ser lederen hvem som ble kontaktet i fritiden?",
+              "a": "Nei. Spørsmålet vises bare som antall for hele virksomheten, aldri per team. Som standard vises ingen gruppe før minst 5 har svart, og grensen kan aldri settes under 3."
+            },
+            {
+              "q": "Vi jobber mye hjemmefra. Passer modulen?",
+              "a": "Ja. Påstandene om samarbeid, sparring, tilgjengelighet og utstyr gjelder uansett hvor man jobber. Den som ikke bruker kontoret, kan svare «Ikke relevant for meg» på påstanden om arbeidsplassen der, og det svaret teller ikke i indeksen. Et ja/nei-spørsmål viser hvor mange som jobber fast hjemmefra uten skriftlig avtale."
+            },
+            {
+              "q": "Kan de svare på engelsk?",
+              "a": "Ja. Spørreskjemaet finnes på norsk, engelsk, polsk og litauisk. Et språk tilbys når alle spørsmålene i målingen har en godkjent oversettelse. Ukrainsk, svensk og dansk er ikke klare ennå."
+            },
+            {
+              "q": "Er spørsmålene validert?",
+              "a": "Faktorene i kontor-modulen bygger på validerte skalaer og forskning, men formuleringene er våre egne. Modulen er merket som foreløpig til den er testet i en pilot, og risikonivåene vises som foreløpige så lenge."
+            },
+            {
+              "q": "Holder dette hvis Arbeidstilsynet kommer?",
+              "a": "Orgpuls dekker kartleggingen og risikovurderingen av det psykososiale arbeidsmiljøet. Rapporten samler kartlegging, risikovurdering, tiltak og oppfølging med dato. Avtaler om hjemmekontor, rutiner og opplæring har dere et annet sted, og Arbeidstilsynet forventer at kartleggingen bygger på flere kilder – en undersøkelse er én av dem."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "Alle spørsmålene i kontor-modulen",
+          "lovkrav": "Lovkravet forklart",
+          "verneombud": "Verneombudet og kartleggingen",
+          "smaa": "Arbeidsmiljøkartlegging for små bedrifter",
+          "priser": "Priser"
+        },
+        "sources": {
+          "ssb_aku": "SSB, tabell 07203: Sysselsatte (AKU) etter næring, 2025",
+          "noa_kontor": "STAMI, NOA: Fakta om arbeidsmiljøet på kontorarbeidsplasser, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022",
+          "fafo_koble": "Fafo-rapport 2025:26: Arbeidstakeres rett til å koble fra (Bråten, Andersen, Blinkenberg og Nergaard)",
+          "stami_varig": "STAMI: Her skjedde ei varig endring etter pandemien, fra Faktabok om arbeidsmiljø og -helse 2024",
+          "nav_fravaer": "Nav: Økt sykefravær i første halvår, sykefraværsstatistikk for 2. kvartal 2026",
+          "lovdata_aml": "Lovdata: Arbeidsmiljøloven §§ 3-1, 4-3 og 10-8",
+          "lovdata_hjemmekontor": "Lovdata: Forskrift om arbeid som utføres i arbeidstakers hjem (hjemmekontorforskriften), §§ 2 og 3",
+          "lovdata_forskrift": "Lovdata: Forskrift om utførelse av arbeid, kapittel 1A (i kraft 1. januar 2026)",
+          "at_arsrapport": "Arbeidstilsynet: Årsrapport 2025 – en analyse av Arbeidstilsynets innsats",
+          "fafo_verneombud": "Fafo-rapport 2025:10: Kartlegging av verneombudenes arbeid (Andersen, Bråten og Huseby), spørreundersøkelse blant 1 200 virksomhetsledere",
+          "stami_landskap": "STAMI: Kontoret påvirker de ansattes sykefravær, om doktorgraden til Randi Hovden Borge",
+          "fafo_abw": "Fafo-rapport 2025:37: Aktivitetsbaserte arbeidsplasser – evaluering av pilot i regjeringskvartalet (Hilsen, Andersen og Dønnum)",
+          "noa_finans": "STAMI, NOA: Fakta om arbeidsmiljøet i bank, finans og forsikring, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022",
+          "stami_hjemmekontor": "STAMI: Ny kunnskap om hjemmekontor, arbeidsmiljø og helse",
+          "ssb_ki": "SSB: Bruken av KI i næringslivet akselererer",
+          "at_hjemmekontor": "Arbeidstilsynet: Hjemmekontor",
+          "fafo_ledelse": "Fafo: Ledelsesbarometeret 2025 – hjemmekontor og fjernledelse (Andersen), faktaflak",
+          "abelia_hr": "Abelia: HR-undersøkelsen 2023 – Rask teknologisk utvikling utfordrer også fremtidsrettede arbeidsgivere"
+        }
+      },
+      "helse": {
+        "nav": "Helse og omsorg",
+        "seo": {
+          "title": "Arbeidsmiljøkartlegging for helse og omsorg | Orgpuls",
+          "description": "Kartlegg arbeidsmiljøet i omsorg, hjemmetjeneste og klinikk: vold og trusler, bemanning, turnus og deltid. Anonymt på SMS eller QR. 15 dager gratis."
+        },
+        "hero": {
+          "k": "Helse og omsorg · omsorg, hjemmetjeneste og klinikk",
+          "h1": "Arbeidsmiljø­kartlegging for helse og omsorg: se hva som tærer på personalet – og følg det opp",
+          "lead": "Se hvor vold og trusler, stram bemanning og turnus uten hvile går ut over de ansatte – for hele virksomheten og for hver avdeling med nok svar. Alle vakter svarer anonymt på mobilen. Dere får forslag til tiltak med eier og frist, ny måling i pulsen og en rapport som viser at kartleggingen er gjort.",
+          "secondary": "Se spørsmålene for helse og omsorg",
+          "figure": {
+            "title": "Slik svarer de ansatte",
+            "meta": "På mobilen · ca. 4 + {minutes} min",
+            "caption": "Spørreskjemaet på mobil, ett tema per side."
+          },
+          "tiles": [
+            {
+              "t": "{factors} faktorer for omsorgsarbeid",
+              "d": "Helse-modulen kommer i tillegg til hovedundersøkelsen og tar ca. {minutes} minutter ekstra."
+            },
+            {
+              "t": "Svar fra alle vakter",
+              "d": "Lenke på SMS eller e-post, eller QR-plakat på vaktrommet. Ingen app, og ingen trenger jobb-e-post."
+            },
+            {
+              "t": "Rapport for Arbeidstilsynet",
+              "d": "Kartlegging, risikovurdering og tiltak samlet, med hjemmel for hver faktor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Hverdagen i tall",
+          "title": "Arbeidsmiljøet i helse og omsorg: dette viser tallene",
+          "lead": "Rundt 588 000 jobber i helse- og sosialtjenester – om lag én av fem sysselsatte i Norge. Tallene er hentet fra norsk forskning og offentlig statistikk.",
+          "items": [
+            {
+              "v": "9,6 %",
+              "l": "sykefravær i helse- og sosialtjenester i 2. kvartal 2026 – høyest av alle næringer, mot 6,6 % i snitt"
+            },
+            {
+              "v": "34 %",
+              "l": "av de ansatte på sykehjem har vært utsatt for vold, mot 5 % av alle sysselsatte"
+            },
+            {
+              "v": "38 %",
+              "l": "i hjemmetjenesten opplever høye emosjonelle krav, mot 20 % av alle sysselsatte"
+            },
+            {
+              "v": "35 %",
+              "l": "i helse- og sosialtjenester jobber deltid, mot 24 % i alle næringer"
+            }
+          ],
+          "h3": "Mye blir aldri meldt",
+          "note": "Arbeidstilsynets inspektører beskriver at det meldes relativt få avvik på arbeidsmiljøområdet i helse- og sosialtjenester, selv om mange burde vært meldt. Dermed blir heller ikke den reelle arbeidsmiljøtilstanden synlig.",
+          "text": "Et anonymt spørreskjema gir de ansatte en måte å si det på uten å stå fram. Helse-modulen spør om vold og trusler som ikke ble meldt, og om vakter der bemanningen ikke var forsvarlig. Svarene vises bare som antall for hele virksomheten."
+        },
+        "why": {
+          "k": "Hvorfor kartlegge",
+          "title": "Hvorfor omsorgsvirksomheten må kartlegge arbeidsmiljøet",
+          "lead": "Arbeidsmiljøloven gjelder alle arbeidsgivere med ansatte, også legekontoret med fem ansatte og BPA-firmaet med assistenter hjemme hos hver bruker. I arbeid med mennesker peker loven særlig på emosjonelle krav, vold og trusler og alenearbeid.",
+          "law": {
+            "title": "Det loven krever i arbeid med mennesker",
+            "pill": "Gjelder alle med ansatte",
+            "rows": [
+              {
+                "ref": "aml § 3-1 (2) c",
+                "t": "Kartlegg farer og problemer, vurder risikoen, lag planer og sett i verk tiltak."
+              },
+              {
+                "ref": "aml § 4-3 (2)",
+                "t": "De psykososiale faktorene skal være fullt forsvarlige – blant annet uklare eller motstridende krav, emosjonelle krav og belastninger i arbeid med mennesker, og arbeidsmengde og tidspress."
+              },
+              {
+                "ref": "aml § 4-3 (6)",
+                "t": "Arbeidstaker skal, så langt det er mulig, beskyttes mot vold, trusler og uheldige belastninger som følge av kontakt med andre."
+              },
+              {
+                "ref": "aml § 4-1 (3)",
+                "t": "Vurder om det er særlig risiko ved alenearbeid, og sett i verk tiltakene som trengs."
+              },
+              {
+                "ref": "Forskriften kap. 3A",
+                "t": "Kartlegg og risikovurder vold og trusler – blant annet alenearbeid, arbeidstid og bemanning – og sørg for tiltak, opplæring og oppfølging."
+              },
+              {
+                "ref": "Forskriften § 1A-2",
+                "t": "Kartleggingen skal gjøres sammen med de ansatte, gjentas regelmessig og dokumenteres."
+              }
+            ],
+            "link": "Les mer om lovkravet"
+          },
+          "tilsyn": {
+            "t": "Arbeidstilsynet prioriterer sykehjem og hjemmetjeneste",
+            "p": "I 2025 var sykehjem og hjemmetjeneste blant næringene Arbeidstilsynet prioriterte i tilsyn med psykiske og muskel- og skjelettplager. I tilsyn med sykehjem og hjemmetjeneste blir vold og trusler ofte løftet fram som en utfordring, og i 2025 manglet over sju av ti virksomheter tilstrekkelig kartlegging, risikovurdering, plan og tiltak mot vold og trusler.",
+            "d": "I Orgpuls får hvert tiltak en eier og en frist, og verneombudet ser de samme tallene som ledelsen."
+          },
+          "gap": {
+            "t": "Mange små virksomheter har ikke gjort det",
+            "p": "Om lag halvparten av dem som jobber på helseklinikker – blant annet lege- og tannlegeklinikker og fysikalske institutter – er i virksomheter med under 10 sysselsatte. Blant private virksomheter med færre enn 20 ansatte gjennomfører 28 % en medarbeiderundersøkelse, og 23 % gjør ingen av kartleggingene Fafo spurte om."
+          },
+          "cost": {
+            "t": "Det koster å la det ligge",
+            "items": [
+              "1 av 3 på sykehjem og 2 av 5 i hjemmetjenesten med sykefravær sier at fraværet har sammenheng med jobben. Slikt fravær kan ofte forebygges på arbeidsplassen.",
+              "29 % av de ansatte i hjemmetjenestene var ikke lenger på samme arbeidssted ett år senere, mot 24 % i arbeidslivet samlet (2023). Blant dem under 30 år var det 45 %.",
+              "Ansatte i store stillinger har lavest frafall, og tjenestesteder med mange heltidsansatte har lettere for å utvikle «den gode vakta», som både trekker til seg og holder på folk, skriver Fafo."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Utfordringer og løsninger",
+          "title": "Åtte utfordringer i helse og omsorg – og hvordan dere tar tak i dem",
+          "lead": "Utfordringene er hentet fra norsk forskning, statistikk og tilsyn. Under hver står det hvilke spørsmål som måler den, og hva dere får å jobbe med.",
+          "items": [
+            {
+              "t": "Vold og trusler – ofte alene hos brukeren",
+              "looks": "En bruker som blir urolig under stellet, en nattevakt alene på avdelingen, et hjemmebesøk der døra går igjen bak deg. Ofte er du den eneste der.",
+              "fig": "34 % på sykehjem har vært utsatt for vold, og 27 % for hets eller trusler. I hjemmetjenesten er tallene 12 og 18 %. Arbeidstilsynet bruker ansatte i hjemmetjenesten som eksempel på alenearbeid.",
+              "solve": "Faktoren Vold og trusler spør om dere har gått gjennom situasjonene som kan føre til vold, om også små hendelser blir meldt, og om den som var involvert blir fulgt opp. Et ja/nei-spørsmål teller hendelser som ikke ble meldt. Kontakt og kommunikasjon i hovedundersøkelsen spør om man kan tilkalle hjelp raskt når man er alene."
+            },
+            {
+              "t": "Følelsene man tar med seg hjem",
+              "looks": "En beboer som dør, pårørende som er fortvilet, en bruker som er sint på alt. Du skal være profesjonell hele vakta – og så kjøre hjem.",
+              "fig": "38 % i hjemmetjenesten og 35 % på sykehjem opplever høye emosjonelle krav, mot 20 % av alle sysselsatte. I hjemmetjenesten er 34 % ofte psykisk utmattet etter jobb.",
+              "solve": "Hovedundersøkelsen måler Emosjonelle krav: om man sjelden blir stående alene i følelsesmessig krevende situasjoner, om dere snakker om vanskelige hendelser etterpå, og om man får reagere som menneske på jobb. Helse-modulen gjentar ikke disse. Støtte fra leder viser om lederen stiller opp når jobben blir krevende."
+            },
+            {
+              "t": "For få på vakt",
+              "looks": "To er syke, vikaren kjenner ikke brukerne, og lista er like lang. Noe må vente – og det er du som må velge hva.",
+              "fig": "Arbeidstilsynets inspektører beskriver en næring med høy arbeidsbelastning og tidspress, og en ubalanse mellom oppgaver og ressurser.",
+              "solve": "Faktoren Bemanning og forsvarlig omsorg spør om bemanningen gjør det mulig å gi forsvarlig omsorg, om man slipper å gå hjem med dårlig samvittighet, og om det er tydelig hva som kan vente. Et ja/nei-spørsmål teller vakter der bemanningen ikke var forsvarlig. Tid til kjerneoppgavene viser om dokumentasjon og systemer tar tid fra brukerne."
+            },
+            {
+              "t": "Mellom bruker, pårørende og leder",
+              "looks": "Pårørende vil ha mer enn tjenesten kan gi, brukeren vil noe annet, og lederen har bestemt en tredje ting. Og kommentarene om kroppen din blir ledd bort.",
+              "fig": "På sykehjem opplever 22 % høy grad av rollekonflikt, mot 13 % av alle sysselsatte – blant annet motstridende forventninger fra beboere, pårørende, ledere og kolleger. 18 % er utsatt for uønsket seksuell oppmerksomhet, mot 5 %.",
+              "solve": "Faktoren Grenser mot brukere og pårørende spør om dere har avklart hva dere gjør når noen går over grensen, om seksuelle kommentarer blir tatt på alvor, og om man får støtte til å si nei til pårørende. Motstridende krav i hovedundersøkelsen viser om det er klart hvem som bestemmer når to ting kolliderer."
+            },
+            {
+              "t": "Turnus, kveld og natt",
+              "looks": "Kveldsvakt til halv elleve og dagvakt klokka sju. Telefonen om en ekstravakt kommer på fridagen – igjen.",
+              "fig": "Om lag 9 av 10 på sykehjem jobber utenom vanlig dagtid, og 1 av 3 jobber om natten. 24 % oppgir søvnvansker som helt eller delvis skyldes jobben.",
+              "solve": "Faktoren Turnus og hvile spør om turnusen gir nok hvile mellom vaktene, om man kan påvirke den, og om ekstravakter på kort varsel er unntaket. Forslagene til tiltak er konkrete, som turnusverksted og en fast rekkefølge for ekstravakter. Er nattevakten en egen gruppe, får den egne tall når nok har svart."
+            },
+            {
+              "t": "Deltid som ingen har valgt",
+              "looks": "Mange små stillinger, mange vikarer og noen som tar alle ekstravaktene. De som jobber lite, får ikke med seg beskjedene.",
+              "fig": "Blant turnusansatte i kommunal pleie og omsorg jobber nærmere 35 % heltid. Fafo beskriver ansatte som jobber deltid fordi vaktene oppleves som for slitsomme – en tilpasning til et arbeidsmiljø de ikke har bestemt selv.",
+              "solve": "Faktoren Stilling og tilhørighet spør om man har stillingsstørrelsen man ønsker, om viktig informasjon når fram også til dem som jobber lite, og om man føler seg som en del av fagmiljøet. Ett av forslagene er å tilby ledige stillingsandeler til deltidsansatte først, slik fortrinnsretten krever."
+            },
+            {
+              "t": "Nye, vikarer og mange språk",
+              "looks": "Vikaren fra byrået er her for første gang, og den nye har gått to følgevakter. Rapporten går fort, og ikke alle forstår alt.",
+              "fig": "Fafo beskriver at ufaglærte vikarer ofte kalles inn og må ta ansvar for oppgaver de ikke har formell kompetanse til, og at kollegaer da må bruke mer tid på veiledning. 1 av 5 som jobber på sykehjem, er innvandrere.",
+              "solve": "Faktoren Faglig trygghet spør om nye og vikarer får nok opplæring før de står alene på vakt, om man har noen å rådføre seg med, og om dere forstår hverandre godt nok til at rapport og beskjeder blir riktige. Spørreskjemaet finnes på norsk, engelsk, polsk og litauisk."
+            },
+            {
+              "t": "Tunge løft når det er travelt",
+              "looks": "Personløfteren står i den andre enden av gangen, og det er travelt. Det går fortere å ta det selv.",
+              "fig": "30 % på sykehjem og 34 % i hjemmetjenesten løfter i ubekvemme stillinger, mot 14 % av alle sysselsatte. 35 % på sykehjem oppgir ryggsmerter som helt eller delvis skyldes jobben.",
+              "solve": "Faktoren Forflytning og tunge løft spør om dere har hjelpemidlene dere trenger, om det er tid til å bruke dem også når det er travelt, og om dere er nok folk til tunge forflytninger. Ett av forslagene er en forflytningsplan per bruker."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "vold_og_trusler": "Vold og trusler",
+          "bemanning_og_forsvarlig_omsorg": "Bemanning og forsvarlig omsorg",
+          "turnus_og_hvile": "Turnus og hvile",
+          "stilling_og_tilhorighet": "Stilling og tilhørighet",
+          "grenser_mot_brukere_og_parorende": "Grenser mot brukere og pårørende",
+          "tid_til_kjerneoppgavene": "Tid til kjerneoppgavene",
+          "faglig_trygghet": "Faglig trygghet",
+          "forflytning_og_tunge_loft": "Forflytning og tunge løft"
+        },
+        "moduleTag": "Helse-modulen",
+        "proof": {
+          "k": "Slik ser det ut",
+          "title": "Fra svar til tiltak i samme verktøy",
+          "lead": "Bildene er ekte skjermbilder fra demo-virksomheten vår, Nordvik Anlegg AS – en tenkt anleggsbedrift, ikke en helsevirksomhet. Demoen viser hovedundersøkelsen. Helse-modulens faktorer får egne resultater og forslag til tiltak, med eier, frist og ny måling i pulsen.",
+          "blocks": [
+            {
+              "k": "Resultater",
+              "h3": "Se hvilken avdeling som sliter – uten å se hvem",
+              "ticks": [
+                "Hver faktor får en skår fra 0 til 100, for hele virksomheten og for hver gruppe med nok svar",
+                "Lag én gruppe per avdeling, post eller sone i hjemmetjenesten – resultat per gruppe er med i pakken Vanlig",
+                "En gruppe med for få svar vises med strek, men svarene teller med i tallene for hele virksomheten"
+              ],
+              "caption": "Varmekartet: faktorene mot gruppene."
+            },
+            {
+              "k": "Tiltak",
+              "h3": "Hvert funn blir et tiltak med eier og frist",
+              "ticks": [
+                "Tre forslag til tiltak per faktor, skrevet for omsorgsarbeid – for eksempel «Samtale samme vakt» og «Bemanningssjekk før vakt»",
+                "Hvert tiltak får en eier og en frist",
+                "Verneombudet ser de samme tallene som ledelsen"
+              ],
+              "caption": "Tiltakstavla i Orgpuls."
+            },
+            {
+              "k": "Oppfølging",
+              "h3": "Følg opp med puls gjennom året",
+              "ticks": [
+                "Planlegg hovedmålingen og pulsene i årshjulet",
+                "Pulsen tar med påstandene som måler tiltakene dere jobber med",
+                "Resultatene sammenlignes med forrige måling"
+              ],
+              "caption": "Årshjulet: grunnlinje og pulser gjennom året."
+            },
+            {
+              "k": "Rapport",
+              "h3": "Rapporten Arbeidstilsynet spør etter",
+              "ticks": [
+                "Kartlegging, risikovurdering og tiltak samlet, med dato",
+                "Hjemmel for hver faktor",
+                "Helse-modulen får en egen del i rapporten",
+                "Last den ned som PDF den dagen noen spør"
+              ],
+              "caption": "Rapporten, del 3: kartleggingen."
+            }
+          ]
+        },
+        "steps": {
+          "k": "Slik kommer dere i gang",
+          "title": "Fra organisasjonsnummer til rapport i fire steg",
+          "items": [
+            {
+              "t": "Registrer virksomheten",
+              "d": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Hører bransjekoden til helse og omsorg, foreslår Orgpuls helse-modulen."
+            },
+            {
+              "t": "Legg inn de ansatte",
+              "d": "Lag én gruppe per avdeling, post eller sone. Send lenken på SMS eller e-post, eller heng opp QR-plakaten på vaktrommet."
+            },
+            {
+              "t": "Se resultatet",
+              "d": "Hver faktor får en skår fra 0 til 100 i grønt, gult eller rødt – for hele virksomheten og for hver avdeling med nok svar."
+            },
+            {
+              "t": "Velg tiltak og følg opp",
+              "d": "Velg blant forslagene, gi tiltaket en eier og en frist, og la pulsen måle om det virket. Rapporten oppdaterer seg selv."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymitet",
+          "title": "Anonymt – også på en liten avdeling",
+          "lead": "Ingen enkeltsvar kan spores tilbake til en person. Det er bygd inn i måten svarene lagres på, ikke bare lovet i en personvernerklæring.",
+          "items": [
+            {
+              "t": "5 svar som standard",
+              "d": "Ingen gruppe vises før minst 5 har svart. Små team kan senke grensen til 3, aldri lavere. Jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+            },
+            {
+              "t": "Avdelinger med få svar",
+              "d": "En avdeling med for få svar vises ikke som egen gruppe, men svarene teller med i tallene for hele virksomheten. Kan en gruppe regnes ut fra totalen og de andre gruppene, holdes en gruppe til tilbake."
+            },
+            {
+              "t": "Ja/nei-spørsmålene",
+              "d": "Spørsmålene om vold og trusler som ikke ble meldt, og om vakter der bemanningen ikke var forsvarlig, vises bare som antall for hele virksomheten – aldri per avdeling eller vakt."
+            },
+            {
+              "t": "Avdelingslederen ser sin avdeling",
+              "d": "En avdelingsleder ser bare sin egen gruppe. Verneombudet ser de samme tallene som ledelsen."
+            }
+          ],
+          "link": "Les om personvern og anonymitet"
+        },
+        "faq": {
+          "k": "Spørsmål og svar",
+          "title": "Det ledere i helse og omsorg lurer på",
+          "items": [
+            {
+              "q": "Hvor lang tid tar det for de ansatte?",
+              "a": "Hovedundersøkelsen tar rundt 4 minutter, og helse-modulen rundt 3 minutter til: 24 påstander og 2 korte ja/nei-spørsmål. Undersøkelsen står åpen i 14 dager, så de som går dag, kveld, natt og helg, rekker å svare."
+            },
+            {
+              "q": "Hva koster det?",
+              "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, og Vanlig 565 kr for 26–100 ansatte. Helse-modulen er med i begge. Prisene er eks. mva., uten bindingstid, og de første 15 dagene er gratis."
+            },
+            {
+              "q": "Ser lederen hvem som svarte at bemanningen ikke var forsvarlig?",
+              "a": "Nei. Spørsmålet vises bare som antall for hele virksomheten, aldri per avdeling eller vakt. Som standard vises ingen gruppe før minst 5 har svart, og grensen kan aldri settes under 3."
+            },
+            {
+              "q": "Mange har ikke jobb-e-post, og noen jobber bare noen vakter i måneden. Når vi dem?",
+              "a": "Ja. Send lenken på SMS, eller heng opp QR-plakaten på vaktrommet. Den ansatte skanner koden, skriver inn mobilnummer eller e-post og får sin egen lenke. Alt fungerer på mobilen, og undersøkelsen står åpen lenge nok til at alle vakter rekker å svare."
+            },
+            {
+              "q": "Kan de svare på polsk eller litauisk?",
+              "a": "Ja. Spørreskjemaet finnes på norsk, engelsk, polsk og litauisk. Et språk tilbys når alle spørsmålene i målingen har en godkjent oversettelse. Ukrainsk, svensk og dansk er ikke klare ennå."
+            },
+            {
+              "q": "Vi er et legekontor eller en tannklinikk. Passer helse-modulen for oss?",
+              "a": "Helse-modulen er laget for omsorgsarbeid med vakter, og i dag får alle de samme åtte faktorene – også forflytning, som betyr lite på et legekontor. Hovedundersøkelsen dekker det som gjelder alle, blant annet emosjonelle krav, arbeidsmengde og støtte fra leder. Dere kan også velge å måle uten bransjemodul."
+            },
+            {
+              "q": "Vi er et bemanningsbyrå i helse. Kan vi bruke helse-modulen?",
+              "a": "Ja. Orgpuls foreslår helse-modulen når bransjekoden er helse- og sosialtjenester. Har dere en annen bransjekode, kan dere velge helse-modulen selv under Oppsett. Undersøkelsen går til dem dere legger inn i ansattlista, også dem som jobber ute hos kundene."
+            },
+            {
+              "q": "Holder dette hvis Arbeidstilsynet kommer?",
+              "a": "Orgpuls dekker kartleggingen og risikovurderingen av det psykososiale arbeidsmiljøet. Rapporten samler kartlegging, risikovurdering, tiltak og oppfølging med dato. Avvikssystem, rutiner for vold og trusler og opplæring har dere et annet sted, og Arbeidstilsynet forventer at kartleggingen bygger på flere kilder – en undersøkelse er én av dem."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "Alle spørsmålene i helse-modulen",
+          "lovkrav": "Lovkravet forklart",
+          "verneombud": "Verneombudet og kartleggingen",
+          "smaa": "Arbeidsmiljøkartlegging for små bedrifter",
+          "priser": "Priser"
+        },
+        "sources": {
+          "ssb_aku": "SSB, tabell 07203: Sysselsatte (AKU) etter næring og heltid/deltid, 2025",
+          "ssb_fravaer": "SSB, tabell 12440: Sykefravær for lønnstakere etter næring, 2. kvartal 2026",
+          "noa_sykehjem": "STAMI, NOA: Fakta om arbeidsmiljøet på sykehjem og omsorgsinstitusjoner, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022",
+          "noa_hjemme": "STAMI, NOA: Fakta om arbeidsmiljøet i hjemmetjenesten, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022",
+          "at_signal": "Arbeidstilsynet: Signal nr. 1 2024 – Arbeidstilsynets bransjekunnskap, innspill fra 145 inspektører",
+          "lovdata_aml": "Lovdata: Arbeidsmiljøloven §§ 3-1, 4-1 og 4-3",
+          "lovdata_forskrift": "Lovdata: Forskrift om utførelse av arbeid, kapittel 1A og 3A (i kraft 1. januar 2026)",
+          "at_arsrapport": "Arbeidstilsynet: Årsrapport 2025 – en analyse av Arbeidstilsynets innsats",
+          "fafo_verneombud": "Fafo-rapport 2025:10: Kartlegging av verneombudenes arbeid (Andersen, Bråten og Huseby), spørreundersøkelse blant 1 200 virksomhetsledere",
+          "noa_klinikk": "STAMI, NOA: Fakta om arbeidsmiljøet på helseklinikker, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022",
+          "fafo_mobilitet": "Fafo-rapport 2025:19: Mobilitet i helse- og omsorgstjenestene i perioden 2015–2024 (Nielsen og Moland)",
+          "fafo_deltid": "Fafo-rapport 2026:28: Deltidsansettelser og bærekraftig bemanning (Nielsen, Bråthen og Moland), skrevet for KS",
+          "at_alene": "Arbeidstilsynet: Alenearbeid",
+          "fafo_ufaglaerte": "Fafo-rapport 2025:08: Nye stillinger for ikke-faglærte i pleie- og omsorgstjenestene (Jordell, Yssen og Moland)"
+        }
+      },
+      "barnehage": {
+        "nav": "Barnehage og skole",
+        "seo": {
+          "title": "Arbeidsmiljøkartlegging for barnehage og skole | Orgpuls",
+          "description": "Kartlegg arbeidsmiljøet i barnehage, skole og SFO: vold og trusler, bemanning, foreldre og tid til kjerneoppgavene. Anonymt på SMS eller QR. 15 dager gratis."
+        },
+        "hero": {
+          "k": "Barnehage, skole og SFO",
+          "h1": "Arbeidsmiljø­kartlegging for barnehage og skole: se hva som sliter på de voksne – og følg det opp",
+          "lead": "Se hvor vold og trusler, for få voksne og krevende foreldresamarbeid går ut over personalet – for hele barnehagen eller skolen og for hver avdeling, hvert trinn eller SFO med nok svar. Påstandene sier «barna» i barnehagen og «elevene» i skolen. Dere får forslag til tiltak med eier og frist, ny måling i pulsen og en rapport som viser at kartleggingen er gjort.",
+          "secondary": "Velg barnehage eller skole",
+          "figure": {
+            "title": "Slik svarer de ansatte",
+            "meta": "På mobilen · ca. 4 + {minutes} min",
+            "caption": "Spørreskjemaet på mobil, ett tema per side."
+          },
+          "tiles": [
+            {
+              "t": "{factors} faktorer for barnehage og skole",
+              "d": "Modulen kommer i tillegg til hovedundersøkelsen og tar ca. {minutes} minutter ekstra. Påstandene sier «barna» eller «elevene»."
+            },
+            {
+              "t": "Svar fra hele personalet",
+              "d": "Lenke på SMS eller e-post, eller QR-plakat på personalrommet. Ingen app, og ingen trenger jobb-e-post."
+            },
+            {
+              "t": "Rapport for Arbeidstilsynet",
+              "d": "Kartlegging, risikovurdering og tiltak samlet, med hjemmel for hver faktor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Hverdagen i tall",
+          "title": "Arbeidsmiljøet i barnehage og skole: dette viser tallene",
+          "lead": "Rundt 104 000 jobber i barnehager og SFO, og rundt 232 000 i undervisning. Litt over halvparten av barnehagene er private. Tallene er hentet fra norsk forskning, tilsyn og offentlig statistikk.",
+          "items": [
+            {
+              "v": "10,3 %",
+              "l": "legemeldt sykefravær i barnehagene i 1. kvartal 2025, mot 6,1 % i alle næringer"
+            },
+            {
+              "v": "28 %",
+              "l": "av grunnskolelærerne ble utsatt for vold på jobb siste år – høyest av alle yrker, mot 5,7 % av alle sysselsatte"
+            },
+            {
+              "v": "60 %",
+              "l": "i barnehage og SFO jobber på huk eller på knærne, mot 17 % av alle sysselsatte"
+            },
+            {
+              "v": "43 %",
+              "l": "av grunnskolelærerne opplever høye emosjonelle krav, mot 20 % i arbeidslivet som helhet"
+            }
+          ],
+          "h3": "Mye blir aldri meldt",
+          "note": "Nesten 9 av 10 lærere i videregående skole sier at skolen har et system for å melde vold og trusler. Likevel blir det lite brukt, finner Fafo. De som mener det ikke fungerer, peker på at for få bruker det, at det er for dårlig kjent, og at avvik som meldes, ikke blir fulgt opp.",
+          "text": "Et anonymt spørreskjema gir de ansatte en måte å si det på uten å stå fram. Modulen spør om hendelser med vold eller trusler fra barn eller elever som ikke ble meldt, og om dager der fravær ikke ble dekket med vikar. Svarene vises bare som antall for hele virksomheten."
+        },
+        "why": {
+          "k": "Hvorfor kartlegge",
+          "title": "Hvorfor barnehagen og skolen må kartlegge arbeidsmiljøet",
+          "lead": "Arbeidsmiljøloven gjelder alle arbeidsgivere med ansatte – også den lille private barnehagen, friskolen og SFO-en. Barnas og elevenes rettigheter etter barnehageloven og opplæringsloven gjelder samtidig med de ansattes etter arbeidsmiljøloven, og i arbeid med mennesker peker loven særlig på emosjonelle krav og vold og trusler.",
+          "law": {
+            "title": "Det loven krever – også i arbeid med barn",
+            "pill": "Gjelder alle med ansatte",
+            "rows": [
+              {
+                "ref": "aml § 3-1 (2) c",
+                "t": "Kartlegg farer og problemer, vurder risikoen, lag planer og sett i verk tiltak."
+              },
+              {
+                "ref": "aml § 4-3 (2)",
+                "t": "De psykososiale faktorene skal være fullt forsvarlige – blant annet uklare eller motstridende krav, emosjonelle krav og belastninger i arbeid med mennesker, og arbeidsmengde og tidspress."
+              },
+              {
+                "ref": "aml § 4-3 (6)",
+                "t": "Arbeidstaker skal, så langt det er mulig, beskyttes mot vold, trusler og uheldige belastninger som følge av kontakt med andre."
+              },
+              {
+                "ref": "Forskriften kap. 3A",
+                "t": "Kartlegg og risikovurder vold og trusler – blant annet alenearbeid, arbeidstid og bemanning – og sørg for tiltak, opplæring og oppfølging."
+              },
+              {
+                "ref": "Forskriften § 1A-2",
+                "t": "Kartleggingen skal gjøres sammen med de ansatte, gjentas regelmessig og dokumenteres."
+              }
+            ],
+            "link": "Les mer om lovkravet"
+          },
+          "tilsyn": {
+            "t": "Arbeidstilsynet fant mangler hos nær 9 av 10 skoler",
+            "p": "I 2023–2025 førte Arbeidstilsynet over 1 000 tilsyn i grunnskoler, SFO-er og videregående skoler. Nær 9 av 10 hadde mangler i kartlegging, risikovurdering og tiltak mot vold og trusler, og 8 av 10 hadde ikke sørget for nødvendig opplæring og øvelse. «Mange hopper rett fra kartlegging til tiltak», sier en rådgiver i Arbeidstilsynet – og da blir tiltakene for generelle eller mangler en ansvarlig.",
+            "d": "I Orgpuls får hvert tiltak en eier og en frist, og verneombudet ser de samme tallene som ledelsen."
+          },
+          "gap": {
+            "t": "Mange små virksomheter har ikke gjort det",
+            "p": "Nær 1 av 5 barnehager har under 26 barn, og private grunnskoler er om lag 10 % av skolene, men har bare 5 % av elevene. Blant private virksomheter med færre enn 20 ansatte gjennomfører 28 % en medarbeiderundersøkelse, og 23 % gjør ingen av kartleggingene Fafo spurte om."
+          },
+          "cost": {
+            "t": "Det koster å la det ligge",
+            "items": [
+              "1 av 2 i barnehage og SFO og 1 av 3 i undervisning med sykefravær sier at fraværet har sammenheng med jobben. Slikt fravær kan ofte forebygges på arbeidsplassen.",
+              "38 % av lærerne på ungdomstrinnet får mye stress av ekstra arbeid når kolleger er borte, opp fra 26 % i 2018. TALIS-forskerne ser fare for en ond sirkel der fravær gir stress, som kan gi enda mer fravær.",
+              "Vikarer koster mer enn lønn. Da barnehager fikk faste ekstra ansatte i stedet, ble de mindre sårbare for uventet fravær, og ansatte og ledere sparte tid og krefter på å følge opp og veilede vikarer, finner Fafo."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Utfordringer og løsninger",
+          "title": "Åtte utfordringer i barnehage og skole – og hvordan dere tar tak i dem",
+          "lead": "Utfordringene er hentet fra norsk forskning, statistikk og tilsyn. De fleste gjelder både barnehage og skole; de som gjelder bare den ene, er merket. Under hver står det hvilke spørsmål som måler den, og hva dere får å jobbe med.",
+          "items": [
+            {
+              "t": "Vold og trusler fra barn og elever",
+              "looks": "Et barn som biter og sparker i garderoben, en elev som kaster en stol når overgangen blir for brå. Ofte er det de samme situasjonene som kommer igjen.",
+              "fig": "28 % av grunnskolelærerne og nær 1 av 5 barnehagelærere og barnehage- og skoleassistenter ble utsatt for vold på jobb siste år, mot 5,7 % av alle sysselsatte. 8 av 10 ledere i grunnskolen rapporterer voldshendelser det siste året.",
+              "solve": "Faktoren Vold og trusler spør om rutinene er kjent, om man vet hvilket handlingsrom man har til å gripe inn når en situasjon blir farlig, og om den som var involvert, blir fulgt opp. Et ja/nei-spørsmål teller hendelser som ikke ble meldt. Påstanden sier «et barn» i barnehagen og «en elev» i skolen."
+            },
+            {
+              "t": "For få voksne i ytterkantene av dagen",
+              "looks": "Normen holder på papiret. Men ved åpning, i pausene og når de siste blir hentet, står én voksen alene med flere barn enn noen kan ha oversikt over.",
+              "fig": "99 % av barnehagene oppfyller bemanningsnormen. Men i en spørring fra 2019 oppga 86 % av styrerne at de har full bemanning under 6 timer av dagen, og Udir skriver at bemanning på papiret kan være noe annet enn bemanning i virkeligheten.",
+              "solve": "Faktoren Bemanning og vikarer spør om bemanningen gjør det mulig å gi barna det de trenger, om det blir satt inn vikar når noen er borte, og om man sjelden står alene med flere barn enn man har oversikt over. Et ja/nei-spørsmål teller dager der fravær ikke ble dekket med vikar. Arbeidsmengde og tidspress i hovedundersøkelsen viser om tempoet er for høyt."
+            },
+            {
+              "t": "Dokumentasjon og vurdering tar tiden",
+              "looks": "Planer, vurderinger, referater og meldinger. Tiden til å følge opp eleven som trenger det, blir det som er igjen.",
+              "fig": "Over halvparten av lærerne på ungdomstrinnet får mye stress av mengden administrativt arbeid og av vurdering og karaktersetting. «Lærere har mange roller og dokumentasjonskrav, og de jobber mye og har lite tid til pause i hverdagen», sier en inspektør i Arbeidstilsynet.",
+              "solve": "Faktoren Tid til kjerneoppgavene spør om man har tid til å planlegge og forberede arbeidet med elevene, om dokumentasjon og rapportering står i forhold til nytten, og om møtetid og fellestid brukes til det som er viktigst. Ett av forslagene er beskyttet planleggingstid. Arbeidsmengde og tidspress i hovedundersøkelsen viser det samlede presset."
+            },
+            {
+              "t": "Foreldre – også etter arbeidstid",
+              "looks": "En melding sent på kvelden, en bekymret forelder ved porten, en samtale som låser seg. Samarbeidet er viktig – og noen ganger det tyngste i uka.",
+              "fig": "Om lag halvparten av lærerne på ungdomstrinnet får mye stress av å håndtere foreldres bekymringer, og det har økt siden 2018. Samtidig føler 76 % seg verdsatt av foreldrene. 41 % i undervisning opplever at jobben forstyrrer privatlivet, blant annet fordi elever og foresatte tar kontakt etter arbeidstid.",
+              "solve": "Faktoren Samarbeid med foreldre spør om det er tydelig hva foreldre kan forvente, om man får støtte fra ledelsen når samarbeidet blir krevende, og om man slipper å svare foreldre utenom arbeidstiden. Forslagene er blant annet svartid i arbeidstiden og at lederen er med i de krevende møtene."
+            },
+            {
+              "t": "Barn og elever som trenger mer enn dere kan gi",
+              "looks": "Et barn som trenger en voksen hele dagen, en elev som venter på utredning. Tilretteleggingen skjer i en vanlig gruppe, med de voksne som er der.",
+              "fig": "Flere lærere på ungdomstrinnet enn i 2018 melder om en mer sammensatt elevgruppe og behov for mer kompetanse til tilpasning. NIFU finner at elever med behov for tilrettelagt opplæring ofte er involvert i voldshendelser, og at spesialpedagoger og assistenter som jobber tett med dem, er mest utsatt.",
+              "solve": "Faktoren Tilrettelegging og inkludering spør om man får nok støtte til å møte barn eller elever med særskilte behov, om dere har tilgang til spesialpedagogisk kompetanse, og om man vet hvem man kan kontakte når et barn trenger mer hjelp enn dere kan gi. Ett av forslagene er faste møter med støttetjenestene."
+            },
+            {
+              "t": "Mange uten pedagogisk utdanning – og nye hele tiden",
+              "looks": "Den faste assistenten kjenner barna best, vikaren er her for første gang, og det er uklart hvem som har ansvaret for hva.",
+              "fig": "I barnehagene er 42,2 % av grunnbemanningen barnehagelærere og 22,8 % barne- og ungdomsarbeidere – 35 % er verken det ene eller det andre. I grunnskolen stiller loven ingen krav til utdanning for assistenter, og assistenter og andre står for nesten en tredjedel av årstimene i elevrettet arbeid.",
+              "solve": "Faktoren Kompetanse og fellesskap i personalet spør om nye og vikarer får opplæring før de har ansvar for barn alene, om dere har tid til faglige samtaler, og om det er tydelig hvordan oppgavene fordeles mellom pedagoger og andre ansatte. Ett av forslagene er en vikarmappe og en fast gjennomgang første dag. Støtte fra kollegaer i hovedundersøkelsen viser hvordan laget fungerer."
+            },
+            {
+              "t": "Lave stoler, løft og støy",
+              "looks": "Påkledning på huk, en toåring på hofta og en voksen på barnestol ved lunsjen. Og lyden av en full avdeling i ett rom.",
+              "fig": "I barnehage og SFO jobber 60 % på huk eller på knærne og 38 % løfter i ubekvemme stillinger, mot 17 og 14 % av alle sysselsatte. 35 % oppgir ryggsmerter som helt eller delvis skyldes jobben. 24 % opplever høyt lydnivå, mot 8,6 % – målinger viser lav risiko for hørselsskade, men lyden kan være mentalt belastende.",
+              "solve": "Faktoren Støy, kropp og pauser spør om støynivået er til å leve med, om dere har møbler og utstyr som gjør at man kan jobbe godt for kroppen, og om man får tatt pauser. Forslagene er konkrete: et støykart, pauser der man er avløst, og voksenstoler og stellebord med heis."
+            },
+            {
+              "t": "Tunge saker og følelsene man tar med hjem",
+              "looks": "En bekymring for hvordan et barn har det hjemme, en mobbesak som ikke slipper taket. Man skal være rolig og profesjonell – og så gå hjem.",
+              "fig": "31 % i barnehage og SFO og 32 % i undervisning opplever høye emosjonelle krav, mot 20 % av alle sysselsatte. I barnehage og SFO er 41 % ofte psykisk utmattet etter jobb.",
+              "solve": "Faktoren Vanskelige saker spør om man vet hvordan dere går fram ved bekymring for hvordan et barn har det hjemme, om man står alene med saker om mobbing og krenkelser, og om dere har tid til å følge dem opp. Ett av forslagene er to ansvarlige på hver sak, aldri én. Hovedundersøkelsen måler Emosjonelle krav, så modulen gjentar dem ikke."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "vold_og_trusler": "Vold og trusler fra barn og elever",
+          "bemanning_og_vikarer": "Bemanning og vikarer",
+          "tid_til_kjerneoppgavene": "Tid til kjerneoppgavene",
+          "samarbeid_med_foreldre": "Samarbeid med foreldre",
+          "tilrettelegging_og_inkludering": "Tilrettelegging og inkludering",
+          "kompetanse_og_fellesskap": "Kompetanse og fellesskap i personalet",
+          "stoy_kropp_og_pauser": "Støy, kropp og pauser",
+          "vanskelige_saker": "Vanskelige saker"
+        },
+        "moduleTag": "Bransjemodulen",
+        "audience": {
+          "barnehage": "Barnehage",
+          "skole": "Skole"
+        },
+        "wording": {
+          "k": "Barnehage eller skole",
+          "title": "Se spørsmålene slik deres ansatte får dem",
+          "lead": "Påstandene er de samme, men ordbruken følger virksomheten: «barna» i barnehagen og «elevene» i skolen og SFO. Orgpuls foreslår ordbruken ut fra bransjekoden, og dere kan endre den under Målinger.",
+          "begge": "Har dere både barnehage og skole? Velg «Begge», så sier påstandene «barna eller elevene». Kodene og skåringen er de samme i alle tre.",
+          "example": "Samme påstand, to ordbruk:",
+          "items": {
+            "barnehage": {
+              "t": "Barnehage",
+              "link": "Se spørsmålene for barnehage"
+            },
+            "skole": {
+              "t": "Skole og SFO",
+              "link": "Se spørsmålene for skole og SFO"
+            }
+          }
+        },
+        "proof": {
+          "k": "Slik ser det ut",
+          "title": "Fra svar til tiltak i samme verktøy",
+          "lead": "Bildene er ekte skjermbilder fra demo-virksomheten vår, Nordvik Anlegg AS – en tenkt anleggsbedrift, ikke en barnehage eller skole. Demoen viser hovedundersøkelsen. Barnehage- og skolemodulens faktorer får egne resultater og forslag til tiltak, med eier, frist og ny måling i pulsen.",
+          "blocks": [
+            {
+              "k": "Resultater",
+              "h3": "Se hvilken avdeling eller hvilket trinn som sliter – uten å se hvem",
+              "ticks": [
+                "Hver faktor får en skår fra 0 til 100, for hele virksomheten og for hver gruppe med nok svar",
+                "Lag én gruppe per avdeling, trinn eller SFO – resultat per gruppe er med i pakken Vanlig",
+                "En gruppe med for få svar vises med strek, men svarene teller med i tallene for hele virksomheten"
+              ],
+              "caption": "Varmekartet: faktorene mot gruppene."
+            },
+            {
+              "k": "Tiltak",
+              "h3": "Hvert funn blir et tiltak med eier og frist",
+              "ticks": [
+                "Tre forslag til tiltak per faktor, skrevet for barnehage og skole – for eksempel «Handlingsrom på ett ark» og «Vikarmappe og første dag»",
+                "Hvert tiltak får en eier og en frist",
+                "Verneombudet ser de samme tallene som ledelsen"
+              ],
+              "caption": "Tiltakstavla i Orgpuls."
+            },
+            {
+              "k": "Oppfølging",
+              "h3": "Følg opp med puls gjennom året",
+              "ticks": [
+                "Planlegg hovedmålingen og pulsene i årshjulet",
+                "Pulsen tar med påstandene som måler tiltakene dere jobber med",
+                "Resultatene sammenlignes med forrige måling"
+              ],
+              "caption": "Årshjulet: grunnlinje og pulser gjennom året."
+            },
+            {
+              "k": "Rapport",
+              "h3": "Rapporten Arbeidstilsynet spør etter",
+              "ticks": [
+                "Kartlegging, risikovurdering og tiltak samlet, med dato",
+                "Hjemmel for hver faktor",
+                "Barnehage- og skolemodulen får en egen del i rapporten",
+                "Last den ned som PDF den dagen noen spør"
+              ],
+              "caption": "Rapporten, del 3: kartleggingen."
+            }
+          ]
+        },
+        "steps": {
+          "k": "Slik kommer dere i gang",
+          "title": "Fra organisasjonsnummer til rapport i fire steg",
+          "items": [
+            {
+              "t": "Registrer virksomheten",
+              "d": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Er bransjekoden barnehage, skole eller SFO, foreslår Orgpuls modulen og ordbruken."
+            },
+            {
+              "t": "Legg inn de ansatte",
+              "d": "Lag én gruppe per avdeling, trinn eller SFO. Send lenken på SMS eller e-post, eller heng opp QR-plakaten på personalrommet."
+            },
+            {
+              "t": "Se resultatet",
+              "d": "Hver faktor får en skår fra 0 til 100 i grønt, gult eller rødt – for hele virksomheten og for hver gruppe med nok svar."
+            },
+            {
+              "t": "Velg tiltak og følg opp",
+              "d": "Velg blant forslagene, gi tiltaket en eier og en frist, og la pulsen måle om det virket. Rapporten oppdaterer seg selv."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymitet",
+          "title": "Anonymt – også i en liten barnehage",
+          "lead": "Ingen enkeltsvar kan spores tilbake til en person. Det er bygd inn i måten svarene lagres på, ikke bare lovet i en personvernerklæring.",
+          "items": [
+            {
+              "t": "5 svar som standard",
+              "d": "Ingen gruppe vises før minst 5 har svart. Små team kan senke grensen til 3, aldri lavere. Jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+            },
+            {
+              "t": "Avdelinger og trinn med få svar",
+              "d": "En avdeling eller et trinn med for få svar vises ikke som egen gruppe, men svarene teller med i tallene for hele virksomheten. Kan en gruppe regnes ut fra totalen og de andre gruppene, holdes en gruppe til tilbake."
+            },
+            {
+              "t": "Ja/nei-spørsmålene",
+              "d": "Spørsmålene om vold og trusler som ikke ble meldt, og om dager der fravær ikke ble dekket med vikar, vises bare som antall for hele virksomheten – aldri per avdeling eller trinn."
+            },
+            {
+              "t": "Avdelingslederen ser sin avdeling",
+              "d": "En avdelingsleder ser bare sin egen gruppe. Verneombudet ser de samme tallene som ledelsen."
+            }
+          ],
+          "link": "Les om personvern og anonymitet"
+        },
+        "faq": {
+          "k": "Spørsmål og svar",
+          "title": "Det styrere og rektorer lurer på",
+          "items": [
+            {
+              "q": "Passer det både for barnehager og skoler?",
+              "a": "Ja. Påstandene er de samme, men ordbruken følger virksomheten: «barna» i barnehagen, «elevene» i skolen og SFO, og «barna eller elevene» der dere har begge deler. Orgpuls foreslår ordbruken ut fra bransjekoden, og dere kan endre den under Målinger. En måling som er åpnet, beholder sin. Modulen er foreløpig: piloten tester at de tre versjonene fungerer likt."
+            },
+            {
+              "q": "Hvor lang tid tar det for de ansatte?",
+              "a": "Hovedundersøkelsen tar rundt 4 minutter, og barnehage- og skolemodulen rundt 3 minutter til: 24 påstander og 2 korte ja/nei-spørsmål. Undersøkelsen står åpen i 14 dager, så også de som jobber deltid eller bare i SFO, rekker å svare."
+            },
+            {
+              "q": "Hva koster det?",
+              "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, og Vanlig 565 kr for 26–100 ansatte. Barnehage- og skolemodulen er med i begge. Prisene er eks. mva., uten bindingstid, og de første 15 dagene er gratis."
+            },
+            {
+              "q": "Vi er en liten barnehage. Ser styreren hvem som svarte?",
+              "a": "Nei. Som standard vises ingen gruppe før minst 5 har svart, og en avdeling med færre svar teller bare med i tallene for hele barnehagen. Små team kan senke grensen til 3, aldri lavere – men jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+            },
+            {
+              "q": "Assistenter og vikarer har ikke jobb-e-post. Når vi dem?",
+              "a": "Ja. Send lenken på SMS, eller heng opp QR-plakaten på personalrommet. Den ansatte skanner koden, skriver inn mobilnummer eller e-post og får sin egen lenke. Undersøkelsen går til dem dere legger inn i ansattlista, og alt fungerer på mobilen."
+            },
+            {
+              "q": "Kan de svare på polsk eller litauisk?",
+              "a": "Ja. Spørreskjemaet finnes på norsk, engelsk, polsk og litauisk. Et språk tilbys når alle spørsmålene i målingen har en godkjent oversettelse. Ukrainsk, svensk og dansk er ikke klare ennå."
+            },
+            {
+              "q": "Vi har allerede rutiner for vold og trusler. Trenger vi dette i tillegg?",
+              "a": "Rutinene er en del av det forskriften krever. Orgpuls kartlegger det psykososiale arbeidsmiljøet sammen med de ansatte, som loven krever i § 4-3 og forskriften kapittel 1A – vold og trusler, bemanning, foreldresamarbeid, tid og støtte. Svarene viser om rutinene er kjent, og om den som var involvert, blir fulgt opp."
+            },
+            {
+              "q": "Holder dette hvis Arbeidstilsynet kommer?",
+              "a": "Orgpuls dekker kartleggingen og risikovurderingen av det psykososiale arbeidsmiljøet. Rapporten samler kartlegging, risikovurdering, tiltak og oppfølging med dato. Rutiner for vold og trusler, avvikssystem og opplæring og øvelse har dere et annet sted, og Arbeidstilsynet forventer at kartleggingen bygger på flere kilder – en undersøkelse er én av dem."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "Alle spørsmålene i barnehage- og skolemodulen",
+          "lovkrav": "Lovkravet forklart",
+          "verneombud": "Verneombudet og kartleggingen",
+          "smaa": "Arbeidsmiljøkartlegging for små bedrifter",
+          "priser": "Priser"
+        },
+        "sources": {
+          "noa_bhg": "STAMI, NOA: Fakta om arbeidsmiljøet i barnehage og skolefritidsordning, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022",
+          "noa_und": "STAMI, NOA: Fakta om arbeidsmiljøet innen undervisning, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022",
+          "udir_bhg": "Utdanningsdirektoratet: Fakta om barnehager 2025 – barn og barnehager",
+          "ssb_bhg_fravaer": "SSB innsikt 2025/7: Barnehager har nesten dobbelt så høyt sykefravær som andre næringer",
+          "ssb_vold": "SSB: Fire av ti grunnskolelærere utsatt for vold, trusler, trakassering eller mobbing på jobb, tall fra Levekårsundersøkelsen om arbeidsmiljø 2025",
+          "at_skole": "Arbeidstilsynet: Tilsyn og veiledning i undervisningssektoren 2023–2025",
+          "fafo_vgs": "Fafo-rapport 2026:06: Lærernes arbeidsmiljø i videregående skole (Andersen og Bråten), skrevet for Utdanningsforbundet",
+          "lovdata_aml": "Lovdata: Arbeidsmiljøloven §§ 3-1 og 4-3",
+          "lovdata_forskrift": "Lovdata: Forskrift om utførelse av arbeid, kapittel 1A og 3A (i kraft 1. januar 2026)",
+          "fafo_verneombud": "Fafo-rapport 2025:10: Kartlegging av verneombudenes arbeid (Andersen, Bråten og Huseby), spørreundersøkelse blant 1 200 virksomhetsledere",
+          "talis": "NIFU og Universitetet i Oslo: Den norske lærerrollen i endring – resultater fra TALIS 2024",
+          "fafo_fredrikstad": "Fafo-rapport 2024:30: Utvidet bemanning i barnehagen – overskudd av krefter i banken? (Yssen, Bråthen og Moland)",
+          "fafo_oslo": "Fafo-rapport 2024:13: Forsøk med ekstra grunnbemanning i utvalgte barnehager i Oslo kommune (Bråten, Jensen og Svalund)",
+          "nifu_vold": "NIFU-rapport 2025:14: Når skolen blir utrygg for de voksne (Samuelsen og Borg), for Utdanningsdirektoratet",
+          "udir_norm": "Utdanningsdirektoratet: Statistikk om barnehagenes tilpasning til bemannings- og pedagognormen",
+          "udir_ansatte": "Utdanningsdirektoratet: Fakta om barnehager 2025 – ansatte",
+          "udf_assist": "Utdanningsforbundet, faktaark 2026:3: Bruk av assistenter og andre ansatte i elevrettet arbeid i grunnskolen, tall fra GSI"
+        }
+      }
+    },
     "bransjer": {
       "crumb": "Bransjer",
-      "h1": "Kartlegg risikoene i deres egen bransje.",
-      "lead": "Hovedundersøkelsen dekker det som gjelder alle arbeidsplasser. For bransjer med egne risikoer legger en bransjemodul til påstander og tiltak – også for den lille butikken, barnehagen eller byggefirmaet med 15 ansatte.",
-      "toModules": "Se modulene",
+      "h1": "Arbeidsmiljø­kartlegging som kjenner bransjen deres",
+      "lead": "Hovedundersøkelsen dekker det som gjelder alle arbeidsplasser. En bransjemodul spør i tillegg om det som er mest risikabelt hos dere – alenevakter i butikken, vold i omsorgen, tidspress på byggeplassen – og gir tiltak som passer hverdagen.",
+      "toModules": "Finn bransjen deres",
       "how": {
         "pastander": {
           "t": "Flere påstander",
@@ -8263,6 +9979,74 @@
             "d": "Skift og fysisk arbeid. Kort undersøkelse på mobil, og fast oppfølging av ytringsklimaet."
           }
         }
+      },
+      "why": {
+        "k": "Hvorfor en bransjemodul",
+        "problem": "Utfordringen",
+        "solution": "Med Orgpuls",
+        "title": "Det en generell undersøkelse ikke spør om",
+        "lead": "Loven krever at dere kartlegger risikoen der den er. En bransjemodul gjør det uten at dere må skrive egne spørsmål.",
+        "cards": [
+          {
+            "t": "Risikoen er ulik fra bransje til bransje",
+            "p": "I butikken står mange alene i kassa, i omsorgen møter de ansatte vold fra brukere, og på byggeplassen er tidspress et sikkerhetsspørsmål.",
+            "s": "Hver modul legger til 8 faktorer eller flere for bransjens egne risikoer, i tillegg til hovedundersøkelsens 11."
+          },
+          {
+            "t": "Loven peker på bransjens risiko",
+            "p": "Forskriften krever en egen risikovurdering av vold og trusler, og arbeidsmiljøloven § 4-1 av alenearbeid. Begge må komme fram i kartleggingen.",
+            "s": "Rapporten viser hjemmelen for hver faktor, og modulen får en egen del i rapporten."
+          },
+          {
+            "t": "Tiltak må passe hverdagen",
+            "p": "«Bedre kommunikasjon» hjelper lite for den som stenger butikken alene klokka ni om kvelden.",
+            "s": "Hver faktor har 3 forslag til tiltak skrevet for bransjen, og pulsen måler om tiltaket virket."
+          }
+        ]
+      },
+      "steps": {
+        "k": "Slik virker en bransjemodul",
+        "title": "Én måling, to deler",
+        "items": [
+          {
+            "t": "Hovedundersøkelsen",
+            "d": "33 påstander om 11 faktorer, de samme for alle, så dere kan sammenligne tallene over tid. Rundt 4 minutter."
+          },
+          {
+            "t": "Bransjemodulen",
+            "d": "Påstandene for bransjen kommer i samme skjema og på samme skala. Ca. 3–7 minutter ekstra."
+          },
+          {
+            "t": "Resultat, tiltak og rapport",
+            "d": "Modulens faktorer får samme indeks fra 0 til 100, egne forslag til tiltak og en egen del i rapporten."
+          }
+        ]
+      },
+      "faq": {
+        "k": "Spørsmål og svar",
+        "title": "Om bransjemodulene",
+        "items": [
+          {
+            "q": "Koster en bransjemodul ekstra?",
+            "a": "Nei. Bransjemodulene er med i alle planer, fra 265 kr i måneden eks. mva."
+          },
+          {
+            "q": "Hvordan får vi riktig modul?",
+            "a": "Orgpuls foreslår modulen ut fra bransjekoden i Brønnøysundregistrene. Dere kan velge en annen modul, eller ingen, under Oppsett."
+          },
+          {
+            "q": "Må vi bruke en bransjemodul?",
+            "a": "Nei. Hovedundersøkelsen dekker aml. § 4-3 alene. Modulen går dypere der bransjen har egne risikoer."
+          },
+          {
+            "q": "Blir undersøkelsen mye lengre?",
+            "a": "Rundt 3 til 7 minutter ekstra, avhengig av modul. Hovedundersøkelsen tar rundt 4 minutter."
+          },
+          {
+            "q": "Er det anonymt i små team?",
+            "a": "Ja. Som standard vises ingen gruppe før minst 5 har svart. Små team kan senke grensen til 3, men jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+          }
+        ]
       }
     },
     "pris": {
@@ -8347,7 +10131,7 @@
               "Hovedundersøkelse og pulser, helt ned til hver måned",
               "Årshjulet planlegger rundene selv",
               "Utsending på e-post og SMS",
-              "Svar på norsk og engelsk"
+              "Svar på norsk, engelsk, polsk og litauisk"
             ]
           },
           {
@@ -11089,6 +12873,12 @@
           "bruksomrader": "/bruksomrader · inspection, verneombud and AMU",
           "plattform": "/plattform · the report and the legal basis",
           "claims": "Short legal claims across the site",
+          "handel": "/handel · the law card, the inspection, the figures and the claims about anonymity",
+          "bygg": "/bygg-og-anlegg · the law card, the inspection, the figures and the claims about anonymity",
+          "helse": "/helse-og-omsorg · the law card, the inspection, the figures and the claims about anonymity",
+          "kontor": "/kunnskap-og-kontor · the law card, the inspection, the figures and the claims about anonymity",
+          "barnehage": "/barnehage-og-skole · the law card, the inspection, the figures and the claims about anonymity",
+          "bransjer": "/bransjer · why an industry module, and the questions and answers",
           "terms": "Prices and terms of purchase"
         },
         "doc": {

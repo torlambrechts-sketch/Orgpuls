@@ -1,0 +1,117 @@
+{
+  "locale": "pl",
+  "token": "qa-lumio-drift-000001",
+  "picker": [
+    "Norsk",
+    "English",
+    "Polski",
+    "Lietuvių"
+  ],
+  "current": "Polski",
+  "screens": [
+    {
+      "id": "intro",
+      "lang": "pl",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski"
+    },
+    {
+      "id": "page1",
+      "lang": "pl",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Dalej"
+    },
+    {
+      "id": "page2",
+      "lang": "pl",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Dalej"
+    },
+    {
+      "id": "page3",
+      "lang": "pl",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Dalej"
+    },
+    {
+      "id": "page4",
+      "lang": "pl",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Dalej"
+    },
+    {
+      "id": "page5",
+      "lang": "pl",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Dalej"
+    },
+    {
+      "id": "page6",
+      "lang": "pl",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Dalej"
+    },
+    {
+      "id": "page7",
+      "lang": "pl",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Dalej"
+    },
+    {
+      "id": "page8",
+      "lang": "pl",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Dalej"
+    },
+    {
+      "id": "page9",
+      "lang": "pl",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Dalej"
+    },
+    {
+      "id": "page10",
+      "lang": "pl",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Dalej"
+    },
+    {
+      "id": "page11",
+      "lang": "pl",
+      "sideways": false,
+      "leaks": [],
+      "head": "Lumio AS | Norsk | English | Polski",
+      "advance": "Wyślij"
+    },
+    {
+      "id": "done",
+      "lang": "pl",
+      "sideways": false,
+      "leaks": [],
+      "head": "✓ | Dziękujemy za odpowiedzi | Dyrektor i przedstawiciel pracowników ds. BHP widzą te same liczby w tym samym czasie. | Nikt nie widzi twoich odpowiedzi na pyta"
+    }
+  ],
+  "done": true,
+  "errors": []
+}

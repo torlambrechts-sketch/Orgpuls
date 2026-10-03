@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest'
+import { INDUSTRIES } from '@/content/industries'
+import { landingFor } from '@/content/industries/landing'
 import { canonical, legalUnits, LEGAL_SECTIONS, MESSAGE_SPECS } from '@/lib/legal/registry'
 import en from '@/messages/en.json'
 import no from '@/messages/no.json'
@@ -55,8 +57,20 @@ describe('the legal review registry', () => {
   })
 
   it('marks what is published: the launched industry pages in both languages (X-078)', () => {
-    expect(units.find((u) => u.key.startsWith('industry:helse-og-omsorg:no:law:'))?.live).toBe(true)
-    expect(units.find((u) => u.key.startsWith('industry:helse-og-omsorg:en:law:'))?.live).toBe(true)
+    // an industry still on the older template publishes its content file's law items
+    for (const i of INDUSTRIES.filter((x) => x.page?.launched && !landingFor(x.slug)?.live.no)) {
+      expect(units.find((u) => u.key.startsWith(`industry:${i.slug}:no:law:`))?.live, i.slug).toBe(true)
+    }
+    // barnehage og skole on the landing template (D-211): the landing's law card in Norwegian; its
+    // English page is a preview, so nothing of it is published in English
+    expect(units.find((u) => u.key.startsWith('industry:barnehage-og-skole:no:law:'))?.live).toBe(false)
+    expect(units.find((u) => u.key === 'msg:no:site.barnehage')?.live).toBe(true)
+    expect(units.find((u) => u.key === 'msg:en:site.barnehage')?.live).toBe(false)
+    // one on the landing template (D-210) publishes the landing's law card instead, in both languages
+    expect(units.find((u) => u.key.startsWith('industry:helse-og-omsorg:no:law:'))?.live).toBe(false)
+    expect(units.find((u) => u.key.startsWith('industry:helse-og-omsorg:en:law:'))?.live).toBe(false)
+    expect(units.find((u) => u.key === 'msg:no:site.helse')?.live).toBe(true)
+    expect(units.find((u) => u.key === 'msg:en:site.helse')?.live).toBe(true)
     // the landing page is what the address shows only where the industry page is not launched
     expect(units.find((u) => u.key === 'msg:no:lp.helseOgOmsorg')?.live).toBe(false)
     expect(units.find((u) => u.key === 'msg:en:lp.helseOgOmsorg')?.live).toBe(false)

@@ -6,6 +6,9 @@ import type { IndustryPage } from './types'
  * module file's `translations.en`, so the page and the English survey cannot word them
  * differently. The law items describe Norwegian statute in English and are not an official
  * translation. Launched 2026-09-28 (X-078).
+ *
+ * Since D-208 en.orgpuls.com/bygg-og-anlegg is drawn by the landing template (`site.bransje.bygg` in
+ * en.json); this file still feeds the English question page, the menu's name and whether the English menu lists it.
  */
 export const byggOgAnleggEn: IndustryPage = {
   slug: 'bygg-og-anlegg',
