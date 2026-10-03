@@ -1,0 +1,1076 @@
+[
+  {
+    "width": 1440,
+    "route": "/admin",
+    "status": 200,
+    "finalPath": "/admin",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/dashboard.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/acquisition",
+    "status": 200,
+    "finalPath": "/admin/acquisition",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/acquisition.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/admins",
+    "status": 200,
+    "finalPath": "/admin/admins",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/admins.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/audit",
+    "status": 200,
+    "finalPath": "/admin/audit",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/audit.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/billing",
+    "status": 200,
+    "finalPath": "/admin/billing",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/billing.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/cms",
+    "status": 200,
+    "finalPath": "/admin/cms",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/cms.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/cms/[id]",
+    "skip": "no seeded row"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/cms/landing",
+    "status": 200,
+    "finalPath": "/admin/cms/landing",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/cms_landing.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/cms/magnets",
+    "status": 200,
+    "finalPath": "/admin/cms/magnets",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/cms_magnets.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/cms/media",
+    "status": 200,
+    "finalPath": "/admin/cms/media",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/cms_media.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/cms/new",
+    "status": 200,
+    "finalPath": "/admin/cms/new",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/cms_new.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/cms/redirects",
+    "status": 200,
+    "finalPath": "/admin/cms/redirects",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/cms_redirects.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/cms/site",
+    "status": 200,
+    "finalPath": "/admin/cms/site",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/cms_site.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/cms/templates",
+    "status": 200,
+    "finalPath": "/admin/cms/templates",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/cms_templates.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm",
+    "status": 200,
+    "finalPath": "/admin/crm",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/campaigns",
+    "status": 200,
+    "finalPath": "/admin/crm/campaigns",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm_campaigns.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/campaigns/[id]",
+    "skip": "no seeded row"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/consent",
+    "status": 200,
+    "finalPath": "/admin/crm/consent",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm_consent.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/contacts",
+    "status": 200,
+    "finalPath": "/admin/crm/contacts",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm_contacts.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/contacts/[id]",
+    "status": 200,
+    "finalPath": "/admin/crm/contacts/2db90f12-ce46-48f5-89c2-75cbde68b777",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm_contacts_id.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/inbox",
+    "status": 200,
+    "finalPath": "/admin/crm/inbox",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm_inbox.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/journeys",
+    "status": 200,
+    "finalPath": "/admin/crm/journeys",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm_journeys.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/lists",
+    "status": 200,
+    "finalPath": "/admin/crm/lists",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm_lists.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/partners",
+    "status": 200,
+    "finalPath": "/admin/crm/partners",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm_partners.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/pipeline",
+    "status": 200,
+    "finalPath": "/admin/crm/pipeline",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm_pipeline.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/prospects",
+    "status": 200,
+    "finalPath": "/admin/crm/prospects",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm_prospects.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/prospects/[id]",
+    "status": 200,
+    "finalPath": "/admin/crm/prospects/fc667107-ec15-43a5-8b9b-02716dfc1f95",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm_prospects_id.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/scoring",
+    "status": 200,
+    "finalPath": "/admin/crm/scoring",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm_scoring.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/segments",
+    "status": 200,
+    "finalPath": "/admin/crm/segments",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm_segments.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/stages",
+    "status": 200,
+    "finalPath": "/admin/crm/stages",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm_stages.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/tasks",
+    "status": 200,
+    "finalPath": "/admin/crm/tasks",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm_tasks.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/templates",
+    "status": 200,
+    "finalPath": "/admin/crm/templates",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm_templates.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/crm/triggers",
+    "status": 200,
+    "finalPath": "/admin/crm/triggers",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/crm_triggers.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/deliverability",
+    "status": 200,
+    "finalPath": "/admin/deliverability",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/deliverability.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/growth",
+    "status": 200,
+    "finalPath": "/admin/growth",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/growth.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/growth/coverage",
+    "status": 200,
+    "finalPath": "/admin/growth/coverage",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/growth_coverage.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/growth/events",
+    "status": 200,
+    "finalPath": "/admin/growth/events",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/growth_events.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/growth/experiments",
+    "status": 200,
+    "finalPath": "/admin/growth/experiments",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/growth_experiments.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/growth/funnel",
+    "status": 200,
+    "finalPath": "/admin/growth/funnel",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/growth_funnel.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/growth/plan",
+    "status": 200,
+    "finalPath": "/admin/growth/plan",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/growth_plan.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/growth/risks",
+    "status": 200,
+    "finalPath": "/admin/growth/risks",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/growth_risks.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/growth/rules",
+    "status": 200,
+    "finalPath": "/admin/growth/rules",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/growth_rules.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/health",
+    "status": 200,
+    "finalPath": "/admin/health",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/health.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/legal",
+    "status": 200,
+    "finalPath": "/admin/legal",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/legal.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/modules",
+    "status": 200,
+    "finalPath": "/admin/modules",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/modules.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/ops",
+    "status": 200,
+    "finalPath": "/admin/ops",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/ops.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/orgs",
+    "status": 200,
+    "finalPath": "/admin/orgs",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/orgs.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/orgs/[id]",
+    "status": 200,
+    "finalPath": "/admin/orgs/a1000000-0000-4000-8000-000000000001",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/orgs_id.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/seo",
+    "status": 200,
+    "finalPath": "/admin/seo",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/seo.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/settings",
+    "status": 200,
+    "finalPath": "/admin/settings",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/settings.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/tickets",
+    "status": 200,
+    "finalPath": "/admin/tickets",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/tickets.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/tickets/[id]",
+    "skip": "no seeded row"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/tickets/canned",
+    "status": 200,
+    "finalPath": "/admin/tickets/canned",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/tickets_canned.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/tickets/mentions",
+    "status": 200,
+    "finalPath": "/admin/tickets/mentions",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/tickets_mentions.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/tickets/reports",
+    "status": 200,
+    "finalPath": "/admin/tickets/reports",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/tickets_reports.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/translations",
+    "status": 200,
+    "finalPath": "/admin/translations",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/translations.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/users",
+    "status": 200,
+    "finalPath": "/admin/users",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/users.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/web",
+    "status": 200,
+    "finalPath": "/admin/web",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/web.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/web/goals",
+    "status": 200,
+    "finalPath": "/admin/web/goals",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/web_goals.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/web/pages",
+    "status": 200,
+    "finalPath": "/admin/web/pages",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/web_pages.png"
+  },
+  {
+    "width": 1440,
+    "route": "/admin/web/visits",
+    "status": 200,
+    "finalPath": "/admin/web/visits",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "1440/web_visits.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin",
+    "status": 200,
+    "finalPath": "/admin",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/dashboard.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/acquisition",
+    "status": 200,
+    "finalPath": "/admin/acquisition",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/acquisition.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/admins",
+    "status": 200,
+    "finalPath": "/admin/admins",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/admins.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/audit",
+    "status": 200,
+    "finalPath": "/admin/audit",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/audit.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/billing",
+    "status": 200,
+    "finalPath": "/admin/billing",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/billing.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/cms",
+    "status": 200,
+    "finalPath": "/admin/cms",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/cms.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/cms/[id]",
+    "skip": "no seeded row"
+  },
+  {
+    "width": 390,
+    "route": "/admin/cms/landing",
+    "status": 200,
+    "finalPath": "/admin/cms/landing",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/cms_landing.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/cms/magnets",
+    "status": 200,
+    "finalPath": "/admin/cms/magnets",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/cms_magnets.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/cms/media",
+    "status": 200,
+    "finalPath": "/admin/cms/media",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/cms_media.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/cms/new",
+    "status": 200,
+    "finalPath": "/admin/cms/new",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/cms_new.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/cms/redirects",
+    "status": 200,
+    "finalPath": "/admin/cms/redirects",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/cms_redirects.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/cms/site",
+    "status": 200,
+    "finalPath": "/admin/cms/site",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/cms_site.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/cms/templates",
+    "status": 200,
+    "finalPath": "/admin/cms/templates",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/cms_templates.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm",
+    "status": 200,
+    "finalPath": "/admin/crm",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/campaigns",
+    "status": 200,
+    "finalPath": "/admin/crm/campaigns",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm_campaigns.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/campaigns/[id]",
+    "skip": "no seeded row"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/consent",
+    "status": 200,
+    "finalPath": "/admin/crm/consent",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm_consent.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/contacts",
+    "status": 200,
+    "finalPath": "/admin/crm/contacts",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm_contacts.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/contacts/[id]",
+    "status": 200,
+    "finalPath": "/admin/crm/contacts/2db90f12-ce46-48f5-89c2-75cbde68b777",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm_contacts_id.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/inbox",
+    "status": 200,
+    "finalPath": "/admin/crm/inbox",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm_inbox.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/journeys",
+    "status": 200,
+    "finalPath": "/admin/crm/journeys",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm_journeys.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/lists",
+    "status": 200,
+    "finalPath": "/admin/crm/lists",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm_lists.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/partners",
+    "status": 200,
+    "finalPath": "/admin/crm/partners",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm_partners.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/pipeline",
+    "status": 200,
+    "finalPath": "/admin/crm/pipeline",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm_pipeline.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/prospects",
+    "status": 200,
+    "finalPath": "/admin/crm/prospects",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm_prospects.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/prospects/[id]",
+    "status": 200,
+    "finalPath": "/admin/crm/prospects/fc667107-ec15-43a5-8b9b-02716dfc1f95",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm_prospects_id.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/scoring",
+    "status": 200,
+    "finalPath": "/admin/crm/scoring",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm_scoring.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/segments",
+    "status": 200,
+    "finalPath": "/admin/crm/segments",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm_segments.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/stages",
+    "status": 200,
+    "finalPath": "/admin/crm/stages",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm_stages.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/tasks",
+    "status": 200,
+    "finalPath": "/admin/crm/tasks",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm_tasks.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/templates",
+    "status": 200,
+    "finalPath": "/admin/crm/templates",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm_templates.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/crm/triggers",
+    "status": 200,
+    "finalPath": "/admin/crm/triggers",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/crm_triggers.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/deliverability",
+    "status": 200,
+    "finalPath": "/admin/deliverability",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/deliverability.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/growth",
+    "status": 200,
+    "finalPath": "/admin/growth",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/growth.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/growth/coverage",
+    "status": 200,
+    "finalPath": "/admin/growth/coverage",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/growth_coverage.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/growth/events",
+    "status": 200,
+    "finalPath": "/admin/growth/events",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/growth_events.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/growth/experiments",
+    "status": 200,
+    "finalPath": "/admin/growth/experiments",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/growth_experiments.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/growth/funnel",
+    "status": 200,
+    "finalPath": "/admin/growth/funnel",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/growth_funnel.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/growth/plan",
+    "status": 200,
+    "finalPath": "/admin/growth/plan",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/growth_plan.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/growth/risks",
+    "status": 200,
+    "finalPath": "/admin/growth/risks",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/growth_risks.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/growth/rules",
+    "status": 200,
+    "finalPath": "/admin/growth/rules",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/growth_rules.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/health",
+    "status": 200,
+    "finalPath": "/admin/health",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/health.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/legal",
+    "status": 200,
+    "finalPath": "/admin/legal",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/legal.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/modules",
+    "status": 200,
+    "finalPath": "/admin/modules",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/modules.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/ops",
+    "status": 200,
+    "finalPath": "/admin/ops",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/ops.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/orgs",
+    "status": 200,
+    "finalPath": "/admin/orgs",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/orgs.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/orgs/[id]",
+    "status": 200,
+    "finalPath": "/admin/orgs/a1000000-0000-4000-8000-000000000001",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/orgs_id.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/seo",
+    "status": 200,
+    "finalPath": "/admin/seo",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/seo.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/settings",
+    "status": 200,
+    "finalPath": "/admin/settings",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/settings.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/tickets",
+    "status": 200,
+    "finalPath": "/admin/tickets",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/tickets.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/tickets/[id]",
+    "skip": "no seeded row"
+  },
+  {
+    "width": 390,
+    "route": "/admin/tickets/canned",
+    "status": 200,
+    "finalPath": "/admin/tickets/canned",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/tickets_canned.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/tickets/mentions",
+    "status": 200,
+    "finalPath": "/admin/tickets/mentions",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/tickets_mentions.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/tickets/reports",
+    "status": 200,
+    "finalPath": "/admin/tickets/reports",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/tickets_reports.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/translations",
+    "status": 200,
+    "finalPath": "/admin/translations",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/translations.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/users",
+    "status": 200,
+    "finalPath": "/admin/users",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/users.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/web",
+    "status": 200,
+    "finalPath": "/admin/web",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/web.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/web/goals",
+    "status": 200,
+    "finalPath": "/admin/web/goals",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/web_goals.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/web/pages",
+    "status": 200,
+    "finalPath": "/admin/web/pages",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/web_pages.png"
+  },
+  {
+    "width": 390,
+    "route": "/admin/web/visits",
+    "status": 200,
+    "finalPath": "/admin/web/visits",
+    "overflowPx": 0,
+    "errors": [],
+    "file": "390/web_visits.png"
+  }
+]
