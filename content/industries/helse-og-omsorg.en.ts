@@ -4,6 +4,9 @@ import type { IndustryPage } from './types'
  * en.orgpuls.com/helse-og-omsorg — the English twin of helse-og-omsorg.ts (D-120, D-122).
  * Same structure, codes and sources; the statements come from the module file's
  * `translations.en`. The law items paraphrase Norwegian statute. Launched 2026-09-28 (X-078).
+ *
+ * Since D-210 en.orgpuls.com/helse-og-omsorg is drawn by the landing template (`site.bransje.helse` in
+ * en.json); this file still feeds the English question page, the menu's name and whether the English menu lists it.
  */
 export const helseOgOmsorgEn: IndustryPage = {
   slug: 'helse-og-omsorg',

@@ -10,6 +10,13 @@ import type { IndustryPage } from './types'
  * switched on (`module_factor_toggles`), so the row, that sentence and that part of the
  * answer are shown only when it is (D-122). Launched in Norwegian on 2026-09-27, when Tor approved
  * it and its law items (X-065); the English page waits for its own review.
+ *
+ * Since D-210 the address /helse-og-omsorg is drawn by the landing template (content/industries/landing.ts,
+ * messages `site.bransje.helse`), as /handel's is since D-207 and /bygg-og-anlegg's since D-208. What this
+ * file still feeds: the question page (`questionPage`, /helse-og-omsorg/sporsmal), the menu's name
+ * (`navLabel`), whether the menu and /bransjer list it (`launched`), the module key, and the legal review's
+ * record of the claims below. Its hero, challenges, law block and FAQ are no longer shown on the site; they
+ * stay as the record of what the page said until D-210.
  */
 export const helseOgOmsorg: IndustryPage = {
   slug: 'helse-og-omsorg',

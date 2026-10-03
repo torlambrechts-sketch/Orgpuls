@@ -55,8 +55,13 @@ describe('the legal review registry', () => {
   })
 
   it('marks what is published: the launched industry pages in both languages (X-078)', () => {
-    expect(units.find((u) => u.key.startsWith('industry:helse-og-omsorg:no:law:'))?.live).toBe(true)
-    expect(units.find((u) => u.key.startsWith('industry:helse-og-omsorg:en:law:'))?.live).toBe(true)
+    // an industry still on the older template publishes its content file's law items
+    expect(units.find((u) => u.key.startsWith('industry:barnehage-og-skole:no:law:'))?.live).toBe(true)
+    // one on the landing template (D-210) publishes the landing's law card instead, in both languages
+    expect(units.find((u) => u.key.startsWith('industry:helse-og-omsorg:no:law:'))?.live).toBe(false)
+    expect(units.find((u) => u.key.startsWith('industry:helse-og-omsorg:en:law:'))?.live).toBe(false)
+    expect(units.find((u) => u.key === 'msg:no:site.helse')?.live).toBe(true)
+    expect(units.find((u) => u.key === 'msg:en:site.helse')?.live).toBe(true)
     // the landing page is what the address shows only where the industry page is not launched
     expect(units.find((u) => u.key === 'msg:no:lp.helseOgOmsorg')?.live).toBe(false)
     expect(units.find((u) => u.key === 'msg:en:lp.helseOgOmsorg')?.live).toBe(false)

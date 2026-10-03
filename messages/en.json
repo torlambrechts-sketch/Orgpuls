@@ -8767,6 +8767,338 @@
           "fafo_innleie": "Fafo note 2024:22: Virkninger av innstramninger i innleieregelverket (Alsos et al.)",
           "noa_anlegg": "STAMI, NOA: Fakta om arbeidsmiljøet i anleggsvirksomheter, figures from the Norwegian Living Conditions Survey on the Work Environment 2022"
         }
+      },
+      "helse": {
+        "nav": "Health and care",
+        "seo": {
+          "title": "Work environment survey for health and care | Orgpuls",
+          "description": "Survey the work environment in care, home care and clinics: violence and threats, staffing, rotas and part-time. Anonymous by text or QR. 15 days free."
+        },
+        "hero": {
+          "k": "Health and care · care, home care and clinics",
+          "h1": "A work environment survey for health and care: see what wears your staff down – and follow it up",
+          "lead": "See where violence and threats, tight staffing and rotas without rest take their toll – for the whole business and for each department with enough answers. Every shift answers anonymously on their phones. You get suggested measures with an owner and a deadline, a new measurement in the pulse and a report showing the survey was done.",
+          "secondary": "See the health and care questions",
+          "figure": {
+            "title": "How your staff answer",
+            "meta": "On the phone · about 4 + {minutes} min",
+            "caption": "The questionnaire on a phone, one theme per page."
+          },
+          "tiles": [
+            {
+              "t": "{factors} factors for care work",
+              "d": "The health and care module comes on top of the main survey and takes about {minutes} minutes more."
+            },
+            {
+              "t": "Answers from every shift",
+              "d": "A link by text message or e-mail, or a QR poster in the staff room. No app, and nobody needs a work e-mail address."
+            },
+            {
+              "t": "Report for the Labour Inspection Authority",
+              "d": "Survey, risk assessment and measures in one place, with the legal basis for each factor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Everyday work in figures",
+          "title": "The work environment in health and care: what the figures show",
+          "lead": "Around 588,000 people work in health and social services – about one in five of everyone employed in Norway. The figures come from Norwegian research and official statistics.",
+          "items": [
+            {
+              "v": "9.6 %",
+              "l": "sickness absence in health and social services in the second quarter of 2026 – the highest of all industries, against an average of 6.6 %"
+            },
+            {
+              "v": "34 %",
+              "l": "of employees in nursing homes have been exposed to violence, against 5 % of everyone employed"
+            },
+            {
+              "v": "38 %",
+              "l": "in home care face high emotional demands, against 20 % of everyone employed"
+            },
+            {
+              "v": "35 %",
+              "l": "in health and social services work part-time, against 24 % in all industries"
+            }
+          ],
+          "h3": "Much is never reported",
+          "note": "Labour Inspection Authority inspectors describe relatively few incidents being reported in the work environment area in health and social services, even though many should have been. So the real state of the work environment does not become visible either.",
+          "text": "An anonymous questionnaire gives employees a way to say it without stepping forward. The health and care module asks about violence and threats that were not reported, and about shifts where the staffing was not responsible. The answers are shown only as a count for the whole business."
+        },
+        "why": {
+          "k": "Why survey",
+          "title": "Why a care business has to survey its work environment",
+          "lead": "The Working Environment Act applies to every employer with employees, including the GP surgery with five staff and the personal assistance company with assistants in each user’s home. In work with people, the law points in particular to emotional demands, violence and threats, and working alone.",
+          "law": {
+            "title": "What the law requires in work with people",
+            "pill": "Applies to every employer",
+            "rows": [
+              {
+                "ref": "WEA § 3-1 (2) c",
+                "t": "Identify hazards and problems, assess the risk, make plans and put measures in place."
+              },
+              {
+                "ref": "WEA § 4-3 (2)",
+                "t": "The psychosocial factors must be fully satisfactory – including unclear or conflicting demands, emotional demands and strain in work with people, and workload and time pressure."
+              },
+              {
+                "ref": "WEA § 4-3 (6)",
+                "t": "Employees shall, as far as possible, be protected against violence, threats and adverse strain resulting from contact with others."
+              },
+              {
+                "ref": "WEA § 4-1 (3)",
+                "t": "Assess whether working alone carries a particular risk, and put the necessary measures in place."
+              },
+              {
+                "ref": "Regulation ch. 3A",
+                "t": "Identify and assess the risk of violence and threats – including working alone, working hours and staffing – and provide measures, training and follow-up."
+              },
+              {
+                "ref": "Regulation § 1A-2",
+                "t": "The survey must be done together with the employees, repeated regularly and documented."
+              }
+            ],
+            "link": "More about the legal requirement"
+          },
+          "tilsyn": {
+            "t": "The Labour Inspection Authority prioritises nursing homes and home care",
+            "p": "In 2025 nursing homes and home care were among the industries the Labour Inspection Authority prioritised in inspections of mental and musculoskeletal strain. In inspections of nursing homes and home care, violence and threats are often raised as a challenge, and in 2025 more than seven in ten businesses lacked an adequate survey, risk assessment, plan and measures against violence and threats.",
+            "d": "In Orgpuls every measure gets an owner and a deadline, and the safety representative sees the same figures as management."
+          },
+          "gap": {
+            "t": "Many small businesses have not done it",
+            "p": "About half of those working in health clinics – among them doctors’ and dentists’ practices and physiotherapy clinics – are in businesses with fewer than 10 employees. Among private businesses with fewer than 20 employees, 28 % run an employee survey, and 23 % carry out none of the surveys Fafo asked about."
+          },
+          "cost": {
+            "t": "Leaving it costs",
+            "items": [
+              "1 in 3 in nursing homes and 2 in 5 in home care who are on sick leave say the absence is related to their job. Absence like that can often be prevented at the workplace.",
+              "29 % of employees in home care services were no longer at the same workplace a year later, against 24 % in working life as a whole (2023). Among those under 30 it was 45 %.",
+              "Employees in large positions have the lowest drop-out, and workplaces with many full-time staff find it easier to build «the good shift», which both attracts and keeps people, Fafo writes."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Challenges and solutions",
+          "title": "Eight challenges in health and care – and how to tackle them",
+          "lead": "The challenges come from Norwegian research, statistics and inspections. Under each you see which questions measure it, and what you get to work with.",
+          "items": [
+            {
+              "t": "Violence and threats – often alone with the service user",
+              "looks": "A service user who becomes agitated during personal care, a night shift alone on the ward, a home visit where the door closes behind you. Often you are the only one there.",
+              "fig": "34 % in nursing homes have been exposed to violence, and 27 % to harassment or threats. In home care the figures are 12 and 18 %. The Labour Inspection Authority uses home care staff as an example of working alone.",
+              "solve": "The factor Violence and threats asks whether you have gone through the situations that can lead to violence, whether small incidents are reported too, and whether the person involved is followed up. A yes/no question counts incidents that were not reported. Contact and communication in the main survey asks whether you can call for help quickly when you are alone."
+            },
+            {
+              "t": "The feelings you take home",
+              "looks": "A resident who dies, relatives in despair, a service user angry at everything. You have to stay professional the whole shift – and then drive home.",
+              "fig": "38 % in home care and 35 % in nursing homes face high emotional demands, against 20 % of everyone employed. In home care, 34 % are often mentally exhausted after work.",
+              "solve": "The main survey measures Emotional demands: whether you are rarely left alone in emotionally demanding situations, whether you talk about difficult incidents afterwards, and whether you are allowed to react as a human being at work. The health and care module does not repeat these. Support from manager shows whether the manager is there when the job gets demanding."
+            },
+            {
+              "t": "Too few on shift",
+              "looks": "Two are off sick, the temp does not know the service users, and the list is just as long. Something has to wait – and you are the one who has to choose what.",
+              "fig": "Labour Inspection Authority inspectors describe an industry with a high workload and time pressure, and an imbalance between tasks and resources.",
+              "solve": "The factor Staffing and responsible care asks whether staffing makes it possible to give responsible care, whether you avoid going home with a bad conscience, and whether it is clear what can wait. A yes/no question counts shifts where staffing was not responsible. Time for the core tasks shows whether documentation and systems take time away from service users."
+            },
+            {
+              "t": "Between service user, relatives and manager",
+              "looks": "Relatives want more than the service can give, the service user wants something else, and the manager has decided a third thing. And the comments about your body are laughed off.",
+              "fig": "In nursing homes, 22 % experience a high degree of role conflict, against 13 % of everyone employed – including conflicting expectations from residents, relatives, managers and colleagues. 18 % are exposed to unwanted sexual attention, against 5 %.",
+              "solve": "The factor Boundaries with service users and relatives asks whether you have agreed what to do when someone crosses the line, whether sexual comments are taken seriously, and whether you get support to say no to relatives. Conflicting demands in the main survey shows whether it is clear who decides when two things collide."
+            },
+            {
+              "t": "Rotas, evenings and nights",
+              "looks": "An evening shift until half past ten and a day shift at seven. The call about an extra shift comes on your day off – again.",
+              "fig": "About 9 in 10 in nursing homes work outside normal daytime hours, and 1 in 3 work nights. 24 % report sleep problems caused wholly or partly by their job.",
+              "solve": "The factor Rotas and rest asks whether the rota gives enough rest between shifts, whether you can influence it, and whether extra shifts at short notice are the exception. The suggested measures are concrete, such as a rota workshop and a fixed order for extra shifts. If the night shift is a group of its own, it gets its own figures once enough have answered."
+            },
+            {
+              "t": "Part-time nobody chose",
+              "looks": "Many small positions, many temps and a few who take all the extra shifts. Those who work little miss the messages.",
+              "fig": "Among rota-based staff in municipal nursing and care, nearly 35 % work full-time. Fafo describes employees who work part-time because the shifts feel too exhausting – an adaptation to a work environment they did not decide.",
+              "solve": "The factor Position and belonging asks whether you have the position size you want, whether important information reaches those who work little too, and whether you feel part of the professional community. One of the suggestions is to offer vacant position fractions to part-time employees first, as the preferential right requires."
+            },
+            {
+              "t": "New staff, temps and many languages",
+              "looks": "The agency temp is here for the first time, and the new starter has done two shadow shifts. The handover is quick, and not everyone understands everything.",
+              "fig": "Fafo describes how unskilled temps are often called in and have to take responsibility for tasks they lack formal competence for, and how colleagues then have to spend more time guiding them. 1 in 5 working in nursing homes are immigrants.",
+              "solve": "The factor Professional confidence asks whether new staff and temps get enough training before they are alone on shift, whether you have someone to consult, and whether you understand each other well enough for handovers and messages to be right. The questionnaire is available in Norwegian, English, Polish and Lithuanian."
+            },
+            {
+              "t": "Heavy lifting when it is busy",
+              "looks": "The patient hoist is at the other end of the corridor, and it is busy. It is quicker to do it yourself.",
+              "fig": "30 % in nursing homes and 34 % in home care lift in awkward positions, against 14 % of everyone employed. 35 % in nursing homes report back pain caused wholly or partly by their job.",
+              "solve": "The factor Patient handling and heavy lifting asks whether you have the equipment you need, whether there is time to use it also when it is busy, and whether there are enough of you for heavy transfers. One of the suggestions is a handling plan per service user."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "vold_og_trusler": "Violence and threats",
+          "bemanning_og_forsvarlig_omsorg": "Staffing and responsible care",
+          "turnus_og_hvile": "Rotas and rest",
+          "stilling_og_tilhorighet": "Position and belonging",
+          "grenser_mot_brukere_og_parorende": "Boundaries with service users and relatives",
+          "tid_til_kjerneoppgavene": "Time for the core tasks",
+          "faglig_trygghet": "Professional confidence",
+          "forflytning_og_tunge_loft": "Patient handling and heavy lifting"
+        },
+        "moduleTag": "Health and care module",
+        "proof": {
+          "k": "What it looks like",
+          "title": "From answers to measures in one tool",
+          "lead": "The pictures are real screenshots from our demo company, Nordvik Anlegg AS – a fictional civil engineering firm, not a care business. The demo shows the main survey. The health and care module’s factors get results and suggested measures of their own, with an owner, a deadline and a new measurement in the pulse.",
+          "blocks": [
+            {
+              "k": "Results",
+              "h3": "See which department is struggling – without seeing who",
+              "ticks": [
+                "Each factor gets a score from 0 to 100, for the whole business and for each group with enough answers",
+                "Make one group per department, ward or home care area – results per group are included in the Usual plan",
+                "A group with too few answers is shown as a dash, but its answers count in the figures for the whole business"
+              ],
+              "caption": "The heat map: the factors against the groups."
+            },
+            {
+              "k": "Measures",
+              "h3": "Every finding becomes a measure with an owner and a deadline",
+              "ticks": [
+                "Three suggested measures per factor, written for care work – such as «A conversation the same shift» and «Staffing check before the shift»",
+                "Every measure gets an owner and a deadline",
+                "The safety representative sees the same figures as management"
+              ],
+              "caption": "The measures board in Orgpuls."
+            },
+            {
+              "k": "Follow-up",
+              "h3": "Follow up with pulses through the year",
+              "ticks": [
+                "Plan the main survey and the pulses in the year wheel",
+                "The pulse includes the statements that measure the measures you are working on",
+                "Results are compared with the previous measurement"
+              ],
+              "caption": "The year wheel: baseline and pulses through the year."
+            },
+            {
+              "k": "Report",
+              "h3": "The report the Labour Inspection Authority asks for",
+              "ticks": [
+                "Survey, risk assessment and measures in one place, with dates",
+                "The legal basis for each factor",
+                "The health and care module gets its own part of the report",
+                "Download it as a PDF the day someone asks"
+              ],
+              "caption": "The report, part 3: the survey."
+            }
+          ]
+        },
+        "steps": {
+          "k": "Getting started",
+          "title": "From organisation number to report in four steps",
+          "items": [
+            {
+              "t": "Register your business",
+              "d": "Enter your organisation number, and we fetch name, address and industry from the Brønnøysund Register Centre. If your industry code is in health and care, Orgpuls suggests the health and care module."
+            },
+            {
+              "t": "Add your staff",
+              "d": "Make one group per department, ward or area. Send the link by text message or e-mail, or put up the QR poster in the staff room."
+            },
+            {
+              "t": "See the results",
+              "d": "Each factor gets a score from 0 to 100 in green, yellow or red – for the whole business and for each department with enough answers."
+            },
+            {
+              "t": "Choose measures and follow up",
+              "d": "Pick from the suggestions, give each measure an owner and a deadline, and let the pulse measure whether it worked. The report updates itself."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymity",
+          "title": "Anonymous – even in a small department",
+          "lead": "No single answer can be traced back to a person. That is built into how answers are stored, not just promised in a privacy notice.",
+          "items": [
+            {
+              "t": "5 answers by default",
+              "d": "No group is shown until at least 5 have answered. Small teams can lower the limit to 3, never below. The fewer the answers, the easier it is to recognise who said what."
+            },
+            {
+              "t": "Departments with few answers",
+              "d": "A department with too few answers is not shown as a group of its own, but its answers count in the figures for the whole business. If a group could be worked out from the total and the other groups, one more group is held back."
+            },
+            {
+              "t": "The yes/no questions",
+              "d": "The questions about violence and threats that were not reported, and about shifts where staffing was not responsible, are shown only as a count for the whole business – never per department or shift."
+            },
+            {
+              "t": "The department manager sees their department",
+              "d": "A department manager sees only their own group. The safety representative sees the same figures as management."
+            }
+          ],
+          "link": "Read about privacy and anonymity"
+        },
+        "faq": {
+          "k": "Questions and answers",
+          "title": "What managers in health and care ask",
+          "items": [
+            {
+              "q": "How long does it take your staff?",
+              "a": "The main survey takes about 4 minutes, and the health and care module about 3 minutes more: 24 statements and 2 short yes/no questions. The survey stays open for 14 days, so those on days, evenings, nights and weekends have time to answer."
+            },
+            {
+              "q": "What does it cost?",
+              "a": "Small costs NOK 265 a month for up to 25 employees, and Usual NOK 565 for 26–100 employees. The health and care module is included in both. Prices exclude VAT, there is no lock-in, and the first 15 days are free."
+            },
+            {
+              "q": "Does the manager see who answered that staffing was not responsible?",
+              "a": "No. The question is shown only as a count for the whole business, never per department or shift. By default no group is shown until at least 5 have answered, and the limit can never be set below 3."
+            },
+            {
+              "q": "Many have no work e-mail, and some work only a few shifts a month. Can we reach them?",
+              "a": "Yes. Send the link by text message, or put up the QR poster in the staff room. The employee scans the code, enters a mobile number or e-mail address and gets their own link. Everything works on a phone, and the survey stays open long enough for every shift to answer."
+            },
+            {
+              "q": "Can they answer in Polish or Lithuanian?",
+              "a": "Yes. The questionnaire is available in Norwegian, English, Polish and Lithuanian. A language is offered when every question in the survey has an approved translation. Ukrainian, Swedish and Danish are not ready yet."
+            },
+            {
+              "q": "We are a GP surgery or a dental clinic. Does the health and care module suit us?",
+              "a": "The health and care module is made for care work with shifts, and today everyone gets the same eight factors – including patient handling, which matters little in a GP surgery. The main survey covers what applies to everyone, such as emotional demands, workload and support from your manager. You can also choose to survey without an industry module."
+            },
+            {
+              "q": "We are a healthcare staffing agency. Can we use the health and care module?",
+              "a": "Yes. Orgpuls suggests the health and care module when your industry code is health and social services. If you have a different industry code, you can choose the health and care module yourselves under Setup. The survey goes to the people you add to your employee list, including those working at your clients."
+            },
+            {
+              "q": "Will this hold up if the Labour Inspection Authority visits?",
+              "a": "Orgpuls covers the survey and risk assessment of the psychosocial work environment. The report brings together survey, risk assessment, measures and follow-up, with dates. Your deviation system, procedures for violence and threats and training live elsewhere, and the Labour Inspection Authority expects the survey to draw on several sources – a questionnaire is one of them."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "All the questions in the health and care module",
+          "lovkrav": "The legal requirement explained",
+          "verneombud": "The safety representative and the survey",
+          "smaa": "Work environment surveys for small businesses",
+          "priser": "Pricing"
+        },
+        "sources": {
+          "ssb_aku": "Statistics Norway, table 07203: Employed persons (LFS) by industry and full-time/part-time, 2025",
+          "ssb_fravaer": "Statistics Norway, table 12440: Sickness absence for employees by industry, second quarter of 2026",
+          "noa_sykehjem": "STAMI, NOA: Facts about the work environment in nursing homes and care institutions, figures from the Living Conditions Survey on the work environment 2022",
+          "noa_hjemme": "STAMI, NOA: Facts about the work environment in home care, figures from the Living Conditions Survey on the work environment 2022",
+          "at_signal": "Labour Inspection Authority: Signal no. 1 2024 – industry knowledge, input from 145 inspectors",
+          "lovdata_aml": "Lovdata: Working Environment Act §§ 3-1, 4-1 and 4-3",
+          "lovdata_forskrift": "Lovdata: Regulations concerning the performance of work, chapters 1A and 3A (in force 1 January 2026)",
+          "at_arsrapport": "Labour Inspection Authority: Annual report 2025 – an analysis of the Authority’s work",
+          "fafo_verneombud": "Fafo report 2025:10: Mapping the work of safety representatives (Andersen, Bråten and Huseby), a survey of 1,200 business leaders",
+          "noa_klinikk": "STAMI, NOA: Facts about the work environment in health clinics, figures from the Living Conditions Survey on the work environment 2022",
+          "fafo_mobilitet": "Fafo report 2025:19: Mobility in health and care services 2015–2024 (Nielsen and Moland)",
+          "fafo_deltid": "Fafo report 2026:28: Part-time employment and sustainable staffing (Nielsen, Bråthen and Moland), written for KS",
+          "at_alene": "Labour Inspection Authority: Working alone",
+          "fafo_ufaglaerte": "Fafo report 2025:08: New positions for unskilled staff in nursing and care services (Jordell, Yssen and Moland)"
+        }
       }
     },
     "bransjer": {
@@ -11793,6 +12125,7 @@
           "claims": "Short legal claims across the site",
           "handel": "/handel · the law card, the inspection, the figures and the claims about anonymity",
           "bygg": "/bygg-og-anlegg · the law card, the inspection, the figures and the claims about anonymity",
+          "helse": "/helse-og-omsorg · the law card, the inspection, the figures and the claims about anonymity",
           "bransjer": "/bransjer · why an industry module, and the questions and answers",
           "terms": "Prices and terms of purchase"
         },
