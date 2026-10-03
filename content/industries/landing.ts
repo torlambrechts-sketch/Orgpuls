@@ -80,7 +80,7 @@ export const LANDINGS: IndustryLanding[] = [
   {
     slug: 'handel',
     msg: 'handel',
-    live: { no: true, en: false },
+    live: { no: true, en: true },
     module: 'handel',
     heroShot: 'sporsmal',
     stats: {
@@ -268,10 +268,10 @@ export const LANDINGS: IndustryLanding[] = [
   },
   {
     // D-212. A module in two variants (0089, D-137): the variants block shows both, from the file.
-    // English waits: modules/kunnskap-og-kontor/v1.json has no `translations.en` (D-120)
+    // English is live since D-214: the module file carries `translations.en` for both variants (D-120)
     slug: 'kunnskap-og-kontor',
     msg: 'kontor',
-    live: { no: true, en: false },
+    live: { no: true, en: true },
     module: 'kunnskap-og-kontor',
     heroShot: 'sporsmal',
     stats: {
@@ -353,11 +353,11 @@ export const LANDINGS: IndustryLanding[] = [
   },
   {
     // D-211. One page for kindergartens and schools: the challenges both share, the rest labelled
-    // (`audience`), and the question page in either wording. English waits for the module file's
-    // English translation (D-120): modules/barnehage-og-skole/v1.json has none.
+    // (`audience`), and the question page in either wording. English is live since D-214: the module
+    // file carries `translations.en` in all three wordings (D-120).
     slug: 'barnehage-og-skole',
     msg: 'barnehage',
-    live: { no: true, en: false },
+    live: { no: true, en: true },
     module: 'barnehage-og-skole',
     heroShot: 'sporsmal',
     wording: { example: 'BS-BE-3' },

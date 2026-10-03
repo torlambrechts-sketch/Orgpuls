@@ -52,21 +52,39 @@ export function moduleFile(key: string, lang: PageLang = 'no'): ModuleFile {
       return {
         ...f,
         name: t.name,
+        ...(t.name_variants ? { name_variants: t.name_variants } : {}),
         summary: t.summary,
         rationale: t.rationale,
         legal_basis: t.legal_basis,
-        items: f.items.map((i) => ({ ...i, text: t.items[i.id] ?? i.text })),
+        items: f.items.map((i) => ({
+          ...i,
+          text: t.items[i.id] ?? i.text,
+          ...(t.item_variants?.[i.id] ? { text_variants: t.item_variants[i.id] } : {}),
+          ...(t.item_help?.[i.id] ? { help: t.item_help[i.id] } : {}),
+        })),
         action_suggestions: f.action_suggestions.map((a, n) => ({ ...a, ...(t.action_suggestions[n] ?? {}) })),
       }
     }),
     count_items: m.count_items.map((c) => {
       const t = tr.count_items[c.id]
-      return t ? { ...c, text: t.text, options: t.options, why: t.why ?? c.why } : c
+      return t ? { ...c, text: t.text, ...(t.text_variants ? { text_variants: t.text_variants } : {}), options: t.options, why: t.why ?? c.why } : c
     }),
     segments: m.segments.map((s) => {
       const t = tr.segments[s.id]
       return t ? { ...s, text: t.text, options: t.options } : s
     }),
+    // a module in variants (0089): the variants' names and the simplified factors in English (D-214)
+    variants: !m.variants || !tr.variants ? m.variants : [
+      {
+        ...m.variants[0],
+        name: tr.variants.forenklet.name,
+        factors: m.variants[0].factors.map((f) => {
+          const t = tr.variants?.forenklet.factors[f.id]
+          return t ? { ...f, name: t.name, summary: t.summary, action_suggestions: f.action_suggestions.map((a, n) => ({ ...a, ...(t.action_suggestions[n] ?? {}) })) } : f
+        }),
+      },
+      { ...m.variants[1], name: tr.variants.utvidet.name },
+    ] as const,
   }
 }
 

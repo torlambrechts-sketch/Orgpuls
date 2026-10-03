@@ -62,35 +62,34 @@ describe('the schema for wordings', () => {
   it('refuses an unfilled token', () => expect(fails((m) => (m.factors[0].items[0].text_variants.skole = 'Vi har {barna}'))).toBe(true))
   it('refuses variants in a module without wordings', () =>
     expect(fails((m) => delete m.wording)).toBe(true))
-  it('refuses an English translation it has no place for, by that rule', () => {
-    const m = raw('barnehage-og-skole')
-    // a translation complete in every other respect, so only the wording rule can refuse it
-    m.translations = {
-      en: {
-        name: m.name,
-        description: m.description,
-        scale_labels: m.scale.labels,
-        covered_by_core_factors: m.relation_to_core.covered_by_core_factors,
-        factors: Object.fromEntries(
-          m.factors.map((f: any) => [
-            f.id,
-            {
-              name: f.name,
-              summary: f.summary,
-              rationale: f.rationale,
-              legal_basis: f.legal_basis,
-              items: Object.fromEntries(f.items.map((i: any) => [i.id, i.text])),
-              action_suggestions: f.action_suggestions.map((a: any) => ({ title: a.title, description: a.description })),
-            },
-          ]),
-        ),
-        count_items: Object.fromEntries(m.count_items.map((c: any) => [c.id, { text: c.text, options: c.options }])),
-        segments: Object.fromEntries(m.segments.map((s: any) => [s.id, { text: s.text, options: s.options }])),
-      },
+  it('translates every wording, and refuses an English translation without them (D-214)', () => {
+    const tr = bs.translations?.en
+    expect(tr).toBeDefined()
+    for (const f of bs.factors) {
+      for (const i of f.items.filter((x) => x.text_variants)) expect(tr?.factors[f.id]?.item_variants?.[i.id], i.id).toBeDefined()
+      if (f.name_variants) expect(tr?.factors[f.id]?.name_variants, f.id).toBeDefined()
     }
+    for (const c of bs.count_items) expect(tr?.count_items[c.id]?.text_variants, c.id).toBeDefined()
+    // without the wordings, a translation is refused on each one
+    const m = raw('barnehage-og-skole')
+    for (const f of Object.values(m.translations.en.factors) as any[]) {
+      delete f.item_variants
+      delete f.name_variants
+    }
+    for (const c of Object.values(m.translations.en.count_items) as any[]) delete c.text_variants
     const r = ModuleFile.safeParse(m)
     expect(r.success).toBe(false)
-    expect(r.error?.issues.map((i) => i.message)).toContain('a worded module has no English translation yet')
+    const messages = r.error?.issues.map((i) => i.message) ?? []
+    expect(messages).toContain('en: wording of BS-VT-1 is not translated')
+    expect(messages).toContain("en: the factor name's wordings differ")
+    expect(messages).toContain('en: the wordings differ')
+  })
+  it('lays the English wordings over the Norwegian for the English pages', async () => {
+    const { moduleFile } = await import('@/content/industries/modules')
+    const en = moduleFile('barnehage-og-skole', 'en')
+    const item = en.factors[0]!.items[0]!
+    expect(item.text_variants?.barnehage).toBe(bs.translations?.en?.factors[bs.factors[0]!.id]?.item_variants?.[item.id]?.barnehage)
+    expect(item.text_variants?.barnehage).not.toBe(bs.factors[0]!.items[0]!.text_variants?.barnehage)
   })
   it('refuses a factor name with a token, and name variants without wording', () => {
     expect(fails((m) => (m.factors[0].name_variants.skole = 'Vold fra {barn}'))).toBe(true)
@@ -122,13 +121,15 @@ describe('picking a wording', () => {
 
 describe('the published modules', () => {
   it('have the bodies the database was given for them (0122 body_hash), whatever the schema learned since', () => {
-    // a file whose body moves is a new version at the next «Make live» (X-096); these pin what is live
-    // on hosted today, so a schema change that re-shapes a parsed file is caught here and not as a version
+    // a file whose body moves is a new version at the next «Make live» (X-096); these pin the files, so a
+    // schema change that re-shapes a parsed file is caught here and not as a version. barnehage og skole,
+    // kunnskap og kontor and handel moved on purpose when they gained `translations.en` (D-214); hosted has
+    // their earlier bodies (6d7f6d5f…, 46a7c4b3…, 5498dbfe…) until each is made live
     expect(bodyHash(parseModule(raw('bygg-og-anlegg')))).toBe('2f949f179f49936909807d56cc4e35f0f119dd06d58c42bf9002bd5a6ed1c862')
-    expect(bodyHash(parseModule(raw('barnehage-og-skole')))).toBe('6d7f6d5f0448c7e9f85e583e5e3bf4489bfabc8e312526c81e20279444c5075b')
+    expect(bodyHash(parseModule(raw('barnehage-og-skole')))).toBe('1c9c489db7b0a21342f5a36cf0776fb900bdcd82f5f69027b6f479d10e6dab12')
     expect(bodyHash(parseModule(raw('helse-og-omsorg')))).toBe('6249fbf6b079bcda168eba5961fc17cf19374d6321451d1f378594719d4ede73')
-    expect(bodyHash(parseModule(raw('kunnskap-og-kontor')))).toBe('46a7c4b34c1fdcd270f10ac94b3fcc08ab5516dce3588ab474d6a8020b7c4c93')
-    expect(bodyHash(parseModule(raw('handel')))).toBe('5498dbfeddc36b2597dd9726d9a8793073ac7fe1143b0f11ce7deec3bd805105')
+    expect(bodyHash(parseModule(raw('kunnskap-og-kontor')))).toBe('83e185e5402572a7ecbabaae8d2384e970586737d563794b0d23bc0e2d39b674')
+    expect(bodyHash(parseModule(raw('handel')))).toBe('a8f91823e682c3546789f25cf621768135ebaba11792f3532d20c5af8e25e74e')
   })
 
   it('a version number or a validation status is not a change of body', () => {

@@ -10,6 +10,8 @@
 --   * only a super-admin may sync; the engine and the legal review are closed to clients (7)
 --   * a legal document is stored with its text, and only under the hash of that text (8)
 --   * nothing written here survives (9)
+--   * an English translation added to the file is not a rewording: the next version keeps every other
+--     language's translations, and an English one only where it is the file's English (10, 0191)
 --
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/module_sync_invariants.sql
 
@@ -138,6 +140,27 @@ begin
     v_rows := v_rows || jsonb_build_object('seq', 8, 'name', 'a review is refused under another hash, kept with its text under its own',
       'expected', 'invalid,ok,true', 'actual', v_txt, 'pass', v_txt = 'invalid,ok,true');
 
+    -- 10 ------------------------------------------------------------- the file gains its English (0191)
+    -- 1.0.1 has «jeden» (pl) carried for PS-FF-1; give it an English row that agrees with the file's English
+    -- coming next («one») and one that does not («three, old»)
+    insert into app.item_translations (item_id, locale, text, source)
+    select 'module:' || i.id, 'en', case i.code when 'PS-FF-1' then 'one' else 'three, old' end, 'machine'
+    from app.module_items i where i.module_id = v_new and i.code in ('PS-FF-1', 'PS-FF-3');
+    v_r := app.module_sync(pg_temp.probe_module('to, nå endret', true) || jsonb_build_object('translations', jsonb_build_object('en',
+             jsonb_build_object('name', 'Probe', 'description', 'Probe', 'scale_labels', '[]'::jsonb, 'count_items', '{}'::jsonb, 'segments', '{}'::jsonb,
+               'factors', jsonb_build_object('f', jsonb_build_object('name', 'F', 'summary', 'S', 'rationale', 'R', 'legal_basis', '[]'::jsonb,
+                 'action_suggestions', '[]'::jsonb,
+                 'items', jsonb_build_object('PS-FF-1', 'one', 'PS-FF-2', 'two', 'PS-FF-3', 'three', 'PS-FF-4', 'four')))))),
+           repeat('5', 64));
+    v_txt := concat_ws('|', v_r->>'version', v_r->>'translations_carried',
+               (select string_agg(i.code || '=' || t.locale || ':' || t.text, ',' order by i.code, t.locale) from app.item_translations t
+                join app.module_items i on 'module:' || i.id = t.item_id join app.question_modules m on m.id = i.module_id
+                where m.key = 'probe-sync' and m.version = '1.0.2'),
+               (select i.text->>'en' from app.module_items i join app.question_modules m on m.id = i.module_id
+                where m.key = 'probe-sync' and m.version = '1.0.2' and i.code = 'PS-FF-3'));
+    v_rows := v_rows || jsonb_build_object('seq', 10, 'name', 'adding English keeps the other languages; an English row is carried only where it is the file''s English',
+      'expected', '1.0.2|2|PS-FF-1=en:one,PS-FF-1=pl:jeden|three', 'actual', v_txt, 'pass', v_txt = '1.0.2|2|PS-FF-1=en:one,PS-FF-1=pl:jeden|three');
+
     raise exception 'rollback';
   exception when others then
     if sqlerrm <> 'rollback' then raise; end if;
@@ -161,5 +184,5 @@ declare v_failed text; v_count int;
 begin
   select string_agg(seq || ' ' || name, '; ' order by seq) filter (where pass is not true), count(*) into v_failed, v_count from public._msy;
   if v_failed is not null then raise exception 'module sync invariants failed: %', v_failed; end if;
-  if v_count <> 9 then raise exception 'module sync invariants: expected 9 rows, got %', v_count; end if;
+  if v_count <> 10 then raise exception 'module sync invariants: expected 10 rows, got %', v_count; end if;
 end $$;

@@ -1,10 +1,13 @@
 import { barnehageOgSkole } from './barnehage-og-skole'
+import { barnehageOgSkoleEn } from './barnehage-og-skole.en'
 import { byggOgAnlegg } from './bygg-og-anlegg'
 import { byggOgAnleggEn } from './bygg-og-anlegg.en'
 import { helseOgOmsorg } from './helse-og-omsorg'
 import { helseOgOmsorgEn } from './helse-og-omsorg.en'
 import { handel } from './handel'
+import { handelEn } from './handel.en'
 import { kunnskapOgKontor } from './kunnskap-og-kontor'
+import { kunnskapOgKontorEn } from './kunnskap-og-kontor.en'
 import type { PageLang } from './modules'
 import type { IndustryPage } from './types'
 import { INDUSTRY_META } from './meta'
@@ -20,10 +23,10 @@ export type IndustryEntry = { slug: IndustryPage['slug']; page: IndustryPage | n
 const ENTRIES: IndustryEntry[] = [
   { slug: 'bygg-og-anlegg', page: byggOgAnlegg, pageEn: byggOgAnleggEn },
   { slug: 'helse-og-omsorg', page: helseOgOmsorg, pageEn: helseOgOmsorgEn },
-  // Norwegian only: the module files have no English translation (D-120)
-  { slug: 'barnehage-og-skole', page: barnehageOgSkole, pageEn: null },
-  { slug: 'kunnskap-og-kontor', page: kunnskapOgKontor, pageEn: null },
-  { slug: 'handel', page: handel, pageEn: null },
+  // English since D-214, when their module files gained their English translations
+  { slug: 'barnehage-og-skole', page: barnehageOgSkole, pageEn: barnehageOgSkoleEn },
+  { slug: 'kunnskap-og-kontor', page: kunnskapOgKontor, pageEn: kunnskapOgKontorEn },
+  { slug: 'handel', page: handel, pageEn: handelEn },
 ]
 
 /** In the registry's order (content/industries/meta.ts `sortOrder`): menu, cards, footer, sitemap */

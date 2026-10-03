@@ -122,7 +122,8 @@ describe('industry landing pages', () => {
       const tr = moduleFile(l.module).translations?.en
       if (!tr) return
       const namesEn = at(en as Words, `${base}.moduleFactors`) as Record<string, string>
-      for (const id of l.challenges.flatMap((c) => c.module)) expect(namesEn[id], id).toBe(tr.factors[id]?.name)
+      // every factor the page names, a simplified one too: what an English respondent reads above the statements
+      for (const [id, name] of Object.entries(namesEn)) expect(name, id).toBe(tr.factors[id]?.name ?? tr.variants?.forenklet.factors[id]?.name)
     })
   }
 
@@ -133,5 +134,9 @@ describe('industry landing pages', () => {
     }
     expect(LANDINGS).toHaveLength(5)
     for (const r of ['/', '/plattform', '/bruksomrader', '/bransjer', '/priser']) expect(isV3Route(r)).toBe(true)
+  })
+
+  it('is live in both languages for every industry (D-214)', () => {
+    for (const l of LANDINGS) expect(l.live, l.slug).toEqual({ no: true, en: true })
   })
 })
