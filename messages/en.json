@@ -8135,11 +8135,329 @@
       "limited": "You’ve sent several messages in the last hour. Wait a little, or email us.",
       "failed": "The message didn’t go through. Email us at {mail}, and we’ll reply within one working day."
     },
+    "bransje": {
+      "common": {
+        "problem": "Challenge",
+        "solution": "How Orgpuls tackles it",
+        "measured": "Measured by",
+        "coreTag": "Main survey",
+        "sourceMark": "Source {n}",
+        "sources": "Sources",
+        "sourcesLead": "Figures and legal references retrieved {date}. Each source is listed with its year.",
+        "realShot": "A real screenshot from the demo company Nordvik Anlegg AS (Norwegian interface).",
+        "related": "Read on",
+        "facts": "{factors} factors · {statements} statements · about {minutes} min extra"
+      },
+      "handel": {
+        "nav": "Retail",
+        "seo": {
+          "title": "Work environment survey for shops and retail | Orgpuls",
+          "description": "Survey the psychosocial work environment in your shops: violence and threats, lone shifts, difficult customers and staffing. Anonymous, on the phone. 15 days free."
+        },
+        "hero": {
+          "k": "Retail · shops, chains and warehouses",
+          "h1": "A work environment survey for shops that makes shifts safer",
+          "lead": "See where threats, lone shifts and busy hours wear your staff down – for the whole business and for each shop with enough answers. Everyone answers anonymously on their phone, and you get suggested measures and a report showing the survey was done.",
+          "secondary": "See the retail questions",
+          "figure": {
+            "title": "How employees answer",
+            "meta": "On the phone · about 4 + {minutes} min",
+            "caption": "The questionnaire on a phone, one theme per page."
+          },
+          "tiles": [
+            {
+              "t": "{factors} factors for shops and warehouses",
+              "d": "The retail module comes on top of the main survey and takes about {minutes} minutes more."
+            },
+            {
+              "t": "Answers on the phone",
+              "d": "A link by text message or e-mail, or a QR poster in the break room. No app, and nobody needs a work e-mail address."
+            },
+            {
+              "t": "Report for the Labour Inspection Authority",
+              "d": "Survey, risk assessment and measures in one place, with the legal basis for each factor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Everyday work in figures",
+          "title": "The psychosocial work environment in retail: what the figures show",
+          "lead": "Around 350,000 people work in retail in Norway, many of them young and part-time. The figures come from Norwegian research and official statistics.",
+          "items": [
+            {
+              "v": "12 %",
+              "l": "of shop workers had faced threats so serious they were frightened in the past year"
+            },
+            {
+              "v": "32 %",
+              "l": "work alone in the shop – always, often or sometimes"
+            },
+            {
+              "v": "27 %",
+              "l": "have conflicts with customers, against 16 % of all employed"
+            },
+            {
+              "v": "37 %",
+              "l": "in retail work part-time, against 24 % across all industries"
+            }
+          ],
+          "h3": "Much of it never reaches the manager",
+          "note": "Of those who were threatened, 30 % did not tell their employer. Only 5 % of shop managers in the same study had received a report of violence or threats in the past year.",
+          "text": "An anonymous questionnaire picks up what is not reported. The retail module asks about incidents that were never reported, and the answer is shown only as a count for the whole business."
+        },
+        "why": {
+          "k": "Why survey",
+          "title": "Why a shop has to survey its work environment",
+          "lead": "The Working Environment Act applies to every employer with employees, including the shop with 6 staff. For retail, the rules point to the same things as the figures: violence and threats, lone work and staffing.",
+          "law": {
+            "title": "What the law asks of a shop",
+            "pill": "Applies to every employer",
+            "rows": [
+              {
+                "ref": "WEA § 3-1 (2) c",
+                "t": "Identify hazards and problems, assess the risk, make plans and put measures in place."
+              },
+              {
+                "ref": "WEA § 4-3",
+                "t": "The psychosocial work environment must be fully satisfactory, and employees must as far as possible be protected from violence, threats and undue strain from contact with others."
+              },
+              {
+                "ref": "WEA § 4-1 (3)",
+                "t": "Assess whether lone work carries a particular risk, and put the necessary measures in place."
+              },
+              {
+                "ref": "Regulation ch. 3A",
+                "t": "Survey and assess the risk of violence and threats – including lone work, working hours and staffing – and provide measures, training and follow-up."
+              },
+              {
+                "ref": "Regulation § 1A-2",
+                "t": "The survey must be done together with the employees, repeated regularly and documented."
+              }
+            ],
+            "link": "More about the legal requirement"
+          },
+          "tilsyn": {
+            "t": "The Labour Inspection Authority is inspecting retail",
+            "p": "In 2026 the Labour Inspection Authority is following up shops, with a focus on young employees, employment contracts and safety representatives. In earlier inspections it found breaches concerning safety representatives in 44 % of the inspections where this was checked.",
+            "d": "In Orgpuls the safety representative sees the same figures as management, at no extra cost."
+          },
+          "gap": {
+            "t": "Many small businesses have not done it",
+            "p": "Among private businesses with fewer than 20 employees, 28 % run an employee survey. 23 % carry out none of the surveys Fafo asked about – no safety inspections, appraisal talks or questionnaires."
+          },
+          "cost": {
+            "t": "Leaving it costs",
+            "items": [
+              "2 in 5 shop workers on sick leave say the absence is related to their job. Such absence can often be prevented at the workplace.",
+              "Violence and threats lead to more sick leave and make it harder to keep and recruit people, the Labour Inspection Authority writes.",
+              "Many young people take a shop job alongside school or studies, and most do not stay in the industry over time."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Challenges and solutions",
+          "title": "Eight challenges in shops – and how to tackle them",
+          "lead": "The challenges come from Norwegian research and inspections. Under each one you see which questions measure it, and what you get to work with.",
+          "items": [
+            {
+              "t": "Violence and threats in shops – theft and robbery",
+              "looks": "A customer is stopped with goods in their jacket and turns threatening. The employee has seconds to decide: step in, call for help or let it go.",
+              "fig": "12 % had faced threats so serious they were frightened in the past year. In retail, most reports of violence and threats to the Labour Inspection Authority come from grocery shops and petrol stations.",
+              "solve": "The retail module asks whether the routines are known, whether help comes quickly and whether people are followed up afterwards. A separate yes/no question counts incidents that were never reported. The main survey counts how many have experienced violence or threats."
+            },
+            {
+              "t": "Alone on shift at opening, closing and in the evening",
+              "looks": "The last person walks through the shop, cashes up and locks. If something happens, there is nobody to call out to.",
+              "fig": "32 % work alone sometimes or more often. In chain shops with lone work, 1 in 3 had not made a separate risk assessment of it.",
+              "solve": "The factor Alone on shift measures whether it feels safe, whether there are breaks and whether a manager is easy to reach. A yes/no question counts how many have felt unsafe alone – never per shop or shift. The answers are the basis for the risk assessment the law requires."
+            },
+            {
+              "t": "Difficult customers and feelings kept inside",
+              "looks": "The complaint in the checkout queue is met with a smile, and the anger about prices is taken without answering back – shift after shift.",
+              "fig": "27 % have conflicts with customers, and 33 % have to hide negative feelings. Across all employed, the figures are 16 and 17 %.",
+              "solve": "The main survey measures emotional demands with three statements. The retail module adds Boundaries with customers: whether it is fine to end a conversation that crosses the line, and whether the manager backs you up."
+            },
+            {
+              "t": "Too few at work when it is busy",
+              "looks": "Friday afternoon: a long queue, shelves to fill, and one person who also has to answer the phone.",
+              "fig": "Low staffing makes violence and threats harder to prevent and handle, the Labour Inspection Authority writes. The regulation names staffing among the things the risk assessment must look at.",
+              "solve": "The factor Staffing and pace shows whether staffing follows the busy hours, and whether it is clear what can wait. Together with Workload and time pressure you see which shops are stretched too far."
+            },
+            {
+              "t": "Evenings, Saturdays and rotas at short notice",
+              "looks": "The rota arrives late, and a free shift pops up on the phone the same morning.",
+              "fig": "85 % work Saturdays, and 60 % have early evening shifts on weekdays. Working beyond agreed hours is most common in retail and in health and care.",
+              "solve": "The factor Rota and predictability measures whether the rota comes in good time, and whether employees can influence their shifts. Participation and control in the main survey shows whether they have a say."
+            },
+            {
+              "t": "Part-time, young and new staff who are soon on their own",
+              "looks": "A student takes Saturday shifts, works a few hours a week and rarely meets the others.",
+              "fig": "37 % in retail work part-time, and 1 in 4 under 20 hours a week. 28 % of those who work alone have had no training in what to do if something happens.",
+              "solve": "The survey goes out by text message or QR poster, so the Saturday helper answers as easily as the shop manager. It stays open for 14 days, so every shift has time to answer. Training and new staff and Position and belonging show whether new people are welcomed."
+            },
+            {
+              "t": "Heavy lifting and long hours on your feet",
+              "looks": "Deliveries with heavy boxes, restocking on your knees and a whole shift standing at the till.",
+              "fig": "73 % work standing, against 35 % of all employed. 22 % do awkward lifts, against 14 %.",
+              "solve": "The factor Physical work and equipment shows whether lifting aids exist, whether there is time to use them, and whether employees can vary their working position – per shop and warehouse."
+            },
+            {
+              "t": "Unwanted sexual attention from customers",
+              "looks": "Comments across the counter, or a customer who comes back again and again. Many say nothing.",
+              "fig": "16 % had experienced unwanted sexual attention in the past year. Only 1 in 3 of them told their employer.",
+              "solve": "The main survey asks anonymously about offensive behaviour and measures integrity and dignity. Boundaries with customers asks whether sexual comments and touching are taken seriously. The law says you must prevent harassment, including from customers."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "sikkerhet_tyveri_trusler": "Safety during theft, threats and robbery",
+          "alene_pa_vakt": "Alone on shift",
+          "grenser_mot_kunder": "Boundaries with customers",
+          "bemanning_og_tempo": "Staffing and pace",
+          "vaktplan": "Rota and predictability",
+          "stilling_og_tilhorighet": "Position and belonging",
+          "opplaering": "Training and new staff",
+          "fysisk_arbeid": "Physical work and equipment"
+        },
+        "moduleTag": "Retail module",
+        "proof": {
+          "k": "What it looks like",
+          "title": "From answers to measures in one tool",
+          "lead": "The pictures are real screenshots from our demo company, Nordvik Anlegg AS, which does not use the retail module. The retail module's factors get suggested measures of their own, with an owner, a deadline and a new measurement in the pulse.",
+          "blocks": [
+            {
+              "k": "Measures",
+              "h3": "Every finding becomes a measure with an owner and a deadline",
+              "ticks": [
+                "Three suggested measures per factor, written for shops – such as a fixed break and check-in for lone shifts",
+                "Every measure gets an owner and a deadline",
+                "The next pulse measures whether it worked"
+              ],
+              "caption": "The measures board in Orgpuls."
+            },
+            {
+              "k": "Report",
+              "h3": "The report the Labour Inspection Authority asks for",
+              "ticks": [
+                "Survey, risk assessment and measures in one place, with dates",
+                "The legal basis for each factor",
+                "The retail module gets its own part of the report",
+                "Download it as a PDF the day someone asks"
+              ],
+              "caption": "The report, part 3: the survey."
+            }
+          ]
+        },
+        "steps": {
+          "k": "Getting started",
+          "title": "From organisation number to report in four steps",
+          "items": [
+            {
+              "t": "Register your business",
+              "d": "Enter your organisation number, and we fetch name, address and industry from the Brønnøysund Register Centre. If your industry code is retail, Orgpuls suggests the retail module."
+            },
+            {
+              "t": "Add your employees",
+              "d": "Make one group per shop or warehouse. Send the link by text message or e-mail, or put up the QR poster."
+            },
+            {
+              "t": "See the results",
+              "d": "Each factor gets a score from 0 to 100 in green, yellow or red – for the whole business and for each shop with enough answers."
+            },
+            {
+              "t": "Choose measures and follow up",
+              "d": "Pick from the suggestions, give each measure an owner and a deadline, and let the pulse measure whether it worked. The report updates itself."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymity",
+          "title": "Anonymous – even in a small shop",
+          "lead": "No single answer can be traced back to a person. That is built into how answers are stored, not just promised in a privacy notice.",
+          "items": [
+            {
+              "t": "5 answers by default",
+              "d": "No group is shown until at least 5 have answered. Small teams can lower the limit to 3, never below. The fewer the answers, the easier it is to recognise who said what."
+            },
+            {
+              "t": "Shops with few answers",
+              "d": "A shop with too few answers is not shown as a group of its own, but its answers count in the figures for the whole business."
+            },
+            {
+              "t": "The yes/no questions",
+              "d": "The questions about unsafe lone shifts and unreported incidents are shown only as a count for the whole business – never per shop or shift."
+            },
+            {
+              "t": "The shop manager sees their shop",
+              "d": "A department manager sees only their own group. The safety representative sees the same figures as management."
+            }
+          ],
+          "link": "Read about privacy and anonymity"
+        },
+        "faq": {
+          "k": "Questions and answers",
+          "title": "What shop managers ask",
+          "items": [
+            {
+              "q": "How long does it take employees?",
+              "a": "The main survey takes about 4 minutes, and the retail module about 3 minutes more. The survey stays open for 14 days, so every shift has time to answer."
+            },
+            {
+              "q": "What does it cost?",
+              "a": "Small costs NOK 265 a month for up to 25 employees, and Usual NOK 565 for 26–100 employees. The retail module is included in both. Prices exclude VAT, there is no lock-in, and the first 15 days are free."
+            },
+            {
+              "q": "Is it anonymous when the shop has only 6 employees?",
+              "a": "Yes. By default no group is shown until at least 5 have answered, and a shop with fewer answers only counts in the figures for the whole business. Small teams can lower the limit to 3, but the fewer the answers, the easier it is to recognise who said what."
+            },
+            {
+              "q": "Many employees have no work e-mail or PC. Does it work?",
+              "a": "Yes. Send the link by text message, or put up the QR poster in the break room. The employee scans the code, enters a mobile number or e-mail address and gets their own link. Everything works on a phone."
+            },
+            {
+              "q": "Can employees answer in languages other than Norwegian?",
+              "a": "The questionnaire is available in Norwegian and English. English is offered when every question in the survey has an approved translation. More languages are not ready yet."
+            },
+            {
+              "q": "We are a chain with many shops. Does it fit?",
+              "a": "Yes. Make one group per shop, and you see the results for each shop with enough answers, and the shop manager can see their own. If the shops are separate companies, or you have more than 100 employees, you get a separate offer on the Several companies plan."
+            },
+            {
+              "q": "Is the retail module fully tested?",
+              "a": "It is built on Norwegian research and inspections, but it is not validated yet. That is why its risk thresholds are marked provisional in the results. The main survey is built on QPS Nordic."
+            },
+            {
+              "q": "Will this hold up if the Labour Inspection Authority visits?",
+              "a": "Orgpuls covers the survey and risk assessment of the psychosocial work environment. The report brings together survey, risk assessment, measures and follow-up, with dates. Incident handling, safety inspections and employment contracts live elsewhere, and the Labour Inspection Authority expects the survey to draw on several sources – a questionnaire is one of them."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "All the questions in the retail module",
+          "lovkrav": "The legal requirement explained",
+          "priser": "Pricing",
+          "smaa": "Work environment surveys for small businesses"
+        },
+        "sources": {
+          "fafo": "Fafo note 2024:17: Arbeid utenom ordinær dagtid – detaljhandel (Andersen and Nergaard), a survey of 6,198 shop workers in the Handel og Kontor union and 700 businesses, autumn 2023",
+          "fafo_merarbeid": "Fafo report 2026:10: Merarbeid i norsk arbeidsliv (Nergaard, Andersen and Bøckmann)",
+          "fafo_verneombud": "Fafo report 2025:10: Kartlegging av verneombudenes arbeid (Andersen, Bråten and Huseby), a survey of 1,200 heads of businesses",
+          "fafo_senior": "Fafo, fact sheet March 2023: Seniorer i varehandelen (Hilsen)",
+          "stami": "STAMI, NOA: Fakta om arbeidsmiljøet innen butikkhandel, figures from the Norwegian Living Conditions Survey on the Work Environment 2022",
+          "ssb": "Statistics Norway, table 07203: Employed persons by industry and full-time/part-time (LFS), 2025",
+          "at_tilsyn": "Norwegian Labour Inspection Authority: Arbeidstilsynet fører tilsyn med varehandel, press release 1 July 2026",
+          "at_vold": "Norwegian Labour Inspection Authority: Vold og trusler i arbeidslivet, guidance",
+          "at_kompass": "Norwegian Labour Inspection Authority, Kompass no. 4 2026: deaths and injuries from violence and threats in Norwegian land-based working life",
+          "lovdata_aml": "Lovdata: Working Environment Act sections 3-1, 4-1 and 4-3",
+          "lovdata_forskrift": "Lovdata: Regulations concerning the performance of work, chapters 1A and 3A (in force 1 January 2026)"
+        }
+      }
+    },
     "bransjer": {
       "crumb": "Industries",
-      "h1": "Survey the risks in your own industry.",
-      "lead": "The main survey covers what applies to every workplace. For industries with their own risks, an industry module adds statements and measures – also for the care home or the building firm with 15 employees.",
-      "toModules": "See the modules",
+      "h1": "A work environment survey that knows your industry",
+      "lead": "The main survey covers what applies to every workplace. An industry module also asks about what is most risky where you work – lone shifts in shops, violence in care, time pressure on building sites – and suggests measures that fit your everyday work.",
+      "toModules": "Find your industry",
       "how": {
         "pastander": {
           "t": "More statements",
@@ -8263,6 +8581,74 @@
             "d": "Shifts and physical work. A short survey on the phone, and steady follow-up of freedom to speak up."
           }
         }
+      },
+      "why": {
+        "k": "Why an industry module",
+        "problem": "The challenge",
+        "solution": "With Orgpuls",
+        "title": "What a general survey does not ask",
+        "lead": "The law requires you to survey the risk where it is. An industry module does that without you writing your own questions.",
+        "cards": [
+          {
+            "t": "Risk differs from industry to industry",
+            "p": "In shops many stand alone at the till, in care staff meet violence from service users, and on building sites time pressure is a safety issue.",
+            "s": "Each module adds 8 factors or more for the industry's own risks, on top of the main survey's 11."
+          },
+          {
+            "t": "The law points to the industry's risks",
+            "p": "The regulation requires a separate risk assessment of violence and threats, and the Working Environment Act § 4-1 one of lone work. Both have to show up in the survey.",
+            "s": "The report shows the legal basis for each factor, and the module gets its own part of the report."
+          },
+          {
+            "t": "Measures have to fit everyday work",
+            "p": "«Better communication» does little for the person closing the shop alone at nine in the evening.",
+            "s": "Each factor has 3 suggested measures written for the industry, and the pulse measures whether a measure worked."
+          }
+        ]
+      },
+      "steps": {
+        "k": "How an industry module works",
+        "title": "One survey, two parts",
+        "items": [
+          {
+            "t": "The main survey",
+            "d": "33 statements on 11 factors, the same for everyone, so you can compare figures over time. About 4 minutes."
+          },
+          {
+            "t": "The industry module",
+            "d": "The industry's statements come in the same questionnaire, on the same scale. About 3–7 minutes more."
+          },
+          {
+            "t": "Results, measures and report",
+            "d": "The module's factors get the same 0–100 index, suggested measures of their own and their own part of the report."
+          }
+        ]
+      },
+      "faq": {
+        "k": "Questions and answers",
+        "title": "About the industry modules",
+        "items": [
+          {
+            "q": "Does an industry module cost extra?",
+            "a": "No. The industry modules are included in every plan, from NOK 265 a month excluding VAT."
+          },
+          {
+            "q": "How do we get the right module?",
+            "a": "Orgpuls suggests the module from your industry code in the Brønnøysund Register Centre. You can choose another module, or none, under Setup."
+          },
+          {
+            "q": "Do we have to use an industry module?",
+            "a": "No. The main survey covers WEA § 4-3 on its own. The module goes deeper where your industry has risks of its own."
+          },
+          {
+            "q": "Does the survey get much longer?",
+            "a": "About 3 to 7 minutes more, depending on the module. The main survey takes about 4 minutes."
+          },
+          {
+            "q": "Is it anonymous in small teams?",
+            "a": "Yes. By default no group is shown until at least 5 have answered. Small teams can lower the limit to 3, but the fewer the answers, the easier it is to recognise who said what."
+          }
+        ]
       }
     },
     "pris": {
@@ -11089,6 +11475,8 @@
           "bruksomrader": "/bruksomrader · inspection, verneombud and AMU",
           "plattform": "/plattform · the report and the legal basis",
           "claims": "Short legal claims across the site",
+          "handel": "/handel · the law card, the inspection, the figures and the claims about anonymity",
+          "bransjer": "/bransjer · why an industry module, and the questions and answers",
           "terms": "Prices and terms of purchase"
         },
         "doc": {

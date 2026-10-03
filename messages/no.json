@@ -8135,11 +8135,329 @@
       "limited": "Du har sendt flere meldinger den siste timen. Vent litt, eller skriv til oss på e-post.",
       "failed": "Meldingen kom ikke fram. Skriv til oss på {mail}, så svarer vi innen én virkedag."
     },
+    "bransje": {
+      "common": {
+        "problem": "Utfordring",
+        "solution": "Slik tar Orgpuls tak i det",
+        "measured": "Måles med",
+        "coreTag": "Hovedundersøkelsen",
+        "sourceMark": "Kilde {n}",
+        "sources": "Kilder",
+        "sourcesLead": "Tallene og lovhenvisningene er hentet {date}. Hver kilde står med årstall.",
+        "realShot": "Ekte skjermbilde fra demo-virksomheten Nordvik Anlegg AS.",
+        "related": "Les videre",
+        "facts": "{factors} faktorer · {statements} påstander · ca. {minutes} min ekstra"
+      },
+      "handel": {
+        "nav": "Handel",
+        "seo": {
+          "title": "Arbeidsmiljøkartlegging for butikk og varehandel | Orgpuls",
+          "description": "Kartlegg det psykososiale arbeidsmiljøet i butikken: vold og trusler, alenevakter, krevende kunder og bemanning. Anonymt på mobilen. 15 dager gratis."
+        },
+        "hero": {
+          "k": "Handel · butikk, kjede og lager",
+          "h1": "Arbeidsmiljø­kartlegging for butikk som gjør vaktene tryggere",
+          "lead": "Se hvor trusler, alenevakter og travle timer sliter på de ansatte – for hele virksomheten og for hver butikk med nok svar. Alle svarer anonymt på mobilen, og dere får forslag til tiltak og en rapport som viser at kartleggingen er gjort.",
+          "secondary": "Se spørsmålene for handel",
+          "figure": {
+            "title": "Slik svarer de ansatte",
+            "meta": "På mobilen · ca. 4 + {minutes} min",
+            "caption": "Spørreskjemaet på mobil, ett tema per side."
+          },
+          "tiles": [
+            {
+              "t": "{factors} faktorer for butikk og lager",
+              "d": "Handel-modulen kommer i tillegg til hovedundersøkelsen og tar ca. {minutes} minutter ekstra."
+            },
+            {
+              "t": "Svar på mobilen",
+              "d": "Lenke på SMS eller e-post, eller QR-plakat på pauserommet. Ingen app, og ingen trenger jobb-e-post."
+            },
+            {
+              "t": "Rapport for Arbeidstilsynet",
+              "d": "Kartlegging, risikovurdering og tiltak samlet, med hjemmel for hver faktor."
+            }
+          ]
+        },
+        "stats": {
+          "k": "Hverdagen i tall",
+          "title": "Psykososialt arbeidsmiljø i varehandelen: dette viser tallene",
+          "lead": "Rundt 350 000 mennesker jobber i varehandelen, mange av dem unge og på deltid. Tallene er hentet fra norsk forskning og offentlig statistikk.",
+          "items": [
+            {
+              "v": "12 %",
+              "l": "av butikkansatte hadde det siste året opplevd trusler så alvorlige at de ble redde"
+            },
+            {
+              "v": "32 %",
+              "l": "jobber alene i butikken – alltid, ofte eller noen ganger"
+            },
+            {
+              "v": "27 %",
+              "l": "opplever konflikter med kunder, mot 16 % av alle sysselsatte"
+            },
+            {
+              "v": "37 %",
+              "l": "i varehandelen jobber deltid, mot 24 % i alle næringer"
+            }
+          ],
+          "h3": "Mye når aldri fram til lederen",
+          "note": "Av dem som ble truet, meldte 30 % ikke fra til arbeidsgiver. Bare 5 % av butikklederne i samme undersøkelse hadde fått et varsel om vold eller trusler det siste året.",
+          "text": "Et anonymt spørreskjema fanger det som ikke blir meldt. Handel-modulen spør om hendelser som aldri ble meldt, og svaret vises bare som antall for hele virksomheten."
+        },
+        "why": {
+          "k": "Hvorfor kartlegge",
+          "title": "Hvorfor butikken må kartlegge arbeidsmiljøet",
+          "lead": "Arbeidsmiljøloven gjelder alle arbeidsgivere med ansatte, også butikken med 6 ansatte. For handel peker regelverket på det samme som tallene: vold og trusler, alenearbeid og bemanning.",
+          "law": {
+            "title": "Det loven krever av butikken",
+            "pill": "Gjelder alle med ansatte",
+            "rows": [
+              {
+                "ref": "aml § 3-1 (2) c",
+                "t": "Kartlegg farer og problemer, vurder risikoen, lag planer og sett i verk tiltak."
+              },
+              {
+                "ref": "aml § 4-3",
+                "t": "Det psykososiale arbeidsmiljøet skal være fullt forsvarlig, og de ansatte skal så langt det er mulig beskyttes mot vold, trusler og uheldige belastninger fra kontakt med andre."
+              },
+              {
+                "ref": "aml § 4-1 (3)",
+                "t": "Vurder om det er særlig risiko ved alenearbeid, og sett i verk tiltakene som trengs."
+              },
+              {
+                "ref": "Forskriften kap. 3A",
+                "t": "Kartlegg og risikovurder vold og trusler – blant annet alenearbeid, arbeidstid og bemanning – og sørg for tiltak, opplæring og oppfølging."
+              },
+              {
+                "ref": "Forskriften § 1A-2",
+                "t": "Kartleggingen skal gjøres sammen med de ansatte, gjentas regelmessig og dokumenteres."
+              }
+            ],
+            "link": "Les mer om lovkravet"
+          },
+          "tilsyn": {
+            "t": "Arbeidstilsynet fører tilsyn med varehandelen",
+            "p": "I 2026 følger Arbeidstilsynet opp butikker med søkelys på unge ansatte, arbeidsavtaler og verneombud. I tidligere tilsyn fant de avvik knyttet til verneombud i 44 % av tilsynene der det ble kontrollert.",
+            "d": "I Orgpuls ser verneombudet de samme tallene som ledelsen, uten ekstra kostnad."
+          },
+          "gap": {
+            "t": "Mange små virksomheter har ikke gjort det",
+            "p": "Blant private virksomheter med færre enn 20 ansatte gjennomfører 28 % en medarbeiderundersøkelse. 23 % gjør ingen av kartleggingene Fafo spurte om – verken vernerunder, medarbeidersamtaler eller undersøkelser."
+          },
+          "cost": {
+            "t": "Det koster å la det ligge",
+            "items": [
+              "2 av 5 i butikkhandelen med sykefravær sier at fraværet har sammenheng med jobben. Slikt fravær kan ofte forebygges på arbeidsplassen.",
+              "Vold og trusler gir mer sykefravær og gjør det vanskeligere å beholde og rekruttere folk, skriver Arbeidstilsynet.",
+              "Mange unge tar butikkjobb ved siden av skole eller studier, og de fleste blir ikke i bransjen over tid."
+            ]
+          }
+        },
+        "challenges": {
+          "k": "Utfordringer og løsninger",
+          "title": "Åtte utfordringer i butikk – og hvordan dere tar tak i dem",
+          "lead": "Utfordringene er hentet fra norsk forskning og tilsyn. Under hver står det hvilke spørsmål som måler den, og hva dere får å jobbe med.",
+          "items": [
+            {
+              "t": "Vold og trusler i butikk – ved tyveri og ran",
+              "looks": "En kunde blir stoppet med varer i jakka og blir truende. Den ansatte må bestemme seg på sekunder: gripe inn, tilkalle hjelp eller la det gå.",
+              "fig": "12 % hadde det siste året opplevd trusler så alvorlige at de ble redde. Flest varsler til Arbeidstilsynet om vold og trusler i varehandelen kommer fra dagligvarebutikker og bensinstasjoner.",
+              "solve": "Handel-modulen spør om rutinene er kjent, om hjelpen kommer raskt og om dere blir fulgt opp etterpå. Et eget ja/nei-spørsmål teller hendelser som ikke ble meldt. Hovedundersøkelsen teller hvor mange som har opplevd vold eller trusler."
+            },
+            {
+              "t": "Alene på vakt ved åpning, stenging og kveld",
+              "looks": "Den siste går gjennom butikken, teller opp kassa og låser. Skjer det noe, er det ingen å rope på.",
+              "fig": "32 % jobber alene av og til eller oftere. I kjedebutikker med alenearbeid hadde 1 av 3 ikke gjort en egen risikovurdering av det.",
+              "solve": "Faktoren Alene på vakt måler om det er trygt, om det blir pauser og om leder er lett å nå. Et ja/nei-spørsmål teller hvor mange som har følt seg utrygge alene – aldri per butikk eller vakt. Svarene er grunnlaget for risikovurderingen loven krever."
+            },
+            {
+              "t": "Krevende kunder og følelser som må holdes inne",
+              "looks": "Klagen i kassakøen tas med et smil, og kjeften over prisene tas imot uten å svare igjen – vakt etter vakt.",
+              "fig": "27 % opplever konflikter med kunder, og 33 % må skjule negative følelser. Blant alle sysselsatte er tallene 16 og 17 %.",
+              "solve": "Hovedundersøkelsen måler emosjonelle krav med tre påstander. Handel-modulen legger til Grenser mot kunder: om det er greit å avslutte en samtale som går over grensen, og om lederen stiller opp."
+            },
+            {
+              "t": "For få på jobb når det er travelt",
+              "looks": "Fredag ettermiddag: lang kø, hyller som skal fylles, og én som også skal svare på telefonen.",
+              "fig": "Lav bemanning gjør det vanskeligere å forebygge og håndtere vold og trusler, skriver Arbeidstilsynet. Forskriften nevner bemanning blant det risikovurderingen skal se på.",
+              "solve": "Faktoren Bemanning og tempo viser om bemanningen følger de travle timene, og om det er tydelig hva som kan vente. Sammen med Arbeidsmengde og tidspress ser dere hvilke butikker som strekker seg for langt."
+            },
+            {
+              "t": "Kvelder, lørdager og vaktplan på kort varsel",
+              "looks": "Vaktplanen kommer sent, og en ledig vakt dukker opp på telefonen samme morgen.",
+              "fig": "85 % jobber lørdager, og 60 % har vakter tidlig kveld på hverdager. Arbeid utover avtalt tid er vanligst i varehandelen og i helse og omsorg.",
+              "solve": "Faktoren Vaktplan og forutsigbarhet måler om planen kommer i god tid, og om de ansatte kan påvirke vaktene. Medvirkning og kontroll i hovedundersøkelsen viser om de har noe de skulle ha sagt."
+            },
+            {
+              "t": "Deltid, unge og nye som fort står alene",
+              "looks": "En student tar lørdagsvakter, jobber noen timer i uka og møter sjelden de andre.",
+              "fig": "37 % i varehandelen jobber deltid, og 1 av 4 under 20 timer i uka. 28 % av dem som jobber alene, har ikke fått opplæring i hva de skal gjøre hvis noe skjer.",
+              "solve": "Undersøkelsen går på SMS eller QR-plakat, så ekstrahjelpen svarer like lett som butikksjefen. Den står åpen i 14 dager, så alle vakter rekker å svare. Opplæring og nye på jobb og Stilling og tilhørighet viser om de nye blir tatt imot."
+            },
+            {
+              "t": "Tunge løft og mange timer på beina",
+              "looks": "Varemottak med tunge kasser, påfylling på huk og en hel vakt stående i kassa.",
+              "fig": "73 % jobber stående, mot 35 % av alle sysselsatte. 22 % gjør ubekvemme løft, mot 14 %.",
+              "solve": "Faktoren Fysisk arbeid og hjelpemidler viser om hjelpemidlene finnes, om det er tid til å bruke dem, og om de ansatte kan variere arbeidsstillingen – per butikk og lager."
+            },
+            {
+              "t": "Uønsket seksuell oppmerksomhet fra kunder",
+              "looks": "Kommentarer over disken, eller en kunde som kommer tilbake igjen og igjen. Mange lar være å si fra.",
+              "fig": "16 % hadde opplevd uønsket seksuell oppmerksomhet det siste året. Bare 1 av 3 av dem meldte fra til arbeidsgiver.",
+              "solve": "Hovedundersøkelsen spør anonymt om krenkende atferd og måler integritet og verdighet. Grenser mot kunder spør om seksuelle kommentarer og berøring blir tatt på alvor. Loven sier at dere skal forebygge trakassering, også fra kunder."
+            }
+          ]
+        },
+        "moduleFactors": {
+          "sikkerhet_tyveri_trusler": "Sikkerhet ved tyveri, trusler og ran",
+          "alene_pa_vakt": "Alene på vakt",
+          "grenser_mot_kunder": "Grenser mot kunder",
+          "bemanning_og_tempo": "Bemanning og tempo",
+          "vaktplan": "Vaktplan og forutsigbarhet",
+          "stilling_og_tilhorighet": "Stilling og tilhørighet",
+          "opplaering": "Opplæring og nye på jobb",
+          "fysisk_arbeid": "Fysisk arbeid og hjelpemidler"
+        },
+        "moduleTag": "Handel-modulen",
+        "proof": {
+          "k": "Slik ser det ut",
+          "title": "Fra svar til tiltak i samme verktøy",
+          "lead": "Bildene er ekte skjermbilder fra demo-virksomheten vår, Nordvik Anlegg AS, som ikke bruker handel-modulen. Handel-modulens faktorer får egne forslag til tiltak, med eier, frist og ny måling i pulsen.",
+          "blocks": [
+            {
+              "k": "Tiltak",
+              "h3": "Hvert funn blir et tiltak med eier og frist",
+              "ticks": [
+                "Tre forslag til tiltak per faktor, skrevet for butikk – for eksempel «Pause og innsjekk» for alenevakter",
+                "Hvert tiltak får en eier og en frist",
+                "Neste puls måler om tiltaket virket"
+              ],
+              "caption": "Tiltakstavla i Orgpuls."
+            },
+            {
+              "k": "Rapport",
+              "h3": "Rapporten Arbeidstilsynet spør etter",
+              "ticks": [
+                "Kartlegging, risikovurdering og tiltak samlet, med dato",
+                "Hjemmel for hver faktor",
+                "Handel-modulen får en egen del i rapporten",
+                "Last den ned som PDF den dagen noen spør"
+              ],
+              "caption": "Rapporten, del 3: kartleggingen."
+            }
+          ]
+        },
+        "steps": {
+          "k": "Slik kommer dere i gang",
+          "title": "Fra organisasjonsnummer til rapport i fire steg",
+          "items": [
+            {
+              "t": "Registrer virksomheten",
+              "d": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Er bransjekoden handel, foreslår Orgpuls handel-modulen."
+            },
+            {
+              "t": "Legg inn de ansatte",
+              "d": "Lag én gruppe per butikk eller lager. Send lenken på SMS eller e-post, eller heng opp QR-plakaten."
+            },
+            {
+              "t": "Se resultatet",
+              "d": "Hver faktor får en skår fra 0 til 100 i grønt, gult eller rødt – for hele virksomheten og for hver butikk med nok svar."
+            },
+            {
+              "t": "Velg tiltak og følg opp",
+              "d": "Velg blant forslagene, gi tiltaket en eier og en frist, og la pulsen måle om det virket. Rapporten oppdaterer seg selv."
+            }
+          ]
+        },
+        "trust": {
+          "k": "Anonymitet",
+          "title": "Anonymt – også i en liten butikk",
+          "lead": "Ingen enkeltsvar kan spores tilbake til en person. Det er bygd inn i måten svarene lagres på, ikke bare lovet i en personvernerklæring.",
+          "items": [
+            {
+              "t": "5 svar som standard",
+              "d": "Ingen gruppe vises før minst 5 har svart. Små team kan senke grensen til 3, aldri lavere. Jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+            },
+            {
+              "t": "Butikker med få svar",
+              "d": "En butikk med for få svar vises ikke som egen gruppe, men svarene teller med i tallene for hele virksomheten."
+            },
+            {
+              "t": "Ja/nei-spørsmålene",
+              "d": "Spørsmålene om utrygge alenevakter og hendelser som ikke ble meldt, vises bare som antall for hele virksomheten – aldri per butikk eller vakt."
+            },
+            {
+              "t": "Butikksjefen ser sin butikk",
+              "d": "En avdelingsleder ser bare sin egen gruppe. Verneombudet ser de samme tallene som ledelsen."
+            }
+          ],
+          "link": "Les om personvern og anonymitet"
+        },
+        "faq": {
+          "k": "Spørsmål og svar",
+          "title": "Det butikkledere lurer på",
+          "items": [
+            {
+              "q": "Hvor lang tid tar det for de ansatte?",
+              "a": "Hovedundersøkelsen tar rundt 4 minutter, og handel-modulen rundt 3 minutter til. Undersøkelsen står åpen i 14 dager, så alle vakter rekker å svare."
+            },
+            {
+              "q": "Hva koster det?",
+              "a": "Liten koster 265 kr i måneden for til og med 25 ansatte, og Vanlig 565 kr for 26–100 ansatte. Handel-modulen er med i begge. Prisene er eks. mva., uten bindingstid, og de første 15 dagene er gratis."
+            },
+            {
+              "q": "Er det anonymt når butikken bare har 6 ansatte?",
+              "a": "Ja. Som standard vises ingen gruppe før minst 5 har svart, og en butikk med færre svar teller bare med i tallene for hele virksomheten. Små team kan senke grensen til 3, men jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+            },
+            {
+              "q": "Mange ansatte har ikke jobb-e-post eller PC. Går det?",
+              "a": "Ja. Send lenken på SMS, eller heng opp QR-plakaten på pauserommet. Den ansatte skanner koden, skriver inn mobilnummer eller e-post og får sin egen lenke. Alt fungerer på mobilen."
+            },
+            {
+              "q": "Kan de ansatte svare på andre språk enn norsk?",
+              "a": "Spørreskjemaet finnes på norsk og engelsk. Engelsk tilbys når alle spørsmålene i målingen har en godkjent oversettelse. Flere språk er ikke klare ennå."
+            },
+            {
+              "q": "Vi er en kjede med mange butikker. Passer det?",
+              "a": "Ja. Lag én gruppe per butikk, så ser dere resultatet for hver butikk med nok svar, og butikksjefen kan se sin egen. Er butikkene egne selskaper, eller er dere over 100 ansatte, får dere et eget tilbud i planen Flere selskaper."
+            },
+            {
+              "q": "Er handel-modulen ferdig utprøvd?",
+              "a": "Den bygger på norsk forskning og tilsyn, men er ikke validert ennå. Derfor er risikogrensene merket foreløpig i resultatene. Hovedundersøkelsen er bygd på QPS Nordic."
+            },
+            {
+              "q": "Holder dette hvis Arbeidstilsynet kommer?",
+              "a": "Orgpuls dekker kartleggingen og risikovurderingen av det psykososiale arbeidsmiljøet. Rapporten samler kartlegging, risikovurdering, tiltak og oppfølging med dato. Avvikshåndtering, vernerunder og arbeidsavtaler har dere et annet sted, og Arbeidstilsynet forventer at kartleggingen bygger på flere kilder – en undersøkelse er én av dem."
+            }
+          ]
+        },
+        "related": {
+          "sporsmal": "Alle spørsmålene i handel-modulen",
+          "lovkrav": "Lovkravet forklart",
+          "priser": "Priser",
+          "smaa": "Arbeidsmiljøkartlegging for små bedrifter"
+        },
+        "sources": {
+          "fafo": "Fafo-notat 2024:17: Arbeid utenom ordinær dagtid – detaljhandel (Andersen og Nergaard), spørreundersøkelse blant 6 198 butikkansatte i Handel og Kontor og 700 virksomheter, høsten 2023",
+          "fafo_merarbeid": "Fafo-rapport 2026:10: Merarbeid i norsk arbeidsliv (Nergaard, Andersen og Bøckmann)",
+          "fafo_verneombud": "Fafo-rapport 2025:10: Kartlegging av verneombudenes arbeid (Andersen, Bråten og Huseby), spørreundersøkelse blant 1 200 virksomhetsledere",
+          "fafo_senior": "Fafo, Faktaflak mars 2023: Seniorer i varehandelen (Hilsen)",
+          "stami": "STAMI, NOA: Fakta om arbeidsmiljøet innen butikkhandel, tall fra Levekårsundersøkelsen om arbeidsmiljø 2022",
+          "ssb": "SSB, tabell 07203: Sysselsatte etter næring og heltid/deltid (AKU), 2025",
+          "at_tilsyn": "Arbeidstilsynet: Arbeidstilsynet fører tilsyn med varehandel, pressemelding 1. juli 2026",
+          "at_vold": "Arbeidstilsynet: Vold og trusler i arbeidslivet, veiledning",
+          "at_kompass": "Arbeidstilsynet, Kompass nr. 4 2026: Dødsfall og personskader som følge av vold og trusler i norsk landbasert arbeidsliv",
+          "lovdata_aml": "Lovdata: Arbeidsmiljøloven §§ 3-1, 4-1 og 4-3",
+          "lovdata_forskrift": "Lovdata: Forskrift om utførelse av arbeid, kapittel 1A og 3A (i kraft 1. januar 2026)"
+        }
+      }
+    },
     "bransjer": {
       "crumb": "Bransjer",
-      "h1": "Kartlegg risikoene i deres egen bransje.",
-      "lead": "Hovedundersøkelsen dekker det som gjelder alle arbeidsplasser. For bransjer med egne risikoer legger en bransjemodul til påstander og tiltak – også for den lille butikken, barnehagen eller byggefirmaet med 15 ansatte.",
-      "toModules": "Se modulene",
+      "h1": "Arbeidsmiljø­kartlegging som kjenner bransjen deres",
+      "lead": "Hovedundersøkelsen dekker det som gjelder alle arbeidsplasser. En bransjemodul spør i tillegg om det som er mest risikabelt hos dere – alenevakter i butikken, vold i omsorgen, tidspress på byggeplassen – og gir tiltak som passer hverdagen.",
+      "toModules": "Finn bransjen deres",
       "how": {
         "pastander": {
           "t": "Flere påstander",
@@ -8263,6 +8581,74 @@
             "d": "Skift og fysisk arbeid. Kort undersøkelse på mobil, og fast oppfølging av ytringsklimaet."
           }
         }
+      },
+      "why": {
+        "k": "Hvorfor en bransjemodul",
+        "problem": "Utfordringen",
+        "solution": "Med Orgpuls",
+        "title": "Det en generell undersøkelse ikke spør om",
+        "lead": "Loven krever at dere kartlegger risikoen der den er. En bransjemodul gjør det uten at dere må skrive egne spørsmål.",
+        "cards": [
+          {
+            "t": "Risikoen er ulik fra bransje til bransje",
+            "p": "I butikken står mange alene i kassa, i omsorgen møter de ansatte vold fra brukere, og på byggeplassen er tidspress et sikkerhetsspørsmål.",
+            "s": "Hver modul legger til 8 faktorer eller flere for bransjens egne risikoer, i tillegg til hovedundersøkelsens 11."
+          },
+          {
+            "t": "Loven peker på bransjens risiko",
+            "p": "Forskriften krever en egen risikovurdering av vold og trusler, og arbeidsmiljøloven § 4-1 av alenearbeid. Begge må komme fram i kartleggingen.",
+            "s": "Rapporten viser hjemmelen for hver faktor, og modulen får en egen del i rapporten."
+          },
+          {
+            "t": "Tiltak må passe hverdagen",
+            "p": "«Bedre kommunikasjon» hjelper lite for den som stenger butikken alene klokka ni om kvelden.",
+            "s": "Hver faktor har 3 forslag til tiltak skrevet for bransjen, og pulsen måler om tiltaket virket."
+          }
+        ]
+      },
+      "steps": {
+        "k": "Slik virker en bransjemodul",
+        "title": "Én måling, to deler",
+        "items": [
+          {
+            "t": "Hovedundersøkelsen",
+            "d": "33 påstander om 11 faktorer, de samme for alle, så dere kan sammenligne tallene over tid. Rundt 4 minutter."
+          },
+          {
+            "t": "Bransjemodulen",
+            "d": "Påstandene for bransjen kommer i samme skjema og på samme skala. Ca. 3–7 minutter ekstra."
+          },
+          {
+            "t": "Resultat, tiltak og rapport",
+            "d": "Modulens faktorer får samme indeks fra 0 til 100, egne forslag til tiltak og en egen del i rapporten."
+          }
+        ]
+      },
+      "faq": {
+        "k": "Spørsmål og svar",
+        "title": "Om bransjemodulene",
+        "items": [
+          {
+            "q": "Koster en bransjemodul ekstra?",
+            "a": "Nei. Bransjemodulene er med i alle planer, fra 265 kr i måneden eks. mva."
+          },
+          {
+            "q": "Hvordan får vi riktig modul?",
+            "a": "Orgpuls foreslår modulen ut fra bransjekoden i Brønnøysundregistrene. Dere kan velge en annen modul, eller ingen, under Oppsett."
+          },
+          {
+            "q": "Må vi bruke en bransjemodul?",
+            "a": "Nei. Hovedundersøkelsen dekker aml. § 4-3 alene. Modulen går dypere der bransjen har egne risikoer."
+          },
+          {
+            "q": "Blir undersøkelsen mye lengre?",
+            "a": "Rundt 3 til 7 minutter ekstra, avhengig av modul. Hovedundersøkelsen tar rundt 4 minutter."
+          },
+          {
+            "q": "Er det anonymt i små team?",
+            "a": "Ja. Som standard vises ingen gruppe før minst 5 har svart. Små team kan senke grensen til 3, men jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
+          }
+        ]
       }
     },
     "pris": {
@@ -11089,6 +11475,8 @@
           "bruksomrader": "/bruksomrader · inspection, verneombud and AMU",
           "plattform": "/plattform · the report and the legal basis",
           "claims": "Short legal claims across the site",
+          "handel": "/handel · the law card, the inspection, the figures and the claims about anonymity",
+          "bransjer": "/bransjer · why an industry module, and the questions and answers",
           "terms": "Prices and terms of purchase"
         },
         "doc": {

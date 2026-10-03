@@ -10433,3 +10433,107 @@ Proved in `former_names_invariants.sql` (10 assertions; three through the leader
 `public.conversations`); `entra_import_invariants.sql` deletes its organisation in one statement again.
 Not covered: a removed location's name likewise stops masking (locations have no former names). The DPA
 is unchanged: names are a stated register category, kept for the agreement's term.
+
+## D-207 — /handel and /bransjer as landing pages: a data-driven industry template composed from v3 patterns (2026-10-03)
+
+The owner, 3 October 2026: «Redesign bransjesider, de skal fokusere på hvorfor de trengs og spesifikke
+utfordringer for bransjen og hvordan orgpuls løser de … Start med handel og hovedsiden for bransjer.»
+There is no designed layout for an industry landing page, so the page is composed from the v3 design's
+own blocks (design-reference/orgpuls/nettside-v3), at their values. No new colour, font, radius or
+control; every token is tailwind.config.ts's.
+
+**The template.** `components/industry/IndustryLanding.tsx` draws an industry from
+`content/industries/landing.ts` (which module and core factors measure each challenge, which source
+backs each figure, which real screens prove the claims, live per language) and its messages
+(`site.bransje.<msg>`, labels in `site.bransje.common`). Bygg, helse, barnehage og skole and kontor move
+onto it by adding an entry and messages; the component does not change. Until then they keep the older
+template (`IndustryView`) and their content files, unchanged except one spacing fix below.
+
+**What each block is composed from.**
+- Hero: the Bransjer/Plattform hero in the mint band (crumbs, ink eyebrow, 56 px H1, the yellow «Prøv
+  gratis i 15 dager →» to `#kom-i-gang`, a text link to the question page), Forside's slide picture column
+  (a real screen in an r20 card, `figcaption`), and Bransjer's three tiles.
+- «Hverdagen i tall»: Forside's ink band (pill, H2, four 52 px figures, cream text), with a numbered
+  source marker on every figure.
+- «Hvorfor butikken må kartlegge arbeidsmiljøet»: Forside slide 2's law card (rows on bg, a green mark,
+  here «§»), beside three r20 cards (the inspection on sbg with an ink border, as Forside's emphasised
+  pillar; the small-business gap; the cost).
+- «Åtte utfordringer i butikk»: Forside's problem/solution cards (rust eyebrow, mint foot), two across on
+  Bransjer's sf band, numbered with Plattform's ink step mark; the figure line has a rust rule; the foot
+  names what measures it as chips (module factor on ac, core factor on track).
+- «Fra svar til tiltak i samme verktøy»: Plattform's zigzag cases, with Forside's browser frame around
+  the real `tiltak` and `rapport` shots.
+- «Fra organisasjonsnummer til rapport i fire steg»: Forside's Sløyfen pillars, numbers in the tiles.
+- «Anonymt – også i en liten butikk»: ✓ rows in an r24 sf panel (the start band's frame).
+- FAQ: Pris' disclosures (`components/site/v3/pris/Faq.tsx`), with FAQPage JSON-LD.
+- The shared start band, then «Les videre» and the numbered source list.
+- `/handel` joins `isV3Route` (lib/site/nav.ts, from the registry), so the header's band continues into
+  the hero and «Prøv gratis» targets the start band, as on the five v3 pages.
+
+**/bransjer.** Same hero, new words; «Det en generell undersøkelse ikke spør om» (Forside's
+problem/solution cards) before the module cards; «Én måling, to deler» (Sløyfen pillars) after them;
+«Samme verktøy, ulike hverdager» kept; a FAQ (Pris' pattern, FAQPage JSON-LD) before the start band. The
+module cards are unchanged and still read the registry and the module files. Its share card
+(`public/og/bransjer.png`) is new; `/handel`'s is regenerated with the new H1.
+
+**Pixel gate.** /bransjer is in the v3 gate and changes on purpose. Before: 7.44 % (height 2808 against the
+baseline's 2752; the shipped copy of D-190). After: 13.16 % (height 4348), every band from the hero down
+being the new words and the three new sections — read in the diff and the shot, not loosened. The other
+four pages' captures are byte-identical before and after (Forside 9.3752 %, Plattform 6.6768 %,
+Bruksområder 3.3886 %, Pris 2.0562 %, the same pixel counts as the unchanged build). The gate has no
+claims file; these numbers are the record.
+
+**Facts.** Every figure is from a document fetched and read on 3 October 2026, listed on the page (1–11)
+and in `docs/marketing/handel-sources.md` with the page and the sentence it comes from: Fafo-notat 2024:17
+(Andersen og Nergaard), Fafo-rapport 2026:10 (Nergaard, Andersen og Bøckmann), Fafo-rapport 2025:10
+(Andersen, Bråten og Huseby), Fafo Faktaflak mars 2023 (Hilsen), STAMI/NOA butikkhandel (LKU-A 2022), SSB
+tabell 07203 (AKU 2025), Arbeidstilsynet's press release 1 July 2026, its guidance on violence and threats,
+Kompass nr. 4 2026, and Lovdata (aml §§ 3-1, 4-1, 4-3; forskrift om utførelse av arbeid kap. 1A og 3A). The
+law card reuses /lovkrav's checked wording; aml § 4-1 (3) on lone work is now cited (the old page's item
+said «hjemmel verifiseres»; Lovdata, Fafo and Arbeidstilsynet agree on the paragraph). Left out, with the
+reason in the sources file: a theft figure Fafo states two ways, retail sick leave (below the average),
+turnover (no checkable Norwegian figure), the UK and Danish figures the old page used, and undated
+fact-sheet numbers. No testimonial, logo, customer count or result claim.
+
+**Product claims, and where they are true.**
+- Theft, threats and robbery; lone shifts; customers; staffing; rota; position and belonging; training;
+  physical work: the eight factors and their items and suggested measures in `modules/handel/v1.json`.
+- The two yes/no questions shown only for the whole business: `count_items` HA-T-1, HA-T-2,
+  `anonymity.count_items_reported_at: organisation_only` (and 0090, D-138).
+- The core survey counting violence/threats and offensive behaviour: the extra questions `vold` and
+  `krenkende` (0007, 0009, on by default since 0076).
+- Emotional demands, workload, participation, integrity: `factor.emosjon|mengde|medvirk|integritet`.
+- 5 answers by default, 3 for small teams, never lower: `app.k_floor()` / `app.k_min()` (0150, D-198).
+- SMS, e-mail and the QR poster: `app/(app)/malinger/plakat`, `app/inn/[code]`, `lib/entry/qr.ts`,
+  `supabase/functions/orgpuls-dispatch`. Teams and Slack are not named: both wait for the owner's app
+  registration (D-203, D-205).
+- Module measures with owner and deadline, and the pulse re-measuring them: 0071
+  (`app.round_pulse_modules`), D-115. The report's own part per module: `components/rapport/RapportScreen.tsx`
+  (D-116). The module suggested from NACE 46/47: `content/industries/meta.ts`.
+- Languages: «norsk og engelsk», as D-190 has it. Polish, Ukrainian, Lithuanian, Swedish and Danish are
+  translated but their flags are off in production (`lib/flags.ts`, `lib/i18n/offered.ts`), so the page
+  says more languages are not ready yet.
+- The module is provisional (`validation_status`), and the FAQ says so.
+
+**Not done, on purpose.**
+- English. The English messages are written in full (`site.bransje.handel` in en.json), and en.orgpuls.com
+  shows the page with `?forhandsvis=1`, marked noindex. It is not live there: an English industry page
+  waits for the module file's English translation (D-120, `validate.ts`), and `modules/handel/v1.json`
+  has none (the database holds approved English item translations, but the pages read the file). One
+  switch, `live.en` in the registry, publishes it once the file has them; a unit test holds the rule.
+- A handel-specific product shot. A real one needs a round with the handel module in the design fixture,
+  which is a fixture and database change; the page shows the demo company's real screens and says the
+  company does not use the module.
+- `content/industries/handel.ts` keeps its hero, challenges, law block and FAQ as the record of the old
+  page; the legal review marks its law items unpublished now that the landing's law card (a new unit,
+  `site.handel`) is what /handel shows. The old claims unit stays listed with the question page it
+  shares.
+
+**Also changed.** The older template's source list spaces its items 10 px (was 6): one-line links sat
+23 px apart and axe flagged target-size (WCAG 2.5.8) on /helse-og-omsorg, /barnehage-og-skole and
+/kunnskap-og-kontor. `lib/i18n/site-pages.json` is regenerated.
+
+**Verified** on a production build (hosted env, read-only): tsc, lint, verify:i18n, vitest 783/783, the page
+map and `--check`, the mobile gate at 390 and 360 for /handel, /bransjer, the four other industry pages and
+/handel/sporsmal (no sideways scroll), axe serious/critical 0 on all of them at 1440 and 390 in no and en,
+one H1, no console errors.

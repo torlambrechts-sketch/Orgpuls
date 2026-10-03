@@ -7,6 +7,8 @@
  * A footer entry without `href` is text, not a link; «Vilkår» was one until /vilkar was published
  * (D-194).
  */
+import { LANDINGS } from '@/content/industries/landing'
+
 export type SiteLink = { key: string; href?: string }
 export type FooterColumn = { head: string; links: SiteLink[] }
 
@@ -16,7 +18,12 @@ export type FooterColumn = { head: string; links: SiteLink[] }
  * targets there; every other public page gets the header band with a foot of its own.
  */
 export const V3_ROUTES = ['/', '/plattform', '/bruksomrader', '/bransjer', '/priser'] as const
-export const isV3Route = (pathname: string) => (V3_ROUTES as readonly string[]).includes(pathname)
+/**
+ * The industry pages on the landing template (D-207) are built the same way: a hero in the band,
+ * the start band near the end. The template is the registry's, so a page moved onto it joins here.
+ */
+const LANDING_ROUTES = LANDINGS.map((l) => `/${l.slug}`)
+export const isV3Route = (pathname: string) => (V3_ROUTES as readonly string[]).includes(pathname) || LANDING_ROUTES.includes(pathname)
 
 /**
  * The header's menu: Plattform, Bruksområder, Bransjer, Pris. Bransjer's pages are the industry
