@@ -2,8 +2,8 @@ import { getTranslations } from 'next-intl/server'
 import { SegmentForm, type CrmMessages } from '@/components/admin/CrmForms'
 import type { FieldMessages } from '@/components/admin/CustomFields'
 import { ALink, Card, PageHead, Problem, Table, Td } from '@/components/admin/ui'
-import { isError, whoami } from '@/lib/admin/api'
-import { crmLists, crmSegments, crmStages, type Filter } from '@/lib/admin/crm'
+import { isError } from '@/lib/admin/api'
+import { crmLists, crmSegments, crmStages, may, type Filter } from '@/lib/admin/crm'
 import { conditionText } from '@/lib/admin/crmFieldTypes'
 import { crmFields, liveFields } from '@/lib/admin/crmFields'
 import { AudienceTabs } from '@/components/admin/AudienceTabs'
@@ -19,16 +19,18 @@ export default async function CrmSegments({ searchParams }: { searchParams: Prom
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const fm = t.raw('crmFields') as FieldMessages
-  const [data, who, lists, stageData, fieldData] = await Promise.all([crmSegments(), whoami(), crmLists(), crmStages(), crmFields('contact')])
+  const [data, lists, stageData, fieldData] = await Promise.all([crmSegments(), crmLists(), crmStages(), crmFields('contact')])
   const fields = isError(fieldData) ? [] : liveFields(fieldData, 'contact')
   const stageOptions = isError(stageData) ? [] : stageData.rows.filter((s) => !s.archived).map((s) => ({ key: s.key, name: s.name }))
   const stageName = (k: string) => (isError(stageData) ? k : (stageData.rows.find((s) => s.key === k)?.name ?? k))
   const listOptions = isError(lists) ? [] : lists.rows.filter((l) => !l.archived).map((l) => ({ key: l.key, name: l.name_no }))
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
-  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
+  // what the permission set allows (DEC-31): a new segment needs create, changing one edit, removing it delete
+  const canCreate = may(data.may, 'create')
+  const canEdit = may(data.may, 'edit')
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
   const editing = sp.id ? data.rows.find((s) => s.id === sp.id) : undefined
-  const open = canWrite && (editing || sp.new !== undefined)
+  const open = editing ? canEdit : canCreate && sp.new !== undefined
 
   const describe = (f: Filter, hidden: boolean) => {
     const parts: string[] = []
@@ -52,13 +54,13 @@ export default async function CrmSegments({ searchParams }: { searchParams: Prom
   return (
     <>
       <PageHead title={m.segments.title} lead={m.segments.lead}>
-        {canWrite && !open ? <ALink href="/admin/crm/segments?new">{m.segments.new}</ALink> : null}
+        {canCreate && !open ? <ALink href="/admin/crm/segments?new">{m.segments.new}</ALink> : null}
       </PageHead>
       <AudienceTabs on="segments" />
 
       {open ? (
         <Card title={editing ? m.segments.edit : m.segments.new} className="mb-[16px]" aside={<ALink href="/admin/crm/segments">{m.segments.cancel}</ALink>}>
-          <SegmentForm key={editing?.id ?? 'new'} m={m} common={common} segment={editing} lists={listOptions} stages={stageOptions} fields={fields} fm={fm} />
+          <SegmentForm key={editing?.id ?? 'new'} m={m} common={common} segment={editing} lists={listOptions} stages={stageOptions} fields={fields} fm={fm} canDelete={may(data.may, 'delete')} />
         </Card>
       ) : null}
 
@@ -69,7 +71,7 @@ export default async function CrmSegments({ searchParams }: { searchParams: Prom
         >
           {data.rows.map((s) => (
             <tr key={s.id}>
-              <Td>{canWrite ? <ALink href={`/admin/crm/segments?id=${s.id}`}>{s.name}</ALink> : s.name}</Td>
+              <Td>{canEdit ? <ALink href={`/admin/crm/segments?id=${s.id}`}>{s.name}</ALink> : s.name}</Td>
               <Td wrap>{describe(s.filter, s.hidden_conditions)}</Td>
               <Td>{s.total}</Td>
               <Td>{s.mailable}</Td>

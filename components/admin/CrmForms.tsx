@@ -22,6 +22,9 @@ import {
   type ImportResult,
   type Preview,
 } from '@/lib/admin/crmActions'
+import { LOCALE_REGISTRY } from '@/lib/i18n/locales'
+/** a contact's languages, each by its own name (the product's two platform languages, lib/i18n/locales.ts) */
+const CONTACT_LANGS = LOCALE_REGISTRY.filter((l) => l.platform)
 
 /**
  * The CRM's forms (D-101). Each takes the admin's `crm` messages whole; the admin is in
@@ -138,8 +141,11 @@ export function ContactForm({
         <label className="block">
           <span className={label}>{m.add.lang}</span>
           <select name="lang" value={lang} onChange={(e) => setLang(e.target.value)} className={input}>
-            <option value="no">Norsk</option>
-            <option value="en">English</option>
+            {CONTACT_LANGS.map((l) => (
+              <option key={l.code} value={l.code}>
+                {l.nativeName}
+              </option>
+            ))}
           </select>
         </label>
       </div>
@@ -339,9 +345,12 @@ export function SegmentForm({
   stages = [],
   fields = [],
   fm,
+  canDelete = false,
 }: {
   m: CrmMessages
   common: Common
+  /** whether the permission set allows deleting a segment (DEC-31): the delete is offered only then */
+  canDelete?: boolean
   /** hidden_conditions: the segment filters on a field hidden from the viewer, who may use it but not change it (0197) */
   segment?: { id: string; name: string; filter: Filter; hidden_conditions?: boolean }
   lists?: { key: string; name: string }[]
@@ -413,8 +422,11 @@ export function SegmentForm({
           <span className={label}>{m.segments.lang}</span>
           <select name="lang" value={lang} onChange={(e) => setLang(e.target.value)} className={input}>
             <option value="">{m.segments.anyLang}</option>
-            <option value="no">Norsk</option>
-            <option value="en">English</option>
+            {CONTACT_LANGS.map((l) => (
+              <option key={l.code} value={l.code}>
+                {l.nativeName}
+              </option>
+            ))}
           </select>
         </label>
         <Text name="min_employees" labelText={`${m.segments.employees}: ${m.segments.min}`} value={min} set={setMin} type="number" />
@@ -477,7 +489,7 @@ export function SegmentForm({
           </p>
         )
       ) : null}
-      {segment ? (
+      {segment && canDelete ? (
         <span className="flex flex-wrap items-center gap-[10px] border-t border-line pt-[12px]">
           <Button
             size="sm"
@@ -522,8 +534,11 @@ export function NewCampaignForm({ m, common }: { m: CrmMessages; common: Common 
       <label className="block">
         <span className={label}>{m.campaigns.lang}</span>
         <select name="lang" value={lang} onChange={(e) => setLang(e.target.value)} className={input}>
-          <option value="no">Norsk</option>
-          <option value="en">English</option>
+          {CONTACT_LANGS.map((l) => (
+            <option key={l.code} value={l.code}>
+              {l.nativeName}
+            </option>
+          ))}
         </select>
       </label>
       <Button type="submit" size="sm" disabled={pending}>

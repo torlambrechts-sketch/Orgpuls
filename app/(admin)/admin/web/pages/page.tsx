@@ -30,7 +30,7 @@ export default async function AnalyticsPages({ searchParams }: { searchParams: P
         labels={{ period: a('period'), days: (n) => a('days', { count: n }), export: a('export') }}
       />
 
-      <div className="overflow-x-auto rounded-panel border border-line bg-sf">
+      <div className="overflow-x-auto rounded-panel border border-line bg-sf" tabIndex={0} role="region" aria-label={p('title')}>
         <div className="min-w-[700px]">
           <div aria-hidden="true" className="flex items-center gap-[14px] border-b border-line px-[20px] pb-[10px] pt-[14px] text-[11px] uppercase tracking-[0.09em] text-mut">
             <span className="flex-[2]">{p('col.page')}</span>

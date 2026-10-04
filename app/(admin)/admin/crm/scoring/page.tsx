@@ -2,7 +2,8 @@ import type { Route } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { BTN, PageHead, Problem } from '@/components/admin/ui'
-import { isError } from '@/lib/admin/api'
+import { canSee } from '@/lib/admin/access'
+import { isError, whoami } from '@/lib/admin/api'
 import { DOT_CLASS, type DotTone } from '@/lib/admin/dots'
 import { leadScores, type Scored } from '@/lib/admin/growthCrm'
 import { fmt, initials, naceRanges, strongestSignals } from '@/lib/admin/growthCrmView'
@@ -31,6 +32,10 @@ const routeTone = (s: Scored): DotTone => (s.route === 'founder' || s.route === 
 export default async function LeadScoring() {
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const s = (k: string, v?: Record<string, string | number>) => t(`crm.scoring.${k}`, v)
+  // the CRM section's rule, as the menu offers the page by it (lib/admin/nav.ts): an address typed by hand is
+  // refused where the menu leaves it out; the database still holds the reader to crm_can_read
+  const who = await whoami()
+  if (!who?.role || !canSee(who.role, 'crm')) return <Problem text={t('common.notAllowed')} />
   const data = await leadScores()
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const rows = data.rows

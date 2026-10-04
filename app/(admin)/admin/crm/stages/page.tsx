@@ -3,7 +3,7 @@ import type { CrmMessages } from '@/components/admin/CrmForms'
 import { DailyCapForm, ReplyStageForm, SenderForm, StageForm } from '@/components/admin/CrmStageForms'
 import { stageTone } from '@/components/admin/CrmTabs'
 import { Badge, Card, PageHead, Problem, Table, Td } from '@/components/admin/ui'
-import { isError, whoami } from '@/lib/admin/api'
+import { isError } from '@/lib/admin/api'
 import { crmSenders, crmSending, crmStages } from '@/lib/admin/crm'
 
 /**
@@ -15,9 +15,10 @@ export default async function CrmStages() {
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const x = m.stagesX
-  const [data, senders, who, sending] = await Promise.all([crmStages(), crmSenders(), whoami(), crmSending()])
+  const [data, senders, sending] = await Promise.all([crmStages(), crmSenders(), crmSending()])
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
-  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
+  // stages, senders, the daily cap and the reply stage are the CRM's settings: offered when the permission set holds them (DEC-31)
+  const canWrite = !isError(senders) && senders.may_settings
   const common = { saving: t('common.saving'), done: t('common.done') }
   const people = isError(senders) ? [] : senders.rows
 

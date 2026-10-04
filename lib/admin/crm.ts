@@ -24,7 +24,8 @@ export const may = (m: May | undefined, action: string) => m?.[action] === true
 
 export const CONTACT_TYPES = ['prospect', 'trial', 'customer', 'former'] as const
 export const CONTACT_ROLES = ['daglig_leder', 'hr', 'leder', 'verneombud', 'annet'] as const
-export const CONTACT_SOURCES = ['user', 'newsletter', 'contact_form', 'import', 'manual', 'event', 'brreg'] as const
+// 0146 adds `demo`: a contact made from the site's demo request
+export const CONTACT_SOURCES = ['user', 'newsletter', 'contact_form', 'import', 'manual', 'event', 'brreg', 'demo'] as const
 export const BASES = ['consent', 'customer', 'business', 'none'] as const
 /** a stage's key (0093): the stages themselves are data, read with crmStages */
 export const StageKey = z.string().regex(/^[a-z][a-z0-9_]{1,39}$/)
@@ -134,7 +135,7 @@ export type Filter = z.infer<typeof Filter>
 // 0197: a segment holding a condition on a field hidden from the viewer says so (the condition itself is not shown)
 const Segment = z.object({ id: z.string(), name: z.string(), filter: Filter, updated_at: z.string(), total: num, mailable: num, hidden_conditions: z.boolean().default(false) })
 export type Segment = z.infer<typeof Segment>
-export const crmSegments = () => call('admin_crm_segments', {}, z.object({ rows: z.array(Segment) }))
+export const crmSegments = () => call('admin_crm_segments', {}, z.object({ rows: z.array(Segment), may: May.default({}) }))
 
 const Stats = z.object({
   queued: num,
@@ -173,7 +174,11 @@ const CampaignRow = z.object({
   step_kind: z.enum(STEP_KINDS).default('mail'),
 })
 export type CampaignRow = z.infer<typeof CampaignRow>
-export const crmCampaigns = () => call('admin_crm_campaigns', {}, z.object({ rows: z.array(CampaignRow) }))
+/** the product's own lifecycle mails (0200): whether the sequence is on, and what each step sent in the last 30 days */
+const Lifecycle = z.object({ enabled: z.boolean(), sent_30d: z.record(z.string(), num) })
+export type Lifecycle = z.infer<typeof Lifecycle>
+export const crmCampaigns = () =>
+  call('admin_crm_campaigns', {}, z.object({ rows: z.array(CampaignRow), may: May.default({}), lifecycle: Lifecycle.nullable().default(null) }))
 
 export const Block = z.object({
   type: z.enum(BLOCK_TYPES),
@@ -271,6 +276,7 @@ export const crmCampaign = (id: string) =>
       web: z.object({ sessions: num, views: num, signups: num, paid: num }),
       tests: num,
       list: z.object({ id: z.string(), name: z.string() }).nullable(),
+      may: May.default({}),
     }),
   )
 
@@ -326,7 +332,7 @@ const Sender = z.object({
   campaigns: num,
 })
 export type Sender = z.infer<typeof Sender>
-export const crmSenders = () => call('admin_crm_senders', {}, z.object({ rows: z.array(Sender) }))
+export const crmSenders = () => call('admin_crm_senders', {}, z.object({ rows: z.array(Sender), may: May.default({}), may_settings: z.boolean().default(false) }))
 
 // ---------------------------------------------------------------- companies (0056)
 const Company = z.object({
@@ -446,7 +452,7 @@ const List = z.object({
   click_rate: num.nullable(),
 })
 export type List = z.infer<typeof List>
-export const crmLists = () => call('admin_crm_lists', {}, z.object({ rows: z.array(List) }))
+export const crmLists = () => call('admin_crm_lists', {}, z.object({ rows: z.array(List), may: May.default({}) }))
 
 const Template = z.object({
   key: z.string(),
@@ -461,7 +467,7 @@ const Template = z.object({
   sort: num,
 })
 export type Template = z.infer<typeof Template>
-export const crmTemplates = () => call('admin_crm_templates', {}, z.object({ rows: z.array(Template) }))
+export const crmTemplates = () => call('admin_crm_templates', {}, z.object({ rows: z.array(Template), may: May.default({}) }))
 
 // ---------------------------------------------------------------- overview (0056)
 export const crmOverview = () =>

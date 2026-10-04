@@ -2,7 +2,7 @@ import type { Route } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import type { CrmMessages } from '@/components/admin/CrmForms'
-import { DecideRequest, RestoreActions } from '@/components/admin/CrmTrash'
+import { DecideRequest, RestoreActions, RestoreOutcome } from '@/components/admin/CrmTrash'
 import { labelText } from '@/lib/admin/crmLabel'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td, when } from '@/components/admin/ui'
 import { isError } from '@/lib/admin/api'
@@ -76,43 +76,45 @@ export default async function CrmRestore({ searchParams }: { searchParams: Promi
 
       <Card>
         <p className="mb-[12px] mt-0 text-[12.5px] text-mut">{data.window === null ? x.windowUnlimited : fill(x.window, { days: data.window })}</p>
-        <Table
-          head={[x.col.record, x.col.type, x.col.deletedBy, x.col.deletedAt, x.col.source, x.col.purgeAt, ...(data.may_write || data.may_purge ? [x.col.actions] : [])]}
-          empty={data.rows.length ? undefined : x.empty}
-        >
-          {data.rows.map((r) => {
-            const link = href(r)
-            return (
-              <tr key={`${r.entity}-${r.id}`}>
-                <Td wrap>
-                  {link ? <ALink href={link}>{record(r)}</ALink> : record(r)}
-                  {r.with_activities > 0 ? <span className="block text-[12px] text-mut">{fill(x.withActivities, { n: r.with_activities })}</span> : null}
-                </Td>
-                <Td>
-                  <Badge>{x.one[r.entity]}</Badge>
-                </Td>
-                <Td>{r.deleted_by ?? x.noOne}</Td>
-                <Td>{when(r.deleted_at)}</Td>
-                <Td>{m.history.source[r.source as keyof typeof m.history.source] ?? r.source}</Td>
-                <Td>{r.purge_at ? day(r.purge_at) : x.kept}</Td>
-                {data.may_write || data.may_purge ? (
-                  <Td>
-                    <RestoreActions
-                      entity={r.entity}
-                      id={r.id}
-                      restorable={r.restorable}
-                      mayWrite={data.may_write}
-                      mayPurge={data.may_purge}
-                      m={m}
-                      common={common}
-                      reasonRequired={rules.reasonRequired}
-                    />
+        <RestoreOutcome>
+          <Table
+            head={[x.col.record, x.col.type, x.col.deletedBy, x.col.deletedAt, x.col.source, x.col.purgeAt, ...(data.may_write || data.may_purge ? [x.col.actions] : [])]}
+            empty={data.rows.length ? undefined : x.empty}
+          >
+            {data.rows.map((r) => {
+              const link = href(r)
+              return (
+                <tr key={`${r.entity}-${r.id}`}>
+                  <Td wrap>
+                    {link ? <ALink href={link}>{record(r)}</ALink> : record(r)}
+                    {r.with_activities > 0 ? <span className="block text-[12px] text-mut">{fill(x.withActivities, { n: r.with_activities })}</span> : null}
                   </Td>
-                ) : null}
-              </tr>
-            )
-          })}
-        </Table>
+                  <Td>
+                    <Badge>{x.one[r.entity]}</Badge>
+                  </Td>
+                  <Td>{r.deleted_by ?? x.noOne}</Td>
+                  <Td>{when(r.deleted_at)}</Td>
+                  <Td>{m.history.source[r.source as keyof typeof m.history.source] ?? r.source}</Td>
+                  <Td>{r.purge_at ? day(r.purge_at) : x.kept}</Td>
+                  {data.may_write || data.may_purge ? (
+                    <Td>
+                      <RestoreActions
+                        entity={r.entity}
+                        id={r.id}
+                        restorable={r.restorable}
+                        mayWrite={data.may_write}
+                        mayPurge={data.may_purge}
+                        m={m}
+                        common={common}
+                        reasonRequired={rules.reasonRequired}
+                      />
+                    </Td>
+                  ) : null}
+                </tr>
+              )
+            })}
+          </Table>
+        </RestoreOutcome>
       </Card>
     </>
   )

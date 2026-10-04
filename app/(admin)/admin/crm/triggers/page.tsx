@@ -112,7 +112,7 @@ export default async function Page() {
       </KpiStrip>
 
       <div className="mt-[18px] grid items-start gap-[18px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1.3fr)_minmax(300px,.7fr)]">
-        <section className={`${PANEL} min-w-0 overflow-x-auto`}>
+        <section className={`${PANEL} min-w-0 overflow-x-auto`} tabIndex={0} role="region" aria-label={b('queue.title')}>
           <div className="min-w-[700px]">
             <div className="px-[20px] pt-[20px]">
               <h2 className="m-0 font-display text-[22px] font-medium">{b('queue.title')}</h2>

@@ -19,7 +19,7 @@ import {
   toRow,
 } from '../../supabase/functions/_shared/brreg'
 import { autoTask } from '@/lib/admin/crm'
-import { dayLabel, fmt, initials, isRecent, naceRanges, pct, per100, shortHash, slaState, stamp, stampAfter, strongestSignals } from '@/lib/admin/growthCrmView'
+import { agreedShares, dayLabel, fmt, initials, isRecent, naceRanges, pct, per100, shortHash, slaState, stamp, stampAfter, strongestSignals } from '@/lib/admin/growthCrmView'
 import { refFrom } from '@/lib/marketing/utm'
 import { ENTITIES, g3Sql, PARTNERS, POLL_ID } from '../../scripts/seed/sentral-fixture.g3.mjs'
 import { fixtureSql } from '../../scripts/seed/sentral-fixture.mjs'
@@ -202,6 +202,15 @@ describe('the pages’ arithmetic', () => {
     expect(per100(2, 42)).toBe('4,8')
     expect(per100(3, 120)).toBe('2,5')
     expect(per100(0, 0)).toBeNull()
+  })
+
+  it('reads the partners’ revenue share from their agreements, and only a per cent kind counts (D-215)', () => {
+    const kinds = ['recurring', 'client_discount', 'affiliate']
+    const row = (share_kind: string | null, share_pct: number | null) => ({ share_kind, share_pct })
+    expect(agreedShares([row('recurring', 20), row('affiliate', 10), row('member_discount', null), row(null, null)], kinds)).toEqual({ count: 2, min: 10, max: 20 })
+    expect(agreedShares([row('client_discount', 15)], kinds)).toEqual({ count: 1, min: 15, max: 15 })
+    expect(agreedShares([row('member_discount', 30), row(null, null)], kinds)).toEqual({ count: 0, min: null, max: null })
+    expect(agreedShares([], kinds)).toEqual({ count: 0, min: null, max: null })
   })
 
   it('picks the strongest signals as the design does: two of intent, one of fit, then how many more', () => {

@@ -7,10 +7,10 @@ import { SequenceSteps } from '@/components/admin/CrmSequence'
 import { StepActions, StepForm } from '@/components/admin/CrmStepForms'
 import { STATUS_TONE } from '@/components/admin/CrmTabs'
 import { ALink, Badge, Card, PageHead, pct, Problem, Stat, Table, Td, when } from '@/components/admin/ui'
-import { isError, whoami } from '@/lib/admin/api'
+import { isError } from '@/lib/admin/api'
 import { drawCampaign, footerOf, inboxCheck, mailCatalogue, sendingDomain } from '@/lib/admin/campaignMail'
 import { domainChecks } from '@/lib/admin/mailDomain'
-import { crmCampaign, crmCampaigns, crmLists, crmSegments, crmSenders, crmSequence, crmStages } from '@/lib/admin/crm'
+import { crmCampaign, crmCampaigns, crmLists, crmSegments, crmSenders, crmSequence, crmStages, may } from '@/lib/admin/crm'
 import { crmRuleState } from '@/lib/admin/crmRules'
 
 /**
@@ -18,7 +18,9 @@ import { crmRuleState } from '@/lib/admin/crmRules'
  * the dispatcher sends with, a test to the admin's own address, scheduling, and the report —
  * delivery, opens, clicks, click-to-open and unsubscribes against the last ten campaigns; the
  * A/B result; the click map by link and block; the first 72 hours; and what the site's own
- * analytics saw on the campaign's utm_campaign.
+ * analytics saw on the campaign's utm_campaign. Each control is offered when the permission set allows
+ * its action (DEC-31): content, step and pipeline need edit, a new step create, and the test, the schedule,
+ * the cancel and the resend send.
  */
 const share = (a: number, b: number) => (b ? (100 * a) / b : null)
 const fmt = (v: number | null) => (v === null ? '—' : `${v.toFixed(1)} %`)
@@ -28,11 +30,10 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const r = m.report
-  const [data, segs, lists, who, stageData, senderData, all, sequence, rules] = await Promise.all([
+  const [data, segs, lists, stageData, senderData, all, sequence, rules] = await Promise.all([
     crmCampaign(id),
     crmSegments(),
     crmLists(),
-    whoami(),
     crmStages(),
     crmSenders(),
     crmCampaigns(),
@@ -42,7 +43,9 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const c = data.campaign
   const s = data.stats
-  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
+  const canEdit = may(data.may, 'edit')
+  const canSend = may(data.may, 'send')
+  const canCreate = may(data.may, 'create')
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
   const segments = isError(segs) ? [] : segs.rows.map((g) => ({ id: g.id, name: g.name, mailable: g.mailable }))
   const listRows = isError(lists) ? [] : lists.rows.filter((l) => !l.archived || l.id === c.list_id)
@@ -72,7 +75,7 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
           <div className="flex min-w-0 flex-col gap-[14px]">
             <Card title={m.step.card}>
               <p className="mb-[10px] mt-0 text-[12.5px] leading-[1.55] text-mut">{m.step.explain}</p>
-              {canWrite && c.status === 'draft' ? (
+              {canEdit && c.status === 'draft' ? (
                 <StepForm
                   step={{ id: c.id, name: c.name, subject: c.subject, step_kind: c.step_kind, follow_days: c.follow_days }}
                   m={m}
@@ -82,7 +85,7 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
                 <p className="m-0 text-[13.5px] font-semibold">{c.subject}</p>
               )}
             </Card>
-            {canWrite && c.status !== 'sent' && c.status !== 'cancelled' ? (
+            {canSend && c.status !== 'sent' && c.status !== 'cancelled' ? (
               <Card title={m.campaign.send}>
                 <StepActions id={c.id} status={c.status} m={m} common={{ saving: common.saving, done: common.done }} />
               </Card>
@@ -129,7 +132,7 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
   // the preview is the real rendering (lib/admin/campaignMail.ts), with a token that unsubscribes nobody
   const cat = await mailCatalogue()
   const listFooter = list ? { name_no: list.name_no, name_en: list.name_en } : null
-  const draft = canWrite && c.status === 'draft'
+  const draft = canEdit && c.status === 'draft'
   const [domain, inbox] = await Promise.all([
     draft ? domainChecks(sendingDomain(c, senders)) : Promise.resolve([]),
     !draft && c.status !== 'sent' && c.status !== 'cancelled' && c.blocks.length ? inboxCheck(cat, c, senders, listFooter) : Promise.resolve(null),
@@ -148,7 +151,7 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
   const vs = (v: number | null, bench: number | null) =>
     v === null || bench === null || data.benchmark.campaigns === 0
       ? undefined
-      : r.vs.replace('{delta}', `${v - bench >= 0 ? '+' : '−'}${Math.abs(v - bench).toFixed(1)} pts`).replace('{n}', String(data.benchmark.campaigns))
+      : r.vs.replace('{delta}', `${v - bench >= 0 ? '+' : '−'}${r.points.replace('{n}', Math.abs(v - bench).toFixed(1))}`).replace('{n}', String(data.benchmark.campaigns))
 
   const peak = Math.max(1, ...data.timeline.map((h) => Math.max(h.opened, h.clicked)))
   const busy = data.timeline.some((h) => h.opened || h.clicked)
@@ -278,7 +281,7 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
 
           <Card title={pipeline.title}>
             <p className="mb-[10px] mt-0 text-[12.5px] text-mut">{pipeline.lead}</p>
-            {canWrite && c.status === 'draft' ? (
+            {canEdit && c.status === 'draft' ? (
               <CampaignPipelineForm
                 campaign={c}
                 stages={stages}
@@ -298,12 +301,12 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
           <Card title={m.sequence.title}>
             <p className="mb-[10px] mt-0 text-[12.5px] leading-[1.55] text-mut">{m.sequence.lead}</p>
             {isError(sequence) ? <Problem text={t('common.failed')} /> : <SequenceSteps steps={sequence.steps} current={c.id} m={m} />}
-            {canWrite && c.status !== 'cancelled' ? (
+            {canSend && c.status !== 'cancelled' ? (
               <div className="mt-[12px] border-t border-line pt-[12px]">
                 <ResendForm id={c.id} m={m} />
               </div>
             ) : null}
-            {canWrite && c.status !== 'cancelled' ? (
+            {canCreate && c.status !== 'cancelled' ? (
               <details className="mt-[12px] border-t border-line pt-[12px]">
                 <summary className="cursor-pointer text-[13px] font-semibold">{m.sequence.addStep}</summary>
                 <div className="mt-[10px]">
@@ -314,10 +317,11 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
           </Card>
           {draft ? null : (
             <Card title={m.campaign.content}>
-              <p className="m-0 text-[13px] text-mut">{m.campaign.locked}</p>
+              {/* a draft the set does not let this admin change says so; a sent one, that only drafts change */}
+              <p className="m-0 text-[13px] text-mut">{c.status === 'draft' ? m.campaign.notYours : m.campaign.locked}</p>
             </Card>
           )}
-          {canWrite ? (
+          {canSend ? (
             <Card title={m.campaign.send}>
               {c.status === 'scheduled' && c.scheduled_at ? (
                 <p className="mb-[10px] mt-0 text-[13px] font-semibold">{m.campaign.scheduledFor.replace('{when}', when(c.scheduled_at))}</p>
@@ -346,7 +350,7 @@ export default async function CrmCampaign({ params }: { params: Promise<{ id: st
           <Card title={m.campaign.preview}>
             {preview ? (
               <div className="flex flex-col gap-[14px]">
-                {c.subject_b.trim() ? <p className="m-0 text-[12.5px] text-mut">A: {c.subject} · B: {c.subject_b}</p> : null}
+                {c.subject_b.trim() ? <p className="m-0 text-[12.5px] text-mut">{m.campaign.abSubjects.replace(/\{([ab])\}/g, (_, k: string) => (k === 'a' ? c.subject : c.subject_b))}</p> : null}
                 <MailPreview html={preview.html} subject={preview.subject} preheader={c.preheader} from={sender?.name || 'Orgpuls'} m={m} />
                 {inbox ? (
                   <div className="rounded-panel border border-line bg-bg p-[14px]">

@@ -10894,3 +10894,51 @@ baseline reports and does not gate: the data differs between stacks, so the revi
 Verified: the smoke at both widths, all 63 pages at both widths (126 checks) and the three journeys pass, 143 tests in one run (7.5 min) on the local QA
 stack; the CI step's command run locally passes (8 tests, 23 s); `sentral-run.mjs --only CRM_Consent` passes through
 the shared lock; tsc, lint and the fixture's unit tests pass.
+
+## D-215 — Phase A clean-ups: the campaign pages follow the permission set, figures from data (0200) (2026-10-04)
+
+Work package WP-0.8 of the CRM enrichment brief (06-QUESTIONS § E, DEC-31, and what WP-0.7's harness found, DEC-39).
+**The campaign pages follow the set (DEC-31).** The campaign, list, segment, sender and template readers return `may`,
+what the caller's permission set allows in the campaigns area (`app.crm_may('campaigns')`), and the senders reader
+`may_settings`, whether the set holds the CRM's settings (0200, six readers patched in place; no new call). The pages
+offer a control only when the database would accept it, as the companies and contacts pages have since D-211: a new
+campaign, list, segment or step needs create; content, steps, pipeline, lists and segments edit; a segment's removal
+delete; the test, the schedule, the cancel and the resend send; stages, senders, the daily cap and the reply stage the
+CRM's settings; the contacts page's «New list» create. A draft a set lets its holder read but not change says so
+(«Your permission set lets you read campaigns, not change them») instead of «Only a draft can be edited».
+
+**Figures from data (CLAUDE.md, «Never fabricate data in the UI»).** The campaigns page's three lifecycle rows read the
+product's own trial mail — whether its sequence is on (`app.lifecycle_settings`) and what its steps sent in the last
+30 days (`app.lifecycle_mail`), returned by the campaigns reader — and say «On · n sent in 30 d» or «Switched off»,
+where they said «Built in» whatever the data held. The partners' «Revenue share» is the range of the shares in per
+cent their agreements hold («15–20 %», «4 of 6 partners have a share in per cent»), or a dash, where it printed the
+proposal «20 %».
+
+**Smaller items.** The language names in the contact forms and the contact page come from the locale registry (each
+language by its own name); « pts», «min»/«h» and «A: … · B: …» are messages (the two subjects filled in one pass, so a
+subject holding `{b}` or `$&` is shown as written). `demo`, the source 0146 writes for a demo
+request, is a contact source with its label, so a segment filtering on it parses. The lead-scoring page checks the CRM
+section before it reads, as the menu offers it. The CRM overview counts a task as due by the Oslo date, as the tasks
+page does. Nine scroll regions a keyboard could not reach at 390 px (billing, campaigns, register triggers,
+deliverability, growth events, plan and risks, tickets, web pages) are focusable and named, like the admin's tables,
+and their known issues are gone. The restore list says «Restored.» or «Deleted for good.» above itself, so the
+confirmation outlives the row that leaves.
+
+**Tests.** `crm_campaign_access_invariants.sql` (6 assertions: the keys on every reader; Regular may all of it; Read
+only may read the reports only and the database refuses what `may` leaves out; a set with edit alone, on screen and in
+the database; the lifecycle block follows the switch and counts sent mails per step in 30 days only; nothing left).
+`crm_fields_invariants.sql` now counts its own rows, so the archived fields an admin journey leaves on a local stack do
+not fail it. The admin journeys see the restore list's confirmations. `tests/unit/crm-strings.test.ts` holds the moved
+strings in both catalogues with the placeholders the pages fill, and a label for every contact source;
+`growth-crm.test.ts` holds the share range (`agreedShares`) to the per cent kinds. Screens in
+`docs/crm-enrichment/screens/phase-0/WP08-*`.
+
+**Not done.** § E's other notes stay notes: the `crm_deal_invariants.sql` comment, `respondent_invariants` 16–17
+leaving out `response_comments` (the growth firewall covers it), «fem svar» in copy, and `.env.example`.
+
+**Hosted (2026-10-04).** Applied to production in one part, `0200a_crm_cleanups_readers`, as D-213's were: the six
+readers on production matched their pre-change definitions (md5 of `pg_get_functiondef`), the part patched each in place
+with a counted anchor, and a local dry run over the same pre-change definitions gave the local 0200 byte for byte. After
+the apply the six match local 0200, still SECURITY DEFINER with an empty search path and not executable by `anon`; the
+security advisors hold the same 488 findings before and after. The part holds no removal, so nothing was held back; the
+app on main ignores the new keys until this branch ships (the readers' envelopes are not strict).

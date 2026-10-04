@@ -31,7 +31,7 @@ export default async function CrmInbox({ searchParams }: { searchParams: Promise
     (r) => filter === 'all' || (filter === 'awaiting' && !r.answered_at) || (filter === 'trials' && r.kind === 'trial') || (filter === 'answered' && !!r.answered_at),
   )
   const w = data.week
-  const median = w.median_minutes === null ? '—' : w.median_minutes < 60 ? `${Math.round(w.median_minutes)} min` : `${(w.median_minutes / 60).toFixed(1)} h`
+  const median = w.median_minutes === null ? '—' : w.median_minutes < 60 ? x.minutes.replace('{n}', String(Math.round(w.median_minutes))) : x.hours.replace('{n}', (w.median_minutes / 60).toFixed(1))
 
   return (
     <>

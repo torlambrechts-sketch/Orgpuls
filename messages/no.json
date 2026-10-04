@@ -9718,7 +9718,8 @@
         "import": "Import",
         "manual": "Added by admin",
         "event": "Event",
-        "brreg": "Brønnøysund"
+        "brreg": "Brønnøysund",
+        "demo": "Demo request"
       },
       "basis": {
         "consent": "Consent",
@@ -9903,6 +9904,7 @@
       },
       "campaign": {
         "back": "All campaigns",
+        "abSubjects": "A: {a} · B: {b}",
         "content": "Content",
         "subject": "Subject",
         "preheader": "Preheader (shown after the subject)",
@@ -9923,6 +9925,7 @@
         "down": "Move down",
         "save": "Save draft",
         "locked": "Only a draft can be edited.",
+        "notYours": "Your permission set lets you read campaigns, not change them.",
         "preview": "Preview",
         "mobile": "Phone",
         "desktop": "Desktop",
@@ -10457,6 +10460,7 @@
         "unsubRate": "Unsubscribed",
         "bounceRate": "Bounced",
         "vs": "{delta} vs last {n}",
+        "points": "{n} pts",
         "noBenchmark": "No earlier campaigns to compare with",
         "ab": "A/B test",
         "variant": "Variant",
@@ -10636,6 +10640,8 @@
         "lead": "Every inbound lead of the last 30 days — trial sign-ups, contact-form messages and demo requests — with a clock against your {sla}-minute first-response target. Answering within minutes is the most studied lever in B2B sales.",
         "awaiting": "Awaiting a first answer",
         "median": "Median first answer · 7 days",
+        "minutes": "{n} min",
+        "hours": "{n} h",
         "withinSla": "Inside {sla} min · 7 days",
         "leads": "Leads · 7 days",
         "trials": "Trial sign-ups · 7 days",
@@ -11023,7 +11029,8 @@
         "open": "Open",
         "coverage": "Lifecycle coverage",
         "coverageLead": "The mail a subscription service should run. Each line reads the real state: the product's own trial mail, or a campaign.",
-        "builtIn": "Built in",
+        "lifeOn": "On · {count, plural, =0 {none sent in 30 d} one {# sent in 30 d} other {# sent in 30 d}}",
+        "lifeOff": "Switched off",
         "missing": "Missing",
         "life": {
           "onboarding": "Onboarding",
@@ -13812,8 +13819,9 @@
             "week": "This week",
             "weekSub": "gate: ≥ 1 partner-sourced trial a week",
             "share": "Revenue share",
-            "shareValue": "20 %",
-            "shareSub": "proposed: recurring, or a client discount — open decision 7"
+            "shareValue": "{pct} %",
+            "shareRange": "{min}–{max} %",
+            "shareSub": "{count, plural, =0 {No partner has a share in per cent yet} one {# of {total} partners has a share in per cent} other {# of {total} partners have a share in per cent}}"
           },
           "shareOption": {
             "recurring": "Recurring share",

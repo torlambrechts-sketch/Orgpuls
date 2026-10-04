@@ -31,7 +31,7 @@ export default async function Page() {
         <ExportButton kind="plan" label={g('export.plan')} />
       </PageHead>
       {/* relative: the gates' screen-reader words are absolutely positioned and must stay inside the scroller */}
-      <div className="relative overflow-x-auto rounded-panel border border-line bg-sf">
+      <div className="relative overflow-x-auto rounded-panel border border-line bg-sf" tabIndex={0} role="region" aria-label={g('plan.table')}>
         <div role="table" aria-label={g('plan.table')} className="min-w-[960px]">
           <div role="row" className={`${ROW} border-b border-line pb-[10px] pt-[14px] text-[11px] uppercase tracking-[0.09em] text-mut`}>
             <span role="columnheader">{g('plan.head.weeks')}</span>

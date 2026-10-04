@@ -11,6 +11,7 @@ import { crmRuleState } from '@/lib/admin/crmRules'
 import type { FieldMessages } from '@/components/admin/CustomFields'
 import { customRows, historyWords } from '@/components/admin/CustomFieldRows'
 import { crmFields, liveFields } from '@/lib/admin/crmFields'
+import { LOCALE_REGISTRY } from '@/lib/i18n/locales'
 
 /**
  * One contact (D-101): who they are, the consent we hold and where it came from, every mail
@@ -71,7 +72,7 @@ export default async function CrmContact({ params, searchParams }: { params: Pro
           {row(m.col.role, c.role ? m.roleName[c.role as keyof typeof m.roleName] : '—')}
           {row(m.col.source, m.source[c.source as keyof typeof m.source] ?? c.source)}
           {row(m.col.tags, c.tags.length ? c.tags.join(', ') : '—')}
-          {row(m.add.lang, c.lang === 'en' ? 'English' : 'Norsk')}
+          {row(m.add.lang, LOCALE_REGISTRY.find((l) => l.code === c.lang)?.nativeName ?? c.lang)}
           {row(m.col.added, day(c.created_at))}
           {row(m.col.engaged, when(c.last_engaged_at))}
           {customRows(fields, c.custom, c.custom_refs, fm, row)}

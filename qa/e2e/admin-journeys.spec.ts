@@ -35,8 +35,9 @@ async function purge(page: Page, name: string) {
   const row = page.getByRole('row').filter({ hasText: name })
   await row.getByRole('button', { name: 'Delete permanently' }).click()
   await row.getByRole('button', { name: /cannot be undone/ }).click()
-  // the row leaves the list (and its «Deleted for good.» with it), and stays gone
+  // the row leaves the list, which says so above it (WP-0.8), and stays gone
   await expect(page.getByRole('row').filter({ hasText: name })).toHaveCount(0)
+  await expect(page.getByRole('status').filter({ hasText: 'Deleted for good.' })).toBeVisible()
   await page.reload()
   await expect(page.getByRole('row').filter({ hasText: name })).toHaveCount(0)
 }
@@ -94,6 +95,7 @@ test('a deal: made on the board, moved, logged, given a person, deleted, restore
   const row = page.getByRole('row').filter({ hasText: name })
   await row.getByRole('button', { name: 'Restore' }).click()
   await expect(page.getByRole('row').filter({ hasText: name })).toHaveCount(0)
+  await expect(page.getByRole('status').filter({ hasText: 'Restored.' })).toBeVisible()
   await openCompany(page, name)
   await expect(section(page, 'People')).toContainText('Journey Person')
 

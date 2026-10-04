@@ -198,14 +198,14 @@ Answers of 2026-10-03 are in `DECISIONS.md` (DEC-01…09); open items are carrie
 
 ## E. Smaller differences recorded, no decision needed unless you disagree
 
-- Hard-coded or fabricated values in today's CRM: the Partners «Revenue share» KPI is the message literal
+- **Done in WP-0.8 (D-215):** the share is read from the partners' agreements, the lifecycle rows from the trial mail's switch and sends (0200), the strings from the messages and the locale registry. Hard-coded or fabricated values in today's CRM: the Partners «Revenue share» KPI is the message literal
   `'20 %'` (`CRM/partners/page.tsx:95`); the campaigns page marks three lifecycle rows «Built in» without reading
   data (`CRM/campaigns/page.tsx:46-48`); hard-coded text ('Norsk'/'English', ' pts', 'min'/'h', 'A: … · B: …'). I
   propose fixing these in Phase 0 under CLAUDE.md's "never fabricate" and "never hard-code".
-- `demo` contact source is written by `0146` but missing from `CONTACT_SOURCES` and its messages (`lib/admin/crm.ts:15`).
-- The lead-scoring page has no page-level role check, unlike consent/triggers/partners (the database still
+- **Done in WP-0.8 (D-215).** `demo` contact source is written by `0146` but missing from `CONTACT_SOURCES` and its messages (`lib/admin/crm.ts:15`).
+- **Done in WP-0.8 (D-215).** The lead-scoring page has no page-level role check, unlike consent/triggers/partners (the database still
   enforces `crm_can_read`).
-- The overview computes "due" in UTC; the tasks page in Oslo time.
+- **Done in WP-0.8 (D-215).** The overview computes "due" in UTC; the tasks page in Oslo time.
 - No generated database types exist (CLAUDE.md: `supabase gen types` does not emit `app`; rows are Zod-parsed).
   A6's "regenerate types after every migration" does not apply; the Zod schemas are updated instead.
 - Database tests: the repository uses plain-SQL `*_invariants.sql` suites run by psql in CI, not pgTAP. A8 says to

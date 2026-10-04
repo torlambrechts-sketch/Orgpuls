@@ -92,7 +92,7 @@ export default async function Page() {
       </div>
 
       <div className="mt-[18px] grid items-start gap-[18px] lg:[grid-template-columns:minmax(0,1.3fr)_minmax(300px,.7fr)]">
-        <div className={`${PANEL} min-w-0 overflow-x-auto`}>
+        <div className={`${PANEL} min-w-0 overflow-x-auto`} tabIndex={0} role="region" aria-label={d('registry.title')}>
           <div className="min-w-[640px]">
             <div className="px-[20px] pt-[20px]">
               <h2 className="m-0 font-display text-[22px] font-medium">{d('registry.title')}</h2>

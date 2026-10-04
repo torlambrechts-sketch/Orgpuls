@@ -49,6 +49,8 @@ declare
   v_co2   uuid;
   v_co3   uuid;
   v_ct    uuid;
+  v_keys0 text[];
+  v_rows0 bigint;
   f       app.crm_fields;
   r       record;
 begin
@@ -75,6 +77,10 @@ begin
   v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'registry closed to clients; calls closed to anon, helpers to every client; rules unlimited; value columns indexed and empty; history names custom values',
     'expected', 'true', 'actual', coalesce(v_ok::text, 'null'), 'pass', coalesce(v_ok, false));
 
+  -- what the registry held before (on a local stack, the fields an admin journey archived): the probes count their own
+  v_keys0 := array(select key from app.crm_fields);
+  v_rows0 := (select count(*) from app.crm_fields) + (select count(*) from app.crm_field_groups) + (select count(*) from app.crm_field_versions);
+
   begin
     insert into auth.users (id, email) values (v_su, 'super@fields-test.example'), (v_m1, 'm1@fields-test.example');
     insert into app.platform_admins (user_id, role) values (v_su, 'super_admin'), (v_m1, 'marketing');
@@ -93,7 +99,8 @@ begin
     v_ct := (public.admin_crm_save_contact(null, '{"email":"kari@fields-test.example","custom":{"shoe":42}}'::jsonb)->>'id')::uuid;
     v_txt := (public.admin_crm_company(v_co)->'company'->'custom'->>'region')
       || ',' || (select r2->'custom'->>'region' from jsonb_array_elements(public.admin_crm_companies('felt test', null, null, null)->'rows') r2 where (r2->>'id')::uuid = v_co)
-      || ',' || (select string_agg(x->>'key', '/' order by x->>'key') from jsonb_array_elements(public.admin_crm_fields(null)->'fields') x)
+      || ',' || (select string_agg(x->>'key', '/' order by x->>'key') from jsonb_array_elements(public.admin_crm_fields(null)->'fields') x
+                 where not (x->>'key' = any (v_keys0)))
       || ',' || (public.admin_crm_contact(v_ct)->'contact'->'custom'->>'shoe');
     v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'a field made in the registry is read on the company page, the list, the registry and the contact page at once',
       'expected', 'vest,vest,region/shoe,42', 'actual', v_txt, 'pass', v_txt = 'vest,vest,region/shoe,42');
@@ -318,10 +325,9 @@ begin
     'expected', 'app.crm_company_json|filtered', 'actual', v_txt, 'pass', v_txt = 'app.crm_company_json|filtered');
 
   -- 14 --------------------------------------------------------------- nothing left
-  select count(*)::text into v_txt from (
-    select id::text from app.crm_fields union all select id::text from app.crm_field_groups
-    union all select field_id::text from app.crm_field_versions
-    union all select email from auth.users where email like '%@fields-test.example'
+  select ((select count(*) from app.crm_fields) + (select count(*) from app.crm_field_groups) + (select count(*) from app.crm_field_versions) - v_rows0
+          + count(*))::text into v_txt from (
+    select email from auth.users where email like '%@fields-test.example'
     union all select email from app.crm_contacts where email like '%@fields-test.example'
     union all select id::text from app.crm_companies where name like 'Felt %') x;
   v_rows := v_rows || jsonb_build_object('seq', 14, 'name', 'every probe row was rolled back', 'expected', '0', 'actual', v_txt, 'pass', v_txt = '0');

@@ -45,7 +45,8 @@ export default async function CrmContacts({ searchParams }: { searchParams: Prom
   const contactFields = isError(registry) ? [] : liveFields(registry, 'contact')
   const addFields = addFormFields(contactFields)
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
-  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
+  // «New list» makes a segment, a campaign-area create (DEC-31): offered when the permission set allows it
+  const canNewList = !isError(segments) && may(segments.may, 'create')
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
   const c = data.counts
   const href = (k: string | null) => {
@@ -56,9 +57,9 @@ export default async function CrmContacts({ searchParams }: { searchParams: Prom
   return (
     <>
       <PageHead title={cl('title')} lead={cl('lead', { count: c.total, site: t('nav.siteName'), not: c.total - c.mailable })}>
-        {canWrite || may(data.may, 'import') ? (
+        {canNewList || may(data.may, 'import') ? (
           <div className="flex gap-[10px]">
-            {canWrite ? (
+            {canNewList ? (
               <Link href={'/admin/crm/segments?new' as Route} className={BTN.secondary}>
                 {cl('newList')}
               </Link>

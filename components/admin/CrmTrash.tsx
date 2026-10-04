@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { createContext, useContext, useState, useTransition, type ReactNode } from 'react'
 import { Outcome, useKeptAction } from '@/components/admin/ActionForms'
 import type { CrmMessages } from '@/components/admin/CrmForms'
 import { Button } from '@/components/ui/Button'
@@ -125,6 +125,25 @@ export function DeleteRecords({
   )
 }
 
+/**
+ * The restore list's last outcome, said above the list: a record restored or deleted for good leaves the list,
+ * and the line in its row would leave with it, unseen (found by WP-0.7's harness, D-214)
+ */
+const SayOutcome = createContext<(text: string) => void>(() => undefined)
+export function RestoreOutcome({ children }: { children: ReactNode }) {
+  const [said, setSaid] = useState<string | null>(null)
+  return (
+    <SayOutcome.Provider value={setSaid}>
+      {said ? (
+        <p role="status" className="mb-[12px] mt-0 text-[12.5px] font-semibold text-link">
+          {said}
+        </p>
+      ) : null}
+      {children}
+    </SayOutcome.Provider>
+  )
+}
+
 /** Restore a record; a super-admin may also delete it permanently, which asks once more */
 export function RestoreActions({
   entity,
@@ -148,8 +167,15 @@ export function RestoreActions({
   const x = m.trash
   const [reason, setReason] = useState('')
   const [sure, setSure] = useState(false)
-  const [restored, restore, restoring] = useKeptAction(restoreRecords, () => setReason(''))
-  const [purged, purge, purging] = useKeptAction(purgeRecords, () => setReason(''))
+  const say = useContext(SayOutcome)
+  const [restored, restore, restoring] = useKeptAction(restoreRecords, () => {
+    setReason('')
+    say(x.restored)
+  })
+  const [purged, purge, purging] = useKeptAction(purgeRecords, () => {
+    setReason('')
+    say(x.purged)
+  })
   return (
     <div className="flex flex-col gap-[6px]">
       {reasonRequired && (mayWrite || mayPurge) ? <Reason value={reason} set={setReason} required common={common} /> : null}
