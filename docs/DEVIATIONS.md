@@ -11209,7 +11209,24 @@ source `machine`; the auto-approve switch (0101, on) approved them on insert (`a
 coverage of `app.all_item_keys()` is now 0 of 415 missing, so English is offered in rounds that ask the effect
 question.
 
-## D-215 — Two CRM helpers closed to clients (0198; applied on hosted as 0191) (2026-10-03)
+## D-215 — CI made cheaper once the repository went private (2026-10-04)
+
+The owner made the repository private on 2026-10-04, so every GitHub Actions minute is billed beyond the free
+quota (2 000 per month on GitHub Free). The week before used about 18 runs a day at 10 billed minutes each (two
+jobs, each rounded up), roughly 5 000 minutes a month at that pace. Three changes, none of which drops a check:
+- **One job instead of two.** The «types, lint, i18n, build» job built the app with placeholder settings; the
+  invariants job built it again against the local database, and only that build is the one the smoke and
+  respondent-flow checks serve. Its quick checks (npm ci, tsc, lint, modules:validate, unit tests, i18n parity)
+  now run first in the remaining job, so a type or lint error still fails within a minute, before Supabase
+  starts; the duplicate build, the second npm ci and the second modules:validate are gone.
+- **Documentation-only commits start no run** (`paths-ignore: docs/**, **/*.md, qa/shots/**`). About one commit
+  in ten last week touched nothing else.
+- **Chromium is cached** between runs (`~/.cache/ms-playwright`, keyed on package-lock.json) instead of being
+  downloaded by the smoke and respondent-flow steps each time.
+Expected: about 7 billed minutes per run instead of 10, and fewer runs. The rest depends on how often main is
+pushed: changes are now shipped in batches, one push per finished piece of work.
+
+## D-216 — Two CRM helpers closed to clients (0198; applied on hosted as 0191) (2026-10-03)
 
 Found in the CRM enrichment gap analysis (`docs/crm-enrichment/06-QUESTIONS.md` Q1).
 `app.crm_follow_audience(app.crm_campaigns)` (0111, 0137) is SECURITY DEFINER and returns
@@ -11229,7 +11246,7 @@ its reviewed list (the RLS helpers `is_org_member`, `has_role`, `k_threshold`, `
 `visible_groups`, `round_answered`, `module_usable`, granted to authenticated on purpose in 0022 and 0071).
 0191 is applied on hosted; afterwards the open definers there are exactly that list.
 
-Numbered D-215 when merged with main, which had taken D-207 to D-214 meanwhile. The migration was written as
+Numbered D-216 when merged with main, which had taken D-207 to D-215 meanwhile. The migration was written as
 0191 and is applied on hosted under that name (`0191_crm_definer_grants`); its file is renumbered 0198 because
 main took 0191 for `module_sync_carry_english` (D-214) and the CRM enrichment branch, still to be merged, holds
 0192 to 0197. Two files with one number would stop every rebuild from the migrations. The SQL is unchanged, and
