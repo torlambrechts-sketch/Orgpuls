@@ -10769,3 +10769,79 @@ its four-argument form, as written in the migration — is held at the Supabase 
 drops the old signature, like 0195's purge part and 0196d (DEC-28, DEC-29). Until it lands, hosted keeps the
 three-argument list, so the companies list works without custom conditions; the app sends the conditions argument
 only when there are conditions. It must land before the admin screens ship at the Phase 0 gate (DEC-23).
+
+## D-213 — CRM event dispatcher and job runs (0199) (2026-10-04)
+
+Work package WP-0.6 of the CRM enrichment brief (SF-02 steps 2–4, SF-26 steps 1 and 6; AUT-09 and the
+«Technical safeguards» setting in part). **The dispatcher** delivers the CRM's events (0194, `app.crm_events`) to
+subscribers, which are rows of `app.crm_event_subscribers`: a key, a handler from a fixed set (called by name
+through a CASE, so no SQL is built from data), the events it takes (all, or a list the catalogue must hold) and how
+far it has read. `app.crm_dispatch()` runs every minute: for each active subscriber it offers the events past its
+read point, oldest first, each in a block of its own, and moves the point past them in the transaction that holds
+what the handler wrote. The read point is what makes each event reach each subscriber once (SF-02 step 3): a crash
+rolls the delivery and the point back together. A delivery that fails rolls back alone and gets a row in
+`app.crm_event_deliveries` with its SQLSTATE, its attempt and its next time; it is retried after 1, 5, 30 and 120
+minutes, claimed FOR UPDATE SKIP LOCKED, and after the fifth attempt waits for an admin. Other subscribers, and the
+failing subscriber's later events, go on (step 4). A delivery that succeeds the first time leaves no row, so the
+table holds only what needed a second look. A subscriber added later starts from where the events are when it is
+added.
+
+**The first subscriber** is the daily count of events per kind (`app.crm_event_rollups`, Oslo days), SF-02's
+«report rollups»; it starts from the first event, so it counts the history the events hold. The others the brief
+names — workflows, assignment, scoring, the feed, webhooks, notifications — subscribe when they are built: each is
+a handler in the CASE and a row.
+
+**Loop protection.** The rule `limit_event_loop` (Settings › CRM rules, Limits): a subscriber takes at most this
+many events of one record in a rolling ten minutes, counted by when they happened; the rest are set aside
+(`skipped`, code `loop_window`), counted on the dashboard and on Operations, until an admin retries them, and a
+retry is not held back by the window. 10,000 by default, the brief's source value per company, which no real CRM
+reaches; it can be changed or switched off (R5).
+
+**Runs (SF-26 steps 1 and 6).** `app.crm_run(job)` runs the CRM's scheduled jobs: the dispatcher (every minute),
+the restore list's purge (daily, 0195), lead routing (every five minutes, 0143) and the register triggers (daily,
+0143), which pg_cron now starts through it under their old names and times. It records the last run on
+`app.crm_jobs` and counts every run in its hour in `app.crm_job_runs` (runs, failed runs, items, the longest run,
+the last failure's code), so that table grows by at most one row per job and hour. A failure is caught, its SQLSTATE
+kept and its message dropped (CLAUDE.md invariant 7), and never raised into pg_cron; an advisory lock keeps a job
+from overlapping itself.
+
+**On screen.** Operations › CRM jobs (super-admin and support, like the rest of Operations): each job with its
+schedule read from pg_cron, its last run and result, and its runs, failures, items and longest run in the last 24
+hours; the hours with failed runs in the last week; the subscribers with their unread events, deliveries retrying,
+given up and set aside, the oldest waiting, the last error and a Retry button; the week's events per kind; and an
+alert while a run failed in the last 24 hours or a delivery waits. The dashboard's «Needs attention» counts the
+same and links there.
+
+**Deviations from the plan.** The plan's `crm_event_deliveries` held a row per subscriber and event. It holds only
+the deliveries that failed or were set aside, and the read point carries the «once»: a row per event and
+subscriber would grow with the event log and need a clean-up that deletes. The loop window counts events by when
+they happened, not when they were delivered, so a backlog delivered at once after downtime is not taken for a
+loop. Runs are counted per hour, not kept as a row each: the dispatcher alone runs 1,440 times a day, and a failure
+keeps its hour and code.
+
+**Not done.** SF-26 steps 2–5 (rotting, date triggers, goals, the feed) arrive with PIP-05, AUT-03, INS-05 and
+PRO-01, each as a job in the runner. Per-workflow run history and the per-workflow cap (5,000 in ten minutes)
+arrive with AUT-01; the webhook retry and ban policy, the other half of «Technical safeguards», with INT-04. The
+product's other scheduled jobs (deletion, notices, the mail dispatcher) are not in the CRM job monitor; Operations
+shows the lifecycle scheduler's runs and the notice queue as before.
+
+Proved in `crm_events_invariants.sql` (8 assertions: tables and helpers closed to clients; each event once, a
+success leaving no row; retries on their own clock, set aside after five, holding up no one, retried by an admin;
+the loop window; the runner's records, codes only, never raising, unknown jobs refused; read points and named
+events; the monitor and the retry for Operations only, the dashboard's count, a retry passing the window; nothing
+left behind). `crm_rules_invariants.sql` counts the new rule and `crm_restore_invariants.sql` follows the purge job
+into the runner. Screens in `docs/crm-enrichment/screens/phase-0/SF-*`.
+
+0199 on hosted (2026-10-04): a drift check first found `admin_attention` identical (md5) to the body the build
+patched, none of the new objects present, and lead routing and the register triggers on their 0143 commands. Applied
+in five parts: `0199a` the tables, the rule and the rollup subscriber; `0199b` the handlers, the dispatcher and the
+runner; `0199c` the monitor and the retry; `0199d` the schedules of the dispatcher, lead routing and the register
+triggers; `0199e` the dashboard's count, an anchored edit of `admin_attention`. Dry-run locally from the schema before
+0199, the parts gave the migration's own functions (md5), schedules and columns. Afterwards the eight functions match
+the build (md5), the helpers and the tables are closed to clients, the security advisors add exactly the two calls
+(`authenticated`, gated inside) and the five tables (RLS without policy) to their deliberate classes, the anon class
+is unchanged at 31, the performance advisors find no unindexed foreign key on the new tables, and the dispatcher's
+first scheduled run (07:31 UTC) succeeded through the runner and was counted in its hour. **Not yet on hosted:** the
+purge job through the runner (`0199f`, the migration's last schedule line) waits for 0195's purge part, still held at
+the Supabase connector's approval step (DEC-29, DEC-34): scheduled before `app.crm_purge_due()` exists, it would fail
+every night. Until both land, the monitor shows the restore list purge as not scheduled, which is so.

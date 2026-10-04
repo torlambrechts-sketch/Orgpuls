@@ -326,5 +326,77 @@
     "overflowPx": 0,
     "errors": [],
     "file": "CUS-01-import-remarks-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SF-26-ops-crm-jobs",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-26-ops-crm-jobs-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SF-26-ops-crm-jobs",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-26-ops-crm-jobs-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SF-02-rules-loop-window",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-02-rules-loop-window-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SF-02-rules-loop-window",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-02-rules-loop-window-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SF-26-ops-crm-jobs-alert",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-26-ops-crm-jobs-alert-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SF-26-ops-crm-jobs-alert",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-26-ops-crm-jobs-alert-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SF-26-dashboard-job-failures",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-26-dashboard-job-failures-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SF-26-dashboard-job-failures",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-26-dashboard-job-failures-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SF-26-ops-crm-jobs-retried",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-26-ops-crm-jobs-retried-1440.png"
   }
 ]

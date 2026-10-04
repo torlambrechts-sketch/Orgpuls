@@ -107,7 +107,9 @@ begin
                       'app.crm_purge_due()', 'app.crm_record_label(text,uuid)']) f
                     where has_function_privilege('authenticated', f, 'execute') or has_function_privilege('anon', f, 'execute'))
     and app.crm_choice('delete_approval') = 'off' and app.crm_limit('restore_window_days') = 30
-    and exists (select 1 from cron.job j where j.jobname = 'orgpuls-crm-purge' and j.command like '%app.crm_purge_due()%');
+    -- 0199: the job runs through the CRM's runner, which records the run and calls the purge
+    and exists (select 1 from cron.job j where j.jobname = 'orgpuls-crm-purge' and j.command like '%app.crm_run(''crm_purge'')%')
+    and pg_get_functiondef('app.crm_run(text)'::regprocedure) ~ 'app\.crm_purge_due\(\)';
   v_rows := v_rows || jsonb_build_object('seq', 1, 'name', 'the flag on every record table; approvals, calls and engine closed; the rules and the job in place',
     'expected', 'true', 'actual', v_ok::text, 'pass', v_ok);
 

@@ -8584,6 +8584,8 @@
         "ticketWhyOrg": "{org} · the reply was due {time}",
         "failures": "{count, plural, one {# message} other {# messages}} failed in the last 24 hours",
         "failuresWhy": "Mail or SMS the dispatcher could not deliver",
+        "jobFailures": "{count, plural, one {# CRM job failure} other {# CRM job failures}} to look at",
+        "jobFailuresWhy": "Failed runs in the last 24 hours and event deliveries waiting for a retry",
         "tasks": "{count, plural, one {# CRM task is} other {# CRM tasks are}} overdue",
         "tasksWhy": "Past their due time and not marked done",
         "langs": "{count, plural, one {# published page lacks} other {# published pages lack}} a version in every language",
@@ -8922,6 +8924,78 @@
         "org": "Organisation",
         "addresses": "Addresses flagged",
         "note": "Opens and clicks are not collected: a per-person time of opening a survey link could help identify who answered."
+      },
+      "crm": {
+        "title": "CRM jobs",
+        "window": "Runs in the last 24 hours",
+        "alertRuns": "{count, plural, one {# failed run} other {# failed runs}} in the last 24 hours",
+        "alertDeliveries": "{count, plural, one {# event delivery waits} other {# event deliveries wait}} for a retry",
+        "head": {
+          "job": "Job",
+          "schedule": "Schedule",
+          "last": "Last run",
+          "result": "Result",
+          "runs": "Runs",
+          "failed": "Failed",
+          "items": "Items",
+          "longest": "Longest"
+        },
+        "job": {
+          "crm_dispatch": "Event dispatcher",
+          "crm_purge": "Restore list purge",
+          "lead_route": "Lead routing",
+          "brreg_triggers": "Register triggers"
+        },
+        "notScheduled": "Not scheduled",
+        "never": "Never",
+        "ok": "OK",
+        "failedCode": "Failed · {code}",
+        "notRun": "Not run yet",
+        "ms": "{ms} ms",
+        "seconds": "{s} s",
+        "failedRuns": "Hours with failed runs, last 7 days",
+        "failedHead": {
+          "hour": "Hour",
+          "job": "Job",
+          "runs": "Runs",
+          "failed": "Failed",
+          "error": "Error code"
+        },
+        "subscribers": "Event subscribers",
+        "subHead": {
+          "subscriber": "Subscriber",
+          "takes": "Takes",
+          "behind": "Unread",
+          "pending": "Retrying",
+          "failed": "Given up",
+          "skipped": "Set aside",
+          "oldest": "Oldest waiting",
+          "error": "Last error",
+          "action": "Action"
+        },
+        "noSubscribers": "No event subscribers.",
+        "handler": {
+          "rollup": "Daily count of events per kind"
+        },
+        "everyEvent": "Every event",
+        "paused": "Paused",
+        "retry": "Retry",
+        "retrying": "Retrying…",
+        "retried": "Queued again",
+        "problem": {
+          "failed": "Could not queue them again. Try once more.",
+          "invalid": "That subscriber is not valid.",
+          "not_found": "That subscriber no longer exists.",
+          "not_allowed": "Only super-admins and support can retry deliveries."
+        },
+        "rollups": "Events per kind, last 7 days",
+        "rollupHead": {
+          "event": "Event",
+          "total": "Total"
+        },
+        "noRollups": "No CRM events in the last 7 days.",
+        "note": "The dispatcher delivers each CRM event to each subscriber once. A delivery that fails is retried after 1, 5, 30 and 120 minutes, then waits for a retry here. The loop window lets a subscriber take at most {limit, number} events of one record in ten minutes; change it under <rules>Settings › CRM rules</rules>.",
+        "noteOff": "The dispatcher delivers each CRM event to each subscriber once. A delivery that fails is retried after 1, 5, 30 and 120 minutes, then waits for a retry here. The loop window is off; switch it on under <rules>Settings › CRM rules</rules>."
       }
     },
     "audit": {
@@ -12840,6 +12914,10 @@
           "limit_field_options": {
             "name": "Options per field",
             "why": "The most options in one option field."
+          },
+          "limit_event_loop": {
+            "name": "Events per record in ten minutes",
+            "why": "The most events of one record an event subscriber takes in a rolling ten minutes. The rest wait for a retry on the Operations page, so automations that set each other off stop."
           }
         }
       }

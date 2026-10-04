@@ -28,7 +28,7 @@ The column *Work package* is left empty: it is filled in Phase B (A4).
 | CUS Customization | 8 | 1 | 6 | 1 | 0 | 0 |
 | LEA Leads | 6 | 0 | 2 | 4 | 0 | 0 |
 | COM Email and communications | 14 | 0 | 3 | 11 | 0 | 0 |
-| AUT Automation | 12 | 0 | 5 | 7 | 0 | 0 |
+| AUT Automation | 12 | 0 | 6 | 6 | 0 | 0 |
 | INS Insights and reports | 10 | 0 | 2 | 8 | 0 | 0 |
 | PRO Prospecting | 7 | 0 | 2 | 5 | 0 | 0 |
 | AIA AI assistant | 7 | 0 | 0 | 7 | 0 | 0 |
@@ -43,7 +43,7 @@ The column *Work package* is left empty: it is filled in Phase B (A4).
 | INT Integrations and API | 11 | 0 | 0 | 11 | 0 | 0 |
 | MOB Mobile app | 8 | 0 | 0 | 8 | 0 | 0 |
 | ENT Plans and entitlements | 4 | 0 | 0 | 3 | 1 | 0 |
-| **Total** | **183** | **1** | **58** | **120** | **4** | **0** |
+| **Total** | **183** | **1** | **59** | **119** | **4** | **0** |
 
 User flows, system flows, settings, Part F entities and Part G non-functional requirements follow the feature
 tables, each with its own counts.
@@ -161,7 +161,7 @@ tables, each with its own counts.
 | AUT-06 If/else branches | Missing | — | — | Plan gates | AUT-01 | |
 | AUT-07 Actions | Partial | Journey steps send mail, move stage on send, create call/LinkedIn tasks (`LA/crm.ts:28-30`; `app.crm_step_tasks`) | No create/update/delete of records, notes, webhooks, Slack/Teams, Asana/Trello; no run history per action. | Consent checks on sales email; Count limits | AUT-01, INT-04 | |
 | AUT-08 Workflow templates | Missing | — | — | — | AUT-01 | |
-| AUT-09 Monitoring and limits | Missing | — | No run history, overview, failure alert or loop protection for CRM automation. | Technical safeguards | AUT-01 | |
+| AUT-09 Monitoring and limits | Partial | **WP-0.6 (0199, D-213):** every CRM job's runs counted per hour with an alert on a failed run (Operations › CRM jobs and the dashboard); loop protection on every event subscriber, `limit_event_loop`, 10,000 events of one record in a rolling ten minutes, the source value (CEI 4, 5, 7; screens `SF-26-ops-crm-jobs-alert`, `SF-26-dashboard-job-failures`) | No workflows yet (AUT-01): their run history, overview and the per-workflow cap (5,000) arrive with them. | Technical safeguards | AUT-01 | |
 | AUT-10 Ownership and sharing | Missing | — | — | — | SEC-07 | |
 | AUT-11 Automatic assignment | Partial | `app.lead_route()` every 5 minutes creates founder/PQL callback tasks by score (`mig/0143_growth_crm.sql:887`) | Not owner assignment; no rules with conditions, assignee types, round robin, priority order or history. | — | SEC-09 | |
 | AUT-12 Sequences | Partial | Mail/call/LinkedIn steps, follow-up days, business hours, daily cap, A/B winner, stage-targeted enrollment (`mig/0111_crm_sequences.sql`, `mig/0137_crm_win_rate_steps.sql`; `supabase/tests/crm_sequences_invariants.sql`, `crm_journeys_invariants.sql`) | No canvas, no manual or bulk enrollment of one record, no end-on-reply/stage-change per record, no per-record step and status (in progress/completed/failed), no skip step. | Consent checks on sales email | COM-02 | |
@@ -179,7 +179,7 @@ tables, each with its own counts.
 | INS-07 Custom-field reporting | Missing | — | — | — | CUS-01 | |
 | INS-08 Export | Missing | — | — | — | CRM-10 | |
 | INS-09 AI report generation | Missing | — | — | — | SF-24 | |
-| INS-10 Capacity and freshness | Partial | Reports read live tables (every page is `force-dynamic`, `app/(admin)/admin/layout.tsx:18-19`) | No report count limit and no rollups. | Plan gates | — | |
+| INS-10 Capacity and freshness | Partial | Reports read live tables (every page is `force-dynamic`, `app/(admin)/admin/layout.tsx:18-19`); **WP-0.6:** the first rollup, CRM events per kind and day, kept by the dispatcher (`app.crm_event_rollups`, CEI 2) | No report count limit; the other reports read live tables until the report store (INS-01). | Plan gates | — | |
 
 ## Prospecting (PRO)
 
@@ -395,7 +395,7 @@ Each step is given a status. A flow is Implemented only when every step is.
 | Flow | Status | Evidence | Missing or different |
 | --- | --- | --- | --- |
 | SF-01 Permission and visibility check | Partial | Step 1: session + admin role + aal2 (`app.admin_role`); **WP-0.4 (0196):** step 2 — the role as the coarse gate, then the permission set (`app.crm_can`, CAI 4–6, 10); step 3 — visibility by owner, group, group and sub-groups, or everyone in every reader and write (CAI 7, 8, 13); step 6 — refusals return `not_allowed`, every admin reader writes an audit row or is a reviewed exception (CAI 10), survey tables unreachable through any helper (CAI 11); **WP-0.5 (0197):** step 4 — field rules: hidden and read-only fields per permission set in every reader and writer (CFI 5) | Step 5 (entitlements) with ENT-01. |
-| SF-02 Record change and event publication | Partial | **WP-0.2 (0194):** change, changelog entry and event written in one transaction by triggers (CHI 2, 6); `app.crm_events` outbox | Steps 2–4 (dispatcher, once-only delivery per subscriber, retries) are WP-0.6 |
+| SF-02 Record change and event publication | Implemented | **WP-0.2 (0194):** step 1 — change, changelog entry and event written in one transaction by triggers (CHI 2, 6); **WP-0.6 (0199, D-213):** step 2 — the dispatcher delivers new events to the subscribers every minute, the report rollup first; step 3 — each subscriber takes each event once, by the read point that moves with the delivery (CEI 2, 6); step 4 — a failed delivery retries after 1, 5, 30 and 120 minutes without holding up others, then waits for an admin's retry (CEI 3) | The other subscribers (workflows, assignment, scoring, feed, webhooks, notifications) are added as each is built. |
 | SF-03 Email sync | Missing | — | — |
 | SF-04 Workflow execution | Missing | Journey claim loop is the nearest engine (`crm_mail_claim`) | No workflows. |
 | SF-05 Sequence scheduler | Partial | `crm_mail_claim` computes follow-up times in business hours and creates step tasks | No per-record enrollment, consent setting, end on reply/stage change per record. |
@@ -419,7 +419,7 @@ Each step is given a status. A flow is Implemented only when every step is.
 | SF-23 Webhook delivery | Missing | — | — |
 | SF-24 AI gateway call | Missing | — | — |
 | SF-25 Search | Missing | Per-page `ilike` search only | No index. |
-| SF-26 Scheduled checks | Partial | pg_cron runs dispatch, lead routing and Brønnøysund polling (01) | No rotting, date-trigger, goal or feed checks; no run record with alert for these. |
+| SF-26 Scheduled checks | Partial | pg_cron runs dispatch, lead routing and Brønnøysund polling (01); **WP-0.6 (0199, D-213):** step 1 — the CRM's jobs (event dispatcher, restore list purge, lead routing, register triggers) start through one runner, a job never overlapping itself; step 6 — each run recorded per hour and on the job, a failed run alerted on Operations and the dashboard (CEI 5, 7) | Steps 2–5 (rotting, date triggers, goals, feed) with PIP-05, AUT-03, INS-05 and PRO-01, each as a job in the runner. |
 | SF-27 Sign-in and security events | Partial | Password + TOTP; `admin.login` audit row | No rules, device/location log, alerts. |
 | SF-28 Calls and messages | Missing | — | — |
 | SF-29 Contact sync | Missing | — | — |
@@ -440,7 +440,7 @@ Each step is given a status. A flow is Implemented only when every step is.
 | SF-44 Mobile client | Missing | — | — |
 | SF-45 Lead lifecycle | Missing | — | No lead object. |
 
-**Counts (after WP-0.5):** 0 Implemented, 17 Partial, 27 Missing, 1 Conflict.
+**Counts (after WP-0.6):** 1 Implemented, 16 Partial, 27 Missing, 1 Conflict.
 
 ## Settings register (Part C, CUS-07)
 
@@ -458,13 +458,13 @@ Each step is given a status. A flow is Implemented only when every step is.
 | Who sees a new company | Implemented | WP-0.4: `default_visibility_company` everyone / group_tree / group / owner, default everyone; consumer `app.crm_default_visibility()` (the column's default); CAI 8; screen `SET-rules-access` | Not in the brief's register by name: SEC-08 sets defaults per record type. Deals and leads get theirs when built |
 | Plan gates and usage limits | Missing | — | — |
 | API rate limits | Missing | — | — |
-| Technical safeguards | Missing | — | — |
+| Technical safeguards | Partial | WP-0.6: workflow loop protection as `limit_event_loop`, 10,000 events of one record per subscriber in a rolling ten minutes (the source value), changeable or off under Settings › CRM rules; consumer `app.crm_dispatch`; CEI 4, 7; screen `SF-02-rules-loop-window` | The webhook retry and ban policy arrives with INT-04; the per-workflow cap (5,000) with AUT-01 |
 | Anonymity firewall | Partial | Fixed in the database (CLAUDE.md invariants 1–3; `respondent_invariants.sql`, `growth_firewall_invariants.sql`, `crm_invariants.sql`) | Already a constant; new CRM code must keep it. Not in any registry (correct). |
 | Typed reason for CRM actions | Implemented | WP-0.1: `typed_reason` off / on, default off; consumers contact action, list removal, customer exception, rule changes (`app.crm_reason_ok`); CRR 4, 9, 13 | Each new CRM write adds it as it is built |
 | Consent-gated loading of site widgets | Missing | No widgets | — |
 | Recording consent notices to attendees | Missing | — | — |
 
-**Counts (after WP-0.4):** 6 Implemented, 2 Partial, 9 Missing, 0 Conflict.
+**Counts (after WP-0.6):** 6 Implemented, 3 Partial, 8 Missing, 0 Conflict.
 
 ## Part F — entities and conventions
 
@@ -505,11 +505,11 @@ Event catalog: Missing for every CRM family; the product families exist as growt
 | Audit | Partial | Writes audited; ~40 admin reads (13 CRM) not; no typed-reason setting; no run histories beyond tickets/campaigns. |
 | Data residency | Partial | Database eu-central-1, Vercel fra1; Brevo is the mail provider (region to confirm). |
 | Sending | Partial | Streams separate; no sales email exists. |
-| Job runtime | Partial | pg_cron + edge functions exist; mail sync/meeting capture do not fit (open point 3). |
+| Job runtime | Partial | pg_cron + edge functions exist; mail sync/meeting capture do not fit (open point 3). WP-0.6: the CRM's jobs run through one runner (`app.crm_run`) that records each run and keeps a job from overlapping itself (DEC-14). |
 | Recovery | Missing | No recorded objectives or restore test. |
 | Scale | Unknown | Not measured; 500-row caps in company reads. |
 | Performance | Unknown | Not measured (A8 asks for timings with seeded volume). |
-| Monitoring | Partial | No job monitor screen per 04 §10. |
+| Monitoring | Partial | WP-0.6: Operations › CRM jobs shows the CRM's jobs, their runs, failures and event deliveries, with an alert there and on the dashboard. The product's other scheduled jobs are not in it. |
 | AI governance | Missing | No AI. |
 | Privacy | Partial | Erasure for contacts; no recording consent (no recordings). |
 | Destructive actions | Partial | Contact erase requires a reason; no preview/soft delete/second admin. |
