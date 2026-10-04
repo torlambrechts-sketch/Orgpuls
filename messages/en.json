@@ -2222,8 +2222,10 @@
       },
       "pillGrace": "{count, plural, one {# day} other {# days}} until the free plan",
       "pillFree": "Free plan",
+      "pillFreeFrom": "Free plan from {date}",
       "graceBody": "The trial ended on {end}. Everything works until {until}. Confirm the subscription below before then; otherwise you move to the free plan.",
       "freeBody": "The trial ended on {end}, and you are on the free plan: you can send the standard main survey, read the results and follow up with measures, for as long as you like. Choose a plan below for pulses, industry modules, your own questions, comparisons with earlier rounds and the report for the Labour Inspection Authority.",
+      "freeBodyChosen": "You moved to the free plan on {date}: you can send the standard main survey, read the results and follow up with measures, for as long as you like. Choose a plan below for pulses, industry modules, your own questions, comparisons with earlier rounds and the report for the Labour Inspection Authority.",
       "termsAfterTrial": "Prices exclude VAT. The first invoice runs from the day you confirm. {interval, select, year {Yearly agreement: invoiced a year at a time, two months free, no setup fee.} other {Monthly agreement, no lock-in and no setup fee.}}",
       "cancel": {
         "head": "Cancel the subscription",
@@ -2231,6 +2233,7 @@
         "leadPaying": "The agreement is {interval, select, year {yearly} other {monthly}}. If you cancel now, it runs until and including {last}. After that you can sign in, read and download everything until {deleted}. Then all data is deleted.",
         "leadTrial": "If you cancel during the trial, it ends today. You can sign in, read and download everything until {deleted}. Then all data is deleted.",
         "leadFree": "If you cancel, the free plan ends today. You can sign in, read and download everything until {deleted}. Then all data is deleted.",
+        "orFree": "If you would rather carry on for free, you can move to the free plan above. Then nothing is deleted.",
         "open": "Cancel …",
         "reasonLegend": "Why are you cancelling? (optional)",
         "reason": {
@@ -2250,6 +2253,22 @@
           "confirm_required": "Tick the box to confirm you understand what is deleted.",
           "already_cancelled": "The subscription has already been cancelled.",
           "not_cancelled": "The subscription has not been cancelled."
+        }
+      },
+      "downgrade": {
+        "head": "Move to the free plan",
+        "lead": "If you no longer want to pay, you can carry on for free. The subscription runs until and including {last}, and from {first} you are on the free plan: the standard main survey, the results and the measures, without pulses, industry modules, your own questions, comparisons or the report. Nothing is deleted, and you can choose a plan again at any time.",
+        "open": "Move to the free plan …",
+        "confirm": "I understand that {org} moves to the free plan on {first}, and that pulses, industry modules, your own questions, comparisons and the report are then no longer included.",
+        "submit": "Move to the free plan",
+        "pendingBody": "You move to the free plan on {first}. Until then everything works as before, and the subscription runs until and including {last}. If you change your mind, you can take it back until then.",
+        "withdraw": "Take the move back",
+        "problem": {
+          "confirm_required": "Tick the box to confirm you understand what the free plan includes.",
+          "already_chosen": "You have already chosen the free plan.",
+          "not_subscribed": "Only a confirmed subscription can move to the free plan.",
+          "cancelled": "The subscription has been cancelled.",
+          "not_chosen": "No move to the free plan has been chosen."
         }
       }
     },
@@ -6686,6 +6705,10 @@
           },
           {
             "t": "p",
+            "text": "**Moving to the free plan.** The managing director may instead move to the free plan under Settings › Payment. The subscription runs to the end of the paid period, and nothing is deleted. If nothing has been invoiced yet, the free plan begins when the trial ends."
+          },
+          {
+            "t": "p",
             "text": "**Cancellation by the customer.** The managing director cancels in Orgpuls under Settings › Payment, or in writing to [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no)."
           },
           {
@@ -10393,7 +10416,7 @@
       "tag": "Workplace surveys · {count, plural, one {# customer} other {# customers}} · {domain}",
       "kpi": {
         "active": "Active customers",
-        "activeSub": "{trial} in trial · {expired} expired",
+        "activeSub": "{trial} in trial · {free} on the free plan",
         "trials": "Trials",
         "trialsSub": "{count, plural, =0 {None end within 7 days} one {# ends within 7 days} other {# end within 7 days}}",
         "pipeline": "Open pipeline",
@@ -13913,6 +13936,8 @@
       "extended": "Extended",
       "account": "Account",
       "noPlan": "Not chosen yet",
+      "interval": {"month": "monthly", "year": "yearly"},
+      "freeFromLabel": "Free plan from",
       "since": "Customer since",
       "trialEndsLabel": "Trial ends",
       "health": "Health",

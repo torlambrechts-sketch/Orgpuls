@@ -2,7 +2,15 @@
 
 import { useActionState, useId, useState } from 'react'
 import Link from 'next/link'
-import { cancelSubscription, extendTrial, saveBilling, withdrawCancellation, type BillingResult } from '@/app/(app)/oppsett/billing-actions'
+import {
+  cancelSubscription,
+  downgradeToFree,
+  extendTrial,
+  saveBilling,
+  withdrawCancellation,
+  withdrawDowngrade,
+  type BillingResult,
+} from '@/app/(app)/oppsett/billing-actions'
 import { Button } from '@/components/ui/Button'
 
 /**
@@ -323,6 +331,78 @@ export function CancelSubscription({ reasons, labels }: { reasons: readonly stri
 
 export function WithdrawCancellation({ labels }: { labels: { submit: string; pending: string; problems: Record<string, string> } }) {
   const [state, action, pending] = useActionState<BillingResult | null>(withdrawCancellation, null)
+  const problem = state && !state.ok ? (labels.problems[state.problem] ?? labels.problems.failed) : null
+  return (
+    <form action={action} className="mt-[14px] flex flex-wrap items-center gap-[12px]">
+      <Button type="submit" size="md" tone="primary" disabled={pending}>
+        {pending ? labels.pending : labels.submit}
+      </Button>
+      {problem ? (
+        <span role="alert" className="basis-full text-[12.5px] font-semibold text-danger">
+          {problem}
+        </span>
+      ) : null}
+    </form>
+  )
+}
+
+/**
+ * Moving to the free plan (0202, D-226): a quiet button that opens the step — the day the free plan
+ * begins and what it holds, said in the lead — and a box to tick before anything is sent. Unlike
+ * cancelling, nothing is deleted, so the button is not the danger colour.
+ */
+export function DowngradeToFree({
+  labels,
+}: {
+  labels: { open: string; confirm: string; submit: string; pending: string; back: string; problems: Record<string, string> }
+}) {
+  const id = useId()
+  const [open, setOpen] = useState(false)
+  const [sure, setSure] = useState(false)
+  const [state, action, pending] = useActionState<BillingResult | null, FormData>(downgradeToFree, null)
+  const problem = state && !state.ok ? (labels.problems[state.problem] ?? labels.problems.failed) : null
+
+  if (!open) {
+    return (
+      <div className="mt-[14px]">
+        <Button type="button" size="md" tone="secondary" onClick={() => setOpen(true)}>
+          {labels.open}
+        </Button>
+      </div>
+    )
+  }
+  return (
+    <form action={action} className="mt-[14px] flex flex-col gap-[14px] rounded-panel border border-line bg-bg px-[18px] py-[16px]">
+      <label htmlFor={`${id}-sure`} className="flex cursor-pointer items-start gap-[10px] text-[13px] leading-[1.55]">
+        <input
+          id={`${id}-sure`}
+          type="checkbox"
+          name="confirm"
+          checked={sure}
+          onChange={(e) => setSure(e.target.checked)}
+          className="mt-[3px] h-[16px] w-[16px] flex-none cursor-pointer accent-ink"
+        />
+        <span>{labels.confirm}</span>
+      </label>
+      <span className="flex flex-wrap items-center gap-[10px]">
+        <Button type="submit" size="md" tone="primary" disabled={!sure || pending}>
+          {pending ? labels.pending : labels.submit}
+        </Button>
+        <Button type="button" size="md" tone="ghost" onClick={() => (setOpen(false), setSure(false))}>
+          {labels.back}
+        </Button>
+      </span>
+      {problem ? (
+        <span role="alert" className="text-[12.5px] font-semibold text-danger">
+          {problem}
+        </span>
+      ) : null}
+    </form>
+  )
+}
+
+export function WithdrawDowngrade({ labels }: { labels: { submit: string; pending: string; problems: Record<string, string> } }) {
+  const [state, action, pending] = useActionState<BillingResult | null>(withdrawDowngrade, null)
   const problem = state && !state.ok ? (labels.problems[state.problem] ?? labels.problems.failed) : null
   return (
     <form action={action} className="mt-[14px] flex flex-wrap items-center gap-[12px]">

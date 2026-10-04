@@ -105,3 +105,36 @@ export async function withdrawCancellation(_prev: BillingResult | null): Promise
   revalidatePath('/', 'layout')
   return { ok: true }
 }
+
+/**
+ * The daglig leder moves a paid plan to the free plan (0202, D-226). The database decides the day
+ * it begins (after the paid month or year, or when the trial ends) and refuses without the explicit
+ * confirmation; nothing is deleted.
+ */
+export async function downgradeToFree(_prev: BillingResult | null, formData: FormData): Promise<BillingResult> {
+  if (formData.get('confirm') !== 'on') return { ok: false, problem: 'confirm_required' }
+  const org = await getCurrentOrgId()
+  if (!org) return { ok: false, problem: 'not_allowed' }
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('downgrade_to_free', { p_org: org, p_confirm: true })
+  if (error) return { ok: false, problem: 'failed' }
+  const reply = Reply.safeParse(data)
+  if (!reply.success) return { ok: false, problem: 'failed' }
+  if (!reply.data.ok) return { ok: false, problem: reply.data.error ?? 'failed' }
+  revalidatePath('/', 'layout')
+  return { ok: true }
+}
+
+/** Takes the move to the free plan back, until the day it would begin (0202). */
+export async function withdrawDowngrade(_prev: BillingResult | null): Promise<BillingResult> {
+  const org = await getCurrentOrgId()
+  if (!org) return { ok: false, problem: 'not_allowed' }
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('withdraw_downgrade', { p_org: org })
+  if (error) return { ok: false, problem: 'failed' }
+  const reply = Reply.safeParse(data)
+  if (!reply.success) return { ok: false, problem: 'failed' }
+  if (!reply.data.ok) return { ok: false, problem: reply.data.error ?? 'failed' }
+  revalidatePath('/', 'layout')
+  return { ok: true }
+}

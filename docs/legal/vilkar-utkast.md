@@ -177,6 +177,10 @@ punkt 5.
 
 En månedlig avtale har ingen bindingstid. En årlig avtale gjelder for ett år om gangen.
 
+**Overgang til gratisplanen.** Daglig leder kan i stedet gå over til gratisplanen under Oppsett ›
+Betaling. Abonnementet gjelder ut den betalte perioden, og ingenting slettes. Er ingenting fakturert
+ennå, begynner gratisplanen når prøveperioden er over.
+
 - **Kundens oppsigelse:** daglig leder sier opp i Orgpuls under Oppsett › Betaling, eller
   skriftlig til [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no).
   - Et månedlig abonnement gjelder ut inneværende måned, et årlig ut det betalte året. En
@@ -280,3 +284,4 @@ være månedlig eller årlig, der årlig koster ti måneders pris (punkt 4 og 10
 Samme dag, versjon 2 publisert: punkt 3 fikk et avsnitt om at innholdet i gratisplanen kan endres
 med minst 60 dagers varsel (eierens beslutning), og versjonslinjen ble «Versjon 2 · gjelder fra
 4. oktober 2026».
+Samme dag (D-226): punkt 10 fikk avsnittet «Overgang til gratisplanen».

@@ -34,6 +34,8 @@ const BillingRow = z.object({
   cancelled_at: z.string().nullable(),
   cancel_effective_at: z.string().nullable(),
   deletion_due_at: z.string().nullable(),
+  // a chosen move to the free plan (0202, D-226): the day it begins
+  free_from: z.string().nullable(),
   cancel_source: z.enum(['admin', 'customer']).nullable(),
 })
 export type Billing = z.infer<typeof BillingRow>
@@ -44,7 +46,7 @@ export async function getBilling(orgId: string): Promise<Billing | null> {
   const { data, error } = await supabase
     .schema('app')
     .from('billing')
-    .select('trial_started_at, trial_ends_at, trial_extended_at, plan, billing_interval, invoice_email, invoice_ref, ehf, confirmed_at, cancelled_at, cancel_effective_at, deletion_due_at, cancel_source')
+    .select('trial_started_at, trial_ends_at, trial_extended_at, plan, billing_interval, invoice_email, invoice_ref, ehf, confirmed_at, cancelled_at, cancel_effective_at, deletion_due_at, free_from, cancel_source')
     .eq('org_id', orgId)
     .maybeSingle()
 

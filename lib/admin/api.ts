@@ -137,6 +137,9 @@ const OrgDetail = z.object({
   billing: z
     .object({
       plan: z.string().nullable(),
+      // 0202: the interval and a chosen move to the free plan (absent before that migration)
+      billing_interval: z.enum(['month', 'year']).optional(),
+      free_from: tsn.optional(),
       trial_started_at: ts,
       trial_ends_at: ts,
       trial_extended_at: tsn,
@@ -291,6 +294,8 @@ const Kpis = z.object({
   trials_active: num,
   trials_expiring_7d: num,
   trials_expired: num,
+  // on the free plan now, after the trial or by choice (0202)
+  free_plan: num.default(0),
   mrr: num,
   arr: num,
   conversion: numn,
