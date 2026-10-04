@@ -76,6 +76,7 @@ recommended option every time.
 | DEC-45 | The Phase 0 gate (`reports/phase-0.md` § 3) (2026-10-04) | **Accepted, with the remainder in later phases.** Phase 0 is done once the held parts land; then the merge (DEC-23) and the post-merge steps. SF-34's «warn» outcome and a test that the firewall is not in the registry go into WP-1.2 |
 | DEC-46 | The design deviations without a recorded decision: CRM events in their own catalogue and outbox (D-209); visibility in the definer calls rather than RLS policies, and `app.crm_can(action)` (D-211); one GIN index per table (D-212); only failed or set-aside deliveries stored, runs counted per hour (D-213) (2026-10-04) | **All four accepted** |
 | DEC-47 | `supabase db lint` warnings, 22 functions, five of them Phase 0's (2026-10-04) | **Left as they are, tracked as a finding**: the literal-initialiser class has no effect on behaviour; it is cleared with the older ones in a later clean-up migration (`06-QUESTIONS.md` § E) |
+| DEC-48 | Who opens the session that applies the held parts and merges (2026-10-04) | **Tor opens it**, after checking that `apply_migration` is allowed in the Supabase connector's tool permissions, on `ccr-39a2fb73-jgkg09` with «Follow docs/crm-enrichment/NEXT-SESSION.md» |
 
 Still open (asked at the phase that needs them): Q7 lead object (plan follows the brief: own table), Q13
 threshold (plan keeps the product rule: floor 3, default 5), open points 2
