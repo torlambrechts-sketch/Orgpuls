@@ -32,7 +32,18 @@ export function ExtendTrialButton({
   )
 }
 
-type PlanOption = { key: string; name: string; who: string; price: string; unit: string; fits: boolean; suggested: boolean }
+type Interval = 'month' | 'year'
+type PlanOption = {
+  key: string
+  name: string
+  who: string
+  price: Record<Interval, string>
+  unit: Record<Interval, string>
+  /** a yearly price as a month, «tilsvarer 221 kr per måned»; null for the plan by agreement */
+  perMonth: string | null
+  fits: boolean
+  suggested: boolean
+}
 
 export function BillingForm({
   plans,
@@ -42,11 +53,13 @@ export function BillingForm({
   labels,
 }: {
   plans: PlanOption[]
-  initial: { plan: string | null; invoiceEmail: string; invoiceRef: string; ehf: boolean }
+  initial: { plan: string | null; interval: Interval; invoiceEmail: string; invoiceRef: string; ehf: boolean }
   orgNumber: string | null
   confirmed: boolean
   labels: {
     planLegend: string
+    intervalLegend: string
+    intervals: Record<Interval, string>
     suggested: string
     tooMany: string
     invoiceEmail: string
@@ -55,7 +68,7 @@ export function BillingForm({
     invoiceRefHint: string
     ehf: string
     ehfNoOrgnr: string
-    terms: string
+    terms: Record<Interval, string>
     save: string
     confirm: string
     confirmGroup: string
@@ -67,6 +80,7 @@ export function BillingForm({
 }) {
   const id = useId()
   const [plan, setPlan] = useState(initial.plan ?? plans.find((p) => p.suggested)?.key ?? plans[0]?.key ?? '')
+  const [interval, setInterval] = useState<Interval>(initial.interval)
   // controlled, so a refused save keeps what was typed rather than React's reset to the defaults
   const [invoiceEmail, setInvoiceEmail] = useState(initial.invoiceEmail)
   const [invoiceRef, setInvoiceRef] = useState(initial.invoiceRef)
@@ -77,6 +91,30 @@ export function BillingForm({
 
   return (
     <form action={action} className="flex flex-col gap-[16px]" aria-describedby={problem ? `${id}-problem` : undefined}>
+      <fieldset className="m-0 border-0 p-0">
+        <legend className="mb-[10px] p-0 text-[12.5px] font-semibold">{labels.intervalLegend}</legend>
+        <div className="inline-flex max-w-full flex-wrap rounded-cta border border-line bg-track p-[3px]">
+          {(['month', 'year'] as const).map((v) => (
+            <label
+              key={v}
+              className={`cursor-pointer rounded-bar px-[14px] py-[7px] text-[13px] font-bold leading-[normal] has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-1 has-[:focus-visible]:outline-ink ${
+                interval === v ? 'bg-ink text-bg' : 'bg-transparent text-ink'
+              }`}
+            >
+              <input
+                type="radio"
+                name="interval"
+                value={v}
+                checked={interval === v}
+                onChange={() => setInterval(v)}
+                className="sr-only"
+              />
+              {labels.intervals[v]}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
       <fieldset className="m-0 border-0 p-0">
         <legend className="mb-[10px] p-0 text-[12.5px] font-semibold">{labels.planLegend}</legend>
         <div className="grid gap-[10px] [grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))]">
@@ -106,9 +144,10 @@ export function BillingForm({
                 </span>
                 <span className="text-[12px] text-mut">{p.who}</span>
                 <span className="mt-[4px] flex items-baseline gap-[6px]">
-                  <span className="font-display text-[22px] font-semibold leading-none">{p.price}</span>
-                  <span className="text-[12px] text-mut">{p.unit}</span>
+                  <span className="font-display text-[22px] font-semibold leading-none">{p.price[interval]}</span>
+                  <span className="text-[12px] text-mut">{p.unit[interval]}</span>
                 </span>
+                {interval === 'year' && p.perMonth ? <span className="text-[11.5px] text-mut">{p.perMonth}</span> : null}
                 {!p.fits ? <span className="mt-[2px] text-[11.5px] text-mut">{labels.tooMany}</span> : null}
               </label>
             )
@@ -162,7 +201,7 @@ export function BillingForm({
         <span>{orgNumber ? labels.ehf : labels.ehfNoOrgnr}</span>
       </label>
 
-      <p className="m-0 text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">{labels.terms}</p>
+      <p className="m-0 text-[12.5px] leading-[1.55] text-mut [text-wrap:pretty]">{labels.terms[interval]}</p>
 
       <div className="flex flex-wrap items-center gap-[10px]">
         {confirmed ? null : (

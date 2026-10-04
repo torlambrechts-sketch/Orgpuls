@@ -1,4 +1,6 @@
 import { getLocale, getTranslations } from 'next-intl/server'
+import { isFreePlan } from '@/lib/billing/read'
+import { getCurrentOrgId } from '@/lib/org/current'
 import { K_DEFAULT } from '@/lib/org/threshold'
 import {
   InnsiktScreen,
@@ -65,7 +67,9 @@ export default async function InnsiktPage() {
   // different questions; the design's own Resultat pairs 61 with 64 and a puls with the
   // puls before it (bundle 2950-2953). Any closed round used to do, which was invisible
   // while the fixture had only grunnlinjer closed. D-46.
-  const previous = current ? (closed.find((r) => r !== current && r.kind === current.kind) ?? null) : null
+  // the free plan compares nothing with earlier rounds (0201, D-217)
+  const free = await isFreePlan(await getCurrentOrgId())
+  const previous = current && !free ? (closed.find((r) => r !== current && r.kind === current.kind) ?? null) : null
 
   // both indices and the response rate in one call (0044)
   const [digest, risk, measures, openFactorKeys, currentSetup, shell] = await Promise.all([

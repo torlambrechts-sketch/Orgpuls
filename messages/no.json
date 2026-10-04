@@ -412,6 +412,7 @@
         "past": "Bare måneder som ligger foran kan endres.",
         "occupied": "Det er allerede en måling denne måneden.",
         "not_planned": "Det er ingen planlagt puls denne måneden.",
+        "free_plan": "Puls er ikke med i gratisplanen. Velg plan under Oppsett › Betaling for å legge til en måned.",
         "not_skipped": "Pulsen denne måneden er ikke hoppet over.",
         "skipped": "Pulsen fra årshjulet er hoppet over denne måneden. Ta den tilbake i stedet.",
         "no_wheel": "Årshjulet er ikke slått på, så en puls her ville aldri gått ut.",
@@ -430,7 +431,8 @@
         "round_open": "En runde er allerede åpen.",
         "too_soon": "Siste runde lukket for under 14 dager siden. Neste puls kan startes fra {date}.",
         "no_factors": "Ingen faktorer å spørre om: ingen puls er planlagt, og ingen tiltak er åpne.",
-        "read_only": "Prøveperioden og fristen for å bekrefte er over. Daglig leder bekrefter abonnementet under Oppsett › Betaling, så kan dere sende igjen."
+        "read_only": "Avtalen er avsluttet, så nye målinger kan ikke startes.",
+        "free_plan": "Puls er ikke med i gratisplanen. Daglig leder velger plan under Oppsett › Betaling."
       }
     },
     "closesAt": "lukkes {date}",
@@ -444,6 +446,7 @@
       "onNote": "Kommer med i planlagte og nye hovedmålinger.",
       "offNote": "Ikke med i hovedmålingene.",
       "readOnly": "Bare daglig leder kan slå moduler av og på.",
+      "freePlan": "Bransjemodulene er ikke med i gratisplanen. Daglig leder velger plan under Oppsett › Betaling.",
       "none": "Ingen bransjemoduler er tilgjengelige ennå.",
       "failed": "Kunne ikke lagre valget. Prøv igjen.",
       "seeAll": "Se hele spørsmålssettet",
@@ -1373,7 +1376,8 @@
       "capped": "Fem egne spørsmål er taket.",
       "locked": "Målingen har startet, så spørsmålene kan ikke endres.",
       "moduleFactorRequired": "Minst én faktor må være med.",
-      "reasonRequired": "Skriv en begrunnelse på minst ti tegn for å ta ut screeningen."
+      "reasonRequired": "Skriv en begrunnelse på minst ti tegn for å ta ut screeningen.",
+      "plan": "Dette er ikke med i gratisplanen: puls, oppfølgingsmålinger, bransjemoduler og egne spørsmål følger med en plan. Daglig leder velger plan under Oppsett › Betaling."
     },
     "ownSave": "Lagre",
     "cadenceKvartal": "Kvartalsvis",
@@ -2164,11 +2168,12 @@
       "head": "Betaling",
       "onlyLeader": "Daglig leder velger plan og legger inn fakturaopplysningene. Prøveperioden og betalingen vises bare for daglig leder.",
       "trialHead": "Prøveperiode",
+      "freeHead": "Gratisplan",
       "subscriptionHead": "Abonnement",
       "pillLeft": "{count, plural, =0 {Siste dag} one {# dag igjen} other {# dager igjen}}",
       "pillConfirmed": "Bekreftet",
-      "trialBody": "Prøveperioden startet {start} og varer til {end} — {total} dager, gratis og uten kort. Velg plan og fakturaopplysninger under før den er over. Etter prøveperioden har dere {grace} dager på å bekrefte; deretter kan dere lese resultatene, men ikke sende nye undersøkelser før abonnementet er bekreftet.",
-      "confirmedBody": "{plan} er bekreftet. Abonnementet starter {start}, og fakturaen sendes til {mail}.",
+      "trialBody": "Prøveperioden startet {start} og varer til {end} — {total} dager, gratis og uten kort. Velg plan og fakturaopplysninger under før den er over. Etter prøveperioden virker alt i {grace} dager til; deretter går dere over til gratisplanen: standard hovedkartlegging, resultater og tiltak, uten puls, bransjemoduler, egne spørsmål, sammenligning og rapport.",
+      "confirmedBody": "{plan} er bekreftet, med {interval, select, year {årlig} other {månedlig}} faktura. Abonnementet starter {start}, og fakturaen sendes til {mail}.",
       "confirmedGroupBody": "Dere har bedt om et tilbud på {plan}. Vi tar kontakt på {mail} før {start}.",
       "progress": "Dager brukt av prøveperioden",
       "extend": "Forleng prøveperioden med 15 dager",
@@ -2179,6 +2184,15 @@
       "planLead": "Fakturaen sendes til {name}, org.nr. {orgnr}. Planen følger antall ansatte dere har oppgitt: {count}.",
       "noOrgnr": "ikke registrert",
       "planLegend": "Velg plan",
+      "intervalLegend": "Betaling",
+      "interval": {
+        "month": "Månedlig",
+        "year": "Årlig – 2 måneder gratis"
+      },
+      "kroner": "{n} kr",
+      "perMonth": "per måned",
+      "perYear": "per år",
+      "yearPerMonth": "Tilsvarer {price} kr per måned",
       "suggested": "Passer dere",
       "tooMany": "Dere har {count} ansatte, flere enn planen gjelder for.",
       "invoiceEmail": "Faktura sendes til (e-post)",
@@ -2187,7 +2201,7 @@
       "invoiceRefHint": "Innkjøpsnummer, avdeling eller kontaktperson som skal stå på fakturaen.",
       "ehf": "Send som EHF-faktura til org.nr. {orgnr}",
       "ehfNoOrgnr": "EHF-faktura krever et organisasjonsnummer. Legg det inn under Selskap.",
-      "terms": "Prisene er eks. mva. Første faktura gjelder fra {end}, når prøveperioden er over. Månedlig avtale, ingen bindingstid og ingen oppstartsavgift.",
+      "terms": "Prisene er eks. mva. Første faktura gjelder fra {end}, når prøveperioden er over. {interval, select, year {Årlig avtale: fakturert for ett år om gangen, to måneder gratis, ingen oppstartsavgift.} other {Månedlig avtale, ingen bindingstid og ingen oppstartsavgift.}}",
       "save": "Lagre utkast",
       "saveChanges": "Lagre endringer",
       "confirm": "Bekreft abonnement",
@@ -2206,16 +2220,17 @@
         "not_allowed": "Bare daglig leder kan endre betalingen.",
         "failed": "Det gikk ikke å lagre. Prøv igjen."
       },
-      "pillGrace": "{count, plural, one {# dag} other {# dager}} til bare lesetilgang",
-      "pillReadOnly": "Bare lesetilgang",
-      "graceBody": "Prøveperioden gikk ut {end}. Alt virker fram til {until}. Bekreft abonnementet under før det, ellers kan dere bare lese resultatene til det er gjort.",
-      "readOnlyBody": "Prøveperioden gikk ut {end}, og fristen for å bekrefte er passert. Dere kan lese resultater og rapporter, og en undersøkelse som er i gang, fullføres. Bekreft abonnementet under, så kan dere sende igjen med en gang.",
-      "termsAfterTrial": "Prisene er eks. mva. Første faktura gjelder fra dagen dere bekrefter. Månedlig avtale, ingen bindingstid og ingen oppstartsavgift.",
+      "pillGrace": "{count, plural, one {# dag} other {# dager}} til gratisplanen",
+      "pillFree": "Gratisplan",
+      "graceBody": "Prøveperioden gikk ut {end}. Alt virker fram til {until}. Bekreft abonnementet under før det; ellers går dere over til gratisplanen.",
+      "freeBody": "Prøveperioden gikk ut {end}, og dere er på gratisplanen: dere kan sende standard hovedkartlegging, lese resultatene og følge opp med tiltak, så lenge dere vil. Velg en plan under for puls, bransjemoduler, egne spørsmål, sammenligning med tidligere runder og rapporten til Arbeidstilsynet.",
+      "termsAfterTrial": "Prisene er eks. mva. Første faktura gjelder fra dagen dere bekrefter. {interval, select, year {Årlig avtale: fakturert for ett år om gangen, to måneder gratis, ingen oppstartsavgift.} other {Månedlig avtale, ingen bindingstid og ingen oppstartsavgift.}}",
       "cancel": {
         "head": "Si opp abonnementet",
         "doneHead": "Abonnementet er sagt opp",
-        "leadPaying": "Avtalen er månedlig. Sier dere opp nå, gjelder den til og med {last}. Etter det kan dere logge inn, lese og laste ned alt til {deleted}. Da slettes alle opplysninger.",
+        "leadPaying": "Avtalen er {interval, select, year {årlig} other {månedlig}}. Sier dere opp nå, gjelder den til og med {last}. Etter det kan dere logge inn, lese og laste ned alt til {deleted}. Da slettes alle opplysninger.",
         "leadTrial": "Sier dere opp i prøveperioden, avsluttes den i dag. Dere kan logge inn, lese og laste ned alt til {deleted}. Da slettes alle opplysninger.",
+        "leadFree": "Sier dere opp, avsluttes gratisplanen i dag. Dere kan logge inn, lese og laste ned alt til {deleted}. Da slettes alle opplysninger.",
         "open": "Si opp …",
         "reasonLegend": "Hvorfor sier dere opp? (valgfritt)",
         "reason": {
@@ -3388,7 +3403,7 @@
       "trial_ending": {
         "subject": "Prøveperioden slutter {date}",
         "lead": "Prøveperioden for {org} slutter {date}. Velg en plan under Oppsett › Betaling for å fortsette uten opphold.",
-        "more": "Gjør dere ikke det, virker alt i {grace} dager til. Deretter kan dere lese alt, men ikke starte nye målinger før en plan er valgt.",
+        "more": "Gjør dere ikke det, virker alt i {grace} dager til. Deretter går dere over til gratisplanen: standard hovedkartlegging, resultater og tiltak, uten puls, bransjemoduler, sammenligning og rapport.",
         "cta": "Velg plan"
       },
       "trial_ended": {
@@ -3398,8 +3413,8 @@
         "cta": "Velg plan"
       },
       "read_only_soon": {
-        "subject": "Fra {date} kan dere bare lese",
-        "lead": "Fra {date} kan {org} lese alle resultater og rapporter, men ikke starte nye målinger, før en plan er valgt.",
+        "subject": "Fra {date} er dere på gratisplanen",
+        "lead": "Fra {date} er {org} på gratisplanen: dere kan sende standard hovedkartlegging, lese resultatene og følge opp med tiltak, men ikke bruke puls, bransjemoduler, egne spørsmål, sammenligning og rapporten før en plan er valgt.",
         "more": "En måling som allerede er åpen, går ferdig som planlagt. Velger dere en plan, er alt tilbake med en gang.",
         "cta": "Velg plan"
       },
@@ -3781,6 +3796,7 @@
       },
       "withheld": "Færre enn {threshold} svar — indeksen vises ikke.",
       "trend": "Utvikling",
+      "trendLocked": "Utvikling over tid og sammenligning med tidligere runder følger med en plan.",
       "rate": "Svarprosent",
       "rateN": "{answered} av {headcount}",
       "trust": "Tillit til tallene",
@@ -4270,7 +4286,7 @@
         "too_far": "Velg en dag innen fire måneder.",
         "no_employees": "Legg inn de ansatte før utsendingen planlegges.",
         "invalid": "Velg en dag.",
-        "read_only": "Prøveperioden og fristen for å bekrefte er over. Bekreft abonnementet under Oppsett › Betaling først."
+        "read_only": "Avtalen er avsluttet, så nye målinger kan ikke startes."
       }
     },
     "done": {
@@ -6166,12 +6182,12 @@
         ]
       },
       "priser": {
-        "title": "Priser: medarbeiderundersøkelse fra 265 kr/mnd | Orgpuls",
-        "description": "Liten 265 kr og Vanlig 565 kr i måneden eks. mva. Ingen tillegg, ingen oppstartsavgift og ingen binding. Prøv gratis i 15 dager, uten betalingskort.",
+        "title": "Priser: gratis å starte, fra 265 kr/mnd | Orgpuls",
+        "description": "Gratis for hovedkartleggingen. Liten 265 kr og Vanlig 565 kr i måneden eks. mva., to måneder gratis med årlig avtale. 15 dager med alt, uten kort.",
         "crumb": "Pris",
         "kicker": "Pris",
-        "h1": "Fra 265 kr i måneden. Alt inkludert.",
-        "lead": "Én fast pris etter antall ansatte – ikke per bruker, ikke per måling. Ingen bindingstid. Verneombud og tillitsvalgte koster ikke ekstra. Gratis i 15 dager, uten betalingskort.",
+        "h1": "Gratis å starte. Alt inkludert fra 265 kr i måneden.",
+        "lead": "Én fast pris etter antall ansatte – ikke per bruker, ikke per måling. Månedlig uten bindingstid, eller årlig med to måneder gratis. Verneombud og tillitsvalgte koster ikke ekstra. 15 dager med alt, deretter gratis for hovedkartleggingen.",
         "blocks": [
           {
             "t": "plans"
@@ -6196,6 +6212,14 @@
           }
         ],
         "faq": [
+          {
+            "q": "Finnes det en gratisversjon?",
+            "a": "Ja. De første 15 dagene har dere alt. Velger dere ingen plan, fortsetter dere gratis med standard hovedkartlegging, resultatene og tiltakene – så lenge dere vil, uansett hvor mange dere er. Puls, bransjemoduler, egne spørsmål, sammenligning med tidligere runder og rapporten til Arbeidstilsynet følger med Liten og Vanlig."
+          },
+          {
+            "q": "Hva koster en årlig avtale?",
+            "a": "Ti måneders pris for tolv: Liten 2 650 kr og Vanlig 5 650 kr i året eks. mva., fakturert for ett år om gangen. Månedlig avtale har ingen bindingstid."
+          },
           {
             "q": "Hva om vi bare er tolv personer?",
             "a": "Da får dere tall for hele virksomheten. Som standard vises en avdeling når minst 5 i den har svart; færre teller med i helheten. For små team kan daglig leder senke grensen til 3, men 5 er sterkt anbefalt – jo færre svar, jo lettere er det å kjenne igjen hvem som sa hva."
@@ -6542,7 +6566,7 @@
             "t": "ul",
             "items": [
               "virker alt som før i 14 dager til;",
-              "deretter kan dere logge inn, lese alle resultater og rapporter, arbeide med tiltak og velge plan, men ikke starte nye målinger før en plan er valgt;",
+              "deretter går dere over til gratisplanen: dere kan sende standard hovedkartlegging, lese resultatene og arbeide med tiltak så lenge dere vil, men puls, oppfølgingsmålinger, bransjemoduler, egne spørsmål, sammenligning med tidligere runder og rapporten krever en plan;",
               "en måling som allerede er åpen, går ferdig som planlagt."
             ]
           },
@@ -6558,9 +6582,9 @@
             "t": "ul",
             "items": [
               "**Fakturering.** Daglig leder velger plan og oppgir fakturaadresse under Oppsett › Betaling. Faktura sendes på e-post eller som EHF. Første faktura gjelder fra dagen prøveperioden er over, eller fra dagen planen bekreftes hvis det skjer senere.",
-              "**Faktureringsintervall.** Avtalen er månedlig og faktureres månedlig forskuddsvis.",
+              "**Faktureringsintervall.** Daglig leder velger månedlig eller årlig avtale. En månedlig avtale faktureres månedlig forskuddsvis. En årlig avtale faktureres for ett år forskuddsvis, til ti måneders pris.",
               "**Betalingsfrist.** 14 dager fra fakturadato. Ved for sen betaling gjelder forsinkelsesrenteloven.",
-              "**Manglende betaling.** Er en faktura ikke betalt 30 dager etter forfall, og etter minst én skriftlig påminnelse, kan vi begrense tjenesten til lesetilgang som i punkt 3 inntil fakturaen er betalt.",
+              "**Manglende betaling.** Er en faktura ikke betalt 30 dager etter forfall, og etter minst én skriftlig påminnelse, kan vi begrense tjenesten til det gratisplanen i punkt 3 omfatter inntil fakturaen er betalt.",
               "**Prisendringer** varsles minst 60 dager før de gjelder. Dere kan si opp før endringen trer i kraft.",
               "**Bytte av pakke.** Går antallet ansatte over grensen for pakken (for eksempel fra 25 til 26 ansatte), velger daglig leder den større pakken under Oppsett › Betaling. Den nye pakkens pris gjelder fra neste faktureringsperiode."
             ]
@@ -6654,7 +6678,7 @@
           },
           {
             "t": "p",
-            "text": "Avtalen er månedlig og har ingen bindingstid."
+            "text": "En månedlig avtale har ingen bindingstid. En årlig avtale gjelder for ett år om gangen."
           },
           {
             "t": "p",
@@ -6663,7 +6687,7 @@
           {
             "t": "ul",
             "items": [
-              "Et bekreftet abonnement gjelder ut inneværende måned. En prøveperiode avsluttes samme dag.",
+              "Et månedlig abonnement gjelder ut inneværende måned, et årlig ut det betalte året. En prøveperiode eller gratisplanen avsluttes samme dag.",
               "Oppsigelsen kan angres frem til slettingen er utført.",
               "Betalt periode refunderes ikke."
             ]
@@ -10028,7 +10052,7 @@
         "items": [
           {
             "q": "Koster en bransjemodul ekstra?",
-            "a": "Nei. Bransjemodulene er med i alle planer, fra 265 kr i måneden eks. mva."
+            "a": "Nei. Bransjemodulene er med i Liten og Vanlig, fra 265 kr i måneden eks. mva. Gratisplanen har standard hovedkartlegging uten moduler."
           },
           {
             "q": "Hvordan får vi riktig modul?",
@@ -10055,13 +10079,35 @@
         "number": "Antall ansatte",
         "valuetext": "{n} {unit} – {plan}, {price} kr per måned",
         "valuetextGroup": "{n} {unit} – {plan}, pris etter avtale",
+        "valuetextYear": "{n} {unit} – {plan}, {price} kr per år",
         "readout": "{unit} · <b>{plan}</b> · {price} <abbr>kr/mnd</abbr><sr>kroner per måned</sr> · {perHead} kr per ansatt",
         "readoutGroup": "{unit} · <b>{plan}</b> · pris etter avtale",
+        "readoutYear": "{unit} · <b>{plan}</b> · {price} <abbr>kr/år</abbr><sr>kroner per år</sr> · {perMonth} kr per måned",
         "unitOne": "ansatt",
         "unitOther": "ansatte"
       },
       "fits": "Passer dere",
       "fitsSr": "(passer dere)",
+      "interval": {"legend": "Betaling", "month": "Månedlig", "year": "Årlig – 2 måneder gratis"},
+      "price": {
+        "kr": "{n} kr",
+        "perMonth": "per måned",
+        "perYear": "per år",
+        "yearPerMonth": "Tilsvarer {n} kr per måned"
+      },
+      "free": {
+        "name": "Gratis",
+        "who": "Etter prøveperioden, uansett størrelse",
+        "price": "0 kr",
+        "unit": "for alltid",
+        "items": [
+          "Årlig hovedkartlegging med standard spørsmål",
+          "Resultater per avdeling og team, fra 5 svar som standard",
+          "Ubegrenset antall tiltak med eier og frist",
+          "Ingen kort og ingen tidsgrense"
+        ],
+        "cta": "Kom i gang gratis"
+      },
       "plans": [
         {
           "name": "Liten",
@@ -10072,7 +10118,7 @@
             "Alle funksjoner inkludert",
             "Ubegrenset antall målinger og tiltak",
             "Verneombud og tillitsvalgte uten ekstra kostnad",
-            "Ingen bindingstid"
+            "Månedlig uten binding, eller årlig med to måneder gratis"
           ],
           "cta": "Prøv gratis"
         },
@@ -10085,7 +10131,7 @@
             "Alle funksjoner inkludert",
             "Ubegrenset antall målinger og tiltak",
             "Verneombud og tillitsvalgte uten ekstra kostnad",
-            "Ingen bindingstid"
+            "Månedlig uten binding, eller årlig med to måneder gratis"
           ],
           "cta": "Prøv gratis"
         },
@@ -10102,10 +10148,10 @@
           "cta": "Snakk med oss"
         }
       ],
-      "footnote": "Alle priser er eks. mva. Faktura hver måned, også som EHF.",
+      "footnote": "Alle priser er eks. mva. Faktura hver måned eller hvert år, også som EHF. Velger dere ingen plan etter prøveperioden, fortsetter dere gratis.",
       "included": {
         "eyebrow": "Alt inkludert",
-        "title": "Alt er med i alle planer. Det eneste som skiller, er hvor mange dere er.",
+        "title": "Alt er med i Liten og Vanlig. Det eneste som skiller dem, er hvor mange dere er.",
         "lead": "En bedrift med 8 ansatte får de samme spørsmålene, den samme rapporten og den samme hjelpen som en med 80. Ingen funksjoner er låst bak en dyrere plan.",
         "sizes": [
           {
@@ -10456,6 +10502,7 @@
       "statusLabel": {
         "trial": "Trial",
         "grace": "Grace (trial ended)",
+        "free": "Free plan",
         "read_only": "Read-only",
         "active": "Active"
       }
@@ -13831,6 +13878,7 @@
         "all": "All",
         "active": "Active",
         "trial": "Trial",
+        "free": "Free plan",
         "ended": "Trial ended",
         "cancelling": "Cancelling",
         "churned": "Churned",
@@ -15035,16 +15083,25 @@
   },
   "access": {
     "graceHead": "Prøveperioden er over.",
-    "graceBody": "Den gikk ut {end}. Alt virker fram til {until}; etter det kan dere lese resultatene, men ikke sende nye undersøkelser før abonnementet er bekreftet.",
-    "readOnlyHead": "Bare lesetilgang.",
-    "readOnlyBody": "Prøveperioden gikk ut {end}, og abonnementet er ikke bekreftet. Dere kan lese resultater og rapporter, og en undersøkelse som er i gang, fullføres. Nye undersøkelser sendes når abonnementet er bekreftet.",
+    "graceBody": "Den gikk ut {end}. Alt virker fram til {until}; etter det går dere over til gratisplanen, med standard hovedkartlegging, resultater og tiltak.",
+    "freeHead": "Gratisplan.",
+    "freeBody": "Dere kan sende standard hovedkartlegging, lese resultatene og følge opp med tiltak. Puls, bransjemoduler, egne spørsmål, sammenligning og rapporten følger med en plan.",
     "confirm": "Bekreft abonnement",
+    "choosePlan": "Velg plan",
     "askLeader": "Daglig leder bekrefter abonnementet under Oppsett › Betaling.",
     "cancelledHead": "Avtalen er sagt opp.",
     "cancelledBody": "Den gjelder til og med {ends}, og alle opplysninger slettes {deleted}. Last ned rapporten før det.",
     "endedHead": "Avtalen er avsluttet.",
     "endedBody": "Dere kan lese og laste ned alt til {deleted}. Da slettes alle opplysninger, og kan ikke hentes tilbake.",
     "download": "Last ned rapporten"
+  },
+  "plan": {
+    "choose": "Velg plan",
+    "askLeader": "Daglig leder velger plan under Oppsett › Betaling.",
+    "report": {
+      "title": "Rapport",
+      "body": "Rapporten til Arbeidstilsynet – kartlegging, risikovurdering og tiltak samlet i ett dokument – følger med en plan. På gratisplanen kan dere sende standard hovedkartlegging, lese resultatene og følge opp med tiltak."
+    }
   },
   "newsletter": {
     "badge": "Nyhetsbrev",

@@ -13,11 +13,24 @@ const Size = createContext<number>(SIZE_RANGE.start)
 
 const SetSize = createContext<(n: number) => void>(() => {})
 
+/**
+ * Monthly or yearly (0201, D-217): one choice above the plan cards, which their prices and the
+ * slider's read-out follow. Monthly first, as the design's prices are; the server draws that.
+ */
+type Interval = 'month' | 'year'
+const Billing = createContext<Interval>('month')
+const SetBilling = createContext<(v: Interval) => void>(() => {})
+
 export function SizeProvider({ children }: { children: React.ReactNode }) {
   const [n, setN] = useState<number>(SIZE_RANGE.start)
+  const [interval, setInterval] = useState<Interval>('month')
   return (
     <SetSize.Provider value={setN}>
-      <Size.Provider value={n}>{children}</Size.Provider>
+      <SetBilling.Provider value={setInterval}>
+        <Billing.Provider value={interval}>
+          <Size.Provider value={n}>{children}</Size.Provider>
+        </Billing.Provider>
+      </SetBilling.Provider>
     </SetSize.Provider>
   )
 }
@@ -66,6 +79,11 @@ export type SliderWords = {
   valuetextGroup: string
   readout: string
   readoutGroup: string
+  /** the read-out and the range's text when yearly is chosen: the year's price and it as a month */
+  readoutYear: string
+  valuetextYear: string
+  /** per plan, in PLAN_SIZES order: the year's price and that as a month, in the page's language */
+  yearPrices: { year: string; perMonth: string }[]
   /** «ansatt» / «ansatte»: the unit after the number, singular at 1 */
   unitOne: string
   unitOther: string
@@ -83,10 +101,22 @@ export function SizeSlider({ w }: { w: SliderWords }) {
   const n = useContext(Size)
   const setN = useContext(SetSize)
   const [draft, setDraft] = useState<string | null>(null)
+  const year = useContext(Billing) === 'year'
   const fit = fitOf(n)
   const monthly = PLAN_SIZES[fit]!.monthly
-  const values = { n, unit: n === 1 ? w.unitOne : w.unitOther, plan: w.plans[fit]!, price: monthly ?? '', perHead: monthly ? Math.round(monthly / n) : '' }
-  const valuetext = (monthly ? w.valuetext : w.valuetextGroup).replace(/\{(\w+)\}/g, (_, k: keyof typeof values) => String(values[k]))
+  const y = w.yearPrices[fit]
+  const values = {
+    n,
+    unit: n === 1 ? w.unitOne : w.unitOther,
+    plan: w.plans[fit]!,
+    price: monthly ? (year && y ? y.year : monthly) : '',
+    perMonth: y?.perMonth ?? '',
+    perHead: monthly ? Math.round(monthly / n) : '',
+  }
+  const valuetext = (monthly ? (year ? w.valuetextYear : w.valuetext) : w.valuetextGroup).replace(
+    /\{(\w+)\}/g,
+    (_, k: keyof typeof values) => String(values[k]),
+  )
   return (
     <div className="mt-[36px] flex flex-wrap items-center gap-x-[28px] gap-y-[14px] rounded-[20px] border border-line bg-sf px-[24px] py-[20px]">
       <label htmlFor="ansatte" className="flex-none text-[15px] font-bold">
@@ -125,7 +155,7 @@ export function SizeSlider({ w }: { w: SliderWords }) {
           onBlur={() => setDraft((d) => (d !== null && Number.isInteger(Number(d)) && Number(d) > SIZE_RANGE.max ? String(Number(d)) : null))}
           className="m-0 flex-none border-0 bg-transparent p-0 font-display text-[30px] font-semibold tabular-nums text-ink [appearance:textfield] [field-sizing:content] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
         />
-        <span className="min-w-0 text-[13.5px] text-body">{rich(monthly ? w.readout : w.readoutGroup, values)}</span>
+        <span className="min-w-0 text-[13.5px] text-body">{rich(monthly ? (year ? w.readoutYear : w.readout) : w.readoutGroup, values)}</span>
       </span>
     </div>
   )
@@ -180,5 +210,56 @@ export function FitSize({ i, sr, children }: { i: number; sr: string; children: 
       {children}
       {fit ? <span className="sr-only">{sr}</span> : null}
     </li>
+  )
+}
+
+/**
+ * «Månedlig / Årlig – 2 måneder gratis»: a pair of radios drawn as the site's segmented control
+ * (the ink pill on a light track, as Resultater's views). Arrow keys move between them natively.
+ */
+export function IntervalToggle({ w }: { w: { legend: string; month: string; year: string } }) {
+  const interval = useContext(Billing)
+  const set = useContext(SetBilling)
+  return (
+    <fieldset className="m-0 mt-[22px] flex flex-wrap items-center gap-x-[14px] gap-y-[8px] border-0 p-0">
+      <legend className="float-left mr-[14px] p-0 text-[15px] font-bold">{w.legend}</legend>
+      <span className="inline-flex max-w-full rounded-pill border border-line bg-sf p-[4px]">
+        {(['month', 'year'] as const).map((v) => (
+          <label
+            key={v}
+            className={`cursor-pointer rounded-pill px-[16px] py-[8px] text-[14px] font-bold leading-[normal] has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ink ${
+              interval === v ? 'bg-ink text-bg' : 'bg-transparent text-ink'
+            }`}
+          >
+            <input type="radio" name="interval" value={v} checked={interval === v} onChange={() => set(v)} className="sr-only" />
+            {w[v]}
+          </label>
+        ))}
+      </span>
+    </fieldset>
+  )
+}
+
+/**
+ * A plan card's price for the chosen interval: the month's list price, or the year's at
+ * ANNUAL_MONTHS months with what that is per month under it, formatted on the server in the page's
+ * language. The plan by agreement has the same words in both.
+ */
+export function PlanPrice({
+  month,
+  year,
+}: {
+  month: { price: string; unit: string }
+  year: { price: string; unit: string; note?: string }
+}) {
+  const p: { price: string; unit: string; note?: string } = useContext(Billing) === 'year' ? year : month
+  return (
+    <span className="flex flex-col gap-[4px]">
+      <span className="flex flex-wrap items-baseline gap-[7px]">
+        <span className="font-display text-[40px] font-semibold leading-none">{p.price}</span>
+        <span className="text-[13px] text-mut">{p.unit}</span>
+      </span>
+      {p.note ? <span className="text-[12.5px] text-mut">{p.note}</span> : null}
+    </span>
   )
 }

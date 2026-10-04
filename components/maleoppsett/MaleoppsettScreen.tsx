@@ -393,7 +393,7 @@ export async function MaleoppsettScreen({ view }: { view: MaleoppsettView }) {
       evalLaw: t('maleoppsett.evalLaw'),
       saved: t('maleoppsett.saved'),
       problems: Object.fromEntries(
-        ['invalid', 'denied', 'gone', 'capped', 'locked', 'moduleFactorRequired', 'reasonRequired'].map((k) => [k, t(`maleoppsett.problem.${k}`)]),
+        ['invalid', 'denied', 'gone', 'capped', 'locked', 'moduleFactorRequired', 'reasonRequired', 'plan'].map((k) => [k, t(`maleoppsett.problem.${k}`)]),
       ),
     },
     modules: view.modules.map((m) => {

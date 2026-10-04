@@ -72,8 +72,9 @@ forlenges én gang med inntil 15 dager.
 
 Er ingen plan valgt når prøveperioden er over:
 - virker alt som før i 14 dager til;
-- deretter kan dere logge inn, lese alle resultater og rapporter, arbeide med tiltak og
-  velge plan, men ikke starte nye målinger før en plan er valgt;
+- deretter går dere over til gratisplanen: dere kan sende standard hovedkartlegging, lese
+  resultatene og arbeide med tiltak så lenge dere vil, men puls, oppfølgingsmålinger,
+  bransjemoduler, egne spørsmål, sammenligning med tidligere runder og rapporten krever en plan;
 - en måling som allerede er åpen, går ferdig som planlagt.
 
 ## 4. Pris og betaling
@@ -83,12 +84,14 @@ Prisene står på prissiden og er oppgitt uten merverdiavgift. Det er ingen opps
 - **Fakturering.** Daglig leder velger plan og oppgir fakturaadresse under Oppsett › Betaling.
   Faktura sendes på e-post eller som EHF. Første faktura gjelder fra dagen prøveperioden er
   over, eller fra dagen planen bekreftes hvis det skjer senere.
-- **Faktureringsintervall:** **[BESLUTNING: månedlig forskuddsvis, eller kvartalsvis/årlig]**.
+- **Faktureringsintervall.** Daglig leder velger månedlig eller årlig avtale. En månedlig
+  avtale faktureres månedlig forskuddsvis. En årlig avtale faktureres for ett år forskuddsvis,
+  til ti måneders pris.
 - **Betalingsfrist:** **[BESLUTNING: 14 dager]** fra fakturadato. Ved for sen betaling
   gjelder forsinkelsesrenteloven.
 - **Manglende betaling.** Er en faktura ikke betalt **[BESLUTNING: 30 dager]** etter
-  forfall, og etter minst én skriftlig påminnelse, kan vi begrense tjenesten til lesetilgang
-  som i punkt 3 inntil fakturaen er betalt.
+  forfall, og etter minst én skriftlig påminnelse, kan vi begrense tjenesten til det
+  gratisplanen i punkt 3 omfatter inntil fakturaen er betalt.
 - **Prisendringer** varsles minst **[BESLUTNING: 60 dager]** før de gjelder. Dere kan si opp
   før endringen trer i kraft.
 - **Bytte av pakke.** Går dere over grensen for pakken (for eksempel fra 25 til 26 ansatte),
@@ -168,11 +171,12 @@ punkt 5.
 
 ## 10. Oppsigelse og sletting
 
-Avtalen er månedlig og har ingen bindingstid.
+En månedlig avtale har ingen bindingstid. En årlig avtale gjelder for ett år om gangen.
 
 - **Kundens oppsigelse:** daglig leder sier opp i Orgpuls under Oppsett › Betaling, eller
   skriftlig til [hjelp@orgpuls.no](mailto:hjelp@orgpuls.no).
-  - Et bekreftet abonnement gjelder ut inneværende måned. En prøveperiode avsluttes samme
+  - Et månedlig abonnement gjelder ut inneværende måned, et årlig ut det betalte året. En
+    prøveperiode eller gratisplanen avsluttes samme
     dag.
   - Oppsigelsen kan angres frem til slettingen er utført.
   - Betalt periode refunderes ikke **[BESLUTNING]**.
@@ -226,8 +230,8 @@ eller nettsiden endres også, ikke bare teksten.
 |---|---|
 | 15 dager gratis, uten kort | prissiden, registreringen, `0048_billing.sql` |
 | Én forlengelse på inntil 15 dager | D-93; admin «Extend trial» (1–60 dager, med begrunnelse) |
-| 14 dagers frist, deretter lesetilgang; en åpen måling går ferdig | `0052_trial_end.sql`, D-94 |
-| Priser eks. mva, ingen oppstartsavgift, ingen bindingstid, månedlig | prissiden og Oppsett › Betaling (`oppsett.billing.terms`) |
+| 14 dagers frist, deretter gratisplanen; en åpen måling går ferdig | `0052_trial_end.sql`, D-94; `0201_free_plan_and_annual.sql`, D-217 |
+| Priser eks. mva, ingen oppstartsavgift; månedlig uten binding eller årlig til ti måneders pris | prissiden og Oppsett › Betaling (`oppsett.billing.terms`), `0201`, D-217 |
 | Liten til og med 25, Vanlig 26–100, Flere selskaper etter avtale | prissiden, landingssidene |
 | Faktura på e-post eller EHF, første faktura når prøveperioden er over | Oppsett › Betaling |
 | Minst fem svar, grensen kan bare heves | CLAUDE.md invariant 1, `/sikkerhet` |
@@ -264,3 +268,8 @@ opplysningene finnes.
 
 Må fortsatt sjekkes: vilkårene for bruk av QPS Nordic-formuleringene, og om de krever
 kildehenvisning.
+
+Endret 4. oktober 2026 (D-217), etter eierens beslutning: etter prøveperioden og fristen går en
+virksomhet uten plan over til gratisplanen (punkt 3) i stedet for lesetilgang, og avtalen kan
+være månedlig eller årlig, der årlig koster ti måneders pris (punkt 4 og 10). Punkt 2 over
+(«Årspris: ingen») gjelder ikke lenger.

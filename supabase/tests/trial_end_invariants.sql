@@ -1,11 +1,13 @@
 -- trial_end_invariants.sql — what happens when a trial ends unconfirmed (0052, D-94).
 --
 --   * the trial is 15 days and the grace 14, both functions no row can change (1)
---   * access runs trial → grace → read_only, and a confirmed plan is active (2)
---   * read-only: starting a pulse and planning a first round are refused (3, 4)
+--   * access runs trial → grace → free (0201, D-217), and a confirmed plan is active (2)
+--   * read-only, which since 0201 is a cancellation that has taken effect: starting a pulse and
+--     planning a first round are refused (3, 4)
 --   * read-only: the scheduler opens no planned round and holds it back, but a round already
 --     open still closes on its date (5, 6)
---   * confirming lifts it: the held round opens on the next tick with its full length (7)
+--   * withdrawing the cancellation and confirming lifts it: the held round opens on the next tick
+--     with its full length (7)
 --   * the banner's state is for the organisation's members only (8)
 --   * the unguarded originals cannot be called by a client (9)
 --   * nothing written here survives (10)
@@ -46,11 +48,13 @@ begin
     v_txt := v_txt || ',' || app.org_access(v_org);
     update app.billing set plan = 'small', invoice_email = 'faktura@probe.example', confirmed_at = now() where org_id = v_org;
     v_txt := v_txt || ',' || app.org_access(v_org);
-    v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'access runs trial, grace, read_only; a confirmed plan is active',
-      'expected', 'trial,grace,read_only,active', 'actual', v_txt, 'pass', v_txt = 'trial,grace,read_only,active');
+    v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'access runs trial, grace, free; a confirmed plan is active',
+      'expected', 'trial,grace,free,active', 'actual', v_txt, 'pass', v_txt = 'trial,grace,free,active');
 
-    -- read-only from here
-    update app.billing set confirmed_at = null where org_id = v_org;
+    -- read-only from here: a cancellation whose last day has passed
+    update app.billing set cancelled_at = now() - interval '3 days', cancel_effective_at = now() - interval '1 day',
+                           deletion_due_at = now() + interval '29 days'
+    where org_id = v_org;
 
     -- 3, 4 ------------------------------------------------------------- nothing new starts
     perform set_config('request.jwt.claims', format(claims, v_dl), true);
@@ -80,7 +84,8 @@ begin
       'actual', coalesce(v_txt, 'none'), 'pass', v_txt = 'lukket');
 
     -- 7 ---------------------------------------------------------------- confirming lifts it
-    update app.billing set confirmed_at = now() where org_id = v_org;
+    update app.billing set cancelled_at = null, cancel_effective_at = null, deletion_due_at = null, confirmed_at = now()
+    where org_id = v_org;
     update app.rounds set opens_at = now() - interval '1 minute' where id = v_planned;
     perform app.wheel_tick();
     select * into v_round from app.rounds where id = v_planned;

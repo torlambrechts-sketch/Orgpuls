@@ -412,6 +412,7 @@
         "past": "Only months ahead can be changed.",
         "occupied": "There is already a survey this month.",
         "not_planned": "No pulse is planned this month.",
+        "free_plan": "Pulses are not in the free plan. Choose a plan under Settings › Payment to add a month.",
         "not_skipped": "The pulse this month is not skipped.",
         "skipped": "The year wheel’s pulse is skipped this month. Bring it back instead.",
         "no_wheel": "The year wheel is not switched on, so a pulse here would never go out.",
@@ -430,7 +431,8 @@
         "round_open": "A round is already open.",
         "too_soon": "The last round closed less than 14 days ago. The next pulse can start from {date}.",
         "no_factors": "Nothing to ask about: no pulse is planned and no measures are open.",
-        "read_only": "The trial and the deadline to confirm are over. The managing director confirms the subscription under Settings › Payment, and then you can send again."
+        "read_only": "The agreement has ended, so new surveys cannot be started.",
+        "free_plan": "Pulses are not in the free plan. The managing director chooses a plan under Settings › Payment."
       }
     },
     "closesAt": "closes {date}",
@@ -444,6 +446,7 @@
       "onNote": "Included in planned and new main surveys.",
       "offNote": "Not included in the main surveys.",
       "readOnly": "Only the managing director can turn modules on and off.",
+      "freePlan": "The industry modules are not in the free plan. The managing director chooses a plan under Settings › Payment.",
       "none": "No industry modules are available yet.",
       "failed": "Could not save the choice. Try again.",
       "seeAll": "See the whole question set",
@@ -1373,7 +1376,8 @@
       "capped": "Five of your own questions is the cap.",
       "locked": "The survey has started, so its questions cannot change.",
       "moduleFactorRequired": "At least one factor must be included.",
-      "reasonRequired": "Write a reason of at least ten characters to leave out the screening."
+      "reasonRequired": "Write a reason of at least ten characters to leave out the screening.",
+      "plan": "This is not in the free plan: pulses, follow-up surveys, industry modules and your own questions come with a plan. The managing director chooses a plan under Settings › Payment."
     },
     "ownSave": "Save",
     "cadenceKvartal": "Quarterly",
@@ -2164,11 +2168,12 @@
       "head": "Payment",
       "onlyLeader": "The managing director chooses the plan and enters the invoice details. The trial and payment are shown to the managing director only.",
       "trialHead": "Trial",
+      "freeHead": "Free plan",
       "subscriptionHead": "Subscription",
       "pillLeft": "{count, plural, =0 {Last day} one {# day left} other {# days left}}",
       "pillConfirmed": "Confirmed",
-      "trialBody": "The trial started on {start} and runs until {end} — {total} days, free and without a card. Choose a plan and invoice details below before it ends. After the trial you have {grace} days to confirm; after that you can read results, but not send new surveys until the subscription is confirmed.",
-      "confirmedBody": "{plan} is confirmed. The subscription starts {start}, and the invoice goes to {mail}.",
+      "trialBody": "The trial started on {start} and runs until {end} — {total} days, free and without a card. Choose a plan and invoice details below before it ends. After the trial everything keeps working for {grace} more days; then you move to the free plan: the standard main survey, results and measures, without pulses, industry modules, your own questions, comparisons or the report.",
+      "confirmedBody": "{plan} is confirmed, invoiced {interval, select, year {yearly} other {monthly}}. The subscription starts {start}, and the invoice goes to {mail}.",
       "confirmedGroupBody": "You have asked for an offer on {plan}. We will contact you at {mail} before {start}.",
       "progress": "Days used of the trial",
       "extend": "Extend the trial by 15 days",
@@ -2179,6 +2184,15 @@
       "planLead": "The invoice goes to {name}, org. no. {orgnr}. The plan follows the number of employees you have stated: {count}.",
       "noOrgnr": "not registered",
       "planLegend": "Choose a plan",
+      "intervalLegend": "Billing",
+      "interval": {
+        "month": "Monthly",
+        "year": "Yearly – 2 months free"
+      },
+      "kroner": "NOK {n}",
+      "perMonth": "per month",
+      "perYear": "per year",
+      "yearPerMonth": "Equals NOK {price} per month",
       "suggested": "Fits you",
       "tooMany": "You have {count} employees, more than the plan covers.",
       "invoiceEmail": "Send invoices to (e-mail)",
@@ -2187,7 +2201,7 @@
       "invoiceRefHint": "Purchase order number, department or contact person to print on the invoice.",
       "ehf": "Send as an EHF invoice to org. no. {orgnr}",
       "ehfNoOrgnr": "An EHF invoice needs an organisation number. Add it under Company.",
-      "terms": "Prices exclude VAT. The first invoice runs from {end}, when the trial ends. Monthly agreement, no lock-in and no start-up fee.",
+      "terms": "Prices exclude VAT. The first invoice runs from {end}, when the trial ends. {interval, select, year {Yearly agreement: invoiced a year at a time, two months free, no start-up fee.} other {Monthly agreement, no lock-in and no start-up fee.}}",
       "save": "Save draft",
       "saveChanges": "Save changes",
       "confirm": "Confirm subscription",
@@ -2206,16 +2220,17 @@
         "not_allowed": "Only the managing director can change payment.",
         "failed": "It could not be saved. Try again."
       },
-      "pillGrace": "{count, plural, one {# day} other {# days}} until read-only",
-      "pillReadOnly": "Read-only",
-      "graceBody": "The trial ended on {end}. Everything works until {until}. Confirm the subscription below before then, or you will only be able to read results until you do.",
-      "readOnlyBody": "The trial ended on {end}, and the deadline to confirm has passed. You can read results and reports, and a survey already running will finish. Confirm the subscription below and you can send again straight away.",
-      "termsAfterTrial": "Prices exclude VAT. The first invoice runs from the day you confirm. Monthly agreement, no lock-in and no setup fee.",
+      "pillGrace": "{count, plural, one {# day} other {# days}} until the free plan",
+      "pillFree": "Free plan",
+      "graceBody": "The trial ended on {end}. Everything works until {until}. Confirm the subscription below before then; otherwise you move to the free plan.",
+      "freeBody": "The trial ended on {end}, and you are on the free plan: you can send the standard main survey, read the results and follow up with measures, for as long as you like. Choose a plan below for pulses, industry modules, your own questions, comparisons with earlier rounds and the report for the Labour Inspection Authority.",
+      "termsAfterTrial": "Prices exclude VAT. The first invoice runs from the day you confirm. {interval, select, year {Yearly agreement: invoiced a year at a time, two months free, no setup fee.} other {Monthly agreement, no lock-in and no setup fee.}}",
       "cancel": {
         "head": "Cancel the subscription",
         "doneHead": "The subscription has been cancelled",
-        "leadPaying": "The agreement is monthly. If you cancel now, it runs until and including {last}. After that you can sign in, read and download everything until {deleted}. Then all data is deleted.",
+        "leadPaying": "The agreement is {interval, select, year {yearly} other {monthly}}. If you cancel now, it runs until and including {last}. After that you can sign in, read and download everything until {deleted}. Then all data is deleted.",
         "leadTrial": "If you cancel during the trial, it ends today. You can sign in, read and download everything until {deleted}. Then all data is deleted.",
+        "leadFree": "If you cancel, the free plan ends today. You can sign in, read and download everything until {deleted}. Then all data is deleted.",
         "open": "Cancel …",
         "reasonLegend": "Why are you cancelling? (optional)",
         "reason": {
@@ -3388,7 +3403,7 @@
       "trial_ending": {
         "subject": "Your trial ends on {date}",
         "lead": "The trial for {org} ends on {date}. Choose a plan under Settings › Payment to continue without a break.",
-        "more": "If you do not, everything keeps working for {grace} more days. After that you can read everything, but not start new surveys until a plan is chosen.",
+        "more": "If you do not, everything keeps working for {grace} more days. After that you move to the free plan: the standard main survey, results and measures, without pulses, industry modules, comparisons or the report.",
         "cta": "Choose a plan"
       },
       "trial_ended": {
@@ -3398,8 +3413,8 @@
         "cta": "Choose a plan"
       },
       "read_only_soon": {
-        "subject": "From {date} you can only read",
-        "lead": "From {date}, {org} can read all results and reports, but not start new surveys, until a plan is chosen.",
+        "subject": "From {date} you are on the free plan",
+        "lead": "From {date}, {org} is on the free plan: you can send the standard main survey, read the results and follow up with measures, but not use pulses, industry modules, your own questions, comparisons or the report until a plan is chosen.",
         "more": "A survey that is already open finishes as planned. Choose a plan and everything is back at once.",
         "cta": "Choose a plan"
       },
@@ -3781,6 +3796,7 @@
       },
       "withheld": "Fewer than {threshold} responses — the index is not shown.",
       "trend": "Trend",
+      "trendLocked": "Development over time and comparisons with earlier rounds come with a plan.",
       "rate": "Response rate",
       "rateN": "{answered} of {headcount}",
       "trust": "Confidence in the figures",
@@ -4270,7 +4286,7 @@
         "too_far": "Choose a day within four months.",
         "no_employees": "Add the employees before planning the send-out.",
         "invalid": "Choose a day.",
-        "read_only": "The trial and the deadline to confirm are over. Confirm the subscription under Settings › Payment first."
+        "read_only": "The agreement has ended, so new surveys cannot be started."
       }
     },
     "done": {
@@ -6166,12 +6182,12 @@
         ]
       },
       "priser": {
-        "title": "Pricing: employee surveys from NOK 265/month | Orgpuls",
-        "description": "Small NOK 265 and Usual NOK 565 a month excl. VAT. No add-ons, no start-up fee and no lock-in. Try free for 15 days, no card needed.",
+        "title": "Pricing: free to start, from NOK 265/month | Orgpuls",
+        "description": "Free for the main survey. Small NOK 265 and Usual NOK 565 a month excl. VAT, two months free with a yearly agreement. 15 days with everything, no card.",
         "crumb": "Pricing",
         "kicker": "Pricing",
-        "h1": "From NOK 265 a month. Everything included.",
-        "lead": "One fixed price by headcount – not per user, not per survey. No lock-in. Safety and union representatives cost nothing extra. Free for 15 days, no card needed.",
+        "h1": "Free to start. Everything included from NOK 265 a month.",
+        "lead": "One fixed price by headcount – not per user, not per survey. Monthly with no lock-in, or yearly with two months free. Safety and union representatives cost nothing extra. 15 days with everything, then free for the main survey.",
         "blocks": [
           {
             "t": "plans"
@@ -6196,6 +6212,14 @@
           }
         ],
         "faq": [
+          {
+            "q": "Is there a free version?",
+            "a": "Yes. For the first 15 days you have everything. If you choose no plan, you carry on for free with the standard main survey, the results and the measures – for as long as you like, however many you are. Pulses, industry modules, your own questions, comparisons with earlier rounds and the report for the Labour Inspection Authority come with Small and Usual."
+          },
+          {
+            "q": "What does a yearly agreement cost?",
+            "a": "Ten months' price for twelve: Small NOK 2,650 and Usual NOK 5,650 a year excl. VAT, invoiced a year at a time. A monthly agreement has no lock-in."
+          },
           {
             "q": "What if there are only twelve of us?",
             "a": "Then you get figures for the whole organisation. By default a department is shown once at least 5 people in it have answered; fewer count in the whole. For small teams the managing director can lower the limit to 3, but 5 is strongly recommended – the fewer the answers, the easier it is to recognise who said what."
@@ -6542,7 +6566,7 @@
             "t": "ul",
             "items": [
               "everything works as before for 14 more days;",
-              "after that you can sign in, read all results and reports, work on measures and choose a plan, but not start new surveys until a plan has been chosen;",
+              "after that you move to the free plan: you can send the standard main survey, read the results and work on measures for as long as you like, but pulses, follow-up surveys, industry modules, your own questions, comparisons with earlier rounds and the report require a plan;",
               "a survey that is already open finishes as planned."
             ]
           },
@@ -6558,9 +6582,9 @@
             "t": "ul",
             "items": [
               "**Invoicing.** The managing director chooses a plan and gives the invoice address under Settings › Payment. Invoices are sent by e-mail or as EHF. The first invoice runs from the day the trial period ends, or from the day the plan is confirmed if that is later.",
-              "**Invoicing interval.** The agreement is monthly and is invoiced monthly in advance.",
+              "**Invoicing interval.** The managing director chooses a monthly or a yearly agreement. A monthly agreement is invoiced monthly in advance. A yearly agreement is invoiced a year in advance, at ten months' price.",
               "**Payment terms.** 14 days from the invoice date. Late payment is subject to the Norwegian Late Payment Interest Act (forsinkelsesrenteloven).",
-              "**Non-payment.** If an invoice has not been paid 30 days after its due date, and after at least one written reminder, we may restrict the service to read-only access as in section 3 until the invoice is paid.",
+              "**Non-payment.** If an invoice has not been paid 30 days after its due date, and after at least one written reminder, we may restrict the service to what the free plan in section 3 includes until the invoice is paid.",
               "**Price changes** are notified at least 60 days before they apply. You may cancel before the change takes effect.",
               "**Changing package.** If the number of employees passes the package's limit (for example from 25 to 26 employees), the managing director chooses the larger package under Settings › Payment. The new package's price applies from the next invoicing period."
             ]
@@ -6654,7 +6678,7 @@
           },
           {
             "t": "p",
-            "text": "The agreement is monthly and has no binding period."
+            "text": "A monthly agreement has no binding period. A yearly agreement runs one year at a time."
           },
           {
             "t": "p",
@@ -6663,7 +6687,7 @@
           {
             "t": "ul",
             "items": [
-              "A confirmed subscription runs to the end of the current month. A trial period ends the same day.",
+              "A monthly subscription runs to the end of the current month, a yearly one to the end of the paid year. A trial period or the free plan ends the same day.",
               "The cancellation can be withdrawn until the deletion has been carried out.",
               "A paid period is not refunded."
             ]
@@ -10028,7 +10052,7 @@
         "items": [
           {
             "q": "Does an industry module cost extra?",
-            "a": "No. The industry modules are included in every plan, from NOK 265 a month excluding VAT."
+            "a": "No. The industry modules are included in Small and Usual, from NOK 265 a month excluding VAT. The free plan has the standard main survey without modules."
           },
           {
             "q": "How do we get the right module?",
@@ -10055,13 +10079,35 @@
         "number": "Number of employees",
         "valuetext": "{n} {unit} – {plan}, NOK {price} per month",
         "valuetextGroup": "{n} {unit} – {plan}, price by agreement",
+        "valuetextYear": "{n} {unit} – {plan}, NOK {price} per year",
         "readout": "{unit} · <b>{plan}</b> · NOK {price}<abbr>/month</abbr><sr> per month</sr> · NOK {perHead} per employee",
         "readoutGroup": "{unit} · <b>{plan}</b> · price by agreement",
+        "readoutYear": "{unit} · <b>{plan}</b> · NOK {price}<abbr>/year</abbr><sr> per year</sr> · NOK {perMonth} per month",
         "unitOne": "employee",
         "unitOther": "employees"
       },
       "fits": "Fits you",
       "fitsSr": "(fits you)",
+      "interval": {"legend": "Billing", "month": "Monthly", "year": "Yearly – 2 months free"},
+      "price": {
+        "kr": "NOK {n}",
+        "perMonth": "per month",
+        "perYear": "per year",
+        "yearPerMonth": "Equals NOK {n} per month"
+      },
+      "free": {
+        "name": "Free",
+        "who": "After the trial, at any size",
+        "price": "NOK 0",
+        "unit": "forever",
+        "items": [
+          "Yearly main survey with the standard questions",
+          "Results per department and team, from 5 answers by default",
+          "Unlimited measures with owner and deadline",
+          "No card and no time limit"
+        ],
+        "cta": "Get started free"
+      },
       "plans": [
         {
           "name": "Small",
@@ -10072,7 +10118,7 @@
             "All features included",
             "Unlimited surveys and measures",
             "Safety and union representatives at no extra cost",
-            "No lock-in"
+            "Monthly with no lock-in, or yearly with two months free"
           ],
           "cta": "Try it free"
         },
@@ -10085,7 +10131,7 @@
             "All features included",
             "Unlimited surveys and measures",
             "Safety and union representatives at no extra cost",
-            "No lock-in"
+            "Monthly with no lock-in, or yearly with two months free"
           ],
           "cta": "Try it free"
         },
@@ -10102,10 +10148,10 @@
           "cta": "Talk to us"
         }
       ],
-      "footnote": "All prices exclude VAT. Invoiced monthly, also as EHF e-invoice.",
+      "footnote": "All prices exclude VAT. Invoiced monthly or yearly, also as EHF e-invoice. If you choose no plan after the trial, you carry on for free.",
       "included": {
         "eyebrow": "Everything included",
-        "title": "Everything is in every plan. The only difference is how many of you there are.",
+        "title": "Everything is in Small and Usual. The only difference between them is how many of you there are.",
         "lead": "A business with 8 employees gets the same questions, the same report and the same help as one with 80. No features are locked behind a more expensive plan.",
         "sizes": [
           {
@@ -10456,6 +10502,7 @@
       "statusLabel": {
         "trial": "Trial",
         "grace": "Grace (trial ended)",
+        "free": "Free plan",
         "read_only": "Read-only",
         "active": "Active"
       }
@@ -13831,6 +13878,7 @@
         "all": "All",
         "active": "Active",
         "trial": "Trial",
+        "free": "Free plan",
         "ended": "Trial ended",
         "cancelling": "Cancelling",
         "churned": "Churned",
@@ -15035,16 +15083,25 @@
   },
   "access": {
     "graceHead": "The trial has ended.",
-    "graceBody": "It ended on {end}. Everything works until {until}; after that you can read results, but not send new surveys until the subscription is confirmed.",
-    "readOnlyHead": "Read-only access.",
-    "readOnlyBody": "The trial ended on {end}, and the subscription is not confirmed. You can read results and reports, and a survey already running will finish. New surveys are sent once the subscription is confirmed.",
+    "graceBody": "It ended on {end}. Everything works until {until}; after that you move to the free plan, with the standard main survey, results and measures.",
+    "freeHead": "Free plan.",
+    "freeBody": "You can send the standard main survey, read the results and follow up with measures. Pulses, industry modules, your own questions, comparisons and the report come with a plan.",
     "confirm": "Confirm subscription",
+    "choosePlan": "Choose a plan",
     "askLeader": "The managing director confirms the subscription under Settings › Payment.",
     "cancelledHead": "The agreement has been cancelled.",
     "cancelledBody": "It runs until and including {ends}, and all data is deleted on {deleted}. Download the report before then.",
     "endedHead": "The agreement has ended.",
     "endedBody": "You can read and download everything until {deleted}. Then all data is deleted and cannot be brought back.",
     "download": "Download the report"
+  },
+  "plan": {
+    "choose": "Choose a plan",
+    "askLeader": "The managing director chooses a plan under Settings › Payment.",
+    "report": {
+      "title": "Report",
+      "body": "The report for the Labour Inspection Authority – survey, risk assessment and measures in one document – comes with a plan. On the free plan you can send the standard main survey, read the results and follow up with measures."
+    }
   },
   "newsletter": {
     "badge": "Newsletter",

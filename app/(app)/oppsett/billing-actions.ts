@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
-import { CANCEL_REASONS, PLANS } from '@/lib/billing/read'
+import { CANCEL_REASONS, INTERVALS, PLANS } from '@/lib/billing/read'
 import { getCurrentOrgId } from '@/lib/org/current'
 import { createClient } from '@/lib/supabase/server'
 
@@ -30,6 +30,7 @@ export async function extendTrial(_prev: BillingResult | null): Promise<BillingR
 
 const Form = z.object({
   plan: z.enum(PLANS),
+  interval: z.enum(INTERVALS),
   invoiceEmail: z.string().trim().min(3).max(254),
   invoiceRef: z.string().trim().max(60),
   ehf: z.boolean(),
@@ -39,6 +40,7 @@ const Form = z.object({
 export async function saveBilling(_prev: BillingResult | null, formData: FormData): Promise<BillingResult> {
   const parsed = Form.safeParse({
     plan: formData.get('plan'),
+    interval: formData.get('interval') ?? 'month',
     invoiceEmail: formData.get('invoiceEmail') ?? '',
     invoiceRef: formData.get('invoiceRef') ?? '',
     ehf: formData.get('ehf') === 'on',
@@ -59,6 +61,7 @@ export async function saveBilling(_prev: BillingResult | null, formData: FormDat
     p_invoice_ref: parsed.data.invoiceRef,
     p_ehf: parsed.data.ehf,
     p_confirm: parsed.data.intent === 'confirm',
+    p_interval: parsed.data.interval,
   })
   if (error) return { ok: false, problem: 'failed' }
   const reply = Reply.safeParse(data)

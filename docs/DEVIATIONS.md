@@ -11258,3 +11258,52 @@ Numbered D-216 when merged with main, which had taken D-207 to D-215 meanwhile. 
 main took 0191 for `module_sync_carry_english` (D-214) and the CRM enrichment branch, still to be merged, holds
 0192 to 0197. Two files with one number would stop every rebuild from the migrations. The SQL is unchanged, and
 its header still cites 0191 and D-207, as an applied migration's content is not edited.
+
+## D-217 — A free plan after the trial, and yearly billing (0201) (2026-10-04)
+
+Decided by the owner on 2026-10-04, to bring organisations in before asking them to pay: a «reverse trial».
+The 15-day trial (one extension of 15) and the 14 days' grace are unchanged; an organisation that has not
+confirmed a plan by then is on the **free plan** instead of read-only, at any size, for as long as it likes.
+The owner chose the free plan's contents (the standard main survey; not the extended module variant, pulses,
+the report or comparisons), added measures to it, and chose two months free for a yearly agreement.
+
+- **What the free plan holds.** The grunnlinje with the core instrument and the questions outside the index,
+  its results with the same k as everyone, and measures. **Not** included: pulses and follow-up rounds, the
+  industry modules (both variants), the organisation's own questions, comparisons with earlier rounds
+  (Sammenlign, Utvikling, every «fra året før» and the response rate against an earlier round, on Resultater,
+  Innsikt and Oversikt) and the statutory report.
+- **Where it is enforced.** The writes are refused in the database (0201): `start_next_pulse` and
+  `wheel_month_change` «legg til» answer `free_plan`; `set_org_module` refuses turning a module on; a trigger
+  (`app.free_plan_guard`) refuses a measurement of another kind than the grunnlinje, a module switched on, a
+  round's module row and an own question, whatever path writes them; the wheel plans no puls and holds a puls
+  planned during the trial back (as read-only did), and opens a grunnlinje planned during the trial without its
+  module and own-question rows. The report and the comparisons are read paths over data the organisation owns:
+  the server leaves them out of the page (`isFreePlan`, `compareLocked`), not the RPCs, so a client calling
+  `results_digest` directly still gets its own history. That is deliberate — it is the organisation's data,
+  and the limit is a product line, not an anonymity rule; k applies the same on every plan.
+- **What changed meaning.** `read_only` is now only a cancellation that has taken effect (0064); the
+  cancelled organisation keeps the report, which is what it downloads before deletion. `org_access_state`
+  returns `free_from` (and still `read_only_from` for a client deployed before it). The lifecycle mail step
+  keeps its key `read_only_soon`; its words now say the free plan begins.
+- **Yearly billing.** `app.billing.billing_interval` ('month' | 'year'), set only by `save_billing` (new
+  seventh argument). A year costs `app.annual_months()` = 10 months' price (Liten 2 650 kr, Vanlig 5 650 kr);
+  `lib/site/pricing.ts` `ANNUAL_MONTHS` is the same number for the screens. A yearly subscription cancelled
+  runs to the end of its paid year, counted from the day it started; a monthly one to the end of the month, as
+  before. MRR counts a year as a twelfth (`app.plan_mrr_nok`) in the dashboard, the customer list and the daily
+  KPI capture.
+- **Screens the design does not draw.** The free plan's banner (daglig leder only; nobody else can act on
+  it), Oppsett › Betaling's interval control (the app's segmented control, as Resultater's views) and its
+  free-plan state, a locked Rapport (`PlanLocked`, the app's empty treatment), Resultater without its two
+  comparison tabs and with a line in place of the trend bars, and on /priser a monthly / yearly control, a
+  fourth card for the free plan and the yearly prices. /priser therefore no longer matches
+  `nettside-v3/baselines/Pris-*.png`; that gate is local (not in CI), and this entry is its record.
+- **Words.** The terms of use (/vilkar, and docs/legal/vilkar-utkast.md) say the free plan in point 3, the
+  yearly agreement in points 4 and 10; legal review in admin is a record (X-078). The price page, its FAQ and
+  JSON-LD (a free offer and the yearly prices), and «Bransjemodulene er med i alle planer» on the Bransjer hub
+  are updated in Norwegian and English.
+- **Not built.** The admin's organisation detail (`admin_org_detail`) does not name the interval, and its
+  MRR is still the monthly list price: the hosted project carries a version of that function this
+  repository's migrations do not (found by comparing definitions before applying 0201), so 0201 leaves it
+  alone rather than overwrite it. A paying customer cannot step down to the free plan; cancelling still ends in deletion
+  (0064). `app.kpi_daily` does not count free organisations (its `read_only` column now counts only
+  cancellations that have taken effect). Both are follow-ups, not promises anywhere in the product.

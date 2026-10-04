@@ -1,5 +1,6 @@
 import { absolute, SITE_URL } from './site'
 import { plain, type FaqItem } from './blocks'
+import { PLAN_SIZES, yearly } from '@/lib/site/pricing'
 
 /** the page's language as schema.org wants it: nb-NO on the Norwegian site, en on the English one */
 export const ldLanguage = (locale: string) => (locale === 'en' ? 'en' : 'nb-NO')
@@ -37,7 +38,10 @@ export const website = (locale = 'no') => ({
   publisher: { '@id': `${SITE_URL}/#organization` },
 })
 
-/** The two published plans; "Flere selskaper" is by agreement and has no price to state. */
+/**
+ * The published prices: the free plan, and Liten and Vanlig by the month and by the year (ten months'
+ * price, D-217); "Flere selskaper" is by agreement and has no price to state.
+ */
 export const software = (description: string) => ({
   '@type': 'SoftwareApplication',
   name: 'Orgpuls',
@@ -50,20 +54,25 @@ export const software = (description: string) => ({
   url: SITE_URL,
   publisher: { '@id': `${SITE_URL}/#organization` },
   offers: [
-    { name: 'Liten', price: '265' },
-    { name: 'Vanlig', price: '565' },
-  ].map((o) => ({
-    '@type': 'Offer',
-    name: o.name,
-    url: `${SITE_URL}/priser`,
-    priceSpecification: {
-      '@type': 'UnitPriceSpecification',
-      price: o.price,
-      priceCurrency: 'NOK',
-      unitText: 'MON',
-      valueAddedTaxIncluded: false,
-    },
-  })),
+    { '@type': 'Offer', name: 'Gratis', url: `${SITE_URL}/priser`, price: '0', priceCurrency: 'NOK' },
+    ...[
+      { name: 'Liten', price: PLAN_SIZES[0].monthly, unitText: 'MON' },
+      { name: 'Vanlig', price: PLAN_SIZES[1].monthly, unitText: 'MON' },
+      { name: 'Liten', price: yearly(PLAN_SIZES[0].monthly).year, unitText: 'ANN' },
+      { name: 'Vanlig', price: yearly(PLAN_SIZES[1].monthly).year, unitText: 'ANN' },
+    ].map((o) => ({
+      '@type': 'Offer',
+      name: o.name,
+      url: `${SITE_URL}/priser`,
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: String(o.price),
+        priceCurrency: 'NOK',
+        unitText: o.unitText,
+        valueAddedTaxIncluded: false,
+      },
+    })),
+  ],
 })
 
 export const faqPage = (items: FaqItem[]) => ({

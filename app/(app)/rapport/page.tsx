@@ -1,4 +1,8 @@
 import { countView } from '@/lib/analytics/product'
+import { isFreePlan } from '@/lib/billing/read'
+import { getCurrentOrgId } from '@/lib/org/current'
+import { PlanLocked } from '@/components/shell/PlanLocked'
+import { getTranslations } from 'next-intl/server'
 import { K_DEFAULT } from '@/lib/org/threshold'
 import { DemoStamp } from '@/components/shell/DemoNotice'
 import { getDemoState } from '@/lib/demo/read'
@@ -60,6 +64,13 @@ export default async function RapportPage({
   }>
 }) {
   const params = await searchParams
+
+  // the statutory report is not in the free plan (0201, D-217). A cancelled organisation, which
+  // reads as read-only, keeps it: the report is what it downloads before everything is deleted.
+  if (await isFreePlan(await getCurrentOrgId())) {
+    const t = await getTranslations('plan')
+    return <PlanLocked title={t('report.title')} body={t('report.body')} />
+  }
 
   const [org, rows, instrument, extras, measures, role] = await Promise.all([
     getOrganization(),

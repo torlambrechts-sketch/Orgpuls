@@ -56,11 +56,17 @@ export async function ResultaterFrame(props: FrameProps) {
   const index = isPulse ? pulseIndex(model, round.id) : (model.overall[round.id] ?? null)
   const against = isPulse ? null : (model.compare ?? model.previous)
   const againstIndex = isPulse ? pulseAgainst(model) : against ? (model.overall[against.id] ?? null) : null
+  // on the free plan nothing is compared, and a missing comparison is not a first measurement (0201)
+  const locked = model.compareLocked === true
   const delta =
-    index === null || againstIndex === null ? null : isPulse ? index - againstIndex : later(round, index, against!, againstIndex)
+    locked || index === null || againstIndex === null
+      ? null
+      : isPulse
+        ? index - againstIndex
+        : later(round, index, against!, againstIndex)
   const deltaText =
     delta === null
-      ? !isPulse && !model.previous && !model.compare
+      ? !locked && !isPulse && !model.previous && !model.compare
         ? t('delta.first')
         : null
       : isPulse
@@ -75,7 +81,7 @@ export async function ResultaterFrame(props: FrameProps) {
 
   const rate = participation ? `${participation.pct} %` : null
   // the response rate against the round before it (D-135): whole organisation, as every member sees it
-  const rateRef = rateAgainst(model, pulses)
+  const rateRef = locked ? null : rateAgainst(model, pulses)
   const rateDelta = rateRef ? model.rates[round.id]! - model.rates[rateRef.id]! : null
   const rateVs =
     rateRef === null || rateDelta === null
@@ -157,7 +163,7 @@ export async function ResultaterFrame(props: FrameProps) {
           </>
         ) : null}
       </span>
-      {!isPulse && grunnlinjer.length > 1 ? (
+      {!locked && !isPulse && grunnlinjer.length > 1 ? (
         <span className="flex flex-wrap items-center gap-[6px]">
           <span className="mr-[2px] text-[11px] uppercase tracking-[.09em] text-mut">{t('chips.compare')}</span>
           {[null, ...grunnlinjer.filter((g) => g.id !== round.id)].map((g) => {
@@ -281,6 +287,10 @@ async function KeyFigures({
 
       <div className={`${card} px-[22px] py-[20px]`}>
         <div className="text-[12.5px] font-semibold text-mut">{t('kpi.trend')}</div>
+        {model.compareLocked ? (
+          <p className="mb-0 mt-[12px] text-[12.5px] leading-[1.5] text-mut [text-wrap:pretty]">{t('kpi.trendLocked')}</p>
+        ) : (
+        <>
         <div className="mt-[12px] flex h-[86px] items-end gap-[14px]">
           {years.map((y) => {
             const v = model.overall[y.id]!
@@ -307,6 +317,8 @@ async function KeyFigures({
             </span>
           ))}
         </div>
+        </>
+        )}
       </div>
 
       <div className="grid grid-rows-[1fr_1fr] gap-[14px]">

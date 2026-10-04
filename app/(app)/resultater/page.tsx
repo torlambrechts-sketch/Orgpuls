@@ -22,6 +22,8 @@ import { headers } from 'next/headers'
 import { outboundBase } from '@/lib/hosts'
 import { getViewerRole } from '@/lib/org/read'
 import { getRoundShare } from '@/lib/results/page'
+import { isFreePlan } from '@/lib/billing/read'
+import { getCurrentOrgId } from '@/lib/org/current'
 import {
   ORG,
   VIEWS,
@@ -95,9 +97,12 @@ export default async function ResultaterPage({
   const ref = roundNamer(t, locale)
 
   const isPulse = selected.kind === 'puls'
+  // the free plan reads one round at a time: no comparison, no history (0201, D-217)
+  const locked = await isFreePlan(await getCurrentOrgId())
   const compareRow =
+    !locked &&
     !isPulse && params.mot && params.mot !== selected.id ? (grunnlinjer.find((r) => r.id === params.mot) ?? null) : null
-  const previousRow = [...(isPulse ? closed : grunnlinjer)].filter((r) => byClose(r, selected) < 0).at(-1) ?? null
+  const previousRow = locked ? null : ([...(isPulse ? closed : grunnlinjer)].filter((r) => byClose(r, selected) < 0).at(-1) ?? null)
 
   const [digest, factors, conversations, measures, unanswered, notRelevant, own, effect] = await Promise.all([
     // the workspace and every closed round's participation, in one call (0044): the rate is
@@ -164,6 +169,7 @@ export default async function ResultaterPage({
   const scores: ResultaterModel['scores'] = {}
   const overall: ResultaterModel['overall'] = {}
   for (const h of workspace?.history ?? []) {
+    if (locked && h.round_id !== selected.id) continue
     const perRow: Record<string, Scores> = {}
     if (h.summary?.status === 'ok' && h.summary.scope === 'org') {
       perRow[ORG] = Object.fromEntries(h.summary.factors.map((f) => [f.key, f.index]))
@@ -180,7 +186,7 @@ export default async function ResultaterPage({
     const scope = perRow?.[ORG] ?? Object.values(perRow ?? {}).find((v) => v) ?? null
     return scope ? Object.keys(scope) : []
   }
-  const measured: ResultaterModel['measured'] = Object.fromEntries(closed.map((r) => [r.id, measuredOf(r.id)]))
+  const measured: ResultaterModel['measured'] = Object.fromEntries((locked ? [selected] : closed).map((r) => [r.id, measuredOf(r.id)]))
   measured[selected.id] = factors
 
   // this round's statements, per row
@@ -211,7 +217,9 @@ export default async function ResultaterPage({
     if (entry.quotes.length < 3) entry.quotes.push(c.opening)
   }
 
-  const timeline = [
+  const timeline = locked
+    ? [ref(selected)]
+    : [
     ...closed.map(ref),
     // the round after the last closed one, dashed on the time line as the design draws it
     ...rows
@@ -219,7 +227,7 @@ export default async function ResultaterPage({
       .sort((a, b) => (a.opensAt ?? '').localeCompare(b.opensAt ?? ''))
       .slice(0, 1)
       .map(ref),
-  ]
+      ]
 
   const released = groupRows.filter((g) => g.status === 'ok')
   const now = scores[selected.id] ?? {}
@@ -243,6 +251,7 @@ export default async function ResultaterPage({
 
   const model: ResultaterModel = {
     round: ref(selected),
+    compareLocked: locked,
     compare: compareRow ? ref(compareRow) : null,
     previous: previousRow ? ref(previousRow) : null,
     threshold,
@@ -276,7 +285,7 @@ export default async function ResultaterPage({
     questionCount: selected.questionCount,
     initial: { view: params.visning ?? 'varmekart', row, factor },
     rates: Object.fromEntries(
-      closed.flatMap((r) => {
+      (locked ? [selected] : closed).flatMap((r) => {
         const p = digest.participation.get(r.id)
         return p ? [[r.id, p.pct] as const] : []
       }),

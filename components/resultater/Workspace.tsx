@@ -41,7 +41,9 @@ export interface Selection {
 
 export function Workspace({ model }: { model: ResultaterModel }) {
   const t = useTranslations()
-  const [view, setView] = useState<ViewKey>(model.initial.view)
+  // the comparisons are not in the free plan (0201, D-217): their two tabs are left out
+  const views: readonly ViewKey[] = model.compareLocked ? VIEWS.filter((v) => v !== 'sammenlign' && v !== 'utvikling') : VIEWS
+  const [view, setView] = useState<ViewKey>(views.includes(model.initial.view) ? model.initial.view : 'varmekart')
   const [sel, setSel] = useState<Selection>({
     row: model.initial.row,
     factor: model.initial.factor,
@@ -95,7 +97,7 @@ export function Workspace({ model }: { model: ResultaterModel }) {
           role="tablist"
           aria-label={t('resultater.viewsAria')}
         >
-          {VIEWS.map((v) => (
+          {views.map((v) => (
             <button
               key={v}
               type="button"

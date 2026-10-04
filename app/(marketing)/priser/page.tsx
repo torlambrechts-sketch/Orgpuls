@@ -1,24 +1,28 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { getLocale, getTranslations } from 'next-intl/server'
+import { getFormatter, getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { JsonLd } from '@/components/marketing/JsonLd'
 import { Tick } from '@/components/site/parts'
 import { Faq } from '@/components/site/v3/pris/Faq'
-import { FitBadge, FitCard, FitCta, FitSize, SizeProvider, SizeSlider } from '@/components/site/v3/pris/Size'
+import { FitBadge, FitCard, FitCta, FitSize, IntervalToggle, PlanPrice, SizeProvider, SizeSlider } from '@/components/site/v3/pris/Size'
 import { SiteTop } from '@/components/site/v3/SiteTop'
 import { StartBand } from '@/components/site/v3/StartBand'
 import { FaqItems } from '@/lib/marketing/blocks'
 import { pageMeta } from '@/lib/marketing/meta'
 import { breadcrumbs, faqPage, graph, ldLanguage, organization, software } from '@/lib/marketing/schema'
 import { absolute } from '@/lib/marketing/site'
-import { PLAN_SIZES } from '@/lib/site/pricing'
+import { PLAN_SIZES, yearly } from '@/lib/site/pricing'
 
 /**
  * Pris (D-190): design-reference/orgpuls/nettside-v3/Pris.dc.html. «Fra 265 kr i måneden. Alt
  * inkludert.», the headcount slider over the three plans, the ink band of what every plan holds, the
  * questions small businesses ask, and the start band. Desktop is the design's, value for value;
  * below 640px the decision sheet's phone rules (16px gutters, a 40/34px H1, the size row a column).
+ *
+ * Since D-217 (2026-10-04, the owner's decision) the page also carries what the design does not: a
+ * monthly / yearly choice over the cards (a year at ten months' price), and the free plan an
+ * organisation lands on after the trial, as a card before the three.
  *
  * The words are `seo.pages.priser` (the hero and the questions, which the FAQPage data repeats) and
  * `site.pris` (the rest); the prices and limits the slider computes with are lib/site/pricing, the
@@ -31,6 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const Plan = z.object({ name: z.string(), who: z.string(), price: z.string(), unit: z.string().optional(), items: z.array(z.string()), cta: z.string() })
+const Free = z.object({ name: z.string(), who: z.string(), price: z.string(), unit: z.string(), items: z.array(z.string()), cta: z.string() })
 const Size = z.object({ name: z.string(), range: z.string(), price: z.string() })
 const Group = z.object({ t: z.string(), items: z.array(z.string()) })
 
@@ -44,7 +49,12 @@ export default async function PrisPage() {
   const seo = await getTranslations('seo')
   const chrome = await getTranslations('site.chrome')
 
+  const format = await getFormatter()
   const plans = z.array(Plan).length(PLAN_SIZES.length).parse(t.raw('plans'))
+  const free = Free.parse(t.raw('free'))
+  // a year at ten months' price, and that as a month, in the page's language (0201, D-217)
+  const kr = (n: number) => t('price.kr', { n: format.number(n) })
+  const years = PLAN_SIZES.map((s) => (s.monthly === null ? null : yearly(s.monthly)))
   const sizes = z.array(Size).length(PLAN_SIZES.length).parse(t.raw('included.sizes'))
   const groups = z.array(Group).length(GLYPHS.length).parse(t.raw('included.groups'))
   const faq = FaqItems.parse(seo.raw('pages.priser.faq'))
@@ -113,13 +123,44 @@ export default async function PrisPage() {
               valuetextGroup: t.raw('size.valuetextGroup') as string,
               readout: t.raw('size.readout') as string,
               readoutGroup: t.raw('size.readoutGroup') as string,
+              readoutYear: t.raw('size.readoutYear') as string,
+              valuetextYear: t.raw('size.valuetextYear') as string,
               unitOne: t('size.unitOne'),
               unitOther: t('size.unitOther'),
               plans: plans.map((p) => p.name),
+              yearPrices: years.map((y) => ({ year: y ? format.number(y.year) : '', perMonth: y ? format.number(y.perMonth) : '' })),
             }}
           />
 
+          <IntervalToggle w={{ legend: t('interval.legend'), month: t('interval.month'), year: t('interval.year') }} />
+
           <ul className="m-0 mt-[13px] grid list-none items-stretch gap-[13px] p-0 [grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))]">
+            {/* the free plan (D-217): never the fitting one, so drawn as the others are */}
+            <li className="flex flex-col gap-[13px] rounded-[20px] border border-line bg-sf p-[26px]">
+              <h2 id="plan-free" className="m-0 text-[17px] font-bold">
+                {free.name}
+              </h2>
+              <span className="text-[13px] text-mut">{free.who}</span>
+              <span className="flex flex-wrap items-baseline gap-[7px]">
+                <span className="font-display text-[40px] font-semibold leading-none">{free.price}</span>
+                <span className="text-[13px] text-mut">{free.unit}</span>
+              </span>
+              <ul className="m-0 mt-[4px] flex flex-1 list-none flex-col gap-[8px] p-0">
+                {free.items.map((it) => (
+                  <li key={it} className="flex items-start gap-[9px] text-[13.5px] leading-[1.5] [text-wrap:pretty]">
+                    <Tick size={16} />
+                    <span>{it}</span>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="#kom-i-gang"
+                aria-describedby="plan-free"
+                className="mt-[8px] flex min-h-[46px] items-center justify-center rounded-cta border border-ink bg-transparent text-[14.5px] font-bold text-ink no-underline hover:text-ink"
+              >
+                {free.cta}
+              </a>
+            </li>
             {plans.map((p, i) => (
               <FitCard key={p.name} i={i}>
                 <div className="flex flex-wrap items-center justify-between gap-[10px]">
@@ -130,10 +171,14 @@ export default async function PrisPage() {
                   <FitBadge i={i} label={t('fits')} />
                 </div>
                 <span className="text-[13px] text-mut">{p.who}</span>
-                <span className="flex flex-wrap items-baseline gap-[7px]">
-                  <span className="font-display text-[40px] font-semibold leading-none">{p.price}</span>
-                  <span className="text-[13px] text-mut">{p.unit ?? ''}</span>
-                </span>
+                <PlanPrice
+                  month={{ price: p.price, unit: p.unit ?? '' }}
+                  year={
+                    years[i]
+                      ? { price: kr(years[i]!.year), unit: t('price.perYear'), note: t('price.yearPerMonth', { n: format.number(years[i]!.perMonth) }) }
+                      : { price: p.price, unit: p.unit ?? '' }
+                  }
+                />
                 <ul className="m-0 mt-[4px] flex flex-1 list-none flex-col gap-[8px] p-0">
                   {p.items.map((it) => (
                     <li key={it} className="flex items-start gap-[9px] text-[13.5px] leading-[1.5] [text-wrap:pretty]">

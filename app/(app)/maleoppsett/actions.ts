@@ -101,7 +101,8 @@ export async function saveSetup(formData: FormData): Promise<SetupActionResult> 
     .from('measurements')
     .update({ kind: s.kind, evaluation_cadence: s.evaluationCadence })
     .eq('id', round_.data.measurement_id)
-  if (measurementError) return problem('denied')
+  // a puls or follow-up on the free plan is refused by the table (0201, D-217)
+  if (measurementError) return problem(measurementError.message.startsWith('free_plan') ? 'plan' : 'denied')
 
   /*
    * The factor set and the invited departments are replaced rather than diffed, for the
@@ -225,7 +226,13 @@ export async function saveConsultation(formData: FormData): Promise<SetupActionR
  * the screen's words by its meaning, never echoed: a message could quote the question.
  */
 const refusal = (message: string) =>
-  message.includes('at most five') ? 'capped' : message.includes('fixed once') ? 'locked' : 'denied'
+  message.startsWith('free_plan')
+    ? 'plan'
+    : message.includes('at most five')
+      ? 'capped'
+      : message.includes('fixed once')
+        ? 'locked'
+        : 'denied'
 
 export async function addOrgQuestion(formData: FormData): Promise<SetupActionResult> {
   const parsed = z
@@ -354,7 +361,7 @@ export async function saveRoundModule(formData: FormData): Promise<SetupActionRe
       { onConflict: 'round_id,module_id' },
     )
     .select('round_id')
-  if (error) return problem(error.message.includes('fixed once') ? 'locked' : 'denied')
+  if (error) return problem(refusal(error.message))
   if (writeFailed('saveRoundModule', null, data)) return problem('denied')
 
   revalidatePath('/maleoppsett')
