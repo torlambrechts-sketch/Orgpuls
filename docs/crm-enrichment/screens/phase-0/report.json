@@ -398,5 +398,189 @@
     "overflowPx": 0,
     "errors": [],
     "file": "SF-26-ops-crm-jobs-retried-1440.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-campaigns-lifecycle",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-campaigns-lifecycle-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-campaigns-lifecycle",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-campaigns-lifecycle-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-campaigns-lifecycle-off",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-campaigns-lifecycle-off-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-campaigns-lifecycle-off",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-campaigns-lifecycle-off-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-partners-share",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-partners-share-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-partners-share",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-partners-share-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-restore-confirmed",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-restore-confirmed-1440.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-campaign-full",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-campaign-full-1440.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-readonly-campaigns",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-campaigns-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-readonly-campaigns",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-campaigns-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-readonly-campaign",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-campaign-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-readonly-campaign",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-campaign-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-readonly-lists",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-lists-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-readonly-lists",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-lists-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-readonly-segments",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-segments-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-readonly-segments",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-segments-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-readonly-templates",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-templates-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-readonly-templates",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-templates-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-readonly-stages",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-stages-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-readonly-stages",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-stages-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-readonly-contacts",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-contacts-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-readonly-contacts",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-contacts-390.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-growth-plan-region",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-growth-plan-region-390.png"
   }
 ]
