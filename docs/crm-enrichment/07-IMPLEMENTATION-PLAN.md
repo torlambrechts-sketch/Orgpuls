@@ -1,9 +1,9 @@
-# 07 — Implementation plan matched to the code
+# 07 — Implementation plan
 
-Phase B output (A4) for `INSTRUCTIONS.md`, written 2026-10-03 after Tor's answers (`DECISIONS.md`
-DEC-01…09). No application code is written in this phase. Phase 0 and Phase 1 are planned to work-package
-level; Phases 2–8 at module level, to be re-planned at each gate from what the earlier phases teach (the
-brief asks to measure the real pace in Phase 0 and re-size from it).
+Rewritten 2026-10-04 at Tor's request («Restart with a solid plan and rewrite», DEC-49). Phase 0 is done
+(D-208 to D-215, `reports/phase-0.md`). Every remaining phase is planned here to work-package level, in the order it
+is built. The work runs as CLAUDE.md says: decisions are taken and logged, with no stops. A phase ends with its gate
+flows, a short report and a merge to main once CI is green.
 
 Conventions are the repository's, where they differ from the brief's proposals (A6: "follow the repository
 and report the difference"):
@@ -79,37 +79,62 @@ erDiagram
 
 ---
 
-## 2. Decisions still needed (each with the default the plan uses until answered)
+## 2. Decisions taken
 
-| # | Decision | Options and consequences | Default in this plan | Blocks |
-| --- | --- | --- | --- | --- |
-| P1 | Staff roles (open point 10, SEC-07) | (a) add `sales` and `project` to `app.platform_role`; (b) permission sets as rows assigned per staff user, roles kept as the coarse gate | **(b)**, with `marketing` mapped to a default "regular" set; super_admin = admin set | WP-0.4 onwards (every write checks a set) |
-| P2 | Job runtime (open point 3) | pg_cron + edge functions (today) vs a separate worker | **pg_cron + edge functions** for Phases 0–1; decide before Phase 2 (mail sync) | Phase 2, 7 |
-| P3 | Providers (open point 2) | one per service; each brings an API key in Vault (A7.8) and maybe a dependency (R9) | none chosen; geocoding (CRM-03) is the only Phase 1 need — default: OpenStreetMap Nominatim behind an adapter, rate-limited, no dependency | CRM-03, Phases 2–8 |
-| P4 | Outbound webhook signing | signed (HMAC-SHA256 header, secret per subscription) or unsigned | **signed** — not a restriction, a receiver may ignore it | INT-04 (Phase 8) |
-| P5 | Abuse protection on public endpoints (A7.9) | honeypot + per-IP rate limit as settings | honeypot on; rate limit setting default generous (e.g. 60/min per IP) — never blocks a person | LGN, booking, documents |
-| P6 | Mobile and desktop clients (Q17) | React Native/Expo, PWA, or defer | **defer** to Phase 8 re-plan | MOB, MTG-03/07 |
-| P7 | Editor role bug (Q2) | fix the whitelist | **fix in WP-0.4** (a bug, no behaviour anyone relies on) | — |
-| P8 | Exclusion-based gates (Q3) | switch to allow-lists | **ask before changing** (it changes who sees what) | — |
-| P9 | `product_id` on existing CRM tables (Q14) | add with default 'orgpuls' (additive, no rewrite) | **add** in WP-0.2 | — |
-| P10 | Admin language (Q20) | per-user locale vs English plus format/time zone | **English plus per-user date/number/time zone** (CUS-05 partial until answered) | CUS-05 |
+The open decisions of the first plan, settled so that no work package waits on them (Claude's calls under DEC-49
+unless a DEC is named; Tor overrules by saying so).
 
----
+| # | Decision | Outcome |
+| --- | --- | --- |
+| P1 | Staff roles | Done: permission sets as rows, a set per staff member (WP-0.4, DEC-11) |
+| P2 | Job runtime | pg_cron and edge functions for every phase. The dispatcher and runner (0199) already carry jobs, with runs counted and failures shown; there is no separate worker |
+| P3 | Providers | One adapter per service (§6). Mail and SMS stay on Brevo. Google and Microsoft go through OAuth for mail, calendar, contacts, files and video links. Every other service has an adapter that says «Not connected» until its key is in Vault |
+| P4 | Webhook signing | Signed, HMAC-SHA256 with a secret per subscription |
+| P5 | Public endpoints | Honeypot on; a per-IP rate limit as a setting with a generous default |
+| P6 | Mobile | An installable PWA of the admin CRM: offline queue, Web Push, camera and location from the browser; no app-store accounts |
+| P7 | Editor role | Done (WP-0.4) |
+| P8 | Exclusion-based gates | Unchanged: changing them changes who sees what, a feature question raised only if a package needs it |
+| P9 | `product_id` | Done (WP-0.2) |
+| P10 | Admin language | English, with per-user date, number and time-zone formats (CUS-05) |
+| OP6 | LinkedIn connector (LEA-06) | LinkedIn offers no messaging API for this use, so LinkedIn steps stay tasks; the messaging inbox covers SMS and WhatsApp |
+| Q7 | Lead object | Its own table, `crm_leads` |
+| Q13 | k threshold | The product rule: floor 3, default 5 |
 
-## 3. Work packages
+## 3. Delivery
 
-### Phase 0 — Foundations (exit gate: a custom field works end to end on existing companies and contacts; SF-01, SF-02, SF-34, SF-38)
+- **Migrations** are numbered from `0201` (`0198` is main's). Each is applied to a database rebuilt from the
+  migrations, the SQL suites run, then it is applied to production whole with `apply_migration`. Afterwards the
+  functions it creates or changes must match the local build (md5), and the advisors diff
+  (`scripts/audit/advisors-diff.py`) must show only what the package intends. If the connector holds a call, the
+  migration is listed in `STATUS.md` until it lands, and the work goes on.
+- **Main** takes each phase by PR once CI is green. A long phase merges in the middle too. Phase 0 merges first,
+  with the four held parts (`held-parts/`) applied before it.
+- **Evidence** for every package:
+  - its SQL suite;
+  - vitest for pure logic;
+  - an admin journey for each user flow it completes;
+  - new screens at 1440 and 390 (`scripts/qa/admin-shots.mjs`, into `screens/phase-<n>/` with `report.json`);
+  - `en` and `no` messages;
+  - its rows in the phase report's security table.
+- **Status:** `STATUS.md` after every package — done, in progress, next, migrations waiting, keys wanted.
 
-| WP | Closes | Migrations | Server and interface | Settings | Tests | Screens and states | Depends on |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| **WP-0.1 Settings registry** | CUS-07, SF-34, UF-29; DEC-04, DEC-07 | `crm_setting_defs/values/log`; seed all 15 register rows plus the caps found in code (campaign blocks, import rows, bulk ids, register rows, read caps) and the existing rule checks (consent source on new contact and import, typed reasons) — defaults unrestricted/off; `public.admin_crm_setting_set`, `admin_crm_settings_all`; `app.crm_rule(key)` for SQL callers | `lib/admin/crmSettings.ts` reader used by every action; existing caps and checks rewired to the registry (`LA/crmActions.ts`, `admin_crm_import`, `admin_crm_save_contact`, `admin_crm_stage_move`, `admin_crm_companies`); Settings → CRM section listing every setting, current value, default, who changed it and when; a refusal names its setting | all register rows | `crm_settings_registry_invariants.sql`: every row exists with its documented default, each default leaves the action unrestricted, each setting tested on and off, changes logged; vitest for the reader | Settings: populated, changed-from-default badge, permission denied (analyst read-only), long option lists, 390 | — |
-| **WP-0.2 Record foundation** | SF-02 (write side), PIP-04 changelog, A6 standard columns | `crm_changes` (append-only), `crm_event_deliveries`; register CRM event families in `event_catalogue`; standard columns + `product_id` on existing CRM tables (additive); `app.crm_record_change()` used by every write RPC in one transaction with the audit row | changelog shown on company and contact pages | — | `crm_changelog_invariants.sql`: a field edit writes before/after/actor/source; change, changelog, audit and event commit together or not at all; stale `version` rejected | History list: empty, paginated, long values | WP-0.1 |
-| **WP-0.3 Soft delete, restore, purge** | CRM-12, SF-15, PIP-17 (restore half) | `deleted_at/by` on CRM records; `admin_crm_restore`; pg_cron purge after 30 days (window is a setting) | Restore list (who, when, source); bulk delete preview | Second-admin approval (off) | `crm_restore_invariants.sql`: delete hides, restore returns links intact, purge removes after the window, approval setting on blocks until approved | Restore: empty, populated, preview, approval pending | WP-0.2 |
-| **WP-0.4 Access: permission sets, teams, visibility; audit completeness** | SEC-07, SEC-08, SEC-09 (teams), SF-01; Q2, Q4 | `crm_permission_sets`, `crm_staff_access`, `crm_teams`, `crm_team_members`, `crm_visibility_groups`; `app.crm_can(action, entity)` and `app.crm_visible(owner, visibility)`; `admin_set_admin` accepts `editor`; `admin_log` added to the ~25 unaudited readers | Admin → Users & roles gains sets, teams, groups; every CRM RPC moves from `crm_can_write()` to `crm_can(action)` with the same defaults as today | Plan gates (counts) | `crm_access_invariants.sql`: allow/deny per role and set for select/insert/update/delete paths; visibility owner/group/sub-groups/everyone; anon and customer users denied; every reader writes an audit row; firewall test extended to follow calls through helpers (DEC-08) | Users & roles: sets, teams, denied | P1 |
-| **WP-0.5 Custom fields** | CUS-01, CUS-02, CUS-03, CUS-04, SF-38; Phase 0 gate | `crm_fields`; `custom jsonb` on companies, contacts (later deals, leads, products, activities); expression indexes per filterable field; quality rules and formula evaluation in SQL; read-only/hidden enforced in the RPC that returns the record | Field admin screen; forms, filters and import read the registry | Count limits (options per field) | `crm_fields_invariants.sql`: a new field appears in reads, filters and import without a deploy; required blocks a manual save, is reported on import; hidden fields absent for a denied role; formula equals inputs; self-reference refused | Field admin: each of 16 types, long option lists, errors | WP-0.2, WP-0.4 |
-| **WP-0.6 Event dispatcher** | SF-02 (delivery side), SF-26 runner | pg_cron job claiming undelivered events per subscriber with `crm_event_deliveries`; run records with failure alert in the job monitor | — | Technical safeguards (loop window) | `crm_events_invariants.sql`: each subscriber gets each event once; a failing subscriber retries without blocking others | — | WP-0.2 |
-| **WP-0.7 Test harness for the admin** | A8 e2e and visual; Q19 | — | Playwright admin `@journey` specs signing in as the fixture's local admin; `scripts/verify/sentral-run.mjs` and the 390 check in CI; axe on admin pages | — | the harness itself, plus a smoke journey over the current CRM | baseline from `screens/baseline/` | — |
-| **WP-0.8 Phase A clean-ups** | 06 §E | — | Partners «Revenue share» and the campaigns «Built in» rows read data or are omitted (never fabricate); hard-coded strings to messages; `demo` source in the enum and messages; overview "due" in Oslo time; scoring page role check; from WP-0.7's harness (D-214): keyboard access to the nine scroll regions axe flags at 390 px (qa/known-issues.json, `@390`), and a restore or a permanent delete in the restore list that says so after its row has left | — | vitest for the moved strings; existing suites | affected CRM pages, 1440/390 | — |
+## 4. Work packages
+
+### Phase 0 — Foundations (done)
+
+WP-0.1 rule settings (0192, D-208) · WP-0.2 record history (0194, D-209) · WP-0.3 soft delete and the restore list
+(0195, D-210) · WP-0.4 permission sets, visibility, teams (0196, D-211) · WP-0.5 custom fields (0197, D-212) ·
+WP-0.6 event dispatcher (0199, D-213) · WP-0.7 admin test harness (D-214) · WP-0.8 clean-ups (0200, D-215). Gate
+accepted (DEC-45). Left: the four held production parts, then the merge.
+
+The Phase 0 features that are partial finish with the packages that bring what they lack:
+
+- CUS-01, CUS-02, CUS-03, CUS-04 and SEC-08 with deals, pipelines and leads (WP-1.1, WP-1.7);
+- the contacts' owner with WP-1.5;
+- SEC-07's projects area with WP-6.2;
+- SEC-09's reassignment and own profile with WP-8.5;
+- SF-01's entitlement step with WP-8.6;
+- SF-38's translations with WP-1.9, its reports with WP-4.1 and its API with WP-8.1.
 
 ### Phase 1 — Sales core (exit gate: UF-01, UF-02, UF-09, UF-10, UF-23, UF-24, UF-29; SF-07, SF-09, SF-10, SF-15, SF-25, SF-26, SF-32, SF-33, SF-35, SF-36, SF-37, SF-45)
 
@@ -125,25 +150,108 @@ erDiagram
 | **WP-1.8 Search and filters** | PIP-12, SF-25 | `crm_filters`; trigram/tsvector index over CRM tables only | global search grouped by type; ALL/ANY filter builder; saved, shared, favourite | a saved filter returns the same set in pipeline, list and forecast; survey tables never indexed | WP-1.1, WP-0.5 |
 | **WP-1.9 Customization remainder** | CUS-05, CUS-06, CUS-08 | currencies and rates; per-user format and time zone; sample records marked and removable | currency on deals and products; sample data in the demo tenant | report in default currency converts every value; sample removal leaves live data | WP-1.1 |
 
-### Phases 2–8 — module level (re-planned at each gate)
+### Phase 2 — Engagement (exit gate: UF-04, UF-06, UF-25)
 
-| Phase | Modules | Main new tables | Blocking decisions | Gate flows (Part G) |
-| --- | --- | --- | --- | --- |
-| 2 Engagement | COM, ACT-08/09, CRM-04, LEA-05/06 | mail_account/thread/message/link/event, booking, call_log, message thread | P2 job runtime, P3 providers (mail, calendar, telephony, messaging, video), open point 6 (LinkedIn) | UF-04, UF-06, UF-25 |
-| 3 Automation | AUT-01…12, CMP-07 | workflow(+version), runs, step runs, assignment rules/log, sequence/enrollment as records | open point 1 (extend the dispatcher + claim loop) | UF-05, UF-11, UF-12 |
-| 4 Insight | INS, PRO, CRM-07/08 | report, dashboard, goal, public link, rollups, score models, feed cards, products, revenue schedules, enrichment, credit ledger | P3 (enrichment), DEC-05 (Stripe for Orgpuls figures), DEC-08 | UF-03, UF-13, UF-14, UF-26 |
-| 5 Capture and close | LGN, WEB, DOC | chatbot, chat, web forms, submissions, tracked site, visitor company, visit, documents, signatures | P3 (IP-to-company, e-signature, drives), open point 5, P5 | UF-08, UF-18, UF-19 |
-| 6 Market and deliver | CMP (extensions), PRJ | campaign builder rows, boards/phases/projects/tasks/dependencies/templates | — | UF-17, UF-20 |
-| 7 AI | AIA, MTG, INS-09, PRJ-06/07 AI parts | AI call log, meetings, recordings, transcripts, briefs, suggestions | P3 (model, transcription), open points 5 and 8 (cost) | UF-07, UF-27 |
-| 8 Platform and channels | INT, MCP, SEC-01…06/10/11, MOB, ENT | api tokens, oauth, webhooks + deliveries, entitlements, usage counters, login log, security rules | P4, P6, DEC-05 (ENT-03 on Stripe) | UF-15, UF-16, UF-21, UF-22, UF-28 |
+| WP | Closes | Database | Server and interface | Proof | Depends on |
+| --- | --- | --- | --- | --- | --- |
+| **WP-2.1 Mail accounts and sync** | COM-02, COM-03, SF-03 | `crm_mail_accounts` (per staff user, provider, OAuth tokens in Vault), `crm_mail_threads`, `crm_mail_messages` (headers, sanitized body, direction), `crm_mail_links` (message to deal, lead, contact or company), a sync cursor per account | connect a Google or Microsoft mailbox; a sync job pulls changes; messages link to records by address; an inbox per user | a re-sync creates no duplicates (provider ids); a contact's message lands on their open deal; a user who cannot see a record cannot read its messages; bodies sanitized (A7.4) | Phase 1 |
+| **WP-2.2 Team inbox and BCC drop-box** | COM-01, COM-04, COM-09 | shared mailboxes and members, thread labels and archive, a drop-box address per user | team inbox with assignment, labels, archive and warnings (unanswered, bounced); mail sent to the drop-box address files itself on the record | a bcc'd mail lands on the right record; a shared inbox is visible to its members only | WP-2.1 |
+| **WP-2.3 Compose and send** | COM-05, COM-06, COM-07, COM-08 | signatures; templates with merge fields (the CRM's templates extended); scheduled sends and outbox; tracking per message on `crm_sends` | composer on every record, scheduling, outbox, group mail with merge per recipient, opens and clicks on the message | a missing merge field blocks the send and names the field; a scheduled send goes once; tracking follows the tracking setting | WP-2.1 |
+| **WP-2.4 Calendar sync, invites, booking** | ACT-08, ACT-09, COM-10, SF-08 | calendar accounts (the mail OAuth), event links on activities, `crm_booking_pages`, slots, bookings | two-way sync of activities and calendars; invites with guests; a public booking page (honeypot, rate-limit setting) that creates the activity and the contact or lead | edits on either side converge; a slot is never booked twice; the public page reads nothing but its own page | WP-2.1, WP-1.4 |
+| **WP-2.5 Video links** | COM-11, SF-40 (video) | the video provider per account | «Add video link» on activities and bookings: Google Meet through Calendar, Teams through Graph, Zoom through its adapter | the link is made with the event and removed with it | WP-2.4 |
+| **WP-2.6 Calling and messaging** | COM-12, COM-13, LEA-06, SF-28 | `crm_calls` (direction, duration, outcome, recording), `crm_message_threads` and messages (SMS, WhatsApp) | click-to-call and browser calling through Twilio, call logging with outcome, SMS and WhatsApp threads on records, a messaging inbox; LinkedIn steps stay tasks | a call log becomes the record's activity; an inbound text from a known number lands on its contact; an opt-out is honoured | WP-1.4 |
+| **WP-2.7 Contact sync and lead email** | CRM-04, LEA-05, SF-29 | contact-sync mapping per account | two-way contact sync with Google and Microsoft (conflict rule a setting); an email-to-lead address; mail from a lead | an edit on either side converges; a contact deleted in the CRM does not come back | WP-2.1, WP-1.7 |
 
-## 4. Order
+### Phase 3 — Automation (exit gate: UF-05, UF-11, UF-12)
 
-Phase 0 in the order 0.1 → 0.2 → (0.3, 0.4, 0.6 in parallel) → 0.5; 0.7 and 0.8 alongside. Phase 1 starts
-with 1.1 (the data move), then 1.2–1.9. SEC-07/08/09 move from Phase 8 into Phase 0 because Phase 1's
-acceptance criteria name permissions and visibility. Everything else follows Part G.
+| WP | Closes | Database | Server and interface | Proof | Depends on |
+| --- | --- | --- | --- | --- | --- |
+| **WP-3.1 Workflow engine** | AUT-09, SF-04 | `crm_workflows`, `crm_workflow_versions` (immutable), `crm_workflow_runs`, `crm_workflow_step_runs` | the executor subscribes to the dispatcher (0199); steps run as a state machine with retries and the loop window; runs and failures on Ops | one run per event and version; a failing step retries, then fails visibly; switching a workflow off stops new runs only | Phase 2 |
+| **WP-3.2 Triggers, conditions, timing** | AUT-02, AUT-03, AUT-04, AUT-05, AUT-06 | trigger definitions (event, date), condition groups (the filter builder's ALL/ANY), delays, wait-for, branches | a scheduled scan for date triggers | a date trigger fires once per record and date; a wait-for resumes on its event or times out; a branch takes exactly one path | WP-3.1 |
+| **WP-3.3 Actions, templates, sharing** | AUT-07, AUT-08, AUT-10 | the action catalogue, templates, a workflow's owner and visibility | create activity, update field, move stage, send mail, notify, assign, call a webhook; a template gallery; sharing | every action writes the changelog with source «automation»; a template becomes an editable draft | WP-3.1 |
+| **WP-3.4 Workflow builder** | AUT-01 | — | the visual builder: steps, validation, a test run against a record, publishing a version | an invalid workflow cannot be published; a test run writes nothing | WP-3.2, WP-3.3 |
+| **WP-3.5 Assignment engine** | AUT-11, SF-06 | `crm_assignment_rules`, `crm_assignment_log` | round robin, by field or territory, by load, for leads and deals | the same input assigns the same way and is logged; an absent user is skipped | WP-3.1, WP-1.7 |
+| **WP-3.6 Sequences and automated campaigns** | AUT-12, CMP-07, SF-05 | sequences as records (`crm_sequences`, steps, enrollments); today's sequences (0137) moved in | enrol and unenrol, pause on reply, mail, call and LinkedIn steps, campaigns on triggers | a reply pauses the enrollment; an unsubscribe stops it; every existing sequence is carried over | WP-3.1, WP-2.3 |
 
-## 5. Test plan (every package)
+### Phase 4 — Insight (exit gate: UF-03, UF-13, UF-14, UF-26)
+
+| WP | Closes | Database | Server and interface | Proof | Depends on |
+| --- | --- | --- | --- | --- | --- |
+| **WP-4.1 Report engine** | INS-01, INS-07, INS-10, SF-14 | metric views in git over CRM tables only; `crm_reports` (definition as data); a query RPC that applies visibility | the report builder: entity, measures, grouping, filters including custom fields; freshness and capacity shown | a report's total equals the list's for the same filter; hidden records are left out; no view reaches the firewall list | Phase 1 |
+| **WP-4.2 Charts, dashboards, sharing, export** | INS-02, INS-03, INS-04, INS-08 | `crm_dashboards` and widgets; share links with a token and an expiry | charts, dashboards, sharing with users, teams or a public link, export to CSV, XLSX and PDF | a public link shows its dashboard's aggregates and nothing else; an export equals the view | WP-4.1 |
+| **WP-4.3 Goals and forecast reports** | INS-05, INS-06 | `crm_goals` (user or team, period, metric) | goal progress; forecasts weighted by stage probability and by close month | progress equals the metric over the period | WP-4.1, WP-1.2 |
+| **WP-4.4 Products and revenue** | CRM-07, CRM-08, SF-32 | `crm_products`, prices, `crm_deal_products`, `crm_revenue_schedules` | the catalogue, deal lines, recurring products and installments, recurring revenue (MRR, ARR, ACV, TCV), deal value from its lines; Orgpuls's own figures through the billing adapter, empty until Stripe exists (DEC-05) | a deal's value equals its lines; schedules sum to the contract value | WP-1.1, WP-1.9 |
+| **WP-4.5 Scoring and the feed** | PRO-01, PRO-02, PRO-03, SF-12, SF-13 | score models as rows (lead scoring, 0143, moved in); feed cards | a model editor; a feed of suggested actions to act on or dismiss | a score recomputes when an input changes; acting on a card writes as a normal edit does | WP-4.1 |
+| **WP-4.6 Enrichment** | PRO-04, PRO-05, PRO-06, PRO-07, SF-11 | an enrichment cache, a credit ledger | companies from Brønnøysund (built); people through the enrichment adapter; bulk enrichment with credits (a limit setting, unlimited by default); reverse lookup by mail domain | a field a user edited is not overwritten unless the setting says so; the ledger balances | WP-1.5 |
+
+### Phase 5 — Capture and close (exit gate: UF-08, UF-18, UF-19)
+
+| WP | Closes | Database | Server and interface | Proof | Depends on |
+| --- | --- | --- | --- | --- | --- |
+| **WP-5.1 Web forms and embedding** | LGN-03, LGN-05, SF-17 | `crm_forms` (fields mapped to CRM fields), submissions | a form builder, an embed snippet, consent text per form, honeypot and rate-limit setting; a submission makes a lead or contact | one submission, one lead; consent stored with its text version; nothing loads in the survey flow | WP-1.7 |
+| **WP-5.2 Live chat and chatbot** | LGN-01, LGN-02, SF-30 | chat sessions and messages, routing rules, bot flows | the site widget, an agent inbox, routing, a rule-based bot builder (AI answers come in Phase 7) | routing picks an available agent; with none, the visitor gets the form | WP-5.1 |
+| **WP-5.3 Visitors and reveal** | WEB-01, WEB-02, WEB-03, WEB-04, SF-18 | visitor companies on `web_events` (IP-to-company adapter) | a visitor inbox ranked by fit and intent; convert to a lead; reveal the company; identification a setting, on by default, and the change to the cookieless design recorded as a deviation (DEC-06) | no tracking in the survey flow; a reveal only with the adapter connected | WP-5.1 |
+| **WP-5.4 Prospect search** | LGN-04 | — | search the Brønnøysund register by industry, size and region; add results as companies or leads | an added company is matched by organisation number, never duplicated | WP-1.6 |
+| **WP-5.5 Documents** | DOC-01, DOC-02, DOC-04, DOC-06 | document templates, documents, tracked links and their views | templates with merge fields and product tables, PDF rendering, tracked share links, branding | every merge field resolves; a view is logged without storing more than the policy allows | WP-4.4 |
+| **WP-5.6 E-signature and cloud files** | DOC-03, DOC-05, SF-20 | signature requests, signers, an audit trail | built-in e-signature (typed or drawn, hash-chained audit, a certificate page); files from Drive and OneDrive through the Phase 2 OAuth | a signed document's hash matches its record; signer order holds when set | WP-5.5, WP-2.1 |
+
+### Phase 6 — Market and deliver (exit gate: UF-17, UF-20)
+
+| WP | Closes | Database | Server and interface | Proof | Depends on |
+| --- | --- | --- | --- | --- | --- |
+| **WP-6.1 Campaigns complete** | CMP-01, CMP-02, CMP-03, CMP-04, CMP-05, CMP-06, CMP-08, CMP-09, SF-19, SF-39 | campaign blocks as rows, audiences from filters, variants, deliverability records | the builder, templates, audiences, marketing status and consent, scheduling, analytics, deliverability (bounces, complaints, domain checks), insights; today's campaigns extended | a consent-less contact is never sent marketing mail; a variant split is even within one recipient | Phase 3 |
+| **WP-6.2 Projects** | PRJ-01, PRJ-02, PRJ-03, PRJ-04, SF-42 | boards, phases, projects, work items, dependencies | boards, a project from a won deal, work items, dependencies and a timeline | a won deal opens its project from a template; a dependency holds its successor | WP-1.1 |
+| **WP-6.3 Projects complete** | PRJ-05, PRJ-06, PRJ-07, PRJ-08, PRJ-09 | project templates, health, sharing | templates, health, collaboration and sharing, bulk work and import, project automation and reports | health follows its inputs; an imported board equals its file | WP-6.2, WP-3.3, WP-4.1 |
+
+### Phase 7 — AI (exit gate: UF-07, UF-27)
+
+| WP | Closes | Database | Server and interface | Proof | Depends on |
+| --- | --- | --- | --- | --- | --- |
+| **WP-7.1 AI gateway** | SF-24 | `crm_ai_calls` (purpose, model, tokens, cost; no message bodies) | the gateway in an edge function on the Anthropic API; cost limits as settings, unlimited by default; outside content never triggers a write; output is applied only where the spec allows | a prompt in an email cannot cause a write; the log holds no body | Phase 1 |
+| **WP-7.2 Assistant** | AIA-01, AIA-02, AIA-03, AIA-04, AIA-05, AIA-06, AIA-07, INS-09 | — | assistant chat over CRM data, AI notifications, email writer, summaries and suggested replies, import mapping, integration recommendations, card scanner, AI report generation | the assistant answers only from records the user can see | WP-7.1, WP-4.1 |
+| **WP-7.3 Meeting intelligence** | MTG-01, MTG-04, MTG-05, MTG-06, MTG-08, SF-21 | meetings, recordings, transcripts, briefs, suggestions | pre-call brief, transcript upload, transcription through its adapter, recap, CRM update suggestions approved by the user, the meeting workspace | a suggestion changes nothing until approved | WP-7.1, WP-2.4 |
+| **WP-7.4 Capture** | MTG-02, MTG-03, MTG-07 | — | a notetaker bot (Recall.ai adapter), desktop capture in the PWA, unscheduled calls | the bot joins only where the consent setting allows | WP-7.3, WP-8.7 |
+
+### Phase 8 — Platform and channels (exit gate: UF-15, UF-16, UF-21, UF-22, UF-28)
+
+| WP | Closes | Database | Server and interface | Proof | Depends on |
+| --- | --- | --- | --- | --- | --- |
+| **WP-8.1 API** | INT-01, INT-02, INT-03, SF-22 | API tokens (hashed), OAuth apps, rate counters | a REST API over the CRM that applies visibility; personal tokens and OAuth; rate limits as settings with generous defaults | a revoked token is refused; a hidden record is never returned | Phase 1 |
+| **WP-8.2 Webhooks** | INT-04, SF-23 | subscriptions, deliveries | signed webhooks on CRM events through the dispatcher, retries, a delivery log | a delivery retries with back-off; the signature verifies | WP-8.1 |
+| **WP-8.3 Integrations** | INT-05, INT-06, INT-07, INT-08, INT-09, INT-10, INT-11, COM-14, SF-41 | connector records | Google Workspace, Microsoft 365, Slack and Teams notifications, invoicing (Fiken, Tripletex), Zapier and Make through the API and webhooks, app extensions, the catalogue, the Gmail and Outlook add-ons | a connector switched off leaves the CRM working | WP-8.1, WP-8.2 |
+| **WP-8.4 MCP server** | MCP-01, MCP-02, MCP-03 | — | an MCP server exposing CRM tools with per-user tokens and admin controls | a tool call keeps the user's set and visibility; nothing reaches the firewall list | WP-8.1 |
+| **WP-8.5 Security** | SEC-01, SEC-02, SEC-03, SEC-04, SEC-05, SEC-06, SEC-10, SEC-11, SF-27, SF-43 | login and device log, security rules | the security dashboard, alerts, rules (IP allow-list and others, off by default), device and login history with remote sign-out, SSO for staff (Entra, Google), more 2FA options, data protection, privacy requests (export, erasure) | a rule off changes nothing; an erasure leaves no personal data behind | WP-8.1 |
+| **WP-8.6 Entitlements and usage** | CUS-07, ENT-01, ENT-02, ENT-03, ENT-04, SF-16 | entitlements, usage counters | module switches (CUS-07), feature gating (everything on by default), usage limits (unlimited by default), the usage screen; plans, add-ons and top-ups through the billing adapter once Stripe exists (DEC-05) | the defaults leave every feature working | Phase 1 |
+| **WP-8.7 Mobile (PWA)** | MOB-01, MOB-02, MOB-03, MOB-04, MOB-05, MOB-06, MOB-07, MOB-08, SF-31, SF-44 | an offline sync queue | the installable PWA: core screens, focus view, nearby (location), calls and texts with logging, offline edits, capture (camera, card), Web Push | an offline edit syncs once; push follows the user's preferences | WP-1.4, WP-1.5 |
+
+## 5. Order
+
+Phase 0's held parts and merge, then Phase 1 (1.1 first; then 1.2, 1.3, 1.4, 1.5; 1.6 and 1.7 after 1.5; 1.8 after
+1.1; 1.9), then Phases 2 to 8 in order, each package after the ones it depends on. The Gmail and Outlook add-ons
+(COM-14) move to WP-8.3 because they need the API. 48 packages remain.
+
+## 6. Outside services
+
+Each service sits behind an adapter. It is built and tested against the provider's documented API with recorded
+responses, and verified live once its key is in Vault. Until then its screens say «Not connected». Nothing is
+invented in their place (CLAUDE.md).
+
+| Service | Packages | Adapter | Activated by |
+| --- | --- | --- | --- |
+| Brevo: mail and SMS | 2.3, 3.6, 6.1 | built | configured today |
+| Google Workspace: Gmail, Calendar, Contacts, Drive, Meet | 2.1, 2.4, 2.5, 2.7, 5.6, 8.3 | Google APIs over OAuth | a Google Cloud OAuth client |
+| Microsoft 365: Outlook, Calendar, People, OneDrive, Teams | 2.1, 2.4, 2.5, 2.7, 5.6, 8.3 | Microsoft Graph | an Entra app registration (the product signs customers in with Entra, 0155) |
+| Telephony and WhatsApp | 2.6 | Twilio | an account and a number |
+| Zoom | 2.5 | Zoom API | a Zoom app |
+| IP-to-company | 5.3 | adapter | a provider key |
+| Person enrichment | 4.6 | adapter | a provider key |
+| AI models | 7.1–7.4 | Anthropic API | an API key |
+| Transcription | 7.3 | adapter | a provider key |
+| Notetaker bot | 7.4 | Recall.ai | an API key |
+| Invoicing | 8.3 | Fiken, Tripletex | API keys |
+| Team chat | 8.3 | the product's Slack app and Teams bot | built |
+
+## 7. Test plan (every package)
 
 - **Database:** one `*_invariants.sql` per package in the repository's style, covering structure, RLS
   (enabled, no policy, no grant; anon and customer users denied on every new table), allow/deny per staff role
@@ -153,13 +261,7 @@ acceptance criteria name permissions and visibility. Everything else follows Par
 - **Unit:** vitest for pure logic (filters, settings evaluation, rotting, forecast totals, merge fields,
   formulas, derived revenue).
 - **End-to-end:** Playwright admin journeys per gate flow (WP-0.7).
-- **Visual:** every new screen and state at 1440 and 390 into `screens/phase-<n>/`, inspected, added to the
-  admin pixel gate; axe and a keyboard pass.
+- **Visual:** every new screen at 1440 and 390 with `scripts/qa/admin-shots.mjs` into `screens/phase-<n>/`, inspected;
+  axe and the 390 check through the admin harness (`npm run e2e -- --project admin --project admin-phone`).
 - **Gates per push:** `npx tsc --noEmit`, `npm run lint`, `npm run verify:i18n`, `npx next build`, vitest, all
   SQL suites, `supabase db lint`, `node scripts/audit/wiring.mjs`, `npm audit --omit=dev`.
-
-## 6. What happens next
-
-On Tor's approval of this plan, Phase C starts with WP-0.1 (settings registry), one package at a time, each
-committed, gated and applied on hosted (DEC-09), with `05-GAP-FEATURES.md` updated per ID. Phase 0 ends with
-its gate flows and a phase report (`reports/phase-0.md`).
