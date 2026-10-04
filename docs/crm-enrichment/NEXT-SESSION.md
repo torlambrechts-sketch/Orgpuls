@@ -1,22 +1,24 @@
-# Next session: the held production parts, then the merge
+# Runbook: the run
 
-Updated 2026-10-04 after the Phase 0 report (`reports/phase-0.md`) and Tor's review (DEC-44 to DEC-47). The report is written and the gate is accepted (DEC-45), so this session does **step 1 only**, then the merge. Before opening it, Tor checks claude.ai › Customize › Connectors › Supabase › tool permissions: `apply_migration` → allowed (DEC-44).
+For every session that continues the CRM enrichment, from 2026-10-04 (DEC-49; Tor: "You are allowed to start
+sessions! I already gave you permission"). CLAUDE.md's rules apply: decide and log, no questions except about a
+feature's behaviour or after three failed attempts, no stops, no review waits. The plan is
+`07-IMPLEMENTATION-PLAN.md`; where the work stands is `STATUS.md`.
 
-Written 2026-10-04 at the end of WP-0.8 (DEC-39, DEC-40). The WP-0.8 session opened this session at Tor's word
-(DEC-42). It starts from branch
-`ccr-39a2fb73-jgkg09` at `afb2343` or later; if the session is given another branch, bring this one into it first
-(merge, never rewrite), so the Phase 0 work is there. Read `CLAUDE.md`, `docs/IMPLEMENTATION_PLAN.md`,
-`docs/DECISION_LOG.md`, `docs/DEVIATIONS.md` (D-207 to D-215), `INSTRUCTIONS.md` (R10, R11, A10, A11) and
-`DECISIONS.md` before starting.
+## Start
 
-Production is Supabase project `jmhhszsnjfqgclxzhciq` (eu-central-1), reached through the Supabase connector.
+1. Work on branch `ccr-39a2fb73-jgkg09`. If the session was given another branch, merge this one into it first
+   (merge, never rewrite).
+2. Read `CLAUDE.md`, this runbook, `07-IMPLEMENTATION-PLAN.md`, `STATUS.md` and `DECISIONS.md` from DEC-40.
+3. Start the local stack with `bash scripts/qa/cloud-up.sh`, then `node scripts/seed/sentral-fixture.mjs`.
+4. Carry on from «Next» in `STATUS.md`.
 
-## 1. Apply the four held parts, in this order
+## First: the four held parts
 
-Each was held at the Supabase connector's approval step on claude.ai because its text holds `delete from` or
-`drop function` (DEC-28, DEC-29, DEC-33, DEC-34). The connector's permission is read when a session starts, which is
-why this is a new session; Tor allows `apply_migration` there before opening it (DEC-41). The files are in `held-parts/`, copied exactly from the migrations, and are applied
-exactly as they are.
+Production is Supabase project `jmhhszsnjfqgclxzhciq`, reached through the Supabase connector. The four files in
+`held-parts/` are copied exactly from the migrations and are applied exactly as they are. Tor set the connector's
+tools to «Always allow» on 2026-10-04. Sessions started before that asked for approval on every call, and their
+prompts came back «cancelled». A session started after the change applies them with no prompt.
 
 | Order | File | `apply_migration` name | What it does | Record in |
 | --- | --- | --- | --- | --- |
@@ -25,10 +27,10 @@ exactly as they are.
 | 3 | `0197e_crm_companies_custom.sql` | `0197e_crm_companies_custom` | the companies list takes custom-field conditions (the three-argument form goes) | D-212 |
 | 4 | `0199f_crm_purge_runner.sql` | `0199f_crm_purge_runner` | the purge job runs through `app.crm_run`, counted and monitored | D-213 |
 
-**Before (drift check, read-only).** Production on 2026-10-04 held none of the seven objects below and no
-`orgpuls-crm-purge` job. It held `public.admin_crm_companies(text, text, uuid)` with md5 `7b2395e7ca2c26560a8f44fd2f9531e8`,
+**Before (read-only).** Production on 2026-10-04 held none of the seven objects below and no `orgpuls-crm-purge`
+job. It held `public.admin_crm_companies(text, text, uuid)` with md5 `7b2395e7ca2c26560a8f44fd2f9531e8`,
 `app.crm_run(text)` with md5 `98430e8db983e15f3731b46a618593a5`, and `app.crm_limit(text)`. md5 here is always
-`md5(rtrim(pg_get_functiondef(oid), E'\n'))`. If anything differs, stop and find out why before applying.
+`md5(rtrim(pg_get_functiondef(oid), E'\n'))`.
 
 **After.** The same query must give exactly this. A dry run on 2026-10-04, applying the four files to the local build
 without these objects, reproduced it.
@@ -45,43 +47,57 @@ without these objects, reproduced it.
 | `public.admin_crm_companies(text, text, uuid)` | gone | | |
 | job `orgpuls-crm-purge` | `25 2 * * *`, `select app.crm_run('crm_purge')` | | |
 
-**Advisors.** Production's security advisors held 488 findings on 2026-10-04: 304 `authenticated` definer calls,
-31 `anon`, 152 tables with RLS and no policy, and the leaked-password setting. Afterwards expect 492: the four 0196d
-calls are added, the companies list's three-argument form is replaced by its four-argument form, and nothing else
-changes. The `anon` class stays at 31.
+**Advisors.** The security advisors held 488 findings on 2026-10-04: 304 `authenticated` definer calls, 31 `anon`,
+152 tables with RLS and no policy, and the leaked-password setting. Afterwards expect 492: the four 0196d calls are
+added, the companies list's three-argument form is replaced by its four-argument form, and nothing else changes.
 
-**If the connector still holds a call,** do not retry it, split it differently or reword it to get past the
-pattern. Tell Tor which call is held and that it needs approving at claude.ai › Customize › Connectors › Supabase
-› tool permissions (`apply_migration` → allowed, DEC-28). Then stop without merging (§ 2, last paragraph).
+**Record** each landed part in its D-entry's hosted paragraph, replacing its «Not yet on hosted» sentence (date,
+md5 check, grants, advisor change). Update `05-GAP-FEATURES.md` where a status depends on these parts, and
+`STATUS.md`. If a call still asks for approval, do not retry it in a loop. Record it in `STATUS.md`, tell Tor
+once in one line, and go on with Phase 1 on the branch. The merge waits for the parts (DEC-45).
 
-On 2026-10-04, after Tor's go-ahead (DEC-42), the WP-0.8 session tried `0195l_crm_purge` once. The connector
-answered «MCP tool call requires approval», and nothing reached the project.
+## Then: Phase 0 to main
 
-**Record** each landed part in its D-entry's hosted paragraph, replacing its «Not yet on hosted» sentence. Write
-the date, the md5 check, the grants and the advisor change, as the earlier parts were recorded. Also update
-`05-GAP-FEATURES.md` where a status depends on these parts (the purge, CRM-12; sets, groups and teams, SEC-07 to
-SEC-09; custom conditions on the companies list, CUS-01).
+1. Run the gates on a rebuilt local stack:
+   - `bash scripts/qa/cloud-up.sh --reset`, then the fixture;
+   - `npm run test:db`, `npx vitest run`, `npm run e2e -- --project admin --project admin-phone`;
+   - tsc, lint, `npm run verify:i18n`, `npx next build`.
+2. Merge main into the branch. Renumber this branch's D-entries once, to the numbers free on main, with a note
+   mapping old to new (DEC-32). This branch's `0191` gives way to main's `0198` (DEC-36). The CI step «Admin smoke»
+   moves into main's single job.
+3. Open a PR to main and merge it once CI is green.
 
-On 2026-10-04 the Phase 0 report session ran the drift check twice, and both matched the table above. It tried
-`0195l`, `0196d` and `0197e` once each and `0195l` once more after the report. Every call was held, and production
-is unchanged at 488 advisor findings (DEC-43).
+## The loop: every work package
 
-## 2. When all four have landed: the merge
+1. **Build** it as `07` §4 describes. Migrations are numbered from `0201`. Each package brings its server code,
+   screens, `en` and `no` messages and tests.
+2. **Prove it locally:**
+   - the database rebuilt from the migrations, with `npm run test:db`;
+   - vitest, tsc, lint, `npm run verify:i18n`, the build;
+   - the admin harness over the areas the package touches;
+   - its screens with `scripts/qa/admin-shots.mjs`, into `screens/phase-<n>/`.
+3. **Production:** apply the package's migrations whole with `apply_migration`. Then check two things: the changed
+   functions match the local build (md5), and `scripts/audit/advisors-diff.py` shows only what the package intends.
+4. **Record:**
+   - a D-entry in `docs/DEVIATIONS.md`, saying what was built and what differs from the brief;
+   - the statuses in `05-GAP-FEATURES.md`;
+   - the package's rows in the phase report's security table;
+   - `STATUS.md`.
+5. **Commit and push**, then start the next package.
 
-The gate is accepted (DEC-45) and the deviations without a recorded decision are accepted (DEC-46). Once the four
-parts are on production and verified as above:
+At the end of a phase, run its gate flows and write `reports/phase-<n>.md` (INSTRUCTIONS.md A11's contents). Then
+open a PR to main and merge it once CI is green. Tor reads the reports when Tor chooses.
 
-1. Re-run the gates on a rebuilt local stack: `npm run test:db`, `npx vitest run`,
-   `npm run e2e -- --project admin --project admin-phone`, tsc, lint, `npm run verify:i18n`, `npx next build`. The
-   figures to match are in `reports/phase-0.md` § 5 (122 suites, 792 unit tests, 143 admin tests).
-2. Merge to main (DEC-23) through a pull request, never by rewriting history.
-3. Renumber this branch's D-entries once, to the numbers free on main, with a note mapping old to new (DEC-32).
-4. Move the CI step «Admin smoke» into main's single job.
-5. Let this branch's `0191` give way to main's `0198` (DEC-36).
+## Keeping going
 
-**If any part is still held,** do not merge. The admin screens would reach production users with permanent delete,
-removing sets and groups, teams and custom conditions failing. Record the hold in D-210 to D-213 and stop for Tor.
+Go from package to package without stopping. If a turn ends before the plan does, schedule the next with
+`send_later` (claude-code-remote MCP), a few minutes ahead, with the message «Continue the CRM run from STATUS.md».
+Stop scheduling when:
 
-## 3. Stop for Tor
+- the plan is complete; or
+- one blocker has failed three times and only Tor can clear it. Then say so in one line, and name it in
+  `STATUS.md`.
 
-End with what landed, the merge or why it waits, and any question left, asked as `CLAUDE.md` says.
+Decisions taken on the way go into `DECISIONS.md` as Claude's calls. A package that needs an outside service is
+built and tested against the provider's API; its screens say «Not connected» until the key is in, and the key is
+listed in `STATUS.md`.
