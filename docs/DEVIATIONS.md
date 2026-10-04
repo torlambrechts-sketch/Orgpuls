@@ -11225,3 +11225,29 @@ jobs, each rounded up), roughly 5 000 minutes a month at that pace. Three change
   downloaded by the smoke and respondent-flow steps each time.
 Expected: about 7 billed minutes per run instead of 10, and fewer runs. The rest depends on how often main is
 pushed: changes are now shipped in batches, one push per finished piece of work.
+
+## D-216 — Two CRM helpers closed to clients (0198; applied on hosted as 0191) (2026-10-03)
+
+Found in the CRM enrichment gap analysis (`docs/crm-enrichment/06-QUESTIONS.md` Q1).
+`app.crm_follow_audience(app.crm_campaigns)` (0111, 0137) is SECURITY DEFINER and returns
+`(contact_id, email)` for the contacts a campaign's first mail reached; `app.crm_chain_depth(uuid)` walks a
+campaign chain. Neither migration revoked EXECUTE, so both kept PostgreSQL's default grant to PUBLIC, and
+`app` is exposed to PostgREST. On a local stack an anonymous `POST /rest/v1/rpc/crm_follow_audience` with
+a campaign id in the row's `follows_id` returned that campaign's recipients. Using it needed a campaign
+UUID, which no public page or mail link carries, so no leak is known; the hosted project had the same
+grants (checked read-only before the fix).
+
+`supabase/migrations/0198_crm_definer_grants.sql` revokes both from public, anon and authenticated. Every caller is itself SECURITY DEFINER and owned
+by postgres (`crm_mail_claim`, `crm_follow_done`, `crm_step_tasks` and five `admin_crm_*` readers and
+writers), so sending, follow-ups, journeys and the sequence views are unchanged; all 115 SQL suites pass.
+`definer_grants_invariants.sql` (3 assertions) proves the two are closed and fails if any SECURITY DEFINER
+function in `app`, other than a trigger function, is executable by anon or authenticated without being on
+its reviewed list (the RLS helpers `is_org_member`, `has_role`, `k_threshold`, `module_visible`, and
+`visible_groups`, `round_answered`, `module_usable`, granted to authenticated on purpose in 0022 and 0071).
+0191 is applied on hosted; afterwards the open definers there are exactly that list.
+
+Numbered D-216 when merged with main, which had taken D-207 to D-215 meanwhile. The migration was written as
+0191 and is applied on hosted under that name (`0191_crm_definer_grants`); its file is renumbered 0198 because
+main took 0191 for `module_sync_carry_english` (D-214) and the CRM enrichment branch, still to be merged, holds
+0192 to 0197. Two files with one number would stop every rebuild from the migrations. The SQL is unchanged, and
+its header still cites 0191 and D-207, as an applied migration's content is not edited.
