@@ -1,17 +1,21 @@
 name: CI
 
 on:
+  # A commit that touches only documentation or screenshots changes nothing CI could check, and
+  # since the repository is private every minute is billed (D-215), so it does not start a run.
   pull_request:
+    paths-ignore: ['docs/**', '**/*.md', 'qa/shots/**']
   push:
     branches: [main]
+    paths-ignore: ['docs/**', '**/*.md', 'qa/shots/**']
 
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  static:
-    name: types, lint, i18n, build
+  invariants:
+    name: checks, security invariants and screens
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,41 +23,23 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      # One job, not two (D-215): the build is done once, against the local database below, and
+      # the quick checks run first so a type or lint error fails in a minute instead of after the
+      # stack has started. They were the separate «types, lint, i18n, build» job.
       - run: npm ci
       - run: npx tsc --noEmit
       - run: npm run lint
       # every industry module file under modules/ must parse (lib/modules/schema.ts)
       - run: npm run -s modules:validate
-
       # The failure helpers and the one-organisation rule. Small functions, each the
       # difference between a failure the product reports and one it renders as the truth.
       - name: Unit tests
         run: npm test
-
       # Key parity and ICU placeholder parity between no and en. Neither is a type
       # error and neither fails a build, so a missing key renders as `namespace.key`
       # on a screen nobody happened to open in that language.
       - name: i18n parity
         run: npm run verify:i18n
-
-      - name: Build
-        run: npx next build
-        env:
-          # Build-time only. Every page that reads data is force-dynamic, so nothing
-          # real is fetched here; these exist because the Supabase client constructor
-          # requires them.
-          NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54321
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.CI_SUPABASE_ANON_KEY || 'placeholder' }}
-
-  invariants:
-    name: security invariants
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
       # A pinned release, not `latest`: resolving `latest` asks the GitHub API, whose rate limit
       # failed this job before any test ran (PR #2, 2026-09-27). 2.118.0 is what the QA stack
       # runs (npm run qa:up). Raise it on purpose, together with the PostgREST step below.
@@ -126,8 +112,6 @@ jobs:
       # it, before anything that reads them runs.
       - name: Seed the question modules
         run: |
-          npm ci
-          npm run -s modules:validate
           npm run -s modules:seed > /tmp/modules.sql
           psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" \
             -v ON_ERROR_STOP=1 -f /tmp/modules.sql
@@ -229,6 +213,11 @@ jobs:
           echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=$ANON_KEY" >> "$GITHUB_ENV"
           NEXT_PUBLIC_SUPABASE_URL="$API_URL" NEXT_PUBLIC_SUPABASE_ANON_KEY="$ANON_KEY" npx next build
 
+      # Chromium for the screen checks, kept between runs instead of downloaded each time (D-215)
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Smoke every screen
         env:
           ORGPULS_DEV_EMAIL: dev.orgpuls@nordvik.example
