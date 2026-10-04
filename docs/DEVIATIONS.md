@@ -11226,6 +11226,13 @@ jobs, each rounded up), roughly 5 000 minutes a month at that pace. Three change
 Expected: about 7 billed minutes per run instead of 10, and fewer runs. The rest depends on how often main is
 pushed: changes are now shipped in batches, one push per finished piece of work.
 
+Outcome: the first run on the merged job (8ce16d0) failed once in «Smoke every screen» on a React #418
+hydration error that did not reproduce in four local runs; the same app code passed before (ba6ed7e) and after
+(8d1bea9, 7 minutes, one job). It is recorded as unreproduced, not fixed. `scripts/verify/shoot.mjs` now prefixes
+every console error with the page it came from (sign-in, the page it lands on, or the route), so if it returns,
+the run names where to look. Re-running a job is not available to this session (403), so a recurrence is
+diagnosed from the tagged log, never by retrying.
+
 ## D-216 — Two CRM helpers closed to clients (0198; applied on hosted as 0191) (2026-10-03)
 
 Found in the CRM enrichment gap analysis (`docs/crm-enrichment/06-QUESTIONS.md` Q1).
