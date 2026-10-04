@@ -12,7 +12,7 @@ Production is Supabase project `jmhhszsnjfqgclxzhciq` (eu-central-1), reached th
 
 Each was held at the Supabase connector's approval step on claude.ai because its text holds `delete from` or
 `drop function` (DEC-28, DEC-29, DEC-33, DEC-34). The connector's permission is read when a session starts, which is
-why this is a new session. The files are in `held-parts/`, copied exactly from the migrations, and are applied
+why this is a new session; Tor allows `apply_migration` there before opening it (DEC-41). The files are in `held-parts/`, copied exactly from the migrations, and are applied
 exactly as they are.
 
 | Order | File | `apply_migration` name | What it does | Record in |
