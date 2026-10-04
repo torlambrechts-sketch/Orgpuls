@@ -68,6 +68,7 @@ recommended option every time.
 | DEC-37 | What follows WP-0.6 (2026-10-04) | **WP-0.7, the admin test harness**: Playwright admin journeys signing in as the fixture's local admin, the 390 px check and axe on admin pages, and a smoke journey over the CRM. The held production parts (0195's purge, 0196d, 0197e and now 0199f) still go to a new session first (DEC-34) |
 | DEC-38 | Where the admin journeys run, now that main's CI minutes are billed (D-215 on main) (2026-10-04) | **A short smoke in the existing CI job**: sign-in and a few CRM pages, reusing that job's build and database, about a minute per run. The full journeys, the 390 px check and axe run locally before each package |
 | DEC-39 | What follows WP-0.7 (2026-10-04) | **WP-0.8, the Phase A clean-ups, in this session**, with WP-0.7's two findings (keyboard access to nine 390 px scroll regions; the restore list's unseen confirmations) and DEC-31's campaign pages; then a new session applies the held production parts and writes the Phase 0 report |
+| DEC-40 | Who opens that new session (2026-10-04) | **Tor opens it**, from the brief `NEXT-SESSION.md`; the four held parts are in `held-parts/`, copied exactly from the migrations, with the production state before, the end state after (dry-run against the build) and the expected advisor change |
 
 Still open (asked at the phase that needs them): Q7 lead object (plan follows the brief: own table), Q13
 threshold (plan keeps the product rule: floor 3, default 5), open points 2
