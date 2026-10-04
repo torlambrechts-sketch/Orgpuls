@@ -6973,7 +6973,7 @@
       "trial": "Prøv gratis i 15 dager",
       "start": {
         "title": "Prøv Orgpuls på deres egen virksomhet",
-        "lead": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Gratis i 15 dager, uten kort og uten binding.",
+        "lead": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. 15 dager med alt, deretter gratis for hovedkartleggingen. Uten kort og uten binding.",
         "placeholder": "9 sifre",
         "submit": "Prøv gratis",
         "fetching": "Vi henter {orgnr} fra Brønnøysundregistrene …",
@@ -6982,8 +6982,8 @@
       },
       "band": {
         "title": "Prøv det på deres egen virksomhet",
-        "lead": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Fra 265 kr i måneden, alt inkludert. Gratis i 15 dager, uten betalingskort.",
-        "leadHome": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Ingen konsulent, ingen oppstartsmøte. Fra 265 kr i måneden, alt inkludert. Gratis i 15 dager, uten betalingskort."
+        "lead": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Gratis å starte, og alt inkludert fra 265 kr i måneden. Uten betalingskort.",
+        "leadHome": "Skriv inn organisasjonsnummeret, så henter vi navn, adresse og bransje fra Brønnøysundregistrene. Ingen konsulent, ingen oppstartsmøte. 15 dager med alt, deretter gratis for hovedkartleggingen – eller alt inkludert fra 265 kr i måneden. Uten betalingskort."
       },
       "footer": {
         "about": "Svar lagres i EU, og ingen enkeltsvar kan spores tilbake til en person.",
@@ -7053,7 +7053,8 @@
         "next": "Neste tema",
         "announce": "Tema {n} av 3: {label}"
       },
-      "risk": "Uten betalingskort · ingen bindingstid · fra 265 kr/mnd eks. mva.",
+      "risk": "Gratis å starte · uten betalingskort · alt inkludert fra 265 kr/mnd eks. mva.",
+      "cta": "Kom i gang gratis",
       "done": "ferdig",
       "bar": {
         "oversikt": "app.orgpuls.no · Oversikt",
@@ -7176,7 +7177,7 @@
           {
             "t": "Lite tid og lite budsjett",
             "p": "En konsulent og et eget prosjekt er mer enn bedriften har rom for.",
-            "s": "Fra 265 kr i måneden, alt inkludert. Ingen bindingstid, og første måling planlegges samme dag."
+            "s": "Gratis å starte, og alt inkludert fra 265 kr i måneden. Ingen bindingstid, og første måling planlegges samme dag."
           }
         ]
       },

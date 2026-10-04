@@ -6973,7 +6973,7 @@
       "trial": "Try free for 15 days",
       "start": {
         "title": "Try Orgpuls on your own organisation",
-        "lead": "Enter your organisation number and we'll fetch the name, address and industry from the Brønnøysund Register Centre. Free for 15 days, no card and no lock-in.",
+        "lead": "Enter your organisation number and we'll fetch the name, address and industry from the Brønnøysund Register Centre. 15 days with everything, then free for the main survey. No card and no lock-in.",
         "placeholder": "9 digits",
         "submit": "Try it free",
         "fetching": "Fetching {orgnr} from the Brønnøysund Register Centre …",
@@ -6982,8 +6982,8 @@
       },
       "band": {
         "title": "Try it on your own organisation",
-        "lead": "Enter your organisation number and we'll fetch the name, address and industry from the Brønnøysund Register Centre. From NOK 265 a month, everything included. Free for 15 days, no card needed.",
-        "leadHome": "Enter your organisation number and we'll fetch the name, address and industry from the Brønnøysund Register Centre. No consultant, no kick-off meeting. From NOK 265 a month, everything included. Free for 15 days, no card needed."
+        "lead": "Enter your organisation number and we'll fetch the name, address and industry from the Brønnøysund Register Centre. Free to start, and everything included from NOK 265 a month. No card needed.",
+        "leadHome": "Enter your organisation number and we'll fetch the name, address and industry from the Brønnøysund Register Centre. No consultant, no kick-off meeting. 15 days with everything, then free for the main survey – or everything included from NOK 265 a month. No card needed."
       },
       "footer": {
         "about": "Answers are stored in the EU, and no single answer can be traced back to a person.",
@@ -7053,7 +7053,8 @@
         "next": "Next theme",
         "announce": "Theme {n} of 3: {label}"
       },
-      "risk": "No card needed · no lock-in · from NOK 265/month excl. VAT",
+      "risk": "Free to start · no card needed · everything included from NOK 265/month excl. VAT",
+      "cta": "Get started free",
       "done": "done",
       "bar": {
         "oversikt": "app.orgpuls.no · Overview",
@@ -7176,7 +7177,7 @@
           {
             "t": "Little time, small budget",
             "p": "A consultant and a separate project are more than the business has room for.",
-            "s": "From NOK 265 a month, everything included. No lock-in, and the first survey is planned the same day."
+            "s": "Free to start, and everything included from NOK 265 a month. No lock-in, and the first survey is planned the same day."
           }
         ]
       },

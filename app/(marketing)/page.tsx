@@ -138,7 +138,7 @@ export default async function StartPage() {
         <p className="m-0 mt-[20px] max-w-[50ch] text-[17.5px] leading-[1.65] text-body [text-wrap:pretty]">{s.lead}</p>
         <div className="mt-[28px] flex flex-wrap items-center gap-x-[28px] gap-y-[10px]">
           <a href="#kom-i-gang" className={`flex min-h-[52px] ${CTA}`}>
-            {chrome('trial')} <span aria-hidden="true">→</span>
+            {t('cta')} <span aria-hidden="true">→</span>
           </a>
           {link.href.startsWith('#') ? (
             <a href={link.href} className={linkClass}>
