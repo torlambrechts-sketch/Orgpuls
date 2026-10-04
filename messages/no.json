@@ -2222,8 +2222,10 @@
       },
       "pillGrace": "{count, plural, one {# dag} other {# dager}} til gratisplanen",
       "pillFree": "Gratisplan",
+      "pillFreeFrom": "Gratisplan fra {date}",
       "graceBody": "Prøveperioden gikk ut {end}. Alt virker fram til {until}. Bekreft abonnementet under før det; ellers går dere over til gratisplanen.",
       "freeBody": "Prøveperioden gikk ut {end}, og dere er på gratisplanen: dere kan sende standard hovedkartlegging, lese resultatene og følge opp med tiltak, så lenge dere vil. Velg en plan under for puls, bransjemoduler, egne spørsmål, sammenligning med tidligere runder og rapporten til Arbeidstilsynet.",
+      "freeBodyChosen": "Dere gikk over til gratisplanen {date}: dere kan sende standard hovedkartlegging, lese resultatene og følge opp med tiltak, så lenge dere vil. Velg en plan under for puls, bransjemoduler, egne spørsmål, sammenligning med tidligere runder og rapporten til Arbeidstilsynet.",
       "termsAfterTrial": "Prisene er eks. mva. Første faktura gjelder fra dagen dere bekrefter. {interval, select, year {Årlig avtale: fakturert for ett år om gangen, to måneder gratis, ingen oppstartsavgift.} other {Månedlig avtale, ingen bindingstid og ingen oppstartsavgift.}}",
       "cancel": {
         "head": "Si opp abonnementet",
@@ -2231,6 +2233,7 @@
         "leadPaying": "Avtalen er {interval, select, year {årlig} other {månedlig}}. Sier dere opp nå, gjelder den til og med {last}. Etter det kan dere logge inn, lese og laste ned alt til {deleted}. Da slettes alle opplysninger.",
         "leadTrial": "Sier dere opp i prøveperioden, avsluttes den i dag. Dere kan logge inn, lese og laste ned alt til {deleted}. Da slettes alle opplysninger.",
         "leadFree": "Sier dere opp, avsluttes gratisplanen i dag. Dere kan logge inn, lese og laste ned alt til {deleted}. Da slettes alle opplysninger.",
+        "orFree": "Vil dere heller fortsette gratis, kan dere gå over til gratisplanen over. Da slettes ingenting.",
         "open": "Si opp …",
         "reasonLegend": "Hvorfor sier dere opp? (valgfritt)",
         "reason": {
@@ -2250,6 +2253,22 @@
           "confirm_required": "Kryss av for at dere forstår hva som slettes.",
           "already_cancelled": "Abonnementet er allerede sagt opp.",
           "not_cancelled": "Abonnementet er ikke sagt opp."
+        }
+      },
+      "downgrade": {
+        "head": "Gå over til gratisplanen",
+        "lead": "Vil dere ikke betale lenger, kan dere fortsette gratis. Abonnementet gjelder til og med {last}, og fra {first} er dere på gratisplanen: standard hovedkartlegging, resultatene og tiltakene, uten puls, bransjemoduler, egne spørsmål, sammenligning og rapporten. Ingenting slettes, og dere kan velge en plan igjen når som helst.",
+        "open": "Gå over til gratisplanen …",
+        "confirm": "Jeg forstår at {org} går over til gratisplanen {first}, og at puls, bransjemoduler, egne spørsmål, sammenligning og rapporten da ikke lenger er med.",
+        "submit": "Gå over til gratisplanen",
+        "pendingBody": "Dere går over til gratisplanen {first}. Til da virker alt som før, og abonnementet gjelder til og med {last}. Ombestemmer dere dere, kan dere angre fram til da.",
+        "withdraw": "Angre overgangen",
+        "problem": {
+          "confirm_required": "Kryss av for at dere forstår hva gratisplanen omfatter.",
+          "already_chosen": "Dere har allerede valgt gratisplanen.",
+          "not_subscribed": "Bare et bekreftet abonnement kan gå over til gratisplanen.",
+          "cancelled": "Abonnementet er sagt opp.",
+          "not_chosen": "Det er ikke valgt noen overgang til gratisplanen."
         }
       }
     },
@@ -6482,7 +6501,7 @@
         "crumb": "Vilkår",
         "kicker": "Vilkår",
         "h1": "Vilkår for bruk av Orgpuls",
-        "lead": "Her står hva som gjelder mellom Pundit Invest AS, som leverer Orgpuls, og virksomheten som bruker Orgpuls. Versjon 1 · gjelder fra 2. oktober 2026.",
+        "lead": "Her står hva som gjelder mellom Pundit Invest AS, som leverer Orgpuls, og virksomheten som bruker Orgpuls. Versjon 2 · gjelder fra 4. oktober 2026.",
         "blocks": [
           {
             "t": "h2",
@@ -6569,6 +6588,10 @@
               "deretter går dere over til gratisplanen: dere kan sende standard hovedkartlegging, lese resultatene og arbeide med tiltak så lenge dere vil, men puls, oppfølgingsmålinger, bransjemoduler, egne spørsmål, sammenligning med tidligere runder og rapporten krever en plan;",
               "en måling som allerede er åpen, går ferdig som planlagt."
             ]
+          },
+          {
+            "t": "p",
+            "text": "Hva gratisplanen omfatter, kan vi endre. En endring varsles på e-post til daglig leder og i Orgpuls minst 60 dager før den gjelder, og den gjelder ikke en måling som allerede er åpen. Det dere har målt og registrert før endringen, kan dere fortsatt lese og laste ned."
           },
           {
             "t": "h2",
@@ -6679,6 +6702,10 @@
           {
             "t": "p",
             "text": "En månedlig avtale har ingen bindingstid. En årlig avtale gjelder for ett år om gangen."
+          },
+          {
+            "t": "p",
+            "text": "**Overgang til gratisplanen.** Daglig leder kan i stedet gå over til gratisplanen under Oppsett › Betaling. Abonnementet gjelder ut den betalte perioden, og ingenting slettes. Er ingenting fakturert ennå, begynner gratisplanen når prøveperioden er over."
           },
           {
             "t": "p",
@@ -10391,7 +10418,7 @@
       "tag": "Workplace surveys · {count, plural, one {# customer} other {# customers}} · {domain}",
       "kpi": {
         "active": "Active customers",
-        "activeSub": "{trial} in trial · {expired} expired",
+        "activeSub": "{trial} in trial · {free} on the free plan",
         "trials": "Trials",
         "trialsSub": "{count, plural, =0 {None end within 7 days} one {# ends within 7 days} other {# end within 7 days}}",
         "pipeline": "Open pipeline",
@@ -14445,6 +14472,8 @@
       "extended": "Extended",
       "account": "Account",
       "noPlan": "Not chosen yet",
+      "interval": {"month": "monthly", "year": "yearly"},
+      "freeFromLabel": "Free plan from",
       "since": "Customer since",
       "trialEndsLabel": "Trial ends",
       "health": "Health",

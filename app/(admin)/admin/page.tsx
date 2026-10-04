@@ -97,7 +97,7 @@ export default async function Overview() {
       <div className="grid gap-[16px] [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]">
         {isError(k) ? null : (
           <>
-            <Stat label={d('kpi.active')} value={k.paying} hint={d('kpi.activeSub', { trial: k.trials_active, expired: k.trials_expired })} />
+            <Stat label={d('kpi.active')} value={k.paying} hint={d('kpi.activeSub', { trial: k.trials_active, free: k.free_plan })} />
             <Stat label={d('kpi.trials')} value={k.trials_active} hint={d('kpi.trialsSub', { count: k.trials_expiring_7d })} />
           </>
         )}

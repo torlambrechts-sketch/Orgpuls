@@ -292,8 +292,10 @@ export default async function Customer({ params }: { params: Promise<{ id: strin
           <Panel title={c('account')}>
             <Facts
               rows={[
-                [t('org.plan'), seat.chosen ? planName : c('noPlan')],
+                // the interval the invoice is written for (0201), and a chosen move to the free plan (0202)
+                [t('org.plan'), seat.chosen ? `${planName}${b?.billing_interval ? ` · ${c(`interval.${b.billing_interval}`)}` : ''}` : c('noPlan')],
                 b?.confirmed_at ? [c('since'), day(b.confirmed_at)] : [c('trialEndsLabel'), b ? day(b.trial_ends_at) : '—'],
+                ...(b?.free_from ? [[c('freeFromLabel'), day(b.free_from)] as [string, string]] : []),
                 [c('owner'), isError(owner) ? '—' : (owner.owner?.email ?? c('noOwner'))],
                 ...(score ? [[c('health'), c('healthScore', { score: score.score })] as [string, string]] : []),
                 [t('org.orgnr'), o.org_number ?? '—'],

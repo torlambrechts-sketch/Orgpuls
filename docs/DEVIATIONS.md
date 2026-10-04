@@ -11301,12 +11301,16 @@ the report or comparisons), added measures to it, and chose two months free for 
   yearly agreement in points 4 and 10; legal review in admin is a record (X-078). The price page, its FAQ and
   JSON-LD (a free offer and the yearly prices), and «Bransjemodulene er med i alle planer» on the Bransjer hub
   are updated in Norwegian and English.
-- **Not built.** The admin's organisation detail (`admin_org_detail`) does not name the interval, and its
-  MRR is still the monthly list price: the hosted project carries a version of that function this
-  repository's migrations do not (found by comparing definitions before applying 0201), so 0201 leaves it
-  alone rather than overwrite it. A paying customer cannot step down to the free plan; cancelling still ends in deletion
-  (0064). `app.kpi_daily` does not count free organisations (its `read_only` column now counts only
-  cancellations that have taken effect). Both are follow-ups, not promises anywhere in the product.
+- **Terms, version 2.** On the owner's word the same day, /vilkar point 3 says the free plan's contents
+  may change on at least 60 days' notice by e-mail to the daglig leder and in Orgpuls, never for a round
+  already open, and that what was measured before stays readable and downloadable. The version line is
+  «Versjon 2 · gjelder fra 4. oktober 2026». Nothing in the product sends that notice yet: a change to the
+  free plan is a migration, and its notice is sent by hand (or as a CRM campaign) before it ships.
+- **Not built here, built in D-226.** The admin's organisation detail now names the interval and counts a
+  yearly invoice as a twelfth, and a paying customer can move to the free plan without cancelling.
+  `app.kpi_daily` still has no column for free organisations: nothing renders its per-state columns (only
+  the weekly trend is drawn), so a column would be stored for no one; the dashboard's count reads
+  `admin_kpis.free_plan` instead.
 
 ## D-218 — CRM rule settings: every limit and rule that can stop a CRM action is a setting (0192) (2026-10-03)
 
@@ -11779,3 +11783,29 @@ with a counted anchor, and a local dry run over the same pre-change definitions 
 the apply the six match local 0200, still SECURITY DEFINER with an empty search path and not executable by `anon`; the
 security advisors hold the same 488 findings before and after. The part holds no removal, so nothing was held back; the
 app on main ignores the new keys until this branch ships (the readers' envelopes are not strict).
+
+## D-226 — A paying customer moves to the free plan; the admin sees interval and free plan (0202) (2026-10-04)
+
+The follow-ups D-217 named, on the owner's word («start med avvik og det som ikke er bygget»). D-218 to D-225
+are taken by the CRM branch, so this is D-226.
+
+- **Moving to the free plan.** Oppsett › Betaling has a section for a confirmed subscription: «Gå over til
+  gratisplanen». `downgrade_to_free` (daglig leder, explicit confirmation) sets `app.billing.free_from` to the
+  day after the paid period — the month's end, the paid year's end, or, when nothing is invoiced yet because
+  the trial still runs, the day the trial ends (`app.paid_last_day`). Until then everything works and
+  `withdraw_downgrade` takes it back. `org_access` reads `free_from` before the confirmation, so access turns
+  free on the day; `app.billing_downgrade_tick` (hourly, cron `orgpuls-billing-downgrade`) then clears the
+  confirmation, so MRR, paying counts and the funnel stop counting it. Confirming a plan again
+  (`save_billing`) clears `free_from` and starts a new confirmation. Nothing is deleted. The cancel section
+  names the free plan as the alternative to deletion.
+- **The admin.** `admin_org_detail` returns `billing_interval` and `free_from`, and its MRR is
+  `plan_mrr_nok`. It is patched in place, as 0150 patched it, because the hosted project carries a later
+  version (0196, on the CRM branch) that a written-out definition would overwrite; the patch raises if the
+  text it replaces is not there. The organisation page shows «Liten · yearly» and «Free plan from». The
+  dashboard's active-customers hint counts organisations on the free plan (`admin_kpis.free_plan`, demo
+  sandboxes excluded) instead of «expired» trials, which since 0201 are on the free plan.
+- **Terms.** /vilkar point 10 gains «Overgang til gratisplanen» (version 2, same day).
+- **Proved** by `downgrade_invariants.sql` (10 checks): who may, the dates for month, year and trial, twice
+  and taken back, access and the tick, confirming again, the admin's two functions, the grants.
+- **Not built.** No mail when the move takes effect; the daglig leder sees the date on Oppsett › Betaling
+  when choosing it, and the banner says the free plan once it begins.

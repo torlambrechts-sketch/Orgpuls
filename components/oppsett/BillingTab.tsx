@@ -1,7 +1,7 @@
 import { getFormatter, getTranslations } from 'next-intl/server'
 import { ANNUAL_MONTHS, CANCEL_REASONS, fittingPlan, GRACE_DAYS, PLAN_MAX, PLANS, type Billing } from '@/lib/billing/read'
 import { PLAN_SIZES } from '@/lib/site/pricing'
-import { BillingForm, CancelSubscription, ExtendTrialButton, WithdrawCancellation } from './BillingForms'
+import { BillingForm, CancelSubscription, DowngradeToFree, ExtendTrialButton, WithdrawCancellation, WithdrawDowngrade } from './BillingForms'
 
 const DAY = 86_400_000
 
@@ -19,6 +19,9 @@ const DAY = 86_400_000
  *
  * The row is the daglig leder's alone (RLS). Anyone else is told who handles payment and
  * sees nothing of it.
+ *
+ * A paying customer may move to the free plan instead (0202, D-226): the paid period runs out first,
+ * nothing is deleted, and until the day it begins the move can be taken back.
  *
  * Last, cancelling (0066, D-110): the dates it would have, and the step itself; once
  * cancelled, the dates and a way to take it back until everything is deleted.
@@ -56,13 +59,19 @@ export async function BillingTab({
   const expired = ends <= now
   // after the trial, 14 days' grace; then the free plan until a plan is confirmed (0052, 0201)
   const freeFrom = ends + GRACE_DAYS * DAY
-  const confirmed = billing.confirmed_at !== null
-  const free = !confirmed && now >= freeFrom
+  // a paying customer's chosen move to the free plan (0202): pending until its day, then the free plan
+  const chosenFree = billing.free_from ? Date.parse(billing.free_from) : null
+  const downgraded = chosenFree !== null && now >= chosenFree
+  const pendingFree = chosenFree !== null && now < chosenFree
+  const confirmed = billing.confirmed_at !== null && !downgraded
+  const free = downgraded || (!confirmed && now >= freeFrom)
   const graceLeft = Math.max(0, Math.ceil((freeFrom - now) / DAY))
   const planKey = { small: 'small', usual: 'usual', group: 'group' } as const
 
   const pill = confirmed
-    ? { text: t('pillConfirmed'), cls: 'bg-mint text-greendeep' }
+    ? pendingFree
+      ? { text: t('pillFreeFrom', { date: date(billing.free_from!) }), cls: 'bg-sbg text-ink' }
+      : { text: t('pillConfirmed'), cls: 'bg-mint text-greendeep' }
     : free
       ? { text: t('pillFree'), cls: 'bg-sbg text-ink' }
       : expired
@@ -77,6 +86,10 @@ export async function BillingTab({
   const yearly = billing.billing_interval === 'year'
   const [y, m] = today.split('-').map(Number)
   const lastDay = !paying ? today : yearly ? paidYearEnd(oslo(Math.max(ends, Date.parse(billing.confirmed_at!))), today) : new Date(Date.UTC(y!, m!, 0)).toISOString().slice(0, 10)
+  // moving to the free plan (0202): the paid period runs out, or the trial if nothing is invoiced yet
+  const trialLast = oslo(ends - DAY)
+  const paidLast = paying ? (today <= trialLast ? trialLast : lastDay) : today
+  const freeFirst = new Date(Date.parse(`${paidLast}T12:00:00Z`) + DAY).toISOString().slice(0, 10)
   // deletion begins at midnight 31 days after the last day (0065), so that is the day named
   const deleteDay = new Date(Date.parse(`${lastDay}T12:00:00Z`) + 31 * DAY).toISOString().slice(0, 10)
   const day = (d: string) => format.dateTime(new Date(`${d}T12:00:00Z`), { dateStyle: 'long', timeZone: 'Europe/Oslo' })
@@ -121,11 +134,13 @@ export async function BillingTab({
             ? t(billing.plan === 'group' ? 'confirmedGroupBody' : 'confirmedBody', {
                 plan: billing.plan ? plansT(`${planKey[billing.plan]}.name`) : '',
                 interval: billing.billing_interval,
-                start: date(billing.trial_ends_at),
+                start: date(new Date(Math.max(ends, Date.parse(billing.confirmed_at!))).toISOString()),
                 mail: billing.invoice_email ?? '',
               })
             : free
-              ? t('freeBody', { end: date(billing.trial_ends_at) })
+              ? downgraded
+                ? t('freeBodyChosen', { date: date(billing.free_from!) })
+                : t('freeBody', { end: date(billing.trial_ends_at) })
               : expired
                 ? t('graceBody', { end: date(billing.trial_ends_at), until: date(new Date(freeFrom).toISOString()) })
                 : t('trialBody', {
@@ -135,6 +150,24 @@ export async function BillingTab({
                     grace: GRACE_DAYS,
                   })}
         </p>
+        {confirmed && pendingFree ? (
+          <>
+            <p className="mb-0 mt-[8px] text-[13.5px] leading-[1.6] [text-wrap:pretty]">
+              {t('downgrade.pendingBody', { first: date(billing.free_from!), last: date(new Date(chosenFree! - 1000).toISOString()) })}
+            </p>
+            <WithdrawDowngrade
+              labels={{
+                submit: t('downgrade.withdraw'),
+                pending: t('saving'),
+                problems: {
+                  not_chosen: t('downgrade.problem.not_chosen'),
+                  not_allowed: t('problem.not_allowed'),
+                  failed: t('problem.failed'),
+                },
+              }}
+            />
+          </>
+        ) : null}
         {confirmed || free ? null : (
           <div
             role="progressbar"
@@ -225,6 +258,35 @@ export async function BillingTab({
         />
       </section>
 
+      {/* ------------------------------------------------- moving to the free plan */}
+      {confirmed && !pendingFree && !cancelled ? (
+        <section aria-labelledby="billing-free" className="rounded-panel border border-line bg-sf px-[22px] py-[20px]">
+          <h2 id="billing-free" className="m-0 text-[16px] font-bold">
+            {t('downgrade.head')}
+          </h2>
+          <p className="mb-0 mt-[8px] text-[13.5px] leading-[1.6] [text-wrap:pretty]">
+            {t('downgrade.lead', { last: day(paidLast), first: day(freeFirst) })}
+          </p>
+          <DowngradeToFree
+            labels={{
+              open: t('downgrade.open'),
+              confirm: t('downgrade.confirm', { org: company.name, first: day(freeFirst) }),
+              submit: t('downgrade.submit'),
+              pending: t('saving'),
+              back: t('cancel.back'),
+              problems: {
+                confirm_required: t('downgrade.problem.confirm_required'),
+                already_chosen: t('downgrade.problem.already_chosen'),
+                not_subscribed: t('downgrade.problem.not_subscribed'),
+                cancelled: t('downgrade.problem.cancelled'),
+                not_allowed: t('problem.not_allowed'),
+                failed: t('problem.failed'),
+              },
+            }}
+          />
+        </section>
+      ) : null}
+
       {/* ------------------------------------------------------------ cancelling */}
       <section
         aria-labelledby="billing-cancel"
@@ -250,7 +312,7 @@ export async function BillingTab({
           <>
             <p className="mb-0 mt-[8px] text-[13.5px] leading-[1.6] [text-wrap:pretty]">
               {paying
-                ? t('cancel.leadPaying', { interval: billing.billing_interval, last: day(lastDay), deleted: day(deleteDay) })
+                ? `${t('cancel.leadPaying', { interval: billing.billing_interval, last: day(lastDay), deleted: day(deleteDay) })}${pendingFree ? '' : ` ${t('cancel.orFree')}`}`
                 : free
                   ? t('cancel.leadFree', { deleted: day(deleteDay) })
                   : t('cancel.leadTrial', { deleted: day(deleteDay) })}
