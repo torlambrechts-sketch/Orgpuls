@@ -1,16 +1,16 @@
 # Status
 
-Updated 2026-10-04 by the session that restarted the run (DEC-49). Each work package updates this file when it ends.
+Updated 2026-10-04 by the run's first session (after DEC-49). Each work package updates this file when it ends.
 
 | | |
 | --- | --- |
 | **Phase** | 0 done, gate accepted (DEC-45); Phase 1 next |
-| **In progress** | — |
-| **Next** | Apply the four held parts (`NEXT-SESSION.md`), merge Phase 0 to main, then WP-1.1 pipelines and deals |
-| **Waiting for production** | `0195l_crm_purge`, `0196d_crm_access_removals`, `0197e_crm_companies_custom`, `0199f_crm_purge_runner`. Sessions started before Tor set the connector's tools to «Always allow» (2026-10-04) asked for approval on every call, and the prompts came back «cancelled». The run's session, started after the change, applies them first (`NEXT-SESSION.md`) |
+| **In progress** | WP-1.1 pipelines and deals (on the branch) |
+| **Next** | WP-1.1 pipelines and deals; the held parts and the Phase 0 merge wait (below) |
+| **Waiting for production** | `0195l_crm_purge`, `0196d_crm_access_removals`, `0197e_crm_companies_custom`, `0199f_crm_purge_runner`. The run's first session (2026-10-04) checked production's «before» state read-only: it matched the runbook exactly. `apply_migration` for `0195l` then timed out once and came back «cancelled» on the retry — the connector still holds it at its approval step. Not retried in a loop and not routed around (`execute_sql` would bypass the step Tor's connector setting governs). Parts 2–4 not attempted, since they follow part 1. The Phase 0 merge waits for them (DEC-45) |
 | **Fails on production until those land** | Permanent delete in the restore list; removing a set or a group; teams; custom conditions on the companies list |
 | **Keys wanted** | Phase 1 needs none. Phase 2 needs a Google Cloud OAuth client, a Microsoft Entra app registration, a Twilio account and number, and a Zoom app (`07` §6) |
-| **Blocked on Tor** | Nothing |
+| **Blocked on Tor** | The Supabase connector's approval for `apply_migration`: the four held parts need either the tools set to «Always allow» for this session's connector, or Tor answering the prompt |
 
 ## Done
 
