@@ -11202,3 +11202,9 @@ language rose from 359 to 621 (+262, every statement of the three new versions c
 `extra:tiltak_effekt` (the effect question and its five options, GAP-B) — older than this work: the question was
 never given an approved English registry row, so English is not offered in a round that asks it until that is
 approved in admin › Oversettelser.
+
+**D-214, follow-up (2026-10-04):** the six missing English rows for `extra:tiltak_effekt` (text and five options)
+were written to the registry on hosted from messages/en.json (`extra.tiltak_effekt.*`, the product's own English),
+source `machine`; the auto-approve switch (0101, on) approved them on insert (`approved_auto = true`). English
+coverage of `app.all_item_keys()` is now 0 of 415 missing, so English is offered in rounds that ask the effect
+question.
