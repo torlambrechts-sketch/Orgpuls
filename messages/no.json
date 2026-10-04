@@ -6482,7 +6482,7 @@
         "crumb": "Vilkår",
         "kicker": "Vilkår",
         "h1": "Vilkår for bruk av Orgpuls",
-        "lead": "Her står hva som gjelder mellom Pundit Invest AS, som leverer Orgpuls, og virksomheten som bruker Orgpuls. Versjon 1 · gjelder fra 2. oktober 2026.",
+        "lead": "Her står hva som gjelder mellom Pundit Invest AS, som leverer Orgpuls, og virksomheten som bruker Orgpuls. Versjon 2 · gjelder fra 4. oktober 2026.",
         "blocks": [
           {
             "t": "h2",
@@ -6569,6 +6569,10 @@
               "deretter går dere over til gratisplanen: dere kan sende standard hovedkartlegging, lese resultatene og arbeide med tiltak så lenge dere vil, men puls, oppfølgingsmålinger, bransjemoduler, egne spørsmål, sammenligning med tidligere runder og rapporten krever en plan;",
               "en måling som allerede er åpen, går ferdig som planlagt."
             ]
+          },
+          {
+            "t": "p",
+            "text": "Hva gratisplanen omfatter, kan vi endre. En endring varsles på e-post til daglig leder og i Orgpuls minst 60 dager før den gjelder, og den gjelder ikke en måling som allerede er åpen. Det dere har målt og registrert før endringen, kan dere fortsatt lese og laste ned."
           },
           {
             "t": "h2",

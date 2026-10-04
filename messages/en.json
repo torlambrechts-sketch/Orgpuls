@@ -6482,7 +6482,7 @@
         "crumb": "Terms",
         "kicker": "Terms",
         "h1": "Terms of use for Orgpuls",
-        "lead": "What applies between Pundit Invest AS, which provides Orgpuls, and the organisation that uses Orgpuls. Version 1 · in force from 2 October 2026.",
+        "lead": "What applies between Pundit Invest AS, which provides Orgpuls, and the organisation that uses Orgpuls. Version 2 · in force from 4 October 2026.",
         "blocks": [
           {
             "t": "h2",
@@ -6569,6 +6569,10 @@
               "after that you move to the free plan: you can send the standard main survey, read the results and work on measures for as long as you like, but pulses, follow-up surveys, industry modules, your own questions, comparisons with earlier rounds and the report require a plan;",
               "a survey that is already open finishes as planned."
             ]
+          },
+          {
+            "t": "p",
+            "text": "We may change what the free plan includes. A change is announced by e-mail to the managing director and in Orgpuls at least 60 days before it applies, and it does not apply to a survey that is already open. What you have measured and recorded before the change, you can still read and download."
           },
           {
             "t": "h2",

@@ -77,6 +77,10 @@ Er ingen plan valgt når prøveperioden er over:
   bransjemoduler, egne spørsmål, sammenligning med tidligere runder og rapporten krever en plan;
 - en måling som allerede er åpen, går ferdig som planlagt.
 
+Hva gratisplanen omfatter, kan vi endre. En endring varsles på e-post til daglig leder og i
+Orgpuls minst 60 dager før den gjelder, og den gjelder ikke en måling som allerede er åpen. Det
+dere har målt og registrert før endringen, kan dere fortsatt lese og laste ned.
+
 ## 4. Pris og betaling
 
 Prisene står på prissiden og er oppgitt uten merverdiavgift. Det er ingen oppstartsavgift.
@@ -273,3 +277,6 @@ Endret 4. oktober 2026 (D-217), etter eierens beslutning: etter prøveperioden o
 virksomhet uten plan over til gratisplanen (punkt 3) i stedet for lesetilgang, og avtalen kan
 være månedlig eller årlig, der årlig koster ti måneders pris (punkt 4 og 10). Punkt 2 over
 («Årspris: ingen») gjelder ikke lenger.
+Samme dag, versjon 2 publisert: punkt 3 fikk et avsnitt om at innholdet i gratisplanen kan endres
+med minst 60 dagers varsel (eierens beslutning), og versjonslinjen ble «Versjon 2 · gjelder fra
+4. oktober 2026».

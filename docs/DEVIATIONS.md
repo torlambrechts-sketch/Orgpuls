@@ -11301,6 +11301,11 @@ the report or comparisons), added measures to it, and chose two months free for 
   yearly agreement in points 4 and 10; legal review in admin is a record (X-078). The price page, its FAQ and
   JSON-LD (a free offer and the yearly prices), and «Bransjemodulene er med i alle planer» on the Bransjer hub
   are updated in Norwegian and English.
+- **Terms, version 2.** On the owner's word the same day, /vilkar point 3 says the free plan's contents
+  may change on at least 60 days' notice by e-mail to the daglig leder and in Orgpuls, never for a round
+  already open, and that what was measured before stays readable and downloadable. The version line is
+  «Versjon 2 · gjelder fra 4. oktober 2026». Nothing in the product sends that notice yet: a change to the
+  free plan is a migration, and its notice is sent by hand (or as a CRM campaign) before it ships.
 - **Not built.** The admin's organisation detail (`admin_org_detail`) does not name the interval, and its
   MRR is still the monthly list price: the hosted project carries a version of that function this
   repository's migrations do not (found by comparing definitions before applying 0201), so 0201 leaves it
