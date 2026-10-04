@@ -216,4 +216,9 @@ Answers of 2026-10-03 are in `DECISIONS.md` (DEC-01…09); open items are carrie
 - 0126 and 0150 rewrite live function bodies by text replacement, so the final text of some functions (e.g.
   `admin_org_detail`) exists only in the database; 02 reads them from the local stack where needed.
 - Some copy still says "fem svar" although the floor is 3.
+- `supabase db lint --local --level warning` warns in 22 functions (2026-10-04): 16 initialise an array or jsonb
+  variable from a text literal (five of them Phase 0's: `app.crm_formula_compile`, `app.crm_formula_eval`,
+  `app.crm_custom_import`, `app.crm_field_value`, `public.admin_crm_import`), six older ones have unused or shadowed
+  variables, a missing RETURN or an IMMUTABLE marking. No effect on behaviour; tracked, to be cleared together in a later
+  clean-up migration (DEC-47).
 - No `.env.example` exists; 01 lists the variable names.

@@ -1,4 +1,6 @@
-# Next session: the held production parts, then the Phase 0 report
+# Next session: the held production parts, then the merge
+
+Updated 2026-10-04 after the Phase 0 report (`reports/phase-0.md`) and Tor's review (DEC-44 to DEC-47). The report is written and the gate is accepted (DEC-45), so this session does **step 1 only**, then the merge. Before opening it, Tor checks claude.ai › Customize › Connectors › Supabase › tool permissions: `apply_migration` → allowed (DEC-44).
 
 Written 2026-10-04 at the end of WP-0.8 (DEC-39, DEC-40). The WP-0.8 session opened this session at Tor's word
 (DEC-42). It starts from branch
@@ -50,9 +52,7 @@ changes. The `anon` class stays at 31.
 
 **If the connector still holds a call,** do not retry it, split it differently or reword it to get past the
 pattern. Tell Tor which call is held and that it needs approving at claude.ai › Customize › Connectors › Supabase
-› tool permissions (`apply_migration` → allowed, DEC-28). Then go on with step 2, marking the part as not on
-production. When step 2 is done, try the held part once more, exactly as written, in case the permission has been
-allowed meanwhile (DEC-42); if it is still held, the report says so.
+› tool permissions (`apply_migration` → allowed, DEC-28). Then stop without merging (§ 2, last paragraph).
 
 On 2026-10-04, after Tor's go-ahead (DEC-42), the WP-0.8 session tried `0195l_crm_purge` once. The connector
 answered «MCP tool call requires approval», and nothing reached the project.
@@ -62,41 +62,26 @@ the date, the md5 check, the grants and the advisor change, as the earlier parts
 `05-GAP-FEATURES.md` where a status depends on these parts (the purge, CRM-12; sets, groups and teams, SEC-07 to
 SEC-09; custom conditions on the companies list, CUS-01).
 
-## 2. The Phase 0 gate and report
+On 2026-10-04 the Phase 0 report session ran the drift check twice, and both matched the table above. It tried
+`0195l`, `0196d` and `0197e` once each and `0195l` once more after the report. Every call was held, and production
+is unchanged at 488 advisor findings (DEC-43).
 
-The Phase 0 exit gate (`07-IMPLEMENTATION-PLAN.md` §3): a custom field works end to end on existing companies and
-contacts; SF-01, SF-02, SF-34 and SF-38 pass. Run them end to end on the local stack, mapping each flow to its
-evidence: the admin journeys in `qa/e2e/admin-journeys.spec.ts` and the SQL suites. Production cannot be exercised
-through the admin screens until they ship with the merge (DEC-23).
+## 2. When all four have landed: the merge
 
-Write `reports/phase-0.md` with everything `INSTRUCTIONS.md` A11 asks for:
+The gate is accepted (DEC-45) and the deviations without a recorded decision are accepted (DEC-46). Once the four
+parts are on production and verified as above:
 
-- IDs completed, with status changes. The history of `05-GAP-FEATURES.md` over the Phase 0 commits gives them.
-- Migrations added: `0192`–`0197`, `0199`, `0200` (`0198` is main's, from PR #7; D-216 there).
-- Test counts and results: database, unit, end-to-end, visual, accessibility.
-- The visual table, from `screens/phase-0/report.json`, plus `screens/phase-0/admin-baseline-diff.md`.
-- The security checklists, `security/WP-0.1` to `WP-0.8`.
-- Settings added, with defaults. D-208 and the settings rows each package added say which.
-- Deviations, each with Tor's decision (`DECISIONS.md`).
-- What is not done or not verified, and why.
-- Open questions, from «Still open» in `DECISIONS.md` and `06-QUESTIONS.md`.
+1. Re-run the gates on a rebuilt local stack: `npm run test:db`, `npx vitest run`,
+   `npm run e2e -- --project admin --project admin-phone`, tsc, lint, `npm run verify:i18n`, `npx next build`. The
+   figures to match are in `reports/phase-0.md` § 5 (122 suites, 792 unit tests, 143 admin tests).
+2. Merge to main (DEC-23) through a pull request, never by rewriting history.
+3. Renumber this branch's D-entries once, to the numbers free on main, with a note mapping old to new (DEC-32).
+4. Move the CI step «Admin smoke» into main's single job.
+5. Let this branch's `0191` give way to main's `0198` (DEC-36).
 
-Figures at handover (2026-10-04, `afb2343`), to re-run rather than copy:
+**If any part is still held,** do not merge. The admin screens would reach production users with permanent delete,
+removing sets and groups, teams and custom conditions failing. Record the hold in D-210 to D-213 and stop for Tor.
 
-- 122 SQL suites pass on a database rebuilt from migrations.
-- 792 unit tests in 74 files pass.
-- The admin harness passes 143 tests: smoke, 63 pages at 1440 and 390 with axe, and three journeys.
-- tsc, lint, the i18n check and the build pass.
-- `supabase db lint`: one warning, in `admin_ticket_update`, which predates Phase 0.
-- The wiring audit reports six findings that predate Phase 0: A-03 to A-05 of the 2026-09-28 audit, and
-  `admin_legal_set`.
-- `npm audit --omit=dev`: AUD-18 only.
+## 3. Stop for Tor
 
-## 3. Stop for Tor's review
-
-End with the report and the questions it leaves, asked as `CLAUDE.md` says. After Tor approves:
-
-1. Merge to main (DEC-23).
-2. Renumber this branch's D-entries once, to the numbers free on main, with a note mapping old to new (DEC-32).
-3. Move the CI step «Admin smoke» into main's single job.
-4. Let this branch's `0191` give way to main's `0198` (DEC-36).
+End with what landed, the merge or why it waits, and any question left, asked as `CLAUDE.md` says.
