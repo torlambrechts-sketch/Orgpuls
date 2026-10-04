@@ -103,9 +103,9 @@ with the merge (DEC-23).
 | --- | --- | --- | --- |
 | Database | `npm run test:db` on the rebuilt stack | **122 of 122 suites pass**, including the design figures | 122 ✓ |
 | Unit | `npx vitest run` | **792 tests in 74 files pass** | 792 / 74 ✓ |
-| End-to-end, admin | `npm run e2e -- --project admin --project admin-phone` | __E2E__ | 143 |
+| End-to-end, admin | `npm run e2e -- --project admin --project admin-phone` | **143 of 143 pass** (13.4 min): the sign-in setup, three journeys, 63 pages at 1440 and at 390, the smoke at both widths, teardown | 143 |
 | Visual | `screens/phase-0/report.json` (WP-0.4–0.8 captures) | 73 of 73 captures: HTTP 200, no overflow, no console error (§ 6) | — |
-| Accessibility | axe on every admin page at 1440 and 390 in the run above; `qa/known-issues.json` | __AXE__ | — |
+| Accessibility | axe on every admin page at 1440 and 390 in the run above; `qa/known-issues.json` | **No violation** on any of the 63 admin pages at either width. `qa/known-issues.json` has no admin entry (WP-0.8 cleared the nine 390 px scroll regions); its two entries are respondent pages | — |
 | Type check, lint, i18n, build | `npx tsc --noEmit`, `npm run lint`, `npm run verify:i18n`, `npx next build` | all exit 0 | ✓ |
 | `supabase db lint --local --level warning` | | exit 0; **warnings in 22 functions**: 16 of the "variable initialised from a text literal" kind (`'{}'` into `text[]`/`jsonb`), and 6 older ones with unused or shadowed variables, a missing RETURN or an IMMUTABLE marking. Five of the 16 are Phase 0's (`app.crm_formula_compile`, `app.crm_formula_eval`, `app.crm_custom_import`, `app.crm_field_value`, `public.admin_crm_import`), as WP-0.5's checklist recorded; the rest predate Phase 0 | **Differs**: the handover said one warning, in `admin_ticket_update` |
 | Wiring audit | `node scripts/audit/wiring.mjs` | 6 findings, all predating Phase 0: A-03 (`bht_name`), A-04 (two translation calls), A-05 (two superseded approvals), `admin_legal_set` | 6 ✓ |
@@ -264,7 +264,7 @@ rule a setting, and `05-GAP-FEATURES.md` records both.
 
 - **The four held parts are not on production** (§ 1). The connector's tool permission for `apply_migration` is
   held at claude.ai › Customize › Connectors › Supabase › tool permissions, and only Tor can change it (DEC-28,
-  DEC-41, DEC-42). Retried once after this report, as the brief asks: __RETRY__.
+  DEC-41, DEC-42). Retried once after this report, as the brief asks: held again. On 2026-10-04 at about 14:40 UTC, after a fresh read-only drift check that again matched the brief, `0195l_crm_purge` was tried once more, exactly as written. The connector answered «MCP tool call requires approval» and nothing reached the project. `0196d` and `0197e` were not tried a second time, and `0199f` was not tried (it waits for `0195l`). A message relayed from the WP-0.8 session (queued 14:00 UTC) says Tor has allowed `apply_migration` in the connector. The connector still held the call, so the setting has not reached this session, or it applies only to sessions opened after the change (DEC-28: the permission is read when a session starts). Recorded as DEC-43.
 - **The admin screens are not exercised on production.** They ship with the merge (DEC-23).
 - **SF-34 step 3 («warn») and a test for step 6** (the firewall outside the registry) do not exist (§ 3).
 - **WP-0.1–0.3's 34 captures are not in `report.json`.** Their inspection is recorded in prose in D-208–D-210.

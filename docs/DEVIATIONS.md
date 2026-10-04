@@ -10596,7 +10596,7 @@ reachable there yet, as the admin screens ship at the Phase 0 gate (DEC-23). Ret
 still held, as is 0196's part that removes sets, groups and team members (D-211). On 2026-10-04 the session that wrote
 the Phase 0 report (`docs/crm-enrichment/reports/phase-0.md`) ran the read-only drift check, which matched the brief, and tried
 `0195l_crm_purge` once, exactly as written: the connector answered «MCP tool call requires approval», and a
-second read showed nothing had reached the project (advisors unchanged at 488). __RETRY_D210__
+second read showed nothing had reached the project (advisors unchanged at 488). The one retry the brief asks for, after the report, was held the same way (DEC-43).
 
 ## D-211 — CRM access: permission sets, visibility groups, teams and audit completeness (0196) (2026-10-03)
 
@@ -10677,7 +10677,7 @@ set, removing a group, and saving or removing a team (`admin_crm_set_delete`, `a
 same approval step of the Supabase connector as 0195's purge part (DEC-28). Until it lands, a super-admin on
 hosted can add and assign sets and groups but not remove them, and no team can be made; nothing on hosted calls
 these before the admin screens ship at the Phase 0 gate (DEC-23). On 2026-10-04 `0196d_crm_access_removals` was tried once, exactly as
-written, after a drift check that matched the brief: held at the connector again, and nothing reached the project. __RETRY_D211__
+written, after a drift check that matched the brief: held at the connector again, and nothing reached the project.
 
 ## D-212 — CRM custom fields: the registry, values, quality rules, hidden and read-only fields, formulas (0197) (2026-10-03)
 
@@ -10774,7 +10774,7 @@ drops the old signature, like 0195's purge part and 0196d (DEC-28, DEC-29). Unti
 three-argument list, so the companies list works without custom conditions; the app sends the conditions argument
 only when there are conditions. It must land before the admin screens ship at the Phase 0 gate (DEC-23). On 2026-10-04
 `0197e_crm_companies_custom` was tried once, exactly as written, after a drift check that matched the brief (the three-argument
-form's md5 `7b2395e7…`): held at the connector again, and nothing reached the project. __RETRY_D212__
+form's md5 `7b2395e7…`): held at the connector again, and nothing reached the project.
 
 ## D-213 — CRM event dispatcher and job runs (0199) (2026-10-04)
 
@@ -10851,7 +10851,7 @@ first scheduled run (07:31 UTC) succeeded through the runner and was counted in 
 purge job through the runner (`0199f`, the migration's last schedule line) waits for 0195's purge part, still held at
 the Supabase connector's approval step (DEC-29, DEC-34): scheduled before `app.crm_purge_due()` exists, it would fail
 every night. Until both land, the monitor shows the restore list purge as not scheduled, which is so. On 2026-10-04 `0199f` was
-not tried, because `0195l` was held again (D-210). __RETRY_D213__
+not tried, because `0195l` was held again (D-210).
 
 ## D-214 — The admin's test harness (2026-10-04)
 

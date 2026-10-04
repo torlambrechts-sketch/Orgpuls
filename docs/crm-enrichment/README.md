@@ -20,3 +20,8 @@ Status on 2026-10-03: Phase A complete; answers recorded (DEC-01…09); the e-ma
 
 Status on 2026-10-04: Phase 0's eight work packages are done (WP-0.1–0.8, D-208–D-215) and on production except four
 held parts (0195l, 0196d, 0197e, 0199f); a new session applies those and writes `reports/phase-0.md` (`NEXT-SESSION.md`).
+
+Status on 2026-10-04, later: the Phase 0 report is written (`reports/phase-0.md`). The gate re-runs locally (122 SQL
+suites, 792 unit tests, 143 admin tests, tsc, lint, i18n, build). The four held parts are still not on production:
+the Supabase connector held each call again, including one retry after the report (DEC-43). Waiting for Tor's review
+before the merge (DEC-23).
