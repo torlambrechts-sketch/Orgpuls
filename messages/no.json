@@ -769,7 +769,7 @@
         "cta": "Skriv e-post til {name}",
         "note": "E-posten sendes fra din egen e-post til {email}. Orgpuls ser den ikke, og ingen får vite om du sender den.",
         "subject": "Kommentaren min om {factor}",
-        "mailBody": "Hei {name},\n\nJeg er den som skrev kommentaren om {factor} i medarbeiderundersøkelsen. Du ba om å få snakke med meg direkte.\n\n"
+        "mailBody": "Hei {name},\n\nJeg er den som skrev kommentaren om {factor} i arbeidsmiljøundersøkelsen. Du ba om å få snakke med meg direkte.\n\n"
       }
     },
     "countLabel": "Telles for hele virksomheten",
@@ -3777,7 +3777,7 @@
     "lawOk": "Kartleggingen for {year} er gjort og risikovurdert. Dokumentasjonen er klar hvis Arbeidstilsynet spør."
   },
   "resultater": {
-    "kicker": "Medarbeiderundersøkelse · lukket {date}",
+    "kicker": "Hovedundersøkelse · lukket {date}",
     "kickerPulse": "Pulsundersøkelse · lukket {date}",
     "pulseTitle": "Puls {month} {year}",
     "dayMonth": "{day}. {month}",

@@ -769,7 +769,7 @@
         "cta": "E-mail {name}",
         "note": "The e-mail is sent from your own e-mail to {email}. Orgpuls does not see it, and nobody learns whether you send it.",
         "subject": "My comment about {factor}",
-        "mailBody": "Hi {name},\n\nI am the one who wrote the comment about {factor} in the employee survey. You asked to talk with me directly.\n\n"
+        "mailBody": "Hi {name},\n\nI am the one who wrote the comment about {factor} in the work environment survey. You asked to talk with me directly.\n\n"
       }
     },
     "countLabel": "Counted for the whole organisation",
@@ -3777,7 +3777,7 @@
     "lawOk": "The {year} survey is done and risk-assessed. The documentation is ready if the Labour Inspection asks."
   },
   "resultater": {
-    "kicker": "Employee survey · closed {date}",
+    "kicker": "Main survey · closed {date}",
     "kickerPulse": "Pulse survey · closed {date}",
     "pulseTitle": "Pulse {month} {year}",
     "dayMonth": "{day} {month}",

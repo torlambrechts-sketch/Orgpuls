@@ -11351,9 +11351,26 @@ On the owner's word: the free plan on the home page, and a look at whether «med
   home description, the five industry titles, Pris, Plattform, Bruksområder, the articles index and the
   Bransjer H1; «medarbeiderundersøkelse» stays in the home title («… etter arbeidsmiljøloven») and on the
   pages that rank for it; «arbeidsmiljøkartlegging» leaves the titles. English follows where it differed.
-- **Not changed.** `resultater.kicker` («Medarbeiderundersøkelse · lukket …») and the respondent mail text
-  `respond.thread.contact.mailBody` also say «medarbeiderundersøkelse»: the first is an app screen under the
-  pixel gate, the second a respondent text that needs the five survey languages (X-089). Both wait for a
-  piece of work of their own. The orphaned `seo.lp.byggOgAnlegg.*` and `seo.lp.helseOgOmsorg.*` (D-213) are
+- **Not changed here.** `resultater.kicker` and the respondent mail text `respond.thread.contact.mailBody`
+  also said «medarbeiderundersøkelse»; both changed in D-228. The orphaned `seo.lp.byggOgAnlegg.*` and `seo.lp.helseOgOmsorg.*` (D-213) are
   left as they are.
+
+## D-228 — The results kicker says «Hovedundersøkelse»; the contact mail says «arbeidsmiljøundersøkelsen» (2026-10-04)
+
+On the owner's word («gjør de nå»), the two texts D-227 left:
+
+- **`resultater.kicker`**: «Medarbeiderundersøkelse · lukket {date}» → «Hovedundersøkelse · lukket {date}»
+  (en «Main survey · closed {date}»). The pulse round's kicker already said «Pulsundersøkelse», and the app
+  calls the yearly round «hovedundersøkelse» elsewhere; «medarbeiderundersøkelse» named a different
+  product. The design (v3 2234) prints «Medarbeiderundersøkelse»: this is a copy deviation, not a visual
+  one. The v3 run (`v3-run.mjs --only 07 … 11, 19`) still passes every claimed tile in the six results
+  states: the changed word stays inside the tile tolerance, so no claim was touched.
+- **`respond.thread.contact.mailBody`**: the draft e-mail a respondent can send the manager who asked to
+  talk now says «… i arbeidsmiljøundersøkelsen» (en «… in the work environment survey»). In pl, uk, lt, sv
+  and da only that noun changed (pl «w ankiecie o środowisku pracy», uk «в опитуванні про робоче
+  середовище», lt «Darbo aplinkos apklausoje», sv «i arbetsmiljöundersökningen», da «i
+  arbejdsmiljøundersøgelsen», each the glossary's word for «arbeidsmiljø»), through `checkImport` with no
+  problem, written to the hosted registry as origin *machine* with the new bokmål's fingerprint and a note
+  for Tor's review (X-089). Auto-approve is on (0101), so they count at once. The edge functions carry the
+  respondent hashes and the source fingerprints, so they were redeployed with this change.
 
