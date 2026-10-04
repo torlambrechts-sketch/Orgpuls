@@ -61,6 +61,7 @@ recommended option every time.
 | DEC-30 | What follows WP-0.4 (2026-10-03) | **WP-0.5 custom fields**, the Phase 0 gate package (CUS-01 to 04, SF-38), locally and then on production per DEC-09 |
 | DEC-31 | When the campaign, list, segment, sender and template pages follow the permission set (2026-10-03) | **In WP-0.8's clean-ups**: their readers return what the set allows for campaigns and the pages leave out what it refuses, as the companies and contacts pages do since WP-0.4 (D-211) |
 | DEC-32 | Deviation numbers: main took D-207 to D-212 while this branch used D-207 to D-211 (2026-10-03) | **Renumber at the Phase 0 merge**, once, to the numbers free then, with a note mapping old to new; applied migrations keep the old numbers in their comments. PR #7's entry is D-213 already |
+| DEC-33 | Permission requests during the work (2026-10-04) | **No more allow requests** (Tor: "Stop with the allow requests! You have all access need"). The repository's allowlist now also covers the remote-session connector, Monitor, ToolSearch and the task tools (read at session start, so from the next session); in a cloud session the mode dropdown's Auto covers the rest. A call the Supabase connector holds for approval is not retried: it joins the parts the next session applies first (DEC-29) — now 0195's purge, 0196d and 0197e |
 
 Still open (asked at the phase that needs them): Q7 lead object (plan follows the brief: own table), Q13
 threshold (plan keeps the product rule: floor 3, default 5), Q19 admin e2e (WP-0.7 adds it), open points 2
