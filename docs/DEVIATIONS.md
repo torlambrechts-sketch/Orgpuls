@@ -10752,3 +10752,20 @@ equal to their inputs, no self-reference or circle; versions; history; limits; a
 out a whole row past the registry). `crm_access_invariants.sql` reviews the new readers, `crm_restore_invariants.sql`
 the four new helpers, `crm_rules_invariants.sql` the two rules and `crm_pipeline_invariants.sql` the new list
 signature. Screens in `docs/crm-enrichment/screens/phase-0/CUS-0*`.
+
+0197 on hosted (2026-10-04): a drift check first found the 17 functions 0197 edits or rebuilds from identical (md5)
+to the bodies the repository's build patched. Applied in six parts: `0197a` the registry tables, the value columns
+and their indexes, the history's field check and the two rules; `0197b` the value and filter helpers and `0197c`
+the formulas and their triggers, each closing what it makes to every client in the same transaction; `0197d` the
+five registry calls; `0197f` and `0197g` the edits to thirteen existing functions as anchored blocks that refuse to
+run unless every anchor matches as often as expected — dry-run locally from the pre-0197 bodies, 13 of 13 identical
+to the build. Verified on hosted: 41 of the 42 functions 0197 makes or changes have the repository build's md5; the
+three tables have RLS on, no policy and no client grant; no helper is a client's, and the five calls are
+`authenticated`'s only; the rules are unlimited; no field, group, version or value exists. The security advisors add
+exactly the five calls (`authenticated`, gated inside) and the three tables (RLS without policy) to their deliberate
+classes, and the anon class is unchanged at 31; the performance advisors find no unindexed foreign key on the new
+tables (43 before and after). **Not yet on hosted:** `0197e` — replacing `admin_crm_companies(text, text, uuid)` by
+its four-argument form, as written in the migration — is held at the Supabase connector's approval step because it
+drops the old signature, like 0195's purge part and 0196d (DEC-28, DEC-29). Until it lands, hosted keeps the
+three-argument list, so the companies list works without custom conditions; the app sends the conditions argument
+only when there are conditions. It must land before the admin screens ship at the Phase 0 gate (DEC-23).

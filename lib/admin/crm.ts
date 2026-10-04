@@ -371,11 +371,14 @@ const Company = z.object({
 })
 export type Company = z.infer<typeof Company>
 
-/** 0197: custom conditions narrow the list (CUS-01); the database checks them against the registry */
+/**
+ * 0197: custom conditions narrow the list (CUS-01); the database checks them against the registry. The argument is
+ * sent only with conditions, so the list does not depend on the call's newest form when none are asked for.
+ */
 export const crmCompanies = (q: string | null, stage: string | null, custom: Condition[] | null = null) =>
   call(
     'admin_crm_companies',
-    { p_q: q, p_stage: stage, p_owner: null, p_custom: custom?.length ? Conditions.parse(custom) : null },
+    { p_q: q, p_stage: stage, p_owner: null, ...(custom?.length ? { p_custom: Conditions.parse(custom) } : {}) },
     // 0192: limit is the list's cap, a CRM rule setting (null: every company)
     z.object({ stages: z.record(z.string(), num), tasks_due: num, rows: z.array(Company), limit: num.nullable(), may: May.default({}) }),
   )
