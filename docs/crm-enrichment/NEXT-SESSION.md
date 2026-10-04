@@ -1,6 +1,7 @@
 # Next session: the held production parts, then the Phase 0 report
 
-Written 2026-10-04 at the end of WP-0.8 (DEC-39, DEC-40). Tor opens this session. It starts from branch
+Written 2026-10-04 at the end of WP-0.8 (DEC-39, DEC-40). The WP-0.8 session opened this session at Tor's word
+(DEC-42). It starts from branch
 `ccr-39a2fb73-jgkg09` at `afb2343` or later; if the session is given another branch, bring this one into it first
 (merge, never rewrite), so the Phase 0 work is there. Read `CLAUDE.md`, `docs/IMPLEMENTATION_PLAN.md`,
 `docs/DECISION_LOG.md`, `docs/DEVIATIONS.md` (D-207 to D-215), `INSTRUCTIONS.md` (R10, R11, A10, A11) and
@@ -50,7 +51,11 @@ changes. The `anon` class stays at 31.
 **If the connector still holds a call,** do not retry it, split it differently or reword it to get past the
 pattern. Tell Tor which call is held and that it needs approving at claude.ai › Customize › Connectors › Supabase
 › tool permissions (`apply_migration` → allowed, DEC-28). Then go on with step 2, marking the part as not on
-production.
+production. When step 2 is done, try the held part once more, exactly as written, in case the permission has been
+allowed meanwhile (DEC-42); if it is still held, the report says so.
+
+On 2026-10-04, after Tor's go-ahead (DEC-42), the WP-0.8 session tried `0195l_crm_purge` once. The connector
+answered «MCP tool call requires approval», and nothing reached the project.
 
 **Record** each landed part in its D-entry's hosted paragraph, replacing its «Not yet on hosted» sentence. Write
 the date, the md5 check, the grants and the advisor change, as the earlier parts were recorded. Also update
