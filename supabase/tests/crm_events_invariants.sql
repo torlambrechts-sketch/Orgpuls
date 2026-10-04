@@ -79,7 +79,8 @@ begin
       || ',' || ((select read_to from app.crm_event_subscribers where key = 'rollup') = (select max(id) from app.crm_events))::text
       || ',' || ((select coalesce(sum(n), 0) from app.crm_event_rollups) - v_n);
     v_rows := v_rows || jsonb_build_object('seq', 2, 'name', 'each subscriber takes each event once and moves past it; a delivery that succeeds leaves no row; a second run delivers nothing again; the rollup counts every event',
-      'expected', '2,0,0,true,2', 'actual', v_txt, 'pass', v_txt = '2,0,0,true,2');
+      -- 0203: a new company is two records, the company and its primary deal, so three events: two added, one updated
+      'expected', '3,0,0,true,3', 'actual', v_txt, 'pass', v_txt = '3,0,0,true,3');
 
     -- 3 -------------------------------------------------------------- a failing subscriber
     -- a probe handler that always fails, for this transaction only
@@ -138,8 +139,9 @@ begin
                  where d.subscriber = 'rollup' and e.record_id = v_co2);
     delete from app.crm_setting_values where key = 'limit_event_loop';
     v_rows := v_rows || jsonb_build_object('seq', 4, 'name', 'the loop window: at most limit_event_loop of one record''s events in ten minutes; the rest set aside and counted',
-      'expected', '2:2,skipped/loop_window skipped/loop_window', 'actual', v_txt,
-      'pass', v_txt = '2:2,skipped/loop_window skipped/loop_window');
+      -- 0203: the primary deal's own «added» is delivered too; the company's events are held to the window as before
+      'expected', '3:2,skipped/loop_window skipped/loop_window', 'actual', v_txt,
+      'pass', v_txt = '3:2,skipped/loop_window skipped/loop_window');
 
     -- 5 -------------------------------------------------------------- the runner
     select runs into v_n from app.crm_jobs where job = 'crm_dispatch';

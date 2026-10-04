@@ -78,6 +78,8 @@ declare
     'app.lead_route', 'app.lead_score', 'public.crm_mail_claim',
     -- 0197: whether any record holds a field's value or option (a yes or no for the registry), and the formula recompute
     'app.crm_field_in_use', 'app.crm_options_in_use', 'app.crm_formulas_recompute',
+    -- 0203: the trigger that mirrors a company's primary deal onto the company (no viewer)
+    'app.crm_deal_to_company',
     -- given what their callers may see (the second check holds them to it)
     'app.crm_company_json', 'app.crm_log', 'app.crm_purge', 'app.crm_record_label', 'app.crm_soft_delete', 'app.crm_undelete'
   ];

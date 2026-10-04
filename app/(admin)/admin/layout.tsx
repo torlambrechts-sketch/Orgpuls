@@ -25,6 +25,7 @@ const PAGES = [
   ...BUILT.map((s) => HREF[s]),
   '/admin/crm/inbox',
   '/admin/crm/pipeline',
+  '/admin/crm/deals',
   '/admin/crm/prospects',
   '/admin/crm/contacts',
   '/admin/crm/lists',

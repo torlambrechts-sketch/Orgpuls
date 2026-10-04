@@ -228,7 +228,7 @@ begin
     v_txt := concat_ws(',', public.admin_crm_pipeline_summary(null)->>'ok',
       public.admin_crm_step_save(null, jsonb_build_object('follows_id', v_camp, 'step_kind', 'linkedin', 'title', 'x', 'name', 'x', 'follow_days', '2'))->>'error',
       public.admin_crm_task_skip(v_task)->>'error',
-      has_function_privilege('anon', 'public.admin_crm_pipeline_summary(timestamptz)', 'execute')::text,
+      has_function_privilege('anon', 'public.admin_crm_pipeline_summary(timestamptz, uuid)', 'execute')::text,
       has_function_privilege('anon', 'public.admin_crm_step_save(uuid, jsonb)', 'execute')::text,
       has_function_privilege('anon', 'public.admin_crm_task_skip(uuid)', 'execute')::text);
     perform set_config('request.jwt.claims', '', true);

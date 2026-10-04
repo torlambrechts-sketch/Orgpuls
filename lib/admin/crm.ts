@@ -292,8 +292,67 @@ const Stage = z.object({
   exit_criterion: z.string().nullable().default(null),
   companies: num,
   campaigns: num,
+  // 0203 (D-227): the pipeline it belongs to, the chance a deal in it is won, the days before a deal in it rots, its deals
+  pipeline: z.string().nullable().default(null),
+  probability: num.nullable().default(null),
+  rot_days: num.nullable().default(null),
+  deals: num.default(0),
 })
 export type Stage = z.infer<typeof Stage>
+
+// ---------------------------------------------------------------- pipelines and deals (0203, D-227)
+const Pipeline = z.object({ id: z.string(), key: StageKey, name: z.string(), sort: num, archived: z.boolean(), deals: num })
+export type Pipeline = z.infer<typeof Pipeline>
+export const DEAL_STATUSES = ['open', 'won', 'lost'] as const
+export const DEAL_VIEWS = ['open', 'won', 'lost', 'all'] as const
+const Deal = z.object({
+  id: z.string(),
+  title: z.string(),
+  company_id: z.string().nullable(),
+  company: z.string().nullable(),
+  contact_id: z.string().nullable(),
+  contact: z.string().nullable(),
+  value: num.nullable(),
+  currency: z.string(),
+  pipeline: z.string(),
+  stage: StageKey,
+  stage_changed_at: z.string(),
+  status: z.enum(DEAL_STATUSES),
+  closed_at: tsn,
+  owner_id: tsn,
+  owner: tsn,
+  expected_close: tsn,
+  probability: num.nullable(),
+  stage_probability: num.nullable(),
+  lost_text: tsn,
+  source: z.string(),
+  primary: z.boolean(),
+  visibility: z.enum(VISIBILITIES),
+  archived: z.boolean(),
+  created_at: z.string(),
+  updated_at: z.string(),
+  version: num,
+})
+export type Deal = z.infer<typeof Deal>
+/** A pipeline's deals: open ones, or won, lost or all; or every deal of one company */
+export const crmDeals = (args: { pipeline?: string | null; view?: (typeof DEAL_VIEWS)[number]; q?: string | null; company?: string | null }) =>
+  call(
+    'admin_crm_deals',
+    { p_pipeline: args.pipeline ?? null, p_status: args.view ?? 'open', p_q: args.q ?? null, p_company: args.company ?? null },
+    z.object({ pipeline: z.string(), rows: z.array(Deal), limit: num.nullable(), may: May.default({}) }),
+  )
+/** One deal, the stages of its pipeline and its stage history (the days it spent in each) */
+export const crmDeal = (id: string) =>
+  call(
+    'admin_crm_deal',
+    { p_id: id },
+    z.object({
+      deal: Deal,
+      may: May.default({}),
+      stages: z.array(z.object({ key: StageKey, name: z.string(), kind: z.enum(STAGE_KINDS), managed: z.boolean() })),
+      history: z.array(z.object({ from: StageKey.nullable(), to: StageKey, at: z.string(), days: num })),
+    }),
+  )
 
 // ---------------------------------------------------------------- the inbox (0112)
 const InboxRow = z.object({
@@ -320,7 +379,8 @@ export const crmInbox = (days: number) =>
       rows: z.array(InboxRow),
     }),
   )
-export const crmStages = () => call('admin_crm_stages', {}, z.object({ reply_stage: StageKey, rows: z.array(Stage) }))
+export const crmStages = () =>
+  call('admin_crm_stages', {}, z.object({ reply_stage: StageKey, rows: z.array(Stage), pipelines: z.array(Pipeline).default([]) }))
 
 const Sender = z.object({
   id: z.string(),
@@ -573,14 +633,15 @@ export const crmTaskList = (view: (typeof TASK_VIEWS)[number]) =>
 // ---------------------------------------------------------------- the pipeline in figures (0137)
 const Totals = z.object({ count: num, valued: num, value: num })
 /**
- * Every company, summed in the database: per stage and over the open stages, the deals, how many
+ * Every deal, summed in the database (0203: deals, no longer companies): per stage and over the open stages, how many
  * carry a value and the sum of those; won this quarter; and the deals closed since `since` (the
  * quarter, or when the stage history began if later), for the win rate.
  */
-export const crmPipelineSummary = () =>
+export const crmPipelineSummary = (pipeline?: string | null) =>
   call(
     'admin_crm_pipeline_summary',
-    { p_from: null },
+    // 0203: read from deals, one pipeline at a time (the sales pipeline unless named)
+    { p_from: null, p_pipeline: pipeline ?? null },
     z.object({
       stages: z.array(Totals.extend({ key: StageKey })),
       open: Totals,

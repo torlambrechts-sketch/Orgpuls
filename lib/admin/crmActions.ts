@@ -495,6 +495,10 @@ export async function saveStage(_prev: AdminResult | null, formData: FormData): 
       kind: z.enum(STAGE_KINDS),
       archived: z.boolean(),
       exit_criterion: z.string().trim().max(200),
+      // 0203: a new stage's pipeline; the chance of winning (0–100) and the days before a deal rots, each may be empty
+      pipeline: z.union([z.string().uuid(), z.literal('')]),
+      probability: z.string().regex(/^(\d{1,2}|100)?$/),
+      rot_days: z.string().regex(/^(\d{1,3})?$/),
     })
     .safeParse({
       key: String(formData.get('key') ?? '').trim().toLowerCase(),
@@ -503,6 +507,9 @@ export async function saveStage(_prev: AdminResult | null, formData: FormData): 
       kind: formData.get('kind') ?? 'open',
       archived: formData.get('archived') === 'on',
       exit_criterion: formData.get('exit_criterion') ?? '',
+      pipeline: formData.get('pipeline') ?? '',
+      probability: String(formData.get('probability') ?? '').trim(),
+      rot_days: String(formData.get('rot_days') ?? '').trim(),
     })
   if (!parsed.success) return { ok: false, problem: parsed.error.issues[0]?.path[0] === 'key' ? 'invalid_key' : 'invalid' }
   const { key, ...p } = parsed.data
@@ -512,6 +519,92 @@ export async function saveStage(_prev: AdminResult | null, formData: FormData): 
     revalidatePath('/admin/crm/prospects')
   }
   return r
+}
+
+/** Remove a stage (0203): its deals move to the stage chosen, of the same pipeline, first. */
+export async function deleteStage(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z.object({ key: StageKey, to: z.union([StageKey, z.literal('')]) }).safeParse({ key: formData.get('key'), to: formData.get('to') ?? '' })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_crm_stage_delete', { p_key: parsed.data.key, p_to: parsed.data.to || null })
+  if (r.ok) {
+    revalidatePath('/admin/crm/stages')
+    revalidatePath('/admin/crm/deals')
+    revalidatePath('/admin/crm/pipeline')
+  }
+  return r.ok ? { ok: true } : r
+}
+
+/** Add a pipeline (no id) or rename, reorder or archive one (0203). */
+export async function savePipeline(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({
+      id: z.union([z.string().uuid(), z.literal('')]),
+      key: z.union([StageKey, z.literal('')]),
+      name: z.string().trim().min(1).max(60),
+      sort: z.string().regex(/^\d{1,4}$/),
+      archived: z.boolean(),
+    })
+    .safeParse({
+      id: formData.get('id') ?? '',
+      key: String(formData.get('key') ?? '').trim().toLowerCase(),
+      name: formData.get('name'),
+      sort: String(formData.get('sort') ?? '0').trim() || '0',
+      archived: formData.get('archived') === 'on',
+    })
+  if (!parsed.success) return { ok: false, problem: parsed.error.issues[0]?.path[0] === 'key' ? 'invalid_key' : 'invalid' }
+  const { id, ...p } = parsed.data
+  if (!id && !p.key) return { ok: false, problem: 'invalid_key' }
+  const r = await rpc('admin_crm_pipeline_save', { p_id: id || null, p })
+  if (r.ok) {
+    revalidatePath('/admin/crm/stages')
+    revalidatePath('/admin/crm/deals')
+  }
+  return r.ok ? { ok: true } : r
+}
+
+/**
+ * Add a deal (no id) or change one (0203). A title is all a deal needs; the database checks the rest — the
+ * stage against the pipeline, the company against what the caller may see, the owner against the staff.
+ */
+export async function saveDealRecord(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const uuidOrEmpty = z.union([z.string().uuid(), z.literal('')])
+  const parsed = z
+    .object({
+      id: uuidOrEmpty,
+      title: z.string().trim().min(1).max(200),
+      company_id: uuidOrEmpty,
+      pipeline: uuidOrEmpty,
+      stage: z.union([StageKey, z.literal('')]),
+      value: z.string().regex(/^(\d{1,10}([.,]\d{1,2})?)?$/),
+      currency: z.string().regex(/^[A-Z]{3}$/),
+      expected_close: z.string().regex(/^(\d{4}-\d{2}-\d{2})?$/),
+      probability: z.string().regex(/^(\d{1,2}|100)?$/),
+      lost_text: z.string().trim().max(300),
+    })
+    .safeParse({
+      id: formData.get('id') ?? '',
+      title: formData.get('title'),
+      company_id: formData.get('company_id') ?? '',
+      pipeline: formData.get('pipeline') ?? '',
+      stage: formData.get('stage') ?? '',
+      value: String(formData.get('value') ?? '').trim().replace(/\s/g, ''),
+      currency: String(formData.get('currency') ?? 'NOK').trim().toUpperCase() || 'NOK',
+      expected_close: formData.get('expected_close') ?? '',
+      probability: String(formData.get('probability') ?? '').trim(),
+      lost_text: formData.get('lost_text') ?? '',
+    })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const { id, value, ...rest } = parsed.data
+  const p: Record<string, unknown> = { ...rest, value: value.replace(',', '.') }
+  // a field the form does not show is left as it is
+  for (const k of ['company_id', 'pipeline', 'stage'] as const) if (!formData.has(k)) delete p[k]
+  const r = await rpc('admin_crm_deal_save', { p_id: id || null, p })
+  if (r.ok) {
+    revalidatePath('/admin/crm/deals')
+    revalidatePath('/admin/crm/pipeline')
+    if (id) revalidatePath(`/admin/crm/deals/${id}`)
+  }
+  return r.ok ? { ok: true, message: typeof r.data?.id === 'string' ? r.data.id : undefined } : r
 }
 
 /** The first-response target for an inbound lead, in minutes (0112) */

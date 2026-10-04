@@ -10282,6 +10282,7 @@
         "crmSegments": "Segments",
         "crmCampaigns": "Campaigns",
         "crmTemplates": "Templates",
+        "crmDeals": "Deals",
         "crmStages": "Stages and senders",
         "crmRestore": "Restore",
         "crmFields": "Custom fields",
@@ -12409,7 +12410,105 @@
           "in_use": "This stage is in use: companies, an active campaign or the reply setting point to it."
         },
         "exit": "Closes when the buyer…",
-        "exitHint": "e.g. has booked a demo"
+        "exitHint": "e.g. has booked a demo",
+        "pipelineLabel": "Pipeline",
+        "probability": "Chance of winning (%)",
+        "rotDays": "Rots after (days)",
+        "probabilityHint": "empty: none",
+        "col_deals": "Deals",
+        "delete": {
+          "title": "Remove the stage",
+          "lead": "Its deals move to the stage you choose, in the same pipeline, and each move is recorded. A stage the plan sets, a campaign aims at or the reply setting names stays.",
+          "to": "Move its deals to",
+          "submit": "Remove stage",
+          "none": "It holds no deals"
+        },
+        "pipelines": {
+          "title": "Pipelines",
+          "lead": "A pipeline is a sales process with stages of its own. Every stage belongs to one; Sales holds the stages from before, and the plan's trial and customer stages.",
+          "col": {
+            "name": "Pipeline",
+            "key": "Key",
+            "order": "Order",
+            "deals": "Open deals"
+          },
+          "add": "Add a pipeline",
+          "create": "Add pipeline",
+          "save": "Save",
+          "archive": "Archive",
+          "archived": "Archived",
+          "inUse": "A pipeline with open deals, and Sales, cannot be archived."
+        },
+        "problem2": {
+          "invalid_stage": "Choose a stage of the same pipeline to move its deals to.",
+          "exists": "A pipeline with this key exists already."
+        }
+      },
+      "deals": {
+        "title": "Deals",
+        "lead": "Every deal in a pipeline. A company's first deal is the one it was before deals existed: its stage, value and owner are the company's, and the plan moves it for trial and customer accounts.",
+        "views": {
+          "open": "Open",
+          "won": "Won",
+          "lost": "Lost",
+          "all": "All"
+        },
+        "search": "Search titles",
+        "searchSubmit": "Search",
+        "col": {
+          "title": "Deal",
+          "company": "Company",
+          "stage": "Stage",
+          "value": "Value",
+          "owner": "Owner",
+          "close": "Expected close",
+          "changed": "In stage since"
+        },
+        "none": "No deals here.",
+        "limit": "The list shows the first {n}; search to narrow it.",
+        "primary": "The company's deal",
+        "add": "Add a deal",
+        "form": {
+          "title": "Title",
+          "company": "Company",
+          "noCompany": "No company",
+          "stage": "Stage",
+          "firstStage": "The pipeline's first stage",
+          "value": "Value",
+          "currency": "Currency",
+          "close": "Expected close",
+          "probability": "Chance of winning (%)",
+          "probabilityHint": "empty: the stage's",
+          "lostText": "Why it was lost",
+          "create": "Add deal",
+          "save": "Save"
+        },
+        "detail": {
+          "back": "All deals",
+          "facts": "The deal",
+          "status": {
+            "open": "Open",
+            "won": "Won",
+            "lost": "Lost"
+          },
+          "history": "Stages",
+          "historyLead": "Every stage the deal entered, and how long it stayed.",
+          "days": "{n} days",
+          "entered": "Entered {stage}",
+          "moved": "{from} → {to}",
+          "none": "No moves yet.",
+          "stageProbability": "{n} % from the stage",
+          "edit": "Change the deal"
+        },
+        "problem": {
+          "invalid_stage": "That stage is not one of this pipeline's, or people do not set it.",
+          "invalid_company": "That company is not in the CRM, or not one you can see.",
+          "invalid_contact": "That contact does not belong to the deal's company.",
+          "invalid_owner": "The owner must be a member of staff.",
+          "primary": "A company's own deal keeps its company, its pipeline and NOK.",
+          "managed": "A customer's deal follows its plan.",
+          "not_found": "The deal is not there, or not one you can see."
+        }
       },
       "pipeline": {
         "title": "Pipeline",

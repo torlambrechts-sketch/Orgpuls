@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { shownSum, totals, unvalued, winRate, winRateText } from '@/lib/admin/pipeline'
+import { dealValue, shownSum, totals, unvalued, winRate, winRateText } from '@/lib/admin/pipeline'
 
 describe('pipeline sums (0137)', () => {
   it('counts a deal without a value and adds nothing for it', () => {
@@ -39,5 +39,17 @@ describe('win rate (0137)', () => {
   it('refuses counts that cannot be counts', () => {
     expect(winRate(-1, 2)).toBeNull()
     expect(winRate(Number.NaN, 1)).toBeNull()
+  })
+})
+
+describe('dealValue (0203)', () => {
+  it('shows nothing for a deal without a value, never 0 kr', () => {
+    expect(dealValue(null, 'NOK')).toBe('')
+    expect(dealValue(0, 'NOK')).toBe('0 kr')
+  })
+  it('writes kroner whole, øre only when there are any, and another currency by its code', () => {
+    expect(dealValue(49000, 'NOK').replace(/\s/g, ' ')).toBe('49 000 kr')
+    expect(dealValue(1500.5, 'NOK').replace(/\s/g, ' ')).toBe('1 500,50 kr')
+    expect(dealValue(1200, 'EUR').replace(/\s/g, ' ')).toBe('1 200 EUR')
   })
 })

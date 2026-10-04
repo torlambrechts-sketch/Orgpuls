@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Outcome, useKeptAction } from '@/components/admin/ActionForms'
 import type { CrmMessages } from '@/components/admin/CrmForms'
 import { Button } from '@/components/ui/Button'
-import type { Campaign, Sender, Stage } from '@/lib/admin/crm'
+import type { Campaign, Pipeline, Sender, Stage } from '@/lib/admin/crm'
 import { moveStage, resendCampaign, saveCampaignPipeline, saveDailyCap, saveReplyStage, saveSender, saveSla, saveStage } from '@/lib/admin/crmActions'
 
 /**
@@ -76,8 +76,11 @@ export function StageMoveForm({
   )
 }
 
-/** Add a stage (no stage), or change one: its name, place and kind; archive it. */
-export function StageForm({ stage, m, common }: { stage?: Stage; m: CrmMessages; common: Common }) {
+/**
+ * Add a stage (no stage), or change one: its name, place and kind; archive it. 0203: a new stage goes into the
+ * pipeline chosen; any stage may give the chance a deal in it is won and the days before a deal in it rots.
+ */
+export function StageForm({ stage, pipelines, m, common }: { stage?: Stage; pipelines?: Pipeline[]; m: CrmMessages; common: Common }) {
   const x = m.stagesX
   const [key, setKey] = useState(stage?.key ?? '')
   const [name, setName] = useState(stage?.name ?? '')
@@ -85,7 +88,12 @@ export function StageForm({ stage, m, common }: { stage?: Stage; m: CrmMessages;
   const [kind, setKind] = useState<string>(stage?.kind ?? 'open')
   const [archived, setArchived] = useState(stage?.archived ?? false)
   const [exit, setExit] = useState(stage?.exit_criterion ?? '')
-  const [state, action, pending] = useKeptAction(saveStage, () => (stage ? undefined : (setKey(''), setName(''), setSort(''), setExit(''))))
+  const [pipeline, setPipeline] = useState(stage?.pipeline ?? pipelines?.find((p) => !p.archived)?.id ?? '')
+  const [probability, setProbability] = useState(stage?.probability === null || stage?.probability === undefined ? '' : String(stage.probability))
+  const [rot, setRot] = useState(stage?.rot_days === null || stage?.rot_days === undefined ? '' : String(stage.rot_days))
+  const [state, action, pending] = useKeptAction(saveStage, () =>
+    stage ? undefined : (setKey(''), setName(''), setSort(''), setExit(''), setProbability(''), setRot('')),
+  )
   return (
     <form action={action} className="flex flex-wrap items-end gap-[8px]">
       {stage ? (
@@ -118,6 +126,28 @@ export function StageForm({ stage, m, common }: { stage?: Stage; m: CrmMessages;
       <label className="block min-w-[220px] flex-1">
         <span className={label}>{x.exit}</span>
         <input name="exit_criterion" maxLength={200} value={exit} onChange={(e) => setExit(e.target.value)} placeholder={x.exitHint} className={input} />
+      </label>
+      {!stage && pipelines && pipelines.length > 1 ? (
+        <label className="block">
+          <span className={label}>{x.pipelineLabel}</span>
+          <select name="pipeline" value={pipeline} onChange={(e) => setPipeline(e.target.value)} className={`${input} w-auto`}>
+            {pipelines
+              .filter((p) => !p.archived)
+              .map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name}
+                </option>
+              ))}
+          </select>
+        </label>
+      ) : null}
+      <label className="block">
+        <span className={label}>{x.probability}</span>
+        <input name="probability" type="number" min={0} max={100} value={probability} placeholder={x.probabilityHint} onChange={(e) => setProbability(e.target.value)} className={`${input} w-[150px]`} />
+      </label>
+      <label className="block">
+        <span className={label}>{x.rotDays}</span>
+        <input name="rot_days" type="number" min={1} max={365} value={rot} placeholder={x.probabilityHint} onChange={(e) => setRot(e.target.value)} className={`${input} w-[130px]`} />
       </label>
       {stage && !stage.managed ? (
         <label className="flex h-[38px] items-center gap-[6px] text-[12.5px] font-semibold">

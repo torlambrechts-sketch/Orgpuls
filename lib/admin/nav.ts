@@ -80,6 +80,8 @@ const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }
     items: [
       // sales (X-097): the companies in the pipeline, what to do next, replies, and who is warm
       { key: 'crmPipeline', section: 'crm', href: '/admin/crm/pipeline', icon: 'kanban' },
+      // 0203 (D-227): deals, their own records in pipelines
+      { key: 'crmDeals', section: 'crm', href: '/admin/crm/deals', icon: 'kanban' },
       { key: 'crmProspects', section: 'crm', href: '/admin/crm/prospects', icon: 'building' },
       { key: 'crmTasks', section: 'crm', href: '/admin/crm/tasks', icon: 'flag' },
       { key: 'crmInbox', section: 'crm', href: '/admin/crm/inbox', icon: 'inbox' },

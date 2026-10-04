@@ -37,6 +37,7 @@ export const ADMIN_ROUTES: AdminRoute[] = [
   { name: 'crm_scoring', path: '/admin/crm/scoring' },
   { name: 'crm_segments', path: '/admin/crm/segments' },
   { name: 'crm_stages', path: '/admin/crm/stages' },
+  { name: 'crm_deals', path: '/admin/crm/deals' },
   { name: 'crm_tasks', path: '/admin/crm/tasks' },
   { name: 'crm_templates', path: '/admin/crm/templates' },
   { name: 'crm_triggers', path: '/admin/crm/triggers' },

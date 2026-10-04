@@ -67,6 +67,7 @@ declare
     'app.crm_formulas_recompute(text)',             -- 0197: a deleted record's formulas follow too, for the day it comes back
     'admin_crm_field_save(uuid,jsonb,text)',        -- 0197: names the record tables only to keep a key from shadowing a column
     'app.crm_sync()',                               -- the account sync keeps a deleted contact current, and deleted
+    'app.crm_deal_to_company()',                    -- 0203: a primary deal's stage, value and owner follow onto its company, deleted or not
     'app.delete_organisation(uuid,text,uuid)',      -- an organisation's deletion removes deleted contacts too
     'app.growth_doi(text)',                         -- a growth figure over what the database holds
     'app.growth_firewall()',                        -- the firewall counts every held row: deleted is still held

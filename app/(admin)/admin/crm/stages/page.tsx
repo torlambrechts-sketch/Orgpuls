@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server'
+import { PipelineForm, StageDeleteForm } from '@/components/admin/CrmDealForms'
 import type { CrmMessages } from '@/components/admin/CrmForms'
 import { DailyCapForm, ReplyStageForm, SenderForm, StageForm } from '@/components/admin/CrmStageForms'
 import { stageTone } from '@/components/admin/CrmTabs'
@@ -9,7 +10,9 @@ import { crmSenders, crmSending, crmStages } from '@/lib/admin/crm'
 /**
  * The pipeline (0093, D-142): its stages in order, where a logged answer moves a company, and
  * the people campaigns are sent as. The plan's two stages (trial, customer) follow the
- * organisation's subscription and are never set by hand or by a campaign.
+ * organisation's subscription and are never set by hand or by a campaign. 0203 (D-227): the
+ * pipelines, each stage's pipeline, chance of winning and rot days, and a stage removed with its
+ * deals moved first.
  */
 export default async function CrmStages() {
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
@@ -21,13 +24,50 @@ export default async function CrmStages() {
   const canWrite = !isError(senders) && senders.may_settings
   const common = { saving: t('common.saving'), done: t('common.done') }
   const people = isError(senders) ? [] : senders.rows
+  const pipelines = data.pipelines
+  const pipelineName = (id: string | null) => pipelines.find((p) => p.id === id)?.name ?? ''
+  const pc = x.pipelines.col
 
   return (
     <>
       <PageHead title={x.title} lead={x.lead} />
 
-      <Card title={x.title}>
-        <Table head={[x.col.stage, x.col.kind, x.col.order, x.col.companies, x.col.campaigns]}>
+      <Card title={x.pipelines.title}>
+        <p className="mb-[12px] mt-0 max-w-[80ch] text-[13px] leading-[1.55] text-body">{x.pipelines.lead}</p>
+        <Table head={[pc.name, pc.key, pc.order, pc.deals]}>
+          {pipelines.map((p) => (
+            <tr key={p.id}>
+              <Td wrap>
+                {p.name}
+                {p.archived ? <span className="block text-[12px] text-mut">{x.pipelines.archived}</span> : null}
+                {canWrite ? (
+                  <details className="mt-[6px]">
+                    <summary className="cursor-pointer text-[12px] font-semibold text-link">{x.edit}</summary>
+                    <div className="mt-[8px]">
+                      <PipelineForm pipeline={p} m={m} common={common} />
+                    </div>
+                  </details>
+                ) : null}
+              </Td>
+              <Td>
+                <span className="font-mono text-[12px]">{p.key}</span>
+              </Td>
+              <Td>{p.sort}</Td>
+              <Td>{p.deals}</Td>
+            </tr>
+          ))}
+        </Table>
+        {canWrite ? (
+          <div className="mt-[16px] border-t border-line pt-[14px]">
+            <p className="mb-[8px] mt-0 text-[13px] font-semibold">{x.pipelines.add}</p>
+            <PipelineForm m={m} common={common} />
+            <p className="mb-0 mt-[8px] text-[12px] text-mut">{x.pipelines.inUse}</p>
+          </div>
+        ) : null}
+      </Card>
+
+      <Card title={x.title} className="mt-[16px]">
+        <Table head={[x.col.stage, x.pipelineLabel, x.col.kind, x.col.order, x.probability, x.rotDays, x.col_deals, x.col.companies, x.col.campaigns]}>
           {data.rows.map((s) => (
             <tr key={s.key}>
               <Td wrap>
@@ -41,11 +81,22 @@ export default async function CrmStages() {
                     <div className="mt-[8px]">
                       <StageForm stage={s} m={m} common={common} />
                     </div>
+                    {s.managed ? null : (
+                      <div className="mt-[12px] border-t border-line pt-[10px]">
+                        <p className="mb-[4px] mt-0 text-[12.5px] font-semibold">{x.delete.title}</p>
+                        <p className="mb-[8px] mt-0 max-w-[70ch] text-[12px] text-mut">{x.delete.lead}</p>
+                        <StageDeleteForm stage={s} stages={data.rows} m={m} common={common} />
+                      </div>
+                    )}
                   </details>
                 ) : null}
               </Td>
+              <Td>{pipelineName(s.pipeline)}</Td>
               <Td>{x.kind[s.kind]}</Td>
               <Td>{s.sort}</Td>
+              <Td>{s.probability === null ? '' : `${s.probability} %`}</Td>
+              <Td>{s.rot_days ?? ''}</Td>
+              <Td>{s.deals}</Td>
               <Td>{s.companies}</Td>
               <Td>{s.campaigns}</Td>
             </tr>
@@ -54,7 +105,7 @@ export default async function CrmStages() {
         {canWrite ? (
           <div className="mt-[16px] border-t border-line pt-[14px]">
             <p className="mb-[8px] mt-0 text-[13px] font-semibold">{x.add}</p>
-            <StageForm m={m} common={common} />
+            <StageForm pipelines={pipelines} m={m} common={common} />
             <p className="mb-0 mt-[8px] text-[12px] text-mut">{x.inUse}</p>
           </div>
         ) : null}

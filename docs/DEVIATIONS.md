@@ -11809,3 +11809,64 @@ are taken by the CRM branch, so this is D-226.
   and taken back, access and the tick, confirming again, the admin's two functions, the grants.
 - **Not built.** No mail when the move takes effect; the daglig leder sees the date on Oppsett › Betaling
   when choosing it, and the banner says the free plan once it begins.
+
+## D-227 — CRM pipelines and deals: the data move (0203) (2026-10-04)
+
+**What was built (WP-1.1; PIP-02, PIP-03, SF-35; DEC-02).** A deal is its own record (`app.crm_deals`) in a pipeline
+(`app.crm_pipelines`). A title is all a deal needs. It carries a company, a primary contact, a value and currency, a
+stage of its own pipeline, an owner, an expected close, a probability, a status (open, won or lost, from the stage's
+kind, with when it closed), lost text, a source, custom values and visibility, and the standard columns. The changelog
+and the event catalogue take deals as a fourth entity: `deal.added`, `.updated`, `.stage_changed`, `.won`, `.lost`,
+`.deleted`, `.restored` and `.purged`. Stages gain a pipeline, a chance of winning and rot days. A stage that holds
+deals is removed only with a target stage in its pipeline, and each deal's move is recorded. A deal's stage belongs to
+its pipeline by a composite foreign key, `(stage, pipeline_id)` → `crm_stages (key, pipeline_id)`, so the table refuses
+another pipeline's stage, whatever the caller. The stage history records from the deal (`deal_id`, `pipeline_id`, and
+`left_at` for the days spent in a stage). Admin: CRM › Deals (a pipeline's deals by status, searched by title, a deal
+added), a deal's page (its facts, changed in place, its stages with the days in each), and pipelines and the new stage
+fields on CRM › Stages. Calls: `admin_crm_deals`, `admin_crm_deal`, `admin_crm_deal_save`, `admin_crm_pipeline_save`,
+`admin_crm_stage_delete`; `admin_crm_pipeline_summary` takes a pipeline.
+
+**The data move.** Every company became one deal, its *primary* deal, holding the stage, value, owner and lost text it
+held. Its stage history points at that deal, and `left_at` was filled from the next change. A trial or customer
+company's primary deal is its subscription deal: the account sync still writes the company, and the deal follows.
+
+**Compatibility until WP-3 (the brief: «compatibility kept for journeys until WP-3»).** A company's stage, value and
+owner mirror its primary deal in both directions, through two triggers that mark their own write so it does not echo
+back. Everything that reads or writes a company's stage keeps working unchanged: campaign stage targets, the journeys,
+the account sync, automatic moves, the board and the companies list. `admin_crm_stage_move` and `app.crm_advance` move
+the company's primary deal (`app.crm_deal_set_stage`), and the company follows. The pipeline figures and the win rate
+are read from deals. For the migrated history they equal 0137's figures read from companies, and
+`crm_deals_invariants.sql` (3) proves it against the live data.
+
+**Differences from the brief, and why.**
+- A primary deal stays in NOK and keeps its company and pipeline while the company's `value_nok` mirrors it. Currencies
+  come with WP-1.9.
+- Lost reasons as rows (`lost_reason_id`), labels, archive, the board on deals, rotting flags and card fields per
+  pipeline are WP-1.2's. They are left out here so that no column ships without its reader (`scripts/audit/wiring.mjs`
+  W1): `card_fields` was drafted and taken out for that reason.
+- A deal in the restore list (its delete call) comes with WP-1.2's list. `deleted_at` exists, and every reader leaves a
+  deleted deal out, as well as a deal whose company is in the restore list.
+- Custom fields are defined for companies and contacts only. A deal's `custom` holds nothing until the registry takes
+  deals (CUS-01).
+- A new company now writes two `.added` events, its own and its primary deal's. `crm_events_invariants.sql` (2, 4)
+  counts three where it counted two, still exactly.
+
+**Tests.** `crm_deals_invariants.sql`, 10 rows:
+- closed tables and calls;
+- the move;
+- the unchanged figures and win rate;
+- a title-only deal;
+- the stage belongs to the pipeline;
+- the stage delete;
+- the mirror;
+- status;
+- a read-only set;
+- nothing survives.
+
+The five pipeline suites are updated, not loosened:
+- `crm_access` and `crm_restore` review the mirror trigger;
+- `crm_events` counts the deal's event;
+- `crm_win_rate` checks the new signature's grant.
+
+`tests/unit/pipeline.test.ts` covers `dealValue`. The database was rebuilt from the migrations: 124 SQL suites, 840
+vitest tests, tsc, lint, i18n and the build all pass.
