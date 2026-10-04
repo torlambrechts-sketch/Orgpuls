@@ -5,7 +5,7 @@ import { archive } from '@/lib/crm/read'
 import { cmsList } from '@/lib/cms/read'
 import { pathOf, type CmsKind } from '@/lib/cms/content'
 import { ARTICLES, LANDING_PAGES, SITE_PAGES } from '@/lib/marketing/site'
-import { INDUSTRIES, liveQuestionPages, pageIn } from '@/content/industries'
+import { getIndustry, INDUSTRIES, liveQuestionPages, pageIn } from '@/content/industries'
 import { siteIndexing } from '@/lib/site/indexing'
 
 /**
@@ -52,16 +52,10 @@ function questionPages(s: ReturnType<typeof sitemapFor>): MetadataRoute.Sitemap 
   return [...new Set([...no, ...en])].flatMap((slug) => s.twinned(`/${slug}/sporsmal`, no.includes(slug), en.includes(slug), rest))
 }
 
-/**
- * An industry page that never had a landing page (barnehage og skole, D-131): its address
- * exists only once launched, per language, with a twin only where both are.
- */
+/** An industry page: its address exists once launched, per language, with a twin only where both are (D-131) */
 function industryPages(s: ReturnType<typeof sitemapFor>): MetadataRoute.Sitemap {
-  const landing = LANDING_PAGES as readonly string[]
   const rest = { changeFrequency: 'monthly' as const, priority: 0.8 }
-  return INDUSTRIES.filter((i) => !landing.includes(i.slug)).flatMap((i) =>
-    s.twinned(`/${i.slug}`, !!pageIn(i, 'no')?.launched, !!pageIn(i, 'en')?.launched, rest),
-  )
+  return INDUSTRIES.flatMap((i) => s.twinned(`/${i.slug}`, !!pageIn(i, 'no')?.launched, !!pageIn(i, 'en')?.launched, rest))
 }
 
 /**
@@ -96,7 +90,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     entry('/', { changeFrequency: 'monthly', priority: 1 }),
     ...SITE_PAGES.map((p) => entry(`/${p.slug}`, { changeFrequency: 'monthly', priority: 0.8 })),
-    ...LANDING_PAGES.map((s) => entry(`/${s}`, { changeFrequency: 'monthly', priority: 0.8 })),
+    // the landing pages; bygg's and helse's addresses are their industry pages now (D-213)
+    ...LANDING_PAGES.filter((p) => !getIndustry(p)).map((p) => entry(`/${p}`, { changeFrequency: 'monthly', priority: 0.8 })),
     ...industryPages(s),
     // an industry's question page, per language once launched there; a twin only when both are (D-118, D-120)
     ...questionPages(s),

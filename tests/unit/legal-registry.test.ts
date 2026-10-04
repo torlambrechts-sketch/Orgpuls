@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { INDUSTRIES } from '@/content/industries'
-import { landingFor } from '@/content/industries/landing'
+import { LANDINGS } from '@/content/industries/landing'
 import { canonical, legalUnits, LEGAL_SECTIONS, MESSAGE_SPECS } from '@/lib/legal/registry'
 import en from '@/messages/en.json'
 import no from '@/messages/no.json'
@@ -56,24 +55,26 @@ describe('the legal review registry', () => {
     expect(canonical([{ path: 'a', text: 'b' }])).toBe('a\nb')
   })
 
-  it('marks what is published: the launched industry pages in both languages (X-078)', () => {
-    // an industry still on the older template publishes its content file's law items
-    for (const i of INDUSTRIES.filter((x) => x.page?.launched && !landingFor(x.slug)?.live.no)) {
-      expect(units.find((u) => u.key.startsWith(`industry:${i.slug}:no:law:`))?.live, i.slug).toBe(true)
+  it('marks what is published: every industry page is the landing template, in each language it is live in (D-213)', () => {
+    for (const l of LANDINGS) {
+      // the landing's own unit is what the address publishes, in each language it is live in
+      expect(units.find((u) => u.key === `msg:no:site.${l.msg}`)?.live, l.slug).toBe(l.live.no)
+      expect(units.find((u) => u.key === `msg:en:site.${l.msg}`)?.live, l.slug).toBe(l.live.en)
+      // the older template's law items stay as the approved record, published nowhere
+      for (const lang of ['no', 'en']) {
+        for (const u of units.filter((x) => x.key.startsWith(`industry:${l.slug}:${lang}:law`))) expect(u.live, u.key).toBe(false)
+      }
+      // the question page's lead and rules are live wherever the question page is
+      for (const lang of (['no', 'en'] as const).filter((x) => l.live[x])) {
+        const claims = units.find((u) => u.key === `industry:${l.slug}:${lang}:claims`)
+        expect(claims?.live, `${l.slug} ${lang}`).toBe(true)
+        expect(claims?.lines.every((x) => x.path.startsWith('questionPage.')), `${l.slug} ${lang}`).toBe(true)
+      }
     }
-    // barnehage og skole on the landing template (D-211): the landing's law card in Norwegian; its
-    // English page is a preview, so nothing of it is published in English
-    expect(units.find((u) => u.key.startsWith('industry:barnehage-og-skole:no:law:'))?.live).toBe(false)
-    expect(units.find((u) => u.key === 'msg:no:site.barnehage')?.live).toBe(true)
-    expect(units.find((u) => u.key === 'msg:en:site.barnehage')?.live).toBe(false)
-    // one on the landing template (D-210) publishes the landing's law card instead, in both languages
-    expect(units.find((u) => u.key.startsWith('industry:helse-og-omsorg:no:law:'))?.live).toBe(false)
-    expect(units.find((u) => u.key.startsWith('industry:helse-og-omsorg:en:law:'))?.live).toBe(false)
-    expect(units.find((u) => u.key === 'msg:no:site.helse')?.live).toBe(true)
-    expect(units.find((u) => u.key === 'msg:en:site.helse')?.live).toBe(true)
-    // the landing page is what the address shows only where the industry page is not launched
-    expect(units.find((u) => u.key === 'msg:no:lp.helseOgOmsorg')?.live).toBe(false)
-    expect(units.find((u) => u.key === 'msg:en:lp.helseOgOmsorg')?.live).toBe(false)
+    // the landing pages bygg and helse had before are shown nowhere
+    for (const id of ['lp.helseOgOmsorg', 'lp.byggOgAnlegg']) {
+      for (const lang of ['no', 'en']) expect(units.find((u) => u.key === `msg:${lang}:${id}`)?.live, `${lang} ${id}`).toBe(false)
+    }
   })
 })
 

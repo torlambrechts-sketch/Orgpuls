@@ -1875,5 +1875,686 @@
       "title": "Colquitt (2001): On the dimensionality of organizational justice. Journal of Applied Psychology 86(3)",
       "url": "https://doi.org/10.1037/0021-9010.86.3.386"
     }
-  ]
+  ],
+  "translations": {
+    "en": {
+      "name": "Knowledge and office work",
+      "description": "Add-on module for knowledge and office work in two variants: simplified (8 factors, 24 core indicators) and extended (15 factors, 62 statements). The core indicators are locked and part of both.",
+      "scale_labels": [
+        "Strongly disagree",
+        "Slightly disagree",
+        "Neither",
+        "Slightly agree",
+        "Strongly agree"
+      ],
+      "covered_by_core_factors": [
+        "Workload and time pressure",
+        "Role clarity",
+        "Participation and control",
+        "Support from manager",
+        "Support from colleagues",
+        "Freedom to speak up"
+      ],
+      "factors": {
+        "fokus_og_avbrytelser": {
+          "name": "Focus and interruptions",
+          "summary": "Whether there is room for focused work without constant interruptions.",
+          "rationale": "Interruptions and task switching lead to errors, delays, stress and exhaustion. Knowledge work demands deep concentration, so workflow is a resource of its own, separate from how much there is to do.",
+          "legal_basis": [
+            "aml § 4-3 (organisation of the work and workload)",
+            "aml § 4-2 (participation in restructuring and new systems)"
+          ],
+          "items": {
+            "KK-FA-1": "I get enough uninterrupted time for work that requires concentration.",
+            "KK-FA-2": "I am rarely disturbed when I need to concentrate.",
+            "KK-FA-3": "I can finish a task before I have to move on to a new one.",
+            "KK-FA-4": "We have agreements in the team about when it is fine to interrupt each other.",
+            "KK-FA-5": "Notifications and messages are set up so that they do not disturb me unnecessarily."
+          },
+          "action_suggestions": [
+            {
+              "title": "The team's focus agreement",
+              "description": "The team notes interruptions for a week and agrees on fixed focus blocks and when it is fine to interrupt."
+            },
+            {
+              "title": "Fixed focus blocks",
+              "description": "Fixed times without meetings, and e-mail dealt with in batches a couple of times a day."
+            },
+            {
+              "title": "Is this urgent?",
+              "description": "The manager asks whether the matter is urgent before interrupting, and uses written channels when it is not."
+            }
+          ]
+        },
+        "motekultur": {
+          "name": "Meeting culture",
+          "summary": "Whether meetings are useful, have a purpose and leave room to follow up the work.",
+          "rationale": "The number of meetings is linked to daily fatigue and perceived workload, while meetings felt to be useful are linked to better well-being. Meetings are a main source of fragmented work in project and consultancy work.",
+          "legal_basis": [
+            "aml § 4-3 (organisation of the work)"
+          ],
+          "items": {
+            "KK-MK-1": "The meetings I take part in are useful for my work.",
+            "KK-MK-2": "The meetings I take part in have a clear purpose.",
+            "KK-MK-3": "I have enough time between meetings to follow up on my work.",
+            "KK-MK-4": "I can decline meetings where I am not needed."
+          },
+          "action_suggestions": [
+            {
+              "title": "Meeting review",
+              "description": "The team goes through its regular meetings and decides which to keep, shorten or drop."
+            },
+            {
+              "title": "Agendas and short meetings",
+              "description": "Every meeting has an agenda, and the standard length is 25 or 50 minutes."
+            },
+            {
+              "title": "Only those who are needed",
+              "description": "The manager invites only those who are needed, and gives explicit permission to decline."
+            }
+          ]
+        },
+        "digitale_verktoy": {
+          "name": "Digital tools and information load",
+          "summary": "Whether the tools help, and whether the amount of information is manageable.",
+          "rationale": "Technostress – overload, complexity and constant changes in tools – is linked to stress and burnout, but good IT support dampens the effect. Validated Norwegian measures of digital stress exist.",
+          "legal_basis": [
+            "aml § 4-2 (participation and training with new systems)",
+            "aml § 4-3"
+          ],
+          "items": {
+            "KK-DV-1": "The digital tools we use make my work easier.",
+            "KK-DV-2": "The amount of email, messages and notifications I receive is manageable.",
+            "KK-DV-3": "I get the training and user support I need when we start using new digital tools.",
+            "KK-DV-4": "I know which channel to use for what, for example email, chat or phone.",
+            "KK-DV-5": "The digital tools work reliably, so I do not lose time on technical problems."
+          },
+          "action_suggestions": [
+            {
+              "title": "Channel agreement",
+              "description": "The team agrees which channel is used for what, and the expected response time for each."
+            },
+            {
+              "title": "Training and super users",
+              "description": "Every introduction of a new tool has a training plan and a named super user."
+            },
+            {
+              "title": "Clean up the lists",
+              "description": "The manager cleans up distribution lists and copy recipients and uses the agreed channel themselves."
+            }
+          ]
+        },
+        "tilgjengelighet": {
+          "name": "Availability and pressure to respond",
+          "summary": "Whether it is fine not to reply outside working hours, and whether the team has clear agreements.",
+          "rationale": "Telepressure – the urge to reply quickly to work messages – weakens psychological detachment. Contact outside working hours undermines health and the balance between work and leisure, even when flexible work otherwise gives better working hours. Clear disconnection rules are linked to lower telepressure.",
+          "legal_basis": [
+            "aml § 10-8 (daily and weekly time off)",
+            "aml § 4-3",
+            "Regulations on working from home § 2 (agreement on working hours and availability)"
+          ],
+          "items": {
+            "KK-TG-1": "It is accepted that I do not answer work enquiries outside working hours.",
+            "KK-TG-2": "I can wait to reply to messages until it suits my work.",
+            "KK-TG-3": "We have clear agreements in the team about when we should be available.",
+            "KK-TG-4": "When I get a message, I am able to finish what I am doing first.",
+            "KK-TG-5": "My manager shows by example that time off should be respected."
+          },
+          "item_help": {
+            "KK-TG-1": "Does not cover agreed on-call duty or standby."
+          },
+          "action_suggestions": [
+            {
+              "title": "Availability agreement",
+              "description": "The team agrees on response times per channel, core hours and what actually counts as urgent."
+            },
+            {
+              "title": "Disconnection rules",
+              "description": "Written rules for contact outside working hours, with scheduled sending of e-mail and messages."
+            },
+            {
+              "title": "No expectation of replies after hours",
+              "description": "The manager does not send messages that require a reply after working hours, and says so out loud."
+            }
+          ]
+        },
+        "arbeid_privatliv": {
+          "name": "Work and private life",
+          "summary": "Whether the job leaves room for private life, and whether working hours can be adapted.",
+          "rationale": "When the job's hours and strain get in the way of private life, it is a well-documented role conflict with consequences for health and well-being. Family-supportive leadership has shown an effect in field experiments.",
+          "legal_basis": [
+            "aml § 4-3",
+            "aml § 10-2 (working time arrangements)",
+            "Regulations on working from home § 2"
+          ],
+          "items": {
+            "KK-AP-1": "My work leaves me enough time for my private life.",
+            "KK-AP-2": "I can usually carry out private plans without work getting in the way.",
+            "KK-AP-3": "After the working day, I have enough energy to do things I enjoy.",
+            "KK-AP-4": "I can adjust my working hours when my private life requires it."
+          },
+          "action_suggestions": [
+            {
+              "title": "Boundaries and flexibility",
+              "description": "The team agrees what flexibility means for them, and where the boundaries are."
+            },
+            {
+              "title": "Quarterly review",
+              "description": "The manager and the safety representative look at total evening and weekend work every quarter."
+            },
+            {
+              "title": "Support when life demands it",
+              "description": "The manager asks actively and makes adjustments when private life demands it."
+            }
+          ]
+        },
+        "restitusjon": {
+          "name": "Recovery and switching off",
+          "summary": "Whether people manage to switch off, and whether breaks and holidays recharge them.",
+          "rationale": "Psychological detachment from work in leisure time is the most robust recovery experience, and it is weakened by pressure to be available and by mental work that follows people home. The scale is validated in Swedish.",
+          "legal_basis": [
+            "aml § 10-8",
+            "aml § 10-9 (breaks)",
+            "the Holidays Act",
+            "aml § 4-3"
+          ],
+          "items": {
+            "KK-RE-1": "I am able to switch off from work in my free time.",
+            "KK-RE-2": "In my free time, I rarely think about work.",
+            "KK-RE-3": "I get breaks during the working day that recharge me.",
+            "KK-RE-4": "On holiday, I can be completely free from work."
+          },
+          "action_suggestions": [
+            {
+              "title": "Switching off",
+              "description": "A short introduction to recovery and a shared plan for how the team protects time off."
+            },
+            {
+              "title": "Time off means time off",
+              "description": "No work messages during holidays, and a fixed deputy for every employee."
+            },
+            {
+              "title": "Breaks between meetings",
+              "description": "The manager puts breaks between meetings and takes them too."
+            }
+          ]
+        },
+        "hybrid_samhandling": {
+          "name": "Hybrid collaboration",
+          "summary": "Whether collaboration works when some are at the office and some at home.",
+          "rationale": "Working from home gives more control and balance, but also higher demands for availability, less support from colleagues and somewhat less clear roles. Satisfaction is higher where there are shared agreements.",
+          "legal_basis": [
+            "Regulations on working from home § 3 (a fully satisfactory working environment, psychosocial too)",
+            "aml § 4-3"
+          ],
+          "items": {
+            "KK-HS-1": "Collaboration in the team works well, wherever we work from.",
+            "KK-HS-2": "We have shared agreements about when we should be physically present together.",
+            "KK-HS-3": "Meetings where some take part digitally and some in the room work well.",
+            "KK-HS-4": "Those who take part digitally are heard when we make decisions."
+          },
+          "action_suggestions": [
+            {
+              "title": "Hybrid team agreement",
+              "description": "The team agrees which tasks are done where, and fixed days when everyone is present."
+            },
+            {
+              "title": "Rules for hybrid meetings",
+              "description": "Everyone joins separately, and the floor is shared deliberately between the room and the screen."
+            },
+            {
+              "title": "Decisions are written down",
+              "description": "The manager sums up decisions in writing in a shared channel, so everyone gets the same information."
+            }
+          ]
+        },
+        "tilhorighet": {
+          "name": "Belonging and professional network",
+          "summary": "Whether people have informal contact and professional sparring, wherever they work.",
+          "rationale": "Professional isolation weakens performance, especially for those who work a lot from home. Family-supportive leadership and flexible planning dampen the effect.",
+          "legal_basis": [
+            "Regulations on working from home § 3",
+            "aml § 4-3"
+          ],
+          "items": {
+            "KK-TN-1": "I have enough informal contact with colleagues.",
+            "KK-TN-2": "I get professional input from colleagues when I need it, wherever I work from.",
+            "KK-TN-3": "I feel a sense of belonging to my workplace.",
+            "KK-TN-4": "New employees here quickly get to know their colleagues well."
+          },
+          "action_suggestions": [
+            {
+              "title": "Professional network",
+              "description": "Regular professional forums across teams, where people share and get sparring."
+            },
+            {
+              "title": "A buddy and fixed office days",
+              "description": "New employees get a buddy and fixed office days for the first eight weeks."
+            },
+            {
+              "title": "Weekly one-to-one",
+              "description": "The manager has a short weekly conversation with those who work a lot from home."
+            }
+          ]
+        },
+        "fysisk_arbeidsplass": {
+          "name": "Physical workplace and equipment",
+          "summary": "Whether the office gives peace and quiet, and whether the equipment is good – at home too.",
+          "rationale": "Open-plan offices bring noise and distractions, and a home office without good equipment brings a risk of strain injuries. When the work is done at home, the regulations on working from home apply.",
+          "legal_basis": [
+            "aml § 4-4 (physical working environment)",
+            "the Workplace Regulations",
+            "Regulations concerning the performance of work, chapter 23 (work at display screens)",
+            "Regulations on working from home §§ 2–4"
+          ],
+          "items": {
+            "KK-FY-1": "My workspace at the office allows me to concentrate.",
+            "KK-FY-2": "I have equipment that lets me work in a way that is good for my body, wherever I work.",
+            "KK-FY-3": "I know who to contact if my workspace or equipment is not good enough.",
+            "KK-FY-4": "I have access to quiet rooms or zones when I need them.",
+            "KK-FY-5": "The indoor climate in the office where I work is good."
+          },
+          "action_suggestions": [
+            {
+              "title": "Zones and ground rules",
+              "description": "The team agrees on quiet zones and ground rules for conversations and phone calls in the open-plan office."
+            },
+            {
+              "title": "Home office checklist",
+              "description": "A digital ergonomics checklist when the home office agreement is made."
+            },
+            {
+              "title": "Equipment in the appraisal",
+              "description": "Workplace and equipment are a fixed item in the appraisal interview."
+            }
+          ]
+        },
+        "kunde_og_leveransepress": {
+          "name": "Client and delivery pressure",
+          "summary": "Whether client deadlines and billable-hours targets are reasonable.",
+          "rationale": "In consultancy, auditing, law, IT and brokerage, the pressure often comes from clients, deadlines and billable-hours targets. The core measures how much there is to do, not where the pressure comes from. The evidence is weak, and there is no validated scale for billable pressure.",
+          "legal_basis": [
+            "aml § 4-3",
+            "aml § 10-6 (overtime)"
+          ],
+          "items": {
+            "KK-KL-1": "The deadlines we agree with clients are realistic.",
+            "KK-KL-2": "I get support from my manager when clients make unreasonable demands.",
+            "KK-KL-3": "The requirements for billable time or time recording are reasonable.",
+            "KK-KL-4": "We have good routines for when a client changes what they have ordered partway through."
+          },
+          "action_suggestions": [
+            {
+              "title": "Realistic estimates",
+              "description": "The team compares estimates with the time actually spent on three completed assignments."
+            },
+            {
+              "title": "Written change orders",
+              "description": "Changes to the order are agreed in writing, with the consequences for time and price."
+            },
+            {
+              "title": "The manager takes the client dialogue",
+              "description": "When demands are unreasonable, the manager takes the dialogue with the client, not the employee alone."
+            }
+          ]
+        },
+        "laering_og_utvikling": {
+          "name": "Learning and professional development",
+          "summary": "Whether people learn, have time to keep up to date and know the opportunities.",
+          "rationale": "Development opportunities are a central resource in the job demands–resources model, and competence goes out of date quickly in the knowledge industries, partly because of AI.",
+          "legal_basis": [
+            "aml § 4-2 (arrangements for professional and personal development)"
+          ],
+          "items": {
+            "KK-LU-1": "I learn new things in my job.",
+            "KK-LU-2": "I have time to keep up to date in my field.",
+            "KK-LU-3": "I know what development opportunities I have with my employer.",
+            "KK-LU-4": "I get feedback that helps me develop professionally."
+          },
+          "action_suggestions": [
+            {
+              "title": "Competence map",
+              "description": "The team maps the competence it will need, and who wants to learn what."
+            },
+            {
+              "title": "Fixed learning time",
+              "description": "Fixed time in the calendar for learning, and a simple development plan per person."
+            },
+            {
+              "title": "Development conversation",
+              "description": "A conversation every six months with concrete learning goals."
+            }
+          ]
+        },
+        "ki_og_endring": {
+          "name": "AI and changes in work tasks",
+          "summary": "Whether people can use AI safely, are involved and know who is responsible.",
+          "rationale": "Nearly five in ten Norwegian enterprises with at least ten employees use AI in 2026, and nine in ten in information and communication. Training and participation are linked to better outcomes. The evidence is young and should be reviewed every year.",
+          "legal_basis": [
+            "aml § 4-2 (participation in restructuring and new technology)",
+            "aml § 4-3",
+            "GDPR art. 22",
+            "the EU AI Act art. 4 (its status in the EEA must be verified)"
+          ],
+          "items": {
+            "KK-KI-1": "I know how to use AI tools safely and correctly in my work.",
+            "KK-KI-2": "I am involved when new technology changes the way we work.",
+            "KK-KI-3": "I get training in AI tools that are relevant to my job.",
+            "KK-KI-4": "Using AI gives me more time for tasks I find meaningful.",
+            "KK-KI-5": "It is clear who is responsible when we use AI-generated content in our work."
+          },
+          "action_suggestions": [
+            {
+              "title": "AI in our field",
+              "description": "The team goes through the benefits and risks of AI in its own field and writes its own guidelines."
+            },
+            {
+              "title": "Discussion before new tools",
+              "description": "New AI tools are discussed with the union representatives and the safety representative before they are taken into use, with a training plan."
+            },
+            {
+              "title": "Clarify responsibility",
+              "description": "The manager clarifies quality assurance and responsibility for AI-generated content per assignment."
+            }
+          ]
+        },
+        "overvaking_og_tillit": {
+          "name": "Digital monitoring and trust",
+          "summary": "Whether there is openness about what is recorded, and whether data is used reasonably.",
+          "rationale": "Electronic monitoring gives no measurable gain in performance, but more stress. Openness and less intrusive practice give more positive attitudes.",
+          "legal_basis": [
+            "aml chapter 9 (control measures, §§ 9-1 and 9-2)",
+            "GDPR art. 5, 6, 13 and 35"
+          ],
+          "items": {
+            "KK-OT-1": "I know what information about my work is recorded digitally.",
+            "KK-OT-2": "Digital data about my work is used in a reasonable way.",
+            "KK-OT-3": "I feel trusted by management, even when they cannot see what I am doing."
+          },
+          "action_suggestions": [
+            {
+              "title": "What is recorded?",
+              "description": "The manager, the safety representative and the union representatives go through which data is recorded and why."
+            },
+            {
+              "title": "A published overview",
+              "description": "An up-to-date overview of digital recording, discussed under § 9-2."
+            },
+            {
+              "title": "Manage by results",
+              "description": "The manager follows up results and agreements, not status indicators such as the «green dot»."
+            }
+          ]
+        },
+        "jobbtrygghet": {
+          "name": "Job security and restructuring",
+          "summary": "Whether people feel secure about their job and their competence, and whether changes are explained.",
+          "rationale": "Job insecurity is well documented as a strain. The qualitative insecurity – whether one's competence will be in demand – grows with rapid technological change.",
+          "legal_basis": [
+            "aml § 4-2 (information and participation in restructuring)",
+            "aml chapter 8 (information and consultation)"
+          ],
+          "items": {
+            "KK-JT-1": "I feel confident that my skills will be in demand in the future.",
+            "KK-JT-2": "I feel confident that I will still have a job here in a year's time.",
+            "KK-JT-3": "Changes in the organisation are explained in a way I understand."
+          },
+          "action_suggestions": [
+            {
+              "title": "The competence of the future",
+              "description": "The team looks at how the job is changing, and what it takes to keep up."
+            },
+            {
+              "title": "Quarterly information",
+              "description": "A fixed information meeting on strategy and finances every quarter."
+            },
+            {
+              "title": "Open dialogue about uncertainty",
+              "description": "The manager talks openly about what is uncertain, and about what is known."
+            }
+          ]
+        },
+        "rettferdighet_og_karriere": {
+          "name": "Fairness and career",
+          "summary": "Whether tasks are shared fairly, and whether criteria and visibility are the same for everyone.",
+          "rationale": "Perceived fairness in distribution and processes is well documented. Proximity bias – that those most at the office are seen the most – is little studied and not validated.",
+          "legal_basis": [
+            "aml § 4-3",
+            "Equality and Anti-Discrimination Act § 26 (duty to make active efforts)"
+          ],
+          "items": {
+            "KK-RK-1": "Tasks and projects are distributed fairly.",
+            "KK-RK-2": "The criteria for pay and promotion are clear.",
+            "KK-RK-3": "I have just as good a chance of being noticed, wherever I work from."
+          },
+          "action_suggestions": [
+            {
+              "title": "Staffing principles",
+              "description": "The team agrees on principles for how assignments and projects are shared out."
+            },
+            {
+              "title": "Published criteria",
+              "description": "The criteria for pay and promotion are written down and known to everyone."
+            },
+            {
+              "title": "Watch the distribution",
+              "description": "The manager keeps track of who gets the attractive assignments, by way of working."
+            }
+          ]
+        }
+      },
+      "count_items": {
+        "KK-T-1": {
+          "text": "In the last four weeks, have you been contacted about work in your free time and expected to reply, without having agreed to be on duty or on call?",
+          "options": [
+            "Yes",
+            "No",
+            "Don't know"
+          ],
+          "why": "Indicator for rest periods (aml § 10-8) and the right to disconnect."
+        },
+        "KK-T-2": {
+          "text": "If you work from home on a fixed or regular basis: Do you have a written agreement with your employer about working from home?",
+          "options": [
+            "Yes",
+            "No",
+            "Don't know",
+            "I don't work from home regularly"
+          ],
+          "why": "The regulations on working from home § 2 require a written agreement. «I don't work from home regularly» is kept out of the share."
+        },
+        "KK-T-3": {
+          "text": "Has your organisation given you written guidelines for using AI tools?",
+          "options": [
+            "Yes",
+            "No",
+            "Don't know"
+          ],
+          "why": "Compliance indicator for the use of AI."
+        },
+        "KK-T-4": {
+          "text": "Has your workspace at home been reviewed, for example with an ergonomics checklist?",
+          "options": [
+            "Yes",
+            "No",
+            "Don't know",
+            "I don't work from home regularly"
+          ],
+          "why": "The regulations on working from home §§ 3 and 4."
+        }
+      },
+      "segments": {
+        "arbeidsform": {
+          "text": "Where do you usually work?",
+          "options": [
+            "Mainly at the employer's premises",
+            "Both at the premises and at home (hybrid)",
+            "Mainly at home or somewhere else"
+          ]
+        },
+        "fakturerbar_rolle": {
+          "text": "How much of your working time goes to client deliveries or billable work?",
+          "options": [
+            "Most of it",
+            "Some",
+            "Little or none"
+          ]
+        }
+      },
+      "variants": {
+        "forenklet": {
+          "name": "Simplified",
+          "factors": {
+            "f_konsentrasjon": {
+              "name": "Concentration and workflow",
+              "summary": "Whether there is room for focused work, and whether meetings are useful.",
+              "action_suggestions": [
+                {
+                  "title": "Meeting review",
+                  "description": "The team goes through its regular meetings and decides which to keep, shorten or drop."
+                },
+                {
+                  "title": "Fixed focus blocks",
+                  "description": "Fixed times without meetings, and e-mail dealt with in batches a couple of times a day."
+                },
+                {
+                  "title": "Is this urgent?",
+                  "description": "The manager asks whether the matter is urgent before interrupting, and uses written channels when it is not."
+                }
+              ]
+            },
+            "f_digitale_verktoy": {
+              "name": "Digital tools and information load",
+              "summary": "Whether the tools help, and whether the amount of information is manageable.",
+              "action_suggestions": [
+                {
+                  "title": "Channel agreement",
+                  "description": "The team agrees which channel is used for what, and the expected response time for each."
+                },
+                {
+                  "title": "Training and super users",
+                  "description": "Every introduction of a new tool has a training plan and a named super user."
+                },
+                {
+                  "title": "Tools that help",
+                  "description": "The manager asks the team which tools make the job harder, and takes it further."
+                }
+              ]
+            },
+            "f_tilgjengelighet": {
+              "name": "Availability and boundaries",
+              "summary": "Whether it is fine not to reply outside working hours, and whether the team has clear agreements.",
+              "action_suggestions": [
+                {
+                  "title": "Availability agreement",
+                  "description": "The team agrees on response times per channel, core hours and what actually counts as urgent."
+                },
+                {
+                  "title": "Disconnection rules",
+                  "description": "Written rules for contact outside working hours, with scheduled sending of e-mail and messages."
+                },
+                {
+                  "title": "Reply when it suits",
+                  "description": "The manager says clearly that messages can wait until it suits the work, and practises it too."
+                }
+              ]
+            },
+            "f_privatliv_restitusjon": {
+              "name": "Work, private life and recovery",
+              "summary": "Whether the job leaves room for private life, and whether people manage to switch off.",
+              "action_suggestions": [
+                {
+                  "title": "Boundaries and flexibility",
+                  "description": "The team agrees what flexibility means for them, and where the boundaries are."
+                },
+                {
+                  "title": "Quarterly review",
+                  "description": "The manager and the safety representative look at total evening and weekend work every quarter."
+                },
+                {
+                  "title": "Time off means time off",
+                  "description": "The manager arranges a deputy for holidays and time off, and sends no work messages then."
+                }
+              ]
+            },
+            "f_hybrid": {
+              "name": "Collaboration and belonging in hybrid work",
+              "summary": "Whether collaboration, contact and professional sparring work, wherever people work.",
+              "action_suggestions": [
+                {
+                  "title": "Hybrid team agreement",
+                  "description": "The team agrees which tasks are done where, and fixed days when everyone is present."
+                },
+                {
+                  "title": "Professional forums across teams",
+                  "description": "Regular professional forums across teams, where people share and get sparring."
+                },
+                {
+                  "title": "Weekly one-to-one",
+                  "description": "The manager has a short weekly conversation with those who work a lot from home."
+                }
+              ]
+            },
+            "f_fysisk": {
+              "name": "Physical workplace and equipment",
+              "summary": "Whether the office gives peace and quiet, and whether the equipment is good – at home too.",
+              "action_suggestions": [
+                {
+                  "title": "Zones and ground rules",
+                  "description": "The team agrees on quiet zones and ground rules for conversations and phone calls in the open-plan office."
+                },
+                {
+                  "title": "Home office checklist",
+                  "description": "A digital ergonomics checklist when the home office agreement is made."
+                },
+                {
+                  "title": "Equipment in the appraisal",
+                  "description": "Workplace and equipment are a fixed item in the appraisal interview."
+                }
+              ]
+            },
+            "f_laering": {
+              "name": "Learning and professional development",
+              "summary": "Whether people learn, have time to keep up to date and know the opportunities.",
+              "action_suggestions": [
+                {
+                  "title": "Competence map",
+                  "description": "The team maps the competence it will need, and who wants to learn what."
+                },
+                {
+                  "title": "Fixed learning time",
+                  "description": "Fixed time in the calendar for learning, and a simple development plan per person."
+                },
+                {
+                  "title": "Development conversation",
+                  "description": "A conversation every six months with concrete learning goals."
+                }
+              ]
+            },
+            "f_teknologi_ki": {
+              "name": "Technological change and AI",
+              "summary": "Whether people can use AI safely, are involved and see a future for their own competence.",
+              "action_suggestions": [
+                {
+                  "title": "AI in our field",
+                  "description": "The team goes through the benefits and risks of AI in its own field and writes its own guidelines."
+                },
+                {
+                  "title": "Discussion before new tools",
+                  "description": "New AI tools are discussed with the union representatives and the safety representative before they are taken into use, with a training plan."
+                },
+                {
+                  "title": "Talk about the competence of the future",
+                  "description": "The manager raises how the job is changing, and what each person needs to keep up."
+                }
+              ]
+            }
+          }
+        },
+        "utvidet": {
+          "name": "Extended"
+        }
+      }
+    }
+  }
 }

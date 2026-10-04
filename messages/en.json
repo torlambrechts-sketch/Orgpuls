@@ -8152,7 +8152,7 @@
         "nav": "Retail",
         "seo": {
           "title": "Work environment survey for shops and retail | Orgpuls",
-          "description": "Survey the psychosocial work environment in your shops: violence and threats, lone shifts, difficult customers and staffing. Anonymous, on the phone. 15 days free."
+          "description": "Survey the work environment in your shops: violence and threats, lone shifts, difficult customers and staffing. Anonymous, on the phone. 15 days free."
         },
         "hero": {
           "k": "Retail · shops, chains and warehouses",
@@ -8287,7 +8287,7 @@
               "t": "Evenings, Saturdays and rotas at short notice",
               "looks": "The rota arrives late, and a free shift pops up on the phone the same morning.",
               "fig": "85 % work Saturdays, and 60 % have early evening shifts on weekdays. Working beyond agreed hours is most common in retail and in health and care.",
-              "solve": "The factor Rota and predictability measures whether the rota comes in good time, and whether employees can influence their shifts. Participation and control in the main survey shows whether they have a say."
+              "solve": "The factor Shift schedule and predictability measures whether the shift schedule comes in good time, and whether employees can influence their shifts. Participation and control in the main survey shows whether they have a say."
             },
             {
               "t": "Part-time, young and new staff who are soon on their own",
@@ -8314,7 +8314,7 @@
           "alene_pa_vakt": "Alone on shift",
           "grenser_mot_kunder": "Boundaries with customers",
           "bemanning_og_tempo": "Staffing and pace",
-          "vaktplan": "Rota and predictability",
+          "vaktplan": "Shift schedule and predictability",
           "stilling_og_tilhorighet": "Position and belonging",
           "opplaering": "Training and new staff",
           "fysisk_arbeid": "Physical work and equipment"
@@ -8530,7 +8530,7 @@
                 "t": "When several businesses work at the same workplace, the principal enterprise is responsible for coordinating their health and safety work."
               },
               {
-                "ref": "Construction Client Regulations § 19a",
+                "ref": "Construction Client Regs § 19a",
                 "t": "At least one person in every work team must be able to understand and make themselves understood in a language the others in the team understand, where safety requires it."
               },
               {
@@ -8834,15 +8834,15 @@
             "pill": "Applies to every employer",
             "rows": [
               {
-                "ref": "aml § 3-1 (2) c",
+                "ref": "WEA § 3-1 (2) c",
                 "t": "Identify hazards and problems, assess the risk, make plans and put measures in place."
               },
               {
-                "ref": "aml § 4-3 (2)",
+                "ref": "WEA § 4-3 (2)",
                 "t": "The psychosocial factors must be fully satisfactory – among them unclear or conflicting demands and expectations, workload and time pressure, and support and help at work."
               },
               {
-                "ref": "aml § 10-8 (1)",
+                "ref": "WEA § 10-8 (1)",
                 "t": "Employees shall have at least 11 consecutive hours off work in every 24 hours."
               },
               {
@@ -9502,7 +9502,7 @@
         "nav": "Kindergartens and schools",
         "seo": {
           "title": "Work environment survey for kindergartens and schools | Orgpuls",
-          "description": "Survey the work environment in kindergartens, schools and after-school care: violence and threats, staffing, parents and time for core tasks. Anonymous by text or QR. 15 days free."
+          "description": "Survey the work environment in kindergartens and schools: violence and threats, staffing, parents and time for core tasks. Anonymous. 15 days free."
         },
         "hero": {
           "k": "Kindergartens, schools and after-school care",
@@ -9625,7 +9625,7 @@
               "t": "Documentation and assessment take the time",
               "looks": "Plans, assessments, minutes and messages. The time for following up the pupil who needs it is what is left over.",
               "fig": "More than half of lower secondary teachers feel a lot of stress from the amount of administrative work and from assessment and grading. «Teachers have many roles and documentation requirements, they work a lot and have little time for breaks in their day», says an inspector at the Labour Inspection Authority.",
-              "solve": "The factor Time for core tasks asks whether people have time to plan and prepare the work with the pupils, whether documentation and reporting are worth the effort, and whether meeting time is used for what matters most. One of the suggestions is protected planning time. Workload and time pressure in the main survey shows the overall pressure."
+              "solve": "The factor Time for the core tasks asks whether people have time to plan and prepare the work with the pupils, whether documentation and reporting are worth the effort, and whether meeting time is used for what matters most. One of the suggestions is protected planning time. Workload and time pressure in the main survey shows the overall pressure."
             },
             {
               "t": "Parents – also after working hours",
@@ -9643,13 +9643,13 @@
               "t": "Many without teaching qualifications – and new people all the time",
               "looks": "The permanent assistant knows the children best, the substitute is here for the first time, and it is unclear who is responsible for what.",
               "fig": "In kindergartens, 42.2 % of the core staff are kindergarten teachers and 22.8 % are child and youth workers – 35 % are neither. In primary and lower secondary school the law sets no education requirement for assistants, and assistants and others account for nearly a third of the annual hours of pupil-related work.",
-              "solve": "The factor Competence and community among staff asks whether new staff and substitutes are trained before they are responsible for children alone, whether you have time for professional conversations, and whether it is clear how tasks are divided between teachers and other staff. One of the suggestions is a substitute folder and a fixed walk-through on the first day. Support from colleagues in the main survey shows how the team works."
+              "solve": "The factor Skills and community among staff asks whether new staff and substitutes are trained before they are responsible for children alone, whether you have time for professional conversations, and whether it is clear how tasks are divided between teachers and other staff. One of the suggestions is a substitute folder and a fixed walk-through on the first day. Support from colleagues in the main survey shows how the team works."
             },
             {
               "t": "Low chairs, lifting and noise",
               "looks": "Dressing children while squatting, a two-year-old on the hip and an adult on a child’s chair at lunch. And the sound of a full unit in one room.",
               "fig": "In kindergartens and after-school care, 60 % work squatting or kneeling and 38 % lift in awkward positions, against 17 and 14 % of everyone employed. 35 % report back pain caused wholly or partly by the job. 24 % experience high noise levels, against 8.6 % – measurements show a low risk of hearing damage, but the noise can be mentally draining.",
-              "solve": "The factor Noise, body and breaks asks whether the noise level is bearable, whether you have furniture and equipment that let people work in a way that is good for the body, and whether people get their breaks. The suggestions are concrete: a noise map, breaks where someone takes over, and adult chairs and height-adjustable changing tables."
+              "solve": "The factor Noise, physical strain and breaks asks whether the noise level is bearable, whether you have furniture and equipment that let people work in a way that is good for the body, and whether people get their breaks. The suggestions are concrete: a noise map, breaks where someone takes over, and adult chairs and height-adjustable changing tables."
             },
             {
               "t": "Difficult cases and the feelings you take home",
@@ -9662,11 +9662,11 @@
         "moduleFactors": {
           "vold_og_trusler": "Violence and threats from children and pupils",
           "bemanning_og_vikarer": "Staffing and substitutes",
-          "tid_til_kjerneoppgavene": "Time for core tasks",
+          "tid_til_kjerneoppgavene": "Time for the core tasks",
           "samarbeid_med_foreldre": "Cooperation with parents",
           "tilrettelegging_og_inkludering": "Adaptation and inclusion",
-          "kompetanse_og_fellesskap": "Competence and community among staff",
-          "stoy_kropp_og_pauser": "Noise, body and breaks",
+          "kompetanse_og_fellesskap": "Skills and community among staff",
+          "stoy_kropp_og_pauser": "Noise, physical strain and breaks",
           "vanskelige_saker": "Difficult cases"
         },
         "moduleTag": "Industry module",
@@ -13530,7 +13530,6 @@
       },
       "site": {
         "lead": "A designed page: its layout is code and pixel-checked against the design. Its title and description are messages, edited here for both languages; every other text on it is in Translations.",
-        "industryLead": "An industry page: its words are its content file, reviewed with its module, and are changed in code.",
         "meta": "Title and description",
         "title": "Title",
         "description": "Description",
@@ -15110,40 +15109,8 @@
     "readMore": "Read more"
   },
   "industry": {
-    "tagModule": "{module}: {factor}",
-    "tagCore": "Covered by the main survey",
-    "measuredIn": "Statement in {module}",
-    "measuredCore": "Statement in the main survey",
-    "coreFactor": "Factor: {factor}",
-    "coreAlongside": "Together with {list}.",
-    "seeAll": "See all the statements and the measures",
-    "seeQuestions": "See the full question set",
-    "helpline": "Need someone to talk to now? The Mental Helse helpline is open around the clock on <number>116 123</number>.",
-    "facts": {
-      "factors": "factors",
-      "statements": "statements, three per factor",
-      "statementsRange": "statements, three to five per factor",
-      "minutes": "extra answering time",
-      "minutesValue": "{n} min",
-      "threshold": "answers before a group is shown",
-      "upTo": "up to {n}"
-    },
     "coreCovered": "The main survey already covers {list}.",
-    "coreCoveredAlso": "The main survey already covers {list}, and {also}.",
-    "loopExample": "Example · {factor} · {group}",
-    "loopSteps": "The measure’s steps",
-    "remeasure": "Re-measured with “{statement}”.",
-    "faqTitle": "Frequently asked questions",
     "sources": "Sources",
-    "related": "Other industries",
-    "board": {
-      "label": "Example results by group for {company}, a fictional company",
-      "scroll": "The table scrolls sideways",
-      "factor": "Factor",
-      "low": "Low risk 65+",
-      "mid": "Medium 50–64",
-      "high": "High under 50"
-    },
     "versionPill": "{module} · question set",
     "scaleHead": "Answer scale and index",
     "tocLabel": "Contents",

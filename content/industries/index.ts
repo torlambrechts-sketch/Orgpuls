@@ -1,34 +1,32 @@
 import { barnehageOgSkole } from './barnehage-og-skole'
+import { barnehageOgSkoleEn } from './barnehage-og-skole.en'
 import { byggOgAnlegg } from './bygg-og-anlegg'
 import { byggOgAnleggEn } from './bygg-og-anlegg.en'
 import { helseOgOmsorg } from './helse-og-omsorg'
 import { helseOgOmsorgEn } from './helse-og-omsorg.en'
 import { handel } from './handel'
+import { handelEn } from './handel.en'
 import { kunnskapOgKontor } from './kunnskap-og-kontor'
+import { kunnskapOgKontorEn } from './kunnskap-og-kontor.en'
 import type { PageLang } from './modules'
 import type { IndustryPage } from './types'
 import { INDUSTRY_META } from './meta'
-import { LANDING_PAGES } from '@/lib/marketing/site'
 
 /**
- * The industry pages (§ B1). An entry with a `page` is drawn by the industry template once
- * launched (or with ?forhandsvis=1); until then, and for an entry without one, the address
- * keeps the site's landing page and its messages (`seo.lp.*`) (D-118, D-122).
- *
- * `pageEn` is the same page for en.orgpuls.com (D-120). Each language launches on its own:
- * the English one needs its own law items reviewed, since they paraphrase Norwegian statute.
+ * The industries (§ B1): one entry per address, in Norwegian (`page`) and English (`pageEn`,
+ * en.orgpuls.com, D-120). The page at the address is the landing template
+ * (content/industries/landing.ts, D-207); what an entry carries is what the rest of the site needs:
+ * the menu name, whether it is live in that language, the module, and the question page.
  */
 export type IndustryEntry = { slug: IndustryPage['slug']; page: IndustryPage | null; pageEn: IndustryPage | null }
 
 const ENTRIES: IndustryEntry[] = [
   { slug: 'bygg-og-anlegg', page: byggOgAnlegg, pageEn: byggOgAnleggEn },
   { slug: 'helse-og-omsorg', page: helseOgOmsorg, pageEn: helseOgOmsorgEn },
-  // Norwegian only: the module has no English translation (D-131)
-  { slug: 'barnehage-og-skole', page: barnehageOgSkole, pageEn: null },
-  // Norwegian only; the module is provisional (D-137, X-078)
-  { slug: 'kunnskap-og-kontor', page: kunnskapOgKontor, pageEn: null },
-  // Norwegian only; the module is provisional (D-138, X-078)
-  { slug: 'handel', page: handel, pageEn: null },
+  // English since D-214, when their module files gained their English translations
+  { slug: 'barnehage-og-skole', page: barnehageOgSkole, pageEn: barnehageOgSkoleEn },
+  { slug: 'kunnskap-og-kontor', page: kunnskapOgKontor, pageEn: kunnskapOgKontorEn },
+  { slug: 'handel', page: handel, pageEn: handelEn },
 ]
 
 /** In the registry's order (content/industries/meta.ts `sortOrder`): menu, cards, footer, sitemap */
@@ -45,13 +43,8 @@ export const getIndustry = (slug: string): IndustryEntry | null => INDUSTRIES.fi
 /** The entry's page in a language, launched or not */
 export const pageIn = (entry: IndustryEntry | null, lang: PageLang) => (lang === 'en' ? entry?.pageEn : entry?.page) ?? null
 
-/**
- * Whether the address shows a page to anyone in this language: the industry page once
- * launched, or the landing page it had before. An industry that never had a landing page
- * (barnehage og skole) is nowhere until its page launches, so the menu and the hub leave it out.
- */
-export const hasPublicPage = (entry: IndustryEntry | null, lang: PageLang) =>
-  !!entry && (!!pageIn(entry, lang)?.launched || (LANDING_PAGES as readonly string[]).includes(entry.slug))
+/** Whether the address shows a page to anyone in this language; the menu, the cards and the hub follow it */
+export const hasPublicPage = (entry: IndustryEntry | null, lang: PageLang) => !!pageIn(entry, lang)?.launched
 
 /** Pages that are live, with a module: their question page is public and in the sitemap. */
 export const liveQuestionPages = (lang: PageLang = 'no') =>

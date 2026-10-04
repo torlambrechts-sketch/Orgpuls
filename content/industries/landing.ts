@@ -8,9 +8,9 @@ import type { IndustryPage } from './types'
  * shares), and this registry for what is not words — which module and which core factors measure
  * each challenge, which source backs each figure, which product pictures prove the claims.
  *
- * Moving another industry onto the template is an entry here and its messages; nothing in the
- * component changes. An industry without an entry keeps the older template (IndustryView) and its
- * content file. The messages' arrays are read in the registry's order and must be as long as the
+ * Every industry is on the template (D-213): an industry is an entry here, its messages and its
+ * entry in content/industries (menu name, launch, question page); nothing in the component changes.
+ * The messages' arrays are read in the registry's order and must be as long as the
  * registry says (the template parses them with exact lengths, and tests/unit/industry-landing
  * checks both languages), so a figure can never lose its source by drifting out of step.
  *
@@ -42,7 +42,9 @@ export type IndustryLanding = {
   /**
    * Live in a language. Off, the address shows it only with ?forhandsvis=1, marked noindex. The
    * English page waits for the module file's English translation, as every English industry page
-   * does (validate.ts: the page quotes what an English respondent is asked).
+   * does (validate.ts: the page quotes what an English respondent is asked). The entry's `launched`
+   * in content/industries is the same switch for the menu and the question page; the build refuses
+   * the two apart.
    */
   live: Record<PageLang, boolean>
   module: string
@@ -78,7 +80,7 @@ export const LANDINGS: IndustryLanding[] = [
   {
     slug: 'handel',
     msg: 'handel',
-    live: { no: true, en: false },
+    live: { no: true, en: true },
     module: 'handel',
     heroShot: 'sporsmal',
     stats: {
@@ -266,10 +268,10 @@ export const LANDINGS: IndustryLanding[] = [
   },
   {
     // D-212. A module in two variants (0089, D-137): the variants block shows both, from the file.
-    // English waits: modules/kunnskap-og-kontor/v1.json has no `translations.en` (D-120)
+    // English is live since D-214: the module file carries `translations.en` for both variants (D-120)
     slug: 'kunnskap-og-kontor',
     msg: 'kontor',
-    live: { no: true, en: false },
+    live: { no: true, en: true },
     module: 'kunnskap-og-kontor',
     heroShot: 'sporsmal',
     stats: {
@@ -351,11 +353,11 @@ export const LANDINGS: IndustryLanding[] = [
   },
   {
     // D-211. One page for kindergartens and schools: the challenges both share, the rest labelled
-    // (`audience`), and the question page in either wording. English waits for the module file's
-    // English translation (D-120): modules/barnehage-og-skole/v1.json has none.
+    // (`audience`), and the question page in either wording. English is live since D-214: the module
+    // file carries `translations.en` in all three wordings (D-120).
     slug: 'barnehage-og-skole',
     msg: 'barnehage',
-    live: { no: true, en: false },
+    live: { no: true, en: true },
     module: 'barnehage-og-skole',
     heroShot: 'sporsmal',
     wording: { example: 'BS-BE-3' },

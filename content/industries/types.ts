@@ -1,74 +1,22 @@
 /**
- * An industry page, as data (bransjesider-og-tilleggsmoduler.md § B2). The words are the
- * page's own, in bokmål, written for the Norwegian site; every statement it quotes is read
- * from the module file by its code, or from the core instrument's messages, and the build
- * fails if one is missing (content/industries/validate.ts).
+ * What an industry still needs besides its landing page (content/industries/landing.ts, D-207):
+ * its name in the menu, whether it is live in a language, its module, and the question page
+ * (/<slug>/sporsmal), whose own words are here and whose statements are the module file's. The
+ * industry page itself is the landing template and its messages (`site.bransje.<msg>`); the older
+ * template and the words only it drew are gone (D-213).
  */
-export type CiteKey = string // a key in the module file's `sources`, or in `extraSources`
-
-export type MeasuredBy =
-  | { kind: 'module'; itemCode: string }
-  /** `alongside`: the factor's other statements the box names too ("Sammen med «…» og «…»") */
-  | { kind: 'core'; factorKey: string; ordinal: number; alongside?: number[] }
-
-export type ResultPreview = {
-  /** always a fictional company, and the footnote says so */
-  company: string
-  caption: string
-  columns: string[]
-  /** a row behind a flag (an example that shows a factor switched off needs `module_factor_toggles`) */
-  rows: { factorKey: string; values: (number | null)[]; featureFlag?: string }[]
-  /** a sentence of the footnote that describes a flagged feature, printed first and only when it is on */
-  footnoteFlagged?: { text: string; featureFlag: string }
-  footnote: string
-}
-
 export type IndustryPage = {
   slug: 'bygg-og-anlegg' | 'helse-og-omsorg' | 'barnehage-og-skole' | 'kunnskap-og-kontor' | 'handel'
   navLabel: string
   /**
-   * Live on the public site. Until then the address keeps its current landing page and this
-   * one is shown only with ?forhandsvis=1, marked noindex: the page describes a module, and a
-   * page may only claim what is shipped (§ 0.7). `reviewed` on a law item is a record, not a gate (X-078).
+   * Live on the public site in this language: the menu, the cards, the sitemap and the question
+   * page follow it. It is the landing registry's `live` for the same language (a unit test holds
+   * the two together); before launch the question page is shown only with ?forhandsvis=1, noindex.
    */
   launched: boolean
-  /**
-   * `defaultVariant`: a module in variants (0089) shows this variant's factors in the preview, the
-   * overview and the loop; the question page lists the extended set with a switch to the simplified
-   */
-  module?: { key: string; defaultVariant?: 'forenklet' | 'utvidet' }
-  /** how the page names its module: "Bygg-modulen" at the start of a sentence, "bygg-modulen" inside one */
-  moduleName?: { title: string; inline: string }
-  seo: { title: string; description: string }
-  hero: {
-    pill: string
-    /** use ­, a soft hyphen, in long compounds */
-    h1: string
-    lead: string
-    thresholdNote: string
-    preview?: ResultPreview
-  }
-  /** `text` may carry {{cite:key}} tokens */
-  challengesIntro?: { title: string; text: string }
-  challenges: {
-    title: string
-    /** plain text with {{cite:key}} tokens */
-    body: string
-    measuredBy: MeasuredBy
-    helpline?: boolean
-    featureFlag?: string
-  }[]
-  /** `coreAlso` continues the sentence naming the core factors: "…, og {coreAlso}." */
-  moduleOverview?: { title: string; intro: string; coreAlso?: string; coreNote: string }
-  loop?: {
-    title: string
-    steps: { title: string; text: string }[]
-    example: { factorKey: string; actionType: 'workshop' | 'rutine' | 'lederpraksis'; groupLabel: string; chips: string[]; on: number }
-  }
-  law: { title: string; intro: string; items: { ref: string; text: string; reviewed: boolean }[] }
-  /** `more`: a last sentence of the answer that describes a flagged feature */
-  faq: { q: string; a: string; featureFlag?: string; more?: { text: string; featureFlag: string } }[]
-  cta: { title: string; text: string }
+  module?: { key: string }
+  /** how the question page's pill names the module ("Bygg-modulen"); default: the module file's name */
+  moduleName?: string
   /** /<slug>/sporsmal, generated from the module file; its own words only */
   questionPage?: {
     crumb: string
@@ -84,13 +32,15 @@ export type IndustryPage = {
     coreNote: string
     cta: { title: string; text: string }
   }
-  related: IndustryPage['slug'][]
   /**
    * The start page's and /bransjer's card (innstillinger-og-forside.md § 6): «Ny» until this ISO date,
    * set to 90 days after the page is launched. The build refuses a date that is not one.
    */
   card?: { newUntil?: string }
-  /** list the module's other factor sources after the page's own citations (default true) */
-  sourcesFromFactors?: boolean
-  extraSources?: { key: string; title: string; url: string }[]
+  /**
+   * The law block the older industry template printed until the landing template replaced it
+   * (D-207–D-212). Published nowhere since; kept because the legal review lists every item as an
+   * approved, unpublished record (lib/legal/registry.ts), and dropping it would drop that history (D-213).
+   */
+  law?: { title: string; intro: string; items: { ref: string; text: string; reviewed: boolean }[] }
 }

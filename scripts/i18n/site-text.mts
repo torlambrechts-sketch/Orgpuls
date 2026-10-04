@@ -348,19 +348,10 @@ for (const path of exported)
   }
 
 // ------------------------------------------------------------------ the industry pages' own words
+// the page itself is the landing template's messages (D-207); a content file names it and words its question page
 const INDUSTRY_SECTIONS: Record<string, string> = {
-  seo: 'SEO – Google og nettleserfanen',
   navLabel: 'Navn',
   moduleName: 'Navn',
-  hero: 'Toppen av siden',
-  challengesIntro: 'Utfordringene',
-  challenges: 'Utfordringene',
-  moduleOverview: 'Modulen',
-  loop: 'Slik jobber dere med det',
-  law: 'Lovkravene',
-  faq: 'Spørsmål og svar',
-  cta: 'Avslutning',
-  extraSources: 'Kilder',
 }
 function industryLeaves(p: IndustryPage | null): Map<string, { kind: string; section: string; text: string; question: boolean }> {
   const out = new Map<string, { kind: string; section: string; text: string; question: boolean }>()
@@ -372,12 +363,13 @@ function industryLeaves(p: IndustryPage | null): Map<string, { kind: string; sec
       for (const [f, x] of Object.entries(v)) if (!STRUCTURE.has(f)) walk(x, `${path}.${f}`, KIND[f] ?? kind, section, question)
   }
   for (const [f, v] of Object.entries(p)) {
-    if (STRUCTURE.has(f) || f === 'card' || f === 'module' || f === 'sourcesFromFactors') continue
+    // `law` is the older template's, published nowhere: the legal review's record, not page text (D-213)
+    if (STRUCTURE.has(f) || f === 'card' || f === 'module' || f === 'law') continue
     if (f === 'questionPage') {
       for (const [g, x] of Object.entries(v as object)) walk(x, `questionPage.${g}`, KIND[g] ?? (/Title$/.test(g) ? 'Tittel' : 'Tekst'), g === 'seo' ? INDUSTRY_SECTIONS.seo : 'Spørsmålssiden', true)
       continue
     }
-    walk(v, f, KIND[f] ?? 'Tekst', INDUSTRY_SECTIONS[f] ?? f, false)
+    walk(v, f, KIND[f] ?? 'Tekst', INDUSTRY_SECTIONS[f] ?? f, f === 'moduleName')
   }
   return out
 }

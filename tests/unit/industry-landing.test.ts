@@ -122,17 +122,21 @@ describe('industry landing pages', () => {
       const tr = moduleFile(l.module).translations?.en
       if (!tr) return
       const namesEn = at(en as Words, `${base}.moduleFactors`) as Record<string, string>
-      for (const id of l.challenges.flatMap((c) => c.module)) expect(namesEn[id], id).toBe(tr.factors[id]?.name)
+      // every factor the page names, a simplified one too: what an English respondent reads above the statements
+      for (const [id, name] of Object.entries(namesEn)) expect(name, id).toBe(tr.factors[id]?.name ?? tr.variants?.forenklet.factors[id]?.name)
     })
   }
 
-  it('leaves the other industries on their own template, and the five v3 pages as they were', () => {
-    expect(isV3Route('/barnehage-og-skole/sporsmal')).toBe(false)
-    for (const r of ['/barnehage-og-skole', '/kunnskap-og-kontor']) expect(isV3Route(r)).toBe(true)
-    expect(isV3Route('/handel/sporsmal')).toBe(false)
-    expect(isV3Route('/bygg-og-anlegg/sporsmal')).toBe(false)
-    expect(isV3Route('/helse-og-omsorg/sporsmal')).toBe(false)
-    expect(isV3Route('/kunnskap-og-kontor/sporsmal')).toBe(false)
+  it('puts every industry page in the v3 chrome and its question page outside it, and the five v3 pages as they were (D-213)', () => {
+    for (const l of LANDINGS) {
+      expect(isV3Route(`/${l.slug}`), l.slug).toBe(true)
+      expect(isV3Route(`/${l.slug}/sporsmal`), l.slug).toBe(false)
+    }
+    expect(LANDINGS).toHaveLength(5)
     for (const r of ['/', '/plattform', '/bruksomrader', '/bransjer', '/priser']) expect(isV3Route(r)).toBe(true)
+  })
+
+  it('is live in both languages for every industry (D-214)', () => {
+    for (const l of LANDINGS) expect(l.live, l.slug).toEqual({ no: true, en: true })
   })
 })

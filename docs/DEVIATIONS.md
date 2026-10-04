@@ -11031,7 +11031,185 @@ change touches: it adds no column, setting or RPC. Full-page screenshots at 1440
 `qa/shots/kontor-redesign/` (not committed). No database writes (read-only queries on the hosted module registry
 and translation registry).
 
-## D-213 — Two CRM helpers closed to clients (0191) (2026-10-03)
+## D-213 — The older industry template removed; content files cut to what still has a reader (2026-10-03)
+
+The owner, 3 October 2026: «slett gamle sider». All five industry pages are on the landing template
+(D-207, D-208, D-210, D-211, D-212), so the template they replaced, and what only it read, are removed.
+
+**Removed.**
+- `components/industry/IndustryView.tsx` (486 lines): the older template, with its result preview board, the
+  loop example and the FAQ. The three things the question page borrowed from it (the wrapper, heading and section
+  classes, the closing start band `IndustryCta`, the numbered `SourceList`) now live in
+  `components/industry/QuestionView.tsx`, their only reader, unchanged.
+- In `app/(marketing)/[bransje]/page.tsx`: the branch that drew the older template, and the one that drew the
+  pre-industry landing page (`LandingTemplate` with `seo.lp.byggOgAnlegg|helseOgOmsorg`) where an industry was not
+  launched. An industry address now shows its landing page where it is live, the same with ?forhandsvis=1 where it
+  is not, and 404 otherwise.
+- From the content files (`content/industries/<slug>.ts`, `.en.ts`) and their type: `seo`, `hero` (with the
+  invented example company's preview), `challengesIntro`, `challenges`, `moduleOverview`, `loop`, `faq`, `cta`,
+  `related`, `sourcesFromFactors`, `extraSources`, `module.defaultVariant` and `moduleName.inline`. What stays has a
+  reader: `navLabel` (the menu, the question page's crumb), `launched` (menu, cards, sitemap, question page),
+  `module`, `moduleName` (the question page's pill, now a string), `questionPage`, `card` («Ny»), and `law` (below).
+  The seven files went from 1 550 lines to 554.
+- Code only the older template used: `stripCites` and the exported `CITE_TOKEN` and `Segment` (cites.ts),
+  `pageFactors` (modules.ts), the `ResultPreview`/`MeasuredBy`/`CiteKey` types, and validate.ts's checks of
+  challenges, cites, the preview and the loop. validate.ts now checks what is left: a module file exists, an English
+  page is on a translated module, a question page has a module, a «Ny» date is a date, and an entry is launched
+  exactly where its landing page is live (and every live landing page has an entry), so the menu, the sitemap and
+  the question page cannot drift from the page.
+- Messages, each grepped across app/, components/, lib/, scripts/, content/ and tests/ first, in no and en:
+  `industry.tagModule|tagCore|measuredIn|measuredCore|coreFactor|coreAlongside|seeAll|seeQuestions|helpline|
+  coreCoveredAlso|loopExample|loopSteps|remeasure|faqTitle|related`, `industry.facts.*` (7), `industry.board.*` (6),
+  and `admin.cms.site.industryLead` (the CMS's note that an industry page's words are its content file, no longer
+  true). The page map's `unseen` list drops the same 28 `industry.*` keys.
+- Tests of the older template only (cites and statements in challenges, preview and twin figures) are gone;
+  tests/unit/industry.test.ts now holds the entries to the landing registry, industry-landing.test.ts asserts all
+  five industry pages in the v3 chrome and their question pages outside it, and legal-registry.test.ts asserts what
+  each language publishes.
+
+**Fixed on the way.**
+- admin › CMS listed an industry page's title and description from its content file's `seo`, which no address has
+  shown since the landing template. `lib/cms/designed.ts` now gives the landing's message keys
+  (`site.bransje.<msg>.seo.*`, editable like the other designed pages) and the languages it is live in.
+- The menu and the cards (`hasPublicPage`) and the sitemap counted bygg and helse as public in a language because
+  they once had a landing page there; that page is gone, so all five follow `launched`, and the sitemap lists the
+  industries by launch and the remaining landing pages (lovkrav, verneombud, små bedrifter) as before.
+- tests/unit/seo-descriptions.test.ts read the content files' `seo.description`, which no page printed; it now reads
+  the landing pages' (`site.bransje.*.seo.description`), and three were over 155 characters: no barnehage (157,
+  «SMS eller QR» → «mobilen»), en handel (163, «psychosocial» dropped) and en barnehage (180, shortened).
+- scripts/i18n/site-text.mts no longer lists the content files' retired words, nor `law`, as page text.
+
+**Kept on purpose.**
+- `law` in the content files (bygg, helse, barnehage, kontor and handel in Norwegian; bygg and helse in English). The
+  legal review lists every item as an unpublished unit (`industry:<slug>:<lang>:law:*`, `:law-intro`), and all of
+  them are approved on hosted (`app.legal_approvals`, read-only: 43 law items and 7 intros). They are the record of
+  what the pages said; dropping the field would drop that history from the review. They are `live: false` now
+  unconditionally.
+- The claims unit (`industry:<slug>:<lang>:claims`) keeps its key and now holds only the question page's lead and
+  rules, which is what is published; the older template's threshold note, challenges and FAQ are gone from it, so the
+  review will show those seven approved units as changed since approval. That is what changed.
+- `seo.lp.byggOgAnlegg` and `seo.lp.helseOgOmsorg` and their place in `LANDING_PAGES`: /verneombud still links
+  /bygg-og-anlegg with that card (`LANDING_RELATED`), the landing records are typed over `LANDING_PAGES`, and the
+  legal review lists both as unpublished units (`live` is now a constant false). Their page body is read by nothing
+  else.
+- `PreviewBanner`, `CitedText`, `Variant`, `Wording`: the question page and the CMS use them.
+
+**Verified.** tsc 0, lint 0, verify:i18n 0, vitest 818/818; `node scripts/audit/wiring.mjs` exits 1 on the same six
+findings as D-208, none in this change (no column, setting or RPC). The build, the page map, the mobile and axe gates
+and the v3 pixel gate are run with D-214, which follows on the same branch.
+
+## D-214 — /handel, /barnehage-og-skole and /kunnskap-og-kontor in English (2026-10-03)
+
+The owner, 3 October 2026: «publiser engelsk / oversett». The three pages had their English copy written
+(D-207, D-211, D-212) but waited for their module files' English translation (D-120: an English page quotes
+what an English respondent is asked). The files now carry `translations.en`, and all three are live on
+en.orgpuls.com with their question pages.
+
+**Where the English comes from.** Every survey text is the approved English in the hosted translation registry
+(`app.item_translations`, locale `en`, all `approved`, read-only), mapped back to the file by item code, option
+number, wording and factor key, after checking that the database's Norwegian is the file's word for word (0
+differences): handel 49, barnehage og skole 102, kunnskap og kontor 111 — 262 texts, every one of them used
+(statements, both wordings of every barnehage statement and count question and of the one worded factor name,
+count questions and their options, background questions and their options, the 15 extended and 8 simplified
+factor names). What the registry does not hold, because no respondent reads it, is written here as a machine
+draft per X-089 in the English the bygg and helse translations use (origin *machine*, for Tor's review): the
+module names and descriptions, each factor's summary, rationale and legal basis, every suggested measure (title
+and description), the counts' «why», kontor's one help line (KK-TG-1), its variant names and its simplified
+factors' summaries and measures — 277 texts (62, 63 and 152; a measure counted once). The scale labels are
+bygg's reviewed English (the Norwegian labels are the same), the covered core factors the instrument's English
+labels from messages/en.json. Legal references are paraphrases of Norwegian statute, as in D-119; two are
+translated as the Norwegian has them though the Norwegian is out of date or open: handel's «forskrift om utførelse
+av arbeid kap. 23A» (repealed 1 January 2026; kap. 3A replaced it, as /handel's law card already says) and its
+lone-work basis «verifiser paragraf». Correcting the Norwegian is a module change for Tor, not a translation.
+
+**The schema learned two shapes it refused** (`lib/modules/schema.ts`). A worded module translates every
+wording (`name_variants`, `item_variants`, a count question's `text_variants`); a module in variants translates
+its variant names and simplified factors (`variants.forenklet`, `variants.utvidet`); a statement with a help line
+translates it (`item_help`); a count question's English options match its own count (kontor has four). Each is
+checked complete, so a half-English module still cannot parse. All are optional, so bygg's and helse's bodies do
+not move (the pinned hashes hold). `moduleFile(key, 'en')` lays them over the Norwegian, so the English question
+page shows the English wordings in the wording switch, the English simplified set, and the English help line.
+
+**The pages.** `live.en` is on for the three landing entries, and each content file gained its English entry
+(`content/industries/<slug>.en.ts`: menu name, launch, module, the question page's words, translated from the
+Norwegian file's in the bygg/helse style). The build refuses an entry launched where its landing page is not,
+and a live landing page without an entry (D-213), so the question page, the menu, the cards and the sitemap
+follow the same switch: en.orgpuls.com's menu and /bransjer list all five industries, the sitemap lists
+/handel, /barnehage-og-skole, /kunnskap-og-kontor and their question pages on both hosts as twins, and both
+hosts' hreflang names the other (`noTwin` is false once both languages are live). The English pages now link
+their question pages where they linked /demo, and barnehage og skole shows its wording panel in English. The
+English «Ny» date on handel and kontor is 90 days after today's launch (2027-01-01).
+Copy reviewed for anything that only made sense unpublished: nothing said «preview» or «Norwegian only»; the
+English module factor names on the pages were four words off what an English respondent reads (handel «Rota and
+predictability», barnehage «Time for core tasks», «Competence and community among staff», «Noise, body and
+breaks»), now the registry's names, and the unit test checks every factor name a page names, simplified ones too.
+The barnehage question page names the segment option as respondents read it («Management or administration»).
+
+**The hosted step, and why it needs a migration first.** Adding `translations.en` changes the three files'
+bodies (handel `a8f91823…`, barnehage og skole `1c9c489d…`, kunnskap og kontor `83e185e5…`), so admin › Industry
+modules shows each file as changed, and «Make live» makes it 1.0.1. module_sync (0122) carries the survey
+translations of every statement «whose wording did not change» by comparing the whole stored text — which holds
+the file's English beside the Norwegian. With the English added, every statement would read as reworded and
+**none** of the 2 172 approved translations would be carried (handel 294, barnehage og skole 612, kunnskap og
+kontor 666, in en, pl, lt, uk, sv and da), taking Polish and Lithuanian — switched on in D-209 — out of every
+round with these modules until re-approved (D-133). Proved on the local stack: the new invariant (10) fails
+without the fix, «carried 0». `supabase/migrations/0191_module_sync_carry_english.sql` compares the Norwegian
+only (`app.module_nb`, `app.module_nb_options`: every key not starting with `en`), and carries an English row
+only where it agrees with the English the new version stores, or where that version stores none (a wording
+variant), so the registry cannot contradict the file. «Validated» still falls back on any change respondents
+read, the English included. Not applied to hosted here.
+- The seed stores the module's English as before (0072); it has no columns for English wordings or the simplified
+  factors' English, which respondents read from the registry (carried) and leaders' screens show in Norwegian, as
+  they do today. Unchanged here.
+- No rounds use the three modules on hosted (read-only), so «Make live» moves no rounds.
+
+**Also fixed on the English pages.** At 360 px, en /bygg-og-anlegg scrolled 6 px sideways: its law card's
+unbreakable reference «Construction Client Regulations § 19a» (live since D-208; D-208 measured the phone widths in
+Norwegian only) is now «Construction Client Regs § 19a». The kontor law card wrote «aml §» where the other four
+English cards write «WEA §»; now «WEA §». Both are in the legal review's `site.bygg` / `site.kontor` units, which
+therefore show as changed.
+
+**The hosted steps, in order (not done here).**
+1. Apply `supabase/migrations/0191_module_sync_carry_english.sql` to hosted (Supabase MCP `apply_migration`, name
+   `module_sync_carry_english`, as the other migrations are applied).
+2. admin › Industry modules › «Make live» for handel, barnehage-og-skole and kunnskap-og-kontor (super-admin). Each
+   should answer `published`, version 1.0.1, translations carried 294, 612 and 666, rounds moved 0. Equivalent by
+   hand: `npm run -s modules:seed modules/handel/v1.json modules/barnehage-og-skole/v1.json
+   modules/kunnskap-og-kontor/v1.json > seed.sql` and run it with psql against hosted. Until then the pages are
+   right (they read the files) and surveys are unchanged (they read 1.0.0 and the registry); only admin shows the
+   three files as changed.
+
+**Verified.** tsc 0, lint 0, verify:i18n 0, vitest 823/823, modules:validate 0 (bygg and helse at their pinned
+bodies), production build 0 (`NEXT_DIST_DIR=.next-rm`, `tsconfig.json` restored, the build directory removed); the
+page map regenerated against a keys-mode QA build of this branch (local stack, port 3108) and `--check` 0 (38 pages;
+the map is the one D-213 pruned, byte for byte). On the local stack, each in a rolled-back transaction with 0191
+applied: module_sync_invariants 10/10 (10 fails without 0191), respondent_invariants (21), module, module_variants,
+module_wording, module_validation, translation and survey_language invariants pass; the three files seed (every
+statement stored with its English). On a QA build of this branch (port 3109): the mobile gate at 390 and 360 for the
+five industry pages, their question pages and /bransjer exits 0; the five industry pages, their five question pages,
+/bransjer and the skole wording, in Norwegian and in English (NEXT_LOCALE=en) at 1440, 390 and 360: 72 of 72 with
+status 200, one H1, the right `lang`, no sideways scroll or squeezed text, axe serious/critical 0, no console
+errors, no noindex, hreflang nb/en/x-default; the English question pages show the English statements in all three
+wordings and kontor's simplified set; en.orgpuls.com's sitemap lists the three pages and their question pages. The
+v3 pixel gate is unchanged at D-212's record (Forside 9.3789 %, Plattform 6.6768 %, Bruksområder 3.3886 %,
+Bransjer 13.1639 %, Pris 2.7752 %). `node scripts/audit/wiring.mjs`: the same six findings as D-208. Screenshots of
+the three English pages at 1440 and 390: `qa/shots/en-live/` (not committed). Hosted: read-only SELECTs only.
+
+**D-214, hosted (2026-10-03):** 0191 applied; handel, barnehage-og-skole and kunnskap-og-kontor published as 1.0.1
+through the seed (the same module_sync «Make live» calls), rounds moved 0. Approved module texts per survey
+language rose from 359 to 621 (+262, every statement of the three new versions carried); en/pl/lt coverage of
+`app.all_item_keys()` afterwards: pl 0 and lt 0 of 415 missing. English misses six keys, all
+`extra:tiltak_effekt` (the effect question and its five options, GAP-B) — older than this work: the question was
+never given an approved English registry row, so English is not offered in a round that asks it until that is
+approved in admin › Oversettelser.
+
+**D-214, follow-up (2026-10-04):** the six missing English rows for `extra:tiltak_effekt` (text and five options)
+were written to the registry on hosted from messages/en.json (`extra.tiltak_effekt.*`, the product's own English),
+source `machine`; the auto-approve switch (0101, on) approved them on insert (`approved_auto = true`). English
+coverage of `app.all_item_keys()` is now 0 of 415 missing, so English is offered in rounds that ask the effect
+question.
+
+## D-215 — Two CRM helpers closed to clients (0198; applied on hosted as 0191) (2026-10-03)
 
 Found in the CRM enrichment gap analysis (`docs/crm-enrichment/06-QUESTIONS.md` Q1).
 `app.crm_follow_audience(app.crm_campaigns)` (0111, 0137) is SECURITY DEFINER and returns
@@ -11042,7 +11220,7 @@ a campaign id in the row's `follows_id` returned that campaign's recipients. Usi
 UUID, which no public page or mail link carries, so no leak is known; the hosted project had the same
 grants (checked read-only before the fix).
 
-0191 revokes both from public, anon and authenticated. Every caller is itself SECURITY DEFINER and owned
+`supabase/migrations/0198_crm_definer_grants.sql` revokes both from public, anon and authenticated. Every caller is itself SECURITY DEFINER and owned
 by postgres (`crm_mail_claim`, `crm_follow_done`, `crm_step_tasks` and five `admin_crm_*` readers and
 writers), so sending, follow-ups, journeys and the sequence views are unchanged; all 115 SQL suites pass.
 `definer_grants_invariants.sql` (3 assertions) proves the two are closed and fails if any SECURITY DEFINER
@@ -11051,5 +11229,8 @@ its reviewed list (the RLS helpers `is_org_member`, `has_role`, `k_threshold`, `
 `visible_groups`, `round_answered`, `module_usable`, granted to authenticated on purpose in 0022 and 0071).
 0191 is applied on hosted; afterwards the open definers there are exactly that list.
 
-Numbered D-213 when merged with main, which had taken D-207 to D-212 meanwhile; 0191's own header still cites
-D-207, as an applied migration is not edited.
+Numbered D-215 when merged with main, which had taken D-207 to D-214 meanwhile. The migration was written as
+0191 and is applied on hosted under that name (`0191_crm_definer_grants`); its file is renumbered 0198 because
+main took 0191 for `module_sync_carry_english` (D-214) and the CRM enrichment branch, still to be merged, holds
+0192 to 0197. Two files with one number would stop every rebuild from the migrations. The SQL is unchanged, and
+its header still cites 0191 and D-207, as an applied migration's content is not edited.

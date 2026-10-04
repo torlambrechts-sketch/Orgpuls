@@ -731,5 +731,417 @@
       "title": "Barnehagefolk: Vær nær – det skaper nærvær (om STAMI-tall for emosjonelle krav, 2024)",
       "url": "https://barnehagefolk.no/bf2024_2_artikkel6.asp"
     }
-  ]
+  ],
+  "translations": {
+    "en": {
+      "name": "Kindergartens and schools",
+      "description": "Add-on module for kindergartens, schools and after-school care. Eight factors with three statements each, plus two questions reported only as counts. The wording is adapted to a kindergarten, a school or both.",
+      "scale_labels": [
+        "Strongly disagree",
+        "Slightly disagree",
+        "Neither",
+        "Slightly agree",
+        "Strongly agree"
+      ],
+      "covered_by_core_factors": [
+        "Emotional demands",
+        "Workload and time pressure",
+        "Role clarity",
+        "Support from manager",
+        "Support from colleagues",
+        "Recognition and meaning"
+      ],
+      "factors": {
+        "vold_og_trusler": {
+          "name": "Violence and threats from children and pupils",
+          "name_variants": {
+            "barnehage": "Violence and threats from children",
+            "skole": "Violence and threats from pupils"
+          },
+          "summary": "Whether the routines are known, whether the room for action is clear, and whether whoever was involved is followed up.",
+          "rationale": "28 per cent of primary and lower secondary teachers were subjected to violence at work in the past year – the highest of all occupations – and 11 per cent experience it monthly or more often. Across the teaching occupations, the share rose from 12 to 18 per cent from 2022 to 2025. Eight in ten head teachers in primary and lower secondary schools report such incidents, most often from a few of the youngest pupils. In Sweden, three in four inspected schools had shortcomings in their work to prevent violence and threats against staff.",
+          "legal_basis": [
+            "aml § 4-3 (6) (protection against violence, threats and undue strain from contact with others)",
+            "Regulations concerning the performance of work, chapter 3A (mapping and assessing risk, measures, information, training and follow-up for violence and threats)",
+            "Education Act § 13-4 (physical intervention to prevent harm)"
+          ],
+          "items": {
+            "BS-VT-1": "We have routines everyone knows for what we do when a child or pupil becomes violent or threatening",
+            "BS-VT-2": "I know what I am allowed to do to step in when a situation becomes dangerous",
+            "BS-VT-3": "After an incident of violence or threats, the person involved is followed up"
+          },
+          "item_variants": {
+            "BS-VT-1": {
+              "barnehage": "We have routines everyone knows for what we do when a child becomes violent or threatening",
+              "skole": "We have routines everyone knows for what we do when a pupil becomes violent or threatening"
+            },
+            "BS-VT-2": {
+              "barnehage": "I know what I am allowed to do to step in when a situation becomes dangerous",
+              "skole": "I know what I am allowed to do to step in when a situation becomes dangerous"
+            },
+            "BS-VT-3": {
+              "barnehage": "After an incident of violence or threats, the person involved is followed up",
+              "skole": "After an incident of violence or threats, the person involved is followed up"
+            }
+          },
+          "action_suggestions": [
+            {
+              "title": "The situations we recognise",
+              "description": "The staff go through three concrete incidents: what warned that it could happen, and what we do next time."
+            },
+            {
+              "title": "Room for action on one page",
+              "description": "A short overview of what employees can and must do in dangerous situations, gone through with everyone, substitutes too."
+            },
+            {
+              "title": "Talk the same day",
+              "description": "The manager talks with whoever was involved the same day, and again after a week."
+            }
+          ]
+        },
+        "bemanning_og_vikarer": {
+          "name": "Staffing and substitutes",
+          "summary": "Whether staffing holds, whether absence is covered, and whether nobody is left alone with too many.",
+          "rationale": "Certified sick leave in kindergartens was 9.2 per cent in 2025 – nearly 70 per cent above the average – equal to about 1.75 full-time positions in every kindergarten. Fagforbundet describes a vicious circle in which absence is not covered by a substitute, and those who are left become worn out.",
+          "legal_basis": [
+            "aml § 4-3 (workload and time pressure)",
+            "the Kindergarten Act and the Education Act with regulations (standards for staffing and teaching staff)"
+          ],
+          "items": {
+            "BS-BE-1": "Staffing makes it possible to give the children or pupils what they need",
+            "BS-BE-2": "When someone is absent, a substitute is brought in",
+            "BS-BE-3": "I am rarely alone with more children or pupils than I can keep track of"
+          },
+          "item_variants": {
+            "BS-BE-1": {
+              "barnehage": "Staffing makes it possible to give the children what they need",
+              "skole": "Staffing makes it possible to give the pupils what they need"
+            },
+            "BS-BE-2": {
+              "barnehage": "When someone is absent, a substitute is brought in",
+              "skole": "When someone is absent, a substitute is brought in"
+            },
+            "BS-BE-3": {
+              "barnehage": "I am rarely alone with more children than I can keep track of",
+              "skole": "I am rarely alone with more pupils than I can keep track of"
+            }
+          },
+          "action_suggestions": [
+            {
+              "title": "When we are too few",
+              "description": "The staff make a plan for what is always done, and what can wait, on days with low staffing."
+            },
+            {
+              "title": "Substitute plan",
+              "description": "A fixed routine and a list of regular substitutes, so that absence is covered from the first day."
+            },
+            {
+              "title": "Nobody alone with too many",
+              "description": "The manager checks staffing every morning and moves people before anyone is left alone with too many."
+            }
+          ]
+        },
+        "tid_til_kjerneoppgavene": {
+          "name": "Time for the core tasks",
+          "summary": "Whether there is time for planning, and whether documentation and meetings are worth what they cost.",
+          "rationale": "In TALIS 2024, more than half of the teachers say that the workload from administrative tasks and assessment, and pupil behaviour, cause considerable stress. School leaders also report more stress and too little time for pedagogical leadership.",
+          "legal_basis": [
+            "aml § 4-3 (workload and time pressure)",
+            "the working time agreement for teaching staff (where it applies)"
+          ],
+          "items": {
+            "BS-TS-1": "I have time to plan and prepare the work with the children or pupils",
+            "BS-TS-2": "Documentation and reporting are in proportion to their use",
+            "BS-TS-3": "Meeting time and shared staff time are used for what matters most for the children or pupils"
+          },
+          "item_variants": {
+            "BS-TS-1": {
+              "barnehage": "I have time to plan and prepare the work with the children",
+              "skole": "I have time to plan and prepare the work with the pupils"
+            },
+            "BS-TS-2": {
+              "barnehage": "Documentation and reporting are in proportion to their use",
+              "skole": "Documentation and reporting are in proportion to their use"
+            },
+            "BS-TS-3": {
+              "barnehage": "Meeting time and shared staff time are used for what matters most for the children",
+              "skole": "Meeting time and shared staff time are used for what matters most for the pupils"
+            }
+          },
+          "action_suggestions": [
+            {
+              "title": "Hunting time thieves",
+              "description": "The staff note time thieves for two weeks and choose three things to stop or simplify."
+            },
+            {
+              "title": "Protected planning time",
+              "description": "Fixed planning time in the timetable or rota that is not used for cover lessons or meetings."
+            },
+            {
+              "title": "Shared time that matters",
+              "description": "The manager sets the agenda for shared time together with the staff, with the children or pupils at the centre."
+            }
+          ]
+        },
+        "samarbeid_med_foreldre": {
+          "name": "Cooperation with parents",
+          "summary": "Whether expectations are clear, whether people get support in demanding cases, and whether time off is respected.",
+          "rationale": "Teachers report that contact from parents and pupils outside the normal working day is increasing, and the role of class teacher feels ever broader. At the same time, three in four teachers feel valued by pupils and parents – the cooperation is a resource when the boundaries are clear.",
+          "legal_basis": [
+            "aml § 4-3 (6) (strain from contact with others)",
+            "aml § 10-8 (rest periods)"
+          ],
+          "items": {
+            "BS-FO-1": "It is clear what parents can expect from us",
+            "BS-FO-2": "When cooperation with parents becomes demanding, I get support from management",
+            "BS-FO-3": "I don't have to answer parents outside working hours"
+          },
+          "item_variants": {
+            "BS-FO-1": {
+              "barnehage": "It is clear what parents can expect from us",
+              "skole": "It is clear what parents can expect from us"
+            },
+            "BS-FO-2": {
+              "barnehage": "When cooperation with parents becomes demanding, I get support from management",
+              "skole": "When cooperation with parents becomes demanding, I get support from management"
+            },
+            "BS-FO-3": {
+              "barnehage": "I don't have to answer parents outside working hours",
+              "skole": "I don't have to answer parents outside working hours"
+            }
+          },
+          "action_suggestions": [
+            {
+              "title": "What can parents expect?",
+              "description": "The staff make a short overview of response times, channels and what parents can expect, shared at the start of the year."
+            },
+            {
+              "title": "Replies during working hours",
+              "description": "Messages from parents are answered during working hours; scheduled sending and auto-replies are used outside them."
+            },
+            {
+              "title": "The manager takes part",
+              "description": "The manager takes part in the demanding meetings with parents and takes over the dialogue when it gets stuck."
+            }
+          ]
+        },
+        "tilrettelegging_og_inkludering": {
+          "name": "Adaptation and inclusion",
+          "summary": "Whether people get support and competence to meet children and pupils with special needs.",
+          "rationale": "From 2018 to 2024, the share of pupils who struggle with Norwegian, are academically weak or have other special needs or behavioural difficulties rose, according to the teachers in TALIS. Classes are more mixed than before. Much of the violence in schools comes from a small number of pupils with particular challenges.",
+          "legal_basis": [
+            "aml § 4-2 (adaptation and competence development)",
+            "aml § 3-2 (training)"
+          ],
+          "items": {
+            "BS-TI-1": "I get enough support to work with children or pupils with special needs",
+            "BS-TI-2": "We have access to special education expertise when we need it",
+            "BS-TI-3": "I know who to contact when a child or pupil needs more help than we can give"
+          },
+          "item_variants": {
+            "BS-TI-1": {
+              "barnehage": "I get enough support to work with children with special needs",
+              "skole": "I get enough support to work with pupils with special needs"
+            },
+            "BS-TI-2": {
+              "barnehage": "We have access to special education expertise when we need it",
+              "skole": "We have access to special education expertise when we need it"
+            },
+            "BS-TI-3": {
+              "barnehage": "I know who to contact when a child needs more help than we can give",
+              "skole": "I know who to contact when a pupil needs more help than we can give"
+            }
+          },
+          "action_suggestions": [
+            {
+              "title": "Shared approaches",
+              "description": "The staff agree on three shared approaches for children or pupils who need extra structure, and use them the same way."
+            },
+            {
+              "title": "Regular meetings with the support services",
+              "description": "Regular meeting points with the educational psychological service, the school nurse or the school environment team, with a known contact person."
+            },
+            {
+              "title": "Competence where it is needed",
+              "description": "The manager makes sure the special needs competence is used where the need is greatest, and follows up regularly."
+            }
+          ]
+        },
+        "kompetanse_og_fellesskap": {
+          "name": "Skills and community among staff",
+          "summary": "Whether new staff and substitutes are trained, whether there is time for professional conversations, and whether the division of work is clear.",
+          "rationale": "About 2,600 full-time kindergarten teachers are missing to meet the teacher standard, the share of kindergarten teachers has fallen to 42 per cent, and applications to kindergarten teacher education have dropped sharply since 2020. Training new staff and substitutes therefore becomes decisive.",
+          "legal_basis": [
+            "aml § 3-2 (training and instruction)",
+            "the Kindergarten Act and the regulations on pedagogical staffing (the teacher standard)"
+          ],
+          "items": {
+            "BS-KO-1": "New staff and substitutes get training before they are responsible for children or pupils on their own",
+            "BS-KO-2": "We have time for professional discussions among the staff",
+            "BS-KO-3": "It is clear how tasks are divided between educators and other staff"
+          },
+          "item_variants": {
+            "BS-KO-1": {
+              "barnehage": "New staff and substitutes get training before they are responsible for children on their own",
+              "skole": "New staff and substitutes get training before they are responsible for pupils on their own"
+            },
+            "BS-KO-2": {
+              "barnehage": "We have time for professional discussions among the staff",
+              "skole": "We have time for professional discussions among the staff"
+            },
+            "BS-KO-3": {
+              "barnehage": "It is clear how tasks are divided between educators and other staff",
+              "skole": "It is clear how tasks are divided between educators and other staff"
+            }
+          },
+          "action_suggestions": [
+            {
+              "title": "Who does what?",
+              "description": "Teachers, skilled workers and assistants go through the division of work together and write it down."
+            },
+            {
+              "title": "Substitute folder and the first day",
+              "description": "A short substitute folder and a fixed run-through on the first day, before the substitute has responsibility alone."
+            },
+            {
+              "title": "Professional top-up",
+              "description": "The manager sets aside fixed time for professional conversations among the staff and protects it."
+            }
+          ]
+        },
+        "stoy_kropp_og_pauser": {
+          "name": "Noise, physical strain and breaks",
+          "summary": "Whether the noise level is bearable, whether the equipment suits adults, and whether people get breaks.",
+          "rationale": "Statistics Norway explains the high sick leave in kindergartens partly by the work being physically demanding and involving a lot of contact with people. Kindergarten teachers have the highest sick leave of all occupational groups in kindergartens, 10.8 per cent.",
+          "legal_basis": [
+            "aml § 4-4 (physical working environment factors, including noise)",
+            "Regulations concerning the performance of work, chapter 14 (noise) and chapter 23 (ergonomically straining work)",
+            "aml § 10-9 (breaks)"
+          ],
+          "items": {
+            "BS-FY-1": "The noise level during the day is manageable",
+            "BS-FY-2": "We have furniture and equipment that let me work in a way that is good for my body",
+            "BS-FY-3": "I manage to take breaks during the working day"
+          },
+          "item_variants": {
+            "BS-FY-1": {
+              "barnehage": "The noise level during the day is manageable",
+              "skole": "The noise level during the day is manageable"
+            },
+            "BS-FY-2": {
+              "barnehage": "We have furniture and equipment that let me work in a way that is good for my body",
+              "skole": "We have furniture and equipment that let me work in a way that is good for my body"
+            },
+            "BS-FY-3": {
+              "barnehage": "I manage to take breaks during the working day",
+              "skole": "I manage to take breaks during the working day"
+            }
+          },
+          "action_suggestions": [
+            {
+              "title": "Noise map",
+              "description": "The staff map when and where the noise is worst, and try out measures such as smaller groups and sound-absorbing materials."
+            },
+            {
+              "title": "A break that is a break",
+              "description": "Fixed breaks in which the employee is relieved and has no responsibility for children or pupils."
+            },
+            {
+              "title": "Adult height",
+              "description": "The manager provides adult chairs, changing tables with a lift and other missing equipment, by a fixed deadline."
+            }
+          ]
+        },
+        "vanskelige_saker": {
+          "name": "Difficult cases",
+          "summary": "Whether people know what to do when they are concerned, and whether they are left alone with heavy cases about bullying and safety.",
+          "rationale": "Kindergartens and schools have statutory duties when children are not safe and well: the duty to act on bullying and violations, and the duty to inform the child welfare service. The duties are heavy to carry alone, and the factor measures whether they are shared and followed up. We have not found Norwegian figures for the strain; the factor builds on the duties in the regulations.",
+          "legal_basis": [
+            "the Kindergarten Act chapter VIII (psychosocial kindergarten environment, duty to act in § 42) and § 46 (duty to inform the child welfare service)",
+            "the Education Act chapter 12 (school environment, duty to act in § 12-4) and § 24-3 (duty to notify the child welfare service)",
+            "aml § 4-3"
+          ],
+          "items": {
+            "BS-VS-1": "I know what we do when we are worried about how a child or pupil is doing at home",
+            "BS-VS-2": "When we have a difficult case of bullying or offensive behaviour, I am not left alone with it",
+            "BS-VS-3": "We have time to follow up cases about the well-being and safety of the children or pupils"
+          },
+          "item_variants": {
+            "BS-VS-1": {
+              "barnehage": "I know what we do when we are worried about how a child is doing at home",
+              "skole": "I know what we do when we are worried about how a pupil is doing at home"
+            },
+            "BS-VS-2": {
+              "barnehage": "When we have a difficult case of bullying or offensive behaviour, I am not left alone with it",
+              "skole": "When we have a difficult case of bullying or offensive behaviour, I am not left alone with it"
+            },
+            "BS-VS-3": {
+              "barnehage": "We have time to follow up cases about the well-being and safety of the children",
+              "skole": "We have time to follow up cases about the well-being and safety of the pupils"
+            }
+          },
+          "action_suggestions": [
+            {
+              "title": "From concern to action",
+              "description": "The staff go through the routine for concerns and the duty to inform with an anonymised example."
+            },
+            {
+              "title": "Two on every case",
+              "description": "Every case about bullying, violations or concern has two people responsible, never one."
+            },
+            {
+              "title": "Time for follow-up",
+              "description": "The manager sets aside time in the plan for following up cases, and asks how those who have them are doing."
+            }
+          ]
+        }
+      },
+      "count_items": {
+        "BS-T-1": {
+          "text": "In the last three months, have you been part of an incident of violence or threats from a child or pupil that was not reported?",
+          "text_variants": {
+            "barnehage": "In the last three months, have you been part of an incident of violence or threats from a child that was not reported?",
+            "skole": "In the last three months, have you been part of an incident of violence or threats from a pupil that was not reported?"
+          },
+          "options": [
+            "Yes",
+            "No",
+            "Don't know"
+          ],
+          "why": "Shows how much never reaches the deviation system. The main survey already counts how many have experienced violence or threats."
+        },
+        "BS-T-2": {
+          "text": "In the last four weeks, have you worked a day when an absence was not covered by a substitute?",
+          "text_variants": {
+            "barnehage": "In the last four weeks, have you worked a day when an absence was not covered by a substitute?",
+            "skole": "In the last four weeks, have you worked a day when an absence was not covered by a substitute?"
+          },
+          "options": [
+            "Yes",
+            "No",
+            "Don't know"
+          ],
+          "why": "Shows how often absence affects those at work – the vicious circle that drives sick leave."
+        }
+      },
+      "segments": {
+        "rolle": {
+          "text": "What is your role?",
+          "options": [
+            "Educator or teacher",
+            "Skilled worker, assistant or support staff",
+            "Management or administration"
+          ]
+        },
+        "stillingsstorrelse": {
+          "text": "How large is your position?",
+          "options": [
+            "Full-time",
+            "Part-time, 50 per cent or more",
+            "Part-time, under 50 per cent"
+          ]
+        }
+      }
+    }
+  }
 }

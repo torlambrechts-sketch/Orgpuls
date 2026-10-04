@@ -573,5 +573,293 @@
       "title": "Avisa Oslo: Polititallene for Oslo 2025 – 60 prosent økning i butikktyverier (2026)",
       "url": "https://www.ao.no/polititallene-for-oslo-2025-60-prosent-okning-i-butikktyverier-og-nedgang-i-ungdomskriminaliteten/s/5-128-1258466"
     }
-  ]
+  ],
+  "translations": {
+    "en": {
+      "name": "Retail",
+      "description": "Add-on module for retail: shops, warehouses and online sales. Eight factors with three statements each, plus two questions reported only as counts.",
+      "scale_labels": [
+        "Strongly disagree",
+        "Slightly disagree",
+        "Neither",
+        "Slightly agree",
+        "Strongly agree"
+      ],
+      "covered_by_core_factors": [
+        "Emotional demands",
+        "Workload and time pressure",
+        "Participation and control",
+        "Support from manager",
+        "Support from colleagues",
+        "Integrity and dignity"
+      ],
+      "factors": {
+        "sikkerhet_tyveri_trusler": {
+          "name": "Safety during theft, threats and robbery",
+          "summary": "Whether the routines are known, whether help comes quickly, and whether people are followed up afterwards.",
+          "rationale": "28 per cent of shop workers in Fafo's survey had experienced difficult situations involving theft in the past year, and 12 per cent verbal threats so serious that they were frightened. In Oslo, shoplifting rose by 60 per cent in 2025. In Denmark, four in ten shop workers have confronted a thief themselves, and of those, 13 per cent have been threatened and 10 per cent subjected to violence.",
+          "legal_basis": [
+            "aml § 4-3 (6) (protection against violence, threats and undue strain from contact with others)",
+            "Regulations concerning the performance of work, chapter 23A (risk assessment, measures, training and follow-up where there is a risk of violence and threats)"
+          ],
+          "items": {
+            "HA-SI-1": "We have clear routines for what to do in case of theft, threats and robbery",
+            "HA-SI-2": "I can get help quickly if a situation in the shop becomes threatening",
+            "HA-SI-3": "After an unpleasant incident with a customer, I am followed up"
+          },
+          "action_suggestions": [
+            {
+              "title": "What do we do when …?",
+              "description": "The team goes through theft, threats and robbery as scenarios, and agrees that nobody stops a thief on their own."
+            },
+            {
+              "title": "Help within minutes",
+              "description": "A panic alarm and an agreement with a security company, tested every month, and a list on the wall of whom to call."
+            },
+            {
+              "title": "Talk the same day",
+              "description": "The manager talks with whoever was involved the same day, and again after a week."
+            }
+          ]
+        },
+        "alene_pa_vakt": {
+          "name": "Alone on shift",
+          "summary": "Whether people feel safe, get breaks and can reach someone when they work alone.",
+          "rationale": "One in three shop workers works alone sometimes or more often. A third of the businesses with lone work have not made a separate risk assessment of it. Among HK members who worked alone, nearly 60 per cent often felt stressed, and 42 per cent often felt lonely.",
+          "legal_basis": [
+            "aml § 4-1 (a fully satisfactory working environment)",
+            "aml § 10-9 (breaks)",
+            "duty to assess particular risk in lone work (Regulations concerning organisation, management and employee participation – verify the section)"
+          ],
+          "items": {
+            "HA-AL-1": "When I work alone, I feel safe",
+            "HA-AL-2": "I manage to take breaks, also when I work alone",
+            "HA-AL-3": "My manager or a colleague is easy to reach when I work alone"
+          },
+          "action_suggestions": [
+            {
+              "title": "Alone – what can happen?",
+              "description": "The manager and the safety representative go through the lone shifts and assess the risk together with those who work them."
+            },
+            {
+              "title": "Break and check-in",
+              "description": "Lone shifts have a fixed break time and an agreed check-in with the manager or another shop."
+            },
+            {
+              "title": "Always reachable",
+              "description": "It is always known who can be reached by phone during lone shifts, also in the evening and at weekends."
+            }
+          ]
+        },
+        "grenser_mot_kunder": {
+          "name": "Boundaries with customers",
+          "summary": "Whether people get support when customers cross the line – also with sexual attention.",
+          "rationale": "28 per cent of employees in retail are often or sometimes in conflict with customers, against 16 per cent in working life generally, and 38 per cent among the youngest. Unwanted sexual attention – almost always from customers – affects 12 per cent of women in retail, and only a minority report it. In the UK, nearly eight in ten shop workers have been verbally abused in the past year.",
+          "legal_basis": [
+            "aml § 4-3 (6)",
+            "Equality and Anti-Discrimination Act § 13 (the employer shall prevent and seek to stop sexual harassment)"
+          ],
+          "items": {
+            "HA-KU-1": "I get support from my manager when a customer behaves offensively",
+            "HA-KU-2": "It is fine to end a conversation with a customer who crosses the line",
+            "HA-KU-3": "Sexual comments or touching from customers are taken seriously and not explained away"
+          },
+          "action_suggestions": [
+            {
+              "title": "Where is the line?",
+              "description": "The team agrees how to respond to harassment and sexual comments from customers, using their own examples."
+            },
+            {
+              "title": "Report the unpleasant too",
+              "description": "A simple report that also covers sexual attention, and a review at the staff meeting every month."
+            },
+            {
+              "title": "The manager takes over",
+              "description": "The manager or the person in charge takes over difficult customers, so the employee is not left alone."
+            }
+          ]
+        },
+        "bemanning_og_tempo": {
+          "name": "Staffing and pace",
+          "summary": "Whether staffing follows the busy times, and whether it is clear what can wait.",
+          "rationale": "In the UK, customers' frustration at too few staff is the most common trigger of harassment and threats against shop workers. Staffing is therefore about both workload and safety.",
+          "legal_basis": [
+            "aml § 4-3 (workload and time pressure)",
+            "aml § 4-1"
+          ],
+          "items": {
+            "HA-BE-1": "Staffing is adjusted to how busy it is through the day",
+            "HA-BE-2": "I have time for both the customers and the other tasks",
+            "HA-BE-3": "When it is busy, it is clear what can wait"
+          },
+          "action_suggestions": [
+            {
+              "title": "Peaks and troughs",
+              "description": "The team compares the busy times with the staffing plan and suggests changes."
+            },
+            {
+              "title": "Priority list",
+              "description": "A short list of what is always done, and what can wait, on busy shifts."
+            },
+            {
+              "title": "The manager on the till",
+              "description": "The manager or the person in charge goes on the till when the queue builds up."
+            }
+          ]
+        },
+        "vaktplan": {
+          "name": "Shift schedule and predictability",
+          "summary": "Whether the shift schedule comes in good time, and whether people can influence their shifts.",
+          "rationale": "Nearly half of the employees in retail work outside normal daytime hours. Among union representatives and safety representatives in shops, 39 per cent say they have very little influence on the work schedules, and 72 per cent very little influence on the opening hours.",
+          "legal_basis": [
+            "aml § 10-3 (work schedule, discussed with the union representatives)",
+            "aml § 10-2 (working time arrangements)",
+            "aml § 10-8 (rest periods)"
+          ],
+          "items": {
+            "HA-AV-1": "I get the shift schedule in good time",
+            "HA-AV-2": "I can influence which shifts I work",
+            "HA-AV-3": "Changes to shifts at short notice are the exception"
+          },
+          "action_suggestions": [
+            {
+              "title": "Preferred shifts",
+              "description": "The team sets up a simple way to submit preferences for the shift schedule, within the staffing needs."
+            },
+            {
+              "title": "A fixed deadline for the schedule",
+              "description": "The shift schedule is always published a fixed number of weeks before it applies."
+            },
+            {
+              "title": "Ask before you change",
+              "description": "The manager asks before a shift is changed, and only changes at short notice when it is necessary."
+            }
+          ]
+        },
+        "stilling_og_tilhorighet": {
+          "name": "Position and belonging",
+          "summary": "Whether people have the position they want, get the messages and belong.",
+          "rationale": "Nearly 40 per cent in retail work part-time, and more than a third in the retail trade are under 25. Shop workers report lower engagement and belonging than working life generally. Among young people who have a shop as their main job and work part-time, about half have not been offered full-time work.",
+          "legal_basis": [
+            "aml § 14-3 (part-time employees' preferential right)",
+            "aml § 14-4 a (right to a position equal to the hours actually worked)"
+          ],
+          "items": {
+            "HA-ST-1": "I have the position size I want",
+            "HA-ST-2": "I get important information, even if I work few hours or at varying times",
+            "HA-ST-3": "I feel like part of the workplace community here"
+          },
+          "action_suggestions": [
+            {
+              "title": "A meeting place for every shift",
+              "description": "A short get-together, timed so that those who work few hours or in the evening can also take part."
+            },
+            {
+              "title": "Messages that reach everyone",
+              "description": "One fixed channel for important messages, read by everyone whatever their shift and position."
+            },
+            {
+              "title": "Offer before you advertise",
+              "description": "Extra hours and vacant position shares are offered to part-time employees first, as the preferential right requires."
+            }
+          ]
+        },
+        "opplaering": {
+          "name": "Training and new staff",
+          "summary": "Whether new staff are trained before they work alone, and know what to do when something happens.",
+          "rationale": "28 per cent of shop workers have not been trained in handling robbery, threats or theft. Turnover is high: nearly half of the pupils and students working in shops have less than a year's service.",
+          "legal_basis": [
+            "aml § 3-2 (training and instruction)",
+            "Regulations concerning the performance of work, chapter 23A (training where there is a risk of violence and threats)"
+          ],
+          "items": {
+            "HA-OP-1": "New staff get training before they are alone in the shop",
+            "HA-OP-2": "I have been trained in what to do in case of theft, threats or robbery",
+            "HA-OP-3": "I know who I can ask when I am unsure"
+          },
+          "action_suggestions": [
+            {
+              "title": "First shift",
+              "description": "The team makes its own checklist of what a new person must know before their first shift alone."
+            },
+            {
+              "title": "Safety before the first evening shift",
+              "description": "Everyone is trained in theft, threats and robbery before their first evening or lone shift."
+            },
+            {
+              "title": "A buddy for the first weeks",
+              "description": "Every new person gets a named buddy for the first weeks."
+            }
+          ]
+        },
+        "fysisk_arbeid": {
+          "name": "Physical work and equipment",
+          "summary": "Whether the equipment is there and used, and whether people can vary their working position.",
+          "rationale": "Shop workers more often work with their arms raised (29 against 15 per cent), squatting and with heavy lifting than working life generally, and more of them are physically exhausted after work.",
+          "legal_basis": [
+            "aml § 4-4 (physical working environment factors)",
+            "Regulations concerning the performance of work, chapter 14 (ergonomic strain)"
+          ],
+          "items": {
+            "HA-FY-1": "We have equipment for heavy lifting and goods receiving",
+            "HA-FY-2": "We have time to use the equipment, also when it is busy",
+            "HA-FY-3": "I can vary my working position during the shift"
+          },
+          "action_suggestions": [
+            {
+              "title": "Goods receiving without back pain",
+              "description": "A review of goods receiving and restocking with the occupational health service."
+            },
+            {
+              "title": "Rotation",
+              "description": "Fixed rotation between till, restocking and warehouse during the shift."
+            },
+            {
+              "title": "Equipment first",
+              "description": "The manager follows up that the equipment is used, and orders what is missing within a week."
+            }
+          ]
+        }
+      },
+      "count_items": {
+        "HA-T-1": {
+          "text": "In the last three months, have you been part of an incident of theft, threats or violence that was not reported?",
+          "options": [
+            "Yes",
+            "No",
+            "Don't know"
+          ],
+          "why": "Shows how much never reaches the deviation system. The main survey already counts how many have experienced violence or threats."
+        },
+        "HA-T-2": {
+          "text": "In the last three months, have you worked alone in a situation where you felt unsafe?",
+          "options": [
+            "Yes",
+            "No",
+            "I never work alone"
+          ],
+          "why": "Shows whether lone work feels safe, without any shop or shift being singled out."
+        }
+      },
+      "segments": {
+        "arbeidssted": {
+          "text": "Where do you mostly work?",
+          "options": [
+            "Shop floor and checkout",
+            "Warehouse and goods receiving",
+            "Customer service or online sales",
+            "Office or administration"
+          ]
+        },
+        "stillingsstorrelse": {
+          "text": "How large is your position?",
+          "options": [
+            "Full-time",
+            "Part-time, 50 per cent or more",
+            "Part-time, under 50 per cent"
+          ]
+        }
+      }
+    }
+  }
 }
