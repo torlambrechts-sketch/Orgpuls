@@ -5,7 +5,7 @@ import { ALink, Card, PageHead } from '@/components/admin/ui'
 type Common = { reason: string; reasonHint: string; saving: string; done: string }
 
 /**
- * A company's or a contact's page while it is in the restore list (0195, D-210): what that means, the
+ * A company's or a contact's page while it is in the restore list (0195, D-220): what that means, the
  * restore, and the way to the list. Restored, the page shows the record again.
  */
 export function CrmDeleted({

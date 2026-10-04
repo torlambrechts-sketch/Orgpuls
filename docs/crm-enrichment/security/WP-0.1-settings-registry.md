@@ -1,4 +1,4 @@
-# Security checklist — WP-0.1 CRM rule settings (0192, D-208)
+# Security checklist — WP-0.1 CRM rule settings (0192, D-218)
 
 A7, item by item. Evidence in `supabase/tests/crm_rules_invariants.sql` (CRR) unless named.
 

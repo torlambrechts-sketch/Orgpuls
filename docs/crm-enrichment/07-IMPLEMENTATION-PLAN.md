@@ -1,7 +1,7 @@
 # 07 — Implementation plan
 
 Rewritten 2026-10-04 at Tor's request («Restart with a solid plan and rewrite», DEC-49). Phase 0 is done
-(D-208 to D-215, `reports/phase-0.md`). Every remaining phase is planned here to work-package level, in the order it
+(D-218 to D-225, `reports/phase-0.md`). Every remaining phase is planned here to work-package level, in the order it
 is built. The work runs as CLAUDE.md says: decisions are taken and logged, with no stops. A phase ends with its gate
 flows, a short report and a merge to main once CI is green.
 
@@ -102,7 +102,7 @@ unless a DEC is named; Tor overrules by saying so).
 
 ## 3. Delivery
 
-- **Migrations** are numbered from `0201` (`0198` is main's). Each is applied to a database rebuilt from the
+- **Migrations** are numbered from `0202` (`0198` and `0201` are main's, DEC-51). Each is applied to a database rebuilt from the
   migrations, the SQL suites run, then it is applied to production whole with `apply_migration`. Afterwards the
   functions it creates or changes must match the local build (md5), and the advisors diff
   (`scripts/audit/advisors-diff.py`) must show only what the package intends. If the connector holds a call, the
@@ -122,9 +122,9 @@ unless a DEC is named; Tor overrules by saying so).
 
 ### Phase 0 — Foundations (done)
 
-WP-0.1 rule settings (0192, D-208) · WP-0.2 record history (0194, D-209) · WP-0.3 soft delete and the restore list
-(0195, D-210) · WP-0.4 permission sets, visibility, teams (0196, D-211) · WP-0.5 custom fields (0197, D-212) ·
-WP-0.6 event dispatcher (0199, D-213) · WP-0.7 admin test harness (D-214) · WP-0.8 clean-ups (0200, D-215). Gate
+WP-0.1 rule settings (0192, D-218) · WP-0.2 record history (0194, D-219) · WP-0.3 soft delete and the restore list
+(0195, D-220) · WP-0.4 permission sets, visibility, teams (0196, D-221) · WP-0.5 custom fields (0197, D-222) ·
+WP-0.6 event dispatcher (0199, D-223) · WP-0.7 admin test harness (D-224) · WP-0.8 clean-ups (0200, D-225). Gate
 accepted (DEC-45). Left: the four held production parts, then the merge.
 
 The Phase 0 features that are partial finish with the packages that bring what they lack:

@@ -40,7 +40,7 @@ export default async function CrmContacts({ searchParams }: { searchParams: Prom
     crmFields('contact'),
     crmOwners(),
   ])
-  // 0197 (D-212): the contacts' custom fields an add form shows
+  // 0197 (D-222): the contacts' custom fields an add form shows
   const fm = t.raw('crmFields') as FieldMessages
   const contactFields = isError(registry) ? [] : liveFields(registry, 'contact')
   const addFields = addFormFields(contactFields)
@@ -133,7 +133,7 @@ export default async function CrmContacts({ searchParams }: { searchParams: Prom
 
       {may(data.may, 'create') ? (
         <Card title={m.add.title} className="mt-[18px]">
-          {/* the contact rule (0192, D-208) decides what adding a contact asks for, or whether it is offered */}
+          {/* the contact rule (0192, D-218) decides what adding a contact asks for, or whether it is offered */}
           {rules.optInOnly ? (
             <p className="m-0 text-[12.5px] leading-[1.5] text-mut">{m.add.optInOnly}</p>
           ) : (

@@ -33,14 +33,14 @@ export default async function CrmContact({ params, searchParams }: { params: Pro
     crmFields('contact'),
     crmOwners(),
   ])
-  // 0197 (D-212): the contacts' custom fields, and the staff a user field may name
+  // 0197 (D-222): the contacts' custom fields, and the staff a user field may name
   const fm = t.raw('crmFields') as FieldMessages
   const fields = isError(registry) ? [] : liveFields(registry, 'contact')
   const staff = isError(owners) ? [] : owners.rows
   const listOptions = isError(lists) ? [] : lists.rows.filter((l) => !l.archived).map((l) => ({ id: l.id, key: l.key, name: l.name_no }))
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
-  // 0195 (D-210): a deleted contact is read from the restore list; its page says so and offers the restore
+  // 0195 (D-220): a deleted contact is read from the restore list; its page says so and offers the restore
   if (isError(data) && data.error === 'deleted')
     return (
       <CrmDeleted entity="contact" id={id} back="/admin/crm/contacts" backText={m.contact.back} canWrite={canWrite} reasonRequired={rules.reasonRequired} m={m} common={common} />
@@ -160,7 +160,7 @@ export default async function CrmContact({ params, searchParams }: { params: Pro
           </div>
         </div>
       ) : null}
-      {/* 0194 (D-209): every change to this contact, with who and from where */}
+      {/* 0194 (D-219): every change to this contact, with who and from where */}
       {isError(history) ? null : (
         <div className="mt-[14px]">
           <CrmHistory

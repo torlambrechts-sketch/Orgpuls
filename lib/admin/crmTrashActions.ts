@@ -7,7 +7,7 @@ import type { AdminResult } from './actions'
 import { DeletePreview, TRASH_ENTITIES } from './crm'
 
 /**
- * Delete, restore and delete permanently (0195, D-210; CRM-12, SF-15). The database decides who may do
+ * Delete, restore and delete permanently (0195, D-220; CRM-12, SF-15). The database decides who may do
  * what — deleting and restoring are CRM writes, deleting permanently a super-admin's — asks for a reason
  * while typed reasons are on, holds a bulk delete for a second admin while that rule is on, and logs each
  * call; these actions shape the request.

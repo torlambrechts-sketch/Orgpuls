@@ -1,4 +1,4 @@
--- crm_restore_invariants.sql — soft delete, the restore list and the purge (0195, D-210), proved against the
+-- crm_restore_invariants.sql — soft delete, the restore list and the purge (0195, D-220), proved against the
 -- live schema.
 --
 --   * structure: the flag on every CRM record table, the approval table closed to clients, the calls closed

@@ -88,9 +88,9 @@ const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }
       { key: 'crmTriggers', section: 'crm', href: '/admin/crm/triggers', icon: 'building' },
       { key: 'crmPartners', section: 'crm', href: '/admin/crm/partners', icon: 'users' },
       { key: 'crmStages', section: 'crm', href: '/admin/crm/stages', icon: 'flag', more: true },
-      // 0197 (D-212): the fields admins add to companies and contacts
+      // 0197 (D-222): the fields admins add to companies and contacts
       { key: 'crmFields', section: 'crm', href: '/admin/crm/fields', icon: 'template', more: true },
-      // 0195 (D-210): what was deleted, for restore
+      // 0195 (D-220): what was deleted, for restore
       { key: 'crmRestore', section: 'crm', href: '/admin/crm/restore', icon: 'log', more: true },
     ],
   },

@@ -6,7 +6,7 @@ import { Outcome, useKeptAction } from '@/components/admin/ActionForms'
 import { setCrmRule } from '@/lib/admin/crmRulesActions'
 
 /**
- * One CRM rule on Admin › Settings › CRM rules (0192, D-208): a choice from the rule's options, or a limit
+ * One CRM rule on Admin › Settings › CRM rules (0192, D-218): a choice from the rule's options, or a limit
  * that is a whole number or unlimited. The database checks the value, asks for a reason while typed
  * reasons are on, and logs the change.
  */

@@ -1,5 +1,5 @@
 /**
- * Pure helpers for the CRM rule settings (0192, D-208), shared by the server action and the reader and
+ * Pure helpers for the CRM rule settings (0192, D-218), shared by the server action and the reader and
  * tested on their own (tests/unit/crm-rules.test.ts).
  */
 export type RuleValue = string | number | null

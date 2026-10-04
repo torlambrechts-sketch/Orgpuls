@@ -1,4 +1,4 @@
--- crm_history_invariants.sql — the CRM's record history (0194, D-209), proved against the live schema.
+-- crm_history_invariants.sql — the CRM's record history (0194, D-219), proved against the live schema.
 --
 --   * structure: the outbox, the catalogue and the changelog exist with RLS on, no policy, no client grant;
 --     every CRM table carries version, created_by and updated_by (1)

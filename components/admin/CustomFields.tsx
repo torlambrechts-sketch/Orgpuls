@@ -6,7 +6,7 @@ import type { AdminResult } from '@/lib/admin/actions'
 import { conditionValue, opsFor, type Condition, type ConditionOp, type FieldDef } from '@/lib/admin/crmFieldTypes'
 
 /**
- * Custom fields in a record's form (0197, D-212; CUS-01 to CUS-03): one input per writable field, by type, written
+ * Custom fields in a record's form (0197, D-222; CUS-01 to CUS-03): one input per writable field, by type, written
  * into one hidden «custom» value the server action passes on as JSON; the database checks every value again. A
  * read-only field is shown, not sent; a formula field is shown as calculated. References (organization, person) are
  * typed as org number, exact name or e-mail and resolved by the database.

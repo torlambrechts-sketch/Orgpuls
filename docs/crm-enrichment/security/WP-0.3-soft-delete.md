@@ -1,4 +1,4 @@
-# Security checklist — WP-0.3 soft delete, restore and purge (0195, D-210)
+# Security checklist — WP-0.3 soft delete, restore and purge (0195, D-220)
 
 Evidence in `supabase/tests/crm_restore_invariants.sql` (CRI) unless named.
 

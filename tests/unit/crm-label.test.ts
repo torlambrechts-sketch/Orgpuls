@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { labelText } from '@/lib/admin/crmLabel'
 
-/** The restore list's and the delete preview's name for a record (0195, D-210) */
+/** The restore list's and the delete preview's name for a record (0195, D-220) */
 describe('labelText', () => {
   it('joins a name and its detail, and skips what is missing', () => {
     expect(labelText({ name: 'Klinikk Sør AS', detail: '912345678' })).toBe('Klinikk Sør AS · 912345678')

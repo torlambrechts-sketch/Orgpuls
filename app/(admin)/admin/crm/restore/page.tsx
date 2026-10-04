@@ -10,7 +10,7 @@ import { autoTask, crmTrash, TRASH_ENTITIES, type CrmTrash, type TrashEntity } f
 import { crmRuleState } from '@/lib/admin/crmRules'
 
 /**
- * The restore list (0195, D-210; CRM-12, SF-15): every company, contact and activity deleted from the CRM,
+ * The restore list (0195, D-220; CRM-12, SF-15): every company, contact and activity deleted from the CRM,
  * with who deleted it, when and from where, and when the job removes it for good. Restored, a record comes
  * back with its links. The bulk deletes waiting for a second admin are above it while that rule is on.
  */

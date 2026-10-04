@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 /**
- * CRM custom fields (0197, D-212; CUS-01 to CUS-04): the types, the registry's shape and how a value reads on a page.
+ * CRM custom fields (0197, D-222; CUS-01 to CUS-04): the types, the registry's shape and how a value reads on a page.
  * A pure module, so the forms in the browser and the readers on the server share one definition; the database
  * checks every value again (app.crm_field_value).
  */

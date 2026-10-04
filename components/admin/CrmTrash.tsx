@@ -9,7 +9,7 @@ import { labelText } from '@/lib/admin/crmLabel'
 import { decideDelete, deleteRecords, previewDelete, purgeRecords, restoreRecords } from '@/lib/admin/crmTrashActions'
 
 /**
- * Delete, restore and delete permanently (0195, D-210; CRM-12). A delete is shown before it is done: the
+ * Delete, restore and delete permanently (0195, D-220; CRM-12). A delete is shown before it is done: the
  * records, their names, and what goes with them now and at the purge. The database decides the rest.
  */
 type Common = { reason: string; reasonHint: string; saving: string; done: string }
@@ -127,7 +127,7 @@ export function DeleteRecords({
 
 /**
  * The restore list's last outcome, said above the list: a record restored or deleted for good leaves the list,
- * and the line in its row would leave with it, unseen (found by WP-0.7's harness, D-214)
+ * and the line in its row would leave with it, unseen (found by WP-0.7's harness, D-224)
  */
 const SayOutcome = createContext<(text: string) => void>(() => undefined)
 export function RestoreOutcome({ children }: { children: ReactNode }) {

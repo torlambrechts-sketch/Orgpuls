@@ -1,4 +1,4 @@
-# Security checklist — WP-0.7 the admin's test harness (D-214)
+# Security checklist — WP-0.7 the admin's test harness (D-224)
 
 The harness adds no table, no function and no screen; it signs in to the admin and reads it.
 

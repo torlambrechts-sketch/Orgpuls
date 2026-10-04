@@ -1,4 +1,4 @@
-# Security checklist — WP-0.6 event dispatcher and job runs (0199, D-213)
+# Security checklist — WP-0.6 event dispatcher and job runs (0199, D-223)
 
 Evidence in `supabase/tests/crm_events_invariants.sql` (CEI) unless named.
 
@@ -17,7 +17,7 @@ Evidence in `supabase/tests/crm_events_invariants.sql` (CEI) unless named.
 | 12 | Caller's permissions | The monitor shows jobs and counts, no record; the rollup counts events per kind and day, not per record, so it shows nothing a CRM visibility rule would hide. Handlers run as the database owner and attribute what they write to automation (`app.change_source`), so a handler's write is itself an event and its record keeps its visibility |
 | 13 | No message bodies, tokens or personal data in logs | A failed run and a failed delivery keep the SQLSTATE only (`last_error` is checked against `^[a-z0-9_]{1,40}$`), never the message, which can carry what a record holds (CLAUDE.md invariant 7; CEI 3 raises a message with words in it and finds only `p0001`). The retry's audit row holds a count |
 | 14 | Dependency audit | No dependency added |
-| 15 | db lint, advisors | `supabase db lint --local --level warning`: no warning at all in the functions 0199 adds or changes (the remaining warnings are older functions'). On hosted after 0199 (D-213): the security advisors add exactly the two calls (`authenticated`, gated inside) and the five tables (RLS without policy) to their deliberate classes; the performance advisors find no unindexed foreign key on the new tables |
+| 15 | db lint, advisors | `supabase db lint --local --level warning`: no warning at all in the functions 0199 adds or changes (the remaining warnings are older functions'). On hosted after 0199 (D-223): the security advisors add exactly the two calls (`authenticated`, gated inside) and the five tables (RLS without policy) to their deliberate classes; the performance advisors find no unindexed foreign key on the new tables |
 | 16 | Firewall | No function a CRM call or job reaches reads an answer table (`crm_access_invariants` seq 11 covers the two calls); `growth_firewall_invariants` and `respondent_invariants` pass |
 | 17 | No dynamic SQL from admin input | Handlers are called by name through a CASE; the runner's jobs likewise. Nothing an admin types reaches SQL: the retry's key is a bound parameter |
 | 18 | Runaway protection | The loop window (`limit_event_loop`, 10,000 events of one record per subscriber in a rolling ten minutes, the source value) sets the rest aside and alerts (CEI 4, 7); two runs of one job never overlap (an advisory lock per job); a job's failure is caught and recorded, never raised into pg_cron; each run handles at most 500 new events and 500 retries per subscriber |

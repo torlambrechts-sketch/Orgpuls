@@ -1,4 +1,4 @@
--- crm_access_invariants.sql — CRM access (0196, D-211): permission sets, visibility groups, teams, audit
+-- crm_access_invariants.sql — CRM access (0196, D-221): permission sets, visibility groups, teams, audit
 -- completeness, the editor grant and marketing's reach, proved against the live schema.
 --
 --   * structure: the new tables closed to clients, the calls closed to anon and the helpers to every client,

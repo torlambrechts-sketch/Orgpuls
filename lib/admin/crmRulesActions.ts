@@ -7,7 +7,7 @@ import type { AdminResult } from './actions'
 import { ruleValueFromForm } from './crmRuleValue'
 
 /**
- * Admin › Settings › CRM rules (0192, D-208). The database decides who may change a rule (a super-admin
+ * Admin › Settings › CRM rules (0192, D-218). The database decides who may change a rule (a super-admin
  * with the second factor), checks the value against the rule's options, asks for a reason while typed
  * reasons are on, and logs the change; this shapes the request.
  */

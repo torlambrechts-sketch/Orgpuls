@@ -107,7 +107,7 @@ for (const [table, column] of query(
 }
 
 // ---------------------------------------------------------------- W3: a registered CRM rule with no consumer
-// The CRM rule registry (0192, D-208) holds its settings as rows, which W2's column scan cannot see. A
+// The CRM rule registry (0192, D-218) holds its settings as rows, which W2's column scan cannot see. A
 // key no function reads through app.crm_rule / crm_limit / crm_choice is a setting that does nothing.
 for (const [key] of query(`select key from app.crm_setting_defs order by sort, key`)) {
   if (allow.app_only_settings[`crm_setting:${key}`]) continue

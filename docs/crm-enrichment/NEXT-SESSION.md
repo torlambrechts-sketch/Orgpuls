@@ -22,10 +22,10 @@ prompts came back «cancelled». A session started after the change applies them
 
 | Order | File | `apply_migration` name | What it does | Record in |
 | --- | --- | --- | --- | --- |
-| 1 | `0195l_crm_purge.sql` | `0195l_crm_purge` | `app.crm_purge`, `app.crm_purge_due`, closed to clients; the nightly job | D-210 |
-| 2 | `0196d_crm_access_removals.sql` | `0196d_crm_access_removals` | removing a set or a group, saving or removing a team | D-211 |
-| 3 | `0197e_crm_companies_custom.sql` | `0197e_crm_companies_custom` | the companies list takes custom-field conditions (the three-argument form goes) | D-212 |
-| 4 | `0199f_crm_purge_runner.sql` | `0199f_crm_purge_runner` | the purge job runs through `app.crm_run`, counted and monitored | D-213 |
+| 1 | `0195l_crm_purge.sql` | `0195l_crm_purge` | `app.crm_purge`, `app.crm_purge_due`, closed to clients; the nightly job | D-220 |
+| 2 | `0196d_crm_access_removals.sql` | `0196d_crm_access_removals` | removing a set or a group, saving or removing a team | D-221 |
+| 3 | `0197e_crm_companies_custom.sql` | `0197e_crm_companies_custom` | the companies list takes custom-field conditions (the three-argument form goes) | D-222 |
+| 4 | `0199f_crm_purge_runner.sql` | `0199f_crm_purge_runner` | the purge job runs through `app.crm_run`, counted and monitored | D-223 |
 
 **Before (read-only).** Production on 2026-10-04 held none of the seven objects below and no `orgpuls-crm-purge`
 job. It held `public.admin_crm_companies(text, text, uuid)` with md5 `7b2395e7ca2c26560a8f44fd2f9531e8`,
@@ -69,7 +69,7 @@ once in one line, and go on with Phase 1 on the branch. The merge waits for the 
 
 ## The loop: every work package
 
-1. **Build** it as `07` §4 describes. Migrations are numbered from `0201`. Each package brings its server code,
+1. **Build** it as `07` §4 describes. Migrations are numbered from `0202` (main took `0201`, DEC-51). Each package brings its server code,
    screens, `en` and `no` messages and tests.
 2. **Prove it locally:**
    - the database rebuilt from the migrations, with `npm run test:db`;

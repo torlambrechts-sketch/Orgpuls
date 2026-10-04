@@ -283,7 +283,7 @@ const Ops = z.object({
 export type Ops = z.infer<typeof Ops>
 export const ops = () => call('admin_ops', {}, Ops)
 
-// ---------------------------------------------------------------- the CRM's jobs and event deliveries (0199, D-213)
+// ---------------------------------------------------------------- the CRM's jobs and event deliveries (0199, D-223)
 const CrmJobs = z.object({
   jobs: z.array(
     z.object({

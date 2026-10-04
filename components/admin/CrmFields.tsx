@@ -8,7 +8,7 @@ import { archiveCrmField, archiveCrmFieldGroup, saveCrmField, saveCrmFieldGroup 
 import { FIELD_TYPES, IMPORTANCES, NUMERIC_TYPES, OPTION_TYPES, optionLines, type FieldDef, type FieldEntity, type FieldGroup, type FieldType } from '@/lib/admin/crmFieldTypes'
 
 /**
- * CRM › Custom fields (0197, D-212; CUS-01 to CUS-04, SF-38): a field's form — type, options, rule, stage, formula
+ * CRM › Custom fields (0197, D-222; CUS-01 to CUS-04, SF-38): a field's form — type, options, rule, stage, formula
  * and who may not see or change it — and its group's. The database decides; these forms ask.
  */
 type Common = { reason: string; reasonHint: string; saving: string; done: string }

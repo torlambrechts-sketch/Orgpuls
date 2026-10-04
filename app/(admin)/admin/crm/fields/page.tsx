@@ -11,7 +11,7 @@ import { crmFields } from '@/lib/admin/crmFields'
 import { crmRuleState } from '@/lib/admin/crmRules'
 
 /**
- * CRM › Custom fields (0197, D-212; CUS-01 to CUS-04, SF-38): the fields admins add to companies and contacts, in
+ * CRM › Custom fields (0197, D-222; CUS-01 to CUS-04, SF-38): the fields admins add to companies and contacts, in
  * their groups, with their type, rule, formula and who may not see or change them. Every CRM reader sees the list;
  * the CRM settings' holders change it. A change reaches the forms, the record pages, the filters and the import
  * at once; every save is kept as a version.

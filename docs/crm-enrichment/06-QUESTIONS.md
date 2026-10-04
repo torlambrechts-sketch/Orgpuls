@@ -10,7 +10,7 @@ Answers of 2026-10-03 are in `DECISIONS.md` (DEC-01…09); open items are carrie
 
 ## A. Security findings in existing code (need a decision now, not at a phase gate)
 
-### Q1. A SECURITY DEFINER function returns contact e-mails to anonymous callers — **resolved 2026-10-03 (DEC-01, D-207, migration 0191, applied on hosted)**
+### Q1. A SECURITY DEFINER function returns contact e-mails to anonymous callers — **resolved 2026-10-03 (DEC-01, D-216, migration 0191, applied on hosted)**
 - **Found.** `app.crm_follow_audience(app.crm_campaigns)` is `SECURITY DEFINER`, returns `(contact_id, email)` for
   the contacts who received the campaign named in the row's `follows_id`, and no migration revokes it, so
   `anon` and `authenticated` keep PostgreSQL's default `EXECUTE` (body: `mig/0111_crm_sequences.sql`, revised in
@@ -34,7 +34,7 @@ Answers of 2026-10-03 are in `DECISIONS.md` (DEC-01…09); open items are carrie
 - **Blocks:** nothing else, but I recommend shipping (a) as its own small change before Phase C. It is outside
   this phase's "no code" rule, so it needs your go-ahead.
 
-### Q2. The `editor` admin role cannot be granted — **resolved 2026-10-03 (P7, D-211, migration 0196, applied on hosted)**
+### Q2. The `editor` admin role cannot be granted — **resolved 2026-10-03 (P7, D-221, migration 0196, applied on hosted)**
 - **Found.** The admins page offers `editor` (`app/(admin)/admin/admins/page.tsx:22,38`, from `ROLES` in
   `lib/admin/api.ts:23`), but `public.admin_set_admin` (`mig/0055_crm.sql:1071`, never redefined) accepts only
   super_admin, support, finance, analyst, marketing → `invalid_role`. `admin_roles_invariants.sql:31` inserts
@@ -42,12 +42,12 @@ Answers of 2026-10-03 are in `DECISIONS.md` (DEC-01…09); open items are carrie
 - **Options.** Fix the whitelist in a new migration plus a test that calls `admin_set_admin` with every enum
   value; or remove `editor` from the UI. **Blocks:** nothing in this brief; it bears on SEC-07.
 
-### Q3. Some admin gates list excluded roles instead of allowed ones — **resolved 2026-10-03 (DEC-12, D-211, migration 0196, applied on hosted)**
+### Q3. Some admin gates list excluded roles instead of allowed ones — **resolved 2026-10-03 (DEC-12, D-221, migration 0196, applied on hosted)**
 - **Found.** After `0126:131-132`, `marketing` can read `admin_org_detail` and the full admin audit trail
   (`0049:265,447` as patched). Appendix 2 limits the audit trail per org to support/super-admin.
 - **Question.** Intended? If not, the fix is an allow-list. **Blocks:** SEC-07 design.
 
-### Q4. Admin reads that write no audit row — **resolved 2026-10-03 (D-211, migration 0196, applied on hosted): 21 readers audit, 19 reviewed exceptions**
+### Q4. Admin reads that write no audit row — **resolved 2026-10-03 (D-221, migration 0196, applied on hosted): 21 readers audit, 19 reviewed exceptions**
 - **Found.** About 25 admin readers (13 in the CRM, e.g. `admin_crm_segment_preview`, which returns up to 20
   contact e-mails) never call `app.admin_log`, though the file headers say every read does (`lib/admin/api.ts:17-22`).
   The web and audit CSV exports leave no audit row (04 §7).
@@ -198,14 +198,14 @@ Answers of 2026-10-03 are in `DECISIONS.md` (DEC-01…09); open items are carrie
 
 ## E. Smaller differences recorded, no decision needed unless you disagree
 
-- **Done in WP-0.8 (D-215):** the share is read from the partners' agreements, the lifecycle rows from the trial mail's switch and sends (0200), the strings from the messages and the locale registry. Hard-coded or fabricated values in today's CRM: the Partners «Revenue share» KPI is the message literal
+- **Done in WP-0.8 (D-225):** the share is read from the partners' agreements, the lifecycle rows from the trial mail's switch and sends (0200), the strings from the messages and the locale registry. Hard-coded or fabricated values in today's CRM: the Partners «Revenue share» KPI is the message literal
   `'20 %'` (`CRM/partners/page.tsx:95`); the campaigns page marks three lifecycle rows «Built in» without reading
   data (`CRM/campaigns/page.tsx:46-48`); hard-coded text ('Norsk'/'English', ' pts', 'min'/'h', 'A: … · B: …'). I
   propose fixing these in Phase 0 under CLAUDE.md's "never fabricate" and "never hard-code".
-- **Done in WP-0.8 (D-215).** `demo` contact source is written by `0146` but missing from `CONTACT_SOURCES` and its messages (`lib/admin/crm.ts:15`).
-- **Done in WP-0.8 (D-215).** The lead-scoring page has no page-level role check, unlike consent/triggers/partners (the database still
+- **Done in WP-0.8 (D-225).** `demo` contact source is written by `0146` but missing from `CONTACT_SOURCES` and its messages (`lib/admin/crm.ts:15`).
+- **Done in WP-0.8 (D-225).** The lead-scoring page has no page-level role check, unlike consent/triggers/partners (the database still
   enforces `crm_can_read`).
-- **Done in WP-0.8 (D-215).** The overview computes "due" in UTC; the tasks page in Oslo time.
+- **Done in WP-0.8 (D-225).** The overview computes "due" in UTC; the tasks page in Oslo time.
 - No generated database types exist (CLAUDE.md: `supabase gen types` does not emit `app`; rows are Zod-parsed).
   A6's "regenerate types after every migration" does not apply; the Zod schemas are updated instead.
 - Database tests: the repository uses plain-SQL `*_invariants.sql` suites run by psql in CI, not pgTAP. A8 says to

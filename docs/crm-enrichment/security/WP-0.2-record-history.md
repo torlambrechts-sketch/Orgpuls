@@ -1,4 +1,4 @@
-# Security checklist — WP-0.2 record history (0194, D-209)
+# Security checklist — WP-0.2 record history (0194, D-219)
 
 Evidence in `supabase/tests/crm_history_invariants.sql` (CHI) unless named.
 

@@ -4,7 +4,7 @@ import { call } from './api'
 import { FieldDef, FieldGroup, type FieldEntity } from './crmFieldTypes'
 
 /**
- * The CRM's field registry (0197, D-212; SF-38): the groups and fields the signed-in staff member may see, each
+ * The CRM's field registry (0197, D-222; SF-38): the groups and fields the signed-in staff member may see, each
  * with what they may do with it. A holder of the CRM settings (manage) sees every field, archived ones and the
  * access lists included, and the permission sets to choose from.
  */

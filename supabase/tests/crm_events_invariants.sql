@@ -1,4 +1,4 @@
--- crm_events_invariants.sql — the CRM's event dispatcher and job runs (0199, D-213), proved against the live schema.
+-- crm_events_invariants.sql — the CRM's event dispatcher and job runs (0199, D-223), proved against the live schema.
 --
 --   * structure: the five tables closed to clients, the helpers to every client, the calls to anon; the four jobs
 --     scheduled once each through the runner; the rule at its default; the rollup subscribed (1)

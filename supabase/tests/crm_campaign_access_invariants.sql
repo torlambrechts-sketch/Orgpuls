@@ -1,5 +1,5 @@
 -- crm_campaign_access_invariants.sql — the campaign area's readers say what the permission set allows, and the
--- campaigns reader says what the product's lifecycle mails did (0200, D-215), proved against the live schema.
+-- campaigns reader says what the product's lifecycle mails did (0200, D-225), proved against the live schema.
 --
 --   * every campaign-area reader carries `may` with the campaigns area's five actions; the senders reader also
 --     `may_settings`; the campaigns reader `lifecycle` (1)

@@ -593,7 +593,7 @@ export const crmPipelineSummary = () =>
   )
 export type PipelineSummary = Exclude<Awaited<ReturnType<typeof crmPipelineSummary>>, { error: string }>
 
-// ---------------------------------------------------------------- record history (0194, D-209)
+// ---------------------------------------------------------------- record history (0194, D-219)
 const HistoryValue = z.union([z.string(), z.number(), z.boolean(), z.array(z.unknown()), z.record(z.string(), z.unknown()), z.null()])
 const History = z.object({
   changes: z.array(
@@ -610,7 +610,7 @@ export type CrmHistory = z.infer<typeof History>
 export const crmHistory = (entity: 'company' | 'contact', id: string, before: number | null) =>
   call('admin_crm_history', { p_entity: entity, p_record: id, p_before: before }, History)
 
-// ---------------------------------------------------------------- the restore list (0195, D-210)
+// ---------------------------------------------------------------- the restore list (0195, D-220)
 export const TRASH_ENTITIES = ['company', 'contact', 'activity'] as const
 export type TrashEntity = (typeof TRASH_ENTITIES)[number]
 /** a record's name as the database gives it: a company's name and number, a contact's name and address, an activity's text */
@@ -669,7 +669,7 @@ export const DeletePreview = z.object({
 })
 export type DeletePreview = z.infer<typeof DeletePreview>
 
-// ---------------------------------------------------------------- access (0196, D-211)
+// ---------------------------------------------------------------- access (0196, D-221)
 export const CRM_AREAS = ['deals', 'contacts', 'campaigns', 'global'] as const
 export type CrmArea = (typeof CRM_AREAS)[number]
 const Uuid = z.string().uuid()

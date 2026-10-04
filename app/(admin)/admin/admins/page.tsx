@@ -111,7 +111,7 @@ export default async function AdminAdmins() {
         </section>
       </div>
 
-      {/* 0196 (D-211): the CRM's permission sets, visibility groups and teams — below the designed part */}
+      {/* 0196 (D-221): the CRM's permission sets, visibility groups and teams — below the designed part */}
       {isError(access) ? null : <CrmAccessSection access={access} reasonRequired={rules.reasonRequired} />}
     </>
   )

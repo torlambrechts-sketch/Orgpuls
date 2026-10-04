@@ -10434,27 +10434,7 @@ Proved in `former_names_invariants.sql` (10 assertions; three through the leader
 Not covered: a removed location's name likewise stops masking (locations have no former names). The DPA
 is unchanged: names are a stated register category, kept for the agreement's term.
 
-## D-207 — Two CRM helpers closed to clients (0191) (2026-10-03)
-
-Found in the CRM enrichment gap analysis (`docs/crm-enrichment/06-QUESTIONS.md` Q1).
-`app.crm_follow_audience(app.crm_campaigns)` (0111, 0137) is SECURITY DEFINER and returns
-`(contact_id, email)` for the contacts a campaign's first mail reached; `app.crm_chain_depth(uuid)` walks a
-campaign chain. Neither migration revoked EXECUTE, so both kept PostgreSQL's default grant to PUBLIC, and
-`app` is exposed to PostgREST. On a local stack an anonymous `POST /rest/v1/rpc/crm_follow_audience` with
-a campaign id in the row's `follows_id` returned that campaign's recipients. Using it needed a campaign
-UUID, which no public page or mail link carries, so no leak is known; the hosted project had the same
-grants (checked read-only before the fix).
-
-0191 revokes both from public, anon and authenticated. Every caller is itself SECURITY DEFINER and owned
-by postgres (`crm_mail_claim`, `crm_follow_done`, `crm_step_tasks` and five `admin_crm_*` readers and
-writers), so sending, follow-ups, journeys and the sequence views are unchanged; all 115 SQL suites pass.
-`definer_grants_invariants.sql` (3 assertions) proves the two are closed and fails if any SECURITY DEFINER
-function in `app`, other than a trigger function, is executable by anon or authenticated without being on
-its reviewed list (the RLS helpers `is_org_member`, `has_role`, `k_threshold`, `module_visible`, and
-`visible_groups`, `round_answered`, `module_usable`, granted to authenticated on purpose in 0022 and 0071).
-0191 is applied on hosted; afterwards the open definers there are exactly that list.
-
-## D-208 — CRM rule settings: every limit and rule that can stop a CRM action is a setting (0192) (2026-10-03)
+## D-218 — CRM rule settings: every limit and rule that can stop a CRM action is a setting (0192) (2026-10-03)
 
 The CRM enrichment brief (`docs/crm-enrichment/INSTRUCTIONS.md` R5, A9, CUS-07) asks that every limit,
 gate and compliance rule be a setting whose default leaves the feature fully working, and Tor decided the
@@ -10509,7 +10489,7 @@ pre-0192 ones; a dry run of that script on a local database at the pre-0192 stat
 gave the same fingerprint as a database built from the repository (all 26 function definitions, the tables'
 columns, constraints, indexes and triggers, RLS, the 11 settings, the grants).
 
-## D-209 — CRM record history: changelog, events and the standard columns (0194) (2026-10-03)
+## D-219 — CRM record history: changelog, events and the standard columns (0194) (2026-10-03)
 
 Work package WP-0.2 of the CRM enrichment brief (`docs/crm-enrichment/INSTRUCTIONS.md` A6, PIP-04, SF-02).
 Triggers on `app.crm_companies`, `app.crm_contacts` and `app.crm_activities` write, in the same transaction
@@ -10544,7 +10524,7 @@ build's md5, RLS is on for the three new tables with no grant, and the security 
 only under the existing deliberate classes (RLS without policy; admin RPCs executable by `authenticated`,
 gated inside) — none is executable by `anon`.
 
-## D-210 — CRM soft delete, the restore list and the purge (0195) (2026-10-03)
+## D-220 — CRM soft delete, the restore list and the purge (0195) (2026-10-03)
 
 Work package WP-0.3 of the CRM enrichment brief (`docs/crm-enrichment/INSTRUCTIONS.md` CRM-12, SF-15, PIP-17).
 A company, contact or activity is deleted by marking it (`deleted_at`, `deleted_by`, `deleted_source`), listed
@@ -10588,9 +10568,9 @@ the migration's 45 functions have the repository build's md5; the flag columns, 
 the six new events, the requests table with RLS on, no policy and no client grant; no new call executable by
 anon and no engine function by any client role; the security advisors add exactly the six admin calls
 (`authenticated`, gated inside) and the requests table (RLS without policy) to their deliberate classes, and the
-anon class is unchanged. **On hosted:** On hosted since 2026-10-04 (DEC-50), applied with the other three held parts in one transaction through the Supabase Management API, after the connector's `apply_migration` was refused three times without a prompt; recorded in the migration history as `0195l_0196d_0197e_0199f_crm_held_parts`. Production's «before» state matched the runbook first. `app.crm_purge(text, uuid[])` md5 `07a5fb81…`, `app.crm_purge_due()` md5 `7a662708…`, both matching the local build, executable by neither `anon` nor `authenticated`. The job `orgpuls-crm-purge` runs `25 2 * * *` through the runner (0199f, D-213). Security advisors 488 → 492, the four added findings being 0196d's (D-211); this part adds none.
+anon class is unchanged. **On hosted:** On hosted since 2026-10-04 (DEC-50), applied with the other three held parts in one transaction through the Supabase Management API, after the connector's `apply_migration` was refused three times without a prompt; recorded in the migration history as `0195l_0196d_0197e_0199f_crm_held_parts`. Production's «before» state matched the runbook first. `app.crm_purge(text, uuid[])` md5 `07a5fb81…`, `app.crm_purge_due()` md5 `7a662708…`, both matching the local build, executable by neither `anon` nor `authenticated`. The job `orgpuls-crm-purge` runs `25 2 * * *` through the runner (0199f, D-223). Security advisors 488 → 492, the four added findings being 0196d's (D-221); this part adds none.
 
-## D-211 — CRM access: permission sets, visibility groups, teams and audit completeness (0196) (2026-10-03)
+## D-221 — CRM access: permission sets, visibility groups, teams and audit completeness (0196) (2026-10-03)
 
 Work package WP-0.4 of the CRM enrichment brief (SEC-07, SEC-08, SEC-09 teams, SF-01; Q2, Q3 as DEC-12, Q4).
 **Permission sets** are rows (`app.crm_permission_sets`) over a catalogue of twenty actions
@@ -10604,7 +10584,7 @@ marketing under Regular, the analyst under Read only; support, finance and the e
 CRM access before. The role stays the coarse gate (DEC-11): `app.crm_can(action)` first asks `crm_can_write()`
 for a write action or `crm_can_read()` for a report, then the set. With the built-in sets every role can do exactly
 what it could before 0196. All 37 CRM writes moved from `crm_can_write()` to `crm_can(action)`; a change to more
-than one record needs bulk edit as well; restoring, and the restore list's actions, need delete (closing D-210's
+than one record needs bulk edit as well; restoring, and the restore list's actions, need delete (closing D-220's
 "who may restore follows the role"). The screens read `may` (`app.crm_may(area)`) to leave out what the database would
 refuse: the companies and contacts lists and pages, where the ticked-companies bar needs bulk edit.
 
@@ -10665,7 +10645,7 @@ changes for anyone. The security advisors add exactly the four calls (`authentic
 tables (RLS without policy) to their deliberate classes, and the anon class is unchanged; the performance
 advisors find no unindexed foreign key on the new tables. **On hosted:** On hosted since 2026-10-04 (DEC-50), applied with the other three held parts in one transaction through the Supabase Management API, after the connector's `apply_migration` was refused three times without a prompt; recorded in the migration history as `0195l_0196d_0197e_0199f_crm_held_parts`. Production's «before» state matched the runbook first. `admin_crm_set_delete` md5 `f5fbb99e…`, `admin_crm_group_delete` `34f492aa…`, `admin_crm_team_save` `d4bc3e35…`, `admin_crm_team_delete` `4b7f28e6…`, all matching the local build; `authenticated` may execute them (gated inside), `anon` may not. Security advisors 488 → 492: these four join the `authenticated` definer class (304 → 308), nothing else changes.
 
-## D-212 — CRM custom fields: the registry, values, quality rules, hidden and read-only fields, formulas (0197) (2026-10-03)
+## D-222 — CRM custom fields: the registry, values, quality rules, hidden and read-only fields, formulas (0197) (2026-10-03)
 
 Work package WP-0.5 of the CRM enrichment brief (CUS-01, CUS-02, CUS-03, CUS-04, SF-38). **The registry** is rows:
 `app.crm_field_groups` and `app.crm_fields`, one list for companies and one for contacts, kept on CRM › Custom
@@ -10756,7 +10736,7 @@ exactly the five calls (`authenticated`, gated inside) and the three tables (RLS
 classes, and the anon class is unchanged at 31; the performance advisors find no unindexed foreign key on the new
 tables (43 before and after). **On hosted:** On hosted since 2026-10-04 (DEC-50), applied with the other three held parts in one transaction through the Supabase Management API, after the connector's `apply_migration` was refused three times without a prompt; recorded in the migration history as `0195l_0196d_0197e_0199f_crm_held_parts`. Production's «before» state matched the runbook first. `admin_crm_companies(text, text, uuid)` is gone and `admin_crm_companies(text, text, uuid, jsonb)` has md5 `8d1a1dc3…`, matching the local build; `authenticated` may execute it, `anon` may not. The advisors' `authenticated` class replaces the three-argument finding with the four-argument one, so the count is unchanged by this part.
 
-## D-213 — CRM event dispatcher and job runs (0199) (2026-10-04)
+## D-223 — CRM event dispatcher and job runs (0199) (2026-10-04)
 
 Work package WP-0.6 of the CRM enrichment brief (SF-02 steps 2–4, SF-26 steps 1 and 6; AUT-09 and the
 «Technical safeguards» setting in part). **The dispatcher** delivers the CRM's events (0194, `app.crm_events`) to
@@ -10829,7 +10809,7 @@ the build (md5), the helpers and the tables are closed to clients, the security 
 is unchanged at 31, the performance advisors find no unindexed foreign key on the new tables, and the dispatcher's
 first scheduled run (07:31 UTC) succeeded through the runner and was counted in its hour. **On hosted:** On hosted since 2026-10-04 (DEC-50), applied with the other three held parts in one transaction through the Supabase Management API, after the connector's `apply_migration` was refused three times without a prompt; recorded in the migration history as `0195l_0196d_0197e_0199f_crm_held_parts`. Production's «before» state matched the runbook first. The job `orgpuls-crm-purge` is scheduled `25 2 * * *` as `select app.crm_run('crm_purge')`, after 0195l's `app.crm_purge_due()` exists; its first run is the night of 2026-10-05.
 
-## D-214 — The admin's test harness (2026-10-04)
+## D-224 — The admin's test harness (2026-10-04)
 
 Work package WP-0.7 of the CRM enrichment brief (A8's end-to-end, visual and accessibility checks; Q19, decided as
 DEC-38). **Signing in.** Two Playwright projects, `admin` (1440 × 900) and `admin-phone` (a plain 390 × 900 window,
@@ -10861,7 +10841,7 @@ run locally before each package (`QA_PORT=3400 npx playwright test --project adm
 
 **Against the baseline.** 92 of the 116 captures differ from Phase A by less than 0.5 % (dates and times); each of the
 other 24 was opened and its change attributed in `docs/crm-enrichment/screens/phase-0/admin-baseline-diff.md` — Phase 0's
-own changes (D-209 to D-213), the audit log's growth, data order, and the designed-page editor now opened on a page.
+own changes (D-219 to D-223), the audit log's growth, data order, and the designed-page editor now opened on a page.
 
 **Found, and left to WP-0.8.** At 390 px nine existing pages hold a scroll region a keyboard cannot reach (axe's
 `scrollable-region-focusable`: billing, campaigns, register triggers, deliverability, growth events, plan and risks,
@@ -10878,13 +10858,13 @@ Verified: the smoke at both widths, all 63 pages at both widths (126 checks) and
 stack; the CI step's command run locally passes (8 tests, 23 s); `sentral-run.mjs --only CRM_Consent` passes through
 the shared lock; tsc, lint and the fixture's unit tests pass.
 
-## D-215 — Phase A clean-ups: the campaign pages follow the permission set, figures from data (0200) (2026-10-04)
+## D-225 — Phase A clean-ups: the campaign pages follow the permission set, figures from data (0200) (2026-10-04)
 
 Work package WP-0.8 of the CRM enrichment brief (06-QUESTIONS § E, DEC-31, and what WP-0.7's harness found, DEC-39).
 **The campaign pages follow the set (DEC-31).** The campaign, list, segment, sender and template readers return `may`,
 what the caller's permission set allows in the campaigns area (`app.crm_may('campaigns')`), and the senders reader
 `may_settings`, whether the set holds the CRM's settings (0200, six readers patched in place; no new call). The pages
-offer a control only when the database would accept it, as the companies and contacts pages have since D-211: a new
+offer a control only when the database would accept it, as the companies and contacts pages have since D-221: a new
 campaign, list, segment or step needs create; content, steps, pipeline, lists and segments edit; a segment's removal
 delete; the test, the schedule, the cancel and the resend send; stages, senders, the daily cap and the reply stage the
 CRM's settings; the contacts page's «New list» create. A draft a set lets its holder read but not change says so
@@ -10919,7 +10899,7 @@ strings in both catalogues with the placeholders the pages fill, and a label for
 **Not done.** § E's other notes stay notes: the `crm_deal_invariants.sql` comment, `respondent_invariants` 16–17
 leaving out `response_comments` (the growth firewall covers it), «fem svar» in copy, and `.env.example`.
 
-**Hosted (2026-10-04).** Applied to production in one part, `0200a_crm_cleanups_readers`, as D-213's were: the six
+**Hosted (2026-10-04).** Applied to production in one part, `0200a_crm_cleanups_readers`, as D-223's were: the six
 readers on production matched their pre-change definitions (md5 of `pg_get_functiondef`), the part patched each in place
 with a counted anchor, and a local dry run over the same pre-change definitions gave the local 0200 byte for byte. After
 the apply the six match local 0200, still SECURITY DEFINER with an empty search path and not executable by `anon`; the

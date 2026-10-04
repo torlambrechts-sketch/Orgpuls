@@ -14,7 +14,7 @@ import { ADMIN_HOST, EN_HOST, MAIN_HOST } from '@/lib/hosts'
  * exist — the second factor (always on), «Allow search engines» (0126), and the two that are changed
  * where they belong. Integrations: what sends and runs, from Operations. The design's API keys,
  * webhooks, customer single sign-on and branding are not features Orgpuls has, and are not drawn.
- * CRM rules (0192, D-208): every rule that can stop a CRM action, its value, its default and the last
+ * CRM rules (0192, D-218): every rule that can stop a CRM action, its value, its default and the last
  * change — each unrestricted until switched on here (docs/crm-enrichment DECISIONS.md DEC-04, DEC-07).
  */
 const TABS = ['general', 'access', 'integrations', 'rules'] as const

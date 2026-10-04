@@ -5,7 +5,7 @@ import { ALink, day } from '@/components/admin/ui'
 import { shownValue, type FieldDef } from '@/lib/admin/crmFieldTypes'
 
 /**
- * A record's custom values on its page (0197, D-212; CUS-01, CUS-02): the fields shown on the page that hold a
+ * A record's custom values on its page (0197, D-222; CUS-01, CUS-02): the fields shown on the page that hold a
  * value, and the important ones that do not yet (a nudge), in the registry's order. A reference to a company or a
  * contact links to it; one the viewer may not see shows as «—».
  */

@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/server'
 import type { AdminResult } from './actions'
 
 /**
- * Admin › Users & roles › CRM access (0196, D-211; SEC-07, SEC-08, SEC-09): permission sets, who works under
+ * Admin › Users & roles › CRM access (0196, D-221; SEC-07, SEC-08, SEC-09): permission sets, who works under
  * which set and in which visibility group, the groups and the teams. The database decides — a super-admin's
  * calls, with a reason while typed reasons are on, each logged; these actions shape the request.
  */

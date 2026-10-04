@@ -31,7 +31,7 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
   const stages = stageData.rows
   const byKey = new Map(stages.map((s) => [s.key, s]))
   const chosen = byKey.has(stage ?? '') ? (stage as string) : null
-  // 0197 (D-212): conditions on custom fields, from the filter's hidden value; a list the registry no longer allows is
+  // 0197 (D-222): conditions on custom fields, from the filter's hidden value; a list the registry no longer allows is
   // dropped and the page says so
   const conditions = ((): Condition[] => {
     try {
@@ -131,7 +131,7 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
                 <p className="m-0 text-[12px] text-mut">{p.bulk.hint}</p>
               </>
             ) : null}
-            {/* 0195 (D-210): the ticked companies, to the restore list after a preview */}
+            {/* 0195 (D-220): the ticked companies, to the restore list after a preview */}
             {canDelete ? (
               <div className={canMove ? 'border-t border-line pt-[8px]' : ''}>
                 <DeleteRecords entity="company" bulkForm="bulk-stage" m={m} common={common} reasonRequired={rules.reasonRequired} />

@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/server'
 import type { AdminResult } from './actions'
 
 /**
- * The job monitor's one write (0199, D-213): the deliveries an event subscriber gave up on, or set aside at the loop
+ * The job monitor's one write (0199, D-223): the deliveries an event subscriber gave up on, or set aside at the loop
  * window, are tried again from now. The database decides who may (super-admin, support) and logs the call.
  */
 const Reply = z.object({ ok: z.boolean(), error: z.string().optional(), retried: z.coerce.number().optional() })

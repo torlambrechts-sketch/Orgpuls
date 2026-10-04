@@ -35,13 +35,13 @@ export default async function CrmProspect({ params, searchParams }: { params: Pr
     crmHistory('company', id, before),
     crmFields(null),
   ])
-  // 0197 (D-212): the custom fields of companies and of the people added here
+  // 0197 (D-222): the custom fields of companies and of the people added here
   const fm = t.raw('crmFields') as FieldMessages
   const companyFields = isError(registry) ? [] : liveFields(registry, 'company')
   const contactFields = isError(registry) ? [] : liveFields(registry, 'contact')
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
-  // 0195 (D-210): a deleted company is read from the restore list; its page says so and offers the restore
+  // 0195 (D-220): a deleted company is read from the restore list; its page says so and offers the restore
   if (isError(data) && data.error === 'deleted')
     return (
       <CrmDeleted entity="company" id={id} back="/admin/crm/prospects" backText={m.company.back} canWrite={canWrite} reasonRequired={rules.reasonRequired} m={m} common={common} />
@@ -187,7 +187,7 @@ export default async function CrmProspect({ params, searchParams }: { params: Pr
           </div>
         ) : null}
       </div>
-      {/* 0194 (D-209): every change to this company, with who and from where */}
+      {/* 0194 (D-219): every change to this company, with who and from where */}
       {isError(history) ? null : (
         <div className="mt-[14px]">
           <CrmHistory

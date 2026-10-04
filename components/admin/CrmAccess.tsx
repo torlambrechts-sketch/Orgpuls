@@ -8,7 +8,7 @@ import type { CrmAccess, CrmArea } from '@/lib/admin/crm'
 import { deleteCrmGroup, deleteCrmSet, deleteCrmTeam, saveCrmGroup, saveCrmSet, saveCrmTeam, setCrmStaffAccess } from '@/lib/admin/crmAccessActions'
 
 /**
- * Admin › Users & roles › CRM access (0196, D-211): who works under which permission set and in which
+ * Admin › Users & roles › CRM access (0196, D-221): who works under which permission set and in which
  * visibility group, the sets themselves, the groups and the teams. The database decides; these forms ask.
  */
 export type AccessMessages = (typeof en)['admin']['crmAccess']

@@ -1,18 +1,18 @@
 # The admin against the Phase A baseline
 
-WP-0.7 (D-214), 2026-10-04: every admin page captured by `qa/e2e/admin-pages.spec.ts` at 1440 and at 390
+WP-0.7 (D-224), 2026-10-04: every admin page captured by `qa/e2e/admin-pages.spec.ts` at 1440 and at 390
 (a plain 390 × 900 window, as the baseline was), compared by `scripts/verify/admin-baseline-diff.mjs` with
 `screens/baseline/`. Pages that differ by 0.5 % or more are listed; 92 of 116 differ by less (dates and
 times). Each listed page was opened and its change attributed:
 
 | Page | Why it differs |
 | --- | --- |
-| audit, orgs_id | Data: every admin read is audited since WP-0.4 (D-211), and the harness's own runs add rows; the organisation page shows its audit trail |
-| admins | Users & roles: permission sets, teams and visibility groups (WP-0.4, D-211) |
-| ops | The CRM jobs card (WP-0.6, D-213) |
-| crm_prospects_id, crm_contacts_id | History (WP-0.2, D-209), delete and restore (WP-0.3, D-210), who sees it (WP-0.4, D-211), custom fields (WP-0.5, D-212) |
-| crm_prospects | Bulk delete (D-210) and the custom-condition filter (D-212) |
-| crm_contacts | Import with custom columns (D-212) and the restore links (D-210) |
+| audit, orgs_id | Data: every admin read is audited since WP-0.4 (D-221), and the harness's own runs add rows; the organisation page shows its audit trail |
+| admins | Users & roles: permission sets, teams and visibility groups (WP-0.4, D-221) |
+| ops | The CRM jobs card (WP-0.6, D-223) |
+| crm_prospects_id, crm_contacts_id | History (WP-0.2, D-219), delete and restore (WP-0.3, D-220), who sees it (WP-0.4, D-221), custom fields (WP-0.5, D-222) |
+| crm_prospects | Bulk delete (D-220) and the custom-condition filter (D-222) |
+| crm_contacts | Import with custom columns (D-222) and the restore links (D-220) |
 | cms_site | The route now opens the front page's editor (`?path=/`); the baseline caught its not-found state |
 | crm_pipeline, crm_tasks, crm_inbox, crm | Data: the same cards and rows in another order, and days counted since a stage change or a due time |
 

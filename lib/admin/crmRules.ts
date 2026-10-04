@@ -6,7 +6,7 @@ import { ruleState, UNRESTRICTED, type CrmRuleState } from './crmRuleValue'
 export type { CrmRuleState }
 
 /**
- * The CRM rule settings (0192, D-208; docs/crm-enrichment INSTRUCTIONS.md R5, A9): every limit and rule
+ * The CRM rule settings (0192, D-218; docs/crm-enrichment INSTRUCTIONS.md R5, A9): every limit and rule
  * that can stop a CRM action, its value, its default and the last change. The database applies them;
  * the screens read them only to say beforehand what the database will ask for.
  */

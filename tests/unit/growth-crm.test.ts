@@ -204,7 +204,7 @@ describe('the pages’ arithmetic', () => {
     expect(per100(0, 0)).toBeNull()
   })
 
-  it('reads the partners’ revenue share from their agreements, and only a per cent kind counts (D-215)', () => {
+  it('reads the partners’ revenue share from their agreements, and only a per cent kind counts (D-225)', () => {
     const kinds = ['recurring', 'client_discount', 'affiliate']
     const row = (share_kind: string | null, share_pct: number | null) => ({ share_kind, share_pct })
     expect(agreedShares([row('recurring', 20), row('affiliate', 10), row('member_discount', null), row(null, null)], kinds)).toEqual({ count: 2, min: 10, max: 20 })

@@ -11,7 +11,7 @@ import { AudienceTabs } from '@/components/admin/AudienceTabs'
 /**
  * Segments (D-101): saved filters on contacts and their organisations, with live counts of
  * who they select and who of those a campaign would reach. `?id=` opens one for editing,
- * `?new` a blank one. A segment may also filter on the contacts' custom fields (0197, D-212);
+ * `?new` a blank one. A segment may also filter on the contacts' custom fields (0197, D-222);
  * a condition on a field hidden from the viewer is not shown, and its segment is theirs to use, not to change.
  */
 export default async function CrmSegments({ searchParams }: { searchParams: Promise<{ id?: string; new?: string }> }) {

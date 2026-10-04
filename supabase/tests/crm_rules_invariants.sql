@@ -1,4 +1,4 @@
--- crm_rules_invariants.sql — the CRM rule settings registry (0192, D-208), proved against the live schema.
+-- crm_rules_invariants.sql — the CRM rule settings registry (0192, D-218), proved against the live schema.
 --
 --   * every setting exists with its documented default, and nothing is set out of the box (1)
 --   * with the defaults nothing is refused: a contact without a consent source is added with no basis,

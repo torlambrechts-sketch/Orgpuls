@@ -1,4 +1,4 @@
-# Security checklist — WP-0.4 permission sets, visibility groups, teams and audit completeness (0196, D-211)
+# Security checklist — WP-0.4 permission sets, visibility groups, teams and audit completeness (0196, D-221)
 
 Evidence in `supabase/tests/crm_access_invariants.sql` (CAI) unless named.
 
@@ -14,7 +14,7 @@ Evidence in `supabase/tests/crm_access_invariants.sql` (CAI) unless named.
 | 12 | Caller's permissions | Each call runs with the caller's role and set; the Admin set does not lift the role gate — an analyst with it still cannot write (CAI 6) |
 | 13 | No message bodies, tokens or personal data in logs | Audit details carry a set's name and actions, a group's name and parent, a team's name, manager id and member count, and a staff member's set and group ids — staff ids only, no customer or contact data, no free text but the admin's own reason |
 | 14 | Dependency audit | No dependency added |
-| 15 | db lint, advisors | `supabase db lint --local` exit 0 (warnings only, in functions 0196 does not change). On hosted after 0196 (D-211): the security advisors add exactly the four access calls (`authenticated`, gated inside) and the six tables (RLS without policy) to their deliberate classes, the anon class is unchanged; the performance advisors find no unindexed foreign key on the new tables |
+| 15 | db lint, advisors | `supabase db lint --local` exit 0 (warnings only, in functions 0196 does not change). On hosted after 0196 (D-221): the security advisors add exactly the four access calls (`authenticated`, gated inside) and the six tables (RLS without policy) to their deliberate classes, the anon class is unchanged; the performance advisors find no unindexed foreign key on the new tables |
 | 16 | Firewall | No function a CRM call reaches, followed through every helper, reads an answer table (CAI 11, 139 functions); `growth_firewall_invariants` and `respondent_invariants` pass |
 | 17 | Visibility (SEC-08) | Owner, group, group and sub-groups, everyone — on the page, the list, the figures, tasks, the history, the consent ledger and every write (CAI 7, 8); every function reading companies or activities applies `app.crm_visible` or is reviewed, a helper that trusts its caller is reached only through calls that filter, and no reviewed helper is a client's (CAI 13) |
 | 18 | Roles (Q2, DEC-12) | Every platform role can be granted (CAI 2); marketing reads neither an organisation's page nor the audit trail, support reads one organisation's trail, finance keeps the organisation's page (CAI 3) |

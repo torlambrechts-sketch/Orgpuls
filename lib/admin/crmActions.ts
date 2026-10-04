@@ -15,7 +15,7 @@ import { blockingChecks } from './campaignMail'
 /**
  * The CRM's writes (0055, D-101; 0056–0058, D-103). The database decides who may do what, with a second
  * factor, and logs each call; these actions shape the request and name the refusal. Limits, the contact
- * rule and typed reasons are CRM rule settings (0192, D-208), checked in the database: nothing here caps
+ * rule and typed reasons are CRM rule settings (0192, D-218), checked in the database: nothing here caps
  * a count or requires a reason on its own.
  */
 const reasonOf = (raw: FormDataEntryValue | null) => String(raw ?? '').trim().slice(0, 500)

@@ -5,7 +5,7 @@ import type { CrmHistory as History } from '@/lib/admin/crm'
 import { shownValue, type FieldDef } from '@/lib/admin/crmFieldTypes'
 
 /**
- * History on a company or contact page (0194, D-209; PIP-04): every change to a tracked field — what it was,
+ * History on a company or contact page (0194, D-219; PIP-04): every change to a tracked field — what it was,
  * what it became, who and from where — newest first, a page at a time, under the record's own events
  * (created, stage changes, completed tasks). Values are shown as stored; a link to another record is said to
  * have changed rather than shown as an id; a field the page has words for (who sees a company) shows those.

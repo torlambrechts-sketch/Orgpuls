@@ -5,7 +5,7 @@ import { createTranslator, type AbstractIntlMessages, type Locale } from 'next-i
 import { CONTACT_SOURCES } from '@/lib/admin/crm'
 
 /**
- * The strings WP-0.8 moved out of the CRM's code into the messages (D-215): each in both catalogues the
+ * The strings WP-0.8 moved out of the CRM's code into the messages (D-225): each in both catalogues the
  * admin reads, with the placeholders the pages fill, and a label for every contact source the schema
  * writes (`demo`, from 0146, had none).
  */

@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, type Page } from '@playwright/test'
 
 /**
- * What the admin suites check on every page they open (WP-0.7, D-214): the page drew its heading;
+ * What the admin suites check on every page they open (WP-0.7, D-224): the page drew its heading;
  * no reader failed and nothing was refused (the admin's two texts for those, from the messages,
  * since a failed read renders as a sentence and not as an error); the page does not scroll
  * sideways — a table may scroll inside its own region, as the admin's tables do; and axe finds no

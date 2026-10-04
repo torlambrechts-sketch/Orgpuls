@@ -1,4 +1,4 @@
--- crm_fields_invariants.sql — CRM custom fields (0197, D-212): the registry, custom values, quality rules, hidden
+-- crm_fields_invariants.sql — CRM custom fields (0197, D-222): the registry, custom values, quality rules, hidden
 -- and read-only fields, formulas, filters and import, proved against the live schema.
 --
 --   * structure: the registry closed to clients, its calls to anon and its helpers to every client; the rules at

@@ -4,7 +4,7 @@ import { CrmJobRetry } from './CrmJobRetry'
 import { ALink, Badge, Card, Table, Td, when } from './ui'
 
 /**
- * The CRM's jobs on the Operations page (0199, D-213; SF-02, SF-26): each scheduled job with its last run and its
+ * The CRM's jobs on the Operations page (0199, D-223; SF-02, SF-26): each scheduled job with its last run and its
  * last day, the hours with failed runs, the event subscribers with what waits for them, and the week's events per
  * kind from the rollup. A failed run or a delivery waiting for a retry raises the alert at the top, as the dashboard
  * counts them.

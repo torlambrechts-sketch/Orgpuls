@@ -14,7 +14,7 @@ export const per100 = (trials: number, contacts: number): string | null =>
   contacts > 0 ? ((trials / contacts) * 100).toFixed(1).replace('.', ',') : null
 
 /**
- * The partners' «Revenue share» (WP-0.8, D-215): the per cent shares their agreements hold (0143), the
+ * The partners' «Revenue share» (WP-0.8, D-225): the per cent shares their agreements hold (0143), the
  * lowest and the highest, and how many hold one. A partner without a per cent kind adds nothing, so the
  * KPI never shows a share nobody agreed; min and max are null when none holds one.
  */

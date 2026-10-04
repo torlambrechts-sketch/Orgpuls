@@ -16,11 +16,11 @@ Updated 2026-10-04 by the run's first session (after DEC-49). Each work package 
 
 | Package | Migration | Entry | Production |
 | --- | --- | --- | --- |
-| WP-0.1 Rule settings | 0192 | D-208 | applied |
-| WP-0.2 Record history | 0194 | D-209 | applied |
-| WP-0.3 Soft delete, restore list | 0195 | D-210 | applied |
-| WP-0.4 Permission sets, visibility, teams | 0196 | D-211 | applied |
-| WP-0.5 Custom fields | 0197 | D-212 | applied |
-| WP-0.6 Event dispatcher | 0199 | D-213 | applied |
-| WP-0.7 Admin test harness | — | D-214 | — |
-| WP-0.8 Clean-ups | 0200 | D-215 | applied |
+| WP-0.1 Rule settings | 0192 | D-218 | applied |
+| WP-0.2 Record history | 0194 | D-219 | applied |
+| WP-0.3 Soft delete, restore list | 0195 | D-220 | applied |
+| WP-0.4 Permission sets, visibility, teams | 0196 | D-221 | applied |
+| WP-0.5 Custom fields | 0197 | D-222 | applied |
+| WP-0.6 Event dispatcher | 0199 | D-223 | applied |
+| WP-0.7 Admin test harness | — | D-224 | — |
+| WP-0.8 Clean-ups | 0200 | D-225 | applied |
