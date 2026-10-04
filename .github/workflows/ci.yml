@@ -302,6 +302,20 @@ jobs:
           QA_DIST_DIR: .next
         run: node scripts/i18n/page-map.mjs --check
 
+      # ------------------------------------------------------------------ admin smoke
+      # The admin (WP-0.7, DEC-38): signed in as the Sentral fixture's local admin -- the password,
+      # then a TOTP factor enrolled on /admin/mfa -- the overview and the CRM's main pages open,
+      # fail no read, scroll nothing sideways, pass axe and log no console error. About a minute on
+      # the stack and the build above: e2e.mjs first applies the Sentral fixture, which writes the
+      # admin, inactive, into this QA database (it refuses any database without the QA mark set
+      # above); the setup opens it for the run and the teardown closes it again. The admin journeys
+      # and every admin page at 1440 and 390 px run locally before each package (D-214).
+      - name: Admin smoke
+        env:
+          QA_DIST_DIR: .next
+          QA_STEP: ci
+        run: npm run e2e -- --no-seed --project admin --grep '@smoke'
+
       - if: always()
         uses: actions/upload-artifact@v4
         with:

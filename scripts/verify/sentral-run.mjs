@@ -46,13 +46,12 @@
  *   node scripts/verify/sentral-run.mjs --width 390 [--only CRM_Consent]
  *   options: --out dir (shots, default /tmp/sentral-run) · --shift px · --limit px · --db local-url
  */
-import { createHmac } from 'node:crypto'
-import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
-import { tmpdir } from 'node:os'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { PNG } from 'pngjs'
 import { chromium } from 'playwright-core'
 import { closeAdmin, DEFAULT_DB, LOCAL_ADMIN, openAdmin } from '../seed/sentral-fixture.mjs'
+import { acquireAdminLock, releaseAdminLock, totp } from './admin-session.mjs'
 import { assertLocalBase, judgeView, TILE, tiles, verdict } from './sentral-judge.mjs'
 import { baselineFile, REPO, routeExists, VIEW_ROUTES } from './sentral-routes.mjs'
 
@@ -75,85 +74,14 @@ try {
 }
 mkdirSync(out, { recursive: true })
 
-/** RFC 6238 with SHA-1, 30 s steps, 6 digits — what the admin's authenticator enrolment issues */
-function totp(secret, at = Date.now()) {
-  const A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'
-  const bits = secret
-    .replace(/=+$/, '')
-    .toUpperCase()
-    .split('')
-    .map((c) => A.indexOf(c).toString(2).padStart(5, '0'))
-    .join('')
-  const key = Buffer.from(bits.match(/.{8}/g).map((b) => parseInt(b, 2)))
-  const ctr = Buffer.alloc(8)
-  ctr.writeBigUInt64BE(BigInt(Math.floor(at / 30000)))
-  const h = createHmac('sha1', key).update(ctr).digest()
-  const o = h[19] & 15
-  return String((h.readUInt32BE(o) & 0x7fffffff) % 1e6).padStart(6, '0')
-}
-
 const views = VIEW_ROUTES.filter((v) => !only || v.name.startsWith(only) || v.area === only)
 const executablePath = [
   process.env.PLAYWRIGHT_BROWSERS_PATH && `${process.env.PLAYWRIGHT_BROWSERS_PATH}/chromium`,
   '/opt/pw-browsers/chromium',
 ].find((p) => p && existsSync(p))
-/**
- * One run at a time on this machine. Every run signs in as the one local admin, and a run's
- * closeAdmin (and the next run's openAdmin, which deletes the factor) signs out any other run
- * mid-flight, so worktrees running in parallel wait here for each other: a directory under the
- * system's temp dir, made atomically, holding the owner's pid; one whose owner has gone is taken over.
- */
-const LOCK = join(tmpdir(), 'orgpuls-sentral-run.lock')
-const LOCK_PID = join(LOCK, 'pid')
-function lockAlive() {
-  let pid
-  try {
-    pid = Number(readFileSync(LOCK_PID, 'utf8'))
-  } catch {
-    // made a moment ago, its pid not written yet
-    try {
-      return Date.now() - statSync(LOCK).mtimeMs < 10000
-    } catch {
-      return false
-    }
-  }
-  try {
-    process.kill(pid, 0)
-    return true
-  } catch (e) {
-    return e.code === 'EPERM'
-  }
-}
-async function acquireLock(maxMs = 45 * 60000) {
-  const t0 = Date.now()
-  let told = false
-  for (;;) {
-    try {
-      mkdirSync(LOCK)
-      writeFileSync(LOCK_PID, String(process.pid))
-      return
-    } catch (e) {
-      if (e.code !== 'EEXIST') throw e
-    }
-    if (!lockAlive()) {
-      rmSync(LOCK, { recursive: true, force: true })
-      continue
-    }
-    if (Date.now() - t0 > maxMs) throw new Error(`another sentral-run has held ${LOCK} for ${Math.round(maxMs / 60000)} minutes`)
-    if (!told) console.log(`waiting for another sentral-run to finish (${LOCK})`)
-    told = true
-    await new Promise((r) => setTimeout(r, 2000))
-  }
-}
-function releaseLock() {
-  try {
-    if (Number(readFileSync(LOCK_PID, 'utf8')) === process.pid) rmSync(LOCK, { recursive: true, force: true })
-  } catch {
-    // not ours, or already gone
-  }
-}
-await acquireLock()
-process.on('exit', releaseLock)
+// one run at a time on this machine, with the Playwright admin projects too (admin-session.mjs)
+await acquireAdminLock()
+process.on('exit', () => releaseAdminLock())
 
 const b = await chromium.launch({ args: ['--no-sandbox'], ...(executablePath ? { executablePath } : {}) })
 const errors = []
@@ -337,7 +265,7 @@ try {
   } catch (e) {
     failures.push(`the local admin was not closed after the run: ${e.message}`)
   }
-  releaseLock()
+  releaseAdminLock()
   await b.close()
 }
 console.log(errors.length ? `console errors (${errors.length}): ${errors.slice(0, 5).join(' / ')}` : 'no console errors')

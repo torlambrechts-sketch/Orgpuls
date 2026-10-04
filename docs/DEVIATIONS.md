@@ -10845,3 +10845,52 @@ first scheduled run (07:31 UTC) succeeded through the runner and was counted in 
 purge job through the runner (`0199f`, the migration's last schedule line) waits for 0195's purge part, still held at
 the Supabase connector's approval step (DEC-29, DEC-34): scheduled before `app.crm_purge_due()` exists, it would fail
 every night. Until both land, the monitor shows the restore list purge as not scheduled, which is so.
+
+## D-214 — The admin's test harness (2026-10-04)
+
+Work package WP-0.7 of the CRM enrichment brief (A8's end-to-end, visual and accessibility checks; Q19, decided as
+DEC-38). **Signing in.** Two Playwright projects, `admin` (1440 × 900) and `admin-phone` (a plain 390 × 900 window,
+as the Phase A baseline was captured), depend on `admin-setup`, which signs in as the Sentral fixture's local admin
+through the real sign-in (the password, then a TOTP factor enrolled on `/admin/mfa`) and keeps the session for the
+run; `admin-teardown` retires the admin again however the run ends. The admin is opened in the local QA database only
+(the fixture's guards, unchanged), and the admin's pixel gate (`sentral-run.mjs`) and the harness share one machine-wide
+lock, now in `scripts/verify/admin-session.mjs` with the TOTP both use, so neither signs the other out.
+`sentral-fixture.mjs` tells that it is run as a script by its file's name, not by its module URL, so Playwright's
+loader, which compiles imports to CommonJS, can import it; and `npm run e2e` applies it before any run that includes
+the admin projects, so the admin they sign in as exists.
+
+**What every page is checked for** (`qa/e2e/admin.ts`): its heading drawn; no reader failed and nothing refused (the
+admin's own two sentences for those, read from the messages); no sideways scroll of the page (a table may scroll in its
+own region); axe with no serious or critical violation beyond `qa/known-issues.json`, per width; no console error. One
+console message is the harness's and is not counted: axe trying to enter the campaign previews, sandboxed iframes that
+run no script by design (a page loaded without axe logs none).
+
+**Three suites.** `admin-smoke.spec.ts` (`@smoke`): the overview, the CRM's overview, companies, pipeline, contacts and
+Operations; CI runs it on every pull request after the respondent flow, on the same stack and build (step «Admin
+smoke», about a minute, DEC-38). `admin-pages.spec.ts` (`@pages`): every admin page — the 58 of the Phase A baseline and
+the five Phase 0 added — at both widths, captured to `test-results/shots/admin/`, which
+`scripts/verify/admin-baseline-diff.mjs` compares with `docs/crm-enrichment/screens/baseline/`. `admin-journeys.spec.ts`
+(`@journey`): a deal made on the board, moved, given an activity and a person, deleted, restored and removed for good; a
+custom field added, on the form and the page, filled and archived; Operations' CRM jobs and the rule they follow. Each
+journey makes its rows under a name no other run uses and removes them through the screens. The pages and the journeys
+run locally before each package (`QA_PORT=3400 npx playwright test --project admin --project admin-phone --grep
+'@setup|@pages|@journey'`).
+
+**Against the baseline.** 92 of the 116 captures differ from Phase A by less than 0.5 % (dates and times); each of the
+other 24 was opened and its change attributed in `docs/crm-enrichment/screens/phase-0/admin-baseline-diff.md` — Phase 0's
+own changes (D-209 to D-213), the audit log's growth, data order, and the designed-page editor now opened on a page.
+
+**Found, and left to WP-0.8.** At 390 px nine existing pages hold a scroll region a keyboard cannot reach (axe's
+`scrollable-region-focusable`: billing, campaigns, register triggers, deliverability, growth events, plan and risks,
+tickets, web pages); they are recorded per width in `qa/known-issues.json` (`a-<page>@390`) and added to WP-0.8's
+clean-ups, as is the restore list, where a restore or a permanent delete confirms itself in a line that leaves with its
+row, so the confirmation is never seen (the row's leaving is). Neither is new in Phase 0.
+
+**Not done.** The journeys cover the CRM as it stands; each later package adds the journeys of the flows it builds
+(A8: every UF and every observable SF). The three dynamic routes the seeds hold no row for (`/admin/cms/[id]`,
+`/admin/crm/campaigns/[id]`, `/admin/tickets/[id]`) are still uncaptured, as at Phase A. The comparison with the
+baseline reports and does not gate: the data differs between stacks, so the reviewer reads the list.
+
+Verified: the smoke at both widths, all 63 pages at both widths (126 checks) and the three journeys pass, 143 tests in one run (7.5 min) on the local QA
+stack; the CI step's command run locally passes (8 tests, 23 s); `sentral-run.mjs --only CRM_Consent` passes through
+the shared lock; tsc, lint and the fixture's unit tests pass.

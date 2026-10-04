@@ -65,9 +65,11 @@ recommended option every time.
 | DEC-34 | How the three held production parts (0195's purge, 0196d, 0197e) are applied (2026-10-04) | **A new session applies them first**, exactly as written in the migrations, verified against the build and recorded in D-210, D-211 and D-212 |
 | DEC-35 | What follows WP-0.5 (2026-10-04) | **WP-0.6 event dispatcher**: each CRM event delivered once per subscriber, retries that block no one, run records and a failure alert in the job monitor |
 | DEC-36 | Who merges PR #7, the 0191 grants fix already on production (2026-10-04) | **Claude merges it** once it is green and mergeable, bringing main in line with production. Main had meanwhile taken 0191 (`module_sync_carry_english`) and D-213/D-214, so the PR's file becomes `0198_crm_definer_grants.sql` and its entry D-215 (same SQL; production keeps the name it was applied with). At the Phase 0 merge this branch's copy at 0191 gives way to main's 0198, and its own next migration is 0199. Merged 2026-10-04 (94b6c21) after main had also taken D-215 (CI), so the entry is D-216 |
+| DEC-37 | What follows WP-0.6 (2026-10-04) | **WP-0.7, the admin test harness**: Playwright admin journeys signing in as the fixture's local admin, the 390 px check and axe on admin pages, and a smoke journey over the CRM. The held production parts (0195's purge, 0196d, 0197e and now 0199f) still go to a new session first (DEC-34) |
+| DEC-38 | Where the admin journeys run, now that main's CI minutes are billed (D-215 on main) (2026-10-04) | **A short smoke in the existing CI job**: sign-in and a few CRM pages, reusing that job's build and database, about a minute per run. The full journeys, the 390 px check and axe run locally before each package |
 
 Still open (asked at the phase that needs them): Q7 lead object (plan follows the brief: own table), Q13
-threshold (plan keeps the product rule: floor 3, default 5), Q19 admin e2e (WP-0.7 adds it), open points 2
+threshold (plan keeps the product rule: floor 3, default 5), open points 2
 (providers beyond geocoding), 5 (recording consent, signature level), 6 (LinkedIn connector, recurring
 activities), 8 (targets and costs).
 

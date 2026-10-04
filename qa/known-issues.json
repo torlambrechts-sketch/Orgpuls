@@ -1,4 +1,13 @@
 {
   "m-results": ["color-contrast"],
-  "m-factor": ["color-contrast"]
+  "m-factor": ["color-contrast"],
+  "a-billing@390": ["scrollable-region-focusable"],
+  "a-crm_campaigns@390": ["scrollable-region-focusable"],
+  "a-crm_triggers@390": ["scrollable-region-focusable"],
+  "a-deliverability@390": ["scrollable-region-focusable"],
+  "a-growth_events@390": ["scrollable-region-focusable"],
+  "a-growth_plan@390": ["scrollable-region-focusable"],
+  "a-growth_risks@390": ["scrollable-region-focusable"],
+  "a-tickets@390": ["scrollable-region-focusable"],
+  "a-web_pages@390": ["scrollable-region-focusable"]
 }

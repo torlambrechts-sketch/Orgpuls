@@ -52,7 +52,6 @@
  */
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { pathToFileURL } from 'node:url'
 import { g2FixtureSql } from './sentral-fixture.g2.mjs'
 import { g4Sql } from './sentral-fixture.g4.mjs'
 import { g3Sql } from './sentral-fixture.g3.mjs'
@@ -324,4 +323,6 @@ function main(argv) {
   console.log(`sentral fixture: ${COMPANIES.length} companies, ${CONTACTS.length} contacts, ${TASKS.length} tasks, ${SUPPRESSIONS.length} suppressions, the local admin`)
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main(process.argv.slice(2))
+// run as a script, not when imported; told by the file's name rather than the module's own URL, so the
+// Playwright admin projects (qa/e2e/admin.setup.ts), whose loader compiles imports to CommonJS, can import it
+if (process.argv[1] && /(^|[\\/])sentral-fixture\.mjs$/.test(process.argv[1])) main(process.argv.slice(2))

@@ -73,6 +73,27 @@ export default defineConfig({
       dependencies: ['setup'],
       use: { viewport: { width: 1280, height: 800 } },
     },
+    // The admin (WP-0.7): signed in once as the fixture's local admin (qa/e2e/admin.setup.ts), retired
+    // again after (admin.teardown.ts). `admin` runs the smoke, every page and the journeys at 1440,
+    // `admin-phone` the smoke and every page at 390. Run scripts/seed/sentral-fixture.mjs first: it
+    // writes the admin.
+    { name: 'admin-setup', testMatch: /admin\.setup\.ts/, teardown: 'admin-teardown' },
+    { name: 'admin-teardown', testMatch: /admin\.teardown\.ts/ },
+    {
+      name: 'admin',
+      testMatch: /admin-.*\.spec\.ts/,
+      grep: /@admin/,
+      dependencies: ['admin-setup'],
+      use: { viewport: { width: 1440, height: 900 }, storageState: 'qa/.auth/admin.json' },
+    },
+    {
+      name: 'admin-phone',
+      testMatch: /admin-(smoke|pages)\.spec\.ts/,
+      grep: /@smoke|@pages/,
+      dependencies: ['admin-setup'],
+      // a plain 390 × 900 window, as the Phase A baseline was captured (docs/crm-enrichment/screens/baseline)
+      use: { viewport: { width: 390, height: 900 }, storageState: 'qa/.auth/admin.json' },
+    },
   ],
   // started in order: the first builds when there is no build, the second serves the same one
   webServer: [

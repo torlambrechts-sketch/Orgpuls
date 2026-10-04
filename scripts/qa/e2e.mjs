@@ -6,6 +6,10 @@
  * for it, so a second run would find them spent, and the round's counts would no longer be
  * the scenario's that the manager baselines were captured on. The seed is the only source of
  * those rows (CLAUDE.md, The fixture) and takes under a second.
+ *
+ * A run that includes the admin projects (WP-0.7; `--project admin` or `admin-phone`, or no
+ * `--project` at all) applies the Sentral fixture first, with or without `--no-seed`: it writes the
+ * local admin they sign in as, and it refuses any database that is not the QA stack.
  */
 import { spawnSync } from 'node:child_process'
 import { qaEnv } from './env.mjs'
@@ -21,6 +25,15 @@ const seed = () => {
   const s = spawnSync('node', ['scripts/qa/seed.mjs', '--apply'], { env, stdio: ['ignore', 'ignore', 'inherit'] })
   if (s.status !== 0) {
     console.error('e2e: the QA seed failed')
+    process.exit(s.status ?? 1)
+  }
+}
+
+const projects = args.flatMap((a, k) => (args[k - 1] === '--project' ? [a] : []))
+if (!projects.length || projects.some((p) => p.startsWith('admin'))) {
+  const s = spawnSync('node', ['scripts/seed/sentral-fixture.mjs'], { env, stdio: ['ignore', 'ignore', 'inherit'] })
+  if (s.status !== 0) {
+    console.error('e2e: the Sentral fixture failed')
     process.exit(s.status ?? 1)
   }
 }

@@ -514,7 +514,7 @@ Event catalog: Missing for every CRM family; the product families exist as growt
 | Privacy | Partial | Erasure for contacts; no recording consent (no recordings). |
 | Destructive actions | Partial | Contact erase requires a reason; no preview/soft delete/second admin. |
 | Interface language | Implemented | English, by decision (layout forces `en`). |
-| Test data | Partial | Lumio AS / Kari Nordmann local QA tenant; no admin e2e. |
+| Test data | Implemented | Tests run on the local QA stack only: the Lumio AS QA tenant for the product, the Sentral fixture for the admin, each refusing a database without the QA mark. WP-0.7 (D-214): the admin's Playwright projects sign in as the fixture's local admin; the smoke runs in CI, the journeys and every admin page at 1440 and 390 locally. |
 | Provider independence | Partial | Brevo behind the dispatcher; no adapter interfaces for the new providers. |
 
-**Counts:** 1 Implemented, 11 Partial, 3 Missing, 2 Unknown.
+**Counts (after WP-0.7):** 2 Implemented, 10 Partial, 3 Missing, 2 Unknown.
