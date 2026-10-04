@@ -33,6 +33,13 @@ describe('the audit log', () => {
     expect(areaOf('something.new')).toBe('other')
   })
 
+  it('files the reads 0196 began to log: the audit trail under Admin, the attention panel and figures under Figures read', () => {
+    expect(areaOf('audit.view')).toBe('admin')
+    expect(areaOf('attention.view')).toBe('reads')
+    expect(areaOf('web.report')).toBe('reads')
+    expect(areaOf('admins.crm_set_save')).toBe('admin')
+  })
+
   it('never lets a cell start a spreadsheet formula, and quotes what must be quoted', () => {
     expect(csvCell('=HYPERLINK("x")')).toBe(`"'=HYPERLINK(""x"")"`)
     expect(csvCell('+47 1234')).toBe(`"'+47 1234"`)

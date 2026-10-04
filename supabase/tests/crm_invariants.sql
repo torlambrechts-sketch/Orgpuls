@@ -148,6 +148,8 @@ begin
     insert into app.platform_admins (user_id, role) values (v_mkt, 'marketing'), (v_ana, 'analyst'), (v_sup, 'support');
     insert into app.crm_suppression (email_hash, reason) values (app.crm_hash('sperret@probe-crm.example'), 'unsubscribed');
     perform set_config('request.jwt.claims', format(claims, v_mkt, 'aal2'), true);
+    -- 0192: a consent source per row is a setting, off by default (crm_rules_invariants proves off); here it is on
+    insert into app.crm_setting_values (key, value) values ('import_consent_source', '"required"');
     v_json := public.admin_crm_import(jsonb_build_array(
       jsonb_build_object('email', 'uten.samtykke@probe-crm.example', 'name', 'Uten'),
       jsonb_build_object('email', 'messe@probe-crm.example', 'name', 'Messe', 'consent_source', 'Arendalsuka 2026, påmeldingsskjema',
@@ -157,7 +159,7 @@ begin
     v_txt := concat_ws(',', v_json->>'inserted', v_json->>'suppressed', (select string_agg(r->>'reason', '+' order by (r->>'row')::int) from jsonb_array_elements(v_json->'rejected') r),
       (select c.basis || '/' || c.role || '/' || array_to_string(c.tags, ';') from app.crm_contacts c where c.email = 'messe@probe-crm.example'),
       (select app.crm_mailable(c)::text from app.crm_contacts c where c.email = 'sperret@probe-crm.example'));
-    v_rows := v_rows || jsonb_build_object('seq', 9, 'name', 'an import row needs a consent source; a suppressed address stays suppressed',
+    v_rows := v_rows || jsonb_build_object('seq', 9, 'name', 'with the setting on, an import row needs a consent source; a suppressed address stays suppressed',
       'expected', '2,1,consent_required+invalid_email,consent/hr/hr;messe,false', 'actual', v_txt,
       'pass', v_txt = '2,1,consent_required+invalid_email,consent/hr/hr;messe,false');
 

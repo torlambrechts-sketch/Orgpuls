@@ -2,6 +2,10 @@ import 'server-only'
 import { z } from 'zod'
 import { LOCALES } from '@/lib/i18n/locales'
 import { call } from './api'
+import { Conditions, Custom, CustomRefs, type Condition } from './crmFieldTypes'
+import { VISIBILITIES } from './crmLabel'
+
+export { VISIBILITIES }
 
 /**
  * The CRM's reads (0055, D-101; 0056–0058, D-103). Each function checks the admin's role and second factor and
@@ -9,10 +13,19 @@ import { call } from './api'
  */
 const num = z.coerce.number()
 const tsn = z.string().nullable()
+/**
+ * 0196 (SEC-07): what the signed-in staff member's permission set allows in one area, keyed by action
+ * ({"create": true, "edit": false, …}). The database checks every call; the screens read this only to leave
+ * out what would be refused.
+ */
+const May = z.record(z.string(), z.boolean())
+export type May = z.infer<typeof May>
+export const may = (m: May | undefined, action: string) => m?.[action] === true
 
 export const CONTACT_TYPES = ['prospect', 'trial', 'customer', 'former'] as const
 export const CONTACT_ROLES = ['daglig_leder', 'hr', 'leder', 'verneombud', 'annet'] as const
-export const CONTACT_SOURCES = ['user', 'newsletter', 'contact_form', 'import', 'manual', 'event', 'brreg'] as const
+// 0146 adds `demo`: a contact made from the site's demo request
+export const CONTACT_SOURCES = ['user', 'newsletter', 'contact_form', 'import', 'manual', 'event', 'brreg', 'demo'] as const
 export const BASES = ['consent', 'customer', 'business', 'none'] as const
 /** a stage's key (0093): the stages themselves are data, read with crmStages */
 export const StageKey = z.string().regex(/^[a-z][a-z0-9_]{1,39}$/)
@@ -31,6 +44,8 @@ export const TASK_STEP_KINDS = ['call', 'linkedin'] as const
 
 const Contact = z.object({
   id: z.string(),
+  // 0194: the version a form was opened at, sent back so a stale save is refused
+  version: num.optional(),
   email: z.string(),
   name: z.string().nullable(),
   company: z.string().nullable(),
@@ -52,6 +67,9 @@ const Contact = z.object({
   created_at: z.string(),
   company_id: z.string().nullable().optional(),
   lists: z.array(z.string()).optional(),
+  // 0197: the custom values the viewer may see, and the names behind their references
+  custom: Custom.default({}),
+  custom_refs: CustomRefs.default({}),
 })
 export type Contact = z.infer<typeof Contact>
 
@@ -70,9 +88,12 @@ const Contacts = z.object({
   customer_exception: z.boolean(),
   waiting: num,
   rows: z.array(Contact),
+  // 0192: the list's cap, a CRM rule setting (null: every contact)
+  limit: num.nullable(),
+  may: May.default({}),
 })
 export const crmContacts = (q: string | null, type: string | null) =>
-  call('admin_crm_contacts', { p_q: q, p_type: type, p_limit: 300 }, Contacts)
+  call('admin_crm_contacts', { p_q: q, p_type: type, p_limit: null }, Contacts)
 
 const TimelineRow = z.object({
   kind: z.string(),
@@ -87,7 +108,8 @@ const TimelineRow = z.object({
   unsubscribed_at: tsn,
 })
 export type TimelineRow = z.infer<typeof TimelineRow>
-export const crmContact = (id: string) => call('admin_crm_contact', { p_id: id }, z.object({ contact: Contact, timeline: z.array(TimelineRow) }))
+export const crmContact = (id: string) =>
+  call('admin_crm_contact', { p_id: id }, z.object({ contact: Contact, timeline: z.array(TimelineRow), may: May.default({}), may_campaigns: May.default({}) }))
 
 export const Filter = z
   .object({
@@ -104,13 +126,16 @@ export const Filter = z
     stages: z.array(StageKey).optional(),
     lists: z.array(z.string()).optional(),
     bases: z.array(z.enum(BASES)).optional(),
+    // 0197: conditions on the contacts' custom fields
+    custom: Conditions.optional(),
   })
   .strict()
 export type Filter = z.infer<typeof Filter>
 
-const Segment = z.object({ id: z.string(), name: z.string(), filter: Filter, updated_at: z.string(), total: num, mailable: num })
+// 0197: a segment holding a condition on a field hidden from the viewer says so (the condition itself is not shown)
+const Segment = z.object({ id: z.string(), name: z.string(), filter: Filter, updated_at: z.string(), total: num, mailable: num, hidden_conditions: z.boolean().default(false) })
 export type Segment = z.infer<typeof Segment>
-export const crmSegments = () => call('admin_crm_segments', {}, z.object({ rows: z.array(Segment) }))
+export const crmSegments = () => call('admin_crm_segments', {}, z.object({ rows: z.array(Segment), may: May.default({}) }))
 
 const Stats = z.object({
   queued: num,
@@ -149,7 +174,11 @@ const CampaignRow = z.object({
   step_kind: z.enum(STEP_KINDS).default('mail'),
 })
 export type CampaignRow = z.infer<typeof CampaignRow>
-export const crmCampaigns = () => call('admin_crm_campaigns', {}, z.object({ rows: z.array(CampaignRow) }))
+/** the product's own lifecycle mails (0200): whether the sequence is on, and what each step sent in the last 30 days */
+const Lifecycle = z.object({ enabled: z.boolean(), sent_30d: z.record(z.string(), num) })
+export type Lifecycle = z.infer<typeof Lifecycle>
+export const crmCampaigns = () =>
+  call('admin_crm_campaigns', {}, z.object({ rows: z.array(CampaignRow), may: May.default({}), lifecycle: Lifecycle.nullable().default(null) }))
 
 export const Block = z.object({
   type: z.enum(BLOCK_TYPES),
@@ -247,6 +276,7 @@ export const crmCampaign = (id: string) =>
       web: z.object({ sessions: num, views: num, signups: num, paid: num }),
       tests: num,
       list: z.object({ id: z.string(), name: z.string() }).nullable(),
+      may: May.default({}),
     }),
   )
 
@@ -262,8 +292,67 @@ const Stage = z.object({
   exit_criterion: z.string().nullable().default(null),
   companies: num,
   campaigns: num,
+  // 0203 (D-227): the pipeline it belongs to, the chance a deal in it is won, the days before a deal in it rots, its deals
+  pipeline: z.string().nullable().default(null),
+  probability: num.nullable().default(null),
+  rot_days: num.nullable().default(null),
+  deals: num.default(0),
 })
 export type Stage = z.infer<typeof Stage>
+
+// ---------------------------------------------------------------- pipelines and deals (0203, D-227)
+const Pipeline = z.object({ id: z.string(), key: StageKey, name: z.string(), sort: num, archived: z.boolean(), deals: num })
+export type Pipeline = z.infer<typeof Pipeline>
+export const DEAL_STATUSES = ['open', 'won', 'lost'] as const
+export const DEAL_VIEWS = ['open', 'won', 'lost', 'all'] as const
+const Deal = z.object({
+  id: z.string(),
+  title: z.string(),
+  company_id: z.string().nullable(),
+  company: z.string().nullable(),
+  contact_id: z.string().nullable(),
+  contact: z.string().nullable(),
+  value: num.nullable(),
+  currency: z.string(),
+  pipeline: z.string(),
+  stage: StageKey,
+  stage_changed_at: z.string(),
+  status: z.enum(DEAL_STATUSES),
+  closed_at: tsn,
+  owner_id: tsn,
+  owner: tsn,
+  expected_close: tsn,
+  probability: num.nullable(),
+  stage_probability: num.nullable(),
+  lost_text: tsn,
+  source: z.string(),
+  primary: z.boolean(),
+  visibility: z.enum(VISIBILITIES),
+  archived: z.boolean(),
+  created_at: z.string(),
+  updated_at: z.string(),
+  version: num,
+})
+export type Deal = z.infer<typeof Deal>
+/** A pipeline's deals: open ones, or won, lost or all; or every deal of one company */
+export const crmDeals = (args: { pipeline?: string | null; view?: (typeof DEAL_VIEWS)[number]; q?: string | null; company?: string | null }) =>
+  call(
+    'admin_crm_deals',
+    { p_pipeline: args.pipeline ?? null, p_status: args.view ?? 'open', p_q: args.q ?? null, p_company: args.company ?? null },
+    z.object({ pipeline: z.string(), rows: z.array(Deal), limit: num.nullable(), may: May.default({}) }),
+  )
+/** One deal, the stages of its pipeline and its stage history (the days it spent in each) */
+export const crmDeal = (id: string) =>
+  call(
+    'admin_crm_deal',
+    { p_id: id },
+    z.object({
+      deal: Deal,
+      may: May.default({}),
+      stages: z.array(z.object({ key: StageKey, name: z.string(), kind: z.enum(STAGE_KINDS), managed: z.boolean() })),
+      history: z.array(z.object({ from: StageKey.nullable(), to: StageKey, at: z.string(), days: num })),
+    }),
+  )
 
 // ---------------------------------------------------------------- the inbox (0112)
 const InboxRow = z.object({
@@ -290,7 +379,8 @@ export const crmInbox = (days: number) =>
       rows: z.array(InboxRow),
     }),
   )
-export const crmStages = () => call('admin_crm_stages', {}, z.object({ reply_stage: StageKey, rows: z.array(Stage) }))
+export const crmStages = () =>
+  call('admin_crm_stages', {}, z.object({ reply_stage: StageKey, rows: z.array(Stage), pipelines: z.array(Pipeline).default([]) }))
 
 const Sender = z.object({
   id: z.string(),
@@ -302,11 +392,13 @@ const Sender = z.object({
   campaigns: num,
 })
 export type Sender = z.infer<typeof Sender>
-export const crmSenders = () => call('admin_crm_senders', {}, z.object({ rows: z.array(Sender) }))
+export const crmSenders = () => call('admin_crm_senders', {}, z.object({ rows: z.array(Sender), may: May.default({}), may_settings: z.boolean().default(false) }))
 
 // ---------------------------------------------------------------- companies (0056)
 const Company = z.object({
   id: z.string(),
+  // 0194: the version a form was opened at, sent back so a stale save is refused
+  version: num.optional(),
   org_number: z.string().nullable(),
   name: z.string(),
   form_code: z.string().nullable(),
@@ -337,14 +429,24 @@ const Company = z.object({
   // 0119: the deal's yearly value, and who to talk to
   value_nok: num.nullable().default(null),
   contact_name: z.string().nullable().default(null),
+  // 0196 (SEC-08): who sees the company
+  visibility: z.enum(VISIBILITIES).default('everyone'),
+  // 0197: the custom values the viewer may see, and the names behind their references
+  custom: Custom.default({}),
+  custom_refs: CustomRefs.default({}),
 })
 export type Company = z.infer<typeof Company>
 
-export const crmCompanies = (q: string | null, stage: string | null) =>
+/**
+ * 0197: custom conditions narrow the list (CUS-01); the database checks them against the registry. The argument is
+ * sent only with conditions, so the list does not depend on the call's newest form when none are asked for.
+ */
+export const crmCompanies = (q: string | null, stage: string | null, custom: Condition[] | null = null) =>
   call(
     'admin_crm_companies',
-    { p_q: q, p_stage: stage, p_owner: null },
-    z.object({ stages: z.record(z.string(), num), tasks_due: num, rows: z.array(Company) }),
+    { p_q: q, p_stage: stage, p_owner: null, ...(custom?.length ? { p_custom: Conditions.parse(custom) } : {}) },
+    // 0192: limit is the list's cap, a CRM rule setting (null: every company)
+    z.object({ stages: z.record(z.string(), num), tasks_due: num, rows: z.array(Company), limit: num.nullable(), may: May.default({}) }),
   )
 
 const Activity = z.object({
@@ -376,6 +478,8 @@ export const crmCompany = (id: string) =>
       rules: z.object({ founder_min: num }),
       mail: z.object({ sent: num, opened: num, clicked: num, last_at: tsn }),
       admins: z.array(z.object({ id: z.string(), email: z.string().nullable() })),
+      may: May.default({}),
+      may_contacts: May.default({}),
     }),
   )
 
@@ -408,7 +512,7 @@ const List = z.object({
   click_rate: num.nullable(),
 })
 export type List = z.infer<typeof List>
-export const crmLists = () => call('admin_crm_lists', {}, z.object({ rows: z.array(List) }))
+export const crmLists = () => call('admin_crm_lists', {}, z.object({ rows: z.array(List), may: May.default({}) }))
 
 const Template = z.object({
   key: z.string(),
@@ -423,7 +527,7 @@ const Template = z.object({
   sort: num,
 })
 export type Template = z.infer<typeof Template>
-export const crmTemplates = () => call('admin_crm_templates', {}, z.object({ rows: z.array(Template) }))
+export const crmTemplates = () => call('admin_crm_templates', {}, z.object({ rows: z.array(Template), may: May.default({}) }))
 
 // ---------------------------------------------------------------- overview (0056)
 export const crmOverview = () =>
@@ -529,14 +633,15 @@ export const crmTaskList = (view: (typeof TASK_VIEWS)[number]) =>
 // ---------------------------------------------------------------- the pipeline in figures (0137)
 const Totals = z.object({ count: num, valued: num, value: num })
 /**
- * Every company, summed in the database: per stage and over the open stages, the deals, how many
+ * Every deal, summed in the database (0203: deals, no longer companies): per stage and over the open stages, how many
  * carry a value and the sum of those; won this quarter; and the deals closed since `since` (the
  * quarter, or when the stage history began if later), for the win rate.
  */
-export const crmPipelineSummary = () =>
+export const crmPipelineSummary = (pipeline?: string | null) =>
   call(
     'admin_crm_pipeline_summary',
-    { p_from: null },
+    // 0203: read from deals, one pipeline at a time (the sales pipeline unless named)
+    { p_from: null, p_pipeline: pipeline ?? null },
     z.object({
       stages: z.array(Totals.extend({ key: StageKey })),
       open: Totals,
@@ -548,3 +653,117 @@ export const crmPipelineSummary = () =>
     }),
   )
 export type PipelineSummary = Exclude<Awaited<ReturnType<typeof crmPipelineSummary>>, { error: string }>
+
+// ---------------------------------------------------------------- record history (0194, D-219)
+const HistoryValue = z.union([z.string(), z.number(), z.boolean(), z.array(z.unknown()), z.record(z.string(), z.unknown()), z.null()])
+const History = z.object({
+  changes: z.array(
+    z.object({ id: num, field: z.string(), old: HistoryValue.optional(), new: HistoryValue.optional(), by: tsn, source: z.string(), at: z.string() }),
+  ),
+  more: z.boolean(),
+  events: z.array(z.object({ name: z.string(), at: z.string(), source: z.string(), by: tsn, fields: z.array(z.string()) })),
+  created_by: tsn,
+  updated_by: tsn,
+  // 0197: the names behind the references on the page's custom lines
+  refs: CustomRefs.default({}),
+})
+export type CrmHistory = z.infer<typeof History>
+export const crmHistory = (entity: 'company' | 'contact', id: string, before: number | null) =>
+  call('admin_crm_history', { p_entity: entity, p_record: id, p_before: before }, History)
+
+// ---------------------------------------------------------------- the restore list (0195, D-220)
+export const TRASH_ENTITIES = ['company', 'contact', 'activity'] as const
+export type TrashEntity = (typeof TRASH_ENTITIES)[number]
+/** a record's name as the database gives it: a company's name and number, a contact's name and address, an activity's text */
+const RecordLabel = z.object({
+  name: tsn.default(null),
+  detail: tsn.default(null),
+  kind: tsn.default(null),
+  origin: tsn.default(null),
+})
+export type RecordLabel = z.infer<typeof RecordLabel>
+const Trash = z.object({
+  // days a deleted record waits before the job removes it; null: unlimited
+  window: num.nullable(),
+  approval: z.boolean(),
+  may_write: z.boolean(),
+  may_purge: z.boolean(),
+  counts: z.object({ company: num, contact: num, activity: num }),
+  rows: z.array(
+    z.object({
+      entity: z.enum(TRASH_ENTITIES),
+      id: z.string().uuid(),
+      label: RecordLabel.nullable(),
+      deleted_at: z.string(),
+      deleted_by: tsn,
+      source: z.string(),
+      restorable: z.boolean(),
+      with_activities: num,
+      purge_at: tsn,
+    }),
+  ),
+  requests: z.array(
+    z.object({
+      id: z.string().uuid(),
+      entity: z.enum(TRASH_ENTITIES),
+      count: num,
+      names: z.array(RecordLabel.nullable()),
+      reason: tsn,
+      requested_at: z.string(),
+      requested_by: tsn,
+      mine: z.boolean(),
+    }),
+  ),
+})
+export type CrmTrash = z.infer<typeof Trash>
+export const crmTrash = (entity: TrashEntity | null) => call('admin_crm_trash', { p_entity: entity }, Trash)
+
+/** What a delete would do (admin_crm_delete_preview): read by a server action, shown before the delete is confirmed */
+export const DeletePreview = z.object({
+  entity: z.enum(TRASH_ENTITIES),
+  count: num,
+  missing: num,
+  names: z.array(RecordLabel.nullable()),
+  approval: z.boolean(),
+  window: num.nullable(),
+  effects: z.record(z.string(), num),
+})
+export type DeletePreview = z.infer<typeof DeletePreview>
+
+// ---------------------------------------------------------------- access (0196, D-221)
+export const CRM_AREAS = ['deals', 'contacts', 'campaigns', 'global'] as const
+export type CrmArea = (typeof CRM_AREAS)[number]
+const Uuid = z.string().uuid()
+const Access = z.object({
+  actions: z.array(z.object({ key: z.string(), area: z.enum(CRM_AREAS), kind: z.enum(['write', 'read']) })),
+  sets: z.array(
+    z.object({ id: Uuid, key: z.string(), name: z.string(), kind: z.enum(['admin', 'regular', 'custom']), builtin: z.boolean(), actions: z.array(z.string()), members: num }),
+  ),
+  staff: z.array(
+    z.object({
+      user_id: Uuid,
+      email: z.string().nullable(),
+      role: z.string(),
+      active: z.boolean(),
+      // their own set (null: the role's), the set in force, and their visibility group
+      set_id: Uuid.nullable(),
+      effective_set: Uuid.nullable(),
+      group_id: Uuid.nullable(),
+    }),
+  ),
+  groups: z.array(z.object({ id: Uuid, name: z.string(), parent_id: Uuid.nullable(), members: num })),
+  teams: z.array(
+    z.object({
+      id: Uuid,
+      name: z.string(),
+      manager_id: Uuid.nullable(),
+      manager: z.string().nullable(),
+      members: z.array(z.object({ user_id: Uuid, email: z.string().nullable() })),
+    }),
+  ),
+  limits: z.object({ sets: num.nullable(), groups: num.nullable() }),
+  default_visibility: z.enum(VISIBILITIES),
+})
+export type CrmAccess = z.infer<typeof Access>
+/** Admin › Users & roles › CRM access: the catalogue, the sets and who has which, the groups and the teams */
+export const crmAccess = () => call('admin_crm_access', {}, Access)

@@ -2,8 +2,8 @@ import { getTranslations } from 'next-intl/server'
 import type { CrmMessages } from '@/components/admin/CrmForms'
 import { ListForm } from '@/components/admin/CrmPipelineForms'
 import { ALink, Badge, Card, PageHead, Problem, Table, Td } from '@/components/admin/ui'
-import { isError, whoami } from '@/lib/admin/api'
-import { crmLists } from '@/lib/admin/crm'
+import { isError } from '@/lib/admin/api'
+import { crmLists, may } from '@/lib/admin/crm'
 import { AudienceTabs } from '@/components/admin/AudienceTabs'
 
 /**
@@ -17,17 +17,19 @@ export default async function CrmLists({ searchParams }: { searchParams: Promise
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const l = m.lists
-  const [data, who] = await Promise.all([crmLists(), whoami()])
+  const data = await crmLists()
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
-  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
+  // what the permission set allows (DEC-31): a new list needs create, changing one edit
+  const canCreate = may(data.may, 'create')
+  const canEdit = may(data.may, 'edit')
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
   const editing = sp.id ? data.rows.find((r) => r.id === sp.id) : undefined
-  const open = canWrite && (editing || sp.new !== undefined)
+  const open = editing ? canEdit : canCreate && sp.new !== undefined
 
   return (
     <>
       <PageHead title={l.title} lead={l.lead}>
-        {canWrite && !open ? <ALink href="/admin/crm/lists?new">{l.new}</ALink> : null}
+        {canCreate && !open ? <ALink href="/admin/crm/lists?new">{l.new}</ALink> : null}
       </PageHead>
       <AudienceTabs on="lists" />
       {open ? (
@@ -43,7 +45,7 @@ export default async function CrmLists({ searchParams }: { searchParams: Promise
           {data.rows.map((r) => (
             <tr key={r.id}>
               <Td wrap>
-                {canWrite ? <ALink href={`/admin/crm/lists?id=${r.id}`}>{r.name_no}</ALink> : <span className="font-semibold">{r.name_no}</span>}
+                {canEdit ? <ALink href={`/admin/crm/lists?id=${r.id}`}>{r.name_no}</ALink> : <span className="font-semibold">{r.name_no}</span>}
                 <span className="block text-[12px] text-mut">
                   {r.name_en} · {r.key}
                 </span>

@@ -6,8 +6,13 @@ import { ContactForm, SettingsForm, type CrmMessages } from '@/components/admin/
 import { Icon } from '@/components/admin/icons'
 import { Avatar, Badge, BTN, Card, PageHead, Problem, Segments, type BadgeTone } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
-import { CONTACT_TYPES, crmContacts, crmLists, crmSegments, type Contact } from '@/lib/admin/crm'
+import { CONTACT_TYPES, crmContacts, crmLists, crmSegments, type Contact, may } from '@/lib/admin/crm'
+import { crmRuleState } from '@/lib/admin/crmRules'
 import { AudienceTabs } from '@/components/admin/AudienceTabs'
+import type { FieldMessages } from '@/components/admin/CustomFields'
+import { addFormFields } from '@/lib/admin/crmFieldTypes'
+import { crmFields, liveFields } from '@/lib/admin/crmFields'
+import { crmOwners } from '@/lib/admin/crm'
 
 /**
  * Contacts & lists (X-095, the design's `isContacts`; 0055, D-101 before it): people who sign in,
@@ -26,9 +31,22 @@ export default async function CrmContacts({ searchParams }: { searchParams: Prom
   const cl = (k: string, v?: Record<string, string | number>) => t(`crm.contactsPage.${k}`, v)
   const kind = (CONTACT_TYPES as readonly string[]).includes(type ?? '') ? (type as (typeof CONTACT_TYPES)[number]) : null
   const query = q?.trim().slice(0, 100) || null
-  const [data, who, segments, lists] = await Promise.all([crmContacts(query, kind), whoami(), crmSegments(), crmLists()])
+  const [data, who, segments, lists, rules, registry, owners] = await Promise.all([
+    crmContacts(query, kind),
+    whoami(),
+    crmSegments(),
+    crmLists(),
+    crmRuleState(),
+    crmFields('contact'),
+    crmOwners(),
+  ])
+  // 0197 (D-222): the contacts' custom fields an add form shows
+  const fm = t.raw('crmFields') as FieldMessages
+  const contactFields = isError(registry) ? [] : liveFields(registry, 'contact')
+  const addFields = addFormFields(contactFields)
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
-  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
+  // «New list» makes a segment, a campaign-area create (DEC-31): offered when the permission set allows it
+  const canNewList = !isError(segments) && may(segments.may, 'create')
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
   const c = data.counts
   const href = (k: string | null) => {
@@ -39,12 +57,17 @@ export default async function CrmContacts({ searchParams }: { searchParams: Prom
   return (
     <>
       <PageHead title={cl('title')} lead={cl('lead', { count: c.total, site: t('nav.siteName'), not: c.total - c.mailable })}>
-        {canWrite ? (
+        {canNewList || may(data.may, 'import') ? (
           <div className="flex gap-[10px]">
-            <Link href={'/admin/crm/segments?new' as Route} className={BTN.secondary}>
-              {cl('newList')}
-            </Link>
-            <ImportDialog m={m} label={cl('import')} title={m.import.title} sub={cl('importSub')} close={cl('close')} />
+            {canNewList ? (
+              <Link href={'/admin/crm/segments?new' as Route} className={BTN.secondary}>
+                {cl('newList')}
+              </Link>
+            ) : null}
+            {/* 0196 (SEC-07): importing is the permission set's to allow */}
+            {may(data.may, 'import') ? (
+              <ImportDialog m={m} fields={contactFields} label={cl('import')} title={m.import.title} sub={cl('importSub')} close={cl('close')} />
+            ) : null}
           </div>
         ) : null}
       </PageHead>
@@ -108,17 +131,24 @@ export default async function CrmContacts({ searchParams }: { searchParams: Prom
         </section>
       </div>
 
-      {canWrite ? (
+      {may(data.may, 'create') ? (
         <Card title={m.add.title} className="mt-[18px]">
-          <p className="mb-[10px] mt-0 text-[12.5px] leading-[1.5] text-mut">{m.add.lead}</p>
-          <ContactForm m={m} common={common} />
+          {/* the contact rule (0192, D-218) decides what adding a contact asks for, or whether it is offered */}
+          {rules.optInOnly ? (
+            <p className="m-0 text-[12.5px] leading-[1.5] text-mut">{m.add.optInOnly}</p>
+          ) : (
+            <>
+              <p className="mb-[10px] mt-0 text-[12.5px] leading-[1.5] text-mut">{rules.consentRequired ? m.add.leadRule : m.add.lead}</p>
+              <ContactForm m={m} common={common} consentRequired={rules.consentRequired} fields={addFields} fm={fm} staff={isError(owners) ? [] : owners.rows} />
+            </>
+          )}
         </Card>
       ) : null}
 
       <Card title={m.settings.title} className="mt-[18px]">
         <p className="mb-[10px] mt-0 max-w-[80ch] text-[12.5px] leading-[1.55] text-mut">{m.settings.lead}</p>
         <p className="mb-[10px] mt-0 text-[13px] font-semibold">{data.customer_exception ? m.settings.on : m.settings.off}</p>
-        {who?.role === 'super_admin' ? <SettingsForm m={m} common={common} on={data.customer_exception} /> : <p className="m-0 text-[12px] text-mut">{m.settings.superOnly}</p>}
+        {who?.role === 'super_admin' ? <SettingsForm m={m} common={common} on={data.customer_exception} reasonRequired={rules.reasonRequired} /> : <p className="m-0 text-[12px] text-mut">{m.settings.superOnly}</p>}
       </Card>
     </>
   )

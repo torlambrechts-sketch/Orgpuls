@@ -5,25 +5,33 @@ import { NewCampaignDialog } from '@/components/admin/ContactDialogs'
 import type { CrmMessages } from '@/components/admin/CrmForms'
 import { STATUS_TONE } from '@/components/admin/CrmTabs'
 import { Badge, BTN, PageHead, Problem, Stat } from '@/components/admin/ui'
-import { isError, whoami } from '@/lib/admin/api'
-import { crmCampaigns, crmSegments, type CampaignRow } from '@/lib/admin/crm'
+import { isError } from '@/lib/admin/api'
+import { crmCampaigns, crmSegments, may, type CampaignRow } from '@/lib/admin/crm'
 
 /**
  * Campaigns (X-095, the design's `isCampaigns`; D-101, X-092 before it): what is running, what went
  * out in 30 days and what it brought, every campaign with its click rate and state, and beside them
  * whether the lifecycle mail a subscription business should run exists — read from the campaigns and
- * the product's own trial mail (0060), never ticked by hand — and the house rules.
+ * the product's own trial mail (0060: whether its sequence is on, and what each step sent in 30 days,
+ * 0200), never ticked by hand — and the house rules. «New campaign» is offered when the permission set
+ * allows creating (DEC-31).
  */
 const DAY = 86_400_000
 const LIFECYCLE = ['onboarding', 'trialEnding', 'readOnly', 'winBack', 'newsletter'] as const
+/** the trial mail's steps (0060) behind each of the product's own lifecycle rows */
+const LIFE_STEPS = {
+  onboarding: ['welcome', 'setup_help', 'first_sent', 'results_ready'],
+  trialEnding: ['trial_ending', 'trial_ended'],
+  readOnly: ['read_only_soon'],
+} as const
 
 export default async function CrmCampaigns() {
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const cp = (k: string, v?: Record<string, string | number>) => t(`crm.campaignsPage.${k}`, v)
-  const [data, who, segments] = await Promise.all([crmCampaigns(), whoami(), crmSegments()])
+  const [data, segments] = await Promise.all([crmCampaigns(), crmSegments()])
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
-  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
+  const canCreate = may(data.may, 'create')
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
   // 0137: call and LinkedIn steps send nothing; they are shown in their sequence and journey
   const rows = data.rows.filter((r) => r.step_kind === 'mail')
@@ -37,15 +45,21 @@ export default async function CrmCampaigns() {
   const signups = rows.reduce((n, r) => n + r.signups, 0)
   const pct = (a: number, b: number) => (b ? Math.round((100 * a) / b) : null)
 
-  // lifecycle coverage: the product's own trial mail is always on; the rest are campaigns
+  // lifecycle coverage: the product's own trial mail, on or off and what it sent; the rest are campaigns
+  const life = (k: keyof typeof LIFE_STEPS): { state: string; tone: 'green' | 'yellow' | 'red' } => {
+    const l = data.lifecycle
+    if (!l) return { state: '—', tone: 'yellow' }
+    if (!l.enabled) return { state: cp('lifeOff'), tone: 'red' }
+    return { state: cp('lifeOn', { count: LIFE_STEPS[k].reduce((n, step) => n + (l.sent_30d[step] ?? 0), 0) }), tone: 'green' }
+  }
   const formerSegments = new Set(isError(segments) ? [] : segments.rows.filter((s) => s.filter.types?.includes('former')).map((s) => s.name))
   const latest = (list: CampaignRow[]) => [...list].sort((a, b) => at(b) - at(a))[0]
   const winBack = latest(rows.filter((r) => r.segment && formerSegments.has(r.segment) && r.status !== 'cancelled'))
   const newsletter = latest(rows.filter((r) => r.kind === 'newsletter' && r.status !== 'cancelled'))
   const coverage: Record<(typeof LIFECYCLE)[number], { state: string; tone: 'green' | 'yellow' | 'red'; href?: string }> = {
-    onboarding: { state: cp('builtIn'), tone: 'green' },
-    trialEnding: { state: cp('builtIn'), tone: 'green' },
-    readOnly: { state: cp('builtIn'), tone: 'green' },
+    onboarding: life('onboarding'),
+    trialEnding: life('trialEnding'),
+    readOnly: life('readOnly'),
     winBack: winBack ? { state: m.campaigns.status[winBack.status], tone: winBack.status === 'draft' ? 'yellow' : 'green', href: `/admin/crm/campaigns/${winBack.id}` } : { state: cp('missing'), tone: 'red' },
     newsletter: newsletter ? { state: m.campaigns.status[newsletter.status], tone: newsletter.status === 'draft' ? 'yellow' : 'green', href: `/admin/crm/campaigns/${newsletter.id}` } : { state: cp('missing'), tone: 'red' },
   }
@@ -54,7 +68,7 @@ export default async function CrmCampaigns() {
   return (
     <>
       <PageHead title={m.campaigns.title} lead={cp('lead', { count: rows.length, site: t('nav.siteName') })}>
-        {canWrite ? <NewCampaignDialog m={m} common={common} label={m.campaigns.new} sub={cp('newSub')} close={cp('close')} /> : null}
+        {canCreate ? <NewCampaignDialog m={m} common={common} label={m.campaigns.new} sub={cp('newSub')} close={cp('close')} /> : null}
       </PageHead>
 
       <div className="grid gap-[16px] [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]">
@@ -65,7 +79,7 @@ export default async function CrmCampaigns() {
       </div>
 
       <div className="mt-[18px] grid items-start gap-[18px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1.3fr)_minmax(300px,.7fr)]">
-        <section className="min-w-0 overflow-x-auto rounded-panel border border-line bg-sf">
+        <section className="min-w-0 overflow-x-auto rounded-panel border border-line bg-sf" tabIndex={0} role="region" aria-label={m.campaigns.title}>
           <div className="min-w-[620px]">
             <div aria-hidden="true" className="flex items-center gap-[14px] border-b border-line px-[20px] pb-[10px] pt-[14px] text-[11px] uppercase tracking-[0.09em] text-mut">
               <span className="flex-[2.2]">{cp('col.campaign')}</span>

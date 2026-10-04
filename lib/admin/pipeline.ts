@@ -53,3 +53,14 @@ export function winRateText(
   const rate = winRate(closed.won, closed.lost)
   return rate === null ? null : phrase({ rate, won: closed.won, closed: closed.won + closed.lost })
 }
+
+/**
+ * A deal's value as the lists show it (0203): nothing when no value was entered (never «0 kr»), kroner as the
+ * pipeline's figures write them, any other currency by its code; øre only when there are any.
+ */
+export function dealValue(value: number | null, currency: string): string {
+  if (value === null) return ''
+  const whole = Number.isInteger(value)
+  const n = value.toLocaleString('nb-NO', { minimumFractionDigits: whole ? 0 : 2, maximumFractionDigits: 2 })
+  return currency === 'NOK' ? `${n} kr` : `${n} ${currency}`
+}

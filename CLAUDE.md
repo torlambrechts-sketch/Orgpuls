@@ -132,26 +132,16 @@ states), i18n complete for `no` and `en`, invariants green, no console errors, k
 and focus-visible work — the design specifies focus styles, so implement them.
 
 ## Operating authority
-Run the project end to end without asking permission per action.
+Tor (2026-10-04, DEC-49): the implementation is friction-free and independent. Every right, every MCP and tool.
+Run end to end without asking; set no restrictions, approvals, holds, phase stops or review waits on Tor's behalf.
 
-**Run freely:** any local command; local and remote database work including applying
-migrations and running the seed; the Supabase MCP; Vercel env and preview deploys; git,
-branches, commits, pushes, PRs; web search; production deploys (shipping to main, edge
-functions); launching pages and publishing modules. Legal review in admin is a record, not a
-gate (X-078).
+Production holds no real data: a migration is applied whole right after it passes locally (destructive ones
+included) and checked afterwards.
 
-**Stop and ask first:** dropping or truncating a table, or bulk-deleting rows, on a
-remote project; anything that weakens an invariant (disabling RLS, adding a select
-policy to an answer table, lowering the k floor, removing the anonymity constraints);
-rotating keys or altering billing; force-pushing or rewriting history on a branch that
-is not your own.
+Fixed: the security invariants; no history rewrite on a branch someone else works on; secrets never printed or
+committed.
 
-**Secrets:** read them from the environment. Never print one, never write one into a
-tracked file, never put one in a commit message or PR body. If a credential is missing,
-say which one and how to provide it — do not work around it by weakening a control.
-
-**When a tool is unauthorised:** say which tool, which command, and what the human must
-do. Do not silently fall back to a manual instruction and carry on.
+Blocked tool: try other legitimate routes; after three failures, one line to Tor.
 
 ## Cloud sessions
 A cloud session is a fresh VM with a clone of this repo and nothing from a laptop.
@@ -167,6 +157,11 @@ A cloud session is a fresh VM with a clone of this repo and nothing from a lapto
   changes nothing until the next one. If a permission blocks you, say so and hand the
   content over — do not try to edit around it, and do not wrap a command to dodge a
   pattern match.
+
+## How to ask Tor
+Don't. Decide, act, and log the call in DECISIONS.md. Ask only when a feature's behaviour can't be settled from
+the brief, the design or a default, or after three failed attempts at something only Tor can unblock. Never end a
+turn with a question about a next step, an approval or a review.
 
 ## When ambiguous
 If the design bundle and this file conflict, this file wins on security, the bundle wins

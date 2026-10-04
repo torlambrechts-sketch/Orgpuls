@@ -59,7 +59,7 @@ export default async function Page() {
         ))}
       </KpiStrip>
       <div className="mt-[18px] grid items-start gap-[18px] lg:[grid-template-columns:minmax(0,1.3fr)_minmax(300px,.7fr)]">
-        <div className="min-w-0 overflow-x-auto rounded-panel border border-line bg-sf">
+        <div className="min-w-0 overflow-x-auto rounded-panel border border-line bg-sf" tabIndex={0} role="region" aria-label={g('risks.table')}>
           <div role="table" aria-label={g('risks.table')} className="min-w-[600px]">
             <div role="row" className={`flex items-center gap-[14px] border-b border-line px-[20px] pb-[10px] pt-[14px] ${HEAD}`}>
               <span role="columnheader" className="flex-[1.4]">{g('risks.head.risk')}</span>

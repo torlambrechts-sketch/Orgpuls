@@ -3,23 +3,53 @@ import { ContactActionForm, ContactForm, type CrmMessages } from '@/components/a
 import { ContactListForms } from '@/components/admin/CrmPipelineForms'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
-import { crmContact, crmLists } from '@/lib/admin/crm'
+import { crmContact, crmHistory, crmLists, crmOwners, may } from '@/lib/admin/crm'
+import { CrmHistory } from '@/components/admin/CrmHistory'
+import { CrmDeleted } from '@/components/admin/CrmDeleted'
+import { DeleteRecords } from '@/components/admin/CrmTrash'
+import { crmRuleState } from '@/lib/admin/crmRules'
+import type { FieldMessages } from '@/components/admin/CustomFields'
+import { customRows, historyWords } from '@/components/admin/CustomFieldRows'
+import { crmFields, liveFields } from '@/lib/admin/crmFields'
+import { LOCALE_REGISTRY } from '@/lib/i18n/locales'
 
 /**
  * One contact (D-101): who they are, the consent we hold and where it came from, every mail
  * the CRM sent them with its delivery, opens and clicks, and the two ways to stop: an
  * unsubscribe on their behalf, or erasure.
  */
-export default async function CrmContact({ params }: { params: Promise<{ id: string }> }) {
+export default async function CrmContact({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ before?: string }> }) {
   const { id } = await params
+  const sp = await searchParams
+  const before = /^\d{1,18}$/.test(sp.before ?? '') ? Number(sp.before) : null
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
-  const [data, who, lists] = await Promise.all([crmContact(id), whoami(), crmLists()])
+  const [data, who, lists, rules, history, registry, owners] = await Promise.all([
+    crmContact(id),
+    whoami(),
+    crmLists(),
+    crmRuleState(),
+    crmHistory('contact', id, before),
+    crmFields('contact'),
+    crmOwners(),
+  ])
+  // 0197 (D-222): the contacts' custom fields, and the staff a user field may name
+  const fm = t.raw('crmFields') as FieldMessages
+  const fields = isError(registry) ? [] : liveFields(registry, 'contact')
+  const staff = isError(owners) ? [] : owners.rows
   const listOptions = isError(lists) ? [] : lists.rows.filter((l) => !l.archived).map((l) => ({ id: l.id, key: l.key, name: l.name_no }))
-  if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
-  const c = data.contact
   const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
+  // 0195 (D-220): a deleted contact is read from the restore list; its page says so and offers the restore
+  if (isError(data) && data.error === 'deleted')
+    return (
+      <CrmDeleted entity="contact" id={id} back="/admin/crm/contacts" backText={m.contact.back} canWrite={canWrite} reasonRequired={rules.reasonRequired} m={m} common={common} />
+    )
+  if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
+  const c = data.contact
+  // 0196 (SEC-07): what this staff member's permission set allows here; the database checks every call
+  const canEdit = may(data.may, 'edit')
+  const canDelete = may(data.may, 'delete')
   const row = (k: string, v: React.ReactNode) => (
     <div className="flex flex-wrap gap-x-[10px] border-b border-line py-[7px] text-[13px] last:border-b-0">
       <span className="w-[140px] flex-none text-mut">{k}</span>
@@ -42,9 +72,10 @@ export default async function CrmContact({ params }: { params: Promise<{ id: str
           {row(m.col.role, c.role ? m.roleName[c.role as keyof typeof m.roleName] : '—')}
           {row(m.col.source, m.source[c.source as keyof typeof m.source] ?? c.source)}
           {row(m.col.tags, c.tags.length ? c.tags.join(', ') : '—')}
-          {row(m.add.lang, c.lang === 'en' ? 'English' : 'Norsk')}
+          {row(m.add.lang, LOCALE_REGISTRY.find((l) => l.code === c.lang)?.nativeName ?? c.lang)}
           {row(m.col.added, day(c.created_at))}
           {row(m.col.engaged, when(c.last_engaged_at))}
+          {customRows(fields, c.custom, c.custom_refs, fm, row)}
           {row(
             m.col.status,
             <span className="flex flex-wrap gap-[4px]">
@@ -69,7 +100,7 @@ export default async function CrmContact({ params }: { params: Promise<{ id: str
       </div>
 
       <Card title={m.contactLists.title} className="mt-[16px]">
-        {canWrite ? (
+        {may(data.may_campaigns, 'edit') ? (
           <ContactListForms m={m} common={common} contact={c.id} lists={listOptions} member={c.lists ?? []} />
         ) : (
           <p className="m-0 text-[13px]">
@@ -100,23 +131,47 @@ export default async function CrmContact({ params }: { params: Promise<{ id: str
         </Table>
       </Card>
 
-      {canWrite ? (
+      {canEdit || canDelete ? (
         <div className="mt-[16px] grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,2fr)_minmax(0,1fr)]">
-          <Card title={m.contact.edit}>
-            <ContactForm m={m} common={common} contact={c} />
-          </Card>
+          {canEdit ? (
+            <Card title={m.contact.edit}>
+              <ContactForm m={m} common={common} contact={c} fields={fields} fm={fm} staff={staff} />
+            </Card>
+          ) : (
+            <span />
+          )}
           <div className="flex flex-col gap-[14px]">
-            {c.status !== 'unsubscribed' ? (
+            {canEdit && c.status !== 'unsubscribed' ? (
               <Card title={m.contact.unsubscribe}>
-                <ContactActionForm m={m} common={common} id={c.id} kind="unsubscribe" />
+                <ContactActionForm m={m} common={common} id={c.id} kind="unsubscribe" reasonRequired={rules.reasonRequired} />
               </Card>
             ) : null}
-            <Card title={m.contact.erase}>
-              <ContactActionForm m={m} common={common} id={c.id} kind="erase" />
-            </Card>
+            {canDelete ? (
+              <>
+                <Card title={m.delete.contact}>
+                  <p className="mb-[10px] mt-0 text-[12.5px] leading-[1.5] text-mut">{m.delete.lead}</p>
+                  <DeleteRecords entity="contact" ids={[c.id]} m={m} common={common} reasonRequired={rules.reasonRequired} />
+                </Card>
+                <Card title={m.contact.erase}>
+                  <ContactActionForm m={m} common={common} id={c.id} kind="erase" reasonRequired={rules.reasonRequired} />
+                </Card>
+              </>
+            ) : null}
           </div>
         </div>
       ) : null}
+      {/* 0194 (D-219): every change to this contact, with who and from where */}
+      {isError(history) ? null : (
+        <div className="mt-[14px]">
+          <CrmHistory
+            data={history}
+            labels={{ ...m.history, field: { ...m.history.field, ...historyWords(fields) } }}
+            base={`/admin/crm/contacts/${id}`}
+            before={before}
+            fields={fields}
+          />
+        </div>
+      )}
     </>
   )
 }

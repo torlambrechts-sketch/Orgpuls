@@ -1,0 +1,520 @@
+# 05 — Gap against the CRM enrichment specification
+
+Phase A output (A3.5) for `docs/crm-enrichment/INSTRUCTIONS.md`. Written 2026-10-03 on branch
+`ccr-39a2fb73-jgkg09` at the commit that adds this file. No application code or database was changed.
+
+**How the status was set.** Each feature was checked sentence by sentence against what the code does today,
+using the evidence in `03-IMPLEMENTED-TODAY.md` (routes, actions, RPCs) and `02-DATABASE.md` (tables,
+functions, tests). The strict definition in A3.5 applies: **Implemented** needs every sentence met, tests that
+pass *and* a screen seen working. No feature in this file meets that bar in full, so none is marked
+Implemented; where most of a feature exists it is **Partial** with the unmet sentences named. **Conflict**
+means the code (or a recorded decision) contradicts the specification; those rows are also questions in
+`06-QUESTIONS.md`.
+
+Abbreviations in the evidence column:
+- `CRM/` = `app/(admin)/admin/crm/`, `LA/` = `lib/admin/`, `CA/` = `components/admin/`, `mig/` = `supabase/migrations/`
+- `R` = `app.crm_can_read()` (super_admin, marketing, analyst), `W` = `app.crm_can_write()` (super_admin, marketing), both `mig/0055_crm.sql:505-511`
+- "company" = `app.crm_companies`, which today **is** the deal (one per company): see the PIP-03 Conflict
+
+The column *Work package* is left empty: it is filled in Phase B (A4).
+
+## Summary
+
+| Module | Features | Implemented | Partial | Missing | Conflict | Unknown |
+| --- | --- | --- | --- | --- | --- | --- |
+| PIP Pipeline and deals | 17 | 0 | 9 | 7 | 1 | 0 |
+| ACT Activities | 9 | 0 | 2 | 7 | 0 | 0 |
+| CRM CRM records | 15 | 0 | 8 | 6 | 1 | 0 |
+| CUS Customization | 8 | 1 | 6 | 1 | 0 | 0 |
+| LEA Leads | 6 | 0 | 2 | 4 | 0 | 0 |
+| COM Email and communications | 14 | 0 | 3 | 11 | 0 | 0 |
+| AUT Automation | 12 | 0 | 6 | 6 | 0 | 0 |
+| INS Insights and reports | 10 | 0 | 2 | 8 | 0 | 0 |
+| PRO Prospecting | 7 | 0 | 2 | 5 | 0 | 0 |
+| AIA AI assistant | 7 | 0 | 0 | 7 | 0 | 0 |
+| MTG Meeting intelligence | 8 | 0 | 0 | 8 | 0 | 0 |
+| MCP AI connector | 3 | 0 | 0 | 3 | 0 | 0 |
+| CMP Email marketing | 9 | 0 | 9 | 0 | 0 | 0 |
+| PRJ Projects | 9 | 0 | 0 | 9 | 0 | 0 |
+| LGN Lead generation | 5 | 0 | 3 | 2 | 0 | 0 |
+| WEB Web visitors | 4 | 0 | 1 | 2 | 1 | 0 |
+| DOC Documents and e-sign | 6 | 0 | 0 | 6 | 0 | 0 |
+| SEC Security and permissions | 11 | 0 | 6 | 5 | 0 | 0 |
+| INT Integrations and API | 11 | 0 | 0 | 11 | 0 | 0 |
+| MOB Mobile app | 8 | 0 | 0 | 8 | 0 | 0 |
+| ENT Plans and entitlements | 4 | 0 | 0 | 3 | 1 | 0 |
+| **Total** | **183** | **1** | **59** | **119** | **4** | **0** |
+
+User flows, system flows, settings, Part F entities and Part G non-functional requirements follow the feature
+tables, each with its own counts.
+
+---
+
+## Pipeline and deals (PIP)
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| PIP-01 Kanban pipeline view | Partial | `CA/CrmBoard.tsx:68-249` board; HTML5 drag `:137-171`; optimistic move with rollback `:101-114`; column header count and summed value `:126-160`; read-only users cannot drop `:103,132,163`; move RPC `admin_crm_stage_move` `mig/0093_crm_stages.sql:140` (W) writes stage history (win rate reads it, `mig/0137_crm_win_rate_steps.sql`); test `tests/unit/pipeline.test.ts:4-42` | Cards show no labels and no activity-status icon (planned/overdue/none). No changelog entry per field and no `deal.stage_changed` event in the typed events table. Cards are not paged per stage: one query capped at 500 (`mig/0056_crm_pipeline.sql:845`). Visibility applies to the company (WP-0.4); the board's cards follow it. A drop on a stage whose required fields are empty is refused and the card goes back with the reason (WP-0.5, D-222). | Typed reason | PIP-03, SEC-08, events (SF-02) | |
+| PIP-02 Pipelines and stages | Partial | Stages are rows: key, name, sort, kind open/won/lost/parked, managed, archived, exit criterion (`LA/crm.ts:254-266`; `CRM/stages/page.tsx:28-60`; `admin_crm_stage_save` `mig/0112_crm_board_inbox.sql:55`); test `supabase/tests/crm_stages_invariants.sql`. **WP-1.1 (0203, D-227):** pipelines as rows (`app.crm_pipelines`), added, renamed, ordered and archived on CRM › Stages; every stage belongs to one, with a chance of winning (0–100) and rot days; a stage is removed with its deals moved to a chosen stage of the same pipeline, each move recorded (CDI 5, 6; screens `phase-1/WP11-stages-pipelines-*`) | Limiting a pipeline to visibility groups (SEC-08) and card fields per pipeline come with WP-1.2's board; rot days are stored but nothing flags a rotting deal until WP-1.2's job. | — | SEC-08 | WP-1.1 |
+| PIP-03 Deal record | Partial | **WP-1.1 (0203, D-227):** a deal is its own record (`app.crm_deals`): title (the only required field), company, primary contact, value and currency, pipeline and stage, owner, expected close, probability, status open/won/lost from the stage's kind with when it closed, lost text, source, custom values and visibility, with the standard columns, changelog and events (`deal.added`, `.updated`, `.stage_changed`, `.won`, `.lost`); a company may have any number; each company's former deal became its primary deal, whose stage, value and owner mirror the company's until WP-3 (CDI 2, 4, 7, 8; screens `phase-1/WP11-deal*`) | Participants and followers (WP-1.3), labels and archive (WP-1.2), product-derived value (WP-4.4), currencies with rates (WP-1.9; a primary deal stays in NOK), custom fields defined for deals (the registry covers companies and contacts), deals in the restore list (WP-1.2). | — | CRM-01, CUS-01, CUS-06, CRM-07 | WP-1.1 |
+| PIP-04 Deal detail view | Partial | Company page `CRM/prospects/[id]/page.tsx`: details card, contacts, activity log, mail summary; **WP-0.2 (0194):** changelog with field, old value, new value, user, time and source for every change from every path, shown in a History card, paginated (`components/admin/CrmHistory.tsx`; CHI 2–10; screens `PIP-04-history*`) | No followers, no Won/Lost buttons, no stage progress bar, no tabs (notes, activity, call, email, files, documents, invoice), no Focus list, no History filter by kind, no reorderable sidebar. The deal record itself arrives in WP-1.1. | — | PIP-09, CRM-05, CRM-06, COM-02, DOC, INT-08 | |
+| PIP-05 Deal rotting | Missing | Cards show "N days" since stage change (`CA/CrmBoard.tsx:174-180`) but nothing compares it with a threshold | No threshold per stage, no red flag, no owner notification, no idle clock reset rules. | — | PIP-02, SF-26, SF-07 | |
+| PIP-06 Deal labels | Partial | Free-text `tags[]` on companies (`LA/crm.ts:308-340`, `LA/crmActions.ts:321-374`) | Not colour-coded, not shown on cards or list rows, no company filter by tag (segments filter contact tags only, `LA/crm.ts:92-108`), no label management behind a settings permission. | — | SEC-07 | |
+| PIP-07 Won, lost and lost reasons | Partial | Won/lost are stage kinds; a lost-kind stage asks for a free-text `lost_reason` (`CA/CrmPipelineForms.tsx:131`); won this quarter and win rate shown (`CRM/pipeline/page.tsx:30-31`) | No predefined reason list, no "reason mandatory" setting, no optional comment saved as a note, no explicit reopen that clears status, lost reason is not a reporting dimension. | — | INS-01 | |
+| PIP-08 Participants | Missing | A company has many contacts (`CRM/prospects/[id]/page.tsx:84-98`), which is not participation in a deal | No participant link, no suggestion in a composer (there is no 1:1 composer), no bulk import of participants. | — | PIP-03, COM-02 | |
+| PIP-09 Followers | Missing | — | No follower table, no notifications. | — | SF-07 | |
+| PIP-10 List view | Partial | List view sorted by value (`CA/CrmBoard.tsx:202-223`); companies table (`CRM/prospects/page.tsx:84-117`); bulk stage move ≤500 (`LA/crmActions.ts:406-420`); **WP-0.3:** bulk delete of ticked companies with a preview | No selectable columns, multi-column sort, inline edit, bulk edit of other fields, CSV/XLSX export, visible system ID, admin default columns, changelog per changed deal. (The bulk-edit permission exists since WP-0.4: the ticked-companies bar needs it.) | Second-admin approval | SEC-07, CRM-10 | |
+| PIP-11 Forecast view | Missing | — | No date columns, totals or drag to change date (and no expected close date field). | — | PIP-03 | |
+| PIP-12 Filters | Partial | Company search `?q=` and stage chips (`CRM/prospects/page.tsx:42-77`); contact search and type (`CRM/contacts/page.tsx:55-70`); saved contact segments with 13 dimensions (`LA/crm.ts:92-108`); **WP-0.5 (0197):** custom-field conditions on the companies list (`?cf=`) and in segments, by type, a hidden field never a condition (CFI 8, 5; screens `CUS-01-companies-filter`, `CUS-01-segment-conditions`) | No global search across records, no ALL/ANY condition groups (conditions are ALL), no saved filter visibility or favourite, nothing on leads/activities/projects/products. | — | SF-25, CUS-01 | |
+| PIP-13 Archive | Missing | Stages can be archived and `parked` is a stage kind (`LA/crm.ts:254-266`); deals themselves cannot be archived | No archive/unarchive of a deal or lead, no archive view. | — | PIP-16 | |
+| PIP-14 Deal card customization | Missing | Card fields are fixed in `CA/CrmBoard.tsx:174-180` | No per-pipeline card field choice. | — | PIP-02 | |
+| PIP-15 Closed deals toggle and stage timing | Partial | Stage history exists and feeds win rate (`mig/0137_crm_win_rate_steps.sql`; `supabase/tests/crm_win_rate_invariants.sql`); lost/parked stages listed as links under the board (`CA/CrmBoard.tsx:227-235`) | No toggle to show won/lost on the board, no per-user memory, no progress bar with days per stage. | — | PIP-04 | |
+| PIP-16 Capacity and waitlist | Missing | — | No capacity setting, waitlist, or overflow path. (Spec default is no limit; the mechanism still has to exist.) | Plan gates and usage limits | ENT-02 | |
+| PIP-17 Duplicate and restore | Partial | **WP-0.3 (0195):** a deleted company (today's deal) goes to the restore list and is restored with its activities, its contacts' links and its history for the window, 30 days by default (`CRM/restore/page.tsx`; CRI 3, 5, 7; screens `PIP-17-*`, `CRM-12-*`) | No duplicate. The deal record arrives in WP-1.1 and is built with the same flag. | Days in the restore list | CRM-12 | |
+
+## Activities (ACT)
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| ACT-01 Activities | Partial | `app.crm_activities` kinds call/email/reply/meeting/note/task/stage, body, due date, done_at, company, contact, admin (`LA/crm.ts:352`; `admin_crm_activity` `mig/0093_crm_stages.sql:544`; done `admin_crm_task_done` `mig/0143_growth_crm.sql:1488`); auto tasks marked `auto:<key>` (`CRM/prospects/[id]/page.tsx:30-33`) | No time of day or duration, no owner distinct from the logging admin, links only to a company (+contact), not to deal/lead/project; completion does not emit an event that automations can use. Types lack lunch/deadline. | — | PIP-03, SF-36 | |
+| ACT-02 Custom activity types and fields | Missing | Kinds are a fixed enum (`LA/crm.ts:352`) | No admin-managed types or activity custom fields. | — | CUS-01 | |
+| ACT-03 Calendar and list views | Partial | Task list with open/done/all views (`CRM/tasks/page.tsx:1-150`) | No day/week/month calendar, no filters by user/type, no drag to reschedule, no team view. | — | ACT-09 | |
+| ACT-04 Reminders | Missing | Only the inbound-lead SLA clock (`CRM/inbox/page.tsx`) | No reminders by any channel, no daily summary, no notification center. | — | SF-07 | |
+| ACT-05 Priority labels | Missing | Priority dot is derived, schema has none (`CRM/tasks/page.tsx:27-28`) | No priority field, filter or sort. | — | — | |
+| ACT-06 Bulk activities | Missing | — | No bulk create/edit of activities. | — | SEC-07 | |
+| ACT-07 Next-step prompt | Missing | — | No prompt on done; no warning icon for deals without a planned activity. | — | ACT-01 | |
+| ACT-08 Activity invites | Missing | — | No guests or calendar invites. | — | ACT-09 | |
+| ACT-09 Calendar sync | Missing | — | No Google/Microsoft calendar connection. | — | INT-05, INT-06 | |
+
+## CRM records (CRM)
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| CRM-01 People and organizations | Partial | Contacts `app.crm_contacts` (`LA/crm.ts:32-55`) and companies (`LA/crm.ts:308-340`), list/detail pages (`CRM/contacts/*`, `CRM/prospects/*`); synced from signed-in users (`app.crm_sync`); respondents never contacts (`supabase/tests/crm_invariants.sql:1-6`) | Person lacks phones, owner, labels-as-labels; organization lacks address and labels (custom fields on both since WP-0.5, D-222). Detail views show no deals list (one deal = the company), no files, no emails beyond campaign sends. Contacts are not "auto-linked" to `app.organizations` beyond `org_id`; CRM companies and customer orgs are two tables (see 06 Q). | Contact rule | CUS-01, CRM-05 | |
+| CRM-02 Contacts timeline | Partial | Per-contact send timeline table (`CRM/contacts/[id]/page.tsx:81-101`) | No one-row-per-record time-axis view, today marker, overdue in red, or look-back/frequency controls. | — | ACT-01 | |
+| CRM-03 Contacts map | Missing | — | No geocoding, map or address-based filter. | — | CRM-01 | |
+| CRM-04 Contact sync | Missing | — | No address-book sync. | Contact rule | INT-05, INT-06 | |
+| CRM-05 File attachments | Missing | — | No files on CRM records. | — | SF-33 | |
+| CRM-06 Notes, mentions and comments | Partial | Note-kind activities on companies (`CA/CrmPipelineForms.tsx:165`); @mentions exist in tickets, not CRM | No rich text, no @mention notification, no comment threads, no pinning, nothing on contacts. | — | SF-07 | |
+| CRM-07 Product catalog | Missing | — | No products, prices or product lines. | — | CUS-06 | |
+| CRM-08 Subscriptions and installments | Conflict | No product lines; no billing mirror: Stripe is absent and billing is invoice/EHF with the price list in code (D-93, D-163, D-164, D-170 in `docs/DEVIATIONS.md`) | **Conflict:** the spec takes Orgpuls recurring figures "from the billing mirror"; no billing mirror exists. Missing: recurring products, installments, MRR/ARR/ACV/TCV per deal. | — | CRM-07 | |
+| CRM-09 Import | Partial | Contact CSV import ≤5,000 rows with rejected rows returned (`LA/crmActions.ts:94-123`; `admin_crm_import` `mig/0141_growth_foundations.sql:1057`); company import from Brønnøysund ≤200 (`admin_crm_company_import` `:961`); **WP-0.5 (0197):** the contact import's other columns fill custom fields by key or label, with values that do not fit, empty required fields and unknown columns reported (CFI 9; screen `CUS-01-import-remarks`) | No all-entities session, no column-to-field mapping UI (fixed columns, `CA/CrmForms.tsx:167`), no merge-or-create choice, no downloadable skip file, no import history or revert. The admin spec's "consent source required per row" is the code's behaviour today (consent_source column) — the brief makes it a setting, off by default. | Consent source on import; Contact rule | AIA-05, ENT-02 | |
+| CRM-10 Export | Partial | Consent ledger CSV with formula-safe cells (`CRM/consent/export/route.ts:1-30`, logs `crm.consent_export`) | No export of contact, company or deal list views, no XLSX, no export permission, no SEC-02 alert. | — | SEC-07, SEC-02 | |
+| CRM-11 Merge duplicates | Missing | Org merge in the admin spec is also missing (see 04) | No matching rules, duplicate list, compare view or merge. | Second-admin approval | SF-10 | |
+| CRM-12 Restore data | Partial | **WP-0.3 (0195):** companies, contacts and activities are soft-deleted (who, when, from where), listed in CRM › Restore with the day the job removes them, restored with their links (CRI 3–6); the purge job `orgpuls-crm-purge` removes what is past the window (CRI 7); bulk delete with a preview and second-admin approval as a setting, off by default (CRI 8, 9; screens `PIP-10-bulk-delete-*`, `CRM-12-approval-pending`); erasure stays a hard erase | Bulk changes other than deletes cannot be reverted yet: planned with WP-1.2's bulk edit (DEC-27). Deals, leads and products are covered when they are built (WP-1.1, 1.7, Phase 4). Who may restore is the permission set's delete action (WP-0.4, D-221). **Production:** the purge (`0195l`, D-220) is on hosted since 2026-10-04. | Second-admin approval; days in the restore list | SF-15 | |
+| CRM-13 Related organizations | Missing | — | No parent/daughter/related links. | — | — | |
+| CRM-14 Contact labels | Partial | Free-text `tags[]` on contacts, filterable in segments (`LA/crm.ts:92-108`) | No colour, no label set separate from deals/leads, not a managed list. | — | — | |
+| CRM-15 Source fields | Partial | Contact `source` (user/newsletter/contact_form/import/manual/event/brreg, plus `demo` written by `mig/0146_demo_signup.sql:106-107` but missing from `LA/crm.ts:15`); company `source` (`LA/crm.ts:308-340`) | No source on leads/deals as a separate record, values differ from the spec list (no API, automation, app, prospect search, web form, chatbot, live chat, web visitors, campaign, messaging), not a reporting dimension. `demo` is not filterable. | — | INS-01 | |
+
+## Customization (CUS)
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| CUS-01 Custom fields | Partial | **WP-0.5 (0197, D-222):** a registry of groups and fields for companies and contacts on CRM › Custom fields; the sixteen types, values in `custom jsonb` checked by `app.crm_field_value`; fields in groups, in the add form and on the record's page by choice; forms, the record's page, the companies list's filter, segments, the contact import and the history read the registry, so a new field needs no deploy (CFI 2, 3, 8, 9, 10; screens `CUS-01-*`) | Leads, deals as their own record, products, projects and activities do not exist yet (WP-1.1, WP-1.7, Phase 4, Phase 6, ACT-02); reports (INS-07) and the API (INT-01) do not exist. Options per field and fields per record type are rules, unlimited by default, until entitlements (ENT-01). **Production:** the companies list's custom conditions (`0197e`, D-222) are on hosted since 2026-10-04. | Count limits (fields, options per field) | SF-38 | |
+| CUS-02 Field quality rules | Partial | **WP-0.5 (0197, D-222):** important (a nudge on the page and in the form) or required, at every stage or from a stage on; a description behind an ⓘ; required refuses a manual save and a stage move by hand — form, deal dialog, bulk move, board — naming the fields, and is reported, not enforced, on the contact import (CFI 4; screens `CUS-02-*`) | The Brønnøysund company import neither fills nor reports custom fields; no API (INT-01); deals as their own record arrive in WP-1.1. | — | CUS-01 | |
+| CUS-03 Pipeline-specific and read-only fields | Partial | **WP-0.5 (0197, D-222):** hidden from or read only for chosen permission sets, enforced in the database: a hidden field is absent from the record, the lists, the history, the segment filters and the registry and refused as unknown by every writer; a read-only one is shown and refused (CFI 5; screen `CUS-03-field-access`) | Fields shown only in chosen pipelines wait for pipelines (WP-1.1). Users are chosen through their permission set, not one by one. | — | CUS-01, SEC-07 | |
+| CUS-04 Formula fields | Implemented | **WP-0.5 (0197, D-222):** number and monetary fields calculated from the record's other number and monetary fields and, on companies, `value_nok` and `employees`; compiled to postfix when saved (no dynamic SQL), self-reference and circles refused, recomputed by a trigger on every write and for every record when the formula changes, so the stored value equals the result (CFI 6, 12; screens `CUS-04-field-errors`, `CUS-02-company-page`) | Deals become their own record in WP-1.1; their fields take formulas the same way. | — | CUS-01 | |
+| CUS-05 Languages and locale | Partial | Admin is English by decision, from next-intl `admin` namespace with `locale:'en'` forced (`app/(admin)/admin/layout.tsx:58`); `messages/no.json` carries a near copy that can never render | No per-user interface language, date/number format or time zone; number formatting is mixed en-GB/nb-NO (`CRM/page.tsx:13` vs `CRM/campaigns/page.tsx:62`). | — | — | |
+| CUS-06 Currencies | Missing | Value is `value_nok` (`mig/0119_crm_deal_value.sql:23`) | No currency field, rates or conversion. | — | — | |
+| CUS-07 Module switches and rule settings | Partial | **WP-0.1 (0192, D-218):** settings registry `app.crm_setting_defs/values/log`; Admin › Settings › CRM rules shows every rule with value, default and last change (`app/(admin)/admin/settings/page.tsx`, `components/admin/CrmRuleForm.tsx`; screens `screens/phase-0/CUS-07-rules-*.png`); every rule defaults to unrestricted; changes logged and audited; a refusal names its setting; tests `supabase/tests/crm_rules_invariants.sql` (18), `tests/unit/crm-rules.test.ts` | Met: rule settings with defaults, logging, "with default settings no feature is blocked" for every rule that exists today. Not yet: module switches (a module off disappears from navigation and its API answers disabled) and plan gates — they arrive with ENT-01 and each module | All rows of the register | SF-34 | WP-0.1 |
+| CUS-08 Sandbox | Partial | Local QA tenant Lumio AS / Kari Nordmann (`scripts/qa/seed.mjs:2,47,171`) and admin fixture (`scripts/seed/sentral-fixture.mjs`), local only; hosted demo template "Demobedriften AS" (`scripts/seed/demo-org.mjs`) | No sandbox company inside the admin, no sample records marked as samples and removable in one step. | — | — | |
+
+## Leads (LEA)
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| LEA-01 Leads inbox | Partial | Inbound inbox of trial sign-ups, contact-form and demo contacts with a first-response SLA (`CRM/inbox/page.tsx:1-109`; `admin_crm_inbox` `mig/0112_crm_board_inbox.sql:117,140-146`); companies in a `lead` stage | No lead object; leads are companies in a stage and therefore **do** appear in the pipeline. No value, labels, archive toggle or sortable columns. | — | PIP-03 | |
+| LEA-02 Lead labels | Missing | — | — | — | — | |
+| LEA-03 Convert lead and deal | Missing | — | Nothing to convert (no lead object). | — | LEA-01 | |
+| LEA-04 Lead creation and import | Partial | Contacts/companies created from contact form, demo request, newsletter signup, Brønnøysund import, CSV import and manually, each with a source (`lib/crm/actions.ts:28-47`; `mig/0146_demo_signup.sql:90-119`; `LA/crmActions.ts:724-738`) | Creates contacts/companies, not leads; no API, chatbot, live chat, prospect search or web-visitor channels. | — | LEA-01, CRM-15 | |
+| LEA-05 Lead email | Missing | — | No 1:1 email. | — | COM-01, COM-02 | |
+| LEA-06 Messaging inbox and social connector | Missing | — | The LinkedIn connector is undefined in the spec (open point 6). LinkedIn *steps* exist in journeys as manual tasks (`LA/crm.ts:28-30`), which is not a connector. | — | COM-13 | |
+
+## Email and communications (COM)
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| COM-01 BCC drop-box | Missing | — | — | — | — | |
+| COM-02 Two-way email sync and inbox | Missing | Inbox has no message bodies by design (`CRM/inbox/page.tsx:15-19`) | No mailbox connection. | — | INT-05, INT-06 | |
+| COM-03 Multiple mailboxes | Missing | — | — | — | COM-02 | |
+| COM-04 Team inbox | Missing | Tickets are the shared inbox for support (separate module) | No team mailbox in the CRM. | — | COM-02 | |
+| COM-05 Templates, signatures and merge fields | Partial | Campaign templates (seeded, `admin_crm_templates`), placeholders `{firma}`/`{navn}` with a "placeholder left" note (`CRM/templates/page.tsx:52-79`), sender signature (`admin_crm_sender_save`) | Marketing only; no private/shared 1:1 templates, no deal/user merge fields, no personalized hyperlinks, no per-account signature. | — | COM-02 | |
+| COM-06 Open and click tracking | Partial | Campaign opens and clicks from Brevo events, Apple proxy opens excluded (`supabase/functions/orgpuls-mail-events/index.ts:156-172`; `record_crm_event`) | Not for 1:1 email; no real-time sender notification; no per-email switch. | Email open and click tracking | COM-02 | |
+| COM-07 Group emailing | Missing | Campaigns are the marketing-stream bulk path (CMP) | No sales group email from list views. | Consent checks on sales email; Count limits | COM-02 | |
+| COM-08 Email scheduling and outbox | Partial | Campaign scheduling and failure recording via `crm_mail_done` (`supabase/functions/orgpuls-dispatch/index.ts:756-799`) | No 1:1 scheduling, outbox, retry. | — | COM-02 | |
+| COM-09 Labels, archiving and warnings | Missing | — | — | — | COM-02 | |
+| COM-10 Meeting scheduler | Missing | — | — | — | ACT-09 | |
+| COM-11 Video call links | Missing | — | — | — | COM-10 | |
+| COM-12 Calling | Missing | — | — | — | provider | |
+| COM-13 Messaging | Missing | — | — | — | provider | |
+| COM-14 Mail client add-ons | Missing | — | — | — | INT-01 | |
+
+## Automation (AUT)
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| AUT-01 Workflow builder | Missing | Journeys are campaign chains with no builder; the page says event-triggered entry is not built (`CRM/journeys/page.tsx:106-118`) | No workflow entity, canvas, draft/active state. | Count limits | SF-04 | |
+| AUT-02 Event triggers | Missing | Typed events table exists for growth (`growth_events`, see 02) | No record add/update/delete triggers. | Technical safeguards | SF-02 | |
+| AUT-03 Date triggers | Missing | — | — | — | SF-26 | |
+| AUT-04 Conditions | Partial | Follow-up mails fire on no_reply/no_click/no_open (`LA/crmActions.ts:547-575`) | Only that; no record conditions with AND/OR. | — | AUT-01 | |
+| AUT-05 Delay and wait-for | Partial | `follow_days` delay and business-hours sending (`crm_mail_claim` `mig/0137_crm_win_rate_steps.sql:560`) | No delay-until-date, skip weekends, wait-for step, 7-day give-up. | Count limits | AUT-01 | |
+| AUT-06 If/else branches | Missing | — | — | Plan gates | AUT-01 | |
+| AUT-07 Actions | Partial | Journey steps send mail, move stage on send, create call/LinkedIn tasks (`LA/crm.ts:28-30`; `app.crm_step_tasks`) | No create/update/delete of records, notes, webhooks, Slack/Teams, Asana/Trello; no run history per action. | Consent checks on sales email; Count limits | AUT-01, INT-04 | |
+| AUT-08 Workflow templates | Missing | — | — | — | AUT-01 | |
+| AUT-09 Monitoring and limits | Partial | **WP-0.6 (0199, D-223):** every CRM job's runs counted per hour with an alert on a failed run (Operations › CRM jobs and the dashboard); loop protection on every event subscriber, `limit_event_loop`, 10,000 events of one record in a rolling ten minutes, the source value (CEI 4, 5, 7; screens `SF-26-ops-crm-jobs-alert`, `SF-26-dashboard-job-failures`) | No workflows yet (AUT-01): their run history, overview and the per-workflow cap (5,000) arrive with them. | Technical safeguards | AUT-01 | |
+| AUT-10 Ownership and sharing | Missing | — | — | — | SEC-07 | |
+| AUT-11 Automatic assignment | Partial | `app.lead_route()` every 5 minutes creates founder/PQL callback tasks by score (`mig/0143_growth_crm.sql:887`) | Not owner assignment; no rules with conditions, assignee types, round robin, priority order or history. | — | SEC-09 | |
+| AUT-12 Sequences | Partial | Mail/call/LinkedIn steps, follow-up days, business hours, daily cap, A/B winner, stage-targeted enrollment (`mig/0111_crm_sequences.sql`, `mig/0137_crm_win_rate_steps.sql`; `supabase/tests/crm_sequences_invariants.sql`, `crm_journeys_invariants.sql`) | No canvas, no manual or bulk enrollment of one record, no end-on-reply/stage-change per record, no per-record step and status (in progress/completed/failed), no skip step. | Consent checks on sales email | COM-02 | |
+
+## Insights and reports (INS)
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| INS-01 Report builder and types | Partial | Fixed reports: marketing overview (`CRM/page.tsx:26-82`), pipeline summary and win rate (`admin_crm_pipeline_summary`), campaign report (`CRM/campaigns/[id]/page.tsx`) | No report builder, measures/dimensions/segments, or the 17 report types. | Count limits | SF-14 | |
+| INS-02 Charts | Missing | — | — | — | INS-01 | |
+| INS-03 Dashboards | Missing | Admin dashboard `/admin` shows a fixed pipeline panel (`app/(admin)/admin/page.tsx:197-213`) | No user dashboards. | Plan gates | INS-01 | |
+| INS-04 Sharing and collaboration | Missing | — | — | — | INS-03 | |
+| INS-05 Goals | Missing | — | — | — | SEC-09 | |
+| INS-06 Forecast reports | Missing | — | — | — | CRM-08 | |
+| INS-07 Custom-field reporting | Missing | — | — | — | CUS-01 | |
+| INS-08 Export | Missing | — | — | — | CRM-10 | |
+| INS-09 AI report generation | Missing | — | — | — | SF-24 | |
+| INS-10 Capacity and freshness | Partial | Reports read live tables (every page is `force-dynamic`, `app/(admin)/admin/layout.tsx:18-19`); **WP-0.6:** the first rollup, CRM events per kind and day, kept by the dispatcher (`app.crm_event_rollups`, CEI 2) | No report count limit; the other reports read live tables until the report store (INS-01). | Plan gates | — | |
+
+## Prospecting (PRO)
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| PRO-01 Feed | Missing | Overview lists due tasks (`CRM/page.tsx:67-80`) | No feed tabs or cards. | — | SF-13 | |
+| PRO-02 Feed actions | Missing | — | — | — | PRO-01 | |
+| PRO-03 Scoring models | Partial | Lead scoring per contact, fit (Brønnøysund) × intent, read-only, weights in SQL (`CRM/scoring/page.tsx`; `admin_lead_scores` `mig/0143_growth_crm.sql:1407`); only hand-raise is sourced | Scores contacts, not deals; no configurable models, groups +25/+10/−10, AND/OR, per-pipeline activation or preview. The admin health score is not a criterion. | Count limits | PIP-02 | |
+| PRO-04 Company enrichment | Partial | Brønnøysund register fills NACE, employees, municipality, general manager on import and "refresh managers" (`LA/crmActions.ts:681-764`; `LA/brreg.ts`) | No address/revenue/LinkedIn/website enrichment, no "only empty fields" guarantee verified, no credits, no hide-default-fields. | — | provider | |
+| PRO-05 Person enrichment | Missing | — | — | Contact rule | provider | |
+| PRO-06 Bulk enrichment and credits | Missing | — | — | Plan gates | PRO-04 | |
+| PRO-07 Reverse lookup | Missing | — | — | Contact rule | PRO-04 | |
+
+## AI assistant (AIA)
+
+All seven are **Missing**: there is no model integration, AI gateway or AI feature in the admin (no LLM SDK in `package.json`).
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| AIA-01 Assistant chat | Missing | — | — | — | SF-24 | |
+| AIA-02 AI notifications | Missing | — | — | — | SF-24 | |
+| AIA-03 Email writer | Missing | — | — | — | COM-02 | |
+| AIA-04 Email summary and replies | Missing | — | — | — | COM-02 | |
+| AIA-05 Import mapping | Missing | — | — | — | CRM-09 | |
+| AIA-06 Integration recommendations | Missing | — | — | — | INT-11 | |
+| AIA-07 Card scanner | Missing | — | — | Contact rule | MOB-01 | |
+
+## Meeting intelligence (MTG)
+
+All eight are **Missing**: no meetings, recordings or transcription exist.
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| MTG-01 Pre-call brief | Missing | — | — | — | ACT-09 | |
+| MTG-02 Notetaker bot | Missing | — | — | Recording consent notices | provider | |
+| MTG-03 Desktop capture | Missing | — | — | — | provider | |
+| MTG-04 Transcript and recap | Missing | — | — | — | SF-21 | |
+| MTG-05 CRM update suggestions | Missing | — | — | Contact rule | SF-24 | |
+| MTG-06 Transcript upload | Missing | — | — | — | MTG-04 | |
+| MTG-07 Unscheduled calls | Missing | — | — | — | MTG-03 | |
+| MTG-08 Workspace and controls | Missing | — | — | Recording consent notices | SEC-07 | |
+
+## AI connector (MCP)
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| MCP-01 MCP server | Missing | — | — | API rate limits | INT-01, INT-02 | |
+| MCP-02 Tool catalog | Missing | — | — | — | INT-01 | |
+| MCP-03 Admin controls | Missing | — | — | — | MCP-01 | |
+
+## Email marketing (CMP)
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| CMP-01 Email builder | Partial | Campaign studio, 15 block types up to 30, reorder/duplicate/remove, live desktop/phone/inbox preview through the dispatcher's renderer (`CA/CampaignStudio.tsx:381-762`; `LA/crm.ts:22-25`); unsubscribe and List-Unsubscribe on every send (`orgpuls-dispatch/index.ts:756-799`); test `tests/unit/campaign-design.test.ts:37-190` | No drag and drop, no rows/layout with border/background/padding, no HTML/video/social/menu/icon blocks, no blank-or-layout start choice beyond templates. Footer postal address not verified. | — | — | |
+| CMP-02 Templates | Partial | Ten seeded templates with a gallery and "use" (`CRM/templates/page.tsx`; `supabase/tests/crm_pipeline_invariants.sql:6`) | No saving a design as a template, no code-your-own HTML, no template versioning in the admin. | — | — | |
+| CMP-03 Audience | Partial | Segments over contact and org data with mailable count and preview (`admin_crm_segment_preview` `mig/0055_crm.sql:784`); lists with per-list consent | No engagement or location filters beyond `no_survey_days`; recipient count equals mailable matches (tested in `crm_invariants.sql`) — the acceptance is likely met but not verified on screen. | — | PIP-12 | |
+| CMP-04 Marketing status and consent | Partial | Consent ledger (append-only), basis per contact, DOI, suppression list (hashed) across marketing sends, preference centre, RFC 8058 one-click (`mig/0141_growth_foundations.sql`, `mig/0143_growth_crm.sql:1053-1163`; `app/api/avmeld/route.ts`; `supabase/tests/consent_ledger_invariants.sql`) | Status set differs: pending/active/unsubscribed plus suppression reasons, not the seven named (no "pending upgrade", "archived", "bounced" as a status). The suppression list covers CRM sends; whether it covers every product send is Partial per 04. | Consent checks on sales email | — | |
+| CMP-05 Scheduling and sending | Partial | Schedule or send now in Oslo time; marketing stream on its own authenticated sender domain (`orgpuls-dispatch/index.ts:741-809`) | No subscriber allowance entitlement. | Plan gates | — | |
+| CMP-06 Campaign analytics | Partial | Delivered, bounced, unsubscribed, open/click/CTOR rates against a benchmark, link click map, 72-hour timeline (`CRM/campaigns/[id]/page.tsx:138-274`) | No spam-report figure shown, no total vs unique opens/clicks split, no top locations, no owner engagement notification; "five soft bounces → bounced" not found. | Email open and click tracking | — | |
+| CMP-07 Automated campaigns | Partial | A campaign is a journey step targeted at a stage, with automatic follow-ups (`mig/0111_crm_sequences.sql`) | Not a step in a general workflow (no workflows). | — | AUT-01 | |
+| CMP-08 Deliverability | Partial | DKIM/DMARC/SPF checks via DNS (`LA/mailDomain.ts:18-58`); the dispatcher refuses to send unless Brevo reports the marketing domain authenticated (`orgpuls-dispatch/index.ts:745-754`); pre-send inbox check blocks scheduling (`lib/crm/deliverability.ts:65-142`) | No account verification step, no list-hygiene warnings (sunset is "not built", `CRM/consent/page.tsx:27-30`). | — | — | |
+| CMP-09 Campaign insights | Partial | Per-campaign benchmark against the last ten (`CRM/campaigns/[id]/page.tsx:178-186`) | No campaign reports in an insights area, no campaign-type filter, no multi-campaign comparison chart. | — | INS-01 | |
+
+## Projects (PRJ)
+
+All nine are **Missing**: no boards, projects or tasks outside CRM activities.
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| PRJ-01 Boards and phases | Missing | — | — | — | — | |
+| PRJ-02 Project record | Missing | — | — | — | PIP-03 | |
+| PRJ-03 Work items | Missing | — | — | — | PRJ-02 | |
+| PRJ-04 Dependencies and timeline | Missing | — | — | — | PRJ-03 | |
+| PRJ-05 Project templates | Missing | — | — | — | PRJ-03 | |
+| PRJ-06 Project health | Missing | — | — | — | SF-24 | |
+| PRJ-07 Collaboration and sharing | Missing | — | — | — | CRM-06 | |
+| PRJ-08 Bulk work and import | Missing | — | — | — | PRJ-03 | |
+| PRJ-09 Automation and reports | Missing | — | — | — | AUT, INS | |
+
+## Lead generation (LGN)
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| LGN-01 Chatbot | Missing | — | — | — | LEA-01 | |
+| LGN-02 Live chat | Missing | — | — | — | LGN-01 | |
+| LGN-03 Web forms | Partial | Contact form files a ticket and joins the newsletter only when ticked (`components/site/ContactBlock.tsx:40-176`; `app/(marketing)/kontakt/actions.ts:22-43`; `submit_contact` `mig/0051_tickets.sql:282-320`); newsletter form with honeypot and DOI (`lib/crm/actions.ts:16-47`) | No form builder, templates, embedding, per-form ID/status, lead creation, owner notification, UTM/cookie/referrer capture on the form (UTM is captured on signup separately), or form statistics. | Form tracking fields | LEA-01 | |
+| LGN-04 Prospect search | Partial | Brønnøysund register search by NACE, municipality, size, org form, adding companies with their general manager (`LA/crmActions.ts:681-738`; `LA/brreg.ts`) | A public company register, not a licensed person database; no person filters, saved filters, credits, or leads inbox target. | Contact rule; Plan gates | provider | |
+| LGN-05 Embedding and consent | Partial | The fixed rule holds today: web analytics refuses respondent paths and never runs in the survey flow (`supabase/tests/web_invariants.sql`, `growth_firewall_invariants.sql`; see 04 §11) | No embed script for widgets (there are no widgets), no consent wording on forms/widgets, no consent-gated loading setting. | Consent-gated loading | LGN-01 | |
+
+## Web visitors (WEB)
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| WEB-01 Tracker | Partial | Cookieless beacon `/api/wv` → `track_web_event`, admin web dashboard (`app/api/wv/route.ts:37-77`; `app/(admin)/admin/web/*`) | One site (orgpuls.com); sites are not told apart by hostname. | Web visitor identification | — | |
+| WEB-02 Organization identification | Conflict | Web analytics stores only a salted hash of IP + user agent with a daily rotating salt, by design and per the admin spec's cookieless consent position (see 04 §11) | **Conflict:** matching visits to companies needs the network address sent to an IP-to-company source; the current design deliberately keeps no IP. Needs a decision and a legal check (06). | Web visitor identification | provider | |
+| WEB-03 Visitor inbox and ranking | Missing | — | — | — | WEB-02 | |
+| WEB-04 Convert and reveal | Missing | — | — | Contact rule | WEB-02 | |
+
+## Documents and e-sign (DOC)
+
+All six are **Missing**.
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| DOC-01 Templates and merge fields | Missing | — | — | — | PIP-03 | |
+| DOC-02 Product tables | Missing | — | — | — | CRM-07 | |
+| DOC-03 Cloud storage | Missing | — | — | — | INT-05, INT-06 | |
+| DOC-04 Trackable links | Missing | — | — | — | DOC-01 | |
+| DOC-05 E-signatures | Missing | — | — | Count limits (signers) | DOC-01 | |
+| DOC-06 Branding and external signing | Missing | — | — | — | DOC-05 | |
+
+## Security and permissions (SEC)
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| SEC-01 Security dashboard | Missing | Logins write `admin.login` audit rows only (see 01) | No dashboard. | — | SEC-04 | |
+| SEC-02 Security alerts | Missing | — | No login, invite, failed-login, reset or large-export alerts. | — | SF-27 | |
+| SEC-03 Security rules | Missing | — | No password/IP/time rules; the admin spec's optional IP allowlist is also missing (04). | — | SF-27 | |
+| SEC-04 Device and login history | Missing | — | No device log or remote log-out. | — | SF-27 | |
+| SEC-05 Single sign-on | Missing | Entra sign-in exists for customers (`mig/0155_entra_signin.sql`), not for admin staff | No SSO for the admin. | — | — | |
+| SEC-06 Two-factor authentication | Partial | TOTP is required for admin roles: `app.admin_role()` only grants a role at aal2 (`mig/0049_platform_admin.sql:64-72`); `/admin/mfa` enrolment | No email code factor, no account recovery, no remembered login email. | — | — | |
+| SEC-07 Permission sets | Partial | **WP-0.4 (0196, D-221):** sets as rows over a catalogue of 20 actions — create, edit, delete, import, export, bulk edit, change visibility and view reports for deals; the same for contacts; create, edit, delete, send and reports for campaigns; global settings (`app.crm_permission_actions/sets`). Admin (every action), Regular (editable) and Read only built in; custom sets added and removed; a set per staff member, else the role's (DEC-11); every CRM write checks its action in the database (`app.crm_can`), a bulk change needs bulk edit, and the companies and contacts screens leave out what would be refused (CAI 4–6, 10; screens `SEC-07-*`); `editor` can be granted (Q2, CAI 2); **WP-0.8 (0200, D-225):** the campaign, list, segment, sender and template pages leave out what the set refuses too (DEC-31; CCI 2–4; screens `WP08-readonly-*`) | No projects area (PRJ, Phase 6). The number of custom sets is a count rule until entitlements exist (ENT-01). **Production:** removing a custom set (`0196d`, D-221) is on hosted since 2026-10-04. | Custom permission sets (count) | — | WP-0.4 |
+| SEC-08 Visibility groups | Partial | **WP-0.4 (0196, D-221):** nested groups (`app.crm_visibility_groups`), a staff member in one; a company is visible to its owner only, the owner's group, the group and its sub-groups, or everyone, a new one by the rule (everyone by default); `app.crm_visible` applied by every reader and write — the list, page, figures, tasks, inbox, attention panel, lead scores, history, restore list and consent ledger — and a structural test fails on a reader that skips it (CAI 7, 8, 13; screens `SEC-08-*`) | Enforced in the definer calls, the only route (the tables are closed to clients), rather than RLS policies (D-221). Contacts have no owner yet (CRM-01, WP-1.5); deals and leads get their default when built (WP-1.1, 1.7); limiting a pipeline to groups needs the pipeline record (WP-1.1); the placeholders setting for hidden activities and notes comes with the calendar (WP-1.4). **Production:** removing a group (`0196d`, D-221) is on hosted since 2026-10-04. | Visibility groups (count); who sees a new company | SEC-09 | WP-0.4 |
+| SEC-09 Users and teams | Partial | Admin users and roles page (`app/(admin)/admin/admins/page.tsx`; `public.admin_set_admin` `mig/0055_crm.sql:1071`); **WP-0.4 (0196):** teams with a manager and members, staff only, kept on the same page (`app.crm_teams`, `app.crm_team_members`; CAI 9) | No record reassignment on deactivate, no replacing a user, no copying access settings, no user overview of followed items, no own profile. Teams are read by nothing but the page until assignment, reports and goals arrive (AUT-11, INS-05). **Production:** saving and removing teams (`0196d`, D-221) is on hosted since 2026-10-04. | — | — | WP-0.4 (teams) |
+| SEC-10 Data protection | Partial | EU region (Supabase eu-central-1, Vercel `fra1`); provider secrets in Supabase Vault; survey tables closed to all client roles (CLAUDE.md invariants; `supabase/tests/respondent_invariants.sql`) | Backups and recovery objectives not recorded in the admin; no restore test (04 §7). | — | — | |
+| SEC-11 Privacy compliance | Partial | Contact erase and unsubscribe with reason, consent ledger with CSV export, suppression, personvern ticket queue with 30-day clock (04 §13) | No export of one person's CRM data, erasure does not cover emails/recordings/transcripts/enrichment (those modules do not exist), subprocessor register status Partial (04). | — | — | |
+
+## Integrations and API (INT)
+
+All eleven are **Missing** for the CRM. Slack and Teams integrations exist for the *product* (invitations, `mig/0176_teams_channel.sql`, `mig/0185_slack_channel.sql`) and Entra for customer sign-in; none serves the CRM.
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| INT-01 REST API | Missing | — | No public versioned API; PostgREST is internal. | — | SF-22 | |
+| INT-02 Authentication | Missing | — | No personal tokens or OAuth apps. | Count limits | INT-01 | |
+| INT-03 Rate limits | Missing | — | — | API rate limits | INT-01 | |
+| INT-04 Webhooks | Missing | Inbound Brevo webhook only | No outbound subscriptions. | Technical safeguards; Count limits | SF-23 | |
+| INT-05 Google Workspace | Missing | — | — | — | — | |
+| INT-06 Microsoft 365 | Missing | Entra/Teams exist for the product only | — | — | — | |
+| INT-07 Team chat | Missing | Slack/Teams exist for the product only | No deal events to chat. | — | — | |
+| INT-08 Invoicing | Missing | — | — | — | open point 2 | |
+| INT-09 Automation platforms | Missing | — | — | — | INT-01, INT-04 | |
+| INT-10 App extensions | Missing | — | — | — | INT-02 | |
+| INT-11 Integration catalog | Missing | — | — | — | — | |
+
+## Mobile app (MOB)
+
+All eight are **Missing**: there is no mobile client. The admin layout is checked at 390 px by `scripts/verify/sentral-run.mjs --width 390`, which is a responsive web check, not an app.
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| MOB-01 Core app | Missing | — | — | Contact rule | INT-01 | |
+| MOB-02 Focus view | Missing | — | — | — | MOB-01 | |
+| MOB-03 Nearby | Missing | — | — | — | CRM-03 | |
+| MOB-04 Calls and texts | Missing | — | — | — | COM-12 | |
+| MOB-05 Offline mode | Missing | — | — | — | SF-31 | |
+| MOB-06 Capture | Missing | — | — | — | CRM-05 | |
+| MOB-07 Push notifications | Missing | — | — | — | SF-07 | |
+| MOB-08 Mobile extras | Missing | — | — | — | LGN-02 | |
+
+## Plans and entitlements (ENT)
+
+| ID and name | Status | Evidence | Missing or different | Settings | Depends on | WP |
+| --- | --- | --- | --- | --- | --- | --- |
+| ENT-01 Feature gating | Missing | Env feature flags `lib/flags.ts` are global rollout switches, not plan entitlements | No entitlement table. | Plan gates | — | |
+| ENT-02 Usage limits | Missing | — | — | Plan gates | ENT-01 | |
+| ENT-03 Plans, add-ons and top-ups | Conflict | Billing is invoice/EHF with the price list in code; no Stripe or plan catalogue rows (D-93, D-163, D-164, D-170) | **Conflict:** the spec says "uses the existing billing"; there is no billing system to buy add-ons or top-ups through. | Plan gates | — | |
+| ENT-04 Usage screen and limit handling | Missing | — | — | Plan gates | ENT-02 | |
+
+---
+
+## User flows (Part D)
+
+Each step is given a status. A flow is Implemented only when every step is.
+
+| Flow | Steps Implemented / Partial / Missing | Flow status | Notes per step |
+| --- | --- | --- | --- |
+| UF-01 Capture and qualify a lead | 0 / 3 / 4 | Partial | 1 Partial (contact form, demo, newsletter, import create contacts with source; no lead object) · 2 Missing (no assignment rules) · 3 Partial (company page shows register data; no chat/form answers) · 4 Partial (log an activity; no 1:1 email/call) · 5 Missing (no labels/archive) · 6 Missing (no conversion) · 7 Missing |
+| UF-02 Work a deal to won or lost | 1 / 2 / 4 | Partial | 1 Missing (no warning/rotting) · 2 Partial (company page, no Focus/History) · 3 Partial (mark task done; no prompt) · 4 Implemented (a drop on a stage whose required fields are empty is refused until they are filled, WP-0.5; screen `CUS-02-board-refused`) · 5 Missing (no products) · 6 Missing as specified (won/lost via stage; no reason list) · 7 Missing (no workflows) |
+| UF-03 Daily routine in the feed | 0 / 0 / 5 | Missing | No feed |
+| UF-04 Email outreach with tracking | 0 / 0 / 7 | Missing | No 1:1 composer |
+| UF-05 Nurture with a sequence | 0 / 3 / 3 | Partial | 1 Partial (journey steps) · 2 Missing (stage-targeted only) · 3 Partial (automatic mail; manual call/LinkedIn tasks) · 4 Partial (tasks for owner) · 5 Missing (no per-record end) · 6 Missing (no per-record status) |
+| UF-06 Book a meeting | 0 / 0 / 5 | Missing | — |
+| UF-07 Run a meeting with meeting intelligence | 0 / 0 / 6 | Missing | — |
+| UF-08 Quote to signature | 0 / 0 / 7 | Missing | — |
+| UF-09 Set up the sales process | 1 / 2 / 2 | Partial | 1 Partial (stages, no probability/rotting, one pipeline) · 2 Implemented (custom fields in groups, important and required, WP-0.5; screens `CUS-01-fields-*`) · 3 Missing · 4 Partial (admin users and roles; no teams/groups/sets) · 5 Missing |
+| UF-10 Import and clean data | 0 / 1 / 5 | Partial | 1 Missing (no mapping) · 2 Missing · 3 Partial (rejected rows and, since WP-0.5, rows imported with remarks returned on screen) · 4 Missing · 5 Missing · 6 Missing |
+| UF-11 Build a workflow | 0 / 0 / 7 | Missing | — |
+| UF-12 Set up automatic assignment | 0 / 0 / 5 | Missing | — |
+| UF-13 Reports, dashboards and goals | 0 / 0 / 5 | Missing | — |
+| UF-14 Scoring and enrichment | 0 / 2 / 4 | Partial | 1 Missing · 2 Missing · 3 Partial (lead scores on contacts) · 4 Partial (Brønnøysund import/refresh) · 5 Missing · 6 Missing |
+| UF-15 Security administration | 0 / 1 / 5 | Partial | 2 Partial (TOTP enforced; no SSO) · others Missing |
+| UF-16 Connect systems | 0 / 0 / 6 | Missing | — |
+| UF-17 Send an email campaign | 1 / 4 / 1 | Partial | 1 Implemented in effect (sending blocked until the marketing domain is authenticated; needs on-screen check) · 2 Partial (no drag builder) · 3 Partial (segments; subscribed-only counts) · 4 Partial (schedule/now) · 5 Partial (bounces suppress; statuses differ) · 6 Missing (no comparison) |
+| UF-18 Website visitor to lead | 0 / 1 / 5 | Missing | 6 Partial (contact form) |
+| UF-19 Identify web visitors | 0 / 0 / 5 | Missing | 1 the tracker exists but cannot identify companies (WEB-02 Conflict) |
+| UF-20 Hand over a won deal to delivery | 0 / 0 / 6 | Missing | — |
+| UF-21 Field visit on mobile | 0 / 0 / 5 | Missing | — |
+| UF-22 Work through an external AI assistant | 0 / 0 / 5 | Missing | — |
+| UF-23 Manage contacts and organizations | 0 / 3 / 4 | Partial | 1 Partial (company page: contacts and activities; no tickets/files) · 2 Partial (add contact; consent source currently required for new contacts) · 3 Partial (note activity; no mention/file) · 4 Missing · 5 Missing · 6 Missing · 7 Missing |
+| UF-24 Review and maintain the pipeline | 0 / 2 / 5 | Partial | 1 Partial (company search) · 2 Partial (list view, no columns/inline edit) · 3–7 Missing (bulk stage move only) |
+| UF-25 Calls, messages and shared inboxes | 0 / 0 / 6 | Missing | — |
+| UF-26 Recurring revenue and forecast | 0 / 0 / 5 | Missing | 5 Conflict with no billing mirror (CRM-08) |
+| UF-27 Work with the AI assistant | 0 / 0 / 5 | Missing | — |
+| UF-28 Plans and limits | 0 / 0 / 4 | Missing | — |
+| UF-29 Set rules and limits | 0 / 1 / 5 | Missing | 4 Partial (setting changes are audited) |
+
+**Counts:** 0 Implemented, 11 Partial, 18 Missing.
+
+## System flows (Part E)
+
+| Flow | Status | Evidence | Missing or different |
+| --- | --- | --- | --- |
+| SF-01 Permission and visibility check | Partial | Step 1: session + admin role + aal2 (`app.admin_role`); **WP-0.4 (0196):** step 2 — the role as the coarse gate, then the permission set (`app.crm_can`, CAI 4–6, 10); step 3 — visibility by owner, group, group and sub-groups, or everyone in every reader and write (CAI 7, 8, 13); step 6 — refusals return `not_allowed`, every admin reader writes an audit row or is a reviewed exception (CAI 10), survey tables unreachable through any helper (CAI 11); **WP-0.5 (0197):** step 4 — field rules: hidden and read-only fields per permission set in every reader and writer (CFI 5) | Step 5 (entitlements) with ENT-01. |
+| SF-02 Record change and event publication | Implemented | **WP-0.2 (0194):** step 1 — change, changelog entry and event written in one transaction by triggers (CHI 2, 6); **WP-0.6 (0199, D-223):** step 2 — the dispatcher delivers new events to the subscribers every minute, the report rollup first; step 3 — each subscriber takes each event once, by the read point that moves with the delivery (CEI 2, 6); step 4 — a failed delivery retries after 1, 5, 30 and 120 minutes without holding up others, then waits for an admin's retry (CEI 3) | The other subscribers (workflows, assignment, scoring, feed, webhooks, notifications) are added as each is built. |
+| SF-03 Email sync | Missing | — | — |
+| SF-04 Workflow execution | Missing | Journey claim loop is the nearest engine (`crm_mail_claim`) | No workflows. |
+| SF-05 Sequence scheduler | Partial | `crm_mail_claim` computes follow-up times in business hours and creates step tasks | No per-record enrollment, consent setting, end on reply/stage change per record. |
+| SF-06 Assignment engine | Missing | `app.lead_route()` creates tasks, not owners | — |
+| SF-07 Notifications and reminders | Missing | — | — |
+| SF-08 Calendar sync | Missing | — | — |
+| SF-09 Import pipeline | Partial | Contact import validates rows and returns rejected rows (`admin_crm_import`) | No mapping suggestion, duplicate rule, capacity check, import ID, skip file, history or revert. |
+| SF-10 Duplicate detection and merge | Missing | — | — |
+| SF-11 Enrichment | Partial | Brønnøysund lookup on import/refresh | No credits, provider adapter, field-level source and date. |
+| SF-12 Scoring | Partial | Lead scores computed on read (`admin_lead_scores`) | Not per deal, no models, no stored score or event. |
+| SF-13 Feed generation | Missing | — | — |
+| SF-14 Report query | Missing | — | — |
+| SF-15 Delete, restore and erasure | Partial | Contact erase with reason; org deletion queue (04); **WP-0.3 (0195):** steps 1–4 — the delete marks the row with who, when and from where, it is listed for restore, restored with its links, and removed by the job after the window (CRI 3–7) | Step 5: erasure removes a person from the CRM and the mail queue; modules that do not exist yet (leads, mail threads, meetings) join it as they are built. |
+| SF-16 Entitlements and metering | Missing | — | — |
+| SF-17 Lead capture from forms and chat | Partial | Contact form → ticket (+newsletter if ticked) with honeypot; demo → contact | No lead creation, assignment or resubmission rule. |
+| SF-18 Web visitor identification | Conflict | Cookieless hashing | See WEB-02. |
+| SF-19 Campaign send | Partial | Steps 1–6 largely present: audience resolved to mailable, rendered per recipient, sent on the marketing stream, Brevo events update figures and suppression, unauthenticated domain blocks the send (`orgpuls-dispatch/index.ts:741-809`) | Per-address status model differs (CMP-04); suspended-account check not found. |
+| SF-20 Document and signature | Missing | — | — |
+| SF-21 Meeting intelligence pipeline | Missing | — | — |
+| SF-22 API request and rate limiting | Missing | — | — |
+| SF-23 Webhook delivery | Missing | — | — |
+| SF-24 AI gateway call | Missing | — | — |
+| SF-25 Search | Missing | Per-page `ilike` search only | No index. |
+| SF-26 Scheduled checks | Partial | pg_cron runs dispatch, lead routing and Brønnøysund polling (01); **WP-0.6 (0199, D-223):** step 1 — the CRM's jobs (event dispatcher, restore list purge, lead routing, register triggers) start through one runner, a job never overlapping itself; step 6 — each run recorded per hour and on the job, a failed run alerted on Operations and the dashboard (CEI 5, 7) | Steps 2–5 (rotting, date triggers, goals, feed) with PIP-05, AUT-03, INS-05 and PRO-01, each as a job in the runner. |
+| SF-27 Sign-in and security events | Partial | Password + TOTP; `admin.login` audit row | No rules, device/location log, alerts. |
+| SF-28 Calls and messages | Missing | — | — |
+| SF-29 Contact sync | Missing | — | — |
+| SF-30 Live chat routing | Missing | — | — |
+| SF-31 Mobile offline sync | Missing | — | — |
+| SF-32 Derived values | Partial | Step 5: stage history closes and opens per move (win rate); **WP-0.5:** formula fields recomputed on every write (CFI 6) | No product, schedule or currency derivations. |
+| SF-33 Files | Missing | — | — |
+| SF-34 Rule settings | Partial | **WP-0.1 (0192, D-218):** step 1 — every CRM rule is asked through the registry (`app.crm_rule`, `crm_limit`, `crm_choice`; every key has a consumer, CRR 17); step 2 — with the defaults nothing is refused (CRR 2–5); step 4 — a rule switched on blocks and names its setting (CRR 6–11); step 5 — every change logged with who and the reason, append-only (CRR 12–14); step 6 — the anonymity firewall is not in the registry (its areas are contacts, audit, limits, deletion and access) | Step 3: no rule warns yet, only blocks. Step 6 has no test of its own. Status corrected in the Phase 0 report (2026-10-04); it had not been updated since Phase A. |
+| SF-35 Deal lifecycle | Partial | Create, move with history, lost reason (as company); restore (WP-0.3); **WP-0.5:** required fields checked on save and on a stage move by hand (CFI 4); **WP-1.1 (0203, D-227):** a deal created with a title only, an expected close date, won and lost as a status with the date, the days spent in each stage, a stage removed with a target for its deals (CDI 4, 6, 8) | No archive or duplicate (WP-1.2). |
+| SF-36 Activity lifecycle | Partial | Create, complete with stamp | No custom types, bulk, calendar, completion event, next-step prompt. |
+| SF-37 Records, links and list operations | Partial | Contacts/companies with source | No labels as links, relations, participants, followers, geocoding, bulk edit changelog, list export. |
+| SF-38 Field and configuration registry | Partial | **WP-0.5 (0197, D-222):** step 1 — a field and its quality rule saved as a versioned row, a version never changed (CFI 7); step 2 — forms, filters and import read the registry (CFI 2, 8, 9); step 3 — quality rules evaluated on save and on stage moves (CFI 4) | Translations as versioned rows and the catalogue (steps 1, 4) wait for CUS-05; reports and the API (step 2) for INS and INT; the demo tenant's own configuration (step 5) for CUS-08. |
+| SF-39 Campaign authoring and insights | Partial | Studio saves blocks; test send and previews use the dispatcher's renderer; events rolled up per campaign | No template store save, no insights area/comparison. |
+| SF-40 Video links and mail client add-ons | Missing | — | — |
+| SF-41 Connectors, app platform and AI connector tools | Missing | — | — |
+| SF-42 Project lifecycle | Missing | — | — |
+| SF-43 User administration and data protection | Partial | Admin role assignment, deactivate (04 §10) | No teams/visibility, transfer on deactivate, copy access, backup records. |
+| SF-44 Mobile client | Missing | — | — |
+| SF-45 Lead lifecycle | Missing | — | No lead object. |
+
+**Counts (after WP-0.6):** 1 Implemented, 16 Partial, 27 Missing, 1 Conflict.
+
+## Settings register (Part C, CUS-07)
+
+| Setting | Status | Evidence | What exists |
+| --- | --- | --- | --- |
+| Contact rule | Implemented | WP-0.1: `contact_rule` none / source_and_basis / opt_in_only, default none (DEC-04); consumers `admin_crm_save_contact`, `admin_crm_import`; CRR 2, 6, 7; screens `CRM-01-contacts-*` | Applies to the contact paths that exist; LGN-04, PRO-05, PRO-07, WEB-04, AIA-07, MTG-05, MOB-01 read it when built |
+| Consent source on import | Implemented | WP-0.1: `import_consent_source` off / required, default off; consumer `admin_crm_import`; CRR 3, 8 | — |
+| Consent and suppression checks on sales email | Missing | No sales email exists | — |
+| Email open and click tracking | Missing (as a setting) | Tracking is always on for campaigns | — |
+| Form tracking fields | Missing | — | — |
+| Web visitor identification | Missing | — | See WEB-02 Conflict. |
+| Second-admin approval | Implemented | WP-0.3: `delete_approval` off / on, default off; consumers `admin_crm_delete`, `admin_crm_delete_decide`; CRI 8; screen `CRM-12-approval-pending` | Applies to bulk deletes; merges (CRM-11) read it when built |
+| Days in the restore list | Implemented | WP-0.3: `restore_window_days`, 30 by default, unlimited allowed; consumer `app.crm_purge_due`; CRI 7 | Not in the brief's register by name: the brief fixes thirty days (A9, CRM-12); as DEC-07 and DEC-22 make the fixed numbers settings, it is one |
+| Count limits | Partial | WP-0.1: the caps found in code are settings, unlimited by default — contact import rows, register import rows, bulk move, company and contact list, campaign blocks, sequence mails, test sends per hour; CRR 5, 10, 11. WP-0.4: custom permission sets and visibility groups (`limit_permission_sets`, `limit_visibility_groups`), unlimited by default. WP-0.5: custom fields per record type and options per field (`limit_custom_fields`, `limit_field_options`), unlimited by default (CFI 11) | The register's other counts (actions and delays per path, group email recipients, webhooks, signers, score models) arrive with their features |
+| Who sees a new company | Implemented | WP-0.4: `default_visibility_company` everyone / group_tree / group / owner, default everyone; consumer `app.crm_default_visibility()` (the column's default); CAI 8; screen `SET-rules-access` | Not in the brief's register by name: SEC-08 sets defaults per record type. Deals and leads get theirs when built |
+| Plan gates and usage limits | Missing | — | — |
+| API rate limits | Missing | — | — |
+| Technical safeguards | Partial | WP-0.6: workflow loop protection as `limit_event_loop`, 10,000 events of one record per subscriber in a rolling ten minutes (the source value), changeable or off under Settings › CRM rules; consumer `app.crm_dispatch`; CEI 4, 7; screen `SF-02-rules-loop-window` | The webhook retry and ban policy arrives with INT-04; the per-workflow cap (5,000) with AUT-01 |
+| Anonymity firewall | Partial | Fixed in the database (CLAUDE.md invariants 1–3; `respondent_invariants.sql`, `growth_firewall_invariants.sql`, `crm_invariants.sql`) | Already a constant; new CRM code must keep it. Not in any registry (correct). |
+| Typed reason for CRM actions | Implemented | WP-0.1: `typed_reason` off / on, default off; consumers contact action, list removal, customer exception, rule changes (`app.crm_reason_ok`); CRR 4, 9, 13 | Each new CRM write adds it as it is built |
+| Consent-gated loading of site widgets | Missing | No widgets | — |
+| Recording consent notices to attendees | Missing | — | — |
+
+**Counts (after WP-0.6):** 6 Implemented, 3 Partial, 8 Missing, 0 Conflict.
+
+## Part F — entities and conventions
+
+| Domain | Status | Existing tables (02) | Missing |
+| --- | --- | --- | --- |
+| Identity | Partial | `app.platform_admins`, `app.admin_audit`, role enum | team, team_member, visibility_group, permission_set |
+| Records | Partial | `app.organizations` (customers), `app.crm_companies`, `app.crm_contacts`, suppression, consent ledger | organization_relation, label, follower; **two company tables** (customer orgs and CRM companies) need a decision |
+| Sales | Partial | stages (`crm_stages`), stage history, companies-as-deals | pipeline, deal, deal_participant, lead, lost_reason, saved_filter (segments exist for contacts) |
+| Products | Missing | — | all |
+| Activities | Partial | `app.crm_activities` | activity_type, activity_guest |
+| History | Missing | — | note, comment, file, mention, changelog |
+| Email | Partial | campaign sends and CRM mail events | mail_account, mail_thread, mail_message, mail_link, mail_template (1:1), signature (senders have one) |
+| Scheduling, calls, messaging | Missing | — | all |
+| Automation | Partial | campaign chains, step tasks | workflow, workflow_version, runs, assignment_rule/log, sequence/enrollment as records |
+| Insights | Missing | — | all |
+| Prospecting | Partial | lead score functions | score_model, criterion, deal_score, feed_card, enrichment_request, credit_ledger |
+| Marketing | Partial | consent, suppression, segments, campaigns, recipients/events, sender | sender_domain as a row (DNS checked live) |
+| Projects | Missing | — | all |
+| Lead generation | Missing | — | all |
+| Web visitors | Partial | web events | tracked_site, visitor_company, visit |
+| Documents | Missing | — | all |
+| Meetings | Missing | — | all |
+| Platform | Partial | events (growth), settings (one-row tables), integrations for product | custom_field, translation registry for admin, setting registry, import_job, waitlist_item, installed_app, device_token, notification, webhook, api_token, oauth, entitlement, usage_counter, login_log, security_rule |
+
+Conventions: product ID on every row — Partial (missing on many later admin tables, 04 §14); owner/visibility/created/updated/deleted/version — Missing on CRM tables (02); custom field JSON — Missing; configuration as versioned rows — Partial (stages, templates, segments are rows, unversioned); 30-day soft delete — Missing; change + changelog + event in one transaction — Missing (audit row only); read audit — Partial.
+
+Event catalog: Missing for every CRM family; the product families exist as growth events. API surface: Missing.
+
+**Counts:** 0 Implemented, 10 Partial, 8 Missing (domains).
+
+## Part G — non-functional requirements
+
+| Area | Status | Evidence / gap |
+| --- | --- | --- |
+| Anonymity firewall | Partial | Holds today and is tested; must be re-proved per new migration (A8). Note the admin spec says n ≥ 5, the product floors k at 3 (D-198). |
+| Rule settings | Missing | No registry. |
+| Access | Partial | Admin roles + mandatory TOTP; product ID not on every table. |
+| Audit | Partial | Writes audited; ~40 admin reads (13 CRM) not; no typed-reason setting; no run histories beyond tickets/campaigns. |
+| Data residency | Partial | Database eu-central-1, Vercel fra1; Brevo is the mail provider (region to confirm). |
+| Sending | Partial | Streams separate; no sales email exists. |
+| Job runtime | Partial | pg_cron + edge functions exist; mail sync/meeting capture do not fit (open point 3). WP-0.6: the CRM's jobs run through one runner (`app.crm_run`) that records each run and keeps a job from overlapping itself (DEC-14). |
+| Recovery | Missing | No recorded objectives or restore test. |
+| Scale | Unknown | Not measured; 500-row caps in company reads. |
+| Performance | Unknown | Not measured (A8 asks for timings with seeded volume). |
+| Monitoring | Partial | WP-0.6: Operations › CRM jobs shows the CRM's jobs, their runs, failures and event deliveries, with an alert there and on the dashboard. The product's other scheduled jobs are not in it. |
+| AI governance | Missing | No AI. |
+| Privacy | Partial | Erasure for contacts; no recording consent (no recordings). |
+| Destructive actions | Partial | Contact erase requires a reason; no preview/soft delete/second admin. |
+| Interface language | Implemented | English, by decision (layout forces `en`). |
+| Test data | Implemented | Tests run on the local QA stack only: the Lumio AS QA tenant for the product, the Sentral fixture for the admin, each refusing a database without the QA mark. WP-0.7 (D-224): the admin's Playwright projects sign in as the fixture's local admin; the smoke runs in CI, the journeys and every admin page at 1440 and 390 locally. |
+| Provider independence | Partial | Brevo behind the dispatcher; no adapter interfaces for the new providers. |
+
+**Counts (after WP-0.7):** 2 Implemented, 10 Partial, 3 Missing, 2 Unknown.

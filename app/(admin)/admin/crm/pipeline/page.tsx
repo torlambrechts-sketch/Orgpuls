@@ -47,7 +47,9 @@ export default async function CrmPipeline({ searchParams }: { searchParams: Prom
       </PageHead>
       <PipelineBoard stages={stageData.rows} companies={data.rows} owners={ownerRows} view={view} m={m} canWrite={canWrite} />
       {missing ? <p className="mb-0 mt-[8px] text-[12px] text-mut">{t('crm.board.leadUnvalued', { count: missing })}</p> : null}
-      {data.rows.length >= 500 ? <p className="mb-0 mt-[8px] text-[12px] text-mut">{m.board.capped}</p> : null}
+      {data.limit != null && data.rows.length >= data.limit ? (
+        <p className="mb-0 mt-[8px] text-[12px] text-mut">{m.board.capped.replace('{limit}', String(data.limit))}</p>
+      ) : null}
     </>
   )
 }

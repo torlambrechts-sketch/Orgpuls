@@ -1,0 +1,66 @@
+[
+  {
+    "width": 1440,
+    "state": "WP11-deals-open",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP11-deals-open-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP11-deals-open",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP11-deals-open-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP11-deals-all",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP11-deals-all-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP11-deals-all",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP11-deals-all-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP11-deal-detail",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP11-deal-detail-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP11-deal-detail",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP11-deal-detail-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP11-stages-pipelines",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP11-stages-pipelines-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP11-stages-pipelines",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP11-stages-pipelines-390.png"
+  }
+]

@@ -64,6 +64,8 @@ export default async function Overview() {
       })
     if (att.failures)
       items.push({ key: 'failures', text: d('attention.failures', { count: att.failures }), why: d('attention.failuresWhy'), action: d('attention.openOps'), href: '/admin/ops' })
+    if (att.job_failures)
+      items.push({ key: 'job_failures', text: d('attention.jobFailures', { count: att.job_failures }), why: d('attention.jobFailuresWhy'), action: d('attention.openOps'), href: '/admin/ops#crm-jobs' })
     if (att.tasks)
       items.push({ key: 'tasks', text: d('attention.tasks', { count: att.tasks }), why: d('attention.tasksWhy'), action: d('attention.openCrm'), href: '/admin/crm' })
   }

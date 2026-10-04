@@ -5,9 +5,9 @@ import { MailPreview } from '@/components/admin/CampaignStudio'
 import type { CrmMessages } from '@/components/admin/CrmForms'
 import { TemplateStart } from '@/components/admin/CrmPipelineForms'
 import { Badge, PageHead, Problem } from '@/components/admin/ui'
-import { isError, whoami } from '@/lib/admin/api'
+import { isError } from '@/lib/admin/api'
 import { drawCampaign, mailCatalogue } from '@/lib/admin/campaignMail'
-import { crmTemplates, TEMPLATE_CATEGORIES } from '@/lib/admin/crm'
+import { crmTemplates, may, TEMPLATE_CATEGORIES } from '@/lib/admin/crm'
 import { PLACEHOLDER } from '@/lib/crm/deliverability'
 
 /**
@@ -21,9 +21,10 @@ export default async function CrmTemplates({ searchParams }: { searchParams: Pro
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const g = m.studio.gallery
-  const [data, who, cat] = await Promise.all([crmTemplates(), whoami(), mailCatalogue()])
+  const [data, cat] = await Promise.all([crmTemplates(), mailCatalogue()])
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
-  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
+  // starting a campaign from a template creates one: offered when the permission set allows it (DEC-31)
+  const canCreate = may(data.may, 'create')
   const current = TEMPLATE_CATEGORIES.find((c) => c === category) ?? null
   const rows = data.rows.filter((r) => !current || r.category === current)
   const present = TEMPLATE_CATEGORIES.filter((c) => data.rows.some((r) => r.category === c))
@@ -68,7 +69,7 @@ export default async function CrmTemplates({ searchParams }: { searchParams: Pro
                 {g.blocks.replace('{count}', String(tpl.blocks.length))}
                 {needs ? ` · ${m.problem.placeholder_left}` : ''}
               </p>
-              {canWrite ? (
+              {canCreate ? (
                 <div className="mt-[10px] border-t border-line pt-[10px]">
                   <TemplateStart m={m} template={tpl.key} name={tpl.name} />
                 </div>

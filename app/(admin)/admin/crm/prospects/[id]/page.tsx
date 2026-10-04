@@ -5,27 +5,56 @@ import { stageTone } from '@/components/admin/CrmTabs'
 import { StageMoveForm } from '@/components/admin/CrmStageForms'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td, when } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
-import { autoTask, crmCompany, crmStages } from '@/lib/admin/crm'
+import { autoTask, crmCompany, crmHistory, crmStages, may } from '@/lib/admin/crm'
+import { CrmHistory } from '@/components/admin/CrmHistory'
+import { CrmDeleted } from '@/components/admin/CrmDeleted'
+import { DeleteRecords } from '@/components/admin/CrmTrash'
+import { crmRuleState } from '@/lib/admin/crmRules'
+import type { FieldMessages } from '@/components/admin/CustomFields'
+import { addFormFields } from '@/lib/admin/crmFieldTypes'
+import { customRows, historyWords } from '@/components/admin/CustomFieldRows'
+import { crmFields, liveFields } from '@/lib/admin/crmFields'
 
 /**
  * One company (D-103): what the register says about it, its stage, owner and next step, the
  * people we know there, what our campaigns did with them, and the log of everything said
  * and planned.
  */
-export default async function CrmProspect({ params }: { params: Promise<{ id: string }> }) {
+export default async function CrmProspect({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ before?: string }> }) {
   const { id } = await params
+  const sp = await searchParams
+  const before = /^\d{1,18}$/.test(sp.before ?? '') ? Number(sp.before) : null
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const p = m.prospects
-  const [data, who, stageData] = await Promise.all([crmCompany(id), whoami(), crmStages()])
+  const [data, who, stageData, rules, history, registry] = await Promise.all([
+    crmCompany(id),
+    whoami(),
+    crmStages(),
+    crmRuleState(),
+    crmHistory('company', id, before),
+    crmFields(null),
+  ])
+  // 0197 (D-222): the custom fields of companies and of the people added here
+  const fm = t.raw('crmFields') as FieldMessages
+  const companyFields = isError(registry) ? [] : liveFields(registry, 'company')
+  const contactFields = isError(registry) ? [] : liveFields(registry, 'contact')
+  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
+  const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
+  // 0195 (D-220): a deleted company is read from the restore list; its page says so and offers the restore
+  if (isError(data) && data.error === 'deleted')
+    return (
+      <CrmDeleted entity="company" id={id} back="/admin/crm/prospects" backText={m.company.back} canWrite={canWrite} reasonRequired={rules.reasonRequired} m={m} common={common} />
+    )
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
   const c = data.company
+  // 0196 (SEC-07): what this staff member's permission set allows here; the database checks every call
+  const canEdit = may(data.may, 'edit')
+  const canDelete = may(data.may, 'delete')
   // the stages, as data (0093)
   const stages = isError(stageData) ? [] : stageData.rows
   const stage = stages.find((s) => s.key === c.stage)
   const stageName = stage?.name ?? c.stage
-  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
-  const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
   // a rule's or a trigger's task holds a key (0143): worded as the Tasks page words it
   const body = (a: (typeof data.activities)[number]) => {
     const auto = a.origin ? autoTask(a.body) : null
@@ -66,10 +95,17 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
           {row(m.company.registry, `${m.source[c.source as keyof typeof m.source] ?? c.source}${c.form_code ? ` · ${c.form_code}` : ''}`)}
           {c.tags.length ? row(p.tags, c.tags.join(', ')) : null}
           {c.lost_reason ? row(p.lostReason, c.lost_reason) : null}
+          {row(m.visibility.label, m.visibility[c.visibility])}
+          {customRows(companyFields, c.custom, c.custom_refs, fm, row)}
           {c.org_id ? <p className="mb-0 mt-[10px]"><ALink href={`/admin/orgs/${c.org_id}`}>{m.company.orgLink}</ALink></p> : null}
-          {canWrite && !c.org_id && stages.length ? (
+          {canEdit && !c.org_id && stages.length ? (
             <div className="mt-[12px]">
               <StageMoveForm ids={[c.id]} stages={stages} m={m} common={common} compact />
+            </div>
+          ) : null}
+          {canDelete ? (
+            <div className="mt-[12px] border-t border-line pt-[12px]">
+              <DeleteRecords entity="company" ids={[c.id]} m={m} common={common} reasonRequired={rules.reasonRequired} />
             </div>
           ) : null}
         </Card>
@@ -99,7 +135,7 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
 
       <div className="mt-[16px] grid items-start gap-[14px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
         <Card title={m.company.activity}>
-          {canWrite ? (
+          {canEdit ? (
             <div className="mb-[14px]">
               <ActivityForm m={m} common={common} company={c.id} contacts={data.contacts.map((k) => ({ id: k.id, name: k.name ?? k.email }))} />
             </div>
@@ -113,7 +149,7 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
                     {when(a.created_at)} · {a.admin_email ?? '—'}
                     {a.contact ? ` · ${a.contact}` : ''}
                     {a.due_at ? ` · ${m.company.due}: ${day(a.due_at)}` : ''}
-                    {a.kind === 'task' && canWrite ? (
+                    {a.kind === 'task' && canEdit ? (
                       <TaskToggle
                         id={a.id}
                         company={c.id}
@@ -122,6 +158,7 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
                         labels={{ done: m.company.done, reopen: m.company.reopen, stopped: m.company.stopped, failed: t('growth.g3.problem.failed') }}
                       />
                     ) : null}
+                    {canDelete ? <DeleteRecords entity="activity" ids={[a.id]} m={m} common={common} reasonRequired={rules.reasonRequired} compact /> : null}
                   </span>
                   <span className={`mt-[3px] block whitespace-pre-line ${a.done_at ? 'text-mut line-through' : ''}`}>{body(a)}</span>
                 </li>
@@ -131,17 +168,38 @@ export default async function CrmProspect({ params }: { params: Promise<{ id: st
             <p className="m-0 text-[13px] text-mut">{m.company.noActivity}</p>
           )}
         </Card>
-        {canWrite ? (
+        {canEdit || may(data.may_contacts, 'create') ? (
           <div className="flex flex-col gap-[14px]">
-            <Card title={m.company.edit}>
-              <CompanyForm m={m} common={common} company={c} admins={data.admins} stages={stages} />
-            </Card>
-            <Card title={m.company.addContact}>
-              <ContactForm m={m} common={common} companyId={c.id} />
-            </Card>
+            {canEdit ? (
+              <Card title={m.company.edit}>
+                <CompanyForm m={m} common={common} company={c} admins={data.admins} stages={stages} canVisibility={may(data.may, 'visibility')} fields={companyFields} fm={fm} />
+              </Card>
+            ) : null}
+            {may(data.may_contacts, 'create') ? (
+              <Card title={m.company.addContact}>
+                {rules.optInOnly ? (
+                  <p className="m-0 text-[12.5px] leading-[1.5] text-mut">{m.add.optInOnly}</p>
+                ) : (
+                  <ContactForm m={m} common={common} companyId={c.id} consentRequired={rules.consentRequired} fields={addFormFields(contactFields)} fm={fm} staff={data.admins} />
+                )}
+              </Card>
+            ) : null}
           </div>
         ) : null}
       </div>
+      {/* 0194 (D-219): every change to this company, with who and from where */}
+      {isError(history) ? null : (
+        <div className="mt-[14px]">
+          <CrmHistory
+            data={history}
+            labels={{ ...m.history, field: { ...m.history.field, ...historyWords(companyFields) } }}
+            base={`/admin/crm/prospects/${id}`}
+            before={before}
+            values={{ visibility: m.visibility }}
+            fields={companyFields}
+          />
+        </div>
+      )}
     </>
   )
 }

@@ -263,6 +263,7 @@ function DealDialog({ deal, stages, owners, canWrite, m, onClose }: { deal: Comp
       <form action={action}>
         <input type="hidden" name="id" value={deal.id} />
         <input type="hidden" name="from" value={deal.stage} />
+        {deal.version !== undefined ? <input type="hidden" name="version" value={deal.version} /> : null}
         <fieldset disabled={!canWrite} className="m-0 mt-[22px] flex flex-col gap-[16px] border-0 p-0">
           <label className="block">
             <span className={FIELD_LABEL}>{b.field.stage}</span>

@@ -31,7 +31,8 @@ import { isError, translationState } from '@/lib/admin/api'
  * passed the second step (aal2); the database checks that on every call, so these actions
  * shape requests and never decide who may do what.
  */
-export type AdminResult = { ok: true; message?: string } | { ok: false; problem: string }
+// a failure may name the fields it is about (0197: custom fields required, unknown, read-only or not fitting)
+export type AdminResult = { ok: true; message?: string } | { ok: false; problem: string; fields?: string[] }
 
 const IDLE_COOKIE = 'op_admin_seen'
 

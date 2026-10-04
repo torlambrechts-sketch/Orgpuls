@@ -286,6 +286,47 @@ const Ops = z.object({
 export type Ops = z.infer<typeof Ops>
 export const ops = () => call('admin_ops', {}, Ops)
 
+// ---------------------------------------------------------------- the CRM's jobs and event deliveries (0199, D-223)
+const CrmJobs = z.object({
+  jobs: z.array(
+    z.object({
+      job: z.string(),
+      cron_job: z.string(),
+      schedule: z.string().nullable(),
+      scheduled: z.boolean(),
+      last_started_at: tsn,
+      last_finished_at: tsn,
+      last_ok: z.boolean().nullable(),
+      last_error: z.string().nullable(),
+      runs: num,
+      failures: num,
+      day: z.object({ runs: num, failed: num, items: num, longest_ms: num }),
+    }),
+  ),
+  failed_runs: z.array(z.object({ job: z.string(), hour: ts, runs: num, failed: num, last_error: z.string().nullable() })),
+  subscribers: z.array(
+    z.object({
+      key: z.string(),
+      handler: z.string(),
+      events: z.array(z.string()).nullable(),
+      active: z.boolean(),
+      read_to: num,
+      behind: num,
+      pending: num,
+      failed: num,
+      skipped: num,
+      oldest_waiting: tsn,
+      last_error: z.string().nullable(),
+    }),
+  ),
+  rollups: z.array(z.object({ day: z.string(), name: z.string(), n: num })),
+  loop_limit: numn,
+})
+export type CrmJobs = z.infer<typeof CrmJobs>
+/** The CRM's scheduled jobs and their last day, the hours with failed runs, the event subscribers' backlog and the
+ *  week's events per kind (super-admin, support) */
+export const crmJobs = () => call('admin_crm_jobs', {}, CrmJobs)
+
 // ---------------------------------------------------------------- the business
 const Kpis = z.object({
   orgs: num,
@@ -898,6 +939,8 @@ const Attention = z.object({
   deletions: z.array(z.object({ org_id: z.string(), name: z.string(), due_at: ts })),
   tickets: z.array(z.object({ id: z.string(), number: num, subject: z.string(), org_name: z.string().nullable(), due_at: ts })),
   failures: num,
+  // CRM job runs that failed in the last day and event deliveries waiting for a retry (0199); absent before it
+  job_failures: num.default(0),
   tasks: num,
 })
 export type Attention = z.infer<typeof Attention>

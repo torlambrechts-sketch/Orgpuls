@@ -1,0 +1,586 @@
+[
+  {
+    "width": 1440,
+    "state": "PIP-17-company-delete-preview",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "PIP-17-company-delete-preview-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "PIP-17-company-delete-preview",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "PIP-17-company-delete-preview-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "PIP-10-bulk-delete-preview",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "PIP-10-bulk-delete-preview-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "PIP-10-bulk-delete-preview",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "PIP-10-bulk-delete-preview-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SEC-07-access-empty",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-07-access-empty-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SEC-07-access-empty",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-07-access-empty-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SEC-07-access-populated",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-07-access-populated-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SEC-07-access-populated",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-07-access-populated-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SEC-07-set-editor",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-07-set-editor-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SEC-07-set-editor",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-07-set-editor-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SEC-08-group-editor",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-08-group-editor-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SEC-08-group-editor",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-08-group-editor-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SEC-08-company-visibility",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-08-company-visibility-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SEC-08-company-visibility",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-08-company-visibility-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SEC-07-prospects-narrowed",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-07-prospects-narrowed-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SEC-07-prospects-narrowed",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SEC-07-prospects-narrowed-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SET-rules-access",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SET-rules-access-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SET-rules-access",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SET-rules-access-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "CUS-01-fields-company",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-01-fields-company-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "CUS-01-fields-company",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-01-fields-company-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "CUS-01-fields-contact",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-01-fields-contact-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "CUS-01-fields-contact",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-01-fields-contact-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "CUS-01-field-long-options",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-01-field-long-options-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "CUS-01-field-long-options",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-01-field-long-options-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "CUS-03-field-access",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-03-field-access-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "CUS-03-field-access",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-03-field-access-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "CUS-04-field-errors",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-04-field-errors-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "CUS-04-field-errors",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-04-field-errors-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "CUS-02-company-page",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-02-company-page-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "CUS-02-company-page",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-02-company-page-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "CUS-02-required-refused",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-02-required-refused-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "CUS-02-required-refused",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-02-required-refused-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "CUS-02-board-refused",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-02-board-refused-1440.png"
+  },
+  {
+    "width": 1440,
+    "state": "CUS-01-contact-page",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-01-contact-page-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "CUS-01-contact-page",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-01-contact-page-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "CUS-01-companies-filter",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-01-companies-filter-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "CUS-01-companies-filter",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-01-companies-filter-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "CUS-01-segment-conditions",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-01-segment-conditions-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "CUS-01-segment-conditions",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-01-segment-conditions-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "CUS-01-import-remarks",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-01-import-remarks-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "CUS-01-import-remarks",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "CUS-01-import-remarks-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SF-26-ops-crm-jobs",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-26-ops-crm-jobs-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SF-26-ops-crm-jobs",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-26-ops-crm-jobs-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SF-02-rules-loop-window",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-02-rules-loop-window-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SF-02-rules-loop-window",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-02-rules-loop-window-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SF-26-ops-crm-jobs-alert",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-26-ops-crm-jobs-alert-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SF-26-ops-crm-jobs-alert",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-26-ops-crm-jobs-alert-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SF-26-dashboard-job-failures",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-26-dashboard-job-failures-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "SF-26-dashboard-job-failures",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-26-dashboard-job-failures-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "SF-26-ops-crm-jobs-retried",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "SF-26-ops-crm-jobs-retried-1440.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-campaigns-lifecycle",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-campaigns-lifecycle-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-campaigns-lifecycle",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-campaigns-lifecycle-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-campaigns-lifecycle-off",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-campaigns-lifecycle-off-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-campaigns-lifecycle-off",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-campaigns-lifecycle-off-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-partners-share",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-partners-share-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-partners-share",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-partners-share-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-restore-confirmed",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-restore-confirmed-1440.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-campaign-full",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-campaign-full-1440.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-readonly-campaigns",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-campaigns-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-readonly-campaigns",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-campaigns-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-readonly-campaign",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-campaign-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-readonly-campaign",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-campaign-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-readonly-lists",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-lists-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-readonly-lists",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-lists-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-readonly-segments",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-segments-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-readonly-segments",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-segments-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-readonly-templates",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-templates-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-readonly-templates",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-templates-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-readonly-stages",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-stages-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-readonly-stages",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-stages-390.png"
+  },
+  {
+    "width": 1440,
+    "state": "WP08-readonly-contacts",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-contacts-1440.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-readonly-contacts",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-readonly-contacts-390.png"
+  },
+  {
+    "width": 390,
+    "state": "WP08-growth-plan-region",
+    "status": 200,
+    "overflowPx": 0,
+    "errors": [],
+    "file": "WP08-growth-plan-region-390.png"
+  }
+]

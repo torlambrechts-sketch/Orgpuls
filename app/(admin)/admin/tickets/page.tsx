@@ -78,7 +78,7 @@ export default async function AdminTickets({ searchParams }: { searchParams: Pro
             </>
           }
         />
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" tabIndex={0} role="region" aria-label={t('tickets.title')}>
           <div className="min-w-[660px]">
             <div aria-hidden="true" className="flex items-center gap-[14px] border-y border-line px-[20px] pb-[10px] pt-[12px] text-[11px] uppercase tracking-[0.09em] text-mut">
               <span className="flex-[2.2]">{k('col.ticket')}</span>

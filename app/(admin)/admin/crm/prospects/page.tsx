@@ -5,10 +5,15 @@ import type { CrmMessages } from '@/components/admin/CrmForms'
 import { CompanyForm, ManagerRefresh, RegistryPicker } from '@/components/admin/CrmPipelineForms'
 import { stageTone } from '@/components/admin/CrmTabs'
 import { StageMoveForm } from '@/components/admin/CrmStageForms'
+import { DeleteRecords } from '@/components/admin/CrmTrash'
 import { ALink, Badge, Card, day, PageHead, Problem, Table, Td } from '@/components/admin/ui'
-import { isError, listAdmins, whoami } from '@/lib/admin/api'
+import { isError, listAdmins } from '@/lib/admin/api'
 import { registryMunicipalities } from '@/lib/admin/brreg'
-import { crmCompanies, crmStages } from '@/lib/admin/crm'
+import { crmCompanies, crmStages, may } from '@/lib/admin/crm'
+import { crmRuleState } from '@/lib/admin/crmRules'
+import { ConditionEditor, type FieldMessages } from '@/components/admin/CustomFields'
+import { addFormFields, Conditions, type Condition } from '@/lib/admin/crmFieldTypes'
+import { crmFields, liveFields } from '@/lib/admin/crmFields'
 
 /**
  * Prospects (D-103): every company we sell to or serve, by stage, with its owner and next
@@ -16,8 +21,8 @@ import { crmCompanies, crmStages } from '@/lib/admin/crm'
  * picked from Brønnøysund's register. The stages are data (0093); ticked companies can be moved
  * together, to a stage or each to its next.
  */
-export default async function CrmProspects({ searchParams }: { searchParams: Promise<{ q?: string; stage?: string }> }) {
-  const { q, stage } = await searchParams
+export default async function CrmProspects({ searchParams }: { searchParams: Promise<{ q?: string; stage?: string; cf?: string }> }) {
+  const { q, stage, cf } = await searchParams
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
   const p = m.prospects
@@ -26,9 +31,34 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
   const stages = stageData.rows
   const byKey = new Map(stages.map((s) => [s.key, s]))
   const chosen = byKey.has(stage ?? '') ? (stage as string) : null
-  const [data, who, admins, municipalities] = await Promise.all([crmCompanies(q?.trim() || null, chosen), whoami(), listAdmins(), registryMunicipalities()])
+  // 0197 (D-222): conditions on custom fields, from the filter's hidden value; a list the registry no longer allows is
+  // dropped and the page says so
+  const conditions = ((): Condition[] => {
+    try {
+      const parsed = Conditions.safeParse(JSON.parse(cf ?? '[]'))
+      return parsed.success ? parsed.data : []
+    } catch {
+      return []
+    }
+  })()
+  const [first, admins, municipalities, rules, registry] = await Promise.all([
+    crmCompanies(q?.trim() || null, chosen, conditions),
+    listAdmins(),
+    registryMunicipalities(),
+    crmRuleState(),
+    crmFields('company'),
+  ])
+  const dropped = conditions.length > 0 && isError(first) && first.error === 'invalid_filter'
+  const data = dropped ? await crmCompanies(q?.trim() || null, chosen) : first
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
-  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
+  const fm = t.raw('crmFields') as FieldMessages
+  const companyFields = isError(registry) ? [] : liveFields(registry, 'company')
+  // 0196 (SEC-07): what this staff member's permission set allows here; the database checks every call. The
+  // ticked-companies bar changes many at once, so it needs bulk edit too; one company is moved or deleted on its page
+  const bulk = may(data.may, 'bulk_edit')
+  const canMove = bulk && may(data.may, 'edit')
+  const canDelete = bulk && may(data.may, 'delete')
+  const canPick = canMove || canDelete
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
   const owners = isError(admins)
     ? []
@@ -74,20 +104,48 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
           <button type="submit" className="h-[38px] cursor-pointer rounded-ctl border border-ink bg-sf px-[14px] text-[13px] font-bold">
             {t('common.search')}
           </button>
+          {companyFields.length ? (
+            <details className="basis-full" open={conditions.length > 0 && !dropped}>
+              <summary className="cursor-pointer text-[12.5px] font-semibold text-link">
+                {fm.filter.title}
+                {conditions.length && !dropped ? ` · ${conditions.length}` : ''}
+              </summary>
+              <div className="mt-[8px] flex flex-col gap-[8px]">
+                <ConditionEditor fields={companyFields} initial={dropped ? [] : conditions} name="cf" m={fm} />
+                <span className="flex flex-wrap items-center gap-[12px]">
+                  <button type="submit" className="h-[34px] cursor-pointer rounded-ctl border border-ink bg-sf px-[12px] text-[12.5px] font-bold">
+                    {fm.filter.apply}
+                  </button>
+                  {conditions.length ? <ALink href={`/admin/crm/prospects${chosen ? `?stage=${chosen}` : ''}`}>{fm.filter.clear}</ALink> : null}
+                </span>
+              </div>
+            </details>
+          ) : null}
+          {dropped ? <p role="status" className="m-0 basis-full text-[12.5px] font-semibold text-danger">{m.problem.invalid_filter}</p> : null}
         </form>
-        {canWrite && data.rows.length ? (
+        {canPick && data.rows.length ? (
           <div className="mb-[12px] flex flex-col gap-[6px] rounded-ctl border border-line bg-bg px-[12px] py-[10px]">
-            <StageMoveForm id="bulk-stage" stages={stages} m={m} common={common} />
-            <p className="m-0 text-[12px] text-mut">{p.bulk.hint}</p>
+            {canMove ? (
+              <>
+                <StageMoveForm id="bulk-stage" stages={stages} m={m} common={common} />
+                <p className="m-0 text-[12px] text-mut">{p.bulk.hint}</p>
+              </>
+            ) : null}
+            {/* 0195 (D-220): the ticked companies, to the restore list after a preview */}
+            {canDelete ? (
+              <div className={canMove ? 'border-t border-line pt-[8px]' : ''}>
+                <DeleteRecords entity="company" bulkForm="bulk-stage" m={m} common={common} reasonRequired={rules.reasonRequired} />
+              </div>
+            ) : null}
           </div>
         ) : null}
         <Table
-          head={[...(canWrite ? [''] : []), p.col.company, p.col.stage, p.col.owner, p.col.size, p.col.industry, p.col.place, p.col.nextStep, p.col.lastActivity, p.col.contacts]}
+          head={[...(canPick ? [''] : []), p.col.company, p.col.stage, p.col.owner, p.col.size, p.col.industry, p.col.place, p.col.nextStep, p.col.lastActivity, p.col.contacts]}
           empty={data.rows.length ? undefined : t('common.none')}
         >
           {data.rows.map((c) => (
             <tr key={c.id}>
-              {canWrite ? (
+              {canPick ? (
                 <Td>
                   <input type="checkbox" name="ids" value={c.id} form="bulk-stage" aria-label={p.bulk.select.replace('{name}', c.name)} />
                 </Td>
@@ -117,18 +175,18 @@ export default async function CrmProspects({ searchParams }: { searchParams: Pro
         </Table>
       </Card>
 
-      {canWrite ? (
-        <>
-          <Card title={p.brreg.title} className="mt-[16px]">
-            <RegistryPicker m={m} municipalities={municipalities} />
-            <div className="mt-[16px] border-t border-line pt-[14px]">
-              <ManagerRefresh m={m} />
-            </div>
-          </Card>
-          <Card title={p.add} className="mt-[16px]">
-            <CompanyForm m={m} common={common} admins={owners} stages={stages} />
-          </Card>
-        </>
+      {may(data.may, 'import') ? (
+        <Card title={p.brreg.title} className="mt-[16px]">
+          <RegistryPicker m={m} municipalities={municipalities} />
+          <div className="mt-[16px] border-t border-line pt-[14px]">
+            <ManagerRefresh m={m} />
+          </div>
+        </Card>
+      ) : null}
+      {may(data.may, 'create') ? (
+        <Card title={p.add} className="mt-[16px]">
+          <CompanyForm m={m} common={common} admins={owners} stages={stages} fields={addFormFields(companyFields)} fm={fm} />
+        </Card>
       ) : null}
     </>
   )

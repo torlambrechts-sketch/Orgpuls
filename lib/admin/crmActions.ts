@@ -8,14 +8,19 @@ import { LOCALES } from '@/lib/i18n/locales'
 import { createClient } from '@/lib/supabase/server'
 import type { AdminResult } from './actions'
 import { generalManagers, searchRegistry, SearchInput, type Manager, type RegistryHit } from './brreg'
-import { ACTIVITY_KINDS, Block, CAMPAIGN_KINDS, CONTACT_ROLES, crmCompanies, Filter, StageKey, STAGE_KINDS, TASK_STEP_KINDS } from './crm'
+import { ACTIVITY_KINDS, Block, CAMPAIGN_KINDS, CONTACT_ROLES, crmCompanies, Filter, StageKey, STAGE_KINDS, TASK_STEP_KINDS, VISIBILITIES } from './crm'
 import { isError } from './api'
 import { blockingChecks } from './campaignMail'
 
 /**
  * The CRM's writes (0055, D-101; 0056–0058, D-103). The database decides who may do what, with a second
- * factor, and logs each call; these actions shape the request and name the refusal.
+ * factor, and logs each call; these actions shape the request and name the refusal. Limits, the contact
+ * rule and typed reasons are CRM rule settings (0192, D-218), checked in the database: nothing here caps
+ * a count or requires a reason on its own.
  */
+const reasonOf = (raw: FormDataEntryValue | null) => String(raw ?? '').trim().slice(0, 500)
+/** the version an edit form was opened at (0194); the database refuses a stale one */
+const versionOf = (raw: FormDataEntryValue | null) => (/^\d{1,9}$/.test(String(raw ?? '')) ? Number(raw) : undefined)
 const Reply = z.object({ ok: z.boolean(), error: z.string().optional() }).passthrough()
 
 async function rpc(fn: string, args: Record<string, unknown>): Promise<AdminResult & { data?: Record<string, unknown> }> {
@@ -24,8 +29,28 @@ async function rpc(fn: string, args: Record<string, unknown>): Promise<AdminResu
   if (error) return { ok: false, problem: 'failed' }
   const reply = Reply.safeParse(data)
   if (!reply.success) return { ok: false, problem: 'failed' }
-  if (!reply.data.ok) return { ok: false, problem: reply.data.error ?? 'failed' }
+  if (!reply.data.ok) {
+    // 0197: the custom fields a refusal names, by key
+    const named = z.union([z.array(z.string()), z.string()]).safeParse(reply.data.fields ?? reply.data.field)
+    const fields = named.success ? (Array.isArray(named.data) ? named.data : [named.data]) : undefined
+    return { ok: false, problem: reply.data.error ?? 'failed', ...(fields ? { fields } : {}) }
+  }
   return { ok: true, data: reply.data }
+}
+
+/** 0197: a form's custom values (one hidden JSON value, keyed by field key); the database checks each one */
+function customOf(formData: FormData): Record<string, unknown> | undefined | null {
+  const raw = formData.get('custom')
+  if (raw === null || raw === '') return undefined
+  try {
+    const parsed = z
+      .record(z.string().regex(/^[a-z][a-z0-9_]{1,40}$/), z.unknown())
+      .refine((o) => Object.keys(o).length <= 200)
+      .safeParse(JSON.parse(String(raw).slice(0, 200_000)))
+    return parsed.success ? parsed.data : null
+  } catch {
+    return null
+  }
 }
 
 const tagList = (raw: FormDataEntryValue | null) =>
@@ -55,6 +80,10 @@ export async function saveContact(_prev: AdminResult | null, formData: FormData)
   const company = String(formData.get('company_id') ?? '')
   if (company && !z.string().uuid().safeParse(company).success) return { ok: false, problem: 'invalid' }
   if (formData.has('company_id')) p.company_id = company
+  if (id && versionOf(formData.get('version')) !== undefined) p.version = versionOf(formData.get('version'))
+  const custom = customOf(formData)
+  if (custom === null) return { ok: false, problem: 'invalid_field' }
+  if (custom) p.custom = custom
   if (!id) {
     p.email = String(formData.get('email') ?? '').slice(0, 254)
     p.consent_source = String(formData.get('consent_source') ?? '').slice(0, 200)
@@ -76,9 +105,9 @@ export async function saveContact(_prev: AdminResult | null, formData: FormData)
 
 export async function contactAction(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
   const parsed = z
-    .object({ id: z.string().uuid(), action: z.enum(['unsubscribe', 'erase']), reason: z.string().trim().min(5).max(500) })
-    .safeParse({ id: formData.get('id'), action: formData.get('action'), reason: formData.get('reason') })
-  if (!parsed.success) return { ok: false, problem: 'reason_required' }
+    .object({ id: z.string().uuid(), action: z.enum(['unsubscribe', 'erase']), reason: z.string() })
+    .safeParse({ id: formData.get('id'), action: formData.get('action'), reason: reasonOf(formData.get('reason')) })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
   const r = await rpc('admin_crm_contact_action', { p_id: parsed.data.id, p_action: parsed.data.action, p_reason: parsed.data.reason })
   if (!r.ok) return r
   revalidatePath('/admin/crm/contacts')
@@ -88,7 +117,17 @@ export async function contactAction(_prev: AdminResult | null, formData: FormDat
 }
 
 export type ImportResult =
-  | { ok: true; inserted: number; updated: number; suppressed: number; rejected: { row: number; reason: string }[] }
+  | {
+      ok: true
+      inserted: number
+      updated: number
+      suppressed: number
+      rejected: { row: number; reason: string }[]
+      /** 0197: rows imported with a remark — a custom value that did not fit, a required custom field left empty */
+      warnings: { row: number; reason: string; fields: string[] }[]
+      /** 0197: columns naming no custom field the importer may fill, so not read */
+      unknown_columns: string[]
+    }
   | { ok: false; problem: string }
 
 const ImportRow = z.object({
@@ -101,11 +140,16 @@ const ImportRow = z.object({
   consent_source: z.string().max(200).optional(),
   consent_at: z.string().max(40).optional(),
   lang: z.string().max(4).optional(),
+  // 0197: the sheet's other columns, by header, for the custom fields; the database matches them by key or label
+  custom: z
+    .record(z.string().max(80), z.string().max(10_000))
+    .refine((o) => Object.keys(o).length <= 100)
+    .optional(),
 })
 
 /** Rows parsed from the admin's CSV in the browser; the database checks every one again. */
 export async function importContacts(rows: unknown): Promise<ImportResult> {
-  const parsed = z.array(ImportRow).min(1).max(5000).safeParse(rows)
+  const parsed = z.array(ImportRow).min(1).safeParse(rows)
   if (!parsed.success) return { ok: false, problem: 'invalid_file' }
   const r = await rpc('admin_crm_import', { p_rows: parsed.data })
   if (!r.ok) return { ok: false, problem: r.problem }
@@ -115,6 +159,8 @@ export async function importContacts(rows: unknown): Promise<ImportResult> {
       updated: z.coerce.number(),
       suppressed: z.coerce.number(),
       rejected: z.array(z.object({ row: z.coerce.number(), reason: z.string() })),
+      warnings: z.array(z.object({ row: z.coerce.number(), reason: z.string(), fields: z.array(z.string()) })).default([]),
+      unknown_columns: z.array(z.string()).default([]),
     })
     .safeParse(r.data)
   if (!out.success) return { ok: false, problem: 'failed' }
@@ -124,9 +170,9 @@ export async function importContacts(rows: unknown): Promise<ImportResult> {
 
 export async function saveCrmSettings(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
   const parsed = z
-    .object({ on: z.boolean(), reason: z.string().trim().min(5).max(500) })
-    .safeParse({ on: formData.get('customer_exception') === 'on', reason: formData.get('reason') })
-  if (!parsed.success) return { ok: false, problem: 'reason_required' }
+    .object({ on: z.boolean(), reason: z.string() })
+    .safeParse({ on: formData.get('customer_exception') === 'on', reason: reasonOf(formData.get('reason')) })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
   const r = await rpc('admin_crm_settings', { p_customer_exception: parsed.data.on, p_reason: parsed.data.reason })
   if (r.ok) revalidatePath('/admin/crm/contacts')
   return r.ok ? { ok: true } : r
@@ -151,6 +197,15 @@ function filterOf(formData: FormData): Filter | null {
   const nace = String(formData.get('nace') ?? '').trim()
   if (nace) f.nace = nace
   if (formData.get('mailable_only') === 'on') f.mailable_only = true
+  // 0197: conditions on the contacts' custom fields, one hidden JSON value; the database checks the fields again
+  const custom = String(formData.get('custom') ?? '')
+  if (custom) {
+    try {
+      f.custom = JSON.parse(custom.slice(0, 20_000))
+    } catch {
+      return null
+    }
+  }
   const parsed = Filter.safeParse(f)
   return parsed.success ? parsed.data : null
 }
@@ -242,7 +297,7 @@ export async function saveCampaign(_prev: AdminResult | null, formData: FormData
       publish_web: z.boolean(),
       slug: z.string().max(80),
       web_description: z.string().max(200),
-      blocks: z.array(Block).max(30),
+      blocks: z.array(Block),
     })
     .safeParse({
       id: formData.get('id'),
@@ -363,6 +418,16 @@ export async function saveCompany(_prev: AdminResult | null, formData: FormData)
   // a customer's stage follows its plan: the form leaves it out, and the database refuses it
   if (!parsed.data.stage) delete p.stage
   if (id) delete p.org_number
+  if (id && versionOf(formData.get('version')) !== undefined) p.version = versionOf(formData.get('version'))
+  // 0196 (SEC-08): who sees the company, sent only by a form whose set may change it; the database checks again
+  const visibility = formData.get('visibility')
+  if (visibility !== null) {
+    if (!(VISIBILITIES as readonly string[]).includes(String(visibility))) return { ok: false, problem: 'invalid' }
+    p.visibility = String(visibility)
+  }
+  const custom = customOf(formData)
+  if (custom === null) return { ok: false, problem: 'invalid_field' }
+  if (custom) p.custom = custom
   const r = await rpc('admin_crm_company_save', { p_id: id ? id.data : null, p })
   if (!r.ok) return r
   revalidatePath('/admin/crm/prospects')
@@ -405,7 +470,7 @@ export async function logActivity(_prev: AdminResult | null, formData: FormData)
 /** Move companies, one or many: to a stage, or (empty) each to the next open stage after its own. */
 export async function moveStage(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
   const parsed = z
-    .object({ ids: z.array(z.string().uuid()).min(1).max(500), to: z.union([StageKey, z.literal('')]) })
+    .object({ ids: z.array(z.string().uuid()).min(1), to: z.union([StageKey, z.literal('')]) })
     .safeParse({ ids: formData.getAll('ids'), to: formData.get('to') ?? '' })
   if (!parsed.success) return { ok: false, problem: 'invalid' }
   const r = await rpc('admin_crm_stage_move', { p_ids: parsed.data.ids, p_to: parsed.data.to || null })
@@ -413,8 +478,9 @@ export async function moveStage(_prev: AdminResult | null, formData: FormData): 
     revalidatePath('/admin/crm/prospects')
     revalidatePath('/admin/crm')
     for (const id of parsed.data.ids.slice(0, 20)) revalidatePath(`/admin/crm/prospects/${id}`)
-    // how many moved, and how many were left (a customer organisation, or no stage after its own)
-    return { ok: true, message: `${Number(r.data?.moved ?? 0)}:${Number(r.data?.skipped ?? 0)}` }
+    // how many moved, how many were left (a customer organisation, or no stage after its own), and of those how many
+    // wait for a required custom field the stage asks for (0197)
+    return { ok: true, message: `${Number(r.data?.moved ?? 0)}:${Number(r.data?.skipped ?? 0)}:${Number(r.data?.blocked ?? 0)}` }
   }
   return r
 }
@@ -429,6 +495,10 @@ export async function saveStage(_prev: AdminResult | null, formData: FormData): 
       kind: z.enum(STAGE_KINDS),
       archived: z.boolean(),
       exit_criterion: z.string().trim().max(200),
+      // 0203: a new stage's pipeline; the chance of winning (0–100) and the days before a deal rots, each may be empty
+      pipeline: z.union([z.string().uuid(), z.literal('')]),
+      probability: z.string().regex(/^(\d{1,2}|100)?$/),
+      rot_days: z.string().regex(/^(\d{1,3})?$/),
     })
     .safeParse({
       key: String(formData.get('key') ?? '').trim().toLowerCase(),
@@ -437,6 +507,9 @@ export async function saveStage(_prev: AdminResult | null, formData: FormData): 
       kind: formData.get('kind') ?? 'open',
       archived: formData.get('archived') === 'on',
       exit_criterion: formData.get('exit_criterion') ?? '',
+      pipeline: formData.get('pipeline') ?? '',
+      probability: String(formData.get('probability') ?? '').trim(),
+      rot_days: String(formData.get('rot_days') ?? '').trim(),
     })
   if (!parsed.success) return { ok: false, problem: parsed.error.issues[0]?.path[0] === 'key' ? 'invalid_key' : 'invalid' }
   const { key, ...p } = parsed.data
@@ -446,6 +519,92 @@ export async function saveStage(_prev: AdminResult | null, formData: FormData): 
     revalidatePath('/admin/crm/prospects')
   }
   return r
+}
+
+/** Remove a stage (0203): its deals move to the stage chosen, of the same pipeline, first. */
+export async function deleteStage(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z.object({ key: StageKey, to: z.union([StageKey, z.literal('')]) }).safeParse({ key: formData.get('key'), to: formData.get('to') ?? '' })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const r = await rpc('admin_crm_stage_delete', { p_key: parsed.data.key, p_to: parsed.data.to || null })
+  if (r.ok) {
+    revalidatePath('/admin/crm/stages')
+    revalidatePath('/admin/crm/deals')
+    revalidatePath('/admin/crm/pipeline')
+  }
+  return r.ok ? { ok: true } : r
+}
+
+/** Add a pipeline (no id) or rename, reorder or archive one (0203). */
+export async function savePipeline(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const parsed = z
+    .object({
+      id: z.union([z.string().uuid(), z.literal('')]),
+      key: z.union([StageKey, z.literal('')]),
+      name: z.string().trim().min(1).max(60),
+      sort: z.string().regex(/^\d{1,4}$/),
+      archived: z.boolean(),
+    })
+    .safeParse({
+      id: formData.get('id') ?? '',
+      key: String(formData.get('key') ?? '').trim().toLowerCase(),
+      name: formData.get('name'),
+      sort: String(formData.get('sort') ?? '0').trim() || '0',
+      archived: formData.get('archived') === 'on',
+    })
+  if (!parsed.success) return { ok: false, problem: parsed.error.issues[0]?.path[0] === 'key' ? 'invalid_key' : 'invalid' }
+  const { id, ...p } = parsed.data
+  if (!id && !p.key) return { ok: false, problem: 'invalid_key' }
+  const r = await rpc('admin_crm_pipeline_save', { p_id: id || null, p })
+  if (r.ok) {
+    revalidatePath('/admin/crm/stages')
+    revalidatePath('/admin/crm/deals')
+  }
+  return r.ok ? { ok: true } : r
+}
+
+/**
+ * Add a deal (no id) or change one (0203). A title is all a deal needs; the database checks the rest — the
+ * stage against the pipeline, the company against what the caller may see, the owner against the staff.
+ */
+export async function saveDealRecord(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
+  const uuidOrEmpty = z.union([z.string().uuid(), z.literal('')])
+  const parsed = z
+    .object({
+      id: uuidOrEmpty,
+      title: z.string().trim().min(1).max(200),
+      company_id: uuidOrEmpty,
+      pipeline: uuidOrEmpty,
+      stage: z.union([StageKey, z.literal('')]),
+      value: z.string().regex(/^(\d{1,10}([.,]\d{1,2})?)?$/),
+      currency: z.string().regex(/^[A-Z]{3}$/),
+      expected_close: z.string().regex(/^(\d{4}-\d{2}-\d{2})?$/),
+      probability: z.string().regex(/^(\d{1,2}|100)?$/),
+      lost_text: z.string().trim().max(300),
+    })
+    .safeParse({
+      id: formData.get('id') ?? '',
+      title: formData.get('title'),
+      company_id: formData.get('company_id') ?? '',
+      pipeline: formData.get('pipeline') ?? '',
+      stage: formData.get('stage') ?? '',
+      value: String(formData.get('value') ?? '').trim().replace(/\s/g, ''),
+      currency: String(formData.get('currency') ?? 'NOK').trim().toUpperCase() || 'NOK',
+      expected_close: formData.get('expected_close') ?? '',
+      probability: String(formData.get('probability') ?? '').trim(),
+      lost_text: formData.get('lost_text') ?? '',
+    })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
+  const { id, value, ...rest } = parsed.data
+  const p: Record<string, unknown> = { ...rest, value: value.replace(',', '.') }
+  // a field the form does not show is left as it is
+  for (const k of ['company_id', 'pipeline', 'stage'] as const) if (!formData.has(k)) delete p[k]
+  const r = await rpc('admin_crm_deal_save', { p_id: id || null, p })
+  if (r.ok) {
+    revalidatePath('/admin/crm/deals')
+    revalidatePath('/admin/crm/pipeline')
+    if (id) revalidatePath(`/admin/crm/deals/${id}`)
+  }
+  return r.ok ? { ok: true, message: typeof r.data?.id === 'string' ? r.data.id : undefined } : r
 }
 
 /** The first-response target for an inbound lead, in minutes (0112) */
@@ -469,7 +628,9 @@ export async function moveCard(id: string, to: string): Promise<AdminResult> {
   revalidatePath('/admin/crm/pipeline')
   revalidatePath('/admin/crm/prospects')
   revalidatePath(`/admin/crm/prospects/${parsed.data.id}`)
-  return Number(r.data?.moved ?? 0) > 0 ? { ok: true } : { ok: false, problem: 'not_moved' }
+  if (Number(r.data?.moved ?? 0) > 0) return { ok: true }
+  // 0197: the stage asks for a required custom field the company has not filled in
+  return { ok: false, problem: Number(r.data?.blocked ?? 0) > 0 ? 'required_fields' : 'not_moved' }
 }
 
 /**
@@ -495,18 +656,19 @@ export async function saveDeal(_prev: AdminResult | null, formData: FormData): P
       stage: formData.get('stage') ?? '',
     })
   if (!parsed.success) return { ok: false, problem: parsed.error.issues[0]?.path[0] === 'value_nok' ? 'invalid_value' : 'invalid' }
-  const { id, stage, ...p } = parsed.data
+  const { id, stage, ...rest } = parsed.data
+  const p: Record<string, unknown> = { ...rest }
+  if (versionOf(formData.get('version')) !== undefined) p.version = versionOf(formData.get('version'))
   const r = await rpc('admin_crm_company_save', { p_id: id, p })
   if (!r.ok) return r
   const from = formData.get('from')
-  if (stage && stage !== from) {
-    const m = await rpc('admin_crm_stage_move', { p_ids: [id], p_to: stage })
-    if (!m.ok) return m
-  }
+  // 0197: the values are saved either way; a stage that asks for a required custom field the company lacks waits for it
+  const move = stage && stage !== from ? await rpc('admin_crm_stage_move', { p_ids: [id], p_to: stage }) : null
+  if (move && !move.ok) return move
   revalidatePath('/admin/crm/pipeline')
   revalidatePath(`/admin/crm/prospects/${id}`)
   revalidatePath('/admin')
-  return { ok: true }
+  return Number(move?.data?.blocked ?? 0) > 0 ? { ok: false, problem: 'required_fields' } : { ok: true }
 }
 
 /** Where a logged answer moves a company. */
@@ -722,7 +884,7 @@ const Tag = z
 
 /** Companies from the register, with their general manager and the batch's tag (0110) */
 export async function importCompanies(rows: unknown, tag: unknown = null): Promise<CompanyImport> {
-  const parsed = z.array(CompanyRow).min(1).max(200).safeParse(rows)
+  const parsed = z.array(CompanyRow).min(1).safeParse(rows)
   const t = Tag.safeParse(typeof tag === 'string' && tag.trim() === '' ? null : tag)
   if (!parsed.success || !t.success) return { ok: false, problem: 'invalid' }
   const r = await rpc('admin_crm_company_import', {
@@ -807,9 +969,9 @@ export async function addToList(_prev: AdminResult | null, formData: FormData): 
 
 export async function removeFromList(_prev: AdminResult | null, formData: FormData): Promise<AdminResult> {
   const parsed = z
-    .object({ list: z.string().uuid(), contact: z.string().uuid(), reason: z.string().trim().min(5).max(500) })
-    .safeParse({ list: formData.get('list'), contact: formData.get('contact'), reason: formData.get('reason') })
-  if (!parsed.success) return { ok: false, problem: 'reason_required' }
+    .object({ list: z.string().uuid(), contact: z.string().uuid(), reason: z.string() })
+    .safeParse({ list: formData.get('list'), contact: formData.get('contact'), reason: reasonOf(formData.get('reason')) })
+  if (!parsed.success) return { ok: false, problem: 'invalid' }
   const r = await rpc('admin_crm_list_remove', { p_list: parsed.data.list, p_contact: parsed.data.contact, p_reason: parsed.data.reason })
   if (r.ok) revalidatePath(`/admin/crm/contacts/${parsed.data.contact}`)
   return r.ok ? { ok: true } : r

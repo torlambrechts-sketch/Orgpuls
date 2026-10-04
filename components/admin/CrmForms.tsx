@@ -3,8 +3,10 @@
 import { startTransition, useState, useTransition } from 'react'
 import type en from '@/messages/en.json'
 import { Outcome, useKeptAction } from '@/components/admin/ActionForms'
+import { ConditionEditor, CustomFieldInputs, FieldsProblem, type FieldMessages } from '@/components/admin/CustomFields'
 import { Button } from '@/components/ui/Button'
 import type { AdminResult } from '@/lib/admin/actions'
+import type { FieldDef } from '@/lib/admin/crmFieldTypes'
 import { parseCsv as parseSheet } from '@/lib/csv/parse'
 import type { Block, Campaign, Filter } from '@/lib/admin/crm'
 import {
@@ -20,6 +22,9 @@ import {
   type ImportResult,
   type Preview,
 } from '@/lib/admin/crmActions'
+import { LOCALE_REGISTRY } from '@/lib/i18n/locales'
+/** a contact's languages, each by its own name (the product's two platform languages, lib/i18n/locales.ts) */
+const CONTACT_LANGS = LOCALE_REGISTRY.filter((l) => l.platform)
 
 /**
  * The CRM's forms (D-101). Each takes the admin's `crm` messages whole; the admin is in
@@ -65,12 +70,33 @@ export function ContactForm({
   common,
   contact,
   companyId,
+  consentRequired = false,
+  fields = [],
+  fm,
+  staff = [],
 }: {
   m: CrmMessages
   common: Common
-  contact?: { id: string; name: string | null; company: string | null; org_number: string | null; role: string | null; tags: string[]; lang: string }
+  contact?: {
+    id: string
+    version?: number
+    name: string | null
+    company: string | null
+    org_number: string | null
+    role: string | null
+    tags: string[]
+    lang: string
+    custom?: Record<string, unknown>
+    custom_refs?: Record<string, string>
+  }
   /** a person added on a company's page belongs to it, and the page stays */
   companyId?: string
+  /** the contact rule «source and basis required» is on (0192); otherwise a consent source is optional */
+  consentRequired?: boolean
+  /** 0197: the contacts' custom fields this form shows, and their words */
+  fields?: FieldDef[]
+  fm?: FieldMessages
+  staff?: { id: string; email: string | null }[]
 }) {
   const [email, setEmail] = useState('')
   const [name, setName] = useState(contact?.name ?? '')
@@ -82,10 +108,13 @@ export function ContactForm({
   const [consentSource, setConsentSource] = useState('')
   const [consentAt, setConsentAt] = useState('')
   const [event, setEvent] = useState(false)
-  const [state, action, pending] = useKeptAction(saveContact, () => undefined)
+  // a new person's custom inputs start empty again once one is added
+  const [round, setRound] = useState(0)
+  const [state, action, pending] = useKeptAction(saveContact, () => (contact ? undefined : setRound((r) => r + 1)))
   return (
     <form action={action} className="flex flex-col gap-[10px]">
       {contact ? <input type="hidden" name="id" value={contact.id} /> : null}
+      {contact?.version !== undefined ? <input type="hidden" name="version" value={contact.version} /> : null}
       {companyId ? (
         <>
           <input type="hidden" name="company_id" value={companyId} />
@@ -112,32 +141,54 @@ export function ContactForm({
         <label className="block">
           <span className={label}>{m.add.lang}</span>
           <select name="lang" value={lang} onChange={(e) => setLang(e.target.value)} className={input}>
-            <option value="no">Norsk</option>
-            <option value="en">English</option>
+            {CONTACT_LANGS.map((l) => (
+              <option key={l.code} value={l.code}>
+                {l.nativeName}
+              </option>
+            ))}
           </select>
         </label>
       </div>
       {contact ? null : (
         <div className="grid gap-[10px] [grid-template-columns:minmax(0,2fr)_minmax(0,1fr)]">
-          <Text name="consent_source" labelText={m.add.consentSource} value={consentSource} set={setConsentSource} required max={200} />
+          <Text name="consent_source" labelText={m.add.consentSource} value={consentSource} set={setConsentSource} required={consentRequired} max={200} />
           <Text name="consent_at" labelText={m.add.consentAt} value={consentAt} set={setConsentAt} type="date" />
           <label className="flex items-center gap-[8px] text-[13px]">
             <input type="checkbox" name="source" value="event" checked={event} onChange={(e) => setEvent(e.target.checked)} />
             {m.add.event}
           </label>
+          {consentRequired ? null : <p className="m-0 text-[12px] leading-[1.45] text-mut [grid-column:1/-1]">{m.add.consentHint}</p>}
         </div>
       )}
+      {fm && fields.length ? <CustomFieldInputs key={round} fields={fields} values={contact?.custom} refs={contact?.custom_refs} staff={staff} m={fm} /> : null}
       <span className="flex flex-wrap items-center gap-[10px]">
         <Button type="submit" size="sm" disabled={pending}>
           {pending ? common.saving : contact ? m.contact.save : m.add.submit}
         </Button>
-        <Outcome state={state} problems={m.problem} done={common.done} />
+        {fm && state && !state.ok && state.fields?.length ? (
+          <FieldsProblem state={state} fields={fields} m={fm} />
+        ) : (
+          <Outcome state={state} problems={m.problem} done={common.done} />
+        )}
       </span>
     </form>
   )
 }
 
-export function ContactActionForm({ m, common, id, kind }: { m: CrmMessages; common: Common; id: string; kind: 'unsubscribe' | 'erase' }) {
+export function ContactActionForm({
+  m,
+  common,
+  id,
+  kind,
+  reasonRequired = false,
+}: {
+  m: CrmMessages
+  common: Common
+  id: string
+  kind: 'unsubscribe' | 'erase'
+  /** typed reasons are on (0192); the audit row is written either way */
+  reasonRequired?: boolean
+}) {
   const [reason, setReason] = useState('')
   const [state, action, pending] = useKeptAction(contactAction, () => setReason(''))
   return (
@@ -145,7 +196,7 @@ export function ContactActionForm({ m, common, id, kind }: { m: CrmMessages; com
       <p className="m-0 text-[12.5px] leading-[1.5] text-mut">{kind === 'erase' ? m.contact.eraseLead : m.contact.unsubscribeLead}</p>
       <input type="hidden" name="id" value={id} />
       <input type="hidden" name="action" value={kind} />
-      <Text name="reason" labelText={common.reason} value={reason} set={setReason} required max={500} />
+      <Text name="reason" labelText={common.reason} value={reason} set={setReason} required={reasonRequired} max={500} />
       <span className="flex flex-wrap items-center gap-[10px]">
         <Button type="submit" size="sm" tone={kind === 'erase' ? 'solid' : 'quiet'} disabled={pending}>
           {pending ? common.saving : kind === 'erase' ? m.contact.erase : m.contact.unsubscribe}
@@ -166,8 +217,21 @@ function parseCsv(text: string): Record<string, string>[] {
 
 const IMPORT_COLUMNS = ['email', 'name', 'company', 'org_number', 'role', 'tags', 'consent_source', 'consent_at', 'lang']
 
-export function ImportForm({ m }: { m: CrmMessages }) {
-  const [rows, setRows] = useState<Record<string, string>[] | null>(null)
+/** A sheet's row as the import sends it: its known columns, and the others for the custom fields (0197), empty cells left out */
+function importRow(r: Record<string, string>) {
+  const row: Record<string, unknown> = Object.fromEntries(IMPORT_COLUMNS.filter((c) => r[c]).map((c) => [c, r[c] ?? '']))
+  const custom = Object.fromEntries(
+    Object.entries(r)
+      .filter(([k, v]) => k && v && !IMPORT_COLUMNS.includes(k))
+      .slice(0, 100)
+      .map(([k, v]) => [k.slice(0, 80), v.slice(0, 10_000)]),
+  )
+  if (Object.keys(custom).length) row.custom = custom
+  return row
+}
+
+export function ImportForm({ m, fields = [] }: { m: CrmMessages; fields?: FieldDef[] }) {
+  const [rows, setRows] = useState<Record<string, unknown>[] | null>(null)
   const [note, setNote] = useState<string | null>(null)
   const [result, setResult] = useState<ImportResult | null>(null)
   const [pending, start] = useTransition()
@@ -187,7 +251,7 @@ export function ImportForm({ m }: { m: CrmMessages }) {
             const parsed = parseCsv(await file.text())
             if (!parsed.length) return setRows(null), setNote(m.import.empty)
             if (!parsed[0] || !('email' in parsed[0])) return setRows(null), setNote(m.import.noHeader)
-            setRows(parsed.map((r) => Object.fromEntries(IMPORT_COLUMNS.filter((c) => r[c]).map((c) => [c, r[c] ?? ''])) as Record<string, string>))
+            setRows(parsed.map(importRow))
             setNote(fill(m.import.rows, { count: parsed.length }))
           }}
         />
@@ -212,13 +276,33 @@ export function ImportForm({ m }: { m: CrmMessages }) {
                   {m.import.rejected} ({result.rejected.length})
                 </summary>
                 <ul className="m-0 mt-[6px] pl-[18px] text-[12.5px]">
-                  {result.rejected.slice(0, 200).map((r) => (
+                  {result.rejected.map((r) => (
                     <li key={r.row}>
                       {m.import.row} {r.row + 1}: {m.problem[r.reason as keyof typeof m.problem] ?? r.reason}
                     </li>
                   ))}
                 </ul>
               </details>
+            ) : null}
+            {result.warnings.length ? (
+              <details className="mt-[8px]">
+                <summary className="cursor-pointer font-semibold">
+                  {m.import.warnings} ({result.warnings.length})
+                </summary>
+                <ul className="m-0 mt-[6px] pl-[18px] text-[12.5px]">
+                  {result.warnings.map((w, i) => (
+                    <li key={`${w.row}-${w.reason}-${i}`}>
+                      {m.import.row} {w.row + 1}:{' '}
+                      {fill(w.reason === 'required_fields' ? m.import.warnRequired : m.import.warnInvalid, {
+                        fields: w.fields.map((k) => fields.find((f) => f.key === k)?.label ?? k).join(', '),
+                      })}
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ) : null}
+            {result.unknown_columns.length ? (
+              <p className="m-0 mt-[8px] text-[12.5px] text-mut">{fill(m.import.unknownColumns, { columns: result.unknown_columns.join(', ') })}</p>
             ) : null}
           </div>
         ) : (
@@ -231,7 +315,7 @@ export function ImportForm({ m }: { m: CrmMessages }) {
   )
 }
 
-export function SettingsForm({ m, common, on }: { m: CrmMessages; common: Common; on: boolean }) {
+export function SettingsForm({ m, common, on, reasonRequired = false }: { m: CrmMessages; common: Common; on: boolean; reasonRequired?: boolean }) {
   const [checked, setChecked] = useState(on)
   const [reason, setReason] = useState('')
   const [state, action, pending] = useKeptAction(saveCrmSettings, () => setReason(''))
@@ -241,7 +325,7 @@ export function SettingsForm({ m, common, on }: { m: CrmMessages; common: Common
         <input type="checkbox" name="customer_exception" checked={checked} onChange={(e) => setChecked(e.target.checked)} />
         {m.settings.toggle}
       </label>
-      <Text name="reason" labelText={common.reason} value={reason} set={setReason} required max={500} />
+      <Text name="reason" labelText={common.reason} value={reason} set={setReason} required={reasonRequired} max={500} />
       <span className="flex flex-wrap items-center gap-[10px]">
         <Button type="submit" size="sm" tone="quiet" disabled={pending}>
           {pending ? common.saving : m.settings.submit}
@@ -259,13 +343,22 @@ export function SegmentForm({
   segment,
   lists = [],
   stages = [],
+  fields = [],
+  fm,
+  canDelete = false,
 }: {
   m: CrmMessages
   common: Common
-  segment?: { id: string; name: string; filter: Filter }
+  /** whether the permission set allows deleting a segment (DEC-31): the delete is offered only then */
+  canDelete?: boolean
+  /** hidden_conditions: the segment filters on a field hidden from the viewer, who may use it but not change it (0197) */
+  segment?: { id: string; name: string; filter: Filter; hidden_conditions?: boolean }
   lists?: { key: string; name: string }[]
   /** the pipeline's stages, as data (0093) */
   stages?: { key: string; name: string }[]
+  /** the contacts' custom fields, for conditions on them (0197) */
+  fields?: FieldDef[]
+  fm?: FieldMessages
 }) {
   const f = segment?.filter ?? {}
   const [name, setName] = useState(segment?.name ?? '')
@@ -329,8 +422,11 @@ export function SegmentForm({
           <span className={label}>{m.segments.lang}</span>
           <select name="lang" value={lang} onChange={(e) => setLang(e.target.value)} className={input}>
             <option value="">{m.segments.anyLang}</option>
-            <option value="no">Norsk</option>
-            <option value="en">English</option>
+            {CONTACT_LANGS.map((l) => (
+              <option key={l.code} value={l.code}>
+                {l.nativeName}
+              </option>
+            ))}
           </select>
         </label>
         <Text name="min_employees" labelText={`${m.segments.employees}: ${m.segments.min}`} value={min} set={setMin} type="number" />
@@ -338,18 +434,30 @@ export function SegmentForm({
         <Text name="nace" labelText={m.segments.nace} value={nace} set={setNace} max={6} />
         <Text name="no_survey_days" labelText={m.segments.noSurvey} value={days} set={setDays} type="number" />
       </div>
+      {fm && fields.some((x) => x.access !== 'hidden') ? (
+        <fieldset className="m-0 min-w-0 border-0 p-0">
+          <legend className={label}>{fm.filter.title}</legend>
+          <ConditionEditor fields={fields} initial={f.custom ?? []} name="custom" m={fm} />
+        </fieldset>
+      ) : null}
       <label className="flex items-center gap-[8px] text-[13px] font-semibold">
         <input type="checkbox" name="mailable_only" checked={mailable} onChange={(e) => setMailable(e.target.checked)} />
         {m.segments.mailableOnly}
       </label>
+      {fm && segment?.hidden_conditions ? (
+        <p role="note" className="m-0 max-w-[70ch] text-[12.5px] font-semibold leading-[1.5] text-cautiondeep">
+          {fm.filter.hiddenConditions}
+        </p>
+      ) : null}
       <span className="flex flex-wrap items-center gap-[10px]">
-        <Button type="submit" size="sm" disabled={pending}>
+        <Button type="submit" size="sm" disabled={pending || Boolean(segment?.hidden_conditions)}>
           {pending ? common.saving : m.segments.save}
         </Button>
         <Button
           size="sm"
           tone="secondary"
-          disabled={previewing}
+          // the form cannot hold the conditions hidden from the viewer, so its preview would count others than the segment does
+          disabled={previewing || Boolean(segment?.hidden_conditions)}
           onClick={(e) => {
             const form = (e.currentTarget as HTMLButtonElement).form
             if (form) start(async () => setPreview(await previewSegment(new FormData(form)).catch(() => ({ ok: false as const, problem: 'failed' }))))
@@ -381,7 +489,7 @@ export function SegmentForm({
           </p>
         )
       ) : null}
-      {segment ? (
+      {segment && canDelete ? (
         <span className="flex flex-wrap items-center gap-[10px] border-t border-line pt-[12px]">
           <Button
             size="sm"
@@ -426,8 +534,11 @@ export function NewCampaignForm({ m, common }: { m: CrmMessages; common: Common 
       <label className="block">
         <span className={label}>{m.campaigns.lang}</span>
         <select name="lang" value={lang} onChange={(e) => setLang(e.target.value)} className={input}>
-          <option value="no">Norsk</option>
-          <option value="en">English</option>
+          {CONTACT_LANGS.map((l) => (
+            <option key={l.code} value={l.code}>
+              {l.nativeName}
+            </option>
+          ))}
         </select>
       </label>
       <Button type="submit" size="sm" disabled={pending}>

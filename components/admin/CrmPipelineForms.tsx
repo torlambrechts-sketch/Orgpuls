@@ -3,9 +3,12 @@
 import { useState, useTransition } from 'react'
 import { Outcome, useKeptAction } from '@/components/admin/ActionForms'
 import type { CrmMessages } from '@/components/admin/CrmForms'
+import { CustomFieldInputs, FieldsProblem, type FieldMessages } from '@/components/admin/CustomFields'
 import { Button } from '@/components/ui/Button'
+import type { FieldDef } from '@/lib/admin/crmFieldTypes'
 import type { Municipality } from '@/lib/admin/brreg'
 import type { Company, List, Stage } from '@/lib/admin/crm'
+import { VISIBILITIES } from '@/lib/admin/crmLabel'
 import {
   addToList,
   createCampaign,
@@ -66,6 +69,9 @@ export function CompanyForm({
   company,
   admins,
   stages,
+  canVisibility = false,
+  fields = [],
+  fm,
 }: {
   m: CrmMessages
   common: Common
@@ -73,6 +79,11 @@ export function CompanyForm({
   admins: { id: string; email: string | null }[]
   /** the stages, as data (0093): a person sets those that do not follow the plan */
   stages: Stage[]
+  /** 0196 (SEC-08): the permission set allows changing who sees the company; otherwise the field is not sent */
+  canVisibility?: boolean
+  /** 0197: the companies' custom fields this form shows, and their words */
+  fields?: FieldDef[]
+  fm?: FieldMessages
 }) {
   const f = m.prospects
   const [name, setName] = useState(company?.name ?? '')
@@ -87,12 +98,25 @@ export function CompanyForm({
   const [tags, setTags] = useState(company?.tags.join(', ') ?? '')
   const [stage, setStage] = useState<string>(company ? (company.org_id ? '' : company.stage) : 'new')
   const [lost, setLost] = useState(company?.lost_reason ?? '')
-  const [state, action, pending] = useKeptAction(saveCompany, () => undefined)
+  const [visibility, setVisibility] = useState<string>(company?.visibility ?? 'everyone')
+  // a new company's custom inputs start empty again once one is added
+  const [round, setRound] = useState(0)
+  const [state, action, pending] = useKeptAction(saveCompany, () => (company ? undefined : setRound((r) => r + 1)))
   const followsPlan = Boolean(company?.org_id)
+  // 0197: the fields required at the stage this save leaves the company at, by app.crm_custom_missing's rule
+  const at = stages.find((s) => s.key === (stage || company?.stage))
+  const requiredKeys = fields
+    .filter((x) => x.importance === 'required')
+    .filter((x) => {
+      const from = stages.find((s) => s.key === x.required_from_stage)
+      return !x.required_from_stage || Boolean(at && from && (at.kind === 'open' || at.kind === 'won') && at.sort >= from.sort)
+    })
+    .map((x) => x.key)
 
   return (
     <form action={action} className="flex flex-col gap-[10px]">
       {company ? <input type="hidden" name="id" value={company.id} /> : null}
+      {company?.version !== undefined ? <input type="hidden" name="version" value={company.version} /> : null}
       <div className="grid gap-[10px] [grid-template-columns:repeat(auto-fit,minmax(190px,1fr))]">
         <Field name="name" text={f.name} value={name} set={setName} required max={200} />
         {company ? null : <Field name="org_number" text={f.orgNumber} value={orgNumber} set={setOrgNumber} max={20} />}
@@ -128,14 +152,33 @@ export function CompanyForm({
         <Field name="next_step" text={f.nextStep} value={nextStep} set={setNextStep} max={300} />
         <Field name="next_step_at" text={f.nextStepAt} value={nextAt} set={setNextAt} type="date" />
         <Field name="tags" text={f.tags} value={tags} set={setTags} max={400} />
+        {canVisibility && company ? (
+          <label className="block [grid-column:1/-1]">
+            <span className={label}>{m.visibility.label}</span>
+            <select name="visibility" value={visibility} onChange={(e) => setVisibility(e.target.value)} className={input}>
+              {VISIBILITIES.map((v) => (
+                <option key={v} value={v}>
+                  {m.visibility[v]}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : null}
         {stages.find((s) => s.key === stage)?.kind === 'lost' ? <Field name="lost_reason" text={f.lostReason} value={lost} set={setLost} max={300} /> : null}
       </div>
       {followsPlan ? <p className="m-0 text-[12px] text-mut">{m.company.followsPlan}</p> : null}
+      {fm && fields.length ? (
+        <CustomFieldInputs key={round} fields={fields} values={company?.custom} refs={company?.custom_refs} staff={admins} required={requiredKeys} m={fm} />
+      ) : null}
       <span className="flex flex-wrap items-center gap-[10px]">
         <Button type="submit" size="sm" disabled={pending}>
           {pending ? common.saving : company ? m.company.save : f.submit}
         </Button>
-        <Outcome state={state} problems={m.problem} done={common.done} />
+        {fm && state && !state.ok && state.fields?.length ? (
+          <FieldsProblem state={state} fields={fields} m={fm} />
+        ) : (
+          <Outcome state={state} problems={m.problem} done={common.done} />
+        )}
       </span>
     </form>
   )

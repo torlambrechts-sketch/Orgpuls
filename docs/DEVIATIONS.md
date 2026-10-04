@@ -11312,6 +11312,478 @@ the report or comparisons), added measures to it, and chose two months free for 
   the weekly trend is drawn), so a column would be stored for no one; the dashboard's count reads
   `admin_kpis.free_plan` instead.
 
+## D-218 — CRM rule settings: every limit and rule that can stop a CRM action is a setting (0192) (2026-10-03)
+
+The CRM enrichment brief (`docs/crm-enrichment/INSTRUCTIONS.md` R5, A9, CUS-07) asks that every limit,
+gate and compliance rule be a setting whose default leaves the feature fully working, and Tor decided the
+brief's defaults and the removal of the restrictions built into today's code (`docs/crm-enrichment/
+DECISIONS.md` DEC-04, DEC-07, 2026-10-03). Work package WP-0.1.
+
+**Registry.** `app.crm_setting_defs` (key, area, kind choice/limit, options, default, what it applies to),
+`app.crm_setting_values` (the value set, who, when) and `app.crm_setting_log` (every change with old and new
+value, who and the reason; append-only by trigger). RLS on, no policy, no grant. Functions read a rule
+through `app.crm_rule/crm_limit/crm_choice(key)` (an unknown key raises). Admin › Settings gains a fourth
+tab, **CRM rules**, listing every rule with its value, its default and the last change; a super-admin with
+the second factor changes one (`public.admin_crm_rule_set`, audited as `crm.rule_set`); the CRM's readers
+see them read-only (`public.admin_crm_rules`). A setting is registered by the package that builds what it
+governs, so each has a consumer; `scripts/audit/wiring.mjs` W3 fails a key no function reads.
+
+**What moved behind a setting, and the defaults now:**
+- contact rule *none* (was: a consent source required). A contact added by hand or import without a source
+  is kept with basis `none`, so `app.crm_mailable` never mails it and the consent ledger records nothing
+  (`app.consent_sync` writes no record for `not_given`): turning the rule off cannot fabricate consent.
+  *source_and_basis* is the old behaviour; *opt_in_only* refuses manual and imported contacts.
+- consent source per import row *off*; typed reason for unsubscribe-on-behalf, erase, leaving a list and the
+  customer exception *off* (the audit row is written either way, with the reason when one is given).
+- limits, all *unlimited*: rows per contact import (was 5,000), per register import (2,000; 200 in the form),
+  companies per bulk move (500), companies per list (500), contacts per list (1,000; 300 asked by the page),
+  blocks per campaign (30), mails per sequence (7; the chain walkers' loop guard rises from 20 to 1,000 so
+  an unlimited chain is walked whole), test sends per hour (10).
+- `app.crm_blocks_ok` keeps its per-block rules (what the template can render) and loses only the block
+  count, staying immutable for the CHECK on `crm_templates`; the limit is applied in `admin_crm_campaign_save`.
+A refusal by a setting returns `{error, setting}` and the admin's message names Settings › CRM rules.
+
+Left as they were, with the reason: field lengths and value ranges (validation, not limits); the seven-day
+opt-in token expiry (security); five soft bounces suspending an address (CMP-06); dispatch retries (a
+technical safeguard); `refreshManagers` taking 100 companies a press from the Brønnøysund roles API (paced for
+an external service; pressing again continues). Two were found and not changed in this package: the
+newsletter signup's rate limit belongs to the public-endpoint work (DEC-20), and the 12-month engagement
+window in `app.crm_mailable` decides who campaigns may mail. Tor decided it is a setting with 12 months
+as its default (DEC-22): 0193 adds `mailable_engagement_months`, read by `app.crm_mailable` and
+`app.crm_on_list` (unlimited: a consented contact never ages out); `crm_rules_invariants` 19 proves it, and
+0193 is applied on hosted with both functions' md5 equal to the repository build.
+
+Proved in `crm_rules_invariants.sql` (18 assertions: defaults, each rule in both states, who may change,
+the log, closed to clients, no audited CRM function read-only, every key consumed). `crm_invariants` (9),
+`crm_pipeline_invariants` (18) and `crm_sequences_invariants` (4) now switch their rule on inside their own
+transaction to keep proving the strict behaviour. Unit: `tests/unit/crm-rules.test.ts`. Two defects were
+found by looking at the screens, not by the SQL suite, and each now has an assertion: the rules reader was
+declared STABLE while it writes the audit row (PostgREST runs a stable function read-only), and
+`greatest(null, 1)` turned "no limit" on the contacts list into one row.
+
+0192 is applied on hosted (2026-10-03). The hosted project took a form of it that rewrites the 19 consumers
+in place from their live text, after their live definitions were shown byte-identical to the repository's
+pre-0192 ones; a dry run of that script on a local database at the pre-0192 state, and afterwards on hosted,
+gave the same fingerprint as a database built from the repository (all 26 function definitions, the tables'
+columns, constraints, indexes and triggers, RLS, the 11 settings, the grants).
+
+## D-219 — CRM record history: changelog, events and the standard columns (0194) (2026-10-03)
+
+Work package WP-0.2 of the CRM enrichment brief (`docs/crm-enrichment/INSTRUCTIONS.md` A6, PIP-04, SF-02).
+Triggers on `app.crm_companies`, `app.crm_contacts` and `app.crm_activities` write, in the same transaction
+as the change, one `app.crm_changes` line per tracked field (field, old value, new value, actor, source, time)
+and an event in `app.crm_events` (company/contact/activity `.added`, `.updated` naming the fields,
+`.deleted`, `company.stage_changed`, `activity.completed`). Every path is covered — forms, imports, the
+account sync, the dispatcher's own updates. Source: `app.change_source` when set; the import and the account
+sync by the consent ledger's marker (`app.consent_via`, 0141); a signed-in admin is `user`, a change without a
+session `automation`. Bookkeeping columns are not tracked (a token's hash never is), and the new `version`
+moves only when a tracked field changes, so an engagement stamp never makes an open form stale. The three
+tables gain `version`, `created_by` (companies, contacts; activities already carry `admin_id`) and
+`updated_by`; `crm_activities` gains `product_id`. The company and contact save functions refuse a form opened
+at an older version (`stale`); the forms and the deal dialog send it.
+
+**Deviation from the brief:** the brief puts CRM events in "the admin's single typed events table".
+`app.growth_events` is analytics by design: its guard refuses any UUID in an event's props (0141) and its
+catalogue is the pixel-gated Growth › Event catalogue view. CRM events must name their record for workflows
+and webhooks, so they have their own catalogue (`app.crm_event_types`, the same `object.past_tense` names) and
+outbox; the growth guard is untouched. The dispatcher that delivers them is WP-0.6.
+
+History is append-only: a line is never changed, and goes only once its record is gone, so erasing a contact
+removes its old values (SEC-11) while its events, which carry field names and never values, remain. A History
+card on the company and contact pages shows the events and the changelog, newest first, 50 at a time
+(`public.admin_crm_history`, audited as `crm.history`; analysts read it, support does not).
+
+Proved in `crm_history_invariants.sql` (11 assertions). All 117 SQL suites pass; screens in
+`docs/crm-enrichment/screens/phase-0/PIP-04-history*`, `CRM-01-contact-history*`.
+
+0194 is applied on hosted (2026-10-03). The three replaced functions matched the repository's pre-0194
+build on hosted before it ran; afterwards all ten functions it creates or replaces have the repository
+build's md5, RLS is on for the three new tables with no grant, and the security advisors list the new objects
+only under the existing deliberate classes (RLS without policy; admin RPCs executable by `authenticated`,
+gated inside) — none is executable by `anon`.
+
+## D-220 — CRM soft delete, the restore list and the purge (0195) (2026-10-03)
+
+Work package WP-0.3 of the CRM enrichment brief (`docs/crm-enrichment/INSTRUCTIONS.md` CRM-12, SF-15, PIP-17).
+A company, contact or activity is deleted by marking it (`deleted_at`, `deleted_by`, `deleted_source`), listed
+in CRM › Restore with who, when, from where and the day the job removes it, restored with its links, and
+removed for good by the job `orgpuls-crm-purge` (`app.crm_purge_due`, daily 02:25 UTC) once it has waited
+longer than the rule `restore_window_days` (30 by default; unlimited keeps it). A company takes its live
+activities with it (`deleted_with`) and brings them back. A bulk delete is shown before it is done (names,
+counts, what goes with it); the rule `delete_approval` (off by default) makes a bulk delete wait until a
+second admin — never its requester — approves it (`app.crm_delete_requests`). Deleting permanently before
+the window is a super-admin's call. Every call is audited (`crm.delete`, `crm.delete_preview`,
+`crm.delete_request`, `crm.delete_approve`/`reject`, `crm.restore`, `crm.purge`, `crm.trash`); events
+`.deleted`, `.restored` and `.purged` are written by the 0194 trigger, and erasure now emits `.purged`.
+
+**Deviation from the plan:** the plan names `deleted_at/by` columns, which this keeps; it does not say how
+readers leave a deleted row out. A trash table (copy the row, delete it, re-insert on restore) was rejected:
+the foreign keys would act at once — an outreach re-queued by `brreg_outreach_orphaned`, list memberships and
+consent records cascaded away — and a restore would re-insert them through triggers that write consent
+records and growth events a second time. With a flag nothing cascades until the purge. The price is that
+every reader filters: 32 functions were patched (lists, counts, the pipeline, tasks, segments, automations,
+the send path through `app.crm_mailable`/`app.crm_on_list`), and the 35 that read these tables without
+filtering are listed with their reason in `crm_restore_invariants.sql`, which fails on any new reader that
+neither filters `deleted_at` nor is added there. A deleted record keeps its unique key: adding or importing
+the same org number or address points to the restore list (`exists_deleted`, import reason `deleted`).
+Privacy actions are never blocked: erasure, unsubscribing and the recipient's own links work on a deleted
+contact, and a person who proves their address again (double opt-in, a demo request) brings it back.
+
+**Not done:** bulk changes other than deletes cannot be reverted (CRM-12's "bulk changes can be reverted");
+bulk delete is offered on the companies list, which is the only list with selection today — contacts are
+deleted one at a time until the list views of WP-1.2/1.5. Who may restore follows the role until WP-0.4.
+
+Proved in `crm_restore_invariants.sql` (12 assertions); `crm_history_invariants.sql` seq 8 now expects
+`contact.purged` for an erasure and `crm_rules_invariants.sql` lists the two new rules. Screens in
+`docs/crm-enrichment/screens/phase-0/CRM-12-*`, `PIP-17-*`, `PIP-10-bulk-delete-*`, `SET-rules-deletion-*`.
+
+0195 on hosted (2026-10-03): the whole file in one call was cancelled at the tool's confirmation step four
+times, with nothing reaching the project. Applied instead in ten parts (`0195a` columns and events, `0195b`
+trigger functions and the requests table, `0195c` the rules, `0195d` delete and restore, `0195f`/`0195g` the
+admin calls, `0195h`–`0195k` the 32 readers by anchored edits that refuse to run unless each anchor matches
+exactly once, dry-run locally against the pre-0195 build with an identical result). Verified on hosted: 43 of
+the migration's 45 functions have the repository build's md5; the flag columns, both rules at their defaults,
+the six new events, the requests table with RLS on, no policy and no client grant; no new call executable by
+anon and no engine function by any client role; the security advisors add exactly the six admin calls
+(`authenticated`, gated inside) and the requests table (RLS without policy) to their deliberate classes, and the
+anon class is unchanged. **On hosted:** On hosted since 2026-10-04 (DEC-50), applied with the other three held parts in one transaction through the Supabase Management API, after the connector's `apply_migration` was refused three times without a prompt; recorded in the migration history as `0195l_0196d_0197e_0199f_crm_held_parts`. Production's «before» state matched the runbook first. `app.crm_purge(text, uuid[])` md5 `07a5fb81…`, `app.crm_purge_due()` md5 `7a662708…`, both matching the local build, executable by neither `anon` nor `authenticated`. The job `orgpuls-crm-purge` runs `25 2 * * *` through the runner (0199f, D-223). Security advisors 488 → 492, the four added findings being 0196d's (D-221); this part adds none.
+
+## D-221 — CRM access: permission sets, visibility groups, teams and audit completeness (0196) (2026-10-03)
+
+Work package WP-0.4 of the CRM enrichment brief (SEC-07, SEC-08, SEC-09 teams, SF-01; Q2, Q3 as DEC-12, Q4).
+**Permission sets** are rows (`app.crm_permission_sets`) over a catalogue of twenty actions
+(`app.crm_permission_actions`): create, edit, delete, import, export and bulk edit for companies and deals and
+for contacts; change visibility and view reports for deals; create, edit, delete, send and view reports for
+campaigns; and the CRM's global settings. Three are built in: Admin (every action, present and future — its kind
+decides, its list is empty), Regular (all twenty, editable) and Read only (the two report actions, editable). The
+super-admin adds and removes custom sets on Admin › Users & roles and gives a staff member a set
+(`app.crm_staff_access`). Without one, a staff member works under their role's: the owner under Admin, sales &
+marketing under Regular, the analyst under Read only; support, finance and the editor have none, as they had no
+CRM access before. The role stays the coarse gate (DEC-11): `app.crm_can(action)` first asks `crm_can_write()`
+for a write action or `crm_can_read()` for a report, then the set. With the built-in sets every role can do exactly
+what it could before 0196. All 37 CRM writes moved from `crm_can_write()` to `crm_can(action)`; a change to more
+than one record needs bulk edit as well; restoring, and the restore list's actions, need delete (closing D-220's
+"who may restore follows the role"). The screens read `may` (`app.crm_may(area)`) to leave out what the database would
+refuse: the companies and contacts lists and pages, where the ticked-companies bar needs bulk edit.
+
+**Visibility.** A company carries `visibility` — the owner only, the owner's group, the owner's group and its
+sub-groups, or everyone — and a new one takes the rule `default_visibility_company` (everyone by default).
+Groups (`app.crm_visibility_groups`) nest without cycles; a staff member sits in at most one.
+`app.crm_visible(owner, visibility)` lets through the system's own jobs, everyone, a company with no owner or
+one's own, and the Admin set; otherwise it compares the owner's group with the viewer's. Every reader of
+companies and activities applies it — the lists, the page, the figures, tasks, the inbox, the attention panel,
+lead scores, the history, the restore list — and every write that names a company answers `not_found` for one
+the caller cannot see, never revealing it exists. The consent ledger keeps every record (consent is a person's,
+and contacts are not owned) but does not name a company the reader cannot see. Changing visibility needs its
+action. An activity follows its company. **Teams** (`app.crm_teams`, `app.crm_team_members`: a manager and
+members, staff only) are kept on the same page for assignment, reports and goals as they arrive (AUT-11, INS-05).
+Rules `limit_permission_sets` and `limit_visibility_groups` count custom sets and groups, unlimited by default.
+
+**Audit and roles.** Twenty-one admin readers now write an audit row (the trail itself as `audit.view`, the
+attention panel, web and CMS traffic, an organisation's owner, cancellation and notice recipients, a ticket's
+mail, and thirteen CRM readers); a reader that audits is VOLATILE, as PostgREST runs a STABLE function read-only.
+The nineteen that write none are reviewed with their reason in `crm_access_invariants.sql` — none returns
+customer, person or CRM data — and the suite fails on any new admin reader that neither audits nor is reviewed.
+The audit and web CSV exports go through audited readers. Q2: `admin_set_admin` accepts every
+`app.platform_role`, the editor included. DEC-12: an organisation's page and the audit trail become allow-lists
+— the trail is the super-admin's, or support's for one organisation; marketing reads neither.
+
+**Deviations from the plan.** `app.crm_can(action, entity)` became `app.crm_can(action)`, the entity in the
+action's key (`deals.edit`): one catalogue, and an unknown action raises. The brief enforces visibility "by
+row-level security"; the CRM tables are closed to every client role (RLS on, no policy, no grant), so a policy
+would never run — the definer calls are the only route, each applies `app.crm_visible`, and seq 13 fails on any
+function reading companies or activities that neither applies it nor is reviewed (five calls and 24 helpers, each
+with its reason), on a client call reaching a helper that trusts its caller without filtering, and on a reviewed
+helper a client could execute. The plan's "plan gates (counts)" are count rules, unlimited by default, until
+plans exist (ENT-01). The plan counted about 25 unaudited readers; 21 now audit and 19 are reviewed exceptions.
+
+**Not done.** On the campaign, list, segment, sender and template pages the controls are still offered by role;
+the set refuses in the database (`not_allowed`, whose text names the permission set), and the contacts list's
+«New list» link follows the role. No projects area, as there are no projects (PRJ, Phase 6). Contacts have no
+owner yet, so every CRM reader sees every contact (an owner arrives with CRM-01, WP-1.5); visibility defaults
+per record type cover companies until deals and leads exist (WP-1.1, WP-1.7); limiting a pipeline to groups needs
+the pipeline record (WP-1.1); SEC-08's setting for showing hidden activities and notes as placeholders arrives
+with the calendar (WP-1.4). SEC-09's replacing a user and reassigning their records, copying access from another
+user, the user overview and the own profile are not built. Field rules (SF-01 step 4) come with custom fields
+(WP-0.5), entitlements (step 5) with ENT-01.
+
+Proved in `crm_access_invariants.sql` (13 assertions); `crm_restore_invariants.sql` reviews the two new
+visibility helpers and `crm_rules_invariants.sql` lists the three new rules. Screens in
+`docs/crm-enrichment/screens/phase-0/SEC-07-*`, `SEC-08-*`, `SET-rules-access-*`.
+
+0196 on hosted (2026-10-03): a drift check first found the 72 functions 0196 edits identical (md5) to the
+repository's pre-0196 build. Applied in thirteen parts: `0196a` the tables, rules and column, `0196b` the helpers,
+`0196c` the four calls that read and save access, and `0196e`–`0196n` the 72 edits as anchored blocks that refuse
+to run unless every anchor matches as often as expected — dry-run locally from the pre-0196 bodies, with 72 of 72
+identical to the build. Verified on hosted: the 85 functions applied have the repository build's md5; the six
+tables have RLS on, no policy and no client grant; the helpers are executable by no client role and the four
+calls by `authenticated` only; the catalogue, the three built-in sets and the three rules are at their defaults,
+and every company is visible to everyone; the one active staff member, the owner, works under Admin, so nothing
+changes for anyone. The security advisors add exactly the four calls (`authenticated`, gated inside) and the six
+tables (RLS without policy) to their deliberate classes, and the anon class is unchanged; the performance
+advisors find no unindexed foreign key on the new tables. **On hosted:** On hosted since 2026-10-04 (DEC-50), applied with the other three held parts in one transaction through the Supabase Management API, after the connector's `apply_migration` was refused three times without a prompt; recorded in the migration history as `0195l_0196d_0197e_0199f_crm_held_parts`. Production's «before» state matched the runbook first. `admin_crm_set_delete` md5 `f5fbb99e…`, `admin_crm_group_delete` `34f492aa…`, `admin_crm_team_save` `d4bc3e35…`, `admin_crm_team_delete` `4b7f28e6…`, all matching the local build; `authenticated` may execute them (gated inside), `anon` may not. Security advisors 488 → 492: these four join the `authenticated` definer class (304 → 308), nothing else changes.
+
+## D-222 — CRM custom fields: the registry, values, quality rules, hidden and read-only fields, formulas (0197) (2026-10-03)
+
+Work package WP-0.5 of the CRM enrichment brief (CUS-01, CUS-02, CUS-03, CUS-04, SF-38). **The registry** is rows:
+`app.crm_field_groups` and `app.crm_fields`, one list for companies and one for contacts, kept on CRM › Custom
+fields (`/admin/crm/fields`). A field has a key, fixed when it is made, and a label, a description (shown behind
+an ⓘ next to the input), one of sixteen types, a group and an order, its options, a rule, whether it is in the add
+form and on the record's page, an optional formula and the permission sets it is hidden from or read only for.
+Every save is a whole new version in `app.crm_field_versions`, which nobody may change (SF-38 step 1); a form
+sends the version it was opened at and a stale one is refused. Every CRM reader sees the registry; the holders of
+the CRM's settings action change it, with a reason while typed reasons are on. A field is archived, not deleted:
+its values stay, out of sight, and come back with it. Keys that are the record's own columns, a type change while
+records hold values, removing an option a record holds, archiving a field a formula reads and archiving a group a
+live field sits in are refused. Rules `limit_custom_fields` and `limit_field_options` count fields per record type
+and options per field, unlimited by default (the brief's 1,000 options and its per-company field count are
+these rules until entitlements exist, ENT-01).
+
+**Values** live in one `custom jsonb` per company and per contact, keyed by field key. `app.crm_field_value`
+checks and normalises a value for its type — text, large text, single option, multiple options, autocomplete,
+number, monetary (kroner), user, organization, person, phone, time, time range, date, date range and address —
+so nothing that is not a valid value of a live field is stored. A reference is stored as the record's id and
+typed as an org number, an exact name or an e-mail address; an organization the caller cannot see cannot be
+named, and its name is not shown (0196). The add forms show the fields marked for them and every required one;
+the edit forms show every field the caller may see, a read-only one as text and a calculated one marked
+calculated; the record's page shows each field with a value — option labels, kroner, dates, links to the company
+or contact a reference names — and «Not filled in yet» for an important or required field that is empty. Each
+change to a custom value is a line of its own in the record's history (`custom.<key>`), with the field's label,
+read as the page reads it: the history call returns the names behind the references on its lines, by the same
+rule (`app.crm_custom_refs`), so a line never shows an id.
+
+**Quality rules (CUS-02).** Important is a nudge on the page and in the form. Required, at every stage or from a
+given stage on (companies), refuses a manual save that leaves it empty — the form names the fields — and a stage
+move by hand: the bulk move says how many of the ticked companies wait for required fields, the board puts the
+card back and says why, the deal dialog saves its values and says the stage waits. An import reports a required
+field left empty and imports the row anyway. A stage move the database makes on its own — the first logged
+activity taking a new company to Contacted, a logged reply, a campaign's send (`app.crm_advance`), a customer's
+plan — is not a manual edit and is not stopped (CUS-02: "required rules apply to manual edits").
+
+**Hidden and read-only (CUS-03)**, per permission set (0196): a field hidden from the caller's set is absent from
+every reader — the record, the lists, the history, the segment filters and the registry itself — and every writer
+refuses it as unknown; a read-only field is shown and refused as read only. A segment holding a condition on a
+field hidden from the viewer shows that it has one, without the condition, and is theirs to use but not to change
+or preview (the database refuses the save). The Admin set and the system's own jobs see and write every field.
+
+**Formulas (CUS-04).** A number or monetary field may be calculated from the record's other number and monetary
+fields and, on companies, `value_nok` and `employees`, with + − × / and parentheses. A formula is compiled once
+into postfix form when it is saved — no dynamic SQL ever runs it — and may not read itself or close a circle; a
+trigger recomputes every formula on every write, so the stored value always equals the result, and nobody types
+a formula field.
+
+**Filters and import.** The companies list filters on custom conditions (by type: contains, is, includes, at
+least, at most, is empty, is filled) and segments filter contacts the same way, so a new field is a filter
+without a deploy. The contacts' CSV import reads any other column whose header is a field's key or label;
+a value that does not fit is left out and reported, a column that names no field the importer may fill is
+reported once, and a value the contact already holds stays, as its name does.
+
+**Deviations from the plan.** The plan's "expression indexes per filterable field" became one GIN index
+(`jsonb_path_ops`) per table: creating an index when an admin adds a field would be a schema change outside the
+migrations (CLAUDE.md invariant 8); equality and option conditions use it, range conditions scan, which is fine at
+the CRM's size and is revisited with search (WP-1.8). Hidden and read-only are per permission set, not per user:
+the brief's "chosen users" are chosen through their set. Monetary is kroner until currencies (CUS-06).
+`admin_crm_companies(text, text, uuid)` became `admin_crm_companies(text, text, uuid, jsonb)` (the conditions);
+the old signature is dropped so no caller reaches a list without the registry's filter.
+
+**Not done.** Fields on deals, leads, products, projects and activities wait for those records (WP-1.1, WP-1.7,
+Phase 4, Phase 6, ACT-02); today a deal is its company, so a company field is a deal field. Fields shown only in
+chosen pipelines wait for pipelines (WP-1.1). Reports on custom fields wait for reports (INS-07) and the API for
+INT-01. Companies have no sheet import — they come from the Brønnøysund search, which fills no custom field and
+reports no required one. The board's drag and the deal dialog cannot fill a required field; the company's page
+can.
+
+Proved in `crm_fields_invariants.sql` (14 assertions: a new field in the record, the list, the registry, the
+filters and the import without a deploy; each of the sixteen types valid and invalid; required blocking a save
+and a stage move and reported on import; hidden fields absent through every reader for a denied set; formulas
+equal to their inputs, no self-reference or circle; versions; history; limits; archive guards; no reader handing
+out a whole row past the registry). `crm_access_invariants.sql` reviews the new readers, `crm_restore_invariants.sql`
+the four new helpers, `crm_rules_invariants.sql` the two rules and `crm_pipeline_invariants.sql` the new list
+signature. Screens in `docs/crm-enrichment/screens/phase-0/CUS-0*`.
+
+0197 on hosted (2026-10-04): a drift check first found the 17 functions 0197 edits or rebuilds from identical (md5)
+to the bodies the repository's build patched. Applied in six parts: `0197a` the registry tables, the value columns
+and their indexes, the history's field check and the two rules; `0197b` the value and filter helpers and `0197c`
+the formulas and their triggers, each closing what it makes to every client in the same transaction; `0197d` the
+five registry calls; `0197f` and `0197g` the edits to thirteen existing functions as anchored blocks that refuse to
+run unless every anchor matches as often as expected — dry-run locally from the pre-0197 bodies, 13 of 13 identical
+to the build. Verified on hosted: 41 of the 42 functions 0197 makes or changes have the repository build's md5; the
+three tables have RLS on, no policy and no client grant; no helper is a client's, and the five calls are
+`authenticated`'s only; the rules are unlimited; no field, group, version or value exists. The security advisors add
+exactly the five calls (`authenticated`, gated inside) and the three tables (RLS without policy) to their deliberate
+classes, and the anon class is unchanged at 31; the performance advisors find no unindexed foreign key on the new
+tables (43 before and after). **On hosted:** On hosted since 2026-10-04 (DEC-50), applied with the other three held parts in one transaction through the Supabase Management API, after the connector's `apply_migration` was refused three times without a prompt; recorded in the migration history as `0195l_0196d_0197e_0199f_crm_held_parts`. Production's «before» state matched the runbook first. `admin_crm_companies(text, text, uuid)` is gone and `admin_crm_companies(text, text, uuid, jsonb)` has md5 `8d1a1dc3…`, matching the local build; `authenticated` may execute it, `anon` may not. The advisors' `authenticated` class replaces the three-argument finding with the four-argument one, so the count is unchanged by this part.
+
+## D-223 — CRM event dispatcher and job runs (0199) (2026-10-04)
+
+Work package WP-0.6 of the CRM enrichment brief (SF-02 steps 2–4, SF-26 steps 1 and 6; AUT-09 and the
+«Technical safeguards» setting in part). **The dispatcher** delivers the CRM's events (0194, `app.crm_events`) to
+subscribers, which are rows of `app.crm_event_subscribers`: a key, a handler from a fixed set (called by name
+through a CASE, so no SQL is built from data), the events it takes (all, or a list the catalogue must hold) and how
+far it has read. `app.crm_dispatch()` runs every minute: for each active subscriber it offers the events past its
+read point, oldest first, each in a block of its own, and moves the point past them in the transaction that holds
+what the handler wrote. The read point is what makes each event reach each subscriber once (SF-02 step 3): a crash
+rolls the delivery and the point back together. A delivery that fails rolls back alone and gets a row in
+`app.crm_event_deliveries` with its SQLSTATE, its attempt and its next time; it is retried after 1, 5, 30 and 120
+minutes, claimed FOR UPDATE SKIP LOCKED, and after the fifth attempt waits for an admin. Other subscribers, and the
+failing subscriber's later events, go on (step 4). A delivery that succeeds the first time leaves no row, so the
+table holds only what needed a second look. A subscriber added later starts from where the events are when it is
+added.
+
+**The first subscriber** is the daily count of events per kind (`app.crm_event_rollups`, Oslo days), SF-02's
+«report rollups»; it starts from the first event, so it counts the history the events hold. The others the brief
+names — workflows, assignment, scoring, the feed, webhooks, notifications — subscribe when they are built: each is
+a handler in the CASE and a row.
+
+**Loop protection.** The rule `limit_event_loop` (Settings › CRM rules, Limits): a subscriber takes at most this
+many events of one record in a rolling ten minutes, counted by when they happened; the rest are set aside
+(`skipped`, code `loop_window`), counted on the dashboard and on Operations, until an admin retries them, and a
+retry is not held back by the window. 10,000 by default, the brief's source value per company, which no real CRM
+reaches; it can be changed or switched off (R5).
+
+**Runs (SF-26 steps 1 and 6).** `app.crm_run(job)` runs the CRM's scheduled jobs: the dispatcher (every minute),
+the restore list's purge (daily, 0195), lead routing (every five minutes, 0143) and the register triggers (daily,
+0143), which pg_cron now starts through it under their old names and times. It records the last run on
+`app.crm_jobs` and counts every run in its hour in `app.crm_job_runs` (runs, failed runs, items, the longest run,
+the last failure's code), so that table grows by at most one row per job and hour. A failure is caught, its SQLSTATE
+kept and its message dropped (CLAUDE.md invariant 7), and never raised into pg_cron; an advisory lock keeps a job
+from overlapping itself.
+
+**On screen.** Operations › CRM jobs (super-admin and support, like the rest of Operations): each job with its
+schedule read from pg_cron, its last run and result, and its runs, failures, items and longest run in the last 24
+hours; the hours with failed runs in the last week; the subscribers with their unread events, deliveries retrying,
+given up and set aside, the oldest waiting, the last error and a Retry button; the week's events per kind; and an
+alert while a run failed in the last 24 hours or a delivery waits. The dashboard's «Needs attention» counts the
+same and links there.
+
+**Deviations from the plan.** The plan's `crm_event_deliveries` held a row per subscriber and event. It holds only
+the deliveries that failed or were set aside, and the read point carries the «once»: a row per event and
+subscriber would grow with the event log and need a clean-up that deletes. The loop window counts events by when
+they happened, not when they were delivered, so a backlog delivered at once after downtime is not taken for a
+loop. Runs are counted per hour, not kept as a row each: the dispatcher alone runs 1,440 times a day, and a failure
+keeps its hour and code.
+
+**Not done.** SF-26 steps 2–5 (rotting, date triggers, goals, the feed) arrive with PIP-05, AUT-03, INS-05 and
+PRO-01, each as a job in the runner. Per-workflow run history and the per-workflow cap (5,000 in ten minutes)
+arrive with AUT-01; the webhook retry and ban policy, the other half of «Technical safeguards», with INT-04. The
+product's other scheduled jobs (deletion, notices, the mail dispatcher) are not in the CRM job monitor; Operations
+shows the lifecycle scheduler's runs and the notice queue as before.
+
+Proved in `crm_events_invariants.sql` (8 assertions: tables and helpers closed to clients; each event once, a
+success leaving no row; retries on their own clock, set aside after five, holding up no one, retried by an admin;
+the loop window; the runner's records, codes only, never raising, unknown jobs refused; read points and named
+events; the monitor and the retry for Operations only, the dashboard's count, a retry passing the window; nothing
+left behind). `crm_rules_invariants.sql` counts the new rule and `crm_restore_invariants.sql` follows the purge job
+into the runner. Screens in `docs/crm-enrichment/screens/phase-0/SF-*`.
+
+0199 on hosted (2026-10-04): a drift check first found `admin_attention` identical (md5) to the body the build
+patched, none of the new objects present, and lead routing and the register triggers on their 0143 commands. Applied
+in five parts: `0199a` the tables, the rule and the rollup subscriber; `0199b` the handlers, the dispatcher and the
+runner; `0199c` the monitor and the retry; `0199d` the schedules of the dispatcher, lead routing and the register
+triggers; `0199e` the dashboard's count, an anchored edit of `admin_attention`. Dry-run locally from the schema before
+0199, the parts gave the migration's own functions (md5), schedules and columns. Afterwards the eight functions match
+the build (md5), the helpers and the tables are closed to clients, the security advisors add exactly the two calls
+(`authenticated`, gated inside) and the five tables (RLS without policy) to their deliberate classes, the anon class
+is unchanged at 31, the performance advisors find no unindexed foreign key on the new tables, and the dispatcher's
+first scheduled run (07:31 UTC) succeeded through the runner and was counted in its hour. **On hosted:** On hosted since 2026-10-04 (DEC-50), applied with the other three held parts in one transaction through the Supabase Management API, after the connector's `apply_migration` was refused three times without a prompt; recorded in the migration history as `0195l_0196d_0197e_0199f_crm_held_parts`. Production's «before» state matched the runbook first. The job `orgpuls-crm-purge` is scheduled `25 2 * * *` as `select app.crm_run('crm_purge')`, after 0195l's `app.crm_purge_due()` exists; its first run is the night of 2026-10-05.
+
+## D-224 — The admin's test harness (2026-10-04)
+
+Work package WP-0.7 of the CRM enrichment brief (A8's end-to-end, visual and accessibility checks; Q19, decided as
+DEC-38). **Signing in.** Two Playwright projects, `admin` (1440 × 900) and `admin-phone` (a plain 390 × 900 window,
+as the Phase A baseline was captured), depend on `admin-setup`, which signs in as the Sentral fixture's local admin
+through the real sign-in (the password, then a TOTP factor enrolled on `/admin/mfa`) and keeps the session for the
+run; `admin-teardown` retires the admin again however the run ends. The admin is opened in the local QA database only
+(the fixture's guards, unchanged), and the admin's pixel gate (`sentral-run.mjs`) and the harness share one machine-wide
+lock, now in `scripts/verify/admin-session.mjs` with the TOTP both use, so neither signs the other out.
+`sentral-fixture.mjs` tells that it is run as a script by its file's name, not by its module URL, so Playwright's
+loader, which compiles imports to CommonJS, can import it; and `npm run e2e` applies it before any run that includes
+the admin projects, so the admin they sign in as exists.
+
+**What every page is checked for** (`qa/e2e/admin.ts`): its heading drawn; no reader failed and nothing refused (the
+admin's own two sentences for those, read from the messages); no sideways scroll of the page (a table may scroll in its
+own region); axe with no serious or critical violation beyond `qa/known-issues.json`, per width; no console error. One
+console message is the harness's and is not counted: axe trying to enter the campaign previews, sandboxed iframes that
+run no script by design (a page loaded without axe logs none).
+
+**Three suites.** `admin-smoke.spec.ts` (`@smoke`): the overview, the CRM's overview, companies, pipeline, contacts and
+Operations; CI runs it on every pull request after the respondent flow, on the same stack and build (step «Admin
+smoke», about a minute, DEC-38). `admin-pages.spec.ts` (`@pages`): every admin page — the 58 of the Phase A baseline and
+the five Phase 0 added — at both widths, captured to `test-results/shots/admin/`, which
+`scripts/verify/admin-baseline-diff.mjs` compares with `docs/crm-enrichment/screens/baseline/`. `admin-journeys.spec.ts`
+(`@journey`): a deal made on the board, moved, given an activity and a person, deleted, restored and removed for good; a
+custom field added, on the form and the page, filled and archived; Operations' CRM jobs and the rule they follow. Each
+journey makes its rows under a name no other run uses and removes them through the screens. The pages and the journeys
+run locally before each package (`QA_PORT=3400 npx playwright test --project admin --project admin-phone --grep
+'@setup|@pages|@journey'`).
+
+**Against the baseline.** 92 of the 116 captures differ from Phase A by less than 0.5 % (dates and times); each of the
+other 24 was opened and its change attributed in `docs/crm-enrichment/screens/phase-0/admin-baseline-diff.md` — Phase 0's
+own changes (D-219 to D-223), the audit log's growth, data order, and the designed-page editor now opened on a page.
+
+**Found, and left to WP-0.8.** At 390 px nine existing pages hold a scroll region a keyboard cannot reach (axe's
+`scrollable-region-focusable`: billing, campaigns, register triggers, deliverability, growth events, plan and risks,
+tickets, web pages); they are recorded per width in `qa/known-issues.json` (`a-<page>@390`) and added to WP-0.8's
+clean-ups, as is the restore list, where a restore or a permanent delete confirms itself in a line that leaves with its
+row, so the confirmation is never seen (the row's leaving is). Neither is new in Phase 0.
+
+**Not done.** The journeys cover the CRM as it stands; each later package adds the journeys of the flows it builds
+(A8: every UF and every observable SF). The three dynamic routes the seeds hold no row for (`/admin/cms/[id]`,
+`/admin/crm/campaigns/[id]`, `/admin/tickets/[id]`) are still uncaptured, as at Phase A. The comparison with the
+baseline reports and does not gate: the data differs between stacks, so the reviewer reads the list.
+
+Verified: the smoke at both widths, all 63 pages at both widths (126 checks) and the three journeys pass, 143 tests in one run (7.5 min) on the local QA
+stack; the CI step's command run locally passes (8 tests, 23 s); `sentral-run.mjs --only CRM_Consent` passes through
+the shared lock; tsc, lint and the fixture's unit tests pass.
+
+## D-225 — Phase A clean-ups: the campaign pages follow the permission set, figures from data (0200) (2026-10-04)
+
+Work package WP-0.8 of the CRM enrichment brief (06-QUESTIONS § E, DEC-31, and what WP-0.7's harness found, DEC-39).
+**The campaign pages follow the set (DEC-31).** The campaign, list, segment, sender and template readers return `may`,
+what the caller's permission set allows in the campaigns area (`app.crm_may('campaigns')`), and the senders reader
+`may_settings`, whether the set holds the CRM's settings (0200, six readers patched in place; no new call). The pages
+offer a control only when the database would accept it, as the companies and contacts pages have since D-221: a new
+campaign, list, segment or step needs create; content, steps, pipeline, lists and segments edit; a segment's removal
+delete; the test, the schedule, the cancel and the resend send; stages, senders, the daily cap and the reply stage the
+CRM's settings; the contacts page's «New list» create. A draft a set lets its holder read but not change says so
+(«Your permission set lets you read campaigns, not change them») instead of «Only a draft can be edited».
+
+**Figures from data (CLAUDE.md, «Never fabricate data in the UI»).** The campaigns page's three lifecycle rows read the
+product's own trial mail — whether its sequence is on (`app.lifecycle_settings`) and what its steps sent in the last
+30 days (`app.lifecycle_mail`), returned by the campaigns reader — and say «On · n sent in 30 d» or «Switched off»,
+where they said «Built in» whatever the data held. The partners' «Revenue share» is the range of the shares in per
+cent their agreements hold («15–20 %», «4 of 6 partners have a share in per cent»), or a dash, where it printed the
+proposal «20 %».
+
+**Smaller items.** The language names in the contact forms and the contact page come from the locale registry (each
+language by its own name); « pts», «min»/«h» and «A: … · B: …» are messages (the two subjects filled in one pass, so a
+subject holding `{b}` or `$&` is shown as written). `demo`, the source 0146 writes for a demo
+request, is a contact source with its label, so a segment filtering on it parses. The lead-scoring page checks the CRM
+section before it reads, as the menu offers it. The CRM overview counts a task as due by the Oslo date, as the tasks
+page does. Nine scroll regions a keyboard could not reach at 390 px (billing, campaigns, register triggers,
+deliverability, growth events, plan and risks, tickets, web pages) are focusable and named, like the admin's tables,
+and their known issues are gone. The restore list says «Restored.» or «Deleted for good.» above itself, so the
+confirmation outlives the row that leaves.
+
+**Tests.** `crm_campaign_access_invariants.sql` (6 assertions: the keys on every reader; Regular may all of it; Read
+only may read the reports only and the database refuses what `may` leaves out; a set with edit alone, on screen and in
+the database; the lifecycle block follows the switch and counts sent mails per step in 30 days only; nothing left).
+`crm_fields_invariants.sql` now counts its own rows, so the archived fields an admin journey leaves on a local stack do
+not fail it. The admin journeys see the restore list's confirmations. `tests/unit/crm-strings.test.ts` holds the moved
+strings in both catalogues with the placeholders the pages fill, and a label for every contact source;
+`growth-crm.test.ts` holds the share range (`agreedShares`) to the per cent kinds. Screens in
+`docs/crm-enrichment/screens/phase-0/WP08-*`.
+
+**Not done.** § E's other notes stay notes: the `crm_deal_invariants.sql` comment, `respondent_invariants` 16–17
+leaving out `response_comments` (the growth firewall covers it), «fem svar» in copy, and `.env.example`.
+
+**Hosted (2026-10-04).** Applied to production in one part, `0200a_crm_cleanups_readers`, as D-223's were: the six
+readers on production matched their pre-change definitions (md5 of `pg_get_functiondef`), the part patched each in place
+with a counted anchor, and a local dry run over the same pre-change definitions gave the local 0200 byte for byte. After
+the apply the six match local 0200, still SECURITY DEFINER with an empty search path and not executable by `anon`; the
+security advisors hold the same 488 findings before and after. The part holds no removal, so nothing was held back; the
+app on main ignores the new keys until this branch ships (the readers' envelopes are not strict).
+
 ## D-226 — A paying customer moves to the free plan; the admin sees interval and free plan (0202) (2026-10-04)
 
 The follow-ups D-217 named, on the owner's word («start med avvik og det som ikke er bygget»). D-218 to D-225
@@ -11337,3 +11809,64 @@ are taken by the CRM branch, so this is D-226.
   and taken back, access and the tick, confirming again, the admin's two functions, the grants.
 - **Not built.** No mail when the move takes effect; the daglig leder sees the date on Oppsett › Betaling
   when choosing it, and the banner says the free plan once it begins.
+
+## D-227 — CRM pipelines and deals: the data move (0203) (2026-10-04)
+
+**What was built (WP-1.1; PIP-02, PIP-03, SF-35; DEC-02).** A deal is its own record (`app.crm_deals`) in a pipeline
+(`app.crm_pipelines`). A title is all a deal needs. It carries a company, a primary contact, a value and currency, a
+stage of its own pipeline, an owner, an expected close, a probability, a status (open, won or lost, from the stage's
+kind, with when it closed), lost text, a source, custom values and visibility, and the standard columns. The changelog
+and the event catalogue take deals as a fourth entity: `deal.added`, `.updated`, `.stage_changed`, `.won`, `.lost`,
+`.deleted`, `.restored` and `.purged`. Stages gain a pipeline, a chance of winning and rot days. A stage that holds
+deals is removed only with a target stage in its pipeline, and each deal's move is recorded. A deal's stage belongs to
+its pipeline by a composite foreign key, `(stage, pipeline_id)` → `crm_stages (key, pipeline_id)`, so the table refuses
+another pipeline's stage, whatever the caller. The stage history records from the deal (`deal_id`, `pipeline_id`, and
+`left_at` for the days spent in a stage). Admin: CRM › Deals (a pipeline's deals by status, searched by title, a deal
+added), a deal's page (its facts, changed in place, its stages with the days in each), and pipelines and the new stage
+fields on CRM › Stages. Calls: `admin_crm_deals`, `admin_crm_deal`, `admin_crm_deal_save`, `admin_crm_pipeline_save`,
+`admin_crm_stage_delete`; `admin_crm_pipeline_summary` takes a pipeline.
+
+**The data move.** Every company became one deal, its *primary* deal, holding the stage, value, owner and lost text it
+held. Its stage history points at that deal, and `left_at` was filled from the next change. A trial or customer
+company's primary deal is its subscription deal: the account sync still writes the company, and the deal follows.
+
+**Compatibility until WP-3 (the brief: «compatibility kept for journeys until WP-3»).** A company's stage, value and
+owner mirror its primary deal in both directions, through two triggers that mark their own write so it does not echo
+back. Everything that reads or writes a company's stage keeps working unchanged: campaign stage targets, the journeys,
+the account sync, automatic moves, the board and the companies list. `admin_crm_stage_move` and `app.crm_advance` move
+the company's primary deal (`app.crm_deal_set_stage`), and the company follows. The pipeline figures and the win rate
+are read from deals. For the migrated history they equal 0137's figures read from companies, and
+`crm_deals_invariants.sql` (3) proves it against the live data.
+
+**Differences from the brief, and why.**
+- A primary deal stays in NOK and keeps its company and pipeline while the company's `value_nok` mirrors it. Currencies
+  come with WP-1.9.
+- Lost reasons as rows (`lost_reason_id`), labels, archive, the board on deals, rotting flags and card fields per
+  pipeline are WP-1.2's. They are left out here so that no column ships without its reader (`scripts/audit/wiring.mjs`
+  W1): `card_fields` was drafted and taken out for that reason.
+- A deal in the restore list (its delete call) comes with WP-1.2's list. `deleted_at` exists, and every reader leaves a
+  deleted deal out, as well as a deal whose company is in the restore list.
+- Custom fields are defined for companies and contacts only. A deal's `custom` holds nothing until the registry takes
+  deals (CUS-01).
+- A new company now writes two `.added` events, its own and its primary deal's. `crm_events_invariants.sql` (2, 4)
+  counts three where it counted two, still exactly.
+
+**Tests.** `crm_deals_invariants.sql`, 10 rows:
+- closed tables and calls;
+- the move;
+- the unchanged figures and win rate;
+- a title-only deal;
+- the stage belongs to the pipeline;
+- the stage delete;
+- the mirror;
+- status;
+- a read-only set;
+- nothing survives.
+
+The five pipeline suites are updated, not loosened:
+- `crm_access` and `crm_restore` review the mirror trigger;
+- `crm_events` counts the deal's event;
+- `crm_win_rate` checks the new signature's grant.
+
+`tests/unit/pipeline.test.ts` covers `dealValue`. The database was rebuilt from the migrations: 124 SQL suites, 840
+vitest tests, tsc, lint, i18n and the build all pass.

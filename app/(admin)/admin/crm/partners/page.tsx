@@ -5,8 +5,8 @@ import { BTN, PageHead, Problem, Stat } from '@/components/admin/ui'
 import { isError, whoami } from '@/lib/admin/api'
 import { DOT_CLASS, dotTone } from '@/lib/admin/dots'
 import { mayOpenGrowthView } from '@/lib/admin/growth'
-import { crmPartners, PARTNER_KINDS, PARTNER_STATUSES, SHARE_KINDS, type Partner } from '@/lib/admin/growthCrm'
-import { fmt } from '@/lib/admin/growthCrmView'
+import { crmPartners, PARTNER_KINDS, PARTNER_STATUSES, PCT_SHARE_KINDS, SHARE_KINDS, type Partner } from '@/lib/admin/growthCrm'
+import { agreedShares, fmt } from '@/lib/admin/growthCrmView'
 
 const PANEL = 'rounded-panel border border-line bg-sf'
 const CARD = `${PANEL} px-[20px] py-[20px] md:px-[26px] md:py-[24px]`
@@ -45,6 +45,14 @@ export default async function Page() {
   const rows = res.rows
   const active = rows.filter((r) => r.status === 'pilot_signed').length
   const trials30 = rows.reduce((n, r) => n + r.trials_30, 0)
+  // the share each partner has agreed, in per cent (0143): the KPI says what the agreements hold, or that none does
+  const shares = agreedShares(rows, PCT_SHARE_KINDS)
+  const shareValue =
+    shares.min === null || shares.max === null
+      ? '—'
+      : shares.min === shares.max
+        ? p('kpi.shareValue', { pct: shares.min })
+        : p('kpi.shareRange', { min: shares.min, max: shares.max })
   const trials7 = rows.reduce((n, r) => n + r.trials_7, 0)
   // a percentage kind always holds its per cent (the table's CHECK); without one the kind alone is shown
   const share = (r: Partner) =>
@@ -92,7 +100,7 @@ export default async function Page() {
         <Stat label={p('kpi.active')} value={fmt(active)} hint={p('kpi.activeSub', { total: rows.length })} />
         <Stat label={p('kpi.trials')} value={fmt(trials30)} hint={p('kpi.trialsSub')} />
         <Stat label={p('kpi.week')} value={fmt(trials7)} hint={p('kpi.weekSub')} />
-        <Stat label={p('kpi.share')} value={p('kpi.shareValue')} hint={p('kpi.shareSub')} />
+        <Stat label={p('kpi.share')} value={shareValue} hint={p('kpi.shareSub', { count: shares.count, total: rows.length })} />
       </KpiStrip>
 
       <div className="mt-[18px] grid items-start gap-[18px] [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:minmax(0,1.3fr)_minmax(300px,.7fr)]">

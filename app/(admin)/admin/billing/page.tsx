@@ -75,7 +75,7 @@ export default async function AdminBilling() {
           <h2 className="m-0 font-display text-[22px] font-medium">{b('events')}</h2>
           <div className="mt-[4px] text-[12.5px] text-mut">{b('eventsLead')}</div>
         </div>
-        <div className="relative mt-[12px] overflow-x-auto">
+        <div className="relative mt-[12px] overflow-x-auto" tabIndex={0} role="region" aria-label={b('events')}>
           <div className="min-w-[660px]">
             <div aria-hidden="true" className="flex items-center gap-[14px] border-b border-line px-[20px] pb-[10px] text-[11px] uppercase tracking-[0.09em] text-mut">
               <span className="flex-[2.2]">{b('col.customer')}</span>

@@ -29,6 +29,9 @@ const BY_PREFIX: Record<string, AuditArea> = {
   tickets: 'tickets',
   admin: 'admin',
   admins: 'admin',
+  // 0196: reading the audit trail is itself logged, as are the dashboard's attention panel and figures
+  audit: 'admin',
+  attention: 'reads',
   settings: 'admin',
   web: 'reads',
   funnel: 'reads',

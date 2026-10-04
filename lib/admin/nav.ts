@@ -80,6 +80,8 @@ const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }
     items: [
       // sales (X-097): the companies in the pipeline, what to do next, replies, and who is warm
       { key: 'crmPipeline', section: 'crm', href: '/admin/crm/pipeline', icon: 'kanban' },
+      // 0203 (D-227): deals, their own records in pipelines
+      { key: 'crmDeals', section: 'crm', href: '/admin/crm/deals', icon: 'kanban' },
       { key: 'crmProspects', section: 'crm', href: '/admin/crm/prospects', icon: 'building' },
       { key: 'crmTasks', section: 'crm', href: '/admin/crm/tasks', icon: 'flag' },
       { key: 'crmInbox', section: 'crm', href: '/admin/crm/inbox', icon: 'inbox' },
@@ -88,6 +90,10 @@ const MODEL: { key: NavGroup['key']; items: (NavItem & { section: Section })[] }
       { key: 'crmTriggers', section: 'crm', href: '/admin/crm/triggers', icon: 'building' },
       { key: 'crmPartners', section: 'crm', href: '/admin/crm/partners', icon: 'users' },
       { key: 'crmStages', section: 'crm', href: '/admin/crm/stages', icon: 'flag', more: true },
+      // 0197 (D-222): the fields admins add to companies and contacts
+      { key: 'crmFields', section: 'crm', href: '/admin/crm/fields', icon: 'template', more: true },
+      // 0195 (D-220): what was deleted, for restore
+      { key: 'crmRestore', section: 'crm', href: '/admin/crm/restore', icon: 'log', more: true },
     ],
   },
   {

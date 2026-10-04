@@ -10282,7 +10282,10 @@
         "crmSegments": "Segments",
         "crmCampaigns": "Campaigns",
         "crmTemplates": "Templates",
+        "crmDeals": "Deals",
         "crmStages": "Stages and senders",
+        "crmRestore": "Restore",
+        "crmFields": "Custom fields",
         "web": "Overview",
         "acquisition": "Cost per customer",
         "seo": "SEO",
@@ -10439,6 +10442,8 @@
         "ticketWhyOrg": "{org} · the reply was due {time}",
         "failures": "{count, plural, one {# message} other {# messages}} failed in the last 24 hours",
         "failuresWhy": "Mail or SMS the dispatcher could not deliver",
+        "jobFailures": "{count, plural, one {# CRM job failure} other {# CRM job failures}} to look at",
+        "jobFailuresWhy": "Failed runs in the last 24 hours and event deliveries waiting for a retry",
         "tasks": "{count, plural, one {# CRM task is} other {# CRM tasks are}} overdue",
         "tasksWhy": "Past their due time and not marked done",
         "langs": "{count, plural, one {# published page lacks} other {# published pages lack}} a version in every language",
@@ -10778,6 +10783,78 @@
         "org": "Organisation",
         "addresses": "Addresses flagged",
         "note": "Opens and clicks are not collected: a per-person time of opening a survey link could help identify who answered."
+      },
+      "crm": {
+        "title": "CRM jobs",
+        "window": "Runs in the last 24 hours",
+        "alertRuns": "{count, plural, one {# failed run} other {# failed runs}} in the last 24 hours",
+        "alertDeliveries": "{count, plural, one {# event delivery waits} other {# event deliveries wait}} for a retry",
+        "head": {
+          "job": "Job",
+          "schedule": "Schedule",
+          "last": "Last run",
+          "result": "Result",
+          "runs": "Runs",
+          "failed": "Failed",
+          "items": "Items",
+          "longest": "Longest"
+        },
+        "job": {
+          "crm_dispatch": "Event dispatcher",
+          "crm_purge": "Restore list purge",
+          "lead_route": "Lead routing",
+          "brreg_triggers": "Register triggers"
+        },
+        "notScheduled": "Not scheduled",
+        "never": "Never",
+        "ok": "OK",
+        "failedCode": "Failed · {code}",
+        "notRun": "Not run yet",
+        "ms": "{ms} ms",
+        "seconds": "{s} s",
+        "failedRuns": "Hours with failed runs, last 7 days",
+        "failedHead": {
+          "hour": "Hour",
+          "job": "Job",
+          "runs": "Runs",
+          "failed": "Failed",
+          "error": "Error code"
+        },
+        "subscribers": "Event subscribers",
+        "subHead": {
+          "subscriber": "Subscriber",
+          "takes": "Takes",
+          "behind": "Unread",
+          "pending": "Retrying",
+          "failed": "Given up",
+          "skipped": "Set aside",
+          "oldest": "Oldest waiting",
+          "error": "Last error",
+          "action": "Action"
+        },
+        "noSubscribers": "No event subscribers.",
+        "handler": {
+          "rollup": "Daily count of events per kind"
+        },
+        "everyEvent": "Every event",
+        "paused": "Paused",
+        "retry": "Retry",
+        "retrying": "Retrying…",
+        "retried": "Queued again",
+        "problem": {
+          "failed": "Could not queue them again. Try once more.",
+          "invalid": "That subscriber is not valid.",
+          "not_found": "That subscriber no longer exists.",
+          "not_allowed": "Only super-admins and support can retry deliveries."
+        },
+        "rollups": "Events per kind, last 7 days",
+        "rollupHead": {
+          "event": "Event",
+          "total": "Total"
+        },
+        "noRollups": "No CRM events in the last 7 days.",
+        "note": "The dispatcher delivers each CRM event to each subscriber once. A delivery that fails is retried after 1, 5, 30 and 120 minutes, then waits for a retry here. The loop window lets a subscriber take at most {limit, number} events of one record in ten minutes; change it under <rules>Settings › CRM rules</rules>.",
+        "noteOff": "The dispatcher delivers each CRM event to each subscriber once. A delivery that fails is retried after 1, 5, 30 and 120 minutes, then waits for a retry here. The loop window is off; switch it on under <rules>Settings › CRM rules</rules>."
       }
     },
     "audit": {
@@ -11207,6 +11284,264 @@
         "note": "A ticket closed without a reply does not count towards first replies. A rating link goes with the reply that resolves a ticket and works once, for 30 days."
       }
     },
+    "crmFields": {
+      "title": "Custom fields",
+      "lead": "Fields an admin adds to companies and contacts without a deploy: forms, lists, filters and import read them from here. A field's key is fixed when it is made; every change is kept as a version.",
+      "entity": {
+        "company": "Companies",
+        "contact": "Contacts"
+      },
+      "types": {
+        "text": "Text",
+        "large_text": "Large text",
+        "single_option": "Single option",
+        "multiple_options": "Multiple options",
+        "autocomplete": "Autocomplete",
+        "number": "Number",
+        "monetary": "Monetary",
+        "user": "User",
+        "organization": "Organization",
+        "person": "Person",
+        "phone": "Phone",
+        "time": "Time",
+        "time_range": "Time range",
+        "date": "Date",
+        "date_range": "Date range",
+        "address": "Address"
+      },
+      "importance": {
+        "none": "No rule",
+        "important": "Important",
+        "required": "Required"
+      },
+      "ops": {
+        "contains": "contains",
+        "eq": "is",
+        "in": "is",
+        "any": "includes",
+        "gte": "at least",
+        "lte": "at most",
+        "empty": "is empty",
+        "not_empty": "is filled"
+      },
+      "inputs": {
+        "required": "required",
+        "important": "Important",
+        "calculated": "calculated",
+        "readOnly": "read only",
+        "kr": "kr",
+        "nobody": "Nobody",
+        "orgHint": "Org.nr or exact name",
+        "personHint": "E-mail address",
+        "from": "from",
+        "to": "to",
+        "street": "Street",
+        "postcode": "Postcode",
+        "city": "City",
+        "country": "Country",
+        "notFilled": "Not filled in yet"
+      },
+      "filter": {
+        "title": "Custom fields",
+        "field": "Field",
+        "op": "Condition",
+        "value": "Value",
+        "add": "Add a condition",
+        "remove": "Remove",
+        "apply": "Filter",
+        "clear": "Clear the conditions",
+        "hiddenConditions": "This segment also filters on fields hidden from you. It still selects by them, so you can use it, but not change it.",
+        "hiddenShort": "and conditions you cannot see"
+      },
+      "problemFields": {
+        "required_fields": "Fill in the required fields first: {fields}.",
+        "invalid_field": "A value does not fit its field: {fields}.",
+        "unknown_field": "There is no such field: {fields}.",
+        "read_only_field": "This field is read only for you: {fields}.",
+        "formula_field": "This field is calculated: {fields}."
+      },
+      "groups": {
+        "title": "Groups",
+        "lead": "Fields sit in groups, in this order, on the forms and the record's page.",
+        "name": "Name",
+        "sort": "Order",
+        "add": "Add the group",
+        "addTitle": "A new group",
+        "archive": "Archive the group",
+        "unarchive": "Bring it back",
+        "archived": "Archived",
+        "empty": "No groups yet.",
+        "none": "No group",
+        "save": "Save"
+      },
+      "fields": {
+        "title": "Fields",
+        "empty": "No fields yet. A field added here appears at once on the forms, the record's page, the filters and the import.",
+        "addTitle": "A new field",
+        "archivedTitle": "Archived fields",
+        "key": "Key",
+        "keyHint": "Lowercase letters, digits and underscores; fixed once the field is made.",
+        "label": "Label",
+        "description": "Description",
+        "descriptionHint": "Shown behind the ⓘ next to the field.",
+        "type": "Type",
+        "group": "Group",
+        "sort": "Order",
+        "options": "Options",
+        "optionsHint": "One per line: «label», or «key | label». An option a record holds cannot be removed.",
+        "importance": "Rule",
+        "importanceHint": "Important nudges on the record's page; required blocks saving by hand.",
+        "fromStage": "Required from stage",
+        "anyStage": "At every stage",
+        "inAddForm": "In the add form",
+        "inDetail": "On the record's page",
+        "formula": "Formula",
+        "formulaHint": "For number and monetary fields: {key} for another number or monetary field, + − × / as + - * /, and parentheses. On companies also {value_nok} and {employees}. Leave empty for a field people fill in.",
+        "hidden": "Hidden from",
+        "readOnly": "Read only for",
+        "accessHint": "By permission set. Staff under the Admin set see and change every field.",
+        "save": "Save the field",
+        "add": "Add the field",
+        "archive": "Archive the field",
+        "unarchive": "Bring it back",
+        "version": "Version {n}",
+        "computed": "Calculated",
+        "readOnlyNote": "Only staff whose permission set holds the CRM's settings add or change fields.",
+        "accessRead": "Read only for you"
+      },
+      "problem": {
+        "invalid": "Something in the form is not right.",
+        "invalid_key": "The key needs lowercase letters, digits or underscores, starting with a letter (2 to 41 characters).",
+        "reserved_key": "That key is one of the record's own columns: choose another.",
+        "exists": "A field or group with that name or key already exists.",
+        "invalid_label": "The label needs 1 to 80 characters.",
+        "invalid_type": "Choose one of the types.",
+        "invalid_options": "Each option needs a label, and each key may appear only once.",
+        "invalid_group": "That group is not one of this record's groups.",
+        "invalid_stage": "That stage does not exist.",
+        "invalid_sets": "A permission set in the list does not exist.",
+        "type_in_use": "Records hold values for this field, so its type stays.",
+        "option_in_use": "A record holds an option you removed; it stays.",
+        "used_by_formula": "Another field's formula reads this field.",
+        "formula_type": "Only number and monetary fields can be calculated.",
+        "invalid_formula": "The formula cannot be read: check the brackets and the operators.",
+        "formula_ref": "The formula reads something that is not a number or monetary field of this record.",
+        "formula_self": "A formula cannot read its own field.",
+        "formula_cycle": "Formulas would read each other in a circle.",
+        "group_in_use": "A live field sits in this group: move or archive it first.",
+        "too_many": "The CRM rules allow no more here.",
+        "stale": "Someone saved this field meanwhile: open it again.",
+        "not_found": "It is gone.",
+        "not_allowed": "Your role or your permission set does not allow this.",
+        "reason_required": "A reason is required (CRM rules).",
+        "invalid_name": "The name needs 1 to 80 characters.",
+        "failed": "That did not work. Try again."
+      }
+    },
+    "crmAccess": {
+      "title": "CRM access",
+      "lead": "What each staff member may do in the CRM, and whose companies they see. The role stays the coarse gate; a permission set narrows it. A change applies at once and is written to the audit log.",
+      "save": "Save",
+      "staff": {
+        "title": "Staff",
+        "lead": "Without a set of their own, a staff member works under their role's: Admin for the owner, Regular for sales & marketing, Read only for the analyst. Other roles have no CRM actions.",
+        "set": "Permission set",
+        "roleDefault": "Their role's: {set}",
+        "roleNone": "Their role's: none",
+        "group": "Visibility group",
+        "noGroup": "No group",
+        "inactive": "Inactive"
+      },
+      "sets": {
+        "title": "Permission sets",
+        "lead": "Admin holds every action, present and future. Regular and Read only can be changed; custom sets can be added and removed.",
+        "name": "Name",
+        "actions": "Actions",
+        "adminAll": "Every action, including any added later.",
+        "members": "Working under it: {n}",
+        "add": "Add the set",
+        "addTitle": "A custom set",
+        "delete": "Remove the set",
+        "kind": {
+          "admin": "Built in · every action",
+          "regular": "Built in",
+          "custom": "Custom"
+        }
+      },
+      "area": {
+        "deals": "Companies and deals",
+        "contacts": "Contacts",
+        "campaigns": "Campaigns",
+        "global": "Settings"
+      },
+      "action": {
+        "deals": {
+          "create": "Add",
+          "edit": "Edit",
+          "delete": "Delete and restore",
+          "import": "Import",
+          "export": "Export",
+          "bulk_edit": "Change many at once",
+          "visibility": "Change who sees it",
+          "reports": "See the figures"
+        },
+        "contacts": {
+          "create": "Add",
+          "edit": "Edit and unsubscribe",
+          "delete": "Delete, restore and erase",
+          "import": "Import",
+          "export": "Export",
+          "bulk_edit": "Change many at once"
+        },
+        "campaigns": {
+          "create": "Add",
+          "edit": "Edit, lists and segments",
+          "delete": "Delete",
+          "send": "Schedule, test and send",
+          "reports": "See the figures"
+        },
+        "global": {
+          "settings": "Stages, senders, sending and the register"
+        }
+      },
+      "groups": {
+        "title": "Visibility groups",
+        "lead": "Each staff member sits in one group; groups can sit inside others. A company can be seen by its owner only, the owner's group, the owner's group and its sub-groups, or everyone.",
+        "empty": "No groups yet. Until there are, a company limited to a group is seen only by its owner and by staff under the Admin set.",
+        "name": "Name",
+        "parent": "Inside",
+        "top": "At the top",
+        "members": "Staff in it: {n}",
+        "add": "Add the group",
+        "addTitle": "A new group",
+        "delete": "Remove the group"
+      },
+      "teams": {
+        "title": "Teams",
+        "lead": "A manager and members, for assignment, reports and goals as they arrive.",
+        "empty": "No teams yet.",
+        "name": "Name",
+        "manager": "Manager",
+        "noManager": "No manager",
+        "members": "Members",
+        "add": "Add the team",
+        "addTitle": "A new team",
+        "delete": "Remove the team"
+      },
+      "problem": {
+        "failed": "It could not be saved. Try again.",
+        "not_allowed": "Only a super-admin with the second factor changes CRM access.",
+        "invalid": "Something in the form is not valid.",
+        "invalid_name": "Give it a name of 1–80 characters.",
+        "exists": "That name is taken.",
+        "builtin": "A built-in set cannot be removed, and Admin always holds every action.",
+        "cycle": "A group cannot sit inside itself or one of its own sub-groups.",
+        "has_children": "Move or remove its sub-groups first.",
+        "too_many": "A limit set under Settings › CRM rules stops this.",
+        "not_found": "It no longer exists.",
+        "reason_required": "Typed reasons are on under Settings › CRM rules: give a reason of at least five characters."
+      }
+    },
     "crm": {
       "title": "CRM",
       "lead": "People who sign in, and prospects who said yes. Respondents are never contacts: nothing here reads the employee register.",
@@ -11242,7 +11577,8 @@
         "import": "Import",
         "manual": "Added by admin",
         "event": "Event",
-        "brreg": "Brønnøysund"
+        "brreg": "Brønnøysund",
+        "demo": "Demo request"
       },
       "basis": {
         "consent": "Consent",
@@ -11283,7 +11619,8 @@
       "suppressedBadge": "Suppressed",
       "add": {
         "title": "Add a contact",
-        "lead": "Only someone who said yes to hearing from us. Say where and when they did: it is stored as the consent's source.",
+        "lead": "Add a person. Where they said yes to hearing from us, say where and when: it is stored as the consent's source.",
+        "leadRule": "Only someone who said yes to hearing from us. Say where and when they did: it is stored as the consent's source.",
         "email": "E-mail",
         "name": "Name",
         "company": "Company",
@@ -11293,13 +11630,15 @@
         "tags": "Tags (comma-separated)",
         "lang": "Language",
         "consentSource": "Consent source (e.g. “Arendalsuka 2026, sign-up sheet”)",
+        "consentHint": "Optional. Without one the contact is kept with no basis, and no campaign mails them.",
+        "optInOnly": "The contact rule under Settings › CRM rules allows only people who signed up themselves, so contacts are not added by hand.",
         "consentAt": "Consent date",
         "event": "Met at an event",
         "submit": "Add contact"
       },
       "import": {
         "title": "Import from CSV",
-        "lead": "A header row with email and consent_source is required; name, company, org_number, role, tags (separated by ;), consent_at and lang are optional. A row without a consent source is refused.",
+        "lead": "A header row with email is required; consent_source, name, company, org_number, role, tags (separated by ;), consent_at and lang are optional, and whether a row needs a consent source follows the CRM rules. Any other column whose header is a custom field's key or label fills that field.",
         "file": "CSV file",
         "rows": "Rows read: {count}",
         "submit": "Import",
@@ -11308,6 +11647,10 @@
         "row": "Row",
         "reason": "Reason",
         "noHeader": "The file has no email column.",
+        "warnings": "Imported with remarks",
+        "warnInvalid": "a value did not fit and was left out: {fields}",
+        "warnRequired": "required fields are empty: {fields}",
+        "unknownColumns": "Columns that name no field you may fill, so not read: {columns}",
         "empty": "No rows found."
       },
       "settings": {
@@ -11420,6 +11763,7 @@
       },
       "campaign": {
         "back": "All campaigns",
+        "abSubjects": "A: {a} · B: {b}",
         "content": "Content",
         "subject": "Subject",
         "preheader": "Preheader (shown after the subject)",
@@ -11440,6 +11784,7 @@
         "down": "Move down",
         "save": "Save draft",
         "locked": "Only a draft can be edited.",
+        "notYours": "Your permission set lets you read campaigns, not change them.",
         "preview": "Preview",
         "mobile": "Phone",
         "desktop": "Desktop",
@@ -11473,18 +11818,193 @@
         "signups": "Organisations created",
         "paid": "Paid"
       },
+      "history": {
+        "title": "History",
+        "lead": "Every change to this record: what it was, what it became, who and from where.",
+        "empty": "No changes recorded yet.",
+        "older": "Older changes",
+        "newest": "Newest changes",
+        "created": "Created",
+        "createdBy": "Created by {by}.",
+        "updatedBy": "Last changed by {by}.",
+        "unknown": "no one signed in",
+        "linked": "Linked to another record",
+        "none": "—",
+        "source": {
+          "user": "by hand",
+          "import": "import",
+          "sync": "account sync",
+          "automation": "automation",
+          "api": "API",
+          "connector": "AI connector",
+          "meeting": "meeting"
+        },
+        "event": {
+          "company.added": "Created",
+          "company.stage_changed": "Stage changed",
+          "company.deleted": "Moved to the restore list",
+          "company.restored": "Restored",
+          "company.purged": "Removed for good",
+          "contact.added": "Created",
+          "contact.deleted": "Moved to the restore list",
+          "contact.restored": "Restored",
+          "contact.purged": "Erased or removed for good",
+          "activity.added": "Activity logged",
+          "activity.completed": "Task done",
+          "activity.deleted": "Activity moved to the restore list",
+          "activity.restored": "Activity restored",
+          "activity.purged": "Activity removed for good"
+        },
+        "field": {
+          "name": "Name",
+          "org_number": "Org.nr",
+          "form_code": "Organisation form",
+          "nace_code": "Industry code",
+          "nace_label": "Industry",
+          "employees": "Employees",
+          "municipality": "Municipality",
+          "municipality_no": "Municipality number",
+          "website": "Website",
+          "phone": "Phone",
+          "source": "Source",
+          "stage": "Stage",
+          "owner_id": "Owner",
+          "next_step": "Next step",
+          "next_step_at": "Next step date",
+          "lost_reason": "Lost reason",
+          "tags": "Tags",
+          "org_id": "Customer organisation",
+          "manager_name": "General manager",
+          "manager_role": "General manager's role",
+          "value_nok": "Value (kr)",
+          "email": "E-mail",
+          "company": "Company",
+          "role": "Role",
+          "user_id": "Account",
+          "basis": "Basis",
+          "status": "Status",
+          "consent_at": "Consent date",
+          "consent_source": "Consent source",
+          "lang": "Language",
+          "company_id": "Company",
+          "kind": "Kind",
+          "body": "Text",
+          "due_at": "Due",
+          "done_at": "Done",
+          "admin_id": "Logged by",
+          "campaign_id": "Campaign",
+          "contact_id": "Contact",
+          "skipped": "Skipped",
+          "origin": "Origin",
+          "rule": "Rule",
+          "task_kind": "Task kind",
+          "visibility": "Who sees it",
+          "sla_due_at": "Answer due"
+        }
+      },
+      "trash": {
+        "title": "Restore",
+        "lead": "Companies, contacts and activities deleted from the CRM, with who deleted them, when and from where. Each comes back with its links until the job removes it for good.",
+        "window": "Removed for good {days} days after it was deleted (Settings › CRM rules).",
+        "windowUnlimited": "Kept until someone restores it or deletes it permanently (Settings › CRM rules).",
+        "all": "All",
+        "entity": {
+          "company": "Companies",
+          "contact": "Contacts",
+          "activity": "Activities"
+        },
+        "one": {
+          "company": "company",
+          "contact": "contact",
+          "activity": "activity"
+        },
+        "many": {
+          "company": "companies",
+          "contact": "contacts",
+          "activity": "activities"
+        },
+        "col": {
+          "record": "Record",
+          "type": "Type",
+          "deletedBy": "Deleted by",
+          "deletedAt": "Deleted",
+          "source": "From",
+          "purgeAt": "Removed for good",
+          "actions": "Actions"
+        },
+        "withActivities": "and {n} activities with it",
+        "auto": "A task made by a rule or a trigger",
+        "noOne": "no one signed in",
+        "kept": "Kept",
+        "empty": "Nothing has been deleted.",
+        "restore": "Restore",
+        "restoring": "Restoring…",
+        "restored": "Restored.",
+        "waits": "Its company is deleted: restore the company first.",
+        "purge": "Delete permanently",
+        "purgeSure": "Delete permanently — it cannot be undone",
+        "purged": "Deleted for good.",
+        "requests": {
+          "title": "Waiting for a second admin",
+          "lead": "Second-admin approval is on under Settings › CRM rules: a bulk delete waits until another admin approves it.",
+          "line": "{count} {kind} · asked by {by}, {at}",
+          "reason": "Reason: {reason}",
+          "more": "and {n} more",
+          "approve": "Approve and delete",
+          "reject": "Reject",
+          "mine": "Your request: another admin approves or rejects it.",
+          "done": "Decided."
+        },
+        "notice": {
+          "title": "In the restore list",
+          "company": "This company was deleted. Restored, it comes back with its activities, its contacts' links and its history, until the job removes it for good.",
+          "contact": "This contact was deleted. It is not mailed and is in no list or segment until it is restored.",
+          "open": "Open the restore list"
+        }
+      },
+      "visibility": {
+        "label": "Who sees it",
+        "everyone": "Everyone",
+        "group_tree": "The owner's group and its sub-groups",
+        "group": "The owner's group",
+        "owner": "The owner only"
+      },
+      "delete": {
+        "company": "Delete company",
+        "contact": "Delete contact",
+        "activity": "Delete",
+        "bulk": "Delete ticked",
+        "checking": "Checking…",
+        "lead": "A deleted record goes to the restore list (CRM › Restore) and can be restored with its links until the job removes it for good.",
+        "count": "{count} {kind} will be deleted:",
+        "more": "and {n} more",
+        "missing": "{n} ticked are already deleted or gone.",
+        "effects": {
+          "company": "Activities that go with them: {activities} (open tasks: {open_tasks}). Contacts that stay, and lose the link only when the company is removed for good: {contacts}.",
+          "contact": "Not mailed from now on. Kept for a restore: list memberships {lists}, consent records {consent_records}. Queued mails skipped: {queued}."
+        },
+        "window": "Removed for good after {days} days.",
+        "windowUnlimited": "Kept until someone restores it or deletes it permanently.",
+        "approval": "Second-admin approval is on: this delete waits until another admin approves it.",
+        "confirm": "Delete",
+        "ask": "Ask for approval",
+        "cancel": "Cancel",
+        "done": "Deleted. It is in the restore list.",
+        "pending": "Waiting for another admin to approve.",
+        "noneTicked": "Tick the companies to delete first."
+      },
       "problem": {
         "failed": "It could not be saved. Try again.",
-        "not_allowed": "Your role cannot do this.",
+        "not_allowed": "Your role or your permission set does not allow this.",
         "invalid": "Something in the form is not valid.",
         "invalid_email": "That e-mail address does not look right.",
-        "consent_required": "Say where the consent came from.",
+        "consent_required": "A CRM rule under Settings › CRM rules asks for a consent source: say where the consent came from.",
         "invalid_consent_at": "The consent date is not valid.",
         "exists": "That already exists.",
         "invalid_tags": "Tags are lowercase letters, digits, - and _.",
         "invalid_role": "Choose a role from the list.",
         "invalid_org_number": "An org.nr is nine digits.",
-        "reason_required": "Give a reason of at least five characters.",
+        "reason_required": "Typed reasons are on under Settings › CRM rules: give a reason of at least five characters.",
         "not_found": "It no longer exists.",
         "invalid_filter": "The filter is not valid.",
         "invalid_name": "Give it a name.",
@@ -11497,7 +12017,7 @@
         "no_subject": "Write a subject first.",
         "no_segment": "Choose a segment first.",
         "invalid_time": "Choose a time from now and within a year.",
-        "rate_limited": "Ten tests an hour at most. Try again later.",
+        "rate_limited": "The test-sends-per-hour limit under Settings › CRM rules is reached. Try again later.",
         "not_cancellable": "This campaign cannot be cancelled now.",
         "invalid_file": "The file could not be read.",
         "invalid_kind": "Choose a kind.",
@@ -11517,13 +12037,25 @@
         "invalid_follow": "Choose the campaign to follow up and after how many days (1–60).",
         "follows_unsent": "The campaign this follows up has not been sent yet.",
         "managed": "Trial and customer follow the plan; their kind cannot change.",
-        "too_many_steps": "A sequence holds at most seven mails.",
+        "too_many_steps": "The mails-per-sequence limit under Settings › CRM rules stops this.",
         "auto_no_ab": "An automatic follow-up cannot have a second subject line.",
         "not_moved": "That company was not moved: it follows its plan, or the stage cannot be set by hand.",
         "inbox_blocked": "The inbox check has red items: fix them before scheduling.",
         "placeholder_left": "Text in [brackets] is still in the campaign: replace it before scheduling.",
         "invalid_value": "The value is whole kroner, up to 100 million.",
-        "invalid_step": "A call or LinkedIn step has no mail: it cannot be resent, and only a call or LinkedIn step is changed here."
+        "invalid_step": "A call or LinkedIn step has no mail: it cannot be resent, and only a call or LinkedIn step is changed here.",
+        "blocked_by_setting": "The contact rule under Settings › CRM rules allows only people who signed up themselves.",
+        "too_many": "A limit set under Settings › CRM rules stops this.",
+        "stale": "Someone else saved this while you had it open. Reload the page to see their change, then save again.",
+        "deleted": "It is in the restore list (CRM › Restore): restore it there first.",
+        "exists_deleted": "A deleted record already holds this. Restore it under CRM › Restore instead of adding it again.",
+        "own_request": "You asked for this delete: another admin approves or rejects it.",
+        "company_deleted": "Its company is in the restore list: restore the company first.",
+        "required_fields": "Fill in the required fields first.",
+        "invalid_field": "A value does not fit its field.",
+        "unknown_field": "There is no such field.",
+        "read_only_field": "That field is read only for you.",
+        "formula_field": "That field is calculated."
       },
       "stage": {
         "new": "New",
@@ -11639,6 +12171,7 @@
           "submit": "Move",
           "select": "Select {name}",
           "result": "Moved {moved}; left {skipped} where they were.",
+          "blocked": "{blocked} of them wait for required fields to be filled in.",
           "hint": "Tick companies in the table, then move them. A customer organisation follows its plan and is left where it is."
         }
       },
@@ -11786,6 +12319,7 @@
         "unsubRate": "Unsubscribed",
         "bounceRate": "Bounced",
         "vs": "{delta} vs last {n}",
+        "points": "{n} pts",
         "noBenchmark": "No earlier campaigns to compare with",
         "ab": "A/B test",
         "variant": "Variant",
@@ -11876,7 +12410,105 @@
           "in_use": "This stage is in use: companies, an active campaign or the reply setting point to it."
         },
         "exit": "Closes when the buyer…",
-        "exitHint": "e.g. has booked a demo"
+        "exitHint": "e.g. has booked a demo",
+        "pipelineLabel": "Pipeline",
+        "probability": "Chance of winning (%)",
+        "rotDays": "Rots after (days)",
+        "probabilityHint": "empty: none",
+        "col_deals": "Deals",
+        "delete": {
+          "title": "Remove the stage",
+          "lead": "Its deals move to the stage you choose, in the same pipeline, and each move is recorded. A stage the plan sets, a campaign aims at or the reply setting names stays.",
+          "to": "Move its deals to",
+          "submit": "Remove stage",
+          "none": "It holds no deals"
+        },
+        "pipelines": {
+          "title": "Pipelines",
+          "lead": "A pipeline is a sales process with stages of its own. Every stage belongs to one; Sales holds the stages from before, and the plan's trial and customer stages.",
+          "col": {
+            "name": "Pipeline",
+            "key": "Key",
+            "order": "Order",
+            "deals": "Open deals"
+          },
+          "add": "Add a pipeline",
+          "create": "Add pipeline",
+          "save": "Save",
+          "archive": "Archive",
+          "archived": "Archived",
+          "inUse": "A pipeline with open deals, and Sales, cannot be archived."
+        },
+        "problem2": {
+          "invalid_stage": "Choose a stage of the same pipeline to move its deals to.",
+          "exists": "A pipeline with this key exists already."
+        }
+      },
+      "deals": {
+        "title": "Deals",
+        "lead": "Every deal in a pipeline. A company's first deal is the one it was before deals existed: its stage, value and owner are the company's, and the plan moves it for trial and customer accounts.",
+        "views": {
+          "open": "Open",
+          "won": "Won",
+          "lost": "Lost",
+          "all": "All"
+        },
+        "search": "Search titles",
+        "searchSubmit": "Search",
+        "col": {
+          "title": "Deal",
+          "company": "Company",
+          "stage": "Stage",
+          "value": "Value",
+          "owner": "Owner",
+          "close": "Expected close",
+          "changed": "In stage since"
+        },
+        "none": "No deals here.",
+        "limit": "The list shows the first {n}; search to narrow it.",
+        "primary": "The company's deal",
+        "add": "Add a deal",
+        "form": {
+          "title": "Title",
+          "company": "Company",
+          "noCompany": "No company",
+          "stage": "Stage",
+          "firstStage": "The pipeline's first stage",
+          "value": "Value",
+          "currency": "Currency",
+          "close": "Expected close",
+          "probability": "Chance of winning (%)",
+          "probabilityHint": "empty: the stage's",
+          "lostText": "Why it was lost",
+          "create": "Add deal",
+          "save": "Save"
+        },
+        "detail": {
+          "back": "All deals",
+          "facts": "The deal",
+          "status": {
+            "open": "Open",
+            "won": "Won",
+            "lost": "Lost"
+          },
+          "history": "Stages",
+          "historyLead": "Every stage the deal entered, and how long it stayed.",
+          "days": "{n} days",
+          "entered": "Entered {stage}",
+          "moved": "{from} → {to}",
+          "none": "No moves yet.",
+          "stageProbability": "{n} % from the stage",
+          "edit": "Change the deal"
+        },
+        "problem": {
+          "invalid_stage": "That stage is not one of this pipeline's, or people do not set it.",
+          "invalid_company": "That company is not in the CRM, or not one you can see.",
+          "invalid_contact": "That contact does not belong to the deal's company.",
+          "invalid_owner": "The owner must be a member of staff.",
+          "primary": "A company's own deal keeps its company, its pipeline and NOK.",
+          "managed": "A customer's deal follows its plan.",
+          "not_found": "The deal is not there, or not one you can see."
+        }
       },
       "pipeline": {
         "title": "Pipeline",
@@ -11965,6 +12597,8 @@
         "lead": "Every inbound lead of the last 30 days — trial sign-ups, contact-form messages and demo requests — with a clock against your {sla}-minute first-response target. Answering within minutes is the most studied lever in B2B sales.",
         "awaiting": "Awaiting a first answer",
         "median": "Median first answer · 7 days",
+        "minutes": "{n} min",
+        "hours": "{n} h",
         "withinSla": "Inside {sla} min · 7 days",
         "leads": "Leads · 7 days",
         "trials": "Trial sign-ups · 7 days",
@@ -11999,7 +12633,7 @@
         "days": "{n} d in stage",
         "empty": "No deals here",
         "notMoved": "That company was not moved.",
-        "capped": "Showing the 500 companies with the nearest next step; the Companies page has them all.",
+        "capped": "Showing the first {limit} companies by next step: a limit set under Settings › CRM rules.",
         "leadSum": "{open} open across {count, plural, one {# deal} other {# deals}} · {won} won this quarter",
         "viewLabel": "Show the pipeline as",
         "viewBoard": "Board",
@@ -12352,7 +12986,8 @@
         "open": "Open",
         "coverage": "Lifecycle coverage",
         "coverageLead": "The mail a subscription service should run. Each line reads the real state: the product's own trial mail, or a campaign.",
-        "builtIn": "Built in",
+        "lifeOn": "On · {count, plural, =0 {none sent in 30 d} one {# sent in 30 d} other {# sent in 30 d}}",
+        "lifeOff": "Switched off",
         "missing": "Missing",
         "life": {
           "onboarding": "Onboarding",
@@ -14088,7 +14723,8 @@
       "tab": {
         "general": "General",
         "access": "Access",
-        "integrations": "Integrations"
+        "integrations": "Integrations",
+        "rules": "CRM rules"
       },
       "general": {
         "name": "Site name",
@@ -14133,6 +14769,129 @@
         "search": "Search engines",
         "searchText": "Google Search Console and IndexNow report to SEO › Performance, with when each last synced and whether it failed.",
         "searchOpen": "Open SEO › Performance"
+      },
+      "rules": {
+        "lead": "Every rule that can stop a CRM action, with its value and its default. Each starts unrestricted; a change applies at once and is written to the audit log.",
+        "readOnly": "Only a super-admin changes a rule.",
+        "area": {
+          "contacts": "Contacts and consent",
+          "audit": "Reasons",
+          "limits": "Limits",
+          "deletion": "Deletion and restore",
+          "access": "Access"
+        },
+        "default": "Default: {value}",
+        "atDefault": "At its default",
+        "changed": "Changed by {by}, {at}",
+        "appliesTo": "Applies to {ids}",
+        "unlimited": "Unlimited",
+        "limitLabel": "Limit",
+        "reason": "Reason",
+        "reasonHint": "Typed reasons are on: give at least five characters.",
+        "save": "Save",
+        "saving": "Saving…",
+        "done": "Saved.",
+        "problem": {
+          "failed": "It could not be saved. Try again.",
+          "not_allowed": "Only a super-admin with the second factor changes a rule.",
+          "invalid": "Choose one of the options, or a whole number of 1 or more.",
+          "reason_required": "Typed reasons are on: give a reason of at least five characters.",
+          "not_found": "That rule no longer exists."
+        },
+        "option": {
+          "none": "No rule",
+          "source_and_basis": "Source and basis required",
+          "opt_in_only": "Opt-in only",
+          "off": "Off",
+          "required": "Required per row",
+          "on": "On",
+          "everyone": "Everyone",
+          "group_tree": "Owner's group and sub-groups",
+          "group": "Owner's group",
+          "owner": "Owner only"
+        },
+        "rule": {
+          "contact_rule": {
+            "name": "Contact rule",
+            "why": "Whether a contact may be added without a consent source. «No rule»: a contact without one is kept with no basis, and no campaign mails them. «Source and basis required»: a manual or imported contact needs a consent source. «Opt-in only»: contacts come only from people who signed up themselves."
+          },
+          "mailable_engagement_months": {
+            "name": "Months without engagement before campaigns stop",
+            "why": "A contact who has not opened, clicked or consented within this many months is no longer mailed by campaigns. It protects the marketing domain's reputation, and with it survey invitations. Unlimited: a consented contact never ages out."
+          },
+          "import_consent_source": {
+            "name": "Consent source on import",
+            "why": "Whether every imported row needs a consent source. A row without one is otherwise kept with no basis."
+          },
+          "typed_reason": {
+            "name": "Typed reason for CRM actions",
+            "why": "Whether unsubscribing on someone's behalf, erasing a contact, taking someone off a list, the customer exception and changing a rule need a typed reason. The audit row is written either way."
+          },
+          "limit_contact_import_rows": {
+            "name": "Rows per contact import",
+            "why": "The most rows one contact import may hold."
+          },
+          "limit_register_import_rows": {
+            "name": "Rows per register import",
+            "why": "The most companies one Brønnøysund import may add."
+          },
+          "limit_bulk_move": {
+            "name": "Companies per bulk move",
+            "why": "The most companies one bulk stage move may move."
+          },
+          "limit_company_read": {
+            "name": "Companies per list",
+            "why": "The most companies the pipeline and the companies list show at once."
+          },
+          "limit_contact_read": {
+            "name": "Contacts per list",
+            "why": "The most contacts the contacts list shows at once."
+          },
+          "limit_campaign_blocks": {
+            "name": "Blocks per campaign",
+            "why": "The most content blocks one campaign may hold."
+          },
+          "limit_sequence_mails": {
+            "name": "Mails per sequence",
+            "why": "The most mails in one follow-up chain."
+          },
+          "limit_test_sends_per_hour": {
+            "name": "Test sends per hour",
+            "why": "The most test sends in an hour, across all campaigns."
+          },
+          "delete_approval": {
+            "name": "Second-admin approval for bulk deletes",
+            "why": "Whether deleting more than one record at once waits until another admin approves it. A single delete goes to the restore list at once either way."
+          },
+          "restore_window_days": {
+            "name": "Days in the restore list",
+            "why": "How long a deleted company, contact or activity can be restored before the job removes it for good. Unlimited: kept until someone restores it or deletes it permanently."
+          },
+          "default_visibility_company": {
+            "name": "Who sees a new company",
+            "why": "Who a company is visible to when it is added: everyone, as today; the owner's group and its sub-groups; the owner's group; or the owner only. A staff member whose set allows it changes it on the company."
+          },
+          "limit_permission_sets": {
+            "name": "Custom permission sets",
+            "why": "The most custom permission sets. Admin, Regular and Read only are built in and not counted."
+          },
+          "limit_visibility_groups": {
+            "name": "Visibility groups",
+            "why": "The most visibility groups."
+          },
+          "limit_custom_fields": {
+            "name": "Custom fields",
+            "why": "The most live custom fields, companies and contacts together."
+          },
+          "limit_field_options": {
+            "name": "Options per field",
+            "why": "The most options in one option field."
+          },
+          "limit_event_loop": {
+            "name": "Events per record in ten minutes",
+            "why": "The most events of one record an event subscriber takes in a rolling ten minutes. The rest wait for a retry on the Operations page, so automations that set each other off stop."
+          }
+        }
       }
     },
     "delivery": {
@@ -15025,8 +15784,9 @@
             "week": "This week",
             "weekSub": "gate: ≥ 1 partner-sourced trial a week",
             "share": "Revenue share",
-            "shareValue": "20 %",
-            "shareSub": "proposed: recurring, or a client discount — open decision 7"
+            "shareValue": "{pct} %",
+            "shareRange": "{min}–{max} %",
+            "shareSub": "{count, plural, =0 {No partner has a share in per cent yet} one {# of {total} partners has a share in per cent} other {# of {total} partners have a share in per cent}}"
           },
           "shareOption": {
             "recurring": "Recurring share",

@@ -1,30 +1,38 @@
 import { getTranslations } from 'next-intl/server'
 import { SegmentForm, type CrmMessages } from '@/components/admin/CrmForms'
+import type { FieldMessages } from '@/components/admin/CustomFields'
 import { ALink, Card, PageHead, Problem, Table, Td } from '@/components/admin/ui'
-import { isError, whoami } from '@/lib/admin/api'
-import { crmLists, crmSegments, crmStages, type Filter } from '@/lib/admin/crm'
+import { isError } from '@/lib/admin/api'
+import { crmLists, crmSegments, crmStages, may, type Filter } from '@/lib/admin/crm'
+import { conditionText } from '@/lib/admin/crmFieldTypes'
+import { crmFields, liveFields } from '@/lib/admin/crmFields'
 import { AudienceTabs } from '@/components/admin/AudienceTabs'
 
 /**
  * Segments (D-101): saved filters on contacts and their organisations, with live counts of
  * who they select and who of those a campaign would reach. `?id=` opens one for editing,
- * `?new` a blank one.
+ * `?new` a blank one. A segment may also filter on the contacts' custom fields (0197, D-222);
+ * a condition on a field hidden from the viewer is not shown, and its segment is theirs to use, not to change.
  */
 export default async function CrmSegments({ searchParams }: { searchParams: Promise<{ id?: string; new?: string }> }) {
   const sp = await searchParams
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
-  const [data, who, lists, stageData] = await Promise.all([crmSegments(), whoami(), crmLists(), crmStages()])
+  const fm = t.raw('crmFields') as FieldMessages
+  const [data, lists, stageData, fieldData] = await Promise.all([crmSegments(), crmLists(), crmStages(), crmFields('contact')])
+  const fields = isError(fieldData) ? [] : liveFields(fieldData, 'contact')
   const stageOptions = isError(stageData) ? [] : stageData.rows.filter((s) => !s.archived).map((s) => ({ key: s.key, name: s.name }))
   const stageName = (k: string) => (isError(stageData) ? k : (stageData.rows.find((s) => s.key === k)?.name ?? k))
   const listOptions = isError(lists) ? [] : lists.rows.filter((l) => !l.archived).map((l) => ({ key: l.key, name: l.name_no }))
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
-  const canWrite = who?.role === 'super_admin' || who?.role === 'marketing'
+  // what the permission set allows (DEC-31): a new segment needs create, changing one edit, removing it delete
+  const canCreate = may(data.may, 'create')
+  const canEdit = may(data.may, 'edit')
   const common = { reason: t('common.reason'), reasonHint: t('common.reasonHint'), saving: t('common.saving'), done: t('common.done') }
   const editing = sp.id ? data.rows.find((s) => s.id === sp.id) : undefined
-  const open = canWrite && (editing || sp.new !== undefined)
+  const open = editing ? canEdit : canCreate && sp.new !== undefined
 
-  const describe = (f: Filter) => {
+  const describe = (f: Filter, hidden: boolean) => {
     const parts: string[] = []
     if (f.types?.length) parts.push(f.types.map((k) => m.type[k]).join('/'))
     if (f.roles?.length) parts.push(f.roles.map((k) => m.roleName[k]).join('/'))
@@ -37,20 +45,22 @@ export default async function CrmSegments({ searchParams }: { searchParams: Prom
     if (f.stages?.length) parts.push(f.stages.map(stageName).join('/'))
     if (f.bases?.length) parts.push(f.bases.map((k) => m.basis[k]).join('/'))
     if (f.lists?.length) parts.push(f.lists.map((k) => listOptions.find((l) => l.key === k)?.name ?? k).join('/'))
+    for (const c of f.custom ?? []) parts.push(conditionText(c, fields, fm.ops))
     if (f.mailable_only) parts.push(m.mailableBadge)
+    if (hidden) parts.push(fm.filter.hiddenShort)
     return parts.join(' · ') || m.segments.any
   }
 
   return (
     <>
       <PageHead title={m.segments.title} lead={m.segments.lead}>
-        {canWrite && !open ? <ALink href="/admin/crm/segments?new">{m.segments.new}</ALink> : null}
+        {canCreate && !open ? <ALink href="/admin/crm/segments?new">{m.segments.new}</ALink> : null}
       </PageHead>
       <AudienceTabs on="segments" />
 
       {open ? (
         <Card title={editing ? m.segments.edit : m.segments.new} className="mb-[16px]" aside={<ALink href="/admin/crm/segments">{m.segments.cancel}</ALink>}>
-          <SegmentForm key={editing?.id ?? 'new'} m={m} common={common} segment={editing} lists={listOptions} stages={stageOptions} />
+          <SegmentForm key={editing?.id ?? 'new'} m={m} common={common} segment={editing} lists={listOptions} stages={stageOptions} fields={fields} fm={fm} canDelete={may(data.may, 'delete')} />
         </Card>
       ) : null}
 
@@ -61,8 +71,8 @@ export default async function CrmSegments({ searchParams }: { searchParams: Prom
         >
           {data.rows.map((s) => (
             <tr key={s.id}>
-              <Td>{canWrite ? <ALink href={`/admin/crm/segments?id=${s.id}`}>{s.name}</ALink> : s.name}</Td>
-              <Td wrap>{describe(s.filter)}</Td>
+              <Td>{canEdit ? <ALink href={`/admin/crm/segments?id=${s.id}`}>{s.name}</ALink> : s.name}</Td>
+              <Td wrap>{describe(s.filter, s.hidden_conditions)}</Td>
               <Td>{s.total}</Td>
               <Td>{s.mailable}</Td>
             </tr>

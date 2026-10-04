@@ -12,6 +12,8 @@ import { crmOverview, crmStages, crmTasks } from '@/lib/admin/crm'
  */
 const rate = (v: number | null | undefined) => (v === null || v === undefined ? '—' : `${v.toLocaleString('en-GB')} %`)
 
+const osloDay = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' })
+
 export default async function CrmOverview() {
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
   const m = t.raw('crm') as CrmMessages
@@ -20,7 +22,8 @@ export default async function CrmOverview() {
   // the stages, as data (0093): those in use or not archived, in order
   const stages = isError(stageData) ? [] : stageData.rows.filter((s) => !s.archived || s.companies > 0)
   if (isError(data)) return <Problem text={data.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
-  const today = new Date().toISOString().slice(0, 10)
+  // today in Oslo, as the tasks page counts it (a task's due date is an Oslo date)
+  const today = osloDay.format(new Date())
   const due = isError(tasks) ? [] : tasks.rows.filter((r) => !r.due_at || r.due_at <= today)
 
   return (

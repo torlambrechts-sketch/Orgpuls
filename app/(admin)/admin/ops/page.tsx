@@ -1,14 +1,15 @@
 import { getTranslations } from 'next-intl/server'
+import { CrmJobs } from '@/components/admin/CrmJobs'
 import { ALink, Card, day, PageHead, pct, Problem, Stat, Table, Td, when } from '@/components/admin/ui'
-import { deletions, deliverability, isError, ops } from '@/lib/admin/api'
+import { crmJobs, deletions, deliverability, isError, ops } from '@/lib/admin/api'
 
 /**
  * Operations (D-90): deliverability from the provider's delivery events (D-97), the scheduler's
- * runs and the notice queue, with failures to act on.
+ * runs and the notice queue, with failures to act on, and the CRM's jobs and event deliveries (0199).
  */
 export default async function AdminOps() {
   const t = await getTranslations({ locale: 'en', namespace: 'admin' })
-  const [res, dv, del] = await Promise.all([ops(), deliverability(30), deletions()])
+  const [res, dv, del, jobs] = await Promise.all([ops(), deliverability(30), deletions(), crmJobs()])
   if (isError(res)) return <Problem text={res.error === 'not_allowed' ? t('common.notAllowed') : t('common.failed')} />
 
   return (
@@ -150,6 +151,8 @@ export default async function AdminOps() {
           ))}
         </Table>
       </Card>
+
+      {isError(jobs) ? null : <CrmJobs data={jobs} />}
 
       {isError(del) ? null : (
         <section id="deletions" className="mt-[14px] scroll-mt-[20px]">

@@ -388,6 +388,7 @@ export function CampaignStudio({
   sender,
   domain,
   footer,
+  maxBlocks = null,
 }: {
   m: CrmMessages
   common: Common
@@ -398,6 +399,8 @@ export function CampaignStudio({
   sender: { name: string; email: string; signature: string } | null
   domain: Check[]
   footer: { no: string; en: string }
+  /** the blocks-per-campaign limit (0192); null: unlimited */
+  maxBlocks?: number | null
 }) {
   const x = m.campaignX
   const s = m.studio
@@ -696,7 +699,7 @@ export function CampaignStudio({
                   key={t}
                   type="button"
                   onClick={() => add(t)}
-                  disabled={blocks.length >= 30}
+                  disabled={maxBlocks != null && blocks.length >= maxBlocks}
                   className="flex items-center gap-[8px] rounded-ctl border border-line bg-bg px-[8px] py-[6px] text-left outline-none hover:border-ink focus-visible:ring-2 focus-visible:ring-ink disabled:opacity-50"
                 >
                   <Thumb t={t} />

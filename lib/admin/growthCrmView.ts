@@ -13,6 +13,16 @@ export const pct = (part: number, whole: number): number | null => (whole > 0 ? 
 export const per100 = (trials: number, contacts: number): string | null =>
   contacts > 0 ? ((trials / contacts) * 100).toFixed(1).replace('.', ',') : null
 
+/**
+ * The partners' «Revenue share» (WP-0.8, D-225): the per cent shares their agreements hold (0143), the
+ * lowest and the highest, and how many hold one. A partner without a per cent kind adds nothing, so the
+ * KPI never shows a share nobody agreed; min and max are null when none holds one.
+ */
+export function agreedShares(rows: readonly { share_kind: string | null; share_pct: number | null }[], kinds: readonly string[]) {
+  const pcts = rows.flatMap((r) => (r.share_kind !== null && kinds.includes(r.share_kind) && r.share_pct !== null ? [r.share_pct] : []))
+  return { count: pcts.length, min: pcts.length ? Math.min(...pcts) : null, max: pcts.length ? Math.max(...pcts) : null }
+}
+
 /** The engine's target NACE divisions (app.brreg_rules) as the pages write them: «41–43, 46–47, 58–74, 85, 86–88» */
 export const naceRanges = (ranges: readonly (readonly [number, number])[]) =>
   ranges.map(([lo, hi]) => (lo === hi ? String(lo) : `${lo}–${hi}`)).join(', ')

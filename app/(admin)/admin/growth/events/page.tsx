@@ -56,7 +56,7 @@ export default async function Page() {
         measure={false}
       />
       <div className="grid items-start gap-[18px] lg:[grid-template-columns:minmax(0,1.3fr)_minmax(300px,.7fr)]">
-        <div className={`${PANEL} min-w-0 overflow-x-auto`}>
+        <div className={`${PANEL} min-w-0 overflow-x-auto`} tabIndex={0} role="region" aria-label={t('growth.events.table')}>
           <div role="table" aria-label={t('growth.events.table')} className="min-w-[640px]">
             <div role="row" className={`flex items-center gap-[14px] border-b border-line px-[20px] pb-[10px] pt-[14px] ${HEAD}`}>
               <span role="columnheader" className="flex-[2.2]">{t('growth.events.head.event')}</span>
