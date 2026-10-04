@@ -97,11 +97,14 @@ if (cookieArgs.length) {
 }
 const page = await context.newPage()
 
+// each error carries the page it came from (the sign-in, the page it lands on, or a route), so a
+// failure that does not reproduce locally still says where to look (D-215)
 const errors = []
+let at = '/logg-inn'
 page.on('console', (m) => {
-  if (m.type() === 'error') errors.push(m.text())
+  if (m.type() === 'error') errors.push(`[${at}] ${m.text()}`)
 })
-page.on('pageerror', (e) => errors.push(String(e)))
+page.on('pageerror', (e) => errors.push(`[${at}] ${String(e)}`))
 
 // Sign in once; the session cookie then covers every route in this run.
 const email = env.ORGPULS_DEV_EMAIL
@@ -120,8 +123,12 @@ await Promise.all([
   page.getByRole('button', { name: /logg inn|sign in/i }).click(),
 ])
 
+at = `after sign-in: ${new URL(page.url()).pathname}`
+await page.waitForLoadState('networkidle')
+
 mkdirSync(outDir, { recursive: true })
 for (const route of routes) {
+  at = route
   await page.goto(`${base}${route}`, { waitUntil: 'networkidle' })
   // the ht-in entry animation is .25s; capture after it has settled, or the shot
   // catches the 6px translate and every region diffs
